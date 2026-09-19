@@ -4,10 +4,14 @@
 # not answer 200 at two addresses with byte-identical documents. Star Stuff found
 # that shape on 2026-08-15 and queering.earth had it the day its domain attached.
 #
-# COMMENTED OUT UNTIL THE DOMAIN IS ATTACHED. Redirecting the only working
-# hostname to one that does not resolve is a site that is simply down — which is
-# exactly why queering.earth kept these two lines commented until 2026-09-07.
-# Uncomment the moment stimpunks.love resolves, and not before.
+# ENABLED 2026-09-19, the day the domain resolved. Verified before uncommenting:
+# stimpunks.love answers 200, www.stimpunks.love and http:// both 301 to the apex,
+# and the netlify.app hostname was still answering 200 with the same document —
+# which is the duplicate-address problem these two lines exist to close.
 #
-# https://stimpunks-love.netlify.app/*  https://stimpunks.love/:splat  301!
-# http://stimpunks-love.netlify.app/*   https://stimpunks.love/:splat  301!
+# Before that they stayed commented on purpose: redirecting the only working
+# hostname to one that does not resolve is a site that is simply down, which is
+# why queering.earth kept its own commented until 2026-09-07.
+
+https://stimpunks-love.netlify.app/*  https://stimpunks.love/:splat  301!
+http://stimpunks-love.netlify.app/*   https://stimpunks.love/:splat  301!
