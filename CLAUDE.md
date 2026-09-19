@@ -57,8 +57,11 @@ ink reaches the paper that is not on its allowlist. **Both halves of that room's
 limit twice since. "In black and white" was false too: the print rules reset backgrounds on a *list
 of components*, so the ransom note printed in full colour and `.pullquote` kept a near-black ground
 while its text was forced to `#000` — 1.14:1, invisible. **Add an ink to that list only after
-deciding it survives a photocopier**, never to make the tool quiet. `make-sitemap.py` stops if an HTML file
-exists that is not in its page order — so a new room
+deciding it survives a photocopier**, never to make the tool quiet.
+
+`make-feed.py` stops if a changelog `<h2>` has no id, because that id is the feed item's permalink
+and a feed whose guids move republishes every old entry into somebody's reader as if it were new.
+`make-sitemap.py` stops if an HTML file exists that is not in its page order — so a new room
 cannot be published unlisted. `make-csp.py` stops if the pre-paint snippet has drifted between
 pages, because **a stale CSP hash does not warn**: the browser silently refuses the snippet and
 every reader who asked for Gentle gets flashed the loud version instead. That is precisely the

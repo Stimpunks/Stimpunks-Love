@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Stimpunks.Love — what changed on the street</title>
+    <link>https://stimpunks.love/changelog.html</link>
+    <atom:link href="https://stimpunks.love/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Every change to the six rooms and the street that joins them, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
+    <language>en</language>
+    <copyright>CC BY-SA 4.0</copyright>
+    <lastBuildDate>Sat, 19 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>the changelog has a feed</title>
+      <link>https://stimpunks.love/changelog.html#2026-09-19-feed</link>
+      <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-19-feed</guid>
+      <pubDate>Sat, 19 Sep 2026 12:00:00 GMT</pubDate>
+      <description>There is a feed now, and it is generated. The front door briefly linked /feed.xml before the file existed and the link was removed rather than the file invented. tools/make-feed.py builds it from this page, the way the sitemap is built from the pages’ own heads, so a changelog entry and its feed item cannot drift apart. Every entry here now has a stable anchor, because that anchor is the feed item’s permalink. The generator refuses to run if one is missing — a feed whose guids move republishes every old entry into somebody’s reader as though it were new.</description>
+    </item>
+    <item>
+      <title>the zine prints in black and white, for real this time</title>
+      <link>https://stimpunks.love/changelog.html#2026-09-19-black-and-white</link>
+      <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-19-black-and-white</guid>
+      <pubDate>Sat, 19 Sep 2026 12:00:00 GMT</pubDate>
+      <description>The second half of the room’s own sentence was false. “Prints to one sheet on a bad office printer, in black and white” — the ransom headline printed in full yellow, cyan and red, and the print rules reset backgrounds only on a fixed list of components. Anything not on that list kept its dark ground while the text on it was forced to black: 1.14:1, invisible. What actually vanished on paper was the most prominent quotation on each sheet and the entire credits box, on the page that argues attribution is the cheapest thing you can do. Colour and text are now reset together, universally. Fixing either alone breaks the other — pale citation text on a newly-white ground would have been just as unreadable the other way round. check-print.py now checks both halves, reading the inks out of the rendered PDF against an allowlist rather than a threshold, so a new colour on the page has to be looked at by a person instead of quietly tolerated.</description>
+    </item>
+    <item>
+      <title>a dead track on the dancefloor</title>
+      <link>https://stimpunks.love/changelog.html#2026-09-19-dead-track</link>
+      <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-19-dead-track</guid>
+      <pubDate>Sat, 19 Sep 2026 12:00:00 GMT</pubDate>
+      <description>Bad Cop / Bad Cop, “Warriors”, has a new id. The id carried over from our Double Rainbow page had started returning “Video unavailable” inside the embed. Replaced with one that plays, resolved against oEmbed like every other entry, with the old id and the reason kept in data/jukebox.json rather than quietly overwritten. Two channel names now read the way a person would write them. The credits said “via Merge Records on YouTube”, which is genuinely what that channel is called now, and “via Bad Cop Bad Cop - Topic”, which is an auto-generated name missing the slashes the band uses. Both print properly now. YouTube’s exact wording is kept beside them in data/jukebox.json so the checker can still tell a real rename from a choice we made. The other nine were checked too, and all nine play. Worth saying plainly how, because two obvious tests are useless here: YouTube’s oEmbed endpoint answers 200 for a video that will not play, and loading an embed URL directly fails identically for every video, working or not. What distinguishes them is the watch page’s own playabilityStatus, which read UNPLAYABLE for the dead one and OK for the rest.</description>
+    </item>
+    <item>
+      <title>the zine table takes issues</title>
+      <link>https://stimpunks.love/changelog.html#2026-09-19-zine-issues</link>
+      <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-19-zine-issues</guid>
+      <pubDate>Sat, 19 Sep 2026 12:00:00 GMT</pubDate>
+      <description>The Zine Table stops being one sheet and becomes a table with sheets on it. Issue #2, One Root, Two Rainbows — seven lessons from our own Neurodiversity and Gender course cut down to seven lines, using the course’s own one-idea-per-line device. Seven glossary terms linked, each one checked before it was written. Submissions have a route now. The room asked for pages by paper, photo, voice note and AAC, and the link under the ask pointed at Your Room — which is a whole storefront, a different and much larger offer. The zine table now carries the spec and the contact route itself, and names Your Room as the separate thing it is. Correction: the one-sheet promise was not true. The room says every page in it prints to one sheet and that the print stylesheet is not a joke. Rendered to PDF, issue #1 came out at three sheets — the two columns wrapped into one long one and every link expanded to its full URL after it. Fixed with print rules scoped to this room and a declared page margin, so it no longer depends on the print dialog. Both issues now land inside one sheet, and tools/check-print.py renders them through headless Chrome on every run so the claim cannot quietly come apart again. The rule on quoting songs changed. This site launched saying it would reproduce no lyric at all. That was never argued for on its own terms, and queering.earth had already settled it properly: a line or two, never the chorus alone, the songwriter named separately from the performer. The deciding argument is an access one — “go and listen to the recording” is an audio-only requirement. We follow that policy by reference now rather than restating it.</description>
+    </item>
+    <item>
+      <title>the street opened</title>
+      <link>https://stimpunks.love/changelog.html#2026-09-19-street-opened</link>
+      <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-19-street-opened</guid>
+      <pubDate>Sat, 19 Sep 2026 12:00:00 GMT</pubDate>
+      <description>Six rooms, one front door, and a dial. Live the same day at stimpunks.love, with the source public at github.com/Stimpunks/Stimpunks-Love. The Stoop — the front door, six shopfronts, and the tagline set in six typefaces because that is the thesis rather than the decoration. Pink Pony Club — ten tracks lifted from our own Double Rainbow page, each one a press-to-play facade that contacts YouTube only after you press it. The Zine Table — xerox and ransom note, and the page that says which two habits survived the move: attribution and contrast. Hear Queer Here — quantum queering, with Barad and Helen Edgar quoted and cited, and a superposition panel where “leave it open” is a real answer. Enid’s Room — colorful goth, a sticker wall wired to seven glossary entries, and somewhere to sit when the glee runs out. The Playhouse — four toys, all real buttons, all synthesised rather than fetched, all reachable by keyboard. Your Room — the sixth storefront, left empty on purpose, with the terms written down. The intensity dial — three settings on every page, defaulting to whatever your device asks for and letting you turn it up past that. Gentle takes away the wobble, never the words. Twelve typefaces self-hosted, so reading a page here makes no third-party request. Not built yet The audio room inside Hear Queer Here — the glossary read aloud in our own voices — is named and empty. The polaroids in Enid’s Room are placeholders waiting on community photos. Issue #2 of the zine has a quotation slot shaped for the last line of the course and nothing in it, because the credit that line needs is not something we will guess. All three are listed here rather than hidden, because a room that says what it is missing is more use than one that pretends. HOW LOUD DO YOU WANT IT? Gentle Regular MAX GLITTER Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</description>
+    </item>
+  </channel>
+</rss>

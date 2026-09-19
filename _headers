@@ -43,7 +43,7 @@
 
   Strict-Transport-Security: max-age=63072000; includeSubDomains
 
-  Link: </llms.txt>; rel="describedby"; type="text/markdown", <https://creativecommons.org/licenses/by-sa/4.0/>; rel="license"
+  Link: </llms.txt>; rel="describedby"; type="text/markdown", </feed.xml>; rel="alternate"; type="application/rss+xml"; title="What changed on the street", <https://creativecommons.org/licenses/by-sa/4.0/>; rel="license"
 
   tdm-reservation: 0
 
@@ -81,6 +81,12 @@
 /site.webmanifest
   Content-Type: application/manifest+json; charset=UTF-8
   Cache-Control: public, max-age=604800, stale-if-error=2592000
+
+# The feed is generated from changelog.html, so it changes exactly when the page
+# does. Same short cache as the sitemap: a reader that polls hourly is not worth
+# a long TTL, and a stale feed is a changelog that lies by omission.
+/feed.xml
+  Cache-Control: public, max-age=600, stale-if-error=604800
 
 /sitemap.xml
   Cache-Control: public, max-age=600, stale-if-error=604800

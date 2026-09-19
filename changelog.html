@@ -15,6 +15,7 @@
 <meta property="og:url" content="https://stimpunks.love/changelog.html">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love — what changed on the street">
 <link rel="stylesheet" href="love.css">
 <script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
 </head>
@@ -27,22 +28,29 @@
 
   <h1>Changelog</h1>
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
+  <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
-  <h2>2026-09-19 &mdash; the zine prints in black and white, for real this time</h2>
+  <h2 id="2026-09-19-feed">2026-09-19 &mdash; the changelog has a feed</h2>
+  <ul>
+    <li><strong>There is a <a href="feed.xml">feed</a> now, and it is generated.</strong> The front door briefly linked <code>/feed.xml</code> before the file existed and the link was removed rather than the file invented. <code>tools/make-feed.py</code> builds it from this page, the way the sitemap is built from the pages&rsquo; own heads, so a changelog entry and its feed item cannot drift apart.</li>
+    <li><strong>Every entry here now has a stable anchor</strong>, because that anchor is the feed item&rsquo;s permalink. The generator refuses to run if one is missing &mdash; a feed whose guids move republishes every old entry into somebody&rsquo;s reader as though it were new.</li>
+  </ul>
+
+  <h2 id="2026-09-19-black-and-white">2026-09-19 &mdash; the zine prints in black and white, for real this time</h2>
   <ul>
     <li><strong>The second half of the room&rsquo;s own sentence was false.</strong> &ldquo;Prints to one sheet on a bad office printer, <em>in black and white</em>&rdquo; &mdash; the ransom headline printed in full yellow, cyan and red, and the print rules reset backgrounds only on a fixed list of components. Anything not on that list kept its dark ground while the text on it was forced to black: <strong>1.14:1, invisible</strong>. What actually vanished on paper was the most prominent quotation on each sheet and the entire credits box, on the page that argues attribution is the cheapest thing you can do.</li>
     <li><strong>Colour and text are now reset together, universally.</strong> Fixing either alone breaks the other &mdash; pale citation text on a newly-white ground would have been just as unreadable the other way round.</li>
     <li><strong><code>check-print.py</code> now checks both halves</strong>, reading the inks out of the rendered PDF against an allowlist rather than a threshold, so a new colour on the page has to be looked at by a person instead of quietly tolerated.</li>
   </ul>
 
-  <h2>2026-09-19 &mdash; a dead track on the dancefloor</h2>
+  <h2 id="2026-09-19-dead-track">2026-09-19 &mdash; a dead track on the dancefloor</h2>
   <ul>
     <li><strong>Bad Cop / Bad Cop, &ldquo;Warriors&rdquo;, has a new id.</strong> The id carried over from our <a href="https://stimpunks.org/philosophy/were-a-double-rainbow-all-the-way/">Double Rainbow</a> page had started returning &ldquo;Video unavailable&rdquo; inside the embed. Replaced with one that plays, resolved against oEmbed like every other entry, with the old id and the reason kept in <code>data/jukebox.json</code> rather than quietly overwritten.</li>
     <li><strong>Two channel names now read the way a person would write them.</strong> The credits said &ldquo;via Merge Records on YouTube&rdquo;, which is genuinely what that channel is called now, and &ldquo;via Bad Cop Bad Cop - Topic&rdquo;, which is an auto-generated name missing the slashes the band uses. Both print properly now. YouTube&rsquo;s exact wording is kept beside them in <code>data/jukebox.json</code> so the checker can still tell a real rename from a choice we made.</li>
     <li><strong>The other nine were checked too</strong>, and all nine play. Worth saying plainly how, because two obvious tests are useless here: YouTube&rsquo;s oEmbed endpoint answers <code>200</code> for a video that will not play, and loading an embed URL directly fails identically for every video, working or not. What distinguishes them is the watch page&rsquo;s own <code>playabilityStatus</code>, which read <code>UNPLAYABLE</code> for the dead one and <code>OK</code> for the rest.</li>
   </ul>
 
-  <h2>2026-09-19 &mdash; the zine table takes issues</h2>
+  <h2 id="2026-09-19-zine-issues">2026-09-19 &mdash; the zine table takes issues</h2>
   <p>The Zine Table stops being one sheet and becomes a table with sheets on it.</p>
   <ul>
     <li><strong>Issue #2, <a href="zine-issue-2.html">One Root, Two Rainbows</a></strong> &mdash; seven lessons from our own <a href="https://stimpunks.org/library/courses/neurodiversity-and-gender/">Neurodiversity and Gender</a> course cut down to seven lines, using the course&rsquo;s own one-idea-per-line device. Seven glossary terms linked, each one checked before it was written.</li>
@@ -51,7 +59,7 @@
     <li><strong>The rule on quoting songs changed.</strong> This site launched saying it would reproduce no lyric at all. That was never argued for on its own terms, and <a href="https://queering.earth/how-we-quote#songs">queering.earth had already settled it properly</a>: a line or two, never the chorus alone, the songwriter named separately from the performer. The deciding argument is an access one &mdash; &ldquo;go and listen to the recording&rdquo; is an audio-only requirement. We follow that policy by reference now rather than restating it.</li>
   </ul>
 
-  <h2>2026-09-19 — the street opened</h2>
+  <h2 id="2026-09-19-street-opened">2026-09-19 — the street opened</h2>
   <p>Six rooms, one front door, and a dial. Live the same day at <a href="https://stimpunks.love/">stimpunks.love</a>, with the source public at <a href="https://github.com/Stimpunks/Stimpunks-Love">github.com/Stimpunks/Stimpunks-Love</a>.</p>
   <ul>
     <li><strong>The Stoop</strong> — the front door, six shopfronts, and the tagline set in six typefaces because that is the thesis rather than the decoration.</li>
