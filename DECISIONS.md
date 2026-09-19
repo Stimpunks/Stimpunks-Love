@@ -6,8 +6,6 @@ Settled choices and open ones, each with the reasoning, so the same question is 
 
 ## Open
 
-**The domain is not attached.** stimpunks.love is the intended address and nothing has been registered, pointed, or deployed as of 2026-09-19. `_redirects` carries the netlify.app → custom-domain rule **commented out**, exactly as queering.earth kept its own until the day its domain resolved: redirecting the only working hostname to one that does not resolve is a site that is simply down. Uncomment the two lines the moment the domain answers, and not before.
-
 **There is no feed.** `index.html` briefly linked `/feed.xml` and the link was removed rather than the file invented. A changelog site probably wants one; a hand-maintained RSS file drifts the first week nobody remembers it. If we add one it should be generated from `changelog.html` by a tool, the way the sitemap is.
 
 **The audio room is named and empty.** Hear Queer Here promises "the glossary read aloud, in our own voices" and does not deliver it. It is listed in the changelog under *Not built yet* rather than quietly omitted, because a room that says what it is missing is more use than one that pretends. Open question: whose voices, how many terms, and whether it is worth the recording time.
@@ -37,5 +35,7 @@ Settled choices and open ones, each with the reasoning, so the same question is 
 **Hand-authored HTML, four generators.** The pages are the artifact and are committed as written; only the jukebox list, its credits table, the sitemap/llms.txt pair and the CSP hash are generated. This follows queering.earth's split — hand-write the pages, generate the derived things — and avoids the failure where somebody hand-edits an HTML file that a build step then overwrites.
 
 **Both jukebox surfaces read one file.** `data/jukebox.json` feeds the dancefloor and the credits page through two tools, so they cannot disagree about who made what. A credits page that contradicts the room it credits is worse than no credits page.
+
+**The domain went live 2026-09-19, and the netlify.app rule came on the same day.** stimpunks.love resolves on Netlify DNS with www and http both 301ing to the apex. The two lines in `_redirects` that send `stimpunks-love.netlify.app` to the custom domain were uncommented only after checking that the apex answered 200 — before that they would have pointed the one working hostname at one that did not exist. The site is deployed from GitHub on a read-only Netlify deploy key plus a push webhook, the same wiring as every sibling; neither is created by `createSiteInTeam`, so both had to be added by hand and the first push after launch silently did not deploy until the webhook existed.
 
 **The changelog is a page, not a file.** Ryan's rule, 2026-09-15: all of our sites publish a changelog. This one is `changelog.html` and it lists what is *not* built alongside what is.

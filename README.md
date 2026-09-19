@@ -2,8 +2,7 @@
 
 **One street, six rooms.** A Stimpunks Foundation site, and the loud one.
 
-Live at [stimpunks.love](https://stimpunks.love/) *(not yet — the domain is not attached; see
-DECISIONS.md)*.
+Live at **[stimpunks.love](https://stimpunks.love/)** since 2026-09-19.
 
 > Queer without fear. Interdependent and here. Divergent and proud. Living out loud.
 > Plucky pluralism, for human organisms. Becoming and belonging, with ribald songing.
