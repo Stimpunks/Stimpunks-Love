@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Playhouse — Stimpunks.Love</title>
+<meta name="description" content="Everything is a button and every button yells. The glossary wearing a costume — and every toy is a real control that Tab reaches and a screen reader names.">
+<link rel="canonical" href="https://stimpunks.love/playhouse.html">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#1770C2">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.Love">
+<meta property="og:title" content="The Playhouse — Stimpunks.Love">
+<meta property="og:description" content="Everything is a button and every button yells. The glossary wearing a costume.">
+<meta property="og:url" content="https://stimpunks.love/playhouse.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="stylesheet" href="love.css">
+<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+</head>
+<body class="room-play">
+<a class="skip" href="#main">Skip to the toys</a>
+<div class="bunting" aria-hidden="true"></div>
+
+<main id="main" class="wrap" style="padding-bottom:40px;">
+
+  <a class="backlink" href="index.html">← BACK TO THE STREET</a>
+
+  <header style="display:flex;flex-wrap:wrap;gap:26px;align-items:flex-start;justify-content:space-between;">
+    <div style="flex:1 1 420px;">
+      <h1>THE PLAYHOUSE</h1>
+      <p class="lede" style="margin-top:18px;">Room six is the one with the toys in it. Every object on this page does something when you touch it, and every object is a real idea from the glossary wearing a costume.</p>
+    </div>
+    <section class="secret" style="flex:0 1 320px;">
+      <h2>TODAY'S SECRET WORD</h2>
+      <p>MONOTROPISM</p>
+      <small>You know what to do when somebody says it. (<a href="https://stimpunks.org/glossary/monotropism/" style="color:#fff;">what it means</a>)</small>
+    </section>
+  </header>
+
+  <p id="playhouse-says" role="status" aria-live="polite" style="margin:24px 0 0;min-height:56px;background:#101014;border:5px solid #fff;border-radius:18px;padding:16px 20px;font-family:'Bungee',sans-serif;font-size:16px;line-height:1.4;color:var(--yellow);">Press something. This box says what happened, out loud, for anyone who cannot see the room wobble.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:22px;align-items:stretch;">
+
+    <ul class="toys" style="flex:1 1 520px;">
+      <li><button type="button" class="toy toy--yellow" data-toy="stim">
+        <strong>THE STIM BOX</strong>
+        <span>A drawer of things that make a satisfying noise. Press one. Press it forty times. Nobody is counting.</span>
+      </button></li>
+
+      <li><button type="button" class="toy toy--green" data-toy="chairy"
+        data-lines="Human cognitive diversity exists for a reason.|You are a stable part of the human genome.|Spectrums and fractals are all around us and within us.|We are emergent. How glorious.|If you believe in a Maker, Maker built us in.">
+        <strong>CHAIRY</strong>
+        <span>The furniture talks back. Ask it something and it answers out of our own published pages.</span>
+      </button></li>
+
+      <li><button type="button" class="toy toy--violet" data-toy="clock"
+        data-terms="monotropism|neuroqueer|emergence|interdependence|the double empathy problem|masking|stimming|ableism|normal|neurodiversity|queer|autistic">
+        <strong>THE WORD CLOCK</strong>
+        <span>Tells you a different glossary term every hour, whether or not you asked.</span>
+      </button></li>
+
+      <li><button type="button" class="toy toy--orange" data-toy="yell">
+        <strong>THE YELL BUTTON</strong>
+        <span>Does exactly one thing. It yells. It is the most-used control on the site and we are fine with that.</span>
+      </button></li>
+    </ul>
+
+    <div style="flex:0 1 320px;display:flex;flex-direction:column;gap:16px;">
+      <section class="rules">
+        <h2>HOUSE RULES</h2>
+        <p><strong>Every toy is a real button.</strong> Tab reaches it, a screen reader names it, and it works without a mouse. A playhouse you cannot get into is a diorama.</p>
+        <p><strong>Sound is on press only.</strong> The room is silent when you walk in and stays silent if you never touch anything. The noises are synthesised here, not fetched from anywhere.</p>
+        <p style="margin:0;"><strong>Gentle mode keeps the toys.</strong> It takes away the wobble and the confetti, not the things to press.</p>
+      </section>
+
+      <div class="dial">
+        <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+        <div class="dial__row" role="group" aria-labelledby="dial-label">
+          <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+          <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+          <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+        </div>
+        <p class="dial__note" aria-live="polite"></p>
+        <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div class="floor"><span>AAAAAAAAAAAAAAH!</span></div>
+
+<script src="love.js" defer></script>
+</body>
+</html>

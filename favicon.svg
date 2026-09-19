@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Stimpunks.Love">
+  <title>Stimpunks.Love</title>
+  <!-- A heart cut into six stripes: the street's six rooms, and the dot-love in the
+       wordmark. Legible at 16px because the stripes are 6px and the silhouette is
+       one solid shape, not an outline. -->
+  <rect width="64" height="64" rx="12" fill="#15121f"/>
+  <defs>
+    <clipPath id="h">
+      <path d="M32 55C15 43 7 35 7 25.5 7 17.4 13.4 11 21.5 11c5 0 9 2.4 10.5 5.4C33.5 13.4 37.5 11 42.5 11 50.6 11 57 17.4 57 25.5 57 35 49 43 32 55Z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#h)">
+    <rect x="0" y="8"  width="64" height="8" fill="#FF2D95"/>
+    <rect x="0" y="16" width="64" height="8" fill="#FF8A00"/>
+    <rect x="0" y="24" width="64" height="8" fill="#FFE100"/>
+    <rect x="0" y="32" width="64" height="8" fill="#22E06A"/>
+    <rect x="0" y="40" width="64" height="8" fill="#00D4FF"/>
+    <rect x="0" y="48" width="64" height="10" fill="#A34DFF"/>
+  </g>
+</svg>

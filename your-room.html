@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Room — Stimpunks.Love</title>
+<meta name="description" content="An empty storefront on the street, with the keys in the door. One person from the community gets a page here, their own stylesheet, and their name on it.">
+<link rel="canonical" href="https://stimpunks.love/your-room.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#15121f">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.Love">
+<meta property="og:title" content="Your Room — Stimpunks.Love">
+<meta property="og:description" content="An empty storefront with the keys in the door. Somebody in the community gets to decorate it.">
+<meta property="og:url" content="https://stimpunks.love/your-room.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="stylesheet" href="love.css">
+<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+</head>
+<body class="room-plain">
+<a class="skip" href="#main">Skip to the content</a>
+
+<main id="main" class="wrap" style="padding-bottom:56px;max-width:900px;">
+
+  <a class="backlink" href="index.html">← BACK TO THE STREET</a>
+
+  <h1>Your Room</h1>
+  <p class="lede">The sixth storefront on the street is empty on purpose. It is not scenery and it is not &ldquo;coming soon&rdquo; — it is a room we are not going to decorate, because it is not ours to decorate.</p>
+
+  <section class="card card--call">
+    <h2 style="margin-top:0;">THE OFFER, PLAINLY</h2>
+    <p>One Disabled, Autistic, neurodivergent or otherwise stimpunk person gets a page on this street. You get:</p>
+    <ul>
+      <li><strong>A room of your own</strong> at <code>stimpunks.love/&lt;your-room&gt;</code>, linked from the front door beside the other five.</li>
+      <li><strong>Your own stylesheet.</strong> Not a theme, not a template with your colours swapped in — a blank CSS file and a room that is allowed to contradict every other room on the street. That is the whole architecture here.</li>
+      <li><strong>Your name on it</strong>, spelled and pronounced how you say, linked where you want it linked.</li>
+      <li><strong>Help building it</strong> if you want help, and none if you don&rsquo;t. Describe the room and we will build it; or take the files and do it yourself; or anything between.</li>
+    </ul>
+  </section>
+
+  <h2>What we keep</h2>
+  <p>Four things, and they are the same four every room here already honours. They are not editorial control — nobody is going to tell you the room is too much.</p>
+  <table>
+    <thead><tr><th>The rule</th><th>Why it is not negotiable</th></tr></thead>
+    <tbody>
+      <tr><td><strong>The dial works</strong></td><td>Gentle mode has to turn your room down without taking any of it away. It is the promise the whole street makes at the front door.</td></tr>
+      <tr><td><strong>Text clears 4.5:1</strong></td><td>Clashing is not the same as illegible. Be as ugly as you like; be readable while you do it.</td></tr>
+      <tr><td><strong>Nothing autoplays</strong></td><td>Sound, video, motion: on press, never on arrival. No exceptions, including for a very good song.</td></tr>
+      <tr><td><strong>Credit what you didn&rsquo;t write</strong></td><td>Attribution is a licence, not a house style. Quote anything; name whose it is.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>What we are not going to do</h2>
+  <p>Edit your room for tone. Ask you to be more positive, or more palatable, or more professional. Take it down because somebody complained that it was weird. If we would not say it to Enid, we are not saying it to you.</p>
+
+  <h2>How to ask</h2>
+  <p>Tell us what the room is. One paragraph is plenty — what it is for, who walks into it, and what it looks like when they do. There is no form and no application, and you do not need a portfolio or a reason to deserve it.</p>
+  <p>Reach us however is easiest: through the <a href="https://stimpunks.org/contact/">Stimpunks contact page</a>, or in our <a href="https://stimpunks.org/community/">community</a>.</p>
+
+  <section class="card">
+    <h3 style="margin-top:0;">A note on what happens if it goes quiet</h3>
+    <p style="margin-bottom:0;">A room here does not expire and does not need maintaining. If you stop updating it, it stays up exactly as you left it, with your name on it. If you want it taken down, say so once and it comes down, no conversation required. A gift with conditions attached is not a gift.</p>
+  </section>
+
+  <div style="max-width:400px;margin-top:34px;">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+
+</main>
+
+<script src="love.js" defer></script>
+</body>
+</html>

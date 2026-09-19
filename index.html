@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stimpunks.Love</title>
+<meta name="description" content="Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, six rooms, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.">
+<link rel="canonical" href="https://stimpunks.love/">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#15121f">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.Love">
+<meta property="og:title" content="Stimpunks.Love">
+<meta property="og:description" content="Queer without fear. Interdependent and here. Divergent and proud. Living out loud. Plucky pluralism, for human organisms. Becoming and belonging, with ribald songing.">
+<meta property="og:url" content="https://stimpunks.love/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preload" href="fonts/bungee-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+</head>
+<body class="street">
+<a class="skip" href="#main">Skip to the street</a>
+<div class="sparkle" aria-hidden="true"></div>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__inner">
+    <span>DANNY IS THE STREET</span><span>YOU ARE ON IT</span><span>THE STREET REARRANGES ITSELF FOR WHOEVER WALKS DOWN IT</span><span>DANNY IS THE STREET</span><span>YOU ARE ON IT</span><span>THE STREET REARRANGES ITSELF FOR WHOEVER WALKS DOWN IT</span>
+  </div>
+</div>
+
+<main id="main" class="wrap">
+
+  <header class="masthead">
+    <div class="masthead__names">
+      <h1 class="wordmark">stimpunks<b>.love</b></h1>
+      <ul class="tagline">
+        <li class="t1 tilt-a">Queer without fear.</li>
+        <li class="t2 tilt-b">Interdependent and here.</li>
+        <li class="t3">Divergent and proud.</li>
+        <li class="t4 tilt-c">Living out loud.</li>
+        <li class="t5 tilt-d">Plucky pluralism, for human organisms.</li>
+        <li class="t6">Becoming and belonging, with ribald songing.</li>
+      </ul>
+    </div>
+
+    <div class="masthead__dial">
+      <div class="dial">
+        <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+        <div class="dial__row" role="group" aria-labelledby="dial-label">
+          <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+          <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+          <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+        </div>
+        <p class="dial__note" aria-live="polite"></p>
+        <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+      </div>
+    </div>
+  </header>
+
+  <h2 class="sr">The rooms</h2>
+  <ul class="doors">
+
+    <li><a class="door door--pony" href="pink-pony-club.html">
+      <span class="door__awning" aria-hidden="true"></span>
+      <span class="door__body">
+        <span><span class="door__name">Pink Pony Club</span>
+        <span class="door__blurb">The dancefloor. Ten songs our own pages already credit, in one jukebox, silent until you press something.</span></span>
+        <span class="door__knock">PRESS PLAY →</span>
+      </span>
+    </a></li>
+
+    <li><a class="door door--zine" href="zine-table.html">
+      <span class="door__awning" aria-hidden="true"></span>
+      <span class="door__body">
+        <span><span class="door__name">The Zine Table</span>
+        <span class="door__blurb">Xerox, staples, ransom note. The room where we get angry in ten point type.</span></span>
+        <span class="door__knock">take one, they're free →</span>
+      </span>
+    </a></li>
+
+    <li><a class="door door--quantum" href="hear-queer-here.html">
+      <span class="door__awning" aria-hidden="true"></span>
+      <span class="door__body">
+        <span><span class="door__name">Hear Queer Here</span>
+        <span class="door__blurb">Quantum queering. Nothing is fixed, bounded, or settled in advance of its relations.</span></span>
+        <span class="door__knock">&gt; enter superposition</span>
+      </span>
+    </a></li>
+
+    <li><a class="door door--enid" href="enids-room.html">
+      <span class="door__awning" aria-hidden="true"></span>
+      <span class="door__body">
+        <span><span class="door__name">Enid's Room</span>
+        <span class="door__blurb">Colorful goth. Black walls, technicolour everything else, and somewhere to sit when the glee runs out.</span></span>
+        <span class="door__knock">knock first →</span>
+      </span>
+    </a></li>
+
+    <li><a class="door door--play" href="playhouse.html">
+      <span class="door__awning" aria-hidden="true"></span>
+      <span class="door__body">
+        <span><span class="door__name">The Playhouse</span>
+        <span class="door__blurb">Everything is a button and every button yells. The glossary wearing a costume.</span></span>
+        <span class="door__knock">AAAAAAAAH! →</span>
+      </span>
+    </a></li>
+
+    <li><a class="door door--empty" href="your-room.html">
+      <span class="door__awning" aria-hidden="true"></span>
+      <span class="door__body">
+        <span><span class="door__name">Your Room</span>
+        <span class="door__blurb">An empty storefront with the keys in the door. Somebody in the community gets to decorate it.</span></span>
+        <span class="door__knock">to let →</span>
+      </span>
+    </a></li>
+
+  </ul>
+
+  <section class="card" style="margin-top:36px;background:var(--ink-2);border:3px solid var(--ink-3);border-radius:16px;padding:22px 24px;">
+    <h2 style="font-family:'Bungee',sans-serif;font-size:17px;color:var(--yellow);letter-spacing:1px;margin:0 0 12px;">WHAT THIS STREET IS FOR</h2>
+    <p style="margin:0 0 12px;font-size:16.5px;line-height:1.6;">Every other site we run is careful on purpose — careful palettes, careful sourcing, careful attribution, careful hedging. Those sites are load-bearing and they stay. This one is the other half of the same lung.</p>
+    <p style="margin:0;font-size:16.5px;line-height:1.6;">It has no single design system, deliberately. The street is the system; the rooms refuse to share one. Two things stay careful even here: <strong>attribution</strong>, because that is a licence and not a house style, and <strong>contrast</strong>, because clashing is not the same as illegible. Everything else went out the window. See the <a href="liner-notes.html">liner notes</a>.</p>
+  </section>
+
+</main>
+
+<footer class="pavement">
+  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;">
+    <p class="chalk" style="margin:0;">every room credits its own noise</p>
+    <p style="margin:0;font-size:14px;color:var(--chalk);">
+      <a href="liner-notes.html">Liner notes</a> · <a href="your-room.html">Your Room</a> · <a href="changelog.html">Changelog</a> ·
+      A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.
+    </p>
+  </div>
+</footer>
+
+<script src="love.js" defer></script>
+</body>
+</html>

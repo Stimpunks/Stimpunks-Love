@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Changelog — Stimpunks.Love</title>
+<meta name="description" content="What changed on the street, and when. Every Stimpunks site publishes one of these.">
+<link rel="canonical" href="https://stimpunks.love/changelog.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#15121f">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.Love">
+<meta property="og:title" content="Changelog — Stimpunks.Love">
+<meta property="og:description" content="What changed on the street, and when.">
+<meta property="og:url" content="https://stimpunks.love/changelog.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="stylesheet" href="love.css">
+<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+</head>
+<body class="room-plain">
+<a class="skip" href="#main">Skip to the content</a>
+
+<main id="main" class="wrap" style="padding-bottom:56px;max-width:840px;">
+
+  <a class="backlink" href="index.html">← BACK TO THE STREET</a>
+
+  <h1>Changelog</h1>
+  <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
+
+  <h2>2026-09-19 — the street opened</h2>
+  <p>Six rooms, one front door, and a dial.</p>
+  <ul>
+    <li><strong>The Stoop</strong> — the front door, six shopfronts, and the tagline set in six typefaces because that is the thesis rather than the decoration.</li>
+    <li><strong>Pink Pony Club</strong> — ten tracks lifted from our own <a href="https://stimpunks.org/philosophy/were-a-double-rainbow-all-the-way/">Double Rainbow</a> page, each one a press-to-play facade that contacts YouTube only after you press it.</li>
+    <li><strong>The Zine Table</strong> — xerox and ransom note, and the page that says which two habits survived the move: attribution and contrast.</li>
+    <li><strong>Hear Queer Here</strong> — quantum queering, with Barad and Helen Edgar quoted and cited, and a superposition panel where &ldquo;leave it open&rdquo; is a real answer.</li>
+    <li><strong>Enid&rsquo;s Room</strong> — colorful goth, a sticker wall wired to seven glossary entries, and somewhere to sit when the glee runs out.</li>
+    <li><strong>The Playhouse</strong> — four toys, all real buttons, all synthesised rather than fetched, all reachable by keyboard.</li>
+    <li><strong>Your Room</strong> — the sixth storefront, left empty on purpose, with the terms written down.</li>
+    <li><strong>The intensity dial</strong> — three settings on every page, defaulting to whatever your device asks for and letting you turn it up past that. Gentle takes away the wobble, never the words.</li>
+    <li>Twelve typefaces self-hosted, so reading a page here makes no third-party request.</li>
+  </ul>
+
+  <section class="card">
+    <h3 style="margin-top:0;">Not built yet</h3>
+    <p style="margin-bottom:0;">The audio room inside Hear Queer Here — the glossary read aloud in our own voices — is named and empty. The polaroids in Enid&rsquo;s Room are placeholders waiting on community photos. Both are listed here rather than hidden, because a room that says what it is missing is more use than one that pretends.</p>
+  </section>
+
+  <div style="max-width:400px;margin-top:34px;">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+
+</main>
+
+<script src="love.js" defer></script>
+</body>
+</html>

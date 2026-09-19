@@ -1,0 +1,138 @@
+{
+  "bungee": [
+    {
+      "file": "bungee-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 14296,
+      "src": "https://fonts.gstatic.com/s/bungee/v17/N0bU2SZBIuF2PU_0DXR1C9zfmQ.woff2"
+    }
+  ],
+  "bungee-shade": [
+    {
+      "file": "bungee-shade-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 30352,
+      "src": "https://fonts.gstatic.com/s/bungeeshade/v17/DtVkJxarWL0t2KdzK3oI_jkc6SjTjQJElg.woff2"
+    }
+  ],
+  "shrikhand": [
+    {
+      "file": "shrikhand-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 15736,
+      "src": "https://fonts.gstatic.com/s/shrikhand/v17/a8IbNovtLWfR7T7bMJwrA4KR8TtctQ.woff2"
+    }
+  ],
+  "monoton": [
+    {
+      "file": "monoton-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 16492,
+      "src": "https://fonts.gstatic.com/s/monoton/v22/5h1aiZUrOngCibe4TkHLQka4BU4.woff2"
+    }
+  ],
+  "rock-salt": [
+    {
+      "file": "rock-salt-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 52040,
+      "src": "https://fonts.gstatic.com/s/rocksalt/v24/MwQ0bhv11fWD6QsAVOZrt0M6p7NGrQ.woff2"
+    }
+  ],
+  "space-grotesk": [
+    {
+      "file": "space-grotesk-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 22320,
+      "src": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2"
+    },
+    {
+      "file": "space-grotesk-500.woff2",
+      "weight": "500",
+      "style": "normal",
+      "bytes": 22320,
+      "src": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2"
+    },
+    {
+      "file": "space-grotesk-700.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 22320,
+      "src": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2"
+    }
+  ],
+  "archivo-black": [
+    {
+      "file": "archivo-black-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 9792,
+      "src": "https://fonts.gstatic.com/s/archivoblack/v23/HTxqL289NzCGg4MzN6KJ7eW6CYyF_jzx13E.woff2"
+    }
+  ],
+  "vt323": [
+    {
+      "file": "vt323-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 7192,
+      "src": "https://fonts.gstatic.com/s/vt323/v18/pxiKyp0ihIEF2isfFJXUdVNF.woff2"
+    }
+  ],
+  "special-elite": [
+    {
+      "file": "special-elite-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 53040,
+      "src": "https://fonts.gstatic.com/s/specialelite/v20/XLYgIZbkc4JPUL5CVArUVL0ntnAOSFNuQsI.woff2"
+    }
+  ],
+  "courier-prime": [
+    {
+      "file": "courier-prime-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 11192,
+      "src": "https://fonts.gstatic.com/s/courierprime/v11/u-450q2lgwslOqpF_6gQ8kELawFpWs39pvk.woff2"
+    },
+    {
+      "file": "courier-prime-700.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 11588,
+      "src": "https://fonts.gstatic.com/s/courierprime/v11/u-4k0q2lgwslOqpF_6gQ8kELY7pMT-Dfq9PrNX0.woff2"
+    }
+  ],
+  "instrument-serif": [
+    {
+      "file": "instrument-serif-400-italic.woff2",
+      "weight": "400",
+      "style": "italic",
+      "bytes": 15684,
+      "src": "https://fonts.gstatic.com/s/instrumentserif/v5/jizHRFtNs2ka5fXjeivQ4LroWlx-6zAjjH7Motmp5g.woff2"
+    },
+    {
+      "file": "instrument-serif-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 15040,
+      "src": "https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-6zUTjnTLgNs.woff2"
+    }
+  ],
+  "titan-one": [
+    {
+      "file": "titan-one-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 10732,
+      "src": "https://fonts.gstatic.com/s/titanone/v17/mFTzWbsGxbbS_J5cQcjClDgm-khykw.woff2"
+    }
+  ]
+}

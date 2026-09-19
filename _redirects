@@ -1,0 +1,13 @@
+# Netlify redirect rules.
+#
+# ONE JOB: send the .netlify.app hostname to the custom domain, so the site does
+# not answer 200 at two addresses with byte-identical documents. Star Stuff found
+# that shape on 2026-08-15 and queering.earth had it the day its domain attached.
+#
+# COMMENTED OUT UNTIL THE DOMAIN IS ATTACHED. Redirecting the only working
+# hostname to one that does not resolve is a site that is simply down — which is
+# exactly why queering.earth kept these two lines commented until 2026-09-07.
+# Uncomment the moment stimpunks.love resolves, and not before.
+#
+# https://stimpunks-love.netlify.app/*  https://stimpunks.love/:splat  301!
+# http://stimpunks-love.netlify.app/*   https://stimpunks.love/:splat  301!

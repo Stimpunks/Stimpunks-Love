@@ -1,0 +1,26 @@
+# Stimpunks.Love
+
+> Queer without fear. Interdependent and here. Divergent and proud. Living out loud. Plucky pluralism, for human organisms. Becoming and belonging, with ribald songing.
+
+A Stimpunks Foundation site, and the loud one. It has no single design system on purpose: the street is the system and the six rooms refuse to share one. Two habits survive from our careful sites — attribution, which is a licence rather than a house style, and contrast, because clashing is not the same as illegible.
+
+Every page carries an intensity dial with three settings. It defaults to whatever the visitor's device asks for and lets them turn it up past that; Gentle removes motion and sparkle and never removes content.
+
+## The rooms
+
+- [Stimpunks.Love](https://stimpunks.love/): Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, six rooms, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.
+- [Pink Pony Club — Stimpunks.Love](https://stimpunks.love/pink-pony-club.html): The dancefloor. Ten songs our own pages already credit, in one jukebox. Nothing plays until you press play — no autoplay, and nothing reaches YouTube before you ask for it.
+- [The Zine Table — Stimpunks.Love](https://stimpunks.love/zine-table.html): Xerox, staples, ransom note. The room where we get angry in ten point type — and the room that explains which two things stay careful even here.
+- [Hear Queer Here — Stimpunks.Love](https://stimpunks.love/hear-queer-here.html): Quantum queering: reading queerness and the physics of indeterminacy through each other. Nothing is fixed, bounded, or settled in advance of its relations.
+- [Enid's Room — Stimpunks.Love](https://stimpunks.love/enids-room.html): Colorful goth. Black walls, technicolour everything else, and somewhere to sit when the glee runs out. The room for the one who doesn't match the house.
+- [The Playhouse — Stimpunks.Love](https://stimpunks.love/playhouse.html): Everything is a button and every button yells. The glossary wearing a costume — and every toy is a real control that Tab reaches and a screen reader names.
+- [Your Room — Stimpunks.Love](https://stimpunks.love/your-room.html): An empty storefront on the street, with the keys in the door. One person from the community gets a page here, their own stylesheet, and their name on it.
+- [Liner Notes — Stimpunks.Love](https://stimpunks.love/liner-notes.html): Who made this noise. Every song, typeface, quotation and borrowed name on this street, credited to the person it belongs to.
+- [Changelog — Stimpunks.Love](https://stimpunks.love/changelog.html): What changed on the street, and when. Every Stimpunks site publishes one of these.
+
+## Attribution
+
+- Text and design: CC BY-SA 4.0, Stimpunks Foundation.
+- The typefaces keep their own SIL Open Font License; the songs keep their own copyright.
+- Nothing musical is hosted here. The jukebox is press-to-play facades that link out.
+- Full credits: https://stimpunks.love/liner-notes.html

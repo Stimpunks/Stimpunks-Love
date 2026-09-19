@@ -1,0 +1,562 @@
+/* =============================================================================
+   stimpunks.love — one street, six rooms.
+
+   The organising idea: this site has NO single design system, on purpose. Every
+   other Stimpunks site applies one consistent look across many pages. Here the
+   STREET is the system and the ROOMS refuse to share one. So this file is a
+   small shared base (§1–§4) followed by one self-contained world per room
+   (§5–§11), each free to contradict the others.
+
+   The one thing every room DOES share is §3, the intensity dial. Danny the
+   Street rearranges itself for whoever walks down it, so loudness is a control
+   the visitor holds, never a fixed property of the page.
+   ============================================================================= */
+
+
+/* §1 ── The faces ────────────────────────────────────────────────────────────
+   Self-hosted, so reading a page here makes no third-party request — the same
+   rule queering.earth and starstuff.earth follow. All twelve families are
+   OFL-licensed; fonts/_sources.json records where each file came from.
+   @font-face is lazy: a room only downloads the faces it actually sets. */
+
+@font-face { font-family: 'Bungee';          src: url('fonts/bungee-400.woff2') format('woff2');           font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Bungee Shade';    src: url('fonts/bungee-shade-400.woff2') format('woff2');     font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Shrikhand';       src: url('fonts/shrikhand-400.woff2') format('woff2');        font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Monoton';         src: url('fonts/monoton-400.woff2') format('woff2');          font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Rock Salt';       src: url('fonts/rock-salt-400.woff2') format('woff2');        font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Archivo Black';   src: url('fonts/archivo-black-400.woff2') format('woff2');    font-weight: 400; font-display: swap; }
+@font-face { font-family: 'VT323';           src: url('fonts/vt323-400.woff2') format('woff2');            font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Special Elite';   src: url('fonts/special-elite-400.woff2') format('woff2');    font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Titan One';       src: url('fonts/titan-one-400.woff2') format('woff2');        font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Space Grotesk';   src: url('fonts/space-grotesk-400.woff2') format('woff2');    font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Space Grotesk';   src: url('fonts/space-grotesk-500.woff2') format('woff2');    font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Space Grotesk';   src: url('fonts/space-grotesk-700.woff2') format('woff2');    font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Courier Prime';   src: url('fonts/courier-prime-400.woff2') format('woff2');    font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Courier Prime';   src: url('fonts/courier-prime-700.woff2') format('woff2');    font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Instrument Serif';src: url('fonts/instrument-serif-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Instrument Serif';src: url('fonts/instrument-serif-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+
+
+/* §2 ── Ground rules ─────────────────────────────────────────────────────────
+   Deliberately thin. Anything that belongs to a room belongs in that room. */
+
+:root {
+  --ink:    #15121f;   --ink-2:  #241d33;   --ink-3:  #4a3f67;
+  --pink:   #FF2D95;   --hot:    #FF3D9A;   --orange: #FF8A00;
+  --yellow: #FFE100;   --green:  #22E06A;   --cyan:   #00D4FF;
+  --violet: #AC5BFF;   --red:    #C4002B;
+  --blue:   #1770C2;   --violet-deep: #7B28DD;
+  --cream:  #FFF3E6;   --paper:  #EDEAE2;   --chalk:  #c8bfe0;
+  --sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.55;
+  background: var(--ink);
+  color: #fff;
+  overflow-x: hidden;
+}
+
+img, svg { max-width: 100%; height: auto; }
+
+/* Focus is never removed and never subtle. A site made of buttons has to be
+   navigable by keyboard or it is a diorama. */
+:focus-visible {
+  outline: 4px solid var(--yellow);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--yellow); color: var(--ink);
+  font-family: 'Bungee', var(--sans); font-size: 14px;
+  padding: 14px 20px; text-decoration: none;
+}
+.skip:focus { left: 0; }
+
+.sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.wrap { width: min(1180px, 100% - 44px); margin-inline: auto; }
+
+/* Touch targets. 44px is the floor everywhere, toys included. */
+button, .btn, a.door, .tile { min-height: 44px; }
+
+
+/* §3 ── The intensity dial ───────────────────────────────────────────────────
+   THE most important 40 lines in this file.
+
+   Three levels on <html data-intensity>. The default is read from the visitor's
+   own device (prefers-reduced-motion → gentle) by the inline snippet in each
+   page's head, which runs BEFORE first paint so nobody gets flashed the loud
+   version on the way to the quiet one. A stored choice always wins, INCLUDING
+   a choice to turn it up past what the OS asked for — that is the whole point.
+   The visitor is the authority on their own tolerance, not the media query.
+
+   gentle  — no rotation, no ambient motion, no sparkle. Same rooms, same
+             colours, same content. Nothing is hidden at this level; a "lite"
+             version that drops content would be a worse site wearing a
+             politer name.
+   regular — full colour and full type play. Motion on hover/focus only.
+   max     — ambient motion as well: the marquee scrolls, the sparkle twinkles,
+             the toys wobble. Nobody arrives here by default.                   */
+
+.tilt-a { transform: rotate(-2deg); }
+.tilt-b { transform: rotate(1.5deg); }
+.tilt-c { transform: rotate(-1deg); }
+.tilt-d { transform: rotate(2.5deg); }
+
+html[data-intensity="gentle"] .tilt-a,
+html[data-intensity="gentle"] .tilt-b,
+html[data-intensity="gentle"] .tilt-c,
+html[data-intensity="gentle"] .tilt-d { transform: none; }
+
+html[data-intensity="gentle"] .sparkle,
+html[data-intensity="gentle"] .glow { display: none; }
+
+html[data-intensity="gentle"] *,
+html[data-intensity="gentle"] *::before,
+html[data-intensity="gentle"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+html[data-intensity="regular"] .sparkle { opacity: 0.55; }
+html[data-intensity="max"]     .sparkle { opacity: 1; animation: twinkle 4s steps(2) infinite; }
+html[data-intensity="max"]     .marquee__inner { animation: slide 38s linear infinite; }
+html[data-intensity="max"]     .toy:hover  { transform: rotate(-2deg) scale(1.03); }
+html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(-1deg); }
+
+@keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+@keyframes slide   { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* The dial itself. Present in every room, always in the same corner, because a
+   control you have to hunt for is not really offered. */
+.dial {
+  background: var(--ink-2);
+  border: 3px solid #fff;
+  border-radius: 18px;
+  padding: 15px 17px;
+}
+.dial__label { font-family: 'Bungee', var(--sans); font-size: 13px; color: var(--yellow); letter-spacing: 1px; }
+.dial__row   { display: flex; gap: 8px; margin-top: 11px; }
+.dial__btn {
+  flex: 1 1 0; cursor: pointer;
+  font-family: 'Bungee', var(--sans); font-size: 11px; letter-spacing: 0.5px;
+  padding: 11px 6px; border-radius: 9px;
+  border: 3px solid var(--ink-3); background: var(--ink); color: var(--chalk);
+}
+.dial__btn:hover { border-color: #fff; color: #fff; }
+.dial__btn[aria-pressed="true"] { border-color: #fff; color: var(--ink); }
+.dial__btn[data-level="gentle"][aria-pressed="true"]  { background: var(--green); }
+.dial__btn[data-level="regular"][aria-pressed="true"] { background: var(--cyan); }
+.dial__btn[data-level="max"][aria-pressed="true"]     { background: var(--pink); }
+.dial__note { margin-top: 11px; font-size: 13.5px; line-height: 1.45; color: #fff; }
+.dial__fine {
+  margin-top: 9px; padding-top: 9px; font-size: 12px; color: var(--chalk);
+  border-top: 1px solid var(--ink-3);
+}
+
+
+/* §4 ── Shared furniture ─────────────────────────────────────────────────────
+   The three things every room needs so a visitor is never stranded: a way back
+   to the street, a marquee rail, and the press-to-play facade. */
+
+.backlink {
+  display: inline-block; font-family: 'Bungee', var(--sans);
+  font-size: 12px; letter-spacing: 1px; text-decoration: none;
+  padding: 10px 0;
+}
+
+.marquee {
+  background: var(--yellow); border-bottom: 4px solid var(--ink);
+  overflow: hidden; white-space: nowrap;
+}
+.marquee__inner {
+  display: inline-block; padding: 15px 0;
+  font-family: 'Bungee', var(--sans); font-size: 18px;
+  color: var(--ink); letter-spacing: 1px;
+}
+.marquee__inner span { padding-right: 2.5em; }
+
+/* The embed facade. NOTHING from youtube is loaded until the visitor presses
+   the button — no iframe, no cookie, no request. This is the mechanism behind
+   the room rule "nothing plays until you press play", and it is why the site
+   can promise it rather than merely intend it. See love-embed.js. */
+.facade {
+  position: relative; display: block; width: 100%;
+  aspect-ratio: 16 / 9; cursor: pointer;
+  border: 3px solid var(--ink); border-radius: 12px;
+  background: var(--ink-2); color: var(--cream);
+  font-family: var(--sans); text-align: left;
+  padding: 16px 18px;
+}
+.facade:hover { background: var(--ink-3); }
+.facade__play {
+  position: absolute; inset: auto auto 16px 18px;
+  font-family: 'Bungee', var(--sans); font-size: 13px; letter-spacing: 1px;
+  color: var(--yellow);
+}
+.facade iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 9px; }
+
+
+/* §5 ── THE STREET (index) ───────────────────────────────────────────────────
+   Night asphalt, shopfronts, bunting. The only page that has to hold all six
+   worlds side by side without letting any of them win. */
+
+.street { background: var(--ink); min-height: 100vh; position: relative; }
+
+.street .sparkle {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255,225,0,.5)  0 2px, transparent 3px),
+    radial-gradient(circle at 78% 12%, rgba(255,45,149,.6) 0 3px, transparent 4px),
+    radial-gradient(circle at 42%  8%, rgba(0,212,255,.5)  0 2px, transparent 3px),
+    radial-gradient(circle at 88% 42%, rgba(34,224,106,.5) 0 3px, transparent 4px),
+    radial-gradient(circle at 24% 62%, rgba(163,77,255,.5) 0 2px, transparent 3px),
+    radial-gradient(circle at 62% 30%, rgba(255,138,0,.5)  0 2px, transparent 3px),
+    radial-gradient(circle at  6% 88%, rgba(0,212,255,.45) 0 2px, transparent 3px),
+    radial-gradient(circle at 94% 76%, rgba(255,225,0,.45) 0 2px, transparent 3px);
+}
+
+.street > * { position: relative; z-index: 1; }
+
+.masthead { display: flex; flex-wrap: wrap; gap: 30px; align-items: flex-start; padding: 34px 0 0; }
+.masthead__names { flex: 1 1 420px; }
+.masthead__dial  { flex: 0 1 400px; }
+
+.wordmark   { font-family: 'Bungee', var(--sans); font-size: clamp(46px, 8.5vw, 92px); line-height: .92; color: #fff; text-shadow: 4px 0 0 var(--pink), 8px 0 0 var(--cyan); letter-spacing: -1px; margin: 0; }
+.wordmark b { font-family: 'Shrikhand', var(--sans); font-weight: 400; color: var(--pink); text-shadow: none; display: block; font-size: .78em; margin-top: -.06em; }
+
+/* The tagline is the font-play thesis statement: six phrases, six faces, six
+   colours, one sentence. Every colour here clears 4.5:1 on the night ground —
+   clashing is not the same as illegible. */
+.tagline { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: baseline; margin: 26px 0 0; max-width: 940px; padding: 0; list-style: none; }
+.tagline li { display: inline-block; }
+.tagline .t1 { font-family: 'Archivo Black', var(--sans);  font-size: 25px; color: var(--pink); }
+.tagline .t2 { font-family: 'Shrikhand', var(--sans);      font-size: 25px; color: var(--orange); }
+.tagline .t3 { font-family: 'Bungee', var(--sans);         font-size: 21px; color: var(--green); }
+.tagline .t4 { font-family: 'Monoton', var(--sans);        font-size: 27px; color: var(--cyan); }
+.tagline .t5 { font-family: 'Rock Salt', var(--sans);      font-size: 16px; color: var(--yellow); }
+.tagline .t6 { font-family: 'VT323', monospace;            font-size: 30px; color: var(--violet); }
+
+.doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(172px, 1fr)); gap: 16px; margin: 36px 0 0; padding: 0; list-style: none; }
+
+.door {
+  display: flex; flex-direction: column; text-decoration: none;
+  border: 3px solid #fff; border-radius: 12px 12px 5px 5px; overflow: hidden;
+  min-height: 330px; transition: transform .18s ease;
+}
+.door:hover { transform: translateY(-5px); }
+.door__awning { height: 36px; border-bottom: 3px solid #fff; }
+.door__body   { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; padding: 17px 15px; }
+.door__body > span:first-child { display: block; }
+.door__name   { display: block; font-size: 26px; line-height: 1.05; margin: 0; }
+.door__blurb  { display: block; margin: 10px 0 0; font-size: 13.5px; line-height: 1.42; }
+.door__knock  { display: block; }
+.door__knock  { font-family: 'Bungee', var(--sans); font-size: 12px; letter-spacing: 1px; }
+
+.door--pony  { background: var(--hot); }
+.door--pony  .door__awning { background-image: repeating-linear-gradient(90deg, var(--cream) 0 14px, var(--pink) 14px 28px); }
+.door--pony  .door__name  { font-family: 'Shrikhand', var(--sans); color: var(--cream); }
+.door--pony  .door__blurb { color: #2b0a1c; font-weight: 500; }
+.door--pony  .door__knock { color: #2b0a1c; }
+
+.door--zine  { background: var(--paper); }
+.door--zine  .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink) 0 14px, var(--paper) 14px 28px); }
+.door--zine  .door__name  { font-family: 'Archivo Black', var(--sans); color: var(--ink); text-transform: uppercase; font-size: 24px; }
+.door--zine  .door__blurb { color: #2e2a22; font-weight: 500; }
+.door--zine  .door__knock { font-family: 'Rock Salt', var(--sans); font-size: 11px; letter-spacing: 0; color: var(--ink); }
+
+.door--quantum { background: #0a0d22; }
+.door--quantum .door__awning { background-image: repeating-linear-gradient(90deg, var(--cyan) 0 14px, var(--violet) 14px 28px); }
+.door--quantum .door__name  { font-family: 'VT323', monospace; color: var(--cyan); font-size: 34px; }
+.door--quantum .door__blurb { color: #d8d4ff; }
+.door--quantum .door__knock { font-family: 'VT323', monospace; font-size: 17px; letter-spacing: 0; color: var(--green); }
+
+.door--enid  { background: #101014; }
+.door--enid  .door__awning { background-image: repeating-linear-gradient(90deg, var(--violet) 0 14px, var(--green) 14px 28px); }
+.door--enid  .door__name  { font-family: 'Bungee', var(--sans); color: var(--green); font-size: 23px; }
+.door--enid  .door__blurb { color: #ece8f5; }
+.door--enid  .door__knock { font-family: 'Rock Salt', var(--sans); font-size: 11px; letter-spacing: 0; color: var(--pink); }
+
+.door--play  { background: var(--blue); }
+.door--play  .door__awning { background-image: repeating-linear-gradient(90deg, var(--red) 0 14px, var(--yellow) 14px 28px); }
+.door--play  .door__name  { font-family: 'Bungee', var(--sans); color: var(--yellow); font-size: 25px; }
+.door--play  .door__blurb { color: #fff; font-weight: 500; }
+.door--play  .door__knock { color: #fff; }
+
+.door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
+.door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
+.door--empty .door__name  { font-family: 'Bungee', var(--sans); color: var(--chalk); font-size: 23px; }
+.door--empty .door__blurb { color: var(--chalk); }
+.door--empty .door__knock { font-family: 'Rock Salt', var(--sans); font-size: 11px; letter-spacing: 0; color: #9d8cc8; }
+
+.pavement {
+  margin-top: 40px; border-top: 3px solid var(--ink-3); background: var(--ink-2);
+  padding: 22px 0 34px;
+}
+.pavement a { color: var(--yellow); }
+.pavement .chalk { font-family: 'Rock Salt', var(--sans); font-size: 12.5px; color: var(--yellow); }
+
+
+/* §6 ── ROOM: Pink Pony Club ─────────────────────────────────────────────────
+   The dancefloor. Hot pink ground, cream ink, a mirrorball made of conic
+   gradients. The jukebox is ten facades — press to play, nothing before. */
+
+.room-pony { background: var(--hot); color: #2b0a1c; }
+.room-pony .backlink { color: #2b0a1c; }
+.room-pony .glow {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image: repeating-conic-gradient(from 0deg at 26% 20%, rgba(255,243,230,.16) 0deg 9deg, rgba(255,61,154,0) 9deg 18deg);
+}
+.room-pony > * { position: relative; z-index: 1; }
+.room-pony h1 { font-family: 'Shrikhand', var(--sans); font-size: clamp(54px, 9vw, 92px); line-height: .9; color: var(--cream); text-shadow: 5px 5px 0 #2b0a1c; margin: 18px 0 0; }
+.room-pony .lede { font-size: 19px; line-height: 1.5; font-weight: 500; max-width: 46ch; margin: 22px 0 0; }
+.room-pony h2 { font-family: 'Bungee', var(--sans); font-size: 20px; color: var(--cream); letter-spacing: 1px; }
+.room-pony a { color: #2b0a1c; }
+
+.mirrorball { width: 74px; height: 74px; border-radius: 50%; border: 4px solid var(--cream); background-image: repeating-conic-gradient(from 0deg, var(--cream) 0deg 12deg, #c9a9be 12deg 24deg); flex: none; }
+
+.consent {
+  background: #2b0a1c; border: 4px solid var(--cream); border-radius: 20px;
+  padding: 22px 24px; color: #ffd9ec; margin: 28px 0 0;
+}
+.consent strong { display: block; font-family: 'Bungee', var(--sans); font-weight: 400; font-size: clamp(19px,2.6vw,23px); line-height: 1.15; color: var(--yellow); margin-bottom: 11px; }
+
+.jukebox { list-style: none; margin: 18px 0 0; padding: 16px; background: var(--cream); border: 4px solid #2b0a1c; border-radius: 16px; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+.track { background: #fff; border: 2px solid #e0a9c6; border-radius: 12px; padding: 13px 14px; }
+.track h3 { margin: 0; font-size: 18px; color: #2b0a1c; }
+.track p  { margin: 3px 0 11px; font-size: 13px; color: #6b3a55; }
+.track .facade { aspect-ratio: 16/9; }
+
+
+/* §7 ── ROOM: The Zine Table ─────────────────────────────────────────────────
+   Photocopier grain, ransom-note headline, two columns of typewriter.
+   Already black-on-white, so gentle mode costs this room the least. */
+
+.room-zine { background: var(--paper); color: var(--ink); font-family: 'Courier Prime', monospace; }
+.room-zine .backlink { font-family: 'Courier Prime', monospace; color: var(--ink); text-decoration: underline; letter-spacing: 0; }
+.room-zine .grain {
+  position: fixed; inset: 0; pointer-events: none; opacity: .16; z-index: 0;
+  background-image:
+    repeating-linear-gradient(0deg,  rgba(21,18,31,.5)  0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(21,18,31,.35) 0 1px, transparent 1px 4px);
+}
+.room-zine > * { position: relative; z-index: 1; }
+
+.ransom { display: flex; flex-wrap: wrap; gap: 6px 11px; align-items: baseline; margin: 16px 0 0; }
+.ransom span { display: inline-block; line-height: .9; padding: 2px 9px; }
+.ransom .r1 { font-family: 'Archivo Black', var(--sans); font-size: clamp(42px,7vw,72px); color: var(--ink);  background: var(--yellow); transform: rotate(-2.5deg); }
+.ransom .r2 { font-family: 'Special Elite', var(--sans); font-size: clamp(38px,6.2vw,62px); color: var(--paper); background: var(--ink); transform: rotate(1.5deg); }
+.ransom .r3 { font-family: 'Shrikhand', var(--sans);     font-size: clamp(40px,6.6vw,66px); color: var(--red); background: none; transform: rotate(-1deg); }
+.ransom .r4 { font-family: 'Bungee', var(--sans);        font-size: clamp(34px,5.8vw,58px); color: var(--ink);  background: var(--cyan); transform: rotate(2deg); }
+.ransom .r5 { font-family: 'Archivo Black', var(--sans); font-size: clamp(41px,7vw,70px); color: var(--paper); background: var(--red); transform: rotate(-1.5deg); }
+html[data-intensity="gentle"] .ransom span { transform: none; }
+
+.zine-cols { columns: 2 260px; column-gap: 28px; column-rule: 1px solid #b9b2a3; margin-top: 12px; }
+.zine-cols p { margin: 0 0 13px; font-size: 14.5px; line-height: 1.62; }
+.zine-cols .shout { font-family: 'Special Elite', var(--sans); font-size: 16px; color: var(--red); }
+
+.pullquote { background: var(--ink); color: var(--paper); padding: 22px 24px; position: relative; }
+.pullquote blockquote { margin: 0; font-family: 'Special Elite', var(--sans); font-size: clamp(21px,3vw,26px); line-height: 1.26; }
+.pullquote cite { display: block; margin-top: 13px; font-family: 'Courier Prime', monospace; font-size: 12.5px; font-style: normal; color: #b9b2a3; }
+.pullquote .tape { position: absolute; top: -12px; left: 28px; width: 108px; height: 26px; background: rgba(237,234,226,.72); border: 1px solid rgba(21,18,31,.25); transform: rotate(-3deg); }
+html[data-intensity="gentle"] .pullquote .tape { transform: none; }
+
+.keeps { background: var(--yellow); border: 3px solid var(--ink); padding: 18px 20px; }
+.keeps h2 { font-family: 'Archivo Black', var(--sans); font-size: 17px; margin: 0 0 12px; }
+.keeps dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px,1fr)); gap: 16px; margin: 0; }
+.keeps dt { font-weight: 700; }
+.keeps dd { margin: 3px 0 0; font-size: 13.5px; line-height: 1.5; }
+
+.scrawl { font-family: 'Rock Salt', var(--sans); font-size: 12px; color: var(--red); }
+
+
+/* §8 ── ROOM: Hear Queer Here ────────────────────────────────────────────────
+   Deep space, interference fringes, a mono face and a serif arguing. */
+
+.room-quantum { background: #05060f; color: #d8d4ff; }
+.room-quantum .backlink { font-family: 'VT323', monospace; font-size: 19px; letter-spacing: 0; color: var(--green); }
+.room-quantum .glow {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .5;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(0,212,255,.22) 0 2px, transparent 2px 26px),
+    repeating-linear-gradient(90deg, rgba(163,77,255,.16) 0 3px, transparent 3px 41px);
+}
+.room-quantum > * { position: relative; z-index: 1; }
+.room-quantum h1 { font-family: 'VT323', monospace; font-size: clamp(56px,10vw,108px); line-height: .82; color: var(--cyan); text-shadow: 3px 0 0 rgba(255,45,149,.8), -3px 0 0 rgba(34,224,106,.8); margin: 14px 0 0; }
+.room-quantum .lede { font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(22px,3.4vw,30px); line-height: 1.3; color: #d8d4ff; max-width: 40ch; margin: 16px 0 0; }
+.room-quantum a { color: var(--cyan); }
+
+.qcard { border: 2px solid #2a2d5c; border-radius: 16px; padding: 22px 24px; }
+.qcard blockquote { margin: 0; font-family: 'Instrument Serif', serif; font-size: clamp(22px,3vw,30px); line-height: 1.24; color: #fff; }
+.qcard cite { display: block; margin-top: 14px; font-family: var(--sans); font-size: 13px; font-style: normal; line-height: 1.5; color: #a6a1d4; }
+.qcard--barad { background: rgba(0,212,255,.05); }
+.qcard--helen { background: rgba(34,224,106,.05); }
+.qcard--helen a { color: var(--green); }
+
+.fringe { position: relative; height: 210px; border-radius: 12px; overflow: hidden; background: #0a0d22; border: 1px solid #2a2d5c; }
+.fringe::before, .fringe::after { content: ""; position: absolute; inset: 0; }
+.fringe::before { background-image: repeating-linear-gradient(90deg, rgba(0,212,255,.55) 0 4px, transparent 4px 22px); }
+.fringe::after  { background-image: repeating-linear-gradient(90deg, rgba(255,45,149,.45) 0 4px, transparent 4px 29px); }
+.fringe span { position: absolute; left: 0; right: 0; bottom: 14px; text-align: center; font-family: 'VT323', monospace; font-size: 21px; color: #fff; z-index: 1; }
+
+.collapse { display: flex; gap: 10px; flex-wrap: wrap; }
+.collapse button { flex: 1 1 140px; cursor: pointer; font-family: 'VT323', monospace; font-size: 20px; padding: 12px 8px; border-radius: 10px; background: transparent; }
+.collapse .a { border: 2px solid var(--cyan);  color: var(--cyan); }
+.collapse .b { border: 2px solid var(--pink);  color: var(--pink); }
+.collapse .c { border: 2px solid var(--green); color: var(--green); background: rgba(34,224,106,.14); }
+.collapse button[aria-pressed="true"] { background: currentColor; }
+.collapse button[aria-pressed="true"] span { color: #05060f; }
+
+.term { font-family: 'VT323', monospace; font-size: 22px; color: var(--pink); margin: 0; }
+
+
+/* §9 ── ROOM: Enid's Room ────────────────────────────────────────────────────
+   Black walls, technicolour everything else. The room for the one who does not
+   match the house — and the template the empty storefront is built from. */
+
+.room-enid { background: #101014; color: #ece8f5; }
+.room-enid .backlink { font-family: 'Special Elite', var(--sans); font-size: 14px; letter-spacing: 0; color: var(--pink); }
+.room-enid .glow {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    radial-gradient(ellipse at 84%  8%, rgba(172,91,255,.24) 0%, rgba(16,16,20,0) 55%),
+    radial-gradient(ellipse at  6% 92%, rgba(34,224,106,.18) 0%, rgba(16,16,20,0) 55%);
+}
+.room-enid > * { position: relative; z-index: 1; }
+.room-enid h1 { font-family: 'Bungee Shade', var(--sans); font-size: clamp(42px,7.5vw,76px); line-height: .96; color: var(--green); margin: 12px 0 0; }
+.room-enid h2 { font-family: 'Bungee', var(--sans); font-size: 15px; letter-spacing: 1px; margin: 0; }
+.room-enid a { color: var(--green); }
+
+.panel { border: 3px solid #2a2a34; border-radius: 18px; padding: 22px 24px; background: #16161d; }
+.panel--pink { border-color: var(--pink); }
+
+.stickers { list-style: none; display: flex; flex-wrap: wrap; gap: 11px; margin: 16px 0 0; padding: 0; }
+.stickers a { display: inline-block; color: #101014; text-decoration: none; padding: 9px 15px; font-size: 15px; }
+.stickers a:hover { text-decoration: underline; }
+.stickers .s1 { font-family: 'Bungee', var(--sans);        background: var(--pink);   border-radius: 24px; transform: rotate(-3deg); }
+.stickers .s2 { font-family: 'Bungee', var(--sans);        background: var(--green);  border-radius: 6px;  transform: rotate(2deg); }
+.stickers .s3 { font-family: 'Special Elite', var(--sans); background: var(--yellow); border-radius: 24px; transform: rotate(-1deg); font-size: 17px; }
+.stickers .s4 { font-family: 'Bungee', var(--sans);        background: var(--cyan);   border-radius: 6px;  transform: rotate(3deg); }
+.stickers .s5 { font-family: 'Rock Salt', var(--sans);     background: var(--violet); border-radius: 24px; transform: rotate(-2deg); font-size: 13px; }
+.stickers .s6 { font-family: 'Bungee', var(--sans);        background: var(--orange); border-radius: 6px;  transform: rotate(1.5deg); }
+.stickers .s7 { font-family: 'Special Elite', var(--sans); background: var(--red);    border-radius: 24px; transform: rotate(-2.5deg); color: #fff; font-size: 17px; }
+html[data-intensity="gentle"] .stickers a { transform: none; }
+
+.polaroid { background: #ece8f5; border-radius: 4px; padding: 11px 11px 0; transform: rotate(-2deg); }
+.polaroid__plate { aspect-ratio: 1; background: #2a2a34; border-radius: 2px; }
+.polaroid figcaption { font-family: 'Rock Salt', var(--sans); font-size: 11px; color: #3a3644; padding: 14px 0; line-height: 1.4; }
+html[data-intensity="gentle"] .polaroid { transform: none; }
+
+.boombox { border: 2px solid #2a2a34; border-radius: 12px; padding: 15px; display: flex; gap: 11px; align-items: center; }
+.boombox .cone { width: 44px; height: 44px; border-radius: 50%; border: 3px solid #6d6a7a; flex: none; }
+
+
+/* §10 ── ROOM: The Playhouse ─────────────────────────────────────────────────
+   Saturated primaries, checkerboard floor, everything is a real button. */
+
+.room-play { background: var(--blue); color: #fff; }
+.room-play .backlink { color: #fff; }
+.room-play h1 { font-family: 'Titan One', var(--sans); font-size: clamp(44px,8vw,78px); line-height: .95; color: var(--yellow); text-shadow: 5px 5px 0 #101014; margin: 12px 0 0; }
+.room-play .lede { font-size: 19px; font-weight: 500; max-width: 46ch; }
+.room-play a { color: var(--yellow); }
+
+.bunting { height: 40px; border-bottom: 5px solid #101014; background-image: repeating-linear-gradient(90deg, var(--red) 0 44px, var(--yellow) 44px 88px, var(--green) 88px 132px, var(--violet) 132px 176px); }
+
+.secret { background: var(--red); border: 5px solid #101014; border-radius: 20px; padding: 18px 20px; transform: rotate(2deg); }
+html[data-intensity="gentle"] .secret { transform: none; }
+.secret h2 { font-family: 'Bungee', var(--sans); font-size: 13px; letter-spacing: 1px; color: var(--yellow); margin: 0; }
+.secret p  { font-family: 'Titan One', var(--sans); font-size: clamp(30px,4.6vw,42px); line-height: 1; color: #fff; margin: 7px 0 8px; }
+.secret small { font-size: 13px; color: #ffe0e2; font-weight: 500; }
+
+.toys { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; margin: 0; padding: 0; list-style: none; }
+@media (max-width: 620px) { .toys { grid-template-columns: 1fr; } }
+.toy {
+  width: 100%; cursor: pointer; text-align: left; font-family: var(--sans);
+  border: 5px solid #101014; border-radius: 24px; padding: 20px 18px;
+  display: flex; flex-direction: column; gap: 12px; min-height: 168px;
+  transition: transform .15s ease;
+}
+.toy strong { font-family: 'Titan One', var(--sans); font-weight: 400; font-size: 27px; line-height: 1.05; }
+.toy span   { font-size: 13.5px; line-height: 1.45; font-weight: 500; }
+.toy--yellow { background: var(--yellow); color: #101014; } .toy--yellow span { color: #3a3200; }
+.toy--green  { background: var(--green);  color: #101014; } .toy--green  span { color: #0a3a1c; }
+.toy--violet { background: var(--violet-deep); color: #fff; }    .toy--violet span { color: #efe2ff; }
+.toy--orange { background: var(--orange); color: #101014; } .toy--orange span { color: #3d2100; }
+
+.rules { background: #fff; border: 5px solid #101014; border-radius: 24px; padding: 20px 22px; color: #101014; }
+.rules h2 { font-family: 'Bungee', var(--sans); font-size: 14px; letter-spacing: 1px; color: var(--red); margin: 0 0 12px; }
+.rules p { margin: 0 0 12px; font-size: 14.5px; line-height: 1.55; }
+
+.floor { height: 84px; border-top: 5px solid #101014; background-image: repeating-conic-gradient(#101014 0deg 90deg, #fff 90deg 180deg); background-size: 44px 44px; display: flex; align-items: center; justify-content: center; }
+.floor span { background: #101014; padding: 9px 22px; border-radius: 30px; font-family: 'Bungee', var(--sans); font-size: 14px; color: var(--yellow); letter-spacing: 1px; }
+
+
+/* §11 ── The plain rooms: Your Room, Liner Notes, Changelog ──────────────────
+   Three pages that have a job rather than a vibe. They take the street's night
+   ground and one accent, and otherwise get out of the way. A site this loud
+   needs somewhere to put a list. */
+
+.room-plain { background: var(--ink); color: #fff; }
+.room-plain .backlink { color: var(--yellow); }
+.room-plain h1 { font-family: 'Bungee', var(--sans); font-size: clamp(34px,5.6vw,58px); line-height: 1.05; color: var(--yellow); margin: 14px 0 0; }
+.room-plain h2 { font-family: 'Bungee', var(--sans); font-size: 19px; color: var(--cyan); letter-spacing: .5px; margin: 34px 0 12px; }
+.room-plain h3 { font-family: 'Archivo Black', var(--sans); font-size: 16px; color: #fff; margin: 22px 0 6px; }
+.room-plain p, .room-plain li { font-size: 16.5px; line-height: 1.62; }
+.room-plain .lede { font-size: 20px; line-height: 1.5; color: var(--chalk); max-width: 62ch; }
+.room-plain a { color: var(--yellow); }
+.room-plain a:hover { color: #fff; }
+.room-plain .card { background: var(--ink-2); border: 3px solid var(--ink-3); border-radius: 16px; padding: 22px 24px; margin: 18px 0; }
+.room-plain .card--call { border-color: var(--pink); }
+.room-plain dl.credits { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 18px; }
+.room-plain dl.credits dt { font-family: 'Bungee', var(--sans); font-size: 13px; color: var(--green); letter-spacing: .5px; }
+.room-plain dl.credits dd { margin: 5px 0 0; font-size: 14.5px; line-height: 1.55; color: var(--chalk); }
+.room-plain table { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.room-plain th, .room-plain td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--ink-3); font-size: 14.5px; vertical-align: top; }
+.room-plain th { font-family: 'Bungee', var(--sans); font-weight: 400; font-size: 12px; color: var(--chalk); letter-spacing: .5px; }
+
+
+/* §12 ── Small screens ───────────────────────────────────────────────────────
+   The street stacks; nothing is dropped. Every room reads at 360px. */
+
+@media (max-width: 720px) {
+  body { font-size: 16px; }
+  .wrap { width: calc(100% - 32px); }
+  .masthead { flex-direction: column; gap: 22px; }
+  .masthead__dial { flex: 1 1 auto; width: 100%; }
+  .tagline { gap: 8px 12px; }
+  .zine-cols { columns: 1; }
+  .door { min-height: 0; }
+}
+
+
+/* §13 ── Print ───────────────────────────────────────────────────────────────
+   The zine room's own rule, applied site-wide: if it needs colour to make
+   sense, it does not go in the zine. Ink on paper, decoration dropped. */
+
+@media print {
+  body { background: #fff !important; color: #000 !important; font-size: 11pt; }
+  .sparkle, .glow, .grain, .marquee, .dial, .bunting, .floor, .fringe { display: none !important; }
+  .door, .panel, .card, .qcard, .toy, .rules, .keeps { border: 1pt solid #000 !important; background: #fff !important; color: #000 !important; break-inside: avoid; }
+  a { color: #000 !important; text-decoration: underline; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; word-break: break-all; }
+  h1, h2, h3, p, li, blockquote { color: #000 !important; text-shadow: none !important; }
+  * { transform: none !important; }
+}
+
+/* The fringe's three states, driven by the superposition panel in love.js.
+   "open" is the default and shows both patterns at once. */
+.fringe[data-state="a"]::after  { display: none; }
+.fringe[data-state="b"]::before { display: none; }
