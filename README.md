@@ -78,13 +78,20 @@ python3 tools/check-contrast.py    # 66 pairs against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
 ```
 
+One more, deliberately **outside** that sequence because it is the only tool that needs the
+network — a checker that fails on a train either blocks a deploy or teaches everyone to skip it:
+
+```bash
+python3 tools/check-jukebox.py     # presses nothing, but asks YouTube whether all ten still play
+```
+
 Run all six before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
 is missing a canonical or if an HTML file exists that is not in its page order, `make-csp.py`
 stops if the inline snippet has drifted between pages — because a stale hash does not warn, it
 silently breaks the dial for everyone — and `check-print.py` stops if it cannot find a Chrome to
 render with, rather than passing a claim it did not test.
 
-`check-print.py` is the only tool that needs anything installed: a Chrome or Chromium, which it
+`check-print.py` is the only tool that needs anything *installed*: a Chrome or Chromium, which it
 drives headless to produce a real PDF and count the sheets. Point it elsewhere with
 `CHECK_PRINT_BROWSER=/path/to/chrome`. It checks the sheet count only — not the other half of the
 same sentence, "in black and white".

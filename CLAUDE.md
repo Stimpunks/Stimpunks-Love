@@ -60,6 +60,12 @@ pages, because **a stale CSP hash does not warn**: the browser silently refuses 
 every reader who asked for Gentle gets flashed the loud version instead. That is precisely the
 failure the dial exists to prevent, arriving through the security header.
 
+`check-jukebox.py` asks YouTube whether all ten tracks still play, and is the one tool kept out
+of the pre-deploy sequence because it needs the network. **Two obvious ways to test this do not
+work** and were each ruled out the hard way: oEmbed returns 200 with the right title for a dead
+video, and loading `youtube.com/embed/<id>` gives Error 153 for every video including working
+ones. The watch page's `playabilityStatus` is the only thing that tells them apart.
+
 When a tool refuses, fix the cause. Do not loosen the tool.
 
 ## Where the content came from, so you do not re-derive it wrongly
