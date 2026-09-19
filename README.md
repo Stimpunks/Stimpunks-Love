@@ -31,7 +31,7 @@ the visitor is the authority on their own tolerance and a media query is not.
 
 The default is applied by a small inline snippet in each `<head>`, **before first paint**.
 Deferring it to `love.js` would flash the loud version at somebody whose device asked for the
-quiet one. That snippet is byte-identical on all nine pages and its hash is in the CSP — see
+quiet one. That snippet is byte-identical on all ten pages and its hash is in the CSP — see
 `tools/make-csp.py`.
 
 ## What stays careful here
@@ -41,7 +41,7 @@ the balanced tone — was dropped deliberately.
 
 - **Attribution.** A licence, not a house style. Every song, typeface, quotation and borrowed
   name is credited in `liner-notes.html`, and the credits are loud rather than hidden.
-- **Contrast.** Clashing is not the same as illegible. `tools/check-contrast.py` holds 65 pairs
+- **Contrast.** Clashing is not the same as illegible. `tools/check-contrast.py` holds 66 pairs
   to WCAG 1.4.3 and **found two real failures on the first run**, which is the argument for
   having it.
 
@@ -50,7 +50,8 @@ the balanced tone — was dropped deliberately.
 ```
 index.html            The Stoop — the front door and the six shopfronts
 pink-pony-club.html   The dancefloor. Ten press-to-play facades
-zine-table.html       Riot grrrl xerox. Also the page that states the two rules above
+zine-table.html       Riot grrrl xerox. The table itself, and issue #1
+zine-issue-2.html     Issue #2, distilled from our Neurodiversity and Gender course
 hear-queer-here.html  Quantum queering — Barad, Helen Edgar, a superposition panel
 enids-room.html       Colorful goth. Sticker wall wired to seven glossary entries
 playhouse.html        Four toys, all real buttons, all synthesised
@@ -73,7 +74,7 @@ python3 tools/make-jukebox.py      # the track list in pink-pony-club.html
 python3 tools/make-liner-notes.py  # the same tracks as credits in liner-notes.html
 python3 tools/make-sitemap.py      # sitemap.xml and llms.txt, from the pages' own heads
 python3 tools/make-csp.py          # the script hash in _headers
-python3 tools/check-contrast.py    # 65 pairs against WCAG; exits 1 on a failure
+python3 tools/check-contrast.py    # 66 pairs against WCAG; exits 1 on a failure
 ```
 
 Run all five before a deploy. Three of them **refuse** rather than guess: `make-sitemap.py`

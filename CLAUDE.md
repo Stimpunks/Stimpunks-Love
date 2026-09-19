@@ -41,7 +41,7 @@ decision into a false statement on a published page.
    and zero requests to youtube on load; one iframe after one press; the other nine facades
    untouched. If you touch `love-embed.js`, re-check it in the network panel rather than
    reasoning about it.
-2. **"Clashing is not the same as illegible."** `tools/check-contrast.py`, 65 pairs. It found
+2. **"Clashing is not the same as illegible."** `tools/check-contrast.py`, 66 pairs. It found
    two real failures the first time it ran — white body copy on the Playhouse blue at 4.17, and
    the word clock's copy on violet at 3.36 — both of which would have shipped. **Add a pair to
    that file whenever you add a colour to a room.** A checker that does not know about the new

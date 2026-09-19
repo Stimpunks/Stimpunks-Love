@@ -8,7 +8,8 @@ a list that is wrong the first time somebody adds a room and forgets.
 import pathlib, re, datetime, html
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-ORDER = ["index.html", "pink-pony-club.html", "zine-table.html", "hear-queer-here.html",
+ORDER = ["index.html", "pink-pony-club.html", "zine-table.html", "zine-issue-2.html",
+         "hear-queer-here.html",
          "enids-room.html", "playhouse.html", "your-room.html", "liner-notes.html",
          "changelog.html"]
 

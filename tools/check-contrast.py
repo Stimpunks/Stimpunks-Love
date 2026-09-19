@@ -54,6 +54,7 @@ PAIRS = [
     (PAPER,   INK,  False, "zine: pullquote body"),
     ("#b9b2a3", INK, False, "zine: pullquote citation"),
     (PAPER,   RED,  True,  "zine: ransom 'PHASE'"),
+    (INK,     CYAN, True,  "zine: ransom 'A' (#1) and 'RAINBOWS' (#2)"),
     (CYAN,    "#05060f", True,  "quantum: h1"),
     ("#d8d4ff", "#05060f", False, "quantum: lede and body"),
     ("#a6a1d4", "#05060f", False, "quantum: citations"),
