@@ -26,11 +26,16 @@ network, and a checker that fails on a train would either block a deploy or
 teach everyone to skip it. Run it when you think of it, or when a track looks
 wrong. The other tools stay offline and stay in the sequence.
 
-CHANNEL DRIFT is reported but never fails the run. A channel being renamed is
-not a broken page: Merge Records became "Merge Records on YouTube" after the
-ids were extracted, and recording that verbatim would print "on YouTube, via
-Merge Records on YouTube" in the credits. It is a thing for a person to decide
-about, not for a tool to refuse over.
+CHANNEL DRIFT is reported but never fails the run, because a channel being
+renamed is not a broken page.
+
+  The name printed in the credits is 'channel' and is allowed to be a wording
+  choice: "Merge Records", not YouTube's current "Merge Records on YouTube";
+  "Bad Cop / Bad Cop", not the auto-generated "Bad Cop Bad Cop - Topic". Where
+  the two differ the entry carries 'channel_verbatim', and THAT is what this
+  compares against. Otherwise every deliberate wording choice would be reported
+  as drift on every run, and a report that is always noisy is a report nobody
+  reads -- which would cost us the one signal this part exists to give.
 
 TITLES ARE NOT CHECKED. The stored titles are deliberately split from the
 artist and trimmed -- "Live at Paste Studio NYC", not the full upload title --
@@ -98,13 +103,16 @@ def main():
             dead.append((t, status))
 
         print(f"{mark} {status or 'no answer':<14} {t['artist']} — {t['title']}")
-        if chan and chan != t["channel"]:
-            drift.append((t, chan))
+        expected = t.get("channel_verbatim", t["channel"])
+        if chan and chan != expected:
+            drift.append((t, expected, chan))
 
     if drift:
         print("\nchannel renamed since the id was extracted (not a failure):")
-        for t, now in drift:
-            print(f"  {t['artist']}: stored {t['channel']!r} — now {now!r}")
+        for t, expected, now in drift:
+            print(f"  {t['artist']}: recorded {expected!r} — now {now!r}")
+        print("  If the new name is right, update 'channel_verbatim' (or 'channel' if there\n"
+              "  is no verbatim field) so this stays quiet and the next rename is visible.")
 
     print(f"\n{len(tracks)} tracks checked, {len(dead)} not playable.")
 
