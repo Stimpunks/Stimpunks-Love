@@ -2,5 +2,14 @@
 node_modules/
 *.log
 
+# Claude Code — machine-local settings only.
+#
+# `.claude/launch.json` IS tracked, the way it is in every sibling repo: how you
+# serve the site locally is part of the repo's setup, not something each person
+# rediscovers. Same reasoning as netlify.toml being kept here rather than only in
+# the dashboard. This file holds whatever one machine has additionally allowed,
+# which is nobody else's business and would be noise in a diff.
+.claude/settings.local.json
+
 # Local Netlify folder
 .netlify

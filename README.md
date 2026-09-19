@@ -95,7 +95,9 @@ same sentence, "in black and white".
 npx -y serve . -l 8919
 ```
 
-There is no build step and no dependency to install.
+Or start it from `.claude/launch.json`, which is tracked here for the same reason it is in
+every sibling repo. There is no build step; the only thing to install is a Chrome for
+`check-print.py`.
 
 ## Attribution
 
