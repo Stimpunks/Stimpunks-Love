@@ -2,9 +2,10 @@
 """Rebuild the jukebox list in pink-pony-club.html from data/jukebox.json.
 
 The tracks are between the two markers below and nothing else in the page is
-touched. Every id in that file came out of our own published Double Rainbow
-page; the titles and channels were resolved against YouTube's oEmbed endpoint
-rather than typed from memory. If you add a track, add it there and run this —
+touched. Every id in that file came out of our own published Double Rainbow page,
+except where a video has since stopped playing and carries a 'replaced' note
+saying where its id came from instead; the titles and channels were
+resolved against YouTube's oEmbed endpoint rather than typed from memory. If you add a track, add it there and run this —
 do not hand-edit the list, because a hand-edited entry has no provenance.
 """
 import json, re, pathlib, html

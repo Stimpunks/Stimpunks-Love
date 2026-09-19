@@ -28,6 +28,12 @@
   <h1>Changelog</h1>
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
 
+  <h2>2026-09-19 &mdash; a dead track on the dancefloor</h2>
+  <ul>
+    <li><strong>Bad Cop / Bad Cop, &ldquo;Warriors&rdquo;, has a new id.</strong> The id carried over from our <a href="https://stimpunks.org/philosophy/were-a-double-rainbow-all-the-way/">Double Rainbow</a> page had started returning &ldquo;Video unavailable&rdquo; inside the embed. Replaced with one that plays, resolved against oEmbed like every other entry, with the old id and the reason kept in <code>data/jukebox.json</code> rather than quietly overwritten.</li>
+    <li><strong>The other nine were checked too</strong>, and all nine play. Worth saying plainly how, because two obvious tests are useless here: YouTube&rsquo;s oEmbed endpoint answers <code>200</code> for a video that will not play, and loading an embed URL directly fails identically for every video, working or not. What distinguishes them is the watch page&rsquo;s own <code>playabilityStatus</code>, which read <code>UNPLAYABLE</code> for the dead one and <code>OK</code> for the rest.</li>
+  </ul>
+
   <h2>2026-09-19 &mdash; the zine table takes issues</h2>
   <p>The Zine Table stops being one sheet and becomes a table with sheets on it.</p>
   <ul>
