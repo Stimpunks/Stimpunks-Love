@@ -51,7 +51,10 @@ decision into a false statement on a published page.
 
 ## The tools refuse rather than guess, and that is deliberate
 
-`make-sitemap.py` stops if an HTML file exists that is not in its page order — so a new room
+`check-print.py` renders every `room-zine` page to a PDF and fails if it is not one sheet — the
+room's "prints to one sheet" line was *false at launch*, at three sheets, and adding one paragraph
+to that room has put it back over the limit twice since. `make-sitemap.py` stops if an HTML file
+exists that is not in its page order — so a new room
 cannot be published unlisted. `make-csp.py` stops if the pre-paint snippet has drifted between
 pages, because **a stale CSP hash does not warn**: the browser silently refuses the snippet and
 every reader who asked for Gentle gets flashed the loud version instead. That is precisely the

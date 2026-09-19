@@ -75,12 +75,19 @@ python3 tools/make-liner-notes.py  # the same tracks as credits in liner-notes.h
 python3 tools/make-sitemap.py      # sitemap.xml and llms.txt, from the pages' own heads
 python3 tools/make-csp.py          # the script hash in _headers
 python3 tools/check-contrast.py    # 66 pairs against WCAG; exits 1 on a failure
+python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
 ```
 
-Run all five before a deploy. Three of them **refuse** rather than guess: `make-sitemap.py`
-stops if a page is missing a canonical or if an HTML file exists that is not in its page order,
-and `make-csp.py` stops if the inline snippet has drifted between pages — because a stale hash
-does not warn, it silently breaks the dial for everyone.
+Run all six before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
+is missing a canonical or if an HTML file exists that is not in its page order, `make-csp.py`
+stops if the inline snippet has drifted between pages — because a stale hash does not warn, it
+silently breaks the dial for everyone — and `check-print.py` stops if it cannot find a Chrome to
+render with, rather than passing a claim it did not test.
+
+`check-print.py` is the only tool that needs anything installed: a Chrome or Chromium, which it
+drives headless to produce a real PDF and count the sheets. Point it elsewhere with
+`CHECK_PRINT_BROWSER=/path/to/chrome`. It checks the sheet count only — not the other half of the
+same sentence, "in black and white".
 
 ## Serving it locally
 
