@@ -1,0 +1,18 @@
+# stimpunks.love — static files, no build step. Netlify serves them as-is.
+# Pushing to main publishes. There is no staging step.
+#
+# Kept in the repository rather than only in the dashboard so the deploy setup is
+# reviewable in a diff like everything else.
+
+[build]
+  publish = "."
+  command = ""
+
+[build.processing]
+  skip_processing = true
+
+# Response headers and redirects live in _headers and _redirects beside this file,
+# where they were already written, rather than being restated here. _redirects
+# keeps its netlify.app -> custom-domain rule COMMENTED OUT until stimpunks.love
+# actually resolves: redirecting the only working hostname to one that does not
+# is a site that is simply down.
