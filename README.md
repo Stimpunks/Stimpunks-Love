@@ -93,8 +93,10 @@ render with, rather than passing a claim it did not test.
 
 `check-print.py` is the only tool that needs anything *installed*: a Chrome or Chromium, which it
 drives headless to produce a real PDF and count the sheets. Point it elsewhere with
-`CHECK_PRINT_BROWSER=/path/to/chrome`. It checks the sheet count only — not the other half of the
-same sentence, "in black and white".
+`CHECK_PRINT_BROWSER=/path/to/chrome`. It checks both halves of the room's claim: one sheet, and
+"in black and white", the latter by reading the inks out of the PDF against an allowlist. Borders
+keep their own colour — the reset covers backgrounds, text and shadows — which is why the two
+near-neutral border tints are on that list.
 
 ## Serving it locally
 

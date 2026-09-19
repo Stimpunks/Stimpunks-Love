@@ -17,14 +17,34 @@ WHICH PAGES: any page whose body carries class="room-zine", found by reading the
 files rather than from a list here. The claim belongs to the room, so a page that
 joins the room inherits it, and issue #3 is covered without editing this tool.
 
-WHAT THIS DOES NOT CHECK: the other half of the same sentence, "in black and
-white. If it needs colour to make sense, it does not go in the zine." Colour in
-the output is not checked here. Do not read a pass as covering it.
+IT ALSO CHECKS THE OTHER HALF of the same sentence, "in black and white", by
+reading the inks out of the PDF and refusing any that are not on the list below.
+That half was false too. The print rules used to reset backgrounds on a LIST of
+components, so every box not on the list kept its colour: the ransom note printed
+in full yellow, cyan and red, and .pullquote plus the dark credit boxes kept a
+near-black ground while the text on them was forced to #000 -- 1.14:1, invisible.
+The most prominent quotation on each sheet and the whole attribution box were
+lost that way, on the page that argues attribution is the cheapest thing you can
+do.
+
+An allowlist rather than a threshold, for the same reason check-contrast.py holds
+named pairs: a new ink has to be looked at by a person. Adding a colour to the
+room and finding it in the printed output is exactly the moment to decide whether
+it survives the photocopier, and a tool that quietly tolerated it would be a tool
+that let the claim rot again.
+
+WHAT IT STILL DOES NOT CHECK is text drawn on a ground it cannot be read against,
+directly. Doing that from a PDF needs full graphics-state and transform tracking;
+the attempt returned zero findings on pages that visibly had the bug, which is
+worse than no check, so it is not here. The ink allowlist covers the cause rather
+than the symptom: the grounds that made text invisible were themselves inks that
+are no longer allowed.
 """
 import os
 import re
 import shutil
 import subprocess
+import zlib
 import sys
 import tempfile
 from pathlib import Path
@@ -54,6 +74,54 @@ def find_browser():
     )
 
 
+# Every ink the zine is allowed to print with, as PDF colour operands (0..1).
+# Black is the text, white is the paper, and the two tinted near-neutrals are
+# border colours the room already uses -- var(--ink) on solid boxes and #7a7264
+# on dashed ones. Nothing else. If you add an ink to the room and it reaches the
+# paper, decide on purpose whether it belongs and then put it here.
+ALLOWED_INK = {
+    (0.0, 0.0, 0.0):              "black - text",
+    (1.0, 1.0, 1.0):              "white - paper",
+    (0.0824, 0.0706, 0.1216):     "#15121f var(--ink) - solid borders",
+    (0.4784, 0.4471, 0.3922):     "#7a7264 - dashed borders",
+}
+TOKEN = re.compile(rb"(-?(?:\d+\.?\d*|\.\d+))|([A-Za-z*'\"]+)")
+
+
+def inks_in(pdf: bytes):
+    """Every colour the PDF actually sets, from its content streams."""
+    text = b""
+    for chunk in re.findall(rb"stream\r?\n(.*?)endstream", pdf, re.S):
+        try:
+            text += zlib.decompress(chunk.strip(b"\r\n"))
+        except zlib.error:
+            pass  # not every stream is Flate, and the rest are not ink
+    stack, used = [], set()
+    for m in TOKEN.finditer(text):
+        if m.group(1) is not None:
+            stack.append(float(m.group(1)))
+            continue
+        op = m.group(2)
+        n = 3 if op in (b"rg", b"RG") else 1 if op in (b"g", b"G") else 0
+        if n and len(stack) >= n:
+            vals = tuple(round(v, 4) for v in stack[-n:])
+            # operands outside 0..1 are our tokenizer catching unrelated numbers
+            if all(0.0 <= v <= 1.0 for v in vals):
+                used.add(vals if n == 3 else (vals[0],) * 3)
+        stack = []
+    return used
+
+
+def nearest_allowed(ink, tol=0.02):
+    return any(all(abs(a - b) <= tol for a, b in zip(ink, ok)) for ok in ALLOWED_INK)
+
+
+def describe(ink):
+    r, g, b = (int(round(c * 255)) for c in ink)
+    spread = max(ink) - min(ink)
+    return f"#{r:02X}{g:02X}{b:02X}" + ("  (colour)" if spread > 0.12 else "  (grey)")
+
+
 def sheets_in(pdf: bytes) -> int:
     """Count pages in a Chrome-produced PDF without a PDF library."""
     n = len(re.findall(rb"/Type\s*/Page(?![s/\w])", pdf))
@@ -77,7 +145,7 @@ def main():
             "renamed and this tool was not, or it is gone. Both need a human."
         )
 
-    fails = []
+    fails, inkbad = [], []
     with tempfile.TemporaryDirectory() as tmp:
         for page in pages:
             out = Path(tmp) / (page.stem + ".pdf")
@@ -89,20 +157,37 @@ def main():
                  f"--print-to-pdf={out}", page.as_uri()],
                 check=True, capture_output=True, timeout=120,
             )
-            n = sheets_in(out.read_bytes())
-            mark = "ok  " if n == 1 else "FAIL"
-            print(f"{mark} {n} sheet{'s' if n != 1 else ' '}  {page.name}")
+            pdf = out.read_bytes()
+            n = sheets_in(pdf)
+            stray = sorted(i for i in inks_in(pdf) if not nearest_allowed(i))
+            ok = (n == 1 and not stray)
+            print(f"{'ok  ' if ok else 'FAIL'} {n} sheet{'s' if n != 1 else ' '} "
+                  f"{len(stray)} stray ink{'s' if len(stray) != 1 else ' '}  {page.name}")
+            for i in stray:
+                print(f"       {describe(i)}")
             if n != 1:
                 fails.append((page.name, n))
+            if stray:
+                inkbad.append((page.name, stray))
 
-    print(f"\n{len(pages)} zine page(s) rendered, {len(fails)} over one sheet.")
+    print(f"\n{len(pages)} zine page(s) rendered, {len(fails)} over one sheet, "
+          f"{len(inkbad)} printing ink that is not on the list.")
+    if inkbad:
+        print(
+            "\nThe room says it prints in black and white. An ink that is not on\n"
+            "ALLOWED_INK reached the paper, which means a background or a text colour\n"
+            "survived the print reset in love.css section 13. Check that the universal\n"
+            "reset still covers it before deciding the ink belongs on the list --\n"
+            "the last time this happened the grounds stayed dark, the text on them was\n"
+            "forced black, and two whole boxes printed invisible."
+        )
     if fails:
         print(
             "\nThe room's own copy says every page in it prints to one sheet. Cut "
             "something,\nor tighten the room's print rules in love.css section 13 -- "
             "do not edit the claim\nout of zine-table.html to make this pass."
         )
-    sys.exit(1 if fails else 0)
+    sys.exit(1 if (fails or inkbad) else 0)
 
 
 if __name__ == "__main__":

@@ -550,7 +550,26 @@ html[data-intensity="gentle"] .secret { transform: none; }
   /* Fix the sheet ourselves. Left to the browser's margin setting the zine's
      one-sheet promise depends on a print dialog we do not control. */
   @page { size: letter; margin: 0.4in; }
-  body { background: #fff !important; color: #000 !important; font-size: 11pt; }
+
+  /* Ink on paper, everywhere, with no exceptions by class.
+     This used to reset backgrounds on a LIST of components, which meant every
+     box not on the list kept its colour: the ransom note printed in full yellow,
+     cyan and red, and .pullquote plus the dark credit boxes kept a near-black
+     ground while the rules below forced their text to #000 -- black on
+     #15121f, 1.14:1, invisible on paper. The most prominent quotation on each
+     zine sheet and the whole attribution box were lost that way, and about a
+     third of every sheet was solid toner.
+     Colour and text are therefore reset TOGETHER and universally. Doing either
+     alone breaks the other: white grounds under pale text (the .pullquote
+     <cite> at #b9b2a3) would read 1.9:1 just as badly the other way. */
+  *, *::before, *::after {
+    background: #fff !important;
+    background-image: none !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  body { font-size: 11pt; }
   .sparkle, .glow, .grain, .marquee, .dial, .bunting, .floor, .fringe { display: none !important; }
   .door, .panel, .card, .qcard, .toy, .rules, .keeps { border: 1pt solid #000 !important; background: #fff !important; color: #000 !important; break-inside: avoid; }
   a { color: #000 !important; text-decoration: underline; }
