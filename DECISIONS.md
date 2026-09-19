@@ -14,7 +14,7 @@ Settled choices and open ones, each with the reasoning, so the same question is 
 
 **Nobody has claimed Your Room.** The sixth storefront has terms, a route in, and no tenant. Open until somebody takes the keys — and it should stay visibly empty rather than be filled by us, because an empty room we decorate ourselves is scenery, which is the exact thing `your-room.html` says it is not.
 
-**The last line of the course is an empty slot.** Issue #2 of the zine has a box shaped for one or two lines of *Rainbow Shiner* by Ex Hex and nothing in it. What is missing is not permission, it is the credit the policy requires — the songwriter as distinct from the band, and which recording — and this repo does not guess a mapping. It stays visibly empty the way Enid's polaroids stay grey, because a slot that shows what it is waiting for is more use than one quietly closed up.
+**The last line of the course is an empty slot.** Issue #2 of the zine has a box shaped for one or two lines of *Rainbow Shiner* by Ex Hex and nothing in it. What is missing is not permission, it is the credit the policy requires. Every fact the policy asks for is now on the page (Ryan, 2026-09-19): written by Laura Harris, Betsy Wright and Mary Timony, who are Ex Hex themselves so no separate performer credit is owed, from *It's Real*, released 22 March 2019, linked to the band's own Bandcamp. Outstanding: only the line. It stays visibly empty the way Enid's polaroids stay grey, because a slot that shows what it is waiting for is more use than one quietly closed up.
 
 ----
 
