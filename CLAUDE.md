@@ -58,6 +58,42 @@ toys, so the arcade should look like the Playhouse" is the subroom excuse holdin
 That room is saturated primary blue, bunting and a checkerboard floor; this is a coin-op at
 midnight. They have nothing to do with each other and that is the door.
 
+**THE ARCADE IS A ROOM WHOSE PAGES ARE SUPPOSED TO LOOK ALIKE, AND IT IS THE ONLY ONE.** The
+foyer and each cabinet's page share the carpet, the marquee bulbs, the cabinet build and the
+pixel face, because that is what an arcade is: machines with one body and different things
+behind the glass. **The worlds here are the SCREENS** — a flat dark field and a kelp bay have
+nothing to do with each other. Do not "fix" the similarity, and do not cite it as licence to
+harmonise two actual rooms; it is the one place on this street where shared chrome is the
+subject rather than the failure. The chrome lives on `.arcade` and the card hook is a separate
+class per page (`room-arcade`, `game-quill`, `game-otter`), so the thing that styles and the
+thing that unfurls are never the same word and no ordering inside a `class` attribute decides
+which card a page gets.
+
+**AND A GAME GETS ITS OWN PAGE BECAUSE IT NEEDS ITS OWN CARD.** Both games shared `arcade.html`
+for about an hour, which meant a link to the otter game unfurled as a picture of a porcupine —
+`make-og.py`'s whole reason for existing, happening inside one room. A new cabinet gets a page, a
+card design that is its own screen, an entry in `make-sitemap.py`'s order, and its refusals
+written on it rather than in the foyer. The foyer states only what is true of every machine.
+
+**THE ARCADE'S OTTER CABINET CARRIES A CLAIM THAT CAN BE BROKEN BY A KINDNESS.** Otterly Adorbs
+is built on Helen Edgar's *Stimpunks Solidarity and Otters* and on Star Stuff's zine No. 58,
+*The Stone You Keep*, and that zine **refuses "rest so you can produce" in as many words** — the
+otter is not recharging in order to forage better tomorrow. So **floating fills nothing**: no
+meter, no stamina, no bonus afterwards, and the cabinet says so out loud. The obvious, friendly,
+well-meant improvement — *let floating restore something, it feels good to be rewarded* — would
+put a sentence on this page that another of our pages spends a spread refusing. Do not add it.
+The same goes for ranking the other otters (there is no standard otter), for rounding the clam's
+6-to-88 range into something tidier, and for making the stone compulsory (some otters never use
+one, and the ones who do keep their teeth). Every one of those numbers is in `otterly.js` beside
+the paper it came from.
+
+**AND IT FOLLOWS THE ZINE'S CORRECTION, NOT OUR OWN CHANGELOG.** stimpunks.org's week-28
+changelog describes the otter keeping "a favorite stone tucked in a pouch of skin" and returning
+to it "again and again". Zine No. 58 went to the primary and found that the lifelong favourite
+rock in an armpit pouch traces to popular retellings; what Hall & Schaller support is a stone
+kept and reused across successive food items **within a bout of feeding**. The game does the
+second thing. When two of our own pages disagree, the one that checked wins.
+
 **ESMX IS OURS *AND* KAYA OLDAKER IS STILL CREDITED — BOTH HALVES.** Stimpunks commissioned Esmx
 the Porkypine and holds the IP. An earlier draft of the Arcade said the opposite ("our mascot
 and not ours"), borrowing the framing from starstuff.earth's Quillery, which says Kaya's artwork
@@ -147,7 +183,11 @@ decision into a false statement on a published page.
    all `check-gentle.py` can see: a game hidden behind a transform would be asking that checker
    to take the room's word for something. The two transforms in the room are the sprite's
    centring translate and its `scaleX(-1)` turn — both layout, and both visible to the tool.
-   Keep it that way.
+   Keep it that way. **The otter cabinet holds the same line the hard way:** a twirl and a
+   somersault are runs of *drawn frames*, not a rotation applied to one of them, and the angled
+   poses are rotated inside their own `<svg>`, where a transform is part of the picture.
+   Rotating the sprite would have been three lines and would have made the room's own comment
+   false.
 
 ## The tools refuse rather than guess, and that is deliberate
 

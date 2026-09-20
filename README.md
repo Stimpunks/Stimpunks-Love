@@ -72,7 +72,9 @@ zine-issue-2.html     Issue #2, distilled from our Neurodiversity and Gender cou
 hear-queer-here.html  Quantum queering — Barad, Helen Edgar, a superposition panel
 enids-room.html       Colorful goth. Sticker wall wired to seven glossary entries
 playhouse.html        Four toys, all real buttons, all synthesised
-arcade.html           One cabinet. Esmx the Porkypine, and a game with no verb for throwing
+arcade.html           The Arcade's floor: cabinets standing there, walk up to one
+quill-drift.html      Esmx gathers drifting quills. Contact is the only verb it has
+otterly-adorbs.html   An otter, a kelp bay, and floating that fills nothing up
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
 faery-yurt.html       Pitch 01. Helen Edgar's candlelit yurt; her design, not ours
@@ -81,7 +83,8 @@ changelog.html        What changed, and when. Every Stimpunks site publishes one
 love.css              Shared base (§1–§4) then one self-contained world per room (§5–§15)
 love.js               The dial, the toys, the superposition panel
 love-embed.js         The press-to-play facade
-arcade.js             Quill Drift. Loaded by one page; nothing before the coin goes in
+arcade.js             Quill Drift. Loaded by its own page only; nothing before the coin
+otterly.js            Otterly Adorbs. The same, for the cabinet next to it
 fonts/                Self-hosted families, one per voice a room insisted on + _sources.json
 data/jukebox.json     The ten tracks, one source of truth for two pages
 data/chappell.json    The thirteen in The Chappell. A separate file for separate provenance

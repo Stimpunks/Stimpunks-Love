@@ -56,7 +56,7 @@ ORDINALS = ("second third fourth fifth sixth seventh eighth ninth tenth eleventh
 # tracks" in the jukebox and "thirteen" in The Chappell are real counts of real
 # data, generated from files holding exactly that many, and are none of this
 # tool's business.
-NOUNS = r"(?:rooms?|storefronts?|shopfronts?|doors?|worlds?|card designs?|share cards?)"
+NOUNS = r"(?:rooms?|storefronts?|shopfronts?|doors?|worlds?|card designs?|share cards?|cabinets?|games?)"
 
 # One adjective may sit between: a number, then "visual" or "card", then the noun.
 # (Written out rather than shown, because this file obeys its own rule -- see the

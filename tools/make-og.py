@@ -86,7 +86,7 @@ def find_browser():
 # hand, which is this site's whole argument compressed into one line of type.
 CARD_CSS = f"""
 html, body {{ width: {W}px; height: {H}px; margin: 0; padding: 0; overflow: hidden; }}
-body {{ display: flex; flex-direction: column; min-height: 0; }}
+body {{ display: flex; flex-direction: column; min-height: 0; position: relative; }}
 .og {{
   flex: 1 1 auto; min-height: 0; position: relative; z-index: 1;
   display: flex; flex-direction: column; justify-content: center;
@@ -245,6 +245,37 @@ body {{ display: flex; flex-direction: column; min-height: 0; }}
    full width of this. */
 .room-arcade .bulbs {{ gap: 30px; padding: 17px 16px; }}
 .room-arcade .bulbs span {{ width: 15px; height: 15px; }}
+
+/* quill — THE SCREEN, where the arcade's own card is the cabinet from outside.
+   Two cards for one room's machines have to differ from each other as well as
+   from the foyer's, or the split that gave them their own cards has bought
+   nothing. This one is the flat dark field with Esmx on it and loose quills
+   drifting past. */
+.og--quill {{ justify-content: space-between; padding: 52px 60px 56px; position: relative; z-index: 1; }}
+.og--quill .og-top {{ flex: 0 0 auto; display: flex; flex-direction: column; gap: 18px; }}
+.og--quill h1 {{ font-size: 62px; line-height: 1.2; margin: 0 !important; }}
+.og--quill .og-lede {{ color: #B9C6D6; font-size: 26px; line-height: 1.42; max-width: 640px; }}
+.og--quill .og-foot {{ font-family: 'Press Start 2P', monospace; color: #4BF0C6; letter-spacing: 0; font-size: 14px; }}
+.game-quill .og-scene {{ position: absolute; inset: 0; pointer-events: none; z-index: 0; }}
+.game-quill .sprite {{ position: absolute; left: 78%; top: 56%; width: 300px; }}
+.game-quill .og-quill {{ position: absolute; width: 46px; transform: translate(-50%, -50%); }}
+.game-quill .og {{ background: none; }}
+.game-quill {{ background: var(--crt); background-image: repeating-linear-gradient(0deg, transparent 0 4px, rgba(255,255,255,.035) 4px 8px); }}
+
+/* otter — the water, which no other card on this street has. Same cabinet,
+   nothing behind the glass in common. */
+.og--otter {{ justify-content: space-between; padding: 52px 60px 56px; position: relative; z-index: 1; }}
+.og--otter .og-top {{ flex: 0 0 auto; display: flex; flex-direction: column; gap: 18px; }}
+.og--otter h1 {{ font-size: 58px; line-height: 1.2; margin: 0 !important; }}
+.og--otter .og-lede {{ color: #F0D6B4; font-size: 26px; line-height: 1.42; max-width: 660px; }}
+.og--otter .og-foot {{ font-family: 'Press Start 2P', monospace; color: #7ABF5A; letter-spacing: 0; font-size: 14px; }}
+.game-otter .og-scene {{ position: absolute; inset: 0; pointer-events: none; z-index: 0; }}
+.game-otter .otter {{ position: absolute; left: 79%; top: 27%; width: 290px; }}
+.game-otter .otter .pose[data-pose="float"] {{ visibility: visible; }}
+.game-otter .og-waterline {{ position: absolute; left: 0; right: 0; top: 18%; height: 4px; background: #7ABF5A; opacity: .5; }}
+.game-otter .og-frond {{ position: absolute; bottom: 0; width: 84px; transform: translateX(-50%); }}
+.game-otter .og {{ background: none; }}
+.game-otter {{ background-image: repeating-linear-gradient(0deg, transparent 0 4px, rgba(255,255,255,.035) 4px 8px), linear-gradient(180deg, var(--shoal) 0 44%, var(--bay) 100%); }}
 
 /* plain — the four pages with a job rather than a vibe. Quiet, but pinned to
    the frame at both ends rather than floating in the middle of it: an empty
@@ -481,7 +512,7 @@ def card_arcade(p):
         f'<p class="arc-eyebrow">ROOM 07 · THERE IS NO COIN SLOT</p>'
         f'{p["h1"]}'
         f'<p class="og-lede">{p["desc"]}</p>'
-        f'<p class="og-foot" data-fit="footer">QUILL DRIFT · NO TIMER · NO SCORE · stimpunks.love</p>'
+        f'<p class="og-foot" data-fit="footer">QUILL DRIFT · OTTERLY ADORBS · NO SCORE · stimpunks.love</p>'
         f'</div>'
         f'{p["esmx"]}'
         f'</div>',
@@ -489,11 +520,60 @@ def card_arcade(p):
         f"top. On the left, small grey pixel capitals reading room 07, there is "
         f"no coin slot, then \u201c{p['h1text']}\u201d in a large "
         f"gold pixel face with a hard black shadow, and under it: "
-        f"{p['desc_plain']} Along the foot, in mint: Quill Drift, no timer, no "
-        f"score, stimpunks.love. On the right stands Esmx the Porkypine \u2014 a "
-        f"pink pig-porcupine with a green snout and belly, an earring in one ear "
-        f"and a chunk missing from the other \u2014 with a full rainbow mane of "
-        f"twelve spikes trailing back off their shoulders.",
+        f"{p['desc_plain']} Along the foot, in mint: Quill Drift, "
+        f"Otterly Adorbs, no score, stimpunks.love. On the right stands Esmx the "
+        f"Porkypine \u2014 a pink pig-porcupine with a green snout and belly, an "
+        f"earring in one ear and a chunk missing from the other \u2014 with a full "
+        f"rainbow mane of twelve spikes trailing back off their shoulders.",
+    )
+
+
+def card_quill(p):
+    # The three loose quills are DRAWN HERE and not lifted, and that is the one
+    # place this file retypes a shape. The quills on the playfield do not exist
+    # in the page: arcade.js makes them when somebody presses start, so there is
+    # nothing to lift. Esmx is lifted, mane and all.
+    q = ('<svg class="og-quill" viewBox="0 0 40 100" style="left:%s;top:%s"><polygon points="9,97 29,93 22,4" '
+         'fill="%s" stroke="#0B0413" stroke-width="2.4" stroke-linejoin="round"/></svg>')
+    scene = ('<div class="og-scene" aria-hidden="true">'
+             + q % ("62%", "26%", "#FFD93D") + q % ("50%", "72%", "#49D8FF")
+             + q % ("88%", "82%", "#FF7AC8") + p["esmx"] + '</div>')
+    return (
+        scene,
+        f'<div class="og og--quill" data-fit="card">'
+        f'<div class="og-top">{p["h1"]}<p class="og-lede">{p["desc"]}</p></div>'
+        f'<p class="og-foot" data-fit="footer">A CABINET IN THE ARCADE · NO TIMER · NO SCORE · stimpunks.love</p>'
+        f'</div>',
+        f"A flat near-black screen ruled with faint scanlines. \u201c{p['h1text']}\u201d in a "
+        f"large gold pixel face, and under it: {p['desc_plain']} Along the foot, in mint: a "
+        f"cabinet in the Arcade, no timer, no score, stimpunks.love. On the right stands Esmx "
+        f"the Porkypine \u2014 a pink pig-porcupine with a green snout and belly, an earring in "
+        f"one ear and a chunk missing from the other \u2014 with a full rainbow mane. Three "
+        f"loose quills in gold, blue and pink drift across the screen around them.",
+    )
+
+
+def card_otter(p):
+    frond = ('<svg class="og-frond" viewBox="0 0 40 300" style="left:%s;height:%s"><path d="M20 300 '
+             'C 6 230, 32 190, 18 130 C 8 86, 28 50, 20 4" fill="none" stroke="#6FB050" stroke-width="7" '
+             'stroke-linecap="round"/><path d="M20 250 q16 -12 20 2 M20 180 q-16 -12 -20 2 '
+             'M20 110 q16 -12 20 2 M20 56 q-16 -12 -20 2" fill="none" stroke="#7ABF5A" stroke-width="5" '
+             'stroke-linecap="round"/></svg>')
+    scene = ('<div class="og-scene" aria-hidden="true"><div class="og-waterline"></div>'
+             + frond % ("64%", "62%") + frond % ("80%", "50%") + frond % ("94%", "66%")
+             + p["otter"] + '</div>')
+    return (
+        p["ottdefs"] + scene,
+        f'<div class="og og--otter" data-fit="card">'
+        f'<div class="og-top">{p["h1"]}<p class="og-lede">{p["desc"]}</p></div>'
+        f'<p class="og-foot" data-fit="footer">NOBODY HAS TO WATCH · stimpunks.love</p>'
+        f'</div>',
+        f"A kelp bay seen from the side, ruled with faint scanlines: lighter green-blue water "
+        f"above a pale green waterline, darker below, and three kelp stipes rising from the "
+        f"bottom. \u201c{p['h1text']}\u201d in a large gold pixel face, and under it: "
+        f"{p['desc_plain']} Along the foot, in green: nobody has to watch, "
+        f"stimpunks.love. On the right a sea otter floats on its back at the surface, "
+        f"pale belly up and paws on its chest.",
     )
 
 
@@ -522,6 +602,8 @@ CARDS = {
     "room-play":    card_play,
     "room-chappell": card_chappell,
     "room-arcade":  card_arcade,
+    "game-quill":   card_quill,
+    "game-otter":   card_otter,
     "campgrounds":  card_camp,
     "room-yurt":    card_yurt,
     "room-plain":   card_plain,
@@ -604,8 +686,10 @@ def main():
         ("stream",   "campgrounds.html",  r'(<div class="stream".*?</div>)'),
         ("lights",   "faery-yurt.html",   r'(<div class="lights".*?</div>)'),
         ("crown",    "faery-yurt.html",   r'(<div class="crown".*?</svg>\s*</div>)'),
-        ("esmx",     "arcade.html",       r'(<svg class="sprite".*?</svg>)'),
+        ("esmx",     "quill-drift.html",  r'(<svg class="sprite".*?</svg>)'),
         ("bulbs",    "arcade.html",       r'(<div class="bulbs".*?</div>)'),
+        ("otter",    "otterly-adorbs.html", r'(<div class="otter" id="otter".*?</div>\s*</div>)'),
+        ("ottdefs",  "otterly-adorbs.html", r'(<svg width="0" height="0".*?</defs></svg>)'),
     ):
         lifted[key] = field((ROOT / page).read_text(), pat)
         if not lifted[key]:

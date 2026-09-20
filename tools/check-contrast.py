@@ -46,6 +46,14 @@ GLOW = "#31231A"
 # headline and the eyebrow sit.
 CRT_LIT = "#0F1F24"
 SPILL   = "#2D1C25"
+# The otter cabinet's screen is water, which has two grounds of its own -- the
+# shoal above and the deep below -- and therefore two more scanline composites.
+# SHOAL_LIT is the lighter of the four and is what decides every ink in the bay.
+BAY, SHOAL = "#06202A", "#0A3240"
+BAY_LIT, SHOAL_LIT = "#0F2831", "#133947"
+PELT, WHISKERS = "#D29A6B", "#F0D6B4"
+KELP, KELP2 = "#6FB050", "#7ABF5A"
+FISHY, COBBLE, SHELLY, URCHIN = "#CFE2F2", "#A9BAC6", "#E8D6B6", "#B79AE0"
 
 # (fg, bg, large?, where)
 PAIRS = [
@@ -256,6 +264,32 @@ PAIRS = [
     ("#FF7AC8", CRT_LIT, False, "arcade: the rose quill"),
     ("#F26FA8", CRT_LIT, False, "arcade: Esmx's own pink, against the screen"),
     ("#6BD98F", CRT_LIT, False, "arcade: Esmx's snout and belly green"),
+    # THE BAY (love.css §15, cabinet two). Everything is held against SHOAL_LIT,
+    # the lightest of the four grounds this screen makes, as well as against the
+    # flat colours. --pelt is the otter you steer, and it is held to the BODY
+    # threshold rather than the 3:1 one that graphics get: a thing the player
+    # drives is not decoration, and the first draft's #BE7F52 measured 2.72 on
+    # the lit shoal, which is under even the graphics bar.
+    (MINT,     BAY,       False, "bay: the live region under the screen"),
+    (MINT,     SHOAL_LIT, False, "bay: anything mint drawn on the lit shoal"),
+    (TUBE,     SHOAL_LIT, False, "bay: the attract screen's copy"),
+    (TUBE2,    SHOAL_LIT, False, "bay: the attract screen's small print"),
+    (COIN,     SHOAL_LIT, True,  "bay: anything gold on the water"),
+    (PELT,     BAY_LIT,   False, "bay: the otter you steer, on the deep"),
+    (PELT,     SHOAL_LIT, False, "bay: the otter you steer, on the lit shoal"),
+    (WHISKERS, BAY_LIT,   False, "bay: the otter's muzzle, belly and paws"),
+    (WHISKERS, SHOAL_LIT, False, "bay: the otter's muzzle on the lit shoal"),
+    (KELP,     BAY_LIT,   False, "bay: the kelp stipes, which are also where you stay put"),
+    (KELP,     SHOAL_LIT, False, "bay: kelp at the surface"),
+    (KELP2,    BAY_LIT,   False, "bay: the kelp blades and the waterline"),
+    (KELP2,    SHOAL_LIT, False, "bay: the waterline against the shoal"),
+    (FISHY,    BAY_LIT,   False, "bay: a fish at feeding time"),
+    (FISHY,    SHOAL_LIT, False, "bay: a fish near the surface"),
+    (COBBLE,   BAY_LIT,   False, "bay: a stone on the bed, and the one on the otter's chest"),
+    (SHELLY,   BAY_LIT,   False, "bay: the clam"),
+    (URCHIN,   BAY_LIT,   False, "bay: the urchin"),
+    (COBBLE,   BAY,       False, "bay: the seabed's edge against the water — the bed's own\n     fill measured 1.10 there, so the boundary is carried by this line instead"),
+    (COBBLE,   "#04161D", False, "bay: the seabed's edge against the bed below it"),
 ]
 
 # NOT IN THE LIST, AND IT SHOULD BE: cream (#FFF3E6) on the same #FF5AA6 ground

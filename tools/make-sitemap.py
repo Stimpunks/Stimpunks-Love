@@ -13,7 +13,8 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 # pitch standing on it, then the pages that hold lists.
 ORDER = ["index.html", "pink-pony-club.html", "the-chappell.html", "zine-table.html", "zine-issue-2.html",
          "hear-queer-here.html",
-         "enids-room.html", "polaroids.html", "playhouse.html", "arcade.html",
+         "enids-room.html", "polaroids.html", "playhouse.html",
+         "arcade.html", "quill-drift.html", "otterly-adorbs.html",
          "your-room.html",
          "campgrounds.html", "faery-yurt.html",
          "liner-notes.html",
