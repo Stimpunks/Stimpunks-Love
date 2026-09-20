@@ -28,6 +28,7 @@ are the same argument rather than two decorations. Pressing a panel button
 highlights its passage; it never starts audio. Nothing plays until you press
 play, in this room as in the others.
 """
+import difflib
 import html
 import json
 import re
@@ -50,6 +51,36 @@ def find_audio(rid):
         if f.exists():
             return f
     return None
+
+
+def stray_audio(readings):
+    """Files in audio/ that answer to no passage.
+
+    A recording arrives named whatever the recorder called it -- the second one
+    was "The A side: what the instrument reports.m4a", a colon and all, which is
+    the passage title rather than its id. Silently ignoring it would leave the
+    page reporting one fewer recording than exists and nothing to say why, which
+    is the same failure as only looking for .mp3 and missing the first one. So
+    the tool names the file and guesses what it was meant to be.
+    """
+    folder = ROOT / "audio"
+    if not folder.is_dir():
+        return []
+    wanted = {r["id"] for r in readings}
+    titles = {r["title"]: r["id"] for r in readings}
+    out = []
+    for f in sorted(folder.iterdir()):
+        if f.name.startswith(".") or f.suffix.lower() not in SUFFIXES:
+            continue
+        if f.stem in wanted:
+            continue
+        guess = difflib.get_close_matches(f.stem, list(titles), n=1, cutoff=0.4)
+        suggest = titles[guess[0]] if guess else None
+        if not suggest:
+            guess = difflib.get_close_matches(f.stem, list(wanted), n=1, cutoff=0.3)
+            suggest = guess[0] if guess else None
+        out.append((f, suggest))
+    return out
 
 
 def main():
@@ -78,6 +109,19 @@ def main():
             )
         if r.get("state"):
             claimed[r["state"]] = r["id"]
+
+    stray = stray_audio(readings)
+    if stray:
+        lines = ["REFUSING: audio/ holds a file that answers to no passage.", ""]
+        for f, suggest in stray:
+            lines.append(f"  {f.name!r}")
+            lines.append(f"      rename to: {suggest}{f.suffix}" if suggest
+                         else "      matches no reading in data/readings.json")
+        lines += ["",
+                  "A recording named for its title rather than its id would be ignored in",
+                  "silence, and the page would report one fewer recording than exists with",
+                  "nothing to say why. Rename it, or add the passage to data/readings.json."]
+        raise SystemExit("\n".join(lines))
 
     reader = html.escape(data.get("_reader", "us"))
     blocks, recorded = [], 0
