@@ -98,7 +98,7 @@ def main():
            "    <title>Stimpunks.Love — what changed on the street</title>",
            f"    <link>{SITE}/{SOURCE}</link>",
            f'    <atom:link href="{SITE}/feed.xml" rel="self" type="application/rss+xml"/>',
-           "    <description>Every change to the six rooms, the street that joins them and the "
+           "    <description>Every change to the seven rooms, the street that joins them and the "
            "campground past the treeline, "
            "newest first — including the things that are not built yet. Generated from "
            "changelog.html by tools/make-feed.py, so the page and the feed cannot "

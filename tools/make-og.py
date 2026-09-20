@@ -7,8 +7,8 @@ that card is a grey rectangle with a favicon in it -- which for a site whose
 entire argument is that the rooms refuse to share a look would be the blandest
 possible misrepresentation of it.
 
-SO THERE IS NO TEMPLATE. There are ten, one per room, and they are allowed to
-contradict each other exactly as love.css sections 5 to 14 do. The street's card
+SO THERE IS NO TEMPLATE. There are eleven, one per room, and they are allowed to
+contradict each other exactly as love.css sections 5 to 15 do. The street's card
 collides six typefaces on purpose; the zine's is a photocopied ransom note; the
 quantum room's is a mono face over interference fringes; the plain rooms get a
 quiet one because their job is to hold a list. A card that looked like another
@@ -225,6 +225,27 @@ body {{ display: flex; flex-direction: column; min-height: 0; }}
 .og--yurt .og-foot {{ font-family: 'Caveat', cursive; color: #A4907B;
   letter-spacing: 0; font-size: 30px; }}
 
+/* arcade — the cabinet, sideways: the marquee bulbs along the top, the name in
+   the room's pixel face, and Esmx standing beside it with a full mane. THE ONE
+   CARD THAT IS MOSTLY A DRAWING, because this is the only room whose subject is
+   a character rather than an argument, and a share card for a game that showed
+   no one playing it would be a poster for the wrong thing. */
+.og--arcade {{ flex-direction: row; align-items: center; gap: 44px; padding: 44px 58px; }}
+.og--arcade .og-top {{ flex: 1 1 auto; display: flex; flex-direction: column; gap: 20px; min-width: 0; }}
+.og--arcade .arc-eyebrow {{ font-size: 17px; line-height: 1.6; }}
+.og--arcade h1 {{ font-size: 57px; line-height: 1.22; margin: 0 !important; }}
+.og--arcade .og-lede {{ color: #B9C6D6; font-size: 27px; line-height: 1.42; max-width: 700px; }}
+.og--arcade .og-foot {{ font-family: 'Press Start 2P', monospace; color: #4BF0C6;
+  letter-spacing: 0; font-size: 14px; line-height: 1.7; }}
+/* Esmx is absolutely positioned inside the playfield in the room. On a card
+   there is no playfield, so the sprite goes back to being an ordinary picture. */
+.og--arcade .sprite {{ position: static; transform: none; flex: 0 0 auto; width: 326px; }}
+/* Sixteen bulbs at the room's size leave a 326px strip stranded in the middle
+   of a 1200px card. The marquee is the full width of a cabinet, so it is the
+   full width of this. */
+.room-arcade .bulbs {{ gap: 30px; padding: 17px 16px; }}
+.room-arcade .bulbs span {{ width: 15px; height: 15px; }}
+
 /* plain — the four pages with a job rather than a vibe. Quiet, but pinned to
    the frame at both ends rather than floating in the middle of it: an empty
    card reads as unfinished, which is a different thing from restrained. */
@@ -274,7 +295,7 @@ document.fonts.ready.then(function () {{
 """
 
 
-# ── The eight cards ──────────────────────────────────────────────────────────
+# ── The eleven cards ─────────────────────────────────────────────────────────
 # One function per room. They are allowed to share nothing, and mostly do not.
 # Each returns (ambient markup, card markup, alt text). `p` is the page.
 
@@ -283,14 +304,14 @@ def card_street(p):
         '<div class="sparkle" aria-hidden="true"></div>',
         f'<div class="og og--street" data-fit="card">'
         f'{p["h1"]}{p["tagline"]}'
-        f'<p class="og-foot" data-fit="footer">ONE STREET · SIX ROOMS · A FIELD PAST THE TREELINE</p>'
+        f'<p class="og-foot" data-fit="footer">ONE STREET · SEVEN ROOMS · A FIELD PAST THE TREELINE</p>'
         f'</div>',
         "A night-black card scattered with small coloured sparks. “stimpunks” in "
         "white block capitals with pink and cyan offset shadows, “.love” below it "
         "in hot pink script, and six taglines each set in a different typeface: "
         "Queer without fear. Interdependent and here. Divergent and proud. Living "
         "out loud. Plucky pluralism, for human organisms. Becoming and belonging, "
-        "with ribald songing. Along the bottom: one street, six rooms, a field past "
+        "with ribald songing. Along the bottom: one street, seven rooms, a field past "
         "the treeline.",
     )
 
@@ -447,6 +468,35 @@ def card_yurt(p):
     )
 
 
+def card_arcade(p):
+    # The mane is drawn FULL here and it is the markup's own default rainbow,
+    # not a colour picked for the card: arcade.js only ever overwrites those
+    # twelve fills with what a player actually walked into, so a card that shows
+    # them is showing the room's own idea of a finished Esmx rather than a
+    # dressed-up one. Nothing here is a second copy of the drawing.
+    return (
+        p["bulbs"],
+        f'<div class="og og--arcade" data-fit="card">'
+        f'<div class="og-top">'
+        f'<p class="arc-eyebrow">ROOM 07 · THERE IS NO COIN SLOT</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">QUILL DRIFT · NO TIMER · NO SCORE · stimpunks.love</p>'
+        f'</div>'
+        f'{p["esmx"]}'
+        f'</div>',
+        f"A dark grape card with a row of gold and pink marquee bulbs along the "
+        f"top. On the left, small grey pixel capitals reading room 07, there is "
+        f"no coin slot, then \u201c{p['h1text']}\u201d in a large "
+        f"gold pixel face with a hard black shadow, and under it: "
+        f"{p['desc_plain']} Along the foot, in mint: Quill Drift, no timer, no "
+        f"score, stimpunks.love. On the right stands Esmx the Porkypine \u2014 a "
+        f"pink pig-porcupine with a green snout and belly, an earring in one ear "
+        f"and a chunk missing from the other \u2014 with a full rainbow mane of "
+        f"twelve spikes trailing back off their shoulders.",
+    )
+
+
 def card_plain(p):
     return (
         "",
@@ -471,6 +521,7 @@ CARDS = {
     "room-enid":    card_enid,
     "room-play":    card_play,
     "room-chappell": card_chappell,
+    "room-arcade":  card_arcade,
     "campgrounds":  card_camp,
     "room-yurt":    card_yurt,
     "room-plain":   card_plain,
@@ -516,7 +567,7 @@ def main():
             "REFUSING: no card is designed for these pages' rooms:\n  "
             + "\n  ".join(f"{f}  (body class=\"{b}\")" for f, b in unknown)
             + "\n\nA new room needs a card of its own, written in this file beside the "
-            "other\nseven. Do not let it fall back to the plain one: the card is the "
+            "other\nten. Do not let it fall back to the plain one: the card is the "
             "only part\nof a room most people see, and it would wear somebody else's "
             "face silently."
         )
@@ -529,7 +580,7 @@ def main():
         )
 
     # og:image has to be absolute, and the site's own origin is already written
-    # down eleven times in the canonicals. Taking it from there rather than from
+    # down fifteen times in the canonicals. Taking it from there rather than from
     # a constant in this file means one fewer place for the domain to be stale.
     origins = {p["canonical"].split("/")[0] + "//" + p["canonical"].split("/")[2]
                for p in pages}
@@ -541,7 +592,7 @@ def main():
         )
     base = origins.pop()
 
-    # Four rooms build their card out of something the page already holds --
+    # Five rooms build their card out of something the page already holds --
     # lifted whole rather than retyped, for the same reason the h1 is: a card
     # that repeats the page in its own words is a card that can come to
     # disagree. The campground's stream and the yurt's crown and fairy lights
@@ -553,6 +604,8 @@ def main():
         ("stream",   "campgrounds.html",  r'(<div class="stream".*?</div>)'),
         ("lights",   "faery-yurt.html",   r'(<div class="lights".*?</div>)'),
         ("crown",    "faery-yurt.html",   r'(<div class="crown".*?</svg>\s*</div>)'),
+        ("esmx",     "arcade.html",       r'(<svg class="sprite".*?</svg>)'),
+        ("bulbs",    "arcade.html",       r'(<div class="bulbs".*?</div>)'),
     ):
         lifted[key] = field((ROOT / page).read_text(), pat)
         if not lifted[key]:

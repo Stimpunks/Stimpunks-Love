@@ -13,7 +13,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 # pitch standing on it, then the pages that hold lists.
 ORDER = ["index.html", "pink-pony-club.html", "the-chappell.html", "zine-table.html", "zine-issue-2.html",
          "hear-queer-here.html",
-         "enids-room.html", "polaroids.html", "playhouse.html",
+         "enids-room.html", "polaroids.html", "playhouse.html", "arcade.html",
          "your-room.html",
          "campgrounds.html", "faery-yurt.html",
          "liner-notes.html",
@@ -59,7 +59,7 @@ lines = [
     "Plucky pluralism, for human organisms. Becoming and belonging, with ribald songing.",
     "",
     "A Stimpunks Foundation site, and the loud one. It has no single design system on purpose: "
-    "the street is the system and the six rooms refuse to share one. Past the treeline at the end "
+    "the street is the system and the seven rooms refuse to share one. Past the treeline at the end "
     "of the street there is a campground, for anybody who would rather not be on a street at all. "
     "Two habits survive from our "
     "careful sites — attribution, which is a licence rather than a house style, and contrast, "

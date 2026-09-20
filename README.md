@@ -1,6 +1,6 @@
 # Stimpunks.Love
 
-**One street, six rooms, one subroom, and a campground past the treeline.** A Stimpunks
+**One street, seven rooms, one subroom, and a campground past the treeline.** A Stimpunks
 Foundation site, and the loud one.
 
 Live at **[stimpunks.love](https://stimpunks.love/)** since 2026-09-19.
@@ -12,7 +12,7 @@ Live at **[stimpunks.love](https://stimpunks.love/)** since 2026-09-19.
 
 **This site has no single design system, on purpose.** Every other site we run applies one
 consistent look across many pages. Here the **street** is the system and the **rooms refuse to
-share one** — six visual worlds, plus a seventh behind one of them and an eighth and ninth off
+share one** — seven visual worlds, plus an eighth behind one of them and a ninth and tenth off
 the end of the street, all allowed to contradict each other and joined by a front door. That is not decoration; it is the architecture, and it is stolen wholesale from Danny the
 Street, who rearranges himself for whoever needs sheltering.
 
@@ -36,7 +36,7 @@ the visitor is the authority on their own tolerance and a media query is not.
 
 The default is applied by a small inline snippet in each `<head>`, **before first paint**.
 Deferring it to `love.js` would flash the loud version at somebody whose device asked for the
-quiet one. That snippet is byte-identical on all fourteen pages and its hash is in the CSP — see
+quiet one. That snippet is byte-identical on all fifteen pages and its hash is in the CSP — see
 `tools/make-csp.py`.
 
 ## What stays careful here
@@ -47,12 +47,12 @@ the balanced tone — was dropped deliberately.
 - **Attribution.** A licence, not a house style. Every song, typeface, quotation and borrowed
   name is credited in `liner-notes.html`, and the credits are loud rather than hidden.
 - **The dial.** Loudness is a thing the visitor holds, not a property of the page — so
-  `tools/check-gentle.py` loads all fourteen pages at all three settings and measures what
+  `tools/check-gentle.py` loads all fifteen pages at all three settings and measures what
   actually moves. The global reset is safe (`!important`); the tilts are not, because each room
   resets its own and a reset is one selector away from being outranked, silently. **It found the
   Faery Yurt's windowsill on its first run** — a book and a pen still rotating at Gentle, in a
   room a day old that two people had read.
-- **Contrast.** Clashing is not the same as illegible. `tools/check-contrast.py` holds 130 pairs
+- **Contrast.** Clashing is not the same as illegible. `tools/check-contrast.py` holds 162 pairs
   to WCAG 1.4.3 and **found two real failures on the first run**, which is the argument for
   having it. It is still finding them: writing the share cards meant naming the grounds the
   ambient glows actually make, and two rooms turned out to be putting text on a background
@@ -63,7 +63,7 @@ the balanced tone — was dropped deliberately.
 ## Layout
 
 ```
-index.html            The Stoop — the front door and the six shopfronts
+index.html            The Stoop — the front door and the seven shopfronts
 pink-pony-club.html   The dancefloor. Ten press-to-play facades
 the-chappell.html     Rhinestone Vatican. A subroom off the dancefloor; thirteen more
 zine-table.html       Riot grrrl xerox. The table itself, and issue #1
@@ -71,15 +71,17 @@ zine-issue-2.html     Issue #2, distilled from our Neurodiversity and Gender cou
 hear-queer-here.html  Quantum queering — Barad, Helen Edgar, a superposition panel
 enids-room.html       Colorful goth. Sticker wall wired to seven glossary entries
 playhouse.html        Four toys, all real buttons, all synthesised
-your-room.html        The sixth storefront: empty on purpose, terms written down
+arcade.html           One cabinet. Esmx the Porkypine, and a game with no verb for throwing
+your-room.html        The seventh storefront: empty on purpose, terms written down
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
 faery-yurt.html       Pitch 01. Helen Edgar's candlelit yurt; her design, not ours
 liner-notes.html      Who made this noise
 changelog.html        What changed, and when. Every Stimpunks site publishes one
-love.css              Shared base (§1–§4) then one self-contained world per room (§5–§14)
+love.css              Shared base (§1–§4) then one self-contained world per room (§5–§15)
 love.js               The dial, the toys, the superposition panel
 love-embed.js         The press-to-play facade
-fonts/                17 self-hosted families + _sources.json
+arcade.js             Quill Drift. Loaded by one page; nothing before the coin goes in
+fonts/                18 self-hosted families + _sources.json
 data/jukebox.json     The ten tracks, one source of truth for two pages
 data/chappell.json    The thirteen in The Chappell. A separate file for separate provenance
 feed.xml              Generated from changelog.html; the only subscribable thing here
@@ -90,7 +92,7 @@ photos/               Community photographs. Does not exist until somebody sends
 data/chairy.json      Chairy's 28 sayings, each with the page it came from
 data/yells.json       Recorded yells, and who agreed to lend their voice
 data/yurt-sound.json  The six sounds in the Faery Yurt, and whose voice they are
-og/                   One share card per page — ten card designs for fourteen pages
+og/                   One share card per page — eleven card designs for fifteen pages
 tools/                Twelve generators and four checkers, below
 ```
 
@@ -110,7 +112,7 @@ python3 tools/make-chairy.py       # what Chairy says, from data/chairy.json
 python3 tools/make-yells.py        # the yell button's recordings, from data/yells.json
 python3 tools/make-yurt-sound.py   # the yurt's sounds: their tiles, and their credits
 python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
-python3 tools/check-contrast.py    # 130 pairs against WCAG; exits 1 on a failure
+python3 tools/check-contrast.py    # 162 pairs against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
 python3 tools/check-gentle.py      # every page at all three dial settings; exits 1 on a leak
 ```
@@ -122,7 +124,7 @@ network — a checker that fails on a train either blocks a deploy or teaches ev
 python3 tools/check-jukebox.py     # presses nothing; asks YouTube whether all 23 still play
 ```
 
-Run all fourteen before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
+Run all fifteen before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
 is missing a canonical or if an HTML file exists that is not in its page order, `make-csp.py`
 stops if the inline snippet has drifted between pages — because a stale hash does not warn, it
 silently breaks the dial for everyone — `make-feed.py` stops if a changelog entry has no stable
@@ -162,11 +164,12 @@ enough to push a word off the edge, and the crop lands in somebody else's timeli
 ## The share cards
 
 A pasted link gets unfurled into a card, and for most people that card is the only part of the
-street they ever see. **There is no card template.** There are ten, one per room, and they
-contradict each other exactly as `love.css` §5–§14 do — the street's collides six typefaces,
+street they ever see. **There is no card template.** There are eleven, one per room, and they
+contradict each other exactly as `love.css` §5–§15 do — the street's collides six typefaces,
 the zine's is a ransom note, the quantum room's is a mono face over interference fringes, The
 Chappell's is gold neon under a rose window, the campground's is a routed park sign with a
-stream along the foot and **no ambient layer at all**, because the field has none; the plain
+stream along the foot and **no ambient layer at all**, because the field has none, and the
+arcade's is a marquee of bulbs over a pixel face with Esmx standing beside it; the plain
 rooms get a quiet one. One template would
 be the harmonising instinct arriving in the one asset nobody reviews, because nobody sees it in
 the repo — and the subroom got a card of its own for the same reason, in the one place where

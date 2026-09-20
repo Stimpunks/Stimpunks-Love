@@ -5,8 +5,8 @@ how to run the tools; this file covers the things a session gets wrong.
 
 ## The rule that matters most: do not tidy this site
 
-**There is no single design system here and there must not become one.** Six rooms, six
-unrelated visual worlds, joined by a street — one subroom behind a seventh door, and a
+**There is no single design system here and there must not become one.** Seven rooms, seven
+unrelated visual worlds, joined by a street — one subroom behind one of those doors, and a
 campground past the treeline at the end of the street with a yurt pitched on it. The instinct
 to harmonise — one type scale, one palette, shared component classes across rooms — is the
 correct instinct on every other Stimpunks site and is **destructive here**. `love.css` is
@@ -40,6 +40,24 @@ colour**, because her smallest grey failed WCAG on every ground it sat on. That 
 written up beside `--tallow-3` in §2, in `check-contrast.py`, in the changelog and in the liner
 notes, because "we altered a contributor's design" is a thing that has to be visible in four
 places rather than implied in a diff. Do not change a second thing without asking her.
+
+**A ROOM WITH A GAME IN IT IS THE NEWEST VERSION OF THE SAME ARGUMENT.** The Arcade (§15) is
+room seven: grape carpet, a cabinet of hard blocks, a screen that is a different black from the
+room around it, and a pixel face nothing else on the street sets. "The Playhouse already has the
+toys, so the arcade should look like the Playhouse" is the subroom excuse holding a joystick.
+That room is saturated primary blue, bunting and a checkerboard floor; this is a coin-op at
+midnight. They have nothing to do with each other and that is the door.
+
+**ESMX IS OURS *AND* KAYA OLDAKER IS STILL CREDITED — BOTH HALVES.** Stimpunks commissioned Esmx
+the Porkypine and holds the IP. An earlier draft of the Arcade said the opposite ("our mascot
+and not ours"), borrowing the framing from starstuff.earth's Quillery, which says Kaya's artwork
+"is not ours to redraw stroke for stroke". **That sibling page is wrong about the ownership and
+has not been corrected** — do not copy its framing, and raise it with Ryan rather than editing
+another repo. What survives the correction is the credit: Kaya's name is on the drawing's own
+markup, in the room, and in the liner notes, because holding the rights to a commission is not a
+reason to stop naming the hand that drew it. The Esmx in the cabinet is redrawn rather than
+pasted in — **not** a permissions matter but a room-consistency one, plus the fact that our own
+licence asks for variants rather than merely allowing them.
 
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there are **ten card designs, not one** — the place a template would have been the obvious
@@ -80,18 +98,28 @@ decision into a false statement on a published page.
    sequence — but only as long as the label says how many passages and how long *before* the
    press. If you change that control, the label is the part that keeps the claim true. The
    superposition buttons themselves still make no sound at all: collapsing is a measurement,
-   not a play.
-2. **"Clashing is not the same as illegible."** `tools/check-contrast.py`, 126 pairs. It found
+   not a play. **The Arcade is the third shape of this claim and the strictest:** nothing on that
+   playfield moves until the coin goes in, and the cabinet makes **no sound at all, ever, at any
+   setting** — a promise the room states in its own copy, so adding one blip to it turns a design
+   decision into a false sentence on a published page.
+2. **"Clashing is not the same as illegible."** `tools/check-contrast.py`, 162 pairs. It found
    two real failures the first time it ran — white body copy on the Playhouse blue at 4.17, and
    the word clock's copy on violet at 3.36 — both of which would have shipped. It has since
    caught two more in a design that arrived from outside this repo: Helen's `#8a7462` at 4.30 /
    3.85 / 3.43 on the yurt's three grounds, carrying five different labels, and her fourth book
    spine at 3.74. **Add a pair to that file whenever you add a colour to a room** — and when a
    room has an ambient layer, add the composite ground as well, because the flat background is
-   not what the type sits on. A checker that does not know about the new colour passes silently,
-   which is worse than no checker.
+   not what the type sits on. The Arcade brought two more of those: `#0F1F24`, what the screen
+   becomes under its own scanline and the *lighter* of the two grounds the playfield makes, and
+   `#2D1C25`, the carpet under the cabinet's glow — dimming one grey there to test the file
+   failed the composite harder than the flat colour every time. **Its eight quills are in the
+   list too:** WCAG 1.4.3 does not reach a graphic, but a quill you cannot pick out of the
+   background is a control you cannot use, and they are held to the body threshold so nobody has
+   to remember later which bar applied. Each quill also carries a *name* said out loud on
+   contact, because colour is never the only channel here. A checker that does not know about
+   the new colour passes silently, which is worse than no checker.
 3. **"Gentle takes away the wobble, never the words."** There is no content behind an intensity
-   level. Do not add any. `tools/check-gentle.py` now measures both halves on all fourteen
+   level. Do not add any. `tools/check-gentle.py` now measures both halves on all fifteen
    pages at all three settings. The global reset is safe because it carries `!important`; **the
    tilts are not**, because every room resets its own and CSS does not warn when a decorative
    selector out-specifies one — it just renders the louder rule. That nearly shipped on Enid's
@@ -99,6 +127,16 @@ decision into a false statement on a published page.
    `:where()`-scoped now), and it *had* shipped in the Faery Yurt, whose windowsill was still
    rotating at Gentle a day after the room went up. **Scope a tilt with `:where()` so it cannot
    climb above the reset**, and when this refuses, add the reset rather than an exception.
+   **The Arcade is where this rule met a game, and the game gave way rather than the rule.** The
+   dial governs that room's decoration; the game's speed is a *second* control the player holds,
+   defaulting to Slow at Gentle and offering all three settings at every dial position. Do not
+   wire the game to the dial — a Gentle that hands somebody a different game is the "lite
+   version" mistake with a joystick on it. And **`arcade.js` moves everything with `left`/`top`
+   rather than `transform`, deliberately**, because rotation and skew in the computed matrix are
+   all `check-gentle.py` can see: a game hidden behind a transform would be asking that checker
+   to take the room's word for something. The two transforms in the room are the sprite's
+   centring translate and its `scaleX(-1)` turn — both layout, and both visible to the tool.
+   Keep it that way.
 
 ## The tools refuse rather than guess, and that is deliberate
 
@@ -176,7 +214,8 @@ a bug. The playlist header says fifteen and thirteen render; YouTube hides priva
 entries from everyone but the owner, so thirteen is what plays and the discrepancy is written
 down in the data file rather than rounded off.
 
-`make-og.py` refuses a page whose body class it has no card for, refuses a card whose content
+`make-og.py` refuses a page whose body class it has no card for — it refused the Arcade until
+that room had the eleventh design, which is exactly what it is for — refuses a card whose content
 does not fit 1200×630 — Chrome reports the layout back out of the same run that takes the
 picture, so the fit is measured rather than assumed — and **cannot write an `og:image` without
 an `og:image:alt`**, because text baked into an image is text nobody can hear. Writing it also

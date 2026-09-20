@@ -194,5 +194,15 @@
       "src": "https://fonts.gstatic.com/s/bitter/v42/rax8HiqOu8IVPmn7f4xpLjpSmw.woff2",
       "note": "Bitter ships as a variable font, so Google serves the same file for every weight \u2014 700 was byte-identical to this. The campgrounds takes the regular only and sets its emphasis in Alfa Slab One instead, rather than shipping 34KB twice under two names."
     }
+  ],
+  "press-start-2p": [
+    {
+      "file": "press-start-2p-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 4704,
+      "src": "https://fonts.gstatic.com/s/pressstart2p/v16/e3t4euO8T-267oIAQAu6jDQyK3nVivNm4I81.woff2",
+      "note": "The Arcade's only face, and the eighteenth family here. A pixel face is the one thing no other room can borrow without turning into the arcade \u2014 which is what 4.7KB buys. Latin subset only; the room sets nothing outside it."
+    }
   ]
 }

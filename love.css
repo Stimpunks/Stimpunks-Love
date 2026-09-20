@@ -1,11 +1,11 @@
 /* =============================================================================
-   stimpunks.love — one street, six rooms, and a campground off the end of it.
+   stimpunks.love — one street, seven rooms, and a campground off the end of it.
 
    The organising idea: this site has NO single design system, on purpose. Every
    other Stimpunks site applies one consistent look across many pages. Here the
    STREET is the system and the ROOMS refuse to share one. So this file is a
    small shared base (§1–§4) followed by one self-contained world per room
-   (§5–§14), each free to contradict the others.
+   (§5–§15), each free to contradict the others.
 
    The one thing every room DOES share is §3, the intensity dial. Danny the
    Street rearranges itself for whoever walks down it, so loudness is a control
@@ -52,6 +52,12 @@
 @font-face { font-family: 'Crimson Pro';    src: url('fonts/crimson-pro-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 @font-face { font-family: 'Caveat';         src: url('fonts/caveat-600.woff2') format('woff2');         font-weight: 600; font-display: swap; }
 
+/* The Arcade (§15), and the only face it sets. A pixel face is the one thing
+   no other room on this street could borrow without turning into the arcade,
+   which is what the eighteenth family is for. 4.7KB, latin only, and nothing
+   else here loads it. */
+@font-face { font-family: 'Press Start 2P'; src: url('fonts/press-start-2p-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -86,6 +92,16 @@
   --timber: #3A2A20;  --tallow: #F2E6D4;  --tallow-2: #C2AC91;  --tallow-3: #A4907B;
   --ember: #E0904A;   --ember-2: #F2B673;  --ivy: #6D8A56;  --ivy-2: #38491F;
   --candle: #E9C874;
+
+  /* The Arcade (§15). Coin-op at midnight, and the only room here lit by a
+     screen rather than by a sky, a candle or a strip light. --crt-lit is not a
+     colour anybody chose: it is what --crt becomes under the scanlines, and it
+     is the ground the playfield's own type actually sits on. The cabinet's
+     spill over the carpet makes a second one. Both are in check-contrast.py,
+     because a flat background is never what the text is on. */
+  --carpet: #160A26;  --cab: #241038;  --crt: #06171C;
+  --coin: #FFC21A;  --mint: #4BF0C6;  --zap: #FF6BE4;
+  --tube: #B9C6D6;  --tube-2: #9AA7BA;
 }
 
 * { box-sizing: border-box; }
@@ -249,7 +265,7 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 
 
 /* §5 ── THE STREET (index) ───────────────────────────────────────────────────
-   Night asphalt, shopfronts, bunting. The only page that has to hold all six
+   Night asphalt, shopfronts, bunting. The only page that has to hold all seven
    worlds side by side without letting any of them win. */
 
 .street { background: var(--ink); min-height: 100vh; position: relative; }
@@ -288,12 +304,18 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .tagline .t5 { font-family: 'Rock Salt', var(--sans);      font-size: 16px; color: var(--yellow); }
 .tagline .t6 { font-family: 'VT323', monospace;            font-size: 30px; color: var(--violet); }
 
-.doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(172px, 1fr)); gap: 16px; margin: 36px 0 0; padding: 0; list-style: none; }
+/* FOUR UP, NOT SIX, and the seventh door is why. At minmax(172px) a 1180px
+   street fits exactly six columns, so adding the Arcade left Your Room stranded
+   alone on a second row at a sixth of the width — which reads as a wrapping
+   accident rather than as a street. Four and three is a block of shopfronts,
+   the empty storefront still comes last, and the doors got wider rather than
+   thinner in the process. */
+.doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin: 36px 0 0; padding: 0; list-style: none; }
 
 .door {
   display: flex; flex-direction: column; text-decoration: none;
   border: 3px solid #fff; border-radius: 12px 12px 5px 5px; overflow: hidden;
-  min-height: 330px; transition: transform .18s ease;
+  min-height: 284px; transition: transform .18s ease;
 }
 .door:hover { transform: translateY(-5px); }
 .door__awning { height: 36px; border-bottom: 3px solid #fff; }
@@ -333,6 +355,16 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .door--play  .door__name  { font-family: 'Bungee', var(--sans); color: var(--yellow); font-size: 25px; }
 .door--play  .door__blurb { color: #fff; font-weight: 500; }
 .door--play  .door__knock { color: #fff; }
+
+/* The Arcade's shopfront. A pixel face at shopfront size is wide enough that
+   the name has to be set smaller than every other door's and still reads as
+   the loudest thing in the row, which is what an arcade front does in a real
+   street. */
+.door--arcade { background: var(--carpet); }
+.door--arcade .door__awning { background-image: repeating-linear-gradient(90deg, var(--coin) 0 14px, var(--zap) 14px 28px); }
+.door--arcade .door__name  { font-family: 'Press Start 2P', monospace; color: var(--coin); font-size: 15px; line-height: 1.35; }
+.door--arcade .door__blurb { color: var(--tube); }
+.door--arcade .door__knock { font-family: 'Press Start 2P', monospace; font-size: 11px; letter-spacing: 0; color: var(--mint); }
 
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
@@ -1177,7 +1209,210 @@ html[data-intensity="gentle"] .nook .egg__mark { opacity: 1; }
 .room-yurt .colophon { margin: 40px 0 0; text-align: center; font-size: 16px; color: var(--tallow-3); }
 
 
-/* §15 ── Small screens ───────────────────────────────────────────────────────
+/* §15 ── ROOM: The Arcade ────────────────────────────────────────────────────
+   Room seven, and the only room on this street with a game in it. Coin-op at
+   midnight: a grape carpet, a cabinet built out of hard blocks, and a screen
+   that is a different black from the room it stands in. ONE FACE, and it is a
+   pixel face — the eighteenth family in fonts/_sources.json, and the one thing
+   no other room here could borrow without becoming this one.
+
+   NOTHING ON THE PLAYFIELD MOVES UNTIL SOMEBODY PUTS THE COIN IN. That is the
+   jukebox's consent model wearing a different costume, and it is the whole
+   reason this room can hold a game without the dial having to lie: motion the
+   visitor started is not ambient motion. The decoration around it — the glow,
+   the marquee bulbs — obeys the dial exactly like every other room's does.
+
+   THE GAME'S SPEED IS A SECOND CONTROL AND THE PLAYER HOLDS IT. The dial picks
+   its default (Slow at Gentle) and nothing more; all three speeds are offered
+   at every dial setting, because there is no content behind a dial position
+   here either. Tying the speed to the dial would have made Gentle a different
+   game, which is the "lite version" mistake with a joystick on it.
+
+   THE PLAYFIELD MOVES THINGS WITH left/top AND NOT WITH transform. Not for
+   performance. Rotation and skew are exactly what tools/check-gentle.py reads
+   out of the computed matrix, and a room that put its game behind a transform
+   would be asking that checker to take the room's word for something. There is
+   nothing to take on trust if there is no transform to read. */
+
+.room-arcade { background: var(--carpet); color: var(--tube); min-height: 100vh; position: relative; }
+.room-arcade > * { position: relative; z-index: 1; }
+
+/* The cabinet's own light, spilling down the carpet. §3 hides .glow at Gentle,
+   which is the only reason this can be an ambient layer at all. The composite
+   it makes with the carpet is #2D1C25 and every ink that lands on it is
+   measured against that in check-contrast.py. */
+.room-arcade .glow {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 42% at 50% 0%, rgba(255,194,26,.10), transparent 70%),
+    radial-gradient(ellipse 50% 34% at 14% 88%, rgba(255,107,228,.07), transparent 72%);
+}
+
+/* The marquee bulbs over the door. They only chase at MAX; at Regular they are
+   a row of lit bulbs, which is what a marquee looks like when it is switched on
+   and not flashing. Decorative and aria-hidden — the room never says anything
+   with a bulb that it does not also say in words. */
+.bulbs {
+  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+  padding: 13px 16px; background: var(--cab); border-bottom: 4px solid var(--coin);
+}
+.bulbs span { width: 11px; height: 11px; border-radius: 50%; background: var(--coin); opacity: .85; }
+.bulbs span:nth-child(even) { background: var(--zap); }
+html[data-intensity="max"] .bulbs span { animation: bulbchase 1.6s steps(2) infinite; }
+.bulbs span:nth-child(3n+2) { animation-delay: .25s; }
+.bulbs span:nth-child(3n+3) { animation-delay: .5s; }
+@keyframes bulbchase { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+
+.room-arcade .backlink { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--coin); }
+.room-arcade a { color: var(--mint); }
+.room-arcade a:hover { color: var(--coin); }
+
+.arc-eyebrow { font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.7; color: var(--tube-2); margin: 14px 0 0; }
+.room-arcade h1 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(21px, 5.4vw, 52px); line-height: 1.25;
+  color: var(--coin); margin: 16px 0 0;
+  text-shadow: 4px 4px 0 #0B0413;
+}
+.room-arcade h2 { font-family: 'Press Start 2P', monospace; font-size: 14px; line-height: 1.6; color: var(--zap); margin: 0 0 14px; }
+.room-arcade h3 { font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.7; color: var(--mint); margin: 18px 0 8px; }
+.room-arcade .lede { font-size: 19px; line-height: 1.6; color: var(--tube); max-width: 58ch; margin: 20px 0 0; }
+.room-arcade p, .room-arcade li { font-size: 16px; line-height: 1.62; }
+
+.arc-layout { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-start; margin: 26px 0 0; }
+.arc-side   { flex: 1 1 320px; display: flex; flex-direction: column; gap: 18px; }
+
+/* ── The cabinet ──────────────────────────────────────────────────────────── */
+.cabinet {
+  flex: 1 1 560px;
+  background: var(--cab); border: 5px solid var(--coin); border-radius: 8px;
+  padding: 0 0 18px; overflow: hidden;
+}
+.cab-marquee {
+  margin: 0; padding: 15px 18px; text-align: center;
+  background: var(--coin); color: var(--carpet);
+  font-family: 'Press Start 2P', monospace; font-size: clamp(13px, 3.1vw, 22px); line-height: 1.5;
+}
+.cab-sub { margin: 0; padding: 11px 18px 0; font-size: 14px; color: var(--tube-2); text-align: center; }
+
+/* The screen. The scanlines are a BACKGROUND and sit under everything, so the
+   only two grounds any type here lands on are --crt and the #0F1F24 the
+   scanline makes. Overlaying them instead would have darkened every quill on
+   the field by an amount nobody had measured. */
+.screen {
+  margin: 14px 16px 0; padding: 0;
+  background: var(--crt); border: 4px solid #0B0413; border-radius: 6px;
+}
+.field {
+  position: relative; width: 100%; aspect-ratio: 8 / 5; overflow: hidden;
+  background-image: repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,.035) 3px 6px);
+}
+.field:focus-visible { outline-offset: -4px; }
+/* The field swallows drags so a finger steering Esmx does not scroll the page
+   out from under the cabinet. */
+.field[data-playing] { touch-action: none; cursor: crosshair; }
+
+/* Everything on the field is positioned in per-cent of the field, so the game
+   is the same game at 360px and at 1180px and nothing has to be told the pixel
+   size of anything. */
+/* transform: translate, and deliberately not the standalone `translate`
+   property. A pure translation carries no rotation and no skew, which is what
+   check-gentle.py is reading for — and it reads the COMPUTED TRANSFORM, which
+   the standalone property never reaches. Centring these the other way would
+   have worked and been invisible to the checker, and a room should not hold
+   anything the checker cannot see. */
+.sprite { position: absolute; width: 17%; transform: translate(-50%, -50%); }
+/* Esmx turns round rather than moonwalking. scaleX is a mirror, not a tilt:
+   check-gentle.py reads it as layout, which is exactly what it is. */
+.sprite[data-face="left"] { transform: translate(-50%, -50%) scaleX(-1); }
+/* A slot nobody has filled is EMPTY, not grey. A bare Esmx should look bare. */
+.esmx-mane .q[data-off] { visibility: hidden; }
+.quill  { position: absolute; width: 5.4%; transform: translate(-50%, -50%); }
+
+/* The idle screen, before the coin. It is markup rather than a drawing so a
+   screen reader gets the same offer a sighted visitor does. */
+.attract {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 16px; text-align: center; padding: 18px;
+}
+.attract p { margin: 0; font-family: 'Press Start 2P', monospace; font-size: clamp(10px, 2.1vw, 13px); line-height: 1.9; color: var(--tube); }
+.field[data-playing] .attract { display: none; }
+/* Before the coin, Esmx stands in the corner of the attract screen the way a
+   cabinet's side art does, and the offer is set beside them. A visitor with no
+   JavaScript gets exactly this and nothing broken: a picture of the mascot, the
+   name of the game, and a room underneath that explains it. */
+.field:not([data-playing]) .sprite { left: 17%; top: 64%; width: 27%; }
+.field:not([data-playing]) .attract { padding-left: 31%; align-items: flex-start; text-align: left; }
+
+.coin {
+  cursor: pointer; font-family: 'Press Start 2P', monospace;
+  font-size: clamp(11px, 2.4vw, 15px); line-height: 1.5;
+  background: var(--coin); color: var(--carpet);
+  border: 4px solid var(--carpet); border-radius: 6px; padding: 15px 20px;
+}
+.coin:hover { background: var(--mint); }
+
+.screen-say {
+  margin: 0; padding: 12px 15px; min-height: 66px;
+  border-top: 4px solid #0B0413; background: var(--crt);
+  font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.8; color: var(--mint);
+}
+
+/* ── The controls under the screen ────────────────────────────────────────── */
+.controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; padding: 16px 16px 0; }
+.dpad { display: grid; grid-template-columns: repeat(3, 52px); grid-template-rows: repeat(3, 44px); gap: 6px; }
+.dpad button { cursor: pointer; background: var(--carpet); color: var(--mint); border: 3px solid var(--mint); border-radius: 6px; font-family: 'Press Start 2P', monospace; font-size: 13px; }
+.dpad button:hover, .dpad button[data-held] { background: var(--mint); color: var(--crt); }
+.dpad .up { grid-area: 1 / 2; } .dpad .left { grid-area: 2 / 1; }
+.dpad .right { grid-area: 2 / 3; } .dpad .down { grid-area: 3 / 2; }
+.dpad .hub { grid-area: 2 / 2; border-color: var(--cab); background: var(--cab); }
+
+.knobs { flex: 1 1 240px; display: flex; flex-direction: column; gap: 12px; }
+.knobs fieldset { margin: 0; padding: 0; border: 0; }
+.knobs legend { padding: 0 0 8px; font-family: 'Press Start 2P', monospace; font-size: 10px; line-height: 1.7; color: var(--tube-2); }
+.knobrow { display: flex; flex-wrap: wrap; gap: 8px; }
+.knob {
+  cursor: pointer; flex: 1 1 auto;
+  font-family: 'Press Start 2P', monospace; font-size: 10px; line-height: 1.6;
+  padding: 12px 10px; border-radius: 6px;
+  border: 3px solid var(--cab); background: var(--carpet); color: var(--tube);
+}
+.knob:hover { border-color: var(--mint); color: var(--mint); }
+.knob[aria-pressed="true"] { background: var(--mint); color: var(--crt); border-color: var(--mint); }
+.knob--stop { background: var(--zap); color: var(--carpet); border-color: var(--zap); }
+.knob--stop:hover { background: var(--coin); border-color: var(--coin); color: var(--carpet); }
+
+/* ── The plates down the side ─────────────────────────────────────────────── */
+.plate { background: var(--cab); border: 4px solid var(--carpet); border-radius: 8px; padding: 18px 20px; }
+.plate p { margin: 0 0 12px; font-size: 15px; }
+.plate p:last-child { margin-bottom: 0; }
+.plate ul { margin: 0; padding-left: 20px; }
+.plate li { font-size: 15px; margin-bottom: 10px; }
+.plate li:last-child { margin-bottom: 0; }
+.plate small { display: block; font-size: 13.5px; line-height: 1.6; color: var(--tube-2); }
+
+/* The mane you have built, as a row of spikes AND as a list of words. The
+   words are not a fallback for the spikes; colour is never the only thing
+   carrying a difference on this site, and a mane nobody can read is a mane
+   nobody can tell anyone else about. */
+.mane-count { font-family: 'Press Start 2P', monospace; font-size: 15px; line-height: 1.6; color: var(--coin); margin: 0 0 12px; }
+.mane-strip { display: flex; flex-wrap: wrap; gap: 5px; align-items: flex-end; min-height: 44px; margin: 0 0 12px; }
+.mane-strip svg { width: 20px; height: 34px; }
+.mane-list { margin: 0; font-size: 15px; line-height: 1.7; color: var(--tube); }
+.mane-empty { color: var(--tube-2); font-size: 14.5px; }
+
+.take {
+  margin-top: 14px; padding: 15px 16px; border-radius: 6px;
+  background: var(--carpet); border: 3px solid var(--mint);
+}
+.take h3 { margin-top: 0; }
+.take p { font-size: 14.5px; }
+
+.arc-foot { margin: 34px 0 44px; }
+.arc-foot .plate { border-color: var(--cab); background: transparent; }
+
+
+/* §16 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -1203,10 +1438,25 @@ html[data-intensity="gentle"] .nook .egg__mark { opacity: 1; }
      Helen's room looks rather than to how it fits. */
   .vine { width: 74px; }
   .signpost__arm { padding-right: 30px; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%); }
+  /* The pad grows on a phone rather than shrinking: it is the only way to steer
+     without a keyboard, and 44px is the floor everywhere on this site. */
+  /* A squarer screen on a phone. At 8:5 and 343px wide the playfield is 214px
+     tall, and the attract screen -- the game's name, the coin, and how to steer
+     -- needs about 230. It was clipped top and bottom, which is the one screen
+     a visitor sees before deciding whether to press anything. arcade.js reads
+     the aspect off the element rather than assuming one, so the game moves
+     correctly at both shapes. */
+  .field { aspect-ratio: 1 / 1; }
+  .attract { gap: 12px; }
+  .dpad { grid-template-columns: repeat(3, 64px); grid-template-rows: repeat(3, 52px); margin-inline: auto; }
+  .controls { justify-content: center; }
+  .knobs { flex: 1 1 100%; }
+  .screen { margin-inline: 10px; }
+  .cabinet { border-width: 4px; }
 }
 
 
-/* §16 ── Print ───────────────────────────────────────────────────────────────
+/* §17 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

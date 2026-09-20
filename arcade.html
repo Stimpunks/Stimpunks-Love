@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Arcade &mdash; Stimpunks.Love</title>
+<meta name="description" content="One cabinet, one game. Esmx the Porkypine walks a dark field and the loose quills drifting across it join their mane on contact. No timer, no lives, no score, nothing to defeat, and nothing you can throw.">
+<link rel="canonical" href="https://stimpunks.love/arcade.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#160A26">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.Love">
+<meta property="og:title" content="The Arcade &mdash; Stimpunks.Love">
+<meta property="og:description" content="One cabinet, one game. Esmx the Porkypine walks a dark field and the drifting quills join their mane on contact. Nothing to defeat, and nothing you can throw.">
+<meta property="og:url" content="https://stimpunks.love/arcade.html">
+<meta property="og:image" content="https://stimpunks.love/og/arcade.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A dark grape card with a row of gold and pink marquee bulbs along the top. On the left, small grey pixel capitals reading room 07, there is no coin slot, then “THE ARCADE” in a large gold pixel face with a hard black shadow, and under it: One cabinet, one game. Esmx the Porkypine walks a dark field and the drifting quills join their mane on contact. Nothing to defeat, and nothing you can throw. Along the foot, in mint: Quill Drift, no timer, no score, stimpunks.love. On the right stands Esmx the Porkypine — a pink pig-porcupine with a green snout and belly, an earring in one ear and a chunk missing from the other — with a full rainbow mane of twelve spikes trailing back off their shoulders.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love — what changed on the street">
+<link rel="preload" href="fonts/press-start-2p-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+</head>
+<body class="room-arcade">
+<a class="skip" href="#main">Skip to the cabinet</a>
+<div class="glow" aria-hidden="true"></div>
+
+<div class="bulbs" aria-hidden="true">
+  <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<main id="main" class="wrap" style="padding-bottom:20px;">
+
+  <a class="backlink" href="index.html">&larr; BACK TO THE STREET</a>
+
+  <header>
+    <p class="arc-eyebrow">ROOM 07 &middot; OPEN ALL NIGHT &middot; NO COINS, NO ACCOUNTS, NO HIGH SCORES</p>
+    <h1>THE ARCADE</h1>
+    <p class="lede">One cabinet, standing on a grape carpet, playing to nobody until somebody walks up to it. The game in it stars <strong>Esmx the Porkypine</strong>, our community mascot &mdash; commissioned from <a href="https://linktr.ee/kayas_kosmos">Kaya Oldaker</a>, who drew them, and then <em>given away</em>: released under a licence that asks you to make a version of your own. So that is the game.</p>
+  </header>
+
+  <div class="arc-layout">
+
+    <section class="cabinet">
+      <h2 class="sr">The cabinet</h2>
+      <p class="cab-marquee">QUILL DRIFT</p>
+      <p class="cab-sub">One player. No timer, no lives, no score, nothing chasing you and nothing to defeat.</p>
+
+      <div class="screen">
+        <div class="field" id="field">
+
+          <div class="attract" id="attract">
+            <p>ESMX THE PORKYPINE<br>IN<br>QUILL DRIFT</p>
+            <button type="button" class="coin" id="coin" hidden>INSERT COIN<br><span style="font-size:.72em;">(there is no coin slot)</span></button>
+            <p id="attract-how">ARROWS, WASD OR THE PAD BELOW<br>WALK INTO A QUILL TO KEEP IT</p>
+            <p id="attract-nojs">THIS CABINET NEEDS JAVASCRIPT.<br>EVERYTHING THE GAME IS ABOUT<br>IS WRITTEN OUT BELOW.</p>
+          </div>
+
+          <!-- Esmx, built from scratch in this room's line rather than pasted in
+               from Kaya Oldaker's artwork. NOT a rights question: Stimpunks
+               commissioned Esmx and holds the IP, and the originals are a
+               download away. It is a variant because this room shares nothing
+               with the six next door, and because a variant is what our own
+               licence asks for rather than merely allows. It keeps the marks
+               that make Esmx Esmx -- the pig snout, the earring in one ear, the
+               chunk missing from the other, and a mane whose tips come loose.
+               Kaya is credited anyway, everywhere the drawing appears: owning a
+               commission is not a reason to stop naming the hand that drew it.
+
+               The twelve spikes carry a default rainbow so Esmx is Esmx before
+               anybody presses anything; arcade.js recolours them with whatever
+               the player actually walked into. -->
+          <svg class="sprite" id="esmx" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Esmx the Porkypine: a pink pig-porcupine with a green snout and belly, an earring in one ear and a chunk missing from the other, and a mane of spikes along their back.">
+            <g fill="#F26FA8" stroke="#0B0413" stroke-width="1.3" stroke-linejoin="round">
+              <g class="esmx-mane">
+      <polygon class="q" data-slot="1" fill="#FF5A4E" points="24.1,69.7 26.3,62.8 4.1,67.8"/>
+      <polygon class="q" data-slot="2" fill="#FF7A3D" points="24.7,66.6 27.9,60.1 2.9,60.9"/>
+      <polygon class="q" data-slot="3" fill="#FF9B2F" points="25.8,63.6 30.0,57.7 3.1,53.7"/>
+      <polygon class="q" data-slot="4" fill="#FFD93D" points="27.4,60.9 32.5,55.7 5.1,46.4"/>
+      <polygon class="q" data-slot="5" fill="#B6E84A" points="29.3,58.4 35.2,54.0 8.6,39.7"/>
+      <polygon class="q" data-slot="6" fill="#5CE86B" points="31.7,56.2 38.1,52.9 13.6,33.9"/>
+      <polygon class="q" data-slot="7" fill="#4BF0C6" points="34.3,54.5 41.2,52.2 19.9,29.3"/>
+      <polygon class="q" data-slot="8" fill="#49D8FF" points="37.2,53.2 44.4,52.0 27.0,26.3"/>
+      <polygon class="q" data-slot="9" fill="#8FA8FF" points="40.3,52.4 47.6,52.3 34.6,25.0"/>
+      <polygon class="q" data-slot="10" fill="#B98BFF" points="43.4,52.0 50.6,53.1 42.2,25.5"/>
+      <polygon class="q" data-slot="11" fill="#FF7AC8" points="46.6,52.2 53.5,54.4 49.4,27.5"/>
+      <polygon class="q" data-slot="12" fill="#F2F6FF" points="49.7,52.8 56.2,56.1 55.7,31.0"/>
+              </g>
+              <polygon points="51,58 62,56 58,34 55,44 54,36" fill="#D9558E"/>
+              <rect x="33" y="80" width="11" height="15" rx="3"/>
+              <rect x="51" y="80" width="11" height="15" rx="3"/>
+              <path d="M22 70 q0-17 24-17 q16 0 24 8 q8 8 8 14 q0 13-14 16 q-10 2-18 2 q-24 0-24-23 z"/>
+              <path d="M30 84 q17 9 33 -1 q-3 10-17 10 q-13 0-16-9z" fill="#6BD98F" stroke="none"/>
+              <polygon points="63,59 75,53 69,34"/>
+              <circle cx="62" cy="62.5" r="3.2" fill="none" stroke="#FFC21A" stroke-width="2.2"/>
+              <ellipse cx="80" cy="73" rx="10" ry="7.6" fill="#6BD98F"/>
+              <ellipse cx="82" cy="70.5" rx="1.7" ry="2.2" fill="#0B0413" stroke="none"/>
+              <ellipse cx="82" cy="76" rx="1.7" ry="2.2" fill="#0B0413" stroke="none"/>
+              <circle cx="73" cy="65" r="3.8" fill="#0B0413" stroke="none"/>
+              <circle cx="74.3" cy="63.7" r="1.3" fill="#fff" stroke="none"/>
+            </g>
+          </svg>
+
+        </div>
+
+        <p class="screen-say" id="arcade-says" role="status" aria-live="polite">The screen is dark. Nothing moves in this cabinet until you start it, and it never makes a sound.</p>
+      </div>
+
+      <div class="controls">
+        <div class="dpad" role="group" aria-label="Walk">
+          <button type="button" class="up"    data-go="up"    aria-label="Walk up">&#9650;</button>
+          <button type="button" class="left"  data-go="left"  aria-label="Walk left">&#9664;</button>
+          <span class="hub" aria-hidden="true"></span>
+          <button type="button" class="right" data-go="right" aria-label="Walk right">&#9654;</button>
+          <button type="button" class="down"  data-go="down"  aria-label="Walk down">&#9660;</button>
+        </div>
+
+        <div class="knobs">
+          <fieldset>
+            <legend id="speed-label">HOW FAST DOES THIS GO?</legend>
+            <div class="knobrow" role="group" aria-labelledby="speed-label">
+              <button type="button" class="knob" data-speed="slow"   aria-pressed="false">SLOW</button>
+              <button type="button" class="knob" data-speed="steady" aria-pressed="false">STEADY</button>
+              <button type="button" class="knob" data-speed="quick"  aria-pressed="false">QUICK</button>
+            </div>
+          </fieldset>
+          <div class="knobrow">
+            <button type="button" class="knob" id="rest" aria-pressed="false" hidden>REST</button>
+            <button type="button" class="knob knob--stop" id="shake" hidden>SHAKE OUT THE MANE</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="arc-side">
+
+      <section class="plate">
+        <h2>YOUR ESMX</h2>
+        <p class="mane-count" id="mane-count">0 OF 12 QUILLS</p>
+        <div class="mane-strip" id="mane-strip" aria-hidden="true"></div>
+        <p class="mane-list" id="mane-list"><span class="mane-empty">Esmx starts bare. Every quill you walk into is written down here in words as well as drawn above, because a mane nobody can read is a mane nobody can tell anybody else about.</span></p>
+        <div class="take" id="take" hidden>
+          <h3>THAT IS A VARIANT</h3>
+          <p id="take-words"></p>
+          <p style="margin-bottom:0;"><small>&ldquo;Esmx&rdquo; by <a href="https://linktr.ee/kayas_kosmos">Kaya Oldaker</a> is licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, and so is the one you just made. We hold the rights to Esmx and we gave them away on purpose; that sentence is what makes yours yours.</small></p>
+        </div>
+      </section>
+
+      <section class="plate">
+        <h2>WHAT THIS CABINET WILL NOT DO</h2>
+        <ul>
+          <li><strong>It will not let you throw anything.</strong> Porcupines cannot shoot their quills &mdash; they cannot throw them, fire them or launch them; a quill comes away in whatever touched it. A spiky mascot invites exactly the opposite reading, so this game has no such verb in it. Contact is the only mechanic.</li>
+          <li><strong>It will not chase you.</strong> There is nothing else on that field. Nothing arrives to take a quill back, and there is no way to lose one.</li>
+          <li><strong>It will not time you.</strong> No clock, no lives, no score, no streak, no best-ever. The count is a count of what you have, and it only goes up.</li>
+          <li><strong>It will not make a noise.</strong> Not one, ever, at any setting. An arcade that was silent by choice seemed better than an arcade that was silent until it wasn&rsquo;t.</li>
+          <li><strong>It will not remember you.</strong> Nothing is stored, nothing is sent, and closing the tab is the whole of quitting.</li>
+        </ul>
+      </section>
+
+      <section class="plate">
+        <h2>THE DIAL AND THE SPEED KNOB</h2>
+        <p>These are two controls and they do different jobs. The <strong>dial</strong> governs this room &mdash; the glow behind the cabinet, the marquee bulbs. The <strong>speed knob</strong> governs the game, and the player holds it.</p>
+        <p style="margin-bottom:0;"><small>The dial picks the knob&rsquo;s starting position &mdash; Slow if you arrived on Gentle &mdash; and then stops having an opinion. All three speeds are here at every dial setting. A Gentle that quietly handed you a different game would be the &ldquo;lite version&rdquo; mistake with a joystick on it.</small></p>
+      </section>
+
+      <div class="dial">
+        <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+        <div class="dial__row" role="group" aria-labelledby="dial-label">
+          <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+          <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+          <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+        </div>
+        <p class="dial__note" aria-live="polite"></p>
+        <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so &mdash; and this cabinet never makes a sound at all.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="arc-foot">
+    <section class="plate">
+      <h2>WHO ESMX IS, AND WHY THERE IS A GAME AT ALL</h2>
+      <p><strong>Esmx the Porkypine</strong> &mdash; part pig, part porcupine, with a bit of goblin in there &mdash; is the Stimpunks Foundation&rsquo;s community mascot. We commissioned them; the artist is <a href="https://linktr.ee/kayas_kosmos">Kaya Oldaker</a>, and her name goes on the drawing wherever it appears, because attribution here is a licence and a courtesy rather than a question of who holds the rights. Esmx&rsquo;s pronouns are they/them, and the name comes from Esmeralda Weatherwax and the Witches of Discworld. The <em>x</em> is deliberate.</p>
+      <p>Esmx&rsquo;s mane evokes the <a href="https://stimpunks.org/glossary/spiky-profile/">spiky profile</a>, and the spikes are a mix of the autism spectrum&rsquo;s colours and the LGBT+ flag&rsquo;s, because there is heavy overlap between the two. Kaya&rsquo;s notes say the spikes <em>trail off and separate, as if they are made of energy</em>, and that they can <em>trail off and create patterns</em>. A game about loose quills drifting across a dark field is that sentence with a d-pad attached.</p>
+      <p>An arcade in particular, because Kaya says so: Esmx resembles a Sonic character or a Pok&eacute;mon on purpose, <em>due to their popularity within the Autistic community</em>. This room is not a costume we put on the mascot. It is where the mascot already came from.</p>
+      <h3>WHY THIS IS A NEW DRAWING</h3>
+      <p>Esmx is ours to reproduce &mdash; we hold the rights and Kaya&rsquo;s originals are a download away. The Esmx on that screen is <strong>built from scratch in this room&rsquo;s line</strong> anyway, the way <a href="https://starstuff.earth/quillery">the Quillery</a>&rsquo;s eight were, and not because anybody needed permission. A pasted PNG would have been the only thing in this arcade that came from somewhere else, in a room whose whole argument is that it shares nothing with the six rooms next door. And a <strong>variant</strong> is the thing the licence goes out of its way to ask for: <em>feel free to customise! Make variants of Esmx to represent your community.</em> Taking our own invitation seemed like the least we could do with it. The marks we kept are the ones that make Esmx Esmx: the snout, the earring in one ear, the chunk out of the other, and a mane that comes apart at the tips.</p>
+      <p>The original, every official variant, the blank template and the download are on <a href="https://stimpunks.org/2025/04/12/our-mascot-esmx-the-porkypine/">Esmx&rsquo;s own page</a>. If you share any of them, <a href="https://stimpunks.org/glossary/alt-text/">include alt text</a> &mdash; Kaya asked, and honouring a licence is the easy half of honouring a maker.</p>
+      <p style="margin-bottom:0;"><small>&ldquo;Esmx&rdquo; by <a href="https://linktr.ee/kayas_kosmos">Kaya Oldaker</a> is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>; this variant likewise. That credit line is the one on Esmx&rsquo;s own page and it stays on ours &mdash; owning a commission is not a reason to stop saying whose hand drew it. The quill facts behind the house rules are in <a href="https://starstuff.earth/quillery">the Quillery</a>, which sources them. Full credits are in the <a href="liner-notes.html">liner notes</a>.</small></p>
+    </section>
+  </div>
+
+</main>
+
+<script src="love.js" defer></script>
+<script src="arcade.js" defer></script>
+</body>
+</html>

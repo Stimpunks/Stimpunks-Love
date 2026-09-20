@@ -30,12 +30,22 @@ NAVE, NICHE, GLASS, LEAF = "#1A0A33", "#170A2B", "#0E0520", "#F0C453"
 DUSK, SPRUCE, BARK = "#0E1A18", "#13241F", "#2A3A31"
 BONE, LICHEN, MOSS, MOON = "#EFE9DC", "#C6D2C4", "#8FAE88", "#E7D9A8"
 HEARTH, TENT, CANVAS, CANVAS_2 = "#150F0E", "#1B1310", "#241A16", "#2C1F19"
+CARPET, CAB, CRT = "#160A26", "#241038", "#06171C"
+COIN, MINT, ZAP = "#FFC21A", "#4BF0C6", "#FF6BE4"
+TUBE, TUBE2 = "#B9C6D6", "#9AA7BA"
 TALLOW, TALLOW2, TALLOW3 = "#F2E6D4", "#C2AC91", "#A4907B"
 EMBER, EMBER2, CANDLE = "#E0904A", "#F2B673", "#E9C874"
 # What the yurt's canvas weave and its ember crown actually make, composited:
 # #150F0E, then cream at .016 and .022 for the two hatches, then the ember
 # glow at .10. Nobody wrote this colour; it is the one the type sits on.
 GLOW = "#31231A"
+# The Arcade's two composites, neither of which anybody chose either. CRT_LIT is
+# --crt under the scanline stripe (white at .035), and it is the LIGHTER of the
+# two grounds the playfield makes, so it is the one that decides. SPILL is the
+# carpet under the cabinet's own glow (--coin at .10), which is where the
+# headline and the eyebrow sit.
+CRT_LIT = "#0F1F24"
+SPILL   = "#2D1C25"
 
 # (fg, bg, large?, where)
 PAIRS = [
@@ -203,6 +213,49 @@ PAIRS = [
     (TALLOW, "#375968", False, "yurt: spine c5, light end"),
     (TALLOW, "#4A2F4F", False, "yurt: spine c6, dark end"),
     (TALLOW, "#653D6B", False, "yurt: spine c6, light end"),
+    # THE ARCADE (love.css §15). Room seven, and the first one lit by a screen.
+    # Three grounds the room declares and two it composites, and every ink is
+    # held against the composite as well as the flat colour, because the flat
+    # colour is never what the type is on.
+    (COIN,  CARPET, True,  "arcade: h1 in Press Start 2P, 21-52px"),
+    (COIN,  SPILL,  True,  "arcade: h1 under the cabinet's own glow"),
+    (TUBE,  CARPET, False, "arcade: the lede and every paragraph on the carpet"),
+    (TUBE,  SPILL,  False, "arcade: the lede under the glow"),
+    (MINT,  CARPET, False, "arcade: links, and the h3s in the plates"),
+    (MINT,  SPILL,  False, "arcade: a link under the glow"),
+    (TUBE2, CARPET, False, "arcade: the eyebrow and the cabinet's sub-line"),
+    (TUBE2, SPILL,  False, "arcade: the eyebrow under the glow — the tightest pair in the room"),
+    (ZAP,   CARPET, False, "arcade: h2 in the plates, 14px"),
+    (TUBE,  CAB,    False, "arcade: plate body copy and the knob labels"),
+    (TUBE2, CAB,    False, "arcade: the speed legend, 10px"),
+    (ZAP,   CAB,    False, "arcade: the plates' headings"),
+    (MINT,  CAB,    False, "arcade: links inside a plate, and the pad's arrows"),
+    (COIN,  CAB,    False, "arcade: the mane count"),
+    (MINT,  CRT,    False, "arcade: the screen's live region, 11px"),
+    (MINT,  CRT_LIT, False, "arcade: the live region where a scanline lands under it"),
+    (TUBE,  CRT_LIT, False, "arcade: the attract screen's copy on the lit stripe"),
+    (COIN,  CRT_LIT, True,  "arcade: anything gold drawn on the playfield"),
+    (CARPET, COIN,  True,  "arcade: INSERT COIN, dark on gold; and the cabinet marquee"),
+    (CRT,   MINT,   False, "arcade: a pad arrow or a speed knob while it is pressed"),
+    (CARPET, MINT,  False, "arcade: the take-your-Esmx plate's border and its dark type"),
+    (CARPET, ZAP,   False, "arcade: SHAKE OUT THE MANE, dark on magenta"),
+
+    # The eight quills, on both grounds the scanlines make. These are GRAPHICS
+    # and WCAG 1.4.3 does not reach them -- 1.4.11 does, at 3:1, because a quill
+    # you cannot pick out of the background is a control you cannot use. They are
+    # held to 4.5 here anyway: every one of them clears it, so there is no reason
+    # to write down a lower bar and later forget which one applied. Each also has
+    # a NAME, said out loud on contact, so colour is never the only channel.
+    ("#FF5A4E", CRT_LIT, False, "arcade: the coral quill"),
+    ("#FF9B2F", CRT_LIT, False, "arcade: the tangerine quill"),
+    ("#FFD93D", CRT_LIT, False, "arcade: the gold quill"),
+    ("#5CE86B", CRT_LIT, False, "arcade: the lime quill"),
+    ("#4BF0C6", CRT_LIT, False, "arcade: the mint quill"),
+    ("#49D8FF", CRT_LIT, False, "arcade: the sky quill"),
+    ("#B98BFF", CRT_LIT, False, "arcade: the violet quill"),
+    ("#FF7AC8", CRT_LIT, False, "arcade: the rose quill"),
+    ("#F26FA8", CRT_LIT, False, "arcade: Esmx's own pink, against the screen"),
+    ("#6BD98F", CRT_LIT, False, "arcade: Esmx's snout and belly green"),
 ]
 
 # NOT IN THE LIST, AND IT SHOULD BE: cream (#FFF3E6) on the same #FF5AA6 ground
