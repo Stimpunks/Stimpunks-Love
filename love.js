@@ -141,7 +141,129 @@
     }
   }
 
-  function go() { dial(); playhouse(); superposition(); }
+  /* ── Stitched playback ───────────────────────────────────────────────────
+     The panel collapses to a reading; this plays that reading's passages in
+     order. One press starts a sequence, which is still press-to-play: the
+     visitor asked for the whole thing. What makes that honest is the label —
+     it says how many passages and how long BEFORE the press, so nobody gets
+     four minutes they did not ask for. Collapsing still makes no sound at all.
+
+     Enhancement only. The button ships hidden and this reveals it, so a page
+     without JavaScript shows five ordinary players and no dead control. */
+  function sequences() {
+    var band = document.getElementById('readings');
+    var btn = document.querySelector('.seqplay__btn');
+    var now = document.querySelector('.seqplay__now');
+    if (!band || !btn) return;
+
+    var items = [].slice.call(band.querySelectorAll('.reading[data-sequences]'));
+    if (!items.length) return;
+    var queue = null, at = -1;
+
+    function listFor(state) {
+      var out = [];
+      for (var i = 0; i < items.length; i++) {
+        var sec = items[i];
+        if (sec.dataset.sequences.split(' ').indexOf(state) < 0) continue;
+        var h = sec.querySelector('h3');
+        out.push({ sec: sec, audio: sec.querySelector('audio'),
+                   title: h ? h.textContent : 'this passage',
+                   secs: parseInt(sec.dataset.seconds || '0', 10) });
+      }
+      return out;
+    }
+
+    function spoken(t) {
+      var m = Math.floor(t / 60), s = t % 60;
+      var mm = m + ' minute' + (m === 1 ? '' : 's');
+      var ss = s + ' second' + (s === 1 ? '' : 's');
+      if (!m) return ss;
+      return s ? mm + ' ' + ss : mm;
+    }
+
+    function state() { return band.dataset.state || 'open'; }
+
+    function relabel() {
+      if (btn.dataset.mode === 'stop') { btn.textContent = 'stop'; btn.disabled = false; return; }
+      var all = listFor(state()), have = [];
+      for (var i = 0; i < all.length; i++) if (all[i].audio) have.push(all[i]);
+      if (!have.length) {
+        btn.textContent = 'nothing in this sequence is recorded yet';
+        btn.disabled = true;
+        return;
+      }
+      var total = 0, known = true;
+      for (var j = 0; j < have.length; j++) {
+        if (have[j].secs) total += have[j].secs; else known = false;
+      }
+      var name = state() === 'open' ? 'the whole sequence' : 'the ' + state().toUpperCase() + ' sequence';
+      var txt = 'play ' + name + ' — ' + have.length + (have.length === 1 ? ' passage' : ' passages');
+      if (known && total) txt += ', ' + spoken(total);
+      if (have.length < all.length) {
+        txt += ' (' + (all.length - have.length) + ' not recorded yet)';
+      }
+      btn.textContent = txt;
+      btn.disabled = false;
+    }
+
+    function unmark() {
+      for (var i = 0; i < items.length; i++) items[i].classList.remove('reading--playing');
+    }
+
+    function halt(msg) {
+      if (queue && queue[at] && queue[at].audio) queue[at].audio.pause();
+      queue = null; at = -1;
+      unmark();
+      btn.dataset.mode = 'play';
+      relabel();
+      if (now) now.textContent = msg || '';
+    }
+
+    function step() {
+      if (!queue) return;
+      at++;
+      if (at >= queue.length) { halt('Sequence finished.'); return; }
+      var cur = queue[at];
+      unmark();
+      cur.sec.classList.add('reading--playing');
+      if (now) now.textContent = 'Playing ' + (at + 1) + ' of ' + queue.length + ': ' + cur.title;
+      try { cur.audio.currentTime = 0; } catch (e) {}
+      var p = cur.audio.play();
+      if (p && p.catch) p.catch(function () {
+        halt('The browser would not continue on its own. Press a passage to carry on.');
+      });
+    }
+
+    btn.addEventListener('click', function () {
+      if (btn.dataset.mode === 'stop') { halt('Stopped.'); return; }
+      var all = listFor(state()), q = [];
+      for (var i = 0; i < all.length; i++) if (all[i].audio) q.push(all[i]);
+      if (!q.length) return;
+      queue = q; at = -1;
+      btn.dataset.mode = 'stop';
+      relabel();
+      step();
+    });
+
+    /* 'ended' and 'play' do not bubble, so listen on the way down. */
+    band.addEventListener('ended', function (e) {
+      if (queue && queue[at] && e.target === queue[at].audio) step();
+    }, true);
+    band.addEventListener('play', function (e) {
+      if (queue && queue[at] && e.target !== queue[at].audio) halt('');
+    }, true);
+
+    if (window.MutationObserver) {
+      new MutationObserver(relabel).observe(band, {
+        attributes: true, attributeFilter: ['data-state']
+      });
+    }
+
+    btn.hidden = false;
+    relabel();
+  }
+
+  function go() { dial(); playhouse(); superposition(); sequences(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
   else go();
 })();

@@ -61,6 +61,8 @@ PAIRS = [
     ("#8c87bd", "#05060f", False, "quantum: footnote"),
     (GREEN,   "#05060f", False, "quantum: backlink + helen link"),
     (CYAN,    "#05060f", False, "quantum: reading titles in the audio room"),
+    ("#05060f", GREEN, False, "quantum: sequence control while playing"),
+    ("#8c87bd", "#05060f", False, "quantum: sequence control when nothing is recorded"),
     (PINK,    "#05060f", False, "quantum: terminal lines 22px"),
     (GREEN,   "#101014", True,  "enid: h1"),
     ("#ece8f5", "#101014", False, "enid: body"),

@@ -40,7 +40,12 @@ decision into a false statement on a published page.
 1. **"Nothing plays until you press play."** Verified on 2026-09-19 in a browser: zero iframes
    and zero requests to youtube on load; one iframe after one press; the other nine facades
    untouched. If you touch `love-embed.js`, re-check it in the network panel rather than
-   reasoning about it.
+   reasoning about it. **The audio room's sequence control is the one place where one press
+   starts several files**, which is still consented playback because the visitor asked for the
+   sequence — but only as long as the label says how many passages and how long *before* the
+   press. If you change that control, the label is the part that keeps the claim true. The
+   superposition buttons themselves still make no sound at all: collapsing is a measurement,
+   not a play.
 2. **"Clashing is not the same as illegible."** `tools/check-contrast.py`, 66 pairs. It found
    two real failures the first time it ran — white body copy on the Playhouse blue at 4.17, and
    the word clock's copy on violet at 3.36 — both of which would have shipped. **Add a pair to

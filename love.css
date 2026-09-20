@@ -434,6 +434,13 @@ html[data-intensity="gentle"] .pullquote .tape { transform: none; }
 .reading__empty { margin: 12px 0 0; font-size: 13px; line-height: 1.5; color: #8c87bd; }
 .reading__player { margin-top: 12px; width: 100%; max-width: 420px; }
 
+.seqplay { margin-top: 14px; }
+.seqplay__btn { width: 100%; cursor: pointer; font-family: 'VT323', monospace; font-size: 19px; line-height: 1.25; padding: 11px 10px; border-radius: 10px; background: transparent; border: 2px solid var(--green); color: var(--green); }
+.seqplay__btn[disabled] { cursor: default; border-color: #3a3d72; color: #8c87bd; }
+.seqplay__btn[data-mode="stop"] { background: var(--green); color: #05060f; }
+.seqplay__now { margin: 10px 0 0; font-size: 13px; line-height: 1.5; color: #a6a1d4; min-height: 1.3em; }
+.reading--playing { border-left-color: var(--green) !important; background: rgba(34,224,106,.07) !important; }
+
 /* The three that answer to the panel. Pressed state lifts one; the others stay
    legible rather than dimming, because Gentle hides nothing and neither does this. */
 .readings[data-state="a"]    .reading[data-reading-state="a"],

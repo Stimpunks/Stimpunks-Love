@@ -45,6 +45,63 @@ STATES = {None, "a", "b", "open"}
 SUFFIXES = (".m4a", ".mp3", ".opus", ".ogg", ".wav", ".aac", ".flac")
 
 
+def duration_seconds(f):
+    """Length in whole seconds, or None when we cannot read it honestly.
+
+    Only MP4/M4A is parsed, by walking to the mvhd atom. The panel's play
+    control tells you what a press is about to cost, and a wrong number there
+    is worse than no number, so anything else returns None and the control
+    falls back to counting passages.
+    """
+    try:
+        raw = f.read_bytes()
+    except OSError:
+        return None
+    if raw[4:8] != b"ftyp":
+        return None
+    def atom_size(buf, at):
+        """Atom size, honouring MP4's two escapes.
+
+        size 1 means the real length is a 64-bit value after the type -- which
+        is what Voice Memos writes for mdat, and treating it as malformed meant
+        bailing out before reaching moov, which sits after it. size 0 means the
+        atom runs to the end of the file.
+        """
+        n = int.from_bytes(buf[at:at + 4], "big")
+        if n == 1:
+            return int.from_bytes(buf[at + 8:at + 16], "big"), 16
+        if n == 0:
+            return len(buf) - at, 8
+        return n, 8
+
+    i = 0
+    while i + 8 <= len(raw):
+        size, _ = atom_size(raw, i)
+        kind = raw[i + 4:i + 8]
+        if size < 8:
+            return None
+        if kind == b"moov":
+            j = i + 8
+            end = min(i + size, len(raw))
+            while j + 8 <= end:
+                sub, _ = atom_size(raw, j)
+                if sub < 8:
+                    return None
+                if raw[j + 4:j + 8] == b"mvhd":
+                    ver = raw[j + 8]
+                    if ver == 0:
+                        scale = int.from_bytes(raw[j + 20:j + 24], "big")
+                        dur = int.from_bytes(raw[j + 24:j + 28], "big")
+                    else:
+                        scale = int.from_bytes(raw[j + 28:j + 32], "big")
+                        dur = int.from_bytes(raw[j + 32:j + 40], "big")
+                    return round(dur / scale) if scale else None
+                j += sub
+            return None
+        i += size
+    return None
+
+
 def find_audio(rid):
     for suf in SUFFIXES:
         f = ROOT / "audio" / f"{rid}{suf}"
@@ -128,6 +185,12 @@ def main():
     for r in readings:
         found = find_audio(r["id"])
         state = f' data-reading-state="{r["state"]}"' if r.get("state") else ""
+        secs = duration_seconds(found) if found else None
+        attrs = state
+        if r.get("sequences"):
+            attrs += f' data-sequences="{" ".join(r["sequences"])}"'
+        if secs:
+            attrs += f' data-seconds="{secs}"'
         if found:
             recorded += 1
             player = (f'        <audio class="reading__player" controls preload="none" '
@@ -137,7 +200,7 @@ def main():
                       'here; the voice is not. This slot stays visibly empty rather than '
                       'quietly closed up.</p>')
         blocks.append(
-            f'      <section class="reading"{state}>\n'
+            f'      <section class="reading"{attrs}>\n'
             f'        <h3>{html.escape(r["title"])}</h3>\n'
             f'        <p class="reading__text">{html.escape(r["text"])}</p>\n'
             f'{player}\n'

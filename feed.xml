@@ -9,6 +9,13 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sat, 19 Sep 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>the panel plays the sequence</title>
+      <link>https://stimpunks.love/changelog.html#2026-09-19-stitched-playback</link>
+      <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-19-stitched-playback</guid>
+      <pubDate>Sat, 19 Sep 2026 12:00:00 GMT</pubDate>
+      <description>Collapsing to a reading now lets you hear it. The panel only highlighted passages before, which set an expectation it did not keep. A plays what monotropism is and then how the clinic writes it down; B plays it and then what it looks like from inside; leaving it open plays the whole argument, ending on the line that resolves it. One press, several passages — and the label says so first. “Play the A sequence — 2 passages, 39 seconds”, not a bare triangle. Starting a sequence you asked for is still press-to-play; getting four minutes you did not expect would not be. The collapse buttons still make no sound. Choosing a measurement and listening to one are separate acts, which also means you can collapse to A and read it somewhere you cannot play audio. Missing recordings are skipped and counted, so the control works at two of five exactly as it will at five — and the passage playing is marked on the page and announced for screen readers, with a stop always available.</description>
+    </item>
+    <item>
       <title>the first passage is recorded</title>
       <link>https://stimpunks.love/changelog.html#2026-09-19-first-voice</link>
       <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-19-first-voice</guid>
