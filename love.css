@@ -1,5 +1,5 @@
 /* =============================================================================
-   stimpunks.love — one street, seven rooms, and a campground off the end of it.
+   stimpunks.love — one street, no two rooms alike, and a campground off the end of it.
 
    The organising idea: this site has NO single design system, on purpose. Every
    other Stimpunks site applies one consistent look across many pages. Here the
@@ -265,8 +265,8 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 
 
 /* §5 ── THE STREET (index) ───────────────────────────────────────────────────
-   Night asphalt, shopfronts, bunting. The only page that has to hold all seven
-   worlds side by side without letting any of them win. */
+   Night asphalt, shopfronts, bunting. The only page that has to hold every one
+   of those worlds side by side without letting any of them win. */
 
 .street { background: var(--ink); min-height: 100vh; position: relative; }
 
@@ -304,7 +304,7 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .tagline .t5 { font-family: 'Rock Salt', var(--sans);      font-size: 16px; color: var(--yellow); }
 .tagline .t6 { font-family: 'VT323', monospace;            font-size: 30px; color: var(--violet); }
 
-/* FOUR UP, NOT SIX, and the seventh door is why. At minmax(172px) a 1180px
+/* FOUR UP, NOT SIX ACROSS, and the Arcade is why. At minmax(172px) a 1180px
    street fits exactly six columns, so adding the Arcade left Your Room stranded
    alone on a second row at a sixth of the width — which reads as a wrapping
    accident rather than as a street. Four and three is a block of shopfronts,
@@ -372,7 +372,7 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .door--empty .door__blurb { color: var(--chalk); }
 .door--empty .door__knock { font-family: 'Rock Salt', var(--sans); font-size: 11px; letter-spacing: 0; color: #9d8cc8; }
 
-/* The signpost at the end of the shopfronts. NOT A SEVENTH DOOR, and the grid
+/* The signpost at the end of the shopfronts. NOT A DOOR AT ALL, and the grid
    above is why: a door on this street is a storefront you walk into, and the
    campgrounds is not a storefront — it is where the street stops. So it is one
    plank pointing off the end, the full width of the row, shaped like a
@@ -380,7 +380,7 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
    the street's green because it is a street object; what it points at is
    nothing like it.
 
-   PAINTED, NOT OUTLINED — the six doors are all outlined boxes, and a border
+   PAINTED, NOT OUTLINED — every door in the grid is an outlined box, and a border
    cannot survive the clip-path that cuts the point anyway: it came out as a
    bordered plank with a borderless triangle stuck on the end. A solid plank
    takes the cut cleanly, and dark-on-green is a pair this street already
@@ -839,7 +839,7 @@ html[data-intensity="gentle"] .room-chappell h1 { text-shadow: none; }
 
 
 /* §13 ── THE CAMPGROUNDS (off the end of the street) ─────────────────────────
-   AN AREA, NOT A ROOM. The street is six shopfronts shoulder to shoulder under
+   AN AREA, NOT A ROOM. The street is a row of shopfronts shoulder to shoulder under
    neon, and some people do not want a shopfront. This is where the street runs
    out: a field past the treeline with numbered pitches on it, for the ones who
    would rather live on the edge of town and be left alone.

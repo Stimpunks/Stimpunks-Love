@@ -5,9 +5,19 @@ how to run the tools; this file covers the things a session gets wrong.
 
 ## The rule that matters most: do not tidy this site
 
-**There is no single design system here and there must not become one.** Seven rooms, seven
-unrelated visual worlds, joined by a street — one subroom behind one of those doors, and a
-campground past the treeline at the end of the street with a yurt pitched on it. The instinct
+**There is no single design system here and there must not become one.** Every room on this
+street is its own unrelated visual world — plus a subroom behind one of the doors, and a
+campground past the treeline at the end of the street with a yurt pitched on it.
+
+**AND DO NOT COUNT THEM.** Ryan's call, 2026-09-20: the number of storefronts is going to grow
+well past anything worth writing down, so no page, comment, tool string or doc here states how
+many rooms, doors, worlds, share cards, pages or typefaces there are. This is not tidiness — a
+total is a fact about the site that lives in a dozen places and is updated in one. **Adding the
+Arcade proved it in the same commit that added it:** `love.css` went on saying "the six doors
+are all outlined boxes" and "the street is six shopfronts shoulder to shoulder", and this file
+went on saying there were "ten card designs", all three stale the moment the Arcade opened
+and none of them caught by anything. `tools/check-counts.py` refuses them now. Write what
+is *true however many there are* — "no two rooms alike", "one card per room", "every page". The instinct
 to harmonise — one type scale, one palette, shared component classes across rooms — is the
 correct instinct on every other Stimpunks site and is **destructive here**. `love.css` is
 deliberately a small shared base (§1–§4) followed by ten sections that duplicate each other's
@@ -30,7 +40,7 @@ cards. **"An area should look like an area" is the subroom excuse with a promoti
 more persuasive than the original because an area really does sound like the kind of thing that
 has a house style. It does not. The contrast between the cold field and the warm tent *is* the
 door — you walk in out of the night air — and flattening either one deletes the only thing that
-makes the arrival mean anything. Two share cards, ninth and tenth, for the same reason.
+makes the arrival mean anything. A share card each, for the same reason.
 
 **THE YURT IS HELEN EDGAR'S AND IS NOT OURS TO REDESIGN.** The palette, the three typefaces,
 the drawings, the twelve book spines, the glimmer window and every line of its copy came from a
@@ -60,7 +70,7 @@ pasted in — **not** a permissions matter but a room-consistency one, plus the 
 licence asks for variants rather than merely allowing them.
 
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
-there are **ten card designs, not one** — the place a template would have been the obvious
+there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody
 opens a PNG in review. `make-og.py` builds each card from the page's own body class with
 `love.css` attached and lifts the h1 verbatim, so a room's card cannot drift from the room and
@@ -102,7 +112,8 @@ decision into a false statement on a published page.
    playfield moves until the coin goes in, and the cabinet makes **no sound at all, ever, at any
    setting** — a promise the room states in its own copy, so adding one blip to it turns a design
    decision into a false sentence on a published page.
-2. **"Clashing is not the same as illegible."** `tools/check-contrast.py`, 162 pairs. It found
+2. **"Clashing is not the same as illegible."** `tools/check-contrast.py`, one pair per
+   text-and-ground combination on the street. It found
    two real failures the first time it ran — white body copy on the Playhouse blue at 4.17, and
    the word clock's copy on violet at 3.36 — both of which would have shipped. It has since
    caught two more in a design that arrived from outside this repo: Helen's `#8a7462` at 4.30 /
@@ -119,8 +130,8 @@ decision into a false statement on a published page.
    contact, because colour is never the only channel here. A checker that does not know about
    the new colour passes silently, which is worse than no checker.
 3. **"Gentle takes away the wobble, never the words."** There is no content behind an intensity
-   level. Do not add any. `tools/check-gentle.py` now measures both halves on all fifteen
-   pages at all three settings. The global reset is safe because it carries `!important`; **the
+   level. Do not add any. `tools/check-gentle.py` now measures both halves on every page at all
+   three settings. The global reset is safe because it carries `!important`; **the
    tilts are not**, because every room resets its own and CSS does not warn when a decorative
    selector out-specifies one — it just renders the louder rule. That nearly shipped on Enid's
    wall (`.polaroid-wall .polaroid:nth-child(even)` at (0,3,0) against a reset at (0,2,1); it is
@@ -215,7 +226,7 @@ entries from everyone but the owner, so thirteen is what plays and the discrepan
 down in the data file rather than rounded off.
 
 `make-og.py` refuses a page whose body class it has no card for — it refused the Arcade until
-that room had the eleventh design, which is exactly what it is for — refuses a card whose content
+that room had a design of its own, which is exactly what it is for — refuses a card whose content
 does not fit 1200×630 — Chrome reports the layout back out of the same run that takes the
 picture, so the fit is measured rather than assumed — and **cannot write an `og:image` without
 an `og:image:alt`**, because text baked into an image is text nobody can hear. Writing it also

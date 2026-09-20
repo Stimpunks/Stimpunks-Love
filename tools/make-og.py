@@ -7,7 +7,7 @@ that card is a grey rectangle with a favicon in it -- which for a site whose
 entire argument is that the rooms refuse to share a look would be the blandest
 possible misrepresentation of it.
 
-SO THERE IS NO TEMPLATE. There are eleven, one per room, and they are allowed to
+SO THERE IS NO TEMPLATE. There is one per room, and they are allowed to
 contradict each other exactly as love.css sections 5 to 15 do. The street's card
 collides six typefaces on purpose; the zine's is a photocopied ransom note; the
 quantum room's is a mono face over interference fringes; the plain rooms get a
@@ -295,7 +295,7 @@ document.fonts.ready.then(function () {{
 """
 
 
-# ── The eleven cards ─────────────────────────────────────────────────────────
+# ── The cards ────────────────────────────────────────────────────────────────
 # One function per room. They are allowed to share nothing, and mostly do not.
 # Each returns (ambient markup, card markup, alt text). `p` is the page.
 
@@ -304,15 +304,15 @@ def card_street(p):
         '<div class="sparkle" aria-hidden="true"></div>',
         f'<div class="og og--street" data-fit="card">'
         f'{p["h1"]}{p["tagline"]}'
-        f'<p class="og-foot" data-fit="footer">ONE STREET · SEVEN ROOMS · A FIELD PAST THE TREELINE</p>'
+        f'<p class="og-foot" data-fit="footer">ONE STREET · NO TWO ROOMS ALIKE · A FIELD PAST THE TREELINE</p>'
         f'</div>',
         "A night-black card scattered with small coloured sparks. “stimpunks” in "
         "white block capitals with pink and cyan offset shadows, “.love” below it "
         "in hot pink script, and six taglines each set in a different typeface: "
         "Queer without fear. Interdependent and here. Divergent and proud. Living "
         "out loud. Plucky pluralism, for human organisms. Becoming and belonging, "
-        "with ribald songing. Along the bottom: one street, seven rooms, a field past "
-        "the treeline.",
+        "with ribald songing. Along the bottom: one street, no two rooms alike, a field "
+        "past the treeline.",
     )
 
 
@@ -567,7 +567,7 @@ def main():
             "REFUSING: no card is designed for these pages' rooms:\n  "
             + "\n  ".join(f"{f}  (body class=\"{b}\")" for f, b in unknown)
             + "\n\nA new room needs a card of its own, written in this file beside the "
-            "other\nten. Do not let it fall back to the plain one: the card is the "
+            "others.\nDo not let it fall back to the plain one: the card is the "
             "only part\nof a room most people see, and it would wear somebody else's "
             "face silently."
         )
@@ -580,7 +580,7 @@ def main():
         )
 
     # og:image has to be absolute, and the site's own origin is already written
-    # down fifteen times in the canonicals. Taking it from there rather than from
+    # down once in every page's canonical. Taking it from there rather than from
     # a constant in this file means one fewer place for the domain to be stale.
     origins = {p["canonical"].split("/")[0] + "//" + p["canonical"].split("/")[2]
                for p in pages}
@@ -592,7 +592,7 @@ def main():
         )
     base = origins.pop()
 
-    # Five rooms build their card out of something the page already holds --
+    # Some rooms build their card out of something the page already holds --
     # lifted whole rather than retyped, for the same reason the h1 is: a card
     # that repeats the page in its own words is a card that can come to
     # disagree. The campground's stream and the yurt's crown and fairy lights
