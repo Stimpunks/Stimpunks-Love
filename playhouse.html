@@ -41,7 +41,12 @@
 
   <p id="playhouse-says" role="status" aria-live="polite" style="margin:24px 0 0;min-height:56px;background:#101014;border:5px solid #fff;border-radius:18px;padding:16px 20px;font-family:'Bungee',sans-serif;font-size:16px;line-height:1.4;color:var(--yellow);">Press something. This box says what happened, out loud, for anyone who cannot see the room wobble.</p>
 
-  <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:22px;align-items:stretch;">
+  <!-- align-items:flex-start, not stretch. Stretch made the toys list as tall as
+       whatever sat beside it, and a two-row grid stretched to 1293px gives each row
+       638px, so every toy ballooned from its 168px min-height and the bottom row
+       fell below the fold. The toys are the room; they should not resize because
+       the column next to them gained a paragraph. -->
+  <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:22px;align-items:flex-start;">
 
     <ul class="toys" style="flex:1 1 520px;">
       <li><button type="button" class="toy toy--yellow" data-toy="stim">
