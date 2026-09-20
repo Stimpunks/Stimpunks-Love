@@ -112,8 +112,16 @@ def main():
             )
 
         who = html.escape(ph["subject"])
-        credit = f"{who}" + (f", photographed by {html.escape(ph['photographer'])}"
-                             if ph.get("photographer") else "")
+        shot = ph.get("photographer")
+        # Somebody who photographs themselves is still the photographer, and the
+        # consent record keeps both facts -- but "Ryan Boren, photographed by
+        # Ryan Boren" is noise on a polaroid.
+        if shot and shot.strip() == ph["subject"].strip():
+            credit = f"{who}, a self-portrait"
+        elif shot:
+            credit = f"{who}, photographed by {html.escape(shot)}"
+        else:
+            credit = who
         cap = html.escape(ph.get("caption") or "")
         blocks.append(
             f'          <figure class="polaroid" style="margin:0;">\n'
