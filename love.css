@@ -478,6 +478,10 @@ html[data-intensity="gentle"] .stickers a { transform: none; }
 .polaroid { background: #ece8f5; border-radius: 4px; padding: 11px 11px 0; transform: rotate(-2deg); }
 .polaroid__plate { aspect-ratio: 1; background: #2a2a34; border-radius: 2px; }
 .polaroid figcaption { font-family: 'Rock Salt', var(--sans); font-size: 11px; color: #3a3644; padding: 14px 0; line-height: 1.4; }
+img.polaroid__plate { display: block; width: 100%; object-fit: cover; }
+.polaroid__credit { display: block; margin-top: 7px; font-family: var(--sans); font-size: 10.5px; letter-spacing: .2px; }
+.polaroid__note { margin: 0; background: #16161d; border: 3px solid #2a2a34; border-radius: 14px; padding: 14px 15px; font-size: 13px; line-height: 1.45; color: #b9b5c9; }
+.polaroid__note a { color: var(--green); }
 html[data-intensity="gentle"] .polaroid { transform: none; }
 
 .boombox { border: 2px solid #2a2a34; border-radius: 12px; padding: 15px; display: flex; gap: 11px; align-items: center; }

@@ -59,6 +59,14 @@ of components*, so the ransom note printed in full colour and `.pullquote` kept 
 while its text was forced to `#000` — 1.14:1, invisible. **Add an ink to that list only after
 deciding it survives a photocopier**, never to make the tool quiet.
 
+`make-polaroids.py` builds Enid's wall and **enforces the promises on `polaroids.html` rather
+than trusting them**: no alt text, no named subject, no consent date, or any EXIF still on the
+file, and it refuses. The photographs are **excluded from the site's CC BY-SA licence** and that
+exclusion is load-bearing — CC BY-SA cannot be revoked, so a photo published under it could not
+be taken back after somebody withdrew, and "it comes down when you say so" would be a promise
+the licence contradicted. Withdrawal is deletion, not a hidden flag. **We do not publish
+photographs of children.**
+
 `make-readings.py` builds the audio room from `data/readings.json` and prints every passage as
 text whether or not its recording exists — the words are the room, and an argument you can only
 follow by hearing it is an audio-only requirement. **Do not lift readings from the glossary**: that

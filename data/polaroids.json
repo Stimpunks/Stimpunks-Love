@@ -1,0 +1,8 @@
+{
+  "_terms": "polaroids.html — what we ask for, what we promise, and how a photo comes down again.",
+  "_licence": "Photographs here are NOT under the site's CC BY-SA 4.0 licence and carry no onward licence at all. They belong to the people in them and to whoever took them. This is deliberate: CC BY-SA cannot be revoked, so a photo published under it could not be taken back after somebody withdrew consent, and 'it comes down when you say so' would be a promise the licence contradicted. See LICENSE.",
+  "_consent": "Record only that consent exists and when. Do NOT put anybody's email, message, or contact details in this file — it is a public repository. The conversation stays wherever it happened. To withdraw: delete the entry, delete the file in photos/, and run tools/make-polaroids.py. The wall returns to grey on its own.",
+  "_children": "We do not publish photographs of children. A parent can give the consent; the child cannot take it back in ten years when it matters to them.",
+  "_required": "Every photo needs id, alt, subject and consent_on. 'caption' and 'photographer' are optional, but a named photographer must also have given permission — being in a picture is not the same as owning it.",
+  "photos": []
+}

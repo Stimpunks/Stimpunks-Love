@@ -10,7 +10,8 @@ import pathlib, re, datetime, html
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 ORDER = ["index.html", "pink-pony-club.html", "zine-table.html", "zine-issue-2.html",
          "hear-queer-here.html",
-         "enids-room.html", "playhouse.html", "your-room.html", "liner-notes.html",
+         "enids-room.html", "polaroids.html", "playhouse.html",
+         "your-room.html", "liner-notes.html",
          "changelog.html"]
 
 def field(src, pat):
