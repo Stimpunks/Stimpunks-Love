@@ -67,6 +67,61 @@
     } catch (e) { /* no audio available: the button still works, just quietly */ }
   }
 
+  /* A yell is not a tone. The yell button used to call blip(180, 420) -- the same
+     triangle oscillator as the stim box, an octave and a half down -- and a pure
+     wave at one frequency is a bloop however low you put it. What makes a shout
+     a shout is noise and a pitch that moves: breath through a resonance that
+     sweeps, a hard attack, and a ragged fall rather than a tidy one. So this
+     builds the noise itself instead of asking an oscillator to imply it. */
+  function yellNoise() {
+    try {
+      if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+      if (ctx.state === 'suspended') ctx.resume();
+      var t = ctx.currentTime, dur = 0.62;
+
+      /* Breath. One second of white noise, band-passed by a filter that sweeps
+         down the way a voice does as a shout runs out of air. */
+      var frames = Math.floor(ctx.sampleRate * dur);
+      var buf = ctx.createBuffer(1, frames, ctx.sampleRate);
+      var d = buf.getChannelData(0);
+      for (var i = 0; i < frames; i++) d[i] = Math.random() * 2 - 1;
+      var noise = ctx.createBufferSource();
+      noise.buffer = buf;
+      var band = ctx.createBiquadFilter();
+      band.type = 'bandpass';
+      band.Q.value = 1.6;   /* wide. At 4.5 the filter threw away most of the breath
+                               and the result measured barely louder than the bloop
+                               it replaced -- right in character, still too polite. */
+      band.frequency.setValueAtTime(1500, t);
+      band.frequency.exponentialRampToValueAtTime(420, t + dur);
+
+      /* The voice under the breath. Two saws a little apart beat against each
+         other, which is the roughness a single clean oscillator never has. */
+      var a = ctx.createOscillator(), b = ctx.createOscillator();
+      a.type = b.type = 'sawtooth';
+      b.detune.value = 17;
+      [a, b].forEach(function (o) {
+        o.frequency.setValueAtTime(240, t);
+        o.frequency.exponentialRampToValueAtTime(430, t + 0.07);   /* up fast */
+        o.frequency.exponentialRampToValueAtTime(180, t + dur);    /* then down */
+      });
+      var vg = ctx.createGain();
+      vg.gain.value = 0.22;
+
+      var g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.5, t + 0.012);   /* hard attack */
+      g.gain.exponentialRampToValueAtTime(0.28, t + 0.22);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+
+      noise.connect(band); band.connect(g);
+      a.connect(vg); b.connect(vg); vg.connect(g);
+      g.connect(ctx.destination);
+      noise.start(t); a.start(t); b.start(t);
+      noise.stop(t + dur); a.stop(t + dur + 0.02); b.stop(t + dur + 0.02);
+    } catch (e) { /* no audio available: the button still works, just quietly */ }
+  }
+
   /* ── The Playhouse ──────────────────────────────────────────────────────── */
   function playhouse() {
     var say = document.getElementById('playhouse-says');
@@ -84,7 +139,7 @@
 
     var yell = document.querySelector('[data-toy="yell"]');
     if (yell) yell.addEventListener('click', function () {
-      blip(180, 420);
+      yellNoise();
       announce('AAAAAAAAAAAAAAH!');
     });
 
