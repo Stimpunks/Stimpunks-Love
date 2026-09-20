@@ -6,11 +6,12 @@ how to run the tools; this file covers the things a session gets wrong.
 ## The rule that matters most: do not tidy this site
 
 **There is no single design system here and there must not become one.** Six rooms, six
-unrelated visual worlds, joined by a street — and one subroom behind a seventh door. The instinct to harmonise — one type scale, one
-palette, shared component classes across rooms — is the correct instinct on every other
-Stimpunks site and is **destructive here**. `love.css` is deliberately a small shared base
-(§1–§4) followed by seven sections that duplicate each other's ideas in different clothes. That
-duplication is the product.
+unrelated visual worlds, joined by a street — one subroom behind a seventh door, and a
+campground past the treeline at the end of the street with a yurt pitched on it. The instinct
+to harmonise — one type scale, one palette, shared component classes across rooms — is the
+correct instinct on every other Stimpunks site and is **destructive here**. `love.css` is
+deliberately a small shared base (§1–§4) followed by ten sections that duplicate each other's
+ideas in different clothes. That duplication is the product.
 
 If a change would make two rooms look more alike, it is probably wrong. Ask first.
 
@@ -22,8 +23,26 @@ the most reasonable-sounding sentence the tidying instinct has ever produced her
 wrong for exactly the reason every other version of it is wrong. It got its own share card too,
 which is where the shortcut would have been invisible.
 
+**AN AREA IS THE SAME CASE WEARING BETTER CLOTHES.** The Campgrounds (§13) is cold blue spruce,
+bone lettering routed like a park sign, and marker posts standing on bare ground. The Faery Yurt
+(§14) is the first thing pitched on it and is candlelit brown, old serifs and soft bordered
+cards. **"An area should look like an area" is the subroom excuse with a promotion**, and it is
+more persuasive than the original because an area really does sound like the kind of thing that
+has a house style. It does not. The contrast between the cold field and the warm tent *is* the
+door — you walk in out of the night air — and flattening either one deletes the only thing that
+makes the arrival mean anything. Two share cards, ninth and tenth, for the same reason.
+
+**THE YURT IS HELEN EDGAR'S AND IS NOT OURS TO REDESIGN.** The palette, the three typefaces,
+the drawings, the twelve book spines, the glimmer window and every line of its copy came from a
+mockup she built and sent on 2026-09-20. This repo added its own plumbing — the dial,
+self-hosted faces, the consent record behind the photograph — and changed **exactly one
+colour**, because her smallest grey failed WCAG on every ground it sat on. That change is
+written up beside `--tallow-3` in §2, in `check-contrast.py`, in the changelog and in the liner
+notes, because "we altered a contributor's design" is a thing that has to be visible in four
+places rather than implied in a diff. Do not change a second thing without asking her.
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
-there are **eight card designs, not one** — the place a template would have been the obvious
+there are **ten card designs, not one** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody
 opens a PNG in review. `make-og.py` builds each card from the page's own body class with
 `love.css` attached and lifts the h1 verbatim, so a room's card cannot drift from the room and
@@ -62,11 +81,15 @@ decision into a false statement on a published page.
    press. If you change that control, the label is the part that keeps the claim true. The
    superposition buttons themselves still make no sound at all: collapsing is a measurement,
    not a play.
-2. **"Clashing is not the same as illegible."** `tools/check-contrast.py`, 87 pairs. It found
+2. **"Clashing is not the same as illegible."** `tools/check-contrast.py`, 126 pairs. It found
    two real failures the first time it ran — white body copy on the Playhouse blue at 4.17, and
-   the word clock's copy on violet at 3.36 — both of which would have shipped. **Add a pair to
-   that file whenever you add a colour to a room.** A checker that does not know about the new
-   colour passes silently, which is worse than no checker.
+   the word clock's copy on violet at 3.36 — both of which would have shipped. It has since
+   caught two more in a design that arrived from outside this repo: Helen's `#8a7462` at 4.30 /
+   3.85 / 3.43 on the yurt's three grounds, carrying five different labels, and her fourth book
+   spine at 3.74. **Add a pair to that file whenever you add a colour to a room** — and when a
+   room has an ambient layer, add the composite ground as well, because the flat background is
+   not what the type sits on. A checker that does not know about the new colour passes silently,
+   which is worse than no checker.
 3. **"Gentle takes away the wobble, never the words."** There is no content behind an intensity
    level. Do not add any.
 
@@ -96,7 +119,12 @@ chair passing a movement slogan off as a house line is the exact failure this si
 
 `make-polaroids.py` builds Enid's wall and **enforces the promises on `polaroids.html` rather
 than trusting them**: no alt text, no named subject, no consent date, or any EXIF still on the
-file, and it refuses. The photographs are **excluded from the site's CC BY-SA licence** and that
+file, and it refuses. Since the Faery Yurt hangs one of these photographs in Helen's own room,
+it also **walks every page rather than only the wall** — the consent record and the publication
+being in two different places is precisely where a withdrawal gets half-honoured. A photo
+published anywhere with no entry is a refusal; a photo hung outside the wall whose entry does
+not list that page is a refusal; a file in `photos/` with no record at all is a refusal. Delete
+a withdrawn entry and the tool stops until every page has let go of it. The photographs are **excluded from the site's CC BY-SA licence** and that
 exclusion is load-bearing — CC BY-SA cannot be revoked, so a photo published under it could not
 be taken back after somebody withdrew, and "it comes down when you say so" would be a promise
 the licence contradicted. Withdrawal is deletion, not a hidden flag. **We do not publish

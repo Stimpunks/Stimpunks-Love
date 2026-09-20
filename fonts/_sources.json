@@ -134,5 +134,65 @@
       "bytes": 10732,
       "src": "https://fonts.gstatic.com/s/titanone/v17/mFTzWbsGxbbS_J5cQcjClDgm-khykw.woff2"
     }
+  ],
+  "cormorant-garamond": [
+    {
+      "file": "cormorant-garamond-600.woff2",
+      "weight": "600",
+      "style": "normal",
+      "bytes": 23384,
+      "src": "https://fonts.gstatic.com/s/cormorantgaramond/v21/co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_iE9KnTOitk9IfqxUQ.woff2"
+    },
+    {
+      "file": "cormorant-garamond-600-italic.woff2",
+      "weight": "600",
+      "style": "italic",
+      "bytes": 23824,
+      "src": "https://fonts.gstatic.com/s/cormorantgaramond/v21/co3smX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd5LDf-iNM8A_6pUKz9.woff2"
+    }
+  ],
+  "crimson-pro": [
+    {
+      "file": "crimson-pro-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 18424,
+      "src": "https://fonts.gstatic.com/s/crimsonpro/v28/q5uUsoa5M_tv7IihmnkabC5XiXCAlXGks1WZzm1MP5s-dtC4yJtE.woff2"
+    },
+    {
+      "file": "crimson-pro-400-italic.woff2",
+      "weight": "400",
+      "style": "italic",
+      "bytes": 19072,
+      "src": "https://fonts.gstatic.com/s/crimsonpro/v28/q5uSsoa5M_tv7IihmnkabAReu49Y_Bo-HVKMBi6Ue6s8fNGazINFRtM.woff2"
+    }
+  ],
+  "caveat": [
+    {
+      "file": "caveat-600.woff2",
+      "weight": "600",
+      "style": "normal",
+      "bytes": 51296,
+      "src": "https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjSx6eIWpYT5Kmgq3sw.woff2"
+    }
+  ],
+  "alfa-slab-one": [
+    {
+      "file": "alfa-slab-one-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 11580,
+      "src": "https://fonts.gstatic.com/s/alfaslabone/v21/6NUQ8FmMKwSEKjnm5-4v-4Jh2dJhe_escmA.woff2"
+    }
+  ],
+  "bitter": [
+    {
+      "file": "bitter-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 34156,
+      "src": "https://fonts.gstatic.com/s/bitter/v42/rax8HiqOu8IVPmn7f4xpLjpSmw.woff2",
+      "note": "Bitter ships as a variable font, so Google serves the same file for every weight \u2014 700 was byte-identical to this. The campgrounds takes the regular only and sets its emphasis in Alfa Slab One instead, rather than shipping 34KB twice under two names."
+    }
   ]
 }

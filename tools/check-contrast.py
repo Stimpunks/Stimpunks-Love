@@ -27,6 +27,15 @@ PINK, HOT, ORANGE, YELLOW = "#FF2D95", "#FF3D9A", "#FF8A00", "#FFE100"
 GREEN, CYAN, VIOLET, RED = "#22E06A", "#00D4FF", "#AC5BFF", "#C4002B"
 BLUE, VIOLET_DEEP = "#1770C2", "#7B28DD"
 NAVE, NICHE, GLASS, LEAF = "#1A0A33", "#170A2B", "#0E0520", "#F0C453"
+DUSK, SPRUCE, BARK = "#0E1A18", "#13241F", "#2A3A31"
+BONE, LICHEN, MOSS, MOON = "#EFE9DC", "#C6D2C4", "#8FAE88", "#E7D9A8"
+HEARTH, TENT, CANVAS, CANVAS2 = "#150F0E", "#1B1310", "#241A16", "#2C1F19"
+TALLOW, TALLOW2, TALLOW3 = "#F2E6D4", "#C2AC91", "#A4907B"
+EMBER, EMBER2, CANDLE = "#E0904A", "#F2B673", "#E9C874"
+# What the yurt's canvas weave and its ember crown actually make, composited:
+# #150F0E, then cream at .016 and .022 for the two hatches, then the ember
+# glow at .10. Nobody wrote this colour; it is the one the type sits on.
+GLOW = "#31231A"
 
 # (fg, bg, large?, where)
 PAIRS = [
@@ -134,6 +143,62 @@ PAIRS = [
     ("#b9b5c9", "#35224C", False, "enid: share-card footer over the violet half of the glow"),
     ("#b9b5c9", "#133523", False, "enid: share-card footer over the green half of the glow"),
     ("#2b0a1c", "#FF5AA6", False, "pony: dark copy over the brightest ray of the mirrorball glow"),
+
+    # THE CAMPGROUNDS (love.css §13). Cold dusk, bone signs, one moon. Note that
+    # Alfa Slab One is a 400-weight face however heavy it looks, so WCAG holds
+    # its 19px headings to 4.5 and not to 3 -- the rule goes by the declared
+    # weight, not by how black the design reads.
+    (BONE,   DUSK,   True,  "campgrounds: h1 in Alfa Slab One, 38-72px"),
+    (BONE,   DUSK,   False, "campgrounds: pitch names, 26px — checked at the body threshold too"),
+    (LICHEN, DUSK,   False, "campgrounds: the lede, pitch copy, the open-pitch names"),
+    (MOSS,   DUSK,   False, "campgrounds: h2, the pitch numbers, the trailmark, the who-line"),
+    (MOON,   DUSK,   False, "campgrounds: links and the backlink"),
+    (LICHEN, SPRUCE, False, "campgrounds: the board's notices"),
+    (MOSS,   SPRUCE, False, "campgrounds: the board's list markers"),
+    (MOON,   SPRUCE, False, "campgrounds: a link inside the board"),
+    (BONE,   SPRUCE, False, "campgrounds: the stream's upper bank, if type ever lands on it"),
+    (INK,    GREEN,  False, "street: the signpost arm, dark on painted green"),
+    (INK,    CYAN,   False, "street: the signpost arm on hover"),
+
+    # THE FAERY YURT (love.css §14). Helen's palette, checked against all four
+    # of her grounds AND against GLOW, which is what her canvas weave and ember
+    # crown composite to. That last column is the one that matters: it is how
+    # #8a7462 was caught, which she had on the eyebrow, the shelf note, the
+    # window hint, the pet cards and the footer -- 4.30 on the flat hearth,
+    # 3.43 over the crown, 3.61 on a card. It is #A4907B here and clears all of
+    # them. It is the only value of hers this site changed.
+    (TALLOW,  HEARTH,  True,  "yurt: h1, 42-67px Cormorant Garamond italic"),
+    (TALLOW,  HEARTH,  False, "yurt: body copy in Crimson Pro"),
+    (TALLOW,  GLOW,    False, "yurt: body copy under the ember crown"),
+    (TALLOW2, HEARTH,  False, "yurt: the tagline, section intros, the photo caption"),
+    (TALLOW2, GLOW,    False, "yurt: the tagline under the crown"),
+    (TALLOW2, CANVAS,  False, "yurt: the record's copy and the nook's labels"),
+    (TALLOW2, CANVAS2, False, "yurt: copy on the darker half of a card gradient"),
+    (TALLOW3, HEARTH,  False, "yurt: eyebrow, shelf note, window hint, colophon"),
+    (TALLOW3, GLOW,    False, "yurt: the eyebrow under the crown — the tightest pair in the room"),
+    (TALLOW3, CANVAS,  False, "yurt: the resident cards' copy"),
+    (TALLOW3, CANVAS2, False, "yurt: the resident cards' copy at the foot of the gradient"),
+    (EMBER2,  HEARTH,  False, "yurt: links"),
+    (EMBER2,  GLOW,    False, "yurt: links under the crown"),
+    (EMBER2,  CANVAS,  False, "yurt: the 'coming soon' pill on the record"),
+    (CANDLE,  HEARTH,  False, "yurt: a link on hover"),
+    (TALLOW,  TENT,    False, "yurt: copy on the dark end of a card gradient"),
+
+    # The twelve book spines are six 90deg gradients, so each one is TWO grounds
+    # and the lighter end is the one that decides. Helen's fourth spine ran to
+    # #9a6c2f, where her cream measured 3.74 at 16px; it stops at #8A5F26 now.
+    (TALLOW, "#6E2F2B", False, "yurt: spine c1, dark end"),
+    (TALLOW, "#8A3D34", False, "yurt: spine c1, light end"),
+    (TALLOW, "#38491F", False, "yurt: spine c2, dark end"),
+    (TALLOW, "#4A5F2A", False, "yurt: spine c2, light end"),
+    (TALLOW, "#5A3D63", False, "yurt: spine c3, dark end"),
+    (TALLOW, "#75507F", False, "yurt: spine c3, light end"),
+    (TALLOW, "#7A5324", False, "yurt: spine c4, dark end"),
+    (TALLOW, "#8A5F26", False, "yurt: spine c4, light end — was #9a6c2f and failed at 3.74"),
+    (TALLOW, "#29414A", False, "yurt: spine c5, dark end"),
+    (TALLOW, "#375968", False, "yurt: spine c5, light end"),
+    (TALLOW, "#4A2F4F", False, "yurt: spine c6, dark end"),
+    (TALLOW, "#653D6B", False, "yurt: spine c6, light end"),
 ]
 
 # NOT IN THE LIST, AND IT SHOULD BE: cream (#FFF3E6) on the same #FF5AA6 ground

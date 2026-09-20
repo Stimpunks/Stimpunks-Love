@@ -2,7 +2,7 @@
 """Compute the CSP hash for the one inline script on this site and write it into _headers.
 
 Every page runs the same pre-paint snippet that applies the intensity dial's
-default. It is byte-identical on all ten pages, so ONE hash covers the site —
+default. It is byte-identical on every page, so ONE hash covers the site —
 this script checks that claim rather than assuming it, because a stale hash does
 not warn: the browser silently refuses the snippet and everyone who asked for
 Gentle gets flashed the loud version instead. That is the exact failure the dial

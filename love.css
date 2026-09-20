@@ -1,11 +1,11 @@
 /* =============================================================================
-   stimpunks.love — one street, six rooms.
+   stimpunks.love — one street, six rooms, and a campground off the end of it.
 
    The organising idea: this site has NO single design system, on purpose. Every
    other Stimpunks site applies one consistent look across many pages. Here the
    STREET is the system and the ROOMS refuse to share one. So this file is a
    small shared base (§1–§4) followed by one self-contained world per room
-   (§5–§12), each free to contradict the others.
+   (§5–§14), each free to contradict the others.
 
    The one thing every room DOES share is §3, the intensity dial. Danny the
    Street rearranges itself for whoever walks down it, so loudness is a control
@@ -36,6 +36,22 @@
 @font-face { font-family: 'Instrument Serif';src: url('fonts/instrument-serif-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Instrument Serif';src: url('fonts/instrument-serif-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 
+/* The campgrounds (§13) and the Faery Yurt (§14). Five families arriving at
+   once, which is what it costs to open an area whose two pages are allowed to
+   share nothing — with the street, or with each other. Alfa Slab One and Bitter
+   are the campground's routed sign and its field-guide body; the other three are
+   Helen's, named in her own mockup, and taking them is how the yurt stays hers.
+   Bitter ships as a variable font, so its bold was byte-identical to its
+   regular; the campground sets emphasis in Alfa Slab One rather than serve the
+   same 34KB twice. See fonts/_sources.json. */
+@font-face { font-family: 'Alfa Slab One';  src: url('fonts/alfa-slab-one-400.woff2') format('woff2');  font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Bitter';         src: url('fonts/bitter-400.woff2') format('woff2');         font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Cormorant Garamond'; src: url('fonts/cormorant-garamond-600.woff2') format('woff2');        font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Cormorant Garamond'; src: url('fonts/cormorant-garamond-600-italic.woff2') format('woff2'); font-weight: 600; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Crimson Pro';    src: url('fonts/crimson-pro-400.woff2') format('woff2');        font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Crimson Pro';    src: url('fonts/crimson-pro-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Caveat';         src: url('fonts/caveat-600.woff2') format('woff2');         font-weight: 600; font-display: swap; }
+
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -55,6 +71,21 @@
      colours are decorative only and never carry text. */
   --nave: #1A0A33;  --niche: #170A2B;  --glass: #0E0520;  --leaf: #F0C453;
   --ruby: #8B0E33;  --sapphire: #14406E;  --emerald: #0E5C3A;  --amethyst: #5B2A8F;
+
+  /* The Campgrounds (§13). Cold dusk: spruce dark, bone, lichen, one moon. The
+     street is night-black under neon; this is night-blue under nothing. */
+  --dusk: #0E1A18;  --spruce: #13241F;  --bark: #2A3A31;
+  --bone: #EFE9DC;  --lichen: #C6D2C4;  --moss: #8FAE88;  --moon: #E7D9A8;
+
+  /* The Faery Yurt (§14), Helen's, and warm on purpose where the campground it
+     is pitched on is cold — you walk in out of the night air. --tallow-3 is the
+     ONE value of hers this file changed: her #8a7462 measured 4.30 on the tent
+     ground and 3.61 on the canvas, and it carries the eyebrow, the shelf note,
+     the window hint, the pet cards and the footer. See check-contrast.py. */
+  --hearth: #150F0E;  --tent: #1B1310;  --canvas: #241A16;  --canvas-2: #2C1F19;
+  --timber: #3A2A20;  --tallow: #F2E6D4;  --tallow-2: #C2AC91;  --tallow-3: #A4907B;
+  --ember: #E0904A;   --ember-2: #F2B673;  --ivy: #6D8A56;  --ivy-2: #38491F;
+  --candle: #E9C874;
 }
 
 * { box-sizing: border-box; }
@@ -308,6 +339,32 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .door--empty .door__name  { font-family: 'Bungee', var(--sans); color: var(--chalk); font-size: 23px; }
 .door--empty .door__blurb { color: var(--chalk); }
 .door--empty .door__knock { font-family: 'Rock Salt', var(--sans); font-size: 11px; letter-spacing: 0; color: #9d8cc8; }
+
+/* The signpost at the end of the shopfronts. NOT A SEVENTH DOOR, and the grid
+   above is why: a door on this street is a storefront you walk into, and the
+   campgrounds is not a storefront — it is where the street stops. So it is one
+   plank pointing off the end, the full width of the row, shaped like a
+   fingerpost rather than boxed like a shop. It wears the street's Bungee and
+   the street's green because it is a street object; what it points at is
+   nothing like it.
+
+   PAINTED, NOT OUTLINED — the six doors are all outlined boxes, and a border
+   cannot survive the clip-path that cuts the point anyway: it came out as a
+   bordered plank with a borderless triangle stuck on the end. A solid plank
+   takes the cut cleanly, and dark-on-green is a pair this street already
+   holds. */
+.signpost { display: flex; align-items: stretch; margin: 26px 0 0; text-decoration: none; }
+.signpost__post { flex: 0 0 14px; background: var(--ink-3); border-radius: 3px 3px 0 0; }
+.signpost__arm {
+  flex: 1 1 auto; display: flex; flex-wrap: wrap; gap: 4px 20px;
+  align-items: baseline; justify-content: space-between;
+  margin: 14px 0; padding: 15px 52px 15px 18px;
+  background: var(--green); color: var(--ink);
+  clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 50%, calc(100% - 30px) 100%, 0 100%);
+}
+.signpost:hover .signpost__arm { background: var(--cyan); }
+.signpost__to { font-family: 'Bungee', var(--sans); font-size: 17px; letter-spacing: 1px; }
+.signpost__why { font-size: 14.5px; max-width: 62ch; }
 
 .pavement {
   margin-top: 40px; border-top: 3px solid var(--ink-3); background: var(--ink-2);
@@ -729,7 +786,308 @@ html[data-intensity="gentle"] .room-chappell h1 { text-shadow: none; }
 .gloria p { margin: 0; font-size: 15px; line-height: 1.56; color: #EFE4FF; }
 
 
-/* §13 ── Small screens ───────────────────────────────────────────────────────
+/* §13 ── THE CAMPGROUNDS (off the end of the street) ─────────────────────────
+   AN AREA, NOT A ROOM. The street is six shopfronts shoulder to shoulder under
+   neon, and some people do not want a shopfront. This is where the street runs
+   out: a field past the treeline with numbered pitches on it, for the ones who
+   would rather live on the edge of town and be left alone.
+
+   IT HAS NO AMBIENT LAYER AT ALL, at any setting, and that is the design rather
+   than an oversight. Every other page here has something that moves when the
+   dial is turned up — the marquee, the sparkle, the mirrorball, the rose
+   window. MAX GLITTER buys you nothing out here, because an area that exists
+   for people who want quiet cannot have a loud setting and mean it. The dial
+   still governs the pitches, which are their own worlds and set their own
+   noise; it is this field that stays still.
+
+   COLD WHERE THE STREET IS BLACK AND THE YURT IS WARM. Night-blue spruce, bone
+   lettering routed into signs, lichen for the body — no neon, no glitter, one
+   moon-coloured link. Walking from here into the Faery Yurt should feel like
+   stepping out of the night air into a lit tent, which only works if the field
+   is genuinely cold. Alfa Slab One is the routed park sign; Bitter is the
+   laminated notice on the board. Neither face is set anywhere else. */
+
+.campgrounds { background: var(--dusk); color: var(--bone); font-family: 'Bitter', Georgia, serif; }
+.campgrounds a { color: var(--moon); }
+.campgrounds a:hover { color: var(--bone); }
+.campgrounds p, .campgrounds li { font-size: 16.5px; line-height: 1.66; }
+
+/* The backlink drops Bungee. It is the one piece of shared furniture that
+   carries a typeface, and out here the street's voice would be the only loud
+   thing in the field. */
+.campgrounds .backlink { font-family: 'Bitter', Georgia, serif; font-size: 15px; letter-spacing: 0; color: var(--moon); }
+
+.campgrounds h1 {
+  font-family: 'Alfa Slab One', Georgia, serif; font-weight: 400;
+  font-size: clamp(38px, 7vw, 72px); line-height: 1.02;
+  color: var(--bone); margin: 12px 0 0;
+}
+.campgrounds h2 { font-family: 'Alfa Slab One', Georgia, serif; font-weight: 400; font-size: 19px; color: var(--moss); margin: 0 0 11px; }
+.campgrounds h3 { font-family: 'Alfa Slab One', Georgia, serif; font-weight: 400; font-size: 26px; line-height: 1.12; color: var(--bone); margin: 0; }
+.campgrounds .lede { font-size: 19.5px; line-height: 1.6; color: var(--lichen); max-width: 54ch; margin: 20px 0 0; }
+.campgrounds .trailmark { margin: 0; font-size: 14px; color: var(--moss); }
+
+/* The stream along the bottom of the field. Drawn in the page rather than in
+   this file, because it is a picture of a place and not a border — see
+   campgrounds.html. IT IS A STREAM AND NOT A TREELINE on purpose: the Faery
+   Yurt ends on a treeline of its own, and two pages in one area reaching for
+   the same drawing is exactly how an area quietly becomes a design system. The
+   field gets the water; the yurt keeps the trees. */
+.stream { margin: 30px 0 0; line-height: 0; }
+.stream svg { display: block; width: 100%; height: auto; }
+
+/* The board at the gate. The one boxed thing in the field, because it is the
+   one thing that is actually a box nailed to two posts. */
+.board {
+  margin: 30px 0 0; padding: 22px 24px;
+  background: var(--spruce); border: 3px solid var(--bark); border-radius: 3px;
+}
+.board p { margin: 0 0 12px; color: var(--lichen); }
+.board p:last-child { margin-bottom: 0; }
+.board ul { margin: 0; padding: 0 0 0 20px; color: var(--lichen); }
+.board li { margin: 0 0 9px; }
+.board li::marker { color: var(--moss); }
+
+/* The pitches. Marker posts standing on open ground — a timber on the left and
+   nothing around them. STRUCTURALLY THE OPPOSITE OF THE STREET, where six
+   shopfronts sit in a grid of equal boxes with awnings on. Nobody pitches a
+   tent in a box, and the ground showing between them is the whole point of
+   having come out here. */
+.pitches { list-style: none; margin: 26px 0 0; padding: 0; display: flex; flex-direction: column; gap: 30px; }
+.pitch { border-left: 5px solid var(--bark); padding: 2px 0 2px 22px; }
+.pitch__no { display: block; margin: 0 0 6px; font-family: 'Alfa Slab One', Georgia, serif; font-size: 13px; letter-spacing: 2px; color: var(--moss); }
+.pitch h3 a { color: var(--bone); text-decoration-color: var(--moss); text-underline-offset: 4px; }
+.pitch h3 a:hover { color: var(--moon); }
+.pitch p { margin: 10px 0 0; color: var(--lichen); max-width: 58ch; }
+.pitch__who { margin: 8px 0 0; font-size: 14.5px; color: var(--moss); }
+
+/* An unpitched plot is dashed, which is the same grammar the street's empty
+   storefront uses — the one borrowing allowed here, because "nobody has taken
+   this yet" is a fact about the site and not a look. */
+.pitch--open { border-left-style: dashed; }
+.pitch--open h3 { color: var(--lichen); }
+
+
+/* §14 ── PITCH 1: The Faery Yurt (in the campgrounds) ────────────────────────
+   HELEN'S ROOM, AND IT IS HERS. Built from the mockup Helen Edgar sent on
+   2026-09-20 — her palette, her typefaces, her copy, her drawings. What this
+   file did was translate it onto the street's plumbing (the dial, self-hosted
+   faces, the press-to-play rule) and change exactly one colour, which is
+   written up beside --tallow-3 in §2.
+
+   IT SHARES NOTHING WITH THE FIELD IT IS PITCHED ON, and the temptation to
+   make it match was stronger here than it has ever been: this is the first
+   thing in a brand new area, so "the area should look like an area" is the
+   most reasonable-sounding way the harmonising instinct could possibly have
+   arrived. The campground is cold blue spruce, routed bone signs and bare
+   ground. This is warm brown, candlelight, old serifs and soft cards. You walk
+   in out of the night air. That only works if the field is cold and the tent
+   is not — the contrast IS the door.
+
+   ALWAYS NIGHT, NEVER DARK. The tent ground carries a canvas weave and an
+   ember glow at the crown, which makes a ground nobody wrote: #31231A at its
+   brightest. Every ink in here is checked against THAT as well as the flat
+   hearth, the same way the Chappell is checked against its rose window. It is
+   what caught Helen's smallest grey. See check-contrast.py. */
+
+.room-yurt { background: var(--hearth); color: var(--tallow); font-family: 'Crimson Pro', Georgia, serif; font-size: 17px; line-height: 1.7; }
+.room-yurt a { color: var(--ember-2); text-decoration-color: rgba(224,144,74,.45); text-underline-offset: 3px; }
+.room-yurt a:hover { color: var(--candle); }
+.room-yurt .backlink { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: .06em; color: var(--tallow-2); }
+
+/* The tent itself: a lit column standing on the dark field. Helen drew this as
+   a page background; on the body it is a pitched tent with the night around it,
+   which is what it is. The weave is two crossed hatches at 2% — canvas, not
+   texture for its own sake — and the vignette is the canvas falling away at the
+   edges. None of it moves, so none of it is gated: gentle takes away the
+   wobble, never the room. */
+.yurt {
+  width: min(780px, 100% - 40px); margin-inline: auto; padding: 0 0 70px;
+  background-image:
+    radial-gradient(ellipse 900px 500px at 50% -80px, rgba(224,144,74,.10), transparent 70%),
+    radial-gradient(ellipse 640px 1400px at 50% 50%, transparent 60%, rgba(0,0,0,.4) 100%),
+    repeating-linear-gradient(45deg,  rgba(242,230,212,.022) 0 2px, transparent 2px 8px),
+    repeating-linear-gradient(-45deg, rgba(242,230,212,.016) 0 2px, transparent 2px 8px);
+}
+
+.room-yurt h1, .room-yurt h2, .room-yurt h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600;
+  color: var(--tallow); text-wrap: balance; letter-spacing: .01em;
+}
+.room-yurt h1 { font-size: clamp(42px, 7vw, 67px); font-style: italic; margin: 0 0 18px; }
+.room-yurt h2 { font-size: 30px; font-style: italic; margin: 0 0 6px; }
+.room-yurt section { padding: 34px 0; }
+.room-yurt .section-intro { color: var(--tallow-2); max-width: 60ch; margin: 0 0 22px; }
+
+/* The fairy lights strung across the canvas, and the smoke hole above them.
+   Twelve bulbs, and they only twinkle at MAX — the crown's five behave the
+   same way. Nothing in this room moves until somebody asks for movement. */
+.lights { display: flex; justify-content: space-evenly; padding: 16px 6px 0; overflow: hidden; }
+.lights span {
+  flex: 0 0 auto; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--candle); box-shadow: 0 0 6px 2px rgba(233,200,116,.6);
+}
+.lights span:nth-child(odd) { background: var(--ember-2); box-shadow: 0 0 6px 2px rgba(242,182,115,.55); }
+
+html[data-intensity="max"] .lights span,
+html[data-intensity="max"] .crown-light,
+html[data-intensity="max"] .firefly,
+html[data-intensity="max"] .glint { animation: yurt-twinkle 3.4s ease-in-out infinite; transform-origin: center; }
+html[data-intensity="max"] .lights span:nth-child(odd) { animation-delay: .6s; }
+html[data-intensity="max"] .lights span:nth-child(3n)  { animation-delay: 1.4s; }
+html[data-intensity="max"] .lights span:nth-child(4n)  { animation-delay: 2.1s; }
+html[data-intensity="max"] .vinyl { animation: yurt-spin 6s linear infinite; }
+
+@keyframes yurt-twinkle { 0%, 100% { opacity: .38; transform: scale(.85); } 50% { opacity: 1; transform: scale(1.05); } }
+@keyframes yurt-spin { to { transform: rotate(360deg); } }
+
+.yurt-head { position: relative; text-align: center; padding: 54px 12px 40px; }
+.yurt-head .eyebrow {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 15px;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--tallow-3); margin: 0 0 18px;
+}
+.yurt-head .eyebrow a { color: var(--tallow-2); }
+.yurt-head .tagline { font-size: 19.5px; color: var(--tallow-2); max-width: 46ch; margin: 0 auto; }
+.crown { width: 148px; margin: 0 auto 16px; }
+.crown svg, .vine svg, .sprig svg { display: block; width: 100%; height: auto; }
+.vine { position: absolute; top: -8px; width: 120px; pointer-events: none; }
+.vine--l { left: -6px; }
+.vine--r { right: -6px; transform: scaleX(-1); }
+.sprig { display: flex; justify-content: center; padding: 6px 0; }
+.sprig svg { width: 220px; }
+.sprig--flip svg { transform: scaleX(-1); }
+
+/* The soft furnishings. Everything in this room that holds copy is a card with
+   a hairline of candlelight around it — which is why the arches next door and
+   the bare posts outside had to be neither. */
+/* `.room-yurt .hearth-card`, not `.hearth-card`: the two cards that hold copy
+   are <section> elements, and `.room-yurt section` above sets the page's
+   vertical rhythm with `padding: 34px 0`. That rule out-specifies a bare class,
+   so the cards were getting 34px top and bottom and NOTHING at the sides --
+   two paragraphs pressed against their own border. */
+.room-yurt .hearth-card {
+  background: linear-gradient(180deg, var(--canvas), var(--tent));
+  border: 1px solid rgba(233,200,116,.18); border-radius: 6px; padding: 26px 28px;
+  box-shadow: 0 18px 40px -20px rgba(0,0,0,.55);
+}
+.welcome { display: flex; gap: 28px; align-items: center; }
+.welcome p { margin: 0 0 14px; }
+.welcome p:last-child { margin-bottom: 0; }
+
+/* The record. Helen's soundtrack is not recorded yet and the room says so out
+   loud instead of hiding an empty shelf — the same thing Enid's wall does when
+   nobody has sent a photograph. */
+.record { display: flex; align-items: center; gap: 22px; background: var(--canvas); border: 1px solid rgba(233,200,116,.18); border-radius: 6px; padding: 22px; }
+.vinyl {
+  flex: 0 0 auto; width: 74px; height: 74px; border-radius: 50%;
+  background-image:
+    radial-gradient(circle at center, var(--candle) 0 6px, #0C0908 6px 9px, transparent 9px),
+    repeating-radial-gradient(circle at center, #17110F 0 3px, var(--canvas) 3px 6px);
+  box-shadow: 0 8px 18px -8px rgba(0,0,0,.55);
+}
+.record__soon {
+  display: inline-block; margin: 0 0 8px; padding: 3px 12px;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic;
+  font-size: 14px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ember-2); border: 1px solid rgba(224,144,74,.4); border-radius: 999px;
+}
+.record p:last-child { margin: 0; color: var(--tallow-2); }
+
+/* The bookshelf. Spines stood on a timber plank, scrollable sideways, because a
+   shelf you cannot overfill is not a shelf. The six spine colours are grounds
+   for the cream lettering and every one of them is in check-contrast.py —
+   Helen's fourth was the other thing the checker caught. */
+.shelf { background: linear-gradient(180deg, transparent 0 calc(100% - 22px), var(--timber) calc(100% - 22px)); padding-bottom: 22px; }
+.shelf__row { display: flex; align-items: flex-end; gap: 6px; overflow-x: auto; padding: 10px 4px 4px; scrollbar-width: thin; }
+.spine {
+  flex: 0 0 auto; writing-mode: vertical-rl; text-orientation: mixed;
+  display: flex; align-items: center; justify-content: center; white-space: nowrap;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 16px;
+  letter-spacing: .02em; color: var(--tallow); padding: 12px 6px;
+  border-radius: 5px 5px 2px 2px;
+  box-shadow: inset 2px 0 0 rgba(255,255,255,.08), 0 6px 12px -8px rgba(0,0,0,.55);
+}
+.spine.c1 { background-image: linear-gradient(90deg, #6E2F2B, #8A3D34); height: 190px; }
+.spine.c2 { background-image: linear-gradient(90deg, #38491F, #4A5F2A); height: 212px; }
+.spine.c3 { background-image: linear-gradient(90deg, #5A3D63, #75507F); height: 178px; }
+.spine.c4 { background-image: linear-gradient(90deg, #7A5324, #8A5F26); height: 200px; }
+.spine.c5 { background-image: linear-gradient(90deg, #29414A, #375968); height: 186px; }
+.spine.c6 { background-image: linear-gradient(90deg, #4A2F4F, #653D6B); height: 204px; }
+.shelf__note { margin: 10px 0 0; font-size: 15px; font-style: italic; color: var(--tallow-3); }
+
+/* The glimmer window. A pair of shutters on a label, opened by a checkbox — no
+   script, and nothing behind them but a drawing, so there is nothing to consent
+   to and nothing to load. The shutters swing at regular and max and snap at
+   gentle, because §3 takes transitions away there and a shutter that teleports
+   still shows you the view. */
+.glimmer { display: flex; flex-direction: column; align-items: center; }
+.glimmer__check { position: absolute; opacity: 0; pointer-events: none; }
+.glimmer__frame {
+  position: relative; display: block; width: min(100%, 360px); aspect-ratio: 4 / 5;
+  padding: 14px; cursor: pointer; border-radius: 8px 8px 4px 4px;
+  background-image: linear-gradient(160deg, #4A372B, #241A16 70%);
+  box-shadow: 0 24px 50px -22px rgba(0,0,0,.55), inset 0 0 0 1px rgba(233,200,116,.15);
+}
+.glimmer__sash { position: relative; display: block; width: 100%; height: 100%; border-radius: 3px; overflow: hidden; background: #0C0E14; box-shadow: inset 0 0 0 6px #1A120E, inset 0 0 24px rgba(0,0,0,.6); }
+.glimmer__sash::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(12,14,20,0) 0 92%, rgba(20,14,10,.9) 100%),
+    linear-gradient(90deg, transparent 49.3%, rgba(233,200,116,.14) 49.3% 50.7%, transparent 50.7%),
+    linear-gradient(0deg,  transparent 49.3%, rgba(233,200,116,.14) 49.3% 50.7%, transparent 50.7%);
+}
+.glimmer__scene { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.glimmer__shutter {
+  position: absolute; top: 14px; bottom: 14px; width: calc(50% - 14px); border-radius: 3px;
+  background-image:
+    linear-gradient(90deg, rgba(0,0,0,.25), transparent 8%, transparent 92%, rgba(0,0,0,.25)),
+    linear-gradient(160deg, #4A372B, #2A1E17);
+  box-shadow: inset 0 0 0 1px rgba(233,200,116,.12), 0 10px 20px -10px rgba(0,0,0,.55);
+  transition: transform .7s cubic-bezier(.6,0,.2,1);
+}
+.glimmer__shutter--l { left: 14px; transform-origin: left center; }
+.glimmer__shutter--r { right: 14px; transform-origin: right center; }
+.glimmer__check:checked + .glimmer__frame .glimmer__shutter--l { transform: rotateY(-108deg); }
+.glimmer__check:checked + .glimmer__frame .glimmer__shutter--r { transform: rotateY(108deg); }
+
+/* The checkbox is invisible, so §2's outline would land on nothing and a
+   keyboard visitor would tab onto the shutters with no way to tell. The ring
+   goes on the frame instead — the thing that actually looks focused. */
+.glimmer__check:focus-visible + .glimmer__frame { outline: 4px solid var(--candle); outline-offset: 4px; }
+.glimmer__hint { display: block; margin-top: 12px; text-align: center; font-family: 'Caveat', cursive; font-size: 21px; color: var(--tallow-3); }
+.glimmer__hint .is-open { display: none; }
+.glimmer__check:checked + .glimmer__frame + .glimmer__hint .is-shut { display: none; }
+.glimmer__check:checked + .glimmer__frame + .glimmer__hint .is-open { display: inline; }
+.sill { display: flex; gap: 14px; align-items: flex-end; justify-content: center; margin-top: -6px; }
+.sill__book { position: relative; width: 46px; height: 34px; border-radius: 2px; background-image: linear-gradient(160deg, #E8DCC4, #D8C8A6); box-shadow: 0 6px 14px -8px rgba(0,0,0,.55); transform: rotate(-3deg); }
+.sill__book::before, .sill__book::after { content: ""; position: absolute; left: 8px; right: 8px; height: 1.5px; background: rgba(90,70,40,.4); }
+.sill__book::before { top: 13px; }
+.sill__book::after  { top: 20px; }
+.sill__pen { width: 52px; height: 5px; border-radius: 3px; background-image: linear-gradient(90deg, #2C3E3A, var(--candle) 85%); box-shadow: 0 4px 8px -4px rgba(0,0,0,.55); transform: rotate(24deg); }
+
+/* The regulation nook, and who else lives here. */
+.nook { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+.nook li { display: flex; align-items: center; gap: 12px; background: var(--canvas); border: 1px solid rgba(233,200,116,.18); border-radius: 6px; padding: 16px 14px; }
+.nook svg { flex: 0 0 auto; width: 30px; height: 30px; }
+.nook span { font-size: 16px; color: var(--tallow-2); }
+
+.residents { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+.resident { background: linear-gradient(180deg, var(--canvas), var(--tent)); border: 1px solid rgba(233,200,116,.18); border-radius: 6px; padding: 18px; text-align: center; }
+.resident svg { display: block; width: 44px; height: 44px; margin: 0 auto 10px; }
+.resident h3 { font-style: italic; font-size: 21px; margin: 0 0 4px; }
+.resident p { margin: 0; font-size: 16px; color: var(--tallow-3); }
+
+/* Where to find me, and the treeline the yurt is pitched behind. */
+.whereabouts { display: flex; gap: 20px; align-items: center; }
+.whereabouts .glyph { flex: 0 0 auto; width: 56px; height: 56px; }
+.whereabouts .glyph svg { width: 100%; height: 100%; }
+.whereabouts p { margin: 0; color: var(--tallow-2); }
+.room-yurt .treeline { margin: 12px 0 0; line-height: 0; }
+.room-yurt .treeline svg { display: block; width: 100%; height: auto; }
+.room-yurt .colophon { margin: 40px 0 0; text-align: center; font-size: 16px; color: var(--tallow-3); }
+
+
+/* §15 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -740,10 +1098,23 @@ html[data-intensity="gentle"] .room-chappell h1 { text-shadow: none; }
   .tagline { gap: 8px 12px; }
   .zine-cols { columns: 1; }
   .door { min-height: 0; }
+  /* Stacked but NOT centred. Helen centred this card on small screens because
+     her version had a portrait above the text; with two paragraphs and no
+     picture, centred body copy is just harder to read, and this is a Disabled
+     people's site. The short card below, which does have a drawing, keeps it. */
+  .welcome { flex-direction: column; }
+  .whereabouts { flex-direction: column; text-align: center; }
+  .yurt { width: calc(100% - 28px); }
+  /* Two 120px vines leave about 100px of column between them at 360px, and the
+     eyebrow runs right up against the leaves. They are ivy, so they can be
+     smaller ivy; the alternative was fading them, which is a change to how
+     Helen's room looks rather than to how it fits. */
+  .vine { width: 74px; }
+  .signpost__arm { padding-right: 30px; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%); }
 }
 
 
-/* §14 ── Print ───────────────────────────────────────────────────────────────
+/* §16 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

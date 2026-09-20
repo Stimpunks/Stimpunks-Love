@@ -8,10 +8,15 @@ a list that is wrong the first time somebody adds a room and forgets.
 import pathlib, re, datetime, html
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
+# Walking order, not alphabetical: the street, then each room with its subroom
+# behind it, then off the end of the street into the campgrounds and the one
+# pitch standing on it, then the pages that hold lists.
 ORDER = ["index.html", "pink-pony-club.html", "the-chappell.html", "zine-table.html", "zine-issue-2.html",
          "hear-queer-here.html",
          "enids-room.html", "polaroids.html", "playhouse.html",
-         "your-room.html", "liner-notes.html",
+         "your-room.html",
+         "campgrounds.html", "faery-yurt.html",
+         "liner-notes.html",
          "changelog.html"]
 
 def field(src, pat):
@@ -54,7 +59,9 @@ lines = [
     "Plucky pluralism, for human organisms. Becoming and belonging, with ribald songing.",
     "",
     "A Stimpunks Foundation site, and the loud one. It has no single design system on purpose: "
-    "the street is the system and the six rooms refuse to share one. Two habits survive from our "
+    "the street is the system and the six rooms refuse to share one. Past the treeline at the end "
+    "of the street there is a campground, for anybody who would rather not be on a street at all. "
+    "Two habits survive from our "
     "careful sites — attribution, which is a licence rather than a house style, and contrast, "
     "because clashing is not the same as illegible.",
     "",
@@ -62,7 +69,7 @@ lines = [
     "visitor's device asks for and lets them turn it up past that; Gentle removes motion and "
     "sparkle and never removes content.",
     "",
-    "## The rooms",
+    "## The rooms, and the field at the end of the street",
     "",
 ]
 for p in pages:

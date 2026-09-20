@@ -7,8 +7,8 @@ that card is a grey rectangle with a favicon in it -- which for a site whose
 entire argument is that the rooms refuse to share a look would be the blandest
 possible misrepresentation of it.
 
-SO THERE IS NO TEMPLATE. There are eight, one per room, and they are allowed to
-contradict each other exactly as love.css sections 5 to 12 do. The street's card
+SO THERE IS NO TEMPLATE. There are ten, one per room, and they are allowed to
+contradict each other exactly as love.css sections 5 to 14 do. The street's card
 collides six typefaces on purpose; the zine's is a photocopied ransom note; the
 quantum room's is a mono face over interference fringes; the plain rooms get a
 quiet one because their job is to hold a list. A card that looked like another
@@ -31,7 +31,9 @@ designed for it, and the failure mode of guessing -- quietly falling back to the
 plain card -- would give the new room somebody else's face and nobody would
 notice, because the card is not on the page. The Chappell is the proof: it is a
 SUBROOM, the place where inheriting the parent's card would have looked most
-reasonable, and it got its own.
+reasonable, and it got its own. The Faery Yurt is the second proof: it is the
+FIRST PITCH IN A NEW AREA, where "the area should have a look" would have been
+the excuse, and the field it stands on is cold blue while it is candlelit brown.
 
 IT ALSO REFUSES on a card whose content does not fit the box. Chrome reports the
 layout back out of the same run that takes the screenshot, so "it fits" is
@@ -193,6 +195,36 @@ body {{ display: flex; flex-direction: column; min-height: 0; }}
   font-family: 'Bungee', sans-serif; font-size: 20px; color: var(--leaf); letter-spacing: 1px;
 }}
 
+/* campgrounds — a routed park sign at a gate, and the stream along the foot.
+   The one card in the set with nothing glowing behind it, because the field has
+   nothing glowing in it. */
+.og--camp {{ gap: 22px; justify-content: space-between; padding: 52px 60px 0; }}
+.og--camp .og-top {{ display: flex; flex-direction: column; gap: 20px; }}
+.og--camp .trailmark {{ font-size: 21px; letter-spacing: 2px; }}
+.og--camp h1 {{ font-size: 92px; margin: 0 !important; }}
+.og--camp .og-lede {{ color: #C6D2C4; max-width: 980px; font-size: 30px; }}
+.og--camp .og-foot {{ font-family: 'Alfa Slab One', serif; color: #8FAE88;
+  letter-spacing: 1px; font-size: 21px; }}
+/* The stream bleeds to the card's edges. `.og > *` pins every child to margin 0
+   with !important, so this has to out-specify it rather than out-shout it. */
+.og--camp .stream {{ margin: 0 -60px !important; }}
+.og--camp .stream svg {{ height: 120px; }}
+
+/* yurt — the tent at night: fairy lights across the top, the smoke hole, and
+   Helen's italic serif on her own canvas. IT KEEPS THE AMBIENT LAYER THAT SITS
+   BEHIND ITS HEADLINE, and it keeps it for the reason the pony's lost its: the ember
+   crown makes a #31231A ground and every ink on this card is measured against
+   that in check-contrast.py, so the glow is margin rather than nerve. */
+.og--yurt {{ width: 100%; padding: 30px 60px 44px; gap: 22px; }}
+.og--yurt .lights {{ padding: 0 40px; }}
+.og--yurt .lights span {{ width: 10px; height: 10px; }}
+.og--yurt .og-head {{ display: flex; align-items: center; gap: 34px; }}
+.og--yurt .crown {{ flex: 0 0 auto; width: 176px; margin: 0; }}
+.og--yurt h1 {{ font-size: 104px; margin: 0 !important; }}
+.og--yurt .og-lede {{ font-family: 'Crimson Pro', serif; color: #C2AC91; max-width: 1000px; }}
+.og--yurt .og-foot {{ font-family: 'Caveat', cursive; color: #A4907B;
+  letter-spacing: 0; font-size: 30px; }}
+
 /* plain — the four pages with a job rather than a vibe. Quiet, but pinned to
    the frame at both ends rather than floating in the middle of it: an empty
    card reads as unfinished, which is a different thing from restrained. */
@@ -251,15 +283,15 @@ def card_street(p):
         '<div class="sparkle" aria-hidden="true"></div>',
         f'<div class="og og--street" data-fit="card">'
         f'{p["h1"]}{p["tagline"]}'
-        f'<p class="og-foot" data-fit="footer">ONE STREET · SIX ROOMS · YOU DECIDE HOW LOUD</p>'
+        f'<p class="og-foot" data-fit="footer">ONE STREET · SIX ROOMS · A FIELD PAST THE TREELINE</p>'
         f'</div>',
         "A night-black card scattered with small coloured sparks. “stimpunks” in "
         "white block capitals with pink and cyan offset shadows, “.love” below it "
         "in hot pink script, and six taglines each set in a different typeface: "
         "Queer without fear. Interdependent and here. Divergent and proud. Living "
         "out loud. Plucky pluralism, for human organisms. Becoming and belonging, "
-        "with ribald songing. Along the bottom: one street, six rooms, you decide "
-        "how loud.",
+        "with ribald songing. Along the bottom: one street, six rooms, a field past "
+        "the treeline.",
     )
 
 
@@ -370,6 +402,51 @@ def card_chappell(p):
     )
 
 
+def card_camp(p):
+    # NO AMBIENT MARKUP, deliberately, and it is the only one. Every other card
+    # here opens with a sparkle, a grain, a glow or a run of bunting. The
+    # campgrounds page has no ambient layer at any dial setting -- that is the
+    # whole argument for the area existing -- so putting one on its card would
+    # be the card promising quiet in a picture that is not quiet.
+    return (
+        "",
+        f'<div class="og og--camp" data-fit="card">'
+        f'<div class="og-top">'
+        f'<p class="trailmark">OFF THE STREET · PAST THE TREELINE · NO GATE, NO BELL</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>'
+        f'<p class="og-foot" data-fit="footer">PITCH 01 · PITCH 02 · PITCH 03 · stimpunks.love</p>'
+        f'{p["stream"]}'
+        f'</div>',
+        f"A cold, dark blue-green card with nothing moving on it. Small green "
+        f"capitals reading off the street, past the treeline, no gate, no bell, "
+        f"then \u201c{p['h1text']}\u201d in a heavy bone-white slab face like a "
+        f"routed park sign, and under it: {p['desc_plain']} Lower down, in the "
+        f"same slab face: pitch 01, pitch 02, pitch 03, stimpunks.love. Along the "
+        f"foot, a drawing of a stream winding across the card with three stones "
+        f"in it.",
+    )
+
+
+def card_yurt(p):
+    return (
+        "",
+        f'<div class="yurt og og--yurt" data-fit="card">'
+        f'{p["lights"]}'
+        f'<div class="og-head">{p["crown"]}{p["h1"]}</div>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">a pitch in the campgrounds · stimpunks.love</p>'
+        f'</div>',
+        f"A warm near-black card lit amber from the top, with a row of twelve "
+        f"small gold and orange fairy-light bulbs strung across it. Below them a "
+        f"line drawing of a yurt\u2019s crown \u2014 a lit ring with five roof poles "
+        f"fanning down from it \u2014 beside \u201c{p['h1text']}\u201d in large cream "
+        f"italic serif capitals. Under that: {p['desc_plain']} Along the bottom, "
+        f"handwritten: a pitch in the campgrounds, stimpunks.love.",
+    )
+
+
 def card_plain(p):
     return (
         "",
@@ -394,6 +471,8 @@ CARDS = {
     "room-enid":    card_enid,
     "room-play":    card_play,
     "room-chappell": card_chappell,
+    "campgrounds":  card_camp,
+    "room-yurt":    card_yurt,
     "room-plain":   card_plain,
 }
 
@@ -462,13 +541,18 @@ def main():
         )
     base = origins.pop()
 
-    # Two rooms build their card out of a list the page already holds. Lifted
-    # whole rather than retyped, for the same reason the h1 is: a card that
-    # repeats the page in its own words is a card that can come to disagree.
+    # Four rooms build their card out of something the page already holds --
+    # lifted whole rather than retyped, for the same reason the h1 is: a card
+    # that repeats the page in its own words is a card that can come to
+    # disagree. The campground's stream and the yurt's crown and fairy lights
+    # are drawings rather than lists, and the rule is the same for a drawing.
     lifted = {}
     for key, page, pat in (
-        ("tagline",  "index.html",       r'(<ul class="tagline">.*?</ul>)'),
-        ("stickers", "enids-room.html",  r'(<ul class="stickers">.*?</ul>)'),
+        ("tagline",  "index.html",        r'(<ul class="tagline">.*?</ul>)'),
+        ("stickers", "enids-room.html",   r'(<ul class="stickers">.*?</ul>)'),
+        ("stream",   "campgrounds.html",  r'(<div class="stream".*?</div>)'),
+        ("lights",   "faery-yurt.html",   r'(<div class="lights".*?</div>)'),
+        ("crown",    "faery-yurt.html",   r'(<div class="crown".*?</svg>\s*</div>)'),
     ):
         lifted[key] = field((ROOT / page).read_text(), pat)
         if not lifted[key]:

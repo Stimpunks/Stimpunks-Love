@@ -24,6 +24,15 @@ WITHDRAWAL is deletion, not a flag. Remove the entry, remove the file, run this.
 There is no 'hidden' state to forget to honour later, and nothing to un-hide by
 accident. The wall goes back to grey by itself.
 
+AND IT GUARDS EVERY OTHER PAGE, not just the wall. The Faery Yurt hangs one of
+these photographs in Helen's own room, which put the consent record and the
+publication in two different places for the first time -- exactly the gap where
+a withdrawal gets half-honoured. So this walks all the HTML: every photos/ file
+referenced anywhere has to be in the data, every reference outside the wall has
+to be listed in that entry's "elsewhere", and every file in photos/ has to have
+an entry. Delete a withdrawn entry and this REFUSES until the yurt lets go of it
+too -- a refusal, rather than a broken image on a page nobody thought to check.
+
 THE PHOTOS ARE NOT CC BY-SA. See LICENSE and the _licence note in the data file.
 """
 import html
@@ -65,6 +74,68 @@ def find_file(pid):
         if p.exists():
             return p
     return None
+
+
+IMG = re.compile(r'<img\b[^>]*\bsrc="photos/([^"]+)"[^>]*>')
+ALT = re.compile(r'\balt="([^"]*)"')
+
+
+def check_the_rest_of_the_site(photos):
+    """Every photograph published anywhere is a photograph with a consent record.
+
+    The wall is built above; this is about the pages that are not the wall. A
+    photo in somebody's own room is still theirs, and 'it comes down when you
+    say so' has to mean it comes down everywhere or it means nothing.
+    """
+    by_file, listed = {}, set()
+    for ph in photos:
+        f = find_file(ph["id"])
+        if f:
+            by_file[f.name] = ph
+        for page in ph.get("elsewhere", []):
+            listed.add((page, f.name if f else ph["id"]))
+
+    found = set()
+    for page in sorted(ROOT.glob("*.html")):
+        for tag in IMG.finditer(page.read_text()):
+            name = tag.group(1)
+            found.add((page.name, name))
+            if name not in by_file:
+                raise SystemExit(
+                    f"REFUSING: {page.name} publishes photos/{name} and there is no entry\n"
+                    "for it in data/polaroids.json. A photograph with no consent record is\n"
+                    "not published on this site, on any page, for any reason.\n"
+                    "If it was withdrawn, take it off this page too — withdrawal is deletion."
+                )
+            alt = ALT.search(tag.group(0))
+            if not (alt and alt.group(1).strip()):
+                raise SystemExit(
+                    f"REFUSING: {page.name} publishes photos/{name} with no alt text.\n"
+                    "The wall cannot; neither can anywhere else."
+                )
+            if page.name != PAGE.name and (page.name, name) not in listed:
+                raise SystemExit(
+                    f"REFUSING: {page.name} publishes photos/{name} and the entry for it in\n"
+                    "data/polaroids.json does not say so. Add it to that entry\'s "
+                    "\"elsewhere\" list,\nso that deleting the entry catches this page too."
+                )
+
+    for page, name in sorted(listed - found):
+        raise SystemExit(
+            f"REFUSING: data/polaroids.json says photos/{name} is published on {page},\n"
+            "and it is not there. Either the page dropped it or the record is stale;\n"
+            "either way the consent record has stopped describing the site."
+        )
+
+    orphans = sorted(f.name for f in PHOTOS.glob("*") if f.suffix.lower() in SUFFIXES
+                     and f.name not in by_file)
+    if orphans:
+        raise SystemExit(
+            f"REFUSING: photos/ holds {', '.join(orphans)} with no entry in\n"
+            "data/polaroids.json. Unrecorded photographs of real people do not sit in\n"
+            "a public repository waiting for somebody to use them."
+        )
+    return len(found)
 
 
 def main():
@@ -156,9 +227,11 @@ def main():
                  lambda m: m.group(1) + "\n" + block + "\n          " + m.group(2),
                  src, flags=re.S)
     PAGE.write_text(out)
+    elsewhere = check_the_rest_of_the_site(photos) - len(photos)
     n = len(photos)
     print(f"polaroids: {n} photo{'' if n == 1 else 's'} on the wall"
-          + ("" if n else " — grey placeholder, as intended"))
+          + ("" if n else " — grey placeholder, as intended")
+          + (f", {elsewhere} hung elsewhere and recorded" if elsewhere else ""))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Campgrounds — Stimpunks.Love</title>
+<meta name="description" content="Where the street runs out. A field past the treeline with numbered pitches on it, for the ones who would rather live on the edge of town. Nothing out here moves, at any setting.">
+<link rel="canonical" href="https://stimpunks.love/campgrounds.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0E1A18">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.Love">
+<meta property="og:title" content="The Campgrounds — Stimpunks.Love">
+<meta property="og:description" content="Where the street runs out. A field with pitches on it, for the ones who would rather live on the edge of town.">
+<meta property="og:url" content="https://stimpunks.love/campgrounds.html">
+<meta property="og:image" content="https://stimpunks.love/og/campgrounds.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A cold, dark blue-green card with nothing moving on it. Small green capitals reading off the street, past the treeline, no gate, no bell, then “The Campgrounds” in a heavy bone-white slab face like a routed park sign, and under it: Where the street runs out. A field with pitches on it, for the ones who would rather live on the edge of town. Lower down, in the same slab face: pitch 01, pitch 02, pitch 03, stimpunks.love. Along the foot, a drawing of a stream winding across the card with three stones in it.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love — what changed on the street">
+<link rel="preload" href="fonts/alfa-slab-one-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+</head>
+<body class="campgrounds">
+<a class="skip" href="#main">Skip to the campgrounds</a>
+
+<main id="main" class="wrap" style="padding-bottom:48px;">
+
+  <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:baseline;">
+    <a class="backlink" href="index.html">&larr; back to the street</a>
+    <p class="trailmark">off the street &middot; past the treeline &middot; no gate, no bell</p>
+  </div>
+
+  <header>
+    <h1>The Campgrounds</h1>
+    <p class="lede">Not everybody wants a shopfront. The street is six of them shoulder to shoulder under a marquee that shouts at you, and some of us would rather be out at the edge of town with a stream going past. So the street stops here and the field starts, and the field has pitches on it.</p>
+  </header>
+
+  <section class="board">
+    <h2>WHAT THE FIELD IS</h2>
+    <ul>
+      <li><strong>Nothing out here moves.</strong> Not at Gentle, not at Regular, not at MAX GLITTER. The dial still works and it still governs every pitch, because each pitch is its own world and sets its own noise &mdash; but this field has nothing for it to turn up. An area that exists for people who want quiet cannot have a loud setting and mean it.</li>
+      <li><strong>You can arrive and leave without telling anybody.</strong> There is nothing to sign, nothing to join, and nothing that notices you came.</li>
+      <li><strong>Read the sign before you go in.</strong> A pitch is somebody&rsquo;s own place and it looks like them, not like this field and not like the street. The signs below say what is inside so that walking in is a decision rather than a surprise.</li>
+      <li><strong>The stream is the boundary.</strong> Past it is woodland and we have not drawn a map of it. That is on purpose too.</li>
+    </ul>
+  </section>
+
+  <h2 class="sr">The pitches</h2>
+  <ul class="pitches">
+
+    <li class="pitch">
+      <span class="pitch__no">PITCH 01</span>
+      <h3><a href="faery-yurt.html">The Faery Yurt</a></h3>
+      <p>A candlelit yurt at the edge of the woods, warm the way this field is not. Old books on a plank shelf, fairy lights strung low across the canvas, a regulation nook, three animals with opinions, and a window at the far end that does not look out onto the field.</p>
+      <p class="pitch__who">Helen Edgar &middot; pitched 2026-09-20 &middot; quiet, warm, candlelit; the lights twinkle only at MAX</p>
+    </li>
+
+    <li class="pitch pitch--open">
+      <span class="pitch__no">PITCH 02</span>
+      <h3>Open ground</h3>
+      <p>Flat, sheltered on the north side, close enough to the water to hear it. Nobody has pitched here.</p>
+      <p class="pitch__who"><a href="your-room.html">The keys are the same ones the empty storefront hands out &rarr;</a></p>
+    </li>
+
+    <li class="pitch pitch--open">
+      <span class="pitch__no">PITCH 03</span>
+      <h3>Open ground</h3>
+      <p>Furthest from the street, which for some people is the whole specification. Nobody has pitched here either.</p>
+      <p class="pitch__who"><a href="your-room.html">Take it &rarr;</a></p>
+    </li>
+
+  </ul>
+
+  <div class="stream" aria-hidden="true">
+    <svg viewBox="0 0 1180 96" preserveAspectRatio="none">
+      <path d="M0 40 C 140 18, 250 62, 400 44 S 690 16, 840 44 S 1060 70, 1180 48 L1180 96 L0 96 Z" fill="#13241F"/>
+      <path d="M0 52 C 150 32, 260 74, 410 56 S 700 30, 850 58 S 1065 82, 1180 60" fill="none" stroke="#2A3A31" stroke-width="2"/>
+      <path d="M120 66 q26 -7 52 0" fill="none" stroke="#8FAE88" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+      <path d="M520 74 q30 -8 60 0" fill="none" stroke="#8FAE88" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+      <path d="M880 68 q24 -7 48 0" fill="none" stroke="#8FAE88" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+      <ellipse cx="300" cy="78" rx="17" ry="7" fill="#2A3A31"/>
+      <ellipse cx="712" cy="86" rx="22" ry="8" fill="#2A3A31"/>
+      <ellipse cx="1020" cy="76" rx="14" ry="6" fill="#2A3A31"/>
+    </svg>
+  </div>
+
+  <section style="margin-top:30px;display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;">
+    <div style="flex:1 1 320px;">
+      <h2>WHY THERE IS A FIELD AT ALL</h2>
+      <p style="margin:0 0 12px;color:var(--lichen);">Danny the Street rearranges himself for whoever needs sheltering, and for some of us that shape is not a street. A row of lit storefronts is a wonderful place to be and an exhausting place to live, and a site that only had one of those would be telling its own quiet people that the loud room is the only room.</p>
+      <p style="margin:0;color:var(--lichen);">So the street kept its six doors and grew an edge. Out here the type is bigger, the ground is cold, and there is exactly one thing to read at a time. <a href="index.html">The street is still there</a> when you want it.</p>
+    </div>
+    <div style="flex:0 1 340px;">
+      <div class="dial">
+        <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+        <div class="dial__row" role="group" aria-labelledby="dial-label">
+          <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+          <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+          <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+        </div>
+        <p class="dial__note" aria-live="polite"></p>
+        <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so &mdash; and in this field, nothing moves even then.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="love.js" defer></script>
+</body>
+</html>
