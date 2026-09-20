@@ -91,7 +91,14 @@ decision into a false statement on a published page.
    not what the type sits on. A checker that does not know about the new colour passes silently,
    which is worse than no checker.
 3. **"Gentle takes away the wobble, never the words."** There is no content behind an intensity
-   level. Do not add any.
+   level. Do not add any. `tools/check-gentle.py` now measures both halves on all fourteen
+   pages at all three settings. The global reset is safe because it carries `!important`; **the
+   tilts are not**, because every room resets its own and CSS does not warn when a decorative
+   selector out-specifies one — it just renders the louder rule. That nearly shipped on Enid's
+   wall (`.polaroid-wall .polaroid:nth-child(even)` at (0,3,0) against a reset at (0,2,1); it is
+   `:where()`-scoped now), and it *had* shipped in the Faery Yurt, whose windowsill was still
+   rotating at Gentle a day after the room went up. **Scope a tilt with `:where()` so it cannot
+   climb above the reset**, and when this refuses, add the reset rather than an exception.
 
 ## The tools refuse rather than guess, and that is deliberate
 

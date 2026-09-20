@@ -1099,6 +1099,15 @@ html[data-intensity="max"] .vinyl { animation: yurt-spin 6s linear infinite; }
 .sill__book::before { top: 13px; }
 .sill__book::after  { top: 20px; }
 .sill__pen { width: 52px; height: 5px; border-radius: 3px; background-image: linear-gradient(90deg, #2C3E3A, var(--candle) 85%); box-shadow: 0 4px 8px -4px rgba(0,0,0,.55); transform: rotate(24deg); }
+/* The sill keeps its tilt at Regular and MAX -- it is Helen's windowsill and
+   those are her angles. This is the dial, which is our plumbing and applies to
+   every room on the street: at Gentle nothing rotates. Section 14 shipped with
+   no gentle rule in it at all, so the book sat at -3deg and the pen at 24deg
+   for anybody who had asked the wobble to stop. Found by check-gentle.py on
+   its first run, a day after the room went up and after two people had read
+   it -- which is the whole case for the tool. */
+html[data-intensity="gentle"] .sill__book,
+html[data-intensity="gentle"] .sill__pen { transform: none; }
 
 /* The regulation nook, and who else lives here. */
 .nook { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }

@@ -46,6 +46,12 @@ the balanced tone — was dropped deliberately.
 
 - **Attribution.** A licence, not a house style. Every song, typeface, quotation and borrowed
   name is credited in `liner-notes.html`, and the credits are loud rather than hidden.
+- **The dial.** Loudness is a thing the visitor holds, not a property of the page — so
+  `tools/check-gentle.py` loads all fourteen pages at all three settings and measures what
+  actually moves. The global reset is safe (`!important`); the tilts are not, because each room
+  resets its own and a reset is one selector away from being outranked, silently. **It found the
+  Faery Yurt's windowsill on its first run** — a book and a pen still rotating at Gentle, in a
+  room a day old that two people had read.
 - **Contrast.** Clashing is not the same as illegible. `tools/check-contrast.py` holds 126 pairs
   to WCAG 1.4.3 and **found two real failures on the first run**, which is the argument for
   having it. It is still finding them: writing the share cards meant naming the grounds the
@@ -84,7 +90,7 @@ photos/               Community photographs. Does not exist until somebody sends
 data/chairy.json      Chairy's 28 sayings, each with the page it came from
 data/yells.json       Recorded yells, and who agreed to lend their voice
 og/                   One share card per page — ten card designs for fourteen pages
-tools/                Eleven generators and three checkers, below
+tools/                Eleven generators and four checkers, below
 ```
 
 **The HTML is hand-authored and committed** — it is the artifact, not a build output. Only eleven
@@ -104,6 +110,7 @@ python3 tools/make-yells.py        # the yell button's recordings, from data/yel
 python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
 python3 tools/check-contrast.py    # 126 pairs against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
+python3 tools/check-gentle.py      # every page at all three dial settings; exits 1 on a leak
 ```
 
 One more, deliberately **outside** that sequence because it is the only tool that needs the
@@ -130,11 +137,11 @@ it — or on a track with no runtime, because the label promising one before the
 room's own claim, both audio tools stop on a recording that still carries the device and timestamp
 its recorder wrote into it, and `make-og.py` stops on a page whose room it has no card for —
 rather than handing a new room somebody else's face in the one asset nobody looks at.
-`check-print.py` stops if it cannot find a Chrome to render with, rather than passing a claim
-it did not test.
+`check-print.py` and `check-gentle.py` stop if they cannot find a Chrome to render with, rather
+than passing a claim they did not test.
 
-Two tools need something *installed* — a Chrome or Chromium, which both drive headless. Point
-them elsewhere with `CHECK_PRINT_BROWSER=` and `MAKE_OG_BROWSER=`.
+Three tools need something *installed* — a Chrome or Chromium, which they all drive headless.
+Point them elsewhere with `CHECK_PRINT_BROWSER=`, `MAKE_OG_BROWSER=` and `CHECK_GENTLE_BROWSER=`.
 
 `check-print.py` renders a real PDF and checks both halves of the zine room's claim: one sheet,
 and "in black and white", the latter by reading the inks out of the PDF against an allowlist.
