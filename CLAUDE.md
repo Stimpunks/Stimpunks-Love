@@ -118,6 +118,18 @@ Memos writes the device, the OS build and the exact second, and the first six re
 carried it before anybody looked. A photograph is refused for its EXIF one room over; a voice gets
 the same rule. Strip with `ffmpeg -i in.m4a -map_metadata -1 -fflags +bitexact -c copy out.m4a`.
 
+`make-yurt-sound.py` builds the Faery Yurt's six sound tiles and their credits from
+`data/yurt-sound.json` — one marker pair per tile, so the silent tiles stay Helen's own markup.
+It **measures each runtime off the file** rather than trusting the data, because every
+press-to-play control here says how long before the press and a hand-kept number goes quietly
+wrong. **It also sweeps every audio file in the repo, not just its own.** That is the bigger
+lesson: three audio tools each guarded the files their own data named, and recordings sat
+in `audio/` for an afternoon carrying the iPad, the OS build, a timestamp to the second and a
+voice-memo UUID, because they belonged to no tool's patch. Three guards with a hole between them
+is a hole. **A voice identifies a person as surely as a face does** — a name and a consent date
+are required, and the site says whose voice it is out loud on the press rather than only filing
+it in the liner notes.
+
 `make-chairy.py` builds what Chairy says from `data/chairy.json`, where **every saying carries the page
 it came from**, read out of the Knowledge System mirror's own frontmatter rather than typed. Two of the
 28 are **not ours and say so when Chairy speaks them**: "Nothing About Us Without Us" is a motto of the

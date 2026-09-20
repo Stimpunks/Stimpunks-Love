@@ -37,5 +37,31 @@ and after.
 **Yells** live in `audio/yells/` and belong to `data/yells.json`, not to a passage. They need
 a name and a consent date, the same as a photograph on Enid's wall.
 
+**The yurt's sounds** live in `audio/yurt/` and belong to `data/yurt-sound.json`. All six tiles
+in the Faery Yurt's regulation nook are buttons, and each plays a couple of seconds of
+somebody making a noise about what is on the tile. Built by `tools/make-yurt-sound.py`, which
+writes the tiles AND their credits in `liner-notes.html` — the same one-data-file-two-surfaces
+contract `make-yells.py` has. Each needs a name and a consent date like the other two kinds, and
+each **runtime is measured out of the file** rather than trusted from the data, because the
+label says how long before you press and a hand-kept duration is a label that goes quietly
+wrong. One marker pair per tile in `faery-yurt.html` rather than one block around the
+list, so a tile whose recording is withdrawn goes back to being Helen's own markup without a
+rewrite of the other five.
+
+**And that tool sweeps all of `audio/`, not just its own files.** Three tools each guarding the
+files their own data named left a hole between them, and recordings sat in `audio/` for an
+afternoon carrying the iPad, the OS build, a timestamp to the second and a voice-memo UUID —
+one `git add -A` from being permanent in a public repository. It refuses rather than strips:
+what to do with somebody's recording is theirs to decide.
+
+**The yurt's sound** lives in `audio/yurt/` and belongs to `data/yurt-sound.json`. One file,
+behind one tile in the Faery Yurt's regulation nook, built by `tools/make-yurt-sound.py` — which
+writes the tile AND the credit in `liner-notes.html`, the same one-data-file-two-surfaces
+contract `make-yells.py` has. It needs a name and a consent date like the other two, and it
+**measures the runtime out of the file** rather than trusting a number in the data, because the
+label says how long before you press it and a hand-kept duration is a label that goes quietly
+wrong. This was the gap the third kind of audio opened: passages and yells each had a tool
+refusing stray recorder metadata, and a sound belonging to neither had nothing watching it.
+
 **Nothing autoplays.** The player is `preload="none"`, so it makes no request until somebody
 presses it — the same consent model as the jukebox, one room over.

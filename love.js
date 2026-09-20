@@ -368,7 +368,54 @@
     relabel();
   }
 
-  function go() { dial(); playhouse(); superposition(); sequences(); }
+  /* ── The Faery Yurt's sounds ─────────────────────────────────────────────
+     Three tiles in Helen's regulation nook are buttons, and each plays a couple
+     of seconds of somebody making a noise about what is on the tile. The Audio
+     object is built INSIDE the handler, the same as the yell button's: nothing
+     is fetched until somebody presses, which is the consent model the whole
+     street runs on. Whose voice it is gets said out loud into the live region
+     rather than only filed in the liner notes.
+
+     ONE `playing` ACROSS ALL OF THEM, not one per button: pressing a second
+     tile while the first is still going should be a change of mind, not two
+     people talking over each other. The markup, the runtime on each label and
+     the credits all come out of tools/make-yurt-sound.py; this only presses
+     play. */
+  function yurtEggs() {
+    var eggs = document.querySelectorAll('.egg[data-src]');
+    if (!eggs.length) return;
+    var say = document.getElementById('yurt-says');
+    var playing = null, lit = null;
+
+    function stop() {
+      if (playing) { try { playing.pause(); } catch (e) {} }
+      if (lit) lit.removeAttribute('data-playing');
+      playing = null; lit = null;
+    }
+
+    for (var i = 0; i < eggs.length; i++) {
+      (function (egg) {
+        egg.addEventListener('click', function () {
+          stop();
+          var a = new Audio(egg.dataset.src);
+          playing = a; lit = egg;
+          egg.setAttribute('data-playing', '');
+          a.addEventListener('ended', function () { if (lit === egg) stop(); });
+          var p = a.play();
+          if (say) say.textContent = egg.dataset.said || '';
+          /* Offline, or a recording withdrawn between the build and the press:
+             say so rather than leaving a button that looks broken and explains
+             nothing. */
+          if (p && p['catch']) p['catch'](function () {
+            stop();
+            if (say) say.textContent = 'That one will not play just now.';
+          });
+        });
+      }(eggs[i]));
+    }
+  }
+
+  function go() { dial(); playhouse(); superposition(); sequences(); yurtEggs(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
   else go();
 })();

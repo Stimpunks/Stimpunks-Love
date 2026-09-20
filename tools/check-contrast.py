@@ -29,7 +29,7 @@ BLUE, VIOLET_DEEP = "#1770C2", "#7B28DD"
 NAVE, NICHE, GLASS, LEAF = "#1A0A33", "#170A2B", "#0E0520", "#F0C453"
 DUSK, SPRUCE, BARK = "#0E1A18", "#13241F", "#2A3A31"
 BONE, LICHEN, MOSS, MOON = "#EFE9DC", "#C6D2C4", "#8FAE88", "#E7D9A8"
-HEARTH, TENT, CANVAS, CANVAS2 = "#150F0E", "#1B1310", "#241A16", "#2C1F19"
+HEARTH, TENT, CANVAS, CANVAS_2 = "#150F0E", "#1B1310", "#241A16", "#2C1F19"
 TALLOW, TALLOW2, TALLOW3 = "#F2E6D4", "#C2AC91", "#A4907B"
 EMBER, EMBER2, CANDLE = "#E0904A", "#F2B673", "#E9C874"
 # What the yurt's canvas weave and its ember crown actually make, composited:
@@ -173,16 +173,20 @@ PAIRS = [
     (TALLOW2, HEARTH,  False, "yurt: the tagline, section intros, the photo caption"),
     (TALLOW2, GLOW,    False, "yurt: the tagline under the crown"),
     (TALLOW2, CANVAS,  False, "yurt: the record's copy and the nook's labels"),
-    (TALLOW2, CANVAS2, False, "yurt: copy on the darker half of a card gradient"),
+    (TALLOW2, CANVAS_2, False, "yurt: copy on the darker half of a card gradient"),
     (TALLOW3, HEARTH,  False, "yurt: eyebrow, shelf note, window hint, colophon"),
     (TALLOW3, GLOW,    False, "yurt: the eyebrow under the crown — the tightest pair in the room"),
     (TALLOW3, CANVAS,  False, "yurt: the resident cards' copy"),
-    (TALLOW3, CANVAS2, False, "yurt: the resident cards' copy at the foot of the gradient"),
+    (TALLOW3, CANVAS_2, False, "yurt: the resident cards' copy at the foot of the gradient"),
     (EMBER2,  HEARTH,  False, "yurt: links"),
     (EMBER2,  GLOW,    False, "yurt: links under the crown"),
     (EMBER2,  CANVAS,  False, "yurt: the 'coming soon' pill on the record"),
     (CANDLE,  HEARTH,  False, "yurt: a link on hover"),
     (TALLOW,  TENT,    False, "yurt: copy on the dark end of a card gradient"),
+    (TALLOW2, CANVAS,  False, "yurt: the cupcake tile's label, which is a button"),
+    (TALLOW3, CANVAS_2, False, "yurt: the sound marker on that button, hover"),
+    (TALLOW3, CANVAS,  False, "yurt: the sound marker at Gentle, where it is always shown"),
+    (EMBER2,  CANVAS_2, False, "yurt: the sound marker while it is playing"),
 
     # The twelve book spines are six 90deg gradients, so each one is TWO grounds
     # and the lighter end is the one that decides. Helen's fourth spine ran to

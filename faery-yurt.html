@@ -203,13 +203,61 @@
     <h2>The Regulation Nook</h2>
     <p class="section-intro">Every good library has a regulation corner, even if nobody calls it that officially. Here is what is in mine.</p>
     <ul class="nook">
-      <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="9" width="18" height="12" rx="2" fill="#8A6088"/><path d="M3 9c0-3 2-5 9-5s9 2 9 5" stroke="#C9A7E0" stroke-width="1.6" fill="none"/></svg><span>a small mountain of blankets</span></li>
-      <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="13" r="8" fill="#E0904A"/><circle cx="8" cy="9" r="2" fill="#E0904A"/><circle cx="16" cy="9" r="2" fill="#E0904A"/><circle cx="10" cy="12" r="1" fill="#241A16"/><circle cx="14" cy="12" r="1" fill="#241A16"/></svg><span>a whole squad of squishmallows</span></li>
-      <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v3M6 6l2 2M18 6l-2 2" stroke="#E9C874" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="14" r="6" fill="#E9C874"/></svg><span>fairy lights, obviously</span></li>
-      <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3c4 4 6 7 6 10a6 6 0 1 1-12 0c0-3 2-6 6-10Z" fill="#F2B673"/></svg><span>the smell of vanilla cupcakes</span></li>
-      <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9h13l-1 9a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3L5 9Z" fill="#6E2F2B"/><path d="M17 10h2a3 3 0 0 1 0 6h-1" stroke="#E0904A" stroke-width="1.6" fill="none"/></svg><span>a standing supply of coffee</span></li>
-      <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 19 12 5l8 14H4Z" fill="#E9C874"/><circle cx="9" cy="15" r="1" fill="#8A6088"/><circle cx="14" cy="16.5" r="1" fill="#8A6088"/></svg><span>cheese and pesto, always, for emergencies</span></li>
+      <!-- yurt-sound:oh-so-cozy:begin -->
+        <li class="nook__egg"><button type="button" class="egg" data-src="audio/yurt/oh-so-cozy.m4a" data-said="Oh, so cozy. — that was Ryan Boren." aria-label="a small mountain of blankets — press for a sound, 2 seconds">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="9" width="18" height="12" rx="2" fill="#8A6088"/><path d="M3 9c0-3 2-5 9-5s9 2 9 5" stroke="#C9A7E0" stroke-width="1.6" fill="none"/></svg>
+          <span class="egg__label">a small mountain of blankets</span>
+          <span class="egg__mark" aria-hidden="true">&#9834; 2s</span>
+        </button></li>
+        <p class="sr" id="yurt-says" role="status" aria-live="polite"></p>
+      <!-- yurt-sound:oh-so-cozy:end -->
+      <!-- yurt-sound:squish:begin -->
+        <li class="nook__egg"><button type="button" class="egg" data-src="audio/yurt/squish.m4a" data-said="Squish. — that was Ryan Boren." aria-label="a whole squad of squishmallows — press for a sound, 2 seconds">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="13" r="8" fill="#E0904A"/><circle cx="8" cy="9" r="2" fill="#E0904A"/><circle cx="16" cy="9" r="2" fill="#E0904A"/><circle cx="10" cy="12" r="1" fill="#241A16"/><circle cx="14" cy="12" r="1" fill="#241A16"/></svg>
+          <span class="egg__label">a whole squad of squishmallows</span>
+          <span class="egg__mark" aria-hidden="true">&#9834; 2s</span>
+        </button></li>
+        <p class="sr" id="yurt-says" role="status" aria-live="polite"></p>
+      <!-- yurt-sound:squish:end -->
+      <!-- yurt-sound:twinkle-twinkle:begin -->
+        <li class="nook__egg"><button type="button" class="egg" data-src="audio/yurt/twinkle-twinkle.m4a" data-said="Twinkle, twinkle. — that was Ryan Boren." aria-label="fairy lights, obviously — press for a sound, 3 seconds">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v3M6 6l2 2M18 6l-2 2" stroke="#E9C874" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="14" r="6" fill="#E9C874"/></svg>
+          <span class="egg__label">fairy lights, obviously</span>
+          <span class="egg__mark" aria-hidden="true">&#9834; 3s</span>
+        </button></li>
+        <p class="sr" id="yurt-says" role="status" aria-live="polite"></p>
+      <!-- yurt-sound:twinkle-twinkle:end -->
+      <!-- All six have a sound behind them now and are built by
+           tools/make-yurt-sound.py, one marker pair each. The markers stay
+           per-tile rather than becoming one block around the list: a tile whose
+           recording is withdrawn goes back to being Helen's own markup, and
+           that has to be a change to one tile rather than a rewrite of six. -->
+      <!-- yurt-sound:mmmm:begin -->
+        <li class="nook__egg"><button type="button" class="egg" data-src="audio/yurt/mmmm.m4a" data-said="Mmmm. — that was Ryan Boren." aria-label="the smell of vanilla cupcakes — press for a sound, 2 seconds">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3c4 4 6 7 6 10a6 6 0 1 1-12 0c0-3 2-6 6-10Z" fill="#F2B673"/></svg>
+          <span class="egg__label">the smell of vanilla cupcakes</span>
+          <span class="egg__mark" aria-hidden="true">&#9834; 2s</span>
+        </button></li>
+        <p class="sr" id="yurt-says" role="status" aria-live="polite"></p>
+      <!-- yurt-sound:mmmm:end -->
+      <!-- yurt-sound:ahhhh:begin -->
+        <li class="nook__egg"><button type="button" class="egg" data-src="audio/yurt/ahhhh.m4a" data-said="Ahhhh. — that was Ryan Boren." aria-label="a standing supply of coffee — press for a sound, 4 seconds">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9h13l-1 9a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3L5 9Z" fill="#6E2F2B"/><path d="M17 10h2a3 3 0 0 1 0 6h-1" stroke="#E0904A" stroke-width="1.6" fill="none"/></svg>
+          <span class="egg__label">a standing supply of coffee</span>
+          <span class="egg__mark" aria-hidden="true">&#9834; 4s</span>
+        </button></li>
+        <p class="sr" id="yurt-says" role="status" aria-live="polite"></p>
+      <!-- yurt-sound:ahhhh:end -->
+      <!-- yurt-sound:nomnomnom:begin -->
+        <li class="nook__egg"><button type="button" class="egg" data-src="audio/yurt/nomnomnom.m4a" data-said="Nom nom nom. — that was Ryan Boren." aria-label="cheese and pesto, always, for emergencies — press for a sound, 2 seconds">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 19 12 5l8 14H4Z" fill="#E9C874"/><circle cx="9" cy="15" r="1" fill="#8A6088"/><circle cx="14" cy="16.5" r="1" fill="#8A6088"/></svg>
+          <span class="egg__label">cheese and pesto, always, for emergencies</span>
+          <span class="egg__mark" aria-hidden="true">&#9834; 2s</span>
+        </button></li>
+        <p class="sr" id="yurt-says" role="status" aria-live="polite"></p>
+      <!-- yurt-sound:nomnomnom:end -->
     </ul>
+    <p class="sr" id="yurt-says" role="status" aria-live="polite"></p>
   </section>
 
   <section>

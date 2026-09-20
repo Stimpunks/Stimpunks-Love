@@ -1115,6 +1115,52 @@ html[data-intensity="gentle"] .sill__pen { transform: none; }
 .nook svg { flex: 0 0 auto; width: 30px; height: 30px; }
 .nook span { font-size: 16px; color: var(--tallow-2); }
 
+/* One of the six tiles does something. AN EASTER EGG THAT STILL ADMITS IT IS
+   THERE: it wears Helen's wording and the same candlelit card as its five
+   neighbours, and a small note marker surfaces on hover and on focus. The
+   discovery is meant to be "one of these is a button", not "a page I was
+   reading quietly made a noise at me" — a hidden noise would be the exact thing
+   the dial and the press-to-play facades exist to prevent, arriving as a joke.
+   The button's accessible name says it is a sound and how long, so a keyboard
+   or screen-reader visitor is told MORE than a mouse one rather than less.
+
+   NOT `display: contents` on the <li>, which is what this did first. It puts
+   the button straight into the grid and it also drops the list item out of the
+   accessibility tree in browsers that still carry that bug — trading a list of
+   six things for a list of five and a loose button, to save one line of CSS.
+   The <li> stays a real grid cell and the button fills it.
+
+   `.nook .egg__mark`, not `.egg__mark`: `.nook span` is (0,1,1) and a bare class
+   is (0,1,0), so the marker was quietly taking the tile label's size and colour
+   instead of its own. Same shape as the card padding two screens up. */
+/* A tile with a sound behind it IS the button, so the <li> stops being a card
+   and becomes a bare grid cell — otherwise `.nook li`'s own ground, border and
+   padding draw a second box around the button's, and four of the six tiles
+   read as boxes inside boxes while the two silent ones stay flat. */
+.nook li.nook__egg { display: flex; background: none; border: 0; padding: 0; }
+.egg {
+  display: flex; align-items: center; gap: 12px; width: 100%; cursor: pointer;
+  text-align: left; font: inherit; color: inherit;
+  background: var(--canvas); border: 1px solid rgba(233,200,116,.18);
+  border-radius: 6px; padding: 16px 14px;
+}
+.egg:hover { background: var(--canvas-2); border-color: rgba(233,200,116,.4); }
+.egg svg { flex: 0 0 auto; width: 30px; height: 30px; }
+.nook .egg__label { flex: 1 1 auto; font-size: 16px; color: var(--tallow-2); }
+.nook .egg__mark {
+  flex: 0 0 auto; align-self: flex-start;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600;
+  font-size: 14px; letter-spacing: .04em; color: var(--tallow-3);
+  opacity: 0; transition: opacity .18s ease;
+}
+.egg:hover .egg__mark, .egg:focus-visible .egg__mark { opacity: 1; }
+/* Gentle takes transitions away, which would leave the marker stuck invisible
+   for anybody at that setting. It is a label about consent, so at Gentle it is
+   simply always on: the quiet setting should reveal more, never less. */
+html[data-intensity="gentle"] .nook .egg__mark { opacity: 1; }
+.egg[data-playing] { border-color: var(--ember-2); }
+.egg[data-playing] .egg__mark { opacity: 1; color: var(--ember-2); }
+
 .residents { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
 .resident { background: linear-gradient(180deg, var(--canvas), var(--tent)); border: 1px solid rgba(233,200,116,.18); border-radius: 6px; padding: 18px; text-align: center; }
 .resident svg { display: block; width: 44px; height: 44px; margin: 0 auto 10px; }

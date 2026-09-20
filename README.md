@@ -52,7 +52,7 @@ the balanced tone — was dropped deliberately.
   resets its own and a reset is one selector away from being outranked, silently. **It found the
   Faery Yurt's windowsill on its first run** — a book and a pen still rotating at Gentle, in a
   room a day old that two people had read.
-- **Contrast.** Clashing is not the same as illegible. `tools/check-contrast.py` holds 126 pairs
+- **Contrast.** Clashing is not the same as illegible. `tools/check-contrast.py` holds 130 pairs
   to WCAG 1.4.3 and **found two real failures on the first run**, which is the argument for
   having it. It is still finding them: writing the share cards meant naming the grounds the
   ambient glows actually make, and two rooms turned out to be putting text on a background
@@ -89,11 +89,12 @@ data/polaroids.json   The consent record for every photograph on the site, wall 
 photos/               Community photographs. Does not exist until somebody sends one
 data/chairy.json      Chairy's 28 sayings, each with the page it came from
 data/yells.json       Recorded yells, and who agreed to lend their voice
+data/yurt-sound.json  The six sounds in the Faery Yurt, and whose voice they are
 og/                   One share card per page — ten card designs for fourteen pages
-tools/                Eleven generators and four checkers, below
+tools/                Twelve generators and four checkers, below
 ```
 
-**The HTML is hand-authored and committed** — it is the artifact, not a build output. Only eleven
+**The HTML is hand-authored and committed** — it is the artifact, not a build output. Only twelve
 things are generated, and each has a tool:
 
 ```bash
@@ -107,8 +108,9 @@ python3 tools/make-readings.py     # the audio room, from data/readings.json
 python3 tools/make-polaroids.py    # Enid's wall, from data/polaroids.json
 python3 tools/make-chairy.py       # what Chairy says, from data/chairy.json
 python3 tools/make-yells.py        # the yell button's recordings, from data/yells.json
+python3 tools/make-yurt-sound.py   # the yurt's sounds: their tiles, and their credits
 python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
-python3 tools/check-contrast.py    # 126 pairs against WCAG; exits 1 on a failure
+python3 tools/check-contrast.py    # 130 pairs against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
 python3 tools/check-gentle.py      # every page at all three dial settings; exits 1 on a leak
 ```
@@ -120,7 +122,7 @@ network — a checker that fails on a train either blocks a deploy or teaches ev
 python3 tools/check-jukebox.py     # presses nothing; asks YouTube whether all 23 still play
 ```
 
-Run all thirteen before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
+Run all fourteen before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
 is missing a canonical or if an HTML file exists that is not in its page order, `make-csp.py`
 stops if the inline snippet has drifted between pages — because a stale hash does not warn, it
 silently breaks the dial for everyone — `make-feed.py` stops if a changelog entry has no stable
@@ -131,11 +133,16 @@ somewhere other than Enid's wall, stops if any page publishes one the record doe
 so that deleting a withdrawn entry catches every page instead of one; it also stops on a CSS or
 inline filter reaching a photograph, because that page promises we will not filter anybody, `make-chairy.py` stops if a saying has
 no source page or contains the pipe that separates them, `make-yells.py` stops if a yell has
-no name on it, `make-chappell.py` stops on an id that is not a YouTube id — which love-embed.js
+no name on it, `make-yurt-sound.py` stops if a recording has no name or no consent date,
+stops if two sounds claim the same tile, and measures each runtime off the file rather than
+trusting the data, because a label promising one before the press is the same promise the
+jukebox makes, `make-chappell.py` stops on an id that is not a YouTube id — which love-embed.js
 declines silently, so the failure is a button that never becomes a video and says nothing about
 it — or on a track with no runtime, because the label promising one before the press is that
-room's own claim, both audio tools stop on a recording that still carries the device and timestamp
-its recorder wrote into it, and `make-og.py` stops on a page whose room it has no card for —
+room's own claim, all three audio tools stop on a recording that still carries the device and timestamp
+its recorder wrote into it — and `make-yurt-sound.py` sweeps **every** audio file in the repo
+rather than only its own, because three tools each guarding their own patch left a hole between
+them that four unstripped recordings sat in for an afternoon, and `make-og.py` stops on a page whose room it has no card for —
 rather than handing a new room somebody else's face in the one asset nobody looks at.
 `check-print.py` and `check-gentle.py` stop if they cannot find a Chrome to render with, rather
 than passing a claim they did not test.
