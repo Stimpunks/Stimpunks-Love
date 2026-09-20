@@ -7,8 +7,8 @@ that card is a grey rectangle with a favicon in it -- which for a site whose
 entire argument is that the rooms refuse to share a look would be the blandest
 possible misrepresentation of it.
 
-SO THERE IS NO TEMPLATE. There are seven, one per room, and they are allowed to
-contradict each other exactly as love.css sections 5 to 11 do. The street's card
+SO THERE IS NO TEMPLATE. There are eight, one per room, and they are allowed to
+contradict each other exactly as love.css sections 5 to 12 do. The street's card
 collides six typefaces on purpose; the zine's is a photocopied ransom note; the
 quantum room's is a mono face over interference fringes; the plain rooms get a
 quiet one because their job is to hold a list. A card that looked like another
@@ -29,7 +29,9 @@ the page does not.
 IT REFUSES on a page whose body class it does not know. A new room needs a card
 designed for it, and the failure mode of guessing -- quietly falling back to the
 plain card -- would give the new room somebody else's face and nobody would
-notice, because the card is not on the page.
+notice, because the card is not on the page. The Chappell is the proof: it is a
+SUBROOM, the place where inheriting the parent's card would have looked most
+reasonable, and it got its own.
 
 IT ALSO REFUSES on a card whose content does not fit the box. Chrome reports the
 layout back out of the same run that takes the screenshot, so "it fits" is
@@ -162,6 +164,35 @@ body {{ display: flex; flex-direction: column; min-height: 0; }}
 .og--play h1 {{ font-size: 106px; margin: 0 !important; }}
 .og--play .og-lede {{ color: #fff; font-weight: 500; max-width: 1010px; font-size: 33px; }}
 
+/* chappell — rhinestone Vatican: gold Monoton under the rose window, and the
+   stained glass as the footer. THE ONLY CARD BESIDES THE PONY'S WHOSE ROOM HAS
+   AN AMBIENT LAYER OVER ITS HEADLINE, and the one that gets to keep it: the
+   pony's cream falls to 2.64 over its own glow, this room's gold measures 6.73
+   over the brightest part of the rose window, and both numbers are in
+   check-contrast.py. Margin is why the rays stay on, not taste. */
+.og--chappell {{ gap: 24px; }}
+/* align-self, because .og is a flex column and the plate would otherwise
+   stretch the full 1080px into an altar frontal. It is a nameplate in the
+   room, so it is a nameplate here. */
+.og--chappell .nameplate {{ font-size: 21px; letter-spacing: 4px; padding: 9px 20px;
+  align-self: flex-start; }}
+.og--chappell h1 {{ font-size: 60px; line-height: 1.12; max-width: 1030px; margin: 0 !important; }}
+.og--chappell .og-lede {{ font-family: 'Instrument Serif', serif; font-size: 34px;
+  line-height: 1.3; color: #EFE4FF; max-width: 950px; }}
+.og-glass {{
+  position: relative; height: 96px;
+  display: flex; align-items: center; justify-content: center;
+}}
+.og-glass .niche__glass {{
+  position: absolute; inset: 0; height: 96px; margin: 0;
+  border-bottom: 0; border-top: 4px solid var(--leaf);
+}}
+.og-glass span {{
+  position: relative; background: var(--glass); border: 2px solid var(--leaf);
+  border-radius: 30px; padding: 9px 24px;
+  font-family: 'Bungee', sans-serif; font-size: 20px; color: var(--leaf); letter-spacing: 1px;
+}}
+
 /* plain — the four pages with a job rather than a vibe. Quiet, but pinned to
    the frame at both ends rather than floating in the middle of it: an empty
    card reads as unfinished, which is a different thing from restrained. */
@@ -211,7 +242,7 @@ document.fonts.ready.then(function () {{
 """
 
 
-# ── The seven cards ──────────────────────────────────────────────────────────
+# ── The eight cards ──────────────────────────────────────────────────────────
 # One function per room. They are allowed to share nothing, and mostly do not.
 # Each returns (ambient markup, card markup, alt text). `p` is the page.
 
@@ -319,6 +350,26 @@ def card_play(p):
     )
 
 
+def card_chappell(p):
+    return (
+        '<div class="glow" aria-hidden="true"></div>',
+        f'<div class="og og--chappell" data-fit="card">'
+        f'<p class="nameplate">THE CHAPPELL</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>'
+        f'<div class="og-glass" data-fit="glass">'
+        f'<div class="niche__glass" aria-hidden="true"></div><span>stimpunks.love</span>'
+        f'</div>',
+        f"A near-black indigo card lit from the top by a violet rose window with "
+        f"thin gold rays fanning out of it. A small gold plate reading THE CHAPPELL, "
+        f"then \u201c{p['h1text']}\u201d in a gold neon-marquee face, and below it in "
+        f"serif: {p['desc_plain']} A band of stained glass in ruby, gold, sapphire, "
+        f"emerald and amethyst runs along the foot, with stimpunks.love on a gold-"
+        f"edged tag across it.",
+    )
+
+
 def card_plain(p):
     return (
         "",
@@ -342,6 +393,7 @@ CARDS = {
     "room-quantum": card_quantum,
     "room-enid":    card_enid,
     "room-play":    card_play,
+    "room-chappell": card_chappell,
     "room-plain":   card_plain,
 }
 

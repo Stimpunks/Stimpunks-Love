@@ -6,16 +6,24 @@ how to run the tools; this file covers the things a session gets wrong.
 ## The rule that matters most: do not tidy this site
 
 **There is no single design system here and there must not become one.** Six rooms, six
-unrelated visual worlds, joined by a street. The instinct to harmonise — one type scale, one
+unrelated visual worlds, joined by a street — and one subroom behind a seventh door. The instinct to harmonise — one type scale, one
 palette, shared component classes across rooms — is the correct instinct on every other
 Stimpunks site and is **destructive here**. `love.css` is deliberately a small shared base
-(§1–§4) followed by six sections that duplicate each other's ideas in different clothes. That
+(§1–§4) followed by seven sections that duplicate each other's ideas in different clothes. That
 duplication is the product.
 
 If a change would make two rooms look more alike, it is probably wrong. Ask first.
 
+**A SUBROOM IS THE HARDEST CASE AND THE ANSWER IS THE SAME.** The Chappell (§12) hangs off Pink
+Pony Club and shares nothing with it — the dancefloor is flat hot pink, cream Shrikhand and ten
+small white cards inside one cream tray; the chapel is votive indigo, gold Monoton and thirteen
+free-standing arches on the bare ground. "It is only a subroom, it should match its parent" is
+the most reasonable-sounding sentence the tidying instinct has ever produced here, and it is
+wrong for exactly the reason every other version of it is wrong. It got its own share card too,
+which is where the shortcut would have been invisible.
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
-there are **seven card designs, not one** — the place a template would have been the obvious
+there are **eight card designs, not one** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody
 opens a PNG in review. `make-og.py` builds each card from the page's own body class with
 `love.css` attached and lifts the h1 verbatim, so a room's card cannot drift from the room and
@@ -46,14 +54,15 @@ decision into a false statement on a published page.
 
 1. **"Nothing plays until you press play."** Verified on 2026-09-19 in a browser: zero iframes
    and zero requests to youtube on load; one iframe after one press; the other nine facades
-   untouched. If you touch `love-embed.js`, re-check it in the network panel rather than
+   untouched. Re-verified on 2026-09-20 in The Chappell: thirteen facades, zero external
+   requests on load, one press produced one iframe at the right id and left twelve alone. If you touch `love-embed.js`, re-check it in the network panel rather than
    reasoning about it. **The audio room's sequence control is the one place where one press
    starts several files**, which is still consented playback because the visitor asked for the
    sequence — but only as long as the label says how many passages and how long *before* the
    press. If you change that control, the label is the part that keeps the claim true. The
    superposition buttons themselves still make no sound at all: collapsing is a measurement,
    not a play.
-2. **"Clashing is not the same as illegible."** `tools/check-contrast.py`, 66 pairs. It found
+2. **"Clashing is not the same as illegible."** `tools/check-contrast.py`, 87 pairs. It found
    two real failures the first time it ran — white body copy on the Playhouse blue at 4.17, and
    the word clock's copy on violet at 3.36 — both of which would have shipped. **Add a pair to
    that file whenever you add a colour to a room.** A checker that does not know about the new
@@ -100,6 +109,19 @@ entry is mostly curation, and its explanation belongs to Murray, Lawson and Less
 questionnaire's authors, and to Helen Edgar. The passages here were written for this room so that
 nothing recorded is anyone else's to clear.
 
+`make-chappell.py` builds The Chappell's arcade from `data/chappell.json` **and the credits page
+with it** — one data file, one tool, both surfaces moving together, the same contract
+`make-yells.py` has. Its ids were read off the playlist page's own data and cross-checked
+against the watch page's playlist panel; titles, channels and runtimes came from YouTube and not
+from memory. It **refuses an id that is not a YouTube id**, because `love-embed.js` validates
+before building an iframe and returns *quietly* — a typo is not an error anywhere, it is a button
+a reader presses and presses that never becomes a video. It also **refuses a track with no
+runtime**: every label in that room says how long before the press, which is the same promise the
+audio room's sequence control makes, and a blank one would look like a design choice rather than
+a bug. The playlist header says fifteen and thirteen render; YouTube hides private and deleted
+entries from everyone but the owner, so thirteen is what plays and the discrepancy is written
+down in the data file rather than rounded off.
+
 `make-og.py` refuses a page whose body class it has no card for, refuses a card whose content
 does not fit 1200×630 — Chrome reports the layout back out of the same run that takes the
 picture, so the fit is measured rather than assumed — and **cannot write an `og:image` without
@@ -118,7 +140,7 @@ pages, because **a stale CSP hash does not warn**: the browser silently refuses 
 every reader who asked for Gentle gets flashed the loud version instead. That is precisely the
 failure the dial exists to prevent, arriving through the security header.
 
-`check-jukebox.py` asks YouTube whether all ten tracks still play, and is the one tool kept out
+`check-jukebox.py` asks YouTube whether all twenty-three tracks — both lists — still play, and is the one tool kept out
 of the pre-deploy sequence because it needs the network. **Two obvious ways to test this do not
 work** and were each ruled out the hard way: oEmbed returns 200 with the right title for a dead
 video, and loading `youtube.com/embed/<id>` gives Error 153 for every video including working

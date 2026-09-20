@@ -5,7 +5,7 @@
    other Stimpunks site applies one consistent look across many pages. Here the
    STREET is the system and the ROOMS refuse to share one. So this file is a
    small shared base (§1–§4) followed by one self-contained world per room
-   (§5–§11), each free to contradict the others.
+   (§5–§12), each free to contradict the others.
 
    The one thing every room DOES share is §3, the intensity dial. Danny the
    Street rearranges itself for whoever walks down it, so loudness is a control
@@ -48,6 +48,13 @@
   --blue:   #1770C2;   --violet-deep: #7B28DD;
   --cream:  #FFF3E6;   --paper:  #EDEAE2;   --chalk:  #c8bfe0;
   --sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+
+  /* The Chappell (§12). Its own five, because a subroom that borrowed the
+     dancefloor's palette would be the harmonising instinct getting in through
+     the side door it was told not to use. --nave is the ground; the glass
+     colours are decorative only and never carry text. */
+  --nave: #1A0A33;  --niche: #170A2B;  --glass: #0E0520;  --leaf: #F0C453;
+  --ruby: #8B0E33;  --sapphire: #14406E;  --emerald: #0E5C3A;  --amethyst: #5B2A8F;
 }
 
 * { box-sizing: border-box; }
@@ -576,7 +583,153 @@ html[data-intensity="gentle"] .secret { transform: none; }
 .room-plain th { font-family: 'Bungee', var(--sans); font-weight: 400; font-size: 12px; color: var(--chalk); letter-spacing: .5px; }
 
 
-/* §12 ── Small screens ───────────────────────────────────────────────────────
+/* §12 ── SUBROOM: The Chappell (off Pink Pony Club) ──────────────────────────
+   RHINESTONE VATICAN. A chapel built by somebody who thinks a chapel should
+   have more sequins on it: votive dark, gold leaf, stained glass, and an
+   arcade of pointed arches with a video in each one.
+
+   IT IS A SUBROOM AND IT STILL SHARES NOTHING WITH ITS PARENT. The dancefloor
+   next door is flat hot pink, cream Shrikhand, and a grid of small white cards
+   inside one big cream box. This is near-black indigo, gold Monoton, and free-
+   standing arches on the bare ground. Being reached through Pink Pony Club is a
+   fact about the doors, not a licence to inherit its face — the one instinct
+   this site exists to refuse would arrive here first, wearing "but it is only a
+   subroom" as its excuse.
+
+   MONOTON WAS THE LAST UNCLAIMED DISPLAY FACE on the street. It held exactly one
+   line on the index — "Living out loud", 27px — and no room had taken it as a
+   headline. A neon marquee face set in gold leaf is the whole joke of this room
+   in one typeface: the Vatican as rendered by a supper club.
+
+   THE GLOW IS MEASURED, not assumed. Enid's card and the pony's headline both
+   taught this file the same lesson — a room's ambient layer makes grounds that
+   nobody wrote down, and the contrast checker only knows the flat colour. The
+   rose window here peaks at #4E2E60 (violet at .22, then the gold rays at .10,
+   composited over #1A0A33) and every ink in this room is checked against THAT
+   as well as against the flat nave. See check-contrast.py, which holds both. */
+
+.room-chappell { background: var(--nave); color: #EFE4FF; }
+.room-chappell .backlink { font-family: 'Bungee', var(--sans); color: var(--leaf); }
+.room-chappell a { color: var(--leaf); }
+.room-chappell a:hover { color: var(--cream); }
+
+/* The rose window. A violet bloom at the top of the nave with gold rays fanning
+   out of it — a window you are standing under rather than looking at. */
+.room-chappell .glow {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    repeating-conic-gradient(from 188deg at 50% 0%, rgba(255,214,102,.10) 0deg 3deg, rgba(255,214,102,0) 3deg 13deg),
+    radial-gradient(90% 55% at 50% 0%, rgba(172,91,255,.22), rgba(26,10,51,0) 70%);
+}
+.room-chappell > * { position: relative; z-index: 1; }
+
+.room-chappell h1 {
+  font-family: 'Monoton', var(--sans); font-weight: 400;
+  font-size: clamp(30px, 5.2vw, 58px); line-height: 1.12;
+  color: var(--leaf); margin: 14px 0 0; max-width: 20ch;
+  text-shadow: 0 0 14px rgba(240,196,83,.30);
+}
+html[data-intensity="gentle"] .room-chappell h1 { text-shadow: none; }
+.room-chappell h2 { font-family: 'Bungee', var(--sans); font-size: 16px; letter-spacing: 1px; color: var(--leaf); margin: 0; }
+.room-chappell .lede {
+  font-family: 'Instrument Serif', serif; font-size: clamp(20px, 3vw, 27px);
+  line-height: 1.34; color: #EFE4FF; max-width: 44ch; margin: 20px 0 0;
+}
+
+/* The nameplate over the door. The room is called The Chappell; the heading is
+   what the playlist is called, and they are different sentences doing different
+   jobs, so the plate says the first and the h1 says the second. */
+.nameplate {
+  display: inline-block; margin: 0; padding: 7px 16px;
+  font-family: 'Bungee', var(--sans); font-size: 13px; letter-spacing: 3px;
+  color: var(--nave); background: var(--leaf); border-radius: 3px;
+}
+
+/* A seam of rhinestones. Gold thread with a stone set every 22px — the one
+   ornament in here that is pure ornament, and it is 6px tall. */
+.seam {
+  height: 6px; margin: 30px 0 0; border-radius: 3px;
+  background-image:
+    repeating-radial-gradient(circle at 11px 3px, var(--cream) 0 2px, rgba(255,243,230,0) 2px 11px),
+    linear-gradient(90deg, rgba(240,196,83,.25), var(--leaf) 30%, var(--leaf) 70%, rgba(240,196,83,.25));
+  background-size: 22px 6px, 100% 6px;
+}
+
+/* The votive rail — this room's consent banner. The dancefloor's is a cream-
+   bordered black lozenge; this is a lit shelf of candles under a gold edge. The
+   claim is the same claim, and it is the claim that has to be identical, not
+   the box. */
+.votive {
+  margin: 26px 0 0; padding: 20px 22px 18px;
+  background: var(--niche); border: 2px solid var(--leaf);
+  border-radius: 4px 4px 14px 14px; border-top-width: 6px;
+}
+/* > strong, not strong: the banner's heading is its first child, and the
+   paragraph under it uses <strong> inline for the sentence that carries the
+   room's extra promise. Unscoped, that inline emphasis became a second Bungee
+   heading in the middle of a sentence. */
+.votive > strong {
+  display: block; font-family: 'Bungee', var(--sans); font-weight: 400;
+  font-size: clamp(17px,2.4vw,21px); line-height: 1.2; color: var(--leaf); margin-bottom: 10px;
+}
+.votive p { margin: 0; font-size: 15px; line-height: 1.56; color: #EFE4FF; }
+.votive__candles { display: flex; gap: 7px; margin: 14px 0 0; }
+.votive__candles span {
+  flex: 1 1 0; height: 9px; border-radius: 4px;
+  background-image: linear-gradient(90deg, var(--ruby), var(--leaf), var(--sapphire), var(--emerald));
+}
+
+/* The arcade. Free-standing arches on the bare nave, not cards inside a box —
+   which is the structural difference from the jukebox next door, where ten white
+   cards sit in one cream tray. Here the ground shows between them. */
+.nave {
+  list-style: none; margin: 20px 0 0; padding: 0;
+  display: grid; gap: 30px 26px;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  align-items: start;
+}
+.niche {
+  background: var(--niche); border: 3px solid var(--leaf);
+  border-radius: 170px 170px 10px 10px;
+  padding: 0 22px 20px; overflow: hidden;
+}
+/* The tympanum: panes of glass fanning from the springing of the arch. Purely
+   decorative, aria-hidden, and carrying no text — which is why four saturated
+   colours are allowed to sit next to each other here and nowhere else. */
+.niche__glass {
+  height: 92px; margin: 0 -22px 16px;
+  background-image: repeating-conic-gradient(from 202deg at 50% 100%,
+    var(--ruby) 0deg 8deg, var(--leaf) 8deg 15deg, var(--sapphire) 15deg 23deg,
+    var(--emerald) 23deg 30deg, var(--amethyst) 30deg 38deg);
+  border-bottom: 3px solid var(--leaf);
+}
+.niche h3 {
+  margin: 0; font-family: 'Instrument Serif', serif; font-weight: 400;
+  font-size: 25px; line-height: 1.16; color: var(--cream);
+}
+.niche__note { margin: 7px 0 13px; font-size: 14px; line-height: 1.45; color: #C3B2DE; }
+.niche__credit { margin: 10px 0 0; font-size: 12.5px; color: #C3B2DE; }
+
+/* The facade wears the room's clothes: glass behind gold, with the runtime on
+   the button itself. Nothing reaches YouTube until it is pressed — §4's rule,
+   and this room does not get an exception for being pretty. */
+.room-chappell .facade {
+  background: var(--glass); border: 2px solid var(--leaf);
+  border-radius: 8px; color: var(--cream);
+}
+.room-chappell .facade:hover { background: #1C0C38; }
+.room-chappell .facade__play { color: var(--leaf); }
+
+/* The room rule, in the apse. */
+.gloria {
+  margin: 30px 0 0; padding: 20px 22px;
+  background: var(--glass); border-left: 6px solid var(--leaf); border-radius: 0 12px 12px 0;
+}
+.gloria h2 { margin: 0 0 9px; }
+.gloria p { margin: 0; font-size: 15px; line-height: 1.56; color: #EFE4FF; }
+
+
+/* §13 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -590,7 +743,7 @@ html[data-intensity="gentle"] .secret { transform: none; }
 }
 
 
-/* §13 ── Print ───────────────────────────────────────────────────────────────
+/* §14 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
@@ -618,8 +771,9 @@ html[data-intensity="gentle"] .secret { transform: none; }
     text-shadow: none !important;
   }
   body { font-size: 11pt; }
-  .sparkle, .glow, .grain, .marquee, .dial, .bunting, .floor, .fringe { display: none !important; }
-  .door, .panel, .card, .qcard, .toy, .rules, .keeps { border: 1pt solid #000 !important; background: #fff !important; color: #000 !important; break-inside: avoid; }
+  .sparkle, .glow, .grain, .marquee, .dial, .bunting, .floor, .fringe,
+  .niche__glass, .seam, .votive__candles { display: none !important; }
+  .door, .panel, .card, .qcard, .toy, .rules, .keeps, .niche, .votive, .gloria { border: 1pt solid #000 !important; background: #fff !important; color: #000 !important; break-inside: avoid; }
   a { color: #000 !important; text-decoration: underline; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; word-break: break-all; }
   h1, h2, h3, p, li, blockquote { color: #000 !important; text-shadow: none !important; }

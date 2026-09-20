@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Check that every track on the dancefloor still plays.
+"""Check that every track on the dancefloor, and in the chapel off it, still plays.
 
-Pink Pony Club is ten press-to-play facades. A facade whose video has died
-looks exactly like one that works, right up until a reader presses it and gets
+Pink Pony Club is ten press-to-play facades and The Chappell, the chapel off it,
+is thirteen more. A facade whose video has died looks exactly like one that works, right up until a reader presses it and gets
 "Video unavailable" -- which is what happened to Bad Cop / Bad Cop's "Warriors"
 some time between the room shipping and somebody pressing it. Nothing on this
 site notices that kind of rot, because the id is still a well-formed id and the
@@ -20,6 +20,12 @@ HOW, because the two obvious tests are worthless here and cost an hour to rule o
   What does distinguish them is the watch page's own playabilityStatus, which
   reads UNPLAYABLE for a dead video and OK for a live one. That is what this
   checks.
+
+BOTH LISTS, BECAUSE ROT DOES NOT CARE WHICH FILE AN ID LIVES IN. The Chappell
+has its own data file -- different provenance, so a different _source sentence --
+and a checker that only knew about data/jukebox.json would have left thirteen
+facades unwatched while reporting "all tracks checked" in a tone of complete
+confidence. That is worse than not running it, because it reads like coverage.
 
 NOT PART OF THE PRE-DEPLOY RUN. This is the only tool here that needs the
 network, and a checker that fails on a train would either block a deploy or
@@ -39,7 +45,7 @@ renamed is not a broken page.
 
 TITLES ARE NOT CHECKED. The stored titles are deliberately split from the
 artist and trimmed -- "Live at Paste Studio NYC", not the full upload title --
-so comparing them to oEmbed would fail on nine of ten and mean nothing.
+so comparing them to oEmbed would fail on almost every row and mean nothing.
 """
 import json
 import re
@@ -81,9 +87,39 @@ def channel_now(video_id):
         return None
 
 
+LISTS = [
+    ("the dancefloor", "data/jukebox.json", "pink-pony-club.html"),
+    ("the chappell",   "data/chappell.json", "the-chappell.html"),
+]
+
+
+def load():
+    """Every track from every list, each carrying which room it belongs to.
+
+    'artist' is per-track on the dancefloor and per-FILE in The Chappell, where
+    all thirteen are one artist and repeating the name in every row would be
+    noise. A file that gives neither is refused rather than defaulted: a report
+    that names the wrong artist beside a DEAD is a report that sends somebody
+    looking for the wrong video."""
+    out = []
+    for room, path, page in LISTS:
+        data = json.loads((ROOT / path).read_text())
+        for t in data["tracks"]:
+            t = dict(t)
+            t.setdefault("artist", data.get("_artist", ""))
+            if not t["artist"]:
+                raise SystemExit(
+                    f"REFUSING: a track in {path} has no artist and the file has no "
+                    "_artist\nto fall back on, so this run could not tell you which "
+                    "video had died."
+                )
+            t["_room"], t["_file"], t["_page"] = room, path, page
+            out.append(t)
+    return out
+
+
 def main():
-    data = json.loads((ROOT / "data/jukebox.json").read_text())
-    tracks = data["tracks"]
+    tracks = load()
     dead, unknown, drift = [], [], []
 
     for i, t in enumerate(tracks):
@@ -102,7 +138,8 @@ def main():
             mark, unknown_it = "DEAD", False
             dead.append((t, status))
 
-        print(f"{mark} {status or 'no answer':<14} {t['artist']} — {t['title']}")
+        print(f"{mark} {status or 'no answer':<14} {t['_room']:<14} "
+              f"{t['artist']} — {t['title']}")
         expected = t.get("channel_verbatim", t["channel"])
         if chan and chan != expected:
             drift.append((t, expected, chan))
@@ -110,26 +147,29 @@ def main():
     if drift:
         print("\nchannel renamed since the id was extracted (not a failure):")
         for t, expected, now in drift:
-            print(f"  {t['artist']}: recorded {expected!r} — now {now!r}")
+            print(f"  {t['_file']}  {t['artist']}: recorded {expected!r} — now {now!r}")
         print("  If the new name is right, update 'channel_verbatim' (or 'channel' if there\n"
               "  is no verbatim field) so this stays quiet and the next rename is visible.")
 
-    print(f"\n{len(tracks)} tracks checked, {len(dead)} not playable.")
+    rooms = ", ".join(f"{sum(1 for t in tracks if t['_room'] == r)} in {r}"
+                      for r, _, _ in LISTS)
+    print(f"\n{len(tracks)} tracks checked ({rooms}), {len(dead)} not playable.")
 
     if unknown and len(unknown) == len(tracks):
         raise SystemExit(
-            "\nREFUSING: not one track answered, so this says nothing about the jukebox.\n"
-            "That is almost certainly no network rather than ten dead videos. Try again\n"
-            "before believing anything here."
+            "\nREFUSING: not one track answered, so this says nothing about either room.\n"
+            "That is almost certainly no network rather than twenty-three dead videos.\n"
+            "Try again before believing anything here."
         )
     if unknown:
         print(f"{len(unknown)} track(s) gave no answer — inconclusive, not dead. Re-run those.")
     if dead:
         print(
             "\nA dead facade looks identical to a working one until somebody presses it.\n"
-            "Find a replacement, put the new id in data/jukebox.json with a 'replaced'\n"
-            "note saying where it came from, and re-run make-jukebox and make-liner-notes\n"
-            "so both surfaces move together."
+            "Find a replacement, put the new id in the data file named beside it above,\n"
+            "with a 'replaced' note saying where it came from, and re-run that list's\n"
+            "generator -- make-jukebox and make-liner-notes for the dancefloor,\n"
+            "make-chappell for the chapel -- so every surface moves together."
         )
     sys.exit(1 if (dead or unknown) else 0)
 

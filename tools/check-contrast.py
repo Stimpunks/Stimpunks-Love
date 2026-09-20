@@ -26,6 +26,7 @@ CHALK, CREAM, PAPER = "#c8bfe0", "#FFF3E6", "#EDEAE2"
 PINK, HOT, ORANGE, YELLOW = "#FF2D95", "#FF3D9A", "#FF8A00", "#FFE100"
 GREEN, CYAN, VIOLET, RED = "#22E06A", "#00D4FF", "#AC5BFF", "#C4002B"
 BLUE, VIOLET_DEEP = "#1770C2", "#7B28DD"
+NAVE, NICHE, GLASS, LEAF = "#1A0A33", "#170A2B", "#0E0520", "#F0C453"
 
 # (fg, bg, large?, where)
 PAIRS = [
@@ -98,6 +99,29 @@ PAIRS = [
     ("#4a4437", PAPER, False, "zine: the issue line"),
     (VIOLET,   "#05060f", False, "quantum: superposition heading"),
     (VIOLET,   INK,  False, "street: violet tagline + any violet ink on the night ground"),
+
+    # THE CHAPPELL (love.css §12). A subroom with its own ground, its own gold
+    # and its own ambient layer, so it gets its own pairs rather than leaning on
+    # the dancefloor's -- which is the whole point of it being a separate world.
+    #
+    # #4E2E60 IS NOT A COLOUR ANYBODY WROTE. It is what the rose window actually
+    # makes: violet at .22 composited over the #1A0A33 nave, then the gold rays
+    # at .10 over that. Enid's card and the pony's headline both taught this file
+    # that a room's flat background is not the ground its text sits on, and the
+    # only way that lesson stays learned is if the composite is in the list.
+    (LEAF,      NAVE,  True,  "chappell: h1 in Monoton, 30-58px gold on the nave"),
+    (LEAF,      "#4E2E60", True, "chappell: h1 where the rose window peaks"),
+    ("#EFE4FF", NAVE,  True,  "chappell: the serif lede, 20-27px"),
+    ("#EFE4FF", "#4E2E60", True, "chappell: the lede under the rose window"),
+    ("#EFE4FF", NICHE, False, "chappell: votive banner body, 15px"),
+    ("#C3B2DE", NAVE,  False, "chappell: small print on the bare nave"),
+    ("#C3B2DE", "#4E2E60", False, "chappell: small print under the rose window"),
+    ("#C3B2DE", NICHE, False, "chappell: the niche note and its credit line"),
+    (CREAM,     NICHE, False, "chappell: track titles in the arches"),
+    (LEAF,      NICHE, True,  "chappell: the votive banner's heading"),
+    (LEAF,      GLASS, False, "chappell: PRESS PLAY on the facade, and the room rule heading"),
+    (CREAM,     GLASS, False, "chappell: the facade's own label and runtime"),
+    (NAVE,      LEAF,  False, "chappell: the THE CHAPPELL nameplate, dark on gold leaf"),
 
     # THE SHARE CARDS (tools/make-og.py). Each card is its room's own markup on
     # its room's own ground, so most of what they draw is already above. These
