@@ -98,7 +98,29 @@ PAIRS = [
     ("#4a4437", PAPER, False, "zine: the issue line"),
     (VIOLET,   "#05060f", False, "quantum: superposition heading"),
     (VIOLET,   INK,  False, "street: violet tagline + any violet ink on the night ground"),
+
+    # THE SHARE CARDS (tools/make-og.py). Each card is its room's own markup on
+    # its room's own ground, so most of what they draw is already above. These
+    # are the pairs the cards ADDED -- and the two that the rooms had all along
+    # and this file had never named, because a pair only gets checked once
+    # somebody writes down where the text sits.
+    (CYAN,      INK,  False, "plain rooms: h2 — and the plain share card's kicker"),
+    ("#ffffff", "#047A9C", True, "quantum: the fringe caption, over the cyan "
+     "interference stripe — the darkest of the three grounds those stripes make"),
+    ("#b9b5c9", "#35224C", False, "enid: share-card footer over the violet half of the glow"),
+    ("#b9b5c9", "#133523", False, "enid: share-card footer over the green half of the glow"),
+    ("#2b0a1c", "#FF5AA6", False, "pony: dark copy over the brightest ray of the mirrorball glow"),
 ]
+
+# NOT IN THE LIST, AND IT SHOULD BE: cream (#FFF3E6) on the same #FF5AA6 ground
+# measures 2.64 and fails. That is the Pink Pony Club's own h1 and h2, over the
+# room's own glow, on the live page -- flat on #FF3D9A they are 3.01, which is
+# 3:1 by four thousandths, and any ray at all takes them under. Adding the pair
+# here without fixing the room would only turn every run red, and the fix is a
+# choice about how that room looks, which is not a checker's to make. It is
+# written down here rather than in a commit message because this file is where
+# somebody goes looking. The share card leaves the glow off until it is decided.
+
 
 fails = []
 for fg, bg, large, where in PAIRS:

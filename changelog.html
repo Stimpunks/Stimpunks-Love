@@ -13,6 +13,12 @@
 <meta property="og:title" content="Changelog — Stimpunks.Love">
 <meta property="og:description" content="What changed on the street, and when.">
 <meta property="og:url" content="https://stimpunks.love/changelog.html">
+<meta property="og:image" content="https://stimpunks.love/og/changelog.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A dark indigo card, deliberately quiet. Small cyan capitals reading stimpunks.love above a short pink rule, then “Changelog” in yellow block capitals, and the line: What changed on the street, and when.">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="site.webmanifest">
 <link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love — what changed on the street">
@@ -29,6 +35,16 @@
   <h1>Changelog</h1>
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
+
+  <h2 id="2026-09-19-share-cards">2026-09-19 &mdash; seven share cards, because one would have been a design system</h2>
+  <ul>
+    <li><strong>Every page has an image now when somebody pastes its link</strong>, and there are <strong>seven card designs for eleven pages</strong> &mdash; one per room, allowed to contradict each other exactly as the rooms do. The street&rsquo;s collides six typefaces; the zine&rsquo;s is a ransom note on photocopier grain; Hear Queer Here is a terminal face over interference fringes; the Playhouse keeps its bunting and its checkerboard floor. A single template would have been the tidying instinct arriving in the one asset nobody reviews, because nobody opens a PNG in a diff.</li>
+    <li><strong>The cards are built with the site&rsquo;s own stylesheet rather than a copy of it.</strong> Each one is a scrap of markup on the page&rsquo;s own <code>body</code> class with <code>love.css</code> attached, and the h1 is lifted from the page verbatim &mdash; which is how the zine&rsquo;s card keeps its per-word ransom spans and the street&rsquo;s keeps its two-part wordmark. Change a room and its card changes with it.</li>
+    <li><strong>No card ships without alt text.</strong> The tool has no way to write an <code>og:image</code> without an <code>og:image:alt</code>, because words baked into a picture are words nobody can hear, on a site that exists to say so.</li>
+    <li><strong>&ldquo;It fits&rdquo; is measured, not eyeballed.</strong> Chrome reports the layout back out of the same run that takes the screenshot, and a card whose content runs past 1200&times;630 fails the build. A slightly longer title is enough to push a word off the edge, and the crop lands in somebody else&rsquo;s timeline looking like our bug.</li>
+    <li><strong>It found contrast nobody had measured.</strong> The checker held 66 named pairs and every one of them assumed a flat background; the rooms have ambient glows over those backgrounds. Enid&rsquo;s aside grey is 4.55:1 on the black wall and <strong>3.22 in the corner where the green half of the glow peaks</strong> &mdash; the card&rsquo;s footer uses a lighter grey, and the room has the same line in its other corner at 3.39.</li>
+    <li><strong>And one we have not fixed, on purpose.</strong> The Pink Pony Club&rsquo;s cream headline measures <strong>3.01:1</strong> on flat hot pink &mdash; clearing the 3:1 large-text threshold by four thousandths &mdash; and <strong>2.64 over the room&rsquo;s own mirrorball rays</strong>, where it fails. How that room looks is not a checker&rsquo;s call to make, so it is written down at the foot of <code>check-contrast.py</code> rather than quietly patched, and the pony card leaves the rays off until it is decided.</li>
+  </ul>
 
   <h2 id="2026-09-19-yells">2026-09-19 &mdash; the yell button yells, and takes yours</h2>
   <ul>

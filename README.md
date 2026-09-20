@@ -41,9 +41,11 @@ the balanced tone — was dropped deliberately.
 
 - **Attribution.** A licence, not a house style. Every song, typeface, quotation and borrowed
   name is credited in `liner-notes.html`, and the credits are loud rather than hidden.
-- **Contrast.** Clashing is not the same as illegible. `tools/check-contrast.py` holds 66 pairs
+- **Contrast.** Clashing is not the same as illegible. `tools/check-contrast.py` holds 74 pairs
   to WCAG 1.4.3 and **found two real failures on the first run**, which is the argument for
-  having it.
+  having it. It is still finding them: writing the share cards meant naming the grounds the
+  ambient glows actually make, and two rooms turned out to be putting text on a background
+  nobody had measured.
 
 ## Layout
 
@@ -70,10 +72,11 @@ data/polaroids.json   The wall's consent record. Empty, and that is the default 
 photos/               Community photographs. Does not exist until somebody sends one
 data/chairy.json      Chairy's 28 sayings, each with the page it came from
 data/yells.json       Recorded yells, and who agreed to lend their voice
-tools/                Nine generators and three checkers, below
+og/                   One share card per page — seven card designs for eleven pages
+tools/                Ten generators and three checkers, below
 ```
 
-**The HTML is hand-authored and committed** — it is the artifact, not a build output. Only nine
+**The HTML is hand-authored and committed** — it is the artifact, not a build output. Only ten
 things are generated, and each has a tool:
 
 ```bash
@@ -86,7 +89,8 @@ python3 tools/make-readings.py     # the audio room, from data/readings.json
 python3 tools/make-polaroids.py    # Enid's wall, from data/polaroids.json
 python3 tools/make-chairy.py       # what Chairy says, from data/chairy.json
 python3 tools/make-yells.py        # the yell button's recordings, from data/yells.json
-python3 tools/check-contrast.py    # 66 pairs against WCAG; exits 1 on a failure
+python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
+python3 tools/check-contrast.py    # 74 pairs against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
 ```
 
@@ -97,7 +101,7 @@ network — a checker that fails on a train either blocks a deploy or teaches ev
 python3 tools/check-jukebox.py     # presses nothing, but asks YouTube whether all ten still play
 ```
 
-Run all eleven before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
+Run all twelve before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
 is missing a canonical or if an HTML file exists that is not in its page order, `make-csp.py`
 stops if the inline snippet has drifted between pages — because a stale hash does not warn, it
 silently breaks the dial for everyone — `make-feed.py` stops if a changelog entry has no stable
@@ -105,16 +109,39 @@ anchor to serve as its permalink, `make-readings.py` stops if two passages claim
 superposition-panel button, `make-polaroids.py` stops if a photograph has no alt text, no
 named subject, no consent date, or any EXIF left on it, `make-chairy.py` stops if a saying has
 no source page or contains the pipe that separates them, `make-yells.py` stops if a yell has
-no name on it, and both audio tools stop on a recording that still carries the device and
-timestamp its recorder wrote into it. `check-print.py` stops if it cannot find a Chrome to
-render with, rather than passing a claim it did not test.
+no name on it, both audio tools stop on a recording that still carries the device and timestamp
+its recorder wrote into it, and `make-og.py` stops on a page whose room it has no card for —
+rather than handing a new room somebody else's face in the one asset nobody looks at.
+`check-print.py` stops if it cannot find a Chrome to render with, rather than passing a claim
+it did not test.
 
-`check-print.py` is the only tool that needs anything *installed*: a Chrome or Chromium, which it
-drives headless to produce a real PDF and count the sheets. Point it elsewhere with
-`CHECK_PRINT_BROWSER=/path/to/chrome`. It checks both halves of the room's claim: one sheet, and
-"in black and white", the latter by reading the inks out of the PDF against an allowlist. Borders
-keep their own colour — the reset covers backgrounds, text and shadows — which is why the two
-near-neutral border tints are on that list.
+Two tools need something *installed* — a Chrome or Chromium, which both drive headless. Point
+them elsewhere with `CHECK_PRINT_BROWSER=` and `MAKE_OG_BROWSER=`.
+
+`check-print.py` renders a real PDF and checks both halves of the zine room's claim: one sheet,
+and "in black and white", the latter by reading the inks out of the PDF against an allowlist.
+Borders keep their own colour — the reset covers backgrounds, text and shadows — which is why
+the two near-neutral border tints are on that list.
+
+`make-og.py` renders each share card and reads the layout back out of the same run, so "it fits
+in 1200×630" is measured rather than eyeballed once and assumed forever. A longer title is
+enough to push a word off the edge, and the crop lands in somebody else's timeline.
+
+## The share cards
+
+A pasted link gets unfurled into a card, and for most people that card is the only part of the
+street they ever see. **There is no card template.** There are seven, one per room, and they
+contradict each other exactly as `love.css` §5–§11 do — the street's collides six typefaces,
+the zine's is a ransom note, the quantum room's is a mono face over interference fringes, the
+plain rooms get a quiet one. One template would be the harmonising instinct arriving in the one
+asset nobody reviews, because nobody sees it in the repo.
+
+Each card is a scrap of markup on **the page's own body class with `love.css` attached**, so a
+room's card cannot drift from the room, and the h1 is lifted from the page verbatim — which is
+how the zine keeps its per-word ransom spans and the street keeps its two-part wordmark.
+
+**Every card has alt text and the tool will not write an `og:image` without one.** Text baked
+into an image is text nobody can hear, on a site that exists to say so.
 
 ## Serving it locally
 

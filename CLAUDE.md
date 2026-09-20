@@ -14,6 +14,13 @@ duplication is the product.
 
 If a change would make two rooms look more alike, it is probably wrong. Ask first.
 
+**This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
+there are **seven card designs, not one** — the place a template would have been the obvious
+choice is exactly the place the rule matters, because a card is not on any page and nobody
+opens a PNG in review. `make-og.py` builds each card from the page's own body class with
+`love.css` attached and lifts the h1 verbatim, so a room's card cannot drift from the room and
+a new room **refuses to build** rather than inheriting somebody else's face.
+
 ## What this site is FOR, so you know what you are protecting
 
 Ryan's brief, 2026-09-19: *"All of our sites are so careful. Careful color palettes, careful
@@ -92,6 +99,16 @@ follow by hearing it is an audio-only requirement. **Do not lift readings from t
 entry is mostly curation, and its explanation belongs to Murray, Lawson and Lesser, to the
 questionnaire's authors, and to Helen Edgar. The passages here were written for this room so that
 nothing recorded is anyone else's to clear.
+
+`make-og.py` refuses a page whose body class it has no card for, refuses a card whose content
+does not fit 1200×630 — Chrome reports the layout back out of the same run that takes the
+picture, so the fit is measured rather than assumed — and **cannot write an `og:image` without
+an `og:image:alt`**, because text baked into an image is text nobody can hear. Writing it also
+turned up two grounds the rooms had always had and the contrast checker had never named: the
+Pink Pony Club's cream headline is 3.01:1 on flat hot pink and **2.64 over its own mirrorball
+glow**, which is a live failure of the room's own claim. The card leaves the glow off until
+that is decided; see the note at the foot of `check-contrast.py`. **Do not resolve it by
+deleting the note.**
 
 `make-feed.py` stops if a changelog `<h2>` has no id, because that id is the feed item's permalink
 and a feed whose guids move republishes every old entry into somebody's reader as if it were new.
