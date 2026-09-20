@@ -137,10 +137,28 @@
       announce('Stim box: ' + n + ' press' + (n === 1 ? '' : 'es') + '. Nobody is counting. (That was a lie, the box is counting, but it does not mind.)');
     });
 
+    /* A recorded yell if the community has sent any, the synthesised one if not.
+       The Audio object is built INSIDE the handler on purpose: nothing is fetched
+       until somebody presses, which is the same consent model as the jukebox one
+       room over. If the file will not play -- offline, or withdrawn between the
+       build and the press -- it falls back rather than failing silently. */
     var yell = document.querySelector('[data-toy="yell"]');
+    var lastYell = null;
     if (yell) yell.addEventListener('click', function () {
-      yellNoise();
-      announce('AAAAAAAAAAAAAAH!');
+      var list = [];
+      try { list = JSON.parse(yell.dataset.yells || '[]'); } catch (e) { list = []; }
+
+      function synth() { yellNoise(); announce('AAAAAAAAAAAAAAH!'); }
+      if (!list.length) { synth(); return; }
+
+      var pick = list[Math.floor(Math.random() * list.length)];
+      if (lastYell) { try { lastYell.pause(); } catch (e) {} }
+      var a = new Audio(pick.src);
+      lastYell = a;
+      var p = a.play();
+      /* Whose it is, said out loud rather than filed in the liner notes. */
+      announce('AAAAAAAAAAAAAAH! \u2014 that one was ' + pick.who + '.');
+      if (p && p.catch) p.catch(function () { synth(); });
     });
 
     var clock = document.querySelector('[data-toy="clock"]');

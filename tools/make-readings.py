@@ -109,6 +109,24 @@ def find_audio(rid):
             return f
     return None
 
+# Metadata a recorder leaves in the file. Apple's Voice Memos writes the device
+# model, the OS build and the exact second, and the yell that arrived on
+# 2026-09-19 carried all three -- as did the five readings already published,
+# which nobody had checked. A photograph is refused for its EXIF one room over;
+# a voice deserves the same. Strip with:
+#
+#     ffmpeg -i in.m4a -map_metadata -1 -fflags +bitexact -c copy out.m4a
+#
+LEAKS = ((b"VoiceMemos", "the recording app and device"),
+         (b"\xa9too", "an encoder tag"),
+         (b"\xa9xyz", "GPS COORDINATES"),
+         (b"date20", "the exact recording time"))
+
+
+def metadata_leaks(path):
+    raw = path.read_bytes()
+    return [why for tag, why in LEAKS if tag in raw]
+
 
 def stray_audio(terms):
     """Files in audio/ that answer to no passage, in any term.
@@ -195,6 +213,13 @@ def render_term(t):
         if secs:
             attrs += f' data-seconds="{secs}"'
         if found:
+            leaks = metadata_leaks(found)
+            if leaks:
+                raise SystemExit(
+                    f"REFUSING: {found.name} still carries {', '.join(leaks)}.\n"
+                    "A reading should not publish the reader's device and the second they\n"
+                    "recorded it. Strip it first; the docstring has the command."
+                )
             recorded += 1
             player = (f'          <audio class="reading__player" controls preload="none" '
                       f'src="audio/{found.name}"></audio>')

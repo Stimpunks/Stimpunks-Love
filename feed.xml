@@ -9,6 +9,13 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sat, 19 Sep 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>the yell button yells, and takes yours</title>
+      <link>https://stimpunks.love/changelog.html#2026-09-19-yells</link>
+      <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-19-yells</guid>
+      <pubDate>Sat, 19 Sep 2026 12:00:00 GMT</pubDate>
+      <description>It was blooping. It played the same oscillator as the stim box, an octave and a half down, and a pure tone is a bloop however low you put it. It builds the noise now — breath through a filter that sweeps as a shout runs out of air. Measured: zero-crossings went from 158 a second to 1,747, which is the difference between a tone and a shout. It can be your voice. Send us a yell and it joins the others, one chosen at random on each press, with the room saying whose it was out loud. The synth stays as the fallback, so the toy works whether or not anybody has sent one. The house rule rewrites itself. The page said the noises are synthesised and not fetched from anywhere, which stopped being true the moment a recording landed. That sentence is generated from the same data as the button now, because a claim the site makes about itself should not depend on somebody remembering to edit it. A correction we owed the readings. Enid’s wall refuses a photograph carrying EXIF; audio was never held to the same rule. The first yell arrived with the recording device, its OS build and the exact second in it — and so did all five readings already published. All six are stripped, re-muxed rather than re-encoded so the sound is untouched, and both audio tools now refuse a file that still carries any.</description>
+    </item>
+    <item>
       <title>Chairy learns twenty-three more things to say</title>
       <link>https://stimpunks.love/changelog.html#2026-09-19-chairy</link>
       <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-19-chairy</guid>

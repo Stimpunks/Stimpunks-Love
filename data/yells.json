@@ -1,0 +1,15 @@
+{
+  "_what": "Recorded yells for the Playhouse's yell button. One is chosen at random on press.",
+  "_fallback": "With none recorded the button falls back to the synthesised yell in love.js, so the toy works whether or not anybody has sent one — and the house rule on the page changes wording to match, because 'the noises are synthesised here, not fetched from anywhere' stops being true the moment a recording lands.",
+  "_consent": "A voice identifies a person as surely as a face does, so this follows the polaroid wall's process. The yeller says how they want to be named, or asks to be anonymous. Withdrawal is deletion: remove the entry, remove the file, run the tool. Record only that consent exists and when — no contact details in a public repository.",
+  "_licence": "A yell by anybody other than us carries NO onward licence. See LICENSE. CC BY-SA cannot be revoked and somebody who lends us their voice has to be able to take it back.",
+  "_files": "audio/yells/<id>.m4a, or any format a recorder produces.",
+  "yells": [
+    {
+      "id": "ryan-boren",
+      "who": "Ryan Boren",
+      "consent_on": "2026-09-19",
+      "note": "The first one. Recorded on the day the button stopped blooping."
+    }
+  ]
+}

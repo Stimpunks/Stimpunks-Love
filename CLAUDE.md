@@ -64,6 +64,14 @@ of components*, so the ransom note printed in full colour and `.pullquote` kept 
 while its text was forced to `#000` — 1.14:1, invisible. **Add an ink to that list only after
 deciding it survives a photocopier**, never to make the tool quiet.
 
+`make-yells.py` builds the yell button's recordings and **rewrites the house rule to match**: the
+Playhouse says the noises are synthesised and not fetched, which stops being true the moment a
+recording lands, so the sentence is generated from the same data as the button rather than left
+for somebody to remember. **Both audio tools refuse a file carrying recorder metadata** — Voice
+Memos writes the device, the OS build and the exact second, and the first six recordings here all
+carried it before anybody looked. A photograph is refused for its EXIF one room over; a voice gets
+the same rule. Strip with `ffmpeg -i in.m4a -map_metadata -1 -fflags +bitexact -c copy out.m4a`.
+
 `make-chairy.py` builds what Chairy says from `data/chairy.json`, where **every saying carries the page
 it came from**, read out of the Knowledge System mirror's own frontmatter rather than typed. Two of the
 28 are **not ours and say so when Chairy speaks them**: "Nothing About Us Without Us" is a motto of the
