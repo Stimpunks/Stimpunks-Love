@@ -246,6 +246,35 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .room-arcade .bulbs {{ gap: 30px; padding: 17px 16px; }}
 .room-arcade .bulbs span {{ width: 15px; height: 15px; }}
 
+/* latibulum — under the hill, and THE ONLY CARD IN THE SET MADE OF TWO GROUNDS:
+   the earth at the top with the lamp pool on it, and a band of lit plaster
+   along the foot carrying dark type. That inversion is the room's whole
+   structure rather than a flourish on its card — it is the thing that keeps a
+   warm brown burrow from being the Faery Yurt, whose card is cream on dark all
+   the way down — so the card that left it out would be describing a different
+   room. The lamp pool is the room's own gradient at its own strength; every ink
+   on the earth here is measured against the #453620 it composites to, in
+   check-contrast.py, which is why it stays on. */
+.room-latibulum {{ background-image:
+  radial-gradient(ellipse 820px 430px at 33% 36%, rgba(240,195,107,.16), transparent 72%); }}
+.og--burrow {{ gap: 26px; padding: 46px 60px; }}
+.og--burrow .eyebrow {{ font-size: 20px; letter-spacing: 3px; margin: 0 !important; }}
+.og--burrow .og-head {{ display: flex; align-items: center; gap: 42px; }}
+/* The round door is the room's one drawing and it is lifted from the page, the
+   same way the campground's stream and the yurt's crown are. It is centred in
+   its own column on the page; on a card it stands beside the name. */
+.og--burrow .roundel {{ flex: 0 0 auto; width: 214px; margin: 0 !important; }}
+.og--burrow h1 {{ font-size: 94px; line-height: 1; margin: 0 !important; }}
+.og--burrow .og-lede {{ font-family: 'Nunito', sans-serif; color: #C9B99F; max-width: 1010px; }}
+.og-plaster {{
+  flex: 0 0 auto; height: 108px; display: flex; align-items: center;
+  justify-content: space-between; gap: 30px; padding: 0 60px;
+  background: linear-gradient(180deg, var(--plaster), var(--plaster-2));
+  border-top: 3px solid #A8906C;
+}}
+.og-plaster b {{ font-family: 'Bree Serif', serif; font-weight: 400; font-size: 33px; color: var(--umber); }}
+.og-plaster span {{ font-family: 'Nunito', sans-serif; font-size: 21px; color: var(--umber-2); letter-spacing: 1px; }}
+
 /* quill — THE SCREEN, where the arcade's own card is the cabinet from outside.
    Two cards for one room's machines have to differ from each other as well as
    from the foyer's, or the split that gave them their own cards has bought
@@ -629,6 +658,32 @@ def card_pebble(p):
     )
 
 
+def card_latibulum(p):
+    # NO AMBIENT MARKUP, and for the opposite reason to the campground's. That
+    # field has no ambient layer to draw; this room's lamp IS the ground rather
+    # than a thing floating over it, so it belongs to the body in CARD_CSS and
+    # not to a div. The one drawing on the card is the door, lifted whole.
+    return (
+        "",
+        f'<div class="og og--burrow" data-fit="card">'
+        f'<p class="eyebrow">A DOOR ON THE STREET \u00b7 A HILL BEHIND IT</p>'
+        f'<div class="og-head">{p["roundel"]}'
+        f'<div>{p["h1"]}<p class="og-lede">{p["desc"]}</p></div>'
+        f'</div>'
+        f'</div>'
+        f'<div class="og-plaster" data-fit="wall">'
+        f'<b>A burrow of belonging for burnouts.</b><span>stimpunks.love</span>'
+        f'</div>',
+        f"A dark earth-brown card lit by a low lamp. Small capitals reading a door "
+        f"on the street, a hill behind it, then a drawing of a round green door in "
+        f"a wooden frame with a brass knob in the middle of it, and beside it "
+        f"\u201c{p['h1text']}\u201d in a soft cream slab serif with the line: "
+        f"{p['desc_plain']} Along the whole foot of the card, a band of lamplit "
+        f"plaster carrying, in dark brown: A burrow of belonging for burnouts. "
+        f"stimpunks.love.",
+    )
+
+
 def card_plain(p):
     return (
         "",
@@ -659,6 +714,7 @@ CARDS = {
     "game-pebble":  card_pebble,
     "campgrounds":  card_camp,
     "room-yurt":    card_yurt,
+    "room-latibulum": card_latibulum,
     "room-plain":   card_plain,
 }
 
@@ -741,6 +797,7 @@ def main():
         ("crown",    "faery-yurt.html",   r'(<div class="crown".*?</svg>\s*</div>)'),
         ("esmx",     "quill-drift.html",  r'(<svg class="sprite".*?</svg>)'),
         ("bulbs",    "arcade.html",       r'(<div class="bulbs".*?</div>)'),
+        ("roundel",  "latibulum.html",    r'(<div class="roundel".*?</svg>\s*</div>)'),
         ("otter",    "otterly-adorbs.html", r'(<div class="otter" id="otter".*?</div>\s*</div>)'),
         ("ottdefs",  "otterly-adorbs.html", r'(<svg width="0" height="0".*?</defs></svg>)'),
         ("peng",     "penguin-pebbling.html", r'(<div class="peng" id="peng-you".*?</div>\s*</div>)'),

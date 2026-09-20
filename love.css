@@ -5,7 +5,7 @@
    other Stimpunks site applies one consistent look across many pages. Here the
    STREET is the system and the ROOMS refuse to share one. So this file is a
    small shared base (§1–§4) followed by one self-contained world per room
-   (§5–§15), each free to contradict the others.
+   (§5 onward), each free to contradict the others.
 
    The one thing every room DOES share is §3, the intensity dial. Danny the
    Street rearranges itself for whoever walks down it, so loudness is a control
@@ -57,6 +57,16 @@
    which is what the eighteenth family is for. 4.7KB, latin only, and nothing
    else here loads it. */
 @font-face { font-family: 'Press Start 2P'; src: url('fonts/press-start-2p-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+
+/* The Latibulum (§16). A soft slab and a rounded sans, which is the pair that
+   keeps a warm brown burrow from reading like the warm brown tent two pages
+   away: the yurt is high-contrast italic serif, this is planed and round.
+   Nunito ships as a variable font, so Google serves ONE file for 400 and for
+   700 — it is downloaded once and declared twice against the weight axis,
+   rather than stored twice under two names. See fonts/_sources.json. */
+@font-face { font-family: 'Bree Serif'; src: url('fonts/bree-serif-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Nunito';     src: url('fonts/nunito-400.woff2') format('woff2');     font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Nunito';     src: url('fonts/nunito-400.woff2') format('woff2');     font-weight: 700; font-display: swap; }
 
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
@@ -123,6 +133,22 @@
      is then checked against the outline that surrounds it. See the note there;
      it is the honest reading of WCAG 1.4.11, which asks about adjacent colours
      rather than about fills. */
+  /* The Latibulum (§16). Under the hill: an earth ground with a lamplit
+     PLASTER wall on it, which is the one structural difference that stops a
+     warm brown burrow from becoming the Faery Yurt. The yurt reads cream on
+     dark all the way down; here almost every word sits dark on a lit wall, and
+     the dark ground is what is left over around it. --glow-lamp is not a colour
+     anybody chose: it is --lamp at .16 over --loam, the brightest the lamp pool
+     gets, and it is the ground the copy on the earth actually sits on.
+     check-contrast.py holds every ink against it as well as against the flat
+     colour, the same way the Chappell is held against its rose window. */
+  --loam: #241B12;  --burrow: #2E2317;  --recess: #17120C;
+  --plaster: #E8D8BC;  --plaster-2: #D8C5A3;
+  --umber: #3A2A1C;  --umber-2: #5A4230;
+  --oat: #EFE4D2;  --oat-2: #C9B99F;
+  --lamp: #F0C36B;  --door: #2F5A3C;  --rust: #8A3A1E;
+  --beam: #7A5330;  --brass: #E3BB6A;
+
   --sky: #D6DFE4;  --sea: #8FA9B8;  --shingle: #B4AEA5;
   --pen-dark: #1E2833;  --pen-light: #F7FAFB;  --beak: #E07B1F;
   --peb-grey: #5A626B;  --peb-white: #EDE9E2;  --peb-glass: #1F6B55;
@@ -258,6 +284,14 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
   padding: 10px 0;
 }
 
+/* The margin hand. It was written inside the zine table, and then Enid's room
+   and issue #2 started wearing it too — three rooms on one class, which makes
+   it furniture whichever section it was typed in. It is here now because
+   check-classes.py refuses a page wearing a name another room has claimed, and
+   the honest answer to that was not to rename it in two rooms but to admit what
+   it had become. Every room that uses it overrides the colour inline. */
+.scrawl { font-family: 'Rock Salt', var(--sans); font-size: 12px; color: var(--red); }
+
 .marquee {
   background: var(--yellow); border-bottom: 4px solid var(--ink);
   overflow: hidden; white-space: nowrap;
@@ -392,6 +426,16 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .door--arcade .door__blurb { color: var(--tube); }
 .door--arcade .door__knock { font-family: 'Press Start 2P', monospace; font-size: 11px; letter-spacing: 0; color: var(--mint); }
 
+/* The Latibulum's shopfront, and the only door on this street that opens onto
+   a hill. It is the quietest front in the row on purpose — no clashing awning
+   stripe, just earth and lamplight — because a shopfront that shouted about a
+   burrow would be misdescribing what is behind it before anybody pressed it. */
+.door--burrow { background: var(--loam); }
+.door--burrow .door__awning { background-image: repeating-linear-gradient(90deg, var(--beam) 0 14px, var(--door) 14px 28px); }
+.door--burrow .door__name  { font-family: 'Bree Serif', Georgia, serif; color: var(--lamp); font-size: 27px; }
+.door--burrow .door__blurb { color: var(--oat); }
+.door--burrow .door__knock { font-family: 'Bree Serif', Georgia, serif; font-size: 12px; letter-spacing: .08em; color: var(--oat-2); }
+
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
 .door--empty .door__name  { font-family: 'Bungee', var(--sans); color: var(--chalk); font-size: 23px; }
@@ -502,7 +546,6 @@ html[data-intensity="gentle"] .pullquote .tape { transform: none; }
 .keeps dt { font-weight: 700; }
 .keeps dd { margin: 3px 0 0; font-size: 13.5px; line-height: 1.5; }
 
-.scrawl { font-family: 'Rock Salt', var(--sans); font-size: 12px; color: var(--red); }
 
 
 /* §8 ── ROOM: Hear Queer Here ────────────────────────────────────────────────
@@ -584,6 +627,10 @@ html[data-intensity="gentle"] .pullquote .tape { transform: none; }
 .reading--collapsed[data-reading-state="b"]    { border-left-color: var(--pink);  background: rgba(255,45,149,.05); }
 .reading--collapsed[data-reading-state="open"] { border-left-color: var(--green); background: rgba(34,224,106,.05); }
 
+/* The fringe's three states, driven by the superposition panel in love.js.
+   "open" is the default and shows both patterns at once. */
+.fringe[data-state="a"]::after  { display: none; }
+.fringe[data-state="b"]::before { display: none; }
 
 /* §9 ── ROOM: Enid's Room ────────────────────────────────────────────────────
    Black walls, technicolour everything else. The room for the one who does not
@@ -1025,7 +1072,10 @@ html[data-intensity="max"] .vinyl { animation: yurt-spin 6s linear infinite; }
   letter-spacing: .14em; text-transform: uppercase; color: var(--tallow-3); margin: 0 0 18px;
 }
 .yurt-head .eyebrow a { color: var(--tallow-2); }
-.yurt-head .tagline { font-size: 19.5px; color: var(--tallow-2); max-width: 46ch; margin: 0 auto; }
+/* `.yurt-tagline`, not `.tagline`: the street's masthead claims that name in
+   §5 and this paragraph was quietly taking display:flex and a 940px max-width
+   from it. A rename, and nothing of Helen's design moved. */
+.yurt-head .yurt-tagline { font-size: 19.5px; color: var(--tallow-2); max-width: 46ch; margin: 0 auto; }
 .crown { width: 148px; margin: 0 auto 16px; }
 .crown svg, .vine svg, .sprig svg { display: block; width: 100%; height: auto; }
 .vine { position: absolute; top: -8px; width: 120px; pointer-events: none; }
@@ -1619,7 +1669,220 @@ html[data-intensity="max"] .bulbs span { animation: bulbchase 1.6s steps(2) infi
 .arc-foot .plate { border-color: var(--cab); background: transparent; }
 
 
-/* §16 ── Small screens ───────────────────────────────────────────────────────
+/* §16 ── ROOM: The Latibulum ─────────────────────────────────────────────────
+   A BURROW, NOT A TENT, AND THE DIFFERENCE IS LOAD-BEARING. This is the second
+   warm brown room on the street and it had every opportunity to become a
+   second Faery Yurt — same candlelight, same earth tones, same instinct to
+   make the visitor feel held. It is not one, and the thing that keeps it apart
+   is structural rather than decorative:
+
+     · the yurt reads CREAM ON DARK all the way down; almost every word in here
+       sits DARK ON A LIT PLASTER WALL, and the earth ground is what is left
+       over around it. Two rooms lit by the same kind of light, inverted.
+     · the yurt is a pitched column of canvas with fairy lights strung across
+       the top. This is dug into a hill: round doorway, arched panels, thick
+       walls, a low lamp, and no sky in it anywhere.
+     · the yurt sets high-contrast italic serifs. This sets a planed slab and a
+       rounded sans, because a smial is carpentry and not calligraphy.
+
+   "They are both cosy, so they should feel the same" is the subroom excuse
+   wearing a woolly jumper. The whole argument of this street is that walking
+   from one room into another should feel like walking outside first.
+
+   LOW STIMULATION IS THE BRIEF, AND THE DIAL STILL WINS. The room is quiet at
+   every setting because it was designed quiet, not because Gentle took
+   anything away — there is no tilt in here to reset and nothing is hidden at
+   any level. ONE thing moves, and only at MAX: the lamp breathes, in opacity,
+   over nine seconds. That is the whole of what MAX GLITTER buys in a burrow,
+   and the room says so on its own face rather than leaving somebody to press
+   it and wonder whether it worked.
+
+   THE TWO OBJECTS ARE PRESS-TO-PLAY AND NOTHING ELSE, which is the street's
+   oldest rule arriving in the quietest room: a wireless and a television that
+   make no sound, fetch nothing, and say how long they run BEFORE you press
+   them. Both facades are generated — see tools/make-latibulum.py. */
+
+.room-latibulum {
+  background: var(--loam); color: var(--oat);
+  font-family: 'Nunito', ui-rounded, system-ui, sans-serif;
+  font-size: 17px; line-height: 1.68;
+}
+
+/* The hollow itself. Two lamp pools and a vignette of packed earth falling
+   away at the edges — the brighter pool tops out at --lamp .16, which is the
+   #453620 in check-contrast.py. None of it moves, so none of it is gated. */
+.burrow {
+  width: min(880px, 100% - 44px); margin-inline: auto; padding: 0 0 72px;
+  background-image:
+    radial-gradient(ellipse 760px 420px at 50% 120px, rgba(240,195,107,.16), transparent 72%),
+    radial-gradient(ellipse 520px 380px at 84% 62%, rgba(240,195,107,.07), transparent 70%),
+    radial-gradient(ellipse 700px 1500px at 50% 50%, transparent 58%, rgba(0,0,0,.42) 100%);
+}
+
+.room-latibulum a { color: var(--lamp); text-decoration-color: rgba(240,195,107,.45); text-underline-offset: 3px; }
+.room-latibulum a:hover { color: var(--plaster); }
+.room-latibulum .backlink { font-family: 'Bree Serif', Georgia, serif; font-size: 13px; letter-spacing: .06em; color: var(--oat-2); }
+.room-latibulum h1, .room-latibulum h2, .room-latibulum h3 {
+  font-family: 'Bree Serif', Georgia, serif; font-weight: 400; text-wrap: balance;
+}
+.room-latibulum h1 { font-size: clamp(40px, 6.6vw, 64px); line-height: 1.04; color: var(--oat); margin: 0 0 12px; }
+.room-latibulum h2 { font-size: 27px; color: var(--oat); margin: 0 0 10px; }
+.room-latibulum h3 { font-size: 20px; color: var(--umber); margin: 0 0 8px; }
+.room-latibulum section { padding: 30px 0; }
+.room-latibulum .lede { font-size: 19.5px; line-height: 1.6; color: var(--oat-2); max-width: 56ch; margin: 0 0 18px; }
+
+.smial-head { text-align: center; padding: 46px 10px 16px; }
+.smial-head .eyebrow {
+  font-family: 'Bree Serif', Georgia, serif; font-size: 13.5px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--oat-2); margin: 0 0 22px;
+}
+.smial-head .lede { margin-inline: auto; }
+.smial-head .burrow-tagline { font-size: 21px; color: var(--lamp); margin: 0 0 20px; }
+
+/* The round door, looked at from the inside. It is a drawing rather than a
+   link: you are already through it, and a door on this page that went
+   somewhere would be the one piece of furniture here that asked something of
+   you. */
+.roundel { width: 178px; margin: 0 auto 22px; }
+.roundel svg { display: block; width: 100%; height: auto; }
+
+/* THE LIT WALL. Every panel that holds copy is plaster with the lamp on it —
+   dark type on a warm ground, which is the inversion the whole room is built
+   on. `.room-latibulum .wall`, not `.wall`, because `.room-latibulum section`
+   above sets the vertical rhythm and would otherwise out-specify the padding
+   here and leave two paragraphs pressed against the edge of their own wall.
+   The yurt learned this the same way. */
+.room-latibulum .wall {
+  background: linear-gradient(180deg, var(--plaster), var(--plaster-2));
+  color: var(--umber); border-radius: 22px; padding: 28px 30px;
+  border: 1px solid rgba(58,42,28,.22);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 20px 44px -26px rgba(0,0,0,.8);
+}
+/* A wall with the hill's own curve on top. The arch is the room's one repeated
+   shape and it is why nothing in here is square. */
+/* The top corners are quarter-circles of this radius, so the straight part of
+   the top edge does not begin until 200px in from each side. Copy set inside
+   that has to start BELOW the curve or the vault crops its own first line —
+   which is what 44px of top padding did on the first build. The padding is the
+   arch. */
+.room-latibulum .wall--arched { border-radius: 200px 200px 22px 22px; padding: 104px 46px 30px; text-align: center; }
+.room-latibulum .wall--arched p { text-align: left; }
+.room-latibulum .wall a { color: var(--door); text-decoration-color: rgba(47,90,60,.5); }
+.room-latibulum .wall a:hover { color: var(--rust); }
+.room-latibulum .wall h2 { color: var(--umber); }
+.room-latibulum .wall p { color: var(--umber); }
+.room-latibulum .wall .note { color: var(--umber-2); font-size: 15px; }
+
+/* The two objects. Both are wooden cases with something dark set into them,
+   both are silent, and both are built the same way on purpose — a wireless and
+   a television bought in the same decade and dragged underground. */
+.thing { display: grid; gap: 22px; grid-template-columns: minmax(0, 1fr); margin: 0 0 8px; }
+/* The object itself — aerial and case together — so the grid gap above sits
+   between the thing and the plate that describes it, and not between a
+   television and its own aerial.
+
+   AND IT IS NARROWER THAN THE COLUMN, deliberately. At the full width of the
+   page a wireless is a billboard with a knob on it: the screen recess came out
+   848px across and read as a hole in the wall rather than as a thing standing
+   in the room. Furniture is smaller than the room it is in. */
+.thing__set { display: block; width: min(560px, 100%); margin-inline: auto; }
+.thing__case {
+  background:
+    repeating-linear-gradient(90deg, rgba(0,0,0,.06) 0 3px, transparent 3px 11px),
+    linear-gradient(180deg, #8A5F38, var(--beam) 55%, #5E3F23);
+  border: 1px solid #4A321C; padding: 16px 16px 12px;
+  box-shadow: 0 22px 46px -26px rgba(0,0,0,.9);
+}
+.wireless .thing__case { border-radius: 170px 170px 14px 14px; padding-top: 30px; }
+.telly    .thing__case { border-radius: 26px; }
+
+/* The facade, dressed as furniture. `overflow: hidden` so the case clips the
+   iframe when the button becomes one — without it the player's own square
+   corners sit on top of the rounded ones and the object stops being an object.
+   §4 supplies the 16/9 box and the "nothing before the press" behaviour; this
+   only changes what it is made of. */
+.room-latibulum .facade {
+  background: var(--recess); color: var(--oat);
+  border: 3px solid #3E2A16; border-radius: 10px; overflow: hidden;
+  font-family: 'Nunito', system-ui, sans-serif; font-size: 15px;
+  box-shadow: inset 0 0 26px rgba(0,0,0,.85);
+}
+.room-latibulum .facade:hover { background: #211a11; }
+.room-latibulum .facade__play { font-family: 'Bree Serif', Georgia, serif; font-size: 13px; letter-spacing: .1em; color: var(--lamp); }
+.telly .facade { border-radius: 9% / 11%; border-width: 5px; }
+
+/* The grille cloth over the wireless's speaker, and the tuning strip under it.
+   Both are drawings and neither carries a word, so both are hidden from the
+   accessibility tree in the markup. */
+/* Speaker cloth: a weave rather than a rail, which is what 26px of vertical
+   stripe looked like. Two crossed hatches over the dark of the recess, the same
+   trick the yurt's canvas uses, because that is what woven cloth actually is. */
+.grille {
+  height: 54px; margin: 0 0 14px; border-radius: 44px 44px 6px 6px;
+  background:
+    repeating-linear-gradient(90deg, rgba(0,0,0,.45) 0 2px, transparent 2px 6px),
+    repeating-linear-gradient(0deg,  rgba(0,0,0,.45) 0 2px, transparent 2px 6px),
+    linear-gradient(180deg, #6B4926, #4A321C);
+  border: 2px solid #3E2A16;
+}
+.tuner { display: flex; align-items: center; gap: 12px; margin: 12px 2px 0; }
+.tuner__scale { flex: 1 1 auto; height: 18px; border-radius: 8px; background: linear-gradient(180deg, #F6EBD2, var(--plaster-2)); border: 1px solid #4A321C; position: relative; }
+.tuner__scale::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, rgba(58,42,28,.55) 0 1px, transparent 1px 13px); }
+.tuner__needle { position: absolute; top: -3px; bottom: -3px; left: 38%; width: 3px; border-radius: 2px; background: var(--rust); box-shadow: 0 0 0 1px rgba(255,255,255,.35); }
+/* A FLAT DISC RATHER THAN A TURNED ONE. The first version was a radial
+   gradient running from a highlight down to #8A6120, which looked like brass
+   and measured 1.93 against the lightest of the three woods behind it — a knob
+   you could not see on the cabinet it is screwed to. The shading is an inset
+   shadow now, so the colour that identifies the knob is one colour and clears
+   3:1 on all three. The same measurement moved --brass itself; see
+   check-contrast.py. */
+.set-knob { flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%; background: var(--brass); box-shadow: inset -4px -4px 0 rgba(58,26,0,.22); }
+
+/* The television's aerial and its two dials. The aerial is the reason this is
+   a television and not a box: it is the only thing in the room that points at
+   a sky it cannot see. */
+.aerial { display: block; width: 130px; height: 46px; margin: 0 auto -2px; }
+.dials { display: flex; gap: 12px; justify-content: flex-end; align-items: center; margin: 12px 2px 0; }
+
+.thing__plate { margin-top: 4px; }
+.thing__plate .runs { font-family: 'Bree Serif', Georgia, serif; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--umber-2); margin: 0 0 8px; }
+
+/* The shelf of things to do with a bodymind. Soft, round, and NOT A CHECKLIST:
+   no state, no counter, no tick. A tile here is a suggestion lying on a shelf,
+   which is why none of them is a button — the moment one is, the room has
+   started keeping score, and this site refuses a tally beside a practice that
+   is not about volume in the cabinet two doors down as well. */
+.burrow-shelf { display: grid; grid-template-columns: repeat(auto-fit, minmax(178px, 1fr)); gap: 14px; margin: 18px 0 0; padding: 0; list-style: none; }
+.burrow-shelf li {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: rgba(255,255,255,.34); border: 1px solid rgba(58,42,28,.18);
+  border-radius: 18px; padding: 14px 15px;
+}
+.burrow-shelf svg { flex: 0 0 auto; width: 26px; height: 26px; }
+.burrow-shelf b { display: block; font-family: 'Bree Serif', Georgia, serif; font-weight: 400; font-size: 17px; color: var(--umber); }
+.burrow-shelf span { display: block; font-size: 14.5px; line-height: 1.5; color: var(--umber-2); margin-top: 2px; }
+
+.saying { margin: 22px 0 0; padding: 18px 0 4px 20px; border-left: 4px solid var(--door); }
+.saying p { font-family: 'Bree Serif', Georgia, serif; font-size: 19px; line-height: 1.5; color: var(--umber); margin: 0 0 8px; }
+.saying cite { display: block; font-style: normal; font-size: 14.5px; color: var(--umber-2); }
+
+/* The lamp. The only thing in this room that ever moves, and only at MAX —
+   opacity, over nine seconds, no rotation and no scale. A burrow whose loudest
+   setting was actually loud would be a burrow lying about what it is. */
+.lamp-pool { display: block; width: 92px; height: 92px; margin: 0 auto; }
+html[data-intensity="max"] .lamp-flame { animation: latibulum-breathe 9s ease-in-out infinite; }
+@keyframes latibulum-breathe { 0%, 100% { opacity: .72; } 50% { opacity: 1; } }
+
+.burrow-rules { margin: 0; padding: 0; list-style: none; }
+.burrow-rules li { position: relative; padding: 0 0 0 26px; margin: 0 0 12px; color: var(--oat); }
+.burrow-rules li::before { content: ""; position: absolute; left: 0; top: .55em; width: 11px; height: 11px; border-radius: 50%; background: var(--lamp); }
+.burrow-rules strong { color: var(--plaster); }
+
+.burrow-note { font-size: 14.5px; line-height: 1.6; color: var(--oat-2); }
+.burrow-note a { color: var(--lamp); }
+
+
+/* §17 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -1660,10 +1923,16 @@ html[data-intensity="max"] .bulbs span { animation: bulbchase 1.6s steps(2) infi
   .knobs { flex: 1 1 100%; }
   .screen { margin-inline: 10px; }
   .cabinet { border-width: 4px; }
+  .burrow { width: calc(100% - 28px); }
+  /* The arch is the room's whole silhouette, and at 332px a 260px radius eats
+     the first two lines of every panel it is on. It gets shallower rather than
+     square: a smial with a flat top is a shed. */
+  .room-latibulum .wall--arched { border-radius: 120px 120px 22px 22px; padding: 70px 24px 26px; }
+  .wireless .thing__case { border-radius: 100px 100px 14px 14px; }
 }
 
 
-/* §17 ── Print ───────────────────────────────────────────────────────────────
+/* §18 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
@@ -1722,7 +1991,3 @@ html[data-intensity="max"] .bulbs span { animation: bulbchase 1.6s steps(2) infi
   .zine-glossary::after { content: "\2014 all of them at stimpunks.org/glossary/"; display: block; font-size: 7.6pt; }
 }
 
-/* The fringe's three states, driven by the superposition panel in love.js.
-   "open" is the default and shows both patterns at once. */
-.fringe[data-state="a"]::after  { display: none; }
-.fringe[data-state="b"]::before { display: none; }

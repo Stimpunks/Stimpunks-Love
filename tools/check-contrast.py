@@ -67,6 +67,24 @@ PELT, WHISKERS = "#D29A6B", "#F0D6B4"
 # ellipses in six colours: a narrow band of light tones is a narrow band of
 # things nobody can tell apart at sprite size. Shape carries it, and the name
 # said out loud on every pick-up carries it again.
+LOAM, BURROW, RECESS = "#241B12", "#2E2317", "#17120C"
+PLASTER, PLASTER_2 = "#E8D8BC", "#D8C5A3"
+UMBER, UMBER_2 = "#3A2A1C", "#5A4230"
+OAT, OAT_2 = "#EFE4D2", "#C9B99F"
+LAMP, DOOR_G, RUST, BEAM, BRASS = "#F0C36B", "#2F5A3C", "#8A3A1E", "#7A5330", "#E3BB6A"
+# The three woods a case is made of, lightest first -- the lightest is the one
+# that decides for anything brass screwed to it.
+WOOD_1, WOOD_3 = "#8A5F38", "#5E3F23"
+SCALE = "#F6EBD2"   # the tuning strip, and the lighter end of its own gradient
+# The Latibulum's composite, and nobody chose it either: --lamp at .16 over the
+# loam, which is the brightest the lamp pool gets. Every ink on the earth ground
+# is held against THIS as well as against the flat colour.
+LAMPLIT = "#453620"
+# And the two the shelf tiles make -- white at .34 over each end of the plaster
+# gradient. The DARKER of them is the one that decides, which is the opposite of
+# the rule everywhere else on this street, because this is the only room whose
+# type is dark on a light ground.
+TILE, TILE_2 = "#F0E5D3", "#E5D9C2"
 SKY, SEA, SHINGLE = "#D6DFE4", "#8FA9B8", "#B4AEA5"
 PEN_DARK, PEN_LIGHT, BEAK = "#1E2833", "#F7FAFB", "#E07B1F"
 PEB_GREY, PEB_WHITE, PEB_GLASS = "#A8B0B8", "#EDE9E2", "#6FBFA4"
@@ -326,6 +344,61 @@ PAIRS = [
     (PEB_SHELL, PEN_DARK, False, "shore: the broken shell"),
     (NEST,      PEN_DARK, False, "shore: a nest"),
     (SKY,       PEN_DARK, False, "shore: START, pale on the dark plate — this screen inverts the coin"),
+
+    # THE LATIBULUM (love.css §16). THE ONLY ROOM ON THE STREET THAT READS DARK
+    # ON LIGHT FOR MOST OF ITS WORDS, which is the structural thing keeping a
+    # warm brown burrow from being a second Faery Yurt -- so it has two sets of
+    # pairs rather than one. On the earth: oat and lamp against the loam and
+    # against the lamp pool it composites to. On the wall: umber against both
+    # ends of the plaster gradient and both ends of a shelf tile on top of it.
+    #
+    # THE LINK COLOUR WAS DECIDED HERE RATHER THAN BY EYE. The door's own green,
+    # #3C6B4C, measured 4.41 on the plaster and 3.66 where the lamp does not
+    # reach -- a room whose links were the colour of its front door, failing on
+    # the ground it spends the most words on. It is #2F5A3C now, which clears
+    # both, and the door stays the lighter green because a door is a graphic.
+    (OAT,     LOAM,      False, "latibulum: body copy on the earth"),
+    (OAT,     LAMPLIT,   False, "latibulum: body copy inside the lamp pool"),
+    (OAT,     BURROW,    False, "latibulum: copy on the hollow behind the round door"),
+    (OAT_2,   LOAM,      False, "latibulum: the eyebrow, the lede, the scrawl, the trail line"),
+    (OAT_2,   LAMPLIT,   False, "latibulum: the lede under the lamp — the tightest pair on the earth"),
+    (LAMP,    LOAM,      False, "latibulum: every link on the earth, and the tagline"),
+    (LAMP,    LAMPLIT,   False, "latibulum: a link under the lamp"),
+    (LAMP,    BURROW,    False, "latibulum: the rule markers down the left of the house rules"),
+    (UMBER,   PLASTER,   False, "latibulum: body copy on the lit wall"),
+    (UMBER,   PLASTER_2, False, "latibulum: body copy where the wall falls into shadow"),
+    (UMBER,   TILE,      False, "latibulum: a shelf tile's name, on the lit end of the wall"),
+    (UMBER,   TILE_2,    False, "latibulum: a shelf tile's name, on the shaded end"),
+    (UMBER_2, PLASTER,   False, "latibulum: the small print on the wall, and the RUNS line"),
+    (UMBER_2, PLASTER_2, False, "latibulum: the same, in the shadow"),
+    (UMBER_2, TILE,      False, "latibulum: a shelf tile's line of copy"),
+    (UMBER_2, TILE_2,    False, "latibulum: a shelf tile's copy on the shaded end — and its icon,\n     which is a graphic held to the body threshold because a suggestion you\n     cannot make out is a suggestion that is not being offered"),
+    (DOOR_G,  PLASTER,   False, "latibulum: a link on the wall"),
+    (DOOR_G,  PLASTER_2, False, "latibulum: a link on the shaded wall"),
+    (DOOR_G,  TILE,      False, "latibulum: a link inside a shelf tile"),
+    (DOOR_G,  TILE_2,    False, "latibulum: a link inside a shelf tile, shaded"),
+    (RUST,    PLASTER,   False, "latibulum: a link on the wall while you are on it"),
+    (RUST,    PLASTER_2, False, "latibulum: the same, shaded"),
+    (OAT,     RECESS,    False, "latibulum: the label inside the wireless and the television"),
+    (LAMP,    RECESS,    False, "latibulum: TURN IT ON, SWITCH IT ON"),
+    (OAT,     BEAM,      False, "latibulum: anything set on the bare wood of a case"),
+    (PLASTER, DOOR_G,    False, "latibulum: the round door's planking against its own green"),
+    #
+    # THE BRASS IS HELD TO 3:1 AND THE REST OF THE CABINET IS NOT, on purpose.
+    # A knob, a doorknob and an aerial are the parts somebody has to pick out of
+    # a drawing, so they get the graphics bar -- and the first brass, #C28F3C,
+    # measured 1.93 against the lightest of the three woods behind it. It is
+    # #E3BB6A now and clears all three. The case, the grille cloth and the
+    # recess around the screen are NOT listed: they are decoration around a
+    # control that identifies itself, because the thing you press is a <button>
+    # with its own border and its own label, and that label is measured above.
+    (BRASS,   WOOD_1,    True,  "latibulum: a knob on the lightest of the case's three woods"),
+    (BRASS,   BEAM,      True,  "latibulum: a knob on the middle of the case"),
+    (BRASS,   WOOD_3,    True,  "latibulum: a knob at the dark foot of the case"),
+    (BRASS,   DOOR_G,    True,  "latibulum: the doorknob, in the middle of the round door"),
+    (BRASS,   LOAM,      True,  "latibulum: the television's aerial, against the earth"),
+    (SCALE,   WOOD_1,    True,  "latibulum: the tuning strip against the wood it is set into"),
+    (RUST,    PLASTER_2, True,  "latibulum: the needle on the tuning strip"),
 ]
 
 # NOT IN THE LIST, AND IT SHOULD BE: cream (#FFF3E6) on the same #FF5AA6 ground

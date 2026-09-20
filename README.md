@@ -76,12 +76,13 @@ arcade.html           The Arcade's floor: cabinets standing there, walk up to on
 quill-drift.html      Esmx gathers drifting quills. Contact is the only verb it has
 otterly-adorbs.html   An otter, a kelp bay, and floating that fills nothing up
 penguin-pebbling.html A shore, some pebbles, and neighbours with nests. Nothing counted
+latibulum.html        A burrow under the hill. A wireless, a tube television, a lamp
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
 faery-yurt.html       Pitch 01. Helen Edgar's candlelit yurt; her design, not ours
 liner-notes.html      Who made this noise
 changelog.html        What changed, and when. Every Stimpunks site publishes one
-love.css              Shared base (§1–§4) then one self-contained world per room (§5–§15)
+love.css              Shared base (§1–§4) then one self-contained world per room (§5 on)
 love.js               The dial, the toys, the superposition panel
 love-embed.js         The press-to-play facade
 arcade.js             Quill Drift. Loaded by its own page only; nothing before the coin
@@ -98,12 +99,13 @@ photos/               Community photographs. Does not exist until somebody sends
 data/chairy.json      Chairy's 28 sayings, each with the page it came from
 data/yells.json       Recorded yells, and who agreed to lend their voice
 data/yurt-sound.json  The six sounds in the Faery Yurt, and whose voice they are
+data/latibulum.json   The burrow's wireless and its television. A third provenance
 og/                   One share card per page, and one card design per room
 tools/                The generators and the checkers, below
 ```
 
-**The HTML is hand-authored and committed** — it is the artifact, not a build output. Only twelve
-things are generated, and each has a tool:
+**The HTML is hand-authored and committed** — it is the artifact, not a build output. A short
+list of things is generated, and each of them has a tool:
 
 ```bash
 python3 tools/make-jukebox.py      # the track list in pink-pony-club.html
@@ -117,19 +119,21 @@ python3 tools/make-polaroids.py    # Enid's wall, from data/polaroids.json
 python3 tools/make-chairy.py       # what Chairy says, from data/chairy.json
 python3 tools/make-yells.py        # the yell button's recordings, from data/yells.json
 python3 tools/make-yurt-sound.py   # the yurt's sounds: their tiles, and their credits
+python3 tools/make-latibulum.py    # the burrow's wireless and television, and their credits
 python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
 python3 tools/check-contrast.py    # every pair against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
 python3 tools/check-gentle.py      # every page at all three dial settings; exits 1 on a leak
 python3 tools/check-counts.py      # refuses a sentence that says how many rooms there are
 python3 tools/check-ids.py         # refuses a repeated id, and one no page actually has
+python3 tools/check-classes.py     # refuses a class two rooms claim, or a page wears wrongly
 ```
 
 One more, deliberately **outside** that sequence because it is the only tool that needs the
 network — a checker that fails on a train either blocks a deploy or teaches everyone to skip it:
 
 ```bash
-python3 tools/check-jukebox.py     # presses nothing; asks YouTube whether all 23 still play
+python3 tools/check-jukebox.py     # presses nothing; asks YouTube whether every facade still plays
 ```
 
 Run them all before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
@@ -154,7 +158,11 @@ its recorder wrote into it — and `make-yurt-sound.py` sweeps **every** audio f
 rather than only its own, because three tools each guarding their own patch left a hole between
 them that four unstripped recordings sat in for an afternoon, and `make-og.py` stops on a page whose room it has no card for —
 rather than handing a new room somebody else's face in the one asset nobody looks at — and
-`check-ids.py` stops on a page that uses the same id twice, because
+`check-classes.py` stops on a class name claimed by two rooms' sections of `love.css`, and on a
+page wearing a class another room claimed — a section header is a comment and a class name is
+global, so the browser applies the winner and says nothing. It found four collisions the day it
+was written and three leaks that were already here, including the Faery Yurt's tagline quietly
+taking `display: flex` from the street's masthead. `check-ids.py` stops on a page that uses the same id twice, because
 `getElementById` returns the first match and says nothing — it found a seven-way clash in the
 Faery Yurt that had been live since the nook shipped, six of them dead markup receiving nothing.
 `check-counts.py` stops on a sentence that says how many rooms, doors, worlds or share cards
@@ -184,8 +192,10 @@ street they ever see. **There is no card template.** There is one per room, and 
 contradict each other exactly as `love.css` §5–§15 do — the street's collides six typefaces,
 the zine's is a ransom note, the quantum room's is a mono face over interference fringes, The
 Chappell's is gold neon under a rose window, the campground's is a routed park sign with a
-stream along the foot and **no ambient layer at all**, because the field has none, and the
-arcade's is a marquee of bulbs over a pixel face with Esmx standing beside it; the plain
+stream along the foot and **no ambient layer at all**, because the field has none, the
+arcade's is a marquee of bulbs over a pixel face with Esmx standing beside it, and the burrow's is
+the only one made of **two grounds** — lamplit earth above, a band of lit plaster along the foot,
+which is the inversion that room is built on; the plain
 rooms get a quiet one. One template would
 be the harmonising instinct arriving in the one asset nobody reviews, because nobody sees it in
 the repo — and the subroom got a card of its own for the same reason, in the one place where

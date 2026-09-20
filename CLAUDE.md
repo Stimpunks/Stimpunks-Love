@@ -131,6 +131,54 @@ reason to stop naming the hand that drew it. The Esmx in the cabinet is redrawn 
 pasted in — **not** a permissions matter but a room-consistency one, plus the fact that our own
 licence asks for variants rather than merely allowing them.
 
+**THE SECOND WARM BROWN ROOM IS THE HARDEST CASE SO FAR, HARDER THAN THE SUBROOM.** The
+Latibulum (§16) is a burrow under the hill: candlelight, earth tones, wood, soft furnishings,
+somewhere to go when you have had enough of being findable. So is the Faery Yurt. Every earlier
+version of this temptation had a structural excuse attached — *it is only a subroom*, *an area
+should look like an area* — and this one does not need an excuse, because **the two rooms
+genuinely are about the same feeling**. "They are both cosy, so they should feel the same" is the
+first version of this argument that sounds like taste rather than tidying, and it is the same
+mistake. What keeps them apart is structural and has to stay that way:
+
+  · **the yurt reads cream on dark all the way down. Almost every word in the burrow sits dark on
+    a lit plaster wall**, with the earth ground left over around it. Two rooms lit by the same
+    kind of light, inverted. That inversion is the room, which is why its share card is the only
+    one on the street made of two grounds.
+  · the yurt is a pitched column of canvas with lights strung across the top. The burrow is dug
+    into a hill: round door, arches, thick walls, one low lamp, and no sky in it anywhere.
+  · the yurt sets high-contrast italic serifs. The burrow sets a planed slab and a rounded sans,
+    because a smial is carpentry and a yurt is calligraphy.
+
+Flatten any one of those and you have two rooms doing the same thing twice, which is worse than
+either of them doing it once.
+
+**A CLASS NAME IS GLOBAL AND A SECTION HEADER IS A COMMENT.** This is the structural hole under
+the whole architecture, and it stayed open until The Latibulum fell in it: that room shipped four
+names another room already had — `.scrawl` (the zine's margin hand), `.shelf` (the yurt's
+bookshelf), `.knob` (the Arcade's speed control) and `.tagline` (the street's masthead). **Only
+one was visible.** The burrow's trail line came out in Rock Salt, which is how anybody noticed;
+the other three were silently inheriting a wood gradient, a button's border and `display: flex`
+from rooms on the other side of the file. `check-classes.py` refuses a class claimed by two
+rooms' sections and — the half that catches `.tagline`, where the stylesheet is innocent and the
+markup is not — a page wearing a name another room claimed. **It found three leaks that predate
+it**, including the Faery Yurt's tagline. When it refuses, rename the newcomer; do not settle it
+with a longer selector, because two rooms sharing a name and deciding it by specificity is still
+two rooms sharing a name.
+
+**THE BURROW'S SHELF IS NOT A CHECKLIST AND MUST NOT BECOME ONE.** Stretch, flap, fidget,
+meditate, stim dance, body scan, eat, drink, pee — lifted from our own Bodymind Break — and not
+one of them is a button. The obvious improvement is to let somebody tick them off, and it would
+put a scoreboard next to a bodymind break, which is the thing the break is a break from. It is
+the pebbling cabinet's refusal of a tally arriving in a room with no game in it.
+
+**AND THE WIRELESS IS NOT SELF-HOSTED, WHICH IS A DECISION RATHER THAN AN OVERSIGHT.** Adriel
+Jeremiah Wool gave Stimpunks permission to use *Ocean Waves* however we like. It is still a
+press-to-play facade, because a permission is not a reason to take a copy of somebody's
+seventy-four-minute composition off its own shelf, and because "nothing musical is hosted here"
+is a sentence this site says in three places. If Ryan wants it hosted, that is one file in
+`audio/`, a rewired button, a changed sentence in README and llms.txt, and a licence note saying
+the recording is Adriel's and carries no onward licence — a decision, not a detail. Ask first.
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody
@@ -290,6 +338,16 @@ audio room's sequence control makes, and a blank one would look like a design ch
 a bug. The playlist header says fifteen and thirteen render; YouTube hides private and deleted
 entries from everyone but the owner, so thirteen is what plays and the discrepancy is written
 down in the data file rather than rounded off.
+
+`make-latibulum.py` builds the burrow's wireless and its television out of `data/latibulum.json`
+— a third facade file, because the ids came from a third place and a merged file would leave one
+`_source` sentence covering work it never saw. It refuses the same things `make-chappell.py` does
+and one more: **a slot with no markers, or markers with no slot.** The two objects are built
+differently — a wireless has a grille and a tuning scale, a television has an aerial and two
+dials — so each has its own marker pair rather than being rendered from one loop, which makes it
+possible to add a track nothing renders or to delete an object and leave a track pointing at a
+hole. **Two facades is exactly the size at which somebody decides a list is not worth a tool**,
+and it is why both of them are in `check-jukebox.py` as well.
 
 `make-og.py` refuses a page whose body class it has no card for — it refused the Arcade until
 that room had a design of its own, which is exactly what it is for — refuses a card whose content

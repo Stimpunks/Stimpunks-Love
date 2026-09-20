@@ -15,6 +15,7 @@ ORDER = ["index.html", "pink-pony-club.html", "the-chappell.html", "zine-table.h
          "hear-queer-here.html",
          "enids-room.html", "polaroids.html", "playhouse.html",
          "arcade.html", "quill-drift.html", "otterly-adorbs.html", "penguin-pebbling.html",
+         "latibulum.html",
          "your-room.html",
          "campgrounds.html", "faery-yurt.html",
          "liner-notes.html",

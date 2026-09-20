@@ -1,0 +1,30 @@
+{
+  "_what": "The two press-to-play objects in The Latibulum: a wireless with ocean waves on it and a television showing a seated tai chi class. A third data file rather than rows added to the jukebox or The Chappell, for the same reason those two are separate from each other — different provenance, and a shared file loses it.",
+  "_source": "Neither of these came off a playlist. The wireless is 'Ocean Waves' by Adriel Jeremiah Wool, published on our own https://stimpunks.org/ocean/ and linked again from https://stimpunks.org/bodymind-break/. The television is the seated tai chi class we chose for our own Campfire Learn Together on 2026-08-21. Ids, runtimes and channels were read off YouTube's own watch pages rather than typed from memory; the campfire post says 'about twenty-three minutes' and the file says 22:45.",
+  "_licence": "NOTHING MUSICAL OR FILMED IS HOSTED HERE, which is the same rule the dancefloor and the chapel follow. Adriel gave Stimpunks permission to use Ocean Waves however we like; that permission is not a reason to put a copy of his 74-minute composition on this server, because the facade gives the room what it needs — a thing you press — while the work stays where its author put it and keeps its own copyright. If Ryan would rather it were self-hosted, the file goes in audio/ and the wireless is rewired to it; that is a change to what this site hosts and to the sentence in README, so it is a decision rather than a detail.",
+  "_consent": "The television's class is Annette's and the wireless's composition is Adriel's. Neither of them made anything for this site, so neither is credited as a contributor here — they are credited as the authors of work we are pointing at, which is what a facade is for.",
+  "tracks": [
+    {
+      "slot": "wireless",
+      "id": "WDTwRmNVeCo",
+      "artist": "Adriel Jeremiah Wool",
+      "title": "Ocean Waves (2025 Extended Version)",
+      "channel": "Adriel Jeremiah Wool",
+      "channel_verbatim": "Adriel J Wool - Topic",
+      "length": "1:14:00",
+      "press": "TURN IT ON",
+      "note": "Not a recording of the ocean. Ryan calls it a fractal composition of the nature of the ocean, modulated into swells, and that is the thing to know before you press it: the rhythm is built to be breathed along with rather than listened to. It runs for an hour and a quarter and it does not go anywhere, which is the point of it."
+    },
+    {
+      "slot": "telly",
+      "id": "NeCNtqOwthk",
+      "artist": "Annette, of Itstimefitness",
+      "title": "Seated Tai Chi for Beginners and Seniors",
+      "channel": "Itstimefitness",
+      "channel_verbatim": "Itstimefitness",
+      "length": "22:45",
+      "press": "SWITCH IT ON",
+      "note": "Tai chi and qigong, taught entirely from a chair — Repulse Monkey, Parting the Horse's Mane, Cloud Arms, three repetitions of everything so that all the exercises become familiar. Everything in it is seated, and not as a modification: as the design. Nothing in it requires standing and nothing in it requires moving at all."
+    }
+  ]
+}

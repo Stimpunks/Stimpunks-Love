@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Check that every track on the dancefloor, and in the chapel off it, still plays.
 
-Pink Pony Club is ten press-to-play facades and The Chappell, the chapel off it,
-is thirteen more. A facade whose video has died looks exactly like one that works, right up until a reader presses it and gets
+Every press-to-play facade on this street is in one of the lists below. A facade
+whose video has died looks exactly like one that works, right up until a reader
+presses it and gets
 "Video unavailable" -- which is what happened to Bad Cop / Bad Cop's "Warriors"
 some time between the room shipping and somebody pressing it. Nothing on this
 site notices that kind of rot, because the id is still a well-formed id and the
@@ -21,11 +22,13 @@ HOW, because the two obvious tests are worthless here and cost an hour to rule o
   reads UNPLAYABLE for a dead video and OK for a live one. That is what this
   checks.
 
-BOTH LISTS, BECAUSE ROT DOES NOT CARE WHICH FILE AN ID LIVES IN. The Chappell
-has its own data file -- different provenance, so a different _source sentence --
-and a checker that only knew about data/jukebox.json would have left thirteen
-facades unwatched while reporting "all tracks checked" in a tone of complete
-confidence. That is worse than not running it, because it reads like coverage.
+EVERY LIST, BECAUSE ROT DOES NOT CARE WHICH FILE AN ID LIVES IN. Each room with
+facades in it has its own data file -- different provenance, so a different
+_source sentence -- and a checker that only knew about data/jukebox.json would
+have left the others unwatched while reporting "all tracks checked" in a tone of
+complete confidence. That is worse than not running it, because it reads like
+coverage. A new list of facades belongs in LISTS in the same commit that opens
+the room.
 
 NOT PART OF THE PRE-DEPLOY RUN. This is the only tool here that needs the
 network, and a checker that fails on a train would either block a deploy or
@@ -90,6 +93,11 @@ def channel_now(video_id):
 LISTS = [
     ("the dancefloor", "data/jukebox.json", "pink-pony-club.html"),
     ("the chappell",   "data/chappell.json", "the-chappell.html"),
+    # The burrow's wireless and its television. A room with two facades in it is
+    # exactly the size at which somebody decides a list is not worth adding to a
+    # checker -- and a dead station in a room built for people who are already
+    # flat is the worst place on the street to find rot.
+    ("the latibulum",  "data/latibulum.json", "latibulum.html"),
 ]
 
 
@@ -158,7 +166,8 @@ def main():
     if unknown and len(unknown) == len(tracks):
         raise SystemExit(
             "\nREFUSING: not one track answered, so this says nothing about either room.\n"
-            "That is almost certainly no network rather than twenty-three dead videos.\n"
+            "That is almost certainly no network rather than every video on the street\n"
+            "dying at once.\n"
             "Try again before believing anything here."
         )
     if unknown:
