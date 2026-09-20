@@ -64,6 +64,12 @@ of components*, so the ransom note printed in full colour and `.pullquote` kept 
 while its text was forced to `#000` — 1.14:1, invisible. **Add an ink to that list only after
 deciding it survives a photocopier**, never to make the tool quiet.
 
+`make-chairy.py` builds what Chairy says from `data/chairy.json`, where **every saying carries the page
+it came from**, read out of the Knowledge System mirror's own frontmatter rather than typed. Two of the
+28 are **not ours and say so when Chairy speaks them**: "Nothing About Us Without Us" is a motto of the
+self-advocacy movement, and "Design for Real Life" is Meyer and Wachter-Boettcher's book. A talking
+chair passing a movement slogan off as a house line is the exact failure this site argues against.
+
 `make-polaroids.py` builds Enid's wall and **enforces the promises on `polaroids.html` rather
 than trusting them**: no alt text, no named subject, no consent date, or any EXIF still on the
 file, and it refuses. The photographs are **excluded from the site's CC BY-SA licence** and that

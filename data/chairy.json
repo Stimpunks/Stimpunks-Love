@@ -1,0 +1,125 @@
+{
+  "_what": "What Chairy says when you press it. One is chosen at random.",
+  "_sources": "Every saying carries the page it came from, read out of the Knowledge System mirror's own frontmatter rather than typed from memory. A saying with a 'credit' is NOT ours and says so aloud when Chairy speaks it — the furniture cites its sources, which is this site's habit rather than an exception to it.",
+  "sayings": [
+    {
+      "text": "If you believe in a Maker, Maker built us in.",
+      "source": "https://stimpunks.org/philosophy/behold-the-spectrum/",
+      "note": "Paraphrased from Behold the Spectrum, which quotes Carol Black's A Thousand Rivers."
+    },
+    {
+      "text": "We are emergent. How glorious.",
+      "source": "https://stimpunks.org/philosophy/behold-the-spectrum/",
+      "note": "Paraphrased from Behold the Spectrum, which quotes Carol Black's A Thousand Rivers."
+    },
+    {
+      "text": "Spectrums and fractals are all around us and within us.",
+      "source": "https://stimpunks.org/philosophy/behold-the-spectrum/",
+      "note": "Paraphrased from Behold the Spectrum, which quotes Carol Black's A Thousand Rivers."
+    },
+    {
+      "text": "You are a stable part of the human genome.",
+      "source": "https://stimpunks.org/philosophy/behold-the-spectrum/",
+      "note": "Paraphrased from Behold the Spectrum, which quotes Carol Black's A Thousand Rivers."
+    },
+    {
+      "text": "Human cognitive diversity exists for a reason.",
+      "source": "https://stimpunks.org/philosophy/behold-the-spectrum/",
+      "note": "Paraphrased from Behold the Spectrum, which quotes Carol Black's A Thousand Rivers."
+    },
+    {
+      "text": "Love you down to your star stuff.",
+      "source": "https://stimpunks.org/star-stuff/"
+    },
+    {
+      "text": "Autism Is a Neurotype, Not a Disorder",
+      "source": "https://stimpunks.org/philosophy/autism-is-a-neurotype-not-a-disorder/"
+    },
+    {
+      "text": "Human Needs, Not Special Needs",
+      "source": "https://stimpunks.org/philosophy/human-needs-not-special-needs/"
+    },
+    {
+      "text": "Broken Systems, Not Broken People",
+      "source": "https://stimpunks.org/philosophy/broken-systems-not-broken-people/"
+    },
+    {
+      "text": "Care Is Infrastructure",
+      "source": "https://stimpunks.org/philosophy/care-is-infrastructure/"
+    },
+    {
+      "text": "Nothing About Us Without Us",
+      "source": "https://stimpunks.org/philosophy/nothing-about-us-without-us/",
+      "credit": "a motto of the self-advocacy movement, not ours"
+    },
+    {
+      "text": "It is time to celebrate our interdependence.",
+      "source": "https://stimpunks.org/philosophy/it-is-time-to-celebrate-our-interdependence/"
+    },
+    {
+      "text": "Authenticity Is Our Purest Freedom",
+      "source": "https://stimpunks.org/philosophy/authenticity-is-our-purest-freedom/"
+    },
+    {
+      "text": "The right to learn differently should be a universal human right.",
+      "source": "https://stimpunks.org/philosophy/the-right-to-learn-differently-should-be-a-universal-human-right-thats-not-mediated-by-a-diagnosis/"
+    },
+    {
+      "text": "Design for Real Life",
+      "source": "https://stimpunks.org/philosophy/design-for-real-life/",
+      "credit": "after Eric A. Meyer and Sara Wachter-Boettcher, whose book it is"
+    },
+    {
+      "text": "Design Is Tested at the Edges",
+      "source": "https://stimpunks.org/philosophy/design-is-tested-at-the-edges/"
+    },
+    {
+      "text": "Intersectionality is not optional.",
+      "source": "https://stimpunks.org/our-lens/"
+    },
+    {
+      "text": "Organize our lives around love and care.",
+      "source": "https://stimpunks.org/philosophy/love-and-care/"
+    },
+    {
+      "text": "Our survival is bound up together.",
+      "source": "https://stimpunks.org/framing/"
+    },
+    {
+      "text": "Pluralism is our reality.",
+      "source": "https://stimpunks.org/creed/"
+    },
+    {
+      "text": "Nothing is neutral.",
+      "source": "https://stimpunks.org/framing/"
+    },
+    {
+      "text": "People are not the problem.",
+      "source": "https://stimpunks.org/framing/"
+    },
+    {
+      "text": "Care comes before compliance.",
+      "source": "https://stimpunks.org/framing/"
+    },
+    {
+      "text": "Authenticity is sacred.",
+      "source": "https://stimpunks.org/framing/"
+    },
+    {
+      "text": "Consent beats compliance.",
+      "source": "https://stimpunks.org/philosophy/compliance-vs-consent/"
+    },
+    {
+      "text": "The average user is a myth.",
+      "source": "https://stimpunks.org/philosophy/the-myth-of-the-average-user/"
+    },
+    {
+      "text": "Neurodiversity is a strength model.",
+      "source": "https://stimpunks.org/philosophy/neurodiversity-as-a-strength-model/"
+    },
+    {
+      "text": "The myth of meritocracy is a myth.",
+      "source": "https://stimpunks.org/philosophy/the-myth-of-meritocracy/"
+    }
+  ]
+}

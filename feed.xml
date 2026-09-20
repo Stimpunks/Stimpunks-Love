@@ -9,6 +9,13 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sat, 19 Sep 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Chairy learns twenty-three more things to say</title>
+      <link>https://stimpunks.love/changelog.html#2026-09-19-chairy</link>
+      <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-19-chairy</guid>
+      <pubDate>Sat, 19 Sep 2026 12:00:00 GMT</pubDate>
+      <description>Five sayings became twenty-eight, drawn from our philosophy, framing and creed pages. They live in data/chairy.json now rather than an HTML attribute, because an attribute cannot record where a line came from. Two of them are not ours, and Chairy says so out loud. “Nothing About Us Without Us” is a motto of the self-advocacy movement — credited on our own page to Michael Masutha and William Rowland of Disabled People South Africa, 1993 — and “Design for Real Life” is a book by Eric A. Meyer and Sara Wachter-Boettcher. A talking chair passing a movement slogan off as a house line would be the exact thing this site argues against, so the credit is spoken rather than filed. Every source URL was read from the mirror’s own frontmatter, not constructed from a slug — the same rule the jukebox ids follow.</description>
+    </item>
+    <item>
       <title>the first photograph</title>
       <link>https://stimpunks.love/changelog.html#2026-09-19-first-photograph</link>
       <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-19-first-photograph</guid>

@@ -68,10 +68,11 @@ data/readings.json    The five spoken passages; a player appears when its audio 
 audio/                Recorded passages. Empty until somebody reads one
 data/polaroids.json   The wall's consent record. Empty, and that is the default state
 photos/               Community photographs. Does not exist until somebody sends one
-tools/                Seven generators and three checkers, below
+data/chairy.json      Chairy's 28 sayings, each with the page it came from
+tools/                Eight generators and three checkers, below
 ```
 
-**The HTML is hand-authored and committed** — it is the artifact, not a build output. Only seven
+**The HTML is hand-authored and committed** — it is the artifact, not a build output. Only eight
 things are generated, and each has a tool:
 
 ```bash
@@ -82,6 +83,7 @@ python3 tools/make-csp.py          # the script hash in _headers
 python3 tools/make-feed.py         # feed.xml, from changelog.html's own entries
 python3 tools/make-readings.py     # the audio room, from data/readings.json
 python3 tools/make-polaroids.py    # Enid's wall, from data/polaroids.json
+python3 tools/make-chairy.py       # what Chairy says, from data/chairy.json
 python3 tools/check-contrast.py    # 66 pairs against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
 ```
@@ -93,13 +95,14 @@ network — a checker that fails on a train either blocks a deploy or teaches ev
 python3 tools/check-jukebox.py     # presses nothing, but asks YouTube whether all ten still play
 ```
 
-Run all nine before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
+Run all ten before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
 is missing a canonical or if an HTML file exists that is not in its page order, `make-csp.py`
 stops if the inline snippet has drifted between pages — because a stale hash does not warn, it
 silently breaks the dial for everyone — `make-feed.py` stops if a changelog entry has no stable
 anchor to serve as its permalink, `make-readings.py` stops if two passages claim the same
 superposition-panel button, `make-polaroids.py` stops if a photograph has no alt text, no
-named subject, no consent date, or any EXIF left on it, and `check-print.py` stops if it cannot find a Chrome to
+named subject, no consent date, or any EXIF left on it, `make-chairy.py` stops if a saying has
+no source page or contains the pipe that separates them, and `check-print.py` stops if it cannot find a Chrome to
 render with, rather than passing a claim it did not test.
 
 `check-print.py` is the only tool that needs anything *installed*: a Chrome or Chromium, which it
