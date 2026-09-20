@@ -76,6 +76,28 @@
   </defs></svg>
 
 
+  <!-- The penguin, drawn once, the way the otter is next door. The lean is a
+       drawn pose and not a rotation applied to the sprite: the rotation below
+       is inside this drawing, where a transform is part of the picture. -->
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute" xmlns="http://www.w3.org/2000/svg"><defs>
+    <g id="peng-feet" stroke="#1E2833" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M32 87 q-11 2 -13 6 q10 3 19 0z" fill="#E07B1F"/>
+      <path d="M54 87 q-11 2 -13 6 q10 3 19 0z" fill="#E07B1F"/>
+    </g>
+    <g id="peng-feet-apart" stroke="#1E2833" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M26 88 q-11 2 -13 6 q10 3 19 0z" fill="#E07B1F"/>
+      <path d="M60 88 q-11 2 -13 6 q10 3 19 0z" fill="#E07B1F"/>
+    </g>
+    <g id="peng-body" stroke="#1E2833" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M50 22 q22 0 24 30 q2 24 -4 36 q-16 6 -32 0 q-8 -14 -6 -36 q2 -30 18 -30z" fill="#1E2833"/>
+      <path d="M50 34 q13 2 14 26 q1 20 -3 28 q-10 4 -20 0 q-5 -10 -4 -28 q1 -24 13 -26z" fill="#F7FAFB"/>
+      <path d="M36 42 q-8 14 -5 32 q1 8 6 10 q-6 -20 -1 -42z" fill="#1E2833"/>
+      <circle cx="66" cy="28" r="3.2" fill="#F7FAFB"/>
+      <circle cx="66" cy="28" r="1.5" fill="#1E2833" stroke="none"/>
+      <path d="M70 32 l14 4 l-14 5z" fill="#E07B1F"/>
+    </g>
+    <g id="peng"><use href="#peng-feet"/><use href="#peng-body"/></g>
+  </defs></svg>
   <h2 class="sr">The cabinets</h2>
   <ul class="cabrow">
 
@@ -149,6 +171,24 @@
       </span>
       <span class="cabfront__body">
         <span class="cabfront__blurb">An otter, a kelp bay, and twirls, somersaults, dives and fish at feeding time. <b>Floating on your back fills nothing up</b>, which is the point of it.</span>
+        <span class="cabfront__press">PLAY &rarr;</span>
+      </span>
+    </a></li>
+
+    <li><a class="cabfront cabfront--pebble" href="penguin-pebbling.html">
+      <span class="cabfront__marquee">PENGUIN PEBBLING</span>
+      <span class="cabfront__screen cabfront__screen--shore" aria-hidden="true">
+        <div class="peng" role="img" aria-label="A penguin standing on a shingle beach, seen from the side.">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <g class="pose" data-pose="stand"><use href="#peng"/></g>
+              <g class="pose" data-pose="waddle"><use href="#peng-feet-apart"/><g transform="translate(0,-2)"><use href="#peng-body"/></g></g>
+              <g class="pose" data-pose="give"><g transform="rotate(13 50 90)"><use href="#peng"/></g></g>
+              <g class="beakful"><ellipse cx="90" cy="41" rx="9" ry="6.5" fill="#5A626B" stroke="#1E2833" stroke-width="2.6"/></g>
+            </svg>
+          </div>
+      </span>
+      <span class="cabfront__body">
+        <span class="cabfront__blurb">A shore, some pebbles, and neighbours with nests. Carry something over and give it to somebody. <b>Nothing is counted and nothing is owed back.</b></span>
         <span class="cabfront__press">PLAY &rarr;</span>
       </span>
     </a></li>

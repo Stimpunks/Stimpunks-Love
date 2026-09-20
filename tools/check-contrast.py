@@ -52,6 +52,25 @@ SPILL   = "#2D1C25"
 BAY, SHOAL = "#06202A", "#0A3240"
 BAY_LIT, SHOAL_LIT = "#0F2831", "#133947"
 PELT, WHISKERS = "#D29A6B", "#F0D6B4"
+# The pebbling cabinet's screen is PALE, which is a different contrast problem.
+# Everything on a shingle beach is a mid-tone including the shingle, so the
+# objects there are carried by their OUTLINE and not by their fill: PEN_DARK
+# draws every pebble, penguin and nest. That is the honest reading of WCAG
+# 1.4.11, which asks about the contrast with ADJACENT colours rather than about
+# a fill against a distant background -- so the outline is measured against the
+# three grounds, and each fill against the outline that surrounds it. The
+# scanline on this screen is dark rather than light, which makes the un-striped
+# base the lightest ground and therefore the only one worth checking.
+#
+# HOLDING THE FILLS TO 4.5 AGAINST THE OUTLINE SQUEEZES THEM ALL LIGHT, which
+# is why the six things you can carry are six different SHAPES and not six
+# ellipses in six colours: a narrow band of light tones is a narrow band of
+# things nobody can tell apart at sprite size. Shape carries it, and the name
+# said out loud on every pick-up carries it again.
+SKY, SEA, SHINGLE = "#D6DFE4", "#8FA9B8", "#B4AEA5"
+PEN_DARK, PEN_LIGHT, BEAK = "#1E2833", "#F7FAFB", "#E07B1F"
+PEB_GREY, PEB_WHITE, PEB_GLASS = "#A8B0B8", "#EDE9E2", "#6FBFA4"
+PEB_SPECK, PEB_FEATHER, PEB_SHELL, NEST = "#B09A7E", "#8494A8", "#E8A874", "#A69C90"
 KELP, KELP2 = "#6FB050", "#7ABF5A"
 FISHY, COBBLE, SHELLY, URCHIN = "#CFE2F2", "#A9BAC6", "#E8D6B6", "#B79AE0"
 
@@ -290,6 +309,23 @@ PAIRS = [
     (URCHIN,   BAY_LIT,   False, "bay: the urchin"),
     (COBBLE,   BAY,       False, "bay: the seabed's edge against the water — the bed's own\n     fill measured 1.10 there, so the boundary is carried by this line instead"),
     (COBBLE,   "#04161D", False, "bay: the seabed's edge against the bed below it"),
+    # THE SHORE (love.css §15, the pebbling cabinet). The outline against each
+    # ground, then each fill against the outline. Nothing here is checked fill
+    # against ground, and the reason is written above: on a pale beach that
+    # measurement answers the wrong question.
+    (PEN_DARK, SKY,     False, "shore: every outline against the sky, and the attract copy"),
+    (PEN_DARK, SEA,     False, "shore: every outline against the band of sea"),
+    (PEN_DARK, SHINGLE, False, "shore: every outline against the shingle — where the pebbles are"),
+    (PEN_LIGHT, PEN_DARK, False, "shore: the penguin's front, inside its outline"),
+    (BEAK,      PEN_DARK, False, "shore: beak and feet, inside the outline"),
+    (PEB_GREY,  PEN_DARK, False, "shore: the smooth grey pebble"),
+    (PEB_WHITE, PEN_DARK, False, "shore: the pale round pebble"),
+    (PEB_GLASS, PEN_DARK, False, "shore: the piece of sea glass"),
+    (PEB_SPECK, PEN_DARK, False, "shore: the speckled stone"),
+    (PEB_FEATHER, PEN_DARK, False, "shore: the feather — the tightest fill in this cabinet"),
+    (PEB_SHELL, PEN_DARK, False, "shore: the broken shell"),
+    (NEST,      PEN_DARK, False, "shore: a nest"),
+    (SKY,       PEN_DARK, False, "shore: START, pale on the dark plate — this screen inverts the coin"),
 ]
 
 # NOT IN THE LIST, AND IT SHOULD BE: cream (#FFF3E6) on the same #FF5AA6 ground

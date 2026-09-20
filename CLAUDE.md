@@ -75,6 +75,32 @@ for about an hour, which meant a link to the otter game unfurled as a picture of
 card design that is its own screen, an entry in `make-sitemap.py`'s order, and its refusals
 written on it rather than in the foyer. The foyer states only what is true of every machine.
 
+**AN ID WITH TWO OWNERS IS A SILENT BUG, AND `check-ids.py` IS WHY.** `getElementById` returns
+the first match and never complains, so the failure lands somewhere else. Two on one afternoon:
+the pebbling cabinet gave the player's sprite the same id as the drawing in its own `<defs>` and
+the game threw on the first line of `start()`; and the Faery Yurt had been carrying **seven**
+elements with `id="yurt-says"` since the nook shipped, because the generator emitted a live
+region inside every tile — six of them dead markup that never received a word, and nothing
+anywhere said so. The tool checks both directions: no id twice on a page, and no script asking
+by name for an id that no page loading it has.
+
+**THE PEBBLING CABINET IS NOT THE PEBBLING GAME, AND THE REASON IS A LICENCE.** Helen Edgar and
+Ryan Boren published *Penguin Pebbling*, a thirty-card game, in 2026; it lives at
+penguinpebbling.app and is **CC BY-NC-SA 4.0**. This site is **CC BY-SA 4.0** with no
+non-commercial clause. An adaptation of that deck would carry NC onto a page that cannot hold
+it, share-alike means it could not be quietly absorbed, and relicensing is not ours alone to do
+— half the authorship and all the artwork are Helen's. So `penguin-pebbling.html` is built on
+the **locution** (Amythest Schaber's, documented by Stimpunks in 2022, written up by Helen at
+Autistic Realms in 2023) and takes nothing from the deck: no cards, no prompts, no artwork, no
+five-locution structure. **Do not merge them, and do not add a card to that cabinet.** The deck
+is linked and credited as the separate, better thing it is.
+
+**AND THAT CABINET REFUSES A COUNT.** No tally of what you gave, no total, no streak, and the
+neighbours bring you things on their own clock whether or not you have ever given them anything
+— which is the difference between pebbling and trading, built as a timer rather than as a
+reward. A number beside a practice that is explicitly not about volume would quietly make it
+about volume. Nothing to fix here; something to protect.
+
 **THE ARCADE'S OTTER CABINET CARRIES A CLAIM THAT CAN BE BROKEN BY A KINDNESS.** Otterly Adorbs
 is built on Helen Edgar's *Stimpunks Solidarity and Otters* and on Star Stuff's zine No. 58,
 *The Stone You Keep*, and that zine **refuses "rest so you can produce" in as many words** — the

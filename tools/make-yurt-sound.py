@@ -245,9 +245,14 @@ def build(s, credits, seen_id, seen_tile):
         f'{s["icon"]}</svg>\n'
         f'          <span class="egg__label">{html.escape(s["tile"])}</span>\n'
         f'          <span class="egg__mark" aria-hidden="true">&#9834; {html.escape(runtime.split()[0])}s</span>\n'
-        f'        </button></li>\n'
-        f'        <p class="sr" id="yurt-says" role="status" aria-live="polite"></p>'
+        f'        </button></li>'
     )
+    # NO LIVE REGION PER TILE. It used to emit one inside every tile's marker
+    # block, so the page carried seven elements with id="yurt-says" -- invalid,
+    # and getElementById in love.js only ever reached the first, leaving six
+    # pieces of dead markup that never received a word. The room has ONE, in the
+    # page outside these markers, which is where a shared live region belongs.
+    # Found 2026-09-20 by the duplicate-id sweep that check-ids.py now runs.
     splice(PAGE, f"yurt-sound:{s['id']}", tile)
 
     credits.append(

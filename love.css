@@ -113,6 +113,21 @@
   --pelt: #D29A6B;  --whiskers: #F0D6B4;
   --kelp: #6FB050;  --kelp-2: #7ABF5A;
   --fishy: #CFE2F2;  --cobble: #A9BAC6;  --shelly: #E8D6B6;  --urchin: #B79AE0;
+
+  /* The Arcade's third screen: a shore under overcast, and the only PALE screen
+     in the room. Which is a different contrast problem from the other two --
+     everything on a shingle beach is a mid-tone, including the shingle, so the
+     objects here are carried by their OUTLINE rather than by their fill. That
+     is what --pen-dark is: it draws every pebble, every penguin and every nest,
+     and it is what check-contrast.py measures against the three grounds. A fill
+     is then checked against the outline that surrounds it. See the note there;
+     it is the honest reading of WCAG 1.4.11, which asks about adjacent colours
+     rather than about fills. */
+  --sky: #D6DFE4;  --sea: #8FA9B8;  --shingle: #B4AEA5;
+  --pen-dark: #1E2833;  --pen-light: #F7FAFB;  --beak: #E07B1F;
+  --peb-grey: #5A626B;  --peb-white: #EDE9E2;  --peb-glass: #1F6B55;
+  --peb-speck: #6E6258;  --peb-feather: #39434E;  --peb-shell: #C98F63;
+  --nest: #8A8279;
 }
 
 * { box-sizing: border-box; }
@@ -1356,6 +1371,47 @@ html[data-intensity="max"] .bulbs span { animation: bulbchase 1.6s steps(2) infi
    mechanism at once -- it is what holds a floating otter still. */
 .frond  { position: absolute; bottom: 0; width: 7%; transform: translateX(-50%); }
 
+/* ── The third screen: a shore ────────────────────────────────────────────
+   Pale, and deliberately: two dark screens in a row would have made the third
+   cabinet look like a variant of the second. Sky, a band of sea, shingle. The
+   scanline here is DARK rather than light, because a white stripe over a pale
+   ground is invisible -- which means the un-striped base is the lightest ground
+   on this screen and therefore the one every ink is measured against. */
+.shore {
+  position: relative; width: 100%; aspect-ratio: 8 / 5; overflow: hidden;
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.05) 3px 6px),
+    linear-gradient(180deg, var(--sky) 0 40%, var(--sea) 40% 52%, var(--shingle) 52% 100%);
+}
+.shore[data-playing] { touch-action: none; cursor: crosshair; }
+.shore:focus-visible { outline-offset: -4px; }
+
+.peng   { position: absolute; width: 13%; transform: translate(-50%, -100%); }
+.peng[data-face="left"] { transform: translate(-50%, -100%) scaleX(-1); }
+.pebble { position: absolute; width: 4%;  transform: translate(-50%, -50%); }
+.nest   { position: absolute; width: 15%; transform: translate(-50%, -100%); }
+/* Further up the beach is further away, so the neighbours are drawn smaller.
+   Without it every penguin was the same size on the same line and there was no
+   telling which one you were steering. */
+.peng--them { width: 10.5%; }
+.nest--theirs { width: 12.5%; }
+
+.peng .pose { visibility: hidden; }
+.peng .pose[data-on] { visibility: visible; }
+.peng .beakful { visibility: hidden; }
+.peng[data-carrying] .beakful { visibility: visible; }
+/* Before anybody presses start the penguin is simply standing there. */
+.shore:not([data-playing]) .peng .pose[data-pose="stand"] { visibility: visible; }
+.shore:not([data-playing]) .peng { left: 19%; top: 92%; width: 22%; }
+.shore:not([data-playing]) .attract { padding-left: 33%; align-items: flex-start; text-align: left; }
+.shore[data-playing] .attract { display: none; }
+/* The attract copy is the one place on this screen with type on it, and the
+   screen is pale, so it inverts: dark on light where the other two are light
+   on dark. */
+.shore .attract p { color: var(--pen-dark); }
+.shore .coin { background: var(--pen-dark); color: var(--sky); border-color: var(--sky); }
+.shore .coin:hover { background: var(--peb-glass); }
+
 /* The poses. A trick is a run of drawn frames, NOT a rotation applied to one
    of them -- which is a decision about check-gentle.py and not about style.
    The angled poses are rotated INSIDE their own <svg>, where a transform is
@@ -1410,7 +1466,14 @@ html[data-intensity="max"] .bulbs span { animation: bulbchase 1.6s steps(2) infi
     repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,.035) 3px 6px),
     linear-gradient(180deg, var(--shoal) 0 44%, var(--bay) 100%);
 }
+.cabfront__screen--shore {
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.05) 3px 6px),
+    linear-gradient(180deg, var(--sky) 0 40%, var(--sea) 40% 52%, var(--shingle) 52% 100%);
+}
 .cabfront__screen .sprite { left: 50%; top: 54%; width: 46%; }
+.cabfront__screen .peng { left: 50%; top: 94%; width: 34%; }
+.cabfront__screen .peng .pose[data-pose="stand"] { visibility: visible; }
 .cabfront__screen .otter  { left: 50%; top: 52%; width: 50%; }
 .cabfront__screen .otter .pose[data-pose="swim"] { visibility: visible; }
 

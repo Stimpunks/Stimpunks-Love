@@ -75,6 +75,7 @@ playhouse.html        Four toys, all real buttons, all synthesised
 arcade.html           The Arcade's floor: cabinets standing there, walk up to one
 quill-drift.html      Esmx gathers drifting quills. Contact is the only verb it has
 otterly-adorbs.html   An otter, a kelp bay, and floating that fills nothing up
+penguin-pebbling.html A shore, some pebbles, and neighbours with nests. Nothing counted
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
 faery-yurt.html       Pitch 01. Helen Edgar's candlelit yurt; her design, not ours
@@ -85,6 +86,7 @@ love.js               The dial, the toys, the superposition panel
 love-embed.js         The press-to-play facade
 arcade.js             Quill Drift. Loaded by its own page only; nothing before the coin
 otterly.js            Otterly Adorbs. The same, for the cabinet next to it
+pebbling.js           Penguin Pebbling. Built on the locution, not on the card game
 fonts/                Self-hosted families, one per voice a room insisted on + _sources.json
 data/jukebox.json     The ten tracks, one source of truth for two pages
 data/chappell.json    The thirteen in The Chappell. A separate file for separate provenance
@@ -120,6 +122,7 @@ python3 tools/check-contrast.py    # every pair against WCAG; exits 1 on a failu
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
 python3 tools/check-gentle.py      # every page at all three dial settings; exits 1 on a leak
 python3 tools/check-counts.py      # refuses a sentence that says how many rooms there are
+python3 tools/check-ids.py         # refuses a repeated id, and one no page actually has
 ```
 
 One more, deliberately **outside** that sequence because it is the only tool that needs the
@@ -151,6 +154,9 @@ its recorder wrote into it — and `make-yurt-sound.py` sweeps **every** audio f
 rather than only its own, because three tools each guarding their own patch left a hole between
 them that four unstripped recordings sat in for an afternoon, and `make-og.py` stops on a page whose room it has no card for —
 rather than handing a new room somebody else's face in the one asset nobody looks at — and
+`check-ids.py` stops on a page that uses the same id twice, because
+`getElementById` returns the first match and says nothing — it found a seven-way clash in the
+Faery Yurt that had been live since the nook shipped, six of them dead markup receiving nothing.
 `check-counts.py` stops on a sentence that says how many rooms, doors, worlds or share cards
 there are, because **the number of storefronts is going to keep growing** and a total is a fact
 that gets written in a dozen places and updated in one. The commit that opened the Arcade is the

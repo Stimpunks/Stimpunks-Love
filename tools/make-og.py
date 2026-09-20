@@ -277,6 +277,27 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .game-otter .og {{ background: none; }}
 .game-otter {{ background-image: repeating-linear-gradient(0deg, transparent 0 4px, rgba(255,255,255,.035) 4px 8px), linear-gradient(180deg, var(--shoal) 0 44%, var(--bay) 100%); }}
 
+/* pebble — THE ONLY PALE CARD ON THIS STREET. Every other one here is dark,
+   because every other room is; this screen is a shore under overcast, so the
+   card inverts and sets its type dark on light. Gold on a pale sky measures
+   1.9 and was never an option, which is how the inversion got decided rather
+   than chosen. */
+.og--pebble {{ justify-content: space-between; padding: 52px 60px 56px; position: relative; z-index: 1; }}
+.og--pebble .og-top {{ flex: 0 0 auto; display: flex; flex-direction: column; gap: 18px; }}
+.og--pebble h1 {{ font-size: 50px; line-height: 1.24; color: #1E2833; text-shadow: none; margin: 0 !important; }}
+.og--pebble .og-lede {{ color: #1E2833; font-size: 26px; line-height: 1.42; max-width: 660px; }}
+.og--pebble .og-foot {{ font-family: 'Press Start 2P', monospace; color: #1E2833; letter-spacing: 0; font-size: 14px; }}
+.game-pebble {{
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 4px, rgba(0,0,0,.05) 4px 8px),
+    linear-gradient(180deg, var(--sky) 0 40%, var(--sea) 40% 52%, var(--shingle) 52% 100%);
+}}
+.game-pebble .og {{ background: none; }}
+.game-pebble .og-scene {{ position: absolute; inset: 0; pointer-events: none; z-index: 0; }}
+.game-pebble .peng {{ position: absolute; left: 78%; top: 88%; width: 190px; }}
+.game-pebble .peng .pose[data-pose="stand"] {{ visibility: visible; }}
+.game-pebble .og-nest {{ position: absolute; width: 230px; transform: translate(-50%, -100%); }}
+
 /* plain — the four pages with a job rather than a vibe. Quiet, but pinned to
    the frame at both ends rather than floating in the middle of it: an empty
    card reads as unfinished, which is a different thing from restrained. */
@@ -577,6 +598,37 @@ def card_otter(p):
     )
 
 
+def card_pebble(p):
+    # The nest is drawn here because pebbling.js builds the ring at runtime and
+    # there is nothing in the page to lift. The penguin IS lifted, drawing and
+    # defs both.
+    ring = '<ellipse cx="50" cy="58" rx="40" ry="17" fill="none" stroke="#1E2833" stroke-width="3"/>'
+    import math as _m
+    for _k in range(9):
+        _a = _m.pi * 2 * (_k / 9)
+        ring += (f'<ellipse cx="{50 + _m.cos(_a) * 40:.1f}" cy="{58 + _m.sin(_a) * 17:.1f}" '
+                 'rx="8" ry="6" fill="#A69C90" stroke="#1E2833" stroke-width="2.6"/>')
+    for _i, _f in enumerate(("#E8A874", "#6FBFA4", "#EDE9E2")):
+        ring += (f'<ellipse cx="{34 + _i * 16}" cy="60" rx="7" ry="5.5" fill="{_f}" '
+                 'stroke="#1E2833" stroke-width="2.4"/>')
+    scene = ('<div class="og-scene" aria-hidden="true">'
+             f'<svg class="og-nest" viewBox="0 0 100 80" style="left:64%;top:93%">{ring}</svg>'
+             + p["peng"] + '</div>')
+    return (
+        p["pengdefs"] + scene,
+        f'<div class="og og--pebble" data-fit="card">'
+        f'<div class="og-top">{p["h1"]}<p class="og-lede">{p["desc"]}</p></div>'
+        f'<p class="og-foot" data-fit="footer">NOTHING IS COUNTED · stimpunks.love</p>'
+        f'</div>',
+        f"A pale card: an overcast sky over a band of grey-blue sea over a shingle beach, ruled "
+        f"with faint scanlines. \u201c{p['h1text']}\u201d in a large dark pixel face \u2014 the only "
+        f"card on this site that sets its type dark on light \u2014 and under it: {p['desc_plain']} "
+        f"Along the foot: nothing is counted, stimpunks.love. On the right "
+        f"a penguin stands beside a nest made of a ring of stones, with a broken shell, a piece of "
+        f"sea glass and a pale pebble inside it.",
+    )
+
+
 def card_plain(p):
     return (
         "",
@@ -604,6 +656,7 @@ CARDS = {
     "room-arcade":  card_arcade,
     "game-quill":   card_quill,
     "game-otter":   card_otter,
+    "game-pebble":  card_pebble,
     "campgrounds":  card_camp,
     "room-yurt":    card_yurt,
     "room-plain":   card_plain,
@@ -690,6 +743,8 @@ def main():
         ("bulbs",    "arcade.html",       r'(<div class="bulbs".*?</div>)'),
         ("otter",    "otterly-adorbs.html", r'(<div class="otter" id="otter".*?</div>\s*</div>)'),
         ("ottdefs",  "otterly-adorbs.html", r'(<svg width="0" height="0".*?</defs></svg>)'),
+        ("peng",     "penguin-pebbling.html", r'(<div class="peng" id="peng-you".*?</div>\s*</div>)'),
+        ("pengdefs", "penguin-pebbling.html", r'(<svg width="0" height="0".*?</defs></svg>)'),
     ):
         lifted[key] = field((ROOT / page).read_text(), pat)
         if not lifted[key]:

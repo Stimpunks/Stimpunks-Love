@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Penguin Pebbling &mdash; Stimpunks.Love</title>
+<meta name="description" content="A cabinet in the Arcade. A shore, some pebbles, and neighbours with nests. Carry something over and give it to somebody. Nothing is counted, nothing is owed back, and there is no wrong thing to give anybody.">
+<link rel="canonical" href="https://stimpunks.love/penguin-pebbling.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#160A26">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.Love">
+<meta property="og:title" content="Penguin Pebbling &mdash; Stimpunks.Love">
+<meta property="og:description" content="A shore, some pebbles, and neighbours with nests. Carry something over and give it to somebody. Nothing counted, nothing owed back, no wrong thing to give.">
+<meta property="og:url" content="https://stimpunks.love/penguin-pebbling.html">
+<meta property="og:image" content="https://stimpunks.love/og/penguin-pebbling.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A pale card: an overcast sky over a band of grey-blue sea over a shingle beach, ruled with faint scanlines. “PENGUIN PEBBLING” in a large dark pixel face — the only card on this site that sets its type dark on light — and under it: A shore, some pebbles, and neighbours with nests. Carry something over and give it to somebody. Nothing counted, nothing owed back, no wrong thing to give. Along the foot: nothing is counted, stimpunks.love. On the right a penguin stands beside a nest made of a ring of stones, with a broken shell, a piece of sea glass and a pale pebble inside it.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love — what changed on the street">
+<link rel="preload" href="fonts/press-start-2p-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+</head>
+<body class="arcade game-pebble">
+<a class="skip" href="#main">Skip to the cabinet</a>
+<div class="glow" aria-hidden="true"></div>
+
+<div class="bulbs" aria-hidden="true">
+  <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<main id="main" class="wrap" style="padding-bottom:20px;">
+
+  <a class="backlink" href="arcade.html">&larr; BACK TO THE ARCADE</a>
+
+  <header>
+    <p class="arc-eyebrow">A CABINET IN THE ARCADE &middot; ONE PLAYER &middot; NOTHING IS COUNTED</p>
+    <h1>PENGUIN PEBBLING</h1>
+    <p class="lede">A shore, pebbles on it, and neighbours who each have a nest. Pick something up and carry it over to somebody. <strong>Nothing here is counted and nothing is owed back</strong> &mdash; which is the locution, not a difficulty setting.</p>
+  </header>
+
+  <!-- The penguin, drawn once, the way the otter is next door. The lean is a
+       drawn pose and not a rotation applied to the sprite: the rotation below
+       is inside this drawing, where a transform is part of the picture. -->
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute" xmlns="http://www.w3.org/2000/svg"><defs>
+    <g id="peng-feet" stroke="#1E2833" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M32 87 q-11 2 -13 6 q10 3 19 0z" fill="#E07B1F"/>
+      <path d="M54 87 q-11 2 -13 6 q10 3 19 0z" fill="#E07B1F"/>
+    </g>
+    <g id="peng-feet-apart" stroke="#1E2833" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M26 88 q-11 2 -13 6 q10 3 19 0z" fill="#E07B1F"/>
+      <path d="M60 88 q-11 2 -13 6 q10 3 19 0z" fill="#E07B1F"/>
+    </g>
+    <g id="peng-body" stroke="#1E2833" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M50 22 q22 0 24 30 q2 24 -4 36 q-16 6 -32 0 q-8 -14 -6 -36 q2 -30 18 -30z" fill="#1E2833"/>
+      <path d="M50 34 q13 2 14 26 q1 20 -3 28 q-10 4 -20 0 q-5 -10 -4 -28 q1 -24 13 -26z" fill="#F7FAFB"/>
+      <path d="M36 42 q-8 14 -5 32 q1 8 6 10 q-6 -20 -1 -42z" fill="#1E2833"/>
+      <circle cx="66" cy="28" r="3.2" fill="#F7FAFB"/>
+      <circle cx="66" cy="28" r="1.5" fill="#1E2833" stroke="none"/>
+      <path d="M70 32 l14 4 l-14 5z" fill="#E07B1F"/>
+    </g>
+    <g id="peng"><use href="#peng-feet"/><use href="#peng-body"/></g>
+  </defs></svg>
+
+  <div class="arc-bank">
+
+    <section class="cabinet">
+      <p class="cab-marquee">PENGUIN PEBBLING</p>
+      <p class="cab-sub">One player, three neighbours, and a beach. No timer, no lives, no score, no wrong thing to give anybody.</p>
+
+      <div class="screen">
+        <div class="shore" id="shore">
+
+          <div class="attract" id="shore-attract">
+            <p>PENGUIN PEBBLING<br>A SHORE<br>NOTHING IS COUNTED</p>
+            <button type="button" class="coin" id="shore-coin" hidden>START<br><span style="font-size:.72em;">(no coin slot here either)</span></button>
+            <p>ARROWS OR THE PAD TO WALK<br>WALK INTO A PEBBLE TO PICK IT UP<br>G OR SPACE TO GIVE IT TO SOMEBODY</p>
+            <p id="shore-nojs">THIS CABINET NEEDS JAVASCRIPT.<br>WHAT IT IS ABOUT IS WRITTEN OUT BELOW.</p>
+          </div>
+
+          <div class="peng" id="peng-you" role="img" aria-label="A penguin standing on a shingle beach, seen from the side.">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <g class="pose" data-pose="stand"><use href="#peng"/></g>
+              <g class="pose" data-pose="waddle"><use href="#peng-feet-apart"/><g transform="translate(0,-2)"><use href="#peng-body"/></g></g>
+              <g class="pose" data-pose="give"><g transform="rotate(13 50 90)"><use href="#peng"/></g></g>
+              <g class="beakful"><ellipse cx="90" cy="41" rx="9" ry="6.5" fill="#5A626B" stroke="#1E2833" stroke-width="2.6"/></g>
+            </svg>
+          </div>
+        </div>
+
+        <p class="screen-say" id="shore-says" role="status" aria-live="polite">The beach is empty. Nothing in this cabinet moves until you start it, and it never makes a sound.</p>
+      </div>
+
+      <div class="controls">
+        <div class="dpad shore-pad" role="group" aria-label="Walk">
+          <button type="button" class="up"    data-go="up"    aria-label="Walk up the beach">&#9650;</button>
+          <button type="button" class="left"  data-go="left"  aria-label="Walk left">&#9664;</button>
+          <span class="hub" aria-hidden="true"></span>
+          <button type="button" class="right" data-go="right" aria-label="Walk right">&#9654;</button>
+          <button type="button" class="down"  data-go="down"  aria-label="Walk down the beach">&#9660;</button>
+        </div>
+
+        <div class="knobs">
+          <fieldset>
+            <legend id="shore-speed-label">HOW FAST DOES THIS GO?</legend>
+            <div class="knobrow" role="group" aria-labelledby="shore-speed-label">
+              <button type="button" class="knob" data-shore-speed="slow"   aria-pressed="false">SLOW</button>
+              <button type="button" class="knob" data-shore-speed="steady" aria-pressed="false">STEADY</button>
+              <button type="button" class="knob" data-shore-speed="quick"  aria-pressed="false">QUICK</button>
+            </div>
+          </fieldset>
+          <div class="knobrow">
+            <button type="button" class="knob shore-control" data-act="give" hidden>GIVE IT TO SOMEBODY</button>
+            <button type="button" class="knob knob--stop" id="shore-rest" aria-pressed="false" hidden>PAUSE</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="arc-side">
+
+      <section class="plate">
+        <h2>WHAT JUST HAPPENED</h2>
+        <ul class="baylog" id="shore-log"></ul>
+        <p style="margin-bottom:0;"><small>Everything the screen does is also said in the strip under it. <strong>This list is not a total</strong> &mdash; it keeps the last few things and forgets the rest, which is the only honest way to log a practice that is explicitly not about volume.</small></p>
+      </section>
+
+      <section class="plate">
+        <h2>WHAT PENGUIN PEBBLING WILL NOT DO</h2>
+        <ul>
+          <li><strong>It will not count what you gave.</strong> No tally, no total, no streak, nothing at the end. The locution is not about volume, and a number beside it would quietly make it about volume.</li>
+          <li><strong>It will not require a pebble back.</strong> The neighbours bring you things on their own clock whether or not you have ever given them anything. That is the difference between pebbling and trading, and it is built as a timer rather than as a reward on purpose.</li>
+          <li><strong>There is no wrong thing to give anybody.</strong> Every pebble is taken and every one gets something different said back. There is no matching puzzle underneath this &mdash; giving is how you find out who somebody is, not a lock to pick.</li>
+          <li><strong>A pebble you keep is not a failure.</strong> You can carry one the whole time, or put it back down. Nothing notices.</li>
+          <li><strong>Nobody steals anything.</strong> Real Ad&eacute;lie and gentoo penguins nick stones off each other constantly, which is funny and true and belongs in a different game. This one is about the locution.</li>
+        </ul>
+      </section>
+
+      <section class="plate">
+        <h2>WHERE THIS COMES FROM, AND WHAT IT IS NOT</h2>
+        <p><strong>Penguin pebbling is one of the Five Neurodivergent Love Locutions</strong>, coined by <strong>Amythest Schaber</strong> (Neurowonderful) and <a href="https://stimpunks.org/2022/01/22/the-five-neurodivergent-love-languages-2/">documented by Stimpunks</a> in 2022. The line most people meet it through is <a href="https://tiktok.com/@brainsandspoons">@brainsandspoons</a>&rsquo;: <em>&ldquo;I thought about you today. I remembered this thing about you. Here&rsquo;s something I want to share with you specifically.&rdquo;</em> <strong>Helen Edgar</strong> wrote it up at <a href="https://autisticrealms.com/penguin-pebbling-an-autistic-love-language/">Autistic Realms</a> in 2023: a pebble, a twig, a flower, a photograph from a walk &mdash; <em>not</em> spending money. There is a <a href="https://stimpunks.org/glossary/penguin-pebbling/">glossary entry</a> too.</p>
+        <p><strong>There is already a Penguin Pebbling game, and this cabinet is not it.</strong> <a href="https://penguinpebbling.app/">Penguin Pebbling</a> is a thirty-card game by <strong>Helen Edgar</strong> (Autistic Realms) and <strong>Ryan Boren</strong> (Stimpunks), 2026, built around all five locutions. <strong>Go and play that one</strong>; it is the better thing and it is a real deck you can print. This cabinet takes nothing from it &mdash; no cards, no prompts, no artwork, no five-locution structure &mdash; and the reason is a licence rather than modesty: the deck is <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> and this site is <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. An adaptation would carry the non-commercial clause onto a page that cannot hold it, and relicensing is not ours alone to do. So this is built on the <em>locution</em>, which belongs to the community.</p>
+        <p style="margin-bottom:0;"><small><strong>And one honest thing about the penguins.</strong> Ad&eacute;lie and gentoo penguins really do build nests out of stones and carry them about, and they really do steal them from each other. The tidy romance &mdash; one penguin choosing the perfect pebble and presenting it to its beloved &mdash; is the popular retelling rather than the finding. The locution is named after the image and is not weakened by that. <strong>A metaphor does not have to be a finding.</strong> It is said here rather than quietly traded on.</small></p>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="arc-tail">
+    <section class="plate">
+      <h2>THE DIAL AND THE SPEED KNOB</h2>
+      <p>These do different jobs. The <strong>dial</strong> governs the room &mdash; the glow behind the cabinets, the marquee bulbs. This cabinet&rsquo;s <strong>speed knob</strong> governs the walking, and you hold that.</p>
+      <p style="margin-bottom:0;"><small>The dial picks the knob&rsquo;s starting position &mdash; Slow if you arrived on Gentle &mdash; and then stops having an opinion. All three speeds are here at every dial setting.</small></p>
+    </section>
+
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so &mdash; and nothing in this room makes a sound at all.</p>
+    </div>
+  </div>
+
+</main>
+
+<script src="love.js" defer></script>
+<script src="pebbling.js" defer></script>
+</body>
+</html>
