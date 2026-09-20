@@ -1,7 +1,7 @@
 {
   "_source": "Written for this room rather than lifted from the glossary. The monotropism entry on stimpunks.org is mostly curation — the explanation in it belongs to Dinah Murray, Wenn Lawson and Mike Lesser, to the Monotropism Questionnaire's authors, and to Helen Edgar, whose opening section is hers and stays on her page and ours with her name on it. Only the 'love language' line below is lifted, and it is Ryan's own. Everything else here is new Stimpunks prose, so nothing in this room is anyone else's to clear.",
   "_reader": "Ryan Boren",
-  "_note": "A passage goes live when audio/<id>.mp3 exists. Until then the page shows the words and an empty slot, the way Enid's polaroids stay grey. Run tools/make-readings.py after adding a file.",
+  "_note": "A passage goes live when audio/<id> exists in any common format (.m4a, .mp3, .opus, .ogg, .wav, .aac, .flac). Until then the page shows the words and an empty slot, the way Enid's polaroids stay grey. Run tools/make-readings.py after adding a file.",
   "readings": [
     {
       "id": "what-monotropism-is",

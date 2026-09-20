@@ -6,7 +6,7 @@ Settled choices and open ones, each with the reasoning, so the same question is 
 
 ## Open
 
-**The audio room is built and unrecorded.** Five passages on monotropism are written, on the page, and wired to the superposition panel; none is recorded. A passage goes live the moment `audio/<id>.mp3` exists beside it, so there is no code left to write — only Ryan reading. Open: the recordings, and whether a second voice joins later, since "voices" was always plural and one reader is a start rather than the finish.
+**The audio room has one voice in it.** Five passages on monotropism are written, on the page, and wired to the superposition panel; the first is recorded and the other four are not. A passage goes live the moment `audio/<id>.mp3` exists beside it, so there is no code left to write — only Ryan reading. Open: the recordings, and whether a second voice joins later, since "voices" was always plural and one reader is a start rather than the finish.
 
 **The polaroid wall has a process and no photographs.** The terms are written down on `polaroids.html`, the licence excludes them, and `tools/make-polaroids.py` refuses to publish one missing its alt text, its named subject, its consent date, or still carrying EXIF. What is open is the same thing as before: nobody has sent a photo. The wall stays grey until somebody does, and that is the default rather than a failure state.
 

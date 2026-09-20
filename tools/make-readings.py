@@ -38,6 +38,19 @@ ROOT = Path(__file__).resolve().parent.parent
 PAGE = ROOT / "hear-queer-here.html"
 STATES = {None, "a", "b", "open"}
 
+# Whatever the reader's recorder produced. This started as .mp3 only and missed the
+# first actual recording, which was .m4a -- what a Mac makes by default. A tool that
+# silently ignores the file it was built for is worse than one that refuses.
+SUFFIXES = (".m4a", ".mp3", ".opus", ".ogg", ".wav", ".aac", ".flac")
+
+
+def find_audio(rid):
+    for suf in SUFFIXES:
+        f = ROOT / "audio" / f"{rid}{suf}"
+        if f.exists():
+            return f
+    return None
+
 
 def main():
     data = json.loads((ROOT / "data/readings.json").read_text())
@@ -69,12 +82,12 @@ def main():
     reader = html.escape(data.get("_reader", "us"))
     blocks, recorded = [], 0
     for r in readings:
-        mp3 = ROOT / "audio" / f"{r['id']}.mp3"
+        found = find_audio(r["id"])
         state = f' data-reading-state="{r["state"]}"' if r.get("state") else ""
-        if mp3.exists():
+        if found:
             recorded += 1
             player = (f'        <audio class="reading__player" controls preload="none" '
-                      f'src="audio/{r["id"]}.mp3"></audio>')
+                      f'src="audio/{found.name}"></audio>')
         else:
             player = ('        <p class="reading__empty">Not recorded yet. The words are '
                       'here; the voice is not. This slot stays visibly empty rather than '

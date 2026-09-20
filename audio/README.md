@@ -1,19 +1,20 @@
 # audio/
 
-Recorded passages for the audio room in `hear-queer-here.html`. **Empty on purpose** until
-somebody reads one — the page shows the words and a visibly empty slot either way.
+Recorded passages for the audio room in `hear-queer-here.html`. The page shows the words
+whether or not a recording exists, so a missing one costs a reader nothing but the voice.
 
-Drop an mp3 in here with the matching name and run `python3 tools/make-readings.py`. The
-player appears on its own; nothing else needs editing. The words live in
-`data/readings.json`, which is the source of truth for both the text and the filename.
+Drop a file in here named for its passage and run `python3 tools/make-readings.py`. The
+player appears on its own; nothing else needs editing. **Any common format works** — `.m4a`
+(what a Mac records by default), `.mp3`, `.opus`, `.ogg`, `.wav`, `.aac`, `.flac` — so use
+whatever your recorder gives you rather than transcoding for our benefit.
 
-| File | Passage | Panel |
+| Name | Passage | Panel |
 |---|---|---|
-| `what-monotropism-is.mp3` | What monotropism is | — |
-| `the-a-side.mp3` | The A side: what the instrument reports | panel a |
-| `the-b-side.mp3` | The B side: the same wall | panel b |
-| `both-are-measurements.mp3` | Both are measurements | panel open |
-| `a-love-language.mp3` | A love language | — |
+| `what-monotropism-is` | What monotropism is | — |
+| `the-a-side` | The A side: what the instrument reports | panel a |
+| `the-b-side` | The B side: the same wall | panel b |
+| `both-are-measurements` | Both are measurements | panel open |
+| `a-love-language` | A love language | — |
 
 Reader: Ryan Boren.
 
