@@ -110,21 +110,24 @@ def find_audio(rid):
     return None
 
 
-def stray_audio(readings):
-    """Files in audio/ that answer to no passage.
+def stray_audio(terms):
+    """Files in audio/ that answer to no passage, in any term.
 
-    A recording arrives named whatever the recorder called it -- the second one
-    was "The A side: what the instrument reports.m4a", a colon and all, which is
-    the passage title rather than its id. Silently ignoring it would leave the
-    page reporting one fewer recording than exists and nothing to say why, which
-    is the same failure as only looking for .mp3 and missing the first one. So
-    the tool names the file and guesses what it was meant to be.
+    A recording arrives named whatever the recorder called it -- three arrived
+    as "The B side: the same wall.m4a" and the like, which is the passage title
+    rather than its id. Silently ignoring one would leave the page reporting
+    fewer recordings than exist and nothing to say why, which is the same
+    failure as only looking for .mp3 and missing the first one. So the tool
+    names the file and guesses what it was meant to be.
     """
     folder = ROOT / "audio"
     if not folder.is_dir():
         return []
-    wanted = {r["id"] for r in readings}
-    titles = {r["title"]: r["id"] for r in readings}
+    wanted, titles = set(), {}
+    for t in terms:
+        for r in t["readings"]:
+            wanted.add(r["id"])
+            titles[r["title"]] = r["id"]
     out = []
     for f in sorted(folder.iterdir()):
         if f.name.startswith(".") or f.suffix.lower() not in SUFFIXES:
@@ -140,93 +143,140 @@ def stray_audio(readings):
     return out
 
 
-def main():
-    data = json.loads((ROOT / "data/readings.json").read_text())
-    readings = data["readings"]
-    if not readings:
-        raise SystemExit("REFUSING: data/readings.json has no readings.")
+def check(terms):
+    """Refuse rather than publish something crooked."""
+    if not terms:
+        raise SystemExit("REFUSING: data/readings.json has no terms.")
+    ids = {}
+    for t in terms:
+        for key in ("slug", "title", "glossary", "reader"):
+            if not str(t.get(key, "")).strip():
+                raise SystemExit(f"REFUSING: a term is missing its {key!r}.")
+        if not t.get("readings"):
+            raise SystemExit(f"REFUSING: the term {t['slug']!r} has no passages.")
+        claimed = {}
+        for r in t["readings"]:
+            for key in ("id", "title", "text"):
+                if not r.get(key):
+                    raise SystemExit(f"REFUSING: a passage in {t['slug']!r} has no {key!r}.")
+            # Audio filenames are flat, so ids must be unique across every term.
+            if r["id"] in ids:
+                raise SystemExit(
+                    f"REFUSING: {r['id']!r} is used in both {ids[r['id']]!r} and "
+                    f"{t['slug']!r}.\nRecordings live in one folder, so an id cannot "
+                    "belong to two passages."
+                )
+            ids[r["id"]] = t["slug"]
+            if r.get("state") not in STATES:
+                raise SystemExit(
+                    f"REFUSING: {r['id']!r} has state {r.get('state')!r}. "
+                    "The panel only knows 'a', 'b', 'open', or null."
+                )
+            if r.get("state") and r["state"] in claimed:
+                raise SystemExit(
+                    f"REFUSING: {r['id']!r} and {claimed[r['state']]!r} both claim panel "
+                    f"state {r['state']!r} in {t['slug']!r}. A button cannot highlight "
+                    "two passages."
+                )
+            if r.get("state"):
+                claimed[r["state"]] = r["id"]
 
-    seen, claimed = set(), {}
-    for r in readings:
-        for key in ("id", "title", "text"):
-            if not r.get(key):
-                raise SystemExit(f"REFUSING: a reading is missing its {key!r}.")
-        if r["id"] in seen:
-            raise SystemExit(f"REFUSING: two readings share the id {r['id']!r}.")
-        seen.add(r["id"])
-        if r.get("state") not in STATES:
-            raise SystemExit(
-                f"REFUSING: {r['id']!r} has state {r.get('state')!r}. "
-                "The panel only knows 'a', 'b', 'open', or null."
-            )
-        if r.get("state") and r["state"] in claimed:
-            raise SystemExit(
-                f"REFUSING: {r['id']!r} and {claimed[r['state']]!r} both claim panel "
-                f"state {r['state']!r}. A button cannot highlight two passages."
-            )
-        if r.get("state"):
-            claimed[r["state"]] = r["id"]
 
-    stray = stray_audio(readings)
-    if stray:
-        lines = ["REFUSING: audio/ holds a file that answers to no passage.", ""]
-        for f, suggest in stray:
-            lines.append(f"  {f.name!r}")
-            lines.append(f"      rename to: {suggest}{f.suffix}" if suggest
-                         else "      matches no reading in data/readings.json")
-        lines += ["",
-                  "A recording named for its title rather than its id would be ignored in",
-                  "silence, and the page would report one fewer recording than exists with",
-                  "nothing to say why. Rename it, or add the passage to data/readings.json."]
-        raise SystemExit("\n".join(lines))
-
-    reader = html.escape(data.get("_reader", "us"))
+def render_term(t):
     blocks, recorded = [], 0
-    for r in readings:
+    for r in t["readings"]:
         found = find_audio(r["id"])
-        state = f' data-reading-state="{r["state"]}"' if r.get("state") else ""
         secs = duration_seconds(found) if found else None
-        attrs = state
+        attrs = f' data-term="{t["slug"]}"'
+        if r.get("state"):
+            attrs += f' data-reading-state="{r["state"]}"'
         if r.get("sequences"):
             attrs += f' data-sequences="{" ".join(r["sequences"])}"'
         if secs:
             attrs += f' data-seconds="{secs}"'
         if found:
             recorded += 1
-            player = (f'        <audio class="reading__player" controls preload="none" '
+            player = (f'          <audio class="reading__player" controls preload="none" '
                       f'src="audio/{found.name}"></audio>')
         else:
-            player = ('        <p class="reading__empty">Not recorded yet. The words are '
+            player = ('          <p class="reading__empty">Not recorded yet. The words are '
                       'here; the voice is not. This slot stays visibly empty rather than '
                       'quietly closed up.</p>')
         blocks.append(
-            f'      <section class="reading"{attrs}>\n'
-            f'        <h3>{html.escape(r["title"])}</h3>\n'
-            f'        <p class="reading__text">{html.escape(r["text"])}</p>\n'
+            f'        <section class="reading"{attrs}>\n'
+            f'          <h4>{html.escape(r["title"])}</h4>\n'
+            f'          <p class="reading__text">{html.escape(r["text"])}</p>\n'
             f'{player}\n'
-            f'      </section>'
+            f'        </section>'
         )
 
-    lead = (f'      <p class="readings__lead">Selected passages on monotropism, written for '
-            f'this room and read by {reader}. Not the glossary entry itself &mdash; most of '
-            f'that belongs to <a href="https://stimpunks.org/glossary/monotropism/">other '
-            f'people</a>, and it stays with their names on it. '
-            f'<strong>{recorded} of {len(readings)} recorded.</strong></p>')
+    n = len(t["readings"])
+    # Tense matters. Naming somebody as the reader of passages nobody has read
+    # yet would put a claim about them on a public page before it was true.
+    voice = (f'read by {html.escape(t["reader"])}' if recorded
+             else f'to be read by {html.escape(t["reader"])}')
+    lead = (f'        <p class="readset__lead">{n} passages, '
+            f'{html.escape(t["words"])} and {voice}. '
+            f'<a href="{html.escape(t["glossary"], quote=True)}">the glossary entry</a>. '
+            f'<strong>{recorded} of {n} recorded.</strong></p>')
 
-    block = lead + "\n" + "\n".join(blocks)
-    src = PAGE.read_text()
-    if "<!-- readings:begin -->" not in src:
+    return (f'      <section class="readset" data-term="{t["slug"]}">\n'
+            f'        <h3 class="readset__name">{html.escape(t["title"])}</h3>\n'
+            f'{lead}\n' + "\n".join(blocks) + '\n      </section>'), recorded
+
+
+def write_region(src, name, block, indent):
+    begin, end = f"<!-- {name}:begin -->", f"<!-- {name}:end -->"
+    if begin not in src:
         raise SystemExit(
-            f"REFUSING: {PAGE.name} has no <!-- readings:begin --> / <!-- readings:end -->\n"
-            "markers, so there is nowhere to write the room."
+            f"REFUSING: {PAGE.name} has no {begin} / {end} markers, so there is\n"
+            "nowhere to write that part of the room."
         )
-    out = re.sub(r"(<!-- readings:begin -->).*?(<!-- readings:end -->)",
-                 lambda m: m.group(1) + "\n" + block + "\n      " + m.group(2),
-                 src, flags=re.S)
-    PAGE.write_text(out)
-    print(f"readings: {len(readings)} passages, {recorded} recorded, "
-          f"{len(readings) - recorded} waiting on audio")
+    return re.sub(rf"({re.escape(begin)}).*?({re.escape(end)})",
+                  lambda m: m.group(1) + "\n" + block + "\n" + indent + m.group(2),
+                  src, flags=re.S)
 
+
+def main():
+    data = json.loads((ROOT / "data/readings.json").read_text())
+    terms = data.get("terms", [])
+    check(terms)
+
+    stray = stray_audio(terms)
+    if stray:
+        lines = ["REFUSING: audio/ holds a file that answers to no passage.", ""]
+        for f, suggest in stray:
+            lines.append(f"  {f.name!r}")
+            lines.append(f"      rename to: {suggest}{f.suffix}" if suggest
+                         else "      matches no passage in data/readings.json")
+        lines += ["",
+                  "A recording named for its title rather than its id would be ignored in",
+                  "silence, and the page would report fewer recordings than exist with",
+                  "nothing to say why. Rename it, or add the passage to data/readings.json."]
+        raise SystemExit("\n".join(lines))
+
+    sections, totals = [], []
+    for t in terms:
+        block, recorded = render_term(t)
+        sections.append(block)
+        totals.append((t["slug"], recorded, len(t["readings"])))
+
+    picker = "\n".join(
+        f'          <button type="button" class="measuring__btn" data-term="{t["slug"]}"'
+        f' aria-pressed="{"true" if i == 0 else "false"}">{html.escape(t["title"].lower())}</button>'
+        for i, t in enumerate(terms))
+
+    src = PAGE.read_text()
+    src = write_region(src, "readings", "\n".join(sections), "      ")
+    src = write_region(src, "measuring", picker, "        ")
+    PAGE.write_text(src)
+
+    done = sum(r for _, r, _ in totals)
+    all_n = sum(n for _, _, n in totals)
+    print(f"readings: {len(terms)} terms, {all_n} passages, {done} recorded, "
+          f"{all_n - done} waiting on audio")
+    for slug, r, n in totals:
+        print(f"    {slug:20} {r}/{n}")
 
 if __name__ == "__main__":
     main()

@@ -1,55 +1,122 @@
 {
   "_source": "Written for this room rather than lifted from the glossary. The monotropism entry on stimpunks.org is mostly curation — the explanation in it belongs to Dinah Murray, Wenn Lawson and Mike Lesser, to the Monotropism Questionnaire's authors, and to Helen Edgar, whose opening section is hers and stays on her page and ours with her name on it. Only the 'love language' line below is lifted, and it is Ryan's own. Everything else here is new Stimpunks prose, so nothing in this room is anyone else's to clear.",
-  "_reader": "Ryan Boren",
   "_note": "A passage goes live when audio/<id> exists in any common format (.m4a, .mp3, .opus, .ogg, .wav, .aac, .flac). Until then the page shows the words and an empty slot, the way Enid's polaroids stay grey. Run tools/make-readings.py after adding a file.",
-  "readings": [
+  "_sequences": "Which stitched sequence each passage belongs to. A is what it is then how the clinic writes it down; B is what it is then what it looks like from inside; open is the whole argument, ending on the line that resolves it. 'A love language' is in none of them on purpose — it carries no panel state and is not part of the A/B argument, and stitching it into a sequence about diagnosis would flatten it.",
+  "_voices": "One term, one reader. 'Voices' was always plural and this is how it becomes true. A reading by anybody other than us carries no onward licence — see LICENSE. The words and the voice are credited separately, because whose prose it is and who read it aloud are two different facts.",
+  "terms": [
     {
-      "id": "what-monotropism-is",
-      "title": "What monotropism is",
-      "state": null,
-      "text": "Monotropism is a theory of Autistic attention, made by Autistic people — Dinah Murray, Wenn Lawson and Mike Lesser. The short version: attention is a resource, and some of us spend it deeply on a few things rather than thinly across many. That is the whole claim. Most of what gets said about us follows from it.",
-      "sequences": [
-        "a",
-        "b",
-        "open"
+      "slug": "monotropism",
+      "title": "Monotropism",
+      "glossary": "https://stimpunks.org/glossary/monotropism/",
+      "reader": "Ryan Boren",
+      "words": "written for this room",
+      "words_note": "The monotropism entry is mostly curation — its explanation belongs to Dinah Murray, Wenn Lawson and Mike Lesser, to the Monotropism Questionnaire's authors, and to Helen Edgar, whose opening section is hers. Exactly one line in it was ours. So these were written for this room rather than lifted.",
+      "readings": [
+        {
+          "id": "what-monotropism-is",
+          "title": "What monotropism is",
+          "state": null,
+          "text": "Monotropism is a theory of Autistic attention, made by Autistic people — Dinah Murray, Wenn Lawson and Mike Lesser. The short version: attention is a resource, and some of us spend it deeply on a few things rather than thinly across many. That is the whole claim. Most of what gets said about us follows from it.",
+          "sequences": [
+            "a",
+            "b",
+            "open"
+          ]
+        },
+        {
+          "id": "the-a-side",
+          "title": "The A side: what the instrument reports",
+          "state": "a",
+          "text": "This is the A side. What follows is not our description. It is the one the clinic writes down. Restricted interests. Preoccupation. Poor attention switching. Rigidity. Resistance to transition. Failure to respond to name. Every one of those is a real observation. Every one is also a measurement, reported as though it were a property of the person rather than a property of the instrument.",
+          "sequences": [
+            "a",
+            "open"
+          ]
+        },
+        {
+          "id": "the-b-side",
+          "title": "The B side: the same wall",
+          "state": "b",
+          "text": "This is the B side. Same person, same afternoon, different instrument. Attention pulled hard toward a few things, with not much left over for the rest. Interruption is expensive, because leaving a tunnel costs more than staying in one. The name went unanswered because it arrived from outside the tunnel — not because it did not matter. Nothing in that list is a deficit. It is a description of where the attention went.",
+          "sequences": [
+            "b",
+            "open"
+          ]
+        },
+        {
+          "id": "both-are-measurements",
+          "title": "Both are measurements",
+          "state": "open",
+          "text": "Leave it open and you get both patterns at once, which is the honest picture. The two readings describe the same behaviour. They are not equally true. One of them knows it is a measurement. The other reports itself as the whole truth.",
+          "sequences": [
+            "open"
+          ]
+        },
+        {
+          "id": "a-love-language",
+          "title": "A love language",
+          "state": null,
+          "text": "Listening to the monotropic people in your life infodump about their SpIns is a love language.",
+          "sequences": []
+        }
       ]
     },
     {
-      "id": "the-a-side",
-      "title": "The A side: what the instrument reports",
-      "state": "a",
-      "text": "This is the A side. What follows is not our description. It is the one the clinic writes down. Restricted interests. Preoccupation. Poor attention switching. Rigidity. Resistance to transition. Failure to respond to name. Every one of those is a real observation. Every one is also a measurement, reported as though it were a property of the person rather than a property of the instrument.",
-      "sequences": [
-        "a",
-        "open"
+      "slug": "developmental-pace",
+      "title": "Developmental Pace",
+      "glossary": "https://stimpunks.org/glossary/developmental-pace/",
+      "reader": "Helen Edgar",
+      "words": "cut from our own glossary entry",
+      "words_note": "Unlike monotropism, this entry is substantially our own prose, so these passages are cut from it rather than written fresh — which is what the room promised in the first place. The words are Stimpunks'; the voice is Helen's. She is a colleague, not a corpus: her reading is credited to her and our words are not attributed to her.",
+      "readings": [
+        {
+          "id": "pace-what-it-is",
+          "title": "What developmental pace is",
+          "state": null,
+          "sequences": [
+            "a",
+            "b",
+            "open"
+          ],
+          "text": "Developmental pace is the rate at which a person arrives — at a skill, a concept, a capacity — and it varies enormously between people, and within one person across different domains."
+        },
+        {
+          "id": "pace-the-ruler",
+          "title": "The A side: what the ruler reports",
+          "state": "a",
+          "sequences": [
+            "a",
+            "open"
+          ],
+          "text": "Pace is ordinary variation. School treats it as a fixed background condition: children are grouped by birth date, taught the same content at the same time, and marked on the distance between where they are and where the timetable says they should be. That distance gets recorded against the child. So a single label — ahead, behind, at grade level — is a summary of a shape it cannot represent. It averages the peaks and the troughs into one number and then treats that number as the child."
+        },
+        {
+          "id": "pace-not-one-number",
+          "title": "The B side: not one number",
+          "state": "b",
+          "sequences": [
+            "b",
+            "open"
+          ],
+          "text": "Developmental pace is not a single dial set slow or fast for a whole person. It is uneven by domain — which is what a spiky profile describes. A pace is not a property a child was issued at birth and can be measured against. It emerges from a person meeting an environment — which means the environment is half of it, and the half we can actually change."
+        },
+        {
+          "id": "pace-about-the-ruler",
+          "title": "Both are measurements",
+          "state": "open",
+          "sequences": [
+            "open"
+          ],
+          "text": "“Behind” is information about the ruler, not about the learner."
+        },
+        {
+          "id": "pace-what-it-is-not",
+          "title": "What it is not",
+          "state": null,
+          "sequences": [],
+          "text": "An argument against age-graded expectations sits one careless line away from reading as an argument for lower ones. It is not that."
+        }
       ]
-    },
-    {
-      "id": "the-b-side",
-      "title": "The B side: the same wall",
-      "state": "b",
-      "text": "This is the B side. Same person, same afternoon, different instrument. Attention pulled hard toward a few things, with not much left over for the rest. Interruption is expensive, because leaving a tunnel costs more than staying in one. The name went unanswered because it arrived from outside the tunnel — not because it did not matter. Nothing in that list is a deficit. It is a description of where the attention went.",
-      "sequences": [
-        "b",
-        "open"
-      ]
-    },
-    {
-      "id": "both-are-measurements",
-      "title": "Both are measurements",
-      "state": "open",
-      "text": "Leave it open and you get both patterns at once, which is the honest picture. The two readings describe the same behaviour. They are not equally true. One of them knows it is a measurement. The other reports itself as the whole truth.",
-      "sequences": [
-        "open"
-      ]
-    },
-    {
-      "id": "a-love-language",
-      "title": "A love language",
-      "state": null,
-      "text": "Listening to the monotropic people in your life infodump about their SpIns is a love language.",
-      "sequences": []
     }
-  ],
-  "_sequences": "Which stitched sequence each passage belongs to. A is what it is then how the clinic writes it down; B is what it is then what it looks like from inside; open is the whole argument, ending on the line that resolves it. 'A love language' is in none of them on purpose — it carries no panel state and is not part of the A/B argument, and stitching it into a sequence about diagnosis would flatten it."
+  ]
 }

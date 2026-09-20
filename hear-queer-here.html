@@ -67,6 +67,14 @@
 
         <p style="margin:16px 0;font-size:15px;line-height:1.6;color:#d8d4ff;">This is the room where the site argues with itself on purpose. Both readings render at once, and you choose which to collapse — or leave them both running, which is a real answer rather than a decline.</p>
 
+        <div class="measuring" role="group" aria-label="What to measure">
+          <span class="measuring__label">measuring</span>
+          <!-- measuring:begin -->
+          <button type="button" class="measuring__btn" data-term="monotropism" aria-pressed="true">monotropism</button>
+          <button type="button" class="measuring__btn" data-term="developmental-pace" aria-pressed="false">developmental pace</button>
+        <!-- measuring:end -->
+        </div>
+
         <div class="collapse" role="group" aria-label="Collapse the pattern">
           <button type="button" class="a" data-state="a" aria-pressed="false"><span>collapse to A</span></button>
           <button type="button" class="b" data-state="b" aria-pressed="false"><span>collapse to B</span></button>
@@ -97,31 +105,63 @@
   <section id="readings" class="readings qcard" style="margin-top:22px;">
     <h2>THE READINGS</h2>
     <!-- readings:begin -->
-      <p class="readings__lead">Selected passages on monotropism, written for this room and read by Ryan Boren. Not the glossary entry itself &mdash; most of that belongs to <a href="https://stimpunks.org/glossary/monotropism/">other people</a>, and it stays with their names on it. <strong>5 of 5 recorded.</strong></p>
-      <section class="reading" data-sequences="a b open" data-seconds="18">
-        <h3>What monotropism is</h3>
-        <p class="reading__text">Monotropism is a theory of Autistic attention, made by Autistic people — Dinah Murray, Wenn Lawson and Mike Lesser. The short version: attention is a resource, and some of us spend it deeply on a few things rather than thinly across many. That is the whole claim. Most of what gets said about us follows from it.</p>
-        <audio class="reading__player" controls preload="none" src="audio/what-monotropism-is.m4a"></audio>
+      <section class="readset" data-term="monotropism">
+        <h3 class="readset__name">Monotropism</h3>
+        <p class="readset__lead">5 passages, written for this room and read by Ryan Boren. <a href="https://stimpunks.org/glossary/monotropism/">the glossary entry</a>. <strong>5 of 5 recorded.</strong></p>
+        <section class="reading" data-term="monotropism" data-sequences="a b open" data-seconds="18">
+          <h4>What monotropism is</h4>
+          <p class="reading__text">Monotropism is a theory of Autistic attention, made by Autistic people — Dinah Murray, Wenn Lawson and Mike Lesser. The short version: attention is a resource, and some of us spend it deeply on a few things rather than thinly across many. That is the whole claim. Most of what gets said about us follows from it.</p>
+          <audio class="reading__player" controls preload="none" src="audio/what-monotropism-is.m4a"></audio>
+        </section>
+        <section class="reading" data-term="monotropism" data-reading-state="a" data-sequences="a open" data-seconds="21">
+          <h4>The A side: what the instrument reports</h4>
+          <p class="reading__text">This is the A side. What follows is not our description. It is the one the clinic writes down. Restricted interests. Preoccupation. Poor attention switching. Rigidity. Resistance to transition. Failure to respond to name. Every one of those is a real observation. Every one is also a measurement, reported as though it were a property of the person rather than a property of the instrument.</p>
+          <audio class="reading__player" controls preload="none" src="audio/the-a-side.m4a"></audio>
+        </section>
+        <section class="reading" data-term="monotropism" data-reading-state="b" data-sequences="b open" data-seconds="22">
+          <h4>The B side: the same wall</h4>
+          <p class="reading__text">This is the B side. Same person, same afternoon, different instrument. Attention pulled hard toward a few things, with not much left over for the rest. Interruption is expensive, because leaving a tunnel costs more than staying in one. The name went unanswered because it arrived from outside the tunnel — not because it did not matter. Nothing in that list is a deficit. It is a description of where the attention went.</p>
+          <audio class="reading__player" controls preload="none" src="audio/the-b-side.m4a"></audio>
+        </section>
+        <section class="reading" data-term="monotropism" data-reading-state="open" data-sequences="open" data-seconds="12">
+          <h4>Both are measurements</h4>
+          <p class="reading__text">Leave it open and you get both patterns at once, which is the honest picture. The two readings describe the same behaviour. They are not equally true. One of them knows it is a measurement. The other reports itself as the whole truth.</p>
+          <audio class="reading__player" controls preload="none" src="audio/both-are-measurements.m4a"></audio>
+        </section>
+        <section class="reading" data-term="monotropism" data-seconds="6">
+          <h4>A love language</h4>
+          <p class="reading__text">Listening to the monotropic people in your life infodump about their SpIns is a love language.</p>
+          <audio class="reading__player" controls preload="none" src="audio/a-love-language.m4a"></audio>
+        </section>
       </section>
-      <section class="reading" data-reading-state="a" data-sequences="a open" data-seconds="21">
-        <h3>The A side: what the instrument reports</h3>
-        <p class="reading__text">This is the A side. What follows is not our description. It is the one the clinic writes down. Restricted interests. Preoccupation. Poor attention switching. Rigidity. Resistance to transition. Failure to respond to name. Every one of those is a real observation. Every one is also a measurement, reported as though it were a property of the person rather than a property of the instrument.</p>
-        <audio class="reading__player" controls preload="none" src="audio/the-a-side.m4a"></audio>
-      </section>
-      <section class="reading" data-reading-state="b" data-sequences="b open" data-seconds="22">
-        <h3>The B side: the same wall</h3>
-        <p class="reading__text">This is the B side. Same person, same afternoon, different instrument. Attention pulled hard toward a few things, with not much left over for the rest. Interruption is expensive, because leaving a tunnel costs more than staying in one. The name went unanswered because it arrived from outside the tunnel — not because it did not matter. Nothing in that list is a deficit. It is a description of where the attention went.</p>
-        <audio class="reading__player" controls preload="none" src="audio/the-b-side.m4a"></audio>
-      </section>
-      <section class="reading" data-reading-state="open" data-sequences="open" data-seconds="12">
-        <h3>Both are measurements</h3>
-        <p class="reading__text">Leave it open and you get both patterns at once, which is the honest picture. The two readings describe the same behaviour. They are not equally true. One of them knows it is a measurement. The other reports itself as the whole truth.</p>
-        <audio class="reading__player" controls preload="none" src="audio/both-are-measurements.m4a"></audio>
-      </section>
-      <section class="reading" data-seconds="6">
-        <h3>A love language</h3>
-        <p class="reading__text">Listening to the monotropic people in your life infodump about their SpIns is a love language.</p>
-        <audio class="reading__player" controls preload="none" src="audio/a-love-language.m4a"></audio>
+      <section class="readset" data-term="developmental-pace">
+        <h3 class="readset__name">Developmental Pace</h3>
+        <p class="readset__lead">5 passages, cut from our own glossary entry and to be read by Helen Edgar. <a href="https://stimpunks.org/glossary/developmental-pace/">the glossary entry</a>. <strong>0 of 5 recorded.</strong></p>
+        <section class="reading" data-term="developmental-pace" data-sequences="a b open">
+          <h4>What developmental pace is</h4>
+          <p class="reading__text">Developmental pace is the rate at which a person arrives — at a skill, a concept, a capacity — and it varies enormously between people, and within one person across different domains.</p>
+          <p class="reading__empty">Not recorded yet. The words are here; the voice is not. This slot stays visibly empty rather than quietly closed up.</p>
+        </section>
+        <section class="reading" data-term="developmental-pace" data-reading-state="a" data-sequences="a open">
+          <h4>The A side: what the ruler reports</h4>
+          <p class="reading__text">Pace is ordinary variation. School treats it as a fixed background condition: children are grouped by birth date, taught the same content at the same time, and marked on the distance between where they are and where the timetable says they should be. That distance gets recorded against the child. So a single label — ahead, behind, at grade level — is a summary of a shape it cannot represent. It averages the peaks and the troughs into one number and then treats that number as the child.</p>
+          <p class="reading__empty">Not recorded yet. The words are here; the voice is not. This slot stays visibly empty rather than quietly closed up.</p>
+        </section>
+        <section class="reading" data-term="developmental-pace" data-reading-state="b" data-sequences="b open">
+          <h4>The B side: not one number</h4>
+          <p class="reading__text">Developmental pace is not a single dial set slow or fast for a whole person. It is uneven by domain — which is what a spiky profile describes. A pace is not a property a child was issued at birth and can be measured against. It emerges from a person meeting an environment — which means the environment is half of it, and the half we can actually change.</p>
+          <p class="reading__empty">Not recorded yet. The words are here; the voice is not. This slot stays visibly empty rather than quietly closed up.</p>
+        </section>
+        <section class="reading" data-term="developmental-pace" data-reading-state="open" data-sequences="open">
+          <h4>Both are measurements</h4>
+          <p class="reading__text">“Behind” is information about the ruler, not about the learner.</p>
+          <p class="reading__empty">Not recorded yet. The words are here; the voice is not. This slot stays visibly empty rather than quietly closed up.</p>
+        </section>
+        <section class="reading" data-term="developmental-pace">
+          <h4>What it is not</h4>
+          <p class="reading__text">An argument against age-graded expectations sits one careless line away from reading as an argument for lower ones. It is not that.</p>
+          <p class="reading__empty">Not recorded yet. The words are here; the voice is not. This slot stays visibly empty rather than quietly closed up.</p>
+        </section>
       </section>
       <!-- readings:end -->
   </section>

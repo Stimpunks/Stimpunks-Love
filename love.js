@@ -125,11 +125,42 @@
       open: ['both patterns at once — only one of them knows it is a measurement', 'open']
     };
 
+    var picks = document.querySelectorAll('.measuring__btn');
+    var term = picks.length ? picks[0].dataset.term : null;
+
+    /* Which passage lights up depends on BOTH choices: the term being measured
+       and the way it was collapsed. That is the whole point of the picker --
+       an instrument and an object, not an instrument alone. */
+    function mark() {
+      if (!readings) return;
+      var all = readings.querySelectorAll('.reading');
+      for (var i = 0; i < all.length; i++) all[i].classList.remove('reading--collapsed');
+      if (!term) return;
+      var st = readings.dataset.state || 'open';
+      var hit = readings.querySelector(
+        '.reading[data-term="' + term + '"][data-reading-state="' + st + '"]');
+      if (hit) hit.classList.add('reading--collapsed');
+    }
+
     function apply(k) {
       if (fringe) fringe.dataset.state = STATES[k][1];
       if (readings) readings.dataset.state = STATES[k][1];
       if (read) read.textContent = STATES[k][0];
+      mark();
     }
+
+    for (var pi = 0; pi < picks.length; pi++) {
+      picks[pi].addEventListener('click', function () {
+        term = this.dataset.term;
+        for (var j = 0; j < picks.length; j++) {
+          picks[j].setAttribute('aria-pressed', String(picks[j] === this));
+        }
+        if (readings) readings.dataset.term = term;   /* relabels the play control */
+        mark();
+      });
+    }
+
+    if (readings && term) readings.dataset.term = term;
     apply('open');
 
     for (var i = 0; i < btns.length; i++) {
@@ -161,11 +192,12 @@
     var queue = null, at = -1;
 
     function listFor(state) {
-      var out = [];
+      var out = [], term = band.dataset.term;
       for (var i = 0; i < items.length; i++) {
         var sec = items[i];
+        if (term && sec.dataset.term !== term) continue;
         if (sec.dataset.sequences.split(' ').indexOf(state) < 0) continue;
-        var h = sec.querySelector('h3');
+        var h = sec.querySelector('h4');
         out.push({ sec: sec, audio: sec.querySelector('audio'),
                    title: h ? h.textContent : 'this passage',
                    secs: parseInt(sec.dataset.seconds || '0', 10) });
@@ -255,7 +287,7 @@
 
     if (window.MutationObserver) {
       new MutationObserver(relabel).observe(band, {
-        attributes: true, attributeFilter: ['data-state']
+        attributes: true, attributeFilter: ['data-state', 'data-term']
       });
     }
 

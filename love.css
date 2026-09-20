@@ -429,7 +429,18 @@ html[data-intensity="gentle"] .pullquote .tape { transform: none; }
 .readings h2 { font-family: 'Bungee', var(--sans); font-size: 15px; color: var(--cyan); letter-spacing: 1px; margin: 0 0 14px; }
 .readings__lead { margin: 0 0 18px; font-size: 14px; line-height: 1.6; color: #a6a1d4; }
 .reading { border-top: 1px solid #2a2d5c; padding: 16px 0 16px 14px; border-left: 3px solid transparent; }
-.reading h3 { margin: 0 0 8px; font-family: 'VT323', monospace; font-size: 21px; letter-spacing: .5px; color: var(--cyan); }
+/* NOT .term -- that is already the terminal-style line further up this section,
+   and reusing it put a border between "the instrument decides what it can see"
+   and the line that finishes the sentence. */
+.readset { margin-top: 6px; }
+.readset + .readset { margin-top: 26px; border-top: 2px solid #2a2d5c; padding-top: 18px; }
+.readset__name { margin: 0 0 6px; font-family: 'Bungee', var(--sans); font-size: 14px; letter-spacing: 1px; color: var(--pink); }
+.readset__lead { margin: 0 0 14px; font-size: 13.5px; line-height: 1.6; color: #a6a1d4; }
+.reading h4 { margin: 0 0 8px; font-family: 'VT323', monospace; font-size: 21px; letter-spacing: .5px; color: var(--cyan); }
+.measuring { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+.measuring__label { font-family: 'VT323', monospace; font-size: 18px; color: #8c87bd; }
+.measuring__btn { cursor: pointer; font-family: 'VT323', monospace; font-size: 18px; padding: 5px 11px; border-radius: 8px; background: transparent; border: 2px solid #3a3d72; color: #d8d4ff; }
+.measuring__btn[aria-pressed="true"] { border-color: var(--violet); color: var(--violet); }
 .reading__text { margin: 0; font-family: 'Instrument Serif', serif; font-size: 19px; line-height: 1.45; color: #d8d4ff; }
 .reading__empty { margin: 12px 0 0; font-size: 13px; line-height: 1.5; color: #8c87bd; }
 .reading__player { margin-top: 12px; width: 100%; max-width: 420px; }
@@ -443,11 +454,13 @@ html[data-intensity="gentle"] .pullquote .tape { transform: none; }
 
 /* The three that answer to the panel. Pressed state lifts one; the others stay
    legible rather than dimming, because Gentle hides nothing and neither does this. */
-.readings[data-state="a"]    .reading[data-reading-state="a"],
-.readings[data-state="b"]    .reading[data-reading-state="b"],
-.readings[data-state="open"] .reading[data-reading-state="open"] { border-left-color: var(--cyan); background: rgba(0,212,255,.05); }
-.readings[data-state="b"] .reading[data-reading-state="b"] { border-left-color: var(--pink); background: rgba(255,45,149,.05); }
-.readings[data-state="open"] .reading[data-reading-state="open"] { border-left-color: var(--green); background: rgba(34,224,106,.05); }
+/* Marked by love.js rather than by a descendant selector, because with more
+   than one term the match depends on BOTH which term is being measured and
+   which way it was collapsed, and static CSS cannot name a term it has not
+   met yet. */
+.reading--collapsed[data-reading-state="a"]    { border-left-color: var(--cyan);  background: rgba(0,212,255,.05); }
+.reading--collapsed[data-reading-state="b"]    { border-left-color: var(--pink);  background: rgba(255,45,149,.05); }
+.reading--collapsed[data-reading-state="open"] { border-left-color: var(--green); background: rgba(34,224,106,.05); }
 
 
 /* §9 ── ROOM: Enid's Room ────────────────────────────────────────────────────
