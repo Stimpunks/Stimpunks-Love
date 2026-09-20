@@ -1712,7 +1712,14 @@ html[data-intensity="max"] .bulbs span { animation: bulbchase 1.6s steps(2) infi
    away at the edges — the brighter pool tops out at --lamp .16, which is the
    #453620 in check-contrast.py. None of it moves, so none of it is gated. */
 .burrow {
-  width: min(880px, 100% - 44px); margin-inline: auto; padding: 0 0 72px;
+  /* PADDED, NOT JUST WIDTH-LIMITED. The lamp pools and the vignette make this
+     element visible as a room with edges, and everything that is not on a
+     plaster wall -- the headings, the ledes, the house rules, the dial -- sat
+     flush against those edges with nothing between the words and the earth.
+     The walls carry their own padding, which is exactly why the bare sections
+     were the ones that looked wrong. The width goes up by the same amount the
+     padding takes away, so the column of type is the length it always was. */
+  width: min(932px, 100% - 44px); margin-inline: auto; padding: 0 26px 72px;
   background-image:
     radial-gradient(ellipse 760px 420px at 50% 120px, rgba(240,195,107,.16), transparent 72%),
     radial-gradient(ellipse 520px 380px at 84% 62%, rgba(240,195,107,.07), transparent 70%),
@@ -1923,7 +1930,7 @@ html[data-intensity="max"] .lamp-flame { animation: latibulum-breathe 9s ease-in
   .knobs { flex: 1 1 100%; }
   .screen { margin-inline: 10px; }
   .cabinet { border-width: 4px; }
-  .burrow { width: calc(100% - 28px); }
+  .burrow { width: calc(100% - 20px); padding: 0 14px 56px; }
   /* The arch is the room's whole silhouette, and at 332px a 260px radius eats
      the first two lines of every panel it is on. It gets shallower rather than
      square: a smial with a flat top is a shed. */
