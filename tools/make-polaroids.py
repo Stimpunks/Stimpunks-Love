@@ -265,22 +265,22 @@ def main():
             credit = who
         cap = html.escape(ph.get("caption") or "")
         blocks.append(
-            f'          <figure class="polaroid" style="margin:0;">\n'
-            f'            <img class="photo polaroid__plate" src="photos/{f.name}" '
+            f'        <figure class="polaroid" style="margin:0;">\n'
+            f'          <img class="photo polaroid__plate" src="photos/{f.name}" '
             f'alt="{html.escape(ph["alt"], quote=True)}" loading="lazy">\n'
-            f'            <figcaption>{cap}<span class="polaroid__credit">{credit}</span></figcaption>\n'
-            f'          </figure>'
+            f'          <figcaption>{cap}<span class="polaroid__credit">{credit}</span></figcaption>\n'
+            f'        </figure>'
         )
 
     if not blocks:
         blocks.append(
-            '          <figure class="polaroid" style="margin:0;">\n'
-            '            <div class="polaroid__plate" aria-hidden="true"></div>\n'
-            '            <figcaption>the one where nobody made us smile</figcaption>\n'
-            '          </figure>'
+            '        <figure class="polaroid" style="margin:0;">\n'
+            '          <div class="polaroid__plate" aria-hidden="true"></div>\n'
+            '          <figcaption>the one where nobody made us smile</figcaption>\n'
+            '        </figure>'
         )
 
-    note = ('          <p class="polaroid__note">Polaroids are community photographs, sent by the '
+    note = ('        <p class="polaroid__note">Polaroids are community photographs, sent by the '
             'people in them, captioned and described in their own words. The wall is grey until '
             'somebody sends one &mdash; stock images of strangers standing in for us is the one '
             'thing this room will not do. <a href="polaroids.html">What we ask, and what we '
@@ -294,7 +294,7 @@ def main():
             "markers, so there is nowhere to build the wall."
         )
     out = re.sub(r"(<!-- polaroids:begin -->).*?(<!-- polaroids:end -->)",
-                 lambda m: m.group(1) + "\n" + block + "\n          " + m.group(2),
+                 lambda m: m.group(1) + "\n" + block + "\n        " + m.group(2),
                  src, flags=re.S)
     PAGE.write_text(out)
     elsewhere = check_the_rest_of_the_site(photos) - len(photos)

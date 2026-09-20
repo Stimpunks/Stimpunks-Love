@@ -559,7 +559,27 @@ html[data-intensity="gentle"] .pullquote .tape { transform: none; }
 .stickers .s7 { font-family: 'Special Elite', var(--sans); background: var(--red);    border-radius: 24px; transform: rotate(-2.5deg); color: #fff; font-size: 17px; }
 html[data-intensity="gentle"] .stickers a { transform: none; }
 
+/* The wall is a wall, not a stack. Polaroids are all one size -- real ones are
+   -- and they pack across and wrap, so the tenth photograph widens the wall
+   instead of lengthening the page under it. Heights stay ragged because the
+   frame adapts to each picture, which is the no-crop promise showing its work.
+   The note is a flex item too, since make-polaroids.py writes it last inside
+   the markers, so it is given a line of its own rather than left to squeeze
+   into whatever gap the final photo happened to leave. */
+.polaroid-wall { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; }
+.polaroid-wall .polaroid { flex: 0 0 auto; width: 232px; }
+.polaroid-wall .polaroid__note { flex: 1 1 100%; }
+
 .polaroid { background: #ece8f5; border-radius: 4px; padding: 11px 11px 0; transform: rotate(-2deg); }
+/* Three photos in a row all leaning the same way reads as one skewed strip
+   rather than three separately pinned pictures, so every other one leans back.
+   :where() is load-bearing: it contributes no specificity, which keeps this at
+   (0,2,0). The obvious `.polaroid-wall .polaroid:nth-child(even)` would be
+   (0,3,0) and would OUT-SPECIFY the Gentle reset further down -- leaving the
+   wobble switched on for exactly the people who asked for it to stop. The dial
+   outranks the decoration, and the selector has to be written so it cannot
+   quietly stop being true. */
+:where(.polaroid-wall) .polaroid:nth-child(even) { transform: rotate(1.5deg); }
 .polaroid__plate { aspect-ratio: 1; background: #2a2a34; border-radius: 2px; }
 .polaroid figcaption { font-family: 'Rock Salt', var(--sans); font-size: 11px; color: #3a3644; padding: 14px 0; line-height: 1.4; }
 /* A real photo keeps its own shape. The plate is square for the grey
