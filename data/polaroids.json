@@ -14,6 +14,16 @@
       "photographer_agreed": true,
       "consent_on": "2026-09-19",
       "note": "Sent by Ryan with the description and caption in his own words, which is the whole point of the process. Resized for the web; not cropped and not filtered."
+    },
+    {
+      "id": "helen-staircase",
+      "alt": "A white woman with reddish brown hair in a flowing black dress ascends a grand staircase.",
+      "caption": "Helen ascends a grand staircase.",
+      "subject": "Helen Edgar",
+      "photographer": "a friend who prefers to remain anonymous",
+      "photographer_agreed": true,
+      "consent_on": "2026-09-20",
+      "note": "Helen wrote the description, the caption and the naming; published in her words and not ours. The photographer asked not to be named and gave permission in the same message. The square framing is Helen's own crop, confirmed before publishing — we did not crop it and did not filter it."
     }
   ]
 }
