@@ -60,6 +60,7 @@ PAIRS = [
     ("#a6a1d4", "#05060f", False, "quantum: citations"),
     ("#8c87bd", "#05060f", False, "quantum: footnote"),
     (GREEN,   "#05060f", False, "quantum: backlink + helen link"),
+    (CYAN,    "#05060f", False, "quantum: reading titles in the audio room"),
     (PINK,    "#05060f", False, "quantum: terminal lines 22px"),
     (GREEN,   "#101014", True,  "enid: h1"),
     ("#ece8f5", "#101014", False, "enid: body"),

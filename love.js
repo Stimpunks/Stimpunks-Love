@@ -111,20 +111,32 @@
     if (!panel) return;
     var fringe = document.querySelector('.fringe');
     var read = document.getElementById('fringe-reading');
+    var readings = document.getElementById('readings');
     var btns = panel.querySelectorAll('button');
 
+    /* "neither one wrong" used to sit in the open state and it was the wrong
+       claim: for the diagnostic encounter this room is about, the two readings
+       are not equally true. The captions now say what the recorded passages
+       say. Highlighting a passage is all a button does here — it never starts
+       audio, in this room as in every other. */
     var STATES = {
-      a: ['collapsed to A — one pattern, measured, reported as the whole truth', 'a'],
-      b: ['collapsed to B — the other pattern, equally measured, equally partial', 'b'],
-      open: ['two patterns, one wall, neither one wrong', 'open']
+      a: ['collapsed to A — the instrument\u2019s report, filed as the whole truth', 'a'],
+      b: ['collapsed to B — the same wall, measured by something else', 'b'],
+      open: ['both patterns at once — only one of them knows it is a measurement', 'open']
     };
+
+    function apply(k) {
+      if (fringe) fringe.dataset.state = STATES[k][1];
+      if (readings) readings.dataset.state = STATES[k][1];
+      if (read) read.textContent = STATES[k][0];
+    }
+    apply('open');
 
     for (var i = 0; i < btns.length; i++) {
       btns[i].addEventListener('click', function () {
         var k = this.dataset.state;
         for (var j = 0; j < btns.length; j++) btns[j].setAttribute('aria-pressed', String(btns[j] === this));
-        if (fringe) fringe.dataset.state = STATES[k][1];
-        if (read) read.textContent = STATES[k][0];
+        apply(k);
       }.bind(btns[i]));
     }
   }

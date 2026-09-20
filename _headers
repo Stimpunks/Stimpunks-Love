@@ -85,6 +85,13 @@
 # The feed is generated from changelog.html, so it changes exactly when the page
 # does. Same short cache as the sitemap: a reader that polls hourly is not worth
 # a long TTL, and a stale feed is a changelog that lies by omission.
+# Recorded passages. A reading does not change once it is recorded; if one is
+# re-recorded it gets a new file rather than a quiet overwrite, so this can be
+# cached hard. Nothing here autoplays: the player is preload="none" and makes
+# no request until somebody presses it.
+/audio/*
+  Cache-Control: public, max-age=31536000, stale-if-error=2592000
+
 /feed.xml
   Cache-Control: public, max-age=600, stale-if-error=604800
 

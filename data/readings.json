@@ -1,0 +1,37 @@
+{
+  "_source": "Written for this room rather than lifted from the glossary. The monotropism entry on stimpunks.org is mostly curation — the explanation in it belongs to Dinah Murray, Wenn Lawson and Mike Lesser, to the Monotropism Questionnaire's authors, and to Helen Edgar, whose opening section is hers and stays on her page and ours with her name on it. Only the 'love language' line below is lifted, and it is Ryan's own. Everything else here is new Stimpunks prose, so nothing in this room is anyone else's to clear.",
+  "_reader": "Ryan Boren",
+  "_note": "A passage goes live when audio/<id>.mp3 exists. Until then the page shows the words and an empty slot, the way Enid's polaroids stay grey. Run tools/make-readings.py after adding a file.",
+  "readings": [
+    {
+      "id": "what-monotropism-is",
+      "title": "What monotropism is",
+      "state": null,
+      "text": "Monotropism is a theory of Autistic attention, made by Autistic people — Dinah Murray, Wenn Lawson and Mike Lesser. The short version: attention is a resource, and some of us spend it deeply on a few things rather than thinly across many. That is the whole claim. Most of what gets said about us follows from it."
+    },
+    {
+      "id": "the-a-side",
+      "title": "The A side: what the instrument reports",
+      "state": "a",
+      "text": "This is the A side. What follows is not our description. It is the one the clinic writes down. Restricted interests. Preoccupation. Poor attention switching. Rigidity. Resistance to transition. Failure to respond to name. Every one of those is a real observation. Every one is also a measurement, reported as though it were a property of the person rather than a property of the instrument."
+    },
+    {
+      "id": "the-b-side",
+      "title": "The B side: the same wall",
+      "state": "b",
+      "text": "This is the B side. Same person, same afternoon, different instrument. Attention pulled hard toward a few things, with not much left over for the rest. Interruption is expensive, because leaving a tunnel costs more than staying in one. The name went unanswered because it arrived from outside the tunnel — not because it did not matter. Nothing in that list is a deficit. It is a description of where the attention went."
+    },
+    {
+      "id": "both-are-measurements",
+      "title": "Both are measurements",
+      "state": "open",
+      "text": "Leave it open and you get both patterns at once, which is the honest picture. The two readings describe the same behaviour. They are not equally true. One of them knows it is a measurement. The other reports itself as the whole truth."
+    },
+    {
+      "id": "a-love-language",
+      "title": "A love language",
+      "state": null,
+      "text": "Listening to the monotropic people in your life infodump about their SpIns is a love language."
+    }
+  ]
+}

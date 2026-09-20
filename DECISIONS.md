@@ -6,7 +6,7 @@ Settled choices and open ones, each with the reasoning, so the same question is 
 
 ## Open
 
-**The audio room is named and empty.** Hear Queer Here promises "the glossary read aloud, in our own voices" and does not deliver it. It is listed in the changelog under *Not built yet* rather than quietly omitted, because a room that says what it is missing is more use than one that pretends. Open question: whose voices, how many terms, and whether it is worth the recording time.
+**The audio room is built and unrecorded.** Five passages on monotropism are written, on the page, and wired to the superposition panel; none is recorded. A passage goes live the moment `audio/<id>.mp3` exists beside it, so there is no code left to write — only Ryan reading. Open: the recordings, and whether a second voice joins later, since "voices" was always plural and one reader is a start rather than the finish.
 
 **The polaroids in Enid's Room are grey rectangles.** They are placeholders for community photos uploaded with consent. Until there are photos they should stay obviously empty rather than be filled with stock images, which would be the one thing this site cannot do.
 
@@ -33,6 +33,10 @@ Settled choices and open ones, each with the reasoning, so the same question is 
 **The dial defaults from the device and can be turned UP.** The alternative — capping intensity at whatever `prefers-reduced-motion` asks for — treats a media query as more authoritative than the person using the browser. It is not. The OS setting is the *starting* position; an explicit choice always wins, in both directions. This is the design's central argument and the reason accessibility here is a feature rather than a tax.
 
 **Gentle hides nothing.** No content sits behind an intensity level. A reduced mode that drops material is a worse site wearing a politer name, and on a site by Disabled people for Disabled people it would be the ordinary insult rendered in CSS.
+
+**The audio room reads new prose, not the glossary, 2026-09-19, Ryan's call.** The room promised "the glossary read aloud, in our own voices" and that promise could not be kept honestly. The monotropism entry is ~11,600 words and is mostly *curation*: the explanation in it belongs to Dinah Murray, Wenn Lawson and Mike Lesser, to the Monotropism Questionnaire's authors, and to Helen Edgar, whose opening section Ryan confirmed is hers. Reading it aloud would have been reading other people's words, and only one line in the whole entry — the one about infodumping as a love language — turned out to be ours. So the passages were written for this room instead, which keeps "our own prose only" without the constraint starving the room, and means nothing recorded here is anyone else's to clear. The promise was rewritten to match: selected passages, read by Ryan Boren.
+
+**The superposition panel got a subject, 2026-09-19.** It had a mechanism and no content — A and B were not readings *of* anything, so pressing a button returned a sentence about having pressed it. Worse, the open state said "neither one wrong", asserting a symmetry this organisation does not hold: for the diagnostic encounter the room is about, the pathology reading is not an equally valid alternative. Monotropism supplied the content, because it is a real case of two readings of the same behaviour — the deficit description and the monotropic one — and they are *not* symmetric. The captions now say so: only one of them knows it is a measurement. Pressing a panel button highlights its passage and never starts audio.
 
 **No autoplay, enforced rather than promised.** Every embed is a press-to-play facade that makes no request until pressed. The Playhouse's noises are synthesised through Web Audio, which cannot start without a user gesture — the platform enforces the consent model rather than us intending it. Verified in a browser on 2026-09-19: zero iframes and zero YouTube requests on load.
 

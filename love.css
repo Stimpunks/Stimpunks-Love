@@ -423,6 +423,26 @@ html[data-intensity="gentle"] .pullquote .tape { transform: none; }
 .term { font-family: 'VT323', monospace; font-size: 22px; color: var(--pink); margin: 0; }
 
 
+/* The audio room. The words are always present; the player arrives when the
+   file does. A passage tied to a panel state lifts when that button is pressed
+   — highlight only, because nothing on this street plays without a press. */
+.readings h2 { font-family: 'Bungee', var(--sans); font-size: 15px; color: var(--cyan); letter-spacing: 1px; margin: 0 0 14px; }
+.readings__lead { margin: 0 0 18px; font-size: 14px; line-height: 1.6; color: #a6a1d4; }
+.reading { border-top: 1px solid #2a2d5c; padding: 16px 0 16px 14px; border-left: 3px solid transparent; }
+.reading h3 { margin: 0 0 8px; font-family: 'VT323', monospace; font-size: 21px; letter-spacing: .5px; color: var(--cyan); }
+.reading__text { margin: 0; font-family: 'Instrument Serif', serif; font-size: 19px; line-height: 1.45; color: #d8d4ff; }
+.reading__empty { margin: 12px 0 0; font-size: 13px; line-height: 1.5; color: #8c87bd; }
+.reading__player { margin-top: 12px; width: 100%; max-width: 420px; }
+
+/* The three that answer to the panel. Pressed state lifts one; the others stay
+   legible rather than dimming, because Gentle hides nothing and neither does this. */
+.readings[data-state="a"]    .reading[data-reading-state="a"],
+.readings[data-state="b"]    .reading[data-reading-state="b"],
+.readings[data-state="open"] .reading[data-reading-state="open"] { border-left-color: var(--cyan); background: rgba(0,212,255,.05); }
+.readings[data-state="b"] .reading[data-reading-state="b"] { border-left-color: var(--pink); background: rgba(255,45,149,.05); }
+.readings[data-state="open"] .reading[data-reading-state="open"] { border-left-color: var(--green); background: rgba(34,224,106,.05); }
+
+
 /* §9 ── ROOM: Enid's Room ────────────────────────────────────────────────────
    Black walls, technicolour everything else. The room for the one who does not
    match the house — and the template the empty storefront is built from. */

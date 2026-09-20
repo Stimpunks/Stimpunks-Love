@@ -59,6 +59,13 @@ of components*, so the ransom note printed in full colour and `.pullquote` kept 
 while its text was forced to `#000` — 1.14:1, invisible. **Add an ink to that list only after
 deciding it survives a photocopier**, never to make the tool quiet.
 
+`make-readings.py` builds the audio room from `data/readings.json` and prints every passage as
+text whether or not its recording exists — the words are the room, and an argument you can only
+follow by hearing it is an audio-only requirement. **Do not lift readings from the glossary**: that
+entry is mostly curation, and its explanation belongs to Murray, Lawson and Lesser, to the
+questionnaire's authors, and to Helen Edgar. The passages here were written for this room so that
+nothing recorded is anyone else's to clear.
+
 `make-feed.py` stops if a changelog `<h2>` has no id, because that id is the feed item's permalink
 and a feed whose guids move republishes every old entry into somebody's reader as if it were new.
 `make-sitemap.py` stops if an HTML file exists that is not in its page order — so a new room
