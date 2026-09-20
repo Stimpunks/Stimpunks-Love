@@ -19,6 +19,13 @@ IT ENFORCES THE PROMISES IN polaroids.html RATHER THAN TRUSTING THEM:
     first; the refusal names the file.
   - A named photographer must also have given permission. Being in a picture is
     not the same as owning it.
+  - No filter, ever. polaroids.html promises in these words that we will not
+    "Crop you. Filter you." The Faery Yurt's mockup arrived with a sepia wash
+    over its portrait -- from the person in the photograph, which is the one
+    version of this that sounds harmless and is not, because the next photo
+    would arrive under a rule already bent once. A border, a shadow or a mat is
+    a thing around a picture; a filter is a thing done to it. This checks the
+    CSS as well as the markup rather than leaving it to somebody's memory.
 
 WITHDRAWAL is deletion, not a flag. Remove the entry, remove the file, run this.
 There is no 'hidden' state to forget to honour later, and nothing to un-hide by
@@ -78,6 +85,51 @@ def find_file(pid):
 
 IMG = re.compile(r'<img\b[^>]*\bsrc="photos/([^"]+)"[^>]*>')
 ALT = re.compile(r'\balt="([^"]*)"')
+CLASSES = re.compile(r'\bclass="([^"]*)"')
+RULE = re.compile(r'([^{}]+)\{([^{}]*)\}')
+
+
+def check_nobody_is_filtered(photo_classes):
+    """A photograph is published as it arrived. No crop, no filter, no exceptions.
+
+    EVERY PHOTOGRAPH CARRIES class="photo" so that this check has something exact
+    to look for; the first version of it scanned only the classes on the <img>
+    itself, and sailed straight past `.portrait-frame img { filter: sepia(...) }`
+    because the filter was written on a DESCENDANT selector rather than on the
+    picture's own class. That is the shape this arrives in, so that is the shape
+    it has to catch: any rule carrying a filter whose selector reaches .photo, or
+    reaches images generically, or names a class one of them wears.
+
+    Still deliberately crude, and it says so when it refuses -- a filter four
+    ancestors up would get past it. What it catches is a filter written onto the
+    picture's own rule because it looked like part of the design.
+    """
+    # Comments first: the selector pattern below is "everything up to a brace",
+    # which otherwise drags the whole explanatory comment above a rule into the
+    # refusal message and buries the selector it is naming.
+    css = re.sub(r"/\*.*?\*/", "", (ROOT / "love.css").read_text(), flags=re.S)
+    bad = []
+    for sel, body in RULE.findall(css):
+        if not re.search(r"(?<!-)\bfilter\s*:", body):
+            continue
+        for part in sel.split(","):
+            reaches = (
+                re.search(r"\bimg\b", part) or
+                re.search(r"\.photo\b", part) or
+                any(re.search(r"\." + re.escape(c) + r"\b", part) for c in photo_classes)
+            )
+            if reaches:
+                bad.append(f"love.css  {part.strip()} {{{body.strip()[:60]}...}}")
+                break
+    if bad:
+        raise SystemExit(
+            "REFUSING: a CSS filter reaches a photograph:\n  " + "\n  ".join(bad) + "\n\n"
+            "polaroids.html promises we will not filter anybody, and that promise is not\n"
+            "waived by the person in the picture asking for it -- the next photograph would\n"
+            "arrive under a rule already bent once. A frame, a shadow or a mat goes AROUND\n"
+            "the picture and is fine; a filter is done TO it. Move the effect onto the\n"
+            "wrapper, or take it off."
+        )
 
 
 def check_the_rest_of_the_site(photos):
@@ -95,17 +147,33 @@ def check_the_rest_of_the_site(photos):
         for page in ph.get("elsewhere", []):
             listed.add((page, f.name if f else ph["id"]))
 
-    found = set()
+    found, photo_classes = set(), set()
     for page in sorted(ROOT.glob("*.html")):
         for tag in IMG.finditer(page.read_text()):
             name = tag.group(1)
             found.add((page.name, name))
+            cls = CLASSES.search(tag.group(0))
+            names = cls.group(1).split() if cls else []
+            photo_classes.update(names)
+            if "photo" not in names:
+                raise SystemExit(
+                    f'REFUSING: the <img> for photos/{name} on {page.name} has no "photo"\n'
+                    "class. Every photograph on this site carries it, because that is what\n"
+                    "the no-filter check looks for \u2014 an image without it is an image\n"
+                    "nothing is watching."
+                )
+            if "filter" in tag.group(0).lower():
+                raise SystemExit(
+                    f"REFUSING: the <img> for photos/{name} on {page.name} carries a filter\n"
+                    "in its own style attribute. polaroids.html promises we will not filter\n"
+                    "anybody, and the person in the picture asking for it does not waive that."
+                )
             if name not in by_file:
                 raise SystemExit(
                     f"REFUSING: {page.name} publishes photos/{name} and there is no entry\n"
                     "for it in data/polaroids.json. A photograph with no consent record is\n"
                     "not published on this site, on any page, for any reason.\n"
-                    "If it was withdrawn, take it off this page too — withdrawal is deletion."
+                    "If it was withdrawn, take it off this page too \u2014 withdrawal is deletion."
                 )
             alt = ALT.search(tag.group(0))
             if not (alt and alt.group(1).strip()):
@@ -116,8 +184,8 @@ def check_the_rest_of_the_site(photos):
             if page.name != PAGE.name and (page.name, name) not in listed:
                 raise SystemExit(
                     f"REFUSING: {page.name} publishes photos/{name} and the entry for it in\n"
-                    "data/polaroids.json does not say so. Add it to that entry\'s "
-                    "\"elsewhere\" list,\nso that deleting the entry catches this page too."
+                    "data/polaroids.json does not say so. Add it to that entry's "
+                    '"elsewhere" list,\nso that deleting the entry catches this page too.'
                 )
 
     for page, name in sorted(listed - found):
@@ -126,6 +194,8 @@ def check_the_rest_of_the_site(photos):
             "and it is not there. Either the page dropped it or the record is stale;\n"
             "either way the consent record has stopped describing the site."
         )
+
+    check_nobody_is_filtered(photo_classes)
 
     orphans = sorted(f.name for f in PHOTOS.glob("*") if f.suffix.lower() in SUFFIXES
                      and f.name not in by_file)
@@ -196,7 +266,7 @@ def main():
         cap = html.escape(ph.get("caption") or "")
         blocks.append(
             f'          <figure class="polaroid" style="margin:0;">\n'
-            f'            <img class="polaroid__plate" src="photos/{f.name}" '
+            f'            <img class="photo polaroid__plate" src="photos/{f.name}" '
             f'alt="{html.escape(ph["alt"], quote=True)}" loading="lazy">\n'
             f'            <figcaption>{cap}<span class="polaroid__credit">{credit}</span></figcaption>\n'
             f'          </figure>'

@@ -9,6 +9,13 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sun, 20 Sep 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>the third photograph, and the promise it broke on arrival</title>
+      <link>https://stimpunks.love/changelog.html#2026-09-20-third-photograph</link>
+      <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-20-third-photograph</guid>
+      <pubDate>Sun, 20 Sep 2026 12:00:00 GMT</pubDate>
+      <description>Helen sent her portrait, for both places at once. It is on Enid’s wall and it is the picture beside the welcome in her own room — the empty slot the yurt shipped with two commits ago, because the file was not ours to invent. Description, caption and naming are hers, and she took it herself. No EXIF, not resized, not cropped. And not filtered, which is the part worth writing down. Her mockup put a sepia wash over this photograph — filter: sepia(.18) saturate(1.05) brightness(.96) — and the terms promise, in these words, that we will not “Crop you. Filter you.” A promise the site makes to everybody is not waived by the one person it happens to be about this time, because the next photograph would arrive under a rule that had already been bent once. The wooden frame is matting and stays: a border, a shadow or a mat goes around a picture; a filter is done to it. So the tool checks it rather than trusting anybody to remember. make-polaroids.py now refuses a filter in an &lt;img&gt;’s own style attribute, and refuses any rule in love.css whose selector reaches a photograph and carries one. Every photograph on the site wears class=&quot;photo&quot; so there is something exact to look for. The first version of that check did not work, and the way it failed is the point. It scanned only the classes on the &lt;img&gt; itself, so it sailed straight past.portrait-frame img { filter: … } — the filter was on a descendant selector, which is the shape this actually arrives in. It was written, it passed, and it was wrong; it only got caught because putting the sepia back and watching the tool say nothing is cheaper than believing it. A checker that passes a case it was built for is worse than no checker, and this one nearly shipped as exactly that. All three shapes refuse now — descendant selector, the plate’s own class, and an inline style — each one tested by breaking it on purpose.</description>
+    </item>
+    <item>
       <title>the street grows an edge, and Helen pitches a yurt on it</title>
       <link>https://stimpunks.love/changelog.html#2026-09-20-campgrounds</link>
       <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-20-campgrounds</guid>

@@ -119,7 +119,14 @@ chair passing a movement slogan off as a house line is the exact failure this si
 
 `make-polaroids.py` builds Enid's wall and **enforces the promises on `polaroids.html` rather
 than trusting them**: no alt text, no named subject, no consent date, or any EXIF still on the
-file, and it refuses. Since the Faery Yurt hangs one of these photographs in Helen's own room,
+file, and it refuses. **It refuses a filter too** — that page promises we will not "Crop you.
+Filter you.", the Faery Yurt's mockup arrived with a sepia wash over its portrait, and a promise
+made to everybody is not waived by the person in the picture asking for it, because the next
+photo would arrive under a rule already bent once. A frame, a shadow or a mat goes *around* a
+picture; a filter is done *to* it. Every photograph wears `class="photo"` so the check has
+something exact to look for — **the first version scanned only the classes on the `<img>` and
+sailed past `.portrait-frame img { filter: … }`, which is the shape it actually arrives in.
+Break a checker on purpose before believing it.** Since the Faery Yurt hangs one of these photographs in Helen's own room,
 it also **walks every page rather than only the wall** — the consent record and the publication
 being in two different places is precisely where a withdrawal gets half-honoured. A photo
 published anywhere with no entry is a refusal; a photo hung outside the wall whose entry does

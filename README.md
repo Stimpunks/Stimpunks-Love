@@ -121,7 +121,8 @@ anchor to serve as its permalink, `make-readings.py` stops if two passages claim
 superposition-panel button, `make-polaroids.py` stops if a photograph has no alt text, no
 named subject, no consent date, or any EXIF left on it — and, since a photograph can now hang
 somewhere other than Enid's wall, stops if any page publishes one the record does not mention,
-so that deleting a withdrawn entry catches every page instead of one, `make-chairy.py` stops if a saying has
+so that deleting a withdrawn entry catches every page instead of one; it also stops on a CSS or
+inline filter reaching a photograph, because that page promises we will not filter anybody, `make-chairy.py` stops if a saying has
 no source page or contains the pipe that separates them, `make-yells.py` stops if a yell has
 no name on it, `make-chappell.py` stops on an id that is not a YouTube id — which love-embed.js
 declines silently, so the failure is a button that never becomes a video and says nothing about
