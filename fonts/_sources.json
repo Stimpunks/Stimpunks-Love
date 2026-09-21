@@ -298,5 +298,39 @@
    "bytes": 14752,
    "src": "https://fonts.gstatic.com/s/sora/v17/xMQOuFFYT72X5wkB_18qmnndmSdSnk-NKQJDA8i1P4w.woff2"
   }
+ ],
+ "anton": [
+  {
+   "file": "anton-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 12004,
+   "src": "https://fonts.gstatic.com/s/anton/v27/1Ptgg87LROyAm3Kz-C8CSKlv.woff2"
+  }
+ ],
+ "permanent-marker": [
+  {
+   "file": "permanent-marker-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 29296,
+   "src": "https://fonts.gstatic.com/s/permanentmarker/v16/Fh4uPib9Iyv2ucM6pGQMWimMp004La2Cf5b6jlg.woff2"
+  }
+ ],
+ "barlow": [
+  {
+   "file": "barlow-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 15656,
+   "src": "https://fonts.gstatic.com/s/barlow/v13/7cHpv4kjgoGqM7E_DMs5ynghnQ.woff2"
+  },
+  {
+   "file": "barlow-600.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 15832,
+   "src": "https://fonts.gstatic.com/s/barlow/v13/7cHqv4kjgoGqM7E30-8s51ostz0rdg.woff2"
+  }
  ]
 }

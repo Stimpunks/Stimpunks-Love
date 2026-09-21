@@ -220,6 +220,26 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--herm .og-lede {{ font-family: 'Sora', sans-serif; color: #34483A; max-width: 1020px; font-size: 23px; }}
 .og--herm .cabin {{ margin: 0; }}
 .og--herm .cabin svg {{ width: 860px; margin-inline: auto; }}
+
+/* club — A BLACK AWNING AND A WALL OF PAPER, which is the only card in the set
+   built out of two grounds stacked rather than one ground with things on it.
+   The flyers along the foot are the paste-up, cropped by the card edge the way
+   a wall is cropped by a doorway. */
+.og--club {{ width: 100%; padding: 0; gap: 0; justify-content: flex-start; }}
+.og--club .og-awning {{ background: #0B0A0B; border-bottom: 6px solid #E9E4D6;
+  padding: 34px 60px 30px; }}
+.og--club h1 {{ font-family: 'Anton', Impact, sans-serif; font-size: 118px; line-height: .9;
+  text-transform: uppercase; color: #E9E4D6; margin: 0 !important; letter-spacing: -1px; }}
+.og--club .og-sub {{ margin: 12px 0 0; font-family: 'Barlow', sans-serif; font-weight: 600;
+  font-size: 21px; letter-spacing: 3px; text-transform: uppercase; color: #A8A296; }}
+.og--club .og-body {{ flex: 1; padding: 26px 60px 0; display: flex; flex-direction: column; gap: 16px; }}
+.og--club .og-shout {{ margin: 0; font-family: 'Permanent Marker', cursive; font-size: 46px;
+  color: #FF5A5A; line-height: 1; }}
+.og--club .og-lede {{ font-family: 'Barlow', sans-serif; color: #CFC8B6; max-width: 1020px;
+  font-size: 26px; margin: 0 !important; }}
+.og--club .og-strip {{ display: flex; gap: 10px; padding: 0 60px; }}
+.og--club .og-strip span {{ flex: 1; height: 92px; background: #E9E4D6; }}
+.og--club .og-strip span:nth-child(3n) {{ background: #CFC8B6; }}
 /* The stream bleeds to the card's edges. `.og > *` pins every child to margin 0
    with !important, so this has to out-specify it rather than out-shout it. */
 .og--camp .stream {{ margin: 0 -60px !important; }}
@@ -653,6 +673,29 @@ def card_herm(p):
     )
 
 
+def card_club(p):
+    return (
+        "",
+        f'<div class="club og og--club" data-fit="card">'
+        f'<div class="og-awning">{p["h1"]}'
+        f'<p class="og-sub">punk music · punk community · a vivifying overlap</p></div>'
+        f'<div class="og-body">'
+        f'<p class="og-shout">Freaks to the front.</p>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>'
+        f'<div class="og-strip" data-fit="strip"><span></span><span></span><span></span>'
+        f'<span></span><span></span><span></span><span></span><span></span></div>'
+        f'</div>',
+        f"A card split in two. Across the top, a black awning like a venue's, edged "
+        f"in off-white, with \u201c{p['h1text']}\u201d across it in tall condensed "
+        f"capitals and under that, in small spaced capitals: punk music, punk "
+        f"community, a vivifying overlap. Below it on a near-black wall, in red "
+        f"marker handwriting, Freaks to the front. Then: {p['desc_plain']} Along the "
+        f"very bottom, a row of blank off-white flyers pasted edge to edge and cut "
+        f"off by the edge of the card.",
+    )
+
+
 def card_yurt(p):
     return (
         "",
@@ -888,6 +931,7 @@ CARDS = {
     "campgrounds":  card_camp,
     "room-yurt":    card_yurt,
     "hermitage":    card_herm,
+    "club":         card_club,
     "room-latibulum": card_latibulum,
     "room-jungle":  card_jungle,
     "room-den":     card_den,

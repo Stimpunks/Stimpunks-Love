@@ -226,6 +226,43 @@ arriving only where the leaves let it, nothing standing alone because everything
 something, and a face whose strokes swell as they turn. You are outside in one and inside the
 other. "They are both green, so they should feel the same" is the subroom excuse in a poncho.
 
+**THE PUNK CLUB DOES NOT STROBE AND THAT IS THE ROOM'S WHOLE POINT, NOT A GAP IN IT.** Club Chronic
+(§20) has no ambient layer at any setting. It looks like the campgrounds' rule and it is a
+different one: the field is still because quiet is what it is *for*; this room is still because
+**the one obvious ambient effect a punk club has can cause seizures.** A room whose argument is
+*come in as you are* cannot have a light in it that puts somebody on the floor. The room states
+this on its own door policy so nobody "finishes" it later. **Do not add a flicker, a flash, a
+strobe or a pulsing bulb**, at MAX or anywhere else.
+
+**AND IT SAYS A LOUD ROOM IS AN ACCESS BARRIER**, in the room, about itself. That sentence is load
+bearing: this site is a Disabled people's organisation writing about a scene built out of volume,
+crowding and stairs, and the version that celebrates the gig without naming who cannot get into it
+is the inspiration framing we exist to refuse.
+
+**THE ZINE TABLE IS THE ROOM THIS COLLAPSES INTO.** Both punk, both photocopied, both paper. The
+zine is **one sheet you hold**, cut with scissors, scattered at angles, and the page IS the paper.
+The club is **a hundred rectangles pasted onto a black wall**, flat, overlapping, layered like
+sediment — and its marker is written OVER the paper rather than being it. Condensed display face
+because a flyer crams a bill onto one sheet; typewriter and handwriting belong to the zine. If a
+change makes the club's paper start behaving like the zine's page, it is wrong.
+
+**THE RACK'S SELECTION IS STAR STUFF'S AND THE NOTES ARE OURS, DELIBERATELY BOTH.** The six racks
+come from *It Take a Joyful Sound*; every note in our room was written for our room. Copying that
+page's prose would make an argument a reader can only follow by having read the other site — the
+same reason `make-readings.py` refuses to lift the glossary. **Credit the selection loudly, link
+the essay, write your own words.**
+
+**AND `make-club.py` HOLDS BOTH HALVES OF THE RUNTIME RULE AT ONCE**, which nothing here had needed
+before: it **requires** a runtime on every song and **refuses** one on either playlist. A song has
+a length; a list somebody keeps adding to does not, and today's total is wrong next week and
+authoritative meanwhile. Do not "fix" the inconsistency — it is `make-den.py` and `make-jungle.py`
+in one file, and both promises are the same promise.
+
+**SPOTIFY IS THE FIRST NON-YOUTUBE FRAME AND ITS ORIGIN LIVES IN THREE PLACES.** `_headers`'
+`frame-src`, `love-embed.js`'s `ORIGINS`, and `make-club.py`'s own copy. That is on purpose: the
+browser enforces one, the script enforces another, and the build refuses before either can render
+a blank box with no error anywhere. **Adding a service means editing all three.**
+
 **THREE KINDS OF NAME IN `love.css` ARE LAST-WINS AND SILENT, and `check-classes.py` now refuses
 all three.** A class claimed by two rooms. A section number used twice. **And a custom property
 declared twice in one `:root`** — which shipped: the Hermitage took `--leaf` for its green and

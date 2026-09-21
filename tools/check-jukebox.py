@@ -119,6 +119,11 @@ LISTS = [
     # kind of upload a rights holder pulls, and the room's argument is that you
     # can decide what to give three hours to before you press.
     ("the hermitage",  "data/hermitage.json", "solarpunk-hermitage.html"),
+    # Club Chronic's record rack. The largest single list on the street and the
+    # most likely to rot in a way nobody notices: thirty-six songs on other
+    # people's channels, a lot of them small labels and one-person uploads,
+    # which is exactly where a video goes private without ceremony.
+    ("club chronic",   "data/club.json", "club-chronic.html"),
     # The Jungle Room, which is the largest list here and the one most likely to
     # rot: a music video is published once and sits there, while a live camera
     # is a machine somebody is maintaining outdoors. Two of these were already
@@ -161,6 +166,15 @@ def tracks_in(data):
     # because they are one room; only the docs are facades. A doc already
     # published as a door out is expected to fail the embed check and is not
     # reported, the same as the Jungle Room's link-outs.
+    # Club Chronic files its songs in racks, because the racks carry the
+    # argument. THE TWO PLAYLISTS ON THAT STAGE ARE NOT HERE and that is not an
+    # oversight: this tool asks a watch page about one video, and a playlist is
+    # not one video. Checking them would mean a different request against a
+    # different endpoint, and pretending the existing check covers them would be
+    # the confident-total problem again.
+    if "racks" in data:
+        return [dict(s, artist=s.get("artist") or s.get("channel"))
+                for r in data["racks"] for s in r["songs"]]
     if "docs" in data or "solar_watch" in data:
         # THE HERMITAGE HAS FACADES IN TWO PLACES IN ONE FILE -- the campfire's
         # documentaries and the solar bench's videos -- and the first version of

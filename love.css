@@ -92,6 +92,19 @@
    ends. Tech AND nature, not one of them in fancy dress. It is also the only
    pairing here that has to work at SIZE ON A LIGHT GROUND all the way down —
    every other serif on this street is cream on something dark. */
+/* Club Chronic (§20). A CONDENSED display face, a marker, and a grotesque —
+   which is a gig flyer's three voices and nothing else on this street sets any
+   of them. Anton is condensed because a flyer crams a bill onto one sheet of
+   A4; Permanent Marker is the pen somebody actually had on them. THE ZINE
+   TABLE IS THE COLLISION TO WATCH and this is how they stay apart: that room
+   is a photocopier's black on white, cut up with scissors, in Special Elite
+   and Rock Salt. This is paste-up on a black wall — layered, not scattered —
+   and the marker is written OVER the paper rather than being the paper. */
+@font-face { font-family: 'Anton';            src: url('fonts/anton-400.woff2') format('woff2');            font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Permanent Marker'; src: url('fonts/permanent-marker-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow';           src: url('fonts/barlow-400.woff2') format('woff2');           font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow';           src: url('fonts/barlow-600.woff2') format('woff2');           font-weight: 600; font-display: swap; }
+
 @font-face { font-family: 'Fraunces'; src: url('fonts/fraunces-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
 @font-face { font-family: 'Sora';     src: url('fonts/sora-400.woff2') format('woff2');     font-weight: 400; font-display: swap; }
 
@@ -251,6 +264,23 @@
   --furrow: #16291C;  --furrow-2: #34483A;
   --sprout: #2C6B45;  --sprout-2: #1D4D30;  --bloom: #B5760A;
   --cedar: #9A6A3C;  --cell: #12323C;
+  /* Club Chronic (§20). A BLACK WALL WITH PAPER STUCK TO IT, which is the one
+     shape nothing else here has: every other room is a ground with things
+     drawn on it, and this is a ground with things GLUED on, overlapping, in
+     layers, going back years. --brick is the wall; --paste is flyer stock and
+     is the room's second ground, carrying dark type the way the Latibulum's
+     plaster does — but that burrow is a lit wall you stand inside and this is
+     a hundred small rectangles pasted onto a dark one, which is a collage and
+     not a room. --marker is the pen that went over the top of all of it, and
+     is the only colour here that is not either black or paper.
+     --stage-lit is nobody's choice: --marker at .07 over --brick, which is the
+     wash the one working bulb puts on the wall, and what the type near the
+     stage actually sits on. */
+  --brick: #131113;  --brick-2: #1E1B1E;  --grime: #2A262A;
+  --paste: #E9E4D6;  --paste-2: #CFC8B6;  --newsprint: #A8A296;
+  --marker: #D8FF3A;  --siren: #FF5A5A;  --bootblack: #0B0A0B;  --staple: #6E6A60;
+  --stage-lit: #212216;
+
   --velvet: #4A1220;  --velvet-2: #5E1A2B;  --velvet-3: #380C18;
   /* The campfire's furniture. THE BAGS ARE BRIGHT AND THEREFORE CANNOT CARRY
      THEMSELVES: every one of them measured under 2.3 against the rug, which is
@@ -568,6 +598,11 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
    what it is like in there before you push it. */
 .door--jungle { background: var(--canopy); }
 .door--jungle .door__awning { background-image: repeating-linear-gradient(90deg, var(--buttress) 0 9px, var(--palm) 9px 18px, var(--understory) 18px 30px); }
+/* Club Chronic's awning is the one on the street with no colour in it: a black
+   box with the name on it, which is what a venue awning actually is and what
+   CBGB's was. The stripe is the flyers pasted along the bottom of it. */
+.door--club .door__awning { background-image: repeating-linear-gradient(90deg, var(--bootblack) 0 16px, var(--paste) 16px 20px, var(--bootblack) 20px 34px); }
+.door--club .door__name { font-family: 'Anton', Impact, sans-serif; text-transform: uppercase; letter-spacing: 1px; color: var(--paste); }
 .door--jungle .door__name  { font-family: 'Yeseva One', Georgia, serif; color: var(--daylight); font-size: 28px; }
 .door--jungle .door__blurb { font-family: 'Cabin', system-ui, sans-serif; color: var(--sap); }
 .door--jungle .door__knock { font-family: 'Cabin', system-ui, sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--sun); }
@@ -2864,7 +2899,156 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 .kin p { margin: 0; font-size: 14.5px; }
 .kin__why { color: var(--furrow-2); font-size: 13.5px !important; }
 
-/* §20 ── Small screens ───────────────────────────────────────────────────────
+/* §20 ── ROOM: Club Chronic ──────────────────────────────────────────────────
+   A BLACK WALL WITH PAPER STUCK TO IT. Every other room on this street is a
+   ground with things drawn on it; this is a ground with things GLUED on,
+   overlapping, in layers, going back years. That is the structural difference
+   and it is the one that has to hold, because the room this could collapse
+   into is already here.
+
+   THE ZINE TABLE IS THE COLLISION AND IT IS A CLOSE ONE. Both are punk, both
+   are photocopied, both are made of paper. What keeps them apart:
+
+     · the zine is ONE SHEET you hold, black on white, and the page IS the
+       paper. Here the paper is a hundred small rectangles stuck to something
+       else, and the something else — the wall — is the room.
+     · the zine is CUT UP with scissors and scattered at angles. This is PASTED
+       DOWN in layers, flat, overlapping, because that is what happens to a
+       wall over years and it is the opposite gesture: one is collage as
+       violence, the other is collage as sediment.
+     · the zine sets a typewriter and a handwriting. This sets a CONDENSED
+       display face, because a flyer crams a whole bill onto one sheet, and a
+       marker that went over the top of the paper rather than being it.
+
+   AND IT DOES NOT STROBE, AT ANY SETTING. A punk club has exactly one obvious
+   ambient effect and it is a strobe, which can trigger seizures — so this room
+   has no ambient motion at all. That looks like the campgrounds' rule and is a
+   different rule: the field is still because quiet is what it is FOR, and this
+   room is still because the obvious idea here hurts people. A room whose whole
+   argument is come in as you are cannot have a light in it that puts somebody
+   on the floor. The dial still works; there is simply nothing here it turns up,
+   and that is stated in the room rather than left to be discovered. */
+
+.club { background: var(--brick); color: var(--paste); font-family: 'Barlow', system-ui, sans-serif; }
+.club a { color: var(--marker); text-underline-offset: 3px; }
+.club a:hover { color: var(--paste); }
+.club p, .club li { font-size: 17px; line-height: 1.6; }
+.club .backlink { font-family: 'Anton', Impact, sans-serif; letter-spacing: 1px; color: var(--marker); }
+
+.club h1 {
+  font-family: 'Anton', Impact, sans-serif; font-weight: 400;
+  font-size: clamp(46px, 11vw, 122px); line-height: .92;
+  text-transform: uppercase; letter-spacing: -0.01em;
+  color: var(--paste); margin: 6px 0 0;
+}
+.club h2 { font-family: 'Anton', Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: clamp(26px, 4.4vw, 40px); line-height: 1.02; letter-spacing: .5px; color: var(--paste); margin: 0 0 14px; }
+.club h3 { font-family: 'Anton', Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: 22px; line-height: 1.06; color: var(--paste); margin: 0; }
+.club .lede { font-size: 19px; line-height: 1.55; color: var(--paste-2); max-width: 56ch; margin: 18px 0 0; }
+.club .trailmark { margin: 0; font-family: 'Permanent Marker', cursive; font-size: 15px; color: var(--marker); }
+
+/* THE AWNING. CBGB's was a flat black box with the name across it and the
+   whole bill underneath in smaller type — the one piece of signage that told
+   you the building was a venue. Here it is the masthead, and it is the only
+   thing in the room that is not stuck to the wall: it hangs off it. */
+.awning {
+  background: var(--bootblack); border: 4px solid var(--paste);
+  padding: 20px 24px 22px; margin: 18px 0 0;
+  box-shadow: 10px 10px 0 var(--grime);
+}
+.awning__sub { margin: 10px 0 0; font-family: 'Barlow', sans-serif; font-weight: 600;
+  font-size: 14px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--newsprint); }
+
+/* The sharpie. Somebody wrote on the wall and nobody painted over it. It is
+   the room's own voice — the door policy, the asides — and it is never a
+   control, so it never has to be findable, only readable. */
+.sharpie {
+  font-family: 'Permanent Marker', cursive; color: var(--marker);
+  font-size: clamp(19px, 3vw, 27px); line-height: 1.32; margin: 26px 0 0; max-width: 24ch;
+}
+.sharpie--red { color: var(--siren); }
+
+/* THE PASTE-UP. Flyers stuck to the wall, overlapping, in a grid dense enough
+   that the wall shows only at the edges. Each one is paper and carries DARK
+   type, so this room reads both ways like the burrow does — and unlike that
+   burrow's one lit wall these are a hundred small grounds pasted onto a dark
+   one, which is why they have staples and torn corners instead of a lamp. */
+.pasteup { list-style: none; margin: 22px 0 0; padding: 0;
+  display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); }
+.flyer {
+  position: relative; background: var(--paste); color: var(--bootblack);
+  padding: 16px 16px 18px; display: flex; flex-direction: column; gap: 7px;
+  box-shadow: 4px 4px 0 rgba(0,0,0,.55);
+}
+.flyer:nth-child(3n) { background: var(--paste-2); }
+.flyer::before,
+.flyer::after {
+  content: ""; position: absolute; top: -3px; width: 13px; height: 7px;
+  background: var(--staple); box-shadow: 0 1px 0 rgba(0,0,0,.5);
+}
+.flyer::before { left: 16px; transform: none; }
+.flyer::after  { right: 16px; }
+.flyer h3 { color: var(--bootblack); font-size: 19px; }
+.flyer p { margin: 0; color: var(--brick); font-size: 14.5px; line-height: 1.45; }
+.flyer__where { font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 11.5px;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--grime); }
+.flyer__go { margin-top: auto; font-family: 'Anton', Impact, sans-serif; font-size: 15px;
+  letter-spacing: 1px; text-transform: uppercase; }
+.flyer__go a { color: var(--brick); text-decoration-thickness: 2px; }
+.flyer__go a:hover { color: var(--bootblack); }
+
+/* THE STAGE. Two facades, and neither of them says how long it runs, because a
+   playlist somebody keeps adding to has no length — see the note in
+   data/club.json. They say they run until you stop them, which is the Jungle
+   Room's honest label arriving on a record shelf. */
+/* align-items:start, because the two services' players are different heights —
+   YouTube's is 16:9 and Spotify's is a fixed 352px list. Stretching the decks
+   to match left the shorter one with a hole in it where nothing was. */
+.stage { margin: 26px 0 0; display: grid; gap: 18px; align-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.deck { background: var(--brick-2); border: 3px solid var(--paste); padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.deck__where { margin: 0; font-family: 'Anton', Impact, sans-serif; font-size: 17px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--marker); }
+.deck__by { margin: 0; font-size: 14px; color: var(--newsprint); }
+.deck p { margin: 0; font-size: 15px; color: var(--paste-2); }
+.club .facade {
+  background: var(--bootblack); border: 3px solid var(--marker); border-radius: 0;
+  color: var(--paste); font-family: 'Anton', Impact, sans-serif; letter-spacing: 1px;
+  text-transform: uppercase; font-size: 17px; text-align: center;
+  display: flex; align-items: center; justify-content: center; margin-top: auto;
+}
+.club .facade:hover { background: var(--grime); }
+.club .facade iframe { border-radius: 0; }
+/* Spotify's own player is 352px tall and does not want a 16:9 box. */
+.deck--spotify .facade { aspect-ratio: auto; min-height: 172px; }
+.deck--spotify .facade iframe { position: static; width: 100%; height: 352px; }
+
+/* THE RACK. Records along the back wall, filed under six headings. Each sleeve
+   is a facade and each one says how long it runs before it is pressed. */
+.rack { margin: 30px 0 0; }
+.rack__no { margin: 0; font-family: 'Anton', Impact, sans-serif; font-size: 13px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--siren); }
+.rack__intro { margin: 8px 0 0; color: var(--paste-2); max-width: 62ch; }
+.sleeves { list-style: none; margin: 16px 0 0; padding: 0;
+  display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); align-items: start; }
+.sleeve { background: var(--brick-2); border: 2px solid var(--grime); padding: 13px 14px 15px;
+  display: flex; flex-direction: column; gap: 6px; }
+.sleeve__role { margin: 0; font-family: 'Permanent Marker', cursive; font-size: 13px; color: var(--marker); }
+.sleeve h3 { font-size: 17px; line-height: 1.1; }
+.sleeve__by { margin: 0; font-size: 13.5px; color: var(--newsprint); }
+.sleeve p { margin: 0; font-size: 14.5px; color: var(--paste-2); }
+.sleeve .facade { font-size: 14px; border-width: 2px; min-height: 44px; }
+
+/* The door policy board, which is the one boxed thing on the wall because it
+   is the one thing that is actually a notice. */
+.policy { margin: 26px 0 0; border: 3px dashed var(--marker); padding: 20px 22px; background: var(--brick-2); }
+.policy ul { margin: 0; padding: 0 0 0 20px; color: var(--paste-2); }
+.policy li { margin: 0 0 9px; }
+.policy li::marker { color: var(--siren); }
+.policy li:last-child { margin-bottom: 0; }
+
+/* §21 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -2926,7 +3110,7 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 }
 
 
-/* §21 ── Print ───────────────────────────────────────────────────────────────
+/* §22 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

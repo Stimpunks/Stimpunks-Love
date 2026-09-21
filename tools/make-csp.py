@@ -36,7 +36,14 @@ csp = (
     # X-Frame-Options above it is SAMEORIGIN for the same reason, since it has no
     # 'none' that means anything different.
     "frame-ancestors 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; "
-    "frame-src 'self' https://www.youtube-nocookie.com; style-src 'self' 'unsafe-inline'; "
+    # open.spotify.com is the second third-party frame this site will build and
+    # the first that is not YouTube: Club Chronic's stage carries the playlist on
+    # both services, because the Spotify one is the complete version. It is still
+    # a facade -- nothing reaches either company until somebody presses the thing
+    # -- and the origin is ALSO in love-embed.js's own allowlist. Both, or the
+    # browser refuses the frame and the room shows a blank box.
+    "frame-src 'self' https://www.youtube-nocookie.com https://open.spotify.com; "
+    "style-src 'self' 'unsafe-inline'; "
     f"script-src 'self' 'sha256-{digest}'"
 )
 hdr = ROOT / "_headers"

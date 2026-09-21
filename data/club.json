@@ -1,0 +1,541 @@
+{
+  "_what": "Club Chronic: the two playlist facades on the stage, the collections pinned by the door, and the record rack along the back wall.",
+  "_rack_source": "THE SELECTION IS NOT THIS ROOM'S IDEA AND IS NOT CLAIMED AS ONE. The six racks, their order, their themes and which song sits under which heading come from It Take a Joyful Sound on starstuff.earth, our sibling site (Stimpunks x More Realms). What is written here is written FOR here: every note is this room's rather than that page's, because two of our own sites reciting the same paragraphs is the failure make-readings.py exists to prevent. The essay is linked from the rack and is the better thing.",
+  "_checked": "All thirty-six ids were checked on their own watch pages on 2026-09-21 -- status, playableInEmbed and lengthSeconds. Every one plays and every one can be embedded. Titles and channels were resolved against YouTube rather than taken from the link text on the page they came from.",
+  "_runtime": "EVERY SONG CARRIES ITS RUNTIME AND NEITHER PLAYLIST DOES, and make-club.py enforces both directions. A song has a length. A playlist somebody keeps adding to does not, and storing today's total would publish a number that is wrong next week and authoritative in the meantime -- which is make-jungle.py's rule about live cameras, arriving on a record shelf. The playlists say they run until you stop them.",
+  "_spotify": "Spotify is the first third-party frame on this street that is not YouTube, and it cost a line in the Content-Security-Policy. Both playlists are still facades: nothing reaches either company until somebody presses the thing.",
+  "collections": [
+    {
+      "title": "Music",
+      "where": "stimpunks.org",
+      "url": "https://stimpunks.org/library/music/",
+      "what": "The library shelf all of this comes off. Stim listening, stim watching, the playlists, and the reasons each one is kept."
+    },
+    {
+      "title": "Chronic Neurodivergent Depressed Queer Punk",
+      "where": "YouTube",
+      "url": "https://www.youtube.com/playlist?list=PLRtKsTScL-vR57EW__UncRypPTkPCVibO",
+      "what": "The signature playlist, and the one on the stage below. Ours, added to over years."
+    },
+    {
+      "title": "Chronic Neurodivergent Depressed Queer Punk",
+      "where": "YouTube Music",
+      "url": "https://music.youtube.com/playlist?list=PLRtKsTScL-vR57EW__UncRypPTkPCVibO",
+      "what": "The same list without the video, for when a screen is the wrong thing to be handed."
+    },
+    {
+      "title": "Chronic Neurodivergent Depressed Queer Punk",
+      "where": "Spotify",
+      "url": "https://open.spotify.com/playlist/3nI8FuSISztY18IzwiKjMk",
+      "what": "The most complete version of it. Ryan keeps this one."
+    },
+    {
+      "title": "Chronic Neurodivergent Depressed Queer Punk: Punk Rock, the Social Model of Disability, and the Dream of the Accepting Community",
+      "where": "stimpunks.org, 2021",
+      "url": "https://stimpunks.org/2021/07/20/chronic-neurodivergent-depressed-queer-punk-punk-rock-the-social-model-of-disability-and-the-dream-of-the-accepting-community/",
+      "what": "The essay the playlist is named after, and where the argument is actually made: punk rock, the social model of disability, and the dream of the accepting community."
+    },
+    {
+      "title": "A Public Service Announcement… with Guitar",
+      "where": "stimpunks.org",
+      "url": "https://stimpunks.org/psa/",
+      "what": "Songs from the playlist placed all over our site, tied into the advocacy. Collected on one page they turn out to be a public service announcement."
+    },
+    {
+      "title": "Take Them Together: Neurodiversity and Disability Justice",
+      "where": "YouTube",
+      "url": "https://www.youtube.com/playlist?list=PLRtKsTScL-vQtWe5OyyJvYoos8FG4Ig11",
+      "what": "The two movements, and why we will not be handed one without the other."
+    },
+    {
+      "title": "Neuroqueer Is a Noun and a Verb",
+      "where": "YouTube",
+      "url": "https://www.youtube.com/playlist?list=PLRtKsTScL-vTOlpgNlEnnB_6MvQbY5ZgS",
+      "what": "Neuroqueer as something you are and something you do."
+    },
+    {
+      "title": "Stimpunks.org Front Page",
+      "where": "YouTube",
+      "url": "https://www.youtube.com/playlist?list=PLRtKsTScL-vRWnoD7NqWG0Y3qxTS3aHwM",
+      "what": "Everything that has been on the front of our own site, in order."
+    },
+    {
+      "title": "All of our playlists",
+      "where": "YouTube",
+      "url": "https://www.youtube.com/@stimpunks/playlists",
+      "what": "The whole shelf, if the ones above are not enough."
+    },
+    {
+      "title": "It Take a Joyful Sound",
+      "where": "Star Stuff",
+      "url": "https://starstuff.earth/joyful-sound-playlist",
+      "what": "The essay behind the rack along the back wall — punky reggae, Rock Against Racism, and why a pure tone has almost no identity. Where this room's selection came from."
+    },
+    {
+      "title": "We Were Punk First",
+      "where": "Star Stuff",
+      "url": "https://starstuff.earth/we-were-punk-first-playlist",
+      "what": "Indigenous punk, metal and hard rock, and an argument that starts with a record that had no words in it and got banned anyway."
+    }
+  ],
+  "playlists": [
+    {
+      "slug": "youtube",
+      "name": "On YouTube",
+      "title": "Chronic Neurodivergent Depressed Queer Punk",
+      "by": "Stimpunks Foundation",
+      "frame": "https://www.youtube-nocookie.com/embed/videoseries?list=PLRtKsTScL-vR57EW__UncRypPTkPCVibO",
+      "out": "https://www.youtube.com/playlist?list=PLRtKsTScL-vR57EW__UncRypPTkPCVibO",
+      "note": "The whole list, in order, with the video. Runs until you stop it."
+    },
+    {
+      "slug": "spotify",
+      "name": "On Spotify",
+      "title": "Chronic Neurodivergent Depressed Queer Punk",
+      "by": "Ryan Boren",
+      "frame": "https://open.spotify.com/embed/playlist/3nI8FuSISztY18IzwiKjMk",
+      "out": "https://open.spotify.com/playlist/3nI8FuSISztY18IzwiKjMk",
+      "note": "The most complete version. Spotify will want you signed in for full tracks; without that it plays previews."
+    }
+  ],
+  "racks": [
+    {
+      "n": "One",
+      "title": "The party gets its name",
+      "intro": "Two outsider musics were told they were at the same party, and then behaved as though it were true. Every accepting scene starts with somebody naming it.",
+      "songs": [
+        {
+          "id": "Sgdy7YnkkCk",
+          "role": "The naming",
+          "title": "Punky Reggae Party",
+          "artist": "Bob Marley & The Wailers",
+          "when": "1977",
+          "channel": "Bob Marley",
+          "length": "5:52",
+          "spoken": "6 min",
+          "note": "Marley heard white kids in torn clothes covering a Jamaican record and, instead of taking offence, took the hint. The song is a guest list for a party that did not exist until it was read out."
+        },
+        {
+          "id": "gbyqf08mlL4",
+          "role": "The workings",
+          "title": "Punky Reggae Party — Perry sessions",
+          "artist": "Bob Marley & Lee Perry",
+          "when": "1977",
+          "channel": "hooliganz soundcamp",
+          "length": "8:50",
+          "spoken": "9 min",
+          "note": "The Black Ark version, with the alliance still in pieces on the desk. Worth it for hearing a thing being assembled rather than delivered."
+        },
+        {
+          "id": "boPCNaFPrso",
+          "role": "Music as jurisdiction",
+          "title": "Reggae Music",
+          "artist": "Jimmy Cliff",
+          "when": "2012",
+          "channel": "bayorecords",
+          "length": "3:55",
+          "spoken": "4 min",
+          "note": "Cliff treating the music itself as the ground you are allowed to stand on."
+        },
+        {
+          "id": "M1Zz7QWbS-w",
+          "role": "Rights, with conditions attached",
+          "title": "Know Your Rights",
+          "artist": "The Clash",
+          "when": "1982",
+          "channel": "The Clash - Topic",
+          "length": "3:41",
+          "spoken": "4 min",
+          "note": "You have rights. Here is the small print. Still the most useful three minutes ever recorded about a door policy."
+        },
+        {
+          "id": "07mvTzbIZok",
+          "role": "The two musics, joined",
+          "title": "Revolution Rock",
+          "artist": "The Clash",
+          "when": "1979",
+          "channel": "The Clash - Topic",
+          "length": "5:33",
+          "spoken": "6 min",
+          "note": "Reggae and punk on one record, by the band who put them on one stage."
+        }
+      ]
+    },
+    {
+      "n": "Two",
+      "title": "Everything brought to the front",
+      "intro": "The gesture itself. Whatever you were told to tuck away, moved to the outside where it can be seen — which is what a stim, a glim and a visible cane all are.",
+      "songs": [
+        {
+          "id": "FYMObdOqcRg",
+          "role": "The founding shout",
+          "title": "Oh Bondage! Up Yours!",
+          "artist": "X-Ray Spex",
+          "when": "1977",
+          "channel": "DAVID299333",
+          "length": "3:30",
+          "spoken": "4 min",
+          "note": "Poly Styrene, braces on her teeth, refusing to be anybody's ornament. The founding shout of everything-to-the-front."
+        },
+        {
+          "id": "JIAUS-KlOyU",
+          "role": "Turn and face it",
+          "title": "Changes",
+          "artist": "David Bowie",
+          "when": "1971",
+          "channel": "David Bowie",
+          "length": "3:45",
+          "spoken": "4 min",
+          "note": "In here because turning to face the strange is the whole method, and because this room is full of people who were told to turn back."
+        },
+        {
+          "id": "fEM21kmPPik",
+          "role": "Compliance training, from inside",
+          "title": "Neurodivergent",
+          "artist": "Rabbit Junk",
+          "when": "2020",
+          "channel": "Rabbit Junk - Topic",
+          "length": "3:41",
+          "spoken": "4 min",
+          "note": "Compliance training described from the inside, by somebody it was done to."
+        },
+        {
+          "id": "yn043ArR98M",
+          "role": "Non-compliance",
+          "title": "Standing in the Way of Control",
+          "artist": "Gossip",
+          "when": "2006",
+          "channel": "Kill Rock Stars",
+          "length": "3:41",
+          "spoken": "4 min",
+          "note": "The refusal, set to a beat you cannot sit still through, which is the correct format for it."
+        },
+        {
+          "id": "VDz1ZIj63oE",
+          "role": "Against the mould",
+          "title": "Spare Me From the Mold",
+          "artist": "Gossip",
+          "when": "2009",
+          "channel": "Gossip - Topic",
+          "length": "2:28",
+          "spoken": "2 min",
+          "note": "Two and a half minutes on being the wrong shape for the container."
+        },
+        {
+          "id": "x4dAWwoWbkw",
+          "role": "Nothing about us",
+          "title": "Nothing About Us Without Us",
+          "artist": "Tommy Concrete",
+          "when": "",
+          "channel": "Tommy Concrete - Topic",
+          "length": "11:29",
+          "spoken": "11 min",
+          "note": "The movement's oldest demand, eleven minutes long, by a disabled musician who means it about himself. The motto is the self-advocacy movement's and not ours."
+        }
+      ]
+    },
+    {
+      "n": "Three",
+      "title": "The door is the argument",
+      "intro": "DIY is not an aesthetic. It is a claim about who is allowed to make the thing, and it gets tested at the entrance.",
+      "songs": [
+        {
+          "id": "WJT-4ZPQtNk",
+          "role": "We'll get in anyway",
+          "title": "Punk Rawk Show",
+          "artist": "MxPx",
+          "when": "1996",
+          "channel": "MxPxVEVO",
+          "length": "2:33",
+          "spoken": "3 min",
+          "note": "Nowhere to play and a show happening anyway. DIY is not a style, it is a claim about who gets to make the thing."
+        },
+        {
+          "id": "4yMPOMy9Qnc",
+          "role": "Do it yourself",
+          "title": "DIY",
+          "artist": "Dream Nails",
+          "when": "2017",
+          "channel": "Dream Nails",
+          "length": "1:39",
+          "spoken": "2 min",
+          "note": "The instruction, in ninety-nine seconds."
+        },
+        {
+          "id": "KRmUJbk7iiM",
+          "role": "Space, taken",
+          "title": "Take Up Space",
+          "artist": "Dream Nails",
+          "when": "",
+          "channel": "Dream Nails",
+          "length": "2:35",
+          "spoken": "3 min",
+          "note": "Taking up room is the part nobody grants you."
+        },
+        {
+          "id": "L0oeqAQ1qE8",
+          "role": "Riot Grrrl",
+          "title": "Rebel Girl",
+          "artist": "Bikini Kill",
+          "when": "1993",
+          "channel": "Bikini Kill - Topic",
+          "length": "2:37",
+          "spoken": "3 min",
+          "note": "The song that told a generation of girls the stage was already theirs."
+        },
+        {
+          "id": "J5AhU5Q7vH0",
+          "role": "A library, May 2021",
+          "title": "Racist, Sexist Boy",
+          "artist": "The Linda Lindas",
+          "when": "live at Los Angeles Public Library, 2021",
+          "channel": "Epitaph Records",
+          "length": "2:06",
+          "spoken": "2 min",
+          "note": "Recorded in a public library, which is the least punk venue imaginable and therefore completely punk. They were eleven and thirteen, and they were really angry, and they decided to write a song about it."
+        },
+        {
+          "id": "hlEhXfh14Pc",
+          "role": "Owing nobody a performance",
+          "title": "No Obligation",
+          "artist": "The Linda Lindas",
+          "when": "2024",
+          "channel": "Epitaph Records",
+          "length": "2:17",
+          "spoken": "2 min",
+          "note": "You do not owe anybody a performance of being fine. This room's door policy, sung."
+        }
+      ]
+    },
+    {
+      "n": "Four",
+      "title": "The body in the room",
+      "intro": "The sensory reality, which nobody puts on the flyer. Loud rooms are not free, and these are written from inside the overload rather than about it.",
+      "songs": [
+        {
+          "id": "_e7UYTY96Xs",
+          "role": "Overload",
+          "title": "Overwhelmed",
+          "artist": "Royal & the Serpent",
+          "when": "2020",
+          "channel": "Royal & the Serpent",
+          "length": "3:26",
+          "spoken": "3 min",
+          "note": "Sensory overwhelm described from inside it rather than observed from outside."
+        },
+        {
+          "id": "BcMwQPYYKec",
+          "role": "Just relax, they said",
+          "title": "Overwhelmed (Ryan Mack Remix)",
+          "artist": "Ryan Mack",
+          "when": "",
+          "channel": "Ryan Mack",
+          "length": "1:45",
+          "spoken": "2 min",
+          "note": "The same overwhelm at dance tempo. For when the first one is too close."
+        },
+        {
+          "id": "y5aGVpUFI0Y",
+          "role": "Unpredictable, and harmless",
+          "title": "Wildcard",
+          "artist": "Slothrust",
+          "when": "2025",
+          "channel": "Slothrust",
+          "length": "3:36",
+          "spoken": "4 min",
+          "note": "Unpredictable and harmless, which is most of us most of the time."
+        },
+        {
+          "id": "nU0ghxmHQWI",
+          "role": "Unmet need",
+          "title": "Doom 84",
+          "artist": "Screaming Females",
+          "when": "2012",
+          "channel": "Screaming Females - Topic",
+          "length": "7:38",
+          "spoken": "8 min",
+          "note": "Seven and a half minutes of an unmet need not going anywhere."
+        },
+        {
+          "id": "Qup3Y60TmTE",
+          "role": "The file, read aloud",
+          "title": "Diagnoses",
+          "artist": "Kae Tempest",
+          "when": "2025",
+          "channel": "Kae Tempest",
+          "length": "2:53",
+          "spoken": "3 min",
+          "note": "The file, read back to the person it was written about."
+        },
+        {
+          "id": "Omw4ST_gjfg",
+          "role": "Bent, not broken",
+          "title": "Roots",
+          "artist": "Grumpster",
+          "when": "2019",
+          "channel": "Shibby Pictures",
+          "length": "4:27",
+          "spoken": "4 min",
+          "note": "Bent rather than broken, and not looking for anybody's approval about it."
+        }
+      ]
+    },
+    {
+      "n": "Five",
+      "title": "Care is punk",
+      "intro": "The unglamorous half. Care, rest and holding the door open are not the soft version of this; they are the whole of it.",
+      "songs": [
+        {
+          "id": "0qAbPERdem8",
+          "role": "Esmx's theme song",
+          "title": "Self Care Is Punk",
+          "artist": "pink suits",
+          "when": "",
+          "channel": "pink suits - Topic",
+          "length": "2:54",
+          "spoken": "3 min",
+          "note": "Esmx's theme song. Rest and mutual aid are not the soft version of the politics, they are the politics."
+        },
+        {
+          "id": "0BzpkwRE18M",
+          "role": "Interdependence",
+          "title": "I Need Someone To Lean On",
+          "artist": "Noun",
+          "when": "",
+          "channel": "Don Giovanni",
+          "length": "2:39",
+          "spoken": "3 min",
+          "note": "Interdependence, stated plainly enough that nobody can mistake it for weakness."
+        },
+        {
+          "id": "DH1tLUyhd5g",
+          "role": "If there was ever a time",
+          "title": "If There Was Ever a Time",
+          "artist": "Armstrongs",
+          "when": "",
+          "channel": "Hellcat Records",
+          "length": "2:42",
+          "spoken": "3 min",
+          "note": "If there was ever a time, and there was, and it is this one."
+        },
+        {
+          "id": "5S7u_2HyJoI",
+          "role": "Breathe",
+          "title": "Breathe, You Are Alive / Metsäkukkia",
+          "artist": "Gaelynn Lea",
+          "when": "Paste Studios, 2017",
+          "channel": "Paste Magazine",
+          "length": "10:03",
+          "spoken": "10 min",
+          "note": "Gaelynn Lea, a violin, and ten minutes. The quietest thing in the club and not the softest."
+        },
+        {
+          "id": "-6GRwehgGNI",
+          "role": "Find your people",
+          "title": "All Hail Open Doors",
+          "artist": "Swamburger & Scarlet Monk",
+          "when": "",
+          "channel": "Swamburger - Topic",
+          "length": "5:24",
+          "spoken": "5 min",
+          "note": "Open doors, hailed. What this whole room is about, put as a chorus."
+        },
+        {
+          "id": "nuUnAAUSgf0",
+          "role": "Love, translated into action",
+          "title": "Evening Prayer aka Justice",
+          "artist": "Ezra Furman",
+          "when": "2019",
+          "channel": "bellaunioninc",
+          "length": "2:56",
+          "spoken": "3 min",
+          "note": "Love translated into something you actually do, which is the only translation that counts."
+        }
+      ]
+    },
+    {
+      "n": "Six",
+      "title": "Keep on livin'",
+      "intro": "Survival, which is the floor and not the ceiling.",
+      "songs": [
+        {
+          "id": "Jvq4gOjWHuc",
+          "role": "The mission song",
+          "title": "Keep On Livin'",
+          "artist": "Le Tigre",
+          "when": "2001",
+          "channel": "Le Tigre - Topic",
+          "length": "3:08",
+          "spoken": "3 min",
+          "note": "The mission song. Written about both kinds of surviving, and it means the unglamorous kind too."
+        },
+        {
+          "id": "GASp_weDBeY",
+          "role": "Standing anyway",
+          "title": "I Stand On The Line",
+          "artist": "Kae Tempest",
+          "when": "2025",
+          "channel": "Kae Tempest",
+          "length": "3:39",
+          "spoken": "4 min",
+          "note": "Standing on the line anyway, which is most days."
+        },
+        {
+          "id": "aTDOFaAcEyc",
+          "role": "The norm is a construction",
+          "title": "Statue in the Square",
+          "artist": "Kae Tempest",
+          "when": "2025",
+          "channel": "KaeTempestVEVO",
+          "length": "2:54",
+          "spoken": "3 min",
+          "note": "The norm is a thing somebody built and put in a square. It can come down."
+        },
+        {
+          "id": "fRBtWthmyFg",
+          "role": "For the outcasts",
+          "title": "Imaginary Numbers",
+          "artist": "Feral the Earthworm",
+          "when": "",
+          "channel": "Feral the Earthworm",
+          "length": "1:34",
+          "spoken": "2 min",
+          "note": "For everybody the system could not make its sums work with."
+        },
+        {
+          "id": "0KWDHLjkzdk",
+          "role": "Say you're sorry",
+          "title": "Shave the Pride",
+          "artist": "Le Butcherettes",
+          "when": "2015",
+          "channel": "Ipecac Recordings",
+          "length": "2:35",
+          "spoken": "3 min",
+          "note": "An apology demanded rather than offered."
+        },
+        {
+          "id": "eKd_iNZeqS8",
+          "role": "A good day for it",
+          "title": "It's a good day (to fight the system)",
+          "artist": "Shungudzo",
+          "when": "",
+          "channel": "Shungudzo",
+          "length": "3:43",
+          "spoken": "4 min",
+          "note": "It is, as it happens."
+        },
+        {
+          "id": "bzUwsfIygA0",
+          "role": "One more",
+          "title": "One More",
+          "artist": "Jimmy Cliff",
+          "when": "2012",
+          "channel": "Soul of Music",
+          "length": "3:25",
+          "spoken": "3 min",
+          "note": "One more, and then home. Cliff closes the night the way he opened it."
+        }
+      ]
+    }
+  ]
+}

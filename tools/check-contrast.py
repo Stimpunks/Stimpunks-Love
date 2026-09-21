@@ -103,6 +103,19 @@ BAKELITE, TELLY_OFF, TELLY_LIT, TELLY_DIM = "#2A2621", "#0C1110", "#F1EFE4", "#A
 BAKELITE_2 = "#7E7466"   # the set's brand strip; see the note on it below
 IVY, IVY_2, TIMBER = "#6D8A56", "#38491F", "#3A2A20"
 PEB_PRESS = "#1F6B55"
+# Club Chronic (love.css §20). A BLACK WALL WITH PAPER STUCK TO IT, which makes
+# it the other room here whose type runs both ways -- light on the wall, dark on
+# the flyers -- and the flyers are a hundred small grounds rather than one big
+# lit one. STAGE_LIT is nobody's choice: --marker at .07 over --brick, the wash
+# the one working bulb puts on the wall near the stage, and what the type up
+# there actually sits on.
+BRICK, BRICK_2, GRIME = "#131113", "#1E1B1E", "#2A262A"
+PASTE, PASTE_2, NEWSPRINT = "#E9E4D6", "#CFC8B6", "#A8A296"
+MARKER, SIREN, BOOTBLACK = "#D8FF3A", "#FF5A5A", "#0B0A0B"
+# The staples. --newsprint measured 2.00 on flyer stock, which is a fixing you
+# cannot see holding up a thing you can, so they are their own darker grey.
+STAPLE = "#6E6A60"
+STAGE_LIT = "#212216"
 WICK, WICK2, GILT = "#F6E8D0", "#DCC49C", "#E9C270"
 # And the cave's composite, which nobody chose: --wick at .05 over the velvet is
 # the brightest the EVEN light makes that ground, and it is what the type down
@@ -453,6 +466,37 @@ PAIRS = [
     # (no coin slot here either) -- and was the one nobody would have guessed,
     # because its name said sea glass.
     (SKY, PEB_PRESS, False, "shore: START on the coin, on its pressed ground"),
+
+    # CLUB CHRONIC (love.css §20). The wall first.
+    (PASTE,     BRICK,     True,  "club: h1 in Anton, 46-122px, and every heading"),
+    (PASTE,     BRICK,     False, "club: the same, checked at the body threshold too"),
+    (PASTE_2,   BRICK,     False, "club: the lede, the rack intros, the deck copy"),
+    (NEWSPRINT, BRICK,     False, "club: the awning's sub-line and every artist line"),
+    (MARKER,    BRICK,     False, "club: links, the trailmark, and the sharpie on the wall"),
+    (SIREN,     BRICK,     False, "club: FREAKS TO THE FRONT, and the rack numbers"),
+    (PASTE,     BRICK_2,   False, "club: a sleeve's title and a deck's, on the darker panel"),
+    (PASTE_2,   BRICK_2,   False, "club: a sleeve's note"),
+    (NEWSPRINT, BRICK_2,   False, "club: a sleeve's artist line"),
+    (MARKER,    BRICK_2,   False, "club: the role scrawled on a sleeve, and the policy's rule"),
+    (PASTE,     STAGE_LIT, False, "club: anything sitting in the bulb's wash near the stage"),
+    (MARKER,    STAGE_LIT, False, "club: the same, in marker"),
+    (SIREN,     STAGE_LIT, False, "club: the same, in red"),
+    (PASTE,     BOOTBLACK, False, "club: the awning's name, and a facade's label"),
+    (MARKER,    BOOTBLACK, True,  "club: the ring round every facade in this room"),
+    # THEN THE PAPER, which is the half that behaves oppositely -- and where the
+    # one colour that must never go is the red: --siren measures 2.91 on flyer
+    # stock and 2.22 on the darker stock, so it stays on the wall. It is the
+    # brightest thing in the room and it is the one thing the paper cannot hold.
+    (BOOTBLACK, PASTE,     True,  "club: a flyer's heading, 19px"),
+    (BOOTBLACK, PASTE,     False, "club: the same at the body threshold"),
+    (BRICK,     PASTE,     False, "club: a flyer's description and its GO link"),
+    (GRIME,     PASTE,     False, "club: the service a flyer points at"),
+    (BOOTBLACK, PASTE_2,   False, "club: the same, on the darker flyer stock"),
+    (BRICK,     PASTE_2,   False, "club: a description on that stock"),
+    (GRIME,     PASTE_2,   False, "club: the service line on that stock"),
+    (STAPLE,    PASTE,     True,  "club: the staples holding a flyer to the wall"),
+    (STAPLE,    PASTE_2,   True,  "club: the same, on the darker stock"),
+    (PASTE,     GRIME,     True,  "club: the awning's drop shadow against the wall behind it"),
     # The press-to-play plate's HOVER ground, which is shared furniture used in
     # every room that has a facade and had never been measured in any of them.
     (CREAM, INK3, False, "street: a facade's own text, on its hover ground"),

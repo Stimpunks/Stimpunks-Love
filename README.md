@@ -66,6 +66,7 @@ the balanced tone — was dropped deliberately.
 ```
 index.html            The Stoop — the front door and the shopfronts
 pink-pony-club.html   The dancefloor. Ten press-to-play facades
+club-chronic.html     Club Chronic. Punk community, a wall of playlists, a rack of records
 the-chappell.html     Rhinestone Vatican. A subroom off the dancefloor; thirteen more
 zine-table.html       Riot grrrl xerox. The table itself, and issue #1
 zine-issue-2.html     Issue #2, distilled from our Neurodiversity and Gender course
@@ -106,6 +107,7 @@ data/latibulum.json   The burrow's wireless and its television. A third provenan
 data/jungle.json      The nature cams, in our own events page's groups and order
 data/den.json         The Jungle Room sessions, 1976. A discography, not a list of ours
 data/hermitage.json   The cave's books and the campfire's documentaries. Two provenances
+data/club.json        Club Chronic's rack, stage and paste-up. The selection is Star Stuff's
 og/                   One share card per page, and one card design per room
 tools/                The generators and the checkers, below
 ```
@@ -129,6 +131,7 @@ python3 tools/make-latibulum.py    # the burrow's wireless and television, and t
 python3 tools/make-jungle.py       # the Jungle Room's viewing galleries, and their credits
 python3 tools/make-den.py          # The Den's listening bench, and its credits
 python3 tools/make-hermitage.py    # the Hermitage's shelves and campfire, and their credits
+python3 tools/make-club.py         # Club Chronic's stage, paste-up and rack, and their credits
 python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
 python3 tools/check-contrast.py    # every pair against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
