@@ -226,8 +226,44 @@ arriving only where the leaves let it, nothing standing alone because everything
 something, and a face whose strokes swell as they turn. You are outside in one and inside the
 other. "They are both green, so they should feel the same" is the subroom excuse in a poncho.
 
+**ONE SHARED SET, AND TUNING IS NOT PLAYING.** The Hermitage's campfire (§19) is a room — rug,
+three chairs, coffee table, one television — and the set keeps two things apart that a dial invites
+you to merge. **While it is off, previous and next are silent**: the screen names the channel and
+its runtime and nothing is fetched, so the whole listing can be walked without a request leaving
+the page. **Once it is playing, tuning changes the picture**, because by then the visitor has asked
+for a television. Do not "simplify" that into one behaviour in either direction: always-silent
+means pressing play twelve times, and always-playing breaks the street's oldest promise. **And the
+dial names the channel it is about to tune to AND how long that one runs** — a next button that
+only says "next" is the one place this design can quietly stop saying how long before the press.
+**The channel that cannot be embedded is in the running order and not skipped**, and reaching it
+turns the screen into a door.
+
+**love-embed.js IS THE ONLY PLACE THAT BUILDS A YOUTUBE IFRAME, and it is exposed on purpose.**
+The set retunes, which the press-to-play plate never had to do, but two copies of those attributes
+is one copy that gets a `referrerpolicy` fixed and one that does not, silently, in the
+security-relevant half of that file. One builder, two callers. Do not inline a second one.
+
+**EVERY OBJECT IN THAT SCENE IS CARRIED BY ITS OUTLINE.** The bright chairs each measured under 2.3
+against the rug — a chair you cannot pick out of the carpet, which is the Jungle Room's canopy
+arriving as upholstery — so the outline is measured against the rug on one side and the fill on the
+other. The television is the one exception; it separates from the rug by itself. **And the coffee
+table carries no text at all**: body copy on that wood is 3.29 dark and 4.20 pale, under the bar
+both ways, so the sentence lives on the page and only self-grounding controls sit on the wood.
+
+**A RENAME IS SCOPED TO A SECTION, NEVER TO THE FILE.** `check-classes.py` refused `.telly`,
+`.dials` and `.tuner` in turn, all of them The Latibulum's — and the repair, run across the whole
+stylesheet, rewrote the burrow's own selectors and left its page wearing a class with no rule
+anywhere. **That is the one thing that tool deliberately does not check**, so nothing said a word.
+Restore from the last commit rather than patching a bad patch.
+
+**AND THE SECTION NUMBERS ARE LOAD-BEARING.** This room was added as §20 when §20 was already
+Print, sitting between §18 and §19, so every cross-reference by number had two places to land and
+the refusal messages read "§20 and §20" like a display bug. `check-classes.py` refuses a duplicate
+or out-of-order number now. A new room goes before the cross-cutting sections at the end **and
+renumbers them**.
+
 **A HERBARIUM IS WHERE A GUESS LOOKS MOST LIKE A DETERMINATION, WHICH IS WHY NOTHING ON IT IS
-NAMED TO SPECIES.** The Hermitage's workshop (§20) presses nine sheets and not one carries a Latin
+NAMED TO SPECIES.** The Hermitage's workshop (§19) presses nine sheets and not one carries a Latin
 binomial. A sheet's one claim to authority is its name, so a binomial typed from memory reads as
 *determined* when it was guessed — the exact fabrication this site spends a page arguing against,
 in the format most likely to be believed. **The check that enforces it was rewritten after it
@@ -253,7 +289,7 @@ the edition. The first time, the id was written from memory and pointed at a dif
 a title has no link in the mirror, resolve it and record that you did**; do not fill the gap from
 memory because the rest of the file is sourced.
 
-**THE FIRST DAYLIT ROOM IS THE ONE THAT CANNOT BE DARKENED.** The Solarpunk Hermitage (§20) is
+**THE FIRST DAYLIT ROOM IS THE ONE THAT CANNOT BE DARKENED.** The Solarpunk Hermitage (§19) is
 Ryan's pitch and the only world here lit by morning. Every other room is a dark ground with light
 applied to it; this is a lit ground with things standing in it, and **a cabin that runs on the sun
 and reads as midnight is an argument against itself.** The instinct to bring it into line with the

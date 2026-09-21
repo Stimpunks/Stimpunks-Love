@@ -14,25 +14,44 @@
 (function () {
   'use strict';
 
-  function swap(btn) {
-    var id = btn.dataset.embedId;
-    var title = btn.dataset.embedTitle || 'Embedded video';
-    if (!id || !/^[A-Za-z0-9_-]{11}$/.test(id)) return;
+  /* THE ONLY PLACE ON THIS SITE THAT BUILDS A YOUTUBE IFRAME, and it is exposed
+     rather than private for exactly that reason. The Hermitage's campfire has a
+     shared television that retunes between channels, which is a different
+     mechanism from a plate that becomes a player once — but it must not be a
+     different CONTRACT. Two copies of these attributes is one copy that gets a
+     referrerpolicy fixed and one that does not, silently, in the security-
+     relevant half of this file. So there is one builder and two callers.
 
-    var frame = document.createElement('iframe');
-    frame.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
-    frame.title = title;
-    frame.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen';
-    frame.setAttribute('allowfullscreen', '');
-    frame.setAttribute('loading', 'lazy');
-    frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+     It validates the id and returns null rather than throwing: a caller handing
+     it rubbish gets nothing, the same quiet refusal the click handler has always
+     given, which is why make-chappell.py and make-hermitage.py refuse a bad id
+     at build time instead of relying on this. */
+  function frame(id, title) {
+    if (!id || !/^[A-Za-z0-9_-]{11}$/.test(id)) return null;
+    var el = document.createElement('iframe');
+    el.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+    el.title = title || 'Embedded video';
+    el.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen';
+    el.setAttribute('allowfullscreen', '');
+    el.setAttribute('loading', 'lazy');
+    el.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+    return el;
+  }
+
+  window.loveEmbed = { frame: frame };
+
+  function swap(btn) {
+    /* Named player, not `frame`: `var frame` here would be hoisted over the
+       builder above it and the call on the line before would hit undefined. */
+    var player = frame(btn.dataset.embedId, btn.dataset.embedTitle);
+    if (!player) return;
 
     var shell = document.createElement('div');
     shell.className = 'facade';
     shell.style.padding = '0';
-    shell.appendChild(frame);
+    shell.appendChild(player);
     btn.replaceWith(shell);
-    frame.focus();
+    player.focus();
   }
 
   document.addEventListener('click', function (e) {

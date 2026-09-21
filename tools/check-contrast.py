@@ -8,7 +8,11 @@ be checkable or it is decoration. This is the check.
 Large text (>=24px, or >=18.66px bold) is held to 3:1 per WCAG 1.4.3; everything
 else to 4.5:1. Each pair below names where it is used so a failure is findable.
 """
+import re
 import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
 
 def lum(hexstr):
     h = hexstr.lstrip("#")
@@ -20,6 +24,27 @@ def ratio(a, b):
     la, lb = lum(a), lum(b)
     hi, lo = max(la, lb), min(la, lb)
     return (hi + 0.05) / (lo + 0.05)
+
+def declared():
+    """Every hex value in love.css's :root, as lowercase strings.
+
+    WHY THIS EXISTS. This file keeps its own copies of the site's colours, which
+    is fine right up until one of them drifts -- and one did: --cedar was
+    lightened in the stylesheet so a drawing's outline would pass, and the copy
+    here stayed on the old value. The pair that caught it was measuring a colour
+    no longer on the site, which is a checker reporting confidently about
+    nothing. Rather than trust care, the run below refuses if a colour is
+    declared in :root and appears nowhere in this file.
+
+    It is a coverage check and not an equality check, on purpose: several
+    grounds here are composites nobody declared (GLOW, SHAFT, LAMPLIT, the
+    scanline tints) and several :root colours are deliberately measured through
+    a composite instead. What it can say for certain is that a value declared
+    over there is known over here."""
+    src = (ROOT / "love.css").read_text()
+    root = src[src.index(":root {"):src.index("\n}", src.index(":root {"))]
+    return {h.lower() for h in re.findall(r"#[0-9A-Fa-f]{6}", root)}
+
 
 INK, INK2, INK3 = "#15121f", "#241d33", "#4a3f67"
 CHALK, CREAM, PAPER = "#c8bfe0", "#FFF3E6", "#EDEAE2"
@@ -40,7 +65,7 @@ TALLOW, TALLOW2, TALLOW3 = "#F2E6D4", "#C2AC91", "#A4907B"
 # hermitage's flower heads; SCREEN is its one lit window, which is a laptop and
 # not a flame -- the structural opposite of the yurt's candle next to it.
 SUNFLOWER, SCREEN = "#E8C33A", "#A3D4DF"
-# The Solarpunk Hermitage (love.css §20), and THE FIRST ROOM ON THIS STREET
+# The Solarpunk Hermitage (love.css §19), and THE FIRST ROOM ON THIS STREET
 # WHOSE TYPE IS DARK ON LIGHT ALL THE WAY DOWN. Which inverts the usual job of
 # this file: everywhere else the risk is an ink too dim against a dark ground,
 # and here it is an ink too PALE against a bright one -- so the accents are the
@@ -57,8 +82,18 @@ SPROUT, SPROUT2, BLOOM = "#2C6B45", "#1D4D30", "#B5760A"
 # colour cannot be asked to do both. The band and the timber were each lightened
 # once after this file refused them.
 MEADOW, MEADOW_LINE, TIMBER_H = "#3E8A5A", "#0E2A19", "#9A6A3C"
-CEDAR, CELL = "#8A5A32", "#12323C"
+CEDAR, CELL = "#9A6A3C", "#12323C"
 VELVET, VELVET2, VELVET3 = "#4A1220", "#5E1A2B", "#380C18"
+# The campfire's furniture. THE BRIGHT CHAIRS CANNOT CARRY THEMSELVES: every one
+# of them measured under 2.3 against the rug, which is a chair you cannot pick
+# out of the carpet -- the canopy problem, arriving as upholstery. So every
+# object in that scene is carried by its OUTLINE in FURROW, measured against the
+# rug on one side and its own fill on the other, which is the pebbling cabinet's
+# reading of WCAG 1.4.11 in a room with furniture in it. The television is the
+# one exception: it is dark enough to separate from the rug by itself.
+TURF = "#3F8E4C"
+BAG1, BAG2, BAG3 = "#F59A2E", "#F0559F", "#3FC7B4"
+BAKELITE, TELLY_OFF, TELLY_LIT, TELLY_DIM = "#2A2621", "#0C1110", "#F1EFE4", "#A9B4AB"
 WICK, WICK2, GILT = "#F6E8D0", "#DCC49C", "#E9C270"
 # And the cave's composite, which nobody chose: --wick at .05 over the velvet is
 # the brightest the EVEN light makes that ground, and it is what the type down
@@ -311,7 +346,7 @@ PAIRS = [
     (SCREEN, DUSK,  False, "campgrounds: the hermitage's one lit window, which is a screen"),
     (SPRUCE, SCREEN, False, "campgrounds: the window's glazing bars, dark on that screen"),
 
-    # THE SOLARPUNK HERMITAGE (love.css §20). Outside first: daylight, where the
+    # THE SOLARPUNK HERMITAGE (love.css §19). Outside first: daylight, where the
     # failure mode is a pale ink rather than a dim one.
     (FURROW,  NOON,   True,  "hermitage: h1 in Fraunces 700, 40-78px"),
     (FURROW,  NOON,   False, "hermitage: h2 and h3, checked at the body threshold too"),
@@ -367,6 +402,29 @@ PAIRS = [
     (FURROW2, NOON,   False, "workshop: what a sheet is pressed as, and the note inside it"),
     (SPROUT2, NOON,   False, "workshop: a Star Stuff link, and a borrow link on the bench"),
     (SPROUT,  NOON,   True,  "workshop: the green edge down a Star Stuff card"),
+
+    # THE CAMPFIRE'S SCENE. The outline first, because it is what carries every
+    # object in it and therefore the only thing that has to pass twice.
+    (FURROW,  TURF,   True,  "campfire: the outline round every object, against the rug"),
+    (FURROW,  BAG1,   True,  "campfire: the same outline, against the tangerine chair"),
+    (FURROW,  BAG2,   True,  "campfire: against the magenta chair"),
+    (FURROW,  BAG3,   True,  "campfire: against the teal chair"),
+    (FURROW,  CEDAR,  True,  "campfire: against the coffee table and its legs"),
+    (TURF,    NOON,   True,  "campfire: the rug itself, against the page ground"),
+    (BAKELITE, TURF,  True,  "campfire: the television, which carries itself and takes no outline"),
+    # Then the words. The chairs are the only bright grounds on this street that
+    # carry body copy, and they are read DARK, like the rest of this room.
+    (FURROW,  BAG1,   False, "campfire: everything written on the tangerine chair"),
+    (FURROW,  BAG2,   False, "campfire: everything written on the magenta chair"),
+    (FURROW,  BAG3,   False, "campfire: everything written on the teal chair"),
+    (FURROW,  NOON,   False, "campfire: the remote's buttons and the slip of paper beside them"),
+    (FURROW2, NOON,   False, "campfire: the note under the rug"),
+    # And the screen, which is the only genuinely black thing in a daylit cabin.
+    (TELLY_LIT, TELLY_OFF, True,  "campfire: the channel name on the dark screen, 17-23px"),
+    (TELLY_LIT, TELLY_OFF, False, "campfire: the same, checked at the body threshold too"),
+    (TELLY_DIM, TELLY_OFF, False, "campfire: THE SET IS OFF, and the runtime under the name"),
+    (TELLY_LIT, BAKELITE, True,  "campfire: the play button's ring where it meets the casing"),
+    (TELLY_OFF, TELLY_LIT, False, "campfire: the play button inverted, under the pointer"),
     (CEDAR,   NOON,   True,  "workshop: the hairline around a pressed sheet"),
     (INK,    GREEN,  False, "street: the signpost arm, dark on painted green"),
     (INK,    CYAN,   False, "street: the signpost arm on hover"),
@@ -664,4 +722,26 @@ for fg, bg, large, where in PAIRS:
         print(f"FAIL  {r:5.2f} (need {need}) {tag}  {fg} on {bg}  — {where}")
 
 print(f"\n{len(PAIRS)} pairs checked, {len(fails)} failing.")
+
+# COLOURS DECLARED IN :root THAT THIS FILE HAS NEVER SEEN. Reported and not
+# refused, deliberately and for now: the list below is pre-existing, some of it
+# is genuinely decorative (the Chappell's stained glass carries no text and
+# love.css says so), and some of it is cruft this run cannot tell apart from a
+# real gap -- --peb-grey is declared and used nowhere, while the pebble actually
+# painted is a different value hardcoded in pebbling.js, which IS measured here.
+# Turning that into a failure would block a deploy on somebody else's unfinished
+# decision, and CLAUDE.md is clear that the fix for a refusing tool is the cause
+# and never the tool.
+#
+# IT IS PRINTED EVERY RUN ANYWAY, because the alternative is what already
+# happened: --cedar was lightened in the stylesheet so a drawing would pass and
+# the copy here stayed on the old value, so a pair in this file spent a
+# commit measuring a colour that was no longer on the site. Resolve these by
+# measuring them or by recording why they carry no text; then make it refuse.
+seen = {h.lower() for h in re.findall(r"#[0-9A-Fa-f]{6}", Path(__file__).read_text())}
+unseen = sorted(declared() - seen)
+if unseen:
+    print(f"\nNOTE: {len(unseen)} colour(s) in love.css's :root are not named anywhere in\n"
+          "this file, so nothing here measures them: " + ", ".join(unseen))
+
 sys.exit(1 if fails else 0)

@@ -53,3 +53,146 @@
     frame.focus();
   });
 })();
+
+/* -----------------------------------------------------------------------------
+   The shared television at the campfire.
+
+   THE PROMISE IS THE SAME ONE THE WHOLE STREET MAKES and it is harder to keep
+   here, because a set with a dial invites you to think of tuning and playing as
+   one action. They are two:
+
+     · WHILE THE SET IS OFF, tuning is silent. Previous and next move the
+       channel, the screen says what it is now on and how long that runs, and
+       NOTHING is fetched. You can walk the whole listing without a single
+       request leaving this page.
+     · ONCE IT IS PLAYING, tuning changes the picture, because by then the
+       visitor has asked for a television and making them press play again for
+       every channel would be a worse room and no more consented.
+
+   AND EVERY CONTROL SAYS WHAT IT WILL DO BEFORE IT IS PRESSED. A next button
+   that only says "next" is the one place this design could quietly break the
+   room's rule that a control names its runtime first — so the label beside the
+   remote names the channel it is about to tune to AND how long that one runs.
+
+   THE CHANNEL THAT CANNOT BE EMBEDDED IS NOT SKIPPED. It is in the running
+   order like everything else and the screen shows a door when you reach it,
+   because silently stepping over it would hide a fact about somebody else's
+   permissions that the room states out loud everywhere else.
+   -------------------------------------------------------------------------- */
+(function () {
+  'use strict';
+
+  var screen = document.getElementById('bigscreen-screen');
+  if (!screen) return;
+
+  var offPanel = document.getElementById('bigscreen-off');
+  var nowEl    = document.getElementById('bigscreen-now');
+  var runsEl   = document.getElementById('bigscreen-runs');
+  var playBtn  = document.getElementById('bigscreen-play');
+  var whatEl   = document.getElementById('ch-what');
+  var statusEl = document.getElementById('bigscreen-status');
+  var prevBtn  = document.getElementById('ch-prev');
+  var nextBtn  = document.getElementById('ch-next');
+
+  var rows = [].slice.call(document.querySelectorAll('.ch'));
+  if (!rows.length) return;
+
+  var channels = rows.map(function (li) {
+    return {
+      el: li,
+      id: li.dataset.id,
+      title: li.dataset.title,
+      runs: li.dataset.runs,
+      spoken: li.dataset.spoken,
+      how: li.dataset.how
+    };
+  });
+
+  var at = 0;        // which channel is tuned
+  var on = false;    // whether anything has been pressed
+
+  function wrap(i) { return (i % channels.length + channels.length) % channels.length; }
+
+  function label() {
+    var next = channels[wrap(at + 1)];
+    // The dial says where it is going and how long that runs, before the press.
+    whatEl.textContent = 'Next: ' + next.title + ' \u00b7 ' + next.spoken;
+  }
+
+  /* SAID OUT LOUD, because the only other signal that the channel changed is a
+     picture. The off panel cannot carry this on its own: it is hidden while the
+     set is playing, and a live region that disappears announces nothing. */
+  function say(text) { statusEl.textContent = text; }
+
+  function mark() {
+    channels.forEach(function (c, i) { c.el.classList.toggle('ch--on', i === at); });
+  }
+
+  /* Off, or between channels: the screen is a panel again rather than a frame.
+     Rebuilt rather than hidden, so a retired iframe is GONE from the page and
+     not merely invisible — a hidden player is still a player. */
+  function showPanel(ch) {
+    var frame = screen.querySelector('iframe');
+    if (frame) frame.remove();
+    offPanel.hidden = false;
+    nowEl.textContent = ch.title;
+    if (ch.how === 'link') {
+      runsEl.textContent = ch.runs + ' \u00b7 this one will not play here';
+      say('Tuned to ' + ch.title + ', ' + ch.spoken + '. This one cannot be played here; a link out is on the screen.');
+      playBtn.hidden = true;
+      door.hidden = false;
+      door.href = 'https://www.youtube.com/watch?v=' + ch.id;
+    } else {
+      runsEl.textContent = 'Runs ' + ch.runs;
+      say('Tuned to ' + ch.title + ', ' + ch.spoken + '. The set is off.');
+      playBtn.hidden = false;
+      door.hidden = true;
+    }
+  }
+
+  function playNow(ch) {
+    if (ch.how === 'link') { showPanel(ch); return; }
+    var player = window.loveEmbed && window.loveEmbed.frame(ch.id, ch.title);
+    if (!player) { showPanel(ch); return; }
+    var old = screen.querySelector('iframe');
+    if (old) old.remove();
+    offPanel.hidden = true;
+    screen.appendChild(player);
+    on = true;
+    say('Now playing ' + ch.title + ', ' + ch.spoken + '.');
+  }
+
+  function tune(i, focusScreen) {
+    at = wrap(i);
+    var ch = channels[at];
+    if (on) { playNow(ch); } else { showPanel(ch); }
+    mark();
+    label();
+    if (focusScreen) screen.scrollIntoView({ block: 'center' });
+  }
+
+  /* The way out, for the channel whose owner has embedding switched off. Built
+     here rather than written into the page because it belongs to whichever
+     channel is tuned, and only one is. */
+  var door = document.createElement('a');
+  door.className = 'bigscreen__door';
+  door.textContent = 'Open it on YouTube \u2192';
+  door.hidden = true;
+  playBtn.insertAdjacentElement('afterend', door);
+
+  playBtn.addEventListener('click', function () { playNow(channels[at]); });
+  prevBtn.addEventListener('click', function () { tune(at - 1, false); });
+  nextBtn.addEventListener('click', function () { tune(at + 1, false); });
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.tune');
+    if (!btn) return;
+    var i = parseInt(btn.dataset.ch, 10) - 1;
+    on = true;                 // choosing from the listing IS pressing play
+    tune(i, true);
+  });
+
+  showPanel(channels[0]);
+  mark();
+  label();
+})();

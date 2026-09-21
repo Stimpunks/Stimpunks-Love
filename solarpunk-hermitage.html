@@ -284,106 +284,183 @@
 
   <section id="campfire" style="margin:38px 0 0;">
     <h2>The campfire</h2>
-    <p style="max-width:62ch;">Green shag, three bean bags, and one screen the chairs are all pointed at. <a href="https://stimpunks.org/glossary/caves-campfires-watering-holes/">A campfire is where you learn from a storyteller</a>, and the storyteller here is whoever is narrating. Nothing plays until you press play, and every button says how long it runs before you press it, because that number is what lets you decide.</p>
-    <ul class="docs">
+    <p style="max-width:64ch;">Green shag, three bean bags in three colours nobody agreed on, a wooden coffee table with rings on it, and one television the chairs are all pointed at. <a href="https://stimpunks.org/glossary/caves-campfires-watering-holes/">A campfire is where you learn from a storyteller</a>, and the storyteller here is whoever is narrating.</p>
+
+    <div class="rug">
+      <div class="bigscreen">
+        <div class="bigscreen__body">
+          <div class="bigscreen__glass" id="bigscreen-screen">
+            <div class="bigscreen__off" id="bigscreen-off">
+              <p class="bigscreen__stand">THE SET IS OFF</p>
+              <p class="bigscreen__now" id="bigscreen-now">Tuned to channel 1</p>
+              <p class="bigscreen__runs" id="bigscreen-runs"></p>
+              <button type="button" class="bigscreen__play" id="bigscreen-play">Press to play</button>
+            </div>
+          </div>
+          <p class="sr" id="bigscreen-status" aria-live="polite"></p>
+        <div class="bigscreen__brand" aria-hidden="true"><span></span><span></span><span></span></div>
+        </div>
+        <div class="bigscreen__legs" aria-hidden="true"><i></i><i></i></div>
+      </div>
+
+      <div class="coffee">
+        <div class="coffee__top">
+          <div class="remote" role="group" aria-label="Channel controls">
+            <button type="button" class="remote__btn" id="ch-prev">&larr; Previous channel</button>
+            <p class="remote__what" id="ch-what"></p>
+            <button type="button" class="remote__btn" id="ch-next">Next channel &rarr;</button>
+          </div>
+        </div>
+        <div class="coffee__legs" aria-hidden="true"><i></i><i></i></div>
+      </div>
+
+      <ul class="bags">
+<!-- hermitage-chairs:begin -->
+      <li class="bag" style="--bag: #E2701B;">
+        <p class="bag__on">A basket of stim toys, and the dent of somebody who was here earlier</p>
+        <h4>Stimming</h4>
+        <p>Nobody in this room is expected to sit still. The chair is a beanbag because a beanbag lets you move and stay put at the same time, which is most of what a documentary is for.</p>
+        
+        <p class="bag__cited"><a href="https://stimpunks.org/glossary/stimming/">Stimming &rarr;</a></p>
+      </li>
+      <li class="bag" style="--bag: #C0267E;">
+        <p class="bag__on">A half-finished thing, face down, keeping its place</p>
+        <h4>Parallel play</h4>
+        <p>Three chairs and one screen, and no obligation between them. Some people call it being alone together — both reading your own books in the same room, one doing a puzzle while another plays a game. Just existing together counts too.</p>
+        <p class="bag__credit">That description is @neurowonderful’s, quoted on our own glossary.</p>
+        <p class="bag__cited"><a href="https://stimpunks.org/glossary/parallel-play/">Parallel Play &rarr;</a></p>
+      </li>
+      <li class="bag" style="--bag: #18847C;">
+        <p class="bag__on">The remote, and a blanket that has been on this chair for a while</p>
+        <h4>Stim-watching</h4>
+        <p>Watching the same thing again, and again, and again, on purpose. The channel guide is right there and nobody is going to ask why you put the hummingbirds on for the fourth time.</p>
+        <p class="bag__credit">Stim-watching is Jim Irion’s term and his account of it.</p>
+        <p class="bag__cited"><a href="https://stimpunks.org/glossary/stim-watching/">Stim-Watching &rarr;</a></p>
+      </li>
+    <!-- hermitage-chairs:end -->
+      </ul>
+    </div>
+    <p class="rug__note">Turning the dial while the set is off just tunes it &mdash; nothing is fetched and nothing plays until you press play. Once it <em>is</em> playing, changing channel changes the picture, because by then you have asked for a television.</p>
+
+    <details class="guide" id="guide">
+      <summary><span class="guide__label">Channel Listing</span> <span class="guide__hint">every channel, what it is, and how long it runs</span></summary>
+      <div class="guide__open">
+        <p class="guide__note">Nothing here plays on its own. Pick a channel and it goes on the television above; the one that cannot be shown here says so and gives you a way out to it instead.</p>
+        <ol class="channels">
 <!-- hermitage-campfire:begin -->
-      <li class="doc">
-        <h3>David Attenborough: Nature’s Most Fascinating Creatures | Free Documentary Nature</h3>
-        <p class="doc__by">Free Documentary - Nature &middot; 3:22:49</p>
-        <p>The longest thing on the shelf by a distance, and the one to put on when the plan is to not have a plan.</p>
-        <button type="button" class="facade" data-embed-id="EYJm7hIYLSU"
-                data-embed-title="David Attenborough: Nature’s Most Fascinating Creatures | Free Documentary Nature">Play &middot; 3 hr 23 min</button>
-        <p class="doc__note">Pressing is what sends the request; nothing reaches YouTube before that.</p>
-      </li>
-      <li class="doc">
-        <h3>How to Live on Earth | Feature Documentary | Presented by Benedict Cumberbatch</h3>
-        <p class="doc__by">Open Planet &middot; 1:36:36</p>
-        <p>The closest of these to what this cabin is arguing: what living on this planet could actually look like, made by people who would rather build than warn.</p>
-        <button type="button" class="facade" data-embed-id="h3mRsvFmWi0"
-                data-embed-title="How to Live on Earth | Feature Documentary | Presented by Benedict Cumberbatch">Play &middot; 1 hr 37 min</button>
-        <p class="doc__note">Pressing is what sends the request; nothing reaches YouTube before that.</p>
-      </li>
-      <li class="doc">
-        <h3>David Attenborough Shines a Light on Glowing Animals | 4K Nature Documentary</h3>
-        <p class="doc__by">Terra Mater &middot; 51:26</p>
-        <p>Bioluminescence. Worth watching in a room you have turned the lights down in, which is the one instruction this campfire gives.</p>
-        <button type="button" class="facade" data-embed-id="mqZDHb_eQlY"
-                data-embed-title="David Attenborough Shines a Light on Glowing Animals | 4K Nature Documentary">Play &middot; 51 min</button>
-        <p class="doc__note">Pressing is what sends the request; nothing reaches YouTube before that.</p>
-      </li>
-      <li class="doc">
-        <h3>Inside China's Secret Jungle (Full Episode) | Hidden Kingdoms of China | Nat Geo Animals</h3>
-        <p class="doc__by">Nat Geo Animals &middot; 44:24</p>
-        <p>A jungle most people do not know China has.</p>
-        <button type="button" class="facade" data-embed-id="bbOmdbJdMa8"
-                data-embed-title="Inside China's Secret Jungle (Full Episode) | Hidden Kingdoms of China | Nat Geo Animals">Play &middot; 44 min</button>
-        <p class="doc__note">Pressing is what sends the request; nothing reaches YouTube before that.</p>
-      </li>
-      <li class="doc">
-        <h3>Our Planet | Jungles | FULL EPISODE | Netflix</h3>
-        <p class="doc__by">Netflix &middot; 50:58</p>
-        <p>Jungles. There is a whole room on this street under a canopy; this is what it is a drawing of.</p>
-        <button type="button" class="facade" data-embed-id="um2Q9aUecy0"
-                data-embed-title="Our Planet | Jungles | FULL EPISODE | Netflix">Play &middot; 51 min</button>
-        <p class="doc__note">Pressing is what sends the request; nothing reaches YouTube before that.</p>
-      </li>
-      <li class="doc">
-        <h3>UNREAL AMAZON – Nature’s Most Dangerous Paradise (Full Documentary)</h3>
-        <p class="doc__by">Travpedia &middot; 1:14:54</p>
-        <p>The Amazon at feature length.</p>
-        <button type="button" class="facade" data-embed-id="WwA_7QyqtGI"
-                data-embed-title="UNREAL AMAZON – Nature’s Most Dangerous Paradise (Full Documentary)">Play &middot; 1 hr 15 min</button>
-        <p class="doc__note">Pressing is what sends the request; nothing reaches YouTube before that.</p>
-      </li>
-      <li class="doc">
-        <h3>The Wonder of America's National Parks | MEGA EPISODE (Season 1 Full Episodes) | National Geographic</h3>
-        <p class="doc__by">National Geographic &middot; 3:40:16</p>
-        <p>Parks, at the length of an afternoon. Put it on and go and do something else in the room.</p>
-        <button type="button" class="facade" data-embed-id="r10g5gERB04"
-                data-embed-title="The Wonder of America's National Parks | MEGA EPISODE (Season 1 Full Episodes) | National Geographic">Play &middot; 3 hr 40 min</button>
-        <p class="doc__note">Pressing is what sends the request; nothing reaches YouTube before that.</p>
-      </li>
-      <li class="doc">
-        <h3>NATURAL WONDERS: The Wildest Places on Earth</h3>
-        <p class="doc__by">World Tour &middot; 2:39:35</p>
-        <p>A tour of the places that are difficult to get to.</p>
-        <button type="button" class="facade" data-embed-id="ABnPPtlv6cE"
-                data-embed-title="NATURAL WONDERS: The Wildest Places on Earth">Play &middot; 2 hr 40 min</button>
-        <p class="doc__note">Pressing is what sends the request; nothing reaches YouTube before that.</p>
-      </li>
-      <li class="doc">
-        <h3>The Secret Lives of Hummingbirds | Narrated by David Attenborough | Nature Documentary</h3>
-        <p class="doc__by">Terra Mater &middot; 52:50</p>
-        <p>Hummingbirds, which are the most solarpunk animal available: tiny, iridescent, and running on flowers.</p>
-        <button type="button" class="facade" data-embed-id="vGMJZSfVW1M"
-                data-embed-title="The Secret Lives of Hummingbirds | Narrated by David Attenborough | Nature Documentary">Play &middot; 53 min</button>
-        <p class="doc__note">Pressing is what sends the request; nothing reaches YouTube before that.</p>
-      </li>
-      <li class="doc">
-        <h3>Our Planet | Forests | FULL EPISODE | Netflix</h3>
-        <p class="doc__by">Netflix &middot; 48:18</p>
-        <p>Forests, from the same series as the jungles episode above.</p>
-        <button type="button" class="facade" data-embed-id="JkaxUblCGz0"
-                data-embed-title="Our Planet | Forests | FULL EPISODE | Netflix">Play &middot; 48 min</button>
-        <p class="doc__note">Pressing is what sends the request; nothing reaches YouTube before that.</p>
-      </li>
-      <li class="doc">
-        <h3>Wild Islands: Caribbean: The Jewel of the Tropics | Free Documentary Nature</h3>
-        <p class="doc__by">Free Documentary - Nature &middot; 52:02</p>
-        <p>The Caribbean coast and what lives on it.</p>
-        <button type="button" class="facade" data-embed-id="GLovOUnFe9s"
-                data-embed-title="Wild Islands: Caribbean: The Jewel of the Tropics | Free Documentary Nature">Play &middot; 52 min</button>
-        <p class="doc__note">Pressing is what sends the request; nothing reaches YouTube before that.</p>
-      </li>
-      <li class="doc">
-        <h3>COASTAL SEAS | Life, Waves and Secrets Along the Worldâs Shores | FULL DOCUMENTARY</h3>
-        <p class="doc__by">The Unseen Earth &middot; 3:00:33</p>
-        <p>Coasts, three hours of them. This is the one you have to follow out to YouTube rather than open here.</p>
-        <a class="doorout" href="https://www.youtube.com/watch?v=soPxOWqQpUc">Open on YouTube &middot; 3 hr 1 min &rarr;</a>
-        <p class="doc__note">Plays, and its owner has embedding switched off — the watch page answers OK and playableInEmbed is false, and YouTube's oEmbed endpoint refuses it too, which is why the title and the channel here were read off the watch page instead. A screen would load and show a refusal where the picture should be, so this is a door out.</p>
-      </li>
+        <li class="ch" data-ch="1" data-id="EYJm7hIYLSU"
+            data-title="David Attenborough: Nature’s Most Fascinating Creatures | Free Documentary Nature" data-runs="3:22:49"
+            data-spoken="3 hr 23 min" data-how="screen">
+          <p class="ch__no">CHANNEL 1</p>
+          <h4>David Attenborough: Nature’s Most Fascinating Creatures | Free Documentary Nature</h4>
+          <p class="ch__by">Free Documentary - Nature &middot; 3:22:49</p>
+          <p>The longest thing on the shelf by a distance, and the one to put on when the plan is to not have a plan.</p>
+          <button type="button" class="tune" data-ch="1">Watch on the television &middot; 3 hr 23 min</button>
+        </li>
+        <li class="ch" data-ch="2" data-id="h3mRsvFmWi0"
+            data-title="How to Live on Earth | Feature Documentary | Presented by Benedict Cumberbatch" data-runs="1:36:36"
+            data-spoken="1 hr 37 min" data-how="screen">
+          <p class="ch__no">CHANNEL 2</p>
+          <h4>How to Live on Earth | Feature Documentary | Presented by Benedict Cumberbatch</h4>
+          <p class="ch__by">Open Planet &middot; 1:36:36</p>
+          <p>The closest of these to what this cabin is arguing: what living on this planet could actually look like, made by people who would rather build than warn.</p>
+          <button type="button" class="tune" data-ch="2">Watch on the television &middot; 1 hr 37 min</button>
+        </li>
+        <li class="ch" data-ch="3" data-id="mqZDHb_eQlY"
+            data-title="David Attenborough Shines a Light on Glowing Animals | 4K Nature Documentary" data-runs="51:26"
+            data-spoken="51 min" data-how="screen">
+          <p class="ch__no">CHANNEL 3</p>
+          <h4>David Attenborough Shines a Light on Glowing Animals | 4K Nature Documentary</h4>
+          <p class="ch__by">Terra Mater &middot; 51:26</p>
+          <p>Bioluminescence. Worth watching in a room you have turned the lights down in, which is the one instruction this campfire gives.</p>
+          <button type="button" class="tune" data-ch="3">Watch on the television &middot; 51 min</button>
+        </li>
+        <li class="ch" data-ch="4" data-id="bbOmdbJdMa8"
+            data-title="Inside China's Secret Jungle (Full Episode) | Hidden Kingdoms of China | Nat Geo Animals" data-runs="44:24"
+            data-spoken="44 min" data-how="screen">
+          <p class="ch__no">CHANNEL 4</p>
+          <h4>Inside China's Secret Jungle (Full Episode) | Hidden Kingdoms of China | Nat Geo Animals</h4>
+          <p class="ch__by">Nat Geo Animals &middot; 44:24</p>
+          <p>A jungle most people do not know China has.</p>
+          <button type="button" class="tune" data-ch="4">Watch on the television &middot; 44 min</button>
+        </li>
+        <li class="ch" data-ch="5" data-id="um2Q9aUecy0"
+            data-title="Our Planet | Jungles | FULL EPISODE | Netflix" data-runs="50:58"
+            data-spoken="51 min" data-how="screen">
+          <p class="ch__no">CHANNEL 5</p>
+          <h4>Our Planet | Jungles | FULL EPISODE | Netflix</h4>
+          <p class="ch__by">Netflix &middot; 50:58</p>
+          <p>Jungles. There is a whole room on this street under a canopy; this is what it is a drawing of.</p>
+          <button type="button" class="tune" data-ch="5">Watch on the television &middot; 51 min</button>
+        </li>
+        <li class="ch" data-ch="6" data-id="WwA_7QyqtGI"
+            data-title="UNREAL AMAZON – Nature’s Most Dangerous Paradise (Full Documentary)" data-runs="1:14:54"
+            data-spoken="1 hr 15 min" data-how="screen">
+          <p class="ch__no">CHANNEL 6</p>
+          <h4>UNREAL AMAZON – Nature’s Most Dangerous Paradise (Full Documentary)</h4>
+          <p class="ch__by">Travpedia &middot; 1:14:54</p>
+          <p>The Amazon at feature length.</p>
+          <button type="button" class="tune" data-ch="6">Watch on the television &middot; 1 hr 15 min</button>
+        </li>
+        <li class="ch" data-ch="7" data-id="r10g5gERB04"
+            data-title="The Wonder of America's National Parks | MEGA EPISODE (Season 1 Full Episodes) | National Geographic" data-runs="3:40:16"
+            data-spoken="3 hr 40 min" data-how="screen">
+          <p class="ch__no">CHANNEL 7</p>
+          <h4>The Wonder of America's National Parks | MEGA EPISODE (Season 1 Full Episodes) | National Geographic</h4>
+          <p class="ch__by">National Geographic &middot; 3:40:16</p>
+          <p>Parks, at the length of an afternoon. Put it on and go and do something else in the room.</p>
+          <button type="button" class="tune" data-ch="7">Watch on the television &middot; 3 hr 40 min</button>
+        </li>
+        <li class="ch" data-ch="8" data-id="ABnPPtlv6cE"
+            data-title="NATURAL WONDERS: The Wildest Places on Earth" data-runs="2:39:35"
+            data-spoken="2 hr 40 min" data-how="screen">
+          <p class="ch__no">CHANNEL 8</p>
+          <h4>NATURAL WONDERS: The Wildest Places on Earth</h4>
+          <p class="ch__by">World Tour &middot; 2:39:35</p>
+          <p>A tour of the places that are difficult to get to.</p>
+          <button type="button" class="tune" data-ch="8">Watch on the television &middot; 2 hr 40 min</button>
+        </li>
+        <li class="ch" data-ch="9" data-id="vGMJZSfVW1M"
+            data-title="The Secret Lives of Hummingbirds | Narrated by David Attenborough | Nature Documentary" data-runs="52:50"
+            data-spoken="53 min" data-how="screen">
+          <p class="ch__no">CHANNEL 9</p>
+          <h4>The Secret Lives of Hummingbirds | Narrated by David Attenborough | Nature Documentary</h4>
+          <p class="ch__by">Terra Mater &middot; 52:50</p>
+          <p>Hummingbirds, which are the most solarpunk animal available: tiny, iridescent, and running on flowers.</p>
+          <button type="button" class="tune" data-ch="9">Watch on the television &middot; 53 min</button>
+        </li>
+        <li class="ch" data-ch="10" data-id="JkaxUblCGz0"
+            data-title="Our Planet | Forests | FULL EPISODE | Netflix" data-runs="48:18"
+            data-spoken="48 min" data-how="screen">
+          <p class="ch__no">CHANNEL 10</p>
+          <h4>Our Planet | Forests | FULL EPISODE | Netflix</h4>
+          <p class="ch__by">Netflix &middot; 48:18</p>
+          <p>Forests, from the same series as the jungles episode above.</p>
+          <button type="button" class="tune" data-ch="10">Watch on the television &middot; 48 min</button>
+        </li>
+        <li class="ch" data-ch="11" data-id="GLovOUnFe9s"
+            data-title="Wild Islands: Caribbean: The Jewel of the Tropics | Free Documentary Nature" data-runs="52:02"
+            data-spoken="52 min" data-how="screen">
+          <p class="ch__no">CHANNEL 11</p>
+          <h4>Wild Islands: Caribbean: The Jewel of the Tropics | Free Documentary Nature</h4>
+          <p class="ch__by">Free Documentary - Nature &middot; 52:02</p>
+          <p>The Caribbean coast and what lives on it.</p>
+          <button type="button" class="tune" data-ch="11">Watch on the television &middot; 52 min</button>
+        </li>
+        <li class="ch" data-ch="12" data-id="soPxOWqQpUc"
+            data-title="COASTAL SEAS | Life, Waves and Secrets Along the Worldâs Shores | FULL DOCUMENTARY" data-runs="3:00:33"
+            data-spoken="3 hr 1 min" data-how="link">
+          <p class="ch__no">CHANNEL 12</p>
+          <h4>COASTAL SEAS | Life, Waves and Secrets Along the Worldâs Shores | FULL DOCUMENTARY</h4>
+          <p class="ch__by">The Unseen Earth &middot; 3:00:33</p>
+          <p>Coasts, three hours of them. This is the one you have to follow out to YouTube rather than open here.</p>
+          <a class="doorout" href="https://www.youtube.com/watch?v=soPxOWqQpUc">Open on YouTube &middot; 3 hr 1 min &rarr;</a>
+          <p class="ch__why">Plays, and its owner has embedding switched off — the watch page answers OK and playableInEmbed is false, and YouTube's oEmbed endpoint refuses it too, which is why the title and the channel here were read off the watch page instead. A screen would load and show a refusal where the picture should be, so this is a door out.</p>
+        </li>
     <!-- hermitage-campfire:end -->
-    </ul>
+        </ol>
+      </div>
+    </details>
   </section>
 
   <section id="watering-hole" style="margin:40px 0 0;">

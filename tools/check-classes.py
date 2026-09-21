@@ -30,7 +30,7 @@ is the bug. The rest of a selector is not a claim: `.room-latibulum .facade` is
 a room dressing a piece of §4's shared furniture, which is what §4 is FOR, and
 calling that a collision would teach people to ignore this tool.
 
-RULES INSIDE AN AT-RULE CLAIM NOTHING. §19 and §20 are entirely @media, and they
+RULES INSIDE AN AT-RULE CLAIM NOTHING. §20 and §21 are entirely @media, and they
 restyle every room on the street by design; they are adjustments to rules that
 already exist rather than worlds of their own. Neither is anywhere to introduce
 a component, so neither can take a name.
@@ -85,6 +85,30 @@ def sections():
     marks = [(m.start(), int(m.group(1)), m.group(2).strip()) for m in SECTION.finditer(src)]
     if not marks:
         raise SystemExit("REFUSING: love.css has no § section headers to read.")
+    # THE NUMBERS ARE HOW EVERY COMMENT IN THIS FILE POINTS AT ANOTHER PART OF
+    # IT, so a duplicate or an out-of-order one is a cross-reference that goes
+    # to the wrong place -- and nothing was looking. Adding the Solarpunk
+    # Hermitage numbered it §20 when §20 was already Print, and dropped it
+    # between §18 and §19; this tool read both, reported collisions as "§20 and
+    # §20", and passed. The refusal message was the only clue and it looked like
+    # a display bug.
+    nums = [n for _, n, _ in marks]
+    dupes = sorted({n for n in nums if nums.count(n) > 1})
+    if dupes:
+        raise SystemExit(
+            "REFUSING: love.css has more than one section numbered "
+            + ", ".join(f"§{n}" for n in dupes)
+            + ".\nEvery comment in that file points at another part of it by number, so two\n"
+            "sections sharing one is a cross-reference that goes to the wrong place."
+        )
+    if nums != sorted(nums):
+        out_of_place = [f"§{n}" for i, n in enumerate(nums) if i and n < nums[i - 1]]
+        raise SystemExit(
+            "REFUSING: love.css's sections are not in numerical order (" 
+            + ", ".join(out_of_place) + " comes after a higher number).\n"
+            "A new room appended before the cross-cutting sections at the end is how a\n"
+            "number gets reused; renumber rather than leaving the file out of sequence."
+        )
     return [(n, title, src[at:(marks[i + 1][0] if i + 1 < len(marks) else len(src))])
             for i, (at, n, title) in enumerate(marks)]
 

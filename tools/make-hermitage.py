@@ -117,6 +117,15 @@ def check(data):
         if d.get("how") == "link" and not (d.get("why_link") or "").strip():
             bad.append(f"{title!r} is a door out and does not say why on its own face.")
 
+    for b in data.get("beanbags") or []:
+        t = (b.get("term") or "").strip() or "<unnamed chair>"
+        for k in ("colour", "hex", "on_it", "note"):
+            if not (b.get(k) or "").strip():
+                bad.append(f"the {t} chair has no {k}.")
+        if not (b.get("source") or "").strip():
+            bad.append(f"the {t} chair names no page of ours. A chair with an invented "
+                       "hobby on it is set dressing, and nothing else in this room is.")
+
     for sp in data.get("herbarium") or []:
         n = (sp.get("name") or "").strip() or "<unnamed sheet>"
         if not n or n == "<unnamed sheet>":
@@ -203,27 +212,48 @@ def shelves(books):
 
 
 def campfire(docs):
+    """The channel listing. EVERY ROW SAYS HOW LONG IT RUNS BEFORE ANYTHING IS
+    PRESSED, which is the room's promise, and it matters more here than on a
+    grid of separate players: the television retunes, so the runtime has to
+    travel WITH the channel rather than sit on a button that is about to be
+    replaced. hermitage.js reads these off the data attributes."""
     out = []
-    for d in docs:
+    for i, d in enumerate(docs, 1):
         if d["how"] == "screen":
             control = (
-                f'        <button type="button" class="facade" data-embed-id="{esc(d["id"])}"\n'
-                f'                data-embed-title="{esc(d["title"])}">Play &middot; {esc(d["spoken"])}</button>'
-            )
-            tail = ("Pressing is what sends the request; nothing reaches YouTube before that.")
+                f'          <button type="button" class="tune" data-ch="{i}">'
+                f'Watch on the television &middot; {esc(d["spoken"])}</button>')
         else:
             control = (
-                f'        <a class="doorout" href="https://www.youtube.com/watch?v={esc(d["id"])}">'
-                f'Open on YouTube &middot; {esc(d["spoken"])} &rarr;</a>'
-            )
-            tail = esc(d["why_link"])
+                f'          <a class="doorout" href="https://www.youtube.com/watch?v={esc(d["id"])}">'
+                f'Open on YouTube &middot; {esc(d["spoken"])} &rarr;</a>\n'
+                f'          <p class="ch__why">{esc(d["why_link"])}</p>')
         out.append(
-            '      <li class="doc">\n'
-            f'        <h3>{esc(d["title"])}</h3>\n'
-            f'        <p class="doc__by">{esc(d["channel"])} &middot; {esc(d["length"])}</p>\n'
-            f'        <p>{esc(d["note"])}</p>\n'
+            f'        <li class="ch" data-ch="{i}" data-id="{esc(d["id"])}"\n'
+            f'            data-title="{esc(d["title"])}" data-runs="{esc(d["length"])}"\n'
+            f'            data-spoken="{esc(d["spoken"])}" data-how="{esc(d["how"])}">\n'
+            f'          <p class="ch__no">CHANNEL {i}</p>\n'
+            f'          <h4>{esc(d["title"])}</h4>\n'
+            f'          <p class="ch__by">{esc(d["channel"])} &middot; {esc(d["length"])}</p>\n'
+            f'          <p>{esc(d["note"])}</p>\n'
             f'{control}\n'
-            f'        <p class="doc__note">{tail}</p>\n'
+            '        </li>'
+        )
+    return "\n".join(out)
+
+
+def chairs(bags):
+    out = []
+    for b in bags:
+        credit = (f'<p class="bag__credit">{esc(b["credit"])}</p>' if b.get("credit") else "")
+        out.append(
+            f'      <li class="bag" style="--bag: {esc(b["hex"])};">\n'
+            f'        <p class="bag__on">{esc(b["on_it"])}</p>\n'
+            f'        <h4>{esc(b["term"])}</h4>\n'
+            f'        <p>{esc(b["note"])}</p>\n'
+            f'        {credit}\n'
+            f'        <p class="bag__cited"><a href="{esc(b["source"])}">'
+            f'{esc(b.get("source_title") or b["source"])} &rarr;</a></p>\n'
             '      </li>'
         )
     return "\n".join(out)
@@ -359,6 +389,7 @@ def main():
     books, docs = data["books"], data["docs"]
     swap(ROOM, "hermitage-shelves", shelves(books), "    ")
     swap(ROOM, "hermitage-campfire", campfire(docs), "    ")
+    swap(ROOM, "hermitage-chairs", chairs(data["beanbags"]), "    ")
     swap(ROOM, "hermitage-herbarium", sheets(data["herbarium"]), "    ")
     swap(ROOM, "hermitage-bench", bench(data["solar_watch"], data["solar_read"]), "    ")
     swap(ROOM, "hermitage-kin", kin(data["starstuff"]), "    ")

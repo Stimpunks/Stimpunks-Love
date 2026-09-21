@@ -6,6 +6,7 @@
   "_summaries": "The note on each book is ours, written for this room. None of it is lifted from a blurb, from the book, or from the page that cites it.",
   "_campfire": "The documentaries around the campfire. RYAN CHOSE THE LIST; nothing here was picked in this repo. Every id was checked on its own watch page on 2026-09-20 — status, playableInEmbed and lengthSeconds — and every title and channel was resolved against YouTube rather than typed off the link text that arrived, which is the Jungle Room's rule. One of them plays and cannot be embedded, so it is published as a door rather than as a screen.",
   "_runtime": "EVERY ONE CARRIES ITS RUNTIME AND make-hermitage.py REFUSES ONE WITHOUT. A documentary has a length, and the number is what lets somebody decide before they press. That is the opposite check to make-jungle.py's, which refuses a runtime, and it is the same promise: a live camera has no length to give and a film does.",
+  "_beanbags": "What is on each chair around the campfire. EACH ONE NAMES A REAL ENTRY IN OUR OWN GLOSSARY and make-hermitage.py refuses one without a page, because a chair with an invented hobby on it is set dressing and the rest of this room is not. Two of them carry somebody else's words and say so out loud: parallel play is @neurowonderful's description, and stim-watching is Jim Irion's term and his account.",
   "_herbarium": "The pressed sheets on the workshop's first table. EVERY SPECIMEN IS ON IT BECAUSE ONE OF OUR OWN PAGES ARGUES FROM IT, and make-hermitage.py refuses one without that page — which is why there is no sunflower sheet, although sunflowers are the plant growing outside the door. We have no page about them, so there is nothing to press. NO BINOMIALS ANYWHERE IN HERE, on purpose: a Latin name typed from memory is a taxonomic claim nobody checked, wearing the one kind of authority a herbarium sheet has. Moss, lichen, fern and mycelium are groups rather than species in any case, and the mycelium is not a plant at all and says so on its own sheet.",
   "_solar": "The second table. The three videos came off our own Solarpunk glossary entry and the reading off our own Electrify Everything page; the ids were checked on their watch pages on 2026-09-20 and every title and channel resolved against YouTube rather than taken from our link text — which mattered here, because our glossary credits the first one as 'ft. @Andrewism' and the channel that published it is Our Changing Climate. Griffith's book is the one id in this whole file resolved by search rather than lifted, for the same reason Care Work was, and it was requested and answered before it went up.",
   "_starstuff": "The third table, and all of it belongs to the sibling site. These are Star Stuff pieces, linked out rather than reproduced — make-hermitage.py refuses an entry whose url is not on starstuff.earth, because a table labelled Star Stuff holding something else is a mis-filed thing that reads as a claim. Three of them are where the first table's sheets came from, which is what a workshop with three benches in one room looks like.",
@@ -202,6 +203,37 @@
       "how": "link",
       "note": "Coasts, three hours of them. This is the one you have to follow out to YouTube rather than open here.",
       "why_link": "Plays, and its owner has embedding switched off — the watch page answers OK and playableInEmbed is false, and YouTube's oEmbed endpoint refuses it too, which is why the title and the channel here were read off the watch page instead. A screen would load and show a refusal where the picture should be, so this is a door out."
+    }
+  ],
+  "beanbags": [
+    {
+      "colour": "tangerine",
+      "hex": "#E2701B",
+      "on_it": "A basket of stim toys, and the dent of somebody who was here earlier",
+      "term": "Stimming",
+      "note": "Nobody in this room is expected to sit still. The chair is a beanbag because a beanbag lets you move and stay put at the same time, which is most of what a documentary is for.",
+      "source": "https://stimpunks.org/glossary/stimming/",
+      "source_title": "Stimming"
+    },
+    {
+      "colour": "magenta",
+      "hex": "#C0267E",
+      "on_it": "A half-finished thing, face down, keeping its place",
+      "term": "Parallel play",
+      "note": "Three chairs and one screen, and no obligation between them. Some people call it being alone together — both reading your own books in the same room, one doing a puzzle while another plays a game. Just existing together counts too.",
+      "credit": "That description is @neurowonderful’s, quoted on our own glossary.",
+      "source": "https://stimpunks.org/glossary/parallel-play/",
+      "source_title": "Parallel Play"
+    },
+    {
+      "colour": "teal",
+      "hex": "#18847C",
+      "on_it": "The remote, and a blanket that has been on this chair for a while",
+      "term": "Stim-watching",
+      "note": "Watching the same thing again, and again, and again, on purpose. The channel guide is right there and nobody is going to ask why you put the hummingbirds on for the fourth time.",
+      "credit": "Stim-watching is Jim Irion’s term and his account of it.",
+      "source": "https://stimpunks.org/glossary/stim-watching/",
+      "source_title": "Stim-Watching"
     }
   ],
   "herbarium": [

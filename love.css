@@ -86,7 +86,7 @@
    parent: upstairs sets a high-contrast serif whose strokes swell as they
    curve, and this sets a slab with no contrast in it at all. Karla ships as a
    variable font, so one file serves 400 and 700, the same as Cabin above. */
-/* The Solarpunk Hermitage (§20). An organic serif and a technical sans, which
+/* The Solarpunk Hermitage (§19). An organic serif and a technical sans, which
    is the room's whole thesis set in type: Fraunces' strokes swell and its
    terminals curl like something grown, and Sora is drawn on a grid with flat
    ends. Tech AND nature, not one of them in fancy dress. It is also the only
@@ -215,7 +215,7 @@
   --cocoa: #1E1107;  --cocoa-2: #35210F;
   --tiki: #F0B040;  --jade: #37C9A4;  --rum: #F2705A;
 
-  /* The Solarpunk Hermitage (§20). THE FIRST DAYLIT ROOM ON THIS STREET, and
+  /* The Solarpunk Hermitage (§19). THE FIRST DAYLIT ROOM ON THIS STREET, and
      that is the whole of its separation from everything else here: every other
      world is a dark ground with light put on it, and this one is a lit ground
      with things standing in it. --noon is sunlight on a lime-plastered wall.
@@ -237,6 +237,18 @@
   --leaf: #2C6B45;  --leaf-2: #1D4D30;  --bloom: #B5760A;
   --cedar: #9A6A3C;  --cell: #12323C;
   --velvet: #4A1220;  --velvet-2: #5E1A2B;  --velvet-3: #380C18;
+  /* The campfire's furniture. THE BAGS ARE BRIGHT AND THEREFORE CANNOT CARRY
+     THEMSELVES: every one of them measured under 2.3 against the rug, which is
+     a chair you cannot pick out of the carpet. So EVERY OBJECT IN THIS SCENE IS
+     CARRIED BY ITS OUTLINE — --furrow, against the rug on one side and against
+     the fill on the other — which is the pebbling cabinet's reading of WCAG
+     1.4.11 arriving in a room with furniture in it. The one exception is the
+     television, which is dark enough to separate from the rug on its own and
+     would only be muddied by a dark line around it. */
+  --turf: #3F8E4C;
+  --bag-1: #F59A2E;  --bag-2: #F0559F;  --bag-3: #3FC7B4;
+  --bakelite: #2A2621;  --bakelite-2: #4A433B;
+  --bigscreen-off: #0C1110;  --bigscreen-lit: #F1EFE4;  --bigscreen-dim: #A9B4AB;
   --wick: #F6E8D0;  --wick-2: #DCC49C;  --gilt: #E9C270;
 }
 
@@ -2422,7 +2434,7 @@ html[data-intensity="max"] .falls__water { animation: den-fall 7s ease-in-out in
 .den-note { font-size: 14.5px; line-height: 1.6; color: var(--rattan); }
 
 
-/* §20 ── ROOM: The Solarpunk Hermitage (pitch 03 in the campgrounds) ─────────
+/* §19 ── ROOM: The Solarpunk Hermitage (pitch 03 in the campgrounds) ─────────
    RYAN'S OWN PITCH, and the first DAYLIT room on this street. That is not a
    mood, it is the entire structural separation: every other world here is a
    dark ground with light applied to it — neon on black, candle on canvas, lamp
@@ -2494,7 +2506,7 @@ html[data-intensity="max"] .falls__water { animation: den-fall 7s ease-in-out in
 .space--soon { border-style: dashed; }
 .space--soon h3 { color: var(--furrow-2); }
 
-/* §-level note: THE CAVE IS THE HARD ONE ON THIS WHOLE STREET, and the reason
+/* SECTION-LEVEL NOTE: THE CAVE IS THE HARD ONE ON THIS WHOLE STREET, and the reason
    is written in §2 beside its colours. It is the fourth warm enclosed room
    here, after the Faery Yurt, The Latibulum and The Den — and "it is a cosy
    reading nook, it should feel like the other cosy places" is the Latibulum
@@ -2587,42 +2599,163 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 
 /* The campfire. A SHAG RUG WITH BEAN BAGS ON IT, which is the third green
    carpet on this street and has to answer for itself: The Den's is a slab of
-   1976 pile with a track list set dark on top of it, and this is a rug you sit
-   ON with the type beside it rather than over it. One is a record sleeve; this
-   is a floor with people on it. The chairs are the list — each documentary sits
-   in one, because three bean bags around a screen is what the space IS. */
-.docs { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-.doc {
-  background: var(--noon-2); border-radius: 26px 26px 34px 34px;
-  border: 2px solid var(--leaf); padding: 18px 20px 20px;
-  display: flex; flex-direction: column; gap: 8px;
-}
-.doc h3 { font-size: 18.5px; line-height: 1.2; }
-.doc p { margin: 0; font-size: 15px; }
-.doc__by { color: var(--leaf-2); font-size: 14px !important; }
-.doc__note { font-size: 13px !important; color: var(--furrow-2); }
-/* The screen on the bean bag. §4's facade is a 16:9 plate with the iframe
-   absolutely positioned inside it, and that IS the mechanism — a room that
-   reshapes it into a pill gets a button the player cannot fill. So this dresses
-   the plate rather than replacing it. */
-.hermitage .facade {
-  background: var(--cell); color: var(--noon); border: 2px solid var(--furrow);
-  border-radius: 14px; font-family: 'Sora', sans-serif; font-size: 15px;
-  margin-top: auto; display: flex; align-items: flex-end;
-}
-.hermitage .facade:hover { background: #17414E; }
-.hermitage .facade iframe { border-radius: 10px; }
+   1976 pile with a track list set DARK ON TOP OF IT, and this is a rug you sit
+   ON with the furniture standing in it and every word beside it rather than
+   over it. One is a record sleeve; this is a floor with people on it.
 
-/* A DOOR OUT IS NOT A SCREEN, and it does not get the plate. The Jungle Room
-   learned this the hard way: a link dressed as a window is the broken thing,
-   because the one action it promises — press it and a picture appears here — is
-   the one it cannot do. This is a door, so it is shaped like one. */
-.doorout {
-  display: block; margin-top: auto; text-align: center; text-decoration: none;
-  background: var(--noon); color: var(--furrow); border: 2px dashed var(--leaf);
-  border-radius: 999px; font-family: 'Sora', sans-serif; font-size: 15px; padding: 13px 20px;
+   THE ROOM IS A ROOM AND NOT A LIST. The set, the coffee table and the three
+   chairs are laid out the way they would be — screen at the back, table in the
+   middle, chairs across the front — which is why this is a grid with named
+   areas rather than a stack of cards. The channel guide is NOT in the scene: a
+   television has a listings magazine and the magazine is not furniture, so it
+   is a disclosure below the rug that opens when you want it. */
+.rug {
+  margin: 22px 0 0; padding: 26px 22px 30px; border-radius: 18px;
+  background:
+    repeating-linear-gradient(94deg, rgba(0,0,0,.05) 0 3px, transparent 3px 7px),
+    repeating-linear-gradient(-86deg, rgba(255,255,255,.05) 0 2px, transparent 2px 9px),
+    var(--turf);
+  display: grid; gap: 22px; justify-items: center;
 }
-.doorout:hover { background: var(--noon-2); color: var(--furrow); border-style: solid; }
+
+/* The set. A deep box on legs with a black screen in it — and the screen is a
+   DIFFERENT dark from anything else in this bright room, because a television
+   that is off is the only genuinely black thing in a cabin full of daylight. */
+.bigscreen { width: min(720px, 100%); }
+.bigscreen__body {
+  background: var(--bakelite); border-radius: 16px; padding: 14px 14px 10px;
+  box-shadow: 0 6px 0 rgba(22,41,28,.18);
+}
+.bigscreen__glass {
+  position: relative; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden;
+  background: var(--bigscreen-off); display: flex;
+}
+.bigscreen__glass iframe { width: 100%; height: 100%; border: 0; display: block; }
+.bigscreen__off {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; padding: 18px; text-align: center;
+}
+.bigscreen__stand { margin: 0; font-family: 'Sora', sans-serif; font-size: 12px; letter-spacing: 2.5px;
+  color: var(--bigscreen-dim); }
+.bigscreen__now { margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 700;
+  font-size: clamp(17px, 2.6vw, 23px); line-height: 1.2; color: var(--bigscreen-lit); max-width: 34ch; }
+.bigscreen__runs { margin: 0; font-family: 'Sora', sans-serif; font-size: 14px; color: var(--bigscreen-dim); }
+.bigscreen__play {
+  margin-top: 6px; border: 2px solid var(--bigscreen-lit); background: transparent; color: var(--bigscreen-lit);
+  border-radius: 999px; padding: 11px 22px; font-family: 'Sora', sans-serif; font-size: 15px; cursor: pointer;
+}
+.bigscreen__play:hover { background: var(--bigscreen-lit); color: var(--bigscreen-off); }
+/* The way out, on the one channel that cannot be shown here. DASHED, like the
+   door out in the listing below it, so the two are obviously the same kind of
+   thing and neither is mistaken for a play button. */
+.bigscreen__door {
+  margin-top: 6px; border: 2px dashed var(--bigscreen-lit); color: var(--bigscreen-lit);
+  border-radius: 999px; padding: 11px 22px; font-family: 'Sora', sans-serif;
+  font-size: 15px; text-decoration: none; min-height: 44px; display: inline-flex;
+  align-items: center;
+}
+.bigscreen__door:hover { background: var(--bigscreen-lit); color: var(--bigscreen-off); }
+/* display:inline-flex above has the same specificity as [hidden] and comes
+   later in the file, so it WON and the door stayed on the screen for every
+   channel. The hidden attribute is a statement about the document rather than a
+   style, and a rule that quietly outranks it is a bug that looks like a design
+   decision. Both controls are named here because the play button is hidden the
+   same way on the channel that cannot be played. */
+.bigscreen__door[hidden], .bigscreen__play[hidden] { display: none; }
+.bigscreen__brand { display: flex; gap: 5px; justify-content: flex-end; padding: 8px 4px 0; }
+.bigscreen__brand span { width: 26px; height: 4px; border-radius: 2px; background: var(--bakelite-2); }
+.bigscreen__legs { display: flex; justify-content: space-between; padding: 0 60px; }
+.bigscreen__legs i { display: block; width: 14px; height: 18px; background: var(--bakelite);
+  border-radius: 0 0 4px 4px; }
+
+/* The coffee table, between the chairs and the set, with the controls on it —
+   which is where a remote actually ends up. Wood, ring-marked, and the one
+   rectangle in this scene with a grain on it. */
+.coffee { width: min(560px, 100%); }
+.coffee__top {
+  background:
+    radial-gradient(circle at 78% 72%, transparent 15px, rgba(22,41,28,.07) 15px 17px, transparent 17px),
+    radial-gradient(circle at 22% 30%, transparent 12px, rgba(22,41,28,.07) 12px 14px, transparent 14px),
+    repeating-linear-gradient(97deg, rgba(22,41,28,.05) 0 1px, transparent 1px 12px),
+    var(--cedar);
+  border-radius: 10px; padding: 14px 16px 16px; border: 3px solid var(--furrow);
+  box-shadow: 0 4px 0 rgba(22,41,28,.16);
+}
+.coffee__legs { display: flex; justify-content: space-between; padding: 0 34px; }
+.coffee__legs i { display: block; width: 12px; height: 20px; background: var(--cedar);
+  border: 3px solid var(--furrow); border-top: 0; border-radius: 0 0 3px 3px; }
+/* THE SENTENCE CAME OFF THE TABLE. Body copy on the cedar tabletop measures
+   3.29 in the dark ink and 4.20 in the pale one -- both under 4.5, so the
+   tabletop cannot carry a sentence in either direction. It is furniture, not a
+   surface to set type on; the note sits under the rug on the page ground. */
+.rug__note { margin: 12px 0 0; font-size: 14px; color: var(--furrow-2); max-width: 70ch; }
+.remote { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; justify-content: center; }
+.remote__btn {
+  background: var(--noon); color: var(--furrow); border: 2px solid var(--furrow);
+  border-radius: 999px; padding: 11px 18px; font-family: 'Sora', sans-serif; font-size: 14.5px;
+  cursor: pointer; box-shadow: 0 2px 0 var(--furrow);
+}
+.remote__btn:hover { background: var(--noon-2); }
+.remote__btn:active { transform: none; box-shadow: 0 1px 0 var(--furrow); }
+.remote__what {
+  margin: 0; flex: 1 1 16ch; min-width: 16ch; text-align: center;
+  font-size: 13.5px; color: var(--furrow); background: var(--noon);
+  border: 2px solid var(--furrow); border-radius: 8px; padding: 8px 10px;
+}
+
+/* The three chairs. NO TWO THE SAME COLOUR, because nobody furnishes a room
+   like this by agreeing. Each carries what somebody left on it. */
+.bags { list-style: none; margin: 0; padding: 0; width: 100%;
+  display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.bag {
+  background: var(--bag); color: var(--furrow);
+  border: 3px solid var(--furrow);
+  border-radius: 40% 40% 26% 26% / 22% 22% 16% 16%;
+  padding: 40px 26px 32px; display: flex; flex-direction: column; gap: 7px;
+  box-shadow: inset 0 -10px 22px rgba(22,41,28,.14);
+}
+.bag h4 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 19px;
+  margin: 0; color: var(--furrow); }
+.bag p { margin: 0; font-size: 14.5px; color: var(--furrow); }
+.bag__on { font-style: italic; font-size: 13.5px !important; }
+.bag__credit { font-size: 13px !important; }
+.bag__cited { font-size: 13.5px !important; }
+.bag__cited a { color: var(--furrow); text-underline-offset: 3px; }
+.bag__cited a:hover { color: var(--furrow-2); }
+
+/* The listings magazine. A <details>, for the third time in this room and the
+   same reason each time: the widget already has a keyboard and a screen reader
+   on it. */
+.guide { margin: 22px 0 0; background: var(--noon-2); border: 2px solid var(--furrow); border-radius: 12px; }
+.guide > summary {
+  cursor: pointer; list-style: none; padding: 16px 20px; min-height: 44px;
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; border-radius: 10px;
+}
+.guide > summary::-webkit-details-marker { display: none; }
+.guide__label { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 21px; color: var(--furrow); }
+.guide__hint { font-size: 14px; color: var(--furrow-2); }
+.guide > summary::after { content: '\25BC'; margin-left: auto; color: var(--furrow-2); font-size: 13px; }
+.guide[open] > summary::after { content: '\25B2'; }
+.guide__open { padding: 0 20px 20px; }
+.guide__note { margin: 0 0 16px; font-size: 15px; max-width: 70ch; }
+.channels { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); align-items: start; }
+.ch { background: var(--noon); border: 2px solid var(--leaf); border-radius: 12px;
+  padding: 14px 16px; display: flex; flex-direction: column; gap: 7px; }
+.ch__no { margin: 0; font-family: 'Sora', sans-serif; font-size: 11.5px; letter-spacing: 2px;
+  color: var(--leaf-2); }
+.ch h4 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 17px;
+  line-height: 1.2; margin: 0; color: var(--furrow); }
+.ch p { margin: 0; font-size: 14.5px; }
+.ch__by { color: var(--furrow-2); font-size: 13.5px !important; }
+.ch__why { font-size: 13px !important; color: var(--furrow-2); }
+.ch--on { border-color: var(--furrow); box-shadow: inset 0 0 0 3px var(--noon-2); }
+.tune {
+  margin-top: auto; background: var(--leaf); color: var(--noon); border: 0; border-radius: 999px;
+  font-family: 'Sora', sans-serif; font-size: 14.5px; padding: 12px 16px; cursor: pointer;
+}
+.tune:hover { background: var(--leaf-2); }
+.ch--on .tune { background: var(--furrow); }
 
 /* THE WATERING HOLE. Three benches under a window, and the shape has to answer
    to the two zones either side of it in the same room: the cave is enclosed,
@@ -2688,7 +2821,7 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 .kin p { margin: 0; font-size: 14.5px; }
 .kin__why { color: var(--furrow-2); font-size: 13.5px !important; }
 
-/* §19 ── Small screens ───────────────────────────────────────────────────────
+/* §20 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -2750,7 +2883,7 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 }
 
 
-/* §20 ── Print ───────────────────────────────────────────────────────────────
+/* §21 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
