@@ -226,6 +226,21 @@ arriving only where the leaves let it, nothing standing alone because everything
 something, and a face whose strokes swell as they turn. You are outside in one and inside the
 other. "They are both green, so they should feel the same" is the subroom excuse in a poncho.
 
+**`[hidden]` LOSES TO ANY CLASS THAT SETS `display`, AND NOTHING WARNS.** The browser's rule is
+specificity (0,1,0), which every ordinary class rule ties with and then wins by coming later in
+`love.css`. A script switching an element off does nothing, the script looks broken, and the
+stylesheet is the one lying. **It happened three times in the Hermitage's campfire** — the way-out
+link, the play button, and then the entire off panel, which sat beside a running video announcing
+that the set was off. The first two were patched one selector at a time, which is precisely why the
+third survived. **The guard is `[hidden] { display: none !important; }` in §2 and it is global.** Do
+not patch this per component again.
+
+**AND STATE THAT IS ONLY WRITTEN ON ONE PATH WILL BE FOUND WRONG ON THE OTHER.** The same panel was
+updated only by the code that does *not* play, so retuning while the set was on left it naming the
+previous programme. What it says is derived from the tuned channel on both paths now. When two code
+paths can reach the same piece of UI, render it from the state rather than writing it on the way
+past.
+
 **ONE SHARED SET, AND TUNING IS NOT PLAYING.** The Hermitage's campfire (§19) is a room — rug,
 three chairs, coffee table, one television — and the set keeps two things apart that a dial invites
 you to merge. **While it is off, previous and next are silent**: the screen names the channel and

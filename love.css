@@ -268,6 +268,20 @@ body {
 
 img, svg { max-width: 100%; height: auto; }
 
+/* THE HIDDEN ATTRIBUTE IS A STATEMENT ABOUT THE DOCUMENT, NOT A STYLE, and the
+   browser's own rule for it is `[hidden] { display: none }` at specificity
+   (0,1,0) — which any ordinary class rule setting `display` ties with and then
+   WINS, because it comes later in this file. Nothing warns. An element that a
+   script has switched off stays on the screen, and the script looks broken
+   while the stylesheet is the one lying.
+
+   IT HAPPENED THREE TIMES IN ONE ROOM before this rule existed: the Hermitage's
+   way-out link, its play button and then its whole OFF PANEL, which sat beside
+   the running video as a column of stale text announcing that the set was off
+   while the set was plainly on. Two of those were patched one selector at a
+   time, which is how a third one was still waiting to be found. */
+[hidden] { display: none !important; }
+
 /* Focus is never removed and never subtle. A site made of buttons has to be
    navigable by keyboard or it is a diorama. */
 :focus-visible {
@@ -2626,22 +2640,41 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
   background: var(--bakelite); border-radius: 16px; padding: 14px 14px 10px;
   box-shadow: 0 6px 0 rgba(22,41,28,.18);
 }
+/* SIXTEEN BY NINE IS A FLOOR HERE AND NOT A FIXED RATIO, and that is the whole
+   fix for a play button somebody could not reach. A channel title runs to a
+   hundred characters; at phone width that is four lines, and with the runtime
+   and the button under it the panel wanted 215px inside a 152px screen, so the
+   one control that matters sat below the bottom of the set. Scrolling INSIDE a
+   television to find the play button is not a fix.
+
+   The grid stacks everything into one cell and the row takes the height of the
+   tallest thing in it: ::before holds the 16:9 floor, and the panel pushes past
+   it only when a long title needs the room. The set is its normal shape almost
+   always, never clips, and truncates nothing — which matters more than a set
+   that never moves, because the alternatives were hiding the title or hiding
+   the button. */
 .bigscreen__glass {
-  position: relative; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden;
-  background: var(--bigscreen-off); display: flex;
+  display: grid; border-radius: 10px; overflow: hidden;
+  background: var(--bigscreen-off);
 }
+.bigscreen__glass > * { grid-area: 1 / 1; min-width: 0; }
+.bigscreen__glass::before { content: ""; grid-area: 1 / 1; padding-top: 56.25%; }
 .bigscreen__glass iframe { width: 100%; height: 100%; border: 0; display: block; }
 .bigscreen__off {
-  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 8px; padding: 18px; text-align: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 7px; padding: 14px; text-align: center;
 }
+/* The runtime and the control sit on one line, because they are one sentence —
+   how long it runs, and the button that starts it — and because a row saves the
+   set a whole line of height at phone width. */
+.bigscreen__go { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: center; }
 .bigscreen__stand { margin: 0; font-family: 'Sora', sans-serif; font-size: 12px; letter-spacing: 2.5px;
   color: var(--bigscreen-dim); }
 .bigscreen__now { margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 700;
-  font-size: clamp(17px, 2.6vw, 23px); line-height: 1.2; color: var(--bigscreen-lit); max-width: 34ch; }
+  font-size: clamp(15px, 2.1vw, 21px); line-height: 1.22; color: var(--bigscreen-lit); max-width: 36ch; }
 .bigscreen__runs { margin: 0; font-family: 'Sora', sans-serif; font-size: 14px; color: var(--bigscreen-dim); }
 .bigscreen__play {
-  margin-top: 6px; border: 2px solid var(--bigscreen-lit); background: transparent; color: var(--bigscreen-lit);
+  border: 2px solid var(--bigscreen-lit); background: transparent; color: var(--bigscreen-lit);
   border-radius: 999px; padding: 11px 22px; font-family: 'Sora', sans-serif; font-size: 15px; cursor: pointer;
 }
 .bigscreen__play:hover { background: var(--bigscreen-lit); color: var(--bigscreen-off); }
@@ -2649,19 +2682,14 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
    door out in the listing below it, so the two are obviously the same kind of
    thing and neither is mistaken for a play button. */
 .bigscreen__door {
-  margin-top: 6px; border: 2px dashed var(--bigscreen-lit); color: var(--bigscreen-lit);
+  border: 2px dashed var(--bigscreen-lit); color: var(--bigscreen-lit);
   border-radius: 999px; padding: 11px 22px; font-family: 'Sora', sans-serif;
   font-size: 15px; text-decoration: none; min-height: 44px; display: inline-flex;
   align-items: center;
 }
 .bigscreen__door:hover { background: var(--bigscreen-lit); color: var(--bigscreen-off); }
-/* display:inline-flex above has the same specificity as [hidden] and comes
-   later in the file, so it WON and the door stayed on the screen for every
-   channel. The hidden attribute is a statement about the document rather than a
-   style, and a rule that quietly outranks it is a bug that looks like a design
-   decision. Both controls are named here because the play button is hidden the
-   same way on the channel that cannot be played. */
-.bigscreen__door[hidden], .bigscreen__play[hidden] { display: none; }
+/* No [hidden] guard here any more: it is in §2, for everything, because doing
+   it per component is what let the off panel stay on screen. */
 .bigscreen__brand { display: flex; gap: 5px; justify-content: flex-end; padding: 8px 4px 0; }
 .bigscreen__brand span { width: 26px; height: 4px; border-radius: 2px; background: var(--bakelite-2); }
 .bigscreen__legs { display: flex; justify-content: space-between; padding: 0 60px; }

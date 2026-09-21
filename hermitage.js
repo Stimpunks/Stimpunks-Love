@@ -128,34 +128,48 @@
     channels.forEach(function (c, i) { c.el.classList.toggle('ch--on', i === at); });
   }
 
-  /* Off, or between channels: the screen is a panel again rather than a frame.
-     Rebuilt rather than hidden, so a retired iframe is GONE from the page and
-     not merely invisible — a hidden player is still a player. */
-  function showPanel(ch) {
-    var frame = screen.querySelector('iframe');
-    if (frame) frame.remove();
-    offPanel.hidden = false;
+  /* WHAT THE PANEL SAYS IS DERIVED FROM THE TUNED CHANNEL AND NOTHING ELSE.
+     It used to be written only on the path that does not play, so retuning
+     while the set was on left the panel holding whatever had been tuned last
+     time it was off — which is how it came to sit beside a running video
+     naming a different programme. A panel that is only correct on one of the
+     two paths through this code is a panel that will be found wrong. */
+  function render(ch) {
     nowEl.textContent = ch.title;
     if (ch.how === 'link') {
       runsEl.textContent = ch.runs + ' \u00b7 this one will not play here';
-      say('Tuned to ' + ch.title + ', ' + ch.spoken + '. This one cannot be played here; a link out is on the screen.');
       playBtn.hidden = true;
       door.hidden = false;
       door.href = 'https://www.youtube.com/watch?v=' + ch.id;
     } else {
       runsEl.textContent = 'Runs ' + ch.runs;
-      say('Tuned to ' + ch.title + ', ' + ch.spoken + '. The set is off.');
       playBtn.hidden = false;
       door.hidden = true;
     }
   }
 
+  /* Rebuilt rather than hidden, so a retired player is GONE from the page and
+     not merely invisible — a hidden player is still a player. */
+  function clearFrame() {
+    var frame = screen.querySelector('iframe');
+    if (frame) frame.remove();
+  }
+
+  function showPanel(ch) {
+    clearFrame();
+    render(ch);
+    offPanel.hidden = false;
+    say(ch.how === 'link'
+      ? 'Tuned to ' + ch.title + ', ' + ch.spoken + '. This one cannot be played here; a link out is on the screen.'
+      : 'Tuned to ' + ch.title + ', ' + ch.spoken + '. The set is off.');
+  }
+
   function playNow(ch) {
+    render(ch);
     if (ch.how === 'link') { showPanel(ch); return; }
     var player = window.loveEmbed && window.loveEmbed.frame(ch.id, ch.title);
     if (!player) { showPanel(ch); return; }
-    var old = screen.querySelector('iframe');
-    if (old) old.remove();
+    clearFrame();
     offPanel.hidden = true;
     screen.appendChild(player);
     on = true;
