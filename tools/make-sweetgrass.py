@@ -265,12 +265,22 @@ def quote_block(q):
 
 
 def grass_block(g, bk):
+    # WRAPPED, BECAUSE A CLASS ON THE BUTTON DOES NOT SURVIVE THE PRESS.
+    # love-embed.js replaces the <button> with a <div class="facade"> and that
+    # is the whole class list -- anything the button was wearing is gone. This
+    # clip is portrait and needs a 9/16 box, and a class on the button bought
+    # nothing: the player came out 16/9 and letterboxed, which is the exact
+    # thing the rule was written to prevent. The Pebble Board already solved
+    # this by styling its pressed state from the CONTAINER (.pb-card .facade),
+    # and this is the same answer.
     return (
         f'      <p class="swg-by">{esc(g["who"])} &middot; {esc(g["length"])} &middot; '
         f'already on our own <a href="{esc(g["ours"])}">{esc(g["ours_title"])}</a></p>\n'
-        f'      <button type="button" class="facade swg-tall" data-embed-src="{esc(g["src"])}"\n'
-        f'              data-embed-title="{html.escape(g["title"], quote=True)}">'
+        f'      <div class="swg-clip">\n'
+        f'        <button type="button" class="facade" data-embed-src="{esc(g["src"])}"\n'
+        f'                data-embed-title="{html.escape(g["title"], quote=True)}">'
         f'Play &middot; {esc(g["spoken"])}</button>\n'
+        f'      </div>\n'
         f'      <p class="swg-cap">{esc(g["note"])}</p>')
 
 

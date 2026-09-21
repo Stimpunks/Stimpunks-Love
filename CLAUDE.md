@@ -313,6 +313,24 @@ only says "next" is the one place this design can quietly stop saying how long b
 **The channel that cannot be embedded is in the running order and not skipped**, and reaching it
 turns the screen into a door.
 
+**A FACADE IS TWO ELEMENTS AND A CLASS ON THE BUTTON DOES NOT SURVIVE THE PRESS.** `love-embed.js`
+replaces the `<button>` with `<div class="facade">` and *that is the whole class list* — anything
+the button was wearing is gone. So **the pressed state has to be styled from the container**, which
+is what the Pebble Board already does (`.pb-card .facade iframe`, §21). Swaying Sweetgrass did it
+the other way and shipped two faults in one press: the portrait clip came out landscape and
+letterboxed because its class had evaporated, and — worse — **the fire's players rendered at 0×0
+while the audio played**, because `align-items: flex-start` on that column stopped the *div* from
+stretching and the iframe inside is absolutely positioned, so it contributes no size. Ryan found
+the second one by pressing a button. Two rules follow: **default a facade's container to stretch
+and let the BUTTON opt out** (`button.facade`, never `.facade`), and **do not fix this by carrying
+the button's classes over in `love-embed.js`** — `.pb-play` is button chrome and would leak
+`display: flex` and `border: 0` onto a room you are not working on.
+
+**AND "THE IFRAME EXISTS" IS NOT THE CHECK.** Both faults passed an inspection that confirmed one
+press produced one iframe at the right URL with the right referrer policy, because that is a
+question about the DOM and this is a question about paint. **Measure the rendered box**: a player
+whose shell is 0×0, or whose ratio is upside down, is a page that looks like it worked.
+
 **love-embed.js IS THE ONLY PLACE THAT BUILDS A YOUTUBE IFRAME, and it is exposed on purpose.**
 The set retunes, which the press-to-play plate never had to do, but two copies of those attributes
 is one copy that gets a `referrerpolicy` fixed and one that does not, silently, in the

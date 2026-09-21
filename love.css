@@ -4458,8 +4458,21 @@ html[data-intensity="max"]     .meadow .swg-flit { animation: swg-drift 11s ease
    reads as a fault rather than as a field. The item fills its grid row and the
    press is pushed to the foot, so every rule in a row is the same ground. */
 .swg-sit { padding: 0 0 18px; border-bottom: 2px solid var(--stem);
-  display: flex; flex-direction: column; align-items: flex-start; }
-.meadow .swg-sit .facade { margin-top: auto; }
+  display: flex; flex-direction: column; }
+/* ONLY THE BUTTON OPTS OUT OF STRETCHING, and it is written this way round
+   because the other way round shipped broken. A facade is TWO ELEMENTS in
+   sequence -- a <button> before the press and a <div> holding the iframe after
+   it -- and a rule aimed at ".facade" hits both. `align-items: flex-start` on
+   this column was added so the Play rule would not run the full width of the
+   card; it also stopped the PRESSED div from stretching, and since the iframe
+   inside it is absolutely positioned it contributes no size, so the shell
+   collapsed to 0x0. The sound played and there was no picture and no controls,
+   which is the worst shape this failure could take: the page looks like it
+   worked. Ryan found it by pressing one.
+   The default here is stretch, which is what the player needs; the button asks
+   for flex-start on its own. Anything added to this column later gets the
+   right behaviour without knowing about any of this. */
+.meadow .swg-sit button.facade { margin-top: auto; align-self: flex-start; }
 .swg-sit h3 { color: var(--straw); }
 .swg-by { margin: 6px 0 0; font-size: 14.5px; color: var(--sedge); letter-spacing: .3px; }
 .swg-sit p { margin: 9px 0 0; color: var(--awn); font-size: 16.5px; }
@@ -4476,12 +4489,24 @@ html[data-intensity="max"]     .meadow .swg-flit { animation: swg-drift 11s ease
 }
 .meadow .facade:hover { background: transparent; color: var(--straw); border-top-color: var(--sedge); }
 /* Once it is pressed it becomes a real player and needs the box back. */
-.meadow div.facade { aspect-ratio: 16 / 9; padding: 0; margin-top: 14px; border-top: 0; }
+/* The pressed state, in every room shape on this page. `align-self` is belt
+   and braces for the flex column above; `width: 100%` covers the plain block
+   flow of the field guide and the grass clip, where .meadow .facade's
+   `width: auto` is only correct because a block fills its parent. */
+.meadow div.facade { aspect-ratio: 16 / 9; padding: 0; margin-top: 14px; border-top: 0;
+  width: 100%; align-self: stretch; }
 .meadow div.facade iframe { border-radius: 0; }
 
 /* Ryan's grass was shot on a phone and is taller than it is wide. A 16/9 box
-   round a 9/16 video is two black bars and a small picture. */
-.meadow div.swg-tall { aspect-ratio: 9 / 16; max-width: 320px; }
+   round a 9/16 video is two black bars and a small picture.
+   SCOPED FROM THE CONTAINER AND NOT FROM A CLASS ON THE BUTTON, because the
+   button is gone by the time this matters: love-embed.js replaces it with a
+   plain <div class="facade"> and every other class it was wearing is dropped.
+   The first version put swg-tall on the button, which styled nothing anybody
+   could see and left the player landscape. The Pebble Board hit this first and
+   answered it the same way -- see .pb-card .facade iframe in §21. */
+.swg-clip { max-width: 320px; }
+.swg-clip div.facade { aspect-ratio: 9 / 16; }
 
 /* ── The chapter readings, which are doors and not screens ────────────────
    Deliberately unlike everything else on the page: no press, no runtime badge
@@ -4638,7 +4663,7 @@ html[data-intensity="max"]     .meadow .swg-flit { animation: swg-drift 11s ease
   .swg-door { padding: 9px 0; }
   .swg-quote { padding-left: 16px; }
   .swg-plot { padding: 18px 16px; }
-  .meadow div.swg-tall { max-width: 100%; }
+  .swg-clip { max-width: 100%; }
 }
 
 /* §27 ── Print ───────────────────────────────────────────────────────────────
