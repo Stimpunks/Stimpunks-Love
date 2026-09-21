@@ -226,6 +226,29 @@ arriving only where the leaves let it, nothing standing alone because everything
 something, and a face whose strokes swell as they turn. You are outside in one and inside the
 other. "They are both green, so they should feel the same" is the subroom excuse in a poncho.
 
+**THREE KINDS OF NAME IN `love.css` ARE LAST-WINS AND SILENT, and `check-classes.py` now refuses
+all three.** A class claimed by two rooms. A section number used twice. **And a custom property
+declared twice in one `:root`** — which shipped: the Hermitage took `--leaf` for its green and
+`--sky` for its daylight, and both were already there (`--leaf` is The Chappell's *gold leaf*,
+`--sky` is the pebbling shore's overcast), so a gold room rendered green and a grey sky rendered
+blue in two rooms nobody had reason to reopen. The identical collision had already been caught in
+the contrast checker's own Python and fixed only there, because Python fails loudly and CSS does
+not fail at all. **When a name collides, look for the same collision in every file that holds
+names.**
+
+**EVERY COLOUR IN `:root` IS MEASURED OR NAMED WITH A REASON**, and `check-contrast.py` refuses
+otherwise. Ornament that carries no text and is not required to understand anything is exempt via
+`ORNAMENT`, **with its measurement written into the entry** — the stained glass at 1.75–2.46, the
+campground's post at 1.48, Helen's shelf plank at 1.38, each one a decision somebody can find
+rather than an oversight. A flat colour nothing ever appears on goes in `VIA_COMPOSITE` instead,
+because the composite above it is the stricter test. **Do not add a colour to either list to make
+the tool quiet**; the lists are the record of what was looked at.
+
+**AND A RENAME IS STILL SCOPED — THIS WAS THE THIRD TIME.** Fixing the `--leaf` collision, a
+file-wide replace in `make-og.py` rewrote The Chappell's card and the shore's card, which use those
+names legitimately. Reverted. The rule is in this file twice now because writing it down did not
+stop it happening: **rename inside the section that owns the name, then check every other use.**
+
 **`[hidden]` LOSES TO ANY CLASS THAT SETS `display`, AND NOTHING WARNS.** The browser's rule is
 specificity (0,1,0), which every ordinary class rule ties with and then wins by coming later in
 `love.css`. A script switching an element off does nothing, the script looks broken, and the

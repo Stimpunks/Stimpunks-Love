@@ -43,6 +43,12 @@ def declared():
     over there is known over here."""
     src = (ROOT / "love.css").read_text()
     root = src[src.index(":root {"):src.index("\n}", src.index(":root {"))]
+    # COMMENTS STRIPPED FIRST. That block explains itself at length, and the
+    # explanations quote colours -- including #8a7462, the one value of Helen's
+    # this repo changed, which is written down there precisely so it is not
+    # forgotten. Reading it as a declaration made this tool demand a measurement
+    # for a colour that is not on the site.
+    root = re.sub(r"/\*.*?\*/", " ", root, flags=re.S)
     return {h.lower() for h in re.findall(r"#[0-9A-Fa-f]{6}", root)}
 
 
@@ -72,9 +78,9 @@ SUNFLOWER, SCREEN = "#E8C33A", "#A3D4DF"
 # dangerous colours rather than the greys, and --bloom was darkened twice before
 # it passed on the noon ground.
 NOON, NOON2 = "#F7F3E6", "#ECE6D2"
-SKY_H, SKY_2 = "#BCDDEA", "#E4F0F1"
+SKY_H, SKY_2 = "#BCDDEA", "#E4F0F1"   # --daysky, --daysky-2
 FURROW, FURROW2 = "#16291C", "#34483A"
-SPROUT, SPROUT2, BLOOM = "#2C6B45", "#1D4D30", "#B5760A"
+SPROUT, SPROUT2, BLOOM = "#2C6B45", "#1D4D30", "#B5760A"   # --sprout, --sprout-2
 # The cabin drawing's own inks, which are a picture's and not the room's --
 # hardcoded in the page the way the campground's stream and the yurt's crown
 # are. They are NOT the UI green: that one has to carry pale type on a button,
@@ -94,6 +100,9 @@ VELVET, VELVET2, VELVET3 = "#4A1220", "#5E1A2B", "#380C18"
 TURF = "#3F8E4C"
 BAG1, BAG2, BAG3 = "#F59A2E", "#F0559F", "#3FC7B4"
 BAKELITE, TELLY_OFF, TELLY_LIT, TELLY_DIM = "#2A2621", "#0C1110", "#F1EFE4", "#A9B4AB"
+BAKELITE_2 = "#7E7466"   # the set's brand strip; see the note on it below
+IVY, IVY_2, TIMBER = "#6D8A56", "#38491F", "#3A2A20"
+PEB_PRESS = "#1F6B55"
 WICK, WICK2, GILT = "#F6E8D0", "#DCC49C", "#E9C270"
 # And the cave's composite, which nobody chose: --wick at .05 over the velvet is
 # the brightest the EVEN light makes that ground, and it is what the type down
@@ -425,6 +434,35 @@ PAIRS = [
     (TELLY_DIM, TELLY_OFF, False, "campfire: THE SET IS OFF, and the runtime under the name"),
     (TELLY_LIT, BAKELITE, True,  "campfire: the play button's ring where it meets the casing"),
     (TELLY_OFF, TELLY_LIT, False, "campfire: the play button inverted, under the pointer"),
+    (BAKELITE_2, BAKELITE, True, "campfire: the brand strip on the set's casing"),
+
+    # THE THIRTEEN COLOURS THIS FILE HAD NEVER SEEN, resolved. Five were a dead
+    # palette and are deleted; these are the ones that turned out to be real.
+    #
+    # The Faery Yurt's ivy is the clearest case for measuring decoration at all:
+    # Helen's own copy says the ivy came in through the window frame and was
+    # never asked to leave, so it is a thing the room asks you to look at. The
+    # page draws it with these hexes inline, the way her crown is drawn, which
+    # is why nothing here had ever named them.
+    (IVY, HEARTH, True, "yurt: the vines, against the tent ground"),
+    (IVY, TENT,   True, "yurt: the vines, against the canvas"),
+    (IVY, CANVAS, True, "yurt: the vines, against a canvas panel"),
+    (IVY, GLOW,   True, "yurt: the vines, under the ember crown's glow"),
+    # The START button's hover ground on the pebbling shore, which is the one of
+    # the thirteen that turned out to carry TEXT -- the button says START and
+    # (no coin slot here either) -- and was the one nobody would have guessed,
+    # because its name said sea glass.
+    (SKY, PEB_PRESS, False, "shore: START on the coin, on its pressed ground"),
+    # The press-to-play plate's HOVER ground, which is shared furniture used in
+    # every room that has a facade and had never been measured in any of them.
+    (CREAM, INK3, False, "street: a facade's own text, on its hover ground"),
+    (CHALK, INK3, False, "street: the dimmer text on the same"),
+    # And the yurt's ember, which draws the animals' faces and the mug on
+    # Helen's page. Hardcoded there like her ivy, so nothing here had named it.
+    (EMBER, HEARTH, True, "yurt: the animals' faces and the mug, on the tent ground"),
+    (EMBER, TENT,   True, "yurt: the same, on the canvas"),
+    (EMBER, CANVAS, True, "yurt: the same, on a canvas panel"),
+    (EMBER, GLOW,   True, "yurt: the same, under the ember crown's glow"),
     (CEDAR,   NOON,   True,  "workshop: the hairline around a pressed sheet"),
     (INK,    GREEN,  False, "street: the signpost arm, dark on painted green"),
     (INK,    CYAN,   False, "street: the signpost arm on hover"),
@@ -723,25 +761,76 @@ for fg, bg, large, where in PAIRS:
 
 print(f"\n{len(PAIRS)} pairs checked, {len(fails)} failing.")
 
-# COLOURS DECLARED IN :root THAT THIS FILE HAS NEVER SEEN. Reported and not
-# refused, deliberately and for now: the list below is pre-existing, some of it
-# is genuinely decorative (the Chappell's stained glass carries no text and
-# love.css says so), and some of it is cruft this run cannot tell apart from a
-# real gap -- --peb-grey is declared and used nowhere, while the pebble actually
-# painted is a different value hardcoded in pebbling.js, which IS measured here.
-# Turning that into a failure would block a deploy on somebody else's unfinished
-# decision, and CLAUDE.md is clear that the fix for a refusing tool is the cause
-# and never the tool.
+# EVERY COLOUR DECLARED IN :root IS EITHER MEASURED ABOVE OR NAMED BELOW WITH A
+# REASON, AND THIS REFUSES OTHERWISE. It began as a printed note because the
+# list it produced was thirteen colours long and nobody had looked at any of
+# them; the list is resolved now, so it can do the job a checker is for.
 #
-# IT IS PRINTED EVERY RUN ANYWAY, because the alternative is what already
-# happened: --cedar was lightened in the stylesheet so a drawing would pass and
-# the copy here stayed on the old value, so a pair in this file spent a
-# commit measuring a colour that was no longer on the site. Resolve these by
-# measuring them or by recording why they carry no text; then make it refuse.
-seen = {h.lower() for h in re.findall(r"#[0-9A-Fa-f]{6}", Path(__file__).read_text())}
-unseen = sorted(declared() - seen)
-if unseen:
-    print(f"\nNOTE: {len(unseen)} colour(s) in love.css's :root are not named anywhere in\n"
-          "this file, so nothing here measures them: " + ", ".join(unseen))
+# WHAT RESOLVING THEM TURNED UP, because it is the argument for the check:
+# five were a palette the pebbling cabinet outgrew -- declared in :root, painted
+# nowhere, and superseded by lighter values in pebbling.js that this file does
+# measure. One carried TEXT nobody had noticed (the START button's hover ground)
+# and was misnamed after a colour in a different room. One was the Faery Yurt's
+# ivy, which Helen's own copy asks you to look at. And one was a brand strip on
+# the campfire's television at 1.54 against its own casing -- invisible
+# ornament, lightened until it was ornament you can see.
+#
+# ORNAMENT THAT CARRIES NO TEXT AND IS NOT REQUIRED TO UNDERSTAND ANYTHING IS
+# EXEMPT, WITH ITS MEASUREMENT WRITTEN DOWN rather than waved through. The bar
+# this site holds decoration to is its own, not WCAG's: a canopy you cannot make
+# out is not a canopy, and a quill you cannot pick out is a control you cannot
+# use. Neither of those applies to the shading inside a drawing or to a band of
+# stained glass, and forcing 3:1 on a jewel colour would wash out the thing it
+# is for. Each line says what it is and what it measured.
+# MEASURED, BUT NOT AS ITSELF. A flat colour that nothing ever appears on in
+# its flat state is checked through the thing it actually becomes. Exempting it
+# here is not waving it through; the composite above is the stricter test.
+VIA_COMPOSITE = {
+    "#0a3240": "arcade: the shoal, the upper half of the kelp bay's water. Everything "
+               "there is measured against SHOAL_LIT, what the scanline makes of it, "
+               "which is the lighter of the bay's two grounds and therefore the one "
+               "that decides.",
+}
+
+ORNAMENT = {
+    "#38491f": "yurt: the dark half of Helen's ivy, 2.53 against the ivy it shades. "
+               "Two tones of one drawn plant; the plant itself clears 3.9 on every "
+               "ground it is on, which is the thing you have to be able to see.",
+    "#3a2a20": "yurt: the plank under the bookshelf, 1.38 on the tent ground. It is a "
+               "gradient to transparent that reads as the shelf's shadow, not an object. "
+               "It is Helen's and is left as she drew it; the measurement is here so the "
+               "next person finds a decision rather than an oversight.",
+    "#8b0e33": "chappell: ruby in the glass band and the rose window, 1.95 on the nave.",
+    "#14406e": "chappell: sapphire, 1.75 on the nave.",
+    "#0e5c3a": "chappell: emerald, 2.30 on the nave.",
+    "#5b2a8f": "chappell: amethyst, 1.91 on the nave. The four glass colours carry no "
+               "text -- love.css has said so since that room was built -- and they are "
+               "deep because stained glass is. Lifting them to 3:1 would not make the "
+               "window clearer, it would make it not a window.",
+    "#143a24": "jungle: the hairline round a gallery panel and a stripe in that door's "
+               "awning, 1.30 on the understory. A separator inside a room that is dark "
+               "on purpose; every word in there is measured against the shaft composite.",
+    "#2a3a31": "campgrounds: the board's frame and the post each pitch hangs off, 1.48 "
+               "on the field. That field is deliberately the dimmest ground on the "
+               "street and its type carries all of it -- bone at 14.7, moss at 7.3. The "
+               "post is structure you feel rather than read.",
+}
+
+# MEASURED MEANS "IN A PAIR", not "appears somewhere in this file". The first
+# version scanned the whole source, which meant the ORNAMENT list below counted
+# its own entries as measured and the check passed while doing nothing at all --
+# a vacuous green, which is worse than the printed note it replaced. Tested by
+# adding a colour to :root and watching it refuse.
+measured = {c.lower() for fg, bg, _, _ in PAIRS for c in (fg, bg)}
+stray = [h for h in sorted(declared() - measured)
+         if h not in ORNAMENT and h not in VIA_COMPOSITE]
+if stray:
+    print("\nREFUSING: declared in love.css's :root and measured nowhere here:")
+    for h in stray:
+        print("   " + h)
+    print("\nMeasure it, or name it in ORNAMENT or VIA_COMPOSITE with what it is\n"
+          "and what it measured.\n"
+          "A colour this file has never seen is a colour nothing is checking.")
+    sys.exit(1)
 
 sys.exit(1 if fails else 0)

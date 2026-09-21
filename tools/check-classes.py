@@ -109,6 +109,33 @@ def sections():
             "A new room appended before the cross-cutting sections at the end is how a\n"
             "number gets reused; renumber rather than leaving the file out of sequence."
         )
+    # A CUSTOM PROPERTY DECLARED TWICE IN ONE :root IS LAST-WINS AND SILENT,
+    # which is the same failure as two rooms claiming a class and is not caught
+    # by any of the checks above -- those read SELECTORS, and this is a name
+    # inside one block. It shipped: the Solarpunk Hermitage declared --leaf for
+    # its green and --sky for its daylight, and both names were already taken --
+    # --leaf is The Chappell's GOLD LEAF and --sky is the pebbling shore's
+    # overcast. For as long as that was live, a gold room rendered green and a
+    # grey sky rendered blue, in two rooms nobody had reason to reopen.
+    #
+    # The contrast checker caught the identical collision in its own Python and
+    # was fixed there; nobody thought to look for it in the stylesheet, because
+    # the Python failed loudly and CSS does not fail at all.
+    root_at = src.find(":root {")
+    if root_at != -1:
+        root = src[root_at:src.index("\n}", root_at)]
+        root = re.sub(r"/\*.*?\*/", " ", root, flags=re.S)
+        decls = re.findall(r"(--[\w-]+)\s*:", root)
+        twice = sorted({n for n in decls if decls.count(n) > 1})
+        if twice:
+            raise SystemExit(
+                "REFUSING: these custom properties are declared more than once in "
+                "love.css's :root:\n  " + "\n  ".join(twice)
+                + "\n\nThe last one wins, everywhere, and nothing warns — so the room that "
+                "had the\nname first is quietly repainted in the newcomer's colour. Give the "
+                "newcomer\nits own name, the same as for a class."
+            )
+
     return [(n, title, src[at:(marks[i + 1][0] if i + 1 < len(marks) else len(src))])
             for i, (at, n, title) in enumerate(marks)]
 

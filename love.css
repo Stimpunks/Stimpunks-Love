@@ -182,9 +182,17 @@
 
   --sky: #D6DFE4;  --sea: #8FA9B8;  --shingle: #B4AEA5;
   --pen-dark: #1E2833;  --pen-light: #F7FAFB;  --beak: #E07B1F;
-  --peb-grey: #5A626B;  --peb-white: #EDE9E2;  --peb-glass: #1F6B55;
-  --peb-speck: #6E6258;  --peb-feather: #39434E;  --peb-shell: #C98F63;
-  --nest: #8A8279;
+  /* WHAT IS LEFT OF A PALETTE THE ROOM OUTGREW. The pebbling cabinet once kept
+     its six carryable things here; then the room decided every fill had to
+     clear 4.5 against the outline that draws it, which squeezed them all light,
+     and the new values went into pebbling.js beside the shapes they fill. The
+     dark originals sat on in :root afterwards, declared and painted nowhere —
+     a palette that looked like the source of truth and had not been true since.
+     They are gone. The colours the game actually paints are every one of them
+     in check-contrast.py, measured against that outline.
+     --peb-press is the survivor, and it was misnamed: it is the START button's
+     hover ground, NOT the sea glass, which is a different green in the game. */
+  --peb-press: #1F6B55;
 
   /* The Jungle Room (§17). Wet, warm, closed over the top. The campgrounds is
      night-BLUE under nothing; this is night-GREEN under a roof of leaves, and
@@ -215,7 +223,14 @@
   --cocoa: #1E1107;  --cocoa-2: #35210F;
   --tiki: #F0B040;  --jade: #37C9A4;  --rum: #F2705A;
 
-  /* The Solarpunk Hermitage (§19). THE FIRST DAYLIT ROOM ON THIS STREET, and
+  /* The Solarpunk Hermitage (§19). NAMES NOT SHARED WITH ANYBODY: --sprout and
+     --daysky rather than the obvious --leaf and --sky, because both of those
+     were ALREADY DECLARED in this block -- --leaf is The Chappell's gold leaf
+     and --sky is the pebbling shore's overcast. A custom property declared
+     twice in one :root is last-wins and silent, so for as long as this room
+     used those names it was repainting a gold room green and a grey sky blue,
+     in two rooms nobody was looking at. check-classes.py refuses a duplicate
+     now. THE FIRST DAYLIT ROOM ON THIS STREET, and
      that is the whole of its separation from everything else here: every other
      world is a dark ground with light put on it, and this one is a lit ground
      with things standing in it. --noon is sunlight on a lime-plastered wall.
@@ -232,9 +247,9 @@
      nobody's choice: it is --wick at .05 over the velvet, the brightest the
      even light makes it, and every ink down there is held against it as well
      as against the flat colour. See check-contrast.py. */
-  --noon: #F7F3E6;  --noon-2: #ECE6D2;  --sky: #BCDDEA;  --sky-2: #E4F0F1;
+  --noon: #F7F3E6;  --noon-2: #ECE6D2;  --daysky: #BCDDEA;  --daysky-2: #E4F0F1;
   --furrow: #16291C;  --furrow-2: #34483A;
-  --leaf: #2C6B45;  --leaf-2: #1D4D30;  --bloom: #B5760A;
+  --sprout: #2C6B45;  --sprout-2: #1D4D30;  --bloom: #B5760A;
   --cedar: #9A6A3C;  --cell: #12323C;
   --velvet: #4A1220;  --velvet-2: #5E1A2B;  --velvet-3: #380C18;
   /* The campfire's furniture. THE BAGS ARE BRIGHT AND THEREFORE CANNOT CARRY
@@ -247,7 +262,7 @@
      would only be muddied by a dark line around it. */
   --turf: #3F8E4C;
   --bag-1: #F59A2E;  --bag-2: #F0559F;  --bag-3: #3FC7B4;
-  --bakelite: #2A2621;  --bakelite-2: #4A433B;
+  --bakelite: #2A2621;  --bakelite-2: #7E7466;
   --bigscreen-off: #0C1110;  --bigscreen-lit: #F1EFE4;  --bigscreen-dim: #A9B4AB;
   --wick: #F6E8D0;  --wick-2: #DCC49C;  --gilt: #E9C270;
 }
@@ -1622,7 +1637,7 @@ html[data-intensity="max"] .bulbs span { animation: bulbchase 1.6s steps(2) infi
    on dark. */
 .shore .attract p { color: var(--pen-dark); }
 .shore .coin { background: var(--pen-dark); color: var(--sky); border-color: var(--sky); }
-.shore .coin:hover { background: var(--peb-glass); }
+.shore .coin:hover { background: var(--peb-press); }
 
 /* The poses. A trick is a run of drawn frames, NOT a rotation applied to one
    of them -- which is a decision about check-gentle.py and not about style.
@@ -2478,10 +2493,10 @@ html[data-intensity="max"] .falls__water { animation: den-fall 7s ease-in-out in
   background: var(--noon); color: var(--furrow-2);
   font-family: 'Sora', ui-sans-serif, system-ui, sans-serif;
 }
-.hermitage a { color: var(--leaf-2); text-underline-offset: 3px; }
+.hermitage a { color: var(--sprout-2); text-underline-offset: 3px; }
 .hermitage a:hover { color: var(--furrow); }
 .hermitage p, .hermitage li { font-size: 17px; line-height: 1.68; }
-.hermitage .backlink { font-family: 'Sora', ui-sans-serif, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--leaf-2); }
+.hermitage .backlink { font-family: 'Sora', ui-sans-serif, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--sprout-2); }
 
 .hermitage h1 {
   font-family: 'Fraunces', Georgia, serif; font-weight: 700;
@@ -2491,13 +2506,13 @@ html[data-intensity="max"] .falls__water { animation: den-fall 7s ease-in-out in
 .hermitage h2 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 30px; line-height: 1.14; color: var(--furrow); margin: 0 0 12px; }
 .hermitage h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 21px; color: var(--furrow); margin: 0; }
 .hermitage .lede { font-size: 20px; line-height: 1.58; color: var(--furrow-2); max-width: 56ch; margin: 20px 0 0; }
-.hermitage .trailmark { margin: 0; font-size: 13.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--leaf-2); }
+.hermitage .trailmark { margin: 0; font-size: 13.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--sprout-2); }
 
 /* THE SKY IS A REAL BAND AND NOT A TINT ON THE PAGE. A wash behind everything
    would have made the whole room pale blue, which is a mood; a band with a
    horizon in it is a place you are standing outside of. It is the only
    gradient in this section. */
-.daylight { background: linear-gradient(180deg, var(--sky) 0%, var(--sky-2) 78%, var(--noon) 100%); padding: 0 0 8px; margin: 0 0 4px; }
+.daylight { background: linear-gradient(180deg, var(--daysky) 0%, var(--daysky-2) 78%, var(--noon) 100%); padding: 0 0 8px; margin: 0 0 4px; }
 .daylight .wrap { padding: 26px 0 0; }
 
 /* The cabin itself, drawn in daylight — which is a different drawing from the
@@ -2512,11 +2527,11 @@ html[data-intensity="max"] .falls__water { animation: den-fall 7s ease-in-out in
    street already is one, and this is a smallholding. */
 .spaces { list-style: none; margin: 30px 0 0; padding: 0; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 .space {
-  background: var(--noon-2); border: 2px solid var(--leaf); border-radius: 14px;
+  background: var(--noon-2); border: 2px solid var(--sprout); border-radius: 14px;
   padding: 20px 22px; display: flex; flex-direction: column; gap: 10px;
 }
 .space p { margin: 0; color: var(--furrow-2); font-size: 16px; }
-.space__from { margin: 0; font-size: 14px; color: var(--leaf-2); }
+.space__from { margin: 0; font-size: 14px; color: var(--sprout-2); }
 .space--soon { border-style: dashed; }
 .space--soon h3 { color: var(--furrow-2); }
 
@@ -2768,10 +2783,10 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 .guide__note { margin: 0 0 16px; font-size: 15px; max-width: 70ch; }
 .channels { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px;
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); align-items: start; }
-.ch { background: var(--noon); border: 2px solid var(--leaf); border-radius: 12px;
+.ch { background: var(--noon); border: 2px solid var(--sprout); border-radius: 12px;
   padding: 14px 16px; display: flex; flex-direction: column; gap: 7px; }
 .ch__no { margin: 0; font-family: 'Sora', sans-serif; font-size: 11.5px; letter-spacing: 2px;
-  color: var(--leaf-2); }
+  color: var(--sprout-2); }
 .ch h4 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 17px;
   line-height: 1.2; margin: 0; color: var(--furrow); }
 .ch p { margin: 0; font-size: 14.5px; }
@@ -2779,10 +2794,10 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 .ch__why { font-size: 13px !important; color: var(--furrow-2); }
 .ch--on { border-color: var(--furrow); box-shadow: inset 0 0 0 3px var(--noon-2); }
 .tune {
-  margin-top: auto; background: var(--leaf); color: var(--noon); border: 0; border-radius: 999px;
+  margin-top: auto; background: var(--sprout); color: var(--noon); border: 0; border-radius: 999px;
   font-family: 'Sora', sans-serif; font-size: 14.5px; padding: 12px 16px; cursor: pointer;
 }
-.tune:hover { background: var(--leaf-2); }
+.tune:hover { background: var(--sprout-2); }
 .ch--on .tune { background: var(--furrow); }
 
 /* THE WATERING HOLE. Three benches under a window, and the shape has to answer
@@ -2842,7 +2857,7 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
    reproduced, so each one leads with its link rather than ending in one. */
 .kinship { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 14px;
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); }
-.kin { background: var(--noon); border-left: 4px solid var(--leaf); padding: 12px 14px;
+.kin { background: var(--noon); border-left: 4px solid var(--sprout); padding: 12px 14px;
   display: flex; flex-direction: column; gap: 6px; }
 .kin h4 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 17px;
   line-height: 1.22; margin: 0; }
