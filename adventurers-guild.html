@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Adventurer&rsquo;s Guild &mdash; Stimpunks.Love</title>
+<meta name="description" content="A job board in a manila room, on a street where nothing else is tidy. Each job sends you to a marker standing in one of the rooms; the marker gives you a code, and the code comes back here. Nothing is scored, nothing expires, every job carries hints and a give-me-the-answer way out, and the fanfare does whatever the dial says.">
+<link rel="canonical" href="https://stimpunks.love/adventurers-guild.html">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#E8E1CF">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.Love">
+<meta property="og:title" content="The Adventurer&rsquo;s Guild &mdash; Stimpunks.Love">
+<meta property="og:description" content="A job board in a manila room, on a street where nothing else is tidy. Every room has a marker standing in it; bring the code back here. Nothing is scored.">
+<meta property="og:url" content="https://stimpunks.love/adventurers-guild.html">
+<meta property="og:image" content="https://stimpunks.love/og/adventurers-guild.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A flat manila card with a thick black bar across the top, ruled like a printed form and with nothing on it tilted or overlapping. Small spaced capitals reading job board, hints at every job, no score kept, then “The Adventurer’s Guild” in a heavy woodtype face over a rule, and the line: A job board in a manila room, on a street where nothing else is tidy. Every room has a marker standing in it; bring the code back here. Nothing is scored. Under that, ruled rows giving the difficulty classes: I, on the street; II, through a door; III, past the treeline. At the foot, stimpunks.love on the left and the word DONE on the right in vermilion inside a double-ruled box, pressed square.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love — what changed on the street">
+<link rel="preload" href="fonts/rye-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+</head>
+<body class="room-guild">
+<a class="skip" href="#board">Skip to the job board</a>
+<div class="guild-sparks" aria-hidden="true"></div>
+
+<main id="main" class="guild">
+
+  <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:baseline;padding-top:10px;">
+    <a class="backlink" href="index.html">&larr; back to the street</a>
+    <p class="guild-note" style="margin:0;font-size:13px;letter-spacing:.1em;text-transform:uppercase;">Open. Nobody is behind the desk.</p>
+  </div>
+
+  <header class="guild-head">
+    <h1>The Adventurer&rsquo;s Guild</h1>
+    <p class="guild-docket">
+      <span>Job board</span>
+      <span>Hints at every job</span>
+      <span>No score kept</span>
+      <span>Rooms: all of them</span>
+    </p>
+  </header>
+
+  <p class="guild-lede">Somebody has come onto this street and <b>filed everything</b>. Ruled boxes, square corners, a class in the margin, a stamp for a job that is done. It is the only tidy room here and it is tidy the way a form is tidy, which on a street whose whole architecture is that nothing matches is the strangest thing anybody could have built.</p>
+
+  <p class="guild-note">Every job below sends you to a <b>marker</b> standing in one of the rooms &mdash; a small drawing of something lying about in there, drawn in that room&rsquo;s own colours, because no two rooms on this street look alike and neither do their markers. Open the marker and it gives you a <b>quest code</b>. Bring the code back here.</p>
+
+  <div class="hand">
+    <p class="hand__title">Hand in a quest code</p>
+    <p class="hand__why">Spaces and capitals do not matter. If you followed a link from a marker the code is already in the box &mdash; press the button when you are ready, because pressing it is the only thing that makes a noise.</p>
+    <div class="hand__row">
+      <label class="sr" for="hand-code">Quest code</label>
+      <input class="hand__in" id="hand-code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="e.g. STAPLE">
+      <button type="button" class="hand__do">Hand it in</button>
+    </div>
+    <p class="hand__said" role="status"></p>
+    <p class="hand__nostore" hidden>Your browser is not letting this page store anything, so stamps will not survive you leaving. Everything still works; it just will not be here when you come back. Nothing about this is kept anywhere but your own browser in the first place.</p>
+    <button type="button" class="hand__forget">Forget every job I have handed in</button>
+  </div>
+
+  <h2>House rules</h2>
+  <div class="guild-rules">
+    <ul>
+      <li><b>Nothing here is scored.</b> No total, no percentage, no streak, no rank you climb, and nothing that expires. The board stamps a job when you hand its code in and that is the entire bookkeeping. One job is a perfectly good number of jobs to do.</li>
+      <li><b>The difficulty class is how far you walk.</b> <b>I</b> is on the street, <b>II</b> is through a door off another room, <b>III</b> is out past the treeline in the field. It says nothing whatever about the person doing it, which is why it is measured in doors.</li>
+      <li><b>Every job has hints, and some have a question.</b> A question is answered by a sentence already published on the page you are standing on &mdash; that is the point of asking. The hints are at the job, the question&rsquo;s own hints are at the marker, and <b>every question has a &ldquo;give me the answer&rdquo; way out</b>. Taking it is a real way through this and not a lesser one.</li>
+      <li><b>The fanfare does what the dial says, and the words never change.</b> At <b>Gentle</b> handing a code in says its piece and does nothing else. At <b>Regular</b> it chimes. At <b>MAX GLITTER</b> it chimes properly and throws sparks up the page. You get the same sentences at all three.</li>
+      <li><b>Nothing in here flashes or strobes</b>, at any setting. That is Club Chronic&rsquo;s rule and it holds everywhere on this street.</li>
+      <li><b>The markers are not hidden.</b> They are quiet, which is a different thing: every one is a full-size control in the tab order with a real name on it, and every one opens without JavaScript. A secret only a sighted mouse user can find is not a secret.</li>
+    </ul>
+  </div>
+
+  <h2 id="board">The jobs</h2>
+  <p class="guild-note">In the order they were posted rather than sorted by class, because sorting by difficulty would stack the long walks at the bottom and start looking like a ladder.</p>
+
+  <ul class="guild-board">
+    <!-- guild:jobs:begin -->
+      <li class="job" data-quest="street-chalk" data-sum="ce714b9d">
+        <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
+        <div class="job__body">
+          <h3 class="job__title">Read the street before you walk it</h3>
+          <p class="job__room"><a href="index.html">The Stoop</a></p>
+          <p class="job__posted">Somebody has chalked a mark on the kerb outside the guild. Go and look at it. This is the shortest job on the board and it exists so that the first one you ever do is one you cannot get wrong.</p>
+          <p class="job__takes"><b>Takes</b> under a minute</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is on the front page, not behind any door.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>Go to the very bottom of the street, past the shopfronts and past the signpost, to where the pavement is.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>Right at the foot of the street, down on the pavement below the signpost.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">Every job marker on this street looks like the room it is standing in and none of them look like each other. That is the whole site in one habit.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="pony-sequin" data-sum="c8f38d30">
+        <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
+        <div class="job__body">
+          <h3 class="job__title">Whose records are on that dancefloor</h3>
+          <p class="job__room"><a href="pink-pony-club.html">Pink Pony Club</a></p>
+          <p class="job__posted">There is a sequin on the floor of the Pink Pony Club. Pick it up, and while you are down there settle an argument about who owns the music in that room.</p>
+          <p class="job__takes"><b>Takes</b> a minute, plus one line of reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is behind the first shopfront on the street.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>Look at the floor rather than at the jukebox.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>Down on the dancefloor at the very bottom of the room, below the jukebox.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">Press-to-play is the mechanism behind that claim, and it is checkable: open a network panel, load the room, and count the requests to YouTube. There are none until you press.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="chappell-rhinestone" data-sum="a70c7d5e">
+        <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
+        <div class="job__body">
+          <h3 class="job__title">A rhinestone off the vestments</h3>
+          <p class="job__room"><a href="the-chappell.html">The Chappell</a></p>
+          <p class="job__posted">A rhinestone has come off something in the Rhinestone Vatican and is lying on the floor of one of the arches. It is a subroom behind the dancefloor, so you will have to go through the Pink Pony Club to reach it.</p>
+          <p class="job__takes"><b>Takes</b> a minute or two, mostly walking</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is not on the street. It is behind one of the rooms that is.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>Go into Pink Pony Club and look for the way through to the chapel.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>On the chapel floor at the foot of the room, below the last arch.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">A subroom is not a smaller version of its parent. The dancefloor is flat hot pink with cream Shrikhand; the chapel is votive indigo and gold Monoton. They share a door and nothing else.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="club-pin" data-sum="5451e4ee">
+        <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
+        <div class="job__body">
+          <h3 class="job__title">Read the door policy</h3>
+          <p class="job__room"><a href="club-chronic.html">Club Chronic</a></p>
+          <p class="job__posted">There is a safety pin stuck through the paste-up wall at Club Chronic. Before it will come loose you have to have read what is pinned next to it, because that room makes a promise most clubs do not.</p>
+          <p class="job__takes"><b>Takes</b> two minutes, and some reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is a shopfront on the street, not behind a door.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is the punk one, with the paste-up wall and the rack of records.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>On the floor at the very bottom of the club, below the rack.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">That room also says out loud that a loud room is an access barrier. A page celebrating a scene built out of volume, crowding and stairs, which never names who cannot get in, is doing the inspiration thing this organisation exists to refuse.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="zine-staple" data-sum="c80fe7da">
+        <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
+        <div class="job__body">
+          <h3 class="job__title">One staple off the table</h3>
+          <p class="job__room"><a href="zine-table.html">The Zine Table</a></p>
+          <p class="job__posted">Somebody has left a staple on the zine table. Take it. There is nothing to work out on this one; it is here so there is a job you can do on your way past.</p>
+          <p class="job__takes"><b>Takes</b> under a minute</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is a shopfront on the street.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is the table itself rather than either of the issues laid out on it.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>On the table at the very bottom of the room, below the issues.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">That room prints to one sheet in black and white, and a tool renders it to a real PDF to check both halves of that claim. This marker is not on the sheet: a quest target is a screen control, so it is set not to print.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="zine2-clip" data-sum="fa2b2625">
+        <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
+        <div class="job__body">
+          <h3 class="job__title">What issue two is about</h3>
+          <p class="job__room"><a href="zine-issue-2.html">Zine #2</a></p>
+          <p class="job__posted">There is a paperclip holding issue two together. It will come off once you can say what the issue is about, which is written on the issue.</p>
+          <p class="job__takes"><b>Takes</b> two minutes, and some reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>Go to the zine table first; the issues are on it.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is the second issue, not the first.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>At the very bottom of issue two, below the last panel.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">Both zine pages print to one sheet and only in the inks a photocopier can manage. Adding one paragraph has pushed that room back over the limit more than once, which is why a tool measures it instead of somebody remembering.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="quantum-fringe" data-sum="951bdf94">
+        <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
+        <div class="job__body">
+          <h3 class="job__title">Name the physicist</h3>
+          <p class="job__room"><a href="hear-queer-here.html">Hear Queer Here</a></p>
+          <p class="job__posted">There is a detector sitting in the interference pattern in Hear Queer Here. It will give up its reading once you can name whose work that room is arguing from.</p>
+          <p class="job__takes"><b>Takes</b> two minutes, and some reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is a shopfront on the street.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is the room with the interference panel and the superposition buttons.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>At the foot of the room, below the readings.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">The buttons in that room never start audio. Collapsing is a measurement, not a play — which is why the panel can be walked end to end without anything being fetched.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="enid-sticker" data-sum="ca951574">
+        <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
+        <div class="job__body">
+          <h3 class="job__title">One sticker, peeling</h3>
+          <p class="job__room"><a href="enids-room.html">Enid&#x27;s Room</a></p>
+          <p class="job__posted">A sticker on Enid&#x27;s wall has started to lift at one corner. Press it back down, or take it; either way there is a code under it.</p>
+          <p class="job__takes"><b>Takes</b> under a minute</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is a shopfront on the street.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is the goth one, with the wall of stickers and the chair.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>On the floor at the very bottom of the room, below the wall and the chair.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">Every sticker on that wall is wired to a glossary entry on stimpunks.org, and each link was checked against a local mirror rather than fetched live, because on that site a redirect will happily deliver somebody to the wrong page and call it a success.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="polaroids-pin" data-sum="9254ac92">
+        <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
+        <div class="job__body">
+          <h3 class="job__title">What we will not do to a picture of you</h3>
+          <p class="job__room"><a href="polaroids.html">The Polaroid Wall</a></p>
+          <p class="job__posted">There is a spare drawing pin stuck in the wall beside the photographs. It is in the board, not in anybody&#x27;s picture. To get it you need to have read the promise that wall makes.</p>
+          <p class="job__takes"><b>Takes</b> two minutes, and some reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is behind Enid&#x27;s Room.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is the wall of photographs behind Enid&#x27;s Room, not Enid&#x27;s Room itself.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>At the very bottom of the wall, below the last row of photographs.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">The photographs on that wall are excluded from this site&#x27;s CC BY-SA licence, and that exclusion is load-bearing: CC BY-SA cannot be revoked, so a photograph published under it could not be taken back. Withdrawal here is deletion, not a hidden flag.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="play-block" data-sum="c58360bf">
+        <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
+        <div class="job__body">
+          <h3 class="job__title">A block off the floor</h3>
+          <p class="job__room"><a href="playhouse.html">The Playhouse</a></p>
+          <p class="job__posted">There is a wooden block on the floor of the Playhouse with a letter on it. Everything in that room is a button; this one is a block.</p>
+          <p class="job__takes"><b>Takes</b> under a minute</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is a shopfront on the street.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>On the floor, under the toys rather than among them.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>On the floor at the very bottom of the room, below the toys.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">Every noise in that room is synthesised in the browser except the recorded yells, and the sentence saying so is generated from the same data as the button — so it stops being true and starts being wrong in the same commit rather than a month later.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="arcade-token" data-sum="0d8960fe">
+        <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
+        <div class="job__body">
+          <h3 class="job__title">How loud is the arcade</h3>
+          <p class="job__room"><a href="arcade.html">The Arcade</a></p>
+          <p class="job__posted">Somebody has dropped a token on the carpet in the arcade. Pick it up, and answer the thing the foyer says about itself that no real arcade could.</p>
+          <p class="job__takes"><b>Takes</b> a minute, plus one line of reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is a shopfront on the street.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>On the carpet in the foyer, not on a cabinet.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>On the carpet at the very bottom of the foyer, below the cabinets.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">That room is the one place on the street where the pages are supposed to look alike: an arcade is machines with one body and different things behind the glass. The worlds are the screens.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="quill-feather" data-sum="0d662188">
+        <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
+        <div class="job__body">
+          <h3 class="job__title">Who drew the porcupine</h3>
+          <p class="job__room"><a href="quill-drift.html">Quill Drift</a></p>
+          <p class="job__posted">A quill has drifted off the screen and landed at the foot of the cabinet. Nothing on the playfield moves before the coin goes in, so this one is on the floor.</p>
+          <p class="job__takes"><b>Takes</b> two minutes, and some reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>Go into the arcade and walk up to a cabinet.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is the cabinet with the porcupine, not the one with the otter.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>On the floor at the very bottom of the page, below the cabinet.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">The Esmx in that cabinet is redrawn rather than pasted in. That is not a permissions matter — it is a room-consistency one, plus the fact that our own licence asks for variants rather than merely allowing them.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="otter-clam" data-sum="2e78fe58">
+        <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
+        <div class="job__body">
+          <h3 class="job__title">What floating is for</h3>
+          <p class="job__room"><a href="otterly-adorbs.html">Otterly Adorbs</a></p>
+          <p class="job__posted">An empty clam shell has washed up at the edge of the kelp bay. Getting it means being clear about what the otter gets for floating, which is the whole argument of that cabinet.</p>
+          <p class="job__takes"><b>Takes</b> two minutes, and some reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>Go into the arcade and walk up to a cabinet.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is the cabinet with the otter, not the one with the porcupine.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>At the very bottom of the page, below the cabinet.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">That cabinet also refuses to rank the other otters — there is no standard otter — and refuses to round the clam&#x27;s range into something tidier. Every number in it sits beside the paper it came from.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="pebbling-stone" data-sum="c6844e19">
+        <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
+        <div class="job__body">
+          <h3 class="job__title">Who named the locution</h3>
+          <p class="job__room"><a href="penguin-pebbling.html">Penguin Pebbling</a></p>
+          <p class="job__posted">There is a pebble on the shore that nobody has taken to a nest. It is yours if you can name whose locution this cabinet is built on.</p>
+          <p class="job__takes"><b>Takes</b> two minutes, and some reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>Go into the arcade and walk up to a cabinet.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is the shore one, with the penguins.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>At the very bottom of the page, below the cabinet.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">That cabinet keeps no tally of what you gave. No total, no streak, and the neighbours bring you things on their own clock whether or not you have ever given them anything — a timer rather than a reward, because a number beside a practice that is not about volume would quietly make it about volume.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="burrow-door" data-sum="65e4b571">
+        <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
+        <div class="job__body">
+          <h3 class="job__title">The shelf is not a checklist</h3>
+          <p class="job__room"><a href="latibulum.html">The Latibulum</a></p>
+          <p class="job__posted">There is a key on a hook by the round door of the burrow. To get it, look at the shelf of things to do with your body and be clear about what kind of list it is.</p>
+          <p class="job__takes"><b>Takes</b> two minutes, and some reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is a shopfront on the street.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is the burrow with the round door, the wireless and the tube television.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>At the very bottom of the burrow, below the wireless and the television.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">That room reads almost entirely dark on lit plaster, where the Faery Yurt reads cream on dark all the way down. Two rooms lit by the same kind of light, inverted — which is why the burrow&#x27;s share card is the only one on the street made of two grounds.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="jungle-leaf" data-sum="a3f59cef">
+        <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
+        <div class="job__body">
+          <h3 class="job__title">The thing a live camera cannot tell you</h3>
+          <p class="job__room"><a href="jungle-room.html">The Jungle Room</a></p>
+          <p class="job__posted">A leaf has come down out of the canopy in the viewing room. Every other press-to-play control on this street says one thing before the press that these cameras cannot.</p>
+          <p class="job__takes"><b>Takes</b> two minutes, and some reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is a shopfront on the street.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is the viewing room with the nature cams, not the den behind it.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>On the floor at the very bottom of the viewing room, below the last gallery.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">That room also found out that playing and embedding are two different permissions. A cam can be perfectly alive and still have embedding switched off, so those ones are doors out to YouTube rather than windows — because pretending a link is a screen is the broken thing.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="den-spindle" data-sum="d3e3d5ac">
+        <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
+        <div class="job__body">
+          <h3 class="job__title">The George Jones cover in Elvis&#x27;s den</h3>
+          <p class="job__room"><a href="the-den.html">The Den</a></p>
+          <p class="job__posted">One of the songs cut in that carpet was a hit for George Jones first, and the man who sang it there wrote none of it. There is a 45 spindle adapter on the shelf by the bench; it is yours once you can name a writer.</p>
+          <p class="job__takes"><b>Takes</b> two or three minutes, and some reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is behind the Jungle Room, through the back.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is the carpeted room behind the Jungle Room, with the cuts on it.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>On the floor at the very bottom of the den, below the last cut.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">Every video id in that room was resolved and then checked on its own watch page and matched against the released runtime, because searching any of those titles turns up alternate takes on the same official channels — and a room arguing these are the records that came out of that carpet cannot hand somebody a rehearsal.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="mopery-card" data-sum="b72f06ee">
+        <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
+        <div class="job__body">
+          <h3 class="job__title">Borrow, not buy</h3>
+          <p class="job__room"><a href="the-mopery.html">The Mopery</a></p>
+          <p class="job__posted">A library card has been left in the pocket of one of the books in the Mopery. The shelves there insist on one kind of link and do not insist on the other.</p>
+          <p class="job__takes"><b>Takes</b> two minutes, and some reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is a shopfront on the street.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is the library, the reading room and the parlour, all one room.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>At the very bottom of the room, below the reading nook.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">That room shows one scan of a manuscript and only points at another, one line of metadata apart: one is published under a public domain mark, the other carries a notice along the foot of its own first leaf. The poem is free in both; the objects are not the same object.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="oracle-lozenge" data-sum="0a72ebd5">
+        <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
+        <div class="job__body">
+          <h3 class="job__title">A deck that will not answer</h3>
+          <p class="job__room"><a href="oracle-deck.html">The Oracle Deck</a></p>
+          <p class="job__posted">There is a lozenge cut into the rule at the foot of the oracle deck. It comes away once you can say what every card in that deck does instead of telling you something.</p>
+          <p class="job__takes"><b>Takes</b> two minutes, and some reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is behind the Mopery, through the parlour.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>Look at the rule at the very foot of the deck, below the cards.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>At the very bottom of the page, below the last card.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">A deck that told somebody how their life was going to go would be doing the thing the rest of these pages exist to refuse, in the one room dark enough to get away with it — and it would arrive as a friendly edit from somebody who thought a question was a bit thin.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="doom-foxing" data-sum="94c23014">
+        <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
+        <div class="job__body">
+          <h3 class="job__title">Public domain everywhere</h3>
+          <p class="job__room"><a href="the-doomscroll.html">The Doomscroll</a></p>
+          <p class="job__posted">There is a spot of foxing on the roll in the doomscroll where the paper has aged. That scroll waits longer than one country&#x27;s law requires before it will carry a poem, and it will tell you how long.</p>
+          <p class="job__takes"><b>Takes</b> two minutes, and some reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is behind the Mopery, off the library.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>On the roll itself rather than in any poem.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>At the very bottom of the roll, below the last poem.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">That scroll sorts on the date a poem went public rather than the date it was written, which for a good part of it is decades apart — and it turned down a famous poem whose printing nobody could trace, because a text you cannot source is the one thing a scroll built out of dates cannot carry.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="your-room-keys" data-sum="81326140">
+        <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
+        <div class="job__body">
+          <h3 class="job__title">The keys are in the door</h3>
+          <p class="job__room"><a href="your-room.html">Your Room</a></p>
+          <p class="job__posted">There is an empty storefront on this street with the keys still in the door. Go and look at them. The room is empty on purpose and the terms are written down.</p>
+          <p class="job__takes"><b>Takes</b> under a minute</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is a shopfront on the street, and the only one with nothing in it.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is the storefront with nothing in it and the terms written down.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>At the very bottom of the room, below the terms.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">That storefront is empty because somebody in the community gets to decorate it, and the terms for doing so are published rather than negotiated in a direct message.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="board-clip" data-sum="166160e8">
+        <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
+        <div class="job__body">
+          <h3 class="job__title">A clip off the noticeboard</h3>
+          <p class="job__room"><a href="pebble-board.html">The Pebble Board</a></p>
+          <p class="job__posted">There is a spare bulldog clip on the pebble board out on the pavement. It is street furniture rather than a shopfront, so you do not have to go through a door to reach it.</p>
+          <p class="job__takes"><b>Takes</b> under a minute</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is not behind a door. It is out on the pavement, on the street itself.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is under the glass on the pavement, with the back issues racked beneath.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>At the very bottom of the board, below the back-issue rack.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">That board is a periodical rather than a premises: a new edition goes up when there is a new gathering and the old ones stay in the rack underneath, which is why it is not one of the shopfronts.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="camp-peg" data-sum="760f39bc">
+        <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">past the treeline</span></p>
+        <div class="job__body">
+          <h3 class="job__title">Out past the treeline</h3>
+          <p class="job__room"><a href="campgrounds.html">The Campgrounds</a></p>
+          <p class="job__posted">Somebody has left a tent peg in the ground at the campgrounds. The field is past the end of the street, so this one is a walk.</p>
+          <p class="job__takes"><b>Takes</b> two minutes, mostly walking</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is not on the street at all. Follow the signpost at the end of it.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>On the bare ground of the field, not on any of the pitches.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>In the grass at the very bottom of the field, below the last pitch.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">That field has no ambient layer at any dial setting, and the reason is not the same as Club Chronic&#x27;s: the field is still because quiet is what it is for.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="yurt-tallow" data-sum="bd7f6f28">
+        <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">past the treeline</span></p>
+        <div class="job__body">
+          <h3 class="job__title">A candle stub on the windowsill</h3>
+          <p class="job__room"><a href="faery-yurt.html">The Faery Yurt</a></p>
+          <p class="job__posted">There is a candle stub on the windowsill in the Faery Yurt, pitch 01 in the campgrounds, burnt most of the way down. Take it and leave everything else as you found it.</p>
+          <p class="job__takes"><b>Takes</b> two minutes, mostly walking</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is not on the street. Go out past the treeline to the campgrounds first.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is pitch 01, the first thing standing in that field.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>At the very bottom of the yurt, below everything else in it.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">That room is Helen Edgar&#x27;s design and not ours to redesign — the palette, the typefaces, the drawings and every line of its copy came from a mockup she sent. This repo has changed exactly one colour of hers, because her smallest grey failed WCAG on every ground it sat on, and that change is written up in four places. The candle stub is ours, added with Ryan&#x27;s say-so, and written up in the liner notes for the same reason.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="meadow-firefly" data-sum="2000446e">
+        <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">past the treeline</span></p>
+        <div class="job__body">
+          <h3 class="job__title">The book this room will not serve</h3>
+          <p class="job__room"><a href="swaying-sweetgrass.html">Swaying Sweetgrass</a></p>
+          <p class="job__posted">There is a firefly low in the grass at pitch 02. That room points at a book it will not play for you, and it will want you to know why before it lets the firefly go.</p>
+          <p class="job__takes"><b>Takes</b> three minutes, and some reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is not on the street. Go out past the treeline to the campgrounds first.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is pitch 02, the meadow with the path through it.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>Low in the grass at the very bottom of the meadow, below the clearing.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">That room also carries a correction to our own glossary near the top rather than in a footnote: two of our entries attribute a phrase to Barry Lopez that he never wrote. When two of our own pages disagree, the one that checked wins.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="hermitage-sunflower" data-sum="a3f61888">
+        <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">past the treeline</span></p>
+        <div class="job__body">
+          <h3 class="job__title">The fourth learning space</h3>
+          <p class="job__room"><a href="solarpunk-hermitage.html">The Solarpunk Hermitage</a></p>
+          <p class="job__posted">There is a sunflower head drying on a hook outside the hermitage at pitch 03. Three of the four primordial learning spaces are laid out inside that cabin. The fourth is not in there, and the room will tell you where it is.</p>
+          <p class="job__takes"><b>Takes</b> three minutes, and some reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is not on the street. Go out past the treeline to the campgrounds first.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>It is pitch 03, the cabin on wheels with the panels on the roof.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>At the very bottom of the page, below the last of the cabin.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">It is the only room on this street lit by morning. Every other world here is a dark ground with light applied to it; a cabin that runs on the sun and reads as midnight would be an argument against itself.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+      <li class="job" data-quest="liner-colophon" data-sum="25969213">
+        <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
+        <div class="job__body">
+          <h3 class="job__title">The two habits that survived</h3>
+          <p class="job__room"><a href="liner-notes.html">The Liner Notes</a></p>
+          <p class="job__posted">There is a colophon mark at the foot of the liner notes. This street dropped most of the care its sibling sites run on and kept exactly two things. Name the one that is not contrast.</p>
+          <p class="job__takes"><b>Takes</b> two minutes, and some reading  &middot; there is a question to answer in the room</p>
+          <div class="job__hints">
+            <details class="job__hint"><summary>Hint 1</summary><p>It is one of the pages linked from the pavement at the foot of the street.</p></details>
+            <details class="job__hint"><summary>Hint 2</summary><p>Go to the very bottom of the credits.</p></details>
+            <details class="job__hint"><summary>Where exactly it is</summary><p>At the very bottom of the page, below the last credit.</p></details>
+          </div>
+          <div class="job__done" hidden>
+            <p class="job__learned">Contrast survived for a reason that is not the obvious one. This is a Disabled people&#x27;s organisation, and a glitter-maximalist site that excluded the people it is for would be a self-own of exactly the kind we exist to name. The fix was never to tone it down — it was the dial.</p>
+          </div>
+        </div>
+        <p class="job__stamp" hidden aria-hidden="true">DONE</p>
+      </li>
+    <!-- guild:jobs:end -->
+  </ul>
+
+  <p class="guild-inn">A guild is an inn as well as a board, and there is no bed in this one yet. When there is, it will be a room about <b>rest as something you are owed rather than something you earn</b> &mdash; which means it will owe a great deal to <a href="https://thenapministry.com/">The Nap Ministry</a> and Tricia Hersey, and will say so in its own copy rather than in a footnote. Until then the guild is a board and a counter, and the counter is unattended on purpose.</p>
+
+  <div class="guild-desk">
+    <div class="guild-desk__half">
+      <h2>Who made this noise</h2>
+      <p class="guild-note">The trope is everybody&rsquo;s and belongs to nobody; the rooms it points at are ours. This one sets <b>Rye</b>, a woodtype face for posted bills, and <b>Public Sans</b>, which was drawn for United States government forms &mdash; both under the SIL Open Font License, both credited with everything else in the <a href="liner-notes.html">liner notes</a>. <b>Nothing you do here leaves your own browser.</b> There is no account and no server: the stamps are a list of job names in your own local storage, and the button above throws them away.</p>
+      <p class="guild-note"><a href="index.html">The street</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="changelog.html">Changelog</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+    </div>
+    <div class="guild-desk__half">
+      <div class="dial">
+        <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+        <div class="dial__row" role="group" aria-labelledby="dial-label">
+          <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+          <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+          <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+        </div>
+        <p class="dial__note" aria-live="polite"></p>
+        <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so &mdash; and in here the dial decides how loudly a finished job is announced. It never changes what the board tells you.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script src="love.js" defer></script>
+<script src="quest.js" defer></script>
+</body>
+</html>

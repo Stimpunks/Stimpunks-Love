@@ -652,6 +652,26 @@
     <p class="dial__fine">Gentle takes the scatter out of the cards and leaves every one of them, and everything written on them, exactly where it was.</p>
   </div>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:board-clip:begin -->
+  <details class="quest" data-quest="board-clip" data-code="BULLDOGCLIP">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="7" y="12" width="18" height="12" fill="none" stroke="var(--pbink)" stroke-width="2.2"/><path d="M11 12 L14 5 M21 12 L18 5" stroke="var(--pbink)" stroke-width="2" stroke-linecap="round"/><path d="M7 17 H25" stroke="var(--pbink)" stroke-width="1.6"/></svg>
+      <span class="quest__label">Job marker &mdash; a spare bulldog clip, holding nothing</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> A clip off the noticeboard</p>
+      <p class="quest__code">Quest code: <b class="quest__word">BULLDOGCLIP</b></p>
+      <p class="quest__go"><a href="adventurers-guild.html?code=BULLDOGCLIP">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+    </div>
+  </details>
+<!-- quest:board-clip:end -->
+
 </main>
 
 <!-- A NATIVE <dialog>, so the browser owns the focus trap, Escape, the inert
@@ -673,5 +693,6 @@
 <script src="love.js" defer></script>
 <script src="love-embed.js" defer></script>
 <script src="pebble-board.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

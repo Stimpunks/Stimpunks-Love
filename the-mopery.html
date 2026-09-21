@@ -673,6 +673,49 @@
     </div>
   </section>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:mopery-card:begin -->
+  <details class="quest" data-quest="mopery-card" data-code="LIBRARYCARD" data-accept="borrow|borrowed|borrowing|lend|library|loan">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="5" y="9" width="22" height="15" fill="none" stroke="var(--mop-bone)" stroke-width="2"/><path d="M9 14 H23 M9 18 H19" stroke="var(--mop-bone)" stroke-width="1.6"/><path d="M5 9 L27 9" stroke="var(--mop-gilt)" stroke-width="2.4"/></svg>
+      <span class="quest__label">Job marker &mdash; a library card out of the pocket of a book</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> Borrow, not buy</p>
+      <p class="quest__ask"><b>Before the code:</b> Every book on those shelves carries a way to do this, and none of them has to carry a way to buy. One word.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="mopery-card-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="mopery-card-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is what you do at a library rather than at a shop.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>The room&#x27;s own description says books you can do this to.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>Six letters, and the tool refuses a book without one.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Borrow</b>. Our library page says knowledge is infrastructure and access to it is mutual aid. A shelf that could only tell you where to buy would be a shop with an argument painted on it.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">LIBRARYCARD</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=LIBRARYCARD">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>Our library page says knowledge is infrastructure and access to it is mutual aid. A shelf that could only tell you where to buy would be a shop with an argument painted on it.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">LIBRARYCARD</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=LIBRARYCARD">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:mopery-card:end -->
+
 </main>
 
 <dialog class="mop-sheet" id="mop-sheet">
@@ -685,5 +728,6 @@
 <script src="love.js" defer></script>
 <script src="love-embed.js" defer></script>
 <script src="mopery.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

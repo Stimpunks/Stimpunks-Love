@@ -216,9 +216,30 @@
 
   <p style="margin-top:24px;font-size:14.5px;"><a href="liner-notes.html#the-chappell">Full credits for all thirteen &rarr;</a> &middot; <a href="pink-pony-club.html">Back to the dancefloor</a> &middot; <a href="index.html">Back to the street</a></p>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:chappell-rhinestone:begin -->
+  <details class="quest" data-quest="chappell-rhinestone" data-code="RHINESTONE">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 4 L26 13 L16 28 L6 13 Z" fill="var(--leaf)"/><path d="M16 4 L16 28 M6 13 L26 13" stroke="var(--nave)" stroke-width="1.4"/></svg>
+      <span class="quest__label">Job marker &mdash; a loose rhinestone</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> A rhinestone off the vestments</p>
+      <p class="quest__code">Quest code: <b class="quest__word">RHINESTONE</b></p>
+      <p class="quest__go"><a href="adventurers-guild.html?code=RHINESTONE">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+    </div>
+  </details>
+<!-- quest:chappell-rhinestone:end -->
+
 </main>
 
 <script src="love.js" defer></script>
 <script src="love-embed.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

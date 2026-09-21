@@ -191,6 +191,19 @@
 @font-face { font-family: 'Vollkorn'; src: url('fonts/vollkorn-400.woff2') format('woff2'); font-weight: 600; font-display: swap; }
 
 
+/* The Adventurer's Guild (§26). A WOODTYPE FACE AND A CIVIC FORM FACE, which is
+   the whole joke of that room set twice. Rye is the kind of type a posted bill
+   was printed in -- cut, spurred, meant to be read off a wall -- and Public Sans
+   is the typeface of the United States Web Design System, drawn for government
+   forms. The guild is the one TIDY room on a street whose architecture is that
+   nothing matches, so it is set in the type of a bill nailed up by a functioning
+   bureaucracy. Neither family is anywhere else here; every other face on this
+   street was already claimed by a room before this one opened. */
+@font-face { font-family: 'Rye';         src: url('fonts/rye-400.woff2') format('woff2');         font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Public Sans'; src: url('fonts/public-sans-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Public Sans'; src: url('fonts/public-sans-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -461,6 +474,36 @@
   --soil: #141A0C;       --shade: #1D2612;      --straw: #EFE6C6;
   --awn: #C4C08E;        --glow: #D7E06A;       --seed: #E3C85C;
   --band: #D9C6E8;       --sedge: #8FA05A;      --stem: #4E6B2E;
+
+  /* THE ADVENTURER'S GUILD (§26). THE ONE TIDY ROOM, and every value here is
+     doing that one job. Manila, printer's ink, hairline rules, a vermilion
+     stamp and a clerk's blue: the palette of a form rather than of a place.
+
+     IT IS THE SECOND DAYLIT-LOOKING ROOM AND IT HAS NO LIGHT IN IT AT ALL,
+     which is the distinction that keeps it off the Solarpunk Hermitage. That
+     cabin has a SUN in it -- a direction, a warmth, shadows falling away from
+     it, sunflowers. This room is lit the way a photocopy of a document is lit:
+     evenly, from nowhere, with nothing casting anything. So there is no
+     gradient in this section, no shadow in it, no rounded corner in it and no
+     ambient layer at any dial setting. A form does not move; if it did you
+     would be worried about it. If anything in here ever picks up a glow, a
+     soft edge or a drop shadow, the room has stopped being a printed sheet and
+     started being a place, and the hermitage already is one.
+
+     IT IS ALSO THE SECOND PALE GROUND ON A DARK STREET, and the Doomscroll is
+     the one to watch. That room is FOXED NEWSPRINT -- warm, grey, one unbroken
+     roll with nothing cut and nothing rotated, lying on a dark desk you can see
+     the edges of. This is MANILA, ruled: boxes, columns, a class in the margin,
+     a stamp. The doomscroll has no rule on it anywhere and this room is made of
+     them. If this paper ever goes grey, the two have become one.
+
+     --gu-rule carries no text and is in check-contrast.py's ORNAMENT at 2.22,
+     which is what a hairline printed rule measures and is the whole reason it
+     reads as a hairline. --gu-stamp and --gu-file are both held against both
+     papers, because the alternating cells mean either can sit on either. */
+  --gu-paper: #E8E1CF;   --gu-paper-2: #D8CFB6; --gu-ink: #1E241F;
+  --gu-ink-2: #4C5349;   --gu-rule: #A2977E;    --gu-stamp: #9E2B1B;
+  --gu-file: #1C3B6E;
 }
 
 * { box-sizing: border-box; }
@@ -644,6 +687,85 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 }
 .facade iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 9px; }
 
+/* THE JOB MARKER. Furniture rather than a room, for the facade's reason: every
+   room on the street wears one, so it belongs to §1–§4 where a name is allowed
+   to be global. What is NOT shared is the drawing inside it -- make-guild.py
+   holds one per room and refuses a room it has no drawing for, exactly as
+   make-og.py refuses a room it has no card for, and for the same reason. A
+   single glyph repeated in every room would be one shared component on a street
+   whose whole architecture is that the rooms share nothing, arriving through a
+   mechanism, which is how it always arrives.
+
+   THE PANEL BORROWS THE ROOM'S OWN INK AND GROUND rather than bringing colours
+   with it: every border, rule and control in here is `currentColor` on whatever
+   the room is already painted. So a marker cannot be illegible anywhere the
+   room's own body copy is legible, and opening one introduces no pair the
+   contrast checker has not already measured. A room may still dress it, the way
+   rooms dress `.facade`.
+
+   IT IS A NATIVE <details>. Not a scripted popup: it opens, explains itself and
+   gives up its code with scripts off. And DISCREET MEANS VISUALLY QUIET AND
+   NOTHING ELSE -- the mark is a full-size target in the tab order with a real
+   accessible name, which is The Den's door rule. On a Disabled people's site a
+   secret only a sighted mouse user can find is not a secret, it is an
+   exclusion. */
+.quest { display: inline-block; max-width: 100%; vertical-align: middle; }
+.quest__mark {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-width: 44px; min-height: 44px; padding: 6px;
+  cursor: pointer; list-style: none; opacity: .72;
+}
+.quest__mark::-webkit-details-marker { display: none; }
+.quest__mark:hover, .quest__mark:focus-visible, .quest[open] .quest__mark { opacity: 1; }
+.quest__draw { width: 32px; height: 32px; flex: none; display: block; }
+/* The name is there for everybody; it is only drawn when somebody is looking
+   for it. Never display:none — that would take it off the accessibility tree
+   and make the marker an unlabelled box. */
+.quest__label {
+  font-family: var(--sans); font-size: 12px; line-height: 1.3;
+  letter-spacing: .04em; max-width: 26ch;
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+.quest__mark:hover .quest__label,
+.quest__mark:focus-visible .quest__label,
+.quest[open] .quest__label {
+  position: static; width: auto; height: auto; overflow: visible;
+  clip: auto; white-space: normal;
+}
+.quest__panel {
+  border: 2px solid currentColor; padding: 16px 18px; margin-top: 6px;
+  max-width: 62ch; font-family: var(--sans); font-size: 15px; line-height: 1.55;
+}
+.quest__panel > * { margin: 0 0 10px; }
+.quest__panel > :last-child { margin-bottom: 0; }
+.quest__code { font-size: 16px; }
+.quest__word {
+  display: inline-block; border: 2px solid currentColor;
+  padding: 3px 10px; letter-spacing: .18em; font-weight: 700;
+}
+.quest__lab { display: block; font-size: 13px; letter-spacing: .04em; margin-bottom: 5px; }
+.quest__row { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; }
+.quest__in {
+  flex: 1 1 11em; min-width: 0; min-height: 44px; padding: 6px 10px;
+  border: 2px solid currentColor; background: transparent;
+  color: inherit; font: inherit; letter-spacing: .06em;
+}
+.quest__check {
+  min-height: 44px; padding: 6px 16px; cursor: pointer;
+  border: 2px solid currentColor; background: transparent;
+  color: inherit; font: inherit; font-weight: 700; letter-spacing: .06em;
+}
+.quest__check[disabled] { cursor: default; opacity: .6; }
+.quest__said:empty { display: none; }
+.quest__hint, .quest__out { border-top: 1px solid currentColor; padding-top: 8px; }
+.quest__hint > summary, .quest__out > summary {
+  cursor: pointer; min-height: 44px; display: flex; align-items: center;
+  font-size: 13px; letter-spacing: .06em; font-weight: 700;
+}
+.quest__free, .quest__yes { font-size: 14px; }
+.quest__yes { font-weight: 700; }
+
 
 /* §5 ── THE STREET (index) ───────────────────────────────────────────────────
    Night asphalt, shopfronts, bunting. The only page that has to hold every one
@@ -783,6 +905,18 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .door--jungle .door__name  { font-family: 'Yeseva One', Georgia, serif; color: var(--daylight); font-size: 28px; }
 .door--jungle .door__blurb { font-family: 'Cabin', system-ui, sans-serif; color: var(--sap); }
 .door--jungle .door__knock { font-family: 'Cabin', system-ui, sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--sun); }
+
+/* The Adventurer's Guild's shopfront, and the only front in the row that is not
+   PAINTED. Every other door here is signwriting, a canopy or a lit window --
+   somebody selling you a feeling from the pavement. This one is a notice with a
+   docket number on it, screwed to the wall, because what is behind it is a
+   filing system with a board in it. The awning stripe is a printed rule rather
+   than a seaside two-tone, for the same reason. */
+.door--guild { background: var(--gu-paper); border-color: var(--gu-ink); }
+.door--guild .door__awning { background-image: repeating-linear-gradient(90deg, var(--gu-ink) 0 3px, var(--gu-paper) 3px 11px); border-bottom-color: var(--gu-ink); }
+.door--guild .door__name  { font-family: 'Rye', var(--sans); color: var(--gu-ink); font-size: 25px; }
+.door--guild .door__blurb { font-family: 'Public Sans', var(--sans); color: var(--gu-ink-2); }
+.door--guild .door__knock { font-family: 'Public Sans', var(--sans); font-weight: 700; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--gu-file); }
 
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
@@ -4574,7 +4708,198 @@ html[data-intensity="max"]     .meadow .swg-flit { animation: swg-drift 11s ease
 .swg-foot { margin: 40px 0 0; font-size: 15px; color: var(--awn); max-width: 64ch; }
 
 
-/* §26 ── Small screens ───────────────────────────────────────────────────────
+/* §26 ── ROOM: The Adventurer's Guild ────────────────────────────────────────
+   A JOB BOARD, AND THE ONE TIDY ROOM ON THIS STREET.
+
+   The trope is the adventurer's guild with the inn over it and the board of
+   posted jobs by the door, ranked by difficulty class. The joke here is that on
+   a street whose entire architecture is that nothing matches, somebody has come
+   in and FILED EVERYTHING: ruled boxes, square corners, a class in the margin, a
+   stamp when a job is done. Tidiness as one room's costume, which is the only
+   way this site can wear it.
+
+   SO THE RULES OF THIS SECTION ARE NEGATIVE ONES, and they are what keep it
+   from turning into any of its neighbours. No gradient. No shadow. No rounded
+   corner. No ambient layer at any dial setting. Everything square to everything
+   else, nothing rotated, nothing overlapping. If a rule in here ever grows a
+   soft edge, the sheet has become a place.
+
+   THE THREE ROOMS IT COULD COLLAPSE INTO, and what holds it off each:
+
+     · THE SOLARPUNK HERMITAGE is the other room you can read by daylight. It
+       has a SUN in it -- one direction, warm, shadows falling away from it,
+       sunflowers at the door. There is NO LIGHT SOURCE IN HERE AT ALL: this is
+       lit like a photocopy of a document, evenly, from nowhere, and nothing in
+       it casts anything.
+     · THE DOOMSCROLL is the other pale ground on a dark street. That is foxed
+       newsprint, warm and grey, ONE UNBROKEN ROLL with nothing cut and nothing
+       ruled, lying on a dark desk whose edges you can see. This is manila, and
+       it is made of rules: boxes, columns, a margin, a stamp.
+     · THE ZINE TABLE and CLUB CHRONIC are the other rooms made of paper, and
+       both are paper that somebody CUT UP -- scattered, angled, overlapping,
+       pasted. Nothing here is cut or angled or overlapping. A clerk did this.
+
+   A PALE ROOM ON A DARK STREET HAS TO STATE ITS OWN LINK COLOUR, at the room,
+   which is the hole the Doomscroll left: it declared a link colour for one line
+   and every other link on that pale page fell through to the base stylesheet's
+   `a` -- a pink chosen for a near-black street, measuring about 2.4 on paper,
+   and the contrast checker had nothing to hold a pair for because nobody had
+   DECIDED anything. `.room-guild a` below is that decision, made once, at the
+   room.                                                                       */
+
+.room-guild {
+  background: var(--gu-paper); color: var(--gu-ink);
+  font-family: 'Public Sans', var(--sans);
+}
+.room-guild a { color: var(--gu-file); }
+.room-guild .backlink { color: var(--gu-file); }
+.room-guild .sr {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+.guild { max-width: 980px; margin: 0 auto; padding: 0 22px 70px; }
+
+/* The masthead is a filing header: two rules with the name between them, and a
+   docket line under it. Rye is the posted-bill face and is used HERE AND ON THE
+   JOB TITLES AND NOWHERE ELSE — a woodtype at paragraph length is an access
+   failure wearing atmosphere, which is the lesson the Doomscroll's blackletter
+   already had to learn one room over. */
+.guild-head { border-top: 6px solid var(--gu-ink); border-bottom: 2px solid var(--gu-ink); margin-top: 26px; padding: 18px 0 14px; }
+.room-guild h1 {
+  font-family: 'Rye', var(--sans); font-weight: 400;
+  font-size: clamp(34px, 6.4vw, 62px); line-height: 1.04;
+  margin: 0; color: var(--gu-ink);
+}
+.guild-docket {
+  display: flex; flex-wrap: wrap; gap: 6px 26px;
+  margin: 12px 0 0; font-size: 12.5px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--gu-ink-2);
+}
+.guild-lede { margin: 18px 0 0; font-size: 17px; line-height: 1.6; max-width: 66ch; }
+.room-guild h2 {
+  font-family: 'Rye', var(--sans); font-weight: 400;
+  font-size: clamp(21px, 3.2vw, 29px); line-height: 1.1;
+  margin: 46px 0 12px; padding-bottom: 8px;
+  border-bottom: 2px solid var(--gu-ink);
+}
+.guild-note { margin: 0 0 12px; font-size: 15.5px; line-height: 1.6; max-width: 66ch; color: var(--gu-ink-2); }
+.guild-note b, .guild-lede b { color: var(--gu-ink); }
+
+/* The counter where you hand a code in. A boxed form on a form. */
+.hand { border: 2px solid var(--gu-ink); padding: 20px 22px; margin: 26px 0 0; background: var(--gu-paper-2); }
+.hand__title { margin: 0 0 4px; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; }
+.hand__why { margin: 0 0 14px; font-size: 15px; line-height: 1.55; max-width: 60ch; }
+.hand__row { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; }
+.hand__in {
+  flex: 1 1 13em; min-width: 0; min-height: 46px; padding: 8px 12px;
+  border: 2px solid var(--gu-ink); background: var(--gu-paper);
+  color: var(--gu-ink); font-family: inherit; font-size: 17px; letter-spacing: .2em;
+}
+.hand__do {
+  min-height: 46px; padding: 8px 22px; cursor: pointer;
+  border: 2px solid var(--gu-ink); background: var(--gu-ink);
+  color: var(--gu-paper); font-family: inherit; font-size: 15px;
+  font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+}
+.hand__do:hover { background: var(--gu-stamp); border-color: var(--gu-stamp); }
+.hand__said { margin: 14px 0 0; font-size: 15.5px; line-height: 1.55; max-width: 64ch; }
+.hand__said:empty { display: none; }
+.hand__nostore { margin: 12px 0 0; font-size: 14px; line-height: 1.5; color: var(--gu-stamp); max-width: 64ch; }
+.hand__forget {
+  margin-top: 14px; cursor: pointer; min-height: 44px; padding: 6px 14px;
+  border: 2px solid var(--gu-ink-2); background: transparent;
+  color: var(--gu-ink-2); font-family: inherit; font-size: 13px; letter-spacing: .06em;
+}
+.hand__forget:hover { border-color: var(--gu-stamp); color: var(--gu-stamp); }
+
+/* THE BOARD. One ruled row per job, in the order they were written rather than
+   sorted by class — sorting by difficulty would stack the long walks at the
+   bottom and read as a ladder you climb, which is the scoreboard this room
+   refuses arriving as a sort order. */
+.guild-board { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--gu-ink); }
+.job {
+  display: grid; grid-template-columns: 82px 1fr auto; gap: 0 20px;
+  align-items: start; padding: 20px 0; border-bottom: 1px solid var(--gu-rule);
+}
+.job:nth-child(even) { background: var(--gu-paper-2); }
+.job__class {
+  margin: 0; font-family: 'Rye', var(--sans); font-size: 27px; line-height: 1;
+  color: var(--gu-file); padding-left: 4px;
+}
+.job__where {
+  display: block; margin-top: 6px; font-family: 'Public Sans', var(--sans);
+  font-size: 11px; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--gu-ink-2);
+}
+.job__body { min-width: 0; }
+.job__title { font-family: 'Rye', var(--sans); font-weight: 400; font-size: 21px; line-height: 1.16; margin: 0; }
+.job__room { margin: 7px 0 0; font-size: 12.5px; letter-spacing: .1em; text-transform: uppercase; }
+.job__posted { margin: 11px 0 0; font-size: 15.5px; line-height: 1.6; max-width: 62ch; }
+.job__takes { margin: 11px 0 0; font-size: 14px; color: var(--gu-ink-2); }
+.job__takes b { color: var(--gu-ink); letter-spacing: .1em; text-transform: uppercase; font-size: 12px; }
+.job__hints { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 12px; }
+.job__hint > summary {
+  cursor: pointer; min-height: 44px; display: flex; align-items: center;
+  font-size: 12.5px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--gu-file);
+}
+.job__hint > p { margin: 0 0 6px; font-size: 15px; line-height: 1.55; max-width: 60ch; }
+.job__hint[open] { flex: 1 1 100%; border-left: 3px solid var(--gu-rule); padding-left: 12px; }
+.job__done { margin-top: 14px; border-top: 2px solid var(--gu-stamp); padding-top: 10px; }
+.job__learned { margin: 0; font-size: 15px; line-height: 1.6; max-width: 62ch; }
+
+/* The stamp. A rubber stamp is ink pressed onto paper at whatever angle the
+   hand held it — and a rotation here would be decoration outranking somebody's
+   Gentle setting, which is what check-gentle.py measures and cannot be asked to
+   take a room's word about. So this one was pressed square, like everything
+   else the clerk did. */
+.job__stamp {
+  margin: 0; align-self: center; justify-self: end;
+  font-family: 'Public Sans', var(--sans); font-weight: 700;
+  font-size: 15px; letter-spacing: .22em;
+  color: var(--gu-stamp); border: 3px double var(--gu-stamp);
+  padding: 5px 12px;
+}
+.job--done .job__title { color: var(--gu-ink-2); }
+.job--just { background: var(--gu-paper-2); transition: background 600ms ease-out; }
+
+/* Sparks, at MAX only, and moved with `top` and a translate rather than any
+   rotation — the call arcade.js made, for the same reason: a checker that can
+   only read the off-diagonal terms of a matrix must not be asked to take this
+   file's word for something else. NOTHING FLASHES AND NOTHING STROBES, here or
+   anywhere, which is Club Chronic's rule holding a room away. They rise once
+   and fade, and quest.js takes them out of the document afterwards. */
+.guild-sparks { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 40; }
+.guild-spark {
+  position: absolute; bottom: 0; width: 7px; height: 7px;
+  background: var(--gu-stamp); opacity: 0;
+}
+html[data-intensity="max"] .guild-spark { animation: gu-rise 2.1s ease-out forwards; }
+@keyframes gu-rise {
+  0%   { opacity: 0; transform: translateY(0); }
+  12%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-62vh); }
+}
+
+/* The house rules, and the room over the board. */
+.guild-rules { border: 2px solid var(--gu-ink); padding: 20px 22px; margin: 26px 0 0; }
+.guild-rules ul { margin: 12px 0 0; padding-left: 20px; }
+.guild-rules li { margin: 0 0 8px; font-size: 15.5px; line-height: 1.55; max-width: 62ch; }
+.guild-inn {
+  border-top: 6px solid var(--gu-ink); margin-top: 46px; padding-top: 18px;
+  font-size: 15.5px; line-height: 1.6; max-width: 66ch; color: var(--gu-ink-2);
+}
+/* The desk at the end: the credits and the dial, side by side. The street's
+   chalk pavement does NOT run through this room -- a shared footer would be the
+   one piece of the street's own look reaching into a world, which is the same
+   leak check-classes.py caught here on its first run when this page was wearing
+   .pavement and .masthead__dial outright. Every room ends in its own voice. */
+.guild-desk { display: flex; flex-wrap: wrap; gap: 30px; align-items: flex-start; border-top: 2px solid var(--gu-ink); margin-top: 46px; padding-top: 24px; }
+.guild-desk__half { flex: 1 1 300px; min-width: 0; }
+.guild-desk__half .dial { max-width: 380px; }
+
+/* §27 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -4666,7 +4991,7 @@ html[data-intensity="max"]     .meadow .swg-flit { animation: swg-drift 11s ease
   .swg-clip { max-width: 100%; }
 }
 
-/* §27 ── Print ───────────────────────────────────────────────────────────────
+/* §28 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
@@ -4674,6 +4999,16 @@ html[data-intensity="max"]     .meadow .swg-flit { animation: swg-drift 11s ease
   /* Fix the sheet ourselves. Left to the browser's margin setting the zine's
      one-sheet promise depends on a print dialog we do not control. */
   @page { size: letter; margin: 0.4in; }
+
+  /* THE JOB MARKER DOES NOT PRINT. It is a control, like a play button: a
+     disclosure you press, whose whole content is a code to type into a page
+     you cannot type into on paper. The zine room's claim is that it prints to
+     ONE SHEET -- check-print.py renders a real PDF and fails if it does not,
+     and it has been pushed over that limit twice by a single paragraph -- so
+     an extra object on every page is exactly the kind of thing that breaks a
+     promise nobody was watching. It is also ink a photocopier would have to
+     find room for, in a room whose other claim is black and white. */
+  .quest { display: none !important; }
 
   /* Ink on paper, everywhere, with no exceptions by class.
      This used to reset backgrounds on a LIST of components, which meant every

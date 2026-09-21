@@ -108,10 +108,31 @@
     </div>
   </div>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:play-block:begin -->
+  <details class="quest" data-quest="play-block" data-code="WOODBLOCK">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="6" y="6" width="20" height="20" fill="#ffffff" stroke="#101014" stroke-width="3"/><path d="M12 21 L12 11 L16 18 L20 11 L20 21" fill="none" stroke="#101014" stroke-width="2.4" stroke-linejoin="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a wooden block with a letter on it</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> A block off the floor</p>
+      <p class="quest__code">Quest code: <b class="quest__word">WOODBLOCK</b></p>
+      <p class="quest__go"><a href="adventurers-guild.html?code=WOODBLOCK">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+    </div>
+  </details>
+<!-- quest:play-block:end -->
+
 </main>
 
 <div class="floor"><span>AAAAAAAAAAAAAAH!</span></div>
 
 <script src="love.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

@@ -46,6 +46,49 @@
     with a fire in it and benches round the fire. That is the whole build. The rest is grass
     doing what grass does.</p>
   </header>
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:meadow-firefly:begin -->
+  <details class="quest" data-quest="meadow-firefly" data-code="FIREFLY" data-accept="copyright|copyrighted|print">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><ellipse cx="16" cy="18" rx="4.5" ry="6" fill="none" stroke="var(--glow)" stroke-width="2"/><circle cx="16" cy="22" r="2.6" fill="var(--glow)"/><path d="M12 12 L7 7 M20 12 L25 7" stroke="var(--glow)" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a firefly</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> The book this room will not serve</p>
+      <p class="quest__ask"><b>Before the code:</b> The chapter readings in that room are doors rather than players. What is the book still in? One word.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="meadow-firefly-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="meadow-firefly-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>The room says it in three words, near the readings.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>It is the reason a library lends a book rather than giving it away.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>The author is living, publishing, and narrated the real audiobook herself.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Copyright</b>. Every one of those readings plays and every one embeds, so nothing in the machinery would have stopped them. What stops them is the room&#x27;s own argument — the honorable harvest — which a page cannot make while serving somebody else&#x27;s whole book off its own surface. They are doors with a borrow link beside them.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">FIREFLY</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=FIREFLY">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>Every one of those readings plays and every one embeds, so nothing in the machinery would have stopped them. What stops them is the room&#x27;s own argument — the honorable harvest — which a page cannot make while serving somebody else&#x27;s whole book off its own surface. They are doors with a borrow link beside them.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">FIREFLY</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=FIREFLY">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:meadow-firefly:end -->
+
 </main>
 
 <div class="swg-band" aria-hidden="true">
@@ -1053,5 +1096,6 @@
 
 <script src="love-embed.js" defer></script>
 <script src="love.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

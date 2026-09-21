@@ -272,6 +272,19 @@ SWG_AWN, SWG_GLOW, SWG_SEED = "#C4C08E", "#D7E06A", "#E3C85C"
 SWG_BAND, SWG_SEDGE, SWG_STEM = "#D9C6E8", "#8FA05A", "#4E6B2E"
 SWG_WASH = "#26280F"
 
+# The Adventurer's Guild (§26). Manila and printer's ink -- the SECOND pale
+# ground on a dark street, and the one that could have fallen through to the
+# base stylesheet's `a` the way the Doomscroll's links did. The room declares
+# its own link colour at the room, which is what gives this file a pair to hold
+# in the first place: an inherited colour was never DECIDED, so nothing here
+# would have had anything to measure and the run would have passed while a
+# paragraph of links sat at about 2.4 on paper.
+# GU_ prefixed on purpose. PAPER is already the zine's, INK is already the
+# street's, and STAMP is already a :root name for the Doomscroll's typewriter
+# grey -- the --leaf collision, pre-empted this time rather than discovered.
+GU_PAPER, GU_PAPER2, GU_INK = "#E8E1CF", "#D8CFB6", "#1E241F"
+GU_INK2, GU_RULE, GU_STAMP, GU_FILE = "#4C5349", "#A2977E", "#9E2B1B", "#1C3B6E"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -962,6 +975,61 @@ PAIRS = [
     (SWG_BAND,   SWG_SOIL,    False, "sweetgrass: the roots line at the foot of the braid"),
     (SWG_BAND,   SWG_WASH, False, "sweetgrass: the same, if the page is short"),
 
+    # ── The Adventurer's Guild (§26) ──────────────────────────────────────
+    # Alternating rows mean either ink can land on either paper, so both are
+    # held against both rather than against whichever one they were designed on.
+    # --gu-rule is the hairline and carries no text; it is in ORNAMENT with what
+    # it measures, because a printed rule that cleared 4.5 would be a bar.
+    (GU_INK,    GU_PAPER,  False, "guild: body copy, the lede, every job's posting"),
+    (GU_INK,    GU_PAPER2, False, "guild: the same, in an alternating row and on the counter"),
+    (GU_INK2,   GU_PAPER,  False, "guild: the docket line, how long a job takes, the inn note"),
+    (GU_INK2,   GU_PAPER2, False, "guild: the class's 'on the street' line in a shaded row"),
+    (GU_FILE,   GU_PAPER,  False, "guild: every link, the hint summaries, the class numeral"),
+    (GU_FILE,   GU_PAPER2, False, "guild: the same, in an alternating row"),
+    (GU_STAMP,  GU_PAPER,  False, "guild: the DONE stamp, and the storage warning"),
+    (GU_STAMP,  GU_PAPER2, False, "guild: the DONE stamp on an alternating row"),
+    (GU_PAPER,  GU_INK,    False, "guild: the hand-it-in button, reversed out of the ink"),
+    (GU_INK,    GU_PAPER,  True,  "guild: h1 and the job titles, in Rye"),
+    (GU_INK2,   GU_PAPER,  False, "street: the guild's door blurb"),
+    (GU_FILE,   GU_PAPER,  False, "street: the guild's door knock"),
+
+    # ── THE JOB MARKERS, ONE PER ROOM (§4 + every room) ───────────────────
+    # WCAG 1.4.3 does not reach a drawing, and these are held to the body
+    # threshold anyway -- the Jungle Room's quills rule: a marker you cannot
+    # pick out of the floor is a CONTROL you cannot use, and nobody should have
+    # to remember afterwards which bar applied. Each one is its own object in
+    # its own room's colours, so there is one line here per room and no shared
+    # value to check once and assume.
+    #
+    # THE PLAYHOUSE IS THE ONE THAT LOST AN ARGUMENT TO ITS OWN FLOOR. That
+    # room reaches for yellow for everything, and yellow on its blue measures
+    # 3.88. The block is white, which is 5.08 and is also what that room already
+    # sets its body copy in; the near-black outline round it is the room's own
+    # 5px edge and is ornament on top of a fill that already passes.
+    (CHALK,     INK,       False, "marker: the chalk mark on the street's kerb"),
+    ("#2b0a1c", HOT,       False, "marker: the sequin on the pony's dancefloor"),
+    (LEAF,      NAVE,      False, "marker: the rhinestone on the chapel floor"),
+    (PASTE,     BRICK,     False, "marker: the safety pin on the club's wall"),
+    (INK,       PAPER,     False, "marker: the staple on the zine table, and the clip on issue two"),
+    (CYAN,      INK,       False, "marker: the detector in the quantum room's fringes"),
+    (GREEN,     INK,       False, "marker: the peeling sticker in Enid's room"),
+    ("#ffffff", BLUE,      False, "marker: the wooden block on the Playhouse floor"),
+    (COIN,      CARPET,    False, "marker: the token on the arcade carpet, and the quill by the cabinet"),
+    (SHELLY,    CARPET,    False, "marker: the clam shell at the otter cabinet"),
+    (COBBLE,    CARPET,    False, "marker: the pebble at the pebbling cabinet"),
+    (UMBER,     PLASTER,   False, "marker: the key on its hook in the burrow"),
+    (SAP,       CANOPY,    False, "marker: the fallen leaf in the Jungle Room"),
+    (RATTAN,    PANEL,     False, "marker: the spindle adapter on the den floor"),
+    (MOP_BONE,  MOP_STONE, False, "marker: the library card in the Mopery"),
+    (ORC_BRASS, ORC_SLATE, False, "marker: the lozenge cut from the oracle's rule"),
+    (DSC_INK2,  DSC_PAPER, False, "marker: the foxing on the doomscroll's roll"),
+    (YELLOW,    INK,       False, "marker: the keys in Your Room's door, and the colophon in the liner notes"),
+    ("#2B2621", "#EDE3CC", False, "marker: the bulldog clip on the Pebble Board"),
+    (BONE,      DUSK,      False, "marker: the tent peg in the campground"),
+    (TALLOW2,   CANVAS,    False, "marker: the candle stub on the Faery Yurt's windowsill"),
+    (SWG_GLOW,  SWG_SOIL,  False, "marker: the firefly in the meadow grass"),
+    (FURROW,    NOON,      False, "marker: the sunflower head at the hermitage"),
+
 ]
 
 # NOT IN THE LIST, AND IT SHOULD BE: cream (#FFF3E6) on the same #FF5AA6 ground
@@ -1017,6 +1085,10 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#a2977e": "guild: the hairline rule between jobs and under the docket, 2.22 on the "
+               "manila. It carries no text and is the one thing in that room that is "
+               "SUPPOSED to be faint -- a printed rule that cleared 4.5 would be a bar. "
+               "The room's own inks are all measured above, against both papers.",
     "#38491f": "yurt: the dark half of Helen's ivy, 2.53 against the ivy it shades. "
                "Two tones of one drawn plant; the plant itself clears 3.9 on every "
                "ground it is on, which is the thing you have to be able to see.",

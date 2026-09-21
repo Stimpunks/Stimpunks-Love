@@ -213,9 +213,53 @@
     </div>
   </section>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:burrow-door:begin -->
+  <details class="quest" data-quest="burrow-door" data-code="ROUNDDOOR" data-accept="cannot|cant|never|no|none|nope|nothing">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="11" cy="12" r="5" fill="none" stroke="var(--umber)" stroke-width="2.4"/><path d="M14 15 L24 25" stroke="var(--umber)" stroke-width="2.6" stroke-linecap="round"/><path d="M20 21 L18 23 M24 25 L22 27" stroke="var(--umber)" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a key on a hook</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> The shelf is not a checklist</p>
+      <p class="quest__ask"><b>Before the code:</b> Stretch, flap, fidget, eat, drink. Can you tick any of them off? Yes or no.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="burrow-door-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="burrow-door-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>Try to press one and see what happens.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>They are read out of our own Bodymind Break, which is a rest and not a task list.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>It is a two-letter answer.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>No</b>. Not one of them is a button. The obvious improvement is to let somebody tick them off, and it would put a scoreboard next to a bodymind break — which is the thing the break is a break from.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">ROUNDDOOR</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=ROUNDDOOR">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>Not one of them is a button. The obvious improvement is to let somebody tick them off, and it would put a scoreboard next to a bodymind break — which is the thing the break is a break from.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">ROUNDDOOR</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=ROUNDDOOR">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:burrow-door:end -->
+
 </main>
 
 <script src="love.js" defer></script>
 <script src="love-embed.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

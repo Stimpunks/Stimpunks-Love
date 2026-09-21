@@ -338,9 +338,53 @@
     </div>
   </section>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:den-spindle:begin -->
+  <details class="quest" data-quest="den-spindle" data-code="SPINDLE" data-accept="dickey|dickeylee|duffy|lee|steve|steveduffy">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="10" fill="none" stroke="var(--rattan)" stroke-width="2.2"/><path d="M16 6 L16 26 M7 11 L25 21 M25 11 L7 21" stroke="var(--rattan)" stroke-width="2"/><circle cx="16" cy="16" r="3" fill="var(--panel)" stroke="var(--rattan)" stroke-width="1.6"/></svg>
+      <span class="quest__label">Job marker &mdash; a 45rpm spindle adapter</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> The George Jones cover in Elvis&#x27;s den</p>
+      <p class="quest__ask"><b>Before the code:</b> She Thinks I Still Care is on that bench, and the label credits two writers. Either surname will do.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="den-spindle-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="den-spindle-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is the second cut of the February session.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>The line under each title starts with the words Written by.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>One of the two surnames is three letters long.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Dickey Lee and Steve Duffy</b>. Presley wrote none of the songs cut in that room. A room where the performer&#x27;s name is the entire draw is exactly where crediting only the voice would pass unnoticed, so every cut names its writers.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SPINDLE</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SPINDLE">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>Presley wrote none of the songs cut in that room. A room where the performer&#x27;s name is the entire draw is exactly where crediting only the voice would pass unnoticed, so every cut names its writers.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SPINDLE</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SPINDLE">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:den-spindle:end -->
+
 </main>
 
 <script src="love.js" defer></script>
 <script src="love-embed.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

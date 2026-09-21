@@ -83,8 +83,29 @@
     </div>
   </div>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:your-room-keys:begin -->
+  <details class="quest" data-quest="your-room-keys" data-code="KEYRING">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="11" cy="13" r="5.5" fill="none" stroke="var(--yellow)" stroke-width="2.4"/><path d="M15 16 L25 26 M21 22 L19 24 M25 26 L23 28" stroke="var(--yellow)" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; the keys left in the door</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> The keys are in the door</p>
+      <p class="quest__code">Quest code: <b class="quest__word">KEYRING</b></p>
+      <p class="quest__go"><a href="adventurers-guild.html?code=KEYRING">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+    </div>
+  </details>
+<!-- quest:your-room-keys:end -->
+
 </main>
 
 <script src="love.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

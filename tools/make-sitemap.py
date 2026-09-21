@@ -18,6 +18,7 @@ ORDER = ["index.html", "pink-pony-club.html", "the-chappell.html", "club-chronic
          "latibulum.html",
          "jungle-room.html", "the-den.html",
          "the-mopery.html", "oracle-deck.html", "the-doomscroll.html",
+         "adventurers-guild.html",
          "your-room.html",
          # Street furniture rather than a door, and listed like everything else:
          # a page nobody can find from the sitemap is unpublished with extra

@@ -89,8 +89,52 @@
     </div>
   </div>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:polaroids-pin:begin -->
+  <details class="quest" data-quest="polaroids-pin" data-code="DRAWINGPIN" data-accept="filter|filtered|filtering|filters">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="10" r="6" fill="var(--chalk)"/><path d="M16 16 L16 27" stroke="var(--chalk)" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a spare drawing pin, stuck in the board and not in anybody&#x27;s picture</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> What we will not do to a picture of you</p>
+      <p class="quest__ask"><b>Before the code:</b> The wall promises two things it will not do to a photograph of you. One is crop. What is the other? One word.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="polaroids-pin-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="polaroids-pin-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>Two short sentences, one after the other, near the top of the wall.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>It is a thing people do to photographs on their phones.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>The tool that builds the wall refuses one of these outright, in CSS or inline.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Filter</b>. A frame, a shadow or a mat goes around a picture. A filter is done to it. That promise is made to everybody, so it is not waived by the person in the picture asking for it — the next photograph would arrive under a rule already bent once.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">DRAWINGPIN</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=DRAWINGPIN">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>A frame, a shadow or a mat goes around a picture. A filter is done to it. That promise is made to everybody, so it is not waived by the person in the picture asking for it — the next photograph would arrive under a rule already bent once.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">DRAWINGPIN</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=DRAWINGPIN">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:polaroids-pin:end -->
+
 </main>
 
 <script src="love.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

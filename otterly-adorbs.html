@@ -203,9 +203,53 @@
     </div>
   </div>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:otter-clam:begin -->
+  <details class="quest" data-quest="otter-clam" data-code="CLAMSHELL" data-accept="|no|none|nothing|nowt|zero">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M4 21 Q16 5 28 21 Z" fill="none" stroke="var(--shelly)" stroke-width="2.4" stroke-linejoin="round"/><path d="M16 8 L13 21 M16 8 L19 21 M16 8 L16 21" stroke="var(--shelly)" stroke-width="1.6"/></svg>
+      <span class="quest__label">Job marker &mdash; an empty clam shell</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> What floating is for</p>
+      <p class="quest__ask"><b>Before the code:</b> When the otter floats, what does it fill up, earn or recharge? One word.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="otter-clam-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="otter-clam-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>The cabinet says it out loud, right under the title.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>Floating fills nothing up, on purpose.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>The answer is the same one the arcade gives about its own volume.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Nothing</b>. The cabinet is built on a zine that refuses rest so you can produce, in as many words. No meter, no stamina, no bonus afterwards. Letting floating restore something would feel generous and would put a sentence on that page which another of our pages spends a spread refusing.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">CLAMSHELL</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=CLAMSHELL">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>The cabinet is built on a zine that refuses rest so you can produce, in as many words. No meter, no stamina, no bonus afterwards. Letting floating restore something would feel generous and would put a sentence on that page which another of our pages spends a spread refusing.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">CLAMSHELL</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=CLAMSHELL">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:otter-clam:end -->
+
 </main>
 
 <script src="love.js" defer></script>
 <script src="otterly.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

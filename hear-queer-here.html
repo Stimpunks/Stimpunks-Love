@@ -178,8 +178,52 @@
     <p style="margin:0;font-size:16px;line-height:1.6;">Barad also names the reaction: panicked attempts to contain, tame, or normalize what will not stay contained. We know that reflex. It is the same one that built the behaviorist clinic and the compliance classroom, one scale down.</p>
   </section>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:quantum-fringe:begin -->
+  <details class="quest" data-quest="quantum-fringe" data-code="FRINGE" data-accept="barad|karen|karenbarad">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="9" y="6" width="14" height="10" fill="none" stroke="var(--cyan)" stroke-width="2"/><path d="M16 16 L16 26 M10 26 L22 26" stroke="var(--cyan)" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="11" r="2" fill="var(--cyan)"/></svg>
+      <span class="quest__label">Job marker &mdash; a small detector</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> Name the physicist</p>
+      <p class="quest__ask"><b>Before the code:</b> The physicist this room quotes, whose work the whole argument is drawn from. Surname is enough.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="quantum-fringe-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="quantum-fringe-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>The name is on the page, beside the words it belongs to.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>A theoretical physicist and feminist theorist.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>The surname has five letters and begins with a B.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Karen Barad</b>. The room is built on Barad&#x27;s agential realism: nothing is fixed, bounded or settled in advance of its relations. Every quotation in there is credited by name rather than folded into our we.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">FRINGE</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=FRINGE">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>The room is built on Barad&#x27;s agential realism: nothing is fixed, bounded or settled in advance of its relations. Every quotation in there is credited by name rather than folded into our we.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">FRINGE</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=FRINGE">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:quantum-fringe:end -->
+
 </main>
 
 <script src="love.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

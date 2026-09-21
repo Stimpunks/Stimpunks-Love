@@ -136,8 +136,52 @@
     </div>
   </div>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:zine2-clip:begin -->
+  <details class="quest" data-quest="zine2-clip" data-code="PAPERCLIP" data-accept="gender|genders">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M11 26 L11 10 a5 5 0 0 1 10 0 L21 23 a3 3 0 0 1 -6 0 L15 12" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a paperclip</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> What issue two is about</p>
+      <p class="quest__ask"><b>Before the code:</b> This issue was distilled from one of our courses. Neurodiversity and what? One word.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="zine2-clip-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="zine2-clip-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is named at the top of the issue and in the page&#x27;s own description.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>Two subjects, joined by the word and.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>The other half of the pair is a word about who people are rather than how they think.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Gender</b>. Seven lessons from our Neurodiversity and Gender course, photocopied down to one sheet.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">PAPERCLIP</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=PAPERCLIP">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>Seven lessons from our Neurodiversity and Gender course, photocopied down to one sheet.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">PAPERCLIP</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=PAPERCLIP">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:zine2-clip:end -->
+
 </main>
 
 <script src="love.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

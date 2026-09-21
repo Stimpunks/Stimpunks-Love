@@ -472,5 +472,30 @@
    "bytes": 17232,
    "src": "https://fonts.gstatic.com/s/alegreyasans/v28/5aUu9_-1phKLFgshYDvh6Vwt5alOqEp2i0VBuxM.woff2"
   }
+ ],
+ "rye": [
+  {
+   "file": "rye-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 22880,
+   "src": "https://fonts.gstatic.com/s/rye/v17/r05XGLJT86YzEZ7tfumh4g.woff2"
+  }
+ ],
+ "public-sans": [
+  {
+   "file": "public-sans-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 14620,
+   "src": "https://fonts.gstatic.com/s/publicsans/v21/ijwGs572Xtc6ZYQws9YVwllKVG8qX1oyOymuFpmJxAcofVotfzbj.woff2"
+  },
+  {
+   "file": "public-sans-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 14756,
+   "src": "https://fonts.gstatic.com/s/publicsans/v21/ijwGs572Xtc6ZYQws9YVwllKVG8qX1oyOymu8Z6JxAcofVotfzbj.woff2"
+  }
  ]
 }

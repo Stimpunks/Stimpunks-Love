@@ -608,6 +608,49 @@
 
   <p class="dsc-foot"><a href="liner-notes.html">Liner notes</a> &middot; <a href="changelog.html">Changelog</a> &middot; a <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:doom-foxing:begin -->
+  <details class="quest" data-quest="doom-foxing" data-code="FOXING" data-accept="|seventy|seventyyears|years">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="14" cy="15" r="6.5" fill="var(--dsc-ink-2)" opacity=".55"/><circle cx="22" cy="21" r="3.2" fill="var(--dsc-ink-2)" opacity=".7"/><circle cx="21" cy="10" r="2" fill="var(--dsc-ink-2)" opacity=".5"/></svg>
+      <span class="quest__label">Job marker &mdash; a spot of foxing where the paper has aged</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> Public domain everywhere</p>
+      <p class="quest__ask"><b>Before the code:</b> How many years must an author have been dead before a poem can go on that scroll? A number.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="doom-foxing-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="doom-foxing-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is in the note at the head of the scroll.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>Longer than the American rule, because this site is read everywhere.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>It is a round number between fifty and a hundred.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Seventy</b>. That is a public-domain-everywhere test rather than a public-domain-in-America one, and it cost the scroll its best opening item: Eliot&#x27;s The Hollow Men is free in the United States and will not be free in much of Europe until the 2030s. A site that serves everybody cannot publish a whole poem on a technicality that holds in one country.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">FOXING</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=FOXING">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>That is a public-domain-everywhere test rather than a public-domain-in-America one, and it cost the scroll its best opening item: Eliot&#x27;s The Hollow Men is free in the United States and will not be free in much of Europe until the 2030s. A site that serves everybody cannot publish a whole poem on a technicality that holds in one country.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">FOXING</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=FOXING">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:doom-foxing:end -->
+
 </main>
 
 <dialog class="dsc-full" id="dsc-full">
@@ -619,5 +662,6 @@
 
 <script src="love.js" defer></script>
 <script src="doomscroll.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

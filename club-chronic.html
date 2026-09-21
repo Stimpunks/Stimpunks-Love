@@ -516,9 +516,53 @@
     <p class="dial__fine">MAX GLITTER buys you nothing in here, and that is on purpose rather than unfinished. See the door policy.</p>
   </div>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:club-pin:begin -->
+  <details class="quest" data-quest="club-pin" data-code="SAFETYPIN" data-accept="flash|flashes|flashing|strobe|strobes|strobing">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M7 20 L24 11" stroke="var(--paste)" stroke-width="2.4" stroke-linecap="round"/><path d="M7 20 q-3 2 -1 4 q2 2 4 -1 L25 15" fill="none" stroke="var(--paste)" stroke-width="2.4" stroke-linecap="round"/><circle cx="25" cy="10" r="2.6" fill="none" stroke="var(--paste)" stroke-width="2.2"/></svg>
+      <span class="quest__label">Job marker &mdash; a safety pin</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> Read the door policy</p>
+      <p class="quest__ask"><b>Before the code:</b> This club names one thing it will never do, because it can put somebody on the floor. One word, and it is a kind of light.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="club-pin-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="club-pin-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is on the door policy rather than in the music.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>It is the one obvious effect a punk club has, and the one this club refuses.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>Nothing plays until you press play, and nothing in here does the other thing.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Strobe</b>. A room whose argument is come in as you are cannot have a light in it that causes seizures. The club has no ambient layer at any dial setting, and it says so on its own door policy so that nobody finishes the room later by adding one.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SAFETYPIN</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SAFETYPIN">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>A room whose argument is come in as you are cannot have a light in it that causes seizures. The club has no ambient layer at any dial setting, and it says so on its own door policy so that nobody finishes the room later by adding one.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SAFETYPIN</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SAFETYPIN">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:club-pin:end -->
+
 </main>
 
 <script src="love.js" defer></script>
 <script src="love-embed.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

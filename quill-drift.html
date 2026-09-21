@@ -209,9 +209,53 @@
     </div>
   </div>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:quill-feather:begin -->
+  <details class="quest" data-quest="quill-feather" data-code="QUILL" data-accept="kaya|kayaoldaker|oldaker">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M25 6 Q11 10 7 25 Q19 23 25 6 Z" fill="none" stroke="var(--coin)" stroke-width="2.2" stroke-linejoin="round"/><path d="M23 8 L9 24" stroke="var(--coin)" stroke-width="1.8"/></svg>
+      <span class="quest__label">Job marker &mdash; a quill</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> Who drew the porcupine</p>
+      <p class="quest__ask"><b>Before the code:</b> Esmx the Porkypine was drawn by somebody, and the cabinet credits them. Surname is enough.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="quill-feather-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="quill-feather-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>The name is in the room, and again in the liner notes.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>It is on the drawing itself as well as in the credits.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>The surname has seven letters and starts with an O.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Kaya Oldaker</b>. Stimpunks commissioned Esmx and holds the rights, and Kaya&#x27;s name is on the drawing&#x27;s own markup anyway. Holding the rights to a commission is not a reason to stop naming the hand that drew it.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">QUILL</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=QUILL">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>Stimpunks commissioned Esmx and holds the rights, and Kaya&#x27;s name is on the drawing&#x27;s own markup anyway. Holding the rights to a commission is not a reason to stop naming the hand that drew it.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">QUILL</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=QUILL">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:quill-feather:end -->
+
 </main>
 
 <script src="love.js" defer></script>
 <script src="arcade.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

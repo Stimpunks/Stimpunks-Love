@@ -326,8 +326,29 @@
     </div>
   </section>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:camp-peg:begin -->
+  <details class="quest" data-quest="camp-peg" data-code="TENTPEG">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M12 4 L12 24 L16 28 L20 24 L20 4" fill="none" stroke="var(--bone)" stroke-width="2.4" stroke-linejoin="round"/><path d="M8 7 L24 7" stroke="var(--bone)" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a tent peg</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> Out past the treeline</p>
+      <p class="quest__code">Quest code: <b class="quest__word">TENTPEG</b></p>
+      <p class="quest__go"><a href="adventurers-guild.html?code=TENTPEG">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+    </div>
+  </details>
+<!-- quest:camp-peg:end -->
+
 </main>
 
 <script src="love.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

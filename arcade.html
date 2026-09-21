@@ -228,8 +228,52 @@
   
   </div>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:arcade-token:begin -->
+  <details class="quest" data-quest="arcade-token" data-code="TOKEN" data-accept="|no|none|nothing|silence|silent|zero">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="11" fill="none" stroke="var(--coin)" stroke-width="2.6"/><circle cx="16" cy="16" r="4.4" fill="none" stroke="var(--coin)" stroke-width="2.2"/><path d="M16 5 L16 9 M16 23 L16 27" stroke="var(--coin)" stroke-width="2.2"/></svg>
+      <span class="quest__label">Job marker &mdash; a token</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> How loud is the arcade</p>
+      <p class="quest__ask"><b>Before the code:</b> How much sound do these cabinets make, at any dial setting, ever? One word.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="arcade-token-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="arcade-token-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is in the same sentence as no timer and no score.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>The room would rather be silent by choice than silent until it isn&#x27;t.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>The answer is the smallest amount there is.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>None</b>. The foyer says it in the room&#x27;s own copy: no timer, no score, no way to lose, no sound, and nothing trying to beat you. An arcade that is silent by choice is better than one that is silent until it isn&#x27;t — and because the room states it, adding one blip would turn a design decision into a false sentence on a published page.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">TOKEN</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=TOKEN">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>The foyer says it in the room&#x27;s own copy: no timer, no score, no way to lose, no sound, and nothing trying to beat you. An arcade that is silent by choice is better than one that is silent until it isn&#x27;t — and because the room states it, adding one blip would turn a design decision into a false sentence on a published page.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">TOKEN</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=TOKEN">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:arcade-token:end -->
+
 </main>
 
 <script src="love.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

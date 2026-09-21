@@ -83,6 +83,7 @@ the-den.html          Behind it: Graceland's Jungle Room, and the records cut in
 the-mopery.html       A cold library. Books to borrow, one song many ways, Poe with Doré
 oracle-deck.html      Behind it: thirteen engravings, and a question on the back of each
 the-doomscroll.html   And behind it: public domain doom as a feed, on an actual scroll
+adventurers-guild.html  A job board in a manila room. The one tidy room on this street
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
 faery-yurt.html       Pitch 01. Helen Edgar's candlelit yurt; her design, not ours
@@ -117,6 +118,8 @@ data/club.json        Club Chronic's rack, stage and paste-up. The selection is 
 data/mopery.json      The Mopery's shelves, its screen, and The Raven with Doré's plates
 data/oracle.json      The deck. Thirteen Met open-access engravings, and our questions
 data/doomscroll.json  Thirteen poems, newest first, each naming the printing it came from
+data/quests.json      Every job on the board, and the marker it sends you to
+quest.js              The job markers, and the guild's board. Works with scripts off
 raven/                Doré's 1884 engravings and three leaves of an 1865 printing
 oracle/               The deck's plates. Public domain, CC0, from one collection
 og/                   One share card per page, and one card design per room
@@ -148,6 +151,7 @@ python3 tools/make-sweetgrass.py   # the meadow's fire, its readings and its bra
 python3 tools/make-oracle.py       # the oracle deck, and its credits
 python3 tools/make-doomscroll.py   # the doomscroll's feed, sorted by first publication
 python3 tools/make-pebble-board.py # the Pebble Board's current edition, and its back-issue rack
+python3 tools/make-guild.py        # the job board, a marker in every room, and the credits
 python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
 python3 tools/check-contrast.py    # every pair against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
@@ -155,6 +159,7 @@ python3 tools/check-gentle.py      # every page at all three dial settings; exit
 python3 tools/check-counts.py      # refuses a sentence that says how many rooms there are
 python3 tools/check-ids.py         # refuses a repeated id, and one no page actually has
 python3 tools/check-classes.py     # refuses a class two rooms claim, or a page wears wrongly
+python3 tools/check-quests.py      # refuses a code a room and the board disagree about
 ```
 
 `make-mopery.py` refuses a book with no way to borrow it, a cut that does not name Jagger and
@@ -226,6 +231,23 @@ there are, because **the number of storefronts is going to keep growing** and a 
 that gets written in a dozen places and updated in one. The commit that opened the Arcade is the
 proof: it changed the count in twelve places and still shipped three sentences carrying the old
 one, in a stylesheet comment, a second stylesheet comment, and `CLAUDE.md`.
+`make-guild.py` refuses a job with no estimate of how long it takes &mdash; the street's oldest
+promise arriving at a job board, where the cost is a walk rather than a runtime &mdash; refuses a
+room it has no marker drawing for, which is `make-og.py`'s refusal for `make-og.py`'s reason,
+refuses a room with no job in it at all, so a new room cannot ship without one, refuses an answer
+the answer box would not accept, and **refuses the vocabulary of scoring**: a board is exactly the
+shape of thing that grows a score, and a score beside a walking tour of a Disabled people's site
+turns a wander into a workload. **The first thing it ever refused was a false positive** &mdash;
+"a book it points at" is the verb &mdash; and the pattern was narrowed rather than given an
+exception, which is the lesson `check-counts.py` learned by refusing "no two rooms alike" on its
+own first run.
+`check-quests.py` reads the published HTML and never the data file, because a checker that
+re-derived the answer from the generator's own source would only be testing that Python is
+deterministic. It is there for every moment *after* the generator runs, when a generated line in a
+committed file gets edited by hand &mdash; the `frame-src` shape exactly. **It found a bug in
+itself on its first run**: it sliced each marker at the next `</details>`, the markers' own hints
+*are* `<details>`, and it reported eighteen missing escapes that were all present.
+
 `check-print.py` and `check-gentle.py` stop if they cannot find a Chrome to render with, rather
 than passing a claim they did not test.
 

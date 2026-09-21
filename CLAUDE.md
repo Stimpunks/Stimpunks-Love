@@ -678,6 +678,118 @@ is a sentence this site says in three places. If Ryan wants it hosted, that is o
 `audio/`, a rewired button, a changed sentence in README and llms.txt, and a licence note saying
 the recording is Adriel's and carries no onward licence — a decision, not a detail. Ask first.
 
+**THE ONE TIDY ROOM IS A COSTUME AND NOT A CONCESSION.** The Adventurer's Guild (§26) is a job
+board: manila, printer's ink, hairline rules, ruled rows, a class in the margin, a stamp. Square
+corners, no gradient, no shadow, nothing rotated, nothing overlapping. **It is the only room here
+that is filed**, and that is the joke rather than a crack in the argument — a street whose whole
+architecture is that nothing matches, with one room in it where somebody has put everything in
+order. It is a bureaucracy, not a house style, and it cannot spread: the moment anywhere else
+starts looking orderly the joke has become a system. **Do not let anything in that section grow a soft
+edge**; the instant it does, the sheet has become a place, and the Hermitage already is one.
+
+**IT IS THE SECOND DAYLIT ROOM AND THE SECOND PALE GROUND, AND BOTH NEIGHBOURS ARE ONE EDIT AWAY.**
+The Solarpunk Hermitage has a **sun** in it — a direction, warmth, shadows falling away from it,
+sunflowers at the door. The guild has **no light source at all**: it is lit the way a photocopy of
+a document is lit, evenly, from nowhere, and nothing in it casts anything. The Doomscroll is **one
+unbroken roll** of foxed grey newsprint with nothing cut and nothing ruled, lying on a dark desk;
+the guild is manila and is **made of rules**. If that paper ever warms to grey, or anything in
+there ever picks up a glow, two rooms have become one.
+
+**AND A PALE ROOM DECLARES ITS OWN LINK COLOUR, AT THE ROOM.** `.room-guild a` exists because the
+Doomscroll shipped without it the day before: that page declared a link colour for one line and
+every other link fell through to the base stylesheet's `a`, a pink chosen for a near-black street,
+at about 2.4 on paper — and `check-contrast.py` had nothing to hold a pair for, because an
+inherited colour was never *decided*. Any pale room added here has to make that decision once,
+where the room is, rather than on whichever components happened to get one.
+
+**EVERY ROOM HAS A MARKER AND NO TWO MARKERS ARE ALIKE, WHICH IS THE WHOLE RULE ARRIVING THROUGH A
+MECHANISM.** `make-guild.py` holds one drawing per room and **refuses a room it has no drawing
+for** — make-og.py's refusal, for make-og.py's reason. The failure mode of guessing is not a
+crash, it is one shared glyph appearing quietly in every room on the street, which is the
+harmonising instinct arriving through plumbing. What *is* shared is the behaviour: `.quest*` lives
+in §4 with `.facade`, because every page wears one and a name has to be global to do that, and
+**the panel borrows the room's own ink and ground** rather than bringing colours with it, so
+opening a marker can never introduce a pair nobody measured. Each drawing is held against the
+floor it lies on at the **body-text threshold**, which is the Jungle Room's quills rule: WCAG does
+not reach a graphic, and a marker you cannot pick out of the floor is a control you cannot use.
+**The Playhouse is the one that lost to its own floor** — that room reaches for yellow and yellow
+on its blue is 3.88, so the block is white at 5.08.
+
+**THE MARKER IS A `<details>` AND THE WAY OUT OF A QUESTION IS ANOTHER ONE.** The code, the hints
+and the "give me the answer" escape all work with scripts off; `quest.js` only adds the answer
+box, which **ships hidden** so a page without JavaScript shows no dead control. **Do not
+"simplify" the escape into a scripted panel** — it is the only thing on that board guaranteeing
+nobody is stuck, and `check-quests.py` refuses an escape that is not a `<details>` for exactly
+that reason. **Discreet means visually quiet and nothing else**: every marker is a full-size
+target in the tab order with a real name on it, which is The Den's door rule. And **every marker
+is on the floor of its room**, said out loud on the board, because a different depth in every room
+would make finding one a test of eyesight and of a mouse rather than a walk between rooms.
+
+**THE MARKER IS NEVER THE PLAY BUTTON, and the brief's own example starts from one.** Three
+reasons, any one enough: `love-embed.js` replaces a pressed facade with a bare
+`<div class="facade">`, so anything the button was wearing evaporates — the fault that shipped
+Swaying Sweetgrass's players at 0×0; a play button that also does a second thing hands a popup to
+somebody who only wanted the song; and gating a quest behind a press puts it behind consenting to
+a third-party frame, which is the consent this street spends a mechanism protecting. So the George
+Jones job is a spindle adapter on the den floor and its **question** is what makes you read the
+tile.
+
+**NOTHING ON THAT BOARD IS SCORED AND THE TOOL REFUSES THE VOCABULARY.** No total, no percentage,
+no streak, no rank you climb, nothing that expires. **A job board is exactly the shape of thing
+that grows a score**, and a score beside a walking tour of a Disabled people's site would quietly
+turn a wander into a workload — the pebbling cabinet's refusal of a tally, arriving in the room
+most likely to talk itself out of it, and it will arrive as a friendly edit from somebody who
+thinks a board looks bare without a progress bar. **The difficulty class is how far you walk**,
+enumerated in the tool and defined by geography, so it says nothing whatever about the person
+doing it. **The first thing that check ever refused was a false positive** — "a book it points at"
+is the verb — and the pattern was narrowed rather than excepted, which is check-counts.py's own
+first-run lesson happening twice.
+
+**THE FANFARE FOLLOWS THE DIAL AND THE WORDS NEVER DO.** Gentle says its piece and adds nothing,
+Regular chimes, MAX chimes properly and throws sparks that rise once and fade. The sentences are
+identical at all three, because a fanfare is decoration and **Gentle takes away the wobble, never
+the words**. **Nothing flashes or strobes at any setting** — Club Chronic's rule — and the sparks
+move with a translate rather than a rotation, because rotation and skew are all `check-gentle.py`
+can read and a checker must not be asked to take a room's word for something.
+
+**THE DEV SERVER DROPS THE QUERY STRING AND NETLIFY DOES NOT, WHICH IS THE `_headers` TRAP RUNNING
+BACKWARDS.** A marker's hand-it-in link is `adventurers-guild.html?code=SPINDLE`, which puts the
+word in the box. `npx serve` answers that with a clean-URL redirect to `/adventurers-guild` **and
+throws the query away**, so the prefill looks broken locally while working in production —
+Netlify serves the file as-is with the query intact. The last time this repository met the gap it
+went the other way (the frame worked locally and was refused live) and the lesson written down was
+that the dev server is not the site. It is the same lesson: **check the clean URL,
+`/adventurers-guild?code=SPINDLE`, which `serve` does not rewrite**, before concluding the prefill
+is broken. Do not "fix" it by moving the code into a hash fragment or into storage; the query
+string is correct and it is the dev server that is lying.
+
+**THE CODE IS NOT A SECRET AND THE TOOL SAYS SO WHERE IT COMPUTES THE CHECKSUM.** Every code is
+printed in plain text in the markup of a public page; that is the mechanism. The board holds a
+checksum only so that View Source on the *board* is not a spoiler sheet for every room at once.
+There is no security here and none is wanted. Do not "harden" it.
+
+**AND `check-quests.py` READS THE PUBLISHED HTML, NEVER THE DATA FILE.** A checker that re-derived
+the answer from the generator's own source would only be testing that Python is deterministic. It
+exists for every moment *after* the generator runs, when a generated line sitting in a committed
+file gets edited by hand — the `frame-src` shape exactly. **It found a bug in itself on its first
+run**: it sliced each marker at the next `</details>`, the markers' own hints *are* `<details>`,
+and it reported eighteen missing escapes that were all present. Break a checker on purpose before
+believing it.
+
+**THE YURT'S CANDLE STUB IS OURS AND IS WRITTEN DOWN IN THE LINER NOTES.** Ryan's call,
+2026-09-21, so that Helen Edgar's pitch is not the one room on the street with no job in it. It is
+drawn in her own declared colours and it is the **second** thing this repository has put into her
+room on its own initiative, after the one colour. It is in the credits rather than only in a diff
+for the same reason that colour is in four places, and **Helen has the final say on whether it
+stays.** Do not add a third thing without asking her.
+
+**THE BED IS NOT BUILT AND THE BOARD SAYS SO.** A guild is an inn as well as a board. When the
+room over it exists it will be about **rest as something owed rather than earned**, which means it
+will owe a great deal to The Nap Ministry and Tricia Hersey and must credit them in its own copy
+rather than in a footnote — and it will be its own visual world, not a quieter guild. A bedroom
+that looked like the job board would make rest look like an administrative category, which is the
+precise thing that argument exists to refuse.
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody
@@ -744,7 +856,11 @@ decision into a false statement on a published page.
    contact, because colour is never the only channel here. A checker that does not know about
    the new colour passes silently, which is worse than no checker.
 3. **"Gentle takes away the wobble, never the words."** There is no content behind an intensity
-   level. Do not add any. `tools/check-gentle.py` now measures both halves on every page at all
+   level. Do not add any. **The Adventurer's Guild is where that claim met a reward, and the
+   reward gave way rather than the claim:** handing in a quest code says exactly the same
+   sentences at Gentle, Regular and MAX, and only the noise and the sparks change. A
+   fanfare is decoration. A completion that told somebody *less* at Gentle would be the
+   lite-version mistake wearing a party hat. `tools/check-gentle.py` now measures both halves on every page at all
    three settings. The global reset is safe because it carries `!important`; **the
    tilts are not**, because every room resets its own and CSS does not warn when a decorative
    selector out-specifies one — it just renders the louder rule. That nearly shipped on Enid's

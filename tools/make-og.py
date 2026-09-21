@@ -594,6 +594,40 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
   letter-spacing: 3px; color: #00D4FF; margin: 0 !important; }}
 .og--plain .og-lede {{ color: #c8bfe0; max-width: 1000px; }}
 .og--plain .og-rule {{ width: 210px; height: 9px; background: #FF2D95; }}
+
+/* guild -- a docket, not a picture. THE ONE TIDY CARD: no gradient, no shadow,
+   no rounded corner, nothing rotated, and a stamp pressed square. Everything
+   else on this street that is made of paper is paper somebody CUT UP; this is
+   paper somebody filed. */
+.og--guild {{ justify-content: flex-start; gap: 0; padding: 0; }}
+.og--guild .og-sheet {{ flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
+  justify-content: space-between; padding: 34px 58px 30px;
+  border-top: 14px solid var(--gu-ink); }}
+/* The docket, the name and the lede sit together at the head; the ruled
+   classes and the stamp fall to the foot. A form is not centred. */
+.og--guild .og-head {{ display: flex; flex-direction: column; }}
+.og--guild .og-docket {{ display: flex; gap: 46px; font-family: 'Public Sans', sans-serif;
+  font-size: 17px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gu-ink-2); margin: 0 0 12px !important; }}
+.og--guild h1 {{ font-family: 'Rye', serif; font-weight: 400; font-size: 58px;
+  line-height: 1.04; color: var(--gu-ink); margin: 0 !important;
+  border-bottom: 4px solid var(--gu-ink); padding-bottom: 14px; }}
+.og--guild .og-lede {{ color: var(--gu-ink-2); font-size: 25px; line-height: 1.36;
+  margin: 16px 0 0 !important; max-width: 940px; }}
+.og--guild .og-grid {{ margin: 18px 0 0 !important; border-top: 2px solid var(--gu-rule); }}
+.og--guild .og-row {{ display: flex; align-items: baseline; gap: 20px;
+  padding: 7px 0; border-bottom: 1px solid var(--gu-rule); margin: 0 !important; }}
+.og--guild .og-cl {{ font-family: 'Rye', serif; font-size: 24px; color: var(--gu-file);
+  width: 62px; margin: 0 !important; }}
+.og--guild .og-cw {{ font-family: 'Public Sans', sans-serif; font-size: 19px;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--gu-ink); margin: 0 !important; }}
+.og--guild .og-stampwrap {{ display: flex; justify-content: space-between;
+  align-items: flex-end; margin: 18px 0 0 !important; }}
+.og--guild .og-foot {{ font-family: 'Public Sans', sans-serif; color: var(--gu-ink-2);
+  margin: 0 !important; }}
+.og--guild .og-stamp {{ font-family: 'Public Sans', sans-serif; font-weight: 700;
+  font-size: 22px; letter-spacing: 6px; color: var(--gu-stamp);
+  border: 5px double var(--gu-stamp); padding: 6px 17px; margin: 0 !important; }}
 """
 
 # Chrome hands the layout back out of the same run that takes the picture. A
@@ -1194,6 +1228,41 @@ def card_doom(p):
     )
 
 
+def card_guild(p):
+    # THE CLASSES ARE READ OFF THE BOARD rather than typed here, the campground's
+    # rule: if a class is never posted, the card does not advertise it, and if a
+    # fourth one is ever added the card follows without anybody remembering to.
+    # There is no count of jobs on this card and there is not going to be one --
+    # a total on the face of a board whose first house rule is that nothing is
+    # scored would be the scoreboard arriving in the one asset nobody reviews.
+    return (
+        "",
+        f'<div class="og og--guild" data-fit="card">'
+        f'<div class="og-sheet">'
+        f'<div class="og-head">'
+        f'<p class="og-docket"><span>Job board</span><span>Hints at every job</span>'
+        f'<span>No score kept</span></p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>'
+        f'<div class="og-grid">{p["classes"]}</div>'
+        f'<div class="og-stampwrap">'
+        f'<p class="og-foot">stimpunks.love</p>'
+        f'<p class="og-stamp">DONE</p>'
+        f'</div>'
+        f'</div>'
+        f'</div>',
+        f"A flat manila card with a thick black bar across the top, ruled like a "
+        f"printed form and with nothing on it tilted or overlapping. Small spaced "
+        f"capitals reading job board, hints at every job, no score kept, then "
+        f"\u201c{p['h1text']}\u201d in a heavy woodtype face over a rule, and the "
+        f"line: {p['desc_plain']} Under that, ruled rows giving the difficulty "
+        f"classes: {p['classes_alt']}. At the foot, stimpunks.love on the left and "
+        f"the word DONE on the right in vermilion inside a double-ruled box, pressed "
+        f"square.",
+    )
+
+
 def card_plain(p):
     return (
         "",
@@ -1239,6 +1308,7 @@ CARDS = {
     "room-oracle":  card_oracle,
     "meadow":       card_swg,
     "room-doom":    card_doom,
+    "room-guild":   card_guild,
     "room-plain":   card_plain,
 }
 
@@ -1339,6 +1409,31 @@ def main():
                 "is built\nout of it. Redesign the card on purpose rather than "
                 "letting it render empty."
             )
+
+    # THE GUILD'S CARD LISTS THE DIFFICULTY CLASSES THAT ARE ACTUALLY POSTED,
+    # read off the board's own rows for the campground's reason: a card must not
+    # be able to advertise something its page does not have. If every job in the
+    # field were ever taken down, this card would stop claiming class III rather
+    # than keep saying it out of a string literal in this file.
+    guild = (ROOT / "adventurers-guild.html").read_text()
+    seen, rows, spoken = set(), [], []
+    for numeral, where in re.findall(
+            r'<p class="job__class"><span class="sr">[^<]*</span>'
+            r'([IVX]+)<span class="job__where">([^<]+)</span>', guild):
+        if numeral in seen:
+            continue
+        seen.add(numeral)
+        rows.append(f'<div class="og-row"><p class="og-cl">{numeral}</p>'
+                    f'<p class="og-cw">{where}</p></div>')
+        spoken.append(f"{numeral}, {where}")
+    if not rows:
+        raise SystemExit(
+            "REFUSING: adventurers-guild.html has no jobs posted on it, and its card\n"
+            "is a list of the classes they come in. Redesign the card on purpose rather\n"
+            "than letting it render an empty board."
+        )
+    lifted["classes"] = "".join(rows)
+    lifted["classes_alt"] = "; ".join(spoken)
 
     # THE CAMPGROUND'S CARD LISTS ITS PITCHES, AND IT USED TO LIST THEM BY HAND.
     # Three of them, typed into a string literal here and again into the alt

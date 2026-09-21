@@ -655,9 +655,53 @@
     <span class="den-door__say">Somebody laid green shag on the floor of it, put a waterfall on the north wall, and then rolled a recording studio in. It looks nothing like this one. Every button in there says how long the thing runs before you press it, which is the one promise this room cannot keep.</span>
   </a>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:jungle-leaf:begin -->
+  <details class="quest" data-quest="jungle-leaf" data-code="CANOPY" data-accept="duration|howlong|length|runtime|runtimes|time">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M25 6 Q8 8 7 26 Q25 24 25 6 Z" fill="var(--sap)"/><path d="M24 7 L8 25 M20 10 L14 12 M21 14 L13 17 M20 19 L14 21" stroke="var(--canopy)" stroke-width="1.2" opacity=".7"/></svg>
+      <span class="quest__label">Job marker &mdash; a fallen leaf</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> The thing a live camera cannot tell you</p>
+      <p class="quest__ask"><b>Before the code:</b> Every other player on this street says this before you press it, and a live camera has none. One word.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="jungle-leaf-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="jungle-leaf-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>Look at a song in The Den and then at a cam here, and see what is missing.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>It is the number that lets somebody decide before they press.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>Seven letters, and it is what the other rooms all state.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Runtime</b>. Storing the length of whichever stream happens to be up today would put a number on the page that is wrong tomorrow and authoritative-looking meanwhile — so the tool that builds that room refuses a cam that has one. The label says it runs until you close it instead.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">CANOPY</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=CANOPY">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>Storing the length of whichever stream happens to be up today would put a number on the page that is wrong tomorrow and authoritative-looking meanwhile — so the tool that builds that room refuses a cam that has one. The label says it runs until you close it instead.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">CANOPY</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=CANOPY">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:jungle-leaf:end -->
+
 </main>
 
 <script src="love.js" defer></script>
 <script src="love-embed.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>

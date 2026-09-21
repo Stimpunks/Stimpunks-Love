@@ -659,10 +659,54 @@
     <p class="dial__fine">The field outside has nothing for this dial to turn up. In here the candles gutter at Regular and above and stand still at Gentle, which is the whole difference a pitch is allowed.</p>
   </div>
 
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:hermitage-sunflower:begin -->
+  <details class="quest" data-quest="hermitage-sunflower" data-code="SUNFLOWER" data-accept="life|lives|living">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="14" r="5" fill="none" stroke="var(--furrow)" stroke-width="2.2"/><path d="M16 4 L16 9 M16 19 L16 28 M6 14 L11 14 M21 14 L26 14 M9 7 L12.5 10.5 M23 7 L19.5 10.5 M9 21 L12.5 17.5 M23 21 L19.5 17.5" stroke="var(--furrow)" stroke-width="2" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a sunflower head, drying</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> The fourth learning space</p>
+      <p class="quest__ask"><b>Before the code:</b> Cave, campfire and watering hole are in the cabin. Name the fourth. One word.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="hermitage-sunflower-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="hermitage-sunflower-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>The room says out loud that the fourth one is not in the cabin.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>It is the door you came in by.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>Four letters.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Life</b>. The three zones are David Thornburg&#x27;s primordial learning spaces, and the room names them as his. There is a fourth, and the room says out loud that it is not in there — it is the door you came in by, where you go and make something out of what the other three gave you.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SUNFLOWER</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SUNFLOWER">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>The three zones are David Thornburg&#x27;s primordial learning spaces, and the room names them as his. There is a fourth, and the room says out loud that it is not in there — it is the door you came in by, where you go and make something out of what the other three gave you.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SUNFLOWER</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SUNFLOWER">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:hermitage-sunflower:end -->
+
 </main>
 
 <script src="love.js" defer></script>
 <script src="love-embed.js" defer></script>
 <script src="hermitage.js" defer></script>
+<script src="quest.js" defer></script>
 </body>
 </html>
