@@ -198,14 +198,23 @@ if dead:
     # exists: a total written into a sentence is a fact that lives in one place
     # and is updated somewhere else. A cam dying does not need anybody to
     # remember this paragraph.
+    one = len(dead) == 1
     how_many = WORDS.get(len(dead), f"{len(dead)} cams")
     names = ", ".join(f'{e(c["title"])} ({e(c["channel"])})' for _g, c in dead)
+    # THE WHOLE SENTENCE AGREES, not just the opening clause. The first draft
+    # generated the count and left the tail plural, so one dead cam read as
+    # "One cam ... has gone dark ... The entries are ... Replacing them". A
+    # generated number in front of hand-written grammar is a sentence that goes
+    # wrong the moment the number changes, which is the same failure as a
+    # hand-typed total wearing a better disguise.
     block = (f'      <p class="jungle-note"><strong>{how_many} on our own events page '
-             f'{"has" if len(dead) == 1 else "have"} gone dark since it was written</strong> and '
-             f'{"is" if len(dead) == 1 else "are"} not in the galleries above, because a screen '
-             f'that cannot play is worse than an honest gap: {names}. The entries are still in '
-             f'this room&rsquo;s data file, carrying the date they were found dead on, so the '
-             f'death is written down rather than tidied away. Replacing them is a curation '
+             f'{"has" if one else "have"} gone dark since it was written</strong> and '
+             f'{"is" if one else "are"} not in the galleries above, because a screen '
+             f'that cannot play is worse than an honest gap: {names}. '
+             f'{"The entry is" if one else "The entries are"} still in this room&rsquo;s data '
+             f'file, carrying the date {"it was" if one else "they were"} found dead on, so the '
+             f'death is written down rather than tidied away. '
+             f'Replacing {"it" if one else "them"} is a curation '
              f'decision on <a href="https://stimpunks.org/events/watering-hole-hangs/">the '
              f'events page</a>, not one this street gets to make on its own.</p>')
 else:

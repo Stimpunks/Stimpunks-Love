@@ -9,6 +9,13 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sun, 20 Sep 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>the jelly cam comes back, and a generated number with hand-written grammar around it</title>
+      <link>https://stimpunks.love/changelog.html#2026-09-20-jelly-cam</link>
+      <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-20-jelly-cam</guid>
+      <pubDate>Sun, 20 Sep 2026 12:00:00 GMT</pubDate>
+      <description>The Live Jelly Cam is in the Jungle Room again. Ryan sent a new id the same day the old one was found dead, which is the process working exactly as DECISIONS.md said it should: the ids on the events page are his, a replacement chosen in this repo would have been a cam nobody chose, and this one came from the person who curates the list. It was checked before it went up. oEmbed returns the same title and the same channel, the watch page answers OK, and playableInEmbed is true — so it is the same cam under a new stream rather than a different thing with a familiar name. That is written into the entry as a replaced note, because a replacement nobody checked is the original bug with a fresh id on it. CritterVision’s Critter Cam is still dark, and the room now says so in the singular without anybody editing a paragraph. Which turned up a small thing worth keeping. The room’s note about dead cams generates its count, for the reason check-counts.py exists — and it generated the count while leaving the rest of the sentence plural, so one dead cam read as “One cam … has gone dark … The entries are … Replacing them”. A generated number in front of hand-written grammar is a sentence that goes wrong the moment the number changes, which is a hand-typed total wearing a better disguise. The whole sentence agrees now. The same edit went through the liner notes, which had the count typed out in full.</description>
+    </item>
+    <item>
       <title>a viewing room under a canopy, and the one facade on this street that must not say how long it runs</title>
       <link>https://stimpunks.love/changelog.html#2026-09-20-jungle-room</link>
       <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-20-jungle-room</guid>

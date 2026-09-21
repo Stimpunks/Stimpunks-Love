@@ -170,9 +170,14 @@ make-chappell.py's button-that-never-becomes-a-video arriving through a door no 
 Two cams are like that: they get a way out to YouTube, **dressed as a door rather than as a
 window**, because pretending a link is a screen is precisely the broken thing. `check-jukebox.py`
 reads `playableInEmbed` off the same fetch as the status now, for every facade on the street.
-**Two more are simply dead on our own published events page** — they render nothing, the room
-names them in its own copy, and the entries stay in the data file with the date. Replacing them
-is a curation decision on stimpunks.org; do not pick new ids from here.
+**And a cam can simply be dead on our own published events page** — it renders nothing, the room
+names it in its own copy, and the entry stays in the data file with the date. **Do not pick a new
+id from here**; that is a curation decision on stimpunks.org. When a replacement arrives from
+there, *check it before it goes up* — status, `playableInEmbed`, and that the title and channel
+still match — and write what was measured into a `replaced` note on the entry, because a
+replacement nobody checked is the original bug with a fresh id on it. The room's count of dead
+cams is generated, **and so is the grammar of the sentence around it**: the first version
+generated the number and left the tail plural, which is a hand-typed total wearing a disguise.
 
 **THE THIRD GREEN THING ON THE STREET, AND THE FIELD IS THE ONE TO WATCH.** The Campgrounds is
 night-blue under nothing: a bare field, sky still on it, posts standing alone on open ground,
