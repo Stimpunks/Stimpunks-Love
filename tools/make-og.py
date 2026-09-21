@@ -8,7 +8,7 @@ entire argument is that the rooms refuse to share a look would be the blandest
 possible misrepresentation of it.
 
 SO THERE IS NO TEMPLATE. There is one per room, and they are allowed to
-contradict each other exactly as love.css sections 5 to 15 do. The street's card
+contradict each other exactly as love.css's room sections do. The street's card
 collides six typefaces on purpose; the zine's is a photocopied ransom note; the
 quantum room's is a mono face over interference fringes; the plain rooms get a
 quiet one because their job is to hold a list. A card that looked like another
@@ -275,6 +275,44 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og-plaster b {{ font-family: 'Bree Serif', serif; font-weight: 400; font-size: 33px; color: var(--umber); }}
 .og-plaster span {{ font-family: 'Nunito', sans-serif; font-size: 21px; color: var(--umber-2); letter-spacing: 1px; }}
 
+/* jungle — THE ONLY CARD ON THIS STREET WITH A ROOF ON IT. The canopy is
+   lifted whole from the page rather than redrawn, the same way the campground's
+   stream and the burrow's round door are, so the card cannot come to disagree
+   with the room about what is over your head. Under it the ground carries the
+   room's own light shaft at the room's own strength -- the #232E1A every ink
+   here is measured against in check-contrast.py -- and one leaf-shaped
+   aperture, which is the shape every screen in the room is cut to. */
+.room-jungle {{ background-image:
+  linear-gradient(196deg, transparent 0, rgba(245,208,107,.10) 44px, rgba(245,208,107,.10) 78px, transparent 132px),
+  radial-gradient(ellipse 900px 420px at 40% 0, rgba(245,208,107,.12), transparent 70%);
+  background-position: 22% 0, 50% 0; background-repeat: no-repeat; }}
+/* TOP-ALIGNED, and the only card here that is: the roof has to be at the top
+   edge rather than centred with everything else, so this one lays out from the
+   top and spaces itself. */
+.og--jungle {{ gap: 26px; padding: 0 60px 44px; justify-content: flex-start; }}
+/* The band carries NO ground of its own — the leaves are drawn straight onto
+   the card, so there is no rectangle whose edge can show. And it is WIDER than
+   the column rather than pulled sideways by margins: `width: 100%` resolves
+   against the padding box, so a negative right margin moved nothing and left a
+   visible step 60px in from the right edge of the card. */
+.og--jungle .canopy-roof {{ height: 138px; width: calc(100% + 120px) !important; margin: 0 -60px !important; }}
+.og--jungle .og-head {{ display: flex; align-items: center; gap: 46px; }}
+.og--jungle .eyebrow {{ font-size: 19px; letter-spacing: 4px; margin: 0 !important; }}
+.og--jungle h1 {{ font-size: 88px; line-height: 1; margin: 0 !important; }}
+.og--jungle .og-lede {{ font-family: 'Cabin', sans-serif; color: #BFD6AC; max-width: 780px; }}
+.og--jungle .og-aperture {{
+  flex: 0 0 auto; width: 250px; aspect-ratio: 16 / 11;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  background: #041209; border-radius: 68px 8px 68px 8px;
+  box-shadow: inset 0 0 0 2px rgba(87,160,92,.55), inset 0 0 70px rgba(0,0,0,.85);
+}}
+.og--jungle .og-aperture b {{
+  font-family: 'Cabin', sans-serif; font-weight: 700; font-size: 21px;
+  letter-spacing: 4px; color: var(--sun);
+}}
+.og--jungle .og-aperture i {{ width: 16px; height: 16px; border-radius: 50%; background: var(--heliconia); }}
+.og--jungle .og-foot {{ font-family: 'Cabin', sans-serif; font-weight: 700; color: #57A05C; letter-spacing: 3px; }}
+
 /* quill — THE SCREEN, where the arcade's own card is the cabinet from outside.
    Two cards for one room's machines have to differ from each other as well as
    from the foyer's, or the split that gave them their own cards has bought
@@ -357,8 +395,19 @@ document.fonts.ready.then(function () {{
   document.querySelectorAll('body *').forEach(function (el) {{
     var r = el.getBoundingClientRect();
     if (!r.width && !r.height) return;              // nothing drawn, nothing to clip
-    var n = String(el.getAttribute('data-fit') || el.className ||
-                   el.tagName.toLowerCase()).split(' ')[0];
+    // INSIDE A CLIPPING <svg>, A RECT IS GEOMETRY AND NOT INK. An outermost
+    // <svg> establishes a viewport and clips to it, so a shape whose box runs
+    // past the edge paints nothing there -- which is how the Jungle Room's
+    // canopy is drawn: leaves hanging off both sides of the band, cut by the
+    // band. Measuring those is measuring a coordinate rather than a picture,
+    // and it failed that card on the first run for a crop that does not exist.
+    // The <svg> ITSELF is still measured, and so is any descendant of an svg
+    // that has been told NOT to clip -- read off the computed style rather than
+    // assumed, so this stays a statement about what is painted.
+    var clip = el.closest('svg');
+    if (clip && clip !== el && getComputedStyle(clip).overflow.indexOf('hidden') === 0) return;
+    var n = String(el.getAttribute('data-fit') || el.className.baseVal ||
+                   el.className || el.tagName.toLowerCase()).split(' ')[0];
     if (r.right > {W} + 0.5 || r.bottom > {H} + 0.5 || r.left < -0.5 || r.top < -0.5)
       bad.push(n + ' runs to ' + [r.left, r.top, r.right, r.bottom].map(Math.round).join(','));
     // NOT scrollHeight against clientHeight: half the faces on this street are
@@ -684,6 +733,33 @@ def card_latibulum(p):
     )
 
 
+def card_jungle(p):
+    # The canopy goes INSIDE the card rather than behind it, because it is the
+    # roof and a roof is the first thing you are under rather than a texture you
+    # are over. Every other room's ambient layer is a wash; this one is a thing.
+    return (
+        "",
+        f'<div class="og og--jungle" data-fit="card">'
+        f'{p["canopy"]}'
+        f'<p class="eyebrow">A DOOR ON THE STREET \u00b7 A CANOPY BEHIND IT</p>'
+        f'<div class="og-head">'
+        f'<div>{p["h1"]}<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-aperture"><i></i><b>LIVE</b></div>'
+        f'</div>'
+        f'<p class="og-foot" data-fit="footer">NO RUNTIME \u00b7 NOTHING ENDS \u00b7 stimpunks.love</p>'
+        f'</div>',
+        f"A deep wet-green card with a band of overlapping dark leaves hanging "
+        f"across the top of it and one shaft of pale gold light coming down "
+        f"through them. Small magenta capitals reading a door on the street, a "
+        f"canopy behind it, then \u201c{p['h1text']}\u201d in a large cream serif "
+        f"whose strokes swell as they curve, and under it: {p['desc_plain']} To "
+        f"the right, a leaf-shaped aperture cut out of the dark \u2014 two pointed "
+        f"corners and two round ones \u2014 with an orange dot and the word LIVE in "
+        f"it. Along the foot, in green capitals: no runtime, nothing ends, "
+        f"stimpunks.love.",
+    )
+
+
 def card_plain(p):
     return (
         "",
@@ -715,6 +791,7 @@ CARDS = {
     "campgrounds":  card_camp,
     "room-yurt":    card_yurt,
     "room-latibulum": card_latibulum,
+    "room-jungle":  card_jungle,
     "room-plain":   card_plain,
 }
 
@@ -798,6 +875,7 @@ def main():
         ("esmx",     "quill-drift.html",  r'(<svg class="sprite".*?</svg>)'),
         ("bulbs",    "arcade.html",       r'(<div class="bulbs".*?</div>)'),
         ("roundel",  "latibulum.html",    r'(<div class="roundel".*?</svg>\s*</div>)'),
+        ("canopy",   "jungle-room.html",  r'(<svg class="canopy-roof".*?</svg>)'),
         ("otter",    "otterly-adorbs.html", r'(<div class="otter" id="otter".*?</div>\s*</div>)'),
         ("ottdefs",  "otterly-adorbs.html", r'(<svg width="0" height="0".*?</defs></svg>)'),
         ("peng",     "penguin-pebbling.html", r'(<div class="peng" id="peng-you".*?</div>\s*</div>)'),

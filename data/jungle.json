@@ -1,0 +1,93 @@
+{
+  "_what": "The Jungle Room's viewing galleries: the nature live cams our own Watering Hole Hangs page puts on in the background, in the order and the groupings that page has them in.",
+  "_source": "2026-09-20: taken from https://stimpunks.org/events/watering-hole-hangs/ — our own published events page — read out of the Knowledge System mirror rather than fetched live, because on stimpunks.org a 301 is a failure and not a pass. The video ids are the hrefs off that page, unchanged. The titles and the channels were NOT typed from the link text: every id was put through YouTube's oEmbed endpoint, and the ones oEmbed refuses were read off the watch page's own ownerChannelName. The groups, their order, and the order within each group are that page's and are not ours to tidy. The notes are ours.",
+  "_skipped": "The Train Cams group is on the source page and is deliberately not here. Ryan's instruction, 2026-09-20: this room is nature cams. A cab view down a Norwegian line is a fine thing to hang about in and it is not a watering hole.",
+  "_rule": "NOTHING PLAYS UNTIL YOU PRESS PLAY, the same as every other facade on this street. No iframe, no cookie, no request to YouTube until somebody presses. Nothing is hosted here: every cam is somebody else's camera, pointed at somewhere real, and the people who run it are named on the screen rather than only in the liner notes.",
+  "_no_runtime": "AND THIS IS THE ONE ROOM WHERE A FACADE CANNOT SAY HOW LONG IT RUNS, because the honest answer is that it does not stop. Every other press-to-play control here carries a runtime — that is the promise that lets somebody decide before they press. A live camera has no runtime to carry, and the reflex fix, storing the length of the stream that happens to be up today, would put a number on the page that is wrong tomorrow. So the promise is kept the other way round: the label says the thing runs until you close it, and the room says out loud that the picture is whatever is happening there right now, which may be darkness, rain, an empty waterhole, or a cam between streams. make-jungle.py REFUSES a cam carrying a length for exactly this reason — the inverse of the check make-latibulum.py runs.",
+  "_state": "Measured on 2026-09-20 against YouTube's own watch page, not assumed. 'live' means playabilityStatus OK and playableInEmbed true — it gets a screen. 'link' means the cam plays on YouTube and its owner has turned embedding OFF: an iframe there would show a refusal where a picture should be, which is exactly the button-that-never-becomes-a-video failure make-chappell.py exists to prevent, so those get a way out to YouTube and say why instead of a screen that does not work. 'dark' means playabilityStatus UNPLAYABLE: the cam is gone. A dark cam renders nothing at all, and is kept in this file so that its death is written down rather than quietly deleted.",
+  "_dark": "TWO OF THESE ARE DEAD ON OUR OWN PUBLISHED EVENTS PAGE AND THAT PAGE DOES NOT KNOW IT. Monterey Bay Aquarium's Live Jelly Cam (m1XcdxjVGos) and CritterVision's Critter Cam (HlJ4aRtYhoo) both answer UNPLAYABLE. Replacing them is a curation decision on stimpunks.org and not one this repo gets to make on its own: a new id here would be a cam nobody chose. Ryan's call. When the source page is fixed, change the id here, set state to live, add a 'replaced' note saying where the new one came from, and re-run make-jungle.py.",
+  "groups": [
+    {
+      "slug": "watering-hole",
+      "name": "Watering Hole Cams",
+      "sub": "The gathering mode this whole thing is named after. A pool in a dry place, and whoever turns up.",
+      "cams": [
+        { "id": "ydYDqZQpim8", "state": "live", "title": "Live stream in the Namib Desert", "channel": "NamibiaCam", "note": "Desert, a pan of water, and long stretches of nothing at all. Oryx, springbok, jackals, and at night whatever the infrared finds." },
+        { "id": "AeMUdOPFcXI", "state": "live", "title": "Okaukuejo waterhole, Etosha National Park", "title_verbatim": "Namibia: Live stream at the Okaukuejo waterhole in Etosha National Park, Namibia", "channel": "NamibiaCam", "note": "The floodlit waterhole at Okaukuejo. Elephant and rhino come in after dark and the light stays on all night, which makes this the cam to have up at three in the morning." },
+        { "id": "NapztoCaKFY", "state": "live", "title": "Olifants River — Greater Kruger National Park", "title_verbatim": "Olifants River | Wildlife Live Stream – Greater Kruger National Park", "channel": "Africam", "note": "A river rather than a pan, so there is nearly always something in the frame — and nearly always something in the frame doing absolutely nothing, which is the point." }
+      ]
+    },
+    {
+      "slug": "otters",
+      "name": "Otter Cams",
+      "sub": "Let the otters do the heavy lifting. Our own events page says so; we are only obeying it.",
+      "cams": [
+        { "id": "9mg9PoFEX2U", "state": "live", "title": "Sea Otter Cam", "channel": "Vancouver Aquarium", "note": "Sea otters in the water, being extremely busy about nothing in particular." },
+        { "id": "_KXHUb0wFRE", "state": "live", "title": "Sea Otter Cam 2", "channel": "Vancouver Aquarium", "note": "The second angle on the same otters, which is a different room to them and therefore a different cam to us." },
+        { "id": "abbR-Ttd-cA", "state": "live", "title": "Live Sea Otter Cam", "channel": "Monterey Bay Aquarium", "note": "Monterey's otters. Grooming, mostly. An otter spends an enormous amount of its day on its own coat and is not embarrassed about it." },
+        { "id": "LrO-tgqYXXI", "state": "live", "title": "Live Sea Otter Cam (second view)", "title_verbatim": "Live Sea Otter Cam - Monterey Bay Aquarium", "channel": "Monterey Bay Aquarium", "note": "The alternate Monterey feed. This one is often between streams; when it is, you get the last one instead, which is still otters." },
+        { "id": "NqOmHpwMUxs", "state": "live", "title": "Live sea otter and fur seal cam", "title_verbatim": "Live sea otter / fur seal cam - Seattle Aquarium", "channel": "Seattle Aquarium", "note": "Otters and fur seals sharing a frame. The fur seals are louder about it." }
+      ]
+    },
+    {
+      "slug": "ocean",
+      "name": "Ocean and Reef Cams",
+      "sub": "Underwater, where nothing is in a hurry and the light moves anyway.",
+      "cams": [
+        { "id": "m1XcdxjVGos", "state": "dark", "title": "Live Jelly Cam", "channel": "Monterey Bay Aquarium", "note": "Answered UNPLAYABLE on 2026-09-20. It is on our own events page and it is gone; see _dark above." },
+        { "id": "w3LjpFhySTg", "state": "live", "title": "Live Kelp Forest Cam", "channel": "Monterey Bay Aquarium", "note": "A whole forest, swaying. Kelp is the only thing on this page that moves in a way you can watch for an hour without your brain asking what happens next." },
+        { "id": "n_GpVsz4nHU", "state": "live", "title": "Live Open Sea Cam", "channel": "Monterey Bay Aquarium", "note": "Blue, and then a sardine school turns over all at once and it is briefly silver." },
+        { "id": "jzx_n25g3kA", "state": "live", "title": "Utopia Village Sandy Channel Underwater Reef Cam", "title_verbatim": "Utopia Village Sandy Channel Underwater Reef Cam powered by EXPLORE.org", "channel": "Explore Oceans", "note": "A sand channel between two reefs — the road rather than the neighbourhood, so things are usually passing through it." },
+        { "id": "1zcIUk66HX4", "state": "live", "title": "Utopia Village Top-of-Wall Underwater Reef Cam", "title_verbatim": "Utopia Village Top-of-Wall Underwater Reef Cam powered by EXPLORE.org", "channel": "Explore Oceans", "note": "The top of the reef wall, where the shallow reef falls away. Busier than the channel and lit better." },
+        { "id": "qi0mY6zVQnY", "state": "live", "title": "Live Cam in The Lower Keys", "channel": "Viva The Keys", "note": "Florida water and Florida weather. Sometimes the whole cam is a rain squall, which counts." },
+        { "id": "7i8ARjIeM2k", "state": "live", "title": "Coral City Camera", "title_verbatim": "Coral City Camera (Miami's Free-Range Aquarium Underwater Livestream)", "channel": "Coral Morphologic", "note": "A reef growing on a working seawall in the Port of Miami. Urban coral, in a shipping channel, thriving anyway — it is hard to watch this one without reading something into it." },
+        { "id": "Fz6sl9YJZE0", "state": "live", "title": "Underwater Manatee Cam at Homosassa Springs", "title_verbatim": "Underwater Manatee Cam At Homosassa Springs | Fall in love with the beloved sea cows! | explore.org", "channel": "Explore Live Nature Cams", "note": "Manatees in a spring, moving at the speed manatees move at. The single best argument on this page for going slower." }
+      ]
+    },
+    {
+      "slug": "jungle",
+      "name": "Jungle and Forest Cams",
+      "sub": "The ones this room is named for. Water, leaves, and a lot of birdsong nobody is performing.",
+      "cams": [
+        { "id": "8kEzFZvtLzM", "state": "live", "title": "Calm woodland stream with birdsong", "title_verbatim": "Calm Woodland Stream with Beautiful Birdsong | Relax, Stress Relief and Sleep, ASMR", "channel": "Forest Sounds UHD", "note": "A stream and the birds over it. This is the one to put on when you want the room to have a sound in it and nothing to look at." },
+        { "id": "4BrvMGznLTo", "state": "live", "title": "Waterfall in a mountain forest", "title_verbatim": "Waterfall Flowing in a Mountain Forest 24/7. Waterfall Sounds, Flowing Water. White Noise for Sleep.", "channel": "Nature Zilla", "note": "White noise with a picture on it. Loud in a way that is somehow quiet." },
+        { "id": "F0GOOP82094", "state": "live", "title": "Wildlife in the forest, 24/7", "title_verbatim": "Wildlife In The Forest - 24/7 LIVE 🔴 by Morten Hilmer", "channel": "Nature Live Camera", "note": "Morten Hilmer's forest camera. Long empty stretches and then a deer, which is the correct ratio for a forest." }
+      ]
+    },
+    {
+      "slug": "butterfly",
+      "name": "Butterfly Cams",
+      "sub": "Small, erratic, unrepeatable. A different kind of thing to rest your eyes on.",
+      "cams": [
+        { "id": "lKOIqNGcW-M", "state": "live", "title": "Butterfly House Live Cam", "channel": "Zoos Victoria", "note": "Zoos Victoria's butterfly house. Often between streams — when it is, the last one is still there, and it is still butterflies." },
+        { "id": "GSUL6qeh8tQ", "state": "live", "title": "Butterfly Garden 4K", "title_verbatim": "Butterfly Garden 4K  Relaxing Insect Film with Soothing Music  • 4K Video UHD #5", "channel": "Soul Corner Radio", "note": "Butterflies, in 4K, with soothing music under them. The one thing in this group that arrives with a soundtrack, and it is on our own events page in the butterfly group, so it is here in the butterfly group." }
+      ]
+    },
+    {
+      "slug": "birds",
+      "name": "Bird Nests and Feeders",
+      "sub": "Somebody else's doorstep, and the traffic on it.",
+      "cams": [
+        { "id": "B4-L2nfGcuE", "state": "live", "title": "Big Bear Bald Eagle Live Nest — Cam 1", "channel": "FOBBV CAM", "note": "A bald eagle nest in the San Bernardino mountains. In season this is the most dramatic thing on the page by a very long way, and out of season it is a large empty stick basket in a pine." },
+        { "id": "y9t1g8Ike6g", "state": "live", "title": "Bird feeder and wildlife cam, Gettysburg, PA", "title_verbatim": "LIVE Bird Feeder & Wildlife Cam - Gettysburg, PA", "channel": "Gettysburg LiveCam", "note": "A feeder in Pennsylvania. Cardinals, jays, a squirrel doing something inadvisable." },
+        { "id": "MrLVxFR1IbI", "state": "live", "title": "South Africa bird feeder and wildlife cam", "title_verbatim": "🔴 LIVE South Africa Bird Feeder & Wildlife Cam (Hoopoes, Hornbills & More)", "channel": "Bird Watching HQ", "note": "Hoopoes and hornbills at a feeder, which is a considerably more improbable feeder than the one in Pennsylvania." },
+        { "id": "ZGAf77sGw6Q", "state": "live", "title": "Burrowing Owl Nest Cam, Oregon", "title_verbatim": "LIVE Burrowing Owl Nest Cam - Oregon – Owl Research Institute | explore.org", "channel": "Explore Owl Nests & California Condors", "note": "The Owl Research Institute's burrowing owls. Owls that live in a hole in the ground, which makes this the one cam here with a door onto the Latibulum." }
+      ]
+    },
+    {
+      "slug": "wildlife",
+      "name": "Wildlife",
+      "sub": "Whoever walks past. Most of the time nobody does, and that is still the feed working.",
+      "cams": [
+        { "id": "HlJ4aRtYhoo", "state": "dark", "title": "CritterVision Critter Cam", "channel": "CritterVision", "note": "Answered UNPLAYABLE on 2026-09-20, and its owner has embedding switched off as well. It is on our own events page and it is gone; see _dark above." },
+        { "id": "oI8R4_UG3Fs", "state": "live", "title": "Live Deer, Bird and Wildlife Cam", "title_verbatim": "Live Deer, Bird & Wildlife Cam", "channel": "Woodlands Critter Quest", "note": "A feeding station in the woods with deer on it more often than not." },
+        { "id": "x10vL6_47Dw", "state": "live", "title": "Cornell Lab FeederWatch Cam at Sapsucker Woods", "title_verbatim": "🔴 Live Cornell Lab FeederWatch Cam 🔴 at Sapsucker Woods", "channel": "Cornell Lab Bird Cams", "note": "The Cornell Lab of Ornithology's feeders at Sapsucker Woods in Ithaca, New York. The one on this page with actual ornithologists in the chat." },
+        { "id": "EvsLqQS_80E", "state": "link", "title": "24/7 Cat TV — birds and squirrels in a forest corner", "title_verbatim": "🔴24/7 LIVE Cat TV😺 Non-Stop BIRDS and Squirrels in Relaxing Forest Corner", "channel": "Red Squirrel Studios", "note": "Made for cats to watch, and it works on people. Its owner has embedding switched off, so this one opens on YouTube rather than in a screen here." },
+        { "id": "XfNhPa26fP8", "state": "live", "title": "PixCams Wildlife Cam 2", "title_verbatim": "PixCams.com Wildlife Cam 2 Live Stream", "channel": "PixCams", "note": "PixCams' wildlife camera in Pennsylvania. Good after dark, which matters more than it sounds like it should." },
+        { "id": "UEyEs8AE1ss", "state": "link", "title": "24/7 Cat TV, no ads — squirrel and bird watching", "title_verbatim": "🔴24/7 LIVE CAT TV NO ADS😺 Squirrel and Bird Watching: Unlimited Nature Fun for Everyone", "channel": "Red Squirrel Studios", "note": "The same studio's no-advertisement feed, which is the one to send somebody who cannot be doing with an ad break in the middle of a squirrel. Embedding is off here too." },
+        { "id": "RhP-_jX8-Zs", "state": "live", "title": "Anan Bear Cam: Lower Falls and Caves, Alaska", "title_verbatim": "LIVE Anan Bear Cam: Lower Falls & Caves – Alaska | explore.org", "channel": "Explore Live Nature Cams", "note": "Black bears and brown bears fishing the same creek at Anan. Seasonal, enormous when it is on." },
+        { "id": "gqP5nBCRbHA", "state": "live", "title": "Bonobo Cam: Lola ya Bonobo Sanctuary, DR Congo", "title_verbatim": "LIVE Bonobo Cam: Lola ya Bonobo Sanctuary – DR Congo | explore.org", "channel": "Explore Gorilla & Bonobo Cams: Great Apes", "note": "Orphaned bonobos at Lola ya Bonobo. Watch long enough and you will see somebody being comforted by somebody else, which is the whole reason this room exists." }
+      ]
+    }
+  ]
+}

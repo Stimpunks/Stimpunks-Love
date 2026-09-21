@@ -68,6 +68,18 @@
 @font-face { font-family: 'Nunito';     src: url('fonts/nunito-400.woff2') format('woff2');     font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Nunito';     src: url('fonts/nunito-400.woff2') format('woff2');     font-weight: 700; font-display: swap; }
 
+/* The Jungle Room (§17). A swollen, high-contrast display face and a humanist
+   sans — a botanical plate and the caption under it. Yeseva One is the one
+   face on this street whose strokes THICKEN as they curve, which is the
+   closest type gets to something grown rather than built, and it is why this
+   room does not sound like the two brown rooms or the cold field. Cabin ships
+   as a variable font, so Google serves ONE file for 400 and 700; it is stored
+   once and declared twice against the weight axis, the same as Nunito above.
+   See fonts/_sources.json. */
+@font-face { font-family: 'Yeseva One'; src: url('fonts/yeseva-one-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Cabin';      src: url('fonts/cabin-400.woff2') format('woff2');      font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Cabin';      src: url('fonts/cabin-400.woff2') format('woff2');      font-weight: 700; font-display: swap; }
+
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -154,6 +166,19 @@
   --peb-grey: #5A626B;  --peb-white: #EDE9E2;  --peb-glass: #1F6B55;
   --peb-speck: #6E6258;  --peb-feather: #39434E;  --peb-shell: #C98F63;
   --nest: #8A8279;
+
+  /* The Jungle Room (§17). Wet, warm, closed over the top. The campgrounds is
+     night-BLUE under nothing; this is night-GREEN under a roof of leaves, and
+     that difference is the whole reason the two can stand on the same street.
+     --shaft is not a colour anybody chose: it is --sun at .12 over --canopy,
+     which is the brightest a light shaft gets, and it is the ground every word
+     on the forest floor actually sits on. --shaft-2 is the same light falling
+     on an --understory panel. Both are in check-contrast.py, because the flat
+     background is never what the type is on. --palm draws leaves and nothing
+     else, so it is held to the 3:1 graphics bar rather than the body one. */
+  --canopy: #06180F;  --understory: #0B2415;  --buttress: #143A24;  --litter: #1C2A14;
+  --daylight: #EDF6E2;  --sap: #BFD6AC;
+  --palm: #57A05C;  --heliconia: #FF8557;  --sun: #F5D06B;  --orchid: #E98AD2;
 }
 
 * { box-sizing: border-box; }
@@ -435,6 +460,17 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .door--burrow .door__name  { font-family: 'Bree Serif', Georgia, serif; color: var(--lamp); font-size: 27px; }
 .door--burrow .door__blurb { color: var(--oat); }
 .door--burrow .door__knock { font-family: 'Bree Serif', Georgia, serif; font-size: 12px; letter-spacing: .08em; color: var(--oat-2); }
+
+/* The Jungle Room's shopfront. Leaves over the awning rather than a stripe,
+   because every other front in this row is signwriting and this one is a thing
+   growing over a door. The name is set in the room's own swelling serif and
+   the blurb in its own sans, which is the whole convention: a door tells you
+   what it is like in there before you push it. */
+.door--jungle { background: var(--canopy); }
+.door--jungle .door__awning { background-image: repeating-linear-gradient(90deg, var(--buttress) 0 9px, var(--palm) 9px 18px, var(--understory) 18px 30px); }
+.door--jungle .door__name  { font-family: 'Yeseva One', Georgia, serif; color: var(--daylight); font-size: 28px; }
+.door--jungle .door__blurb { font-family: 'Cabin', system-ui, sans-serif; color: var(--sap); }
+.door--jungle .door__knock { font-family: 'Cabin', system-ui, sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--sun); }
 
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
@@ -1889,7 +1925,215 @@ html[data-intensity="max"] .lamp-flame { animation: latibulum-breathe 9s ease-in
 .burrow-note a { color: var(--lamp); }
 
 
-/* §17 ── Small screens ───────────────────────────────────────────────────────
+/* §17 ── ROOM: The Jungle Room ───────────────────────────────────────────────
+   A VIEWING ROOM UNDER A CLOSED ROOF, and the thing it is NOT is the
+   campgrounds. That is the pairing to watch here the way the yurt and the
+   burrow are the pairing to watch two sections up: both are outdoors, both are
+   dark, both are green. What keeps them apart is structural rather than a
+   choice of swatch:
+
+     · the campground is night-BLUE under nothing — a bare field with the sky
+       still on it and posts standing alone on open ground. This is night-GREEN
+       under a ROOF, with light arriving only where the leaves let it, and
+       nothing in it stands alone because everything overlaps something.
+     · the campground routes its lettering like a park sign: flat, incised,
+       even-stroke. This sets a face whose strokes SWELL as they turn, because
+       a rainforest is the one place where growing and thickening are the same
+       verb.
+     · the campground is cold and dry and you are outside in it. This is warm
+       and wet and you are inside it. You walked in under something.
+
+   "They are both green, so they should feel the same" is the subroom excuse in
+   a poncho, and it is wrong for the same reason every previous version of it
+   was wrong.
+
+   EVERY SCREEN IS A LEAF, and that is the whole shape of the room: an aperture
+   with two pointed corners and two round ones, which is a leaf and is also a
+   gap in the canopy. Nothing else on this street is that shape, and it is why
+   thirty-odd rectangles of video do not read as a spreadsheet.
+
+   THE ONE ROOM WHERE A FACADE CANNOT SAY HOW LONG IT RUNS. Every other
+   press-to-play control here carries a runtime, because that is what lets
+   somebody decide before pressing. A live camera has no runtime — the honest
+   answer is that it does not stop — and storing the length of whatever stream
+   happens to be up today would put a number on the page that is wrong
+   tomorrow. So the promise is kept the other way round: the label says the
+   thing runs until you close it, and the room says out loud that the picture
+   is whatever is happening there now, including nothing. make-jungle.py
+   REFUSES a cam carrying a length, which is the exact inverse of the check
+   make-latibulum.py runs, and both are the same promise.
+
+   WHAT MOVES, AND ONLY AT MAX: the light through the canopy, and the dot
+   beside the word LIVE. Both are opacity and nothing else. There is not one
+   rotation in this section — every leaf that hangs at an angle hangs at an
+   angle because its path is drawn that way inside its own <svg>, which is part
+   of the picture rather than a tilt applied to it. That is deliberate: a
+   transform is the one thing check-gentle.py can see, so a room that hid its
+   decoration behind one would be asking that tool to take its word for
+   something. See the same argument in §15. */
+
+/* THE LIGHT IS ON THE WHOLE PAGE RATHER THAN ON THE COLUMN, which took a
+   second go. Painted on the column it stopped at the column's edges, and the
+   top of it drew a hard bright line straight across the page under the canopy
+   — a shaft with a lid on it. Light does not stop where the text column does.
+   The brightest of these tops out at --sun .12, which is the #232E1A in
+   check-contrast.py: the ground every word in this room is really read on. */
+.room-jungle {
+  background-color: var(--canopy); color: var(--daylight);
+  font-family: 'Cabin', ui-sans-serif, system-ui, sans-serif;
+  font-size: 17px; line-height: 1.66;
+}
+/* The light gets a layer of its own rather than living on an element that also
+   holds words. Two reasons, and the second is the one that matters: a shaft
+   painted on the text column stopped at the column's edges and drew a hard
+   bright line across the page under the canopy, which is a shaft with a lid on
+   it — and at MAX the light shifts, so whatever carries it is what fades.
+   Put it on the column and MAX GLITTER would have dimmed every word in the
+   room by a tenth, twice a minute, in a room built for people who came here to
+   stop being asked to work. The brightest of these tops out at --sun .12,
+   which is the #232E1A in check-contrast.py: the ground every word in this
+   room is really read on. */
+.room-jungle::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image:
+    linear-gradient(196deg, transparent 0, rgba(245,208,107,.10) 26px, rgba(245,208,107,.10) 46px, transparent 84px),
+    linear-gradient(168deg, transparent 0, rgba(245,208,107,.07) 16px, rgba(245,208,107,.07) 28px, transparent 58px),
+    linear-gradient(186deg, transparent 0, rgba(245,208,107,.05) 34px, rgba(245,208,107,.05) 56px, transparent 110px),
+    radial-gradient(ellipse 900px 460px at 50% 0, rgba(245,208,107,.12), transparent 72%);
+  background-position: 16% 0, 58% 0, 88% 0, 50% 0;
+  background-repeat: no-repeat;
+}
+
+/* The column. It carries no ground of its own: the light above belongs to the
+   whole page and this only decides how wide the words are. */
+.jungle { width: min(1060px, 100% - 44px); margin-inline: auto; padding: 0 24px 80px; }
+html[data-intensity="max"] .room-jungle::before { animation: jungle-light 22s ease-in-out infinite; }
+@keyframes jungle-light { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
+
+.room-jungle a { color: var(--heliconia); text-decoration-color: rgba(255,133,87,.45); text-underline-offset: 3px; }
+.room-jungle a:hover { color: var(--sun); }
+.room-jungle .backlink { font-family: 'Cabin', system-ui, sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--sap); }
+.room-jungle h1, .room-jungle h2, .room-jungle h3 {
+  font-family: 'Yeseva One', Georgia, serif; font-weight: 400; text-wrap: balance;
+}
+.room-jungle h1 { font-size: clamp(42px, 7.4vw, 78px); line-height: 1.02; color: var(--daylight); margin: 0 0 14px; }
+.room-jungle h2 { font-size: 30px; color: var(--sun); margin: 0 0 6px; }
+.room-jungle h3 { font-size: 21px; line-height: 1.25; color: var(--daylight); margin: 0 0 7px; }
+.room-jungle section { padding: 34px 0; }
+.room-jungle .lede { font-size: 19.5px; line-height: 1.58; color: var(--sap); max-width: 58ch; margin: 0 0 18px; }
+
+/* The canopy itself, hanging over the top of the page. A band of overlapping
+   leaves drawn already at their angles, because a leaf that hangs straight is
+   a label. It is a drawing and carries no words, so it is hidden in the
+   markup. */
+.canopy-roof { display: block; width: 100%; height: clamp(88px, 13vw, 150px); margin: 0; }
+
+.jungle-head { padding: 26px 4px 8px; }
+.jungle-head .eyebrow {
+  font-family: 'Cabin', system-ui, sans-serif; font-weight: 700;
+  font-size: 13px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--orchid); margin: 0 0 18px;
+}
+.jungle-tagline { font-family: 'Yeseva One', Georgia, serif; font-size: 23px; line-height: 1.3; color: var(--heliconia); margin: 0 0 18px; }
+
+/* A root buttress: a panel that flares at the foot the way a rainforest tree
+   does, because nothing down here stands on a straight trunk. Copy panels are
+   the only thing in the room that is not a leaf. */
+.buttress {
+  background: var(--understory); color: var(--daylight);
+  border: 1px solid var(--buttress);
+  border-radius: 10px 10px 60px 60px / 10px 10px 26px 26px;
+  padding: 26px 30px 34px;
+}
+.buttress h2 { color: var(--sun); }
+.buttress .note { color: var(--sap); font-size: 15px; }
+
+/* A gallery. The head is a leaf glyph, the name, and one line of ours about
+   what this group of cams is for — lifted in spirit from our own events page,
+   which groups them this way and is not ours to re-sort. */
+.gallery { padding-top: 10px; }
+.gallery__head { display: flex; gap: 14px; align-items: flex-start; margin: 0 0 22px; padding-bottom: 14px; border-bottom: 1px solid var(--buttress); }
+.gallery__head svg { flex: 0 0 auto; width: 34px; height: 34px; margin-top: 4px; }
+.gallery__head p { margin: 0; color: var(--sap); font-size: 16px; max-width: 62ch; }
+
+.cams { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 26px; margin: 0; padding: 0; list-style: none; }
+
+/* A cam. Leaf-shaped, top-left and bottom-right rounded hard, the other two
+   corners left pointed — the same silhouette at every size, on the card and on
+   the aperture inside it. */
+.cam {
+  display: flex; flex-direction: column; gap: 14px;
+  background: var(--understory); border: 1px solid var(--buttress);
+  border-radius: 40px 6px 40px 6px; padding: 16px 18px 20px;
+}
+.cam__view { border-radius: 34px 4px 34px 4px; overflow: hidden; }
+
+/* The facade, dressed as a gap in the leaves. §4 supplies the 16/9 box and the
+   nothing-before-the-press behaviour; this only changes what it is made of.
+   `overflow: hidden` on the wrapper above is what clips the player into the
+   leaf once the button becomes an iframe — without it the video's square
+   corners sit on top of the pointed ones and the aperture stops being one. */
+.room-jungle .facade {
+  background: #041209; color: var(--daylight);
+  border: 0; border-radius: 34px 4px 34px 4px;
+  font-family: 'Cabin', system-ui, sans-serif; font-size: 15px;
+  box-shadow: inset 0 0 0 1px rgba(87,160,92,.5), inset 0 0 60px rgba(0,0,0,.8);
+}
+.room-jungle .facade:hover { background: #07200F; }
+.room-jungle .facade__play {
+  font-family: 'Cabin', system-ui, sans-serif; font-weight: 700;
+  font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--sun);
+}
+
+/* LIVE, and no runtime, because there is not one. The dot is the only other
+   thing in the room that moves and it only moves at MAX. */
+/* The dot sits on the FIRST line rather than in the middle of the block: this
+   label wraps on a narrow card, and a centred dot beside two lines of type
+   floats between them looking like a bullet that lost its list. */
+.cam__live {
+  display: flex; align-items: flex-start; gap: 8px; margin: 0 0 8px;
+  font-family: 'Cabin', system-ui, sans-serif; font-weight: 700;
+  font-size: 12.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--sun);
+}
+.cam__dot { flex: 0 0 auto; margin-top: .42em; width: 9px; height: 9px; border-radius: 50%; background: var(--heliconia); }
+html[data-intensity="max"] .cam__dot { animation: jungle-blink 3.4s ease-in-out infinite; }
+@keyframes jungle-blink { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+.cam p { margin: 0 0 10px; font-size: 15.5px; line-height: 1.56; color: var(--daylight); }
+.cam__who { margin: 0; font-size: 14px; color: var(--sap); }
+
+/* A cam whose owner has embedding switched off. It gets a way out rather than
+   a screen that would show a refusal where a picture should be — see the note
+   in data/jungle.json and the check in make-jungle.py. It is deliberately NOT
+   dressed as an aperture: a door is not a window, and pretending otherwise is
+   what the broken version would have done. */
+/* COLUMN, not row. As a row the heading and the explanation sat side by side
+   and a <br> between them did nothing, because a line break is not a thing a
+   flex container honours between two items. */
+.cam--away .cam__away {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; text-align: center;
+  aspect-ratio: 16 / 9; padding: 20px 24px;
+  background: repeating-linear-gradient(135deg, rgba(87,160,92,.10) 0 9px, transparent 9px 18px), #041209;
+  border: 2px dashed var(--palm); border-radius: 34px 4px 34px 4px;
+  font-family: 'Cabin', system-ui, sans-serif; font-weight: 700;
+  font-size: 15px; line-height: 1.45; color: var(--daylight); text-decoration: none;
+}
+.cam--away .cam__away:hover { color: var(--sun); border-color: var(--sun); }
+.cam--away .cam__away .jungle-note { font-weight: 400; max-width: 34ch; }
+
+.jungle-rules { margin: 0; padding: 0; list-style: none; max-width: 66ch; }
+.jungle-rules li { position: relative; padding: 0 0 0 30px; margin: 0 0 14px; }
+.jungle-rules li::before {
+  content: ""; position: absolute; left: 0; top: .42em; width: 14px; height: 14px;
+  background: var(--palm); border-radius: 100% 0 100% 0;
+}
+.jungle-rules strong { color: var(--sun); }
+
+.jungle-note { font-size: 14.5px; line-height: 1.62; color: var(--sap); }
+
+
+/* §18 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -1936,10 +2180,17 @@ html[data-intensity="max"] .lamp-flame { animation: latibulum-breathe 9s ease-in
      square: a smial with a flat top is a shed. */
   .room-latibulum .wall--arched { border-radius: 120px 120px 22px 22px; padding: 70px 24px 26px; }
   .wireless .thing__case { border-radius: 100px 100px 14px 14px; }
+  .jungle { width: calc(100% - 20px); padding: 0 14px 56px; }
+  /* A 40px leaf corner on a 300px card eats the first line of the name. The
+     aperture keeps the shape; the card behind it relaxes rather than going
+     square, because a rectangle here would stop being a leaf and start being
+     a spreadsheet cell. */
+  .cam { border-radius: 26px 6px 26px 6px; padding: 14px 15px 18px; }
+  .cams { grid-template-columns: minmax(0, 1fr); gap: 20px; }
 }
 
 
-/* §18 ── Print ───────────────────────────────────────────────────────────────
+/* §19 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

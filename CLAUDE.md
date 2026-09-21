@@ -152,6 +152,35 @@ mistake. What keeps them apart is structural and has to stay that way:
 Flatten any one of those and you have two rooms doing the same thing twice, which is worse than
 either of them doing it once.
 
+**A VIEWING ROOM FULL OF SOMEBODY ELSE'S CAMERAS IS WHERE THE RUNTIME RULE INVERTS.** The Jungle
+Room (§17) carries the nature live cams off our own Watering Hole Hangs events page, in that
+page's own groups and that page's own order, which is not ours to re-sort. **Every other
+press-to-play control on this street says how long it runs before the press** — that number is
+what lets somebody decide, and `make-latibulum.py` refuses a track without one. A live camera has
+no runtime. The obvious fix, storing the length of whichever stream happens to be up today, puts
+a number on the page that is wrong tomorrow and authoritative-looking in the meantime, so
+`make-jungle.py` **refuses a cam that has one**. The label says it runs until you close it, and
+the room states out loud that the picture may be darkness, rain, an empty waterhole or a cam
+between streams. Do not add a runtime field back; the two tools are making the same promise.
+
+**AND PLAYING IS NOT THE SAME PERMISSION AS EMBEDDING, which nothing here knew until that room.**
+`love-embed.js` validates an id and builds an iframe; it cannot know the owner has switched
+embedding off, so the frame loads and shows a refusal where the picture should be. That is
+make-chappell.py's button-that-never-becomes-a-video arriving through a door no checker watched.
+Two cams are like that: they get a way out to YouTube, **dressed as a door rather than as a
+window**, because pretending a link is a screen is precisely the broken thing. `check-jukebox.py`
+reads `playableInEmbed` off the same fetch as the status now, for every facade on the street.
+**Two more are simply dead on our own published events page** — they render nothing, the room
+names them in its own copy, and the entries stay in the data file with the date. Replacing them
+is a curation decision on stimpunks.org; do not pick new ids from here.
+
+**THE THIRD GREEN THING ON THE STREET, AND THE FIELD IS THE ONE TO WATCH.** The Campgrounds is
+night-blue under nothing: a bare field, sky still on it, posts standing alone on open ground,
+lettering routed flat like a park sign. The Jungle Room is night-green under a **roof**: light
+arriving only where the leaves let it, nothing standing alone because everything overlaps
+something, and a face whose strokes swell as they turn. You are outside in one and inside the
+other. "They are both green, so they should feel the same" is the subroom excuse in a poncho.
+
 **A CLASS NAME IS GLOBAL AND A SECTION HEADER IS A COMMENT.** This is the structural hole under
 the whole architecture, and it stayed open until The Latibulum fell in it: that room shipped four
 names another room already had — `.scrawl` (the zine's margin hand), `.shelf` (the yurt's
@@ -233,7 +262,12 @@ decision into a false statement on a published page.
    not what the type sits on. The Arcade brought two more of those: `#0F1F24`, what the screen
    becomes under its own scanline and the *lighter* of the two grounds the playfield makes, and
    `#2D1C25`, the carpet under the cabinet's glow — dimming one grey there to test the file
-   failed the composite harder than the flat colour every time. **Its eight quills are in the
+   failed the composite harder than the flat colour every time. **The Jungle Room brought its own
+   pair of those and one lesson about decoration:** its shafts of light land where they land, so
+   every ink is held against the lit ground as well as the dark one — and the canopy of leaves
+   across the top of that page measured **2.18** against the ground behind it, a smudge with no
+   telling one leaf from another. WCAG does not reach ambient decoration; measure it anyway,
+   because a canopy nobody can make out is not a canopy. **Its eight quills are in the
    list too:** WCAG 1.4.3 does not reach a graphic, but a quill you cannot pick out of the
    background is a control you cannot use, and they are held to the body threshold so nobody has
    to remember later which bar applied. Each quill also carries a *name* said out loud on
@@ -349,10 +383,22 @@ possible to add a track nothing renders or to delete an object and leave a track
 hole. **Two facades is exactly the size at which somebody decides a list is not worth a tool**,
 and it is why both of them are in `check-jukebox.py` as well.
 
+`make-jungle.py` builds The Jungle Room's viewing galleries out of `data/jungle.json` — a fourth
+facade file, because the cams came from a fourth place: an events page we publish and do not
+otherwise touch from this repo. It refuses everything the other three do, and **a runtime**, for
+the reason above. It also refuses a group with no markers in the page, markers for a group the
+data does not have, and **a group whose every cam is dark**, which would render as a heading over
+nothing. The count of dead cams in the room's own copy is generated rather than typed, for the
+reason `check-counts.py` exists: a cam dying should not need somebody to remember a paragraph.
+
 `make-og.py` refuses a page whose body class it has no card for — it refused the Arcade until
 that room had a design of its own, which is exactly what it is for — refuses a card whose content
 does not fit 1200×630 — Chrome reports the layout back out of the same run that takes the
-picture, so the fit is measured rather than assumed — and **cannot write an `og:image` without
+picture, so the fit is measured rather than assumed — **and it skips descendants of a clipping
+`<svg>`**, because the Jungle Room's canopy hangs its leaves off both sides of a band that cuts
+them off, so their boxes run past the edge while no ink does. That exclusion reads the computed
+overflow rather than assuming it, which is what keeps it a statement about paint; it is the same
+narrow carve-out `check-gentle.py` makes for transforms inside a drawing — and **cannot write an `og:image` without
 an `og:image:alt`**, because text baked into an image is text nobody can hear. Writing it also
 turned up two grounds the rooms had always had and the contrast checker had never named: the
 Pink Pony Club's cream headline is 3.01:1 on flat hot pink and **2.64 over its own mirrorball

@@ -90,6 +90,25 @@ PEN_DARK, PEN_LIGHT, BEAK = "#1E2833", "#F7FAFB", "#E07B1F"
 PEB_GREY, PEB_WHITE, PEB_GLASS = "#A8B0B8", "#EDE9E2", "#6FBFA4"
 PEB_SPECK, PEB_FEATHER, PEB_SHELL, NEST = "#B09A7E", "#8494A8", "#E8A874", "#A69C90"
 KELP, KELP2 = "#6FB050", "#7ABF5A"
+# THE JUNGLE ROOM (love.css §17). Wet green under a closed roof, and the room
+# where the composite matters more than anywhere else on the street, because the
+# light is the whole conceit: three shafts and a wide opening at the top of the
+# page, all of them --sun over the ground. SHAFT is the brightest of them over
+# the canopy (--sun at .12) and SHAFT_2 is the same light landing on an
+# understorey panel; between them they are what nearly every word here is
+# actually read against, and the flat colours below are the easy case.
+CANOPY, UNDERSTORY, BUTTRESS, LITTER = "#06180F", "#0B2415", "#143A24", "#1C2A14"
+SHAFT, SHAFT_2 = "#232E1A", "#27391F"
+APERTURE = "#041209"        # what a screen is before it is a picture
+DAYLIGHT, SAP = "#EDF6E2", "#BFD6AC"
+PALM, HELICONIA, SUN, ORCHID = "#57A05C", "#FF8557", "#F5D06B", "#E98AD2"
+# The lightest of the three greens the canopy band is drawn in. It is ambient
+# decoration and WCAG does not reach it, and it is measured anyway at the
+# graphics bar: a canopy nobody can make out is not a canopy, it is a dark strip
+# across the top of the page pretending to be one. THE FIRST THREE GREENS FAILED
+# THAT, at 2.18 -- the band read as a smudge and the leaves in it could not be
+# told from each other, which is exactly what measuring a decoration is for.
+CANOPY_LEAF = "#31754A"
 FISHY, COBBLE, SHELLY, URCHIN = "#CFE2F2", "#A9BAC6", "#E8D6B6", "#B79AE0"
 
 # (fg, bg, large?, where)
@@ -399,6 +418,49 @@ PAIRS = [
     (BRASS,   LOAM,      True,  "latibulum: the television's aerial, against the earth"),
     (SCALE,   WOOD_1,    True,  "latibulum: the tuning strip against the wood it is set into"),
     (RUST,    PLASTER_2, True,  "latibulum: the needle on the tuning strip"),
+    #
+    # THE JUNGLE ROOM (love.css §17). EVERY INK IS HELD AGAINST THE LIGHT AS
+    # WELL AS AGAINST THE DARK, which in this room is not a formality: the
+    # shafts are the reason the place looks like a rainforest, they land
+    # wherever they land, and a word that only clears on the unlit ground is a
+    # word somebody reads in the one spot where it fails.
+    (DAYLIGHT,  CANOPY,     False, "jungle: body copy on the forest floor"),
+    (DAYLIGHT,  SHAFT,      False, "jungle: body copy inside a shaft of light"),
+    (DAYLIGHT,  UNDERSTORY, False, "jungle: a cam's note, and every word on a buttress panel"),
+    (DAYLIGHT,  SHAFT_2,    False, "jungle: the same, with the light on it"),
+    (DAYLIGHT,  APERTURE,   False, "jungle: the label inside an unopened screen"),
+    (SAP,       CANOPY,     False, "jungle: the lede, the trail line, the credits"),
+    (SAP,       SHAFT,      False, "jungle: the lede under the light — the tightest pair on the floor"),
+    (SAP,       UNDERSTORY, False, "jungle: whose camera it is, under each cam's note"),
+    (SAP,       SHAFT_2,    False, "jungle: the same, lit"),
+    (SUN,       CANOPY,     False, "jungle: LIVE, and the gallery headings"),
+    (SUN,       SHAFT,      False, "jungle: LIVE with the light on it"),
+    (SUN,       UNDERSTORY, False, "jungle: LIVE on a cam, and OPEN THE LEAVES on a screen"),
+    (SUN,       SHAFT_2,    False, "jungle: the same, lit"),
+    (SUN,       APERTURE,   False, "jungle: OPEN THE LEAVES, inside the dark of the screen"),
+    (SAP,       APERTURE,   False, "jungle: why a cam opens off site, inside its own dark"),
+    (SUN,       LITTER,     False, "jungle: anything set on the leaf litter at the foot"),
+    (HELICONIA, CANOPY,     False, "jungle: every link on the forest floor, and the tagline"),
+    (HELICONIA, SHAFT,      False, "jungle: a link under the light"),
+    (HELICONIA, UNDERSTORY, False, "jungle: a link inside a buttress panel or a cam"),
+    (HELICONIA, SHAFT_2,    False, "jungle: the same, lit"),
+    (ORCHID,    CANOPY,     False, "jungle: the eyebrow over the room's name"),
+    (ORCHID,    SHAFT,      False, "jungle: the eyebrow, which sits directly under the canopy's own opening"),
+    #
+    # THE FOUR GRAPHICS, at the 3:1 bar. The dot beside LIVE and the leaf on a
+    # gallery heading are the two things here that are drawn rather than
+    # written, and both are carrying meaning -- the dot says the thing does not
+    # end and the leaf says a new group has started -- so neither is allowed to
+    # be a smudge. Neither is the ONLY channel for what it says: the word LIVE
+    # is beside the dot and the group's name is beside the leaf, because colour
+    # and shape are never the only channel on this street.
+    (HELICONIA, UNDERSTORY, True,  "jungle: the dot beside the word LIVE"),
+    (PALM,      CANOPY,     True,  "jungle: the leaf on a gallery heading, and a house-rule marker"),
+    (PALM,      SHAFT,      True,  "jungle: the same leaf with the light on it"),
+    (PALM,      UNDERSTORY, True,  "jungle: a house-rule marker, inside a buttress panel"),
+    (PALM,      SHAFT_2,    True,  "jungle: the same marker with the light on it"),
+    (PALM,      APERTURE,   True,  "jungle: the dashed border round a cam that opens off site"),
+    (CANOPY_LEAF, CANOPY,   True,  "jungle: the lightest leaf in the canopy band, against the sky behind it"),
 ]
 
 # NOT IN THE LIST, AND IT SHOULD BE: cream (#FFF3E6) on the same #FF5AA6 ground

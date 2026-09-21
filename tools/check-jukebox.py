@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check that every track on the dancefloor, and in the chapel off it, still plays.
+"""Check that every press-to-play facade on this street still plays, and still embeds.
 
 Every press-to-play facade on this street is in one of the lists below. A facade
 whose video has died looks exactly like one that works, right up until a reader
@@ -21,6 +21,15 @@ HOW, because the two obvious tests are worthless here and cost an hour to rule o
   What does distinguish them is the watch page's own playabilityStatus, which
   reads UNPLAYABLE for a dead video and OK for a live one. That is what this
   checks.
+
+AND PLAYING IS NOT THE SAME PERMISSION AS EMBEDDING, which nothing here knew
+until the Jungle Room. A video can answer OK and still refuse to appear in an
+iframe, because its owner switched embedding off: love-embed.js has no way to
+tell, so it builds the frame and the reader gets a refusal where the picture
+should be. That is the same failure as a dead id wearing a different face, and
+it is read off the same page -- "playableInEmbed" beside the status. A cam the
+data already marks 'link' is EXPECTED to fail this and is not reported; anything
+else that fails it is a screen that does not work.
 
 EVERY LIST, BECAUSE ROT DOES NOT CARE WHICH FILE AN ID LIVES IN. Each room with
 facades in it has its own data file -- different provenance, so a different
@@ -72,13 +81,20 @@ def get(url, timeout=25):
 
 
 def playability(video_id):
-    """OK / UNPLAYABLE / LOGIN_REQUIRED / ... or None if we could not tell."""
+    """(status, embeddable) off one fetch of the watch page.
+
+    status is OK / UNPLAYABLE / LOGIN_REQUIRED / ..., or None if we could not
+    tell; embeddable is True/False/None the same way. Both come out of the same
+    request rather than two, because they are two facts about one video and
+    fetching twice would be asking somebody else's server for the same page for
+    no reason."""
     try:
         html = get(f"https://www.youtube.com/watch?v={video_id}")
     except (urllib.error.URLError, TimeoutError, OSError):
-        return None
+        return None, None
     m = re.search(r'"playabilityStatus":\{"status":"([A-Z_]+)"', html)
-    return m.group(1) if m else None
+    e = re.search(r'"playableInEmbed":(true|false)', html)
+    return (m.group(1) if m else None), (e.group(1) == "true" if e else None)
 
 
 def channel_now(video_id):
@@ -98,7 +114,35 @@ LISTS = [
     # checker -- and a dead station in a room built for people who are already
     # flat is the worst place on the street to find rot.
     ("the latibulum",  "data/latibulum.json", "latibulum.html"),
+    # The Jungle Room, which is the largest list here and the one most likely to
+    # rot: a music video is published once and sits there, while a live camera
+    # is a machine somebody is maintaining outdoors. Two of these were already
+    # dead the day the room opened, on a page of ours that did not know it.
+    ("the jungle room", "data/jungle.json",   "jungle-room.html"),
 ]
+
+
+def tracks_in(data):
+    """Every facade in one data file, whichever shape that file has.
+
+    Three of these are a flat 'tracks' list. The Jungle Room's is grouped,
+    because the groups are our own events page's and re-sorting them into one
+    list here would be this repo quietly disagreeing with a page it does not
+    own. A file with neither key is refused rather than treated as empty: a run
+    that silently checks nothing and prints a total is worse than not running.
+
+    A cam marked dark is skipped. It is recorded as dead ON PURPOSE and does not
+    render anywhere, so reporting it every time would be this tool shouting
+    about a decision somebody already made -- which is how a report stops being
+    read."""
+    if "tracks" in data:
+        return data["tracks"]
+    if "groups" in data:
+        return [dict(c, artist=c.get("artist") or c.get("channel"))
+                for g in data["groups"] for c in g["cams"] if c.get("state") != "dark"]
+    raise SystemExit(
+        "REFUSING: a data file in LISTS has neither 'tracks' nor 'groups', so this "
+        "run\nwould have checked none of it while reporting a confident total.")
 
 
 def load():
@@ -112,7 +156,7 @@ def load():
     out = []
     for room, path, page in LISTS:
         data = json.loads((ROOT / path).read_text())
-        for t in data["tracks"]:
+        for t in tracks_in(data):
             t = dict(t)
             t.setdefault("artist", data.get("_artist", ""))
             if not t["artist"]:
@@ -128,10 +172,10 @@ def load():
 
 def main():
     tracks = load()
-    dead, unknown, drift = [], [], []
+    dead, unknown, drift, walled = [], [], [], []
 
     for i, t in enumerate(tracks):
-        status = playability(t["id"])
+        status, embeddable = playability(t["id"])
         time.sleep(PAUSE)
         chan = channel_now(t["id"])
         if i < len(tracks) - 1:
@@ -146,6 +190,13 @@ def main():
             mark, unknown_it = "DEAD", False
             dead.append((t, status))
 
+        # A cam the data already marks 'link' is published as a way out to
+        # YouTube precisely BECAUSE its owner turned embedding off, so it is not
+        # a finding. Anything else is a screen that would show a refusal.
+        if embeddable is False and t.get("state") != "link":
+            walled.append(t)
+            mark = "WALL" if mark == "ok  " else mark
+
         print(f"{mark} {status or 'no answer':<14} {t['_room']:<14} "
               f"{t['artist']} — {t['title']}")
         expected = t.get("channel_verbatim", t["channel"])
@@ -159,9 +210,18 @@ def main():
         print("  If the new name is right, update 'channel_verbatim' (or 'channel' if there\n"
               "  is no verbatim field) so this stays quiet and the next rename is visible.")
 
+    if walled:
+        print("\nplays on YouTube, but its owner has embedding switched OFF — the facade\n"
+              "would build an iframe and show a refusal where the picture should be:")
+        for t in walled:
+            print(f"  {t['_file']}  {t['artist']} — {t['title']}")
+        print("  Give it a way out instead of a screen (state 'link' in the Jungle Room's\n"
+              "  data), or replace it. Do not leave it as a button that cannot work.")
+
     rooms = ", ".join(f"{sum(1 for t in tracks if t['_room'] == r)} in {r}"
                       for r, _, _ in LISTS)
-    print(f"\n{len(tracks)} tracks checked ({rooms}), {len(dead)} not playable.")
+    print(f"\n{len(tracks)} facades checked ({rooms}), {len(dead)} not playable, "
+          f"{len(walled)} not embeddable.")
 
     if unknown and len(unknown) == len(tracks):
         raise SystemExit(
@@ -178,9 +238,12 @@ def main():
             "Find a replacement, put the new id in the data file named beside it above,\n"
             "with a 'replaced' note saying where it came from, and re-run that list's\n"
             "generator -- make-jukebox and make-liner-notes for the dancefloor,\n"
-            "make-chappell for the chapel -- so every surface moves together."
+            "make-chappell for the chapel, make-latibulum for the burrow, make-jungle\n"
+            "for the viewing room -- so every surface moves together.\n"
+            "A dead NATURE CAM is different: the list it came from is our own events\n"
+            "page, so mark it dark here and take the replacement up there."
         )
-    sys.exit(1 if (dead or unknown) else 0)
+    sys.exit(1 if (dead or unknown or walled) else 0)
 
 
 if __name__ == "__main__":

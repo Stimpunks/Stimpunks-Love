@@ -77,6 +77,7 @@ quill-drift.html      Esmx gathers drifting quills. Contact is the only verb it 
 otterly-adorbs.html   An otter, a kelp bay, and floating that fills nothing up
 penguin-pebbling.html A shore, some pebbles, and neighbours with nests. Nothing counted
 latibulum.html        A burrow under the hill. A wireless, a tube television, a lamp
+jungle-room.html      A viewing room under a canopy. Nature live cams, none with a runtime
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
 faery-yurt.html       Pitch 01. Helen Edgar's candlelit yurt; her design, not ours
@@ -100,6 +101,7 @@ data/chairy.json      Chairy's 28 sayings, each with the page it came from
 data/yells.json       Recorded yells, and who agreed to lend their voice
 data/yurt-sound.json  The six sounds in the Faery Yurt, and whose voice they are
 data/latibulum.json   The burrow's wireless and its television. A third provenance
+data/jungle.json      The nature cams, in our own events page's groups and order
 og/                   One share card per page, and one card design per room
 tools/                The generators and the checkers, below
 ```
@@ -120,6 +122,7 @@ python3 tools/make-chairy.py       # what Chairy says, from data/chairy.json
 python3 tools/make-yells.py        # the yell button's recordings, from data/yells.json
 python3 tools/make-yurt-sound.py   # the yurt's sounds: their tiles, and their credits
 python3 tools/make-latibulum.py    # the burrow's wireless and television, and their credits
+python3 tools/make-jungle.py       # the Jungle Room's viewing galleries, and their credits
 python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
 python3 tools/check-contrast.py    # every pair against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet

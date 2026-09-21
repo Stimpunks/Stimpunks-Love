@@ -224,5 +224,33 @@
       "src": "https://fonts.gstatic.com/s/nunito/v32/XRXV3I6Li01BKofINeaBTMnFcQ.woff2",
       "note": "The Latibulum's body face, and the only rounded sans on the street. It ships as a variable font, so Google serves the same file for 400 and for 700 — it is downloaded ONCE here and declared twice against the weight axis, the same call Bitter forced in the campgrounds rather than storing identical bytes under two names."
     }
+  ],
+  "yeseva-one": [
+    {
+      "file": "yeseva-one-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 10940,
+      "src": "https://fonts.gstatic.com/s/yesevaone/v24/OpNJno4ck8vc-xYpwWWxli1VWzfAw0Y.woff2",
+      "note": "The Jungle Room's display face. Its strokes THICKEN as they curve, which is the closest type gets to something grown rather than built — and it is what keeps a dark green room from sounding like the campground's routed park sign, which is incised and even-stroke. Latin subset only."
+    }
+  ],
+  "cabin": [
+    {
+      "file": "cabin-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 28228,
+      "src": "https://fonts.gstatic.com/s/cabin/v35/u-4i0qWljRw-PfU81xCKCpdpbgZJl6XvqdnsF3-OAw.woff2",
+      "note": "The Jungle Room's body face, and the caption under every leaf in it. A humanist sans, which is the plate-and-caption half of the pairing above. It ships as a variable font, so Google serves the same file for 400 and for 700 — downloaded ONCE and declared twice against the weight axis, the same call Nunito and Bitter forced."
+    },
+    {
+      "file": "cabin-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 28228,
+      "src": "https://fonts.gstatic.com/s/cabin/v35/u-4i0qWljRw-PfU81xCKCpdpbgZJl6XvqdnsF3-OAw.woff2",
+      "note": "Byte-identical to the 400 above; see that note."
+    }
   ]
 }
