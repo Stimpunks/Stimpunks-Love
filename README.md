@@ -132,6 +132,7 @@ python3 tools/make-jungle.py       # the Jungle Room's viewing galleries, and th
 python3 tools/make-den.py          # The Den's listening bench, and its credits
 python3 tools/make-hermitage.py    # the Hermitage's shelves and campfire, and their credits
 python3 tools/make-club.py         # Club Chronic's stage, paste-up and rack, and their credits
+python3 tools/make-pebble-board.py # the Pebble Board's current edition, and its back-issue rack
 python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
 python3 tools/check-contrast.py    # every pair against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet

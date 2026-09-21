@@ -609,8 +609,14 @@ not list that page is a refusal; a file in `photos/` with no record at all is a 
 a withdrawn entry and the tool stops until every page has let go of it. The photographs are **excluded from the site's CC BY-SA licence** and that
 exclusion is load-bearing — CC BY-SA cannot be revoked, so a photo published under it could not
 be taken back after somebody withdrew, and "it comes down when you say so" would be a promise
-the licence contradicted. Withdrawal is deletion, not a hidden flag. **We do not publish
-photographs of children.**
+the licence contradicted. Withdrawal is deletion, not a hidden flag. **Young people who are doing the work and have said yes THEMSELVES are published and
+credited like anybody else** — a rule that kept teenage volunteers and self-advocates off the
+page would hand the credit for their own activities to the adults beside them, which is
+the thing this organisation exists to refuse. The consent has to be the young person's own;
+a parent's does not substitute for it, and withdrawal works for them exactly as it does
+for everybody. Too young to give that consent themselves and we do not publish it at all.
+**This superseded a flat no-children rule on 2026-09-21** — Ryan's call, after that rule
+would have pulled a named teenage volunteer's own photograph off a board she consented to.
 
 `make-readings.py` builds the audio room from `data/readings.json` and prints every passage as
 text whether or not its recording exists — the words are the room, and an argument you can only

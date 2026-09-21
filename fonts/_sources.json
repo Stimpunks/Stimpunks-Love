@@ -332,5 +332,39 @@
    "bytes": 15832,
    "src": "https://fonts.gstatic.com/s/barlow/v13/7cHqv4kjgoGqM7E30-8s51ostz0rdg.woff2"
   }
+ ],
+ "atkinson-hyperlegible": [
+  {
+   "file": "atkinson-hyperlegible-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 11208,
+   "src": "https://fonts.gstatic.com/s/atkinsonhyperlegible/v12/9Bt23C1KxNDXMspQ1lPyU89-1h6ONRlW45G04pIoWQeCbA.woff2"
+  },
+  {
+   "file": "atkinson-hyperlegible-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 11364,
+   "src": "https://fonts.gstatic.com/s/atkinsonhyperlegible/v12/9Bt73C1KxNDXMspQ1lPyU89-1h6ONRlW45G8Wbc9dCWPRl-uFQ.woff2"
+  }
+ ],
+ "gloria-hallelujah": [
+  {
+   "file": "gloria-hallelujah-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 17012,
+   "src": "https://fonts.gstatic.com/s/gloriahallelujah/v24/LYjYdHv3kUk9BMV96EIswT9DIbW-MIS11zOmvVCE.woff2"
+  }
+ ],
+ "josefin-sans": [
+  {
+   "file": "josefin-sans-600.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 12312,
+   "src": "https://fonts.gstatic.com/s/josefinsans/v34/Qw3PZQNVED7rKGKxtqIqX5E-AVSJrOCfjY46_ObXbMZhLybpUVzEEQ.woff2"
+  }
  ]
 }

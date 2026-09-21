@@ -40,6 +40,16 @@ to be listed in that entry's "elsewhere", and every file in photos/ has to have
 an entry. Delete a withdrawn entry and this REFUSES until the yurt lets go of it
 too -- a refusal, rather than a broken image on a page nobody thought to check.
 
+AND THE RECORD IS NOT THE VENUE. Every photograph here used to hang on Enid's
+wall, so "has an entry" and "is on the wall" were one fact. The Pebble Board's
+photographs are the first that belong to another room only: "on_wall": false
+keeps the whole contract -- alt text, named subject, consent date, EXIF, the
+site-wide walk, withdrawal-is-deletion -- and only declines to build a polaroid,
+because hanging a photo on Enid's wall to satisfy a bookkeeping rule would be
+this tool curating a room it is not about. Off the wall AND with no 'elsewhere'
+is refused: that is a photograph of a real person published nowhere and sitting
+in a public repository.
+
 THE PHOTOS ARE NOT CC BY-SA. See LICENSE and the _licence note in the data file.
 """
 import html
@@ -264,6 +274,26 @@ def main():
         else:
             credit = who
         cap = html.escape(ph.get("caption") or "")
+        # A CONSENT RECORD IS NOT A BOOKING FOR ENID'S WALL. Until the Pebble
+        # Board every photograph here hung on the wall and possibly somewhere
+        # else too, so "in the data" and "on the wall" were the same fact. The
+        # board's photographs are the first that belong to another room only,
+        # and hanging them on Enid's wall because that is where the records live
+        # would be this tool making a curation decision for a room it is not
+        # about. "on_wall": false keeps every rule above and every check below --
+        # the alt text, the named subject, the consent date, the EXIF sweep, the
+        # site-wide walk, and withdrawal-is-deletion -- and only declines to
+        # build a polaroid. A photo with no venue at all still refuses, because
+        # that is an unpublished picture of a real person sitting in a public
+        # repository, which is exactly what the orphan check is for.
+        if ph.get("on_wall") is False:
+            if not ph.get("elsewhere"):
+                raise SystemExit(
+                    f"REFUSING: {pid!r} is marked off the wall and lists no 'elsewhere',\n"
+                    "so it is published nowhere and is just a photograph of somebody in a\n"
+                    "public repository. Give it a page or delete the entry and the file."
+                )
+            continue
         blocks.append(
             f'        <figure class="polaroid" style="margin:0;">\n'
             f'          <img class="photo polaroid__plate" src="photos/{f.name}" '

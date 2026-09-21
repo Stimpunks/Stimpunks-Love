@@ -1,0 +1,453 @@
+{
+ "_what": "The Pebble Board — a community noticeboard on the street, and the editions pinned to it. Pebbling is Amythest Schaber's locution, documented by Stimpunks; a pebble is anything you bring somebody because it made you think of them.",
+ "_fixture": "THE FRAME IS CONSTANT AND THE PAPER IS NOT. The board, its lamp, its glass and its plate belong to the street and stay put across every edition; what is pinned to it is that edition's own world and shares nothing with the next. This is the Arcade's argument arriving a second time and it is the SECOND, not a licence for a third: a noticeboard, like a cabinet, is one body with different things behind the glass. Each edition still gets its own share card, because the card is where a shortcut would be invisible.",
+ "_rotation": "A new gathering, not a clock. An edition is dated by the day it was collected, and a board nobody has pinned to in a while is an honest board rather than a stale one. When a new edition goes up, the outgoing one is written to its own page and joins the rack at the foot of the board.",
+ "_source": "2026-06-25 gathering. Assembled by Norah Hobbs in the WordPress block editor and rebuilt as a static page with Claude in June 2026; carried onto this street on 2026-09-21. Every video id below was resolved against YouTube's own watch page on 2026-09-21 — status, playableInEmbed, runtime, title and channel — and NOT typed from memory. Two came back wrong and are recorded as such.",
+ "_typefaces": "NORAH'S DESIGN, WITH TWO FACES SUBSTITUTED, 2026-09-21, Ryan's call. Her Atkinson Hyperlegible stays and is now self-hosted — it is the Braille Institute's low-vision face, so swapping the body text would be an access regression rather than a style choice. Her Caveat and Special Elite had to go: Caveat is the Faery Yurt's hand and Special Elite is the Zine Table's typewriter, and a punk-paper noticeboard set in the zine's own typewriter is precisely the collapse this street refuses. Gloria Hallelujah and Josefin Sans in their place. Recorded here rather than implied in a diff, for the same reason the one colour of Helen's that this repo changed is written up in four places.",
+ "_photographs": "The photographs are NOT under this site's CC BY-SA licence and are governed by data/polaroids.json and tools/make-polaroids.py, the same as every other photograph here. Consent, withdrawal and the young-person policy live there, not in this file.",
+ "_artwork": "Community artwork carries its maker's name and a recorded permission. Sharing a drawing at a gathering is not the same as agreeing to have it published on a public site, so 'maker_agreed' is a separate fact from 'maker' and the tool refuses without it.",
+ "editions": [
+  {
+   "slug": "2026-summer",
+   "title": "Things We Collected",
+   "tagline": "“Now That's What I Call A Pebble Board” — Summer 2026 remix",
+   "gathered_on": "2026-06-25",
+   "published_on": "2026-09-21",
+   "state": "current",
+   "keeper": "Norah Hobbs",
+   "keeper_role": "Program Director, Stimpunks Foundation",
+   "note": "On Thursday, 6/25/26, a bunch of us got together for two hours and just vibed — songs, art, jokes, a few things worth keeping. Genuinely one of the good ones. Here's what we brought each other.",
+   "memory": {
+    "name": "Om Malik",
+    "kicker": "in memory",
+    "credit": "shared for Ryan afterward, as they were unable to attend the gathering — this is truly important to all of Stimpunks",
+    "href": "https://stimpunks.org/2026/07/04/om-malik-we-wouldnt-be-here-without-him/",
+    "quote": [
+     "Without my recently departed friend Om Malik, WordPress arguably wouldn't still exist. Automattic… wouldn't exist. Stimpunks probably wouldn't exist. I sold part of Automattic to fund Stimpunks. We certainly wouldn't have been able to pay staff all these years without Om.",
+     "When the wealthiest men in tech tried to return to colonialism, Om made the wickedness of their plan plain to the world. His words changed global plans.",
+     "Be like Om. Remember beyond the mythology. Forgetting is a tool of white supremacy."
+    ],
+    "closer": "May his memory be a revolution."
+   },
+   "dropped": [
+    {
+     "title": "And the Adjacent Possible",
+     "credit": "OK Go — on their long-awaited new album",
+     "video": "3y9O7vlv6a4",
+     "why": "Measured 2026-09-21: the watch page answers LOGIN_REQUIRED, reason 'Private video'. It has gone private since the gathering. Recorded here rather than deleted, the way the Jungle Room keeps its dead cams, so that if it comes back it goes straight up again. Choosing a replacement is a curation call and is not this tool's to make."
+    }
+   ],
+   "sections": [
+    {
+     "id": "music",
+     "tab": "Songs",
+     "cards": [
+      {
+       "title": "Lebanon",
+       "credit": "J.S. Ondara",
+       "video": "MMq4A6Tk0a0",
+       "length": "3:27",
+       "channel_verbatim": "JSOndaraVEVO",
+       "title_verbatim": "Ondara - \"Lebanon\" (Official Video)",
+       "thumb": "thumb-MMq4A6Tk0a0.jpg",
+       "href": "https://www.youtube.com/watch?v=MMq4A6Tk0a0"
+      },
+      {
+       "title": "Quasheba, Quasheba",
+       "credit": "Our Native Daughters",
+       "video": "uDvPZBjXa9o",
+       "length": "4:43",
+       "channel_verbatim": "Our Native Daughters - Topic",
+       "title_verbatim": "Quasheba, Quasheba",
+       "thumb": "thumb-uDvPZBjXa9o.jpg",
+       "href": "https://www.youtube.com/watch?v=uDvPZBjXa9o"
+      },
+      {
+       "title": "I Wish I Knew How It Would Feel to Be Free",
+       "credit": "Nina Simone — Montreux, 1976",
+       "video": "-sEP0-8VAow",
+       "length": "6:13",
+       "channel_verbatim": "TransatlanticMoments",
+       "title_verbatim": "Nina Simone - I Wish I Knew How It Would Feel To Be Free (Montreux 1976)",
+       "thumb": "thumb--sEP0-8VAow.jpg",
+       "href": "https://www.youtube.com/watch?v=-sEP0-8VAow"
+      },
+      {
+       "title": "Cure For Me",
+       "credit": "AURORA",
+       "video": "K17df81RL9Y",
+       "length": "3:22",
+       "channel_verbatim": "iamAURORAVEVO",
+       "title_verbatim": "AURORA - Cure For Me",
+       "thumb": "thumb-K17df81RL9Y.jpg",
+       "href": "https://www.youtube.com/watch?v=K17df81RL9Y"
+      },
+      {
+       "title": "Born to Fight",
+       "credit": "Tracy Chapman",
+       "video": "epL1uFpGcFo",
+       "length": "2:43",
+       "channel_verbatim": "Tracy Chapman",
+       "title_verbatim": "Tracy Chapman - Born To Fight (Official Music Video)",
+       "thumb": "thumb-epL1uFpGcFo.jpg",
+       "href": "https://www.youtube.com/watch?v=epL1uFpGcFo"
+      },
+      {
+       "title": "Lighten Up, Morrissey",
+       "credit": "Sparks",
+       "video": "LwIrFTo495E",
+       "length": "3:33",
+       "channel_verbatim": "S P A R K S",
+       "title_verbatim": "Sparks - Lighten Up Morrissey (Official Video)",
+       "thumb": "thumb-LwIrFTo495E.jpg",
+       "href": "https://www.youtube.com/watch?v=LwIrFTo495E"
+      },
+      {
+       "title": "Good Day",
+       "credit": "Luce",
+       "video": "Bir8Q15CSX4",
+       "length": "4:14",
+       "channel_verbatim": "Luce - Topic",
+       "title_verbatim": "Good Day",
+       "thumb": "thumb-Bir8Q15CSX4.jpg",
+       "href": "https://www.youtube.com/watch?v=Bir8Q15CSX4"
+      },
+      {
+       "title": "Steal My Sunshine",
+       "credit": "Len",
+       "video": "E1fzJ_AYajA",
+       "length": "3:47",
+       "channel_verbatim": "LenVEVO",
+       "title_verbatim": "Len - Steal My Sunshine",
+       "thumb": "thumb-E1fzJ_AYajA.jpg",
+       "href": "https://www.youtube.com/watch?v=E1fzJ_AYajA"
+      },
+      {
+       "title": "Inside Out",
+       "credit": "Eve 6",
+       "video": "T8Xb_7YDroQ",
+       "length": "3:42",
+       "channel_verbatim": "Eve6VEVO",
+       "title_verbatim": "Eve 6 - Inside Out",
+       "thumb": "thumb-T8Xb_7YDroQ.jpg",
+       "href": "https://www.youtube.com/watch?v=T8Xb_7YDroQ"
+      },
+      {
+       "title": "Darkside (Acoustic)",
+       "credit": "NEONI",
+       "video": "fnqepYp-kHU",
+       "length": "2:40",
+       "channel_verbatim": "Neoni",
+       "title_verbatim": "NEONI - Darkside (Official Acoustic Video)",
+       "thumb": "thumb-fnqepYp-kHU.jpg",
+       "href": "https://www.youtube.com/watch?v=fnqepYp-kHU"
+      },
+      {
+       "title": "Carry On Wayward Son",
+       "credit": "NEONI, reimagining Kansas",
+       "video": "qKvj12YTtI4",
+       "length": "3:28",
+       "channel_verbatim": "Neoni",
+       "title_verbatim": "Neoni - Carry On Wayward Son (Official Music Video)",
+       "how": "link",
+       "why_link": "Plays, but its owner has embedding switched off, so a facade here would build a frame showing a refusal where the picture should be. Measured 2026-09-21: status OK, playableInEmbed false. A door rather than a screen.",
+       "thumb": "thumb-qKvj12YTtI4.jpg",
+       "href": "https://www.youtube.com/watch?v=qKvj12YTtI4"
+      },
+      {
+       "title": "Here's To The Night",
+       "credit": "Eve 6",
+       "video": "X5DOGsoiW6c",
+       "length": "4:02",
+       "channel_verbatim": "Eve6VEVO",
+       "title_verbatim": "Eve 6 - Here's To The Night (Official Video)",
+       "thumb": "thumb-X5DOGsoiW6c.jpg",
+       "href": "https://www.youtube.com/watch?v=X5DOGsoiW6c"
+      },
+      {
+       "title": "Here It Goes Again",
+       "credit": "OK Go — the treadmill video",
+       "video": "dTAAsCNK7RA",
+       "length": "3:06",
+       "channel_verbatim": "OKGoVEVO",
+       "title_verbatim": "OK Go - Here It Goes Again (Official Music Video)",
+       "thumb": "thumb-dTAAsCNK7RA.jpg",
+       "href": "https://www.youtube.com/watch?v=dTAAsCNK7RA"
+      },
+      {
+       "title": "Upside Down & Inside Out",
+       "credit": "OK Go — filmed in zero gravity",
+       "video": "LWGJA9i18Co",
+       "length": "3:22",
+       "channel_verbatim": "OKGoVEVO",
+       "title_verbatim": "OK Go - Upside Down & Inside Out",
+       "thumb": "thumb-LWGJA9i18Co.jpg",
+       "href": "https://www.youtube.com/watch?v=LWGJA9i18Co"
+      },
+      {
+       "title": "Only Time",
+       "credit": "Enya",
+       "video": "7wfYIMyS_dI",
+       "length": "3:36",
+       "channel_verbatim": "enyatv",
+       "title_verbatim": "Enya - Only Time (Official 4K Music Video)",
+       "thumb": "thumb-7wfYIMyS_dI.jpg",
+       "href": "https://www.youtube.com/watch?v=7wfYIMyS_dI"
+      },
+      {
+       "title": "Dance With Somebody",
+       "credit": "Chaparelle",
+       "video": "WJfF4GQ6X5g",
+       "length": "3:33",
+       "channel_verbatim": "Chaparelle",
+       "title_verbatim": "Chaparelle - Dance With Somebody (Official Audio)",
+       "thumb": "thumb-WJfF4GQ6X5g.jpg",
+       "href": "https://www.youtube.com/watch?v=WJfF4GQ6X5g"
+      },
+      {
+       "title": "Two Seconds",
+       "credit": "Laura Cantrell",
+       "video": "ujHMEMAd_lk",
+       "length": "3:58",
+       "channel_verbatim": "Laura Cantrell - Topic",
+       "title_verbatim": "Two Seconds",
+       "thumb": "thumb-ujHMEMAd_lk.jpg",
+       "href": "https://www.youtube.com/watch?v=ujHMEMAd_lk"
+      }
+     ]
+    },
+    {
+     "id": "words",
+     "tab": "Things We Read",
+     "cards": [
+      {
+       "title": "About",
+       "credit": "Mel Baggs — Ballastexistenz",
+       "more": "A foundational voice in Autistic self-advocacy. On being cognitively, physically, developmentally, and psychiatrically disabled, using a communication device, and refusing to be flattened into one story: “every person is different, even a person with a collection of labels identical to mine.”",
+       "href": "https://ballastexistenz.wordpress.com/about-2/"
+      },
+      {
+       "title": "Sigil",
+       "credit": "Wikipedia",
+       "more": "A little detour into symbol-magic: sigils as condensed intentions, from medieval grimoires to chaos magic to corporate logos. Came up alongside a stash of hand-drawn symmetrical patterns.",
+       "href": "https://en.wikipedia.org/wiki/Sigil"
+      },
+      {
+       "title": "Focaccia from Overproofed Sourdough",
+       "credit": "Garden of Mirth",
+       "more": "Mind-blowing fact of the gathering: focaccia is just what happens when sourdough gets away from you. Nothing wasted, just redirected.",
+       "href": "https://gardenofmirth.com/how-to-make-focaccia-with-overproofed-sourdough-bread/"
+      },
+      {
+       "title": "Now That's What I Call Music!",
+       "credit": "nowthatsmusic.com",
+       "more": "A wave of shared nostalgia for the compilation CDs a lot of us grew up with — the official home of the series, for anyone who wants to fall down that hallway again.",
+       "href": "https://www.nowthatsmusic.com/"
+      },
+      {
+       "title": "Informed vs. Educated",
+       "credit": "shared video",
+       "more": "Being informed means you know what happened. Being educated means understanding why, who paid for it, and what they needed you to think.",
+       "video": "kyNCW26AqYo",
+       "length": "7:35",
+       "channel_verbatim": "ali mcforever",
+       "title_verbatim": "Media Lit: Informed vs Educated (Andy Burnham Example)",
+       "thumb": "thumb-kyNCW26AqYo.jpg",
+       "href": "https://www.youtube.com/watch?v=kyNCW26AqYo"
+      },
+      {
+       "title": "‘They Want Racial Holy War’",
+       "credit": "Aaron Bastani & Matt Kennard, Novara Media",
+       "note": "A conversation on the U.S./British withdrawal from Afghanistan and what came after.",
+       "video": "B53fhDDwfJg",
+       "length": "1:52:09",
+       "channel_verbatim": "Novara Media",
+       "title_verbatim": "‘They Want Racial Holy War’ – The TRUTH About the US Military | Aaron Bastani Meets Matt Kennard",
+       "thumb": "thumb-B53fhDDwfJg.jpg",
+       "href": "https://www.youtube.com/watch?v=B53fhDDwfJg"
+      }
+     ]
+    },
+    {
+     "id": "art",
+     "tab": "Art",
+     "cards": [
+      {
+       "title": "Untitled Watercolor Spread",
+       "credit": "Treebeard",
+       "more": "A two-page watercolor world in pink, orange, and purple — a cliff-face with a small carved window, a frog peeking out, and a green frog-knight lounging in the corner.",
+       "art": "treebeard-watercolor-spread.jpg",
+       "maker": "Treebeard",
+       "alt": "Two-page fantasy watercolor landscape by Treebeard",
+       "maker_agreed": true,
+       "maker_agreed_on": "2026-09-21",
+       "maker_agreed_via": "Confirmed by Ryan Boren for all artwork on this edition. The makers are known to the gathering by these names; if any of them wants the name spelled differently, linked, or the piece taken down, that is one line here and a rebuild."
+      },
+      {
+       "title": "Lighting Study",
+       "credit": "PalePixel",
+       "more": "“This is from a while ago but it's something I made to play around with lighting in digital paintings” — a profile split between cool blue and warm red-gold light.",
+       "art": "palepixel-lighting-study.jpg",
+       "maker": "PalePixel",
+       "alt": "Digital painting lighting study by PalePixel",
+       "maker_agreed": true,
+       "maker_agreed_on": "2026-09-21",
+       "maker_agreed_via": "Confirmed by Ryan Boren for all artwork on this edition. The makers are known to the gathering by these names; if any of them wants the name spelled differently, linked, or the piece taken down, that is one line here and a rebuild."
+      },
+      {
+       "title": "Columbo Trace Study",
+       "credit": "PalePixel",
+       "note": "“Trace study of Columbo bc I love him :3”",
+       "art": "palepixel-columbo-trace.jpg",
+       "maker": "PalePixel",
+       "alt": "Line-art trace study of Columbo by PalePixel",
+       "maker_agreed": true,
+       "maker_agreed_on": "2026-09-21",
+       "maker_agreed_via": "Confirmed by Ryan Boren for all artwork on this edition. The makers are known to the gathering by these names; if any of them wants the name spelled differently, linked, or the piece taken down, that is one line here and a rebuild."
+      },
+      {
+       "title": "Symmetry Doodle No. 1",
+       "credit": "PalePixel",
+       "note": "One of about a hundred — loose, symmetrical line-doodles made just to see what would happen.",
+       "art": "palepixel-symmetry-1.jpg",
+       "maker": "PalePixel",
+       "alt": "Symmetrical pink line pattern",
+       "maker_agreed": true,
+       "maker_agreed_on": "2026-09-21",
+       "maker_agreed_via": "Confirmed by Ryan Boren for all artwork on this edition. The makers are known to the gathering by these names; if any of them wants the name spelled differently, linked, or the piece taken down, that is one line here and a rebuild."
+      },
+      {
+       "title": "Symmetry Doodle No. 2",
+       "credit": "PalePixel",
+       "art": "palepixel-symmetry-2.jpg",
+       "maker": "PalePixel",
+       "alt": "Symmetrical blush-pink line pattern",
+       "maker_agreed": true,
+       "maker_agreed_on": "2026-09-21",
+       "maker_agreed_via": "Confirmed by Ryan Boren for all artwork on this edition. The makers are known to the gathering by these names; if any of them wants the name spelled differently, linked, or the piece taken down, that is one line here and a rebuild."
+      },
+      {
+       "title": "Symmetry Doodle No. 3",
+       "credit": "PalePixel",
+       "art": "palepixel-symmetry-3.jpg",
+       "maker": "PalePixel",
+       "alt": "Symmetrical purple line pattern",
+       "maker_agreed": true,
+       "maker_agreed_on": "2026-09-21",
+       "maker_agreed_via": "Confirmed by Ryan Boren for all artwork on this edition. The makers are known to the gathering by these names; if any of them wants the name spelled differently, linked, or the piece taken down, that is one line here and a rebuild."
+      },
+      {
+       "title": "Symmetry Doodle No. 4",
+       "credit": "PalePixel",
+       "art": "palepixel-symmetry-4.jpg",
+       "maker": "PalePixel",
+       "alt": "Symmetrical black line pattern",
+       "maker_agreed": true,
+       "maker_agreed_on": "2026-09-21",
+       "maker_agreed_via": "Confirmed by Ryan Boren for all artwork on this edition. The makers are known to the gathering by these names; if any of them wants the name spelled differently, linked, or the piece taken down, that is one line here and a rebuild."
+      },
+      {
+       "title": "The “SJ” Station ID",
+       "credit": "designed by NewPartingtonPower",
+       "more": "A glossy, VHS-warped “station ID” logo — made with ntsc-rs for the tape-decay effect, and based on the WBIR-TV 1983–1995 logo. A broken heart tucked right between the letters.",
+       "href": "https://logos.fandom.com/wiki/WBIR-TV#1983%E2%80%931995",
+       "art": "newpartingtonpower-sj-station-id.jpg",
+       "maker": "NewPartingtonPower",
+       "alt": "Retro SJ station ID logo with a cracked heart, designed by NewPartingtonPower",
+       "maker_agreed": true,
+       "maker_agreed_on": "2026-09-21",
+       "maker_agreed_via": "Confirmed by Ryan Boren for all artwork on this edition. The makers are known to the gathering by these names; if any of them wants the name spelled differently, linked, or the piece taken down, that is one line here and a rebuild."
+      }
+     ]
+    },
+    {
+     "id": "fun",
+     "tab": "Just for Laughs",
+     "cards": [
+      {
+       "title": "Shoes (Full Version)",
+       "credit": "Liam Kyle Sullivan",
+       "note": "“I got shoes, they're multi-color” — the YouTube classic, in full.",
+       "video": "wCF3ywukQYA",
+       "length": "4:01",
+       "channel_verbatim": "LiamKyleSullivan",
+       "title_verbatim": "Shoes the Full Version",
+       "thumb": "thumb-wCF3ywukQYA.jpg",
+       "href": "https://www.youtube.com/watch?v=wCF3ywukQYA"
+      }
+     ]
+    },
+    {
+     "id": "moments",
+     "tab": "Moments",
+     "cards": [
+      {
+       "title": "Here For All. Here For Good.",
+       "credit": "Ryan, at Pride of Dripping Springs",
+       "note": "Standing by the Pride banner in a truly excellent outfit.",
+       "photo": "ryan-pride-banner"
+      },
+      {
+       "title": "Free Mom Hugs",
+       "credit": "Norah",
+       "more": "Norah loved the shirt's message so much, she got it as a flash tattoo that day too — a message worth carrying on her skin, not just her sleeve.",
+       "photo": "norah-free-mom-hugs"
+      },
+      {
+       "title": "Ryan, Norah, & Lacey",
+       "credit": "Dripping Springs Pride, 2026",
+       "note": "The three of them together at the brewery venue.",
+       "photo": "ryan-norah-lacey-pride"
+      },
+      {
+       "title": "No Rainbow Crosswalk? No Problem.",
+       "credit": "City of Austin",
+       "more": "When the State of Texas threatened Austin over a rainbow crosswalk, the city answered with a louder, prouder mural instead — with drag performers Maxine LaQueen and Simone Riviera showing up for it.",
+       "image_dropped": "Arrived as a screenshot of the City of Austin's Facebook post — platform chrome, reaction counts, and inside it a crowd of about forty identifiable people at a Pride event who have no consent record here and no way to be asked. The story is the pebble; the screenshot was never ours. Card kept, image dropped, 2026-09-21."
+      },
+      {
+       "title": "The Violet Crown Para-Pet Games",
+       "credit": "Oct 24, 2026 · Jester King Brewery, Austin",
+       "more": "A celebration of dogs who compete with courage, heart, and a little extra flair — three-legged dogs, blind dogs, cancer survivors, all of them thriving. Participation medals for every Para-Pet.",
+       "href": "https://www.violetcrownvet.com/para-pet-event"
+      }
+     ]
+    },
+    {
+     "id": "community",
+     "tab": "Notes About Each Other",
+     "cards": [
+      {
+       "title": "Another Zine, Incoming",
+       "credit": "NewPartingtonPower",
+       "note": "Word around the gathering: another zine is in the works."
+      },
+      {
+       "title": "Best Wifi in the Group",
+       "credit": "shoutout to NewPartingtonPower",
+       "more": "For always having the most reliable connection out of all of us. An underrated form of support swapping."
+      }
+     ]
+    },
+    {
+     "id": "grants",
+     "tab": "Seen & Celebrated",
+     "cards": [
+      {
+       "title": "Seen & Celebrated",
+       "credit": "The Brighter Days Ahead Foundation, via Ariana Grande",
+       "more": "Stimpunks Foundation was named a grantee of the Seen & Celebrated Fund, tied to the Eternal Sunshine tour's Austin stop. Ariana Grande reshared it herself: “Stimpunks is a mutual aid organization by and for disabled & neurodivergent people that provides educational resources, accessibility tools, and creator grants.” Norah & Chelsea bought hoodies to celebrate.",
+       "href": "https://stimpunks.org/star-stuff/eternal-sunshine/",
+       "image_dropped": "Arrived as a screenshot of an Instagram story, including the phone's own status bar and battery level — somebody else's graphic plus incidental device metadata baked into a published image. The quote is attributed in the card and our own response is linked, which is the whole content. Card kept, image dropped, 2026-09-21."
+      },
+      {
+       "title": "The Brighter Days Ahead Hoodie",
+       "credit": "worn by Norah & Chelsea",
+       "image_dropped": "Arrived as the Brighter Days Ahead Foundation's own product-listing render on a studio gradient — not, despite the credit, a photograph of Norah and Chelsea wearing it. Card kept, image dropped, 2026-09-21."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -198,6 +198,44 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 /* campgrounds — a routed park sign at a gate, and the stream along the foot.
    The one card in the set with nothing glowing behind it, because the field has
    nothing glowing in it. */
+/* THE PEBBLE BOARD. The card is the board seen from the pavement: the street's
+   night all round the outside, the lamp above it, and Norah's cream paper
+   inside the glass. The seam between the two palettes IS the object, so the
+   card has to show both grounds rather than picking the prettier one -- the
+   same reason The Latibulum's card is the only one made of two. Each edition
+   gets its own card keyed to its own body class, because the paper changes
+   whole and a shared design would be the shortcut nobody reviews. */
+.board-2026-summer {{ background: #14120F; }}
+.og--board {{ width: 100%; height: 100%; padding: 0; display: block; position: relative; }}
+/* The lamp stays INSIDE the card. It hung 60px off the top edge first and
+   make-og.py refused it, which is the tool doing exactly its job: the page can
+   let a glow run past the viewport, a 1200x630 picture cannot. Anchored at the
+   top edge, the pool reads the same. */
+.og--board .og-lamp {{ position: absolute; left: 50%; top: 0; width: 700px; height: 190px;
+  transform: translateX(-50%);
+  background: radial-gradient(58% 100% at 50% 0, #F6E3B8, transparent 74%); opacity: .38; }}
+.og--board .og-case {{ position: absolute; inset: 34px 44px; border-radius: 16px;
+  background: linear-gradient(#486A61 0 6px, #2E4640 6px); padding: 20px;
+  box-shadow: inset 0 -5px 0 rgba(0,0,0,.35); }}
+.og--board .og-plate {{ position: absolute; left: 50%; top: 32px; transform: translateX(-50%);
+  background: linear-gradient(#CDB06A, #B99B55); color: #1B1509; padding: 9px 26px;
+  font-family: 'Josefin Sans', sans-serif; font-weight: 600; font-size: 22px;
+  letter-spacing: 6px; text-transform: uppercase; z-index: 2; }}
+.og--board .og-cork {{ position: absolute; inset: 20px; border-radius: 8px; padding: 58px 54px 0;
+  background: radial-gradient(90% 60% at 50% 0, rgba(246,227,184,.16), transparent 70%),
+    repeating-conic-gradient(rgba(0,0,0,.05) 0 25%, transparent 0 50%) 0 0 / 14px 14px, #6B4F35;
+  box-shadow: inset 0 0 0 3px rgba(0,0,0,.3); }}
+.og--board .og-sheet {{ background: #FBF8F1; border: 2px solid rgba(43,38,33,.16); padding: 34px 40px 30px;
+  box-shadow: 0 20px 40px -20px rgba(0,0,0,.6); }}
+.og--board .og-kicker {{ font-family: 'Josefin Sans', sans-serif; font-weight: 600; font-size: 21px;
+  letter-spacing: 4px; text-transform: uppercase; color: #574F46; margin: 0 0 10px !important; }}
+.og--board h1 {{ font-family: 'Gloria Hallelujah', cursive; font-size: 74px; line-height: 1.08;
+  color: #2B2621; margin: 0 0 16px !important; }}
+.og--board .og-slug {{ display: inline-block; font-family: 'Gloria Hallelujah', cursive;
+  font-size: 27px; color: #8A6D2F; background: #FFF3D0; padding: 7px 18px; margin: 0 0 16px !important; }}
+.og--board .og-lede {{ font-size: 25px; line-height: 1.45; color: #574F46; margin: 0 !important; }}
+.og--board .og-tabs {{ display: flex; gap: 12px; margin-top: 22px; }}
+.og--board .og-tabs span {{ height: 26px; flex: 1 1 0; border-radius: 2px; }}
 .og--camp {{ gap: 22px; justify-content: space-between; padding: 52px 60px 0; }}
 .og--camp .og-top {{ display: flex; flex-direction: column; gap: 20px; }}
 .og--camp .trailmark {{ font-size: 21px; letter-spacing: 2px; }}
@@ -624,6 +662,42 @@ def card_chappell(p):
     )
 
 
+def card_board(p):
+    # NO SCATTER ON THE CARD. Every pinned card on the page is tilted and the
+    # dial takes the tilt away; a share card has no dial on it, so it is drawn
+    # the way somebody at Gentle sees the board -- square. A picture that only
+    # matches two of the three settings is the card quietly promising the loud
+    # one.
+    tabs = "".join(f'<span style="background:{c}"></span>' for c in
+                   ("#C9A6A0", "#A9B18C", "#D7B67E", "#E0C15A", "#9FA8C0", "#C68B5C", "#D4AF37"))
+    return (
+        "",
+        f'<div class="og og--board" data-fit="card">'
+        f'<span class="og-lamp"></span>'
+        f'<div class="og-case"><div class="og-cork">'
+        f'<div class="og-sheet">'
+        f'<p class="og-kicker">Stimpunks \u00b7 community board</p>'
+        f'{p["h1"]}'
+        f'<p class="og-slug">Summer 2026 \u00b7 kept by Norah Hobbs</p>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-tabs">{tabs}</div>'
+        f'</div>'
+        f'</div></div>'
+        f'<p class="og-plate">Stimpunks \u00b7 community board</p>'
+        f'</div>',
+        f"A dark card showing a community noticeboard standing on a pavement at "
+        f"night, lit by a lamp above it. The board is a deep green painted case "
+        f"with a brass plate across the top reading, in spaced capitals, Stimpunks "
+        f"community board. Inside the glass is a cork panel, and pinned to it a "
+        f"single sheet of cream paper: small brown capitals reading Stimpunks "
+        f"community board, then \u201c{p['h1text']}\u201d in a large brown "
+        f"felt-tip handwriting, then on a pale yellow strip, Summer 2026, kept by "
+        f"Norah Hobbs. Under that: {p['desc_plain']} Along the bottom of the sheet, "
+        f"a row of coloured tape strips in dusty pink, sage, tan, yellow, "
+        f"blue-grey, terracotta and gold, one for each drawer of the board.",
+    )
+
+
 def card_camp(p):
     # NO AMBIENT MARKUP, deliberately, and it is the only one. Every other card
     # here opens with a sparkle, a grain, a glow or a run of bunting. The
@@ -928,6 +1002,12 @@ CARDS = {
     "game-quill":   card_quill,
     "game-otter":   card_otter,
     "game-pebble":  card_pebble,
+    # KEYED TO THE EDITION, not to .pebbleboard, so a new edition cannot inherit
+    # the last one's face by sharing the room's chrome class. Same split as the
+    # Arcade's: the thing that styles and the thing that unfurls are never one
+    # word, and no ordering inside a class attribute decides which card a page
+    # gets.
+    "board-2026-summer": card_board,
     "campgrounds":  card_camp,
     "room-yurt":    card_yurt,
     "hermitage":    card_herm,

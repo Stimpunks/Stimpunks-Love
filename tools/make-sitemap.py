@@ -18,6 +18,10 @@ ORDER = ["index.html", "pink-pony-club.html", "the-chappell.html", "club-chronic
          "latibulum.html",
          "jungle-room.html", "the-den.html",
          "your-room.html",
+         # Street furniture rather than a door, and listed like everything else:
+         # a page nobody can find from the sitemap is unpublished with extra
+         # steps. Back issues join this list as they rotate off the board.
+         "pebble-board.html",
          "campgrounds.html", "faery-yurt.html", "solarpunk-hermitage.html",
          "liner-notes.html",
          "changelog.html"]

@@ -206,6 +206,17 @@ CANOPY_LEAF = "#31754A"
 # .14 over the panelling, the brightest a low lamp gets in a room with no
 # daylight in it at all.
 PANEL, TEAK, STONE = "#241508", "#3C2412", "#A06A4E"
+
+# The Pebble Board (love.css §21). The fixture first, then Norah's paper.
+PBNIGHT, PBFRAME, PBFRAME_LIT = "#14120F", "#2E4640", "#486A61"
+PBCORK, PBLAMP, PBCHALK = "#6B4F35", "#F6E3B8", "#C9C2B4"
+PBPLATE, PBPLATE_INK = "#B99B55", "#1B1509"
+PBPAPER, PBPAPER_DEEP, PBCARD = "#EDE3CC", "#E3D6B8", "#FBF8F1"
+PBINK, PBSOFT = "#2B2621", "#574F46"
+PBGOLD, PBGOLD_BG = "#8A6D2F", "#FFF3D0"
+PBMEM, PBMEM_CARD, PBMEM_INK = "#322D27", "#3D3730", "#DED6C6"
+PBMEM_HEAD, PBMEM_CREDIT = "#F3EDDF", "#C7BEB0"
+PBMEM_GOLD, PBMEM_LINK = "#C9A227", "#D4AF37"
 LAMPLIT_DEN = "#412B10"
 SHAG, SHAG_2 = "#63B441", "#57A438"
 COCONUT, RATTAN = "#F6ECD9", "#CBB392"
@@ -782,6 +793,52 @@ PAIRS = [
     (STONE,   PANEL,       True,  "den: the cut fieldstone of the waterfall wall"),
     (JADE,    "#2B1709",   True,  "den: the water falling down it"),
     (JADE,    PANEL,       True,  "den: the notch beside a house rule"),
+
+    # THE PEBBLE BOARD (love.css §21). TWO PALETTES, AND THE SEAM IS THE OBJECT:
+    # the street's night outside the glass and NORAH HOBBS'S PAPER inside it. Her
+    # values arrived unmeasured by us and every one of them clears the body
+    # threshold, which is worth writing down rather than quietly relying on --
+    # the last design that came in from outside this repo had five labels on one
+    # failing grey. Nothing reads directly on the cork; the cards are opaque, so
+    # the cork is in ORNAMENT with its measurement.
+    (PBINK,      PBCARD,       False, "board: every card's title, and the cover"),
+    (PBINK,      PBPAPER,      False, "board: ink on the paper ground"),
+    (PBINK,      PBPAPER_DEEP, False, "board: ink on the deeper paper"),
+    (PBSOFT,     PBCARD,       False, "board: credits, notes and the read-more summaries"),
+    (PBSOFT,     PBPAPER,      False, "board: the same on paper"),
+    (PBSOFT,     PBPAPER_DEEP, False, "board: the same on the deeper paper"),
+    # 4.41, AND LEFT AS NORAH SET IT. The cover slug is 18px Gloria Hallelujah,
+    # which is large text by WCAG and wants 3:1; it clears that by half again.
+    # Nudging it darker to win the body threshold would be tidying a
+    # contributor's design for a bar it was never held to -- the opposite of the
+    # one colour of Helen's this repo did change, which failed outright at 4.30
+    # and below on three grounds with body copy on them.
+    (PBGOLD,     PBGOLD_BG,    True,  "board: the cover slug, 18px — 4.41, large-text bar"),
+    (PBPLATE_INK, PBPLATE,     False, "board: the engraved plate on the frame"),
+    (PBCHALK,    PBNIGHT,      False, "board: the backlink and the rack, on the street ground"),
+    (PBCHALK,    PBFRAME,      False, "board: the same where the rack overlaps the frame"),
+    (PBLAMP,     PBNIGHT,      False, "board: the rack's heading and its links"),
+    (PBINK,      "#C9A6A0",    False, "board: the Songs tab on its tape"),
+    (PBINK,      "#A9B18C",    False, "board: the Things We Read tab"),
+    (PBINK,      "#D7B67E",    False, "board: the Art tab"),
+    (PBINK,      "#E0C15A",    False, "board: the Just for Laughs tab"),
+    (PBINK,      "#9FA8C0",    False, "board: the Moments tab"),
+    (PBINK,      "#C68B5C",    False, "board: the Notes About Each Other tab"),
+    (PBINK,      "#D4AF37",    False, "board: the Seen & Celebrated tab"),
+    (PBPAPER,    PBCORK,       False, "board: the contents list, which is the one run of\n     type that sits straight on the cork rather than on a card"),
+    # The memorial is the one dark thing on the paper and Norah set it that way.
+    (PBMEM_INK,    PBMEM_CARD, False, "board: the Om Malik tribute's text"),
+    (PBMEM_HEAD,   PBMEM_CARD, False, "board: his name"),
+    (PBMEM_CREDIT, PBMEM_CARD, False, "board: who shared it and why"),
+    (PBMEM_GOLD,   PBMEM_CARD, False, "board: the 'in memory' kicker"),
+    (PBMEM_LINK,   PBMEM_CARD, False, "board: the link to the full tribute"),
+    # The memorial's ground was in ORNAMENT as carrying no type of its own, and
+    # then the lightbox put a Close button on it. Moved rather than left with a
+    # note that had stopped being true -- that list is the record of what was
+    # looked at, so a stale entry in it is worse than no entry.
+    (PBMEM_INK,    PBMEM,      False, "board: the lightbox's Close button"),
+    (PBMEM_CREDIT, PBMEM,      False, "board: its outline, at the body threshold because a\n     control you cannot find is a control that is not offered"),
+    (PBMEM_INK,    PBMEM_CARD, False, "board: the lightbox's description, on the same ground"),
 ]
 
 # NOT IN THE LIST, AND IT SHOULD BE: cream (#FFF3E6) on the same #FF5AA6 ground
@@ -854,6 +911,17 @@ ORNAMENT = {
     "#143a24": "jungle: the hairline round a gallery panel and a stripe in that door's "
                "awning, 1.30 on the understory. A separator inside a room that is dark "
                "on purpose; every word in there is measured against the shaft composite.",
+    "#6b4f35": "board: the cork behind the paper, 1.99 against the ink on the cards "
+               "laid over it. Nothing reads directly on the cork except the contents "
+               "list, which is measured above in paper rather than ink; every card is "
+               "opaque, so the cork is the surface a pin goes into and not a ground "
+               "type sits on.",
+    "#486a61": "board: the lit top edge of the frame and the dashed rule round the back-"
+               "issue rack, 2.30 on the night outside it. Structure you feel rather "
+               "than read -- the rack's own heading and text are measured above.",
+    "#f6e3b8": "board: the lamp over the noticeboard, a 42% radial wash that lands on "
+               "the frame and the cork and never under a word. Also measured as type "
+               "above, because the rack's heading is set in it.",
     "#2a3a31": "campgrounds: the board's frame and the post each pitch hangs off, 1.48 "
                "on the field. That field is deliberately the dimmest ground on the "
                "street and its type carries all of it -- bone at 14.7, moss at 7.3. The "

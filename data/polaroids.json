@@ -1,9 +1,9 @@
 {
-  "_terms": "polaroids.html \u2014 what we ask for, what we promise, and how a photo comes down again.",
+  "_terms": "polaroids.html — what we ask for, what we promise, and how a photo comes down again.",
   "_licence": "Photographs here are NOT under the site's CC BY-SA 4.0 licence and carry no onward licence at all. They belong to the people in them and to whoever took them. This is deliberate: CC BY-SA cannot be revoked, so a photo published under it could not be taken back after somebody withdrew consent, and 'it comes down when you say so' would be a promise the licence contradicted. See LICENSE.",
-  "_consent": "Record only that consent exists and when. Do NOT put anybody's email, message, or contact details in this file \u2014 it is a public repository. The conversation stays wherever it happened. To withdraw: delete the entry, delete the file in photos/, and run tools/make-polaroids.py. The wall returns to grey on its own.",
-  "_children": "We do not publish photographs of children. A parent can give the consent; the child cannot take it back in ten years when it matters to them.",
-  "_required": "Every photo needs id, alt, subject and consent_on. 'caption' and 'photographer' are optional, but a named photographer must also have given permission \u2014 being in a picture is not the same as owning it.",
+  "_consent": "Record only that consent exists and when. Do NOT put anybody's email, message, or contact details in this file — it is a public repository. The conversation stays wherever it happened. To withdraw: delete the entry, delete the file in photos/, and run tools/make-polaroids.py. The wall returns to grey on its own.",
+  "_young": "Young people who are doing the work and have said yes THEMSELVES are published and credited like anybody else — a lot of Stimpunks volunteers and self-advocates are teenagers, and keeping them off the page hands the credit for their own activities to the adults beside them. The consent has to be theirs: a parent can be in the conversation, but an adult’s yes is not a substitute for the young person’s. Withdrawal works for them exactly as it does for everybody — say so once, and it is deletion. Where somebody is too young to give that consent themselves, we do not publish the photograph and a parent cannot give it for them. Superseded the flat no-children rule on 2026-09-21, Ryan’s call; see DECISIONS.md.",
+  "_required": "Every photo needs id, alt, subject and consent_on. 'caption' and 'photographer' are optional, but a named photographer must also have given permission — being in a picture is not the same as owning it.",
   "_elsewhere": "A photograph may hang somewhere other than Enid's wall. List every other page it appears on in that entry's 'elsewhere' array; make-polaroids.py walks all the HTML and refuses if a page publishes a photo the record does not mention, or if the record names a page that has dropped it. That is what makes withdrawal mean everywhere: delete the entry and the tool refuses to run until the photo is off every page, instead of leaving one behind.",
   "photos": [
     {
@@ -24,7 +24,7 @@
       "photographer": "a friend who prefers to remain anonymous",
       "photographer_agreed": true,
       "consent_on": "2026-09-20",
-      "note": "Helen wrote the description, the caption and the naming; published in her words and not ours. The photographer asked not to be named and gave permission in the same message. The square framing is Helen's own crop, confirmed before publishing \u2014 we did not crop it and did not filter it. Also hung in Helen's own room, the Faery Yurt, where she placed it herself in the mockup she sent on 2026-09-20 \u2014 with a different description and caption, both also hers, written for that room rather than for the wall.",
+      "note": "Helen wrote the description, the caption and the naming; published in her words and not ours. The photographer asked not to be named and gave permission in the same message. The square framing is Helen's own crop, confirmed before publishing — we did not crop it and did not filter it. Also hung in Helen's own room, the Faery Yurt, where she placed it herself in the mockup she sent on 2026-09-20 — with a different description and caption, both also hers, written for that room rather than for the wall.",
       "elsewhere": [
         "faery-yurt.html"
       ]
@@ -40,7 +40,43 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen for both places at once \u2014 Enid's wall and her own room, the Faery Yurt, where it is the portrait beside the welcome. The description, the caption and the naming are hers. Not resized, not cropped, and NOT FILTERED: her mockup put a sepia wash over this photograph and polaroids.html promises in as many words that we will not filter anybody, so the wash is the one other thing about her room this site did not carry over. The wooden frame around it is matting and stays."
+      "note": "Sent by Helen for both places at once — Enid's wall and her own room, the Faery Yurt, where it is the portrait beside the welcome. The description, the caption and the naming are hers. Not resized, not cropped, and NOT FILTERED: her mockup put a sepia wash over this photograph and polaroids.html promises in as many words that we will not filter anybody, so the wash is the one other thing about her room this site did not carry over. The wooden frame around it is matting and stays."
+    },
+    {
+      "id": "ryan-pride-banner",
+      "alt": "Ryan standing by a Pride banner reading Here For All Here For Good.",
+      "caption": "Here For All. Here For Good.",
+      "subject": "Ryan Boren",
+      "consent_on": "2026-09-21",
+      "on_wall": false,
+      "elsewhere": [
+        "pebble-board.html"
+      ],
+      "note": "Brought to the 2026-06-25 gathering and pinned to the Pebble Board's Moments section. Description as Norah Hobbs wrote it when she assembled the board. Consent confirmed by Ryan Boren on 2026-09-21 for the Pebble Board. RELAYED RATHER THAN FIRST-PARTY, which is a first here — the three entries above were each sent by the person in them. Recorded as relayed rather than written up as if they had sent it themselves, so that the difference is visible and correctable."
+    },
+    {
+      "id": "norah-free-mom-hugs",
+      "alt": "Norah wearing a Free Mom Hugs shirt, with a matching flash tattoo on her forearm.",
+      "caption": "Free Mom Hugs",
+      "subject": "Norah Hobbs",
+      "consent_on": "2026-09-21",
+      "on_wall": false,
+      "elsewhere": [
+        "pebble-board.html"
+      ],
+      "note": "Brought to the 2026-06-25 gathering. Norah wrote the board's own description of this one; the forearm clause was added here because the tattoo is what the card is about and her original alt did not mention it. Consent confirmed by Ryan Boren on 2026-09-21 for the Pebble Board. RELAYED RATHER THAN FIRST-PARTY, which is a first here — the three entries above were each sent by the person in them. Recorded as relayed rather than written up as if they had sent it themselves, so that the difference is visible and correctable. Her own wording for this description has not been collected and should replace ours when it is."
+    },
+    {
+      "id": "ryan-norah-lacey-pride",
+      "alt": "Ryan, Norah and Lacey together at Dripping Springs Pride, in front of rainbow bunting at the brewery venue.",
+      "caption": "Ryan, Norah, & Lacey",
+      "subject": "Ryan Boren, Norah Hobbs and Lacey",
+      "consent_on": "2026-09-21",
+      "on_wall": false,
+      "elsewhere": [
+        "pebble-board.html"
+      ],
+      "note": "Brought to the 2026-06-25 gathering. THIS IS THE PHOTOGRAPH THE YOUNG-PERSON POLICY WAS REWRITTEN FOR, 2026-09-21: Lacey is a teenage Stimpunks volunteer who appears on our other sites, does the work, and consented herself. The old flat no-children rule would have taken her own activity off the page and left the two adults beside her on it; see DECISIONS.md. Consent confirmed by Ryan Boren on 2026-09-21 for the Pebble Board. RELAYED RATHER THAN FIRST-PARTY, which is a first here — the three entries above were each sent by the person in them. Recorded as relayed rather than written up as if they had sent it themselves, so that the difference is visible and correctable. Lacey's own consent is asserted by Ryan rather than recorded from her directly, and her own wording for the description has not been collected. TWO THINGS TO FIX ON THIS FILE: it is a screenshot of a photo viewer rather than the original, so it carries a caption burnt into the pixels ('Dripping Springs Pride, 2026 / Taken at Pride of Dripping Springs “Pride for All” event a...') that no screen reader can reach, and there is an unrelated person in the background at the left. The clean original should replace it."
     }
   ]
 }

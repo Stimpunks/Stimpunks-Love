@@ -112,6 +112,23 @@
 @font-face { font-family: 'Karla'; src: url('fonts/karla-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Karla'; src: url('fonts/karla-400.woff2') format('woff2'); font-weight: 700; font-display: swap; }
 
+/* The Pebble Board (§21). Norah Hobbs's three, with two of them substituted.
+   ATKINSON HYPERLEGIBLE IS HERS AND STAYS: it is the Braille Institute's
+   low-vision face, so swapping the body text would be an access regression
+   rather than a style choice, and it is the only face on this street chosen
+   for legibility before looks. Her other two had to go, because both were
+   already taken -- Caveat is the Faery Yurt's glimmer hint and Special Elite
+   is the Zine Table's typewriter. A punk-paper noticeboard set in the zine's
+   own typewriter is the collapse this street exists to refuse, and the zine
+   is the room it would have collapsed into. Gloria Hallelujah is a felt pen
+   rather than Caveat's brush; Josefin Sans is a filing label rather than a
+   struck key, and nothing else here is geometric. See _typefaces in
+   data/pebble-board.json, where the substitution is written up. */
+@font-face { font-family: 'Atkinson Hyperlegible'; src: url('fonts/atkinson-hyperlegible-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Atkinson Hyperlegible'; src: url('fonts/atkinson-hyperlegible-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Gloria Hallelujah';     src: url('fonts/gloria-hallelujah-400.woff2') format('woff2');     font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Josefin Sans';          src: url('fonts/josefin-sans-600.woff2') format('woff2');          font-weight: 600; font-display: swap; }
+
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -295,6 +312,25 @@
   --bakelite: #2A2621;  --bakelite-2: #7E7466;
   --bigscreen-off: #0C1110;  --bigscreen-lit: #F1EFE4;  --bigscreen-dim: #A9B4AB;
   --wick: #F6E8D0;  --wick-2: #DCC49C;  --gilt: #E9C270;
+
+  /* The Pebble Board (§21). TWO PALETTES IN ONE ROOM ON PURPOSE, and the seam
+     between them is the whole object: the street's night on the outside of the
+     glass, and NORAH HOBBS'S PAPER on the inside, lit by one lamp. The fixture
+     is ours and stays across every edition; the paper is hers and is replaced
+     whole. Her values are carried over unmeasured-by-us and then measured --
+     every one clears the body threshold, and the only pair that does not is
+     the cover slug, which is 18px of Gloria Hallelujah at 4.41 and is
+     registered as large text with its size written into the entry rather than
+     nudged darker. See the note beside it in check-contrast.py. */
+  --pbnight: #14120F;  --pbframe: #2E4640;  --pbframe-lit: #486A61;
+  --pbcork: #6B4F35;   --pblamp: #F6E3B8;   --pbchalk: #C9C2B4;
+  --pbplate: #B99B55;  --pbplate-ink: #1B1509;
+  --pbpaper: #EDE3CC;  --pbpaper-deep: #E3D6B8;  --pbcard: #FBF8F1;
+  --pbink: #2B2621;    --pbink-soft: #574F46;    --pbline: rgba(43,38,33,0.16);
+  --pbgold: #8A6D2F;   --pbgold-bg: #FFF3D0;
+  --pbmem: #322D27;    --pbmem-card: #3D3730;    --pbmem-ink: #DED6C6;
+  --pbmem-head: #F3EDDF;  --pbmem-credit: #C7BEB0;
+  --pbmem-gold: #C9A227;  --pbmem-link: #D4AF37;
 }
 
 * { box-sizing: border-box; }
@@ -626,6 +662,44 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
    bordered plank with a borderless triangle stuck on the end. A solid plank
    takes the cut cleanly, and dark-on-green is a pair this street already
    holds. */
+/* The noticeboard on the pavement, and the SECOND thing here that is not a
+   door. A storefront is permanent and singular; the Pebble Board is defined by
+   being replaced, edition after edition, with the old ones kept. A shop whose
+   entire stock is swapped out every gathering is a periodical, and giving it a
+   shopfront would quietly make every other shopfront look temporary.
+
+   It also could not be a door for a second reason: Your Room already holds the
+   "the community gets a storefront" slot, and that one means something exact --
+   ONE person decorates ONE room. The board is everybody at once. Two community
+   doors on one street makes both of them vaguer about which to knock on.
+
+   A STREET OBJECT IN THE STREET'S CLOTHES, like the signpost: the street's
+   Bungee, the street's green, a case on two legs. What is inside the glass
+   looks nothing like it, which is the whole arrangement. */
+.noticeboard { display: block; margin: 26px 0 0; text-decoration: none; }
+/* BLOCK, and the first version was not. A <span> is inline, so the border drew
+   itself once per line-box -- three ragged green brackets down the left of the
+   text -- and the padding pushed nothing. An inline box cannot be a case with
+   something inside it, which is the whole picture here. */
+.noticeboard__case {
+  display: block;
+  border: 3px solid var(--green); border-radius: 10px 10px 4px 4px;
+  background: var(--ink-2); padding: 14px 18px 15px;
+  box-shadow: inset 0 3px 0 var(--green);
+}
+.noticeboard:hover .noticeboard__case { background: var(--ink-3); }
+.noticeboard__what {
+  display: block; font-family: 'Bungee', var(--sans); font-size: 17px;
+  letter-spacing: 1px; color: var(--green);
+}
+.noticeboard__why { display: block; margin-top: 7px; font-size: 14.5px; max-width: 62ch; color: var(--chalk); }
+/* space-between rather than a percentage gap: a % gap resolves against the
+   container and put both legs in the middle of the pavement. */
+.noticeboard__legs { display: flex; justify-content: space-between; margin: 0 26px; }
+.noticeboard__legs::before, .noticeboard__legs::after {
+  content: ""; width: 10px; height: 16px; background: var(--ink-3); border-radius: 0 0 3px 3px;
+}
+
 .signpost { display: flex; align-items: stretch; margin: 26px 0 0; text-decoration: none; }
 .signpost__post { flex: 0 0 14px; background: var(--ink-3); border-radius: 3px 3px 0 0; }
 .signpost__arm {
@@ -3048,7 +3122,306 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 .policy li::marker { color: var(--siren); }
 .policy li:last-child { margin-bottom: 0; }
 
-/* §21 ── Small screens ───────────────────────────────────────────────────────
+/* §21 ── THE PEBBLE BOARD (street furniture, not a storefront) ───────────────
+   A community noticeboard bolted to the pavement outside the shops. It is NOT
+   a door and it is not in the grid of them, for the same reason the signpost to
+   the campgrounds is not: a room is permanent and singular, and this thing is
+   defined by being replaced. A shop whose entire stock is swapped out every
+   gathering, with the old stock in the basement, is a periodical.
+
+   THE FRAME IS CONSTANT AND THE PAPER IS NOT, which is the one place on this
+   street besides the Arcade where two pages are meant to resemble each other.
+   The board, its lamp, its glass and its plate belong to the street and stay
+   put; what is pinned to them is that edition's own world. A noticeboard, like
+   a cabinet, is ONE BODY WITH DIFFERENT THINGS BEHIND THE GLASS -- and this is
+   the second instance, not a licence for a third. Each edition still gets its
+   own share card, because a card is where the shortcut would be invisible.
+
+   THE PAPER HERE IS NORAH HOBBS'S and came from a page she built in June. Two
+   of her three typefaces had to go, because Caveat is the Faery Yurt's hand and
+   Special Elite is the Zine Table's typewriter -- and a punk-paper noticeboard
+   set in the zine's own typewriter is precisely the collapse this street
+   refuses. Her Atkinson Hyperlegible stays: it is the Braille Institute's
+   low-vision face, so swapping the body text would be an access regression
+   rather than a style choice. Everything else below is hers, measured and
+   unmoved. See _typefaces in data/pebble-board.json.
+
+   THE OUTSIDE IS NIGHT AND THE INSIDE IS LAMPLIT PAPER, which is what keeps
+   this off The Latibulum. Both are warm and lit; the burrow is DUG, enclosed,
+   with no sky in it, and this is a thing standing outdoors with the street's
+   own dark showing all round the edge of the glass.                           */
+
+.pebbleboard {
+  background:
+    radial-gradient(120% 60% at 50% -10%, rgba(246,227,184,0.09), transparent 60%),
+    var(--pbnight);
+  color: var(--pbchalk);
+  font-family: 'Atkinson Hyperlegible', var(--sans);
+}
+.pebbleboard .backlink { font-family: 'Josefin Sans', var(--sans); letter-spacing: 2px;
+  font-size: 12px; text-transform: uppercase; color: var(--pbchalk); }
+
+/* ── The fixture ───────────────────────────────────────────────────────────
+   Painted municipal timber, a little pitched roof, one lamp, glass, cork.     */
+
+.pb-board {
+  position: relative;
+  margin: 26px 0 0;
+  padding: 16px;
+  background: linear-gradient(#486a61 0 3px, var(--pbframe) 3px);
+  border-radius: 10px 10px 4px 4px;
+  box-shadow: 0 26px 60px -30px #000, inset 0 -3px 0 rgba(0,0,0,0.35);
+}
+/* The lamp. Ornament: it lands on the frame and on the cork, never under a word
+   -- every card the paper carries is opaque. Measured as ornament all the same,
+   because a lamp nobody can make out is not a lamp. */
+.pb-lamp {
+  position: absolute; left: 50%; top: -34px; width: 300px; height: 96px;
+  transform: translateX(-50%);
+  background: radial-gradient(60% 100% at 50% 0, var(--pblamp), transparent 72%);
+  opacity: 0.42; pointer-events: none;
+}
+.pb-plate {
+  position: relative; margin: 0 auto 14px; width: max-content;
+  padding: 7px 18px 6px; border-radius: 2px;
+  background: linear-gradient(#cdb06a, var(--pbplate));
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.28), 0 2px 5px rgba(0,0,0,0.4);
+  font-family: 'Josefin Sans', var(--sans);
+  font-size: 12.5px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--pbplate-ink);
+}
+.pb-cork {
+  padding: 30px 20px 40px;
+  border-radius: 4px;
+  background:
+    radial-gradient(90% 55% at 50% 0, rgba(246,227,184,0.14), transparent 70%),
+    repeating-conic-gradient(rgba(0,0,0,0.05) 0 25%, transparent 0 50%) 0 0 / 7px 7px,
+    var(--pbcork);
+  box-shadow: inset 0 0 0 2px rgba(0,0,0,0.3), inset 0 12px 30px -14px rgba(0,0,0,0.7);
+}
+
+/* ── The paper: Norah's scrapbook ──────────────────────────────────────────
+   Everything from here to the rack is her page, carried over. Her measurements
+   are in check-contrast.py under "pebble board".                              */
+
+.pb-cover { max-width: 640px; margin: 0 auto 30px; }
+.pb-sheet {
+  position: relative; padding: 32px 30px 28px;
+  background: var(--pbcard); border: 1px solid var(--pbline);
+  box-shadow: 0 14px 30px -18px rgba(0,0,0,0.55), 0 2px 0 rgba(43,38,33,0.05);
+}
+.pb-sheet::before {
+  content: ""; position: absolute; top: -14px; left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  width: 110px; height: 30px; background: rgba(201,166,160,0.85);
+  box-shadow: 0 2px 3px rgba(0,0,0,0.18);
+}
+.pb-kicker {
+  font-family: 'Josefin Sans', var(--sans); font-size: 12px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--pbink-soft); margin: 0;
+}
+.pebbleboard h1 {
+  font-family: 'Gloria Hallelujah', cursive;
+  font-size: clamp(30px, 6vw, 46px); line-height: 1.12;
+  color: var(--pbink); margin: 8px 0 16px;
+}
+.pb-slug {
+  display: inline-block; margin: 0 0 16px; padding: 6px 14px;
+  font-family: 'Gloria Hallelujah', cursive; font-size: 18px; line-height: 1.35;
+  color: var(--pbgold); background: var(--pbgold-bg);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+}
+.pb-lede { font-size: 16.5px; line-height: 1.6; color: var(--pbink-soft); margin: 0 0 14px; }
+.pb-sign { margin: 20px 0 0; text-align: right;
+  font-family: 'Gloria Hallelujah', cursive; font-size: 20px; color: var(--pbink); }
+.pb-sign small { display: block; font-family: 'Atkinson Hyperlegible', var(--sans);
+  font-size: 12.5px; color: var(--pbink-soft); }
+.pb-when { margin: 18px 0 0; font-family: 'Josefin Sans', var(--sans); font-weight: 600;
+  font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--pbink-soft); }
+
+.pb-toc { display: flex; flex-wrap: wrap; gap: 8px 18px; justify-content: center;
+  max-width: 760px; margin: 0 auto 34px; padding: 0; list-style: none;
+  font-family: 'Josefin Sans', var(--sans); font-weight: 600; font-size: 13.5px;
+  letter-spacing: 1px; text-transform: uppercase; }
+.pb-toc a { color: var(--pbpaper); text-decoration: none; border-bottom: 1px dotted var(--pbpaper); }
+.pb-toc a:hover { color: #fff; border-bottom-style: solid; }
+
+.pb-spread { max-width: 1180px; margin: 0 auto 8px; padding: 0 0 34px; scroll-margin-top: 14px; }
+.pb-tab {
+  display: inline-block; margin: 0 0 20px 6px; padding: 7px 17px 6px;
+  background: var(--pb-tape); color: var(--pbink);
+  font-family: 'Josefin Sans', var(--sans); font-weight: 600;
+  font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+}
+.pb-pins { display: flex; flex-wrap: wrap; gap: 32px 24px; margin: 0; padding: 0; list-style: none; }
+
+/* A PINNED CARD, AND ITS TILT IS :where()-SCOPED so §3's reset out-specifies it.
+   A decorative selector that climbs above the reset does not warn -- it just
+   renders the louder rule, which is how the Faery Yurt's windowsill was still
+   rotating at Gentle a day after that room went up. */
+.pb-pin { width: 250px; margin: 0; }
+:where(.pb-pin) .pb-card { transform: rotate(var(--pb-rot, 0deg)); }
+html[data-intensity="gentle"] .pb-pin .pb-card { transform: none; }
+.pb-card {
+  position: relative; height: 100%; padding: 10px 10px 14px;
+  background: var(--pbcard); border: 1px solid var(--pbline);
+  box-shadow: 0 10px 22px -14px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.4);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.pb-pin:hover .pb-card, .pb-pin:focus-within .pb-card {
+  transform: rotate(0deg) translateY(-3px); z-index: 2;
+  box-shadow: 0 16px 26px -14px rgba(0,0,0,0.65);
+}
+.pb-tape {
+  position: absolute; top: -12px; left: 50%; width: 78px; height: 26px;
+  background: var(--pb-tape); opacity: 0.88;
+  transform: translateX(-50%) rotate(var(--pb-tape-rot, 0deg));
+  box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+}
+html[data-intensity="gentle"] .pb-tape { transform: translateX(-50%); }
+/* NO FIXED RATIO AND NO object-fit: cover, which is two bugs in one line.
+   Norah's original card cropped everything to 4:3, and polaroids.html promises
+   in as many words that we will not "Crop you." -- the same promise that made
+   the polaroid plate stop being square when the first real photograph arrived.
+   A 674x900 portrait in a 4:3 box loses most of somebody.
+
+   It was also laying out wrong: a <button> does not size itself to a child
+   whose height comes from aspect-ratio plus width:100%, so the picture ran 28px
+   past the bottom of the button and sat on top of the card's title. Letting
+   every picture keep its own shape fixes the crop and the overlap at once, and
+   a corkboard of scraps at different heights is what a corkboard looks like. */
+.pb-shot { display: block; width: 100%; height: auto;
+  background: #d9cfb4; border: 1px solid rgba(43,38,33,0.25); }
+.pb-body { padding: 12px 3px 0; }
+.pb-title { font-family: 'Gloria Hallelujah', cursive; font-size: 18px; line-height: 1.25;
+  color: var(--pbink); margin: 0 0 4px; }
+.pb-credit { font-family: 'Josefin Sans', var(--sans); font-weight: 600; font-size: 11.5px;
+  letter-spacing: 0.6px; text-transform: uppercase; color: var(--pbink-soft); margin: 0 0 8px; }
+.pb-note { font-size: 14px; line-height: 1.5; color: var(--pbink-soft); margin: 0 0 8px; }
+.pb-more { margin: 0 0 8px; }
+.pb-more summary { cursor: pointer; list-style: none; font-family: 'Josefin Sans', var(--sans);
+  font-weight: 600; font-size: 11.5px; letter-spacing: 0.6px; text-transform: uppercase;
+  color: var(--pbink-soft); }
+.pb-more summary::-webkit-details-marker { display: none; }
+.pb-more summary::before { content: "+ "; }
+.pb-more[open] summary::before { content: "\2013 "; }
+.pb-more p { margin: 8px 0 0; font-size: 14px; line-height: 1.5; color: var(--pbink-soft); }
+.pb-go { display: inline-block; font-family: 'Josefin Sans', var(--sans); font-weight: 600;
+  font-size: 11.5px; letter-spacing: 0.8px; text-transform: uppercase;
+  color: var(--pbink); text-decoration: none; border-bottom: 1px solid var(--pbink-soft); }
+.pb-go:hover { border-bottom-width: 2px; }
+
+/* THE PRESS-TO-PLAY PLATE. The thumbnail is a LOCAL file: caching it at build
+   time is what let the CSP keep img-src 'self', so opening this board makes no
+   request to anybody. Nothing reaches YouTube until the button is pressed --
+   §4's rule, and love-embed.js is still the only thing that builds the frame. */
+.pb-play { position: relative; display: flex; width: 100%; padding: 0; cursor: pointer;
+  background: none; border: 0; line-height: 0; }
+.pb-play::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 46px; height: 46px;
+  transform: translate(-50%, -50%);
+  background: rgba(27,21,9,0.72); border: 2px solid var(--pbcard); border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.45);
+}
+.pb-play::before {
+  content: ""; position: absolute; left: 50%; top: 50%; z-index: 1;
+  transform: translate(-40%, -50%);
+  border-left: 15px solid var(--pbcard);
+  border-top: 9px solid transparent; border-bottom: 9px solid transparent;
+}
+.pb-play:hover::after, .pb-play:focus-visible::after { background: rgba(27,21,9,0.9); }
+.pb-run { font-family: 'Josefin Sans', var(--sans); font-weight: 600; font-size: 11.5px;
+  letter-spacing: 0.6px; text-transform: uppercase; color: var(--pbink-soft); margin: 8px 0 0; }
+/* love-embed.js swaps the button for div.facade wrapping the iframe. */
+.pb-card .facade iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; display: block; }
+
+/* ── The memorial, which is the one dark thing on the paper ────────────────
+   Norah set it on its own dark spread and it stays that way: a page of bright
+   scraps with a plain dark card at the end of it is the shape of the evening
+   she is describing.                                                          */
+.pb-memory { margin: 6px auto 0; padding: 54px 20px; background: var(--pbmem); }
+.pb-memcard { position: relative; max-width: 560px; margin: 0 auto; padding: 40px 36px;
+  background: var(--pbmem-card); border: 1px solid rgba(255,255,255,0.08);
+  color: var(--pbmem-ink); text-align: center; }
+.pb-tack { position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+  width: 12px; height: 12px; border-radius: 50%; background: var(--pbmem-gold);
+  box-shadow: 0 2px 3px rgba(0,0,0,0.5); }
+.pb-memkicker { margin: 10px 0 4px; font-family: 'Josefin Sans', var(--sans); font-weight: 600;
+  font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--pbmem-gold); }
+.pb-memcard h2 { font-family: 'Gloria Hallelujah', cursive; font-size: 32px;
+  color: var(--pbmem-head); margin: 0 0 4px; }
+.pb-memwho { margin: 0 0 20px; font-family: 'Gloria Hallelujah', cursive; font-size: 16px;
+  line-height: 1.5; color: var(--pbmem-credit); }
+.pb-memcard blockquote { margin: 0 0 20px; text-align: left; font-size: 15.5px; line-height: 1.75; }
+.pb-memcard blockquote p { margin: 0 0 14px; }
+.pb-memcard .pb-go { color: var(--pbmem-link); border-color: var(--pbmem-link); }
+
+/* ── The lightbox ──────────────────────────────────────────────────────────
+   A pinned scrap is 250px because that is what a scrap is, and nobody can look
+   at a watercolour spread at 250px. A NATIVE <dialog>: the focus trap, Escape,
+   the inert background and the backdrop are the browser's, not ours.
+
+   THE WORDS COME WITH THE PICTURE. The description sits under it as real text
+   rather than only in an alt attribute, so it reaches everybody -- and the
+   title and credit come too, because a picture at full size with nobody's name
+   on it would undo the one careful habit this street kept. Set on the memorial
+   card's ground, which is a pair already measured rather than a new one
+   invented for a panel.                                                        */
+/* FLEX, NOT BLOCK, AND THAT IS THE WHOLE FIX. A <button> computes its height
+   from an intrinsic pass in which a child's width:100% has not resolved yet,
+   so a picture that is taller than that guess simply overflows -- measured at
+   up to 28px past the bottom of the button, sitting on the card's title. A
+   flex container takes its cross size from the item it actually laid out. */
+.pb-zoom { display: flex; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in;
+  line-height: 0; }
+.pb-lightbox {
+  max-width: min(94vw, 1100px); max-height: 94vh; width: auto;
+  padding: 0; border: 0; border-radius: 4px;
+  background: var(--pbmem-card); color: var(--pbmem-ink);
+  box-shadow: 0 40px 90px -30px #000;
+}
+.pb-lightbox::backdrop { background: rgba(10,9,7,0.86); }
+.pb-lightbox__inner { margin: 0; display: flex; flex-direction: column; max-height: 94vh; }
+.pb-lightbox__pic {
+  display: block; min-height: 0; max-width: 100%;
+  /* The picture takes what is left after the words, and never so much that the
+     words are pushed off a short window. */
+  max-height: calc(94vh - 190px); object-fit: contain; background: #14120F;
+}
+.pb-lightbox__words { padding: 18px 22px 20px; }
+.pb-lightbox__words h2 {
+  font-family: 'Gloria Hallelujah', cursive; font-size: 24px; line-height: 1.2;
+  color: var(--pbmem-head); margin: 0 0 4px;
+}
+.pb-lightbox__by {
+  font-family: 'Josefin Sans', var(--sans); font-weight: 600; font-size: 12px;
+  letter-spacing: 1.2px; text-transform: uppercase; color: var(--pbmem-credit); margin: 0 0 10px;
+}
+.pb-lightbox__desc { margin: 0; font-size: 15.5px; line-height: 1.6; max-width: 70ch; }
+.pb-lightbox__shut {
+  position: absolute; top: 10px; right: 10px; cursor: pointer;
+  font-family: 'Josefin Sans', var(--sans); font-weight: 600; font-size: 12px;
+  letter-spacing: 1.4px; text-transform: uppercase;
+  padding: 9px 15px; border-radius: 3px;
+  border: 2px solid var(--pbmem-credit); background: var(--pbmem); color: var(--pbmem-ink);
+}
+.pb-lightbox__shut:hover { border-color: var(--pbmem-head); color: var(--pbmem-head); }
+
+/* ── The rack of back issues, under the board ──────────────────────────────
+   Empty until something rotates out, and it says so. A rack that shows what it
+   is waiting for is more use than one quietly closed up -- the same reason
+   Enid's plates stay grey and pitch 02 stays open ground.                      */
+.pb-rack { margin: 30px 0 0; padding: 22px 24px; border: 2px dashed var(--pbframe-lit);
+  border-radius: 10px; background: rgba(0,0,0,0.25); }
+.pb-rack h2 { font-family: 'Josefin Sans', var(--sans); font-weight: 600; font-size: 14px;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--pblamp); margin: 0 0 10px; }
+.pb-rack p { margin: 0; font-size: 15.5px; line-height: 1.6; color: var(--pbchalk); }
+.pb-rack ul { margin: 12px 0 0; padding-left: 20px; font-size: 15.5px; line-height: 1.7; }
+.pb-rack a { color: var(--pblamp); }
+
+
+/* §22 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -3110,7 +3483,7 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 }
 
 
-/* §22 ── Print ───────────────────────────────────────────────────────────────
+/* §23 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

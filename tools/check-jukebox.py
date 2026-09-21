@@ -134,6 +134,14 @@ LISTS = [
     # recording of the same song rather than into nothing -- so the runtimes in
     # that file were matched against the released ones before they went in.
     ("the den",        "data/den.json",      "the-den.html"),
+    # The Pebble Board, which rots differently from everything above it: these
+    # are not ours and were not curated for longevity -- they are whatever
+    # somebody had open on the day, which is the point of the room and also the
+    # reason a private video was already among them the first time this ran.
+    # EVERY EDITION, not just the one on the board: a back issue is still a
+    # published page, and a link that dies after an edition rotates off is a
+    # dead link on a page nobody is looking at any more, which is worse.
+    ("the pebble board", "data/pebble-board.json", "pebble-board.html"),
 ]
 
 
@@ -172,6 +180,23 @@ def tracks_in(data):
     # not one video. Checking them would mean a different request against a
     # different endpoint, and pretending the existing check covers them would be
     # the confident-total problem again.
+    # The Pebble Board files its pins by edition and then by drawer. Flattened
+    # here, because an id is an id whichever edition it was pinned in -- what is
+    # NOT flattened is the dropped list, which is deliberately full of things
+    # that no longer play and would report as rot on every run.
+    if "editions" in data:
+        # 'video' rather than 'id' in that file, because a pin is a card first
+        # and a video second -- most of them are not videos at all. Mapped here
+        # rather than renamed in the data: the field name says what the board
+        # means, and this tool wants what every other list calls it.
+        # 'how' is normalised to 'state' the way the Hermitage's is, because the
+        # embed exemption below keys on 'state': a pin already published as a
+        # door out is EXPECTED to refuse the frame, and reporting it every run
+        # would be this tool shouting about a decision somebody already made.
+        return [dict(c, id=c["video"], artist=c.get("credit"),
+                     state="link" if c.get("how") == "link" else None)
+                for e in data["editions"] for s in e.get("sections", [])
+                for c in s.get("cards", []) if c.get("video")]
     if "racks" in data:
         return [dict(s, artist=s.get("artist") or s.get("channel"))
                 for r in data["racks"] for s in r["songs"]]
@@ -250,7 +275,12 @@ def main():
 
         print(f"{mark} {status or 'no answer':<14} {t['_room']:<14} "
               f"{t['artist']} — {t['title']}")
-        expected = t.get("channel_verbatim", t["channel"])
+        # `t.get("channel_verbatim", t["channel"])` is what this was, and the
+        # default in a .get() is evaluated EAGERLY -- so it raised KeyError on
+        # the first list that carries only the verbatim name, even though the
+        # verbatim name was right there. It never showed up because every list
+        # until the Pebble Board happened to have both keys.
+        expected = t.get("channel_verbatim") or t.get("channel")
         if chan and chan != expected:
             drift.append((t, expected, chan))
 
