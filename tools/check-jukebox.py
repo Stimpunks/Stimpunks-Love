@@ -148,6 +148,15 @@ LISTS = [
     # published page, and a link that dies after an edition rotates off is a
     # dead link on a page nobody is looking at any more, which is worse.
     ("the pebble board", "data/pebble-board.json", "pebble-board.html"),
+    # Swaying Sweetgrass, and it is the only list here with TWO KINDS OF ROT in
+    # it. The fire is institutional channels -- a museum, a university, a
+    # publisher -- which are about the most stable uploads on this street. The
+    # chapter readings are an unauthorised recording of a book that is in
+    # copyright, published as doors out precisely because of that, and they are
+    # the likeliest thing on the whole site to be taken down by somebody with
+    # every right to take it down. When one goes, that is not a broken page to
+    # patch quietly: it is the rights holder acting, and the room should say so.
+    ("swaying sweetgrass", "data/sweetgrass.json", "swaying-sweetgrass.html"),
 ]
 
 
@@ -203,6 +212,16 @@ def tracks_in(data):
                      state="link" if c.get("how") == "link" else None)
                 for e in data["editions"] for s in e.get("sections", [])
                 for c in s.get("cards", []) if c.get("video")]
+    # Swaying Sweetgrass keeps three lists in one file because they carry three
+    # different rights statements, which is the room's whole argument -- see
+    # data/sweetgrass.json. All three are checked: the readings are marked
+    # 'link' and so are exempt from the embed check, the way the Jungle Room's
+    # link-outs are, but a DEAD one still matters and matters differently.
+    if "fire" in data:
+        return [dict(t, artist=t.get("channel") or data.get("_readings_channel"),
+                     state="link" if t.get("how") == "link" else None)
+                for t in (data.get("fire", []) + data.get("readings", [])
+                          + data.get("teachings", []))]
     if "racks" in data:
         return [dict(s, artist=s.get("artist") or s.get("channel"))
                 for r in data["racks"] for s in r["songs"]]

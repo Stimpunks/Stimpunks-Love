@@ -39,7 +39,12 @@
      is edited the frame is refused by the browser and shows a blank box. */
   var ORIGINS = [
     'https://www.youtube-nocookie.com/',
-    'https://open.spotify.com/'
+    'https://open.spotify.com/',
+    /* Swaying Sweetgrass's ten seconds of grass: Ryan's own video, already
+       published by us on stimpunks.org's Nature entry, framed from where it
+       already lives rather than copied onto this site. Third origin, third
+       place it is written down -- see _headers and make-sweetgrass.py. */
+    'https://videopress.com/'
   ];
 
   function frameUrl(src, title) {

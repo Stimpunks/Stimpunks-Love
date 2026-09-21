@@ -244,6 +244,40 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--camp .og-foot {{ font-family: 'Alfa Slab One', serif; color: #8FAE88;
   letter-spacing: 1px; font-size: 21px; }}
 
+/* swaying sweetgrass — YOU ARE STANDING IN THE MEADOW LOOKING AT THE CLEARING,
+   which is the one view the room has that a card can hold. The clearing is
+   LIFTED out of the page rather than redrawn here, the way the campground's
+   stream and the yurt's crown and the hermitage's cabin are; it is cropped by
+   the foot of the card on purpose, because a meadow does not stop at an edge.
+   The light is behind the grass and low, so the glow sits at the top right and
+   the ground stays dark — the same physics as the room, which is the whole
+   reason this card is not another warm brown one. */
+.og--swg {{ width: 100%; padding: 46px 62px 0; gap: 14px;
+  justify-content: flex-start; position: relative; overflow: hidden; }}
+.og--swg .og-top {{ display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 2; }}
+.og--swg .trailmark {{ font-family: 'Alegreya Sans', sans-serif; font-size: 20px;
+  letter-spacing: 1px; color: var(--sedge); margin: 0; }}
+.og--swg h1 {{ font-size: 92px; margin: 0 !important; }}
+.og--swg .og-lede {{ font-family: 'Alegreya Sans', sans-serif; color: var(--straw);
+  max-width: 930px; font-size: 26px; line-height: 1.42; }}
+.og--swg .og-foot {{ font-family: 'Alegreya Sans', sans-serif; color: var(--sedge);
+  letter-spacing: 1px; font-size: 20px; position: relative; z-index: 2; }}
+/* Sat exactly ON the bottom edge rather than hanging off it. The first version
+   let the clearing run 74px past the foot, which the page is allowed to do and
+   a 1200x630 picture is not -- make-og refused it, which is the tool doing its
+   job. The crop reads the same, because the bottom of that drawing is trodden
+   ground with nothing in it. */
+/* SIZED SO THE TYPE CLEARS THE GRASS, which took two goes. The first version
+   let the clearing run 74px past the foot of the card -- make-og refused it,
+   correctly: the page may bleed off a viewport, a 1200x630 picture may not.
+   The second sat it on the bottom edge at full width and the footer line came
+   out ON TOP OF A BENCH, unreadable, which nothing refuses because contrast
+   against a drawing is not a pair this site can hold. At 780 the tallest grass
+   round the clearing tops out below the last line of type. */
+.og--swg .swg-pit {{ position: absolute; left: 50%; bottom: 0; width: 780px;
+  transform: translateX(-50%); margin: 0; z-index: 1; }}
+.og--swg .swg-pit svg {{ max-width: none; width: 100%; }}
+
 /* hermitage — THE ONLY CARD IN THE SET ON A LIGHT GROUND, and the only one
    showing a building in daylight. Its own room is the first daylit world on
    this street, so a card obeying the set's habit of cream-on-dark would have
@@ -863,6 +897,30 @@ def card_yurt(p):
     )
 
 
+def card_swg(p):
+    return (
+        "",
+        f'<div class="og og--swg" data-fit="card">'
+        f'<div class="og-top">'
+        f'<p class="trailmark">pitch 02 &middot; the campgrounds &middot; left alone</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">nothing plays until you press play &middot; stimpunks.love</p>'
+        f'</div>'
+        f'{p["clearing"]}'
+        f'</div>',
+        f"A dark olive card lit low and gold from the top right, as though the sun "
+        f"has just gone. Small sage lowercase letters reading pitch 02, the "
+        f"campgrounds, left alone, then \u201c{p['h1text']}\u201d in a large "
+        f"gold-green flared serif. Under it: {p['desc_plain']} Then, in sage: nothing "
+        f"plays until you press play, stimpunks.love. Filling the bottom of the card "
+        f"and running off its edge, a drawing of a clearing trodden into tall grass "
+        f"\u2014 a ring of stones with a small fire burning in it, split-log benches on "
+        f"stumps set round the ring, and a strip of worn ground coming in from the "
+        f"front between two of them.",
+    )
+
+
 def card_arcade(p):
     # The mane is drawn FULL here and it is the markup's own default rainbow,
     # not a colour picked for the card: arcade.js only ever overwrites those
@@ -1179,6 +1237,7 @@ CARDS = {
     "room-den":     card_den,
     "room-mopery":  card_mopery,
     "room-oracle":  card_oracle,
+    "meadow":       card_swg,
     "room-doom":    card_doom,
     "room-plain":   card_plain,
 }
@@ -1270,6 +1329,7 @@ def main():
         ("ottdefs",  "otterly-adorbs.html", r'(<svg width="0" height="0".*?</defs></svg>)'),
         ("peng",     "penguin-pebbling.html", r'(<div class="peng" id="peng-you".*?</div>\s*</div>)'),
         ("spines",   "the-mopery.html",   r'(<div class="mop-shelf">.*?</div>)'),
+        ("clearing", "swaying-sweetgrass.html", r'(<div class="swg-band swg-pit".*?</div>)'),
         ("pengdefs", "penguin-pebbling.html", r'(<svg width="0" height="0".*?</defs></svg>)'),
     ):
         lifted[key] = field((ROOT / page).read_text(), pat)

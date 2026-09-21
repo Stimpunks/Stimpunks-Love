@@ -1,0 +1,348 @@
+#!/usr/bin/env python3
+"""Build Swaying Sweetgrass — the meadow, the fire pit, the braid — from data/sweetgrass.json.
+
+ONE DATA FILE, ONE TOOL, BOTH SURFACES. The room and its credits in liner-notes
+move together, which is the contract make-yells.py has and every generator here
+has copied since.
+
+IT HOLDS THE RUNTIME RULE THE ORDINARY WAY and one refusal no other tool here
+has, which is the reason this file is worth reading before editing the room.
+
+  · A RECORDING AT THE FIRE OR IN THE FIELD GUIDE NEEDS A RUNTIME. Same promise
+    as make-latibulum.py, make-den.py, make-club.py and the Hermitage's
+    campfire: the number is what lets somebody decide before they press. The
+    doors need it too -- more than the screens do, because that press leaves
+    this site and the reader cannot see what they are in for.
+
+  · A CHAPTER READING MAY NOT BE A SCREEN. This is the room's own refusal and it
+    exists to keep a decision from being quietly reversed. The 21 readings are
+    an unauthorised recording of a book that is in copyright: Braiding
+    Sweetgrass, Milkweed Editions, 2013, its author living and publishing. Every
+    one of them plays and every one of them embeds, so NOTHING ELSE WOULD HAVE
+    STOPPED THEM going in as screens -- not love-embed.js, which only asks
+    whether an id is well formed, and not check-jukebox.py, which only asks
+    whether a video works. The room's whole argument is the honorable harvest:
+    never take the first, never take more than you need, ask. A page making that
+    argument cannot serve somebody else's entire book off its own surface. So
+    they are doors, they are labelled as what they are, and the borrow link to
+    the real audiobook sits with them.
+
+    The friendly edit this refuses is a real one and it will arrive: the doors
+    look broken next to the screens, somebody flips a 'link' to a 'screen', and
+    the page starts doing the thing it spends a paragraph refusing. Ryan's call,
+    2026-09-21, was both lists -- her voice as the fire, the readings as a door.
+
+  · AND THE TWO LISTS MAY NOT LEAK INTO EACH OTHER. A talk at the fire or a
+    teaching in the field guide whose channel is the readings' channel is
+    refused, because the only thing that ever distinguished those ids was the
+    channel name. They arrived in the same brief looking identical.
+
+  · THE BRAID IS THREE BUNDLES OF SEVEN AND THE TOOL COUNTS THEM. Seven behind,
+    seven laws, seven ahead, twenty-one in the braid. That is somebody's
+    teaching rather than a layout, and a bundle that lost a strand to an edit
+    would be this page getting an Elder's words wrong in the one place a reader
+    would assume we had been careful. It is the opposite of check-counts.py's
+    rule and for the opposite reason: a count that belongs to somebody else is
+    a fact to protect, not a total that goes stale.
+
+  · VIDEOPRESS IS THE THIRD ORIGIN ON THIS STREET and this file holds the third
+    copy of the list. _headers is enforced by the browser, love-embed.js by the
+    script, and this by the build -- which is the only one of the three that
+    refuses before anybody can render a blank box with no error anywhere.
+    Adding a service means editing all three.
+
+IF THIS REFUSES: fix the data. Do not loosen the tool.
+"""
+import html
+import json
+import re
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+DATA = ROOT / "data" / "sweetgrass.json"
+ROOM = ROOT / "swaying-sweetgrass.html"
+NOTES = ROOT / "liner-notes.html"
+
+YT = re.compile(r"^[A-Za-z0-9_-]{11}$")
+CLOCK = re.compile(r"^\d{1,2}:\d{2}(:\d{2})?$")
+
+# THE THIRD COPY, on purpose. See the docstring.
+ORIGINS = ("https://www.youtube-nocookie.com/", "https://open.spotify.com/",
+           "https://videopress.com/")
+
+
+def esc(s):
+    return html.escape(s, quote=False)
+
+
+def swap(page, marker, block, indent=""):
+    begin, end = f"<!-- {marker}:begin -->", f"<!-- {marker}:end -->"
+    src = page.read_text()
+    if begin not in src or end not in src:
+        raise SystemExit(
+            f"REFUSING: {page.name} has no {marker} markers, so there is nowhere\n"
+            "to write. Add them on purpose rather than letting this tool render nothing.")
+    page.write_text(re.sub(re.escape(begin) + r".*?" + re.escape(end),
+                           lambda m: begin + "\n" + block + "\n" + indent + end,
+                           src, flags=re.S))
+
+
+def check(d):
+    bad = []
+    fire, reads, teach = d.get("fire") or [], d.get("readings") or [], d.get("teachings") or []
+    if not fire:
+        bad.append("no recordings at the fire, and the fire pit is what the clearing is for.")
+    if not reads:
+        bad.append("no chapter readings, and the door out to them is a whole section.")
+    if not teach:
+        bad.append("no teachings, and the field guide is not ours to write without them.")
+
+    walled = (d.get("_readings_channel") or "").strip()
+    if not walled:
+        bad.append("_readings_channel is empty, so the leak check below cannot run at all.")
+
+    seen = {}
+    for label, rows in (("the fire", fire), ("a reading", reads), ("the field guide", teach)):
+        for r in rows:
+            t = (r.get("title") or "").strip() or "<untitled>"
+            i = (r.get("id") or "").strip()
+            if not YT.match(i):
+                bad.append(f"{label}: {t!r} has {i!r}, which is not a YouTube id. "
+                           "love-embed.js refuses it quietly at runtime, which is a "
+                           "button somebody presses and presses.")
+            if i in seen:
+                bad.append(f"{label}: {t!r} is the same video as {seen[i]!r}.")
+            seen[i] = t
+            if not CLOCK.match((r.get("length") or "").strip()):
+                bad.append(f"{label}: {t!r} has no runtime. Every press-to-play label on "
+                           "this street says how long before the press.")
+            if not (r.get("spoken") or "").strip():
+                bad.append(f"{label}: {t!r} has no spoken runtime for the button.")
+
+    # The rights refusal. See the docstring.
+    for r in reads:
+        if r.get("how") != "link":
+            bad.append(
+                f"a reading: {r.get('title')!r} is marked {r.get('how')!r}. Every chapter "
+                "reading is a DOOR. They are an unauthorised recording of a book that is "
+                "in copyright, and a room arguing the honorable harvest cannot serve "
+                "somebody's whole book off its own surface. See this tool's docstring "
+                "before changing it.")
+
+    # And the leak, in the other direction.
+    for label, rows in (("the fire", fire), ("the field guide", teach)):
+        for r in rows:
+            if walled and (r.get("channel") or "").strip() == walled:
+                bad.append(
+                    f"{label}: {r.get('title')!r} is on {walled!r}, which is the chapter "
+                    "readings' channel. Those ids arrived looking exactly like these ones "
+                    "and the channel is the only thing that told them apart.")
+            if r.get("how") != "screen":
+                bad.append(f"{label}: {r.get('title')!r} is marked {r.get('how')!r}; "
+                           "everything at the fire and in the guide is a screen.")
+            if not (r.get("channel") or "").strip():
+                bad.append(f"{label}: {r.get('title')!r} names no channel, and this room "
+                           "credits the channel on every row.")
+            if not (r.get("note") or "").strip():
+                bad.append(f"{label}: {r.get('title')!r} has no note saying what it is.")
+
+    # The braid is somebody's teaching and the numbers are part of it.
+    br = d.get("braid") or {}
+    bundles = br.get("bundles") or []
+    if len(bundles) != 3:
+        bad.append(f"the braid has {len(bundles)} bundle(s). It is three: seven behind, "
+                   "seven laws, seven ahead.")
+    for b in bundles:
+        n = len(b.get("strands") or [])
+        if n != 7:
+            bad.append(f"the braid's bundle {b.get('no')} has {n} strand(s) and not seven. "
+                       "Twenty-one strands in three sevens is the teaching, not the layout.")
+        if not (b.get("words") or "").strip():
+            bad.append(f"the braid's bundle {b.get('no')} carries no words from the video.")
+    if not YT.match((br.get("video") or "")):
+        bad.append("the braid does not say which video it was transcribed from.")
+    if not (br.get("speaker") or "").strip() or not (br.get("org") or "").strip():
+        bad.append("the braid does not say who is speaking or where it was published. "
+                   "An unattributed teaching is the one thing this site does not publish.")
+
+    for q in d.get("quotes") or []:
+        if not (q.get("text") or "").strip():
+            bad.append(f"quote {q.get('key')!r} is empty.")
+        if not (q.get("checked") or "").strip():
+            bad.append(f"quote {q.get('key')!r} does not say what was checked about it. "
+                       "Three of these are verbatim on our own pages and one is not; a "
+                       "reader cannot tell which without being told.")
+
+    bk = d.get("book") or {}
+    if not (bk.get("borrow") or "").strip():
+        bad.append("the book has no borrow link. Access is the point; buying is the "
+                   "fallback — make-hermitage.py's rule, and this is the room that "
+                   "cannot afford to break it.")
+
+    g = d.get("grass") or {}
+    src = (g.get("src") or "").strip()
+    if not src.startswith(ORIGINS):
+        bad.append(f"Ryan's video points at {src!r}, which is not an origin this site "
+                   "frames. Adding one means _headers, love-embed.js and this file.")
+    if not CLOCK.match((g.get("length") or "").strip()):
+        bad.append("Ryan's video has no runtime, and it is a press-to-play control like "
+                   "every other one here.")
+    if not (g.get("who") or "").strip():
+        bad.append("Ryan's video names nobody. A video is credited like a voice is.")
+    return bad
+
+
+# ── The room ─────────────────────────────────────────────────────────────────
+
+def screens(rows, cls):
+    out = []
+    for r in rows:
+        out.append(
+            f'      <li class="{cls}">\n'
+            f'        <h3>{esc(r["title"])}</h3>\n'
+            f'        <p class="swg-by">{esc(r["channel"])} &middot; {esc(r["length"])}</p>\n'
+            f'        <p>{esc(r["note"])}</p>\n'
+            f'        <button type="button" class="facade" data-embed-id="{esc(r["id"])}"\n'
+            f'                data-embed-title="{html.escape(r["title"], quote=True)}">'
+            f'Play &middot; {esc(r["spoken"])}</button>\n'
+            f'      </li>')
+    return "\n".join(out)
+
+
+def doors(rows):
+    out = []
+    for r in rows:
+        out.append(
+            f'      <li class="swg-door">'
+            f'<a href="https://www.youtube.com/watch?v={esc(r["id"])}">{esc(r["title"])}</a>'
+            f'<span class="swg-len">{esc(r["spoken"])}</span></li>')
+    return "\n".join(out)
+
+
+def braid_block(br):
+    out = [f'      <p class="swg-braid-say">&ldquo;{esc(br["intro"])}&rdquo;</p>',
+           '      <ol class="swg-bundles">']
+    for b in br["bundles"]:
+        strands = "".join(
+            f'<li><span class="swg-strand-no">{i + 1}</span>{esc(s)}</li>'
+            for i, s in enumerate(b["strands"]))
+        out.append(
+            f'        <li class="swg-bundle swg-bundle--{b["no"]}">\n'
+            f'          <h3><span class="swg-seven">seven</span> {esc(b["gloss"])}</h3>\n'
+            f'          <blockquote><p>{esc(b["words"])}</p></blockquote>\n'
+            f'          <ul class="swg-strands">{strands}</ul>\n'
+            f'        </li>')
+    out.append('      </ol>')
+    out.append(f'      <p class="swg-braid-say">&ldquo;{esc(br["close"])}&rdquo;</p>')
+    out.append(f'      <p class="swg-braid-say swg-braid-say--root">&ldquo;{esc(br["roots"])}&rdquo;</p>')
+    out.append(
+        f'      <p class="swg-braid-who">Transcribed from <a href="https://www.youtube.com/watch?v='
+        f'{esc(br["video"])}">Sweet Grass Teaching</a> at {esc(br["at"])}, published by '
+        # An organisation whose name already ends in a full stop -- "Shawenim
+        # Abinoojii Inc." -- came out with two of them. The sentence supplies
+        # its own only when the name has not.
+        f'{esc(br["org"])}{"" if br["org"].endswith(".") else "."} '
+        f'<strong>The video does not name the Elder speaking</strong> &mdash; '
+        f'not in the description, not on the channel, not at the end &mdash; so neither do we, '
+        f'rather than guess at one. The words are the video&rsquo;s own captions, punctuated '
+        f'and not otherwise changed; the timestamp is there so you can check them.</p>')
+    return "\n".join(out)
+
+
+def quote_block(q):
+    if q.get("ours"):
+        cite = (f'<p class="swg-q-ours">Also on our own <a href="{esc(q["ours"])}">'
+                f'{esc(q["ours_title"])}</a>.</p>')
+    else:
+        cite = ('<p class="swg-q-ours">Not on any page of ours, and not confirmed against '
+                'the book from here.</p>')
+    return (f'      <figure class="swg-quote">\n'
+            f'        <blockquote><p>{esc(q["text"])}</p></blockquote>\n'
+            f'        <figcaption>Robin Wall Kimmerer, <cite>Braiding Sweetgrass</cite>'
+            f'{cite}</figcaption>\n'
+            f'      </figure>')
+
+
+def grass_block(g, bk):
+    return (
+        f'      <p class="swg-by">{esc(g["who"])} &middot; {esc(g["length"])} &middot; '
+        f'already on our own <a href="{esc(g["ours"])}">{esc(g["ours_title"])}</a></p>\n'
+        f'      <button type="button" class="facade swg-tall" data-embed-src="{esc(g["src"])}"\n'
+        f'              data-embed-title="{html.escape(g["title"], quote=True)}">'
+        f'Play &middot; {esc(g["spoken"])}</button>\n'
+        f'      <p class="swg-cap">{esc(g["note"])}</p>')
+
+
+def shelf_block(bk):
+    return (f'      <p class="swg-book"><strong>{esc(bk["title"])}</strong><br>'
+            f'{esc(bk["author"])} &middot; {esc(bk["publisher"])}</p>\n'
+            f'      <p class="swg-go"><a href="{esc(bk["borrow"])}">Borrow it &rarr;</a> '
+            f'&middot; <a href="{esc(bk["worldcat"])}">find a library copy</a></p>\n'
+            f'      <p class="swg-cited">Quoted throughout, and already quoted on our own '
+            f'<a href="{esc(bk["cited"])}">{esc(bk["cited_title"])}</a>.</p>')
+
+
+# ── The credits ──────────────────────────────────────────────────────────────
+
+def rows(items, kind):
+    out = []
+    for r in items:
+        out.append(f'      <tr><td>{esc(r["title"])}</td><td>{esc(r["channel"])}</td>'
+                   f'<td>{esc(r["length"])}</td><td>{kind}</td>'
+                   f'<td><a href="https://www.youtube.com/watch?v={esc(r["id"])}">watch</a></td></tr>')
+    return "\n".join(out)
+
+
+def reading_rows(items, chan):
+    out = []
+    for r in items:
+        out.append(f'      <tr><td>{esc(r["title"])}</td><td>{esc(chan)}</td>'
+                   f'<td>{esc(r["length"])}</td><td>a door out</td>'
+                   f'<td><a href="https://www.youtube.com/watch?v={esc(r["id"])}">watch</a></td></tr>')
+    return "\n".join(out)
+
+
+def quote_rows(qs):
+    out = []
+    for q in qs:
+        ours = (f'<a href="{esc(q["ours"])}">{esc(q["ours_title"])}</a>'
+                if q.get("ours") else "&mdash;")
+        out.append(f'      <tr><td>{esc(q["key"])}</td><td>{ours}</td>'
+                   f'<td>{esc(q["checked"])}</td></tr>')
+    return "\n".join(out)
+
+
+def main():
+    d = json.loads(DATA.read_text())
+    bad = check(d)
+    if bad:
+        print("REFUSING to build Swaying Sweetgrass:")
+        for b in bad:
+            print("  - " + b)
+        return 1
+
+    swap(ROOM, "sweetgrass-fire", screens(d["fire"], "swg-sit"), "    ")
+    swap(ROOM, "sweetgrass-readings", doors(d["readings"]), "    ")
+    swap(ROOM, "sweetgrass-guide", screens(d["teachings"], "swg-teach"), "    ")
+    swap(ROOM, "sweetgrass-braid", braid_block(d["braid"]), "    ")
+    swap(ROOM, "sweetgrass-grass", grass_block(d["grass"], d["book"]), "    ")
+    swap(ROOM, "sweetgrass-shelf", shelf_block(d["book"]), "    ")
+    for q in d["quotes"]:
+        swap(ROOM, f"sweetgrass-quote-{q['key']}", quote_block(q), "    ")
+
+    swap(NOTES, "sweetgrass-fire-credits", rows(d["fire"], "a screen"), "      ")
+    swap(NOTES, "sweetgrass-readings-credits",
+         reading_rows(d["readings"], d["_readings_channel"]), "      ")
+    swap(NOTES, "sweetgrass-guide-credits", rows(d["teachings"], "a screen"), "      ")
+    swap(NOTES, "sweetgrass-quote-credits", quote_rows(d["quotes"]), "      ")
+
+    print(f"sweetgrass: {len(d['fire'])} recordings at the fire, {len(d['readings'])} chapter "
+          f"readings as doors out, {len(d['teachings'])} teachings in the field guide, "
+          f"{len(d['braid']['bundles'])} bundles of seven in the braid, "
+          f"{len(d['quotes'])} passages, credits rebuilt.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

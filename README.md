@@ -144,6 +144,7 @@ python3 tools/make-den.py          # The Den's listening bench, and its credits
 python3 tools/make-hermitage.py    # the Hermitage's shelves and campfire, and their credits
 python3 tools/make-club.py         # Club Chronic's stage, paste-up and rack, and their credits
 python3 tools/make-mopery.py       # the Mopery's shelves, its screen and its Raven nook
+python3 tools/make-sweetgrass.py   # the meadow's fire, its readings and its braid
 python3 tools/make-oracle.py       # the oracle deck, and its credits
 python3 tools/make-doomscroll.py   # the doomscroll's feed, sorted by first publication
 python3 tools/make-pebble-board.py # the Pebble Board's current edition, and its back-issue rack
@@ -170,6 +171,16 @@ Museum's, because one rights statement only covers one collection.
 not a US-public-domain test, it is a **public domain everywhere** test, and it cost the scroll
 its best opening item: Eliot's *The Hollow Men* is free in America and will not be in much of
 Europe until the 2030s.
+`make-sweetgrass.py` holds the runtime rule the ordinary way and one refusal no other tool here
+has: **a chapter reading may not be a screen.** The twenty-one readings of *Braiding Sweetgrass*
+in that room are an unauthorised recording of a book that is in copyright, and every one of them
+plays and embeds — so nothing else would have stopped them going in beside the fire. The room's
+whole argument is the honorable harvest, and a page making that argument cannot serve somebody
+else's entire book off its own surface, so they are doors with a borrow link beside them. It also
+refuses a talk whose channel is the readings' channel in either direction, because those ids
+arrived looking identical and the channel is all that told them apart; and it **counts the
+braid** — three bundles of exactly seven — because that number is an Elder's teaching rather than
+a layout, which is the opposite of `check-counts.py`'s rule and for the opposite reason.
 
 One more, deliberately **outside** that sequence because it is the only tool that needs the
 network — a checker that fails on a train either blocks a deploy or teaches everyone to skip it:

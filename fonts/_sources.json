@@ -447,5 +447,30 @@
    "src": "https://fonts.gstatic.com/s/vollkorn/v30/0yb9GDoxxrvAnPhYGxkpaE0Urhg0.woff2",
    "note": "The Doomscroll's reading face, and the whole poem is set in it. Friedrich Althausen drew Vollkorn for body text at small sizes on bad paper, which is what a broadside is. Variable, so one file serves 400 and 600."
   }
+ ],
+ "eczar": [
+  {
+   "file": "eczar-600.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 15088,
+   "src": "https://fonts.gstatic.com/s/eczar/v27/BXR2vF3Pi-DLmxcpJB-qbNTyTMDXw9mmrjgUC2daW2wr.woff2"
+  }
+ ],
+ "alegreya-sans": [
+  {
+   "file": "alegreya-sans-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 17136,
+   "src": "https://fonts.gstatic.com/s/alegreyasans/v28/5aUz9_-1phKLFgshYDvh6Vwt7VptvWdUhm8.woff2"
+  },
+  {
+   "file": "alegreya-sans-500.woff2",
+   "weight": "500",
+   "style": "normal",
+   "bytes": 17232,
+   "src": "https://fonts.gstatic.com/s/alegreyasans/v28/5aUu9_-1phKLFgshYDvh6Vwt5alOqEp2i0VBuxM.woff2"
+  }
  ]
 }

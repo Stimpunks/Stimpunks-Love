@@ -254,6 +254,24 @@ ORC_DIM, ORC_RED, ORC_BRASS = "#B0A69B", "#E8724A", "#B99154"
 DSC_DESK, DSC_PAPER, DSC_PAPER2 = "#211D18", "#DCD7CC", "#CFC8BA"
 DSC_INK, DSC_INK2, DSC_RED, DSC_BONE = "#1A1714", "#4A423A", "#8C1D18", "#EAE4D6"
 
+# Swaying Sweetgrass (§25), pitch 02 in the campgrounds. A meadow lit from
+# BEHIND — the sun low and a hundred feet off, the light coming through the
+# blades rather than falling on them, which is why the greens go yellow and the
+# ground stays dark. SUNWASH is the composite nobody chose: --seed at .10 over
+# --soil, the wash the last of the light lays over the top of the page, and what
+# the type up there is really on.
+# PREFIXED, because GLOW was already the Faery Yurt's ember composite two
+# hundred lines up and an unprefixed one here silently repainted six of Helen's
+# pairs — six FAILs in a room nobody had touched. That is the --leaf collision
+# in love.css arriving in this file's own Python, which is where it was caught
+# the first time and fixed only there. The rule is the same in both: rename the
+# newcomer, and when a name collides, look for the same collision everywhere
+# else that holds names.
+SWG_SOIL, SWG_SHADE, SWG_STRAW = "#141A0C", "#1D2612", "#EFE6C6"
+SWG_AWN, SWG_GLOW, SWG_SEED = "#C4C08E", "#D7E06A", "#E3C85C"
+SWG_BAND, SWG_SEDGE, SWG_STEM = "#D9C6E8", "#8FA05A", "#4E6B2E"
+SWG_WASH = "#26280F"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -910,6 +928,40 @@ PAIRS = [
     (DSC_PAPER, DSC_DESK,   False, "doomscroll: the backlinks and the footer, on the desk"),
     (DSC_BONE,  DSC_DESK,   False, "doomscroll: the dial's own copy, off the paper"),
 
+    # ── Swaying Sweetgrass (§25) ──────────────────────────────────────────
+    # THE LIGHT IS BEHIND THE GRASS, so this room's risk is the opposite of the
+    # Hermitage's next door: everything is pale on a dark ground again, and the
+    # thing to watch is the two GREENS, because a green that reads as a plant
+    # from across the room is a green that stops reading as a word up close.
+    # --sedge carries the small print and is measured as type; --stem carries
+    # nothing and is in ORNAMENT with what it came out at, which is the Jungle
+    # Room's canopy rule -- WCAG does not reach a drawn blade, and a meadow you
+    # cannot pick one blade out of is not a meadow.
+    #
+    # SUNWASH IS NOBODY'S CHOICE. The room lays a 10% gold wash over the ground
+    # from the top right, which is the last of the light coming over the
+    # horizon, and that -- not the flat soil -- is what the type at the top of
+    # the page actually sits on. Same rule as the Chappell's rose window, the
+    # burrow's lamp pool and the cave's even light: the flat colour is never the
+    # whole story, so every ink is held against both.
+    (SWG_STRAW,  SWG_SOIL,    False, "sweetgrass: body copy, the lede, the spec list"),
+    (SWG_STRAW,  SWG_WASH, False, "sweetgrass: the same, up where the light is"),
+    (SWG_STRAW,  SWG_SHADE,   False, "sweetgrass: body copy inside a sheltered plot"),
+    (SWG_GLOW,   SWG_SOIL,    True,  "sweetgrass: h1, every h2, and the passages from the book"),
+    (SWG_GLOW,   SWG_WASH, True,  "sweetgrass: the h1, which is at the top where the wash is"),
+    (SWG_GLOW,   SWG_SHADE,   True,  "sweetgrass: a plot's own heading"),
+    (SWG_SEED,   SWG_SOIL,    False, "sweetgrass: every link, and every press-to-play label"),
+    (SWG_SEED,   SWG_WASH, False, "sweetgrass: the same, near the top of the page"),
+    (SWG_SEED,   SWG_SHADE,   False, "sweetgrass: links inside a plot"),
+    (SWG_AWN,    SWG_SOIL,    False, "sweetgrass: the trailmark, the notes under each recording"),
+    (SWG_AWN,    SWG_WASH, False, "sweetgrass: the trailmark, which sits under the wash"),
+    (SWG_AWN,    SWG_SHADE,   False, "sweetgrass: a plot's body copy"),
+    (SWG_SEDGE,  SWG_SOIL,    False, "sweetgrass: who published a recording, the runtimes, the "
+                             "strand numbers, the caption under Ryan's video"),
+    (SWG_SEDGE,  SWG_WASH, False, "sweetgrass: the same near the top"),
+    (SWG_BAND,   SWG_SOIL,    False, "sweetgrass: the roots line at the foot of the braid"),
+    (SWG_BAND,   SWG_WASH, False, "sweetgrass: the same, if the page is short"),
+
 ]
 
 # NOT IN THE LIST, AND IT SHOULD BE: cream (#FFF3E6) on the same #FF5AA6 ground
@@ -1015,6 +1067,21 @@ ORNAMENT = {
     "#8a8073": "doomscroll: the rules between items, the double rule under the masthead "
                "and the curl at each end of the roll, 2.70 on the paper. Printed rules "
                "carry no words; every line of type on that scroll is measured above.",
+    "#4e6b2e": "sweetgrass: every drawn blade in the back row of every band, the rule "
+               "under each recording, the stem beside a quotation and the ring of "
+               "stones round the fire. 2.93 on the meadow ground and 2.49 under the "
+               "sun wash. It carries no words and never has; it is measured because "
+               "the Jungle Room's canopy came out at 2.18 and was a smudge nobody "
+               "could tell one leaf from another in, and a meadow has the same "
+               "problem the moment its darkest green stops separating from the "
+               "ground. The two greens in front of it clear the body threshold.",
+    "#bfe07a": "campgrounds: the fireflies in pitch 02's drawing, 12.00 on the field "
+               "and 10.89 on the spruce masses in it. A "
+               "picture's ink rather than a room's palette, hardcoded in "
+               "campgrounds.html the way the yurt's candle and the hermitage's moon "
+               "are — and the one lit colour that pitch is allowed, because the other "
+               "two are taken. It is CARRIED rather than emitted or caught: many "
+               "small lights held in the grass, no source you could point at.",
     "#2a3a31": "campgrounds: the board's frame and the post each pitch hangs off, 1.48 "
                "on the field. That field is deliberately the dimmest ground on the "
                "street and its type carries all of it -- bone at 14.7, moss at 7.3. The "

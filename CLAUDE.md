@@ -440,6 +440,93 @@ alternative was publishing a room before it was a room. The drawing of Helen's y
 says so in the liner notes** — the field's sign for her pitch, which changes nothing on her page —
 for the same reason the one colour of hers this repo changed is written down in four places.
 
+**THE SIXTH FLAME-LIT-LOOKING ROOM, AND THE LIGHT IS NOT A FLAME.** Swaying Sweetgrass (§25) is
+pitch 02: a meadow left alone, one accessible path, a clearing with a fire pit in it. By now
+*"they are all warm, they should feel the same"* has arrived so many times — the Faery Yurt, The
+Latibulum, The Den, the Hermitage's cave, The Mopery — that it stops sounding like tidying and
+starts sounding like taste, and **this room has an actual fire in it**, which is the best cover
+the argument has ever had. What keeps it out is physics rather than palette:
+
+  · every one of those rooms is lit FROM INSIDE IT, and every object in them has a lit face and a
+    shadow side. Here the sun is low, a hundred feet off and **behind** everything, so nothing has
+    a lit face at all — the blades glow because the light is coming THROUGH them. Transmitted
+    light, not reflected: that is why the greens go yellow and the ground stays dark, and the
+    whole palette falls out of it.
+  · those rooms are enclosed and full of furniture. **There is no furniture in a meadow.** The
+    only built things are the path and the fire ring, and you go a long way through nothing.
+  · those rooms are **brown**. This is green-gold, which is a different warmth entirely. If the
+    greens in here ever go brown at the edges this has become the yurt with more grass in it.
+
+**AND THE FIRE IS PAINTED IN THE ROOM'S OWN TWO GOLDS ON PURPOSE.** Giving the flame an orange of
+its own would have made this a flame-lit room by the back door, after all that. It is a small
+object in the middle distance that you walk to; it is not what the page is lit by. Do not give it
+a colour nothing else in the room has.
+
+**IT IS ALSO THE FOURTH GREEN THING, and the Jungle Room is the one to watch.** That room is
+night-green UNDER A ROOF: light falls down and lands in patches, and nothing stands alone because
+everything overlaps something. This is open, and the light arrives sideways at eye level. You are
+inside in one and outside in the other.
+
+**A ROOM MAY REFUSE TO SERVE SOMETHING IT IS ALLOWED TO SERVE, AND THIS ONE DOES.** Ryan's brief
+pointed at twenty-one chapters of *Braiding Sweetgrass* read aloud on YouTube. They are uploaded
+by The Anarchist Audio Library and are an unauthorised reading of a book that is in copyright —
+Milkweed, 2013, Kimmerer living, publishing, and narrating the real audiobook herself. **Every one
+plays and every one embeds, so nothing in the machinery would have stopped them**: `love-embed.js`
+only asks whether an id is well formed, `check-jukebox.py` only asks whether a video works. The
+thing that stops them is the room's own argument — the honorable harvest, never take the first,
+never take more than you need, ask — which a page cannot make while serving somebody's whole book
+off its own surface. So they are **doors and not screens**, labelled as what they are, with a
+borrow link beside them, and the fire itself is Kimmerer in her own voice on authorised channels.
+Ryan's call, 2026-09-21, once the provenance was put to him: keep both. `make-sweetgrass.py`
+refuses a reading marked `screen`, **because the friendly edit is a real one and it will arrive** —
+the doors look broken next to the presses, somebody flips one word, and the page starts doing the
+thing it spends a paragraph refusing. It also refuses a talk on the readings' channel and a
+reading on a talk's, because those ids arrived looking identical and the channel is all that ever
+told them apart.
+
+**THE 21-STRAND TEACHING IS SOMEBODY'S AND THE VIDEO DOES NOT SAY WHOSE.** Seven generations
+behind, seven sacred laws, seven ahead. It was matched to its source rather than guessed at — the
+transcript was opened and read against the words — and it is *Sweet Grass Teaching*, published by
+Shawenim Abinoojii Inc., at 0:53, which was already in Ryan's own field-guide list. No name in the
+description, none on the channel, none at the end. **So the page credits the organisation and says
+out loud that the Elder is unnamed there**, which is the herbarium's refusal to guess at a
+binomial applied to a person. Do not fill that gap from anywhere. **And `make-sweetgrass.py` counts
+the bundles**: three of exactly seven, refused otherwise. That is the opposite of
+`check-counts.py`'s rule and for the opposite reason — a count that belongs to somebody else is a
+fact to protect, not a total that goes stale.
+
+**NOTHING ON THAT PAGE TEACHES SWEETGRASS.** Six teachings from Indigenous organisations and
+nations, Ryan's selection, each linked and credited with one line of ours saying what it is about.
+No retelling, and nothing anywhere instructing anybody how to harvest, braid or burn it. That is
+`make-readings.py`'s rule about the glossary, in a room where getting it wrong would be worse.
+
+**AND THE ROOM CARRIES A CORRECTION TO OUR OWN GLOSSARY, near the top rather than in a footnote.**
+Our Nature and Place-Based Education entries attribute *reciprocal ethical unity* to Barry Lopez
+and he never wrote the phrase; Star Stuff's zine No. 72 read the essay. This room quotes from
+those very pages, so it says so where somebody reading the quotations will see it. **When two of
+our own pages disagree, the one that checked wins** — the otter cabinet's rule, arriving in a room
+built out of the pages that were wrong.
+
+**THREE OF ITS FOUR PASSAGES WERE CHECKED AND ONE COULD NOT BE, AND THE DIFFERENCE IS PUBLISHED.**
+The sheaf, the braid of stories and "becoming indigenous to a place" are verbatim in the mirror.
+The Cajete and goldenrod passage is on no page of ours and could not be confirmed against the book
+from here — archive.org's search-inside unreachable, Google Books rate-limiting every attempt — so
+it is published on Ryan's word and the liner notes say which is which. **Do not let an unchecked
+quotation sit among checked ones looking identical.**
+
+**RYAN'S OWN VIDEO IS IN THERE AND IT IS NOT SWEETGRASS.** Ten seconds of backlit bunchgrass in
+his front yard, already published by us on the Nature entry under the line about immediate contact
+with the outdoors — which is the argument, not a bolt-on: place-based means the ground you are
+standing on rather than the sacred meadow somewhere else. **The plant is not named to species**,
+for the herbarium's reason. VideoPress is the third origin this street will frame and it lives in
+`_headers`, `love-embed.js` and `make-sweetgrass.py`; **adding a service means editing all three.**
+
+**AND THE FIELD'S SIGN FOR IT NEEDED A THIRD KIND OF LIGHT.** The yurt *emits* and the hermitage
+*catches*, and both are taken. This one is **carried**: fireflies low in the grass, many small
+lights and no source you could point at. The fire is not drawn lit, because from the treeline the
+grass is taller than the clearing and what you can see from there is what gets drawn — so the sign
+shows the path going in and a thread of smoke. A fourth pitch needs a fourth light; three are gone.
+
 **THE FIRST COLD ENCLOSED ROOM, AND IT IS THE FIFTH WARM-LOOKING ONE.** The Mopery (§22) is a
 dark academia library with candles the whole way along every top shelf, which makes it another
 room on this street lit by flame — it joins the Faery Yurt, The Latibulum, The Den and the

@@ -1,0 +1,449 @@
+{
+  "_what": "Swaying Sweetgrass — pitch 02 in the campgrounds. A meadow left alone, with a path into a clearing and a fire pit in the middle of it. Everything that plays on that page is in this file.",
+  "_sources": "EVERY ID WAS RESOLVED AGAINST YOUTUBE ON 2026-09-21 rather than typed off the link text that arrived — status, playableInEmbed, lengthSeconds, title and ownerChannelName, off one fetch of each watch page. That is the Jungle Room's rule and the reason the two lists below could be told apart at all: the chapter readings arrived looking exactly like the talks, and the channel is the only thing that distinguishes them.",
+  "_rights": "THE FIRE AND THE READINGS ARE TWO LISTS BECAUSE THEY CARRY TWO RIGHTS STATEMENTS, and this is the decision the room is built around. Ryan's brief pointed at a 21-chapter playlist of Braiding Sweetgrass read aloud. It is uploaded by The Anarchist Audio Library and it is an unauthorised reading of a book that is in copyright — Milkweed Editions, 2013, Robin Wall Kimmerer living and publishing. Every chapter plays and every chapter embeds, so nothing would have stopped it going in as a screen. What stops it is that this room's whole argument is the honorable harvest: never take the first, never take more than you need, ask permission. A page making that argument cannot serve somebody else's whole book off its own surface. So the readings are DOORS and not screens — named, linked, and labelled as what they are — and the borrow link to the real audiobook sits beside them. Ryan's call, 2026-09-21, after the provenance was put to him: both, her voice as the fire and the readings as a door. make-sweetgrass.py refuses a reading marked 'screen', which is how that decision survives somebody tidying it later.",
+  "_fire": "AUTHORISED RECORDINGS OF KIMMERER IN HER OWN VOICE, which is what the fire pit tells. Her publisher, her university hosts, her conference keynotes, her interviews. Ordered shortest first, so somebody with three minutes and somebody with an hour are both served by the same list without either having to read all of it.",
+  "_runtime": "EVERY SCREEN AND EVERY DOOR CARRIES ITS RUNTIME, and make-sweetgrass.py refuses one without. Same promise as make-latibulum.py, make-den.py, make-club.py and the Hermitage's campfire: the number is what lets somebody decide before they press. A door needs it as much as a screen does — more, because the press leaves this site.",
+  "_teachings": "THE FIELD GUIDE, AND IT IS NOT OURS. Six teachings from Indigenous organisations, institutes and nations, Ryan's selection, plus one Kimmerer Q&A he filed with them. Nothing here is summarised or paraphrased on the page: a sweetgrass teaching belongs to the person giving it and the community it is given in, so the room links the video, names the channel, and says what it is about in one line of our own rather than retelling it.",
+  "_braid": "THE 21-STRAND TEACHING IS TRANSCRIBED FROM ONE OF THE VIDEOS ALREADY IN THE FIELD GUIDE — Sweet Grass Teaching, Shawenim Abinoojii Inc., kb0eGlH8usg — and it was matched to that video rather than guessed at: the transcript panel was opened and read, and the words at 0:53 through 2:54 are the ones on the page. THE VIDEO DOES NOT NAME THE ELDER SPEAKING. The description says only 'Made for Shawenim Abinoojii Inc.', there is no name card at the end, and the channel does not say. So the page credits the organisation and the video and states plainly that the speaker is unnamed there, rather than inventing a name or quietly dropping the question — the herbarium's refusal to guess at a binomial, applied to a person. The words are auto-captions, which are a machine's guess at speech: they are lightly punctuated here and the timestamps are kept so anybody can check them against the video.",
+  "_quotes": "FOUR PASSAGES FROM BRAIDING SWEETGRASS, all four supplied by Ryan. Three of them are verbatim on our own published pages and were checked against the Knowledge System mirror rather than retyped: the sheaf, the braid of stories and 'becoming indigenous to a place' each appear on glossary/nature, glossary/place-based-education and space/offline. THE FOURTH IS NOT ON ANY PAGE OF OURS and could not be confirmed against the book from here — archive.org's search-inside is unreachable and Google Books rate-limited every attempt on 2026-09-21. It is published on Ryan's word, which is written down here rather than left to look like the others. Star Stuff's zine No. 72 carries a standing caveat on the third one too: a Stimpunks post had attributed it to Barry Lopez, the zine corrected it to Kimmerer, and said it had not yet confirmed it against the book rather than against quotation sites. That caveat is still open and the room says so.",
+  "_grass": "RYAN'S OWN VIDEO, and it is not sweetgrass — he said so when he sent it. It is already published by us: stimpunks.org embeds this exact guid on the Nature glossary entry, on Play, and on the Offline space page, which is why it belongs in a room built out of those three pages. Ten seconds of a backlit clump of bunchgrass in seed with a mullein rosette at its foot, limestone and river rock, a wall behind. THE SPECIES IS NOT NAMED, for the herbarium's reason: nobody here determined it, and a plant named on a page reads as a determination. VideoPress is the first non-YouTube, non-Spotify frame on this street and its origin had to be added in three places — _headers, love-embed.js and this room's generator.",
+  "_borrow": "A borrow link is required and a buy link is not — make-hermitage.py's rule, and it matters more here than anywhere: the room is arguing that access to knowledge is mutual aid while sitting next to an unauthorised copy of the book it is arguing from. The Open Library work id was resolved against their search API on 2026-09-21 and the scan it points at answered 200. The WorldCat link is the one our own glossary already cites.",
+  "book": {
+    "title": "Braiding Sweetgrass: Indigenous Wisdom, Scientific Knowledge, and the Teachings of Plants",
+    "author": "Robin Wall Kimmerer",
+    "publisher": "Milkweed Editions, 2013",
+    "borrow": "https://openlibrary.org/works/OL16819897W/Braiding_Sweetgrass?edition=braidingsweetgra0000kimm",
+    "worldcat": "https://worldcat.org/title/1143651514",
+    "cited": "https://stimpunks.org/glossary/nature/",
+    "cited_title": "Nature"
+  },
+  "fire": [
+    {
+      "id": "RdS_tnc-PXY",
+      "title": "Braiding Sweetgrass: a 10th anniversary message",
+      "channel": "Milkweed Editions",
+      "channel_verbatim": "Milkweed Editions",
+      "length": "2:50",
+      "spoken": "3 min",
+      "how": "screen",
+      "note": "Her own publisher, her to camera, ten years on from the book. The shortest thing at the fire and the one to start with."
+    },
+    {
+      "id": "cEm7gbIax0o",
+      "title": "The Honorable Harvest",
+      "channel": "Bioneers",
+      "channel_verbatim": "Bioneers",
+      "length": "3:31",
+      "spoken": "4 min",
+      "how": "screen",
+      "note": "The rule this whole room is built on, in three and a half minutes: never take the first, never take more than half, never take more than you need, and ask."
+    },
+    {
+      "id": "Lz1vgfZ3etE",
+      "title": "Reclaiming the Honorable Harvest",
+      "channel": "TEDx Talks",
+      "channel_verbatim": "TEDx Talks",
+      "length": "17:58",
+      "spoken": "18 min",
+      "how": "screen",
+      "note": "The same argument with room to breathe, given at TEDxSitka in 2012 — before the book came out."
+    },
+    {
+      "id": "OxJUFGlPYn4",
+      "title": "Gifts of the Land: a guided nature tour",
+      "channel": "The Commons KU",
+      "channel_verbatim": "The Commons KU",
+      "length": "20:49",
+      "spoken": "21 min",
+      "how": "screen",
+      "note": "A walk rather than a lecture. Closest in shape to what this page is trying to be."
+    },
+    {
+      "id": "cumEQcRMY3c",
+      "title": "Mishkos Kenomagwen: The Teachings of Grass",
+      "channel": "Bioneers",
+      "channel_verbatim": "Bioneers",
+      "length": "21:23",
+      "spoken": "21 min",
+      "how": "screen",
+      "note": "Sweetgrass itself, and the study that found the harvested patches doing better than the unharvested ones. The braid of stories and the braid of data, held up side by side by the person who made both."
+    },
+    {
+      "id": "X5CCJ5Ld-nQ",
+      "title": "Reciprocal Healing",
+      "channel": "Natural History Institute",
+      "channel_verbatim": "Natural History Institute",
+      "length": "27:04",
+      "spoken": "27 min",
+      "how": "screen",
+      "note": "On what the relationship does to the person in it, which is the half of reciprocity that is easiest to leave out."
+    },
+    {
+      "id": "2YuB1iU6DQI",
+      "title": "The Intelligence in All Kinds of Life",
+      "channel": "The On Being Project",
+      "channel_verbatim": "The On Being Project",
+      "length": "51:33",
+      "spoken": "52 min",
+      "how": "screen",
+      "note": "The long conversation, with Krista Tippett. Grammar of animacy, gift economies, and the word that turns an it into a being."
+    },
+    {
+      "id": "ChdCy162c4o",
+      "title": "What Nature Teaches Us About Giving Back",
+      "channel": "Museum of Science",
+      "channel_verbatim": "Museum of Science",
+      "length": "55:20",
+      "spoken": "55 min",
+      "how": "screen",
+      "note": "The most recent thing at this fire, and the one that spends longest on what reciprocity asks of somebody who is not a botanist."
+    },
+    {
+      "id": "9R4whGlL-EA",
+      "title": "Tales of Sweetgrass & Trees",
+      "channel": "Harvard University",
+      "channel_verbatim": "Harvard University",
+      "length": "1:22:11",
+      "spoken": "1 hr 22 min",
+      "how": "screen",
+      "note": "With Richard Powers and Terry Tempest Williams. Three writers on plants, in a room that let them go long."
+    },
+    {
+      "id": "oDQ5WDLQb9M",
+      "title": "What Plants Can Teach Us",
+      "channel": "New York Botanical Garden",
+      "channel_verbatim": "New York Botanical Garden",
+      "length": "1:26:21",
+      "spoken": "1 hr 26 min",
+      "how": "screen",
+      "note": "The longest sit at this fire. Put it on when the plan is to not have a plan."
+    }
+  ],
+  "readings": [
+    {
+      "id": "ypLExKx3ic4",
+      "title": "Chapter 2: The Council of Pecans",
+      "length": "26:31",
+      "spoken": "27 min",
+      "how": "link"
+    },
+    {
+      "id": "j2U4zGhudRg",
+      "title": "Chapter 3: The Gift of Strawberries",
+      "length": "25:45",
+      "spoken": "26 min",
+      "how": "link"
+    },
+    {
+      "id": "BNnOAOT4plk",
+      "title": "Chapter 5: Asters and Goldenrod",
+      "length": "20:47",
+      "spoken": "21 min",
+      "how": "link"
+    },
+    {
+      "id": "mEBErBoPuTg",
+      "title": "Chapter 6: Learning the Grammar of Animacy",
+      "length": "30:02",
+      "spoken": "30 min",
+      "how": "link"
+    },
+    {
+      "id": "NNl8cGVVbHs",
+      "title": "Chapter 7: Maple Sugar Moon",
+      "length": "23:39",
+      "spoken": "24 min",
+      "how": "link"
+    },
+    {
+      "id": "zetPoggeCuU",
+      "title": "Chapter 8: Witch Hazel",
+      "length": "22:57",
+      "spoken": "23 min",
+      "how": "link"
+    },
+    {
+      "id": "aQvRkUFeMCs",
+      "title": "Chapter 9: A Mother's Work",
+      "length": "39:20",
+      "spoken": "39 min",
+      "how": "link"
+    },
+    {
+      "id": "aCK5jwjm4ug",
+      "title": "Chapter 14: Wisgaak Gokpenagen / A Black Ash Basket",
+      "length": "40:22",
+      "spoken": "40 min",
+      "how": "link"
+    },
+    {
+      "id": "zEqhgDZTg9U",
+      "title": "Chapter 16: Maple Nation: A Citizenship Guide",
+      "length": "20:13",
+      "spoken": "20 min",
+      "how": "link"
+    },
+    {
+      "id": "jXpP0Vp7EUs",
+      "title": "Chapter 17: The Honorable Harvest (part 1)",
+      "length": "27:42",
+      "spoken": "28 min",
+      "how": "link"
+    },
+    {
+      "id": "b4IXIbsVcD8",
+      "title": "Chapter 17: The Honorable Harvest (part 2)",
+      "length": "41:21",
+      "spoken": "41 min",
+      "how": "link"
+    },
+    {
+      "id": "ZoZqtxfC9R0",
+      "title": "Chapter 18: In the Footsteps of Nanabozho",
+      "length": "28:28",
+      "spoken": "28 min",
+      "how": "link"
+    },
+    {
+      "id": "c4zKIaU5IfA",
+      "title": "Chapter 19: The Sound of Silverbells",
+      "length": "20:09",
+      "spoken": "20 min",
+      "how": "link"
+    },
+    {
+      "id": "dz4nMoFkX0I",
+      "title": "Chapter 20: Sitting in a Circle (part 1)",
+      "length": "31:21",
+      "spoken": "31 min",
+      "how": "link"
+    },
+    {
+      "id": "oIyB73FXa84",
+      "title": "Chapter 20: Sitting in a Circle (part 2)",
+      "length": "25:13",
+      "spoken": "25 min",
+      "how": "link"
+    },
+    {
+      "id": "vZCZFMex-UI",
+      "title": "Chapter 21: Burning Cascade Head",
+      "length": "37:11",
+      "spoken": "37 min",
+      "how": "link"
+    },
+    {
+      "id": "4jCOFiCESnI",
+      "title": "Chapter 22: Putting Down Roots",
+      "length": "41:38",
+      "spoken": "42 min",
+      "how": "link"
+    },
+    {
+      "id": "46VXy6LH644",
+      "title": "Chapter 24: Old-Growth Children",
+      "length": "43:22",
+      "spoken": "43 min",
+      "how": "link"
+    },
+    {
+      "id": "pt0UEP6QF18",
+      "title": "Chapter 27: The Sacred and the Superfund (part 1)",
+      "length": "28:06",
+      "spoken": "28 min",
+      "how": "link"
+    },
+    {
+      "id": "165j6E2dqhs",
+      "title": "Chapter 27: The Sacred and the Superfund (part 2)",
+      "length": "28:37",
+      "spoken": "29 min",
+      "how": "link"
+    },
+    {
+      "id": "bvv5qDkACvs",
+      "title": "Chapter 29: Collateral Damage",
+      "length": "35:33",
+      "spoken": "36 min",
+      "how": "link"
+    }
+  ],
+  "_readings_channel": "The Anarchist Audio Library",
+  "_readings_playlist": "https://www.youtube.com/playlist?list=PLfls6OzMkf8KwDszavfbXJWbB4JnTpttT",
+  "_readings_gaps": "The playlist holds these and no others — chapters 1, 4, 10 through 13, 15, 23, 25, 26, 28 and 30 were never uploaded, and the gaps are left visible in the numbering rather than closed up, because a tidy run of numbers would imply a complete book.",
+  "teachings": [
+    {
+      "id": "kb0eGlH8usg",
+      "title": "Sweet Grass Teaching",
+      "channel": "Shawenim Abinoojii Inc.",
+      "channel_verbatim": "Shawenim Abinoojii Inc.",
+      "length": "5:12",
+      "spoken": "5 min",
+      "how": "screen",
+      "note": "What to look for at the base of the stem, why sweetgrass is a kindness medicine, and the 21 strands. The teaching further down this page is this video, at 0:53."
+    },
+    {
+      "id": "dGZ8mwteASY",
+      "title": "Wiingashk (sweetgrass) teachings",
+      "channel": "Kahwá:tsire Indigenous-Led Child & Family Programs",
+      "channel_verbatim": "Kahwá:tsire Indigenous-Led Child & Family Programs",
+      "length": "5:27",
+      "spoken": "5 min",
+      "how": "screen",
+      "note": "The Anishinaabemowin name, said out loud by somebody it belongs to."
+    },
+    {
+      "id": "TBRCWgDY8cQ",
+      "title": "Lessons in Netukulimk: Sweetgrass with Tuma Young",
+      "channel": "UINR - Unama'ki Institute of Natural Resources",
+      "channel_verbatim": "UINR - Unama'ki Institute of Natural Resources",
+      "length": "8:06",
+      "spoken": "8 min",
+      "how": "screen",
+      "note": "Mi'kmaw law — netukulimk is taking enough and not more, which is the honorable harvest arriving from a different nation and a different coast."
+    },
+    {
+      "id": "a_GyA4RjMc8",
+      "title": "Sweetgrass · SKG Elder Teaching Videos",
+      "channel": "Shingwauk Kinoomaage Gamig",
+      "channel_verbatim": "Shingwauk Kinoomaage Gamig",
+      "length": "11:51",
+      "spoken": "12 min",
+      "how": "screen",
+      "note": "Filmed in Gitigaan Mishkiki, a traditional medicine garden, which is the difference between a plant described and a plant stood next to."
+    },
+    {
+      "id": "Umw58gxRMjA",
+      "title": "Sweetgrass teachings with Elder Phillip Gladue",
+      "channel": "Justice Institute of British Columbia (JIBC)",
+      "channel_verbatim": "Justice Institute of British Columbia (JIBC)",
+      "length": "14:53",
+      "spoken": "15 min",
+      "how": "screen",
+      "note": "Métis Nation. The one here that names its Elder on the video itself."
+    },
+    {
+      "id": "l_AZzXIcvs8",
+      "title": "Swi'te' — Sweet Grass",
+      "channel": "Mikmaq FineArts",
+      "channel_verbatim": "Mikmaq FineArts",
+      "length": "16:28",
+      "spoken": "16 min",
+      "how": "screen",
+      "note": "Swi'te' is the Mi'kmaw name. Picking, cleaning and braiding, filmed slowly enough to follow."
+    },
+    {
+      "id": "1lkdehi0-Jg",
+      "title": "Q&A with Robin Wall Kimmerer",
+      "channel": "Savanna Institute",
+      "channel_verbatim": "Savanna Institute",
+      "length": "49:01",
+      "spoken": "49 min",
+      "how": "screen",
+      "note": "Filed here rather than at the fire because Ryan filed it here: it is her answering other people's questions rather than telling it her own way."
+    }
+  ],
+  "braid": {
+    "video": "kb0eGlH8usg",
+    "at": "0:53",
+    "speaker": "an Elder, not named on the video",
+    "org": "Shawenim Abinoojii Inc.",
+    "intro": "we divide these 21 into seven seven and seven … we divide them into seven strands each and that's what we braid into the one braid",
+    "bundles": [
+      {
+        "no": 1,
+        "of": "the seven behind",
+        "gloss": "generations behind us",
+        "words": "the first seven they always represent those seven generations behind us — our parents, our grandparents, our great grandparents. Who we are, what we are, is because of them, because they're the ones that give us life. At least for that we need to be thankful.",
+        "strands": [
+          "parents",
+          "grandparents",
+          "great-grandparents",
+          "the ones before them",
+          "the ones before them",
+          "the ones before them",
+          "the ones who gave us life"
+        ]
+      },
+      {
+        "no": 2,
+        "of": "the seven laws",
+        "gloss": "sacred laws",
+        "words": "these next seven they represent those seven sacred laws we all talk about … and the old people they tell us those teachings are simple. Love — it's not complicated, nothing complicated about it. Those teachings are powerful. Respect — powerful teaching. They say those teachings are really beautiful. Humility — when I can understand that I'm no better than anybody else, but then nobody else is any better than me.",
+        "strands": [
+          "love",
+          "respect",
+          "honesty",
+          "humility",
+          "courage",
+          "wisdom",
+          "truth"
+        ]
+      },
+      {
+        "no": 3,
+        "of": "the seven ahead",
+        "gloss": "generations ahead",
+        "words": "the last seven, those seven generations ahead of us — our children, our grandchildren, whose children that are yet to be born. Why are they important? What we do to Mother Earth today is one day going to affect them. Right now she gives us everything we need to have life, but if we don't look after it, what's going to be left?",
+        "strands": [
+          "children",
+          "grandchildren",
+          "their children",
+          "the ones after them",
+          "the ones after them",
+          "the ones after them",
+          "the ones not yet born"
+        ]
+      }
+    ],
+    "close": "so we make that one braid, we bring them and make it into one braid, and in that way each of these strands they also represent yesterday today and tomorrow, man woman and child, mind body and spirit. You could take one strand, break it — that's simple. When you bring them all together, that's what creates that strength of that braid.",
+    "roots": "our whole journey, our whole life, is intertwined within this braid as well, and it begins right here with the roots that we don't see. Imagine a tree without any roots — a little bit of wind will come, that tree will fall down."
+  },
+  "quotes": [
+    {
+      "key": "sheaf",
+      "at": "arrival",
+      "text": "Hold out your hands and let me lay upon them a sheaf of freshly picked sweetgrass, loose and flowing, like newly washed hair. Golden green and glossy above, the stems are banded with purple and white where they meet the ground. Hold the bundle up to your nose. Find the fragrance of honeyed vanilla over the scent of river water and black earth and you understand its scientific name: Hierochloe odorata, meaning the fragrant, holy grass. In our language it is called wiingaashk, the sweet-smelling hair of Mother Earth. Breathe it in and you start to remember things you didn't know you'd forgotten.",
+      "ours": "https://stimpunks.org/glossary/nature/",
+      "ours_title": "Nature",
+      "checked": "verbatim in the Knowledge System mirror on 2026-09-21"
+    },
+    {
+      "key": "braid-of-stories",
+      "at": "the fire",
+      "text": "I could hand you a braid of sweetgrass, as thick and shining as the plait that hung down my grandmother's back. But it is not mine to give, nor yours to take. Wiingaashk belongs to herself. So I offer, in its place, a braid of stories meant to heal our relationship with the world. This braid is woven from three strands: indigenous ways of knowing, scientific knowledge, and the story of an Anishinabekwe scientist trying to bring them together in service to what matters most. It is an intertwining of science, spirit, and story — old stories and new ones that can be medicine for our broken relationship with earth, a pharmacopoeia of healing stories that allow us to imagine a different relationship, in which people and land are good medicine for each other.",
+      "ours": "https://stimpunks.org/glossary/place-based-education/",
+      "ours_title": "Place-Based Education",
+      "checked": "verbatim in the Knowledge System mirror on 2026-09-21"
+    },
+    {
+      "key": "goldenrod",
+      "at": "the field guide",
+      "text": "Native scholar Greg Cajete has written that in indigenous ways of knowing, we understand a thing only when we understand it with all four aspects of our being: mind, body, emotion, and spirit. I came to understand quite sharply when I began my training as a scientist that science privileges only one, possibly two, of those ways of knowing: mind and body. As a young person wanting to know everything about plants, I did not question this. But it is a whole human being who finds the beautiful path. That September pairing of purple and gold is lived reciprocity; its wisdom is that the beauty of one is illuminated by the radiance of the other. Science and art, matter and spirit, indigenous knowledge and Western science — can they be goldenrod and asters for each other? When I am in their presence, their beauty asks me for reciprocity, to be the complementary color, to make something beautiful in response.",
+      "ours": null,
+      "ours_title": null,
+      "checked": "NOT on any page of ours, and not confirmed against the book from here — see _quotes. Published on Ryan's word."
+    },
+    {
+      "key": "becoming-indigenous",
+      "at": "the way out",
+      "text": "It was through her actions of reciprocity, the give and take with the land, that the original immigrant became indigenous. For all of us, becoming indigenous to a place means living as if your children's future mattered, to take care of the land as if our lives, both material and spiritual, depended on it.",
+      "ours": "https://stimpunks.org/space/offline/",
+      "ours_title": "Offline: Fresh Air, Daylight, and Large Muscle Movement",
+      "checked": "verbatim in the Knowledge System mirror on 2026-09-21; Star Stuff zine No. 72's caveat on it is still open and the room says so"
+    }
+  ],
+  "grass": {
+    "src": "https://videopress.com/embed/5uWquYjh?autoPlay=1&controls=1&playsinline=1&preloadContent=metadata",
+    "title": "Ryan's grass",
+    "guid": "5uWquYjh",
+    "length": "0:10",
+    "spoken": "10 seconds",
+    "who": "Ryan Boren",
+    "shot": "2023-01-01",
+    "ours": "https://stimpunks.org/glossary/nature/",
+    "ours_title": "Nature",
+    "note": "A clump of bunchgrass gone to seed, backlit, with a mullein rosette at its foot and river rock round it. Not sweetgrass, and the page says so."
+  }
+}

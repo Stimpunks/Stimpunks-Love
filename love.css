@@ -162,6 +162,21 @@
 @font-face { font-family: 'Cardo';  src: url('fonts/cardo-400.woff2') format('woff2');        font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Cardo';  src: url('fonts/cardo-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 
+/* Swaying Sweetgrass (§25). A FLARED SERIF AND A HUMANIST SANS, and the pair
+   is chosen against the two rooms this one is most likely to collapse into.
+   Eczar's stems are narrow and its serifs flare out like a blade opening at
+   the tip — it is the only face here that looks grown rather than built, which
+   is why the meadow sets it and why it could not be the Faery Yurt's Cormorant
+   (cut yesterday, high contrast, calligraphic) or the Jungle Room's Fraunces
+   (strokes that swell as they turn). Alegreya Sans is a sans with a
+   handwriting skeleton still in it, warm without being round; the burrow's
+   Nunito is round and the campground's Bitter is squared, and neither of them
+   leans. Two faces, both OFL, neither set anywhere else. See
+   fonts/_sources.json. */
+@font-face { font-family: 'Eczar';         src: url('fonts/eczar-600.woff2') format('woff2');         font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Alegreya Sans'; src: url('fonts/alegreya-sans-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Alegreya Sans'; src: url('fonts/alegreya-sans-500.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+
 /* The Doomscroll (§24). BLACKLETTER LIVES HERE AND NOT IN THE LIBRARY, which
    is deliberate and is what keeps the dark academia room off the obvious peg:
    the gothic cliche is spent here, on a broadside of bad news, where it is a
@@ -423,6 +438,29 @@
   --dsc-desk: #211D18;   --dsc-paper: #DCD7CC;  --dsc-paper-2: #CFC8BA;
   --dsc-ink: #1A1714;    --dsc-ink-2: #4A423A;  --dsc-rule: #8A8073;
   --dsc-red: #8C1D18;    --dsc-bone: #EAE4D6;
+
+  /* Swaying Sweetgrass (§25), pitch 02 in the campgrounds. A MEADOW LIT FROM
+     BEHIND, which is the one thing keeping it out of the warm-enclosed family
+     it otherwise joins — the Faery Yurt, The Latibulum, The Den, the
+     Hermitage's cave and the Mopery's shelves are every one of them lit by a
+     flame you could put your hand over. THIS LIGHT IS THE SUN, LOW, A HUNDRED
+     FEET AWAY, AND BEHIND THE GRASS. Nothing in here is lit from the front:
+     the blades glow because the light is coming THROUGH them, so the greens
+     go yellow and the ground stays dark. That is also what keeps it off the
+     Jungle Room, where the light falls DOWN through a roof and lands in
+     patches, and off the campground it is pitched on, which is night-blue
+     with no light in it at all.
+
+     --sedge and --stem are the drawn blades and carry no words; both are
+     measured in ORNAMENT with what they came out at, because the Jungle
+     Room's canopy taught this file that a plant nobody can make out is not a
+     plant. --band is the purple-white where the stems meet the ground, which
+     is Kimmerer's own description and the only cool colour in the room — it
+     sits at the FOOT of things, never at the top, because that is where it is
+     on the plant. */
+  --soil: #141A0C;       --shade: #1D2612;      --straw: #EFE6C6;
+  --awn: #C4C08E;        --glow: #D7E06A;       --seed: #E3C85C;
+  --band: #D9C6E8;       --sedge: #8FA05A;      --stem: #4E6B2E;
 }
 
 * { box-sizing: border-box; }
@@ -4247,7 +4285,271 @@ html[data-intensity="max"] .mop-drip::before { animation: mop-flicker 3.1s ease-
 .dsc-foot a { color: var(--dsc-paper); }
 
 
-/* §25 ── Small screens ───────────────────────────────────────────────────────
+/* §25 ── ROOM: Swaying Sweetgrass (pitch 02 in the campgrounds) ──────────────
+   A MEADOW LEFT ALONE, with one path cut into it and a fire pit at the end of
+   the path. Pitch 02 was open ground until this; the field's board now has
+   something on it.
+
+   THE LIGHT IS BEHIND THE GRASS AND THAT IS THE WHOLE ROOM. Every warm room on
+   this street is lit by a flame you could put your hand over — the Faery Yurt's
+   candle, The Latibulum's one low lamp, The Den's knee-height bulbs, the
+   Hermitage's cave, the Mopery's top shelf. By the time a SIXTH warm room turns
+   up, "they are all cosy, they should feel the same" has stopped sounding like
+   tidying and started sounding like taste, which is exactly when it gets in.
+   What keeps this one out of that family is not the palette, it is the physics:
+
+     · those rooms are lit FROM INSIDE THEM, and every object in them has a lit
+       face and a shadow side. Here the sun is low, a hundred feet off, and
+       BEHIND everything — so nothing has a lit face at all. The blades glow
+       because the light is coming THROUGH them. That is why the greens go
+       yellow (--glow, --seed) while the ground stays dark: transmitted light,
+       not reflected light, and the whole palette falls out of it.
+     · those rooms are enclosed and full of furniture. THERE IS NO FURNITURE IN
+       A MEADOW. The only built things on this page are the path and the fire
+       ring, and you go a long way through nothing to reach them.
+     · those rooms are BROWN. This is green-gold. Chlorophyll with the sun
+       through it is a completely different warmth from tallow or varnish, and
+       if the greens in here ever go brown at the edges this has become the yurt
+       with more grass in it.
+
+   AND IT IS THE FOURTH GREEN THING, which is the other collision. The Jungle
+   Room is night-green UNDER A ROOF: light falls down and lands in patches, and
+   nothing stands alone because everything overlaps something. The Den is green
+   carpet in a brown box. The campground is night-blue on bare open ground. This
+   is open like the field and lit like neither — the sky is behind you at eye
+   level rather than above you, and the grass is over your head.
+
+   IT STANDS THINGS ON A LINE INSTEAD OF HANGING THEM OFF A POST, which is the
+   structural inversion of the field it is pitched on. Up there every notice is
+   nailed to a timber down its left side. Down here everything sits ON the
+   ground and grows up off it, because that is what grass does, and a meadow
+   with a row of posts in it is a fence.
+
+   SENTENCE CASE THROUGHOUT. The campground routs its signs in capitals; this
+   room never shouts, and the one place capitals appear is the dial, which is
+   furniture.
+
+   Eczar and Alegreya Sans, set nowhere else. See §1.                          */
+
+.meadow {
+  background:
+    radial-gradient(120% 70% at 78% 4%, rgba(201,162,39,.10), transparent 62%),
+    var(--soil);
+  background-attachment: fixed;
+  color: var(--straw);
+  font-family: 'Alegreya Sans', var(--sans);
+}
+/* A reading column between two bands of grass. The bottom padding is SMALL
+   because a band follows almost every one of these and the grass is the
+   separator — a room-sized gap before it as well would read as a fault in the
+   page rather than as a stretch of meadow. The last one gets the full run-out. */
+.meadow .wrap { max-width: 860px; margin: 0 auto; padding: 0 22px 34px; }
+.meadow .wrap:last-of-type { padding-bottom: 90px; }
+.meadow p, .meadow li { font-size: 17.5px; line-height: 1.68; }
+.meadow a { color: var(--seed); text-underline-offset: 4px; }
+.meadow a:hover { color: var(--straw); }
+
+/* The backlink drops Bungee, the way the campground's does. The street's voice
+   out here would be the only hard edge in the room. */
+.meadow .backlink { font-family: 'Alegreya Sans', var(--sans); font-size: 15px;
+  letter-spacing: 0; color: var(--awn); }
+.meadow .backlink:hover { color: var(--straw); }
+
+.meadow h1 {
+  font-family: 'Eczar', Georgia, serif; font-weight: 600;
+  font-size: clamp(40px, 8vw, 84px); line-height: 1.02;
+  color: var(--glow); margin: 14px 0 0;
+}
+.meadow h2 {
+  font-family: 'Eczar', Georgia, serif; font-weight: 600;
+  font-size: clamp(26px, 4vw, 38px); line-height: 1.12;
+  color: var(--glow); margin: 0 0 14px;
+}
+.meadow h3 {
+  font-family: 'Eczar', Georgia, serif; font-weight: 600;
+  font-size: 21px; line-height: 1.2; color: var(--straw); margin: 0;
+}
+.meadow .lede { font-size: 20.5px; line-height: 1.6; color: var(--straw);
+  max-width: 54ch; margin: 22px 0 0; }
+.meadow .trailmark { margin: 0; font-size: 14px; color: var(--awn); }
+.meadow .sr { position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap; }
+
+/* ── The grass ────────────────────────────────────────────────────────────
+   Bands of it between every section, drawn in the pages rather than here
+   because they are pictures of a place and not borders — the rule the
+   campground's stream and the yurt's crown follow. The band runs the full
+   width of the viewport and the reading column sits over it, so the meadow
+   is behind the words rather than beside them.
+
+   THE SWAY IS THIS ROOM'S AMBIENT LAYER AND IT IS THE ONLY MOTION IN IT. The
+   field above has none at any setting, which is the field's own rule and not
+   an area style — a pitch is its own world and sets its own noise, the way
+   Helen's fairy lights twinkle at MAX on a page pitched in a still field.
+
+   NOTHING IS DECLARED AT GENTLE. §3 kills animation with !important and would
+   catch this anyway, but a rule that only exists at regular and max cannot be
+   the thing that leaks: there is no base animation for a reset to have to beat.
+   The transform-box/origin pair is what makes a blade pivot at its root
+   instead of at the middle of the drawing.                                    */
+.swg-band { line-height: 0; margin: 0; width: 100vw; margin-left: calc(50% - 50vw); }
+.swg-band svg { display: block; width: 100%; height: auto; }
+.swg-sway { transform-box: fill-box; transform-origin: 50% 100%; }
+
+@keyframes swg-lean { 0%, 100% { transform: rotate(-1.1deg); } 50% { transform: rotate(1.1deg); } }
+@keyframes swg-gust { 0%, 100% { transform: rotate(-2.6deg); } 47% { transform: rotate(3deg); } }
+@keyframes swg-drift { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(14px, -9px); } }
+
+html[data-intensity="regular"] .meadow .swg-sway { animation: swg-lean 9s ease-in-out infinite; }
+html[data-intensity="max"]     .meadow .swg-sway { animation: swg-gust 5.5s ease-in-out infinite; }
+html[data-intensity="max"]     .meadow .swg-flit { animation: swg-drift 11s ease-in-out infinite; }
+
+/* Staggered so the band moves like grass and not like a comb. */
+.meadow .swg-sway:nth-child(3n)   { animation-delay: -1.7s; }
+.meadow .swg-sway:nth-child(3n+1) { animation-delay: -3.9s; }
+.meadow .swg-sway:nth-child(5n)   { animation-delay: -2.8s; }
+
+/* The clearing is an OBJECT and not a band: the bands run the full width of the
+   viewport because the meadow does, and the fire pit is a place inside it that
+   you walk to. Full-bleeding it would make the clearing as wide as the field. */
+.swg-pit { width: auto; margin-left: 0; margin-top: 18px; }
+.swg-pit svg { max-width: 760px; margin-inline: auto; }
+
+/* ── Sections ─────────────────────────────────────────────────────────────
+   No boxes. A section is a heading and some words standing on the ground, and
+   what separates two of them is grass rather than a rule.                     */
+.swg-sec { margin: 40px 0 0; }
+.swg-sec p { max-width: 62ch; }
+.swg-lead-in { color: var(--awn); font-size: 16px; letter-spacing: 1.5px;
+  text-transform: lowercase; margin: 0 0 6px; }
+
+/* The one panel shape in the room, and it has no border and no corners of its
+   own: a patch of ground a little more sheltered than the rest. It sits ON a
+   line at the foot for the reason above. */
+.swg-plot { background: var(--shade); padding: 22px 24px;
+  border-bottom: 2px solid var(--stem); margin: 26px 0 0; }
+.swg-plot p:last-child { margin-bottom: 0; }
+
+/* ── The passages from the book ───────────────────────────────────────────
+   Set in the display face because they are the reason the room exists, and
+   indented off a single stem rather than boxed. The stem is at the LEFT and
+   this is the one place in the room that has one, which is allowed because a
+   quotation really is hanging off something.                                  */
+.swg-quote { margin: 34px 0 0; padding: 0 0 0 26px; border-left: 2px solid var(--stem); }
+.swg-quote blockquote { margin: 0; }
+.swg-quote blockquote p {
+  font-family: 'Eczar', Georgia, serif; font-weight: 600;
+  font-size: clamp(19px, 2.4vw, 24px); line-height: 1.5;
+  color: var(--glow); margin: 0; max-width: 46ch;
+}
+.swg-quote figcaption { margin: 12px 0 0; font-size: 15px; color: var(--awn); }
+.swg-quote cite { font-style: italic; }
+.swg-q-ours { margin: 3px 0 0 !important; font-size: 14px; color: var(--sedge); }
+
+/* ── The clearing, and what is told at the fire ───────────────────────────
+   Ten recordings standing on the ground round the pit. Each one is its own
+   plant: a title, who published it, how long it runs, and a press.            */
+.swg-sits { list-style: none; margin: 26px 0 0; padding: 0;
+  display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); }
+/* THE LINE HAS TO BE AN ACTUAL LINE. This room's stated structure is that
+   things stand on the ground rather than hang off a post, and the first
+   version let each item's rule sit wherever its own text happened to stop --
+   so a row of two came out with the ground at two different heights, which
+   reads as a fault rather than as a field. The item fills its grid row and the
+   press is pushed to the foot, so every rule in a row is the same ground. */
+.swg-sit { padding: 0 0 18px; border-bottom: 2px solid var(--stem);
+  display: flex; flex-direction: column; align-items: flex-start; }
+.meadow .swg-sit .facade { margin-top: auto; }
+.swg-sit h3 { color: var(--straw); }
+.swg-by { margin: 6px 0 0; font-size: 14.5px; color: var(--sedge); letter-spacing: .3px; }
+.swg-sit p { margin: 9px 0 0; color: var(--awn); font-size: 16.5px; }
+
+/* The press. §4 supplies the mechanism and the 16/9 box; this dresses it as
+   something growing out of the ground rather than a button sat on top of it. */
+.meadow .facade {
+  aspect-ratio: auto; border: 0; border-radius: 0;
+  background: transparent; color: var(--seed);
+  width: auto; margin: 12px 0 0; padding: 9px 0 0;
+  border-top: 1px solid var(--stem);
+  font-family: 'Alegreya Sans', var(--sans); font-size: 15.5px;
+  font-weight: 500; letter-spacing: .4px;
+}
+.meadow .facade:hover { background: transparent; color: var(--straw); border-top-color: var(--sedge); }
+/* Once it is pressed it becomes a real player and needs the box back. */
+.meadow div.facade { aspect-ratio: 16 / 9; padding: 0; margin-top: 14px; border-top: 0; }
+.meadow div.facade iframe { border-radius: 0; }
+
+/* Ryan's grass was shot on a phone and is taller than it is wide. A 16/9 box
+   round a 9/16 video is two black bars and a small picture. */
+.meadow div.swg-tall { aspect-ratio: 9 / 16; max-width: 320px; }
+
+/* ── The chapter readings, which are doors and not screens ────────────────
+   Deliberately unlike everything else on the page: no press, no runtime badge
+   in the same shape as the fire's, no box. A list of links that leaves. The
+   room says why in its own copy and make-sweetgrass.py refuses one marked as
+   a screen.                                                                   */
+.swg-doors { list-style: none; margin: 20px 0 0; padding: 0;
+  columns: 2; column-gap: 34px; }
+.swg-door { break-inside: avoid; padding: 7px 0; font-size: 16px;
+  display: flex; gap: 10px; justify-content: space-between; align-items: baseline; }
+.swg-len { flex: 0 0 auto; font-size: 14px; color: var(--sedge); font-variant-numeric: tabular-nums; }
+
+/* ── The field guide ──────────────────────────────────────────────────────
+   Same furniture as the fire, one column, because these are somebody else's
+   teachings and a grid of them starts to look like a catalogue of people.     */
+.swg-teaches { list-style: none; margin: 26px 0 0; padding: 0;
+  display: flex; flex-direction: column; gap: 26px; }
+.swg-teach { padding: 0 0 18px; border-bottom: 2px solid var(--stem); max-width: 62ch; }
+.swg-teach p { margin: 9px 0 0; color: var(--awn); font-size: 16.5px; }
+
+/* ── The braid ────────────────────────────────────────────────────────────
+   Three bundles of seven, and the layout IS the count: three columns, seven
+   strands each, numbered down the side. make-sweetgrass.py refuses a bundle
+   that is not seven, because that number is an Elder's teaching and not a
+   design decision anybody here is allowed to round off.                       */
+.swg-bundles { list-style: none; margin: 30px 0 0; padding: 0;
+  display: grid; gap: 34px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+/* The three bundles are a braid and have to rhyme, so the strand lists are
+   pushed to the foot: the quoted words above them are different lengths and
+   left to themselves the three purple bands ended up at three heights, which
+   is the same "ground at two heights" fault the fire's rules had. */
+.swg-bundle { padding: 0 0 0 18px; border-left: 2px solid var(--stem);
+  display: flex; flex-direction: column; }
+.swg-bundle .swg-strands { margin-top: auto; padding-top: 16px; }
+.swg-bundle h3 { color: var(--glow); font-size: 20px; }
+.swg-seven { color: var(--seed); }
+.swg-bundle blockquote { margin: 12px 0 0; }
+.swg-bundle blockquote p { margin: 0; color: var(--awn); font-size: 16px; line-height: 1.6; }
+.swg-strands { list-style: none; margin: 16px 0 0; padding: 0; }
+/* The purple-white band sits at the FOOT of the strand list, because that is
+   where it is on the plant: the stems are banded where they meet the ground. */
+.swg-strands li { display: flex; gap: 11px; align-items: baseline;
+  font-size: 15.5px; padding: 3px 0; color: var(--straw); }
+.swg-strands li:last-child { border-bottom: 3px solid var(--band); padding-bottom: 8px; }
+.swg-strand-no { flex: 0 0 1.4em; font-family: 'Eczar', Georgia, serif;
+  font-size: 13px; color: var(--sedge); font-variant-numeric: tabular-nums; }
+.swg-braid-say { max-width: 56ch; font-family: 'Eczar', Georgia, serif; font-weight: 600;
+  font-size: 19px; line-height: 1.5; color: var(--glow); margin: 24px 0 0; }
+.swg-braid-say--root { color: var(--band); }
+.swg-braid-who { margin: 26px 0 0; font-size: 15px; color: var(--awn); max-width: 62ch; }
+
+/* ── The shelf, the path, the small print ─────────────────────────────────  */
+.swg-book { margin: 18px 0 0; font-size: 18px; color: var(--straw); }
+.swg-go { margin: 10px 0 0; font-size: 17px; }
+.swg-cited, .swg-cap { margin: 10px 0 0; font-size: 15px; color: var(--sedge); max-width: 56ch; }
+
+/* The path in. A natural surface you can get a chair down, which is a real
+   specification and not a nice idea, so it is set out as one. */
+.swg-spec { list-style: none; margin: 20px 0 0; padding: 0; max-width: 62ch; }
+.swg-spec li { padding: 10px 0 10px 22px; position: relative; border-bottom: 1px solid var(--stem); }
+.swg-spec li::before { content: ""; position: absolute; left: 0; top: 1.05em;
+  width: 10px; height: 2px; background: var(--sedge); }
+.swg-spec strong { color: var(--glow); font-weight: 500; }
+
+.swg-foot { margin: 40px 0 0; font-size: 15px; color: var(--awn); max-width: 64ch; }
+
+
+/* §26 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -4326,7 +4628,20 @@ html[data-intensity="max"] .mop-drip::before { animation: mop-flicker 3.1s ease-
   .dsc-sheet { padding: 24px 18px 30px; }
 }
 
-/* §26 ── Print ───────────────────────────────────────────────────────────────
+/* Swaying Sweetgrass (§25). The two grids collapse on their own — auto-fit
+   with a 240–270px floor — but the readings are a CSS column count rather than
+   a grid, and two columns of chapter titles on a phone is a stack of two-word
+   lines. The bands scale with the viewport and get shorter as they narrow,
+   which is a meadow seen from further off rather than a fault. */
+@media (max-width: 620px) {
+  .swg-doors { columns: 1; }
+  .swg-door { padding: 9px 0; }
+  .swg-quote { padding-left: 16px; }
+  .swg-plot { padding: 18px 16px; }
+  .meadow div.swg-tall { max-width: 100%; }
+}
+
+/* §27 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
