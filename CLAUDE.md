@@ -175,7 +175,11 @@ names it in its own copy, and the entry stays in the data file with the date. **
 id from here**; that is a curation decision on stimpunks.org. When a replacement arrives from
 there, *check it before it goes up* — status, `playableInEmbed`, and that the title and channel
 still match — and write what was measured into a `replaced` note on the entry, because a
-replacement nobody checked is the original bug with a fresh id on it. The room's count of dead
+replacement nobody checked is the original bug with a fresh id on it. **A replacement can also
+come back as a link rather than a screen**, which is what happened to the Critter Cam: it plays,
+and its channel has embedding off, so no id from that channel would come out differently. Do not
+assume a working replacement is an embeddable one; the two are separate permissions and the
+check is one line. The room's count of dead
 cams is generated, **and so is the grammar of the sentence around it**: the first version
 generated the number and left the tail plural, which is a hand-typed total wearing a disguise.
 

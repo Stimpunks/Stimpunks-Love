@@ -9,6 +9,13 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sun, 20 Sep 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>the critter cam comes back as a door, not a window</title>
+      <link>https://stimpunks.love/changelog.html#2026-09-20-critter-cam</link>
+      <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-20-critter-cam</guid>
+      <pubDate>Sun, 20 Sep 2026 12:00:00 GMT</pubDate>
+      <description>Ryan sent a replacement for CritterVision’s Critter Cam, and it is not dead. The new id answers OK and was live when it was checked — but playableInEmbed is false, on the same channel id as the one it replaces, with oEmbed refusing it with a 401 the same way. CritterVision has embedding switched off across the channel, so no id from them would come out differently. It is published as a way out to YouTube rather than as a screen that would show a refusal where the picture should be. Which is the distinction that room was built around, arriving from outside it. Playing and embedding are two different permissions, and the obvious assumption — a working replacement is an embeddable one — is wrong here. The check is one line and it is now written into CLAUDE.md beside the rule about not picking ids from this repo. Nothing in the room is dark. Both cams that answered UNPLAYABLE have come back from the events page, both were measured before they went up, and both entries carry a replaced note saying what was measured. The jelly cam came back as a screen and the critter cam came back as a link, which is the honest difference between them. A door does not get pressed, either. Every plate in the room ended pressing is what sends the request, which is true of a screen and false of a link-out — following one is. It is generated per state now, and the three notes stopped repeating what the door already says on its own face. And the note in the room had to learn to say that. With nothing dark it said only that every cam is playing — true, and it would have let a reader assume they could all be opened here. It counts the link-outs in the same breath now. That is the second time in two days this paragraph has been wrong about its own grammar: the number word and the noun were glued into one lookup, so the first build of this sentence published “Three cams of them”. Two maps now, and both branches agree with their own counts.</description>
+    </item>
+    <item>
       <title>the jelly cam comes back, and a generated number with hand-written grammar around it</title>
       <link>https://stimpunks.love/changelog.html#2026-09-20-jelly-cam</link>
       <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-20-jelly-cam</guid>

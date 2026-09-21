@@ -162,7 +162,8 @@ def cam(c):
             f'            <h3>{e(c["title"])}</h3>\n'
             f'            <p>{e(c["note"])}</p>\n'
             f'            <p class="cam__who">{e(c["channel"])}&rsquo;s camera, on YouTube. '
-            f'Nothing of it is hosted here; pressing is what sends the request.</p>\n'
+            f'Nothing of it is hosted here; '
+            f'{"following the link is what sends the request" if c["state"] == "link" else "pressing is what sends the request"}.</p>\n'
             f'          </div>\n'
             f'        </li>')
 
@@ -193,6 +194,10 @@ for g in groups:
 # be the site correcting a published page by deleting the evidence.
 dead = [(g, c) for g in groups for c in g["cams"] if c["state"] == "dark"]
 WORDS = {1: "One cam", 2: "Two cams", 3: "Three cams", 4: "Four cams", 5: "Five cams"}
+# The same numbers without the noun on them. Two maps rather than one because
+# the noun is part of the subject in one sentence and already spoken in the
+# other, and gluing them together is how "Three cams of them" got published.
+NUMBERS = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five"}
 if dead:
     # The number is GENERATED rather than typed, for the reason check-counts.py
     # exists: a total written into a sentence is a fact that lives in one place
@@ -218,7 +223,21 @@ if dead:
              f'decision on <a href="https://stimpunks.org/events/watering-hole-hangs/">the '
              f'events page</a>, not one this street gets to make on its own.</p>')
 else:
-    block = '      <p class="jungle-note">Every cam our events page lists is playing.</p>'
+    # NOTHING IS DARK, WHICH IS NOT THE SAME AS EVERYTHING BEING IN A SCREEN.
+    # The first version of this branch said only that every cam is playing,
+    # which is true and would have let a reader assume they were all openable
+    # here. The link-outs are counted in the same breath, and the whole
+    # sentence agrees with both numbers.
+    away = [c for g in groups for c in g["cams"] if c["state"] == "link"]
+    block = '      <p class="jungle-note"><strong>Every cam our events page lists is playing.</strong>'
+    if away:
+        n, one = len(away), len(away) == 1
+        block += (f' {NUMBERS.get(n, str(n))} of them '
+                  f'{"opens" if one else "open"} on YouTube rather than in a screen here, because '
+                  f'{"its owner has" if one else "their owners have"} embedding switched off — '
+                  f'{"that is a door rather than a window" if one else "those are doors rather than windows"}, '
+                  f'and {"it says" if one else "they say"} so on the way out.')
+    block += "</p>"
 swap(ROOM, "jungle:gone", block, "    ")
 
 # ── The credits ──────────────────────────────────────────────────────────────
