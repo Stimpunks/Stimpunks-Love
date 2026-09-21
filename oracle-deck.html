@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Oracle Deck — Stimpunks.Love</title>
+<meta name="description" content="Thirteen public domain engravings from the Metropolitan Museum's open collection, each with a question on the back. It asks and does not answer: no fortunes, no reversals, nothing about what is going to happen to you. The whole deck is on the page.">
+<link rel="canonical" href="https://stimpunks.love/oracle-deck.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#23201E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.Love">
+<meta property="og:title" content="The Oracle Deck — Stimpunks.Love">
+<meta property="og:description" content="Dürer, Mellan, Piranesi, Meryon, Goya, Redon, Bresdin — and a question on the back of each one. It asks. It does not answer.">
+<meta property="og:url" content="https://stimpunks.love/oracle-deck.html">
+<meta property="og:image" content="https://stimpunks.love/og/oracle-deck.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A warm ash-grey card with no light source in it. Three narrow cards sit in a row across the middle, each a dark rectangle holding a pale old engraving — a winged figure among scattered tools, the full moon, and a horned stone gargoyle leaning on its hands. Under them a thin cut rule with a small brass lozenge in the middle, then “The Oracle Deck” in wide inscriptional Roman capitals cut in bone white, and beneath that, in vermilion italic: it asks, it does not answer. Along the foot: engravings from 1514 to 1891, public domain, stimpunks.love.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love — what changed on the street">
+<link rel="preload" href="fonts/cinzel-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+<!-- With the script off there is no draw, and the deck is unharmed: every card
+     is already on this page, face up, in order. That is not a fallback, it is
+     the room -- nothing here was ever behind the dice. -->
+<noscript><style>.orc-table { display: none; }</style></noscript>
+</head>
+<body class="room-oracle">
+<a class="skip" href="#main">Skip to the deck</a>
+
+<main id="main" class="wrap">
+
+  <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:baseline;padding-top:8px;">
+    <a class="backlink" href="the-mopery.html">&larr; back to the Mopery</a>
+    <a class="backlink" href="index.html">the street &rarr;</a>
+  </div>
+
+  <header class="orc-head">
+    <h1>The Oracle Deck</h1>
+    <p class="orc-sub">Thirteen engravings, between 1514 and 1891, with a question on the back of each one.</p>
+    <p class="orc-fine">It asks. It does not answer. There are no reversals, no yes, no no, and nothing in here about what is going to happen to you &mdash; a deck on a Disabled people&rsquo;s site that told somebody how their life was going to go would be doing the exact thing the rest of these pages exist to refuse. The build refuses a card that tries.</p>
+  </header>
+
+  <div class="orc-cut-rule" aria-hidden="true"><span></span></div>
+
+  <section>
+    <h2>Cut the deck</h2>
+    <p>One card, at random, from the thirteen below. Draw as many as you like; there is no spread, no position and no meaning attached to the order. If it hands you something that is not useful, that is allowed &mdash; put it back.</p>
+
+    <div class="orc-table">
+      <div class="orc-draw">
+        <button type="button" class="orc-btn" id="orc-draw">Draw a card</button>
+        <button type="button" class="orc-btn orc-btn--quiet" id="orc-clear" hidden>Put it back</button>
+      </div>
+      <div class="orc-slot" id="orc-slot">
+        <p class="orc-empty">The deck is face down. Nothing is shuffled until you ask for it.</p>
+      </div>
+      <p class="orc-said" id="orc-said" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <div class="orc-cut-rule" aria-hidden="true"><span></span></div>
+
+  <section>
+    <h2>The whole deck</h2>
+    <p>Every card, face up, in the order they were cut &mdash; oldest plate first. Nothing on this page is behind the draw: a room that made somebody gamble to reach its contents would have put its contents behind chance, which is the &ldquo;lite version&rdquo; mistake holding a deck.</p>
+    <!-- oracle-deck:begin -->
+    <ul class="orc-index">
+      <li data-card="melencolia">
+        <article class="orc-card" id="card-melencolia">
+          <img class="orc-face" src="oracle/melencolia.jpg" alt="A winged figure sits among scattered tools — compasses, a plane, a saw, a balance, a sandglass, a bell — with her chin on her fist, looking past all of it. A ladder goes up the wall behind her. Nothing in the picture is being used." width="500" height="625" loading="lazy" decoding="async">
+          <h3 class="orc-name">The Melancholy</h3>
+          <p class="orc-ask">What have you been calling laziness?</p>
+          <p class="orc-note">She is surrounded by every instrument she knows how to use and she is not using any of them. Five centuries before anybody wrote the word, this is a picture of a person who has run out.</p>
+          <p class="orc-plate">Albrecht Dürer <span class="sr">(German, Nuremberg 1471–1528 Nuremberg)</span>, <b>Melencolia I</b>, 1514. Engraving. Harris Brisbane Dick Fund, 1943, 43.106.1. <a href="https://www.metmuseum.org/art/collection/search/336228">The Metropolitan Museum of Art</a> &middot; public domain.</p>
+        </article>
+      </li>
+      <li data-card="moon-full">
+        <article class="orc-card" id="card-moon-full">
+          <img class="orc-face" src="oracle/moon-full.jpg" alt="The full moon, engraved so finely that the craters read as pitted skin. The whole disc is lit and the edge is ragged with shadow." width="500" height="625" loading="lazy" decoding="async">
+          <h3 class="orc-name">The Full Moon</h3>
+          <p class="orc-ask">What is lit whether or not you are ready to look at it?</p>
+          <p class="orc-note">Mellan cut the whole face in a single spiralling line that starts at the nose and never lifts. It is the most technically insane thing in this deck and it is a picture of something everybody has already seen.</p>
+          <p class="orc-plate">Claude Mellan <span class="sr">(French, Abbeville 1598–1688 Paris)</span>, <b>Full Moon</b>, 1635. Engraving; first state of two (BN). The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1960, 60.634.36. <a href="https://www.metmuseum.org/art/collection/search/393543">The Metropolitan Museum of Art</a> &middot; public domain.</p>
+        </article>
+      </li>
+      <li data-card="moon-waxing">
+        <article class="orc-card" id="card-moon-waxing">
+          <img class="orc-face" src="oracle/moon-waxing.jpg" alt="The moon at first quarter, lit down one side, the terminator running ragged from top to bottom and the dark half completely gone." width="500" height="625" loading="lazy" decoding="async">
+          <h3 class="orc-name">The Waxing Moon</h3>
+          <p class="orc-ask">What is coming back that you had written off?</p>
+          <p class="orc-note">Half of it is missing and half of it is arriving. Both of those are true of the same object on the same night.</p>
+          <p class="orc-plate">Claude Mellan <span class="sr">(French, Abbeville 1598–1688 Paris)</span>, <b>The Moon in its First Quarter</b>, 1635. Engraving; first state of two (BN). The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1960, 60.634.38. <a href="https://www.metmuseum.org/art/collection/search/393278">The Metropolitan Museum of Art</a> &middot; public domain.</p>
+        </article>
+      </li>
+      <li data-card="moon-waning">
+        <article class="orc-card" id="card-moon-waning">
+          <img class="orc-face" src="oracle/moon-waning.jpg" alt="The moon at last quarter, lit down the other side, the unlit half absent rather than shaded." width="500" height="625" loading="lazy" decoding="async">
+          <h3 class="orc-name">The Waning Moon</h3>
+          <p class="orc-ask">What are you allowed to have less of?</p>
+          <p class="orc-note">Waning is not failing. It is the same body doing the other half of the only thing it does.</p>
+          <p class="orc-plate">Claude Mellan <span class="sr">(French, Abbeville 1598–1688 Paris)</span>, <b>The Moon in its Final Quarter</b>, 1635. Engraving; first state of two. The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1960, 60.634.37. <a href="https://www.metmuseum.org/art/collection/search/359769">The Metropolitan Museum of Art</a> &middot; public domain.</p>
+        </article>
+      </li>
+      <li data-card="carceri-title">
+        <article class="orc-card" id="card-carceri-title">
+          <img class="orc-face" src="oracle/carceri-title.jpg" alt="The title plate of a set of imaginary prisons: a vast vaulted hall in etched line, with a scrolled cartouche hanging in the middle of it and stairs disappearing at every edge." width="500" height="625" loading="lazy" decoding="async">
+          <h3 class="orc-name">The Threshold</h3>
+          <p class="orc-ask">What have you not opened yet?</p>
+          <p class="orc-note">A title page is a door with writing on it. Piranesi's opens onto a set of prisons that do not exist, never connect to each other, and were etched by a man who described himself on it as an architect.</p>
+          <p class="orc-plate">Giovanni Battista Piranesi <span class="sr">(Italian, Mogliano Veneto 1720–1778 Rome)</span>, <b>Title Page, from "Carceri d'invenzione" (Imaginary Prisons)</b>, ca. 1749–50. Etching, engraving, sulphur tint or open bite; first state of nine (Robison). Harris Brisbane Dick Fund, 1937, 37.45.3(21). <a href="https://www.metmuseum.org/art/collection/search/362797">The Metropolitan Museum of Art</a> &middot; public domain.</p>
+        </article>
+      </li>
+      <li data-card="carceri-round-tower">
+        <article class="orc-card" id="card-carceri-round-tower">
+          <img class="orc-face" src="oracle/carceri-round-tower.jpg" alt="The inside of an enormous round tower, ringed with galleries and crossed by beams, staircases climbing out of shot in several directions at once." width="500" height="625" loading="lazy" decoding="async">
+          <h3 class="orc-name">The Tower</h3>
+          <p class="orc-ask">Who told you the only way out was up?</p>
+          <p class="orc-note">Every staircase in this picture leads somewhere, and no two of them agree about where. The architecture is not solvable and was never meant to be.</p>
+          <p class="orc-plate">Giovanni Battista Piranesi <span class="sr">(Italian, Mogliano Veneto 1720–1778 Rome)</span>, <b>The Round Tower, from "Carceri d'invenzione" (Imaginary Prisons)</b>, ca. 1749–50. Etching, engraving, sulphur tint or open bite, burnishing; first state of four (Robison). Harris Brisbane Dick Fund, 1937, 37.45.3(27). <a href="https://www.metmuseum.org/art/collection/search/337725">The Metropolitan Museum of Art</a> &middot; public domain.</p>
+        </article>
+      </li>
+      <li data-card="carceri-pier-lamp">
+        <article class="orc-card" id="card-carceri-pier-lamp">
+          <img class="orc-face" src="oracle/carceri-pier-lamp.jpg" alt="A colossal stone pier under a vault, with a small hanging lamp on a bracket about a third of the way up and tiny figures on the walkways below it." width="500" height="625" loading="lazy" decoding="async">
+          <h3 class="orc-name">The Lamp</h3>
+          <p class="orc-ask">Who is keeping a light on for you?</p>
+          <p class="orc-note">One lamp, in a building the size of a weather system, put there by somebody. It does not light the room. It was not going to.</p>
+          <p class="orc-plate">Giovanni Battista Piranesi <span class="sr">(Italian, Mogliano Veneto 1720–1778 Rome)</span>, <b>The Pier with a Lamp, from "Carceri d'invenzione" (Imaginary Prisons)</b>, ca. 1749–50. Etching, engraving, sulphur tint or open bite, burnishing; first state of seven (Robison). Harris Brisbane Dick Fund, 1937, 37.45.3(29). <a href="https://www.metmuseum.org/art/collection/search/362463">The Metropolitan Museum of Art</a> &middot; public domain.</p>
+        </article>
+      </li>
+      <li data-card="meryon-vampire">
+        <article class="orc-card" id="card-meryon-vampire">
+          <img class="orc-face" src="oracle/meryon-vampire.jpg" alt="A horned stone gargoyle leaning on its hands at a parapet high over Paris, chin on its knuckles, looking out across the rooftops and a tower with birds around it." width="500" height="625" loading="lazy" decoding="async">
+          <h3 class="orc-name">The Watcher</h3>
+          <p class="orc-ask">What have you looked at so long that it has started looking back?</p>
+          <p class="orc-note">Meryon called this one The Vampire. It has been up there since the restoration, resting its chin on its hands and watching the city get on with it, and it is the closest thing this library has to a colleague.</p>
+          <p class="orc-plate">Charles Meryon <span class="sr">(French, 1821–1868)</span>, <b>The Vampire</b>, 1853. Etching in brown ink on green laid paper; fifth state of ten. H.O. Havemeyer Collection, Bequest of Mrs. H.O. Havemeyer, 1929, 29.107.108. <a href="https://www.metmuseum.org/art/collection/search/360188">The Metropolitan Museum of Art</a> &middot; public domain.</p>
+        </article>
+      </li>
+      <li data-card="goya-sleep-of-reason">
+        <article class="orc-card" id="card-goya-sleep-of-reason">
+          <img class="orc-face" src="oracle/goya-sleep-of-reason.jpg" alt="A man slumped asleep across his writing desk while owls and bats boil up out of the dark behind him; a lynx lies awake at his feet, watching." width="500" height="625" loading="lazy" decoding="async">
+          <h3 class="orc-name">The Sleep</h3>
+          <p class="orc-ask">What did you decide while you were exhausted?</p>
+          <p class="orc-note">The lettering on the desk says the sleep of reason produces monsters. The lynx is the detail nobody mentions: something in the picture is still awake.</p>
+          <p class="orc-plate">Goya (Francisco de Goya y Lucientes) <span class="sr">(Spanish, Fuendetodos 1746–1828 Bordeaux)</span>, <b>Plate 43 from "Los Caprichos": The sleep of reason produces monsters (El sueño de la razon produce monstruos)</b>, 1799. Etching, aquatint. Gift of M. Knoedler &amp; Co., 1918, 18.64(43). <a href="https://www.metmuseum.org/art/collection/search/338473">The Metropolitan Museum of Art</a> &middot; public domain.</p>
+        </article>
+      </li>
+      <li data-card="goya-bogey">
+        <article class="orc-card" id="card-goya-bogey">
+          <img class="orc-face" src="oracle/goya-bogey.jpg" alt="A mother holds her two children while a tall shrouded figure looms over them; one child hides its face, the other stares straight at the shape." width="500" height="625" loading="lazy" decoding="async">
+          <h3 class="orc-name">The Bogey</h3>
+          <p class="orc-ask">Who taught you to be frightened of that?</p>
+          <p class="orc-note">Goya's own note on this plate is contemptuous of the parent, not the ghost: a child taught to fear a thing that is not there grows into an adult who can be frightened by anybody holding a sheet.</p>
+          <p class="orc-plate">Goya (Francisco de Goya y Lucientes) <span class="sr">(Spanish, Fuendetodos 1746–1828 Bordeaux)</span>, <b>Plate 3 from "Los Caprichos": Here comes the bogey-man (Que viene el Coco)</b>, 1799. Etching, burnished aquatint. Gift of M. Knoedler &amp; Co., 1918, 18.64(3). <a href="https://www.metmuseum.org/art/collection/search/360412">The Metropolitan Museum of Art</a> &middot; public domain.</p>
+        </article>
+      </li>
+      <li data-card="redon-armor">
+        <article class="orc-card" id="card-redon-armor">
+          <img class="orc-face" src="oracle/redon-armor.jpg" alt="A profile in deep charcoal — a head in a plumed helmet, the face barely emerging from the black, everything soft and nothing sharp." width="500" height="625" loading="lazy" decoding="async">
+          <h3 class="orc-name">The Armour</h3>
+          <p class="orc-ask">What are you still wearing indoors?</p>
+          <p class="orc-note">It is drawn in charcoal, which means the armour is made of dust. Redon spent twenty years on what he called his blacks before he allowed himself any colour at all.</p>
+          <p class="orc-plate">Odilon Redon <span class="sr">(French, Bordeaux 1840–1916 Paris)</span>, <b>Armor</b>, 1891. Charcoal and conté crayon. Harris Brisbane Dick Fund, 1948, 48.10.1. <a href="https://www.metmuseum.org/art/collection/search/339671">The Metropolitan Museum of Art</a> &middot; public domain.</p>
+        </article>
+      </li>
+      <li data-card="redon-veil">
+        <article class="orc-card" id="card-redon-veil">
+          <img class="orc-face" src="oracle/redon-veil.jpg" alt="A lithograph in which a pale veiled shape stands against a dark, grainy ground; the figure is legible and the face is not." width="500" height="625" loading="lazy" decoding="async">
+          <h3 class="orc-name">The Veil</h3>
+          <p class="orc-ask">What are you not saying out loud yet?</p>
+          <p class="orc-note">Something is there and it is not resolving. Redon's whole argument was that a picture is allowed to do that, and refused to explain any of them.</p>
+          <p class="orc-plate">Odilon Redon <span class="sr">(French, Bordeaux 1840–1916 Paris)</span>, <b>A Veil, a Printed Image</b>, 1891. Lithograph. Rogers Fund, 1920, 20.30.1. <a href="https://www.metmuseum.org/art/collection/search/369636">The Metropolitan Museum of Art</a> &middot; public domain.</p>
+        </article>
+      </li>
+      <li data-card="bresdin-samaritan">
+        <article class="orc-card" id="card-bresdin-samaritan">
+          <img class="orc-face" src="oracle/bresdin-samaritan.jpg" alt="A dense etched forest crowded with leaves, branches, birds and animals, and somewhere in the middle of it two figures and a horse, nearly lost in the detail." width="500" height="625" loading="lazy" decoding="async">
+          <h3 class="orc-name">The Thicket</h3>
+          <p class="orc-ask">Who stopped for you?</p>
+          <p class="orc-note">The parable is in there. So is everything else — Bresdin filled the whole plate with undergrowth until the act of kindness became something you have to look for, which is a fair description of how it usually works.</p>
+          <p class="orc-plate">Rodolphe Bresdin <span class="sr">(French, Montrelais 1822–1885 Sèvres)</span>, <b>The Good Samaritan</b>, 1861. Lithograph; early impression of first state (Van Gelder). Rogers Fund and the Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1979, 1979.573. <a href="https://www.metmuseum.org/art/collection/search/391670">The Metropolitan Museum of Art</a> &middot; public domain.</p>
+        </article>
+      </li>
+    </ul>
+  <!-- oracle-deck:end -->
+  </section>
+
+  <section>
+    <h2>Where the pictures came from</h2>
+    <p class="orc-foot" style="margin-top:0;border:0;padding:0;">Every plate is a public domain work in the <a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access">Metropolitan Museum of Art&rsquo;s Open Access collection</a>, which releases images of public domain works under CC0. One collection rather than thirteen scrapbook sources, because that is what lets this page make a single rights statement somebody could actually check &mdash; and the build refuses a plate whose object page is anywhere else. CC0 asks for nothing; Dürer, Mellan, Piranesi, Meryon, Goya, Redon and Bresdin are named on every card anyway, which is this street&rsquo;s habit and not their requirement. The card names, the questions and the notes are ours. It is all collected in the <a href="liner-notes.html">liner notes</a>.</p>
+  </section>
+
+  <section style="max-width:420px;">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. There is no ambient layer in this room at any setting: thirteen rectangles on a plain ground do not need one, and a deck that moved while you were reading it would be a different and much worse object.</p>
+    </div>
+  </section>
+
+</main>
+
+<script src="love.js" defer></script>
+<script src="oracle.js" defer></script>
+</body>
+</html>

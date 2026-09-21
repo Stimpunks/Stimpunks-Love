@@ -1,0 +1,256 @@
+{
+ "_what": "The Mopery's oracle deck: an old engraving on the front of each card and a question on the back.",
+ "_refusal": "THIS DECK DOES NOT TELL FORTUNES AND make-oracle.py REFUSES A CARD THAT TRIES. Every card carries a question and no card carries a prediction: there are no reversals, no yes, no no, no outcome, nothing about what will happen to the person holding it. A deck on a Disabled people's site that told somebody how their life was going to go would be doing the thing our own pages spend their time refusing, in a room dark enough to get away with it. Ask, never answer. The tool checks that the reading ends in a question mark and that no card's text uses the language of prediction.",
+ "_art": "THIRTEEN ENGRAVINGS, 1514 TO 1891, ALL OF THEM PUBLIC DOMAIN AND ALL OF THEM FROM ONE PLACE. Every plate is in the Metropolitan Museum of Art's Open Access collection, which releases images of public-domain works under CC0. Each object was fetched from the Museum's own API on 2026-09-21 and isPublicDomain came back true for all thirteen; the title, artist, date, medium, accession number and credit line below are the Museum's own fields rather than anything typed here, and each card links to its object page. One source rather than a scrapbook, because a deck assembled out of thirteen different rights statements is a deck nobody can check.",
+ "_cc0": "CC0 IS NOT THE SAME AS OURS, and the difference is why the credits are on the cards rather than in a footer. CC0 means the Museum asks for nothing; naming Durer, Mellan, Piranesi, Meryon, Goya, Redon and Bresdin is this site's habit and not their requirement. The site's own CC BY-SA licence covers the questions, the names and the notes, which are written here; it does not extend to the plates, which are nobody's.",
+ "_names": "The name on each card, the question and the note under it are ours. The alt text describes the engraving and not the card.",
+ "cards": [
+  {
+   "slug": "melencolia",
+   "name": "The Melancholy",
+   "question": "What have you been calling laziness?",
+   "image": "oracle/melencolia.jpg",
+   "alt": "A winged figure sits among scattered tools — compasses, a plane, a saw, a balance, a sandglass, a bell — with her chin on her fist, looking past all of it. A ladder goes up the wall behind her. Nothing in the picture is being used.",
+   "note": "She is surrounded by every instrument she knows how to use and she is not using any of them. Five centuries before anybody wrote the word, this is a picture of a person who has run out.",
+   "plate": {
+    "title": "Melencolia I",
+    "artist": "Albrecht Dürer",
+    "artist_bio": "German, Nuremberg 1471–1528 Nuremberg",
+    "date": "1514",
+    "medium": "Engraving",
+    "credit": "Harris Brisbane Dick Fund, 1943",
+    "accession": "43.106.1",
+    "object_id": 336228,
+    "url": "https://www.metmuseum.org/art/collection/search/336228"
+   }
+  },
+  {
+   "slug": "moon-full",
+   "name": "The Full Moon",
+   "question": "What is lit whether or not you are ready to look at it?",
+   "image": "oracle/moon-full.jpg",
+   "alt": "The full moon, engraved so finely that the craters read as pitted skin. The whole disc is lit and the edge is ragged with shadow.",
+   "note": "Mellan cut the whole face in a single spiralling line that starts at the nose and never lifts. It is the most technically insane thing in this deck and it is a picture of something everybody has already seen.",
+   "plate": {
+    "title": "Full Moon",
+    "artist": "Claude Mellan",
+    "artist_bio": "French, Abbeville 1598–1688 Paris",
+    "date": "1635",
+    "medium": "Engraving; first state of two (BN)",
+    "credit": "The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1960",
+    "accession": "60.634.36",
+    "object_id": 393543,
+    "url": "https://www.metmuseum.org/art/collection/search/393543"
+   }
+  },
+  {
+   "slug": "moon-waxing",
+   "name": "The Waxing Moon",
+   "question": "What is coming back that you had written off?",
+   "image": "oracle/moon-waxing.jpg",
+   "alt": "The moon at first quarter, lit down one side, the terminator running ragged from top to bottom and the dark half completely gone.",
+   "note": "Half of it is missing and half of it is arriving. Both of those are true of the same object on the same night.",
+   "plate": {
+    "title": "The Moon in its First Quarter",
+    "artist": "Claude Mellan",
+    "artist_bio": "French, Abbeville 1598–1688 Paris",
+    "date": "1635",
+    "medium": "Engraving; first state of two (BN)",
+    "credit": "The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1960",
+    "accession": "60.634.38",
+    "object_id": 393278,
+    "url": "https://www.metmuseum.org/art/collection/search/393278"
+   }
+  },
+  {
+   "slug": "moon-waning",
+   "name": "The Waning Moon",
+   "question": "What are you allowed to have less of?",
+   "image": "oracle/moon-waning.jpg",
+   "alt": "The moon at last quarter, lit down the other side, the unlit half absent rather than shaded.",
+   "note": "Waning is not failing. It is the same body doing the other half of the only thing it does.",
+   "plate": {
+    "title": "The Moon in its Final Quarter",
+    "artist": "Claude Mellan",
+    "artist_bio": "French, Abbeville 1598–1688 Paris",
+    "date": "1635",
+    "medium": "Engraving; first state of two",
+    "credit": "The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1960",
+    "accession": "60.634.37",
+    "object_id": 359769,
+    "url": "https://www.metmuseum.org/art/collection/search/359769"
+   }
+  },
+  {
+   "slug": "carceri-title",
+   "name": "The Threshold",
+   "question": "What have you not opened yet?",
+   "image": "oracle/carceri-title.jpg",
+   "alt": "The title plate of a set of imaginary prisons: a vast vaulted hall in etched line, with a scrolled cartouche hanging in the middle of it and stairs disappearing at every edge.",
+   "note": "A title page is a door with writing on it. Piranesi's opens onto a set of prisons that do not exist, never connect to each other, and were etched by a man who described himself on it as an architect.",
+   "plate": {
+    "title": "Title Page, from \"Carceri d'invenzione\" (Imaginary Prisons)",
+    "artist": "Giovanni Battista Piranesi",
+    "artist_bio": "Italian, Mogliano Veneto 1720–1778 Rome",
+    "date": "ca. 1749–50",
+    "medium": "Etching, engraving, sulphur tint or open bite; first state of nine (Robison)",
+    "credit": "Harris Brisbane Dick Fund, 1937",
+    "accession": "37.45.3(21)",
+    "object_id": 362797,
+    "url": "https://www.metmuseum.org/art/collection/search/362797"
+   }
+  },
+  {
+   "slug": "carceri-round-tower",
+   "name": "The Tower",
+   "question": "Who told you the only way out was up?",
+   "image": "oracle/carceri-round-tower.jpg",
+   "alt": "The inside of an enormous round tower, ringed with galleries and crossed by beams, staircases climbing out of shot in several directions at once.",
+   "note": "Every staircase in this picture leads somewhere, and no two of them agree about where. The architecture is not solvable and was never meant to be.",
+   "plate": {
+    "title": "The Round Tower, from \"Carceri d'invenzione\" (Imaginary Prisons)",
+    "artist": "Giovanni Battista Piranesi",
+    "artist_bio": "Italian, Mogliano Veneto 1720–1778 Rome",
+    "date": "ca. 1749–50",
+    "medium": "Etching, engraving, sulphur tint or open bite, burnishing; first state of four (Robison)",
+    "credit": "Harris Brisbane Dick Fund, 1937",
+    "accession": "37.45.3(27)",
+    "object_id": 337725,
+    "url": "https://www.metmuseum.org/art/collection/search/337725"
+   }
+  },
+  {
+   "slug": "carceri-pier-lamp",
+   "name": "The Lamp",
+   "question": "Who is keeping a light on for you?",
+   "image": "oracle/carceri-pier-lamp.jpg",
+   "alt": "A colossal stone pier under a vault, with a small hanging lamp on a bracket about a third of the way up and tiny figures on the walkways below it.",
+   "note": "One lamp, in a building the size of a weather system, put there by somebody. It does not light the room. It was not going to.",
+   "plate": {
+    "title": "The Pier with a Lamp, from \"Carceri d'invenzione\" (Imaginary Prisons)",
+    "artist": "Giovanni Battista Piranesi",
+    "artist_bio": "Italian, Mogliano Veneto 1720–1778 Rome",
+    "date": "ca. 1749–50",
+    "medium": "Etching, engraving, sulphur tint or open bite, burnishing; first state of seven (Robison)",
+    "credit": "Harris Brisbane Dick Fund, 1937",
+    "accession": "37.45.3(29)",
+    "object_id": 362463,
+    "url": "https://www.metmuseum.org/art/collection/search/362463"
+   }
+  },
+  {
+   "slug": "meryon-vampire",
+   "name": "The Watcher",
+   "question": "What have you looked at so long that it has started looking back?",
+   "image": "oracle/meryon-vampire.jpg",
+   "alt": "A horned stone gargoyle leaning on its hands at a parapet high over Paris, chin on its knuckles, looking out across the rooftops and a tower with birds around it.",
+   "note": "Meryon called this one The Vampire. It has been up there since the restoration, resting its chin on its hands and watching the city get on with it, and it is the closest thing this library has to a colleague.",
+   "plate": {
+    "title": "The Vampire",
+    "artist": "Charles Meryon",
+    "artist_bio": "French, 1821–1868",
+    "date": "1853",
+    "medium": "Etching in brown ink on green laid paper; fifth state of ten",
+    "credit": "H.O. Havemeyer Collection, Bequest of Mrs. H.O. Havemeyer, 1929",
+    "accession": "29.107.108",
+    "object_id": 360188,
+    "url": "https://www.metmuseum.org/art/collection/search/360188"
+   }
+  },
+  {
+   "slug": "goya-sleep-of-reason",
+   "name": "The Sleep",
+   "question": "What did you decide while you were exhausted?",
+   "image": "oracle/goya-sleep-of-reason.jpg",
+   "alt": "A man slumped asleep across his writing desk while owls and bats boil up out of the dark behind him; a lynx lies awake at his feet, watching.",
+   "note": "The lettering on the desk says the sleep of reason produces monsters. The lynx is the detail nobody mentions: something in the picture is still awake.",
+   "plate": {
+    "title": "Plate 43 from \"Los Caprichos\": The sleep of reason produces monsters (El sueño de la razon produce monstruos)",
+    "artist": "Goya (Francisco de Goya y Lucientes)",
+    "artist_bio": "Spanish, Fuendetodos 1746–1828 Bordeaux",
+    "date": "1799",
+    "medium": "Etching, aquatint",
+    "credit": "Gift of M. Knoedler & Co., 1918",
+    "accession": "18.64(43)",
+    "object_id": 338473,
+    "url": "https://www.metmuseum.org/art/collection/search/338473"
+   }
+  },
+  {
+   "slug": "goya-bogey",
+   "name": "The Bogey",
+   "question": "Who taught you to be frightened of that?",
+   "image": "oracle/goya-bogey.jpg",
+   "alt": "A mother holds her two children while a tall shrouded figure looms over them; one child hides its face, the other stares straight at the shape.",
+   "note": "Goya's own note on this plate is contemptuous of the parent, not the ghost: a child taught to fear a thing that is not there grows into an adult who can be frightened by anybody holding a sheet.",
+   "plate": {
+    "title": "Plate 3 from \"Los Caprichos\": Here comes the bogey-man (Que viene el Coco)",
+    "artist": "Goya (Francisco de Goya y Lucientes)",
+    "artist_bio": "Spanish, Fuendetodos 1746–1828 Bordeaux",
+    "date": "1799",
+    "medium": "Etching, burnished aquatint",
+    "credit": "Gift of M. Knoedler & Co., 1918",
+    "accession": "18.64(3)",
+    "object_id": 360412,
+    "url": "https://www.metmuseum.org/art/collection/search/360412"
+   }
+  },
+  {
+   "slug": "redon-armor",
+   "name": "The Armour",
+   "question": "What are you still wearing indoors?",
+   "image": "oracle/redon-armor.jpg",
+   "alt": "A profile in deep charcoal — a head in a plumed helmet, the face barely emerging from the black, everything soft and nothing sharp.",
+   "note": "It is drawn in charcoal, which means the armour is made of dust. Redon spent twenty years on what he called his blacks before he allowed himself any colour at all.",
+   "plate": {
+    "title": "Armor",
+    "artist": "Odilon Redon",
+    "artist_bio": "French, Bordeaux 1840–1916 Paris",
+    "date": "1891",
+    "medium": "Charcoal and conté crayon",
+    "credit": "Harris Brisbane Dick Fund, 1948",
+    "accession": "48.10.1",
+    "object_id": 339671,
+    "url": "https://www.metmuseum.org/art/collection/search/339671"
+   }
+  },
+  {
+   "slug": "redon-veil",
+   "name": "The Veil",
+   "question": "What are you not saying out loud yet?",
+   "image": "oracle/redon-veil.jpg",
+   "alt": "A lithograph in which a pale veiled shape stands against a dark, grainy ground; the figure is legible and the face is not.",
+   "note": "Something is there and it is not resolving. Redon's whole argument was that a picture is allowed to do that, and refused to explain any of them.",
+   "plate": {
+    "title": "A Veil, a Printed Image",
+    "artist": "Odilon Redon",
+    "artist_bio": "French, Bordeaux 1840–1916 Paris",
+    "date": "1891",
+    "medium": "Lithograph",
+    "credit": "Rogers Fund, 1920",
+    "accession": "20.30.1",
+    "object_id": 369636,
+    "url": "https://www.metmuseum.org/art/collection/search/369636"
+   }
+  },
+  {
+   "slug": "bresdin-samaritan",
+   "name": "The Thicket",
+   "question": "Who stopped for you?",
+   "image": "oracle/bresdin-samaritan.jpg",
+   "alt": "A dense etched forest crowded with leaves, branches, birds and animals, and somewhere in the middle of it two figures and a horse, nearly lost in the detail.",
+   "note": "The parable is in there. So is everything else — Bresdin filled the whole plate with undergrowth until the act of kindness became something you have to look for, which is a fair description of how it usually works.",
+   "plate": {
+    "title": "The Good Samaritan",
+    "artist": "Rodolphe Bresdin",
+    "artist_bio": "French, Montrelais 1822–1885 Sèvres",
+    "date": "1861",
+    "medium": "Lithograph; early impression of first state (Van Gelder)",
+    "credit": "Rogers Fund and the Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1979",
+    "accession": "1979.573",
+    "object_id": 391670,
+    "url": "https://www.metmuseum.org/art/collection/search/391670"
+   }
+  }
+ ]
+}

@@ -1,0 +1,873 @@
+{
+  "_what": "The Mopery: the shelves in its library, the versions of Paint It Black on the parlour screen, and the text of The Raven in its reading nook.",
+  "_shelves": "NINE NOVELS AND NOT ONE OF THEM IS CITED BY ANY OF OUR OTHER SITES, which is the opposite of the Solarpunk Hermitage's cave and is the whole difference between the two rooms. That shelf is made of books stimpunks.org already argues from, and make-hermitage.py refuses a title without the page that cites it. This is a SECOND-HAND BOOK SHOP inside a library: the stock is what the shop happens to have, the authors are the ones Ryan asked for, and the shelf card over each run of spines is ours. A room that could only stock what we had already footnoted would be a bibliography with a lamp in it.",
+  "_links": "EVERY BOOK HAS A WAY TO BORROW IT AND make-mopery.py REFUSES ONE WITHOUT — the same rule the Hermitage's shelf keeps, and kept here for the same reason: our own library page says knowledge is infrastructure and access to it is mutual aid, so a shop that can only tell you where to BUY is a shop with an argument painted on it. A shop link is optional.",
+  "_ids": "2026-09-21: every openlibrary work id below was resolved against Open Library's SEARCH API — title and author requested, and the record that came back carried the title and the author written here. None was assembled from a title, because data/hermitage.json records what happens when one is: an id written from memory in that file pointed at a different book, in the file whose own header forbids exactly that. Open Library's HTML pages and Bookshop's product pages both answer a script with a bot check rather than the page, so neither was fetched directly and NO PRODUCT ID WAS INVENTED to paper over it. The library and shop links are therefore searches carrying the title and author, which land a reader on the right book by a route that cannot silently point at the wrong one. The room says so out loud rather than hiding it behind a confident-looking link.",
+  "_years": "The year on each spine is Open Library's first_publish_year for the work linked here. Two of these authors self-published first and were picked up later, so that year is the year of the record we link and not a claim about which printing came first; where the two differ the note says so.",
+  "_notes": "Every note is ours, written for this room. Nothing is lifted from a blurb, a jacket, a review or the book itself. THERE ARE NO CONTENT NOTES AND THAT IS A DECISION, NOT AN OVERSIGHT — Ryan's call, 2026-09-21, asked directly, with the dark romance on this shelf named in the question. Do not add them back without asking him.",
+  "_screen": "The parlour's screen carries versions of one song, which is the shape of the Solarpunk Hermitage's campfire television and the reason that script's tuner is worth having twice: ONE SCREEN, a listing beside it, and tuning that stays silent until somebody presses play. Nothing reaches YouTube before the press.",
+  "_writers": "EVERY CUT NAMES MICK JAGGER AND KEITH RICHARDS AND make-mopery.py REFUSES ONE THAT DOES NOT. This is The Den's rule arriving in a room where it bites harder: of everything on that screen only the first is the writers' own band, and a wall of covers where the performer's name is the entire draw is precisely where crediting only the voice would pass unnoticed. Paint It, Black was written by Jagger and Richards and released on Aftermath in 1966.",
+  "_checked": "2026-09-21: every id was fetched on its own watch page — playabilityStatus, playableInEmbed and lengthSeconds — and the title and channel were resolved against YouTube's oEmbed rather than taken from the link text that arrived. All of them answered OK and all of them embed. Two things the link text got wrong and this file does not: the Julia Kim video is played on a VIOLA, not a cello, and its own description credits the song to 'Mick Jagger (1943)', which is his year of birth and not the year of the song.",
+  "_unofficial": "ONE OF THESE IS AN UNOFFICIAL UPLOAD AND SAYS SO ON ITS OWN FACE — the channel's own description begins 'Netflix Wednesday Soundtrack Music Video (Unofficial)'. It is here because Ryan asked for it and because the room would be lying by omission if it quietly dropped the one everybody means by 'the cello scene'. It is also, by some distance, the most likely of these to disappear, which is what check-jukebox.py is for.",
+  "_raven": "The poem in the reading nook. Text transcribed from Project Gutenberg's ebook #1065 on 2026-09-21 — eighteen stanzas of six lines, checked line by line against the manuscript facsimile the Library of Congress publishes. Poe died in 1849, so the poem is out of copyright everywhere.",
+  "_facsimile": "THE MANUSCRIPT IS A DOOR AND NOT A WINDOW, and this is the one thing in this room that did not turn out the way it was asked for. The Library of Congress publishes a facsimile of the Gimbel manuscript as a classroom PDF; its own first leaf reads 'Exhibited for the first time at Yale University Library in honor of the 150th birthday celebration of Edgar Allan Poe', 'COURTESY OF RICHARD GIMBEL', and, along the foot, 'REPRODUCTION PROHIBITED WITHOUT PERMISSION'. The poem is Poe's and long out of copyright; that 1949 printing of it is a separate thing with a notice on it, and loc.gov answers a script with a bot check rather than with its rights statement, so the notice is the only rights information anybody here has actually read. Copying it onto a CC BY-SA site would be relicensing somebody else's asset under a licence it may not carry — the Penguin Pebbling problem with a different deck. So the nook links out to the PDF at its own address and says what is in it, the way the Jungle Room's unembeddable cams and the Hermitage's unembeddable documentary do. If the rights record turns out to say no known restrictions, hosting it is a one-line change and this paragraph is where to record that it was checked.",
+  "shelves": [
+    {
+      "slug": "campus",
+      "card": "A campus, and something wrong with it",
+      "sub": "The ones where the institution is the monster and the weather is always October.",
+      "books": [
+        {
+          "title": "The Secret History",
+          "author": "Donna Tartt",
+          "year": "1992",
+          "spine": "oxblood",
+          "note": "Six students of Ancient Greek at a small Vermont college decide they are exempt, and the book tells you in its first page what they did. Everything after that is the long, beautifully furnished business of watching them find out that being clever is not the same as being protected. The founding text of the whole shelf: every other book here is answering it.",
+          "shelftalker": "Read it in the autumn or do not bother.",
+          "work": "OL4321141W"
+        },
+        {
+          "title": "Bunny",
+          "author": "Mona Awad",
+          "year": "2019",
+          "spine": "sugar",
+          "note": "A scholarship student at an MFA programme is finally invited in by the four rich girls who call each other Bunny, and the workshop turns out to be doing something to small animals that nobody will explain. Funny in the way a held smile is funny. It is on this shelf because it is the only book here that understands that the cruelty of a seminar room is mostly a matter of tone.",
+          "shelftalker": "Not a gentle book about friendship.",
+          "work": "OL20161633W"
+        },
+        {
+          "title": "The Atlas Six",
+          "author": "Olivie Blake",
+          "year": "2020",
+          "spine": "ink",
+          "note": "Six young magicians are recruited to a secret library, told that only five will be initiated, and left to work out the rest. The library is the point: knowledge hoarded by an institution that has decided who deserves it, which is a thing this organisation has opinions about. First self-published; the year on the spine is the one Open Library records for the edition linked here.",
+          "shelftalker": "The library is the villain.",
+          "work": "OL24339611W"
+        },
+        {
+          "title": "A Deadly Education",
+          "author": "Naomi Novik",
+          "year": "2020",
+          "spine": "graphite",
+          "note": "A school with no teachers, no exits and a great many things in the ventilation, where the curriculum is survival and the graduation ceremony is the hazard. El is furious for the whole book and right about nearly all of it. Here because it is the funniest description of an institution that will not adjust for anybody, and because it knows that going it alone is a strategy with a body count.",
+          "shelftalker": "Nobody gets out alone. That is the lesson.",
+          "work": "OL20881237W"
+        }
+      ]
+    },
+    {
+      "slug": "haunting",
+      "card": "The school IS the haunting",
+      "sub": "Where the building is not a setting. Both of these are romances and neither is a comfortable one.",
+      "books": [
+        {
+          "title": "Nocticadia",
+          "author": "Keri Lake",
+          "year": "2023",
+          "spine": "tar",
+          "note": "A medical student takes a place at a remote coastal university built out of an old asylum, and the sea, the cliffs and the faculty all want something. Gothic in the oldest sense — the architecture is doing the plot — and much darker than the campus shelf above it.",
+          "shelftalker": "The building has opinions.",
+          "work": "OL42842288W"
+        },
+        {
+          "title": "Gothikana",
+          "author": "RuNyx",
+          "year": "2023",
+          "spine": "wine",
+          "note": "A university in a castle in the mountains, a girl who has been told her whole life that she is fragile, and a professor with a history. The castle is the third character and gets the best scenes. Self-published before the edition linked here; the year is Open Library's for that record.",
+          "shelftalker": "Castle. Mountains. Bad idea.",
+          "work": "OL37622313W"
+        }
+      ]
+    },
+    {
+      "slug": "archive",
+      "card": "Something in the archive is awake",
+      "sub": "For the vampire librarian. Every one of these is about a person who goes looking in a catalogue and finds that the catalogue has been waiting.",
+      "books": [
+        {
+          "title": "A Discovery of Witches",
+          "author": "Deborah Harkness",
+          "year": "2011",
+          "spine": "vellum",
+          "note": "A historian of science calls up a manuscript in the Bodleian, notices it is alive, and sends it back — which is the most librarian thing anybody in this room does. Written by an actual historian of science, and it shows in the footnotes it does not print.",
+          "shelftalker": "Ashmole 782. Request it and see.",
+          "work": "OL15456729W"
+        },
+        {
+          "title": "The Historian",
+          "author": "Elizabeth Kostova",
+          "year": "2005",
+          "spine": "dust",
+          "note": "A blank book appears on a shelf, a supervisor vanishes, and three generations of scholars go after Dracula through reading rooms, archives and correspondence. Hundreds of pages of people carefully checking sources, and it is the most frightening book here for exactly that reason. The vampire in this library is a researcher.",
+          "shelftalker": "The scariest book ever written about footnotes.",
+          "work": "OL5856511W"
+        },
+        {
+          "title": "Dionysus in Wisconsin",
+          "author": "E. H. Lupton",
+          "year": "2023",
+          "spine": "moss",
+          "note": "Madison, 1971. A graduate student who has been raising things he should not, a man who works in a record shop, and a god who is extremely interested in both. Queer, regional, not set in an ivy-covered anything, and on this shelf because it is the one book here where the person doing the magic has a day job.",
+          "shelftalker": "The small-press one. Ask us about it.",
+          "work": "OL35870791W"
+        }
+      ]
+    }
+  ],
+  "cuts": [
+    {
+      "id": "O4irXQhgMqg",
+      "title": "The Rolling Stones",
+      "sub": "Official lyric video",
+      "writers": "Mick Jagger and Keith Richards",
+      "channel": "ABKCOVEVO",
+      "length": "3:46",
+      "spoken": "three minutes forty-six",
+      "note": "The record. Cut in 1966 and put out on Aftermath, with Brian Jones playing the sitar line that everybody else on this screen has to find a way around. ABKCO holds the catalogue, so this is the one entry here on its rights holder's own channel.",
+      "how": "screen"
+    },
+    {
+      "id": "S523q5PCX6Q",
+      "title": "Wednesday Addams",
+      "sub": "The cello scene, from the Netflix series",
+      "writers": "Mick Jagger and Keith Richards",
+      "channel": "The Wizard",
+      "length": "4:43",
+      "spoken": "four minutes forty-three",
+      "note": "The arrangement from the first episode of Wednesday, scored by Danny Elfman and Chris Bacon, which is the reason every other version below this one exists. AN UNOFFICIAL UPLOAD, and the channel says so itself in the first line of its own description. Here because it is the recording everybody means, and named for what it is rather than dressed up as an official release.",
+      "how": "screen"
+    },
+    {
+      "id": "NRqZFnn6Cks",
+      "title": "The Cello Doll",
+      "sub": "Solo cello, in costume",
+      "writers": "Mick Jagger and Keith Richards",
+      "channel": "The Cello Doll",
+      "length": "2:59",
+      "spoken": "two minutes fifty-nine",
+      "note": "One player, one cello, and the Elfman and Bacon arrangement taken apart and put back together by somebody who wanted to see what it could do. Her own description credits the show's composers before she credits herself, which is more than most covers manage.",
+      "how": "screen"
+    },
+    {
+      "id": "6BHLDYSOLXI",
+      "title": "Brooklyn Duo",
+      "sub": "Cello cover",
+      "writers": "Mick Jagger and Keith Richards",
+      "channel": "Brooklyn Duo",
+      "length": "2:09",
+      "spoken": "two minutes nine",
+      "note": "The shortest thing on this screen and the plainest. No costume, no set, no candles: two minutes of a cello and a piano finding out that the tune holds up without any of it.",
+      "how": "screen"
+    },
+    {
+      "id": "OUbktXzOuYU",
+      "title": "Julia Kim",
+      "sub": "Viola, arranged by the player",
+      "writers": "Mick Jagger and Keith Richards",
+      "channel": "Julia Kim Viola 줄리아킴 비올라",
+      "length": "2:22",
+      "spoken": "two minutes twenty-two",
+      "note": "A VIOLA, not a cello, whatever the title says — the channel is a violist's and the arrangement is hers. She notes that she took it for an exercise in string crossings before she noticed what it was, which is the single most string-player sentence on this page. She gives the sheet music away.",
+      "how": "screen"
+    },
+    {
+      "id": "Cb4B1HKqrAk",
+      "title": "Amadeus",
+      "sub": "Two violins, cello and piano",
+      "writers": "Mick Jagger and Keith Richards",
+      "channel": "Amadeus - The Electric Piano Strings Quartet",
+      "length": "4:38",
+      "spoken": "four minutes thirty-eight",
+      "note": "A quartet — Andreea Runceanu and Bianca Gavrilescu on violins, Patricia Cimpoiașu on cello, Laura Lazarescu on piano — filmed at the Ghergani estate in Romania, in an arrangement by Xenti Runceanu. The most furniture of any version here, and the only one shot in a house that looks like this room.",
+      "how": "screen"
+    },
+    {
+      "id": "E7jj2kmUpss",
+      "title": "Prime Orchestra",
+      "sub": "A Wednesday medley, not only this song",
+      "writers": "Mick Jagger and Keith Richards",
+      "channel": "PRIME ORCHESTRA",
+      "length": "7:32",
+      "spoken": "seven and a half minutes",
+      "note": "A full orchestra playing through the series' music live, and the tune arrives inside something larger rather than on its own. Labelled here as a medley because it is one: its own title says so, and a screen promising a cover and delivering a suite would be the same broken promise as a runtime nobody printed.",
+      "how": "screen"
+    },
+    {
+      "id": "IlWf-bDvyb4",
+      "title": "Imperial Orchestra",
+      "sub": "A Wednesday number from a cinema-medley show",
+      "writers": "Mick Jagger and Keith Richards",
+      "channel": "Imperial Orchestra",
+      "length": "6:43",
+      "spoken": "six minutes forty-three",
+      "note": "The biggest version on the screen by a distance — a stage orchestra with a chorus, filmed as part of a touring cinema-music show. Like the one above it this is a Wednesday number rather than a cover of the single, and it is the last thing in the running order because after it there is nowhere louder to go.",
+      "how": "screen"
+    }
+  ],
+  "raven": {
+    "title": "The Raven",
+    "author": "Edgar Allan Poe",
+    "first_published": "the Evening Mirror, New York, 29 January 1845",
+    "text_source": "Project Gutenberg ebook #1065, transcribed 2026-09-21",
+    "text_url": "https://www.gutenberg.org/ebooks/1065",
+    "facsimile": "https://www.loc.gov/static/classroom-materials/american-authors-in-the-nineteenth-century-whitman-dickinson-longfellow-stowe-and-poe/documents/raven.pdf",
+    "stanzas": [
+      [
+        {
+          "t": "Once upon a midnight dreary, while I pondered, weak and weary,",
+          "in": false
+        },
+        {
+          "t": "Over many a quaint and curious volume of forgotten lore—",
+          "in": false
+        },
+        {
+          "t": "While I nodded, nearly napping, suddenly there came a tapping,",
+          "in": false
+        },
+        {
+          "t": "As of some one gently rapping, rapping at my chamber door.",
+          "in": false
+        },
+        {
+          "t": "“’Tis some visiter,” I muttered, “tapping at my chamber door—",
+          "in": false
+        },
+        {
+          "t": "Only this and nothing more.”",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "Ah, distinctly I remember it was in the bleak December,",
+          "in": false
+        },
+        {
+          "t": "And each separate dying ember wrought its ghost upon the floor.",
+          "in": false
+        },
+        {
+          "t": "Eagerly I wished the morrow;—vainly I had sought to borrow",
+          "in": false
+        },
+        {
+          "t": "From my books surcease of sorrow—sorrow for the lost Lenore—",
+          "in": false
+        },
+        {
+          "t": "For the rare and radiant maiden whom the angels name Lenore—",
+          "in": false
+        },
+        {
+          "t": "Nameless here for evermore.",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "And the silken sad uncertain rustling of each purple curtain",
+          "in": false
+        },
+        {
+          "t": "Thrilled me—filled me with fantastic terrors never felt before;",
+          "in": false
+        },
+        {
+          "t": "So that now, to still the beating of my heart, I stood repeating",
+          "in": false
+        },
+        {
+          "t": "“’Tis some visiter entreating entrance at my chamber door—",
+          "in": false
+        },
+        {
+          "t": "Some late visiter entreating entrance at my chamber door;",
+          "in": false
+        },
+        {
+          "t": "This it is and nothing more.”",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "Presently my soul grew stronger; hesitating then no longer,",
+          "in": false
+        },
+        {
+          "t": "“Sir,” said I, “or Madam, truly your forgiveness I implore;",
+          "in": false
+        },
+        {
+          "t": "But the fact is I was napping, and so gently you came rapping,",
+          "in": false
+        },
+        {
+          "t": "And so faintly you came tapping, tapping at my chamber door,",
+          "in": false
+        },
+        {
+          "t": "That I scarce was sure I heard you”—here I opened wide the door—",
+          "in": false
+        },
+        {
+          "t": "Darkness there and nothing more.",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "Deep into that darkness peering, long I stood there wondering, fearing,",
+          "in": false
+        },
+        {
+          "t": "Doubting, dreaming dreams no mortals ever dared to dream before;",
+          "in": false
+        },
+        {
+          "t": "But the silence was unbroken, and the stillness gave no token,",
+          "in": false
+        },
+        {
+          "t": "And the only word there spoken was the whispered word, “Lenore?”",
+          "in": false
+        },
+        {
+          "t": "This I whispered, and an echo murmured back the word, “Lenore!”—",
+          "in": false
+        },
+        {
+          "t": "Merely this and nothing more.",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "Back into the chamber turning, all my soul within me burning,",
+          "in": false
+        },
+        {
+          "t": "Soon again I heard a tapping something louder than before.",
+          "in": false
+        },
+        {
+          "t": "“Surely,” said I, “surely that is something at my window lattice;",
+          "in": false
+        },
+        {
+          "t": "Let me see, then, what thereat is and this mystery explore—",
+          "in": false
+        },
+        {
+          "t": "Let my heart be still a moment and this mystery explore;—",
+          "in": false
+        },
+        {
+          "t": "’Tis the wind and nothing more.”",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "Open here I flung the shutter, when, with many a flirt and flutter,",
+          "in": false
+        },
+        {
+          "t": "In there stepped a stately Raven of the saintly days of yore.",
+          "in": false
+        },
+        {
+          "t": "Not the least obeisance made he; not a minute stopped or stayed he,",
+          "in": false
+        },
+        {
+          "t": "But, with mien of lord or lady, perched above my chamber door—",
+          "in": false
+        },
+        {
+          "t": "Perched upon a bust of Pallas just above my chamber door—",
+          "in": false
+        },
+        {
+          "t": "Perched, and sat, and nothing more.",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "Then the ebony bird beguiling my sad fancy into smiling,",
+          "in": false
+        },
+        {
+          "t": "By the grave and stern decorum of the countenance it wore,",
+          "in": false
+        },
+        {
+          "t": "“Though thy crest be shorn and shaven, thou,” I said, “art sure no craven,",
+          "in": false
+        },
+        {
+          "t": "Ghastly grim and ancient Raven wandering from the Nightly shore—",
+          "in": false
+        },
+        {
+          "t": "Tell me what thy lordly name is on the Night’s Plutonian shore!”",
+          "in": false
+        },
+        {
+          "t": "Quoth the Raven, “Nevermore.”",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "Much I marvelled this ungainly fowl to hear discourse so plainly,",
+          "in": false
+        },
+        {
+          "t": "Though its answer little meaning—little relevancy bore;",
+          "in": false
+        },
+        {
+          "t": "For we cannot help agreeing that no living human being",
+          "in": false
+        },
+        {
+          "t": "Ever yet was blessed with seeing bird above his chamber door—",
+          "in": false
+        },
+        {
+          "t": "Bird or beast upon the sculptured bust above his chamber door,",
+          "in": false
+        },
+        {
+          "t": "With such name as “Nevermore.”",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "But the Raven, sitting lonely on that placid bust, spoke only",
+          "in": false
+        },
+        {
+          "t": "That one word, as if its soul in that one word he did outpour",
+          "in": false
+        },
+        {
+          "t": "Nothing farther then he uttered; not a feather then he fluttered—",
+          "in": false
+        },
+        {
+          "t": "Till I scarcely more than muttered: “Other friends have flown before—",
+          "in": false
+        },
+        {
+          "t": "On the morrow _he_ will leave me, as my Hopes have flown before.”",
+          "in": false
+        },
+        {
+          "t": "Then the bird said “Nevermore.”",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "Startled at the stillness broken by reply so aptly spoken,",
+          "in": false
+        },
+        {
+          "t": "“Doubtless,” said I, “what it utters is its only stock and store,",
+          "in": false
+        },
+        {
+          "t": "Caught from some unhappy master whom unmerciful Disaster",
+          "in": false
+        },
+        {
+          "t": "Followed fast and followed faster till his songs one burden bore—",
+          "in": false
+        },
+        {
+          "t": "Till the dirges of his Hope that melancholy burden bore",
+          "in": false
+        },
+        {
+          "t": "Of ‘Never—nevermore.’”",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "But the Raven still beguiling all my sad soul into smiling,",
+          "in": false
+        },
+        {
+          "t": "Straight I wheeled a cushioned seat in front of bird and bust and door;",
+          "in": false
+        },
+        {
+          "t": "Then, upon the velvet sinking, I betook myself to linking",
+          "in": false
+        },
+        {
+          "t": "Fancy unto fancy, thinking what this ominous bird of yore—",
+          "in": false
+        },
+        {
+          "t": "What this grim, ungainly, ghastly, gaunt, and ominous bird of yore",
+          "in": false
+        },
+        {
+          "t": "Meant in croaking “Nevermore.”",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "This I sat engaged in guessing, but no syllable expressing",
+          "in": false
+        },
+        {
+          "t": "To the fowl whose fiery eyes now burned into my bosom’s core;",
+          "in": false
+        },
+        {
+          "t": "This and more I sat divining, with my head at ease reclining",
+          "in": false
+        },
+        {
+          "t": "On the cushion’s velvet lining that the lamp-light gloated o’er,",
+          "in": false
+        },
+        {
+          "t": "But whose velvet violet lining with the lamp-light gloating o’er",
+          "in": false
+        },
+        {
+          "t": "_She_ shall press, ah, nevermore!",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "Then, methought, the air grew denser, perfumed from an unseen censer",
+          "in": false
+        },
+        {
+          "t": "Swung by Seraphim whose foot-falls tinkled on the tufted floor.",
+          "in": false
+        },
+        {
+          "t": "“Wretch,” I cried, “thy God hath lent thee—by these angels he hath sent thee",
+          "in": false
+        },
+        {
+          "t": "Respite—respite and nepenthe from thy memories of Lenore!",
+          "in": false
+        },
+        {
+          "t": "Quaff, oh quaff this kind nepenthe and forget this lost Lenore!”",
+          "in": false
+        },
+        {
+          "t": "Quoth the Raven, “Nevermore.”",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "“Prophet!” said I, “thing of evil!—prophet still, if bird or devil!—",
+          "in": false
+        },
+        {
+          "t": "Whether Tempter sent, or whether tempest tossed thee here ashore,",
+          "in": false
+        },
+        {
+          "t": "Desolate, yet all undaunted, on this desert land enchanted—",
+          "in": false
+        },
+        {
+          "t": "On this home by Horror haunted—tell me truly, I implore—",
+          "in": false
+        },
+        {
+          "t": "Is there—_is_ there balm in Gilead?—tell me—tell me, I implore!”",
+          "in": false
+        },
+        {
+          "t": "Quoth the Raven, “Nevermore.”",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "“Prophet!” said I, “thing of evil!—prophet still, if bird or devil!",
+          "in": false
+        },
+        {
+          "t": "By that Heaven that bends above us—by that God we both adore—",
+          "in": false
+        },
+        {
+          "t": "Tell this soul with sorrow laden if, within the distant Aidenn,",
+          "in": false
+        },
+        {
+          "t": "It shall clasp a sainted maiden whom the angels name Lenore—",
+          "in": false
+        },
+        {
+          "t": "Clasp a rare and radiant maiden whom the angels name Lenore.”",
+          "in": false
+        },
+        {
+          "t": "Quoth the Raven, “Nevermore.”",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "“Be that our sign of parting, bird or fiend!” I shrieked, upstarting—",
+          "in": false
+        },
+        {
+          "t": "“Get thee back into the tempest and the Night’s Plutonian shore!",
+          "in": false
+        },
+        {
+          "t": "Leave no black plume as a token of that lie thy soul has spoken!",
+          "in": false
+        },
+        {
+          "t": "Leave my loneliness unbroken!—quit the bust above my door!",
+          "in": false
+        },
+        {
+          "t": "Take thy beak from out my heart, and take thy form from off my door!”",
+          "in": false
+        },
+        {
+          "t": "Quoth the Raven, “Nevermore.”",
+          "in": true
+        }
+      ],
+      [
+        {
+          "t": "And the Raven, never flitting, still is sitting, still is sitting",
+          "in": false
+        },
+        {
+          "t": "On the pallid bust of Pallas just above my chamber door;",
+          "in": false
+        },
+        {
+          "t": "And his eyes have all the seeming of a demon’s that is dreaming",
+          "in": false
+        },
+        {
+          "t": "And the lamp-light o’er him streaming throws his shadows on the floor;",
+          "in": false
+        },
+        {
+          "t": "And my soul from out that shadow that lies floating on the floor",
+          "in": false
+        },
+        {
+          "t": "Shall be lifted—nevermore!",
+          "in": true
+        }
+      ]
+    ],
+    "dore": [
+      {
+        "file": "raven/dore-001.jpg",
+        "after": 0,
+        "caption": "",
+        "alt": "A heavy curtain drawn back, with a long banner across the top of it lettered NEVERMORE. The raven flies in through the gap; a figure lies collapsed in the folds of the drapery at the foot of the picture."
+      },
+      {
+        "file": "raven/dore-002.jpg",
+        "after": 0,
+        "caption": "",
+        "alt": "An oval vignette: a winged figure flying through broken cloud towards a radiant disc lettered, in Greek, ANAGKH — necessity."
+      },
+      {
+        "file": "raven/dore-003.jpg",
+        "after": 1,
+        "caption": "“Once upon a midnight dreary, while I pondered, weak and weary, / Over many a quaint and curious volume of forgotten lore.”",
+        "alt": "A man slumped asleep across a table in a panelled room, his head on his arms. A shaded lamp and a guttering candle burn beside him and books have slid onto the floor."
+      },
+      {
+        "file": "raven/dore-004.jpg",
+        "after": 2,
+        "caption": "“Ah, distinctly I remember it was in the bleak December, / And each separate dying ember wrought its ghost upon the floor.”",
+        "alt": "A woman stands upright beside a fireplace in a dark room. In front of the fire, a hooded figure crouches on the hearth with its back to us."
+      },
+      {
+        "file": "raven/dore-005.jpg",
+        "after": 2,
+        "caption": "“Eagerly I wished the morrow;—vainly I had sought to borrow / From my books surcease of sorrow.”",
+        "alt": "A press of winged figures fills the picture around a reclining woman; among them a man clutches at his own face."
+      },
+      {
+        "file": "raven/dore-006.jpg",
+        "after": 2,
+        "caption": "“Sorrow for the lost Lenore.”",
+        "alt": "A narrow shaft of stone walls open to a bright sky. A pale winged figure stands at the bottom of it with head bowed, and a bird drops down the shaft towards her."
+      },
+      {
+        "file": "raven/dore-007.jpg",
+        "after": 2,
+        "caption": "“For the rare and radiant maiden whom the angels name Lenore— / Nameless here for evermore.”",
+        "alt": "Two winged figures carried through cloud high above a sea, one dark and one pale, tangled together."
+      },
+      {
+        "file": "raven/dore-008.jpg",
+        "after": 3,
+        "caption": "“’T is some visiter entreating entrance at my chamber door— / Some late visiter entreating entrance at my chamber door.”",
+        "alt": "A tall pair of panelled double doors, closed, with a single bright line of light showing between them."
+      },
+      {
+        "file": "raven/dore-009.jpg",
+        "after": 4,
+        "caption": "“Here I opened wide the door;— / Darkness there, and nothing more.”",
+        "alt": "A man in a dressing gown stands in an open doorway at the head of a staircase, both arms out against the frame, with light behind him and the stairs falling away in front."
+      },
+      {
+        "file": "raven/dore-010.jpg",
+        "after": 5,
+        "caption": "“Doubting, dreaming dreams no mortal ever dared to dream before.”",
+        "alt": "A shrouded figure kneels on the curve of an enormous sphere in a starry sky, and a small bird flies below it."
+      },
+      {
+        "file": "raven/dore-011.jpg",
+        "after": 6,
+        "caption": "“‘Surely,’ said I, ‘surely that is something at my window lattice; / Let me see, then, what thereat is.’”",
+        "alt": "A dark stone wall with a latticed window in it, and across the whole wall the shadow of a bird with its wings spread."
+      },
+      {
+        "file": "raven/dore-012.jpg",
+        "after": 7,
+        "caption": "“Open here I flung the shutter.”",
+        "alt": "A man leans out of a shuttered window into a mass of foliage. In the masonry below him, faces are visible in the stone."
+      },
+      {
+        "file": "raven/dore-013.jpg",
+        "after": 7,
+        "caption": "“A stately Raven of the saintly days of yore. / Not the least obeisance made he.”",
+        "alt": "The raven flies in through a window past billowing curtains while a man twists away from it into the room."
+      },
+      {
+        "file": "raven/dore-014.jpg",
+        "after": 7,
+        "caption": "“Perched upon a bust of Pallas just above my chamber door— / Perched, and sat, and nothing more.”",
+        "alt": "The raven perched on a pale bust above a doorway, wings folded, with a great arched fanlight of glass behind it."
+      },
+      {
+        "file": "raven/dore-015.jpg",
+        "after": 8,
+        "caption": "“Wandering from the Nightly shore.”",
+        "alt": "A graveyard at night — leaning crosses, a low tomb, one lit doorway far off — with the raven flying low across the stones."
+      },
+      {
+        "file": "raven/dore-016.jpg",
+        "after": 10,
+        "caption": "“Till I scarcely more than muttered, ‘Other friends have flown before— / On the morrow he will leave me.’”",
+        "alt": "Spirits stream through a dim room towards a lit doorway with a candle in it, a man caught up among them."
+      },
+      {
+        "file": "raven/dore-017.jpg",
+        "after": 12,
+        "caption": "“Then, upon the velvet sinking, I betook myself to linking / Fancy unto fancy.”",
+        "alt": "A man sits at a table beside a great carved chimneypiece. On a low bier in front of him a body lies covered."
+      },
+      {
+        "file": "raven/dore-018.jpg",
+        "after": 13,
+        "caption": "“But whose velvet violet lining with the lamplight gloating o’er / She shall press, ah, nevermore!”",
+        "alt": "A man and a woman sit together in one deep armchair in a shadowed room hung with heavy fabric."
+      },
+      {
+        "file": "raven/dore-019.jpg",
+        "after": 14,
+        "caption": "“‘Wretch,’ I cried, ‘thy God hath lent thee—by these angels he hath sent thee / Respite—respite and nepenthe from thy memories of Lenore!’”",
+        "alt": "Winged figures crowd a room around a man sitting at a table, one of them swinging a censer. Above the door behind them, the raven."
+      },
+      {
+        "file": "raven/dore-020.jpg",
+        "after": 15,
+        "caption": "“On this home by Horror haunted.”",
+        "alt": "A man has fallen forward over the arm of a chair beside a carved chimneypiece; indistinct shapes gather in the dark above him."
+      },
+      {
+        "file": "raven/dore-021.jpg",
+        "after": 15,
+        "caption": "“Tell me truly, I implore— / Is there—is there balm in Gilead?—tell me—tell me, I implore!”",
+        "alt": "A robed figure stands on a plinth beside the bust and the door with one arm raised. A woman lies at the foot of it and a small armed figure stands over her."
+      },
+      {
+        "file": "raven/dore-022.jpg",
+        "after": 16,
+        "caption": "“Tell this soul with sorrow laden if, within the distant Aidenn, / It shall clasp a sainted maiden whom the angels name Lenore.”",
+        "alt": "A woman stands in a bright clearing among trees, with other figures around her and light breaking down through the branches."
+      },
+      {
+        "file": "raven/dore-023.jpg",
+        "after": 17,
+        "caption": "“‘Be that word our sign of parting, bird or fiend!’ I shrieked, upstarting.”",
+        "alt": "A man lurches towards the door through a hard shaft of daylight, one arm thrown up, furniture overturned behind him."
+      },
+      {
+        "file": "raven/dore-024.jpg",
+        "after": 17,
+        "caption": "“‘Get thee back into the tempest and the Night’s Plutonian shore!’”",
+        "alt": "A pale figure drifts above a dark sea under a clouded moon; on the cliff beyond, a house with its windows lit."
+      },
+      {
+        "file": "raven/dore-025.jpg",
+        "after": 18,
+        "caption": "“And my soul from out that shadow that lies floating on the floor / Shall be lifted—nevermore!”",
+        "alt": "The raven still on the bust above the door. Below it a man lies face down on the floor of the room, and the chair beside him is empty."
+      },
+      {
+        "file": "raven/dore-026.jpg",
+        "after": 19,
+        "caption": "",
+        "alt": "A circular vignette: a small figure clings to the flank of a stone sphinx on a cliff above the sea, with a bird high in the empty sky."
+      }
+    ],
+    "scan": {
+      "item": "https://archive.org/details/the-raven-1865",
+      "title": "The Raven",
+      "imprint": "Philadelphia: Tyndale, Mitchell & Co., 1865",
+      "illustrations": "with illustrations engraved on wood by Scattergood",
+      "holder": "Lehigh University",
+      "licence": "Public Domain Mark 1.0",
+      "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+      "leaves": [
+        {
+          "file": "raven/1865-cover.jpg",
+          "what": "The front cover",
+          "alt": "The worn paper cover of a small book, its title THE RAVEN drawn in tall flourished capitals with a bird worked into the letters, over a circular monogram and the imprint of Tyndale, Mitchell & Co. of Philadelphia. Along the bottom, in small capitals: with illustrations engraved on wood by Scattergood."
+        },
+        {
+          "file": "raven/1865-text.jpg",
+          "what": "Four stanzas, as they were set in 1865",
+          "alt": "A foxed page of an old book headed THE RAVEN, carrying four stanzas of the poem in a small serif type, each stanza ending with a short line set far to the right."
+        },
+        {
+          "file": "raven/1865-plate.jpg",
+          "what": "A wood engraving, and the stanzas under it",
+          "alt": "A book page with a circular wood engraving at the top: a man in a long coat stepping back from a shuttered window in a dark room, with a shaft of light falling across him. Two stanzas of the poem are printed underneath."
+        }
+      ]
+    }
+  },
+  "_how": "EVERY CUT IS MARKED screen OR link AND make-mopery.py REFUSES ANYTHING ELSE. All of them are screens today: each one answered playableInEmbed on 2026-09-21. The field exists anyway because PLAYING AND EMBEDDING ARE TWO DIFFERENT PERMISSIONS and an owner can switch the second off without touching the first — which is what the Jungle Room found out, and it renders as a frame that loads and shows a refusal where the picture should be. When check-jukebox.py reports one, change its how to link and give it a why_link; the room will put a door on the screen rather than a broken window, and the running order will still include it, because silently stepping over a cut would hide a fact about somebody else's permissions that this street states out loud everywhere else.",
+  "_dore": "GUSTAVE DORE'S PLATES FOR THE 1884 EDITION, all twenty-six, taken from Project Gutenberg's ebook #17192 on 2026-09-21. Dore died in 1883 and the edition was published in 1884, so the engravings are out of copyright everywhere. RYAN ASKED FOR THEM.\n\nTHEIR PLACING HERE IS OURS AND THE ROOM SAYS SO. That edition printed the poem straight through and then the plates after it, each with a caption quoting the lines it illustrates. Here each plate sits at the stanza its own caption quotes, which is a reading decision rather than a reproduction — so the room states it rather than letting a visitor assume they are looking at the 1884 book's own layout. The captions are printed verbatim.\n\nAND THE CAPTIONS DO NOT QUITE MATCH OUR TEXT, which is how we know they are somebody else's: matching them to stanzas by their opening words failed on exactly two, because the 1884 edition reads “’T is some visiter” where ours reads “’Tis”, and “Be that word our sign of parting” where ours reads “Be that our sign”. Those two were placed by hand and the difference is left visible rather than smoothed out. Two printings of one poem are not one text, which is the same fact data/doomscroll.json is built on.",
+  "_scan": "THE SCAN IS THE 1865 TYNDALE PRINTING AND RYAN FOUND IT. Digitised by Lehigh University and published by the Internet Archive under the PUBLIC DOMAIN MARK 1.0 — an explicit statement, which is exactly what the Library of Congress facsimile did not have. See _facsimile: that one carries a reproduction notice on its own first leaf and is still linked rather than copied. This one can be shown, so it is shown. Three leaves are published here and the whole book is linked at its own address."
+}

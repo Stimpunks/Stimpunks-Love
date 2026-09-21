@@ -366,5 +366,86 @@
    "bytes": 12312,
    "src": "https://fonts.gstatic.com/s/josefinsans/v34/Qw3PZQNVED7rKGKxtqIqX5E-AVSJrOCfjY46_ObXbMZhLybpUVzEEQ.woff2"
   }
+ ],
+ "im-fell-english": [
+  {
+   "file": "im-fell-english-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 59880,
+   "src": "https://fonts.gstatic.com/s/imfellenglish/v14/Ktk1ALSLW8zDe0rthJysWrnLsAzHEKOYd4xI5g.woff2",
+   "note": "The Mopery (\u00a722), and the face the Raven nook opens in. Igino Marini's digitisation of the types John Fell gave Oxford in the 1670s, ink spread and all \u2014 the one face here that looks IMPRESSED rather than drawn. Nothing else on this street is irregular like it: Cormorant Garamond is high-contrast and clean, Crimson Pro is a modern book serif."
+  },
+  {
+   "file": "im-fell-english-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 57808,
+   "src": "https://fonts.gstatic.com/s/imfellenglish/v14/Ktk3ALSLW8zDe0rthJysWrnLsAzHFZOafYtq5Mzh.woff2"
+  }
+ ],
+ "spectral": [
+  {
+   "file": "spectral-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 14028,
+   "src": "https://fonts.gstatic.com/s/spectral/v15/rnCr-xNNww_2s0amA9M5knjsS_ul.woff2",
+   "note": "The Mopery's reading face. A LOW-contrast screen serif, which is precisely what the Faery Yurt's Cormorant is not \u2014 the two warm-serif rooms stay apart at the stroke rather than at the palette. Not variable on Google, so 600 is a second file."
+  },
+  {
+   "file": "spectral-600.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 15164,
+   "src": "https://fonts.gstatic.com/s/spectral/v15/rnCs-xNNww_2s0amA9vmtm3BafaPWnII.woff2"
+  }
+ ],
+ "cinzel": [
+  {
+   "file": "cinzel-400.woff2",
+   "weight": "400 700",
+   "style": "normal",
+   "bytes": 25888,
+   "src": "https://fonts.gstatic.com/s/cinzel/v26/8vIJ7ww63mVu7gt79mT7PkRXMw.woff2",
+   "note": "The Oracle Deck (\u00a723). Inscriptional Roman capitals \u2014 letters cut into stone rather than written \u2014 and nothing else on this street is cut. Ships as a variable font, so Google serves ONE file for 400 and 700: stored once and declared twice against the weight axis, the same as Nunito, Cabin and Karla."
+  }
+ ],
+ "cardo": [
+  {
+   "file": "cardo-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 15476,
+   "src": "https://fonts.gstatic.com/s/cardo/v21/wlp_gwjKBV1pqhv43IE7225P.woff2",
+   "note": "The Oracle Deck's reading face. David Perry's classicist's type, drawn for people setting Greek and Old English beside Latin \u2014 a commentary face, which is what the back of every card in that deck is."
+  },
+  {
+   "file": "cardo-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 18956,
+   "src": "https://fonts.gstatic.com/s/cardo/v21/wlpxgwjKBV1pqhv97IMx3ExNYCg.woff2"
+  }
+ ],
+ "unifraktur-maguntia": [
+  {
+   "file": "unifraktur-maguntia-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 22372,
+   "src": "https://fonts.gstatic.com/s/unifrakturmaguntia/v22/WWXPlieVYwiGNomYU-ciRLRvEmK7oaVemGZMFABK1Q.woff2",
+   "note": "The Doomscroll (\u00a724), and DISPLAY ONLY \u2014 a masthead and the odd single word, never a line of the poems. Blackletter belongs on a doom broadside and not in the library two doors up, which is how the deliberately gothic room keeps the dark academia one from being cliche. Setting a poem in it would be an access failure dressed as atmosphere."
+  }
+ ],
+ "vollkorn": [
+  {
+   "file": "vollkorn-400.woff2",
+   "weight": "400 600",
+   "style": "normal",
+   "bytes": 46348,
+   "src": "https://fonts.gstatic.com/s/vollkorn/v30/0yb9GDoxxrvAnPhYGxkpaE0Urhg0.woff2",
+   "note": "The Doomscroll's reading face, and the whole poem is set in it. Friedrich Althausen drew Vollkorn for body text at small sizes on bad paper, which is what a broadside is. Variable, so one file serves 400 and 600."
+  }
  ]
 }

@@ -1,0 +1,592 @@
+{
+ "_what": "The Doomscroll's feed: public domain poems of doom and gloom, newest first by the date each was first published.",
+ "_order": "REVERSE CHRONOLOGICAL BY FIRST PUBLICATION, which is what makes it a feed rather than an anthology — and it means the date on each entry is load-bearing rather than decorative. make-doomscroll.py sorts on it rather than trusting the order in this file, so an entry cannot sit in the wrong place because somebody pasted it at the bottom.",
+ "_published_not_written": "THE DATE IS WHEN IT WENT PUBLIC, NOT WHEN IT WAS WRITTEN, and the two are decades apart for a third of this scroll. Hopkins sat in a friend's desk for twenty-nine years, Hardy's in a drawer for thirty-one, Dickinson's until four years after she died. A feed is a record of when the news broke, so that is what this is ordered on, and each entry says the other date where it is known.",
+ "_pd": "EVERY POEM HERE IS OUT OF COPYRIGHT EVERYWHERE, NOT ONLY IN THE UNITED STATES, and make-doomscroll.py refuses one that is not. The test is the author's death: more than seventy years ago, which clears life-plus-seventy and everything shorter. THIS COST THE SCROLL ITS BEST OPENER — T. S. Eliot's The Hollow Men (1925) would have sat at the top and is public domain in the US, but Eliot died in 1965 and the poem is still in copyright across most of Europe. A site that serves everybody cannot publish a whole poem on a United States technicality and call it public domain.",
+ "_texts": "Every text was transcribed from Wikisource on 2026-09-21 and each entry names the printing it came from, because these poems exist in several and they differ. THE DARKLING THRUSH WAS DROPPED FOR EXACTLY THAT REASON: Wikisource's page for it names no printing and carries its own banner saying the source document is not known, so there was no provenance to print beside it. A poem whose text nobody can trace is the one thing a scroll arguing from dates cannot carry.",
+ "_headlines": "The headline and the line under it are OURS, written for this room, and are a joke about feeds rather than a summary of the poem. The poems are entire — nothing here is excerpted, because a feed that hands you the worst line of something is precisely the thing this room is a joke about.",
+ "poems": [
+  {
+   "slug": "second-coming",
+   "title": "The Second Coming",
+   "author": "W. B. Yeats",
+   "author_died": 1939,
+   "year": 1920,
+   "first_published": "The Dial, November 1920",
+   "text_source": "Michael Robartes and the Dancer (Cuala Press), transcribed from Wikisource's scan-backed text",
+   "text_url": "https://en.wikisource.org/wiki/Michael_Robartes_and_the_Dancer/The_Second_Coming",
+   "headline": "CENTRE CONFIRMED NOT HOLDING; FALCON UNREACHABLE",
+   "standfirst": "Twenty centuries of stony sleep end early. Authorities decline to say what is on its way to Bethlehem.",
+   "stanzas": [
+    [
+     "Turning and turning in the widening gyre",
+     "The falcon cannot hear the falconer;",
+     "Things fall apart; the centre cannot hold;",
+     "Mere anarchy is loosed upon the world,",
+     "The blood-dimmed tide is loosed, and everywhere",
+     "The ceremony of innocence is drowned;",
+     "The best lack all conviction, while the worst",
+     "Are full of passionate intensity."
+    ],
+    [
+     "Surely some revelation is at hand;",
+     "Surely the Second Coming is at hand.",
+     "The Second Coming! Hardly are those words out",
+     "When a vast image out of Spiritus Mundi",
+     "Troubles my sight: a waste of desert sand;",
+     "A shape with lion body and the head of a man,",
+     "A gaze blank and pitiless as the sun,",
+     "Is moving its slow thighs, while all about it",
+     "Wind shadows of the indignant desert birds.",
+     "The darkness drops again but now I know",
+     "That twenty centuries of stony sleep",
+     "Were vexed to nightmare by a rocking cradle,",
+     "And what rough beast, its hour come round at last,",
+     "Slouches towards Bethlehem to be born?"
+    ]
+   ]
+  },
+  {
+   "slug": "dulce",
+   "title": "Dulce et Decorum est",
+   "author": "Wilfred Owen",
+   "author_died": 1918,
+   "year": 1920,
+   "first_published": "Poems (1920), edited by Siegfried Sassoon and Edith Sitwell",
+   "text_source": "the first published edition, transcribed from Wikisource's scan-backed text",
+   "text_url": "https://en.wikisource.org/wiki/Poems_by_Wilfred_Owen/Dulce_et_Decorum_est",
+   "headline": "OFFICIAL LINE ON GLORY CONTRADICTED BY EVERYONE WHO WAS THERE",
+   "standfirst": "Filed from the front by a man who did not come home. Printed two years after he was killed, a week before the armistice.",
+   "stanzas": [
+    [
+     "Bent double, like old beggars under sacks,",
+     "Knock-kneed, coughing like hags, we cursed through sludge,",
+     "Till on the haunting flares we turned our backs",
+     "And towards our distant rest began to trudge.",
+     "Men marched asleep. Many had lost their boots",
+     "But limped on, blood-shod. All went lame; all blind;",
+     "Drunk with fatigue; deaf even to the hoots",
+     "Of gas-shells dropping softly behind."
+    ],
+    [
+     "Gas! GAS! Quick, boys!—An ecstasy of fumbling",
+     "Fitting the clumsy helmets just in time,",
+     "But someone still was yelling out and stumbling",
+     "And flound'ring like a man in fire or lime.—",
+     "Dim, through the misty panes and thick green light,",
+     "As under a green sea, I saw him drowning."
+    ],
+    [
+     "In all my dreams before my helpless sight",
+     "He plunges at me, guttering, choking, drowning."
+    ],
+    [
+     "If in some smothering dreams you too could pace",
+     "Behind the wagon that we flung him in,",
+     "And watch the white eyes writhing in his face,",
+     "His hanging face, like a devil's sick of sin,",
+     "If you could hear, at every jolt, the blood",
+     "Come gargling from the froth-corrupted lungs,",
+     "Bitter as the cud",
+     "Of vile, incurable sores on innocent tongues,—",
+     "My friend, you would not tell with such high zest",
+     "To children ardent for some desperate glory,",
+     "The old Lie: Dulce et decorum est",
+     "Pro patria mori."
+    ]
+   ]
+  },
+  {
+   "slug": "no-worst",
+   "title": "No worst, there is none",
+   "author": "Gerard Manley Hopkins",
+   "author_died": 1889,
+   "year": 1918,
+   "first_published": "Poems (1918), edited by Robert Bridges",
+   "text_source": "Bridges' first edition, transcribed from Wikisource's scan-backed text",
+   "text_url": "https://en.wikisource.org/wiki/Poems_of_Gerard_Manley_Hopkins/%22No_worst,_there_is_none._Pitched_past_pitch_of_grief%22",
+   "headline": "MIND FOUND TO CONTAIN CLIFFS; NO RAILING FITTED",
+   "standfirst": "The most exact description of despair anybody has managed, sat in a friend's desk for twenty-nine years before it was printed.",
+   "stanzas": [
+    [
+     "No worst, there is none. Pitched past pitch of grief,",
+     "More pangs will, schooled at forepangs, wilder wring.",
+     "Comforter, where, where is your comforting?",
+     "Mary, mother of us, where is your relief?",
+     "My cries heave, herds-long; huddle in a main, a chief",
+     "Woe, world-sorrow; on an age-old anvil wince and sing—",
+     "Then lull, then leave off. Fury had shrieked 'No ling-",
+     "ering! Let me be fell: force I must be brief'."
+    ],
+    [
+     "O the mind, mind has mountains; cliffs of fall",
+     "Frightful, sheer, no-man-fathomed. Hold them cheap",
+     "May who ne'er hung there. Nor does long our small",
+     "Durance deal with that steep or deep. Here! creep,",
+     "Wretch, under a comfort serves in a whirlwind: all",
+     "Life death does end and each day dies with sleep."
+    ]
+   ]
+  },
+  {
+   "slug": "neutral-tones",
+   "title": "Neutral Tones",
+   "author": "Thomas Hardy",
+   "author_died": 1928,
+   "year": 1898,
+   "first_published": "Wessex Poems and Other Verses (1898)",
+   "text_source": "the 1898 first collection, transcribed from Wikisource's scan-backed text",
+   "text_url": "https://en.wikisource.org/wiki/Wessex_Poems_and_Other_Verses/Neutral_Tones",
+   "headline": "SUN GOES WHITE OVER POND; NOTHING SALVAGEABLE",
+   "standfirst": "Dated 1867 under its own last line and left in a drawer for thirty-one years, which is its own kind of news.",
+   "stanzas": [
+    [
+     "We stood by a pond that winter day,",
+     "And the sun was white, as though chidden of God,",
+     "And a few leaves lay on the starving sod,",
+     "—They had fallen from an ash, and were gray."
+    ],
+    [
+     "Your eyes on me were as eyes that rove",
+     "Over tedious riddles solved years ago:",
+     "And some words played between us to and fro—",
+     "On which lost the more by our love."
+    ],
+    [
+     "The smile on your mouth was the deadest thing",
+     "Alive enough to have strength to die;",
+     "And a grin of bitterness swept thereby",
+     "Like an ominous bird a-wing. . . ."
+    ],
+    [
+     "Since then, keen lessons that love deceives,",
+     "And wrings with wrong, have shaped to me",
+     "Your face, and the God-curst sun, and a tree,",
+     "And a pond edged with grayish leaves."
+    ]
+   ]
+  },
+  {
+   "slug": "stop-for-death",
+   "title": "Because I could not stop for Death",
+   "author": "Emily Dickinson",
+   "author_died": 1886,
+   "year": 1890,
+   "first_published": "Poems (1890), edited by Mabel Loomis Todd and T. W. Higginson, printed there as “The Chariot”",
+   "text_source": "the 1890 first printing, transcribed from Wikisource's scan-backed text",
+   "text_url": "https://en.wikisource.org/wiki/Poems_(Dickinson)/The_Chariot",
+   "headline": "LOCAL WOMAN ACCEPTS LIFT FROM STRANGER, ARRIVES CENTURIES LATE",
+   "standfirst": "Published four years after she died by editors who retitled it, tidied her punctuation and left a stanza out. This is their version; the missing stanza is the one with the gossamer gown.",
+   "stanzas": [
+    [
+     "Because I could not stop for Death,",
+     "He kindly stopped for me;",
+     "The carriage held but just ourselves",
+     "And Immortality."
+    ],
+    [
+     "We slowly drove, he knew no haste,",
+     "And I had put away",
+     "My labor, and my leisure too,",
+     "For his civility."
+    ],
+    [
+     "We passed the school where children played,",
+     "Their lessons scarcely done;",
+     "We passed the fields of gazing grain,",
+     "We passed the setting sun."
+    ],
+    [
+     "We paused before a house that seemed",
+     "A swelling of the ground;",
+     "The roof was scarcely visible,",
+     "The cornice but a mound."
+    ],
+    [
+     "Since then 't is centuries;  but each",
+     "Feels shorter than the day",
+     "I first surmised the horses' heads",
+     "Were toward eternity."
+    ]
+   ]
+  },
+  {
+   "slug": "dover-beach",
+   "title": "Dover Beach",
+   "author": "Matthew Arnold",
+   "author_died": 1888,
+   "year": 1867,
+   "first_published": "New Poems (1867)",
+   "text_source": "The Poetical Works of Matthew Arnold, transcribed from Wikisource's scan-backed text",
+   "text_url": "https://en.wikisource.org/wiki/The_poetical_works_of_Matthew_Arnold/Dover_Beach",
+   "headline": "TIDE OF FAITH REPORTED GOING OUT; NO REPLACEMENT SCHEDULED",
+   "standfirst": "Filed from a hotel window on the Kent coast. Begins calm and ends on a beach with armies on it.",
+   "stanzas": [
+    [
+     "The sea is calm to-night.",
+     "The tide is full, the moon lies fair",
+     "Upon the straits; on the French coast, the light",
+     "Gleams and is gone; the cliffs of England stand,",
+     "Glimmering and vast, out in the tranquil bay.",
+     "Come to the window, sweet is the night-air!",
+     "Only, from the long line of spray",
+     "Where the sea meets the moon-blanched sand,",
+     "Listen! you hear the grating roar",
+     "Of pebbles which the waves draw back, and fling,",
+     "At their return, up the high strand,",
+     "Begin and cease, and then again begin,",
+     "With tremulous cadence slow, and bring",
+     "The eternal note of sadness in."
+    ],
+    [
+     "Sophocles long ago",
+     "Heard it on the Ægean, and it brought",
+     "Into his mind the turbid ebb and flow",
+     "Of human misery: we",
+     "Find also in the sound a thought,",
+     "Hearing it by this distant northern sea."
+    ],
+    [
+     "The sea of faith",
+     "Was once, too, at the full, and round earth's shore",
+     "Lay like the folds of a bright girdle furled.",
+     "But now I only hear",
+     "Its melancholy, long, withdrawing roar,",
+     "Retreating, to the breath",
+     "Of the night-wind, down the vast edges drear",
+     "And naked shingles of the world."
+    ],
+    [
+     "Ah, love, let us be true",
+     "To one another! for the world, which seems",
+     "To lie before us like a land of dreams,",
+     "So various, so beautiful, so new,",
+     "Hath really neither joy, nor love, nor light,",
+     "Nor certitude, nor peace, nor help for pain;",
+     "And we are here as on a darkling plain",
+     "Swept with confused alarms of struggle and flight,",
+     "Where ignorant armies clash by night."
+    ]
+   ]
+  },
+  {
+   "slug": "annabel-lee",
+   "title": "Annabel Lee",
+   "author": "Edgar Allan Poe",
+   "author_died": 1849,
+   "year": 1849,
+   "first_published": "the New-York Daily Tribune, 9 October 1849",
+   "text_source": "The Works of the Late Edgar Allan Poe, vol. 2 (1859), transcribed from Wikisource's scan-backed text",
+   "text_url": "https://en.wikisource.org/wiki/The_Works_of_the_Late_Edgar_Allan_Poe_(1859)/Volume_2/Annabel_Lee",
+   "headline": "WIND OUT OF A CLOUD BLAMED; WIDOWER STILL SLEEPING IN THE TOMB",
+   "standfirst": "Printed two days after the poet's own death, in the same paper that ran his obituary. No editor could have arranged that.",
+   "stanzas": [
+    [
+     "It was many and many a year ago,",
+     "In a kingdom by the sea,",
+     "That a maiden there lived whom you may know",
+     "By the name of Annabel Lee;",
+     "And this maiden she lived with no other thought",
+     "Than to love and be loved by me."
+    ],
+    [
+     "I was a child and she was a child,",
+     "In this kingdom by the sea:",
+     "But we loved with a love that was more than love—",
+     "I and my Annabel Lee;",
+     "With a love that the winged seraphs of heaven",
+     "Coveted her and me."
+    ],
+    [
+     "And this was the reason that, long ago,",
+     "In this kingdom by the sea,",
+     "A wind blew out of a cloud, chilling",
+     "My beautiful Annabel Lee;",
+     "So that her highborn kinsman came",
+     "And bore her away from me,",
+     "To shut her up in a sepulchre",
+     "In this kingdom by the sea."
+    ],
+    [
+     "The angels, not half so happy in heaven,",
+     "Went envying her and me—",
+     "Yes!—that was the reason (as all men know,",
+     "In this kingdom by the sea)",
+     "That the wind came out of the cloud by night,",
+     "Chilling and killing my Annabel Lee."
+    ],
+    [
+     "But our love it was stronger by far than the love",
+     "Of those who were older than we—",
+     "Of many far wiser than we—",
+     "And neither the angels in heaven above,",
+     "Nor the demons down under the sea,",
+     "Can ever dissever my soul from the soul",
+     "Of the beautiful Annabel Lee:"
+    ],
+    [
+     "For the moon never beams, without bringing me dreams",
+     "Of the beautiful Annabel Lee;",
+     "And the stars never rise, but I feel the bright eyes",
+     "Of the beautiful Annabel Lee;",
+     "And so, all the night-tide, I lie down by the side",
+     "Of my darling—my darling—my life and my bride,",
+     "In the sepulchre there by the sea,",
+     "In her tomb by the sounding sea."
+    ]
+   ]
+  },
+  {
+   "slug": "ozymandias",
+   "title": "Ozymandias",
+   "author": "Percy Bysshe Shelley",
+   "author_died": 1822,
+   "year": 1818,
+   "first_published": "The Examiner, 11 January 1818, signed “Glirastes”",
+   "text_source": "The Examiner's own printing, transcribed from Wikisource's scan-backed text",
+   "text_url": "https://en.wikisource.org/wiki/The_Examiner_(London)/Ozymandias",
+   "headline": "KING OF KINGS' WORKS REVIEWED; NOTHING BESIDE REMAINS",
+   "standfirst": "Filed to a weekly paper under a pen name. The pen name is forgotten and the pedestal is not.",
+   "stanzas": [
+    [
+     "I met a Traveller from an antique land,",
+     "Who said, “Two vast and trunkless legs of stone",
+     "Stand in the desart. Near them, on the sand,",
+     "Half sunk, a shattered visage lies, whose frown,",
+     "And wrinkled lip, and sneer of cold command,",
+     "Tell that its sculptor well those passions read,",
+     "Which yet survive, stamped on these lifeless things,",
+     "The hand that mocked them, and the heart that fed:",
+     "And on the pedestal these words appear:",
+     "“My name is Ozymandias, King of Kings.”",
+     "Look on my works ye Mighty, and despair!",
+     "No thing beside remains. Round the decay",
+     "Of that Colossal Wreck, boundless and bare,",
+     "The lone and level sands stretch far away."
+    ]
+   ]
+  },
+  {
+   "slug": "darkness",
+   "title": "Darkness",
+   "author": "George Gordon, Lord Byron",
+   "author_died": 1824,
+   "year": 1816,
+   "first_published": "The Prisoner of Chillon, and Other Poems (1816)",
+   "text_source": "The Works of Lord Byron (1901), edited by E. H. Coleridge, transcribed from Wikisource",
+   "text_url": "https://en.wikisource.org/wiki/Darkness_(Byron,_1901)",
+   "headline": "SUN EXTINGUISHED; SURVIVORS BURN THE FURNITURE, THEN EACH OTHER",
+   "standfirst": "Written in the year without a summer, when a volcano on the other side of the world took the weather away and nobody yet knew why.",
+   "stanzas": [
+    [
+     "I had a dream, which was not all a dream.",
+     "The bright sun was extinguished, and the stars",
+     "Did wander darkling in the eternal space,",
+     "Rayless, and pathless, and the icy Earth",
+     "Swung blind and blackening in the moonless air;",
+     "Morn came and went—and came, and brought no day,",
+     "And men forgot their passions in the dread",
+     "Of this their desolation; and all hearts",
+     "Were chilled into a selfish prayer for light:",
+     "And they did live by watchfires—and the thrones,",
+     "The palaces of crownéd kings—the huts,",
+     "The habitations of all things which dwell,",
+     "Were burnt for beacons; cities were consumed,",
+     "And men were gathered round their blazing homes",
+     "To look once more into each other's face;",
+     "Happy were those who dwelt within the eye",
+     "Of the volcanos, and their mountain-torch:",
+     "A fearful hope was all the World contained;",
+     "Forests were set on fire—but hour by hour",
+     "They fell and faded—and the crackling trunks",
+     "Extinguished with a crash—and all was black.",
+     "The brows of men by the despairing light",
+     "Wore an unearthly aspect, as by fits",
+     "The flashes fell upon them; some lay down",
+     "And hid their eyes and wept; and some did rest",
+     "Their chins upon their clenchéd hands, and smiled;",
+     "And others hurried to and fro, and fed",
+     "Their funeral piles with fuel, and looked up",
+     "With mad disquietude on the dull sky,",
+     "The pall of a past World; and then again",
+     "With curses cast them down upon the dust,",
+     "And gnashed their teeth and howled: the wild birds shrieked,",
+     "And, terrified, did flutter on the ground,",
+     "And flap their useless wings; the wildest brutes",
+     "Came tame and tremulous; and vipers crawled",
+     "And twined themselves among the multitude,",
+     "Hissing, but stingless—they were slain for food:",
+     "And War, which for a moment was no more,",
+     "Did glut himself again:—a meal was bought",
+     "With blood, and each sate sullenly apart",
+     "Gorging himself in gloom: no Love was left;",
+     "All earth was but one thought—and that was Death,",
+     "Immediate and inglorious; and the pang",
+     "Of famine fed upon all entrails—men",
+     "Died, and their bones were tombless as their flesh;",
+     "The meagre by the meagre were devoured,",
+     "Even dogs assailed their masters, all save one,",
+     "And he was faithful to a corse, and kept",
+     "The birds and beasts and famished men at bay,",
+     "Till hunger clung them, or the dropping dead",
+     "Lured their lank jaws; himself sought out no food,",
+     "But with a piteous and perpetual moan,",
+     "And a quick desolate cry, licking the hand",
+     "Which answered not with a caress—he died.",
+     "The crowd was famished by degrees; but two",
+     "Of an enormous city did survive,",
+     "And they were enemies: they met beside",
+     "The dying embers of an altar-place",
+     "Where had been heaped a mass of holy things",
+     "For an unholy usage; they raked up,",
+     "And shivering scraped with their cold skeleton hands",
+     "The feeble ashes, and their feeble breath",
+     "Blew for a little life, and made a flame",
+     "Which was a mockery; then they lifted up",
+     "Their eyes as it grew lighter, and beheld",
+     "Each other's aspects—saw, and shrieked, and died—",
+     "Even of their mutual hideousness they died,",
+     "Unknowing who he was upon whose brow",
+     "Famine had written Fiend. The World was void,",
+     "The populous and the powerful was a lump,",
+     "Seasonless, herbless, treeless, manless, lifeless—",
+     "A lump of death—a chaos of hard clay.",
+     "The rivers, lakes, and ocean all stood still,",
+     "And nothing stirred within their silent depths;",
+     "Ships sailorless lay rotting on the sea,",
+     "And their masts fell down piecemeal: as they dropped",
+     "They slept on the abyss without a surge—",
+     "The waves were dead; the tides were in their grave,",
+     "The Moon, their mistress, had expired before;",
+     "The winds were withered in the stagnant air,",
+     "And the clouds perished; Darkness had no need",
+     "Of aid from them—She was the Universe."
+    ]
+   ]
+  },
+  {
+   "slug": "london",
+   "title": "London",
+   "author": "William Blake",
+   "author_died": 1827,
+   "year": 1794,
+   "first_published": "Songs of Experience (1794)",
+   "text_source": "the 1826 copy of Songs of Innocence and of Experience, transcribed from Wikisource's scan-backed text",
+   "text_url": "https://en.wikisource.org/wiki/Songs_of_Innocence_and_of_Experience_(1826)/Songs_of_Experience/London",
+   "headline": "EVERY FACE IN THE CITY FOUND TO CARRY THE SAME MARK",
+   "standfirst": "Chartered street, chartered river. The word turns up twice and means the opposite of free both times.",
+   "stanzas": [
+    [
+     "I wander thro' each charter'd street,",
+     "Near where the charter'd Thames does flow,",
+     "And mark in every face I meet,",
+     "Marks of weakness, marks of woe."
+    ],
+    [
+     "In every cry of every Man,",
+     "In every Infant’s cry of fear,",
+     "In every voice, in every ban,",
+     "The mind-forg'd manacles I hear."
+    ],
+    [
+     "How the Chimney-sweeper’s cry",
+     "Every black'ning Church appalls;",
+     "And the hapless Soldier’s sigh",
+     "Runs in blood down Palace walls."
+    ],
+    [
+     "But most, thro' midnight streets I hear",
+     "How the youthful Harlot’s curse",
+     "Blasts the new born Infant’s tear,",
+     "And blights with plagues the Marriage hearse."
+    ]
+   ]
+  },
+  {
+   "slug": "sick-rose",
+   "title": "The Sick Rose",
+   "author": "William Blake",
+   "author_died": 1827,
+   "year": 1794,
+   "first_published": "Songs of Experience (1794)",
+   "text_source": "the 1826 copy of Songs of Innocence and of Experience, transcribed from Wikisource's scan-backed text",
+   "text_url": "https://en.wikisource.org/wiki/Songs_of_Innocence_and_of_Experience_(1826)/Songs_of_Experience/The_Sick_Rose",
+   "headline": "INVISIBLE WORM LOCATED IN BED OF CRIMSON JOY",
+   "standfirst": "Eight lines. Nobody has ever agreed what it is about and everybody agrees that it is about that.",
+   "stanzas": [
+    [
+     "O rose thou art sick.",
+     "The invisible worm,",
+     "That flies in the night",
+     "In the howling storm:"
+    ],
+    [
+     "Has found out thy bed",
+     "Of crimson joy:",
+     "And his dark secret love",
+     "Does thy life destroy."
+    ]
+   ]
+  },
+  {
+   "slug": "death-be-not-proud",
+   "title": "Death be not proud",
+   "author": "John Donne",
+   "author_died": 1631,
+   "year": 1633,
+   "first_published": "Poems (1633)",
+   "text_source": "the Holy Sonnets, transcribed from Wikisource",
+   "text_url": "https://en.wikisource.org/wiki/Holy_Sonnets/Holy_Sonnet_10",
+   "headline": "DEATH DEMOTED TO SLAVE OF FATE, CHANCE, KINGS AND DESPERATE MEN",
+   "standfirst": "Printed two years after the poet died, which he would have enjoyed. Ends by telling death that death is the one who dies.",
+   "stanzas": [
+    [
+     "Death be not proud, though some have callèd thee",
+     "Mighty and dreadfull, for, thou art not so,",
+     "For, those, whom thou think'st, thou dost overthrow,",
+     "Die not, poore death, nor yet canst thou kill me.",
+     "From rest and sleepe, which but thy pictures bee,",
+     "Much pleasure, then from thee, much more must flow,",
+     "And soonest our best men with thee doe goe,",
+     "Rest of their bones, and soules deliverie.",
+     "Thou art slave to Fate, Chance, kings, and desperate men,",
+     "And dost with poyson, warre, and sicknesse dwell,",
+     "And poppie, or charmes can make us sleepe as well,",
+     "And better than thy stroake; why swell'st thou then;",
+     "One short sleepe past, wee wake eternally,",
+     "And death shall be no more, death, thou shalt die."
+    ]
+   ]
+  },
+  {
+   "slug": "sonnet-73",
+   "title": "Sonnet 73",
+   "author": "William Shakespeare",
+   "author_died": 1616,
+   "year": 1609,
+   "first_published": "Shake-speares Sonnets (1609)",
+   "text_source": "the 1609 quarto, transcribed from Wikisource's scan-backed text, spelling unmodernised",
+   "text_url": "https://en.wikisource.org/wiki/Shake-speares_Sonnets,_Never_before_Imprinted/Sonnet_73",
+   "headline": "AUTUMN, TWILIGHT AND A FIRE GOING OUT, ALL IN ONE MAN",
+   "standfirst": "The oldest thing on this scroll and the only one still in its own spelling — including the quarto's famous slip, “Bare rn'wd quiers”, which editors since have read as bare ruin'd choirs.",
+   "stanzas": [
+    [
+     "That time of yeeare thou maist in me behold,",
+     "When yellow leaues, or none, or few doe hange",
+     "Vpon those boughes which shake against the could,",
+     "Bare rn'wd quiers, where late the sweet birds sang.",
+     "In me thou seest the twi-light of such day,",
+     "As after Sun-set fadeth in the West,",
+     "Which by and by blacke night doth take away,",
+     "Deaths second selfe that seals vp all in rest.",
+     "In me thou seest the glowing of such fire,",
+     "That on the ashes of his youth doth lye,",
+     "As the death bed, whereon it must expire,",
+     "Consum'd with that which it was nurrisht by.",
+     "This thou perceu'st, which makes thy loue more strong,",
+     "To loue that well, which thou must leaue ere long."
+    ]
+   ]
+  }
+ ]
+}

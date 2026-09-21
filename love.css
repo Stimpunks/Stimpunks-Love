@@ -130,6 +130,52 @@
 @font-face { font-family: 'Josefin Sans';          src: url('fonts/josefin-sans-600.woff2') format('woff2');          font-weight: 600; font-display: swap; }
 
 
+/* The Mopery (§22), and its Raven nook. AN IMPRESSED FACE AND A DRAWN ONE.
+   IM Fell English is Igino Marini's digitisation of the types John Fell gave
+   the Oxford University Press in the 1670s, ink spread and battered counters
+   left in, which makes it the only face on this street that looks STAMPED
+   rather than drafted — an eldritch tome wants a punch, not a curve. THE
+   FAERY YURT IS THE COLLISION TO WATCH, because that room is also serif, also
+   warm, also candlelit: it sets Cormorant Garamond, which is high-contrast,
+   clean and modern-cut. These two rooms are kept apart at the stroke rather
+   than at the palette, which is the only place it holds. Spectral is the
+   reading face — low contrast, drawn for screens, sturdy at length — because
+   the library asks somebody to read eighteen stanzas in it and the tome face
+   does not survive that. It is the default the Raven nook's picker starts on;
+   every other face on this street is in that list too, which is the one place
+   here where borrowing them all is the joke rather than the failure. */
+@font-face { font-family: 'IM Fell English'; src: url('fonts/im-fell-english-400.woff2') format('woff2');        font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'IM Fell English'; src: url('fonts/im-fell-english-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Spectral';        src: url('fonts/spectral-400.woff2') format('woff2');               font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Spectral';        src: url('fonts/spectral-600.woff2') format('woff2');               font-weight: 600; font-display: swap; }
+
+/* The Oracle Deck (§23), the subroom behind the Mopery's parlour. CUT RATHER
+   THAN PRINTED, which is the whole distance between a deck and the library it
+   is kept in: Cinzel is inscriptional Roman capitals — letters chiselled into
+   stone, no lowercase worth the name, all of it monumental — where IM Fell is
+   a page that has been through a press. Cardo is the commentary underneath,
+   David Perry's type for classicists, and a card whose back is an argument
+   needs a face that expects footnotes. Cinzel ships variable, so ONE file
+   serves 400 and 700, the same arrangement as Nunito, Cabin and Karla. */
+@font-face { font-family: 'Cinzel'; src: url('fonts/cinzel-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Cinzel'; src: url('fonts/cinzel-400.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Cardo';  src: url('fonts/cardo-400.woff2') format('woff2');        font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Cardo';  src: url('fonts/cardo-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+
+/* The Doomscroll (§24). BLACKLETTER LIVES HERE AND NOT IN THE LIBRARY, which
+   is deliberate and is what keeps the dark academia room off the obvious peg:
+   the gothic cliche is spent here, on a broadside of bad news, where it is a
+   joke about mastheads rather than a costume. UnifrakturMaguntia is DISPLAY
+   ONLY — the masthead and the odd single word, never a line of a poem, because
+   eighteen lines of blackletter is an access failure wearing atmosphere. The
+   poems are set in Vollkorn, which Friedrich Althausen drew for small text on
+   cheap paper, which is what a broadside is. Vollkorn ships variable: one file,
+   two weights declared against the axis. */
+@font-face { font-family: 'UnifrakturMaguntia'; src: url('fonts/unifraktur-maguntia-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Vollkorn'; src: url('fonts/vollkorn-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Vollkorn'; src: url('fonts/vollkorn-400.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -331,6 +377,52 @@
   --pbmem: #322D27;    --pbmem-card: #3D3730;    --pbmem-ink: #DED6C6;
   --pbmem-head: #F3EDDF;  --pbmem-credit: #C7BEB0;
   --pbmem-gold: #C9A227;  --pbmem-link: #D4AF37;
+
+  /* The Mopery (§22). A COLD ROOM WITH WARM POINTS IN IT, and that sentence is
+     the entire separation from the four warm enclosed rooms this street
+     already has. The Faery Yurt, The Latibulum, The Den and the Hermitage's
+     cave are each lit THROUGHOUT by one warm source; the light reaches the
+     walls and the walls go amber. Here the ground is blue-black stone all the
+     way to the skirting and the candlelight stops about an inch from each
+     wick. Dark academia is not cosy. It is a cold building somebody has been
+     let into after hours, and if this palette ever warms up at the edges it
+     has turned into the yurt.
+     --mop-flame is the only warm value that touches anything, and mostly it
+     touches nothing: see ORNAMENT in check-contrast.py for the wax and the
+     halo, which carry no words. */
+  --mop-night: #10141A;  --mop-stone: #1A2027;  --mop-shelf: #232B34;  --mop-deep: #080B0E;
+  --mop-bone: #EAE4D6;   --mop-dim: #A7AFB9;    --mop-gilt: #D3AB58;   --mop-flame: #F3B95F;
+  --mop-wax: #6A4A2A;    --mop-rule: #3A434E;
+  /* Nine spines, nine measured pairs. A shelf where one title is a guess is a
+     shelf with an unreadable book on it, and the reader cannot tell which. */
+  --mop-oxblood: #6B2028;  --mop-sugar: #D8BCC6;  --mop-inkspine: #232A42;
+  --mop-graphite: #474D55; --mop-tar: #15181C;    --mop-wine: #5C2033;
+  --mop-vellum: #D8CBA6;   --mop-dust: #8C8271;   --mop-moss: #44523D;
+
+  /* The Oracle Deck (§23), behind the Mopery's parlour. ASH AND VERMILION, and
+     not one blue in it, because the library it is kept in is blue-black all
+     over and a subroom that borrowed its parent's ground would be the oldest
+     mistake on this street wearing its newest costume. The other reason is the
+     art: every card front is a warm paper engraving, so the room around them
+     is the one cold thing and the prints are the only paper in it.
+     NO GOLD AND NO INDIGO: that pair is The Chappell's, one subroom over. */
+  --orc-slate: #23201E;  --orc-deep: #131110;  --orc-cut: #F2EDE4;
+  --orc-dim: #B0A69B;    --orc-red: #E8724A;   --orc-brass: #B99154;
+  --orc-edge: #3A342F;
+
+  /* The Doomscroll (§24). THE ONLY PALE ROOM ON THIS SIDE OF THE STREET and the
+     second pale room on the site, which is the whole reason it can sit behind a
+     library that is nearly black: you come up out of the dark and somebody
+     hands you a paper. THE ZINE TABLE IS THE COLLISION TO WATCH, because that
+     is also ink on paper -- and it is a photocopier's stark white with pure
+     black on it, cut up with scissors and scattered. This is foxed newsprint,
+     warm and grey, in one unbroken roll with nothing cut and nothing at an
+     angle, lying on a dark desk. If this paper ever goes white, the two rooms
+     have become one room.
+     --dsc-rule carries no text and is measured in ORNAMENT. */
+  --dsc-desk: #211D18;   --dsc-paper: #DCD7CC;  --dsc-paper-2: #CFC8BA;
+  --dsc-ink: #1A1714;    --dsc-ink-2: #4A423A;  --dsc-rule: #8A8073;
+  --dsc-red: #8C1D18;    --dsc-bone: #EAE4D6;
 }
 
 * { box-sizing: border-box; }
@@ -626,6 +718,17 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .door--burrow .door__name  { font-family: 'Bree Serif', Georgia, serif; color: var(--lamp); font-size: 27px; }
 .door--burrow .door__blurb { color: var(--oat); }
 .door--burrow .door__knock { font-family: 'Bree Serif', Georgia, serif; font-size: 12px; letter-spacing: .08em; color: var(--oat-2); }
+
+/* The Mopery's shopfront. The only front in the row lit from INSIDE rather than
+   painted on the outside: a cold blue-black window with a warm rectangle in it,
+   which is what a second-hand bookshop looks like from the pavement after dark.
+   The awning is candle wax and tarnished gilt rather than a two-colour stripe,
+   because the stripe is a seaside awning and this shop does not have one. */
+.door--mopery { background: var(--mop-night); }
+.door--mopery .door__awning { background-image: repeating-linear-gradient(90deg, var(--mop-wax) 0 12px, var(--mop-gilt) 12px 18px, var(--mop-stone) 18px 34px); }
+.door--mopery .door__name  { font-family: 'IM Fell English', Georgia, serif; color: var(--mop-gilt); font-size: 30px; }
+.door--mopery .door__blurb { color: var(--mop-bone); }
+.door--mopery .door__knock { font-family: 'IM Fell English', Georgia, serif; font-size: 13px; letter-spacing: .08em; color: var(--mop-flame); }
 
 /* The Jungle Room's shopfront. Leaves over the awning rather than a stripe,
    because every other front in this row is signwriting and this one is a thing
@@ -3421,7 +3524,730 @@ html[data-intensity="gentle"] .pb-tape { transform: translateX(-50%); }
 .pb-rack a { color: var(--pblamp); }
 
 
-/* §22 ── Small screens ───────────────────────────────────────────────────────
+/* §22 ── ROOM: The Mopery ────────────────────────────────────────────────────
+   A dark academia library, a reading nook and a parlour with one screen in it.
+
+   THE FOURTH WARM-LOOKING ROOM AND THE FIRST COLD ONE, which is the whole
+   argument for it existing beside the other four. The Faery Yurt, The
+   Latibulum, The Den and the Hermitage's cave are all lit by a single warm
+   source and the light REACHES THE WALLS: canvas goes amber, plaster goes
+   amber, panelling goes amber, curtain goes amber. This room has candles all
+   over the top shelf and the walls stay blue-black stone, because the light
+   from a candle travels about a foot and a library is enormous. Cosy is what
+   those rooms are. This one is what it feels like to be let into a
+   building after everybody has gone home.
+
+   If the greys in here ever warm up, this has become the yurt with a bigger
+   bookshelf, and the street has lost a room without anybody editing one.
+
+   THE TYPE IS THE OTHER HALF OF IT. IM Fell English is a face that was PUNCHED
+   -- Fell's Oxford types, ink spread and battered counters left in by the
+   digitiser on purpose -- against Cormorant Garamond next door, which is
+   high-contrast, clean and cut yesterday. Spectral does the reading, because
+   the nook asks somebody for eighteen stanzas and a tome face does not survive
+   that. See §1.
+
+   THREE ZONES, ONE ROOM, WHICH IS THE HERMITAGE'S SHAPE AND NOT ITS LOOK: the
+   library, the parlour with the screen, and the Raven nook. The two things
+   behind doors -- the oracle deck and the doomscroll -- are §23 and §24 and
+   share nothing with this or with each other.                                  */
+
+.room-mopery {
+  background:
+    /* Cold light down the tall windows, and nowhere else. Not an ambient
+       layer: it does not move at any setting, because a library at night is
+       many things and none of them is animated. */
+    radial-gradient(120% 60% at 50% -10%, rgba(120,150,190,0.10), transparent 60%),
+    var(--mop-night);
+  color: var(--mop-bone);
+  font-family: 'Spectral', Georgia, serif;
+}
+.room-mopery .wrap { max-width: 1040px; margin: 0 auto; padding: 0 22px 84px; }
+.room-mopery a { color: var(--mop-gilt); }
+.room-mopery .backlink { color: var(--mop-dim); font-family: 'Spectral', Georgia, serif;
+  font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
+.room-mopery .backlink:hover { color: var(--mop-bone); }
+
+/* ── The shop sign ─────────────────────────────────────────────────────────
+   A second-hand bookshop hangs its name off a bracket, and the bracket is the
+   only reason this room's masthead is not centred like everybody else's. It
+   swings at MAX and at MAX only: a sign that moved at Regular would be ambient
+   motion, which is the one thing the dial reserves for people who asked.       */
+.mop-hang { display: flex; justify-content: center; padding: 30px 0 4px; }
+.mop-sign {
+  position: relative; text-align: center; padding: 22px 42px 24px;
+  background: linear-gradient(180deg, var(--mop-stone), var(--mop-deep));
+  border: 2px solid var(--mop-rule); border-radius: 3px;
+  box-shadow: 0 26px 60px -34px #000;
+  transform-origin: 50% -34px;
+}
+.mop-sign::before {
+  content: ""; position: absolute; left: 50%; top: -34px; width: 2px; height: 34px;
+  background: var(--mop-rule);
+}
+.mop-sign h1 {
+  margin: 0; font-family: 'IM Fell English', Georgia, serif; font-weight: 400;
+  font-size: clamp(42px, 9vw, 74px); line-height: 0.96; color: var(--mop-gilt);
+}
+.mop-sign .mop-est {
+  margin: 12px 0 0; font-size: 12.5px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--mop-dim);
+}
+html[data-intensity="max"] .mop-sign { animation: mop-swing 9s ease-in-out infinite; }
+@keyframes mop-swing {
+  0%, 100% { transform: rotate(-0.7deg); }
+  50%      { transform: rotate(0.7deg); }
+}
+
+.mop-lede {
+  max-width: 62ch; margin: 30px auto 0; font-size: 18px; line-height: 1.68;
+  color: var(--mop-bone); text-align: center;
+}
+.mop-lede em { font-family: 'IM Fell English', Georgia, serif; font-style: italic; }
+.mop-quiet { max-width: 62ch; margin: 14px auto 0; font-size: 15px; line-height: 1.6;
+  color: var(--mop-dim); text-align: center; }
+
+.mop-rule {
+  display: block; width: 180px; height: 0; margin: 34px auto;
+  border-top: 1px solid var(--mop-rule); border-bottom: 1px solid var(--mop-rule);
+  padding-top: 3px;
+}
+
+/* Most sections in this room are separated by a drawn rule, which carries its
+   own margins. The last few sit straight after one another, and without this
+   the next heading starts on the bottom edge of the previous card. */
+.room-mopery section + section { margin-top: 54px; }
+
+.room-mopery h2 {
+  font-family: 'IM Fell English', Georgia, serif; font-weight: 400;
+  font-size: clamp(28px, 5vw, 40px); line-height: 1.1; color: var(--mop-gilt);
+  margin: 0 0 6px;
+}
+.room-mopery h2 + p { margin: 0 0 22px; color: var(--mop-dim); font-size: 16px; max-width: 66ch; }
+
+/* ── The bookcases ─────────────────────────────────────────────────────────
+   A case is a back panel, a shelf board under the spines, and a row of candles
+   standing on the top of it. The spines are BUTTONS, of assorted heights and
+   widths, set vertically the way a spine is -- and each one carries its own
+   measured pair, because a shelf with one unreadable title on it is a shelf
+   the reader cannot tell is broken.                                            */
+.mop-case {
+  /* The top margin is the candles' room. They are absolutely positioned above
+     the case, so without it they stand on whatever paragraph happens to be
+     above -- which is how the first one came to be burning through a sentence. */
+  position: relative; margin: 60px 0 46px; padding: 0 0 18px;
+  background: linear-gradient(180deg, var(--mop-stone), var(--mop-night) 78%);
+  border: 1px solid var(--mop-rule); border-radius: 2px;
+}
+.mop-card {
+  margin: 0; padding: 16px 20px 4px;
+  font-family: 'IM Fell English', Georgia, serif; font-size: 25px; line-height: 1.15;
+  color: var(--mop-gilt);
+}
+.mop-card + p { margin: 6px 20px 0; font-size: 15px; line-height: 1.6; color: var(--mop-dim);
+  max-width: 68ch; }
+
+.mop-shelf {
+  display: flex; align-items: flex-end; gap: 7px; flex-wrap: wrap;
+  margin: 22px 20px 0; padding: 0 0 14px;
+  border-bottom: 7px solid var(--mop-shelf);
+}
+.mop-spine {
+  flex: 0 0 auto; cursor: pointer; padding: 18px 10px;
+  writing-mode: vertical-rl; text-orientation: mixed;
+  font-family: 'IM Fell English', Georgia, serif; font-size: 16.5px; letter-spacing: 0.4px;
+  border: 1px solid rgba(0,0,0,0.5); border-radius: 1px 1px 0 0;
+  text-align: left; line-height: 1.25;
+}
+.mop-spine b { font-weight: 400; }
+.mop-spine i { font-style: normal; opacity: 0.78; font-size: 13.5px; }
+.mop-spine:hover, .mop-spine:focus-visible { outline: 2px solid var(--mop-gilt); outline-offset: 2px; }
+.mop-spine--oxblood  { background: var(--mop-oxblood);  color: var(--mop-bone); height: 250px; }
+.mop-spine--sugar    { background: var(--mop-sugar);    color: var(--mop-deep); height: 232px; }
+.mop-spine--ink      { background: var(--mop-inkspine); color: var(--mop-bone); height: 262px; }
+.mop-spine--graphite { background: var(--mop-graphite); color: var(--mop-bone); height: 240px; }
+.mop-spine--tar      { background: var(--mop-tar);      color: var(--mop-bone); height: 256px; }
+.mop-spine--wine     { background: var(--mop-wine);     color: var(--mop-bone); height: 228px; }
+.mop-spine--vellum   { background: var(--mop-vellum);   color: var(--mop-deep); height: 246px; }
+.mop-spine--dust     { background: var(--mop-dust);     color: var(--mop-deep); height: 234px; }
+.mop-spine--moss     { background: var(--mop-moss);     color: var(--mop-bone); height: 258px; }
+
+/* ── The candles on the top shelf ──────────────────────────────────────────
+   Ornament, aria-hidden, and carrying no text at all -- which is why the wax
+   and the halo are in ORNAMENT in check-contrast.py with their measurements
+   written beside them rather than being quietly exempt.
+
+   THE FLAME MOVES AT MAX AND NOWHERE ELSE. §3 kills animation outright at
+   Gentle with !important; Regular is not covered by that, so the flicker is
+   gated on max explicitly rather than being left to the reset. Ambient motion
+   is the one thing on this street nobody arrives in by default.                */
+.mop-candles {
+  /* All along the top of the case rather than bunched at one end, because the
+     room's claim is that the candlelight does not reach the walls -- which only
+     reads as a claim if there are candles the whole way across to not reach
+     them from. */
+  position: absolute; inset: auto 0 100% 0; display: flex; justify-content: space-between;
+  gap: 16px; padding: 0 34px; pointer-events: none;
+}
+.mop-candle { position: relative; width: 9px; }
+.mop-candle span {
+  display: block; background: linear-gradient(180deg, #D9C7A6, var(--mop-wax));
+  border-radius: 3px 3px 0 0;
+}
+.mop-candle:nth-child(odd)  span { height: 34px; }
+.mop-candle:nth-child(even) span { height: 22px; }
+.mop-candle::before {
+  content: ""; position: absolute; left: 50%; bottom: 100%; width: 7px; height: 11px;
+  margin-left: -3.5px; border-radius: 50% 50% 40% 40%;
+  background: radial-gradient(circle at 50% 70%, #FFF1CE, var(--mop-flame) 55%, rgba(243,185,95,0) 100%);
+}
+.mop-candle::after {
+  content: ""; position: absolute; left: 50%; bottom: 100%; width: 54px; height: 54px;
+  margin: 0 0 -20px -27px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(243,185,95,0.16), rgba(243,185,95,0) 70%);
+}
+html[data-intensity="max"] .mop-candle::before { animation: mop-flicker 2.6s ease-in-out infinite; }
+html[data-intensity="max"] .mop-candle:nth-child(3n)::before { animation-duration: 3.4s; }
+html[data-intensity="max"] .mop-candle:nth-child(3n+1)::before { animation-duration: 2.1s; }
+@keyframes mop-flicker {
+  0%, 100% { transform: scaleY(1);    opacity: 1; }
+  40%      { transform: scaleY(0.86); opacity: 0.82; }
+  70%      { transform: scaleY(1.08); opacity: 0.95; }
+}
+
+/* ── What a spine opens to ─────────────────────────────────────────────────
+   A native <dialog> and showModal(), the same decision the Pebble Board made
+   and for the same five reasons: focus trap, Escape, inert background,
+   backdrop and focus return all belong to the browser. Nothing here
+   re-implements any of them.                                                   */
+.mop-sheet {
+  max-width: min(94vw, 680px); width: auto; padding: 0; border: 1px solid var(--mop-rule);
+  border-radius: 2px; background: var(--mop-stone); color: var(--mop-bone);
+  box-shadow: 0 40px 90px -30px #000;
+}
+.mop-sheet::backdrop { background: rgba(4,6,8,0.88); }
+.mop-sheet__inner { margin: 0; padding: 30px 32px 28px; max-height: 88vh; overflow: auto; }
+.mop-sheet h2 {
+  font-family: 'IM Fell English', Georgia, serif; font-size: 34px; line-height: 1.08;
+  color: var(--mop-gilt); margin: 0 0 4px;
+}
+.mop-sheet__by {
+  margin: 0 0 4px; font-size: 13px; letter-spacing: 2.4px; text-transform: uppercase;
+  color: var(--mop-dim);
+}
+.mop-sheet__note { margin: 18px 0 0; font-size: 16.5px; line-height: 1.7; }
+.mop-sheet__talker {
+  margin: 18px 0 0; padding: 12px 15px; font-family: 'IM Fell English', Georgia, serif;
+  font-style: italic; font-size: 17px; color: var(--mop-flame);
+  border-left: 2px solid var(--mop-wax); background: rgba(0,0,0,0.25);
+}
+.mop-sheet__get { margin: 22px 0 0; padding: 18px 0 0; border-top: 1px solid var(--mop-rule); }
+.mop-sheet__get h3 {
+  margin: 0 0 10px; font-size: 12px; letter-spacing: 2.4px; text-transform: uppercase;
+  color: var(--mop-dim); font-family: 'Spectral', Georgia, serif; font-weight: 600;
+}
+.mop-sheet__get ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+.mop-sheet__get a { display: inline-block; font-size: 15.5px; }
+.mop-sheet__get em { display: block; font-size: 13.5px; color: var(--mop-dim); font-style: normal; }
+.mop-shut {
+  margin: 24px 0 0; cursor: pointer; padding: 10px 17px; border-radius: 2px;
+  font-family: 'Spectral', Georgia, serif; font-size: 12.5px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  border: 1px solid var(--mop-rule); background: var(--mop-night); color: var(--mop-bone);
+}
+.mop-shut:hover { border-color: var(--mop-gilt); color: var(--mop-gilt); }
+
+/* THE RECORDS THE POPUP IS A CLONE OF. They are on the page, [hidden], one per
+   book -- see make-mopery.py. Two copies of a note in one document is how a
+   shelf ends up disagreeing with its own popup, so there is one copy and the
+   dialog borrows it. The room's <noscript> unhides them, which is why they are
+   styled at all: with the script off this becomes a plain catalogue under each
+   shelf instead of a row of buttons that do nothing. */
+.mop-record h4 { margin: 0 0 4px; font-family: 'IM Fell English', Georgia, serif;
+  font-weight: 400; font-size: 28px; line-height: 1.1; color: var(--mop-gilt); }
+
+/* ── The parlour, and the one screen in it ─────────────────────────────────
+   ONE SCREEN, A LISTING BESIDE IT, AND TUNING IS NOT PLAYING. The shape is the
+   Solarpunk Hermitage's campfire television and the behaviour is identical,
+   because the promise is the site's rather than that room's: while the set is
+   off, previous and next fetch nothing and the whole listing can be walked
+   without a request leaving the page. It looks nothing like that set. That one
+   is a wooden box on a rug with an aerial; this is a dark plate in a stone
+   chimney breast with candles guttering down both jambs.                       */
+.mop-parlour {
+  margin: 10px 0 0; padding: 30px 26px 28px;
+  background: var(--mop-deep); border: 1px solid var(--mop-rule); border-radius: 2px;
+}
+.mop-hearth { position: relative; display: flex; gap: 18px; align-items: stretch; }
+.mop-drip {
+  flex: 0 0 26px; position: relative; border-radius: 2px;
+  background: linear-gradient(180deg, #D9C7A6 0 10%, var(--mop-wax) 100%);
+}
+/* The wax runs. Drawn rather than animated: a candle that has been burning all
+   evening has already dripped, and watching it happen is a different room. */
+.mop-drip::after {
+  content: ""; position: absolute; inset: 0; border-radius: 2px;
+  background:
+    radial-gradient(7px 16px at 20% 34%, rgba(217,199,166,0.85), transparent 70%),
+    radial-gradient(6px 22px at 74% 58%, rgba(217,199,166,0.75), transparent 70%),
+    radial-gradient(8px 14px at 42% 80%, rgba(217,199,166,0.8), transparent 70%);
+}
+.mop-drip::before {
+  content: ""; position: absolute; left: 50%; bottom: 100%; width: 11px; height: 17px;
+  margin-left: -5.5px; border-radius: 50% 50% 40% 40%;
+  background: radial-gradient(circle at 50% 70%, #FFF1CE, var(--mop-flame) 55%, rgba(243,185,95,0) 100%);
+}
+html[data-intensity="max"] .mop-drip::before { animation: mop-flicker 3.1s ease-in-out infinite; }
+
+.mop-screen {
+  position: relative; flex: 1 1 auto; aspect-ratio: 16 / 9;
+  background: #04060A; border: 1px solid var(--mop-rule); border-radius: 2px; overflow: hidden;
+}
+.mop-screen iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.mop-off {
+  position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center;
+  gap: 8px; padding: 22px 26px; text-align: center;
+}
+.mop-off__now {
+  margin: 0; font-family: 'IM Fell English', Georgia, serif; font-size: clamp(22px, 4vw, 34px);
+  line-height: 1.1; color: var(--mop-bone);
+}
+.mop-off__runs { margin: 0; font-size: 14px; letter-spacing: 1.6px; text-transform: uppercase;
+  color: var(--mop-dim); }
+.mop-play, .mop-door {
+  align-self: center; margin-top: 12px; cursor: pointer; text-decoration: none;
+  padding: 11px 22px; border-radius: 2px;
+  font-family: 'Spectral', Georgia, serif; font-weight: 600; font-size: 13px;
+  letter-spacing: 2.2px; text-transform: uppercase;
+  border: 1px solid var(--mop-gilt); background: transparent; color: var(--mop-gilt);
+}
+.mop-play:hover, .mop-door:hover { background: var(--mop-gilt); color: var(--mop-deep); }
+
+.mop-tuner { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 20px 0 0; }
+.mop-turn {
+  cursor: pointer; padding: 10px 16px; border-radius: 2px;
+  font-family: 'Spectral', Georgia, serif; font-weight: 600; font-size: 12.5px;
+  letter-spacing: 2px; text-transform: uppercase;
+  border: 1px solid var(--mop-rule); background: var(--mop-night); color: var(--mop-bone);
+}
+.mop-turn:hover { border-color: var(--mop-gilt); color: var(--mop-gilt); }
+/* THE DIAL SAYS WHERE IT IS GOING AND HOW LONG THAT RUNS, BEFORE THE PRESS. A
+   next button that only says "next" is the one place this design could quietly
+   stop telling somebody what they are about to start. */
+.mop-nextup { margin: 0; font-size: 14px; color: var(--mop-dim); }
+
+.mop-cuts { list-style: none; margin: 22px 0 0; padding: 0; }
+.mop-cut {
+  display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline;
+  padding: 13px 4px 13px 16px; border-top: 1px solid var(--mop-rule);
+}
+.mop-cut:last-child { border-bottom: 1px solid var(--mop-rule); }
+.mop-cut--on { background: rgba(211,171,88,0.09); border-left: 2px solid var(--mop-gilt);
+  padding-left: 14px; }
+.mop-cut__who { font-family: 'IM Fell English', Georgia, serif; font-size: 21px;
+  color: var(--mop-bone); }
+.mop-cut__sub { font-size: 14.5px; color: var(--mop-dim); flex: 1 1 200px; }
+.mop-cut__runs { font-size: 12.5px; letter-spacing: 1.6px; text-transform: uppercase;
+  color: var(--mop-dim); }
+.mop-cut__note { flex: 1 1 100%; margin: 6px 0 0; font-size: 15px; line-height: 1.6;
+  color: var(--mop-bone); }
+.mop-cut__wrote { flex: 1 1 100%; margin: 6px 0 0; font-size: 13px; color: var(--mop-dim); }
+.mop-tune {
+  cursor: pointer; padding: 8px 14px; border-radius: 2px;
+  font-family: 'Spectral', Georgia, serif; font-weight: 600; font-size: 11.5px;
+  letter-spacing: 1.8px; text-transform: uppercase;
+  border: 1px solid var(--mop-rule); background: transparent; color: var(--mop-gilt);
+}
+.mop-tune:hover { border-color: var(--mop-gilt); }
+
+/* ── The Raven nook ────────────────────────────────────────────────────────
+   The poem, twenty-six wood engravings, a scanned book, and a picker that hands
+   the whole thing to every other voice on this street.
+
+   THE PICKER IS THE ONE PLACE HERE WHERE BORROWING EVERY ROOM'S FACE IS THE
+   JOKE RATHER THAN THE FAILURE. It is not harmonising: nothing about the
+   Playhouse arrives when you set the poem in Titan One, only the letterforms,
+   for as long as you want them. @font-face is lazy, so choosing a face is what
+   downloads it and a reader who never opens the picker never pays for one.
+
+   AND THE PLATES ARE SET IN ONE COLUMN WITH THE POEM RATHER THAN IN A GALLERY.
+   Dore's edition put them in a block after the text; a gallery would be a
+   faithful copy of that and a worse way to read, so they are interleaved at the
+   lines their own captions quote, and the page says out loud that the placing
+   is ours. See _dore in data/mopery.json.                                      */
+.mop-scan {
+  display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  align-items: start; margin: 10px 0 0; padding: 26px 26px 24px;
+  background: var(--mop-stone); border: 1px solid var(--mop-rule); border-radius: 2px;
+}
+.mop-scan__head { grid-column: 1 / -1; margin: 0; font-family: 'IM Fell English', Georgia, serif;
+  font-weight: 400; font-size: 26px; line-height: 1.15; color: var(--mop-gilt); }
+.mop-scan__why { grid-column: 1 / -1; margin: 0; font-size: 15px; line-height: 1.62;
+  color: var(--mop-dim); max-width: 78ch; }
+.mop-scan__out { grid-column: 1 / -1; margin: 0; font-size: 13px; letter-spacing: 1.6px;
+  text-transform: uppercase; }
+.mop-leafshot { margin: 0; }
+/* THE LEAVES KEEP A PALE GROUND BEHIND THEM. A scanned page is paper with
+   nothing printed in the margins, so on a dark wall its edges dissolve and the
+   object stops reading as a book. This is a mount, which is what you put a
+   loose leaf on. */
+.mop-leafshot img { display: block; width: 100%; height: auto; background: #D8D0BE;
+  border: 1px solid var(--mop-rule); }
+.mop-leafshot figcaption { margin: 9px 0 0; font-size: 13.5px; line-height: 1.5;
+  color: var(--mop-dim); }
+
+.mop-hand { margin: 22px 0 0; padding: 16px 18px; font-size: 15px; line-height: 1.65;
+  color: var(--mop-bone); border-left: 2px solid var(--mop-wax); background: rgba(0,0,0,0.25); }
+
+.mop-poembox {
+  margin: 34px 0 0; padding: 30px clamp(20px, 4vw, 44px) 30px; background: var(--mop-stone);
+  border: 1px solid var(--mop-rule); border-radius: 2px;
+}
+.mop-picker { display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  margin: 0 0 20px; padding: 0 0 18px; border-bottom: 1px solid var(--mop-rule); }
+.mop-picker label { font-size: 12px; letter-spacing: 2.2px; text-transform: uppercase;
+  color: var(--mop-dim); }
+.mop-picker select {
+  font-family: 'Spectral', Georgia, serif; font-size: 15px;
+  padding: 8px 11px; border-radius: 2px; max-width: 100%;
+  border: 1px solid var(--mop-rule); background: var(--mop-night); color: var(--mop-bone);
+}
+.mop-picker select:focus-visible { outline: 2px solid var(--mop-gilt); outline-offset: 2px; }
+.mop-byline { margin: 0 0 12px; font-size: 13px; letter-spacing: 2.4px; text-transform: uppercase;
+  color: var(--mop-dim); }
+.mop-where { margin: 0 0 26px; padding: 0 0 22px; font-size: 14.5px; line-height: 1.62;
+  color: var(--mop-dim); border-bottom: 1px solid var(--mop-rule); max-width: 78ch; }
+
+/* The poem column is narrow because a line of The Raven is long and a reader
+   should not have to hunt for the start of the next one. The plates break out
+   of it, because they were printed full page. */
+.mop-poem { margin: 0 auto; max-width: 34em; font-family: 'IM Fell English', Georgia, serif;
+  font-size: 18px; line-height: 1.62; color: var(--mop-bone); }
+.mop-poem p { margin: 0 0 24px; }
+.mop-poem .mop-in { display: block; padding-left: 3.2em; }
+
+.mop-plate { margin: 30px auto 34px; max-width: 460px; text-align: center; }
+/* THE ENGRAVINGS ARE PAPER AND THE ROOM IS NOT. Dore's plates are near-white
+   at the edges; dropped straight onto blue-black stone they float with no
+   object under them, so each one sits on a mount the colour of the page it was
+   printed on. Ornament: nothing is set on it. */
+.mop-plate img { display: block; width: 100%; height: auto; padding: 10px;
+  background: #E3DCCB; border: 1px solid var(--mop-rule); }
+.mop-plate figcaption { margin: 12px auto 0; max-width: 40ch; font-family: 'Spectral', Georgia, serif;
+  font-size: 14px; line-height: 1.55; color: var(--mop-dim); font-style: italic; }
+
+/* ── The two doors at the back ─────────────────────────────────────────────
+   Not shopfronts: this is a library, and the way further in is a card in the
+   catalogue and a door in the panelling. Both are ordinary focusable links
+   with real text at full size, for the reason written up in CLAUDE.md about
+   The Den: on a Disabled people's site, subtle means visually quiet and never
+   means a thing only a sighted mouse user can find.                            */
+.mop-ways { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  margin: 10px 0 0; }
+.mop-way {
+  display: block; text-decoration: none; padding: 26px 26px 24px;
+  background: var(--mop-stone); border: 1px solid var(--mop-rule); border-radius: 2px;
+}
+.mop-way:hover { border-color: var(--mop-gilt); background: var(--mop-shelf); }
+.mop-way b { display: block; font-family: 'IM Fell English', Georgia, serif; font-weight: 400;
+  font-size: 30px; line-height: 1.08; color: var(--mop-gilt); margin: 0 0 8px; }
+.mop-way span { display: block; font-size: 15.5px; line-height: 1.62; color: var(--mop-bone); }
+.mop-way em { display: block; margin: 12px 0 0; font-style: normal; font-size: 12px;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--mop-dim); }
+
+.mop-foot { margin: 54px 0 0; padding: 26px 0 0; border-top: 1px solid var(--mop-rule);
+  font-size: 14.5px; line-height: 1.7; color: var(--mop-dim); }
+.mop-foot a { color: var(--mop-gilt); }
+
+
+/* §23 ── SUBROOM: The Oracle Deck (off the Mopery's parlour) ─────────────────
+   Thirteen old engravings, and a question on the back of each one.
+
+   THE SUBROOM PROBLEM, THIRD TIME. The Chappell hangs off Pink Pony Club and
+   shares nothing with it; The Den hangs off the Jungle Room and is the same
+   green doing the opposite job. This hangs off a library whose whole ground is
+   BLUE-BLACK, so this room is warm ash and has not one blue in it. Three
+   things keep them apart and all three are structural:
+
+     · the library is lit from candles that do not reach the walls. This is lit
+       from NOWHERE -- a flat ash ground with no source in it at all, because a
+       table with cards on it is the only thing you are looking at.
+     · the library is PRINTED: Fell's Oxford types, ink spread, a page that has
+       been through a press. This is CUT: Cinzel is inscriptional Roman
+       capitals, letters chiselled rather than impressed, and there is no
+       lowercase display anywhere in the room.
+     · the library is furniture -- shelves, a chimney breast, a window. There is
+       no furniture here. Thirteen rectangles on a plain ground, and the only
+       warm thing in the room is the paper the engravings are printed on.
+
+   AND NO GOLD ON INDIGO, which is The Chappell's and would make a third
+   subroom that looked like the first one.
+
+   THE DECK ASKS AND DOES NOT ANSWER, and that is enforced rather than intended:
+   make-oracle.py refuses a card whose reading is not a question and refuses the
+   vocabulary of prediction outright. A deck on a Disabled people's site that
+   told somebody how their life was going to go would be doing the thing our own
+   pages exist to refuse, in the one room dark enough to get away with it.
+
+   AND THE WHOLE DECK IS ON THE PAGE. Drawing a card is a button; reading every
+   card is scrolling. Nothing here is behind a dice roll, because a room that
+   made somebody gamble to reach its content would have put content behind
+   chance -- which is the "lite version" mistake with a deck in its hand.       */
+
+.room-oracle {
+  background: var(--orc-slate); color: var(--orc-cut);
+  font-family: 'Cardo', Georgia, serif;
+}
+.room-oracle .wrap { max-width: 1060px; margin: 0 auto; padding: 0 22px 84px; }
+.room-oracle a { color: var(--orc-brass); }
+.room-oracle .backlink { color: var(--orc-dim); font-family: 'Cinzel', Georgia, serif;
+  font-size: 12px; letter-spacing: 3px; }
+.room-oracle .backlink:hover { color: var(--orc-cut); }
+
+.orc-head { padding: 44px 0 0; text-align: center; }
+.orc-head h1 {
+  margin: 0; font-family: 'Cinzel', Georgia, serif; font-weight: 700;
+  font-size: clamp(34px, 7vw, 60px); line-height: 1.06; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--orc-cut);
+}
+.orc-head .orc-sub {
+  margin: 16px auto 0; max-width: 60ch; font-size: 17.5px; line-height: 1.68; color: var(--orc-cut);
+}
+.orc-head .orc-fine { margin: 12px auto 0; max-width: 62ch; font-size: 15px; line-height: 1.6;
+  color: var(--orc-dim); }
+
+/* A cut rule: two lines and a lozenge, which is what a stonecutter does when a
+   line has to stop. */
+.orc-cut-rule {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  margin: 34px 0; color: var(--orc-edge);
+}
+.orc-cut-rule::before, .orc-cut-rule::after {
+  content: ""; flex: 0 1 190px; height: 1px; background: currentColor;
+}
+/* THE LOZENGE IS A SHAPE AND NOT A ROTATED SQUARE, which is not fussiness:
+   check-gentle.py can only see the computed matrix, so a decorative
+   rotate(45deg) reads to it exactly like a room's tilt outranking somebody's
+   Gentle setting -- and it reported this one. Clipping a diamond out of a
+   square says the same thing to the eye and the truth to the tool. Same call
+   arcade.js made when it moved its sprites with left/top rather than
+   transform. */
+.orc-cut-rule span { width: 11px; height: 11px; background: var(--orc-brass);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+
+.room-oracle h2 {
+  font-family: 'Cinzel', Georgia, serif; font-weight: 700; font-size: clamp(20px, 3.4vw, 28px);
+  letter-spacing: 3px; text-transform: uppercase; color: var(--orc-cut); margin: 0 0 8px;
+}
+.room-oracle h2 + p { margin: 0 0 24px; color: var(--orc-dim); font-size: 16px; max-width: 68ch; }
+
+/* ── The draw ──────────────────────────────────────────────────────────────
+   One button, one card face-up, and a way to put it back. The card that comes
+   up is the same object as the one in the index below, built from the same
+   markup -- the script moves a card into the slot rather than rendering a
+   second version of it, so the drawn card can never say something the index
+   does not.                                                                    */
+.orc-table {
+  padding: 32px 26px 30px; background: var(--orc-deep);
+  border: 1px solid var(--orc-edge); border-radius: 2px;
+}
+.orc-draw { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; }
+.orc-btn {
+  cursor: pointer; padding: 14px 26px; border-radius: 2px;
+  font-family: 'Cinzel', Georgia, serif; font-weight: 700; font-size: 13px;
+  letter-spacing: 3px; text-transform: uppercase;
+  border: 1px solid var(--orc-brass); background: transparent; color: var(--orc-brass);
+}
+.orc-btn:hover { background: var(--orc-brass); color: var(--orc-deep); }
+.orc-btn--quiet { border-color: var(--orc-edge); color: var(--orc-dim); }
+.orc-btn--quiet:hover { background: transparent; border-color: var(--orc-dim); color: var(--orc-cut); }
+
+.orc-slot { margin: 26px auto 0; max-width: 560px; }
+.orc-empty { margin: 0; text-align: center; font-size: 16px; line-height: 1.65; color: var(--orc-dim); }
+.orc-said { margin: 18px 0 0; text-align: center; font-size: 15px; color: var(--orc-dim); }
+
+/* ── A card ────────────────────────────────────────────────────────────────
+   The plate, the name cut under it, the question, the note, and the museum's
+   own credit line. The credit is ON THE CARD rather than in a footer: CC0 asks
+   for nothing and this site names the hand anyway, which is the same reason
+   Kaya Oldaker is on the Arcade's markup.                                      */
+.orc-card {
+  background: var(--orc-slate); border: 1px solid var(--orc-edge); border-radius: 2px;
+  padding: 18px 18px 20px;
+}
+/* A PLATE IS WHATEVER SHAPE IT WAS PRINTED, and this is the second thing this
+   room got wrong: a fixed 4/5 box with object-fit contain made a 560px-wide
+   slot into a 700px-tall one, so the moon arrived at the size of a window and
+   pushed its own name off the screen. The pictures are all roughly 500x625 and
+   the only constraint they need is a ceiling. */
+.orc-face {
+  display: block; margin: 0 auto; background: #0B0A09; border-radius: 1px;
+  width: auto; height: auto; max-width: 100%; max-height: 360px;
+}
+.orc-name {
+  margin: 18px 0 0; font-family: 'Cinzel', Georgia, serif; font-weight: 700;
+  font-size: clamp(19px, 3vw, 25px); letter-spacing: 3px; text-transform: uppercase;
+  color: var(--orc-cut); text-align: center;
+}
+.orc-ask {
+  margin: 12px 0 0; text-align: center; font-family: 'Cardo', Georgia, serif; font-style: italic;
+  font-size: 19px; line-height: 1.5; color: var(--orc-red);
+}
+.orc-note { margin: 16px 0 0; font-size: 16px; line-height: 1.68; color: var(--orc-cut); }
+.orc-plate {
+  margin: 16px 0 0; padding: 13px 0 0; border-top: 1px solid var(--orc-edge);
+  font-size: 13.5px; line-height: 1.6; color: var(--orc-dim);
+}
+.orc-plate b { font-weight: 400; color: var(--orc-cut); font-style: italic; }
+.orc-plate a { color: var(--orc-brass); }
+
+/* ── The index: the whole deck, face up, in order ──────────────────────────  */
+.orc-index { list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+
+.orc-foot { margin: 54px 0 0; padding: 26px 0 0; border-top: 1px solid var(--orc-edge);
+  font-size: 14.5px; line-height: 1.7; color: var(--orc-dim); }
+.orc-foot a { color: var(--orc-brass); }
+
+
+/* §24 ── SUBROOM: The Doomscroll (off the Mopery's library) ──────────────────
+   Public domain poems of doom, laid out as a feed, newest first, on a scroll.
+
+   THE ZINE TABLE IS THE ROOM THIS COLLAPSES INTO, and it is a closer call than
+   any other pair on this street because both of them are ink on paper. What
+   keeps them apart is not the palette, it is the OBJECT:
+
+     · the zine is a PHOTOCOPY -- stark white, pure black, cut up with scissors,
+       scattered at angles, and the page IS the sheet. This is FOXED NEWSPRINT,
+       warm and grey, in one unbroken roll with nothing cut and nothing rotated,
+       lying on a dark desk you can see the edges of.
+     · the zine sets a typewriter and a handwriting. This sets a blackletter
+       masthead over a long serif column, which is a broadside and not a zine.
+     · the zine is one sheet you hold. This is a roll that keeps going, which is
+       the joke: a doomscroll is a scroll.
+
+   If this paper ever goes white, or anything in here starts sitting at an
+   angle, the two rooms have become one room.
+
+   AND THE BLACKLETTER IS DISPLAY ONLY. UnifrakturMaguntia sets the masthead and
+   nothing else -- never a headline a reader has to get through, never a line of
+   a poem. Eighteen lines of blackletter is an access failure wearing
+   atmosphere, and this is the room most likely to talk itself into one.        */
+
+.room-doom { background: var(--dsc-desk); color: var(--dsc-bone);
+  font-family: 'Vollkorn', Georgia, serif; }
+.room-doom .wrap { max-width: 900px; margin: 0 auto; padding: 0 22px 84px; }
+.room-doom .backlink { color: var(--dsc-paper); font-family: 'Vollkorn', Georgia, serif;
+  font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
+.room-doom .backlink:hover { color: #fff; }
+/* EVERY LINK ON THE PAPER, AND THIS IS WHY THE RULE IS AT THE ROOM RATHER THAN
+   ON THE COMPONENTS. This room declared a link colour for the provenance line
+   and nowhere else, so every other link on the scroll fell through to the base
+   stylesheet's pale pink -- which is a colour chosen for a near-black street
+   and measures 2.4 on newsprint. Ryan found it at the foot of the page.
+   check-contrast.py could not: it holds pairs for colours somebody decided on,
+   and nobody had decided this one, which is the shape of hole an INHERITED
+   value leaves. A pale room on a dark street has to say what its links are. */
+.room-doom .dsc-roll a { color: var(--dsc-red); }
+.room-doom .dsc-roll a:hover { color: var(--dsc-ink); }
+
+/* ── The roll ──────────────────────────────────────────────────────────────
+   One continuous sheet with a curled lip at each end. The curl is drawn, not
+   animated: a scroll somebody has already unrolled is not still unrolling.     */
+.dsc-roll {
+  position: relative; margin: 26px 0 0; padding: 0;
+  background: linear-gradient(90deg, var(--dsc-paper-2) 0, var(--dsc-paper) 5%,
+                                     var(--dsc-paper) 95%, var(--dsc-paper-2) 100%);
+  color: var(--dsc-ink);
+  box-shadow: 0 30px 70px -34px #000;
+}
+.dsc-curl {
+  height: 26px;
+  background: linear-gradient(180deg, var(--dsc-paper-2), var(--dsc-paper));
+  border-bottom: 1px solid var(--dsc-rule);
+}
+.dsc-curl--foot { background: linear-gradient(0deg, var(--dsc-paper-2), var(--dsc-paper));
+  border-bottom: 0; border-top: 1px solid var(--dsc-rule); }
+.dsc-sheet { padding: 34px clamp(20px, 5vw, 56px) 40px; }
+
+.dsc-masthead { text-align: center; padding: 0 0 12px; border-bottom: 3px double var(--dsc-rule); }
+.dsc-masthead h1 {
+  margin: 0; font-family: 'UnifrakturMaguntia', Georgia, serif; font-weight: 400;
+  font-size: clamp(40px, 10vw, 84px); line-height: 1.02; color: var(--dsc-ink);
+}
+.dsc-masthead .dsc-slug {
+  margin: 10px 0 0; font-size: 12.5px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--dsc-ink-2);
+}
+.dsc-lede { margin: 22px 0 0; font-size: 17.5px; line-height: 1.7; color: var(--dsc-ink); }
+.dsc-lede + .dsc-lede { margin-top: 14px; }
+.dsc-lede b { font-weight: 600; }
+.dsc-note { margin: 18px 0 0; padding: 14px 16px; font-size: 15px; line-height: 1.62;
+  color: var(--dsc-ink-2); border-left: 3px solid var(--dsc-rule);
+  background: rgba(138,128,115,0.12); }
+
+/* ── The feed ──────────────────────────────────────────────────────────────  */
+.dsc-feed { list-style: none; margin: 30px 0 0; padding: 0; }
+.dsc-item { padding: 26px 0; border-top: 1px solid var(--dsc-rule); }
+.dsc-item:first-child { border-top: 3px double var(--dsc-rule); }
+.dsc-when {
+  margin: 0 0 8px; font-size: 12.5px; letter-spacing: 2.6px; text-transform: uppercase;
+  color: var(--dsc-red);
+}
+.dsc-headline {
+  margin: 0; font-weight: 600; font-size: clamp(22px, 4vw, 31px); line-height: 1.14;
+  color: var(--dsc-ink);
+}
+.dsc-stand { margin: 10px 0 0; font-size: 16.5px; line-height: 1.62; color: var(--dsc-ink-2); }
+.dsc-by { margin: 10px 0 0; font-size: 14.5px; color: var(--dsc-ink); }
+.dsc-by b { font-weight: 600; font-style: italic; }
+.dsc-more {
+  margin: 14px 0 0; cursor: pointer; padding: 10px 18px; border-radius: 0;
+  font-family: 'Vollkorn', Georgia, serif; font-weight: 600; font-size: 12.5px;
+  letter-spacing: 2px; text-transform: uppercase;
+  border: 1px solid var(--dsc-ink); background: transparent; color: var(--dsc-ink);
+}
+.dsc-more:hover { background: var(--dsc-ink); color: var(--dsc-paper); }
+
+/* ── The whole poem ────────────────────────────────────────────────────────
+   A native <dialog>, the Pebble Board's decision again. THE POEM IS ENTIRE:
+   nothing on this scroll is excerpted, because a feed that hands you the worst
+   line of something is exactly what this room is a joke about.                 */
+.dsc-full {
+  max-width: min(94vw, 680px); width: auto; padding: 0;
+  border: 1px solid var(--dsc-rule); border-radius: 0;
+  background: var(--dsc-paper); color: var(--dsc-ink);
+  box-shadow: 0 40px 90px -30px #000;
+}
+.dsc-full::backdrop { background: rgba(14,12,10,0.9); }
+.dsc-full__inner { margin: 0; padding: 32px clamp(20px, 5vw, 44px) 30px; max-height: 90vh; overflow: auto; }
+.dsc-full h2 { margin: 0 0 4px; font-weight: 600; font-size: 30px; line-height: 1.12;
+  color: var(--dsc-ink); }
+.dsc-full__by { margin: 0; font-size: 14px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--dsc-ink-2); }
+.dsc-poem { margin: 24px 0 0; font-size: 17.5px; line-height: 1.6; }
+.dsc-poem p { margin: 0 0 20px; }
+.dsc-poem p:last-child { margin: 0; }
+.dsc-prov {
+  margin: 26px 0 0; padding: 16px 0 0; border-top: 1px solid var(--dsc-rule);
+  font-size: 13.5px; line-height: 1.65; color: var(--dsc-ink-2);
+}
+.dsc-prov b { font-weight: 600; color: var(--dsc-ink); }
+.dsc-prov a { color: var(--dsc-red); }
+.dsc-close {
+  margin: 22px 0 0; cursor: pointer; padding: 10px 18px;
+  font-family: 'Vollkorn', Georgia, serif; font-weight: 600; font-size: 12.5px;
+  letter-spacing: 2px; text-transform: uppercase;
+  border: 1px solid var(--dsc-ink); background: transparent; color: var(--dsc-ink);
+}
+.dsc-close:hover { background: var(--dsc-ink); color: var(--dsc-paper); }
+
+.dsc-foot { margin: 40px 0 0; padding: 26px 0 0; border-top: 1px solid rgba(220,215,204,0.25);
+  font-size: 14.5px; line-height: 1.7; color: var(--dsc-paper); }
+.dsc-foot a { color: var(--dsc-paper); }
+
+
+/* §25 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -3483,7 +4309,24 @@ html[data-intensity="gentle"] .pb-tape { transform: translateX(-50%); }
 }
 
 
-/* §23 ── Print ───────────────────────────────────────────────────────────────
+/* The Mopery, the Oracle Deck and the Doomscroll (§22-§24). The nook is two
+   columns on a desk and one on a phone; the shelves already wrap on their own,
+   and the spines stay upright because a spine that lay down would stop being a
+   spine. */
+@media (max-width: 760px) {
+  .mop-scan { padding: 20px 16px 18px; }
+  .mop-plate { margin: 22px auto 26px; }
+  .mop-parlour { padding: 20px 14px 18px; }
+  .mop-hearth { gap: 10px; }
+  .mop-drip { flex-basis: 14px; }
+  .mop-sign { padding: 18px 24px 20px; }
+  .mop-shelf, .mop-card, .mop-card + p, .mop-records { margin-left: 14px; margin-right: 14px; }
+  .mop-spine { padding: 14px 8px; font-size: 15px; }
+  .orc-index { grid-template-columns: 1fr; }
+  .dsc-sheet { padding: 24px 18px 30px; }
+}
+
+/* §26 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

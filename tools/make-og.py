@@ -474,6 +474,81 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .game-pebble .peng .pose[data-pose="stand"] {{ visibility: visible; }}
 .game-pebble .og-nest {{ position: absolute; width: 230px; transform: translate(-50%, -100%); }}
 
+/* mopery — A COLD CARD WITH WARM POINTS ON IT, which is the room's whole
+   argument and the one thing this card must not soften. The candles are drawn
+   here rather than lifted, because on the page they stand on a bookcase and on
+   a card they run along the top of the frame; the spines ARE lifted, from the
+   page's first shelf, so the card cannot show a book the library does not have.
+   Everything glows for about twenty pixels and then stops. */
+.og--mopery {{ gap: 26px; padding: 44px 60px 46px; }}
+.og--mopery .og-candles {{ display: flex; gap: 30px; align-items: flex-end; height: 48px; }}
+.og--mopery .og-candle {{ position: relative; width: 11px; height: 34px;
+  background: linear-gradient(180deg, #D9C7A6, var(--mop-wax)); border-radius: 3px 3px 0 0; }}
+.og--mopery .og-candle:nth-child(even) {{ height: 22px; }}
+.og--mopery .og-candle::before {{ content: ""; position: absolute; left: 50%; bottom: 100%;
+  width: 9px; height: 15px; margin-left: -4.5px; border-radius: 50% 50% 40% 40%;
+  background: radial-gradient(circle at 50% 70%, #FFF1CE, var(--mop-flame) 55%, rgba(243,185,95,0) 100%); }}
+.og--mopery .og-candle::after {{ content: ""; position: absolute; left: 50%; bottom: 100%;
+  width: 78px; height: 78px; margin: 0 0 -26px -39px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(243,185,95,0.15), rgba(243,185,95,0) 70%); }}
+.og--mopery .og-head {{ display: flex; align-items: flex-end; gap: 44px; }}
+.og--mopery .mop-shelf {{ flex: 0 0 auto; margin: 0 !important; padding: 0 0 12px;
+  gap: 6px; border-bottom: 9px solid var(--mop-shelf); }}
+.og--mopery .mop-spine {{ font-size: 15px; padding: 14px 9px; pointer-events: none; }}
+.og--mopery h1 {{ font-size: 92px; line-height: 0.98; margin: 0 !important; color: var(--mop-gilt); }}
+.og--mopery .og-lede {{ font-family: 'Spectral', serif; color: var(--mop-bone); max-width: 640px; }}
+.og--mopery .og-foot {{ font-family: 'Spectral', serif; color: var(--mop-dim); }}
+
+/* oracle — THE ONLY CARD ON THIS STREET MADE OF PHOTOGRAPHS OF PAPER. Three of
+   the plates, at the size a card can carry them, on a ground with no light
+   source in it: the prints are the only warm thing in the room and they have to
+   be the only warm thing on the card too, or the deck starts looking like the
+   library it hangs off. The lettering is CUT rather than printed. */
+.og--oracle {{ gap: 22px; padding: 44px 60px 46px; align-items: center; justify-content: center; }}
+.og--oracle .og-fan {{ display: flex; gap: 18px; align-items: center; }}
+.og--oracle .og-fan img {{ width: 176px; height: 220px; object-fit: cover; object-position: top center;
+  background: #0B0A09; border: 1px solid var(--orc-edge); }}
+.og--oracle h1 {{ font-family: 'Cinzel', serif; font-weight: 700; font-size: 78px;
+  letter-spacing: 6px; text-transform: uppercase; color: var(--orc-cut);
+  margin: 0 !important; text-align: center; }}
+.og--oracle .og-ask {{ font-family: 'Cardo', serif; font-style: italic; font-size: 34px;
+  color: var(--orc-red); margin: 0 !important; text-align: center; }}
+.og--oracle .og-foot {{ font-family: 'Cinzel', serif; color: var(--orc-dim);
+  letter-spacing: 3px; text-align: center; }}
+.og--oracle .og-cutline {{ display: flex; align-items: center; gap: 14px; color: var(--orc-edge); }}
+.og--oracle .og-cutline i {{ flex: 0 0 150px; height: 1px; background: currentColor; }}
+/* Clipped rather than rotated, for the reason written beside .orc-cut-rule in
+   love.css: a decorative rotate is indistinguishable from a tilt to the tool
+   that guards the Gentle setting. */
+.og--oracle .og-cutline b {{ width: 12px; height: 12px; background: var(--orc-brass);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }}
+
+/* doomscroll — TWO GROUNDS, LIKE THE BURROW'S, AND FOR THE OPPOSITE REASON.
+   The burrow inverts because the room does. This one has a dark desk and a pale
+   roll on it because that is the object: a sheet of newsprint lying on a table,
+   curling at both ends, which is a thing you can see the edges of. The
+   blackletter is the masthead and nothing else, here as in the room. */
+.og--doom {{ padding: 26px 44px; justify-content: center; }}
+.og--doom .og-roll {{ background: linear-gradient(90deg, var(--dsc-paper-2) 0, var(--dsc-paper) 5%,
+  var(--dsc-paper) 95%, var(--dsc-paper-2) 100%); color: var(--dsc-ink);
+  padding: 0; box-shadow: 0 20px 50px -26px #000; }}
+.og--doom .og-curl {{ height: 20px; background: linear-gradient(180deg, var(--dsc-paper-2), var(--dsc-paper));
+  border-bottom: 1px solid var(--dsc-rule); }}
+.og--doom .og-curl--foot {{ background: linear-gradient(0deg, var(--dsc-paper-2), var(--dsc-paper));
+  border-bottom: 0; border-top: 1px solid var(--dsc-rule); }}
+.og--doom .og-body {{ padding: 20px 42px 24px; }}
+.og--doom h1 {{ font-family: 'UnifrakturMaguntia', serif; font-size: 78px; line-height: 1;
+  color: var(--dsc-ink); margin: 0 !important; text-align: center; }}
+.og--doom .og-double {{ height: 0; border-top: 3px double var(--dsc-rule); margin: 12px 0 16px !important; }}
+.og--doom .og-story {{ margin: 0 0 14px !important; }}
+.og--doom .og-story:last-child {{ margin: 0 !important; }}
+.og--doom .og-when {{ font-family: 'Vollkorn', serif; font-size: 17px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--dsc-red); margin: 0 0 3px !important; }}
+.og--doom .og-hed {{ font-family: 'Vollkorn', serif; font-weight: 600; font-size: 33px;
+  line-height: 1.1; color: var(--dsc-ink); margin: 0 !important; }}
+.og--doom .og-foot {{ font-family: 'Vollkorn', serif; color: var(--dsc-paper);
+  text-align: center; padding-top: 14px; }}
+
 /* plain — the four pages with a job rather than a vibe. Quiet, but pinned to
    the frame at both ends rather than floating in the middle of it: an empty
    card reads as unfinished, which is a different thing from restrained. */
@@ -974,6 +1049,93 @@ def card_den(p):
     )
 
 
+def card_mopery(p):
+    # The spines are LIFTED from the page's first bookcase rather than written
+    # here, the same way the burrow's door and the campground's stream are: a
+    # card that typed its own titles could show a book the shop does not have,
+    # in the one asset nobody opens. The candles are drawn here because they run
+    # along the top of a card and along a bookcase in the room.
+    return (
+        "",
+        f'<div class="og og--mopery" data-fit="card">'
+        f'<div class="og-candles" data-fit="candles">'
+        + "".join('<span class="og-candle"></span>' for _ in range(9)) +
+        f'</div>'
+        f'<div class="og-head">{p["spines"]}'
+        f'<div>{p["h1"]}<p class="og-lede">{p["desc"]}</p></div>'
+        f'</div>'
+        f'<p class="og-foot" data-fit="footer">NOTHING PLAYS UNTIL YOU PRESS PLAY '
+        f'\u00b7 stimpunks.love</p>'
+        f'</div>',
+        f"A blue-black card, cold as stone. Along the top, a row of small lit "
+        f"candles whose glow stops a short way from each flame. Beneath them a "
+        f"shelf of coloured book spines standing on a dark board, and beside it "
+        f"\u201c{p['h1text']}\u201d in a battered gilt seventeenth-century serif "
+        f"with the line: {p['desc_plain']} Along the foot, in small letters: "
+        f"nothing plays until you press play. stimpunks.love.",
+    )
+
+
+def card_oracle(p):
+    # THE PICTURES ARE THE ACTUAL CARDS, at ../ because this renders from a
+    # temporary directory inside the repository. A drawn stand-in would have
+    # been easier and would have made the one asset nobody reviews the only
+    # place on the site where the deck is not the deck.
+    return (
+        "",
+        f'<div class="og og--oracle" data-fit="card">'
+        f'<div class="og-fan" data-fit="fan">'
+        f'<img src="../oracle/melencolia.jpg" alt="">'
+        f'<img src="../oracle/moon-full.jpg" alt="">'
+        f'<img src="../oracle/meryon-vampire.jpg" alt="">'
+        f'</div>'
+        f'<div class="og-cutline" data-fit="rule"><i></i><b></b><i></i></div>'
+        f'{p["h1"]}'
+        f'<p class="og-ask">It asks. It does not answer.</p>'
+        f'<p class="og-foot" data-fit="footer">ENGRAVINGS FROM 1514 TO 1891 '
+        f'\u00b7 PUBLIC DOMAIN \u00b7 stimpunks.love</p>'
+        f'</div>',
+        f"A warm ash-grey card with no light source in it. Three narrow cards sit "
+        f"in a row across the middle, each a dark rectangle holding a pale old "
+        f"engraving \u2014 a winged figure among scattered tools, the full moon, and "
+        f"a horned stone gargoyle leaning on its hands. Under them a thin cut rule "
+        f"with a small brass lozenge in the middle, then \u201c{p['h1text']}\u201d "
+        f"in wide inscriptional Roman capitals cut in bone white, and beneath that, "
+        f"in vermilion italic: it asks, it does not answer. Along the foot: "
+        f"engravings from 1514 to 1891, public domain, stimpunks.love.",
+    )
+
+
+def card_doom(p):
+    # THE FIRST TWO ITEMS ARE LIFTED FROM THE FEED, dateline and headline both,
+    # so the card cannot advertise a story the scroll does not carry -- and so
+    # that when something newer goes on the top of the feed the card follows it
+    # without anybody remembering to.
+    return (
+        "",
+        f'<div class="og og--doom" data-fit="card">'
+        f'<div class="og-roll" data-fit="roll">'
+        f'<div class="og-curl"></div>'
+        f'<div class="og-body">'
+        f'{p["h1"]}'
+        f'<div class="og-double"></div>'
+        f'{p["stories"]}'
+        f'</div>'
+        f'<div class="og-curl og-curl--foot"></div>'
+        f'</div>'
+        f'<p class="og-foot" data-fit="footer">Public domain poems of doom, newest '
+        f'first, back to {p["doom_oldest"]} \u00b7 stimpunks.love</p>'
+        f'</div>',
+        f"A dark desk with a long sheet of foxed grey newsprint unrolled across it, "
+        f"curling at the top and bottom edges. Across the top of the sheet, in heavy "
+        f"blackletter, \u201c{p['h1text']}\u201d, over a double rule. Below it two "
+        f"feed entries in a serif column, each with a small dark-red dateline above "
+        f"a bold headline: {p['stories_alt']}. Along the foot of the card, off the "
+        f"paper and on the desk: public domain poems of doom, newest first, back to "
+        f"{p['doom_oldest']}. stimpunks.love.",
+    )
+
+
 def card_plain(p):
     return (
         "",
@@ -1015,6 +1177,9 @@ CARDS = {
     "room-latibulum": card_latibulum,
     "room-jungle":  card_jungle,
     "room-den":     card_den,
+    "room-mopery":  card_mopery,
+    "room-oracle":  card_oracle,
+    "room-doom":    card_doom,
     "room-plain":   card_plain,
 }
 
@@ -1104,6 +1269,7 @@ def main():
         ("otter",    "otterly-adorbs.html", r'(<div class="otter" id="otter".*?</div>\s*</div>)'),
         ("ottdefs",  "otterly-adorbs.html", r'(<svg width="0" height="0".*?</defs></svg>)'),
         ("peng",     "penguin-pebbling.html", r'(<div class="peng" id="peng-you".*?</div>\s*</div>)'),
+        ("spines",   "the-mopery.html",   r'(<div class="mop-shelf">.*?</div>)'),
         ("pengdefs", "penguin-pebbling.html", r'(<svg width="0" height="0".*?</defs></svg>)'),
     ):
         lifted[key] = field((ROOT / page).read_text(), pat)
@@ -1132,6 +1298,33 @@ def main():
     # The alt text takes commas rather than the card's middots, because a middot
     # is a piece of typesetting and a screen reader reads it out as one.
     lifted["pitches_alt"] = ", ".join(n.lower() for n in nos)
+
+    # THE DOOMSCROLL'S CARD CARRIES THE TOP OF ITS OWN FEED, which is the only
+    # way a card for a reverse-chronological page can stay true: the moment
+    # something older than 1609 or newer than the current top item goes on that
+    # scroll, this follows it without anybody remembering to. The oldest year is
+    # read off the same page for the same reason.
+    doom = (ROOT / "the-doomscroll.html").read_text()
+    items = re.findall(
+        r'<p class="dsc-when">(.*?)</p>\s*<h3 class="dsc-headline">(.*?)</h3>', doom, re.S)
+    if len(items) < 2:
+        raise SystemExit(
+            "REFUSING: the-doomscroll.html has fewer than two items on it, and its\n"
+            "card is the top of that feed. Redesign the card on purpose rather than\n"
+            "letting it render a newspaper with no stories in it."
+        )
+    years = [int(y) for y in re.findall(r'<p class="dsc-when">(\d{4})', doom)]
+    lifted["doom_oldest"] = str(min(years))
+    lifted["stories"] = "".join(
+        f'<div class="og-story"><p class="og-when">{when.split("&middot;")[0].strip()}</p>'
+        f'<p class="og-hed">{hed}</p></div>'
+        for when, hed in items[:2])
+    # Commas rather than middots, and the headlines lowercased, because this is
+    # read out loud rather than looked at -- the same call the field's card made.
+    lifted["stories_alt"] = "; ".join(
+        f'{when.split("&middot;")[0].strip()}, '
+        f'{html.unescape(re.sub(r"<[^>]+>", "", hed)).lower()}'
+        for when, hed in items[:2])
 
     OUT.mkdir(exist_ok=True)
     built, failed = [], []

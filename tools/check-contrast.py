@@ -232,6 +232,28 @@ TIKI, JADE, RUM = "#F0B040", "#37C9A4", "#F2705A"
 FISHY, COBBLE, SHELLY, URCHIN = "#CFE2F2", "#A9BAC6", "#E8D6B6", "#B79AE0"
 
 # (fg, bg, large?, where)
+# The Mopery (§22). A COLD GROUND WITH WARM POINTS ON IT: the candles light a
+# foot of the room and the walls stay stone, which is the entire separation from
+# the four warm enclosed rooms on this street. Nine spines, nine measured pairs
+# -- a shelf with one unreadable title on it is a shelf whose reader cannot tell
+# which book is broken.
+MOP_NIGHT, MOP_STONE, MOP_SHELF, MOP_DEEP = "#10141A", "#1A2027", "#232B34", "#080B0E"
+MOP_BONE, MOP_DIM, MOP_GILT, MOP_FLAME = "#EAE4D6", "#A7AFB9", "#D3AB58", "#F3B95F"
+MOP_OXBLOOD, MOP_SUGAR, MOP_INKSPINE = "#6B2028", "#D8BCC6", "#232A42"
+MOP_GRAPHITE, MOP_TAR, MOP_WINE = "#474D55", "#15181C", "#5C2033"
+MOP_VELLUM, MOP_DUST, MOP_MOSS = "#D8CBA6", "#8C8271", "#44523D"
+
+# The Oracle Deck (§23). Ash and vermilion, no blue anywhere, because the
+# library it hangs off is blue-black all over.
+ORC_SLATE, ORC_DEEP, ORC_CUT = "#23201E", "#131110", "#F2EDE4"
+ORC_DIM, ORC_RED, ORC_BRASS = "#B0A69B", "#E8724A", "#B99154"
+
+# The Doomscroll (§24). Foxed newsprint on a dark desk -- the only pale ground
+# on this side of the street, and the thing that keeps it off the zine table is
+# that this paper is warm and grey where a photocopy is stark white.
+DSC_DESK, DSC_PAPER, DSC_PAPER2 = "#211D18", "#DCD7CC", "#CFC8BA"
+DSC_INK, DSC_INK2, DSC_RED, DSC_BONE = "#1A1714", "#4A423A", "#8C1D18", "#EAE4D6"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -839,6 +861,55 @@ PAIRS = [
     (PBMEM_INK,    PBMEM,      False, "board: the lightbox's Close button"),
     (PBMEM_CREDIT, PBMEM,      False, "board: its outline, at the body threshold because a\n     control you cannot find is a control that is not offered"),
     (PBMEM_INK,    PBMEM_CARD, False, "board: the lightbox's description, on the same ground"),
+    # ── The Mopery (§22) ──────────────────────────────────────────────────
+    (MOP_BONE, MOP_NIGHT, False, "mopery: body copy on the room"),
+    (MOP_BONE, MOP_STONE, False, "mopery: body copy on a case panel, a poem box, a record"),
+    (MOP_BONE, MOP_SHELF, False, "mopery: a note on the shelf board"),
+    (MOP_BONE, MOP_DEEP,  False, "mopery: the screen surround and the manuscript door"),
+    (MOP_DIM,  MOP_NIGHT, False, "mopery: the shop's eyebrow and the quiet lines"),
+    (MOP_DIM,  MOP_STONE, False, "mopery: a shelf card's subtitle, a record's byline"),
+    (MOP_DIM,  MOP_SHELF, False, "mopery: a runtime beside a cut"),
+    (MOP_DIM,  MOP_DEEP,  False, "mopery: the parlour's small print"),
+    (MOP_GILT, MOP_NIGHT, False, "mopery: links, the shop sign, every h2"),
+    (MOP_GILT, MOP_STONE, False, "mopery: a shelf card, a record's title, the way-in headings"),
+    (MOP_GILT, MOP_SHELF, False, "mopery: the selected cut's rule and label"),
+    (MOP_GILT, MOP_DEEP,  False, "mopery: the play button and the door out"),
+    (MOP_FLAME, MOP_NIGHT, False, "mopery: the shelf-talker where it sits on the room"),
+    (MOP_FLAME, MOP_STONE, False, "mopery: the shelf-talker inside a record"),
+    # NINE SPINES, EACH WITH THE INK IT ACTUALLY CARRIES. A spine is a coloured
+    # block with a title set down it; there is no shared rule, so every one is
+    # its own pair and make-mopery.py refuses a spine colour love.css has no
+    # rule for -- an unstyled spine is invisible rather than wrong.
+    (MOP_BONE, MOP_OXBLOOD,  False, "mopery: The Secret History's spine"),
+    (MOP_DEEP, MOP_SUGAR,    False, "mopery: Bunny's spine"),
+    (MOP_BONE, MOP_INKSPINE, False, "mopery: The Atlas Six's spine"),
+    (MOP_BONE, MOP_GRAPHITE, False, "mopery: A Deadly Education's spine"),
+    (MOP_BONE, MOP_TAR,      False, "mopery: Nocticadia's spine"),
+    (MOP_BONE, MOP_WINE,     False, "mopery: Gothikana's spine"),
+    (MOP_DEEP, MOP_VELLUM,   False, "mopery: A Discovery of Witches' spine"),
+    (MOP_DEEP, MOP_DUST,     False, "mopery: The Historian's spine"),
+    (MOP_BONE, MOP_MOSS,     False, "mopery: Dionysus in Wisconsin's spine"),
+
+    # ── The Oracle Deck (§23) ─────────────────────────────────────────────
+    (ORC_CUT,   ORC_SLATE, False, "oracle: a card's note and the page's body copy"),
+    (ORC_CUT,   ORC_DEEP,  False, "oracle: the draw table's heading and its lede"),
+    (ORC_DIM,   ORC_SLATE, False, "oracle: the plate's credit line under every card"),
+    (ORC_DIM,   ORC_DEEP,  False, "oracle: the empty-slot line and the live region"),
+    (ORC_RED,   ORC_SLATE, False, "oracle: the question on every card"),
+    (ORC_RED,   ORC_DEEP,  False, "oracle: the question on a drawn card"),
+    (ORC_BRASS, ORC_SLATE, False, "oracle: links in a plate's credit"),
+    (ORC_BRASS, ORC_DEEP,  False, "oracle: the draw button and the put-it-back button"),
+
+    # ── The Doomscroll (§24) ──────────────────────────────────────────────
+    (DSC_INK,   DSC_PAPER,  False, "doomscroll: the masthead, every headline, every poem"),
+    (DSC_INK,   DSC_PAPER2, False, "doomscroll: a headline over the shaded edge of the roll"),
+    (DSC_INK2,  DSC_PAPER,  False, "doomscroll: the standfirst, the notes, the provenance"),
+    (DSC_INK2,  DSC_PAPER2, False, "doomscroll: the same, at the curled edges"),
+    (DSC_RED,   DSC_PAPER,  False, "doomscroll: the dateline over every item"),
+    (DSC_RED,   DSC_PAPER2, False, "doomscroll: a dateline at the edge of the roll"),
+    (DSC_PAPER, DSC_DESK,   False, "doomscroll: the backlinks and the footer, on the desk"),
+    (DSC_BONE,  DSC_DESK,   False, "doomscroll: the dial's own copy, off the paper"),
+
 ]
 
 # NOT IN THE LIST, AND IT SHOULD BE: cream (#FFF3E6) on the same #FF5AA6 ground
@@ -922,6 +993,28 @@ ORNAMENT = {
     "#f6e3b8": "board: the lamp over the noticeboard, a 42% radial wash that lands on "
                "the frame and the cork and never under a word. Also measured as type "
                "above, because the rack's heading is set in it.",
+    "#e3dccb": "mopery: the mount each of Dore's engravings is printed on, 12.01 on the "
+               "case panel behind it. The plates are near-white at the edges and would "
+               "float with no object under them on a blue-black wall; this is the paper "
+               "they were printed on, and nothing is set on it. Not in :root -- it is "
+               "written into the rule -- and measured here because the number is worth "
+               "having in the one place this site keeps numbers.",
+    "#d8d0be": "mopery: the mount behind each leaf of the 1865 scan, 10.69 on the same "
+               "panel. Same reason as the plates' mount and the same lack of text on it.",
+    "#6a4a2a": "mopery: the wax of every candle on the top shelf and down both jambs "
+               "of the parlour screen, 1.66 on the room. It is a drawn object carrying "
+               "no words, and the room's argument depends on the candlelight NOT "
+               "reaching the walls -- lifting it would be lighting the library.",
+    "#3a434e": "mopery: every hairline in the room -- the case borders, the rules under "
+               "a shelf card, the double rule between sections, the shelf board itself. "
+               "2.23 on the room. Structure you feel rather than read; nothing is set "
+               "in it.",
+    "#3a342f": "oracle: the cut rule, the edge of every card and the line above each "
+               "plate's credit, 1.36 on the slate. A stonecutter's hairline, and the "
+               "only thing in that room that is not either a picture or a sentence.",
+    "#8a8073": "doomscroll: the rules between items, the double rule under the masthead "
+               "and the curl at each end of the roll, 2.70 on the paper. Printed rules "
+               "carry no words; every line of type on that scroll is measured above.",
     "#2a3a31": "campgrounds: the board's frame and the post each pitch hangs off, 1.48 "
                "on the field. That field is deliberately the dimmest ground on the "
                "street and its type carries all of it -- bone at 14.7, moss at 7.3. The "

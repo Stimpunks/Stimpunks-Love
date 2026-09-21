@@ -114,6 +114,12 @@ LISTS = [
     # checker -- and a dead station in a room built for people who are already
     # flat is the worst place on the street to find rot.
     ("the latibulum",  "data/latibulum.json", "latibulum.html"),
+    # The Mopery's parlour screen: one song, several times over, and eight of
+    # the nine are somebody's cover on somebody's own channel -- which is the
+    # kind of upload that goes away without anybody deciding it should. One of
+    # them is an acknowledged unofficial re-upload of a soundtrack cut and is
+    # by some distance the most likely thing on this street to vanish.
+    ("the mopery",     "data/mopery.json",   "the-mopery.html"),
     # The Hermitage's campfire. Feature-length documentaries on other people's
     # channels, which rot differently from a music video: a full episode is the
     # kind of upload a rights holder pulls, and the room's argument is that you
@@ -216,9 +222,18 @@ def tracks_in(data):
         return [dict(d, artist=d.get("channel"),
                      state="link" if d.get("how") == "link" else None)
                 for d in (data.get("docs", []) + data.get("solar_watch", []))]
+    if "cuts" in data:
+        # The Mopery's parlour screen: ONE SONG, several times over, so what
+        # every other list calls the artist is the performer here and the song
+        # is the same on every row. 'how' is normalised to 'state' the way the
+        # Hermitage's and the board's are, because the embed exemption below
+        # keys on 'state'.
+        return [dict(c, artist=c.get("channel"),
+                     state="link" if c.get("how") == "link" else None)
+                for c in data["cuts"]]
     raise SystemExit(
-        "REFUSING: a data file in LISTS has neither 'tracks' nor 'groups', so this "
-        "run\nwould have checked none of it while reporting a confident total.")
+        "REFUSING: a data file in LISTS has none of the shapes this tool knows, so "
+        "this\nrun would have checked none of it while reporting a confident total.")
 
 
 def load():

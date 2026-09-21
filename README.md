@@ -80,6 +80,9 @@ penguin-pebbling.html A shore, some pebbles, and neighbours with nests. Nothing 
 latibulum.html        A burrow under the hill. A wireless, a tube television, a lamp
 jungle-room.html      A viewing room under a canopy. Nature live cams, none with a runtime
 the-den.html          Behind it: Graceland's Jungle Room, and the records cut in it
+the-mopery.html       A cold library. Books to borrow, one song many ways, Poe with Doré
+oracle-deck.html      Behind it: thirteen engravings, and a question on the back of each
+the-doomscroll.html   And behind it: public domain doom as a feed, on an actual scroll
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
 faery-yurt.html       Pitch 01. Helen Edgar's candlelit yurt; her design, not ours
@@ -92,6 +95,9 @@ love-embed.js         The press-to-play facade
 arcade.js             Quill Drift. Loaded by its own page only; nothing before the coin
 otterly.js            Otterly Adorbs. The same, for the cabinet next to it
 pebbling.js           Penguin Pebbling. Built on the locution, not on the card game
+mopery.js             The shelves' popups, the Raven's font picker, the parlour screen
+oracle.js             The draw. Moves a copy of a card that is already on the page
+doomscroll.js         Opens a poem that is already on the page. Nothing is fetched
 fonts/                Self-hosted families, one per voice a room insisted on + _sources.json
 data/jukebox.json     The ten tracks, one source of truth for two pages
 data/chappell.json    The thirteen in The Chappell. A separate file for separate provenance
@@ -108,6 +114,11 @@ data/jungle.json      The nature cams, in our own events page's groups and order
 data/den.json         The Jungle Room sessions, 1976. A discography, not a list of ours
 data/hermitage.json   The cave's books and the campfire's documentaries. Two provenances
 data/club.json        Club Chronic's rack, stage and paste-up. The selection is Star Stuff's
+data/mopery.json      The Mopery's shelves, its screen, and The Raven with Doré's plates
+data/oracle.json      The deck. Thirteen Met open-access engravings, and our questions
+data/doomscroll.json  Thirteen poems, newest first, each naming the printing it came from
+raven/                Doré's 1884 engravings and three leaves of an 1865 printing
+oracle/               The deck's plates. Public domain, CC0, from one collection
 og/                   One share card per page, and one card design per room
 tools/                The generators and the checkers, below
 ```
@@ -132,6 +143,9 @@ python3 tools/make-jungle.py       # the Jungle Room's viewing galleries, and th
 python3 tools/make-den.py          # The Den's listening bench, and its credits
 python3 tools/make-hermitage.py    # the Hermitage's shelves and campfire, and their credits
 python3 tools/make-club.py         # Club Chronic's stage, paste-up and rack, and their credits
+python3 tools/make-mopery.py       # the Mopery's shelves, its screen and its Raven nook
+python3 tools/make-oracle.py       # the oracle deck, and its credits
+python3 tools/make-doomscroll.py   # the doomscroll's feed, sorted by first publication
 python3 tools/make-pebble-board.py # the Pebble Board's current edition, and its back-issue rack
 python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
 python3 tools/check-contrast.py    # every pair against WCAG; exits 1 on a failure
@@ -141,6 +155,21 @@ python3 tools/check-counts.py      # refuses a sentence that says how many rooms
 python3 tools/check-ids.py         # refuses a repeated id, and one no page actually has
 python3 tools/check-classes.py     # refuses a class two rooms claim, or a page wears wrongly
 ```
+
+`make-mopery.py` refuses a book with no way to borrow it, a cut that does not name Jagger and
+Richards — eight of the nine on that screen are covers, and a wall of covers is exactly where
+crediting only the voice would pass unnoticed — a spine colour the stylesheet has no rule for,
+and a stanza of The Raven that is not six lines, because that poem's shape is its metre.
+`make-oracle.py` refuses a card that tells a fortune: every card ends in a question mark and
+none of them carries the language of prediction, because **a deck on a Disabled people's site
+that told somebody how their life was going to go would be doing the thing the rest of these
+pages exist to refuse** — and it would arrive as a friendly edit from somebody who thought a
+question was a bit thin. It also refuses a plate whose object page is not the Metropolitan
+Museum's, because one rights statement only covers one collection.
+`make-doomscroll.py` refuses a poem whose author has been dead seventy years or less. That is
+not a US-public-domain test, it is a **public domain everywhere** test, and it cost the scroll
+its best opening item: Eliot's *The Hollow Men* is free in America and will not be in much of
+Europe until the 2030s.
 
 One more, deliberately **outside** that sequence because it is the only tool that needs the
 network — a checker that fails on a train either blocks a deploy or teaches everyone to skip it:

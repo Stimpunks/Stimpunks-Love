@@ -440,6 +440,103 @@ alternative was publishing a room before it was a room. The drawing of Helen's y
 says so in the liner notes** — the field's sign for her pitch, which changes nothing on her page —
 for the same reason the one colour of hers this repo changed is written down in four places.
 
+**THE FIRST COLD ENCLOSED ROOM, AND IT IS THE FIFTH WARM-LOOKING ONE.** The Mopery (§22) is a
+dark academia library with candles the whole way along every top shelf, which makes it another
+room on this street lit by flame — it joins the Faery Yurt, The Latibulum, The Den and the
+Hermitage's cave. *"They are all candlelit, so they should feel the same"* is the Latibulum
+argument arriving a **third** time, and by now it sounds like taste rather than tidying. What
+keeps it apart is one physical fact, and it has to stay:
+
+  · in every one of those the light **reaches the walls** — canvas, plaster, panelling and
+    curtain all go amber. **Here the walls stay blue-black stone**, because that is what a candle
+    actually does: it lights about a foot of a very large room. Cosy is what those rooms are.
+    This is being let into a building after everybody has gone home. **If the greys in here ever
+    warm up at the edges, this has become the yurt with a bigger bookshelf.**
+  · the yurt sets Cormorant Garamond, which is high-contrast, clean and cut yesterday. This sets
+    **IM Fell English, which was punched** — Fell's Oxford types with the ink spread and the
+    battered counters left in. Two warm serif rooms kept apart at the stroke rather than at the
+    palette, which is the only place it holds.
+
+**AND ONE SCAN IS SHOWN WHILE ANOTHER IS ONLY POINTED AT, one line of metadata apart.** The
+Library of Congress's facsimile of *The Raven* in Poe's hand carries **"reproduction prohibited
+without permission"** along the foot of its own first leaf — a 1949 Yale exhibition printing —
+and loc.gov answers a script with a bot check rather than with its rights statement, so that
+notice is the only rights information anybody here has read. It is linked and **not copied**.
+The 1865 Tyndale printing Ryan found is published by the Internet Archive under the **Public
+Domain Mark 1.0**, so three of its leaves are in the room. The poem is free in both; the
+*objects* are not the same object. **Do not copy the facsimile because the other scan was fine.**
+
+**DORÉ'S PLATES ARE PLACED BY US AND THE PAGE SAYS SO.** The 1884 edition printed the poem
+straight through and put the twenty-six engravings after it, each captioned with the lines it
+illustrates; here each plate stands at the lines its own caption quotes. That is a reading
+decision rather than a reproduction, so it is stated rather than left for a visitor to assume.
+**And the captions are verbatim, including where they disagree with our text** — that edition
+reads "'T is some visiter" and "Be that *word* our sign of parting" where ours does not, which
+is how the mismatch was found in the first place. Two printings of one poem are not one text.
+Do not "correct" a caption to match the poem underneath it.
+
+**A DECK THAT ANSWERS IS THE ONE THING THAT ROOM CANNOT BECOME.** The Oracle Deck (§23) asks a
+question on every card and `make-oracle.py` refuses one that does not end in a question mark,
+plus the whole vocabulary of prediction. There are no reversals, no spread, no positions and no
+reading of several cards together — **nothing that could be assembled into a statement about
+somebody's life.** A deck on a Disabled people's site that told somebody how their life was
+going to go would be doing the thing the rest of these pages exist to refuse, in the one room
+dark enough to get away with it, and **it would arrive as a friendly edit from somebody who
+thought a question was a bit thin.** It is the pebbling cabinet's refusal of a tally wearing a
+cloak. The whole deck is face up on the page too: drawing moves a copy. Nothing is behind the
+dice, because a room that made somebody gamble to reach its contents has put its contents behind
+chance.
+
+**AND THAT DECK MAKES ONE RIGHTS STATEMENT, WHICH IS WHY IT HAS ONE SOURCE.** Every plate is a
+public domain work in the Metropolitan Museum's Open Access collection, released CC0, and the
+tool refuses an object page anywhere else — make-hermitage.py's starstuff.earth rule. A deck
+assembled out of thirteen different rights statements is a deck nobody can check. **CC0 asks for
+nothing and every card names its artist anyway**, which is this street's habit rather than
+anybody's requirement.
+
+**THE DOOMSCROLL'S BAR IS PUBLIC DOMAIN *EVERYWHERE*, NOT IN THE UNITED STATES.** §24 refuses a
+poem whose author has been dead seventy years or less, checked against the current year rather
+than a date in the file. **It already cost the scroll its best opening item:** Eliot's *The
+Hollow Men* is free in America and will not be in much of Europe until the 2030s, and a site
+that serves everybody cannot publish a whole poem on a technicality that holds in one country.
+*The Darkling Thrush* is off it for the other reason — Wikisource's page for it names no
+printing and says so itself, and these poems differ between printings, so a text nobody can
+trace is the one thing a scroll built out of dates cannot carry. **The date is when it went
+public and not when it was written**, which for a third of that scroll is decades apart, and the
+tool sorts on it rather than trusting the order in the file.
+
+**AND THE ZINE TABLE IS THE ROOM THE SCROLL COLLAPSES INTO.** Both are ink on paper, which makes
+this the closest call on the street. The zine is a **photocopy** — stark white, pure black, cut
+with scissors, scattered at angles, and the page *is* the sheet. This is **foxed newsprint**,
+warm and grey, one unbroken roll with nothing cut and nothing rotated, lying on a dark desk you
+can see the edges of. The blackletter sets the masthead and **nothing else** — never a headline,
+never a line of a poem, because eighteen lines of blackletter is an access failure wearing
+atmosphere, and this is the room most likely to talk itself into one. If that paper ever goes
+white, the two rooms have become one.
+
+**ALL THREE POPUPS ARE CLONES OF MARKUP THAT IS ALREADY ON THE PAGE.** Not renderings of
+`data-` attributes: one copy of every book's note and every poem's text in the document, so a
+shelf cannot disagree with its own popup. With scripts off, each room's `<noscript>` unhides
+them — the library becomes a catalogue and **the doomscroll becomes more itself**, a very long
+scroll you keep going down. Do not "simplify" these back into data attributes.
+
+**AND A COLOUR NOBODY CHOSE LEAVES NO TRACE FOR THE CONTRAST CHECKER TO FIND.** The Doomscroll
+declared a link colour for its provenance line and nowhere else, so every other link on that
+pale scroll fell through to the base stylesheet's `a` — a pink picked for a near-black street,
+measuring about 2.4 on newsprint. `check-contrast.py` holds a pair for every colour somebody
+**decided on**; an inherited one was never decided, so there was nothing to hold a pair for and
+the run passed while a paragraph of links was illegible. **Ryan found it by looking at the
+page.** A pale room on a dark street has to state its own link colour, at the room, rather than
+on the components that happened to get one — which is the same shape of hole `[hidden]` left in
+the Hermitage, patched per component three times before anybody moved it to §2.
+
+**A DECORATIVE ROTATION IS INDISTINGUISHABLE FROM A TILT.** The deck's cut rule had a lozenge
+made of a square turned 45°, and `check-gentle.py` reported it as decoration outranking
+somebody's Gentle setting — correctly, because the computed matrix is all that tool can see. It
+is clipped out of a square now. Same call `arcade.js` made when it moved its sprites with
+`left`/`top` rather than `transform`: **when a tool can only see one thing, do not ask it to
+take your word for something else.**
+
 **A CLASS NAME IS GLOBAL AND A SECTION HEADER IS A COMMENT.** This is the structural hole under
 the whole architecture, and it stayed open until The Latibulum fell in it: that room shipped four
 names another room already had — `.scrawl` (the zine's margin hand), `.shelf` (the yurt's
