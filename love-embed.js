@@ -35,15 +35,22 @@
      one thing the id check has always really been doing is refusing to point
      this site's frames at somewhere nobody chose. So the URL form is allowed
      and it is checked against this. Adding an origin here is a decision that
-     also has to be made in the Content-Security-Policy; if only one of the two
-     is edited the frame is refused by the browser and shows a blank box. */
+     THIS ARRAY IS THE SINGLE SOURCE OF TRUTH FOR WHICH ORIGINS THIS SITE WILL
+     FRAME. make-csp.py reads it to build frame-src in _headers, and
+     make-sweetgrass.py reads it to refuse a bad URL at build time; neither
+     keeps a copy. Adding a service is one edit here and a re-run of
+     make-csp.py -- and do not hand-edit the header, because that line is
+     generated and a hand edit to it is put back on the next run, silently,
+     which is exactly how videopress shipped working locally and refused
+     live. */
   var ORIGINS = [
     'https://www.youtube-nocookie.com/',
     'https://open.spotify.com/',
     /* Swaying Sweetgrass's ten seconds of grass: Ryan's own video, already
        published by us on stimpunks.org's Nature entry, framed from where it
        already lives rather than copied onto this site. Third origin, third
-       place it is written down -- see _headers and make-sweetgrass.py. */
+       origin, and the one place it is written down -- make-csp.py and
+       make-sweetgrass.py both read the array above. */
     'https://videopress.com/'
   ];
 

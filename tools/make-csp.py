@@ -7,6 +7,24 @@ this script checks that claim rather than assuming it, because a stale hash does
 not warn: the browser silently refuses the snippet and everyone who asked for
 Gentle gets flashed the loud version instead. That is the exact failure the dial
 exists to prevent, arriving through the security header.
+
+frame-src IS READ OUT OF love-embed.js AND NOT WRITTEN HERE, and that is the
+whole reason this paragraph exists. The origins used to be a string literal in
+this file, which made FOUR places that had to agree while every comment on the
+site said three — and the fourth was invisible, because the line it writes in
+_headers says "do not hand-edit" and looks exactly like something you may edit.
+
+  Swaying Sweetgrass added videopress.com to _headers by hand, confirmed it in
+  the file, and shipped. Every later run of this tool quietly put the old list
+  back. The room worked on the dev server, which serves no headers at all, and
+  the live site refused the frame. Ryan found it by pressing the button.
+
+So love-embed.js's ORIGINS array is now the single source of truth: the browser
+gets what the script will actually try to build, derived rather than restated.
+Adding a service means editing love-embed.js and re-running this. If the array
+cannot be found or parsed this REFUSES rather than falling back to a default —
+a silently narrowed frame-src is a room full of blank boxes, and a silently
+widened one is a hole.
 """
 import base64, hashlib, pathlib, re, sys
 
@@ -25,6 +43,24 @@ if len(snippets) != 1:
 
 snippet = snippets.pop()
 digest = base64.b64encode(hashlib.sha256(snippet.encode()).digest()).decode()
+
+# THE ORIGINS THE SCRIPT WILL ACTUALLY BUILD A FRAME FOR. Read, not restated.
+embed = (ROOT / "love-embed.js").read_text()
+block = re.search(r"var ORIGINS = \[(.*?)\];", embed, re.S)
+if not block:
+    print("REFUSING: love-embed.js has no ORIGINS array to read frame-src from.")
+    print("That array is the single source of truth for which origins this site")
+    print("will frame. Restating the list here is what let _headers and the script")
+    print("drift apart once already -- fix the array, do not hard-code the list.")
+    sys.exit(2)
+found = re.findall(r"'(https://[^']+)'", block.group(1))
+if not found:
+    print("REFUSING: love-embed.js's ORIGINS array parsed to nothing.")
+    print("A silently narrowed frame-src is a room full of blank boxes.")
+    sys.exit(2)
+# The array holds trailing slashes because it is used with indexOf(); a CSP
+# source expression does not want one.
+origins = " ".join(o.rstrip("/") for o in found)
 csp = (
     "default-src 'self'; base-uri 'none'; object-src 'none'; form-action 'none'; "
     # frame-ancestors is 'self' and NOT 'none', which is a deliberate loosening
@@ -36,13 +72,11 @@ csp = (
     # X-Frame-Options above it is SAMEORIGIN for the same reason, since it has no
     # 'none' that means anything different.
     "frame-ancestors 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; "
-    # open.spotify.com is the second third-party frame this site will build and
-    # the first that is not YouTube: Club Chronic's stage carries the playlist on
-    # both services, because the Spotify one is the complete version. It is still
-    # a facade -- nothing reaches either company until somebody presses the thing
-    # -- and the origin is ALSO in love-embed.js's own allowlist. Both, or the
-    # browser refuses the frame and the room shows a blank box.
-    "frame-src 'self' https://www.youtube-nocookie.com https://open.spotify.com; "
+    # Every third-party origin here is read off love-embed.js above, so the
+    # browser is told exactly what the script will try to build. 'self' is not
+    # in that array and is added here: it is the laptop in the Hermitage's cave
+    # framing this site inside itself, which love-embed.js never constructs.
+    f"frame-src 'self' {origins}; "
     "style-src 'self' 'unsafe-inline'; "
     f"script-src 'self' 'sha256-{digest}'"
 )
@@ -51,4 +85,4 @@ src = hdr.read_text()
 new = re.sub(r"(# >>> csp.*?\n)  Content-Security-Policy: [^\n]*",
              lambda m: m.group(1) + "  Content-Security-Policy: " + csp, src, flags=re.S)
 hdr.write_text(new)
-print(f"csp: sha256-{digest}  ({len(pages)} pages, 1 snippet)")
+print(f"csp: sha256-{digest}  ({len(pages)} pages, 1 snippet)\n     frame-src 'self' " + origins + "  (read from love-embed.js)")
