@@ -1,284 +1,302 @@
 {
-  "bungee": [
-    {
-      "file": "bungee-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 14296,
-      "src": "https://fonts.gstatic.com/s/bungee/v17/N0bU2SZBIuF2PU_0DXR1C9zfmQ.woff2"
-    }
-  ],
-  "bungee-shade": [
-    {
-      "file": "bungee-shade-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 30352,
-      "src": "https://fonts.gstatic.com/s/bungeeshade/v17/DtVkJxarWL0t2KdzK3oI_jkc6SjTjQJElg.woff2"
-    }
-  ],
-  "shrikhand": [
-    {
-      "file": "shrikhand-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 15736,
-      "src": "https://fonts.gstatic.com/s/shrikhand/v17/a8IbNovtLWfR7T7bMJwrA4KR8TtctQ.woff2"
-    }
-  ],
-  "monoton": [
-    {
-      "file": "monoton-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 16492,
-      "src": "https://fonts.gstatic.com/s/monoton/v22/5h1aiZUrOngCibe4TkHLQka4BU4.woff2"
-    }
-  ],
-  "rock-salt": [
-    {
-      "file": "rock-salt-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 52040,
-      "src": "https://fonts.gstatic.com/s/rocksalt/v24/MwQ0bhv11fWD6QsAVOZrt0M6p7NGrQ.woff2"
-    }
-  ],
-  "space-grotesk": [
-    {
-      "file": "space-grotesk-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 22320,
-      "src": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2"
-    },
-    {
-      "file": "space-grotesk-500.woff2",
-      "weight": "500",
-      "style": "normal",
-      "bytes": 22320,
-      "src": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2"
-    },
-    {
-      "file": "space-grotesk-700.woff2",
-      "weight": "700",
-      "style": "normal",
-      "bytes": 22320,
-      "src": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2"
-    }
-  ],
-  "archivo-black": [
-    {
-      "file": "archivo-black-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 9792,
-      "src": "https://fonts.gstatic.com/s/archivoblack/v23/HTxqL289NzCGg4MzN6KJ7eW6CYyF_jzx13E.woff2"
-    }
-  ],
-  "vt323": [
-    {
-      "file": "vt323-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 7192,
-      "src": "https://fonts.gstatic.com/s/vt323/v18/pxiKyp0ihIEF2isfFJXUdVNF.woff2"
-    }
-  ],
-  "special-elite": [
-    {
-      "file": "special-elite-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 53040,
-      "src": "https://fonts.gstatic.com/s/specialelite/v20/XLYgIZbkc4JPUL5CVArUVL0ntnAOSFNuQsI.woff2"
-    }
-  ],
-  "courier-prime": [
-    {
-      "file": "courier-prime-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 11192,
-      "src": "https://fonts.gstatic.com/s/courierprime/v11/u-450q2lgwslOqpF_6gQ8kELawFpWs39pvk.woff2"
-    },
-    {
-      "file": "courier-prime-700.woff2",
-      "weight": "700",
-      "style": "normal",
-      "bytes": 11588,
-      "src": "https://fonts.gstatic.com/s/courierprime/v11/u-4k0q2lgwslOqpF_6gQ8kELY7pMT-Dfq9PrNX0.woff2"
-    }
-  ],
-  "instrument-serif": [
-    {
-      "file": "instrument-serif-400-italic.woff2",
-      "weight": "400",
-      "style": "italic",
-      "bytes": 15684,
-      "src": "https://fonts.gstatic.com/s/instrumentserif/v5/jizHRFtNs2ka5fXjeivQ4LroWlx-6zAjjH7Motmp5g.woff2"
-    },
-    {
-      "file": "instrument-serif-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 15040,
-      "src": "https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-6zUTjnTLgNs.woff2"
-    }
-  ],
-  "titan-one": [
-    {
-      "file": "titan-one-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 10732,
-      "src": "https://fonts.gstatic.com/s/titanone/v17/mFTzWbsGxbbS_J5cQcjClDgm-khykw.woff2"
-    }
-  ],
-  "cormorant-garamond": [
-    {
-      "file": "cormorant-garamond-600.woff2",
-      "weight": "600",
-      "style": "normal",
-      "bytes": 23384,
-      "src": "https://fonts.gstatic.com/s/cormorantgaramond/v21/co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_iE9KnTOitk9IfqxUQ.woff2"
-    },
-    {
-      "file": "cormorant-garamond-600-italic.woff2",
-      "weight": "600",
-      "style": "italic",
-      "bytes": 23824,
-      "src": "https://fonts.gstatic.com/s/cormorantgaramond/v21/co3smX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd5LDf-iNM8A_6pUKz9.woff2"
-    }
-  ],
-  "crimson-pro": [
-    {
-      "file": "crimson-pro-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 18424,
-      "src": "https://fonts.gstatic.com/s/crimsonpro/v28/q5uUsoa5M_tv7IihmnkabC5XiXCAlXGks1WZzm1MP5s-dtC4yJtE.woff2"
-    },
-    {
-      "file": "crimson-pro-400-italic.woff2",
-      "weight": "400",
-      "style": "italic",
-      "bytes": 19072,
-      "src": "https://fonts.gstatic.com/s/crimsonpro/v28/q5uSsoa5M_tv7IihmnkabAReu49Y_Bo-HVKMBi6Ue6s8fNGazINFRtM.woff2"
-    }
-  ],
-  "caveat": [
-    {
-      "file": "caveat-600.woff2",
-      "weight": "600",
-      "style": "normal",
-      "bytes": 51296,
-      "src": "https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjSx6eIWpYT5Kmgq3sw.woff2"
-    }
-  ],
-  "alfa-slab-one": [
-    {
-      "file": "alfa-slab-one-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 11580,
-      "src": "https://fonts.gstatic.com/s/alfaslabone/v21/6NUQ8FmMKwSEKjnm5-4v-4Jh2dJhe_escmA.woff2"
-    }
-  ],
-  "bitter": [
-    {
-      "file": "bitter-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 34156,
-      "src": "https://fonts.gstatic.com/s/bitter/v42/rax8HiqOu8IVPmn7f4xpLjpSmw.woff2",
-      "note": "Bitter ships as a variable font, so Google serves the same file for every weight — 700 was byte-identical to this. The campgrounds takes the regular only and sets its emphasis in Alfa Slab One instead, rather than shipping 34KB twice under two names."
-    }
-  ],
-  "press-start-2p": [
-    {
-      "file": "press-start-2p-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 4704,
-      "src": "https://fonts.gstatic.com/s/pressstart2p/v16/e3t4euO8T-267oIAQAu6jDQyK3nVivNm4I81.woff2",
-      "note": "The Arcade's only face, and the eighteenth family here. A pixel face is the one thing no other room can borrow without turning into the arcade — which is what 4.7KB buys. Latin subset only; the room sets nothing outside it."
-    }
-  ],
-  "bree-serif": [
-    {
-      "file": "bree-serif-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 10360,
-      "src": "https://fonts.gstatic.com/s/breeserif/v18/4UaHrEJCrhhnVA3DgluA96rp57F2IwM.woff2",
-      "note": "The Latibulum's display face. A soft slab with round terminals — a beam somebody planed by hand rather than a letterpress serif, which is what keeps the burrow from reading like the Faery Yurt's high-contrast italic. Latin subset only."
-    }
-  ],
-  "nunito": [
-    {
-      "file": "nunito-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 39152,
-      "src": "https://fonts.gstatic.com/s/nunito/v32/XRXV3I6Li01BKofINeaBTMnFcQ.woff2",
-      "note": "The Latibulum's body face, and the only rounded sans on the street. It ships as a variable font, so Google serves the same file for 400 and for 700 — it is downloaded ONCE here and declared twice against the weight axis, the same call Bitter forced in the campgrounds rather than storing identical bytes under two names."
-    }
-  ],
-  "yeseva-one": [
-    {
-      "file": "yeseva-one-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 10940,
-      "src": "https://fonts.gstatic.com/s/yesevaone/v24/OpNJno4ck8vc-xYpwWWxli1VWzfAw0Y.woff2",
-      "note": "The Jungle Room's display face. Its strokes THICKEN as they curve, which is the closest type gets to something grown rather than built — and it is what keeps a dark green room from sounding like the campground's routed park sign, which is incised and even-stroke. Latin subset only."
-    }
-  ],
-  "cabin": [
-    {
-      "file": "cabin-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 28228,
-      "src": "https://fonts.gstatic.com/s/cabin/v35/u-4i0qWljRw-PfU81xCKCpdpbgZJl6XvqdnsF3-OAw.woff2",
-      "note": "The Jungle Room's body face, and the caption under every leaf in it. A humanist sans, which is the plate-and-caption half of the pairing above. It ships as a variable font, so Google serves the same file for 400 and for 700 — downloaded ONCE and declared twice against the weight axis, the same call Nunito and Bitter forced."
-    },
-    {
-      "file": "cabin-400.woff2",
-      "weight": "700",
-      "style": "normal",
-      "bytes": 28228,
-      "src": "https://fonts.gstatic.com/s/cabin/v35/u-4i0qWljRw-PfU81xCKCpdpbgZJl6XvqdnsF3-OAw.woff2",
-      "note": "Byte-identical to the 400 above; see that note."
-    }
-  ],
-  "ultra": [
-    {
-      "file": "ultra-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 15248,
-      "src": "https://fonts.gstatic.com/s/ultra/v25/zOLy4prXmrtY-uT9wrKh68xE.woff2",
-      "note": "The Den's display face. A fat 1970s slab — the weight a record sleeve was set in the year those sessions happened, and the one thing that keeps a green room off the Jungle Room upstairs, which sets a high-contrast serif that swells as it curves. Latin subset only."
-    }
-  ],
-  "karla": [
-    {
-      "file": "karla-400.woff2",
-      "weight": "400",
-      "style": "normal",
-      "bytes": 24264,
-      "src": "https://fonts.gstatic.com/s/karla/v33/qkB9XvYC6trAT55ZBi1ueQVIjQTD-JrIH2G7nytkHRyQ8p4wUje6bmMorHA.woff2",
-      "note": "The Den's body face, and the sleeve notes on the back of that record. A grotesque with enough quirk to sit under a slab that heavy without disappearing. Variable, so one file serves 400 and 700 — stored once, declared twice against the weight axis, as Nunito, Bitter and Cabin already are."
-    },
-    {
-      "file": "karla-400.woff2",
-      "weight": "700",
-      "style": "normal",
-      "bytes": 24264,
-      "src": "https://fonts.gstatic.com/s/karla/v33/qkB9XvYC6trAT55ZBi1ueQVIjQTD-JrIH2G7nytkHRyQ8p4wUje6bmMorHA.woff2",
-      "note": "Byte-identical to the 400 above; see that note."
-    }
-  ]
+ "bungee": [
+  {
+   "file": "bungee-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 14296,
+   "src": "https://fonts.gstatic.com/s/bungee/v17/N0bU2SZBIuF2PU_0DXR1C9zfmQ.woff2"
+  }
+ ],
+ "bungee-shade": [
+  {
+   "file": "bungee-shade-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 30352,
+   "src": "https://fonts.gstatic.com/s/bungeeshade/v17/DtVkJxarWL0t2KdzK3oI_jkc6SjTjQJElg.woff2"
+  }
+ ],
+ "shrikhand": [
+  {
+   "file": "shrikhand-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 15736,
+   "src": "https://fonts.gstatic.com/s/shrikhand/v17/a8IbNovtLWfR7T7bMJwrA4KR8TtctQ.woff2"
+  }
+ ],
+ "monoton": [
+  {
+   "file": "monoton-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 16492,
+   "src": "https://fonts.gstatic.com/s/monoton/v22/5h1aiZUrOngCibe4TkHLQka4BU4.woff2"
+  }
+ ],
+ "rock-salt": [
+  {
+   "file": "rock-salt-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 52040,
+   "src": "https://fonts.gstatic.com/s/rocksalt/v24/MwQ0bhv11fWD6QsAVOZrt0M6p7NGrQ.woff2"
+  }
+ ],
+ "space-grotesk": [
+  {
+   "file": "space-grotesk-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 22320,
+   "src": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2"
+  },
+  {
+   "file": "space-grotesk-500.woff2",
+   "weight": "500",
+   "style": "normal",
+   "bytes": 22320,
+   "src": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2"
+  },
+  {
+   "file": "space-grotesk-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 22320,
+   "src": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2"
+  }
+ ],
+ "archivo-black": [
+  {
+   "file": "archivo-black-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 9792,
+   "src": "https://fonts.gstatic.com/s/archivoblack/v23/HTxqL289NzCGg4MzN6KJ7eW6CYyF_jzx13E.woff2"
+  }
+ ],
+ "vt323": [
+  {
+   "file": "vt323-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 7192,
+   "src": "https://fonts.gstatic.com/s/vt323/v18/pxiKyp0ihIEF2isfFJXUdVNF.woff2"
+  }
+ ],
+ "special-elite": [
+  {
+   "file": "special-elite-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 53040,
+   "src": "https://fonts.gstatic.com/s/specialelite/v20/XLYgIZbkc4JPUL5CVArUVL0ntnAOSFNuQsI.woff2"
+  }
+ ],
+ "courier-prime": [
+  {
+   "file": "courier-prime-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 11192,
+   "src": "https://fonts.gstatic.com/s/courierprime/v11/u-450q2lgwslOqpF_6gQ8kELawFpWs39pvk.woff2"
+  },
+  {
+   "file": "courier-prime-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 11588,
+   "src": "https://fonts.gstatic.com/s/courierprime/v11/u-4k0q2lgwslOqpF_6gQ8kELY7pMT-Dfq9PrNX0.woff2"
+  }
+ ],
+ "instrument-serif": [
+  {
+   "file": "instrument-serif-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 15684,
+   "src": "https://fonts.gstatic.com/s/instrumentserif/v5/jizHRFtNs2ka5fXjeivQ4LroWlx-6zAjjH7Motmp5g.woff2"
+  },
+  {
+   "file": "instrument-serif-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 15040,
+   "src": "https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-6zUTjnTLgNs.woff2"
+  }
+ ],
+ "titan-one": [
+  {
+   "file": "titan-one-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 10732,
+   "src": "https://fonts.gstatic.com/s/titanone/v17/mFTzWbsGxbbS_J5cQcjClDgm-khykw.woff2"
+  }
+ ],
+ "cormorant-garamond": [
+  {
+   "file": "cormorant-garamond-600.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 23384,
+   "src": "https://fonts.gstatic.com/s/cormorantgaramond/v21/co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_iE9KnTOitk9IfqxUQ.woff2"
+  },
+  {
+   "file": "cormorant-garamond-600-italic.woff2",
+   "weight": "600",
+   "style": "italic",
+   "bytes": 23824,
+   "src": "https://fonts.gstatic.com/s/cormorantgaramond/v21/co3smX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd5LDf-iNM8A_6pUKz9.woff2"
+  }
+ ],
+ "crimson-pro": [
+  {
+   "file": "crimson-pro-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 18424,
+   "src": "https://fonts.gstatic.com/s/crimsonpro/v28/q5uUsoa5M_tv7IihmnkabC5XiXCAlXGks1WZzm1MP5s-dtC4yJtE.woff2"
+  },
+  {
+   "file": "crimson-pro-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 19072,
+   "src": "https://fonts.gstatic.com/s/crimsonpro/v28/q5uSsoa5M_tv7IihmnkabAReu49Y_Bo-HVKMBi6Ue6s8fNGazINFRtM.woff2"
+  }
+ ],
+ "caveat": [
+  {
+   "file": "caveat-600.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 51296,
+   "src": "https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjSx6eIWpYT5Kmgq3sw.woff2"
+  }
+ ],
+ "alfa-slab-one": [
+  {
+   "file": "alfa-slab-one-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 11580,
+   "src": "https://fonts.gstatic.com/s/alfaslabone/v21/6NUQ8FmMKwSEKjnm5-4v-4Jh2dJhe_escmA.woff2"
+  }
+ ],
+ "bitter": [
+  {
+   "file": "bitter-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 34156,
+   "src": "https://fonts.gstatic.com/s/bitter/v42/rax8HiqOu8IVPmn7f4xpLjpSmw.woff2",
+   "note": "Bitter ships as a variable font, so Google serves the same file for every weight \u2014 700 was byte-identical to this. The campgrounds takes the regular only and sets its emphasis in Alfa Slab One instead, rather than shipping 34KB twice under two names."
+  }
+ ],
+ "press-start-2p": [
+  {
+   "file": "press-start-2p-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 4704,
+   "src": "https://fonts.gstatic.com/s/pressstart2p/v16/e3t4euO8T-267oIAQAu6jDQyK3nVivNm4I81.woff2",
+   "note": "The Arcade's only face, and the eighteenth family here. A pixel face is the one thing no other room can borrow without turning into the arcade \u2014 which is what 4.7KB buys. Latin subset only; the room sets nothing outside it."
+  }
+ ],
+ "bree-serif": [
+  {
+   "file": "bree-serif-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 10360,
+   "src": "https://fonts.gstatic.com/s/breeserif/v18/4UaHrEJCrhhnVA3DgluA96rp57F2IwM.woff2",
+   "note": "The Latibulum's display face. A soft slab with round terminals \u2014 a beam somebody planed by hand rather than a letterpress serif, which is what keeps the burrow from reading like the Faery Yurt's high-contrast italic. Latin subset only."
+  }
+ ],
+ "nunito": [
+  {
+   "file": "nunito-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 39152,
+   "src": "https://fonts.gstatic.com/s/nunito/v32/XRXV3I6Li01BKofINeaBTMnFcQ.woff2",
+   "note": "The Latibulum's body face, and the only rounded sans on the street. It ships as a variable font, so Google serves the same file for 400 and for 700 \u2014 it is downloaded ONCE here and declared twice against the weight axis, the same call Bitter forced in the campgrounds rather than storing identical bytes under two names."
+  }
+ ],
+ "yeseva-one": [
+  {
+   "file": "yeseva-one-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 10940,
+   "src": "https://fonts.gstatic.com/s/yesevaone/v24/OpNJno4ck8vc-xYpwWWxli1VWzfAw0Y.woff2",
+   "note": "The Jungle Room's display face. Its strokes THICKEN as they curve, which is the closest type gets to something grown rather than built \u2014 and it is what keeps a dark green room from sounding like the campground's routed park sign, which is incised and even-stroke. Latin subset only."
+  }
+ ],
+ "cabin": [
+  {
+   "file": "cabin-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 28228,
+   "src": "https://fonts.gstatic.com/s/cabin/v35/u-4i0qWljRw-PfU81xCKCpdpbgZJl6XvqdnsF3-OAw.woff2",
+   "note": "The Jungle Room's body face, and the caption under every leaf in it. A humanist sans, which is the plate-and-caption half of the pairing above. It ships as a variable font, so Google serves the same file for 400 and for 700 \u2014 downloaded ONCE and declared twice against the weight axis, the same call Nunito and Bitter forced."
+  },
+  {
+   "file": "cabin-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 28228,
+   "src": "https://fonts.gstatic.com/s/cabin/v35/u-4i0qWljRw-PfU81xCKCpdpbgZJl6XvqdnsF3-OAw.woff2",
+   "note": "Byte-identical to the 400 above; see that note."
+  }
+ ],
+ "ultra": [
+  {
+   "file": "ultra-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 15248,
+   "src": "https://fonts.gstatic.com/s/ultra/v25/zOLy4prXmrtY-uT9wrKh68xE.woff2",
+   "note": "The Den's display face. A fat 1970s slab \u2014 the weight a record sleeve was set in the year those sessions happened, and the one thing that keeps a green room off the Jungle Room upstairs, which sets a high-contrast serif that swells as it curves. Latin subset only."
+  }
+ ],
+ "karla": [
+  {
+   "file": "karla-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 24264,
+   "src": "https://fonts.gstatic.com/s/karla/v33/qkB9XvYC6trAT55ZBi1ueQVIjQTD-JrIH2G7nytkHRyQ8p4wUje6bmMorHA.woff2",
+   "note": "The Den's body face, and the sleeve notes on the back of that record. A grotesque with enough quirk to sit under a slab that heavy without disappearing. Variable, so one file serves 400 and 700 \u2014 stored once, declared twice against the weight axis, as Nunito, Bitter and Cabin already are."
+  },
+  {
+   "file": "karla-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 24264,
+   "src": "https://fonts.gstatic.com/s/karla/v33/qkB9XvYC6trAT55ZBi1ueQVIjQTD-JrIH2G7nytkHRyQ8p4wUje6bmMorHA.woff2",
+   "note": "Byte-identical to the 400 above; see that note."
+  }
+ ],
+ "fraunces": [
+  {
+   "file": "fraunces-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 18288,
+   "src": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcUByTCf7Tp05GNyXk.woff2"
+  }
+ ],
+ "sora": [
+  {
+   "file": "sora-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 14752,
+   "src": "https://fonts.gstatic.com/s/sora/v17/xMQOuFFYT72X5wkB_18qmnndmSdSnk-NKQJDA8i1P4w.woff2"
+  }
+ ]
 }

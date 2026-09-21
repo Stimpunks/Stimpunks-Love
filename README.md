@@ -1,6 +1,6 @@
 # Stimpunks.Love
 
-**One street, no two rooms alike, one subroom, and a campground past the treeline.** A Stimpunks
+**One street, no two rooms alike, rooms behind rooms, and a campground past the treeline.** A Stimpunks
 Foundation site, and the loud one.
 
 Live at **[stimpunks.love](https://stimpunks.love/)** since 2026-09-19.
@@ -12,8 +12,8 @@ Live at **[stimpunks.love](https://stimpunks.love/)** since 2026-09-19.
 
 **This site has no single design system, on purpose.** Every other site we run applies one
 consistent look across many pages. Here the **street** is the system and the **rooms refuse to
-share one** — a visual world per room, one more behind one of those doors, and two more off the
-end of the street, all allowed to contradict each other and joined by a front door. That is not decoration; it is the architecture, and it is stolen wholesale from Danny the
+share one** — a visual world per room, more of them behind doors at the back of rooms, and more
+again off the end of the street, all allowed to contradict each other and joined by a front door. That is not decoration; it is the architecture, and it is stolen wholesale from Danny the
 Street, who rearranges himself for whoever needs sheltering.
 
 Which means: **do not unify the rooms.** A pull request that harmonises the palettes or settles
@@ -82,6 +82,7 @@ the-den.html          Behind it: Graceland's Jungle Room, and the records cut in
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
 faery-yurt.html       Pitch 01. Helen Edgar's candlelit yurt; her design, not ours
+solarpunk-hermitage.html  Pitch 03. A cabin on wheels, and the one room the sun is up in
 liner-notes.html      Who made this noise
 changelog.html        What changed, and when. Every Stimpunks site publishes one
 love.css              Shared base (§1–§4) then one self-contained world per room (§5 on)
@@ -104,6 +105,7 @@ data/yurt-sound.json  The six sounds in the Faery Yurt, and whose voice they are
 data/latibulum.json   The burrow's wireless and its television. A third provenance
 data/jungle.json      The nature cams, in our own events page's groups and order
 data/den.json         The Jungle Room sessions, 1976. A discography, not a list of ours
+data/hermitage.json   The cave's books and the campfire's documentaries. Two provenances
 og/                   One share card per page, and one card design per room
 tools/                The generators and the checkers, below
 ```
@@ -126,6 +128,7 @@ python3 tools/make-yurt-sound.py   # the yurt's sounds: their tiles, and their c
 python3 tools/make-latibulum.py    # the burrow's wireless and television, and their credits
 python3 tools/make-jungle.py       # the Jungle Room's viewing galleries, and their credits
 python3 tools/make-den.py          # The Den's listening bench, and its credits
+python3 tools/make-hermitage.py    # the Hermitage's shelves and campfire, and their credits
 python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
 python3 tools/check-contrast.py    # every pair against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
@@ -163,7 +166,10 @@ room's own claim, all three audio tools stop on a recording that still carries t
 its recorder wrote into it — and `make-yurt-sound.py` sweeps **every** audio file in the repo
 rather than only its own, because three tools each guarding their own patch left a hole between
 them that four unstripped recordings sat in for an afternoon, and `make-og.py` stops on a page whose room it has no card for —
-rather than handing a new room somebody else's face in the one asset nobody looks at — and
+rather than handing a new room somebody else's face in the one asset nobody looks at — and on a
+campgrounds card with no plots on it, because that card lists the field's pitches and used to list
+them from a string literal typed twice, in the one file whose whole argument is that a card must
+not be able to disagree with its page — and
 `check-classes.py` stops on a class name claimed by two rooms' sections of `love.css`, and on a
 page wearing a class another room claimed — a section header is a comment and a class name is
 global, so the browser applies the winner and says nothing. It found four collisions the day it

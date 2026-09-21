@@ -27,8 +27,16 @@ snippet = snippets.pop()
 digest = base64.b64encode(hashlib.sha256(snippet.encode()).digest()).decode()
 csp = (
     "default-src 'self'; base-uri 'none'; object-src 'none'; form-action 'none'; "
-    "frame-ancestors 'none'; img-src 'self'; font-src 'self'; connect-src 'none'; "
-    "frame-src https://www.youtube-nocookie.com; style-src 'self' 'unsafe-inline'; "
+    # frame-ancestors is 'self' and NOT 'none', which is a deliberate loosening
+    # and the only one in this policy. The laptop in the Solarpunk Hermitage's
+    # cave frames stimpunks.love inside stimpunks.love, and 'none' forbids this
+    # site being framed by ANYBODY -- itself included. 'self' keeps every other
+    # origin out, so clickjacking protection against third parties is unchanged;
+    # what it permits is exactly one page of ours embedding another page of ours.
+    # X-Frame-Options above it is SAMEORIGIN for the same reason, since it has no
+    # 'none' that means anything different.
+    "frame-ancestors 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; "
+    "frame-src 'self' https://www.youtube-nocookie.com; style-src 'self' 'unsafe-inline'; "
     f"script-src 'self' 'sha256-{digest}'"
 )
 hdr = ROOT / "_headers"

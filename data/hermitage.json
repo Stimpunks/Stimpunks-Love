@@ -1,0 +1,204 @@
+{
+  "_what": "The books on the shelves in the Solarpunk Hermitage's cave. Press a spine and it opens.",
+  "_sources": "EVERY BOOK IS ONE OUR OWN SITE ALREADY CITES, and the page it is cited on was read out of the Knowledge System mirror's own frontmatter rather than typed from memory — the rule make-chairy.py keeps. The borrow and buy links were lifted from the mirror too, not constructed from a title, because an Open Library id assembled from memory is a reader sent to the wrong book with a citation's confidence.",
+  "_borrow": "A borrow link is REQUIRED and a buy link is not. Our own library page says knowledge is infrastructure and access to it is mutual aid; a shelf that could only tell you where to buy would be a shop with an argument painted on it.",
+  "_checked": "Every borrow and buy link was requested on 2026-09-20 and answered. Care Work is the one entry whose id our own pages do not carry: it was resolved against Open Library's search API and the work it returns is the right title by the right author, which is written down here rather than left as a link somebody would have to trust. An earlier draft of this file had an id for it assembled from memory, and the id was wrong — the exact failure the note above describes, committed in the file that describes it.",
+  "_summaries": "The note on each book is ours, written for this room. None of it is lifted from a blurb, from the book, or from the page that cites it.",
+  "_campfire": "The documentaries around the campfire. RYAN CHOSE THE LIST; nothing here was picked in this repo. Every id was checked on its own watch page on 2026-09-20 — status, playableInEmbed and lengthSeconds — and every title and channel was resolved against YouTube rather than typed off the link text that arrived, which is the Jungle Room's rule. One of them plays and cannot be embedded, so it is published as a door rather than as a screen.",
+  "_runtime": "EVERY ONE CARRIES ITS RUNTIME AND make-hermitage.py REFUSES ONE WITHOUT. A documentary has a length, and the number is what lets somebody decide before they press. That is the opposite check to make-jungle.py's, which refuses a runtime, and it is the same promise: a live camera has no length to give and a film does.",
+  "books": [
+    {
+      "title": "Parable of the Sower",
+      "author": "Octavia E. Butler",
+      "note": "A girl with an unbearable gift for other people's pain walks north out of a collapsing California and writes a religion on the way. It is on this shelf because the cabin outside is the optimistic version of the same question — what do you build when the arrangements stop working — and because Butler refuses to let the answer be one clever person.",
+      "borrow": "https://openlibrary.org/works/OL35623W/Parable_of_the_sower?edition=parableofsower00butl_0",
+      "source": "https://stimpunks.org/2024/01/02/octavia-butler-on-positive-obsession/",
+      "source_title": "Octavia Butler on Positive Obsession"
+    },
+    {
+      "title": "The Fire Next Time",
+      "author": "James Baldwin",
+      "note": "A letter to a nephew and a long essay about what a country does to the people it will not look at. Baldwin is on more of our pages than almost anybody, usually in the sentence where an argument stops being comfortable, and a reading room of ours that did not have him in it would be a reading room that had been tidied.",
+      "borrow": "https://openlibrary.org/works/OL2683364W/The_fire_next_time?edition=key%3A/books/OL7773412M",
+      "source": "https://stimpunks.org/glossary/allyship/",
+      "source_title": "Allyship"
+    },
+    {
+      "title": "From the Campfire to the Holodeck",
+      "author": "David Thornburg",
+      "note": "Where the cave, the campfire and the watering hole come from — the three primordial learning spaces this cabin is laid out around, plus a fourth, Life, which is where you make something out of what the other three gave you. The room you are standing in is named out of this book and says so.",
+      "borrow": "https://openlibrary.org/books/OL28390791M/From_the_campfire_to_the_holodeck",
+      "source": "https://stimpunks.org/glossary/caves-campfires-watering-holes/",
+      "source_title": "Caves, Campfires, and Watering Holes"
+    },
+    {
+      "title": "Emergent Strategy",
+      "author": "adrienne maree brown",
+      "note": "Change as something you practise at the scale you actually have, borrowing its shapes from ferns, starlings and mushrooms rather than from strategy decks. Read it next to the sunflowers outside, which are doing the same thing without the book.",
+      "borrow": "https://openlibrary.org/works/OL20055808W/Emergent_strategy?edition=emergentstrategy0000brow",
+      "source": "https://stimpunks.org/glossary/resilience/",
+      "source_title": "Resilience"
+    },
+    {
+      "title": "Mutual Aid: A Factor of Evolution",
+      "author": "Peter Kropotkin",
+      "note": "An anarchist geographer goes looking for nature red in tooth and claw, finds beetles and horses and villages cooperating instead, and spends a book saying so. It is the oldest thing on this shelf and the reason a hermitage is not a bunker.",
+      "borrow": "https://openlibrary.org/works/OL1105375W/Mutual_Aid?edition=key%3A/books/OL25669049M",
+      "source": "https://stimpunks.org/glossary/mutual-aid/",
+      "source_title": "Mutual Aid"
+    },
+    {
+      "title": "Care Work: Dreaming Disability Justice",
+      "author": "Leah Lakshmi Piepzna-Samarasinha",
+      "note": "Care as infrastructure built by sick and Disabled people for each other, on no budget, mostly without being asked. The book that makes it impossible to describe solitude as self-sufficiency, which is the mistake a cabin in a field invites.",
+      "borrow": "https://openlibrary.org/works/OL19763975W/Care_Work",
+      "buy": "https://bookshop.org/p/books/care-work-dreaming-disability-justice-leah-lakshmi-piepzna-samarasinha/64dfa473415265f1?ean=9781551527383&next=t",
+      "source": "https://stimpunks.org/glossary/care-web/",
+      "source_title": "Care Web"
+    },
+    {
+      "title": "Empire of Normality",
+      "author": "Robert Chapman",
+      "note": "A history of how the normal was invented, who it was invented for, and what it costs to be measured against it. The book behind a lot of our glossary, and the argument for why a person might want a field between themselves and a street.",
+      "borrow": "https://openlibrary.org/works/OL35723338W/Empire_of_Normality?edition=key%3A/books/OL48194008M",
+      "source": "https://stimpunks.org/glossary/empire-of-normality/",
+      "source_title": "Empire of Normality"
+    },
+    {
+      "title": "Wild Therapy",
+      "author": "Nick Totton",
+      "note": "What happens to therapy if you stop treating the outdoors as scenery and the human as separate from it. The most solarpunk book on this shelf: technology and nature are not opposites here, they are the same argument with the fence taken down.",
+      "borrow": "https://openlibrary.org/works/OL25350960W/Wild_Therapy?edition=key%3A/books/OL46063603M",
+      "source": "https://stimpunks.org/glossary/wild/",
+      "source_title": "Wild"
+    },
+    {
+      "title": "NeuroTribes",
+      "author": "Steve Silberman",
+      "note": "The long, badly-behaved history of autism and the people it was done to, told with the autistic people put back in as its subject. Where a lot of readers first hear that there was a story before the diagnosis.",
+      "borrow": "https://openlibrary.org/works/OL17203015W/Neurotribes?edition=key%3A/books/OL28039242M",
+      "source": "https://stimpunks.org/glossary/cavendish-space/",
+      "source_title": "Cavendish Space"
+    },
+    {
+      "title": "Memory Craft",
+      "author": "Lynne Kelly",
+      "note": "Memory palaces, songlines and the physical memory techniques of oral cultures — methods older than writing, tried out by somebody who actually learned to use them. On the shelf because a hermitage full of books should also hold the case for not needing them.",
+      "borrow": "https://openlibrary.org/works/OL21210865W/Memory_Craft",
+      "buy": "https://bookshop.org/p/books/memory-craft-improve-your-memory-with-the-most-powerful-methods-in-history-lynne-kelly/a56b1a9bedb0d741?ean=9781643133812&next=t",
+      "source": "https://stimpunks.org/glossary/spaced-repetition/",
+      "source_title": "Spaced Repetition"
+    }
+  ],
+  "docs": [
+    {
+      "id": "EYJm7hIYLSU",
+      "title": "David Attenborough: Nature’s Most Fascinating Creatures | Free Documentary Nature",
+      "channel": "Free Documentary - Nature",
+      "length": "3:22:49",
+      "spoken": "3 hr 23 min",
+      "how": "screen",
+      "note": "The longest thing on the shelf by a distance, and the one to put on when the plan is to not have a plan."
+    },
+    {
+      "id": "h3mRsvFmWi0",
+      "title": "How to Live on Earth | Feature Documentary | Presented by Benedict Cumberbatch",
+      "channel": "Open Planet",
+      "length": "1:36:36",
+      "spoken": "1 hr 37 min",
+      "how": "screen",
+      "note": "The closest of these to what this cabin is arguing: what living on this planet could actually look like, made by people who would rather build than warn."
+    },
+    {
+      "id": "mqZDHb_eQlY",
+      "title": "David Attenborough Shines a Light on Glowing Animals | 4K Nature Documentary",
+      "channel": "Terra Mater",
+      "length": "51:26",
+      "spoken": "51 min",
+      "how": "screen",
+      "note": "Bioluminescence. Worth watching in a room you have turned the lights down in, which is the one instruction this campfire gives."
+    },
+    {
+      "id": "bbOmdbJdMa8",
+      "title": "Inside China's Secret Jungle (Full Episode) | Hidden Kingdoms of China | Nat Geo Animals",
+      "channel": "Nat Geo Animals",
+      "length": "44:24",
+      "spoken": "44 min",
+      "how": "screen",
+      "note": "A jungle most people do not know China has."
+    },
+    {
+      "id": "um2Q9aUecy0",
+      "title": "Our Planet | Jungles | FULL EPISODE | Netflix",
+      "channel": "Netflix",
+      "length": "50:58",
+      "spoken": "51 min",
+      "how": "screen",
+      "note": "Jungles. There is a whole room on this street under a canopy; this is what it is a drawing of."
+    },
+    {
+      "id": "WwA_7QyqtGI",
+      "title": "UNREAL AMAZON – Nature’s Most Dangerous Paradise (Full Documentary)",
+      "channel": "Travpedia",
+      "length": "1:14:54",
+      "spoken": "1 hr 15 min",
+      "how": "screen",
+      "note": "The Amazon at feature length."
+    },
+    {
+      "id": "r10g5gERB04",
+      "title": "The Wonder of America's National Parks | MEGA EPISODE (Season 1 Full Episodes) | National Geographic",
+      "channel": "National Geographic",
+      "length": "3:40:16",
+      "spoken": "3 hr 40 min",
+      "how": "screen",
+      "note": "Parks, at the length of an afternoon. Put it on and go and do something else in the room."
+    },
+    {
+      "id": "ABnPPtlv6cE",
+      "title": "NATURAL WONDERS: The Wildest Places on Earth",
+      "channel": "World Tour",
+      "length": "2:39:35",
+      "spoken": "2 hr 40 min",
+      "how": "screen",
+      "note": "A tour of the places that are difficult to get to."
+    },
+    {
+      "id": "vGMJZSfVW1M",
+      "title": "The Secret Lives of Hummingbirds | Narrated by David Attenborough | Nature Documentary",
+      "channel": "Terra Mater",
+      "length": "52:50",
+      "spoken": "53 min",
+      "how": "screen",
+      "note": "Hummingbirds, which are the most solarpunk animal available: tiny, iridescent, and running on flowers."
+    },
+    {
+      "id": "JkaxUblCGz0",
+      "title": "Our Planet | Forests | FULL EPISODE | Netflix",
+      "channel": "Netflix",
+      "length": "48:18",
+      "spoken": "48 min",
+      "how": "screen",
+      "note": "Forests, from the same series as the jungles episode above."
+    },
+    {
+      "id": "GLovOUnFe9s",
+      "title": "Wild Islands: Caribbean: The Jewel of the Tropics | Free Documentary Nature",
+      "channel": "Free Documentary - Nature",
+      "length": "52:02",
+      "spoken": "52 min",
+      "how": "screen",
+      "note": "The Caribbean coast and what lives on it."
+    },
+    {
+      "id": "soPxOWqQpUc",
+      "title": "COASTAL SEAS | Life, Waves and Secrets Along the Worldâs Shores | FULL DOCUMENTARY",
+      "channel": "The Unseen Earth",
+      "length": "3:00:33",
+      "spoken": "3 hr 1 min",
+      "how": "link",
+      "note": "Coasts, three hours of them. This is the one you have to follow out to YouTube rather than open here.",
+      "why_link": "Plays, and its owner has embedding switched off — the watch page answers OK and playableInEmbed is false, and YouTube's oEmbed endpoint refuses it too, which is why the title and the channel here were read off the watch page instead. A screen would load and show a refusal where the picture should be, so this is a door out."
+    }
+  ]
+}

@@ -205,6 +205,21 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--camp .og-lede {{ color: #C6D2C4; max-width: 980px; font-size: 30px; }}
 .og--camp .og-foot {{ font-family: 'Alfa Slab One', serif; color: #8FAE88;
   letter-spacing: 1px; font-size: 21px; }}
+
+/* hermitage — THE ONLY CARD IN THE SET ON A LIGHT GROUND, and the only one
+   showing a building in daylight. Its own room is the first daylit world on
+   this street, so a card obeying the set's habit of cream-on-dark would have
+   been the card disagreeing with the page on the single thing that page is
+   about. The cabin is lifted out of the room rather than redrawn here, the way
+   the campground's stream and the yurt's crown are. */
+.og--herm {{ width: 100%; padding: 30px 60px 0; gap: 12px; justify-content: space-between; }}
+.og--herm .og-top {{ display: flex; flex-direction: column; gap: 10px; }}
+.og--herm .trailmark {{ font-family: 'Sora', sans-serif; font-size: 17px; letter-spacing: 2px;
+  text-transform: uppercase; color: #1D4D30; margin: 0; }}
+.og--herm h1 {{ font-size: 62px; margin: 0 !important; color: #16291C; }}
+.og--herm .og-lede {{ font-family: 'Sora', sans-serif; color: #34483A; max-width: 1020px; font-size: 23px; }}
+.og--herm .cabin {{ margin: 0; }}
+.og--herm .cabin svg {{ width: 860px; margin-inline: auto; }}
 /* The stream bleeds to the card's edges. `.og > *` pins every child to margin 0
    with !important, so this has to out-specify it rather than out-shout it. */
 .og--camp .stream {{ margin: 0 -60px !important; }}
@@ -603,16 +618,38 @@ def card_camp(p):
         f'{p["h1"]}'
         f'<p class="og-lede">{p["desc"]}</p>'
         f'</div>'
-        f'<p class="og-foot" data-fit="footer">PITCH 01 · PITCH 02 · PITCH 03 · stimpunks.love</p>'
+        f'<p class="og-foot" data-fit="footer">{p["pitches"]} · stimpunks.love</p>'
         f'{p["stream"]}'
         f'</div>',
         f"A cold, dark blue-green card with nothing moving on it. Small green "
         f"capitals reading off the street, past the treeline, no gate, no bell, "
         f"then \u201c{p['h1text']}\u201d in a heavy bone-white slab face like a "
         f"routed park sign, and under it: {p['desc_plain']} Lower down, in the "
-        f"same slab face: pitch 01, pitch 02, pitch 03, stimpunks.love. Along the "
+        f"same slab face: {p['pitches_alt']}, stimpunks.love. Along the "
         f"foot, a drawing of a stream winding across the card with three stones "
         f"in it.",
+    )
+
+
+def card_herm(p):
+    return (
+        "",
+        f'<div class="hermitage og og--herm" data-fit="card">'
+        f'<div class="og-top">'
+        f'<p class="trailmark">pitch 03 · furthest from the street · the sun is up</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>'
+        f'{p["cabin"]}'
+        f'</div>',
+        f"A card on a warm off-white ground, the only pale one in the set. Small "
+        f"green capitals reading pitch 03, furthest from the street, the sun is up, "
+        f"then \u201c{p['h1text']}\u201d in a large dark-green serif whose strokes "
+        f"swell, and under it: {p['desc_plain']} Across the foot, a daylit drawing "
+        f"of a wood cabin standing on a trailer with wheels, its roof and one wall "
+        f"covered in dark solar panels, a stove pipe, an open door with deep red "
+        f"showing through it, four sunflowers taller than the door on the left, a "
+        f"tilted panel on a pole and a tall aerial on the right.",
     )
 
 
@@ -850,6 +887,7 @@ CARDS = {
     "game-pebble":  card_pebble,
     "campgrounds":  card_camp,
     "room-yurt":    card_yurt,
+    "hermitage":    card_herm,
     "room-latibulum": card_latibulum,
     "room-jungle":  card_jungle,
     "room-den":     card_den,
@@ -933,6 +971,7 @@ def main():
         ("stream",   "campgrounds.html",  r'(<div class="stream".*?</div>)'),
         ("lights",   "faery-yurt.html",   r'(<div class="lights".*?</div>)'),
         ("crown",    "faery-yurt.html",   r'(<div class="crown".*?</svg>\s*</div>)'),
+        ("cabin",    "solarpunk-hermitage.html", r'(<div class="cabin".*?</svg>\s*</div>)'),
         ("esmx",     "quill-drift.html",  r'(<svg class="sprite".*?</svg>)'),
         ("bulbs",    "arcade.html",       r'(<div class="bulbs".*?</div>)'),
         ("roundel",  "latibulum.html",    r'(<div class="roundel".*?</svg>\s*</div>)'),
@@ -950,6 +989,25 @@ def main():
                 "is built\nout of it. Redesign the card on purpose rather than "
                 "letting it render empty."
             )
+
+    # THE CAMPGROUND'S CARD LISTS ITS PITCHES, AND IT USED TO LIST THEM BY HAND.
+    # Three of them, typed into a string literal here and again into the alt
+    # text, in a file whose whole argument is that a card must not be able to
+    # disagree with its page. The field grows a plot every time somebody takes
+    # one, so the card reads them off the board's own posts instead. The alt
+    # text is the same list lowercased, for the same reason.
+    nos = re.findall(r'<span class="pitch__no">([^<]+)</span>',
+                     (ROOT / "campgrounds.html").read_text())
+    if not nos:
+        raise SystemExit(
+            "REFUSING: campgrounds.html has no pitch numbers on it, and its card\n"
+            "is a list of them. Redesign the card on purpose rather than letting it\n"
+            "render a field with no plots in it."
+        )
+    lifted["pitches"] = " · ".join(nos)
+    # The alt text takes commas rather than the card's middots, because a middot
+    # is a piece of typesetting and a screen reader reads it out as one.
+    lifted["pitches_alt"] = ", ".join(n.lower() for n in nos)
 
     OUT.mkdir(exist_ok=True)
     built, failed = [], []

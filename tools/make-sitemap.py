@@ -18,7 +18,7 @@ ORDER = ["index.html", "pink-pony-club.html", "the-chappell.html", "zine-table.h
          "latibulum.html",
          "jungle-room.html", "the-den.html",
          "your-room.html",
-         "campgrounds.html", "faery-yurt.html",
+         "campgrounds.html", "faery-yurt.html", "solarpunk-hermitage.html",
          "liner-notes.html",
          "changelog.html"]
 

@@ -226,6 +226,82 @@ arriving only where the leaves let it, nothing standing alone because everything
 something, and a face whose strokes swell as they turn. You are outside in one and inside the
 other. "They are both green, so they should feel the same" is the subroom excuse in a poncho.
 
+**THE FIRST DAYLIT ROOM IS THE ONE THAT CANNOT BE DARKENED.** The Solarpunk Hermitage (§20) is
+Ryan's pitch and the only world here lit by morning. Every other room is a dark ground with light
+applied to it; this is a lit ground with things standing in it, and **a cabin that runs on the sun
+and reads as midnight is an argument against itself.** The instinct to bring it into line with the
+street's night palette is the harmonising instinct with a better disguise than usual, because
+every neighbour really is dark. It also makes the campground's own promise work twice in opposite
+directions: out of the cold dusk into a lit tent at pitch 01, and out of the same dusk into full
+sun at pitch 03.
+
+**AND THE CAVE INSIDE IT IS THE FOURTH WARM ENCLOSED ROOM ON THIS STREET.** After the Faery Yurt,
+The Latibulum and The Den — so *"it is a cosy reading nook, it should feel like the other cosy
+places"* is the Latibulum argument arriving a **second** time, which is exactly when it stops
+sounding wrong. Three things keep it apart and all three are structural:
+
+  · the other three are each lit by **one flickering source in the dark**. This is **evenly lit at
+    reading brightness**, which is what the panels on the roof are *for*, and the candles are
+    ornaments on a room that does not need them.
+  · the other three are canvas, earth and panelling. This is **textile** — heavy curtain, no wood,
+    no carpentry, no straight edge in it but the shelves.
+  · you reach the others out of the cold. **You reach this one out of full daylight, and it is
+    darker than where you came from.**
+
+**THE THREE ZONES ARE DAVID THORNBURG'S AND ARE NAMED AS HIS.** Cave, campfire and watering hole
+are the primordial learning spaces from *From the Campfire to the Holodeck*, documented on our own
+glossary. Taking a framework's shape without its author's name is precisely the failure this site
+keeps attribution for. **There is a fourth, Life**, and the room says out loud that it is not in
+there — it is the door you came in by. The pitch's argument is **Betsy Selvam's**: lone wolfing is
+being alone *well* rather than being left out, and she is credited by name rather than folded into
+our "we", like Helen.
+
+**THE SHELF REQUIRES A BORROW LINK AND DOES NOT REQUIRE A BUY LINK.** `make-hermitage.py` refuses a
+book without one. Our library page says knowledge is infrastructure and access to it is mutual aid;
+a shelf that could only tell you where to *buy* would be a shop with an argument painted on it. Every
+title is one stimpunks.org already argues from, and carries the citing page, read out of the mirror's
+frontmatter. **One id in that file was assembled from memory and pointed at a different book** — in
+the file whose own header forbids exactly that — so every link in it has now been requested and
+answered, and the episode is written into the data rather than quietly fixed.
+
+**AND ITS CAMPFIRE REFUSES A DOC WITHOUT A RUNTIME, WHICH IS make-jungle.py INVERTED ON PURPOSE.**
+A live camera has no length to give; a film does. Same promise, opposite check, and **they must not
+be made to agree.** One of Ryan's twelve plays and cannot be embedded, so it is a **door rather than
+a screen** and is shaped like one — a link dressed as a window is the broken thing, because the one
+action it promises is the one it cannot do.
+
+**THE LAPTOP FRAMES THIS SITE INSIDE THIS SITE, AND THAT COST A SECURITY HEADER.** `frame-ancestors`
+was `'none'`, which forbids this site being framed by **anybody, itself included**; it is `'self'`
+now and `X-Frame-Options` is `SAMEORIGIN`. Protection against every other origin is unchanged and
+this is the only loosening in the policy — do not widen it further. The frame **still waits to be
+pressed**, for a different reason than the jukebox facades: nothing third-party is involved, but a
+copy of the street loading itself unasked is a second dial under the first, every font twice, and a
+screen reader walking the whole site again. **And it refuses to nest** — `hermitage.js` says *one
+screen is enough* when it finds itself already in a frame, because the third laptop is not a joke,
+it is a page that will not stop loading.
+
+**A SIGN IS NOT THE ROOM IT POINTS AT, AND THE CAMPGROUND'S BOARD IS WHERE THAT GETS TESTED.**
+Each taken pitch carries a small drawing — the Faery Yurt sat against the trees, the Solarpunk
+Hermitage on its wheels. **They are the FIELD's drawings and not the pitches'**, which is the only
+reason two of them may sit on one board without this area growing the house style it exists to
+refuse: both are drawn in the field's inks — spruce and bark masses, moss for every line, **weight
+rather than tint carrying the hierarchy** — because you are looking at them across cold ground at
+night. What separates them is **one lit colour each, doing opposite things**: the yurt *emits*
+(candle out of the crown, out of the doorway, onto the grass; round, soft, strung with lights) and
+the hermitage *catches* (nothing glows but one window, the moon on its panels, three sunflowers, an
+aerial). **And that window is a SCREEN rather than a flame**, because lone wolfing is choosing the
+reach rather than being unreachable — a candle there would have been a nicer picture and a
+different idea. Draw the next pitch the same way and **do not give it either of those two lights;
+they are taken.** An open plot gets no drawing at all: what is pitched is what you can see from
+here. Nothing in any of them moves at any setting, the yurt's own twinkling lights included —
+this is the field's picture of the tent and not the tent.
+
+**AND A PITCH CAN BE TAKEN WITH NOTHING BEHIND IT.** `.pitch--raising` is a solid post, a sign, a
+drawing and no link. A campground has that state and a website usually pretends it does not; the
+alternative was publishing a room before it was a room. The drawing of Helen's yurt is **ours and
+says so in the liner notes** — the field's sign for her pitch, which changes nothing on her page —
+for the same reason the one colour of hers this repo changed is written down in four places.
+
 **A CLASS NAME IS GLOBAL AND A SECTION HEADER IS A COMMENT.** This is the structural hole under
 the whole architecture, and it stayed open until The Latibulum fell in it: that room shipped four
 names another room already had — `.scrawl` (the zine's margin hand), `.shelf` (the yurt's

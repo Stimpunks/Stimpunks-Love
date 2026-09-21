@@ -34,6 +34,37 @@ CARPET, CAB, CRT = "#160A26", "#241038", "#06171C"
 COIN, MINT, ZAP = "#FFC21A", "#4BF0C6", "#FF6BE4"
 TUBE, TUBE2 = "#B9C6D6", "#9AA7BA"
 TALLOW, TALLOW2, TALLOW3 = "#F2E6D4", "#C2AC91", "#A4907B"
+# The two colours that exist only inside the campground's pitch drawings, and
+# nowhere in the stylesheet: they are a picture's inks rather than a room's
+# palette, the same way the stream's and the crown's are. SUNFLOWER is the
+# hermitage's flower heads; SCREEN is its one lit window, which is a laptop and
+# not a flame -- the structural opposite of the yurt's candle next to it.
+SUNFLOWER, SCREEN = "#E8C33A", "#A3D4DF"
+# The Solarpunk Hermitage (love.css §20), and THE FIRST ROOM ON THIS STREET
+# WHOSE TYPE IS DARK ON LIGHT ALL THE WAY DOWN. Which inverts the usual job of
+# this file: everywhere else the risk is an ink too dim against a dark ground,
+# and here it is an ink too PALE against a bright one -- so the accents are the
+# dangerous colours rather than the greys, and --bloom was darkened twice before
+# it passed on the noon ground.
+NOON, NOON2 = "#F7F3E6", "#ECE6D2"
+SKY_H, SKY_2 = "#BCDDEA", "#E4F0F1"
+FURROW, FURROW2 = "#16291C", "#34483A"
+SPROUT, SPROUT2, BLOOM = "#2C6B45", "#1D4D30", "#B5760A"
+# The cabin drawing's own inks, which are a picture's and not the room's --
+# hardcoded in the page the way the campground's stream and the yurt's crown
+# are. They are NOT the UI green: that one has to carry pale type on a button,
+# and these have to carry a dark outline and a darker detail line, and one
+# colour cannot be asked to do both. The band and the timber were each lightened
+# once after this file refused them.
+MEADOW, MEADOW_LINE, TIMBER_H = "#3E8A5A", "#0E2A19", "#9A6A3C"
+CEDAR, CELL = "#8A5A32", "#12323C"
+VELVET, VELVET2, VELVET3 = "#4A1220", "#5E1A2B", "#380C18"
+WICK, WICK2, GILT = "#F6E8D0", "#DCC49C", "#E9C270"
+# And the cave's composite, which nobody chose: --wick at .05 over the velvet is
+# the brightest the EVEN light makes that ground, and it is what the type down
+# there actually sits on. Same rule as the Chappell's rose window and the
+# burrow's lamp pool -- the flat colour is never the whole story.
+VELVET_LIT = "#521C29"
 EMBER, EMBER2, CANDLE = "#E0904A", "#F2B673", "#E9C874"
 # What the yurt's canvas weave and its ember crown actually make, composited:
 # #150F0E, then cream at .016 and .022 for the two hatches, then the ember
@@ -252,6 +283,77 @@ PAIRS = [
     (MOSS,   SPRUCE, False, "campgrounds: the board's list markers"),
     (MOON,   SPRUCE, False, "campgrounds: a link inside the board"),
     (BONE,   SPRUCE, False, "campgrounds: the stream's upper bank, if type ever lands on it"),
+
+    # THE TWO PITCH DRAWINGS on the board. WCAG 1.4.3 does not reach a picture,
+    # and the canopy in the Jungle Room is why these are here anyway: that
+    # drawing measured 2.18 against the ground behind it, which is a smudge with
+    # no telling one leaf from another, and nothing was looking. A sign nobody
+    # can read is not a sign.
+    #
+    # EVERY LINE IN BOTH DRAWINGS IS MOSS, and the hierarchy is carried by
+    # STROKE WEIGHT rather than by tint, precisely so there is one ink to check
+    # instead of a ladder of dimmer greens that each need arguing about. The
+    # masses under them are spruce and bark, which contrast with nothing on
+    # purpose: these objects are carried by their OUTLINE and not by their fill,
+    # which is the pebbling cabinet's reading of 1.4.11 arriving on a field.
+    (MOSS,   DUSK,   False, "campgrounds: every line in both pitch drawings, on open ground"),
+    (MOSS,   SPRUCE, False, "campgrounds: the same lines where they cross the ground band"),
+    # And the one lit colour each, which is the only thing telling the two signs
+    # apart. Held at the body threshold rather than the 3:1 graphics one for the
+    # same reason the otter you steer is: the light is the subject of the
+    # drawing, not decoration on it.
+    (CANDLE, DUSK,   False, "campgrounds: the yurt sign's crown, doorway and fairy lights"),
+    (CANDLE, SPRUCE, False, "campgrounds: the same, against the tent's own mass"),
+    (EMBER2, DUSK,   False, "campgrounds: the warmer bulbs on the yurt sign's swag"),
+    (MOON,   SPRUCE, False, "campgrounds: the moon on the hermitage sign's solar panels"),
+    (SUNFLOWER, DUSK, False, "campgrounds: the hermitage sign's three sunflower heads"),
+    (SPRUCE, SUNFLOWER, False, "campgrounds: the dark disc inside each sunflower"),
+    (SCREEN, DUSK,  False, "campgrounds: the hermitage's one lit window, which is a screen"),
+    (SPRUCE, SCREEN, False, "campgrounds: the window's glazing bars, dark on that screen"),
+
+    # THE SOLARPUNK HERMITAGE (love.css §20). Outside first: daylight, where the
+    # failure mode is a pale ink rather than a dim one.
+    (FURROW,  NOON,   True,  "hermitage: h1 in Fraunces 700, 40-78px"),
+    (FURROW,  NOON,   False, "hermitage: h2 and h3, checked at the body threshold too"),
+    (FURROW2, NOON,   False, "hermitage: the lede and all body copy"),
+    (SPROUT2, NOON,   False, "hermitage: links, the backlink, the trailmark"),
+    (FURROW,  NOON2,  False, "hermitage: the space cards' and the bean bags' headings"),
+    (FURROW2, NOON2,  False, "hermitage: the copy inside a space card or a bean bag"),
+    (SPROUT2, NOON2,  False, "hermitage: the channel line on a documentary"),
+    (FURROW,  SKY_H,  False, "hermitage: anything landing on the darkest end of the sky band"),
+    (FURROW,  SKY_2,  False, "hermitage: the same, at the pale end where it meets the ground"),
+    (SPROUT2, SKY_H,  False, "hermitage: the backlink and trailmark, which sit ON the sky"),
+    (NOON,    CELL,   False, "hermitage: the play label on the screen plate"),
+    (NOON,    "#17414E", False, "hermitage: the same, on the plate under the pointer"),
+    (FURROW,  NOON,   False, "hermitage: the door-out's label on its pale ground"),
+    (SPROUT,  NOON,   True,  "hermitage: the dashed ring around a door out, and every card border"),
+    # The drawing. WCAG does not reach it and the canopy is why it is measured:
+    # a cabin nobody can pick out of the sky is not a cabin. Held at the 3:1
+    # graphics bar against every ground it is drawn on.
+    (FURROW,  TIMBER_H, True, "hermitage: the outline around every part of the cabin, on its timber"),
+    (TIMBER_H, NOON,  True,  "hermitage: the cabin's timber against the page"),
+    (MEADOW,  NOON,   True,  "hermitage: the ground band the cabin stands on"),
+    (MEADOW_LINE, MEADOW, True, "hermitage: the leaves, stems and grass drawn on that band"),
+    (CELL,    SKY_H,  True,  "hermitage: the solar panels against the sky behind them"),
+    (BLOOM,   NOON,   True,  "hermitage: the sunflower heads on the page ground"),
+    (FURROW,  SKY_H,  True,  "hermitage: the window glass and the panels, outlined"),
+    # Then the cave, which is dark-on-light inverted again -- back to cream on a
+    # deep ground, and held against the composite the even light makes as well as
+    # against the flat velvet, because the flat colour is not what anything is on.
+    (WICK,    VELVET, False, "cave: the body copy and every heading"),
+    (WICK,    VELVET_LIT, False, "cave: the same, on what the even light makes of that ground"),
+    (WICK2,   VELVET, False, "cave: the author line, the cited-on line, the laptop note"),
+    (WICK2,   VELVET_LIT, False, "cave: the same, on the lit ground"),
+    (GILT,    VELVET, False, "cave: every link, and the open/close on a spine"),
+    (GILT,    VELVET_LIT, False, "cave: the same, on the lit ground"),
+    (WICK,    VELVET2, False, "cave: a book's title where it sits on the shelf panel"),
+    (WICK2,   VELVET2, False, "cave: a book's author on the same panel"),
+    (GILT,    VELVET2, False, "cave: a book's links, opened"),
+    (WICK,    VELVET3, False, "cave: anything on the inner rule and the laptop's bezel"),
+    (GILT,    VELVET3, False, "cave: the laptop's frame against the velvet behind it"),
+    (WICK,    "#0B1418", False, "cave: the laptop's own label on the sleeping screen"),
+    (GILT,    "#0B1418", False, "cave: the wake-the-laptop heading on it"),
+    (WICK2,   "#0B1418", False, "cave: the sentence under it"),
     (INK,    GREEN,  False, "street: the signpost arm, dark on painted green"),
     (INK,    CYAN,   False, "street: the signpost arm on hover"),
 

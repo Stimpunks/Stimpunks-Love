@@ -114,6 +114,11 @@ LISTS = [
     # checker -- and a dead station in a room built for people who are already
     # flat is the worst place on the street to find rot.
     ("the latibulum",  "data/latibulum.json", "latibulum.html"),
+    # The Hermitage's campfire. Feature-length documentaries on other people's
+    # channels, which rot differently from a music video: a full episode is the
+    # kind of upload a rights holder pulls, and the room's argument is that you
+    # can decide what to give three hours to before you press.
+    ("the hermitage",  "data/hermitage.json", "solarpunk-hermitage.html"),
     # The Jungle Room, which is the largest list here and the one most likely to
     # rot: a music video is published once and sits there, while a live camera
     # is a machine somebody is maintaining outdoors. Two of these were already
@@ -152,6 +157,20 @@ def tracks_in(data):
                 for g in data["groups"] for c in g["cams"] if c.get("state") != "dark"]
     if "sessions" in data:
         return [t for s in data["sessions"] for t in s["tracks"]]
+    # The Hermitage keeps its documentaries beside a shelf of books in one file,
+    # because they are one room; only the docs are facades. A doc already
+    # published as a door out is expected to fail the embed check and is not
+    # reported, the same as the Jungle Room's link-outs.
+    if "docs" in data:
+        # 'how' is normalised to 'state' here rather than renamed in the data,
+        # because the two files mean the same fact by different words and the
+        # EXEMPTION BELOW KEYS ON state: a doc already published as a door out
+        # is expected to fail the embed check, and reporting it every run would
+        # be this tool shouting about a decision somebody already made. That is
+        # how a report stops being read.
+        return [dict(d, artist=d.get("channel"),
+                     state="link" if d.get("how") == "link" else None)
+                for d in data["docs"]]
     raise SystemExit(
         "REFUSING: a data file in LISTS has neither 'tracks' nor 'groups', so this "
         "run\nwould have checked none of it while reporting a confident total.")

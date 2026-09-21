@@ -15,7 +15,7 @@
 
 /* §1 ── The faces ────────────────────────────────────────────────────────────
    Self-hosted, so reading a page here makes no third-party request — the same
-   rule queering.earth and starstuff.earth follow. All twelve families are
+   rule queering.earth and starstuff.earth follow. Every family here is
    OFL-licensed; fonts/_sources.json records where each file came from.
    @font-face is lazy: a room only downloads the faces it actually sets. */
 
@@ -54,7 +54,7 @@
 
 /* The Arcade (§15), and the only face it sets. A pixel face is the one thing
    no other room on this street could borrow without turning into the arcade,
-   which is what the eighteenth family is for. 4.7KB, latin only, and nothing
+   which is what its own family is for. 4.7KB, latin only, and nothing
    else here loads it. */
 @font-face { font-family: 'Press Start 2P'; src: url('fonts/press-start-2p-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
 
@@ -86,6 +86,15 @@
    parent: upstairs sets a high-contrast serif whose strokes swell as they
    curve, and this sets a slab with no contrast in it at all. Karla ships as a
    variable font, so one file serves 400 and 700, the same as Cabin above. */
+/* The Solarpunk Hermitage (§20). An organic serif and a technical sans, which
+   is the room's whole thesis set in type: Fraunces' strokes swell and its
+   terminals curl like something grown, and Sora is drawn on a grid with flat
+   ends. Tech AND nature, not one of them in fancy dress. It is also the only
+   pairing here that has to work at SIZE ON A LIGHT GROUND all the way down —
+   every other serif on this street is cream on something dark. */
+@font-face { font-family: 'Fraunces'; src: url('fonts/fraunces-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Sora';     src: url('fonts/sora-400.woff2') format('woff2');     font-weight: 400; font-display: swap; }
+
 @font-face { font-family: 'Ultra'; src: url('fonts/ultra-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Karla'; src: url('fonts/karla-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Karla'; src: url('fonts/karla-400.woff2') format('woff2'); font-weight: 700; font-display: swap; }
@@ -205,6 +214,30 @@
   --coconut: #F6ECD9;  --rattan: #CBB392;
   --cocoa: #1E1107;  --cocoa-2: #35210F;
   --tiki: #F0B040;  --jade: #37C9A4;  --rum: #F2705A;
+
+  /* The Solarpunk Hermitage (§20). THE FIRST DAYLIT ROOM ON THIS STREET, and
+     that is the whole of its separation from everything else here: every other
+     world is a dark ground with light put on it, and this one is a lit ground
+     with things standing in it. --noon is sunlight on a lime-plastered wall.
+     --furrow is the ink, a green-black rather than a black, because nothing
+     outdoors is actually black.
+
+     AND THE CAVE INSIDE IT IS THE HARD PART. A deep red reading room is the
+     fourth warm enclosed space on this street, after the yurt, the burrow and
+     the den, and the three of those are each lit by ONE flickering source in
+     the dark. This one is EVENLY LIT — that is what the panels on the roof are
+     for — and the candles are decoration rather than the supply. It is also
+     made of textile where the others are made of canvas, earth and panelling:
+     no wood, no carpentry, no straight edge but the shelves. --velvet-lit is
+     nobody's choice: it is --wick at .05 over the velvet, the brightest the
+     even light makes it, and every ink down there is held against it as well
+     as against the flat colour. See check-contrast.py. */
+  --noon: #F7F3E6;  --noon-2: #ECE6D2;  --sky: #BCDDEA;  --sky-2: #E4F0F1;
+  --furrow: #16291C;  --furrow-2: #34483A;
+  --leaf: #2C6B45;  --leaf-2: #1D4D30;  --bloom: #B5760A;
+  --cedar: #9A6A3C;  --cell: #12323C;
+  --velvet: #4A1220;  --velvet-2: #5E1A2B;  --velvet-3: #380C18;
+  --wick: #F6E8D0;  --wick-2: #DCC49C;  --gilt: #E9C270;
 }
 
 * { box-sizing: border-box; }
@@ -1053,6 +1086,47 @@ html[data-intensity="gentle"] .room-chappell h1 { text-shadow: none; }
    this yet" is a fact about the site and not a look. */
 .pitch--open { border-left-style: dashed; }
 .pitch--open h3 { color: var(--lichen); }
+
+/* A plot that is taken but has nothing on it yet. Solid post, because somebody
+   has it; no link, because there is no door. A campground has this state and a
+   website usually pretends it does not — the honest alternative is publishing
+   a room before it is a room. */
+.pitch--raising h3 { color: var(--bone); }
+
+/* THE SIGN AND THE THING THE SIGN IS ABOUT. The notice is nailed to the post on
+   the left; the drawing stands further out on the ground beside it. An open plot
+   has no drawing at all, which is the whole grammar: what is pitched is what you
+   can see from here. */
+.pitch { display: flex; flex-wrap: wrap; gap: 8px 30px; align-items: center; }
+.pitch__sign { flex: 1 1 32ch; min-width: 0; }
+.pitch__art { flex: 0 1 260px; line-height: 0; }
+.pitch__art svg { display: block; width: 100%; height: auto; }
+
+/* THE TWO DRAWINGS ARE SIGNS, NOT ROOMS, and that is the whole reason they may
+   sit on one board without this field becoming a design system. Both are drawn
+   in the field's own inks — spruce and bark for the masses, moss for every line,
+   weight rather than tint doing the hierarchy — because you are looking at them
+   across cold ground at night. What tells them apart is THE ONE LIT COLOUR EACH,
+   and the two lights do opposite things:
+
+     · the yurt EMITS. Candle amber out of the crown, out of the doorway, and
+       onto the grass in front of it; round, soft-edged, strung with lights, sat
+       against the trees. It is a lantern. You walk in out of the night air.
+     · the hermitage CATCHES. Nothing there glows except one window, and that
+       window is a SCREEN rather than a flame — connected solitude, which is the
+       pitch's whole argument. Everything else is hard-edged and angled at a sky
+       that is not there yet: the moon lands on the panels, three sunflowers hold
+       the only warm colour on the pitch, and the aerial is the one line reaching
+       off it.
+
+   Round and warm against angular and cool, light coming out against light being
+   collected. Draw the next pitch the same way — in the field's inks, with one
+   light of its own — and do NOT give it the yurt's amber or the hermitage's
+   moon because they are there already.
+
+   NOTHING IN EITHER OF THEM MOVES, at any setting, like everything else in this
+   field. The yurt's fairy lights twinkle on its own page; out here they are
+   still, because this is the field's drawing of it and not the room. */
 
 
 /* §14 ── PITCH 1: The Faery Yurt (in the campgrounds) ────────────────────────
@@ -2347,6 +2421,208 @@ html[data-intensity="max"] .falls__water { animation: den-fall 7s ease-in-out in
 
 .den-note { font-size: 14.5px; line-height: 1.6; color: var(--rattan); }
 
+
+/* §20 ── ROOM: The Solarpunk Hermitage (pitch 03 in the campgrounds) ─────────
+   RYAN'S OWN PITCH, and the first DAYLIT room on this street. That is not a
+   mood, it is the entire structural separation: every other world here is a
+   dark ground with light applied to it — neon on black, candle on canvas, lamp
+   on earth, a screen in a dark arcade, shafts through a canopy — and this one
+   is a lit ground with things standing in it. A solar cabin that reads as
+   night would be an argument against itself.
+
+   AND IT IS PITCHED ON A FIELD THAT IS THE OPPOSITE. You arrive out of cold
+   blue dusk into full sun, which is the campground's own promise working a
+   second time and in the other direction: walking into the Faery Yurt is
+   stepping out of the night into a lit tent, and walking in here is stepping
+   out of the night into the morning. Same field, two different doors.
+
+   THE CAVE, THE CAMPFIRE AND THE WATERING HOLE ARE NOT DECOR. They are David
+   Thornburg's primordial learning spaces, which our own glossary documents:
+   the cave is where you learn from yourself, the campfire is where you learn
+   from a storyteller, the watering hole is where you learn from peers. They are
+   named and credited on the page rather than borrowed silently, because the
+   whole point of naming a room after somebody's framework is that the framework
+   came from somebody.
+
+   TECH AND NATURE IS SET IN THE TYPE. Fraunces swells and curls; Sora is drawn
+   on a grid with flat terminals. The room is the argument that those are not
+   opposites, so it is not going to make one of them a decoration on the other. */
+
+.hermitage {
+  background: var(--noon); color: var(--furrow-2);
+  font-family: 'Sora', ui-sans-serif, system-ui, sans-serif;
+}
+.hermitage a { color: var(--leaf-2); text-underline-offset: 3px; }
+.hermitage a:hover { color: var(--furrow); }
+.hermitage p, .hermitage li { font-size: 17px; line-height: 1.68; }
+.hermitage .backlink { font-family: 'Sora', ui-sans-serif, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--leaf-2); }
+
+.hermitage h1 {
+  font-family: 'Fraunces', Georgia, serif; font-weight: 700;
+  font-size: clamp(40px, 7.4vw, 78px); line-height: 1.02;
+  color: var(--furrow); margin: 10px 0 0; letter-spacing: -0.015em;
+}
+.hermitage h2 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 30px; line-height: 1.14; color: var(--furrow); margin: 0 0 12px; }
+.hermitage h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 21px; color: var(--furrow); margin: 0; }
+.hermitage .lede { font-size: 20px; line-height: 1.58; color: var(--furrow-2); max-width: 56ch; margin: 20px 0 0; }
+.hermitage .trailmark { margin: 0; font-size: 13.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--leaf-2); }
+
+/* THE SKY IS A REAL BAND AND NOT A TINT ON THE PAGE. A wash behind everything
+   would have made the whole room pale blue, which is a mood; a band with a
+   horizon in it is a place you are standing outside of. It is the only
+   gradient in this section. */
+.daylight { background: linear-gradient(180deg, var(--sky) 0%, var(--sky-2) 78%, var(--noon) 100%); padding: 0 0 8px; margin: 0 0 4px; }
+.daylight .wrap { padding: 26px 0 0; }
+
+/* The cabin itself, drawn in daylight — which is a different drawing from the
+   one on the campground's board, and deliberately. Out there it is a dark
+   shape with a light in it seen across a cold field at night; here you have
+   arrived and the sun is on it. Same building, and nothing in common to look
+   at, which is what arriving somewhere is. */
+.cabin { line-height: 0; margin: 14px 0 0; }
+.cabin svg { display: block; width: 100%; height: auto; }
+
+/* The three spaces, as cards you walk into. Not a grid of equal boxes — the
+   street already is one, and this is a smallholding. */
+.spaces { list-style: none; margin: 30px 0 0; padding: 0; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.space {
+  background: var(--noon-2); border: 2px solid var(--leaf); border-radius: 14px;
+  padding: 20px 22px; display: flex; flex-direction: column; gap: 10px;
+}
+.space p { margin: 0; color: var(--furrow-2); font-size: 16px; }
+.space__from { margin: 0; font-size: 14px; color: var(--leaf-2); }
+.space--soon { border-style: dashed; }
+.space--soon h3 { color: var(--furrow-2); }
+
+/* §-level note: THE CAVE IS THE HARD ONE ON THIS WHOLE STREET, and the reason
+   is written in §2 beside its colours. It is the fourth warm enclosed room
+   here, after the Faery Yurt, The Latibulum and The Den — and "it is a cosy
+   reading nook, it should feel like the other cosy places" is the Latibulum
+   argument arriving for the second time, which is exactly when it stops being
+   obviously wrong. What keeps it apart is structural and has to stay:
+
+     · the other three are each lit by ONE source flickering in the dark. This
+       one is EVENLY LIT, at reading brightness, all the way across. The panels
+       on the roof are why, which makes the lighting an argument rather than a
+       mood. The candles are ornaments on a room that does not need them.
+     · the other three are made of canvas, earth and panelling. This is made of
+       TEXTILE — heavy curtain, no wood, no carpentry, and no straight edge in
+       it but the shelves, which is why everything down here is round-cornered
+       and nothing has a mitre.
+     · you reach the others out of the dark. You reach this one out of full
+       daylight, and it is darker than where you came from. Every other warm
+       room on this street is a relief from the cold; this is a relief from
+       the bright.
+
+   Flatten any one of those and the street has two cosy rooms doing the same
+   thing twice, which is worse than either doing it once. */
+.cave {
+  margin: 34px 0 0; padding: 30px 30px 34px; border-radius: 22px;
+  background: var(--velvet); color: var(--wick);
+  box-shadow: inset 0 0 0 10px var(--velvet-2), inset 0 0 0 12px var(--velvet-3);
+}
+.cave h2, .cave h3 { color: var(--wick); }
+.cave p { color: var(--wick-2); }
+.cave a { color: var(--gilt); }
+.cave a:hover { color: var(--wick); }
+.cave__lede { max-width: 58ch; }
+
+/* The candles. THE ONLY MOVING THING IN THIS ROOM, and the dial governs it —
+   the field outside has no ambient layer at any setting, but a pitch is its own
+   world and sets its own noise, which the campground's board says out loud.
+   Scoped with :where() so a decorative selector cannot out-specify the reset,
+   which is the mistake that shipped on the yurt's windowsill. */
+.candles { display: flex; gap: 22px; justify-content: center; margin: 0 0 18px; }
+.candle-flame { transform-origin: 50% 100%; }
+html[data-intensity="regular"] .candle-flame,
+html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out infinite; }
+@keyframes guttering {
+  0%, 100% { transform: scaleY(1) skewX(0deg); opacity: .95; }
+  38%      { transform: scaleY(1.07) skewX(-3deg); opacity: 1; }
+  71%      { transform: scaleY(.95) skewX(2deg); opacity: .9; }
+}
+
+/* The shelves. A book is a <details>, which is a real disclosure widget with a
+   keyboard and a screen reader already attached — the alternative was a div
+   listening for clicks and re-implementing all of that worse. */
+.shelves { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.book { border-radius: 12px; background: var(--velvet-2); border: 1px solid rgba(233,194,112,.30); }
+.book > summary {
+  cursor: pointer; list-style: none; padding: 14px 18px; min-height: 44px;
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px;
+  font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 18px; color: var(--wick);
+  border-radius: 12px;
+}
+.book > summary::-webkit-details-marker { display: none; }
+.book > summary::after { content: '\2014\A0 open'; font-family: 'Sora', sans-serif; font-weight: 400; font-size: 13.5px; color: var(--gilt); margin-left: auto; }
+.book[open] > summary::after { content: '\2014\A0 close'; }
+.book__by { font-family: 'Sora', sans-serif; font-weight: 400; font-size: 15px; color: var(--wick-2); }
+.book__open { padding: 0 18px 18px; }
+.book__open p { margin: 0 0 12px; max-width: 62ch; }
+.book__links { display: flex; flex-wrap: wrap; gap: 10px 18px; margin: 0; font-size: 14.5px; }
+.book__cited { margin: 10px 0 0; font-size: 13.5px; color: var(--wick-2); }
+
+/* The laptop. SAME-ORIGIN, AND STILL PRESS-TO-OPEN, which is not the same rule
+   as the jukebox facades and lands in the same place. Nothing here is being
+   kept from a third party — the frame is this site — but loading a whole copy
+   of the street inside a room on the street, unasked, would mean a second dial,
+   a second set of fonts and a screen reader walking the whole site twice for
+   somebody who only came in to read. So it waits to be woken, like everything
+   else with a screen in it here. */
+.laptop { margin: 26px 0 0; }
+.laptop__lid {
+  background: var(--velvet-3); border: 2px solid var(--gilt); border-radius: 12px 12px 4px 4px;
+  padding: 10px; aspect-ratio: 16 / 10; display: flex; overflow: hidden;
+}
+.laptop__screen { flex: 1; border: 0; border-radius: 4px; background: var(--noon); width: 100%; height: 100%; }
+.laptop__wake {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  background: #0B1418; color: var(--wick); border: 0; border-radius: 4px; cursor: pointer;
+  font-family: 'Sora', sans-serif; font-size: 16px; padding: 18px; text-align: center;
+}
+.laptop__wake b { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 20px; color: var(--gilt); }
+.laptop__wake span { font-size: 14px; color: var(--wick-2); max-width: 40ch; }
+.laptop__base { height: 12px; border-radius: 0 0 14px 14px; background: var(--velvet-2); border: 2px solid var(--gilt); border-top: 0; }
+.laptop__note { margin: 10px 0 0; font-size: 14px; color: var(--wick-2); }
+
+/* The campfire. A SHAG RUG WITH BEAN BAGS ON IT, which is the third green
+   carpet on this street and has to answer for itself: The Den's is a slab of
+   1976 pile with a track list set dark on top of it, and this is a rug you sit
+   ON with the type beside it rather than over it. One is a record sleeve; this
+   is a floor with people on it. The chairs are the list — each documentary sits
+   in one, because three bean bags around a screen is what the space IS. */
+.docs { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.doc {
+  background: var(--noon-2); border-radius: 26px 26px 34px 34px;
+  border: 2px solid var(--leaf); padding: 18px 20px 20px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.doc h3 { font-size: 18.5px; line-height: 1.2; }
+.doc p { margin: 0; font-size: 15px; }
+.doc__by { color: var(--leaf-2); font-size: 14px !important; }
+.doc__note { font-size: 13px !important; color: var(--furrow-2); }
+/* The screen on the bean bag. §4's facade is a 16:9 plate with the iframe
+   absolutely positioned inside it, and that IS the mechanism — a room that
+   reshapes it into a pill gets a button the player cannot fill. So this dresses
+   the plate rather than replacing it. */
+.hermitage .facade {
+  background: var(--cell); color: var(--noon); border: 2px solid var(--furrow);
+  border-radius: 14px; font-family: 'Sora', sans-serif; font-size: 15px;
+  margin-top: auto; display: flex; align-items: flex-end;
+}
+.hermitage .facade:hover { background: #17414E; }
+.hermitage .facade iframe { border-radius: 10px; }
+
+/* A DOOR OUT IS NOT A SCREEN, and it does not get the plate. The Jungle Room
+   learned this the hard way: a link dressed as a window is the broken thing,
+   because the one action it promises — press it and a picture appears here — is
+   the one it cannot do. This is a door, so it is shaped like one. */
+.doorout {
+  display: block; margin-top: auto; text-align: center; text-decoration: none;
+  background: var(--noon); color: var(--furrow); border: 2px dashed var(--leaf);
+  border-radius: 999px; font-family: 'Sora', sans-serif; font-size: 15px; padding: 13px 20px;
+}
+.doorout:hover { background: var(--noon-2); color: var(--furrow); border-style: solid; }
 
 /* §19 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
