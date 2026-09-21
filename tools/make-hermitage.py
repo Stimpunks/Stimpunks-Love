@@ -46,6 +46,11 @@ ROOM = ROOT / "solarpunk-hermitage.html"
 NOTES = ROOT / "liner-notes.html"
 
 YT = re.compile(r"^[A-Za-z0-9_-]{11}$")
+# The second word of a two-word specimen name, when that name is plain English
+# rather than Latin. Short on purpose: it is read as a declaration, so adding to
+# it should feel like a decision rather than like silencing a tool.
+PLAIN = {"rhizome", "frond", "cushion", "mat", "spore", "seed", "leaf", "bark",
+         "root", "stem", "cone", "catkin"}
 
 
 def esc(s):
@@ -111,6 +116,68 @@ def check(data):
             bad.append(f"{title!r} is neither a screen nor a door.")
         if d.get("how") == "link" and not (d.get("why_link") or "").strip():
             bad.append(f"{title!r} is a door out and does not say why on its own face.")
+
+    for sp in data.get("herbarium") or []:
+        n = (sp.get("name") or "").strip() or "<unnamed sheet>"
+        if not n or n == "<unnamed sheet>":
+            bad.append("a herbarium sheet with no name.")
+        if not (sp.get("note") or "").strip():
+            bad.append(f"the {n} sheet opens to nothing.")
+        if not (sp.get("source") or "").strip():
+            bad.append(f"the {n} sheet has no page of ours behind it. A specimen without "
+                       "one is a plant somebody liked, which is a different table.")
+        # A HERBARIUM SHEET'S ONE CLAIM TO AUTHORITY IS ITS NAME, so a binomial
+        # typed from memory is the worst thing that can go on one: it reads as
+        # determined when it was guessed. Nothing here is named to species.
+        #
+        # THE FIRST VERSION OF THIS CHECK WAS A LIST OF LATIN ENDINGS AND IT
+        # LEAKED, which is why it is not that any more. It missed Taraxacum
+        # officinale -- the single most likely binomial to end up on this table
+        # -- then missed Sphagnum capillifolium and Cladonia rangiferina after
+        # two rounds of widening, and every widening walked it closer to firing
+        # on ordinary prose ("ans" catches Native Americans, "ula" catches The
+        # formula). A tripwire that is allowed to miss AND at risk of crying
+        # wolf is the worst of both.
+        #
+        # SO THE SHAPE IS THE CHECK, and the English words are the allowlist. A
+        # binomial is Genus epithet: one capitalised word, one lowercase word.
+        # Every plain name we actually use has that shape too -- Bamboo rhizome,
+        # Fern frond -- so the second word has to be one we have declared. That
+        # catches EVERY binomial rather than the ones somebody anticipated, and
+        # the cost is one word added on purpose when a new plain name arrives.
+        m = re.match(r"^[A-Z][a-z]+ ([a-z]+)$", n)
+        if m and m.group(1) not in PLAIN:
+            bad.append(f"the {n!r} sheet is shaped like a binomial and {m.group(1)!r} is "
+                       "not a word this table has declared. Nothing in this herbarium is "
+                       "determined to species. If it is a plain English name, add the word "
+                       "to PLAIN on purpose.")
+
+    for v in data.get("solar_watch") or []:
+        t = (v.get("title") or "").strip() or "<untitled>"
+        if not YT.match((v.get("id") or "").strip()):
+            bad.append(f"{t!r} on the solar bench has an id love-embed.js would refuse silently.")
+        if not (v.get("length") or "").strip() or not (v.get("spoken") or "").strip():
+            bad.append(f"{t!r} on the solar bench has no runtime.")
+        if not (v.get("channel") or "").strip():
+            bad.append(f"{t!r} on the solar bench has no channel; none of these is ours.")
+
+    for r in data.get("solar_read") or []:
+        t = (r.get("title") or "").strip() or "<untitled>"
+        if not (r.get("url") or r.get("borrow") or "").strip():
+            bad.append(f"{t!r} on the solar bench goes nowhere.")
+        if not (r.get("source") or "").strip():
+            bad.append(f"{t!r} on the solar bench has no page of ours behind it.")
+
+    for piece in data.get("starstuff") or []:
+        t = (piece.get("title") or "").strip() or "<untitled>"
+        u = (piece.get("url") or "").strip()
+        if not u.startswith("https://starstuff.earth/"):
+            bad.append(f"{t!r} is on the Star Stuff table and does not point at "
+                       "starstuff.earth. A table with somebody's name on it holding "
+                       "something else is a mis-filed thing that reads as a claim.")
+        if not (piece.get("what") or "").strip() or not (piece.get("why") or "").strip():
+            bad.append(f"{t!r} does not say what it is, or why it is on this bench.")
+
     return bad
 
 
@@ -162,6 +229,100 @@ def campfire(docs):
     return "\n".join(out)
 
 
+def sheets(specimens):
+    out = []
+    for sp in specimens:
+        credit = (f'<p class="sheet__credit">{esc(sp["credit"])}</p>'
+                  if sp.get("credit") else "")
+        out.append(
+            '      <li><details class="sheet">\n'
+            f'        <summary>{esc(sp["name"])}'
+            f' <span class="sheet__as">{esc(sp["sheet"])}</span></summary>\n'
+            '        <div class="sheet__open">\n'
+            f'          <p>{esc(sp["note"])}</p>\n'
+            f'          {credit}\n'
+            f'          <p class="sheet__cited">Pressed because we argue from it on '
+            f'<a href="{esc(sp["source"])}">{esc(sp.get("source_title") or sp["source"])}</a>.</p>\n'
+            '        </div>\n'
+            '      </details></li>'
+        )
+    return "\n".join(out)
+
+
+def bench(watch, read):
+    out = []
+    for v in watch:
+        out.append(
+            '      <li class="lay lay--watch">\n'
+            f'        <h4>{esc(v["title"])}</h4>\n'
+            f'        <p class="lay__by">{esc(v["channel"])} &middot; {esc(v["length"])}</p>\n'
+            f'        <p>{esc(v["note"])}</p>\n'
+            f'        <button type="button" class="facade" data-embed-id="{esc(v["id"])}"\n'
+            f'                data-embed-title="{esc(v["title"])}">Play &middot; {esc(v["spoken"])}</button>\n'
+            '      </li>'
+        )
+    for r in read:
+        href = r.get("borrow") or r["url"]
+        label = "Borrow or read it &rarr;" if r.get("borrow") else "Read it &rarr;"
+        kind = "a book" if r["kind"] == "book" else "reading"
+        out.append(
+            '      <li class="lay lay--read">\n'
+            f'        <h4>{esc(r["title"])}</h4>\n'
+            f'        <p class="lay__by">{esc(r["author"])} &middot; {kind}</p>\n'
+            f'        <p>{esc(r["note"])}</p>\n'
+            f'        <p class="lay__go"><a href="{esc(href)}">{label}</a></p>\n'
+            f'        <p class="lay__cited">Off our own <a href="{esc(r["source"])}">'
+            f'{esc(r.get("source_title") or r["source"])}</a>.</p>\n'
+            '      </li>'
+        )
+    return "\n".join(out)
+
+
+def kin(pieces):
+    out = []
+    for piece in pieces:
+        out.append(
+            '      <li class="kin">\n'
+            f'        <h4><a href="{esc(piece["url"])}">{esc(piece["title"])}</a></h4>\n'
+            f'        <p>{esc(piece["what"])}</p>\n'
+            f'        <p class="kin__why">{esc(piece["why"])}</p>\n'
+            '      </li>'
+        )
+    return "\n".join(out)
+
+
+def herb_rows(specimens):
+    out = []
+    for sp in specimens:
+        credit = esc(sp["credit"]) if sp.get("credit") else "&mdash;"
+        out.append(
+            f'      <tr><td><strong>{esc(sp["name"])}</strong></td><td>{credit}</td>'
+            f'<td><a href="{esc(sp["source"])}">{esc(sp.get("source_title") or sp["source"])}</a></td></tr>')
+    return "\n".join(out)
+
+
+def solar_rows(watch, read):
+    out = []
+    for v in watch:
+        out.append(
+            f'      <tr><td><strong>{esc(v["title"])}</strong></td><td>{esc(v["channel"])}</td>'
+            f'<td>{esc(v["length"])}</td><td>in a screen</td>'
+            f'<td><a href="https://www.youtube.com/watch?v={esc(v["id"])}">watch</a></td></tr>')
+    for r in read:
+        href = r.get("borrow") or r["url"]
+        out.append(
+            f'      <tr><td><strong>{esc(r["title"])}</strong></td><td>{esc(r["author"])}</td>'
+            f'<td>&mdash;</td><td>{"a book" if r["kind"] == "book" else "reading"}</td>'
+            f'<td><a href="{esc(href)}">open</a></td></tr>')
+    return "\n".join(out)
+
+
+def kin_rows(pieces):
+    return "\n".join(
+        f'      <li><a href="{esc(k["url"])}">{esc(k["title"])}</a> &mdash; {esc(k["what"])}</li>'
+        for k in pieces)
+
+
 def doc_rows(docs):
     """Rows only. The table around them is hand-set in liner-notes.html, the
     same as every other credits block there."""
@@ -198,12 +359,21 @@ def main():
     books, docs = data["books"], data["docs"]
     swap(ROOM, "hermitage-shelves", shelves(books), "    ")
     swap(ROOM, "hermitage-campfire", campfire(docs), "    ")
+    swap(ROOM, "hermitage-herbarium", sheets(data["herbarium"]), "    ")
+    swap(ROOM, "hermitage-bench", bench(data["solar_watch"], data["solar_read"]), "    ")
+    swap(ROOM, "hermitage-kin", kin(data["starstuff"]), "    ")
     swap(NOTES, "hermitage-docs", doc_rows(docs), "      ")
     swap(NOTES, "hermitage-books", book_rows(books), "      ")
+    swap(NOTES, "hermitage-herb", herb_rows(data["herbarium"]), "      ")
+    swap(NOTES, "hermitage-solar", solar_rows(data["solar_watch"], data["solar_read"]), "      ")
+    swap(NOTES, "hermitage-kin-credits", kin_rows(data["starstuff"]), "      ")
 
     doors = sum(1 for d in docs if d["how"] == "link")
     print(f"hermitage: {len(books)} books on the shelves, {len(docs)} documentaries "
-          f"at the campfire ({doors} as a door out), credits rebuilt.")
+          f"at the campfire ({doors} as a door out), {len(data['herbarium'])} sheets "
+          f"in the herbarium, {len(data['solar_watch'])} + {len(data['solar_read'])} on "
+          f"the solar bench, {len(data['starstuff'])} on the Star Stuff table, "
+          "credits rebuilt.")
     return 0
 
 

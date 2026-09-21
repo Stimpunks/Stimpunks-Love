@@ -161,16 +161,22 @@ def tracks_in(data):
     # because they are one room; only the docs are facades. A doc already
     # published as a door out is expected to fail the embed check and is not
     # reported, the same as the Jungle Room's link-outs.
-    if "docs" in data:
-        # 'how' is normalised to 'state' here rather than renamed in the data,
-        # because the two files mean the same fact by different words and the
-        # EXEMPTION BELOW KEYS ON state: a doc already published as a door out
-        # is expected to fail the embed check, and reporting it every run would
-        # be this tool shouting about a decision somebody already made. That is
-        # how a report stops being read.
+    if "docs" in data or "solar_watch" in data:
+        # THE HERMITAGE HAS FACADES IN TWO PLACES IN ONE FILE -- the campfire's
+        # documentaries and the solar bench's videos -- and the first version of
+        # this branch returned only the first list. That is the same shape of
+        # hole make-yurt-sound.py was widened to close: a guard that covers the
+        # thing it was written for and not the thing added next to it, reporting
+        # a confident total the whole time. Both lists, or neither.
+        #
+        # 'how' is normalised to 'state' rather than renamed in the data, because
+        # the two files mean the same fact by different words and the EXEMPTION
+        # BELOW KEYS ON state: a doc already published as a door out is expected
+        # to fail the embed check, and reporting it every run would be this tool
+        # shouting about a decision somebody already made.
         return [dict(d, artist=d.get("channel"),
                      state="link" if d.get("how") == "link" else None)
-                for d in data["docs"]]
+                for d in (data.get("docs", []) + data.get("solar_watch", []))]
     raise SystemExit(
         "REFUSING: a data file in LISTS has neither 'tracks' nor 'groups', so this "
         "run\nwould have checked none of it while reporting a confident total.")

@@ -226,6 +226,33 @@ arriving only where the leaves let it, nothing standing alone because everything
 something, and a face whose strokes swell as they turn. You are outside in one and inside the
 other. "They are both green, so they should feel the same" is the subroom excuse in a poncho.
 
+**A HERBARIUM IS WHERE A GUESS LOOKS MOST LIKE A DETERMINATION, WHICH IS WHY NOTHING ON IT IS
+NAMED TO SPECIES.** The Hermitage's workshop (§20) presses nine sheets and not one carries a Latin
+binomial. A sheet's one claim to authority is its name, so a binomial typed from memory reads as
+*determined* when it was guessed — the exact fabrication this site spends a page arguing against,
+in the format most likely to be believed. **The check that enforces it was rewritten after it
+leaked:** a list of Latin endings missed *Taraxacum officinale*, then two more after widening, and
+each widening moved it closer to firing on ordinary prose. **The shape is the check now** — one
+capitalised word plus one lowercase word is refused unless the second word is in `PLAIN` — which
+catches every binomial rather than the anticipated ones. Add to `PLAIN` on purpose when a name like
+*fern frond* arrives; do not go back to guessing at suffixes. **And there is no sunflower sheet**,
+although sunflowers grow outside that door: we have no page about them, so there is nothing to
+press, and the table says so out loud rather than quietly including one.
+
+**EACH BENCH REFUSES SOMETHING DIFFERENT, AND THE THIRD ONE REFUSES A DESTINATION.** A herbarium
+sheet with no page of ours is a plant somebody liked. A solar item with no runtime breaks the
+room's own promise. **And an entry on the Star Stuff table whose link does not point at
+starstuff.earth is refused**, because a bench with somebody's name on it holding something else is
+a mis-filed thing that reads as a claim. Three of the herbarium's sheets cite pieces on that third
+table, which is what a workshop with three benches in one room is *for*.
+
+**OUR PAGES NAME AUTHORS FAR MORE OFTEN THAN THEY LINK BOOKS**, and that is now a known trap in
+this repo: two ids in `data/hermitage.json` — *Care Work* and Griffith's *Electrify* — had to be
+resolved against Open Library's search because our own pages cite the work without ever linking
+the edition. The first time, the id was written from memory and pointed at a different book. **When
+a title has no link in the mirror, resolve it and record that you did**; do not fill the gap from
+memory because the rest of the file is sourced.
+
 **THE FIRST DAYLIT ROOM IS THE ONE THAT CANNOT BE DARKENED.** The Solarpunk Hermitage (§20) is
 Ryan's pitch and the only world here lit by morning. Every other room is a dark ground with light
 applied to it; this is a lit ground with things standing in it, and **a cabin that runs on the sun

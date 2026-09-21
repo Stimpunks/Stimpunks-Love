@@ -354,6 +354,20 @@ PAIRS = [
     (WICK,    "#0B1418", False, "cave: the laptop's own label on the sleeping screen"),
     (GILT,    "#0B1418", False, "cave: the wake-the-laptop heading on it"),
     (WICK2,   "#0B1418", False, "cave: the sentence under it"),
+
+    # The watering hole's three benches. Dark on light again, and the new ground
+    # is NOON on NOON2 -- a sheet or a Star Stuff card laid on a worktop, which
+    # is the lighter thing on the darker one, the opposite way round from every
+    # card on this street.
+    (FURROW,  NOON2,  True,  "workshop: the table headings, 24px"),
+    (FURROW2, NOON2,  False, "workshop: what each table is, and the lay-out copy"),
+    (SPROUT2, NOON2,  False, "workshop: links in a table's own description"),
+    (CEDAR,   NOON2,  True,  "workshop: the worktop's front lip and the rules between items"),
+    (FURROW,  NOON,   False, "workshop: a specimen name and a Star Stuff title on the sheet itself"),
+    (FURROW2, NOON,   False, "workshop: what a sheet is pressed as, and the note inside it"),
+    (SPROUT2, NOON,   False, "workshop: a Star Stuff link, and a borrow link on the bench"),
+    (SPROUT,  NOON,   True,  "workshop: the green edge down a Star Stuff card"),
+    (CEDAR,   NOON,   True,  "workshop: the hairline around a pressed sheet"),
     (INK,    GREEN,  False, "street: the signpost arm, dark on painted green"),
     (INK,    CYAN,   False, "street: the signpost arm on hover"),
 

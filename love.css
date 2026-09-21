@@ -2624,6 +2624,70 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 }
 .doorout:hover { background: var(--noon-2); color: var(--furrow); border-style: solid; }
 
+/* THE WATERING HOLE. Three benches under a window, and the shape has to answer
+   to the two zones either side of it in the same room: the cave is enclosed,
+   round-cornered and dark; the campfire is seated, and its cards are rounded
+   because a bean bag has no corners in it. THIS IS FLAT-TOPPED AND SQUARE —
+   worktops with a lip at the front, things laid out on them, and you are
+   standing up. One room, three postures.
+
+   A table is a surface and not a card, so it has a top edge and a shadow under
+   it and no border all the way round: a rectangle with a full outline reads as
+   another card, and this room already has two kinds of those. */
+.table {
+  margin: 24px 0 0; padding: 20px 22px 24px;
+  background: var(--noon-2); border-top: 5px solid var(--cedar);
+  border-radius: 3px 3px 10px 10px;
+  box-shadow: 0 3px 0 rgba(22,41,28,.10);
+}
+.table h3 { font-size: 24px; margin: 0 0 8px; }
+.table__what { margin: 0 0 4px; max-width: 70ch; font-size: 15.5px; }
+
+/* The pressed sheets. A <details> again, for the reason the cave's spines are:
+   the widget already has a keyboard and a screen reader attached. They are laid
+   out in columns because a herbarium is a drawer of sheets rather than a list —
+   the one place in this room where the grid is the meaning. */
+.sheets { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); align-items: start; }
+.sheet { background: var(--noon); border: 1px solid var(--cedar); border-radius: 2px; }
+.sheet > summary {
+  cursor: pointer; list-style: none; padding: 12px 14px; min-height: 44px;
+  display: flex; flex-direction: column; gap: 2px;
+  font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 17px; color: var(--furrow);
+}
+.sheet > summary::-webkit-details-marker { display: none; }
+.sheet__as { font-family: 'Sora', sans-serif; font-weight: 400; font-size: 13px; color: var(--furrow-2); }
+.sheet__open { padding: 0 14px 14px; }
+.sheet__open p { margin: 0 0 9px; font-size: 14.5px; }
+.sheet__credit { font-style: italic; color: var(--furrow-2); }
+.sheet__cited { margin: 0 !important; font-size: 13px !important; color: var(--furrow-2); }
+
+/* The solar bench. Things lying on a worktop, not filed — so they are a plain
+   column of laid-out items with a rule between them, rather than boxes. */
+.bench { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 0;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+.lay { padding: 16px 0; border-top: 1px solid var(--cedar); display: flex; flex-direction: column; gap: 7px; }
+.bench .lay + .lay { padding-left: 0; }
+.lay h4 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 17.5px;
+  line-height: 1.22; color: var(--furrow); margin: 0; }
+.lay p { margin: 0; font-size: 15px; }
+.lay__by { color: var(--furrow-2); font-size: 13.5px !important; }
+.lay__cited { font-size: 13px !important; color: var(--furrow-2); }
+.lay__go { font-size: 14.5px !important; }
+.lay .facade { margin-top: auto; }
+.lay--read { padding-right: 18px; }
+
+/* The Star Stuff table. EVERY ITEM IS A DOOR TO ANOTHER SITE and none of it is
+   reproduced, so each one leads with its link rather than ending in one. */
+.kinship { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); }
+.kin { background: var(--noon); border-left: 4px solid var(--leaf); padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 6px; }
+.kin h4 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 17px;
+  line-height: 1.22; margin: 0; }
+.kin p { margin: 0; font-size: 14.5px; }
+.kin__why { color: var(--furrow-2); font-size: 13.5px !important; }
+
 /* §19 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
