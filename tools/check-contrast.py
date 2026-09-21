@@ -109,6 +109,27 @@ PALM, HELICONIA, SUN, ORCHID = "#57A05C", "#FF8557", "#F5D06B", "#E98AD2"
 # THAT, at 2.18 -- the band read as a smudge and the leaves in it could not be
 # told from each other, which is exactly what measuring a decoration is for.
 CANOPY_LEAF = "#31754A"
+# THE DEN (love.css §18), the subroom behind the Jungle Room, and the one pair
+# of rooms on this street that share a name AND a colour. What keeps them apart
+# is in these numbers: upstairs the green is the DARK GROUND and the type is
+# cream on it; down here the green is the BRIGHT GROUND, it is the carpet, and
+# the track list is set dark on it. Same hue, opposite job, and therefore two
+# entirely different sets of pairs. LAMPLIT_DEN is nobody's choice: --tiki at
+# .14 over the panelling, the brightest a low lamp gets in a room with no
+# daylight in it at all.
+PANEL, TEAK, STONE = "#241508", "#3C2412", "#A06A4E"
+LAMPLIT_DEN = "#412B10"
+SHAG, SHAG_2 = "#63B441", "#57A438"
+COCONUT, RATTAN = "#F6ECD9", "#CBB392"
+COCOA, COCOA_2 = "#1E1107", "#35210F"
+# AND THE GROUND UNDER A TRACK CARD IS NOT THE CARPET. A cut is a pane of
+# --coconut at .78 LAID ON the shag, so the type on it sits on what those two
+# make and not on the green — which is the composite lesson this file keeps
+# learning, room after room, arriving here in the place it is easiest to miss,
+# because the carpet is the thing you actually see. The shag itself carries the session
+# heading and its date, and those ARE measured against it below.
+CUT, CUT_2 = "#D6E0B8", "#D3DCB6"
+TIKI, JADE, RUM = "#F0B040", "#37C9A4", "#F2705A"
 FISHY, COBBLE, SHELLY, URCHIN = "#CFE2F2", "#A9BAC6", "#E8D6B6", "#B79AE0"
 
 # (fg, bg, large?, where)
@@ -461,6 +482,50 @@ PAIRS = [
     (PALM,      SHAFT_2,    True,  "jungle: the same marker with the light on it"),
     (PALM,      APERTURE,   True,  "jungle: the dashed border round a cam that opens off site"),
     (CANOPY_LEAF, CANOPY,   True,  "jungle: the lightest leaf in the canopy band, against the sky behind it"),
+    #
+    # THE DEN (love.css §18). Two grounds that have nothing to do with each
+    # other: the panelled wall, which is where the room talks, and the carpet,
+    # which is where the records are. Every ink on the wall is held against the
+    # lamp pool as well as against the flat panelling, the same rule the burrow
+    # and the chapel are held to.
+    (COCONUT, PANEL,       False, "den: body copy on the panelling"),
+    (COCONUT, LAMPLIT_DEN, False, "den: body copy inside the lamp pool"),
+    (COCONUT, TEAK,        False, "den: anything set on the bare wood of a frame"),
+    (RATTAN,  PANEL,       False, "den: the lede, the trail line, the credits"),
+    (RATTAN,  LAMPLIT_DEN, False, "den: the lede under the lamp — the tightest pair on the wall"),
+    (TIKI,    PANEL,       False, "den: every link on the panelling, and the session headings"),
+    (TIKI,    LAMPLIT_DEN, False, "den: a link under the lamp"),
+    (TIKI,    TEAK,        False, "den: DROP THE NEEDLE, on the console top"),
+    (JADE,    PANEL,       False, "den: the eyebrow over the room's name"),
+    (JADE,    LAMPLIT_DEN, False, "den: the same, lit"),
+    (RUM,     PANEL,       False, "den: the tagline"),
+    (RUM,     LAMPLIT_DEN, False, "den: the tagline where the lamp reaches it"),
+    #
+    # AND THE CARPET, which is the inversion. Nothing else on this street sets
+    # dark type on a saturated green, and the gradient means there are two of
+    # it — the DARKER end decides, the same way the burrow's plaster works and
+    # the opposite of everywhere else here.
+    (COCOA,   SHAG,        False, "den: a session heading, set straight onto the carpet"),
+    (COCOA,   SHAG_2,      False, "den: the same at the shaded end of the carpet"),
+    (COCOA_2, SHAG,        False, "den: the session dates and the line under them, on the carpet"),
+    (COCOA_2, SHAG_2,      False, "den: the same, shaded — the tightest pair on the green"),
+    (COCOA,   CUT,         False, "den: a song title, on the pane laid over the carpet"),
+    (COCOA,   CUT_2,       False, "den: the same, on the shaded end"),
+    (COCOA_2, CUT,         False, "den: who wrote it, what night it was cut, how long it runs"),
+    (COCOA_2, CUT_2,       False, "den: the same, shaded"),
+    (TEAK,    CUT,         False, "den: the track number on a cut"),
+    (TEAK,    CUT_2,       False, "den: the same, shaded"),
+    (TEAK,    SHAG,        True,  "den: the frame around a cut, against the carpet behind it"),
+    #
+    # THE FOUR GRAPHICS, at the 3:1 bar. The carpet has to be tellable from the
+    # panelling or the room has no floor; the fieldstone and the water are the
+    # two halves of the drawing on the north wall; and the notch beside a house
+    # rule is this room's bullet, carrying "a new one starts here" the way the
+    # Jungle Room's leaf does.
+    (SHAG,    PANEL,       True,  "den: the carpet against the panelling it is laid on"),
+    (STONE,   PANEL,       True,  "den: the cut fieldstone of the waterfall wall"),
+    (JADE,    "#2B1709",   True,  "den: the water falling down it"),
+    (JADE,    PANEL,       True,  "den: the notch beside a house rule"),
 ]
 
 # NOT IN THE LIST, AND IT SHOULD BE: cream (#FFF3E6) on the same #FF5AA6 ground

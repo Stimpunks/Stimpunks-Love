@@ -152,6 +152,42 @@ mistake. What keeps them apart is structural and has to stay that way:
 Flatten any one of those and you have two rooms doing the same thing twice, which is worse than
 either of them doing it once.
 
+**AND THE SUBROOM BEHIND THAT ONE SHARES ITS NAME, ITS COLOUR, AND NOTHING ELSE.** The Den (§18)
+is Graceland's Jungle Room — Elvis Presley's den, green shag, carved wood, a fieldstone waterfall,
+and in 1976 a recording studio, which is where his last two albums came from. **This is the
+hardest version of the subroom problem on the street**: The Chappell at least did not sound like
+Pink Pony Club, and these two are literally both called the Jungle Room and are both green. What
+keeps them apart is structural and has to stay that way:
+
+  · **upstairs the green is the DARKNESS** and the light falls down through a canopy, with every
+    word cream on that dark. **Down here the room is BROWN** — panelled, lamplit at knee height,
+    no daylight anywhere — the carpet is the brightest thing in it, and the track list is set
+    **dark on the green**. Same hue, opposite job, which is why its share card is a wall with a
+    slab of shag along the foot while its parent's is a field under a roof of leaves.
+  · upstairs is outdoors and open and has no straight edge in it. This is low, closed and
+    rectangular, full of carved frames with the corners notched out of them.
+  · upstairs sets a serif whose strokes swell as they curve. This sets a slab with no contrast in
+    it at all, because one is a botanical plate and the other is a record sleeve from 1976.
+
+**AND ITS GENERATOR ENFORCES THE OPPOSITE CHECK TO ITS PARENT'S, ON PURPOSE.** `make-jungle.py`
+refuses a runtime; `make-den.py` refuses a track without one. That is not a contradiction to tidy
+up — a live camera has no length to give, a song does, and both tools are keeping the same
+promise: say what somebody is pressing before they press it. **Do not make them agree.**
+
+**THE DOOR IN IS AN EASTER EGG AND IS NOT HIDDEN.** No storefront on the street; the way in is a
+quiet line at the foot of the Jungle Room, the Chappell's shape turned right down. But `.den-door`
+is an ordinary focusable link with real text, in the tab order, at full size, and the page is in
+`make-sitemap.py`'s order like every other. **On a Disabled people's site a secret only a sighted
+mouse user can find is not a secret, it is an exclusion.** Subtle means visually quiet. It never
+means `display: none`, a one-pixel target, or anything a screen reader cannot reach.
+
+**AND THE WRITERS ARE NAMED ON EVERY CUT, because Presley wrote none of those songs.** A room
+where the performer's name is the entire draw is exactly where crediting only the voice would
+pass unnoticed, which is the thing this site keeps attribution for. Every id there was resolved
+against YouTube and checked on its own watch page, **and matched against the released runtime**,
+because searching any of those titles turns up alternate takes on the same official channels and a
+room arguing *these are the records that came out of that carpet* cannot hand somebody a rehearsal.
+
 **A VIEWING ROOM FULL OF SOMEBODY ELSE'S CAMERAS IS WHERE THE RUNTIME RULE INVERTS.** The Jungle
 Room (§17) carries the nature live cams off our own Watering Hole Hangs events page, in that
 page's own groups and that page's own order, which is not ours to re-sort. **Every other

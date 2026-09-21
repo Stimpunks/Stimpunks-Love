@@ -1,0 +1,43 @@
+{
+  "_what": "The Den's listening bench: the songs Elvis Presley recorded in the Jungle Room at Graceland, in the order they were recorded, with the session day on each one.",
+  "_artist": "Elvis Presley",
+  "_why": "In 1976 the Jungle Room at Graceland was converted into a recording studio and the bulk of Presley's last two albums were made in it — From Elvis Presley Boulevard, Memphis, Tennessee (RCA, 16 May 1976) and Moody Blue (RCA, 19 July 1977). Felton Jarvis produced. The room is famous for its carpet; it is also the room those records came out of, and that is the only reason there is a subroom behind our own Jungle Room at all.",
+  "_source": "2026-09-20: the track list, the session dates, the songwriters and the album attributions were read off Wikipedia's articles on the two albums, which give a recording date per track. The video ids were NOT typed from memory and not guessed: each title was searched on YouTube, candidates were filtered to Presley's official channels, and every id that went in was then checked on its own watch page — ownerChannelName, channelId, playabilityStatus, playableInEmbed and lengthSeconds. Twelve are on 'Elvis Presley - Topic' (UChgxarBUCnPJV871-46bJ2g, the label's own art-track channel) and four on ElvisPresleyVEVO (UCSEmH1YyFWltSBYkfLMtkcg). Every runtime below was read off the watch page rather than off a search result, because the search page rounds.",
+  "_takes": "MASTERS, NOT OUTTAKES. Searching any of these turns up alternate takes on the same official channels — 'Take 1', 'Take 9', a six-minute run at a three-minute song. A room built on 'these are the records that came out of that carpet' cannot quietly hand somebody a rehearsal instead. Each id here was matched against the released runtime before it went in.",
+  "_rule": "The vibe, not the lyrics. Same rule as the dancefloor and the chapel: we name the artist, we name the people who WROTE it — which matters here, because Presley wrote none of these — we link the song, and we let them keep their own words. The notes are ours about the room and the session. Nothing is hosted by us.",
+  "_runtime": "AND EVERY ONE OF THESE SAYS HOW LONG IT RUNS, which is the street's oldest rule and the exact rule the room upstairs cannot follow. The Jungle Room's cams never end, so make-jungle.py refuses a runtime; these are songs of a known length, so make-den.py refuses a track without one. Parent and subroom enforce opposite checks and are making the same promise: tell somebody what they are pressing before they press it.",
+  "sessions": [
+    {
+      "slug": "february",
+      "name": "February 1976",
+      "dates": "2–7 February 1976",
+      "sub": "The first week. Ten of these went on From Elvis Presley Boulevard, Memphis, Tennessee, out that May; two waited for Moody Blue.",
+      "tracks": [
+        { "id": "ylN4OOHYBZk", "day": "2 February", "title": "Bitter They Are, Harder They Fall", "writers": "Larry Gatlin", "album": "From Elvis Presley Boulevard", "channel": "Elvis Presley - Topic", "length": "3:17", "note": "The first thing cut in the room, on the first night. A Larry Gatlin song about a fall, opening a record made in a house." },
+        { "id": "mpJDq9aN2Co", "day": "2 February", "title": "She Thinks I Still Care", "writers": "Dickey Lee and Steve Duffy", "album": "Moody Blue", "channel": "Elvis Presley - Topic", "length": "3:51", "note": "A George Jones standard, taken slow. Held back for a year and a half and then put on the last album." },
+        { "id": "P0cYlsG4cpI", "day": "2 February", "title": "The Last Farewell", "writers": "Roger Whittaker and Ron A. Webster", "album": "From Elvis Presley Boulevard", "channel": "Elvis Presley - Topic", "length": "4:03", "note": "Four minutes, and nothing hurried in any of them. The room was a living room an hour earlier and it sounds like one." },
+        { "id": "Z8XK_VJgTfc", "day": "3 February", "title": "Solitaire", "writers": "Neil Sedaka and Phil Cody", "album": "From Elvis Presley Boulevard", "channel": "Elvis Presley - Topic", "length": "4:40", "note": "Sedaka and Cody's song about a man playing cards alone, sung by a man who had stopped leaving the house to make records." },
+        { "id": "mrkD1l7IxIc", "day": "4 February", "title": "Moody Blue", "writers": "Mark James", "album": "Moody Blue", "channel": "ElvisPresleyVEVO", "length": "2:53", "note": "The one that gave the last album its name, and the only thing in this room with a disco pulse under it. Released as a single that November." },
+        { "id": "dP14xmHvA-o", "day": "4 February", "title": "I'll Never Fall in Love Again", "writers": "Lonnie Donegan and Jimmy Currie", "album": "From Elvis Presley Boulevard", "channel": "Elvis Presley - Topic", "length": "3:45", "note": "Donegan's, not Bacharach and David's — two different songs with the same title, and this is the skiffle one." },
+        { "id": "CYszKu5yE08", "day": "5 February", "title": "For the Heart", "writers": "Dennis Linde", "album": "From Elvis Presley Boulevard", "channel": "Elvis Presley - Topic", "length": "3:23", "note": "By the man who wrote Burning Love. The band is the touring band, playing in a carpeted room with the furniture still in it." },
+        { "id": "rxceB_swSds", "day": "5 February", "title": "Hurt", "writers": "Jimmie Crane and Al Jacobs", "album": "From Elvis Presley Boulevard", "channel": "Elvis Presley - Topic", "length": "2:07", "note": "Two minutes and seven seconds, and the loudest thing anybody did in that room. A 1954 song he had been carrying around for twenty years." },
+        { "id": "lWc5ZD-ugrU", "day": "5 February", "title": "Danny Boy", "writers": "Frederic E. Weatherly", "album": "From Elvis Presley Boulevard", "channel": "Elvis Presley - Topic", "length": "3:56", "note": "A parlour song from 1913, sung in a parlour. Of everything here this is the one that most obviously belongs in a house." },
+        { "id": "0jqtun-RAtg", "day": "6 February", "title": "Never Again", "writers": "Billy Edd Wheeler and Jerry Chesnut", "album": "From Elvis Presley Boulevard", "channel": "Elvis Presley - Topic", "length": "2:51", "note": "Short, plain, and over before it has made a fuss about itself." },
+        { "id": "e_nTuCP7-PA", "day": "6 February", "title": "Love Coming Down", "writers": "Jerry Chesnut", "album": "From Elvis Presley Boulevard", "channel": "Elvis Presley - Topic", "length": "3:07", "note": "The second Chesnut song of the same night, and the quieter of the two." },
+        { "id": "wvh2t8RIsTo", "day": "7 February", "title": "Blue Eyes Crying in the Rain", "writers": "Fred Rose", "album": "From Elvis Presley Boulevard", "channel": "Elvis Presley - Topic", "length": "3:42", "note": "Fred Rose wrote it in 1945; Willie Nelson had made it a number one the year before this was cut. The last thing recorded in the February week." }
+      ]
+    },
+    {
+      "slug": "october",
+      "name": "October 1976",
+      "dates": "29–31 October 1976",
+      "sub": "Three nights, eight months later, in the same room. Everything from them went on Moody Blue — the album he did not live to see released.",
+      "tracks": [
+        { "id": "weLSA2vekLA", "day": "29 October", "title": "Way Down", "writers": "Layng Martine Jr.", "album": "Moody Blue", "channel": "ElvisPresleyVEVO", "length": "2:38", "note": "Released as a single on 6 June 1977 and the last one out in his lifetime. J.D. Sumner goes lower on this than anybody needed him to, which is the point of it." },
+        { "id": "njCtecM84Hs", "day": "29 October", "title": "Pledging My Love", "writers": "Don Robey and Ferdinand Washington", "album": "Moody Blue", "channel": "ElvisPresleyVEVO", "length": "2:56", "note": "Johnny Ace's 1954 record, which came out after Ace had died. Cut here in a den with a waterfall in it." },
+        { "id": "Qs01podWNy4", "day": "29 October", "title": "It's Easy for You", "writers": "Andrew Lloyd Webber and Tim Rice", "album": "Moody Blue", "channel": "ElvisPresleyVEVO", "length": "3:31", "note": "Lloyd Webber and Rice, which is not a credit anybody expects to find on an Elvis record, let alone this one." },
+        { "id": "LD2oTsryYl0", "day": "31 October", "title": "He'll Have to Go", "writers": "Joe Allison and Audrey Allison", "album": "Moody Blue", "channel": "ElvisPresleyVEVO", "length": "4:36", "note": "Jim Reeves' song, taken very slow indeed. The last thing on this bench, and the last studio session of his life." }
+      ]
+    }
+  ]
+}

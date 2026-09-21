@@ -80,6 +80,16 @@
 @font-face { font-family: 'Cabin';      src: url('fonts/cabin-400.woff2') format('woff2');      font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Cabin';      src: url('fonts/cabin-400.woff2') format('woff2');      font-weight: 700; font-display: swap; }
 
+/* The Den (§18), the subroom behind the Jungle Room. A FAT 1970s SLAB and a
+   grotesque — the weight a record sleeve was set in the year those sessions
+   happened. It is the single thing that stops a green room reading as its own
+   parent: upstairs sets a high-contrast serif whose strokes swell as they
+   curve, and this sets a slab with no contrast in it at all. Karla ships as a
+   variable font, so one file serves 400 and 700, the same as Cabin above. */
+@font-face { font-family: 'Ultra'; src: url('fonts/ultra-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Karla'; src: url('fonts/karla-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Karla'; src: url('fonts/karla-400.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -179,6 +189,22 @@
   --canopy: #06180F;  --understory: #0B2415;  --buttress: #143A24;  --litter: #1C2A14;
   --daylight: #EDF6E2;  --sap: #BFD6AC;
   --palm: #57A05C;  --heliconia: #FF8557;  --sun: #F5D06B;  --orchid: #E98AD2;
+
+  /* The Den (§18). Graceland's Jungle Room, which is a den panelled in dark
+     wood with a bright green shag carpet in it — and THE GREEN IS THE LIGHT
+     HERE rather than the dark, which is the one structural thing keeping this
+     off its own parent. Upstairs the green IS the darkness and the light comes
+     down from above; down here the room is brown, the carpet is the brightest
+     thing in it, and it is underfoot. --glow-lamp-den is nobody's choice
+     either: --tiki at .14 over the panelling, the brightest a low lamp gets,
+     and every ink on the wall is held against it. --rum and --stone carry no
+     text; they are the red corner lamp and the fieldstone, and they are
+     measured at the graphics bar because a room is not decoration. */
+  --panel: #241508;  --teak: #3C2412;  --stone: #A06A4E;
+  --shag: #63B441;  --shag-2: #57A438;
+  --coconut: #F6ECD9;  --rattan: #CBB392;
+  --cocoa: #1E1107;  --cocoa-2: #35210F;
+  --tiki: #F0B040;  --jade: #37C9A4;  --rum: #F2705A;
 }
 
 * { box-sizing: border-box; }
@@ -2132,8 +2158,197 @@ html[data-intensity="max"] .cam__dot { animation: jungle-blink 3.4s ease-in-out 
 
 .jungle-note { font-size: 14.5px; line-height: 1.62; color: var(--sap); }
 
+/* THE DOOR AT THE BACK OF THIS ROOM, and it is an easter egg rather than a
+   signpost. The Chappell's door is a bordered panel with a heading shouting at
+   you; this one is the same shape, turned right down: a hairline, small type,
+   and the room's dimmest ink. You find it by getting to the bottom of the room
+   rather than by being told.
 
-/* §18 ── Small screens ───────────────────────────────────────────────────────
+   QUIET IS A VISUAL SETTING AND NOT A PERCEPTUAL ONE. This is an ordinary
+   focusable link with real words in it, in the tab order, at full touch size,
+   read out by a screen reader exactly like every other link on the street — on
+   a Disabled people's site a secret that is only findable by a sighted mouse
+   user is not a secret, it is an exclusion. Nothing here is display:none,
+   nothing is a one-pixel target, and the reason is written here so the next
+   person to make it subtler knows where the floor is. */
+.den-door {
+  display: block; margin: 40px 0 0; padding: 16px 0 0;
+  border-top: 1px solid var(--buttress); text-decoration: none;
+  max-width: 62ch;
+}
+.den-door .den-door__mark {
+  display: block; font-family: 'Cabin', system-ui, sans-serif; font-weight: 700;
+  font-size: 11.5px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--palm); margin: 0 0 6px;
+}
+.den-door .den-door__say { display: block; font-size: 14.5px; line-height: 1.6; color: var(--sap); }
+.den-door:hover .den-door__mark { color: var(--sun); }
+.den-door:hover .den-door__say { color: var(--daylight); }
+
+
+/* §18 ── SUBROOM: The Den (off the Jungle Room) ──────────────────────────────
+   GRACELAND'S JUNGLE ROOM, WHICH IS WHY THERE IS A DOOR AT THE BACK OF OURS.
+   Elvis Presley's den: dark wood panelling, carved Polynesian furniture, fur
+   thrown over it, a waterfall of cut fieldstone on the north wall, jade glass
+   lamps, and a bright green shag carpet. In 1976 it was converted into a
+   recording studio and the bulk of his last two albums were made in it. That
+   fact is the whole reason this subroom exists — the joke would have been
+   enough for a link, and the discography is what earns a room.
+
+   IT IS A SUBROOM AND IT SHARES NOTHING WITH ITS PARENT, and this is the
+   hardest version of that yet, because the two rooms have the SAME NAME and the
+   same colour. The Chappell at least did not sound like Pink Pony Club. So the
+   separation has to be structural and it has to be stated:
+
+     · UPSTAIRS THE GREEN IS THE DARKNESS. The Jungle Room is a near-black green
+       under a closed canopy with the light coming DOWN through it, and every
+       word in it is cream on that dark. Here the room is BROWN — panelled, lit
+       by lamps at knee height, no sky and no daylight anywhere — and the green
+       is the brightest thing in it, laid on the floor, with the track list set
+       DARK ON THE CARPET. Same colour, opposite job.
+     · upstairs is outdoors and open, and nothing in it is square. This is a
+       low, closed, rectangular room full of furniture: carved frames, notched
+       corners, heavy borders, a piece of fake fur on the bench.
+     · upstairs sets a high-contrast serif whose strokes swell as they curve.
+       This sets a slab with NO contrast in it at all, because one is a
+       botanical plate and the other is a record sleeve from 1976.
+
+   "It is only the room behind the other one, it should match" is the excuse
+   this street has refused five times now, and it has never been more persuasive
+   than it is here, where both rooms are literally called the Jungle Room.
+
+   EVERY BUTTON SAYS HOW LONG IT RUNS, and that is the parent's rule inverted
+   rather than broken. make-jungle.py REFUSES a runtime because a live camera
+   never ends; make-den.py REFUSES a track without one because a song has a
+   length and withholding it is withholding the thing that lets somebody decide.
+   Read the two tools together.
+
+   THE DOOR IN IS DELIBERATELY QUIET AND IS NOT HIDDEN. An easter egg on a
+   Disabled people's site is a visual joke, never a perceptual one: `.den-door`
+   is dim, small and off to one side, and it is an ordinary focusable link with
+   real text in it, in the tab order, at full size, reachable by keyboard and
+   readable by a screen reader like anything else. Subtle means quiet. It does
+   not mean display:none, a one-pixel target, or a thing only a mouse can find. */
+
+.room-den {
+  background: var(--panel); color: var(--coconut);
+  font-family: 'Karla', ui-sans-serif, system-ui, sans-serif;
+  font-size: 17px; line-height: 1.62;
+}
+/* The panelling, and two lamps standing on the floor of it. No daylight in this
+   room at all: the brighter pool tops out at --tiki .14, which is the #412B10
+   in check-contrast.py, and the red one is the corner lamp in the photographs.
+   Vertical grooves, because that is what a panelled wall is. */
+.room-den::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image:
+    radial-gradient(ellipse 560px 420px at 12% 78%, rgba(240,176,64,.14), transparent 70%),
+    radial-gradient(ellipse 460px 360px at 88% 26%, rgba(242,112,90,.09), transparent 72%),
+    repeating-linear-gradient(90deg, rgba(0,0,0,.20) 0 2px, transparent 2px 34px);
+}
+
+.den { width: min(980px, 100% - 44px); margin-inline: auto; padding: 0 22px 80px; }
+
+.room-den a { color: var(--tiki); text-decoration-color: rgba(240,176,64,.45); text-underline-offset: 3px; }
+.room-den a:hover { color: var(--coconut); }
+.room-den .backlink { font-family: 'Karla', system-ui, sans-serif; font-weight: 700; font-size: 12.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--rattan); }
+.room-den h1, .room-den h2, .room-den h3 { font-family: 'Ultra', Georgia, serif; font-weight: 400; text-wrap: balance; }
+.room-den h1 { font-size: clamp(34px, 6vw, 62px); line-height: 1.06; color: var(--coconut); margin: 0 0 14px; }
+.room-den h2 { font-size: 26px; line-height: 1.12; color: var(--tiki); margin: 0 0 6px; }
+.room-den h3 { font-size: 19px; line-height: 1.2; color: var(--cocoa); margin: 0 0 6px; }
+.room-den section { padding: 30px 0; }
+.room-den .lede { font-size: 19px; line-height: 1.56; color: var(--rattan); max-width: 58ch; margin: 0 0 16px; }
+
+.den-head { padding: 30px 4px 6px; }
+.den-head .eyebrow {
+  font-family: 'Karla', system-ui, sans-serif; font-weight: 700;
+  font-size: 12.5px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--jade); margin: 0 0 18px;
+}
+.den-tagline { font-family: 'Ultra', Georgia, serif; font-size: 20px; line-height: 1.3; color: var(--rum); margin: 0 0 16px; }
+
+/* The waterfall on the north wall: cut fieldstone, and the one drawing in the
+   room that moves — at MAX only, and only in opacity. */
+.falls { display: block; width: 168px; height: auto; margin: 0 0 20px; }
+html[data-intensity="max"] .falls__water { animation: den-fall 7s ease-in-out infinite; }
+@keyframes den-fall { 0%, 100% { opacity: .78; } 50% { opacity: 1; } }
+
+/* A panel on the wall: cut stone, for anything that is not the carpet. */
+.stonewall {
+  background: linear-gradient(180deg, #3A2113, #2B1709);
+  border: 2px solid var(--teak); border-left: 9px solid var(--stone);
+  border-radius: 4px; padding: 24px 26px;
+}
+.stonewall h2 { color: var(--tiki); }
+.stonewall .note { color: var(--rattan); font-size: 15px; }
+
+/* THE CARPET. Every session is a rectangle of shag with the track list set
+   dark on it, which is the inversion this whole room turns on. The fleck is
+   two hatches of black and white at low alpha — shag is not a flat colour, it
+   is a surface with a nap on it. */
+.carpet {
+  background-image:
+    repeating-linear-gradient(64deg, rgba(0,0,0,.09) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(-51deg, rgba(255,255,255,.07) 0 2px, transparent 2px 6px),
+    linear-gradient(170deg, var(--shag), var(--shag-2));
+  border: 10px solid var(--teak); border-radius: 3px;
+  padding: 26px 26px 30px;
+  box-shadow: inset 0 0 0 2px rgba(30,17,7,.35), 0 26px 50px -30px rgba(0,0,0,.95);
+}
+.session { margin: 0 0 22px; }
+.session__when {
+  font-family: 'Karla', system-ui, sans-serif; font-weight: 700; font-size: 12.5px;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--cocoa-2); margin: 0 0 4px;
+}
+.carpet .session h2 { color: var(--cocoa); }
+.session__sub { margin: 0; max-width: 62ch; color: var(--cocoa-2); font-size: 15.5px; line-height: 1.5; }
+
+.cuts { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 18px; margin: 0; padding: 0; list-style: none; }
+
+/* A cut, framed the way the furniture in that room is framed: heavy teak with
+   the corners notched out of it. Nothing on this street has that silhouette,
+   and nothing upstairs has a straight edge at all. */
+.cut {
+  display: flex; gap: 14px; align-items: flex-start;
+  background: rgba(246,236,217,.78);
+  border: 3px solid var(--teak);
+  clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px),
+                     calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px), 0 12px);
+  padding: 16px 18px;
+}
+.cut__no { flex: 0 0 auto; margin: 0; font-family: 'Ultra', Georgia, serif; font-size: 26px; line-height: 1; color: var(--teak); }
+.cut__body { min-width: 0; flex: 1 1 auto; }
+.cut__by { margin: 0 0 8px; font-size: 13.5px; line-height: 1.45; color: var(--cocoa-2); }
+.cut__note { margin: 0 0 12px; font-size: 15px; line-height: 1.5; color: var(--cocoa); }
+.cut__runs { margin: 10px 0 0; font-size: 13px; line-height: 1.45; color: var(--cocoa-2); }
+
+/* The facade, dressed as the lacquered top of a console. §4 supplies the 16/9
+   box and the nothing-before-the-press behaviour; this only changes what it is
+   made of. */
+.room-den .facade {
+  background: var(--panel); color: var(--coconut);
+  border: 3px solid var(--teak); border-radius: 3px;
+  font-family: 'Karla', system-ui, sans-serif; font-size: 14.5px;
+  box-shadow: inset 0 0 22px rgba(0,0,0,.8);
+}
+.room-den .facade:hover { background: #170D05; }
+.room-den .facade__play { font-family: 'Karla', system-ui, sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .14em; color: var(--tiki); }
+
+.den-rules { margin: 0; padding: 0; list-style: none; max-width: 66ch; }
+.den-rules li { position: relative; padding: 0 0 0 28px; margin: 0 0 13px; }
+/* A tiki notch rather than a bullet: a small stepped block, which is the shape
+   the carving on that furniture keeps making. */
+.den-rules li::before {
+  content: ""; position: absolute; left: 0; top: .48em; width: 13px; height: 13px;
+  background: var(--jade);
+  clip-path: polygon(0 0, 100% 0, 100% 62%, 62% 62%, 62% 100%, 0 100%);
+}
+.den-rules strong { color: var(--tiki); }
+
+.den-note { font-size: 14.5px; line-height: 1.6; color: var(--rattan); }
+
+
+/* §19 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -2187,10 +2402,15 @@ html[data-intensity="max"] .cam__dot { animation: jungle-blink 3.4s ease-in-out 
      a spreadsheet cell. */
   .cam { border-radius: 26px 6px 26px 6px; padding: 14px 15px 18px; }
   .cams { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .den { width: calc(100% - 20px); padding: 0 14px 56px; }
+  /* A 10px teak border on a 332px carpet is most of the carpet. The frame
+     stays — a rug with no edge is a wall — it just stops being furniture. */
+  .carpet { border-width: 6px; padding: 18px 16px 22px; }
+  .cuts { grid-template-columns: minmax(0, 1fr); gap: 14px; }
 }
 
 
-/* §19 ── Print ───────────────────────────────────────────────────────────────
+/* §20 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

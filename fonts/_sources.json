@@ -252,5 +252,33 @@
       "src": "https://fonts.gstatic.com/s/cabin/v35/u-4i0qWljRw-PfU81xCKCpdpbgZJl6XvqdnsF3-OAw.woff2",
       "note": "Byte-identical to the 400 above; see that note."
     }
+  ],
+  "ultra": [
+    {
+      "file": "ultra-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 15248,
+      "src": "https://fonts.gstatic.com/s/ultra/v25/zOLy4prXmrtY-uT9wrKh68xE.woff2",
+      "note": "The Den's display face. A fat 1970s slab — the weight a record sleeve was set in the year those sessions happened, and the one thing that keeps a green room off the Jungle Room upstairs, which sets a high-contrast serif that swells as it curves. Latin subset only."
+    }
+  ],
+  "karla": [
+    {
+      "file": "karla-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 24264,
+      "src": "https://fonts.gstatic.com/s/karla/v33/qkB9XvYC6trAT55ZBi1ueQVIjQTD-JrIH2G7nytkHRyQ8p4wUje6bmMorHA.woff2",
+      "note": "The Den's body face, and the sleeve notes on the back of that record. A grotesque with enough quirk to sit under a slab that heavy without disappearing. Variable, so one file serves 400 and 700 — stored once, declared twice against the weight axis, as Nunito, Bitter and Cabin already are."
+    },
+    {
+      "file": "karla-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 24264,
+      "src": "https://fonts.gstatic.com/s/karla/v33/qkB9XvYC6trAT55ZBi1ueQVIjQTD-JrIH2G7nytkHRyQ8p4wUje6bmMorHA.woff2",
+      "note": "Byte-identical to the 400 above; see that note."
+    }
   ]
 }

@@ -313,6 +313,42 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--jungle .og-aperture i {{ width: 16px; height: 16px; border-radius: 50%; background: var(--heliconia); }}
 .og--jungle .og-foot {{ font-family: 'Cabin', sans-serif; font-weight: 700; color: #57A05C; letter-spacing: 3px; }}
 
+/* den — THE ONE CARD ON THIS STREET THAT IS MOSTLY CARPET. Its parent's card is
+   a dark green field with a roof of leaves over the top and the light coming
+   down; this one is a brown panelled wall with a slab of bright shag laid
+   across the bottom of it and the type set DARK on that. Two cards for two
+   rooms with the same name and the same colour: if they did not invert, the
+   split that gave them separate cards would have bought nothing. The waterfall
+   is lifted from the page, the way the campground's stream and the burrow's
+   round door are. */
+.room-den {{ background-image:
+  radial-gradient(ellipse 620px 460px at 14% 74%, rgba(240,176,64,.14), transparent 70%),
+  radial-gradient(ellipse 520px 380px at 90% 20%, rgba(242,112,90,.09), transparent 72%),
+  repeating-linear-gradient(90deg, rgba(0,0,0,.20) 0 3px, transparent 3px 44px); }}
+.og--den {{ gap: 24px; padding: 40px 60px 34px; justify-content: center; }}
+.og--den .og-head {{ display: flex; align-items: center; gap: 40px; }}
+.og--den .falls {{ flex: 0 0 auto; width: 176px; margin: 0 !important; }}
+.og--den .eyebrow {{ font-size: 19px; letter-spacing: 4px; margin: 0 !important; }}
+.og--den h1 {{ font-size: 96px; line-height: 1; margin: 0 !important; }}
+.og--den .og-lede {{ font-family: 'Karla', sans-serif; color: #CBB392; max-width: 1010px; }}
+/* A SIBLING OF .og RATHER THAN A CHILD OF IT, the same as the burrow's band of
+   plaster — so it is already the full width of the card and wants no negative
+   margins. The first version pulled it sideways anyway and it came out 1320
+   wide hanging off both edges, which the fit check caught: `width: 100%` on a
+   body-level element is already 1200. */
+.og-shag {{
+  flex: 0 0 auto; width: 100%;
+  height: 132px; display: flex; align-items: center; justify-content: space-between;
+  gap: 30px; padding: 0 60px;
+  background-image:
+    repeating-linear-gradient(64deg, rgba(0,0,0,.09) 0 3px, transparent 3px 7px),
+    repeating-linear-gradient(-51deg, rgba(255,255,255,.07) 0 3px, transparent 3px 8px),
+    linear-gradient(170deg, var(--shag), var(--shag-2));
+  border-top: 10px solid var(--teak);
+}}
+.og-shag b {{ font-family: 'Ultra', serif; font-weight: 400; font-size: 31px; color: var(--cocoa); }}
+.og-shag span {{ font-family: 'Karla', sans-serif; font-weight: 700; font-size: 21px; color: var(--cocoa-2); letter-spacing: 1px; }}
+
 /* quill — THE SCREEN, where the arcade's own card is the cabinet from outside.
    Two cards for one room's machines have to differ from each other as well as
    from the foyer's, or the split that gave them their own cards has bought
@@ -760,6 +796,30 @@ def card_jungle(p):
     )
 
 
+def card_den(p):
+    # The carpet runs off both sides and sits along the foot, because that is
+    # where it is in the room: the brightest thing in the place, and underfoot.
+    return (
+        "",
+        f'<div class="og og--den" data-fit="card">'
+        f'<p class="eyebrow">BEHIND THE JUNGLE ROOM \u00b7 THE OTHER JUNGLE ROOM</p>'
+        f'<div class="og-head">{p["falls"]}'
+        f'<div>{p["h1"]}<p class="og-lede">{p["desc"]}</p></div>'
+        f'</div>'
+        f'</div>'
+        f'<div class="og-shag" data-fit="carpet">'
+        f'<b>Sixteen cuts, and all of them say how long.</b><span>stimpunks.love</span>'
+        f'</div>',
+        f"A dark brown card, panelled like a wall and lit low from one side. Small "
+        f"jade capitals reading behind the jungle room, the other jungle room, then a "
+        f"drawing of a wall of cut fieldstone with green water falling down it into a "
+        f"pool, and beside that \u201c{p['h1text']}\u201d in an enormous flat slab face "
+        f"with the line: {p['desc_plain']} Across the whole foot of the card, behind a "
+        f"thick wooden edge, a band of bright green shag carpet carrying, in dark brown: "
+        f"Sixteen cuts, and all of them say how long. stimpunks.love.",
+    )
+
+
 def card_plain(p):
     return (
         "",
@@ -792,6 +852,7 @@ CARDS = {
     "room-yurt":    card_yurt,
     "room-latibulum": card_latibulum,
     "room-jungle":  card_jungle,
+    "room-den":     card_den,
     "room-plain":   card_plain,
 }
 
@@ -876,6 +937,7 @@ def main():
         ("bulbs",    "arcade.html",       r'(<div class="bulbs".*?</div>)'),
         ("roundel",  "latibulum.html",    r'(<div class="roundel".*?</svg>\s*</div>)'),
         ("canopy",   "jungle-room.html",  r'(<svg class="canopy-roof".*?</svg>)'),
+        ("falls",    "the-den.html",      r'(<svg class="falls".*?</svg>)'),
         ("otter",    "otterly-adorbs.html", r'(<div class="otter" id="otter".*?</div>\s*</div>)'),
         ("ottdefs",  "otterly-adorbs.html", r'(<svg width="0" height="0".*?</defs></svg>)'),
         ("peng",     "penguin-pebbling.html", r'(<div class="peng" id="peng-you".*?</div>\s*</div>)'),

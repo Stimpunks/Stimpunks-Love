@@ -119,13 +119,23 @@ LISTS = [
     # is a machine somebody is maintaining outdoors. Two of these were already
     # dead the day the room opened, on a page of ours that did not know it.
     ("the jungle room", "data/jungle.json",   "jungle-room.html"),
+    # The Den, behind the Jungle Room. A discography rather than a list of ours,
+    # which makes it the one set here where an id could rot into a DIFFERENT
+    # recording of the same song rather than into nothing -- so the runtimes in
+    # that file were matched against the released ones before they went in.
+    ("the den",        "data/den.json",      "the-den.html"),
 ]
 
 
 def tracks_in(data):
     """Every facade in one data file, whichever shape that file has.
 
-    Three of these are a flat 'tracks' list. The Jungle Room's is grouped,
+    Three of these are a flat 'tracks' list. The Jungle Room's is grouped by
+    cam type and The Den's by recording session, because in both cases the
+    grouping carries something -- one is our events page's own order and the
+    other is which night a song was cut. Flattening either here would be this
+    tool quietly disagreeing with the room it is checking. The Jungle Room's is
+    grouped,
     because the groups are our own events page's and re-sorting them into one
     list here would be this repo quietly disagreeing with a page it does not
     own. A file with neither key is refused rather than treated as empty: a run
@@ -140,6 +150,8 @@ def tracks_in(data):
     if "groups" in data:
         return [dict(c, artist=c.get("artist") or c.get("channel"))
                 for g in data["groups"] for c in g["cams"] if c.get("state") != "dark"]
+    if "sessions" in data:
+        return [t for s in data["sessions"] for t in s["tracks"]]
     raise SystemExit(
         "REFUSING: a data file in LISTS has neither 'tracks' nor 'groups', so this "
         "run\nwould have checked none of it while reporting a confident total.")
