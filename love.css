@@ -34,9 +34,18 @@
 @font-face { font-family: 'VT323';           src: url('fonts/vt323-400.woff2') format('woff2');            font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Special Elite';   src: url('fonts/special-elite-400.woff2') format('woff2');    font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Titan One';       src: url('fonts/titan-one-400.woff2') format('woff2');        font-weight: 400; font-display: swap; }
+/* Space Grotesk ships as a variable font, so Google serves ONE file for 400,
+   500 and 700 — it is downloaded once and declared three times against the
+   weight axis, rather than stored three times under three names. It WAS stored
+   three times, byte for byte, until tools/pull-foundry.py hashed the shelf and
+   said so; on the shared base that EVERY page on the street loads that cost
+   about 45KB. The axis is real and all three declarations earn their place —
+   rendered out of the one file, 700 lays down 41% more ink than 400, which is
+   the same arrangement Nunito, Cabin and Karla are in below. Do not read
+   identical bytes as an absent bold. See fonts/_sources.json. */
 @font-face { font-family: 'Space Grotesk';   src: url('fonts/space-grotesk-400.woff2') format('woff2');    font-weight: 400; font-display: swap; }
-@font-face { font-family: 'Space Grotesk';   src: url('fonts/space-grotesk-500.woff2') format('woff2');    font-weight: 500; font-display: swap; }
-@font-face { font-family: 'Space Grotesk';   src: url('fonts/space-grotesk-700.woff2') format('woff2');    font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Space Grotesk';   src: url('fonts/space-grotesk-400.woff2') format('woff2');    font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Space Grotesk';   src: url('fonts/space-grotesk-400.woff2') format('woff2');    font-weight: 700; font-display: swap; }
 @font-face { font-family: 'Courier Prime';   src: url('fonts/courier-prime-400.woff2') format('woff2');    font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Courier Prime';   src: url('fonts/courier-prime-700.woff2') format('woff2');    font-weight: 700; font-display: swap; }
 @font-face { font-family: 'Instrument Serif';src: url('fonts/instrument-serif-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }

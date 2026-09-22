@@ -895,13 +895,13 @@
     {
      "weight": "500",
      "style": "normal",
-     "file": "space-grotesk-500.woff2",
+     "file": "space-grotesk-400.woff2",
      "sha": "a0d054c4af557de2"
     },
     {
      "weight": "700",
      "style": "normal",
-     "file": "space-grotesk-700.woff2",
+     "file": "space-grotesk-400.woff2",
      "sha": "a0d054c4af557de2"
     }
    ]

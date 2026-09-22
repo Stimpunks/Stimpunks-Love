@@ -50,21 +50,24 @@
    "weight": "400",
    "style": "normal",
    "bytes": 22320,
-   "src": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2"
+   "src": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2",
+   "note": "The body face wherever a room does not insist on its own, which puts it on the shared base EVERY page on the street loads. It ships as a variable font, so Google serves the same file for 400, 500 and 700 — it is downloaded ONCE here and declared three times against the weight axis, the same call Nunito, Cabin and Karla forced rather than storing identical bytes under three names. It WAS stored three times, byte for byte, until tools/pull-foundry.py hashed the shelf and said so; on the shared base that cost about 45KB. Identical bytes are not an absent bold — rendered out of this one file, 700 lays down 41% more ink than 400."
   },
   {
-   "file": "space-grotesk-500.woff2",
+   "file": "space-grotesk-400.woff2",
    "weight": "500",
    "style": "normal",
    "bytes": 22320,
-   "src": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2"
+   "src": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2",
+   "note": "Byte-identical to the 400 above; see that note."
   },
   {
-   "file": "space-grotesk-700.woff2",
+   "file": "space-grotesk-400.woff2",
    "weight": "700",
    "style": "normal",
    "bytes": 22320,
-   "src": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2"
+   "src": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2",
+   "note": "Byte-identical to the 400 above; see that note."
   }
  ],
  "archivo-black": [
