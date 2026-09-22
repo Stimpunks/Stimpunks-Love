@@ -295,6 +295,46 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--herm .cabin {{ margin: 0; }}
 .og--herm .cabin svg {{ width: 860px; margin-inline: auto; }}
 
+/* zibaldone — THE FOURTH PALE CARD, AND THE ONLY ONE THAT IS AN OBJECT LYING ON
+   A SURFACE. The hermitage's is a wall with a low sun on it, the guild's is a
+   document lit from nowhere, the garden's is ground under leaves; this is a
+   BOUND BOOK ON A DESK, so the desk is the card's ground and the paper is a
+   thing sitting on it, casting a shadow down and to the right because the lamp
+   is on the left. The fold down the left edge is what makes it a book rather
+   than a sheet, which is the whole of its separation from The Doomscroll --
+   whose card is the same two colours the other way up.
+   NO SVG IS COPIED IN HERE. The sheet, the fold and the gummed slips are the
+   room's own classes doing their own job, because a second copy of a drawing is
+   a drawing that goes stale in one of the two places. */
+.og--zibaldone {{ width: 100%; padding: 46px 54px; gap: 0; justify-content: center; }}
+.og--zibaldone .og-sheet {{
+  flex: 1 1 auto; display: flex; flex-direction: column; justify-content: space-between;
+  padding: 40px 46px 36px 60px; position: relative; border-radius: 3px 7px 7px 3px;
+  background-color: var(--zb-laid);
+  background-image:
+    repeating-linear-gradient(90deg, rgba(120, 100, 66, .07) 0 1px, transparent 1px 27px),
+    repeating-linear-gradient(0deg, rgba(120, 100, 66, .045) 0 1px, transparent 1px 4px),
+    linear-gradient(100deg, rgba(255, 252, 244, .9) 0%, rgba(255, 252, 244, 0) 48%);
+  box-shadow: 14px 16px 0 rgba(0, 0, 0, .3);
+}}
+.og--zibaldone .og-sheet::before {{
+  content: ""; position: absolute; inset: 0 auto 0 0; width: 30px;
+  background: linear-gradient(90deg, var(--zb-gutter) 0%, rgba(201, 182, 147, .45) 40%, transparent 100%);
+  border-radius: 3px 0 0 3px;
+}}
+.og--zibaldone .trailmark {{ font-family: 'Kalam', cursive; font-size: 23px; color: var(--zb-pencil); }}
+.og--zibaldone h1 {{ font-family: 'EB Garamond', Georgia, serif; font-weight: 600;
+  font-size: 92px; line-height: 1; color: var(--zb-oak); margin: 14px 0 0 !important; }}
+.og--zibaldone .og-lede {{ font-family: 'Lora', Georgia, serif; color: var(--zb-oak);
+  max-width: 820px; font-size: 25px; line-height: 1.42; margin-top: 16px !important; }}
+.og--zibaldone .og-slips {{ display: flex; flex-wrap: wrap; gap: 11px 12px; }}
+.og--zibaldone .og-slips span {{ font-family: 'Kalam', cursive; font-weight: 700;
+  font-size: 20px; color: var(--zb-oak); background: var(--zb-laid-2);
+  border: 1px solid var(--zb-gutter); padding: 7px 15px;
+  box-shadow: 4px 5px 0 rgba(58, 42, 24, .15); }}
+.og--zibaldone .og-foot {{ font-family: 'Kalam', cursive; font-size: 20px;
+  color: var(--zb-pencil); letter-spacing: 0; margin-top: 18px !important; }}
+
 /* garden — THE THIRD PALE CARD AND THE GREEN ONE. The hermitage's is warm lime
    plaster with a building on it and a low sun; the guild's is manila with rules
    on it and no light at all; this is sunlight that has come down through leaves,
@@ -994,6 +1034,37 @@ def card_garden(p):
     )
 
 
+def card_zibaldone(p):
+    # The three slips are the room's three promises, and each one is a thing
+    # tools/make-zibaldone.py actually refuses -- so the card states what the
+    # generator enforces rather than what the room aspires to.
+    slips = ("short quotations only", "no lyrics", "every line names its printing")
+    return (
+        "",
+        f'<div class="og og--zibaldone" data-fit="card">'
+        f'<div class="og-sheet">'
+        f'<div>'
+        f'<p class="trailmark">a heap of things worth keeping</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>'
+        f'<div>'
+        f'<div class="og-slips">{"".join(f"<span>{w}</span>" for w in slips)}</div>'
+        f'<p class="og-foot" data-fit="footer">nothing here is ranked &middot; stimpunks.love</p>'
+        f'</div>'
+        f'</div>'
+        f'</div>',
+        f"A sheet of warm cream laid paper lying on a dark walnut desk, lit from "
+        f"the left so the paper's tooth shows and the sheet casts a hard shadow "
+        f"down and to the right; a soft fold runs down its left edge, so it reads "
+        f"as a page of a bound book. Small brown handwriting at the top reads a "
+        f"heap of things worth keeping. Below it \u201c{p['h1text']}\u201d in a "
+        f"large oldstyle serif, and under that: {p['desc_plain']} Along the foot, "
+        f"three small pasted slips reading short quotations only, no lyrics, and "
+        f"every line names its printing, and beneath them, in the same "
+        f"handwriting: nothing here is ranked, stimpunks.love."
+    )
+
 def card_herm(p):
     return (
         "",
@@ -1488,6 +1559,7 @@ CARDS = {
     "room-doom":    card_doom,
     "room-guild":   card_guild,
     "room-feed":    card_feed,
+    "room-zibaldone": card_zibaldone,
     "room-plain":   card_plain,
 }
 

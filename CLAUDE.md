@@ -1143,6 +1143,96 @@ it and a way to reach a human instead. **The friendly edit here is the one that 
 to make the button look better**, on a page recommending a generative tool, which is precisely
 where this organisation cannot afford to sound like everybody else.
 
+**A QUOTE BANK IS THE MOST DANGEROUS SHAPE OF PAGE ON THIS STREET, AND THE DANGER HAS NO MOMENT
+ANYBODY COULD CATCH.** The Zibaldone (§29) was asked for by somebody in the community &mdash; quotes
+for any state of mind &mdash; and is built as a commonplace book, which our own glossary has had an
+entry for since 2022. **Nobody ever decides to republish a book.** They add one good line, then
+another, each individually reasonable, and a year later the page *is* the work instead of pointing
+at it. The same drift runs through attribution: the first entry carries a full citation, the tenth
+carries a surname, the fiftieth carries the sentence with nobody's name on it. Neither drift has a
+moment somebody could have caught, so neither is left to care. `make-zibaldone.py` **refuses a
+quotation over thirty words**, the number lives in the tool, and the room prints it &mdash; because
+*we quote lightly* is not a thing a page can promise and not enforce. **Do not raise the limit.**
+
+**AND IT REFUSES A SONG, WHICH IS THE ONE REFUSAL NOTHING ELSE HERE WOULD HAVE MADE.** Ryan's reply
+to the person who asked, 2026-09-22: song lyric reproduction is an intellectual property minefield
+in the US. Music publishing enforces on quotation where prose publishing shrugs, the licensing is
+separate from the recording, and one line is a far larger fraction of a song than of a novel. This
+street says in three places that **nothing musical is hosted here**, and a quote bank is exactly
+where that promise would be broken in the way that looked most harmless &mdash; a good line, fully
+credited, from a record somebody loves. **The first thing that check ever refused was a false
+positive:** the word *song* matched Whitman's *Song of Myself*, and the pattern was narrowed rather
+than the poem excepted. That is `check-counts.py`'s first-run lesson and `make-guild.py`'s, arriving
+a third time. What is left is the vocabulary that only ever describes a recording.
+
+**A TITLE IS NOT A SOURCE, AND THE DICKINSON IS THE PROOF.** Every line names the **printing** it
+came from and says how it was checked and when, because these texts differ between printings &mdash;
+The Doomscroll dropped a poem over exactly this. That Dickinson line is in the **Second** Series of
+1891, edited by Todd and Higginson, not the first, and the only thing that found that out was
+reading the title page above the poem instead of remembering. **The Thoreau is the other proof:**
+the version everybody quotes has somebody marching to a beat and he wrote neither word. Public
+domain lines were grepped out of the transcription each card names; contemporary ones were read off
+our own published pages, which is the only footing they stand on.
+
+**AND A TRANSLATION HAS TO CLEAR THE PUBLIC DOMAIN TOO, which this repository had not met before.**
+`make-doomscroll.py`'s test is the author dead more than seventy years, everywhere rather than in one
+country. A translation is a copyrightable work of its own, so **a Roman emperor in a modern English
+is a modern book** &mdash; which is why the *Meditations* there is Meric Casaubon's 1634 and why he
+is credited on the card. **Seneca is not in that room at all and the data file says why:** our own
+glossary quotes him on words becoming works, that wording is a modern translation the entry does not
+name, and the public domain one does not read that way. A gap somebody has already checked is worth
+more than a line nobody can place. Do not fill it from memory.
+
+**THERE ARE NO FACES IN THAT ROOM, AND THAT IS THE WHOLE ANSWER TO "ANY STATE OF MIND".** The
+obvious build is a grid of moods you pick from and the obvious drawing for a mood is a face, which
+on a Disabled people's site is **the emotion flashcard** autistic people spend their childhoods
+being drilled with. The Playhouse settled this for its sound board; the answer here is the same.
+Each card says what it is *for* in a sentence about a **situation**, and the tool refuses an emoji
+in that field. **Nothing there is ranked, counted or voted on** either &mdash; a quote bank is
+exactly the shape of thing that grows a leaderboard, and one would turn the page meant to meet
+somebody where they are into a popularity contest between other people's grief. The pebbling
+cabinet's refusal of a tally, arriving where the friendly edit is most obviously an improvement.
+
+**THE FACE VARIES PER ENTRY AND THE HAND NEVER CARRIES A QUOTATION.** Ryan asked for layout and font
+play per entry, so there are three text faces chosen by era. **Kalam is the hand, it writes margins
+and labels, and the tool refuses a quotation set in it:** a passage in a handwriting face is an
+access failure wearing atmosphere, which is the lesson The Doomscroll's blackletter already carries.
+**The margin note is ours and the tool refuses a quotation mark in it**, because margins that could
+hold quotations would quietly become a second, uncited quote bank running down the side of the cited
+one, and nobody would ever see it happen.
+
+**EVERY OTHER PAPER ROOM ON THIS STREET IS PRINTED AND THIS ONE IS WRITTEN.** That is the separation
+and there is no other one available, because this street already has a great deal of ink on paper.
+The Mopery is a cold **building** you stand up in, with type punched into the page by a press, and
+its books belong to an institution. The Doomscroll is **one unbroken machine-set roll** of cold grey
+newsprint with nothing cut and nothing rotated &mdash; the closest call, and the fold is the whole
+difference: this is **bound leaves**, with a gutter, a verso and a recto. The zine table is a
+**photocopy** made in a hundred copies to give away; this is one copy and nothing in it was cut out.
+And where the guild is lit like a photocopy and the garden's light has come through leaves, **this
+is the one room lit by something in the room with you** &mdash; a lamp on the left at desk height,
+which is why the paper has a tooth, why every sheet throws its shadow down and right, and why the
+fold has a gradient in it. **If that paper ever goes grey, or the fold ever goes, two rooms have
+become one.**
+
+**THE SLIP IS TASL PLUS THE THREE FIELDS A QUOTATION ALSO NEEDS, AND IT SENDS NOTHING ANYWHERE.**
+Creative Commons' Title, Author, Source, Licence is the right skeleton for a reused photograph, where
+the thing you point at is one file at one address. A quotation comes out of a *work*, in a
+*printing*, and the person copying it found it *somewhere else again* &mdash; and that last field is
+the one that matters most, because **most misquotations in circulation were copied in good faith off
+a page that had already got them wrong.** There is no form action and no endpoint: the button
+composes a block of text to the clipboard and the person decides where it goes. Collecting our
+community's words to a server nobody told them about is the consent this street spends a mechanism
+protecting, arriving as a form. **The slip's fields are generated from the same list the entries are
+checked against**, so the day somebody adds a field to an entry cannot be the day the form stops
+asking for it.
+
+**AND `:where()` DOES NOT CONJURE A RESET, WHICH COST THIS ROOM SEVEN TILTED LEAVES.** §3's gentle
+reset names `.tilt-a` to `.tilt-d` and nothing else &mdash; it is a reset for the shared tilt
+classes, not for the word `transform`. Scoping a room's own rotation with `:where()` guarantees it
+cannot be **out-ranked**; it does nothing about there being no rule to outrank it. `check-gentle.py`
+found all seven still lying at their pasted angles at Gentle, which is the Faery Yurt's windowsill
+exactly. **A room that tilts anything writes its own reset beside the rule that tilts it.**
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody

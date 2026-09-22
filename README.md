@@ -85,6 +85,7 @@ oracle-deck.html      Behind it: thirteen engravings, and a question on the back
 the-doomscroll.html   And behind it: public domain doom as a feed, on an actual scroll
 adventurers-guild.html  A job board in a manila room. The one tidy room on this street
 the-feed.html         A dark concourse of arrival boards, one wire per site, off their feeds
+zibaldone.html        A commonplace book open on a desk. Short quotations, each naming its printing
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 the-garden.html       The knowledge garden. One bed per site we publish, each linking out
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
@@ -122,7 +123,9 @@ data/oracle.json      The deck. Thirteen Met open-access engravings, and our que
 data/doomscroll.json  Thirteen poems, newest first, each naming the printing it came from
 data/quests.json      Every job on the board, and the marker it sends you to
 data/garden.json      What grows on each site. The roster is read out of arrivals.json
+data/zibaldone.json   The quote bank. Every line names its printing and how it was checked
 quest.js              The job markers, and the guild's board. Works with scripts off
+zibaldone.js          The attribution slip. Composes a block of text; sends nothing anywhere
 raven/                Doré's 1884 engravings and three leaves of an 1865 printing
 oracle/               The deck's plates. Public domain, CC0, from one collection
 og/                   One share card per page, and one card design per room
@@ -159,6 +162,7 @@ python3 tools/make-pebble-board.py # the Pebble Board's current edition, and its
 python3 tools/make-guild.py        # the job board, a marker in every room, and the credits
 python3 tools/make-arrivals.py     # The Feed's arrival boards; draws what pull-arrivals.py read
 python3 tools/make-garden.py       # The Garden's beds and credits; roster and order from arrivals.json
+python3 tools/make-zibaldone.py    # The Zibaldone's leaves and its attribution slip, and the credits
 python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
 python3 tools/check-contrast.py    # every pair against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
@@ -281,6 +285,25 @@ they are only 1.55 apart from each other no brown clears 3:1 against both at onc
 palette splits at the soil line the way a plant does, green above and pale below, and the rule is
 enforced rather than remembered. It was broken on purpose first, with a stem two pixels under and a
 leaf circle whose edge dipped below; it caught both.
+`make-zibaldone.py` refuses **a quotation longer than thirty words** &mdash; the number is in the
+tool and the room prints it, because a quote bank is the shape of page that turns into
+republishing somebody's book one reasonable-looking entry at a time, and "we quote lightly" is
+not a thing a page can promise and not enforce. It refuses **a song**, structurally rather than
+by care: music publishing enforces on quotation where prose publishing shrugs, and nothing
+musical is hosted anywhere on this street. **The first thing that check ever refused was a false
+positive** &mdash; the word *song* matched Whitman's *Song of Myself* &mdash; and the pattern was
+narrowed rather than the poem excepted. It refuses a quotation with no **printing** in its source
+field, because a title is not a source and these texts differ between printings; one with no
+record of **how it was checked and when**, which is `make-sweetgrass.py`'s rule about not letting
+an unchecked quotation sit among checked ones looking identical; and a public domain claim that
+does not clear seventy years **for the translator as well as the author**, since a translation is
+a copyrightable work of its own. It refuses **a quotation set in the hand** &mdash; the room
+varies the face per entry, which is what was asked for, and a passage in a handwriting face is an
+access failure wearing atmosphere. It refuses a drawing it has not got and two entries sharing
+one, a margin note carrying a quotation mark, an emoji in the line that says what a quotation is
+*for*, and the vocabulary of ranking. **Nothing in that room is ranked, counted or voted on**: a
+quote bank is exactly the shape of thing that grows a leaderboard.
+
 `make-guild.py` refuses a job with no estimate of how long it takes &mdash; the street's oldest
 promise arriving at a job board, where the cost is a walk rather than a runtime &mdash; refuses a
 room it has no marker drawing for, which is `make-og.py`'s refusal for `make-og.py`'s reason,

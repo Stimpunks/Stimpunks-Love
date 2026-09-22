@@ -547,5 +547,77 @@
    "bytes": 29896,
    "src": "https://fonts.gstatic.com/s/mulish/v18/1Ptvg83HX_SGhgqk3wotYKNnBQ.woff2"
   }
+ ],
+ "eb-garamond": [
+  {
+   "file": "eb-garamond-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 44172,
+   "src": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR1SDk_YAPI.woff2"
+  },
+  {
+   "file": "eb-garamond-400.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 44172,
+   "src": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR1SDk_YAPI.woff2",
+   "note": "Variable: the 400 file serves this weight against the wght axis, as Faustina's does."
+  },
+  {
+   "file": "eb-garamond-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 25412,
+   "src": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGFmQSNjdsmc35JDF1K5GRwUjcdlttVFm-rI7e8QL99U6i1hGFJRvw.woff2"
+  }
+ ],
+ "lora": [
+  {
+   "file": "lora-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 21188,
+   "src": "https://fonts.gstatic.com/s/lora/v37/0QI6MX1D_JOuGQbT0gvTJPa787weuxJBkq18ndeYxZ0.woff2"
+  },
+  {
+   "file": "lora-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 22740,
+   "src": "https://fonts.gstatic.com/s/lora/v37/0QI8MX1D_JOuMw_hLdO6T2wV9KnW-MoFoq92nPWc3ZyhTg.woff2"
+  }
+ ],
+ "newsreader": [
+  {
+   "file": "newsreader-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 22504,
+   "src": "https://fonts.gstatic.com/s/newsreader/v26/cY9qfjOCX1hbuyalUrK49dLac06G1ZGsZBtoBCzBDXXD9JVF438weI_wC-ZFHDWwgUii.woff2"
+  },
+  {
+   "file": "newsreader-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 24408,
+   "src": "https://fonts.gstatic.com/s/newsreader/v26/cY9kfjOCX1hbuyalUrK439vogqC9yFZCYg7oRZaLP4obnf7fTXglsMwoT9ZHFjSShVCjzSY.woff2"
+  }
+ ],
+ "kalam": [
+  {
+   "file": "kalam-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 14040,
+   "src": "https://fonts.gstatic.com/s/kalam/v18/YA9dr0Wd4kDdMthROCfhsCkA.woff2"
+  },
+  {
+   "file": "kalam-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 13104,
+   "src": "https://fonts.gstatic.com/s/kalam/v18/YA9Qr0Wd4kDdMtDqHTLMkiQqtbGs.woff2"
+  }
  ]
 }

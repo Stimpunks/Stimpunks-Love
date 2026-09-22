@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Zibaldone — Stimpunks.Love</title>
+<meta name="description" content="A commonplace book left open on a desk. Quotations copied out by hand for whatever state you are in, every one of them naming the printing it came from and how it was checked. Short quotations only, no song lyrics, and nothing here is ranked.">
+<link rel="canonical" href="https://stimpunks.love/zibaldone.html">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F2E8D5">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.Love">
+<meta property="og:title" content="The Zibaldone — Stimpunks.Love">
+<meta property="og:description" content="A commonplace book open on a desk. Quotations copied out for whatever state you are in, each naming its printing and how it was checked.">
+<meta property="og:url" content="https://stimpunks.love/zibaldone.html">
+<meta property="og:image" content="https://stimpunks.love/og/zibaldone.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A sheet of warm cream laid paper lying on a dark walnut desk, lit from the left so the paper&#x27;s tooth shows and the sheet casts a hard shadow down and to the right; a soft fold runs down its left edge, so it reads as a page of a bound book. Small brown handwriting at the top reads a heap of things worth keeping. Below it “The Zibaldone” in a large oldstyle serif, and under that: A commonplace book open on a desk. Quotations copied out for whatever state you are in, each naming its printing and how it was checked. Along the foot, three small pasted slips reading short quotations only, no lyrics, and every line names its printing, and beneath them, in the same handwriting: nothing here is ranked, stimpunks.love.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love — what changed on the street">
+<link rel="preload" href="fonts/eb-garamond-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+</head>
+<body class="room-zibaldone">
+<a class="skip" href="#main">Skip to the book</a>
+
+<main id="main" class="zb-desk">
+
+  <div class="zb-topline">
+    <a class="backlink" href="index.html">&larr; back to the street</a>
+    <p class="zb-topline__note">a shopfront on the street &middot; one table &middot; one book, left open</p>
+  </div>
+
+  <header class="zb-flyleaf">
+    <p class="zb-eyebrow">Stimpunks.Love &middot; a heap of things worth keeping</p>
+    <h1>The Zibaldone</h1>
+    <p class="zb-tagline">Somebody else already wrote it down.</p>
+    <p class="zb-lede">A commonplace book, left open on the desk. People copy lines into it &mdash; from poems, from books, from each other &mdash; and beside each one they write what it is <em>for</em>. Every line in here says where it came from and how we checked it, because a quotation nobody can trace is just a nice-sounding sentence with a famous name stuck on the end.</p>
+  </header>
+
+  <section class="zb-sheet zb-sheet--word">
+    <h2>The word</h2>
+    <p><strong>Zibaldone</strong> is Italian, and it means roughly <em>a heap of things</em> &mdash; the name given to the miscellany notebooks Italians have kept since about the fourteenth century, of which Leopardi&rsquo;s enormous one is the famous example. Merchants kept them. So did poets. They are unruled, unsorted and unfinished on purpose: recipes next to accounts next to a line of verse somebody liked.</p>
+    <p>In English the same object is a <a href="https://stimpunks.org/glossary/commonplace-book/">commonplace book</a>, which our own glossary has had an entry for since 2022. Montaigne kept one and more or less invented the essay out of it. Marcus Aurelius kept one and it turned into the <i>Meditations</i>. It is not a filing system. It is what you reach for when you cannot find your own words and somebody else&rsquo;s will do.</p>
+    <p class="zb-hand">This room exists because somebody in our community asked for it: a quote bank, quotes for any state of mind. That is what this is. The desk and the rules are ours; the good lines are everybody&rsquo;s.</p>
+  </section>
+
+  <section class="zb-sheet zb-sheet--rules">
+    <h2>What this book will and will not do</h2>
+    <p class="zb-lede">A bank of quotations is the most dangerous shape of page on this street, and not for any reason you would notice from the outside. So the rules are in the generator rather than in somebody&rsquo;s good intentions, and they are written here so you can hold us to them.</p>
+
+    <div class="zb-rule zb-rule--limit">
+<!-- zibaldone:limit:begin -->
+      <p class="zb-rule__n">30 words</p>
+      <p class="zb-rule__why">is the longest quotation this room will carry, and <code>tools/make-zibaldone.py</code> refuses a longer one rather than trusting anybody to remember. A bank of quotations is the shape of page that turns into republishing somebody&rsquo;s book one reasonable-looking entry at a time. Where the line is not enough, the book is linked.</p>
+    <!-- zibaldone:limit:end -->
+    </div>
+
+    <ul class="zb-rules">
+      <li><strong>No song lyrics.</strong> Music publishing enforces on quotation where prose publishing shrugs, the licensing is separate from the recording, and one line is a far larger fraction of a song than of a novel. Nothing musical is hosted anywhere on this street, and a quote bank is exactly where that promise would have been broken in the way that looked most harmless. The tool refuses a song; it is not left to care. Bring us the person <em>talking</em> about the song instead &mdash; that we can quote.</li>
+      <li><strong>Every line names its printing, not just its title.</strong> These texts differ between printings and a title is not a source. The Dickinson in this book is the proof: it is in the <em>second</em> series, not the first, and the only thing that found that out was going and looking. The Thoreau is the other proof &mdash; the version everybody quotes has somebody marching to a beat, and he wrote neither word.</li>
+      <li><strong>Every line says how it was checked, and when.</strong> The public domain ones were read out of the transcription named on the card. The contemporary ones were read off our own published pages. An unchecked quotation sitting among checked ones looking identical is the thing this room is built to prevent, so there is nowhere for one to hide.</li>
+      <li><strong>Nothing here is ranked, counted or voted on.</strong> No favourites, no most-copied, no top of the bank, no number on a card. A quote bank is the shape of thing that grows one, and this room will never grow a leaderboard &mdash; refusing one matters because a leaderboard would turn the one page meant to meet somebody where they are into a popularity contest between other people&rsquo;s grief.</li>
+      <li><strong>There are no faces in this room.</strong> A quote bank for states of mind obviously wants a row of moods you pick from, and the obvious drawing for a mood is a face. A row of happy, sad and angry faces on a Disabled people&rsquo;s site is the emotion flashcard that autistic people spend their childhoods being drilled with. So each card says what it is <em>for</em> in a sentence about a situation you might actually be in, and you read the ones that sound like your week.</li>
+      <li><strong>The quotations are set in type; only the margins are handwritten.</strong> The hand is for the keeper&rsquo;s own asides. A passage set in a handwriting face is an access failure wearing atmosphere, so the tool refuses one.</li>
+    </ul>
+  </section>
+
+  <section class="zb-sheet zb-sheet--book" aria-labelledby="the-book">
+    <h2 id="the-book">The book</h2>
+    <p class="zb-lede">Open at the page it was left at. Each leaf carries the line, who wrote it, what it is for, a note in the margin from whoever copied it out, and &mdash; behind the tab &mdash; how it was checked and what got pasted in beside it.</p>
+
+    <ol class="zb-quire">
+<!-- zibaldone:leaves:begin -->
+    <li class="zb-leaf zb-leaf--oak zb-leaf--eb-garamond" id="zb-montaigne-book">
+      <div class="zb-leaf__pressed" aria-hidden="true">
+        <svg viewBox="0 0 120 120" fill="none"><path d="M22 96 C40 70 34 52 52 40 C70 28 86 40 92 26" fill="none" stroke="#3A2A18" stroke-width="2.4" stroke-linecap="round"/><circle cx="52" cy="40" r="6.5" fill="none" stroke="#3A2A18" stroke-width="2.4"/><path d="M92 26 l6 -7" fill="none" stroke="#3A2A18" stroke-width="2.4" stroke-linecap="round"/><path d="M24 98 C42 72 36 54 54 42" fill="none" stroke="#635A4B" stroke-width="2.4" opacity=".28" stroke-linecap="round"/></svg>
+      </div>
+      <blockquote class="zb-leaf__quote">I have no more made my book than my book has made me.</blockquote>
+      <p class="zb-leaf__cite"><b>Michel de Montaigne</b>, translated by Charles Cotton, <i>Essays, Book II, chapter XVIII</i>. Read in <a href="https://www.gutenberg.org/ebooks/3600">Cotton&#x27;s English of the Essays, as transcribed in Project Gutenberg ebook 3600</a>.</p>
+      <p class="zb-leaf__for"><span class="zb-leaf__tag">Copied out</span> for when you have been keeping one of these for years and cannot say what it is for</p>
+      <p class="zb-leaf__hand">Montaigne kept a commonplace book and our glossary says so. This is the sentence that explains why anybody bothers.</p>
+      <details class="zb-leaf__prov">
+        <summary><span class="zb-leaf__badge">Public domain</span><span class="zb-leaf__when">checked 2026-09-22</span></summary>
+        <p>Grepped out of the Gutenberg transcription on 2026-09-22 and read in its paragraph; the chapter was taken from the heading above it rather than from memory.</p>
+        <p class="zb-leaf__pasted"><b>Pasted in beside it:</b> A length of linen thread with a knot in it, pasted down and curling off the page.</p>
+      </details>
+    </li>
+    <li class="zb-leaf zb-leaf--oak zb-leaf--lora" id="zb-whitman-multitudes">
+      <div class="zb-leaf__pressed" aria-hidden="true">
+        <svg viewBox="0 0 120 120" fill="none"><rect x="56" y="18" width="16" height="7" fill="#DFCDA8" opacity=".85" transform="rotate(-14 64.0 21.5)"/><path d="M64 22 C50 46 44 74 50 102 C56 76 62 46 64 22 Z" fill="#635A4B" opacity=".5"/><path d="M64 22 C50 46 44 74 50 102" fill="none" stroke="#3A2A18" stroke-width="2"/><path d="M64 22 C74 48 76 76 68 102" fill="none" stroke="#3A2A18" stroke-width="2"/><path d="M64 22 C66 50 66 76 60 102" fill="none" stroke="#3A2A18" stroke-width="1.2" opacity=".6"/><path d="M30 66 L96 62" fill="none" stroke="#635A4B" stroke-width="1" opacity=".45" stroke-dasharray="3 4"/></svg>
+      </div>
+      <blockquote class="zb-leaf__quote">(I am large, I contain multitudes.)</blockquote>
+      <p class="zb-leaf__cite"><b>Walt Whitman</b>, <i>Song of Myself, section 51, in Leaves of Grass</i>. Read in <a href="https://www.gutenberg.org/ebooks/1322">the 1891-92 printing of Leaves of Grass, as transcribed in Project Gutenberg ebook 1322</a>.</p>
+      <p class="zb-leaf__for"><span class="zb-leaf__tag">Copied out</span> for when two true things about you are being treated as a contradiction to resolve</p>
+      <p class="zb-leaf__hand">Printed inside brackets, like an aside. It is the loudest thing on the page and he said it under his breath.</p>
+      <details class="zb-leaf__prov">
+        <summary><span class="zb-leaf__badge">Public domain</span><span class="zb-leaf__when">checked 2026-09-22</span></summary>
+        <p>Grepped out of the Gutenberg transcription on 2026-09-22. The brackets are Whitman&#x27;s and are kept: the line is parenthetical in the printing, and quoting it without them tidies his punctuation into somebody else&#x27;s.</p>
+        <p class="zb-leaf__pasted"><b>Pasted in beside it:</b> A blade of grass pressed flat, gone brown at the tip, with the crease where the book shut on it.</p>
+      </details>
+    </li>
+    <li class="zb-leaf zb-leaf--iron zb-leaf--eb-garamond" id="zb-dickinson-nobody">
+      <div class="zb-leaf__pressed" aria-hidden="true">
+        <svg viewBox="0 0 120 120" fill="none"><path d="M26 40 L96 34 L88 88 L34 92 Z" fill="none" stroke="#635A4B" stroke-width="1.6" opacity=".7"/><path d="M26 40 L60 66 L96 34" fill="none" stroke="#635A4B" stroke-width="1.6" opacity=".7"/><path d="M60 52 a16 16 0 1 0 .1 0 Z" fill="#8C2B18" opacity=".85"/><path d="M60 52 a16 16 0 0 1 14 23 l-14 -23 Z" fill="#8C2B18"/><path d="M56 40 L58 84" fill="none" stroke="#DFCDA8" stroke-width="2.4" opacity=".9"/></svg>
+      </div>
+      <blockquote class="zb-leaf__quote">I&#x27;m nobody! Who are you?</blockquote>
+      <p class="zb-leaf__cite"><b>Emily Dickinson</b>, <i>Poems, Second Series, part I (Life), poem I</i>. Read in <a href="https://www.gutenberg.org/ebooks/12242">the 1891 Second Series edited by Mabel Loomis Todd and T. W. Higginson, as transcribed in Project Gutenberg ebook 12242</a>.</p>
+      <p class="zb-leaf__for"><span class="zb-leaf__tag">Copied out</span> for when being nobody in particular is the best offer on the table</p>
+      <p class="zb-leaf__hand">Her editors tidied her dashes and her capitals before they let her out. The room names the printing for exactly that reason.</p>
+      <details class="zb-leaf__prov">
+        <summary><span class="zb-leaf__badge">Public domain</span><span class="zb-leaf__when">checked 2026-09-22</span></summary>
+        <p>Grepped out of the Gutenberg transcription on 2026-09-22, and the series was read off the title page above it. It is the SECOND series, not the first, which is what checking rather than remembering is for. Todd and Higginson edited these texts against the manuscripts, so this is their printing and later editions read differently.</p>
+        <p class="zb-leaf__pasted"><b>Pasted in beside it:</b> A broken wax seal, still stuck to the corner of a torn-off envelope flap.</p>
+      </details>
+    </li>
+    <li class="zb-leaf zb-leaf--iron zb-leaf--newsreader" id="zb-thoreau-drummer">
+      <div class="zb-leaf__pressed" aria-hidden="true">
+        <svg viewBox="0 0 120 120" fill="none"><ellipse cx="28" cy="46" rx="4.4" ry="7" fill="#2B3348" opacity=".8" transform="rotate(-8 28 46)"/><ellipse cx="41" cy="52" rx="4.4" ry="7" fill="#2B3348" opacity=".8" transform="rotate(-8 41 52)"/><ellipse cx="54" cy="46" rx="4.4" ry="7" fill="#2B3348" opacity=".8" transform="rotate(-8 54 46)"/><ellipse cx="67" cy="52" rx="4.4" ry="7" fill="#2B3348" opacity=".8" transform="rotate(-8 67 52)"/><ellipse cx="80" cy="46" rx="4.4" ry="7" fill="#2B3348" opacity=".8" transform="rotate(-8 80 46)"/><ellipse cx="93" cy="52" rx="4.4" ry="7" fill="#2B3348" opacity=".8" transform="rotate(-8 93 52)"/><ellipse cx="26" cy="86" rx="4.4" ry="7" fill="#2B3348" opacity=".45" transform="rotate(-8 26 86)"/><ellipse cx="48" cy="92" rx="4.4" ry="7" fill="#2B3348" opacity=".45" transform="rotate(-8 48 92)"/><ellipse cx="70" cy="86" rx="4.4" ry="7" fill="#2B3348" opacity=".45" transform="rotate(-8 70 86)"/><ellipse cx="92" cy="92" rx="4.4" ry="7" fill="#2B3348" opacity=".45" transform="rotate(-8 92 92)"/><path d="M20 66 L102 64" fill="none" stroke="#635A4B" stroke-width="1" opacity=".4" stroke-dasharray="2 5"/></svg>
+      </div>
+      <blockquote class="zb-leaf__quote">If a man does not keep pace with his companions, perhaps it is because he hears a different drummer.</blockquote>
+      <p class="zb-leaf__cite"><b>Henry David Thoreau</b>, <i>Walden, from the chapter Conclusion</i>. Read in <a href="https://www.gutenberg.org/ebooks/205">Walden and On the Duty of Civil Disobedience, as transcribed in Project Gutenberg ebook 205</a>.</p>
+      <p class="zb-leaf__for"><span class="zb-leaf__tag">Copied out</span> for when you are behind everybody else and it is being treated as a defect of character</p>
+      <p class="zb-leaf__hand">Nobody marches anywhere in the real sentence, and there is no beat in it. He says perhaps, too.</p>
+      <details class="zb-leaf__prov">
+        <summary><span class="zb-leaf__badge">Public domain</span><span class="zb-leaf__when">checked 2026-09-22</span></summary>
+        <p>Grepped out of the Gutenberg transcription on 2026-09-22 and read in its paragraph. This is one of the most misquoted sentences in English -- the version everybody knows has somebody marching to the beat of a different drummer, and Thoreau wrote neither the marching nor the beat. The room carries what is printed.</p>
+        <p class="zb-leaf__pasted"><b>Pasted in beside it:</b> Two lines of footprints across a margin, one set spaced wider than the other, going the same way.</p>
+      </details>
+    </li>
+    <li class="zb-leaf zb-leaf--oak zb-leaf--eb-garamond" id="zb-aurelius-within">
+      <div class="zb-leaf__pressed" aria-hidden="true">
+        <svg viewBox="0 0 120 120" fill="none"><path d="M22 74 L98 70 L98 100 L22 104 Z" fill="#635A4B" opacity=".18"/><path d="M22 74 L98 70" fill="none" stroke="#3A2A18" stroke-width="1.8"/><circle cx="30" cy="84" r="2.4" fill="#3A2A18" opacity=".45"/><circle cx="47" cy="95" r="3.4" fill="#3A2A18" opacity=".45"/><circle cx="64" cy="90" r="4.4" fill="#3A2A18" opacity=".45"/><circle cx="81" cy="85" r="2.4" fill="#3A2A18" opacity=".45"/><circle cx="30" cy="96" r="3.4" fill="#3A2A18" opacity=".45"/><circle cx="47" cy="91" r="4.4" fill="#3A2A18" opacity=".45"/><circle cx="64" cy="86" r="2.4" fill="#3A2A18" opacity=".45"/><circle cx="81" cy="97" r="3.4" fill="#3A2A18" opacity=".45"/><path d="M60 70 C60 56 52 50 56 38 C58 32 62 30 60 22" fill="none" stroke="#2B3348" stroke-width="2.2" stroke-linecap="round"/><path d="M40 44 a20 12 0 0 0 40 0" fill="none" stroke="#2B3348" stroke-width="1.6" opacity=".55"/></svg>
+      </div>
+      <blockquote class="zb-leaf__quote">Look within; within is the fountain of all good.</blockquote>
+      <p class="zb-leaf__cite"><b>Marcus Aurelius</b>, translated by Meric Casaubon, <i>Meditations, Book VII</i>. Read in <a href="https://www.gutenberg.org/ebooks/2680">Casaubon&#x27;s 1634 English of the Meditations, as transcribed in Project Gutenberg ebook 2680</a>.</p>
+      <p class="zb-leaf__for"><span class="zb-leaf__tag">Copied out</span> for when the outside has run out of things to give you today</p>
+      <p class="zb-leaf__hand">Written to himself, never meant for us, and it is the most quoted notebook anybody ever kept.</p>
+      <details class="zb-leaf__prov">
+        <summary><span class="zb-leaf__badge">Public domain</span><span class="zb-leaf__when">checked 2026-09-22</span></summary>
+        <p>Grepped out of the Gutenberg transcription on 2026-09-22; the book number was taken from the heading above the line rather than from memory. Casaubon&#x27;s translation is used because the well-known modern renderings of this line are somebody&#x27;s copyright, and a translation has to be out of it too.</p>
+        <p class="zb-leaf__pasted"><b>Pasted in beside it:</b> A small spring drawn in section, water coming up through gravel into a cut basin.</p>
+      </details>
+    </li>
+    <li class="zb-leaf zb-leaf--violet zb-leaf--lora" id="zb-barad-causality">
+      <div class="zb-leaf__pressed" aria-hidden="true">
+        <svg viewBox="0 0 120 120" fill="none"><circle cx="44" cy="60" r="9" fill="none" stroke="#5B2E6E" stroke-width="1.5" opacity="0.75"/><circle cx="44" cy="60" r="18" fill="none" stroke="#5B2E6E" stroke-width="1.5" opacity="0.63"/><circle cx="44" cy="60" r="27" fill="none" stroke="#5B2E6E" stroke-width="1.5" opacity="0.51"/><circle cx="44" cy="60" r="36" fill="none" stroke="#5B2E6E" stroke-width="1.5" opacity="0.39"/><circle cx="44" cy="60" r="45" fill="none" stroke="#5B2E6E" stroke-width="1.5" opacity="0.27"/><circle cx="80" cy="60" r="9" fill="none" stroke="#5B2E6E" stroke-width="1.5" opacity="0.75"/><circle cx="80" cy="60" r="18" fill="none" stroke="#5B2E6E" stroke-width="1.5" opacity="0.63"/><circle cx="80" cy="60" r="27" fill="none" stroke="#5B2E6E" stroke-width="1.5" opacity="0.51"/><circle cx="80" cy="60" r="36" fill="none" stroke="#5B2E6E" stroke-width="1.5" opacity="0.39"/><circle cx="80" cy="60" r="45" fill="none" stroke="#5B2E6E" stroke-width="1.5" opacity="0.27"/><circle cx="44" cy="60" r="2.6" fill="#5B2E6E"/><circle cx="80" cy="60" r="2.6" fill="#5B2E6E"/></svg>
+      </div>
+      <blockquote class="zb-leaf__quote">Indeed, causality is an altogether queer matter.</blockquote>
+      <p class="zb-leaf__cite"><b>Karen Barad</b>, <i>Nature&#x27;s Queer Performativity</i>. Read in <a href="https://stimpunks.love/hear-queer-here.html">Kvinder, Kon &amp; Forskning nr. 1-2 (2012), 25-53</a>.</p>
+      <p class="zb-leaf__for"><span class="zb-leaf__tag">Copied out</span> for when cause and effect have stopped behaving and everyone is asking you why</p>
+      <p class="zb-leaf__hand">A whole room on this street is built on this one line. It is still one line, and it still gets its citation.</p>
+      <details class="zb-leaf__prov">
+        <summary><span class="zb-leaf__badge">Quoted and cited</span><span class="zb-leaf__when">checked 2026-09-22</span></summary>
+        <p>Read off our own Hear Queer Here, which carries it with the full citation, on 2026-09-22. In copyright and quoted as one sentence with the citation attached, which is the only footing this room stands on for anything still owned.</p>
+        <p class="zb-leaf__pasted"><b>Pasted in beside it:</b> Two ripples spreading from separate points and crossing, drawn in fine parallel lines.</p>
+      </details>
+    </li>
+    <li class="zb-leaf zb-leaf--violet zb-leaf--newsreader" id="zb-edgar-relations">
+      <div class="zb-leaf__pressed" aria-hidden="true">
+        <svg viewBox="0 0 120 120" fill="none"><path d="M44 44 a18 18 0 1 0 0.1 0" fill="none" stroke="#5B2E6E" stroke-width="3"/><path d="M76 44 a18 18 0 1 0 0.1 0" fill="none" stroke="#5B2E6E" stroke-width="3"/><path d="M60 70 a18 18 0 1 0 0.1 0" fill="none" stroke="#5B2E6E" stroke-width="3"/><path d="M50 56 a18 18 0 0 0 10 10" fill="none" stroke="#DFCDA8" stroke-width="5"/><path d="M70 56 a18 18 0 0 1 -10 10" fill="none" stroke="#DFCDA8" stroke-width="5"/><path d="M44 44 a18 18 0 0 0 -8 22" fill="none" stroke="#5B2E6E" stroke-width="3"/></svg>
+      </div>
+      <blockquote class="zb-leaf__quote">We are not broken objects. We are relations, all of us still becoming.</blockquote>
+      <p class="zb-leaf__cite"><b>Helen Edgar</b>, <i>We Are Made of Relations: Quantum Physics and What It Means to Be Autistic</i>. Read in <a href="https://morerealms.com/we-are-made-of-relations-quantum-physics-and-what-it-means-to-be-autistic/">More Realms</a>.</p>
+      <p class="zb-leaf__for"><span class="zb-leaf__tag">Copied out</span> for when somebody has just described you as a list of deficits</p>
+      <p class="zb-leaf__hand">Helen&#x27;s, and credited to her by name rather than folded into our we. She is a colleague, not a corpus.</p>
+      <details class="zb-leaf__prov">
+        <summary><span class="zb-leaf__badge">Quoted and cited</span><span class="zb-leaf__when">checked 2026-09-22</span></summary>
+        <p>Read off our own Hear Queer Here, which carries it with the link to her article, on 2026-09-22.</p>
+        <p class="zb-leaf__pasted"><b>Pasted in beside it:</b> Three loops of cord drawn passing through one another, with no end visible anywhere.</p>
+      </details>
+    </li>
+    <li class="zb-leaf zb-leaf--oak zb-leaf--lora" id="zb-stimpunks-rest">
+      <div class="zb-leaf__pressed" aria-hidden="true">
+        <svg viewBox="0 0 120 120" fill="none"><path d="M26 44 C26 34 38 30 60 30 C82 30 94 34 94 44 C94 62 90 84 60 84 C30 84 26 62 26 44 Z" fill="#635A4B" opacity=".22"/><path d="M26 44 C26 34 38 30 60 30 C82 30 94 34 94 44 C94 62 90 84 60 84 C30 84 26 62 26 44 Z" fill="none" stroke="#3A2A18" stroke-width="2"/><path d="M46 52 C52 62 68 62 74 52" fill="none" stroke="#3A2A18" stroke-width="1.6" opacity=".7"/><path d="M36 40 C44 36 76 36 84 40" fill="none" stroke="#3A2A18" stroke-width="1.2" opacity=".45"/></svg>
+      </div>
+      <blockquote class="zb-leaf__quote">Burnout is a systems problem. Rest is repair, resistance, and wisdom.</blockquote>
+      <p class="zb-leaf__cite"><b>Stimpunks Foundation</b>, <i>The Tenets of Stimpunks, tenet 8: Rest Is Not a Moral Failure</i>. Read in <a href="https://stimpunks.org/about/tenets/">stimpunks.org</a>.</p>
+      <p class="zb-leaf__for"><span class="zb-leaf__tag">Copied out</span> for when you have been told to rest in a tone that made it sound like an accusation</p>
+      <p class="zb-leaf__hand">Ours, so there is nothing to clear and no excuse for getting the wording wrong either.</p>
+      <details class="zb-leaf__prov">
+        <summary><span class="zb-leaf__badge">Ours</span><span class="zb-leaf__when">checked 2026-09-22</span></summary>
+        <p>Read off our own tenets page on 2026-09-22, with the tenet it sits under.</p>
+        <p class="zb-leaf__pasted"><b>Pasted in beside it:</b> A cushion drawn from above with the dent still in it, and nobody in the chair.</p>
+      </details>
+    </li>
+    <li class="zb-leaf zb-leaf--iron zb-leaf--eb-garamond" id="zb-stimpunks-stories">
+      <div class="zb-leaf__pressed" aria-hidden="true">
+        <svg viewBox="0 0 120 120" fill="none"><rect x="30" y="34" width="14" height="7" fill="#DFCDA8" opacity=".85" transform="rotate(8 37.0 37.5)"/><rect x="80" y="86" width="14" height="7" fill="#DFCDA8" opacity=".85" transform="rotate(8 87.0 89.5)"/><path d="M28 44 L96 36 L100 84 L32 92 Z" fill="#DFCDA8" opacity=".5" transform="rotate(-5 64 64)"/><path d="M28 44 L96 36 L100 84 L32 92 Z" fill="none" stroke="#2B3348" stroke-width="1.8" transform="rotate(-5 64 64)"/><path d="M78 40 L82 88" fill="none" stroke="#2B3348" stroke-width="1.4" stroke-dasharray="3 4" transform="rotate(-5 64 64)"/><path d="M38 54 L70 52" fill="none" stroke="#2B3348" stroke-width="2.4" opacity="0.30" transform="rotate(-5 64 64)"/><path d="M42 63 L62 61" fill="none" stroke="#2B3348" stroke-width="2.4" opacity="0.23" transform="rotate(-5 64 64)"/><path d="M38 72 L54 70" fill="none" stroke="#2B3348" stroke-width="2.4" opacity="0.16" transform="rotate(-5 64 64)"/></svg>
+      </div>
+      <blockquote class="zb-leaf__quote">Stories are data. Bodies remember what systems forget.</blockquote>
+      <p class="zb-leaf__cite"><b>Stimpunks Foundation</b>, <i>The Tenets of Stimpunks, tenet 9: Lived Experience Is Legitimate Knowledge</i>. Read in <a href="https://stimpunks.org/about/tenets/">stimpunks.org</a>.</p>
+      <p class="zb-leaf__for"><span class="zb-leaf__tag">Copied out</span> for when you are asked for evidence and you are standing in the room being it</p>
+      <p class="zb-leaf__hand">The sentence a lot of us needed in writing before a room full of people would take it.</p>
+      <details class="zb-leaf__prov">
+        <summary><span class="zb-leaf__badge">Ours</span><span class="zb-leaf__when">checked 2026-09-22</span></summary>
+        <p>Read off our own tenets page on 2026-09-22, with the tenet it sits under.</p>
+        <p class="zb-leaf__pasted"><b>Pasted in beside it:</b> A used ticket stub pasted at an angle, the printing on it worn away to nothing.</p>
+      </details>
+    </li>
+  <!-- zibaldone:leaves:end -->
+    </ol>
+  </section>
+
+  <section class="zb-sheet zb-sheet--slip" aria-labelledby="the-slip">
+    <h2 id="the-slip">The attribution slip</h2>
+    <p class="zb-lede">Got one for the book? Fill this in and it writes you a tidy block of text to copy. Send it however you already talk to us &mdash; email, Discord, a text message. <strong>Nothing on this page is submitted anywhere.</strong> There is no form action, no endpoint and no request: the button copies to your clipboard and that is the whole of it.</p>
+
+    <p class="zb-hand">You will not get it all. Send what you have and say what you are unsure of &mdash; &ldquo;heard it in a lecture, never found the book&rdquo; is a genuinely useful thing to write in the last box, and a great deal better than a guess that reads like a fact.</p>
+
+    <form class="zb-slip" id="zb-slip">
+      <p class="zb-slip__tasl"><strong>The spine of this is <a href="https://wiki.creativecommons.org/wiki/best_practices_for_attribution">TASL</a></strong> &mdash; Title, Author, Source, Licence, which is Creative Commons&rsquo; own shorthand for crediting something you have reused. It is the right skeleton for a photograph, where the thing you are pointing at is one file at one address. A quotation needs three more, marked <span class="zb-slip__key" aria-hidden="true">&#43;</span> below: which <em>printing</em>, where <em>you</em> found it, and what it is for.</p>
+
+<!-- zibaldone:slip:begin -->
+      <div class="zb-slip__row">
+        <label for="slip-quote">The quotation itself <span class="zb-slip__req">needed</span><span class="zb-slip__key" aria-hidden="true">T &mdash; Title</span></label>
+        <p class="zb-slip__help" id="slip-quote-help">Keep it short -- this room's own limit is 30 words, and the reason is on the page.</p>
+        <textarea id="slip-quote" name="quote" rows="3" aria-describedby="slip-quote-help"></textarea>
+      </div>
+      <div class="zb-slip__row">
+        <label for="slip-who">Who wrote it (Author) <span class="zb-slip__req">needed</span><span class="zb-slip__key" aria-hidden="true">A &mdash; Author</span></label>
+        <p class="zb-slip__help" id="slip-who-help">The person, not the person who said it to you. If you do not know, say so here rather than guessing.</p>
+        <input type="text" id="slip-who" name="who" aria-describedby="slip-who-help">
+      </div>
+      <div class="zb-slip__row">
+        <label for="slip-work">What it is from (Title) <span class="zb-slip__req">needed</span><span class="zb-slip__key" aria-hidden="true">T &mdash; Title</span></label>
+        <p class="zb-slip__help" id="slip-work-help">The book, poem, essay, talk or post. A chapter or section number if you have one.</p>
+        <input type="text" id="slip-work" name="work" aria-describedby="slip-work-help">
+      </div>
+      <div class="zb-slip__row zb-slip__row--extra">
+        <label for="slip-where">Which printing <span class="zb-slip__req">needed</span><span class="zb-slip__key" aria-hidden="true">&#43;</span></label>
+        <p class="zb-slip__help" id="slip-where-help">The edition, year, publisher, issue -- whatever pins down WHICH version of the text this is. Texts differ between printings and this is the field that makes an entry checkable.</p>
+        <input type="text" id="slip-where" name="where" aria-describedby="slip-where-help">
+      </div>
+      <div class="zb-slip__row">
+        <label for="slip-url">A link to it (Source)<span class="zb-slip__key" aria-hidden="true">S &mdash; Source</span></label>
+        <p class="zb-slip__help" id="slip-url-help">A link to the work itself where there is one. Not a quotation site.</p>
+        <input type="text" id="slip-url" name="url" aria-describedby="slip-url-help">
+      </div>
+      <div class="zb-slip__row">
+        <label for="slip-licence">Its terms (Licence)<span class="zb-slip__key" aria-hidden="true">L &mdash; Licence</span></label>
+        <p class="zb-slip__help" id="slip-licence-help">Public domain, a Creative Commons licence, all rights reserved, or your own words -- whichever it is.</p>
+        <input type="text" id="slip-licence" name="licence" aria-describedby="slip-licence-help">
+      </div>
+      <div class="zb-slip__row zb-slip__row--extra">
+        <label for="slip-found">Where you found it<span class="zb-slip__key" aria-hidden="true">&#43;</span></label>
+        <p class="zb-slip__help" id="slip-found-help">The book you were reading, the person who told you, the page you saw it on. This is the field that catches a misquotation, because most of them are copied in good faith off something that was already wrong.</p>
+        <textarea id="slip-found" name="found" rows="2" aria-describedby="slip-found-help"></textarea>
+      </div>
+      <div class="zb-slip__row zb-slip__row--extra">
+        <label for="slip-for">What it is for<span class="zb-slip__key" aria-hidden="true">&#43;</span></label>
+        <p class="zb-slip__help" id="slip-for-help">A situation somebody might be in, in your own words. Not a mood to pick off a list.</p>
+        <input type="text" id="slip-for" name="for" aria-describedby="slip-for-help">
+      </div>
+    <!-- zibaldone:slip:end -->
+
+      <div class="zb-slip__act">
+        <button type="button" class="zb-slip__copy" id="zb-copy" hidden>Copy the slip</button>
+        <p class="zb-slip__said" id="zb-said" role="status" aria-live="polite"></p>
+      </div>
+
+      <div class="zb-slip__out" id="zb-out" hidden>
+        <label for="zb-outbox">What gets copied</label>
+        <textarea id="zb-outbox" rows="10" readonly></textarea>
+      </div>
+
+      <noscript>
+        <p class="zb-slip__nojs"><strong>Scripts are off, so there is no clipboard button.</strong> That is fine &mdash; the slip is only a shape for a message. Copy the field names above into an email in this order and fill them in: the quotation, who wrote it, what it is from, which printing, a link, its terms, where you found it, and what it is for. That is exactly what the button would have written out for you.</p>
+      </noscript>
+    </form>
+  </section>
+
+  <section class="zb-sheet zb-sheet--foot">
+    <div class="zb-foot">
+      <div class="zb-foot__who">
+        <h2>Whose words these are</h2>
+        <p>Not ours, mostly, and that is the point of the room. <strong>Helen Edgar</strong>&rsquo;s line is hers and is credited to her by name rather than folded into our &ldquo;we&rdquo;. <strong>Karen Barad</strong>&rsquo;s comes with its citation, as it does in <a href="hear-queer-here.html">the room built on it</a>. The public domain lines were read out of the transcriptions each card names, and <strong>Meric Casaubon</strong> is credited for the <i>Meditations</i> because a translation is a work somebody made and is in copyright on its own clock. Two of them are ours, off <a href="https://stimpunks.org/about/tenets/">our own tenets</a>.</p>
+        <p class="zb-hand">Our glossary quotes Seneca on learning sayings so well that words become works. It is not in here: the wording we published is a modern translation we cannot name, and the public domain one does not read that way. Better a gap somebody has checked than a line nobody can place.</p>
+        <p>Everything is collected in the <a href="liner-notes.html">liner notes</a>.</p>
+      </div>
+      <div class="zb-foot__dial">
+        <div class="dial">
+          <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+          <div class="dial__row" role="group" aria-labelledby="dial-label">
+            <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+            <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+            <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+          </div>
+          <p class="dial__note" aria-live="polite"></p>
+          <p class="dial__fine">Starts wherever your device says. Nothing is hidden at Gentle &mdash; every word on this page is on it at every setting. MAX GLITTER lets the leaves lie at the angle they were pasted at.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:zibaldone-nib:begin -->
+  <details class="quest" data-quest="zibaldone-nib" data-code="STEELNIB" data-accept="nd|second|secondseries|seriestwo|thesecond|two">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 3 L24 12 L20 26 L16 29 L12 26 L8 12 Z" fill="var(--zb-laid)" stroke="var(--zb-oak)" stroke-width="2" stroke-linejoin="round"/><path d="M16 12 L16 24" stroke="var(--zb-oak)" stroke-width="1.8"/><circle cx="16" cy="13" r="2.6" fill="var(--zb-oak)"/><path d="M16 26 L16 29" stroke="var(--zb-rubric)" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a steel nib laid down beside the book</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> Which printing it was</p>
+      <p class="quest__ask"><b>Before the code:</b> The Emily Dickinson line in that book is not in the series everybody assumes. Which series is it in? One word.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="zibaldone-nib-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="zibaldone-nib-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is not on the card with the quotation on it. It is in the room&#x27;s list of what the book will and will not do.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>The rule is the one about naming the printing rather than the title, and the room calls this entry its proof.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>The room says it is in the second series, not the first.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>The second</b>. It is in the Second Series of 1891, edited by Mabel Loomis Todd and T. W. Higginson, not the first. That is the whole argument of the room in one entry: a title is not a source, these texts differ between printings, and the only thing that told anybody which one it was was going and reading the title page above the poem instead of remembering. Todd and Higginson edited Dickinson&#x27;s punctuation before they let her out, so the printing you name decides the words you are quoting.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">STEELNIB</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=STEELNIB">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>It is in the Second Series of 1891, edited by Mabel Loomis Todd and T. W. Higginson, not the first. That is the whole argument of the room in one entry: a title is not a source, these texts differ between printings, and the only thing that told anybody which one it was was going and reading the title page above the poem instead of remembering. Todd and Higginson edited Dickinson&#x27;s punctuation before they let her out, so the printing you name decides the words you are quoting.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">STEELNIB</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=STEELNIB">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:zibaldone-nib:end -->
+
+</main>
+
+<script src="love.js" defer></script>
+<script src="zibaldone.js" defer></script>
+<script src="quest.js" defer></script>
+</body>
+</html>

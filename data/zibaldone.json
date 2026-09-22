@@ -1,0 +1,183 @@
+{
+ "_what": "The Zibaldone: a commonplace book kept open on a desk, with quotations copied into it and a drawing beside each one. A zibaldone is a heap of things -- the Italian word for the miscellany notebooks kept from the fourteenth century on, of which Leopardi's is the famous one. Our own glossary has kept an entry for the commonplace book since 2022; this room is that entry with a desk under it.",
+
+ "_request": "THE ROOM WAS ASKED FOR BY SOMEBODY IN THE COMMUNITY, 2026-09-22: a quote bank, quotes for any state of mind and emotion, seeded by us and added to by anybody. Ryan's reply set the two conditions this file exists to keep: we are rigorous about sourcing and attribution, so an entry says where it came from; and song lyric reproduction is an intellectual property minefield, so we quote lightly and rarely from songs. Both are enforced by make-zibaldone.py rather than remembered.",
+
+ "_short": "EVERY QUOTATION HERE IS ONE SHORT PASSAGE AND THE TOOL REFUSES A LONG ONE. That is not a style rule, it is the whole legal and ethical position of a quote bank. A bank is EXACTLY the shape of thing that grows into republishing somebody's book one sentence at a time -- nobody decides to do it, each entry is individually reasonable, and the page ends up being the work rather than pointing at it. So the limit is a number in the tool and the room says it out loud. Where somebody wants more than the line, there is a link to the book.",
+
+ "_songs": "NO SONG LYRICS, AND make-zibaldone.py REFUSES A SONG STRUCTURALLY RATHER THAN BY CARE. Music publishing enforces on quotations that prose publishing waves through, the licensing is separate from the recording, and a line of a song is a far larger fraction of the work than a line of a novel. This street already keeps the matching promise one room over: nothing musical is hosted here. A quote bank that took lyrics would break it on the surface where it would look most harmless.",
+
+ "_pd": "A QUOTATION MARKED public-domain MUST HAVE AN AUTHOR DEAD MORE THAN SEVENTY YEARS, checked against the current year rather than a date written in this file. That is make-doomscroll.py's test and it is a public-domain-EVERYWHERE test rather than a United States one: a site that serves everybody cannot lean on a technicality that holds in one country. A translated work has to clear it TWICE, for the author and for the translator, which is why the Meditations here is Casaubon's 1634 English and not a modern one, and why Seneca is not here at all -- see _seneca below.",
+
+ "_seneca": "OUR OWN GLOSSARY ENTRY FOR THE COMMONPLACE BOOK QUOTES SENECA ON LEARNING SAYINGS SO WELL THAT WORDS BECOME WORKS, AND THAT LINE IS NOT IN THIS ROOM. The wording there is a modern translation the entry does not name, and the public domain translation of the Letters -- Richard Mott Gummere's, for the Loeb -- does not read that way, so the line as we have published it is somebody's copyright and we cannot say whose. Recorded here rather than quietly fixed or quietly used, because a gap somebody has already checked is worth more than a gap somebody will check again. The glossary entry is linked from the room regardless; it is where this room came from.",
+
+ "_checked": "EVERY ENTRY CARRIES HOW IT WAS VERIFIED AND WHEN, AND THE ROOM PRINTS IT. make-sweetgrass.py's rule: do not let an unchecked quotation sit among checked ones looking identical. The five public domain lines were grepped out of the transcribed text named in `where` on 2026-09-22 -- not remembered, not recalled from a quotation site, which is where misquotations come from and is how the Thoreau below is usually got wrong. The four contemporary lines were read off our own published pages, which is the only reason they are quotable here at all.",
+
+ "_printings": "`where` NAMES A PRINTING AND NOT JUST A TITLE, because these texts differ between printings and a quotation nobody can trace is the one thing a room built on sourcing cannot carry -- the reason The Darkling Thrush is not on The Doomscroll. The Dickinson is the clearest case: it is in the SECOND series, 1891, not the first, and that printing was edited by Todd and Higginson against the manuscripts. Checking rather than remembering is what caught it.",
+
+ "_for": "THE `for` LINE IS A SITUATION, NOT AN EMOTION LABEL, and there are no faces anywhere in this room. The request was for quotes for any state of mind, and the obvious build is a grid of moods you pick from -- happy, sad, angry -- which on a Disabled people's site is the emotion flashcard autistic people spend their childhoods being drilled with. The Playhouse settled this for the sound board and the answer is the same here: a mood is a shape, not a face. So each card says what it is FOR in a sentence about a situation you might be in, and make-zibaldone.py refuses an emoji in that field.",
+
+ "_no_rank": "NOTHING HERE IS RANKED, COUNTED OR VOTED ON. No favourites, no most-copied, no top of the bank, no counter on a card. A quote bank is exactly the shape of thing that grows one, and this room will never grow a leaderboard -- refusing one matters because a leaderboard would turn the one page meant to meet somebody where they are into a popularity contest between other people's grief. The pebbling cabinet's refusal of a tally, arriving in the room most likely to want one. The vocabulary is refused in the room's own copy with make-guild.py's negation window, so the page can still SAY that it does not rank anything.",
+
+ "_hands": "THE MARGINAL NOTE ON EVERY CARD IS OURS AND IS NEVER A SECOND QUOTATION. A commonplace book's margins are where the keeper argues with the page, so that is what they hold -- our own sentence about why the line is in the book. If the margins could hold quotations they would quietly become an uncited second quote bank running down the side of the cited one, which is the failure mode nobody would see. The tool refuses quotation marks in that field.",
+
+ "_faces": "A QUOTATION IS NEVER SET IN THE HAND. The room varies the face per entry, which is what was asked for, and the choice is between three TEXT faces -- EB Garamond for the old ones, Newsreader for the nineteenth century, Lora for the living. Kalam is the hand and it writes the margins, the labels and the keeper's own asides, never a quotation: a passage set in a handwriting face is an access failure wearing atmosphere, which is the lesson The Doomscroll's blackletter masthead already carries. make-zibaldone.py refuses a quotation whose face is the hand.",
+
+ "_draw": "ONE DRAWING PER ENTRY AND NO TWO ALIKE, refused otherwise -- make-og.py's refusal for make-og.py's reason. They are pressed and pasted things rather than illustrations of the line: a commonplace book has a dried leaf in it, not a picture of the sentence. Every one is aria-hidden decoration and every one has its own alt-free sentence on the card saying what it is, because a claim only sighted readers get is not a claim this site may make -- make-garden.py's rule about the habits of growth.",
+
+ "entries": [
+  {
+   "slug": "montaigne-book",
+   "quote": "I have no more made my book than my book has made me.",
+   "who": "Michel de Montaigne",
+   "who_died": 1592,
+   "translator": "Charles Cotton",
+   "translator_died": 1687,
+   "work": "Essays, Book II, chapter XVIII",
+   "where": "Cotton's English of the Essays, as transcribed in Project Gutenberg ebook 3600",
+   "url": "https://www.gutenberg.org/ebooks/3600",
+   "basis": "public-domain",
+   "for": "for when you have been keeping one of these for years and cannot say what it is for",
+   "checked": "Grepped out of the Gutenberg transcription on 2026-09-22 and read in its paragraph; the chapter was taken from the heading above it rather than from memory.",
+   "hand": "Montaigne kept a commonplace book and our glossary says so. This is the sentence that explains why anybody bothers.",
+   "face": "eb-garamond",
+   "ink": "oak",
+   "draw": "thread",
+   "draw_says": "A length of linen thread with a knot in it, pasted down and curling off the page."
+  },
+  {
+   "slug": "whitman-multitudes",
+   "quote": "(I am large, I contain multitudes.)",
+   "who": "Walt Whitman",
+   "who_died": 1892,
+   "work": "Song of Myself, section 51, in Leaves of Grass",
+   "where": "the 1891-92 printing of Leaves of Grass, as transcribed in Project Gutenberg ebook 1322",
+   "url": "https://www.gutenberg.org/ebooks/1322",
+   "basis": "public-domain",
+   "for": "for when two true things about you are being treated as a contradiction to resolve",
+   "checked": "Grepped out of the Gutenberg transcription on 2026-09-22. The brackets are Whitman's and are kept: the line is parenthetical in the printing, and quoting it without them tidies his punctuation into somebody else's.",
+   "hand": "Printed inside brackets, like an aside. It is the loudest thing on the page and he said it under his breath.",
+   "face": "lora",
+   "ink": "oak",
+   "draw": "grass",
+   "draw_says": "A blade of grass pressed flat, gone brown at the tip, with the crease where the book shut on it."
+  },
+  {
+   "slug": "dickinson-nobody",
+   "quote": "I'm nobody! Who are you?",
+   "who": "Emily Dickinson",
+   "who_died": 1886,
+   "work": "Poems, Second Series, part I (Life), poem I",
+   "where": "the 1891 Second Series edited by Mabel Loomis Todd and T. W. Higginson, as transcribed in Project Gutenberg ebook 12242",
+   "url": "https://www.gutenberg.org/ebooks/12242",
+   "basis": "public-domain",
+   "for": "for when being nobody in particular is the best offer on the table",
+   "checked": "Grepped out of the Gutenberg transcription on 2026-09-22, and the series was read off the title page above it. It is the SECOND series, not the first, which is what checking rather than remembering is for. Todd and Higginson edited these texts against the manuscripts, so this is their printing and later editions read differently.",
+   "hand": "Her editors tidied her dashes and her capitals before they let her out. The room names the printing for exactly that reason.",
+   "face": "eb-garamond",
+   "ink": "iron",
+   "draw": "wax",
+   "draw_says": "A broken wax seal, still stuck to the corner of a torn-off envelope flap."
+  },
+  {
+   "slug": "thoreau-drummer",
+   "quote": "If a man does not keep pace with his companions, perhaps it is because he hears a different drummer.",
+   "who": "Henry David Thoreau",
+   "who_died": 1862,
+   "work": "Walden, from the chapter Conclusion",
+   "where": "Walden and On the Duty of Civil Disobedience, as transcribed in Project Gutenberg ebook 205",
+   "url": "https://www.gutenberg.org/ebooks/205",
+   "basis": "public-domain",
+   "for": "for when you are behind everybody else and it is being treated as a defect of character",
+   "checked": "Grepped out of the Gutenberg transcription on 2026-09-22 and read in its paragraph. This is one of the most misquoted sentences in English -- the version everybody knows has somebody marching to the beat of a different drummer, and Thoreau wrote neither the marching nor the beat. The room carries what is printed.",
+   "hand": "Nobody marches anywhere in the real sentence, and there is no beat in it. He says perhaps, too.",
+   "face": "newsreader",
+   "ink": "iron",
+   "draw": "pace",
+   "draw_says": "Two lines of footprints across a margin, one set spaced wider than the other, going the same way."
+  },
+  {
+   "slug": "aurelius-within",
+   "quote": "Look within; within is the fountain of all good.",
+   "who": "Marcus Aurelius",
+   "who_died": 180,
+   "translator": "Meric Casaubon",
+   "translator_died": 1671,
+   "work": "Meditations, Book VII",
+   "where": "Casaubon's 1634 English of the Meditations, as transcribed in Project Gutenberg ebook 2680",
+   "url": "https://www.gutenberg.org/ebooks/2680",
+   "basis": "public-domain",
+   "for": "for when the outside has run out of things to give you today",
+   "checked": "Grepped out of the Gutenberg transcription on 2026-09-22; the book number was taken from the heading above the line rather than from memory. Casaubon's translation is used because the well-known modern renderings of this line are somebody's copyright, and a translation has to be out of it too.",
+   "hand": "Written to himself, never meant for us, and it is the most quoted notebook anybody ever kept.",
+   "face": "eb-garamond",
+   "ink": "oak",
+   "draw": "spring",
+   "draw_says": "A small spring drawn in section, water coming up through gravel into a cut basin."
+  },
+  {
+   "slug": "barad-causality",
+   "quote": "Indeed, causality is an altogether queer matter.",
+   "who": "Karen Barad",
+   "work": "Nature's Queer Performativity",
+   "where": "Kvinder, Kon & Forskning nr. 1-2 (2012), 25-53",
+   "url": "https://stimpunks.love/hear-queer-here.html",
+   "basis": "credited",
+   "for": "for when cause and effect have stopped behaving and everyone is asking you why",
+   "checked": "Read off our own Hear Queer Here, which carries it with the full citation, on 2026-09-22. In copyright and quoted as one sentence with the citation attached, which is the only footing this room stands on for anything still owned.",
+   "hand": "A whole room on this street is built on this one line. It is still one line, and it still gets its citation.",
+   "face": "lora",
+   "ink": "violet",
+   "draw": "fringe",
+   "draw_says": "Two ripples spreading from separate points and crossing, drawn in fine parallel lines."
+  },
+  {
+   "slug": "edgar-relations",
+   "quote": "We are not broken objects. We are relations, all of us still becoming.",
+   "who": "Helen Edgar",
+   "work": "We Are Made of Relations: Quantum Physics and What It Means to Be Autistic",
+   "where": "More Realms",
+   "url": "https://morerealms.com/we-are-made-of-relations-quantum-physics-and-what-it-means-to-be-autistic/",
+   "basis": "credited",
+   "for": "for when somebody has just described you as a list of deficits",
+   "checked": "Read off our own Hear Queer Here, which carries it with the link to her article, on 2026-09-22.",
+   "hand": "Helen's, and credited to her by name rather than folded into our we. She is a colleague, not a corpus.",
+   "face": "newsreader",
+   "ink": "violet",
+   "draw": "knot",
+   "draw_says": "Three loops of cord drawn passing through one another, with no end visible anywhere."
+  },
+  {
+   "slug": "stimpunks-rest",
+   "quote": "Burnout is a systems problem. Rest is repair, resistance, and wisdom.",
+   "who": "Stimpunks Foundation",
+   "work": "The Tenets of Stimpunks, tenet 8: Rest Is Not a Moral Failure",
+   "where": "stimpunks.org",
+   "url": "https://stimpunks.org/about/tenets/",
+   "basis": "ours",
+   "for": "for when you have been told to rest in a tone that made it sound like an accusation",
+   "checked": "Read off our own tenets page on 2026-09-22, with the tenet it sits under.",
+   "hand": "Ours, so there is nothing to clear and no excuse for getting the wording wrong either.",
+   "face": "lora",
+   "ink": "oak",
+   "draw": "pillow",
+   "draw_says": "A cushion drawn from above with the dent still in it, and nobody in the chair."
+  },
+  {
+   "slug": "stimpunks-stories",
+   "quote": "Stories are data. Bodies remember what systems forget.",
+   "who": "Stimpunks Foundation",
+   "work": "The Tenets of Stimpunks, tenet 9: Lived Experience Is Legitimate Knowledge",
+   "where": "stimpunks.org",
+   "url": "https://stimpunks.org/about/tenets/",
+   "basis": "ours",
+   "for": "for when you are asked for evidence and you are standing in the room being it",
+   "checked": "Read off our own tenets page on 2026-09-22, with the tenet it sits under.",
+   "hand": "The sentence a lot of us needed in writing before a room full of people would take it.",
+   "face": "eb-garamond",
+   "ink": "iron",
+   "draw": "ticket",
+   "draw_says": "A used ticket stub pasted at an angle, the printing on it worn away to nothing."
+  }
+ ]
+}

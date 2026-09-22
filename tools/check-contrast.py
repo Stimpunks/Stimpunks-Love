@@ -323,6 +323,27 @@ GD_LOAM, GD_LOAM2 = "#2B2013", "#5A462C"
 GD_LEAF, GD_LEAF2, GD_BLOOM = "#2F6B1E", "#55893A", "#A8390B"
 
 
+# The Zibaldone (§29). A BOOK LYING ON A DESK, LIT FROM ONE SIDE, which is the
+# whole of its separation from the other paper rooms on this street -- all of
+# them printed, none of them lit from anywhere you could point at. Two papers,
+# because a leaf is a slip laid on a page and half the type in the room sits on
+# the slip rather than on the page: every ink is measured against BOTH, and the
+# slip is the darker of the two, so it is the harder test.
+# THE RAKING LIGHT IS A GRADIENT AND IS NOT MEASURED HERE, on purpose. Every
+# sheet carries a flat background-color underneath it and the gradient only
+# lightens the left-hand end, so ZB_LAID is the DARK end of the real range --
+# the honest ground rather than the flattering one. That also keeps the room
+# readable to check-contrast-live.py, which declines to guess at a gradient
+# with no colour under it rather than falling through to the body.
+# ZB_PENCIL STARTED AT #6B6253 AND MEASURED 4.43 ON A LEAF, under the bar, and
+# it carries every citation, every margin note and every provenance line in the
+# room. It was darkened before the room shipped. That is this file doing the
+# job it exists for: a colour it has never seen is a colour nothing is checking.
+ZB_DESK, ZB_DESK2 = "#2A211A", "#3A2E24"
+ZB_LAID, ZB_LAID2, ZB_GUTTER = "#F2E8D5", "#E9DCC3", "#C9B693"
+ZB_OAK, ZB_IRON, ZB_ANILINE = "#3A2A18", "#2B3348", "#5B2E6E"
+ZB_RUBRIC, ZB_PENCIL, ZB_TAPE = "#8C2B18", "#635A4B", "#DFCDA8"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -1145,6 +1166,37 @@ PAIRS = [
     (FD_AMBER,  FD_HALL,   False, "marker: the flap on the floor of The Feed's concourse"),
     (FD_AMBER,  FD_POOL,   False, "marker: the same, where the board light reaches the floor"),
 
+    # ── The Zibaldone (§29) ─────────────────────────────────────────────────
+    # TWO PAPERS AND EVERY INK AGAINST BOTH. The page is the lighter one and a
+    # leaf pasted onto it is the darker, so the leaf is the test that matters
+    # and every ink is held to it. The desk is the room's second ground and it
+    # carries exactly two things -- the way back to the street and the line
+    # under it -- which is a decision made HERE rather than inherited, because
+    # this is a pale room on a near-black street and the base stylesheet's link
+    # pink would arrive at about 2.4. That is the hole The Doomscroll left and
+    # the Playhouse had been carrying since it opened.
+    (ZB_OAK,     ZB_LAID,   True,  "zibaldone: h1 in EB Garamond, 44-78px, and every h2"),
+    (ZB_OAK,     ZB_LAID,   False, "zibaldone: body copy, the rules list, every slip label"),
+    (ZB_OAK,     ZB_LAID2,  False, "zibaldone: a quotation written in oak, a bold run in a citation"),
+    (ZB_IRON,    ZB_LAID,   False, "zibaldone: body copy on a page where iron is the ink"),
+    (ZB_IRON,    ZB_LAID2,  False, "zibaldone: a quotation written in iron gall"),
+    (ZB_ANILINE, ZB_LAID,   False, "zibaldone: a link being hovered, and the slip's extra-field rule"),
+    (ZB_ANILINE, ZB_LAID2,  False, "zibaldone: a quotation written in aniline violet"),
+    (ZB_RUBRIC,  ZB_LAID,   False, "zibaldone: every link on the paper, the tagline, the rule under an h2"),
+    (ZB_RUBRIC,  ZB_LAID2,  False, "zibaldone: the 'Copied out' tag and the provenance tab's own link"),
+    (ZB_PENCIL,  ZB_LAID,   False, "zibaldone: the eyebrow, every help line under a slip field"),
+    (ZB_PENCIL,  ZB_LAID2,  False, "zibaldone: the citation, the margin hand, the provenance note. THE "
+                                   "HARDEST PAIR IN THE ROOM and the one that moved: #6B6253 measured "
+                                   "4.43 here and was darkened before this room shipped"),
+    (ZB_LAID,    ZB_PENCIL, False, "zibaldone: the basis badge on a provenance tab, paper on pencil"),
+    (ZB_LAID,    ZB_OAK,    False, "zibaldone: the one solid button in the room, 'Copy the slip'"),
+    (ZB_LAID,    ZB_RUBRIC, False, "zibaldone: the same button while it is hovered"),
+    # The desk. Two things stand on it and both are decided here.
+    (ZB_TAPE,    ZB_DESK,   False, "zibaldone: the way back to the street and the line beside it, "
+                                   "which sit on the desk rather than on the paper -- a second "
+                                   "ground is a second decision"),
+    (ZB_LAID,    ZB_DESK,   False, "zibaldone: anything the room sets in paper-colour on the desk"),
+
     # ── The Garden (§28) ────────────────────────────────────────────────────
     # THREE GROUNDS AND EVERY INK AGAINST ALL THREE: the path, the leaf shadow
     # on the path, and a limewashed board laid on it. The board is the pale one
@@ -1270,6 +1322,21 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#c9b693": "zibaldone: the fold down the left of every sheet and the hairline round "
+               "a pasted leaf, 1.63 on the page and 1.46 on a leaf. The guild's hairline "
+               "rule at 2.22 is the precedent and the argument is the same one: it "
+               "carries no text and it is SUPPOSED to be faint, because a fold that "
+               "measured 4.5 would be a printed bar rather than a crease. A leaf is "
+               "carried by its own paper, its shadow and the tape across the top of it.",
+    "#dfcda8": "zibaldone: gummed paper -- the strip of tape holding each leaf down and "
+               "the rule beside a margin note, 1.29 on the page and 1.15 on a leaf. It "
+               "is the palest thing in the room on purpose and it never carries a word "
+               "there. On the DESK it carries the way back to the street, at 10.10, and "
+               "that pair is measured above.",
+    "#3a2e24": "zibaldone: the lighter grain of the walnut the book is lying on, 1.20 "
+               "against the desk. Two tones of one surface, and nothing is ever set on "
+               "it -- the desk's own two pieces of text are measured above against the "
+               "darker tone, which is the harder of the two.",
     "#a2977e": "guild: the hairline rule between jobs and under the docket, 2.22 on the "
                "manila. It carries no text and is the one thing in that room that is "
                "SUPPOSED to be faint -- a printed rule that cleared 4.5 would be a bar. "

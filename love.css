@@ -236,6 +236,31 @@
 @font-face { font-family: 'Mulish';   src: url('fonts/mulish-400.woff2') format('woff2');          font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Mulish';   src: url('fonts/mulish-400.woff2') format('woff2');          font-weight: 700; font-display: swap; }
 
+/* The Zibaldone (§29). THREE TEXT FACES AND ONE HAND, and the division between
+   them is enforced by tools/make-zibaldone.py rather than left to taste: the
+   hand writes margins, labels and the keeper's asides, and NEVER a quotation.
+   A passage set in a handwriting face is an access failure wearing atmosphere,
+   which is the lesson The Doomscroll already carries one room over, where
+   blackletter sets the masthead and not one line of a poem. A quote bank is
+   where that mistake would look most charming.
+
+   The three are chosen by era, because that is what a commonplace book looks
+   like: lines copied out of books that were set at different times. EB Garamond
+   for the oldest, Newsreader for the nineteenth century, Lora for the living.
+   EB Garamond ships as a variable font, so one file serves 400 and 600 against
+   the weight axis -- Faustina's arrangement, and the reason there is no second
+   44KB on disk. Kalam is the hand. None of the four is set anywhere else on the
+   street. See fonts/_sources.json. */
+@font-face { font-family: 'EB Garamond'; src: url('fonts/eb-garamond-400.woff2') format('woff2');        font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'EB Garamond'; src: url('fonts/eb-garamond-400.woff2') format('woff2');        font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'EB Garamond'; src: url('fonts/eb-garamond-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Newsreader';  src: url('fonts/newsreader-400.woff2') format('woff2');         font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Newsreader';  src: url('fonts/newsreader-400-italic.woff2') format('woff2');  font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Lora';        src: url('fonts/lora-400.woff2') format('woff2');               font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Lora';        src: url('fonts/lora-400-italic.woff2') format('woff2');        font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Kalam';       src: url('fonts/kalam-400.woff2') format('woff2');              font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Kalam';       src: url('fonts/kalam-700.woff2') format('woff2');              font-weight: 700; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -626,6 +651,50 @@
   --gd-edge: #9DB183;
   --gd-loam: #2B2013;   --gd-loam-2: #5A462C;
   --gd-leaf: #2F6B1E;   --gd-leaf-2: #55893A;  --gd-bloom: #A8390B;
+
+  /* The Zibaldone (§29). A BOOK LYING ON A DESK, LIT FROM ONE SIDE, and that
+     sentence is the whole of its separation from every other paper room on
+     this street, and there is already a great deal of ink on paper here.
+
+       · THE MOPERY is a cold BUILDING you are let into after hours: blue-black
+         stone walls, an institution's books, and type that was PUNCHED into
+         the page by a press. You stand up in it. This is one object at arm's
+         length, seen from directly above, warm, and written into by hand --
+         and it is nobody's property but the keeper's. Printed against written
+         is the separation, and it holds at the stroke rather than at the
+         palette, which is the only place these two could ever have been kept
+         apart.
+       · THE DOOMSCROLL is the closest call, because it is also pale paper on a
+         dark desk. It is ONE UNBROKEN ROLL -- machine-set, nothing cut,
+         nothing rotated, cold grey newsprint. This is BOUND LEAVES: --zb-gutter
+         is a fold, there is a verso and a recto, and everything on it was
+         pasted down at whatever angle the hand was holding. Newsprint is grey
+         and cheap; laid paper is warm and has a tooth. If this paper ever goes
+         grey the two rooms have become one.
+       · THE ZINE TABLE is photocopied -- stark white, pure black, cut with
+         scissors, made in a hundred copies to be given away. This is ONE COPY,
+         warm, and nothing in it was cut out: it was written in. A zine is for
+         strangers and a commonplace book is for its keeper.
+       · THE GARDEN and THE ADVENTURER'S GUILD are the other pale grounds. The
+         garden's light came down through leaves, so everything in it is tinted
+         green and every shadow is small, hard and directly underneath. The
+         guild has NO LIGHT SOURCE AT ALL and casts nothing. Here the light
+         RAKES ACROSS FROM ONE SIDE at desk height -- which is why the paper has
+         a tooth you can see, why the fold has a shadow in it, and why this is
+         the only room on the street lit by something in the room with you.
+
+     ZB- PREFIXED THROUGHOUT, on the Garden's precedent rather than after this
+     room's own accident: `desk`, `paper`, `tape`, `iron` and `gutter` are
+     exactly the plain words a stylesheet fills up with, and a custom property
+     declared twice in one :root is last-wins and silent -- which is how a gold
+     room once rendered green. --zb-tape and --zb-gutter never carry text and
+     are in check-contrast.py's ORNAMENT list with their measurements. Every
+     ink is held against BOTH papers, because a leaf is a slip laid on a page
+     and half the type in the room sits on the slip. */
+  --zb-desk: #2A211A;   --zb-desk-2: #3A2E24;
+  --zb-laid: #F2E8D5;   --zb-laid-2: #E9DCC3;  --zb-gutter: #C9B693;
+  --zb-oak: #3A2A18;    --zb-iron: #2B3348;    --zb-aniline: #5B2E6E;
+  --zb-rubric: #8C2B18; --zb-pencil: #635A4B;  --zb-tape: #DFCDA8;
 }
 
 * { box-sizing: border-box; }
@@ -1063,6 +1132,16 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .door--feed .door__name  { font-family: 'Michroma', var(--sans); color: var(--fd-lamp); font-size: 15px; letter-spacing: .1em; text-transform: uppercase; }
 .door--feed .door__blurb { color: var(--fd-dim); }
 .door--feed .door__knock { font-family: 'Space Mono', ui-monospace, monospace; font-weight: 700; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--fd-signal); }
+
+/* THE ZIBALDONE'S DOOR IS THE ONLY PALE SHOPFRONT IN THE ROW, which is what a
+   commonplace book looks like from the street: a cream page in a dark window.
+   Its awning is the fold of a bound gathering rather than a stripe, and the
+   name is the oldstyle serif the book's own title is set in. */
+.door--zibaldone { background: var(--zb-laid); border-color: var(--zb-oak); }
+.door--zibaldone .door__awning { background-image: repeating-linear-gradient(90deg, var(--zb-gutter) 0 2px, var(--zb-laid-2) 2px 9px, var(--zb-tape) 9px 11px); border-bottom-color: var(--zb-oak); }
+.door--zibaldone .door__name  { font-family: 'EB Garamond', Georgia, serif; font-weight: 600; color: var(--zb-oak); font-size: 30px; }
+.door--zibaldone .door__blurb { font-family: 'Lora', Georgia, serif; color: var(--zb-pencil); }
+.door--zibaldone .door__knock { font-family: 'Kalam', cursive; font-weight: 700; font-size: 13px; letter-spacing: 0; color: var(--zb-rubric); }
 
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
@@ -5900,7 +5979,326 @@ html[data-intensity="max"]     .gd-dapple { animation: gd-breeze 17s ease-in-out
    it. */
 
 
-/* §29 ── Small screens ───────────────────────────────────────────────────────
+/* §29 ── ROOM: The Zibaldone ──────────────────────────────────────────────────
+   A commonplace book left open on a desk. Asked for by somebody in our
+   community as a quote bank; built as the thing that has been doing that job
+   since the fourteenth century, which our own glossary already had an entry
+   for. See the palette note in §2 for what keeps this apart from the four
+   other paper rooms on this street -- the short version is that every one of
+   those is PRINTED and this one is WRITTEN, and that not one of them is lit
+   from anywhere you could point at while this one is lit from the left at
+   desk height.
+
+   THE RAKING LIGHT IS THE ROOM AND IT IS DONE THREE TIMES, because a light you
+   can locate has three consequences and leaving any of them out makes it
+   decoration. The paper is brighter on the left than the right. Every sheet
+   casts a shadow DOWN AND RIGHT, away from it. And the fold has a gradient in
+   it, which is the only reason this reads as a bound book rather than as a
+   sheet of paper -- The Doomscroll is the same colours with no fold, and the
+   fold is the whole difference.
+
+   NOTHING IN HERE IS A COMPOSITE GROUND. The raking light is a gradient, which
+   means the colour under a word at the left edge of a sheet is not the colour
+   under a word at the right edge -- exactly the thing check-contrast.py cannot
+   reconstruct and check-contrast-live.py declines to guess at, because a
+   gradient with no background-colour under it is what made that tool report
+   222 pieces of pale text as near-black on near-black. So EVERY SHEET CARRIES
+   A FLAT background-color AS WELL, and the gradient is painted over it in
+   background-image. The flat colour is the darker end. That makes the measured
+   pair the honest one rather than the flattering one, and it makes the sheets
+   measurable at all.
+
+   THE TILTS ARE :where()-SCOPED so they cannot climb above §3's gentle reset.
+   That reset is (0,2,1) and a room's own `.thing:nth-child(even)` is (0,2,0),
+   which loses -- but only just, and it has already been got wrong twice on
+   this street, once on Enid's wall and once in the Faery Yurt, where a
+   windowsill was still rotating at Gentle a day after the room shipped. Inside
+   :where() the selector weighs nothing at all and the argument cannot recur.
+
+   AND THE LINK COLOUR IS DECLARED AT THE ROOM, on both grounds this room
+   actually has. That is the hole The Doomscroll left and the Playhouse was
+   found to have been carrying since it opened: a colour nobody DECIDED leaves
+   no pair for check-contrast.py to hold, so the run passes while a paragraph
+   of links is illegible. This is a pale room on a near-black street, so the
+   base stylesheet's pink would arrive here at about 2.4 -- and the top line
+   sits on the DESK rather than on the paper, which is a second ground and
+   therefore a second decision. Both are made here, once, where the room is. */
+
+body.room-zibaldone {
+  background-color: var(--zb-desk);
+  /* Walnut, across the grain. Very low contrast on purpose: it is the surface
+     the book is lying on and it is not supposed to be read. */
+  background-image:
+    repeating-linear-gradient(92deg, transparent 0 7px, rgba(0, 0, 0, .18) 7px 8px),
+    repeating-linear-gradient(92deg, rgba(255, 255, 255, .025) 0 23px, transparent 23px 47px);
+  color: var(--zb-oak);
+  font-family: 'Lora', Georgia, serif;
+}
+
+.zb-desk { max-width: 1120px; margin: 0 auto; padding: 0 20px 64px; }
+
+/* The two grounds, and the two link decisions. */
+.room-zibaldone a { color: var(--zb-rubric); text-underline-offset: 3px; }
+.room-zibaldone a:hover, .room-zibaldone a:focus-visible { color: var(--zb-aniline); }
+
+.zb-topline {
+  display: flex; flex-wrap: wrap; gap: 10px 18px;
+  justify-content: space-between; align-items: baseline;
+  padding: 10px 2px 22px;
+}
+.zb-topline a, .room-zibaldone .zb-topline .backlink { color: var(--zb-tape); }
+.zb-topline a:hover, .room-zibaldone .zb-topline .backlink:hover { color: #fff; }
+.zb-topline__note {
+  margin: 0; font-family: 'Kalam', cursive; font-size: 15px; color: var(--zb-tape);
+}
+
+/* ── A sheet ─────────────────────────────────────────────────────────────────
+   Laid paper: chain lines far apart, laid lines close together, and the tooth
+   the raking light catches. All three are background-images over a flat
+   background-color, for the reason in the section note. */
+.zb-flyleaf, .zb-sheet {
+  position: relative;
+  background-color: var(--zb-laid);
+  background-image:
+    repeating-linear-gradient(90deg, rgba(120, 100, 66, .07) 0 1px, transparent 1px 27px),
+    repeating-linear-gradient(0deg, rgba(120, 100, 66, .045) 0 1px, transparent 1px 4px),
+    linear-gradient(100deg, rgba(255, 252, 244, .85) 0%, rgba(255, 252, 244, 0) 46%);
+  box-shadow: 7px 9px 0 rgba(0, 0, 0, .22), 0 1px 0 rgba(255, 255, 255, .5) inset;
+  border-radius: 2px 5px 5px 2px;
+  padding: 30px 34px 34px 46px;
+  margin: 0 0 26px;
+}
+/* THE FOLD. This is the one declaration that makes the room a book instead of
+   a page, which is why it is on every sheet rather than once on the page: a
+   spread is bound at the left, and a reader scrolling past six sheets should
+   pass six folds. It carries no text and is in ORNAMENT with its measurement. */
+.zb-flyleaf::before, .zb-sheet::before {
+  content: ""; position: absolute; inset: 0 auto 0 0; width: 22px;
+  background: linear-gradient(90deg, var(--zb-gutter) 0%, rgba(201, 182, 147, .45) 38%, transparent 100%);
+  border-radius: 2px 0 0 2px;
+  pointer-events: none;
+}
+
+.zb-flyleaf { padding-bottom: 40px; }
+.zb-eyebrow {
+  margin: 0 0 14px; font-family: 'Kalam', cursive; font-size: 16px;
+  color: var(--zb-pencil);
+}
+.room-zibaldone h1 {
+  margin: 0; font-family: 'EB Garamond', Georgia, serif; font-weight: 600;
+  font-size: clamp(44px, 8vw, 78px); line-height: 1.02; letter-spacing: -0.5px;
+  color: var(--zb-oak);
+}
+.zb-tagline {
+  margin: 10px 0 0; font-family: 'EB Garamond', Georgia, serif; font-style: italic;
+  font-size: clamp(21px, 3vw, 27px); color: var(--zb-rubric);
+}
+.zb-lede { margin: 16px 0 0; font-size: 17.5px; line-height: 1.62; max-width: 62ch; }
+.room-zibaldone h2 {
+  margin: 0 0 14px; font-family: 'EB Garamond', Georgia, serif; font-weight: 600;
+  font-size: 31px; line-height: 1.12; color: var(--zb-oak);
+}
+.room-zibaldone h2::after {
+  content: ""; display: block; width: 74px; height: 2px; margin-top: 9px;
+  background: var(--zb-rubric);
+}
+.zb-sheet p { max-width: 64ch; }
+
+/* The keeper's own asides, in the hand. Never a quotation -- the generator
+   refuses one, and this rule is why that refusal has teeth. */
+.zb-hand {
+  font-family: 'Kalam', cursive; font-size: 16.5px; line-height: 1.5;
+  color: var(--zb-pencil); margin: 18px 0 0; padding-left: 15px;
+  border-left: 2px solid var(--zb-tape);
+}
+
+/* ── The house rules ─────────────────────────────────────────────────────── */
+.zb-rule {
+  display: flex; flex-wrap: wrap; gap: 6px 26px; align-items: baseline;
+  margin: 22px 0; padding: 20px 22px;
+  background: var(--zb-laid-2);
+  border: 1px solid var(--zb-gutter); border-left: 5px solid var(--zb-rubric);
+  border-radius: 3px;
+}
+.zb-rule__n {
+  margin: 0; flex: 0 0 auto;
+  font-family: 'EB Garamond', Georgia, serif; font-weight: 600; font-size: 40px;
+  line-height: 1; color: var(--zb-rubric);
+}
+.zb-rule__why { margin: 0; flex: 1 1 320px; font-size: 16px; line-height: 1.55; }
+.room-zibaldone code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .88em;
+  background: rgba(99, 90, 75, .14); padding: 1px 5px; border-radius: 3px;
+}
+.zb-rules { margin: 20px 0 0; padding-left: 22px; max-width: 66ch; }
+.zb-rules li { margin-bottom: 15px; line-height: 1.6; }
+
+/* ── The quire ───────────────────────────────────────────────────────────── */
+.zb-quire {
+  list-style: none; margin: 22px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(305px, 1fr)); gap: 24px;
+}
+
+/* A leaf is a slip laid ON the page, so it has its own paper, its own shadow
+   away from the light, and a strip of gummed paper holding it down. */
+.zb-leaf {
+  position: relative;
+  background: var(--zb-laid-2);
+  border: 1px solid var(--zb-gutter);
+  border-radius: 2px;
+  padding: 26px 20px 18px;
+  box-shadow: 4px 5px 0 rgba(0, 0, 0, .13);
+}
+.zb-leaf::before {
+  content: ""; position: absolute; top: -8px; left: 50%; width: 76px; height: 17px;
+  margin-left: -38px; background: var(--zb-tape); opacity: .9;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .12);
+}
+
+/* THE ANGLES ARE :where()-SCOPED. See the section note: §3's gentle reset is
+   (0,2,1) and this would otherwise be (0,2,0), which is one step from being
+   the Faery Yurt's windowsill all over again. Inside :where() it weighs
+   nothing, so Gentle cannot lose. */
+:where(.zb-quire .zb-leaf:nth-child(3n+1)) { transform: rotate(-0.55deg); }
+:where(.zb-quire .zb-leaf:nth-child(3n+2)) { transform: rotate(0.4deg); }
+:where(.zb-quire .zb-leaf:nth-child(4n+3)) { transform: rotate(0.75deg); }
+/* AND THE ROOM RESETS ITS OWN, because §3's reset names .tilt-a to .tilt-d and
+   nothing else -- it is a reset for the shared tilt classes, not a reset for
+   the word `transform`. :where() guarantees this rule cannot be OUT-ranked; it
+   does not conjure a rule to outrank it. check-gentle.py found all seven leaves
+   still lying at their angles at Gentle, which is exactly what that tool is
+   for and exactly the way it found the Faery Yurt's windowsill. */
+html[data-intensity="gentle"] .zb-leaf { transform: none; }
+
+.zb-leaf__pressed {
+  float: right; width: 76px; height: 76px; margin: 0 0 6px 12px; shape-outside: circle(50%);
+}
+.zb-leaf__pressed svg { width: 100%; height: 100%; display: block; }
+
+.zb-leaf__quote {
+  margin: 0; font-size: 22px; line-height: 1.42; color: var(--zb-nib, var(--zb-oak));
+}
+/* The inks. An ink is a colour somebody sat down with, so the leaf sets one
+   custom property and everything written on it takes it from there rather
+   than each rule naming a colour -- which is how a component grows a second
+   child that nobody rescopes. */
+.zb-leaf--oak     { --zb-nib: var(--zb-oak); }
+.zb-leaf--iron    { --zb-nib: var(--zb-iron); }
+.zb-leaf--violet  { --zb-nib: var(--zb-aniline); }
+.zb-leaf--rubric  { --zb-nib: var(--zb-rubric); }
+
+/* The three text faces, sized against each other rather than set to one number:
+   EB Garamond runs small and Lora runs large at the same point size, so equal
+   numbers would be unequal type. */
+.zb-leaf--eb-garamond .zb-leaf__quote { font-family: 'EB Garamond', Georgia, serif; font-size: 25.5px; }
+.zb-leaf--newsreader  .zb-leaf__quote { font-family: 'Newsreader', Georgia, serif;  font-size: 23px; }
+.zb-leaf--lora        .zb-leaf__quote { font-family: 'Lora', Georgia, serif;        font-size: 21px; }
+
+.zb-leaf__cite {
+  margin: 13px 0 0; font-size: 14px; line-height: 1.5; color: var(--zb-pencil);
+  padding-top: 11px; border-top: 1px solid var(--zb-gutter); clear: both;
+}
+.zb-leaf__cite b { color: var(--zb-oak); }
+.zb-leaf__for { margin: 11px 0 0; font-size: 15.5px; line-height: 1.5; }
+.zb-leaf__tag {
+  font-family: 'Kalam', cursive; font-weight: 700; font-size: 13px;
+  color: var(--zb-rubric); letter-spacing: .3px; margin-right: 5px;
+}
+.zb-leaf__hand {
+  margin: 12px 0 0; font-family: 'Kalam', cursive; font-size: 15.5px; line-height: 1.45;
+  color: var(--zb-pencil);
+}
+
+/* The provenance tab. A native <details>, so it is focusable, announced and
+   works with scripts off -- the guild's marker rule, arriving where what is
+   behind the tab is the room's own evidence. */
+.zb-leaf__prov { margin-top: 14px; }
+.zb-leaf__prov > summary {
+  cursor: pointer; list-style: none; display: flex; flex-wrap: wrap; gap: 8px;
+  align-items: center; padding: 7px 0 0; border-top: 1px dashed var(--zb-gutter);
+}
+.zb-leaf__prov > summary::-webkit-details-marker { display: none; }
+.zb-leaf__badge {
+  font-family: 'Kalam', cursive; font-weight: 700; font-size: 12.5px;
+  color: var(--zb-laid); background: var(--zb-pencil);
+  padding: 2px 9px; border-radius: 2px;
+}
+.zb-leaf__when { font-size: 12.5px; color: var(--zb-pencil); font-style: italic; }
+.zb-leaf__prov > summary::after {
+  content: "read the check"; margin-left: auto;
+  font-size: 12.5px; color: var(--zb-rubric); text-decoration: underline;
+}
+.zb-leaf__prov[open] > summary::after { content: "close"; }
+.zb-leaf__prov p { margin: 10px 0 0; font-size: 14px; line-height: 1.55; color: var(--zb-pencil); }
+.zb-leaf__pasted { font-style: italic; }
+
+/* ── The attribution slip ────────────────────────────────────────────────── */
+.zb-slip { margin: 22px 0 0; }
+.zb-slip__tasl {
+  margin: 0 0 20px; padding: 14px 16px; font-size: 15.5px; line-height: 1.55;
+  background: var(--zb-laid-2); border: 1px dashed var(--zb-gutter); border-radius: 3px;
+}
+.zb-slip__row { margin: 0 0 17px; max-width: 62ch; }
+.zb-slip__row--extra { border-left: 3px solid var(--zb-aniline); padding-left: 13px; }
+.zb-slip label {
+  display: flex; flex-wrap: wrap; gap: 5px 9px; align-items: baseline;
+  font-family: 'EB Garamond', Georgia, serif; font-weight: 600; font-size: 19px;
+  color: var(--zb-oak);
+}
+.zb-slip__req {
+  font-family: 'Kalam', cursive; font-weight: 700; font-size: 12px;
+  color: var(--zb-rubric);
+}
+.zb-slip__key {
+  margin-left: auto; font-family: 'Kalam', cursive; font-size: 13px;
+  color: var(--zb-pencil);
+}
+.zb-slip__help { margin: 4px 0 7px; font-size: 14px; line-height: 1.5; color: var(--zb-pencil); max-width: 60ch; }
+.zb-slip input[type="text"], .zb-slip textarea, .zb-slip__out textarea {
+  width: 100%; font: inherit; font-size: 16px; font-family: 'Lora', Georgia, serif;
+  color: var(--zb-oak); background: var(--zb-laid);
+  border: 1px solid var(--zb-pencil); border-radius: 2px; padding: 9px 11px;
+}
+.zb-slip textarea, .zb-slip__out textarea { line-height: 1.5; resize: vertical; }
+.zb-slip__act { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; margin: 22px 0 0; }
+.zb-slip__copy {
+  cursor: pointer; font-family: 'Kalam', cursive; font-weight: 700; font-size: 17px;
+  padding: 11px 22px; border-radius: 3px;
+  color: var(--zb-laid); background: var(--zb-oak); border: 2px solid var(--zb-oak);
+}
+.zb-slip__copy:hover:not(:disabled) { background: var(--zb-rubric); border-color: var(--zb-rubric); }
+.zb-slip__copy:disabled { opacity: .45; cursor: not-allowed; }
+.zb-slip__said { margin: 0; font-size: 15px; color: var(--zb-oak); }
+.zb-slip__out { margin: 18px 0 0; }
+.zb-slip__out label { font-size: 16px; margin-bottom: 6px; }
+.zb-slip__nojs {
+  margin: 18px 0 0; padding: 14px 16px; font-size: 15px; line-height: 1.55;
+  background: var(--zb-laid-2); border-left: 4px solid var(--zb-aniline);
+}
+
+/* ── The foot ────────────────────────────────────────────────────────────── */
+.zb-foot { display: flex; flex-wrap: wrap; gap: 24px 30px; align-items: flex-start; }
+.zb-foot__who { flex: 1 1 380px; }
+.zb-foot__dial { flex: 0 1 340px; }
+
+/* MAX is the lamp moving, and it is the only ambient thing in this room. A
+   low sun crossing a desk is slow, and nothing flashes: this is a 90-second
+   drift of one translucent gradient, at a contrast small enough that what it
+   is doing is making the paper feel lit rather than making anything blink.
+   §3 takes every animation away at Gentle with !important, which is what makes
+   one declaration here safe. Club Chronic's rule holds: no flicker, no strobe,
+   no pulsing, at any setting. */
+html[data-intensity="max"] .zb-flyleaf, html[data-intensity="max"] .zb-sheet {
+  background-size: auto, auto, 260% 100%;
+  animation: zb-lamp 90s ease-in-out infinite;
+}
+@keyframes zb-lamp {
+  0%, 100% { background-position: 0 0, 0 0, 0% 0; }
+  50%      { background-position: 0 0, 0 0, 42% 0; }
+}
+
+
+/* §30 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -5962,6 +6360,17 @@ html[data-intensity="max"]     .gd-dapple { animation: gd-breeze 17s ease-in-out
      stays — a rug with no edge is a wall — it just stops being furniture. */
   .carpet { border-width: 6px; padding: 18px 16px 22px; }
   .cuts { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  /* THE LEAF RAN 53px OFF THE RIGHT-HAND EDGE OF THE PAPER onto the desk, and
+     the page did not scroll: a 310px leaf inside a 255px column happened to
+     stop at 373.76 in a 375px window, so scrollWidth never tripped and
+     everything that asks the document a question said the room was fine. It
+     was measured instead -- the leaf's own rectangle against the sheet's --
+     which is the 0x0 iframe's lesson in a different shape: the DOM was right
+     and the paint was wrong. One column below 720px, and the sheet gives up
+     its margin before the book gives up its page. */
+  .room-zibaldone .zb-flyleaf, .room-zibaldone .zb-sheet { padding: 22px 16px 26px 32px; }
+  .room-zibaldone .zb-quire { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .room-zibaldone .zb-rule__n { font-size: 33px; }
 }
 
 
@@ -5996,7 +6405,7 @@ html[data-intensity="max"]     .gd-dapple { animation: gd-breeze 17s ease-in-out
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §29 says every
+   shipped with no rule here at all — which on a street whose §30 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -6034,7 +6443,7 @@ html[data-intensity="max"]     .gd-dapple { animation: gd-breeze 17s ease-in-out
   .gd-drill { padding-left: 16px; }
 }
 
-/* §30 ── Print ───────────────────────────────────────────────────────────────
+/* §31 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
