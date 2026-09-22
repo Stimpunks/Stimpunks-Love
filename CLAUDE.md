@@ -1092,7 +1092,7 @@ green and every shadow is small, hard and directly underneath the thing that mad
 palest thing in the room is not the ground** — a limewashed board is brighter than the path it lies
 on, where both neighbours put their panels darker than their paper.
 
-**AND SOMEBODY ELSE'S GARDEN GOES OVER THE FENCE, NEVER INTO A BED.** Autistic Realms and
+**AND SOMEBODY ELSE'S GARDEN GOES THROUGH THE IVY, NEVER INTO A BED.** Autistic Realms and
 More Realms are **Helen Edgar's own sites**, and a bed is a site *we* publish. The only way to
 plant one of hers would have been to write it into `data/arrivals.json` — which would put it on
 The Feed as one of our wires and **claim her work as ours** in the one file this room may not
@@ -1100,12 +1100,26 @@ invent anything in. So the two refusals in `make-garden.py` face each other: a b
 on the roster is refused, and a plot that *is* on it is refused. **A plot must name whose it is
 and must say what of it is already in this garden** — without that line the section is a list of
 a friend's websites on a page about ours; with it, it is the other half of every `with` line in
-the beds, which say who helped *us*. And **the drawing stops at the fence**: a bed shows its soil
-and most of them show what is under it, and we do not get to draw the roots of somebody else's
-garden, which is also why **nothing over there casts a shadow** although everything in the beds
-does — the sun has not moved, the floor is on the far side. The friendly edit that will arrive is
-*these look like beds, they should be beds*; it is the subroom excuse holding somebody else's
+the beds, which say who helped *us*. And **the drawing stops where the ivy runs**: a bed shows
+its soil and most of them show what is under it, and we do not get to draw the roots of somebody
+else's garden, which is also why **nothing over there casts a shadow** although everything in the
+beds does — the sun has not moved, the floor is past the ivy. The friendly edit that will arrive
+is *these look like beds, they should be beds*; it is the subroom excuse holding somebody else's
 deeds.
+
+**AND THE BOUNDARY IS IVY BECAUSE HELEN SAID SO, WHICH IS THE THIRD THING SHE HAS DECIDED HERE.**
+It shipped as a woven fence and she asked for winding ivy and stars instead — her call,
+2026-09-22, on a drawing of her own gardens — and **she was right about more than the picture: a
+fence says KEPT OUT and ivy says THIS IS AS FAR AS WE CAN SEE.** What that line marks is the edge
+of what *we* know, never the edge of where anybody may go, which is the opposite reading and the
+only correct one on a page about somebody else's work. It is written down in `make-garden.py`, in
+`data/garden.json`, in the room, in the changelog and in the liner notes for the reason the one
+colour of hers this repo ever changed is written in four places — except that this one runs the
+other way, and a correction *from* a contributor is worth recording at least as loudly as one we
+made to her. **The stars are glimmers and not a sky**: this room is midday and stays midday,
+nothing is lit by them, and no ambient layer was added to the page, so the street's one daylit
+garden is not quietly turned into a night one. Do not "finish" them into a starfield, and do not
+put the fence back.
 
 **THE ROSTER IS NOT IN THAT ROOM'S DATA FILE AND MUST NOT BE MOVED INTO IT.** Which sites exist, in
 what order, under what names and at what addresses is read out of `data/arrivals.json` — the same

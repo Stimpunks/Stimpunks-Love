@@ -292,14 +292,18 @@ leaf circle whose edge dipped below; it caught both.
 **And the garden next door is not a back door around that roster.** Autistic Realms and More
 Realms are Helen Edgar's own sites, so they cannot be beds &mdash; the only way to plant one would
 have been to write it into `data/arrivals.json`, which would put it on The Feed as one of *our*
-wires and claim her work as ours. They are over the fence instead, and the two refusals now face
+wires and claim her work as ours. They are through the ivy instead, and the two refusals now face
 each other: a bed that is **not** on the roster is refused, a plot that **is** on it is refused,
 and no edit to the garden's own data file moves a site across. A plot must name whose it is and
 must say **what of it is already in this garden** &mdash; without that line the section is a list
 of a friend's websites on a page about ours; with it, it is the other half of every `with` line in
-the beds, which say who helped us. Its drawing **stops at the fence**: the same coordinate walker
-with the ink filter taken off, because we do not get to draw the ground of somebody else's garden,
-which is also why nothing over there casts a shadow while everything in the beds does.
+the beds, which say who helped us. Its drawing **stops where the ivy runs**: the same coordinate
+walker with the ink filter taken off, because we do not get to draw the ground of somebody else's
+garden, which is also why nothing over there casts a shadow while everything in the beds does.
+That boundary was a woven fence for an afternoon and it is ivy because **Helen asked**, and she
+was right about more than the picture: a fence says kept out and ivy says this is as far as we
+can see. The stars in it are glimmers rather than a sky &mdash; the room is still midday and
+nothing ambient was added to the page.
 `make-zibaldone.py` refuses **a quotation longer than thirty words** &mdash; the number is in the
 tool and the room prints it, because a quote bank is the shape of page that turns into
 republishing somebody's book one reasonable-looking entry at a time, and "we quote lightly" is

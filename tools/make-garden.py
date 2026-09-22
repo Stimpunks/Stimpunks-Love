@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build The Garden's beds, one per site we publish, the plots over the fence
+"""Build The Garden's beds, one per site we publish, the plots through the ivy
 next door, and the credits with all of them.
 
 THE ROSTER IS NOT IN THIS FILE AND NOT IN data/garden.json EITHER. Which sites
@@ -78,9 +78,16 @@ and More Realms are Helen Edgar's own sites, so they cannot be beds: a bed is a
 site WE publish, and the only way to plant one of hers would have been to write
 it into data/arrivals.json, which would put it on The Feed as one of our wires
 and claim her work as ours in the one file this room may not invent anything in.
-They are over the fence instead. The two refusals face each other -- a bed that
-is NOT on the roster is refused up there, a plot that IS on it is refused down
-here -- so no edit to this file can move a site across that fence.
+They are through the ivy instead. The two refusals face each other -- a bed
+that is NOT on the roster is refused up there, a plot that IS on it is refused
+down here -- so no edit to this file can move a site across that line.
+
+THE LINE WAS A WOVEN FENCE FOR AN AFTERNOON AND HELEN ASKED FOR IVY AND STARS.
+Her call, 2026-09-22, on a drawing of her own gardens, and she was right about
+more than the picture: a fence says KEPT OUT and ivy says THIS IS AS FAR AS WE
+CAN SEE. What the line marks is the edge of what we know and never the edge of
+where anybody may go, which is the opposite reading and the correct one on a
+page about somebody else's work.
 
   · A PLOT THAT DOES NOT SAY WHAT OF IT IS ALREADY IN THIS GARDEN. Without that
     line the section is a list of a friend's websites on a page about ours. With
@@ -90,19 +97,21 @@ here -- so no edit to this file can move a site across that fence.
   · A PLOT WITH NO GARDENER NAMED ON IT, which is the entire difference between
     a plot and a bed and is not a thing to leave to the liner notes.
 
-  · A DRAWING THAT REACHES UNDER THE FENCE. A bed shows its soil and most of
+  · A DRAWING THAT REACHES UNDER THE IVY. A bed shows its soil and most of
     them show what is under it. We do not get to draw the ground of somebody
-    else's garden, so a plot's drawing stops at the hurdle and the walker at the
-    bottom of this file refuses a coordinate that tries. Nothing over there
-    casts a shadow either: the sun has not moved, the floor is on the far side.
+    else's garden, so a plot's drawing stops where the ivy runs and the walker
+    at the bottom of this file refuses a coordinate that tries. Nothing over
+    there casts a shadow either: the sun has not moved, the floor is past the
+    ivy.
 
-  · A HABIT ALREADY CLAIMED, whichever side of the fence claimed it. The dedup
+  · A HABIT ALREADY CLAIMED, whichever side of the ivy claimed it. The dedup
     spans both sets, because two drawings alike is two drawings alike.
 
 IF THIS REFUSES: fix the cause. Do not widen a list to make it quiet.
 """
 import html
 import json
+import math
 import re
 from pathlib import Path
 
@@ -334,7 +343,7 @@ DRAW = {
 }
 
 
-# ── Over the fence, which is not a bed and must not become one ──────────────
+# ── Through the ivy, which is not a bed and must not become one ────────────
 # AUTISTIC REALMS AND MORE REALMS ARE HELEN EDGAR'S, and a bed is a site WE
 # publish. The roster for that is data/arrivals.json, so the only way to plant
 # somebody else's site here would have been to write it into that file -- which
@@ -343,26 +352,96 @@ DRAW = {
 # therefore the mirror of the stray-bed refusal above: a plot that IS on the
 # roster is a bed in the wrong section.
 #
-# SO THE GRAMMAR INVERTS AND THE DRAWINGS SAY SO BEFORE THE WORDS DO. A bed
-# shows its soil and most of them show what is under it. A plot shows a woven
-# hurdle across the foot of the frame and NOTHING BELOW IT: we do not get to
+# IT WAS A WOVEN FENCE FIRST AND HELEN ASKED FOR IVY AND STARS INSTEAD, and she
+# was right about more than the picture. A fence says KEPT OUT. Ivy says THIS IS
+# AS FAR AS WE CAN SEE -- and what this line marks is the edge of what we know,
+# never the edge of where anybody may go, which is the opposite reading and the
+# correct one on a page about somebody else's work. Her call, 2026-09-22, on a
+# drawing of her own gardens; it is written down here, in data/garden.json, in
+# the changelog and in the liner notes for the same reason the one colour of
+# hers this repository ever changed is written in four places.
+#
+# SO THE GRAMMAR INVERTS AND THE DRAWING SAYS SO BEFORE THE WORDS DO. A bed
+# shows its soil and most of them show what is under it. A plot shows ivy
+# running across the foot of the frame and NOTHING BELOW IT: we do not get to
 # draw the roots of somebody else's garden, and the walker at the bottom of this
 # file refuses a coordinate that tries.
 #
 # AND NOTHING OVER THERE CASTS A SHADOW. Every bed carries a small hard ellipse
 # directly under the thing that made it, because the sun is overhead in this
-# room. The sun has not moved -- the floor those shadows land on is on the other
-# side of the fence, where we cannot see it. An ellipse under a plot's plant
-# would be this drawing claiming to know the shape of her ground.
-FENCE_Y = 132
-FENCE = (
-    "".join(
-        f'<path d="M0 {y} q30 {-d} 60 0 q30 {d} 60 0 q30 {-d} 60 0 q30 {d} 60 0 '
-        f'q30 {-d} 60 0" fill="none" stroke="{LOAM2}" stroke-width="7" stroke-linecap="round"/>'
-        for y, d in ((141, -5), (152, 5), (163, -5)))
-    + "".join(f'<path d="M{x} {FENCE_Y} L{x} 170" fill="none" stroke="{LOAM}" '
-              f'stroke-width="5" stroke-linecap="round"/>'
-              for x in (24, 86, 148, 210, 272))
+# room. The sun has not moved -- the floor those shadows land on is past the
+# ivy, where we cannot see it. An ellipse under a plot's plant would be this
+# drawing claiming to know the shape of her ground.
+IVY_Y = 132
+
+
+def leaf(x, y, s, a, fill):
+    """One five-lobed ivy leaf, its stalk joining the stem at (x, y).
+
+    THE ANGLE IS BAKED INTO THE COORDINATES AND IS NOT A TRANSFORM. Every other
+    drawing in this file writes absolute numbers, and check-gentle.py reads
+    rotation out of a computed matrix -- a leaf turned with transform would be
+    asking that checker to take this room's word for something, which is the
+    call arcade.js made about its sprites and quest.js about its sparks."""
+    pts = ((0, 0), (-.55, .15), (-.78, .46), (-.45, .56), (-.64, .96),
+           (-.26, .93), (-.10, 1.36), (0, 1.48), (.10, 1.36), (.26, .93),
+           (.64, .96), (.45, .56), (.78, .46), (.55, .15))
+    ca, sa = math.cos(a), math.sin(a)
+    d = "M" + " L".join(f"{x + s * (px * ca - py * sa):.1f} "
+                        f"{y + s * (px * sa + py * ca):.1f}" for px, py in pts) + " Z"
+    return (f'<path d="{d}" fill="{fill}" stroke="{LOAM}" stroke-width="1.1" '
+            f'stroke-linejoin="round"/>')
+
+
+def glimmer(x, y, s):
+    """A star caught in the ivy.
+
+    WHITE ON WHITE, CARRIED BY THE OUTLINE, which is the ghost pipe's answer in
+    Queering.Earth's bed and the pebbling shore's reading of WCAG 1.4.11: a
+    limewash star on this path measures 1.07 and what has to separate is the
+    EDGE rather than the fill. No new colour in the room for it.
+
+    AND THEY ARE GLIMMERS RATHER THAN A SKY. This room is midday and stays
+    midday -- there is no dark ground here, nothing is lit by them and nothing
+    ambient was added to the page, so they cannot turn the one daylit garden
+    into a night one. `Threads, glimmers, and soft, weird spaces` is More
+    Realms' own line about itself, which is where the word comes from. They are
+    also not the meadow's fireflies: those are many small lights carrying a dark
+    field on the campground's sign, and these are small bright marks on a pale
+    one."""
+    q, r = s * .28, s * .18
+    return (f'<path d="M{x} {y - s} C {x + r} {y - q}, {x + q} {y - r}, {x + s} {y} '
+            f'C {x + q} {y + r}, {x + r} {y + q}, {x} {y + s} '
+            f'C {x - r} {y + q}, {x - q} {y + r}, {x - s} {y} '
+            f'C {x - q} {y - r}, {x - r} {y - q}, {x} {y - s} Z" '
+            f'fill="{BOARD}" stroke="{LOAM}" stroke-width="1.1" stroke-linejoin="round"/>')
+
+
+# THE WINDING IVY AND THE STARS IN IT. One constant, drawn identically under
+# both plots, exactly as the fence it replaces was: the boundary is the same
+# boundary, and what tells the two plots apart is the plant standing behind it.
+# The stars sit clear of both plants on purpose -- the tree's crown and the
+# fern's fronds own the middle of the frame, so the glimmers keep to the ends.
+IVY = (
+    f'<path d="M-4 152 C 30 138, 62 164, 96 150 C 130 136, 160 164, 194 150 '
+    f'C 228 136, 262 164, 304 148" fill="none" stroke="{LEAF}" stroke-width="3.4" '
+    f'stroke-linecap="round"/>'
+    + f'<path d="M-4 161 C 34 151, 70 170, 108 159 C 146 147, 178 168, 214 157 '
+      f'C 248 147, 278 167, 304 157" fill="none" stroke="{LEAF2}" stroke-width="2.4" '
+      f'stroke-linecap="round"/>'
+    + "".join(f'<path d="M{x} {y} l{dx} {dy}" fill="none" stroke="{LEAF}" '
+              f'stroke-width="1.4" stroke-linecap="round"/>'
+              for x, y, dx, dy in ((34, 147, -3, 5), (92, 152, 4, 5), (150, 146, -4, 6),
+                                   (208, 152, 4, 5), (268, 146, -3, 6)))
+    + "".join(leaf(x, y, sz, a, fill) for x, y, sz, a, fill in (
+        (18, 150, 11, 2.7, LEAF2), (48, 146, 12, 3.4, LEAF),
+        (78, 155, 10, 0.4, LEAF), (110, 148, 12, 3.0, LEAF2),
+        (140, 156, 10, 0.2, LEAF2), (170, 147, 12, 3.3, LEAF),
+        (200, 156, 10, 6.0, LEAF), (230, 148, 12, 2.9, LEAF2),
+        (262, 155, 10, 0.3, LEAF2), (290, 147, 11, 3.2, LEAF)))
+    + "".join(glimmer(x, y, sz) for x, y, sz in (
+        (26, 126, 7), (47, 138, 4.5), (235, 129, 6.5), (268, 143, 5),
+        (289, 131, 4.5), (152, 166, 3.6)))
 )
 
 DRAW_OVER = {
@@ -494,25 +573,25 @@ def below_the_line(svg):
     return bad
 
 
-def below_the_fence(svg):
-    """Every element in a plot's drawing that reaches under the hurdle.
+def below_the_ivy(svg):
+    """Every element in a plot's drawing that reaches under the ivy.
 
     THE SAME WALKER AS ABOVE WITH THE INK FILTER TAKEN OFF, because the rule is
     not about colour here. A bed may draw its own soil and what is under it; a
     plot may not draw either, whatever it draws them in. What is on the far side
-    of that fence is somebody else's ground and this room does not know its
+    of that line is somebody else's ground and this room does not know its
     shape."""
     bad = []
     for el in re.findall(r"<(?:path|circle|ellipse)\b[^>]*/>", svg):
         low = []
         d = re.search(r'\sd="([^"]+)"', el)
         if d:
-            low = [v for v in ys(d.group(1)) if v > FENCE_Y + 0.5]
+            low = [v for v in ys(d.group(1)) if v > IVY_Y + 0.5]
         cy = re.search(r'\scy="([-\d.]+)"', el)
         if cy:
             r = re.search(r'\s(?:r|ry)="([-\d.]+)"', el)
             edge = float(cy.group(1)) + (float(r.group(1)) if r else 0)
-            if edge > FENCE_Y + 0.5:
+            if edge > IVY_Y + 0.5:
                 low = [edge]
         if low:
             bad.append((max(low), el[:78]))
@@ -626,11 +705,11 @@ for wid in order:
                     "claim about it.\n    A collaborator's own site goes in the `with` line, "
                     "which is what that line is for.")
 
-# ── Over the fence ──────────────────────────────────────────────────────────
+# ── Through the ivy ─────────────────────────────────────────────────────────
 # THE MIRROR OF THE STRAY-BED REFUSAL. Up there, a bed that is not on the roster
 # is refused because a bed cannot be invented; down here, a plot that IS on the
 # roster is refused because that is one of ours and belongs in a bed. Between
-# them there is no way to move a site across the fence by editing this file, and
+# them there is no way to move a site across that line by editing this file, and
 # no way to put somebody else's site in our ground by editing the other one.
 for pid, plot in plots.items():
     where = f"plot {pid!r}"
@@ -658,13 +737,13 @@ for pid, plot in plots.items():
             "arriving through\n    plumbing.")
     elif SOIL in DRAW_OVER[form]:
         problems.append(
-            f"drawing {form!r} has a bed's soil band in it. A plot shows a fence and what "
+            f"drawing {form!r} has a bed's soil band in it. A plot shows the ivy and what "
             "is\n    standing behind it, and nothing else: we do not get to draw the ground "
             "of\n    somebody else's garden, let alone what is under it.")
     if not str(plot.get("habit", "")).strip():
         problems.append(
             f"{where}: no habit sentence, and the drawing is aria-hidden decoration. The "
-            "beds'\n    rule, and it does not relax because the plant is over a fence.")
+            "beds'\n    rule, and it does not relax because the plant is past the ivy.")
     if not str(plot.get("whose", "")).strip():
         problems.append(
             f"{where}: nobody named as whose it is. That is the entire difference between "
@@ -714,12 +793,12 @@ for pid, plot in plots.items():
                         "pointing at a third\n    garden reads as a claim about all three.")
 
 for form, svg in DRAW_OVER.items():
-    for depth, el in below_the_fence(svg):
+    for depth, el in below_the_ivy(svg):
         problems.append(
-            f"drawing {form!r} puts something at y={depth:g}, under the hurdle at "
-            f"y={FENCE_Y}:\n      {el}\n    A plot's drawing stops at the fence. What is "
-            "under it is somebody else's ground\n    and this room does not know its shape "
-            "-- which is also why nothing over there\n    casts a shadow.")
+            f"drawing {form!r} puts something at y={depth:g}, under the ivy at "
+            f"y={IVY_Y}:\n      {el}\n    A plot's drawing stops where the ivy runs. What is "
+            "past it is somebody else's\n    ground and this room does not know its shape -- "
+            "which is also why nothing over\n    there casts a shadow.")
 
 for form, svg in DRAW.items():
     for depth, el in below_the_line(svg):
@@ -729,9 +808,9 @@ for form, svg in DRAW.items():
             "clears 3:1 against both\n    of these greens at once. Above the line is green and below "
             "it is pale -- which is\n    what a plant does anyway. Draw the underground part in PALE.")
 
-# ONE HABIT EACH, ACROSS THE FENCE AS WELL AS ALONG THE PATH. The dedup spans
+# ONE HABIT EACH, THROUGH THE IVY AS WELL AS ALONG THE PATH. The dedup spans
 # both sets deliberately: two drawings alike is two drawings alike whichever
-# side of the hurdle they are standing on, and the fence is not an excuse to
+# side of the ivy they are standing on, and a boundary is not an excuse to
 # reuse a form. It is also what keeps the crozier off the map's tendril.
 seen_form = {}
 for kind, wid, form in ([("bed", w, beds.get(w, {}).get("form")) for w in order]
@@ -785,7 +864,7 @@ def bed_html(wid):
 
 
 def plot_html(pid):
-    """A plot over the fence. SAID DIFFERENTLY FROM A BED IN EVERY LINE that
+    """A plot through the ivy. SAID DIFFERENTLY FROM A BED IN EVERY LINE that
     could be mistaken for one: the heading is what is growing THERE rather than
     here, the credit is `Tended by` rather than `Grown with`, and there is a
     fourth line a bed does not have, because the one thing this section owes a
@@ -794,7 +873,7 @@ def plot_html(pid):
     return "\n".join([
         f'    <li class="gd-plot">',
         f'      <div class="gd-plot__art" aria-hidden="true">',
-        f'        <svg viewBox="0 0 300 170" fill="none">{DRAW_OVER[plot["form"]]}{FENCE}</svg>',
+        f'        <svg viewBox="0 0 300 170" fill="none">{DRAW_OVER[plot["form"]]}{IVY}</svg>',
         f'      </div>',
         f'      <div class="gd-plot__sign">',
         f'        <div class="gd-plot__label">',
@@ -841,13 +920,25 @@ creds = [
     '<a href="https://morerealms.com/">More Realms</a> are hers, so the only way to plant '
     'them would have been to write them into the roster above &mdash; which would put them '
     'on <a href="the-feed.html">The Feed</a> as our own wires and claim her work as ours in '
-    'the one file this room is not allowed to invent anything in. They are over the fence '
+    'the one file this room is not allowed to invent anything in. They are through the ivy '
     'instead, and the grammar inverts to say so before the words do: a bed shows its soil '
-    'and most of them show what is under it, and <b>a plot stops at the fence</b>, because '
-    'we do not get to draw the ground of somebody else\u2019s garden. Nothing over there '
-    'casts a shadow either &mdash; the sun has not moved, the floor is just on the other '
-    'side. What each of them is was read off its own pages, and the phrases in quotation '
-    'marks are theirs.</p>',
+    'and most of them show what is under it, and <b>a plot stops where the ivy runs</b>, '
+    'because we do not get to draw the ground of somebody else\u2019s garden. Nothing over '
+    'there casts a shadow either &mdash; the sun has not moved, the floor is past the ivy. '
+    'What each of them is was read off its own pages, and the phrases in quotation marks '
+    'are theirs.</p>',
+    '    <p><b>It was a woven fence for an afternoon, and Helen asked for ivy and stars '
+    'instead.</b> Her call, on a drawing of her own gardens, and she was right about more '
+    'than the picture: <b>a fence says kept out and ivy says this is as far as we can '
+    'see.</b> What that line marks is the edge of what we know and never the edge of where '
+    'anybody may go, which is the opposite reading and the correct one on a page about '
+    'somebody else\u2019s work. The stars are glimmers caught in the ivy rather than a sky '
+    '&mdash; this room is still midday, nothing is lit by them and nothing was added to the '
+    'page &mdash; and <i>threads, glimmers, and soft, weird spaces</i> is '
+    '<a href="https://morerealms.com/">More Realms</a>\u2019 own line about itself, '
+    'which is where the word comes from. They are limewash white carried by an outline, '
+    'because white on this path measures 1.07 and what has to separate is the edge: the '
+    'ghost pipe\u2019s answer in Queering.Earth\u2019s bed, in a star.</p>',
     '    <p><b>The drawings are ours, and each one is a different habit of growth</b> &mdash; a '
     'rhizome, an umbel, a plant with no chlorophyll in it, a frame with seedlings under glass, a '
     'runner, a dry seed head, a scramble, a tendril. That is the campground&rsquo;s grammar '
@@ -865,6 +956,6 @@ creds = [
 ]
 swap(CREDITS, "garden:credits", "\n".join(creds), "  ")
 
-print(f"garden: {len(order)} beds and {len(plots)} plots over the fence written into "
+print(f"garden: {len(order)} beds and {len(plots)} plots through the ivy written into "
       f"{PAGE.name},\n        {len(set(seen_form))} habits of growth, none repeated.")
 print(f"        roster and order read from {WIRES.name}; credits written into {CREDITS.name}.")
