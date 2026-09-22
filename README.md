@@ -195,13 +195,18 @@ arrived looking identical and the channel is all that told them apart; and it **
 braid** — three bundles of exactly seven — because that number is an Elder's teaching rather than
 a layout, which is the opposite of `check-counts.py`'s rule and for the opposite reason.
 
-One more, deliberately **outside** that sequence because it is the only tool that needs the
+These are deliberately **outside** that sequence, because they are the ones that need the
 network — a checker that fails on a train either blocks a deploy or teaches everyone to skip it:
 
 ```bash
 python3 tools/check-jukebox.py     # presses nothing; asks YouTube whether every facade still plays
 python3 tools/pull-arrivals.py     # reads the sibling sites' RSS feeds into data/arrivals.json
 ```
+
+And one that is **not a tool you run by hand at all**, listed here only so nobody goes looking for
+it in the sequence above: `tools/daily-arrivals.sh` is the single command the **arrivals-board-daily**
+scheduled task runs each morning. It pulls, redraws, gates, **commits and pushes** — so it does not
+belong in a pre-deploy checklist, where it would quietly publish from whatever laptop ran it.
 
 Run them all before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
 is missing a canonical or if an HTML file exists that is not in its page order, `make-csp.py`
@@ -248,7 +253,13 @@ refused rather than merely not done. It also stops on a row whose link is not on
 is named after, on a row with no date, on a wire with no feed URL or no note, and on the
 vocabulary of a league table in the room's own copy &mdash; **nothing there is ranked and no
 site's activity is added up**, because a board showing which of our sites had been busiest would
-turn publishing into a race between our own people. `pull-arrivals.py` is the half that touches
+turn publishing into a race between our own people. The timer that keeps that board current,
+`tools/daily-arrivals.sh`, commits **only** `data/arrivals.json` and `the-feed.html`, and refuses
+unless the tree is on main and those two files are already clean &mdash; so it can never catch a
+session mid-edit, which is the lesson `notes-backup-daily` learned the hard way in the Knowledge
+System. A failed push is non-fatal and reported: the commit stays local and a session sorts it out,
+because a timer that rebases unattended is a timer resolving conflicts nobody is watching.
+`pull-arrivals.py` is the half that touches
 the network and is kept out of the pre-deploy sequence with `check-jukebox.py` for it; it refuses
 a feed that is not RSS 2.0 rather than guessing at Atom, on the grounds that a silent mis-parse
 would put a half-empty board on the street and a refusal the day a sibling changes format is the
