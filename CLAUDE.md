@@ -281,6 +281,41 @@ the contrast checker's own Python and fixed only there, because Python fails lou
 not fail at all. **When a name collides, look for the same collision in every file that holds
 names.**
 
+**`check-contrast.py` IS A LIST OF PAIRS SOMEBODY WROTE DOWN. `check-contrast-live.py` IS THE
+PAGE.** The second exists because the first was blind three times, and every one was found by a
+person looking rather than by a tool: a link colour nobody ever *decided*, so there was no pair
+to hold; a decided colour that **lost the cascade** to a rule written before the component had
+a second child; and three bean-bag hexes that had never rendered at all. Same shape every time
+— **the colour that renders is not the colour that was written down** — and nothing that reads
+a stylesheet as text can see any of it. The new tool renders every page and walks every piece
+of text against the ground it actually sits on, which is what `check-gentle.py` already does
+for motion.
+
+**IT IS NOT A REPLACEMENT AND MUST NOT BECOME ONE.** The pair list is the record of what
+somebody looked at and decided, with the reasoning beside each entry, and it holds what the
+renderer cannot see: the ambient composites (the rose window, the mirrorball, the scanline are
+fixed layers *behind* the content and are not in the DOM path), ornament that carries no text,
+and any colour no page renders yet. **The renderer declines rather than guesses**: about a
+sixth of this site's text stands on a `linear-gradient` with no background-colour under it —
+the Doomscroll's newsprint, The Den's shag — and its first run reported 222 pieces of pale text
+as near-black on near-black by falling through to the body. Unmeasurable is a different answer
+from failing. **Both tools, or neither.**
+
+**IT FOUND THE SKIP LINK IN TWENTY-ONE ROOMS ON ITS FIRST GOOD RUN.** `.skip` carries its own
+yellow ground and its own near-black ink at (0,1,0), and every room sets `.room-x a` at (0,2,0)
+— so the first control a keyboard user meets took each room's link colour on a yellow box:
+1.26 in the chapel, 1.10 in the arcade, **1.00 on every plain room**. Nobody had ever seen it,
+because it sits at `left:-9999px` until focus and nobody screenshots a focused skip link. It
+carries `!important` now for the reason §2's `[hidden]` guard does: shared furniture that every
+room out-specifies by accident, in rooms nobody is thinking about.
+
+**AND A DEAD DECLARATION IS NOT HARMLESS WHEN SOMETHING ELSE IS CHECKING AGAINST IT.**
+`--bag-1/2/3` sat in `:root` referenced by nothing, because the Hermitage's chairs take their
+colour inline out of `data/hermitage.json` and `.bag` reads `var(--bag)`, singular. The pair
+list had been testing those dead values — lighter than the page's by a long way — so every run
+passed while two chairs were under the bar. **When a colour lives in a data file, the pair must
+be read from the data file.**
+
 **EVERY COLOUR IN `:root` IS MEASURED OR NAMED WITH A REASON**, and `check-contrast.py` refuses
 otherwise. Ornament that carries no text and is not required to understand anything is exempt via
 `ORNAMENT`, **with its measurement written into the entry** — the stained glass at 1.75–2.46, the

@@ -98,7 +98,11 @@ VELVET, VELVET2, VELVET3 = "#4A1220", "#5E1A2B", "#380C18"
 # reading of WCAG 1.4.11 in a room with furniture in it. The television is the
 # one exception: it is dark enough to separate from the rug by itself.
 TURF = "#3F8E4C"
-BAG1, BAG2, BAG3 = "#F59A2E", "#F0559F", "#3FC7B4"
+# READ OUT OF data/hermitage.json, WHICH IS WHERE THE PAGE GETS THEM: each bag
+# carries its own hex inline, and these three had been written here from a
+# palette the room does not use — lighter by a long way, and passing. Found by
+# check-contrast-live.py, which measures the page instead of the intention.
+BAG1, BAG2, BAG3 = "#E2701B", "#E064AB", "#1DA197"
 BAKELITE, TELLY_OFF, TELLY_LIT, TELLY_DIM = "#2A2621", "#0C1110", "#F1EFE4", "#A9B4AB"
 BAKELITE_2 = "#7E7466"   # the set's brand strip; see the note on it below
 IVY, IVY_2, TIMBER = "#6D8A56", "#38491F", "#3A2A20"
@@ -213,7 +217,7 @@ PBCORK, PBLAMP, PBCHALK = "#6B4F35", "#F6E3B8", "#C9C2B4"
 PBPLATE, PBPLATE_INK = "#B99B55", "#1B1509"
 PBPAPER, PBPAPER_DEEP, PBCARD = "#EDE3CC", "#E3D6B8", "#FBF8F1"
 PBINK, PBSOFT = "#2B2621", "#574F46"
-PBGOLD, PBGOLD_BG = "#8A6D2F", "#FFF3D0"
+PBGOLD, PBGOLD_BG = "#866A2E", "#FFF3D0"
 PBMEM, PBMEM_CARD, PBMEM_INK = "#322D27", "#3D3730", "#DED6C6"
 PBMEM_HEAD, PBMEM_CREDIT = "#F3EDDF", "#C7BEB0"
 PBMEM_GOLD, PBMEM_LINK = "#C9A227", "#D4AF37"
@@ -349,6 +353,14 @@ PAIRS = [
     # file because an inherited colour was never a decision. The Doomscroll's
     # hole, in an older room. Both grounds are decided now and both are here.
     (BLUE,     "#ffffff", False, "playhouse: links inside the house-rules cards"),
+
+    # THE SKIP LINK, which is shared furniture and had never been in this file
+    # at all. It carries its own yellow ground and its own ink, and every room
+    # set `.room-x a` at a specificity that reached through: 1.00 to 2.21 across
+    # twenty-one rooms, on the first control a keyboard user meets. Found by
+    # check-contrast-live.py on its first run, because this file can only hold a
+    # pair for what somebody decided and the rooms were overriding the decision.
+    (INK,      YELLOW,    False, "every room: the skip link, guarded in \u00a72"),
 
     # THE TEN TOYS ARE TEN FILLS AND NONE OF THEM NEEDED A NEW PAIR, which is
     # worth writing down rather than leaving as an absence: the six added in
@@ -1064,6 +1076,18 @@ PAIRS = [
     (FURROW,    NOON,      False, "marker: the sunflower head at the hermitage"),
 
 ]
+
+# THE HERMITAGE'S CHAIRS ARE IN THE LIST AGAIN, and the episode stays written
+# down because the way it hid is the interesting part. This file held three
+# hexes for those bean bags that the page has NEVER used -- lighter by a long
+# way -- while the chairs take their colour inline out of data/hermitage.json,
+# and three matching --bag-N properties sat dead in :root keeping the story
+# plausible. So every run passed while the magenta measured 2.79 and the teal
+# 3.38 against the 4.5 their copy needs. check-contrast-live.py found it by
+# measuring what renders. Ryan's call, 2026-09-21: lighten the two, moving
+# nothing but the lightness, so all three chairs sit together at 4.80 to 4.82
+# rather than one of them jumping to 7.3. WHEN A COLOUR LIVES IN A DATA FILE,
+# THE PAIR HAS TO COME FROM THE DATA FILE.
 
 # NOT IN THE LIST, AND IT SHOULD BE: cream (#FFF3E6) on the same #FF5AA6 ground
 # measures 2.64 and fails. That is the Pink Pony Club's own h1 and h2, over the

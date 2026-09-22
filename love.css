@@ -382,7 +382,14 @@
      television, which is dark enough to separate from the rug on its own and
      would only be muddied by a dark line around it. */
   --turf: #3F8E4C;
-  --bag-1: #F59A2E;  --bag-2: #F0559F;  --bag-3: #3FC7B4;
+  /* The three chairs' colours are NOT here: each bag carries its own hex
+     inline, out of data/hermitage.json, and `.bag` reads `var(--bag)`
+     singular, which only ever exists on the element. Three --bag-N
+     properties sat here referenced by nothing until 2026-09-21, and they
+     were lighter than the colours the page uses — which is how
+     check-contrast.py came to be testing a palette that has never
+     rendered, and passing. A dead declaration is not harmless when
+     something else is checking against it. */
   --bakelite: #2A2621;  --bakelite-2: #7E7466;
   --bigscreen-off: #0C1110;  --bigscreen-lit: #F1EFE4;  --bigscreen-dim: #A9B4AB;
   --wick: #F6E8D0;  --wick-2: #DCC49C;  --gilt: #E9C270;
@@ -401,7 +408,11 @@
   --pbplate: #B99B55;  --pbplate-ink: #1B1509;
   --pbpaper: #EDE3CC;  --pbpaper-deep: #E3D6B8;  --pbcard: #FBF8F1;
   --pbink: #2B2621;    --pbink-soft: #574F46;    --pbline: rgba(43,38,33,0.16);
-  --pbgold: #8A6D2F;   --pbgold-bg: #FFF3D0;
+  /* #8A6D2F until 2026-09-21, which measured 4.41 on --pbgold-bg and was the
+     closest thing on this street to a pass: nine hundredths short at 18px,
+     and invisible to a pair list that had rounded it the friendly way.
+     Darkened until it clears, hue and saturation untouched. */
+  --pbgold: #866A2E;   --pbgold-bg: #FFF3D0;
   --pbmem: #322D27;    --pbmem-card: #3D3730;    --pbmem-ink: #DED6C6;
   --pbmem-head: #F3EDDF;  --pbmem-credit: #C7BEB0;
   --pbmem-gold: #C9A227;  --pbmem-link: #D4AF37;
@@ -544,9 +555,23 @@ img, svg { max-width: 100%; height: auto; }
   border-radius: 2px;
 }
 
+/* THE FIRST CONTROL A KEYBOARD USER MEETS, AND IT WAS UNREADABLE IN TWENTY-ONE
+   ROOMS. This carries its own yellow ground and its own near-black ink at
+   (0,1,0) — and every room on the street sets `.room-x a { color: … }` at
+   (0,2,0), which reaches straight through to it. So the skip link took each
+   room's link colour on a yellow box: gold on yellow at 1.26 in the chapel,
+   mint at 1.10 in the arcade, and YELLOW ON YELLOW at 1.00 on every plain room.
+   Nothing had ever seen it, because it sits at left:-9999px until it is focused
+   and nobody screenshots a focused skip link.
+
+   `!important` here for the reason §2 already carries one on [hidden]: this is
+   shared furniture that every room's own rules out-specify by accident, the
+   guard has to hold in a room nobody is thinking about, and patching it room by
+   room is the thing that file's note tells you not to do. Rooms restyle the
+   backlink on purpose; the skip link is the one piece they must not reach. */
 .skip {
   position: absolute; left: -9999px; top: 0; z-index: 100;
-  background: var(--yellow); color: var(--ink);
+  background: var(--yellow); color: var(--ink) !important;
   font-family: 'Bungee', var(--sans); font-size: 14px;
   padding: 14px 20px; text-decoration: none;
 }
