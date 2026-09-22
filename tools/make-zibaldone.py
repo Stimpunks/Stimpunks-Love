@@ -565,12 +565,18 @@ swap(PAGE, "zibaldone:limit",
      f'book is linked.</p>', "    ")
 
 creds = [
-    '    <p><b>The Zibaldone.</b> A room asked for by somebody in our community &mdash; a quote '
-    'bank, quotes for any state of mind &mdash; and built as a <a '
-    'href="https://stimpunks.org/glossary/commonplace-book/">commonplace book</a>, which our own '
-    'glossary has had an entry for since 2022. A <i>zibaldone</i> is the Italian miscellany '
-    'notebook, a heap of things, kept from the fourteenth century on. Built from '
-    '<code>data/zibaldone.json</code> by <code>tools/make-zibaldone.py</code>.</p>',
+    # THE HEADER AND THE INTRO ABOVE THESE MARKERS ARE HAND-WRITTEN AND SAY WHERE
+    # THE ROOM CAME FROM, so this must not say it again. The first draft did --
+    # the community request, the commonplace book and the fourteenth century,
+    # all twice in consecutive paragraphs -- which is what happens when a
+    # generated block is written before the page around it exists. This half
+    # says what the GENERATOR does; the page says what the room is.
+    '    <p><b>The Zibaldone.</b> Built from <code>data/zibaldone.json</code> by '
+    '<code>tools/make-zibaldone.py</code>, which refuses more than any other generator here: a '
+    'quotation over its word limit, a song, a line naming a title but no printing, one with no '
+    'record of how it was checked, a public domain claim that does not clear for the translator '
+    'as well as the author, a margin note carrying a second quotation, and the vocabulary of '
+    'ranking. <b>Nothing in that room is ranked, counted or voted on.</b></p>',
     '    <p><b>Every quotation names its printing, and the room prints how it was checked.</b> '
     'The public domain lines were read out of the transcriptions named on each card rather than '
     'recalled &mdash; which is how the Dickinson turned out to be in the <i>second</i> series and '
