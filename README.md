@@ -86,6 +86,7 @@ the-doomscroll.html   And behind it: public domain doom as a feed, on an actual 
 adventurers-guild.html  A job board in a manila room. The one tidy room on this street
 the-feed.html         A dark concourse of arrival boards, one wire per site, off their feeds
 zibaldone.html        A commonplace book open on a desk. Short quotations, each naming its printing
+rabbit-hole.html      Not a room: a shaft. Rabbit holing, seven presses, six 1865 engravings
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 the-garden.html       The knowledge garden. One bed per site we publish, each linking out
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
@@ -124,9 +125,11 @@ data/doomscroll.json  Thirteen poems, newest first, each naming the printing it 
 data/quests.json      Every job on the board, and the marker it sends you to
 data/garden.json      What grows on each site. The roster is read out of arrivals.json
 data/zibaldone.json   The quote bank. Every line names its printing and how it was checked
+data/rabbit-hole.json The shaft's presses, its engravings and its trail. No lyrics, refused
 quest.js              The job markers, and the guild's board. Works with scripts off
 zibaldone.js          The attribution slip. Composes a block of text; sends nothing anywhere
 raven/                Doré's 1884 engravings and three leaves of an 1865 printing
+alice/                Six of Tenniel's 1865 wood engravings. Public domain, scans credited
 oracle/               The deck's plates. Public domain, CC0, from one collection
 og/                   One share card per page, and one card design per room
 tools/                The generators and the checkers, below
@@ -163,6 +166,7 @@ python3 tools/make-guild.py        # the job board, a marker in every room, and 
 python3 tools/make-arrivals.py     # The Feed's arrival boards; draws what pull-arrivals.py read
 python3 tools/make-garden.py       # The Garden's beds and credits; roster and order from arrivals.json
 python3 tools/make-zibaldone.py    # The Zibaldone's leaves and its attribution slip, and the credits
+python3 tools/make-rabbit-hole.py  # The Rabbit Hole's presses, engravings and trail, and the credits
 python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
 python3 tools/check-contrast.py    # every pair against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet

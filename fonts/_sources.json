@@ -619,5 +619,30 @@
    "bytes": 13104,
    "src": "https://fonts.gstatic.com/s/kalam/v18/YA9Qr0Wd4kDdMtDqHTLMkiQqtbGs.woff2"
   }
+ ],
+ "playfair-display": [
+  {
+   "file": "playfair-display-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 23316,
+   "src": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKeiunDXbtPK-F2qC0s.woff2"
+  }
+ ],
+ "jost": [
+  {
+   "file": "jost-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 26588,
+   "src": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oTd4jQmfxI.woff2"
+  },
+  {
+   "file": "jost-500.woff2",
+   "weight": "500",
+   "style": "normal",
+   "bytes": 26588,
+   "src": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oTd4jQmfxI.woff2"
+  }
  ]
 }

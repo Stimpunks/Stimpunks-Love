@@ -344,6 +344,35 @@ ZB_LAID, ZB_LAID2, ZB_GUTTER = "#F2E8D5", "#E9DCC3", "#C9B693"
 ZB_OAK, ZB_IRON, ZB_ANILINE = "#3A2A18", "#2B3348", "#5B2E6E"
 ZB_RUBRIC, ZB_PENCIL, ZB_TAPE = "#8C2B18", "#635A4B", "#DFCDA8"
 
+
+# The Rabbit Hole (§30). A SHAFT, AND THE GROUND DARKENS DOWN THE DOCUMENT --
+# which is a shape of ground this file has not had before and needed a decision
+# about. The body carries a flat background-color with the gradient painted over
+# it in background-image, the Zibaldone's arrangement, but the flat colour here
+# is the LIGHTEST end rather than the darkest. That is not an inconsistency: in
+# both rooms the flat colour is the WORSE case for the type standing on it, and
+# this room sets pale type on a dark wall where that room sets dark type on pale
+# paper. RH_SLATE is therefore the honest ground rather than the flattering one,
+# and it is what check-contrast-live.py will read.
+# AND EVERY BLOCK THAT CARRIES TEXT SITS ON A FLAT PANEL OF ITS OWN, because the
+# gradient runs the height of the DOCUMENT rather than the height of a sheet --
+# so the colour under a word depends on how far somebody has scrolled, and no
+# single flat value could honestly stand in for it. The only type left on the
+# gradient is in the header, where the flat colour and the gradient's first stop
+# are the same value. Both panels are measured anyway.
+# THE PAPER MATS ARE THE ROOM'S SECOND GROUND AND GET THEIR OWN LINK COLOUR.
+# RH_BRASS is 6.74 and up on all three dark grounds and 1.83 on the mats, so a
+# room-level link colour alone would have shipped an illegible provenance line
+# under every engraving -- the hole The Doomscroll left and the Playhouse had
+# been carrying since it opened, caught here before the room shipped rather than
+# by somebody looking at the page. RH_BRASS_DARK is the decision.
+# RH_GRAPHITE AND RH_ROOT CARRY NO TEXT and are in ORNAMENT with what they came
+# out at. They are the ribs of the shaft and the roots at its rim.
+RH_SLATE, RH_SLATE2, RH_DEEP = "#262C35", "#171C23", "#0B0E13"
+RH_CHALK, RH_DIM, RH_DAYLIGHT = "#DEDCD4", "#A2ABB6", "#BFC6CC"
+RH_BRASS, RH_BRASS_DARK = "#D9AE3A", "#6B4A0E"
+RH_PAPER, RH_INK = "#F3F0E7", "#15181C"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -1197,6 +1226,37 @@ PAIRS = [
                                    "ground is a second decision"),
     (ZB_LAID,    ZB_DESK,   False, "zibaldone: anything the room sets in paper-colour on the desk"),
 
+    # ── The Rabbit Hole (§30) ───────────────────────────────────────────────
+    # THREE DARK GROUNDS AND ONE PALE ONE, and every ink against all of them it
+    # can land on. The header's type sits on RH_SLATE, the ledges are RH_SLATE2
+    # and RH_DEEP, and the engravings' mats are RH_PAPER. The slate is the
+    # lightest of the three and therefore the hardest of the three for pale
+    # type, so it is the pair that decides.
+    ("#ffffff",     RH_SLATE,      True,  "rabbit hole: the h1 in Playfair Display, 42-76px, on the shaft wall"),
+    ("#ffffff",     RH_SLATE2,     True,  "rabbit hole: every h2 and h3 on a ledge"),
+    ("#ffffff",     RH_DEEP,       True,  "rabbit hole: every h2 and h3 on a deep ledge, and a hovered link"),
+    (RH_BRASS,      RH_SLATE,      True,  "rabbit hole: the tagline 'You meant to look up one thing'"),
+    (RH_BRASS,      RH_SLATE2,     False, "rabbit hole: every link on a ledge, and the performer's name on a press"),
+    (RH_BRASS,      RH_DEEP,       False, "rabbit hole: every link on a deep ledge"),
+    (RH_CHALK,      RH_SLATE,      False, "rabbit hole: the lede under the h1, and the section ledes"),
+    (RH_CHALK,      RH_SLATE2,     False, "rabbit hole: body copy on a ledge, and every press note"),
+    (RH_CHALK,      RH_DEEP,       False, "rabbit hole: body copy on a deep ledge"),
+    (RH_DIM,        RH_SLATE,      False, "rabbit hole: the topline note, the way back to the street, "
+                                          "the caveat lines under a section heading"),
+    (RH_DIM,        RH_SLATE2,     False, "rabbit hole: a citation under a quotation, a press's runtime "
+                                          "line, every line of the trail"),
+    (RH_DIM,        RH_DEEP,       False, "rabbit hole: the same on a deep ledge"),
+    (RH_DAYLIGHT,   RH_SLATE,      False, "rabbit hole: the eyebrow over the h1, which is the one thing "
+                                          "in the room set in the colour of the sky"),
+    (RH_DAYLIGHT,   RH_SLATE2,     False, "rabbit hole: a quotation set in daylight on a ledge"),
+    (RH_DAYLIGHT,   RH_DEEP,       False, "rabbit hole: a quotation set in daylight on a deep ledge"),
+    # The paper mats. A SECOND GROUND IS A SECOND DECISION, and brass fails here.
+    (RH_INK,        RH_PAPER,      False, "rabbit hole: the sentence of ours beside every engraving, and "
+                                          "the provenance line under it"),
+    (RH_BRASS_DARK, RH_PAPER,      False, "rabbit hole: the small caps over each engraving, and EVERY LINK "
+                                          "ON A MAT. RH_BRASS measures 1.83 here, so the mats have a "
+                                          "colour of their own rather than inheriting the room's"),
+
     # ── The Garden (§28) ────────────────────────────────────────────────────
     # THREE GROUNDS AND EVERY INK AGAINST ALL THREE: the path, the leaf shadow
     # on the path, and a limewashed board laid on it. The board is the pale one
@@ -1427,6 +1487,16 @@ ORNAMENT = {
                "shadow. It is the guild's printed rule's job in a garden -- structure you "
                "feel rather than read -- and it is what makes a board 1.07 lighter than "
                "the ground visible at all. Nothing is set in it.",
+    "#4e5865": "rabbit hole: the ribs of the shaft in the drawing at the top of the room, "
+               "and the hairline down the left of every step on the trail. 1.95 on the "
+               "slate, 2.37 on a ledge, 2.68 on a deep ledge. It is the wall of a hole "
+               "seen in the dark and nothing is set in it -- the trail's own words are "
+               "RH_BRASS and RH_DIM, both measured above. Held deliberately low: a shaft "
+               "you could read the sides of clearly would not be a shaft.",
+    "#3a3026": "rabbit hole: the roots coming down into the hole at the near rim of the "
+               "drawing, 1.44 against the dark inside the shaft they hang in. Ornament "
+               "inside one <svg>, carrying no text, and the whole drawing has an "
+               "aria-label describing it.",
     "#2a3a31": "campgrounds: the board's frame and the post each pitch hangs off, 1.48 "
                "on the field. That field is deliberately the dimmest ground on the "
                "street and its type carries all of it -- bone at 14.7, moss at 7.3. The "

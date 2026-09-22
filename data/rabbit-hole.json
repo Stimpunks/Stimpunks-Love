@@ -1,0 +1,177 @@
+{
+  "_what": "The Rabbit Hole: the seven videos on our own glossary entry, the Tenniel engravings hung down the shaft, and the trail of pages the room ends on.",
+
+  "_source": "Ryan's brief, 2026-09-22: a room on rabbit holing, leading with our own glossary entry at https://stimpunks.org/glossary/rabbit-hole/, carrying all of that page's embedded music videos, some public domain Alice art, and a feed your head section. Every video id below was extracted from the embeds on that page as it stands in the Knowledge System mirror. A FIFTH FACADE FILE, because the ids came from a fifth place and a merged file would leave one _source sentence covering work it never saw.",
+
+  "_order": "THE RUNNING ORDER IS THE GLOSSARY PAGE'S OWN and is not re-sorted here. Not alphabetically, not by runtime, not by putting the official uploads first. That page interleaves the videos with the quotations they sit under, so the order carries an argument somebody made on a page we publish, and re-sorting it in this room would be this repo quietly disagreeing with it — the Jungle Room's rule about its cams, and the Feed's about the wire order.",
+
+  "_no_lyrics": "THE GLOSSARY PAGE PRINTS THE WHOLE OF GRACE SLICK'S LYRIC AND THIS ROOM PRINTS NONE OF IT, which is the one place where this room deliberately does less than the page it came from. make-zibaldone.py refuses a song outright — Ryan's reply to the person who asked for that room, 2026-09-22: song lyric reproduction is an intellectual property minefield in the US, music publishing enforces on quotation where prose publishing shrugs, the licensing is separate from the recording, and one line is a far larger fraction of a song than of a novel. This street also says in three places that nothing musical is hosted here. A room built out of a song would be exactly where that promise got broken in the way that looked most harmless: a well-loved lyric, fully credited, on the page it belongs to. So the words are not here, the recordings are doors somebody presses, and make-rabbit-hole.py refuses a lyric field rather than leaving it to care. THE PHRASE 'FEED YOUR HEAD' IS USED AS A SECTION TITLE, credited to Slick by name, because Ryan asked for that section and because a title is not a reproduction — and the room says whose phrase it is rather than borrowing it quietly.",
+
+  "_ids": "2026-09-22: every id below was resolved against YouTube's own watch page — title, channel, length in seconds, playabilityStatus and playableInEmbed off one fetch each. All seven answered OK and playableInEmbed true, so all seven are screens rather than doors. Nothing here was written from memory: the mirror stores rendered content and gives the ids without saying which performance is which, so the titles, channels and runtimes are what YouTube answered and not what anybody remembered. Four of the seven are re-uploads on individual channels rather than official releases, which is stated on each plate rather than smoothed over, because 'somebody put this up' and 'the label put this up' are different facts about how long a link will last.",
+
+  "_unnamed": "ONE PERFORMER IS NOT NAMED ON ITS OWN UPLOAD and this room does not guess. The trailer edit describes itself as an edited remix of the Jefferson Airplane recording and credits no remixer anywhere — not in the title, not in the description, not on the channel. So the plate says what the upload says and says that the hand is unnamed there, which is the herbarium's refusal to guess at a binomial applied to a credit. Do not fill that gap from anywhere.",
+
+  "_plates": "SIX WOOD ENGRAVINGS BY JOHN TENNIEL FOR THE FIRST EDITION OF ALICE'S ADVENTURES IN WONDERLAND, 1865. Tenniel was born 1820 and died 1914 and the engravings were published in 1865, so they are out of copyright everywhere — the Doré test in data/mopery.json, applied to a different book. Each file was downloaded on 2026-09-22 from Wikimedia Commons, where each one carries an explicit Public domain statement, which is exactly what the Library of Congress facsimile in the Mopery did not have and the reason that one is linked rather than shown. Every file was re-encoded to greyscale here, resized, and written out with no metadata carried over. The Commons file page for each is linked from its own plate.",
+
+  "_placement": "WHICH ENGRAVING SITS BESIDE WHICH PARAGRAPH IS OURS AND THE ROOM SAYS SO. The 1865 edition set its illustrations in the text beside the passages they illustrate and gave them no captions at all, so unlike the Mopery's Doré plates there is no printed caption to quote and no original arrangement to reproduce. The descriptions here are written for this room, they describe what the engraving shows rather than retelling the chapter, and the placing is a reading decision — stated, rather than left for a visitor to assume they are looking at the book's own layout.",
+
+  "_trail": "The trail at the foot of the room is the Further Reading list off our own glossary entry, in that page's order, with one line of ours per page saying what it is. DEEP WORK IS NAMED AND NOT LINKED: the glossary entry credits Cal Newport for the term in its own prose and we have no glossary page for it, so there is nothing of ours to point at and the room does not manufacture one. That is make-hermitage.py's rule about a book with no citing page, arriving as a link that does not exist.",
+
+  "tracks": [
+    {
+      "id": "TKZVUtvjBdM",
+      "title": "White Rabbit (official lyric video)",
+      "artist": "Jefferson Airplane",
+      "channel": "Jefferson Airplane on YouTube",
+      "channel_verbatim": "JeffersonAirplneVEVO",
+      "length": "2:39",
+      "official": true,
+      "press": "the official one",
+      "note": "The 1967 recording, as the label publishes it. Grace Slick wrote it after reading Carroll as a child and then playing one record over and over on the way to writing it — her own account of that is linked beside the section this sits in. The words are hers and are not printed here."
+    },
+    {
+      "id": "Vl89g2SwMh4",
+      "title": "White Rabbit, live at Woodstock, 1969",
+      "artist": "Jefferson Airplane",
+      "channel": "LPRoad2revolution",
+      "length": "2:54",
+      "official": false,
+      "press": "live in a field at dawn",
+      "note": "A re-upload of the Woodstock performance on an individual's channel, captioned by whoever put it up. Not an official release, and it carries the uploader's own fair-use notice, which is a thing they decided rather than a thing we are vouching for."
+    },
+    {
+      "id": "WANNqr-vcx0",
+      "title": "White Rabbit, live on The Smothers Brothers Comedy Hour",
+      "artist": "Jefferson Airplane",
+      "channel": "dustasdu",
+      "length": "2:29",
+      "official": false,
+      "press": "live on American television",
+      "note": "The Smothers Brothers appearance, re-uploaded by an individual who names the DVD it was taken from. Two minutes and a half of American network television deciding to broadcast this, which is its own small piece of history."
+    },
+    {
+      "id": "1Vy1OoBAL-E",
+      "title": "White Rabbit (Jefferson Airplane cover)",
+      "artist": "Grace Potter and the Nocturnals",
+      "channel": "Grace Potter",
+      "length": "3:01",
+      "official": true,
+      "press": "somebody else's reading of it",
+      "note": "A cover, on the covering artist's own channel. A song that is about following something down a hole is a good song to find other people have followed down."
+    },
+    {
+      "id": "eJLTnX7n9bc",
+      "title": "White Rabbit, trailer edit for The Matrix Resurrections",
+      "artist": "an unnamed hand, on the Jefferson Airplane recording",
+      "channel": "Movies Soundtrack",
+      "length": "4:49",
+      "official": false,
+      "press": "the film that borrowed the hole",
+      "note": "An edited remix built on the Jefferson Airplane recording, uploaded to a soundtrack channel. Nobody is credited with the edit anywhere on the upload, so nobody is credited with it here either. The film franchise that took this metaphor and ran with it for twenty-five years is the reason it is on the page at all."
+    },
+    {
+      "id": "2cscpJisU6k",
+      "title": "Concierto de Aranjuez: Adagio, from Sketches of Spain",
+      "artist": "Miles Davis and Gil Evans",
+      "channel": "Columbia/Legacy, via YouTube's Miles Davis channel",
+      "channel_verbatim": "Miles Davis - Topic",
+      "length": "16:22",
+      "official": true,
+      "press": "sixteen minutes of the record she wore out",
+      "note": "Joaquín Rodrigo's concerto, arranged by Gil Evans, recorded 1960. Slick has said she played this album over and over for hours and that it came out again in what she wrote — which is the rabbit hole working exactly as our glossary describes it: something goes all the way in and comes back out as something else."
+    },
+    {
+      "id": "bqcP36GoTwE",
+      "title": "Solea, live at Montreux, 1991",
+      "artist": "Miles Davis with Quincy Jones and the Gil Evans Orchestra",
+      "channel": "Ignatios Simos",
+      "length": "12:52",
+      "official": false,
+      "press": "the same record, thirty-one years later",
+      "note": "The other long piece off Sketches of Spain, played live at the Montreux Jazz Festival in 1991, re-uploaded by an individual. Thirty-one years after the studio recording and a few weeks before Davis died."
+    }
+  ],
+
+  "plates": [
+    {
+      "file": "alice/tenniel-02-rabbit.jpg",
+      "at": "the way in",
+      "shows": "The White Rabbit, standing upright in the grass in a checked coat and waistcoat, an umbrella under one arm and a watch held up in the other hand.",
+      "ours": "You do not decide to go down. You notice something going somewhere in a hurry and you want to know where.",
+      "commons": "https://commons.wikimedia.org/wiki/File:Alice_par_John_Tenniel_02.png"
+    },
+    {
+      "file": "alice/tenniel-03-curtain.jpg",
+      "at": "one thing leads to another",
+      "shows": "Alice holding back a heavy curtain she has just pulled aside, and behind it a small low door she had not been able to see.",
+      "ours": "The tab behind the tab. One citation leads to another, one article becomes seventeen, and the door you find was not on the wall a minute ago.",
+      "commons": "https://commons.wikimedia.org/wiki/File:Alice_par_John_Tenniel_03.png"
+    },
+    {
+      "file": "alice/tenniel-06-hall.jpg",
+      "at": "from the outside",
+      "shows": "Alice grown enormous, filling the whole panelled hall, folded up with her head against the ceiling — and down by her skirt, small enough to miss, the Rabbit.",
+      "ours": "This is what a monotropic attention system looks like to somebody standing in the doorway. From in there it does not feel like this at all; it feels like flow.",
+      "commons": "https://commons.wikimedia.org/wiki/File:Alice_par_John_Tenniel_06.png"
+    },
+    {
+      "file": "alice/tenniel-08-pool.jpg",
+      "at": "somewhere strange",
+      "shows": "Alice swimming in deep water with a mouse swimming alongside her, both of them small in a lot of open sea.",
+      "ours": "The idiom means getting deep into something OR ending up somewhere strange, and it does not promise which. You meant to look up one thing.",
+      "commons": "https://commons.wikimedia.org/wiki/File:Alice_par_John_Tenniel_08.png"
+    },
+    {
+      "file": "alice/tenniel-11-house.jpg",
+      "at": "the hole you outgrew",
+      "shows": "Alice filling the inside of a small house entirely, lying cramped against its furniture with one arm forced out through the window.",
+      "ours": "Three hours in and the subject is larger than the room you were reading it in. This is the part nobody warns you about and it is not a failure of discipline.",
+      "commons": "https://commons.wikimedia.org/wiki/File:Alice_par_John_Tenniel_11.png"
+    },
+    {
+      "file": "alice/tenniel-23-tree.jpg",
+      "at": "which way",
+      "shows": "A cat stretched along a high bough with a wide grin on it, and at the foot of the tree, very small, Alice looking up.",
+      "ours": "Somewhere in every good hole there is a thing in a tree that answers the question you asked with a better one. Be wary of the holes you rabbit; some of them are somebody's business model.",
+      "commons": "https://commons.wikimedia.org/wiki/File:Alice_par_John_Tenniel_23.png"
+    }
+  ],
+
+  "trail": [
+    {
+      "slug": "monotropism",
+      "name": "Monotropism",
+      "line": "Attention in depth rather than in breadth. The theory underneath the whole room, and the reason a rabbit hole is a destination rather than a detour."
+    },
+    {
+      "slug": "roaming-autodidact",
+      "name": "Roaming Autodidact",
+      "line": "The self-teacher the education-technology industry keeps imagining, and who it keeps leaving out."
+    },
+    {
+      "slug": "anti-library",
+      "name": "Anti-library",
+      "line": "The unread books. A shelf of things you have not got to yet is a map of holes you have not fallen down."
+    },
+    {
+      "slug": "created-serendipity",
+      "name": "Created Serendipity",
+      "line": "You can build the conditions for accidents. Embracing the accidental is a practice and not a mood."
+    },
+    {
+      "slug": "commonplace-book",
+      "name": "Commonplace Book",
+      "line": "Where what you found in the hole goes so that you can find it again. This street has a whole room of one."
+    },
+    {
+      "slug": "flow",
+      "name": "Flow",
+      "line": "The hours that do not feel like hours. What the tunnel is like from inside it."
+    },
+    {
+      "slug": "infodump",
+      "name": "Infodump",
+      "line": "Surfacing, and needing to tell somebody everything. The rabbit hole speaking — synthesis, enthusiasm and generosity at once."
+    }
+  ]
+}

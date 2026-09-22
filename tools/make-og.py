@@ -335,6 +335,39 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--zibaldone .og-foot {{ font-family: 'Kalam', cursive; font-size: 20px;
   color: var(--zb-pencil); letter-spacing: 0; margin-top: 18px !important; }}
 
+/* rabbit hole — THE ONLY CARD ON THIS STREET DRAWN AS A HOLE RATHER THAN AS A
+   PLACE, and the only one whose ground darkens down the picture. Every other
+   dark card is one flat night with things lit on it. The body supplies that
+   gradient out of love.css, so the card cannot drift from the room.
+
+   THE DRAWING IS THE ROOM'S OWN SHAFT AND IS NOT ONE OF ITS ENGRAVINGS. Six
+   1865 wood engravings hang in that room and not one of them is on the card:
+   they are somebody else's line, they are the thing you go down there to look
+   at, and a card is this site speaking in its own voice about somebody else's
+   work rather than serving it up. It is also the one drawing in that room that
+   we made -- abstract, no figures in it -- so the card and the room agree about
+   whose hand is whose.
+
+   NO AMBIENT MARKUP. The room's .glow is a fixed radial layer keyed to the
+   viewport, which means nothing at 1200x630 -- and the card's light already
+   comes from the same place the room's does, because the gradient is the
+   ground. It is left off, and the composite the contrast checker holds for this
+   room is the panel rather than the wash. */
+.og--hole {{ width: 100%; flex-direction: row; padding: 38px 52px; gap: 40px; align-items: center; }}
+.og--hole .og-well {{ flex: 0 0 auto; width: 268px; }}
+.og--hole .og-well svg {{ display: block; width: 100%; height: auto; }}
+.og--hole .og-col {{ flex: 1 1 auto; min-width: 0; }}
+.og--hole .rh-eyebrow {{ font-size: 17px; letter-spacing: 3.2px; margin: 0 0 10px !important; }}
+.og--hole h1 {{ font-family: 'Playfair Display', Georgia, serif; font-weight: 700;
+  font-size: 74px; line-height: 0.98; letter-spacing: -1.2px; color: #fff;
+  margin: 0 !important; }}
+.og--hole .og-tag {{ font-family: 'Playfair Display', Georgia, serif; font-weight: 700;
+  font-size: 31px; line-height: 1.12; color: var(--rh-brass); margin: 11px 0 0 !important; }}
+.og--hole .og-lede {{ font-family: 'Jost', sans-serif; color: var(--rh-chalk);
+  max-width: 770px; font-size: 21px; line-height: 1.4; margin: 13px 0 0 !important; }}
+.og--hole .og-foot {{ font-family: 'Jost', sans-serif; font-weight: 500; font-size: 17px;
+  letter-spacing: 2px; color: var(--rh-dim); margin: 15px 0 0 !important; }}
+
 /* garden — THE THIRD PALE CARD AND THE GREEN ONE. The hermitage's is warm lime
    plaster with a building on it and a low sun; the guild's is manila with rules
    on it and no light at all; this is sunlight that has come down through leaves,
@@ -1065,6 +1098,35 @@ def card_zibaldone(p):
         f"handwriting: nothing here is ranked, stimpunks.love."
     )
 
+def card_hole(p):
+    # THE SHAFT IS LIFTED WHOLE OUT OF THE PAGE rather than redrawn here, the
+    # way the burrow's round door is: a second copy of a drawing is a drawing
+    # that goes stale in one of the two places it lives.
+    return (
+        "",
+        f'<div class="og og--hole" data-fit="card">'
+        f'<div class="og-well">{p["well"]}</div>'
+        f'<div class="og-col">'
+        f'<p class="rh-eyebrow">A DOOR ON THE STREET \u00b7 NO FLOOR BEHIND IT</p>'
+        f'{p["h1"]}'
+        f'<p class="og-tag">You meant to look up one thing.</p>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">NOTHING PLAYS UNTIL YOU PRESS PLAY '
+        f'\u00b7 STIMPUNKS.LOVE</p>'
+        f'</div>'
+        f'</div>',
+        f"A wet-slate card that darkens from the top of the picture to the bottom, "
+        f"lit only from above. On the left, a drawing of a shaft seen from inside "
+        f"it looking up: a small pale disc of daylight at the top, ring after ring "
+        f"of cut earth widening away from it, and roots and loose stones at the "
+        f"near rim. On the right, small spaced grey capitals reading a door on the "
+        f"street, no floor behind it, then \u201c{p['h1text']}\u201d in a large "
+        f"high-contrast engraved serif in white, under it in brass: You meant to "
+        f"look up one thing. Then, in a geometric sans: {p['desc_plain']} Along the "
+        f"foot, in grey capitals: nothing plays until you press play, stimpunks.love.",
+    )
+
+
 def card_herm(p):
     return (
         "",
@@ -1560,6 +1622,7 @@ CARDS = {
     "room-guild":   card_guild,
     "room-feed":    card_feed,
     "room-zibaldone": card_zibaldone,
+    "room-rabbit-hole": card_hole,
     "room-plain":   card_plain,
 }
 
@@ -1646,6 +1709,7 @@ def main():
         ("bulbs",    "arcade.html",       r'(<div class="bulbs".*?</div>)'),
         ("roundel",  "latibulum.html",    r'(<div class="roundel".*?</svg>\s*</div>)'),
         ("canopy",   "jungle-room.html",  r'(<svg class="canopy-roof".*?</svg>)'),
+        ("well",     "rabbit-hole.html",  r'(<svg class="rh-well".*?</svg>)'),
         ("falls",    "the-den.html",      r'(<svg class="falls".*?</svg>)'),
         ("otter",    "otterly-adorbs.html", r'(<div class="otter" id="otter".*?</div>\s*</div>)'),
         ("ottdefs",  "otterly-adorbs.html", r'(<svg width="0" height="0".*?</defs></svg>)'),

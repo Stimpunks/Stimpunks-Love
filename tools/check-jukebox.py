@@ -157,6 +157,14 @@ LISTS = [
     # every right to take it down. When one goes, that is not a broken page to
     # patch quietly: it is the rights holder acting, and the room should say so.
     ("swaying sweetgrass", "data/sweetgrass.json", "swaying-sweetgrass.html"),
+    # The Rabbit Hole. FOUR OF THESE SEVEN ARE RE-UPLOADS ON INDIVIDUALS'
+    # CHANNELS -- a Woodstock set, a television appearance taken off a DVD, a
+    # trailer edit nobody signed, and a festival recording -- which is the most
+    # rot-prone shape of upload on this street after the Pebble Board's. Three
+    # of the seven are a label's or the artist's own and will outlive us. The
+    # room states which is which on every plate, so a death here changes a
+    # sentence as well as a link.
+    ("the rabbit hole", "data/rabbit-hole.json", "rabbit-hole.html"),
 ]
 
 

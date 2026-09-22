@@ -1233,6 +1233,64 @@ cannot be **out-ranked**; it does nothing about there being no rule to outrank i
 found all seven still lying at their pasted angles at Gentle, which is the Faery Yurt's windowsill
 exactly. **A room that tilts anything writes its own reset beside the rule that tilts it.**
 
+**THE HARDEST COLLAPSE ON THIS STREET IS NOT A SUBROOM, IT IS TWO STOREFRONTS THAT ARE BOTH
+HOLES IN THE GROUND.** The Rabbit Hole (§30) and The Latibulum have the same floor plan. Every
+earlier version of this temptation came with a structural excuse attached — *it is only a
+subroom*, *an area should look like an area*, *they are both cosy* — and this one needs no excuse,
+because the two rooms are literally the same object. What keeps them apart is that **the burrow is
+somewhere you arrive and the hole is somewhere you keep going**, and it has to stay structural:
+
+  · the burrow has a floor, walls, furniture, a lamp at knee height and a shelf. It is
+    horizontal, it is at rest, and almost every word in it sits **dark on lit plaster**. The hole
+    has no floor, no wall to lean on and **no furniture whatsoever** — it is vertical, the light
+    is above and behind you, there is less of it the further down you read, and every word is
+    **pale on the dark**.
+  · **the burrow is earth and is BROWN. There is no brown in the hole at all** — it is wet slate.
+    If those greys ever warm up at the edges the two rooms have become one, and it is the newer
+    one that moves.
+  · the burrow is lamplit and the hole is **daylit, from one end, badly**. A candle lights a foot
+    of a large room; this lights less of one the further in you go. That also keeps it off The
+    Mopery, which is the other cold blue-black room and is a *building* you stand up in.
+
+**A GROUND THAT DARKENS DOWN THE DOCUMENT IS A NEW SHAPE AND IT REFINED THE ZIBALDONE'S RULE.**
+That room puts a flat `background-color` under its gradient and picks the **darker** end; this one
+picks the **lightest**. Not an inconsistency: in both cases the flat colour is the **worse case for
+the type standing on it**, which is the actual rule, and one room sets dark type on pale paper
+while the other sets pale type on a dark wall. And because this gradient runs the height of the
+*document* rather than of a sheet, the colour under a word depends on how far somebody has
+scrolled — which no flat value can honestly stand in for — so **every block that carries text sits
+on a flat panel of its own** and the wash carries nothing but the header's lines.
+
+**A ROOM BUILT OUT OF ONE SONG DOES NOT GET THE SONG'S WORDS, AND A TOOL HOLDS THAT LINE.** Our
+own glossary entry prints the whole lyric; this room prints none of it. The reasoning is already
+written down for the Zibaldone — Ryan's call, 2026-09-22 — and the street says in three places
+that nothing musical is hosted here. **The friendly edit is real and it will arrive:** a room
+whose spine is one song, whose source page has the words on it already, and whose headings are
+phrases from it, reads *thin* without them, and whoever pastes them back will be right about the
+page and wrong about everything else. So `make-rabbit-hole.py` refuses a lyric field **and any
+value shaped like verse** — several short hand-broken lines, which is what a lyric looks like in
+a JSON string and what a sentence never does. A heading that is a phrase of hers is credited to
+her where it stands. **Do not put the words back.**
+
+**THE ENGRAVINGS ARE SHOWN BECAUSE THEIR SCANS SAY SO, WHICH IS THE MOPERY'S TEST AGAIN.** Six of
+Tenniel's 1865 cuts: published 1865, artist died 1914, out of copyright everywhere, and every
+file used carries an **explicit public domain statement** — exactly what the Library of Congress
+facsimile in the Mopery did not have and the reason that one is still a door rather than a
+window. **The 1865 edition captioned none of its illustrations**, so unlike that room's Doré
+plates there is nothing printed to quote: every word beside an engraving here is ours, and which
+one sits beside which paragraph is **our reading, stated on the page**. The tool refuses a plate
+with no sentence of ours, no rights page, or no file on disk. **And the two drawings in that room
+that are ours are abstract on purpose** — a shaft of rings and an engraver's block, no figures in
+either — because the engravings further down are somebody else's line and a drawing of our own
+beside them would only be a worse copy of it. That is also why the share card is the shaft and
+not one of the cuts.
+
+**AN HTML ENTITY DOES NOT SURVIVE `.upper()`, AND THAT IS A THIRD SHAPE OF THE SAME BUG.**
+`&rsquo;` in a string that gets uppercased for a small-caps line came out as `&RSQUO;` and
+rendered as five literal characters. `data/toys.json` already carries this lesson for a `data-`
+attribute written with `textContent`; this is the same fault arriving through a string method.
+Write the character, which uppercases to itself.
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody

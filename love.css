@@ -261,6 +261,30 @@
 @font-face { font-family: 'Kalam';       src: url('fonts/kalam-400.woff2') format('woff2');              font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Kalam';       src: url('fonts/kalam-700.woff2') format('woff2');              font-weight: 700; font-display: swap; }
 
+/* The Rabbit Hole (§30). A DIDONE AND A GEOMETRIC SANS, which is a pair nobody
+   else on this street sets, and the two halves of what this room is about.
+
+   Playfair Display is the 1865 book: high contrast, hairline serifs, the
+   register a Victorian title page was cut in -- so it sits with Tenniel's wood
+   engravings instead of fighting them. THIS IS NOT THE MOPERY'S SERIF AND THE
+   DIFFERENCE IS THE STROKE. IM Fell English was PUNCHED, with the ink spread
+   and the counters battered; this was DRAWN, with a mechanical thin and a
+   clean joint. One is a book that was beaten into paper and the other is a
+   book that was engraved, which is the only place two warm-serif rooms on one
+   street can be kept apart.
+
+   Jost is the wiki rabbit hole: a geometric sans, circles and straight lines,
+   the face a node-and-arrow diagram is labelled in. Our own glossary entry
+   illustrates the thing with a network diagram of linked topics, and this is
+   what that drawing sounds like. Josefin Sans one room over is also geometric
+   and is the Pebble Board's -- it is set there only as small letter-spaced
+   caps, with a tiny x-height and a very high waist; this is a reading face at
+   reading size. Neither of these two is set anywhere else. See
+   fonts/_sources.json. */
+@font-face { font-family: 'Playfair Display'; src: url('fonts/playfair-display-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Jost';             src: url('fonts/jost-400.woff2') format('woff2');             font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Jost';             src: url('fonts/jost-500.woff2') format('woff2');             font-weight: 500; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -695,6 +719,60 @@
   --zb-laid: #F2E8D5;   --zb-laid-2: #E9DCC3;  --zb-gutter: #C9B693;
   --zb-oak: #3A2A18;    --zb-iron: #2B3348;    --zb-aniline: #5B2E6E;
   --zb-rubric: #8C2B18; --zb-pencil: #635A4B;  --zb-tape: #DFCDA8;
+
+  /* The Rabbit Hole (§30). A SHAFT, LOOKING BACK UP AT THE DAYLIGHT YOU CAME
+     IN BY, and the separation from its neighbours is physical rather than a
+     matter of taste, because two of them are very close indeed.
+
+       · THE LATIBULUM IS THE HARDEST COLLAPSE ON THIS STREET SO FAR, harder
+         than any subroom, because these two rooms are LITERALLY both holes in
+         the ground -- and every earlier version of this temptation had a
+         structural excuse attached (it is only a subroom; an area should look
+         like an area; they are both cosy). This one needs no excuse at all:
+         the two rooms have the same floor plan. What keeps them apart is that
+         the burrow is somewhere you ARRIVE and the hole is somewhere you keep
+         GOING. The burrow has a floor, walls, furniture, a lamp at knee
+         height and a shelf, it is horizontal, it is at rest, and almost every
+         word in it sits DARK ON LIT PLASTER. This has no floor, no walls you
+         could lean on and no furniture whatsoever; it is vertical, the light
+         is ABOVE AND BEHIND YOU and there is less of it the further down you
+         read, and every word is PALE ON THE DARK. The burrow is earth and is
+         BROWN. THERE IS NO BROWN IN HERE AT ALL -- it is wet slate -- and if
+         any of these greys ever warms up, the two rooms have become one and it
+         is this one that moves.
+       · THE MOPERY is cold blue-black stone too, and is the other close call.
+         It is a BUILDING: candles the length of every top shelf, a floor, a
+         ceiling, an institution's books, and you stand up in it. There is no
+         flame anywhere in this room and no building around it. Its only light
+         source is DAYLIGHT, arriving from one end of a hole, and a candle lights
+         a foot of a large room while this lights less of one the further in
+         you go.
+       · THE DOOMSCROLL is the closest on MOTION rather than on colour: both
+         rooms are long vertical scrolls and both are about going down. That one
+         is PALE -- one unbroken roll of foxed newsprint -- and its
+         downwardness is dread. This DARKENS as it goes, it is not paper, and
+         its downwardness is the pleasure the room is arguing for. A pale scroll
+         about despair and a darkening scroll about delight.
+
+     RH- PREFIXED THROUGHOUT, because `slate`, `deep`, `chalk`, `paper` and
+     `ink` are precisely the plain words a stylesheet fills up with, and a
+     custom property declared twice in one :root is last-wins and silent.
+     --rh-slate IS THE FLAT BODY GROUND AND IT IS THE LIGHTEST END OF THE
+     GRADIENT, which inverts the Zibaldone's arrangement on purpose: that room
+     sets dark type on pale paper, so its flat colour is the DARKER end, and
+     this room sets pale type on a dark wall, so the honest flat colour is the
+     LIGHTEST. In both cases the flat colour is the worse case for the type
+     standing on it, which is the actual rule and is what makes
+     check-contrast-live.py's answer the pessimistic one rather than the
+     flattering one. --rh-graphite and --rh-root carry no text and are in
+     check-contrast.py's ORNAMENT list with their measurements. --rh-brass is
+     6.74 and up on all three dark grounds and only 1.83 on the paper mats, so
+     the mats have a link colour of their own: see --rh-brass-dark. */
+  --rh-slate: #262C35;     --rh-slate-2: #171C23;   --rh-deep: #0B0E13;
+  --rh-chalk: #DEDCD4;     --rh-dim: #A2ABB6;       --rh-daylight: #BFC6CC;
+  --rh-brass: #D9AE3A;     --rh-brass-dark: #6B4A0E;
+  --rh-paper: #F3F0E7;     --rh-ink: #15181C;
+  --rh-graphite: #4E5865;  --rh-root: #3A3026;
 }
 
 * { box-sizing: border-box; }
@@ -6298,7 +6376,282 @@ html[data-intensity="max"] .zb-flyleaf, html[data-intensity="max"] .zb-sheet {
 }
 
 
-/* §30 ── Small screens ───────────────────────────────────────────────────────
+/* §30 ── ROOM: The Rabbit Hole ────────────────────────────────────────────────
+   A shaft with things hanging in it. Ryan's brief, 2026-09-22: a room on rabbit
+   holing, leading with our own glossary entry, carrying that page's videos,
+   some public domain Alice art, and a feed your head section.
+
+   THE ROOM IS A DESCENT AND THE PAGE IS THE DESCENT. Not a metaphor applied to
+   a layout: the ground actually darkens from the mouth of the hole to the foot
+   of the document, every block is a thing you pass rather than a thing you sit
+   at, and the further down you read the less light there is on it. See the
+   palette note in §2 for what keeps this apart from The Latibulum, which is
+   the same floor plan, and from The Mopery and The Doomscroll, which are the
+   same colours and the same motion respectively.
+
+   NOTHING IN HERE IS FURNITURE, and that is the load-bearing difference from
+   the burrow. A burrow has a chair in it. A shaft has ledges, and a ledge is a
+   place a thing has come to rest on the way down rather than a place anybody
+   sat down. So every panel is flush to the wall, none of them has a foot, and
+   not one of them casts a shadow downward onto anything -- there is nothing
+   below to catch it.
+
+   EVERY BLOCK THAT CARRIES TEXT SITS ON A FLAT GROUND OF ITS OWN, and the body
+   gradient carries nothing but the header's own lines. That is the Zibaldone's
+   lesson taken one step further: a gradient with no background-color under it
+   is what made check-contrast-live.py report 222 pieces of pale text as
+   near-black on near-black, and the fix there was a flat colour under the
+   gradient. Here the gradient runs the height of the DOCUMENT rather than the
+   height of a sheet, so the colour under a word depends on how far somebody
+   has scrolled -- which no flat colour can honestly stand in for. The panels
+   solve it instead, and the only type left on the gradient is at the very top,
+   where the flat body colour and the gradient's first stop are the same value.
+
+   THE ENGRAVINGS ARE THE ONLY BRIGHT THING DOWN HERE AND THAT IS WHAT THEY
+   PHYSICALLY ARE: black ink on white paper. Putting them on a paper mat is not
+   a frame added for looks, it is the object -- and it is also what makes the
+   caption measurable, because a caption on a mat has a flat ground while a
+   caption floating on the shaft would not.
+
+   NOTHING IN THIS ROOM MOVES AT ANY SETTING except the ambient wash, which §3
+   takes away at Gentle through .glow like every other room's. There is no
+   tilt anywhere in here, which is deliberate rather than an omission: a
+   rotation is indistinguishable from a tilt to check-gentle.py, which can only
+   read the computed matrix -- The Oracle Deck's lozenge and arcade.js's sprites
+   both made that call. A room with no transform in it cannot get that wrong.
+
+   AND THE WORDS TO THE SONG ARE NOT HERE. The glossary entry this room is
+   built on prints all of them; tools/make-rabbit-hole.py refuses a lyric field
+   and refuses any value shaped like verse, for the reason make-zibaldone.py
+   refuses a song outright. The section titles are phrases and are credited as
+   phrases. Do not put the words back: the room looks thin without them, which
+   is exactly why the refusal is in a tool and not in a comment.               */
+
+body.room-rabbit-hole {
+  /* The flat colour is the LIGHTEST end, which is the worse case for pale type
+     and therefore the honest one. See the palette note in §2. */
+  background-color: var(--rh-slate);
+  background-image: linear-gradient(180deg,
+    var(--rh-slate) 0,
+    var(--rh-slate-2) 46%,
+    var(--rh-deep) 100%);
+  background-attachment: fixed;
+  color: var(--rh-chalk);
+  font-family: 'Jost', system-ui, sans-serif;
+  font-size: 17.5px;
+  line-height: 1.62;
+}
+
+/* The link colour is DECLARED AT THE ROOM, on both grounds this room has: the
+   shaft and the paper mats. That is the hole The Doomscroll left and the
+   Playhouse had been carrying since it opened -- a colour nobody DECIDED
+   leaves no pair for check-contrast.py to hold, so the run passes while a
+   paragraph of links is illegible. Brass is 6.74 and up on the dark and 1.83
+   on the paper, so the mats get their own decision rather than inheriting a
+   flattering one. */
+.room-rabbit-hole a { color: var(--rh-brass); text-underline-offset: 3px; }
+.room-rabbit-hole a:hover,
+.room-rabbit-hole a:focus-visible { color: #fff; }
+.room-rabbit-hole .rh-cut__cap a,
+.room-rabbit-hole .rh-cut__cap a:visited { color: var(--rh-brass-dark); }
+.room-rabbit-hole .rh-cut__cap a:hover,
+.room-rabbit-hole .rh-cut__cap a:focus-visible { color: var(--rh-ink); }
+
+.rh-shaft { max-width: 900px; margin: 0 auto; padding: 0 20px 72px; }
+
+.rh-topline {
+  display: flex; flex-wrap: wrap; gap: 10px 18px;
+  justify-content: space-between; align-items: baseline;
+  padding: 10px 2px 26px;
+}
+.rh-topline__note {
+  margin: 0; font-family: 'Jost', system-ui, sans-serif;
+  font-size: 14px; letter-spacing: 1.4px; text-transform: uppercase;
+  color: var(--rh-dim);
+}
+.room-rabbit-hole .rh-topline .backlink { color: var(--rh-dim); }
+.room-rabbit-hole .rh-topline .backlink:hover { color: #fff; }
+
+/* ── The mouth of the hole ───────────────────────────────────────────────────
+   The one drawing in this room that is ours. It is a shaft seen from inside
+   it, looking up: a disc of sky at the top, ribs of cut earth receding, and
+   roots and stones at the rim. Abstract on purpose -- there is nothing
+   representational in it and nobody is in it, because the engravings further
+   down are the real thing and a drawing of my own beside them would be a
+   worse copy of somebody else's line. */
+.rh-mouth { padding: 0 0 18px; text-align: center; }
+.rh-well { width: min(320px, 74vw); margin: 0 auto 10px; display: block; }
+
+.rh-eyebrow {
+  margin: 0 0 14px;
+  font-family: 'Jost', system-ui, sans-serif; font-weight: 500;
+  font-size: 13px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--rh-daylight);
+}
+.room-rabbit-hole h1 {
+  margin: 0 0 12px;
+  font-family: 'Playfair Display', Georgia, serif; font-weight: 700;
+  font-size: clamp(42px, 9vw, 76px); line-height: 1.02;
+  letter-spacing: -0.5px; color: #fff; text-wrap: balance;
+}
+.rh-tagline {
+  margin: 0 auto 20px; max-width: 30ch;
+  font-family: 'Playfair Display', Georgia, serif; font-weight: 700;
+  font-size: clamp(20px, 3.4vw, 27px); line-height: 1.26;
+  color: var(--rh-brass);
+}
+.rh-lede {
+  margin: 0 auto; max-width: 62ch; font-size: 19px; color: var(--rh-chalk);
+}
+
+/* ── A ledge ─────────────────────────────────────────────────────────────────
+   Flush to the wall, no foot, no shadow underneath it. A brass hairline along
+   the TOP edge only, because the light is above you: that is the one lit edge
+   a thing in a shaft has, and putting the rule on all four sides would light
+   it from nowhere, which is the Adventurer's Guild's job and not this room's. */
+.rh-ledge {
+  background-color: var(--rh-slate-2);
+  border-top: 2px solid var(--rh-brass);
+  padding: 26px 26px 28px;
+  margin: 0 0 30px;
+}
+.rh-ledge--deep { background-color: var(--rh-deep); }
+
+.room-rabbit-hole h2 {
+  margin: 0 0 14px;
+  font-family: 'Playfair Display', Georgia, serif; font-weight: 700;
+  font-size: clamp(27px, 5vw, 38px); line-height: 1.1; color: #fff;
+  text-wrap: balance;
+}
+.room-rabbit-hole h3 {
+  margin: 0 0 6px;
+  font-family: 'Playfair Display', Georgia, serif; font-weight: 700;
+  font-size: 22px; line-height: 1.2; color: #fff;
+}
+.room-rabbit-hole p { margin: 0 0 14px; }
+.room-rabbit-hole p:last-child { margin-bottom: 0; }
+
+.rh-note { font-size: 15.5px; color: var(--rh-dim); }
+
+/* A passage somebody else wrote. Indented from the brass rule rather than
+   boxed, because a box would make it furniture. */
+.rh-quote {
+  margin: 0 0 16px; padding: 2px 0 2px 18px;
+  border-left: 2px solid var(--rh-graphite);
+  font-family: 'Playfair Display', Georgia, serif; font-weight: 700;
+  font-size: 20px; line-height: 1.35; color: var(--rh-daylight);
+}
+.rh-quote cite,
+.rh-quote--cite {
+  display: block; margin-top: 8px;
+  font-family: 'Jost', system-ui, sans-serif; font-weight: 400; font-style: normal;
+  font-size: 14.5px; letter-spacing: 0.4px; color: var(--rh-dim);
+}
+
+/* ── An engraving ────────────────────────────────────────────────────────────
+   The mat is what the thing physically is: white paper. It carries its own
+   flat ground so the caption's pair is the honest one -- see the section note.
+   Nothing is rotated: this room has no transform in it anywhere. */
+.rh-cut { margin: 0 0 34px; }
+.rh-cut__mat {
+  background-color: var(--rh-paper);
+  padding: 22px;
+  display: flex; justify-content: center;
+}
+.rh-cut__mat img {
+  display: block; max-width: 100%; height: auto;
+  max-height: 460px; width: auto; object-fit: contain;
+  /* The scans are greyscale with a white surround, so they sit on the mat
+     without a border. NO FILTER IS APPLIED TO ANY OF THEM -- make-polaroids.py
+     refuses a filter on a photograph of a person, and while these are
+     engravings rather than portraits, a wash laid over somebody else's line to
+     make it match a palette is the same act on a smaller stake. */
+  mix-blend-mode: multiply;
+}
+.rh-cut__cap {
+  background-color: var(--rh-paper);
+  color: var(--rh-ink);
+  padding: 0 22px 20px;
+}
+.rh-cut__at {
+  margin: 0 0 8px;
+  font-family: 'Jost', system-ui, sans-serif; font-weight: 500;
+  font-size: 12.5px; letter-spacing: 2.6px; text-transform: uppercase;
+  color: var(--rh-brass-dark);
+}
+.rh-cut__ours {
+  margin: 0 0 10px;
+  font-family: 'Playfair Display', Georgia, serif; font-weight: 700;
+  font-size: 21px; line-height: 1.28; color: var(--rh-ink);
+}
+.rh-cut__prov { margin: 0; font-size: 14px; line-height: 1.5; color: var(--rh-ink); }
+
+/* ── A press ─────────────────────────────────────────────────────────────────
+   §4 supplies the 16/9 box and the nothing-before-the-press behaviour;
+   love-embed.js is still the only thing on this street that builds the frame.
+   THE CONTAINER DEFAULTS TO STRETCH AND THE BUTTON OPTS OUT, because
+   love-embed.js replaces the pressed button with a bare <div class="facade">
+   and anything the button was wearing evaporates -- which is how Swaying
+   Sweetgrass shipped two players at 0x0 while their audio played. */
+.rh-presses { list-style: none; margin: 0; padding: 0; }
+.rh-press {
+  background-color: var(--rh-slate-2);
+  border-top: 2px solid var(--rh-brass);
+  margin: 0 0 22px; padding: 22px;
+  display: grid; gap: 20px; align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.rh-press__slot { display: flex; flex-direction: column; align-items: stretch; }
+.rh-press__slot button.facade { align-self: stretch; }
+.rh-press__runs {
+  margin: 0 0 8px;
+  font-family: 'Jost', system-ui, sans-serif; font-weight: 500;
+  font-size: 11.5px; letter-spacing: 1.6px; color: var(--rh-dim);
+}
+.rh-press__who {
+  margin: 0 0 8px;
+  font-family: 'Jost', system-ui, sans-serif; font-weight: 500;
+  font-size: 15px; color: var(--rh-brass);
+}
+.rh-press__plate p:last-child { margin-bottom: 0; }
+
+/* ── The trail ───────────────────────────────────────────────────────────────
+   One thing leads to another, drawn as the thing it is: each step further in
+   than the last. The indent is a PADDING rather than a transform, for
+   arcade.js's reason -- rotation and skew in the computed matrix are all
+   check-gentle.py can read, so a room must not ask it to take its word for
+   something. This is layout, and it is the same at all three settings. */
+.rh-trail { list-style: none; margin: 0; padding: 0; }
+.rh-step {
+  padding-left: calc(var(--step) * 16px);
+  border-left: 2px solid var(--rh-graphite);
+  margin: 0 0 18px;
+  padding-top: 2px; padding-bottom: 2px;
+}
+.rh-step > a {
+  font-family: 'Playfair Display', Georgia, serif; font-weight: 700;
+  font-size: 21px; line-height: 1.2;
+  display: inline-block; margin-left: 16px;
+}
+.rh-step > p {
+  margin: 4px 0 0 16px; font-size: 16px; color: var(--rh-dim); max-width: 60ch;
+}
+
+/* The wash. §3 hides .glow at Gentle for every room, so this is the one thing
+   in here the dial touches, and it is the only thing in here that is not
+   flat. It carries no text -- the panels do all of that -- so it introduces no
+   pair for anybody to measure. */
+.room-rabbit-hole .glow {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(120% 60% at 50% -12%,
+    rgba(191, 198, 204, 0.20) 0%,
+    rgba(191, 198, 204, 0.07) 34%,
+    transparent 68%);
+}
+.rh-shaft { position: relative; z-index: 1; }
+
+
+/* §31 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -6405,7 +6758,7 @@ html[data-intensity="max"] .zb-flyleaf, html[data-intensity="max"] .zb-sheet {
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §30 says every
+   shipped with no rule here at all — which on a street whose §31 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -6443,7 +6796,34 @@ html[data-intensity="max"] .zb-flyleaf, html[data-intensity="max"] .zb-sheet {
   .gd-drill { padding-left: 16px; }
 }
 
-/* §31 ── Print ───────────────────────────────────────────────────────────────
+/* The Rabbit Hole. THE PRESS GIVES WAY RATHER THAN THE WORDS, which is the
+   sound board's rule: half of 375px is about 135 pixels, and a 16/9 player and
+   a paragraph of prose cannot both live in that. The first draft held the two
+   columns and squeezed the note into a ribbon. So the button goes above the
+   plate, full width, and both get the whole column.
+
+   WRITTEN AFTER §30 ON PURPOSE. A media block placed above the rules it
+   overrides loses exactly the declarations the base rule also sets and keeps
+   the rest -- half a breakpoint, rendering as a layout nobody wrote, and it
+   looks like a cache problem. That happened to the sound board's phone block.
+   These are the last room rules in the file for that reason. */
+@media (max-width: 620px) {
+  .rh-press { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 18px; }
+  .rh-ledge { padding: 20px 18px 22px; }
+  .rh-cut__mat { padding: 14px; }
+  .rh-cut__cap { padding: 0 14px 16px; }
+  /* The engravings are the point of that section, so they get the width the
+     mat's padding was taking rather than being shrunk to keep the frame. */
+  .rh-cut__mat img { max-height: 380px; }
+  /* The trail's deepest step is 96px in, which on a phone leaves a nine-
+     character column. The stepping is the drawing and the words are the
+     content, so the stepping is what gives way. */
+  .rh-step { padding-left: calc(var(--step) * 5px); }
+  .rh-step > a { margin-left: 12px; font-size: 19px; }
+  .rh-step > p { margin-left: 12px; }
+}
+
+/* §32 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
