@@ -11,7 +11,13 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 # Walking order, not alphabetical: the street, then each room with its subroom
 # behind it, then off the end of the street into the campgrounds and the one
 # pitch standing on it, then the pages that hold lists.
-ORDER = ["index.html", "pink-pony-club.html", "the-chappell.html", "club-chronic.html", "zine-table.html", "zine-issue-2.html",
+ORDER = ["index.html",
+         # The page about the street's own name, which is reached from a line
+         # under the dial on the front page rather than from a shopfront: it is
+         # about the street rather than a room standing on it. First, because it
+         # is the only page here that explains what all the others are doing.
+         "danny-the-street.html",
+         "pink-pony-club.html", "the-chappell.html", "club-chronic.html", "zine-table.html", "zine-issue-2.html",
          "hear-queer-here.html",
          "enids-room.html", "polaroids.html", "playhouse.html",
          "arcade.html", "quill-drift.html", "otterly-adorbs.html", "penguin-pebbling.html",

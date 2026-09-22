@@ -13,8 +13,12 @@ Live at **[stimpunks.love](https://stimpunks.love/)** since 2026-09-19.
 **This site has no single design system, on purpose.** Every other site we run applies one
 consistent look across many pages. Here the **street** is the system and the **rooms refuse to
 share one** — a visual world per room, more of them behind doors at the back of rooms, and more
-again off the end of the street, all allowed to contradict each other and joined by a front door. That is not decoration; it is the architecture, and it is stolen wholesale from Danny the
-Street, who rearranges himself for whoever needs sheltering.
+again off the end of the street, all allowed to contradict each other and joined by a front door. That is not decoration; it is the architecture, and it is stolen wholesale from
+[Danny the Street](danny-the-street.html), who turns up wherever somebody needs shelter and
+rearranges what is on them to suit whoever has arrived. **Danny is DC Comics' and the credit
+is a page of its own now** — it used to live only in a scrolling marquee that is
+`aria-hidden`, which meant the one place this site named what it had taken was unreachable
+by a screen reader.
 
 Which means: **do not unify the rooms.** A pull request that harmonises the palettes or settles
 on one typeface has removed the product. **A subroom is not an exception, and neither is an
@@ -65,6 +69,7 @@ the balanced tone — was dropped deliberately.
 
 ```
 index.html            The Stoop — the front door and the shopfronts
+danny-the-street.html The road from above, under one sodium lamp. Where the name came from
 pink-pony-club.html   The dancefloor. Ten press-to-play facades
 club-chronic.html     Club Chronic. Punk community, a wall of playlists, a rack of records
 the-chappell.html     Rhinestone Vatican. A subroom off the dancefloor; thirteen more

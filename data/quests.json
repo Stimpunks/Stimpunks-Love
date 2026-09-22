@@ -1,973 +1,1005 @@
 {
- "_source": "Every job on this board was written for this board. The QUESTIONS are the exception to nothing: each one is answered by a sentence that is already published on the page the marker sits on, and each was read off that page before it was written here rather than remembered. Where a question asks for a person's name it is a name our own page already credits -- Barad, Oldaker, Schaber, Thornburg, Lee and Duffy -- because a quiz that made somebody guess at an attribution would be teaching the opposite of the habit this street kept.",
- "_codes": "One word, A-Z, typed case-insensitively with spaces and punctuation ignored. A word rather than a random string because a word can be said out loud, remembered across a walk to another room, and typed by somebody who finds typing expensive. These are not secrets and the board does not pretend they are: the code is printed in the room's own markup, on a public page, and anybody who wants to read the source can have the lot. The board holds a checksum instead of the plain word purely so that View Source on ONE page is not a spoiler sheet for every room. That is a courtesy, not a lock, and make-guild.py says so where it computes it.",
- "_no_score": "There is no tally here, no percentage, no streak, no rank you climb and nothing that expires. The board stamps a job when you hand its code in and that is the whole of the bookkeeping. This is the pebbling cabinet's refusal arriving in the one room on the street most likely to talk itself out of it -- a job board is EXACTLY the shape of thing that grows a score, and a score beside a Disabled people's walking tour would quietly turn a wander into a workload. make-guild.py refuses the vocabulary.",
- "_class": "The difficulty class is HOW FAR YOU WALK, not how clever you are. I is on the street, II is through a door off a room, III is out past the treeline. Nothing about the class says anything about the person doing it, which is the whole reason it is defined by geography and enumerated in the tool rather than typed per job.",
- "quests": [
-  {
-   "id": "street-chalk",
-   "page": "index.html",
-   "room": "The Stoop",
-   "title": "Read the street before you walk it",
-   "posted": "Somebody has chalked a mark on the kerb outside the guild. Go and look at it. This is the shortest job on the board and it exists so that the first one you ever do is one you cannot get wrong.",
-   "rank": 1,
-   "takes": "under a minute",
-   "target": "a chalk mark on the kerb",
-   "code": "CHALKMARK",
-   "hints": [
-    "It is on the front page, not behind any door.",
-    "Go to the very bottom of the street, past the shopfronts and past the signpost, to where the pavement is.",
-    "Right at the foot of the street, down on the pavement below the signpost."
-   ],
-   "learned": "Every job marker on this street looks like the room it is standing in and none of them look like each other. That is the whole site in one habit."
-  },
-  {
-   "id": "pony-sequin",
-   "page": "pink-pony-club.html",
-   "room": "Pink Pony Club",
-   "title": "Whose records are on that dancefloor",
-   "posted": "There is a sequin on the floor of the Pink Pony Club. Pick it up, and while you are down there settle an argument about who owns the music in that room.",
-   "rank": 1,
-   "takes": "a minute, plus one line of reading",
-   "target": "a single sequin off somebody's outfit",
-   "code": "SEQUIN",
-   "ask": {
-    "question": "The room says it out loud near the jukebox: how much of the music in here is hosted by us? One word.",
-    "accept": [
-     "nothing",
-     "none",
-     "zero",
-     "nowt",
-     "0"
-    ],
-    "answer": "Nothing",
-    "why": "Every player in that room is a press-to-play facade. Nothing is fetched from YouTube until you press, nothing is copied onto this site, and the room says so rather than leaving you to assume it.",
-    "hints": [
-     "It is in the room's own copy, not in the track list.",
-     "The sentence is about who the music belongs to as well as where it lives.",
-     "The room says nothing here is hosted by us and nothing here is ours."
-    ]
-   },
-   "hints": [
-    "It is behind the first shopfront on the street.",
-    "Look at the floor rather than at the jukebox.",
-    "Down on the dancefloor at the very bottom of the room, below the jukebox."
-   ],
-   "learned": "Press-to-play is the mechanism behind that claim, and it is checkable: open a network panel, load the room, and count the requests to YouTube. There are none until you press."
-  },
-  {
-   "id": "chappell-rhinestone",
-   "page": "the-chappell.html",
-   "room": "The Chappell",
-   "title": "A rhinestone off the vestments",
-   "posted": "A rhinestone has come off something in the Rhinestone Vatican and is lying on the floor of one of the arches. It is a subroom behind the dancefloor, so you will have to go through the Pink Pony Club to reach it.",
-   "rank": 2,
-   "takes": "a minute or two, mostly walking",
-   "target": "a loose rhinestone",
-   "code": "RHINESTONE",
-   "hints": [
-    "It is not on the street. It is behind one of the rooms that is.",
-    "Go into Pink Pony Club and look for the way through to the chapel.",
-    "On the chapel floor at the foot of the room, below the last arch."
-   ],
-   "learned": "A subroom is not a smaller version of its parent. The dancefloor is flat hot pink with cream Shrikhand; the chapel is votive indigo and gold Monoton. They share a door and nothing else."
-  },
-  {
-   "id": "club-pin",
-   "page": "club-chronic.html",
-   "room": "Club Chronic",
-   "title": "Read the door policy",
-   "posted": "There is a safety pin stuck through the paste-up wall at Club Chronic. Before it will come loose you have to have read what is pinned next to it, because that room makes a promise most clubs do not.",
-   "rank": 1,
-   "takes": "two minutes, and some reading",
-   "target": "a safety pin",
-   "code": "SAFETYPIN",
-   "ask": {
-    "question": "This club names one thing it will never do, because it can put somebody on the floor. One word, and it is a kind of light.",
-    "accept": [
-     "strobe",
-     "strobes",
-     "strobing",
-     "flash",
-     "flashes",
-     "flashing"
-    ],
-    "answer": "Strobe",
-    "why": "A room whose argument is come in as you are cannot have a light in it that causes seizures. The club has no ambient layer at any dial setting, and it says so on its own door policy so that nobody finishes the room later by adding one.",
-    "hints": [
-     "It is on the door policy rather than in the music.",
-     "It is the one obvious effect a punk club has, and the one this club refuses.",
-     "Nothing plays until you press play, and nothing in here does the other thing."
-    ]
-   },
-   "hints": [
-    "It is a shopfront on the street, not behind a door.",
-    "It is the punk one, with the paste-up wall and the rack of records.",
-    "On the floor at the very bottom of the club, below the rack."
-   ],
-   "learned": "That room also says out loud that a loud room is an access barrier. A page celebrating a scene built out of volume, crowding and stairs, which never names who cannot get in, is doing the inspiration thing this organisation exists to refuse."
-  },
-  {
-   "id": "zine-staple",
-   "page": "zine-table.html",
-   "room": "The Zine Table",
-   "title": "One staple off the table",
-   "posted": "Somebody has left a staple on the zine table. Take it. There is nothing to work out on this one; it is here so there is a job you can do on your way past.",
-   "rank": 1,
-   "takes": "under a minute",
-   "target": "a loose staple",
-   "code": "STAPLE",
-   "hints": [
-    "It is a shopfront on the street.",
-    "It is the table itself rather than either of the issues laid out on it.",
-    "On the table at the very bottom of the room, below the issues."
-   ],
-   "learned": "That room prints to one sheet in black and white, and a tool renders it to a real PDF to check both halves of that claim. This marker is not on the sheet: a quest target is a screen control, so it is set not to print."
-  },
-  {
-   "id": "zine2-clip",
-   "page": "zine-issue-2.html",
-   "room": "Zine #2",
-   "title": "What issue two is about",
-   "posted": "There is a paperclip holding issue two together. It will come off once you can say what the issue is about, which is written on the issue.",
-   "rank": 2,
-   "takes": "two minutes, and some reading",
-   "target": "a paperclip",
-   "code": "PAPERCLIP",
-   "ask": {
-    "question": "This issue was distilled from one of our courses. Neurodiversity and what? One word.",
-    "accept": [
-     "gender",
-     "genders"
-    ],
-    "answer": "Gender",
-    "why": "Seven lessons from our Neurodiversity and Gender course, photocopied down to one sheet.",
-    "hints": [
-     "It is named at the top of the issue and in the page's own description.",
-     "Two subjects, joined by the word and.",
-     "The other half of the pair is a word about who people are rather than how they think."
-    ]
-   },
-   "hints": [
-    "Go to the zine table first; the issues are on it.",
-    "It is the second issue, not the first.",
-    "At the very bottom of issue two, below the last panel."
-   ],
-   "learned": "Both zine pages print to one sheet and only in the inks a photocopier can manage. Adding one paragraph has pushed that room back over the limit more than once, which is why a tool measures it instead of somebody remembering."
-  },
-  {
-   "id": "quantum-fringe",
-   "page": "hear-queer-here.html",
-   "room": "Hear Queer Here",
-   "title": "Name the physicist",
-   "posted": "There is a detector sitting in the interference pattern in Hear Queer Here. It will give up its reading once you can name whose work that room is arguing from.",
-   "rank": 1,
-   "takes": "two minutes, and some reading",
-   "target": "a small detector",
-   "code": "FRINGE",
-   "ask": {
-    "question": "The physicist this room quotes, whose work the whole argument is drawn from. Surname is enough.",
-    "accept": [
-     "barad",
-     "karenbarad",
-     "karen"
-    ],
-    "answer": "Karen Barad",
-    "why": "The room is built on Barad's agential realism: nothing is fixed, bounded or settled in advance of its relations. Every quotation in there is credited by name rather than folded into our we.",
-    "hints": [
-     "The name is on the page, beside the words it belongs to.",
-     "A theoretical physicist and feminist theorist.",
-     "The surname has five letters and begins with a B."
-    ]
-   },
-   "hints": [
-    "It is a shopfront on the street.",
-    "It is the room with the interference panel and the superposition buttons.",
-    "At the foot of the room, below the readings."
-   ],
-   "learned": "The buttons in that room never start audio. Collapsing is a measurement, not a play — which is why the panel can be walked end to end without anything being fetched."
-  },
-  {
-   "id": "enid-sticker",
-   "page": "enids-room.html",
-   "room": "Enid's Room",
-   "title": "One sticker, peeling",
-   "posted": "A sticker on Enid's wall has started to lift at one corner. Press it back down, or take it; either way there is a code under it.",
-   "rank": 1,
-   "takes": "under a minute",
-   "target": "a sticker peeling up at one corner",
-   "code": "STICKER",
-   "hints": [
-    "It is a shopfront on the street.",
-    "It is the goth one, with the wall of stickers and the chair.",
-    "On the floor at the very bottom of the room, below the wall and the chair."
-   ],
-   "learned": "Every sticker on that wall is wired to a glossary entry on stimpunks.org, and each link was checked against a local mirror rather than fetched live, because on that site a redirect will happily deliver somebody to the wrong page and call it a success."
-  },
-  {
-   "id": "polaroids-pin",
-   "page": "polaroids.html",
-   "room": "The Polaroid Wall",
-   "title": "What we will not do to a picture of you",
-   "posted": "There is a spare drawing pin stuck in the wall beside the photographs. It is in the board, not in anybody's picture. To get it you need to have read the promise that wall makes.",
-   "rank": 2,
-   "takes": "two minutes, and some reading",
-   "target": "a spare drawing pin, stuck in the board and not in anybody's picture",
-   "code": "DRAWINGPIN",
-   "ask": {
-    "question": "The wall promises two things it will not do to a photograph of you. One is crop. What is the other? One word.",
-    "accept": [
-     "filter",
-     "filters",
-     "filtered",
-     "filtering"
-    ],
-    "answer": "Filter",
-    "why": "A frame, a shadow or a mat goes around a picture. A filter is done to it. That promise is made to everybody, so it is not waived by the person in the picture asking for it — the next photograph would arrive under a rule already bent once.",
-    "hints": [
-     "Two short sentences, one after the other, near the top of the wall.",
-     "It is a thing people do to photographs on their phones.",
-     "The tool that builds the wall refuses one of these outright, in CSS or inline."
-    ]
-   },
-   "hints": [
-    "It is behind Enid's Room.",
-    "It is the wall of photographs behind Enid's Room, not Enid's Room itself.",
-    "At the very bottom of the wall, below the last row of photographs."
-   ],
-   "learned": "The photographs on that wall are excluded from this site's CC BY-SA licence, and that exclusion is load-bearing: CC BY-SA cannot be revoked, so a photograph published under it could not be taken back. Withdrawal here is deletion, not a hidden flag."
-  },
-  {
-   "id": "play-block",
-   "page": "playhouse.html",
-   "room": "The Playhouse",
-   "title": "A block off the floor",
-   "posted": "There is a wooden block on the floor of the Playhouse with a letter on it. Everything in that room is a button; this one is a block.",
-   "rank": 1,
-   "takes": "under a minute",
-   "target": "a wooden block with a letter on it",
-   "code": "WOODBLOCK",
-   "hints": [
-    "It is a shopfront on the street.",
-    "On the floor, under the toys rather than among them.",
-    "On the floor at the very bottom of the room, below the toys."
-   ],
-   "learned": "Every noise in that room is synthesised in the browser except the recorded yells, and the sentence saying so is generated from the same data as the button — so it stops being true and starts being wrong in the same commit rather than a month later."
-  },
-  {
-   "id": "arcade-token",
-   "page": "arcade.html",
-   "room": "The Arcade",
-   "title": "How loud is the arcade",
-   "posted": "Somebody has dropped a token on the carpet in the arcade. Pick it up, and answer the thing the foyer says about itself that no real arcade could.",
-   "rank": 1,
-   "takes": "a minute, plus one line of reading",
-   "target": "a token",
-   "code": "TOKEN",
-   "ask": {
-    "question": "How much sound do these cabinets make, at any dial setting, ever? One word.",
-    "accept": [
-     "none",
-     "nothing",
-     "zero",
-     "silent",
-     "silence",
-     "no",
-     "0"
-    ],
-    "answer": "None",
-    "why": "The foyer says it in the room's own copy: no timer, no score, no way to lose, no sound, and nothing trying to beat you. An arcade that is silent by choice is better than one that is silent until it isn't — and because the room states it, adding one blip would turn a design decision into a false sentence on a published page.",
-    "hints": [
-     "It is in the same sentence as no timer and no score.",
-     "The room would rather be silent by choice than silent until it isn't.",
-     "The answer is the smallest amount there is."
-    ]
-   },
-   "hints": [
-    "It is a shopfront on the street.",
-    "On the carpet in the foyer, not on a cabinet.",
-    "On the carpet at the very bottom of the foyer, below the cabinets."
-   ],
-   "learned": "That room is the one place on the street where the pages are supposed to look alike: an arcade is machines with one body and different things behind the glass. The worlds are the screens."
-  },
-  {
-   "id": "quill-feather",
-   "page": "quill-drift.html",
-   "room": "Quill Drift",
-   "title": "Who drew the porcupine",
-   "posted": "A quill has drifted off the screen and landed at the foot of the cabinet. Nothing on the playfield moves before the coin goes in, so this one is on the floor.",
-   "rank": 2,
-   "takes": "two minutes, and some reading",
-   "target": "a quill",
-   "code": "QUILL",
-   "ask": {
-    "question": "Esmx the Porkypine was drawn by somebody, and the cabinet credits them. Surname is enough.",
-    "accept": [
-     "oldaker",
-     "kaya",
-     "kayaoldaker"
-    ],
-    "answer": "Kaya Oldaker",
-    "why": "Stimpunks commissioned Esmx and holds the rights, and Kaya's name is on the drawing's own markup anyway. Holding the rights to a commission is not a reason to stop naming the hand that drew it.",
-    "hints": [
-     "The name is in the room, and again in the liner notes.",
-     "It is on the drawing itself as well as in the credits.",
-     "The surname has seven letters and starts with an O."
-    ]
-   },
-   "hints": [
-    "Go into the arcade and walk up to a cabinet.",
-    "It is the cabinet with the porcupine, not the one with the otter.",
-    "On the floor at the very bottom of the page, below the cabinet."
-   ],
-   "learned": "The Esmx in that cabinet is redrawn rather than pasted in. That is not a permissions matter — it is a room-consistency one, plus the fact that our own licence asks for variants rather than merely allowing them."
-  },
-  {
-   "id": "otter-clam",
-   "page": "otterly-adorbs.html",
-   "room": "Otterly Adorbs",
-   "title": "What floating is for",
-   "posted": "An empty clam shell has washed up at the edge of the kelp bay. Getting it means being clear about what the otter gets for floating, which is the whole argument of that cabinet.",
-   "rank": 2,
-   "takes": "two minutes, and some reading",
-   "target": "an empty clam shell",
-   "code": "CLAMSHELL",
-   "ask": {
-    "question": "When the otter floats, what does it fill up, earn or recharge? One word.",
-    "accept": [
-     "nothing",
-     "none",
-     "zero",
-     "nowt",
-     "no",
-     "0"
-    ],
-    "answer": "Nothing",
-    "why": "The cabinet is built on a zine that refuses rest so you can produce, in as many words. No meter, no stamina, no bonus afterwards. Letting floating restore something would feel generous and would put a sentence on that page which another of our pages spends a spread refusing.",
-    "hints": [
-     "The cabinet says it out loud, right under the title.",
-     "Floating fills nothing up, on purpose.",
-     "The answer is the same one the arcade gives about its own volume."
-    ]
-   },
-   "hints": [
-    "Go into the arcade and walk up to a cabinet.",
-    "It is the cabinet with the otter, not the one with the porcupine.",
-    "At the very bottom of the page, below the cabinet."
-   ],
-   "learned": "That cabinet also refuses to rank the other otters — there is no standard otter — and refuses to round the clam's range into something tidier. Every number in it sits beside the paper it came from."
-  },
-  {
-   "id": "pebbling-stone",
-   "page": "penguin-pebbling.html",
-   "room": "Penguin Pebbling",
-   "title": "Who named the locution",
-   "posted": "There is a pebble on the shore that nobody has taken to a nest. It is yours if you can name whose locution this cabinet is built on.",
-   "rank": 2,
-   "takes": "two minutes, and some reading",
-   "target": "a pebble nobody has taken to a nest",
-   "code": "PEBBLE",
-   "ask": {
-    "question": "Pebbling as a locution was named by somebody, and the cabinet credits them. Surname is enough.",
-    "accept": [
-     "schaber",
-     "amythest",
-     "amythestschaber"
-    ],
-    "answer": "Amythest Schaber",
-    "why": "The locution is Amythest Schaber's, documented by Stimpunks in 2022 and written up by Helen Edgar at Autistic Realms in 2023. The cabinet is built on that and takes nothing from the Penguin Pebbling card game, which is a separate, better thing under a different licence.",
-    "hints": [
-     "The name is credited in the cabinet and again in the liner notes.",
-     "An autistic advocate and educator; the first name is unusual.",
-     "The surname has seven letters and begins with an S."
-    ]
-   },
-   "hints": [
-    "Go into the arcade and walk up to a cabinet.",
-    "It is the shore one, with the penguins.",
-    "At the very bottom of the page, below the cabinet."
-   ],
-   "learned": "That cabinet keeps no tally of what you gave. No total, no streak, and the neighbours bring you things on their own clock whether or not you have ever given them anything — a timer rather than a reward, because a number beside a practice that is not about volume would quietly make it about volume."
-  },
-  {
-   "id": "burrow-door",
-   "page": "latibulum.html",
-   "room": "The Latibulum",
-   "title": "The shelf is not a checklist",
-   "posted": "There is a key on a hook by the round door of the burrow. To get it, look at the shelf of things to do with your body and be clear about what kind of list it is.",
-   "rank": 1,
-   "takes": "two minutes, and some reading",
-   "target": "a key on a hook",
-   "code": "ROUNDDOOR",
-   "ask": {
-    "question": "Stretch, flap, fidget, eat, drink. Can you tick any of them off? Yes or no.",
-    "accept": [
-     "no",
-     "none",
-     "nope",
-     "nothing",
-     "never",
-     "cannot",
-     "cant"
-    ],
-    "answer": "No",
-    "why": "Not one of them is a button. The obvious improvement is to let somebody tick them off, and it would put a scoreboard next to a bodymind break — which is the thing the break is a break from.",
-    "hints": [
-     "Try to press one and see what happens.",
-     "They are read out of our own Bodymind Break, which is a rest and not a task list.",
-     "It is a two-letter answer."
-    ]
-   },
-   "hints": [
-    "It is a shopfront on the street.",
-    "It is the burrow with the round door, the wireless and the tube television.",
-    "At the very bottom of the burrow, below the wireless and the television."
-   ],
-   "learned": "That room reads almost entirely dark on lit plaster, where the Faery Yurt reads cream on dark all the way down. Two rooms lit by the same kind of light, inverted — which is why the burrow's share card is the only one on the street made of two grounds."
-  },
-  {
-   "id": "jungle-leaf",
-   "page": "jungle-room.html",
-   "room": "The Jungle Room",
-   "title": "The thing a live camera cannot tell you",
-   "posted": "A leaf has come down out of the canopy in the viewing room. Every other press-to-play control on this street says one thing before the press that these cameras cannot.",
-   "rank": 1,
-   "takes": "two minutes, and some reading",
-   "target": "a fallen leaf",
-   "code": "CANOPY",
-   "ask": {
-    "question": "Every other player on this street says this before you press it, and a live camera has none. One word.",
-    "accept": [
-     "runtime",
-     "runtimes",
-     "length",
-     "duration",
-     "time",
-     "howlong"
-    ],
-    "answer": "Runtime",
-    "why": "Storing the length of whichever stream happens to be up today would put a number on the page that is wrong tomorrow and authoritative-looking meanwhile — so the tool that builds that room refuses a cam that has one. The label says it runs until you close it instead.",
-    "hints": [
-     "Look at a song in The Den and then at a cam here, and see what is missing.",
-     "It is the number that lets somebody decide before they press.",
-     "Seven letters, and it is what the other rooms all state."
-    ]
-   },
-   "hints": [
-    "It is a shopfront on the street.",
-    "It is the viewing room with the nature cams, not the den behind it.",
-    "On the floor at the very bottom of the viewing room, below the last gallery."
-   ],
-   "learned": "That room also found out that playing and embedding are two different permissions. A cam can be perfectly alive and still have embedding switched off, so those ones are doors out to YouTube rather than windows — because pretending a link is a screen is the broken thing."
-  },
-  {
-   "id": "den-spindle",
-   "page": "the-den.html",
-   "room": "The Den",
-   "title": "The George Jones cover in Elvis's den",
-   "posted": "One of the songs cut in that carpet was a hit for George Jones first, and the man who sang it there wrote none of it. There is a 45 spindle adapter on the shelf by the bench; it is yours once you can name a writer.",
-   "rank": 2,
-   "takes": "two or three minutes, and some reading",
-   "target": "a 45rpm spindle adapter",
-   "code": "SPINDLE",
-   "ask": {
-    "question": "She Thinks I Still Care is on that bench, and the label credits two writers. Either surname will do.",
-    "accept": [
-     "lee",
-     "duffy",
-     "dickeylee",
-     "steveduffy",
-     "dickey",
-     "steve"
-    ],
-    "answer": "Dickey Lee and Steve Duffy",
-    "why": "Presley wrote none of the songs cut in that room. A room where the performer's name is the entire draw is exactly where crediting only the voice would pass unnoticed, so every cut names its writers.",
-    "hints": [
-     "It is the second cut of the February session.",
-     "The line under each title starts with the words Written by.",
-     "One of the two surnames is three letters long."
-    ]
-   },
-   "hints": [
-    "It is behind the Jungle Room, through the back.",
-    "It is the carpeted room behind the Jungle Room, with the cuts on it.",
-    "On the floor at the very bottom of the den, below the last cut."
-   ],
-   "learned": "Every video id in that room was resolved and then checked on its own watch page and matched against the released runtime, because searching any of those titles turns up alternate takes on the same official channels — and a room arguing these are the records that came out of that carpet cannot hand somebody a rehearsal."
-  },
-  {
-   "id": "mopery-card",
-   "page": "the-mopery.html",
-   "room": "The Mopery",
-   "title": "Borrow, not buy",
-   "posted": "A library card has been left in the pocket of one of the books in the Mopery. The shelves there insist on one kind of link and do not insist on the other.",
-   "rank": 1,
-   "takes": "two minutes, and some reading",
-   "target": "a library card out of the pocket of a book",
-   "code": "LIBRARYCARD",
-   "ask": {
-    "question": "Every book on those shelves carries a way to do this, and none of them has to carry a way to buy. One word.",
-    "accept": [
-     "borrow",
-     "borrowing",
-     "borrowed",
-     "loan",
-     "lend",
-     "library"
-    ],
-    "answer": "Borrow",
-    "why": "Our library page says knowledge is infrastructure and access to it is mutual aid. A shelf that could only tell you where to buy would be a shop with an argument painted on it.",
-    "hints": [
-     "It is what you do at a library rather than at a shop.",
-     "The room's own description says books you can do this to.",
-     "Six letters, and the tool refuses a book without one."
-    ]
-   },
-   "hints": [
-    "It is a shopfront on the street.",
-    "It is the library, the reading room and the parlour, all one room.",
-    "At the very bottom of the room, below the reading nook."
-   ],
-   "learned": "That room shows one scan of a manuscript and only points at another, one line of metadata apart: one is published under a public domain mark, the other carries a notice along the foot of its own first leaf. The poem is free in both; the objects are not the same object."
-  },
-  {
-   "id": "oracle-lozenge",
-   "page": "oracle-deck.html",
-   "room": "The Oracle Deck",
-   "title": "A deck that will not answer",
-   "posted": "There is a lozenge cut into the rule at the foot of the oracle deck. It comes away once you can say what every card in that deck does instead of telling you something.",
-   "rank": 2,
-   "takes": "two minutes, and some reading",
-   "target": "a lozenge cut out of a rule",
-   "code": "LOZENGE",
-   "ask": {
-    "question": "Look at the back of any card. Every one of them ends the same way and does the same thing. One word.",
-    "accept": [
-     "ask",
-     "asks",
-     "asking",
-     "question",
-     "questions",
-     "questioning"
-    ],
-    "answer": "Ask",
-    "why": "Every card ends in a question mark, and the tool refuses one that does not, plus the whole vocabulary of prediction. There are no reversals, no spread and no positions — nothing that could be assembled into a statement about somebody's life.",
-    "hints": [
-     "Look at the punctuation at the end of a card.",
-     "It is the opposite of telling you what is going to happen.",
-     "Three letters."
-    ]
-   },
-   "hints": [
-    "It is behind the Mopery, through the parlour.",
-    "Look at the rule at the very foot of the deck, below the cards.",
-    "At the very bottom of the page, below the last card."
-   ],
-   "learned": "A deck that told somebody how their life was going to go would be doing the thing the rest of these pages exist to refuse, in the one room dark enough to get away with it — and it would arrive as a friendly edit from somebody who thought a question was a bit thin."
-  },
-  {
-   "id": "doom-foxing",
-   "page": "the-doomscroll.html",
-   "room": "The Doomscroll",
-   "title": "Public domain everywhere",
-   "posted": "There is a spot of foxing on the roll in the doomscroll where the paper has aged. That scroll waits longer than one country's law requires before it will carry a poem, and it will tell you how long.",
-   "rank": 2,
-   "takes": "two minutes, and some reading",
-   "target": "a spot of foxing where the paper has aged",
-   "code": "FOXING",
-   "ask": {
-    "question": "How many years must an author have been dead before a poem can go on that scroll? A number.",
-    "accept": [
-     "seventy",
-     "70",
-     "seventyyears",
-     "70years"
-    ],
-    "answer": "Seventy",
-    "why": "That is a public-domain-everywhere test rather than a public-domain-in-America one, and it cost the scroll its best opening item: Eliot's The Hollow Men is free in the United States and will not be free in much of Europe until the 2030s. A site that serves everybody cannot publish a whole poem on a technicality that holds in one country.",
-    "hints": [
-     "It is in the note at the head of the scroll.",
-     "Longer than the American rule, because this site is read everywhere.",
-     "It is a round number between fifty and a hundred."
-    ]
-   },
-   "hints": [
-    "It is behind the Mopery, off the library.",
-    "On the roll itself rather than in any poem.",
-    "At the very bottom of the roll, below the last poem."
-   ],
-   "learned": "That scroll sorts on the date a poem went public rather than the date it was written, which for a good part of it is decades apart — and it turned down a famous poem whose printing nobody could trace, because a text you cannot source is the one thing a scroll built out of dates cannot carry."
-  },
-  {
-   "id": "feed-splitflap",
-   "page": "the-feed.html",
-   "room": "The Feed",
-   "title": "What the board is not",
-   "posted": "A flap has come off one of the boards in The Feed and is lying on the floor of the concourse. That room is a hall of arrival boards carrying every site we run, and it is extremely careful about saying what it is NOT. The line under the room's own name says it in six words.",
-   "rank": 1,
-   "takes": "two minutes",
-   "target": "a flap off one of the boards",
-   "code": "SPLITFLAP",
-   "ask": {
-    "question": "That room says the board is a picture of something, and then says it is not that thing. What is it? One word.",
-    "accept": [
-     "railway",
-     "railways",
-     "therailway",
-     "arailway"
-    ],
-    "answer": "Railway",
-    "why": "None of those sites lets a browser read its feed from our page, so the board cannot be live and does not pretend to be: a person runs a tool, the boards are set, and every plate carries the minute its own wire was read. The feeds themselves are linked on every board, which is the actual railway.",
-    "hints": [
-     "It is in the line directly under the room's name, at the very top.",
-     "It is the thing a departures board is a picture of.",
-     "Seven letters, and it begins with an R."
-    ]
-   },
-   "hints": [
-    "It is a storefront on the street, between the guild and the empty room.",
-    "The line you want is the first thing under the big name, before the paragraph.",
-    "The flap itself is on the floor at the very bottom of the page."
-   ],
-   "learned": "A board is set by somebody with a machine, at a time, and it is a picture of the railway rather than the railway. That is the only honest way to carry other people's arrivals on your own page — say when you looked, and link the thing you looked at."
-  },
-  {
-   "id": "your-room-keys",
-   "page": "your-room.html",
-   "room": "Your Room",
-   "title": "The keys are in the door",
-   "posted": "There is an empty storefront on this street with the keys still in the door. Go and look at them. The room is empty on purpose and the terms are written down.",
-   "rank": 1,
-   "takes": "under a minute",
-   "target": "the keys left in the door",
-   "code": "KEYRING",
-   "hints": [
-    "It is a shopfront on the street, and the only one with nothing in it.",
-    "It is the storefront with nothing in it and the terms written down.",
-    "At the very bottom of the room, below the terms."
-   ],
-   "learned": "That storefront is empty because somebody in the community gets to decorate it, and the terms for doing so are published rather than negotiated in a direct message."
-  },
-  {
-   "id": "board-clip",
-   "page": "pebble-board.html",
-   "room": "The Pebble Board",
-   "title": "A clip off the noticeboard",
-   "posted": "There is a spare bulldog clip on the pebble board out on the pavement. It is street furniture rather than a shopfront, so you do not have to go through a door to reach it.",
-   "rank": 1,
-   "takes": "under a minute",
-   "target": "a spare bulldog clip, holding nothing",
-   "code": "BULLDOGCLIP",
-   "hints": [
-    "It is not behind a door. It is out on the pavement, on the street itself.",
-    "It is under the glass on the pavement, with the back issues racked beneath.",
-    "At the very bottom of the board, below the back-issue rack."
-   ],
-   "learned": "That board is a periodical rather than a premises: a new edition goes up when there is a new gathering and the old ones stay in the rack underneath, which is why it is not one of the shopfronts."
-  },
-  {
-   "id": "camp-peg",
-   "page": "campgrounds.html",
-   "room": "The Campgrounds",
-   "title": "Out past the treeline",
-   "posted": "Somebody has left a tent peg in the ground at the campgrounds. The field is past the end of the street, so this one is a walk.",
-   "rank": 3,
-   "takes": "two minutes, mostly walking",
-   "target": "a tent peg",
-   "code": "TENTPEG",
-   "hints": [
-    "It is not on the street at all. Follow the signpost at the end of it.",
-    "On the bare ground of the field, not on any of the pitches.",
-    "In the grass at the very bottom of the field, below the last pitch."
-   ],
-   "learned": "That field has no ambient layer at any dial setting, and the reason is not the same as Club Chronic's: the field is still because quiet is what it is for."
-  },
-  {
-   "id": "yurt-tallow",
-   "page": "faery-yurt.html",
-   "room": "The Faery Yurt",
-   "title": "A candle stub on the windowsill",
-   "posted": "There is a candle stub on the windowsill in the Faery Yurt, pitch 01 in the campgrounds, burnt most of the way down. Take it and leave everything else as you found it.",
-   "rank": 3,
-   "takes": "two minutes, mostly walking",
-   "target": "a candle stub burnt most of the way down",
-   "code": "TALLOW",
-   "hints": [
-    "It is not on the street. Go out past the treeline to the campgrounds first.",
-    "It is pitch 01, the first thing standing in that field.",
-    "At the very bottom of the yurt, below everything else in it."
-   ],
-   "learned": "That room is Helen Edgar's design and not ours to redesign — the palette, the typefaces, the drawings and every line of its copy came from a mockup she sent. This repo has changed exactly one colour of hers, because her smallest grey failed WCAG on every ground it sat on, and that change is written up in four places. The candle stub is ours, added with Ryan's say-so, and written up in the liner notes for the same reason."
-  },
-  {
-   "id": "meadow-firefly",
-   "page": "swaying-sweetgrass.html",
-   "room": "Swaying Sweetgrass",
-   "title": "The book this room will not serve",
-   "posted": "There is a firefly low in the grass at pitch 02. That room points at a book it will not play for you, and it will want you to know why before it lets the firefly go.",
-   "rank": 3,
-   "takes": "three minutes, and some reading",
-   "target": "a firefly",
-   "code": "FIREFLY",
-   "ask": {
-    "question": "The chapter readings in that room are doors rather than players. What is the book still in? One word.",
-    "accept": [
-     "copyright",
-     "copyrighted",
-     "print"
-    ],
-    "answer": "Copyright",
-    "why": "Every one of those readings plays and every one embeds, so nothing in the machinery would have stopped them. What stops them is the room's own argument — the honorable harvest — which a page cannot make while serving somebody else's whole book off its own surface. They are doors with a borrow link beside them.",
-    "hints": [
-     "The room says it in three words, near the readings.",
-     "It is the reason a library lends a book rather than giving it away.",
-     "The author is living, publishing, and narrated the real audiobook herself."
-    ]
-   },
-   "hints": [
-    "It is not on the street. Go out past the treeline to the campgrounds first.",
-    "It is pitch 02, the meadow with the path through it.",
-    "Low in the grass at the very bottom of the meadow, below the clearing."
-   ],
-   "learned": "That room also carries a correction to our own glossary near the top rather than in a footnote: two of our entries attribute a phrase to Barry Lopez that he never wrote. When two of our own pages disagree, the one that checked wins."
-  },
-  {
-   "id": "hermitage-sunflower",
-   "page": "solarpunk-hermitage.html",
-   "room": "The Solarpunk Hermitage",
-   "title": "The fourth learning space",
-   "posted": "There is a sunflower head drying on a hook outside the hermitage at pitch 03. Three of the four primordial learning spaces are laid out inside that cabin. The fourth is not in there, and the room will tell you where it is.",
-   "rank": 3,
-   "takes": "three minutes, and some reading",
-   "target": "a sunflower head, drying",
-   "code": "SUNFLOWER",
-   "ask": {
-    "question": "Cave, campfire and watering hole are in the cabin. Name the fourth. One word.",
-    "accept": [
-     "life",
-     "lives",
-     "living"
-    ],
-    "answer": "Life",
-    "why": "The three zones are David Thornburg's primordial learning spaces, and the room names them as his. There is a fourth, and the room says out loud that it is not in there — it is the door you came in by, where you go and make something out of what the other three gave you.",
-    "hints": [
-     "The room says out loud that the fourth one is not in the cabin.",
-     "It is the door you came in by.",
-     "Four letters."
-    ]
-   },
-   "hints": [
-    "It is not on the street. Go out past the treeline to the campgrounds first.",
-    "It is pitch 03, the cabin on wheels with the panels on the roof.",
-    "At the very bottom of the page, below the last of the cabin."
-   ],
-   "learned": "It is the only room on this street lit by morning. Every other world here is a dark ground with light applied to it; a cabin that runs on the sun and reads as midnight would be an argument against itself."
-  },
-  {
-   "id": "liner-colophon",
-   "page": "liner-notes.html",
-   "room": "The Liner Notes",
-   "title": "The two habits that survived",
-   "posted": "There is a colophon mark at the foot of the liner notes. This street dropped most of the care its sibling sites run on and kept exactly two things. Name the one that is not contrast.",
-   "rank": 1,
-   "takes": "two minutes, and some reading",
-   "target": "a colophon mark",
-   "code": "COLOPHON",
-   "ask": {
-    "question": "Two habits survived onto this street. One is contrast. What is the other? One word.",
-    "accept": [
-     "attribution",
-     "attributions",
-     "credit",
-     "credits",
-     "crediting",
-     "attributing"
-    ],
-    "answer": "Attribution",
-    "why": "It is a licence rather than a house style, it is the cheapest thing on the page, and it is the only one of our habits whose absence is a legal problem rather than an aesthetic one. So the credits got louder instead of going away.",
-    "hints": [
-     "It is the thing this whole page is.",
-     "It is a licence rather than a house style.",
-     "Eleven letters, and it begins with an A."
-    ]
-   },
-   "hints": [
-    "It is one of the pages linked from the pavement at the foot of the street.",
-    "Go to the very bottom of the credits.",
-    "At the very bottom of the page, below the last credit."
-   ],
-   "learned": "Contrast survived for a reason that is not the obvious one. This is a Disabled people's organisation, and a glitter-maximalist site that excluded the people it is for would be a self-own of exactly the kind we exist to name. The fix was never to tone it down — it was the dial."
-  },
-  {
-   "id": "garden-label",
-   "page": "the-garden.html",
-   "room": "The Garden",
-   "title": "What a spider's best answer is",
-   "posted": "Somebody has dropped a blank plant label on the path in the garden, which is through the gate in the wall between two of the shopfronts. Pick it up. While you are in there, settle what that room says the garden spider is for, because it is careful about it and the sentence is worth carrying back out with you.",
-   "rank": 1,
-   "takes": "two or three minutes, most of it one paragraph",
-   "target": "a blank wooden plant label",
-   "code": "PLANTLABEL",
-   "ask": {
-    "question": "The garden says what a spider's best answer is, in our own words. One word.",
-    "accept": [
-     "entrance",
-     "an entrance",
-     "entry",
-     "way in"
-    ],
-    "answer": "An entrance",
-    "why": "Grounding the spider in our own garden changes where its answers come from and not whether they can be wrong, so every trail it puts somebody on ends at a page a person wrote. What it is genuinely good at is the step before the word: taking \"why does switching tasks hurt\" and getting somebody to the glossary entry, the pattern or the recipe. It is the way in rather than the thing itself.",
-    "hints": [
-     "It is in the room's own writing about the spider, not on the button.",
-     "The sentence is about what a spider is FOR: a guide to the garden and never a replacement for it.",
-     "The room says a spider's best answer is an entrance."
-    ]
-   },
-   "hints": [
-    "It is not behind a shopfront. There is a gate in the wall between two of them, down past the noticeboard.",
-    "Through the gate is the garden, where every bed is one of the other sites we publish.",
-    "Right at the foot of the garden, on the path below the hedge and the dial."
-   ],
-   "learned": "A glossary exists to give somebody a word for an experience that usually goes unnamed, and a tool that can route them from the experience to the word is doing that job one step earlier. What it must never do is stand in for the page at the other end, which is why that room says out loud that it can be wrong and links the ethics pages where we hold the line."
-  },
-  {
-   "id": "zibaldone-nib",
-   "page": "zibaldone.html",
-   "room": "The Zibaldone",
-   "title": "Which printing it was",
-   "posted": "There is a shopfront on the street with a commonplace book left open on the desk in it. A nib has been put down beside the book. Pick it up, and while you are there settle the question the whole room turns on: one of the quotations in that book had to be traced to a particular printing before it could go in, because the obvious guess was wrong.",
-   "rank": 1,
-   "takes": "two or three minutes, most of it one list",
-   "target": "a steel nib laid down beside the book",
-   "code": "STEELNIB",
-   "ask": {
-    "question": "The Emily Dickinson line in that book is not in the series everybody assumes. Which series is it in? One word.",
-    "accept": [
-     "second",
-     "the second",
-     "2nd",
-     "two",
-     "series two",
-     "second series"
-    ],
-    "answer": "The second",
-    "why": "It is in the Second Series of 1891, edited by Mabel Loomis Todd and T. W. Higginson, not the first. That is the whole argument of the room in one entry: a title is not a source, these texts differ between printings, and the only thing that told anybody which one it was was going and reading the title page above the poem instead of remembering. Todd and Higginson edited Dickinson's punctuation before they let her out, so the printing you name decides the words you are quoting.",
-    "hints": [
-     "It is not on the card with the quotation on it. It is in the room's list of what the book will and will not do.",
-     "The rule is the one about naming the printing rather than the title, and the room calls this entry its proof.",
-     "The room says it is in the second series, not the first."
-    ]
-   },
-   "hints": [
-    "It is a shopfront on the street, with the only pale window in the row.",
-    "The book is open on a desk, and the nib is down at the foot of the page.",
-    "Below the attribution slip, at the bottom of the room."
-   ],
-   "learned": "Naming the printing is not pedantry, it is the difference between quoting somebody and quoting somebody's editor. A quotation that names only its title cannot be checked by anybody, which is how a misquotation travels for a century in perfectly good faith."
-  },
-  {
-   "id": "hole-cuts",
-   "page": "rabbit-hole.html",
-   "room": "The Rabbit Hole",
-   "title": "The words are not in the hole",
-   "posted": "There is a shaft at the end of the street with seven recordings hanging in it, all of them of one song or of the record that song came out of. Go down it and count the lyrics.",
-   "rank": 1,
-   "takes": "a couple of minutes, and longer if you press something",
-   "target": "an engraver's block on the shaft wall",
-   "code": "WOODCUT",
-   "hints": [
-    "It is a storefront on the street, not behind another room.",
-    "The marker is on the wall of the shaft like everything else in there — keep going down past the engravings, the presses and the trail.",
-    "Right at the foot of the page, under the dial."
-   ],
-   "ask": {
-    "question": "Seven recordings of one song, and our own glossary entry prints the whole lyric. How many lines of it are printed in this room? One word.",
-    "accept": [
-     "none",
-     "zero",
-     "0",
-     "nothing",
-     "nil",
-     "nowt",
-     "notone"
-    ],
-    "answer": "None",
-    "why": "None of it. Our glossary entry has the words; this room deliberately does not. Song lyric reproduction is a minefield in the United States in a way prose is not — music publishing enforces on quotation where prose publishing shrugs, the licensing is separate from the recording, and one line is a far larger fraction of a song than of a novel. It is the same reasoning that makes the Zibaldone refuse a song outright. So the recordings are offered instead, with Grace Slick's own published account of writing it, and a generator refuses a lyric field rather than leaving it to anybody's care — because the room reads thinner without the words, and somebody will eventually be tempted to help.",
-    "hints": [
-     "Look at what is actually printed between the buttons. Not the titles — the verse.",
-     "The room says it out loud twice: once under that section's heading and once in the house rules.",
-     "It is a number, and it is the smallest one there is."
-    ]
-   },
-   "learned": "A room can carry a recording without carrying the words to it, and the difference is a legal one rather than a matter of taste. It is also the one place on this street where a room deliberately does less than the page it was built from."
-  },
-  {
-   "id": "checkpoint-pillow",
-   "page": "healing-checkpoint.html",
-   "room": "The Healing Checkpoint",
-   "title": "What the server says instead of no",
-   "posted": "There is a save room on the street with a bed in it and no monsters. It is numbered after an HTTP status code, and that status code has a companion that turns a refusal into a time. Go and find out what the companion is called.",
-   "rank": 1,
-   "takes": "a couple of minutes, and as long as you like after that",
-   "target": "a pillow on the floor at the foot of the bed",
-   "code": "TURNDOWN",
-   "hints": [
-    "It is a storefront on the street, not behind another room — although there is also a back stair up to it from this board.",
-    "The room explains its own number in a section of its own. The answer is a header name, and it is printed in bold there.",
-    "Right at the foot of the page, under the dial."
-   ],
-   "ask": {
-    "question": "Room 429 is named after 429 Too Many Requests. What is the header a server sends alongside it to say when to come back? One word, hyphen and all.",
-    "accept": [
-     "retryafter",
-     "retry after",
-     "retry-after",
-     "theretryafter"
-    ],
-    "answer": "Retry-After",
-    "why": "Retry-After. A 400 says you made a mistake, a 403 says you are not allowed and a 500 says something inside has fallen over — but a 429 says only that the rate is wrong, and a rate is a property of a situation rather than of a person. Retry-After is the part that makes it kind: not a refusal, a time. Which is why the room hands out five of them as slips you can send somebody, and why it is crip time with a header name.",
-    "hints": [
-     "It is in the section called Why the room is numbered 429, in the last paragraph.",
-     "Two words joined by a hyphen, and the second one is a preposition.",
-     "It begins with Retry."
-    ]
-   },
-   "learned": "A status code can be a kindness. 429 is the one thing a computer says that blames a rate rather than a person, and the header beside it turns a no into a when — which is most of what anybody at capacity is actually trying to say."
-  },
-  {
-   "id": "foundry-sort",
-   "page": "foundry.html",
-   "room": "The Foundry",
-   "title": "The letter that is a hole",
-   "posted": "There is a type foundry on the street. Its own nameplate is set in a face that is not drawn the way the others are, and the room explains what it is instead. Go and read the two paragraphs about it.",
-   "rank": 1,
-   "takes": "a few minutes, and a long time after that if you start pulling proofs",
-   "target": "a single piece of type lying on the workshop floor",
-   "code": "COUNTER",
-   "hints": [
-    "A shopfront on the street, between the save room and the empty one.",
-    "The room has a short section about its own display face, under the bench and the proof.",
-    "Right at the foot of the page, under the dial."
-   ],
-   "ask": {
-    "question": "This room is set in a stencil, and it says a stencil letter is not a mark. What is it instead? One word.",
-    "accept": [
-     "hole",
-     "ahole",
-     "holerather",
-     "holeratherthanamark"
-    ],
-    "answer": "A hole",
-    "why": "A hole. A stencil letter is cut OUT of a sheet of metal so it can be used again and come out the same every time, which is the whole idea of type arriving four hundred years early and in the wrong material. It is also why a stencil has bridges across its letters: without them the counter — the enclosed space inside an o or an a — would simply fall out of the sheet. Nobody cutting punches or drawing outlines has that problem, and no other face on this street has that shape.",
-    "hints": [
-     "It is in the section called Why this room is set in a stencil, in the first paragraph, in bold.",
-     "Four letters, and the opposite of a mark.",
-     "It is what a counter would fall out of."
-    ]
-   },
-   "learned": "A letterform can be shaped by what it is cut into rather than by what anybody wanted it to look like. The bridges across a stencil are not styling: they are the only thing holding the middle of the letter in."
-  }
- ],
- "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."
+  "_source": "Every job on this board was written for this board. The QUESTIONS are the exception to nothing: each one is answered by a sentence that is already published on the page the marker sits on, and each was read off that page before it was written here rather than remembered. Where a question asks for a person's name it is a name our own page already credits -- Barad, Oldaker, Schaber, Thornburg, Lee and Duffy -- because a quiz that made somebody guess at an attribution would be teaching the opposite of the habit this street kept.",
+  "_codes": "One word, A-Z, typed case-insensitively with spaces and punctuation ignored. A word rather than a random string because a word can be said out loud, remembered across a walk to another room, and typed by somebody who finds typing expensive. These are not secrets and the board does not pretend they are: the code is printed in the room's own markup, on a public page, and anybody who wants to read the source can have the lot. The board holds a checksum instead of the plain word purely so that View Source on ONE page is not a spoiler sheet for every room. That is a courtesy, not a lock, and make-guild.py says so where it computes it.",
+  "_no_score": "There is no tally here, no percentage, no streak, no rank you climb and nothing that expires. The board stamps a job when you hand its code in and that is the whole of the bookkeeping. This is the pebbling cabinet's refusal arriving in the one room on the street most likely to talk itself out of it -- a job board is EXACTLY the shape of thing that grows a score, and a score beside a Disabled people's walking tour would quietly turn a wander into a workload. make-guild.py refuses the vocabulary.",
+  "_class": "The difficulty class is HOW FAR YOU WALK, not how clever you are. I is on the street, II is through a door off a room, III is out past the treeline. Nothing about the class says anything about the person doing it, which is the whole reason it is defined by geography and enumerated in the tool rather than typed per job.",
+  "quests": [
+    {
+      "id": "street-chalk",
+      "page": "index.html",
+      "room": "The Stoop",
+      "title": "Read the street before you walk it",
+      "posted": "Somebody has chalked a mark on the kerb outside the guild. Go and look at it. This is the shortest job on the board and it exists so that the first one you ever do is one you cannot get wrong.",
+      "rank": 1,
+      "takes": "under a minute",
+      "target": "a chalk mark on the kerb",
+      "code": "CHALKMARK",
+      "hints": [
+        "It is on the front page, not behind any door.",
+        "Go to the very bottom of the street, past the shopfronts and past the signpost, to where the pavement is.",
+        "Right at the foot of the street, down on the pavement below the signpost."
+      ],
+      "learned": "Every job marker on this street looks like the room it is standing in and none of them look like each other. That is the whole site in one habit."
+    },
+    {
+      "id": "pony-sequin",
+      "page": "pink-pony-club.html",
+      "room": "Pink Pony Club",
+      "title": "Whose records are on that dancefloor",
+      "posted": "There is a sequin on the floor of the Pink Pony Club. Pick it up, and while you are down there settle an argument about who owns the music in that room.",
+      "rank": 1,
+      "takes": "a minute, plus one line of reading",
+      "target": "a single sequin off somebody's outfit",
+      "code": "SEQUIN",
+      "ask": {
+        "question": "The room says it out loud near the jukebox: how much of the music in here is hosted by us? One word.",
+        "accept": [
+          "nothing",
+          "none",
+          "zero",
+          "nowt",
+          "0"
+        ],
+        "answer": "Nothing",
+        "why": "Every player in that room is a press-to-play facade. Nothing is fetched from YouTube until you press, nothing is copied onto this site, and the room says so rather than leaving you to assume it.",
+        "hints": [
+          "It is in the room's own copy, not in the track list.",
+          "The sentence is about who the music belongs to as well as where it lives.",
+          "The room says nothing here is hosted by us and nothing here is ours."
+        ]
+      },
+      "hints": [
+        "It is behind the first shopfront on the street.",
+        "Look at the floor rather than at the jukebox.",
+        "Down on the dancefloor at the very bottom of the room, below the jukebox."
+      ],
+      "learned": "Press-to-play is the mechanism behind that claim, and it is checkable: open a network panel, load the room, and count the requests to YouTube. There are none until you press."
+    },
+    {
+      "id": "chappell-rhinestone",
+      "page": "the-chappell.html",
+      "room": "The Chappell",
+      "title": "A rhinestone off the vestments",
+      "posted": "A rhinestone has come off something in the Rhinestone Vatican and is lying on the floor of one of the arches. It is a subroom behind the dancefloor, so you will have to go through the Pink Pony Club to reach it.",
+      "rank": 2,
+      "takes": "a minute or two, mostly walking",
+      "target": "a loose rhinestone",
+      "code": "RHINESTONE",
+      "hints": [
+        "It is not on the street. It is behind one of the rooms that is.",
+        "Go into Pink Pony Club and look for the way through to the chapel.",
+        "On the chapel floor at the foot of the room, below the last arch."
+      ],
+      "learned": "A subroom is not a smaller version of its parent. The dancefloor is flat hot pink with cream Shrikhand; the chapel is votive indigo and gold Monoton. They share a door and nothing else."
+    },
+    {
+      "id": "club-pin",
+      "page": "club-chronic.html",
+      "room": "Club Chronic",
+      "title": "Read the door policy",
+      "posted": "There is a safety pin stuck through the paste-up wall at Club Chronic. Before it will come loose you have to have read what is pinned next to it, because that room makes a promise most clubs do not.",
+      "rank": 1,
+      "takes": "two minutes, and some reading",
+      "target": "a safety pin",
+      "code": "SAFETYPIN",
+      "ask": {
+        "question": "This club names one thing it will never do, because it can put somebody on the floor. One word, and it is a kind of light.",
+        "accept": [
+          "strobe",
+          "strobes",
+          "strobing",
+          "flash",
+          "flashes",
+          "flashing"
+        ],
+        "answer": "Strobe",
+        "why": "A room whose argument is come in as you are cannot have a light in it that causes seizures. The club has no ambient layer at any dial setting, and it says so on its own door policy so that nobody finishes the room later by adding one.",
+        "hints": [
+          "It is on the door policy rather than in the music.",
+          "It is the one obvious effect a punk club has, and the one this club refuses.",
+          "Nothing plays until you press play, and nothing in here does the other thing."
+        ]
+      },
+      "hints": [
+        "It is a shopfront on the street, not behind a door.",
+        "It is the punk one, with the paste-up wall and the rack of records.",
+        "On the floor at the very bottom of the club, below the rack."
+      ],
+      "learned": "That room also says out loud that a loud room is an access barrier. A page celebrating a scene built out of volume, crowding and stairs, which never names who cannot get in, is doing the inspiration thing this organisation exists to refuse."
+    },
+    {
+      "id": "zine-staple",
+      "page": "zine-table.html",
+      "room": "The Zine Table",
+      "title": "One staple off the table",
+      "posted": "Somebody has left a staple on the zine table. Take it. There is nothing to work out on this one; it is here so there is a job you can do on your way past.",
+      "rank": 1,
+      "takes": "under a minute",
+      "target": "a loose staple",
+      "code": "STAPLE",
+      "hints": [
+        "It is a shopfront on the street.",
+        "It is the table itself rather than either of the issues laid out on it.",
+        "On the table at the very bottom of the room, below the issues."
+      ],
+      "learned": "That room prints to one sheet in black and white, and a tool renders it to a real PDF to check both halves of that claim. This marker is not on the sheet: a quest target is a screen control, so it is set not to print."
+    },
+    {
+      "id": "zine2-clip",
+      "page": "zine-issue-2.html",
+      "room": "Zine #2",
+      "title": "What issue two is about",
+      "posted": "There is a paperclip holding issue two together. It will come off once you can say what the issue is about, which is written on the issue.",
+      "rank": 2,
+      "takes": "two minutes, and some reading",
+      "target": "a paperclip",
+      "code": "PAPERCLIP",
+      "ask": {
+        "question": "This issue was distilled from one of our courses. Neurodiversity and what? One word.",
+        "accept": [
+          "gender",
+          "genders"
+        ],
+        "answer": "Gender",
+        "why": "Seven lessons from our Neurodiversity and Gender course, photocopied down to one sheet.",
+        "hints": [
+          "It is named at the top of the issue and in the page's own description.",
+          "Two subjects, joined by the word and.",
+          "The other half of the pair is a word about who people are rather than how they think."
+        ]
+      },
+      "hints": [
+        "Go to the zine table first; the issues are on it.",
+        "It is the second issue, not the first.",
+        "At the very bottom of issue two, below the last panel."
+      ],
+      "learned": "Both zine pages print to one sheet and only in the inks a photocopier can manage. Adding one paragraph has pushed that room back over the limit more than once, which is why a tool measures it instead of somebody remembering."
+    },
+    {
+      "id": "quantum-fringe",
+      "page": "hear-queer-here.html",
+      "room": "Hear Queer Here",
+      "title": "Name the physicist",
+      "posted": "There is a detector sitting in the interference pattern in Hear Queer Here. It will give up its reading once you can name whose work that room is arguing from.",
+      "rank": 1,
+      "takes": "two minutes, and some reading",
+      "target": "a small detector",
+      "code": "FRINGE",
+      "ask": {
+        "question": "The physicist this room quotes, whose work the whole argument is drawn from. Surname is enough.",
+        "accept": [
+          "barad",
+          "karenbarad",
+          "karen"
+        ],
+        "answer": "Karen Barad",
+        "why": "The room is built on Barad's agential realism: nothing is fixed, bounded or settled in advance of its relations. Every quotation in there is credited by name rather than folded into our we.",
+        "hints": [
+          "The name is on the page, beside the words it belongs to.",
+          "A theoretical physicist and feminist theorist.",
+          "The surname has five letters and begins with a B."
+        ]
+      },
+      "hints": [
+        "It is a shopfront on the street.",
+        "It is the room with the interference panel and the superposition buttons.",
+        "At the foot of the room, below the readings."
+      ],
+      "learned": "The buttons in that room never start audio. Collapsing is a measurement, not a play — which is why the panel can be walked end to end without anything being fetched."
+    },
+    {
+      "id": "enid-sticker",
+      "page": "enids-room.html",
+      "room": "Enid's Room",
+      "title": "One sticker, peeling",
+      "posted": "A sticker on Enid's wall has started to lift at one corner. Press it back down, or take it; either way there is a code under it.",
+      "rank": 1,
+      "takes": "under a minute",
+      "target": "a sticker peeling up at one corner",
+      "code": "STICKER",
+      "hints": [
+        "It is a shopfront on the street.",
+        "It is the goth one, with the wall of stickers and the chair.",
+        "On the floor at the very bottom of the room, below the wall and the chair."
+      ],
+      "learned": "Every sticker on that wall is wired to a glossary entry on stimpunks.org, and each link was checked against a local mirror rather than fetched live, because on that site a redirect will happily deliver somebody to the wrong page and call it a success."
+    },
+    {
+      "id": "polaroids-pin",
+      "page": "polaroids.html",
+      "room": "The Polaroid Wall",
+      "title": "What we will not do to a picture of you",
+      "posted": "There is a spare drawing pin stuck in the wall beside the photographs. It is in the board, not in anybody's picture. To get it you need to have read the promise that wall makes.",
+      "rank": 2,
+      "takes": "two minutes, and some reading",
+      "target": "a spare drawing pin, stuck in the board and not in anybody's picture",
+      "code": "DRAWINGPIN",
+      "ask": {
+        "question": "The wall promises two things it will not do to a photograph of you. One is crop. What is the other? One word.",
+        "accept": [
+          "filter",
+          "filters",
+          "filtered",
+          "filtering"
+        ],
+        "answer": "Filter",
+        "why": "A frame, a shadow or a mat goes around a picture. A filter is done to it. That promise is made to everybody, so it is not waived by the person in the picture asking for it — the next photograph would arrive under a rule already bent once.",
+        "hints": [
+          "Two short sentences, one after the other, near the top of the wall.",
+          "It is a thing people do to photographs on their phones.",
+          "The tool that builds the wall refuses one of these outright, in CSS or inline."
+        ]
+      },
+      "hints": [
+        "It is behind Enid's Room.",
+        "It is the wall of photographs behind Enid's Room, not Enid's Room itself.",
+        "At the very bottom of the wall, below the last row of photographs."
+      ],
+      "learned": "The photographs on that wall are excluded from this site's CC BY-SA licence, and that exclusion is load-bearing: CC BY-SA cannot be revoked, so a photograph published under it could not be taken back. Withdrawal here is deletion, not a hidden flag."
+    },
+    {
+      "id": "play-block",
+      "page": "playhouse.html",
+      "room": "The Playhouse",
+      "title": "A block off the floor",
+      "posted": "There is a wooden block on the floor of the Playhouse with a letter on it. Everything in that room is a button; this one is a block.",
+      "rank": 1,
+      "takes": "under a minute",
+      "target": "a wooden block with a letter on it",
+      "code": "WOODBLOCK",
+      "hints": [
+        "It is a shopfront on the street.",
+        "On the floor, under the toys rather than among them.",
+        "On the floor at the very bottom of the room, below the toys."
+      ],
+      "learned": "Every noise in that room is synthesised in the browser except the recorded yells, and the sentence saying so is generated from the same data as the button — so it stops being true and starts being wrong in the same commit rather than a month later."
+    },
+    {
+      "id": "arcade-token",
+      "page": "arcade.html",
+      "room": "The Arcade",
+      "title": "How loud is the arcade",
+      "posted": "Somebody has dropped a token on the carpet in the arcade. Pick it up, and answer the thing the foyer says about itself that no real arcade could.",
+      "rank": 1,
+      "takes": "a minute, plus one line of reading",
+      "target": "a token",
+      "code": "TOKEN",
+      "ask": {
+        "question": "How much sound do these cabinets make, at any dial setting, ever? One word.",
+        "accept": [
+          "none",
+          "nothing",
+          "zero",
+          "silent",
+          "silence",
+          "no",
+          "0"
+        ],
+        "answer": "None",
+        "why": "The foyer says it in the room's own copy: no timer, no score, no way to lose, no sound, and nothing trying to beat you. An arcade that is silent by choice is better than one that is silent until it isn't — and because the room states it, adding one blip would turn a design decision into a false sentence on a published page.",
+        "hints": [
+          "It is in the same sentence as no timer and no score.",
+          "The room would rather be silent by choice than silent until it isn't.",
+          "The answer is the smallest amount there is."
+        ]
+      },
+      "hints": [
+        "It is a shopfront on the street.",
+        "On the carpet in the foyer, not on a cabinet.",
+        "On the carpet at the very bottom of the foyer, below the cabinets."
+      ],
+      "learned": "That room is the one place on the street where the pages are supposed to look alike: an arcade is machines with one body and different things behind the glass. The worlds are the screens."
+    },
+    {
+      "id": "quill-feather",
+      "page": "quill-drift.html",
+      "room": "Quill Drift",
+      "title": "Who drew the porcupine",
+      "posted": "A quill has drifted off the screen and landed at the foot of the cabinet. Nothing on the playfield moves before the coin goes in, so this one is on the floor.",
+      "rank": 2,
+      "takes": "two minutes, and some reading",
+      "target": "a quill",
+      "code": "QUILL",
+      "ask": {
+        "question": "Esmx the Porkypine was drawn by somebody, and the cabinet credits them. Surname is enough.",
+        "accept": [
+          "oldaker",
+          "kaya",
+          "kayaoldaker"
+        ],
+        "answer": "Kaya Oldaker",
+        "why": "Stimpunks commissioned Esmx and holds the rights, and Kaya's name is on the drawing's own markup anyway. Holding the rights to a commission is not a reason to stop naming the hand that drew it.",
+        "hints": [
+          "The name is in the room, and again in the liner notes.",
+          "It is on the drawing itself as well as in the credits.",
+          "The surname has seven letters and starts with an O."
+        ]
+      },
+      "hints": [
+        "Go into the arcade and walk up to a cabinet.",
+        "It is the cabinet with the porcupine, not the one with the otter.",
+        "On the floor at the very bottom of the page, below the cabinet."
+      ],
+      "learned": "The Esmx in that cabinet is redrawn rather than pasted in. That is not a permissions matter — it is a room-consistency one, plus the fact that our own licence asks for variants rather than merely allowing them."
+    },
+    {
+      "id": "otter-clam",
+      "page": "otterly-adorbs.html",
+      "room": "Otterly Adorbs",
+      "title": "What floating is for",
+      "posted": "An empty clam shell has washed up at the edge of the kelp bay. Getting it means being clear about what the otter gets for floating, which is the whole argument of that cabinet.",
+      "rank": 2,
+      "takes": "two minutes, and some reading",
+      "target": "an empty clam shell",
+      "code": "CLAMSHELL",
+      "ask": {
+        "question": "When the otter floats, what does it fill up, earn or recharge? One word.",
+        "accept": [
+          "nothing",
+          "none",
+          "zero",
+          "nowt",
+          "no",
+          "0"
+        ],
+        "answer": "Nothing",
+        "why": "The cabinet is built on a zine that refuses rest so you can produce, in as many words. No meter, no stamina, no bonus afterwards. Letting floating restore something would feel generous and would put a sentence on that page which another of our pages spends a spread refusing.",
+        "hints": [
+          "The cabinet says it out loud, right under the title.",
+          "Floating fills nothing up, on purpose.",
+          "The answer is the same one the arcade gives about its own volume."
+        ]
+      },
+      "hints": [
+        "Go into the arcade and walk up to a cabinet.",
+        "It is the cabinet with the otter, not the one with the porcupine.",
+        "At the very bottom of the page, below the cabinet."
+      ],
+      "learned": "That cabinet also refuses to rank the other otters — there is no standard otter — and refuses to round the clam's range into something tidier. Every number in it sits beside the paper it came from."
+    },
+    {
+      "id": "pebbling-stone",
+      "page": "penguin-pebbling.html",
+      "room": "Penguin Pebbling",
+      "title": "Who named the locution",
+      "posted": "There is a pebble on the shore that nobody has taken to a nest. It is yours if you can name whose locution this cabinet is built on.",
+      "rank": 2,
+      "takes": "two minutes, and some reading",
+      "target": "a pebble nobody has taken to a nest",
+      "code": "PEBBLE",
+      "ask": {
+        "question": "Pebbling as a locution was named by somebody, and the cabinet credits them. Surname is enough.",
+        "accept": [
+          "schaber",
+          "amythest",
+          "amythestschaber"
+        ],
+        "answer": "Amythest Schaber",
+        "why": "The locution is Amythest Schaber's, documented by Stimpunks in 2022 and written up by Helen Edgar at Autistic Realms in 2023. The cabinet is built on that and takes nothing from the Penguin Pebbling card game, which is a separate, better thing under a different licence.",
+        "hints": [
+          "The name is credited in the cabinet and again in the liner notes.",
+          "An autistic advocate and educator; the first name is unusual.",
+          "The surname has seven letters and begins with an S."
+        ]
+      },
+      "hints": [
+        "Go into the arcade and walk up to a cabinet.",
+        "It is the shore one, with the penguins.",
+        "At the very bottom of the page, below the cabinet."
+      ],
+      "learned": "That cabinet keeps no tally of what you gave. No total, no streak, and the neighbours bring you things on their own clock whether or not you have ever given them anything — a timer rather than a reward, because a number beside a practice that is not about volume would quietly make it about volume."
+    },
+    {
+      "id": "burrow-door",
+      "page": "latibulum.html",
+      "room": "The Latibulum",
+      "title": "The shelf is not a checklist",
+      "posted": "There is a key on a hook by the round door of the burrow. To get it, look at the shelf of things to do with your body and be clear about what kind of list it is.",
+      "rank": 1,
+      "takes": "two minutes, and some reading",
+      "target": "a key on a hook",
+      "code": "ROUNDDOOR",
+      "ask": {
+        "question": "Stretch, flap, fidget, eat, drink. Can you tick any of them off? Yes or no.",
+        "accept": [
+          "no",
+          "none",
+          "nope",
+          "nothing",
+          "never",
+          "cannot",
+          "cant"
+        ],
+        "answer": "No",
+        "why": "Not one of them is a button. The obvious improvement is to let somebody tick them off, and it would put a scoreboard next to a bodymind break — which is the thing the break is a break from.",
+        "hints": [
+          "Try to press one and see what happens.",
+          "They are read out of our own Bodymind Break, which is a rest and not a task list.",
+          "It is a two-letter answer."
+        ]
+      },
+      "hints": [
+        "It is a shopfront on the street.",
+        "It is the burrow with the round door, the wireless and the tube television.",
+        "At the very bottom of the burrow, below the wireless and the television."
+      ],
+      "learned": "That room reads almost entirely dark on lit plaster, where the Faery Yurt reads cream on dark all the way down. Two rooms lit by the same kind of light, inverted — which is why the burrow's share card is the only one on the street made of two grounds."
+    },
+    {
+      "id": "jungle-leaf",
+      "page": "jungle-room.html",
+      "room": "The Jungle Room",
+      "title": "The thing a live camera cannot tell you",
+      "posted": "A leaf has come down out of the canopy in the viewing room. Every other press-to-play control on this street says one thing before the press that these cameras cannot.",
+      "rank": 1,
+      "takes": "two minutes, and some reading",
+      "target": "a fallen leaf",
+      "code": "CANOPY",
+      "ask": {
+        "question": "Every other player on this street says this before you press it, and a live camera has none. One word.",
+        "accept": [
+          "runtime",
+          "runtimes",
+          "length",
+          "duration",
+          "time",
+          "howlong"
+        ],
+        "answer": "Runtime",
+        "why": "Storing the length of whichever stream happens to be up today would put a number on the page that is wrong tomorrow and authoritative-looking meanwhile — so the tool that builds that room refuses a cam that has one. The label says it runs until you close it instead.",
+        "hints": [
+          "Look at a song in The Den and then at a cam here, and see what is missing.",
+          "It is the number that lets somebody decide before they press.",
+          "Seven letters, and it is what the other rooms all state."
+        ]
+      },
+      "hints": [
+        "It is a shopfront on the street.",
+        "It is the viewing room with the nature cams, not the den behind it.",
+        "On the floor at the very bottom of the viewing room, below the last gallery."
+      ],
+      "learned": "That room also found out that playing and embedding are two different permissions. A cam can be perfectly alive and still have embedding switched off, so those ones are doors out to YouTube rather than windows — because pretending a link is a screen is the broken thing."
+    },
+    {
+      "id": "den-spindle",
+      "page": "the-den.html",
+      "room": "The Den",
+      "title": "The George Jones cover in Elvis's den",
+      "posted": "One of the songs cut in that carpet was a hit for George Jones first, and the man who sang it there wrote none of it. There is a 45 spindle adapter on the shelf by the bench; it is yours once you can name a writer.",
+      "rank": 2,
+      "takes": "two or three minutes, and some reading",
+      "target": "a 45rpm spindle adapter",
+      "code": "SPINDLE",
+      "ask": {
+        "question": "She Thinks I Still Care is on that bench, and the label credits two writers. Either surname will do.",
+        "accept": [
+          "lee",
+          "duffy",
+          "dickeylee",
+          "steveduffy",
+          "dickey",
+          "steve"
+        ],
+        "answer": "Dickey Lee and Steve Duffy",
+        "why": "Presley wrote none of the songs cut in that room. A room where the performer's name is the entire draw is exactly where crediting only the voice would pass unnoticed, so every cut names its writers.",
+        "hints": [
+          "It is the second cut of the February session.",
+          "The line under each title starts with the words Written by.",
+          "One of the two surnames is three letters long."
+        ]
+      },
+      "hints": [
+        "It is behind the Jungle Room, through the back.",
+        "It is the carpeted room behind the Jungle Room, with the cuts on it.",
+        "On the floor at the very bottom of the den, below the last cut."
+      ],
+      "learned": "Every video id in that room was resolved and then checked on its own watch page and matched against the released runtime, because searching any of those titles turns up alternate takes on the same official channels — and a room arguing these are the records that came out of that carpet cannot hand somebody a rehearsal."
+    },
+    {
+      "id": "mopery-card",
+      "page": "the-mopery.html",
+      "room": "The Mopery",
+      "title": "Borrow, not buy",
+      "posted": "A library card has been left in the pocket of one of the books in the Mopery. The shelves there insist on one kind of link and do not insist on the other.",
+      "rank": 1,
+      "takes": "two minutes, and some reading",
+      "target": "a library card out of the pocket of a book",
+      "code": "LIBRARYCARD",
+      "ask": {
+        "question": "Every book on those shelves carries a way to do this, and none of them has to carry a way to buy. One word.",
+        "accept": [
+          "borrow",
+          "borrowing",
+          "borrowed",
+          "loan",
+          "lend",
+          "library"
+        ],
+        "answer": "Borrow",
+        "why": "Our library page says knowledge is infrastructure and access to it is mutual aid. A shelf that could only tell you where to buy would be a shop with an argument painted on it.",
+        "hints": [
+          "It is what you do at a library rather than at a shop.",
+          "The room's own description says books you can do this to.",
+          "Six letters, and the tool refuses a book without one."
+        ]
+      },
+      "hints": [
+        "It is a shopfront on the street.",
+        "It is the library, the reading room and the parlour, all one room.",
+        "At the very bottom of the room, below the reading nook."
+      ],
+      "learned": "That room shows one scan of a manuscript and only points at another, one line of metadata apart: one is published under a public domain mark, the other carries a notice along the foot of its own first leaf. The poem is free in both; the objects are not the same object."
+    },
+    {
+      "id": "oracle-lozenge",
+      "page": "oracle-deck.html",
+      "room": "The Oracle Deck",
+      "title": "A deck that will not answer",
+      "posted": "There is a lozenge cut into the rule at the foot of the oracle deck. It comes away once you can say what every card in that deck does instead of telling you something.",
+      "rank": 2,
+      "takes": "two minutes, and some reading",
+      "target": "a lozenge cut out of a rule",
+      "code": "LOZENGE",
+      "ask": {
+        "question": "Look at the back of any card. Every one of them ends the same way and does the same thing. One word.",
+        "accept": [
+          "ask",
+          "asks",
+          "asking",
+          "question",
+          "questions",
+          "questioning"
+        ],
+        "answer": "Ask",
+        "why": "Every card ends in a question mark, and the tool refuses one that does not, plus the whole vocabulary of prediction. There are no reversals, no spread and no positions — nothing that could be assembled into a statement about somebody's life.",
+        "hints": [
+          "Look at the punctuation at the end of a card.",
+          "It is the opposite of telling you what is going to happen.",
+          "Three letters."
+        ]
+      },
+      "hints": [
+        "It is behind the Mopery, through the parlour.",
+        "Look at the rule at the very foot of the deck, below the cards.",
+        "At the very bottom of the page, below the last card."
+      ],
+      "learned": "A deck that told somebody how their life was going to go would be doing the thing the rest of these pages exist to refuse, in the one room dark enough to get away with it — and it would arrive as a friendly edit from somebody who thought a question was a bit thin."
+    },
+    {
+      "id": "doom-foxing",
+      "page": "the-doomscroll.html",
+      "room": "The Doomscroll",
+      "title": "Public domain everywhere",
+      "posted": "There is a spot of foxing on the roll in the doomscroll where the paper has aged. That scroll waits longer than one country's law requires before it will carry a poem, and it will tell you how long.",
+      "rank": 2,
+      "takes": "two minutes, and some reading",
+      "target": "a spot of foxing where the paper has aged",
+      "code": "FOXING",
+      "ask": {
+        "question": "How many years must an author have been dead before a poem can go on that scroll? A number.",
+        "accept": [
+          "seventy",
+          "70",
+          "seventyyears",
+          "70years"
+        ],
+        "answer": "Seventy",
+        "why": "That is a public-domain-everywhere test rather than a public-domain-in-America one, and it cost the scroll its best opening item: Eliot's The Hollow Men is free in the United States and will not be free in much of Europe until the 2030s. A site that serves everybody cannot publish a whole poem on a technicality that holds in one country.",
+        "hints": [
+          "It is in the note at the head of the scroll.",
+          "Longer than the American rule, because this site is read everywhere.",
+          "It is a round number between fifty and a hundred."
+        ]
+      },
+      "hints": [
+        "It is behind the Mopery, off the library.",
+        "On the roll itself rather than in any poem.",
+        "At the very bottom of the roll, below the last poem."
+      ],
+      "learned": "That scroll sorts on the date a poem went public rather than the date it was written, which for a good part of it is decades apart — and it turned down a famous poem whose printing nobody could trace, because a text you cannot source is the one thing a scroll built out of dates cannot carry."
+    },
+    {
+      "id": "feed-splitflap",
+      "page": "the-feed.html",
+      "room": "The Feed",
+      "title": "What the board is not",
+      "posted": "A flap has come off one of the boards in The Feed and is lying on the floor of the concourse. That room is a hall of arrival boards carrying every site we run, and it is extremely careful about saying what it is NOT. The line under the room's own name says it in six words.",
+      "rank": 1,
+      "takes": "two minutes",
+      "target": "a flap off one of the boards",
+      "code": "SPLITFLAP",
+      "ask": {
+        "question": "That room says the board is a picture of something, and then says it is not that thing. What is it? One word.",
+        "accept": [
+          "railway",
+          "railways",
+          "therailway",
+          "arailway"
+        ],
+        "answer": "Railway",
+        "why": "None of those sites lets a browser read its feed from our page, so the board cannot be live and does not pretend to be: a person runs a tool, the boards are set, and every plate carries the minute its own wire was read. The feeds themselves are linked on every board, which is the actual railway.",
+        "hints": [
+          "It is in the line directly under the room's name, at the very top.",
+          "It is the thing a departures board is a picture of.",
+          "Seven letters, and it begins with an R."
+        ]
+      },
+      "hints": [
+        "It is a storefront on the street, between the guild and the empty room.",
+        "The line you want is the first thing under the big name, before the paragraph.",
+        "The flap itself is on the floor at the very bottom of the page."
+      ],
+      "learned": "A board is set by somebody with a machine, at a time, and it is a picture of the railway rather than the railway. That is the only honest way to carry other people's arrivals on your own page — say when you looked, and link the thing you looked at."
+    },
+    {
+      "id": "your-room-keys",
+      "page": "your-room.html",
+      "room": "Your Room",
+      "title": "The keys are in the door",
+      "posted": "There is an empty storefront on this street with the keys still in the door. Go and look at them. The room is empty on purpose and the terms are written down.",
+      "rank": 1,
+      "takes": "under a minute",
+      "target": "the keys left in the door",
+      "code": "KEYRING",
+      "hints": [
+        "It is a shopfront on the street, and the only one with nothing in it.",
+        "It is the storefront with nothing in it and the terms written down.",
+        "At the very bottom of the room, below the terms."
+      ],
+      "learned": "That storefront is empty because somebody in the community gets to decorate it, and the terms for doing so are published rather than negotiated in a direct message."
+    },
+    {
+      "id": "board-clip",
+      "page": "pebble-board.html",
+      "room": "The Pebble Board",
+      "title": "A clip off the noticeboard",
+      "posted": "There is a spare bulldog clip on the pebble board out on the pavement. It is street furniture rather than a shopfront, so you do not have to go through a door to reach it.",
+      "rank": 1,
+      "takes": "under a minute",
+      "target": "a spare bulldog clip, holding nothing",
+      "code": "BULLDOGCLIP",
+      "hints": [
+        "It is not behind a door. It is out on the pavement, on the street itself.",
+        "It is under the glass on the pavement, with the back issues racked beneath.",
+        "At the very bottom of the board, below the back-issue rack."
+      ],
+      "learned": "That board is a periodical rather than a premises: a new edition goes up when there is a new gathering and the old ones stay in the rack underneath, which is why it is not one of the shopfronts."
+    },
+    {
+      "id": "camp-peg",
+      "page": "campgrounds.html",
+      "room": "The Campgrounds",
+      "title": "Out past the treeline",
+      "posted": "Somebody has left a tent peg in the ground at the campgrounds. The field is past the end of the street, so this one is a walk.",
+      "rank": 3,
+      "takes": "two minutes, mostly walking",
+      "target": "a tent peg",
+      "code": "TENTPEG",
+      "hints": [
+        "It is not on the street at all. Follow the signpost at the end of it.",
+        "On the bare ground of the field, not on any of the pitches.",
+        "In the grass at the very bottom of the field, below the last pitch."
+      ],
+      "learned": "That field has no ambient layer at any dial setting, and the reason is not the same as Club Chronic's: the field is still because quiet is what it is for."
+    },
+    {
+      "id": "yurt-tallow",
+      "page": "faery-yurt.html",
+      "room": "The Faery Yurt",
+      "title": "A candle stub on the windowsill",
+      "posted": "There is a candle stub on the windowsill in the Faery Yurt, pitch 01 in the campgrounds, burnt most of the way down. Take it and leave everything else as you found it.",
+      "rank": 3,
+      "takes": "two minutes, mostly walking",
+      "target": "a candle stub burnt most of the way down",
+      "code": "TALLOW",
+      "hints": [
+        "It is not on the street. Go out past the treeline to the campgrounds first.",
+        "It is pitch 01, the first thing standing in that field.",
+        "At the very bottom of the yurt, below everything else in it."
+      ],
+      "learned": "That room is Helen Edgar's design and not ours to redesign — the palette, the typefaces, the drawings and every line of its copy came from a mockup she sent. This repo has changed exactly one colour of hers, because her smallest grey failed WCAG on every ground it sat on, and that change is written up in four places. The candle stub is ours, added with Ryan's say-so, and written up in the liner notes for the same reason."
+    },
+    {
+      "id": "meadow-firefly",
+      "page": "swaying-sweetgrass.html",
+      "room": "Swaying Sweetgrass",
+      "title": "The book this room will not serve",
+      "posted": "There is a firefly low in the grass at pitch 02. That room points at a book it will not play for you, and it will want you to know why before it lets the firefly go.",
+      "rank": 3,
+      "takes": "three minutes, and some reading",
+      "target": "a firefly",
+      "code": "FIREFLY",
+      "ask": {
+        "question": "The chapter readings in that room are doors rather than players. What is the book still in? One word.",
+        "accept": [
+          "copyright",
+          "copyrighted",
+          "print"
+        ],
+        "answer": "Copyright",
+        "why": "Every one of those readings plays and every one embeds, so nothing in the machinery would have stopped them. What stops them is the room's own argument — the honorable harvest — which a page cannot make while serving somebody else's whole book off its own surface. They are doors with a borrow link beside them.",
+        "hints": [
+          "The room says it in three words, near the readings.",
+          "It is the reason a library lends a book rather than giving it away.",
+          "The author is living, publishing, and narrated the real audiobook herself."
+        ]
+      },
+      "hints": [
+        "It is not on the street. Go out past the treeline to the campgrounds first.",
+        "It is pitch 02, the meadow with the path through it.",
+        "Low in the grass at the very bottom of the meadow, below the clearing."
+      ],
+      "learned": "That room also carries a correction to our own glossary near the top rather than in a footnote: two of our entries attribute a phrase to Barry Lopez that he never wrote. When two of our own pages disagree, the one that checked wins."
+    },
+    {
+      "id": "hermitage-sunflower",
+      "page": "solarpunk-hermitage.html",
+      "room": "The Solarpunk Hermitage",
+      "title": "The fourth learning space",
+      "posted": "There is a sunflower head drying on a hook outside the hermitage at pitch 03. Three of the four primordial learning spaces are laid out inside that cabin. The fourth is not in there, and the room will tell you where it is.",
+      "rank": 3,
+      "takes": "three minutes, and some reading",
+      "target": "a sunflower head, drying",
+      "code": "SUNFLOWER",
+      "ask": {
+        "question": "Cave, campfire and watering hole are in the cabin. Name the fourth. One word.",
+        "accept": [
+          "life",
+          "lives",
+          "living"
+        ],
+        "answer": "Life",
+        "why": "The three zones are David Thornburg's primordial learning spaces, and the room names them as his. There is a fourth, and the room says out loud that it is not in there — it is the door you came in by, where you go and make something out of what the other three gave you.",
+        "hints": [
+          "The room says out loud that the fourth one is not in the cabin.",
+          "It is the door you came in by.",
+          "Four letters."
+        ]
+      },
+      "hints": [
+        "It is not on the street. Go out past the treeline to the campgrounds first.",
+        "It is pitch 03, the cabin on wheels with the panels on the roof.",
+        "At the very bottom of the page, below the last of the cabin."
+      ],
+      "learned": "It is the only room on this street lit by morning. Every other world here is a dark ground with light applied to it; a cabin that runs on the sun and reads as midnight would be an argument against itself."
+    },
+    {
+      "id": "liner-colophon",
+      "page": "liner-notes.html",
+      "room": "The Liner Notes",
+      "title": "The two habits that survived",
+      "posted": "There is a colophon mark at the foot of the liner notes. This street dropped most of the care its sibling sites run on and kept exactly two things. Name the one that is not contrast.",
+      "rank": 1,
+      "takes": "two minutes, and some reading",
+      "target": "a colophon mark",
+      "code": "COLOPHON",
+      "ask": {
+        "question": "Two habits survived onto this street. One is contrast. What is the other? One word.",
+        "accept": [
+          "attribution",
+          "attributions",
+          "credit",
+          "credits",
+          "crediting",
+          "attributing"
+        ],
+        "answer": "Attribution",
+        "why": "It is a licence rather than a house style, it is the cheapest thing on the page, and it is the only one of our habits whose absence is a legal problem rather than an aesthetic one. So the credits got louder instead of going away.",
+        "hints": [
+          "It is the thing this whole page is.",
+          "It is a licence rather than a house style.",
+          "Eleven letters, and it begins with an A."
+        ]
+      },
+      "hints": [
+        "It is one of the pages linked from the pavement at the foot of the street.",
+        "Go to the very bottom of the credits.",
+        "At the very bottom of the page, below the last credit."
+      ],
+      "learned": "Contrast survived for a reason that is not the obvious one. This is a Disabled people's organisation, and a glitter-maximalist site that excluded the people it is for would be a self-own of exactly the kind we exist to name. The fix was never to tone it down — it was the dial."
+    },
+    {
+      "id": "garden-label",
+      "page": "the-garden.html",
+      "room": "The Garden",
+      "title": "What a spider's best answer is",
+      "posted": "Somebody has dropped a blank plant label on the path in the garden, which is through the gate in the wall between two of the shopfronts. Pick it up. While you are in there, settle what that room says the garden spider is for, because it is careful about it and the sentence is worth carrying back out with you.",
+      "rank": 1,
+      "takes": "two or three minutes, most of it one paragraph",
+      "target": "a blank wooden plant label",
+      "code": "PLANTLABEL",
+      "ask": {
+        "question": "The garden says what a spider's best answer is, in our own words. One word.",
+        "accept": [
+          "entrance",
+          "an entrance",
+          "entry",
+          "way in"
+        ],
+        "answer": "An entrance",
+        "why": "Grounding the spider in our own garden changes where its answers come from and not whether they can be wrong, so every trail it puts somebody on ends at a page a person wrote. What it is genuinely good at is the step before the word: taking \"why does switching tasks hurt\" and getting somebody to the glossary entry, the pattern or the recipe. It is the way in rather than the thing itself.",
+        "hints": [
+          "It is in the room's own writing about the spider, not on the button.",
+          "The sentence is about what a spider is FOR: a guide to the garden and never a replacement for it.",
+          "The room says a spider's best answer is an entrance."
+        ]
+      },
+      "hints": [
+        "It is not behind a shopfront. There is a gate in the wall between two of them, down past the noticeboard.",
+        "Through the gate is the garden, where every bed is one of the other sites we publish.",
+        "Right at the foot of the garden, on the path below the hedge and the dial."
+      ],
+      "learned": "A glossary exists to give somebody a word for an experience that usually goes unnamed, and a tool that can route them from the experience to the word is doing that job one step earlier. What it must never do is stand in for the page at the other end, which is why that room says out loud that it can be wrong and links the ethics pages where we hold the line."
+    },
+    {
+      "id": "zibaldone-nib",
+      "page": "zibaldone.html",
+      "room": "The Zibaldone",
+      "title": "Which printing it was",
+      "posted": "There is a shopfront on the street with a commonplace book left open on the desk in it. A nib has been put down beside the book. Pick it up, and while you are there settle the question the whole room turns on: one of the quotations in that book had to be traced to a particular printing before it could go in, because the obvious guess was wrong.",
+      "rank": 1,
+      "takes": "two or three minutes, most of it one list",
+      "target": "a steel nib laid down beside the book",
+      "code": "STEELNIB",
+      "ask": {
+        "question": "The Emily Dickinson line in that book is not in the series everybody assumes. Which series is it in? One word.",
+        "accept": [
+          "second",
+          "the second",
+          "2nd",
+          "two",
+          "series two",
+          "second series"
+        ],
+        "answer": "The second",
+        "why": "It is in the Second Series of 1891, edited by Mabel Loomis Todd and T. W. Higginson, not the first. That is the whole argument of the room in one entry: a title is not a source, these texts differ between printings, and the only thing that told anybody which one it was was going and reading the title page above the poem instead of remembering. Todd and Higginson edited Dickinson's punctuation before they let her out, so the printing you name decides the words you are quoting.",
+        "hints": [
+          "It is not on the card with the quotation on it. It is in the room's list of what the book will and will not do.",
+          "The rule is the one about naming the printing rather than the title, and the room calls this entry its proof.",
+          "The room says it is in the second series, not the first."
+        ]
+      },
+      "hints": [
+        "It is a shopfront on the street, with the only pale window in the row.",
+        "The book is open on a desk, and the nib is down at the foot of the page.",
+        "Below the attribution slip, at the bottom of the room."
+      ],
+      "learned": "Naming the printing is not pedantry, it is the difference between quoting somebody and quoting somebody's editor. A quotation that names only its title cannot be checked by anybody, which is how a misquotation travels for a century in perfectly good faith."
+    },
+    {
+      "id": "hole-cuts",
+      "page": "rabbit-hole.html",
+      "room": "The Rabbit Hole",
+      "title": "The words are not in the hole",
+      "posted": "There is a shaft at the end of the street with seven recordings hanging in it, all of them of one song or of the record that song came out of. Go down it and count the lyrics.",
+      "rank": 1,
+      "takes": "a couple of minutes, and longer if you press something",
+      "target": "an engraver's block on the shaft wall",
+      "code": "WOODCUT",
+      "hints": [
+        "It is a storefront on the street, not behind another room.",
+        "The marker is on the wall of the shaft like everything else in there — keep going down past the engravings, the presses and the trail.",
+        "Right at the foot of the page, under the dial."
+      ],
+      "ask": {
+        "question": "Seven recordings of one song, and our own glossary entry prints the whole lyric. How many lines of it are printed in this room? One word.",
+        "accept": [
+          "none",
+          "zero",
+          "0",
+          "nothing",
+          "nil",
+          "nowt",
+          "notone"
+        ],
+        "answer": "None",
+        "why": "None of it. Our glossary entry has the words; this room deliberately does not. Song lyric reproduction is a minefield in the United States in a way prose is not — music publishing enforces on quotation where prose publishing shrugs, the licensing is separate from the recording, and one line is a far larger fraction of a song than of a novel. It is the same reasoning that makes the Zibaldone refuse a song outright. So the recordings are offered instead, with Grace Slick's own published account of writing it, and a generator refuses a lyric field rather than leaving it to anybody's care — because the room reads thinner without the words, and somebody will eventually be tempted to help.",
+        "hints": [
+          "Look at what is actually printed between the buttons. Not the titles — the verse.",
+          "The room says it out loud twice: once under that section's heading and once in the house rules.",
+          "It is a number, and it is the smallest one there is."
+        ]
+      },
+      "learned": "A room can carry a recording without carrying the words to it, and the difference is a legal one rather than a matter of taste. It is also the one place on this street where a room deliberately does less than the page it was built from."
+    },
+    {
+      "id": "checkpoint-pillow",
+      "page": "healing-checkpoint.html",
+      "room": "The Healing Checkpoint",
+      "title": "What the server says instead of no",
+      "posted": "There is a save room on the street with a bed in it and no monsters. It is numbered after an HTTP status code, and that status code has a companion that turns a refusal into a time. Go and find out what the companion is called.",
+      "rank": 1,
+      "takes": "a couple of minutes, and as long as you like after that",
+      "target": "a pillow on the floor at the foot of the bed",
+      "code": "TURNDOWN",
+      "hints": [
+        "It is a storefront on the street, not behind another room — although there is also a back stair up to it from this board.",
+        "The room explains its own number in a section of its own. The answer is a header name, and it is printed in bold there.",
+        "Right at the foot of the page, under the dial."
+      ],
+      "ask": {
+        "question": "Room 429 is named after 429 Too Many Requests. What is the header a server sends alongside it to say when to come back? One word, hyphen and all.",
+        "accept": [
+          "retryafter",
+          "retry after",
+          "retry-after",
+          "theretryafter"
+        ],
+        "answer": "Retry-After",
+        "why": "Retry-After. A 400 says you made a mistake, a 403 says you are not allowed and a 500 says something inside has fallen over — but a 429 says only that the rate is wrong, and a rate is a property of a situation rather than of a person. Retry-After is the part that makes it kind: not a refusal, a time. Which is why the room hands out five of them as slips you can send somebody, and why it is crip time with a header name.",
+        "hints": [
+          "It is in the section called Why the room is numbered 429, in the last paragraph.",
+          "Two words joined by a hyphen, and the second one is a preposition.",
+          "It begins with Retry."
+        ]
+      },
+      "learned": "A status code can be a kindness. 429 is the one thing a computer says that blames a rate rather than a person, and the header beside it turns a no into a when — which is most of what anybody at capacity is actually trying to say."
+    },
+    {
+      "id": "foundry-sort",
+      "page": "foundry.html",
+      "room": "The Foundry",
+      "title": "The letter that is a hole",
+      "posted": "There is a type foundry on the street. Its own nameplate is set in a face that is not drawn the way the others are, and the room explains what it is instead. Go and read the two paragraphs about it.",
+      "rank": 1,
+      "takes": "a few minutes, and a long time after that if you start pulling proofs",
+      "target": "a single piece of type lying on the workshop floor",
+      "code": "COUNTER",
+      "hints": [
+        "A shopfront on the street, between the save room and the empty one.",
+        "The room has a short section about its own display face, under the bench and the proof.",
+        "Right at the foot of the page, under the dial."
+      ],
+      "ask": {
+        "question": "This room is set in a stencil, and it says a stencil letter is not a mark. What is it instead? One word.",
+        "accept": [
+          "hole",
+          "ahole",
+          "holerather",
+          "holeratherthanamark"
+        ],
+        "answer": "A hole",
+        "why": "A hole. A stencil letter is cut OUT of a sheet of metal so it can be used again and come out the same every time, which is the whole idea of type arriving four hundred years early and in the wrong material. It is also why a stencil has bridges across its letters: without them the counter — the enclosed space inside an o or an a — would simply fall out of the sheet. Nobody cutting punches or drawing outlines has that problem, and no other face on this street has that shape.",
+        "hints": [
+          "It is in the section called Why this room is set in a stencil, in the first paragraph, in bold.",
+          "Four letters, and the opposite of a mark.",
+          "It is what a counter would fall out of."
+        ]
+      },
+      "learned": "A letterform can be shaped by what it is cut into rather than by what anybody wanted it to look like. The bridges across a stencil are not styling: they are the only thing holding the middle of the letter in."
+    },
+    {
+      "id": "danny-drain",
+      "page": "danny-the-street.html",
+      "room": "Danny the Street",
+      "title": "The joke in the street's own name",
+      "posted": "This street is named after somebody and the name is a pun in two languages. There is a page about it, reached from a line under the dial on the front page rather than through any door. Go and find out who the joke is about.",
+      "rank": 1,
+      "takes": "five minutes, or twenty if you read the whole history",
+      "target": "a drain in the gutter",
+      "code": "VAPOUR",
+      "hints": [
+        "Not behind a door. It is linked from the front page, in the paragraph under the loudness dial.",
+        "The page has a section called Where Danny came from, and the answer is in the paragraph that begins with the word pun.",
+        "Right at the foot of the page, under the dial."
+      ],
+      "ask": {
+        "question": "Danny the Street is named after a drag performer whose stage surname is French for “the street”. What is that surname? Two words or one, either is fine.",
+        "accept": [
+          "larue",
+          "rue",
+          "dannylarue"
+        ],
+        "answer": "La Rue",
+        "why": "La Rue — Danny La Rue, the drag performer, whose stage surname is the French “la rue”, the street. So the character is a female impersonator who is also a literal thoroughfare, and the place and the person cannot be separated out from each other for tidying. That is the joke the whole of this site is built on top of.",
+        "hints": [
+          "It is in the section called Where Danny came from, in the paragraph about the pun.",
+          "Two short French words, and the first one is the definite article.",
+          "The performer's first name was Danny too."
+        ]
+      },
+      "learned": "The street you are standing on is named after a drag performer by way of a French pun, which means the architecture of this site — rooms that refuse to match, and a street that rearranges itself for whoever turns up — was somebody else's idea first and is credited rather than quietly absorbed."
+    }
+  ],
+  "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."
 }

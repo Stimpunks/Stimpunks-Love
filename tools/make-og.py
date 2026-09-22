@@ -432,6 +432,47 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
   font-size: 16px; letter-spacing: 2px; color: var(--fo-oil);
   margin: 16px 0 0 !important; }}
 
+/* danny — THE ROAD ITSELF, SEEN FROM ABOVE, WITH THE STREET SIGN LYING ON IT.
+   The one card here whose subject is a surface rather than an object standing
+   on one, which is what keeps it off the street's own card: that one is a night
+   sky of coloured sparks with a wordmark in six typefaces, seen from the
+   pavement. This is tarmac under a single sodium lamp — one hue in the whole
+   card, because low-pressure sodium has one wavelength in it and nothing under
+   it has a colour of its own. The kerb and the broken centre line run off both
+   edges, so the card is a piece of something longer rather than a composed
+   rectangle, and the nameplate is the only made object on it. */
+.og--danny {{ width: 100%; flex-direction: column; justify-content: center;
+  align-items: flex-start; padding: 46px 62px 0; gap: 0;
+  background-image: radial-gradient(64% 420px at 50% -30px,
+    rgba(240, 167, 63, 0.10), rgba(240, 167, 63, 0.04) 58%, transparent); }}
+.og--danny .og-eyebrow {{ font-family: 'Overpass', sans-serif; font-weight: 700;
+  font-size: 17px; letter-spacing: 4.2px; text-transform: uppercase;
+  color: var(--dn-chalk); margin: 0 !important; }}
+.og--danny .og-plate {{ margin: 18px 0 0 !important; padding: 18px 30px 22px;
+  border: 3px solid var(--dn-paint);
+  box-shadow: 0 0 0 6px var(--dn-tar), 0 0 0 9px var(--dn-paint); }}
+.og--danny h1 {{ font-family: 'Overpass', sans-serif; font-weight: 700;
+  font-size: 76px; line-height: 1; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--dn-paint); margin: 0 !important; }}
+.og--danny .og-tag {{ font-family: 'Overpass', sans-serif; font-weight: 700;
+  font-size: 22px; line-height: 1.2; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--dn-sodium); margin: 26px 0 0 !important; }}
+.og--danny .og-lede {{ color: var(--dn-chalk); max-width: 900px;
+  font-size: 20px; line-height: 1.44; margin: 14px 0 0 !important; }}
+.og--danny .og-foot {{ font-family: 'Overpass', sans-serif; font-weight: 700;
+  font-size: 16px; letter-spacing: 2.6px; color: var(--dn-chalk);
+  margin: 26px 0 0 !important; }}
+/* The road running off both edges: kerbstones along the foot with the joints
+   cut into them, and one broken centre line above. Ornament, measured in
+   check-contrast.py, and it carries nothing. */
+.og--danny .og-road {{ position: absolute; left: 0; right: 0; bottom: 0; height: 86px;
+  background-image:
+    repeating-linear-gradient(90deg, var(--dn-paint) 0 62px, transparent 62px 112px),
+    repeating-linear-gradient(90deg, var(--dn-kerb) 0 86px, var(--dn-tar) 86px 90px);
+  background-size: 100% 6px, 100% 13px;
+  background-position: 0 30px, 0 66px;
+  background-repeat: no-repeat; }}
+
 /* garden — THE THIRD PALE CARD AND THE GREEN ONE. The hermitage's is warm lime
    plaster with a building on it and a low sun; the guild's is manila with rules
    on it and no light at all; this is sunlight that has come down through leaves,
@@ -1698,6 +1739,35 @@ def card_feed(p):
     )
 
 
+def card_danny(p):
+    # NO DRAWING OF DANNY, and that is the card's own version of the page's
+    # rule: Danny belongs to DC Comics, so what is on this card is a road, and
+    # a road is a thing nobody owns. The plate is the only made object on it.
+    return (
+        "",
+        f'<div class="og og--danny" data-fit="card">'
+        f'<p class="og-eyebrow">The street is named after somebody</p>'
+        f'<div class="og-plate">{p["h1"]}</div>'
+        f'<p class="og-tag">We borrowed the architecture</p>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">DANNY IS THE STREET '
+        f'\u00b7 STIMPUNKS.LOVE</p>'
+        f'<span class="og-road" aria-hidden="true"></span>'
+        f'</div>',
+        f"A card the colour of wet tarmac at night, with one pool of amber "
+        f"street-lamp light falling across the top of it and no other colour "
+        f"anywhere. Along the bottom edge, drawn from directly above: a broken "
+        f"white centre line and a row of kerbstones with the joints cut into "
+        f"them, both running off both sides of the card. Small grey capitals "
+        f"read: The street is named after somebody. Under them, bolted to the "
+        f"road, an enamel street nameplate with a double rule round it reading "
+        f"\u201c{p['h1text']}\u201d in large cream capitals. Under the plate, "
+        f"in amber capitals: We borrowed the architecture. Then, smaller: "
+        f"{p['desc_plain']} Along the foot, in grey capitals: Danny is the "
+        f"street, stimpunks.love.",
+    )
+
+
 def card_plain(p):
     return (
         "",
@@ -1750,6 +1820,7 @@ CARDS = {
     "room-rabbit-hole": card_hole,
     "room-checkpoint": card_checkpoint,
     "room-foundry": card_foundry,
+    "room-danny":   card_danny,
     "room-plain":   card_plain,
 }
 

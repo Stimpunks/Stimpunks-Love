@@ -689,6 +689,29 @@
     }
    ]
   },
+  "overpass": {
+   "family": "Overpass",
+   "category": "Sans Serif",
+   "designer": "Delve Withrington, Dave Bailey, Thomas Jockin",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/overpass",
+   "copyright": "Copyright 2021 The Overpass Project Authors (https://github.com/RedHatOfficial/Overpass)",
+   "repository": "https://github.com/RedHatOfficial/Overpass",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "overpass-400.woff2",
+     "sha": "c34a50e32a89dffd"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "overpass-700.woff2",
+     "sha": "f7a12c2600a2feb6"
+    }
+   ]
+  },
   "permanent-marker": {
    "family": "Permanent Marker",
    "category": "Handwriting",

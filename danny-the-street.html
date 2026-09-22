@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Danny the Street — Stimpunks.Love</title>
+<meta name="description" content="Where this street got its name. Danny the Street is a sentient street in DC Comics' Doom Patrol, created in 1990 by Grant Morrison and Richard Case, named after the drag performer Danny La Rue, hunted by an agency devoted to normalcy, and played on television as genderqueer. What Danny has been since, and which parts of Danny this site took.">
+<link rel="canonical" href="https://stimpunks.love/danny-the-street.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#1A1917">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.Love">
+<meta property="og:title" content="Danny the Street — Stimpunks.Love">
+<meta property="og:description" content="The street this street is named after. A sentient street from Doom Patrol who arrives wherever somebody needs shelter, talks by rearranging what they are made of, and is hunted by people who want everything normal.">
+<meta property="og:url" content="https://stimpunks.love/danny-the-street.html">
+<meta property="og:image" content="https://stimpunks.love/og/danny-the-street.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A card the colour of wet tarmac at night, with one pool of amber street-lamp light falling across the top of it and no other colour anywhere. Along the bottom edge, drawn from directly above: a broken white centre line and a row of kerbstones with the joints cut into them, both running off both sides of the card. Small grey capitals read: The street is named after somebody. Under them, bolted to the road, an enamel street nameplate with a double rule round it reading “Danny the Street” in large cream capitals. Under the plate, in amber capitals: We borrowed the architecture. Then, smaller: The street this street is named after. A sentient street from Doom Patrol who arrives wherever somebody needs shelter, talks by rearranging what they are made of, and is hunted by people who want everything normal. Along the foot, in grey capitals: Danny is the street, stimpunks.love.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love — what changed on the street">
+<link rel="preload" href="fonts/overpass-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+</head>
+<body class="room-danny">
+<a class="skip" href="#main">Skip to the road</a>
+
+<!-- THE LAMP, AND IT IS NOT THE DIAL'S. §3 switches `.glow` off at Gentle for
+     every room on the street; this is a separate layer that is on at every
+     setting, because it is not an effect applied to the room, it is the only
+     light in it. Take it away and the road is unlit rather than quiet, which is
+     the lite-version mistake. It carries no text and it does not move. There is
+     no ambient layer on this page at any setting: nothing on a street at four
+     in the morning moves. -->
+<div class="dn-lamp" aria-hidden="true"></div>
+
+<main id="main" class="dn-road">
+
+  <div class="dn-topline">
+    <a class="backlink" href="index.html">&larr; back to the street</a>
+    <p class="dn-topline__note">the street is named after somebody</p>
+  </div>
+
+  <header class="dn-plate">
+    <h1>Danny the Street</h1>
+    <p class="dn-plate__sub">Doom Patrol &middot; DC Comics &middot; 1990 &middot; not ours</p>
+  </header>
+
+  <!-- OURS, AND IT IS A DRAWING OF A ROAD. Tarmac from above: two kerbs, a
+       broken centre line, a drain in the gutter, a manhole, and a word chalked
+       across the middle of it. There is nobody in it and no character in it, on
+       purpose — Danny belongs to DC Comics, every drawing on this page is of a
+       road, and a road is a thing nobody owns. -->
+  <svg class="dn-draw" viewBox="0 0 880 190" role="img" aria-label="A stretch of road drawn from directly above: kerbstones down both edges, a broken centre line running the length of it, a round manhole cover and a slotted drain at the kerb, and the word HELLO chalked across the tarmac.">
+    <rect x="0" y="0" width="880" height="190" fill="var(--dn-tar)"/>
+    <g fill="var(--dn-kerb)">
+      <rect x="0" y="10" width="880" height="9"/>
+      <rect x="0" y="171" width="880" height="9"/>
+    </g>
+    <g stroke="var(--dn-tar)" stroke-width="2.4">
+      <path d="M74 10v9M148 10v9M222 10v9M296 10v9M370 10v9M444 10v9M518 10v9M592 10v9M666 10v9M740 10v9M814 10v9"/>
+      <path d="M74 171v9M148 171v9M222 171v9M296 171v9M370 171v9M444 171v9M518 171v9M592 171v9M666 171v9M740 171v9M814 171v9"/>
+    </g>
+    <g fill="var(--dn-paint)">
+      <rect x="30" y="93" width="58" height="5"/>
+      <rect x="128" y="93" width="58" height="5"/>
+      <rect x="226" y="93" width="58" height="5"/>
+      <rect x="324" y="93" width="58" height="5"/>
+      <rect x="422" y="93" width="58" height="5"/>
+      <rect x="520" y="93" width="58" height="5"/>
+      <rect x="618" y="93" width="58" height="5"/>
+      <rect x="716" y="93" width="58" height="5"/>
+      <rect x="814" y="93" width="58" height="5"/>
+    </g>
+    <g fill="none" stroke="var(--dn-kerb)" stroke-width="2.6">
+      <circle cx="197" cy="52" r="21"/>
+      <circle cx="197" cy="52" r="13"/>
+      <rect x="600" y="147" width="66" height="17" rx="2"/>
+      <path d="M609 149v13M620 149v13M631 149v13M642 149v13M653 149v13"/>
+    </g>
+    <g fill="none" stroke="var(--dn-chalk)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M352 92V126M352 109h22M374 92v34"/>
+      <path d="M396 92v34M396 92h20M396 109h16M396 126h20"/>
+      <path d="M438 92v34h18"/>
+      <path d="M476 92v34h18"/>
+      <ellipse cx="524" cy="109" rx="13" ry="17"/>
+    </g>
+  </svg>
+
+  <p class="dn-lede">This site is a street with rooms on it that agree about nothing, and that was never our idea. It is <b>Danny's</b>. Danny the Street is a character in DC Comics&rsquo; <i>Doom Patrol</i>: a living street who turns up wherever somebody needs shelter, rearranges what is on them to suit whoever has arrived, and talks by changing the words written on their own surfaces. We borrowed the architecture and put a marquee across the top of the front page saying so. This page is where the name came from, what Danny has been since, and which parts are ours to take.</p>
+
+  <hr class="dn-dash">
+
+  <section class="dn-bay">
+    <h2 class="dn-leg">What Danny is</h2>
+    <p>A living, sentient piece of urban geography, who can place themselves into any city&rsquo;s layout without disturbing it &mdash; the buildings and the roads simply make room. Danny does it mostly at night, when nobody is looking, which means you can turn a corner on the way to work and find that you are walking down somebody.</p>
+    <p>What is on Danny is a joke with an argument inside it. The shopfronts are relentlessly masculine &mdash; a gun shop, an army and navy store, a hardware shop &mdash; and every one of them is hung with frills, lace, flowers and fairy lights. The street is in drag. That is the whole character in one image, and it is why a site about being unassimilable is laid out as a row of shops that do not match.</p>
+    <p><b>Danny has no voice and no face, so Danny speaks by rearrangement.</b> Words appear in shop windows. A sentence turns up typed on a typewriter that happens to be there. Letters form out of the vapour coming off a manhole, or out of a scatter of broken glass. The English is thick with <a href="https://en.wikipedia.org/wiki/Polari">Polari</a>, the slang carried through fairgrounds, the merchant navy, the theatre and gay Britain when being understood by the wrong person was dangerous &mdash; a way of speaking designed to be read only by people who could read it.</p>
+    <p class="dn-chalked">This is the part we stole most directly. On this street the page <em>is</em> the speech: there is no house style sitting above the rooms telling you what the site is, only the surfaces, each one saying a different thing in a different hand.</p>
+  </section>
+
+  <hr class="dn-dash">
+
+  <section class="dn-bay">
+    <h2 class="dn-leg">Where Danny came from</h2>
+    <p>Danny first appeared in <i>Doom Patrol</i> (volume 2) <b>#35, cover-dated August 1990</b>, written by <b>Grant Morrison</b> and drawn by <b>Richard Case</b>. Morrison had taken the title over with #19 in 1989 and turned a superhero book about damaged people into a book about people the world has no slot for &mdash; which is the only kind of superhero book that was ever going to produce a street.</p>
+    <p><b>The name is a pun.</b> Danny is named after <a href="https://en.wikipedia.org/wiki/Danny_La_Rue">Danny La Rue</a>, the drag performer, whose stage surname is French for <i>the street</i>. Morrison has said as much in interviews since, and the joke tells you what the character is for: a female impersonator who is also a literal thoroughfare, so that the place and the person are the same thing and neither can be separated out for tidying.</p>
+    <p>The story Danny arrives in is a story about <b>normalcy as the enemy</b>. Danny and the people living there are hunted by Darren Jones and the Men from N.O.W.H.E.R.E., whose project is a world that behaves like a 1950s situation comedy. The Doom Patrol turn up to defend the street; what actually finishes Jones is the street&rsquo;s own cabaret. A Disabled people&rsquo;s organisation could not invent a better origin story if it tried: the antagonist is enforced ordinariness, and the defence is a floor show.</p>
+    <p>Flex Mentallo, who debuts in the same issue, is sheltered on Danny through the breakdown that follows his first failure. That is the other half of the character. Danny is not a base of operations. Danny is housing.</p>
+  </section>
+
+  <hr class="dn-dash">
+
+  <section class="dn-bay">
+    <h2 class="dn-leg">What Danny has been since</h2>
+    <p>Danny is destroyed and reassembled more often than most characters get published, and every form keeps the same job.</p>
+    <ul class="dn-when">
+      <li><span class="dn-when__when">1990</span><p class="dn-when__what"><b>Danny the Street.</b> <i>Doom Patrol</i> (vol. 2) #35, by Morrison and Case.</p></li>
+      <li><span class="dn-when__when">Later in that run</span><p class="dn-when__what"><b>Danny the World.</b> Danny leaves this universe for an alternate Earth and becomes a whole one, pledged to shelter the people who need it across dimensions. Morrison&rsquo;s last issue ends with a member of the team being brought home to live on Danny.</p></li>
+      <li><span class="dn-when__when">Volume 5</span><p class="dn-when__what"><b>Danny the Brick.</b> Danny is levelled in <i>Doom Patrol</i> (vol. 5) #7. Crazy Jane gets out carrying one brick out of one of Danny&rsquo;s buildings, with Danny&rsquo;s sentience still in it, and carries Danny around in a pocket.</p></li>
+      <li><span class="dn-when__when">2012</span><p class="dn-when__what"><b>Danny the Street again, briefly.</b> Reintroduced in <i>Teen Titans</i> (vol. 4) #3, January 2012, in DC&rsquo;s New 52 continuity, and later suggested to have survived as Danny the Alley.</p></li>
+      <li><span class="dn-when__when">2016 on</span><p class="dn-when__what"><b>Brick, World, Dannyland, Ambulance.</b> In Gerard Way&rsquo;s <i>Doom Patrol</i> for DC&rsquo;s Young Animal imprint, Danny goes from the brick back to a world, becomes an amusement park called Dannyland, manifests the comic-book character Casey Brinke into reality, and turns up as Danny the Ambulance.</p></li>
+    </ul>
+    <p class="dn-chalked">A street, a world, a brick, an alley, a funfair and an ambulance. The thing that stays constant is not the shape; it is that whatever Danny is this month has a door in it.</p>
+  </section>
+
+  <hr class="dn-dash">
+
+  <section class="dn-bay">
+    <h2 class="dn-leg">Danny on television</h2>
+    <p>Danny appears in the first three seasons of <i>Doom Patrol</i> (2019&ndash;2023), made for DC Universe and then HBO Max, as a fugitive from the Bureau of Normalcy &mdash; the show&rsquo;s version of the Men from N.O.W.H.E.R.E., with the name saying the quiet part out loud.</p>
+    <p>The episode is <b>&ldquo;Danny Patrol&rdquo;, season 1, episode 8, first shown on 5 April 2019</b>, written by Tom Farrell and directed by Dermott Downs. This Danny is explicitly <b>genderqueer and uses they/them pronouns</b>, and the people who live on them are the <b>Dannyzens</b> &mdash; among them Maura Lee Karupt, a drag queen and a former Bureau agent who left the agency for the street it was hunting. Later seasons break Danny down to a brick and then rebuild them as an ambulance, which is the comics doing what the comics do.</p>
+    <p>There is one more screen version, and it is the odd one out: an episode of <i>Teen Titans Go!</i> called &ldquo;Stickiest Situation&rdquo;, in which Danny can talk out loud and move parts of themselves like limbs. It is the only Danny with a voice.</p>
+  </section>
+
+  <hr class="dn-dash">
+
+  <section class="dn-bay">
+    <h2 class="dn-leg">He, they, and which Danny is which</h2>
+    <p>The comics write Danny as <i>he</i>, and describe the character in the vocabulary that was available in 1990 &mdash; a word for cross-dressing that has since aged into an insult in most of the mouths that use it. The television version is genderqueer and uses they/them. Both of those are facts about other people&rsquo;s work and we are not here to adjudicate them.</p>
+    <p>Asked in 2020 why Danny had landed so hard with viewers, Morrison put it this way:</p>
+    <div class="dn-said">
+      <p>&ldquo;Back in the day when he was created in the late 1980s, we didn&rsquo;t have terms like &lsquo;genderqueer&rsquo; or &lsquo;non-binary,&rsquo; they just didn&rsquo;t exist.&rdquo;</p>
+      <p class="dn-said__who">Grant Morrison, interviewed by Kimberly Ricci, Uproxx, 11 August 2020</p>
+    </div>
+    <p><b>The Danny in our marquee uses they/them.</b> That is a decision about this site rather than a correction of anybody&rsquo;s canon: the street we borrowed is the one that shelters people whose category does not exist yet, and on a site run by and for neurodivergent and Disabled people, defaulting to <i>they</i> is what we would do for a person whose pronouns we had not been told. Danny has been a street, a world, a brick and an ambulance; <i>they</i> is the pronoun that survives all six.</p>
+  </section>
+
+  <hr class="dn-dash">
+
+  <section class="dn-bay">
+    <h2 class="dn-leg">What we took, and what we did not</h2>
+    <p><b>We took the architecture.</b> No single design system, on purpose: the rooms here share a base of ground rules and then refuse to look like each other, because the street rearranges itself for whoever walks down it. We took the rooms behind rooms, the field past the treeline for people who would rather not live on a street at all, and the empty shopfront with the keys in the door. We took the idea that a surface can be a way of speaking.</p>
+    <p><b>We did not take Danny.</b> Danny the Street belongs to DC Comics, and nothing of theirs is on this page: no panels, no artwork, no dialogue. Every drawing here is ours and every one of them is a drawing of a road, which is a thing nobody owns. The one quotation above is an interview, quoted short and credited in full. What this page is, is a namesake credit &mdash; the same habit the <a href="liner-notes.html">liner notes</a> keep for every song, typeface and borrowed phrase on the site, applied to the borrowed thing that is holding the whole building up.</p>
+    <p><b>And we did not take the vocabulary.</b> 1990 was doing its best with the words it had. We have better ones and no excuse.</p>
+  </section>
+
+  <hr class="dn-dash">
+
+  <section class="dn-bay">
+    <h2 class="dn-leg">Where this was read</h2>
+    <p class="dn-chalked">Checked on 22 September 2026. Nothing on this page was written from memory of the comics, because half of what everybody remembers about Danny turns out to be somebody&rsquo;s retelling &mdash; and an unsourced origin story for the character is still circulating that we have left off deliberately.</p>
+    <ul class="dn-cite">
+      <li><a href="https://en.wikipedia.org/wiki/Danny_the_Street">Danny the Street</a> on Wikipedia, for the debut issue and date, the creators, the La Rue pun, the Polari, the Men from N.O.W.H.E.R.E. and every later form.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Doom_Patrol">Doom Patrol</a> and <a href="https://en.wikipedia.org/wiki/List_of_Doom_Patrol_episodes">List of Doom Patrol episodes</a> on Wikipedia, for Morrison&rsquo;s run beginning at #19 in 1989, and for the air date, writer and director of &ldquo;Danny Patrol&rdquo;.</li>
+      <li><a href="https://www.dc.com/blog/2022/06/27/doom-patrol-is-a-yearlong-pride-celebration">Doom Patrol is a Yearlong Pride Celebration</a>, DC, 27 June 2022, for the spelling of <i>Dannyzens</i> and for Maura Lee Karupt &mdash; DC&rsquo;s own page, because the spelling varies everywhere else.</li>
+      <li><a href="https://uproxx.com/tv/grant-morrison-interview-brave-new-world-peacock-doom-patrol-danny-the-street-hbo-max/">Grant Morrison on retooling Brave New World for TV</a>, Kimberly Ricci, Uproxx, 11 August 2020, for the quotation. <b>Read against the Internet Archive&rsquo;s capture of 23 July 2025</b>, because the live page renders its article text through JavaScript and hands a fetch nothing but navigation. The quotation is verbatim from that capture.</li>
+    </ul>
+    <p class="dn-note"><b>Rights.</b> Danny the Street, the Doom Patrol, the Men from N.O.W.H.E.R.E. and the Bureau of Normalcy are DC Comics&rsquo;. The <i>Doom Patrol</i> television series is Warner Bros. Discovery&rsquo;s. We claim none of it, reproduce none of it, and name it here for the same reason we name everything else: attribution is a licence rather than a house style, and the cheapest thing on any page.</p>
+  </section>
+
+  <div class="dn-desk">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. This road has no ambient layer at any setting: the lamp is on at Gentle because it is the light in here rather than an effect, and nothing else moves, because nothing on a street at four in the morning does.</p>
+    </div>
+  </div>
+
+  <!-- The job board's marker for this room. Written by tools/make-guild.py out
+       of data/quests.json; the same file writes the entry on
+       adventurers-guild.html, so the code cannot differ between the two places
+       it has to be identical in. Do not hand-edit. -->
+  <!-- quest:danny-drain:begin -->
+  <details class="quest" data-quest="danny-drain" data-code="VAPOUR" data-accept="dannylarue|larue|rue">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="4" y="11" width="24" height="12" rx="1.5" fill="none" stroke="var(--dn-chalk)" stroke-width="2.2"/><path d="M9 13 V21 M13.5 13 V21 M18 13 V21 M22.5 13 V21" stroke="var(--dn-chalk)" stroke-width="1.8" stroke-linecap="round"/><path d="M4 8 H28" stroke="var(--dn-chalk)" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a drain in the gutter</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> The joke in the street&#x27;s own name</p>
+      <p class="quest__ask"><b>Before the code:</b> Danny the Street is named after a drag performer whose stage surname is French for “the street”. What is that surname? Two words or one, either is fine.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="danny-drain-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="danny-drain-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is in the section called Where Danny came from, in the paragraph about the pun.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>Two short French words, and the first one is the definite article.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>The performer&#x27;s first name was Danny too.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>La Rue</b>. La Rue — Danny La Rue, the drag performer, whose stage surname is the French “la rue”, the street. So the character is a female impersonator who is also a literal thoroughfare, and the place and the person cannot be separated out from each other for tidying. That is the joke the whole of this site is built on top of.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">VAPOUR</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=VAPOUR">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>La Rue — Danny La Rue, the drag performer, whose stage surname is the French “la rue”, the street. So the character is a female impersonator who is also a literal thoroughfare, and the place and the person cannot be separated out from each other for tidying. That is the joke the whole of this site is built on top of.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">VAPOUR</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=VAPOUR">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:danny-drain:end -->
+</main>
+
+<script src="love.js" defer></script>
+<script src="quest.js" defer></script>
+</body>
+</html>

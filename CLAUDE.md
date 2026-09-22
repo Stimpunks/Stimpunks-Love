@@ -1426,6 +1426,36 @@ typeface is exactly where the credit should travel — verified by rendering the
 one page with two fonts embedded. And **nothing is counted**: not the faces, not the proofs, and
 there is no ranking of one designer's work against another's.
 
+**THE PAGE ABOUT THE NAME IS THE FIRST THING THAT HAD TO BE KEPT APART FROM THE FRONT PAGE.**
+Danny the Street (§33) is the road surface seen from directly above, under one sodium lamp, at
+four in the morning: no walls, no door, no furniture, nothing standing up in it anywhere. Every
+earlier version of this problem had two rooms in it; this is a room and the page it hangs off,
+and **both of them are a street at night.** What keeps them apart is where you are standing.
+§5 is seen from the pavement, at eye level, looking INTO lit windows, with a typeface per
+shopfront and everything in it standing up. This is a plan, with one typeface and **one hue** —
+because low-pressure sodium is effectively a single wavelength, so under it nothing has a colour
+of its own, only a brightness. That is also what holds it off the seven warm rooms, which are
+every one of them lit by a flame or by the sun and full of things that keep their own colours.
+**If a second hue ever appears in §33 the lamp has been changed for a different kind of lamp**,
+and the argument goes with it. The campgrounds is the other outdoor night and has the sky in it;
+under a lamp you cannot see up at all.
+
+**AND THE CREDIT IT CARRIES WAS ONLY EVER IN A MARQUEE, which is a thing to remember about every
+other credit here.** The front page has said DANNY IS THE STREET since it opened, in a scrolling
+band that is `aria-hidden` because it scrolls and is decoration — so on a site whose two
+surviving careful habits are contrast and attribution, **the one place the architecture was
+credited could not be reached by a screen reader.** It is a paragraph under the dial now, in
+text. Nothing of DC's is reproduced on that page: no panels, no artwork, no dialogue, and
+**every drawing on it and on its card is of a road**, which is a thing nobody owns. The comics
+write Danny as *he* in 1990's vocabulary and the television version is genderqueer; **ours takes
+they/them** — Ryan's call, 2026-09-22 — which is a decision about this site rather than a
+correction of anybody's canon, and the page says so rather than leaving it to be noticed. One
+quotation, chased to the original: uproxx.com renders its article text through JavaScript, so it
+was read against the Internet Archive's capture and **the page publishes which**, because an
+unchecked quotation must not sit among checked ones looking identical. An unsourced origin story
+for the character that is still in circulation was left off on purpose, which is the herbarium's
+refusal to guess at a binomial arriving in a fandom.
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody

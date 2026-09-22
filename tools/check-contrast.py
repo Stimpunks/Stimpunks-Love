@@ -427,6 +427,17 @@ FO_BONE, FO_OIL, FO_BRASS = "#EDEAE3", "#B9BFBD", "#DCB262"
 FO_PAPER, FO_INK = "#E8EAE9", "#16181A"
 FO_RED, FO_BLUE = "#8A1A12", "#10395C"
 
+# Danny the Street (§33). ONE HUE, WHICH IS THE ROOM'S WHOLE ARGUMENT AND ALSO
+# what makes this the shortest block in the file: low-pressure sodium is
+# effectively one wavelength, so nothing under a street lamp has a colour of its
+# own and there is no second family of inks to hold. Two grounds -- the bare tar
+# and DN_LIT, what the lamp's own pool makes of it at its strongest, which is
+# the lighter of the two and therefore the one that decides.
+# DN_KERB IS ORNAMENT AND CARRIES NO TEXT: 3.08 and 2.62. It is in ORNAMENT with
+# those numbers beside it.
+DN_TAR, DN_LIT = "#1A1917", "#2D261B"
+DN_PAINT, DN_CHALK, DN_SODIUM = "#F1EADA", "#C0B8A6", "#F0A73F"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -436,6 +447,11 @@ PAIRS = [
     (VIOLET,  INK,  True,  "street: tagline 'ribald songing' 30px VT323"),
     ("#ffffff", INK, True, "street: wordmark"),
     (CHALK,   INK2, False, "street: pavement + dial fine print"),
+    (CHALK,   INK,  False, "street: the paragraph under the dial saying who Danny is, "
+                          "which is the credit the scrolling marquee cannot give a "
+                          "screen reader"),
+    ("#ffffff", INK, False, "street: the bold run in that paragraph"),
+    (YELLOW,  INK,  False, "street: its two links to the page about the name"),
     (YELLOW,  INK2, False, "street: pavement links, dial label"),
     (CHALK,   INK,  False, "plain rooms: lede"),
     (YELLOW,  INK,  False, "plain rooms: links"),
@@ -1445,6 +1461,29 @@ PAIRS = [
                                   "the palette splits at the soil line the way a plant does"),
     (GD_LOAM,   GD_DAPPLE, True,  "marker: the plant label's outline on the garden path"),
 
+    # ── Danny the Street (§33) ──────────────────────────────────────────────
+    # EVERY INK AGAINST BOTH GROUNDS, because the lamp lands where it lands and
+    # the nameplate, the lede and the first bay are all standing in it. The
+    # Jungle Room's rule about shafts of light, on a road.
+    (DN_PAINT,  DN_TAR,  True,  "danny: the h1 on the nameplate in Overpass, 32-58px, and "
+                                "every road legend over a bay"),
+    (DN_PAINT,  DN_LIT,  True,  "danny: the same, where the lamp's pool reaches them"),
+    (DN_PAINT,  DN_TAR,  False, "danny: the lede, every paragraph on the road, and every "
+                                "bold run in one"),
+    (DN_PAINT,  DN_LIT,  False, "danny: the same, under the lamp"),
+    (DN_CHALK,  DN_TAR,  False, "danny: the topline note, every chalked aside, each source "
+                                "line and the rights note"),
+    (DN_CHALK,  DN_LIT,  False, "danny: the topline note under the lamp, which is the one "
+                                "piece of fine print standing in it"),
+    (DN_SODIUM, DN_TAR,  False, "danny: every link, the backlink, the line under the h1 "
+                                "and each date in the running order"),
+    (DN_SODIUM, DN_LIT,  False, "danny: the same, under the lamp"),
+    # THE MARKER IS HELD TO THE BODY THRESHOLD, the Jungle Room's quills rule:
+    # WCAG 1.4.3 does not reach a graphic, and a drain you cannot pick out of
+    # the road is a control you cannot use. It is drawn in the chalk and lies on
+    # the road, so the pair above decides it at 8.91.
+    (DN_CHALK,  DN_TAR,  False, "danny: the job marker, a drain in the gutter"),
+
 ]
 
 # THE HERMITAGE'S CHAIRS ARE IN THE LIST AGAIN, and the episode stays written
@@ -1512,6 +1551,13 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#6b665d": "danny: the kerbstones down both sides of the road, the joints between "
+               "them, the dashes between entries in the running order, the drain and "
+               "the manhole in the drawing, and the rule round the one quotation. 3.08 "
+               "on the tar and 2.62 inside the lamp's pool. A kerb that measured 4.5 "
+               "would be a painted line rather than a stone, and this is the one room "
+               "on the street where the edge of the page is a physical object. Every "
+               "word in the room is measured above against both grounds.",
     "#c9b693": "zibaldone: the fold down the left of every sheet and the hairline round "
                "a pasted leaf, 1.63 on the page and 1.46 on a leaf. The guild's hairline "
                "rule at 2.22 is the precedent and the argument is the same one: it "

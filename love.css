@@ -8,8 +8,9 @@
    (§5 onward), each free to contradict the others.
 
    The one thing every room DOES share is §3, the intensity dial. Danny the
-   Street rearranges itself for whoever walks down it, so loudness is a control
-   the visitor holds, never a fixed property of the page.
+   Street rearranges themselves for whoever walks down it, so loudness is a
+   control the visitor holds, never a fixed property of the page. Who Danny is,
+   and why they/them, is §33 and danny-the-street.html.
    ============================================================================= */
 
 
@@ -351,6 +352,22 @@
 @font-face { font-family: 'Stardos Stencil'; src: url('fonts/stardos-stencil-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Work Sans';       src: url('fonts/work-sans-400.woff2') format('woff2');       font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Work Sans';       src: url('fonts/work-sans-600.woff2') format('woff2');       font-weight: 600; font-style: normal; font-display: swap; }
+
+/* Danny the Street (§33). ONE FACE, AND IT IS THE ROAD'S OWN. Overpass is drawn
+   from the lettering on American highway signs -- the FHWA series, which exists
+   to be read at speed, from a long way off, by somebody who is doing something
+   else at the time -- so it is the only family on this street whose whole
+   reason for existing is being painted onto or bolted above a road. It sets the
+   nameplate, the road legends and the dates, and nothing else.
+
+   THE PROSE IN THAT ROOM IS THE BASE'S SPACE GROTESK, which makes it the only
+   room here that sets a display face and no text face of its own. The Garden is
+   the exact inverse -- two text faces and no display face at all, because a
+   garden has labels and no signage -- and the pair of them is the whole range
+   this street's type play has in it. Under the SIL Open Font License. See
+   fonts/_sources.json. */
+@font-face { font-family: 'Overpass'; src: url('fonts/overpass-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Overpass'; src: url('fonts/overpass-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -896,6 +913,25 @@
   --fo-brass: #DCB262;    --fo-lead:  #98A0A3;
   --fo-roof:  #6E7A80;
   --fo-paper: #E8EAE9;    --fo-ink:   #16181A;
+
+  /* Danny the Street (§33). ONE HUE AND NOTHING ELSE, which is not a taste and
+     cannot be loosened: low-pressure sodium is effectively a single wavelength,
+     so under a street lamp nothing has a colour of its own -- only a
+     brightness. Every value here is on one warm line from the tar up to the
+     lamp, and a second hue in this room would be a different kind of lamp.
+     --dn-tar is the road, --dn-paint is the road marking and every word in the
+     room, --dn-chalk is the fine print, --dn-sodium is the lamp and every link.
+     --dn-kerb IS ORNAMENT AND CARRIES NO TEXT: 3.08 on the tar and 2.62 inside
+     the lamp's pool, both under the bar, so it kerbs, rules and joints and
+     never says anything. It is in check-contrast.py's ORNAMENT list with those
+     numbers beside it.
+     DN- PREFIXED THROUGHOUT, the Foundry's precedent: `tar`, `paint`, `chalk`
+     and `kerb` are exactly the plain words this file fills up with, and `chalk`
+     is already the base's. A custom property declared twice in one :root is
+     last-wins and silent. */
+  --dn-tar:    #1A1917;   --dn-paint:  #F1EADA;
+  --dn-chalk:  #C0B8A6;   --dn-sodium: #F0A73F;
+  --dn-kerb:   #6B665D;
 }
 
 * { box-sizing: border-box; }
@@ -1197,6 +1233,23 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .masthead { display: flex; flex-wrap: wrap; gap: 30px; align-items: flex-start; padding: 34px 0 0; }
 .masthead__names { flex: 1 1 420px; }
 .masthead__dial  { flex: 0 1 400px; }
+
+/* THE NAME OF THE THING THE WHOLE SITE WAS TAKEN FROM, said in text under the
+   dial. The marquee across the top of the page says DANNY IS THE STREET and is
+   `aria-hidden`, because it scrolls and is decoration — so until this paragraph
+   existed, the credit for the architecture was available only to somebody who
+   could see it, on a site whose one surviving careful habit is attribution.
+   IT DECLARES ITS OWN LINK COLOUR. The street has no base link rule of its own,
+   which is the hole the Doomscroll and the Playhouse both fell down; yellow on
+   the night ground is in check-contrast.py, and so is the chalk it is set in. */
+.masthead__who {
+  margin: 14px 0 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--chalk);
+}
+.masthead__who b { color: #fff; }
+.masthead__who a { color: var(--yellow); text-underline-offset: 3px; }
 
 .wordmark   { font-family: 'Bungee', var(--sans); font-size: clamp(46px, 8.5vw, 92px); line-height: .92; color: #fff; text-shadow: 4px 0 0 var(--pink), 8px 0 0 var(--cyan); letter-spacing: -1px; margin: 0; }
 .wordmark b { font-family: 'Shrikhand', var(--sans); font-weight: 400; color: var(--pink); text-shadow: none; display: block; font-size: .78em; margin-top: -.06em; }
@@ -7424,7 +7477,283 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 .fo-sort__meta { margin: 4px 0 0; font-size: 12.5px; color: var(--fo-oil); }
 .fo-sort__vf { display: block; margin-top: 3px; color: var(--fo-oil); }
 
-/* §33 ── Small screens ───────────────────────────────────────────────────────
+/* §33 ── ROOM: Danny the Street (the page about the name) ────────────────────
+   THE ROAD SURFACE, SEEN FROM DIRECTLY ABOVE, UNDER ONE SODIUM LAMP AT FOUR IN
+   THE MORNING. This page says where the street's name came from, so it is the
+   one room here that is not a premises at all: no walls, no door, no furniture,
+   nothing standing up in it anywhere. You are looking down at the thing you
+   spend the rest of the site walking along.
+
+   THE HARDEST COLLAPSE IS THE STREET ITSELF (§5), AND IT IS THE FIRST TIME A
+   ROOM HAS HAD TO BE KEPT APART FROM THE FRONT DOOR. Both are a street at
+   night. Every earlier version of this problem had two rooms to separate; this
+   one has a room and the page it hangs off. What keeps them apart is where you
+   are standing and what you can see from there:
+
+     · §5 IS SEEN FROM THE PAVEMENT, at eye level, looking INTO lit windows.
+       Every object in it stands up — awnings, fronts, a signpost, a
+       noticeboard on legs — and it collides a typeface per shopfront on
+       purpose. This is a PLAN: the kerbs run down both sides of the page, the
+       centre line runs through the middle of it, and there is exactly one
+       typeface and one hue in the whole room.
+     · §5's light is coloured and comes from a dozen places at once, which is
+       what a row of shops looks like. HERE THERE IS ONE LAMP AND IT HAS ONE
+       COLOUR IN IT. Low-pressure sodium is effectively a single wavelength, so
+       under it nothing has a colour of its own — only a brightness. That is not
+       a palette decision that could be loosened later; it is the whole room. IF
+       A SECOND HUE EVER APPEARS IN THIS SECTION THE LAMP HAS BEEN CHANGED FOR
+       A DIFFERENT KIND OF LAMP, and the argument goes with it.
+
+   AND IT IS THE SEVENTH WARM-LOOKING ROOM, after the Faery Yurt, The Latibulum,
+   The Den, the Hermitage's cave, The Mopery and Swaying Sweetgrass. By now
+   "they are all warm, they should feel the same" has arrived so often that it
+   sounds like taste. The answer here is the same as it has been every time and
+   it is physical: every one of those rooms is lit by a flame or by the sun, and
+   in all of them things keep their own colours — green shag, indigo glass, gold
+   leaf, a red spine. SODIUM TAKES COLOUR AWAY. A room where nothing can have a
+   local colour is the opposite of a cosy one, however warm the grey looks, and
+   there is nothing in here to sit on.
+
+   THE CAMPGROUNDS (§13) IS THE OTHER OUTDOOR NIGHT, and the separation is the
+   sky. Out there the field is cold blue with the sky still on it and the ground
+   is what you are standing on. Under a lamp you cannot see up at all: the light
+   is a lid, the dark past the kerb is absolute, and the ground is the only
+   thing there is. The Rabbit Hole (§30) is the other hard grey and is cold, wet
+   and vertical; this is warm, dry and flat.
+
+   THERE IS NO TRANSFORM AND NO ANIMATION IN THIS SECTION, and both absences are
+   decisions. A painted road legend is stretched along the road, and the only
+   way to stretch type here would be a scale — which check-gentle.py reads out
+   of the computed matrix and cannot tell from a page tilting itself, so the
+   legends are letter-spaced and left alone. The Foundry made the same call in
+   the room where a slant is a control. AND THERE IS NO AMBIENT LAYER AT ANY
+   SETTING: the lamp is on at Gentle because it is the light in here rather than
+   an effect applied to it, and nothing else moves, because nothing on a street
+   at four in the morning does. Club Chronic's rule, in the quietest room that
+   has ever held it.
+
+   THE LINK COLOUR IS DECIDED HERE, AT THE ROOM, on both grounds this room has —
+   sodium is 8.62 on the tar and 7.34 inside the lamp's own pool. The Doomscroll
+   and the Playhouse both shipped without that decision and fell through to a
+   pink chosen for a near-black street.                                        */
+
+.room-danny {
+  position: relative;
+  background: var(--dn-tar);
+  color: var(--dn-paint);
+  font-size: 17px;
+  line-height: 1.62;
+}
+
+.room-danny a { color: var(--dn-sodium); text-underline-offset: 3px; }
+.room-danny a:hover,
+.room-danny a:focus-visible { color: var(--dn-paint); }
+
+/* THE LAMP. One pool, thrown from above and slightly behind the reader, which
+   is where a street lamp is. It is absolute and it stops — the Foundry's rule,
+   learned the hard way there: a light fixed to the viewport is not a light, it
+   is a veil that arrives under whichever paragraph you happen to have scrolled
+   to. It composites the tar to #2D261B at its strongest, and every ink in this
+   room is held against that as well as against the bare road in
+   check-contrast.py. It carries no text of its own and it does not move. */
+.dn-lamp {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 620px;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(70% 420px at 50% -40px,
+              rgba(240, 167, 63, .09), rgba(240, 167, 63, .035) 58%, transparent);
+}
+
+/* The road. The kerbs are the page's own edges, laid in stones with a joint
+   between them, and they are ornament: 3.08 on the tar, which is under the bar,
+   so they edge the room and never say anything. */
+.dn-road {
+  position: relative;
+  z-index: 1;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 clamp(22px, 5vw, 46px) 84px;
+}
+.dn-road::before,
+.dn-road::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 11px;
+  background: repeating-linear-gradient(180deg,
+              var(--dn-kerb) 0 74px, var(--dn-tar) 74px 77px);
+}
+.dn-road::before { left: 0; }
+.dn-road::after  { right: 0; }
+
+.dn-topline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 26px;
+}
+.room-danny .backlink { color: var(--dn-sodium); }
+/* The two small notes in this room are Overpass at 400 and everything else is
+   at 700: a painted road legend is laid down thick because it is read at speed
+   from a long way off, and a line of small print on a sign is not. The bench in
+   The Foundry offers both, and check-weights.py renders them to be sure they
+   are two drawings rather than one file named twice. */
+.dn-topline__note {
+  margin: 0;
+  font-family: 'Overpass', var(--sans);
+  font-weight: 400;
+  font-size: 11.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--dn-chalk);
+}
+
+/* The nameplate. An enamel street sign the colour of the road it is bolted
+   over, with the two rules a cast plate has round it. It is NOT a pale panel,
+   although a real one is: every word in this room is pale on the dark, which is
+   the inversion The Latibulum is built on running the other way, and one lit
+   panel in here would be a second ground nobody measured. */
+.dn-plate {
+  margin: 30px 0 0;
+  padding: 20px 24px 22px;
+  border: 2px solid var(--dn-paint);
+  box-shadow: 0 0 0 4px var(--dn-tar), 0 0 0 6px var(--dn-paint);
+}
+.room-danny h1 {
+  margin: 0;
+  font-family: 'Overpass', var(--sans);
+  font-weight: 700;
+  font-size: clamp(32px, 6.4vw, 58px);
+  line-height: 1.04;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--dn-paint);
+}
+.dn-plate__sub {
+  margin: 12px 0 0;
+  font-family: 'Overpass', var(--sans);
+  font-weight: 700;
+  font-size: 12.5px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--dn-sodium);
+}
+
+/* OURS, AND IT IS A DRAWING OF A ROAD. A stretch of tarmac from above: two
+   kerbs, a broken centre line, a drain in the gutter, a manhole, and a word
+   chalked across the middle of it. There is no character in it and there is not
+   going to be one — Danny belongs to DC Comics, the drawings on this page are
+   of a road, and a road is a thing nobody owns. */
+.dn-draw {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 26px 0 0;
+}
+
+.dn-lede {
+  margin: 26px 0 0;
+  font-size: 19px;
+  line-height: 1.6;
+}
+
+/* The section headings are road legends: painted on, in capitals, spaced out
+   along the road. Not stretched — see the note at the head of this section. */
+.dn-leg {
+  margin: 0 0 14px;
+  font-family: 'Overpass', var(--sans);
+  font-weight: 700;
+  font-size: clamp(18px, 3.2vw, 24px);
+  letter-spacing: .12em;
+  line-height: 1.24;
+  text-transform: uppercase;
+  color: var(--dn-paint);
+}
+.dn-bay { margin: 0; padding: 0; }
+.dn-bay + .dn-bay { margin-top: 10px; }
+.dn-bay p { margin: 0 0 13px; }
+
+/* The centre line between bays. Ornament, in the paint's own colour, because a
+   centre line is paint. */
+.dn-dash {
+  height: 5px;
+  border: 0;
+  margin: 34px 0;
+  background: repeating-linear-gradient(90deg,
+              var(--dn-paint) 0 52px, transparent 52px 94px);
+}
+
+/* What Danny has been, in order. A date on the left in the lamp's own colour
+   and the thing itself on the right; the rule between entries is a joint in
+   the paving rather than a border on a card. */
+.dn-when { list-style: none; margin: 18px 0 0; padding: 0; }
+.dn-when > li {
+  display: grid;
+  grid-template-columns: 104px 1fr;
+  gap: 4px 20px;
+  padding: 15px 0;
+  border-top: 1px dashed var(--dn-kerb);
+}
+.dn-when > li:last-child { border-bottom: 1px dashed var(--dn-kerb); }
+.dn-when__when {
+  font-family: 'Overpass', var(--sans);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: .08em;
+  color: var(--dn-sodium);
+}
+.dn-when__what { margin: 0; }
+.dn-when__what b { color: var(--dn-paint); }
+
+/* Chalk. Danny talks by rearranging what Danny is made of, so the asides in
+   this room are written on the road rather than framed on a card. */
+.dn-chalked {
+  margin: 20px 0 0;
+  padding: 0 0 0 18px;
+  border-left: 3px solid var(--dn-kerb);
+  color: var(--dn-chalk);
+  font-size: 16px;
+}
+
+/* The one quotation on the page, and the line saying where it was read. */
+.dn-said {
+  margin: 20px 0 0;
+  padding: 16px 20px;
+  border: 1px solid var(--dn-kerb);
+}
+.dn-said p { margin: 0; font-size: 18px; }
+.dn-said__who {
+  margin: 10px 0 0;
+  font-family: 'Overpass', var(--sans);
+  font-weight: 400;
+  font-size: 11.5px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--dn-sodium);
+}
+
+/* The sources, and the rights note under them. Both are fine print in the
+   chalk, which is 8.91 on the road. */
+.dn-cite { list-style: none; margin: 16px 0 0; padding: 0; }
+.dn-cite li { margin: 0 0 10px; font-size: 15px; color: var(--dn-chalk); }
+.dn-note {
+  margin: 26px 0 0;
+  padding: 18px 20px;
+  border: 1px dashed var(--dn-kerb);
+  font-size: 15px;
+  color: var(--dn-chalk);
+}
+
+/* The dial, at the end of the road, where every room keeps it. */
+.dn-desk { margin: 40px 0 0; max-width: 460px; }
+
+
+/* §34 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -7531,7 +7860,7 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §33 says every
+   shipped with no rule here at all — which on a street whose §34 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -7628,6 +7957,24 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
    that is not doing its job, so the grid gives way to one column instead --
    the call the sound board made when a third of 375px turned out to be about
    seventy pixels of text column. */
+/* Danny the Street (§33). THE RUNNING ORDER GIVES UP ITS COLUMN RATHER THAN ITS
+   WORDS. A 104px date beside a 1fr entry leaves about 210px of text column on a
+   375px phone, which sets a book title four words to a line; the date goes
+   above its entry instead. The sound board's call, and this block is LAST in
+   its section and after §33 in the file for that section's reason: a media
+   block written above the rules it overrides loses exactly the declarations the
+   base rule also sets and keeps the rest, which looks like a cache problem and
+   is source order. The kerbs narrow rather than going, because they are the
+   edge of the road and a road without one is a field. */
+@media (max-width: 620px) {
+  .dn-road { padding-left: 20px; padding-right: 20px; }
+  .dn-road::before, .dn-road::after { width: 7px; }
+  .dn-plate { padding: 16px 18px 18px; }
+  .dn-when > li { grid-template-columns: 1fr; gap: 6px; }
+  .dn-said { padding: 14px 16px; }
+  .dn-note { padding: 16px 16px; }
+}
+
 @media (max-width: 620px) {
   .fo-plate { padding: 20px 18px 22px; gap: 16px; }
   .fo-galley { width: 124px; }
@@ -7637,7 +7984,7 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §34 ── Print ───────────────────────────────────────────────────────────────
+/* §35 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
