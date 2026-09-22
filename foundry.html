@@ -17,6 +17,10 @@
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<!-- og:image:alt is make-og.py's line: it builds the card and writes the alt to
+     match it. This copy is here only so a freshly generated page is never without
+     one, and it is kept in step by hand -- a stale copy here silently reverts a
+     correct alt every time this tool runs, which is how it drifted before. -->
 <meta property="og:image:alt" content="An iron-grey card lit flatly from above, as if through a dirty workshop roof. On the left, a drawing of a compositor’s galley holding three pieces of metal type standing on their feet, each with a nick cut across the shank and its letter mirrored the way cast type is, with one proof sheet lying under them. On the right, small brass capitals reading cast, proofed, and credited, then “The Foundry” in a heavy stencil face in bone, the strokes bridged where a stencil holds itself together. Under it in brass: Every typeface on this street, and the name of whoever drew it. Then, smaller: A grey iron workshop under a dirty roof. Set any words on this street in any face on this street, pull a proof, and print it with the designer&#x27;s name on it. Along the foot, in grey capitals: nothing here is counted, stimpunks.love.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -137,12 +141,12 @@ Sphinx of black quartz, judge my vow.">A proof of the whole alphabet</option>
             <option value="bitter" data-family="Bitter" data-weights="400" data-italic="" data-designer="Sol Matas" data-licence="SIL Open Font License 1.1">Bitter &mdash; Sol Matas</option>
             <option value="bree-serif" data-family="Bree Serif" data-weights="400" data-italic="" data-designer="TypeTogether" data-licence="SIL Open Font License 1.1">Bree Serif &mdash; TypeTogether</option>
             <option value="cardo" data-family="Cardo" data-weights="400" data-italic="400" data-designer="David Perry" data-licence="SIL Open Font License 1.1">Cardo &mdash; David Perry</option>
-            <option value="cinzel" data-family="Cinzel" data-weights="400" data-italic="" data-designer="Natanael Gama" data-licence="SIL Open Font License 1.1">Cinzel &mdash; Natanael Gama</option>
+            <option value="cinzel" data-family="Cinzel" data-weights="400,700" data-italic="" data-designer="Natanael Gama" data-licence="SIL Open Font License 1.1">Cinzel &mdash; Natanael Gama</option>
             <option value="cormorant-garamond" data-family="Cormorant Garamond" data-weights="600" data-italic="600" data-designer="Christian Thalmann" data-licence="SIL Open Font License 1.1">Cormorant Garamond &mdash; Christian Thalmann</option>
             <option value="crimson-pro" data-family="Crimson Pro" data-weights="400" data-italic="400" data-designer="Jacques Le Bailly" data-licence="SIL Open Font License 1.1">Crimson Pro &mdash; Jacques Le Bailly</option>
-            <option value="eb-garamond" data-family="EB Garamond" data-weights="400" data-italic="400" data-designer="Georg Duffner, Octavio Pardo" data-licence="SIL Open Font License 1.1">EB Garamond &mdash; Georg Duffner, Octavio Pardo</option>
+            <option value="eb-garamond" data-family="EB Garamond" data-weights="400,600" data-italic="400" data-designer="Georg Duffner, Octavio Pardo" data-licence="SIL Open Font License 1.1">EB Garamond &mdash; Georg Duffner, Octavio Pardo</option>
             <option value="eczar" data-family="Eczar" data-weights="600" data-italic="" data-designer="Rosetta, Vaibhav Singh" data-licence="SIL Open Font License 1.1">Eczar &mdash; Rosetta, Vaibhav Singh</option>
-            <option value="faustina" data-family="Faustina" data-weights="400" data-italic="400" data-designer="Omnibus-Type" data-licence="SIL Open Font License 1.1">Faustina &mdash; Omnibus-Type</option>
+            <option value="faustina" data-family="Faustina" data-weights="400,600" data-italic="400" data-designer="Omnibus-Type" data-licence="SIL Open Font License 1.1">Faustina &mdash; Omnibus-Type</option>
             <option value="fraunces" data-family="Fraunces" data-weights="700" data-italic="" data-designer="Undercase Type, Phaedra Charles, Flavia Zimbardi" data-licence="SIL Open Font License 1.1">Fraunces &mdash; Undercase Type, Phaedra Charles, Flavia Zimbardi</option>
             <option value="im-fell-english" data-family="IM Fell English" data-weights="400" data-italic="400" data-designer="Igino Marini" data-licence="SIL Open Font License 1.1">IM Fell English &mdash; Igino Marini</option>
             <option value="instrument-serif" data-family="Instrument Serif" data-weights="400" data-italic="400" data-designer="Rodrigo Fuenzalida, Jordan Egstad" data-licence="SIL Open Font License 1.1">Instrument Serif &mdash; Rodrigo Fuenzalida, Jordan Egstad</option>
@@ -151,25 +155,25 @@ Sphinx of black quartz, judge my vow.">A proof of the whole alphabet</option>
             <option value="playfair-display" data-family="Playfair Display" data-weights="700" data-italic="" data-designer="Claus Eggers Sørensen" data-licence="SIL Open Font License 1.1">Playfair Display &mdash; Claus Eggers Sørensen</option>
             <option value="spectral" data-family="Spectral" data-weights="400,600" data-italic="" data-designer="Production Type" data-licence="SIL Open Font License 1.1">Spectral &mdash; Production Type</option>
             <option value="ultra" data-family="Ultra" data-weights="400" data-italic="" data-designer="Astigmatic" data-licence="Apache License 2.0">Ultra &mdash; Astigmatic</option>
-            <option value="vollkorn" data-family="Vollkorn" data-weights="400" data-italic="" data-designer="Friedrich Althausen" data-licence="SIL Open Font License 1.1">Vollkorn &mdash; Friedrich Althausen</option>
+            <option value="vollkorn" data-family="Vollkorn" data-weights="400,600" data-italic="" data-designer="Friedrich Althausen" data-licence="SIL Open Font License 1.1">Vollkorn &mdash; Friedrich Althausen</option>
           </optgroup>
           <optgroup label="Sans Serif">
             <option value="alegreya-sans" data-family="Alegreya Sans" data-weights="400,500" data-italic="" data-designer="Juan Pablo del Peral, HT Fonts" data-licence="SIL Open Font License 1.1">Alegreya Sans &mdash; Juan Pablo del Peral, HT Fonts</option>
             <option value="archivo-black" data-family="Archivo Black" data-weights="400" data-italic="" data-designer="Omnibus-Type" data-licence="SIL Open Font License 1.1">Archivo Black &mdash; Omnibus-Type</option>
             <option value="atkinson-hyperlegible" data-family="Atkinson Hyperlegible" data-weights="400,700" data-italic="" data-designer="Braille Institute, Applied Design Works, Elliott Scott, Megan Eiswerth, Linus Boman, Theodore Petrosky" data-licence="SIL Open Font License 1.1">Atkinson Hyperlegible &mdash; Braille Institute, Applied Design Works, Elliott Scott, Megan Eiswerth, Linus Boman, Theodore Petrosky</option>
             <option value="barlow" data-family="Barlow" data-weights="400,600" data-italic="" data-designer="Jeremy Tribby" data-licence="SIL Open Font License 1.1">Barlow &mdash; Jeremy Tribby</option>
-            <option value="cabin" data-family="Cabin" data-weights="400" data-italic="" data-designer="Impallari Type, Rodrigo Fuenzalida" data-licence="SIL Open Font License 1.1">Cabin &mdash; Impallari Type, Rodrigo Fuenzalida</option>
+            <option value="cabin" data-family="Cabin" data-weights="400,700" data-italic="" data-designer="Impallari Type, Rodrigo Fuenzalida" data-licence="SIL Open Font License 1.1">Cabin &mdash; Impallari Type, Rodrigo Fuenzalida</option>
             <option value="josefin-sans" data-family="Josefin Sans" data-weights="600" data-italic="" data-designer="Santiago Orozco" data-licence="SIL Open Font License 1.1">Josefin Sans &mdash; Santiago Orozco</option>
-            <option value="jost" data-family="Jost" data-weights="400" data-italic="" data-designer="Owen Earl" data-licence="SIL Open Font License 1.1">Jost &mdash; Owen Earl</option>
-            <option value="karla" data-family="Karla" data-weights="400" data-italic="" data-designer="Jonny Pinhorn" data-licence="SIL Open Font License 1.1">Karla &mdash; Jonny Pinhorn</option>
+            <option value="jost" data-family="Jost" data-weights="400,500" data-italic="" data-designer="Owen Earl" data-licence="SIL Open Font License 1.1">Jost &mdash; Owen Earl</option>
+            <option value="karla" data-family="Karla" data-weights="400,700" data-italic="" data-designer="Jonny Pinhorn" data-licence="SIL Open Font License 1.1">Karla &mdash; Jonny Pinhorn</option>
             <option value="michroma" data-family="Michroma" data-weights="400" data-italic="" data-designer="Vernon Adams" data-licence="SIL Open Font License 1.1">Michroma &mdash; Vernon Adams</option>
-            <option value="mulish" data-family="Mulish" data-weights="400" data-italic="" data-designer="Vernon Adams, Cyreal, Jacques Le Bailly" data-licence="SIL Open Font License 1.1">Mulish &mdash; Vernon Adams, Cyreal, Jacques Le Bailly</option>
-            <option value="nunito" data-family="Nunito" data-weights="400" data-italic="" data-designer="Vernon Adams, Cyreal, Jacques Le Bailly" data-licence="SIL Open Font License 1.1">Nunito &mdash; Vernon Adams, Cyreal, Jacques Le Bailly</option>
+            <option value="mulish" data-family="Mulish" data-weights="400,700" data-italic="" data-designer="Vernon Adams, Cyreal, Jacques Le Bailly" data-licence="SIL Open Font License 1.1">Mulish &mdash; Vernon Adams, Cyreal, Jacques Le Bailly</option>
+            <option value="nunito" data-family="Nunito" data-weights="400,700" data-italic="" data-designer="Vernon Adams, Cyreal, Jacques Le Bailly" data-licence="SIL Open Font License 1.1">Nunito &mdash; Vernon Adams, Cyreal, Jacques Le Bailly</option>
             <option value="public-sans" data-family="Public Sans" data-weights="400,700" data-italic="" data-designer="USWDS, Dan Williams, Pablo Impallari, Rodrigo Fuenzalida" data-licence="SIL Open Font License 1.1">Public Sans &mdash; USWDS, Dan Williams, Pablo Impallari, Rodrigo Fuenzalida</option>
-            <option value="quicksand" data-family="Quicksand" data-weights="500" data-italic="" data-designer="Andrew Paglinawan" data-licence="SIL Open Font License 1.1">Quicksand &mdash; Andrew Paglinawan</option>
-            <option value="rubik" data-family="Rubik" data-weights="400" data-italic="" data-designer="Hubert and Fischer, Meir Sadan, Cyreal, Daniel Grumer, Omaima Dajani" data-licence="SIL Open Font License 1.1">Rubik &mdash; Hubert and Fischer, Meir Sadan, Cyreal, Daniel Grumer, Omaima Dajani</option>
+            <option value="quicksand" data-family="Quicksand" data-weights="500,700" data-italic="" data-designer="Andrew Paglinawan" data-licence="SIL Open Font License 1.1">Quicksand &mdash; Andrew Paglinawan</option>
+            <option value="rubik" data-family="Rubik" data-weights="400,500" data-italic="" data-designer="Hubert and Fischer, Meir Sadan, Cyreal, Daniel Grumer, Omaima Dajani" data-licence="SIL Open Font License 1.1">Rubik &mdash; Hubert and Fischer, Meir Sadan, Cyreal, Daniel Grumer, Omaima Dajani</option>
             <option value="sora" data-family="Sora" data-weights="400" data-italic="" data-designer="Jonathan Barnbrook, Julián Moncada" data-licence="SIL Open Font License 1.1">Sora &mdash; Jonathan Barnbrook, Julián Moncada</option>
-            <option value="space-grotesk" data-family="Space Grotesk" data-weights="400" data-italic="" data-designer="Florian Karsten" data-licence="SIL Open Font License 1.1">Space Grotesk &mdash; Florian Karsten</option>
+            <option value="space-grotesk" data-family="Space Grotesk" data-weights="400,500,700" data-italic="" data-designer="Florian Karsten" data-licence="SIL Open Font License 1.1">Space Grotesk &mdash; Florian Karsten</option>
             <option value="work-sans" data-family="Work Sans" data-weights="400,600" data-italic="" data-designer="Wei Huang" data-licence="SIL Open Font License 1.1">Work Sans &mdash; Wei Huang</option>
           </optgroup>
           <optgroup label="Display">
@@ -205,7 +209,7 @@ Sphinx of black quartz, judge my vow.">A proof of the whole alphabet</option>
       <div class="fo-pick">
         <label for="fo-weight">Weight</label>
         <select id="fo-weight"><option value="700">700 &mdash; the only weight this site holds</option></select>
-        <p class="fo-pick__fine">Only the weights this site holds a different file for. Several of these families are one file declared against two or three weights, and a bold that is the same drawings as the regular is a control that does nothing.</p>
+        <p class="fo-pick__fine">Every weight this street declares for this face. Several of these families are one file with a weight axis inside it, declared against two or three weights &mdash; the same bytes, genuinely different drawings &mdash; and this picker used to drop those, because it asked whether the bytes differed instead of whether the letters did. A weight that came out the same drawings as the regular would be a control that does nothing, so the offered weights are rendered and measured rather than assumed.</p>
       </div>
       <div class="fo-pick">
         <label for="fo-slant">Upright, italic or slanted</label>
@@ -385,7 +389,7 @@ Sphinx of black quartz, judge my vow.">A proof of the whole alphabet</option>
         <li class="fo-sort">
           <p class="fo-sort__show" style="font-family:'Cinzel';" lang="en">Cinzel</p>
           <p class="fo-sort__who">Natanael Gama</p>
-          <p class="fo-sort__meta"><a href="https://github.com/google/fonts/tree/main/ofl/cinzel">SIL Open Font License 1.1</a> &middot; sets <a href="oracle-deck.html">The Oracle Deck</a></p>
+          <p class="fo-sort__meta"><a href="https://github.com/google/fonts/tree/main/ofl/cinzel">SIL Open Font License 1.1</a> &middot; sets <a href="oracle-deck.html">The Oracle Deck</a><span class="fo-sort__vf">one file, declared against more than one weight</span></p>
         </li>
         <li class="fo-sort">
           <p class="fo-sort__show" style="font-family:'Cormorant Garamond';" lang="en">Cormorant Garamond</p>
@@ -410,7 +414,7 @@ Sphinx of black quartz, judge my vow.">A proof of the whole alphabet</option>
         <li class="fo-sort">
           <p class="fo-sort__show" style="font-family:'Faustina';" lang="en">Faustina</p>
           <p class="fo-sort__who">Omnibus-Type</p>
-          <p class="fo-sort__meta"><a href="https://github.com/google/fonts/tree/main/ofl/faustina">SIL Open Font License 1.1</a> &middot; sets <a href="the-garden.html">The Garden</a></p>
+          <p class="fo-sort__meta"><a href="https://github.com/google/fonts/tree/main/ofl/faustina">SIL Open Font License 1.1</a> &middot; sets <a href="the-garden.html">The Garden</a><span class="fo-sort__vf">one file, declared against more than one weight</span></p>
         </li>
         <li class="fo-sort">
           <p class="fo-sort__show" style="font-family:'Fraunces';" lang="en">Fraunces</p>
@@ -455,7 +459,7 @@ Sphinx of black quartz, judge my vow.">A proof of the whole alphabet</option>
         <li class="fo-sort">
           <p class="fo-sort__show" style="font-family:'Vollkorn';" lang="en">Vollkorn</p>
           <p class="fo-sort__who">Friedrich Althausen</p>
-          <p class="fo-sort__meta"><a href="https://github.com/google/fonts/tree/main/ofl/vollkorn">SIL Open Font License 1.1</a> &middot; sets <a href="the-doomscroll.html">The Doomscroll</a></p>
+          <p class="fo-sort__meta"><a href="https://github.com/google/fonts/tree/main/ofl/vollkorn">SIL Open Font License 1.1</a> &middot; sets <a href="the-doomscroll.html">The Doomscroll</a><span class="fo-sort__vf">one file, declared against more than one weight</span></p>
         </li>
       </ul>
       <h3 class="fo-shelf">Sans Serif</h3>
@@ -493,7 +497,7 @@ Sphinx of black quartz, judge my vow.">A proof of the whole alphabet</option>
         <li class="fo-sort">
           <p class="fo-sort__show" style="font-family:'Jost';" lang="en">Jost</p>
           <p class="fo-sort__who">Owen Earl</p>
-          <p class="fo-sort__meta"><a href="https://github.com/google/fonts/tree/main/ofl/jost">SIL Open Font License 1.1</a> &middot; sets <a href="rabbit-hole.html">The Rabbit Hole</a><span class="fo-sort__vf">one file, declared against more than one weight</span></p>
+          <p class="fo-sort__meta"><a href="https://github.com/google/fonts/tree/main/ofl/jost">SIL Open Font License 1.1</a> &middot; sets <a href="rabbit-hole.html">The Rabbit Hole</a></p>
         </li>
         <li class="fo-sort">
           <p class="fo-sort__show" style="font-family:'Karla';" lang="en">Karla</p>
@@ -508,12 +512,12 @@ Sphinx of black quartz, judge my vow.">A proof of the whole alphabet</option>
         <li class="fo-sort">
           <p class="fo-sort__show" style="font-family:'Mulish';" lang="en">Mulish</p>
           <p class="fo-sort__who">Vernon Adams, Cyreal, Jacques Le Bailly</p>
-          <p class="fo-sort__meta"><a href="https://github.com/google/fonts/tree/main/ofl/mulish">SIL Open Font License 1.1</a> &middot; sets <a href="the-garden.html">The Garden</a></p>
+          <p class="fo-sort__meta"><a href="https://github.com/google/fonts/tree/main/ofl/mulish">SIL Open Font License 1.1</a> &middot; sets <a href="the-garden.html">The Garden</a><span class="fo-sort__vf">one file, declared against more than one weight</span></p>
         </li>
         <li class="fo-sort">
           <p class="fo-sort__show" style="font-family:'Nunito';" lang="en">Nunito</p>
           <p class="fo-sort__who">Vernon Adams, Cyreal, Jacques Le Bailly</p>
-          <p class="fo-sort__meta"><a href="https://github.com/google/fonts/tree/main/ofl/nunito">SIL Open Font License 1.1</a> &middot; sets <a href="latibulum.html">The Latibulum</a></p>
+          <p class="fo-sort__meta"><a href="https://github.com/google/fonts/tree/main/ofl/nunito">SIL Open Font License 1.1</a> &middot; sets <a href="latibulum.html">The Latibulum</a><span class="fo-sort__vf">one file, declared against more than one weight</span></p>
         </li>
         <li class="fo-sort">
           <p class="fo-sort__show" style="font-family:'Public Sans';" lang="en">Public Sans</p>

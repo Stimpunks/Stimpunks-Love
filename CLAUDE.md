@@ -1391,9 +1391,21 @@ broken and the room has told a lie about somebody's typeface. Measured, not assu
 `oblique 12deg` renders at the roman's 676px against the real italic's 660px. **THE SLANT IS
 `font-style` AND NEVER A TRANSFORM**, and there is no transform anywhere in §32, because
 `check-gentle.py` reads skew out of the computed matrix and cannot be asked to tell a leaning
-page from a leaning letter. **A WEIGHT IS OFFERED ONLY WHERE THE BYTES DIFFER**: seven of these
-families are variable fonts declared against one file, and a bold that renders the same drawings
-as the regular is make-chappell.py's typo that never becomes a video, as a dropdown.
+page from a leaning letter. **A WEIGHT IS OFFERED WHERE THE DRAWINGS DIFFER, WHICH IS NOT THE
+SAME QUESTION AS WHETHER THE BYTES DO** — and this room asked the wrong one from the day it
+opened. Most of these families are variable fonts declared against one file, so the bench grouped
+each family's variants by the sha of that file and kept one. **Identical bytes, different
+outlines:** the browser instances the file's own weight axis at every declaration, so the rule
+threw away bolds that work — measured out of one file at 64px, Cinzel's 700 lays down 68% more
+ink than its 400, Work Sans' 45%, Space Grotesk's 41% — and the room printed a line saying it
+held one weight for families the street sets at two. **`check-weights.py` renders the published
+picker and refuses two offerings that come out the same**, which is the check the sha was
+standing in for; it also refuses a weight love.css does not declare and a declared weight the
+bench is keeping in a drawer, which is how Nunito's 700 was found missing from
+`fonts/_sources.json` entirely. **Advance width alone cannot decide it** — Courier Prime and
+Space Mono are monospaced, so their 400 and 700 share an advance to the hundredth of a pixel
+while the bold lays down about 40% more ink — so it measures ink and advance and calls two the
+same only when both match. Do not put the sha back, and do not widen the thresholds.
 
 **IT IS THE ONE ROOM WHERE SOMEBODY ELSE PICKS THE COLOUR OF THE TEXT.** Four ink and paper
 pairs, each printing its **own measured ratio on its own control**, and the tool refuses one

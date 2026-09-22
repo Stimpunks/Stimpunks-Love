@@ -682,7 +682,7 @@
    "repository": "https://github.com/googlefonts/nunito",
    "variants": [
     {
-     "weight": "400",
+     "weight": "400 700",
      "style": "normal",
      "file": "nunito-400.woff2",
      "sha": "20fc9b6fc618e7c3"

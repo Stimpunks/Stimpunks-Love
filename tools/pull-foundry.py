@@ -128,11 +128,16 @@ def main():
             # string for every family on the street without complaining once.
             "repository": nested(pb, "repository_url"),
             # Every variant the repository holds, with the sha256 of the file
-            # each one actually points at. THE HASH IS WHAT MAKES THE ROOM
-            # HONEST: several families here are variable fonts, so one file is
-            # declared against two or three weights, and a bold that is the same
-            # outlines as the regular is a control that does nothing. The room
-            # offers a weight only where the bytes differ.
+            # each one actually points at. THE HASH IS A FACT ABOUT THE FILE AND
+            # NEVER WAS ONE ABOUT THE LETTERS. This comment used to say the hash
+            # was what made the room honest, and the bench grouped by it: several
+            # families here are variable fonts, so one file is declared against
+            # two or three weights -- and the browser instances that file's own
+            # axis at each declaration, so the bytes are identical and the
+            # outlines are not. Grouping by this threw away bolds that work.
+            # The hash still earns its place, because it is what found Space
+            # Grotesk stored three times over; what decides an offered weight is
+            # tools/check-weights.py, which renders them and measures.
             "variants": [{"weight": f["weight"], "style": f["style"],
                           "file": f["file"],
                           "sha": sha(ROOT / "fonts" / f["file"])}

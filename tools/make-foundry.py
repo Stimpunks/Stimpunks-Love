@@ -25,11 +25,18 @@ WHAT IT REFUSES, AND WHY EACH ONE IS A REAL FAILURE RATHER THAN A TIDINESS
   version of this got it wrong on its first run: the street letters each door in
   that room's own face, so the last section to mention a family is often §5.
 
-· A WEIGHT OR AN ITALIC WHOSE FILE IS THE SAME BYTES AS THE ROMAN. Seven
-  families here are variable fonts, so ONE file is declared against two or three
-  weights -- and an option that renders identical outlines under a different
-  name is make-chappell.py's typo that never becomes a video, arriving as a
-  dropdown. The room offers a weight only where the sha differs, and says so.
+· A WEIGHT OR AN ITALIC THAT RENDERS THE SAME DRAWINGS AS THE ROMAN -- which
+  is NOT the same question as whether the bytes differ, and this room answered
+  the wrong one for as long as it has been open. Several families here are
+  variable fonts, so ONE file is declared against two or three weights, and the
+  browser instances that file's own weight axis: identical bytes, different
+  outlines. Grouping the variants by sha therefore threw away a bold that works
+  -- measured out of one file at 64px, Cinzel's 700 lays down 68% more ink than
+  its 400, Space Grotesk's 41%, Nunito's 39% -- and offered one weight where the
+  street holds several. The room offers every weight love.css declares, and
+  tools/check-weights.py renders the picker and refuses two that come out the
+  same, which is the check the sha was standing in for. Do not put the sha back:
+  it is a fact about the file and never was a fact about the drawings.
 
 · AN INK AND PAPER PAIR UNDER 4.5:1. This is the one room on the street where a
   visitor picks the colour of the text, which is either the place contrast
@@ -95,12 +102,18 @@ def refuse(msg):
     fail.append(msg)
 
 
-def base_weight(w):
-    """fonts/_sources.json records a variable font's file with the WEIGHT RANGE
-    it covers -- Cinzel is "400 700" on one file. The bench can only offer the
-    weights love.css actually declares against separate files, so a range
-    collapses to the lightest end of it rather than pretending to be two."""
-    return int(str(w).split()[0])
+def weights_of(w):
+    """Every weight a record's entry stands for, as a list.
+
+    fonts/_sources.json writes this two ways and both mean one thing. A file
+    that carries a RANGE is recorded once with the range on it -- Cinzel is
+    "400 700" on one file -- and a file declared separately at each weight gets
+    an entry each, which is how Space Grotesk is written. The browser does not
+    care which: it reads love.css, and each declaration instances that file's
+    own weight axis. So a range expands rather than collapsing to its lightest
+    end, which is what this returned until the bench was found offering one
+    weight for families the street sets at two."""
+    return [int(x) for x in str(w).split()]
 
 
 def esc(s):
@@ -228,17 +241,19 @@ def build_faces(faces, room, sets):
                    f"§{', §'.join(map(str, sorted(claimed)))} and love.css sets it in "
                    f"§{', §'.join(map(str, sorted(actual)))}.")
 
-        # Group the variants by the bytes they actually point at. A second name
-        # for one file is not a second weight.
-        by_sha = {}
+        # Every weight and style the record carries, expanded. This used to
+        # group by sha and keep the lightest of each group, on the reasoning
+        # that a second name for one file is not a second weight -- true about
+        # the file, false about the letters, because a variable font's axis is
+        # instanced per declaration. check-weights.py measures the outcome.
+        real, seen = [], set()
         for v in rec["variants"]:
-            by_sha.setdefault(v["sha"], []).append(v)
-        real = []
-        for group in by_sha.values():
-            # the lightest declaration of a given file is the one it really is
-            first = sorted(group, key=lambda v: (v["style"] == "italic", base_weight(v["weight"])))[0]
-            real.append(first)
-        real.sort(key=lambda v: (v["style"] == "italic", base_weight(v["weight"])))
+            for w in weights_of(v["weight"]):
+                if (w, v["style"]) in seen:
+                    continue
+                seen.add((w, v["style"]))
+                real.append({"weight": w, "style": v["style"], "file": v["file"]})
+        real.sort(key=lambda v: (v["style"] == "italic", v["weight"]))
         romans = [v for v in real if v["style"] == "normal"]
         italics = [v for v in real if v["style"] == "italic"]
         if not romans:
@@ -250,9 +265,12 @@ def build_faces(faces, room, sets):
             "designer": rec["designer"], "licence": rec["licence"],
             "licence_url": rec["licence_url"], "repository": rec["repository"],
             "where": line["where"], "page": line["page"],
-            "weights": [str(base_weight(v["weight"])) for v in romans],
-            "italic": str(base_weight(italics[0]["weight"])) if italics else None,
-            "declared": len(rec["variants"]),
+            "weights": [str(v["weight"]) for v in romans],
+            "italic": str(italics[0]["weight"]) if italics else None,
+            # more offerings than files means one file is carrying several of
+            # them on its own axis, which is what the shelf note says out loud
+            "files": len({v["file"] for v in real}),
+            "offers": len(real),
         })
     return out
 
@@ -324,7 +342,7 @@ def specimen_list(built):
             if f["page"]:
                 where = f'<a href="{attr(f["page"])}">{where}</a>'
             extra = ""
-            if f["declared"] > len(f["weights"]) + (1 if f["italic"] else 0):
+            if f["offers"] > f["files"]:
                 extra = ('<span class="fo-sort__vf">one file, declared against more '
                          'than one weight</span>')
             out.append(f"""        <li class="fo-sort">
@@ -465,7 +483,11 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="An iron-grey card lit flatly from above, as if through a dirty workshop roof. On the left, a drawing of a compositor's galley holding three pieces of metal type standing on their feet, each with the nick cut across its shank, and one proof sheet lying under them. On the right, THE FOUNDRY in a heavy stencil face in bone, the letters bridged where a stencil holds itself together, and under it in warm brass: Every typeface on this street, and the name of whoever drew it. Then, smaller: set your own words, or words from three other rooms, and pull a proof you can print. Along the foot, in grey capitals: nothing here is counted. stimpunks.love.">
+<!-- og:image:alt is make-og.py's line: it builds the card and writes the alt to
+     match it. This copy is here only so a freshly generated page is never without
+     one, and it is kept in step by hand -- a stale copy here silently reverts a
+     correct alt every time this tool runs, which is how it drifted before. -->
+<meta property="og:image:alt" content="An iron-grey card lit flatly from above, as if through a dirty workshop roof. On the left, a drawing of a compositor’s galley holding three pieces of metal type standing on their feet, each with a nick cut across the shank and its letter mirrored the way cast type is, with one proof sheet lying under them. On the right, small brass capitals reading cast, proofed, and credited, then “The Foundry” in a heavy stencil face in bone, the strokes bridged where a stencil holds itself together. Under it in brass: Every typeface on this street, and the name of whoever drew it. Then, smaller: A grey iron workshop under a dirty roof. Set any words on this street in any face on this street, pull a proof, and print it with the designer&#x27;s name on it. Along the foot, in grey capitals: nothing here is counted, stimpunks.love.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="site.webmanifest">
@@ -576,7 +598,7 @@ ${faces}
       <div class="fo-pick">
         <label for="fo-weight">Weight</label>
         <select id="fo-weight">${weights}</select>
-        <p class="fo-pick__fine">Only the weights this site holds a different file for. Several of these families are one file declared against two or three weights, and a bold that is the same drawings as the regular is a control that does nothing.</p>
+        <p class="fo-pick__fine">Every weight this street declares for this face. Several of these families are one file with a weight axis inside it, declared against two or three weights &mdash; the same bytes, genuinely different drawings &mdash; and this picker used to drop those, because it asked whether the bytes differed instead of whether the letters did. A weight that came out the same drawings as the regular would be a control that does nothing, so the offered weights are rendered and measured rather than assumed.</p>
       </div>
       <div class="fo-pick">
         <label for="fo-slant">Upright, italic or slanted</label>

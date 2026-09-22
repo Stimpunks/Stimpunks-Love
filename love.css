@@ -340,9 +340,13 @@
    Club Chronic: that one is solid, on a black wall, pasted up under a marker.
 
    Work Sans is the prose, and it is a workhorse on purpose. Two files, two real
-   weights -- unlike seven of the families on the shelves in that room, which
-   are variable fonts declared twice against one file, and which is exactly why
-   the bench offers a weight only where the bytes differ. See
+   weights -- where many of the families on the shelves in that room are
+   variable fonts declared twice against one file, which is a different way of
+   holding two real weights and NOT a lesser one. This comment used to say that
+   was exactly why the bench offered a weight only where the bytes differ; the
+   bytes were the wrong thing to ask about, since the browser instances the
+   file's own axis at every declaration. The bench offers both, and
+   tools/check-weights.py renders them to be sure they differ. See
    fonts/_sources.json. */
 @font-face { font-family: 'Stardos Stencil'; src: url('fonts/stardos-stencil-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Work Sans';       src: url('fonts/work-sans-400.woff2') format('woff2');       font-weight: 400; font-style: normal; font-display: swap; }
