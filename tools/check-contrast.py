@@ -401,6 +401,32 @@ HC_LIT, HC_SPRING = "#1D3131", "#0C3B40"
 HC_STEAM, HC_DIM = "#EAF2F0", "#A6BAB8"
 HC_GLIM, HC_CLAY = "#79DCCE", "#DDB49B"
 
+# The Foundry (§32). A GREY IRON WORKSHOP, and the first MID-GREY ground this
+# file has had to hold. Every other room here is a dark ground or a sheet of
+# paper; this one sits between them, which means its inks have less room than a
+# night room's and more than a paper room's, and every one of them was moved at
+# least once to fit.
+# FO_LIT IS NOBODY'S CHOICE AND IT IS THE PAIR THAT DECIDED THE ROOM. It is the
+# north light's own wash at its top stop -- FO_ROOF at .46, then the sawtooth
+# stripe at .16 over that -- composited onto the floor. Held against it, the
+# room's link brass came out at 3.14 and its fine print at 3.34, so the LIGHT
+# moved rather than the palette: it is 340px tall and absolute instead of fixed
+# and full height, which stops it arriving under an arbitrary paragraph
+# depending on how far somebody has scrolled. The only words standing in it now
+# are the topline's, and they are bone at 5.19 for that reason.
+# FO_LEAD IS ORNAMENT AND CARRIES NO TEXT: 3.66 on the floor. It rules, borders
+# and edges and never says anything.
+# THE FOUR PROOF PAIRS ARE THE ONES THE VISITOR CHOOSES BETWEEN, which makes
+# this the one room on the street where somebody other than us picks the colour
+# of the text. They live in data/foundry.json with their measured ratios printed
+# on their own controls, make-foundry.py refuses one under 4.5, and they are
+# held here as well because a number in a data file is a claim and this is where
+# claims get checked.
+FO_FLOOR, FO_BENCH, FO_LIT = "#3F4548", "#2E3335", "#596267"
+FO_BONE, FO_OIL, FO_BRASS = "#EDEAE3", "#B9BFBD", "#DCB262"
+FO_PAPER, FO_INK = "#E8EAE9", "#16181A"
+FO_RED, FO_BLUE = "#8A1A12", "#10395C"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -1285,6 +1311,37 @@ PAIRS = [
                                           "ON A MAT. RH_BRASS measures 1.83 here, so the mats have a "
                                           "colour of their own rather than inheriting the room's"),
 
+    # ── The Foundry (§32) ───────────────────────────────────────────────────
+    # THREE GROUNDS IN THE ROOM AND TWO PAPERS ON THE BENCH. The floor is the
+    # room, the bench is everything standing on it, and FO_LIT is what the north
+    # light makes of the floor in the top 340px -- which only the topline is in.
+    (FO_BONE,  FO_LIT,   False, "foundry: the topline note and the way back to the street, "
+                                "which are the only words standing in the light"),
+    (FO_BONE,  FO_FLOOR, False, "foundry: the lede, every paragraph of the notes, and the "
+                                "cases' own heading"),
+    (FO_BONE,  FO_BENCH, True,  "foundry: the h1 in Stardos Stencil, and every family name "
+                                "on the shelves set in itself"),
+    (FO_BONE,  FO_BENCH, False, "foundry: the designer's name under each specimen, and every "
+                                "control's own text on the bench"),
+    (FO_OIL,   FO_FLOOR, False, "foundry: the line under the h1, the cases' fine print, and "
+                                "every note in the room that is not on a panel"),
+    (FO_OIL,   FO_BENCH, False, "foundry: the fine print under every control, each ink's "
+                                "measured ratio, the colophon under the proof, and the "
+                                "licence line under each specimen"),
+    (FO_BRASS, FO_FLOOR, False, "foundry: every link in the lede and the notes, and every "
+                                "shelf heading in the cases"),
+    (FO_BRASS, FO_BENCH, False, "foundry: every control's label, the bench and desk "
+                                "headings, and the eyebrow over the h1"),
+    ("#22160A", FO_BRASS, False, "foundry: the print button, which is the one solid brass "
+                                 "object in the room"),
+    # The four the visitor chooses between. Each one is printed on its own
+    # control with this number beside it.
+    (FO_INK,   FO_PAPER, False, "foundry: printer's black on proof paper, the pair the "
+                                "bench opens at"),
+    (FO_RED,   FO_PAPER, False, "foundry: vermilion on proof paper"),
+    (FO_BLUE,  FO_PAPER, False, "foundry: prussian blue on proof paper"),
+    (FO_BONE,  FO_BENCH, False, "foundry: the proof reversed out, bone on iron"),
+
     # ── The Healing Checkpoint (§31) ────────────────────────────────────────
     # FIVE GROUNDS AND EVERY INK AGAINST THE ONES IT CAN LAND ON. The room is
     # HC_CHAMBER, the alcoves are HC_ALCOVE, the slips and the desk are
@@ -1570,6 +1627,14 @@ ORNAMENT = {
                "drawing, 1.44 against the dark inside the shaft they hang in. Ornament "
                "inside one <svg>, carrying no text, and the whole drawing has an "
                "aria-label describing it.",
+    "#98a0a3": "foundry: the lead rule round every panel in the workshop, the hairline "
+               "between the controls and the inks, and the edge of each specimen card. "
+               "3.66 on the floor and 4.81 on a bench. It is the metal the room is built "
+               "out of and nothing is ever set in it -- the room's own inks are bone, oil "
+               "and brass, all measured above.",
+    "#6e7a80": "foundry: the north light itself, which is a wash rather than a surface. "
+               "1.52 against the floor at its strongest stop. It carries no text; what it "
+               "composites the floor INTO is FO_LIT, and that is held as a ground above.",
     "#2a3a31": "campgrounds: the board's frame and the post each pitch hangs off, 1.48 "
                "on the field. That field is deliberately the dimmest ground on the "
                "street and its type carries all of it -- bone at 14.7, moss at 7.3. The "

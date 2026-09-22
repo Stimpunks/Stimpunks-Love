@@ -15,8 +15,14 @@
 
 /* §1 ── The faces ────────────────────────────────────────────────────────────
    Self-hosted, so reading a page here makes no third-party request — the same
-   rule queering.earth and starstuff.earth follow. Every family here is
-   OFL-licensed; fonts/_sources.json records where each file came from.
+   rule queering.earth and starstuff.earth follow. MOST of these families are
+   under the SIL Open Font License and FOUR ARE UNDER APACHE 2.0 — Permanent
+   Marker, Rock Salt, Special Elite and Ultra. This comment said "every family
+   here is OFL-licensed" until tools/pull-foundry.py read each family's own
+   record and found otherwise, which is what that tool is for: a licence nobody
+   has checked since the file was added is a claim rather than a fact.
+   fonts/_sources.json records where each file came from, and
+   data/foundry-faces.json records who drew it and under what.
    @font-face is lazy: a room only downloads the faces it actually sets. */
 
 @font-face { font-family: 'Bungee';          src: url('fonts/bungee-400.woff2') format('woff2');           font-weight: 400; font-display: swap; }
@@ -312,6 +318,26 @@
 @font-face { font-family: 'Quicksand'; src: url('fonts/quicksand-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Rubik';     src: url('fonts/rubik-400.woff2') format('woff2');     font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Rubik';     src: url('fonts/rubik-400.woff2') format('woff2');     font-weight: 500; font-style: normal; font-display: swap; }
+
+/* The Foundry (§32). A STENCIL AND A WORKHORSE, which is the one pairing a room
+   full of other people's typefaces is allowed: its own voice has to be quiet
+   enough not to argue with what is in the window.
+
+   Stardos Stencil sets the nameplate and the headings and nothing else. A
+   stencil is THE ONE LETTERFORM ON THIS STREET THAT IS A HOLE RATHER THAN A
+   MARK -- a shape cut out of metal so it can be used again, which is the whole
+   idea of type -- and it is what gets painted on a workshop's crates and
+   machinery. Anton is the street's other condensed display face and belongs to
+   Club Chronic: that one is solid, on a black wall, pasted up under a marker.
+
+   Work Sans is the prose, and it is a workhorse on purpose. Two files, two real
+   weights -- unlike seven of the families on the shelves in that room, which
+   are variable fonts declared twice against one file, and which is exactly why
+   the bench offers a weight only where the bytes differ. See
+   fonts/_sources.json. */
+@font-face { font-family: 'Stardos Stencil'; src: url('fonts/stardos-stencil-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Work Sans';       src: url('fonts/work-sans-400.woff2') format('woff2');       font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Work Sans';       src: url('fonts/work-sans-600.woff2') format('woff2');       font-weight: 600; font-style: normal; font-display: swap; }
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -828,6 +854,35 @@
   --hc-lit: #1D3131;      --hc-spring: #0C3B40;
   --hc-steam: #EAF2F0;    --hc-dim: #A6BAB8;
   --hc-glim: #79DCCE;     --hc-clay: #DDB49B;
+
+  /* The Foundry (§32). IRON, AND IT IS THE FIRST MID-GREY GROUND ON THE STREET.
+     Every other world here is a night ground with light put on it or a sheet of
+     paper with the room cropped away; this is the colour of the metal, halfway
+     between the two, and the separation from both families lives in that one
+     value. --fo-floor is the workshop, --fo-bench is the iron of everything
+     standing on it, and the only pale thing anywhere in the room is one proof.
+     --fo-brass IS THE ONLY WARM VALUE AND IT IS A METAL RATHER THAN A LIGHT.
+     A foundry lit by a furnace would have been the obvious build and would have
+     made this the seventh warm room on a street that already has six; north
+     light is what a workshop was actually built for, because the glazing faces
+     away from the sun so the work has no glare on it. Nothing in here has a lit
+     face.
+     --fo-lead IS ORNAMENT AND CARRIES NO TEXT: 3.66 on the floor, which is
+     under the bar, so it rules and borders and never says anything. It is in
+     check-contrast.py's ORNAMENT list with that number written beside it.
+     --fo-paper AND --fo-ink ARE THE DEFAULT PAIR ON THE BENCH and the other
+     three pairs live in data/foundry.json with their measured ratios, because
+     this is the one room where the visitor picks the colour of the text.
+     FO- PREFIXED THROUGHOUT, on the Healing Checkpoint's precedent rather than
+     after an accident of this room's own: `floor`, `bench`, `lead`, `paper` and
+     `ink` are exactly the plain words a stylesheet fills up with, and `ink` is
+     already the zine's. A custom property declared twice in one :root is
+     last-wins and silent. */
+  --fo-floor: #3F4548;    --fo-bench: #2E3335;
+  --fo-bone:  #EDEAE3;    --fo-oil:   #B9BFBD;
+  --fo-brass: #DCB262;    --fo-lead:  #98A0A3;
+  --fo-roof:  #6E7A80;
+  --fo-paper: #E8EAE9;    --fo-ink:   #16181A;
 }
 
 * { box-sizing: border-box; }
@@ -1269,6 +1324,18 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
    this street made of flap seams rather than stripes, scallops or bunting. The
    name is Michroma at door size and no larger: the widest face in the building
    on the shortest string in the room. */
+/* The Foundry's shopfront, and the only MID-GREY front in the row. Every other
+   door here is either a dark ground with a bright thing painted on it or a pale
+   one; this is the colour of the metal and sits between them, which is what
+   makes it findable at a glance without shouting. The awning is corrugated iron
+   rather than a stripe, because a workshop has a roof over its door and not a
+   canopy, and the name is the only stencil on the street. */
+.door--foundry { background: var(--fo-floor); border-color: var(--fo-lead); }
+.door--foundry .door__awning { background-image: repeating-linear-gradient(90deg, var(--fo-lead) 0 5px, var(--fo-bench) 5px 11px); border-bottom-color: var(--fo-lead); }
+.door--foundry .door__name  { font-family: 'Stardos Stencil', var(--sans); font-weight: 700; color: var(--fo-bone); font-size: 27px; letter-spacing: .02em; }
+.door--foundry .door__blurb { color: var(--fo-oil); }
+.door--foundry .door__knock { font-family: 'Work Sans', var(--sans); font-weight: 600; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--fo-brass); }
+
 .door--feed { background: var(--fd-enamel); border-color: var(--fd-girder); }
 .door--feed .door__awning { background-image: repeating-linear-gradient(180deg, var(--fd-flap) 0 6px, var(--fd-split) 6px 7px); border-bottom-color: var(--fd-girder); }
 .door--feed .door__name  { font-family: 'Michroma', var(--sans); color: var(--fd-lamp); font-size: 15px; letter-spacing: .1em; text-transform: uppercase; }
@@ -7067,7 +7134,284 @@ html[data-intensity="max"] .room-checkpoint .glow {
 .room-checkpoint .quest { margin-top: 40px; }
 
 
-/* §32 ── Small screens ───────────────────────────────────────────────────────
+/* §32 ── ROOM: The Foundry ────────────────────────────────────────────────────
+   A TYPE FOUNDRY: a grey iron workshop, lit through a dirty sawtooth roof, with
+   a bench in it where any words on this street can be set in any face on this
+   street and pulled as a proof. It is the only room here whose CONTENT is the
+   typefaces rather than a room that happens to wear one.
+
+   THE SEPARATION IS THE GREY, AND IT IS THE FIRST ONE ON THE STREET. Every
+   other world here is either a night ground with light applied to it or a sheet
+   of paper with the room cropped out. This is neither: it is the middle, the
+   colour of the metal, and there is no black in it and no white in it except
+   the proof lying on the bench. If this floor ever goes near-black it has
+   joined the night rooms; if the page ever becomes the paper it has joined the
+   paper rooms, which is where the real pull is, because this room is FULL of
+   type specimens and the four paper rooms are the obvious neighbours:
+
+     · THE MOPERY is a cold building you stand up in, lit by candles that do not
+       reach the walls, and its type is impressed into the page. This is lit
+       flatly from overhead by daylight nobody chose, and its type is standing
+       on a bench waiting to be used. A library and a workshop.
+     · THE GUILD is manila and is lit like a photocopy, from nowhere, with
+       nothing casting anything. Here the light HAS a direction -- straight down
+       -- so every object has a small hard shadow directly beneath it, and the
+       room is dark rather than pale.
+     · THE DOOMSCROLL is one unbroken roll of foxed warm newsprint. The only
+       paper in here is a single cool sheet with the bench visible all round it.
+     · THE ZIBALDONE is bound leaves lit by a lamp at desk height, with a
+       gutter and a fold. There is no fold in here and nothing is bound.
+
+   AND IT IS THE THIRD DAYLIT ROOM, which is the other thing to keep honest. The
+   Hermitage has a low morning SUN in it, so everything has a lit face and a
+   long shadow falling sideways. The Garden's light has come down through leaves
+   at midday and every pale surface in it is tinted green. North light is the
+   one a workshop was built for: the glazing faces AWAY from the sun so the work
+   has no glare on it, which means flat, cool, directionless daylight and no lit
+   face on anything at all. Nothing in this room is warm except the brass, and
+   brass is a metal rather than a light.
+
+   THERE IS NO TRANSFORM IN THIS SECTION. Not a tilt, not a rotation, nothing
+   skewed -- which is deliberate in the room where a SLANT is one of the
+   controls. check-gentle.py reads rotation and skew out of the computed matrix
+   and cannot tell a leaning page from a leaning letter, so the machine slant on
+   the bench is `font-style: oblique` and lives in the font shorthand where the
+   checker is not being asked to take anybody's word for anything. arcade.js
+   made the same call with left/top, and the Oracle Deck with its lozenge.
+
+   THE LINK COLOUR IS DECIDED HERE, AT THE ROOM, on both grounds this room has.
+   The Doomscroll shipped without that and every link on it fell through to the
+   base stylesheet's pink, which was chosen for a near-black street and measures
+   about 2.4 on paper. Brass is 4.91 on the floor and 6.45 on the bench, and
+   both pairs are in check-contrast.py.                                        */
+
+.room-foundry {
+  background: var(--fo-floor);
+  color: var(--fo-bone);
+  font-family: 'Work Sans', var(--sans);
+  font-size: 17px;
+  line-height: 1.62;
+}
+
+.room-foundry a { color: var(--fo-brass); text-underline-offset: 3px; }
+.room-foundry a:hover,
+.room-foundry a:focus-visible { color: var(--fo-bone); }
+
+/* The north light. A wide, soft, top-down wash with no edges and no colour in
+   it, because a north light has none -- it is the sky with the sun taken out.
+
+   IT IS ABSOLUTE AND IT STOPS, and the first draft was fixed and full height,
+   which was wrong twice over. A light that follows the viewport is not a light,
+   it is a veil in front of the reader -- and it MEASURED as one: the wash makes
+   a composite ground of #596267 where it is strongest, and against that the
+   brass this room sets its links in falls to 3.14 and the oil it sets its fine
+   print in to 3.34, both under the bar. Fixed, that composite could arrive
+   under ANY paragraph on the page depending on how far somebody had scrolled,
+   which is the shape The Rabbit Hole's scrolling ground already taught this
+   stylesheet: no flat value can honestly stand in for it. Absolute and 340px
+   tall, the light comes in at the top of the room and the page scrolls out from
+   under it, which is also what actually happens in a building. The only text it
+   reaches is the topline, whose two inks are bone at 5.19 for that reason.
+
+   It is on at every setting on the dial: it is not an effect
+   applied to the room, it is where the light in the room comes from, and a
+   Gentle that took it away would leave the workshop unlit rather than quiet.
+   The Healing Checkpoint's pool in the floor is the same decision. It carries
+   no text and it does not move. Measured at 1.52 against the floor, which is
+   in check-contrast.py's ORNAMENT list with its number beside it. */
+.fo-light {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 340px;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    linear-gradient(to bottom, rgba(110,122,128,.46), rgba(110,122,128,.13) 52%, transparent),
+    repeating-linear-gradient(104deg, rgba(110,122,128,.16) 0 3px, transparent 3px 30px);
+}
+
+/* The dust standing in that light. THIS is decoration, so it is `.glow` and §3
+   switches it off at Gentle for the whole street. It drifts upward, slowly, and
+   it neither flashes nor pulses -- Club Chronic's rule, kept in a room with a
+   bright band across the top of it where a flicker would be easiest to add. */
+.room-foundry .glow {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 340px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .5;
+  background-image:
+    radial-gradient(1.6px 1.6px at 12% 30%, rgba(237,234,227,.9), transparent),
+    radial-gradient(1.4px 1.4px at 31% 62%, rgba(237,234,227,.75), transparent),
+    radial-gradient(1.8px 1.8px at 48% 18%, rgba(237,234,227,.8), transparent),
+    radial-gradient(1.3px 1.3px at 67% 48%, rgba(237,234,227,.7), transparent),
+    radial-gradient(1.7px 1.7px at 83% 26%, rgba(237,234,227,.85), transparent),
+    radial-gradient(1.4px 1.4px at 92% 58%, rgba(237,234,227,.7), transparent);
+}
+html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear infinite; }
+@keyframes fo-motes {
+  from { transform: translateY(8px); }
+  to   { transform: translateY(-8px); }
+}
+
+.fo-shop { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 22px 20px 72px; }
+
+.fo-topline { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: baseline; justify-content: space-between; }
+/* BONE, NOT OIL, AND THE BACKLINK TOO. These two are the only words on the page
+   standing on the lit ground rather than on the floor or on a bench panel, and
+   at #596267 oil measures 3.34 and brass 3.14. .backlink carries
+   `text-decoration: none` from §4, so its colour is the only channel it has. */
+.fo-topline__note { margin: 0; font-size: 13px; letter-spacing: .09em; text-transform: uppercase; color: var(--fo-bone); }
+.fo-topline .backlink { color: var(--fo-bone); }
+
+/* The nameplate. A stencil is the one letterform on this street that is a HOLE
+   rather than a mark -- a shape cut out of metal so it can be repeated, which
+   is the whole idea of type -- and it is what is painted on a workshop's crates
+   and machinery. It is the room's only display face and it sets nothing but
+   this. Anton is the street's other condensed display face and belongs to Club
+   Chronic; that one is solid, on a black wall, over a paste-up of flyers. */
+.fo-plate {
+  display: flex; flex-wrap: wrap; gap: 22px 30px; align-items: center;
+  margin: 26px 0 0; padding: 26px 26px 28px;
+  background: var(--fo-bench);
+  border: 2px solid var(--fo-lead);
+  box-shadow: 0 10px 0 -4px rgba(0,0,0,.34);
+}
+.fo-galley { width: 168px; height: auto; flex: 0 0 auto; }
+.fo-plate__words { flex: 1 1 320px; }
+.fo-plate__eyebrow { margin: 0; font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--fo-brass); }
+.fo-plate h1 {
+  font-family: 'Stardos Stencil', var(--sans);
+  font-size: clamp(44px, 8vw, 84px);
+  line-height: .98; letter-spacing: .01em;
+  margin: 6px 0 10px; color: var(--fo-bone);
+}
+.fo-plate__line { margin: 0; font-size: 19px; color: var(--fo-oil); }
+
+.fo-lede { max-width: 66ch; margin: 30px 0 0; }
+.fo-lede p { margin: 0 0 14px; }
+
+/* ── The bench ─────────────────────────────────────────────────────────────
+   No <form> element and no action: nothing here is submitted, there is nowhere
+   to submit it to, and every control changes the proof in place. */
+.fo-bench {
+  margin: 34px 0 0; padding: 24px 22px 20px;
+  background: var(--fo-bench);
+  border: 2px solid var(--fo-lead);
+  box-shadow: 0 10px 0 -4px rgba(0,0,0,.34);
+}
+.fo-bench h2 {
+  font-family: 'Stardos Stencil', var(--sans);
+  font-size: 26px; letter-spacing: .04em; margin: 0 0 4px; color: var(--fo-brass);
+}
+.fo-set { display: flex; flex-wrap: wrap; gap: 18px 26px; margin: 18px 0 0; padding: 0; border: 0; }
+.fo-set--inks { display: block; border-top: 1px solid var(--fo-lead); padding-top: 16px; }
+.fo-set--do { align-items: center; border-top: 1px solid var(--fo-lead); padding-top: 18px; }
+
+.fo-pick { flex: 1 1 260px; min-width: 0; }
+.fo-pick label,
+.fo-knob label,
+.fo-set--inks legend {
+  display: block; font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--fo-brass); margin: 0 0 6px; padding: 0;
+}
+.fo-pick select,
+.fo-pick textarea {
+  width: 100%; font: inherit; font-size: 15px;
+  color: var(--fo-bone); background: var(--fo-floor);
+  border: 1px solid var(--fo-lead); border-radius: 0; padding: 9px 10px;
+}
+.fo-pick textarea { resize: vertical; min-height: 78px; }
+.fo-pick__fine,
+.fo-knob__fine,
+.fo-inks__fine,
+.fo-do__fine { margin: 7px 0 0; font-size: 13px; line-height: 1.5; color: var(--fo-oil); }
+.fo-do__fine { flex: 1 1 320px; margin: 0; }
+
+.fo-knob { flex: 1 1 210px; }
+.fo-knob input[type="range"] { width: calc(100% - 66px); vertical-align: middle; accent-color: var(--fo-brass); }
+.fo-knob output { display: inline-block; width: 60px; text-align: right; font-variant-numeric: tabular-nums; font-size: 14px; color: var(--fo-bone); }
+
+/* Each ink says its own measured contrast ratio, on itself. There is no colour
+   picker here and there is not going to be one: this is the one room on the
+   street where somebody other than us chooses the colour of the text. */
+.fo-ink { display: flex; align-items: center; gap: 10px; margin: 10px 0 0; font-size: 14px; cursor: pointer; }
+.fo-ink__chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 42px; height: 30px; flex: 0 0 auto; font-size: 15px;
+  border: 1px solid var(--fo-lead);
+}
+.fo-ink__name { flex: 1 1 auto; }
+.fo-ink__ratio { font-variant-numeric: tabular-nums; color: var(--fo-oil); font-size: 13px; }
+
+.fo-print,
+.fo-reset {
+  font: inherit; font-size: 15px; letter-spacing: .04em;
+  padding: 10px 18px; cursor: pointer;
+  background: var(--fo-brass); color: #22160A;
+  border: 1px solid var(--fo-brass); border-radius: 0;
+}
+.fo-reset { background: transparent; color: var(--fo-bone); border-color: var(--fo-lead); }
+.fo-off { margin: 14px 0 0; font-size: 14px; color: var(--fo-bone); border-left: 3px solid var(--fo-brass); padding-left: 12px; }
+.fo-said { margin: 14px 0 0; min-height: 22px; font-size: 14px; color: var(--fo-oil); }
+
+/* ── The proof ─────────────────────────────────────────────────────────────
+   The sheet is the one pale object in the room and it is the only thing that
+   prints. Its ink and paper come off the chosen pair as custom properties, so
+   the colours the room can produce are exactly the measured ones. */
+.fo-pulled { margin: 34px 0 0; }
+.fo-pulled__h { font-family: 'Stardos Stencil', var(--sans); font-size: 24px; letter-spacing: .04em; margin: 0 0 12px; color: var(--fo-brass); }
+.fo-proof {
+  --proof-ink: var(--fo-ink);
+  --proof-paper: var(--fo-paper);
+  background: var(--proof-paper); color: var(--proof-ink);
+  padding: 40px 34px; overflow-wrap: break-word;
+  box-shadow: 0 12px 26px -12px rgba(0,0,0,.7);
+}
+.fo-proof p { margin: 0 auto; white-space: pre-wrap; }
+.fo-colophon {
+  margin: 12px 0 0; font-size: 13px; line-height: 1.55; color: var(--fo-oil);
+  border-top: 1px solid var(--fo-lead); padding-top: 10px;
+}
+
+.fo-notes { margin: 44px 0 0; max-width: 68ch; }
+.fo-notes h2 {
+  font-family: 'Stardos Stencil', var(--sans);
+  font-size: 23px; letter-spacing: .04em; margin: 28px 0 8px; color: var(--fo-brass);
+}
+.fo-notes p { margin: 0 0 13px; }
+.fo-from { margin: 0 0 14px; padding-left: 20px; }
+.fo-from li { margin: 0 0 9px; }
+
+.fo-desk {
+  display: flex; flex-wrap: wrap; gap: 22px 34px; margin: 44px 0 0; padding: 22px;
+  background: var(--fo-bench); border: 2px solid var(--fo-lead);
+}
+.fo-desk__half { flex: 1 1 320px; }
+.fo-desk h2 { font-family: 'Stardos Stencil', var(--sans); font-size: 20px; letter-spacing: .04em; margin: 0 0 8px; color: var(--fo-brass); }
+.fo-note { margin: 0 0 10px; font-size: 14px; color: var(--fo-oil); }
+
+/* ── The cases ─────────────────────────────────────────────────────────────
+   Every face, on the shelf its own record files it under, set in itself. This
+   is where the room's index of the street lives: which room sets each face is
+   a claim about love.css and make-foundry.py refuses one the stylesheet does
+   not support. */
+.fo-cases { margin: 46px 0 0; }
+.fo-cases h2 { font-family: 'Stardos Stencil', var(--sans); font-size: 26px; letter-spacing: .04em; margin: 0 0 6px; color: var(--fo-bone); }
+.fo-cases__fine { margin: 0 0 6px; max-width: 68ch; font-size: 14px; color: var(--fo-oil); }
+.fo-shelf {
+  margin: 30px 0 10px; font-size: 12px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--fo-brass); border-bottom: 1px solid var(--fo-lead); padding-bottom: 6px;
+}
+.fo-sorts { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+.fo-sort { background: var(--fo-bench); border: 1px solid var(--fo-lead); padding: 14px 15px 13px; }
+.fo-sort__show { margin: 0 0 6px; font-size: 27px; line-height: 1.16; color: var(--fo-bone); overflow-wrap: break-word; }
+.fo-sort__who { margin: 0; font-size: 14px; color: var(--fo-bone); }
+.fo-sort__meta { margin: 4px 0 0; font-size: 12.5px; color: var(--fo-oil); }
+.fo-sort__vf { display: block; margin-top: 3px; color: var(--fo-oil); }
+
+/* §33 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -7174,7 +7518,7 @@ html[data-intensity="max"] .room-checkpoint .glow {
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §32 says every
+   shipped with no rule here at all — which on a street whose §33 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -7259,7 +7603,28 @@ html[data-intensity="max"] .room-checkpoint .glow {
   .hc-hold { padding: 18px 18px; }
 }
 
-/* §33 ── Print ───────────────────────────────────────────────────────────────
+
+/* The Foundry (§32). The bench already collapses on its own -- every control is
+   a flex item with a basis rather than a fixed column -- so what is left here is
+   the nameplate and the specimen grid. THIS BLOCK IS LAST IN ITS SECTION and
+   after §32 in the file, which is not a formality: a media block written above
+   the rules it overrides loses exactly the declarations the base rule also sets
+   and keeps the rest, which is half a breakpoint and looks like a cache
+   problem. The sound board taught this file that one.
+   THE SPECIMEN NAMES DO NOT SHRINK. A face set too small to see is a specimen
+   that is not doing its job, so the grid gives way to one column instead --
+   the call the sound board made when a third of 375px turned out to be about
+   seventy pixels of text column. */
+@media (max-width: 620px) {
+  .fo-plate { padding: 20px 18px 22px; gap: 16px; }
+  .fo-galley { width: 124px; }
+  .fo-bench, .fo-desk { padding: 18px 16px; }
+  .fo-proof { padding: 26px 18px; }
+  .fo-sorts { grid-template-columns: 1fr; }
+  .fo-knob input[type="range"] { width: calc(100% - 58px); }
+}
+
+/* §34 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
@@ -7326,5 +7691,36 @@ html[data-intensity="max"] .room-checkpoint .glow {
   .zine-footrow > section { flex: none !important; }
   .zine-glossary a[href^="http"]::after { content: none; }
   .zine-glossary::after { content: "\2014 all of them at stimpunks.org/glossary/"; display: block; font-size: 7.6pt; }
+
+  /* THE FOUNDRY PRINTS THE PROOF AND NOTHING ELSE. What a foundry hands you is
+     a sheet with the type on it, so the bench, the shelves, the notes and the
+     way back to the street all stay off the paper -- there is nothing on any of
+     them anybody could use once it is printed, and the shelves alone are every
+     typeface on the street at 27px.
+     THE COLOPHON IS THE HALF THAT MATTERS AND IT IS NOT DECORATION. It names the
+     family, the person who drew it, the licence it travels under and every
+     setting the proof was pulled at, which is the credit travelling with the
+     thing rather than staying on a page nobody printed. It is the reason this
+     rule hides everything EXCEPT .fo-pulled rather than only keeping .fo-proof.
+     The ink is black on white by the universal rule above, whatever pair is on
+     the screen: paper colour is a screen decision, and a printer would spend
+     somebody's toner on it. The font, the size, the leading, the tracking and
+     the measure are inline on the proof itself and survive, which is the whole
+     point -- a proof that printed in the browser's default face would be a
+     piece of paper. */
+  .room-foundry .fo-light,
+  .room-foundry .fo-topline,
+  .room-foundry .fo-plate,
+  .room-foundry .fo-lede,
+  .room-foundry .fo-bench,
+  .room-foundry .fo-notes,
+  .room-foundry .fo-desk,
+  .room-foundry .fo-cases,
+  .room-foundry .fo-pulled__h { display: none !important; }
+  .room-foundry .fo-shop { padding: 0 !important; max-width: none !important; }
+  .room-foundry .fo-pulled { margin: 0 !important; }
+  .room-foundry .fo-proof { padding: 0 !important; }
+  .room-foundry .fo-colophon { margin-top: 18pt !important; padding-top: 6pt !important;
+    border-top: 0.5pt solid #000 !important; font-size: 8pt !important; }
 }
 

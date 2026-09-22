@@ -339,6 +339,68 @@ def plate_html(pl):
     return "\n".join(fig)
 
 
+# ── The Raven nook's picker ─────────────────────────────────────────────────
+# THIS USED TO BE HAND-KEPT MARKUP AND THE ROOM'S CLAIM HAD GONE QUIETLY FALSE.
+# The nook says the picker holds every typeface on this street and llms.txt says
+# the poem can be set in any face on it, and by the time anybody looked,
+# EIGHTEEN families were missing from it -- every face added since the last time
+# somebody remembered to come back here. Nothing warned, because adding a font
+# to fonts/ and adding an <option> in this room are two edits in two places and
+# only one of them is obviously required.
+#
+# So the list is not restated here any more, it is READ: the same
+# data/foundry-faces.json record The Foundry's shelves are built from, with the
+# room labels out of data/foundry.json. When something has to agree in several
+# places, make the others read it rather than write it out again -- which is the
+# lesson love-embed.js's ORIGINS array already carries for the framed origins.
+# tools/check-faces.py then reads this room's PUBLISHED markup, not this
+# function, because a checker that re-derived the answer from the generator
+# would only be testing that Python is deterministic.
+#
+# THE THREE GROUPS ARE STILL THIS ROOM'S OWN and are worked out rather than
+# typed: what this room sets, what shouts, and everything else. The nook opens
+# in IM Fell English, which is the face the poem is printed in above it.
+FACES = ROOT / "data/foundry-faces.json"
+FOUNDRY = ROOT / "data/foundry.json"
+FALLBACK = {"Serif": "Georgia, serif", "Sans Serif": "sans-serif",
+            "Monospace": "monospace", "Handwriting": "cursive",
+            "Display": "sans-serif"}
+OPENS_AT = "IM Fell English"
+
+
+def picker_block():
+    faces = json.loads(FACES.read_text())["faces"]
+    where = json.loads(FOUNDRY.read_text())["faces"]
+    groups = {"This room": [], "Shouting": [], "Elsewhere on the street": []}
+    for slug, rec in sorted(faces.items(), key=lambda kv: kv[1]["family"].lower()):
+        line = where.get(slug)
+        if not line:
+            raise SystemExit(
+                f"REFUSING: data/foundry.json has no line for {rec['family']}, so this\n"
+                "picker cannot say where it lives. Run tools/pull-foundry.py, then add it."
+            )
+        if line["page"] == "the-mopery.html":
+            group = "This room"
+        elif rec["category"] == "Display":
+            group = "Shouting"
+        else:
+            group = "Elsewhere on the street"
+        groups[group].append((rec, line))
+
+    out = []
+    for name in ("This room", "Shouting", "Elsewhere on the street"):
+        out.append(f'            <optgroup label="{esc(name)}">')
+        for rec, line in groups[name]:
+            value = f"'{rec['family']}', {FALLBACK[rec['category']]}"
+            label = esc(rec["family"])
+            if line["page"] != "the-mopery.html":
+                label += " &mdash; " + esc(line["where"])
+            sel = " selected" if rec["family"] == OPENS_AT else ""
+            out.append(f'              <option value="{q(value)}"{sel}>{label}</option>')
+        out.append("            </optgroup>")
+    return "\n".join(out)
+
+
 def raven_block(data):
     raven = data["raven"]
     at = {}
@@ -437,7 +499,8 @@ def credits_block(data):
                f'and this site does not relicense other people&rsquo;s assets by copying '
                f'them. One explicit licence and one notice saying no; the room shows the '
                f'first and points at the second. The typefaces in the picker belong to '
-               f'their own designers under the SIL Open Font License, listed above.</p>')
+               f'their own designers, under the SIL Open Font License or Apache 2.0 '
+               f'face by face, and are listed above.</p>')
     return "\n".join(out)
 
 
@@ -446,6 +509,7 @@ def main():
     check(data)
     swap(ROOM, "mopery-shelves", shelves_block(data), "  ")
     swap(ROOM, "mopery-cuts", cuts_block(data), "  ")
+    swap(ROOM, "mopery-picker", picker_block(), "          ")
     swap(ROOM, "mopery-raven", raven_block(data), "    ")
     swap(ROOM, "mopery-scan", scan_block(data), "  ")
     swap(NOTES, "mopery-credits", credits_block(data), "")

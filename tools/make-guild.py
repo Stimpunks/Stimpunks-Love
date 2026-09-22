@@ -172,6 +172,7 @@ def normalise(s):
 # yellow on that blue measures 3.88 and white measures 5.08 -- the one place
 # here where the room's favourite colour lost to the floor it was lying on.
 DRAW = {
+    "foundry-sort": """<path d="M5 11 H25 V22 H5 Z" fill="none" stroke="var(--fo-brass)" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 22 a3.2 3.2 0 0 1 6.4 0" fill="none" stroke="var(--fo-brass)" stroke-width="2"/><path d="M27 12 V21" stroke="var(--fo-brass)" stroke-width="2.6" stroke-linecap="round"/><path d="M25 14 H27 M25 19 H27" stroke="var(--fo-brass)" stroke-width="1.8"/>""",
     "checkpoint-pillow": """<path d="M5 21 q-2 -9 6 -10 q10 -2 16 1 q6 2 4 9 q-2 4 -11 4 q-11 1 -15 -4 Z" fill="none" stroke="var(--hc-steam)" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 15 q4 3 8 0" fill="none" stroke="var(--hc-steam)" stroke-width="1.8" stroke-linecap="round"/>""",
     "street-chalk": """<path d="M5 24 Q11 15 16 22 Q21 29 27 19" fill="none" stroke="var(--chalk)" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="9" r="2.2" fill="var(--chalk)"/>""",
     "pony-sequin": """<circle cx="16" cy="16" r="9" fill="#2b0a1c"/><circle cx="16" cy="16" r="2.4" fill="var(--hot)"/><path d="M16 7 L19 16 L16 25 L13 16 Z" fill="var(--cream)" opacity=".55"/>""",

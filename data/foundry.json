@@ -1,0 +1,510 @@
+{
+ "_what": "The Foundry's own writing. Everything about the TYPEFACES themselves -- the family name, the designer, the licence, the copyright line and the classification -- is in data/foundry-faces.json, which nobody typed: tools/pull-foundry.py reads it off each family's own record in github.com/google/fonts. This file holds only what is ours to say.",
+ "_where": "One line per face saying which room on THIS street sets it, which is a fact about love.css rather than about the typeface. It is written here and CHECKED against the stylesheet: make-foundry.py refuses a claim whose section does not actually set that family, and refuses a face in fonts/_sources.json with no line here at all. The claim stays ours because a derived one got it wrong on the first try -- the street letters each door in that room's own face, so a rule that took the last section to mention a family put Shrikhand in the zine table and Special Elite in Enid's Room.",
+ "_no_description": "THERE IS NO SENTENCE HERE DESCRIBING WHAT ANY FACE LOOKS LIKE, and that is a refusal rather than an omission. A room that wrote a line of appreciation beside every typeface would be inventing type history at scale, in the format most likely to be believed -- the herbarium's refusal to guess at a binomial, arriving where there is one to write for every face on the street. What this room can say truthfully is who drew it, what licence it travels under and which room here sets it. The specimen is the description.",
+ "_samples": "Four passages and a proof. Every one of them is already published by us or is public domain and already checked in another room's data file, and NOT ONE of them is stored twice: the two written in full here are verified word for word against the page they came from and the build stops if the page has changed, and the other two are pulled out of data/mopery.json and data/zibaldone.json when the room is built. A specimen room that quietly accumulated other people's paragraphs because it needed something to set is The Feed's refused summary field wearing a type sample, and it is the friendly edit that will arrive here.",
+ "_inks": "FOUR INK AND PAPER PAIRS, EACH WITH ITS MEASURED RATIO PRINTED ON ITS OWN CONTROL, and make-foundry.py refuses a pair under 4.5:1. This is the one room where a visitor chooses the colour of the text, which on a Disabled people's site is either the place contrast quietly stops being ours to keep or the place it becomes something you can see being kept. There is no colour picker and there is not going to be one.",
+ "_slant": "A REAL ITALIC IS A DIFFERENT SET OF DRAWINGS AND A MACHINE SLANT IS THE ROMAN PUSHED OVER, and this room says so and offers both, labelled. The italic is offered only where fonts/ actually holds an italic file -- an italic control on a family with no italic is make-chappell.py's typo that never becomes a video, since the browser answers by synthesising one and nothing looks broken. THE SLANT IS font-style: oblique AND NEVER A TRANSFORM: check-gentle.py reads rotation and skew out of the computed matrix and cannot be asked to take this room's word for the difference between a tilted page and a slanted letter. arcade.js made the same call with left/top.",
+ "_print": "The proof prints and the room does not. What comes out is the text in the face you chose, and under it a colophon naming the family, the designer, the licence and every setting -- because a proof that did not say what it was set in is a piece of paper, and because printing somebody's typeface is exactly where the credit should travel with it. It prints black on white whatever ink is on the screen: a chosen paper colour is a screen decision and a printer would spend somebody's toner on it.",
+ "_no_count": "Nothing here is counted. Not the faces, not the sizes tried, not anything. check-counts.py already refuses a total of the rooms; this room is the one most likely to want to boast about how many typefaces it holds, and the answer is the same as the answer everywhere else on this street.",
+ "room": {
+  "sizes": {
+   "min": 12,
+   "max": 140,
+   "step": 1,
+   "default": 30,
+   "unit": "px"
+  },
+  "leading": {
+   "min": 0.9,
+   "max": 2.2,
+   "step": 0.05,
+   "default": 1.4,
+   "unit": ""
+  },
+  "tracking": {
+   "min": -0.04,
+   "max": 0.3,
+   "step": 0.005,
+   "default": 0,
+   "unit": "em"
+  },
+  "measure": {
+   "min": 18,
+   "max": 80,
+   "step": 1,
+   "default": 44,
+   "unit": "ch"
+  }
+ },
+ "inks": [
+  {
+   "id": "black",
+   "ink": "#16181A",
+   "paper": "#E8EAE9",
+   "ratio": 14.73,
+   "label": "Printer’s black on proof paper"
+  },
+  {
+   "id": "vermilion",
+   "ink": "#8A1A12",
+   "paper": "#E8EAE9",
+   "ratio": 7.77,
+   "label": "Vermilion on proof paper"
+  },
+  {
+   "id": "prussian",
+   "ink": "#10395C",
+   "paper": "#E8EAE9",
+   "ratio": 9.86,
+   "label": "Prussian blue on proof paper"
+  },
+  {
+   "id": "reversed",
+   "ink": "#EDEAE3",
+   "paper": "#2E3335",
+   "ratio": 10.65,
+   "label": "Reversed out, bone on iron"
+  }
+ ],
+ "samples": [
+  {
+   "id": "street",
+   "label": "The street’s own line",
+   "room": "Stimpunks.Love",
+   "page": "index.html",
+   "verbatim": true,
+   "text": "Queer without fear. Interdependent and here. Divergent and proud. Living out loud.",
+   "note": "Ours. It is the masthead of the street outside this door."
+  },
+  {
+   "id": "playhouse",
+   "label": "A house rule from The Playhouse",
+   "room": "The Playhouse",
+   "page": "playhouse.html",
+   "verbatim": true,
+   "text": "Every toy is a real button. Tab reaches it, a screen reader names it, and it works without a mouse. A playhouse you cannot get into is a diorama.",
+   "note": "Ours, and one of that room’s house rules. It is checked against the page it is on every time this room is built."
+  },
+  {
+   "id": "mopery",
+   "label": "The first stanza of The Raven",
+   "room": "The Mopery",
+   "page": "the-mopery.html",
+   "pull": "mopery-raven-1",
+   "note": "Poe, published January 1845 and out of copyright everywhere. The text is the one The Mopery carries and is read out of data/mopery.json rather than copied, so the two rooms cannot come to disagree about a poem."
+  },
+  {
+   "id": "zibaldone",
+   "label": "A line copied out in The Zibaldone",
+   "room": "The Zibaldone",
+   "page": "zibaldone.html",
+   "pull": "zibaldone:montaigne-book",
+   "note": "Read out of data/zibaldone.json with the printing it names, so this room is quoting the same object that room is."
+  },
+  {
+   "id": "proof",
+   "label": "A proof of the whole alphabet",
+   "room": null,
+   "page": null,
+   "verbatim": false,
+   "text": "ABCDEFGHIJKLMNOPQRSTUVWXYZ\nabcdefghijklmnopqrstuvwxyz\n0123456789 &@£$— ?! “” ‘’\nSphinx of black quartz, judge my vow.",
+   "note": "Nobody’s writing. A foundry’s own proof is the characters themselves, and a pangram is the shortest way to see all of them behave."
+  }
+ ],
+ "faces": {
+  "alegreya-sans": {
+   "where": "Swaying Sweetgrass",
+   "page": "swaying-sweetgrass.html",
+   "sections": [
+    25
+   ]
+  },
+  "alfa-slab-one": {
+   "where": "The Campgrounds",
+   "page": "campgrounds.html",
+   "sections": [
+    13
+   ]
+  },
+  "anton": {
+   "where": "Club Chronic",
+   "page": "club-chronic.html",
+   "sections": [
+    20
+   ]
+  },
+  "archivo-black": {
+   "where": "The Zine Table",
+   "page": "zine-table.html",
+   "sections": [
+    7
+   ]
+  },
+  "atkinson-hyperlegible": {
+   "where": "The Pebble Board",
+   "page": "pebble-board.html",
+   "sections": [
+    21
+   ]
+  },
+  "barlow": {
+   "where": "Club Chronic",
+   "page": "club-chronic.html",
+   "sections": [
+    20
+   ]
+  },
+  "bitter": {
+   "where": "The Campgrounds",
+   "page": "campgrounds.html",
+   "sections": [
+    13
+   ]
+  },
+  "bree-serif": {
+   "where": "The Latibulum",
+   "page": "latibulum.html",
+   "sections": [
+    16
+   ]
+  },
+  "bungee": {
+   "where": "the street itself",
+   "page": "index.html",
+   "sections": [
+    5
+   ]
+  },
+  "bungee-shade": {
+   "where": "Enid’s Room",
+   "page": "enids-room.html",
+   "sections": [
+    9
+   ]
+  },
+  "cabin": {
+   "where": "The Jungle Room",
+   "page": "jungle-room.html",
+   "sections": [
+    17
+   ]
+  },
+  "cardo": {
+   "where": "The Oracle Deck",
+   "page": "oracle-deck.html",
+   "sections": [
+    23
+   ]
+  },
+  "caveat": {
+   "where": "the Faery Yurt",
+   "page": "faery-yurt.html",
+   "sections": [
+    14
+   ]
+  },
+  "cinzel": {
+   "where": "The Oracle Deck",
+   "page": "oracle-deck.html",
+   "sections": [
+    23
+   ]
+  },
+  "cormorant-garamond": {
+   "where": "the Faery Yurt",
+   "page": "faery-yurt.html",
+   "sections": [
+    14
+   ]
+  },
+  "courier-prime": {
+   "where": "The Zine Table",
+   "page": "zine-table.html",
+   "sections": [
+    7
+   ]
+  },
+  "crimson-pro": {
+   "where": "the Faery Yurt",
+   "page": "faery-yurt.html",
+   "sections": [
+    14
+   ]
+  },
+  "eb-garamond": {
+   "where": "The Zibaldone",
+   "page": "zibaldone.html",
+   "sections": [
+    29
+   ]
+  },
+  "eczar": {
+   "where": "Swaying Sweetgrass",
+   "page": "swaying-sweetgrass.html",
+   "sections": [
+    25
+   ]
+  },
+  "faustina": {
+   "where": "The Garden",
+   "page": "the-garden.html",
+   "sections": [
+    28
+   ]
+  },
+  "fraunces": {
+   "where": "The Solarpunk Hermitage",
+   "page": "solarpunk-hermitage.html",
+   "sections": [
+    19
+   ]
+  },
+  "gloria-hallelujah": {
+   "where": "The Pebble Board",
+   "page": "pebble-board.html",
+   "sections": [
+    21
+   ]
+  },
+  "im-fell-english": {
+   "where": "The Mopery",
+   "page": "the-mopery.html",
+   "sections": [
+    22
+   ]
+  },
+  "instrument-serif": {
+   "where": "Hear Queer Here, and The Chappell",
+   "page": "hear-queer-here.html",
+   "sections": [
+    8,
+    12
+   ]
+  },
+  "josefin-sans": {
+   "where": "The Pebble Board",
+   "page": "pebble-board.html",
+   "sections": [
+    21
+   ]
+  },
+  "jost": {
+   "where": "The Rabbit Hole",
+   "page": "rabbit-hole.html",
+   "sections": [
+    30
+   ]
+  },
+  "kalam": {
+   "where": "The Zibaldone",
+   "page": "zibaldone.html",
+   "sections": [
+    29
+   ]
+  },
+  "karla": {
+   "where": "The Den",
+   "page": "the-den.html",
+   "sections": [
+    18
+   ]
+  },
+  "lora": {
+   "where": "The Zibaldone",
+   "page": "zibaldone.html",
+   "sections": [
+    29
+   ]
+  },
+  "michroma": {
+   "where": "The Feed",
+   "page": "the-feed.html",
+   "sections": [
+    27
+   ]
+  },
+  "monoton": {
+   "where": "The Chappell",
+   "page": "the-chappell.html",
+   "sections": [
+    12
+   ]
+  },
+  "mulish": {
+   "where": "The Garden",
+   "page": "the-garden.html",
+   "sections": [
+    28
+   ]
+  },
+  "newsreader": {
+   "where": "The Zibaldone",
+   "page": "zibaldone.html",
+   "sections": [
+    29
+   ]
+  },
+  "nunito": {
+   "where": "The Latibulum",
+   "page": "latibulum.html",
+   "sections": [
+    16
+   ]
+  },
+  "permanent-marker": {
+   "where": "Club Chronic",
+   "page": "club-chronic.html",
+   "sections": [
+    20
+   ]
+  },
+  "playfair-display": {
+   "where": "The Rabbit Hole",
+   "page": "rabbit-hole.html",
+   "sections": [
+    30
+   ]
+  },
+  "press-start-2p": {
+   "where": "The Arcade",
+   "page": "arcade.html",
+   "sections": [
+    15
+   ]
+  },
+  "public-sans": {
+   "where": "The Adventurer’s Guild",
+   "page": "adventurers-guild.html",
+   "sections": [
+    26
+   ]
+  },
+  "quicksand": {
+   "where": "The Healing Checkpoint",
+   "page": "healing-checkpoint.html",
+   "sections": [
+    31
+   ]
+  },
+  "rock-salt": {
+   "where": "the margins, in every room",
+   "page": null,
+   "sections": [
+    4
+   ]
+  },
+  "rubik": {
+   "where": "The Healing Checkpoint",
+   "page": "healing-checkpoint.html",
+   "sections": [
+    31
+   ]
+  },
+  "rye": {
+   "where": "The Adventurer’s Guild",
+   "page": "adventurers-guild.html",
+   "sections": [
+    26
+   ]
+  },
+  "shrikhand": {
+   "where": "Pink Pony Club",
+   "page": "pink-pony-club.html",
+   "sections": [
+    6
+   ]
+  },
+  "sora": {
+   "where": "The Solarpunk Hermitage",
+   "page": "solarpunk-hermitage.html",
+   "sections": [
+    19
+   ]
+  },
+  "space-grotesk": {
+   "where": "the prose of every room that does not insist on its own",
+   "page": null,
+   "sections": [
+    2
+   ]
+  },
+  "space-mono": {
+   "where": "The Feed",
+   "page": "the-feed.html",
+   "sections": [
+    27
+   ]
+  },
+  "special-elite": {
+   "where": "The Zine Table",
+   "page": "zine-table.html",
+   "sections": [
+    7
+   ]
+  },
+  "spectral": {
+   "where": "The Mopery",
+   "page": "the-mopery.html",
+   "sections": [
+    22
+   ]
+  },
+  "stardos-stencil": {
+   "where": "this room",
+   "page": "foundry.html",
+   "sections": [
+    32
+   ]
+  },
+  "titan-one": {
+   "where": "The Playhouse",
+   "page": "playhouse.html",
+   "sections": [
+    10
+   ]
+  },
+  "ultra": {
+   "where": "The Den",
+   "page": "the-den.html",
+   "sections": [
+    18
+   ]
+  },
+  "unifraktur-maguntia": {
+   "where": "The Doomscroll",
+   "page": "the-doomscroll.html",
+   "sections": [
+    24
+   ]
+  },
+  "vollkorn": {
+   "where": "The Doomscroll",
+   "page": "the-doomscroll.html",
+   "sections": [
+    24
+   ]
+  },
+  "vt323": {
+   "where": "Hear Queer Here",
+   "page": "hear-queer-here.html",
+   "sections": [
+    8
+   ]
+  },
+  "work-sans": {
+   "where": "this room",
+   "page": "foundry.html",
+   "sections": [
+    32
+   ]
+  },
+  "yeseva-one": {
+   "where": "The Jungle Room",
+   "page": "jungle-room.html",
+   "sections": [
+    17
+   ]
+  }
+ }
+}

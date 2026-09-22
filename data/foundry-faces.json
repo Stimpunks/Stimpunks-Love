@@ -1,0 +1,1115 @@
+{
+ "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
+ "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
+ "_checked": "2026-09-22",
+ "faces": {
+  "alegreya-sans": {
+   "family": "Alegreya Sans",
+   "category": "Sans Serif",
+   "designer": "Juan Pablo del Peral, HT Fonts",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/alegreyasans",
+   "copyright": "Copyright 2013 The Alegreya Sans Project Authors (https://github.com/huertatipografica/Alegreya-Sans)",
+   "repository": "https://github.com/huertatipografica/Alegreya-Sans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "alegreya-sans-400.woff2",
+     "sha": "624ea7e85a53f6bc"
+    },
+    {
+     "weight": "500",
+     "style": "normal",
+     "file": "alegreya-sans-500.woff2",
+     "sha": "dedb7e4dce28b07c"
+    }
+   ]
+  },
+  "alfa-slab-one": {
+   "family": "Alfa Slab One",
+   "category": "Display",
+   "designer": "JM Solé",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/alfaslabone",
+   "copyright": "Copyright 2016 The Alfa Slab One Project Authors (http://www.jmsole.cl | info@jmsole.cl), with Reserved Font Name \"Alfa Slab\".",
+   "repository": "https://github.com/librefonts/alfaslabone",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "alfa-slab-one-400.woff2",
+     "sha": "8835f53d4e16899b"
+    }
+   ]
+  },
+  "anton": {
+   "family": "Anton",
+   "category": "Display",
+   "designer": "Vernon Adams",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/anton",
+   "copyright": "Copyright 2020 The Anton Project Authors (https://github.com/googlefonts/AntonFont.git)",
+   "repository": "https://github.com/googlefonts/AntonFont",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "anton-400.woff2",
+     "sha": "23aab0b2692a0c89"
+    }
+   ]
+  },
+  "archivo-black": {
+   "family": "Archivo Black",
+   "category": "Sans Serif",
+   "designer": "Omnibus-Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/archivoblack",
+   "copyright": "Copyright 2017 The Archivo Black Project Authors (https://github.com/Omnibus-Type/ArchivoBlack)",
+   "repository": "https://github.com/Omnibus-Type/ArchivoBlack",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "archivo-black-400.woff2",
+     "sha": "4eca2abdbbc1998c"
+    }
+   ]
+  },
+  "atkinson-hyperlegible": {
+   "family": "Atkinson Hyperlegible",
+   "category": "Sans Serif",
+   "designer": "Braille Institute, Applied Design Works, Elliott Scott, Megan Eiswerth, Linus Boman, Theodore Petrosky",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/atkinsonhyperlegible",
+   "copyright": "Copyright 2020 Braille Institute of America, Inc.",
+   "repository": "https://github.com/googlefonts/atkinson-hyperlegible",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "atkinson-hyperlegible-400.woff2",
+     "sha": "a60206dd4793eb88"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "atkinson-hyperlegible-700.woff2",
+     "sha": "1cc7c0c5fbf16d1b"
+    }
+   ]
+  },
+  "barlow": {
+   "family": "Barlow",
+   "category": "Sans Serif",
+   "designer": "Jeremy Tribby",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/barlow",
+   "copyright": "Copyright 2017 The Barlow Project Authors (https://github.com/jpt/barlow)",
+   "repository": "https://github.com/jpt/barlow",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "barlow-400.woff2",
+     "sha": "7a686e76312866b7"
+    },
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "barlow-600.woff2",
+     "sha": "488b58098126c00b"
+    }
+   ]
+  },
+  "bitter": {
+   "family": "Bitter",
+   "category": "Serif",
+   "designer": "Sol Matas",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/bitter",
+   "copyright": "Copyright 2011 The Bitter Project Authors (https://github.com/solmatas/BitterPro)",
+   "repository": "https://github.com/solmatas/BitterPro",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "bitter-400.woff2",
+     "sha": "261cfc4d27941b27"
+    }
+   ]
+  },
+  "bree-serif": {
+   "family": "Bree Serif",
+   "category": "Serif",
+   "designer": "TypeTogether",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/breeserif",
+   "copyright": "Copyright (c) 2011, TypeTogether (www.type-together.com), with Reserved Font Names \"Bree\" and \"Bree Serif\"",
+   "repository": "https://github.com/googlefonts/breeserif",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "bree-serif-400.woff2",
+     "sha": "c98e913e6fea11b2"
+    }
+   ]
+  },
+  "bungee": {
+   "family": "Bungee",
+   "category": "Display",
+   "designer": "David Jonathan Ross",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/bungee",
+   "copyright": "Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)",
+   "repository": "https://github.com/djrrb/Bungee",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "bungee-400.woff2",
+     "sha": "12967d744bb0811a"
+    }
+   ]
+  },
+  "bungee-shade": {
+   "family": "Bungee Shade",
+   "category": "Display",
+   "designer": "David Jonathan Ross",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/bungeeshade",
+   "copyright": "Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)",
+   "repository": "https://github.com/djrrb/Bungee",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "bungee-shade-400.woff2",
+     "sha": "64a4dd9c03052b12"
+    }
+   ]
+  },
+  "cabin": {
+   "family": "Cabin",
+   "category": "Sans Serif",
+   "designer": "Impallari Type, Rodrigo Fuenzalida",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/cabin",
+   "copyright": "Copyright 2018 The Cabin Project Authors (https://github.com/impallari/Cabin)",
+   "repository": "https://github.com/impallari/Cabin",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "cabin-400.woff2",
+     "sha": "3912b808ba0a5888"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "cabin-400.woff2",
+     "sha": "3912b808ba0a5888"
+    }
+   ]
+  },
+  "cardo": {
+   "family": "Cardo",
+   "category": "Serif",
+   "designer": "David Perry",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/cardo",
+   "copyright": "Copyright (c) 2002-2011, David J. Perry (hospes02@scholarsfonts.net)",
+   "repository": "https://github.com/googlefonts/CardoFont",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "cardo-400.woff2",
+     "sha": "c0a8e24244241209"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "cardo-400-italic.woff2",
+     "sha": "bc802f41dcc8a736"
+    }
+   ]
+  },
+  "caveat": {
+   "family": "Caveat",
+   "category": "Handwriting",
+   "designer": "Impallari Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/caveat",
+   "copyright": "Copyright 2014 The Caveat Project Authors (https://github.com/googlefonts/caveat)",
+   "repository": "https://github.com/googlefonts/caveat",
+   "variants": [
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "caveat-600.woff2",
+     "sha": "1c591acdadd5ea39"
+    }
+   ]
+  },
+  "cinzel": {
+   "family": "Cinzel",
+   "category": "Serif",
+   "designer": "Natanael Gama",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/cinzel",
+   "copyright": "Copyright 2020 The Cinzel Project Authors (https://github.com/NDISCOVER/Cinzel)",
+   "repository": "https://github.com/NDISCOVER/Cinzel",
+   "variants": [
+    {
+     "weight": "400 700",
+     "style": "normal",
+     "file": "cinzel-400.woff2",
+     "sha": "ef95296c778719c3"
+    }
+   ]
+  },
+  "cormorant-garamond": {
+   "family": "Cormorant Garamond",
+   "category": "Serif",
+   "designer": "Christian Thalmann",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/cormorantgaramond",
+   "copyright": "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+   "repository": "https://github.com/CatharsisFonts/Cormorant",
+   "variants": [
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "cormorant-garamond-600.woff2",
+     "sha": "53205cf81200f21b"
+    },
+    {
+     "weight": "600",
+     "style": "italic",
+     "file": "cormorant-garamond-600-italic.woff2",
+     "sha": "938e91d95067a818"
+    }
+   ]
+  },
+  "courier-prime": {
+   "family": "Courier Prime",
+   "category": "Monospace",
+   "designer": "Alan Dague-Greene",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/courierprime",
+   "copyright": "Copyright 2015 The Courier Prime Project Authors (https://github.com/quoteunquoteapps/CourierPrime).",
+   "repository": "https://github.com/quoteunquoteapps/CourierPrime",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "courier-prime-400.woff2",
+     "sha": "21bf7ff8d9e06744"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "courier-prime-700.woff2",
+     "sha": "06622415713b4150"
+    }
+   ]
+  },
+  "crimson-pro": {
+   "family": "Crimson Pro",
+   "category": "Serif",
+   "designer": "Jacques Le Bailly",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/crimsonpro",
+   "copyright": "Copyright 2018 The Crimson Pro Project Authors (https://github.com/Fonthausen/CrimsonPro)",
+   "repository": "https://github.com/Fonthausen/CrimsonPro",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "crimson-pro-400.woff2",
+     "sha": "cebdf2c80a1fd476"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "crimson-pro-400-italic.woff2",
+     "sha": "dd6179ff8c14dea8"
+    }
+   ]
+  },
+  "eb-garamond": {
+   "family": "EB Garamond",
+   "category": "Serif",
+   "designer": "Georg Duffner, Octavio Pardo",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/ebgaramond",
+   "copyright": "Copyright 2017 The EB Garamond Project Authors (https://github.com/octaviopardo/EBGaramond12)",
+   "repository": "https://github.com/octaviopardo/EBGaramond12",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "eb-garamond-400.woff2",
+     "sha": "68fd4b247dde8998"
+    },
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "eb-garamond-400.woff2",
+     "sha": "68fd4b247dde8998"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "eb-garamond-400-italic.woff2",
+     "sha": "078bb1c082255b93"
+    }
+   ]
+  },
+  "eczar": {
+   "family": "Eczar",
+   "category": "Serif",
+   "designer": "Rosetta, Vaibhav Singh",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/eczar",
+   "copyright": "Copyright 2014 The Eczar Project Authors (https://github.com/rosettatype/eczar)",
+   "repository": "https://github.com/rosettatype/eczar",
+   "variants": [
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "eczar-600.woff2",
+     "sha": "d3ec1b97f7514ab0"
+    }
+   ]
+  },
+  "faustina": {
+   "family": "Faustina",
+   "category": "Serif",
+   "designer": "Omnibus-Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/faustina",
+   "copyright": "Copyright 2019 The Faustina Project Authors (https://github.com/Omnibus-Type/Faustina)",
+   "repository": "https://github.com/Omnibus-Type/Faustina",
+   "variants": [
+    {
+     "weight": "400 600",
+     "style": "normal",
+     "file": "faustina-400.woff2",
+     "sha": "422fca604376aa1a"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "faustina-400-italic.woff2",
+     "sha": "6a31678fe625ef03"
+    }
+   ]
+  },
+  "fraunces": {
+   "family": "Fraunces",
+   "category": "Serif",
+   "designer": "Undercase Type, Phaedra Charles, Flavia Zimbardi",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/fraunces",
+   "copyright": "Copyright 2020 The Fraunces Project Authors (github.com/undercasetype/Fraunces)",
+   "repository": "https://github.com/undercasetype/Fraunces",
+   "variants": [
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "fraunces-700.woff2",
+     "sha": "a13496dc536e6c0c"
+    }
+   ]
+  },
+  "gloria-hallelujah": {
+   "family": "Gloria Hallelujah",
+   "category": "Handwriting",
+   "designer": "Kimberly Geswein",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/gloriahallelujah",
+   "copyright": "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com kimberlygeswein@gmail.com)",
+   "repository": "https://github.com/librefonts/gloriahallelujah",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "gloria-hallelujah-400.woff2",
+     "sha": "6c897a01ee2ee703"
+    }
+   ]
+  },
+  "im-fell-english": {
+   "family": "IM Fell English",
+   "category": "Serif",
+   "designer": "Igino Marini",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/imfellenglish",
+   "copyright": "© 2007 Igino Marini (www.iginomarini.com mail@iginomarini.com) With Reserved Font Name IM FELL English Roman",
+   "repository": "https://github.com/librefonts/imfellenglish",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "im-fell-english-400.woff2",
+     "sha": "248300df1647bec4"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "im-fell-english-400-italic.woff2",
+     "sha": "8fc678575e83868f"
+    }
+   ]
+  },
+  "instrument-serif": {
+   "family": "Instrument Serif",
+   "category": "Serif",
+   "designer": "Rodrigo Fuenzalida, Jordan Egstad",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/instrumentserif",
+   "copyright": "Copyright 2022 The Instrument Serif Project Authors (https://github.com/Instrument/instrument-serif)",
+   "repository": "https://github.com/Instrument/instrument-serif",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "instrument-serif-400-italic.woff2",
+     "sha": "6ee678c33f388dd7"
+    },
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "instrument-serif-400.woff2",
+     "sha": "60c06664b5a95c7d"
+    }
+   ]
+  },
+  "josefin-sans": {
+   "family": "Josefin Sans",
+   "category": "Sans Serif",
+   "designer": "Santiago Orozco",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/josefinsans",
+   "copyright": "Copyright 2010 The Josefin Sans Project Authors (https://github.com/ThomasJockin/JosefinSansFont-master), with Reserved Font Name \"Josefin Sans\".",
+   "repository": "https://github.com/googlefonts/josefinsans",
+   "variants": [
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "josefin-sans-600.woff2",
+     "sha": "3df5cff61dcc9587"
+    }
+   ]
+  },
+  "jost": {
+   "family": "Jost",
+   "category": "Sans Serif",
+   "designer": "Owen Earl",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/jost",
+   "copyright": "Copyright 2020 The Jost Project Authors (https://github.com/indestructible-type/Jost)",
+   "repository": "https://github.com/indestructible-type/Jost",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "jost-400.woff2",
+     "sha": "235d8f8964bfdf10"
+    },
+    {
+     "weight": "500",
+     "style": "normal",
+     "file": "jost-500.woff2",
+     "sha": "235d8f8964bfdf10"
+    }
+   ]
+  },
+  "kalam": {
+   "family": "Kalam",
+   "category": "Handwriting",
+   "designer": "Indian Type Foundry",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/kalam",
+   "copyright": "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+   "repository": "https://github.com/itfoundry/kalam",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "kalam-400.woff2",
+     "sha": "257f0129d54c60cd"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "kalam-700.woff2",
+     "sha": "c1bc5092263cb16e"
+    }
+   ]
+  },
+  "karla": {
+   "family": "Karla",
+   "category": "Sans Serif",
+   "designer": "Jonny Pinhorn",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/karla",
+   "copyright": "Copyright 2019 The Karla Project Authors (https://github.com/googlefonts/karla)",
+   "repository": "https://github.com/googlefonts/karla",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "karla-400.woff2",
+     "sha": "690fabf2f17b4a98"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "karla-400.woff2",
+     "sha": "690fabf2f17b4a98"
+    }
+   ]
+  },
+  "lora": {
+   "family": "Lora",
+   "category": "Serif",
+   "designer": "Cyreal",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/lora",
+   "copyright": "Copyright 2011 The Lora Project Authors (https://github.com/cyrealtype/Lora-Cyrillic), with Reserved Font Name \"Lora\".",
+   "repository": "https://github.com/cyrealtype/Lora-Cyrillic",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "lora-400.woff2",
+     "sha": "00f2871139726375"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "lora-400-italic.woff2",
+     "sha": "e93da94dec22f905"
+    }
+   ]
+  },
+  "michroma": {
+   "family": "Michroma",
+   "category": "Sans Serif",
+   "designer": "Vernon Adams",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/michroma",
+   "copyright": "Copyright 2011 The Michroma Project Authors (https://github.com/googlefonts/Michroma-font)",
+   "repository": "https://github.com/googlefonts/Michroma-font",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "michroma-400.woff2",
+     "sha": "b12098180dae0e6c"
+    }
+   ]
+  },
+  "monoton": {
+   "family": "Monoton",
+   "category": "Display",
+   "designer": "Vernon Adams",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/monoton",
+   "copyright": "Copyright (c) 2011, Vernon Adams (vern@newtypography.co.uk) with Reserved Font Name 'Monoton'. All rights reserved.",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "monoton-400.woff2",
+     "sha": "b7967c18b0fd51c8"
+    }
+   ]
+  },
+  "mulish": {
+   "family": "Mulish",
+   "category": "Sans Serif",
+   "designer": "Vernon Adams, Cyreal, Jacques Le Bailly",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/mulish",
+   "copyright": "Copyright 2016 The Mulish Project Authors (https://github.com/googlefonts/mulish)",
+   "repository": "https://github.com/googlefonts/mulish",
+   "variants": [
+    {
+     "weight": "400 700",
+     "style": "normal",
+     "file": "mulish-400.woff2",
+     "sha": "14cc0eabadfeb1af"
+    }
+   ]
+  },
+  "newsreader": {
+   "family": "Newsreader",
+   "category": "Serif",
+   "designer": "Production Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/newsreader",
+   "copyright": "Copyright 2020 The Newsreader Project Authors (http://github.com/productiontype/Newsreader)",
+   "repository": "https://github.com/productiontype/NewsReader",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "newsreader-400.woff2",
+     "sha": "283674309045e326"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "newsreader-400-italic.woff2",
+     "sha": "56febd06c694ba79"
+    }
+   ]
+  },
+  "nunito": {
+   "family": "Nunito",
+   "category": "Sans Serif",
+   "designer": "Vernon Adams, Cyreal, Jacques Le Bailly",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/nunito",
+   "copyright": "Copyright 2014 The Nunito Project Authors (https://github.com/googlefonts/nunito)",
+   "repository": "https://github.com/googlefonts/nunito",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "nunito-400.woff2",
+     "sha": "20fc9b6fc618e7c3"
+    }
+   ]
+  },
+  "permanent-marker": {
+   "family": "Permanent Marker",
+   "category": "Handwriting",
+   "designer": "Font Diner",
+   "licence": "Apache License 2.0",
+   "licence_url": "https://github.com/google/fonts/tree/main/apache/permanentmarker",
+   "copyright": "Copyright (c) 2010 by Font Diner, Inc. All rights reserved.",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "permanent-marker-400.woff2",
+     "sha": "37202f2915830dbf"
+    }
+   ]
+  },
+  "playfair-display": {
+   "family": "Playfair Display",
+   "category": "Serif",
+   "designer": "Claus Eggers Sørensen",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/playfairdisplay",
+   "copyright": "Copyright 2017 The Playfair Display Project Authors (https://github.com/clauseggers/Playfair-Display), with Reserved Font Name \"Playfair Display\".",
+   "repository": "https://github.com/clauseggers/Playfair",
+   "variants": [
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "playfair-display-700.woff2",
+     "sha": "02af2688dd8c8a55"
+    }
+   ]
+  },
+  "press-start-2p": {
+   "family": "Press Start 2P",
+   "category": "Display",
+   "designer": "CodeMan38",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/pressstart2p",
+   "copyright": "Copyright 2012 The Press Start 2P Project Authors (cody@zone38.net), with Reserved Font Name \"Press Start 2P\"",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "press-start-2p-400.woff2",
+     "sha": "42144b97bd2942ea"
+    }
+   ]
+  },
+  "public-sans": {
+   "family": "Public Sans",
+   "category": "Sans Serif",
+   "designer": "USWDS, Dan Williams, Pablo Impallari, Rodrigo Fuenzalida",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/publicsans",
+   "copyright": "Copyright 2015 The Public Sans Project Authors (https://github.com/uswds/public-sans)",
+   "repository": "https://github.com/uswds/public-sans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "public-sans-400.woff2",
+     "sha": "8bfa953ce9babd9f"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "public-sans-700.woff2",
+     "sha": "1e90a8c54b4c4863"
+    }
+   ]
+  },
+  "quicksand": {
+   "family": "Quicksand",
+   "category": "Sans Serif",
+   "designer": "Andrew Paglinawan",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/quicksand",
+   "copyright": "Copyright 2019 The Quicksand Project Authors (https://github.com/andrew-paglinawan/QuicksandFamily.git), with Reserved Font Name \"Quicksand\"",
+   "repository": "https://github.com/ThomasJockin/QuicksandFamily",
+   "variants": [
+    {
+     "weight": "500",
+     "style": "normal",
+     "file": "quicksand-700.woff2",
+     "sha": "1b092c711df1c7ad"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "quicksand-700.woff2",
+     "sha": "1b092c711df1c7ad"
+    }
+   ]
+  },
+  "rock-salt": {
+   "family": "Rock Salt",
+   "category": "Handwriting",
+   "designer": "Sideshow",
+   "licence": "Apache License 2.0",
+   "licence_url": "https://github.com/google/fonts/tree/main/apache/rocksalt",
+   "copyright": "Copyright (c) 2010 by Font Diner, Inc DBA Sideshow. All rights reserved.",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "rock-salt-400.woff2",
+     "sha": "4db33f33d887ad22"
+    }
+   ]
+  },
+  "rubik": {
+   "family": "Rubik",
+   "category": "Sans Serif",
+   "designer": "Hubert and Fischer, Meir Sadan, Cyreal, Daniel Grumer, Omaima Dajani",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/rubik",
+   "copyright": "Copyright 2015 The Rubik Project Authors (https://github.com/googlefonts/rubik)",
+   "repository": "https://github.com/googlefonts/rubik",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "rubik-400.woff2",
+     "sha": "99ec7ccb40cf143f"
+    },
+    {
+     "weight": "500",
+     "style": "normal",
+     "file": "rubik-400.woff2",
+     "sha": "99ec7ccb40cf143f"
+    }
+   ]
+  },
+  "rye": {
+   "family": "Rye",
+   "category": "Display",
+   "designer": "Nicole Fally",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/rye",
+   "copyright": "Copyright (c) 2012, Sorkin Type Co (eben@eyebytes.com) with Reserved Font Name 'Rye'",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "rye-400.woff2",
+     "sha": "213b4683d65efe68"
+    }
+   ]
+  },
+  "shrikhand": {
+   "family": "Shrikhand",
+   "category": "Display",
+   "designer": "Jonny Pinhorn",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/shrikhand",
+   "copyright": "Copyright (c) 2015 Jonny Pinhorn (jonpinhorn.typedesign@gmail.com)",
+   "repository": "https://github.com/jonpinhorn/shrikhand",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "shrikhand-400.woff2",
+     "sha": "78a6223af12c516c"
+    }
+   ]
+  },
+  "sora": {
+   "family": "Sora",
+   "category": "Sans Serif",
+   "designer": "Jonathan Barnbrook, Julián Moncada",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/sora",
+   "copyright": "Copyright 2019 The Sora Project Authors (https://github.com/sora-xor/sora-font)",
+   "repository": "https://github.com/sora-xor/sora-font",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "sora-400.woff2",
+     "sha": "0513acb430aa3fe2"
+    }
+   ]
+  },
+  "space-grotesk": {
+   "family": "Space Grotesk",
+   "category": "Sans Serif",
+   "designer": "Florian Karsten",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/spacegrotesk",
+   "copyright": "Copyright 2020 The Space Grotesk Project Authors (https://github.com/floriankarsten/space-grotesk)",
+   "repository": "https://github.com/floriankarsten/space-grotesk",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "space-grotesk-400.woff2",
+     "sha": "a0d054c4af557de2"
+    },
+    {
+     "weight": "500",
+     "style": "normal",
+     "file": "space-grotesk-500.woff2",
+     "sha": "a0d054c4af557de2"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "space-grotesk-700.woff2",
+     "sha": "a0d054c4af557de2"
+    }
+   ]
+  },
+  "space-mono": {
+   "family": "Space Mono",
+   "category": "Monospace",
+   "designer": "Colophon Foundry",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/spacemono",
+   "copyright": "Copyright 2016 The Space Mono Project Authors (https://github.com/googlefonts/spacemono)",
+   "repository": "https://github.com/googlefonts/spacemono",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "space-mono-400.woff2",
+     "sha": "e0c8e616bda27642"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "space-mono-700.woff2",
+     "sha": "af7cf6d2b897ec45"
+    }
+   ]
+  },
+  "special-elite": {
+   "family": "Special Elite",
+   "category": "Display",
+   "designer": "Astigmatic",
+   "licence": "Apache License 2.0",
+   "licence_url": "https://github.com/google/fonts/tree/main/apache/specialelite",
+   "copyright": "Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved. Available under the Apache 2.0 licence. http://www.apache.org/licenses/LICENSE-2.0.html",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "special-elite-400.woff2",
+     "sha": "3cf06771841c778d"
+    }
+   ]
+  },
+  "spectral": {
+   "family": "Spectral",
+   "category": "Serif",
+   "designer": "Production Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/spectral",
+   "copyright": "Copyright 2017 The Spectral Project Authors (https://github.com/productiontype/Spectral)",
+   "repository": "https://github.com/productiontype/Spectral",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "spectral-400.woff2",
+     "sha": "bcb83e9c56d40c51"
+    },
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "spectral-600.woff2",
+     "sha": "1fb6ca29fc243e8b"
+    }
+   ]
+  },
+  "stardos-stencil": {
+   "family": "Stardos Stencil",
+   "category": "Display",
+   "designer": "Vernon Adams",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/stardosstencil",
+   "copyright": "Copyright (c) 2011, Vernon Adams (vern@newtypography.co.uk) with Reserved Font Names 'Stardos'. All rights reserved.",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "stardos-stencil-700.woff2",
+     "sha": "d6f96df6066c3e41"
+    }
+   ]
+  },
+  "titan-one": {
+   "family": "Titan One",
+   "category": "Display",
+   "designer": "Rodrigo Fuenzalida",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/titanone",
+   "copyright": "Copyright (c) 2011 Rodrigo Fuenzalida (hello@rfuenzalida.com), with Reserved Font Name \"Titan One\"",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "titan-one-400.woff2",
+     "sha": "f5f3f60e9246f7e7"
+    }
+   ]
+  },
+  "ultra": {
+   "family": "Ultra",
+   "category": "Serif",
+   "designer": "Astigmatic",
+   "licence": "Apache License 2.0",
+   "licence_url": "https://github.com/google/fonts/tree/main/apache/ultra",
+   "copyright": "Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved. Available under the Apache 2.0 licence. http://www.apache.org/licenses/LICENSE-2.0.html",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "ultra-400.woff2",
+     "sha": "af0439a2dbbc1263"
+    }
+   ]
+  },
+  "unifraktur-maguntia": {
+   "family": "UnifrakturMaguntia",
+   "category": "Display",
+   "designer": "j. 'mach' wust",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/unifrakturmaguntia",
+   "copyright": "Copyright (c) 2010 j. 'mach' wust (j.mach.wust@gmail.com) with Reserved Font Name UnifrakturMaguntia. Copyright (c) 2009 Peter Wiegel (wiegel@peter-wiegel.de). This Font Software is licensed under the SIL Open Font License, Version 1.1.",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "unifraktur-maguntia-400.woff2",
+     "sha": "d98f10104192ccb3"
+    }
+   ]
+  },
+  "vollkorn": {
+   "family": "Vollkorn",
+   "category": "Serif",
+   "designer": "Friedrich Althausen",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/vollkorn",
+   "copyright": "Copyright 2018 The Vollkorn Project Authors (https://github.com/FAlthausen/Vollkorn-Typeface)",
+   "repository": "https://github.com/FAlthausen/Vollkorn-Typeface",
+   "variants": [
+    {
+     "weight": "400 600",
+     "style": "normal",
+     "file": "vollkorn-400.woff2",
+     "sha": "9378262a1abcdfc3"
+    }
+   ]
+  },
+  "vt323": {
+   "family": "VT323",
+   "category": "Monospace",
+   "designer": "Peter Hull",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/vt323",
+   "copyright": "Copyright 2011, The VT323 Project Authors (peter.hull@oikoi.com)",
+   "repository": "https://github.com/phoikoi/VT323",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "vt323-400.woff2",
+     "sha": "043a60145af2ddbc"
+    }
+   ]
+  },
+  "work-sans": {
+   "family": "Work Sans",
+   "category": "Sans Serif",
+   "designer": "Wei Huang",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/worksans",
+   "copyright": "Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)",
+   "repository": "https://github.com/weiweihuanghuang/Work-Sans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "work-sans-400.woff2",
+     "sha": "3555958f261646ca"
+    },
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "work-sans-600.woff2",
+     "sha": "ab8060b270f398e2"
+    }
+   ]
+  },
+  "yeseva-one": {
+   "family": "Yeseva One",
+   "category": "Display",
+   "designer": "Jovanny Lemonad",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/yesevaone",
+   "copyright": "Copyright 2012 The Yeseva One Project Authors (lemonad@jovanny.ru), with Reserved Font Name \"Yeseva\".",
+   "repository": "https://github.com/alexeiva/yesevaone",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "yeseva-one-400.woff2",
+     "sha": "0d4e9b9006711830"
+    }
+   ]
+  }
+ }
+}

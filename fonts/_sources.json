@@ -676,5 +676,30 @@
    "bytes": 35324,
    "src": "https://fonts.gstatic.com/s/rubik/v31/iJWKBXyIfDnIV7nBrXyw023e.woff2"
   }
+ ],
+ "stardos-stencil": [
+  {
+   "file": "stardos-stencil-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 13820,
+   "src": "https://fonts.gstatic.com/s/stardosstencil/v15/X7n44bcuGPC8hrvEOHXOgaKCc2TpU3tjuQWs-dLCHg.woff2"
+  }
+ ],
+ "work-sans": [
+  {
+   "file": "work-sans-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 20004,
+   "src": "https://fonts.gstatic.com/s/worksans/v24/QGY_z_wNahGAdqQ43RhVcIgYT2Xz5u32K0nXBi8Jpo3ZKyHaQQ.woff2"
+  },
+  {
+   "file": "work-sans-600.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 20968,
+   "src": "https://fonts.gstatic.com/s/worksans/v24/QGY_z_wNahGAdqQ43RhVcIgYT2Xz5u32K5fQBi8Jpo3ZKyHaQQ.woff2"
+  }
  ]
 }

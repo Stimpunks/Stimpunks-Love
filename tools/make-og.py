@@ -400,6 +400,38 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--checkpoint .og-foot {{ font-family: 'Quicksand', sans-serif; font-weight: 700;
   font-size: 16px; letter-spacing: 2px; color: var(--hc-dim); margin: 15px 0 0 !important; }}
 
+/* foundry — THE ONLY MID-GREY CARD, which is the whole reason it reads as its
+   own room at thumbnail size. Every other card here is a night ground or a
+   sheet of paper; this one is the colour of the metal, halfway between the two,
+   and the single pale object on it is a proof lying on the bench. The light is
+   flat and from overhead — a north light, which is what a workshop was built
+   for — so nothing on the card has a lit face and nothing casts sideways.
+   THE GALLEY IS LIFTED WHOLE OUT OF THE PAGE, the bed's rule and the shaft's.
+   Its letters are mirrored in the drawing itself, because that is what a line
+   standing in a galley looks like, and the alt text says so rather than leaving
+   a reader to think the card has a typo in it. */
+.og--foundry {{ width: 100%; flex-direction: row; padding: 36px 54px 32px; gap: 40px;
+  align-items: center;
+  background-image: linear-gradient(to bottom, rgba(110, 122, 128, 0.30) 0%,
+    rgba(110, 122, 128, 0.08) 42%, transparent 74%); }}
+.og--foundry .og-galley {{ flex: 0 0 auto; width: 300px; }}
+.og--foundry .og-galley svg {{ display: block; width: 100%; height: auto; }}
+.og--foundry .og-col {{ flex: 1 1 auto; min-width: 0; }}
+.og--foundry .og-eyebrow {{ font-family: 'Work Sans', sans-serif; font-weight: 600;
+  font-size: 17px; letter-spacing: 3.6px; text-transform: uppercase;
+  color: var(--fo-brass); margin: 0 !important; }}
+.og--foundry h1 {{ font-family: 'Stardos Stencil', sans-serif; font-weight: 700;
+  font-size: 78px; line-height: 0.98; letter-spacing: 1px; color: var(--fo-bone);
+  margin: 10px 0 0 !important; }}
+.og--foundry .og-tag {{ font-family: 'Work Sans', sans-serif; font-weight: 600;
+  font-size: 27px; line-height: 1.18; color: var(--fo-brass);
+  margin: 12px 0 0 !important; }}
+.og--foundry .og-lede {{ font-family: 'Work Sans', sans-serif; color: var(--fo-oil);
+  max-width: 740px; font-size: 20px; line-height: 1.42; margin: 13px 0 0 !important; }}
+.og--foundry .og-foot {{ font-family: 'Work Sans', sans-serif; font-weight: 600;
+  font-size: 16px; letter-spacing: 2px; color: var(--fo-oil);
+  margin: 16px 0 0 !important; }}
+
 /* garden — THE THIRD PALE CARD AND THE GREEN ONE. The hermitage's is warm lime
    plaster with a building on it and a low sun; the guild's is manila with rules
    on it and no light at all; this is sunlight that has come down through leaves,
@@ -1188,6 +1220,38 @@ def card_checkpoint(p):
     )
 
 
+def card_foundry(p):
+    # NO SPECIMEN ALPHABET ON THE CARD AND NO LIST OF FACES. A card is a PNG
+    # rendered once and linked to for months, and the shelves in that room grow;
+    # four family names baked into an image is The Feed's stale snapshot with
+    # serifs on it. What is permanently true of the room is what it says.
+    return (
+        "",
+        f'<div class="og og--foundry" data-fit="card">'
+        f'<div class="og-galley">{p["galley"]}</div>'
+        f'<div class="og-col">'
+        f'<p class="og-eyebrow">Cast, proofed, and credited</p>'
+        f'{p["h1"]}'
+        f'<p class="og-tag">Every typeface on this street, and the name of '
+        f'whoever drew it.</p>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">NOTHING HERE IS COUNTED '
+        f'\u00b7 STIMPUNKS.LOVE</p>'
+        f'</div>'
+        f'</div>',
+        f"An iron-grey card lit flatly from above, as if through a dirty workshop "
+        f"roof. On the left, a drawing of a compositor\u2019s galley holding three "
+        f"pieces of metal type standing on their feet, each with a nick cut across "
+        f"the shank and its letter mirrored the way cast type is, with one proof "
+        f"sheet lying under them. On the right, small brass capitals reading cast, "
+        f"proofed, and credited, then \u201c{p['h1text']}\u201d in a heavy stencil "
+        f"face in bone, the strokes bridged where a stencil holds itself together. "
+        f"Under it in brass: Every typeface on this street, and the name of whoever "
+        f"drew it. Then, smaller: {p['desc_plain']} Along the foot, in grey "
+        f"capitals: nothing here is counted, stimpunks.love.",
+    )
+
+
 def card_herm(p):
     return (
         "",
@@ -1685,6 +1749,7 @@ CARDS = {
     "room-zibaldone": card_zibaldone,
     "room-rabbit-hole": card_hole,
     "room-checkpoint": card_checkpoint,
+    "room-foundry": card_foundry,
     "room-plain":   card_plain,
 }
 
@@ -1773,6 +1838,7 @@ def main():
         ("canopy",   "jungle-room.html",  r'(<svg class="canopy-roof".*?</svg>)'),
         ("well",     "rabbit-hole.html",  r'(<svg class="rh-well".*?</svg>)'),
         ("bed",      "healing-checkpoint.html", r'(<svg class="hc-bed".*?</svg>)'),
+        ("galley",   "foundry.html",      r'(<svg class="fo-galley".*?</svg>)'),
         ("falls",    "the-den.html",      r'(<svg class="falls".*?</svg>)'),
         ("otter",    "otterly-adorbs.html", r'(<div class="otter" id="otter".*?</div>\s*</div>)'),
         ("ottdefs",  "otterly-adorbs.html", r'(<svg width="0" height="0".*?</defs></svg>)'),

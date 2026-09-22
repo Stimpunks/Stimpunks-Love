@@ -1352,6 +1352,68 @@ rendered as five literal characters. `data/toys.json` already carries this lesso
 attribute written with `textContent`; this is the same fault arriving through a string method.
 Write the character, which uppercases to itself.
 
+**THE FIRST MID-GREY ROOM, AND THE GREY IS THE WHOLE SEPARATION.** The Foundry (§32) is a type
+foundry: a grey iron workshop under a dirty sawtooth roof with a bench in it where any words on
+this street can be set in any face on it. Every other world here is **either a night ground with
+light applied to it or a sheet of paper with the room cropped away**; this is the middle, the
+colour of the metal, and the only pale object in it is one proof. It is also the one room whose
+CONTENT is the typefaces, which makes the four paper rooms the obvious collapse and each is held
+off by something structural: the Mopery is a cold **building** whose type is impressed into the
+page, the guild is manila lit like a photocopy from nowhere, the Doomscroll is one unbroken roll
+of warm foxed newsprint, and the Zibaldone is **bound leaves** with a gutter and a fold. If the
+floor ever goes near-black it has joined the night rooms; if the page ever becomes the paper it
+has joined the paper ones. **A FURNACE WAS THE OBVIOUS BUILD AND WOULD HAVE MADE IT THE SEVENTH
+WARM ROOM.** North light is what a workshop was actually built for — the glazing faces *away*
+from the sun so the work has no glare on it — so nothing in there has a lit face, and the only
+warm value is brass, which is a metal rather than a light.
+
+**NOTHING ABOUT A TYPEFACE IN THAT ROOM WAS TYPED, AND THE FIRST PULL FOUND A FALSE CLAIM IN
+THREE PUBLISHED PLACES.** `pull-foundry.py` reads each family's own record out of
+github.com/google/fonts and cross-checks the licence against the directory it lives in;
+`make-foundry.py` needs nothing but that file, and **they must not be merged** —
+pull-arrivals.py's rule. **Four of these families are Apache 2.0 rather than OFL** — Permanent
+Marker, Rock Salt, Special Elite and Ultra — and love.css's §1 comment, the liner notes twice and
+the Mopery's generated credit line all said every one of them was OFL. A licence nobody has
+checked since the file was added is a claim rather than a fact.
+
+**AND ADDING A FONT USED TO FALSIFY A NEIGHBOUR SILENTLY.** The Mopery's nook says its picker
+holds every typeface on this street and llms.txt says the poem can be set in any face on it;
+**eighteen were missing** by the time anybody counted, because adding a file to `fonts/` and
+adding an `<option>` two rooms away are two edits and only one is obviously required. That picker
+is **generated** now from the same record the Foundry's shelves are built from, and
+`check-faces.py` reads **both rooms' published markup** — never the generators — in both
+directions. Do not add an option by hand; that is what went wrong.
+
+**AN ITALIC IS A SECOND ALPHABET AND A SLANT IS THE ROMAN PUSHED OVER, AND THE ROOM SHOWS YOU
+RATHER THAN TELLING YOU.** The italic is offered **only where fonts/ holds an italic file**,
+because the browser answers a request for one it has not got by inventing it: nothing looks
+broken and the room has told a lie about somebody's typeface. Measured, not assumed — on Cardo,
+`oblique 12deg` renders at the roman's 676px against the real italic's 660px. **THE SLANT IS
+`font-style` AND NEVER A TRANSFORM**, and there is no transform anywhere in §32, because
+`check-gentle.py` reads skew out of the computed matrix and cannot be asked to tell a leaning
+page from a leaning letter. **A WEIGHT IS OFFERED ONLY WHERE THE BYTES DIFFER**: seven of these
+families are variable fonts declared against one file, and a bold that renders the same drawings
+as the regular is make-chappell.py's typo that never becomes a video, as a dropdown.
+
+**IT IS THE ONE ROOM WHERE SOMEBODY ELSE PICKS THE COLOUR OF THE TEXT.** Four ink and paper
+pairs, each printing its **own measured ratio on its own control**, and the tool refuses one
+under 4.5:1. **There is no colour picker and there is not going to be one.** **THE LIGHT MOVED
+RATHER THAN THE PALETTE**: the north light began as a fixed full-height wash, which composites
+the floor to `#596267` and puts the room's link brass at 3.14 and its fine print at 3.34 — and,
+being fixed, could put that ground under *any* paragraph depending on how far somebody had
+scrolled, which is The Rabbit Hole's problem again. It is absolute and 340px tall now. **A light
+that follows the viewport is not a light, it is a veil in front of the reader.**
+
+**NOTHING THERE DESCRIBES A TYPEFACE, AND THAT IS A REFUSAL.** A line of appreciation beside
+every family would be inventing type history at scale in the format most likely to be believed —
+the herbarium's refusal to guess at a binomial, arriving where there is one to write for every
+face. What it says is who drew it, what licence it travels under and **which room here sets it**,
+and that last claim is checked against love.css rather than trusted. **The proof prints and the
+room does not**, carrying a colophon with the designer's name on it, because printing somebody's
+typeface is exactly where the credit should travel — verified by rendering the PDF and finding
+one page with two fonts embedded. And **nothing is counted**: not the faces, not the proofs, and
+there is no ranking of one designer's work against another's.
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody

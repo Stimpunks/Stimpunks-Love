@@ -171,6 +171,7 @@ python3 tools/make-garden.py       # The Garden's beds and credits; roster and o
 python3 tools/make-zibaldone.py    # The Zibaldone's leaves and its attribution slip, and the credits
 python3 tools/make-rabbit-hole.py  # The Rabbit Hole's presses, engravings and trail, and the credits
 python3 tools/make-checkpoint.py   # Room 429's quotations, slips and way out, and the credits
+python3 tools/make-foundry.py      # The Foundry's bench, its shelves and its proof
 python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
 python3 tools/check-contrast.py    # every pair against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
@@ -180,6 +181,7 @@ python3 tools/check-counts.py      # refuses a sentence that says how many rooms
 python3 tools/check-ids.py         # refuses a repeated id, and one no page actually has
 python3 tools/check-classes.py     # refuses a class two rooms claim, or a page wears wrongly
 python3 tools/check-quests.py      # refuses a code a room and the board disagree about
+python3 tools/check-faces.py       # refuses a typeface either room about type has lost
 ```
 
 `make-mopery.py` refuses a book with no way to borrow it, a cut that does not name Jagger and
@@ -213,6 +215,7 @@ network — a checker that fails on a train either blocks a deploy or teaches ev
 ```bash
 python3 tools/check-jukebox.py     # presses nothing; asks YouTube whether every facade still plays
 python3 tools/pull-arrivals.py     # reads the sibling sites' RSS feeds into data/arrivals.json
+python3 tools/pull-foundry.py      # reads every typeface's own record into data/foundry-faces.json
 ```
 
 And one that is **not a tool you run by hand at all**, listed here only so nobody goes looking for
