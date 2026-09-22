@@ -343,6 +343,23 @@ PAIRS = [
     (YELLOW,   RED, False, "playhouse: secret-word label 13px"),
     ("#ffffff", RED, True,  "playhouse: the secret word itself"),
     ("#ffe0e2", RED, False, "playhouse: secret-word small print"),
+
+    # THE SOUND BOARD, which is seven grounds rather than one. Six bright keys
+    # carrying the room's own near-black, and a black mood key underneath them
+    # carrying three lit inks -- and the mood ink is on the WORD as well as on
+    # the drawn line, so these are body-text pairs and not graphics ones. The
+    # three were picked because they are the brightest this site has that clear
+    # the body threshold on near-black: yellow at 14.5, cyan at 10.7 and orange
+    # at 8.0. Red was the obvious colour for angry and it is 3.06 there, which
+    # is why angry is orange -- the mood the room wanted least to make illegible
+    # is the one whose obvious colour fails.
+    ("#101014", CYAN,   False, "playhouse: the sound board's RAIN key"),
+    ("#101014", ORANGE, False, "playhouse: the sound board's CHIME key"),
+    ("#101014", PINK,   False, "playhouse: the sound board's PURR key"),
+    ("#101014", VIOLET, False, "playhouse: the sound board's SQUEAK key"),
+    (CREAM,    "#101014", False, "playhouse: the mood keys' names and blurbs"),
+    (CYAN,     "#101014", False, "playhouse: a mood key set to sad"),
+    (ORANGE,   "#101014", False, "playhouse: a mood key set to angry"),
     ("#9d8cc8", INK2, False, "street: the empty storefront's 'to let'"),
     (INK,      GREEN, False, "dial: Gentle when pressed"),
     (INK,      CYAN,  False, "dial: Regular when pressed"),

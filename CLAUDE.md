@@ -790,6 +790,59 @@ rather than in a footnote — and it will be its own visual world, not a quieter
 that looked like the job board would make rest look like an administrative category, which is the
 precise thing that argument exists to refuse.
 
+**THE SOUND BOARD'S BOTTOM ROW IS NOT A FEELINGS CHART, AND THAT IS WHY IT HAS NO FACES ON
+IT.** Ryan's brief, 2026-09-21: a 3×3 board of stimmy noise keys with a row of mood keys along
+the bottom that toggle between happy, sad and angry. The obvious drawing for a mood key is a
+face, it is the first thing anybody sketches, and **a row of happy/sad/angry faces on a
+Disabled people's site is the emotion flashcard** — the thing autistic self-advocates spend
+their lives being drilled with. What a mood is here is the shape of a NOISE: a hum that lifts,
+a hum that sags, a hum with a buzz in it. Each mood is a word, a drawn waveform and a sound,
+three channels and not one of them a face, and the room says so in its own copy rather than
+leaving it as an absence somebody helpfully fills in later. **Do not add a face, an emoji or an
+expression to that row**, and do not ask anybody to match, name or perform an emotion. A sad
+noise is a perfectly good thing to want, which the room also says out loud.
+
+**AND NOTHING ON IT IS COUNTED**, which is the pebbling cabinet's refusal of a tally and the
+guild's refusal of a score, arriving on the object most likely to grow one: a board of nine
+keys is exactly the shape of thing somebody gives a press counter. No total, no streak, no
+memory between visits. The stim box one object over counts its own presses as a joke about
+counting and that is the room's whole point; the board does not get to borrow the joke.
+
+**A FLOURISH PER KEY, REFUSED IF TWO KEYS SHARE ONE.** Ryan asked for a different visual
+fanfare on each button at MAX GLITTER, so a shared one is not a shortcut, it is the thing not
+being done — make-og.py's refusal and make-guild.py's, arriving a third time. Rings, bubbles,
+falling hairlines, a burst thrown outward, widening bars, darts, flat arcs, a stretching coil,
+confetti. All MAX only, all clipped to their own key, all moved with a translate or a scale
+because **rotation and skew are all check-gentle.py can read** — arcade.js's call and
+quest.js's. Nothing flashes and nothing strobes, which is Club Chronic's rule holding in the
+loudest room on the street.
+
+**THREE FILES HAVE TO AGREE ABOUT EVERY KEY AND NONE OF THEM IS NEAR THE OTHERS**, so
+`make-soundboard.py` reads all three and refuses: the markup is in `playhouse.html`, the noise
+is a `voice('click', …)` in `love.js`, the key colour and the flourish are rules in `love.css`.
+A key whose voice is missing is not an error anywhere — it is make-chappell.py's typo that
+never becomes a video, arriving in a room where the press IS the content. A key whose flourish
+is missing is quietly ordinary at MAX, which nobody would notice because nobody screenshots
+MAX. **And every key says what it sounds like in words**, into the room's live region on the
+press, because a board made of sounds is the one thing on this street that can lock somebody
+out completely.
+
+**RED WAS THE OBVIOUS COLOUR FOR ANGRY AND IT MEASURES 3.06 ON THE MOOD KEYS' NEAR-BLACK.**
+Angry is orange. That is worth knowing next time: the mood this room would least like to make
+illegible is the one whose obvious colour fails, and the mood ink is on the WORD as well as on
+the line, so these are body-text pairs rather than graphics ones.
+
+**A MEDIA BLOCK WRITTEN ABOVE THE RULES IT OVERRIDES LOSES EXACTLY THE DECLARATIONS THE BASE
+RULE ALSO SETS, AND KEEPS THE REST.** A new failure shape for this file, and it renders as a
+layout nobody wrote: the board's phone block sat before `.stimpad`, so `flex-flow: row wrap`
+and the blurb's font size lost to the base rule while `flex: 1 1 100%` — which the base rule
+does not set — went through. Half a breakpoint. **It looked like a cache problem and it was
+source order.** The block is last in the section now. The board itself is three across where
+there is room and one column on a phone, because a third of 375px is about seventy pixels of
+text column and the first draft set every blurb one word to a line; **hiding the words to keep
+the grid would have been the lite-version mistake arriving through a breakpoint**, so the grid
+gave way instead. The sentence saying what shape it is is generated and carries its own caveat.
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody

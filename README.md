@@ -140,6 +140,7 @@ python3 tools/make-readings.py     # the audio room, from data/readings.json
 python3 tools/make-polaroids.py    # Enid's wall, from data/polaroids.json
 python3 tools/make-chairy.py       # what Chairy says, from data/chairy.json
 python3 tools/make-yells.py        # the yell button's recordings, from data/yells.json
+python3 tools/make-soundboard.py   # the Playhouse's sound board, from data/soundboard.json
 python3 tools/make-yurt-sound.py   # the yurt's sounds: their tiles, and their credits
 python3 tools/make-latibulum.py    # the burrow's wireless and television, and their credits
 python3 tools/make-jungle.py       # the Jungle Room's viewing galleries, and their credits
@@ -205,7 +206,7 @@ somewhere other than Enid's wall, stops if any page publishes one the record doe
 so that deleting a withdrawn entry catches every page instead of one; it also stops on a CSS or
 inline filter reaching a photograph, because that page promises we will not filter anybody, `make-chairy.py` stops if a saying has
 no source page or contains the pipe that separates them, `make-yells.py` stops if a yell has
-no name on it, `make-yurt-sound.py` stops if a recording has no name or no consent date,
+no name on it, `make-soundboard.py` stops on a key whose noise is not registered in `love.js` or whose flourish has no rule and no keyframes in `love.css` — three files have to agree about every key and none of them is near the others, so a key with no voice is a button somebody presses and presses that never makes a sound — and it stops on two keys sharing a flourish, on a key that does not say what it sounds like in words, and on a mood key anywhere but the last row, `make-yurt-sound.py` stops if a recording has no name or no consent date,
 stops if two sounds claim the same tile, and measures each runtime off the file rather than
 trusting the data, because a label promising one before the press is the same promise the
 jukebox makes, `make-chappell.py` stops on an id that is not a YouTube id — which love-embed.js

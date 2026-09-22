@@ -1257,6 +1257,156 @@ html[data-intensity="gentle"] .secret { transform: none; }
 .rules h2 { font-family: 'Bungee', var(--sans); font-size: 14px; letter-spacing: 1px; color: var(--red); margin: 0 0 12px; }
 .rules p { margin: 0 0 12px; font-size: 14.5px; line-height: 1.55; }
 
+/* THE SOUND BOARD. A black slab with nine lit keys bolted to it, which is a
+   different object from the toys above it on purpose: the toys are four big
+   soft-cornered tiles you read, and this is an instrument you play. The slab is
+   the same near-black and white edge as the says-box, because it is the same
+   kind of thing — a piece of equipment in a room made of cardboard and paint.
+
+   NINE KEYS, SIX COLOURS AND ONE NIGHT. The top rows are bright keys with the
+   room's own near-black ink on them; the bottom row is the mood row and is
+   black with a white edge, so which row you are in is carried by the key itself
+   rather than only by where it sits. Every one of those seven grounds is in
+   check-contrast.py.
+
+   AND THERE ARE NO FACES ON IT. The moods are a word, a drawn line and a sound.
+   A row of happy/sad/angry faces on a Disabled people's site is the emotion
+   flashcard, and it is the kind of thing that arrives by accident from somebody
+   drawing a friendly icon — see the note in data/soundboard.json. */
+
+.stimboard {
+  margin: 26px 0 0; padding: 20px 20px 22px;
+  background: #101014; border: 5px solid #fff; border-radius: 22px;
+}
+.stimboard h2 {
+  margin: 0; font-family: 'Titan One', var(--sans); font-weight: 400;
+  font-size: clamp(26px, 4.6vw, 40px); line-height: 1; color: var(--yellow);
+}
+.stimboard__note { margin: 11px 0 0; max-width: 64ch; font-size: 14.5px; line-height: 1.55; font-weight: 500; color: #fff; }
+
+/* THREE ACROSS, AND ON A PHONE ONE. The first draft held three columns at
+   every width on the argument that the bottom row IS the mood row — and a
+   third of 375px is about seventy pixels of text column, which set every
+   blurb one word to a line and made each key a tower. Hiding the words to
+   keep the grid would have been the lite-version mistake arriving through a
+   breakpoint, so the grid gives way instead: below 620px each key is a wide
+   short row, name and mood on one line and the wave under it. The moods are
+   still the last three keys, which is what the room's copy says. */
+.stimboard__grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px; margin: 16px 0 0; padding: 0; list-style: none;
+}
+
+.stimpad {
+  --pad-lit: #101014;
+  position: relative; overflow: hidden;
+  width: 100%; height: 100%; cursor: pointer; text-align: left;
+  font-family: var(--sans); color: #101014;
+  border: 4px solid #101014; border-radius: 16px;
+  padding: 12px 11px 13px;
+  display: flex; flex-direction: column; gap: 7px; min-height: 148px;
+  transition: transform .12s ease;
+}
+.stimpad:hover { transform: translateY(-2px); }
+.stimpad:active { transform: translateY(2px); }
+.stimpad__name { font-family: 'Titan One', var(--sans); font-weight: 400; font-size: clamp(14px, 2.3vw, 19px); line-height: 1.05; }
+.stimpad__mood { font-family: 'Bungee', var(--sans); font-size: clamp(11px, 1.5vw, 13px); letter-spacing: 1px; line-height: 1; }
+.stimpad__wave { display: block; width: 100%; height: auto; }
+.stimpad__what { margin-top: auto; font-size: clamp(11px, 1.5vw, 12.5px); line-height: 1.4; font-weight: 500; }
+
+.stimpad--yellow { background: var(--yellow); }
+.stimpad--green  { background: var(--green); }
+.stimpad--cyan   { background: var(--cyan); }
+.stimpad--orange { background: var(--orange); }
+.stimpad--pink   { background: var(--pink); }
+.stimpad--violet { background: var(--violet); }
+.stimpad--night  { background: #101014; border-color: #fff; color: var(--cream); --pad-lit: var(--cream); }
+
+/* The mood, in its own colour on the black key, on the word AND on the line —
+   two channels for one fact, and the word is the one that survives a screen
+   reader. These are the three brightest inks this site has that clear the body
+   threshold on near-black; see check-contrast.py. */
+.stimpad--mood[data-mood="happy"] .stimpad__mood,
+.stimpad--mood[data-mood="happy"] .stimpad__wave { color: var(--yellow); }
+.stimpad--mood[data-mood="sad"] .stimpad__mood,
+.stimpad--mood[data-mood="sad"] .stimpad__wave { color: var(--cyan); }
+.stimpad--mood[data-mood="angry"] .stimpad__mood,
+.stimpad--mood[data-mood="angry"] .stimpad__wave { color: var(--orange); }
+
+/* `data-lit` is the mood that JUST PLAYED and `data-mood` is the one the key is
+   now offering, which is why they are two attributes rather than one. The
+   flourish belongs to the noise that happened; the label belongs to the one
+   that has not. One attribute doing both jobs would repaint a running burst the
+   moment the label moved on. */
+.stimpad--night[data-lit="happy"] { --pad-lit: var(--yellow); }
+.stimpad--night[data-lit="sad"]   { --pad-lit: var(--cyan); }
+.stimpad--night[data-lit="angry"] { --pad-lit: var(--orange); }
+
+/* ── The flourishes, one per key and no two alike ─────────────────────────────
+   MAX GLITTER only, and love.js builds no elements at all below it — the CSS
+   gate here is the second lock rather than the only one. Everything moves with
+   a translate or a scale and NOTHING ROTATES, which is the call arcade.js and
+   quest.js both made: rotation and skew are all check-gentle.py can read, and a
+   checker must not be asked to take a room's word for something else. NOTHING
+   FLASHES OR STROBES either — Club Chronic's rule, holding in the loudest room
+   on the street. Each one rises, or falls, or opens out, once, and goes.
+
+   They are clipped to their own key, so the flourish is attached to the button
+   that made the noise rather than to the room. Each takes the key's ink, and
+   the mood keys take the colour of the mood they just played, so a burst can
+   never introduce a pair nobody measured. */
+.burst { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.burst span { position: absolute; opacity: 0; background: var(--pad-lit); }
+
+.burst--ring span { left: 50%; top: 50%; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; background: none; border: 3px solid var(--pad-lit); }
+html[data-intensity="max"] .burst--ring span { animation: pb-ring 1.1s ease-out forwards; }
+@keyframes pb-ring { 0% { opacity: 0; transform: scale(.25); } 18% { opacity: 1; } 100% { opacity: 0; transform: scale(5); } }
+
+.burst--bubble span { bottom: -16px; width: 14px; height: 14px; border-radius: 50%; }
+html[data-intensity="max"] .burst--bubble span { animation: pb-bubble 1.3s ease-out forwards; }
+@keyframes pb-bubble { 0% { opacity: 0; transform: translateY(0) scale(.5); } 20% { opacity: .95; } 100% { opacity: 0; transform: translateY(-170px) scale(1.3); } }
+
+.burst--drops span { top: -30px; width: 3px; height: 26px; border-radius: 2px; }
+html[data-intensity="max"] .burst--drops span { animation: pb-drops 1.2s linear forwards; }
+@keyframes pb-drops { 0% { opacity: 0; transform: translateY(0); } 12% { opacity: 1; } 100% { opacity: 0; transform: translateY(220px); } }
+
+.burst--star span { left: 50%; top: 50%; width: 9px; height: 9px; margin: -4px 0 0 -4px; }
+html[data-intensity="max"] .burst--star span { animation: pb-star 1s ease-out forwards; }
+@keyframes pb-star { 0% { opacity: 0; transform: translate(0, 0) scale(.4); } 14% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1); } }
+
+.burst--ripple span { left: 0; right: 0; height: 6px; border-radius: 3px; }
+html[data-intensity="max"] .burst--ripple span { animation: pb-ripple 1.2s ease-out forwards; }
+@keyframes pb-ripple { 0% { opacity: 0; transform: scaleX(.08); } 25% { opacity: .9; } 100% { opacity: 0; transform: scaleX(1); } }
+
+.burst--dart span { left: -26px; width: 22px; height: 4px; border-radius: 2px; }
+html[data-intensity="max"] .burst--dart span { animation: pb-dart .9s ease-in forwards; }
+@keyframes pb-dart { 0% { opacity: 0; transform: translateX(0); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateX(240px); } }
+
+.burst--arc span { left: 50%; bottom: -12px; width: 44px; height: 24px; margin-left: -22px; border-radius: 50%; background: none; border: 3px solid var(--pad-lit); }
+html[data-intensity="max"] .burst--arc span { animation: pb-arc 1.4s ease-out forwards; }
+@keyframes pb-arc { 0% { opacity: 0; transform: scale(.3); } 22% { opacity: 1; } 100% { opacity: 0; transform: scale(4.2); } }
+
+.burst--coil span { left: 12%; right: 12%; top: 0; height: 5px; border-radius: 3px; }
+html[data-intensity="max"] .burst--coil span { animation: pb-coil 1.1s ease-in-out forwards; }
+@keyframes pb-coil { 0% { opacity: 0; transform: translateY(0) scaleX(.4); } 15% { opacity: 1; } 55% { transform: translateY(var(--dy)) scaleX(1); } 100% { opacity: 0; transform: translateY(calc(var(--dy) * .5)) scaleX(.55); } }
+
+.burst--confetti span { top: -16px; width: 11px; height: 11px; }
+html[data-intensity="max"] .burst--confetti span { animation: pb-confetti 1.5s ease-in forwards; }
+@keyframes pb-confetti { 0% { opacity: 0; transform: translate(0, 0); } 12% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--dx), 200px); } }
+
+/* THE PHONE. Last in the section because every rule here overrides one above
+   it, and written higher up it lost exactly the declarations the base rule
+   also sets while the two it alone sets went through — a half-applied media
+   block, which renders as a layout nobody wrote. */
+@media (max-width: 620px) {
+  .stimboard__grid { grid-template-columns: 1fr; gap: 10px; }
+  .stimpad { min-height: 0; flex-flow: row wrap; align-items: center; gap: 5px 12px; padding: 12px 14px 13px; }
+  .stimpad__name { font-size: 19px; }
+  .stimpad__mood { margin-left: auto; font-size: 13px; }
+  .stimpad__wave { flex: 1 1 100%; max-width: 230px; }
+  .stimpad__what { flex: 1 1 100%; margin-top: 0; font-size: 13px; }
+}
+
 .floor { height: 84px; border-top: 5px solid #101014; background-image: repeating-conic-gradient(#101014 0deg 90deg, #fff 90deg 180deg); background-size: 44px 44px; display: flex; align-items: center; justify-content: center; }
 .floor span { background: #101014; padding: 9px 22px; border-radius: 30px; font-family: 'Bungee', var(--sans); font-size: 14px; color: var(--yellow); letter-spacing: 1px; }
 

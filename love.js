@@ -122,6 +122,338 @@
     } catch (e) { /* no audio available: the button still works, just quietly */ }
   }
 
+  /* ── The sound board ─────────────────────────────────────────────────────
+     Nine keys, every noise built here out of oscillators, filters and a buffer
+     of white noise. NOTHING IS FETCHED and nothing exists until a press: the
+     AudioContext cannot start without a user gesture, which is the consent
+     model enforced by the platform rather than promised by us, and it is the
+     same promise the yell button and the jukebox make in their own ways.
+
+     ONE `voice` PER PRESS, REGISTERED BY NAME, because make-soundboard.py reads
+     these names out of this file and refuses a pad whose voice is missing. A
+     key that makes no sound is not an error anywhere -- it is a button somebody
+     presses and presses and nothing happens, which is make-chappell.py's typo
+     that never becomes a video arriving in a room where the press IS the
+     content. The mood keys register one voice per mood, so `hum:sad` missing is
+     a refusal at build time rather than a silence at press time. */
+  var VOICES = {}, BURSTS = {};
+  function voice(key, fn) { VOICES[key] = fn; }
+  function burst(kind, fn) { BURSTS[kind] = fn; }
+
+  function ac() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+
+  /* A second of white noise, made on the spot. Breath, rain, the crack across
+     the front of an angry drum: everything here that is not a pitch. */
+  function hiss(c, dur) {
+    var frames = Math.floor(c.sampleRate * dur);
+    var b = c.createBuffer(1, frames, c.sampleRate), d = b.getChannelData(0);
+    for (var i = 0; i < frames; i++) d[i] = Math.random() * 2 - 1;
+    var s = c.createBufferSource();
+    s.buffer = b;
+    return s;
+  }
+
+  /* Attack and fall, exponential both ways because ears are. Returns the gain
+     to connect into; it is already wired to the speakers. */
+  function env(c, t, peak, attack, dur) {
+    var g = c.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(peak, t + attack);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    g.connect(c.destination);
+    return g;
+  }
+
+  /* Wobble on the pitch. `fade` is what makes a boing settle rather than
+     shimmer forever -- the difference between a spring and a theremin. */
+  function vib(c, o, t, dur, rate, depth, fade) {
+    var l = c.createOscillator(), a = c.createGain();
+    l.frequency.value = rate;
+    a.gain.setValueAtTime(depth, t);
+    if (fade) a.gain.linearRampToValueAtTime(0.0001, t + dur);
+    l.connect(a); a.connect(o.frequency);
+    l.start(t); l.stop(t + dur + 0.05);
+  }
+
+  /* One tone, the shape most of these are made of. */
+  function tone(c, t, type, from, to, bend, peak, attack, dur) {
+    var o = c.createOscillator(), g = env(c, t, peak, attack, dur);
+    o.type = type;
+    o.frequency.setValueAtTime(from, t);
+    if (to) o.frequency.exponentialRampToValueAtTime(to, t + bend);
+    o.connect(g);
+    o.start(t); o.stop(t + dur + 0.05);
+    return o;
+  }
+
+  voice('click', function (c, t) {
+    /* Two parts, because a pen is two parts: the plastic and the spring. */
+    var n = hiss(c, 0.05), f = c.createBiquadFilter();
+    f.type = 'highpass'; f.frequency.value = 2200;
+    n.connect(f); f.connect(env(c, t, 0.5, 0.0015, 0.045));
+    n.start(t); n.stop(t + 0.06);
+    tone(c, t, 'square', 2600, 0, 0, 0.16, 0.002, 0.03);
+  });
+
+  voice('pop', function (c, t) {
+    /* A bubble goes UP. Every first draft of this sound goes down, which is a
+       drip, and the ear knows the difference immediately. */
+    tone(c, t, 'sine', 320, 1150, 0.07, 0.4, 0.004, 0.12);
+  });
+
+  voice('rain', function (c, t) {
+    var dur = 1.8, n = hiss(c, dur), f = c.createBiquadFilter(), g = c.createGain();
+    f.type = 'bandpass'; f.Q.value = 0.7;
+    f.frequency.setValueAtTime(2600, t);
+    f.frequency.exponentialRampToValueAtTime(1500, t + dur);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.22, t + 0.5);
+    g.gain.exponentialRampToValueAtTime(0.16, t + 1.0);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    g.connect(c.destination);
+    n.connect(f); f.connect(g);
+    n.start(t); n.stop(t + dur);
+  });
+
+  voice('chime', function (c, t) {
+    /* 880 and 2.76 x 880. That ratio is why a bell is a bell and a sine is a
+       sine; one partial does the whole job. */
+    tone(c, t, 'sine', 880, 0, 0, 0.26, 0.005, 1.6);
+    tone(c, t, 'sine', 2428, 0, 0, 0.09, 0.005, 1.1);
+  });
+
+  voice('purr', function (c, t) {
+    var dur = 1.2, n = hiss(c, dur), f = c.createBiquadFilter(), g = c.createGain();
+    f.type = 'lowpass'; f.frequency.value = 320; f.Q.value = 3;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.42, t + 0.12);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    /* The trill is the purr. Twenty-two on the gain, not on the pitch. */
+    var l = c.createOscillator(), a = c.createGain();
+    l.type = 'sine'; l.frequency.value = 22; a.gain.value = 0.3;
+    l.connect(a); a.connect(g.gain);
+    g.connect(c.destination);
+    n.connect(f); f.connect(g);
+    n.start(t); l.start(t); n.stop(t + dur); l.stop(t + dur);
+  });
+
+  voice('squeak', function (c, t) {
+    var f = c.createBiquadFilter(), g = env(c, t, 0.2, 0.01, 0.26);
+    f.type = 'bandpass'; f.Q.value = 5; f.frequency.value = 1600;
+    var o = c.createOscillator();
+    o.type = 'sawtooth';
+    o.frequency.setValueAtTime(900, t);
+    o.frequency.exponentialRampToValueAtTime(1800, t + 0.1);
+    o.frequency.exponentialRampToValueAtTime(700, t + 0.26);
+    o.connect(f); f.connect(g);
+    o.start(t); o.stop(t + 0.3);
+  });
+
+  /* The three mood keys. What changes between moods is the SHAPE of the noise --
+     where the pitch goes, how fast, and how rough it is on the way. Nothing here
+     is a face and nothing here is asking anybody to identify one; see the note
+     at the head of data/soundboard.json. */
+  voice('hum:happy', function (c, t) {
+    var o = tone(c, t, 'triangle', 196, 246.94, 0.3, 0.3, 0.06, 1.0);  /* up a third */
+    vib(c, o, t, 1.0, 5, 3);
+  });
+  voice('hum:sad', function (c, t) {
+    var o = tone(c, t, 'triangle', 174.61, 146.83, 1.6, 0.26, 0.14, 1.6);  /* F down to D */
+    vib(c, o, t, 1.6, 3.2, 1.6);
+  });
+  voice('hum:angry', function (c, t) {
+    /* Two saws fourteen cents apart. The beating between them is the anger;
+       neither one alone has any in it. */
+    var g = env(c, t, 0.24, 0.02, 0.9), f = c.createBiquadFilter();
+    f.type = 'lowpass'; f.frequency.value = 900;
+    f.connect(g);
+    [0, 14].forEach(function (cents) {
+      var o = c.createOscillator();
+      o.type = 'sawtooth'; o.detune.value = cents;
+      o.frequency.setValueAtTime(155.56, t);
+      o.connect(f); o.start(t); o.stop(t + 0.95);
+    });
+  });
+
+  voice('spring:happy', function (c, t) {
+    var o = tone(c, t, 'triangle', 180, 760, 0.22, 0.3, 0.008, 0.5);
+    vib(c, o, t, 0.5, 17, 60, true);
+  });
+  voice('spring:sad', function (c, t) {
+    var o = tone(c, t, 'triangle', 420, 90, 1.1, 0.26, 0.02, 1.1);
+    vib(c, o, t, 1.1, 6, 22, true);
+  });
+  voice('spring:angry', function (c, t) {
+    var o = tone(c, t, 'sawtooth', 520, 120, 0.55, 0.32, 0.004, 0.55);
+    vib(c, o, t, 0.55, 42, 90);   /* fast and never settling: the rattle */
+  });
+
+  voice('drum:happy', function (c, t) {
+    [[0, 180], [0.13, 240], [0.26, 320]].forEach(function (h) {
+      tone(c, t + h[0], 'sine', h[1], h[1] * 0.55, 0.15, 0.32, 0.004, 0.16);
+    });
+  });
+  voice('drum:sad', function (c, t) {
+    tone(c, t, 'sine', 110, 58, 0.9, 0.32, 0.01, 0.9);
+  });
+  voice('drum:angry', function (c, t) {
+    tone(c, t, 'sine', 190, 52, 0.3, 0.48, 0.003, 0.34);
+    var n = hiss(c, 0.12), f = c.createBiquadFilter();
+    f.type = 'highpass'; f.frequency.value = 1400;
+    n.connect(f); f.connect(env(c, t, 0.32, 0.002, 0.11));
+    n.start(t); n.stop(t + 0.13);
+  });
+
+  /* ── The flourishes ──────────────────────────────────────────────────────
+     MAX GLITTER only, one per key, no two alike -- which is the room's whole
+     rule arriving on one object, so make-soundboard.py refuses two keys
+     pointing at one of these. Below MAX nothing is built at all: the CSS gate
+     is the second lock rather than the only one.
+
+     Everything moves with a translate or a scale and NOTHING ROTATES,
+     deliberately, the call arcade.js and quest.js both made: rotation and skew
+     are all check-gentle.py can read in a computed matrix, and a checker must
+     not be asked to take this file's word for something else. Nothing flashes
+     and nothing strobes. */
+  function bits(sky, n, make) {
+    for (var i = 0; i < n; i++) {
+      var s = document.createElement('span');
+      make(s, i, n);
+      sky.appendChild(s);
+    }
+  }
+  function lag(s, secs) { s.style.animationDelay = secs.toFixed(2) + 's'; }
+
+  burst('ring', function (sky) {          /* click: three rings out of the middle */
+    bits(sky, 3, function (s, i) { lag(s, i * 0.13); });
+  });
+  burst('bubble', function (sky) {        /* pop: bubbles up off the bottom edge */
+    bits(sky, 7, function (s) {
+      s.style.left = (6 + Math.random() * 84) + '%';
+      lag(s, Math.random() * 0.35);
+    });
+  });
+  burst('drops', function (sky) {         /* rain: hairlines down the whole key */
+    bits(sky, 12, function (s, i) {
+      s.style.left = (4 + i * 8 + Math.random() * 4) + '%';
+      lag(s, Math.random() * 0.5);
+    });
+  });
+  burst('star', function (sky) {          /* chime: thrown outward, eight ways */
+    bits(sky, 8, function (s, i, n) {
+      var a = (i / n) * Math.PI * 2, r = 46 + Math.random() * 26;
+      s.style.setProperty('--dx', Math.round(Math.cos(a) * r) + 'px');
+      s.style.setProperty('--dy', Math.round(Math.sin(a) * r) + 'px');
+    });
+  });
+  burst('ripple', function (sky) {        /* purr: bars widening where they lie */
+    bits(sky, 4, function (s, i, n) {
+      s.style.top = (14 + i * (72 / n)) + '%';
+      lag(s, i * 0.09);
+    });
+  });
+  burst('dart', function (sky) {          /* squeak: dashes shot across */
+    bits(sky, 5, function (s, i) {
+      s.style.top = (12 + Math.random() * 74) + '%';
+      lag(s, i * 0.07);
+    });
+  });
+  burst('arc', function (sky) {           /* hum: flat rings off the bottom edge */
+    bits(sky, 4, function (s, i) { lag(s, i * 0.16); });
+  });
+  burst('coil', function (sky) {          /* spring: bars stretched down and back */
+    bits(sky, 6, function (s, i) {
+      s.style.top = (10 + i * 4) + '%';
+      s.style.setProperty('--dy', (18 + i * 14) + 'px');
+      lag(s, i * 0.05);
+    });
+  });
+  burst('confetti', function (sky) {      /* drum: squares dropped off the top */
+    bits(sky, 10, function (s) {
+      s.style.left = (4 + Math.random() * 88) + '%';
+      s.style.setProperty('--dx', (Math.round(Math.random() * 40) - 20) + 'px');
+      lag(s, Math.random() * 0.45);
+    });
+  });
+
+  function level() {
+    return document.documentElement.getAttribute('data-intensity') || 'regular';
+  }
+
+  /* The board itself. Everything on it is generated by tools/make-soundboard.py
+     out of data/soundboard.json, including the wave on every key and the mood
+     each key is offering; this presses play, says what happened out loud, and
+     moves the mood on.
+
+     WHAT IT SAYS IS THE POINT. A board made of sounds is the one thing on this
+     street that can lock somebody out completely, so every press writes what it
+     sounded like into the room's live region -- the Jungle Room's rule that
+     colour is never the only channel, in a room where the channel is audio. */
+  function soundboard() {
+    var grid = document.querySelector('.stimboard__grid');
+    if (!grid) return;
+    var say = document.getElementById('playhouse-says');
+    var pads = grid.querySelectorAll('.stimpad');
+
+    for (var i = 0; i < pads.length; i++) (function (pad) {
+      var moods = [];
+      try { moods = JSON.parse(pad.dataset.moods || '[]'); } catch (e) { moods = []; }
+      var nameEl = pad.querySelector('.stimpad__name');
+      var moodEl = pad.querySelector('.stimpad__mood');
+      var path = pad.querySelector('.stimpad__wave path');
+      var sky = pad.querySelector('.burst');
+      var name = nameEl ? nameEl.textContent : 'A key';
+      var at = 0, timer = null;
+
+      function play(key) {
+        var fn = VOICES[key];
+        if (!fn) return;   /* make-soundboard.py refuses this at build time */
+        try { var c = ac(); fn(c, c.currentTime); }
+        catch (e) { /* no audio available: the key still works, just quietly */ }
+      }
+
+      function flourish() {
+        if (!sky || level() !== 'max') return;
+        var make = BURSTS[pad.dataset.burst];
+        if (!make) return;
+        sky.textContent = '';
+        make(sky);
+        if (timer) window.clearTimeout(timer);
+        timer = window.setTimeout(function () { sky.textContent = ''; }, 2200);
+      }
+
+      pad.addEventListener('click', function () {
+        if (!moods.length) {
+          play(pad.dataset.pad);
+          if (say) say.textContent = name + ': ' + pad.dataset.heard + '.';
+          flourish();
+          return;
+        }
+        /* The key shows the mood it is ABOUT to play, so pressing it plays that
+           one and then offers the next. `data-lit` stays on the mood that just
+           played, because the flourish belongs to the noise that happened and
+           the label belongs to the one that has not. */
+        var now = moods[at];
+        at = (at + 1) % moods.length;
+        var next = moods[at];
+        play(pad.dataset.pad + ':' + now.mood);
+        pad.dataset.lit = now.mood;
+        flourish();
+        pad.dataset.mood = next.mood;
+        if (moodEl) moodEl.textContent = next.mood;
+        if (path) path.setAttribute('d', next.wave);
+        if (say) {
+          say.textContent = name + ', ' + now.mood + ': ' + now.heard +
+            '. Press again for ' + next.mood + '.';
+        }
+      });
+    }(pads[i]));
+  }
+
   /* ── The Playhouse ──────────────────────────────────────────────────────── */
   function playhouse() {
     var say = document.getElementById('playhouse-says');
@@ -415,7 +747,7 @@
     }
   }
 
-  function go() { dial(); playhouse(); superposition(); sequences(); yurtEggs(); }
+  function go() { dial(); playhouse(); soundboard(); superposition(); sequences(); yurtEggs(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
   else go();
 })();

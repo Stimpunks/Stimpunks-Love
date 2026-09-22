@@ -1,0 +1,94 @@
+{
+  "_source": "Every pad on this board was written for this board. The noises are SYNTHESISED IN THE BROWSER -- oscillators, filters and a buffer of white noise, built inside the click handler -- so the Playhouse's house rule stays true: nothing is fetched, and the room is silent until somebody presses something. The 'heard' line on each pad is not decoration and is not a caption for the drawing: it is the noise said in words, into the room's live region, so that a board made of sounds is not a board you have to be able to hear.",
+
+  "_moods": "THE BOTTOM ROW IS NOT A FEELINGS CHART. Three pads with three moods each, and what changes is the shape of a NOISE -- a hum that glides up, a hum that sags, a hum with a buzz in it. Nobody is being asked to identify an emotion, match a face, or perform one, which is why there are no faces anywhere on this board: a happy/sad/angry face row on a Disabled people's site is the emotion flashcard, and we are not building one of those by accident. A sad noise is a perfectly good thing to want, and the room says so out loud rather than treating the bottom row as the one you are supposed to press your way out of.",
+
+  "_cycle": "A mood pad SHOWS THE MOOD IT WILL PLAY and moves on to the next one after it has played it, so the face of the button is always a description of what pressing it does. The flourish belongs to the noise that just happened; the label belongs to the one that has not.",
+
+  "pads": [
+    {
+      "id": "click",
+      "name": "CLICK",
+      "key": "yellow",
+      "burst": "ring",
+      "what": "A pen, clicked once. Then again. Then eleven more times, because that is what the pen is for.",
+      "heard": "one dry tick, over almost before it started"
+    },
+    {
+      "id": "pop",
+      "name": "POP",
+      "key": "green",
+      "burst": "bubble",
+      "what": "One bubble off a sheet of bubble wrap. There is no sheet and it never runs out.",
+      "heard": "a small round bloop, bending upwards as it goes"
+    },
+    {
+      "id": "rain",
+      "name": "RAIN",
+      "key": "cyan",
+      "burst": "drops",
+      "what": "A rainstick tipped over and set back down. Nothing in it is in a hurry.",
+      "heard": "a long soft hiss that swells in the middle and thins out"
+    },
+    {
+      "id": "chime",
+      "name": "CHIME",
+      "key": "orange",
+      "burst": "star",
+      "what": "One tine, struck once and left alone. The point is the part after the hit.",
+      "heard": "a bell struck once and left to ring itself out"
+    },
+    {
+      "id": "purr",
+      "name": "PURR",
+      "key": "pink",
+      "burst": "ripple",
+      "what": "A low rumble with a trill in it. Cat-adjacent, legally distinct.",
+      "heard": "a low rumble, trilling about twenty times a second"
+    },
+    {
+      "id": "squeak",
+      "name": "SQUEAK",
+      "key": "violet",
+      "burst": "dart",
+      "what": "A thumb dragged across a balloon. Some people love this one and some people are already scrolling.",
+      "heard": "a short high squeal that slides up and drops"
+    },
+    {
+      "id": "hum",
+      "name": "THE HUM",
+      "key": "night",
+      "burst": "arc",
+      "what": "A voice with the mouth shut. Three moods, taken in turns.",
+      "moods": [
+        { "mood": "happy", "heard": "an even drone that lifts a third and stays up there" },
+        { "mood": "sad",   "heard": "the same drone, slower, sagging a tone and a half as it goes" },
+        { "mood": "angry", "heard": "two drones a hair apart, buzzing against each other, flat the whole way" }
+      ]
+    },
+    {
+      "id": "spring",
+      "name": "THE SPRING",
+      "key": "night",
+      "burst": "coil",
+      "what": "A doorstop, flicked. Three moods, taken in turns.",
+      "moods": [
+        { "mood": "happy", "heard": "a boing that climbs and wobbles itself out at the top" },
+        { "mood": "sad",   "heard": "a long slack boing, falling the whole way down" },
+        { "mood": "angry", "heard": "a hard twang, rattling against something on the way down" }
+      ]
+    },
+    {
+      "id": "drum",
+      "name": "THE DRUM",
+      "key": "night",
+      "burst": "confetti",
+      "what": "One hand on one drum. Three moods, taken in turns.",
+      "moods": [
+        { "mood": "happy", "heard": "three light hits, each one higher than the last" },
+        { "mood": "sad",   "heard": "one soft low hit with a long tail on it" },
+        { "mood": "angry", "heard": "one hard hit with a crack of noise across the front of it" }
+      ]
+    }
+  ]
+}
