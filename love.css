@@ -4818,14 +4818,19 @@ html[data-intensity="max"]     .meadow .swg-flit { animation: swg-drift 11s ease
    bottom and read as a ladder you climb, which is the scoreboard this room
    refuses arriving as a sort order. */
 .guild-board { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--gu-ink); }
+/* THE ROW IS PADDED ON ALL FOUR SIDES, and the alternating band is why. With
+   `padding: 20px 0` the class sat flush against the left edge of the tint and
+   the DONE stamp against the right, which reads as a row that has overflowed
+   its own cell rather than as a form. Nothing else in this room touches an
+   edge; a ruled cell should not either. */
 .job {
   display: grid; grid-template-columns: 82px 1fr auto; gap: 0 20px;
-  align-items: start; padding: 20px 0; border-bottom: 1px solid var(--gu-rule);
+  align-items: start; padding: 20px 18px; border-bottom: 1px solid var(--gu-rule);
 }
 .job:nth-child(even) { background: var(--gu-paper-2); }
 .job__class {
   margin: 0; font-family: 'Rye', var(--sans); font-size: 27px; line-height: 1;
-  color: var(--gu-file); padding-left: 4px;
+  color: var(--gu-file);
 }
 .job__where {
   display: block; margin-top: 6px; font-family: 'Public Sans', var(--sans);
@@ -4989,6 +4994,28 @@ html[data-intensity="max"] .guild-spark { animation: gu-rise 2.1s ease-out forwa
   .swg-quote { padding-left: 16px; }
   .swg-plot { padding: 18px 16px; }
   .swg-clip { max-width: 100%; }
+}
+
+/* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
+   shipped with no rule here at all — which on a street whose §27 says every
+   room reads at 360px is a room that was never looked at on a phone. The class
+   column is 82px of an available 339, so the posting was being squeezed into
+   173px: three-line titles and a body reading as a ribbon, with the stamp
+   column collapsed to nothing. On a narrow screen the class goes ABOVE the job
+   rather than beside it, and the numeral and its "on the street" sit on one
+   line, which is what a docket line is anyway. The row keeps its padding,
+   because the alternating band is what made the missing padding visible in the
+   first place. */
+@media (max-width: 620px) {
+  .guild { padding: 0 16px 56px; }
+  .job { grid-template-columns: 1fr; gap: 12px 0; padding: 18px 14px; }
+  .job__class { display: flex; align-items: baseline; gap: 10px; font-size: 22px; }
+  .job__where { display: inline; margin-top: 0; }
+  .job__stamp { justify-self: start; align-self: start; }
+  .job__hint[open] { padding-left: 10px; }
+  .hand, .guild-rules { padding: 16px 14px; }
+  .hand__in { flex: 1 1 100%; }
+  .guild-desk__half .dial { max-width: none; }
 }
 
 /* §28 ── Print ───────────────────────────────────────────────────────────────
