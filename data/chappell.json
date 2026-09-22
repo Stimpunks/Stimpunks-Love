@@ -6,19 +6,104 @@
   "_source": "2026-09-20: the ids below were extracted from the playlist page's own ytInitialData and then cross-checked against the playlist panel on the watch page, which is a second rendering of the same list rather than a second guess at it. Titles, channels and runtimes were resolved against YouTube's oEmbed endpoint and the playlist panel, NOT typed from memory — the mapping of artist to video id is the exact fabrication this site spends a page arguing against. Every id was then put through the same playabilityStatus check check-jukebox.py uses, and all thirteen answered OK.",
   "_count": "THE PLAYLIST HEADER SAYS 15 AND THIRTEEN RENDER. YouTube counts private and deleted entries in that total and shows nothing at all for them to anybody but the owner, so the two missing ones cannot be read from outside. Thirteen is what plays, and thirteen is what is published. Ryan owns the playlist and can see the other two; if they are meant to be here, add them and re-run the tool.",
   "_rule": "The vibe, not the lyrics. Same rule as the room next door: we name the artist, link the song, and let them keep their own words. The notes below are ours about why a track is in a room called Unabashed Pleasure and Righteous Inclusion — none of them paraphrase a lyric. Nothing here is hosted by us.",
+  "playlist": {
+    "title": "Unabashed Pleasure and Righteous Inclusion With Chappell Roan",
+    "frame": "https://www.youtube-nocookie.com/embed/videoseries?list=PLRtKsTScL-vTQHqW3QcBQ2mx6yyRNXEhy",
+    "note": "The whole thing, in the order we put it in. The niches are for choosing one; this is for putting it all on and leaving it.",
+    "_runtime": "NO RUNTIME ON THIS ONE, AND make-chappell.py REFUSES TO LET IT HAVE ONE. Every niche in this room says how long before you press it, because a twenty-three minute concert sits beside three-minute videos and one press is only consent if you know what you are agreeing to. A playlist has no such number: it is a list we keep adding to, today's total is wrong the next time it changes, and an authoritative-looking wrong number is worse than none. So this label says it runs until you stop it, and the room's own consent banner says which kind of button does which. make-club.py holds the identical pair of rules on Club Chronic's stage; make-jungle.py refuses a runtime on a live camera and make-den.py requires one on a song. They are the same promise.",
+    "_frame": "The videoseries form of the playlist we already link at the top of the arcade, on youtube-nocookie, which is an origin love-embed.js has built for since the street opened -- so nothing was added to ORIGINS and the Content-Security-Policy did not move. NO RANDOM START HERE: Ryan's call, 2026-09-22. Club Chronic's stage drops the needle somewhere in a five-hundred-track list because nobody is going to hear the end of it; this is thirteen videos that were put in an order, and starting in the middle of a running order somebody chose would be overruling them."
+  },
   "tracks": [
-    { "id": "AfSjnsYiY_A", "title": "Casual (Official Music Video)",                        "channel": "ChappellRoanVEVO", "length": "6:36",  "note": "Wanting the thing named out loud, instead of being told it is nothing" },
-    { "id": "GR3Liudev18", "title": "Pink Pony Club (Official Music Video)",                "channel": "ChappellRoanVEVO", "length": "4:41",  "note": "The song the room next door is named after" },
-    { "id": "1U9Ph_Qeh-E", "title": "Pink Pony Club (Acoustic)",                            "channel": "Chappell Roan",    "length": "3:58",  "note": "The same song with the lights up, which turns out to be a different argument" },
-    { "id": "w4WiXKGCJhg", "title": "Tiny Desk Concert",                                    "channel": "NPR Music",        "length": "23:02", "note": "Twenty-three minutes behind a desk, a format that removes everything but the songs" },
-    { "id": "nXZuv1T8bfg", "title": "Naked in Manhattan (Official Music Video)",            "channel": "Chappell Roan",    "length": "3:34",  "note": "Camp used the way it is meant to be used: to tell the truth without flinching" },
-    { "id": "VS6ixn2berk", "title": "Red Wine Supernova (Magician's Cut)",                  "channel": "ChappellRoanVEVO", "length": "3:31",  "note": "Glitter with the volume left all the way up" },
-    { "id": "xaPNR-_Cfn0", "title": "HOT TO GO! (Official Music Video)",                    "channel": "ChappellRoanVEVO", "length": "3:32",  "note": "A dance you can learn in one watch, which is its own kind of access" },
-    { "id": "ePsqyPMIg6I", "title": "My Kink is Karma (Official Music Video)",              "channel": "Chappell Roan",    "length": "3:53",  "note": "Petty, and entirely unbothered about being petty" },
-    { "id": "imHkz5nD6gs", "title": "Kaleidoscope (Official Live Performance)",             "channel": "ChappellRoanVEVO", "length": "3:57",  "note": "The quiet one. Every loud room needs somewhere to sit down" },
-    { "id": "JCJKq2-l0Z0", "title": "Casual (Live) — Vevo DSCVR Artists to Watch 2024",     "channel": "ChappellRoanVEVO", "length": "3:52",  "note": "The same song with no video to carry it" },
-    { "id": "uMshgHF9Gso", "title": "Red Wine Supernova (Live) — Vevo DSCVR Artists to Watch 2024", "channel": "ChappellRoanVEVO", "length": "3:33", "note": "Live, and still enormous" },
-    { "id": "xR55tIcWNVg", "title": "The Rise and Fall of a Midwest Princess (Episode 1: Homecoming)", "channel": "Chappell Roan", "length": "4:43", "note": "Not a song — episode one, and the only thing in here that is not one" },
-    { "id": "_wGZNB4GGAU", "title": "Love Me Anyway (Acoustic)",                            "channel": "Chappell Roan",    "length": "3:58",  "note": "Being wanted with the whole of it still visible" }
+    {
+      "id": "AfSjnsYiY_A",
+      "title": "Casual (Official Music Video)",
+      "channel": "ChappellRoanVEVO",
+      "length": "6:36",
+      "note": "Wanting the thing named out loud, instead of being told it is nothing"
+    },
+    {
+      "id": "GR3Liudev18",
+      "title": "Pink Pony Club (Official Music Video)",
+      "channel": "ChappellRoanVEVO",
+      "length": "4:41",
+      "note": "The song the room next door is named after"
+    },
+    {
+      "id": "1U9Ph_Qeh-E",
+      "title": "Pink Pony Club (Acoustic)",
+      "channel": "Chappell Roan",
+      "length": "3:58",
+      "note": "The same song with the lights up, which turns out to be a different argument"
+    },
+    {
+      "id": "w4WiXKGCJhg",
+      "title": "Tiny Desk Concert",
+      "channel": "NPR Music",
+      "length": "23:02",
+      "note": "Twenty-three minutes behind a desk, a format that removes everything but the songs"
+    },
+    {
+      "id": "nXZuv1T8bfg",
+      "title": "Naked in Manhattan (Official Music Video)",
+      "channel": "Chappell Roan",
+      "length": "3:34",
+      "note": "Camp used the way it is meant to be used: to tell the truth without flinching"
+    },
+    {
+      "id": "VS6ixn2berk",
+      "title": "Red Wine Supernova (Magician's Cut)",
+      "channel": "ChappellRoanVEVO",
+      "length": "3:31",
+      "note": "Glitter with the volume left all the way up"
+    },
+    {
+      "id": "xaPNR-_Cfn0",
+      "title": "HOT TO GO! (Official Music Video)",
+      "channel": "ChappellRoanVEVO",
+      "length": "3:32",
+      "note": "A dance you can learn in one watch, which is its own kind of access"
+    },
+    {
+      "id": "ePsqyPMIg6I",
+      "title": "My Kink is Karma (Official Music Video)",
+      "channel": "Chappell Roan",
+      "length": "3:53",
+      "note": "Petty, and entirely unbothered about being petty"
+    },
+    {
+      "id": "imHkz5nD6gs",
+      "title": "Kaleidoscope (Official Live Performance)",
+      "channel": "ChappellRoanVEVO",
+      "length": "3:57",
+      "note": "The quiet one. Every loud room needs somewhere to sit down"
+    },
+    {
+      "id": "JCJKq2-l0Z0",
+      "title": "Casual (Live) — Vevo DSCVR Artists to Watch 2024",
+      "channel": "ChappellRoanVEVO",
+      "length": "3:52",
+      "note": "The same song with no video to carry it"
+    },
+    {
+      "id": "uMshgHF9Gso",
+      "title": "Red Wine Supernova (Live) — Vevo DSCVR Artists to Watch 2024",
+      "channel": "ChappellRoanVEVO",
+      "length": "3:33",
+      "note": "Live, and still enormous"
+    },
+    {
+      "id": "xR55tIcWNVg",
+      "title": "The Rise and Fall of a Midwest Princess (Episode 1: Homecoming)",
+      "channel": "Chappell Roan",
+      "length": "4:43",
+      "note": "Not a song — episode one, and the only thing in here that is not one"
+    },
+    {
+      "id": "_wGZNB4GGAU",
+      "title": "Love Me Anyway (Acoustic)",
+      "channel": "Chappell Roan",
+      "length": "3:58",
+      "note": "Being wanted with the whole of it still visible"
+    }
   ]
 }

@@ -321,6 +321,23 @@ was perfectly willing to frame**. It reads `love-embed.js` now like `make-csp.py
 `make-sweetgrass.py`. The rule is unchanged and is now true in one more file: **adding a service is
 one edit in that array and a re-run of `make-csp.py`**, and never a hand edit to `_headers`.
 
+**THE CHAPPELL HAS A CHANCEL NOW, AND IT IS WHERE THE RUNTIME RULE MET A ROOM BUILT ON THE OPPOSITE
+PROMISE.** That room's consent banner said *every button says how long the thing is before you press
+it* — the sentence the whole room is organised around, because a twenty-three minute concert sits
+beside three-minute videos. A playlist cannot say how long, so adding one **made a published
+sentence false**, and the banner was rewritten to say which kind of button does which rather than
+the playlist being given a number. `make-chappell.py` now **requires** a runtime on every track and
+**refuses** one on the playlist, which is the pair of rules `make-club.py` already holds, arriving
+in a room whose whole organising promise is the half it has to break.
+**The share card said it too**, and that is the trap worth remembering: `make-og.py` builds the card
+from **`og:description`**, not from `<meta name="description">`, and the two sit one line apart — the
+first fix landed on the wrong tag and looked like it had worked. **No random start here**, Ryan's
+call: thirteen videos were put in an order, and opening in the middle of a running order somebody
+chose would be overruling them, where a five-hundred-track list nobody finishes is a different case.
+**And it is a chancel rather than a fourteenth niche** — same ground, gold, serif and glass, so it
+measures nothing new; size and solitude are what make it the east end. If it ever takes a colour of
+its own, this room has started having two of everything.
+
 **EVERY FRAMED ORIGIN IS WRITTEN IN ONE PLACE: `love-embed.js`'s `ORIGINS` array.** The browser
 gets it because `make-csp.py` reads that array and builds `frame-src` from it; the build refuses a
 bad URL early because the room generators read the same array. **Adding a service is one edit

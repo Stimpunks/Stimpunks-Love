@@ -2198,6 +2198,41 @@ html[data-intensity="gentle"] .room-chappell h1 { text-shadow: none; }
 .room-chappell .facade:hover { background: #1C0C38; }
 .room-chappell .facade__play { color: var(--leaf); }
 
+/* THE CHANCEL — the east end, and the only object in this room that is not one
+   of the thirteen. You walk down the nave past arches you take one at a time,
+   and this is where the whole playlist stands: wider, one arch rather than a
+   grid, on the same bare ground.
+
+   IT IS THE SAME ROOM AND NOT A SECOND ONE. Identical ground, identical gold,
+   identical cream serif, identical glass — every colour in here is a pair
+   check-contrast.py already holds for a niche, so the east end introduces
+   nothing to measure. What makes it the chancel is SIZE and SOLITUDE: a deeper
+   arch and no siblings beside it. If it ever grows a colour of its own, this
+   room has started having two of everything.
+
+   AND ITS BUTTON IS THE ONE HERE THAT CANNOT SAY HOW LONG. The niches each
+   carry a runtime because a press is only consent if you know what you are
+   agreeing to; a playlist has no length to give, so that label says it runs
+   until you stop it and the votive rail says which button does which. */
+.chancel {
+  background: var(--niche); border: 3px solid var(--leaf);
+  border-radius: 240px 240px 10px 10px;
+  padding: 0 26px 22px; overflow: hidden; margin: 30px 0 0;
+}
+.chancel__glass {
+  height: 128px; margin: 0 -26px 18px;
+  background-image: repeating-conic-gradient(from 208deg at 50% 100%,
+    var(--ruby) 0deg 6deg, var(--leaf) 6deg 11deg, var(--sapphire) 11deg 17deg,
+    var(--emerald) 17deg 22deg, var(--amethyst) 22deg 28deg);
+  border-bottom: 3px solid var(--leaf);
+}
+.chancel h3 {
+  margin: 0; font-family: 'Instrument Serif', serif; font-weight: 400;
+  font-size: 31px; line-height: 1.14; color: var(--cream); max-width: 30ch;
+}
+.chancel__note { margin: 8px 0 15px; font-size: 15px; line-height: 1.5; color: #C3B2DE; max-width: 58ch; }
+.chancel__credit { margin: 11px 0 0; font-size: 12.5px; line-height: 1.45; color: #C3B2DE; max-width: 62ch; }
+
 /* The room rule, in the apse. */
 .gloria {
   margin: 30px 0 0; padding: 20px 22px;

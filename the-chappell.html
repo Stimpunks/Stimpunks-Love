@@ -4,20 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Chappell &mdash; Stimpunks.Love</title>
-<meta name="description" content="A subroom off Pink Pony Club: thirteen Chappell Roan videos in a rhinestone chapel. Every label says how long before you press it, and nothing reaches YouTube until you do.">
+<meta name="description" content="A subroom off Pink Pony Club: thirteen Chappell Roan videos in a rhinestone chapel, and the whole playlist at the east end. Every label that plays one thing says how long before you press it, and nothing reaches YouTube until you do.">
 <link rel="canonical" href="https://stimpunks.love/the-chappell.html">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#1A0A33">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Stimpunks.Love">
 <meta property="og:title" content="The Chappell &mdash; Stimpunks.Love">
-<meta property="og:description" content="A rhinestone chapel off the dancefloor. Thirteen videos, every label saying how long before you press it.">
+<meta property="og:description" content="A rhinestone chapel off the dancefloor. Thirteen videos that each say how long, and the whole playlist at the east end.">
 <meta property="og:url" content="https://stimpunks.love/the-chappell.html">
 <meta property="og:image" content="https://stimpunks.love/og/the-chappell.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="A near-black indigo card lit from the top by a violet rose window with thin gold rays fanning out of it. A small gold plate reading THE CHAPPELL, then “Unabashed Pleasure and Righteous Inclusion” in a gold neon-marquee face, and below it in serif: A rhinestone chapel off the dancefloor. Thirteen videos, every label saying how long before you press it. A band of stained glass in ruby, gold, sapphire, emerald and amethyst runs along the foot, with stimpunks.love on a gold-edged tag across it.">
+<meta property="og:image:alt" content="A near-black indigo card lit from the top by a violet rose window with thin gold rays fanning out of it. A small gold plate reading THE CHAPPELL, then “Unabashed Pleasure and Righteous Inclusion” in a gold neon-marquee face, and below it in serif: A rhinestone chapel off the dancefloor. Thirteen videos that each say how long, and the whole playlist at the east end. A band of stained glass in ruby, gold, sapphire, emerald and amethyst runs along the foot, with stimpunks.love on a gold-edged tag across it.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="site.webmanifest">
@@ -55,7 +55,7 @@
 
   <section class="votive">
     <strong>NOTHING PLAYS UNTIL YOU PRESS PLAY.</strong>
-    <p>Same rule as every other room, and one addition that this room needed: <strong>every button says how long the thing is before you press it.</strong> There is a twenty-three minute concert in here sitting beside three-minute videos, and &ldquo;press play&rdquo; is only consent if you know what you are agreeing to. Until you press one, nothing on this page has contacted YouTube &mdash; no iframe, no cookie, no request.</p>
+    <p>Same rule as every other room, and one addition that this room needed: <strong>every button that plays one thing says how long it is before you press it.</strong> There is a twenty-three minute concert in here sitting beside three-minute videos, and &ldquo;press play&rdquo; is only consent if you know what you are agreeing to. <strong>The one button that plays the whole playlist says instead that it runs until you stop it</strong> &mdash; a list we keep adding to has no length, and a number there would be wrong the next time the playlist changed and would look authoritative in the meantime. Until you press one, nothing on this page has contacted YouTube &mdash; no iframe, no cookie, no request.</p>
     <div class="votive__candles" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
   </section>
 
@@ -199,6 +199,22 @@
       </li>
     <!-- chappell:end -->
     </ul>
+  </section>
+
+  <!-- THE CHANCEL. The east end of the nave: the whole playlist, after the
+       thirteen niches you visit one at a time. Written by tools/make-chappell.py
+       from data/chappell.json -- do not hand-edit between the markers. -->
+  <section class="chancel">
+<!-- chappell-chancel:begin -->
+      <div class="chancel__glass" aria-hidden="true"></div>
+      <h3>Unabashed Pleasure and Righteous Inclusion With Chappell Roan</h3>
+      <p class="chancel__note">The whole thing, in the order we put it in. The niches are for choosing one; this is for putting it all on and leaving it.</p>
+      <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/videoseries?list=PLRtKsTScL-vTQHqW3QcBQ2mx6yyRNXEhy" data-embed-title="Unabashed Pleasure and Righteous Inclusion With Chappell Roan on YouTube">
+        Play the whole playlist &mdash; runs until you stop it
+        <span class="facade__play">&#9654; PRESS PLAY</span>
+      </button>
+      <p class="chancel__credit">No runtime on this one: a playlist is a list we keep adding to, and a total here would be wrong the next time it changed. On YouTube, from our own channel.</p>
+    <!-- chappell-chancel:end -->
   </section>
 
   <section class="gloria">
