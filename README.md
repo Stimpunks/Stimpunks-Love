@@ -138,6 +138,7 @@ python3 tools/make-csp.py          # the script hash in _headers
 python3 tools/make-feed.py         # feed.xml, from changelog.html's own entries
 python3 tools/make-readings.py     # the audio room, from data/readings.json
 python3 tools/make-polaroids.py    # Enid's wall, from data/polaroids.json
+python3 tools/make-toys.py         # the Playhouse's toys, from data/toys.json
 python3 tools/make-chairy.py       # what Chairy says, from data/chairy.json
 python3 tools/make-yells.py        # the yell button's recordings, from data/yells.json
 python3 tools/make-soundboard.py   # the Playhouse's sound board, from data/soundboard.json
@@ -205,7 +206,7 @@ named subject, no consent date, or any EXIF left on it — and, since a photogra
 somewhere other than Enid's wall, stops if any page publishes one the record does not mention,
 so that deleting a withdrawn entry catches every page instead of one; it also stops on a CSS or
 inline filter reaching a photograph, because that page promises we will not filter anybody, `make-chairy.py` stops if a saying has
-no source page or contains the pipe that separates them, `make-yells.py` stops if a yell has
+no source page or contains the pipe that separates them, `make-toys.py` stops on a toy with no handler registered in `love.js`, no noise registered beside it — six of them shipped silent and in a room where the others answer out loud the quiet ones read as broken — or no fill in `love.css`, on two toys claiming one fill, on a credit that is in the data and not on the face of the tile, on an idea line pointing anywhere but our own pages, and on an HTML entity in a field that becomes a `data-` attribute — the script writes those with `textContent`, so an entity there looks correct in the data file and renders as itself in the room; it also carries Chairy's sayings and the yell button's recordings across untouched, because a generator that silently empties another generator's output is the `_headers` trap with two tools in it, `make-yells.py` stops if a yell has
 no name on it, `make-soundboard.py` stops on a key whose noise is not registered in `love.js` or whose flourish has no rule and no keyframes in `love.css` — three files have to agree about every key and none of them is near the others, so a key with no voice is a button somebody presses and presses that never makes a sound — and it stops on two keys sharing a flourish, on a key that does not say what it sounds like in words, and on a mood key anywhere but the last row, `make-yurt-sound.py` stops if a recording has no name or no consent date,
 stops if two sounds claim the same tile, and measures each runtime off the file rather than
 trusting the data, because a label promising one before the press is the same promise the

@@ -52,7 +52,7 @@
      model enforced by the platform rather than promised by us. Silent until
      pressed, every time, on every visit. */
   var ctx = null;
-  function blip(freq, ms) {
+  function blip(freq, ms, peak) {
     try {
       if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
       if (ctx.state === 'suspended') ctx.resume();
@@ -60,7 +60,7 @@
       o.type = 'triangle';
       o.frequency.setValueAtTime(freq, t);
       g.gain.setValueAtTime(0.0001, t);
-      g.gain.exponentialRampToValueAtTime(0.16, t + 0.008);
+      g.gain.exponentialRampToValueAtTime(peak || 0.16, t + 0.008);
       g.gain.exponentialRampToValueAtTime(0.0001, t + ms / 1000);
       o.connect(g); g.connect(ctx.destination);
       o.start(t); o.stop(t + ms / 1000 + 0.02);
@@ -397,6 +397,10 @@
     var grid = document.querySelector('.stimboard__grid');
     if (!grid) return;
     var say = document.getElementById('playhouse-says');
+    /* One readout for the whole board rather than one per key: a key is about a
+       hundred pixels wide and a sentence does not fit on it. It sits directly
+       under the keys, where the hand already is. */
+    var board = document.querySelector('.stimboard__said');
     var pads = grid.querySelectorAll('.stimpad');
 
     for (var i = 0; i < pads.length; i++) (function (pad) {
@@ -409,11 +413,13 @@
       var name = nameEl ? nameEl.textContent : 'A key';
       var at = 0, timer = null;
 
+      /* Through sound(), like the toys, so that THE ECHO can play a key back:
+         the board is in the same room and "the last noise" should mean the last
+         noise, not the last noise made by a toy. */
       function play(key) {
         var fn = VOICES[key];
         if (!fn) return;   /* make-soundboard.py refuses this at build time */
-        try { var c = ac(); fn(c, c.currentTime); }
-        catch (e) { /* no audio available: the key still works, just quietly */ }
+        sound(function () { var c = ac(); fn(c, c.currentTime); });
       }
 
       function flourish() {
@@ -429,7 +435,12 @@
       pad.addEventListener('click', function () {
         if (!moods.length) {
           play(pad.dataset.pad);
-          if (say) say.textContent = name + ': ' + pad.dataset.heard + '.';
+          /* speak() rather than a plain assignment: pressing one key twice
+             writes the identical sentence, and a live region does not announce
+             text it already holds. The same fault the echo and the safe food
+             tin have, in a room where pressing the same key repeatedly is the
+             entire point of the object. */
+          if (say) speak(say, name + ': ' + pad.dataset.heard + '.', true, board);
           flourish();
           return;
         }
@@ -447,66 +458,325 @@
         if (moodEl) moodEl.textContent = next.mood;
         if (path) path.setAttribute('d', next.wave);
         if (say) {
-          say.textContent = name + ', ' + now.mood + ': ' + now.heard +
-            '. Press again for ' + next.mood + '.';
+          speak(say, name + ', ' + now.mood + ': ' + now.heard +
+                '. Press again for ' + next.mood + '.', true, board);
         }
       });
     }(pads[i]));
   }
 
-  /* ── The Playhouse ──────────────────────────────────────────────────────── */
+  /* ── The Playhouse's toys ────────────────────────────────────────────────
+     Everything in that room is a button, and by the tenth one the tile, the
+     handler and the fill were three things in three files that are nowhere near
+     each other. So each toy registers itself by name here and
+     tools/make-toys.py refuses a tile it cannot find a `toy()` for -- a control
+     that does nothing is not an error anywhere, it is a button somebody presses
+     and presses in the one room whose whole premise is that pressing works.
+
+     THE ROOM SAYS WHAT HAPPENED, OUT LOUD, EVERY TIME. #playhouse-says is the
+     only live region on the page and every toy writes to it, which is what
+     makes a room full of noises and colours legible to somebody using neither. */
+  var TOYS = {}, NOTES = {};
+  function toy(id, fn) { TOYS[id] = fn; }
+  function note(id, fn) { NOTES[id] = fn; }
+
+  var lastSaid = null;      /* what the room last said; THE ECHO repeats it */
+  var lastNoise = null;     /* and the noise it made, which THE ECHO plays back */
+  var playingYell = null;   /* the recording in flight, so THE OFF SWITCH can stop it */
+
+  /* EVERY TOY MAKES A NOISE, BECAUSE SIX OF THEM MAKING NONE READ AS BROKEN.
+     Ryan, 2026-09-21: in a room where most things answer out loud, the ones
+     that do not feel faulty rather than quiet. So each toy registers a sound of
+     its own and make-toys.py refuses one without.
+
+     A NOTE IS A FACTORY AND NOT A SOUND, which is what makes the echo work: it
+     is called once to CHOOSE what to play -- the stim box's next step up the
+     scale, the telephone's end, a yell picked at random -- and hands back a
+     function that plays exactly that. `sound` keeps that function, so replaying
+     it gives the same noise again rather than the next one along. A note that
+     played directly would make the echo advance the scale it was echoing. */
+  function sound(fn) {
+    lastNoise = fn;
+    try { fn(); } catch (e) { /* no audio available: the toy still works, quietly */ }
+  }
+  function replay() {
+    if (!lastNoise) return false;
+    try { lastNoise(); } catch (e) {}
+    return true;    /* and lastNoise is untouched: an echo of an echo is the original */
+  }
+
+  /* AN ARIA-LIVE REGION DOES NOT ANNOUNCE TEXT IT ALREADY HOLDS. Two toys here
+     exist to repeat themselves -- the echo says the last thing again, the safe
+     food tin says the same thing forever -- and written the obvious way both
+     would be SILENT to the one reader who most needs them, while looking
+     perfectly correct on screen. Clearing the region and setting it back on the
+     next tick is what makes a repeat a change. */
+  function speak(say, text, remember, local) {
+    if (say.textContent === text) {
+      say.textContent = '';
+      window.setTimeout(function () { say.textContent = text; }, 60);
+    } else {
+      say.textContent = text;
+    }
+    if (remember) lastSaid = text;
+    answer(local, text);
+  }
+
+  /* AND IT ANSWERS WHERE YOU PRESSED, which the room did not do until Ryan said
+     the buttons looked broken to him. #playhouse-says is at the top of the page
+     and is off the screen by the time anybody has scrolled to the toys, let
+     alone to the sound board underneath them -- so every press was landing in a
+     box the person pressing could not see. A control that gives no sign of
+     having worked IS broken, whatever the markup says.
+
+     One readout at a time: the last thing said is on the thing that said it,
+     and the previous one is cleared, so it always reads as *this* control
+     answering rather than a page filling up with old replies. Every one of them
+     is aria-hidden, because #playhouse-says is still the only live region here
+     and hearing the same sentence twice is worse than hearing it once. */
+  var readout = null;
+  function answer(el, text) {
+    if (readout && readout !== el) { readout.textContent = ''; readout.hidden = true; }
+    readout = el || null;
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = false;
+  }
+
+  /* ── One noise per toy ───────────────────────────────────────────────────
+     Short, affirmative, synthesised here, and no two alike — nor alike to any
+     of the sound board's nine keys, which are the other synthesised things in
+     this room. Each one is a FACTORY: called to choose, returning a function
+     that plays that choice, so the echo can hand back the same noise rather
+     than the next one along. */
+  var STIM_NOTES = [523.25, 659.25, 783.99, 880, 1046.5], stimN = 0;
+
+  note('stim', function () {
+    var hz = STIM_NOTES[stimN % STIM_NOTES.length];   /* chosen now, not on replay */
+    return function () { blip(hz, 140); };
+  });
+  note('chairy', function () { return function () { blip(320, 160); }; });
+  note('clock',  function () { return function () { blip(440, 90); }; });
+  note('yell',   function () { return function () { yellNoise(); }; });
+
+  /* A blip, and then the same blip again, quieter, a beat later. */
+  note('echo', function () {
+    return function () {
+      blip(700, 90);
+      window.setTimeout(function () { blip(700, 90, 0.055); }, 190);
+    };
+  });
+
+  /* A line opening: the click of the handset, then a tone. The two ends are a
+     fourth apart, because the whole toy is two people hearing one thing
+     differently. */
+  note('tel', function (end) {
+    var hz = end === 1 ? 330 : 440;
+    return function () {
+      var c = ac(), t = c.currentTime;
+      var n = hiss(c, 0.03), f = c.createBiquadFilter();
+      f.type = 'highpass'; f.frequency.value = 1800;
+      n.connect(f); f.connect(env(c, t, 0.26, 0.001, 0.028));
+      n.start(t); n.stop(t + 0.04);
+      tone(c, t + 0.045, 'sine', hz, 0, 0, 0.19, 0.02, 0.3);
+    };
+  });
+
+  /* The same note, at the same pitch, for as long as the tin exists. */
+  note('tin', function () { return function () { blip(349.23, 220); }; });
+
+  /* A teaspoon against a mug. NOT the board's chime, which is a bell and rings
+     for a second and a half: this is two high partials and almost no tail. */
+  note('spoon', function () {
+    return function () {
+      var c = ac(), t = c.currentTime;
+      tone(c, t, 'sine', 2100, 0, 0, 0.11, 0.002, 0.22);
+      tone(c, t, 'sine', 3150, 0, 0, 0.05, 0.002, 0.15);
+    };
+  });
+
+  /* Two notes down, quietly. The one noise in this room that comes AFTER the
+     silence rather than before it: the button stops everything, then says so. */
+  note('off', function () {
+    return function () {
+      var c = ac(), t = c.currentTime;
+      tone(c, t, 'triangle', 392, 0, 0, 0.12, 0.006, 0.13);
+      tone(c, t + 0.12, 'triangle', 262, 0, 0, 0.12, 0.006, 0.2);
+    };
+  });
+
+  /* Somebody who has got onto the subject and is going quite fast now. */
+  note('info', function () {
+    return function () {
+      var c = ac(), t = c.currentTime;
+      [660, 740, 880, 830, 990].forEach(function (hz, i) {
+        tone(c, t + i * 0.06, 'triangle', hz, 0, 0, 0.11, 0.004, 0.07);
+      });
+    };
+  });
+
+  toy('stim', function (el, r) {
+    r.note(); stimN++;
+    r.say('Stim box: ' + stimN + ' press' + (stimN === 1 ? '' : 'es') +
+          '. Nobody is counting. (That was a lie, the box is counting, but it does not mind.)');
+  });
+
+  toy('chairy', function (el, r) {
+    var lines = (el.dataset.lines || '').split('|');
+    r.note();
+    r.say('Chairy says: ' + lines[Math.floor(Math.random() * lines.length)]);
+  });
+
+  toy('clock', function (el, r) {
+    var terms = (el.dataset.terms || '').split('|');
+    r.note();
+    r.say('The word clock says: ' + terms[new Date().getHours() % terms.length] + '.');
+  });
+
+  /* A recorded yell if the community has sent any, the synthesised one if not.
+     The Audio object is built INSIDE the handler on purpose: nothing is fetched
+     until somebody presses, which is the same consent model as the jukebox one
+     room over. If the file will not play -- offline, or withdrawn between the
+     build and the press -- it falls back rather than failing silently.
+
+     It hands the whole playback to r.sound as one closure, so the echo replays
+     THAT person's yell rather than drawing again. */
+  toy('yell', function (el, r) {
+    var list = [];
+    try { list = JSON.parse(el.dataset.yells || '[]'); } catch (e) { list = []; }
+
+    function synth() { r.note(); r.say('AAAAAAAAAAAAAAH!'); }
+    if (!list.length) { synth(); return; }
+
+    var pick = list[Math.floor(Math.random() * list.length)];
+    var ok = true;
+    r.sound(function () {
+      if (playingYell) { try { playingYell.pause(); } catch (e) {} }
+      var a = new Audio(pick.src);
+      playingYell = a;
+      var p = a.play();
+      if (p && p['catch']) p['catch'](function () { if (ok) { ok = false; synth(); } });
+    });
+    /* Whose it is, said out loud rather than filed in the liner notes. */
+    if (ok) r.say('AAAAAAAAAAAAAAH! — that one was ' + pick.who + '.');
+  });
+
+  /* Echolalia. It gives back the last thing the room said AND the last noise it
+     made, both unchanged, and records neither -- so pressing it twice gives you
+     the original twice rather than an echo of an echo. Saying a thing back is
+     not a fault and this toy does not treat it as one: no "did you mean", no
+     correction, no second version. */
+  toy('echo', function (el, r) {
+    var t = r.last();
+    if (!t) { r.note(); r.say(el.dataset.empty); return; }
+    if (!r.replay()) r.note();
+    r.echo(t);
+  });
+
+  /* The double empathy problem, Damian Milton's. Two handsets, one encounter,
+     and the toy NEVER says which account was right, because the whole idea is
+     that neither was wrong. Pick up both ends and the next press is a new call. */
+  toy('tel', function (el, r, n) {
+    var calls = [];
+    try { calls = JSON.parse(el.dataset.calls || '[]'); } catch (e) { calls = []; }
+    if (!calls.length) return;
+    var s = el._tel || (el._tel = { at: 0, heard: {} });
+    var call = calls[s.at], side = n === 0 ? 'a' : 'b';
+    var hands = el.querySelectorAll('.handset');
+    var label = hands[n] ? hands[n].textContent : 'This end';
+    r.note(n);
+    r.say(label + ', on ' + call.about + ': ' + call[side]);
+    s.heard[side] = true;
+    if (s.heard.a && s.heard.b) { s.at = (s.at + 1) % calls.length; s.heard = {}; }
+  });
+
+  /* Safe food. The same sentence and the same note every time, for ever, which
+     is the entire toy. speak() is what keeps the words audible on the second
+     press; the note needs no such help, because a sound is a change. */
+  toy('tin', function (el, r) { r.note(); r.say(el.dataset.says); });
+
+  /* Spoon theory, Christine Miserandino's. It hands out the SENTENCES rather
+     than the spoons: she invented them to explain a limit to somebody across a
+     table, and a drawer of infinite spoons would quietly delete the limit while
+     looking generous. Nothing is counted here and nothing is deducted. */
+  toy('spoon', function (el, r) {
+    var lines = [];
+    try { lines = JSON.parse(el.dataset.sentences || '[]'); } catch (e) { lines = []; }
+    if (!lines.length) return;
+    var s = el._spoon || (el._spoon = { at: Math.floor(Math.random() * lines.length) });
+    r.note();
+    r.say('Take one: ' + lines[s.at]);
+    s.at = (s.at + 1) % lines.length;
+  });
+
+  /* The way out. Closing the context kills everything the sound board has
+     scheduled, including notes that have not started yet; the next press builds
+     a new one, which asks for the same consent the first press did. No
+     confirmation and nothing to undo -- a stop button that checks whether you
+     meant it is not a stop button.
+
+     ITS OWN NOISE COMES AFTER THE SILENCE, which is the only order that makes
+     sense for this button and is why it is played once the stopping is done. */
+  toy('off', function (el, r) {
+    var was = !!ctx;
+    if (ctx) { try { ctx.close(); } catch (e) {} ctx = null; }
+    var media = document.querySelectorAll('audio');
+    for (var i = 0; i < media.length; i++) {
+      if (!media[i].paused) { was = true; media[i].pause(); }
+    }
+    if (playingYell) { try { playingYell.pause(); } catch (e) {} playingYell = null; }
+    r.note();
+    r.say(was ? el.dataset.said : el.dataset.quiet);
+  });
+
+  /* An infodump is a gift and this one is not sorry. It goes deeper on one
+     subject until it runs out, then starts on the next, which is also what
+     happens. Every subject is ours or is credited on the way past. */
+  toy('info', function (el, r) {
+    var dumps = [];
+    try { dumps = JSON.parse(el.dataset.dumps || '[]'); } catch (e) { dumps = []; }
+    if (!dumps.length) return;
+    var s = el._info || (el._info = { at: 0, part: 0 });
+    var d = dumps[s.at];
+    r.note();
+    r.say((s.part === 0 ? 'About ' + d.subject + '. ' : '') + d.parts[s.part]);
+    s.part++;
+    if (s.part >= d.parts.length) { s.part = 0; s.at = (s.at + 1) % dumps.length; }
+  });
+
+
   function playhouse() {
     var say = document.getElementById('playhouse-says');
     if (!say) return;
-
-    function announce(text) { say.textContent = text; }
-
-    var stim = document.querySelector('[data-toy="stim"]');
-    var notes = [523.25, 659.25, 783.99, 880, 1046.5];
-    var n = 0;
-    if (stim) stim.addEventListener('click', function () {
-      blip(notes[n % notes.length], 140); n++;
-      announce('Stim box: ' + n + ' press' + (n === 1 ? '' : 'es') + '. Nobody is counting. (That was a lie, the box is counting, but it does not mind.)');
-    });
-
-    /* A recorded yell if the community has sent any, the synthesised one if not.
-       The Audio object is built INSIDE the handler on purpose: nothing is fetched
-       until somebody presses, which is the same consent model as the jukebox one
-       room over. If the file will not play -- offline, or withdrawn between the
-       build and the press -- it falls back rather than failing silently. */
-    var yell = document.querySelector('[data-toy="yell"]');
-    var lastYell = null;
-    if (yell) yell.addEventListener('click', function () {
-      var list = [];
-      try { list = JSON.parse(yell.dataset.yells || '[]'); } catch (e) { list = []; }
-
-      function synth() { yellNoise(); announce('AAAAAAAAAAAAAAH!'); }
-      if (!list.length) { synth(); return; }
-
-      var pick = list[Math.floor(Math.random() * list.length)];
-      if (lastYell) { try { lastYell.pause(); } catch (e) {} }
-      var a = new Audio(pick.src);
-      lastYell = a;
-      var p = a.play();
-      /* Whose it is, said out loud rather than filed in the liner notes. */
-      announce('AAAAAAAAAAAAAAH! \u2014 that one was ' + pick.who + '.');
-      if (p && p.catch) p.catch(function () { synth(); });
-    });
-
-    var clock = document.querySelector('[data-toy="clock"]');
-    if (clock) clock.addEventListener('click', function () {
-      var terms = clock.dataset.terms.split('|');
-      var hour = new Date().getHours();
-      announce('The word clock says: ' + terms[hour % terms.length] + '.');
-      blip(440, 90);
-    });
-
-    var chairy = document.querySelector('[data-toy="chairy"]');
-    if (chairy) chairy.addEventListener('click', function () {
-      var lines = chairy.dataset.lines.split('|');
-      announce('Chairy says: ' + lines[Math.floor(Math.random() * lines.length)]);
-      blip(320, 160);
-    });
+    var tiles = document.querySelectorAll('[data-toy]');
+    for (var i = 0; i < tiles.length; i++) (function (el) {
+      var fn = TOYS[el.dataset.toy];
+      if (!fn) return;                 /* make-toys.py refuses this at build time */
+      var mine = el.querySelector('.toy__said');
+      var r = {
+        say:  function (t) { speak(say, t, true, mine); },
+        echo: function (t) { speak(say, t, false, mine); },
+        last: function () { return lastSaid; },
+        /* Make this toy's own noise. The factory is called now, so what gets
+           remembered is the sound that actually played. */
+        note: function (arg) {
+          var make = NOTES[el.dataset.toy];
+          if (make) sound(make(arg));   /* make-toys.py refuses a toy with none */
+        },
+        sound: sound,
+        replay: replay
+      };
+      /* A tile with handsets is not itself a button: the controls are inside it,
+         and each one tells the handler which end it is. */
+      var hands = el.querySelectorAll('.handset');
+      if (hands.length) {
+        for (var h = 0; h < hands.length; h++) (function (b, n) {
+          b.addEventListener('click', function () { fn(el, r, n); });
+        }(hands[h], h));
+        return;
+      }
+      el.addEventListener('click', function () { fn(el, r); });
+    }(tiles[i]));
   }
 
   /* ── The superposition panel ─────────────────────────────────────────────

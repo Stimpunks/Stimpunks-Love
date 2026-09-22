@@ -296,8 +296,14 @@ def main():
             f"keep pressing them. The last {WORDS.get(n_mood, n_mood)} have moods, "
             f"and each one shows the mood it is about to play.")
 
+    # The same fault as the toys', and the keys are far too small to hold a
+    # sentence each -- so the board answers once, directly under the keys, where
+    # the hand already is. aria-hidden: #playhouse-says remains the only live
+    # region on the page. It ships hidden so a page with no scripts shows no
+    # empty strip.
     block = ('  <p class="stimboard__note">' + note + "</p>\n"
-             '  <ul class="stimboard__grid">\n' + "\n".join(out) + "\n  </ul>")
+             '  <ul class="stimboard__grid">\n' + "\n".join(out) + "\n  </ul>\n"
+             '  <p class="stimboard__said" aria-hidden="true" hidden></p>')
 
     src = PAGE.read_text()
     begin, end = "<!-- soundboard:begin -->", "<!-- soundboard:end -->"

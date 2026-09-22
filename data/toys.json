@@ -1,0 +1,160 @@
+{
+  "_source": "Every toy on this page was written for this page. Each one is a real idea out of our own glossary wearing a costume, and the idea is named and linked under the tile rather than left for somebody to infer -- the same habit the rest of this site keeps about attribution. THE GLOSSARY SLUGS WERE CHECKED AGAINST THE KNOWLEDGE SYSTEM MIRROR, not fetched live, because on stimpunks.org a 301 is a failure rather than a pass: echolalia, double-empathy-problem, safe-food, spoon-theory, infodump, stimming and stimpunk all exist as written. Four earlier candidates were dropped in 2026-09 for not existing at all, and 'curb cut effect' was dropped here for the same reason -- it is in our posts and is not a glossary entry.",
+  "_costume": "A toy is not an explainer. Nothing here teaches an idea, quizzes anybody on one, or asks a visitor to demonstrate that they have understood it. The tile does the thing and the link says where the thing came from, which is the whole of the mechanism.",
+  "_credit": "Where a toy wears somebody's idea, that person is named IN THE VISIBLE BLURB and not only here -- Damian Milton on the telephone, Christine Miserandino on the spoon drawer. make-toys.py refuses a credit that does not appear on the face of the tile, because a credit in a data file is a credit nobody reads.",
+  "_payloads": "Two toys carry content another tool owns: Chairy's sayings come from data/chairy.json by way of make-chairy.py, and the yell button's recordings from data/yells.json by way of make-yells.py. make-toys.py carries those attributes across untouched rather than blanking them, and refuses if it finds one it cannot carry -- a generator that silently empties another generator's output is the _headers trap with two tools in it instead of one.",
+  "toys": [
+    {
+      "id": "stim",
+      "name": "THE STIM BOX",
+      "key": "yellow",
+      "what": "A drawer of things that make a satisfying noise. Press one. Press it forty times. Nobody is counting.",
+      "wears": "Stimming",
+      "url": "https://stimpunks.org/glossary/stimming/"
+    },
+    {
+      "id": "chairy",
+      "name": "CHAIRY",
+      "key": "green",
+      "what": "The furniture talks back. Press it and it says one of {chairy} things, each out of a page we published &mdash; and names whose it is when the line is not ours.",
+      "payload": "data-lines"
+    },
+    {
+      "id": "clock",
+      "name": "THE WORD CLOCK",
+      "key": "violet",
+      "what": "Tells you a different glossary term every hour, whether or not you asked.",
+      "wears": "The glossary itself",
+      "url": "https://stimpunks.org/glossary/",
+      "terms": [
+        "monotropism",
+        "neuroqueer",
+        "emergence",
+        "interdependence",
+        "the double empathy problem",
+        "masking",
+        "stimming",
+        "ableism",
+        "normal",
+        "neurodiversity",
+        "queer",
+        "autistic"
+      ]
+    },
+    {
+      "id": "yell",
+      "name": "THE YELL BUTTON",
+      "key": "orange",
+      "what": "Does exactly one thing. It yells. It is the most-used control on the site and we are fine with that.",
+      "payload": "data-yells"
+    },
+    {
+      "id": "echo",
+      "name": "THE ECHO",
+      "key": "cyan",
+      "what": "Gives back the last thing this room said, and the last noise it made, both unchanged. Not a fault and not a parrot &mdash; saying it back is how a great many people think out loud, and how some people say anything at all.",
+      "wears": "Echolalia",
+      "url": "https://stimpunks.org/glossary/echolalia/",
+      "empty": "Nothing has been said in here yet. Press something else first, then press me."
+    },
+    {
+      "id": "tel",
+      "name": "THE DOUBLE EMPATHY TELEPHONE",
+      "key": "pink",
+      "shape": "pair",
+      "what": "Two handsets and one conversation that went wrong. Pick up either end and you get that person&rsquo;s honest account of it. Damian Milton&rsquo;s double empathy problem: the gap is between two people, and neither of them is the broken one.",
+      "wears": "The Double Empathy Problem",
+      "url": "https://stimpunks.org/glossary/double-empathy-problem/",
+      "credit": "Damian Milton",
+      "ends": [
+        "One end",
+        "The other end"
+      ],
+      "calls": [
+        {
+          "about": "how the meeting went",
+          "a": "I asked how the meeting went and got the whole meeting, minute by minute. I wanted to know how they were. I never found out.",
+          "b": "They asked how the meeting went, so I told them how the meeting went. How I was is a different question and I would have answered that one too."
+        },
+        {
+          "about": "the news, and the face",
+          "a": "I told them the news and their face did not move at all. I spent the rest of the day certain they did not care.",
+          "b": "The news took up every single thing I had. I cared enormously. I was not also available for doing an expression about it."
+        },
+        {
+          "about": "the interruption",
+          "a": "I was halfway through and they cut in with a story about themselves. So I stopped bothering.",
+          "b": "The same thing had happened to me, so I said so. Where I come from that sentence means: I am here, and you are not the only one."
+        }
+      ]
+    },
+    {
+      "id": "tin",
+      "name": "THE SAFE FOOD TIN",
+      "key": "white",
+      "what": "Does the same thing every time you press it. The same thing. Every time. That is not a shortcoming, it is the entire appeal.",
+      "wears": "Safe Food",
+      "url": "https://stimpunks.org/glossary/safe-food/",
+      "says": "The same thing again, done the same way, at the same temperature. Still right. Still not boring."
+    },
+    {
+      "id": "spoon",
+      "name": "THE SPOON DRAWER",
+      "key": "red",
+      "what": "Christine Miserandino invented spoons so she could explain a limit to somebody across a table, which is the half that gets forgotten. This drawer hands you the sentences, ready to use. It does not hand you spoons and it does not keep a total.",
+      "wears": "Spoon Theory",
+      "url": "https://stimpunks.org/glossary/spoon-theory/",
+      "credit": "Christine Miserandino",
+      "sentences": [
+        "“I have got one of those two things in me today, not both. You pick which.”",
+        "“I can come, and I will be leaving early, and that is not a snub.”",
+        "“Ask me tomorrow. Today is already spent and tomorrow is not.”",
+        "“I am not tired. Tired is what you are after a long day. This is a different thing with the same face on.”",
+        "“Yes, I did it last week. Last week cost me this week.”",
+        "“I would rather do the thing I have said yes to properly than three things badly.”"
+      ]
+    },
+    {
+      "id": "off",
+      "name": "THE OFF SWITCH",
+      "key": "night",
+      "what": "Stops every sound on this page at once &mdash; the board, the yells, all of it, and then makes one small noise of its own to say so. Everything here is opt-in and this is the way back out: no confirmation, no are-you-sure, and nothing that asks whether you really meant it.",
+      "said": "Everything is off. That last small noise was this button saying so.",
+      "quiet": "Nothing was playing. It is still off."
+    },
+    {
+      "id": "info",
+      "name": "THE INFODUMP",
+      "key": "lilac",
+      "what": "Press it and it tells you about a thing. Press it again and it tells you more about that thing. When it runs out of that thing it starts on the next one, because that is also what happens.",
+      "wears": "Infodump",
+      "url": "https://stimpunks.org/glossary/infodump/",
+      "dumps": [
+        {
+          "subject": "Esmx the Porkypine",
+          "parts": [
+            "Esmx is our porcupine. Stimpunks commissioned them and holds the rights; Kaya Oldaker drew them, and that stays true however many times anybody redraws the quills.",
+            "Porcupines are not aggressive and cannot fire a quill at anybody, which is the part everybody gets wrong. The quills are for being left alone with.",
+            "This is the point of the mascot rather than a fact that came with it: a defended animal is not a hostile one, and being hard to approach is not the same as being unwilling."
+          ]
+        },
+        {
+          "subject": "pebbling",
+          "parts": [
+            "Pebbling is sending somebody a small thing because it made you think of them. A link, a picture, a fact about crows.",
+            "The locution is Amythest Schaber’s. We documented it in 2022 and Helen Edgar wrote it up at Autistic Realms in 2023, and it is named for the gentoo penguin, who brings a stone.",
+            "What makes it pebbling rather than trading is that nothing is owed back. There is no tally, which is why the cabinet in our arcade does not keep one."
+          ]
+        },
+        {
+          "subject": "the word stimpunk",
+          "parts": [
+            "A stimpunk is somebody who stims in public and does not apologise for the room it takes up. It is our word and it is on our glossary.",
+            "The punk half is doing the ordinary thing loudly on purpose, in a world that would rather you did it where nobody can see.",
+            "Which is roughly the argument this entire website is: you can have the volume and the access at the same time, and the dial in the corner is us proving it."
+          ]
+        }
+      ]
+    }
+  ]
+}

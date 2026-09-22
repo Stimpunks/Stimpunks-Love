@@ -1228,7 +1228,22 @@ html[data-intensity="gentle"] .polaroid { transform: none; }
 .room-play .backlink { color: #fff; }
 .room-play h1 { font-family: 'Titan One', var(--sans); font-size: clamp(44px,8vw,78px); line-height: .95; color: var(--yellow); text-shadow: 5px 5px 0 #101014; margin: 12px 0 0; }
 .room-play .lede { font-size: 19px; font-weight: 500; max-width: 46ch; }
-.room-play a { color: var(--yellow); }
+/* THREE LINKS IN THIS ROOM WERE 1.31:1 AND THE CHECKER COULD NOT SEE THEM.
+   `.room-play a` was yellow, which is the room's colour and is right on the
+   near-black boxes — and the only links on this page are on the blue ground and
+   inside the WHITE house-rules cards. Yellow on that white measures 1.31; the
+   quest marker's hand-in link measured 3.88 on the blue at 15px. Nothing held a
+   pair for either, because check-contrast.py holds a pair for every colour
+   somebody DECIDED on and an inherited one was never decided — the exact hole
+   the Doomscroll left, in a room that has been published since the street
+   opened. Ryan found it by looking at the page; so did the Doomscroll's.
+
+   So the room decides, at each ground it actually has. White on the blue is
+   5.08 and the room's own blue on the white cards is 5.08. The yellow stays
+   where it was always legible: the h1, which is large, and the near-black
+   boxes. */
+.room-play a { color: #fff; }
+.room-play .rules a { color: var(--blue); }
 
 .bunting { height: 40px; border-bottom: 5px solid #101014; background-image: repeating-linear-gradient(90deg, var(--red) 0 44px, var(--yellow) 44px 88px, var(--green) 88px 132px, var(--violet) 132px 176px); }
 
@@ -1247,11 +1262,87 @@ html[data-intensity="gentle"] .secret { transform: none; }
   transition: transform .15s ease;
 }
 .toy strong { font-family: 'Titan One', var(--sans); font-weight: 400; font-size: 27px; line-height: 1.05; }
-.toy span   { font-size: 13.5px; line-height: 1.45; font-weight: 500; }
-.toy--yellow { background: var(--yellow); color: #101014; } .toy--yellow span { color: #3a3200; }
-.toy--green  { background: var(--green);  color: #101014; } .toy--green  span { color: #0a3a1c; }
-.toy--violet { background: var(--violet-deep); color: #fff; }    .toy--violet span { color: #efe2ff; }
-.toy--orange { background: var(--orange); color: #101014; } .toy--orange span { color: #3d2100; }
+.toy__what  { font-size: 13.5px; line-height: 1.45; font-weight: 500; }
+.toy--yellow { background: var(--yellow); color: #101014; } .toy--yellow .toy__what { color: #3a3200; }
+.toy--green  { background: var(--green);  color: #101014; } .toy--green  .toy__what { color: #0a3a1c; }
+.toy--violet { background: var(--violet-deep); color: #fff; }    .toy--violet .toy__what { color: #efe2ff; }
+.toy--orange { background: var(--orange); color: #101014; } .toy--orange .toy__what { color: #3d2100; }
+
+/* SIX MORE TOYS, SIX MORE FILLS, AND NO TWO THE SAME. That is the street's own
+   rule holding at the size of one object, and it is the only thing keeping a
+   wall of ten boxes from reading as a grid of one box — make-toys.py refuses a
+   fill claimed twice. The four above tint their blurb; these bright ones set the
+   room's flat near-black for both the title and the blurb, because a tint per
+   fill is four more grounds nobody measured for the sake of a shade. Every pair
+   here is in check-contrast.py. */
+.toy--cyan   { background: var(--cyan);   color: #101014; } .toy--cyan .toy__what   { color: #101014; }
+.toy--pink   { background: var(--pink);   color: #101014; } .toy--pink .toy__what   { color: #101014; }
+.toy--lilac  { background: var(--violet); color: #101014; } .toy--lilac .toy__what  { color: #101014; }
+.toy--white  { background: #ffffff;       color: #101014; } .toy--white .toy__what  { color: #101014; }
+/* Red carries white at display size and the room's pale pink below it: white on
+   this red is 6.21 and passes at any size, but the 13.5px blurb is exactly where
+   a near-white is the one to measure rather than assume — 5.03. */
+.toy--red    { background: var(--red); color: #ffffff; } .toy--red .toy__what { color: #ffe0e2; }
+/* The off switch is the only unlit tile on a wall of lit ones. It is the toy
+   that takes something away, and it looks like it. */
+.toy--night  { background: #101014; color: var(--yellow); border-color: #ffffff; }
+.toy--night .toy__what { color: var(--cream); }
+
+/* THE TILE IS NOT ALWAYS THE BUTTON. The telephone has two controls in it, so
+   its tile is a <div> and the handsets are the buttons — a button cannot be
+   nested inside a button, and the alternative was one control pretending to be
+   two. It is the only toy on this wall with more than one thing to press. */
+.toy--pair { cursor: default; }
+.handsets { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+.handset {
+  flex: 1 1 auto; cursor: pointer; font-family: 'Bungee', var(--sans);
+  font-size: 12px; letter-spacing: .5px; line-height: 1.1;
+  background: #101014; color: var(--cream);
+  border: 3px solid #101014; border-radius: 12px; padding: 10px 12px;
+  transition: transform .12s ease;
+}
+.handset:hover { transform: translateY(-2px); }
+.handset:active { transform: translateY(2px); }
+
+/* EVERY TOY IS AN IDEA WEARING A COSTUME, AND THE LINE UNDER THE TILE SAYS
+   WHICH IDEA. It sits outside the button because an <a> cannot live inside one,
+   which turns out to be the right shape anyway: the tile does the thing and the
+   line says where the thing came from. Two toys have no single glossary term
+   behind them and get no line, because a uniform row of links would mean
+   inventing one for them. */
+.toys li { display: flex; flex-direction: column; }
+.toys .toy { flex: 1 1 auto; }
+.toy__idea { margin: 7px 0 0; font-size: 12.5px; line-height: 1.4; font-weight: 500; color: #ffffff; }
+.toy__idea a { color: #ffffff; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
+/* THE ANSWER COMES BACK ON THE THING YOU PRESSED, which this room did not do
+   until the person who asked for it said the buttons looked broken. The live
+   region is at the top of the page and is off the screen by the time anybody
+   has scrolled to the toys, so every press was landing somewhere the presser
+   could not see. A control that gives no sign of having worked IS broken,
+   whatever the markup says — and it was invisible to us because we had been
+   testing by reading the box.
+
+   Near-black with cream on every tile, which is one measured pair for ten
+   fills rather than ten. The unlit tile gets an edge, because a near-black
+   panel on a near-black tile is no panel at all. It ships hidden, so a page
+   with no JavaScript shows no empty box; §2's [hidden] guard is what makes
+   that stick against the display rule here. */
+.toy__said {
+  display: block; margin-top: 10px; padding: 9px 11px;
+  background: #101014; color: var(--cream);
+  border-radius: 10px;
+  font-size: 12.5px; line-height: 1.45; font-weight: 500;
+}
+.toy--night .toy__said { border: 2px solid var(--cream); }
+
+/* The board answers once, under the keys: a key is about a hundred pixels wide
+   and a sentence does not fit on one. */
+.stimboard__said {
+  margin: 14px 0 0; padding: 11px 13px;
+  border: 2px solid var(--cream); border-radius: 10px;
+  color: var(--cream); font-size: 14px; line-height: 1.5; font-weight: 500;
+}
 
 .rules { background: #fff; border: 5px solid #101014; border-radius: 24px; padding: 20px 22px; color: #101014; }
 .rules h2 { font-family: 'Bungee', var(--sans); font-size: 14px; letter-spacing: 1px; color: var(--red); margin: 0 0 12px; }

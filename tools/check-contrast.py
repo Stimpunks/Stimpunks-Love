@@ -343,6 +343,22 @@ PAIRS = [
     (YELLOW,   RED, False, "playhouse: secret-word label 13px"),
     ("#ffffff", RED, True,  "playhouse: the secret word itself"),
     ("#ffe0e2", RED, False, "playhouse: secret-word small print"),
+    # THE LINKS, WHICH NOBODY HAD DECIDED UNTIL 2026-09-21. The room's `a` was
+    # yellow and every link on the page sits either on the blue ground or
+    # inside a white card: 3.88 and 1.31, both live, neither visible to this
+    # file because an inherited colour was never a decision. The Doomscroll's
+    # hole, in an older room. Both grounds are decided now and both are here.
+    (BLUE,     "#ffffff", False, "playhouse: links inside the house-rules cards"),
+
+    # THE TEN TOYS ARE TEN FILLS AND NONE OF THEM NEEDED A NEW PAIR, which is
+    # worth writing down rather than leaving as an absence: the six added in
+    # 2026-09-21 reach for colours this file already holds against the room's
+    # near-black — cyan, pink and light violet from the sound board's keys and
+    # Enid's stickers, white from the house-rules card, red from the secret-word
+    # box, and yellow-and-cream on near-black from the says-box and the mood
+    # keys. The one that had to be measured rather than assumed is the red
+    # tile's 13.5px blurb, #ffe0e2 at 5.03, because a near-white on a saturated
+    # red is exactly where a fill passes at display size and fails underneath.
 
     # THE SOUND BOARD, which is seven grounds rather than one. Six bright keys
     # carrying the room's own near-black, and a black mood key underneath them

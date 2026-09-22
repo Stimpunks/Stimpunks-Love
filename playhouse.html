@@ -45,7 +45,7 @@
     </section>
   </header>
 
-  <p id="playhouse-says" role="status" aria-live="polite" style="margin:24px 0 0;min-height:56px;background:#101014;border:5px solid #fff;border-radius:18px;padding:16px 20px;font-family:'Bungee',sans-serif;font-size:16px;line-height:1.4;color:var(--yellow);">Press something. This box says what happened, out loud, for anyone who cannot see the room wobble.</p>
+  <p id="playhouse-says" role="status" aria-live="polite" style="margin:24px 0 0;min-height:56px;background:#101014;border:5px solid #fff;border-radius:18px;padding:16px 20px;font-family:'Bungee',sans-serif;font-size:16px;line-height:1.4;color:var(--yellow);">Press something. Every toy answers on itself, and this box keeps saying what happened, out loud, for anyone who cannot see the room wobble.</p>
 
   <!-- align-items:flex-start, not stretch. Stretch made the toys list as tall as
        whatever sat beside it, and a two-row grid stretched to 1293px gives each row
@@ -54,29 +54,94 @@
        the column next to them gained a paragraph. -->
   <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:22px;align-items:flex-start;">
 
-    <ul class="toys" style="flex:1 1 520px;">
-      <li><button type="button" class="toy toy--yellow" data-toy="stim">
+    <!-- The toys. Written by tools/make-toys.py out of data/toys.json, which
+         also checks that every tile has a handler registered in love.js and a
+         fill in love.css -- three files that have to agree about every toy and
+         are nowhere near each other. Chairy's sayings and the yell button's
+         recordings belong to make-chairy.py and make-yells.py; this carries
+         those two attributes across untouched. Do not hand-edit. -->
+    <!-- toys:begin -->
+  <ul class="toys" style="flex:1 1 520px;">
+    <li>
+      <button type="button" class="toy toy--yellow" data-toy="stim">
         <strong>THE STIM BOX</strong>
-        <span>A drawer of things that make a satisfying noise. Press one. Press it forty times. Nobody is counting.</span>
-      </button></li>
-
-      <li><button type="button" class="toy toy--green" data-toy="chairy"
-        data-lines="If you believe in a Maker, Maker built us in.|We are emergent. How glorious.|Spectrums and fractals are all around us and within us.|You are a stable part of the human genome.|Human cognitive diversity exists for a reason.|Love you down to your star stuff.|Autism Is a Neurotype, Not a Disorder|Human Needs, Not Special Needs|Broken Systems, Not Broken People|Care Is Infrastructure|Nothing About Us Without Us — a motto of the self-advocacy movement, not ours|It is time to celebrate our interdependence.|Authenticity Is Our Purest Freedom|The right to learn differently should be a universal human right.|Design for Real Life — after Eric A. Meyer and Sara Wachter-Boettcher, whose book it is|Design Is Tested at the Edges|Intersectionality is not optional.|Organize our lives around love and care.|Our survival is bound up together.|Pluralism is our reality.|Nothing is neutral.|People are not the problem.|Care comes before compliance.|Authenticity is sacred.|Consent beats compliance.|The average user is a myth.|Neurodiversity is a strength model.|The myth of meritocracy is a myth.">
+        <span class="toy__what">A drawer of things that make a satisfying noise. Press one. Press it forty times. Nobody is counting.</span>
+        <span class="toy__said" aria-hidden="true" hidden></span>
+      </button>
+      <p class="toy__idea">Wearing <a href="https://stimpunks.org/glossary/stimming/">Stimming</a></p>
+    </li>
+    <li>
+      <button type="button" class="toy toy--green" data-toy="chairy" data-lines="If you believe in a Maker, Maker built us in.|We are emergent. How glorious.|Spectrums and fractals are all around us and within us.|You are a stable part of the human genome.|Human cognitive diversity exists for a reason.|Love you down to your star stuff.|Autism Is a Neurotype, Not a Disorder|Human Needs, Not Special Needs|Broken Systems, Not Broken People|Care Is Infrastructure|Nothing About Us Without Us — a motto of the self-advocacy movement, not ours|It is time to celebrate our interdependence.|Authenticity Is Our Purest Freedom|The right to learn differently should be a universal human right.|Design for Real Life — after Eric A. Meyer and Sara Wachter-Boettcher, whose book it is|Design Is Tested at the Edges|Intersectionality is not optional.|Organize our lives around love and care.|Our survival is bound up together.|Pluralism is our reality.|Nothing is neutral.|People are not the problem.|Care comes before compliance.|Authenticity is sacred.|Consent beats compliance.|The average user is a myth.|Neurodiversity is a strength model.|The myth of meritocracy is a myth.">
         <strong>CHAIRY</strong>
-        <span>The furniture talks back. Press it and it says one of twenty-eight things, each out of a page we published &mdash; and names whose it is when the line is not ours.</span>
-      </button></li>
-
-      <li><button type="button" class="toy toy--violet" data-toy="clock"
-        data-terms="monotropism|neuroqueer|emergence|interdependence|the double empathy problem|masking|stimming|ableism|normal|neurodiversity|queer|autistic">
+        <span class="toy__what">The furniture talks back. Press it and it says one of twenty-eight things, each out of a page we published &mdash; and names whose it is when the line is not ours.</span>
+        <span class="toy__said" aria-hidden="true" hidden></span>
+      </button>
+    </li>
+    <li>
+      <button type="button" class="toy toy--violet" data-toy="clock" data-terms="monotropism|neuroqueer|emergence|interdependence|the double empathy problem|masking|stimming|ableism|normal|neurodiversity|queer|autistic">
         <strong>THE WORD CLOCK</strong>
-        <span>Tells you a different glossary term every hour, whether or not you asked.</span>
-      </button></li>
-
-      <li><button type="button" class="toy toy--orange" data-toy="yell" data-yells="[{&quot;src&quot;: &quot;audio/yells/ryan-boren.m4a&quot;, &quot;who&quot;: &quot;Ryan Boren&quot;}, {&quot;src&quot;: &quot;audio/yells/enigma.m4a&quot;, &quot;who&quot;: &quot;Enigma&quot;}]">
+        <span class="toy__what">Tells you a different glossary term every hour, whether or not you asked.</span>
+        <span class="toy__said" aria-hidden="true" hidden></span>
+      </button>
+      <p class="toy__idea">Wearing <a href="https://stimpunks.org/glossary/">The glossary itself</a></p>
+    </li>
+    <li>
+      <button type="button" class="toy toy--orange" data-toy="yell" data-yells="[{&quot;src&quot;: &quot;audio/yells/ryan-boren.m4a&quot;, &quot;who&quot;: &quot;Ryan Boren&quot;}, {&quot;src&quot;: &quot;audio/yells/enigma.m4a&quot;, &quot;who&quot;: &quot;Enigma&quot;}]">
         <strong>THE YELL BUTTON</strong>
-        <span>Does exactly one thing. It yells. It is the most-used control on the site and we are fine with that.</span>
-      </button></li>
-    </ul>
+        <span class="toy__what">Does exactly one thing. It yells. It is the most-used control on the site and we are fine with that.</span>
+        <span class="toy__said" aria-hidden="true" hidden></span>
+      </button>
+    </li>
+    <li>
+      <button type="button" class="toy toy--cyan" data-toy="echo" data-empty="Nothing has been said in here yet. Press something else first, then press me.">
+        <strong>THE ECHO</strong>
+        <span class="toy__what">Gives back the last thing this room said, and the last noise it made, both unchanged. Not a fault and not a parrot &mdash; saying it back is how a great many people think out loud, and how some people say anything at all.</span>
+        <span class="toy__said" aria-hidden="true" hidden></span>
+      </button>
+      <p class="toy__idea">Wearing <a href="https://stimpunks.org/glossary/echolalia/">Echolalia</a></p>
+    </li>
+    <li>
+      <div class="toy toy--pink toy--pair" data-toy="tel" data-calls="[{&quot;about&quot;: &quot;how the meeting went&quot;, &quot;a&quot;: &quot;I asked how the meeting went and got the whole meeting, minute by minute. I wanted to know how they were. I never found out.&quot;, &quot;b&quot;: &quot;They asked how the meeting went, so I told them how the meeting went. How I was is a different question and I would have answered that one too.&quot;}, {&quot;about&quot;: &quot;the news, and the face&quot;, &quot;a&quot;: &quot;I told them the news and their face did not move at all. I spent the rest of the day certain they did not care.&quot;, &quot;b&quot;: &quot;The news took up every single thing I had. I cared enormously. I was not also available for doing an expression about it.&quot;}, {&quot;about&quot;: &quot;the interruption&quot;, &quot;a&quot;: &quot;I was halfway through and they cut in with a story about themselves. So I stopped bothering.&quot;, &quot;b&quot;: &quot;The same thing had happened to me, so I said so. Where I come from that sentence means: I am here, and you are not the only one.&quot;}]">
+        <strong>THE DOUBLE EMPATHY TELEPHONE</strong>
+        <span class="toy__what">Two handsets and one conversation that went wrong. Pick up either end and you get that person&rsquo;s honest account of it. Damian Milton&rsquo;s double empathy problem: the gap is between two people, and neither of them is the broken one.</span>
+        <span class="handsets"><button type="button" class="handset" data-end="0">One end</button><button type="button" class="handset" data-end="1">The other end</button></span>
+        <span class="toy__said" aria-hidden="true" hidden></span>
+      </div>
+      <p class="toy__idea">Wearing <a href="https://stimpunks.org/glossary/double-empathy-problem/">The Double Empathy Problem</a></p>
+    </li>
+    <li>
+      <button type="button" class="toy toy--white" data-toy="tin" data-says="The same thing again, done the same way, at the same temperature. Still right. Still not boring.">
+        <strong>THE SAFE FOOD TIN</strong>
+        <span class="toy__what">Does the same thing every time you press it. The same thing. Every time. That is not a shortcoming, it is the entire appeal.</span>
+        <span class="toy__said" aria-hidden="true" hidden></span>
+      </button>
+      <p class="toy__idea">Wearing <a href="https://stimpunks.org/glossary/safe-food/">Safe Food</a></p>
+    </li>
+    <li>
+      <button type="button" class="toy toy--red" data-toy="spoon" data-sentences="[&quot;“I have got one of those two things in me today, not both. You pick which.”&quot;, &quot;“I can come, and I will be leaving early, and that is not a snub.”&quot;, &quot;“Ask me tomorrow. Today is already spent and tomorrow is not.”&quot;, &quot;“I am not tired. Tired is what you are after a long day. This is a different thing with the same face on.”&quot;, &quot;“Yes, I did it last week. Last week cost me this week.”&quot;, &quot;“I would rather do the thing I have said yes to properly than three things badly.”&quot;]">
+        <strong>THE SPOON DRAWER</strong>
+        <span class="toy__what">Christine Miserandino invented spoons so she could explain a limit to somebody across a table, which is the half that gets forgotten. This drawer hands you the sentences, ready to use. It does not hand you spoons and it does not keep a total.</span>
+        <span class="toy__said" aria-hidden="true" hidden></span>
+      </button>
+      <p class="toy__idea">Wearing <a href="https://stimpunks.org/glossary/spoon-theory/">Spoon Theory</a></p>
+    </li>
+    <li>
+      <button type="button" class="toy toy--night" data-toy="off" data-said="Everything is off. That last small noise was this button saying so." data-quiet="Nothing was playing. It is still off.">
+        <strong>THE OFF SWITCH</strong>
+        <span class="toy__what">Stops every sound on this page at once &mdash; the board, the yells, all of it, and then makes one small noise of its own to say so. Everything here is opt-in and this is the way back out: no confirmation, no are-you-sure, and nothing that asks whether you really meant it.</span>
+        <span class="toy__said" aria-hidden="true" hidden></span>
+      </button>
+    </li>
+    <li>
+      <button type="button" class="toy toy--lilac" data-toy="info" data-dumps="[{&quot;subject&quot;: &quot;Esmx the Porkypine&quot;, &quot;parts&quot;: [&quot;Esmx is our porcupine. Stimpunks commissioned them and holds the rights; Kaya Oldaker drew them, and that stays true however many times anybody redraws the quills.&quot;, &quot;Porcupines are not aggressive and cannot fire a quill at anybody, which is the part everybody gets wrong. The quills are for being left alone with.&quot;, &quot;This is the point of the mascot rather than a fact that came with it: a defended animal is not a hostile one, and being hard to approach is not the same as being unwilling.&quot;]}, {&quot;subject&quot;: &quot;pebbling&quot;, &quot;parts&quot;: [&quot;Pebbling is sending somebody a small thing because it made you think of them. A link, a picture, a fact about crows.&quot;, &quot;The locution is Amythest Schaber’s. We documented it in 2022 and Helen Edgar wrote it up at Autistic Realms in 2023, and it is named for the gentoo penguin, who brings a stone.&quot;, &quot;What makes it pebbling rather than trading is that nothing is owed back. There is no tally, which is why the cabinet in our arcade does not keep one.&quot;]}, {&quot;subject&quot;: &quot;the word stimpunk&quot;, &quot;parts&quot;: [&quot;A stimpunk is somebody who stims in public and does not apologise for the room it takes up. It is our word and it is on our glossary.&quot;, &quot;The punk half is doing the ordinary thing loudly on purpose, in a world that would rather you did it where nobody can see.&quot;, &quot;Which is roughly the argument this entire website is: you can have the volume and the access at the same time, and the dial in the corner is us proving it.&quot;]}]">
+        <strong>THE INFODUMP</strong>
+        <span class="toy__what">Press it and it tells you about a thing. Press it again and it tells you more about that thing. When it runs out of that thing it starts on the next one, because that is also what happens.</span>
+        <span class="toy__said" aria-hidden="true" hidden></span>
+      </button>
+      <p class="toy__idea">Wearing <a href="https://stimpunks.org/glossary/infodump/">Infodump</a></p>
+    </li>
+  </ul>
+  <!-- toys:end -->
 
     <div style="flex:0 1 320px;display:flex;flex-direction:column;gap:16px;">
       <section class="rules">
@@ -199,6 +264,7 @@
       <span class="burst burst--confetti" aria-hidden="true"></span>
     </button></li>
   </ul>
+  <p class="stimboard__said" aria-hidden="true" hidden></p>
   <!-- soundboard:end -->
 
     <p class="stimboard__note"><strong>The last three keys are not a feelings chart.</strong> Nobody here is being asked to identify an emotion, match it to a face, or perform one, and there are no faces anywhere on this board. What changes between the moods is the shape of a <em>noise</em> &mdash; a hum that lifts, a hum that sags, a hum with a buzz in it. A sad noise is a perfectly good thing to want. You can leave a key on angry and go and do something else.</p>

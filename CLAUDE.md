@@ -790,6 +790,127 @@ rather than in a footnote — and it will be its own visual world, not a quieter
 that looked like the job board would make rest look like an administrative category, which is the
 precise thing that argument exists to refuse.
 
+**EVERY TOY MAKES A NOISE, AND `make-toys.py` REFUSES ONE THAT DOES NOT.** Ryan, 2026-09-21:
+six of them shipped silent for an hour, and in a room where nine other things answer out loud
+**the quiet ones read as faulty rather than as quiet.** A missing noise is not an error anywhere.
+Each toy's sound is its own, short, affirmative, synthesised here, and no two alike — nor alike
+to any of the sound board's keys, which are the other synthesised things in the room. **The off
+switch's noise comes AFTER the silence**, which is the only order that makes sense for that
+button: it stops everything and then says so, and its copy says that it will.
+
+**AND A NOTE IS A FACTORY RATHER THAN A SOUND, WHICH IS THE WHOLE REASON THE ECHO WORKS.** It is
+called once to *choose* — the stim box's next step up the scale, which handset, which yell — and
+hands back a function that plays exactly that choice. `sound()` keeps that function, so the echo
+replays the same noise instead of the next one along, and a yell echoes as **that** person's
+yell rather than a fresh draw. A note that played directly would make the echo advance the scale
+it was echoing, and nothing would look wrong. Measured: two stim presses give 659 then 784, two
+echoes give 784 twice, and the next stim press resumes at 880. **The board goes through the same
+helper**, so the last noise means the last noise rather than the last noise made by a toy.
+
+**STYLING BY ELEMENT IS A RULE THAT CANNOT SEE WHAT IT WILL HIT.** `.toy--orange span` was
+written when a tile held one span. The answer readouts arrived later, also spans, and that rule
+is (0,2,0) against `.toy__said` at (0,1,0) — so **four tiles rendered near-black text on a
+near-black panel at 1.00:1** and three more at 1.28 to 1.48, in colours nobody chose for them.
+The blurb has a name now and every fill rule is scoped to it. If a component grows a second
+child, every element selector already pointed at it.
+
+**AND `check-contrast.py` PASSED THE WHOLE TIME, BECAUSE IT HOLDS PAIRS SOMEBODY WROTE DOWN AND
+NOT PAIRS THAT RENDER.** The pair was declared correctly — cream on near-black — and lost the
+cascade, which a list of colours cannot see. **That is the second time in one day the pair list
+was blind**: the first was an inherited link colour nobody ever decided, and this was a decided
+colour that never applied. Both were found by a person looking at the page. The only thing that
+sees either is a sweep of the *rendered* page, walking every text node against the ground it
+actually sits on — which is what `check-gentle.py` already does for motion and nothing does for
+colour.
+
+**A VERIFICATION THAT SHARES AN ASSUMPTION WITH THE FIX IS NOT A VERIFICATION.** The rescope was
+a regex expecting one space before `span`; `.toy--green  span` had two and was missed — and the
+grep that checked the work carried the same assumption, so it reported clean. **Break the check
+differently from the fix**, which is `make-polaroids.py`'s lesson about scanning the wrong
+attribute, arriving in a sed command.
+
+**A CONTROL THAT GIVES NO SIGN OF HAVING WORKED IS BROKEN, WHATEVER THE MARKUP SAYS.** The
+Playhouse answered into one live region at the top of the page, which is off the screen by the
+time anybody has scrolled to the toys — let alone to the sound board underneath them. **Ryan
+pressed the buttons he had just asked for and thought they were faulty**, and he built the room.
+Nothing caught it because every check anybody ran, ours included, was reading the box: the
+handler fired, the text was correct, the live region updated, and the person pressing saw
+nothing at all. **This is the 0×0 iframe again in a different shape** — the DOM was right and the
+screen was wrong — and it is the reason "measure what the visitor can see" has to mean the
+visitor's viewport and not the document.
+
+So every toy answers **on the tile you pressed**, and the sound board answers in one strip
+**directly under the keys**, because a key is about a hundred pixels wide and a sentence does not
+fit on one. One readout at a time: whichever control spoke last holds it, and the previous one
+is cleared, so it always reads as *this* control answering rather than a page filling up with
+old replies. **Every readout is `aria-hidden` and `#playhouse-says` is still the only live region
+on the page**, because hearing the same sentence twice is worse than hearing it once. They ship
+`hidden`, so a page with no JavaScript shows no empty boxes — which only holds because §2's
+`[hidden]` guard carries `!important`. **Anything added to this room that answers in words needs
+a readout where the hand is; the box at the top is the narration, not the feedback.**
+
+**EVERY TOY IN THE PLAYHOUSE IS AN IDEA WEARING A COSTUME, AND THE LINE UNDER THE TILE NAMES
+THE IDEA.** Ryan's call, 2026-09-21, filling the blank column beside the house rules: six more
+toys, and each one a real entry from our own glossary rather than a gag with nothing behind it.
+Echolalia, the double empathy problem, safe food, spoon theory, infodumping. **The slugs were
+checked against the Knowledge System mirror and not fetched live**, because on stimpunks.org a
+301 is a failure rather than a pass and a live fetch will happily confirm a page that does not
+exist; *curb cut effect* was dropped for being in our posts and not in the glossary, which is
+the same test that dropped four candidates a year earlier. **A toy is not an explainer**: the
+tile does the thing, the line says where the thing came from, and nothing teaches, quizzes or
+asks a visitor to demonstrate that they have understood.
+
+**AND THE CREDIT IS ON THE FACE OF THE TILE, WHICH `make-toys.py` ENFORCES.** Damian Milton on
+the telephone, Christine Miserandino on the spoon drawer. A credit recorded in a data file and
+not in the copy is a credit nobody reads, which on this site is the one habit that was kept when
+the other three were dropped.
+
+**THE SPOON DRAWER HANDS OUT THE SENTENCES AND NOT THE SPOONS**, and the difference is the whole
+point. Miserandino invented spoons to explain a limit to somebody across a table; a drawer of
+infinite spoons would quietly delete the limit while looking generous, which is a friendlier
+version of the thing her essay exists to refuse. It hands you things you can say. **Nothing in
+that room is counted** — the stim box says "nobody is counting" as a joke about counting, and
+the tool refuses the scoring vocabulary on any other tile, because the joke does not survive a
+second toy repeating it with a straight face.
+
+**AN ARIA-LIVE REGION DOES NOT ANNOUNCE TEXT IT ALREADY HOLDS, AND TWO TOYS THERE EXIST TO
+REPEAT THEMSELVES.** The echo says the last thing again; the safe food tin says the same
+sentence forever. Written the obvious way, both are **silent to the one reader who most needs
+them** while looking perfectly correct on screen — a failure with no symptom at all for anybody
+watching. `speak()` in love.js clears the region and sets it back on the next tick, which is
+what makes a repeat a change. Any future control whose output can equal its previous output has
+this bug until it uses that helper.
+
+**AN HTML ENTITY IS RIGHT IN THE BLURB AND WRONG IN A PAYLOAD, AND NOTHING IN THE DATA FILE
+SHOWS WHICH IS WHICH.** `what` is written into the markup as HTML, so `&mdash;` there is an em
+dash. Everything in `make-toys.py`'s `CARRIES` becomes a `data-` attribute that love.js writes
+with `textContent`, so `&ldquo;` there arrives on the page as five literal characters. **The
+spoon drawer shipped its first draft that way**, looking correct in the file and like a markup
+leak in the room. The tool refuses an entity in a payload field now.
+
+**THE TILE IS NOT ALWAYS THE BUTTON.** The double empathy telephone has two handsets, so its
+tile is a `<div>` and the controls inside it are the buttons — a button cannot be nested in a
+button, and the alternative was one control pretending to be two. It is the only toy on that
+wall with more than one thing to press, and **it never says which account was right**, because
+the whole idea is that neither was wrong.
+
+**TEN TILES, TEN FILLS, NONE REPEATED, AND THE TOOL REFUSES A FILL CLAIMED TWICE.** It caught
+one on its first run: the newcomer had taken `.toy--violet`, which the word clock has owned
+since the room opened, and the two rules would have sat in one section with the last one winning
+in silence. **That is `check-classes.py`'s collision arriving INSIDE a section, where that tool
+deliberately does not look.** The newcomer was renamed. When a name collides, look for the same
+collision in every file that holds names — and now also inside the one section you are editing.
+
+**AND THE ROOM HAD THREE LIVE CONTRAST FAILURES THAT NOTHING COULD SEE.** `.room-play a` was
+yellow, which is right on the near-black boxes, and every link on that page is either on the
+blue ground or inside a WHITE card: the house-rules links measured **1.31**, the quest marker's
+hand-in link **3.88**, on a page that has been published since the street opened.
+`check-contrast.py` holds a pair for every colour somebody **decided on**, and an inherited one
+was never decided, so there was nothing to hold a pair for — **the exact hole the Doomscroll
+left, found again in an older room, and found by looking at the page rather than by a tool.**
+The room decides at each ground it actually has now. A room that adds a link to a ground it has
+not decided a colour for is repeating this.
+
 **THE SOUND BOARD'S BOTTOM ROW IS NOT A FEELINGS CHART, AND THAT IS WHY IT HAS NO FACES ON
 IT.** Ryan's brief, 2026-09-21: a 3×3 board of stimmy noise keys with a row of mood keys along
 the bottom that toggle between happy, sad and angry. The obvious drawing for a mood key is a
