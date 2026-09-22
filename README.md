@@ -250,6 +250,11 @@ stage starts its YouTube playlist at a random one of those ids because **the emb
 and cannot take a position**, which was measured rather than assumed: `shuffle=1` and `index=` are
 both inert and only `/embed/<id>?list=` moves the starting point, so the file holds ids rather than
 a count and those ids **drift**, which is what the date and `pull-club.py --check` are for.
+It reads the framed origins out of `love-embed.js` rather than keeping its own list &mdash; that copy
+was removed when Apple Music became the fourth origin, because a hand-kept copy of a generated list
+is the `_headers` trap in miniature. It also stops on a deck that is **both a door and a screen**, on a door carrying start points, and
+on a deck with no note &mdash; the Qobuz playlist is a door because **Qobuz publishes no embed**, and
+the trap is that framing it works perfectly and renders a catalogue page with no play control on it.
 `make-chappell.py` stops on an id that is not a YouTube id — which love-embed.js
 declines silently, so the failure is a button that never becomes a video and says nothing about
 it — or on a track with no runtime, because the label promising one before the press is that

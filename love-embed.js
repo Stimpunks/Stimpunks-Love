@@ -51,7 +51,16 @@
        already lives rather than copied onto this site. Third origin, third
        origin, and the one place it is written down -- make-csp.py and
        make-sweetgrass.py both read the array above. */
-    'https://videopress.com/'
+    'https://videopress.com/',
+    /* Club Chronic's Apple Music deck. FOURTH ORIGIN, AND THE FIRST ONE WHERE
+       THE SERVICE SAYS BOTH THINGS OUT LOUD: music.apple.com sends
+       X-Frame-Options: DENY *and* frame-ancestors 'none', and
+       embed.music.apple.com omits frame-ancestors entirely. Same company, two
+       hosts, opposite permissions -- which is "playing is not the same
+       permission as embedding" stated by the vendor rather than discovered by
+       us. The page a person browses is the one that refuses; the embed host is
+       the one to frame. */
+    'https://embed.music.apple.com/'
   ];
 
   function frameUrl(src, title) {

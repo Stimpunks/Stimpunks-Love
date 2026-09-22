@@ -38,6 +38,18 @@ WHAT IT REFUSES:
     data/hermitage.json's header already forbids. The Spotify deck has none and
     must not be given any -- its frame has no such lever, and an attribute that
     does nothing is a feature somebody will later believe in.
+  - A DECK THAT IS BOTH A DOOR AND A SCREEN, AND A DOOR CARRYING START POINTS.
+    A deck marked how: link is a way OUT and gets no frame -- the Jungle Room's
+    state: link and the Pebble Board's how: link, arriving on a stage. Qobuz is
+    the first one here: it publishes no embed, and framing the playlist anyway
+    renders a catalogue page with a Listen on Qobuz button and nothing on it
+    that plays. THAT IS THE TRAP, because it frames perfectly -- no
+    X-Frame-Options, no frame-ancestors, nothing for a checker to catch -- and
+    what arrives is a link wearing the shape of a window, promising the one
+    action it cannot do. A door carrying a frame is somebody halfway through
+    changing their mind, and a door carrying start points is a draw nothing
+    will ever read.
+
   - A SONG WITH NO CHANNEL. None of this music is ours.
   - A COLLECTION LINK WITH NO DESCRIPTION, because a wall of bare links is a
     bookmark folder rather than a room.
@@ -54,10 +66,27 @@ ROOM = ROOT / "club-chronic.html"
 NOTES = ROOT / "liner-notes.html"
 
 YT = re.compile(r"^[A-Za-z0-9_-]{11}$")
-# Kept in step with love-embed.js's ORIGINS and with _headers' frame-src. Three
-# places, on purpose: the browser enforces one, the script enforces another, and
-# this refuses before either can render a blank box.
-ORIGINS = ("https://www.youtube-nocookie.com/", "https://open.spotify.com/")
+
+
+def origins():
+    """The origins this site will build a frame for, READ rather than restated.
+
+    This used to be a two-item tuple typed out here and described as being in
+    three places on purpose. It was a copy of a list that already had a single
+    source of truth, and adding Apple Music is what exposed it: the origin goes
+    in love-embed.js and the header is generated from there, so this tool WOULD
+    have refused a deck the browser was perfectly willing to frame -- the
+    _headers trap in miniature, a hand-kept copy of something that has to agree
+    everywhere. It was made to read rather than edited a third time, which is
+    what make-csp.py and make-sweetgrass.py already do. ADDING A SERVICE IS ONE
+    EDIT IN love-embed.js AND A RE-RUN OF make-csp.py."""
+    js = (ROOT / "love-embed.js").read_text()
+    block = re.search(r"var ORIGINS = \[(.*?)\];", js, re.S)
+    if not block:
+        raise SystemExit(
+            "REFUSING: love-embed.js has no ORIGINS array, so this tool cannot tell\n"
+            "whether a deck's frame points somewhere this site will actually build.")
+    return tuple(re.findall(r"'(https://[^']+)'", block.group(1)))
 
 
 def esc(s):
@@ -108,14 +137,27 @@ def check(data):
     for pl in plays:
         n = (pl.get("name") or "").strip() or "<unnamed>"
         src = (pl.get("frame") or "").strip()
-        if not src.startswith(ORIGINS):
+        door = (pl.get("how") or "").strip() == "link"
+        if not (pl.get("note") or "").strip():
+            bad.append(f"the {n} playlist has no note. A deck that does not say what it is "
+                       "or what pressing it does is a bare link with a heading over it.")
+        if door:
+            if src:
+                bad.append(f"the {n} playlist is a door and carries a frame as well. It is "
+                           "one or the other: a door is a way out precisely because the "
+                           "service will not give us a player, and a frame beside it is "
+                           "somebody halfway through changing their mind.")
+            if pl.get("starts"):
+                bad.append(f"the {n} playlist is a door and carries start points. Nothing "
+                           "reads them, because nothing here builds it a frame to start.")
+        elif not src.startswith(origins()):
             bad.append(f"the {n} playlist frames {src!r}, which is not an origin this site "
                        "will build. Add it to love-embed.js AND to _headers, or it renders "
                        "as a blank box with no error anywhere.")
         if not (pl.get("out") or "").strip():
             bad.append(f"the {n} playlist has no way out to the service it is on.")
         starts = pl.get("starts") or []
-        if starts:
+        if starts and not door:
             if not src.startswith("https://www.youtube-nocookie.com/") or \
                     "/embed/videoseries?" not in src:
                 bad.append(f"the {n} playlist carries start points, but its frame is not "
@@ -182,6 +224,24 @@ def stage(plays):
         attr = ('\n                data-embed-starts="' + " ".join(starts) + '"') if starts else ""
         label = ("Press to play &middot; starts somewhere random &middot; runs until you stop it"
                  if starts else "Press to play &middot; runs until you stop it")
+        # A DOOR IS NOT SHAPED LIKE A SCREEN, and that is the whole reason it
+        # gets its own markup rather than a facade with a different label. The
+        # Jungle Room gives its link-outs a 16:9 box because they stand in a
+        # grid of screens and have to line up with them; on this stage a 16:9
+        # box IS the shape of a player, so this one is not given one.
+        if (pl.get("how") or "").strip() == "link":
+            out.append(
+                f'      <div class="deck deck--{esc(pl["slug"])} deck--away">\n'
+                f'        <p class="deck__where">{esc(pl["name"])}</p>\n'
+                f'        <h3>{esc(pl["title"])}</h3>\n'
+                f'        <p class="deck__by">Kept by {esc(pl["by"])}</p>\n'
+                f'        <p>{esc(pl["note"])}</p>\n'
+                f'        <a class="deck__away" href="{esc(pl["out"])}">Open it on '
+                f'{esc(pl["name"])[3:] or esc(pl["name"])} &rarr;'
+                f'<span class="deck__off">Off site &middot; nothing on this page plays it</span>'
+                f'</a>\n'
+                '      </div>')
+            continue
         out.append(
             f'      <div class="deck deck--{esc(pl["slug"])}">\n'
             f'        <p class="deck__where">{esc(pl["name"])}</p>\n'

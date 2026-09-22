@@ -287,6 +287,40 @@ button and the builder's is on the document, which is what makes the order relia
 race between script tags; move it and it breaks silently. It fails back to the top of the list,
 never to nothing.
 
+**AND THE THIRD DECK ON THAT STAGE IS A DOOR, BECAUSE QOBUZ PUBLISHES NO EMBED.** This is the
+purest version of *playing is not the same permission as embedding* the street has met, because
+**the frame works**: no `X-Frame-Options`, no `frame-ancestors`, nothing for any checker here to
+catch. What renders is a catalogue teaser — a TRY FOR FREE button, the cover mosaic, one *Listen on
+Qobuz* button, and a track list whose rows are plain text with **no play control on any of them** —
+and Qobuz's own share dialog offers no embed code, which is as close to an authoritative answer as
+that question has. A link dressed as a window promises the one action it cannot do, so it is shaped
+like a door: **no aspect ratio**, because a 16:9 plate *is* the shape of a player, and dashed where
+every facade in that room is solid. The Jungle Room gives its link-outs 16/9 only because they
+stand in a grid of screens and must line up with them; a stage has no such grid. **No origin was
+added and the CSP did not move**, because nothing frames it — and nothing reaches Qobuz until
+somebody follows the link, which is a stronger promise than the facade makes rather than a weaker
+one. **Do not "finish" it into an embed**; the embed is what was tried first.
+
+**AND THE DECK BESIDE IT IS THE SAME LESSON WITH THE OPPOSITE ANSWER, WRITTEN BY THE SERVICE.**
+Apple Music publishes an embed, so it is a screen — and Apple states both permissions itself, on two
+hosts: `music.apple.com`, where the playlist actually lives and the address anybody will hand you,
+refuses every frame with **both** `X-Frame-Options: DENY` and `frame-ancestors 'none'`, while
+`embed.music.apple.com` omits `frame-ancestors` entirely. **The host a person browses is the one
+that refuses; the embed host is the one to frame**, and handing this site the browsing URL would
+produce a blank box with the reason only in a console. Signed out it plays **ninety-second
+previews** — measured across three songs by three artists, all reporting 1:30, because real songs do
+not all happen to be ninety seconds long — and the deck says so. **Its player is styled from the
+container**, never the button, and takes no aspect ratio: Apple's is 450px of artwork, transport and
+scrolling list, and 16:9 crops the list off. **It also loads slowly**, showing a grey placeholder
+with a music glyph for about ten seconds before it initialises; that is Apple's loading state and
+not a fault to fix.
+
+**ADDING IT COST A COPY OF THE ORIGINS LIST RATHER THAN ADDING ONE.** `make-club.py` held its own
+two-item tuple, commented as three places on purpose, and it **would have refused a deck the browser
+was perfectly willing to frame**. It reads `love-embed.js` now like `make-csp.py` and
+`make-sweetgrass.py`. The rule is unchanged and is now true in one more file: **adding a service is
+one edit in that array and a re-run of `make-csp.py`**, and never a hand edit to `_headers`.
+
 **EVERY FRAMED ORIGIN IS WRITTEN IN ONE PLACE: `love-embed.js`'s `ORIGINS` array.** The browser
 gets it because `make-csp.py` reads that array and builds `frame-src` from it; the build refuses a
 bad URL early because the room generators read the same array. **Adding a service is one edit

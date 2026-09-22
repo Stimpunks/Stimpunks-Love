@@ -484,6 +484,26 @@
       "frame": "https://open.spotify.com/embed/playlist/3nI8FuSISztY18IzwiKjMk",
       "out": "https://open.spotify.com/playlist/3nI8FuSISztY18IzwiKjMk",
       "note": "The most complete version. Spotify will want you signed in for full tracks; without that it plays previews."
+    },
+    {
+      "slug": "apple",
+      "name": "On Apple Music",
+      "title": "Chronic Neurodivergent Depressed Queer Punk",
+      "by": "Ryan Boren",
+      "frame": "https://embed.music.apple.com/us/playlist/chronic-neurodivergent-depressed-queer-punk/pl.u-yZyVVjZtYzXDqW",
+      "out": "https://music.apple.com/us/playlist/chronic-neurodivergent-depressed-queer-punk/pl.u-yZyVVjZtYzXDqW",
+      "note": "Apple's own embed, which lives on a different host from the page: the page refuses every frame and the embed host allows them. Signed out it plays ninety-second previews rather than whole tracks — measured, not assumed. Signing in is what Apple offers for the rest.",
+      "_checked": "Checked on 2026-09-22 by framing both hosts from a served page, side by side. music.apple.com — the address Ryan sent — sends X-Frame-Options: DENY AND frame-ancestors 'none', and the console refused it in as many words; embed.music.apple.com sends no X-Frame-Options and its Content-Security-Policy has no frame-ancestors directive at all, and it rendered a working player: cover mosaic, a Play button, the track list, a Sign In button and a View in Apple Music link. SAME COMPANY, TWO HOSTS, OPPOSITE PERMISSIONS, which is the street's playing-is-not-embedding rule stated by the vendor rather than found by us. The ninety seconds is measured: Manic Depression, Tunnel Vision and Broken Neck — three artists, three songs — each reported a 1:30 total, and real songs do not all happen to be exactly ninety seconds. The frame is the /us/ storefront because that is the link we were given; a visitor elsewhere gets Apple's own redirect rather than a broken box."
+    },
+    {
+      "slug": "qobuz",
+      "name": "On Qobuz",
+      "title": "Chronic Neurodivergent Depressed Queer Punk",
+      "by": "Ryan Boren",
+      "how": "link",
+      "out": "https://open.qobuz.com/playlist/33030492",
+      "note": "Qobuz publishes no embed. Framed, the playlist renders a catalogue page with a Listen on Qobuz button on it and not one thing on it that plays — so this is a door rather than a screen, because a link dressed as a window promises the one action it cannot do. Qobuz is a subscription service. Nothing reaches it until you follow the link.",
+      "_checked": "Checked on 2026-09-22 by framing https://open.qobuz.com/playlist/33030492 from a served page, the way the YouTube start points were checked. It DOES frame — no X-Frame-Options, no frame-ancestors — which is the trap: what renders is a teaser. Qobuz logo, TRY FOR FREE, the cover mosaic, one Listen on Qobuz button, and a track list whose rows are plain text with no play control on any of them. Qobuz's own share dialog offers a URL, copy, Facebook, Twitter and email, and no embed code, which is as close to an authoritative answer as that question has. The page says 500 tracks and 25h 52m; neither is stored here, because make-club.py refuses a runtime on a playlist and a total goes stale."
     }
   ],
   "racks": [

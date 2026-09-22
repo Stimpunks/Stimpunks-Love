@@ -4148,6 +4148,42 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 /* Spotify's own player is 352px tall and does not want a 16:9 box. */
 .deck--spotify .facade { aspect-ratio: auto; min-height: 172px; }
 .deck--spotify .facade iframe { position: static; width: 100%; height: 352px; }
+/* Apple's is 450px and wants one even less: it is a square of artwork, a
+   transport and a scrolling track list stacked beside each other, so 16:9 crops
+   the list off the bottom. STYLED FROM THE CONTAINER, never from the button --
+   love-embed.js replaces a pressed facade with a bare <div class="facade"> and
+   anything the button was wearing evaporates, which is how Swaying Sweetgrass
+   shipped its players at 0x0. */
+.deck--apple .facade { aspect-ratio: auto; min-height: 172px; }
+.deck--apple .facade iframe { position: static; width: 100%; height: 450px; }
+
+/* A DOOR ON THE STAGE, and the only deck here that is not a screen. Qobuz
+   publishes no embed: framed, the playlist renders a catalogue page with one
+   Listen on Qobuz button and no play control on any row, so this is a way out
+   rather than a player. IT IS DELIBERATELY NOT GIVEN THE FACADE'S BOX. The
+   Jungle Room's link-outs take 16/9 because they stand in a grid of screens and
+   have to line up with them; on a stage a 16:9 plate IS the shape of a player,
+   and this cannot play anything. Dashed rather than solid for the same reason:
+   in this room a solid bootblack plate inside a marker ring means press it and
+   it plays HERE.
+
+   THE SUB-LINE IS THE SAME INK AS THE LABEL ON PURPOSE. Every ground in this
+   room is a pair somebody measured, --paste on --bootblack among them, and
+   reaching for a quieter grey would have put an unmeasured pair on the stage to
+   save a design decision the room can make with type instead -- which is what
+   this room does anyway: Anton shouts and Barlow does not. */
+.deck--away .deck__away {
+  margin-top: auto; display: flex; flex-direction: column; gap: 6px;
+  padding: 14px 18px; text-align: center; text-decoration: none;
+  background: var(--bootblack); border: 3px dashed var(--marker);
+  color: var(--paste); font-family: 'Anton', Impact, sans-serif;
+  letter-spacing: 1px; text-transform: uppercase; font-size: 17px;
+}
+.deck--away .deck__away:hover { background: var(--grime); }
+.deck--away .deck__off {
+  font-family: 'Barlow', system-ui, sans-serif;
+  letter-spacing: 0; text-transform: none; font-size: 14px;
+}
 
 /* THE RACK. Records along the back wall, filed under six headings. Each sleeve
    is a facade and each one says how long it runs before it is pressed. */
