@@ -28,6 +28,16 @@ WHAT IT REFUSES:
     are in love-embed.js AND in the Content-Security-Policy, and a URL that is
     in neither renders as a blank box with no error anywhere. This checks the
     same list at build time so it fails here instead of in somebody's browser.
+  - A START POINT THAT IS NOT A YOUTUBE ID, ONE STORED TWICE, A SET OF THEM ON
+    A PLAYLIST THAT CANNOT USE THEM, AND A SET WITH NO DATE ON IT. The stage
+    starts its YouTube playlist at a random one of these, because the embed
+    cannot shuffle and cannot take a position -- only /embed/<id>?list= moves
+    the starting point, which is why the file holds ids rather than a count.
+    They are pulled by tools/pull-club.py and they DRIFT, so the date is part
+    of the claim: a list of ids nobody can say they measured is the thing
+    data/hermitage.json's header already forbids. The Spotify deck has none and
+    must not be given any -- its frame has no such lever, and an attribute that
+    does nothing is a feature somebody will later believe in.
   - A SONG WITH NO CHANNEL. None of this music is ours.
   - A COLLECTION LINK WITH NO DESCRIPTION, because a wall of bare links is a
     bookmark folder rather than a room.
@@ -104,6 +114,34 @@ def check(data):
                        "as a blank box with no error anywhere.")
         if not (pl.get("out") or "").strip():
             bad.append(f"the {n} playlist has no way out to the service it is on.")
+        starts = pl.get("starts") or []
+        if starts:
+            if not src.startswith("https://www.youtube-nocookie.com/") or \
+                    "/embed/videoseries?" not in src:
+                bad.append(f"the {n} playlist carries start points, but its frame is not "
+                           "the form that can use one. Only "
+                           "/embed/<id>?list= moves a starting point; on anything else "
+                           "the attribute renders and does nothing, which is worse than "
+                           "not having it.")
+            if not (pl.get("starts_pulled") or "").strip():
+                bad.append(f"the {n} playlist's start points carry no date. They are "
+                           "mirrored from somebody else's list and they drift; a set of "
+                           "ids nobody can say they measured is the thing this repo "
+                           "refuses everywhere else.")
+            seen_s = set()
+            for sid in starts:
+                if not YT.match(sid):
+                    bad.append(f"the {n} playlist has {sid!r} as a start point, which is "
+                               "not a YouTube id. love-embed.js would refuse it quietly "
+                               "and the press would become nothing.")
+                if sid in seen_s:
+                    bad.append(f"the {n} playlist has {sid} as a start point twice. The "
+                               "playlist itself may well hold that song twice -- several "
+                               "of these do -- but a start point is a video rather than a "
+                               "position, so both copies open the same place and the "
+                               "second only doubles its odds. pull-club.py drops repeats; "
+                               "a file with one in it was edited by hand.")
+                seen_s.add(sid)
         # THE INVERSE OF THE RULE ABOVE, in the same tool.
         if (pl.get("length") or pl.get("spoken")):
             bad.append(f"the {n} playlist carries a runtime. It is a list somebody keeps "
@@ -136,6 +174,14 @@ def pasteup(cols):
 def stage(plays):
     out = []
     for pl in plays:
+        # THE LABEL SAYS WHERE IT STARTS, because every control on this street
+        # says what it is about to do before it is pressed. A deck that quietly
+        # began in the middle of the list would look like a bug to the one
+        # person who knows the playlist's running order.
+        starts = pl.get("starts") or []
+        attr = ('\n                data-embed-starts="' + " ".join(starts) + '"') if starts else ""
+        label = ("Press to play &middot; starts somewhere random &middot; runs until you stop it"
+                 if starts else "Press to play &middot; runs until you stop it")
         out.append(
             f'      <div class="deck deck--{esc(pl["slug"])}">\n'
             f'        <p class="deck__where">{esc(pl["name"])}</p>\n'
@@ -144,8 +190,9 @@ def stage(plays):
             f'<a href="{esc(pl["out"])}">open it there &rarr;</a></p>\n'
             f'        <p>{esc(pl["note"])}</p>\n'
             f'        <button type="button" class="facade" data-embed-src="{esc(pl["frame"])}"\n'
-            f'                data-embed-title="{esc(pl["title"])} on {esc(pl["name"])[3:] or esc(pl["name"])}">'
-            f'Press to play &middot; runs until you stop it</button>\n'
+            f'                data-embed-title="{esc(pl["title"])} on {esc(pl["name"])[3:] or esc(pl["name"])}"'
+            f'{attr}>'
+            f'{label}</button>\n'
             '      </div>')
     return "\n".join(out)
 

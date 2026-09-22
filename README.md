@@ -221,6 +221,8 @@ network — a checker that fails on a train either blocks a deploy or teaches ev
 python3 tools/check-jukebox.py     # presses nothing; asks YouTube whether every facade still plays
 python3 tools/pull-arrivals.py     # reads the sibling sites' RSS feeds into data/arrivals.json
 python3 tools/pull-foundry.py      # reads every typeface's own record into data/foundry-faces.json
+python3 tools/pull-club.py         # mirrors Club Chronic's playlist ids into data/club.json
+python3 tools/pull-club.py --check # reports drift between that mirror and the live playlist
 ```
 
 And one that is **not a tool you run by hand at all**, listed here only so nobody goes looking for
@@ -242,7 +244,13 @@ no source page or contains the pipe that separates them, `make-toys.py` stops on
 no name on it, `make-soundboard.py` stops on a key whose noise is not registered in `love.js` or whose flourish has no rule and no keyframes in `love.css` — three files have to agree about every key and none of them is near the others, so a key with no voice is a button somebody presses and presses that never makes a sound — and it stops on two keys sharing a flourish, on a key that does not say what it sounds like in words, and on a mood key anywhere but the last row, `make-yurt-sound.py` stops if a recording has no name or no consent date,
 stops if two sounds claim the same tile, and measures each runtime off the file rather than
 trusting the data, because a label promising one before the press is the same promise the
-jukebox makes, `make-chappell.py` stops on an id that is not a YouTube id — which love-embed.js
+jukebox makes, `make-club.py` stops on a start point that is not a YouTube id, on one stored twice, on a set of
+them attached to a playlist whose frame cannot use one, and on a set carrying no date &mdash; the
+stage starts its YouTube playlist at a random one of those ids because **the embed cannot shuffle
+and cannot take a position**, which was measured rather than assumed: `shuffle=1` and `index=` are
+both inert and only `/embed/<id>?list=` moves the starting point, so the file holds ids rather than
+a count and those ids **drift**, which is what the date and `pull-club.py --check` are for.
+`make-chappell.py` stops on an id that is not a YouTube id — which love-embed.js
 declines silently, so the failure is a button that never becomes a video and says nothing about
 it — or on a track with no runtime, because the label promising one before the press is that
 room's own claim, all three audio tools stop on a recording that still carries the device and timestamp

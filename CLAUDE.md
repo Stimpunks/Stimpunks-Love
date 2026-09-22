@@ -258,6 +258,35 @@ a length; a list somebody keeps adding to does not, and today's total is wrong n
 authoritative meanwhile. Do not "fix" the inconsistency — it is `make-den.py` and `make-jungle.py`
 in one file, and both promises are the same promise.
 
+**THE STAGE DROPS THE NEEDLE SOMEWHERE RANDOM AND THE ROOM REFUSES THE WORD SHUFFLE.** Ryan asked
+whether the playlist could be set to shuffle; it cannot, and that was measured rather than
+remembered. `shuffle=1` is inert, `index=` is inert on both the `videoseries` and the
+`listType=playlist` form, and **only `/embed/<id>?list=` moves the starting point**, which then
+plays on in order. **The first pass of that measurement read the posters and would have reported
+`index=` as working** — the poster is the playlist's first entry whatever the player then does — so
+all of it was re-checked with muted autoplay. That is the Playhouse's 0×0 iframe again: the DOM was
+right and the screen was wrong. **The friendly edit is to call it shuffle anyway**, and the second
+one is to reach for the IFrame Player API's `setShuffle`, which needs YouTube's own script and
+therefore a `script-src` loosening on the one site whose whole mechanism is not reaching a third
+party until somebody presses. Neither.
+
+**AND THE ONLY LEVER TAKES AN ID, SO THAT FILE MIRRORS SOMEBODY ELSE'S LIST AND THE MIRROR DRIFTS
+BY DESIGN.** A song added to the playlist cannot be picked until somebody runs `pull-club.py`
+again; a song removed becomes a start point the list no longer has. Neither is visible on the page
+and `pull-club.py --check` is the only thing that sees either — the cost was stated before it was
+paid and it is Ryan's call, 2026-09-22. **The obvious continuation token is the wrong one**: a
+playlist page carries two, and the video list's — the only one that pages the songs — is buried
+inside a `commandExecutorCommand` while the section list's sits at the tidy, obvious path. Taking
+the obvious one mirrored a hundred rows of nearly four hundred **and reported success**, because a
+short list is not an error anywhere. **A START POINT IS A VIDEO RATHER THAN A POSITION**, which is
+why repeats are dropped: nine of those songs really are in the playlist twice, each with its own
+`setVideoId`, and `/embed/<id>?list=` opens at the first occurrence whichever one you meant. **And
+`club.js` builds nothing** — it rewrites `data-embed-src` before the press reaches the document, so
+`love-embed.js` stays the only thing on this site that builds a frame. The listener is on the
+button and the builder's is on the document, which is what makes the order reliable rather than a
+race between script tags; move it and it breaks silently. It fails back to the top of the list,
+never to nothing.
+
 **EVERY FRAMED ORIGIN IS WRITTEN IN ONE PLACE: `love-embed.js`'s `ORIGINS` array.** The browser
 gets it because `make-csp.py` reads that array and builds `frame-src` from it; the build refuses a
 bad URL early because the room generators read the same array. **Adding a service is one edit
