@@ -289,6 +289,17 @@ they are only 1.55 apart from each other no brown clears 3:1 against both at onc
 palette splits at the soil line the way a plant does, green above and pale below, and the rule is
 enforced rather than remembered. It was broken on purpose first, with a stem two pixels under and a
 leaf circle whose edge dipped below; it caught both.
+**And the garden next door is not a back door around that roster.** Autistic Realms and More
+Realms are Helen Edgar's own sites, so they cannot be beds &mdash; the only way to plant one would
+have been to write it into `data/arrivals.json`, which would put it on The Feed as one of *our*
+wires and claim her work as ours. They are over the fence instead, and the two refusals now face
+each other: a bed that is **not** on the roster is refused, a plot that **is** on it is refused,
+and no edit to the garden's own data file moves a site across. A plot must name whose it is and
+must say **what of it is already in this garden** &mdash; without that line the section is a list
+of a friend's websites on a page about ours; with it, it is the other half of every `with` line in
+the beds, which say who helped us. Its drawing **stops at the fence**: the same coordinate walker
+with the ink filter taken off, because we do not get to draw the ground of somebody else's garden,
+which is also why nothing over there casts a shadow while everything in the beds does.
 `make-zibaldone.py` refuses **a quotation longer than thirty words** &mdash; the number is in the
 tool and the room prints it, because a quote bank is the shape of page that turns into
 republishing somebody's book one reasonable-looking entry at a time, and "we quote lightly" is

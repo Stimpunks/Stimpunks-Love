@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Build The Garden's beds, one per site we publish, and the credits with them.
+"""Build The Garden's beds, one per site we publish, the plots over the fence
+next door, and the credits with all of them.
 
 THE ROSTER IS NOT IN THIS FILE AND NOT IN data/garden.json EITHER. Which sites
 exist and what order they come in is read out of data/arrivals.json, whose own
@@ -71,6 +72,32 @@ WHAT IT REFUSES, and why each one is here:
     somebody's name on it holding something else reads as a claim. The `with`
     line is exempt, and that is the entire reason it exists -- it is where a
     collaborator's name and a collaborator's own site go.
+
+AND THE GARDEN NEXT DOOR IS NOT A BACK DOOR AROUND THE ROSTER. Autistic Realms
+and More Realms are Helen Edgar's own sites, so they cannot be beds: a bed is a
+site WE publish, and the only way to plant one of hers would have been to write
+it into data/arrivals.json, which would put it on The Feed as one of our wires
+and claim her work as ours in the one file this room may not invent anything in.
+They are over the fence instead. The two refusals face each other -- a bed that
+is NOT on the roster is refused up there, a plot that IS on it is refused down
+here -- so no edit to this file can move a site across that fence.
+
+  · A PLOT THAT DOES NOT SAY WHAT OF IT IS ALREADY IN THIS GARDEN. Without that
+    line the section is a list of a friend's websites on a page about ours. With
+    it, it is the other half of every `with` line in the beds: those say who
+    helped us, and this says whose garden that help walked out of.
+
+  · A PLOT WITH NO GARDENER NAMED ON IT, which is the entire difference between
+    a plot and a bed and is not a thing to leave to the liner notes.
+
+  · A DRAWING THAT REACHES UNDER THE FENCE. A bed shows its soil and most of
+    them show what is under it. We do not get to draw the ground of somebody
+    else's garden, so a plot's drawing stops at the hurdle and the walker at the
+    bottom of this file refuses a coordinate that tries. Nothing over there
+    casts a shadow either: the sun has not moved, the floor is on the far side.
+
+  · A HABIT ALREADY CLAIMED, whichever side of the fence claimed it. The dedup
+    spans both sets, because two drawings alike is two drawings alike.
 
 IF THIS REFUSES: fix the cause. Do not widen a list to make it quiet.
 """
@@ -307,6 +334,89 @@ DRAW = {
 }
 
 
+# ── Over the fence, which is not a bed and must not become one ──────────────
+# AUTISTIC REALMS AND MORE REALMS ARE HELEN EDGAR'S, and a bed is a site WE
+# publish. The roster for that is data/arrivals.json, so the only way to plant
+# somebody else's site here would have been to write it into that file -- which
+# would put it on The Feed as one of our wires and claim her work as ours in the
+# one place this room is not allowed to invent anything. The refusal below is
+# therefore the mirror of the stray-bed refusal above: a plot that IS on the
+# roster is a bed in the wrong section.
+#
+# SO THE GRAMMAR INVERTS AND THE DRAWINGS SAY SO BEFORE THE WORDS DO. A bed
+# shows its soil and most of them show what is under it. A plot shows a woven
+# hurdle across the foot of the frame and NOTHING BELOW IT: we do not get to
+# draw the roots of somebody else's garden, and the walker at the bottom of this
+# file refuses a coordinate that tries.
+#
+# AND NOTHING OVER THERE CASTS A SHADOW. Every bed carries a small hard ellipse
+# directly under the thing that made it, because the sun is overhead in this
+# room. The sun has not moved -- the floor those shadows land on is on the other
+# side of the fence, where we cannot see it. An ellipse under a plot's plant
+# would be this drawing claiming to know the shape of her ground.
+FENCE_Y = 132
+FENCE = (
+    "".join(
+        f'<path d="M0 {y} q30 {-d} 60 0 q30 {d} 60 0 q30 {-d} 60 0 q30 {d} 60 0 '
+        f'q30 {-d} 60 0" fill="none" stroke="{LOAM2}" stroke-width="7" stroke-linecap="round"/>'
+        for y, d in ((141, -5), (152, 5), (163, -5)))
+    + "".join(f'<path d="M{x} {FENCE_Y} L{x} 170" fill="none" stroke="{LOAM}" '
+              f'stroke-width="5" stroke-linecap="round"/>'
+              for x in (24, 86, 148, 210, 272))
+)
+
+DRAW_OVER = {
+    # autisticrealms.com — a nurse tree: the thing planted to take the weather
+    # off whatever is growing under it until that can stand in its own light.
+    # Her page puts the conditions before the flourishing, so the drawing does.
+    "nurse": (
+        f'<path d="M104 131 C 102 114, 101 98, 103 80" fill="none" stroke="{LOAM2}" '
+        f'stroke-width="9" stroke-linecap="round"/>'
+        + f'<path d="M103 98 C 92 92, 84 84, 80 74 M103 92 C 118 86, 132 78, 142 68" '
+          f'fill="none" stroke="{LOAM2}" stroke-width="4" stroke-linecap="round"/>'
+        + "".join(f'<circle cx="{x}" cy="{y}" r="{r}" fill="{LEAF}"/>'
+                  for x, y, r in ((74, 62, 20), (106, 44, 26), (140, 56, 22),
+                                  (170, 66, 18), (92, 34, 17), (126, 32, 18), (156, 38, 16)))
+        + "".join(f'<circle cx="{x}" cy="{y}" r="{r}" fill="{LEAF2}"/>'
+                  for x, y, r in ((98, 30, 10), (136, 46, 11), (76, 52, 9),
+                                  (160, 52, 9), (118, 64, 10)))
+        + "".join(
+            f'<path d="M{x} 131 C {x-2} 122, {x-3} 114, {x} 106" fill="none" stroke="{LEAF}" '
+            f'stroke-width="3" stroke-linecap="round"/>'
+            f'<path d="M{x} 120 C {x-12} 117, {x-18} 110, {x-15} 103 C {x-6} 105, {x} 113, {x} 120 Z" '
+            f'fill="{LEAF2}" stroke="{LOAM}" stroke-width="1.1"/>'
+            f'<path d="M{x+1} 116 C {x+12} 113, {x+18} 106, {x+15} 99 C {x+6} 101, {x+1} 109, {x+1} 116 Z" '
+            f'fill="{LEAF2}" stroke="{LOAM}" stroke-width="1.1"/>'
+            f'<circle cx="{x}" cy="100" r="5.4" fill="{BLOOM}"/>'
+            f'<circle cx="{x}" cy="100" r="1.9" fill="{BOARD}"/>'
+            for x in (152, 182))
+    ),
+    # morerealms.com — a fern's crozier, still coiled. The one thing in either
+    # garden that grows by UNWINDING rather than by reaching, which is what
+    # keeps it clear of the map's tendril: a tendril is a feeler that finds
+    # something and holds on, and this holds nothing and is not going anywhere
+    # in particular. Spiral time is that site's own phrase for how it moves.
+    "crozier": (
+        f'<path d="M150 131 C 146 106, 152 82, 176 64" fill="none" stroke="{LEAF}" '
+        f'stroke-width="3.4" stroke-linecap="round"/>'
+        + blade("M154 112 C 140 108, 132 98, 136 89 C 147 93, 154 103, 154 112 Z", LEAF2)
+        + blade("M151 100 C 164 95, 171 84, 167 76 C 156 80, 150 91, 151 100 Z", LEAF2)
+        + blade("M158 88 C 147 84, 141 75, 144 68 C 153 71, 158 80, 158 88 Z", LEAF)
+        + blade("M166 76 C 177 71, 183 62, 180 55 C 171 58, 166 68, 166 76 Z", LEAF2)
+        + f'<path d="M122 131 C 126 108, 120 90, 106 82 C 92 74, 78 82, 78 95 '
+          f'C 78 107, 92 112, 100 104 C 107 97, 101 88, 93 91 C 87 93, 87 100, 92 101" '
+          f'fill="none" stroke="{LEAF}" stroke-width="4" stroke-linecap="round"/>'
+        + f'<path d="M104 78 l-4 -7 M92 76 l-6 -5 M81 82 l-8 -3 M76 93 l-9 0 M79 104 l-8 4" '
+          f'fill="none" stroke="{LOAM}" stroke-width="1.4" stroke-linecap="round"/>'
+        + f'<path d="M196 131 C 200 118, 196 108, 186 104 C 177 100, 170 107, 173 114 '
+          f'C 176 120, 184 118, 183 112" fill="none" stroke="{LEAF2}" stroke-width="3" '
+          f'stroke-linecap="round"/>'
+        + f'<path d="M188 102 l-3 -6 M177 103 l-5 -4 M171 110 l-7 -2" fill="none" '
+          f'stroke="{LOAM}" stroke-width="1.3" stroke-linecap="round"/>'
+    ),
+}
+
+
 # ── Nothing green below the soil line ───────────────────────────────────────
 # THE ONE RULE IN THIS FILE THAT CAME OUT OF A MEASUREMENT. check-contrast.py
 # put the greens at 1.38 and 2.14 against the earth, and no brown can clear 3:1
@@ -384,6 +494,31 @@ def below_the_line(svg):
     return bad
 
 
+def below_the_fence(svg):
+    """Every element in a plot's drawing that reaches under the hurdle.
+
+    THE SAME WALKER AS ABOVE WITH THE INK FILTER TAKEN OFF, because the rule is
+    not about colour here. A bed may draw its own soil and what is under it; a
+    plot may not draw either, whatever it draws them in. What is on the far side
+    of that fence is somebody else's ground and this room does not know its
+    shape."""
+    bad = []
+    for el in re.findall(r"<(?:path|circle|ellipse)\b[^>]*/>", svg):
+        low = []
+        d = re.search(r'\sd="([^"]+)"', el)
+        if d:
+            low = [v for v in ys(d.group(1)) if v > FENCE_Y + 0.5]
+        cy = re.search(r'\scy="([-\d.]+)"', el)
+        if cy:
+            r = re.search(r'\s(?:r|ry)="([-\d.]+)"', el)
+            edge = float(cy.group(1)) + (float(r.group(1)) if r else 0)
+            if edge > FENCE_Y + 0.5:
+                low = [edge]
+        if low:
+            bad.append((max(low), el[:78]))
+    return bad
+
+
 def e(s):
     return html.escape(str(s), quote=True)
 
@@ -393,6 +528,7 @@ def e(s):
 wires = json.loads(WIRES.read_text())["wires"]
 raw = json.loads(DATA.read_text())
 beds = raw["beds"]
+plots = raw.get("neighbours", {})
 problems = []
 
 order = [w["id"] for w in wires]
@@ -490,6 +626,101 @@ for wid in order:
                     "claim about it.\n    A collaborator's own site goes in the `with` line, "
                     "which is what that line is for.")
 
+# ── Over the fence ──────────────────────────────────────────────────────────
+# THE MIRROR OF THE STRAY-BED REFUSAL. Up there, a bed that is not on the roster
+# is refused because a bed cannot be invented; down here, a plot that IS on the
+# roster is refused because that is one of ours and belongs in a bed. Between
+# them there is no way to move a site across the fence by editing this file, and
+# no way to put somebody else's site in our ground by editing the other one.
+for pid, plot in plots.items():
+    where = f"plot {pid!r}"
+    if pid in order:
+        problems.append(
+            f"{where} is on our own roster in data/arrivals.json, so it is a site we "
+            "publish\n    and it belongs in a bed. This section is the garden NEXT DOOR and "
+            "it is not a\n    back door around the roster: everything in it is somebody "
+            "else's, said out loud.")
+    for key, why in (
+        ("site", "no name."),
+        ("host", "no host, and the host is how a reader tells whose ground they are "
+                 "looking at."),
+        ("home", "nowhere to go. A plot that cannot be visited is this page talking "
+                 "about\n    somebody instead of pointing at them."),
+    ):
+        if not str(plot.get(key, "")).strip():
+            problems.append(f"{where}: {why}")
+
+    form = plot.get("form", "")
+    if form not in DRAW_OVER:
+        problems.append(
+            f"{where}: no drawing for form {form!r}. Every plot is its own habit of growth "
+            "for\n    the beds' reason, and a shared glyph is the harmonising instinct "
+            "arriving through\n    plumbing.")
+    elif SOIL in DRAW_OVER[form]:
+        problems.append(
+            f"drawing {form!r} has a bed's soil band in it. A plot shows a fence and what "
+            "is\n    standing behind it, and nothing else: we do not get to draw the ground "
+            "of\n    somebody else's garden, let alone what is under it.")
+    if not str(plot.get("habit", "")).strip():
+        problems.append(
+            f"{where}: no habit sentence, and the drawing is aria-hidden decoration. The "
+            "beds'\n    rule, and it does not relax because the plant is over a fence.")
+    if not str(plot.get("whose", "")).strip():
+        problems.append(
+            f"{where}: nobody named as whose it is. That is the entire difference between "
+            "this\n    section and the beds -- a plot with no gardener on it reads as "
+            "another of ours.")
+    if not str(plot.get("here", "")).strip():
+        problems.append(
+            f"{where}: does not say what of it is already in this garden. Without that line "
+            "this\n    is a list of a friend's websites on a page about ours. With it, it is "
+            "the other\n    half of every `with` line in the beds: those say who helped us, "
+            "and this says\n    whose garden that help walked out of.")
+    if not str(plot.get("what", "")).strip():
+        problems.append(f"{where}: nothing said about what grows there.")
+
+    text = " ".join(str(plot.get(k, "")) for k in ("what", "habit", "whose", "here"))
+    plain = html.unescape(re.sub(r"<[^>]+>", " ", text))
+    for m in COUNT.finditer(plain):
+        problems.append(
+            f"{where}: says {m.group(0).strip()!r}. The beds' rule, and it matters more here: "
+            "a\n    stale number about somebody else's site is a wrong claim about their "
+            "work.")
+    for m in RANKED.finditer(plain):
+        if not RANK_OK.search(plain[max(0, m.start() - 48):m.end()]):
+            problems.append(
+                f"{where}: says {m.group(0).strip()!r} and is not refusing it. Nothing in this "
+                "garden is\n    ranked against anything else in it, and ranking a "
+                "neighbour's garden against\n    ours would be worse than ranking our own "
+                "beds.")
+    for m in DATE.finditer(plain):
+        problems.append(
+            f"{where}: carries the date {m.group(0)!r}. A plot is part of the planting plan "
+            "and\n    The Feed is the timetable.")
+
+    # A PLOT MAY POINT AT ITS OWN GROUND OR AT OURS AND NOWHERE ELSE. Wider than
+    # the beds' rule by exactly the roster, and that widening IS the `here`
+    # line: saying what of somebody's garden is already in ours means naming the
+    # beds it is in. A third party is still refused, for the beds' reason.
+    reachable = {plot.get("host", "").lower()} | OURS | {w["host"].lower() for w in wires}
+    for field in ("what", "habit", "whose", "here"):
+        for href in HREF.findall(str(plot.get(field, ""))):
+            if href.startswith(("http://", "https://")):
+                there = href.split("/")[2].lower()
+                if there not in reachable:
+                    problems.append(
+                        f"{where}: its {field} line links to {there}, which is neither this "
+                        "plot's own\n    site nor one of ours. A label on a neighbour's plant "
+                        "pointing at a third\n    garden reads as a claim about all three.")
+
+for form, svg in DRAW_OVER.items():
+    for depth, el in below_the_fence(svg):
+        problems.append(
+            f"drawing {form!r} puts something at y={depth:g}, under the hurdle at "
+            f"y={FENCE_Y}:\n      {el}\n    A plot's drawing stops at the fence. What is "
+            "under it is somebody else's ground\n    and this room does not know its shape "
+            "-- which is also why nothing over there\n    casts a shadow.")
+
 for form, svg in DRAW.items():
     for depth, el in below_the_line(svg):
         problems.append(
@@ -498,15 +729,20 @@ for form, svg in DRAW.items():
             "clears 3:1 against both\n    of these greens at once. Above the line is green and below "
             "it is pale -- which is\n    what a plant does anyway. Draw the underground part in PALE.")
 
+# ONE HABIT EACH, ACROSS THE FENCE AS WELL AS ALONG THE PATH. The dedup spans
+# both sets deliberately: two drawings alike is two drawings alike whichever
+# side of the hurdle they are standing on, and the fence is not an excuse to
+# reuse a form. It is also what keeps the crozier off the map's tendril.
 seen_form = {}
-for wid in order:
-    form = beds.get(wid, {}).get("form")
+for kind, wid, form in ([("bed", w, beds.get(w, {}).get("form")) for w in order]
+                        + [("plot", k, v.get("form")) for k, v in plots.items()]):
     if form in seen_form:
+        was_kind, was_id = seen_form[form]
         problems.append(
-            f"bed {wid!r} and bed {seen_form[form]!r} both grow {form!r}. One habit per bed: "
+            f"{kind} {wid!r} and {was_kind} {was_id!r} both grow {form!r}. One habit each: "
             "the\n    form is the only thing telling these drawings apart, which is the whole "
             "reason\n    this room's grammar is form rather than colour.")
-    seen_form[form] = wid
+    seen_form[form] = (kind, wid)
 
 if problems:
     raise SystemExit("REFUSING:\n  " + "\n  ".join(problems))
@@ -548,7 +784,35 @@ def bed_html(wid):
     ])
 
 
+def plot_html(pid):
+    """A plot over the fence. SAID DIFFERENTLY FROM A BED IN EVERY LINE that
+    could be mistaken for one: the heading is what is growing THERE rather than
+    here, the credit is `Tended by` rather than `Grown with`, and there is a
+    fourth line a bed does not have, because the one thing this section owes a
+    reader is why somebody else's garden is on a page about ours."""
+    plot = plots[pid]
+    return "\n".join([
+        f'    <li class="gd-plot">',
+        f'      <div class="gd-plot__art" aria-hidden="true">',
+        f'        <svg viewBox="0 0 300 170" fill="none">{DRAW_OVER[plot["form"]]}{FENCE}</svg>',
+        f'      </div>',
+        f'      <div class="gd-plot__sign">',
+        f'        <div class="gd-plot__label">',
+        f'          <h3><a href="{e(plot["home"])}">{e(plot["site"])}</a></h3>',
+        f'          <span class="gd-plot__host">{e(plot["host"])}</span>',
+        f'        </div>',
+        f'        <p class="gd-plot__what">{plot["what"]}</p>',
+        f'        <p class="gd-plot__habit"><b>What is growing there:</b> {plot["habit"]}</p>',
+        f'        <p class="gd-plot__whose"><b>Tended by</b> {plot["whose"]}</p>',
+        f'        <p class="gd-plot__here"><b>What of it is already in this garden:</b> '
+        f'{plot["here"]}</p>',
+        f'      </div>',
+        f'    </li>',
+    ])
+
+
 swap(PAGE, "garden:beds", "\n".join(bed_html(w) for w in order), "  ")
+swap(PAGE, "garden:neighbours", "\n".join(plot_html(k) for k in plots), "  ")
 
 creds = [
     '    <p><b>The Garden.</b> One bed per site we publish, built from '
@@ -572,6 +836,18 @@ creds = [
     '<b>Wenn Lawson</b> and <b>Mike Lesser</b>&rsquo;s; the pebbling locution is <b>Amythest '
     'Schaber</b>&rsquo;s. A credit filed only here and not in the room is a credit nobody reads, '
     'so the generator refuses a bed with nobody on it.</p>',
+    '    <p><b>The garden next door is Helen Edgar\u2019s and is not a bed.</b> '
+    '<a href="https://autisticrealms.com/">Autistic Realms</a> and '
+    '<a href="https://morerealms.com/">More Realms</a> are hers, so the only way to plant '
+    'them would have been to write them into the roster above &mdash; which would put them '
+    'on <a href="the-feed.html">The Feed</a> as our own wires and claim her work as ours in '
+    'the one file this room is not allowed to invent anything in. They are over the fence '
+    'instead, and the grammar inverts to say so before the words do: a bed shows its soil '
+    'and most of them show what is under it, and <b>a plot stops at the fence</b>, because '
+    'we do not get to draw the ground of somebody else\u2019s garden. Nothing over there '
+    'casts a shadow either &mdash; the sun has not moved, the floor is just on the other '
+    'side. What each of them is was read off its own pages, and the phrases in quotation '
+    'marks are theirs.</p>',
     '    <p><b>The drawings are ours, and each one is a different habit of growth</b> &mdash; a '
     'rhizome, an umbel, a plant with no chlorophyll in it, a frame with seedlings under glass, a '
     'runner, a dry seed head, a scramble, a tendril. That is the campground&rsquo;s grammar '
@@ -589,6 +865,6 @@ creds = [
 ]
 swap(CREDITS, "garden:credits", "\n".join(creds), "  ")
 
-print(f"garden: {len(order)} beds written into {PAGE.name}, "
-      f"{len(set(seen_form))} habits of growth, none repeated.")
+print(f"garden: {len(order)} beds and {len(plots)} plots over the fence written into "
+      f"{PAGE.name},\n        {len(set(seen_form))} habits of growth, none repeated.")
 print(f"        roster and order read from {WIRES.name}; credits written into {CREDITS.name}.")

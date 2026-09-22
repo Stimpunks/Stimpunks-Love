@@ -6001,6 +6001,61 @@ html[data-intensity="max"]     .gd-dapple { animation: gd-breeze 17s ease-in-out
 }
 .gd-bed__with b { font-style: normal; font-weight: 600; color: var(--gd-loam); }
 
+/* THE GARDEN NEXT DOOR, AND IT IS THE FOURTH GEOMETRY FOR A LIST OF PLACES.
+   The street is a grid of outlined boxes with awnings; the field is a line down
+   the LEFT of each pitch; a bed is an edge along the BOTTOM with soil above it.
+   A plot is a pair of NARROW COLUMNS SIDE BY SIDE with the drawing above its
+   own name, because you are looking over a fence at them rather than down into
+   them from a path, and things seen over a fence are seen end-on and small.
+
+   THE RULE UNDER A PLOT IS DOUBLE AND THE RULE UNDER A BED IS SOLID, which is
+   the same echo doing opposite work: a bed's heavy plank repeats the plank
+   drawn along the front of its soil, and a plot's two rails repeat the woven
+   hurdle drawn across the foot of its picture. Same ink, same weight, one
+   object each.
+
+   AND A PLOT'S NAME IS NOT ON A LIMEWASHED BOARD. Every bed's label is a stake
+   driven into our own ground; nobody gets to go and put a label in somebody
+   else's garden, so the name over there is simply written down. That is the
+   whole visual difference and it is doing the argument's work: the plots are
+   Helen Edgar's, make-garden.py refuses one that turns up on our own roster,
+   and the drawing stops at the fence because we do not know the shape of her
+   soil. No new colour in any of this -- the fence, the plants and every word
+   are in the room's own inks on the room's own path. */
+.gd-over {
+  list-style: none; display: flex; flex-wrap: wrap;
+  gap: 24px 34px; margin: 24px 0 0; padding: 0;
+}
+.gd-plot {
+  flex: 1 1 28ch; min-width: 0;
+  padding: 0 0 16px; border-bottom: 7px double var(--gd-loam-2);
+}
+.gd-plot__art { max-width: 300px; margin: 0 0 12px; line-height: 0; }
+.gd-plot__art svg { display: block; width: 100%; height: auto; }
+.gd-plot__sign { min-width: 0; }
+.gd-plot__label h3 a {
+  color: var(--gd-loam); text-decoration-color: var(--gd-leaf-2);
+  text-underline-offset: 4px;
+}
+.gd-plot__label h3 a:hover { color: var(--gd-leaf); }
+.gd-plot__host {
+  display: block; margin: 5px 0 0; font-size: 13px;
+  letter-spacing: .06em; color: var(--gd-loam-2);
+}
+.gd-plot__what, .gd-plot__habit { margin: 10px 0 0; color: var(--gd-loam-2); }
+.gd-plot__what b, .gd-plot__habit b { color: var(--gd-loam); }
+/* WHOSE IT IS, AND WHAT OF IT IS ALREADY OVER HERE. The beds' who-line is one
+   italic sentence saying who helped us; a plot has two, because the second one
+   is the reason a neighbour's garden is on a page about ours at all, and
+   make-garden.py refuses a plot without it. */
+.gd-plot__whose, .gd-plot__here {
+  margin: 9px 0 0; font-family: 'Faustina', Georgia, serif; font-style: italic;
+  font-size: 15.5px; color: var(--gd-loam-2);
+}
+.gd-plot__whose b, .gd-plot__here b {
+  font-style: normal; font-weight: 600; color: var(--gd-loam);
+}
+
 /* THE GARDEN SPIDER. It sits in the middle of the garden rather than at the
    gate, because it is not the way in -- and the panel says so in the site's own
    words: a spider is a guide to the garden and never a replacement for it, and
@@ -6791,6 +6846,8 @@ body.room-rabbit-hole {
 @media (max-width: 620px) {
   .gd-bed { gap: 14px 24px; }
   .gd-bed__art { flex: 1 1 100%; max-width: 280px; align-self: flex-start; }
+  .gd-over { gap: 22px; }
+  .gd-plot__art { max-width: 280px; }
   .gd-plank, .gd-spider { padding: 16px 16px 18px; }
   .gd-spider__art { flex: 1 1 100%; max-width: 220px; }
   .gd-drill { padding-left: 16px; }

@@ -56,5 +56,30 @@
       "habit": "A tendril: the stem puts out a feeler, finds something, and holds on. <a href=\"https://monotropicmap.org/tendril-theory\">Tendril Theory</a> is one of the places on that island, which is why this bed grows the thing the theory is named after.",
       "with": "<b>Helen Edgar</b>'s map of her own Autistic and ADHD experience, published with Stimpunks. Monotropism is <b>Dinah Murray</b>, <b>Wenn Lawson</b> and <b>Mike Lesser</b>'s."
     }
+  },
+  "_next_door": "AUTISTIC REALMS AND MORE REALMS ARE NOT BEDS AND CANNOT BE. A bed is a site we publish, and the roster for that is data/arrivals.json, whose order is stimpunks.org's own feeds page. These are Helen Edgar's own sites, tended by her, and the only way to make them beds would have been to write them into that roster -- which would put them on The Feed as our wires and claim somebody else's work as ours in the one file this room is not allowed to invent. So they are over the fence instead: named, linked, said out loud to be hers, and drawn as something seen from this side rather than something growing in our ground. make-garden.py refuses a plot that IS on the roster, for the same reason it refuses a bed that is not.",
+  "_no_ground": "AND YOU CANNOT SEE THEIR GROUND. Every bed's drawing shows the soil and most of them show what is under it; a plot's drawing stops at the fence, and the tool refuses a coordinate below that line. We do not get to draw the roots of somebody else's garden. It is also why nothing over there casts a shadow: the sun is still overhead in this room, but the floor a shadow would land on is on the other side of the fence.",
+  "_cuttings": "EVERY PLOT SAYS WHAT OF IT IS ALREADY IN THIS GARDEN, and the tool refuses one that does not. Without that line this section is a list of a friend's websites on a page about ours. With it, it is the other half of every `with` line in the beds above: those say who helped us, and this says whose garden that help walked out of. The direction of the credit is the whole point, which is why it is a field rather than a nicety.",
+  "neighbours": {
+    "autisticrealms": {
+      "site": "Autistic Realms",
+      "host": "autisticrealms.com",
+      "home": "https://autisticrealms.com/",
+      "form": "nurse",
+      "what": "Helen Edgar's own site, and the grounded one: neuro-affirming resources, reading lists, glossaries of the language to use and the language to avoid, and signposting for families, educators and Autistic people who have arrived without the words yet. Her <a href=\"https://autisticrealms.com/\">own page</a> sets out what the work is for as <i>being, belonging and becoming</i>, in that order, and she writes as an Autistic advocate, author and consultant who spent twenty years teaching in SEND early years and primary settings before any of this. Monotropism, flow and burnout are where she goes deepest.",
+      "habit": "A nurse tree, which is planted to take the weather off whatever is growing under it until that can stand in its own light. The shelter is the work and it is not the same work as the growing &mdash; which is her argument rather than our metaphor: her page says young Autistic people need to feel accepted and understood <i>first</i>, and that the conditions come before the flourishing.",
+      "whose": "<b>Helen Edgar</b>, who is a colleague and not a corpus. Her site is hers, her name is on her own writing there, and nothing of hers is folded into our &ldquo;we&rdquo; on this street either.",
+      "here": "She built <a href=\"https://queering.earth/\">Queering.Earth</a> with us and is named on the sheets she wrote; <a href=\"https://penguinpebbling.app/\">Penguin Pebbling</a> is hers and Ryan Boren's together; the <a href=\"https://monotropicmap.org/\">Map of Monotropic Experiences</a> is her own map of her own Autistic and ADHD experience, published with us. There is a <a href=\"faery-yurt.html\">yurt pitched in our campgrounds</a> that is her room rather than ours, down to the colours."
+    },
+    "morerealms": {
+      "site": "More Realms",
+      "host": "morerealms.com",
+      "home": "https://morerealms.com/",
+      "form": "crozier",
+      "what": "The wilder ground past it, and hers as well. <a href=\"https://morerealms.com/\">Its own landing page</a> says you have arrived beyond <i>Autistic Realms</i> and that things here are &ldquo;looser, weirder, more speculative&rdquo; &mdash; not a place of conclusions or answers but somewhere to wander, think sideways and dwell. Spiral time, liminal embodiment, neuroqueer and post-humanist reading, written monotropically. Its phrase and not ours: &ldquo;there is no map, but there are threads, glimmers, and soft, weird spaces to explore&rdquo;.",
+      "habit": "A fern's crozier, still coiled. It opens from the inside outwards, slowly, and is the only thing in either garden that grows by unwinding rather than by reaching. <i>Spiral time</i> is that site's own phrase for how it moves, and a frond keeps the turn in it long after it has opened.",
+      "whose": "<b>Helen Edgar</b> again &mdash; one gardener, and this is the plot she keeps for the work that does not have to arrive anywhere.",
+      "here": "<a href=\"https://starstuff.earth/\">Star Stuff</a> and <a href=\"https://queering.earth/\">Queering.Earth</a> are both Stimpunks and More Realms, which is how her own pages about them describe the arrangement &mdash; a collaboration between Helen Edgar and Ryan Boren &mdash; rather than how we have decided to describe it here."
+    }
   }
 }
