@@ -19,11 +19,16 @@ ORDER = ["index.html", "pink-pony-club.html", "the-chappell.html", "club-chronic
          "jungle-room.html", "the-den.html",
          "the-mopery.html", "oracle-deck.html", "the-doomscroll.html",
          "adventurers-guild.html",
+         "the-feed.html",
          "your-room.html",
          # Street furniture rather than a door, and listed like everything else:
          # a page nobody can find from the sitemap is unpublished with extra
          # steps. Back issues join this list as they rotate off the board.
          "pebble-board.html",
+         # The gate in the wall, which is also not a door: every bed out there
+         # links off this street, so the garden is a page of ours listing sites
+         # that are not.
+         "the-garden.html",
          "campgrounds.html", "faery-yurt.html", "swaying-sweetgrass.html",
          "solarpunk-hermitage.html",
          "liner-notes.html",
@@ -69,8 +74,10 @@ lines = [
     "Plucky pluralism, for human organisms. Becoming and belonging, with ribald songing.",
     "",
     "A Stimpunks Foundation site, and the loud one. It has no single design system on purpose: "
-    "the street is the system and the rooms refuse to share one. Past the treeline at the end "
-    "of the street there is a campground, for anybody who would rather not be on a street at all. "
+    "the street is the system and the rooms refuse to share one. Through a gate in the wall there "
+    "is a garden, with one bed for every site we publish and every bed linking out to it; past "
+    "the treeline at the end of the street there is a campground, for anybody who would rather "
+    "not be on a street at all. "
     "Two habits survive from our "
     "careful sites — attribution, which is a licence rather than a house style, and contrast, "
     "because clashing is not the same as illegible.",
@@ -79,7 +86,7 @@ lines = [
     "visitor's device asks for and lets them turn it up past that; Gentle removes motion and "
     "sparkle and never removes content.",
     "",
-    "## The rooms, and the field at the end of the street",
+    "## The rooms, the garden through the gate, and the field at the end of the street",
     "",
 ]
 for p in pages:

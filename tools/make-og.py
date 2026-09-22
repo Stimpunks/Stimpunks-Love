@@ -278,8 +278,10 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
   transform: translateX(-50%); margin: 0; z-index: 1; }}
 .og--swg .swg-pit svg {{ max-width: none; width: 100%; }}
 
-/* hermitage — THE ONLY CARD IN THE SET ON A LIGHT GROUND, and the only one
-   showing a building in daylight. Its own room is the first daylit world on
+/* hermitage — ONE OF THE THREE CARDS ON A LIGHT GROUND, and the only one
+   showing a building in daylight. It was the only one when it was drawn; the
+   guild's manila and the garden's green-white arrived after, which is what a
+   claim about a whole set does when the set grows. Its own room is the first daylit world on
    this street, so a card obeying the set's habit of cream-on-dark would have
    been the card disagreeing with the page on the single thing that page is
    about. The cabin is lifted out of the room rather than redrawn here, the way
@@ -292,6 +294,41 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--herm .og-lede {{ font-family: 'Sora', sans-serif; color: #34483A; max-width: 1020px; font-size: 23px; }}
 .og--herm .cabin {{ margin: 0; }}
 .og--herm .cabin svg {{ width: 860px; margin-inline: auto; }}
+
+/* garden — THE THIRD PALE CARD AND THE GREEN ONE. The hermitage's is warm lime
+   plaster with a building on it and a low sun; the guild's is manila with rules
+   on it and no light at all; this is sunlight that has come down through leaves,
+   so the pale is green and nothing on it is ruled or built. A row of labels
+   rather than a list, because that is what the room is, and the hedge is LIFTED
+   out of the page the way the campground's stream and the hermitage's cabin are.
+   The gate in the middle of it is the way back onto the street, and what shows
+   through the gap is the street's own night. */
+.og--garden {{ width: 100%; padding: 40px 60px 0; gap: 14px;
+  justify-content: space-between; }}
+.og--garden .og-top {{ display: flex; flex-direction: column; gap: 12px; }}
+.og--garden .trailmark {{ font-size: 20px; letter-spacing: .04em; }}
+.og--garden h1 {{ font-size: 74px; margin: 0 !important; }}
+.og--garden .og-lede {{ font-family: 'Mulish', sans-serif; color: var(--gd-loam-2);
+  max-width: 930px; font-size: 24px; line-height: 1.38; }}
+.og--garden .og-labels {{ display: flex; flex-wrap: wrap; gap: 9px 10px; }}
+.og--garden .og-labels span {{ font-family: 'Faustina', serif; font-weight: 600;
+  font-size: 19px; color: var(--gd-loam); background: var(--gd-board);
+  border: 1px solid var(--gd-edge); padding: 6px 13px;
+  box-shadow: 0 4px 0 rgba(43, 32, 19, .14); }}
+.og--garden .og-foot {{ font-family: 'Mulish', sans-serif; color: var(--gd-loam-2);
+  font-size: 19px; letter-spacing: .02em; }}
+/* Bleeds to the card's edges. `.og > *` pins every child to margin 0 with
+   !important, so this has to out-specify it rather than out-shout it -- the
+   campground's stream's note, one room along. */
+.og--garden .gd-hedge {{ margin: 0 -60px !important; }}
+.og--garden .gd-hedge svg {{ width: 100%; height: 132px; }}
+/* THE LEAF SHADOW IS PINNED TO THE BOX HERE, and its drift stopped. On the page
+   that layer hangs off the viewport on every side so the drift can never bring
+   an edge into view, and it is fixed rather than absolute so the light stays put
+   while the page scrolls. A card neither scrolls nor may bleed, and a translate
+   mid-animation would carry it off the edge of a picture that gets measured, so
+   the frame's own rules put it back inside the frame. */
+.garden .gd-dapple {{ inset: 0; animation: none !important; }}
 
 /* club — A BLACK AWNING AND A WALL OF PAPER, which is the only card in the set
    built out of two grounds stacked rather than one ground with things on it.
@@ -628,6 +665,63 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--guild .og-stamp {{ font-family: 'Public Sans', sans-serif; font-weight: 700;
   font-size: 22px; letter-spacing: 6px; color: var(--gu-stamp);
   border: 5px double var(--gu-stamp); padding: 6px 17px; margin: 0 !important; }}
+
+/* feed -- AN OBJECT STANDING ON A FLOOR, which is the one thing this card has
+   to be. The guild's card is a sheet and the guild's room is a sheet; this
+   room's whole separation from it is that a board is a MACHINE with a light
+   inside it, standing in a dark hall on two legs and casting a shadow. A card
+   that drew this as a panel on a page would have thrown away the only thing
+   keeping the two rooms apart, in the asset nobody reviews. So: a pool of its
+   own light on the floor under it, a hairline seam across the middle of every
+   row, and legs. */
+.og--feed {{ flex-direction: row; align-items: center; gap: 46px; padding: 46px 54px;
+  background:
+    radial-gradient(90% 55% at 66% 78%, rgba(239,234,224,.07), rgba(239,234,224,0) 72%),
+    var(--fd-hall); }}
+.og--feed .og-fdtext {{ flex: 0 1 430px; min-width: 0; }}
+.og--feed .og-kicker {{ font-family: 'Space Mono', monospace; font-size: 16px;
+  letter-spacing: 6px; text-transform: uppercase; color: var(--fd-dim);
+  margin: 0 0 18px !important; }}
+.og--feed h1 {{ font-family: 'Michroma', sans-serif; font-weight: 400; font-size: 46px;
+  line-height: 1.14; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--fd-lamp); margin: 0 !important; }}
+.og--feed .og-lede {{ font-size: 21px; line-height: 1.44; color: var(--fd-dim);
+  margin: 20px 0 0 !important; }}
+.og--feed .og-foot {{ font-family: 'Space Mono', monospace; font-size: 17px;
+  letter-spacing: 2px; color: var(--fd-signal); margin: 22px 0 0 !important; }}
+/* The machine. Two legs on a ::after, so it stands rather than floats. */
+.og--feed .og-fdboard {{ position: relative; flex: 1 1 auto; min-width: 0;
+  background: var(--fd-enamel); border: 3px solid var(--fd-girder); border-radius: 4px;
+  padding: 20px 22px 18px;
+  box-shadow: 0 0 46px rgba(239,234,224,.07), 0 18px 0 -10px rgba(4,7,10,.9); }}
+.og--feed .og-fdboard::after {{ content: ""; position: absolute; left: 14%; right: 14%;
+  bottom: -30px; height: 30px;
+  border-left: 10px solid var(--fd-girder); border-right: 10px solid var(--fd-girder); }}
+.og--feed .og-fdname {{ font-family: 'Michroma', sans-serif; font-size: 17px;
+  letter-spacing: 5px; text-transform: uppercase; color: var(--fd-lamp);
+  border-bottom: 2px solid var(--fd-girder); padding-bottom: 13px;
+  margin: 0 0 13px !important; }}
+.og--feed .og-fdrow {{ position: relative; overflow: hidden; display: flex;
+  align-items: baseline; gap: 20px; background: var(--fd-flap); border-radius: 2px;
+  padding: 11px 15px 22px; margin: 0 0 5px !important;
+  box-shadow: 0 2px 0 rgba(4,7,10,.9); }}
+.og--feed .og-fdcell {{ font-family: 'Space Mono', monospace; font-weight: 700;
+  font-size: 16px; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--fd-amber); width: 130px; flex: 0 0 auto; margin: 0 !important; }}
+.og--feed .og-fddest {{ font-family: 'Space Mono', monospace; font-weight: 700;
+  font-size: 16px; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--fd-lamp); margin: 0 !important; }}
+/* The lower leaf of the flap, at the FOOT of the row -- see the long note in
+   love.css §27. This card is where the first version was caught: a hairline
+   through the middle of the letters is what the real machine does, and at the
+   size a card is actually seen the row lettered NEVER read as a word struck
+   out. */
+.og--feed .og-fdseam {{ position: absolute; left: 0; right: 0; bottom: 0; height: 10px;
+  background: var(--fd-flap-lo); border-top: 1px solid var(--fd-fold); }}
+.og--feed .og-fdplate {{ font-family: 'Space Mono', monospace; font-size: 14px;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--fd-dim);
+  border-top: 2px solid var(--fd-girder); padding-top: 13px;
+  margin: 14px 0 0 !important; }}
 """
 
 # Chrome hands the layout back out of the same run that takes the picture. A
@@ -865,6 +959,38 @@ def card_camp(p):
         f"same slab face: {p['pitches_alt']}, stimpunks.love. Along the "
         f"foot, a drawing of a stream winding across the card with three stones "
         f"in it.",
+    )
+
+
+def card_garden(p):
+    # THE DAPPLE STAYS ON. Every other ambient layer this file emits is a
+    # judgement call about which dial setting the card should look like -- the
+    # pebble board is drawn square because its scatter is a Regular-and-above
+    # thing, and the campground has no layer to draw. The garden's leaf shadow is
+    # present at ALL THREE settings and only its drift is taken away, so a card
+    # with it on is a true picture of the room at Gentle as well.
+    return (
+        '<div class="gd-dapple"></div>',
+        f'<div class="og og--garden" data-fit="card">'
+        f'<div class="og-top">'
+        f'<p class="trailmark">through the gate in the wall &middot; midday &middot; '
+        f'one bed per site we publish</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-labels" data-fit="labels">{p["labels"]}</div>'
+        f'</div>'
+        f'<p class="og-foot" data-fit="footer">every bed links off this street &middot; '
+        f'stimpunks.love</p>'
+        f'{p["hedge"]}'
+        f'</div>',
+        f"A card on a pale green-white ground, lit as though the sun were overhead "
+        f"and coming down through leaves. Small brown letters reading through the "
+        f"gate in the wall, midday, one bed per site we publish, then "
+        f"\u201c{p['h1text']}\u201d in a large dark-green serif, and under it: "
+        f"{p['desc_plain']} Below that, a row of small white plant labels, one for "
+        f"each bed: {p['labels_alt']}. Along the foot, a drawing of a clipped hedge "
+        f"with a wooden gate standing in the middle of it, and the dark of the "
+        f"street showing through the gap.",
     )
 
 
@@ -1263,6 +1389,57 @@ def card_guild(p):
     )
 
 
+def card_feed(p):
+    # THE ROWS ARE THE ROOM'S OWN RULES AND NOT FOUR REAL ARRIVALS, deliberately.
+    # A card is a PNG rendered once and then linked to for months, and the board
+    # in the room is re-set every time somebody runs the puller -- so four real
+    # titles and a real date baked into an image would be a snapshot of a
+    # snapshot, going stale at a rate nobody can see, in the one asset that is
+    # never reviewed. make-jungle.py refuses a runtime on a live cam for the
+    # identical reason: do not publish a number that is wrong tomorrow and
+    # authoritative-looking in the meantime. So the machine on the card is
+    # lettered with what is permanently true of it.
+    rows = [
+        ("One wire", "per site, off their own feeds"),
+        ("A title", "a date, and where it goes"),
+        ("Never", "the words themselves"),
+        ("Set at", "a time, and it says which"),
+    ]
+    flaps = "".join(
+        f'<p class="og-fdrow"><span class="og-fdcell">{a}</span>'
+        f'<span class="og-fddest">{b}</span>'
+        f'<span class="og-fdseam"></span></p>'
+        for a, b in rows
+    )
+    return (
+        "",
+        f'<div class="og og--feed" data-fit="card">'
+        f'<div class="og-fdtext">'
+        f'<p class="og-kicker">The concourse</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot">stimpunks.love</p>'
+        f'</div>'
+        f'<div class="og-fdboard">'
+        f'<p class="og-fdname">Arrivals</p>'
+        f'{flaps}'
+        f'<p class="og-fdplate">The board is not the railway</p>'
+        f'</div>'
+        f'</div>',
+        f"A dark concourse. On the left, small spaced monospaced capitals reading "
+        f"the concourse, then \u201c{p['h1text']}\u201d in very wide squared "
+        f"capitals, the line: {p['desc_plain']} and under it stimpunks.love in "
+        f"green. On the right, a freestanding split-flap indicator board standing "
+        f"on two metal legs and lit from inside, with a pale pool of its own light "
+        f"on the floor beneath it. A nameboard across the top reads ARRIVALS, and "
+        f"under it four machined rows, each a flap with a hairline seam across the "
+        f"middle of its letters and an amber cell on the left: ONE WIRE, per site, "
+        f"off their own feeds. A TITLE, a date, and where it goes. NEVER, the words "
+        f"themselves. SET AT, a time, and it says which. On a plate along the foot "
+        f"of the board: THE BOARD IS NOT THE RAILWAY.",
+    )
+
+
 def card_plain(p):
     return (
         "",
@@ -1298,6 +1475,7 @@ CARDS = {
     # gets.
     "board-2026-summer": card_board,
     "campgrounds":  card_camp,
+    "garden":       card_garden,
     "room-yurt":    card_yurt,
     "hermitage":    card_herm,
     "club":         card_club,
@@ -1309,6 +1487,7 @@ CARDS = {
     "meadow":       card_swg,
     "room-doom":    card_doom,
     "room-guild":   card_guild,
+    "room-feed":    card_feed,
     "room-plain":   card_plain,
 }
 
@@ -1387,6 +1566,7 @@ def main():
         ("tagline",  "index.html",        r'(<ul class="tagline">.*?</ul>)'),
         ("stickers", "enids-room.html",   r'(<ul class="stickers">.*?</ul>)'),
         ("stream",   "campgrounds.html",  r'(<div class="stream".*?</div>)'),
+        ("hedge",    "the-garden.html",   r'(<div class="gd-hedge".*?</svg>\s*</div>)'),
         ("lights",   "faery-yurt.html",   r'(<div class="lights".*?</div>)'),
         ("crown",    "faery-yurt.html",   r'(<div class="crown".*?</svg>\s*</div>)'),
         ("cabin",    "solarpunk-hermitage.html", r'(<div class="cabin".*?</svg>\s*</div>)'),
@@ -1453,6 +1633,25 @@ def main():
     # The alt text takes commas rather than the card's middots, because a middot
     # is a piece of typesetting and a screen reader reads it out as one.
     lifted["pitches_alt"] = ", ".join(n.lower() for n in nos)
+
+    # THE GARDEN'S CARD IS A ROW OF ITS OWN LABELS, read off the beds rather
+    # than typed here -- the campground's pitches' rule, and it matters more in
+    # this room because the roster is not even ours: it comes from the order our
+    # sites appear in on stimpunks.org's own feeds page, by way of
+    # data/arrivals.json. A card listing sites we no longer publish, or missing
+    # one we just added, would be the only surface nobody would think to check.
+    names = re.findall(r'<div class="gd-bed__label">\s*<h3><a href="[^"]*">([^<]+)</a>',
+                       (ROOT / "the-garden.html").read_text())
+    if not names:
+        raise SystemExit(
+            "REFUSING: the-garden.html has no beds on it, and its card is a row of\n"
+            "their labels. Run tools/make-garden.py, or redesign the card on purpose\n"
+            "rather than letting it render an empty garden."
+        )
+    lifted["labels"] = "".join(f"<span>{n}</span>" for n in names)
+    # Commas rather than middots, and lowercased, because this is read out loud
+    # rather than looked at -- the field's card made the same call.
+    lifted["labels_alt"] = ", ".join(html.unescape(n).lower() for n in names)
 
     # THE DOOMSCROLL'S CARD CARRIES THE TOP OF ITS OWN FEED, which is the only
     # way a card for a reverse-chronological page can stay true: the moment

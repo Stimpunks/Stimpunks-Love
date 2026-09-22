@@ -84,7 +84,9 @@ the-mopery.html       A cold library. Books to borrow, one song many ways, Poe w
 oracle-deck.html      Behind it: thirteen engravings, and a question on the back of each
 the-doomscroll.html   And behind it: public domain doom as a feed, on an actual scroll
 adventurers-guild.html  A job board in a manila room. The one tidy room on this street
+the-feed.html         A dark concourse of arrival boards, one wire per site, off their feeds
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
+the-garden.html       The knowledge garden. One bed per site we publish, each linking out
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
 faery-yurt.html       Pitch 01. Helen Edgar's candlelit yurt; her design, not ours
 solarpunk-hermitage.html  Pitch 03. A cabin on wheels, and the one room the sun is up in
@@ -119,6 +121,7 @@ data/mopery.json      The Mopery's shelves, its screen, and The Raven with Doré
 data/oracle.json      The deck. Thirteen Met open-access engravings, and our questions
 data/doomscroll.json  Thirteen poems, newest first, each naming the printing it came from
 data/quests.json      Every job on the board, and the marker it sends you to
+data/garden.json      What grows on each site. The roster is read out of arrivals.json
 quest.js              The job markers, and the guild's board. Works with scripts off
 raven/                Doré's 1884 engravings and three leaves of an 1865 printing
 oracle/               The deck's plates. Public domain, CC0, from one collection
@@ -154,6 +157,8 @@ python3 tools/make-oracle.py       # the oracle deck, and its credits
 python3 tools/make-doomscroll.py   # the doomscroll's feed, sorted by first publication
 python3 tools/make-pebble-board.py # the Pebble Board's current edition, and its back-issue rack
 python3 tools/make-guild.py        # the job board, a marker in every room, and the credits
+python3 tools/make-arrivals.py     # The Feed's arrival boards; draws what pull-arrivals.py read
+python3 tools/make-garden.py       # The Garden's beds and credits; roster and order from arrivals.json
 python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
 python3 tools/check-contrast.py    # every pair against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
@@ -195,6 +200,7 @@ network — a checker that fails on a train either blocks a deploy or teaches ev
 
 ```bash
 python3 tools/check-jukebox.py     # presses nothing; asks YouTube whether every facade still plays
+python3 tools/pull-arrivals.py     # reads the sibling sites' RSS feeds into data/arrivals.json
 ```
 
 Run them all before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
@@ -234,6 +240,36 @@ there are, because **the number of storefronts is going to keep growing** and a 
 that gets written in a dozen places and updated in one. The commit that opened the Arcade is the
 proof: it changed the count in twelve places and still shipped three sentences carrying the old
 one, in a stylesheet comment, a second stylesheet comment, and `CLAUDE.md`.
+`make-arrivals.py` stops on a row carrying a summary field, because a row on that board is a
+title, a date and a destination and nothing else &mdash; a departures board does not read you the
+contents of the train, and that is also what keeps the page from republishing everybody else's
+writing onto one surface it does not own; the friendly edit is real and it will arrive, so it is
+refused rather than merely not done. It also stops on a row whose link is not on the host its wire
+is named after, on a row with no date, on a wire with no feed URL or no note, and on the
+vocabulary of a league table in the room's own copy &mdash; **nothing there is ranked and no
+site's activity is added up**, because a board showing which of our sites had been busiest would
+turn publishing into a race between our own people. `pull-arrivals.py` is the half that touches
+the network and is kept out of the pre-deploy sequence with `check-jukebox.py` for it; it refuses
+a feed that is not RSS 2.0 rather than guessing at Atom, on the grounds that a silent mis-parse
+would put a half-empty board on the street and a refusal the day a sibling changes format is the
+thing worth having.
+`make-garden.py` **does not hold the garden's roster and neither does its data file** &mdash;
+which sites exist, in what order, with what names and addresses is read out of `data/arrivals.json`,
+the same list The Feed runs on, whose order is stimpunks.org's own feeds page. So a bed cannot be
+invented, a site we publish cannot be quietly left out, and re-sorting the garden would mean
+overruling a decision made somewhere else. It refuses a bed it has no drawing for and two beds
+sharing one, which is `make-og.py`'s refusal for `make-og.py`'s reason; **a drawing whose argument
+is not written out in words**, because the habits of growth are the whole point of those pictures
+and a claim only sighted readers get is not a claim this site may make; a bed with nobody credited;
+a count of what a site holds, because that is wrong within the week and a garden measured by volume
+is an inventory; the vocabulary of ranking our own sites; **a date**, which is what would turn this
+room into The Feed; and a link inside a note pointing somewhere that is neither ours nor that bed's
+own site. It also **walks every coordinate of every green element and refuses one drawn below the
+soil line**: `check-contrast.py` put the two greens at 1.38 and 2.14 against the earth, and because
+they are only 1.55 apart from each other no brown clears 3:1 against both at once &mdash; so the
+palette splits at the soil line the way a plant does, green above and pale below, and the rule is
+enforced rather than remembered. It was broken on purpose first, with a stem two pixels under and a
+leaf circle whose edge dipped below; it caught both.
 `make-guild.py` refuses a job with no estimate of how long it takes &mdash; the street's oldest
 promise arriving at a job board, where the cost is a walk rather than a runtime &mdash; refuses a
 room it has no marker drawing for, which is `make-og.py`'s refusal for `make-og.py`'s reason,

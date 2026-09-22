@@ -497,5 +497,55 @@
    "bytes": 14756,
    "src": "https://fonts.gstatic.com/s/publicsans/v21/ijwGs572Xtc6ZYQws9YVwllKVG8qX1oyOymu8Z6JxAcofVotfzbj.woff2"
   }
+ ],
+ "michroma": [
+  {
+   "file": "michroma-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 11620,
+   "src": "https://fonts.gstatic.com/s/michroma/v21/PN_zRfy9qWD8fEagAPg9pTn5_PDb.woff2"
+  }
+ ],
+ "space-mono": [
+  {
+   "file": "space-mono-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 9464,
+   "src": "https://fonts.gstatic.com/s/spacemono/v17/i7dPIFZifjKcF5UAWdDRYEF8RXi4EwQ.woff2"
+  },
+  {
+   "file": "space-mono-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 9552,
+   "src": "https://fonts.gstatic.com/s/spacemono/v17/i7dMIFZifjKcF5UAWdDRaPpZUFWaHi6WZ3Q.woff2"
+  }
+ ],
+ "faustina": [
+  {
+   "file": "faustina-400.woff2",
+   "weight": "400 600",
+   "style": "normal",
+   "bytes": 26760,
+   "src": "https://fonts.gstatic.com/s/faustina/v23/XLYlIZPxYpJfTbZAFV-_HcxopH8u.woff2"
+  },
+  {
+   "file": "faustina-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 15544,
+   "src": "https://fonts.gstatic.com/s/faustina/v23/XLY2IZPxYpJfTbZAFV-6B8JKUqez9n55SsLHWm-VU89pF2oEvno.woff2"
+  }
+ ],
+ "mulish": [
+  {
+   "file": "mulish-400.woff2",
+   "weight": "400 700",
+   "style": "normal",
+   "bytes": 29896,
+   "src": "https://fonts.gstatic.com/s/mulish/v18/1Ptvg83HX_SGhgqk3wotYKNnBQ.woff2"
+  }
  ]
 }

@@ -198,6 +198,8 @@ DRAW = {
     "yurt-tallow": """<path d="M11 16 H21 V26 H11 Z" fill="none" stroke="var(--tallow-2)" stroke-width="2.2"/><path d="M16 16 L16 12" stroke="var(--tallow-2)" stroke-width="1.8"/><path d="M16 5 q4 4 0 7 q-4 -3 0 -7 Z" fill="var(--tallow-2)"/>""",
     "meadow-firefly": """<ellipse cx="16" cy="18" rx="4.5" ry="6" fill="none" stroke="var(--glow)" stroke-width="2"/><circle cx="16" cy="22" r="2.6" fill="var(--glow)"/><path d="M12 12 L7 7 M20 12 L25 7" stroke="var(--glow)" stroke-width="1.8" stroke-linecap="round"/>""",
     "hermitage-sunflower": """<circle cx="16" cy="14" r="5" fill="none" stroke="var(--furrow)" stroke-width="2.2"/><path d="M16 4 L16 9 M16 19 L16 28 M6 14 L11 14 M21 14 L26 14 M9 7 L12.5 10.5 M23 7 L19.5 10.5 M9 21 L12.5 17.5 M23 21 L19.5 17.5" stroke="var(--furrow)" stroke-width="2" stroke-linecap="round"/>""",
+    "feed-splitflap": """<rect x="4" y="8" width="24" height="17" rx="2" fill="none" stroke="var(--fd-amber)" stroke-width="2.2"/><path d="M4 16.5 H28" stroke="var(--fd-amber)" stroke-width="2.2"/><path d="M2 11 H4 M2 22 H4 M28 11 H30 M28 22 H30" stroke="var(--fd-amber)" stroke-width="2.4" stroke-linecap="round"/>""",
+    "garden-label": """<path d="M10 4 H22 V20 L16 28 L10 20 Z" fill="var(--gd-board)" stroke="var(--gd-loam)" stroke-width="2" stroke-linejoin="round"/><path d="M13 24 L19 24" stroke="var(--gd-leaf-2)" stroke-width="1.6" stroke-linecap="round"/>""",
     "liner-colophon": """<circle cx="16" cy="16" r="10" fill="none" stroke="var(--cyan)" stroke-width="2.2"/><path d="M16 6 L16 26" stroke="var(--cyan)" stroke-width="1.6"/><path d="M11 12 q5 4 0 8 M21 12 q-5 4 0 8" fill="none" stroke="var(--cyan)" stroke-width="2" stroke-linecap="round"/>""",
 }
 

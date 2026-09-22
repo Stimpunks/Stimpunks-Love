@@ -289,6 +289,40 @@ SWG_WASH = "#26280F"
 GU_PAPER, GU_PAPER2, GU_INK = "#E8E1CF", "#D8CFB6", "#1E241F"
 GU_INK2, GU_RULE, GU_STAMP, GU_FILE = "#4C5349", "#A2977E", "#9E2B1B", "#1C3B6E"
 
+# The Feed (§27). A dark concourse with lit machines standing in it. FD_POOL is
+# the composite nobody declared: --fd-lamp at 4% over the hall, the wash the
+# boards throw on the floor, and what the room's prose actually sits on -- the
+# Chappell's rose window and the burrow's lamp pool, in a station.
+# FD_ PREFIXED, and not optionally: LAMP is already the Faery Yurt's candle
+# colour two hundred lines up, HALL and FLAP and SPLIT are the kind of plain
+# word this file fills up with, and an unprefixed LAMP here would have silently
+# repainted the yurt's pairs -- which is exactly what an unprefixed GLOW did to
+# six of Helen's when Swaying Sweetgrass was added. Pre-empted this time.
+FD_HALL, FD_ENAMEL, FD_FLAP, FD_POOL = "#1D2124", "#0B0E10", "#141A1D", "#25292C"
+FD_GIRDER, FD_SPLIT, FD_FOLD = "#6B7479", "#04070A", "#313A3F"
+FD_FLAP_LO = "#0F1417"
+FD_LAMP, FD_DIM, FD_AMBER, FD_SIGNAL = "#EFEAE0", "#9AA4A9", "#F0B542", "#63CBA2"
+
+# The Garden (§28). MIDDAY, AND THE LIGHT HAS COME THROUGH A LEAF, which is what
+# separates it from the two other rooms on this street that can be read by
+# daylight: the Hermitage's sun lands on a warm plaster WALL, the Guild has no
+# light source in it at all, and this pale is green.
+# THERE IS NO COMPOSITE IN THIS ROOM, and that is the one thing about it worth
+# saying here. Everywhere else on the street the ground a word sits on is a
+# thing nobody declared -- the Chappell's rose window, the burrow's lamp pool,
+# the arcade's scanline, the meadow's sun wash -- and this file has to
+# reconstruct it. GD_DAPPLE is an opaque declared colour painted as the leaf
+# shadow, so the second ground is measured as itself.
+# GD_ PREFIXED, because DAY, BOARD, LEAF, SHADE and BLOOM are all either taken
+# already or the kind of plain word this file fills up with: LEAF is The
+# Chappell's gold, and an unprefixed one here would silently repaint it. That is
+# the --leaf collision, pre-empted for the third time rather than discovered.
+GD_DAY, GD_DAPPLE, GD_BOARD = "#F2F7E9", "#EBF2DF", "#FCFDF6"
+GD_EDGE = "#9DB183"
+GD_LOAM, GD_LOAM2 = "#2B2013", "#5A462C"
+GD_LEAF, GD_LEAF2, GD_BLOOM = "#2F6B1E", "#55893A", "#A8390B"
+
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -1038,6 +1072,40 @@ PAIRS = [
     (GU_INK2,   GU_PAPER,  False, "street: the guild's door blurb"),
     (GU_FILE,   GU_PAPER,  False, "street: the guild's door knock"),
 
+    # ── The Feed (§27) ────────────────────────────────────────────────────
+    # FOUR GROUNDS, because this room has four and type lands on all of them:
+    # the hall, the wash the boards throw on its floor, a board's carcass and
+    # a flap's own face. Every ink is held against every ground it is actually
+    # on rather than against the one it was designed on.
+    (FD_LAMP,   FD_HALL,   False, "feed: the lede and the body of every bay"),
+    (FD_LAMP,   FD_POOL,   False, "feed: the same, under the pool of board light"),
+    (FD_DIM,    FD_HALL,   False, "feed: the eyebrow, the where line, both generated lines"),
+    (FD_DIM,    FD_POOL,   False, "feed: the same, under the pool"),
+    (FD_AMBER,  FD_HALL,   False, "feed: the tagline and every h2"),
+    (FD_AMBER,  FD_POOL,   False, "feed: the same, under the pool"),
+    (FD_SIGNAL, FD_HALL,   False, "feed: every link in the room's prose, and the backlink"),
+    (FD_SIGNAL, FD_POOL,   False, "feed: the same, under the pool"),
+    (FD_LAMP,   FD_HALL,   True,  "feed: h1 'The Feed' in Michroma"),
+    (FD_LAMP,   FD_ENAMEL, False, "feed: each board's nameboard, and the quest panel's copy"),
+    (FD_DIM,    FD_ENAMEL, False, "feed: a wire's note, its second-feed line, both halves of the plate"),
+    (FD_AMBER,  FD_ENAMEL, False, "feed: the minute a wire was read, on the plate"),
+    (FD_SIGNAL, FD_ENAMEL, False, "feed: the feed link on every plate"),
+    (FD_LAMP,   FD_FLAP,   False, "feed: every destination on every row"),
+    (FD_AMBER,  FD_FLAP,   False, "feed: every date column"),
+    # THE GIRDER IS AN OBJECT'S OUTLINE, the Hermitage's chairs rule: a board
+    # you cannot pick out of the hall is not a board, so the edge is measured
+    # against every ground it runs against and held to the graphics bar. It was
+    # #2A3034 first and measured 1.02 on the pool -- the board's own edge gone
+    # exactly where the light was brightest, which is the one place nobody
+    # would have thought to look.
+    (FD_GIRDER, FD_HALL,   True,  "feed: a board's frame and legs, against the hall"),
+    (FD_GIRDER, FD_POOL,   True,  "feed: the same, standing in the pool of its own light"),
+    (FD_GIRDER, FD_ENAMEL, True,  "feed: the rules inside a board, on the carcass"),
+    (FD_GIRDER, FD_FLAP,   True,  "feed: a row's underline against the flap it is on"),
+    (FD_LAMP,   FD_ENAMEL, False, "street: the feed's door name in Michroma"),
+    (FD_DIM,    FD_ENAMEL, False, "street: the feed's door blurb"),
+    (FD_SIGNAL, FD_ENAMEL, False, "street: the feed's door knock"),
+
     # ── THE JOB MARKERS, ONE PER ROOM (§4 + every room) ───────────────────
     # WCAG 1.4.3 does not reach a drawing, and these are held to the body
     # threshold anyway -- the Jungle Room's quills rule: a marker you cannot
@@ -1074,6 +1142,66 @@ PAIRS = [
     (TALLOW2,   CANVAS,    False, "marker: the candle stub on the Faery Yurt's windowsill"),
     (SWG_GLOW,  SWG_SOIL,  False, "marker: the firefly in the meadow grass"),
     (FURROW,    NOON,      False, "marker: the sunflower head at the hermitage"),
+    (FD_AMBER,  FD_HALL,   False, "marker: the flap on the floor of The Feed's concourse"),
+    (FD_AMBER,  FD_POOL,   False, "marker: the same, where the board light reaches the floor"),
+
+    # ── The Garden (§28) ────────────────────────────────────────────────────
+    # THREE GROUNDS AND EVERY INK AGAINST ALL THREE: the path, the leaf shadow
+    # on the path, and a limewashed board laid on it. The board is the pale one
+    # and it is BRIGHTER than the room, which inverts this file's usual worry --
+    # the danger here is an ink too light rather than too dim, the way it is in
+    # the Hermitage.
+    (GD_LOAM,   GD_DAY,    True,  "garden: h1 in Faustina, 40-76px"),
+    (GD_LOAM,   GD_DAY,    False, "garden: a bed's habit line, bold runs in a note, the label's own name"),
+    (GD_LOAM,   GD_DAPPLE, False, "garden: the same, where the leaf shadow falls on the path"),
+    (GD_LOAM,   GD_BOARD,  False, "garden: a bed's label, and every bold run on a limewashed board"),
+    (GD_LOAM2,  GD_DAY,    False, "garden: the lede, the trailmark, every note and the who-line"),
+    (GD_LOAM2,  GD_DAPPLE, False, "garden: the same, under the leaf shadow"),
+    (GD_LOAM2,  GD_BOARD,  False, "garden: the notices on a board, and a label's host line"),
+    (GD_LEAF,   GD_DAY,    False, "garden: links, h2, the backlink, and the gate's name on the street"),
+    (GD_LEAF,   GD_DAPPLE, False, "garden: the same, under the leaf shadow"),
+    (GD_LEAF,   GD_BOARD,  False, "garden: a link inside a board or a spider panel"),
+    (GD_BLOOM,  GD_DAY,    False, "garden: a link being hovered, and the one flower colour"),
+    (GD_BLOOM,  GD_DAPPLE, False, "garden: the same, under the leaf shadow"),
+    (GD_BLOOM,  GD_BOARD,  False, "garden: a hovered link on a board. It started at #C2470E, which "
+                                  "measured 4.12 here -- the garden's brightest colour failing on "
+                                  "its brightest surface, caught before it shipped"),
+    (GD_BOARD,  GD_LEAF,   False, "garden: 'Ask the garden' -- the one solid button in the room"),
+    (GD_BOARD,  GD_LOAM,   False, "garden: the same button while it is hovered"),
+    # THE DRAWN LEAF IS HELD TO THE 3:1 GRAPHICS BAR, the Jungle Room's canopy
+    # rule: a leaf nobody can pick out of the ground is not a leaf. It also
+    # draws the rule down the side of each sown drill and the underline under a
+    # label's name, neither of which carries a word.
+    (GD_LEAF2,  GD_DAY,    True,  "garden: the lit face of every drawn leaf, and a drill's rule"),
+    (GD_LEAF2,  GD_DAPPLE, True,  "garden: the same, under the leaf shadow"),
+    (GD_LEAF2,  GD_BOARD,  True,  "garden: a drawn leaf over a board, and a label's underline"),
+    # WHITE ON WHITE, CARRIED BY THE OUTLINE. A limewashed board is 1.07 against
+    # the path and the ghost pipe in Queering.Earth's bed is the same white with
+    # no green in it at all, which is the pebbling shore's reading of WCAG
+    # 1.4.11 arriving in a plant: what has to separate is the EDGE, not the
+    # fill. Every one of those shapes is drawn in GD_LOAM, and this is that
+    # line against what it encloses.
+    (GD_LOAM,   GD_BOARD,  True,  "garden: the outline round the ghost pipe, the cold frame's glass, "
+                                  "every label and the quest marker -- the line that makes a white "
+                                  "object visible on a white ground"),
+    # A drawing's own soil. The rhizome, the mycelial threads and the seeds are
+    # GD_LOAM lines on GD_LOAM2 earth at 1.78, which is interior shading inside
+    # one object -- the Faery Yurt's two tones of ivy, in a bed. What carries the
+    # soil itself is its edge against the path, which is the pair above it here.
+    (GD_LOAM2,  GD_DAY,    True,  "garden: the turned earth in every bed's drawing, against the path"),
+    # NOTHING GREEN IS EVER DRAWN ON THAT EARTH, and this file is why. The two
+    # greens measured 1.38 and 2.14 against the soil, and NO BROWN CAN CLEAR 3:1
+    # AGAINST BOTH AT ONCE, because they are only 1.55 apart from each other --
+    # so there was no palette fix available and the drawings changed instead.
+    # Above the soil line is green, below it is pale: a root, a rhizome, a
+    # mycelial thread, a spilled seed and the underground half of a shoot, all in
+    # the path's own colour, which is also what a blanched shoot actually looks
+    # like before it reaches the light. make-garden.py walks every coordinate of
+    # every green element and refuses one that crosses the line, because the next
+    # drawing will be added by somebody who has not read this note.
+    (GD_DAY,    GD_LOAM2,  True,  "garden: every root, rhizome, thread, seed and blanched shoot -- "
+                                  "the palette splits at the soil line the way a plant does"),
+    (GD_LOAM,   GD_DAPPLE, True,  "marker: the plant label's outline on the garden path"),
 
 ]
 
@@ -1211,6 +1339,27 @@ ORNAMENT = {
                "are — and the one lit colour that pitch is allowed, because the other "
                "two are taken. It is CARRIED rather than emitted or caught: many "
                "small lights held in the grass, no source you could point at.",
+    "#04070a": "feed: the hard dark line between the flaps in that room's DOOR "
+               "awning on the street, 1.15 on a flap face. The one place in this room "
+               "a flat seam still reads as a seam: a door awning is a picture of a "
+               "board seen from across the street, and there are no letters on it.",
+    "#0f1417": "feed: the lower leaf of every flap, a solid band across the foot of "
+               "each row, 1.06 on the flap face above it. NOTHING IS SET ON IT, which "
+               "is the whole reason it is down there: it began as a hairline through "
+               "the middle of the letters -- what a real Solari flap does -- and read "
+               "as a strikethrough on the share card, then as a strikethrough through "
+               "the second line of every WRAPPED title on a phone, which is worse. A "
+               "real board's rows are one line of fixed-width characters and cannot "
+               "wrap; ours carry the titles people actually gave their pages. So there "
+               "is no proportion of a row that is not inside somebody's sentence, and "
+               "the leaf lives at the foot.",
+    "#313a3f": "feed: the lit fold along the top of that leaf, 1.51 on the flap face "
+               "and 1.60 on the leaf. The edge of a moving part, carrying no words.",
+    "#9db183": "garden: the hairline round every limewashed board, label and panel in "
+               "that room, 2.13 on the path, 2.27 on the board and 2.02 under the leaf "
+               "shadow. It is the guild's printed rule's job in a garden -- structure you "
+               "feel rather than read -- and it is what makes a board 1.07 lighter than "
+               "the ground visible at all. Nothing is set in it.",
     "#2a3a31": "campgrounds: the board's frame and the post each pitch hangs off, 1.48 "
                "on the field. That field is deliberately the dimmest ground on the "
                "street and its type carries all of it -- bone at 14.7, moss at 7.3. The "

@@ -999,6 +999,150 @@ text column and the first draft set every blurb one word to a line; **hiding the
 the grid would have been the lite-version mistake arriving through a breakpoint**, so the grid
 gave way instead. The sentence saying what shape it is is generated and carries its own caveat.
 
+**THE ORDERLY ROOM HAS A SECOND ONE NOW, AND THAT IS THE HARDEST COLLAPSE ON THE STREET SINCE
+THE DEN.** The Feed (§27) is a dark station concourse with a split-flap arrivals board standing in
+it for every site we run. It is **made of ruled rows**, it is square, nothing in it is rotated and
+nothing overlaps — which is the Adventurer's Guild's description word for word, in the room whose
+own section says its tidiness *cannot spread: the moment anywhere else starts looking orderly the
+joke has become a system.* A second orderly room is what spreading looks like, so the separation
+cannot be the layout, because the layout really is the same:
+
+  · **the guild has NO LIGHT SOURCE AND NO DEPTH.** It is lit the way a photocopy of a document is
+    lit — evenly, from nowhere — and nothing in it casts anything. This room is **nothing but
+    light and depth**: one source per board, inside it, every object separated from every other by
+    a shadow, and the boards standing on legs rather than lying on the page.
+  · the guild is a **document** and this is a **machine**. A clerk filed that; an engineer bolted
+    this together and switched it on. *Orderly* is not one joke — a bureaucracy being orderly and a
+    mechanism being orderly are different subjects, and only one of the two is allowed to be dark.
+  · and the guild is **pale**. This is the far end of the street's own night.
+
+If anything in here loses its shadow, or the boards ever sit flat on the page, the two rooms have
+become one and **it is this one that moves**.
+
+**AND THE LIGHT IS A THIRD KIND OF TRANSMITTED LIGHT, because a neighbour already owns the idea.**
+Swaying Sweetgrass is lit *through* a translucent body — the sun a hundred feet off and behind,
+diffuse, no edges, nothing with a lit face. This is lit through an **aperture**: a hard light a
+finger's width behind a mask, so every letter has a crisp edge, every flap throws a hairline
+shadow, and the enamel between the letters stays dead. Diffuse transmission against masked
+transmission. **If the edges in here ever go soft this has become the meadow with a timetable in
+it.** It is also the one room whose **furniture is darker than the room** — a carcass is the
+darkest thing in the hall and the brightest thing in it at once — which is why its share card is
+drawn as an object standing on a floor.
+
+**THE BOARD IS A SNAPSHOT AND SAYS SO, WHICH IS make-jungle.py's REFUSED RUNTIME UPSIDE DOWN.**
+None of those hosts sends an `Access-Control-Allow-Origin` header, so the page cannot read a feed,
+and the ways round it are a proxy we do not run and a third-party reader we would be handing our
+visitors to without asking. So `pull-arrivals.py` reads the feeds, `make-arrivals.py` draws the
+board, every plate carries the minute its own wire was read and the hall carries the minute the
+board was set — **both generated from the same file the rows come out of.** A live camera has no
+length to give and publishing one would be a number that goes quietly wrong; a board *has* a time
+it was set, so leaving that off would be the identical fault the other way up. **Do not make this
+room pretend to be live**, and do not take the times off it.
+
+**A ROW IS A TITLE, A DATE AND A DESTINATION, AND THE TOOL REFUSES A SUMMARY FIELD RATHER THAN
+IGNORING IT.** A departures board does not read you the contents of the train. That is the
+metaphor doing the ethical work: a room that pasted in everybody's opening lines would be
+republishing other people's writing onto one surface it does not own, which is the opposite of
+sending somebody to them. **The friendly edit is real and it will arrive** — the rows look bare,
+somebody helpfully pastes the excerpts back, and the board has become a reader. It is
+`make-sweetgrass.py`'s refusal of a reading marked `screen`, in a room where the rows would look
+better for the change.
+
+**NOTHING THERE IS RANKED AND NO SITE'S ACTIVITY IS ADDED UP.** No busiest, no quietest, no
+rows-per-week, nothing saying which of our sites has been getting on with it. A board that showed
+that would turn publishing into a race between our own people, most of whom are Disabled and
+several of whom are one person — the pebbling cabinet's refusal of a tally, arriving *between*
+sites rather than inside a game, and it is exactly the feature somebody would add to make the hall
+feel alive. The vocabulary is refused in the room's own copy with `make-guild.py`'s negation
+window, so the room can still say that it does not rank anything. **The running order is
+stimpunks.org's own**, off its published feeds page, and re-sorting it here — alphabetically, or by
+whose wire was newest — would be this room overruling a decision made somewhere else, which is the
+Jungle Room's rule about its cams. **And this street is on its own board**, fetched over the
+network like every other wire, because a board that listed every sibling and left itself off would
+be claiming to be the station rather than a platform in it.
+
+**THE SEAM THROUGH THE MIDDLE OF THE LETTERS HAD TO GO TWICE, AND THE REASON IS STRUCTURAL.** A
+real Solari flap splits straight through the glyphs, so that is what it was: one near-black
+hairline at 50%. On the share card the row lettered NEVER **read as a word struck through**. Two
+solid faces with a lit fold between them fixed the card and then failed worse on a phone, where a
+destination wraps to three lines and 50% of a tall row lands inside somebody's second line. **A
+real board's rows are one line of fixed-width characters and cannot wrap; ours carry the titles
+people actually gave their pages.** There is no proportion of a row that is not inside a sentence,
+so the lower leaf sits at the **foot** of the flap, where no width can push it into a word.
+Authentic and misread is worse than slightly stylised and legible.
+
+**TWO TOOLS, AND ONLY ONE OF THEM TOUCHES THE NETWORK.** `pull-arrivals.py` reads the feeds and is
+kept out of the pre-deploy sequence with `check-jukebox.py`, because a build that cannot run on a
+train is a build that stops being run; `make-arrivals.py` needs nothing but the file. **Do not
+merge them.** And `make-arrivals.py` is **not** `make-feed.py`: that one builds `feed.xml`, this
+site's own feed, and the room is named after its object precisely so a search for one never lands
+on the other.
+
+**A ROOM WHOSE CONTENTS ARE OTHER PEOPLE'S ROOMS IS THE FIRST PAGE HERE THAT POINTS OUTWARD.**
+The Garden (§28) is through a gate in the wall: our knowledge garden as a place you can walk, with
+**one bed for every site we publish** and every bed linking straight out, because each of those is
+already its own room and a shopfront promising a room you never arrive in would be the street lying
+about its own architecture. So it is an opening rather than a premises, and it is the one place on
+a night street where the sun is up. **The two rooms it collapses into are the other two daylit
+ones, and the separation is physics rather than palette:** the Hermitage's light lands on a warm
+plaster *wall*, with everything standing in front of it and the shadows falling sideways off a low
+sun; the Guild has *no light source at all*, lit like a photocopy, with nothing casting anything;
+here the sun is overhead and has come down **through leaves**, so every pale surface is tinted
+green and every shadow is small, hard and directly underneath the thing that made it. **And the
+palest thing in the room is not the ground** — a limewashed board is brighter than the path it lies
+on, where both neighbours put their panels darker than their paper.
+
+**THE ROSTER IS NOT IN THAT ROOM'S DATA FILE AND MUST NOT BE MOVED INTO IT.** Which sites exist, in
+what order, under what names and at what addresses is read out of `data/arrivals.json` — the same
+list The Feed runs on, whose order is stimpunks.org's own published feeds page. So a bed cannot be
+invented here, a site cannot be quietly left out, and re-sorting the garden would be this room
+overruling a decision made somewhere else, which is the Jungle Room's rule about its cams arriving
+where the temptation is stronger because a garden looks like a thing you would arrange by eye.
+`data/garden.json` holds nothing but our own writing.
+
+**AND THE FEED IS THE ROOM IT COULD COLLAPSE INTO, because both list every site we run.** The
+division is structural, not tonal: **a board is a timetable** — a title, a date, a destination and
+the minute it was set — and **a garden is a planting plan**: what a site is for, whose hands are in
+it, and nothing that changes when somebody publishes. That is why `make-garden.py` touches no
+network, has no pull step beside it, and **refuses a date in a bed**. It also refuses a count of
+what a site holds, for the staleness reason rather than the tally one, and the vocabulary of
+ranking our own sites, because a league table of our own projects is a race between our own people.
+
+**THE DRAWINGS ARE TOLD APART BY FORM, WHICH IS THE CAMPGROUND'S GRAMMAR INVERTED ON PURPOSE.** Out
+in the field every pitch gets **one lit colour** of its own — the yurt emits, the hermitage
+catches, the meadow carries — and that grammar runs out at about the fourth pitch, because there
+are not many kinds of light. There are as many kinds of growth as you like: a rhizome, an umbel, a
+plant with no chlorophyll in it, a frame with seedlings under glass, a runner, a dry seed head, a
+scramble, a tendril, each saying something true about its site. **Every habit is also written out
+in a sentence beside its bed**, because the drawings are aria-hidden decoration and a claim only
+sighted readers get is not a claim this site may make; the tool refuses a bed without that
+sentence, and refuses two beds that share a drawing.
+
+**AND ITS PALETTE SPLITS AT THE SOIL LINE, WHICH IS THE FIRST TIME A CONTRAST FAILURE HAD NO
+PALETTE FIX.** `check-contrast.py` put the two greens at **1.38 and 2.14** against the earth, and
+because the greens are only 1.55 apart from each other **no brown clears 3:1 against both of them
+at once** — so nothing could be re-coloured and the drawings changed instead: green above the line,
+pale below it, every root, rhizome, mycelial thread, spilled seed and blanched shoot in the path's
+own colour, which is also what a shoot looks like before it reaches the light. `make-garden.py`
+**walks every coordinate of every green element and refuses one that crosses the line**, because
+the next drawing will be added by somebody who has not read this paragraph. It was broken on
+purpose first — a stem two pixels under and a leaf circle whose *edge* dipped below — and it caught
+both, which is `check-quests.py`'s lesson about believing a checker.
+
+**IT SETS NO DISPLAY FACE AT ALL, AND THAT IS THE ROOM'S ONE CLAIM ABOUT TYPE.** Every other world
+on this street has something that shouts — a woodtype, a condensed grotesque, a fat slab, a
+blackletter, a pixel face — and a garden has no signage in it, only labels. Faustina sets the
+garden's own name and the label on every bed in the same breath, Mulish carries the notes, and the
+loud things in the room are the plants. **Do not give it a display face**; the quiet is the design.
+
+**THE GARDEN SPIDER IS AN ORB WEAVER AND NOT A MASCOT, and its panel is careful in our own words
+rather than in softer ones.** A spider is a guide to the garden and never a replacement for it, its
+best answer is an entrance, it can be wrong, and every trail it puts somebody on ends at a page a
+person wrote — all of that is quoted from our own `/ask/` page, with the ethics pages linked beside
+it and a way to reach a human instead. **The friendly edit here is the one that trims the caveats
+to make the button look better**, on a page recommending a generative tool, which is precisely
+where this organisation cannot afford to sound like everybody else.
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody

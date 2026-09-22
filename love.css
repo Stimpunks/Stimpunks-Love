@@ -203,6 +203,38 @@
 @font-face { font-family: 'Public Sans'; src: url('fonts/public-sans-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Public Sans'; src: url('fonts/public-sans-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
 
+/* THE FEED (§27). Michroma is the nameboards and the h1 and NOTHING ELSE: it is
+   a very wide squared face, which is what machined signage looks like and what
+   a paragraph of text must never be -- the Doomscroll's blackletter lesson, in
+   a room whose whole subject is lettering in cells. Space Mono is the rows, the
+   dates and the plates, because a split-flap board is a grid of cells with one
+   character in each and a monospace is that grid. It is the FOURTH mono here
+   and the first squared one: Courier Prime is the zine's typewriter, Special
+   Elite is its battered cousin, VT323 is the quantum room's phosphor. The
+   room's prose is Space Grotesk, which is Space Mono's own relative and is
+   already this file's --sans, so the reading voice in here is the street's
+   ordinary one and only the MACHINE has an accent. */
+@font-face { font-family: 'Michroma';   src: url('fonts/michroma-400.woff2') format('woff2');   font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Space Mono'; src: url('fonts/space-mono-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Space Mono'; src: url('fonts/space-mono-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+
+/* The Garden (§28). TWO TEXT FACES AND NO DISPLAY FACE AT ALL, which is this
+   room's one structural claim about type: every other world on this street has
+   something that shouts -- a woodtype, a condensed grotesque, a fat slab, a
+   blackletter, a pixel face -- and a garden has no signage in it. It has
+   LABELS. So Faustina sets the garden's own name at size and the label on
+   every bed in the same breath, because a nursery writes both with the pen it
+   has, and the loud things in this room are the plants. Faustina ships as a
+   variable font, so one file serves 400 and 600 against the weight axis, the
+   same as Nunito and Cabin above; its italic is a second file because a
+   slanted variable axis is not an italic. Mulish carries the notes -- round,
+   open, tall-x, which is what a bright day does to letters. Neither face is
+   set anywhere else. See fonts/_sources.json. */
+@font-face { font-family: 'Faustina'; src: url('fonts/faustina-400.woff2') format('woff2');        font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Faustina'; src: url('fonts/faustina-400.woff2') format('woff2');        font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Faustina'; src: url('fonts/faustina-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Mulish';   src: url('fonts/mulish-400.woff2') format('woff2');          font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Mulish';   src: url('fonts/mulish-400.woff2') format('woff2');          font-weight: 700; font-display: swap; }
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -515,6 +547,85 @@
   --gu-paper: #E8E1CF;   --gu-paper-2: #D8CFB6; --gu-ink: #1E241F;
   --gu-ink-2: #4C5349;   --gu-rule: #A2977E;    --gu-stamp: #9E2B1B;
   --gu-file: #1C3B6E;
+
+  /* The Feed (§27). A dark concourse with lit machines standing in it, and the
+     one room here whose FURNITURE IS DARKER THAN THE ROOM: --fd-hall is the
+     concourse and --fd-enamel is a board's carcass, and the carcass is the
+     darkest thing in the hall and the brightest thing in it at once -- dead
+     enamel with a light behind the letters. Every other dark room on this
+     street puts furniture lighter than its ground.
+
+     --fd-girder IS AN OBJECT'S OUTLINE AND IS MEASURED AS ONE, on all four
+     grounds, the Hermitage's chairs rule. It was a much darker grey first and
+     measured 1.02 against the pool of light the boards throw on the floor,
+     which is to say the board's own edge vanished exactly where the light was
+     brightest. It is 3.07 there now and clears 3:1 on the hall, the enamel and
+     a flap as well.
+
+     A FLAP IS TWO HALVES, WHICH IS WHY THERE ARE TWO FLAP COLOURS. The first
+     version drew the seam as one near-black hairline straight through the
+     middle of the letters -- which is what the real machine does, and which on
+     the share card read as a STRIKETHROUGH: the row lettered NEVER looked
+     deleted rather than printed, at the size a card is actually seen. So the
+     lower half of every flap is its own slightly darker face (--fd-flap-lo)
+     with a lit fold along its top edge (--fd-fold), which is both what a folded
+     flap looks like and a thing nobody can mistake for a line through a word.
+     Both halves are grounds and both are measured; --fd-fold carries no text
+     and is in check-contrast.py's ORNAMENT with its numbers. --fd-split is the
+     hard dark line between the flaps in this room's DOOR awning on the street,
+     the one place a flat seam still reads as a seam. */
+  --fd-hall: #1D2124;    --fd-enamel: #0B0E10;  --fd-flap: #141A1D;
+  --fd-flap-lo: #0F1417; --fd-fold: #313A3F;
+  --fd-girder: #6B7479;  --fd-split: #04070A;
+  --fd-lamp: #EFEAE0;    --fd-dim: #9AA4A9;     --fd-amber: #F0B542;
+  --fd-signal: #63CBA2;
+
+  /* The Garden (§28). MIDDAY, AND THE LIGHT HAS BEEN THROUGH A LEAF ON ITS WAY
+     DOWN, which is the whole of its separation from the two rooms on this
+     street it would otherwise collapse into.
+
+       · THE SOLARPUNK HERMITAGE is the other room the sun is up in, and its
+         light LANDS ON A WALL: --noon is warm lime plaster, everything stands
+         in front of it, and the shadows fall sideways off a low sun. There is
+         no wall here and nothing to stand in front of. The sun is overhead and
+         it has come down through foliage, so every pale surface in this room is
+         tinted GREEN and every shadow is small, hard and directly underneath
+         the thing that made it.
+       · THE ADVENTURER'S GUILD is the other pale ground, and it has no light
+         source in it at all -- lit like a photocopy, evenly, from nowhere, with
+         nothing casting anything. This room is nothing but light.
+
+     AND THE PALEST THING HERE IS NOT THE GROUND. --gd-day is the path you are
+     standing on and --gd-board is a limewashed plank laid on it, BRIGHTER than
+     the ground it sits on -- where the hermitage's panels are darker than its
+     plaster and the guild's are darker than its manila. A board separates from
+     the path by 1.07, which is to say not at all, so it is carried by its edge
+     and by the hard shadow under it, the way every object in the Hermitage's
+     campfire is carried by its outline.
+
+     --gd-dapple IS PAINTED AND NOT LAYERED, which makes this the one room on
+     the street with no composite ground in it. The Chappell has a rose window
+     over its type, the burrow a lamp pool, the arcade a scanline, the meadow a
+     sun wash: in every one of those the colour the text actually sits on is a
+     thing nobody declared, and check-contrast.py has to reconstruct it. Leaf
+     shadow is an opaque colour here -- the second ground, measured as itself,
+     with nothing to guess about.
+
+     --gd-edge never fills anything and --gd-dapple never draws a line.
+     --gd-leaf-2 is the lit face of a drawn leaf and is held to the 3:1 graphics
+     bar on all three grounds, the Jungle Room's canopy rule: a leaf nobody can
+     make out is not a leaf. --gd-bloom is the one flower colour and started at
+     #C2470E, which measured 4.12 on a limewashed board -- a garden's brightest
+     colour failing on its brightest surface, found before it shipped rather
+     than after. GD- PREFIXED THROUGHOUT, because `leaf` is already The
+     Chappell's gold, and `shade`, `bloom` and `day` are the kind of plain word
+     a stylesheet fills up with: a custom property declared twice in one :root
+     is last-wins and silent, so this is the --leaf collision pre-empted rather
+     than discovered. */
+  --gd-day: #F2F7E9;    --gd-dapple: #EBF2DF;  --gd-board: #FCFDF6;
+  --gd-edge: #9DB183;
+  --gd-loam: #2B2013;   --gd-loam-2: #5A462C;
+  --gd-leaf: #2F6B1E;   --gd-leaf-2: #55893A;  --gd-bloom: #A8390B;
 }
 
 * { box-sizing: border-box; }
@@ -943,6 +1054,16 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .door--guild .door__blurb { font-family: 'Public Sans', var(--sans); color: var(--gu-ink-2); }
 .door--guild .door__knock { font-family: 'Public Sans', var(--sans); font-weight: 700; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--gu-file); }
 
+/* THE FEED'S DOOR IS A SMALL BOARD IN A SHOPFRONT, and its awning is the one on
+   this street made of flap seams rather than stripes, scallops or bunting. The
+   name is Michroma at door size and no larger: the widest face in the building
+   on the shortest string in the room. */
+.door--feed { background: var(--fd-enamel); border-color: var(--fd-girder); }
+.door--feed .door__awning { background-image: repeating-linear-gradient(180deg, var(--fd-flap) 0 6px, var(--fd-split) 6px 7px); border-bottom-color: var(--fd-girder); }
+.door--feed .door__name  { font-family: 'Michroma', var(--sans); color: var(--fd-lamp); font-size: 15px; letter-spacing: .1em; text-transform: uppercase; }
+.door--feed .door__blurb { color: var(--fd-dim); }
+.door--feed .door__knock { font-family: 'Space Mono', ui-monospace, monospace; font-weight: 700; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--fd-signal); }
+
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
 .door--empty .door__name  { font-family: 'Bungee', var(--sans); color: var(--chalk); font-size: 23px; }
@@ -1012,6 +1133,41 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .signpost:hover .signpost__arm { background: var(--cyan); }
 .signpost__to { font-family: 'Bungee', var(--sans); font-size: 17px; letter-spacing: 1px; }
 .signpost__why { font-size: 14.5px; max-width: 62ch; }
+
+/* THE GATE IN THE WALL, and the THIRD thing on this street that is not a door.
+   The signpost points off the end of the street at a field; the noticeboard is
+   a case bolted to the pavement; this is a HOLE IN THE WALL between two
+   shopfronts, with daylight coming through it.
+
+   It could not be a door in the grid for the plainest reason yet: the garden is
+   not a room of ours at all. Every bed in it links out to a different site we
+   publish, and a shopfront promising a room you never arrive in would be the
+   street telling a lie about its own architecture. So it is an opening rather
+   than a premises -- you go through it and out.
+
+   AND IT IS THE ONE PLACE ON A NIGHT STREET WHERE THE SUN IS UP. The doors
+   each carry their own room's colours, which is this street's oldest grammar,
+   and what is behind this one is midday: the opening is filled with the
+   garden's own daylight, the words in it are dark on that light, and the wall
+   around it stays the street's. Arched and centred, because an arch is
+   symmetrical and the other two street objects are neither. */
+.gardengate { display: block; margin: 26px 0 0; text-decoration: none; }
+.gardengate__arch {
+  display: block; text-align: center;
+  background: var(--gd-day); color: var(--gd-loam);
+  border: 5px solid var(--ink-3);
+  border-radius: 170px 170px 5px 5px;
+  padding: 42px 38px 20px;
+}
+.gardengate:hover .gardengate__arch { background: var(--gd-board); }
+.gardengate__to {
+  display: block; font-family: 'Bungee', var(--sans); font-size: 17px;
+  letter-spacing: 1px; color: var(--gd-leaf);
+}
+.gardengate__why {
+  display: block; margin: 8px auto 0; font-size: 14.5px; max-width: 58ch;
+  color: var(--gd-loam-2);
+}
 
 .pavement {
   margin-top: 40px; border-top: 3px solid var(--ink-3); background: var(--ink-2);
@@ -5170,7 +5326,581 @@ html[data-intensity="max"] .guild-spark { animation: gu-rise 2.1s ease-out forwa
 .guild-desk__half { flex: 1 1 300px; min-width: 0; }
 .guild-desk__half .dial { max-width: 380px; }
 
-/* §27 ── Small screens ───────────────────────────────────────────────────────
+/* §27 ── ROOM: The Feed ──────────────────────────────────────────────────────
+   AN ARRIVALS BOARD IN A DARK CONCOURSE, AND THE ONLY MACHINE ON THIS STREET.
+
+   A hall with freestanding split-flap indicator boards standing down it on
+   metal legs, one per site, each lit from inside itself. The room's whole
+   argument is in the object: a board is SET by somebody with a machine, at a
+   time, and it is a picture of the railway rather than the railway. That is
+   what lets this room carry other people's arrivals honestly — it says the
+   minute it was set, and the live thing is one press away on every plate.
+
+   THE LIGHT IS THE ROOM, and it is a THIRD kind of transmitted light, which
+   matters because one neighbour has already claimed the idea. Swaying
+   Sweetgrass is lit THROUGH a translucent body — the sun a hundred feet off
+   and behind, diffuse, no edges, nothing with a lit face. This is lit through
+   an APERTURE: a hard light a finger's width behind a mask, so every letter
+   has a crisp edge, every flap throws a hairline shadow on the one below it,
+   and the enamel between the letters stays completely dead. Diffuse
+   transmission against masked transmission. If the edges in here ever go soft,
+   this has become the meadow with a timetable in it.
+
+   AND THE FURNITURE IS DARKER THAN THE ROOM, which nothing else here does.
+   Every other dark room on this street stands lighter objects in a darker
+   ground; the carcass of a board is the darkest thing in this hall and the
+   brightest thing in it at the same time. That inversion is why the room reads
+   as machines in a space rather than as a page with panels on it, and it is
+   the reason the share card is drawn as an object standing on a floor.
+
+   THE ROOM IT COULD COLLAPSE INTO IS THE ADVENTURER'S GUILD, and this is the
+   hardest case since The Den — because both rooms are MADE OF RULED ROWS, both
+   have square corners, and in both of them nothing is rotated and nothing
+   overlaps. That room's own section says its tidiness "cannot spread: the
+   moment anywhere else starts looking orderly the joke has become a system",
+   and a second orderly room is exactly what spreading looks like. What holds
+   them apart is not the layout, because the layout really is the same:
+
+     · THE GUILD HAS NO LIGHT SOURCE AND NO DEPTH. It is lit the way a
+       photocopy of a document is lit — evenly, from nowhere — and nothing in
+       it casts anything. This room is NOTHING BUT light and depth: one source
+       per board, inside it, and every object in the hall separated from every
+       other by a shadow.
+     · THE GUILD IS A DOCUMENT. This is a MACHINE. A clerk filed that; an
+       engineer bolted this together and somebody switched it on. Orderly is
+       not one joke — a bureaucracy being orderly and a mechanism being orderly
+       are different subjects, and the mechanism is the only one of the two
+       that is allowed to be dark.
+     · AND THE GUILD IS PALE. This is the far end of the street's own night.
+
+   If anything in here ever loses its shadow, or if the boards ever sit flat on
+   the page instead of standing in a hall, the two rooms have become one and it
+   is this one that has to move.
+
+   TYPE: Michroma sets the h1 and the nameboard over each board AND NOTHING
+   ELSE — a very wide squared face is what machined signage looks like and what
+   a paragraph must never be, which is the Doomscroll's blackletter lesson
+   arriving in the one room whose actual subject is lettering. Space Mono sets
+   every row, every date and every plate, because a flap board is a grid of
+   cells with one character in each and a monospace IS that grid. The room's
+   prose is the street's ordinary --sans, so only the machine has an accent.
+
+   MOTION: the flaps settle once on arrival at Regular and riffle before
+   settling at MAX. Both are KEYFRAMES rather than static transforms, which is
+   deliberate: §3 kills animation at Gentle with !important and nothing can
+   out-specify that by accident, so there is no room here for the fault
+   check-gentle.py exists to catch. NOTHING FLASHES — the animations move
+   scaleY and touch opacity nowhere, because three fast opacity steps in a row
+   is a flicker whatever it is called, and Club Chronic's rule holds on the
+   whole street. Both are one-shot: a board that riffled forever would be
+   ambient motion nobody can turn off short of Gentle.                        */
+
+.room-feed {
+  background: var(--fd-hall); color: var(--fd-lamp);
+  font-family: var(--sans);
+}
+/* DECIDED AT THE ROOM, once, which is the hole the Doomscroll left and the
+   Playhouse had open since it opened: a room that only states a link colour on
+   the components that happen to get one leaves every other link falling
+   through to §2's `a`, and an inherited colour was never decided, so
+   check-contrast.py has nothing to hold a pair for and the run passes while a
+   paragraph sits under the bar. Every ground this room has is measured against
+   this signal green. */
+.room-feed a { color: var(--fd-signal); }
+.room-feed a:hover { color: var(--fd-lamp); }
+.room-feed .backlink { font-family: 'Space Mono', ui-monospace, monospace; font-size: 13px; letter-spacing: .04em; color: var(--fd-signal); }
+
+.concourse { max-width: 1000px; margin: 0 auto; padding: 0 22px 74px; position: relative; }
+
+/* THE POOL THE BOARDS THROW ON THE FLOOR. A fixed layer behind everything, so
+   it is NOT in the DOM path of any text and check-contrast-live.py will read
+   the hall underneath it — which is why the composite is measured by hand in
+   check-contrast.py instead, at --fd-lamp 4% over --fd-hall, the same way the
+   Chappell's rose window and the burrow's lamp pool are. It is light and not
+   motion, so it stays at Gentle: the dial takes away the wobble, never the
+   room. */
+.concourse::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(120% 60% at 50% 32%, rgba(239,234,224,.04), rgba(239,234,224,0) 70%);
+}
+
+.concourse__top {
+  display: flex; flex-wrap: wrap; gap: 12px 24px;
+  justify-content: space-between; align-items: baseline; padding-top: 12px;
+}
+
+/* ── The hall's own head ─────────────────────────────────────────────────── */
+.hall { margin: 30px 0 0; }
+.hall .eyebrow {
+  margin: 0 0 12px; font-family: 'Space Mono', ui-monospace, monospace;
+  font-size: 12px; letter-spacing: .34em; text-transform: uppercase;
+  color: var(--fd-dim);
+}
+.room-feed h1 {
+  font-family: 'Michroma', var(--sans); font-weight: 400;
+  font-size: clamp(25px, 5.4vw, 54px); line-height: 1.12;
+  letter-spacing: .02em; text-transform: uppercase;
+  margin: 0; color: var(--fd-lamp);
+}
+.hall__tagline {
+  margin: 16px 0 0; max-width: 46ch;
+  font-family: 'Space Mono', ui-monospace, monospace; font-size: 15px;
+  line-height: 1.5; color: var(--fd-amber);
+}
+.hall__where {
+  margin: 0; font-family: 'Space Mono', ui-monospace, monospace;
+  font-size: 12.5px; letter-spacing: .05em; color: var(--fd-dim);
+}
+.room-feed .lede { margin: 20px 0 0; max-width: 66ch; font-size: 17.5px; line-height: 1.6; }
+.room-feed .lede b { color: var(--fd-amber); font-weight: 700; }
+
+/* The two generated lines. They sit on their own plate because what they say —
+   the minute this was set — is the one claim on the page that stops being true
+   on its own. */
+.hall__set, .hall__shape {
+  margin: 18px 0 0; max-width: 72ch;
+  font-family: 'Space Mono', ui-monospace, monospace;
+  font-size: 13.5px; line-height: 1.6; color: var(--fd-dim);
+}
+.hall__set {
+  border-left: 3px solid var(--fd-amber); padding: 2px 0 2px 14px;
+  color: var(--fd-lamp);
+}
+.hall__set b { color: var(--fd-amber); }
+.hall__note { margin: 16px 0 0; max-width: 68ch; font-size: 15.5px; line-height: 1.6; color: var(--fd-dim); }
+.hall__note b { color: var(--fd-lamp); }
+
+/* ── A structural bay of the concourse ───────────────────────────────────── */
+.girder { margin: 52px 0 0; border-top: 1px solid var(--fd-girder); padding-top: 22px; }
+.room-feed h2 {
+  font-family: 'Space Mono', ui-monospace, monospace; font-weight: 700;
+  font-size: clamp(15px, 2.1vw, 19px); line-height: 1.3;
+  letter-spacing: .1em; text-transform: uppercase;
+  margin: 0 0 16px; color: var(--fd-amber);
+}
+.girder p { margin: 0 0 14px; max-width: 70ch; font-size: 16.5px; line-height: 1.62; }
+.girder p b { color: var(--fd-lamp); font-weight: 700; }
+.girder p:last-child { margin-bottom: 0; }
+
+/* ── One board ───────────────────────────────────────────────────────────────
+   Carcass, nameboard, rows, plate, and two legs under it. The legs are a
+   ::after on the section, so a board really does stand on the floor of the
+   hall rather than lying on the page — which is the whole separation from the
+   job board one room over. */
+.indicator {
+  position: relative; margin: 46px 0 62px;
+  background: var(--fd-enamel);
+  border: 2px solid var(--fd-girder);
+  border-radius: 3px;
+  padding: 18px 18px 16px;
+  box-shadow: 0 0 34px rgba(239,234,224,.05), 0 14px 0 -8px rgba(4,7,10,.85);
+}
+.indicator::after {
+  content: ""; position: absolute; left: 12%; right: 12%; bottom: -22px; height: 22px;
+  border-left: 7px solid var(--fd-girder); border-right: 7px solid var(--fd-girder);
+  pointer-events: none;
+}
+.indicator__head { border-bottom: 1px solid var(--fd-girder); padding-bottom: 14px; }
+.indicator__name {
+  margin: 0; font-family: 'Michroma', var(--sans); font-weight: 400;
+  font-size: clamp(12.5px, 1.7vw, 16px); line-height: 1.45;
+  letter-spacing: .12em; text-transform: uppercase;
+}
+.indicator__name a { color: var(--fd-lamp); text-decoration-thickness: 1px; text-underline-offset: 5px; }
+.indicator__name a:hover { color: var(--fd-amber); }
+.indicator__what {
+  margin: 10px 0 0; max-width: 72ch; font-size: 15px; line-height: 1.58;
+  color: var(--fd-dim);
+}
+.indicator__also {
+  margin: 14px 0 0; max-width: 72ch;
+  font-family: 'Space Mono', ui-monospace, monospace;
+  font-size: 13px; line-height: 1.55; color: var(--fd-dim);
+}
+
+/* ── The rows ────────────────────────────────────────────────────────────────
+   An <ol> because newest-first is an order that means something. Each row is a
+   flap: its own face, a hairline seam across the middle of the letters, and a
+   shadow under it. The date column is fixed-width because on a board it is. */
+.flaps { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 4px; }
+.flap {
+  position: relative; overflow: hidden;
+  display: grid; grid-template-columns: 11ch 1fr; gap: 4px 18px; align-items: baseline;
+  background: var(--fd-flap);
+  border-radius: 2px;
+  padding: 11px 14px 12px;
+  box-shadow: 0 2px 0 rgba(4,7,10,.9);
+  transform-origin: 50% 0;
+  padding-bottom: 23px;
+}
+.flap__when {
+  font-family: 'Space Mono', ui-monospace, monospace; font-weight: 700;
+  font-size: 13.5px; letter-spacing: .02em; color: var(--fd-amber);
+  font-variant-numeric: tabular-nums;
+}
+.flap__dest { min-width: 0; }
+.flap__dest a {
+  font-family: 'Space Mono', ui-monospace, monospace; font-weight: 700;
+  font-size: 14.5px; line-height: 1.5; color: var(--fd-lamp);
+  text-decoration-color: var(--fd-girder); text-underline-offset: 4px;
+}
+.flap__dest a:hover { color: var(--fd-amber); text-decoration-color: var(--fd-amber); }
+/* THE LOWER LEAF OF THE FLAP, and the lit fold along the top of it. It sits at
+   the FOOT of the row and crosses no letter, and getting here took two goes at
+   the same mistake.
+
+   A real Solari flap splits straight through the middle of the glyphs, so that
+   is what this was first: one near-black hairline at top 50%. On the share card
+   it read as a STRIKETHROUGH — the row lettered NEVER looked deleted rather
+   than printed. Two solid faces with a lit fold between them fixed the card and
+   then failed again on a phone, worse: a destination here WRAPS to two and
+   three lines, top 50% of a tall row lands in the middle of the second line,
+   and half the board looked struck out.
+
+   THE REASON IS STRUCTURAL AND IS NOT GOING AWAY. A real board's rows are one
+   line of fixed-width characters and cannot wrap; ours carry the titles people
+   actually gave their pages, and those wrap. So the fold cannot live at a
+   proportion of the row — there is no proportion that is not inside somebody's
+   sentence. It lives at the foot, where it is the lower leaf of the flap
+   showing under the lettering, which is a thing a flap board really does have
+   and a thing no width can push into a word.
+
+   SOLID rather than a gradient, deliberately: text over a gradient with no
+   background-colour under it is exactly what check-contrast-live.py has to
+   decline to measure. Nothing is set on this band at all, which is why it is in
+   check-contrast.py's ORNAMENT rather than in a pair. */
+.flap__split {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 11px;
+  background: var(--fd-flap-lo);
+  border-top: 1px solid var(--fd-fold);
+}
+
+/* ── The plate screwed to the foot of the board ──────────────────────────── */
+.enamel {
+  display: flex; flex-wrap: wrap; gap: 6px 22px; justify-content: space-between;
+  margin: 16px 0 0; padding-top: 13px;
+  border-top: 1px solid var(--fd-girder);
+  font-family: 'Space Mono', ui-monospace, monospace;
+  font-size: 12.5px; line-height: 1.5; color: var(--fd-dim);
+}
+.enamel__feed a { color: var(--fd-signal); }
+.enamel__read { color: var(--fd-amber); }
+
+/* ── The foot of the hall ───────────────────────────────────────────────── */
+.concourse__foot { display: flex; flex-wrap: wrap; gap: 26px; align-items: flex-start; margin: 56px 0 0; border-top: 1px solid var(--fd-girder); padding-top: 24px; }
+.concourse__col { flex: 1 1 330px; min-width: 0; }
+.concourse__col p { margin: 0 0 14px; font-size: 16px; line-height: 1.6; }
+.concourse__col p:last-child { margin-bottom: 0; }
+.concourse__col--dial { flex: 0 1 340px; }
+
+/* ── The board settling ─────────────────────────────────────────────────────
+   scaleY only. No opacity anywhere in either keyframe: a flap that faded in
+   and out three times would be a flicker under another name, and this street
+   does not flicker at any setting. §3's `animation: none !important` is what
+   switches both of these off at Gentle, which is why neither is written as a
+   static transform. */
+@keyframes fd-settle {
+  from { transform: scaleY(.10); }
+  to   { transform: scaleY(1); }
+}
+@keyframes fd-riffle {
+  0%   { transform: scaleY(.08); }
+  16%  { transform: scaleY(1); }
+  30%  { transform: scaleY(.20); }
+  46%  { transform: scaleY(1); }
+  58%  { transform: scaleY(.34); }
+  74%  { transform: scaleY(1); }
+  84%  { transform: scaleY(.62); }
+  100% { transform: scaleY(1); }
+}
+html[data-intensity="regular"] .flap { animation: fd-settle .34s cubic-bezier(.2,.8,.3,1) 1 both; }
+html[data-intensity="max"]     .flap { animation: fd-riffle 1.05s linear 1 both; }
+/* The stagger, so a board reads left to right and top to bottom the way one
+   actually resets rather than all at once. :where() contributes no specificity,
+   which keeps these delays from outranking anything §3 has to say. */
+html[data-intensity="regular"] :where(.flap:nth-child(2)) { animation-delay: .06s; }
+html[data-intensity="regular"] :where(.flap:nth-child(3)) { animation-delay: .12s; }
+html[data-intensity="regular"] :where(.flap:nth-child(4)) { animation-delay: .18s; }
+html[data-intensity="regular"] :where(.flap:nth-child(5)) { animation-delay: .24s; }
+html[data-intensity="regular"] :where(.flap:nth-child(6)) { animation-delay: .30s; }
+html[data-intensity="max"] :where(.flap:nth-child(2)) { animation-delay: .10s; }
+html[data-intensity="max"] :where(.flap:nth-child(3)) { animation-delay: .20s; }
+html[data-intensity="max"] :where(.flap:nth-child(4)) { animation-delay: .30s; }
+html[data-intensity="max"] :where(.flap:nth-child(5)) { animation-delay: .40s; }
+html[data-intensity="max"] :where(.flap:nth-child(6)) { animation-delay: .50s; }
+
+/* The job marker lying on the floor of this room. §4 supplies the behaviour;
+   this only says what colour a board's own ink is. */
+.room-feed .quest__mark { border-color: var(--fd-girder); }
+.room-feed .quest__panel { background: var(--fd-enamel); border-color: var(--fd-girder); }
+
+/* Phones. WRITTEN LAST IN THE SECTION, on purpose: a media block placed above
+   the rules it overrides loses exactly the declarations the base rule also sets
+   and keeps the rest, which is the half-breakpoint the sound board shipped and
+   which looks for all the world like a cache problem. The date stops being a
+   column and becomes a line above the destination, because eleven characters of
+   fixed-width date plus a title is not a thing that fits across 375px — and
+   hiding the date to keep the grid would be the lite-version mistake arriving
+   through a breakpoint. */
+@media (max-width: 560px) {
+  .flap { grid-template-columns: 1fr; gap: 6px; padding: 12px 13px 23px; }
+  .indicator { padding: 15px 13px 14px; }
+  .indicator::after { left: 9%; right: 9%; }
+  .enamel { gap: 5px 14px; }
+}
+
+/* §28 ── THE GARDEN (through the gate in the wall, halfway down the street) ───
+   NOT A ROOM AND NOT AN AREA EITHER. The campgrounds is a field with pitches on
+   it and every pitch is a page of ours; this is a garden whose beds are OTHER
+   SITES. Every bed here links straight out to a site we publish, because each
+   of those is already its own room and rebuilding it behind a door on this
+   street would be a worse copy of somewhere that exists.
+
+   IT IS THE THIRD DAYLIT THING ON THE STREET and the third pale ground, so the
+   separation is written in :root beside the palette rather than left to taste:
+   the Hermitage's sun lands on a WALL and is warm, the Guild has no light
+   source in it at all, and here the light is overhead and has come down THROUGH
+   LEAVES -- so the pale is green, the shadows are small and hard and directly
+   under things, and there is no wall in the room to stand in front of.
+
+   A BED IS A PLANK ALONG THE FRONT, and that is the third shape this site has
+   for a list of places. The street is a grid of outlined boxes with awnings on;
+   the field is a line down the LEFT of each pitch, a post standing on open
+   ground; a raised bed is an edge along the BOTTOM with soil above it, because
+   you look into one from the path. Same job, three geometries, no two alike.
+
+   THE DRAWINGS ARE TOLD APART BY FORM AND NOT BY COLOUR, which is the
+   campground's grammar deliberately inverted. Out there each pitch gets ONE LIT
+   COLOUR of its own -- the yurt emits, the hermitage catches, the meadow carries
+   -- and that grammar runs out at about the fourth pitch, because there are not
+   many kinds of light. A garden has as many kinds of GROWTH as you like. So
+   every drawing here is in the same two greens, the same soil and the same one
+   flower colour, and what tells them apart is the habit: a rhizome running
+   sideways, an umbel coming into flower, a plant with no chlorophyll in it, a
+   frame with seedlings under glass, a runner rooting a new plant beside itself,
+   a seed head gone dry, a scramble over everything, a tendril reaching. Each
+   one says something true about the site it stands for, and make-garden.py
+   refuses a bed whose drawing it has not got and two beds that share one.
+
+   THE ROOM MOVES AND THE CAMPGROUNDS DOES NOT, which is the other half of not
+   being an area. That field has no ambient layer at any setting on purpose. The
+   leaf shadow here is still at Gentle, drifts at Regular and drifts further at
+   MAX -- a garden with no wind in it is simply a still afternoon, and the light
+   itself is never taken away, because the light is not the wobble. Both
+   animations are keyframes, so §3 kills them at Gentle with !important and the
+   fault check-gentle.py exists to catch has nowhere to live here. Nothing
+   flashes, pulses or strobes at any setting: Club Chronic's rule, holding in
+   the brightest room on the street.
+
+   A PALE ROOM ON A DARK STREET STATES ITS OWN LINK COLOUR, AT THE ROOM.
+   `.garden a` below is that decision. It is the hole the Doomscroll left and
+   the Playhouse had had open since it opened: an inherited link colour was
+   never DECIDED, so check-contrast.py has no pair to hold and a run passes
+   while a paragraph of links sits at 2.4 on paper.                            */
+
+.garden {
+  background: var(--gd-day); color: var(--gd-loam);
+  font-family: 'Mulish', var(--sans);
+}
+.garden a { color: var(--gd-leaf); }
+.garden a:hover { color: var(--gd-bloom); }
+/* The backlink drops Bungee, the campground's call: it is the one piece of
+   shared furniture carrying a typeface, and the street's voice in here would be
+   the only shouting thing in the garden. */
+.garden .backlink {
+  font-family: 'Mulish', var(--sans); font-size: 15px;
+  letter-spacing: 0; color: var(--gd-leaf);
+}
+.garden p, .garden li { font-size: 16.5px; line-height: 1.68; }
+
+/* THE LEAF SHADOW. Opaque blobs of one declared colour rather than a wash of
+   something translucent, which is what keeps this the one room with no
+   composite ground in it -- see the note in :root. It is FIXED, so the light
+   stays where it is while the page scrolls under it, the way light does.
+   The drift is a translate: check-gentle.py can only read rotation and skew out
+   of a computed matrix, and a room must not ask a checker to take its word for
+   something. arcade.js made the same call about its sprites. */
+.gd-dapple {
+  position: fixed; inset: -14vh -18vw; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(13% 9% at 9% 14%,  var(--gd-dapple) 0 70%, transparent 72%),
+    radial-gradient(9% 7% at 19% 27%,  var(--gd-dapple) 0 68%, transparent 70%),
+    radial-gradient(15% 8% at 33% 8%,  var(--gd-dapple) 0 70%, transparent 72%),
+    radial-gradient(8% 11% at 44% 21%, var(--gd-dapple) 0 66%, transparent 68%),
+    radial-gradient(12% 7% at 58% 12%, var(--gd-dapple) 0 70%, transparent 72%),
+    radial-gradient(10% 9% at 71% 24%, var(--gd-dapple) 0 68%, transparent 70%),
+    radial-gradient(14% 8% at 86% 9%,  var(--gd-dapple) 0 70%, transparent 72%),
+    radial-gradient(9% 10% at 94% 22%, var(--gd-dapple) 0 66%, transparent 68%),
+    radial-gradient(11% 8% at 6% 39%,  var(--gd-dapple) 0 70%, transparent 72%),
+    radial-gradient(13% 9% at 24% 47%, var(--gd-dapple) 0 68%, transparent 70%),
+    radial-gradient(8% 7% at 38% 38%,  var(--gd-dapple) 0 70%, transparent 72%),
+    radial-gradient(12% 10% at 52% 49%, var(--gd-dapple) 0 66%, transparent 68%),
+    radial-gradient(10% 8% at 66% 40%, var(--gd-dapple) 0 70%, transparent 72%),
+    radial-gradient(14% 9% at 81% 48%, var(--gd-dapple) 0 68%, transparent 70%),
+    radial-gradient(9% 8% at 96% 41%,  var(--gd-dapple) 0 70%, transparent 72%),
+    radial-gradient(12% 8% at 12% 62%, var(--gd-dapple) 0 70%, transparent 72%),
+    radial-gradient(9% 10% at 29% 71%, var(--gd-dapple) 0 66%, transparent 68%),
+    radial-gradient(15% 8% at 46% 63%, var(--gd-dapple) 0 70%, transparent 72%),
+    radial-gradient(10% 9% at 61% 73%, var(--gd-dapple) 0 68%, transparent 70%),
+    radial-gradient(13% 8% at 77% 64%, var(--gd-dapple) 0 70%, transparent 72%),
+    radial-gradient(9% 7% at 91% 72%,  var(--gd-dapple) 0 70%, transparent 72%),
+    radial-gradient(11% 9% at 8% 86%,  var(--gd-dapple) 0 68%, transparent 70%),
+    radial-gradient(14% 8% at 27% 93%, var(--gd-dapple) 0 70%, transparent 72%),
+    radial-gradient(9% 10% at 43% 84%, var(--gd-dapple) 0 66%, transparent 68%),
+    radial-gradient(12% 8% at 59% 94%, var(--gd-dapple) 0 70%, transparent 72%),
+    radial-gradient(10% 9% at 74% 85%, var(--gd-dapple) 0 68%, transparent 70%),
+    radial-gradient(13% 8% at 89% 93%, var(--gd-dapple) 0 70%, transparent 72%);
+}
+html[data-intensity="regular"] .gd-dapple { animation: gd-breeze 34s ease-in-out infinite alternate; }
+html[data-intensity="max"]     .gd-dapple { animation: gd-breeze 17s ease-in-out infinite alternate; }
+@keyframes gd-breeze {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(2.4vw, 1.1vh, 0); }
+}
+/* Everything else stands on the path rather than in the light. */
+.garden main, .garden footer { position: relative; z-index: 1; }
+
+.garden h1 {
+  font-family: 'Faustina', Georgia, serif; font-weight: 600;
+  font-size: clamp(40px, 7.2vw, 76px); line-height: 1.04;
+  color: var(--gd-loam); margin: 10px 0 0;
+}
+.garden h2 {
+  font-family: 'Faustina', Georgia, serif; font-weight: 600;
+  font-size: clamp(22px, 3.4vw, 31px); line-height: 1.14;
+  color: var(--gd-leaf); margin: 42px 0 12px;
+}
+.garden h3 {
+  font-family: 'Faustina', Georgia, serif; font-weight: 600;
+  font-size: 25px; line-height: 1.16; color: var(--gd-loam); margin: 0;
+}
+.garden .lede {
+  font-family: 'Faustina', Georgia, serif; font-size: clamp(20px, 2.6vw, 24px);
+  line-height: 1.5; color: var(--gd-loam-2); max-width: 50ch; margin: 18px 0 0;
+}
+.garden .trailmark {
+  margin: 0; font-size: 14px; letter-spacing: .04em; color: var(--gd-loam-2);
+}
+.gd-note { margin: 0 0 14px; max-width: 66ch; color: var(--gd-loam-2); }
+.gd-note b, .gd-note strong, .garden .lede b { color: var(--gd-loam); }
+.gd-note:last-child { margin-bottom: 0; }
+
+/* A LIMEWASHED PLANK LAID ON THE PATH. It is brighter than the ground and
+   therefore invisible on its own -- 1.07 -- so it is carried by a hairline and
+   by a hard shadow directly beneath it. HARD, AND STRAIGHT DOWN: the sun is
+   overhead in this room, which is exactly what stops these boards reading as
+   the Hermitage's panels, where a low sun throws everything sideways and soft.
+   No blur in this section anywhere. */
+.gd-plank {
+  position: relative; margin: 28px 0 0; padding: 20px 24px;
+  background: var(--gd-board); border: 1px solid var(--gd-edge);
+  box-shadow: 0 5px 0 rgba(43, 32, 19, .14);
+}
+.gd-plank h2 { margin-top: 0; }
+.gd-plank ul { margin: 0; padding: 0 0 0 20px; color: var(--gd-loam-2); }
+.gd-plank li { margin: 0 0 10px; }
+.gd-plank li:last-child { margin-bottom: 0; }
+.gd-plank li::marker { color: var(--gd-leaf-2); }
+.gd-plank li b { color: var(--gd-loam); }
+
+/* THE BEDS. One column of wide low bands, each with the soil above its own
+   front plank and the plant standing at the left end of it. NOT A GRID OF
+   EQUAL BOXES, which is the street, and not a post on open ground, which is
+   the field. */
+.gd-beds { list-style: none; margin: 26px 0 0; padding: 0; }
+.gd-bed {
+  display: flex; flex-wrap: wrap; gap: 6px 28px; align-items: center;
+  padding: 6px 0 16px; border-bottom: 7px solid var(--gd-loam-2);
+  margin: 0 0 26px;
+}
+.gd-bed:last-child { margin-bottom: 0; }
+.gd-bed__art { flex: 0 1 270px; line-height: 0; }
+.gd-bed__art svg { display: block; width: 100%; height: auto; }
+.gd-bed__sign { flex: 1 1 30ch; min-width: 0; }
+
+/* The label on a stake. A small limewashed board with the name written on it in
+   the same hand as the garden's own name, because that is the claim this room
+   makes about type: there is no signwriter here, only labels. */
+.gd-bed__label {
+  display: inline-block; margin: 0 0 4px; padding: 7px 14px 8px;
+  background: var(--gd-board); border: 1px solid var(--gd-edge);
+  box-shadow: 0 4px 0 rgba(43, 32, 19, .14);
+}
+.gd-bed__label h3 a { color: var(--gd-loam); text-decoration-color: var(--gd-leaf-2); text-underline-offset: 4px; }
+.gd-bed__label h3 a:hover { color: var(--gd-leaf); }
+.gd-bed__host {
+  display: block; margin: 5px 0 0; font-size: 13px;
+  letter-spacing: .06em; color: var(--gd-loam-2);
+}
+.gd-bed__what { margin: 12px 0 0; max-width: 58ch; color: var(--gd-loam-2); }
+.gd-bed__what b { color: var(--gd-loam); }
+/* WHO ELSE'S HANDS ARE IN IT, on the face of the bed rather than only in the
+   liner notes -- a credit filed where nobody reads it is the one habit this
+   street did not drop. make-garden.py refuses a bed without this line. */
+.gd-bed__with {
+  margin: 9px 0 0; font-family: 'Faustina', Georgia, serif; font-style: italic;
+  font-size: 15.5px; color: var(--gd-loam-2);
+}
+.gd-bed__with b { font-style: normal; font-weight: 600; color: var(--gd-loam); }
+
+/* THE GARDEN SPIDER. It sits in the middle of the garden rather than at the
+   gate, because it is not the way in -- and the panel says so in the site's own
+   words: a spider is a guide to the garden and never a replacement for it, and
+   its best answer is an entrance. The drawing is ours and is an orb weaver in
+   its web, drawn in the garden's inks like everything else here. IT DOES NOT
+   MOVE AT ANY SETTING, and that is not the campground's rule arriving by the
+   back door: a web that twitched when you were not looking at it is a different
+   feeling entirely, in a room whose whole argument is that you may wander. */
+.gd-spider {
+  display: flex; flex-wrap: wrap; gap: 10px 30px; align-items: center;
+  margin: 28px 0 0; padding: 20px 24px;
+  background: var(--gd-board); border: 1px solid var(--gd-edge);
+  box-shadow: 0 5px 0 rgba(43, 32, 19, .14);
+}
+.gd-spider__art { flex: 0 1 220px; line-height: 0; }
+.gd-spider__art svg { display: block; width: 100%; height: auto; }
+.gd-spider__say { flex: 1 1 30ch; min-width: 0; }
+.gd-spider__say h2 { margin: 0 0 10px; }
+.gd-spider__ask {
+  display: inline-block; margin: 14px 0 0; padding: 12px 20px;
+  min-height: 44px;
+  background: var(--gd-leaf); color: var(--gd-board);
+  font-family: 'Faustina', Georgia, serif; font-weight: 600; font-size: 17px;
+  text-decoration: none; border: 1px solid var(--gd-leaf);
+}
+.garden .gd-spider__ask { color: var(--gd-board); }
+.gd-spider__ask:hover { background: var(--gd-loam); border-color: var(--gd-loam); }
+.garden .gd-spider__ask:hover { color: var(--gd-board); }
+
+/* HOW TO START ONE OF YOUR OWN. A row of sown drills rather than a numbered
+   list of steps: the first one needs no software at all, and our own field
+   guide says to stop wherever it stops being useful, so this is not a ladder.
+   Each drill is a line in the soil with one thing sown in it. */
+.gd-drills { list-style: none; margin: 22px 0 0; padding: 0; }
+.gd-drill {
+  padding: 0 0 14px 22px; margin: 0 0 16px;
+  border-left: 3px solid var(--gd-leaf-2);
+  border-bottom: 1px dashed var(--gd-edge);
+}
+.gd-drill:last-child { margin-bottom: 0; }
+.gd-drill h3 { margin: 0 0 6px; font-size: 21px; }
+.gd-drill p { margin: 0; max-width: 62ch; color: var(--gd-loam-2); }
+
+/* THE HEDGE AT THE FOOT OF THE GARDEN, with the gate you came in by drawn into
+   it. The field's boundary is a stream and the yurt keeps the trees, so a
+   garden takes the hedge -- the same division of the drawing that keeps those
+   two apart, arriving a page later. Drawn in the page rather than in this file,
+   because it is a picture of a place and not a border: see the-garden.html. */
+.gd-hedge { margin: 34px 0 0; line-height: 0; }
+.gd-hedge svg { display: block; width: 100%; height: auto; }
+
+/* The garden's own quest marker sits on the path like every other, and the
+   panel borrows this room's ink and ground from §4. Nothing to do here but let
+   it. */
+
+
+/* §29 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -5195,6 +5925,9 @@ html[data-intensity="max"] .guild-spark { animation: gu-rise 2.1s ease-out forwa
      smaller ivy; the alternative was fading them, which is a change to how
      Helen's room looks rather than to how it fits. */
   .vine { width: 74px; }
+  /* The arch gets shallower rather than narrower: 42px of top padding under a
+     170px curve is a lot of empty sky on a 328px screen. */
+  .gardengate__arch { padding: 30px 18px 18px; border-radius: 120px 120px 5px 5px; }
   .signpost__arm { padding-right: 30px; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%); }
   /* The pad grows on a phone rather than shrinking: it is the only way to steer
      without a keyboard, and 44px is the floor everywhere on this site. */
@@ -5263,7 +5996,7 @@ html[data-intensity="max"] .guild-spark { animation: gu-rise 2.1s ease-out forwa
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §27 says every
+   shipped with no rule here at all — which on a street whose §29 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -5284,7 +6017,24 @@ html[data-intensity="max"] .guild-spark { animation: gu-rise 2.1s ease-out forwa
   .guild-desk__half .dial { max-width: none; }
 }
 
-/* §28 ── Print ───────────────────────────────────────────────────────────────
+/* The Garden (§28). The beds are flex rows that wrap on their own, which means
+   the drawing lands ABOVE its own label rather than beside it -- a bed seen
+   from the end of the path instead of across it, which is the right way round:
+   the plant is what you see first either way. The drawing is CAPPED rather
+   than stretched, because a plant drawn 340px wide on a phone is a plant
+   looming over its own name, and it is never hidden -- a room whose pictures
+   disappear on a phone is the lite-version mistake arriving through a
+   breakpoint, which is the call the Playhouse's sound board already made when
+   it gave up its grid instead of its words. */
+@media (max-width: 620px) {
+  .gd-bed { gap: 14px 24px; }
+  .gd-bed__art { flex: 1 1 100%; max-width: 280px; align-self: flex-start; }
+  .gd-plank, .gd-spider { padding: 16px 16px 18px; }
+  .gd-spider__art { flex: 1 1 100%; max-width: 220px; }
+  .gd-drill { padding-left: 16px; }
+}
+
+/* §30 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
@@ -5323,7 +6073,7 @@ html[data-intensity="max"] .guild-spark { animation: gu-rise 2.1s ease-out forwa
   }
   body { font-size: 11pt; }
   .sparkle, .glow, .grain, .marquee, .dial, .bunting, .floor, .fringe,
-  .niche__glass, .seam, .votive__candles { display: none !important; }
+  .niche__glass, .seam, .votive__candles, .gd-dapple { display: none !important; }
   .door, .panel, .card, .qcard, .toy, .rules, .keeps, .niche, .votive, .gloria { border: 1pt solid #000 !important; background: #fff !important; color: #000 !important; break-inside: avoid; }
   a { color: #000 !important; text-decoration: underline; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; word-break: break-all; }

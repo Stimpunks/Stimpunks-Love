@@ -599,6 +599,39 @@
       "learned": "That scroll sorts on the date a poem went public rather than the date it was written, which for a good part of it is decades apart — and it turned down a famous poem whose printing nobody could trace, because a text you cannot source is the one thing a scroll built out of dates cannot carry."
     },
     {
+      "id": "feed-splitflap",
+      "page": "the-feed.html",
+      "room": "The Feed",
+      "title": "What the board is not",
+      "posted": "A flap has come off one of the boards in The Feed and is lying on the floor of the concourse. That room is a hall of arrival boards carrying every site we run, and it is extremely careful about saying what it is NOT. The line under the room's own name says it in six words.",
+      "rank": 1,
+      "takes": "two minutes",
+      "target": "a flap off one of the boards",
+      "code": "SPLITFLAP",
+      "ask": {
+        "question": "That room says the board is a picture of something, and then says it is not that thing. What is it? One word.",
+        "accept": [
+          "railway",
+          "railways",
+          "therailway",
+          "arailway"
+        ],
+        "answer": "Railway",
+        "why": "None of those sites lets a browser read its feed from our page, so the board cannot be live and does not pretend to be: a person runs a tool, the boards are set, and every plate carries the minute its own wire was read. The feeds themselves are linked on every board, which is the actual railway.",
+        "hints": [
+          "It is in the line directly under the room's name, at the very top.",
+          "It is the thing a departures board is a picture of.",
+          "Seven letters, and it begins with an R."
+        ]
+      },
+      "hints": [
+        "It is a storefront on the street, between the guild and the empty room.",
+        "The line you want is the first thing under the big name, before the paragraph.",
+        "The flap itself is on the floor at the very bottom of the page."
+      ],
+      "learned": "A board is set by somebody with a machine, at a time, and it is a picture of the railway rather than the railway. That is the only honest way to carry other people's arrivals on your own page — say when you looked, and link the thing you looked at."
+    },
+    {
       "id": "your-room-keys",
       "page": "your-room.html",
       "room": "Your Room",
@@ -764,6 +797,39 @@
         "At the very bottom of the page, below the last credit."
       ],
       "learned": "Contrast survived for a reason that is not the obvious one. This is a Disabled people's organisation, and a glitter-maximalist site that excluded the people it is for would be a self-own of exactly the kind we exist to name. The fix was never to tone it down — it was the dial."
+    },
+    {
+      "id": "garden-label",
+      "page": "the-garden.html",
+      "room": "The Garden",
+      "title": "What a spider's best answer is",
+      "posted": "Somebody has dropped a blank plant label on the path in the garden, which is through the gate in the wall between two of the shopfronts. Pick it up. While you are in there, settle what that room says the garden spider is for, because it is careful about it and the sentence is worth carrying back out with you.",
+      "rank": 1,
+      "takes": "two or three minutes, most of it one paragraph",
+      "target": "a blank wooden plant label",
+      "code": "PLANTLABEL",
+      "ask": {
+        "question": "The garden says what a spider's best answer is, in our own words. One word.",
+        "accept": [
+          "entrance",
+          "an entrance",
+          "entry",
+          "way in"
+        ],
+        "answer": "An entrance",
+        "why": "Grounding the spider in our own garden changes where its answers come from and not whether they can be wrong, so every trail it puts somebody on ends at a page a person wrote. What it is genuinely good at is the step before the word: taking \"why does switching tasks hurt\" and getting somebody to the glossary entry, the pattern or the recipe. It is the way in rather than the thing itself.",
+        "hints": [
+          "It is in the room's own writing about the spider, not on the button.",
+          "The sentence is about what a spider is FOR: a guide to the garden and never a replacement for it.",
+          "The room says a spider's best answer is an entrance."
+        ]
+      },
+      "hints": [
+        "It is not behind a shopfront. There is a gate in the wall between two of them, down past the noticeboard.",
+        "Through the gate is the garden, where every bed is one of the other sites we publish.",
+        "Right at the foot of the garden, on the path below the hedge and the dial."
+      ],
+      "learned": "A glossary exists to give somebody a word for an experience that usually goes unnamed, and a tool that can route them from the experience to the word is doing that job one step earlier. What it must never do is stand in for the page at the other end, which is why that room says out loud that it can be wrong and links the ethics pages where we hold the line."
     }
   ],
   "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

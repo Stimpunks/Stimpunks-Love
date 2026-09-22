@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Garden &mdash; Stimpunks.Love</title>
+<meta name="description" content="Through the gate in the wall: the knowledge garden, with one bed for every site we publish. What a knowledge garden is, how this one is tended, how to start one of your own, and the Garden Spider, whose best answer is an entrance.">
+<link rel="canonical" href="https://stimpunks.love/the-garden.html">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F2F7E9">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.Love">
+<meta property="og:title" content="The Garden &mdash; Stimpunks.Love">
+<meta property="og:description" content="Stimpunks is not one website, it is a knowledge garden. One bed per site we publish, a spider that will answer questions about it, and everything you need to start a garden of your own.">
+<meta property="og:url" content="https://stimpunks.love/the-garden.html">
+<meta property="og:image" content="https://stimpunks.love/og/the-garden.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A card on a pale green-white ground, lit as though the sun were overhead and coming down through leaves. Small brown letters reading through the gate in the wall, midday, one bed per site we publish, then “The Garden” in a large dark-green serif, and under it: Stimpunks is not one website, it is a knowledge garden. One bed per site we publish, a spider that will answer questions about it, and everything you need to start a garden of your own. Below that, a row of small white plant labels, one for each bed: stimpunks foundation, star stuff, queering.earth, cavendish space, penguin pebbling, the why sheet press, stimpunks.love, map of monotropic experiences. Along the foot, a drawing of a clipped hedge with a wooden gate standing in the middle of it, and the dark of the street showing through the gap.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love &mdash; what changed on the street">
+<link rel="preload" href="fonts/faustina-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+</head>
+<body class="garden">
+<a class="skip" href="#main">Skip to the garden</a>
+
+<!-- The leaf shadow. Still at Gentle, drifting at Regular, drifting further at
+     MAX -- the light itself is never taken away, because the light is not the
+     wobble. See love.css section 28. -->
+<div class="gd-dapple" aria-hidden="true"></div>
+
+<main id="main" class="wrap" style="padding-bottom:52px;">
+
+  <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:baseline;">
+    <a class="backlink" href="index.html">&larr; back to the street</a>
+    <p class="trailmark">through the gate in the wall &middot; midday &middot; one bed per site we publish</p>
+  </div>
+
+  <header>
+    <h1>The Garden</h1>
+    <p class="lede">Stimpunks is not one website. It is a knowledge garden, and this is the part of it you can walk out into: one bed for every site we publish, the path going wherever you like, and a gate at the bottom back onto the street.</p>
+  </header>
+
+  <section class="gd-plank">
+    <h2>What a knowledge garden is</h2>
+    <ul>
+      <li><b>Ideas spread sideways rather than down.</b> A filing system runs subjects, then categories, then articles, which is exactly right for an encyclopedia and wrong for us. <a href="https://stimpunks.org/knowledge/garden/">Our own page about the garden</a> grows the other way instead: experiences first, then concepts, a <a href="https://stimpunks.org/glossary/">glossary</a>, <a href="https://stimpunks.org/patterns/">patterns</a>, <a href="https://stimpunks.org/patterns/recipes/">recipes</a>, <a href="https://stimpunks.org/environments/">environments</a>, systems &mdash; each layer out of the one underneath it. <a href="https://stimpunks.org/glossary/autistic-rhizome/">Autistic Rhizome</a> is the shape that describes, and it is a term in the glossary it describes.</li>
+      <li><b>Nothing needs to be read in order.</b> Skimming, skipping and stopping partway are all fine here. That sentence is on the garden&rsquo;s own page and it is not a courtesy; a knowledge base that only works if you start at the top is a knowledge base for people who are not tired.</li>
+      <li><b>It grows unevenly, and some of it lies fallow.</b> The glossary and the pattern language have years in them; other regions are sparse, and a few are left alone for a season while the work moves elsewhere. <b>A garden with no fallow ground is a catalogue</b> &mdash; our words, on that page, and worth repeating in a room that could easily pretend every bed is thriving.</li>
+      <li><b>When an idea outgrows a page it gets a site of its own.</b> Which is what this room is a list of. Every bed below links straight out, because each of those is already somewhere, and a shopfront on this street promising a room you never arrive in would be a lie about the architecture.</li>
+      <li><b>The working library behind it is not public, and the garden is.</b> That shelf holds our own copies of other people&rsquo;s work &mdash; things we can cite and cannot redistribute &mdash; next to private notes. What gets published is the writing that grows out of the shelf rather than the shelf. Everything linked from this page is open to anybody, with no account and no paywall.</li>
+      <li><b>Nothing in here is ranked, counted or scored.</b> No bed is the biggest, the best or the busiest, and no bed says how much its site holds. A number like that is wrong within the week and looks authoritative in the meantime, and a garden measured by volume is an inventory. <code>tools/make-garden.py</code> refuses both, so this stays true after we have forgotten we meant it.</li>
+    </ul>
+    <p class="gd-note" style="margin-top:14px;">How the whole thing is actually tended is written up in three places, each answering a different question: <a href="https://stimpunks.org/fieldguide/it/knowledge-system/">the field guide to the system</a> opens with what happens to everything we know when the person holding it is unavailable; <a href="https://stimpunks.org/space/knowledge-system/">the garden as curriculum</a> reads it as a course of study rather than a filing cabinet; and <a href="https://stimpunks.org/fieldguide/it/start-your-own-knowledge-garden/">start your own knowledge garden</a> is the version written for you instead of for us. That last one is down the path.</p>
+  </section>
+
+  <h2>The beds</h2>
+  <p class="gd-note">One per site, in the order <a href="https://stimpunks.org/feeds/">our own feeds page</a> puts them in, which is not a decision this room gets to make. Beside each bed is the habit of growth it keeps, and every habit is different: that is what tells the drawings apart, rather than a colour of their own. Some of these were made with other people, and every bed says so on its face.</p>
+
+  <!-- The beds. Written by tools/make-garden.py out of data/garden.json for the
+       notes and data/arrivals.json for the roster, the order and every name and
+       address, so this room cannot disagree with the list our own feeds page
+       keeps. Do not hand-edit. -->
+  <ul class="gd-beds">
+  <!-- garden:beds:begin -->
+    <li class="gd-bed">
+      <div class="gd-bed__art" aria-hidden="true">
+        <svg viewBox="0 0 300 170" fill="none"><path d="M0 120 L300 120 L300 170 L0 170 Z" fill="#5A462C"/><path d="M0 120 L300 120" fill="none" stroke="#2B2013" stroke-width="2"/><path d="M14 145 C 64 136, 118 152, 168 143 S 254 133, 294 141" fill="none" stroke="#F2F7E9" stroke-width="8" stroke-linecap="round"/><path d="M58 146 l-7 15 M62 147 l3 16 M150 150 l-6 14 M154 150 l4 15 M232 140 l-6 16 M236 140 l4 15" fill="none" stroke="#F2F7E9" stroke-width="1.8" stroke-linecap="round"/><circle cx="60" cy="141" r="5.4" fill="#F2F7E9" stroke="#2B2013" stroke-width="1.4"/><circle cx="152" cy="145" r="5.4" fill="#F2F7E9" stroke="#2B2013" stroke-width="1.4"/><circle cx="234" cy="135" r="5.4" fill="#F2F7E9" stroke="#2B2013" stroke-width="1.4"/><ellipse cx="60" cy="121" rx="15" ry="3.6" fill="#2B2013" opacity=".38"/><ellipse cx="152" cy="121" rx="18" ry="3.6" fill="#2B2013" opacity=".38"/><ellipse cx="234" cy="120" rx="13" ry="3.6" fill="#2B2013" opacity=".38"/><path d="M60 136 C 59 128, 58 124, 57 119" fill="none" stroke="#F2F7E9" stroke-width="3.4"/><path d="M57 119 C 55 108, 53 98, 50 86" fill="none" stroke="#2F6B1E" stroke-width="3.4" stroke-linecap="round"/><path d="M52 100 C 34 96, 24 84, 28 72 C 42 74, 52 88, 52 100 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M54 112 C 68 108, 78 96, 74 86 C 62 88, 54 100, 54 112 Z" fill="#2F6B1E" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M152 140 C 152 132, 152 126, 151 119" fill="none" stroke="#F2F7E9" stroke-width="3.8"/><path d="M151 119 C 150 100, 149 82, 148 62" fill="none" stroke="#2F6B1E" stroke-width="3.8" stroke-linecap="round"/><path d="M149 78 C 130 72, 118 58, 122 46 C 138 48, 149 64, 149 78 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M150 94 C 168 88, 180 74, 176 62 C 160 64, 150 80, 150 94 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M151 110 C 136 108, 126 98, 128 89 C 140 90, 150 101, 151 110 Z" fill="#2F6B1E" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M234 130 C 233 126, 233 123, 233 119" fill="none" stroke="#F2F7E9" stroke-width="3.2"/><path d="M233 119 C 232 110, 231 102, 232 94" fill="none" stroke="#2F6B1E" stroke-width="3.2" stroke-linecap="round"/><path d="M232 106 C 216 102, 208 92, 211 82 C 224 84, 232 96, 232 106 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M233 116 C 246 112, 254 102, 251 93 C 240 95, 233 106, 233 116 Z" fill="#2F6B1E" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="gd-bed__sign">
+        <div class="gd-bed__label">
+          <h3><a href="https://stimpunks.org/">Stimpunks Foundation</a></h3>
+          <span class="gd-bed__host">stimpunks.org</span>
+        </div>
+        <p class="gd-bed__what">The garden itself, and the one the others were built to take weight off: a <a href="https://stimpunks.org/glossary/">glossary</a> kept in public, a <a href="https://stimpunks.org/patterns/">pattern language</a> grown out of lived experience, <a href="https://stimpunks.org/patterns/recipes/">recipes</a> for the environments those patterns ask for, and the frameworks that came out of all three. Its own <a href="https://stimpunks.org/knowledge/garden/">page about the garden</a> says nothing there needs to be read in order, and means it.</p>
+        <p class="gd-bed__habit"><b>What is growing here:</b> A rhizome, running sideways under the bed and coming up in several places at once. That is the shape our own page gives this knowledge, and <a href="https://stimpunks.org/glossary/autistic-rhizome/">Autistic Rhizome</a> is a term in the glossary it comes up in.</p>
+        <p class="gd-bed__with"><b>Grown with</b> Stimpunks Foundation, and everybody whose writing the glossary credits by name.</p>
+      </div>
+    </li>
+    <li class="gd-bed">
+      <div class="gd-bed__art" aria-hidden="true">
+        <svg viewBox="0 0 300 170" fill="none"><path d="M0 120 L300 120 L300 170 L0 170 Z" fill="#5A462C"/><path d="M0 120 L300 120" fill="none" stroke="#2B2013" stroke-width="2"/><ellipse cx="150" cy="121" rx="20" ry="3.6" fill="#2B2013" opacity=".38"/><path d="M150 119 C 149 98, 147 74, 150 50" fill="none" stroke="#2F6B1E" stroke-width="4" stroke-linecap="round"/><path d="M148 96 C 126 92, 112 78, 116 64 C 134 68, 147 82, 148 96 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M151 108 C 172 104, 186 90, 182 77 C 164 80, 151 94, 151 108 Z" fill="#2F6B1E" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M150 50 L108 34 M150 50 L124 26 M150 50 L137 22 M150 50 L150 20 M150 50 L163 22 M150 50 L176 26 M150 50 L192 34" fill="none" stroke="#2F6B1E" stroke-width="1.8"/><circle cx="106" cy="33" r="5" fill="#A8390B"/><circle cx="122" cy="24" r="5" fill="#A8390B"/><circle cx="136" cy="20" r="5" fill="#A8390B"/><circle cx="150" cy="18" r="5" fill="#A8390B"/><circle cx="164" cy="20" r="5" fill="#A8390B"/><circle cx="178" cy="24" r="5" fill="#A8390B"/><circle cx="194" cy="33" r="5" fill="#A8390B"/><circle cx="106" cy="33" r="1.8" fill="#FCFDF6"/><circle cx="136" cy="20" r="1.8" fill="#FCFDF6"/><circle cx="164" cy="20" r="1.8" fill="#FCFDF6"/><circle cx="194" cy="33" r="1.8" fill="#FCFDF6"/><path d="M150 52 l-9 7 M150 52 l9 7 M150 53 l0 9" fill="none" stroke="#2B2013" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </div>
+      <div class="gd-bed__sign">
+        <div class="gd-bed__label">
+          <h3><a href="https://starstuff.earth/">Star Stuff</a></h3>
+          <span class="gd-bed__host">starstuff.earth</span>
+        </div>
+        <p class="gd-bed__what">Zines, field guides and broadsides that start from something settled in physics, cosmology, chemistry or biology and let it carry an argument about belonging &mdash; not as loose metaphor, but as the same pattern showing up at more than one scale. Its <a href="https://starstuff.earth/about.html">about page</a> calls itself the public flowering of this garden, which is its phrase and not ours.</p>
+        <p class="gd-bed__habit"><b>What is growing here:</b> An umbel coming into flower: one stem, and every ray of it opening at the same height. It is the bed in flower because that site said it was.</p>
+        <p class="gd-bed__with"><b>Grown with</b> A collaboration between Stimpunks and <a href="https://morerealms.com/">More Realms</a>, where a great deal of it was grown from seed.</p>
+      </div>
+    </li>
+    <li class="gd-bed">
+      <div class="gd-bed__art" aria-hidden="true">
+        <svg viewBox="0 0 300 170" fill="none"><path d="M0 120 L300 120 L300 170 L0 170 Z" fill="#5A462C"/><path d="M0 120 L300 120" fill="none" stroke="#2B2013" stroke-width="2"/><ellipse cx="142" cy="121" rx="16" ry="3.6" fill="#2B2013" opacity=".38"/><path d="M256 121 C 250 134, 236 140, 226 150 M226 150 l-10 6 M226 150 l3 12" fill="none" stroke="#F2F7E9" stroke-width="2.2" stroke-linecap="round"/><path d="M150 138 C 178 142, 208 146, 224 150" fill="none" stroke="#F2F7E9" stroke-width="1.8" stroke-dasharray="3 5" stroke-linecap="round"/><path d="M144 140 C 118 144, 86 140, 62 148" fill="none" stroke="#F2F7E9" stroke-width="1.8" stroke-dasharray="3 5" stroke-linecap="round"/><path d="M140 136 C 138 148, 134 156, 128 162 M146 136 C 150 148, 152 156, 156 164" fill="none" stroke="#F2F7E9" stroke-width="1.8" stroke-linecap="round"/><path d="M138 122 C 130 100, 126 80, 138 68 C 148 58, 158 64, 158 74" fill="none" stroke="#2B2013" stroke-width="7" stroke-linecap="round"/><path d="M138 122 C 130 100, 126 80, 138 68 C 148 58, 158 64, 158 74" fill="none" stroke="#FCFDF6" stroke-width="4" stroke-linecap="round"/><path d="M152 72 C 144 72, 141 86, 149 91 C 158 96, 166 86, 163 74 Z" fill="#FCFDF6" stroke="#2B2013" stroke-width="1.8" stroke-linejoin="round"/><path d="M152 122 C 150 104, 152 90, 162 82 C 172 75, 180 82, 179 90" fill="none" stroke="#2B2013" stroke-width="6" stroke-linecap="round"/><path d="M152 122 C 150 104, 152 90, 162 82 C 172 75, 180 82, 179 90" fill="none" stroke="#FCFDF6" stroke-width="3.2" stroke-linecap="round"/><path d="M174 88 C 167 88, 165 100, 172 104 C 180 108, 186 99, 184 89 Z" fill="#FCFDF6" stroke="#2B2013" stroke-width="1.8" stroke-linejoin="round"/><path d="M128 122 C 122 106, 118 94, 106 88 C 96 83, 90 90, 92 98" fill="none" stroke="#2B2013" stroke-width="6" stroke-linecap="round"/><path d="M128 122 C 122 106, 118 94, 106 88 C 96 83, 90 90, 92 98" fill="none" stroke="#FCFDF6" stroke-width="3.2" stroke-linecap="round"/><path d="M97 96 C 90 96, 87 108, 95 112 C 103 116, 109 106, 106 96 Z" fill="#FCFDF6" stroke="#2B2013" stroke-width="1.8" stroke-linejoin="round"/><path d="M134 104 l-7 -2 M141 92 l-8 -1 M147 80 l-8 0 M158 98 l7 -3 M164 92 l7 -1" fill="none" stroke="#2B2013" stroke-width="1.3" stroke-linecap="round"/></svg>
+      </div>
+      <div class="gd-bed__sign">
+        <div class="gd-bed__label">
+          <h3><a href="https://queering.earth/">Queering.Earth</a></h3>
+          <span class="gd-bed__host">queering.earth</span>
+        </div>
+        <p class="gd-bed__what">A cabinet of mounted sheets on queerness, illness and the natural world, with an accession register that publishes its own corrections rather than quietly fixing them. One of the sheets in it is about <a href="https://queering.earth/monotropa-uniflora">Monotropa uniflora</a>, the ghost pipe, which makes no chlorophyll of its own and lives by what it is connected to underground.</p>
+        <p class="gd-bed__habit"><b>What is growing here:</b> That plant, which is why this is the one bed in the garden with no green in it at all. It is carried by its outline and by the threads running out of it, the way the things in it are.</p>
+        <p class="gd-bed__with"><b>Grown with</b> Built with <b>Helen Edgar</b> of <a href="https://autisticrealms.com/">Autistic Realms</a>, who is named on the sheets she wrote rather than folded into our &ldquo;we&rdquo;, and with contributions credited on the cabinet's own pages.</p>
+      </div>
+    </li>
+    <li class="gd-bed">
+      <div class="gd-bed__art" aria-hidden="true">
+        <svg viewBox="0 0 300 170" fill="none"><path d="M0 120 L300 120 L300 170 L0 170 Z" fill="#5A462C"/><path d="M0 120 L300 120" fill="none" stroke="#2B2013" stroke-width="2"/><ellipse cx="150" cy="122" rx="108" ry="3.6" fill="#2B2013" opacity=".38"/><path d="M44 118 L44 92 L256 84 L256 118 Z" fill="#5A462C" stroke="#2B2013" stroke-width="2.2" stroke-linejoin="round"/><path d="M44 104 L256 96" fill="none" stroke="#2B2013" stroke-width="1.4" opacity=".7"/><path d="M64 116 L64 96 M150 113 L150 92 M232 110 L232 88" fill="none" stroke="#2B2013" stroke-width="1.4" opacity=".6"/><path d="M82 116 C 80 106, 79 100, 82 94" fill="none" stroke="#2F6B1E" stroke-width="2.4" stroke-linecap="round"/><path d="M82 104 C 71 101, 66 94, 69 88 C 77 90, 82 97, 82 104 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.1"/><path d="M83 100 C 93 97, 98 90, 95 84 C 87 86, 83 93, 83 100 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.1"/><path d="M124 116 C 122 106, 121 100, 124 94" fill="none" stroke="#2F6B1E" stroke-width="2.4" stroke-linecap="round"/><path d="M124 104 C 113 101, 108 94, 111 88 C 119 90, 124 97, 124 104 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.1"/><path d="M125 100 C 135 97, 140 90, 137 84 C 129 86, 125 93, 125 100 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.1"/><path d="M166 116 C 164 106, 163 100, 166 94" fill="none" stroke="#2F6B1E" stroke-width="2.4" stroke-linecap="round"/><path d="M166 104 C 155 101, 150 94, 153 88 C 161 90, 166 97, 166 104 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.1"/><path d="M167 100 C 177 97, 182 90, 179 84 C 171 86, 167 93, 167 100 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.1"/><path d="M210 116 C 208 106, 207 100, 210 94" fill="none" stroke="#2F6B1E" stroke-width="2.4" stroke-linecap="round"/><path d="M210 104 C 199 101, 194 94, 197 88 C 205 90, 210 97, 210 104 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.1"/><path d="M211 100 C 221 97, 226 90, 223 84 C 215 86, 211 93, 211 100 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.1"/><path d="M38 90 L262 82 L266 66 L42 74 Z" fill="#FCFDF6" opacity=".82" stroke="#2B2013" stroke-width="2.2" stroke-linejoin="round"/><path d="M110 86 L114 70 M182 83 L186 67" fill="none" stroke="#2B2013" stroke-width="1.3" opacity=".6"/><path d="M60 78 L86 71" fill="none" stroke="#FCFDF6" stroke-width="2.6" opacity=".9"/><path d="M262 82 L262 100" fill="none" stroke="#2B2013" stroke-width="2.6" stroke-linecap="round"/></svg>
+      </div>
+      <div class="gd-bed__sign">
+        <div class="gd-bed__label">
+          <h3><a href="https://cavendish.space/">Cavendish Space</a></h3>
+          <span class="gd-bed__host">cavendish.space</span>
+        </div>
+        <p class="gd-bed__what">Caves, campfires, watering holes, the library of what we have worked out, and the habitat that holds all four &mdash; plus the <a href="https://cavendish.space/deck">Cavendish Cards</a> deck, which lets somebody point at a picture instead of explaining, and the <a href="https://cavendish.space/rooms">room sheets</a> for working out which zones a real room can already hold. Everything there is free and CC0.</p>
+        <p class="gd-bed__habit"><b>What is growing here:</b> The one bed with something built over it, because that site is about the structure: a frame changes what a bed can grow, which is the whole argument for zoning a room rather than telling somebody to cope in it.</p>
+        <p class="gd-bed__with"><b>Grown with</b> Stimpunks Foundation. The three primordial spaces are <b>David Thornburg</b>'s, from <i>From the Campfire to the Holodeck</i>; the name comes from Henry Cavendish by way of <b>Steve Silberman</b>'s <i>NeuroTribes</i>; and <b>Ira Socol</b>'s home of opportunity is on that site's origin page beside them.</p>
+      </div>
+    </li>
+    <li class="gd-bed">
+      <div class="gd-bed__art" aria-hidden="true">
+        <svg viewBox="0 0 300 170" fill="none"><path d="M0 120 L300 120 L300 170 L0 170 Z" fill="#5A462C"/><path d="M0 120 L300 120" fill="none" stroke="#2B2013" stroke-width="2"/><ellipse cx="64" cy="121" rx="22" ry="3.6" fill="#2B2013" opacity=".38"/><ellipse cx="226" cy="120" rx="14" ry="3.6" fill="#2B2013" opacity=".38"/><path d="M64 119 C 62 108, 60 98, 62 88" fill="none" stroke="#2F6B1E" stroke-width="3.4" stroke-linecap="round"/><path d="M62 100 C 42 96, 30 82, 34 68 C 52 72, 62 86, 62 100 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M64 106 C 84 102, 96 88, 92 75 C 74 78, 64 92, 64 106 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M63 114 C 48 114, 38 106, 40 97 C 53 99, 62 106, 63 114 Z" fill="#2F6B1E" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><circle cx="62" cy="64" r="6.5" fill="#A8390B"/><circle cx="62" cy="64" r="2.2" fill="#FCFDF6"/><path d="M62 71 L62 84" fill="none" stroke="#2F6B1E" stroke-width="2"/><path d="M74 118 C 118 100, 174 100, 220 116" fill="none" stroke="#2F6B1E" stroke-width="3" stroke-linecap="round"/><path d="M226 118 C 226 110, 226 104, 227 98" fill="none" stroke="#2F6B1E" stroke-width="2.6" stroke-linecap="round"/><path d="M226 106 C 213 104, 206 95, 209 87 C 219 90, 226 98, 226 106 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M228 104 C 240 101, 247 93, 244 86 C 234 88, 228 96, 228 104 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M225 121 l-6 14 M228 121 l3 15 M226 121 l0 12" fill="none" stroke="#F2F7E9" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </div>
+      <div class="gd-bed__sign">
+        <div class="gd-bed__label">
+          <h3><a href="https://penguinpebbling.app/">Penguin Pebbling</a></h3>
+          <span class="gd-bed__host">penguinpebbling.app</span>
+        </div>
+        <p class="gd-bed__what">A card game about bringing somebody a small thing for no reason, and about what that does. No winners, no pressure to perform, and you can leave whenever you need to. There is a cabinet in <a href="arcade.html">our arcade</a> built on the same practice that deliberately takes nothing from that deck &mdash; the deck is the better thing and it is here.</p>
+        <p class="gd-bed__habit"><b>What is growing here:</b> Runners: the plant reaches sideways and puts a new plant down beside itself, roots and all, without being asked for anything back. That is pebbling rather than trading.</p>
+        <p class="gd-bed__with"><b>Grown with</b> <b>Helen Edgar</b> of <a href="https://autisticrealms.com/">Autistic Realms</a> and <b>Ryan Boren</b> of Stimpunks, together. The locution the practice is described in is <b>Amythest Schaber</b>'s.</p>
+      </div>
+    </li>
+    <li class="gd-bed">
+      <div class="gd-bed__art" aria-hidden="true">
+        <svg viewBox="0 0 300 170" fill="none"><path d="M0 120 L300 120 L300 170 L0 170 Z" fill="#5A462C"/><path d="M0 120 L300 120" fill="none" stroke="#2B2013" stroke-width="2"/><ellipse cx="150" cy="121" rx="13" ry="3.6" fill="#2B2013" opacity=".38"/><path d="M150 119 L151 68" fill="none" stroke="#5A462C" stroke-width="4.4" stroke-linecap="round"/><path d="M149 108 C 134 106, 124 96, 127 86 C 139 89, 148 99, 149 108 Z" fill="#5A462C" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M152 100 C 166 98, 176 88, 173 78 C 161 81, 152 91, 152 100 Z" fill="#5A462C" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M136 66 C 136 52, 141 42, 151 42 C 161 42, 166 52, 166 66 Z" fill="#5A462C" stroke="#2B2013" stroke-width="2.2" stroke-linejoin="round"/><path d="M132 44 L170 44" fill="none" stroke="#2B2013" stroke-width="3" stroke-linecap="round"/><path d="M137 44 L133 34 M144 44 L142 32 M151 44 L151 31 M158 44 L160 32 M165 44 L169 34" fill="none" stroke="#2B2013" stroke-width="1.6" stroke-linecap="round"/><path d="M140 52 L140 62 M151 50 L151 64 M162 52 L162 62" fill="none" stroke="#2B2013" stroke-width="1.3" opacity=".65"/><circle cx="120" cy="116" r="2.4" fill="#F2F7E9" stroke="#2B2013" stroke-width="1"/><circle cx="108" cy="124" r="2.4" fill="#F2F7E9" stroke="#2B2013" stroke-width="1"/><circle cx="186" cy="118" r="2.4" fill="#F2F7E9" stroke="#2B2013" stroke-width="1"/><circle cx="198" cy="126" r="2.4" fill="#F2F7E9" stroke="#2B2013" stroke-width="1"/><circle cx="170" cy="128" r="2.4" fill="#F2F7E9" stroke="#2B2013" stroke-width="1"/><circle cx="132" cy="129" r="2.4" fill="#F2F7E9" stroke="#2B2013" stroke-width="1"/><path d="M142 68 C 136 78, 130 88, 122 96 M160 68 C 168 78, 176 86, 184 94" fill="none" stroke="#2B2013" stroke-width="1.2" stroke-dasharray="2 6" stroke-linecap="round"/></svg>
+      </div>
+      <div class="gd-bed__sign">
+        <div class="gd-bed__label">
+          <h3><a href="https://whysheet.press/">The Why Sheet Press</a></h3>
+          <span class="gd-bed__host">whysheet.press</span>
+        </div>
+        <p class="gd-bed__what">One-page arguments, openly licensed and editable, made to be printed and carried into a room where somebody is about to be talked over. You tick the sheets you need and <a href="https://whysheet.press/">the press</a> hands back a single correctly paginated PDF with the citations intact. Nothing is uploaded and no account is kept.</p>
+        <p class="gd-bed__habit"><b>What is growing here:</b> A seed head gone dry, which is the only bed here whose point is that you take it away. What it grows into somewhere we will never see is the intended outcome rather than a side effect.</p>
+        <p class="gd-bed__with"><b>Grown with</b> Stimpunks Foundation, and the researchers, lawyers and self-advocates each sheet cites on its own face.</p>
+      </div>
+    </li>
+    <li class="gd-bed">
+      <div class="gd-bed__art" aria-hidden="true">
+        <svg viewBox="0 0 300 170" fill="none"><path d="M0 120 L300 120 L300 170 L0 170 Z" fill="#5A462C"/><path d="M0 120 L300 120" fill="none" stroke="#2B2013" stroke-width="2"/><ellipse cx="150" cy="122" rx="96" ry="3.6" fill="#2B2013" opacity=".38"/><path d="M-6 118 C 40 108, 70 117, 104 104 C 134 92, 150 106, 186 100 C 226 94, 250 114, 306 100" fill="none" stroke="#2F6B1E" stroke-width="3" stroke-linecap="round"/><path d="M-4 112 C 30 104, 56 90, 92 88 C 128 86, 152 70, 196 76 C 236 82, 262 68, 304 74" fill="none" stroke="#2F6B1E" stroke-width="2.6" stroke-linecap="round"/><path d="M18 118 C 26 104, 20 90, 34 76 M120 106 C 126 92, 118 84, 126 70 M214 100 C 222 88, 214 80, 224 68" fill="none" stroke="#2F6B1E" stroke-width="2.2" stroke-linecap="round"/><circle cx="34" cy="72" r="13" fill="#55893A" stroke="#2B2013" stroke-width="1.2"/><path d="M34 72 l-11 -1 M34 72 l10 -4 M34 72 l1 10 M34 72 l-9 8 M34 72 l9 8" fill="none" stroke="#2B2013" stroke-width="1" opacity=".6"/><circle cx="74" cy="94" r="11" fill="#55893A" stroke="#2B2013" stroke-width="1.2"/><path d="M74 94 l-9 -1 M74 94 l8 -4 M74 94 l1 8 M74 94 l-7 6 M74 94 l7 6" fill="none" stroke="#2B2013" stroke-width="1" opacity=".6"/><circle cx="126" cy="66" r="12" fill="#55893A" stroke="#2B2013" stroke-width="1.2"/><path d="M126 66 l-10 -1 M126 66 l9 -4 M126 66 l1 9 M126 66 l-8 7 M126 66 l8 7" fill="none" stroke="#2B2013" stroke-width="1" opacity=".6"/><circle cx="164" cy="92" r="14" fill="#55893A" stroke="#2B2013" stroke-width="1.2"/><path d="M164 92 l-12 -1 M164 92 l11 -4 M164 92 l1 11 M164 92 l-10 9 M164 92 l10 9" fill="none" stroke="#2B2013" stroke-width="1" opacity=".6"/><circle cx="224" cy="64" r="12" fill="#55893A" stroke="#2B2013" stroke-width="1.2"/><path d="M224 64 l-10 -1 M224 64 l9 -4 M224 64 l1 9 M224 64 l-8 7 M224 64 l8 7" fill="none" stroke="#2B2013" stroke-width="1" opacity=".6"/><circle cx="258" cy="90" r="11" fill="#55893A" stroke="#2B2013" stroke-width="1.2"/><path d="M258 90 l-9 -1 M258 90 l8 -4 M258 90 l1 8 M258 90 l-7 6 M258 90 l7 6" fill="none" stroke="#2B2013" stroke-width="1" opacity=".6"/><circle cx="282" cy="72" r="9" fill="#55893A" stroke="#2B2013" stroke-width="1.2"/><path d="M282 72 l-7 -1 M282 72 l6 -4 M282 72 l1 6 M282 72 l-5 4 M282 72 l5 4" fill="none" stroke="#2B2013" stroke-width="1" opacity=".6"/><circle cx="10" cy="100" r="10" fill="#55893A" stroke="#2B2013" stroke-width="1.2"/><path d="M10 100 l-8 -1 M10 100 l7 -4 M10 100 l1 7 M10 100 l-6 5 M10 100 l6 5" fill="none" stroke="#2B2013" stroke-width="1" opacity=".6"/><circle cx="100" cy="76" r="7.5" fill="#A8390B"/><circle cx="100" cy="76" r="2.6" fill="#FCFDF6"/><circle cx="196" cy="58" r="7.5" fill="#A8390B"/><circle cx="196" cy="58" r="2.6" fill="#FCFDF6"/><circle cx="52" cy="98" r="7.5" fill="#A8390B"/><circle cx="52" cy="98" r="2.6" fill="#FCFDF6"/><circle cx="246" cy="104" r="7.5" fill="#A8390B"/><circle cx="246" cy="104" r="2.6" fill="#FCFDF6"/></svg>
+      </div>
+      <div class="gd-bed__sign">
+        <div class="gd-bed__label">
+          <h3><a href="https://stimpunks.love/">Stimpunks.Love</a></h3>
+          <span class="gd-bed__host">stimpunks.love</span>
+        </div>
+        <p class="gd-bed__what">The street you are standing on, and the loud half of the same lung. No single design system, no two rooms alike, credits scrawled in the margins, and a dial that lets you decide how much of it happens. <a href="index.html">The street is that way</a> and <a href="liner-notes.html">the liner notes</a> say where everything in it came from.</p>
+        <p class="gd-bed__habit"><b>What is growing here:</b> A scramble: nasturtiums over the edges of the bed, out onto the path and up whatever is standing near them. Nothing in this bed has been kept in its row.</p>
+        <p class="gd-bed__with"><b>Grown with</b> Stimpunks Foundation, with a pitch in the campgrounds that is <b>Helen Edgar</b>'s own room and a community board kept by <b>Norah Hobbs</b>.</p>
+      </div>
+    </li>
+    <li class="gd-bed">
+      <div class="gd-bed__art" aria-hidden="true">
+        <svg viewBox="0 0 300 170" fill="none"><path d="M0 120 L300 120 L300 170 L0 170 Z" fill="#5A462C"/><path d="M0 120 L300 120" fill="none" stroke="#2B2013" stroke-width="2"/><ellipse cx="110" cy="121" rx="15" ry="3.6" fill="#2B2013" opacity=".38"/><path d="M212 120 L212 30" fill="none" stroke="#5A462C" stroke-width="4" stroke-linecap="round"/><path d="M110 119 C 106 100, 114 82, 130 70" fill="none" stroke="#2F6B1E" stroke-width="3.4" stroke-linecap="round"/><path d="M112 104 C 94 100, 82 88, 86 74 C 104 78, 112 90, 112 104 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M116 92 C 134 86, 144 72, 140 60 C 124 64, 116 78, 116 92 Z" fill="#2F6B1E" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M110 116 C 96 116, 86 108, 88 99 C 101 101, 109 108, 110 116 Z" fill="#55893A" stroke="#2B2013" stroke-width="1.2" stroke-linejoin="round"/><path d="M130 70 C 150 58, 172 58, 190 50" fill="none" stroke="#2F6B1E" stroke-width="2.2" stroke-linecap="round"/><path d="M190 50 C 200 44, 214 44, 216 52 C 218 60, 206 64, 202 57 C 199 51, 208 47, 212 51" fill="none" stroke="#2F6B1E" stroke-width="2.2" stroke-linecap="round"/><path d="M160 62 C 166 54, 164 46, 158 42" fill="none" stroke="#2F6B1E" stroke-width="1.8" stroke-linecap="round"/><path d="M158 42 C 152 38, 148 44, 153 47" fill="none" stroke="#2F6B1E" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </div>
+      <div class="gd-bed__sign">
+        <div class="gd-bed__label">
+          <h3><a href="https://monotropicmap.org/">Map of Monotropic Experiences</a></h3>
+          <span class="gd-bed__host">monotropicmap.org</span>
+        </div>
+        <p class="gd-bed__what">Twenty places a monotropic person goes, drawn as an island you can walk &mdash; attention tunnels, rabbit holes of research, infodump canyon, burnout whirlpools, the forest of joy, awe and wonder &mdash; with <a href="https://monotropicmap.org/draw">a second tool</a> for drawing your own. Some of those places are where the good work happens and some are weather that other people make.</p>
+        <p class="gd-bed__habit"><b>What is growing here:</b> A tendril: the stem puts out a feeler, finds something, and holds on. <a href="https://monotropicmap.org/tendril-theory">Tendril Theory</a> is one of the places on that island, which is why this bed grows the thing the theory is named after.</p>
+        <p class="gd-bed__with"><b>Grown with</b> <b>Helen Edgar</b>'s map of her own Autistic and ADHD experience, published with Stimpunks. Monotropism is <b>Dinah Murray</b>, <b>Wenn Lawson</b> and <b>Mike Lesser</b>'s.</p>
+      </div>
+    </li>
+  <!-- garden:beds:end -->
+  </ul>
+
+  <section class="gd-spider">
+    <div class="gd-spider__art" aria-hidden="true">
+      <svg viewBox="0 0 240 180" fill="none">
+        <path d="M14 178 C 18 130, 10 84, 22 40" stroke="#2F6B1E" stroke-width="4" stroke-linecap="round"/>
+        <path d="M226 178 C 222 128, 232 86, 218 38" stroke="#2F6B1E" stroke-width="4" stroke-linecap="round"/>
+        <path d="M22 40 C 34 44, 44 54, 48 66" stroke="#2F6B1E" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M218 38 C 206 44, 198 54, 194 68" stroke="#2F6B1E" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M20 44 L120 96 M220 42 L120 96 M120 6 L120 96 M34 168 L120 96 M212 166 L120 96 M6 104 L120 96 M234 100 L120 96 M62 12 L120 96 M180 10 L120 96" stroke="#2B2013" stroke-width="1" opacity=".85"/>
+        <path d="M120 22 C 148 30, 168 50, 174 78 C 180 106, 168 134, 144 150 C 120 166, 88 164, 66 146 C 44 128, 38 98, 48 72 C 58 46, 86 26, 120 22 Z" stroke="#2B2013" stroke-width="1" opacity=".7"/>
+        <path d="M120 38 C 142 44, 158 60, 162 80 C 166 100, 156 122, 138 134 C 120 146, 96 144, 80 130 C 64 116, 60 94, 68 74 C 76 54, 96 40, 120 38 Z" stroke="#2B2013" stroke-width="1" opacity=".7"/>
+        <path d="M120 56 C 136 60, 146 72, 148 84 C 150 96, 142 110, 130 116 C 118 122, 104 118, 96 108 C 88 98, 88 82, 96 72 C 104 62, 112 57, 120 56 Z" stroke="#2B2013" stroke-width="1" opacity=".7"/>
+        <path d="M120 74 C 130 76, 136 84, 136 92 C 136 100, 128 106, 120 106 C 112 106, 105 99, 105 91 C 105 83, 111 76, 120 74 Z" stroke="#2B2013" stroke-width="1" opacity=".7"/>
+        <path d="M112 92 C 96 78, 78 70, 58 68 M128 92 C 146 80, 164 74, 184 74 M114 100 C 100 108, 86 122, 76 138 M126 100 C 140 110, 152 124, 160 140 M110 88 C 94 84, 80 76, 70 62 M130 88 C 146 86, 160 80, 172 66 M112 96 C 98 100, 84 106, 72 116 M128 96 C 142 102, 154 110, 164 122" stroke="#2B2013" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M120 80 C 132 80, 138 88, 138 98 C 138 112, 130 122, 120 122 C 110 122, 102 112, 102 98 C 102 88, 108 80, 120 80 Z" fill="#5A462C" stroke="#2B2013" stroke-width="1.8"/>
+        <path d="M120 86 L120 116 M112 94 L128 94 M110 104 L130 104" stroke="#FCFDF6" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M120 74 C 127 74, 131 79, 131 84 C 131 89, 127 92, 120 92 C 113 92, 109 89, 109 84 C 109 79, 113 74, 120 74 Z" fill="#2B2013"/>
+        <circle cx="116" cy="80" r="1.6" fill="#FCFDF6"/>
+        <circle cx="124" cy="80" r="1.6" fill="#FCFDF6"/>
+      </svg>
+    </div>
+    <div class="gd-spider__say">
+      <h2>The Garden Spider</h2>
+      <p class="gd-note">There is a spider in this garden that will answer questions about it. It is grounded in the garden itself &mdash; the glossary, the patterns, the frameworks &mdash; so the words it reaches for are the ones we planted: <a href="https://stimpunks.org/glossary/monotropism/">monotropism</a>, the <a href="https://stimpunks.org/glossary/double-empathy-problem/">double empathy problem</a>, <a href="https://stimpunks.org/glossary/spiky-profile/">spiky profiles</a>. That matters most for somebody who does not have the word yet, because you cannot search for monotropism if nobody has ever told you it exists.</p>
+      <p class="gd-note">It can also be wrong. Generative AI can misstate, confuse, and confidently produce things we did not say, and scoping it to our own garden reduces the source of the distortion rather than the possibility of it. So every trail it puts you on ends at a page a person wrote: follow the link, <a href="https://stimpunks.org/glossary/lateral-reading/">read laterally</a>, and treat what it says as a starting point rather than as us. <b>A spider is a guide to the garden and never a replacement for it, and its best answer is an entrance.</b> Those are our own sentences, from the page it lives on, and how we hold that line is written up at <a href="https://stimpunks.org/ethics/ai-collaboration/">AI Collaboration</a> and <a href="https://stimpunks.org/ethics/ai-disability/">AI, Disability Justice, and the Ethics of Making</a>.</p>
+      <p class="gd-note">If you need a human read on something &mdash; anything that touches your situation, your community, or a decision that matters &mdash; <a href="https://stimpunks.org/contact/">say so to us directly</a>. We are here.</p>
+      <a class="gd-spider__ask" href="https://stimpunks.org/ask/">Ask the garden &rarr;</a>
+    </div>
+  </section>
+
+  <h2>Start a garden of your own</h2>
+  <p class="gd-note">None of this needs our budget, our tools or our people. The steps below are the short version of <a href="https://stimpunks.org/fieldguide/it/start-your-own-knowledge-garden/">Start Your Own Knowledge Garden</a>, and they <b>degrade gracefully</b>: most of the value is in the first one, which needs no software at all, and each later one only adds convenience on top of something that already worked. <b>Stop wherever it stops being useful.</b> A half-built garden is a garden, not a failure &mdash; and the opposite framing is how these things die, because a tool that only pays off once you have finished configuring it gets abandoned during configuration, on a bad day, by exactly the person who needed it.</p>
+  <ul class="gd-drills">
+    <li class="gd-drill">
+      <h3>Make a garden. No tools required.</h3>
+      <p>One folder. Everything you read, save or write goes in it, untouched. One index file, listing what is in the folder with a line about why each thing is there. A habit of adding to both. That is a garden &mdash; no app, no subscription, no AI &mdash; and the line about <i>why this is here</i> is a small act of synthesis repeated hundreds of times, which is where the learning actually shows.</p>
+    </li>
+    <li class="gd-drill">
+      <h3>Never edit your own sources.</h3>
+      <p>Not to tidy a filename, not to fix a typo. Every derived thing &mdash; summaries, categories, indexes &mdash; lives somewhere else and points back at the original. That single rule is the difference between provenance you can cite and a pile you have been quietly rewriting.</p>
+    </li>
+    <li class="gd-drill">
+      <h3>Put it in git, for mercy.</h3>
+      <p>Not for collaboration and not really for backup. Once every version of your thinking is recoverable you stop being careful with your own work in the way that stops you working. Version control is mercy, made structural. <a href="https://github.com/Stimpunks/knowledge-garden-starter">The template</a> arrives as a repository already, so check with <code>git status</code> before running <code>git init</code> anywhere &mdash; and check which folder you are standing in first, which is the one mistake on that page with real consequences.</p>
+    </li>
+    <li class="gd-drill">
+      <h3>Let something else write the index.</h3>
+      <p>Past a few dozen files, keeping an index by hand stops being fun. The template ships a script that walks your originals and writes it for you. The index is disposable and the sources are not: if it comes out wrong, change the configuration and run it again, and never hand-edit a generated page, because your edits get silently overwritten &mdash; which is worse than being refused.</p>
+    </li>
+    <li class="gd-drill">
+      <h3>Make it searchable, when filenames stop being enough.</h3>
+      <p>A library you cannot search is half a library, and a filename is a terrible index of meaning. The payoff is finding things by what they <i>mean</i>: somebody in distress does not arrive knowing your vocabulary, they arrive saying it hurts. <a href="https://stimpunks.org/fieldguide/it/filling-the-garden/">Filling the Garden</a> is the one-click version of the whole thing, including clipping an article into your library with its source and date intact, and it needs no terminal either.</p>
+    </li>
+  </ul>
+
+  <!-- The hedge at the foot of the garden, with the gate you came in by drawn
+       into it. THE OPENING IS DARK FROM THIS SIDE, which is the gate on the
+       street exactly reversed: from out there this garden is the one hole in a
+       night wall with daylight coming through it. The field's boundary is a
+       stream and the yurt keeps the trees, so a garden takes the hedge. -->
+  <div class="gd-hedge" aria-hidden="true">
+    <svg viewBox="0 0 1180 150" preserveAspectRatio="none" fill="none">
+<path d="M0 142 L1180 142 L1180 150 L0 150 Z" fill="#5A462C"/>
+        <path d="M500 46 L678 46 L678 142 L500 142 Z" fill="#15121f"/>
+        <path d="M0 62 q31 -12 62 0 q35 -8 70 0 q23 -8 46 0 q31 -8 62 0 q27 -8 54 0 q23 -20 46 0 q35 -8 70 0 q27 -8 54 0 q18 -8 36 0 L500 142 L0 142 Z" fill="#2F6B1E"/>
+        <circle cx="14" cy="74" r="11" fill="#55893A" opacity=".75"/>
+        <circle cx="52" cy="81" r="11" fill="#55893A" opacity=".75"/>
+        <circle cx="78" cy="70" r="13" fill="#55893A" opacity=".75"/>
+        <circle cx="116" cy="78" r="13" fill="#55893A" opacity=".75"/>
+        <circle cx="148" cy="70" r="13" fill="#55893A" opacity=".75"/>
+        <circle cx="186" cy="74" r="15" fill="#55893A" opacity=".75"/>
+        <circle cx="212" cy="78" r="13" fill="#55893A" opacity=".75"/>
+        <circle cx="238" cy="70" r="11" fill="#55893A" opacity=".75"/>
+        <circle cx="276" cy="81" r="13" fill="#55893A" opacity=".75"/>
+        <circle cx="314" cy="78" r="17" fill="#55893A" opacity=".75"/>
+        <circle cx="346" cy="78" r="17" fill="#55893A" opacity=".75"/>
+        <circle cx="378" cy="74" r="13" fill="#55893A" opacity=".75"/>
+        <circle cx="416" cy="70" r="13" fill="#55893A" opacity=".75"/>
+        <circle cx="454" cy="81" r="15" fill="#55893A" opacity=".75"/>
+        <circle cx="486" cy="78" r="17" fill="#55893A" opacity=".75"/>
+        <circle cx="14" cy="100" r="11" fill="#55893A" opacity=".75"/>
+        <circle cx="52" cy="104" r="17" fill="#55893A" opacity=".75"/>
+        <circle cx="84" cy="111" r="13" fill="#55893A" opacity=".75"/>
+        <circle cx="116" cy="100" r="11" fill="#55893A" opacity=".75"/>
+        <circle cx="154" cy="108" r="15" fill="#55893A" opacity=".75"/>
+        <circle cx="192" cy="111" r="15" fill="#55893A" opacity=".75"/>
+        <circle cx="230" cy="100" r="17" fill="#55893A" opacity=".75"/>
+        <circle cx="256" cy="111" r="15" fill="#55893A" opacity=".75"/>
+        <circle cx="294" cy="100" r="11" fill="#55893A" opacity=".75"/>
+        <circle cx="332" cy="111" r="15" fill="#55893A" opacity=".75"/>
+        <circle cx="364" cy="108" r="17" fill="#55893A" opacity=".75"/>
+        <circle cx="390" cy="108" r="17" fill="#55893A" opacity=".75"/>
+        <circle cx="416" cy="111" r="11" fill="#55893A" opacity=".75"/>
+        <circle cx="442" cy="108" r="13" fill="#55893A" opacity=".75"/>
+        <circle cx="468" cy="111" r="13" fill="#55893A" opacity=".75"/>
+        <path d="M22 56 q-3 -13 -6 -26" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M66 56 q3 -13 6 -26" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M138 56 q-2 -11 -3 -22" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M196 56 q3 -11 6 -22" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M254 56 q-2 -13 -3 -26" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M298 56 q-2 -7 -3 -14" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M342 56 q-2 -9 -3 -18" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M386 56 q-2 -13 -3 -26" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M444 56 q-3 -11 -6 -22" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M678 62 q35 -16 70 0 q31 -12 62 0 q23 -20 46 0 q35 -20 70 0 q35 -20 70 0 q23 -20 46 0 q35 -8 70 0 q27 -8 54 0 q7 -20 14 0 L1180 142 L678 142 Z" fill="#2F6B1E"/>
+        <circle cx="692" cy="70" r="13" fill="#55893A" opacity=".75"/>
+        <circle cx="724" cy="70" r="11" fill="#55893A" opacity=".75"/>
+        <circle cx="750" cy="70" r="13" fill="#55893A" opacity=".75"/>
+        <circle cx="782" cy="70" r="11" fill="#55893A" opacity=".75"/>
+        <circle cx="808" cy="74" r="17" fill="#55893A" opacity=".75"/>
+        <circle cx="846" cy="78" r="15" fill="#55893A" opacity=".75"/>
+        <circle cx="884" cy="81" r="15" fill="#55893A" opacity=".75"/>
+        <circle cx="910" cy="81" r="11" fill="#55893A" opacity=".75"/>
+        <circle cx="942" cy="81" r="17" fill="#55893A" opacity=".75"/>
+        <circle cx="974" cy="74" r="11" fill="#55893A" opacity=".75"/>
+        <circle cx="1000" cy="78" r="15" fill="#55893A" opacity=".75"/>
+        <circle cx="1032" cy="70" r="13" fill="#55893A" opacity=".75"/>
+        <circle cx="1058" cy="74" r="15" fill="#55893A" opacity=".75"/>
+        <circle cx="1096" cy="78" r="11" fill="#55893A" opacity=".75"/>
+        <circle cx="1134" cy="78" r="11" fill="#55893A" opacity=".75"/>
+        <circle cx="692" cy="104" r="15" fill="#55893A" opacity=".75"/>
+        <circle cx="724" cy="108" r="13" fill="#55893A" opacity=".75"/>
+        <circle cx="762" cy="104" r="13" fill="#55893A" opacity=".75"/>
+        <circle cx="788" cy="104" r="17" fill="#55893A" opacity=".75"/>
+        <circle cx="814" cy="108" r="17" fill="#55893A" opacity=".75"/>
+        <circle cx="852" cy="100" r="11" fill="#55893A" opacity=".75"/>
+        <circle cx="884" cy="108" r="17" fill="#55893A" opacity=".75"/>
+        <circle cx="910" cy="111" r="15" fill="#55893A" opacity=".75"/>
+        <circle cx="948" cy="108" r="15" fill="#55893A" opacity=".75"/>
+        <circle cx="974" cy="100" r="13" fill="#55893A" opacity=".75"/>
+        <circle cx="1000" cy="104" r="17" fill="#55893A" opacity=".75"/>
+        <circle cx="1032" cy="111" r="13" fill="#55893A" opacity=".75"/>
+        <circle cx="1070" cy="111" r="11" fill="#55893A" opacity=".75"/>
+        <circle cx="1108" cy="100" r="15" fill="#55893A" opacity=".75"/>
+        <circle cx="1146" cy="111" r="11" fill="#55893A" opacity=".75"/>
+        <path d="M700 56 q3 -9 6 -18" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M744 56 q2 -13 3 -26" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M788 56 q3 -13 6 -26" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M846 56 q-2 -7 -3 -14" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M890 56 q-3 -9 -6 -18" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M934 56 q-2 -13 -3 -26" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M1006 56 q2 -13 3 -26" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M1050 56 q-3 -9 -6 -18" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M1094 56 q-2 -7 -3 -14" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M1152 56 q-2 -9 -3 -18" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M506 40 L506 142 M672 40 L672 142" stroke="#2B2013" stroke-width="9" stroke-linecap="round"/>
+        <path d="M512 66 L666 66 M512 96 L666 96 M512 126 L666 126" stroke="#5A462C" stroke-width="8" stroke-linecap="round"/>
+        <path d="M512 132 L666 58" stroke="#5A462C" stroke-width="8" stroke-linecap="round"/>
+        <path d="M504 52 q16 -12 34 -8 M674 50 q-18 -12 -36 -6" stroke="#55893A" stroke-width="2.6" stroke-linecap="round"/>
+      </svg>
+  </div>
+
+  <section style="margin-top:30px;display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;">
+    <div style="flex:1 1 320px;">
+      <h2 style="margin-top:0;">Why the garden is off the street</h2>
+      <p class="gd-note">None of it was planned as a system. It accumulated, the way a garden does, and then we went back and named what had grown &mdash; which is also the honest account of this street. The difference is that every bed out here belongs to a site that had to leave: an idea gets big enough that a page cannot hold it, somebody builds it somewhere of its own, and what stays behind is a label saying where it went.</p>
+      <p class="gd-note" style="margin-bottom:0;">The gate at the bottom of the hedge is the one you came in by. <a href="index.html">The street is back through there</a>, and it is a great deal louder than this.</p>
+    </div>
+    <div style="flex:0 1 340px;">
+      <div class="dial">
+        <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+        <div class="dial__row" role="group" aria-labelledby="dial-label">
+          <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+          <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+          <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+        </div>
+        <p class="dial__note" aria-live="polite"></p>
+        <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes or plays until you say so &mdash; and out here the only thing that moves at all is the leaf shadow.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:garden-label:begin -->
+  <details class="quest" data-quest="garden-label" data-code="PLANTLABEL" data-accept="anentrance|entrance|entry|wayin">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M10 4 H22 V20 L16 28 L10 20 Z" fill="var(--gd-board)" stroke="var(--gd-loam)" stroke-width="2" stroke-linejoin="round"/><path d="M13 24 L19 24" stroke="var(--gd-leaf-2)" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a blank wooden plant label</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> What a spider&#x27;s best answer is</p>
+      <p class="quest__ask"><b>Before the code:</b> The garden says what a spider&#x27;s best answer is, in our own words. One word.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="garden-label-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="garden-label-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is in the room&#x27;s own writing about the spider, not on the button.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>The sentence is about what a spider is FOR: a guide to the garden and never a replacement for it.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>The room says a spider&#x27;s best answer is an entrance.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>An entrance</b>. Grounding the spider in our own garden changes where its answers come from and not whether they can be wrong, so every trail it puts somebody on ends at a page a person wrote. What it is genuinely good at is the step before the word: taking &quot;why does switching tasks hurt&quot; and getting somebody to the glossary entry, the pattern or the recipe. It is the way in rather than the thing itself.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">PLANTLABEL</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=PLANTLABEL">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>Grounding the spider in our own garden changes where its answers come from and not whether they can be wrong, so every trail it puts somebody on ends at a page a person wrote. What it is genuinely good at is the step before the word: taking &quot;why does switching tasks hurt&quot; and getting somebody to the glossary entry, the pattern or the recipe. It is the way in rather than the thing itself.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">PLANTLABEL</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=PLANTLABEL">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:garden-label:end -->
+
+</main>
+
+<script src="love.js" defer></script>
+<script src="quest.js" defer></script>
+</body>
+</html>

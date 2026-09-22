@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Feed &mdash; Stimpunks.Love</title>
+<meta name="description" content="A split-flap arrivals board in a dark concourse, one wire per site, carrying the latest from stimpunks.org and every one of its sibling sites off their own RSS feeds. A title, a date and where it goes — never the words themselves. The board says the minute it was set, because a board is not the railway.">
+<link rel="canonical" href="https://stimpunks.love/the-feed.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#1D2124">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.Love">
+<meta property="og:title" content="The Feed &mdash; Stimpunks.Love">
+<meta property="og:description" content="An arrivals board in a dark concourse. One wire per site, read off their own RSS feeds, showing a title, a date and where it goes — and never the words themselves. It says the minute it was set, because a board is not the railway.">
+<meta property="og:url" content="https://stimpunks.love/the-feed.html">
+<meta property="og:image" content="https://stimpunks.love/og/the-feed.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A dark concourse. On the left, small spaced monospaced capitals reading the concourse, then “The Feed” in very wide squared capitals, the line: An arrivals board in a dark concourse. One wire per site, read off their own RSS feeds, showing a title, a date and where it goes — and never the words themselves. It says the minute it was set, because a board is not the railway. and under it stimpunks.love in green. On the right, a freestanding split-flap indicator board standing on two metal legs and lit from inside, with a pale pool of its own light on the floor beneath it. A nameboard across the top reads ARRIVALS, and under it four machined rows, each a flap with a hairline seam across the middle of its letters and an amber cell on the left: ONE WIRE, per site, off their own feeds. A TITLE, a date, and where it goes. NEVER, the words themselves. SET AT, a time, and it says which. On a plate along the foot of the board: THE BOARD IS NOT THE RAILWAY.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love — what changed on the street">
+<link rel="preload" href="fonts/space-grotesk-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+</head>
+<body class="room-feed">
+<a class="skip" href="#main">Skip to the boards</a>
+
+<main id="main" class="concourse">
+
+  <div class="concourse__top">
+    <a class="backlink" href="index.html">&larr; back out to the street</a>
+    <p class="hall__where">Off the street &middot; one wire per site &middot; nothing in here is live</p>
+  </div>
+
+  <header class="hall">
+    <p class="eyebrow">The concourse</p>
+    <h1>The Feed</h1>
+    <p class="hall__tagline">A board is set by somebody with a machine. It is a picture of the railway and it is not the railway.</p>
+    <p class="lede">Stimpunks is not one site. There is the big one, and there are the small ones each built to take one kind of weight off it, and every one of them publishes an <b>RSS feed</b> nobody needs an account to read. This room is a hall of indicator boards, one wire per site, showing what has most recently arrived on each.</p>
+<!-- arrivals:set:begin -->
+<p class="hall__set">This board was set at <b>03:56 UTC on 22 September 2026</b>. Every wire on it was read at that minute and has not been read since. The board is not the railway.</p>
+<!-- arrivals:set:end -->
+<!-- arrivals:shape:begin -->
+<p class="hall__shape">Eight wires are strung down this hall, carrying forty-three rows between them. A board here holds six, and Penguin Pebbling is showing three; the Map of Monotropic Experiences is showing four — because that is everything their feeds have on them.</p>
+<!-- arrivals:shape:end -->
+  </header>
+
+  <section class="girder">
+    <h2>How this board is set, and what it will not do</h2>
+
+    <p><b>It is a snapshot, and it is not pretending otherwise.</b> None of these sites sends a browser the header that would let this page read its feed, so the page cannot fetch them &mdash; and the two ways round that are a proxy we do not run and a third-party reader we would be handing you to without asking. So a person runs a tool, the tool reads every feed, and the board is set. Every plate below carries the minute its own wire was read, and the hall carries the minute the whole board was set. Both of those numbers are generated from the same file the rows come out of, so neither can quietly go wrong while looking authoritative.</p>
+
+    <p><b>A row is a name, a date and a destination.</b> There are no summaries here, no excerpts and no first paragraphs. A departures board does not read you the contents of the train; it tells you where the train is going, and then you get on it. That is the metaphor and it is also the practical point &mdash; a room that pasted in everybody's opening lines would be republishing other people's writing onto one surface it does not own, which is the opposite of sending you to them. The tool that sets this board <b>refuses</b> a row carrying a summary field, because that edit is a friendly one and it will arrive: the rows look bare, somebody helpfully pastes the words back in, and the board has become a reader.</p>
+
+    <p><b>Nothing here is ranked and no site's activity is added up.</b> You will not find out from this room which of our sites has been getting on with it, because that is not a fact anybody here needs and a board that showed it would turn publishing into a race between our own people &mdash; most of whom are Disabled, several of whom are one person with a chronic illness, and all of whom publish at the speed their bodies allow. The running order is <a href="https://stimpunks.org/feeds/">stimpunks.org's own</a>, off the page where our sites are already collected by somebody deciding, and re-sorting it here by who was newest would be this room overruling a decision made somewhere else.</p>
+
+    <p><b>Each wire names which feed it carries.</b> Two of these sites publish more than one &mdash; a feed of the things themselves and a feed of the reasoning behind them &mdash; so &ldquo;the latest from Star Stuff&rdquo; is an ambiguous sentence, and a board that picked quietly between them would be answering a question you did not know it had been asked. Where there is a second feed, the plate says so and links it.</p>
+
+    <p class="hall__note">And this street is on its own board. A room that listed every sibling and left itself off would be claiming to be the station rather than a platform in it, so stimpunks.love's changelog is read over the network like every other wire &mdash; which means this board can be out of date about this site too, and is.</p>
+  </section>
+
+<!-- arrivals:hall:begin -->
+  <section class="indicator" aria-labelledby="wire-stimpunks">
+    <div class="indicator__head">
+      <h3 class="indicator__name" id="wire-stimpunks"><a href="https://stimpunks.org/">Stimpunks Foundation</a></h3>
+      <p class="indicator__what">The big site, and the one all the others were built to take weight off. Weekly changelogs, weekly reflections, and the notices for Campfire and Infodumplings.</p>
+    </div>
+    <ol class="flaps">
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-20T05:50:41Z">2026-09-20</time></span><span class="flap__dest"><a href="https://stimpunks.org/2026/09/20/weekly-reflection-for-week-37-2026/">Weekly Reflection for Week 37 2026</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-16T10:32:19Z">2026-09-16</time></span><span class="flap__dest"><a href="https://stimpunks.org/2026/09/16/stimpunks-org-changelog-for-week-37-2026-from-the-gate-to-the-instrument-from-the-byline-to-the-label/">Stimpunks.org Changelog for Week 37 2026: From the Gate to the Instrument, From the Byline to the Label</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-16T01:46:50Z">2026-09-16</time></span><span class="flap__dest"><a href="https://stimpunks.org/2026/09/15/our-sibling-sites/">Our Sibling Sites</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-13T13:50:29Z">2026-09-13</time></span><span class="flap__dest"><a href="https://stimpunks.org/2026/09/13/campfire-learn-together-weve-killed-kids-hobbies/">Campfire Learn Together: We’ve Killed Kid’s Hobbies</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-12T20:27:57Z">2026-09-12</time></span><span class="flap__dest"><a href="https://stimpunks.org/2026/09/12/weekly-reflection-for-week-36-2026/">Weekly Reflection for Week 36 2026</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-07T18:36:14Z">2026-09-07</time></span><span class="flap__dest"><a href="https://stimpunks.org/2026/09/07/stimpunksorg-changelog-for-week-36-2026-from-the-condition-to-the-headline-from-the-binder-to-the-public-page/">Stimpunks.org Changelog for Week 36 2026: From the Condition to the Headline, From the Binder to the Public Page</a></span><span class="flap__split" aria-hidden="true"></span></li>
+    </ol>
+    <p class="enamel"><span class="enamel__feed">Wire: the blog &mdash; <a href="https://stimpunks.org/feed/">stimpunks.org/feed/</a></span><span class="enamel__read">Read at 03:56 UTC on 22 September 2026</span></p>
+  </section>
+  <section class="indicator" aria-labelledby="wire-starstuff">
+    <div class="indicator__head">
+      <h3 class="indicator__name" id="wire-starstuff"><a href="https://starstuff.earth/">Star Stuff</a></h3>
+      <p class="indicator__what">Zines, field guides, broadsides and working papers, each one arriving with the line it leads with. This wire is the pieces themselves; the reasoning is a second feed beside it.</p>
+    </div>
+    <ol class="flaps">
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-18T12:45:15Z">2026-09-18</time></span><span class="flap__dest"><a href="https://starstuff.earth/glimmer-wire-2026-09-18.html">Edition Four</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-18T04:19:15Z">2026-09-18</time></span><span class="flap__dest"><a href="https://starstuff.earth/it-happened-where-you-are-sitting-zine.html">It Happened Where You Are Sitting</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-12T17:38:17Z">2026-09-12</time></span><span class="flap__dest"><a href="https://starstuff.earth/fourteen-kinds-of-doing-zine.html">Fourteen Kinds of Doing</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-12T17:06:06Z">2026-09-12</time></span><span class="flap__dest"><a href="https://starstuff.earth/missing-names-field-guide.html">A Field Guide to Missing Names</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-12T16:38:06Z">2026-09-12</time></span><span class="flap__dest"><a href="https://starstuff.earth/a-bit-of-scruff-zine.html">A Bit of Scruff</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-12T13:53:09Z">2026-09-12</time></span><span class="flap__dest"><a href="https://starstuff.earth/too-narrow-zine.html">Too Narrow</a></span><span class="flap__split" aria-hidden="true"></span></li>
+    </ol>
+    <p class="indicator__also">This site keeps another feed as well: <a href="https://starstuff.earth/changelog.xml">the changelog</a>. This wire is not that one.</p>
+    <p class="enamel"><span class="enamel__feed">Wire: What&#x27;s New &mdash; <a href="https://starstuff.earth/feed.xml">starstuff.earth/feed.xml</a></span><span class="enamel__read">Read at 03:56 UTC on 22 September 2026</span></p>
+  </section>
+  <section class="indicator" aria-labelledby="wire-queering">
+    <div class="indicator__head">
+      <h3 class="indicator__name" id="wire-queering"><a href="https://queering.earth/">Queering.Earth</a></h3>
+      <p class="indicator__what">A cabinet of sheets, built in a week with Helen Edgar. This wire is what has been mounted; the register&#x27;s own accessions, corrections included, are a second feed beside it.</p>
+    </div>
+    <ol class="flaps">
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-14T12:00:00Z">2026-09-14</time></span><span class="flap__dest"><a href="https://queering.earth/known-and-felt-and-seen">Known and Felt and Seen</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-13T12:00:00Z">2026-09-13</time></span><span class="flap__dest"><a href="https://queering.earth/held-not-fixed">Held, Not Fixed</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-12T12:00:00Z">2026-09-12</time></span><span class="flap__dest"><a href="https://queering.earth/most-quiet-need">Every Day’s Most Quiet Need</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-11T12:00:00Z">2026-09-11</time></span><span class="flap__dest"><a href="https://queering.earth/the-plate">The plate</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-11T12:00:00Z">2026-09-11</time></span><span class="flap__dest"><a href="https://queering.earth/gloomy-sunflowers">My Gloomy Sunflowers</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-11T12:00:00Z">2026-09-11</time></span><span class="flap__dest"><a href="https://queering.earth/the-founding-papers">The founding papers</a></span><span class="flap__split" aria-hidden="true"></span></li>
+    </ol>
+    <p class="indicator__also">This site keeps another feed as well: <a href="https://queering.earth/register.xml">the accession register</a>. This wire is not that one.</p>
+    <p class="enamel"><span class="enamel__feed">Wire: what has arrived &mdash; <a href="https://queering.earth/feed.xml">queering.earth/feed.xml</a></span><span class="enamel__read">Read at 03:56 UTC on 22 September 2026</span></p>
+  </section>
+  <section class="indicator" aria-labelledby="wire-cavendish">
+    <div class="indicator__head">
+      <h3 class="indicator__name" id="wire-cavendish"><a href="https://cavendish.space/">Cavendish Space</a></h3>
+      <p class="indicator__what">The Cavendish Cards deck and the site that holds it. One row per dated entry, which is why some of these rows are named after a day rather than a thing.</p>
+    </div>
+    <ol class="flaps">
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-20T00:00:00Z">2026-09-20</time></span><span class="flap__dest"><a href="https://cavendish.space/changelog.html#2026-09-20">2026-09-20 — Site</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-18T00:00:00Z">2026-09-18</time></span><span class="flap__dest"><a href="https://cavendish.space/changelog.html#2026-09-18">2026-09-18 — Deck and Site</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-17T00:00:00Z">2026-09-17</time></span><span class="flap__dest"><a href="https://cavendish.space/changelog.html#2026-09-17">2026-09-17 — Deck and Site</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-16T00:00:00Z">2026-09-16</time></span><span class="flap__dest"><a href="https://cavendish.space/changelog.html#2026-09-16">2026-09-16 — Deck and Site</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-15T00:00:00Z">2026-09-15</time></span><span class="flap__dest"><a href="https://cavendish.space/changelog.html#2026-09-15">2026-09-15 — Site</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-07-21T00:00:00Z">2026-07-21</time></span><span class="flap__dest"><a href="https://cavendish.space/changelog.html#2026-07-21">2026-07-21 — Deck and Site</a></span><span class="flap__split" aria-hidden="true"></span></li>
+    </ol>
+    <p class="enamel"><span class="enamel__feed">Wire: the changelog &mdash; <a href="https://cavendish.space/feed.xml">cavendish.space/feed.xml</a></span><span class="enamel__read">Read at 03:56 UTC on 22 September 2026</span></p>
+  </section>
+  <section class="indicator" aria-labelledby="wire-pebbling">
+    <div class="indicator__head">
+      <h3 class="indicator__name" id="wire-pebbling"><a href="https://penguinpebbling.app/">Penguin Pebbling</a></h3>
+      <p class="indicator__what">Helen Edgar and Ryan Boren&#x27;s card game about bringing somebody a small thing for no reason. The Arcade has a cabinet built on the same practice and deliberately none of that deck.</p>
+    </div>
+    <ol class="flaps">
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-20T12:00:00Z">2026-09-20</time></span><span class="flap__dest"><a href="https://penguinpebbling.app/changelog#2026-09-20">20 September 2026</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-15T12:00:00Z">2026-09-15</time></span><span class="flap__dest"><a href="https://penguinpebbling.app/changelog#2026-09-15">15 September 2026</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-14T12:00:00Z">2026-09-14</time></span><span class="flap__dest"><a href="https://penguinpebbling.app/changelog#2026-09-14">14 September 2026</a></span><span class="flap__split" aria-hidden="true"></span></li>
+    </ol>
+    <p class="enamel"><span class="enamel__feed">Wire: the changelog &mdash; <a href="https://penguinpebbling.app/feed.xml">penguinpebbling.app/feed.xml</a></span><span class="enamel__read">Read at 03:56 UTC on 22 September 2026</span></p>
+  </section>
+  <section class="indicator" aria-labelledby="wire-whysheet">
+    <div class="indicator__head">
+      <h3 class="indicator__name" id="wire-whysheet"><a href="https://whysheet.press/">The Why Sheet Press</a></h3>
+      <p class="indicator__what">One-page arguments made to be printed and carried into a room where somebody is about to be talked over. New sheets, revisions, and changes to how they print.</p>
+    </div>
+    <ol class="flaps">
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-20T12:00:00Z">2026-09-20</time></span><span class="flap__dest"><a href="https://whysheet.press/changelog/#2026-09-20-the-demand-avoidance-broadside">The Demand Avoidance broadside</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-20T11:59:00Z">2026-09-20</time></span><span class="flap__dest"><a href="https://whysheet.press/changelog/#2026-09-20-demand-avoidance">Demand Avoidance</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-20T11:58:00Z">2026-09-20</time></span><span class="flap__dest"><a href="https://whysheet.press/changelog/#2026-09-20-the-staleness-check-can-fail-again">The staleness check can fail again</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-20T11:57:00Z">2026-09-20</time></span><span class="flap__dest"><a href="https://whysheet.press/changelog/#2026-09-20-a-changelog-you-can-subscribe-to">A changelog you can subscribe to</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-19T12:00:00Z">2026-09-19</time></span><span class="flap__dest"><a href="https://whysheet.press/changelog/#2026-09-19-aac-is-not-a-last-resort">AAC Is Not a Last Resort</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-19T11:59:00Z">2026-09-19</time></span><span class="flap__dest"><a href="https://whysheet.press/changelog/#2026-09-19-prompts-for-work-and-clinic">Prompts for work and clinic</a></span><span class="flap__split" aria-hidden="true"></span></li>
+    </ol>
+    <p class="enamel"><span class="enamel__feed">Wire: the press &mdash; <a href="https://whysheet.press/feed.xml">whysheet.press/feed.xml</a></span><span class="enamel__read">Read at 03:56 UTC on 22 September 2026</span></p>
+  </section>
+  <section class="indicator" aria-labelledby="wire-love">
+    <div class="indicator__head">
+      <h3 class="indicator__name" id="wire-love"><a href="https://stimpunks.love/">Stimpunks.Love</a></h3>
+      <p class="indicator__what">This street. Its own changelog, read over the network like every other wire rather than lifted out of the file next door, so this board can be wrong about this site too.</p>
+    </div>
+    <ol class="flaps">
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-21T12:00:00Z">2026-09-21</time></span><span class="flap__dest"><a href="https://stimpunks.love/changelog.html#2026-09-21-contrast-live">a contrast checker that reads the page instead of the intention</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-21T12:00:00Z">2026-09-21</time></span><span class="flap__dest"><a href="https://stimpunks.love/changelog.html#2026-09-21-more-toys">six more toys, and three links in that room that measured 1.31</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-21T12:00:00Z">2026-09-21</time></span><span class="flap__dest"><a href="https://stimpunks.love/changelog.html#2026-09-21-sound-board">a sound board in the Playhouse, and a row of moods with no faces on it</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-21T12:00:00Z">2026-09-21</time></span><span class="flap__dest"><a href="https://stimpunks.love/changelog.html#2026-09-21-adventurers-guild">The Adventurer’s Guild, and the one tidy room</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-21T12:00:00Z">2026-09-21</time></span><span class="flap__dest"><a href="https://stimpunks.love/changelog.html#2026-09-21-swaying-sweetgrass">Swaying Sweetgrass, and a book we are not going to serve</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-21T12:00:00Z">2026-09-21</time></span><span class="flap__dest"><a href="https://stimpunks.love/changelog.html#2026-09-21-the-mopery">The Mopery, and a facsimile this site is not going to copy</a></span><span class="flap__split" aria-hidden="true"></span></li>
+    </ol>
+    <p class="enamel"><span class="enamel__feed">Wire: what changed on the street &mdash; <a href="https://stimpunks.love/feed.xml">stimpunks.love/feed.xml</a></span><span class="enamel__read">Read at 03:56 UTC on 22 September 2026</span></p>
+  </section>
+  <section class="indicator" aria-labelledby="wire-monotropic">
+    <div class="indicator__head">
+      <h3 class="indicator__name" id="wire-monotropic"><a href="https://monotropicmap.org/">Map of Monotropic Experiences</a></h3>
+      <p class="indicator__what">A map you can walk and a second tool for drawing your own. Built with Helen Edgar, who reviewed it twice before it went up.</p>
+    </div>
+    <ol class="flaps">
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-20T00:00:00Z">2026-09-20</time></span><span class="flap__dest"><a href="https://monotropicmap.org/changelog#2026-09-20-the-changelog-has-a-feed">The changelog has a feed</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-16T00:00:00Z">2026-09-16</time></span><span class="flap__dest"><a href="https://monotropicmap.org/changelog#2026-09-16-a-second-tool-draw-your-own-map">A second tool: draw your own map</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-16T00:00:00Z">2026-09-16</time></span><span class="flap__dest"><a href="https://monotropicmap.org/changelog#2026-09-16-helen-s-review-came-back">Helen&#x27;s review came back</a></span><span class="flap__split" aria-hidden="true"></span></li>
+      <li class="flap"><span class="flap__when"><time datetime="2026-09-15T00:00:00Z">2026-09-15</time></span><span class="flap__dest"><a href="https://monotropicmap.org/changelog#2026-09-15-the-site-went-live">the site went live</a></span><span class="flap__split" aria-hidden="true"></span></li>
+    </ol>
+    <p class="enamel"><span class="enamel__feed">Wire: the changelog &mdash; <a href="https://monotropicmap.org/feed.xml">monotropicmap.org/feed.xml</a></span><span class="enamel__read">Read at 03:56 UTC on 22 September 2026</span></p>
+  </section>
+<!-- arrivals:hall:end -->
+
+  <section class="girder">
+    <h2>Go and read them properly</h2>
+    <p>Every wire above links its site and its feed. Put the feed in whatever reader you use and the arrivals come to you, on your own time, with no board in between and nothing here deciding what you see first. That is the better version of this room and we would rather you used it.</p>
+    <p>stimpunks.org keeps <a href="https://stimpunks.org/feeds/">a feeds page</a> with the lot on it, including the socials, the repository commits and the bookmark archive, none of which is up here: a social post has no title, a commit is a different kind of thing from a published page, and a board that mixed all three would be a machine with three jobs.</p>
+  </section>
+
+  <section class="girder">
+    <h2>Whose machine this is</h2>
+    <p>The split-flap indicator board is <b>Solari di Udine</b>'s machine &mdash; the flap boards that stood in railway stations and airports for decades, and the reason a certain clacking noise means <i>something has changed</i> to anybody over about thirty. This room is a picture of one drawn in CSS. It is not one of theirs, it is not affiliated with them, and it makes no noise at all.</p>
+    <p>The sites on the board are <a href="https://stimpunks.org/">Stimpunks Foundation</a>'s, several of them built with <b>Helen Edgar</b> of Autistic Realms, who is named here rather than folded into our &ldquo;we&rdquo;. <i>Penguin Pebbling</i> is hers and Ryan Boren's together. Every title on this board belongs to whoever wrote the page it points at, and this room holds none of their words &mdash; only their names, their dates and their doors. The credits are collected in the <a href="liner-notes.html">liner notes</a>.</p>
+  </section>
+
+  <section class="concourse__foot">
+    <div class="concourse__col">
+      <h2>What moves in here</h2>
+      <p>At <b>Gentle</b> the boards are simply already showing their words, which is what a board does for almost all of its life. At <b>Regular</b> each row settles once as the page arrives &mdash; one flap, downward, and then still. At <b>MAX GLITTER</b> they riffle on the way to settling, the way a real board runs through half the alphabet before it finds the letter it wants.</p>
+      <p class="hall__note"><b>Nothing in here flashes, strobes or pulses at any setting</b>, and nothing makes a sound. The words on every row are identical at all three: the dial takes away the clatter, never the arrivals.</p>
+    </div>
+    <div class="concourse__col concourse__col--dial">
+      <div class="dial">
+        <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+        <div class="dial__row" role="group" aria-labelledby="dial-label">
+          <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+          <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+          <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+        </div>
+        <p class="dial__note" aria-live="polite"></p>
+        <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes or plays until you say so &mdash; and in here, MAX GLITTER is a board that riffles before it settles.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:feed-splitflap:begin -->
+  <details class="quest" data-quest="feed-splitflap" data-code="SPLITFLAP" data-accept="arailway|railway|railways|therailway">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="4" y="8" width="24" height="17" rx="2" fill="none" stroke="var(--fd-amber)" stroke-width="2.2"/><path d="M4 16.5 H28" stroke="var(--fd-amber)" stroke-width="2.2"/><path d="M2 11 H4 M2 22 H4 M28 11 H30 M28 22 H30" stroke="var(--fd-amber)" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a flap off one of the boards</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> What the board is not</p>
+      <p class="quest__ask"><b>Before the code:</b> That room says the board is a picture of something, and then says it is not that thing. What is it? One word.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="feed-splitflap-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="feed-splitflap-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is in the line directly under the room&#x27;s name, at the very top.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>It is the thing a departures board is a picture of.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>Seven letters, and it begins with an R.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Railway</b>. None of those sites lets a browser read its feed from our page, so the board cannot be live and does not pretend to be: a person runs a tool, the boards are set, and every plate carries the minute its own wire was read. The feeds themselves are linked on every board, which is the actual railway.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SPLITFLAP</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SPLITFLAP">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>None of those sites lets a browser read its feed from our page, so the board cannot be live and does not pretend to be: a person runs a tool, the boards are set, and every plate carries the minute its own wire was read. The feeds themselves are linked on every board, which is the actual railway.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SPLITFLAP</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SPLITFLAP">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:feed-splitflap:end -->
+
+</main>
+
+<script src="love.js" defer></script>
+<script src="quest.js" defer></script>
+</body>
+</html>

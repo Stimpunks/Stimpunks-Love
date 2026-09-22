@@ -1,0 +1,60 @@
+{
+  "_source": "Every note in this file was written for this room. WHAT each site is was read off that site's own pages -- Star Stuff's about page, Cavendish Space's origin page, the Map of Monotropic Experiences' own front page, the Why Sheet Press's own repository -- and where a site describes itself in a phrase worth keeping, the phrase is attributed to it rather than absorbed. Nothing here was written from memory, and nothing here is lifted from data/arrivals.json's notes: The Feed says what has arrived from a site and this says what grows there, and two rooms holding one paragraph is one room with two doors.",
+  "_roster": "WHICH SITES ARE IN THE GARDEN IS NOT DECIDED HERE. make-garden.py reads the roster and the running order out of data/arrivals.json, whose own order is stimpunks.org's published feeds page -- the one place our sites are collected by somebody deciding. So a bed cannot be invented here, a site cannot be quietly left out, and re-sorting the garden would mean overruling a decision made somewhere else, which is the rule the Jungle Room keeps about its cams. A wire with no bed is refused; a bed with no wire is refused.",
+  "_itself": "THIS STREET IS A BED IN ITS OWN GARDEN, for The Feed's reason: a garden that listed every bed and left out the one under your feet would be claiming to be the gardener rather than a plant.",
+  "_forms": "Each bed's drawing is a different HABIT OF GROWTH, and the habit is the argument -- which is why every one of them is also written out in words on the page. The drawings are aria-hidden decoration, and a picture carrying a claim that only sighted readers get is not a claim this site is allowed to make. make-garden.py refuses a bed with no habit sentence and two beds that share a drawing.",
+  "_no_counts": "NO BED SAYS HOW MUCH A SITE HOLDS. Not the number of glossary terms, not the number of sheets, not how many zines are out. Two reasons and either is enough: a number like that is wrong within the week and authoritative-looking in the meantime, which is the fault The Feed avoids by publishing the minute it was read; and a garden measured by volume is an inventory. Cite the thing, not the size of it. make-garden.py refuses the pattern.",
+  "_no_ranking": "No bed is bigger, better, busier or more important than another, and the tool refuses the vocabulary with the negation window make-guild.py uses, so the room can still say that it does not rank anything. stimpunks.org is described as the one the others were built to take weight off, which is a fact about how they came to exist rather than a league table.",
+  "_no_dates": "AND NO BED CARRIES A DATE, which is what keeps this room out of The Feed. That board is a timetable -- a title, a date, a destination, and the minute it was set. This is a planting plan: what a site is for, whose hands are in it, and nothing that changes when somebody publishes. So this tool needs no network and has no pull step, and it refuses a date in a bed's copy rather than trusting nobody to add one.",
+  "_links": "A NOTE MAY ONLY POINT AT ITS OWN PLANT. Every link inside a bed's `what` has to be one of our own pages or somewhere on that bed's own host, refused otherwise -- make-hermitage.py's rule about the Star Stuff table, where a bench with somebody's name on it holding something else reads as a claim. The `with` line is the exception and is the whole reason it exists: that is where a collaborator's name and a collaborator's own site go.",
+  "beds": {
+    "stimpunks": {
+      "form": "rhizome",
+      "what": "The garden itself, and the one the others were built to take weight off: a <a href=\"https://stimpunks.org/glossary/\">glossary</a> kept in public, a <a href=\"https://stimpunks.org/patterns/\">pattern language</a> grown out of lived experience, <a href=\"https://stimpunks.org/patterns/recipes/\">recipes</a> for the environments those patterns ask for, and the frameworks that came out of all three. Its own <a href=\"https://stimpunks.org/knowledge/garden/\">page about the garden</a> says nothing there needs to be read in order, and means it.",
+      "habit": "A rhizome, running sideways under the bed and coming up in several places at once. That is the shape our own page gives this knowledge, and <a href=\"https://stimpunks.org/glossary/autistic-rhizome/\">Autistic Rhizome</a> is a term in the glossary it comes up in.",
+      "with": "Stimpunks Foundation, and everybody whose writing the glossary credits by name."
+    },
+    "starstuff": {
+      "form": "umbel",
+      "what": "Zines, field guides and broadsides that start from something settled in physics, cosmology, chemistry or biology and let it carry an argument about belonging &mdash; not as loose metaphor, but as the same pattern showing up at more than one scale. Its <a href=\"https://starstuff.earth/about.html\">about page</a> calls itself the public flowering of this garden, which is its phrase and not ours.",
+      "habit": "An umbel coming into flower: one stem, and every ray of it opening at the same height. It is the bed in flower because that site said it was.",
+      "with": "A collaboration between Stimpunks and <a href=\"https://morerealms.com/\">More Realms</a>, where a great deal of it was grown from seed."
+    },
+    "queering": {
+      "form": "ghostpipe",
+      "what": "A cabinet of mounted sheets on queerness, illness and the natural world, with an accession register that publishes its own corrections rather than quietly fixing them. One of the sheets in it is about <a href=\"https://queering.earth/monotropa-uniflora\">Monotropa uniflora</a>, the ghost pipe, which makes no chlorophyll of its own and lives by what it is connected to underground.",
+      "habit": "That plant, which is why this is the one bed in the garden with no green in it at all. It is carried by its outline and by the threads running out of it, the way the things in it are.",
+      "with": "Built with <b>Helen Edgar</b> of <a href=\"https://autisticrealms.com/\">Autistic Realms</a>, who is named on the sheets she wrote rather than folded into our &ldquo;we&rdquo;, and with contributions credited on the cabinet's own pages."
+    },
+    "cavendish": {
+      "form": "coldframe",
+      "what": "Caves, campfires, watering holes, the library of what we have worked out, and the habitat that holds all four &mdash; plus the <a href=\"https://cavendish.space/deck\">Cavendish Cards</a> deck, which lets somebody point at a picture instead of explaining, and the <a href=\"https://cavendish.space/rooms\">room sheets</a> for working out which zones a real room can already hold. Everything there is free and CC0.",
+      "habit": "The one bed with something built over it, because that site is about the structure: a frame changes what a bed can grow, which is the whole argument for zoning a room rather than telling somebody to cope in it.",
+      "with": "Stimpunks Foundation. The three primordial spaces are <b>David Thornburg</b>'s, from <i>From the Campfire to the Holodeck</i>; the name comes from Henry Cavendish by way of <b>Steve Silberman</b>'s <i>NeuroTribes</i>; and <b>Ira Socol</b>'s home of opportunity is on that site's origin page beside them."
+    },
+    "pebbling": {
+      "form": "runners",
+      "what": "A card game about bringing somebody a small thing for no reason, and about what that does. No winners, no pressure to perform, and you can leave whenever you need to. There is a cabinet in <a href=\"arcade.html\">our arcade</a> built on the same practice that deliberately takes nothing from that deck &mdash; the deck is the better thing and it is here.",
+      "habit": "Runners: the plant reaches sideways and puts a new plant down beside itself, roots and all, without being asked for anything back. That is pebbling rather than trading.",
+      "with": "<b>Helen Edgar</b> of <a href=\"https://autisticrealms.com/\">Autistic Realms</a> and <b>Ryan Boren</b> of Stimpunks, together. The locution the practice is described in is <b>Amythest Schaber</b>'s."
+    },
+    "whysheet": {
+      "form": "seedhead",
+      "what": "One-page arguments, openly licensed and editable, made to be printed and carried into a room where somebody is about to be talked over. You tick the sheets you need and <a href=\"https://whysheet.press/\">the press</a> hands back a single correctly paginated PDF with the citations intact. Nothing is uploaded and no account is kept.",
+      "habit": "A seed head gone dry, which is the only bed here whose point is that you take it away. What it grows into somewhere we will never see is the intended outcome rather than a side effect.",
+      "with": "Stimpunks Foundation, and the researchers, lawyers and self-advocates each sheet cites on its own face."
+    },
+    "love": {
+      "form": "scramble",
+      "what": "The street you are standing on, and the loud half of the same lung. No single design system, no two rooms alike, credits scrawled in the margins, and a dial that lets you decide how much of it happens. <a href=\"index.html\">The street is that way</a> and <a href=\"liner-notes.html\">the liner notes</a> say where everything in it came from.",
+      "habit": "A scramble: nasturtiums over the edges of the bed, out onto the path and up whatever is standing near them. Nothing in this bed has been kept in its row.",
+      "with": "Stimpunks Foundation, with a pitch in the campgrounds that is <b>Helen Edgar</b>'s own room and a community board kept by <b>Norah Hobbs</b>."
+    },
+    "monotropic": {
+      "form": "tendril",
+      "what": "Twenty places a monotropic person goes, drawn as an island you can walk &mdash; attention tunnels, rabbit holes of research, infodump canyon, burnout whirlpools, the forest of joy, awe and wonder &mdash; with <a href=\"https://monotropicmap.org/draw\">a second tool</a> for drawing your own. Some of those places are where the good work happens and some are weather that other people make.",
+      "habit": "A tendril: the stem puts out a feeler, finds something, and holds on. <a href=\"https://monotropicmap.org/tendril-theory\">Tendril Theory</a> is one of the places on that island, which is why this bed grows the thing the theory is named after.",
+      "with": "<b>Helen Edgar</b>'s map of her own Autistic and ADHD experience, published with Stimpunks. Monotropism is <b>Dinah Murray</b>, <b>Wenn Lawson</b> and <b>Mike Lesser</b>'s."
+    }
+  }
+}

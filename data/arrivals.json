@@ -1,0 +1,328 @@
+{
+  "_source": "Which feed belongs to which site was read off each sibling repository's own feed.xml -- the <atom:link rel=\"self\"> each generator writes -- rather than guessed from the domain. Two of them publish more than one feed, so the choice of WHICH feed a wire carries is a curation decision and it is recorded here per wire, named on the page, and linked. Nothing on this board was typed from memory.",
+  "_order": "The running order is stimpunks.org's own, off its published feeds page: the blog first, then Star Stuff, Queering.Earth, Cavendish Space, Penguin Pebbling, The Why Sheet Press, this street, and the Map of Monotropic Experiences. That page is the one place our sites are collected by somebody deciding, and re-sorting it here -- alphabetically, or by which wire had something newest -- would be this room quietly overruling a decision made somewhere else. The Jungle Room keeps its cams in the events page's own groups for the same reason.",
+  "_itself": "THIS STREET IS ON ITS OWN BOARD, on purpose. A board that listed every sibling and left itself off would be claiming to be the station rather than a platform in it. stimpunks.love's changelog feed is read over the network exactly like the rest, which means the board can be wrong about this site too, and is set at the same minute.",
+  "_no_body": "A row carries a title, a date and where it goes. Never a summary, never an excerpt, never the item's content. A departures board gives you a name and a time; it does not read you the contents of the train. That is the room's argument and it is also what keeps this page from republishing everybody else's writing onto one surface. make-arrivals.py refuses a row with a summary field on it, because the friendly edit -- the rows look bare, paste the excerpts back in -- is a real one and it will arrive.",
+  "_no_ranking": "No wire is ranked and no site's activity is totalled. There is no busiest, no quietest, no this-week count and nothing that says which of our sites has been getting on with it. A board that showed that would turn publishing into a race between our own people, most of whom are Disabled and several of whom are one person -- the pebbling cabinet's refusal of a tally, arriving between sites rather than inside a game.",
+  "_snapshot": "The board is set when the site is built and not when somebody looks at it. None of these hosts sends an Access-Control-Allow-Origin header, so a browser cannot read these feeds from the page, and the ways round that are a proxy we do not run or a third-party reader we would be handing our visitors to. So every wire records the minute it was read, the hall says when the board was set, and every feed is linked so the live thing is one press away. The board is not the railway.",
+  "set": "2026-09-22T03:56Z",
+  "wires": [
+    {
+      "id": "stimpunks",
+      "site": "Stimpunks Foundation",
+      "host": "stimpunks.org",
+      "home": "https://stimpunks.org/",
+      "feed": "https://stimpunks.org/feed/",
+      "feed_name": "the blog",
+      "note": "The big site, and the one all the others were built to take weight off. Weekly changelogs, weekly reflections, and the notices for Campfire and Infodumplings.",
+      "read": "2026-09-22T03:56Z",
+      "items": [
+        {
+          "title": "Weekly Reflection for Week 37 2026",
+          "url": "https://stimpunks.org/2026/09/20/weekly-reflection-for-week-37-2026/",
+          "date": "2026-09-20T05:50:41Z"
+        },
+        {
+          "title": "Stimpunks.org Changelog for Week 37 2026: From the Gate to the Instrument, From the Byline to the Label",
+          "url": "https://stimpunks.org/2026/09/16/stimpunks-org-changelog-for-week-37-2026-from-the-gate-to-the-instrument-from-the-byline-to-the-label/",
+          "date": "2026-09-16T10:32:19Z"
+        },
+        {
+          "title": "Our Sibling Sites",
+          "url": "https://stimpunks.org/2026/09/15/our-sibling-sites/",
+          "date": "2026-09-16T01:46:50Z"
+        },
+        {
+          "title": "Campfire Learn Together: We’ve Killed Kid’s Hobbies",
+          "url": "https://stimpunks.org/2026/09/13/campfire-learn-together-weve-killed-kids-hobbies/",
+          "date": "2026-09-13T13:50:29Z"
+        },
+        {
+          "title": "Weekly Reflection for Week 36 2026",
+          "url": "https://stimpunks.org/2026/09/12/weekly-reflection-for-week-36-2026/",
+          "date": "2026-09-12T20:27:57Z"
+        },
+        {
+          "title": "Stimpunks.org Changelog for Week 36 2026: From the Condition to the Headline, From the Binder to the Public Page",
+          "url": "https://stimpunks.org/2026/09/07/stimpunksorg-changelog-for-week-36-2026-from-the-condition-to-the-headline-from-the-binder-to-the-public-page/",
+          "date": "2026-09-07T18:36:14Z"
+        }
+      ]
+    },
+    {
+      "id": "starstuff",
+      "site": "Star Stuff",
+      "host": "starstuff.earth",
+      "home": "https://starstuff.earth/",
+      "feed": "https://starstuff.earth/feed.xml",
+      "feed_name": "What's New",
+      "second": "https://starstuff.earth/changelog.xml",
+      "second_name": "the changelog",
+      "note": "Zines, field guides, broadsides and working papers, each one arriving with the line it leads with. This wire is the pieces themselves; the reasoning is a second feed beside it.",
+      "read": "2026-09-22T03:56Z",
+      "items": [
+        {
+          "title": "Edition Four",
+          "url": "https://starstuff.earth/glimmer-wire-2026-09-18.html",
+          "date": "2026-09-18T12:45:15Z"
+        },
+        {
+          "title": "It Happened Where You Are Sitting",
+          "url": "https://starstuff.earth/it-happened-where-you-are-sitting-zine.html",
+          "date": "2026-09-18T04:19:15Z"
+        },
+        {
+          "title": "Fourteen Kinds of Doing",
+          "url": "https://starstuff.earth/fourteen-kinds-of-doing-zine.html",
+          "date": "2026-09-12T17:38:17Z"
+        },
+        {
+          "title": "A Field Guide to Missing Names",
+          "url": "https://starstuff.earth/missing-names-field-guide.html",
+          "date": "2026-09-12T17:06:06Z"
+        },
+        {
+          "title": "A Bit of Scruff",
+          "url": "https://starstuff.earth/a-bit-of-scruff-zine.html",
+          "date": "2026-09-12T16:38:06Z"
+        },
+        {
+          "title": "Too Narrow",
+          "url": "https://starstuff.earth/too-narrow-zine.html",
+          "date": "2026-09-12T13:53:09Z"
+        }
+      ]
+    },
+    {
+      "id": "queering",
+      "site": "Queering.Earth",
+      "host": "queering.earth",
+      "home": "https://queering.earth/",
+      "feed": "https://queering.earth/feed.xml",
+      "feed_name": "what has arrived",
+      "second": "https://queering.earth/register.xml",
+      "second_name": "the accession register",
+      "note": "A cabinet of sheets, built in a week with Helen Edgar. This wire is what has been mounted; the register's own accessions, corrections included, are a second feed beside it.",
+      "read": "2026-09-22T03:56Z",
+      "items": [
+        {
+          "title": "Known and Felt and Seen",
+          "url": "https://queering.earth/known-and-felt-and-seen",
+          "date": "2026-09-14T12:00:00Z"
+        },
+        {
+          "title": "Held, Not Fixed",
+          "url": "https://queering.earth/held-not-fixed",
+          "date": "2026-09-13T12:00:00Z"
+        },
+        {
+          "title": "Every Day’s Most Quiet Need",
+          "url": "https://queering.earth/most-quiet-need",
+          "date": "2026-09-12T12:00:00Z"
+        },
+        {
+          "title": "The plate",
+          "url": "https://queering.earth/the-plate",
+          "date": "2026-09-11T12:00:00Z"
+        },
+        {
+          "title": "My Gloomy Sunflowers",
+          "url": "https://queering.earth/gloomy-sunflowers",
+          "date": "2026-09-11T12:00:00Z"
+        },
+        {
+          "title": "The founding papers",
+          "url": "https://queering.earth/the-founding-papers",
+          "date": "2026-09-11T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "cavendish",
+      "site": "Cavendish Space",
+      "host": "cavendish.space",
+      "home": "https://cavendish.space/",
+      "feed": "https://cavendish.space/feed.xml",
+      "feed_name": "the changelog",
+      "note": "The Cavendish Cards deck and the site that holds it. One row per dated entry, which is why some of these rows are named after a day rather than a thing.",
+      "read": "2026-09-22T03:56Z",
+      "items": [
+        {
+          "title": "2026-09-20 — Site",
+          "url": "https://cavendish.space/changelog.html#2026-09-20",
+          "date": "2026-09-20T00:00:00Z"
+        },
+        {
+          "title": "2026-09-18 — Deck and Site",
+          "url": "https://cavendish.space/changelog.html#2026-09-18",
+          "date": "2026-09-18T00:00:00Z"
+        },
+        {
+          "title": "2026-09-17 — Deck and Site",
+          "url": "https://cavendish.space/changelog.html#2026-09-17",
+          "date": "2026-09-17T00:00:00Z"
+        },
+        {
+          "title": "2026-09-16 — Deck and Site",
+          "url": "https://cavendish.space/changelog.html#2026-09-16",
+          "date": "2026-09-16T00:00:00Z"
+        },
+        {
+          "title": "2026-09-15 — Site",
+          "url": "https://cavendish.space/changelog.html#2026-09-15",
+          "date": "2026-09-15T00:00:00Z"
+        },
+        {
+          "title": "2026-07-21 — Deck and Site",
+          "url": "https://cavendish.space/changelog.html#2026-07-21",
+          "date": "2026-07-21T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "pebbling",
+      "site": "Penguin Pebbling",
+      "host": "penguinpebbling.app",
+      "home": "https://penguinpebbling.app/",
+      "feed": "https://penguinpebbling.app/feed.xml",
+      "feed_name": "the changelog",
+      "note": "Helen Edgar and Ryan Boren's card game about bringing somebody a small thing for no reason. The Arcade has a cabinet built on the same practice and deliberately none of that deck.",
+      "read": "2026-09-22T03:56Z",
+      "items": [
+        {
+          "title": "20 September 2026",
+          "url": "https://penguinpebbling.app/changelog#2026-09-20",
+          "date": "2026-09-20T12:00:00Z"
+        },
+        {
+          "title": "15 September 2026",
+          "url": "https://penguinpebbling.app/changelog#2026-09-15",
+          "date": "2026-09-15T12:00:00Z"
+        },
+        {
+          "title": "14 September 2026",
+          "url": "https://penguinpebbling.app/changelog#2026-09-14",
+          "date": "2026-09-14T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "whysheet",
+      "site": "The Why Sheet Press",
+      "host": "whysheet.press",
+      "home": "https://whysheet.press/",
+      "feed": "https://whysheet.press/feed.xml",
+      "feed_name": "the press",
+      "note": "One-page arguments made to be printed and carried into a room where somebody is about to be talked over. New sheets, revisions, and changes to how they print.",
+      "read": "2026-09-22T03:56Z",
+      "items": [
+        {
+          "title": "The Demand Avoidance broadside",
+          "url": "https://whysheet.press/changelog/#2026-09-20-the-demand-avoidance-broadside",
+          "date": "2026-09-20T12:00:00Z"
+        },
+        {
+          "title": "Demand Avoidance",
+          "url": "https://whysheet.press/changelog/#2026-09-20-demand-avoidance",
+          "date": "2026-09-20T11:59:00Z"
+        },
+        {
+          "title": "The staleness check can fail again",
+          "url": "https://whysheet.press/changelog/#2026-09-20-the-staleness-check-can-fail-again",
+          "date": "2026-09-20T11:58:00Z"
+        },
+        {
+          "title": "A changelog you can subscribe to",
+          "url": "https://whysheet.press/changelog/#2026-09-20-a-changelog-you-can-subscribe-to",
+          "date": "2026-09-20T11:57:00Z"
+        },
+        {
+          "title": "AAC Is Not a Last Resort",
+          "url": "https://whysheet.press/changelog/#2026-09-19-aac-is-not-a-last-resort",
+          "date": "2026-09-19T12:00:00Z"
+        },
+        {
+          "title": "Prompts for work and clinic",
+          "url": "https://whysheet.press/changelog/#2026-09-19-prompts-for-work-and-clinic",
+          "date": "2026-09-19T11:59:00Z"
+        }
+      ]
+    },
+    {
+      "id": "love",
+      "site": "Stimpunks.Love",
+      "host": "stimpunks.love",
+      "home": "https://stimpunks.love/",
+      "feed": "https://stimpunks.love/feed.xml",
+      "feed_name": "what changed on the street",
+      "note": "This street. Its own changelog, read over the network like every other wire rather than lifted out of the file next door, so this board can be wrong about this site too.",
+      "read": "2026-09-22T03:56Z",
+      "items": [
+        {
+          "title": "a contrast checker that reads the page instead of the intention",
+          "url": "https://stimpunks.love/changelog.html#2026-09-21-contrast-live",
+          "date": "2026-09-21T12:00:00Z"
+        },
+        {
+          "title": "six more toys, and three links in that room that measured 1.31",
+          "url": "https://stimpunks.love/changelog.html#2026-09-21-more-toys",
+          "date": "2026-09-21T12:00:00Z"
+        },
+        {
+          "title": "a sound board in the Playhouse, and a row of moods with no faces on it",
+          "url": "https://stimpunks.love/changelog.html#2026-09-21-sound-board",
+          "date": "2026-09-21T12:00:00Z"
+        },
+        {
+          "title": "The Adventurer’s Guild, and the one tidy room",
+          "url": "https://stimpunks.love/changelog.html#2026-09-21-adventurers-guild",
+          "date": "2026-09-21T12:00:00Z"
+        },
+        {
+          "title": "Swaying Sweetgrass, and a book we are not going to serve",
+          "url": "https://stimpunks.love/changelog.html#2026-09-21-swaying-sweetgrass",
+          "date": "2026-09-21T12:00:00Z"
+        },
+        {
+          "title": "The Mopery, and a facsimile this site is not going to copy",
+          "url": "https://stimpunks.love/changelog.html#2026-09-21-the-mopery",
+          "date": "2026-09-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "monotropic",
+      "site": "Map of Monotropic Experiences",
+      "host": "monotropicmap.org",
+      "home": "https://monotropicmap.org/",
+      "feed": "https://monotropicmap.org/feed.xml",
+      "feed_name": "the changelog",
+      "note": "A map you can walk and a second tool for drawing your own. Built with Helen Edgar, who reviewed it twice before it went up.",
+      "read": "2026-09-22T03:56Z",
+      "items": [
+        {
+          "title": "The changelog has a feed",
+          "url": "https://monotropicmap.org/changelog#2026-09-20-the-changelog-has-a-feed",
+          "date": "2026-09-20T00:00:00Z"
+        },
+        {
+          "title": "A second tool: draw your own map",
+          "url": "https://monotropicmap.org/changelog#2026-09-16-a-second-tool-draw-your-own-map",
+          "date": "2026-09-16T00:00:00Z"
+        },
+        {
+          "title": "Helen's review came back",
+          "url": "https://monotropicmap.org/changelog#2026-09-16-helen-s-review-came-back",
+          "date": "2026-09-16T00:00:00Z"
+        },
+        {
+          "title": "the site went live",
+          "url": "https://monotropicmap.org/changelog#2026-09-15-the-site-went-live",
+          "date": "2026-09-15T00:00:00Z"
+        }
+      ],
+      "prose": "the Map of Monotropic Experiences"
+    }
+  ],
+  "_prose": "A wire may carry a `prose` name as well as its nameboard one, for the sentences make-arrivals.py writes. The Map of Monotropic Experiences takes an article in a sentence and does not take one on a sign, and a generated sentence that reads like a generated sentence is the thing generating it was supposed to avoid."
+}
