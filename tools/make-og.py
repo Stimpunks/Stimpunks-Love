@@ -368,6 +368,38 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--hole .og-foot {{ font-family: 'Jost', sans-serif; font-weight: 500; font-size: 17px;
   letter-spacing: 2px; color: var(--rh-dim); margin: 15px 0 0 !important; }}
 
+/* checkpoint — THE ONE CARD ON THIS STREET LIT ALONG ITS BOTTOM EDGE. Every
+   other card here is lit from above, from one side, from behind or from
+   nowhere; room 429's light comes out of the floor, and a card that put it
+   anywhere else would be a picture of a different room. So the gradient rises
+   from the foot of the frame, the bed is LIFTED whole out of the page rather
+   than redrawn here -- the shaft's rule and the burrow's, because a second copy
+   of a drawing goes stale in one of the two places it lives -- and it stands IN
+   that light rather than beside it.
+   NO STEAM. The room's .glow is a fixed viewport layer and means nothing at
+   1200x630; the light that matters is the ground, and the composite the
+   contrast checker holds is the one the gradient's peak makes. */
+.og--checkpoint {{ width: 100%; flex-direction: row; padding: 34px 52px 30px; gap: 38px;
+  align-items: center;
+  background-image: linear-gradient(to top, rgba(121, 220, 206, 0.16) 0%,
+    rgba(121, 220, 206, 0.05) 30%, transparent 62%); }}
+.og--checkpoint .og-bed {{ flex: 0 0 auto; width: 340px; }}
+.og--checkpoint .og-bed svg {{ display: block; width: 100%; height: auto; }}
+.og--checkpoint .og-col {{ flex: 1 1 auto; min-width: 0; }}
+.og--checkpoint .og-plate {{ display: inline-block; font-family: 'Quicksand', sans-serif;
+  font-weight: 700; font-size: 34px; line-height: 1; letter-spacing: 3.4px;
+  color: var(--hc-clay); background: var(--hc-alcove); border-radius: 999px;
+  padding: 12px 26px 14px; margin: 0 0 16px !important; }}
+.og--checkpoint h1 {{ font-family: 'Quicksand', sans-serif; font-weight: 700;
+  font-size: 66px; line-height: 1.0; letter-spacing: -0.8px; color: #fff;
+  margin: 0 !important; }}
+.og--checkpoint .og-tag {{ font-family: 'Quicksand', sans-serif; font-weight: 700;
+  font-size: 29px; line-height: 1.12; color: var(--hc-clay); margin: 11px 0 0 !important; }}
+.og--checkpoint .og-lede {{ font-family: 'Rubik', sans-serif; color: var(--hc-steam);
+  max-width: 760px; font-size: 20px; line-height: 1.42; margin: 13px 0 0 !important; }}
+.og--checkpoint .og-foot {{ font-family: 'Quicksand', sans-serif; font-weight: 700;
+  font-size: 16px; letter-spacing: 2px; color: var(--hc-dim); margin: 15px 0 0 !important; }}
+
 /* garden — THE THIRD PALE CARD AND THE GREEN ONE. The hermitage's is warm lime
    plaster with a building on it and a low sun; the guild's is manila with rules
    on it and no light at all; this is sunlight that has come down through leaves,
@@ -1127,6 +1159,35 @@ def card_hole(p):
     )
 
 
+def card_checkpoint(p):
+    # THE BED IS LIFTED WHOLE OUT OF THE PAGE, the way the shaft and the burrow's
+    # round door are: a second copy of a drawing is a drawing that goes stale in
+    # one of the two places it lives.
+    return (
+        "",
+        f'<div class="og og--checkpoint" data-fit="card">'
+        f'<div class="og-bed">{p["bed"]}</div>'
+        f'<div class="og-col">'
+        f'<p class="og-plate">429</p>'
+        f'{p["h1"]}'
+        f'<p class="og-tag">The bed is not a reward.</p>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">NOTHING HERE IS COUNTED '
+        f'\u00b7 STIMPUNKS.LOVE</p>'
+        f'</div>'
+        f'</div>',
+        f"A dark green-black card with a band of pale aqua light lying along the "
+        f"whole bottom edge, as if the floor were lit. Standing in that light on "
+        f"the left, a drawing of a low bed in an arched alcove: a rounded "
+        f"headboard, one pillow with a dent in it, a cover turned down, and every "
+        f"underside of it rimmed with light while every top surface stays dark. On "
+        f"the right, a soft enamel plaque reading 429, then \u201c{p['h1text']}\u201d "
+        f"in a large rounded geometric sans in white, under it in warm stone: The "
+        f"bed is not a reward. Then, smaller: {p['desc_plain']} Along the foot, in "
+        f"grey capitals: nothing here is counted, stimpunks.love.",
+    )
+
+
 def card_herm(p):
     return (
         "",
@@ -1623,6 +1684,7 @@ CARDS = {
     "room-feed":    card_feed,
     "room-zibaldone": card_zibaldone,
     "room-rabbit-hole": card_hole,
+    "room-checkpoint": card_checkpoint,
     "room-plain":   card_plain,
 }
 
@@ -1710,6 +1772,7 @@ def main():
         ("roundel",  "latibulum.html",    r'(<div class="roundel".*?</svg>\s*</div>)'),
         ("canopy",   "jungle-room.html",  r'(<svg class="canopy-roof".*?</svg>)'),
         ("well",     "rabbit-hole.html",  r'(<svg class="rh-well".*?</svg>)'),
+        ("bed",      "healing-checkpoint.html", r'(<svg class="hc-bed".*?</svg>)'),
         ("falls",    "the-den.html",      r'(<svg class="falls".*?</svg>)'),
         ("otter",    "otterly-adorbs.html", r'(<div class="otter" id="otter".*?</div>\s*</div>)'),
         ("ottdefs",  "otterly-adorbs.html", r'(<svg width="0" height="0".*?</defs></svg>)'),

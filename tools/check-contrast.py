@@ -373,6 +373,34 @@ RH_CHALK, RH_DIM, RH_DAYLIGHT = "#DEDCD4", "#A2ABB6", "#BFC6CC"
 RH_BRASS, RH_BRASS_DARK = "#D9AE3A", "#6B4A0E"
 RH_PAPER, RH_INK = "#F3F0E7", "#15181C"
 
+
+# The Healing Checkpoint (§31), room 429. A SAVE ROOM LIT FROM THE FLOOR, which
+# gives this file a shape it has met once before and inverted: the light is a
+# FIXED layer rather than a scrolling one, so what is under a word depends on
+# where that word is in the VIEWPORT rather than on how far down the document it
+# was written. No single flat value can honestly stand in for that, which is why
+# every block in that room that carries text sits on a flat panel of its own and
+# only the header is left standing on the room itself.
+# HC_CHAMBER IS THE FLAT BODY GROUND AND IT IS THE LIGHTEST OF THE THREE DARKS,
+# The Rabbit Hole's arrangement and its reason: pale type on a dark wall takes
+# the lightest ground as its honest flat colour, because that is the worse case
+# for the type standing on it.
+# HC_LIT IS NOBODY'S CHOICE. It is HC_GLIM at .10 over HC_CHAMBER -- the peak
+# stop of the pool in the floor, computed rather than picked -- and it is what
+# the header's type sits on once anything has been scrolled. The Chappell's rose
+# window, the burrow's lamp pool, the arcade's scanline and the meadow's sun
+# wash are all measured this way, because a flat background is never what the
+# text is on.
+# HC_CLAY IS THE ONLY WARM VALUE IN THE ROOM AND IT IS NEVER A GROUND. Five warm
+# enclosed rooms on this street are warm underfoot; the moment a surface in room
+# 429 goes warm it is the Faery Yurt with a spring in it. It is held against all
+# five grounds anyway, because the plaque, the tagline, the quotations and the
+# copy readout put it on four of them.
+HC_CHAMBER, HC_ALCOVE, HC_VAULT = "#131E20", "#0E1719", "#0A1112"
+HC_LIT, HC_SPRING = "#1D3131", "#0C3B40"
+HC_STEAM, HC_DIM = "#EAF2F0", "#A6BAB8"
+HC_GLIM, HC_CLAY = "#79DCCE", "#DDB49B"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -1256,6 +1284,51 @@ PAIRS = [
     (RH_BRASS_DARK, RH_PAPER,      False, "rabbit hole: the small caps over each engraving, and EVERY LINK "
                                           "ON A MAT. RH_BRASS measures 1.83 here, so the mats have a "
                                           "colour of their own rather than inheriting the room's"),
+
+    # ── The Healing Checkpoint (§31) ────────────────────────────────────────
+    # FIVE GROUNDS AND EVERY INK AGAINST THE ONES IT CAN LAND ON. The room is
+    # HC_CHAMBER, the alcoves are HC_ALCOVE, the slips and the desk are
+    # HC_VAULT, the water is HC_SPRING, and HC_LIT is what the pool in the floor
+    # makes of the room. HC_LIT is the lightest of them and is therefore the
+    # pair that decides for every pale ink.
+    ("#ffffff",  HC_CHAMBER, True,  "checkpoint: the h1 in Quicksand, 38-66px, standing on the room"),
+    ("#ffffff",  HC_LIT,     True,  "checkpoint: the same h1 where the pool in the floor reaches it"),
+    ("#ffffff",  HC_ALCOVE,  True,  "checkpoint: every h2 in an alcove"),
+    ("#ffffff",  HC_VAULT,   True,  "checkpoint: the desk's heading, and a slip's h2"),
+    ("#ffffff",  HC_ALCOVE,  False, "checkpoint: every bold run in an alcove, and a held item's title"),
+    ("#ffffff",  HC_VAULT,   False, "checkpoint: every bold run on the desk or inside a slip"),
+    (HC_STEAM,   HC_CHAMBER, False, "checkpoint: the lede under the h1"),
+    (HC_STEAM,   HC_LIT,     False, "checkpoint: the same lede under the pool's light"),
+    (HC_STEAM,   HC_ALCOVE,  False, "checkpoint: body copy and every list item in an alcove"),
+    (HC_STEAM,   HC_VAULT,   False, "checkpoint: a held item's reason, and a slip's label"),
+    (HC_STEAM,   HC_SPRING,  False, "checkpoint: the sentence the room is built to protect, which is "
+                                    "the one paragraph set on the water -- and the text of every "
+                                    "Retry-After slip, which is set on it too"),
+    (HC_DIM,     HC_CHAMBER, False, "checkpoint: the topline note over the door"),
+    (HC_DIM,     HC_LIT,     False, "checkpoint: the eyebrow over the h1, and the topline under light"),
+    (HC_DIM,     HC_ALCOVE,  False, "checkpoint: the source note under a heading, a citation under a "
+                                    "quotation, and every line of the way out"),
+    (HC_DIM,     HC_VAULT,   False, "checkpoint: a slip's note, a held item's credit, the desk's copy"),
+    (HC_GLIM,    HC_CHAMBER, False, "checkpoint: every link standing on the room, and the backlink"),
+    (HC_GLIM,    HC_LIT,     False, "checkpoint: the same, under the pool's light"),
+    (HC_GLIM,    HC_ALCOVE,  False, "checkpoint: every link in an alcove, every h3, and the copy "
+                                    "button's label"),
+    (HC_GLIM,    HC_VAULT,   False, "checkpoint: a link on the desk, and a slip's open/close mark"),
+    # THE ONE WARM INK, AND IT IS NEVER A GROUND. See the note above.
+    (HC_CLAY,    HC_CHAMBER, True,  "checkpoint: the tagline, 20-26px bold"),
+    (HC_CLAY,    HC_LIT,     True,  "checkpoint: the same tagline under the pool's light"),
+    (HC_CLAY,    HC_ALCOVE,  True,  "checkpoint: the 429 on the plaque, 40px, and every quotation "
+                                    "in Quicksand at 19-23px bold"),
+    (HC_CLAY,    HC_ALCOVE,  False, "checkpoint: a hovered link in an alcove"),
+    (HC_CLAY,    HC_CHAMBER, False, "checkpoint: a hovered link standing on the room"),
+    (HC_CLAY,    HC_VAULT,   False, "checkpoint: what a slip says after you press copy, which is the "
+                                    "readout ON the slip rather than at the top of the page"),
+    # THE MARKER IS HELD TO THE BODY THRESHOLD, the Jungle Room's quills rule:
+    # WCAG 1.4.3 does not reach a graphic, and a pillow you cannot pick out of
+    # the floor is a control you cannot use. It is drawn in HC_STEAM and lies on
+    # the room itself, so the pairs above already decide it -- 14.95 flat and
+    # 12.02 lit -- and it is named here so nobody has to work that out later.
+    (HC_STEAM,   HC_CHAMBER, False, "checkpoint: the job marker, a pillow lying on the floor"),
 
     # ── The Garden (§28) ────────────────────────────────────────────────────
     # THREE GROUNDS AND EVERY INK AGAINST ALL THREE: the path, the leaf shadow

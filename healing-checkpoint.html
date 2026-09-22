@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Healing Checkpoint — Stimpunks.Love</title>
+<meta name="description" content="Room 429. A save room off the street with a spring in the floor and a bed nobody is charging you for: an appreciation of rest built out of our own Rest entry, the healing checkpoint as a place that asks nothing, and a Retry-After slip you can send somebody. Nothing here is counted and nothing is stored.">
+<link rel="canonical" href="https://stimpunks.love/healing-checkpoint.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#131E20">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.Love">
+<meta property="og:title" content="The Healing Checkpoint — Stimpunks.Love">
+<meta property="og:description" content="Room 429, and the only light in it comes up out of the floor. A bed nobody is charging you for, in a room that restores nothing, saves nothing and counts nothing.">
+<meta property="og:url" content="https://stimpunks.love/healing-checkpoint.html">
+<meta property="og:image" content="https://stimpunks.love/og/healing-checkpoint.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A dark green-black card with a band of pale aqua light lying along the whole bottom edge, as if the floor were lit. Standing in that light on the left, a drawing of a low bed in an arched alcove: a rounded headboard, one pillow with a dent in it, a cover turned down, and every underside of it rimmed with light while every top surface stays dark. On the right, a soft enamel plaque reading 429, then “The Healing Checkpoint” in a large rounded geometric sans in white, under it in warm stone: The bed is not a reward. Then, smaller: Room 429, and the only light in it comes up out of the floor. A bed nobody is charging you for, in a room that restores nothing, saves nothing and counts nothing. Along the foot, in grey capitals: nothing here is counted, stimpunks.love.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love — what changed on the street">
+<link rel="preload" href="fonts/quicksand-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+</head>
+<body class="room-checkpoint">
+<a class="skip" href="#main">Skip to the checkpoint</a>
+
+<!-- THE LIGHT IN THE FLOOR, AND IT IS NOT THE DIAL'S. Every other room's
+     ambient layer is `.glow`, which §3 switches off at Gentle; this one is a
+     separate fixed layer that is on at every setting, because it is not an
+     effect, it is where the light in this room comes from. Take it away and
+     the room is unlit rather than quiet, which is the lite-version mistake. It
+     carries no text and it does not move. -->
+<div class="hc-pool" aria-hidden="true"></div>
+
+<!-- The steam over the water, which IS decoration and is therefore `.glow`:
+     §3 hides it at Gentle for every room on the street. It drifts. It does not
+     flash, blink or pulse — Club Chronic's rule, in a room whose whole subject
+     is not being jolted. -->
+<div class="glow" aria-hidden="true"></div>
+
+<main id="main" class="hc-room">
+
+  <div class="hc-topline">
+    <a class="backlink" href="index.html">&larr; back to the street</a>
+    <p class="hc-topline__note">a door on the street &middot; and a stair up from the guild</p>
+  </div>
+
+  <header class="hc-arrival">
+    <!-- OURS. A save room seen from the doorway: an arched alcove, a low bed in
+         it, and the only light in the picture coming up out of the floor — so
+         every top surface is dark and every underside has a rim on it. There is
+         nobody in it, and there is nobody in it on purpose: the three drawings
+         of Disabled people resting that this room would want are Jonathan Soren
+         Davidson's and Campbell Royales' for Disabled And Here, they are named
+         further down, and a figure of my own beside that credit would be a
+         worse version of somebody else's picture. -->
+    <svg class="hc-bed" viewBox="0 0 260 196" role="img" aria-label="A low bed standing in an arched alcove in a dark room, lit only by a pool of pale light in the floor around it. The headboard is rounded, there is one pillow with a dent in it and a cover turned down at the foot, and because the light is coming from underneath, the top of everything is dark and every underside carries a bright rim.">
+      <defs>
+        <!-- The back wall of the alcove. The light is in the floor, so the wall
+             is lit at the skirting and gone by the top of the arch: this
+             gradient is the whole reason the room reads as lit from below
+             rather than merely dark. Both stops are declared room colours. -->
+        <linearGradient id="hc-wall" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%"   stop-color="#1D3131"/>
+          <stop offset="34%"  stop-color="#131E20"/>
+          <stop offset="100%" stop-color="#0A1112"/>
+        </linearGradient>
+        <radialGradient id="hc-floorlight" cx="50%" cy="100%" r="78%">
+          <stop offset="0%"   stop-color="#79DCCE" stop-opacity=".55"/>
+          <stop offset="34%"  stop-color="#79DCCE" stop-opacity=".22"/>
+          <stop offset="100%" stop-color="#79DCCE" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+
+      <!-- The alcove, dug into the wall. There is no straight top edge anywhere
+           in this room: the arch is the shape the whole section repeats. -->
+      <path d="M44 180 L44 94 a86 72 0 0 1 172 0 L216 180 Z" fill="url(#hc-wall)"/>
+
+      <!-- The bed. Top surfaces dark, undersides rimmed, and the light gets
+           underneath it rather than stopping at the frame. -->
+      <path d="M62 156 L62 142 a9 9 0 0 1 9 -9 L189 133 a9 9 0 0 1 9 9 L198 156 Z" fill="#0A1112"/>
+      <path d="M64 155.5 L196 155.5" stroke="#79DCCE" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+      <rect x="68" y="120" width="124" height="17" rx="8.5" fill="#131E20"/>
+      <path d="M72 136.5 L188 136.5" stroke="#79DCCE" stroke-width="2.4" stroke-linecap="round" opacity=".8"/>
+      <!-- The headboard. -->
+      <path d="M58 124 L58 96 a13 13 0 0 1 26 0 L84 124 Z" fill="#0A1112"/>
+      <path d="M59 123 L83 123" stroke="#79DCCE" stroke-width="2.2" stroke-linecap="round" opacity=".6"/>
+      <!-- One pillow, with a dent in it. -->
+      <path d="M90 120 q-7 -17 8 -19 q17 -3 27 2 q11 5 5 17 Z" fill="#1D3131"/>
+      <path d="M91 119 L129 119" stroke="#79DCCE" stroke-width="2" stroke-linecap="round" opacity=".75"/>
+      <path d="M101 107 q9 5 17 1" fill="none" stroke="#0A1112" stroke-width="2.2" stroke-linecap="round"/>
+      <!-- The cover, turned down at the foot. -->
+      <path d="M138 120 q28 -7 54 0 L192 137 L138 137 Z" fill="#0A1112"/>
+      <path d="M138 120 q28 -7 54 0" fill="none" stroke="#1D3131" stroke-width="2.4"/>
+      <!-- Two legs, with the floor visible between them. -->
+      <rect x="72" y="156" width="10" height="11" rx="5" fill="#0A1112"/>
+      <rect x="178" y="156" width="10" height="11" rx="5" fill="#0A1112"/>
+
+      <!-- The pool itself, drawn LAST so it washes over the foot of everything
+           standing in it and spills out past the alcove onto the room floor. -->
+      <ellipse cx="130" cy="180" rx="134" ry="30" fill="url(#hc-floorlight)"/>
+    </svg>
+
+    <p class="hc-plate"><span class="sr">Room </span>429</p>
+    <p class="hc-eyebrow">Stimpunks.Love &middot; a door on the street, a save room behind it</p>
+    <h1>The Healing Checkpoint</h1>
+    <p class="hc-tagline">The bed is not a reward.</p>
+    <p class="hc-lede">The light in here comes up out of the floor, which is a thing no other room on this street does, and it is the only light there is. There is a bed in the alcove. Nobody is at the desk, nobody is going to ask what you are here for, and the bed is free &mdash; not free <em>with</em> something, and not free <em>because</em> of something. Just free, the way a save room in a game is free.</p>
+  </header>
+
+  <section class="hc-panel" aria-labelledby="hc-rest">
+    <h2 id="hc-rest">An appreciation of rest</h2>
+    <p class="hc-note">Built out of one page of ours: <a href="https://stimpunks.org/glossary/rest/">Rest</a>, in the Stimpunks glossary, where this room got its argument and most of its furniture.</p>
+
+    <p>Rest is not the gap between the useful parts of a life. On our own page it is a thing a society either lets people have or does not, which makes it a question about how the world is arranged rather than about how disciplined anybody is. That is the whole turn, and everything else in this room follows from it.</p>
+
+    <!-- checkpoint:voices:begin -->
+    <figure class="hc-voice">
+      <blockquote><p>We urgently need a society that’s better at letting people get the rest they need.</p></blockquote>
+      <figcaption>&mdash; <b>Fergus Murray</b>, who is quoted at the head of our own Rest entry, and whose line is the argument of this whole room in one sentence.
+        <span class="hc-voice__at">On <a href="https://stimpunks.org/glossary/rest/">our own Rest entry</a>; checked 2026-09-22, against the Knowledge System mirror of that page.</span></figcaption>
+    </figure>
+    <figure class="hc-voice">
+      <blockquote><p>Our collective rest will save us.</p></blockquote>
+      <figcaption>&mdash; <b>Tricia Hersey</b>, founder of The Nap Ministry, whose work our Rest entry is largely built out of and whose name belongs in the room rather than in a footnote.
+        <span class="hc-voice__at">On <a href="https://stimpunks.org/glossary/rest/">our own Rest entry</a>; checked 2026-09-22, against the Knowledge System mirror of that page.</span></figcaption>
+    </figure>
+    <figure class="hc-voice">
+      <blockquote><p>Naps help you wake up.</p></blockquote>
+      <figcaption>&mdash; <b>The Nap Ministry</b>, and it is on our page in their words, which is the only claim this room makes about what a nap is like.
+        <span class="hc-voice__at">On <a href="https://stimpunks.org/glossary/rest/">our own Rest entry</a>; checked 2026-09-22, against the Knowledge System mirror of that page.</span></figcaption>
+    </figure>
+    <!-- checkpoint:voices:end -->
+
+    <p>The second and third of those are <a href="https://thenapministry.com/">The Nap Ministry</a>&rsquo;s, and <b>Tricia Hersey</b>&rsquo;s name belongs in the room rather than in a footnote: our Rest entry is built substantially out of her work, and so is this. Her argument is that rest was taken from people rather than mislaid by them, and that getting it back is something done together instead of scheduled alone.</p>
+
+    <p>Which is why this is a room and not a feature. A <a href="https://stimpunks.org/glossary/burnout/">burnout</a> page would tell you what to watch for. A <a href="https://stimpunks.org/glossary/spoon-theory/">spoon theory</a> page would give you a way to describe the limit. <a href="https://stimpunks.org/glossary/crip-time/">Crip time</a> would tell you the clock is the thing that is wrong. This is just somewhere to be, with the light low, in the middle of a street where every other door has something behind it that wants your attention.</p>
+
+    <h3>What is on that page and is not in this room</h3>
+    <p class="hc-note">Named rather than quietly left out, because a page built out of somebody else&rsquo;s page should say what it did not take.</p>
+    <!-- checkpoint:held:begin -->
+    <ul class="hc-helds">
+      <li class="hc-held">
+        <p class="hc-held__what">A poem called WIP</p>
+        <p class="hc-held__whose">Kristina Daniele &middot; <a href="https://stimpunks.org/glossary/rest/">where it lives</a></p>
+        <p>It is printed in full on our own page and it is hers. A room that lifted it would be republishing somebody’s poem onto a surface it does not own, which is the thing the length limit above exists to stop one line at a time. So her name is here and the poem is there.</p>
+      </li>
+      <li class="hc-held">
+        <p class="hc-held__what">Three illustrations of Disabled people resting — a sleepover across two beds, somebody with idiopathic hypersomnia asleep in the afternoon light, a couple asleep at 3:42 in the morning</p>
+        <p class="hc-held__whose">Jonathan Soren Davidson and Campbell Royales, for Disabled And Here &middot; <a href="https://affecttheverb.com/disabledandhere">where it lives</a></p>
+        <p>They are the best pictures of rest we publish anywhere and they are not ours to re-host. They are also the answer to what this room looks like with people in it, which is why they are named rather than silently dropped.</p>
+      </li>
+    </ul>
+    <!-- checkpoint:held:end -->
+  </section>
+
+  <section class="hc-panel" aria-labelledby="hc-trope">
+    <h2 id="hc-trope">What a healing checkpoint is</h2>
+    <p>In a game it is the room with no monsters in it. A bonfire, an inn, a save point, a bed you can use as many times as you like: your health goes back to full, it costs nothing, and the game stops trying to kill you for as long as you stand there. <a href="https://tvtropes.org/pmwiki/pmwiki.php/Main/HealingCheckpoint">TV Tropes calls it the Healing Checkpoint.</a> The trope is everybody&rsquo;s and belongs to nobody; the room is ours.</p>
+    <p>A checkpoint in a game does three things, and this one does none of them.</p>
+    <ul class="hc-list">
+      <li><b>It restores you to full.</b> This one restores nothing, because <b>you are not a health bar</b>. There is no meter in this room, nothing fills up, and nothing is better about you when you leave than when you came in. That is not the room falling short of the trope. It is the room declining a premise the trope smuggles in &mdash; that a person is a quantity that runs down and gets topped up.</li>
+      <li><b>It saves your progress.</b> This one saves nothing at all. No account, no cookie, no local storage, no record that you were ever here. The job board one floor down keeps a list of finished jobs in your own browser and says so; this room keeps nothing, and a checkpoint that remembered you would be keeping a record of how often you needed one.</li>
+      <li><b>It sits before the hard part.</b> There is no hard part. Nothing is waiting on the other side of this page, there is no next room you are being prepared for, and the way out goes back to the street you came in by.</li>
+    </ul>
+    <p class="hc-hold">And here is the sentence the whole room is built to protect: <b>rest is not for anything.</b> Not so you can work better, not so you can come back stronger, not so you can be more use to anybody tomorrow. Star Stuff&rsquo;s zine No.&nbsp;58 spends a spread refusing exactly that framing, one of our games refuses it in its own code, and <a href="https://stimpunks.org/glossary/rest/">our Rest entry</a> never once offers it. A room arguing that rest is owed cannot carry a single sentence saying what it is owed <em>for</em>, so the generator behind this page refuses that vocabulary outright rather than leaving it to anybody&rsquo;s care.</p>
+  </section>
+
+  <section class="hc-panel" aria-labelledby="hc-429">
+    <h2 id="hc-429">Why the room is numbered 429</h2>
+    <p>Because <b>429 Too Many Requests</b> is the nicest thing a computer says to anybody.</p>
+    <p>It was added to HTTP by Mark Nottingham and Roy Fielding in <a href="https://www.rfc-editor.org/rfc/rfc6585#section-4">RFC 6585</a>, in April 2012, and what it means is narrow and precise: <b>the user has sent too many requests in a given amount of time.</b> Not that the request was wrong. Not that the sender was wrong. Not that anything is broken. <b>The rate is wrong</b>, and a rate is a property of a situation rather than of a person.</p>
+    <p>That is the difference between a 429 and a 400. A 400 says you made a mistake. A 403 says you are not allowed. A 500 says something inside has fallen over. A 429 says: <em>this is more than can be done at this speed, and that is all it says.</em> Which is a thing a great many Disabled people have spent a great deal of energy trying to explain about themselves to somebody holding a deadline.</p>
+    <p>And the RFC gives the response a way to be kind. Alongside a 429 a server may send <b>Retry-After</b> &mdash; not a refusal, a time. Come back then. The door is not shut; the door is on a different clock. Which is <a href="https://stimpunks.org/glossary/crip-time/">crip time</a> with a header name.</p>
+  </section>
+
+  <section class="hc-panel hc-slipbox" aria-labelledby="hc-slip">
+    <h2 id="hc-slip">Retry-After</h2>
+    <p>The one amenity in this room, and it is the same shape as the spoon drawer in the Playhouse: <b>it hands out the sentences and not the thing itself.</b> Five slips, borrowing the shape of a 429 so you do not have to compose one from scratch when composing anything is the problem. Open one, read it, take it or leave it.</p>
+    <p class="hc-note">Nothing is sent anywhere. There is no form, no endpoint, no fetch and no storage in this room: opening a slip shows you some text, and the copy button &mdash; which only appears if you have JavaScript &mdash; puts that text on your own clipboard. Where it goes after that is entirely your business. The wording is a borrowing of HTTP&rsquo;s shape and not a protocol; a real rate limiter is not allowed to send the last one.</p>
+
+    <!-- checkpoint:retry:begin -->
+    <details class="hc-slip">
+      <summary class="hc-slip__mark">
+        <span class="hc-slip__after">Retry-After: an hour</span>
+        <span class="hc-slip__note">the smallest one, and the one the RFC’s own example uses</span>
+      </summary>
+      <div class="hc-slip__panel">
+        <pre class="hc-slip__text" id="hc-text-1">429 Too Many Requests
+Retry-After: an hour
+
+Ask me again in an hour and I will have more of an answer.</pre>
+        <button type="button" class="hc-slip__copy" data-copy="hc-text-1" hidden>Copy this slip</button>
+        <p class="hc-slip__said" aria-hidden="true" hidden></p>
+      </div>
+    </details>
+    <details class="hc-slip">
+      <summary class="hc-slip__mark">
+        <span class="hc-slip__after">Retry-After: later today</span>
+        <span class="hc-slip__note">for the thing that is real but is not this minute</span>
+      </summary>
+      <div class="hc-slip__panel">
+        <pre class="hc-slip__text" id="hc-text-2">429 Too Many Requests
+Retry-After: later today
+
+Not now. Later today, if it keeps.</pre>
+        <button type="button" class="hc-slip__copy" data-copy="hc-text-2" hidden>Copy this slip</button>
+        <p class="hc-slip__said" aria-hidden="true" hidden></p>
+      </div>
+    </details>
+    <details class="hc-slip">
+      <summary class="hc-slip__mark">
+        <span class="hc-slip__after">Retry-After: tomorrow</span>
+        <span class="hc-slip__note">the most useful one, most days</span>
+      </summary>
+      <div class="hc-slip__panel">
+        <pre class="hc-slip__text" id="hc-text-3">429 Too Many Requests
+Retry-After: tomorrow
+
+Tomorrow. I am not ignoring you; I am at capacity.</pre>
+        <button type="button" class="hc-slip__copy" data-copy="hc-text-3" hidden>Copy this slip</button>
+        <p class="hc-slip__said" aria-hidden="true" hidden></p>
+      </div>
+    </details>
+    <details class="hc-slip">
+      <summary class="hc-slip__mark">
+        <span class="hc-slip__after">Retry-After: the weekend</span>
+        <span class="hc-slip__note">for the week that has already spent itself</span>
+      </summary>
+      <div class="hc-slip__panel">
+        <pre class="hc-slip__text" id="hc-text-4">429 Too Many Requests
+Retry-After: the weekend
+
+The weekend, or the next one. It will still be there.</pre>
+        <button type="button" class="hc-slip__copy" data-copy="hc-text-4" hidden>Copy this slip</button>
+        <p class="hc-slip__said" aria-hidden="true" hidden></p>
+      </div>
+    </details>
+    <details class="hc-slip">
+      <summary class="hc-slip__mark">
+        <span class="hc-slip__after">Retry-After: no date</span>
+        <span class="hc-slip__note">the honest one, and the one a real rate limiter is not allowed to send</span>
+      </summary>
+      <div class="hc-slip__panel">
+        <pre class="hc-slip__text" id="hc-text-5">429 Too Many Requests
+Retry-After: no date
+
+I do not know when. That is not a no forever, and it is not a yes with a date on it either.</pre>
+        <button type="button" class="hc-slip__copy" data-copy="hc-text-5" hidden>Copy this slip</button>
+        <p class="hc-slip__said" aria-hidden="true" hidden></p>
+      </div>
+    </details>
+    <!-- checkpoint:retry:end -->
+
+    <p class="sr" id="checkpoint-says" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="hc-panel" aria-labelledby="hc-rules">
+    <h2 id="hc-rules">House rules, room 429</h2>
+    <ul class="hc-list">
+      <li><b>Nothing here is counted.</b> No total, no streak, no minutes, no visits, no record between one time and the next. A checkpoint is precisely the shape of thing somebody gives a counter to, and a number beside a bed would quietly make rest into a quantity you were supposed to be managing.</li>
+      <li><b>Nothing is stored.</b> Not in a cookie, not in your browser&rsquo;s storage, not on a server. This page writes nothing down about you at all.</li>
+      <li><b>Nothing plays and nothing is fetched.</b> There is no video in this room and no sound in it, at any setting on the dial.</li>
+      <li><b>Nothing flashes.</b> The steam over the water drifts at Regular and at MAX and is gone at Gentle, and that is the whole of what the dial touches in here. There is no flicker anywhere in this room at any setting &mdash; Club Chronic&rsquo;s rule, and it matters most in the room whose entire subject is not being jolted.</li>
+      <li><b>Gentle takes away the wobble, never the words.</b> Every sentence on this page is the same at all three settings.</li>
+      <li><b>You can stay.</b> There is nothing you are supposed to do next and nobody is waiting for the bed.</li>
+    </ul>
+  </section>
+
+  <section class="hc-panel" aria-labelledby="hc-out">
+    <h2 id="hc-out">The way out, when you want it</h2>
+    <p class="hc-note">Our own Rest entry has a Further Reading list at the foot of it. This is that list, in that page&rsquo;s order. Other pages of ours about rest are linked up above, where they are plainly our choice rather than that page&rsquo;s.</p>
+    <!-- checkpoint:trail:begin -->
+    <ul class="hc-trail">
+      <li class="hc-step">
+        <a href="https://stimpunks.org/glossary/interdependence/">Interdependence</a>
+        <p>The first thing our Rest entry sends you to, and the reason a checkpoint is a place other people also stop.</p>
+      </li>
+      <li class="hc-step">
+        <a href="https://stimpunks.org/glossary/community/">Community</a>
+        <p>The second. Collective rest is a thing a group does, not a thing a person schedules.</p>
+      </li>
+      <li class="hc-step">
+        <a href="https://stimpunks.org/space/offline/">☀️💪 Offline: Fresh Air, Daylight, and Large Muscle Movement</a>
+        <p>The third, and the one that sends you outdoors. This room is indoors and dark on purpose; that page is the other half of it.</p>
+      </li>
+      <li class="hc-step">
+        <a href="https://stimpunks.org/aid/">⛑ Mutual Aid: Real Help Against the Onslaught</a>
+        <p>The fourth. Somebody being able to stop usually means somebody else was able to help.</p>
+      </li>
+    </ul>
+    <!-- checkpoint:trail:end -->
+    <p class="hc-ways"><a href="index.html">Back to the street</a> &middot; <a href="adventurers-guild.html">down to the guild board</a>, if you want a job rather than a bed.</p>
+  </section>
+
+  <div class="hc-desk">
+    <div class="hc-desk__half">
+      <h2>Who made this quiet</h2>
+      <p class="hc-note">The appreciation at the top is built out of <a href="https://stimpunks.org/glossary/rest/">our own Rest entry</a>, and the people quoted there are quoted here by name: <b>Fergus Murray</b>, <b>Tricia Hersey</b> and <b>The Nap Ministry</b>. <b>Kristina Daniele</b>&rsquo;s poem and the <a href="https://affecttheverb.com/disabledandhere">Disabled And Here</a> illustrations by <b>Jonathan Soren Davidson</b> and <b>Campbell Royales</b> are on that page and are deliberately not copied onto this one. The trope is <a href="https://tvtropes.org/pmwiki/pmwiki.php/Main/HealingCheckpoint">TV Tropes&rsquo;</a> name for a thing games have always had. This room sets <b>Quicksand</b> and <b>Rubik</b>, both under the SIL Open Font License, credited with everything else in the <a href="liner-notes.html">liner notes</a>.</p>
+      <p class="hc-note"><a href="index.html">The street</a> &middot; <a href="adventurers-guild.html">The Adventurer&rsquo;s Guild</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="changelog.html">Changelog</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+    </div>
+    <div class="hc-desk__half">
+      <div class="dial">
+        <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+        <div class="dial__row" role="group" aria-labelledby="dial-label">
+          <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+          <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+          <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+        </div>
+        <p class="dial__note" aria-live="polite"></p>
+        <p class="dial__fine">Starts wherever your device says. In here it moves the steam over the water and nothing else &mdash; the light in the floor is on at every setting, because it is the room rather than an effect.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- quest:checkpoint-pillow:begin -->
+  <details class="quest" data-quest="checkpoint-pillow" data-code="TURNDOWN" data-accept="retryafter|theretryafter">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M5 21 q-2 -9 6 -10 q10 -2 16 1 q6 2 4 9 q-2 4 -11 4 q-11 1 -15 -4 Z" fill="none" stroke="var(--hc-steam)" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 15 q4 3 8 0" fill="none" stroke="var(--hc-steam)" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a pillow on the floor at the foot of the bed</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> What the server says instead of no</p>
+      <p class="quest__ask"><b>Before the code:</b> Room 429 is named after 429 Too Many Requests. What is the header a server sends alongside it to say when to come back? One word, hyphen and all.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="checkpoint-pillow-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="checkpoint-pillow-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is in the section called Why the room is numbered 429, in the last paragraph.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>Two words joined by a hyphen, and the second one is a preposition.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>It begins with Retry.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Retry-After</b>. Retry-After. A 400 says you made a mistake, a 403 says you are not allowed and a 500 says something inside has fallen over — but a 429 says only that the rate is wrong, and a rate is a property of a situation rather than of a person. Retry-After is the part that makes it kind: not a refusal, a time. Which is why the room hands out five of them as slips you can send somebody, and why it is crip time with a header name.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">TURNDOWN</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=TURNDOWN">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>Retry-After. A 400 says you made a mistake, a 403 says you are not allowed and a 500 says something inside has fallen over — but a 429 says only that the rate is wrong, and a rate is a property of a situation rather than of a person. Retry-After is the part that makes it kind: not a refusal, a time. Which is why the room hands out five of them as slips you can send somebody, and why it is crip time with a header name.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">TURNDOWN</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=TURNDOWN">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:checkpoint-pillow:end -->
+
+</main>
+
+<script src="love.js" defer></script>
+<script src="checkpoint.js" defer></script>
+<script src="quest.js" defer></script>
+</body>
+</html>

@@ -644,5 +644,37 @@
    "bytes": 26588,
    "src": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oTd4jQmfxI.woff2"
   }
+ ],
+ "quicksand": [
+  {
+   "file": "quicksand-700.woff2",
+   "weight": "500",
+   "style": "normal",
+   "bytes": 28336,
+   "src": "https://fonts.gstatic.com/s/quicksand/v37/6xKtdSZaM9iE8KbpRA_hK1QNYuDyPw.woff2"
+  },
+  {
+   "file": "quicksand-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 28336,
+   "src": "https://fonts.gstatic.com/s/quicksand/v37/6xKtdSZaM9iE8KbpRA_hK1QNYuDyPw.woff2"
+  }
+ ],
+ "rubik": [
+  {
+   "file": "rubik-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 35324,
+   "src": "https://fonts.gstatic.com/s/rubik/v31/iJWKBXyIfDnIV7nBrXyw023e.woff2"
+  },
+  {
+   "file": "rubik-400.woff2",
+   "weight": "500",
+   "style": "normal",
+   "bytes": 35324,
+   "src": "https://fonts.gstatic.com/s/rubik/v31/iJWKBXyIfDnIV7nBrXyw023e.woff2"
+  }
  ]
 }

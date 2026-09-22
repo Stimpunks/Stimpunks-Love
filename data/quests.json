@@ -901,6 +901,39 @@
         ]
       },
       "learned": "A room can carry a recording without carrying the words to it, and the difference is a legal one rather than a matter of taste. It is also the one place on this street where a room deliberately does less than the page it was built from."
+    },
+    {
+      "id": "checkpoint-pillow",
+      "page": "healing-checkpoint.html",
+      "room": "The Healing Checkpoint",
+      "title": "What the server says instead of no",
+      "posted": "There is a save room on the street with a bed in it and no monsters. It is numbered after an HTTP status code, and that status code has a companion that turns a refusal into a time. Go and find out what the companion is called.",
+      "rank": 1,
+      "takes": "a couple of minutes, and as long as you like after that",
+      "target": "a pillow on the floor at the foot of the bed",
+      "code": "TURNDOWN",
+      "hints": [
+        "It is a storefront on the street, not behind another room — although there is also a back stair up to it from this board.",
+        "The room explains its own number in a section of its own. The answer is a header name, and it is printed in bold there.",
+        "Right at the foot of the page, under the dial."
+      ],
+      "ask": {
+        "question": "Room 429 is named after 429 Too Many Requests. What is the header a server sends alongside it to say when to come back? One word, hyphen and all.",
+        "accept": [
+          "retryafter",
+          "retry after",
+          "retry-after",
+          "theretryafter"
+        ],
+        "answer": "Retry-After",
+        "why": "Retry-After. A 400 says you made a mistake, a 403 says you are not allowed and a 500 says something inside has fallen over — but a 429 says only that the rate is wrong, and a rate is a property of a situation rather than of a person. Retry-After is the part that makes it kind: not a refusal, a time. Which is why the room hands out five of them as slips you can send somebody, and why it is crip time with a header name.",
+        "hints": [
+          "It is in the section called Why the room is numbered 429, in the last paragraph.",
+          "Two words joined by a hyphen, and the second one is a preposition.",
+          "It begins with Retry."
+        ]
+      },
+      "learned": "A status code can be a kindness. 429 is the one thing a computer says that blames a rate rather than a person, and the header beside it turns a no into a when — which is most of what anybody at capacity is actually trying to say."
     }
   ],
   "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

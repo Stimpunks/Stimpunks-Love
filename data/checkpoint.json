@@ -1,0 +1,101 @@
+{
+  "_source": "THE APPRECIATION AT THE HEAD OF THIS ROOM IS BUILT OUT OF ONE PAGE OF OURS: https://stimpunks.org/glossary/rest/, read out of the Knowledge System mirror on 2026-09-22 rather than fetched live, because on stimpunks.org a 301 is a failure and not a pass. Every quoted line below is on that page, every attribution below is the one that page makes, and the two things on it that this room does NOT reproduce are listed in `held` with the reason, rather than quietly left out.",
+
+  "_short": "NOTHING QUOTED HERE RUNS PAST THIRTY WORDS, which is make-zibaldone.py's limit and is enforced again here. That tool's reasoning applies exactly: nobody ever decides to republish somebody else's page. They add one good line, then another, each individually reasonable, and a year later the room IS the source instead of pointing at it. There is no moment anybody could have caught, so it is a number in a tool rather than a habit.",
+
+  "_not_instrumental": "THE REFUSAL THIS ROOM EXISTS FOR, and it is the one nothing else on this street makes. Star Stuff's zine No. 58 refuses 'rest so you can produce' in as many words, and the otter cabinet already holds that line for one game. This is the room where the whole street says it. So make-checkpoint.py sweeps every published string here for instrumental rest -- earn, deserve, recharge, so you can, in order to, productive, bounce back, back to work, optimise -- and stops the build. The friendly edit is real and it will arrive, because EVERY wellness page on the internet is written the other way: rest is good FOR something. A room arguing that rest is owed cannot carry one sentence saying what it is for.",
+
+  "_no_tally": "Nothing in this room is counted. No total, no streak, no minutes rested, no memory between visits, nothing written to storage at all -- which is the pebbling cabinet's refusal of a tally and the guild's refusal of a score, arriving in the room where a counter would be the most obvious improvement anybody could suggest. A checkpoint that remembered you would be keeping a record of how often you needed one.",
+
+  "voices": [
+    {
+      "line": "We urgently need a society that’s better at letting people get the rest they need.",
+      "who": "Fergus Murray",
+      "what": "who is quoted at the head of our own Rest entry, and whose line is the argument of this whole room in one sentence.",
+      "at": "https://stimpunks.org/glossary/rest/",
+      "checked": "2026-09-22, against the Knowledge System mirror of that page"
+    },
+    {
+      "line": "Our collective rest will save us.",
+      "who": "Tricia Hersey",
+      "what": "founder of The Nap Ministry, whose work our Rest entry is largely built out of and whose name belongs in the room rather than in a footnote.",
+      "at": "https://stimpunks.org/glossary/rest/",
+      "checked": "2026-09-22, against the Knowledge System mirror of that page"
+    },
+    {
+      "line": "Naps help you wake up.",
+      "who": "The Nap Ministry",
+      "what": "and it is on our page in their words, which is the only claim this room makes about what a nap is like.",
+      "at": "https://stimpunks.org/glossary/rest/",
+      "checked": "2026-09-22, against the Knowledge System mirror of that page"
+    }
+  ],
+
+  "held": [
+    {
+      "what": "A poem called WIP",
+      "whose": "Kristina Daniele",
+      "where": "https://stimpunks.org/glossary/rest/",
+      "why": "It is printed in full on our own page and it is hers. A room that lifted it would be republishing somebody’s poem onto a surface it does not own, which is the thing the length limit above exists to stop one line at a time. So her name is here and the poem is there."
+    },
+    {
+      "what": "Three illustrations of Disabled people resting — a sleepover across two beds, somebody with idiopathic hypersomnia asleep in the afternoon light, a couple asleep at 3:42 in the morning",
+      "whose": "Jonathan Soren Davidson and Campbell Royales, for Disabled And Here",
+      "where": "https://affecttheverb.com/disabledandhere",
+      "why": "They are the best pictures of rest we publish anywhere and they are not ours to re-host. They are also the answer to what this room looks like with people in it, which is why they are named rather than silently dropped."
+    }
+  ],
+
+  "retry": [
+    {
+      "after": "an hour",
+      "closing": "Ask me again in an hour and I will have more of an answer.",
+      "note": "the smallest one, and the one the RFC’s own example uses"
+    },
+    {
+      "after": "later today",
+      "closing": "Not now. Later today, if it keeps.",
+      "note": "for the thing that is real but is not this minute"
+    },
+    {
+      "after": "tomorrow",
+      "closing": "Tomorrow. I am not ignoring you; I am at capacity.",
+      "note": "the most useful one, most days"
+    },
+    {
+      "after": "the weekend",
+      "closing": "The weekend, or the next one. It will still be there.",
+      "note": "for the week that has already spent itself"
+    },
+    {
+      "after": "no date",
+      "closing": "I do not know when. That is not a no forever, and it is not a yes with a date on it either.",
+      "note": "the honest one, and the one a real rate limiter is not allowed to send"
+    }
+  ],
+
+  "trail": [
+    {
+      "name": "Interdependence",
+      "url": "https://stimpunks.org/glossary/interdependence/",
+      "line": "The first thing our Rest entry sends you to, and the reason a checkpoint is a place other people also stop."
+    },
+    {
+      "name": "Community",
+      "url": "https://stimpunks.org/glossary/community/",
+      "line": "The second. Collective rest is a thing a group does, not a thing a person schedules."
+    },
+    {
+      "name": "☀️💪 Offline: Fresh Air, Daylight, and Large Muscle Movement",
+      "url": "https://stimpunks.org/space/offline/",
+      "line": "The third, and the one that sends you outdoors. This room is indoors and dark on purpose; that page is the other half of it."
+    },
+    {
+      "name": "⛑ Mutual Aid: Real Help Against the Onslaught",
+      "url": "https://stimpunks.org/aid/",
+      "line": "The fourth. Somebody being able to stop usually means somebody else was able to help."
+    }
+  ],
+
+  "_trail": "THE TRAIL IS THE REST ENTRY’S OWN FURTHER READING LIST, in that page’s order, and make-checkpoint.py refuses an entry that is not on stimpunks.org. That is make-rabbit-hole.py’s rule and make-hermitage.py’s before it: a list built out of somebody else’s Further Reading, with something extra slipped into it, is this room quietly extending a list it does not keep. There are other pages of ours about rest and they are linked in the prose instead, where they are plainly our choice rather than that page’s."
+}

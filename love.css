@@ -285,6 +285,34 @@
 @font-face { font-family: 'Jost';             src: url('fonts/jost-400.woff2') format('woff2');             font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Jost';             src: url('fonts/jost-500.woff2') format('woff2');             font-weight: 500; font-style: normal; font-display: swap; }
 
+/* The Healing Checkpoint (§31). TWO ROUNDED FACES, because it is the only room
+   on this street with no hard edge in it -- and the crowding is real enough to
+   be written down rather than hoped about.
+
+   Quicksand is DISPLAY ONLY and is set nowhere at reading size: the plaque, the
+   headings, the tagline, the slip labels and the buttons. It is the third
+   geometric sans here and the other two are one section apart, so the division
+   has to be a job rather than a shape. Jost is The Rabbit Hole's READING face,
+   at reading size, doing the work Rubik does here; Josefin Sans is the Pebble
+   Board's and is set only as small letter-spaced caps with a tiny x-height.
+   What separates Quicksand from either is the terminal: its strokes end in true
+   semicircles, which is why it can carry a room whose every border is a
+   gradient and whose every corner is a long radius. Neither of the others
+   could, and nothing else here is round.
+
+   Rubik is the text face. THE LATIBULUM IS THE COLLISION TO WATCH, because that
+   room also sets a rounded sans -- but Nunito is a HUMANIST face with soft,
+   nearly drawn terminals, paired there with a slab, and this is a GROTESQUE
+   whose corners are eased and whose terminals are cut flat. Two warm-shaped
+   text faces kept apart at the stroke, which is the only place they could be,
+   the way IM Fell English and Cormorant Garamond are. The rooms themselves have
+   nothing in common: one is brown lit plaster and this is green-black wet
+   stone. See fonts/_sources.json. */
+@font-face { font-family: 'Quicksand'; src: url('fonts/quicksand-700.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Quicksand'; src: url('fonts/quicksand-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Rubik';     src: url('fonts/rubik-400.woff2') format('woff2');     font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Rubik';     src: url('fonts/rubik-400.woff2') format('woff2');     font-weight: 500; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -773,6 +801,33 @@
   --rh-brass: #D9AE3A;     --rh-brass-dark: #6B4A0E;
   --rh-paper: #F3F0E7;     --rh-ink: #15181C;
   --rh-graphite: #4E5865;  --rh-root: #3A3026;
+
+  /* The Healing Checkpoint (§31), room 429. A SAVE ROOM LIT FROM THE FLOOR, and
+     the section below says at length why that one fact is the whole separation
+     from five warm enclosed rooms, a manila job board and two cold stone ones.
+
+     --hc-chamber IS THE FLAT BODY GROUND AND IT IS THE LIGHTEST OF THE THREE
+     DARKS, The Rabbit Hole's arrangement: a room setting pale type on a dark
+     wall has to take the lightest ground as its honest flat colour, because
+     that is the worse case for the type standing on it.
+     --hc-lit IS NOBODY'S CHOICE -- it is --hc-glim at .10 over --hc-chamber,
+     which is the brightest the pool in the floor makes the room, and it is what
+     the header's type actually sits on once anything has been scrolled. It is
+     in check-contrast.py beside the flat colour, because a flat background is
+     never what the text is on.
+     --hc-clay IS THE ONLY WARM VALUE IN THE ROOM AND IT IS AN INK, never a
+     ground. Every other warm enclosed room on this street is warm underfoot;
+     the moment a surface in here goes warm this is the yurt with a spring in
+     it. It is what pale stone looks like with a cold light on it.
+     HC- PREFIXED THROUGHOUT, on the Garden's and the Zibaldone's precedent
+     rather than after an accident of this room's own: `pool`, `chamber`,
+     `steam`, `spring` and `clay` are exactly the plain words a stylesheet fills
+     up with, and a custom property declared twice in one :root is last-wins and
+     silent -- which is how a gold room once rendered green. */
+  --hc-chamber: #131E20;  --hc-alcove: #0E1719;  --hc-vault: #0A1112;
+  --hc-lit: #1D3131;      --hc-spring: #0C3B40;
+  --hc-steam: #EAF2F0;    --hc-dim: #A6BAB8;
+  --hc-glim: #79DCCE;     --hc-clay: #DDB49B;
 }
 
 * { box-sizing: border-box; }
@@ -1172,6 +1227,15 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .door--mopery .door__name  { font-family: 'IM Fell English', Georgia, serif; color: var(--mop-gilt); font-size: 30px; }
 .door--mopery .door__blurb { color: var(--mop-bone); }
 .door--mopery .door__knock { font-family: 'IM Fell English', Georgia, serif; font-size: 13px; letter-spacing: .08em; color: var(--mop-flame); }
+
+/* The Healing Checkpoint (§31). The awning is the one on this street with no
+   stripe in it: a gradient rising from the foot, because the light in that room
+   comes out of the floor and the shopfront should say so before you go in. */
+.door--checkpoint { background: var(--hc-chamber); }
+.door--checkpoint .door__awning { background-image: linear-gradient(to top, var(--hc-glim) 0%, var(--hc-spring) 52%, var(--hc-vault) 100%); }
+.door--checkpoint .door__name  { font-family: 'Quicksand', var(--sans); font-weight: 700; color: var(--hc-clay); font-size: 27px; }
+.door--checkpoint .door__blurb { color: var(--hc-steam); }
+.door--checkpoint .door__knock { font-family: 'Quicksand', var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .1em; color: var(--hc-glim); }
 
 /* The Jungle Room's shopfront. Leaves over the awning rather than a stripe,
    because every other front in this row is signwriting and this one is a thing
@@ -5483,6 +5547,27 @@ html[data-intensity="max"] .guild-spark { animation: gu-rise 2.1s ease-out forwa
 .guild-desk__half { flex: 1 1 300px; min-width: 0; }
 .guild-desk__half .dial { max-width: 380px; }
 
+/* THE WAY UP TO ROOM 429, and it is the one thing in this room that is allowed
+   to be a door rather than a form. It stays inside the guild's own rules --
+   square, ruled, no gradient, no shadow, no rounded corner, no light -- because
+   the room it points at is the opposite of all of that and the contrast IS the
+   arrival. A stair drawn in the checkpoint's colours here would be this room
+   borrowing a world it is not, which is the failure the guild's own note
+   warns about running backwards.
+
+   THE CHECKPOINT IS NOT BEHIND THIS DOOR. It is a shopfront on the street as
+   well, and that is a decision rather than a convenience: a room arguing that
+   rest is owed rather than earned cannot be reachable only by walking through
+   the job board. This is the back stair, and the front door is on the street. */
+.guild-stair {
+  display: block; text-decoration: none; color: var(--gu-ink);
+  border: 2px solid var(--gu-ink); border-top-width: 6px;
+  margin-top: 26px; padding: 18px 22px;
+}
+.guild-stair:hover, .guild-stair:focus-visible { background: var(--gu-paper-2); }
+.guild-stair__to { display: block; font-family: 'Rye', var(--sans); font-size: 19px; letter-spacing: .02em; }
+.guild-stair__why { display: block; margin-top: 8px; font-size: 15.5px; line-height: 1.6; max-width: 66ch; color: var(--gu-ink-2); }
+
 /* §27 ── ROOM: The Feed ──────────────────────────────────────────────────────
    AN ARRIVALS BOARD IN A DARK CONCOURSE, AND THE ONLY MACHINE ON THIS STREET.
 
@@ -6714,7 +6799,275 @@ body.room-rabbit-hole {
 .rh-shaft { position: relative; z-index: 1; }
 
 
-/* §31 ── Small screens ───────────────────────────────────────────────────────
+/* §31 ── ROOM: The Healing Checkpoint (room 429) ─────────────────────────────
+   A SAVE ROOM WITH THE LIGHT IN THE FLOOR, and that one physical fact is the
+   whole of its separation from a street already crowded with warm enclosed
+   places to sit down in.
+
+   THE LIGHT COMES UP. Every other world here is lit from somewhere else and no
+   two of them from the same place: the Jungle Room from above through a roof of
+   leaves, the Zibaldone from one side at desk height, Swaying Sweetgrass from
+   behind and a hundred feet away, The Feed through a mask a finger's width in
+   front of a lamp, the Garden from directly overhead, the Adventurer's Guild
+   from nowhere at all. In here it comes out of the floor. So every top surface
+   is DARK and every underside carries a rim, the shadows run up the walls
+   rather than down them, and the room gets lighter towards your feet. Nothing
+   else on this street does that. If this room ever grows a lamp, a candle or a
+   window it has joined a family of five.
+
+   THAT FAMILY IS THE COLLAPSE TO WATCH, and by now it has arrived so often --
+   the Faery Yurt, The Latibulum, The Den, the Hermitage's cave, The Mopery --
+   that "they are all somewhere to rest, so they should feel the same" has
+   stopped sounding like tidying and started sounding like taste. Every one of
+   those is lit by A FLAME YOU COULD PUT YOUR HAND OVER. There is no flame in
+   here; the light is under water and you could put your hand IN it. And all
+   five are brown, amber or candle-gold, where there is no warm GROUND anywhere
+   in this room at all -- only one warm INK, --hc-clay, which is what pale stone
+   looks like when a cold light lands on it.
+
+   THE ADVENTURER'S GUILD IS ITS OTHER DOOR AND ITS EXACT OPPOSITE, which is the
+   hardest thing to hold here because the two rooms are one link apart. That one
+   is manila, square, ruled, hairlined, lit like a photocopy from nowhere, with
+   nothing casting anything. THERE IS NOT A STRAIGHT EDGE IN THIS ROOM: the
+   alcove is an arch, every panel and control is a long radius, every border is
+   a soft gradient rather than a line, and there is steam in the air so nothing
+   has a hard edge at all. A board and an inn share a building and nothing else.
+   If anything in here ever grows a hairline rule the guild has spread -- and
+   §26 says in its own words that it cannot, because the moment anywhere else
+   starts looking orderly the joke has become a system.
+
+   THE ARCADE'S KELP BAY IS THE ONLY OTHER WATER ON THIS STREET and it is a
+   SCREEN: a flat dark field under a scanline, inside a cabinet, that you look
+   AT. This is water in the floor of a room you are standing IN, there is no
+   screen anywhere in it, and the aqua here is the light rather than the
+   subject.
+
+   THE MOPERY AND THE RABBIT HOLE are the other cold dark stone-coloured rooms.
+   The Mopery is a BUILDING you stand up in, blue-black to the skirting, lit by
+   candles that stop an inch from each wick. The Rabbit Hole is lit from ABOVE
+   AND BEHIND and gets DARKER the further down you read; this gets LIGHTER the
+   further down you look, which is that room's gradient turned upside down, and
+   it is green-black where that one is grey-slate. If these greys ever lose
+   their green the two have become one and it is this one that moves.
+
+   --hc-chamber IS THE FLAT BODY GROUND AND IT IS THE LIGHTEST OF THE THREE
+   DARKS, which is the Rabbit Hole's arrangement and its reason: in a room
+   setting pale type on a dark wall the honest flat colour is the lightest one,
+   because that is the worse case for the type standing on it. --hc-lit is
+   nobody's choice -- it is --hc-glim at .10 over --hc-chamber, the brightest
+   the pool makes the room, and it is what the header's type sits on. Both are
+   in check-contrast.py.
+
+   AND EVERY BLOCK THAT CARRIES TEXT SITS ON A FLAT PANEL OF ITS OWN, because
+   the pool is a FIXED layer: what is under a word depends on where that word
+   is in the viewport, and no single flat value could honestly stand in for it.
+   Only the header is left standing on the room itself, and it is measured
+   against both. */
+
+.room-checkpoint {
+  background: var(--hc-chamber);
+  color: var(--hc-steam);
+  font-family: 'Rubik', var(--sans);
+}
+.room-checkpoint a { color: var(--hc-glim); }
+.room-checkpoint a:hover,
+.room-checkpoint a:focus-visible { color: var(--hc-clay); }
+.room-checkpoint b, .room-checkpoint strong { font-weight: 500; color: #fff; }
+
+/* THE LIGHT ITSELF, AND IT IS NOT THE DIAL'S. Fixed rather than scrolling,
+   because the floor does not move when you do. It never animates and it is
+   never switched off: §3 hides `.glow` at Gentle for every room on the street
+   and that is correct for an EFFECT, but this is where the light in this room
+   comes from, and a Gentle that unlit the room rather than quieting it would be
+   the lite-version mistake with a torch. It carries no text. */
+.hc-pool {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(150% 62% at 50% 112%,
+    rgba(121, 220, 206, 0.10) 0%,
+    rgba(121, 220, 206, 0.05) 40%,
+    transparent 72%);
+}
+
+/* The steam over the water, which IS decoration and is therefore `.glow`. It
+   drifts at MAX and stands still at Regular, and §3 takes it away entirely at
+   Gentle. It moves with a translate and a scale: rotation and skew are all
+   check-gentle.py can read in a computed matrix, and a room must not ask a
+   checker to take its word for something. Nothing in here flashes, blinks or
+   pulses at any setting -- Club Chronic's rule, in the room whose whole subject
+   is not being jolted. */
+.room-checkpoint .glow {
+  position: fixed; left: 0; right: 0; bottom: 0; height: 48vh;
+  pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(58% 100% at 22% 108%, rgba(234, 242, 240, 0.05) 0%, transparent 70%),
+    radial-gradient(50% 100% at 76% 108%, rgba(234, 242, 240, 0.04) 0%, transparent 70%);
+}
+html[data-intensity="max"] .room-checkpoint .glow {
+  animation: hc-drift 32s ease-in-out infinite alternate;
+}
+@keyframes hc-drift {
+  from { transform: translate3d(-2.5%, 0, 0) scaleY(1); }
+  to   { transform: translate3d(2.5%, -5%, 0) scaleY(1.14); }
+}
+
+.hc-room { position: relative; z-index: 1; width: min(880px, 100% - 44px); margin-inline: auto; padding: 26px 0 70px; }
+
+.hc-topline { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: baseline; justify-content: space-between; }
+.hc-topline__note { margin: 0; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--hc-dim); }
+.room-checkpoint .backlink {
+  background: none; border: 2px solid var(--hc-lit); border-radius: 999px;
+  font-family: 'Quicksand', var(--sans); font-weight: 700; letter-spacing: .06em;
+  color: var(--hc-dim); padding: 9px 18px;
+}
+.room-checkpoint .backlink:hover,
+.room-checkpoint .backlink:focus-visible { border-color: var(--hc-glim); color: var(--hc-glim); }
+
+/* ── The doorway ──────────────────────────────────────────────────────────── */
+.hc-arrival { margin: 30px 0 0; text-align: center; }
+.hc-bed { display: block; width: min(420px, 100%); margin: 0 auto; }
+
+/* The enamel plaque beside the door. A number on an inn door, not a readout on
+   a terminal: this room sets no monospace, although it is full of HTTP, because
+   Space Mono belongs to The Feed and Courier Prime to the zine table -- and
+   because a status line in a fixed pitch would make this a machine, which is
+   the one thing an inn is not. */
+.hc-plate {
+  display: inline-block; margin: 8px 0 0;
+  font-family: 'Quicksand', var(--sans); font-weight: 700;
+  font-size: 40px; line-height: 1; letter-spacing: .1em;
+  color: var(--hc-clay);
+  background: var(--hc-alcove);
+  border-radius: 999px; padding: 14px 30px 16px;
+  box-shadow: 0 -10px 26px -14px rgba(121, 220, 206, .75);
+}
+.hc-eyebrow {
+  margin: 20px 0 0; font-size: 12.5px; letter-spacing: .26em;
+  text-transform: uppercase; color: var(--hc-dim);
+}
+.room-checkpoint h1 {
+  font-family: 'Quicksand', var(--sans); font-weight: 700;
+  font-size: clamp(38px, 7vw, 66px); line-height: 1.04; letter-spacing: -.01em;
+  margin: 10px 0 0; color: #fff;
+}
+.hc-tagline {
+  font-family: 'Quicksand', var(--sans); font-weight: 700;
+  font-size: clamp(20px, 3vw, 26px); margin: 12px 0 0; color: var(--hc-clay);
+}
+.hc-lede { margin: 18px auto 0; max-width: 62ch; font-size: 18px; line-height: 1.68; color: var(--hc-steam); }
+
+/* ── The alcoves ──────────────────────────────────────────────────────────── */
+/* An arch rather than a box, every time, and the radius is bigger at the top
+   than at the foot because that is what a thing dug into a wall looks like when
+   the light is below it. No border anywhere: the edge is a gradient. */
+.hc-panel {
+  position: relative; margin: 42px 0 0; padding: 30px 32px 32px;
+  background: var(--hc-alcove);
+  border-radius: 42px 42px 22px 22px;
+  background-image: linear-gradient(to top, rgba(121, 220, 206, .07), transparent 46%);
+}
+.room-checkpoint h2 {
+  font-family: 'Quicksand', var(--sans); font-weight: 700;
+  font-size: clamp(24px, 3.6vw, 32px); line-height: 1.16; margin: 0;
+  color: #fff;
+}
+.room-checkpoint h3 {
+  font-family: 'Quicksand', var(--sans); font-weight: 700;
+  font-size: 19px; margin: 32px 0 0; color: var(--hc-glim);
+}
+.room-checkpoint p { max-width: 64ch; }
+.hc-panel p { margin: 16px 0 0; font-size: 16.5px; line-height: 1.68; }
+.hc-note { color: var(--hc-dim); font-size: 15px !important; }
+.hc-list { margin: 18px 0 0; padding-left: 22px; max-width: 64ch; }
+.hc-list li { margin: 0 0 14px; font-size: 16.5px; line-height: 1.68; }
+
+/* The one paragraph in the room that is set on the water. It carries the
+   sentence the whole page exists to protect, so it is the only block here on a
+   ground of its own. */
+.hc-hold {
+  margin-top: 26px !important; padding: 22px 26px;
+  background: var(--hc-spring); border-radius: 26px;
+  font-size: 16.5px !important;
+}
+
+/* ── The voices ───────────────────────────────────────────────────────────── */
+.hc-voice { margin: 26px 0 0; padding: 0 0 0 22px; max-width: 64ch; }
+.hc-voice blockquote { margin: 0; }
+.hc-voice blockquote p {
+  margin: 0; font-family: 'Quicksand', var(--sans); font-weight: 700;
+  font-size: clamp(19px, 2.6vw, 23px); line-height: 1.42; color: var(--hc-clay);
+}
+.hc-voice figcaption { margin: 10px 0 0; font-size: 15px; line-height: 1.6; color: var(--hc-dim); }
+.hc-voice__at { display: block; margin-top: 4px; font-size: 13.5px; }
+
+.hc-helds { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 16px; }
+.hc-held { background: var(--hc-vault); border-radius: 24px; padding: 20px 22px; }
+.hc-held p { margin: 10px 0 0; font-size: 15.5px; line-height: 1.62; }
+.hc-held__what { margin: 0 !important; font-family: 'Quicksand', var(--sans); font-weight: 700; font-size: 17px !important; color: #fff; }
+.hc-held__whose { color: var(--hc-dim); font-size: 14.5px !important; }
+
+/* ── The slips ────────────────────────────────────────────────────────────── */
+/* A <details> per slip, which is what makes the whole set work with scripts
+   off. The copy button ships hidden and checkpoint.js switches it on; §2's
+   [hidden] guard carries !important, which is the only reason that holds
+   against this room's own display rules. */
+.hc-slipbox .hc-slip { margin: 14px 0 0; }
+.hc-slip {
+  background: var(--hc-vault); border-radius: 26px; overflow: hidden;
+}
+.hc-slip__mark {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px;
+  cursor: pointer; list-style: none; padding: 18px 24px; min-height: 44px;
+}
+.hc-slip__mark::-webkit-details-marker { display: none; }
+.hc-slip__mark::before {
+  content: "+"; font-family: 'Quicksand', var(--sans); font-weight: 700;
+  font-size: 21px; line-height: 1; color: var(--hc-glim); width: 18px;
+}
+.hc-slip[open] .hc-slip__mark::before { content: "\2212"; }
+.hc-slip__after { font-family: 'Quicksand', var(--sans); font-weight: 700; font-size: 18px; color: var(--hc-steam); }
+.hc-slip__note { font-size: 14.5px; color: var(--hc-dim); }
+.hc-slip__mark:hover .hc-slip__after { color: var(--hc-glim); }
+.hc-slip__panel { padding: 0 24px 22px; }
+.hc-slip__text {
+  margin: 0; padding: 20px 22px; background: var(--hc-spring); border-radius: 20px;
+  font-family: 'Rubik', var(--sans); font-size: 16px; line-height: 1.6;
+  color: var(--hc-steam); white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.hc-slip__copy {
+  margin: 14px 0 0; cursor: pointer; min-height: 44px;
+  font-family: 'Quicksand', var(--sans); font-weight: 700; font-size: 15px;
+  padding: 11px 22px; border-radius: 999px;
+  border: 2px solid var(--hc-lit); background: var(--hc-alcove); color: var(--hc-glim);
+}
+.hc-slip__copy:hover, .hc-slip__copy:focus-visible { border-color: var(--hc-glim); color: #fff; }
+.hc-slip__said { margin: 10px 0 0; font-size: 14.5px; line-height: 1.55; color: var(--hc-clay); max-width: 52ch; }
+
+/* ── The way out ──────────────────────────────────────────────────────────── */
+.hc-trail { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 18px; }
+.hc-step > a { font-family: 'Quicksand', var(--sans); font-weight: 700; font-size: 18.5px; text-decoration: none; }
+.hc-step > a:hover, .hc-step > a:focus-visible { text-decoration: underline; }
+.hc-step > p { margin: 5px 0 0; font-size: 15.5px; line-height: 1.6; color: var(--hc-dim); max-width: 62ch; }
+.hc-ways { margin-top: 26px !important; font-size: 16px !important; }
+
+/* The desk at the end. The street's chalk pavement does not run through this
+   room either; every room ends in its own voice. */
+.hc-desk {
+  display: flex; flex-wrap: wrap; gap: 30px; align-items: flex-start;
+  margin: 48px 0 0; padding: 30px 32px 32px;
+  background: var(--hc-vault); border-radius: 42px 42px 22px 22px;
+}
+.hc-desk__half { flex: 1 1 300px; min-width: 0; }
+.hc-desk__half h2 { font-size: 21px; }
+.hc-desk__half .hc-note { margin: 14px 0 0; font-size: 15px; line-height: 1.62; max-width: 62ch; }
+.hc-desk__half .dial { max-width: 380px; }
+
+/* The job marker lying on the floor of this room. §4 supplies the behaviour and
+   the panel borrows this room's ink and ground, so opening it cannot introduce
+   a pair nobody measured. */
+.room-checkpoint .quest { margin-top: 40px; }
+
+
+/* §32 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -6821,7 +7174,7 @@ body.room-rabbit-hole {
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §31 says every
+   shipped with no rule here at all — which on a street whose §32 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -6886,9 +7239,27 @@ body.room-rabbit-hole {
   .rh-step { padding-left: calc(var(--step) * 5px); }
   .rh-step > a { margin-left: 12px; font-size: 19px; }
   .rh-step > p { margin-left: 12px; }
+
+  /* The Healing Checkpoint (§31). The alcoves keep their arch at every width --
+     it is the one shape that tells this room from the job board one link away,
+     so the radius gives up proportion rather than existing. A slip's label and
+     its note stack, because "Retry-After: the weekend" plus a clause is two
+     lines of a 343px column and setting them side by side would leave four
+     words to a line. */
+  .hc-room { width: calc(100% - 32px); padding-bottom: 54px; }
+  .hc-panel, .hc-desk { padding: 24px 20px 26px; border-radius: 32px 32px 18px 18px; }
+  .hc-plate { font-size: 32px; padding: 12px 24px 14px; }
+  .hc-voice { padding-left: 14px; }
+  .hc-held, .hc-slip { border-radius: 20px; }
+  .hc-slip__mark { padding: 16px 18px; }
+  .hc-slip__after { flex: 1 1 100%; }
+  .hc-slip__note { flex: 1 1 100%; margin-left: 18px; }
+  .hc-slip__panel { padding: 0 18px 18px; }
+  .hc-slip__text { padding: 16px 16px; font-size: 15.5px; }
+  .hc-hold { padding: 18px 18px; }
 }
 
-/* §32 ── Print ───────────────────────────────────────────────────────────────
+/* §33 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

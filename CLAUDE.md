@@ -818,12 +818,44 @@ room on its own initiative, after the one colour. It is in the credits rather th
 for the same reason that colour is in four places, and **Helen has the final say on whether it
 stays.** Do not add a third thing without asking her.
 
-**THE BED IS NOT BUILT AND THE BOARD SAYS SO.** A guild is an inn as well as a board. When the
-room over it exists it will be about **rest as something owed rather than earned**, which means it
-will owe a great deal to The Nap Ministry and Tricia Hersey and must credit them in its own copy
-rather than in a footnote — and it will be its own visual world, not a quieter guild. A bedroom
-that looked like the job board would make rest look like an administrative category, which is the
-precise thing that argument exists to refuse.
+**THE BED IS BUILT AND IT HAS TWO DOORS, WHICH IS A FIRST HERE.** The Healing Checkpoint (§31) is
+room 429, the guild's guest room, and it is **also a shopfront on the street**. That is the whole
+argument rather than a convenience: a room saying **rest is owed rather than earned** cannot be
+reachable only by walking through the place that hands out the work, because then it is
+structurally something you get to *after* the jobs. The front door is on the street, where somebody
+arrives at it having done nothing; the guild's unattended counter is the back stair. **No job sends
+you to it.** The Nap Ministry and Tricia Hersey are credited in the room's own copy rather than in a
+footnote, which is what the guild promised while the bed was still an absence.
+
+**AND THE LIGHT COMES UP OUT OF THE FLOOR, which is the only separation that room has and the only
+one it needs.** Every other world here is lit from somewhere else and no two from the same place —
+above through leaves, from one side at desk height, from behind at a hundred feet, through a mask
+in front of a lamp, from directly overhead, from nowhere at all. In 429 every top surface is dark,
+every underside carries a rim, the shadows run **up** the walls, and the room gets lighter towards
+your feet. By now *"they are all somewhere to rest, they should feel the same"* has arrived six
+times — the Faery Yurt, The Latibulum, The Den, the Hermitage's cave, The Mopery — and every one of
+those is **lit by a flame you could put your hand over**. There is no flame in here; the light is
+under water and you could put your hand *in* it. They are brown, amber or candle-gold, and **there
+is no warm ground in this room at all**, only one warm ink. **Its own other door is its exact
+opposite**: the guild is manila, square, ruled, hairlined and casts nothing, and there is not a
+straight edge in the checkpoint anywhere. A board and an inn share a building and nothing else.
+
+**IT REFUSES INSTRUMENTAL REST, AND THAT REFUSAL IS THE ROOM.** `make-checkpoint.py` sweeps its own
+data **and the published page** for the vocabulary of rent — earn, deserve, recharge, productive,
+bounce back, so you can — with `make-guild.py`'s negation window, so the room can still say out loud
+that it will not. The otter cabinet already holds this line for one game; here the whole street says
+it. **The friendly edit arrives from somebody being kind**, because every wellness page on the
+internet is written the other way round and one encouraging sentence would turn rest from a thing
+owed into an investment. **Nothing in the room is counted and nothing is stored** — no total, no
+streak, no visits, no local storage, one link above a board that *does* keep a list in your browser,
+because a checkpoint that remembered you would be keeping a record of how often you needed one. It
+restores nothing either: you are not a health bar, and there is no hard part on the other side.
+
+**AND ITS TALLY CHECK WAS COPIED WRONG AND CAUGHT ITSELF ON THE FIRST RUN.** `make-guild.py` had
+already narrowed `points` — *"a book it points at"* is the verb — and this tool reproduced the flat
+version from the identical shortcut. What refused it was **save point**, which is what a healing
+checkpoint *is*. The narrowed pattern was taken over rather than the phrase excepted, which is
+`check-counts.py`'s first-run lesson arriving a fourth time.
 
 **EVERY TOY MAKES A NOISE, AND `make-toys.py` REFUSES ONE THAT DOES NOT.** Ryan, 2026-09-21:
 six of them shipped silent for an hour, and in a room where nine other things answer out loud
