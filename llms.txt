@@ -57,3 +57,9 @@ Every page carries an intensity dial with three settings. It defaults to whateve
 - The typefaces keep their own licences (Apache License 2.0 or SIL Open Font License 1.1), family by family, as https://stimpunks.love/foundry.html records them; the songs keep their own copyright.
 - Nothing musical is hosted here. The jukebox is press-to-play facades that link out.
 - Full credits: https://stimpunks.love/liner-notes.html
+
+## For agents
+
+- How to read, quote and cite this site: https://stimpunks.love/.well-known/agent-skills/stimpunks-love/SKILL.md
+- Every machine-readable resource, as an RFC 9264 Linkset: https://stimpunks.love/.well-known/api-catalog
+- What the site keeps about visitors: https://stimpunks.love/privacy.html

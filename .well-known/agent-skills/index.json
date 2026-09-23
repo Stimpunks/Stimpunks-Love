@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "stimpunks-love",
+      "type": "skill-md",
+      "description": "Use when reading, quoting, summarising or citing stimpunks.love — the Stimpunks Foundation's loud site, a street of rooms that each have their own unrelated visual world, with a dial on every page that sets how loud it gets. Covers where the machine-readable indexes are, why the site deliberately states no count of its rooms and what to do if you need one, how attribution works here (it is the one careful habit the site kept, and it is louder than usual), what the CC BY-SA licence does and does not cover — the photographs of people are excluded and must not be reused — and how to describe the rooms without flattening them into one house style or turning two of them into advice.",
+      "url": "https://stimpunks.love/.well-known/agent-skills/stimpunks-love/SKILL.md",
+      "digest": "sha256:ffe4169de1dc568e73bc2fd4b1676d79620e072ab3c70b4a7e135075fa79b664"
+    }
+  ]
+}

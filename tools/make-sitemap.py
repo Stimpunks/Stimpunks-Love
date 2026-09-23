@@ -144,6 +144,12 @@ lines += [
     "- Nothing musical is hosted here. The jukebox is press-to-play facades that link out.",
     "- Full credits: https://stimpunks.love/liner-notes.html",
     "",
+    "## For agents",
+    "",
+    "- How to read, quote and cite this site: https://stimpunks.love/.well-known/agent-skills/stimpunks-love/SKILL.md",
+    "- Every machine-readable resource, as an RFC 9264 Linkset: https://stimpunks.love/.well-known/api-catalog",
+    "- What the site keeps about visitors: https://stimpunks.love/privacy.html",
+    "",
 ]
 (ROOT / "llms.txt").write_text("\n".join(lines))
 print(f"sitemap.xml: {len(pages)} urls · llms.txt: {len(pages)} rooms · lastmod {today}")

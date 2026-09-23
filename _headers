@@ -60,7 +60,12 @@
 
   Strict-Transport-Security: max-age=63072000; includeSubDomains
 
-  Link: </llms.txt>; rel="describedby"; type="text/markdown", </feed.xml>; rel="alternate"; type="application/rss+xml"; title="What changed on the street", <https://creativecommons.org/licenses/by-sa/4.0/>; rel="license"
+  # rel="api-catalog" is registered by RFC 9727 and is the one discovery relation
+  # here that is. `agent-skills`, `sitemap` and `security` are NOT in the IANA
+  # registry -- Star Stuff read it on 2026-09-10 and published a correction for
+  # having used two of them -- so none of those three is advertised here; their
+  # well-known paths and robots.txt are the discovery.
+  Link: </llms.txt>; rel="describedby"; type="text/markdown", </feed.xml>; rel="alternate"; type="application/rss+xml"; title="What changed on the street", </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json", <https://creativecommons.org/licenses/by-sa/4.0/>; rel="license"
 
   tdm-reservation: 0
 
@@ -167,3 +172,31 @@
 /.well-known/security.txt
   Content-Type: text/plain; charset=utf-8
   Cache-Control: public, max-age=86400, must-revalidate
+
+# The API catalogue (RFC 9727, an RFC 9264 Linkset) and the agent skills index,
+# both written by tools/make-agent-files.py. THE CATALOGUE'S CONTENT-TYPE IS
+# LOAD-BEARING: the file has no extension, Netlify would serve it as
+# application/octet-stream, and an agent that type-checks skips anything that is
+# not application/linkset+json. An hour's cache, Star Stuff's reasoning: these are
+# the documents an agent most likely fetched before we changed something.
+/.well-known/api-catalog
+  Content-Type: application/linkset+json; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+# CORS IS OPEN ON THE SKILLS AND NOWHERE ELSE ON THIS SITE EXCEPT THE FONTS. A
+# browser-based agent on another origin gets nothing without it, and these are
+# the files written to be read cross-origin. They hold no secrets and no visitor
+# data, so the risk is the ordinary one a plain GET of the URL already carries.
+# Do not copy this block to anything else.
+/.well-known/agent-skills/index.json
+  Content-Type: application/json; charset=utf-8
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600
+
+# */SKILL.md and not a bare *, which would also match index.json above: Netlify
+# combines the headers of every rule a path matches, and the index would be served
+# with two content types. Star Stuff's pattern, confirmed live on 2026-09-23.
+/.well-known/agent-skills/*/SKILL.md
+  Content-Type: text/markdown; charset=utf-8
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600

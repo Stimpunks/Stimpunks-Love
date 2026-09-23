@@ -26,6 +26,9 @@
 <link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love — what changed on the street">
 <link rel="stylesheet" href="love.css">
 <script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<!-- structured-data:begin -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.love/#website","name":"Stimpunks.Love","url":"https://stimpunks.love/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"CollectionPage","@id":"https://stimpunks.love/changelog.html#webpage","url":"https://stimpunks.love/changelog.html","name":"Changelog — Stimpunks.Love","description":"What changed on the street, and when. Every Stimpunks site publishes one of these.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.love/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<!-- structured-data:end -->
 </head>
 <body class="room-plain" id="top">
 <a class="skip" href="#main">Skip to the content</a>
@@ -37,6 +40,14 @@
   <h1>Changelog</h1>
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
+
+  <h2 id="2026-09-23-agents">2026-09-23 &mdash; Structured data, and a note for any agent reading the street</h2>
+  <ul>
+    <li><strong>Every page describes itself in JSON-LD</strong>, the format search engines and agents treat as fact. Everything in it comes out of that page&rsquo;s own head &mdash; its title, its description, its address &mdash; so it cannot say anything the page does not. The publisher is marked with the same identifier Star Stuff uses, so two of our sites describe one Stimpunks Foundation rather than two. The licence is on the site, not on each page, because the photographs of people are excluded from it. The missing-address page gets none: it has no address to describe.</li>
+    <li><strong>There is a skill for agents</strong>, at <code>/.well-known/agent-skills/stimpunks-love/SKILL.md</code>: how to read, quote and cite this site. It says where the indexes are, why the site gives no count of its rooms and what to do if you need one, that the rooms are different on purpose, that two of them must not be summarised as advice or a fortune, and what the licence covers &mdash; including that the photographs are not to be reused. The counting check reads it, so it obeys the site&rsquo;s own rule.</li>
+    <li><strong><code>/.well-known/api-catalog</code> lists every machine-readable resource</strong> (RFC 9727), and every response now points at it. It uses only link relations that are actually registered, which is why the sitemap and the skill are not in it under relations they do not have &mdash; Star Stuff found out the hard way and published the correction. Both files are generated: the skill&rsquo;s sha256 is computed from its bytes on every run, and the catalogue refuses to name a file that does not exist. Both refusals were tested by breaking them.</li>
+    <li>Changed: every page&rsquo;s head, <code>llms.txt</code>, <code>_headers</code>, <code>.well-known/api-catalog</code>, <code>.well-known/agent-skills/</code> (new), <code>tools/structured.py</code>, <code>tools/make-structured.py</code> and <code>tools/make-agent-files.py</code> (new), <code>tools/make-foundry.py</code>, <code>tools/make-sitemap.py</code>, <code>tools/check-counts.py</code>, <code>README.md</code>, <code>CLAUDE.md</code>.</li>
+  </ul>
 
   <h2 id="2026-09-23-signoff">2026-09-23 &mdash; Every page signs off, in its own voice, with a way back to the top</h2>
   <ul>

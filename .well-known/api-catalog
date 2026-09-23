@@ -1,0 +1,27 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://stimpunks.love/",
+      "describedby": [
+        {
+          "href": "https://stimpunks.love/llms.txt",
+          "type": "text/markdown",
+          "title": "Every page on the street, for language models"
+        }
+      ],
+      "alternate": [
+        {
+          "href": "https://stimpunks.love/feed.xml",
+          "type": "application/rss+xml",
+          "title": "What changed on the street"
+        }
+      ],
+      "license": [
+        {
+          "href": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "title": "CC BY-SA 4.0"
+        }
+      ]
+    }
+  ]
+}

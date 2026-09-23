@@ -127,7 +127,8 @@ def surfaces():
     # opens the file, and it said the heart's stripes were the street's rooms, by
     # number, for as long as this tool had been running.
     for name in ("love.css", "llms.txt", "README.md", "CLAUDE.md", "DECISIONS.md",
-                 "site.webmanifest", "favicon.svg", "netlify.toml", "SECURITY.md"):
+                 "site.webmanifest", "favicon.svg", "netlify.toml", "SECURITY.md",
+                 ".well-known/agent-skills/stimpunks-love/SKILL.md"):
         p = ROOT / name
         if p.exists():
             yield p

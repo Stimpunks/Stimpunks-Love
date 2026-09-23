@@ -9,6 +9,13 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Wed, 23 Sep 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Structured data, and a note for any agent reading the street</title>
+      <link>https://stimpunks.love/changelog.html#2026-09-23-agents</link>
+      <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-23-agents</guid>
+      <pubDate>Wed, 23 Sep 2026 12:00:00 GMT</pubDate>
+      <description>Every page describes itself in JSON-LD, the format search engines and agents treat as fact. Everything in it comes out of that page’s own head — its title, its description, its address — so it cannot say anything the page does not. The publisher is marked with the same identifier Star Stuff uses, so two of our sites describe one Stimpunks Foundation rather than two. The licence is on the site, not on each page, because the photographs of people are excluded from it. The missing-address page gets none: it has no address to describe. There is a skill for agents, at /.well-known/agent-skills/stimpunks-love/SKILL.md: how to read, quote and cite this site. It says where the indexes are, why the site gives no count of its rooms and what to do if you need one, that the rooms are different on purpose, that two of them must not be summarised as advice or a fortune, and what the licence covers — including that the photographs are not to be reused. The counting check reads it, so it obeys the site’s own rule. /.well-known/api-catalog lists every machine-readable resource (RFC 9727), and every response now points at it. It uses only link relations that are actually registered, which is why the sitemap and the skill are not in it under relations they do not have — Star Stuff found out the hard way and published the correction. Both files are generated: the skill’s sha256 is computed from its bytes on every run, and the catalogue refuses to name a file that does not exist. Both refusals were tested by breaking them. Changed: every page’s head, llms.txt, _headers,.well-known/api-catalog,.well-known/agent-skills/ (new), tools/structured.py, tools/make-structured.py and tools/make-agent-files.py (new), tools/make-foundry.py, tools/make-sitemap.py, tools/check-counts.py, README.md, CLAUDE.md.</description>
+    </item>
+    <item>
       <title>Every page signs off, in its own voice, with a way back to the top</title>
       <link>https://stimpunks.love/changelog.html#2026-09-23-signoff</link>
       <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-23-signoff</guid>

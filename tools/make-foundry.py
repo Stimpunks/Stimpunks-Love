@@ -73,6 +73,7 @@ from pathlib import Path
 from string import Template
 
 import signoff           # tools/signoff.py: the line at the foot of every page
+import structured        # tools/structured.py: JSON-LD built from the page's own head
 
 ROOT = Path(__file__).resolve().parent.parent
 FACES = ROOT / "data/foundry-faces.json"
@@ -462,6 +463,7 @@ def main():
         print("REFUSING:\n  " + "\n  ".join(fail), file=sys.stderr)
         return 1
 
+    page = structured.apply(page, OUT.name)   # tools/structured.py: the head's JSON-LD
     OUT.write_text(page)
     print(f"foundry: {len(built)} faces on the shelves, {len(sams)} passages, "
           f"{len(room['inks'])} inks, written to {OUT.name}")

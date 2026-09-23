@@ -1940,6 +1940,18 @@ are rubric for paper and it lies on a dark desk, 1.07 before it was given the pa
 It does not print. **Do not style `.signoff` in §4 to make it look nicer**; the moment it has a
 colour of its own it is the pavement again.
 
+**THE MACHINE-READABLE FILES ARE CLAIMS, SO THEY ARE GENERATED FROM WHAT THEY DESCRIBE.** Each
+page's JSON-LD is built by `tools/structured.py` from that page's own title, description and
+canonical — structured data is what an agent quotes without checking, and it must never say what
+the page does not. The licence sits on the WebSite node and not on each page, because the
+photographs are excluded from it. `make-agent-files.py` computes the skill's sha256 from the file
+and refuses a catalogue entry for a file that is not there. **Only IANA-registered relations** go in
+the catalogue and the Link header: `api-catalog` is registered, `sitemap`, `security` and
+`agent-skills` are not, and Star Stuff published a correction for using two of them. **The
+SKILL.md is prose about this site and obeys the site's rules** — `check-counts.py` reads it, so it
+cannot state how many rooms there are either. Edit it, then re-run `make-agent-files.py`, or the
+published digest is a lie.
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody
