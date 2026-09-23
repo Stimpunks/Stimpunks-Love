@@ -465,6 +465,15 @@ LAG_ACID, LAG_POSTER = "#8CC63F", "#E4564A"
 # the MOON instead precisely because a marker is held to the body threshold.
 STH_NIGHT, STH_BANK = "#0C0B12", "#1A1822"
 STH_BONE, STH_DIM, STH_MOON = "#EDEAF2", "#A7A2B8", "#BDB0DE"
+
+# Covenstead (§37). TWO GROUNDS AND THREE LAMPS, and every one of the lamps
+# carries text, which is why this room has no ORNAMENT entry at all -- the only
+# room on the street that does not. A covenstead is lit by several sources that
+# do not match, so the palette has three accent colours rather than one, and the
+# room would stop meaning anything if they were allowed to drift together.
+COV_NIGHT, COV_BOARD = "#0E1113", "#1C2124"
+COV_CHALK, COV_DIM = "#E9EDEA", "#A3ACA8"
+COV_TALLOW, COV_GLASS, COV_HEATHER = "#E8B75E", "#86BEE0", "#E0959C"
 DN_PAINT, DN_CHALK, DN_SODIUM = "#F1EADA", "#C0B8A6", "#F0A73F"
 
 PAIRS = [
@@ -1582,6 +1591,36 @@ PAIRS = [
     # rule: STH_THORN is 3.69 here and a sprig nobody can pick out of the dark is
     # a control nobody can use. The pair above decides it at 9.73.
     (STH_MOON,  STH_NIGHT, False, "sithen: the job marker, a sprig of thorn on the bank"),
+
+    # ── Covenstead (§37) ─────────────────────────────────────────────────────
+    # TEN PAIRS AND NO ORNAMENT ENTRY, which is the first time on this street.
+    # Every other room has at least one colour that is allowed to be faint
+    # because it only draws something. Here all three lamps carry text -- the
+    # greeting sets its three clauses in them, the contested flag is set in the
+    # cold one, and the amber is every link -- so all three are held to the body
+    # bar on both grounds rather than measured once and excused.
+    (COV_CHALK,   COV_NIGHT, False, "covenstead: the h1, every heading, the lede and each "
+                                    "tenet's own line"),
+    (COV_CHALK,   COV_BOARD, False, "covenstead: the same on a scrubbed panel and inside "
+                                    "every seat at the table"),
+    (COV_DIM,     COV_NIGHT, False, "covenstead: the topline note, the line over the h1 and "
+                                    "every paragraph the room does not emphasise"),
+    (COV_DIM,     COV_BOARD, False, "covenstead: where each tenet says whose it is, and the "
+                                    "rule above the contested note"),
+    (COV_TALLOW,  COV_NIGHT, False, "covenstead: every link, the backlink, the first clause "
+                                    "of the greeting and the bullet markers"),
+    (COV_TALLOW,  COV_BOARD, False, "covenstead: the same inside a panel, and the job "
+                                    "marker, a kettle on the hob"),
+    (COV_GLASS,   COV_NIGHT, False, "covenstead: the second clause of the greeting, which is "
+                                    "set in a different lamp from the first"),
+    (COV_GLASS,   COV_BOARD, False, "covenstead: the label on a tenet the tradition argues "
+                                    "about, which is the one place this colour does work"),
+    (COV_HEATHER, COV_NIGHT, False, "covenstead: the third clause of the greeting, and the "
+                                    "rule above the credits"),
+    (COV_HEATHER, COV_BOARD, False, "covenstead: the same on a panel. THE THREE LAMPS ARE "
+                                    "MEASURED SEPARATELY ON PURPOSE -- if they ever converge "
+                                    "on one hue this room has become a warm interior, which "
+                                    "is the thing its section exists to refuse"),
 
 ]
 

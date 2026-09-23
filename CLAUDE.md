@@ -1745,6 +1745,69 @@ and is **the only thin face on this street**; Literata carries everything else w
 all, because the argument is that rules like these are never written down plainly, so the one place
 they *are* written plainly ought to look like it means it.
 
+**THE THIRD TURNING IS THE ONLY ROOM ON THIS STREET LIT BY MORE THAN ONE SOURCE, AND THAT IS THE
+ARGUMENT RATHER THAN A FLOURISH.** Covenstead (§37) is a meeting place with the door shut, and every
+other world here has exactly one light — a lamp, a screen, a fire, a moon, a headlight, the sun, or
+nothing at all. A covenstead is where a **group** meets, several people who do not agree, and
+everybody brought their own: one pool is candle-amber, one a cold bulb, one a rose shade, and they
+sit at the same height because everybody is sitting down.
+
+**THAT IS WHAT KEEPS IT OFF THE WARM INTERIORS, which is the collapse this street has now refused six
+times** — The Latibulum, the Faery Yurt, The Den, the Hermitage's cave, The Mopery. **Every one of
+those is lit by ONE flame, and the giveaway is that everything in them goes amber together.** If
+these three lamps ever drift into the same hue this has become the burrow with more chairs in it,
+and it is this room that moves. **Indoors was also the one axis The Outskirts had left**: turning 01
+is a screen standing in water, turning 02 is a ring standing in a field, and both are outdoors at
+night.
+
+**TWO ROOMS IN THAT AREA HOLD OPPOSITE RULES ABOUT THE SAME VOCABULARY, ON PURPOSE.**
+`make-sithen.py` **refuses advice** — that room is a catalogue of unwritten rules and must not tell
+anybody how to follow them. `make-covenstead.py` **refuses an order** — this room is explicitly
+about counsel that stayed counsel. *Rede* is Middle English for advice, and the best-known couplet
+has been in circulation since 1964 without hardening into a code somebody can be expelled for
+breaking, which is the rarer thing running the other way on a site whose readers have met a great
+many rules dressed as guidance. **Do not make those two tools agree.** They are make-jungle.py and
+make-den.py's runtime pair, arriving in ethics.
+
+**THE RULE OF THREE IS ARGUED ABOUT INSIDE THE TRADITION AND THE ROOM REFUSES TO SETTLE IT.** It is
+not a universal article of faith: there are Wiccans who read it as an over-elaboration on the Rede
+and others who consider it a modern innovation built on Christian morality. **A page stating it
+flat, as *the* witch law, would be deciding a live argument inside somebody else's religion on their
+behalf, from the outside, in passing, for atmosphere** — and the flattened version is always the one
+that travels. The tool refuses a tenet marked contested that does not say what is contested about
+it, because an empty flag is worse than none.
+
+**PRATCHETT'S WORDS ARE ON THAT PAGE AND THEY ARE THE POINT OF IT.** First Sight and Second
+Thoughts are his, and **the sentences that define them ARE the tenets**, the way the Rede's couplet
+is. The room shipped its first draft naming the concepts and linking out for the words — on the
+reasoning that they are quoted properly elsewhere on our own sites and this surface had no business
+holding them — and **that was too cautious and it gutted the room**: it described the thing instead
+of showing it, and sent a reader somewhere else for what the page was about. Ryan's call,
+2026-09-22. Short attributed quotation in commentary is ordinary practice. **What is not optional is
+the attribution**: every quotation names its author, its work and its year and links to the edition.
+
+**AND THE ROOM SETS ITS OWN CAP RATHER THAN BORROWING THE ZIBALDONE'S.** That room is a **quote
+bank**, where the danger is drift — nobody decides to republish a book, they add one good line at a
+time until the page is the work — so thirty words is right there and it prints the number. This room
+quotes a handful of named passages the commentary is *about*, and the sentence defining First Sight
+runs to thirty-five words: a cap that cut it in half would be pedantry dressed as rigour. Sixty fits
+a defining sentence and refuses a scene. **The long exchange the shorter lines come out of runs to
+several hundred words and stays a link**, because our own philosophy page is the better thing to
+read and is there to be linked rather than raided. Raise that number on purpose, in the data file,
+with the reason written down — never to fit one passage.
+
+**NOBODY IS INITIATED AND NOTHING IS COUNTED.** No degrees, no levels, no test at the door, no
+record of how often somebody came. A place people come back to cannot also keep a register of how
+often they needed to — the pebbling cabinet's refusal of a tally, arriving in the room shaped most
+like a membership.
+
+**AND ITS TYPE IS ORDINARY ON PURPOSE.** The witches this room is partly built on are practical,
+domestic and unglamorous, so a page about that set in something carved, uncial or gothic would be
+arguing against itself in the typeface. **It is not the Garden's move** — that room sets no display
+face at all because a garden has labels and no signage. This one *has* one and has deliberately
+picked a plain one, which is a different claim: not *there is no signage here* but *the sign is the
+same as everybody else's.*
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody

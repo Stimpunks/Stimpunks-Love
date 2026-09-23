@@ -788,5 +788,42 @@
         "src": "https://fonts.gstatic.com/s/literata/v40/or3aQ6P12-iJxAIgLa78DkrbXsDgk0oVDaDPYLanFLHpPf2TbBG_df3-vbgKBM6YoggA-vpO-7cHM524.woff2",
         "note": "Sithen (\u00a736), and everything that is not a heading. A serif drawn for reading on screens, set here without any atmosphere at all: the room is mostly a LIST OF RULES, and the argument is that rules like these are never written down plainly, so the one place they are written down plainly should look like it means it. One variable file serves both weights, as Chivo, Space Grotesk and Cinzel already do here."
       }
+    ],
+
+    "petrona": [
+      {
+        "file": "petrona-400.woff2",
+        "weight": "400",
+        "style": "normal",
+        "bytes": 35964,
+        "src": "https://fonts.gstatic.com/s/petrona/v38/mtG64_NXL7bZo9XXgXJYtUkS0CQ.woff2",
+        "note": "Covenstead (\u00a737), the headings and the h1. A workhorse text serif with a little roughness in it, set at display sizes ON PURPOSE: this room argues that the work is ordinary -- boots, tea, and going to the people nobody else goes to -- and a room about practical witchcraft that set itself in something gothic would be contradicting its own page in the typography."
+      },
+      {
+        "file": "petrona-700.woff2",
+        "weight": "700",
+        "style": "normal",
+        "bytes": 35964,
+        "src": "https://fonts.gstatic.com/s/petrona/v38/mtG64_NXL7bZo9XXgXJYtUkS0CQ.woff2",
+        "note": "Covenstead (\u00a737), the headings and the h1. A workhorse text serif with a little roughness in it, set at display sizes ON PURPOSE: this room argues that the work is ordinary -- boots, tea, and going to the people nobody else goes to -- and a room about practical witchcraft that set itself in something gothic would be contradicting its own page in the typography."
+      }
+    ],
+    "asap": [
+      {
+        "file": "asap-400.woff2",
+        "weight": "400",
+        "style": "normal",
+        "bytes": 43384,
+        "src": "https://fonts.gstatic.com/s/asap/v34/KFO9CniXp96a4Tc2DaTeuDAoKsE615hJW36eA1Ef.woff2",
+        "note": "Covenstead (\u00a737), everything that is not a heading. A plain, slightly rounded grotesque with no mystique whatsoever. One variable file serves both weights, as Chivo, Literata and Space Grotesk already do here."
+      },
+      {
+        "file": "asap-700.woff2",
+        "weight": "700",
+        "style": "normal",
+        "bytes": 43384,
+        "src": "https://fonts.gstatic.com/s/asap/v34/KFO9CniXp96a4Tc2DaTeuDAoKsE615hJW36eA1Ef.woff2",
+        "note": "Covenstead (\u00a737), everything that is not a heading. A plain, slightly rounded grotesque with no mystique whatsoever. One variable file serves both weights, as Chivo, Literata and Space Grotesk already do here."
+      }
     ]
 }

@@ -44,6 +44,7 @@ ORDER = ["index.html",
          # like the campgrounds, listed the same way: the road first, then
          # what is down its turnings.
          "the-outskirts.html", "black-leather-lagoon.html", "sithen.html",
+         "covenstead.html",
          "liner-notes.html",
          "changelog.html"]
 

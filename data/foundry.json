@@ -141,6 +141,13 @@
         7
       ]
     },
+    "asap": {
+      "where": "Covenstead",
+      "page": "covenstead.html",
+      "sections": [
+        37
+      ]
+    },
     "atkinson-hyperlegible": {
       "where": "The Pebble Board",
       "page": "pebble-board.html",
@@ -399,6 +406,13 @@
       "page": "club-chronic.html",
       "sections": [
         20
+      ]
+    },
+    "petrona": {
+      "where": "Covenstead",
+      "page": "covenstead.html",
+      "sections": [
+        37
       ]
     },
     "playfair-display": {

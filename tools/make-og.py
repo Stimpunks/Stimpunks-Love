@@ -601,6 +601,25 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--sithen .og-horizon {{ margin: auto -60px 0 !important; }}
 .og--sithen .og-horizon svg {{ display: block; width: 100%; height: 150px; }}
 
+/* covenstead — THE TABLE WITH THREE MISMATCHED LAMPS ON IT, which is the one
+   view this room has. The greeting is LIFTED from the page and keeps its three
+   clauses in the three lamp colours, because that line is the only place all
+   three appear together and a card that flattened it to one colour would be
+   losing the room's whole argument in the one asset nobody reviews. */
+.og--covenstead {{ width: 100%; padding: 50px 60px 0; gap: 18px;
+  justify-content: flex-start; }}
+.og--covenstead .og-over {{ margin: 0 !important; font-size: 19px; letter-spacing: 2.2px;
+  text-transform: uppercase; color: #A3ACA8; }}
+.og--covenstead h1 {{ font-size: 104px; margin: 0 !important; }}
+.og--covenstead .og-greet {{ margin: 0 !important; font-family: 'Petrona', serif;
+  font-weight: 700; font-size: 38px; line-height: 1.24; color: #E8B75E; }}
+.og--covenstead .og-greet b:nth-of-type(1) {{ color: #86BEE0; }}
+.og--covenstead .og-greet b:nth-of-type(2) {{ color: #E0959C; }}
+.og--covenstead .og-lede {{ font-family: 'Asap', sans-serif; color: #A3ACA8; max-width: 940px;
+  font-size: 24px; margin: 0 !important; }}
+.og--covenstead .og-bench {{ margin: auto -60px 0 !important; }}
+.og--covenstead .og-bench svg {{ display: block; width: 100%; height: 132px; }}
+
 /* yurt — the tent at night: fairy lights across the top, the smoke hole, and
    Helen's italic serif on her own canvas. IT KEEPS THE AMBIENT LAYER THAT SITS
    BEHIND ITS HEADLINE, and it keeps it for the reason the pony's lost its: the ember
@@ -1957,6 +1976,54 @@ def card_sithen(p):
     )
 
 
+def card_covenstead(p):
+    # THE THREE LAMPS ARE THE CARD. Drawn rather than lifted, because the page's
+    # own strip is 900x150 and this box is a different shape -- same objects,
+    # same three colours, its own proportions, which is the call sithen's card
+    # already made.
+    return (
+        "",
+        f'<div class="og og--covenstead" data-fit="card">'
+        f'<p class="og-over">Turning 03 &middot; The Outskirts &middot; nobody is initiated</p>'
+        f'{p["h1"]}'
+        f'<p class="og-greet">{p["greeting"]}</p>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-bench" data-fit="bench">'
+        f'<svg viewBox="0 0 1200 132" fill="none" xmlns="http://www.w3.org/2000/svg">'
+        f'<path d="M0 96 H1200 V132 H0 Z" fill="#1C2124"/>'
+        f'<path d="M0 96 H1200" stroke="#A3ACA8" stroke-width="1.6" opacity=".5"/>'
+        f'<ellipse cx="228" cy="96" rx="104" ry="12" fill="#E8B75E" opacity=".14"/>'
+        f'<path d="M206 96 L206 62 Q206 52 218 52 L238 52 Q250 52 250 62 L250 96 Z" '
+        f'fill="#1C2124" stroke="#E8B75E" stroke-width="2.6"/>'
+        f'<path d="M213 52 L243 52" stroke="#E8B75E" stroke-width="3.2"/>'
+        f'<ellipse cx="600" cy="96" rx="116" ry="13" fill="#86BEE0" opacity=".13"/>'
+        f'<path d="M574 96 L574 56 Q574 44 588 44 L612 44 Q626 44 626 56 L626 96 Z" '
+        f'fill="#1C2124" stroke="#86BEE0" stroke-width="2.6"/>'
+        f'<path d="M582 44 L618 44" stroke="#86BEE0" stroke-width="3.2"/>'
+        f'<ellipse cx="962" cy="96" rx="98" ry="12" fill="#E0959C" opacity=".14"/>'
+        f'<path d="M942 96 L942 66 Q942 56 953 56 L971 56 Q982 56 982 66 L982 96 Z" '
+        f'fill="#1C2124" stroke="#E0959C" stroke-width="2.6"/>'
+        f'<path d="M948 56 L976 56" stroke="#E0959C" stroke-width="3.2"/>'
+        f'<path d="M382 96 q0 -26 20 -26 q20 0 20 26" fill="none" stroke="#A3ACA8" '
+        f'stroke-width="2" opacity=".5"/>'
+        f'<path d="M778 96 q0 -22 18 -22 q18 0 18 22" fill="none" stroke="#A3ACA8" '
+        f'stroke-width="2" opacity=".5"/>'
+        f'<path d="M1110 96 q0 -28 21 -28 q21 0 21 28" fill="none" stroke="#A3ACA8" '
+        f'stroke-width="2" opacity=".5"/>'
+        f'<path d="M68 96 q0 -20 16 -20 q16 0 16 20" fill="none" stroke="#A3ACA8" '
+        f'stroke-width="2" opacity=".5"/>'
+        f'</svg></div>'
+        f'</div>',
+        f"A cold dark card. Small grey capitals reading turning 03, The Outskirts, nobody "
+        f"is initiated, then “{p['h1text']}” in a heavy serif in off-white. Under "
+        f"it the greeting {p['greeting_plain']} set in three different colours, one clause "
+        f"each: amber, cold blue, then rose. Then, in a plain sans: {p['desc_plain']} "
+        f"Across the bottom, the near edge of a long scrubbed table with three mismatched "
+        f"lamps standing on it — one amber, one blue-white, one rose — each "
+        f"throwing its own pool of light, and the backs of four empty chairs behind them.",
+    )
+
+
 CARDS = {
     "street":       card_street,
     "room-pony":    card_pony,
@@ -1979,6 +2046,7 @@ CARDS = {
     "outskirts":    card_outskirts,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
+    "covenstead":   card_covenstead,
     "garden":       card_garden,
     "room-yurt":    card_yurt,
     "hermitage":    card_herm,
@@ -2190,6 +2258,20 @@ def main():
             "one. Redesign the card on purpose rather than letting it render a blank line.")
     lifted["moundsub"] = mnd.group(1).strip()
     lifted["moundsub_plain"] = html.unescape(re.sub(r"<[^>]+>", "", mnd.group(1))).strip()
+
+    # COVENSTEAD'S CARD CARRIES THE ROOM'S OWN GREETING, markup and all, because
+    # the three clauses are set in the three lamp colours and that division is
+    # the room's argument rather than a flourish. Lifted rather than typed, so
+    # the card cannot keep a greeting the page has changed.
+    gr = re.search(r'<p class="meet__sub">(.*?)</p>',
+                   (ROOT / "covenstead.html").read_text(), re.S)
+    if not gr:
+        raise SystemExit(
+            "REFUSING: covenstead.html has no greeting on it, and its card is built\n"
+            "around one. Redesign the card on purpose rather than letting it render a\n"
+            "blank line where the room's own welcome should be.")
+    lifted["greeting"] = gr.group(1).strip()
+    lifted["greeting_plain"] = html.unescape(re.sub(r"<[^>]+>", "", gr.group(1))).strip()
 
     # THE GARDEN'S CARD IS A ROW OF ITS OWN LABELS, read off the beds rather
     # than typed here -- the campground's pitches' rule, and it matters more in

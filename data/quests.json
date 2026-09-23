@@ -1105,6 +1105,40 @@
         ]
       },
       "learned": "There is a tree in Ireland that a motorway was routed around, and the paperwork for that accommodation was a shrug — which is worth holding next to what is usually asked of a Disabled person before anything gets moved."
+    },
+    {
+      "id": "covenstead-kettle",
+      "page": "covenstead.html",
+      "room": "Covenstead",
+      "title": "Counsel, not commandment",
+      "posted": "Third turning off the road out of town, behind a shut door, there is a table with several mismatched lamps on it. One of the things laid on that table is famous, and the word at the front of it is the whole reason it has never hardened into a rule. Go and find out what that word means.",
+      "rank": 3,
+      "takes": "ten minutes, and the kettle is already on",
+      "target": "a kettle on the hob",
+      "code": "KETTLE",
+      "hints": [
+        "Off the street — past the last streetlight, then the third turning.",
+        "It is the second thing on the table, the one first recorded publicly in 1964.",
+        "Right at the foot of the room, under the section about whose these all are."
+      ],
+      "ask": {
+        "question": "Covenstead makes a point of what the word rede actually means. What is it?",
+        "accept": [
+          "counsel",
+          "advice",
+          "counsel not commandment",
+          "advice or counsel",
+          "guidance"
+        ],
+        "answer": "Counsel, or advice",
+        "why": "Counsel — the word is Middle English for advice, related to the German Rat. That matters more than it looks: the best-known couplet has been in circulation since it was publicly recorded in 1964 and it has stayed counsel the whole time, rather than hardening into a code somebody can be thrown out for breaking. A great many of us have been handed rules dressed as guidance, and this is the rarer thing running the other way.",
+        "hints": [
+          "It is in the second tenet on the table, and the room repeats it in the section about what is not in the room.",
+          "It is a synonym for advice.",
+          "The room says the word has stayed this thing for sixty years rather than becoming a commandment."
+        ]
+      },
+      "learned": "The best-known line of a living religious tradition is phrased as advice rather than as an order, and has stayed that way — which is a rarer thing than it sounds if you have spent much time being handed rules that were described to you as guidance."
     }
   ],
   "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

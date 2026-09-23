@@ -1,0 +1,99 @@
+{
+  "_what": "Covenstead: turning 03 in The Outskirts. A meeting place, the tenets laid on the table, and the practice of watching your own first thoughts. Nothing here is hosted, nothing is a commandment, and nobody is initiated.",
+  "_pratchett": "THE DISCWORLD WITCHES ARE TERRY PRATCHETT'S AND NOT ONE PASSAGE OF HIS IS REPRODUCED HERE. First Sight and Second Thoughts are his, named in his books and quoted at length on two pages we already publish -- stimpunks.org's own philosophy page and Star Stuff's essay -- and this room LINKS to those rather than repeating them. That is make-readings.py's rule about the glossary: an argument you can only follow by having read another of our pages is a failure, but re-serving somebody's copyrighted prose a third time to avoid it is a worse one. So the concepts are named and credited and the working is ours. make-covenstead.py caps any quotation at the Zibaldone's thirty words, and the tenets below carry none at all.",
+  "_contested": "THE RULE OF THREE IS DISPUTED INSIDE THE TRADITION AND THE ROOM SAYS SO. It is not a universal article of faith among Wiccans; the article records practitioners who regard it as an over-elaboration on the Rede and others who consider it a modern innovation built on Christian morality, with a possible prototype in a 1949 novel of Gerald Gardner's. A page that presented it flat, as the witch law, would be settling a live argument inside somebody else's religion on their behalf -- from the outside, in passing, for atmosphere. make-covenstead.py refuses a tenet marked contested that carries no line saying what is contested about it.",
+  "_rede": "REDE MEANS COUNSEL AND NOT COMMANDMENT, which is the hinge the whole room turns on. Middle English, advice, related to German Rat. The best-known couplet was first publicly recorded in a 1964 speech by Doreen Valiente and appears in several wordings, which the room states rather than picking one and implying it is the text. A site for Disabled people has met a great many rules dressed as guidance, and this is guidance that has stayed guidance for sixty years. The tool refuses a tenet written as an order.",
+  "_sources": "en.wikipedia.org/wiki/Wiccan_Rede and en.wikipedia.org/wiki/Rule_of_Three_(Wicca), read 2026-09-22. The Discworld material is credited to Terry Pratchett and linked to our own pages rather than requoted.",
+  "_no_initiation": "NOTHING HERE ADMITS OR EXCLUDES ANYBODY. No degrees, no levels, no initiation, no test at the door, and no count of how many times you have come. A covenstead is a place a group meets, and the one thing this street will not build is a room you have to qualify for.",
+  "tenets": [
+    {
+      "name": "Merry meet, and merry part, and merry meet again",
+      "said": "A greeting that contains its own goodbye, and then undoes it.",
+      "whose": "A traditional Wiccan greeting and farewell, in common use.",
+      "when": "",
+      "note": "Read the shape of it rather than the words. The parting is built into the hello, so leaving is not a rupture and nobody has to negotiate it at the time. And the third clause settles what the parting meant: going is assumed, and so is coming back. That is a better door policy than most groups manage, and it is the reason this is the first thing on the table rather than the last. If you have ever left somewhere early and spent the walk home composing the apology, you already know what it is worth."
+    },
+    {
+      "name": "An it harm none, do what ye will",
+      "said": "The Wiccan Rede, in its best-known couplet.",
+      "whose": "First publicly recorded in a 1964 speech by Doreen Valiente; the wording varies between published versions.",
+      "when": "1964",
+      "note": "The word rede is Middle English for counsel. It is advice, and it has stayed advice for sixty years rather than hardening into a code somebody can be thrown out for breaking. That is rarer than it sounds and it is most of why this room exists: a great many of us have been handed rules dressed as guidance, and the difference is whether anybody is standing over you to enforce it. Note also which way round it runs. The constraint comes first and the permission is enormous."
+    },
+    {
+      "name": "The Rule of Three",
+      "said": "That what you send out returns to you three times over.",
+      "whose": "Also called the Threefold Law or the Law of Return; a possible prototype appears in Gerald Gardner's 1949 novel High Magic's Aid.",
+      "when": "1949 at the earliest",
+      "contested": "It is not a universal article of faith. There are Wiccans who regard it as an over-elaboration on the Rede, and others who consider it a modern innovation built on Christian morality. It has also been compared to other ethics of reciprocity, including karma and the Golden Rule.",
+      "note": "We are not going to settle that from out here, and the reason for saying so plainly is that the flattened version is the one that travels. A tidy cosmic ledger where harm is repaid at a fixed exchange rate is a very easy thing for a website to assert in passing, for atmosphere, about somebody else's religion. What is on this table is the argument rather than the verdict."
+    },
+    {
+      "name": "First Sight",
+      "said": "Seeing what is actually in front of you rather than what you expected to be there.",
+      "whose": "Terry Pratchett’s, from the Discworld books. The sentence that names it is below.",
+      "when": "2006",
+      "note": "It is harder than it sounds, because the expectation arrives first and feels exactly like observation. This street has been caught by that repeatedly and the catches are all in the changelog: a colour that was decided and never rendered, a channel name compared against nothing, a share card built from the wrong meta tag. In every one of them the page looked right to somebody who already knew what it was supposed to look like.",
+      "quote": {
+        "work": "Wintersmith",
+        "author": "Terry Pratchett",
+        "year": "2006",
+        "url": "https://openlibrary.org/works/OL453989W/Wintersmith",
+        "text": "First Sight and Second Thoughts, that’s what a witch had to rely on: First Sight to see what’s really there, and Second Thoughts to watch the First Thoughts to check that they were thinking right."
+      }
+    },
+    {
+      "name": "Second Thoughts",
+      "said": "The thoughts that watch the first thoughts, to check that they were thinking right.",
+      "whose": "Terry Pratchett’s, from the same sentence, and the half our sibling site built its method on.",
+      "when": "2006",
+      "note": "Not doubt. Supervision. And this is the half you can build machinery for, which is the only reason this site has any: the contrast checkers, the class checker, the tools that refuse rather than guess. Star Stuff makes the point that matters most, and it is worth carrying here because it is about the limit of all that plumbing: only the second half can be automated. No checker will ever tell you that a beautiful pattern is doing your looking for you.",
+      "quote": {
+        "work": "Wintersmith",
+        "author": "Terry Pratchett",
+        "year": "2006",
+        "url": "https://openlibrary.org/works/OL453989W/Wintersmith",
+        "text": "Second Thoughts to watch the First Thoughts to check that they were thinking right."
+      }
+    },
+    {
+      "name": "If I don't help them, who will?",
+      "said": "That the work goes to whoever needs it, including the people who will not thank you for it.",
+      "whose": "The ethic of the Discworld witches, Terry Pratchett’s, collected and argued at length on our own philosophy page.",
+      "when": "",
+      "note": "This is the one that makes a coven different from a club. The witches of those books do the unglamorous half of care work, for people who are rude, forgetful or broke, and they keep a ledger that never quite balances on purpose. It is mutual aid with the accounting done out loud, and it is the reason a group that meets to check its own thinking is not merely a seminar.",
+      "quote": {
+        "work": "A Hat Full of Sky",
+        "author": "Terry Pratchett",
+        "year": "2004",
+        "url": "https://openlibrary.org/works/OL453737W",
+        "text": "You can’t not help people just because they’re stupid or forgetful or unpleasant. Everyone’s poor around here. If I don’t help them, who will?"
+      },
+      "also": [
+        {
+          "work": "A Hat Full of Sky",
+          "author": "Terry Pratchett",
+          "year": "2004",
+          "url": "https://openlibrary.org/works/OL453737W",
+          "text": "I store it in other people. It’s amazing what you can store in other people."
+        },
+        {
+          "work": "A Hat Full of Sky",
+          "author": "Terry Pratchett",
+          "year": "2004",
+          "url": "https://openlibrary.org/works/OL453737W",
+          "text": "A witch never expects payment and never asks for it and just hopes she never needs to."
+        },
+        {
+          "work": "A Hat Full of Sky",
+          "author": "Terry Pratchett",
+          "year": "2004",
+          "url": "https://openlibrary.org/works/OL453737W",
+          "text": "Even if it’s not your fault, it’s your responsibility. Witches deal with things."
+        }
+      ]
+    }
+  ],
+  "_quotes": "THE PRATCHETT LINES ARE ON THE PAGE, IN FULL, AND THAT IS RYAN'S CALL, 2026-09-22. An earlier draft named the concepts and linked out to our own pages rather than quoting, on the reasoning that the prose is quoted properly elsewhere and this surface had no business holding it. That was too cautious and it gutted the room: these sentences ARE the tenets, the way the Rede's couplet is, and a page that described them at second hand was asking a reader to go somewhere else for the thing it was about. Short attributed quotation in commentary is ordinary practice and it is what every essay on this subject does. Every quote here names its author, its work and its year and links to the edition, which is the habit this whole site keeps when it drops everything else.",
+  "_cap": "THE ROOM SETS ITS OWN CAP RATHER THAN BORROWING THE ZIBALDONE'S, and the difference is what the two rooms are for. The Zibaldone is a QUOTE BANK, where the danger is drift -- nobody decides to republish a book, they add one good line at a time until the page IS the work -- so thirty words is right there and the room prints the number. This room quotes a handful of named passages that are the subject of the commentary around them, and the sentence that defines First Sight runs to thirty-five words. A cap that cut it in half would be pedantry dressed as rigour. The cap here is sixty, which fits a defining sentence and refuses a scene: the long Miss Level exchange those short lines come out of runs to several hundred words and stays a link."
+}

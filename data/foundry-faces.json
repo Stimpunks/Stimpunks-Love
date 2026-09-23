@@ -77,6 +77,29 @@
     }
    ]
   },
+  "asap": {
+   "family": "Asap",
+   "category": "Sans Serif",
+   "designer": "Omnibus-Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/asap",
+   "copyright": "Copyright 2018 The Asap Project Authors (https://github.com/Omnibus-Type/Asap)",
+   "repository": "https://github.com/Omnibus-Type/Asap",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "asap-400.woff2",
+     "sha": "1ea4e924903959a4"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "asap-700.woff2",
+     "sha": "1ea4e924903959a4"
+    }
+   ]
+  },
   "atkinson-hyperlegible": {
    "family": "Atkinson Hyperlegible",
    "category": "Sans Serif",
@@ -823,6 +846,29 @@
      "style": "normal",
      "file": "permanent-marker-400.woff2",
      "sha": "37202f2915830dbf"
+    }
+   ]
+  },
+  "petrona": {
+   "family": "Petrona",
+   "category": "Serif",
+   "designer": "Ringo R. Seeber",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/petrona",
+   "copyright": "Copyright 2019 The Petrona Project Authors (https://github.com/RingoSeeber/Petrona)",
+   "repository": "https://github.com/RingoSeeber/Petrona",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "petrona-400.woff2",
+     "sha": "db840dc4f3bf5b3a"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "petrona-700.woff2",
+     "sha": "db840dc4f3bf5b3a"
     }
    ]
   },
