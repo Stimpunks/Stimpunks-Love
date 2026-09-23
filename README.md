@@ -183,6 +183,7 @@ python3 tools/make-foundry.py      # The Foundry's bench, its shelves and its pr
 python3 tools/make-signoff.py      # the sign-off line on every page, and the pavement's links on the front one
 python3 tools/make-structured.py   # each page's JSON-LD, built from its own head
 python3 tools/make-agent-files.py  # /.well-known/api-catalog and the agent skills index, digest computed
+python3 tools/make-webp.py         # JPEGs to WebP where that is measurably worth it; run it before the generators when adding an image
 python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
 python3 tools/make-icons.py        # favicon.ico, the touch icon and the manifest's icons, all from favicon.svg
 python3 tools/make-security.py     # /.well-known/security.txt; refuses from 30 days before it expires

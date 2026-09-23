@@ -1,0 +1,582 @@
+{
+  "_what": "Every JPEG make-webp.py has looked at: the quality chosen and the SSIM it reached, or why the JPEG was kept. Decided by measurement; see the tool.",
+  "files": {
+    "raven/1865-cover.webp": {
+      "from": "raven/1865-cover.jpg",
+      "quality": 80,
+      "ssim": 0.9813,
+      "bytes_before": 64735,
+      "bytes_after": 33756
+    },
+    "raven/1865-plate.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 154606 bytes against 120436, under the 10% a swap has to save",
+      "quality": 90,
+      "ssim": 0.9883,
+      "sha256": "7c4a78a89c778a2285048253b465364a400cd432389ba61f8a5c39850cd9374a",
+      "bytes": 120436
+    },
+    "raven/1865-text.webp": {
+      "from": "raven/1865-text.jpg",
+      "quality": 85,
+      "ssim": 0.9825,
+      "bytes_before": 97976,
+      "bytes_after": 82166
+    },
+    "raven/dore-001.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 120432 bytes against 112250, under the 10% a swap has to save",
+      "quality": 85,
+      "ssim": 0.9879,
+      "sha256": "72bcdf5a0cb7c907e807e09848a6cb266eab8c73498293d2458c9862d28506f4",
+      "bytes": 112250
+    },
+    "raven/dore-002.webp": {
+      "from": "raven/dore-002.jpg",
+      "quality": 85,
+      "ssim": 0.9849,
+      "bytes_before": 60819,
+      "bytes_after": 52326
+    },
+    "raven/dore-003.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 129650 bytes against 97151, under the 10% a swap has to save",
+      "quality": 90,
+      "ssim": 0.9871,
+      "sha256": "c9c319d50e289ced87f2a8bac2b9bea45e7055a4aff4b42af0c874c0236b99a3",
+      "bytes": 97151
+    },
+    "raven/dore-004.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 96294 bytes against 96526, under the 10% a swap has to save",
+      "quality": 85,
+      "ssim": 0.985,
+      "sha256": "34feeec08f5479525c897e0251422f8f48f898670b29e8ada379829e7a70e9c3",
+      "bytes": 96526
+    },
+    "raven/dore-005.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 111790 bytes against 104772, under the 10% a swap has to save",
+      "quality": 85,
+      "ssim": 0.9832,
+      "sha256": "556baa3712c7ed23fd07133c1c48292fa619227b10ed8e1c55cffeedcd1f3090",
+      "bytes": 104772
+    },
+    "raven/dore-006.webp": {
+      "from": "raven/dore-006.jpg",
+      "quality": 80,
+      "ssim": 0.9849,
+      "bytes_before": 103669,
+      "bytes_after": 88660
+    },
+    "raven/dore-007.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 79380 bytes against 86648, under the 10% a swap has to save",
+      "quality": 85,
+      "ssim": 0.985,
+      "sha256": "b6bbb32f2fbcd28fa448679715fd483d1769e1f3e73eab25a18c74244af2344c",
+      "bytes": 86648
+    },
+    "raven/dore-008.webp": {
+      "from": "raven/dore-008.jpg",
+      "quality": 75,
+      "ssim": 0.9857,
+      "bytes_before": 93827,
+      "bytes_after": 65280
+    },
+    "raven/dore-009.webp": {
+      "from": "raven/dore-009.jpg",
+      "quality": 80,
+      "ssim": 0.9854,
+      "bytes_before": 98194,
+      "bytes_after": 82314
+    },
+    "raven/dore-010.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 104256 bytes against 94844, under the 10% a swap has to save",
+      "quality": 85,
+      "ssim": 0.9832,
+      "sha256": "19055e8f5a87d25db0b4cc9e0480bdb111b181ea2be2b3f43a6ee1453eef11ff",
+      "bytes": 94844
+    },
+    "raven/dore-011.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 100822 bytes against 102191, under the 10% a swap has to save",
+      "quality": 85,
+      "ssim": 0.9864,
+      "sha256": "7af3150db7ba4b5fffdd178344287f2a19e26588d74a374113f46ffbe80501f9",
+      "bytes": 102191
+    },
+    "raven/dore-012.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 104714 bytes against 104101, under the 10% a swap has to save",
+      "quality": 85,
+      "ssim": 0.9874,
+      "sha256": "8f9ece7bac98138bd9965ad11fbc94ba50b330fbca0bd9744d165a0a0325de41",
+      "bytes": 104101
+    },
+    "raven/dore-013.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 96506 bytes against 106290, under the 10% a swap has to save",
+      "quality": 80,
+      "ssim": 0.9829,
+      "sha256": "664e25069af30b2a530f8cc663182dd05486aace0efc70e65ee20918abe9fed2",
+      "bytes": 106290
+    },
+    "raven/dore-014.webp": {
+      "from": "raven/dore-014.jpg",
+      "quality": 80,
+      "ssim": 0.9859,
+      "bytes_before": 112845,
+      "bytes_after": 99434
+    },
+    "raven/dore-015.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 101262 bytes against 95874, under the 10% a swap has to save",
+      "quality": 85,
+      "ssim": 0.9859,
+      "sha256": "a1ce255ba594c54fb3dea7ff692cc17ce40e7fa799366e215839bddf83ac41f2",
+      "bytes": 95874
+    },
+    "raven/dore-016.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 103890 bytes against 109960, under the 10% a swap has to save",
+      "quality": 80,
+      "ssim": 0.9807,
+      "sha256": "7f4ad06ca04254f4022fb6d4699f978e5cda92333767c3a44de109c5822909ad",
+      "bytes": 109960
+    },
+    "raven/dore-017.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 100624 bytes against 96810, under the 10% a swap has to save",
+      "quality": 85,
+      "ssim": 0.9842,
+      "sha256": "b8838184928be595775b3683668c9e499e89f19d8410be3e80f6678207897dd5",
+      "bytes": 96810
+    },
+    "raven/dore-018.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 98652 bytes against 99351, under the 10% a swap has to save",
+      "quality": 85,
+      "ssim": 0.985,
+      "sha256": "4ff6f41ae7d2e0f06bca419c941ea31ab6910a8fffe5f64c660992f4909271d6",
+      "bytes": 99351
+    },
+    "raven/dore-019.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 107050 bytes against 86524, under the 10% a swap has to save",
+      "quality": 90,
+      "ssim": 0.9888,
+      "sha256": "63559d5fc437de15ffc452deab6c06c594eb454dc7fadeb6410c31a353bf5635",
+      "bytes": 86524
+    },
+    "raven/dore-020.webp": {
+      "from": "raven/dore-020.jpg",
+      "quality": 80,
+      "ssim": 0.9823,
+      "bytes_before": 94112,
+      "bytes_after": 82374
+    },
+    "raven/dore-021.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 115124 bytes against 86963, under the 10% a swap has to save",
+      "quality": 90,
+      "ssim": 0.9881,
+      "sha256": "228de705e5e1bf146297060677503e8b92b75621330519914e1ec65029ddcadf",
+      "bytes": 86963
+    },
+    "raven/dore-022.webp": {
+      "from": "raven/dore-022.jpg",
+      "quality": 80,
+      "ssim": 0.9811,
+      "bytes_before": 98903,
+      "bytes_after": 78866
+    },
+    "raven/dore-023.webp": {
+      "from": "raven/dore-023.jpg",
+      "quality": 80,
+      "ssim": 0.9861,
+      "bytes_before": 107655,
+      "bytes_after": 93354
+    },
+    "raven/dore-024.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 78688 bytes against 68850, under the 10% a swap has to save",
+      "quality": 90,
+      "ssim": 0.9858,
+      "sha256": "aaa5e1c23b41ac8dc02d3b9d6b5aa6b45aad341e5e25bc71c60acc087bed9a2b",
+      "bytes": 68850
+    },
+    "raven/dore-025.webp": {
+      "from": "raven/dore-025.jpg",
+      "quality": 80,
+      "ssim": 0.9836,
+      "bytes_before": 90720,
+      "bytes_after": 78592
+    },
+    "raven/dore-026.webp": {
+      "from": "raven/dore-026.jpg",
+      "quality": 80,
+      "ssim": 0.9828,
+      "bytes_before": 48802,
+      "bytes_after": 36716
+    },
+    "oracle/bresdin-samaritan.webp": {
+      "from": "oracle/bresdin-samaritan.jpg",
+      "quality": 85,
+      "ssim": 0.9858,
+      "bytes_before": 194343,
+      "bytes_after": 113716
+    },
+    "oracle/carceri-pier-lamp.webp": {
+      "from": "oracle/carceri-pier-lamp.jpg",
+      "quality": 75,
+      "ssim": 0.9843,
+      "bytes_before": 147857,
+      "bytes_after": 95830
+    },
+    "oracle/carceri-round-tower.webp": {
+      "from": "oracle/carceri-round-tower.jpg",
+      "quality": 75,
+      "ssim": 0.9889,
+      "bytes_before": 171470,
+      "bytes_after": 113020
+    },
+    "oracle/carceri-title.webp": {
+      "from": "oracle/carceri-title.jpg",
+      "quality": 75,
+      "ssim": 0.9866,
+      "bytes_before": 167800,
+      "bytes_after": 108076
+    },
+    "oracle/goya-bogey.webp": {
+      "from": "oracle/goya-bogey.jpg",
+      "quality": 90,
+      "ssim": 0.9827,
+      "bytes_before": 67165,
+      "bytes_after": 52954
+    },
+    "oracle/goya-sleep-of-reason.webp": {
+      "from": "oracle/goya-sleep-of-reason.jpg",
+      "quality": 90,
+      "ssim": 0.9853,
+      "bytes_before": 68385,
+      "bytes_after": 52628
+    },
+    "oracle/melencolia.webp": {
+      "from": "oracle/melencolia.jpg",
+      "quality": 80,
+      "ssim": 0.9856,
+      "bytes_before": 148692,
+      "bytes_after": 99688
+    },
+    "oracle/meryon-vampire.webp": {
+      "from": "oracle/meryon-vampire.jpg",
+      "quality": 85,
+      "ssim": 0.9816,
+      "bytes_before": 132379,
+      "bytes_after": 98336
+    },
+    "oracle/moon-full.webp": {
+      "from": "oracle/moon-full.jpg",
+      "quality": 80,
+      "ssim": 0.9817,
+      "bytes_before": 147373,
+      "bytes_after": 105116
+    },
+    "oracle/moon-waning.webp": {
+      "from": "oracle/moon-waning.jpg",
+      "quality": 80,
+      "ssim": 0.9824,
+      "bytes_before": 107772,
+      "bytes_after": 76504
+    },
+    "oracle/moon-waxing.webp": {
+      "from": "oracle/moon-waxing.jpg",
+      "quality": 85,
+      "ssim": 0.9833,
+      "bytes_before": 115438,
+      "bytes_after": 91782
+    },
+    "oracle/redon-armor.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 87894 bytes against 94067, under the 10% a swap has to save",
+      "quality": 90,
+      "ssim": 0.9818,
+      "sha256": "fa8b0c8e4e5e033de553517bb65a8eec8d84d1e34b0e5ad6ca45e7a06a944517",
+      "bytes": 94067
+    },
+    "oracle/redon-veil.webp": {
+      "from": "oracle/redon-veil.jpg",
+      "quality": 85,
+      "ssim": 0.9841,
+      "bytes_before": 100114,
+      "bytes_after": 74230
+    },
+    "alice/tenniel-02-rabbit.webp": {
+      "from": "alice/tenniel-02-rabbit.jpg",
+      "quality": 75,
+      "ssim": 0.9913,
+      "bytes_before": 192523,
+      "bytes_after": 153400
+    },
+    "alice/tenniel-03-curtain.webp": {
+      "from": "alice/tenniel-03-curtain.jpg",
+      "quality": 75,
+      "ssim": 0.9888,
+      "bytes_before": 103573,
+      "bytes_after": 83690
+    },
+    "alice/tenniel-06-hall.webp": {
+      "from": "alice/tenniel-06-hall.jpg",
+      "quality": 75,
+      "ssim": 0.9915,
+      "bytes_before": 159380,
+      "bytes_after": 128052
+    },
+    "alice/tenniel-08-pool.webp": {
+      "from": "alice/tenniel-08-pool.jpg",
+      "quality": 75,
+      "ssim": 0.9926,
+      "bytes_before": 94320,
+      "bytes_after": 79608
+    },
+    "alice/tenniel-11-house.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 131758 bytes against 142105, under the 10% a swap has to save",
+      "quality": 75,
+      "ssim": 0.9934,
+      "sha256": "b431479b4f4d412372db7f2922e80f6197c8fb5518cc3ba7b4036f9741458e92",
+      "bytes": 142105
+    },
+    "alice/tenniel-23-tree.webp": {
+      "from": "alice/tenniel-23-tree.jpg",
+      "quality": 75,
+      "ssim": 0.9922,
+      "bytes_before": 168436,
+      "bytes_after": 138194
+    },
+    "pebbles/2026-summer/newpartingtonpower-sj-station-id.webp": {
+      "from": "pebbles/2026-summer/newpartingtonpower-sj-station-id.jpg",
+      "quality": 75,
+      "ssim": 0.9853,
+      "bytes_before": 20032,
+      "bytes_after": 8650
+    },
+    "pebbles/2026-summer/palepixel-columbo-trace.webp": {
+      "from": "pebbles/2026-summer/palepixel-columbo-trace.jpg",
+      "quality": 75,
+      "ssim": 0.9931,
+      "bytes_before": 68919,
+      "bytes_after": 35880
+    },
+    "pebbles/2026-summer/palepixel-lighting-study.webp": {
+      "from": "pebbles/2026-summer/palepixel-lighting-study.jpg",
+      "quality": 75,
+      "ssim": 0.9842,
+      "bytes_before": 34420,
+      "bytes_after": 16132
+    },
+    "pebbles/2026-summer/palepixel-symmetry-1.webp": {
+      "from": "pebbles/2026-summer/palepixel-symmetry-1.jpg",
+      "quality": 75,
+      "ssim": 0.9972,
+      "bytes_before": 22870,
+      "bytes_after": 9998
+    },
+    "pebbles/2026-summer/palepixel-symmetry-2.webp": {
+      "from": "pebbles/2026-summer/palepixel-symmetry-2.jpg",
+      "quality": 75,
+      "ssim": 0.9973,
+      "bytes_before": 18207,
+      "bytes_after": 7224
+    },
+    "pebbles/2026-summer/palepixel-symmetry-3.webp": {
+      "from": "pebbles/2026-summer/palepixel-symmetry-3.jpg",
+      "quality": 75,
+      "ssim": 0.9982,
+      "bytes_before": 19261,
+      "bytes_after": 8670
+    },
+    "pebbles/2026-summer/palepixel-symmetry-4.webp": {
+      "from": "pebbles/2026-summer/palepixel-symmetry-4.jpg",
+      "quality": 75,
+      "ssim": 0.9983,
+      "bytes_before": 20091,
+      "bytes_after": 8102
+    },
+    "pebbles/2026-summer/thumb--sEP0-8VAow.webp": {
+      "from": "pebbles/2026-summer/thumb--sEP0-8VAow.jpg",
+      "quality": 75,
+      "ssim": 0.9808,
+      "bytes_before": 14784,
+      "bytes_after": 9748
+    },
+    "pebbles/2026-summer/thumb-7wfYIMyS_dI.webp": {
+      "from": "pebbles/2026-summer/thumb-7wfYIMyS_dI.jpg",
+      "quality": 85,
+      "ssim": 0.9809,
+      "bytes_before": 120012,
+      "bytes_after": 15862,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-B53fhDDwfJg.webp": {
+      "from": "pebbles/2026-summer/thumb-B53fhDDwfJg.jpg",
+      "quality": 85,
+      "ssim": 0.981,
+      "bytes_before": 246916,
+      "bytes_after": 29472,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-Bir8Q15CSX4.webp": {
+      "from": "pebbles/2026-summer/thumb-Bir8Q15CSX4.jpg",
+      "quality": 75,
+      "ssim": 0.9877,
+      "bytes_before": 84323,
+      "bytes_after": 10532,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-E1fzJ_AYajA.webp": {
+      "from": "pebbles/2026-summer/thumb-E1fzJ_AYajA.jpg",
+      "quality": 85,
+      "ssim": 0.9832,
+      "bytes_before": 82133,
+      "bytes_after": 20120,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-K17df81RL9Y.webp": {
+      "from": "pebbles/2026-summer/thumb-K17df81RL9Y.jpg",
+      "quality": 85,
+      "ssim": 0.982,
+      "bytes_before": 58067,
+      "bytes_after": 12756,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-LWGJA9i18Co.webp": {
+      "from": "pebbles/2026-summer/thumb-LWGJA9i18Co.jpg",
+      "quality": 90,
+      "ssim": 0.9856,
+      "bytes_before": 112535,
+      "bytes_after": 29110,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-LwIrFTo495E.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 55694 bytes against 28482, under the 10% a swap has to save",
+      "quality": 94,
+      "ssim": 0.9825,
+      "sha256": "c71226b029ec38e79faaa09dddcb42e063d86babf3dbd271d40cd45b04b74b87",
+      "bytes": 28482
+    },
+    "pebbles/2026-summer/thumb-MMq4A6Tk0a0.webp": {
+      "from": "pebbles/2026-summer/thumb-MMq4A6Tk0a0.jpg",
+      "quality": 94,
+      "ssim": 0.9846,
+      "bytes_before": 70504,
+      "bytes_after": 31414,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-T8Xb_7YDroQ.webp": {
+      "from": "pebbles/2026-summer/thumb-T8Xb_7YDroQ.jpg",
+      "quality": 85,
+      "ssim": 0.9812,
+      "bytes_before": 44803,
+      "bytes_after": 7136,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-WJfF4GQ6X5g.webp": {
+      "from": "pebbles/2026-summer/thumb-WJfF4GQ6X5g.jpg",
+      "quality": 75,
+      "ssim": 0.9817,
+      "bytes_before": 104208,
+      "bytes_after": 9760,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-X5DOGsoiW6c.webp": {
+      "from": "pebbles/2026-summer/thumb-X5DOGsoiW6c.jpg",
+      "quality": 90,
+      "ssim": 0.9861,
+      "bytes_before": 58928,
+      "bytes_after": 17154,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-dTAAsCNK7RA.webp": {
+      "from": "pebbles/2026-summer/thumb-dTAAsCNK7RA.jpg",
+      "quality": 80,
+      "ssim": 0.9862,
+      "bytes_before": 151915,
+      "bytes_after": 38528,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-epL1uFpGcFo.webp": {
+      "from": "pebbles/2026-summer/thumb-epL1uFpGcFo.jpg",
+      "quality": 90,
+      "ssim": 0.9893,
+      "bytes_before": 86573,
+      "bytes_after": 13544,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-fnqepYp-kHU.webp": {
+      "from": "pebbles/2026-summer/thumb-fnqepYp-kHU.jpg",
+      "quality": 85,
+      "ssim": 0.9832,
+      "bytes_before": 71118,
+      "bytes_after": 11824,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-kyNCW26AqYo.webp": {
+      "from": "pebbles/2026-summer/thumb-kyNCW26AqYo.jpg",
+      "quality": 90,
+      "ssim": 0.9866,
+      "bytes_before": 108144,
+      "bytes_after": 22802,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-qKvj12YTtI4.webp": {
+      "from": "pebbles/2026-summer/thumb-qKvj12YTtI4.jpg",
+      "quality": 90,
+      "ssim": 0.9847,
+      "bytes_before": 131308,
+      "bytes_after": 41668,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-uDvPZBjXa9o.webp": {
+      "from": "pebbles/2026-summer/thumb-uDvPZBjXa9o.jpg",
+      "quality": 75,
+      "ssim": 0.9857,
+      "bytes_before": 135753,
+      "bytes_after": 17940,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-ujHMEMAd_lk.webp": {
+      "from": "pebbles/2026-summer/thumb-ujHMEMAd_lk.jpg",
+      "quality": 90,
+      "ssim": 0.9835,
+      "bytes_before": 153178,
+      "bytes_after": 17932,
+      "resized_to": 512
+    },
+    "pebbles/2026-summer/thumb-wCF3ywukQYA.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 30584 bytes against 14877, under the 10% a swap has to save",
+      "quality": 94,
+      "ssim": 0.9816,
+      "sha256": "700308ecb753fa5c65bf6a5187ee38e6cb4c5efa40e4a0dd2e0136a7de0c3f99",
+      "bytes": 14877
+    },
+    "pebbles/2026-summer/treebeard-watercolor-spread.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 111092 bytes against 89217, under the 10% a swap has to save",
+      "quality": 90,
+      "ssim": 0.9861,
+      "sha256": "1fa22ecca47863275ba61c95f2b4c658cc4dc515770c856c77cc6759733dbb92",
+      "bytes": 89217
+    },
+    "photos/norah-free-mom-hugs.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 91502 bytes against 84487, under the 10% a swap has to save",
+      "quality": 90,
+      "ssim": 0.9853,
+      "sha256": "3a4214c4b14ae4b28955e92beb55e847c9b098994674d7279ce754daa4341fed",
+      "bytes": 84487
+    },
+    "photos/ryan-norah-lacey-pride.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 125104 bytes against 131278, under the 10% a swap has to save",
+      "quality": 85,
+      "ssim": 0.9846,
+      "sha256": "0ebfcfc2908d339d61711c0f01374320fbc817345dfc746a73d6442a77b24f86",
+      "bytes": 131278
+    },
+    "photos/ryan-pride-banner.webp": {
+      "from": "photos/ryan-pride-banner.jpg",
+      "quality": 75,
+      "ssim": 0.9828,
+      "bytes_before": 223454,
+      "bytes_after": 195744
+    },
+    "photos/ryan-tankard.webp": {
+      "from": "photos/ryan-tankard.jpg",
+      "quality": 90,
+      "ssim": 0.9843,
+      "bytes_before": 155331,
+      "bytes_after": 121888
+    }
+  }
+}

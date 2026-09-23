@@ -1712,9 +1712,9 @@ def card_oracle(p):
         "",
         f'<div class="og og--oracle" data-fit="card">'
         f'<div class="og-fan" data-fit="fan">'
-        f'<img src="../oracle/melencolia.jpg" alt="">'
-        f'<img src="../oracle/moon-full.jpg" alt="">'
-        f'<img src="../oracle/meryon-vampire.jpg" alt="">'
+        f'<img src="../oracle/melencolia.webp" alt="">'
+        f'<img src="../oracle/moon-full.webp" alt="">'
+        f'<img src="../oracle/meryon-vampire.webp" alt="">'
         f'</div>'
         f'<div class="og-cutline" data-fit="rule"><i></i><b></b><i></i></div>'
         f'{p["h1"]}'

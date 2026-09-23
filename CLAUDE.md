@@ -1952,6 +1952,20 @@ SKILL.md is prose about this site and obeys the site's rules** — `check-counts
 cannot state how many rooms there are either. Edit it, then re-run `make-agent-files.py`, or the
 published digest is a lie.
 
+**AN IMAGE IS CONVERTED ONLY WHEN THE MEASUREMENT SAYS SO, AND SOME STAY JPEG ON PURPOSE.**
+`make-webp.py` finds, per file, the lowest WebP quality whose luminance SSIM against the source
+reaches 0.98, and swaps only if that saves at least 10%. Most of Doré's and Tenniel's engravings
+stayed JPEG: fine hatching is what lossy formats are worst at, and at matching fidelity WebP was no
+smaller. `data/webp.json` records every decision with its numbers, so **do not "finish the job" by
+converting the kept ones** — that would be a bigger or a softer file, chosen by format rather than
+by result. **SSIM is on luminance, and the first run is why:** measured in RGB, WebP's half-resolution
+colour held small saturated thumbnails under 0.98 even at quality 100, the tool concluded they
+could not be converted, and the one real waste on the street — thumbnails stored at 1280px and
+drawn at 170 — survived it. That run deleted JPEGs under the wrong rule and was reverted. **WebP and
+not AVIF** because AVIF needs a `<picture>` round every image, which changes the markup rooms style
+— the Pebble Board's 4:3 fix depends on the image being the play button's direct child. The share
+cards and icons stay PNG: unfurlers and iOS do not reliably read anything else.
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody

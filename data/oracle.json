@@ -9,7 +9,7 @@
    "slug": "melencolia",
    "name": "The Melancholy",
    "question": "What have you been calling laziness?",
-   "image": "oracle/melencolia.jpg",
+   "image": "oracle/melencolia.webp",
    "alt": "A winged figure sits among scattered tools — compasses, a plane, a saw, a balance, a sandglass, a bell — with her chin on her fist, looking past all of it. A ladder goes up the wall behind her. Nothing in the picture is being used.",
    "note": "She is surrounded by every instrument she knows how to use and she is not using any of them. Five centuries before anybody wrote the word, this is a picture of a person who has run out.",
    "plate": {
@@ -28,7 +28,7 @@
    "slug": "moon-full",
    "name": "The Full Moon",
    "question": "What is lit whether or not you are ready to look at it?",
-   "image": "oracle/moon-full.jpg",
+   "image": "oracle/moon-full.webp",
    "alt": "The full moon, engraved so finely that the craters read as pitted skin. The whole disc is lit and the edge is ragged with shadow.",
    "note": "Mellan cut the whole face in a single spiralling line that starts at the nose and never lifts. It is the most technically insane thing in this deck and it is a picture of something everybody has already seen.",
    "plate": {
@@ -47,7 +47,7 @@
    "slug": "moon-waxing",
    "name": "The Waxing Moon",
    "question": "What is coming back that you had written off?",
-   "image": "oracle/moon-waxing.jpg",
+   "image": "oracle/moon-waxing.webp",
    "alt": "The moon at first quarter, lit down one side, the terminator running ragged from top to bottom and the dark half completely gone.",
    "note": "Half of it is missing and half of it is arriving. Both of those are true of the same object on the same night.",
    "plate": {
@@ -66,7 +66,7 @@
    "slug": "moon-waning",
    "name": "The Waning Moon",
    "question": "What are you allowed to have less of?",
-   "image": "oracle/moon-waning.jpg",
+   "image": "oracle/moon-waning.webp",
    "alt": "The moon at last quarter, lit down the other side, the unlit half absent rather than shaded.",
    "note": "Waning is not failing. It is the same body doing the other half of the only thing it does.",
    "plate": {
@@ -85,7 +85,7 @@
    "slug": "carceri-title",
    "name": "The Threshold",
    "question": "What have you not opened yet?",
-   "image": "oracle/carceri-title.jpg",
+   "image": "oracle/carceri-title.webp",
    "alt": "The title plate of a set of imaginary prisons: a vast vaulted hall in etched line, with a scrolled cartouche hanging in the middle of it and stairs disappearing at every edge.",
    "note": "A title page is a door with writing on it. Piranesi's opens onto a set of prisons that do not exist, never connect to each other, and were etched by a man who described himself on it as an architect.",
    "plate": {
@@ -104,7 +104,7 @@
    "slug": "carceri-round-tower",
    "name": "The Tower",
    "question": "Who told you the only way out was up?",
-   "image": "oracle/carceri-round-tower.jpg",
+   "image": "oracle/carceri-round-tower.webp",
    "alt": "The inside of an enormous round tower, ringed with galleries and crossed by beams, staircases climbing out of shot in several directions at once.",
    "note": "Every staircase in this picture leads somewhere, and no two of them agree about where. The architecture is not solvable and was never meant to be.",
    "plate": {
@@ -123,7 +123,7 @@
    "slug": "carceri-pier-lamp",
    "name": "The Lamp",
    "question": "Who is keeping a light on for you?",
-   "image": "oracle/carceri-pier-lamp.jpg",
+   "image": "oracle/carceri-pier-lamp.webp",
    "alt": "A colossal stone pier under a vault, with a small hanging lamp on a bracket about a third of the way up and tiny figures on the walkways below it.",
    "note": "One lamp, in a building the size of a weather system, put there by somebody. It does not light the room. It was not going to.",
    "plate": {
@@ -142,7 +142,7 @@
    "slug": "meryon-vampire",
    "name": "The Watcher",
    "question": "What have you looked at so long that it has started looking back?",
-   "image": "oracle/meryon-vampire.jpg",
+   "image": "oracle/meryon-vampire.webp",
    "alt": "A horned stone gargoyle leaning on its hands at a parapet high over Paris, chin on its knuckles, looking out across the rooftops and a tower with birds around it.",
    "note": "Meryon called this one The Vampire. It has been up there since the restoration, resting its chin on its hands and watching the city get on with it, and it is the closest thing this library has to a colleague.",
    "plate": {
@@ -161,7 +161,7 @@
    "slug": "goya-sleep-of-reason",
    "name": "The Sleep",
    "question": "What did you decide while you were exhausted?",
-   "image": "oracle/goya-sleep-of-reason.jpg",
+   "image": "oracle/goya-sleep-of-reason.webp",
    "alt": "A man slumped asleep across his writing desk while owls and bats boil up out of the dark behind him; a lynx lies awake at his feet, watching.",
    "note": "The lettering on the desk says the sleep of reason produces monsters. The lynx is the detail nobody mentions: something in the picture is still awake.",
    "plate": {
@@ -180,7 +180,7 @@
    "slug": "goya-bogey",
    "name": "The Bogey",
    "question": "Who taught you to be frightened of that?",
-   "image": "oracle/goya-bogey.jpg",
+   "image": "oracle/goya-bogey.webp",
    "alt": "A mother holds her two children while a tall shrouded figure looms over them; one child hides its face, the other stares straight at the shape.",
    "note": "Goya's own note on this plate is contemptuous of the parent, not the ghost: a child taught to fear a thing that is not there grows into an adult who can be frightened by anybody holding a sheet.",
    "plate": {
@@ -218,7 +218,7 @@
    "slug": "redon-veil",
    "name": "The Veil",
    "question": "What are you not saying out loud yet?",
-   "image": "oracle/redon-veil.jpg",
+   "image": "oracle/redon-veil.webp",
    "alt": "A lithograph in which a pale veiled shape stands against a dark, grainy ground; the figure is legible and the face is not.",
    "note": "Something is there and it is not resolving. Redon's whole argument was that a picture is allowed to do that, and refused to explain any of them.",
    "plate": {
@@ -237,7 +237,7 @@
    "slug": "bresdin-samaritan",
    "name": "The Thicket",
    "question": "Who stopped for you?",
-   "image": "oracle/bresdin-samaritan.jpg",
+   "image": "oracle/bresdin-samaritan.webp",
    "alt": "A dense etched forest crowded with leaves, branches, birds and animals, and somewhere in the middle of it two figures and a horse, nearly lost in the detail.",
    "note": "The parable is in there. So is everything else — Bresdin filled the whole plate with undergrowth until the act of kindness became something you have to look for, which is a fair description of how it usually works.",
    "plate": {

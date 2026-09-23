@@ -690,7 +690,7 @@
         "alt": "A heavy curtain drawn back, with a long banner across the top of it lettered NEVERMORE. The raven flies in through the gap; a figure lies collapsed in the folds of the drapery at the foot of the picture."
       },
       {
-        "file": "raven/dore-002.jpg",
+        "file": "raven/dore-002.webp",
         "after": 0,
         "caption": "",
         "alt": "An oval vignette: a winged figure flying through broken cloud towards a radiant disc lettered, in Greek, ANAGKH — necessity."
@@ -714,7 +714,7 @@
         "alt": "A press of winged figures fills the picture around a reclining woman; among them a man clutches at his own face."
       },
       {
-        "file": "raven/dore-006.jpg",
+        "file": "raven/dore-006.webp",
         "after": 2,
         "caption": "“Sorrow for the lost Lenore.”",
         "alt": "A narrow shaft of stone walls open to a bright sky. A pale winged figure stands at the bottom of it with head bowed, and a bird drops down the shaft towards her."
@@ -726,13 +726,13 @@
         "alt": "Two winged figures carried through cloud high above a sea, one dark and one pale, tangled together."
       },
       {
-        "file": "raven/dore-008.jpg",
+        "file": "raven/dore-008.webp",
         "after": 3,
         "caption": "“’T is some visiter entreating entrance at my chamber door— / Some late visiter entreating entrance at my chamber door.”",
         "alt": "A tall pair of panelled double doors, closed, with a single bright line of light showing between them."
       },
       {
-        "file": "raven/dore-009.jpg",
+        "file": "raven/dore-009.webp",
         "after": 4,
         "caption": "“Here I opened wide the door;— / Darkness there, and nothing more.”",
         "alt": "A man in a dressing gown stands in an open doorway at the head of a staircase, both arms out against the frame, with light behind him and the stairs falling away in front."
@@ -762,7 +762,7 @@
         "alt": "The raven flies in through a window past billowing curtains while a man twists away from it into the room."
       },
       {
-        "file": "raven/dore-014.jpg",
+        "file": "raven/dore-014.webp",
         "after": 7,
         "caption": "“Perched upon a bust of Pallas just above my chamber door— / Perched, and sat, and nothing more.”",
         "alt": "The raven perched on a pale bust above a doorway, wings folded, with a great arched fanlight of glass behind it."
@@ -798,7 +798,7 @@
         "alt": "Winged figures crowd a room around a man sitting at a table, one of them swinging a censer. Above the door behind them, the raven."
       },
       {
-        "file": "raven/dore-020.jpg",
+        "file": "raven/dore-020.webp",
         "after": 15,
         "caption": "“On this home by Horror haunted.”",
         "alt": "A man has fallen forward over the arm of a chair beside a carved chimneypiece; indistinct shapes gather in the dark above him."
@@ -810,13 +810,13 @@
         "alt": "A robed figure stands on a plinth beside the bust and the door with one arm raised. A woman lies at the foot of it and a small armed figure stands over her."
       },
       {
-        "file": "raven/dore-022.jpg",
+        "file": "raven/dore-022.webp",
         "after": 16,
         "caption": "“Tell this soul with sorrow laden if, within the distant Aidenn, / It shall clasp a sainted maiden whom the angels name Lenore.”",
         "alt": "A woman stands in a bright clearing among trees, with other figures around her and light breaking down through the branches."
       },
       {
-        "file": "raven/dore-023.jpg",
+        "file": "raven/dore-023.webp",
         "after": 17,
         "caption": "“‘Be that word our sign of parting, bird or fiend!’ I shrieked, upstarting.”",
         "alt": "A man lurches towards the door through a hard shaft of daylight, one arm thrown up, furniture overturned behind him."
@@ -828,13 +828,13 @@
         "alt": "A pale figure drifts above a dark sea under a clouded moon; on the cliff beyond, a house with its windows lit."
       },
       {
-        "file": "raven/dore-025.jpg",
+        "file": "raven/dore-025.webp",
         "after": 18,
         "caption": "“And my soul from out that shadow that lies floating on the floor / Shall be lifted—nevermore!”",
         "alt": "The raven still on the bust above the door. Below it a man lies face down on the floor of the room, and the chair beside him is empty."
       },
       {
-        "file": "raven/dore-026.jpg",
+        "file": "raven/dore-026.webp",
         "after": 19,
         "caption": "",
         "alt": "A circular vignette: a small figure clings to the flank of a stone sphinx on a cliff above the sea, with a bird high in the empty sky."
@@ -850,12 +850,12 @@
       "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
       "leaves": [
         {
-          "file": "raven/1865-cover.jpg",
+          "file": "raven/1865-cover.webp",
           "what": "The front cover",
           "alt": "The worn paper cover of a small book, its title THE RAVEN drawn in tall flourished capitals with a bird worked into the letters, over a circular monogram and the imprint of Tyndale, Mitchell & Co. of Philadelphia. Along the bottom, in small capitals: with illustrations engraved on wood by Scattergood."
         },
         {
-          "file": "raven/1865-text.jpg",
+          "file": "raven/1865-text.webp",
           "what": "Four stanzas, as they were set in 1865",
           "alt": "A foxed page of an old book headed THE RAVEN, carrying four stanzas of the poem in a small serif type, each stanza ending with a short line set far to the right."
         },
