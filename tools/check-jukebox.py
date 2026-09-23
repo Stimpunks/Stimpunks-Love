@@ -179,6 +179,12 @@ LISTS = [
     # checked" while silently not knowing about a room reads as coverage and is
     # worse than not running.
     ("looming rocks", "data/looming-rocks.json", "looming-rocks.html"),
+    # Laughingstock's bill. Added in the commit that opened the room, for the
+    # reason above. The stage beside it is a playlist and is not checked here,
+    # for the reason this tool gives about the club's: a playlist is not one
+    # video -- and its FIRST entry is on the bill, which is the one row that
+    # decides whether the whole night embeds at all.
+    ("laughingstock", "data/laughingstock.json", "laughingstock.html"),
 ]
 
 
@@ -304,6 +310,13 @@ def tracks_in(data):
         # is not checked here, for the reason this tool gives about the club's:
         # a playlist is not one video.
         return [dict(s_, artist=s_.get("channel")) for s_ in data["songs"]]
+    if "sets" in data:
+        # Laughingstock's bill. A set can have more than one comic on it, and
+        # every one of them wrote it, so the report names them all rather than
+        # the channel -- a report that names the shop beside a DEAD sends
+        # somebody looking in the wrong place.
+        return [dict(s_, artist=" and ".join(s_.get("comics") or []) or s_.get("channel"))
+                for s_ in data["sets"]]
     if "cuts" in data:
         # The Mopery's parlour screen: ONE SONG, several times over, so what
         # every other list calls the artist is the performer here and the song

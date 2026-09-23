@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laughingstock &mdash; Stimpunks.Love</title>
+<meta name="description" content="A comedy club on the street, down a ramp rather than a flight of stairs. Disabled comics on their own terms, in their own voice, controlling the frame: Josh Blue, Tina Friml and the rest of our Disabled Comedy playlist, with the writing from our Campfire Learn Together on why being disabled can be pretty funny. Nobody here is called brave, and bombing is allowed.">
+<link rel="canonical" href="https://stimpunks.love/laughingstock.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#140F10">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.Love">
+<meta property="og:title" content="Laughingstock &mdash; Stimpunks.Love">
+<meta property="og:description" content="A comedy club on the street. Disabled comics on their own terms, controlling the frame &mdash; and the only thing standing in the light is what they said.">
+<meta property="og:url" content="https://stimpunks.love/laughingstock.html">
+<meta property="og:image" content="https://stimpunks.love/og/laughingstock.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A near-black card, the dark of a comedy club seen from the back of the room. Small grey capitals reading on the street, a comedy club, then “Laughingstock” in a large glowing script in pale neon blue. Then, in cream: A comedy club on the street. Disabled comics on their own terms, controlling the frame — and the only thing standing in the light is what they said. Across the bottom, a drawing of the stage: a dark brick wall with one hard-edged oval of spotlight on it, where the bricks show red. In the light stand an empty microphone on its stand and a bar stool with a glass of water on it, both throwing their shadows straight back onto the brick. Nobody is on stage. A ramp with a handrail runs up to the stage from the left, and the edges of two empty cabaret tables sit in the dark at the bottom.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love &mdash; what changed on the street">
+<link rel="preload" href="fonts/yellowtail-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/bricolage-grotesque-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<!-- structured-data:begin -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.love/#website","name":"Stimpunks.Love","url":"https://stimpunks.love/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.love/laughingstock.html#webpage","url":"https://stimpunks.love/laughingstock.html","name":"Laughingstock — Stimpunks.Love","description":"A comedy club on the street, down a ramp rather than a flight of stairs. Disabled comics on their own terms, in their own voice, controlling the frame: Josh Blue, Tina Friml and the rest of our Disabled Comedy playlist, with the writing from our Campfire Learn Together on why being disabled can be pretty funny. Nobody here is called brave, and bombing is allowed.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.love/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<!-- structured-data:end -->
+</head>
+<body class="laughingstock" id="top">
+<a class="skip" href="#main">Skip into the room</a>
+
+<main id="main" class="wrap" style="padding-bottom:54px;">
+
+  <div class="ls-topline">
+    <a class="backlink" href="index.html">&larr; back to the street</a>
+    <p class="ls-trail">on the street &middot; down a ramp, not a flight of stairs &middot; no cover, no two-drink minimum</p>
+  </div>
+
+  <header class="ls-head">
+    <p class="ls-over">A comedy club on the street</p>
+    <h1>Laughingstock</h1>
+    <p class="ls-tonight">Tonight: disabled comics, on their own terms</p>
+    <!-- THE STAGE, SEEN FROM THE BACK OF THE HOUSE. A brick wall, and one follow
+         spot from the lighting box BEHIND the audience throwing a hard-edged pool
+         onto it -- so the light comes from behind YOU, which nothing else on this
+         street does, and every shadow falls straight back onto the brick. In the
+         pool: a mic on a stand, a stool with a glass of water on it, and nobody.
+         NOBODY IS DRAWN ON THE STAGE ON PURPOSE: the only people on this stage are
+         the comics on the bill, in their own sets, and we are not going to draw
+         their bodies for them. The way up is a ramp, with a rail. The water is
+         sparkling at MAX -- the bubbles rise with a translate -- and still at
+         every other setting; §3 takes them away at Gentle. Nothing flickers.
+         Lifted whole by make-og.py for the share card, so there is one drawing of
+         this stage and not two. -->
+    <div class="ls-art" aria-hidden="true">
+      <!-- ls-stage:begin -->
+      <svg class="ls-stage" viewBox="0 0 1000 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="ls-bricks-dark" width="64" height="48" patternUnits="userSpaceOnUse">
+            <rect width="64" height="48" fill="var(--ls-joint)"/>
+            <rect x="1.5" y="1.5" width="61" height="21" rx="1.5" fill="var(--ls-wall)"/>
+            <rect x="-30.5" y="25.5" width="61" height="21" rx="1.5" fill="var(--ls-wall)"/>
+            <rect x="33.5" y="25.5" width="61" height="21" rx="1.5" fill="var(--ls-wall)"/>
+          </pattern>
+          <pattern id="ls-bricks-lit" width="64" height="48" patternUnits="userSpaceOnUse">
+            <rect width="64" height="48" fill="var(--ls-joint-lit)"/>
+            <rect x="1.5" y="1.5" width="61" height="21" rx="1.5" fill="var(--ls-brick)"/>
+            <rect x="-30.5" y="25.5" width="61" height="21" rx="1.5" fill="var(--ls-brick)"/>
+            <rect x="33.5" y="25.5" width="61" height="21" rx="1.5" fill="var(--ls-brick)"/>
+          </pattern>
+        </defs>
+        <rect width="1000" height="252" fill="url(#ls-bricks-dark)"/>
+        <ellipse cx="500" cy="146" rx="214" ry="132" fill="url(#ls-bricks-lit)"/>
+        <ellipse cx="500" cy="146" rx="214" ry="132" stroke="var(--ls-spot)" stroke-width="3" opacity=".4"/>
+        <path d="M506 138 V252" stroke="var(--ls-wall)" stroke-width="8" stroke-linecap="round" opacity=".92"/>
+        <rect x="496" y="112" width="20" height="32" rx="10" fill="var(--ls-wall)" opacity=".92"/>
+        <path d="M624 186 V252 M672 186 V252 M632 226 H664" stroke="var(--ls-wall)" stroke-width="5" opacity=".85"/>
+        <rect x="170" y="252" width="830" height="30" fill="var(--ls-deep)"/>
+        <path d="M170 252 H1000" stroke="var(--ls-edge)" stroke-width="3"/>
+        <path d="M30 282 L170 252 V282 Z" fill="var(--ls-deep)" stroke="var(--ls-edge)" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M30 282 L170 252" stroke="var(--ls-dim)" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M30 256 L170 226 M44 253 V279 M100 241 V270 M160 228 V254" stroke="var(--ls-dim)" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M500 126 V246 M500 238 L470 251 M500 238 L530 251 M500 238 V251" stroke="var(--ls-dim)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="490" y="92" width="20" height="36" rx="10" fill="var(--ls-deep)" stroke="var(--ls-dim)" stroke-width="3"/>
+        <path d="M492 104 H508 M492 111 H508" stroke="var(--ls-edge)" stroke-width="1.6"/>
+        <path d="M500 128 Q470 170 488 214 Q500 244 548 248 Q586 250 580 242 Q572 236 556 242" stroke="var(--ls-edge)" stroke-width="2" stroke-linecap="round"/>
+        <ellipse cx="620" cy="176" rx="34" ry="7" fill="var(--ls-deep)" stroke="var(--ls-dim)" stroke-width="3"/>
+        <path d="M596 181 L588 250 M644 181 L652 250 M620 183 V250 M594 222 H646" stroke="var(--ls-dim)" stroke-width="3" stroke-linecap="round"/>
+        <path d="M611 145 L613 172 H627 L629 145 Z" fill="var(--ls-deep)" stroke="var(--ls-cream)" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M612 154 H628" stroke="var(--ls-cream)" stroke-width="1.4" opacity=".6"/>
+        <g class="ls-fizz">
+          <circle cx="617" cy="166" r="1.6" fill="var(--ls-cream)"/>
+          <circle cx="622" cy="162" r="1.3" fill="var(--ls-cream)"/>
+          <circle cx="619" cy="159" r="1.1" fill="var(--ls-cream)"/>
+          <circle cx="624" cy="168" r="1.2" fill="var(--ls-cream)"/>
+        </g>
+        <rect y="282" width="1000" height="18" fill="var(--ls-house)"/>
+        <ellipse cx="120" cy="300" rx="70" ry="10" fill="var(--ls-deep)" stroke="var(--ls-edge)" stroke-width="2"/>
+        <ellipse cx="880" cy="300" rx="70" ry="10" fill="var(--ls-deep)" stroke="var(--ls-edge)" stroke-width="2"/>
+      </svg>
+      <!-- ls-stage:end -->
+    </div>
+  </header>
+
+  <!-- THE LEAD IS OUR OWN WRITING, from the Campfire Learn Together where the
+       community watched these sets together. It is the room's opening because it
+       is the room's argument, and it is credited to the write-up rather than
+       rewritten, because it already says it better than a second draft would. -->
+  <div class="ls-lede">
+    <p><strong>Comedy is a form of knowledge.</strong> When disabled comedians take the stage, they bring a perspective shaped by daily navigation of a world that was not designed for them &mdash; and they do it on their own terms, in their own voice, controlling the frame. They make audiences do their own thinking.</p>
+    <p>Disabled comedians are not inspiring for being on stage. They are comics who happen to be disabled. And these sets map the gap between how disability is publicly discussed and how disabled people actually live, laugh, and relate to their own bodies and communities.</p>
+    <p class="ls-from">From our Campfire Learn Together, <a href="https://stimpunks.org/2026/05/02/campfire-learn-together-being-disabled-can-be-pretty-funny/">Being Disabled Can Be Pretty Funny</a>, where the community watched Josh Blue and Tina Friml together and talked about what their work reveals about disability, identity, and the world.</p>
+  </div>
+
+  <section class="ls-part" aria-labelledby="ls-acts-h">
+    <h2 id="ls-acts-h">Who is on</h2>
+    <p class="ls-rule-note"><strong>In this room, the only thing that stands in the light is what the comics said.</strong> Everything else &mdash; our write-up, our notes, the house rules &mdash; is out here in the dark with the audience, which is where it belongs.</p>
+
+    <div class="ls-act">
+      <h3>Josh Blue</h3>
+      <p>Josh Blue has cerebral palsy and is a Paralympian in soccer. He won <i>Last Comic Standing</i> in 2006 and has been touring for over twenty years. His specials center disability without apologizing for it: life with a palsy arm that &ldquo;has some stuff to do&rdquo; after dark, a restaurant server who asks his friend &ldquo;what will <em>he</em> have,&rdquo; getting put on the disabled list after an injury at the Paralympics, and Botox, which in his telling was developed to help people with cerebral palsy before somebody noticed it would sell.</p>
+<!-- laughingstock:act:josh-blue:begin -->
+      <div class="ls-lines">
+      <figure class="ls-line">
+        <blockquote class="ls-spot">
+          <p>&ldquo;shouldn’t that somehow make me better?&rdquo;</p>
+          <cite>Josh Blue</cite>
+        </blockquote>
+        <figcaption class="ls-line__ctx">On being put on the disabled list after an injury at the Paralympics.</figcaption>
+      </figure>
+      <figure class="ls-line">
+        <blockquote class="ls-spot">
+          <p>&ldquo;I’m guessing: talk with your manager.&rdquo;</p>
+          <cite>Josh Blue</cite>
+        </blockquote>
+        <figcaption class="ls-line__ctx">His friend’s answer, in his bit, when a server asked the friend what he would have.</figcaption>
+      </figure>
+      <figure class="ls-line">
+        <blockquote class="ls-spot">
+          <p>&ldquo;well, fuck cerebral palsy, we could really be helping people.&rdquo;</p>
+          <cite>Josh Blue</cite>
+        </blockquote>
+        <figcaption class="ls-line__ctx">On Botox, and on who medical research turns out to be for.</figcaption>
+      </figure>
+      </div>
+<!-- laughingstock:act:josh-blue:end -->
+    </div>
+
+    <div class="ls-act">
+      <h3>Tina Friml</h3>
+      <p>Tina Friml has cerebral palsy. She frames herself as &ldquo;the bisexuality of ability&rdquo; &mdash; not fully committed to either side &mdash; and names three perks of being a disabled comic: she can never be a hack (&ldquo;nothing about this is relatable&rdquo;), CP is the most interesting thing about her (otherwise she is just &ldquo;a liberal white girl from Vermont&rdquo;), and nothing she does can fail, because an audience will file all of it under inspiration. That last one is not a boast. It is a critique. She calls it being on &ldquo;free play&rdquo; &mdash; a baby who cheated death and has been in the bonus round ever since.</p>
+<!-- laughingstock:act:tina-friml:begin -->
+      <div class="ls-lines">
+      <figure class="ls-line">
+        <blockquote class="ls-spot">
+          <p>&ldquo;I don’t suffer from cerebral palsy, I suffer from people&rdquo;</p>
+          <cite>Tina Friml</cite>
+        </blockquote>
+        <figcaption class="ls-line__ctx">The social model of disability, compressed into a punchline.</figcaption>
+      </figure>
+      <figure class="ls-line">
+        <blockquote class="ls-spot">
+          <p>&ldquo;nothing about this is relatable&rdquo;</p>
+          <cite>Tina Friml</cite>
+        </blockquote>
+        <figcaption class="ls-line__ctx">One of the three perks of being a disabled comic: she can never be a hack.</figcaption>
+      </figure>
+      <figure class="ls-line">
+        <blockquote class="ls-spot">
+          <p>&ldquo;the bisexuality of ability&rdquo;</p>
+          <cite>Tina Friml</cite>
+        </blockquote>
+        <figcaption class="ls-line__ctx">Not fully committed to either side, which is where a great many of us live.</figcaption>
+      </figure>
+      </div>
+<!-- laughingstock:act:tina-friml:end -->
+    </div>
+
+<!-- laughingstock:lines-credit:begin -->
+    <p class="ls-from">Every line in the light is quoted from our <a href="https://stimpunks.org/2026/05/02/campfire-learn-together-being-disabled-can-be-pretty-funny/">write-up</a>, belongs to the comic who said it, and is 30 words or fewer. The write-up does not say which set each one comes from, and neither do we. The line under each is ours.</p>
+<!-- laughingstock:lines-credit:end -->
+  </section>
+
+  <section class="ls-part" aria-labelledby="ls-stage-h">
+    <h2 id="ls-stage-h">The whole night</h2>
+<!-- laughingstock:stage:begin -->
+    <div class="ls-stageplate">
+      <p class="ls-stageplate__note">The whole night, in the order we put it in, and it runs until you stop it. No runtime on this one: it is a list we keep adding to, and a total here would be wrong the next time it changed.</p>
+      <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/videoseries?list=PLUGzxgyttDkE" data-embed-title="Disabled Comedy on YouTube">
+        Put the whole night on &mdash; runs until you stop it
+        <span class="facade__play">&#9654; PRESS PLAY</span>
+      </button>
+      <p class="ls-stageplate__credit"><a href="https://www.youtube.com/playlist?list=PLUGzxgyttDkE">Disabled Comedy</a>, on YouTube, from our own channel.</p>
+    </div>
+<!-- laughingstock:stage:end -->
+  </section>
+
+  <section class="ls-part" aria-labelledby="ls-bill-h">
+    <h2 id="ls-bill-h">The bill</h2>
+    <p>Or pick one. Every set says how long it runs before you press it, and nothing plays until you do.</p>
+<!-- laughingstock:bill:begin -->
+    <ul class="ls-bill">
+      <li class="ls-set">
+        <h3 class="ls-set__title">Being Disabled Can Be Pretty Funny</h3>
+        <p class="ls-set__who">Josh Blue</p>
+        <p class="ls-set__note">The special our Campfire Learn Together watched first, and the title that Campfire took for itself.</p>
+        <button type="button" class="facade" data-embed-id="Yoa7MUa-AL0" data-embed-title="Josh Blue &mdash; Being Disabled Can Be Pretty Funny">
+          Play &mdash; 24:39
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+        <p class="ls-set__credit">24:39 &middot; on YouTube, via Dry Bar Comedy</p>
+      </li>
+      <li class="ls-set">
+        <h3 class="ls-set__title">I’m Like the Bisexuality of Ability</h3>
+        <p class="ls-set__who">Tina Friml</p>
+        <p class="ls-set__note">The other half of that Campfire.</p>
+        <button type="button" class="facade" data-embed-id="LbaK754C4Kk" data-embed-title="Tina Friml &mdash; I’m Like the Bisexuality of Ability">
+          Play &mdash; 11:09
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+        <p class="ls-set__credit">11:09 &middot; on YouTube, via Comedy Central Stand-Up</p>
+      </li>
+      <li class="ls-set">
+        <h3 class="ls-set__title">Freak Accident</h3>
+        <p class="ls-set__who">Josh Blue</p>
+        <p class="ls-set__note">A full hour, and the longest set on the bill.</p>
+        <button type="button" class="facade" data-embed-id="hyOawy9gYbA" data-embed-title="Josh Blue &mdash; Freak Accident">
+          Play &mdash; 1:11:00
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+        <p class="ls-set__credit">1:11:00 &middot; on YouTube, via 800 Pound Gorilla Media</p>
+      </li>
+      <li class="ls-set">
+        <h3 class="ls-set__title">I Have a Disorder</h3>
+        <p class="ls-set__who">AJ Wilkerson</p>
+        <button type="button" class="facade" data-embed-id="k82dywiOjFE" data-embed-title="AJ Wilkerson &mdash; I Have a Disorder">
+          Play &mdash; 39:14
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+        <p class="ls-set__credit">39:14 &middot; on YouTube, via AJ Wilkerson Comedy</p>
+      </li>
+      <li class="ls-set">
+        <h3 class="ls-set__title">The Disabled List</h3>
+        <p class="ls-set__who">Josh Blue</p>
+        <button type="button" class="facade" data-embed-id="vmSTWMBw6mU" data-embed-title="Josh Blue &mdash; The Disabled List">
+          Play &mdash; 25:49
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+        <p class="ls-set__credit">25:49 &middot; on YouTube, via Popcorn</p>
+      </li>
+      <li class="ls-set">
+        <h3 class="ls-set__title">Tourette’s Is Sort of the Abstract Art of Disabilities</h3>
+        <p class="ls-set__who">Benny Feldman</p>
+        <button type="button" class="facade" data-embed-id="U8Rzd3AJUSY" data-embed-title="Benny Feldman &mdash; Tourette’s Is Sort of the Abstract Art of Disabilities">
+          Play &mdash; 5:35
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+        <p class="ls-set__credit">5:35 &middot; on YouTube, via Comedy Central Stand-Up</p>
+      </li>
+      <li class="ls-set">
+        <h3 class="ls-set__title">Disabled John Wick</h3>
+        <p class="ls-set__who">Steve Way</p>
+        <button type="button" class="facade" data-embed-id="RpTjATNrQ-w" data-embed-title="Steve Way &mdash; Disabled John Wick">
+          Play &mdash; 10:09
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+        <p class="ls-set__credit">10:09 &middot; on YouTube, via Don’t Tell Comedy</p>
+      </li>
+      <li class="ls-set">
+        <h3 class="ls-set__title">Handicap Crowd Work</h3>
+        <p class="ls-set__who">Ahren Belisle and Fiona Cauley</p>
+        <button type="button" class="facade" data-embed-id="lnZ812_lbHw" data-embed-title="Ahren Belisle, Fiona Cauley &mdash; Handicap Crowd Work">
+          Play &mdash; 14:21
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+        <p class="ls-set__credit">14:21 &middot; on YouTube, via Ahren Belisle Comedy</p>
+      </li>
+      <li class="ls-set">
+        <h3 class="ls-set__title">Navigating the Airport with a Disability</h3>
+        <p class="ls-set__who">Fiona Cauley</p>
+        <button type="button" class="facade" data-embed-id="tJbY_u_j_l4" data-embed-title="Fiona Cauley &mdash; Navigating the Airport with a Disability">
+          Play &mdash; 6:15
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+        <p class="ls-set__credit">6:15 &middot; on YouTube, via The Tonight Show Starring Jimmy Fallon</p>
+      </li>
+    </ul>
+    <p class="ls-from">Chalked up off the playlist on 2026-09-23, in the playlist&rsquo;s own order. The playlist is ours and we keep adding to it, so the whole night may have more on it by now than the bill does.</p>
+<!-- laughingstock:bill:end -->
+  </section>
+
+  <section class="ls-part" aria-labelledby="ls-doing-h">
+    <h2 id="ls-doing-h">What the laughs are doing</h2>
+    <ul class="ls-doing">
+      <li><strong>&ldquo;I suffer from people&rdquo; &mdash; not from cerebral palsy.</strong> That is the <a href="https://stimpunks.org/glossary/social-model/">social model of disability</a> in one sentence. Comedy delivers it where argument bounces off.</li>
+      <li><strong>Even bombing is treated as a TED Talk.</strong> <a href="https://stimpunks.org/glossary/inspiration-exploitation/">Inspiration exploitation</a> means disabled people cannot lose, and that is not a compliment: it removes disabled people from the possibility of being judged on their actual work. &ldquo;Free play&rdquo; is the same trap from another angle. It sounds like freedom. It is also a way of being taken out of ordinary life.</li>
+      <li><strong>&ldquo;Nothing about this is relatable&rdquo; is not a limitation. It is a position.</strong> Comedy from genuinely outside perspectives makes an audience aware of the frame it was inside without knowing it.</li>
+      <li><strong>Asking somebody&rsquo;s companion &ldquo;what will he have?&rdquo;</strong> while the disabled person is sitting right there is not a rare failure of manners. It is a routine expression of the assumption that a disabled person at the table is not the one to address.</li>
+      <li><strong>The same person with the same walk gets read as a celebrity, a drunk, or a danger</strong>, depending on who is looking. Disability legibility is not neutral. It is shaped by race, gender, class and context.</li>
+      <li><strong>The disability community is the only minority group everyone will eventually join.</strong> If that is true, why is it still treated as other, and why is joining it coded as loss?</li>
+      <li><strong>Being around other disabled people</strong> &mdash; where your disability is the norm, not the exception &mdash; changes what you can say, how much energy you spend, and how you move through space. That kind of community is not a luxury. It is a need.</li>
+    </ul>
+    <p class="ls-from">From the takeaways of the same <a href="https://stimpunks.org/2026/05/02/campfire-learn-together-being-disabled-can-be-pretty-funny/">write-up</a>, lightly trimmed.</p>
+  </section>
+
+  <section class="ls-part" aria-labelledby="ls-bar-h">
+    <h2 id="ls-bar-h">For the bar afterwards</h2>
+    <p>The Campfire ended with questions rather than answers. Three of them, to take home with you:</p>
+    <ul class="ls-questions">
+      <li>What would it mean for a disabled person to just be bad at something &mdash; unremarkable, having a normal day?</li>
+      <li>When have you seen humor do something that more direct advocacy couldn&rsquo;t? And what are the costs of always having to be funny to be heard?</li>
+      <li>There&rsquo;s a difference between laughing with a comedian and laughing at the subject of their jokes. How do you read the difference in a room?</li>
+    </ul>
+    <p class="ls-from">The rest of them are in <a href="https://stimpunks.org/2026/05/02/campfire-learn-together-being-disabled-can-be-pretty-funny/">the write-up</a>. <a href="https://stimpunks.org/events/campfire-learn-together/">Campfire Learn Together</a> is where we watch things like this together, and it is open to the whole community.</p>
+  </section>
+
+  <section class="ls-part" aria-labelledby="ls-rules-h">
+    <h2 id="ls-rules-h">House rules</h2>
+    <ul class="ls-rules">
+      <li>There is no cover and no two-drink minimum, and nothing in here is for sale. The water on the stool is free.</li>
+      <li>The way in is a ramp, and so is the way onto the stage. The mic comes down to whatever height the comic wants it at, and nobody has to sit on the stool.</li>
+      <li>Nobody in the front row is made part of the act without asking to be. Sit wherever you like.</li>
+      <li>Talk to the comic. Not to whoever came in with them.</li>
+      <li>Bombing is allowed. A set that does not land is a set that did not land, and nobody here will turn it into a TED Talk.</li>
+      <li>Nobody is called brave for getting up there. Tell them they were funny, or tell them they were not.</li>
+      <li>Nobody headlines, either. The bill runs in the order the playlist keeps, and a place on it is not a rank.</li>
+      <li>Laughter is loud and arrives without warning, which makes a comedy club one of the harder rooms on any street to be in. Nothing here plays until you press it, the volume is yours, and leaving in the middle of a set is not heckling.</li>
+      <li>Laughingstock is the name of the club. It is nobody&rsquo;s job.</li>
+    </ul>
+  </section>
+
+  <section class="ls-part ls-thanks" aria-labelledby="ls-whose-h">
+    <h2 id="ls-whose-h">Whose these are</h2>
+    <p><strong>Every set belongs to the comics who wrote and performed it</strong>, who are named on every one, and to the channels that published it. None of them is affiliated with Stimpunks and none of them endorses us. <strong>Nothing here is hosted by us</strong>: each set is on YouTube, and nothing reaches YouTube until you press play. The playlist is ours, on <a href="https://www.youtube.com/@stimpunks">our own channel</a>.</p>
+    <p><strong>The writing at the top, the takeaways and the questions are ours</strong>, from our <a href="https://stimpunks.org/2026/05/02/campfire-learn-together-being-disabled-can-be-pretty-funny/">Campfire Learn Together write-up</a>. The lines in the light are the comics&rsquo; own, as that write-up quotes them.</p>
+    <p><strong>The name is an ordinary English word</strong> for the person everybody laughs at. In here it is the name of the one room where the comic decides what the joke is.</p>
+    <p class="ls-further">The neon is Yellowtail, by Astigmatic, under the Apache License 2.0, and it sets the club&rsquo;s name, the comics&rsquo; names and nothing you have to read. Everything you do read is Bricolage Grotesque, by Mathieu Triay, under the SIL Open Font License &mdash; bricolage being making do with whatever is to hand. More in the <a href="liner-notes.html#laughingstock">liner notes</a>.</p>
+  </section>
+
+  <section class="ls-part ls-dialbox">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so &mdash; and in here, MAX GLITTER is the water on the stool going sparkling.</p>
+    </div>
+  </section>
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+<!-- quest:laughingstock-setlist:begin -->
+  <details class="quest" data-quest="laughingstock-setlist" data-code="SETLIST" data-accept="amanager|manager|talkwithyourmanager|themanager|yourmanager">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M2 28 H30" stroke="var(--ls-edge)" stroke-width="1.8" stroke-linecap="round"/><path d="M8 6 L25 4 L27 25 L10 27 Z" fill="none" stroke="var(--ls-cream)" stroke-width="2.2" stroke-linejoin="round"/><path d="M12.5 12 L22 11 M13 16.5 L22.5 15.5 M13.5 21 L20 20.3" stroke="var(--ls-cream)" stroke-width="1.6" stroke-linecap="round"/><path d="M11 3.5 L21 2.4 L21.4 6.6 L11.4 7.7 Z" fill="var(--ls-neon)"/></svg>
+      <span class="quest__label">Job marker &mdash; a set list taped to the floor of the stage</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> Who ordered?</p>
+      <p class="quest__ask"><b>Before the code:</b> A server asked Josh Blue’s friend what he would have. The friend guessed Josh would be talking with somebody. Who?</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="laughingstock-setlist-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="laughingstock-setlist-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is one of the lines standing in the light, under Josh Blue’s name.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>It is the line his friend says, not the one he does.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>Whoever you ask for when the service has gone wrong.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Your manager</b>. “I’m guessing: talk with your manager.” The server had gone round the table taking everybody’s order and, when they got to Josh Blue, asked the person next to him. It is not a rare failure of manners. It is the routine assumption that a disabled person at the table is not the one to address.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SETLIST</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SETLIST">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>“I’m guessing: talk with your manager.” The server had gone round the table taking everybody’s order and, when they got to Josh Blue, asked the person next to him. It is not a rare failure of manners. It is the routine assumption that a disabled person at the table is not the one to address.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SETLIST</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SETLIST">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:laughingstock-setlist:end -->
+</main>
+<!-- signoff:begin -->
+<footer class="signoff">
+  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="your-room.html">Your Room</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="feed.xml">Feed</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+</footer>
+<!-- signoff:end -->
+<script src="love.js" defer></script>
+<script src="love-embed.js" defer></script>
+<script src="quest.js" defer></script>
+</body>
+</html>

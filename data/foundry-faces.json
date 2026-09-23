@@ -237,6 +237,29 @@
     }
    ]
   },
+  "bricolage-grotesque": {
+   "family": "Bricolage Grotesque",
+   "category": "Sans Serif",
+   "designer": "Mathieu Triay",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/bricolagegrotesque",
+   "copyright": "Copyright 2022 The Bricolage Grotesque Project Authors (https://github.com/ateliertriay/bricolage)",
+   "repository": "https://github.com/ateliertriay/bricolage",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "bricolage-grotesque-400.woff2",
+     "sha": "4fd48b2c1ab27220"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "bricolage-grotesque-400.woff2",
+     "sha": "4fd48b2c1ab27220"
+    }
+   ]
+  },
   "bungee": {
    "family": "Bungee",
    "category": "Display",
@@ -1343,6 +1366,23 @@
      "style": "normal",
      "file": "work-sans-600.woff2",
      "sha": "ab8060b270f398e2"
+    }
+   ]
+  },
+  "yellowtail": {
+   "family": "Yellowtail",
+   "category": "Handwriting",
+   "designer": "Astigmatic",
+   "licence": "Apache License 2.0",
+   "licence_url": "https://github.com/google/fonts/tree/main/apache/yellowtail",
+   "copyright": "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved. Available under the Apache 2.0 licence. http://www.apache.org/licenses/LICENSE-2.0.html",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "yellowtail-400.woff2",
+     "sha": "ac99e23948e0d1ed"
     }
    ]
   },

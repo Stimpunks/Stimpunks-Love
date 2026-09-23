@@ -482,6 +482,24 @@
 @font-face { font-family: 'Lexend'; src: url('fonts/lexend-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Lexend'; src: url('fonts/lexend-400.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
 
+/* Laughingstock (§41). A SIGN-WRITER'S SCRIPT AND A GROTESQUE MADE OF ODDMENTS.
+   Yellowtail is the letterform a neon tube is bent into, and it sets the club's
+   name, the comics' names and nothing you have to read: a script carrying a
+   sentence is an access failure wearing atmosphere, which is the Doomscroll's
+   blackletter rule arriving at a comedy club, where every inch of the subject
+   is asking for a script. Monoton is the Chappell's and Shrikhand is the
+   dancefloor's; this is neither a tube face nor a fat one, it is a HAND, which
+   is what a neon sign is copied from. Under the Apache License 2.0.
+   Bricolage Grotesque carries everything that is read. Mathieu Triay drew it
+   out of the mismatched grotesques in old French specimen books, and bricolage
+   is making do with whatever is to hand -- which is most of a disabled
+   person's day and a good deal of what that room's comedy is about. One
+   variable file, declared twice against the weight axis. Under the SIL Open
+   Font License. See fonts/_sources.json. */
+@font-face { font-family: 'Yellowtail'; src: url('fonts/yellowtail-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Bricolage Grotesque'; src: url('fonts/bricolage-grotesque-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Bricolage Grotesque'; src: url('fonts/bricolage-grotesque-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1213,6 +1231,34 @@
   --dts-room:  #22151F;   --dts-deep:  #170E15;
   --dts-pale:  #EFE7EE;   --dts-text:  #DCD1DA;   --dts-dim:   #B7A8B5;
   --dts-exit:  #A6D6B3;   --dts-hall:  #E4EFE2;   --dts-edge:  #8B7889;
+
+  /* Laughingstock (§41). A COMEDY CELLAR SEEN FROM THE BACK OF THE HOUSE, and
+     the light is the whole separation: ONE FOLLOW SPOT, FROM BEHIND YOU. It
+     sits in the lighting box over the audience's heads and throws one hard-
+     edged pool onto a brick wall, so the only lit things in the room are in
+     front of you and every shadow falls straight back onto the brick.
+     --ls-spot is that light, and THE ONLY THING EVER SET IN IT IS WHAT A COMIC
+     SAID. That is Dead Tired Society's rule turned inside out, one door along:
+     there nobody sits in the light because masking is performing under one;
+     here exactly one person stands in it, because they chose to and they are
+     holding the mic, and controlling the frame is the whole of the argument.
+     Everything of ours -- the write-up, the notes, the house rules -- is out in
+     the dark with the audience: --ls-house, with --ls-cream, --ls-text and
+     --ls-dim on it. --ls-ink and --ls-ink-2 are the only inks in the light.
+     --ls-neon is the sign over the stage and every link in the house.
+     THE BRICK IS RED AND NOT BROWN. --ls-brick is the lit face of a brick and
+     --ls-wall is the same brick out of the light; neither carries a word. If
+     those ever drift towards brown, this has become The Den with a microphone
+     in it, and it is this room that moves.
+     LS- PREFIXED THROUGHOUT: `wall`, `brick`, `edge`, `spot` and `ink` are the
+     plain words this file fills up with, and a custom property declared twice
+     in one :root is last-wins and silent. */
+  --ls-house:  #140F10;   --ls-deep:   #0B0808;
+  --ls-cream:  #F4E8D8;   --ls-text:   #D8C9BB;   --ls-dim:    #B09F92;
+  --ls-neon:   #86DCFF;   --ls-edge:   #7D6A60;
+  --ls-spot:   #FBF0DC;   --ls-ink:    #1F1513;   --ls-ink-2:  #5B3B2F;
+  --ls-brick:  #8E3526;   --ls-wall:   #3A1713;
+  --ls-joint:  #231513;   --ls-joint-lit: #C9A48E;
 }
 
 * { box-sizing: border-box; }
@@ -1734,6 +1780,18 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .door--dead-tired .door__name  { font-family: 'Sorts Mill Goudy', Georgia, serif; font-weight: 400; color: var(--dts-pale); font-size: 30px; }
 .door--dead-tired .door__blurb { font-family: 'Lexend', var(--sans); color: var(--dts-text); }
 .door--dead-tired .door__knock { font-family: 'Lexend', var(--sans); font-weight: 600; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--dts-exit); }
+
+/* Laughingstock (§41). THE ONE FRONT IN THE ROW WITH A NEON SIGN IN THE WINDOW,
+   and the one whose awning is a course of brick: a club front on a night street,
+   the name bent in blue tube over a red wall. The sign does not flicker -- no
+   neon on this street does, at any setting, for Club Chronic's reason -- and its
+   glow is a static shadow. Every ink here is on --ls-house and is measured in
+   check-contrast.py. */
+.door--laughingstock { background: var(--ls-house); border-color: var(--ls-edge); }
+.door--laughingstock .door__awning { background-color: var(--ls-wall); background-image: repeating-linear-gradient(90deg, var(--ls-brick) 0 22px, var(--ls-joint) 22px 25px); border-bottom-color: var(--ls-edge); }
+.door--laughingstock .door__name  { font-family: 'Yellowtail', cursive; font-weight: 400; color: var(--ls-neon); font-size: 36px; line-height: 1.05; text-shadow: 0 0 10px rgba(134, 220, 255, .45); }
+.door--laughingstock .door__blurb { font-family: 'Bricolage Grotesque', var(--sans); color: var(--ls-text); }
+.door--laughingstock .door__knock { font-family: 'Bricolage Grotesque', var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ls-neon); }
 
 .door--feed { background: var(--fd-enamel); border-color: var(--fd-girder); }
 .door--feed .door__awning { background-image: repeating-linear-gradient(180deg, var(--fd-flap) 0 6px, var(--fd-split) 6px 7px); border-bottom-color: var(--fd-girder); }
@@ -9208,7 +9266,185 @@ html[data-intensity="max"] .dts-dust circle:nth-child(5) { animation-duration: 1
 }
 
 
-/* §41 ── Small screens ───────────────────────────────────────────────────────
+/* §41 ── ROOM: Laughingstock (a shopfront on the street) ─────────────────────
+   A COMEDY CELLAR SEEN FROM THE BACK OF THE HOUSE. Disabled comics on their own
+   terms, in their own voice, controlling the frame -- which is the write-up
+   this room is built on, and the reason the light works the way it does.
+
+   THE LIGHT COMES FROM BEHIND YOU, AND ONLY WHAT A COMIC SAID STANDS IN IT. One
+   follow spot in the lighting box over the audience's heads throws one hard-
+   edged pool onto a brick wall. Nothing else on this street is lit from behind
+   the person looking at it: the Lagoon's light is a screen in front of you, the
+   Outskirts' is a low, level beam sweeping many signs at the roadside, the
+   Checkpoint's rises out of the floor, Looming Rocks' climbs the rock, the
+   Garden's falls through leaves. So every shadow in the drawing falls straight
+   back onto the brick, and the pool has an edge you could trace.
+
+   --ls-spot IS THAT LIGHT AND THE ONLY WORDS EVER SET IN IT ARE THE COMICS'.
+   Each of their lines stands in an oval of it, dark ink on the light, with the
+   comic's name under it; our context for the line sits OUTSIDE the oval, in the
+   house. Everything of ours is out there with the audience. Do not put a word of
+   ours in the light to make it "pop" -- that is the room handing the frame back
+   to whoever is writing about the comics, which is the thing the write-up is
+   against.
+
+   THESE ARE THE COLLISIONS TO WATCH, and every one is structural:
+     · DEAD TIRED SOCIETY is one door along and its light also lies on a surface
+       with a hard edge. That room's whole rule is that NOBODY sits in the light,
+       because masking is performing under one, and it keeps every word out of
+       it. This one puts exactly one kind of word in it, on purpose, because the
+       person in the light chose to be and is holding the mic. The same light,
+       refused there and taken here, and neither room is wrong.
+     · CLUB CHRONIC is the other club with a stage, and is a WALL with no light
+       source anywhere in it: flat, frontal, a hundred rectangles of paper pasted
+       onto black. There is no paper in here and there is one light.
+     · BLACK LEATHER LAGOON is the other dark room with one bright shape in it,
+       and its bright shape is the SOURCE, a screen standing in the water in
+       front of you. Here the bright shape is where the light LANDS.
+     · THE DEN is the room the brick would collapse into if it browned: panelled,
+       lamplit at knee height, a carpet brighter than the walls. The brick here is
+       red, the light is overhead and behind, and the brightest thing in the room
+       is a pool on a wall. If --ls-brick or --ls-wall ever go brown, this room
+       moves.
+
+   THE NEON DOES NOT FLICKER. A neon sign in a cellar is a flickering object
+   nearly by definition, and Club Chronic's rule holds here for Club Chronic's
+   reason: nothing flashes on this street at any setting. Its glow is a static
+   text-shadow. The only motion in the room is the glass of water on the stool,
+   which is sparkling at MAX -- four bubbles rising with a translate -- still at
+   Regular, and taken away by §3 at Gentle. Rotation and skew are all
+   check-gentle.py can read, and nothing here asks it to take the room's word.
+
+   THE SPOT IS AN ELLIPSE AND THE TEXT INSIDE IT HAS TO STAY INSIDE IT. A line is
+   centred, padded 13% by 17% of the oval's width, which keeps the corners of the
+   text box inside the curve at every width a line is set at -- measured on a
+   phone and on a desk, because the contrast checkers measure against the
+   element's background-color and cannot see a letter that has fallen off the
+   edge of the light onto the dark. Keep the lines short; the tool caps them. */
+
+.laughingstock { background: var(--ls-house); color: var(--ls-text); font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
+.laughingstock a { color: var(--ls-neon); text-underline-offset: 3px; }
+.laughingstock a:hover { color: var(--ls-cream); }
+/* :where() so this base is (0,1,0) and every component below it wins by order --
+   Dead Tired Society's day-one lesson, taken before it could happen here. */
+.laughingstock :where(p, li) { font-size: 17px; line-height: 1.68; }
+.laughingstock strong { color: var(--ls-cream); font-weight: 700; }
+.laughingstock code { font-size: .9em; color: var(--ls-cream); }
+.laughingstock .backlink { font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--ls-neon); }
+
+.ls-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.ls-trail { margin: 0; font-size: 14px; color: var(--ls-dim); }
+
+/* THE SIGN OVER THE STAGE. Blue tube on a dark cellar, glowing and not
+   flickering. The name is a script because a neon sign is copied from a
+   sign-writer's hand; nothing you have to read is set in it. */
+.ls-head { margin: 34px 0 0; }
+.ls-over { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--ls-dim); }
+.laughingstock h1 {
+  font-family: 'Yellowtail', cursive; font-weight: 400;
+  font-size: clamp(56px, 14vw, 148px); line-height: 1.05;
+  color: var(--ls-neon); margin: 4px 0 0;
+  text-shadow: 0 0 8px rgba(134, 220, 255, .55), 0 0 30px rgba(134, 220, 255, .28);
+}
+.ls-tonight { margin: 4px 0 0; font-weight: 700; font-size: clamp(19px, 2.6vw, 25px); line-height: 1.3; color: var(--ls-cream); }
+.ls-art { margin: 24px 0 0; line-height: 0; }
+.ls-art svg { display: block; width: 100%; height: auto; }
+
+.ls-lede { margin: 30px 0 0; max-width: 64ch; }
+.ls-lede p { margin: 0 0 16px; font-size: 20px; line-height: 1.6; color: var(--ls-cream); }
+.laughingstock .ls-from { font-size: 15px; line-height: 1.6; color: var(--ls-dim); max-width: 70ch; }
+
+.ls-part { margin: 64px 0 0; }
+.ls-part > :where(p, ul) { max-width: 70ch; }
+.ls-part > :where(p) { margin: 0 0 14px; }
+.laughingstock h2 { font-weight: 700; font-size: clamp(28px, 4vw, 38px); line-height: 1.15; letter-spacing: -.01em; color: var(--ls-cream); margin: 0 0 16px; }
+.ls-rule-note { margin: 0 0 8px; }
+
+/* THE ACTS. Their names are in lights, which is the one place the neon sets a
+   word that is not the club's own. */
+.ls-act { margin: 40px 0 0; }
+.ls-act > p { max-width: 70ch; margin: 10px 0 0; }
+.ls-act h3 {
+  font-family: 'Yellowtail', cursive; font-weight: 400; font-size: 46px; line-height: 1.1;
+  color: var(--ls-neon); margin: 0; text-shadow: 0 0 8px rgba(134, 220, 255, .45);
+}
+
+/* THE LINES IN THE LIGHT. Each is its own pool, because each was its own laugh. */
+.ls-lines { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 30px 26px; margin: 26px 0 0; }
+.ls-line { margin: 0; display: flex; flex-direction: column; align-items: center; }
+.ls-spot {
+  margin: 0; width: 100%; border-radius: 50%; padding: 13% 17%;
+  background: var(--ls-spot); color: var(--ls-ink); text-align: center;
+  box-shadow: 0 0 0 5px rgba(251, 240, 220, .1), 0 0 44px rgba(251, 240, 220, .12);
+}
+.ls-spot p { margin: 0; font-weight: 700; font-size: 21px; line-height: 1.3; color: var(--ls-ink); }
+.ls-spot cite { display: block; margin: 8px 0 0; font-style: normal; font-weight: 700; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--ls-ink-2); }
+.laughingstock .ls-line__ctx { margin: 14px 0 0; font-size: 15px; line-height: 1.5; color: var(--ls-dim); text-align: center; max-width: 34ch; }
+
+/* THE PRESSES. The shared plate, dressed for a cellar: the house's own dark,
+   one hairline, and the label in the neon. Styled on `.facade` rather than on
+   `button.facade`, so the pressed player is dressed the same as the button it
+   replaced -- love-embed.js hands back a bare div, and a class on the button
+   does not survive the press. */
+.laughingstock .facade {
+  background: var(--ls-deep); border: 2px solid var(--ls-edge); border-radius: 6px;
+  color: var(--ls-cream); font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-weight: 700; font-size: 17px;
+}
+.laughingstock .facade:hover { border-color: var(--ls-neon); }
+.laughingstock .facade__play { font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .14em; color: var(--ls-neon); }
+.laughingstock .facade iframe { border-radius: 4px; }
+
+.ls-stageplate { margin: 18px 0 0; max-width: 900px; }
+.ls-stageplate__note { margin: 0 0 14px; }
+.laughingstock .ls-stageplate__credit { margin: 10px 0 0; font-size: 14px; color: var(--ls-dim); }
+
+/* THE BILL. In the playlist's own order, and nothing on it bigger than anything
+   else: nobody headlines. The comic's name is in lights on every set. */
+.ls-bill { list-style: none; margin: 22px 0 18px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 34px 26px; }
+.ls-set { display: flex; flex-direction: column; gap: 8px; }
+.ls-set__title { margin: 0; font-weight: 700; font-size: 20px; line-height: 1.25; color: var(--ls-cream); }
+.laughingstock .ls-set__who { margin: 0; font-family: 'Yellowtail', cursive; font-size: 28px; line-height: 1.1; color: var(--ls-neon); }
+.laughingstock .ls-set__note { margin: 0; font-size: 15px; line-height: 1.5; }
+.ls-set .facade { margin-top: auto; }
+.laughingstock .ls-set__credit { margin: 0; font-size: 14px; color: var(--ls-dim); }
+
+/* What the laughs are doing, and the house rules: hairlines rather than bullets,
+   because neither is a list of things to do. */
+.ls-doing, .ls-rules { list-style: none; margin: 18px 0 16px; padding: 0; }
+.ls-doing li, .ls-rules li { margin: 0; padding: 13px 0; border-top: 1px solid var(--ls-edge); }
+.ls-doing li:last-child, .ls-rules li:last-child { border-bottom: 1px solid var(--ls-edge); }
+.ls-questions { margin: 16px 0 18px; padding: 0 0 0 1.2em; }
+.laughingstock .ls-questions li { margin: 0 0 12px; font-size: 19px; line-height: 1.55; color: var(--ls-cream); }
+.ls-questions li::marker { color: var(--ls-neon); }
+
+.ls-thanks { border-top: 1px solid var(--ls-edge); padding-top: 30px; }
+.laughingstock .ls-further { font-size: 15px; color: var(--ls-dim); }
+.ls-dialbox { max-width: 380px; }
+.laughingstock .quest { margin-top: 44px; }
+
+/* The water on the stool, sparkling at MAX only. A translate and a fade, never
+   a flash: four bubbles, each a pixel or two across, rising. */
+html[data-intensity="max"] .ls-fizz circle { animation: ls-fizz 2.8s linear infinite; }
+html[data-intensity="max"] .ls-fizz circle:nth-child(2) { animation-duration: 3.4s; animation-delay: -1.1s; }
+html[data-intensity="max"] .ls-fizz circle:nth-child(3) { animation-duration: 2.3s; animation-delay: -1.8s; }
+html[data-intensity="max"] .ls-fizz circle:nth-child(4) { animation-duration: 3.1s; animation-delay: -.6s; }
+@keyframes ls-fizz { from { transform: translate(0, 0); opacity: .95; } to { transform: translate(0, -18px); opacity: 0; } }
+
+/* A LINE IN THE LIGHT STAYS A POOL ON A PHONE, one to a row, and the type comes
+   down a step rather than the oval going square: a rectangle of light is a
+   window, and a window is a different room. Written last in the section on
+   purpose, after every rule it overrides -- the Playhouse's half-a-breakpoint
+   lesson. */
+@media (max-width: 560px) {
+  .ls-lines { grid-template-columns: minmax(0, 1fr); }
+  .ls-spot p { font-size: 19px; }
+  .ls-lede p { font-size: 18px; }
+  .ls-act h3 { font-size: 40px; }
+}
+
+
+/* §42 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -9315,7 +9551,7 @@ html[data-intensity="max"] .dts-dust circle:nth-child(5) { animation-duration: 1
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §41 says every
+   shipped with no rule here at all — which on a street whose §42 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -9439,7 +9675,7 @@ html[data-intensity="max"] .dts-dust circle:nth-child(5) { animation-duration: 1
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §42 ── Print ───────────────────────────────────────────────────────────────
+/* §43 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

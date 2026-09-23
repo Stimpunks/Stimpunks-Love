@@ -890,5 +890,33 @@
       "src": "https://fonts.gstatic.com/s/sortsmillgoudy/v16/Qw3AZR9MED_6PSuS_50nEaVrfzgEbH80jbs_1vKbfA.woff2",
       "note": "Dead Tired Society (\u00a740), the society's name, its headings and nothing at reading size. A revival of Frederic Goudy's Oldstyle, which reads like a founding charter, and that is the joke: the grandest name on the street, set like an institution's, for a society whose members are lying on the floor."
     }
+  ],
+  "bricolage-grotesque": [
+    {
+      "file": "bricolage-grotesque-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 41236,
+      "src": "https://fonts.gstatic.com/s/bricolagegrotesque/v9/3y9H6as8bTXq_nANBjzKo3IeZx8z6up5BeSl5jBNz_19PpbpMXuECpwUxJBOm_OJWiawA1XphjhQYg.woff2",
+      "note": "Laughingstock (§41), every word that is read. Bricolage Grotesque is a grotesque drawn by Mathieu Triay out of the odd, slightly mismatched sans serifs of old French specimen books, and bricolage is making do with whatever is to hand -- which is most of what a disabled person's day is, and a good deal of what that room's comedy is about. It also sits in front of a brick wall. One variable file serves both weights, as Archivo, Chivo, Lexend and Space Grotesk already do here."
+    },
+    {
+      "file": "bricolage-grotesque-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 41236,
+      "src": "https://fonts.gstatic.com/s/bricolagegrotesque/v9/3y9H6as8bTXq_nANBjzKo3IeZx8z6up5BeSl5jBNz_19PpbpMXuECpwUxJBOm_OJWiawA1XphjhQYg.woff2",
+      "note": "Laughingstock (§41), every word that is read. Bricolage Grotesque is a grotesque drawn by Mathieu Triay out of the odd, slightly mismatched sans serifs of old French specimen books, and bricolage is making do with whatever is to hand -- which is most of what a disabled person's day is, and a good deal of what that room's comedy is about. It also sits in front of a brick wall. One variable file serves both weights, as Archivo, Chivo, Lexend and Space Grotesk already do here."
+    }
+  ],
+  "yellowtail": [
+    {
+      "file": "yellowtail-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 18308,
+      "src": "https://fonts.gstatic.com/s/yellowtail/v25/OZpGg_pnoDtINPfRIlLohlvHwWL9f4k.woff2",
+      "note": "Laughingstock (§41), the neon over the stage and the club's name, and nothing at reading size. A 1950s sign-writer's script, which is the letterform a neon tube is bent into. A script carrying a sentence is an access failure wearing atmosphere -- the Doomscroll's blackletter rule -- so it never does."
+    }
   ]
 }

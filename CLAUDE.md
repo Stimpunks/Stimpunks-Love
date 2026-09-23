@@ -1949,6 +1949,53 @@ because every component class is (0,1,0) — the Playhouse's `.toy--orange span`
 size. It is `.dead-tired :where(p, li)` now, which is (0,1,0) and loses to anything written after
 it. Found by looking at the page; no checker reads a font size.
 
+**LAUGHINGSTOCK IS LIT FROM BEHIND YOU, AND ONLY WHAT A COMIC SAID STANDS IN THE LIGHT.** §41 is a
+comedy cellar seen from the back of the house: one follow spot in the lighting box over the
+audience's heads throws one hard-edged pool onto a brick wall, and every shadow falls straight
+back onto the brick. **The comics' own lines are the only words ever set in `--ls-spot`**, dark ink
+in an oval of it with their name underneath; everything of ours &mdash; the write-up, our context for
+each line, the house rules &mdash; is out in the dark with the audience. That is the write-up's
+argument made structural (*controlling the frame*), and it is **Dead Tired Society's rule turned
+inside out one door along**: there nobody sits in the light because masking is performing under
+one; here exactly one person stands in it, because they chose to and they are holding the mic.
+**Do not put a word of ours in the light to make it "pop."** The collisions are structural: Club
+Chronic is the other club with a stage and is a wall with no light in it at all; Black Leather
+Lagoon's bright shape is the SOURCE, in front of you, where this one's is where the light LANDS;
+and **the brick is red and not brown**, because a browned brick wall lamplit at knee height is The
+Den with a microphone in it. The neon does not flicker, for Club Chronic's reason; the only motion
+is the water on the stool going sparkling at MAX, with a translate. **Nobody is drawn on the stage**:
+the only people on it are the comics in their own sets, and we do not draw their bodies for them.
+
+**THE FRIENDLY EDIT IN THAT ROOM IS "BRAVE", AND THE TOOL REFUSES IT.** Somebody being kind about a
+room full of disabled comics reaches for brave, courageous, inspiring or overcoming before anything
+else, and one sentence of it turns the page into the thing the page is about &mdash; the write-up says
+in as many words that disabled comedians are not inspiring for being on stage. `make-laughingstock.py`
+sweeps our own voice with the negation window so the house rules can still say nobody is. **It is
+narrowed rather than excepted**: bare *inspiration* is allowed because *inspiration exploitation*
+is our own glossary entry and *the inspiration column* is the write-up's phrase for the trap; what
+is refused is calling somebody it. **It skips blockquotes and anything in curly quotes**, which in
+that room is exactly the comics' lines, so "I suffer from people" is allowed to say suffer, **and it
+skips set titles**, which are the comic's or the channel's &mdash; one of them says HANDICAP. It also
+refuses a headliner and any ranking: a comedy bill runs opener to closer as a matter of trade, and
+the bill is in our playlist's own order with nobody bigger than anybody else.
+
+**THE LINES IN THE LIGHT CAME FROM OUR WRITE-UP AND SAY NOTHING ABOUT WHICH SET.** Every one was
+checked word for word against the mirror's copy of the post; the post does not say which special
+each line is from, and neither does the room. **Do not attribute a line to a set** without watching
+it &mdash; that is the jukebox's guessed mapping at a comedy club. **And our post states the premise of
+Josh Blue's Botox bit as fact** (developed for cerebral palsy, then redirected to cosmetics); the
+room's context line for it deliberately does not, and the post is stimpunks.org's to correct, not
+this repo's.
+
+**THE BILL IS A MIRROR OF THE PLAYLIST AND SAYS SO.** It was read off the playlist page on 2026-09-23,
+in that playlist's order, and a set added to the playlist is on the stage the next time somebody
+puts the whole night on and not on the bill until somebody reads the playlist again. The room prints
+the date under the bill. `make-laughingstock.py` holds `make-club.py`'s pair &mdash; a runtime required
+on every set and refused on the playlist &mdash; and the playlist id is one of YouTube's new short
+ones (`PLUGzxgyttDkE`, thirteen characters), which **was verified to embed and to play by pressing
+play inside the frame**, not by reading the poster. The playlist's first entry is on the bill,
+which is the one row that decides whether the whole night embeds at all.
+
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
 paleness alone — which is what holds it off the Guild, lit from nowhere with no depth. Netlify

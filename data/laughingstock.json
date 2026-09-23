@@ -1,0 +1,130 @@
+{
+  "_what": "Laughingstock, a comedy club on the street. The stage is our own Disabled Comedy playlist, put on whole; the bill beside it is every set on that playlist, one press each; the acts are the two comics our Campfire Learn Together watched, with their own lines standing in the spotlight. tools/make-laughingstock.py builds all three and the credits in liner-notes.html from this file. Do not hand-edit between the markers.",
+  "_source": "The bill was read off the playlist page's own data (ytInitialData) on 2026-09-23: nine entries, a header reading nine videos, and nothing hidden. Titles, channels and runtimes are YouTube's and not typed from memory. Every id was then checked on its own watch page the same day -- playabilityStatus OK, playableInEmbed true, and none of them LOGIN_REQUIRED, which is the age gate that caught one of Black Leather Lagoon's songs. The playlist's first entry is Yoa7MUa-AL0, which plays: the Queercore deck on the dancefloor failed to embed because of what sat at the top of its list, and this is the check that would have caught it.",
+  "_titles": "The title on each set is the set's own name, trimmed of the comic's name and of words like FULL SPECIAL, because the comic is credited separately on every row and the channel's packaging is not the set. title_verbatim is exactly what YouTube shows, kept so nobody has to go and look. Where a title carries a word this room would never use in its own voice, it is still the title: it is the comic's or the channel's, and make-laughingstock.py does not sweep titles for that reason.",
+  "_order": "The playlist's own order, which is Stimpunks' and is not re-sorted here. There is no headliner: a comedy bill runs opener to closer as a matter of trade, and a room whose whole argument is that disabled comics should be judged on their work has no business ranking seven of them by where they stand in the running order.",
+  "_drift": "The bill is a MIRROR of the playlist and it drifts by design. A set added to the playlist is on the stage the next time somebody puts the whole night on, and is not on the bill until somebody reads the playlist again and adds a row here. The room says so under the bill, with the date this file was read, rather than implying the two are the same list. If a row goes dead, check-jukebox.py is what notices.",
+  "_lines": "Every line under an act is quoted from our own Campfire Learn Together write-up, https://stimpunks.org/2026/05/02/campfire-learn-together-being-disabled-can-be-pretty-funny/, checked word for word against the Knowledge System mirror's copy of that post on 2026-09-23, and credited to the comic whose line it is. THE WRITE-UP DOES NOT SAY WHICH SET EACH LINE COMES FROM AND THIS FILE DOES NOT GUESS. A line credited to the wrong special would be the jukebox's guessed mapping arriving at a comedy club. Where a line is somebody else speaking inside the comic's bit -- the friend at the restaurant -- the context says so.",
+  "_checked": "2026-09-23",
+  "playlist": {
+    "list": "PLUGzxgyttDkE",
+    "title": "Disabled Comedy",
+    "channel": "Stimpunks Foundation",
+    "note": "The whole night, in the order we put it in, and it runs until you stop it. No runtime on this one: it is a list we keep adding to, and a total here would be wrong the next time it changed."
+  },
+  "sets": [
+    {
+      "id": "Yoa7MUa-AL0",
+      "title": "Being Disabled Can Be Pretty Funny",
+      "title_verbatim": "Being Disabled Can Be Pretty Funny | Josh Blue Full Special",
+      "comics": ["Josh Blue"],
+      "channel": "Dry Bar Comedy",
+      "runtime": "24:39",
+      "note": "The special our Campfire Learn Together watched first, and the title that Campfire took for itself."
+    },
+    {
+      "id": "LbaK754C4Kk",
+      "title": "I’m Like the Bisexuality of Ability",
+      "title_verbatim": "“I’m Like the Bisexuality of Ability” - Tina Friml - Stand-Up Featuring",
+      "comics": ["Tina Friml"],
+      "channel": "Comedy Central Stand-Up",
+      "runtime": "11:09",
+      "note": "The other half of that Campfire."
+    },
+    {
+      "id": "hyOawy9gYbA",
+      "title": "Freak Accident",
+      "title_verbatim": "Josh Blue | Freak Accident (Full Comedy Special)",
+      "comics": ["Josh Blue"],
+      "channel": "800 Pound Gorilla Media",
+      "runtime": "1:11:00",
+      "note": "A full hour, and the longest set on the bill."
+    },
+    {
+      "id": "k82dywiOjFE",
+      "title": "I Have a Disorder",
+      "title_verbatim": "I HAVE A DISORDER | Full Standup Comedy Special | AJ Wilkerson",
+      "comics": ["AJ Wilkerson"],
+      "channel": "AJ Wilkerson Comedy",
+      "runtime": "39:14"
+    },
+    {
+      "id": "vmSTWMBw6mU",
+      "title": "The Disabled List",
+      "title_verbatim": "Josh Blue's UNFILTERED Stand-Up Comedy: The Disabled List | Full Episode",
+      "comics": ["Josh Blue"],
+      "channel": "Popcorn",
+      "runtime": "25:49"
+    },
+    {
+      "id": "U8Rzd3AJUSY",
+      "title": "Tourette’s Is Sort of the Abstract Art of Disabilities",
+      "title_verbatim": "“Tourette’s Is Sort of The Abstract Art of Disabilities” - Benny Feldman - Stand-Up Featuring",
+      "comics": ["Benny Feldman"],
+      "channel": "Comedy Central Stand-Up",
+      "runtime": "5:35"
+    },
+    {
+      "id": "RpTjATNrQ-w",
+      "title": "Disabled John Wick",
+      "title_verbatim": "Disabled John Wick | Steve Way | Stand Up Comedy",
+      "comics": ["Steve Way"],
+      "channel": "Don’t Tell Comedy",
+      "runtime": "10:09"
+    },
+    {
+      "id": "lnZ812_lbHw",
+      "title": "Handicap Crowd Work",
+      "title_verbatim": "HANDICAP CROWD WORK | FT. AHREN BELISLE & FIONA CAULEY",
+      "comics": ["Ahren Belisle", "Fiona Cauley"],
+      "channel": "Ahren Belisle Comedy",
+      "runtime": "14:21"
+    },
+    {
+      "id": "tJbY_u_j_l4",
+      "title": "Navigating the Airport with a Disability",
+      "title_verbatim": "Fiona Cauley Stand-Up: Navigating the Airport with a Disability, Is There an Elevator to Heaven?",
+      "comics": ["Fiona Cauley"],
+      "channel": "The Tonight Show Starring Jimmy Fallon",
+      "runtime": "6:15"
+    }
+  ],
+  "acts": [
+    {
+      "id": "josh-blue",
+      "name": "Josh Blue",
+      "lines": [
+        {
+          "text": "shouldn’t that somehow make me better?",
+          "context": "On being put on the disabled list after an injury at the Paralympics."
+        },
+        {
+          "text": "I’m guessing: talk with your manager.",
+          "context": "His friend’s answer, in his bit, when a server asked the friend what he would have."
+        },
+        {
+          "text": "well, fuck cerebral palsy, we could really be helping people.",
+          "context": "On Botox, and on who medical research turns out to be for."
+        }
+      ]
+    },
+    {
+      "id": "tina-friml",
+      "name": "Tina Friml",
+      "lines": [
+        {
+          "text": "I don’t suffer from cerebral palsy, I suffer from people",
+          "context": "The social model of disability, compressed into a punchline."
+        },
+        {
+          "text": "nothing about this is relatable",
+          "context": "One of the three perks of being a disabled comic: she can never be a hack."
+        },
+        {
+          "text": "the bisexuality of ability",
+          "context": "Not fully committed to either side, which is where a great many of us live."
+        }
+      ]
+    }
+  ]
+}

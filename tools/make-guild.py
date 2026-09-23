@@ -187,6 +187,14 @@ def normalise(s):
 # yellow on that blue measures 3.88 and white measures 5.08 -- the one place
 # here where the room's favourite colour lost to the floor it was lying on.
 DRAW = {
+    # A set list taped to the stage floor by the mic stand, which is where every
+    # comic keeps theirs: a sheet in --ls-cream, 15.72 on the house, with three
+    # lines of running order on it and a strip of tape across the top in the
+    # neon, 12.39. Both clear the body threshold a marker is held to. The sheet
+    # is drawn skewed as a polygon rather than rotated, because rotation is all
+    # check-gentle.py can read and a marker must not ask it to take the room's
+    # word. The floor line is --ls-edge and carries nothing.
+    "laughingstock-setlist": """<path d="M2 28 H30" stroke="var(--ls-edge)" stroke-width="1.8" stroke-linecap="round"/><path d="M8 6 L25 4 L27 25 L10 27 Z" fill="none" stroke="var(--ls-cream)" stroke-width="2.2" stroke-linejoin="round"/><path d="M12.5 12 L22 11 M13 16.5 L22.5 15.5 M13.5 21 L20 20.3" stroke="var(--ls-cream)" stroke-width="1.6" stroke-linecap="round"/><path d="M11 3.5 L21 2.4 L21.4 6.6 L11.4 7.7 Z" fill="var(--ls-neon)"/>""",
     # A rubber doorstop wedged under the door, which is the only thing holding
     # that room open -- and the reason anybody can find it and anybody can
     # leave. Drawn in --dts-exit, the corridor's green and that room's link

@@ -197,6 +197,13 @@
         16
       ]
     },
+    "bricolage-grotesque": {
+      "where": "Laughingstock",
+      "page": "laughingstock.html",
+      "sections": [
+        41
+      ]
+    },
     "bungee": {
       "where": "the street itself",
       "page": "index.html",
@@ -581,6 +588,13 @@
       "page": "foundry.html",
       "sections": [
         32
+      ]
+    },
+    "yellowtail": {
+      "where": "Laughingstock",
+      "page": "laughingstock.html",
+      "sections": [
+        41
       ]
     },
     "yeseva-one": {

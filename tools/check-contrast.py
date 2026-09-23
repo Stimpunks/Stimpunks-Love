@@ -510,6 +510,17 @@ FG_PLATE, FG_ENAMEL = "#1D3557", "#F3F4EF"
 DTS_ROOM, DTS_PALE, DTS_TEXT = "#22151F", "#EFE7EE", "#DCD1DA"
 DTS_DIM, DTS_EXIT = "#B7A8B5", "#A6D6B3"
 
+# Laughingstock (§41). THE HOUSE, AND THE LIGHT. Everything of ours is on the
+# house, the dark the audience sits in. The only other ground that carries a
+# word is LS_SPOT, the follow spot's pool, and THE ONLY WORDS EVER SET IN IT ARE
+# THE COMICS' OWN LINES and their names -- Dead Tired Society's rule turned
+# inside out one door along. LS_DEEP is the press-to-play plate's ground and the
+# stage front, and carries the plate's label. The brick, the joints and the
+# hairline only draw, and are in ORNAMENT with their numbers.
+LS_HOUSE, LS_DEEP, LS_SPOT = "#140F10", "#0B0808", "#FBF0DC"
+LS_CREAM, LS_TEXT, LS_DIM, LS_NEON = "#F4E8D8", "#D8C9BB", "#B09F92", "#86DCFF"
+LS_INK, LS_INK_2 = "#1F1513", "#5B3B2F"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -1708,6 +1719,35 @@ PAIRS = [
     (FG_ENAMEL, FG_PLATE, True, "404: the house number on its enamel plate, 40-64px"),
     (FG_ENAMEL, FG_PLATE, False, "404: the small No. on the same plate"),
 
+
+    # ── Laughingstock (§41) ──────────────────────────────────────────────────
+    # THE HOUSE. Every word of ours is out here in the dark with the audience.
+    (LS_CREAM, LS_HOUSE, False, "laughingstock: every heading, the lede, every bold run, the "
+                                "'tonight' line, each set's title, the questions, and the "
+                                "glass on the stool in the drawing"),
+    (LS_TEXT,  LS_HOUSE, False, "laughingstock: every paragraph, the house rules, the "
+                                "takeaways, each set's note, and the blurb on the street door"),
+    (LS_DIM,   LS_HOUSE, False, "laughingstock: the trail line, the line over the h1, the "
+                                "context under every line in the light, each set's credit, "
+                                "the 'from' lines and the further reading"),
+    (LS_NEON,  LS_HOUSE, True,  "laughingstock: the neon h1, the acts' names in lights, the "
+                                "comics' names on the bill, and the name on the street door"),
+    (LS_NEON,  LS_HOUSE, False, "laughingstock: every link, the backlink, the knock on the "
+                                "street door and the questions' markers"),
+    # THE LIGHT. Only the comics' own lines and their names, dark ink on the pool.
+    (LS_INK,   LS_SPOT,  False, "laughingstock: every line in the spotlight -- the comics' "
+                                "own words and nobody else's"),
+    (LS_INK_2, LS_SPOT,  False, "laughingstock: the comic's name under each line in the "
+                                "spotlight, 13px capitals"),
+    # THE PLATE. The press-to-play button, on the stage front's own dark.
+    (LS_CREAM, LS_DEEP,  False, "laughingstock: the label on every press-to-play plate"),
+    (LS_NEON,  LS_DEEP,  False, "laughingstock: PRESS PLAY on every plate, 12px capitals"),
+    # The job marker is a set list taped to the stage floor, a cream sheet with a
+    # strip of neon tape, lying on the house -- both over the body threshold a
+    # marker is held to, the Jungle Room's quills rule.
+    (LS_CREAM, LS_HOUSE, False, "laughingstock: the job marker, a set list taped to the floor"),
+    (LS_NEON,  LS_HOUSE, False, "laughingstock: the tape across the set list"),
+
     # ── Dead Tired Society (§40) ─────────────────────────────────────────────
     # ONE GROUND. Every ink below is on the room's own plum and nowhere else,
     # because the only lit surface in the room is the one nothing is set on.
@@ -1797,6 +1837,22 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#8e3526": "laughingstock: the lit face of every brick inside the follow spot's pool, and the "
+               "courses on the street door's awning. 2.43 on the house and 6.92 under the "
+               "spot; it carries no word. RED AND NOT BROWN on purpose -- if it browns, the "
+               "room has become The Den with a microphone in it.",
+    "#3a1713": "laughingstock: the same brick out of the light, and the shadows of the mic "
+               "stand and the stool thrown straight back onto the wall. 1.19 on the house, "
+               "2.05 against the lit brick; it carries no word.",
+    "#231513": "laughingstock: the mortar joints out of the light, and between the courses on "
+               "the street door's awning. 1.07 on the house; it carries no word.",
+    "#c9a48e": "laughingstock: the mortar joints inside the pool, 3.42 against the lit brick "
+               "around them. Drawing, carrying no word.",
+    "#7d6a60": "laughingstock: every hairline in the room, the stage's top edge, the ramp, the "
+               "mic cable, the border of every press-to-play plate, and the floor line under "
+               "the set list. 3.71 on the house and 3.90 on the plate, which clears the 3:1 a "
+               "control's edge needs under 1.4.11, and under the body bar, so nothing is "
+               "ever written in it.",
     "#e4efe2": "dead tired: the corridor's light, through the gap in the door and lying "
                "across the floor as one hard wedge, 14.78 against the room. NOTHING IS SET "
                "IN IT, and not because anything would fail there: it is the room's one rule "

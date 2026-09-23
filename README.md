@@ -95,6 +95,7 @@ zibaldone.html        A commonplace book open on a desk. Short quotations, each 
 rabbit-hole.html      Not a room: a shaft. Rabbit holing, seven presses, six 1865 engravings
 healing-checkpoint.html  Room 429. A save room lit from the floor. Rest, and a bed with no terms on it
 dead-tired-society.html  Peer support for the burnt out. Big lights off, door ajar, nobody sitting in the light
+laughingstock.html    A comedy club down a ramp. Disabled comics on their own terms; only their lines stand in the light
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 the-garden.html       The knowledge garden. One bed per site we publish, each linking out
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
@@ -138,6 +139,7 @@ data/zibaldone.json   The quote bank. Every line names its printing and how it w
 data/rabbit-hole.json The shaft's presses, its engravings and its trail. No lyrics, refused
 data/checkpoint.json  Room 429's quotations, its Retry-After slips and its way out
 data/dead-tired.json  The pegs by the door: what wore us out, one line from somebody who wrote about it, one of ours
+data/laughingstock.json  The stage, the bill and the lines in the light. Every set names its comics and its runtime
 quest.js              The job markers, and the guild's board. Works with scripts off
 zibaldone.js          The attribution slip. Composes a block of text; sends nothing anywhere
 checkpoint.js         Room 429's copy buttons, which ship hidden. The slips work without it
@@ -183,6 +185,7 @@ python3 tools/make-zibaldone.py    # The Zibaldone's leaves and its attribution 
 python3 tools/make-rabbit-hole.py  # The Rabbit Hole's presses, engravings and trail, and the credits
 python3 tools/make-checkpoint.py   # Room 429's quotations, slips and way out, and the credits
 python3 tools/make-dead-tired.py   # Dead Tired Society's pegs by the door, and the credits
+python3 tools/make-laughingstock.py # Laughingstock's stage, its bill and the lines in the light, and the credits
 python3 tools/make-foundry.py      # The Foundry's bench, its shelves and its proof
 python3 tools/make-signoff.py      # the sign-off line on every page, and the pavement's links on the front one
 python3 tools/make-structured.py   # each page's JSON-LD, built from its own head
@@ -374,6 +377,18 @@ refuses the film the name is a play on beyond its name &mdash; characters, schoo
 lines, outright &mdash; a quotation over thirty words or without an author, work and link, a peg
 whose `entry` is not one of our own glossary entries, and a peg with no drawing, two sharing one, or
 a drawing not also said in words.
+
+`make-laughingstock.py` refuses **the vocabulary of inspiration** in the room&rsquo;s own voice &mdash;
+brave, courageous, inspiring, an inspiration, overcoming, suffers from &mdash; and **a headliner or a
+ranking**, both with the negation window, so the house rules can still say that nobody is called
+brave and nobody headlines. The write-up the room is built on says it in as many words: disabled
+comedians are not inspiring for being on stage, they are comics who happen to be disabled. It is
+narrowed rather than excepted &mdash; bare *inspiration* is allowed, because *inspiration
+exploitation* is one of our own glossary entries &mdash; and it **reads the house and nothing in the
+light**: the comics&rsquo; own lines are the only blockquotes in that room and are skipped, so that
+&ldquo;I suffer from people&rdquo; is allowed to say suffer. It holds `make-club.py`&rsquo;s pair of runtime
+rules, refuses a set that does not name its comics, and refuses a line over thirty words or with no
+context of ours beside it.
 
 `make-guild.py` refuses a job with no estimate of how long it takes &mdash; the street's oldest
 promise arriving at a job board, where the cost is a walk rather than a runtime &mdash; refuses a

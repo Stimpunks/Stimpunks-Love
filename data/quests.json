@@ -1176,6 +1176,41 @@
       "learned": "A room can make a point of what it will not ask you to do. That one will not ask anybody to stand up — for themselves, for the room, or on a desk — and passing, there, is a whole turn."
     },
     {
+      "id": "laughingstock-setlist",
+      "page": "laughingstock.html",
+      "room": "Laughingstock",
+      "title": "Who ordered?",
+      "posted": "There is a comedy club on the street, down a ramp rather than a flight of stairs, where the only thing standing in the spotlight is what the comics said. One of them was at a restaurant when the server asked his friend what he would have. Go and find out what the friend said.",
+      "rank": 1,
+      "takes": "five minutes, or a full hour if you stay for a special",
+      "target": "a set list taped to the floor of the stage",
+      "code": "SETLIST",
+      "hints": [
+        "On the street itself, in the row of shopfronts — the one with a neon sign in the window.",
+        "Josh Blue’s lines are in the spotlight near the top of the room, under his name.",
+        "Right at the foot of the room, under the dial, where a set list would be taped down."
+      ],
+      "ask": {
+        "question": "A server asked Josh Blue’s friend what he would have. The friend guessed Josh would be talking with somebody. Who?",
+        "accept": [
+          "manager",
+          "your manager",
+          "the manager",
+          "a manager",
+          "yourmanager",
+          "talk with your manager"
+        ],
+        "answer": "Your manager",
+        "why": "“I’m guessing: talk with your manager.” The server had gone round the table taking everybody’s order and, when they got to Josh Blue, asked the person next to him. It is not a rare failure of manners. It is the routine assumption that a disabled person at the table is not the one to address.",
+        "hints": [
+          "It is one of the lines standing in the light, under Josh Blue’s name.",
+          "It is the line his friend says, not the one he does.",
+          "Whoever you ask for when the service has gone wrong."
+        ]
+      },
+      "learned": "Talk to the comic, not to whoever came in with them — which is one of that club’s house rules, and a good one for anywhere with tables in it."
+    },
+    {
       "id": "looming-flood",
       "page": "looming-rocks.html",
       "room": "Looming Rocks Amphitheatre",

@@ -624,6 +624,22 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--covenstead .og-bench {{ margin: auto -60px 0 !important; }}
 .og--covenstead .og-bench svg {{ display: block; width: 100%; height: 150px; }}
 
+/* laughingstock — THE STAGE, WITH NOBODY ON IT AND NOTHING OF OURS IN THE LIGHT.
+   The drawing is LIFTED whole out of the page, the doorway's rule and the
+   shaft's, because a second copy of a drawing goes stale in one of the two places
+   it lives. The neon and the room's own description sit above it in the house,
+   in the dark with the audience, so the room's one rule about the light -- only a
+   comic's words stand in it -- holds on the surface most people will see. The
+   pool on the brick is empty: a mic, a stool, a glass of water. */
+.og--laughingstock {{ width: 100%; padding: 30px 60px 0; gap: 4px; justify-content: flex-start; }}
+.og--laughingstock .og-over {{ margin: 0 !important; font-size: 18px; font-weight: 700; letter-spacing: 2.4px;
+  text-transform: uppercase; color: var(--ls-dim); }}
+.og--laughingstock h1 {{ font-size: 108px; line-height: 1.02; margin: 0 !important; }}
+.og--laughingstock .og-lede {{ font-family: 'Bricolage Grotesque', sans-serif; color: var(--ls-cream);
+  max-width: 1040px; font-size: 25px; line-height: 1.38; margin: 2px 0 0 !important; }}
+.og--laughingstock .og-stage {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--laughingstock .og-stage svg {{ display: block; width: 100%; height: auto; }}
+
 /* dead tired society — THE DOORWAY, AND NOTHING ON THE CARD STANDS IN ITS LIGHT.
    The drawing is LIFTED whole out of the page, the bed's rule and the shaft's,
    because a second copy of a drawing goes stale in one of the two places it
@@ -2073,6 +2089,29 @@ def card_covenstead(p):
     )
 
 
+def card_laughingstock(p):
+    # THE STAGE IS LIFTED FROM THE PAGE and the lede is the page's own
+    # og:description, so the card cannot say what the room does not.
+    return (
+        "",
+        f'<div class="og og--laughingstock" data-fit="card">'
+        f'<p class="og-over">On the street &middot; a comedy club</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-stage">{p["stage"]}</div>'
+        f'</div>',
+        f"A near-black card, the dark of a comedy club seen from the back of the room. "
+        f"Small grey capitals reading on the street, a comedy club, then "
+        f"\u201c{p['h1text']}\u201d in a large glowing script in pale neon blue. Then, in "
+        f"cream: {p['desc_plain']} Across the bottom, a drawing of the stage: a dark brick "
+        f"wall with one hard-edged oval of spotlight on it, where the bricks show red. In "
+        f"the light stand an empty microphone on its stand and a bar stool with a glass of "
+        f"water on it, both throwing their shadows straight back onto the brick. Nobody is "
+        f"on stage. A ramp with a handrail runs up to the stage from the left, and the edges "
+        f"of two empty cabaret tables sit in the dark at the bottom.",
+    )
+
+
 def card_dead_tired(p):
     # THE DOORWAY IS LIFTED FROM THE PAGE and the est. line is written here
     # because it is the room's one joke rather than its description; the lede
@@ -2191,6 +2230,7 @@ CARDS = {
     "sithen":       card_sithen,
     "covenstead":   card_covenstead,
     "dead-tired":   card_dead_tired,
+    "laughingstock": card_laughingstock,
     "looming":      card_looming,
     "garden":       card_garden,
     "room-yurt":    card_yurt,
@@ -2304,6 +2344,7 @@ def main():
         ("well",     "rabbit-hole.html",  r'(<svg class="rh-well".*?</svg>)'),
         ("bed",      "healing-checkpoint.html", r'(<svg class="hc-bed".*?</svg>)'),
         ("doorway",  "dead-tired-society.html", r'(<svg class="dts-doorway".*?</svg>)'),
+        ("stage",    "laughingstock.html", r'(<svg class="ls-stage".*?</svg>)'),
         ("galley",   "foundry.html",      r'(<svg class="fo-galley".*?</svg>)'),
         ("falls",    "the-den.html",      r'(<svg class="falls".*?</svg>)'),
         ("otter",    "otterly-adorbs.html", r'(<div class="otter" id="otter".*?</div>\s*</div>)'),
