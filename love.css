@@ -1332,6 +1332,25 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
   padding: 10px 0;
 }
 
+/* THE SIGN-OFF, on every page but the front one, written by tools/make-signoff.py.
+   It is layout and nothing else: NO colour, NO typeface, NO ground. It takes the
+   room's own ink, face and link colour the way a job marker does, so that it
+   reads as the room signing off rather than the street's pavement turning up in
+   a world that has its own -- the Guild's section says why that line is held.
+   A room whose floor is not the ground its links were chosen for dresses it in
+   its own section, beside its other decisions; that is what §4 is for.
+   Centred at its own measure because it sits in <body> after <main>, and rooms
+   give their mains every width there is. */
+.signoff {
+  width: min(840px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 30px 0 44px;
+  font-size: 14px;
+  line-height: 1.7;
+  text-align: center;
+}
+.signoff__line { margin: 0; }
+
 /* The margin hand. It was written inside the zine table, and then Enid's room
    and issue #2 started wearing it too — three rooms on one class, which makes
    it furniture whichever section it was typed in. It is here now because
@@ -6837,6 +6856,12 @@ body.room-zibaldone {
 /* The paper takes the iron-gall ink, 9.28 and 10.35 where yellow was 1.03.
    Only the paper: the desk the leaves lie on is dark and keeps the yellow. */
 .room-zibaldone :is(.zb-sheet, .zb-flyleaf, .zb-leaf) :focus-visible { outline-color: var(--zb-iron); }
+/* The sign-off is the one shared line that lies on the desk rather than on
+   paper, so it takes the paper's own colours: the room's oak and rubric are
+   1.07 and 1.74 on the wood, and the laid paper is 9.70 and 10.83 at the
+   desk's lightest. The desk keeps the yellow ring. */
+.room-zibaldone .signoff { color: var(--zb-laid-2); }
+.room-zibaldone .signoff a { color: var(--zb-laid); }
 
 .zb-topline {
   display: flex; flex-wrap: wrap; gap: 10px 18px;
@@ -9198,6 +9223,14 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
      promise nobody was watching. It is also ink a photocopier would have to
      find room for, in a room whose other claim is black and white. */
   .quest { display: none !important; }
+
+  /* NOR DOES THE SIGN-OFF, for the same reason and one more. It is a row of
+     links, and a link on paper is an underlined word that goes nowhere; "Back
+     to top" printed at the foot of a sheet is simply false. It also pushed
+     issue #2 of the zine onto a second sheet the day it arrived, which
+     check-print.py caught -- the third time a single addition has broken that
+     room's promise, and the first time the addition was on every page. */
+  .signoff { display: none !important; }
 
   /* Ink on paper, everywhere, with no exceptions by class.
      This used to reset backgrounds on a LIST of components, which meant every

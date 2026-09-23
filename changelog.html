@@ -27,7 +27,7 @@
 <link rel="stylesheet" href="love.css">
 <script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
 </head>
-<body class="room-plain">
+<body class="room-plain" id="top">
 <a class="skip" href="#main">Skip to the content</a>
 
 <main id="main" class="wrap" style="padding-bottom:56px;max-width:840px;">
@@ -37,6 +37,16 @@
   <h1>Changelog</h1>
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
+
+  <h2 id="2026-09-23-signoff">2026-09-23 &mdash; Every page signs off, in its own voice, with a way back to the top</h2>
+  <ul>
+    <li><strong>Every page now ends with the same short line:</strong> back to the top, the liner notes, Your Room, the changelog, the privacy page, the feed, and whose street this is. Somebody looking for how to leave, who made this, or what happens to them finds it in the same place wherever they are, which is what the privacy page in particular needed.</li>
+    <li><strong>It is not the front page&rsquo;s footer, on purpose.</strong> The street ends on its chalk pavement and keeps it; our own notes have said since the Guild opened that the street&rsquo;s footer reaching into a room would be the one piece of the street&rsquo;s look in a world that has its own. So the line brings no colour, no typeface and no ground: it is set in whatever the room already uses, the way the job markers are, and reads as the room signing off. The pavement takes its links from the same list, so the two cannot disagree.</li>
+    <li><strong>Back to top is a plain link, and it moves the keyboard too.</strong> It jumps rather than scrolls, at every dial setting, and the next Tab after it lands on the skip link at the top of the page rather than on whatever followed the line. It works with scripts off.</li>
+    <li><strong>One room needed its own.</strong> The Zibaldone&rsquo;s link colour is a rubric red chosen for paper, and the line lies on the dark desk below the sheets &mdash; 1.07 and 1.74 there. It takes the laid paper&rsquo;s own colours on the desk now. Every other room&rsquo;s links already cleared their own floor.</li>
+    <li><strong>It does not print.</strong> A link on paper goes nowhere and &ldquo;Back to top&rdquo; at the foot of a sheet is false &mdash; and it pushed issue #2 of the zine onto a second sheet the day it arrived, which <code>check-print.py</code> caught.</li>
+    <li>Changed: every page, <code>love.css</code> &sect;4, the Zibaldone&rsquo;s section and Print, <code>tools/signoff.py</code> and <code>tools/make-signoff.py</code> (new), <code>tools/make-foundry.py</code>, <code>tools/check-contrast.py</code>, <code>tools/check-print.py</code>, <code>README.md</code>, <code>CLAUDE.md</code>.</li>
+  </ul>
 
   <h2 id="2026-09-23-privacy">2026-09-23 &mdash; A privacy page, which is short because there is very little to say</h2>
   <ul>
@@ -946,6 +956,12 @@
   </div>
 
 </main>
+
+<!-- signoff:begin -->
+<footer class="signoff">
+  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="your-room.html">Your Room</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="feed.xml">Feed</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+</footer>
+<!-- signoff:end -->
 
 <script src="love.js" defer></script>
 </body>

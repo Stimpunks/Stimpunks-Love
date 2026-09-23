@@ -176,7 +176,7 @@ def main():
         print(
             "\nThe room says it prints in black and white. An ink that is not on\n"
             "ALLOWED_INK reached the paper, which means a background or a text colour\n"
-            "survived the print reset in love.css section 13. Check that the universal\n"
+            "survived the print reset in love.css's Print section. Check that the universal\n"
             "reset still covers it before deciding the ink belongs on the list --\n"
             "the last time this happened the grounds stayed dark, the text on them was\n"
             "forced black, and two whole boxes printed invisible."
@@ -184,7 +184,7 @@ def main():
     if fails:
         print(
             "\nThe room's own copy says every page in it prints to one sheet. Cut "
-            "something,\nor tighten the room's print rules in love.css section 13 -- "
+            "something,\nor tighten the room's print rules in love.css's Print section -- "
             "do not edit the claim\nout of zine-table.html to make this pass."
         )
     sys.exit(1 if (fails or inkbad) else 0)

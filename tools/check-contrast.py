@@ -1337,6 +1337,12 @@ PAIRS = [
     # pink would arrive at about 2.4. That is the hole The Doomscroll left and
     # the Playhouse had been carrying since it opened.
     (ZB_OAK,     ZB_LAID,   True,  "zibaldone: h1 in EB Garamond, 44-78px, and every h2"),
+    # THE SIGN-OFF STANDS ON THE DESK, NOT ON A SHEET: it is in <body> after
+    # <main>, and the room's ink and rubric were chosen for paper -- 1.07 and
+    # 1.74 on the desk, the only room where the shared line failed. The paper's
+    # own colours carry it there instead, measured against the desk's lighter end.
+    (ZB_LAID2,   ZB_DESK2,  False, "zibaldone: the sign-off line on the desk"),
+    (ZB_LAID,    ZB_DESK2,  False, "zibaldone: the sign-off's links on the desk, underlined"),
     (ZB_OAK,     ZB_LAID,   False, "zibaldone: body copy, the rules list, every slip label"),
     (ZB_OAK,     ZB_LAID2,  False, "zibaldone: a quotation written in oak, a bold run in a citation"),
     (ZB_IRON,    ZB_LAID,   False, "zibaldone: body copy on a page where iron is the ink"),

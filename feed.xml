@@ -9,6 +9,13 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Wed, 23 Sep 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Every page signs off, in its own voice, with a way back to the top</title>
+      <link>https://stimpunks.love/changelog.html#2026-09-23-signoff</link>
+      <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-23-signoff</guid>
+      <pubDate>Wed, 23 Sep 2026 12:00:00 GMT</pubDate>
+      <description>Every page now ends with the same short line: back to the top, the liner notes, Your Room, the changelog, the privacy page, the feed, and whose street this is. Somebody looking for how to leave, who made this, or what happens to them finds it in the same place wherever they are, which is what the privacy page in particular needed. It is not the front page’s footer, on purpose. The street ends on its chalk pavement and keeps it; our own notes have said since the Guild opened that the street’s footer reaching into a room would be the one piece of the street’s look in a world that has its own. So the line brings no colour, no typeface and no ground: it is set in whatever the room already uses, the way the job markers are, and reads as the room signing off. The pavement takes its links from the same list, so the two cannot disagree. Back to top is a plain link, and it moves the keyboard too. It jumps rather than scrolls, at every dial setting, and the next Tab after it lands on the skip link at the top of the page rather than on whatever followed the line. It works with scripts off. One room needed its own. The Zibaldone’s link colour is a rubric red chosen for paper, and the line lies on the dark desk below the sheets — 1.07 and 1.74 there. It takes the laid paper’s own colours on the desk now. Every other room’s links already cleared their own floor. It does not print. A link on paper goes nowhere and “Back to top” at the foot of a sheet is false — and it pushed issue #2 of the zine onto a second sheet the day it arrived, which check-print.py caught. Changed: every page, love.css §4, the Zibaldone’s section and Print, tools/signoff.py and tools/make-signoff.py (new), tools/make-foundry.py, tools/check-contrast.py, tools/check-print.py, README.md, CLAUDE.md.</description>
+    </item>
+    <item>
       <title>A privacy page, which is short because there is very little to say</title>
       <link>https://stimpunks.love/changelog.html#2026-09-23-privacy</link>
       <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-23-privacy</guid>

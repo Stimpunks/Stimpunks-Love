@@ -1926,6 +1926,20 @@ fix a pale room**; that is the harmonising instinct wearing an accessibility bad
 node — and it measures a gradient at every stop, so it can be stricter than the page but never
 kinder. **A new room or a new pale card in an old room runs it.**
 
+**EVERY PAGE SIGNS OFF, AND THE SIGN-OFF IS NOT THE PAVEMENT.** Ryan asked, 2026-09-23, for the
+front page's footer on every page and a way back to the top. The pavement stays the street's: the
+Guild's section already records that a shared footer "would be the one piece of the street's own
+look reaching into a world". What every page gets instead is `.signoff` — §4 furniture that is
+**layout and nothing else, no colour, no face, no ground**, so it arrives in each room's own ink
+and link colour the way a job marker does. The links live once, in `tools/signoff.py`; the front
+page's pavement takes the same list between markers, so the two cannot disagree. **Back to top is
+`href="#top"` with `<body id="top">`**, so the jump also moves the keyboard's starting point; no
+smooth scroll, because the dial exists so nothing moves a view unasked. **A room whose floor is not
+the ground its links were chosen for dresses the line in its own section** — the Zibaldone's links
+are rubric for paper and it lies on a dark desk, 1.07 before it was given the paper's own colours.
+It does not print. **Do not style `.signoff` in §4 to make it look nicer**; the moment it has a
+colour of its own it is the pavement again.
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody

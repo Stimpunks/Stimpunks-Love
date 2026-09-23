@@ -72,6 +72,8 @@ import sys
 from pathlib import Path
 from string import Template
 
+import signoff           # tools/signoff.py: the line at the foot of every page
+
 ROOT = Path(__file__).resolve().parent.parent
 FACES = ROOT / "data/foundry-faces.json"
 ROOM = ROOT / "data/foundry.json"
@@ -411,6 +413,7 @@ def main():
     page = TEMPLATE.substitute(
         quest=quest,
         prepaint=prepaint(),
+        signoff=signoff.block(),
         faces=face_options(built),
         weights="".join(
             f'<option value="{w}">{w}'
@@ -519,7 +522,7 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
      stored choice wins over the media query, including a choice to turn it UP. -->
 $prepaint
 </head>
-<body class="room-foundry">
+<body class="room-foundry" id="top">
 <a class="skip" href="#main">Skip to the bench</a>
 
 <!-- THE NORTH LIGHT, AND IT IS NOT THE DIAL'S. Workshops were built with the
@@ -728,6 +731,8 @@ ${specimens}
 
 ${quest}
 </main>
+
+$signoff
 
 <script src="love.js" defer></script>
 <script src="foundry.js" defer></script>
