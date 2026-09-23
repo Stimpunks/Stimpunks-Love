@@ -1601,6 +1601,23 @@ of favour**, and there is no group on this site that anybody here would rather n
 words this area actually wants are about **hours and room** — things that keep their own time and
 want space around them — never about being unwelcome somewhere else.
 
+**SITE HOUSEKEEPING DOES NOT GO IN THE FICTION. IT GOES IN THE CHANGELOG.** When Covenstead moved
+off this road, the area got a section headed *One that moved*, explaining that a third turning had
+existed and where it went. Ryan cut it, 2026-09-22: **it was housekeeping that had just changed,
+posed as permanent town history.** A road is a place. It does not carry a note about its own edit
+history, any more than a real one carries a sign saying which shop used to be at number 3 — and a
+page that did would be re-dated every time anything moved. `changelog.html` exists precisely so the
+rooms do not have to remember. The same sentence got trimmed out of the section below it, where
+"which was not true when the area opened and will not stay true" was the same instinct in miniature.
+
+**THE TEST IS WHETHER IT WOULD STILL BE TRUE IN A YEAR.** *A board here can stand lit with no road
+behind it* is a fact about how this road works and stays true. *There used to be a third turning* is
+a fact about a Tuesday. The first belongs on the page; the second belongs in the log. This is not the
+same as the street's habit of writing down corrections — **a correction to something we published is
+owed to the reader and stays**, which is why the Napa framing, the reciprocal-ethical-unity mix-up
+and the ivy are all still on their pages. The difference is whether a reader is being told something
+about the subject or something about our week.
+
 **A SIGN WITH NO ROAD BEHIND IT IS LIT AND SAYS SO.** Sithen and Covenstead are named and not
 built, which is the campgrounds' `.pitch--raising` state arriving on a road. **The post is dashed
 and the words are NOT dimmed**, and that is the whole care in the rule: a board you cannot read is
