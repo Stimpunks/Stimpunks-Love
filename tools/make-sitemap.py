@@ -43,7 +43,7 @@ ORDER = ["index.html",
          # The other edge, past the last streetlight at the far end. An area
          # like the campgrounds, listed the same way: the road first, then
          # what is down its turnings.
-         "the-outskirts.html", "black-leather-lagoon.html",
+         "the-outskirts.html", "black-leather-lagoon.html", "sithen.html",
          "liner-notes.html",
          "changelog.html"]
 

@@ -303,6 +303,13 @@
         12
       ]
     },
+    "italiana": {
+      "where": "Sithen",
+      "page": "sithen.html",
+      "sections": [
+        36
+      ]
+    },
     "josefin-sans": {
       "where": "The Pebble Board",
       "page": "pebble-board.html",
@@ -329,6 +336,13 @@
       "page": "the-den.html",
       "sections": [
         18
+      ]
+    },
+    "literata": {
+      "where": "Sithen",
+      "page": "sithen.html",
+      "sections": [
+        36
       ]
     },
     "lora": {

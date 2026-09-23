@@ -404,6 +404,25 @@
 @font-face { font-family: 'Chivo'; src: url('fonts/chivo-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Chivo'; src: url('fonts/chivo-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Sithen (§36). A THIN FACE AND A PLAIN ONE, which is a pairing this street has
+   never had. Italiana is very light and very high-contrast, and it is here
+   because EVERY OTHER DISPLAY FACE WE HOLD IS HEAVY -- a woodtype, a fat slab,
+   a condensed grotesque, a pixel face, a dripping poster face, a rounded
+   painted capital. The one room on the street that is cold, thin and made of
+   frost and thorn had nothing to set itself in. It takes the h1 and the
+   headings and nothing else.
+
+   LITERATA IS DELIBERATELY WITHOUT ATMOSPHERE. It is a serif drawn for reading
+   on screens, and this room is mostly a LIST OF RULES -- the argument being
+   that rules of this kind are never written down plainly, so the one place they
+   ARE written down plainly ought to look like it means it. A fae room is under
+   constant pressure to set its body copy in something uncial and unreadable;
+   that is the Doomscroll's blackletter problem arriving in a hill. Under the
+   SIL Open Font License. See fonts/_sources.json. */
+@font-face { font-family: 'Italiana'; src: url('fonts/italiana-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Literata'; src: url('fonts/literata-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Literata'; src: url('fonts/literata-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1009,6 +1028,29 @@
   --lag-screen:#E6E2D2;   --lag-dim:    #A7AFA0;
   --lag-acid:  #8CC63F;   --lag-poster: #E4564A;
   --lag-blood: #B6342F;
+
+  /* Sithen (§36). MOONLIGHT, WHICH IS HIGH, COLD, DIFFUSE AND FROM ABOVE --
+     the opposite of the road it turns off, where a headlight is low, level and
+     from one side. Out there a thing has a bright face and no back; here
+     everything is evenly silvered and the shadows go straight down.
+     AND THERE IS NO GREEN IN IT AT ALL, which is what keeps it off the
+     campgrounds -- the other cold night ground on this site, which is
+     blue-green spruce, lichen and moss. Grass under a full moon has no colour,
+     only a brightness, and every value here is on one grey-violet line.
+     --sth-night is the field, --sth-bank is the earth of the ring and every
+     panel, --sth-bone is the blossom and every word, --sth-dim is the fine
+     print, --sth-moon is every link.
+     --sth-thorn IS ORNAMENT AND CARRIES NO TEXT: 3.69 on the field and 3.30 on
+     the bank, under the bar both ways. It draws thorns, branches and rules and
+     says nothing. It is in check-contrast.py's ORNAMENT list with those
+     numbers beside it.
+     STH- PREFIXED THROUGHOUT, the Foundry's precedent: `bank`, `bone`, `moon`
+     and `thorn` are exactly the plain words this file fills up with, and
+     `moon` is already the campgrounds' link colour. A custom property declared
+     twice in one :root is last-wins and silent, and it has shipped once. */
+  --sth-night: #0C0B12;   --sth-bank:  #1A1822;
+  --sth-bone:  #EDEAF2;   --sth-dim:   #A7A2B8;
+  --sth-moon:  #BDB0DE;   --sth-thorn: #6E6880;
 }
 
 * { box-sizing: border-box; }
@@ -8180,7 +8222,103 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 .further p { margin: 0 0 13px; }
 .further__go { margin: 0; font-size: 15px; }
 
-/* §36 ── Small screens ───────────────────────────────────────────────────────
+/* §36 ── ROOM: Sithen (turning 02 in The Outskirts) ──────────────────────────
+   A FAIRY FORT SEEN FROM THE OUTSIDE, UNDER A FULL MOON. Turning 02 off The
+   Outskirts, and the second thing to stand on that road, which is where an area
+   would start growing a house style if it were ever going to. It does not: the
+   road is khaki, rust and bone, lit from one low angle and painted by hand.
+   This is grey-violet, silver and thorn-black, lit from directly overhead.
+
+   THE DOOR IS NOT OPENED, AND THAT IS THE DESIGN. Every other underground place
+   on this street is an INTERIOR with one small flame in it -- The Latibulum's
+   lamp, the Faery Yurt's candles, The Den's panelling, the Hermitage's curtained
+   cave. This room is the same idea in every respect except the one that matters,
+   because it never goes in. There is no interior and there is no flame. If a
+   door is ever opened here it becomes a SUBROOM with its own world, the way The
+   Den hangs off the Jungle Room; it does not become this page with rooms added.
+
+   AND THERE IS NO GREEN IN IT ANYWHERE, which is what holds it off the
+   campgrounds -- the other cold night ground on this site, and by a long way the
+   likeliest collapse. That field is blue-green: spruce, lichen, moss, a
+   moon-coloured link. Grass under a full moon has no colour, only a brightness,
+   so every value here sits on one grey-violet line. The other separation is
+   structural and simpler: the campgrounds is an OPEN FIELD with posts standing
+   about in it and the sky on it, and this is ONE OBJECT that you circle. If a
+   green ever appears in this section it has become the campgrounds with a
+   hedge, and it is this room that moves.
+
+   MOONLIGHT IS FROM ABOVE AND HEADLIGHTS ARE FROM THE SIDE, which is why
+   nothing in here has the road's single bright edge. Panels are evenly lit and
+   sit on the ground; what little shadow there is goes straight down. */
+
+.sithen { background: var(--sth-night); color: var(--sth-dim); font-family: 'Literata', Georgia, serif; }
+.sithen a { color: var(--sth-moon); }
+.sithen a:hover { color: var(--sth-bone); }
+.sithen p, .sithen li { font-size: 16.5px; line-height: 1.7; }
+.sithen .backlink { font-family: 'Literata', Georgia, serif; font-size: 15px; letter-spacing: 0; color: var(--sth-moon); }
+.sithen .trailmark { margin: 0; font-size: 14px; color: var(--sth-dim); }
+.sithen h2 { font-family: 'Italiana', Georgia, serif; font-weight: 400; font-size: 27px; letter-spacing: 1.4px; color: var(--sth-bone); margin: 0 0 13px; }
+.sithen h3 { font-family: 'Italiana', Georgia, serif; font-weight: 400; font-size: 25px; letter-spacing: .8px; line-height: 1.2; color: var(--sth-bone); margin: 0; }
+.sithen .lede { font-size: 19.5px; line-height: 1.62; color: var(--sth-bone); max-width: 62ch; margin: 26px 0 0; }
+.sithen cite, .sithen i { font-style: italic; }
+
+/* The mound itself. The h1 is the one place this face goes very large, and the
+   drawing sits under it rather than beside it -- you are looking ACROSS a field
+   at a thing on the horizon, so it is wide and shallow and the words are above
+   it, which is where your eyes are. */
+.mound { margin: 26px 0 0; }
+.mound__over { margin: 0; font-size: 13px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--sth-dim); }
+.sithen h1 {
+  font-family: 'Italiana', Georgia, serif; font-weight: 400;
+  font-size: clamp(52px, 11vw, 124px); line-height: 1.02;
+  color: var(--sth-bone); margin: 10px 0 0; letter-spacing: 4px;
+}
+.mound__sub { margin: 4px 0 0; font-family: 'Italiana', Georgia, serif; font-size: clamp(19px, 3vw, 27px); letter-spacing: 1.6px; color: var(--sth-moon); }
+.mound__art { margin: 20px 0 0; line-height: 0; }
+.mound__art svg { display: block; width: 100%; height: auto; }
+
+/* A panel of banked earth. FLAT, and it sits ON the ground rather than being
+   lit from an edge: the road outside gets its light from one side and this gets
+   it from overhead, which in a stylesheet means an even panel and no bright
+   border anywhere. */
+.bank {
+  margin: 34px 0 0; padding: 22px 26px; max-width: 68ch;
+  background: var(--sth-bank); border-radius: 2px;
+}
+.bank p { margin: 0 0 13px; }
+.bank p:last-child { margin-bottom: 0; }
+.bank--turn { border-top: 2px solid var(--sth-thorn); }
+.bank--door { border-top: 2px solid var(--sth-thorn); }
+.bank__later { font-size: 15px; color: var(--sth-dim); }
+
+.ring__intro { max-width: 66ch; margin: 11px 0 0; }
+
+/* The documented half. Plain rows, no ornament: this is the part of the page
+   that is supposed to be checkable, and dressing it up would make it look like
+   the other half. */
+.dugs { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-direction: column; gap: 20px; }
+.dug { padding: 0 0 0 20px; border-left: 2px solid var(--sth-thorn); max-width: 68ch; }
+.dug__what { margin: 0; color: var(--sth-bone); font-weight: 700; }
+.dug p { margin: 7px 0 0; }
+
+/* The rules along the bank. NUMBERED AND IN TWO HALVES, which is the whole
+   argument made visible: the inherited half above the line and ours below it,
+   so nobody has to work out by tone which is which. */
+.taboos { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-direction: column; gap: 26px; }
+.rule { display: flex; gap: 20px; align-items: flex-start; max-width: 74ch; }
+.rule__no { flex: 0 0 auto; margin: 0; font-family: 'Italiana', Georgia, serif; font-size: 30px; line-height: 1; color: var(--sth-moon); min-width: 1.6em; }
+.rule__body { flex: 1 1 auto; min-width: 0; background: var(--sth-bank); padding: 18px 20px; border-radius: 2px; }
+.rule__said { margin: 9px 0 0; color: var(--sth-bone); }
+.rule__from { margin: 8px 0 0; font-size: 14px; color: var(--sth-dim); }
+.rule__like { margin: 14px 0 0; padding: 13px 0 0; border-top: 1px solid var(--sth-thorn); }
+.rule__like b { color: var(--sth-moon); font-weight: 700; }
+
+.creditors { margin: 42px 0 0; padding: 22px 26px; max-width: 70ch; background: var(--sth-bank); border-top: 2px solid var(--sth-moon); border-radius: 2px; }
+.creditors p { margin: 0 0 13px; }
+.creditors__go { font-size: 15.5px; }
+.creditors__src { margin: 0; font-size: 14.5px; color: var(--sth-dim); }
+
+/* §37 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -8287,7 +8425,7 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §36 says every
+   shipped with no rule here at all — which on a street whose §37 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -8411,7 +8549,7 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §37 ── Print ───────────────────────────────────────────────────────────────
+/* §38 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

@@ -759,5 +759,34 @@
         "src": "https://fonts.gstatic.com/s/chivo/v21/va9I4kzIxd1KFrBoQeNVkqDO.woff2",
         "note": "Black Leather Lagoon (\u00a735), and everything in it that is not the title. A normal-width grotesque ON PURPOSE: the obvious choice for a poster's small print is a condensed gothic, and Club Chronic already sets Anton three doors up. The one room this must not collapse into is the one whose face the obvious choice would have borrowed. One variable file serves both weights, as Space Grotesk, Cinzel and Work Sans already do here."
       }
+    ],
+
+    "italiana": [
+      {
+        "file": "italiana-400.woff2",
+        "weight": "400",
+        "style": "normal",
+        "bytes": 10164,
+        "src": "https://fonts.gstatic.com/s/italiana/v21/QldNNTtLsx4E__B0XQmWaXx0xKVu.woff2",
+        "note": "Sithen (\u00a736), and the h1 and headings only. A very thin, very high-contrast face: THE ONLY THIN THING ON THIS STREET, which is most of why it is here, because every other display face we hold is heavy -- a woodtype, a slab, a condensed grotesque, a fat rounded poster face. Frost on a thorn rather than a sign somebody painted."
+      }
+    ],
+    "literata": [
+      {
+        "file": "literata-400.woff2",
+        "weight": "400",
+        "style": "normal",
+        "bytes": 39260,
+        "src": "https://fonts.gstatic.com/s/literata/v40/or3aQ6P12-iJxAIgLa78DkrbXsDgk0oVDaDPYLanFLHpPf2TbBG_df3-vbgKBM6YoggA-vpO-7cHM524.woff2",
+        "note": "Sithen (\u00a736), and everything that is not a heading. A serif drawn for reading on screens, set here without any atmosphere at all: the room is mostly a LIST OF RULES, and the argument is that rules like these are never written down plainly, so the one place they are written down plainly should look like it means it. One variable file serves both weights, as Chivo, Space Grotesk and Cinzel already do here."
+      },
+      {
+        "file": "literata-700.woff2",
+        "weight": "700",
+        "style": "normal",
+        "bytes": 39260,
+        "src": "https://fonts.gstatic.com/s/literata/v40/or3aQ6P12-iJxAIgLa78DkrbXsDgk0oVDaDPYLanFLHpPf2TbBG_df3-vbgKBM6YoggA-vpO-7cHM524.woff2",
+        "note": "Sithen (\u00a736), and everything that is not a heading. A serif drawn for reading on screens, set here without any atmosphere at all: the room is mostly a LIST OF RULES, and the argument is that rules like these are never written down plainly, so the one place they are written down plainly should look like it means it. One variable file serves both weights, as Chivo, Space Grotesk and Cinzel already do here."
+      }
     ]
 }

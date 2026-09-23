@@ -180,6 +180,11 @@ def normalise(s):
 # yellow on that blue measures 3.88 and white measures 5.08 -- the one place
 # here where the room's favourite colour lost to the floor it was lying on.
 DRAW = {
+    # A sprig of thorn off the bank, drawn in the moon rather than in the
+    # room's own thorn colour: --sth-thorn is 3.69 on that ground and a marker
+    # is held to the BODY threshold, the Jungle Room's quills rule, because a
+    # control you cannot pick out of the dark is a control you cannot use.
+    "sithen-thorn": """<path d="M8 27 Q14 18 17 9" fill="none" stroke="var(--sth-moon)" stroke-width="2.2" stroke-linecap="round"/><path d="M12 21 L6 17 M14 16 L20 14 M10 24 L4 24" stroke="var(--sth-moon)" stroke-width="1.7" stroke-linecap="round"/><circle cx="18" cy="6" r="2.6" fill="var(--sth-moon)"/><circle cx="23" cy="12" r="2.2" fill="var(--sth-moon)"/><circle cx="24" cy="21" r="2" fill="var(--sth-moon)"/>""",
     # A road stud set into the verge, drawn in the beam's own bone. Flat, low
     # and catching the light on one face, which is the area's whole lighting
     # model in a 32px box.

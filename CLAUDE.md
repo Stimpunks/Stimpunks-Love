@@ -1661,6 +1661,71 @@ than different distances. That sentence lived in `make-guild.py`, in `data/quest
 guild's own house rules, on its share card and in `llms.txt` &mdash; and **none of those is in the
 file that changed**. When an area is added, look for the rooms that describe the street's shape.
 
+**THE SECOND TURNING OFF THAT ROAD DODGES THREE COLLAPSES AT ONCE, WHICH IS A FIRST.** Sithen
+(§36) is a fairy fort, and a faerie mound is **structurally The Latibulum** (a burrow under a hill),
+**thematically the Faery Yurt** (already the fae room, and Helen's) and **narratively The Rabbit
+Hole** (you go under and the inside is bigger). No room here has had to get out of the way of three
+at once, and they are all the same move: warm interior, underground, lit by one small flame.
+
+**THE ANSWER IS THAT IT DOES NOT GO IN, AND THAT IS THE DESIGN RATHER THAN AN UNFINISHED STAGE.** A
+fairy fort is an **outdoor object** — a ring of bank and thorn standing in a field — and the inside
+is precisely the part the tradition is careful never to show you. There is no interior here and no
+flame. **If a door is ever opened it becomes a subroom with its own world**, the way The Den hangs
+off the Jungle Room; it does not become this page with rooms added to it. The refusal also carries
+the argument: half those rules are about **hospitality as a trap**, so a room that insisted you come
+in and accept what is offered would be doing the thing it spends the page describing.
+
+**AND THERE IS NO GREEN IN IT ANYWHERE, which is what holds it off the campgrounds.** That is the
+likeliest collapse by a long way — both are cold, outdoors, at night, on open ground. The field is
+blue-green: spruce, lichen, moss. **Grass under a full moon has a brightness and not a colour**, so
+every value in §36 sits on one grey-violet line. The other separation is structural: the campgrounds
+is an **open field** with posts standing about in it and the sky on it, and this is **one object**
+that you circle. If a green ever appears in that section it has become the campgrounds with a hedge,
+and it is this room that moves. **Moonlight is also from directly overhead** where the road outside
+is lit from one low angle, which is why nothing in here has The Outskirts' single bright edge.
+
+**THE TWO NOVEL SERIES ARE CREDITED AS THE POINTER AND NOTHING IS DRAWN FROM THEM.** Ryan's call,
+2026-09-22. Laurell K. Hamilton's *Merry Gentry* books and Seanan McGuire's *October Daye* books are
+why the turning exists, are named and linked in the room, and contribute **no court, character,
+politics, cosmology or line**. Those are living authors' invented worlds. `make-sithen.py` refuses a
+rule whose source names either series or either author, because **the friendly edit is a real one
+and it will arrive: the folklore is thin in exactly the places a novel is rich**, so the most useful
+material lying around is the one thing this room may not pick up. The Fandom wikis are not a source
+either, and for a sharper reason than the licence — they are fan-written descriptions of somebody's
+invented world, which is the format most likely to be lifted without anybody noticing.
+
+**AND "KNOWE" IS DELIBERATELY NOT IN THAT GUARD.** It is a genuine Scots word for a knoll, older
+than any novel that uses it, and refusing it would be the tool handing a living author a word that
+is not theirs — the mirror image of the mistake it exists to prevent. **A guard against borrowing
+names the borrower, not the vocabulary.**
+
+**THE NAME WAS CHECKED, AND THAT IS WHY IT SURVIVED.** Scottish Gaelic *sìthean*, a hillock
+inhabited by fairies, with a dictionary citation behind it. One of those two series uses this exact
+spelling for the fae court, so a room taking the name while claiming to owe the books nothing would
+have been advertising a debt it does not otherwise have. The word is older than both, and the room
+says so rather than leaving it to be assumed either way.
+
+**THE PAGE IS IN TWO HALVES AND SAYS WHICH IS WHICH, because a reader cannot tell them apart by
+tone.** The documented half is earthworks and a motorway and is checkable. The folklore half is
+traditional and every rule names its source. **Everything under *what it is like* is ours**, written
+for this room and never claimed to be in the tradition. That reading is the reason the room is on
+this site: the fae taboos are a catalogue of consequential rules nobody will state out loud, where
+breaking one is punished and no one explains, which is the ordinary weather of neurotypical
+convention for a great many autistic people.
+
+**AND NOTHING ON IT TELLS ANYBODY HOW TO BEHAVE.** The tool refuses the vocabulary of advice in the
+second person — no *you should*, no *try to*, no *learn to*, no *practise*. **A page about unwritten
+rules that ended in tips for following them would be a social skills curriculum with thorns on it**,
+which is the thing this organisation exists to refuse, arriving in the room best placed to get away
+with it. The pattern is narrow and second-person only, for check-counts.py's first-run reason.
+
+**ITS BODY FACE IS PLAIN ON PURPOSE AND THAT IS A REFUSAL.** A fae room is under constant pressure
+to set its text in something uncial, and that is the Doomscroll's blackletter problem arriving in a
+hill: atmosphere paid for out of somebody's ability to read the page. Italiana takes the headings
+and is **the only thin face on this street**; Literata carries everything else with no atmosphere at
+all, because the argument is that rules like these are never written down plainly, so the one place
+they *are* written plainly ought to look like it means it.
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody

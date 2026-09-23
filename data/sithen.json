@@ -1,0 +1,81 @@
+{
+  "_what": "Sithen: turning 02 in The Outskirts. A fairy fort seen from the outside, and the list of rules nobody will say out loud. Every rule here is traditional; the plain reading beside it is ours.",
+
+  "_outside": "THE ROOM DOES NOT GO IN, AND THAT IS THE DESIGN RATHER THAN A STAGE WE HAVE NOT BUILT YET. A fairy fort is an OUTDOOR object -- a ring of bank and thorn standing in open ground -- and the inside is the part you are specifically not shown. Building the outside is also what keeps this off the street's warm underground rooms: The Latibulum is a burrow with a lamp in it, the Faery Yurt is candlelit canvas, The Den is panelling, the Hermitage's cave is curtain, and every one of them is an INTERIOR lit by one small flame. There is no interior here and there is no flame. If a door is ever opened in this room it becomes a subroom with its own world, the way The Den hangs off the Jungle Room -- it does not become this page with more rooms in it.",
+
+  "_rights": "THE TWO NOVEL SERIES ARE CREDITED AS THE POINTER AND NOTHING IS DRAWN FROM THEM. Ryan's call, 2026-09-22. Laurell K. Hamilton's Merry Gentry books and Seanan McGuire's October Daye books are what sent us here, they are named and linked in the room, and not one furnishing, court, character, politics or cosmology of either is used -- those are invented worlds belonging to living authors. Everything in this file is traditional folklore or documented fact. make-sithen.py refuses a rule whose source names either series, because the friendly edit is a real one: the folklore is thin where a novel is rich, and the richest available filling is the one thing this room may not use. The Fandom wikis are not a source either, and for a sharper reason than the licence: they are fan-written descriptions of somebody's invented world, which is the format most likely to be lifted without anybody noticing it was lifted.",
+
+  "_name": "SITHEN IS A REAL WORD AND WAS CHECKED RATHER THAN ASSUMED. Scottish Gaelic 'sithean' -- a hillock inhabited by fairies, from 'sith' (fairy) plus the diminutive '-an' -- with a dictionary citation behind it (Colin Mark, The Gaelic-English Dictionary, Routledge, 2003, page 530, via Wiktionary, read 2026-09-22). The Irish is 'sidhe' or in reformed spelling 'si', the mound itself, from which 'aos si' means the people of the mound. This mattered because Hamilton's books use 'sithen' for the fae court, and a room named out of a novel while claiming to owe it nothing would be advertising a debt it does not otherwise have. It is traditional. The room says so, with the source, rather than leaving somebody to assume.",
+
+  "_like": "THE PLAIN READING BESIDE EACH RULE IS OURS AND IS THE POINT OF THE ROOM. The fae taboos are a catalogue of consequential rules that nobody will state out loud, where breaking one is punished and no one explains -- which is the ordinary experience of neurotypical social convention for a great many autistic people. That reading is not in the folklore and is not claimed to be; it is this room's, written here, and the room says which half is whose.",
+
+  "_no_lesson": "NOTHING HERE TELLS ANYBODY HOW TO BEHAVE. The rules are listed as the fae's, the readings are offered as ours, and no line instructs a visitor to mask better, decode harder, or manage anybody. A page about unwritten rules that ended in advice on following them would be a social skills curriculum with thorns on it, which is the thing this organisation exists to refuse.",
+
+  "fort": {
+    "note": "The documented half, kept apart from the folklore on purpose: these are facts about earthworks and a motorway rather than about the Good People.",
+    "_source": "en.wikipedia.org/wiki/Fairy_fort and en.wikipedia.org/wiki/Latoon_fairy_bush, read 2026-09-22.",
+    "facts": [
+      {
+        "what": "A fairy fort is a ringfort: lios or rath, a circular earth bank, sometimes a ditch, sometimes stone.",
+        "detail": "People built them from possibly the late Iron Age into early Christian times, and because the buildings inside were not durable, what is usually left in a field now is a vague circular mark and whatever has grown on it."
+      },
+      {
+        "what": "As of 1991 there were between thirty and forty thousand identifiable fairy forts in the Irish countryside.",
+        "detail": "The oldest of them possibly date back as early as 600 BCE. This is not a rare or sacred handful of sites. It is an ordinary feature of the landscape, in enormous numbers, that people have declined to plough."
+      },
+      {
+        "what": "Believers in the fairies did not alter them, and even cutting the whitethorn growing on one was reputed to be the death of whoever did it.",
+        "detail": "The tradition is specific about the thorn. Sceach, whitethorn, hawthorn: the tree of the ring, and the one you leave."
+      },
+      {
+        "what": "In 1999 a whitethorn at Latoon in County Clare stopped a motorway.",
+        "detail": "The folklorist Eddie Lenihan campaigned to save the tree from being cut down for the M18, calling it a meeting place for the supernatural forces of the region. It was spared in May 1999 and still grows there, on a strip of land between the motorway and a slip road."
+      }
+    ]
+  },
+
+  "rules": [
+    {
+      "rule": "Do not eat the food.",
+      "said": "Accept a meal inside the hill and you may not be able to leave it.",
+      "source": "A standard motif of the Otherworld visit in Irish and Scottish fairy tradition.",
+      "like": "The invitation that cannot be declined without a cost. The coffee, the team lunch, the quick chat that is not quick and was never optional. Hospitality is the mechanism, not the kindness: once you have taken it you are inside an arrangement you did not read."
+    },
+    {
+      "rule": "Do not say thank you.",
+      "said": "Thanks implies the debt is settled, which is an insult, and a slight from a mortal is not taken lightly.",
+      "source": "A widespread motif in fairy etiquette across Irish and Scottish tradition.",
+      "like": "The rule where the polite thing is the wrong thing. Every autistic person has been punished for a courtesy delivered correctly, in good faith, to somebody who wanted a different courtesy and would not say which. There is no version of this you can work out from first principles, which is the entire complaint."
+    },
+    {
+      "rule": "Do not give your true name.",
+      "said": "A name is a handle. Give the real one and it can be used to call you, bind you, or hold you.",
+      "source": "The power of the true name is a widespread motif in European fairy tradition.",
+      "like": "Disclosure. Tell an employer what you are and you have handed over something that can be used to help you or to manage you out, and you will not find out which until afterwards. This is why so many of us are careful about the word, and why nobody should be told they are being paranoid about it."
+    },
+    {
+      "rule": "Do not accept a gift you cannot return.",
+      "said": "An unanswered gift is a debt, and the debt is collected at a time of the giver's choosing.",
+      "source": "Reciprocity and its dangers are a recurring feature of fairy dealings in the tradition.",
+      "like": "The favour economy, which is most workplaces. Being helped puts you in a ledger nobody shows you, and the entry is called in later as though it had been agreed. An accommodation offered as a favour rather than as a right is this exactly."
+    },
+    {
+      "rule": "The bargain is kept to the letter.",
+      "said": "What was agreed is delivered precisely, and precisely is not what you meant.",
+      "source": "The literal-minded bargain is one of the oldest and most consistent motifs in fairy tradition.",
+      "like": "The accommodation granted on paper. Yes, you may have the software. No, not the training, the licence, the time, or the colleague who stops scheduling meetings in it. Every word of the agreement was honoured. None of it worked, and the record shows you were given what you asked for."
+    },
+    {
+      "rule": "Do not cut the thorn.",
+      "said": "The tree on the ring is left standing, and no one is obliged to explain why.",
+      "source": "Documented tradition; the whitethorn taboo is specific and is still observed.",
+      "like": "The accommodation with no justification attached. A whole country routes around a tree because leaving it alone matters to people, and the paperwork for that is a shrug. We are usually asked for a diagnosis, a letter and a business case before anybody will move a desk."
+    },
+    {
+      "rule": "Time is different inside.",
+      "said": "A night of dancing, and everybody you knew is old or gone.",
+      "source": "The supernatural lapse of time is a central motif of the Otherworld visit.",
+      "like": "Burnout, and any long illness. You go in for what you are told is a short thing and you come out having missed a stretch of your own life, with everybody else further along the road and nobody quite able to say where it went. Nothing was stolen from you. It is simply gone."
+    }
+  ]
+}

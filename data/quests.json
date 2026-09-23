@@ -1069,6 +1069,42 @@
         ]
       },
       "learned": "A band can remove the part everybody treats as structural and keep going for thirty years, and the missing piece becomes the sound rather than a fault in it."
+    },
+    {
+      "id": "sithen-thorn",
+      "page": "sithen.html",
+      "room": "Sithen",
+      "title": "The tree nobody will cut",
+      "posted": "Second turning off the road out of town there is a ring of earth standing in a field, and one kind of tree growing on it that people across a whole country decline to touch. A motorway was moved rather than fell one. Go and find out which tree.",
+      "rank": 3,
+      "takes": "ten minutes, and there is nothing to press out there",
+      "target": "a sprig of thorn on the bank",
+      "code": "WHITETHORN",
+      "hints": [
+        "It is off the street — past the last streetlight, then the second turning.",
+        "The answer is in the documented half of the page, the part about earthworks rather than the part about rules.",
+        "Right at the foot of the room, under the section about why the door is not opened."
+      ],
+      "ask": {
+        "question": "Sithen names one kind of tree that is left standing on a fairy fort, and that stopped a motorway in County Clare in 1999. Which tree?",
+        "accept": [
+          "whitethorn",
+          "hawthorn",
+          "sceach",
+          "white thorn",
+          "thorn",
+          "the whitethorn",
+          "hawthorne"
+        ],
+        "answer": "The whitethorn",
+        "why": "The whitethorn — hawthorn, sceach — which the tradition is specific about: cutting the thorn growing on a ring was reputed to be the death of whoever did it, and in 1999 a campaign led by the folklorist Eddie Lenihan saved one at Latoon from being felled for the M18. It is still there. The reason that is in a room on this site is the comparison it invites: a whole country will make an enormous, permanent, expensive accommodation on the strength of this matters and I am not going to justify it, and the same country will ask a Disabled person for a letter before it moves a desk.",
+        "hints": [
+          "It is in the list of documented facts, and it is named twice — once for the taboo and once for the motorway.",
+          "It has two common English names and an Irish one, and any of them will do.",
+          "The first half of the word is a colour."
+        ]
+      },
+      "learned": "There is a tree in Ireland that a motorway was routed around, and the paperwork for that accommodation was a shrug — which is worth holding next to what is usually asked of a Disabled person before anything gets moved."
     }
   ],
   "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

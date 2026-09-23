@@ -455,6 +455,16 @@ OSK_BEAM, OSK_DIM, OSK_RUST = "#EDE7D6", "#A9A491", "#D96A3C"
 LAG_WATER, LAG_CARD = "#07090A", "#12161A"
 LAG_SCREEN, LAG_DIM = "#E6E2D2", "#A7AFA0"
 LAG_ACID, LAG_POSTER = "#8CC63F", "#E4564A"
+
+# Sithen (§36). TWO GROUNDS, and NO GREEN IN EITHER, which is the section's own
+# rule and the thing that holds this off the campgrounds: grass under a full
+# moon has a brightness rather than a colour, so every value sits on one
+# grey-violet line. The bank is the earth of the ring and of every panel.
+# STH_THORN IS ORNAMENT AND CARRIES NO TEXT: 3.69 on the field and 3.30 on the
+# bank. It draws thorns, branches and rules, and the room's marker is drawn in
+# the MOON instead precisely because a marker is held to the body threshold.
+STH_NIGHT, STH_BANK = "#0C0B12", "#1A1822"
+STH_BONE, STH_DIM, STH_MOON = "#EDEAF2", "#A7A2B8", "#BDB0DE"
 DN_PAINT, DN_CHALK, DN_SODIUM = "#F1EADA", "#C0B8A6", "#F0A73F"
 
 PAIRS = [
@@ -1550,6 +1560,29 @@ PAIRS = [
     # LAG_BLOOD is in ORNAMENT with those numbers beside it.
     (LAG_ACID,   LAG_WATER, False, "lagoon: the job marker, a window speaker on a post"),
 
+    # ── Sithen (§36) ─────────────────────────────────────────────────────────
+    # TWO GROUNDS: the field under the moon, and the banked earth of every panel
+    # and every rule. The bank is LIGHTER than the field by a little and darker
+    # than anything else on the page, and it is the harder of the two, so every
+    # ink is held against both.
+    (STH_BONE,  STH_NIGHT, False, "sithen: the h1, every heading, the lede, each rule's "
+                                  "own line and every bold run in the room"),
+    (STH_BONE,  STH_BANK,  False, "sithen: the same on a panel of banked earth, and the "
+                                  "first line of every documented fact"),
+    (STH_DIM,   STH_NIGHT, False, "sithen: the topline note, the line over the h1 and "
+                                  "every paragraph the room does not emphasise"),
+    (STH_DIM,   STH_BANK,  False, "sithen: where each rule says which tradition it comes "
+                                  "from, and the sources at the foot of the room"),
+    (STH_MOON,  STH_NIGHT, False, "sithen: every link, the backlink and the line "
+                                  "translating the room's own name"),
+    (STH_MOON,  STH_BANK,  False, "sithen: the number beside each rule, and the label on "
+                                  "the half of it that is ours"),
+    # THE MARKER IS HELD TO THE BODY THRESHOLD, the Jungle Room's quills rule, and
+    # it is drawn in the moon rather than in this room's thorn colour FOR that
+    # rule: STH_THORN is 3.69 here and a sprig nobody can pick out of the dark is
+    # a control nobody can use. The pair above decides it at 9.73.
+    (STH_MOON,  STH_NIGHT, False, "sithen: the job marker, a sprig of thorn on the bank"),
+
 ]
 
 # THE HERMITAGE'S CHAIRS ARE IN THE LIST AGAIN, and the episode stays written
@@ -1617,6 +1650,7 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#6e6880": "sithen: the thorn trees and branches in the mound drawing, the rule under the half of each taboo that is ours, and the edge of every banked panel, 3.69 on the field and 3.30 on the bank. It is the one colour in that room that is supposed to be faint -- a thorn that measured 4.5 would be a painted line rather than a branch -- and it never carries a word. The room's own job marker is drawn in the moon rather than in this, because a marker is held to the body threshold and this would not clear it.",
     "#6e7358": "outskirts: the dead grass along the foot of the share card and the dashed post beside a turning that is named and not built, 4.04 on the road and 3.51 on a sign. It carried the topline note and the line under every turning until it was measured, and both were moved to the fine print's own colour; what is left draws weeds and dashes a post. Every word on that road is measured above against both grounds.",
     "#b6342f": "lagoon: the frame round the drive-in screen, the post under every lobby card and the border on every press, 3.35 on the water and 3.05 on a card. It is the poster red this room is actually built out of and it never says anything -- LAG_POSTER is the lighter one that carries text, and the two exist separately so that the room is never tempted to let this one speak.",
     "#6b665d": "danny: the kerbstones down both sides of the road, the joints between "

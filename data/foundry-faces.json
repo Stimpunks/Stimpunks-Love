@@ -546,6 +546,23 @@
     }
    ]
   },
+  "italiana": {
+   "family": "Italiana",
+   "category": "Sans Serif",
+   "designer": "Santiago Orozco",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/italiana",
+   "copyright": "Copyright (c) 2011 by Santiago Orozco (hi@typemade.mx) with reserved name Italiana",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "italiana-400.woff2",
+     "sha": "80d645be0fa66004"
+    }
+   ]
+  },
   "josefin-sans": {
    "family": "Josefin Sans",
    "category": "Sans Serif",
@@ -629,6 +646,29 @@
      "style": "normal",
      "file": "karla-400.woff2",
      "sha": "690fabf2f17b4a98"
+    }
+   ]
+  },
+  "literata": {
+   "family": "Literata",
+   "category": "Serif",
+   "designer": "TypeTogether",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/literata",
+   "copyright": "Copyright 2017 The Literata Project Authors (https://github.com/googlefonts/literata)",
+   "repository": "https://github.com/googlefonts/literata",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "literata-400.woff2",
+     "sha": "c614760279d75a6f"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "literata-700.woff2",
+     "sha": "c614760279d75a6f"
     }
    ]
   },

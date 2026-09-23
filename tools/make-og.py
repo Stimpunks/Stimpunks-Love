@@ -582,6 +582,25 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--lagoon .og-water span:nth-child(odd) {{ height: 46px; }}
 .og--lagoon .og-water span:nth-child(even) {{ height: 68px; }}
 
+/* sithen — THE RING ON THE HORIZON UNDER A FULL MOON, which is the one view the
+   room has and the only one it will ever have, because the room does not go in.
+   The type is the thinnest on the street against the heaviest neighbour: the
+   road this turns off sets fat painted capitals, and a card is where two worlds
+   in one area are most likely to start resembling each other. No warm value
+   anywhere and NO GREEN, which is the section's own rule -- grass under a moon
+   has a brightness and not a colour. */
+.og--sithen {{ width: 100%; padding: 52px 60px 0; gap: 18px;
+  justify-content: flex-start; }}
+.og--sithen .og-over {{ margin: 0 !important; font-size: 19px; letter-spacing: 2.6px;
+  text-transform: uppercase; color: #A7A2B8; }}
+.og--sithen h1 {{ font-size: 122px; margin: 0 !important; letter-spacing: 7px; }}
+.og--sithen .og-sub {{ margin: 0 !important; font-family: 'Italiana', serif;
+  font-size: 34px; letter-spacing: 2px; color: #BDB0DE; }}
+.og--sithen .og-lede {{ font-family: 'Literata', serif; color: #A7A2B8; max-width: 900px;
+  font-size: 25px; margin: 0 !important; }}
+.og--sithen .og-horizon {{ margin: auto -60px 0 !important; }}
+.og--sithen .og-horizon svg {{ display: block; width: 100%; height: 150px; }}
+
 /* yurt — the tent at night: fairy lights across the top, the smoke hole, and
    Helen's italic serif on her own canvas. IT KEEPS THE AMBIENT LAYER THAT SITS
    BEHIND ITS HEADLINE, and it keeps it for the reason the pony's lost its: the ember
@@ -1890,6 +1909,54 @@ def card_lagoon(p):
     )
 
 
+def card_sithen(p):
+    # THE RING IS DRAWN HERE RATHER THAN LIFTED, and it is the one card in this
+    # file that redraws its room's own picture on purpose. The page's mound is
+    # wide and shallow because you are looking across a field at it; a card is
+    # 1200x630 and the same drawing at that ratio would put the horizon
+    # somewhere a horizon is not. Same object, same inks, its own proportions.
+    return (
+        "",
+        f'<div class="og og--sithen" data-fit="card">'
+        f'<p class="og-over">Turning 02 &middot; The Outskirts &middot; the door is not opened</p>'
+        f'{p["h1"]}'
+        f'<p class="og-sub">{p["moundsub"]}</p>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-horizon" data-fit="horizon">'
+        f'<svg viewBox="0 0 1200 150" fill="none" xmlns="http://www.w3.org/2000/svg">'
+        f'<circle cx="1052" cy="30" r="17" fill="#EDEAF2" opacity=".85"/>'
+        f'<circle cx="1052" cy="30" r="29" fill="#EDEAF2" opacity=".07"/>'
+        f'<path d="M0 108 Q160 100 320 104 Q480 108 640 101 Q800 95 960 103 Q1080 109 1200 103 '
+        f'L1200 150 L0 150 Z" fill="#14121B"/>'
+        f'<path d="M416 108 Q484 44 600 42 Q718 40 784 107 Z" fill="#1A1822" '
+        f'stroke="#6E6880" stroke-width="2.2"/>'
+        f'<path d="M600 42 L600 2 M600 22 L578 4 M600 22 L622 4" stroke="#6E6880" '
+        f'stroke-width="2" stroke-linecap="round"/>'
+        f'<path d="M470 106 L470 60 M470 80 L452 64 M470 80 L488 64" stroke="#6E6880" '
+        f'stroke-width="1.7" stroke-linecap="round"/>'
+        f'<path d="M732 106 L732 62 M732 82 L714 66 M732 82 L750 66" stroke="#6E6880" '
+        f'stroke-width="1.7" stroke-linecap="round"/>'
+        f'<circle cx="578" cy="2" r="3.4" fill="#EDEAF2" opacity=".8"/>'
+        f'<circle cx="623" cy="2" r="3.4" fill="#EDEAF2" opacity=".8"/>'
+        f'<circle cx="452" cy="62" r="3" fill="#EDEAF2" opacity=".75"/>'
+        f'<circle cx="489" cy="62" r="3" fill="#EDEAF2" opacity=".75"/>'
+        f'<circle cx="714" cy="64" r="3" fill="#EDEAF2" opacity=".75"/>'
+        f'<circle cx="751" cy="64" r="3" fill="#EDEAF2" opacity=".75"/>'
+        f'<path d="M0 124 Q200 117 400 121 Q600 125 800 118 Q1000 112 1200 119" '
+        f'stroke="#6E6880" stroke-width="1" fill="none" opacity=".35"/>'
+        f'</svg></div>'
+        f'</div>',
+        f"A cold grey-violet card with no warm colour on it. Small lilac capitals reading "
+        f"turning 02, The Outskirts, the door is not opened, then "
+        f"“{p['h1text']}” in a very thin, widely spaced display serif in "
+        f"off-white, and under it in the same thin face in pale lilac: "
+        f"{p['moundsub_plain']} Then, in a plain reading serif: {p['desc_plain']} Across "
+        f"the bottom, a low horizon with a ring of banked earth standing on it, three bare "
+        f"thorn trees growing out of the bank with small white blossoms on their branches, "
+        f"and a full moon low in the sky to the right.",
+    )
+
+
 CARDS = {
     "street":       card_street,
     "room-pony":    card_pony,
@@ -1911,6 +1978,7 @@ CARDS = {
     "campgrounds":  card_camp,
     "outskirts":    card_outskirts,
     "lagoon":       card_lagoon,
+    "sithen":       card_sithen,
     "garden":       card_garden,
     "room-yurt":    card_yurt,
     "hermitage":    card_herm,
@@ -2108,6 +2176,20 @@ def main():
         )
     lifted["billsub"] = bill.group(1).strip()
     lifted["billsub_plain"] = html.unescape(re.sub(r"<[^>]+>", "", bill.group(1))).strip()
+
+    # SITHEN'S CARD CARRIES THE ROOM'S OWN SUBTITLE, which is a translation of
+    # its own name and therefore the single line on that page most likely to be
+    # corrected later. Typed here it would be a second copy of a definition,
+    # in the file whose whole argument is that a card cannot disagree with its
+    # page.
+    mnd = re.search(r'<p class="mound__sub">(.*?)</p>',
+                    (ROOT / "sithen.html").read_text(), re.S)
+    if not mnd:
+        raise SystemExit(
+            "REFUSING: sithen.html has no subtitle on it, and its card is built around\n"
+            "one. Redesign the card on purpose rather than letting it render a blank line.")
+    lifted["moundsub"] = mnd.group(1).strip()
+    lifted["moundsub_plain"] = html.unescape(re.sub(r"<[^>]+>", "", mnd.group(1))).strip()
 
     # THE GARDEN'S CARD IS A ROW OF ITS OWN LABELS, read off the beds rather
     # than typed here -- the campground's pitches' rule, and it matters more in
