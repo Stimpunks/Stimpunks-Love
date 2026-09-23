@@ -5,7 +5,7 @@
   "_no_body": "A row carries a title, a date and where it goes. Never a summary, never an excerpt, never the item's content. A departures board gives you a name and a time; it does not read you the contents of the train. That is the room's argument and it is also what keeps this page from republishing everybody else's writing onto one surface. make-arrivals.py refuses a row with a summary field on it, because the friendly edit -- the rows look bare, paste the excerpts back in -- is a real one and it will arrive.",
   "_no_ranking": "No wire is ranked and no site's activity is totalled. There is no busiest, no quietest, no this-week count and nothing that says which of our sites has been getting on with it. A board that showed that would turn publishing into a race between our own people, most of whom are Disabled and several of whom are one person -- the pebbling cabinet's refusal of a tally, arriving between sites rather than inside a game.",
   "_snapshot": "The board is set when the site is built and not when somebody looks at it. None of these hosts sends an Access-Control-Allow-Origin header, so a browser cannot read these feeds from the page, and the ways round that are a proxy we do not run or a third-party reader we would be handing our visitors to. So every wire records the minute it was read, the hall says when the board was set, and every feed is linked so the live thing is one press away. The board is not the railway.",
-  "set": "2026-09-22T11:49Z",
+  "set": "2026-09-23T11:16Z",
   "wires": [
     {
       "id": "stimpunks",
@@ -15,8 +15,13 @@
       "feed": "https://stimpunks.org/feed/",
       "feed_name": "the blog",
       "note": "The big site, and the one all the others were built to take weight off. Weekly changelogs, weekly reflections, and the notices for Campfire and Infodumplings.",
-      "read": "2026-09-22T11:49Z",
+      "read": "2026-09-23T11:16Z",
       "items": [
+        {
+          "title": "Stimpunks.org Changelog for Week 38 2026: From the Reader to the Peer, From the Argument to the Letter",
+          "url": "https://stimpunks.org/2026/09/22/stimpunks-org-changelog-for-week-38-2026-from-the-reader-to-the-peer-from-the-argument-to-the-letter/",
+          "date": "2026-09-22T16:19:34Z"
+        },
         {
           "title": "Weekly Reflection for Week 37 2026",
           "url": "https://stimpunks.org/2026/09/20/weekly-reflection-for-week-37-2026/",
@@ -41,11 +46,6 @@
           "title": "Weekly Reflection for Week 36 2026",
           "url": "https://stimpunks.org/2026/09/12/weekly-reflection-for-week-36-2026/",
           "date": "2026-09-12T20:27:57Z"
-        },
-        {
-          "title": "Stimpunks.org Changelog for Week 36 2026: From the Condition to the Headline, From the Binder to the Public Page",
-          "url": "https://stimpunks.org/2026/09/07/stimpunksorg-changelog-for-week-36-2026-from-the-condition-to-the-headline-from-the-binder-to-the-public-page/",
-          "date": "2026-09-07T18:36:14Z"
         }
       ]
     },
@@ -59,7 +59,7 @@
       "second": "https://starstuff.earth/changelog.xml",
       "second_name": "the changelog",
       "note": "Zines, field guides, broadsides and working papers, each one arriving with the line it leads with. This wire is the pieces themselves; the reasoning is a second feed beside it.",
-      "read": "2026-09-22T11:49Z",
+      "read": "2026-09-23T11:16Z",
       "items": [
         {
           "title": "Edition Four",
@@ -103,8 +103,13 @@
       "second": "https://queering.earth/register.xml",
       "second_name": "the accession register",
       "note": "A cabinet of sheets, built in a week with Helen Edgar. This wire is what has been mounted; the register's own accessions, corrections included, are a second feed beside it.",
-      "read": "2026-09-22T11:49Z",
+      "read": "2026-09-23T11:16Z",
       "items": [
+        {
+          "title": "Metaphoray",
+          "url": "https://queering.earth/metaphoray",
+          "date": "2026-09-23T12:00:00Z"
+        },
         {
           "title": "Known and Felt and Seen",
           "url": "https://queering.earth/known-and-felt-and-seen",
@@ -129,11 +134,6 @@
           "title": "My Gloomy Sunflowers",
           "url": "https://queering.earth/gloomy-sunflowers",
           "date": "2026-09-11T12:00:00Z"
-        },
-        {
-          "title": "The founding papers",
-          "url": "https://queering.earth/the-founding-papers",
-          "date": "2026-09-11T12:00:00Z"
         }
       ]
     },
@@ -145,7 +145,7 @@
       "feed": "https://cavendish.space/feed.xml",
       "feed_name": "the changelog",
       "note": "The Cavendish Cards deck and the site that holds it. One row per dated entry, which is why some of these rows are named after a day rather than a thing.",
-      "read": "2026-09-22T11:49Z",
+      "read": "2026-09-23T11:16Z",
       "items": [
         {
           "title": "2026-09-20 — Site",
@@ -187,7 +187,7 @@
       "feed": "https://penguinpebbling.app/feed.xml",
       "feed_name": "the changelog",
       "note": "Helen Edgar and Ryan Boren's card game about bringing somebody a small thing for no reason. The Arcade has a cabinet built on the same practice and deliberately none of that deck.",
-      "read": "2026-09-22T11:49Z",
+      "read": "2026-09-23T11:16Z",
       "items": [
         {
           "title": "20 September 2026",
@@ -214,7 +214,7 @@
       "feed": "https://whysheet.press/feed.xml",
       "feed_name": "the press",
       "note": "One-page arguments made to be printed and carried into a room where somebody is about to be talked over. New sheets, revisions, and changes to how they print.",
-      "read": "2026-09-22T11:49Z",
+      "read": "2026-09-23T11:16Z",
       "items": [
         {
           "title": "The Demand Avoidance broadside",
@@ -256,37 +256,37 @@
       "feed": "https://stimpunks.love/feed.xml",
       "feed_name": "what changed on the street",
       "note": "This street. Its own changelog, read over the network like every other wire rather than lifted out of the file next door, so this board can be wrong about this site too.",
-      "read": "2026-09-22T11:49Z",
+      "read": "2026-09-23T11:16Z",
       "items": [
         {
-          "title": "The Zibaldone, and a quote bank that refuses to become a book",
-          "url": "https://stimpunks.love/changelog.html#2026-09-22-the-zibaldone",
+          "title": "Looming Rocks Amphitheatre, and a stage lit from the ground up",
+          "url": "https://stimpunks.love/changelog.html#2026-09-22-looming-rocks",
           "date": "2026-09-22T12:00:00Z"
         },
         {
-          "title": "The Garden, and a palette that splits at the soil line",
-          "url": "https://stimpunks.love/changelog.html#2026-09-22-the-garden",
+          "title": "Covenstead moves onto the street, and changes worlds doing it",
+          "url": "https://stimpunks.love/changelog.html#2026-09-22-covenstead-moves",
           "date": "2026-09-22T12:00:00Z"
         },
         {
-          "title": "The Feed, and a board that says when it was set",
-          "url": "https://stimpunks.love/changelog.html#2026-09-21-the-feed",
-          "date": "2026-09-21T12:00:00Z"
+          "title": "Covenstead, and the only room here lit by more than one lamp",
+          "url": "https://stimpunks.love/changelog.html#2026-09-22-covenstead",
+          "date": "2026-09-22T12:00:00Z"
         },
         {
-          "title": "a contrast checker that reads the page instead of the intention",
-          "url": "https://stimpunks.love/changelog.html#2026-09-21-contrast-live",
-          "date": "2026-09-21T12:00:00Z"
+          "title": "The Outskirts had a wrong side of town in it, and this street does not have one",
+          "url": "https://stimpunks.love/changelog.html#2026-09-22-no-wrong-side",
+          "date": "2026-09-22T12:00:00Z"
         },
         {
-          "title": "six more toys, and three links in that room that measured 1.31",
-          "url": "https://stimpunks.love/changelog.html#2026-09-21-more-toys",
-          "date": "2026-09-21T12:00:00Z"
+          "title": "Sithen, and the room that does not open its own door",
+          "url": "https://stimpunks.love/changelog.html#2026-09-22-sithen",
+          "date": "2026-09-22T12:00:00Z"
         },
         {
-          "title": "a sound board in the Playhouse, and a row of moods with no faces on it",
-          "url": "https://stimpunks.love/changelog.html#2026-09-21-sound-board",
-          "date": "2026-09-21T12:00:00Z"
+          "title": "The Outskirts, and a drive-in screen standing in black water",
+          "url": "https://stimpunks.love/changelog.html#2026-09-22-the-outskirts",
+          "date": "2026-09-22T12:00:00Z"
         }
       ]
     },
@@ -298,7 +298,7 @@
       "feed": "https://monotropicmap.org/feed.xml",
       "feed_name": "the changelog",
       "note": "A map you can walk and a second tool for drawing your own. Built with Helen Edgar, who reviewed it twice before it went up.",
-      "read": "2026-09-22T11:49Z",
+      "read": "2026-09-23T11:16Z",
       "items": [
         {
           "title": "The changelog has a feed",
