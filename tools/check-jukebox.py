@@ -233,7 +233,27 @@ def tracks_in(data):
     # 'link' and so are exempt from the embed check, the way the Jungle Room's
     # link-outs are, but a DEAD one still matters and matters differently.
     if "fire" in data:
-        return [dict(t, artist=t.get("channel") or data.get("_readings_channel"),
+        # THE READINGS CARRY NO 'channel' OF THEIR OWN AND MUST NOT BE GIVEN
+        # ONE. All twenty-one are on one channel, and that name is stored once
+        # at _readings_channel because it is the WALL make-sweetgrass.py uses to
+        # tell a reading from a talk -- a talk on the readings' channel and a
+        # reading on a talk's are both refused there, and the channel is the
+        # only thing that ever told those ids apart. Twenty-one copies of it
+        # would be twenty-one chances for one row to disagree with the wall and
+        # switch that check off quietly, which is the hand-kept copy this repo
+        # refuses everywhere else.
+        #
+        # SO THE FALLBACK IS RESOLVED HERE, WHERE THE SHAPE IS KNOWN, AND ON
+        # 'channel' RATHER THAN ONLY ON 'artist'. It was on artist alone, so
+        # every run printed the right name in the row and then compared the
+        # drift against None and reported all twenty-one as renamed -- for
+        # months, on a report whose own docstring says that a report which is
+        # always noisy is a report nobody reads. The generic comparison below
+        # stays generic; this function's whole job is knowing what shape a file
+        # is in.
+        walled = data.get("_readings_channel")
+        return [dict(t, artist=t.get("channel") or walled,
+                     channel=t.get("channel") or walled,
                      state="link" if t.get("how") == "link" else None)
                 for t in (data.get("fire", []) + data.get("readings", [])
                           + data.get("teachings", []))]
