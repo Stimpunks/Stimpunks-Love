@@ -338,6 +338,30 @@ chose would be overruling them, where a five-hundred-track list nobody finishes 
 measures nothing new; size and solitude are what make it the east end. If it ever takes a colour of
 its own, this room has started having two of everything.
 
+**THE DANCEFLOOR HAS DECKS, AND ONE OF THEM FAILED FOR A REASON NOTHING HERE CAN SEE.** Pink Pony
+Club's jukebox is ten single tracks off our own published page; the decks are whole playlists off
+our own channel, put on and left running. Queercore's embed rendered YouTube's *Video unavailable*
+plate, because **the playlist's position 1 was a dead video** — its own page hid it among thirteen
+unavailable entries and the embed did not. Diagnosed with a control rather than assumed: the plain
+embed failed twice, the same playlist started at its first *visible* video played, a second playlist
+framed identically played, and the first five visible videos all answered OK and `playableInEmbed`
+true, so **the order was the fault and not the videos**. It was **not** worked around by storing a
+good starting id — that id drifts, and it would have hidden a playlist still opening on a dead video
+for anybody reaching it on YouTube. It was held, nothing rendered, and Ryan removed the dead entry
+the same day; re-checked the same way, header 83→82 and hidden 13→12, and it plays. **The episode
+stays in `data/jukebox.json` because the lesson has no other home: a playlist can be perfectly
+healthy and still fail to embed because of what sits at the top of it**, and nothing in this repo
+can see it — `love-embed.js` only checks the origin, and `check-jukebox.py` says in its own source
+that a playlist is not one video. **`held` is the Jungle Room's dark cam on a dancefloor**, and
+`make-jukebox.py` refuses a hold with no reason and a tray with everything held.
+
+**AND THAT ROOM WAS DESCRIBING THE CHAPPELL'S OLD PROMISE.** It said *every button in there says how
+long the thing runs before you press it* — true until the chancel, whose whole point is that it
+cannot say. **Nothing caught it, because it is a claim about one room living in another room's
+copy**, and no generator owns that. **When a room's promise changes, look for the rooms that
+describe it**: a subroom is written about by its parent, the campgrounds by its pitches, and none of
+those sentences are in the tool that changed.
+
 **EVERY FRAMED ORIGIN IS WRITTEN IN ONE PLACE: `love-embed.js`'s `ORIGINS` array.** The browser
 gets it because `make-csp.py` reads that array and builds `frame-src` from it; the build refuses a
 bad URL early because the room generators read the same array. **Adding a service is one edit

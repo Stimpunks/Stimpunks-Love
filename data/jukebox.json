@@ -1,16 +1,97 @@
 {
   "_source": "https://stimpunks.org/philosophy/were-a-double-rainbow-all-the-way/ — every id below was extracted from that published page's own embeds, EXCEPT where a video has since stopped playing and carries its own 'replaced' note saying where the new id came from. Titles and channels were resolved against YouTube's oEmbed endpoint, not typed from memory. 'channel' is what the credits print; where YouTube's own name for that channel differs, 'channel_verbatim' records it exactly, so check-jukebox.py can still tell a real rename from a wording choice we made on purpose. Nothing here is hosted by us.",
+  "_decks": "THE DECKS ARE NOT THE JUKEBOX. The ten tracks above came off our own published Double Rainbow page and are one song each. These are whole playlists we keep on our own channel (@stimpunks, 'by Stimpunks Foundation' on both pages, checked 2026-09-22), and they are here to be put on and left running. NO RUNTIME ON EITHER and make-jukebox.py refuses one: a playlist is a list we keep adding to, so today's total is wrong the next time it changes. NO RANDOM START EITHER -- Club Chronic's stage opens a five-hundred-track list somewhere random because nobody reaches the end of it; these have an order we chose.",
+  "playlists": [
+    {
+      "slug": "neuroqueer",
+      "title": "Neuroqueer Is a Noun and a Verb",
+      "frame": "https://www.youtube-nocookie.com/embed/videoseries?list=PLRtKsTScL-vTOlpgNlEnnB_6MvQbY5ZgS",
+      "out": "https://www.youtube.com/playlist?list=PLRtKsTScL-vTOlpgNlEnnB_6MvQbY5ZgS",
+      "note": "Neuroqueer is Nick Walker's word and our glossary carries it. This is the long version of what the ten cards above are getting at.",
+      "_checked": "2026-09-22: framed on youtube-nocookie from a served page and it played. Its own header claims 52 and says 7 unavailable videos are hidden, so 45 render -- make-chappell.py's discrepancy, written down rather than rounded off and NOT published on the page, because it changes without anybody here touching it."
+    },
+    {
+      "slug": "queercore",
+      "title": "Queercore",
+      "frame": "https://www.youtube-nocookie.com/embed/videoseries?list=PLRtKsTScL-vRhvUtQ7ezmCaEhaYEs33lc",
+      "out": "https://www.youtube.com/playlist?list=PLRtKsTScL-vRhvUtQ7ezmCaEhaYEs33lc",
+      "note": "The scene the room next door is named out of.",
+      "_checked": "HELD FOR AN AFTERNOON AND THEN FIXED AT THE SOURCE, which is worth keeping rather than quietly dropping. 2026-09-22: the plain videoseries embed rendered YouTube's 'Video unavailable' plate instead of a player, because the playlist's POSITION 1 WAS A DEAD VIDEO -- its own page hid it among 13 unavailable entries and the embed did not. Diagnosed with a control rather than assumed: the plain embed failed twice, the same playlist started at its first visible video played, and the Neuroqueer playlist framed identically played, while the first five visible videos all answered status OK and playableInEmbed true. So the ORDER was the fault and not the videos. It was deliberately not worked around by storing a good starting id here, because that id drifts and it would have hidden a playlist that still opened on a dead video for anybody reaching it on YouTube. RYAN REMOVED THE DEAD ENTRY THE SAME DAY and the embed was re-checked the same way it was diagnosed: header 83 -> 82, hidden 13 -> 12, plain embed plays, control still plays. The lesson is the reason this note stays: a playlist can be perfectly healthy and still fail to embed because of what sits at the top of it, and nothing in this repo's machinery can see that -- love-embed.js only asks whether a URL is on an allowed origin, and check-jukebox.py asks watch pages about single videos."
+    }
+  ],
   "tracks": [
-    { "id": "sHRljIHnLSI", "artist": "AURORA",              "title": "Live at Paste Studio NYC",            "channel": "Paste Magazine",           "note": "Queer and neurodivergent liberation, in a major key" },
-    { "id": "3TmKvkndndQ", "artist": "Screaming Females",   "title": "Boyfriend (Live)",                    "channel": "Don Giovanni",             "note": "For when the room needs a guitar, not a footnote" },
-    { "id": "FqRI5uN3fEE", "artist": "Ex Hex",              "title": "Rainbow Shiner",                      "channel": "Merge Records",            "channel_verbatim": "Merge Records on YouTube", "note": "It is a double rainbow all the way" },
-    { "id": "pNkxOOIDcCQ", "artist": "The Spook School",    "title": "Binary",                              "channel": "Nate Stephens",            "note": "Trans joy, jangle, and a chorus you can shout" },
-    { "id": "05TVAAGSzWU", "artist": "stories",             "title": "True Colors (Cyndi Lauper cover, ft. Kenton Chen)", "channel": "stories",     "note": "The one that is about being seen as you are" },
-    { "id": "MneRtx7x2vs", "artist": "Garfunkel & Oates",   "title": "Rainbow Connections",                 "channel": "Garfunkel And Oates",      "note": "The ribald songing the tagline promised" },
-    { "id": "DYRlXq2S4TI", "artist": "The Linda Lindas",    "title": "Growing Up (Live on KEXP)",           "channel": "KEXP",                     "note": "Kids with instruments, which is the whole point" },
-    { "id": "7L64gts5L04", "artist": "Bad Cop / Bad Cop",   "title": "Warriors",                            "channel": "Bad Cop / Bad Cop",         "channel_verbatim": "Bad Cop Bad Cop - Topic", "note": "For the days it takes something to get out of bed",
-      "replaced": "2026-09-19: id lvO3NUS1pbE, the id on the Double Rainbow page, began returning 'Video unavailable' inside the embed. Confirmed by pressing the facade on the served page, which is the only test that sees it — oEmbed still answers 200 for the dead id, and loading an embed URL with no origin fails the same way for every video. Replacement id supplied by Ryan and resolved against oEmbed: same title, a different auto-generated Topic channel." },
-    { "id": "tPwdHxNhqEQ", "artist": "Steven Universe",     "title": "Stronger Than You",                   "channel": "Cartoon Network",          "note": "Fusion as a theory of interdependence" },
-    { "id": "GASp_weDBeY", "artist": "Kae Tempest",         "title": "I Stand On The Line (Visualiser)",    "channel": "Kae Tempest",              "note": "I stand on a line that goes back to the dawn of my kind" }
+    {
+      "id": "sHRljIHnLSI",
+      "artist": "AURORA",
+      "title": "Live at Paste Studio NYC",
+      "channel": "Paste Magazine",
+      "note": "Queer and neurodivergent liberation, in a major key"
+    },
+    {
+      "id": "3TmKvkndndQ",
+      "artist": "Screaming Females",
+      "title": "Boyfriend (Live)",
+      "channel": "Don Giovanni",
+      "note": "For when the room needs a guitar, not a footnote"
+    },
+    {
+      "id": "FqRI5uN3fEE",
+      "artist": "Ex Hex",
+      "title": "Rainbow Shiner",
+      "channel": "Merge Records",
+      "channel_verbatim": "Merge Records on YouTube",
+      "note": "It is a double rainbow all the way"
+    },
+    {
+      "id": "pNkxOOIDcCQ",
+      "artist": "The Spook School",
+      "title": "Binary",
+      "channel": "Nate Stephens",
+      "note": "Trans joy, jangle, and a chorus you can shout"
+    },
+    {
+      "id": "05TVAAGSzWU",
+      "artist": "stories",
+      "title": "True Colors (Cyndi Lauper cover, ft. Kenton Chen)",
+      "channel": "stories",
+      "note": "The one that is about being seen as you are"
+    },
+    {
+      "id": "MneRtx7x2vs",
+      "artist": "Garfunkel & Oates",
+      "title": "Rainbow Connections",
+      "channel": "Garfunkel And Oates",
+      "note": "The ribald songing the tagline promised"
+    },
+    {
+      "id": "DYRlXq2S4TI",
+      "artist": "The Linda Lindas",
+      "title": "Growing Up (Live on KEXP)",
+      "channel": "KEXP",
+      "note": "Kids with instruments, which is the whole point"
+    },
+    {
+      "id": "7L64gts5L04",
+      "artist": "Bad Cop / Bad Cop",
+      "title": "Warriors",
+      "channel": "Bad Cop / Bad Cop",
+      "channel_verbatim": "Bad Cop Bad Cop - Topic",
+      "note": "For the days it takes something to get out of bed",
+      "replaced": "2026-09-19: id lvO3NUS1pbE, the id on the Double Rainbow page, began returning 'Video unavailable' inside the embed. Confirmed by pressing the facade on the served page, which is the only test that sees it — oEmbed still answers 200 for the dead id, and loading an embed URL with no origin fails the same way for every video. Replacement id supplied by Ryan and resolved against oEmbed: same title, a different auto-generated Topic channel."
+    },
+    {
+      "id": "tPwdHxNhqEQ",
+      "artist": "Steven Universe",
+      "title": "Stronger Than You",
+      "channel": "Cartoon Network",
+      "note": "Fusion as a theory of interdependence"
+    },
+    {
+      "id": "GASp_weDBeY",
+      "artist": "Kae Tempest",
+      "title": "I Stand On The Line (Visualiser)",
+      "channel": "Kae Tempest",
+      "note": "I stand on a line that goes back to the dawn of my kind"
+    }
   ]
 }

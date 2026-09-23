@@ -1561,6 +1561,31 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .track p  { margin: 3px 0 11px; font-size: 13px; color: #6b3a55; }
 .track .facade { aspect-ratio: 16/9; }
 
+/* THE DECKS — the room's other tray, and not a second jukebox. The jukebox is
+   a grid of narrow cards, one song each, picked off our own published page;
+   this is one wide record at a time, a whole playlist we keep on our own
+   channel, put on and left running.
+
+   SAME MATERIALS ON PURPOSE, DIFFERENT PROPORTION. Cream tray, white card,
+   dark red rule, the same small plum for the credit line — every colour here
+   is a pair check-contrast.py already holds for a .track, so the decks
+   introduced nothing to measure. What separates them is that the jukebox packs
+   its cards into columns and this one never has more than one across: a record
+   on the deck is a thing you put on, not a thing you scan. If these ever grow
+   a second column they have become the jukebox with longer titles in it.
+
+   NO RUNTIME ON THESE BUTTONS, and make-jukebox.py refuses one. A playlist is
+   a list we keep adding to; today's total is wrong the next time it changes. */
+.decks { list-style: none; margin: 18px 0 0; padding: 16px; background: var(--cream); border: 4px solid #2b0a1c; border-radius: 16px; display: grid; gap: 14px; grid-template-columns: 1fr; }
+.decks__rec { background: #fff; border: 2px solid #e0a9c6; border-left: 9px solid #2b0a1c; border-radius: 12px; padding: 14px 16px; }
+.decks__rec h3 { margin: 0; font-size: 20px; color: #2b0a1c; }
+.decks__rec p  { margin: 3px 0 11px; font-size: 13.5px; color: #6b3a55; }
+.decks__rec .facade { aspect-ratio: 16/9; }
+/* Scoped rather than !important: .decks__rec p sets the margin above and would
+   out-rank a bare .decks__via. This room's furniture is not shared, so there is
+   nothing here that earns the hammer §2's [hidden] guard needs. */
+.decks__rec .decks__via { margin: 9px 0 0; font-size: 12px; color: #6b3a55; line-height: 1.5; }
+
 
 /* §7 ── ROOM: The Zine Table ─────────────────────────────────────────────────
    Photocopier grain, ransom-note headline, two columns of typewriter.
