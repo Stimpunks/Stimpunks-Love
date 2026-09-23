@@ -460,6 +460,28 @@
 @font-face { font-family: 'Archivo'; src: url('fonts/archivo-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Archivo'; src: url('fonts/archivo-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Dead Tired Society (§40). A CHARTER FACE AND A FACE BUILT AGAINST FATIGUE.
+   Sorts Mill Goudy sets the society's name and its headings and nothing at
+   reading size: a revival of Goudy's Oldstyle, which reads like a founding
+   charter, and that is the joke -- the grandest name on the street, set like an
+   institution's, for a society whose members are lying on the floor. THE MOPERY
+   IS THE COLLISION THE NAME INVITES, because Dead Poets Society is the film dark
+   academia is named after, so the division is the stroke and the job: IM Fell
+   is punched and battered and carries that room's whole text; this is smooth,
+   soft and American, and is never set as a paragraph. Its italic is kept for the
+   society's one line of Latin-flavoured pomp and for nothing else, because the
+   yurt owns high-contrast italic serifs and this must not start looking like it.
+
+   Lexend carries every word that is read. It was drawn to reduce visual stress
+   and ease reading fatigue, which is the whole reason a room for the dead tired
+   sets it: the face does some of the work so the reader does not have to. One
+   variable file, declared twice against the weight axis. Under the SIL Open
+   Font License. See fonts/_sources.json. */
+@font-face { font-family: 'Sorts Mill Goudy'; src: url('fonts/sorts-mill-goudy-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Sorts Mill Goudy'; src: url('fonts/sorts-mill-goudy-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Lexend'; src: url('fonts/lexend-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Lexend'; src: url('fonts/lexend-400.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1166,6 +1188,31 @@
   --fg-plate:  #1D3557;   --fg-enamel: #F3F4EF;
   --fg-far:    #BEC6C8;   --fg-mid:    #A7B1B4;
   --fg-halo:   #E6EAEA;   --fg-post:   #5E6B70;
+
+  /* Dead Tired Society (§40). A BORROWED ROOM AFTER HOURS WITH THE BIG LIGHTS
+     OFF AND THE DOOR LEFT AJAR, and the light is the whole separation. It comes
+     from OUTSIDE the room -- a corridor's strip lights, through a gap -- and it
+     lies on the floor as one hard-edged wedge that NOBODY IS SITTING IN.
+     --dts-hall is that light and NOTHING IS EVER SET IN IT, which is the room's
+     one rule about colour and the reason it is in check-contrast.py's ORNAMENT
+     list despite measuring 14.8: masking is performing under a light, and this
+     is the one room on the street whose words all stay in the shade on purpose.
+     COVENSTEAD IS THE ROOM TO WATCH, because a group meets there too and its
+     light also comes in from one side and lands in a patch. That room is daylit
+     all over, its patch is 1.12 from its wall, and it sets its words IN the
+     patch. This one is dark, its patch is fourteen times brighter than anything
+     around it, and it keeps every word out of it.
+     THE GROUND IS PLUM AND NOT VIOLET, which holds it off Sithen's grey-violet
+     night and the Chappell's votive purple: it is the colour of a dark room seen
+     through half-shut eyes. --dts-exit is every link and it is the corridor's
+     own green, because a link is a way out through the door. --dts-edge draws
+     everything standing in the shade and carries no word.
+     DTS- PREFIXED THROUGHOUT: `room`, `hall`, `edge` and `exit` are exactly the
+     plain words this file fills up with, and a custom property declared twice
+     in one :root is last-wins and silent. */
+  --dts-room:  #22151F;   --dts-deep:  #170E15;
+  --dts-pale:  #EFE7EE;   --dts-text:  #DCD1DA;   --dts-dim:   #B7A8B5;
+  --dts-exit:  #A6D6B3;   --dts-hall:  #E4EFE2;   --dts-edge:  #8B7889;
 }
 
 * { box-sizing: border-box; }
@@ -1675,6 +1722,18 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .door--covenstead .door__name  { font-family: 'Petrona', Georgia, serif; font-weight: 700; color: var(--cov-ink); font-size: 27px; }
 .door--covenstead .door__blurb { color: var(--cov-ink-2); }
 .door--covenstead .door__knock { font-family: 'Asap', var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--cov-rose); }
+
+/* Dead Tired Society (§40). THE ONE AWNING IN THE ROW WITH A GAP OF LIGHT IN
+   IT, and nothing else lit: a dark front with the corridor showing through one
+   narrow sliver, which is the door left ajar arriving on the street before you
+   have pushed it. The name is the society's charter face and the knock is in
+   the corridor's green, because a link on that room is a way out through the
+   door. Every ink here is on --dts-room and is measured in check-contrast.py. */
+.door--dead-tired { background: var(--dts-room); border-color: var(--dts-edge); }
+.door--dead-tired .door__awning { background-image: linear-gradient(90deg, var(--dts-deep) 0 71%, var(--dts-hall) 71% 75%, var(--dts-deep) 75% 100%); border-bottom-color: var(--dts-edge); }
+.door--dead-tired .door__name  { font-family: 'Sorts Mill Goudy', Georgia, serif; font-weight: 400; color: var(--dts-pale); font-size: 30px; }
+.door--dead-tired .door__blurb { font-family: 'Lexend', var(--sans); color: var(--dts-text); }
+.door--dead-tired .door__knock { font-family: 'Lexend', var(--sans); font-weight: 600; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--dts-exit); }
 
 .door--feed { background: var(--fd-enamel); border-color: var(--fd-girder); }
 .door--feed .door__awning { background-image: repeating-linear-gradient(180deg, var(--fd-flap) 0 6px, var(--fd-split) 6px 7px); border-bottom-color: var(--fd-girder); }
@@ -8983,7 +9042,173 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 .fg-dial { max-width: 400px; margin: 40px 0 0; }
 
 
-/* §40 ── Small screens ───────────────────────────────────────────────────────
+/* §40 ── ROOM: Dead Tired Society (a shopfront on the street) ────────────────
+   A BORROWED ROOM AFTER HOURS, WITH THE BIG LIGHTS OFF AND THE DOOR LEFT AJAR.
+   Peer support by and for the burnt out, and the name is a play on Dead Poets
+   Society -- which takes the shape of the name and nothing else from the film.
+
+   THE LIGHT IS OUTSIDE THE ROOM AND NOBODY IS SITTING IN IT. Every other world
+   on this street is lit by something in it or over it -- a lamp, a candle, the
+   floor, the sun, a screen, a moon, a sodium head, a flood. Here the only light
+   is a corridor's strip lights coming through a gap in a door, lying on the
+   floor as one hard-edged wedge, and EVERY WORD ON THE PAGE STAYS IN THE SHADE.
+   That is not a mood. Masking is performing under a light, and this is the one
+   room where nothing has to stand in it: --dts-hall is drawn and never carries
+   text, and nothing in this section may put a word on it. If a panel in here is
+   ever lit to make it "pop", the room has lost the one thing it is about.
+
+   THESE ARE THE COLLISIONS TO WATCH, and every one is structural:
+     · THE LATIBULUM is also for burnouts, and it is a burrow for being
+       unfindable in ALONE: brown earth, a lamp at knee height, and almost every
+       word dark on lit plaster. This is a room you share, it is plum and not
+       brown, every word is pale on the dark, and the one lit surface in it
+       carries nothing at all.
+     · THE HEALING CHECKPOINT is also about not being made to earn anything,
+       and its light comes UP out of the floor, soft, green-blue, so that you
+       could put your hand in it. This light arrives SIDEWAYS through a door and
+       lies flat on the floor with a hard edge, and there is no bed.
+     · COVENSTEAD is also a group meeting on purpose, and its light also comes
+       in from one side. That room is daylit throughout, its patch is 1.12 from
+       its wall, and it sets its words IN the patch. This one is dark, its patch
+       is fourteen times brighter than anything near it, and keeps every word
+       out of it. A kitchen with the good china out, and a room with the chairs
+       pushed back.
+     · THE MOPERY is the collision the NAME invites, because Dead Poets Society
+       is the film dark academia is named after. No candle, no book, no stone,
+       no tweed and nothing old: the light is a fluorescent tube in a corridor,
+       and the most academic thing in here is a school blazer hung up by the
+       door and left there. If a candle ever appears in this room it has become
+       the Mopery with fewer books.
+
+   THE CORRIDOR'S TUBES DO NOT FLICKER. A strip light is a flickering object
+   nearly by definition, and Club Chronic's rule holds here for Club Chronic's
+   reason: nothing flashes on this street at any setting. The only motion in the
+   room is the dust in the doorway, which drifts at MAX, stands still at Regular
+   and is taken away by §3 at Gentle, and it moves with a translate because
+   rotation and skew are all check-gentle.py can read.
+
+   AND THERE ARE NO PANELS. Nothing here is boxed: the text sits on the room's
+   own ground, the pegs hang on the wall, and sections are parted by space and a
+   hairline. The Feed is the one room on this street whose furniture is darker
+   than its room, and a box of --dts-deep under the pegs would have been that
+   room's claim arriving in this one. */
+
+.dead-tired { background: var(--dts-room); color: var(--dts-text); font-family: 'Lexend', system-ui, sans-serif; }
+.dead-tired a { color: var(--dts-exit); text-underline-offset: 3px; }
+.dead-tired a:hover { color: var(--dts-pale); }
+/* :where() so this base is (0,1,0) and every component below it wins by order.
+   Written as `.dead-tired p` it was (0,1,1), and it quietly set the est. line,
+   the over-line and the trail at body size -- the Playhouse's `.toy--orange
+   span` lesson, caught by looking at the page. */
+.dead-tired :where(p, li) { font-size: 17px; line-height: 1.7; }
+.dead-tired strong { color: var(--dts-pale); font-weight: 600; }
+.dead-tired code { font-size: .9em; color: var(--dts-pale); }
+.dead-tired .backlink { font-family: 'Lexend', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--dts-exit); }
+
+.dts-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.dts-trail { margin: 0; font-size: 14px; color: var(--dts-dim); }
+
+/* THE NAME, set like a founding charter, which is the joke: the grandest name on
+   the street for a society whose members are lying on the floor. Goudy's italic
+   is spent on the one word of pomp under it and nowhere else. */
+.dts-head { margin: 34px 0 0; }
+.dts-over { margin: 0; font-size: 13px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--dts-dim); }
+.dead-tired h1 {
+  font-family: 'Sorts Mill Goudy', Georgia, serif; font-weight: 400;
+  font-size: clamp(46px, 9vw, 96px); line-height: 1.02;
+  color: var(--dts-pale); margin: 12px 0 0;
+}
+.dts-est { margin: 8px 0 0; font-family: 'Sorts Mill Goudy', Georgia, serif; font-size: clamp(20px, 2.6vw, 26px); line-height: 1.3; color: var(--dts-dim); }
+.dts-art { margin: 22px 0 0; line-height: 0; }
+.dts-art svg { display: block; width: 100%; height: auto; }
+
+.dts-lede { font-size: 20px; line-height: 1.62; color: var(--dts-pale); max-width: 62ch; margin: 28px 0 0; }
+.dts-worse { margin: 20px 0 0; max-width: 62ch; padding: 2px 0 2px 16px; border-left: 3px solid var(--dts-exit); font-size: 16px; }
+
+.dts-part { margin: 56px 0 0; max-width: 72ch; }
+.dts-part > :where(p) { margin: 0 0 14px; }
+.dead-tired h2 { font-family: 'Sorts Mill Goudy', Georgia, serif; font-weight: 400; font-size: clamp(29px, 4vw, 38px); line-height: 1.15; color: var(--dts-pale); margin: 0 0 14px; }
+.dead-tired h3 { font-family: 'Sorts Mill Goudy', Georgia, serif; font-weight: 400; font-size: 27px; line-height: 1.15; color: var(--dts-pale); margin: 0; }
+
+/* THE STANDING ORDERS, which nobody is standing for. Hairlines rather than
+   bullets, because a bullet in front of each is the start of a checklist and
+   these are not things to do. */
+.dts-orders { list-style: none; margin: 18px 0 0; padding: 0; }
+.dts-orders li { margin: 0; padding: 12px 0; border-top: 1px solid var(--dts-edge); }
+.dts-orders li:last-child { border-bottom: 1px solid var(--dts-edge); }
+
+/* The two lines that define the thing. In the reading face, larger and paler:
+   Goudy is kept for names and never set as a sentence, because the Mopery owns
+   a text serif and the yurt owns a high-contrast one. */
+.dts-said { margin: 20px 0 22px; padding: 4px 0 4px 20px; border-left: 2px solid var(--dts-edge); }
+.dts-said p { margin: 0; font-size: 20px; line-height: 1.5; color: var(--dts-pale); }
+.dts-said cite, .dts-peg__quote cite { display: block; margin: 8px 0 0; font-size: 14px; font-style: normal; line-height: 1.5; color: var(--dts-dim); }
+
+/* THE PEGS BY THE DOOR. One rail and one kind of peg all the way along, because
+   it is one wall, and never the same thing hanging on two of them. The drawing
+   is aria-hidden; the line beginning "On the peg" says the same thing in words. */
+.dts-intro { margin: 0; }
+.dts-pegs { list-style: none; margin: 30px 0 0; padding: 0; display: grid; gap: 38px; }
+.dts-peg { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 24px; align-items: start; }
+.dts-peg__art { display: block; width: 120px; height: auto; }
+.dts-peg__on { margin: 8px 0 0; }
+.dts-peg__label { font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--dts-dim); }
+.dts-peg__quote { margin: 14px 0 0; padding: 2px 0 2px 16px; border-left: 2px solid var(--dts-exit); }
+.dts-peg__quote p { margin: 0; color: var(--dts-pale); }
+.dts-peg__note { margin: 12px 0 0; }
+.dts-peg__entry { margin: 10px 0 0; font-size: 15px; }
+.dts-more { margin: 34px 0 0; max-width: 72ch; }
+
+/* THE TALKING PIECE. Pass comes first and is the same size as speaking, because
+   a piece that made passing look like the lesser option would be the thing peer
+   support exists to undo. It ships hidden; see dead-tired.js. */
+.dts-piece { margin: 20px 0 0; }
+.dts-piece__row { display: flex; flex-wrap: wrap; gap: 12px; }
+.dts-piece__btn {
+  min-height: 48px; min-width: 132px; padding: 10px 22px; cursor: pointer;
+  font-family: 'Lexend', system-ui, sans-serif; font-weight: 600; font-size: 16px;
+  color: var(--dts-pale); background: transparent;
+  border: 2px solid var(--dts-edge); border-radius: 999px;
+}
+.dts-piece__btn:hover { border-color: var(--dts-exit); }
+.dts-say { margin: 16px 0 0; display: grid; gap: 10px; max-width: 60ch; }
+.dts-say__label { font-size: 15px; line-height: 1.55; }
+.dts-say__box {
+  width: 100%; min-height: 128px; padding: 12px 14px; resize: vertical;
+  font-family: 'Lexend', system-ui, sans-serif; font-size: 17px; line-height: 1.6;
+  color: var(--dts-pale); background: transparent;
+  border: 2px solid var(--dts-edge); border-radius: 6px;
+}
+.dts-say .dts-piece__btn { justify-self: start; }
+.dts-piece__said { margin: 14px 0 0; min-height: 1.7em; color: var(--dts-pale); }
+
+.dts-nots { margin: 0; padding: 0 0 0 1.1em; }
+.dts-nots li { margin: 0 0 12px; }
+.dts-nots li::marker { color: var(--dts-exit); }
+.dts-further { font-size: 15px; color: var(--dts-dim); }
+.dts-thanks { border-top: 1px solid var(--dts-edge); padding-top: 28px; }
+.dead-tired .quest { margin-top: 44px; }
+
+/* The dust in the doorway, at MAX only. A translate and nothing else. */
+html[data-intensity="max"] .dts-dust circle { animation: dts-drift 13s ease-in-out infinite alternate; }
+html[data-intensity="max"] .dts-dust circle:nth-child(2) { animation-duration: 17s; animation-delay: -4s; }
+html[data-intensity="max"] .dts-dust circle:nth-child(3) { animation-duration: 11s; animation-delay: -7s; }
+html[data-intensity="max"] .dts-dust circle:nth-child(4) { animation-duration: 19s; animation-delay: -2s; }
+html[data-intensity="max"] .dts-dust circle:nth-child(5) { animation-duration: 15s; animation-delay: -9s; }
+@keyframes dts-drift { from { transform: translate(0, 0); } to { transform: translate(14px, -10px); } }
+
+/* A PEG IS A DRAWING BESIDE ITS WORDS, and on a phone the drawing gets smaller
+   rather than going away: hiding it to save room would be the lite version
+   arriving through a breakpoint. Written last in the section on purpose, after
+   every rule it overrides -- the Playhouse's half-a-breakpoint lesson. */
+@media (max-width: 560px) {
+  .dts-peg { grid-template-columns: 70px minmax(0, 1fr); gap: 14px; }
+  .dts-peg__art { width: 70px; }
+  .dts-lede { font-size: 18px; }
+}
+
+
+/* §41 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -9090,7 +9315,7 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §40 says every
+   shipped with no rule here at all — which on a street whose §41 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -9214,7 +9439,7 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §41 ── Print ───────────────────────────────────────────────────────────────
+/* §42 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

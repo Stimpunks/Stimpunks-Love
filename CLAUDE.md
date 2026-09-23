@@ -1902,6 +1902,53 @@ face at all because a garden has labels and no signage. This one *has* one and h
 picked a plain one, which is a different claim: not *there is no signage here* but *the sign is the
 same as everybody else's.*
 
+**THE LIGHT IN DEAD TIRED SOCIETY IS OUTSIDE THE ROOM AND NOBODY SITS IN IT.** §40 is peer
+support for the burnt out, in a borrowed room after hours with the big lights off and the door
+left ajar. The only light is a corridor's strip lights through the gap, lying on the floor as one
+hard wedge, and **every word on the page stays in the shade** — `--dts-hall` is drawn and never
+carries text, and it is in `ORNAMENT` at 14.8 because the reason is not contrast: masking is
+performing under a light, and this is the room where nothing has to. **There are no panels
+either**, because a box darker than the room is The Feed's claim. If anything in there is ever lit
+to make it "pop", the room has lost the one thing it is about. The collisions are structural: the
+Latibulum is for burnouts too but is a burrow for being unfindable ALONE, brown, dark on lit
+plaster; the Healing Checkpoint's light comes UP out of the floor, soft, where this one lies flat
+with a hard edge; Covenstead is a group meeting with side-light too, but daylit all over and it
+sets its words IN its patch; and **the Mopery is the collision the NAME invites**, because Dead
+Poets Society is the film dark academia is named after — so no candle, no book, no stone, no
+tweed, and nothing old. The corridor's tubes do not flicker, for Club Chronic's reason.
+
+**THE NAME IS THE ONLY THING TAKEN FROM THE FILM.** *Dead Poets Society* (1989, Peter Weir, Tom
+Schulman) — no line, no scene, no character, no still, no motto. `make-dead-tired.py` refuses its
+characters, its school and its two famous lines outright, with no negation window, because the
+most famous parts of a living writer's screenplay are the most tempting to borrow for atmosphere.
+The standing orders decline to stand on a desk, which is a joke about being told to stand up for
+yourself and describes nothing.
+
+**IT REFUSES ADVICE, RESILIENCE AND A TALLY, AND IT SKIPS BLOCKQUOTES TO DO IT.** A burnout page is
+exactly the shape of thing that fills up with tips, and every one is homework for the person least
+able to do it; resilience is the praise that got most of us there. Both are refused in the room's
+own voice with the negation window. **The sweep skips quotations**, which is where it parts from
+`make-checkpoint.py`: the NeuroHub line on the justice sensitivity peg and our own ecology page are
+the sharpest things anybody has said *against* resilience, and a quotation criticising a word has
+to be allowed to contain it. Do not "tidy" that by sweeping everything. Do not add a recovery
+timeline, a before-and-after, or a check-in that remembers anybody.
+
+**THE PAGE IS NOT A MEETING AND SAYS SO.** No times, no sign-up, no chat link, no facilitator,
+because none exists; it points at the community and at mutual aid. When the society is real it gets
+one paragraph and one link — see DECISIONS.md. **Do not dress the page up as a meeting before there
+is one**: a broken promise costs most in the room for people with nothing left to spend on it.
+
+**PASSING IS A WHOLE TURN, AND THE BUTTON SAYS SO BY BEING FIRST AND THE SAME SIZE.** The talking
+piece ships `hidden`, sends nothing, keeps nothing, and putting it down empties the box. Its answer
+is on the piece you pressed. Lexend carries every word that is read because it was drawn against
+reading fatigue; Goudy is the society's charter face and is never set as a sentence.
+
+**A ROOM'S BASE `p` RULE OUTRANKS ITS OWN COMPONENTS, AND IT HAPPENED HERE ON DAY ONE.**
+`.dead-tired p` is (0,1,1) and quietly set the est. line, the over-line and the trail at body size,
+because every component class is (0,1,0) — the Playhouse's `.toy--orange span`, arriving as a font
+size. It is `.dead-tired :where(p, li)` now, which is (0,1,0) and loses to anything written after
+it. Found by looking at the page; no checker reads a font size.
+
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
 paleness alone — which is what holds it off the Guild, lit from nowhere with no depth. Netlify

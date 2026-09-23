@@ -359,6 +359,13 @@
         18
       ]
     },
+    "lexend": {
+      "where": "Dead Tired Society",
+      "page": "dead-tired-society.html",
+      "sections": [
+        40
+      ]
+    },
     "literata": {
       "where": "Sithen",
       "page": "sithen.html",
@@ -490,6 +497,13 @@
       "page": "solarpunk-hermitage.html",
       "sections": [
         19
+      ]
+    },
+    "sorts-mill-goudy": {
+      "where": "Dead Tired Society",
+      "page": "dead-tired-society.html",
+      "sections": [
+        40
       ]
     },
     "space-grotesk": {

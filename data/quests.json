@@ -1141,6 +1141,41 @@
       "learned": "The best-known line of a living religious tradition is phrased as advice rather than as an order, and has stayed that way — which is a rarer thing than it sounds if you have spent much time being handed rules that were described to you as guidance."
     },
     {
+      "id": "dead-tired-doorstop",
+      "page": "dead-tired-society.html",
+      "room": "Dead Tired Society",
+      "title": "The desks are for sitting at",
+      "posted": "There is a room on this street with the big lights off and the door wedged ajar, where a society of the burnt out meets on the floor. Its standing orders have something to say about the desks. Go and find out who stands on them.",
+      "rank": 1,
+      "takes": "five minutes, lying down if you like",
+      "target": "a rubber doorstop wedged under the door",
+      "code": "DOORSTOP",
+      "hints": [
+        "On the street itself, in the row of shopfronts — the dark one with a sliver of light in its awning.",
+        "The standing orders are near the top of the room, just under the drawing of the doorway.",
+        "Right at the foot of the room, under the section about whose these are, where the door would swing."
+      ],
+      "ask": {
+        "question": "Dead Tired Society’s standing orders mention the desks. Who stands on them?",
+        "accept": [
+          "nobody",
+          "no one",
+          "nobody does",
+          "none",
+          "no body",
+          "nobodyatall"
+        ],
+        "answer": "Nobody",
+        "why": "Nobody stands on the desks, because most of us have been told to stand up for ourselves quite enough. It is a society of people who are dead tired, and it meets on the floor.",
+        "hints": [
+          "It is in the standing orders, the ones nobody is standing for.",
+          "It is the order that mentions standing up for yourself.",
+          "One word, meaning no person at all."
+        ]
+      },
+      "learned": "A room can make a point of what it will not ask you to do. That one will not ask anybody to stand up — for themselves, for the room, or on a desk — and passing, there, is a whole turn."
+    },
+    {
       "id": "looming-flood",
       "page": "looming-rocks.html",
       "room": "Looming Rocks Amphitheatre",

@@ -187,6 +187,12 @@ def normalise(s):
 # yellow on that blue measures 3.88 and white measures 5.08 -- the one place
 # here where the room's favourite colour lost to the floor it was lying on.
 DRAW = {
+    # A rubber doorstop wedged under the door, which is the only thing holding
+    # that room open -- and the reason anybody can find it and anybody can
+    # leave. Drawn in --dts-exit, the corridor's green and that room's link
+    # colour, 10.74 on its plum, so it clears the body threshold a marker is
+    # held to. The floor line is --dts-edge and carries nothing.
+    "dead-tired-doorstop": """<path d="M3 25 H29" stroke="var(--dts-edge)" stroke-width="1.8" stroke-linecap="round"/><path d="M5 25 L27 25 L27 13 Z" fill="none" stroke="var(--dts-exit)" stroke-width="2.3" stroke-linejoin="round"/><path d="M13 21 L13 25 M18 18 L18 25 M23 15 L23 25" stroke="var(--dts-exit)" stroke-width="1.5" stroke-linecap="round" opacity=".8"/><path d="M27 6 V13" stroke="var(--dts-exit)" stroke-width="2.3" stroke-linecap="round"/>""",
     # A flood lamp at the foot of the rock, pointing UP, which is the one
     # thing that room does that nothing else on this street does. Drawn in
     # the lichen rather than the lamp's own violet: 10.65 against that

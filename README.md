@@ -94,6 +94,7 @@ the-feed.html         A dark concourse of arrival boards, one wire per site, off
 zibaldone.html        A commonplace book open on a desk. Short quotations, each naming its printing
 rabbit-hole.html      Not a room: a shaft. Rabbit holing, seven presses, six 1865 engravings
 healing-checkpoint.html  Room 429. A save room lit from the floor. Rest, and a bed with no terms on it
+dead-tired-society.html  Peer support for the burnt out. Big lights off, door ajar, nobody sitting in the light
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 the-garden.html       The knowledge garden. One bed per site we publish, each linking out
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
@@ -136,9 +137,11 @@ data/garden.json      What grows on each site. The roster is read out of arrival
 data/zibaldone.json   The quote bank. Every line names its printing and how it was checked
 data/rabbit-hole.json The shaft's presses, its engravings and its trail. No lyrics, refused
 data/checkpoint.json  Room 429's quotations, its Retry-After slips and its way out
+data/dead-tired.json  The pegs by the door: what wore us out, one line from somebody who wrote about it, one of ours
 quest.js              The job markers, and the guild's board. Works with scripts off
 zibaldone.js          The attribution slip. Composes a block of text; sends nothing anywhere
 checkpoint.js         Room 429's copy buttons, which ship hidden. The slips work without it
+dead-tired.js         The talking piece. Pass is a whole turn; what you type goes nowhere and is not kept
 raven/                Doré's 1884 engravings and three leaves of an 1865 printing
 alice/                Six of Tenniel's 1865 wood engravings. Public domain, scans credited
 oracle/               The deck's plates. Public domain, CC0, from one collection
@@ -179,6 +182,7 @@ python3 tools/make-garden.py       # The Garden's beds and credits; roster and o
 python3 tools/make-zibaldone.py    # The Zibaldone's leaves and its attribution slip, and the credits
 python3 tools/make-rabbit-hole.py  # The Rabbit Hole's presses, engravings and trail, and the credits
 python3 tools/make-checkpoint.py   # Room 429's quotations, slips and way out, and the credits
+python3 tools/make-dead-tired.py   # Dead Tired Society's pegs by the door, and the credits
 python3 tools/make-foundry.py      # The Foundry's bench, its shelves and its proof
 python3 tools/make-signoff.py      # the sign-off line on every page, and the pavement's links on the front one
 python3 tools/make-structured.py   # each page's JSON-LD, built from its own head
@@ -358,6 +362,18 @@ access failure wearing atmosphere. It refuses a drawing it has not got and two e
 one, a margin note carrying a quotation mark, an emoji in the line that says what a quotation is
 *for*, and the vocabulary of ranking. **Nothing in that room is ranked, counted or voted on**: a
 quote bank is exactly the shape of thing that grows a leaderboard.
+
+`make-dead-tired.py` refuses **advice in the second person**, **the vocabulary of bouncing back**
+and **a tally**, all in the room's own voice and all with the negation window, so the room can say
+that it gives no tips, praises nobody for resilience and counts nothing. A burnout page is exactly
+the shape of thing that fills up with ways to recover, and every one of them is homework handed to
+the person least able to do it. **It skips blockquotes when it sweeps**, which is the one place it
+parts from `make-checkpoint.py`: two of the lines on those pegs are the sharpest things anybody has
+said *against* resilience, and a quotation criticising a word has to be allowed to contain it. It
+refuses the film the name is a play on beyond its name &mdash; characters, school and its two famous
+lines, outright &mdash; a quotation over thirty words or without an author, work and link, a peg
+whose `entry` is not one of our own glossary entries, and a peg with no drawing, two sharing one, or
+a drawing not also said in words.
 
 `make-guild.py` refuses a job with no estimate of how long it takes &mdash; the street's oldest
 promise arriving at a job board, where the cost is a walk rather than a runtime &mdash; refuses a

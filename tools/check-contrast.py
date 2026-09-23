@@ -500,6 +500,16 @@ DN_PAINT, DN_CHALK, DN_SODIUM = "#F1EADA", "#C0B8A6", "#F0A73F"
 FG_FOG, FG_INK, FG_DIM, FG_LINK = "#D3D9DA", "#1C2428", "#3D4A50", "#16465C"
 FG_PLATE, FG_ENAMEL = "#1D3557", "#F3F4EF"
 
+# Dead Tired Society (§40). ONE GROUND, AND THAT IS THE ROOM'S ONE RULE ABOUT
+# COLOUR: every word stands on the plum, in the shade, and nothing is ever set in
+# the corridor's light. DTS_HALL is that light and is in ORNAMENT despite
+# measuring 14.8, because the reason it carries no text is not that it would
+# fail -- it is that masking is performing under a light and this is the room
+# where nothing has to. DTS_DEEP and DTS_EDGE only draw, and are in ORNAMENT
+# with their numbers. There are no panels, so there is no second ground to hold.
+DTS_ROOM, DTS_PALE, DTS_TEXT = "#22151F", "#EFE7EE", "#DCD1DA"
+DTS_DIM, DTS_EXIT = "#B7A8B5", "#A6D6B3"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -1698,6 +1708,26 @@ PAIRS = [
     (FG_ENAMEL, FG_PLATE, True, "404: the house number on its enamel plate, 40-64px"),
     (FG_ENAMEL, FG_PLATE, False, "404: the small No. on the same plate"),
 
+    # ── Dead Tired Society (§40) ─────────────────────────────────────────────
+    # ONE GROUND. Every ink below is on the room's own plum and nowhere else,
+    # because the only lit surface in the room is the one nothing is set on.
+    (DTS_PALE, DTS_ROOM, False, "dead tired: the h1, every heading, the lede, every bold run, "
+                                "every quotation, the talking piece's buttons and its answer, "
+                                "and the name on the street door"),
+    (DTS_TEXT, DTS_ROOM, False, "dead tired: every paragraph, the standing orders, each peg's "
+                                "own line, and the blurb on the street door"),
+    (DTS_DIM,  DTS_ROOM, False, "dead tired: the trail line, the line over the h1, the est. "
+                                "line under it, every quotation's cite, the label on each peg "
+                                "and the further reading"),
+    (DTS_EXIT, DTS_ROOM, False, "dead tired: every link, the backlink, the rule beside every "
+                                "quotation on a peg, the knock on the street door, and the "
+                                "bullet markers. It is the corridor's own green, because a "
+                                "link in that room is a way out through the door"),
+    # The job marker is a doorstop drawn in the corridor's green and lies on the
+    # room's own floor, so the pair above decides it at 10.74 -- over the body
+    # threshold a marker is held to, the Jungle Room's quills rule.
+    (DTS_EXIT, DTS_ROOM, False, "dead tired: the job marker, a rubber doorstop"),
+
 
 
 ]
@@ -1767,6 +1797,21 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#e4efe2": "dead tired: the corridor's light, through the gap in the door and lying "
+               "across the floor as one hard wedge, 14.78 against the room. NOTHING IS SET "
+               "IN IT, and not because anything would fail there: it is the room's one rule "
+               "about colour. Masking is performing under a light, and every word in that "
+               "room stays in the shade on purpose. It is also the sliver in the street "
+               "door's awning, which carries nothing either.",
+    "#170e15": "dead tired: the door slab, the switched-off light on the ceiling and the "
+               "dark of the street door's awning, 1.08 against the room. The darkest thing "
+               "in a room with the lights off, carrying no word. There are no panels in "
+               "that room, so it never becomes a ground.",
+    "#8b7889": "dead tired: the pegs' rail and pegs, the fine lines in every drawing, the "
+               "hairlines between the standing orders, the frame of the door, and the "
+               "border of the talking piece's buttons and box. 4.29 on the room, which "
+               "clears the 3:1 a control's edge needs under 1.4.11 and is under the body "
+               "bar, so nothing is ever written in it.",
     "#bec6c8": "404: the farthest rooftops going back into the fog, 1.22 on the air. They "
                "are SUPPOSED to be nearly gone -- in fog that is the only thing distance "
                "is -- and nothing is ever set on them: the bank is in the flow above the "

@@ -1,0 +1,104 @@
+{
+  "_what": "Dead Tired Society: a shopfront on the street. Peer support by and for people in burnout and people on the far side of it, in a borrowed room after hours with the big lights off and the door left ajar. This file holds the pegs by the door -- each one a named thing that wears people out, with what hangs on it, one short quotation read off our own glossary entry for it, and a line of ours. tools/make-dead-tired.py builds them into dead-tired-society.html and writes the credits into liner-notes.html.",
+  "_not_a_meeting": "THIS PAGE IS NOT A MEETING AND DOES NOT CLAIM TO BE ONE. It carries no times, no sign-up, no chat link and no facilitator, because none of those exists yet and a page inventing them would be promising people in burnout something that is not there -- in the one room where a broken promise costs the most. It is the sign on the door. It points at our community, where the people are, and at mutual aid, where the money is. If the society becomes a real group, this is where its door goes; see DECISIONS.md.",
+  "_film": "THE NAME IS A PLAY ON DEAD POETS SOCIETY (1989, directed by Peter Weir, written by Tom Schulman; read off Wikipedia's summary on 2026-09-23) AND NOTHING ELSE IS TAKEN FROM IT. No line, no scene, no character, no still, no motto. It is somebody else's screenplay and a living writer's. make-dead-tired.py refuses the film's characters, its school and its two famous Latin and Whitman lines anywhere on the page, the way make-sithen.py refuses the two novel series that room owes nothing to but its pointer. The one thing the standing orders do is decline to stand on a desk, which is a joke about being told to stand up for yourself and does not describe or quote anything.",
+  "_no_advice": "NOTHING HERE TELLS ANYBODY HOW TO RECOVER. A burnout page is exactly the shape of thing that fills up with tips -- ten ways to recharge, a morning routine, a checklist -- and every one of them is homework handed to the person least able to do it. Peer support is being in a room with others who have been there, and advice only when somebody asks for it. So the tool refuses the vocabulary of advice in the second person, with the negation window, so the room can still say that it gives none.",
+  "_no_resilience": "NOBODY HERE IS PRAISED FOR HOW MUCH THEY CAN TAKE. Resilience, bouncing back, getting back on track, back to normal, recharging so you can go again: the vocabulary that turns rest into maintenance and burnout into a personal failure to endure. Our own ecology page says burnout is a failure of relational ecology, not a lack of individual resilience, and the NeuroHub line on the justice sensitivity peg says the world demands it. Those two appear as QUOTATIONS, which is why the sweep reads the room's own words and skips blockquotes: a quotation criticising a word has to be allowed to contain it. The room's own voice may not use it except to refuse it.",
+  "_no_tally": "NOTHING IS COUNTED. No attendance, no days since, no streak, no check-in that remembers you came. A society that kept a register of how often somebody needed it would be keeping exactly the record the healing checkpoint refuses to keep, one door along the street. The number of pegs is not stated anywhere either -- the wall is longer than what is on it.",
+  "_quotes": "EVERY QUOTATION WAS READ OFF OUR OWN GLOSSARY ENTRY IN THE KNOWLEDGE SYSTEM MIRROR ON 2026-09-23 and is credited to the source that entry credits, never to the entry. Where the entry names only a title or only initials, the authors were resolved and the DOI is what is linked: Botha and Frost's minority stress paper against Crossref (Society and Mental Health, 2018), and Kramer, Jones and Broadbent's on moral injury against the journal's own citation metadata at ices.library.ubc.ca, because Crossref has no record for that DOI (Workplace 37, 2026). Thirty words is this room's cap, the healing checkpoint's and the Zibaldone's, printed in the room.",
+  "_drawings": "EVERY PEG HAS ITS OWN DRAWING AND make-dead-tired.py REFUSES TWO PEGS SHARING ONE, the garden's rule for its beds. The drawings are aria-hidden decoration, so every one is also written out in `on_peg` and printed beside it: a claim only sighted readers get is not a claim this site may make.",
+  "pegs": [
+    {
+      "id": "masking",
+      "name": "Masking",
+      "entry": "https://stimpunks.org/glossary/masking/",
+      "on_peg": "A plain half-mask with nothing painted on it, hanging by its string.",
+      "quote": {
+        "text": "Masking is exhausting. Utterly utterly draining.",
+        "who": "Finally Knowing Me: An Autistic Life",
+        "work": "Wasting Energy",
+        "year": "2018",
+        "url": "https://finallyknowingme.wordpress.com/2018/07/28/wasting-energy/"
+      },
+      "note": "Hang it up. You may need it again on the way out, and nobody in here will pretend otherwise, because the street has not changed while you were sitting down. What nobody in here will do is ask you to put it back on. That is the whole of the difference, and for a great many of us it is the first room it has been true in."
+    },
+    {
+      "id": "minority-stress",
+      "name": "Minority stress",
+      "entry": "https://stimpunks.org/glossary/minority-stress/",
+      "on_peg": "A rucksack gone out of shape at the bottom, the way a bag does when it has been carried full for years.",
+      "quote": {
+        "text": "Researchers hypothesize that decreased social standing leads to stigmatized minority groups being exposed to more stressful life situations, with simultaneously fewer resources to cope with these events.",
+        "who": "Monique Botha and David M. Frost",
+        "work": "Extending the Minority Stress Model to Understand Mental Health Problems Experienced by the Autistic Population",
+        "year": "2018",
+        "url": "https://doi.org/10.1177/2156869318804297"
+      },
+      "note": "It is not one heavy thing. It is the stone somebody added this morning on top of every stone from before, carried by the people who were handed the fewest ways to set any of it down. Nobody in here asks why the bag is so heavy. Everybody in here already knows."
+    },
+    {
+      "id": "epistemic-injustice",
+      "name": "Epistemic injustice",
+      "entry": "https://stimpunks.org/glossary/epistemic-injustice/",
+      "on_peg": "A lanyard with a visitor's badge clipped to it, although the building was your own life.",
+      "quote": {
+        "text": "Epistemic injustice refers to how people from marginalized communities are denied the opportunity to create knowledge and define their own meaning from their experiences. It’s about who is believed.",
+        "who": "Sonny Jane Wise",
+        "work": "a post on LinkedIn",
+        "year": "",
+        "url": "https://www.linkedin.com/posts/sonnyjane_epistemic-injustice-refers-to-how-people-activity-7373874959506407424-U5QX/"
+      },
+      "note": "The badge says visitor. It has said visitor in every room where the subject under discussion was you. In here the expert on your life is the person living it, and the next most expert is anybody else on the floor who has lived something like it, which is what the word peer means and all that it means."
+    },
+    {
+      "id": "justice-sensitivity",
+      "name": "Justice sensitivity",
+      "entry": "https://stimpunks.org/glossary/justice-sensitivity/",
+      "on_peg": "A whistle on a cord, worn smooth where somebody kept on blowing it.",
+      "quote": {
+        "text": "The world demands resilience. We are measured more often by our ability to take the hit and keep going rather than encouraged to stop the world from throwing punches.",
+        "who": "NeuroHub Community Ltd",
+        "work": "Justice Sensitivity And Autism: What Is It?",
+        "year": "2024",
+        "url": "https://neurohubcommunity.org/2024/10/20/justice-sensitivity-and-autism-what-is-it/"
+      },
+      "note": "Noticing what is unfair and not being able to stop noticing is heavy to carry, and it gets described as a flaw in the person carrying it. Nobody in here thinks you are too much about it. You are also allowed to put the whistle down for an evening, which is not the same as agreeing with anything."
+    },
+    {
+      "id": "moral-injury",
+      "name": "Moral injury",
+      "entry": "https://stimpunks.org/glossary/moral-injury/",
+      "on_peg": "A work apron with a name badge still pinned to the bib.",
+      "quote": {
+        "text": "No matter the profession, moral injury destroys the capacity for trust and creates an expectation of harm, which leaves few options for the individual to act.",
+        "who": "Brianne Kramer, Denisha Jones and Clint Broadbent",
+        "work": "The Intensification of Moral Injury in Teachers During the Pandemic",
+        "year": "2026",
+        "url": "https://doi.org/10.14288/workplace.v37i1.187167"
+      },
+      "note": "This is the one that comes from being made to do the harm, or to stand beside it, by a place that told you it was your job: a classroom, a ward, a caseload, a helpline with a script. It is not the same thing as being tired, and it does not lift while the place that did it is still open tomorrow. Nobody in here will tell you it was not that bad."
+    },
+    {
+      "id": "neuronormativity",
+      "name": "Neuronormativity",
+      "entry": "https://stimpunks.org/glossary/neuronormativity/",
+      "on_peg": "A school blazer on a hanger, cut for somebody else, with the sleeves hanging down past where any hands would be.",
+      "quote": {
+        "text": "Normal is merely a social construct that controls individuals by enforcing a right way to function, a right way to be, a right way to exist as a human.",
+        "who": "Sonny Jane Wise",
+        "work": "Normal Is A Social Construct",
+        "year": "",
+        "url": "https://www.linkedin.com/pulse/normal-social-construct-sonny-jane-wise-wwdcc/"
+      },
+      "note": "Behind every other peg on this wall is this one: the idea that there is one right way to have a mind, and that the rest of us are that way done badly. The blazer was never going to fit and it was not cut for you to grow into. Hang it up with the others."
+    }
+  ],
+  "more": [
+    {"name": "the double empathy problem", "entry": "https://stimpunks.org/glossary/double-empathy-problem/"},
+    {"name": "the disability double bind", "entry": "https://stimpunks.org/glossary/disability-double-bind/"},
+    {"name": "affective injustice", "entry": "https://stimpunks.org/glossary/affective-injustice/"},
+    {"name": "spoon theory", "entry": "https://stimpunks.org/glossary/spoon-theory/"},
+    {"name": "shutdown", "entry": "https://stimpunks.org/glossary/shutdown/"},
+    {"name": "meltdown", "entry": "https://stimpunks.org/glossary/meltdown/"}
+  ]
+}

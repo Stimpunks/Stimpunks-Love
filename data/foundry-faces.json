@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-09-22",
+ "_checked": "2026-09-23",
  "faces": {
   "alegreya-sans": {
    "family": "Alegreya Sans",
@@ -712,6 +712,29 @@
     }
    ]
   },
+  "lexend": {
+   "family": "Lexend",
+   "category": "Sans Serif",
+   "designer": "Bonnie Shaver-Troup, Thomas Jockin, Santiago Orozco, Héctor Gómez, Superunion",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/lexend",
+   "copyright": "Copyright 2019 The Lexend Project Authors (https://github.com/googlefonts/lexend)",
+   "repository": "https://github.com/googlefonts/lexend",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "lexend-400.woff2",
+     "sha": "1ec8f6ee2750554b"
+    },
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "lexend-400.woff2",
+     "sha": "1ec8f6ee2750554b"
+    }
+   ]
+  },
   "literata": {
    "family": "Literata",
    "category": "Serif",
@@ -1080,6 +1103,29 @@
      "style": "normal",
      "file": "sora-400.woff2",
      "sha": "0513acb430aa3fe2"
+    }
+   ]
+  },
+  "sorts-mill-goudy": {
+   "family": "Sorts Mill Goudy",
+   "category": "Serif",
+   "designer": "Barry Schwartz",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/sortsmillgoudy",
+   "copyright": "Copyright (c) 2010, Barry Schwartz (chemoelectric@chemoelectric.org)",
+   "repository": "https://github.com/theleagueof/sorts-mill-goudy",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "sorts-mill-goudy-400.woff2",
+     "sha": "68061519970e1722"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "sorts-mill-goudy-400-italic.woff2",
+     "sha": "69cd7caaab814290"
     }
    ]
   },

@@ -854,5 +854,41 @@
         "src": "https://fonts.gstatic.com/s/archivo/v25/k3kPo8UDI-1M0wlSV9XAw6lQkqWY8Q82sLydOxKsv4Rn.woff2",
         "note": "Looming Rocks Amphitheatre (\u00a738), everything that is not the marquee. A plain grotesque drawn for small sizes on screens, which is what a running order and a row of runtimes actually are. One variable file serves both weights, as Chivo, Literata and Space Grotesk already do here."
       }
-    ]
+    ],
+  "lexend": [
+    {
+      "file": "lexend-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 39692,
+      "src": "https://fonts.gstatic.com/s/lexend/v26/wlpwgwvFAVdoq2_v-6QU82RHaA.woff2",
+      "note": "Dead Tired Society (\u00a740), every word that is not the society's name or a heading. Lexend was drawn to reduce visual stress and ease reading fatigue, which is the one reason a room for the dead tired sets it: the face is doing some of the work so the reader does not have to. One variable file serves both weights, as Archivo, Chivo and Space Grotesk already do here."
+    },
+    {
+      "file": "lexend-400.woff2",
+      "weight": "600",
+      "style": "normal",
+      "bytes": 39692,
+      "src": "https://fonts.gstatic.com/s/lexend/v26/wlpwgwvFAVdoq2_v-6QU82RHaA.woff2",
+      "note": "Dead Tired Society (\u00a740), every word that is not the society's name or a heading. Lexend was drawn to reduce visual stress and ease reading fatigue, which is the one reason a room for the dead tired sets it: the face is doing some of the work so the reader does not have to. One variable file serves both weights, as Archivo, Chivo and Space Grotesk already do here."
+    }
+  ],
+  "sorts-mill-goudy": [
+    {
+      "file": "sorts-mill-goudy-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 22816,
+      "src": "https://fonts.gstatic.com/s/sortsmillgoudy/v16/Qw3GZR9MED_6PSuS_50nEaVrfzgEbHoEj7E49PA.woff2",
+      "note": "Dead Tired Society (\u00a740), the society's name, its headings and nothing at reading size. A revival of Frederic Goudy's Oldstyle, which reads like a founding charter, and that is the joke: the grandest name on the street, set like an institution's, for a society whose members are lying on the floor."
+    },
+    {
+      "file": "sorts-mill-goudy-400-italic.woff2",
+      "weight": "400",
+      "style": "italic",
+      "bytes": 24664,
+      "src": "https://fonts.gstatic.com/s/sortsmillgoudy/v16/Qw3AZR9MED_6PSuS_50nEaVrfzgEbH80jbs_1vKbfA.woff2",
+      "note": "Dead Tired Society (\u00a740), the society's name, its headings and nothing at reading size. A revival of Frederic Goudy's Oldstyle, which reads like a founding charter, and that is the joke: the grandest name on the street, set like an institution's, for a society whose members are lying on the floor."
+    }
+  ]
 }

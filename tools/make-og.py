@@ -624,6 +624,24 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--covenstead .og-bench {{ margin: auto -60px 0 !important; }}
 .og--covenstead .og-bench svg {{ display: block; width: 100%; height: 150px; }}
 
+/* dead tired society — THE DOORWAY, AND NOTHING ON THE CARD STANDS IN ITS LIGHT.
+   The drawing is LIFTED whole out of the page, the bed's rule and the shaft's,
+   because a second copy of a drawing goes stale in one of the two places it
+   lives. It runs along the foot of the card and the words sit above it, on the
+   room's own dark, so the one rule the room has about colour -- no word is ever
+   set in the light -- holds on the only surface most people will see. No foot
+   line: every inch of the lower half is the room. */
+.og--dead-tired {{ width: 100%; padding: 44px 60px 0; gap: 10px; justify-content: flex-start; }}
+.og--dead-tired .og-over {{ margin: 0 !important; font-size: 18px; letter-spacing: 2.4px;
+  text-transform: uppercase; color: var(--dts-dim); }}
+.og--dead-tired h1 {{ font-size: 92px; margin: 0 !important; }}
+.og--dead-tired .og-est {{ margin: 0 !important; font-family: 'Sorts Mill Goudy', serif;
+  font-size: 30px; line-height: 1.2; color: var(--dts-dim); }}
+.og--dead-tired .og-lede {{ font-family: 'Lexend', sans-serif; color: var(--dts-text);
+  max-width: 1000px; font-size: 23px; line-height: 1.42; margin: 6px 0 0 !important; }}
+.og--dead-tired .og-doorway {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--dead-tired .og-doorway svg {{ display: block; width: 100%; height: auto; }}
+
 /* looming rocks — THE TWO FACES WITH THE STAGE BETWEEN THEM, LIT FROM THE
    GROUND UP. The card is mostly rock on purpose: this room's whole claim is
    vertical scale and a thing you cannot see the top of, so the drawing takes
@@ -2055,6 +2073,41 @@ def card_covenstead(p):
     )
 
 
+def card_dead_tired(p):
+    # THE DOORWAY IS LIFTED FROM THE PAGE and the est. line is written here
+    # because it is the room's one joke rather than its description; the lede
+    # is the page's own og:description, so the card cannot say what the room
+    # does not.
+    est = re.search(r'<p class="dts-est">(.*?)</p>', p["src"], re.S)
+    if not est:
+        raise SystemExit(
+            "REFUSING: dead-tired-society.html has no est. line under its name, and its\n"
+            "card is built around one. Redesign the card on purpose.")
+    est_html = est.group(1).strip()
+    est_plain = html.unescape(re.sub(r"<[^>]+>", "", est_html)).strip()
+    return (
+        "",
+        f'<div class="og og--dead-tired" data-fit="card">'
+        f'<p class="og-over">On the street &middot; borrowed after hours</p>'
+        f'{p["h1"]}'
+        f'<p class="og-est">{est_html}</p>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-doorway">{p["doorway"]}</div>'
+        f'</div>',
+        f"A dark plum card, the colour of a room with the lights off. Small grey capitals "
+        f"reading on the street, borrowed after hours, then \u201c{p['h1text']}\u201d in a "
+        f"large old-fashioned serif in pale lilac, and under it in the same serif: "
+        f"{est_plain}. Then, in a plain rounded sans: {p['desc_plain']} Across the bottom "
+        f"half, a drawing of the room from inside by the door: the door stands ajar on the "
+        f"left and a hard wedge of pale green-white corridor light comes through the gap and "
+        f"lies across the floor. Everything else is in the shade outside that wedge \u2014 a "
+        f"beanbag with a blanket on it, a mug, a stacking chair with a coat over it, a "
+        f"mattress on the floor with a pillow, a pair of kicked-off shoes and an armchair "
+        f"\u2014 and nobody is drawn. The long light on the ceiling is off, and so is the "
+        f"switch by the door.",
+    )
+
+
 def card_looming(p):
     # THE SUBTITLE IS LIFTED FROM THE PAGE, so the card cannot describe a room
     # the room does not describe. The cliffs are drawn here rather than lifted
@@ -2137,6 +2190,7 @@ CARDS = {
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
     "covenstead":   card_covenstead,
+    "dead-tired":   card_dead_tired,
     "looming":      card_looming,
     "garden":       card_garden,
     "room-yurt":    card_yurt,
@@ -2249,6 +2303,7 @@ def main():
         ("canopy",   "jungle-room.html",  r'(<svg class="canopy-roof".*?</svg>)'),
         ("well",     "rabbit-hole.html",  r'(<svg class="rh-well".*?</svg>)'),
         ("bed",      "healing-checkpoint.html", r'(<svg class="hc-bed".*?</svg>)'),
+        ("doorway",  "dead-tired-society.html", r'(<svg class="dts-doorway".*?</svg>)'),
         ("galley",   "foundry.html",      r'(<svg class="fo-galley".*?</svg>)'),
         ("falls",    "the-den.html",      r'(<svg class="falls".*?</svg>)'),
         ("otter",    "otterly-adorbs.html", r'(<div class="otter" id="otter".*?</div>\s*</div>)'),
