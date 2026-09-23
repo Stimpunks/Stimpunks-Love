@@ -21,7 +21,8 @@
             "a",
             "b",
             "open"
-          ]
+          ],
+          "consent_on": "2026-09-19"
         },
         {
           "id": "the-a-side",
@@ -31,7 +32,8 @@
           "sequences": [
             "a",
             "open"
-          ]
+          ],
+          "consent_on": "2026-09-19"
         },
         {
           "id": "the-b-side",
@@ -41,7 +43,8 @@
           "sequences": [
             "b",
             "open"
-          ]
+          ],
+          "consent_on": "2026-09-19"
         },
         {
           "id": "both-are-measurements",
@@ -50,14 +53,16 @@
           "text": "Leave it open and you get both patterns at once, which is the honest picture. The two readings describe the same behaviour. They are not equally true. One of them knows it is a measurement. The other reports itself as the whole truth.",
           "sequences": [
             "open"
-          ]
+          ],
+          "consent_on": "2026-09-19"
         },
         {
           "id": "a-love-language",
           "title": "A love language",
           "state": null,
           "text": "Listening to the monotropic people in your life infodump about their SpIns is a love language.",
-          "sequences": []
+          "sequences": [],
+          "consent_on": "2026-09-19"
         }
       ]
     },
@@ -118,5 +123,6 @@
         }
       ]
     }
-  ]
+  ],
+  "_consent": "Every recorded reading carries the date its reader agreed to it being published, and each reader agreed on the day the recording landed -- Ryan's word, 2026-09-23 -- so consent_on is that day, read off the commit that added the file rather than typed. make-readings.py refuses a recording without one, which is the rule make-yells.py and make-yurt-sound.py already hold for the other voices on the street."
 }

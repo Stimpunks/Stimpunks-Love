@@ -101,10 +101,46 @@ def typeface_licences():
 
 
 today = datetime.date.today().isoformat()
+
+
+# LASTMOD IS WHEN THE PAGE CHANGED, NOT WHEN THIS RAN. It used to be today's date
+# on every page, every run, which told a crawler that the whole street had just
+# changed whenever anybody rebuilt the sitemap -- and the spec's own mistake list
+# names exactly that: a lastmod touched on every build degrades the one signal it
+# exists to give. The page's date is the date of the last commit that touched
+# it; a page with uncommitted changes gets today, because today is when those
+# changes will land. A site-wide edit to every head moves every date, which is
+# true: every page did change. Outside a git checkout this refuses rather than
+# guessing, because a guessed date is the fault being fixed.
+def changed_on(names):
+    import subprocess
+    try:
+        log = subprocess.run(["git", "log", "--format=%x00%cs", "--name-only", "--", *names],
+                             cwd=ROOT, capture_output=True, text=True, check=True).stdout
+        dirty = subprocess.run(["git", "status", "--porcelain", "--", *names],
+                               cwd=ROOT, capture_output=True, text=True, check=True).stdout
+    except (OSError, subprocess.CalledProcessError):
+        raise SystemExit("REFUSING: cannot read git history, so there is no honest lastmod to "
+                         "write. Run this from a checkout of the repository.")
+    seen, date = {}, None
+    for line in log.splitlines():
+        if line.startswith("\0"):
+            date = line[1:]
+        elif line and line not in seen:
+            seen[line] = date
+    for line in dirty.splitlines():
+        seen[line[3:].strip()] = today
+    missing = [n for n in names if n not in seen]
+    for n in missing:
+        seen[n] = today      # new and not yet committed: it lands today
+    return seen
+
+
+dates = changed_on([p["file"] for p in pages])
 sm = ['<?xml version="1.0" encoding="UTF-8"?>',
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
 for p in pages:
-    sm.append(f"  <url>\n    <loc>{p['url']}</loc>\n    <lastmod>{today}</lastmod>\n  </url>")
+    sm.append(f"  <url>\n    <loc>{p['url']}</loc>\n    <lastmod>{dates[p['file']]}</lastmod>\n  </url>")
 sm.append("</urlset>")
 (ROOT / "sitemap.xml").write_text("\n".join(sm) + "\n")
 
@@ -152,4 +188,5 @@ lines += [
     "",
 ]
 (ROOT / "llms.txt").write_text("\n".join(lines))
-print(f"sitemap.xml: {len(pages)} urls · llms.txt: {len(pages)} rooms · lastmod {today}")
+print(f"sitemap.xml: {len(pages)} urls, lastmod from git ({min(dates.values())} to "
+      f"{max(dates.values())}) · llms.txt: {len(pages)} pages")

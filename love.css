@@ -4814,6 +4814,15 @@ html[data-intensity="gentle"] .pb-tape { transform: translateX(-50%); }
    §4's rule, and love-embed.js is still the only thing that builds the frame. */
 .pb-play { position: relative; display: flex; width: 100%; padding: 0; cursor: pointer;
   background: none; border: 0; line-height: 0; }
+/* A FOUR-BY-THREE VIDEO IS NOT A SIXTEEN-BY-NINE ONE WITH THE EDGES MISSING.
+   §4 gives every play button the shape its player will have, and a flex item
+   stretches to fill it -- so the board's three older, 4:3 videos were squashed
+   flat, every face on them a third wider than it is. Not cropped either: those
+   frames have no bars baked in, and cutting a quarter off a music video to fill
+   a box is the same fault the other way round. Fitted, on the board's own night,
+   which is exactly what the player shows once it is pressed. The 16:9
+   thumbnails fill the box and are unchanged. */
+.pb-play .pb-shot { object-fit: contain; background: var(--pbnight); }
 .pb-play::after {
   content: ""; position: absolute; left: 50%; top: 50%; width: 46px; height: 46px;
   transform: translate(-50%, -50%);

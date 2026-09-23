@@ -9,6 +9,13 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Wed, 23 Sep 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Honest sitemap dates, three videos unsquashed, and a consent date for every voice</title>
+      <link>https://stimpunks.love/changelog.html#2026-09-23-lastmod</link>
+      <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-23-lastmod</guid>
+      <pubDate>Wed, 23 Sep 2026 12:00:00 GMT</pubDate>
+      <description>The sitemap stopped saying the whole street changed every time it was rebuilt. Every page’s lastmod used to be the day the sitemap was generated, which tells a crawler that everything is new whether or not anything is — the exact mistake the specification names. Each page’s date is now the day of the last commit that touched it, read out of the repository’s history, and the tool refuses to run where there is no history to read rather than guessing. Three videos on the Pebble Board were squashed. Every play button takes the shape its player will have, and three of the board’s videos are older and four-by-three: their thumbnails were being stretched to fill a sixteen-by-nine box, every face in them a third wider than it is. They are fitted now, with the board’s own night either side, which is what the player shows once you press it. Not cropped: those frames have no bars to cut, and taking a quarter off a music video to fill a box would be the same fault the other way round. Every recorded voice on the street now has a consent date, the readings in Hear Queer Here included. The yells and the Faery Yurt’s recordings always carried one; the readings did not, which is why the privacy page had to word its promise around them. They were agreed to on the day each recording landed, and that date is now read off the commit that added each file rather than typed. make-readings.py refuses a recording without one, as the other two audio tools do, and the privacy page makes the plain promise it could not make before. Changed: sitemap.xml, tools/make-sitemap.py, love.css (the Pebble Board’s section), data/readings.json, tools/make-readings.py, privacy.html.</description>
+    </item>
+    <item>
       <title>Structured data, and a note for any agent reading the street</title>
       <link>https://stimpunks.love/changelog.html#2026-09-23-agents</link>
       <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-23-agents</guid>

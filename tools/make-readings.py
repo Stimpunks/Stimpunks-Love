@@ -220,6 +220,14 @@ def render_term(t):
                     "A reading should not publish the reader's device and the second they\n"
                     "recorded it. Strip it first; the docstring has the command."
                 )
+            # A VOICE GETS A CONSENT DATE, as it does everywhere else on the
+            # street. This file was the one audio tool that did not ask, and
+            # the privacy page had to word its promise around the gap.
+            if not r.get("consent_on"):
+                raise SystemExit(
+                    f"REFUSING: {found.name} is {t['reader']}'s voice and its reading has no\n"
+                    "consent_on. No consent date, no publishing -- make-yells.py's rule."
+                )
             recorded += 1
             player = (f'          <audio class="reading__player" controls preload="none" '
                       f'src="audio/{found.name}"></audio>')
