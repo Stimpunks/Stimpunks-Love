@@ -1911,6 +1911,17 @@ unstyled page passes everything. **And Netlify folds capitals and a trailing spa
 right page** while the dev server, on a case-insensitive disk, cannot show you either way — the
 first draft of that page said a capital would land you there. Measure against the live host.
 
+**THE FOCUS RING IS A ROOM DECISION, LIKE THE LINK COLOUR.** §2's yellow ring was chosen for a
+near-black street, and on every pale ground it was nearly invisible — 1.01 on the Guild's manila.
+Nothing caught it for the reason nothing caught the Doomscroll's links: a colour nobody decided
+has no pair to hold. **So every room with a pale ground, or a pale card or dark panel inside it,
+sets `outline-color` in its own section, in an ink it already uses**, and the dial keeps its
+yellow with `!important` because it is always a dark box. **Do not make one street-wide ring to
+fix a pale room**; that is the harmonising instinct wearing an accessibility badge.
+`check-focus.py` is the only thing that sees this — a ring is neither a text pair nor a text
+node — and it measures a gradient at every stop, so it can be stricter than the page but never
+kinder. **A new room or a new pale card in an old room runs it.**
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody

@@ -1307,6 +1307,14 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .dial__btn[data-level="gentle"][aria-pressed="true"]  { background: var(--green); }
 .dial__btn[data-level="regular"][aria-pressed="true"] { background: var(--cyan); }
 .dial__btn[data-level="max"][aria-pressed="true"]     { background: var(--pink); }
+/* THE DIAL KEEPS THE YELLOW RING IN EVERY ROOM, because it is always a dark
+   box and its buttons' rings land inside it. The pale rooms set their own ring
+   for their own ground (check-focus.py found yellow at 1.01 on manila), and a
+   room's ring written for its paper reached straight into the dial on the
+   Zibaldone, where the dial sits on a sheet. !important for the reason the
+   skip link and §2's [hidden] carry it: shared furniture that rooms
+   out-specify by accident, in rooms nobody is thinking about at the time. */
+.dial .dial__btn:focus-visible { outline-color: var(--yellow) !important; }
 .dial__note { margin-top: 11px; font-size: 13.5px; line-height: 1.45; color: #fff; }
 .dial__fine {
   margin-top: 9px; padding-top: 9px; font-size: 12px; color: var(--chalk);
@@ -1822,6 +1830,12 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .room-pony .lede { font-size: 19px; line-height: 1.5; font-weight: 500; max-width: 46ch; margin: 22px 0 0; }
 .room-pony h2 { font-family: 'Bungee', var(--sans); font-size: 20px; color: var(--cream); letter-spacing: 1px; }
 .room-pony a { color: #2b0a1c; }
+/* The ring is the room's ink. Yellow was 2.51 on the hot pink and 1.31 round
+   a white jukebox card; the ink is 5.49 and 18.06. check-focus.py. */
+.room-pony :focus-visible { outline-color: #2b0a1c; }
+/* The two dark plates below the decks are the ink as a ground, so they take
+   the yellow back: 13.78 there, where the ink would be 1.00. */
+.room-pony .pony-dark :focus-visible { outline-color: var(--yellow); }
 
 .mirrorball { width: 74px; height: 74px; border-radius: 50%; border: 4px solid var(--cream); background-image: repeating-conic-gradient(from 0deg, var(--cream) 0deg 12deg, #c9a9be 12deg 24deg); flex: none; }
 
@@ -1869,6 +1883,11 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 
 .room-zine { background: var(--paper); color: var(--ink); font-family: 'Courier Prime', monospace; }
 .room-zine .backlink { font-family: 'Courier Prime', monospace; color: var(--ink); text-decoration: underline; letter-spacing: 0; }
+/* Photocopier black, 15.35 on the paper, where yellow was 1.09. */
+.room-zine :focus-visible { outline-color: var(--ink); }
+/* The pull quote and the black box in the foot row are the ink as a ground,
+   and take the yellow the zine's own links there are already set in. */
+.room-zine :is(.pullquote, .zine-black) :focus-visible { outline-color: var(--yellow); }
 .room-zine .grain {
   position: fixed; inset: 0; pointer-events: none; opacity: .16; z-index: 0;
   background-image:
@@ -2080,6 +2099,11 @@ html[data-intensity="gentle"] .polaroid { transform: none; }
    boxes. */
 .room-play a { color: #fff; }
 .room-play .rules a { color: var(--blue); }
+/* The blue ground keeps the yellow ring. The two grounds it does not reach are
+   the white house rules (1.31) and the pink telephone tile (2.64), so those
+   decide their own: the room's blue at 5.08 and the near-black at 5.33. */
+.room-play .rules :focus-visible { outline-color: var(--blue); }
+.room-play .toy--pink :focus-visible { outline-color: var(--ink); }
 
 .bunting { height: 40px; border-bottom: 5px solid #101014; background-image: repeating-linear-gradient(90deg, var(--red) 0 44px, var(--yellow) 44px 88px, var(--green) 88px 132px, var(--violet) 132px 176px); }
 
@@ -3108,6 +3132,10 @@ html[data-intensity="max"] .bulbs span { animation: bulbchase 1.6s steps(2) infi
 }
 .shore[data-playing] { touch-action: none; cursor: crosshair; }
 .shore:focus-visible { outline-offset: -4px; }
+/* The overcast is the palest screen in the cabinet: yellow was 1.03 on the sky.
+   The cabinet's pen-dark is 5.41 on the darkest band of sea and 11.04 on the
+   sky, and it is what the coin is already made of. */
+.shore:focus-visible, .shore :focus-visible { outline-color: var(--pen-dark); }
 
 .peng   { position: absolute; width: 13%; transform: translate(-50%, -100%); }
 .peng[data-face="left"] { transform: translate(-50%, -100%) scaleX(-1); }
@@ -3449,6 +3477,9 @@ html[data-intensity="max"] .bulbs span { animation: bulbchase 1.6s steps(2) infi
 .room-latibulum .wall--arched p { text-align: left; }
 .room-latibulum .wall a { color: var(--door); text-decoration-color: rgba(47,90,60,.5); }
 .room-latibulum .wall a:hover { color: var(--rust); }
+/* The lit plaster takes the burrow's umber ring, 9.80 and 8.14 across the
+   wall's gradient; the lamplit dark outside the walls keeps the yellow. */
+.room-latibulum .wall :focus-visible { outline-color: var(--umber); }
 .room-latibulum .wall h2 { color: var(--umber); }
 .room-latibulum .wall p { color: var(--umber); }
 .room-latibulum .wall .note { color: var(--umber-2); font-size: 15px; }
@@ -3927,6 +3958,10 @@ html[data-intensity="max"] .falls__water { animation: den-fall 7s ease-in-out in
                      calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px), 0 12px);
   padding: 16px 18px;
 }
+/* A track card is cream laid over the shag, so a play button's ring stands on
+   something pale: yellow was 1.04 there. The panel brown is 12.83 at the
+   card's darkest. The carpet between the cards keeps the yellow. */
+.cut :focus-visible { outline-color: var(--panel); }
 .cut__no { flex: 0 0 auto; margin: 0; font-family: 'Ultra', Georgia, serif; font-size: 26px; line-height: 1; color: var(--teak); }
 .cut__body { min-width: 0; flex: 1 1 auto; }
 .cut__by { margin: 0 0 8px; font-size: 13.5px; line-height: 1.45; color: var(--cocoa-2); }
@@ -3991,6 +4026,15 @@ html[data-intensity="max"] .falls__water { animation: den-fall 7s ease-in-out in
 }
 .hermitage a { color: var(--sprout-2); text-underline-offset: 3px; }
 .hermitage a:hover { color: var(--furrow); }
+/* Daylight takes the furrow's ring. Yellow was 1.05 and 1.18 on the plaster
+   and the table; furrow is 12.29 and 13.83 there and 4.80 on the brightest
+   chair, which is the one this had to clear. check-focus.py. */
+.hermitage :focus-visible { outline-color: var(--furrow); }
+/* Out of the daylight the ring changes with the ground. The cave is velvet and
+   takes its own gilt, 7.49 to 10.06 across the three velvets and the laptop's
+   lid; the big screen is glass and takes the yellow, 14.52. */
+.hermitage :is(.cave, .laptop__lid) :focus-visible { outline-color: var(--gilt); }
+.hermitage .bigscreen__glass :focus-visible { outline-color: var(--yellow); }
 .hermitage p, .hermitage li { font-size: 17px; line-height: 1.68; }
 .hermitage .backlink { font-family: 'Sora', ui-sans-serif, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--sprout-2); }
 
@@ -4236,6 +4280,10 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 }
 .remote__btn:hover { background: var(--noon-2); }
 .remote__btn:active { transform: none; box-shadow: 0 1px 0 var(--furrow); }
+/* The only controls on the wood. The room's dark ring was 2.65 on the cedar,
+   so these take the daylight they are made of: noon is 4.20 on the cedar and
+   5.25 where the grain darkens it most. */
+.coffee__top :focus-visible { outline-color: var(--noon); }
 .remote__what {
   margin: 0; flex: 1 1 16ch; min-width: 16ch; text-align: center;
   font-size: 13.5px; color: var(--furrow); background: var(--noon);
@@ -4253,7 +4301,7 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
   padding: 40px 26px 32px; display: flex; flex-direction: column; gap: 7px;
   box-shadow: inset 0 -10px 22px rgba(22,41,28,.14);
 }
-.bag h4 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 19px;
+.bag h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 19px;
   margin: 0; color: var(--furrow); }
 .bag p { margin: 0; font-size: 14.5px; color: var(--furrow); }
 .bag__on { font-style: italic; font-size: 13.5px !important; }
@@ -4283,7 +4331,7 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
   padding: 14px 16px; display: flex; flex-direction: column; gap: 7px; }
 .ch__no { margin: 0; font-family: 'Sora', sans-serif; font-size: 11.5px; letter-spacing: 2px;
   color: var(--sprout-2); }
-.ch h4 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 17px;
+.ch h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 17px;
   line-height: 1.2; margin: 0; color: var(--furrow); }
 .ch p { margin: 0; font-size: 14.5px; }
 .ch__by { color: var(--furrow-2); font-size: 13.5px !important; }
@@ -4393,6 +4441,9 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 .club { background: var(--brick); color: var(--paste); font-family: 'Barlow', system-ui, sans-serif; }
 .club a { color: var(--marker); text-underline-offset: 3px; }
 .club a:hover { color: var(--paste); }
+/* The wall keeps the yellow; a flyer is paper pasted onto it and takes the
+   bootblack its words are printed in, 15.56 and 11.85 where yellow was 1.03. */
+.club .flyer :focus-visible { outline-color: var(--bootblack); }
 .club p, .club li { font-size: 17px; line-height: 1.6; }
 .club .backlink { font-family: 'Anton', Impact, sans-serif; letter-spacing: 1px; color: var(--marker); }
 
@@ -4692,6 +4743,9 @@ html[data-intensity="gentle"] .pb-pin .pb-card { transform: none; }
   box-shadow: 0 10px 22px -14px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.4);
   transition: transform .18s ease, box-shadow .18s ease;
 }
+/* The cork keeps the yellow; a card pinned to it takes the pencil's ink,
+   14.12 where yellow was 1.24. check-focus.py. */
+.pb-card :focus-visible { outline-color: var(--pbink); }
 .pb-pin:hover .pb-card, .pb-pin:focus-within .pb-card {
   transform: rotate(0deg) translateY(-3px); z-index: 2;
   box-shadow: 0 16px 26px -14px rgba(0,0,0,0.65);
@@ -5470,6 +5524,9 @@ html[data-intensity="max"] .mop-drip::before { animation: mop-flicker 3.1s ease-
    value leaves. A pale room on a dark street has to say what its links are. */
 .room-doom .dsc-roll a { color: var(--dsc-red); }
 .room-doom .dsc-roll a:hover { color: var(--dsc-ink); }
+/* On the roll the ring is the newsprint's ink, 12.44 to 10.73 across it. The
+   desk around it is dark and keeps the yellow. */
+.room-doom .dsc-roll :focus-visible { outline-color: var(--dsc-ink); }
 
 /* ── The roll ──────────────────────────────────────────────────────────────
    One continuous sheet with a curled lip at each end. The curl is drawn, not
@@ -5541,7 +5598,7 @@ html[data-intensity="max"] .mop-drip::before { animation: mop-flicker 3.1s ease-
 }
 .dsc-full::backdrop { background: rgba(14,12,10,0.9); }
 .dsc-full__inner { margin: 0; padding: 32px clamp(20px, 5vw, 44px) 30px; max-height: 90vh; overflow: auto; }
-.dsc-full h2 { margin: 0 0 4px; font-weight: 600; font-size: 30px; line-height: 1.12;
+.dsc-full h3 { margin: 0 0 4px; font-weight: 600; font-size: 30px; line-height: 1.12;
   color: var(--dsc-ink); }
 .dsc-full__by { margin: 0; font-size: 14px; letter-spacing: 2px; text-transform: uppercase;
   color: var(--dsc-ink-2); }
@@ -5900,6 +5957,9 @@ html[data-intensity="max"]     .meadow .swg-flit { animation: swg-drift 11s ease
   font-family: 'Public Sans', var(--sans);
 }
 .room-guild a { color: var(--gu-file); }
+/* A clerk's ring is the ink. Yellow on manila measured 1.01 -- the worst on
+   the street -- and the ink is 12.13 on the sheet and 10.19 on a posting. */
+.room-guild :focus-visible { outline-color: var(--gu-ink); }
 .room-guild .backlink { color: var(--gu-file); }
 .room-guild .sr {
   position: absolute; width: 1px; height: 1px; overflow: hidden;
@@ -6452,6 +6512,9 @@ html[data-intensity="max"] :where(.flap:nth-child(6)) { animation-delay: .50s; }
 }
 .garden a { color: var(--gd-leaf); }
 .garden a:hover { color: var(--gd-bloom); }
+/* The loam, 14.60 on the path and 15.56 on a limewashed board, where yellow
+   was 1.20 and 1.28. check-focus.py. */
+.garden :focus-visible { outline-color: var(--gd-loam); }
 /* The backlink drops Bungee, the campground's call: it is the one piece of
    shared furniture carrying a typeface, and the street's voice in here would be
    the only shouting thing in the garden. */
@@ -6771,6 +6834,9 @@ body.room-zibaldone {
 /* The two grounds, and the two link decisions. */
 .room-zibaldone a { color: var(--zb-rubric); text-underline-offset: 3px; }
 .room-zibaldone a:hover, .room-zibaldone a:focus-visible { color: var(--zb-aniline); }
+/* The paper takes the iron-gall ink, 9.28 and 10.35 where yellow was 1.03.
+   Only the paper: the desk the leaves lie on is dark and keeps the yellow. */
+.room-zibaldone :is(.zb-sheet, .zb-flyleaf, .zb-leaf) :focus-visible { outline-color: var(--zb-iron); }
 
 .zb-topline {
   display: flex; flex-wrap: wrap; gap: 10px 18px;
@@ -7109,6 +7175,7 @@ body.room-rabbit-hole {
 .room-rabbit-hole .rh-cut__cap a:visited { color: var(--rh-brass-dark); }
 .room-rabbit-hole .rh-cut__cap a:hover,
 .room-rabbit-hole .rh-cut__cap a:focus-visible { color: var(--rh-ink); }
+.room-rabbit-hole .rh-cut__cap :focus-visible { outline-color: var(--rh-ink); }
 
 .rh-shaft { max-width: 900px; margin: 0 auto; padding: 0 20px 72px; }
 
@@ -8492,6 +8559,9 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 .covenstead { background: var(--cov-wash); color: var(--cov-ink-2); font-family: 'Asap', system-ui, sans-serif; }
 .covenstead a { color: var(--cov-delft); }
 .covenstead a:hover { color: var(--cov-rose); }
+/* The ring is the tea-dark ink, 13.17 on the limewash and 14.77 on a cloth,
+   where yellow was 1.10 and 1.23. check-focus.py. */
+.covenstead :focus-visible { outline-color: var(--cov-ink); }
 .covenstead p, .covenstead li { font-size: 16.5px; line-height: 1.68; }
 .covenstead .backlink { font-family: 'Asap', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--cov-delft); }
 .covenstead .trailmark { margin: 0; font-size: 14px; color: var(--cov-ink-2); }
@@ -8620,7 +8690,6 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 .looming .trailmark { margin: 0; font-size: 14px; color: var(--lr-dim); }
 .looming h2 { font-family: 'Bevan', Georgia, serif; font-weight: 400; font-size: 23px; color: var(--lr-bone); margin: 0 0 13px; }
 .looming h3 { font-family: 'Bevan', Georgia, serif; font-weight: 400; font-size: 21px; line-height: 1.24; color: var(--lr-bone); margin: 0; }
-.looming h4 { font-family: 'Bevan', Georgia, serif; font-weight: 400; font-size: 18px; line-height: 1.26; color: var(--lr-bone); margin: 0; }
 .looming .lede { font-size: 19.5px; line-height: 1.6; color: var(--lr-bone); max-width: 62ch; margin: 24px 0 0; }
 
 .amphi { margin: 26px 0 0; }
@@ -8694,7 +8763,7 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 .act { padding: 16px 18px; background: var(--lr-face); border-radius: 3px; border-left: 3px solid var(--lr-rock); }
 .act--on { border-left-color: var(--lr-lichen); }
 .act__no { margin: 0; font-family: 'Bevan', Georgia, serif; font-size: 12px; letter-spacing: 2px; color: var(--lr-uv); }
-.act h4 { margin: 7px 0 0; }
+.act h3 { font-size: 18px; line-height: 1.26; margin: 7px 0 0; }
 .act__by { margin: 6px 0 0; font-size: 14px; color: var(--lr-dim); }
 .act p { margin: 10px 0 0; }
 .tuneto { margin: 12px 0 0; font-family: 'Archivo', system-ui, sans-serif; font-weight: 700; font-size: 14.5px; padding: 8px 14px; border-radius: 3px; cursor: pointer; background: var(--lr-rock); color: var(--lr-lichen); border: 2px solid var(--lr-lichen); }
@@ -8790,12 +8859,10 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 .room-fog a:hover,
 .room-fog a:focus-visible { color: var(--fg-ink); }
 .room-fog :focus-visible { outline-color: var(--fg-ink); }
-/* The dial is a dark box and its buttons' rings land inside it, where the
-   yellow is right, so it keeps the base's. THE SKIP LINK DOES NOT: it is a
-   yellow box whose ring falls on the fog outside it, and the first draft of
-   this section exempted it along with the dial on the theory that it carried
-   its own ground. It does, and the ring is not on it. */
-.room-fog .dial :focus-visible { outline-color: var(--yellow); }
+/* The dial keeps its yellow ring from §3, because it is a dark box. THE SKIP
+   LINK DOES NOT: it is a yellow box whose ring falls on the fog outside it,
+   and the first draft of this section exempted it along with the dial on the
+   theory that it carried its own ground. It does, and the ring is not on it. */
 
 .fg-main {
   width: min(680px, calc(100% - 32px));

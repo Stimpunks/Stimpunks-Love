@@ -58,6 +58,8 @@ import re
 import sys
 from pathlib import Path
 
+import imgsize           # tools/imgsize.py: width and height read off the file
+
 ROOT = Path(__file__).resolve().parent.parent
 PAGE = ROOT / "enids-room.html"
 PHOTOS = ROOT / "photos"
@@ -296,7 +298,7 @@ def main():
             continue
         blocks.append(
             f'        <figure class="polaroid" style="margin:0;">\n'
-            f'          <img class="photo polaroid__plate" src="photos/{f.name}" '
+            f'          <img class="photo polaroid__plate" src="photos/{f.name}" {imgsize.attrs(ROOT / "photos" / f.name)} '
             f'alt="{html.escape(ph["alt"], quote=True)}" loading="lazy">\n'
             f'          <figcaption>{cap}<span class="polaroid__credit">{credit}</span></figcaption>\n'
             f'        </figure>'

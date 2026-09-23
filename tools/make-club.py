@@ -208,7 +208,10 @@ def pasteup(cols):
         f'        <p class="flyer__where">{esc(c["where"])}</p>\n'
         f'        <h3>{esc(c["title"])}</h3>\n'
         f'        <p>{esc(c["what"])}</p>\n'
-        f'        <p class="flyer__go"><a href="{esc(c["url"])}">Go &rarr;</a></p>\n'
+        # "Go" is what a flyer says and it stays what the eye reads. The rest of
+        # the sentence is for somebody moving from link to link, who otherwise
+        # hears a dozen identical "Go" with nothing to tell them apart.
+        f'        <p class="flyer__go"><a href="{esc(c["url"])}">Go<span class="sr"> to {esc(c["title"])}</span> &rarr;</a></p>\n'
         '      </li>'
         for c in cols)
 

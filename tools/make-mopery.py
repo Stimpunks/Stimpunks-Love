@@ -49,6 +49,8 @@ import re
 import sys
 from pathlib import Path
 
+import imgsize           # tools/imgsize.py: width and height read off the file
+
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data/mopery.json"
 ROOM = ROOT / "the-mopery.html"
@@ -332,7 +334,7 @@ def plate_html(pl):
     is a reading decision rather than a reproduction. The caption is verbatim."""
     cap = (pl.get("caption") or "").strip()
     fig = ['      <figure class="mop-plate">',
-           f'        <img src="{q(pl["file"])}" alt="{q(pl["alt"])}" loading="lazy" decoding="async">']
+           f'        <img src="{q(pl["file"])}" {imgsize.attrs(ROOT / pl["file"])} alt="{q(pl["alt"])}" loading="lazy" decoding="async">']
     if cap:
         fig.append(f'        <figcaption>{esc(cap)}</figcaption>')
     fig.append("      </figure>")
@@ -435,7 +437,7 @@ def scan_block(data):
     ]
     for lf in sc["leaves"]:
         out.append('    <figure class="mop-leafshot">')
-        out.append(f'      <img src="{q(lf["file"])}" alt="{q(lf["alt"])}" '
+        out.append(f'      <img src="{q(lf["file"])}" {imgsize.attrs(ROOT / lf["file"])} alt="{q(lf["alt"])}" '
                    f'loading="lazy" decoding="async">')
         out.append(f'      <figcaption>{esc(lf["what"])}</figcaption>')
         out.append("    </figure>")

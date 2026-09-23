@@ -185,6 +185,8 @@ python3 tools/check-contrast.py    # every pair against WCAG; exits 1 on a failu
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
 python3 tools/check-gentle.py      # every page at all three dial settings; exits 1 on a leak
 python3 tools/check-contrast-live.py # every piece of text on every page, as rendered
+python3 tools/check-focus.py       # every focus ring on every page, against the ground it is drawn on
+python3 tools/check-headings.py    # refuses a page that skips a heading level, or has other than one h1
 python3 tools/check-counts.py      # refuses a sentence that says how many rooms there are
 python3 tools/check-ids.py         # refuses a repeated id, and one no page actually has
 python3 tools/check-classes.py     # refuses a class two rooms claim, or a page wears wrongly

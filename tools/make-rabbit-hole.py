@@ -79,6 +79,8 @@ import pathlib
 import re
 import sys
 
+import imgsize           # tools/imgsize.py: width and height read off the file
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data/rabbit-hole.json"
 ROOM = ROOT / "rabbit-hole.html"
@@ -217,7 +219,7 @@ for p in plates:
     blocks.append(
         f'    <figure class="rh-cut">\n'
         f'      <div class="rh-cut__mat">\n'
-        f'        <img src="{file_}" alt="{esc(p["shows"])}" loading="lazy" decoding="async">\n'
+        f'        <img src="{file_}" {imgsize.attrs(ROOT / p["file"])} alt="{esc(p["shows"])}" loading="lazy" decoding="async">\n'
         f'      </div>\n'
         f'      <figcaption class="rh-cut__cap">\n'
         f'        <p class="rh-cut__at">{esc(p["at"])}</p>\n'

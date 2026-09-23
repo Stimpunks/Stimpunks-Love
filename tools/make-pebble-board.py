@@ -62,6 +62,8 @@ import re
 import sys
 from pathlib import Path
 
+import imgsize           # tools/imgsize.py: width and height read off the file
+
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data/pebble-board.json"
 PAGE = ROOT / "pebble-board.html"
@@ -131,7 +133,7 @@ def zoom(src, alt, title, credit, photo=False):
             f'                  data-title="{esc(title)}" data-credit="{esc(credit)}"\n'
             f'                  data-desc="{esc(alt)}"\n'
             f'                  aria-label="View larger: {esc(title)}">'
-            f'<img class="{cls}" src="{src}" alt="{esc(alt)}" loading="lazy"></button>\n')
+            f'<img class="{cls}" src="{src}" {imgsize.attrs(ROOT / src)} alt="{esc(alt)}" loading="lazy"></button>\n')
 
 
 def card_html(c, edition, i, consented):
@@ -165,13 +167,18 @@ def card_html(c, edition, i, consented):
             # OK and refuses the frame, so it is a DOOR DRESSED AS A DOOR: a
             # link wearing a play triangle is the broken thing, because the one
             # action it promises is the one it cannot do.
-            media = (f'          <a class="pb-play" href="https://www.youtube.com/watch?v={vid}">'
-                     f'<img class="pb-shot" src="{src}" alt=""></a>\n')
+            # AND IT CARRIES A NAME. The thumbnail is its only content and is
+            # alt="" so that a screen reader is not read a description of a
+            # video still, which left this link with no name at all -- the
+            # facade beside it had one on its aria-label and this did not.
+            media = (f'          <a class="pb-play" href="https://www.youtube.com/watch?v={vid}"'
+                     f' aria-label="Open {esc(name)} on YouTube">'
+                     f'<img class="pb-shot" src="{src}" {imgsize.attrs(ROOT / src)} alt=""></a>\n')
             run = f'          <p class="pb-run">Opens on YouTube · {esc(c["length"])}</p>\n'
         else:
             media = (f'          <button type="button" class="facade pb-play" data-embed-id="{vid}"\n'
                      f'                  data-embed-title="{esc(name)}" aria-label="Play {esc(name)}">'
-                     f'<img class="pb-shot" src="{src}" alt=""></button>\n')
+                     f'<img class="pb-shot" src="{src}" {imgsize.attrs(ROOT / src)} alt=""></button>\n')
             run = f'          <p class="pb-run">Play · {esc(c["length"])}</p>\n'
     elif c.get("art"):
         maker = c.get("maker") or die(f"the card {title!r} carries artwork with no maker named.")

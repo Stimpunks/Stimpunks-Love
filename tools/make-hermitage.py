@@ -233,7 +233,7 @@ def campfire(docs):
             f'            data-title="{esc(d["title"])}" data-runs="{esc(d["length"])}"\n'
             f'            data-spoken="{esc(d["spoken"])}" data-how="{esc(d["how"])}">\n'
             f'          <p class="ch__no">CHANNEL {i}</p>\n'
-            f'          <h4>{esc(d["title"])}</h4>\n'
+            f'          <h3>{esc(d["title"])}</h3>\n'
             f'          <p class="ch__by">{esc(d["channel"])} &middot; {esc(d["length"])}</p>\n'
             f'          <p>{esc(d["note"])}</p>\n'
             f'{control}\n'
@@ -249,7 +249,7 @@ def chairs(bags):
         out.append(
             f'      <li class="bag" style="--bag: {esc(b["hex"])};">\n'
             f'        <p class="bag__on">{esc(b["on_it"])}</p>\n'
-            f'        <h4>{esc(b["term"])}</h4>\n'
+            f'        <h3>{esc(b["term"])}</h3>\n'
             f'        <p>{esc(b["note"])}</p>\n'
             f'        {credit}\n'
             f'        <p class="bag__cited"><a href="{esc(b["source"])}">'

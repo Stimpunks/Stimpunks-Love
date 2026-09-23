@@ -240,7 +240,7 @@ def running(acts):
             f'data-runs="{esc(a["runs"])}"\n'
             f'            data-spoken="{esc(a["spoken"])}" data-how="{esc(a["how"])}">\n'
             f'          <p class="act__no">ACT {i:02d}</p>\n'
-            f'          <h4>{esc(a["title"])}</h4>\n'
+            f'          <h3>{esc(a["title"])}</h3>\n'
             f'          <p class="act__by">{esc(a["who"])} &middot; on {esc(a["channel"])} '
             f'&middot; {esc(a["runs"])}</p>\n'
             f'          <p>{esc(a["note"])}</p>\n'

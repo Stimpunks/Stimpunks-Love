@@ -2408,7 +2408,7 @@ def main():
     # read off the same page for the same reason.
     doom = (ROOT / "the-doomscroll.html").read_text()
     items = re.findall(
-        r'<p class="dsc-when">(.*?)</p>\s*<h3 class="dsc-headline">(.*?)</h3>', doom, re.S)
+        r'<p class="dsc-when">(.*?)</p>\s*<h2 class="dsc-headline">(.*?)</h2>', doom, re.S)
     if len(items) < 2:
         raise SystemExit(
             "REFUSING: the-doomscroll.html has fewer than two items on it, and its\n"

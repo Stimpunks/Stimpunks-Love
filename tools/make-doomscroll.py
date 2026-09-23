@@ -161,7 +161,7 @@ def feed_block(data):
         out.append('      <li class="dsc-item">')
         out.append(f'        <p class="dsc-when">{p["year"]} &middot; '
                    f'first published in {esc(p["first_published"])}</p>')
-        out.append(f'        <h3 class="dsc-headline">{esc(p["headline"])}</h3>')
+        out.append(f'        <h2 class="dsc-headline">{esc(p["headline"])}</h2>')
         out.append(f'        <p class="dsc-stand">{esc(p["standfirst"])}</p>')
         out.append(f'        <p class="dsc-by"><b>{esc(p["title"])}</b> by '
                    f'{esc(p["author"])}, who died in {p["author_died"]} &mdash; which is '
@@ -170,7 +170,7 @@ def feed_block(data):
                    f'Read the whole thing<span class="sr"> of {esc(p["title"])} by '
                    f'{esc(p["author"])}</span></button>')
         out.append(f'        <div class="dsc-body" id="{rid}" hidden>')
-        out.append(f'          <h2>{esc(p["title"])}</h2>')
+        out.append(f'          <h3>{esc(p["title"])}</h3>')
         out.append(f'          <p class="dsc-full__by">{esc(p["author"])} &middot; '
                    f'{p["year"]}</p>')
         out.append('          <div class="dsc-poem">')
