@@ -81,6 +81,22 @@ stray = sorted({p.name for p in ROOT.glob("*.html")} - set(ORDER) - NO_ADDRESS)
 if stray:
     raise SystemExit(f"REFUSING: {', '.join(stray)} exist(s) but is not in ORDER — add it, do not skip it.")
 
+# WHICH LICENCES THE TYPEFACES TRAVEL UNDER IS READ, NOT TYPED. This line said
+# every face was SIL Open Font License for as long as llms.txt existed, and four
+# are Apache 2.0 -- which pull-foundry.py found by reading each family's own
+# record, and which this line went on contradicting because it was a sentence in
+# a generator rather than a reading of that record.
+def typeface_licences():
+    import json
+    faces = json.loads((ROOT / "data/foundry-faces.json").read_text())["faces"]
+    found = sorted({f["licence"] for f in faces.values()})
+    if not found:
+        raise SystemExit("REFUSING: data/foundry-faces.json names no licence for any face.")
+    if len(found) == 1:
+        return f"licence ({found[0]})"
+    return "licences (" + ", ".join(found[:-1]) + " or " + found[-1] + ")"
+
+
 today = datetime.date.today().isoformat()
 sm = ['<?xml version="1.0" encoding="UTF-8"?>',
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
@@ -120,7 +136,8 @@ lines += [
     "## Attribution",
     "",
     "- Text and design: CC BY-SA 4.0, Stimpunks Foundation.",
-    "- The typefaces keep their own SIL Open Font License; the songs keep their own copyright.",
+    f"- The typefaces keep their own {typeface_licences()}, family by family, as "
+    "https://stimpunks.love/foundry.html records them; the songs keep their own copyright.",
     "- Nothing musical is hosted here. The jukebox is press-to-play facades that link out.",
     "- Full credits: https://stimpunks.love/liner-notes.html",
     "",

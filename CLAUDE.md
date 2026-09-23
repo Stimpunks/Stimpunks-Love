@@ -50,9 +50,13 @@ colour**, because her smallest grey failed WCAG on every ground it sat on. That 
 written up beside `--tallow-3` in §2, in `check-contrast.py`, in the changelog and in the liner
 notes, because "we altered a contributor's design" is a thing that has to be visible in four
 places rather than implied in a diff. Do not change a second thing without asking her.
+**Maintenance is the one standing exception, and it is narrow:** Helen approved any needed
+maintenance on 2026-09-23 — fixes that change nothing a visitor can see, like the width and height
+now on her two photographs. It is not licence to redesign. Anything that changes how her room looks
+or reads is still hers to decide, and maintenance done there goes in the changelog like the rest.
 
 **A ROOM WITH A GAME IN IT IS THE NEWEST VERSION OF THE SAME ARGUMENT.** The Arcade (§15) is
-room seven: grape carpet, a cabinet of hard blocks, a screen that is a different black from the
+grape carpet, a cabinet of hard blocks, a screen that is a different black from the
 room around it, and a pixel face nothing else on the street sets. "The Playhouse already has the
 toys, so the arcade should look like the Playhouse" is the subroom excuse holding a joystick.
 That room is saturated primary blue, bunting and a checkerboard floor; this is a coin-op at

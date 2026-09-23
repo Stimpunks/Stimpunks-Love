@@ -71,6 +71,32 @@ COUNT = re.compile(
     re.I,
 )
 
+# TWO SHAPES THE FIRST PATTERN COULD NOT SEE, both found by a spec audit on
+# 2026-09-23 rather than by this tool, both published since the street opened:
+#   · THE NUMBER AFTER THE NOUN. The Playhouse opened "Room" and then a number
+#     as its first word, which states where it stands in a total. Words only:
+#     The Healing Checkpoint is room 429, which is an HTTP status and a joke,
+#     not a position on the street.
+#   · THE ELLIPTICAL TOTAL. Your Room was "linked from the front door beside
+#     the other" and a number, full stop -- the noun is understood, so the first
+#     pattern had nothing to match. Only at the end of a clause, because "the
+#     other" and a number followed by more words is usually counting something
+#     that is not a room, and every false refusal teaches people to ignore this.
+#     AND ONLY WHERE THE NUMBER ENDS THE PHRASE -- "Room" and a number and then
+#     a comma, a colon, a full stop or "is". Its first run refused CLAUDE.md's
+#     "this room" followed by a number of tilted leaves, where the number
+#     belongs to the leaves; narrowed rather than excepted, which is this
+#     tool's own first-run lesson again.
+AFTER = re.compile(
+    rf"\b(?:rooms?|doors?|storefronts?|shopfronts?)\s+(?:{'|'.join(CARDINALS + ORDINALS)})"
+    rf"(?=\s*[.,;:!?)]|\s+is\b|\s*$)",
+    re.I,
+)
+ELLIPSIS = re.compile(
+    rf"\bthe other\s+(?:{'|'.join(CARDINALS)})(?=\s*[.,;:!?)]|\s*$)",
+    re.I,
+)
+
 # Spans where a count is evidence rather than a claim: anything in quotation
 # marks, straight or curly, and anything in backticks. THE WHOLE FILE IS SCANNED
 # AT ONCE, not line by line -- the first version did it per line and then
@@ -97,8 +123,11 @@ def surfaces():
     for p in sorted(ROOT.glob("*.html")):
         if p.name not in SKIP:
             yield p
+    # favicon.svg is on the list because its comment is served to anybody who
+    # opens the file, and it said the heart's stripes were the street's rooms, by
+    # number, for as long as this tool had been running.
     for name in ("love.css", "llms.txt", "README.md", "CLAUDE.md", "DECISIONS.md",
-                 "site.webmanifest"):
+                 "site.webmanifest", "favicon.svg", "netlify.toml", "SECURITY.md"):
         p = ROOT / name
         if p.exists():
             yield p
@@ -114,7 +143,7 @@ def main():
         blanked = text if p.suffix in CODE else QUOTED.sub(
             lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
         for n, line in enumerate(blanked.splitlines(), 1):
-            for m in COUNT.finditer(line):
+            for m in [*COUNT.finditer(line), *AFTER.finditer(line), *ELLIPSIS.finditer(line)]:
                 real = text.splitlines()[n - 1]
                 hits.append((p.relative_to(ROOT), n, m.group(0).strip(), real.strip()))
 

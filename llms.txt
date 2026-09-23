@@ -19,7 +19,7 @@ Every page carries an intensity dial with three settings. It defaults to whateve
 - [Enid's Room — Stimpunks.Love](https://stimpunks.love/enids-room.html): Colorful goth. Black walls, technicolour everything else, and somewhere to sit when the glee runs out. The room for the one who doesn't match the house.
 - [The Polaroid Wall — Stimpunks.Love](https://stimpunks.love/polaroids.html): How a photo gets onto Enid's wall, what we ask for, what we promise, and how it comes down again. The wall is empty on purpose until somebody sends one.
 - [The Playhouse — Stimpunks.Love](https://stimpunks.love/playhouse.html): Everything is a button and every button yells. The glossary wearing a costume — and every toy is a real control that Tab reaches and a screen reader names.
-- [The Arcade — Stimpunks.Love](https://stimpunks.love/arcade.html): Room seven: a grape carpet, a marquee, and cabinets standing on it. Walk up to one. Nothing in here has a timer, a score, a way to lose or a sound, and nothing in any of them is trying to beat you.
+- [The Arcade — Stimpunks.Love](https://stimpunks.love/arcade.html): A grape carpet, a marquee, and cabinets standing on it. Walk up to one. Nothing in here has a timer, a score, a way to lose or a sound, and nothing in any of them is trying to beat you.
 - [Quill Drift — Stimpunks.Love](https://stimpunks.love/quill-drift.html): A cabinet in the Arcade. Esmx the Porkypine walks a dark field and the loose quills drifting across it join their mane on contact. No timer, no lives, no score, nothing to defeat, and nothing you can throw.
 - [Otterly Adorbs — Stimpunks.Love](https://stimpunks.love/otterly-adorbs.html): A cabinet in the Arcade. You steer an otter round a kelp bay: twirls, somersaults, dives, floating on your back, and fish at feeding time. Floating fills nothing up, on purpose. No timer, no lives, no score, nothing to defeat.
 - [Penguin Pebbling — Stimpunks.Love](https://stimpunks.love/penguin-pebbling.html): A cabinet in the Arcade. A shore, some pebbles, and neighbours with nests. Carry something over and give it to somebody. Nothing is counted, nothing is owed back, and there is no wrong thing to give anybody.
@@ -53,6 +53,6 @@ Every page carries an intensity dial with three settings. It defaults to whateve
 ## Attribution
 
 - Text and design: CC BY-SA 4.0, Stimpunks Foundation.
-- The typefaces keep their own SIL Open Font License; the songs keep their own copyright.
+- The typefaces keep their own licences (Apache License 2.0 or SIL Open Font License 1.1), family by family, as https://stimpunks.love/foundry.html records them; the songs keep their own copyright.
 - Nothing musical is hosted here. The jukebox is press-to-play facades that link out.
 - Full credits: https://stimpunks.love/liner-notes.html

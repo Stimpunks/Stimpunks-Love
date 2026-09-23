@@ -78,7 +78,14 @@ csp = (
     # framing this site inside itself, which love-embed.js never constructs.
     f"frame-src 'self' {origins}; "
     "style-src 'self' 'unsafe-inline'; "
-    f"script-src 'self' 'sha256-{digest}'"
+    f"script-src 'self' 'sha256-{digest}'; "
+    # A SAFETY NET, NOT A FIX. Every subresource here is already https or
+    # same-origin, and HSTS keeps the page itself on https. This makes the
+    # browser rewrite any http:// subresource somebody pastes into a room
+    # later -- a credit's image, a scan -- instead of blocking it as mixed
+    # content and leaving a hole in the page nobody notices. The spec's
+    # recommendation; it loosens nothing.
+    "upgrade-insecure-requests"
 )
 hdr = ROOT / "_headers"
 src = hdr.read_text()

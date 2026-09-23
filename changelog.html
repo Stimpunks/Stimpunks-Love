@@ -20,6 +20,8 @@
 <meta property="og:image:alt" content="A dark indigo card, deliberately quiet. Small cyan capitals reading stimpunks.love above a short pink rule, then “Changelog” in yellow block capitals, and the line: What changed on the street, and when.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love — what changed on the street">
 <link rel="stylesheet" href="love.css">
@@ -35,6 +37,18 @@
   <h1>Changelog</h1>
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
+
+  <h2 id="2026-09-23-stale-claims">2026-09-23 &mdash; Sentences that had stopped being true, somewhere to report a hole, and a real favicon.ico</h2>
+  <ul>
+    <li><strong>The site was still counting its rooms in places the counting check could not see.</strong> The Playhouse opened by giving its own number on the street, Your Room said it was linked beside a number of others, the Arcade&rsquo;s description gave its number too, and the favicon&rsquo;s own source said its stripes were the rooms, one each. <code>check-counts.py</code> looked only for a number in front of a noun; it now also catches the number after one, and the total left hanging at the end of a sentence with the noun understood. Its first run refused a count of tilted leaves in our own notes, and the pattern was narrowed rather than the sentence excepted. It reads the favicon, <code>netlify.toml</code> and <code>SECURITY.md</code> now as well.</li>
+    <li><strong><code>llms.txt</code> said every typeface was under the SIL Open Font License.</strong> Four are Apache 2.0, which the Foundry found out by reading each family&rsquo;s own record. The line is generated from that record now instead of typed, so it names both licences and will name a third if one ever arrives.</li>
+    <li><strong>A comment in <code>netlify.toml</code> said the domain redirect was still switched off.</strong> It was switched on on 2026-09-19.</li>
+    <li><strong>There is a way to report a security hole.</strong> <code>/.well-known/security.txt</code>, per RFC 9116, and a <code>SECURITY.md</code> saying what this site actually is and what is worth reporting. The contact is GitHub&rsquo;s private vulnerability reporting, switched on for this repository today, because an issue on a public repository discloses a report the moment it is filed. <code>make-security.py</code> writes the file and refuses from thirty days before its expiry date, because a lapsed security.txt is invalid rather than merely old.</li>
+    <li><strong><code>/favicon.ico</code> exists.</strong> Browsers and crawlers ask for it whatever a page&rsquo;s head says, and until today every one of those requests got the missing-address page. There is an Apple touch icon, and the manifest carries 192, 512 and maskable icons for installs. Every one is rendered from <code>favicon.svg</code> by <code>make-icons.py</code>, at each size directly rather than scaled down, and the manifest&rsquo;s list is written by the same tool, so an icon cannot be declared without being drawn.</li>
+    <li><strong>The security header upgrades anything insecure it meets.</strong> Nothing on the site loads over plain http today; <code>upgrade-insecure-requests</code> is there so that a link pasted into a room tomorrow gets upgraded instead of blocked as mixed content.</li>
+    <li><strong>The Faery Yurt&rsquo;s two photographs reserve their room before they load.</strong> Helen Edgar gave a standing yes today to maintenance that changes nothing a visitor can see, and this is the first of it: both photographs were measured before and after, at desktop and phone width, and render identically. Anything that changes how her room looks is still hers to decide, and the liner notes say so.</li>
+    <li>Changed: <code>playhouse.html</code>, <code>your-room.html</code>, <code>arcade.html</code>, <code>faery-yurt.html</code>, <code>favicon.svg</code>, every page&rsquo;s head, <code>love.css</code> comments, <code>netlify.toml</code>, <code>_headers</code>, <code>site.webmanifest</code>, <code>SECURITY.md</code> (new), <code>.well-known/security.txt</code> (new), <code>favicon.ico</code>, <code>apple-touch-icon.png</code> and three manifest icons (new), <code>tools/make-icons.py</code> and <code>tools/make-security.py</code> (new), <code>tools/check-counts.py</code>, <code>tools/make-sitemap.py</code>, <code>tools/make-csp.py</code>, <code>tools/make-guild.py</code>, <code>tools/make-foundry.py</code>, <code>tools/check-contrast.py</code>, <code>README.md</code>, <code>CLAUDE.md</code>.</li>
+  </ul>
 
   <h2 id="2026-09-23-focus-rings">2026-09-23 &mdash; A focus ring you can see in every room, and the headings, links, tables and pictures a screen reader walks</h2>
   <ul>

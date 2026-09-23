@@ -879,7 +879,7 @@ PAIRS = [
     (TALLOW, "#375968", False, "yurt: spine c5, light end"),
     (TALLOW, "#4A2F4F", False, "yurt: spine c6, dark end"),
     (TALLOW, "#653D6B", False, "yurt: spine c6, light end"),
-    # THE ARCADE (love.css §15). Room seven, and the first one lit by a screen.
+    # THE ARCADE (love.css §15). The first room lit by a screen.
     # Three grounds the room declares and two it composites, and every ink is
     # held against the composite as well as the flat colour, because the flat
     # colour is never what the type is on.

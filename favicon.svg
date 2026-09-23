@@ -1,8 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Stimpunks.Love">
   <title>Stimpunks.Love</title>
-  <!-- A heart cut into six stripes: the street's six rooms, and the dot-love in the
-       wordmark. Legible at 16px because the stripes are 6px and the silhouette is
-       one solid shape, not an outline. -->
+  <!-- A heart cut into rainbow stripes, and the dot-love in the wordmark. It used
+       to say the stripes were the street's rooms, one each, which stopped being
+       true the day the street grew past them. Legible at 16px because every stripe
+       edge lands on a whole pixel there and the silhouette is one solid shape, not
+       an outline. Every other icon is rendered from this file by
+       tools/make-icons.py; edit this and re-run that. -->
   <rect width="64" height="64" rx="12" fill="#15121f"/>
   <defs>
     <clipPath id="h">

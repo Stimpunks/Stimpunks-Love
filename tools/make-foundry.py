@@ -508,6 +508,8 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
 <meta property="og:image:alt" content="An iron-grey card lit flatly from above, as if through a dirty workshop roof. On the left, a drawing of a compositor’s galley holding three pieces of metal type standing on their feet, each with a nick cut across the shank and its letter mirrored the way cast type is, with one proof sheet lying under them. On the right, small brass capitals reading cast, proofed, and credited, then “The Foundry” in a heavy stencil face in bone, the strokes bridged where a stencil holds itself together. Under it in brass: Every typeface on this street, and the name of whoever drew it. Then, smaller: A grey iron workshop under a dirty roof. Set any words on this street in any face on this street, pull a proof, and print it with the designer&#x27;s name on it. Along the foot, in grey capitals: nothing here is counted, stimpunks.love.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love &mdash; what changed on the street">
 <link rel="preload" href="fonts/stardos-stencil-700.woff2" as="font" type="font/woff2" crossorigin>

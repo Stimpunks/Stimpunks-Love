@@ -181,6 +181,8 @@ python3 tools/make-rabbit-hole.py  # The Rabbit Hole's presses, engravings and t
 python3 tools/make-checkpoint.py   # Room 429's quotations, slips and way out, and the credits
 python3 tools/make-foundry.py      # The Foundry's bench, its shelves and its proof
 python3 tools/make-og.py           # the share cards, and the og:image tags that point at them
+python3 tools/make-icons.py        # favicon.ico, the touch icon and the manifest's icons, all from favicon.svg
+python3 tools/make-security.py     # /.well-known/security.txt; refuses from 30 days before it expires
 python3 tools/check-contrast.py    # every pair against WCAG; exits 1 on a failure
 python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
 python3 tools/check-gentle.py      # every page at all three dial settings; exits 1 on a leak
