@@ -1111,13 +1111,13 @@
       "page": "covenstead.html",
       "room": "Covenstead",
       "title": "Counsel, not commandment",
-      "posted": "Third turning off the road out of town, behind a shut door, there is a table with several mismatched lamps on it. One of the things laid on that table is famous, and the word at the front of it is the whole reason it has never hardened into a rule. Go and find out what that word means.",
-      "rank": 3,
+      "posted": "There is a kitchen on this street with the good china out and not one cup matching the next. One of the things laid on that table is famous, and the word at the front of it is the whole reason it never hardened into a rule. Go and find out what that word means.",
+      "rank": 1,
       "takes": "ten minutes, and the kettle is already on",
       "target": "a kettle on the hob",
       "code": "KETTLE",
       "hints": [
-        "Off the street — past the last streetlight, then the third turning.",
+        "On the street itself, in the row of shopfronts — the one with the pale window.",
         "It is the second thing on the table, the one first recorded publicly in 1964.",
         "Right at the foot of the room, under the section about whose these all are."
       ],

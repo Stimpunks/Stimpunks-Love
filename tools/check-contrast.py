@@ -466,14 +466,17 @@ LAG_ACID, LAG_POSTER = "#8CC63F", "#E4564A"
 STH_NIGHT, STH_BANK = "#0C0B12", "#1A1822"
 STH_BONE, STH_DIM, STH_MOON = "#EDEAF2", "#A7A2B8", "#BDB0DE"
 
-# Covenstead (§37). TWO GROUNDS AND THREE LAMPS, and every one of the lamps
-# carries text, which is why this room has no ORNAMENT entry at all -- the only
-# room on the street that does not. A covenstead is lit by several sources that
-# do not match, so the palette has three accent colours rather than one, and the
-# room would stop meaning anything if they were allowed to drift together.
-COV_NIGHT, COV_BOARD = "#0E1113", "#1C2124"
-COV_CHALK, COV_DIM = "#E9EDEA", "#A3ACA8"
-COV_TALLOW, COV_GLASS, COV_HEATHER = "#E8B75E", "#86BEE0", "#E0959C"
+# Covenstead (§37). TWO GROUNDS AND THREE GLAZES, and every glaze carries text,
+# which is why this room has no ORNAMENT entry at all -- still the only one.
+# The room moved off The Outskirts onto the street and changed worlds doing it:
+# it was a dark kitchen lit by several mismatched lamps and it is now a daylit
+# one with several mismatched cups. The two grounds are the patch of afternoon
+# sun where the window light lands and the limewash around it, 1.12 apart --
+# which is what an ordinary room looks like, and why both are safe grounds for
+# text rather than one being an effect laid over the other.
+COV_WASH, COV_SUN = "#F3E9E1", "#FCF7EF"
+COV_INK, COV_INK_2 = "#2A211C", "#5E5048"
+COV_DELFT, COV_SAGE, COV_ROSE = "#2F5E86", "#41643A", "#A1384A"
 DN_PAINT, DN_CHALK, DN_SODIUM = "#F1EADA", "#C0B8A6", "#F0A73F"
 
 PAIRS = [
@@ -1593,34 +1596,39 @@ PAIRS = [
     (STH_MOON,  STH_NIGHT, False, "sithen: the job marker, a sprig of thorn on the bank"),
 
     # ── Covenstead (§37) ─────────────────────────────────────────────────────
-    # TEN PAIRS AND NO ORNAMENT ENTRY, which is the first time on this street.
-    # Every other room has at least one colour that is allowed to be faint
-    # because it only draws something. Here all three lamps carry text -- the
-    # greeting sets its three clauses in them, the contested flag is set in the
-    # cold one, and the amber is every link -- so all three are held to the body
-    # bar on both grounds rather than measured once and excused.
-    (COV_CHALK,   COV_NIGHT, False, "covenstead: the h1, every heading, the lede and each "
-                                    "tenet's own line"),
-    (COV_CHALK,   COV_BOARD, False, "covenstead: the same on a scrubbed panel and inside "
-                                    "every seat at the table"),
-    (COV_DIM,     COV_NIGHT, False, "covenstead: the topline note, the line over the h1 and "
-                                    "every paragraph the room does not emphasise"),
-    (COV_DIM,     COV_BOARD, False, "covenstead: where each tenet says whose it is, and the "
-                                    "rule above the contested note"),
-    (COV_TALLOW,  COV_NIGHT, False, "covenstead: every link, the backlink, the first clause "
-                                    "of the greeting and the bullet markers"),
-    (COV_TALLOW,  COV_BOARD, False, "covenstead: the same inside a panel, and the job "
-                                    "marker, a kettle on the hob"),
-    (COV_GLASS,   COV_NIGHT, False, "covenstead: the second clause of the greeting, which is "
-                                    "set in a different lamp from the first"),
-    (COV_GLASS,   COV_BOARD, False, "covenstead: the label on a tenet the tradition argues "
-                                    "about, which is the one place this colour does work"),
-    (COV_HEATHER, COV_NIGHT, False, "covenstead: the third clause of the greeting, and the "
-                                    "rule above the credits"),
-    (COV_HEATHER, COV_BOARD, False, "covenstead: the same on a panel. THE THREE LAMPS ARE "
-                                    "MEASURED SEPARATELY ON PURPOSE -- if they ever converge "
-                                    "on one hue this room has become a warm interior, which "
-                                    "is the thing its section exists to refuse"),
+    # TEN PAIRS AND NO ORNAMENT ENTRY, still the only room here without one.
+    # Every other room has at least one colour allowed to be faint because it
+    # only draws something. All three glazes carry text -- the greeting sets its
+    # three clauses in them, the contested flag is set in the blue, the rose
+    # rules every quotation and is the knock on the street door -- so all three
+    # are held to the body bar on both grounds.
+    (COV_INK,   COV_WASH, False, "covenstead: the h1, every heading, the lede, each tenet's "
+                                 "own line, every quotation, and the name on the street door"),
+    (COV_INK,   COV_SUN,  False, "covenstead: the same where the window light falls, which "
+                                 "is most of the room"),
+    (COV_INK_2, COV_WASH, False, "covenstead: every paragraph, the topline note, the blurb "
+                                 "on the street door and the line under the h1"),
+    (COV_INK_2, COV_SUN,  False, "covenstead: where each tenet says whose it is, every "
+                                 "quotation's cite, and the sources at the foot"),
+    (COV_DELFT, COV_WASH, False, "covenstead: every link, the backlink and the first clause "
+                                 "of the greeting"),
+    (COV_DELFT, COV_SUN,  False, "covenstead: the same on a lit panel, and the label on a "
+                                 "tenet the tradition argues about"),
+    (COV_SAGE,  COV_WASH, False, "covenstead: the second clause of the greeting, set in a "
+                                 "different glaze from the first"),
+    (COV_SAGE,  COV_SUN,  False, "covenstead: the same on a lit panel, and the rule down the "
+                                 "side of the door policy"),
+    (COV_ROSE,  COV_WASH, False, "covenstead: the third clause of the greeting, the knock on "
+                                 "the street door and the bullet markers"),
+    (COV_ROSE,  COV_SUN,  False, "covenstead: the rule beside every quotation. THE THREE "
+                                 "GLAZES ARE MEASURED SEPARATELY ON PURPOSE -- if the "
+                                 "crockery is ever made to match, this room has lost its "
+                                 "subject and kept its wallpaper"),
+    # The job marker is drawn in the blue glaze and lies on the room's own wall,
+    # so the pair above decides it at 5.72 -- over the body threshold a marker
+    # is held to, which is the Jungle Room's quills rule.
+    (COV_DELFT, COV_WASH, False, "covenstead: the job marker, a kettle on the hob"),
+
 
 ]
 

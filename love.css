@@ -1071,28 +1071,35 @@
   --sth-bone:  #EDEAF2;   --sth-dim:   #A7A2B8;
   --sth-moon:  #BDB0DE;   --sth-thorn: #6E6880;
 
-  /* Covenstead (§37). SEVERAL LIGHTS AT THE SAME HEIGHT, AND THEY DO NOT MATCH,
-     which is the only room on this street lit by more than one source. Every
-     other world here has exactly one -- a lamp, a screen, a fire, a moon, a
-     headlight, the sun, or nothing. A covenstead is a place a group meets, and
-     everybody brought their own light, so the room does not resolve to a single
-     warmth: --cov-tallow is somebody's candle, --cov-glass somebody's cold
-     bulb, --cov-heather somebody's rose shade. THAT IS WHAT KEEPS IT OFF THE
-     WARM INTERIORS -- the Latibulum, the Yurt, the Den, the Hermitage's cave --
-     all of which are one flame turning everything amber. If these three ever
-     drift into the same hue this has become the burrow with more chairs in it.
-     --cov-night is the room, --cov-board the scrubbed table and every panel,
-     --cov-chalk every word, --cov-dim the fine print.
-     THERE IS NO ORNAMENT ENTRY FOR THIS ROOM, and that is unusual enough to say
-     out loud: all three lamp colours clear the body bar on both grounds, so
-     every one of them is allowed to carry text and all six pairs are measured
-     in check-contrast.py.
-     COV- PREFIXED THROUGHOUT: `board`, `chalk`, `glass` and `night` are exactly
-     the plain words this file fills up with, and `chalk` is already the base's. */
-  --cov-night:  #0E1113;  --cov-board:   #1C2124;
-  --cov-chalk:  #E9EDEA;  --cov-dim:     #A3ACA8;
-  --cov-tallow: #E8B75E;  --cov-glass:   #86BEE0;
-  --cov-heather:#E0959C;
+  /* Covenstead (§37). ONE WINDOW, IN THE AFTERNOON, INDOORS. The room moved
+     off the road out of town and onto the street, and it changed worlds when it
+     moved: Ryan's call, 2026-09-22. A covenstead is a group that meets
+     regularly, which is neither solitude in nature (the campgrounds) nor
+     revelry at a distance (The Outskirts) -- it is a premises, so it has a
+     shopfront.
+     THE LIGHT IS THE SEPARATION AND IT HAS TO STAY. Three pale rooms already
+     exist here and every one is lit differently: the Hermitage is a LANDSCAPE
+     under low morning sun with the shadows falling away from it, the Garden is
+     MIDDAY from overhead through leaves, and the Guild has NO LIGHT SOURCE AT
+     ALL and is lit like a photocopy. This is an INTERIOR with one window in the
+     side of it, mid-afternoon, so the light arrives from one side and lands in
+     a patch -- --cov-sun is where it falls and --cov-wash is the rest of the
+     limewash. The two are 1.12 apart, which is what an ordinary room actually
+     looks like and why both are safe grounds for text rather than one being an
+     effect over the other.
+     AND THERE IS NO GREEN GROUND IN IT, which is what keeps it off the other
+     two daylit rooms, both of whose papers are green-white. This wall is warm
+     and slightly pink, the colour of old distemper.
+     --cov-ink is every word, --cov-ink-2 the fine print, and the three glazes
+     are the mismatched china: --cov-delft, --cov-sage and --cov-rose. ALL THREE
+     CARRY TEXT, so there is no ornament entry for this room and all ten pairs
+     are measured in check-contrast.py.
+     COV- PREFIXED THROUGHOUT: `wash`, `sun`, `ink` and `rose` are exactly the
+     plain words this file fills up with, and `ink` is already the zine's. */
+  --cov-wash:  #F3E9E1;   --cov-sun:   #FCF7EF;
+  --cov-ink:   #2A211C;   --cov-ink-2: #5E5048;
+  --cov-delft: #2F5E86;   --cov-sage:  #41643A;
+  --cov-rose:  #A1384A;
 }
 
 * { box-sizing: border-box; }
@@ -1562,6 +1569,19 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .door--foundry .door__name  { font-family: 'Stardos Stencil', var(--sans); font-weight: 700; color: var(--fo-bone); font-size: 27px; letter-spacing: .02em; }
 .door--foundry .door__blurb { color: var(--fo-oil); }
 .door--foundry .door__knock { font-family: 'Work Sans', var(--sans); font-weight: 600; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--fo-brass); }
+
+/* Covenstead (§37). THE ONE LIT DOOR IN THE ROW, and that is the room showing
+   through rather than a flourish: this is the only shopfront on a near-black
+   street whose window is pale, because the room behind it is a kitchen in the
+   afternoon. The awning is three bands of the three glazes, which is the
+   mismatched china arriving on the street before you have opened the door.
+   Every ink here is on --cov-wash and is already measured in check-contrast.py
+   against that ground. */
+.door--covenstead { background: var(--cov-wash); border-color: var(--cov-ink-2); }
+.door--covenstead .door__awning { background-image: linear-gradient(90deg, var(--cov-delft) 0 34%, var(--cov-sage) 34% 67%, var(--cov-rose) 67% 100%); border-bottom-color: var(--cov-ink-2); }
+.door--covenstead .door__name  { font-family: 'Petrona', Georgia, serif; font-weight: 700; color: var(--cov-ink); font-size: 27px; }
+.door--covenstead .door__blurb { color: var(--cov-ink-2); }
+.door--covenstead .door__knock { font-family: 'Asap', var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--cov-rose); }
 
 .door--feed { background: var(--fd-enamel); border-color: var(--fd-girder); }
 .door--feed .door__awning { background-image: repeating-linear-gradient(180deg, var(--fd-flap) 0 6px, var(--fd-split) 6px 7px); border-bottom-color: var(--fd-girder); }
@@ -8360,110 +8380,129 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 .creditors__go { font-size: 15.5px; }
 .creditors__src { margin: 0; font-size: 14.5px; color: var(--sth-dim); }
 
-/* §37 ── ROOM: Covenstead (turning 03 in The Outskirts) ──────────────────────
-   A MEETING PLACE, INDOORS, LIT BY SEVERAL LAMPS THAT DO NOT MATCH. Turning 03
-   off The Outskirts, and indoors is the one axis that area had left: turning 01
-   is a screen standing in water and turning 02 is a ring standing in a field,
-   both outdoors and both at night.
+/* §37 ── ROOM: Covenstead (a shopfront on the street) ────────────────────────
+   A KITCHEN IN THE AFTERNOON, WITH ONE WINDOW AND THE MISMATCHED CHINA OUT.
+   This room began as turning 03 in The Outskirts and was moved onto the street
+   -- Ryan's call, 2026-09-22 -- because a covenstead is a group that meets
+   REGULARLY, which is neither what the campgrounds are for (quiet, apart, at
+   peace in nature) nor what the road out of town is for (night revelry, and
+   being as far off as you can get). A group that meets every week wants a
+   premises with a door on a street.
 
-   IT IS THE ONLY ROOM ON THIS STREET LIT BY MORE THAN ONE SOURCE, and that is
-   the room's argument rendered as physics rather than decoration. Every other
-   world here has exactly one light -- a lamp, a screen, a fire, a moon, a
-   headlight, the sun, or nothing at all. A covenstead is a place a GROUP meets,
-   several people who do not agree, and everybody brought their own light. So
-   the room never resolves to a single warmth: one pool is candle-amber, one is
-   a cold bulb, one is a rose shade, and they sit at the same height because
-   everybody is sitting down.
+   IT CHANGED WORLDS WHEN IT MOVED, which is the whole reason this is not a
+   relocation with the same stylesheet. Out there it was a dark room lit by
+   several lamps that did not match. Here it is daylit, warm and domestic, and
+   THE ARGUMENT MOVED WITH IT RATHER THAN BEING DROPPED: the thing that carries
+   "several people who do not match, meeting anyway" is now the CHINA. Nobody's
+   cup is anybody else's cup. That device is load bearing and has to survive any
+   future redecoration of this room -- if the crockery is ever made to match,
+   the room has lost its subject and kept its wallpaper.
 
-   THAT IS ALSO WHAT KEEPS IT OFF THE WARM INTERIORS, which is the collapse this
-   street has now had to refuse six times -- The Latibulum, the Faery Yurt, The
-   Den, the Hermitage's cave, The Mopery. EVERY ONE OF THOSE IS LIT BY ONE
-   FLAME, and the giveaway is that everything in them goes amber together. If
-   these three lamps ever drift into the same hue this has become the burrow
-   with more chairs in it, and it is this room that moves.
+   THREE PALE ROOMS ALREADY EXIST HERE AND THE LIGHT IS WHAT TELLS THEM APART:
+     · the Solarpunk Hermitage is a LANDSCAPE under low morning sun, shadows
+       falling away from it, a cabin with solar infrastructure on it.
+     · the Garden is MIDDAY from directly overhead, through leaves, outdoors,
+       and everything in it is tinted green by the canopy.
+     · the Adventurer's Guild has NO LIGHT SOURCE AT ALL. It is lit the way a
+       photocopy is lit, evenly, from nowhere, and casts nothing.
+     · this is an INTERIOR with one window in the side of it, mid-afternoon.
+       The light comes from one side, lands in a patch on the wall and the
+       table, and the rest of the room is soft shade. You are indoors, sitting
+       down, and it is somebody's house.
+   AND ITS WALL IS WARM AND SLIGHTLY PINK where both the other daylit rooms are
+   green-white. If this limewash ever cools towards green it has become the
+   garden with furniture in it.
 
-   AND IT IS NOT THE MOPERY, the other room full of furniture and argument. That
-   is a cold blue-black BUILDING you stand up in, candles a foot into a very
-   large dark, an institution's books. This is a small room with the door shut,
-   a table people are sitting at, and nothing in it belonging to an institution.
+   IT IS ALSO NOT THE LATIBULUM, the street's other dark-on-lit-plaster room.
+   That is a BURROW: underground, no daylight anywhere in it, one lamp at knee
+   height, earth all round the plaster. This has a window, and the whole room is
+   lit by what comes through it.
 
-   THE TYPE IS ORDINARY ON PURPOSE. See §1: the witches this room is partly
-   built on are practical and unglamorous, so a page about that set in something
-   carved or uncial would be arguing against itself in the typeface. */
+   THE TYPE DID NOT CHANGE AND DID NOT NEED TO. See §1: the witches this room is
+   partly built on are practical, domestic and unglamorous, so the faces are
+   deliberately ordinary -- which was true of a kitchen at night and is true of
+   the same kitchen in daylight. */
 
-.covenstead { background: var(--cov-night); color: var(--cov-dim); font-family: 'Asap', system-ui, sans-serif; }
-.covenstead a { color: var(--cov-tallow); }
-.covenstead a:hover { color: var(--cov-chalk); }
+.covenstead { background: var(--cov-wash); color: var(--cov-ink-2); font-family: 'Asap', system-ui, sans-serif; }
+.covenstead a { color: var(--cov-delft); }
+.covenstead a:hover { color: var(--cov-rose); }
 .covenstead p, .covenstead li { font-size: 16.5px; line-height: 1.68; }
-.covenstead .backlink { font-family: 'Asap', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--cov-tallow); }
-.covenstead .trailmark { margin: 0; font-size: 14px; color: var(--cov-dim); }
-.covenstead h2 { font-family: 'Petrona', Georgia, serif; font-weight: 700; font-size: 25px; color: var(--cov-chalk); margin: 0 0 13px; }
-.covenstead h3 { font-family: 'Petrona', Georgia, serif; font-weight: 700; font-size: 23px; line-height: 1.2; color: var(--cov-chalk); margin: 0; }
-.covenstead .lede { font-size: 19.5px; line-height: 1.6; color: var(--cov-chalk); max-width: 62ch; margin: 24px 0 0; }
+.covenstead .backlink { font-family: 'Asap', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--cov-delft); }
+.covenstead .trailmark { margin: 0; font-size: 14px; color: var(--cov-ink-2); }
+.covenstead h2 { font-family: 'Petrona', Georgia, serif; font-weight: 700; font-size: 25px; color: var(--cov-ink); margin: 0 0 13px; }
+.covenstead h3 { font-family: 'Petrona', Georgia, serif; font-weight: 700; font-size: 23px; line-height: 1.2; color: var(--cov-ink); margin: 0; }
+.covenstead .lede { font-size: 19.5px; line-height: 1.6; color: var(--cov-ink); max-width: 62ch; margin: 24px 0 0; }
+.covenstead .skip { color: var(--cov-ink); }
 
-.meet { margin: 26px 0 0; }
-.meet__over { margin: 0; font-size: 13px; letter-spacing: 2.2px; text-transform: uppercase; color: var(--cov-dim); }
+/* THE PATCH OF AFTERNOON SUN, which is where the window light lands. It is a
+   GROUND rather than an effect -- text sits on it and both grounds are measured
+   -- so it is a flat colour and never a gradient under type, which is The
+   Rabbit Hole's rule. */
+.meet { margin: 26px 0 0; padding: 24px 26px 4px; background: var(--cov-sun); border-radius: 3px; }
+.meet__over { margin: 0; font-size: 13px; letter-spacing: 2.2px; text-transform: uppercase; color: var(--cov-ink-2); }
 .covenstead h1 {
   font-family: 'Petrona', Georgia, serif; font-weight: 700;
   font-size: clamp(44px, 8.4vw, 84px); line-height: 1.04;
-  color: var(--cov-chalk); margin: 10px 0 0;
+  color: var(--cov-ink); margin: 10px 0 0;
 }
-/* The greeting, in the three lamp colours at once — which is the only place on
-   the page all three appear together, and the reason they are all measured
-   against both grounds rather than treated as ornament. */
-.meet__sub { margin: 10px 0 0; font-family: 'Petrona', Georgia, serif; font-size: clamp(19px, 3vw, 28px); line-height: 1.3; color: var(--cov-tallow); }
-.meet__sub b:nth-of-type(1) { color: var(--cov-glass); font-weight: 700; }
-.meet__sub b:nth-of-type(2) { color: var(--cov-heather); font-weight: 700; }
-.meet__art { margin: 20px 0 0; line-height: 0; }
+/* The greeting, in the three glazes at once — the only place all three appear
+   together, and the reason all three are measured against both grounds rather
+   than treated as ornament. */
+.meet__sub { margin: 10px 0 0; font-family: 'Petrona', Georgia, serif; font-size: clamp(19px, 3vw, 28px); line-height: 1.3; color: var(--cov-delft); }
+.meet__sub b:nth-of-type(1) { color: var(--cov-sage); font-weight: 700; }
+.meet__sub b:nth-of-type(2) { color: var(--cov-rose); font-weight: 700; }
+.meet__art { margin: 18px 0 0; line-height: 0; }
 .meet__art svg { display: block; width: 100%; height: auto; }
 
-/* A scrubbed panel: the table, and every boxed piece of the room. Flat and
-   evenly lit, because in here the light comes from several directions at once
-   and nothing has a single bright edge. */
-.scrub { margin: 32px 0 0; padding: 22px 26px; max-width: 68ch; background: var(--cov-board); border-radius: 3px; }
+/* A scrubbed panel: the table, and every boxed piece of the room. It sits on
+   the wall rather than glowing — in here the light comes through a window and
+   lands, so a panel is a shade DARKER than the patch it sits beside and never
+   brighter than the room. */
+.scrub { margin: 32px 0 0; padding: 22px 26px; max-width: 68ch; background: var(--cov-sun); border-radius: 3px; border-left: 4px solid var(--cov-sage); }
 .scrub p { margin: 0 0 13px; }
 .scrub p:last-child { margin-bottom: 0; }
 .scrub ul { margin: 0; padding: 0 0 0 20px; }
 .scrub li { margin: 0 0 10px; }
 .scrub li:last-child { margin-bottom: 0; }
-.scrub li::marker { color: var(--cov-tallow); }
+.scrub li::marker { color: var(--cov-rose); }
 
-.parting { border-top: 3px solid var(--cov-glass); }
-.thanks { margin: 42px 0 0; padding: 22px 26px; max-width: 70ch; background: var(--cov-board); border-top: 3px solid var(--cov-heather); border-radius: 3px; }
+.parting { border-left-color: var(--cov-delft); }
+.thanks { margin: 42px 0 0; padding: 22px 26px; max-width: 70ch; background: var(--cov-sun); border-left: 4px solid var(--cov-rose); border-radius: 3px; }
 .thanks p { margin: 0 0 13px; }
 .thanks p:last-child { margin-bottom: 0; }
-.thanks__src { font-size: 14.5px; color: var(--cov-dim); }
+.thanks__src { font-size: 14.5px; color: var(--cov-ink-2); }
 
 .seats__intro { max-width: 66ch; margin: 11px 0 0; }
 
-/* The places at the table. EACH SEAT HAS ITS OWN LAMP and the lamps cycle
-   through the three colours, so no two neighbours are lit the same way — which
-   is the section's whole argument sitting in a list. The lamp is a drawn dot
-   and carries nothing; the colours it uses all carry text elsewhere and are all
-   measured. */
+/* The places at the table. EACH SEAT HAS ITS OWN CUP and the glazes cycle
+   through the three, so no two neighbours drink out of the same thing. That is
+   the room's argument sitting in a list, and it is what the mismatched lamps
+   were doing before this room moved indoors and into the afternoon. */
 .seats { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-direction: column; gap: 24px; }
 .seat { display: flex; gap: 18px; align-items: flex-start; max-width: 74ch; }
-.seat__lamp { flex: 0 0 auto; margin: 6px 0 0; width: 16px; height: 16px; border-radius: 50%; background: var(--cov-tallow); }
-.seat:nth-child(3n+2) .seat__lamp { background: var(--cov-glass); }
-.seat:nth-child(3n) .seat__lamp { background: var(--cov-heather); }
-.seat__body { flex: 1 1 auto; min-width: 0; background: var(--cov-board); padding: 18px 20px; border-radius: 3px; }
-.seat__said { margin: 9px 0 0; color: var(--cov-chalk); }
-.seat__whose { margin: 8px 0 0; font-size: 14px; color: var(--cov-dim); }
-.seat__argued { margin: 13px 0 0; padding: 12px 0 0; border-top: 1px solid var(--cov-dim); font-size: 15.5px; }
-.seat__argued b { color: var(--cov-glass); }
+.seat__lamp { flex: 0 0 auto; margin: 7px 0 0; width: 20px; height: 15px; border: 2px solid var(--cov-delft); border-top: 0; border-radius: 0 0 8px 8px; }
+.seat__lamp::after { content: ""; display: block; width: 7px; height: 7px; margin: 2px 0 0 18px; border: 2px solid var(--cov-delft); border-left: 0; border-radius: 0 6px 6px 0; }
+.seat:nth-child(3n+2) .seat__lamp, .seat:nth-child(3n+2) .seat__lamp::after { border-color: var(--cov-sage); }
+.seat:nth-child(3n+2) .seat__lamp { border-top: 0; }
+.seat:nth-child(3n) .seat__lamp, .seat:nth-child(3n) .seat__lamp::after { border-color: var(--cov-rose); }
+.seat:nth-child(3n) .seat__lamp { border-top: 0; }
+.seat__body { flex: 1 1 auto; min-width: 0; background: var(--cov-sun); padding: 18px 20px; border-radius: 3px; }
+.seat__said { margin: 9px 0 0; color: var(--cov-ink); }
+.seat__whose { margin: 8px 0 0; font-size: 14px; color: var(--cov-ink-2); }
+.seat__argued { margin: 13px 0 0; padding: 12px 0 0; border-top: 1px solid var(--cov-ink-2); font-size: 15.5px; }
+.seat__argued b { color: var(--cov-delft); }
 .seat__note { margin: 13px 0 0; }
 
 /* THE QUOTATIONS. Set larger than the room's own prose and in the display
    serif, because on this page they are the tenet rather than an illustration of
-   it -- the commentary underneath is the thing that is secondary. Each carries
+   it — the commentary underneath is the thing that is secondary. Each carries
    its own attribution rather than sharing a footnote at the bottom of the room:
    a cite that sits once at the foot of a page is a cite nobody reads beside the
-   words it belongs to. Marked with a rule in the amber lamp, which is a colour
-   this room already measures against both grounds. */
-.seat__quote { margin: 14px 0 0; padding: 2px 0 2px 18px; border-left: 3px solid var(--cov-tallow); }
-.seat__quote p { margin: 0; font-family: 'Petrona', Georgia, serif; font-size: 18.5px; line-height: 1.5; color: var(--cov-chalk); }
-.seat__quote cite { display: block; margin: 8px 0 0; font-family: 'Asap', system-ui, sans-serif; font-style: normal; font-size: 14px; color: var(--cov-dim); }
-.seat__quote--more { border-left-color: var(--cov-dim); }
+   words it belongs to. */
+.seat__quote { margin: 14px 0 0; padding: 2px 0 2px 18px; border-left: 3px solid var(--cov-rose); }
+.seat__quote p { margin: 0; font-family: 'Petrona', Georgia, serif; font-size: 18.5px; line-height: 1.5; color: var(--cov-ink); }
+.seat__quote cite { display: block; margin: 8px 0 0; font-family: 'Asap', system-ui, sans-serif; font-style: normal; font-size: 14px; color: var(--cov-ink-2); }
+.seat__quote--more { border-left-color: var(--cov-ink-2); }
 .seat__quote--more p { font-size: 17px; }
 
 /* §38 ── Small screens ───────────────────────────────────────────────────────

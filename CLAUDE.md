@@ -1745,20 +1745,48 @@ and is **the only thin face on this street**; Literata carries everything else w
 all, because the argument is that rules like these are never written down plainly, so the one place
 they *are* written plainly ought to look like it means it.
 
-**THE THIRD TURNING IS THE ONLY ROOM ON THIS STREET LIT BY MORE THAN ONE SOURCE, AND THAT IS THE
-ARGUMENT RATHER THAN A FLOURISH.** Covenstead (§37) is a meeting place with the door shut, and every
-other world here has exactly one light — a lamp, a screen, a fire, a moon, a headlight, the sun, or
-nothing at all. A covenstead is where a **group** meets, several people who do not agree, and
-everybody brought their own: one pool is candle-amber, one a cold bulb, one a rose shade, and they
-sit at the same height because everybody is sitting down.
+**COVENSTEAD IS ON THE STREET AND IT USED TO BE TURNING 03, AND THE MOVE IS THE MOST USEFUL THING
+IN THIS SECTION.** Ryan's call, 2026-09-22. The reasoning is about what each area is FOR, and it is
+the test to apply to anything placed in either from now on:
 
-**THAT IS WHAT KEEPS IT OFF THE WARM INTERIORS, which is the collapse this street has now refused six
-times** — The Latibulum, the Faery Yurt, The Den, the Hermitage's cave, The Mopery. **Every one of
-those is lit by ONE flame, and the giveaway is that everything in them goes amber together.** If
-these three lamps ever drift into the same hue this has become the burrow with more chairs in it,
-and it is this room that moves. **Indoors was also the one axis The Outskirts had left**: turning 01
-is a screen standing in water, turning 02 is a ring standing in a field, and both are outdoors at
-night.
+  · **the campgrounds** are for people who want to be somewhat apart from each other, at peace in
+    nature, with the street still in reach.
+  · **The Outskirts** is for night revelry in crowds, and for anybody who wants to be as far off as
+    they can get.
+  · **a covenstead is neither.** It is a group that meets REGULARLY, which wants a premises with a
+    door on a street where people already are.
+
+**Helen Edgar's observation sharpened it** — that everything out on that road could sit on the
+campsite if it had planning permission — which is worth keeping as the question to ask: *would this
+be just as happy on the campsite?* If yes, it is probably not an Outskirts room.
+
+**IT CHANGED WORLDS WHEN IT MOVED, AND THAT IS THE PART TO COPY.** It was not relocated with the
+same paint on it. Out there it was a dark kitchen lit by several lamps that did not match — the only
+room on the street lit by more than one source. On the street it is **daylit, warm and domestic: one
+window, mid-afternoon, limewash and the good china out**. A room that moved between areas and kept
+its stylesheet would be telling you the areas do not mean anything.
+
+**AND THE ARGUMENT MOVED WITH IT RATHER THAN BEING DROPPED.** The device carrying *several people
+who do not match, meeting anyway* is now **the china**. Nobody's cup is anybody else's cup. **That
+is load bearing: if the crockery is ever made to match, the room has lost its subject and kept its
+wallpaper.**
+
+**THREE PALE ROOMS ALREADY EXISTED AND THE LIGHT IS WHAT TELLS THEM APART.** The Hermitage is a
+**landscape** under low morning sun with the shadows falling away and solar infrastructure on it;
+the Garden is **midday from overhead through leaves**, outdoors, everything tinted green; the Guild
+has **no light source at all** and is lit like a photocopy. This is an **interior with one window in
+the side of it**, so the light arrives from one side and lands in a patch. **Its wall is warm and
+slightly pink where both the other daylit rooms are green-white** — if this limewash ever cools
+towards green it has become the garden with furniture in it. It is also not **The Latibulum**, the
+street's other dark-on-lit-plaster room: that is a burrow with no daylight anywhere in it and one
+lamp at knee height.
+
+**A REPAINT LEAVES DEAD var() BEHIND AND NOTHING WARNS.** Replacing this room's palette orphaned the
+job marker, which went on stroking `--cov-tallow` after that name stopped existing — and **CSS drops
+an unknown custom property and paints nothing**, so the kettle rendered with no line at all. Not an
+error anywhere; `check-contrast.py` had nothing to say because the pair was gone rather than wrong.
+**When a room is repainted, grep the old names** — markers, card CSS and generator drawings all sit
+outside the section you are editing.
 
 **TWO ROOMS IN THAT AREA HOLD OPPOSITE RULES ABOUT THE SAME VOCABULARY, ON PURPOSE.**
 `make-sithen.py` **refuses advice** — that room is a catalogue of unwritten rules and must not tell

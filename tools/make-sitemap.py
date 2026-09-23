@@ -29,6 +29,7 @@ ORDER = ["index.html",
          "zibaldone.html",
          "rabbit-hole.html", "healing-checkpoint.html",
          "foundry.html",
+         "covenstead.html",
          "your-room.html",
          # Street furniture rather than a door, and listed like everything else:
          # a page nobody can find from the sitemap is unpublished with extra
@@ -44,7 +45,6 @@ ORDER = ["index.html",
          # like the campgrounds, listed the same way: the road first, then
          # what is down its turnings.
          "the-outskirts.html", "black-leather-lagoon.html", "sithen.html",
-         "covenstead.html",
          "liner-notes.html",
          "changelog.html"]
 

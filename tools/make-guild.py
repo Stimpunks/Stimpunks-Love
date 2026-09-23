@@ -180,9 +180,14 @@ def normalise(s):
 # yellow on that blue measures 3.88 and white measures 5.08 -- the one place
 # here where the room's favourite colour lost to the floor it was lying on.
 DRAW = {
-    # A kettle on the hob, drawn in the amber lamp -- 10.26 on that room's
-    # ground, so it clears the body threshold a marker is held to.
-    "covenstead-kettle": """<path d="M7 14 H23 q2 0 2 3 v6 q0 4 -4 4 H11 q-4 0 -4 -4 v-6 q0 -3 2 -3 Z" fill="none" stroke="var(--cov-tallow)" stroke-width="2.2" stroke-linejoin="round"/><path d="M23 17 q4 1 4 4 q0 3 -3 3" fill="none" stroke="var(--cov-tallow)" stroke-width="1.9"/><path d="M11 14 q5 -6 10 0" fill="none" stroke="var(--cov-tallow)" stroke-width="1.9" stroke-linecap="round"/><path d="M14 8 q2 -3 0 -5 M18 8 q2 -3 0 -5" stroke="var(--cov-tallow)" stroke-width="1.5" stroke-linecap="round" opacity=".75"/>""",
+    # A kettle on the hob, drawn in the blue glaze -- 5.72 on that room's
+    # limewash, so it clears the body threshold a marker is held to. IT WAS
+    # DRAWN IN --cov-tallow UNTIL THE ROOM MOVED onto the street and the
+    # palette was replaced underneath it, at which point this stroked a
+    # variable that no longer existed and the kettle rendered with no line at
+    # all. A dead var() is not an error anywhere: CSS drops the declaration
+    # and paints nothing. When a room is repainted, grep the old names.
+    "covenstead-kettle": """<path d="M7 14 H23 q2 0 2 3 v6 q0 4 -4 4 H11 q-4 0 -4 -4 v-6 q0 -3 2 -3 Z" fill="none" stroke="var(--cov-delft)" stroke-width="2.2" stroke-linejoin="round"/><path d="M23 17 q4 1 4 4 q0 3 -3 3" fill="none" stroke="var(--cov-delft)" stroke-width="1.9"/><path d="M11 14 q5 -6 10 0" fill="none" stroke="var(--cov-delft)" stroke-width="1.9" stroke-linecap="round"/><path d="M14 8 q2 -3 0 -5 M18 8 q2 -3 0 -5" stroke="var(--cov-delft)" stroke-width="1.5" stroke-linecap="round" opacity=".75"/>""",
     # A sprig of thorn off the bank, drawn in the moon rather than in the
     # room's own thorn colour: --sth-thorn is 3.69 on that ground and a marker
     # is held to the BODY threshold, the Jungle Room's quills rule, because a

@@ -601,24 +601,27 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--sithen .og-horizon {{ margin: auto -60px 0 !important; }}
 .og--sithen .og-horizon svg {{ display: block; width: 100%; height: 150px; }}
 
-/* covenstead — THE TABLE WITH THREE MISMATCHED LAMPS ON IT, which is the one
-   view this room has. The greeting is LIFTED from the page and keeps its three
-   clauses in the three lamp colours, because that line is the only place all
-   three appear together and a card that flattened it to one colour would be
-   losing the room's whole argument in the one asset nobody reviews. */
-.og--covenstead {{ width: 100%; padding: 50px 60px 0; gap: 18px;
+/* covenstead — THE DRESSER SHELF WITH THE GOOD CHINA ON IT, AND NOT ONE CUP
+   MATCHING. The room moved off The Outskirts onto the street and changed worlds
+   doing it, so this card was redrawn rather than recoloured: it was a dark
+   table with three mismatched lamps and it is now a limewashed wall in the
+   afternoon with three glazes of crockery. The greeting is LIFTED from the page
+   and keeps its three clauses in the three glazes, because that line is the
+   only place all three appear together and a card that flattened it to one
+   colour would lose the room's whole argument in the one asset nobody reviews. */
+.og--covenstead {{ width: 100%; padding: 52px 60px 0; gap: 18px;
   justify-content: flex-start; }}
 .og--covenstead .og-over {{ margin: 0 !important; font-size: 19px; letter-spacing: 2.2px;
-  text-transform: uppercase; color: #A3ACA8; }}
+  text-transform: uppercase; color: #5E5048; }}
 .og--covenstead h1 {{ font-size: 104px; margin: 0 !important; }}
 .og--covenstead .og-greet {{ margin: 0 !important; font-family: 'Petrona', serif;
-  font-weight: 700; font-size: 38px; line-height: 1.24; color: #E8B75E; }}
-.og--covenstead .og-greet b:nth-of-type(1) {{ color: #86BEE0; }}
-.og--covenstead .og-greet b:nth-of-type(2) {{ color: #E0959C; }}
-.og--covenstead .og-lede {{ font-family: 'Asap', sans-serif; color: #A3ACA8; max-width: 940px;
+  font-weight: 700; font-size: 38px; line-height: 1.24; color: #2F5E86; }}
+.og--covenstead .og-greet b:nth-of-type(1) {{ color: #41643A; }}
+.og--covenstead .og-greet b:nth-of-type(2) {{ color: #A1384A; }}
+.og--covenstead .og-lede {{ font-family: 'Asap', sans-serif; color: #5E5048; max-width: 940px;
   font-size: 24px; margin: 0 !important; }}
 .og--covenstead .og-bench {{ margin: auto -60px 0 !important; }}
-.og--covenstead .og-bench svg {{ display: block; width: 100%; height: 132px; }}
+.og--covenstead .og-bench svg {{ display: block; width: 100%; height: 150px; }}
 
 /* yurt — the tent at night: fairy lights across the top, the smoke hole, and
    Helen's italic serif on her own canvas. IT KEEPS THE AMBIENT LAYER THAT SITS
@@ -1977,50 +1980,59 @@ def card_sithen(p):
 
 
 def card_covenstead(p):
-    # THE THREE LAMPS ARE THE CARD. Drawn rather than lifted, because the page's
-    # own strip is 900x150 and this box is a different shape -- same objects,
-    # same three colours, its own proportions, which is the call sithen's card
-    # already made.
+    # THE CHINA IS THE CARD. Drawn rather than lifted, because the page's own
+    # shelf is 900x140 and this box is a different shape -- same objects, same
+    # three glazes, its own proportions, which is the call sithen's card made.
+    # Every cup is a different shape as well as a different colour: three
+    # identical outlines in three inks would be a matching set that had been
+    # painted over, which is the opposite of what this room is about.
     return (
         "",
         f'<div class="og og--covenstead" data-fit="card">'
-        f'<p class="og-over">Turning 03 &middot; The Outskirts &middot; nobody is initiated</p>'
+        f'<p class="og-over">On the street &middot; nobody is initiated</p>'
         f'{p["h1"]}'
         f'<p class="og-greet">{p["greeting"]}</p>'
         f'<p class="og-lede">{p["desc"]}</p>'
         f'<div class="og-bench" data-fit="bench">'
-        f'<svg viewBox="0 0 1200 132" fill="none" xmlns="http://www.w3.org/2000/svg">'
-        f'<path d="M0 96 H1200 V132 H0 Z" fill="#1C2124"/>'
-        f'<path d="M0 96 H1200" stroke="#A3ACA8" stroke-width="1.6" opacity=".5"/>'
-        f'<ellipse cx="228" cy="96" rx="104" ry="12" fill="#E8B75E" opacity=".14"/>'
-        f'<path d="M206 96 L206 62 Q206 52 218 52 L238 52 Q250 52 250 62 L250 96 Z" '
-        f'fill="#1C2124" stroke="#E8B75E" stroke-width="2.6"/>'
-        f'<path d="M213 52 L243 52" stroke="#E8B75E" stroke-width="3.2"/>'
-        f'<ellipse cx="600" cy="96" rx="116" ry="13" fill="#86BEE0" opacity=".13"/>'
-        f'<path d="M574 96 L574 56 Q574 44 588 44 L612 44 Q626 44 626 56 L626 96 Z" '
-        f'fill="#1C2124" stroke="#86BEE0" stroke-width="2.6"/>'
-        f'<path d="M582 44 L618 44" stroke="#86BEE0" stroke-width="3.2"/>'
-        f'<ellipse cx="962" cy="96" rx="98" ry="12" fill="#E0959C" opacity=".14"/>'
-        f'<path d="M942 96 L942 66 Q942 56 953 56 L971 56 Q982 56 982 66 L982 96 Z" '
-        f'fill="#1C2124" stroke="#E0959C" stroke-width="2.6"/>'
-        f'<path d="M948 56 L976 56" stroke="#E0959C" stroke-width="3.2"/>'
-        f'<path d="M382 96 q0 -26 20 -26 q20 0 20 26" fill="none" stroke="#A3ACA8" '
-        f'stroke-width="2" opacity=".5"/>'
-        f'<path d="M778 96 q0 -22 18 -22 q18 0 18 22" fill="none" stroke="#A3ACA8" '
-        f'stroke-width="2" opacity=".5"/>'
-        f'<path d="M1110 96 q0 -28 21 -28 q21 0 21 28" fill="none" stroke="#A3ACA8" '
-        f'stroke-width="2" opacity=".5"/>'
-        f'<path d="M68 96 q0 -20 16 -20 q16 0 16 20" fill="none" stroke="#A3ACA8" '
-        f'stroke-width="2" opacity=".5"/>'
+        f'<svg viewBox="0 0 1200 150" fill="none" xmlns="http://www.w3.org/2000/svg">'
+        f'<path d="M0 112 H1200" stroke="#5E5048" stroke-width="3"/>'
+        f'<path d="M0 112 H1200 V122 H0 Z" fill="#5E5048" opacity=".22"/>'
+        f'<path d="M104 112 V64 q0 -13 16 -13 h36 q16 0 16 13 v48 Z" fill="none" '
+        f'stroke="#2F5E86" stroke-width="3.2" stroke-linejoin="round"/>'
+        f'<path d="M172 70 q22 4 22 15 q0 12 -22 15" fill="none" stroke="#2F5E86" stroke-width="3"/>'
+        f'<path d="M110 80 h60" stroke="#2F5E86" stroke-width="1.8" opacity=".6"/>'
+        f'<path d="M300 112 V58 h70 v54 Z" fill="none" stroke="#41643A" stroke-width="3.2" '
+        f'stroke-linejoin="round"/>'
+        f'<path d="M370 66 q21 5 21 16 q0 11 -21 14" fill="none" stroke="#41643A" stroke-width="3"/>'
+        f'<path d="M306 86 h58" stroke="#41643A" stroke-width="1.8" opacity=".6"/>'
+        f'<path d="M486 112 q-6 -46 36 -46 q42 0 36 46 Z" fill="none" stroke="#A1384A" '
+        f'stroke-width="3.2" stroke-linejoin="round"/>'
+        f'<path d="M560 80 q19 6 18 15 q-1 10 -19 11" fill="none" stroke="#A1384A" stroke-width="3"/>'
+        f'<path d="M676 112 V80 q0 -11 14 -11 h42 q14 0 14 11 v32 Z" fill="none" '
+        f'stroke="#2F5E86" stroke-width="3.2" stroke-linejoin="round"/>'
+        f'<ellipse cx="711" cy="69" rx="35" ry="7" fill="none" stroke="#2F5E86" stroke-width="2.6"/>'
+        f'<path d="M846 112 V54 q0 -12 15 -12 h30 q15 0 15 12 v58 Z" fill="none" '
+        f'stroke="#A1384A" stroke-width="3.2" stroke-linejoin="round"/>'
+        f'<path d="M906 64 q22 5 22 17 q0 12 -22 15" fill="none" stroke="#A1384A" stroke-width="3"/>'
+        f'<path d="M852 78 h54" stroke="#A1384A" stroke-width="1.8" opacity=".6"/>'
+        f'<path d="M1012 112 q-4 -40 34 -40 q38 0 34 40 Z" fill="none" stroke="#41643A" '
+        f'stroke-width="3.2" stroke-linejoin="round"/>'
+        f'<path d="M1082 86 q18 6 17 14 q-1 8 -18 9" fill="none" stroke="#41643A" stroke-width="3"/>'
+        f'<path d="M16 112 V76 h42 v36 Z" fill="none" stroke="#41643A" stroke-width="2.8" '
+        f'stroke-linejoin="round"/>'
+        f'<path d="M22 100 q15 -8 30 0" fill="none" stroke="#41643A" stroke-width="1.8" opacity=".7"/>'
+        f'<path d="M1146 112 V72 q0 -10 13 -10 h20 q13 0 13 10 v40 Z" fill="none" '
+        f'stroke="#2F5E86" stroke-width="2.8" stroke-linejoin="round"/>'
         f'</svg></div>'
         f'</div>',
-        f"A cold dark card. Small grey capitals reading turning 03, The Outskirts, nobody "
-        f"is initiated, then “{p['h1text']}” in a heavy serif in off-white. Under "
-        f"it the greeting {p['greeting_plain']} set in three different colours, one clause "
-        f"each: amber, cold blue, then rose. Then, in a plain sans: {p['desc_plain']} "
-        f"Across the bottom, the near edge of a long scrubbed table with three mismatched "
-        f"lamps standing on it — one amber, one blue-white, one rose — each "
-        f"throwing its own pool of light, and the backs of four empty chairs behind them.",
+        f"A warm limewashed card, the colour of old distemper, with a patch of afternoon "
+        f"light on it. Small brown capitals reading on the street, nobody is initiated, then "
+        f"\u201c{p['h1text']}\u201d in a heavy serif in dark brown. Under it the greeting "
+        f"{p['greeting_plain']} set in three different colours, one clause each: willow "
+        f"blue, sage green, then rose. Then, in a plain sans: {p['desc_plain']} Across the "
+        f"bottom, the edge of a dresser shelf with eight pieces of crockery standing on it "
+        f"\u2014 mugs, a jug, a teapot, a bowl \u2014 every one a different shape and "
+        f"drawn in one of the three colours, and no two alike.",
     )
 
 
@@ -2069,7 +2081,7 @@ CARDS = {
 }
 
 
-# ── Reading the pages ────────────────────────────────────────────────────────
+# ── Reading the pages ──────────────────────────────────────────────────────
 
 def field(src, pat, flags=re.S):
     m = re.search(pat, src, flags)
