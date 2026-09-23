@@ -83,12 +83,22 @@ QUOTED = re.compile(r"\u201c[^\u201d]*\u201d|&ldquo;.*?&rdquo;|\"[^\"]*\"|`[^`]*
 # entry to match today would be falsifying the log to satisfy a linter.
 SKIP = {"changelog.html"}
 
+# FILES WHERE NOTHING QUOTED IS SAFE. A Python string may be published, which
+# is the docstring's argument; a JSON file is nothing BUT quoted strings, so
+# skipping quotation there skips the whole file. The web manifest is why this
+# set exists: its description said how many rooms there were for as long as
+# this tool had been running, because it was not on the list of surfaces and
+# would have passed anyway if it had been. Browsers show that sentence when the
+# site is installed, which makes it as published as anything on a page.
+CODE = {".py", ".webmanifest"}
+
 
 def surfaces():
     for p in sorted(ROOT.glob("*.html")):
         if p.name not in SKIP:
             yield p
-    for name in ("love.css", "llms.txt", "README.md", "CLAUDE.md", "DECISIONS.md"):
+    for name in ("love.css", "llms.txt", "README.md", "CLAUDE.md", "DECISIONS.md",
+                 "site.webmanifest"):
         p = ROOT / name
         if p.exists():
             yield p
@@ -101,7 +111,7 @@ def main():
         text = p.read_text()
         # Blank the quoted spans rather than dropping them, so line and column
         # numbers still point at the real text.
-        blanked = text if p.suffix == ".py" else QUOTED.sub(
+        blanked = text if p.suffix in CODE else QUOTED.sub(
             lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
         for n, line in enumerate(blanked.splitlines(), 1):
             for m in COUNT.finditer(line):

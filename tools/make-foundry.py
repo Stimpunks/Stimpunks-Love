@@ -410,6 +410,7 @@ def main():
 
     page = TEMPLATE.substitute(
         quest=quest,
+        prepaint=prepaint(),
         faces=face_options(built),
         weights="".join(
             f'<option value="{w}">{w}'
@@ -464,6 +465,23 @@ def main():
     return 0
 
 
+def prepaint():
+    """The dial's pre-paint snippet, READ OFF THE FRONT PAGE rather than kept here.
+
+    This file used to hold its own copy, and a copy is a second place the snippet
+    has to be fixed. When the snippet's storage fallback was corrected on
+    2026-09-23 every page got the new one and this template still had the old
+    one, so the next run would have put it back on the Foundry -- and make-csp.py
+    would have refused two snippets, which is the loud outcome, but only if
+    somebody ran it before deploying. Reading it removes the second copy.
+    """
+    m = re.search(r"<script>[^<]*</script>", (ROOT / "index.html").read_text())
+    if not m or "data-intensity" not in m.group(0):
+        raise SystemExit("REFUSING: index.html has no pre-paint snippet to copy. Every page "
+                         "runs the same one; fix the front page, do not type one in here.")
+    return m.group(0)
+
+
 TEMPLATE = Template(r"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -497,7 +515,7 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
 <!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
      flash the loud version at somebody whose device asked for the quiet one. A
      stored choice wins over the media query, including a choice to turn it UP. -->
-<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+$prepaint
 </head>
 <body class="room-foundry">
 <a class="skip" href="#main">Skip to the bench</a>

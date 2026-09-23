@@ -70,7 +70,14 @@ missing = [p["file"] for p in pages if not (p["url"] and p["title"] and p["desc"
 if missing:
     raise SystemExit(f"REFUSING: canonical/title/description missing on: {', '.join(missing)}")
 
-stray = sorted({p.name for p in ROOT.glob("*.html")} - set(ORDER))
+# THE ONE PAGE WITH NO ADDRESS. Netlify serves 404.html at every URL nobody
+# built, so it has no URL of its own to list, and a sitemap entry for it would
+# be telling a search engine that "nothing here" is a page worth indexing. It
+# is named here rather than skipped by pattern, so that the rule above --
+# every page is in the order or this refuses -- still holds for everything else.
+NO_ADDRESS = {"404.html"}
+
+stray = sorted({p.name for p in ROOT.glob("*.html")} - set(ORDER) - NO_ADDRESS)
 if stray:
     raise SystemExit(f"REFUSING: {', '.join(stray)} exist(s) but is not in ORDER — add it, do not skip it.")
 

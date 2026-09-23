@@ -226,6 +226,14 @@ def probe(browser, page: Path):
     src = page.read_text()
     if "</body>" not in src:
         raise SystemExit(f"REFUSING: {page.name} has no </body>, so the probe cannot run.")
+    # ROOT-ABSOLUTE PATHS ARE RESOLVED AGAINST THE REPOSITORY, not the disk.
+    # 404.html is served at whatever address somebody mistyped, so every path in
+    # it starts with a slash -- and from a file:// probe "/love.css" is the root
+    # of the filesystem, the page renders unstyled, and an unstyled page passes
+    # everything. A checker that silently measures a different page from the
+    # one that ships is the blind spot this tool exists to close. The probe sits
+    # in ROOT, so dropping the leading slash points at the same file.
+    src = re.sub(r'((?:href|src)=")/(?!/)', r"\1", src)
     PROBE.write_text(src.replace("</body>", JS + "</body>", 1))
     try:
         proc = subprocess.run(

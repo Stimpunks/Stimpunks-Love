@@ -97,7 +97,10 @@ CREDITS = ROOT / "liner-notes.html"
 #                    rewriting a September entry to satisfy a linter.
 #   adventurers-guild.html  is where jobs are handed IN. A marker here would be
 #                    a job that sends you to the room you are standing in.
-EXEMPT = {"changelog.html", "adventurers-guild.html"}
+#   404.html         is served at every address nobody built, so the only way to
+#                    reach its marker would be to mistype a URL on purpose -- a
+#                    job only somebody who already knew the trick could do.
+EXEMPT = {"changelog.html", "adventurers-guild.html", "404.html"}
 
 # THE DIFFICULTY CLASS IS HOW FAR YOU WALK. It is enumerated here rather than
 # typed per job so that no job can invent a rank, and defined by geography so

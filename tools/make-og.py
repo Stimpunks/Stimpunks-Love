@@ -58,6 +58,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "og"
+NO_CARD = {"404.html"}
 W, H = 1200, 630
 
 CANDIDATES = [
@@ -2190,7 +2191,12 @@ def read_page(path):
 
 def main():
     browser = find_browser()
-    pages = [read_page(p) for p in sorted(ROOT.glob("*.html"))]
+    # 404.html IS THE ONE PAGE WITH NO CARD, AND IT IS NAMED RATHER THAN
+    # SKIPPED BY SHAPE. It is served at whatever address somebody mistyped, so
+    # it has no og:url to hang a card on, and a card for it would unfurl a
+    # broken link as though it were a page. Everything else still refuses to
+    # build without a card of its own.
+    pages = [read_page(p) for p in sorted(ROOT.glob("*.html")) if p.name not in NO_CARD]
 
     unknown = [(p["file"], p["body"]) for p in pages if not p["room"]]
     if unknown:

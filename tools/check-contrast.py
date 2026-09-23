@@ -491,6 +491,15 @@ LR_BONE, LR_DIM = "#EDE7DC", "#ABA196"
 LR_UV, LR_LICHEN = "#A579F0", "#4FD8C8"
 DN_PAINT, DN_CHALK, DN_SODIUM = "#F1EADA", "#C0B8A6", "#F0A73F"
 
+# The address that is not on the street (§39), which is 404.html. ONE GROUND,
+# because fog lights everything from every side and there is no pool of light
+# to measure a second one in: every word stands on FG_FOG, and the rooftops are
+# kept out from under the words rather than measured as a ground they never
+# carry. The plate is the one near thing and carries its own. FG_FAR, FG_MID,
+# FG_HALO AND FG_POST ARE ORNAMENT and are in ORNAMENT with their numbers.
+FG_FOG, FG_INK, FG_DIM, FG_LINK = "#D3D9DA", "#1C2428", "#3D4A50", "#16465C"
+FG_PLATE, FG_ENAMEL = "#1D3557", "#F3F4EF"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -1672,6 +1681,17 @@ PAIRS = [
     (LR_LICHEN, LR_ROCK, False, "looming rocks: the job marker, a flood lamp at the foot of "
                                 "the rock"),
 
+    # ── The address that is not on the street (§39) ─────────────────────────
+    (FG_INK,    FG_FOG,  False, "404: the h1, the lede, both lists and every bold run in "
+                                "them, in Work Sans"),
+    (FG_DIM,    FG_FOG,  False, "404: the note about the fog at the foot of the page"),
+    (FG_LINK,   FG_FOG,  False, "404: every link and the backlink. Underlined, because it is "
+                                "1.55 from the ink and colour is never the only channel"),
+    (FG_INK,    FG_FOG,  False, "404: the link on hover and focus, and the focus ring round "
+                                "anything on the fog -- the base's yellow ring is 1.09 there"),
+    (FG_ENAMEL, FG_PLATE, True, "404: the house number on its enamel plate, 40-64px"),
+    (FG_ENAMEL, FG_PLATE, False, "404: the small No. on the same plate"),
+
 
 
 ]
@@ -1741,6 +1761,17 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#bec6c8": "404: the farthest rooftops going back into the fog, 1.22 on the air. They "
+               "are SUPPOSED to be nearly gone -- in fog that is the only thing distance "
+               "is -- and nothing is ever set on them: the bank is in the flow above the "
+               "sign, never behind a word.",
+    "#a7b1b4": "404: the nearer rooftops, 1.53 on the air. Paler than anything that carries "
+               "text by a long way, for the same reason as the far ones.",
+    "#e6eaea": "404: the halo round a distant lamp, 1.18 on the air, lighter than it. It is "
+               "the only light in the drawing and it lights nothing.",
+    "#5e6b70": "404: the post the house-number plate stands on, 3.86 on the air. The one "
+               "near object that is not a sign, and it carries no word; the plate above it "
+               "carries its own ground.",
     "#6e6880": "sithen: the thorn trees and branches in the mound drawing, the rule under the half of each taboo that is ours, and the edge of every banked panel, 3.69 on the field and 3.30 on the bank. It is the one colour in that room that is supposed to be faint -- a thorn that measured 4.5 would be a painted line rather than a branch -- and it never carries a word. The room's own job marker is drawn in the moon rather than in this, because a marker is held to the body threshold and this would not clear it.",
     "#6e7358": "outskirts: the dead grass along the foot of the share card and the dashed post beside a turning that is named and not built, 4.04 on the road and 3.51 on a sign. It carried the topline note and the line under every turning until it was measured, and both were moved to the fine print's own colour; what is left draws weeds and dashes a post. Every word on that road is measured above against both grounds.",
     "#b6342f": "lagoon: the frame round the drive-in screen, the post under every lobby card and the border on every press, 3.35 on the water and 3.05 on a card. It is the poster red this room is actually built out of and it never says anything -- LAG_POSTER is the lighter one that carries text, and the two exist separately so that the room is never tempted to let this one speak.",

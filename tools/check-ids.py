@@ -40,6 +40,14 @@ GET = re.compile(r"""getElementById\(\s*['"]([^'"]+)['"]\s*\)""")
 SCRIPTS = re.compile(r'<script src="([^"]+)"')
 
 
+def scripts(src):
+    """The scripts a page loads, as repository paths. A leading slash is the
+    site root, which is this repository -- not the filesystem's. 404.html is
+    written that way because it answers at any depth, and without this
+    "/love.js" and "love.js" would count as two different scripts."""
+    return [js.lstrip("/") for js in SCRIPTS.findall(src)]
+
+
 def main():
     bad = []
 
@@ -54,7 +62,7 @@ def main():
     for p in pages:
         src = p.read_text()
         here = set(ID.findall(src))
-        for js in SCRIPTS.findall(src):
+        for js in scripts(src):
             f = ROOT / js
             if not f.exists():
                 bad.append(f"{p.name}: loads {js}, which is not in the repository")
@@ -66,7 +74,7 @@ def main():
                     # tiles from every page on the street. Only complain when NO
                     # page that loads this script has the id.
                     holders = [q for q in pages
-                               if js in SCRIPTS.findall(q.read_text())
+                               if js in scripts(q.read_text())
                                and want in set(ID.findall(q.read_text()))]
                     if not holders:
                         bad.append(f"{js}: asks for id {want!r} and no page that loads it has one")

@@ -23,7 +23,7 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love — what changed on the street">
 <link rel="stylesheet" href="love.css">
-<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
 </head>
 <body class="room-plain">
 <a class="skip" href="#main">Skip to the content</a>

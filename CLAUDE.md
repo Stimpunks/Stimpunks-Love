@@ -1898,6 +1898,19 @@ face at all because a garden has labels and no signage. This one *has* one and h
 picked a plain one, which is a different claim: not *there is no signage here* but *the sign is the
 same as everybody else's.*
 
+**THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
+(§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
+paleness alone — which is what holds it off the Guild, lit from nowhere with no depth. Netlify
+serves it at any URL nobody built, so it has **no canonical, no Open Graph, `noindex`, and every
+path starts with a slash** — a relative `love.css` at `/a/b/c` would be answered by this page and
+refused by nosniff. `make-og.py`, `make-sitemap.py` and `make-guild.py` exempt it **by name**, so
+every other page still refuses to ship without a card, a sitemap entry and a marker. **The render
+probes load from `file://`, where `/love.css` is the root of the disk**, so they rewrite
+root-absolute paths against the repository; without that they measured an unstyled page, and an
+unstyled page passes everything. **And Netlify folds capitals and a trailing space back to the
+right page** while the dev server, on a case-insensitive disk, cannot show you either way — the
+first draft of that page said a capital would land you there. Measure against the live host.
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody

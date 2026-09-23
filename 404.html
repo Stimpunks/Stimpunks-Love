@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nothing at this address — Stimpunks.Love</title>
+<meta name="description" content="There is a number on the post and no house behind it. Whatever the link promised is not on this street; here are the ways back.">
+<!-- THE PAGE AT EVERY ADDRESS NOBODY BUILT. Netlify serves this file, with a
+     404 status, at whatever URL somebody arrived at by mistake. So:
+       · EVERY PATH STARTS WITH A SLASH. This page may be answering for
+         /a/b/c, and a relative "love.css" would then be looked for in a
+         directory that does not exist -- and be answered by this page, which
+         nosniff refuses to run as a stylesheet. The render checkers rewrite
+         these paths for their file:// probes rather than this page going
+         relative to suit them.
+       · NO CANONICAL, NO OPEN GRAPH, AND NOINDEX. It has no address of its own
+         to point at, and a share card for "nothing here" would unfurl a broken
+         link as if it were a page. make-og.py, make-sitemap.py and
+         make-guild.py each exempt it by name and say why.
+       · NO JOB MARKER. A job whose marker is only reachable by mistyping a URL
+         is a job only somebody who already knew could do. -->
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#D3D9DA">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love — what changed on the street">
+<link rel="stylesheet" href="/love.css">
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+</head>
+<body class="room-fog">
+<a class="skip" href="#main">Skip to the content</a>
+
+<main id="main" class="fg-main">
+
+  <a class="backlink" href="/">← BACK TO THE STREET</a>
+
+  <svg class="fg-bank" viewBox="0 0 1200 190" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+      <circle cx="318" cy="70" r="54" fill="var(--fg-halo)"/>
+      <circle cx="318" cy="70" r="26" fill="var(--fg-halo)"/>
+      <path d="M0 190 V120 H0 V77 L42 59 L85 77 H85 V83 H114 V65 H126 V83 H201 H201 V63 L240 45 L280 63 H280 V83 L315 65 L351 83 H351 V61 H472 H472 V92 L523 74 L575 92 H575 V69 L618 51 L662 69 H662 V71 L705 53 L748 71 H748 V74 L809 56 L871 74 H871 V68 L912 50 L953 68 H953 V81 L997 63 L1041 81 H1041 V96 L1103 78 L1165 96 H1165 V82 H1277 V190 Z" fill="var(--fg-far)"/>
+      <path d="M316 72 H320 V190 H316 Z" fill="var(--fg-far)"/>
+      <path d="M0 190 V150 H0 V129 L74 111 L149 129 H149 V114 H273 H273 V120 H295 V102 H307 V120 H363 H363 V112 L446 94 L530 112 H530 V139 L610 121 L690 139 H690 V115 H724 V97 H736 V115 H828 H828 V115 H972 H972 V111 L1032 93 L1092 111 H1092 V126 L1145 108 L1198 126 H1198 V135 L1267 117 L1337 135 V190 Z" fill="var(--fg-mid)"/>
+    </svg>
+
+  <div class="fg-sign">
+    <p class="fg-plate"><span class="fg-plate__no">No.</span>404</p>
+    <div class="fg-post" aria-hidden="true"></div>
+  </div>
+
+  <h1>Nothing at this address</h1>
+  <p class="fg-lede">The number is on the post and there is no house behind it. Whatever the link promised is not on this street &mdash; not hidden, not behind a door, just not here.</p>
+
+  <h2>Why that might be</h2>
+  <ul class="fg-list">
+    <li><strong>A letter went missing on the way, or one too many came with it.</strong> Capitals are forgiven here and so is a stray space; a dropped letter is not, and neither is the full stop or bracket a link picks up when it is copied out of the end of a sentence.</li>
+    <li><strong>It is somewhere else now.</strong> <a href="/changelog.html">The changelog</a> is a dated record of what changed on the street, and it is the place to look when something you remember has gone.</li>
+    <li><strong>It was never on this street.</strong> We publish several sites and some of their addresses look like these. <a href="/the-garden.html">The garden</a> has a bed for every one of them, each linking straight out.</li>
+  </ul>
+
+  <h2>Ways out</h2>
+  <ul class="fg-list">
+    <li><a href="/">The street</a>, where every door is.</li>
+    <li><a href="/the-garden.html">The garden</a>, through the gate, for our other sites.</li>
+    <li><a href="https://stimpunks.org/contact/">Tell a person</a> what you were looking for, if a link of ours sent you here.</li>
+  </ul>
+
+  <p class="fg-note">Fog lights everything from every side at once, so nothing here casts a shadow and nothing has a lit face. The only way to tell near from far is how pale a thing has gone, which is why the plate is the only thing drawn close enough to read.</p>
+
+  <div class="fg-dial">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+
+</main>
+
+<script src="/love.js" defer></script>
+</body>
+</html>

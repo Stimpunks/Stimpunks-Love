@@ -27,7 +27,7 @@
 <!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
      flash the loud version at somebody whose device asked for the quiet one. A
      stored choice wins over the media query, including a choice to turn it UP. -->
-<script>try{var d=document.documentElement,v=localStorage.getItem('love-intensity');if(v!=='gentle'&&v!=='regular'&&v!=='max'){v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';}d.setAttribute('data-intensity',v);}catch(e){document.documentElement.setAttribute('data-intensity','regular');}</script>
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
 </head>
 <body class="lagoon">
 <a class="skip" href="#main">Skip to the lagoon</a>
