@@ -369,6 +369,41 @@
 @font-face { font-family: 'Overpass'; src: url('fonts/overpass-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Overpass'; src: url('fonts/overpass-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* The Outskirts (§34). ONE FACE, AND THE SHARED BASE UNDER IT, which is Danny
+   the Street's arrangement arriving in an area rather than a room -- and for a
+   related reason, since both are about a road. Bowlby One SC is fat, rounded,
+   slightly irregular small capitals, and it is here because that is what
+   lettering looks like when somebody has painted it onto a board by hand, at
+   size, to be read from a moving car. It sets the turning boards, the numbers
+   and the h1. Everything else out there is the base's Space Grotesk.
+
+   IT IS NOT THE CAMPGROUNDS' ALFA SLAB, and the difference is the whole
+   separation between this street's two areas: a campground sign is ROUTED --
+   cut into wood by a machine, even-weighted, official, maintained by somebody.
+   A sign out here is PAINTED, by whoever owned the premises, once, a while ago.
+   Under the SIL Open Font License. See fonts/_sources.json. */
+@font-face { font-family: 'Bowlby One SC'; src: url('fonts/bowlby-one-sc-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+
+/* Black Leather Lagoon (§35). A DRIPPING POSTER FACE AND A PLAIN GROTESQUE, and
+   the rule between them is the one the Doomscroll already wrote down: Creepster
+   sets the h1 and the bill and NOTHING ELSE. A drippy horror face is an access
+   failure the moment it carries a sentence, and this is the room most likely to
+   talk itself into one, because every inch of the subject matter is asking for
+   it. Eighteen lines of it would be atmosphere paid for out of somebody else's
+   ability to read the page.
+
+   CHIVO IS A NORMAL-WIDTH GROTESQUE ON PURPOSE. The obvious face for the small
+   print on a monster-movie bill is a CONDENSED gothic, and Club Chronic has set
+   Anton three doors up since it opened -- so the obvious choice would have
+   borrowed the face of the one room on this street that this one must not
+   collapse into. Both are music rooms with a rack of records in them; the
+   separation has to start at the type and hold all the way down. Chivo is drawn
+   for newspaper text, which is what a cinema listing actually was. Under the
+   SIL Open Font License. See fonts/_sources.json. */
+@font-face { font-family: 'Creepster'; src: url('fonts/creepster-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Chivo'; src: url('fonts/chivo-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Chivo'; src: url('fonts/chivo-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -932,6 +967,48 @@
   --dn-tar:    #1A1917;   --dn-paint:  #F1EADA;
   --dn-chalk:  #C0B8A6;   --dn-sodium: #F0A73F;
   --dn-kerb:   #6B665D;
+
+  /* The Outskirts (§34). HEADLIGHTS, WHICH IS A LIGHT NOTHING ELSE HERE USES.
+     Every other world is lit from above through leaves, from one side at desk
+     height, from behind at a hundred feet, through a mask, from directly
+     overhead, from under the floor, or from nowhere at all. This is lit from
+     OFF THE PAGE, low and level and close, so a thing out here has one bright
+     face and no back, and everything an inch past the beam is --osk-night.
+     --osk-beam is what the light lands on and every word in the area;
+     --osk-dim is the fine print; --osk-rust is the paint on the boards and
+     every link; --osk-board is the sign face.
+     --osk-weed IS ORNAMENT AND CARRIES NO TEXT: 4.04 on the night and 3.51 on
+     a board, both under the bar, so it draws grass and nothing else. It is in
+     check-contrast.py's ORNAMENT list with those numbers beside it.
+     OSK- PREFIXED THROUGHOUT, the Foundry's and Danny's precedent: `beam`,
+     `board`, `dim` and `weed` are exactly the plain words this file fills up
+     with. A custom property declared twice in one :root is last-wins and
+     silent, and it has already shipped once. */
+  --osk-night: #08090B;   --osk-board: #1A1B17;
+  --osk-beam:  #EDE7D6;   --osk-dim:   #A9A491;
+  --osk-rust:  #D96A3C;   --osk-weed:  #6E7358;
+
+  /* Black Leather Lagoon (§35). ONE LIT RECTANGLE AT A DISTANCE, and that is
+     the whole separation from Club Chronic. That room is a WALL -- flat,
+     pasted, layered paper, no light source anywhere in it and no depth. This
+     has a horizon, standing water and one bright screen out in it, so every
+     object has a face turned towards the screen and goes black behind. Two
+     music rooms with a rack of records in them, kept apart by the fact that one
+     of them is lit.
+     --lag-water is the ground; --lag-screen is the light and every word;
+     --lag-dim is the fine print; --lag-card is the face of a lobby card out in
+     the shallows; --lag-acid is every link and the title; --lag-poster is the
+     red that carries text.
+     --lag-blood IS ORNAMENT AND CARRIES NO TEXT: 3.35 on the water and 3.05 on
+     a card, both under the bar. It frames and rules and never says anything,
+     and --lag-poster exists precisely so the room is not tempted to let it.
+     Both are in check-contrast.py, one measured in ORNAMENT and one as a pair.
+     LAG- PREFIXED THROUGHOUT: `water`, `card`, `screen` and `blood` are plain
+     words, and `screen` is already three other rooms'. */
+  --lag-water: #07090A;   --lag-card:   #12161A;
+  --lag-screen:#E6E2D2;   --lag-dim:    #A7AFA0;
+  --lag-acid:  #8CC63F;   --lag-poster: #E4564A;
+  --lag-blood: #B6342F;
 }
 
 * { box-sizing: border-box; }
@@ -1487,6 +1564,35 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .signpost:hover .signpost__arm { background: var(--cyan); }
 .signpost__to { font-family: 'Bungee', var(--sans); font-size: 17px; letter-spacing: 1px; }
 .signpost__why { font-size: 14.5px; max-width: 62ch; }
+
+/* THE OTHER END OF THE STREET, and the fourth thing here that is not a door.
+   The signpost points off the end at a field; this points off the other end at a
+   road. They are deliberately opposite objects: a signpost is a thing somebody
+   put up FOR you, painted, maintained, with an arrow on it. This is the LAST
+   STREETLIGHT — the last piece of the town's own kit before there is none, so
+   the pool of light under it fades out to the right and the words carry on into
+   the dark. Nothing out there is signposted. That is the area's whole premise,
+   and the furniture on this page should already say so before you leave.
+
+   THE WASH IS DECORATION AND THE WORDS DO NOT STAND ON IT. It is on the lamp's
+   own strip, which carries nothing — the Rabbit Hole's rule about a gradient
+   under type, applied by keeping the two apart rather than by measuring a
+   gradient nobody can measure. */
+.roadout { display: flex; align-items: stretch; margin: 26px 0 0; text-decoration: none; }
+.roadout__lamp {
+  flex: 0 0 18px; border-radius: 3px 3px 0 0;
+  background: linear-gradient(to bottom, var(--yellow) 0 26px, var(--ink-3) 26px);
+}
+.roadout__arm {
+  flex: 1 1 auto; display: flex; flex-wrap: wrap; gap: 4px 20px;
+  align-items: baseline; justify-content: space-between;
+  margin: 14px 0; padding: 15px 20px 15px 22px;
+  background: var(--ink-2); color: var(--cream);
+  border-top: 3px solid var(--ink-3); border-bottom: 3px solid var(--ink-3);
+}
+.roadout:hover .roadout__arm { background: var(--ink-3); }
+.roadout__to { font-family: 'Bungee', var(--sans); font-size: 17px; letter-spacing: 1px; color: var(--yellow); }
+.roadout__why { font-size: 14.5px; max-width: 62ch; }
 
 /* THE GATE IN THE WALL, and the THIRD thing on this street that is not a door.
    The signpost points off the end of the street at a field; the noticeboard is
@@ -7849,7 +7955,232 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 .dn-desk { margin: 40px 0 0; max-width: 460px; }
 
 
-/* §34 ── Small screens ───────────────────────────────────────────────────────
+/* §34 ── THE OUTSKIRTS (past the last streetlight, off the street) ───────────
+   THE SECOND AREA, AND THE ONE THAT HAD TO BE KEPT OFF THE FIRST. The
+   campgrounds is the other one, and "an area should look like an area" is the
+   excuse this street has already refused once — with the added trap this time
+   that BOTH areas are outdoors, at night, with signs standing on the ground and
+   nothing built. The separation is structural and has to stay:
+
+     · the campgrounds is lit by NOTHING. It is a field with the sky still on
+       it, everything evenly dim, nothing casting anything, and you can see all
+       the way to the treeline. This is lit by HEADLIGHTS: one low, level,
+       close beam from off the page, so a sign has a bright face and no back,
+       and you can see about as far as the next board. The field is open. This
+       is not dark because it is empty; it is dark because you have no light.
+     · a campground sign is ROUTED into wood by a machine and maintained by
+       somebody. A sign out here was PAINTED by whoever owned the premises,
+       once, and has been in the weeds since. Alfa Slab One against Bowlby One
+       SC, which is where that difference actually lives.
+     · the campground is COLD — night-blue spruce, lichen, a moon-coloured
+       link. Out here the only colours are the beam and the paint: bone, dead
+       khaki and a rust red. Nothing out here is blue.
+
+   AND IT IS NOT DANNY THE STREET, which is the other road on this site. That
+   page is a road seen from DIRECTLY ABOVE under sodium, which is one hue and no
+   shadows because there is nothing standing up in it. This is a road seen from
+   ON it, at eye level, with things standing at the side. Same subject, opposite
+   position, and the giveaway is that this one has a horizon and that one has a
+   plan.
+
+   NO AMBIENT LAYER AT ANY SETTING, the campgrounds' rule for a different
+   reason. Out there the field is still because quiet is what the area is FOR.
+   Here the beam is still because headlights that swept would be a car going
+   past, and there is no other car — the light is yours and you have stopped. */
+
+.outskirts { background: var(--osk-night); color: var(--osk-dim); }
+.outskirts a { color: var(--osk-rust); }
+.outskirts a:hover { color: var(--osk-beam); }
+.outskirts p, .outskirts li { font-size: 16.5px; line-height: 1.66; }
+
+/* The backlink drops Bungee, the campgrounds' reason: it is the one piece of
+   shared furniture carrying a typeface, and the street's voice would be the
+   loudest thing on an unlit road. */
+.outskirts .backlink { font-family: var(--sans); font-size: 15px; letter-spacing: 0; color: var(--osk-rust); }
+.outskirts .trailmark { margin: 0; font-size: 14px; color: var(--osk-dim); }
+
+.outskirts h1 {
+  font-family: 'Bowlby One SC', Impact, sans-serif; font-weight: 400;
+  font-size: clamp(38px, 7.4vw, 76px); line-height: 1.04;
+  color: var(--osk-beam); margin: 14px 0 0; letter-spacing: .5px;
+}
+.outskirts h2 { font-family: 'Bowlby One SC', Impact, sans-serif; font-weight: 400; font-size: 17px; letter-spacing: 1px; color: var(--osk-rust); margin: 0 0 12px; }
+.outskirts h3 { font-family: 'Bowlby One SC', Impact, sans-serif; font-weight: 400; font-size: 25px; line-height: 1.14; color: var(--osk-beam); margin: 0; }
+.outskirts .lede { font-size: 19.5px; line-height: 1.6; color: var(--osk-beam); max-width: 56ch; margin: 20px 0 0; }
+
+/* The verge: the notice at the side of the road. Flat board, and the light is
+   on its LEFT EDGE only — the side facing the road you are standing on. That
+   single bright edge is the whole lighting model of this area, and it is why
+   nothing in here has an even border. */
+.verge {
+  margin: 32px 0 0; padding: 20px 24px;
+  background: var(--osk-board); border-left: 6px solid var(--osk-beam);
+  border-radius: 0 2px 2px 0;
+}
+.verge ul { margin: 0; padding: 0 0 0 20px; }
+.verge li { margin: 0 0 10px; }
+.verge li:last-child { margin-bottom: 0; }
+.verge li::marker { color: var(--osk-rust); }
+.verge p { margin: 0; max-width: 64ch; }
+.verge--foot { border-left-color: var(--osk-rust); }
+
+/* The turnings. Boards standing at the side of the road with the drawing of
+   what is down there beside them — the campgrounds' sign-and-the-thing
+   grammar, which this area inherits DELIBERATELY and is the one borrowing
+   allowed, because "here is a sign, and here is what you can see from the
+   road" is a fact about how an edge-of-town works rather than a look. What is
+   not borrowed is everything else: the post is a lit edge instead of a timber,
+   and the drawing is what the beam reaches rather than a whole tent. */
+.turnings { list-style: none; margin: 28px 0 0; padding: 0; display: flex; flex-direction: column; gap: 32px; }
+.turning { display: flex; flex-wrap: wrap; gap: 10px 30px; align-items: center; border-left: 5px solid var(--osk-beam); padding: 4px 0 4px 22px; }
+.turning__sign { flex: 1 1 32ch; min-width: 0; }
+.turning__no { display: block; margin: 0 0 7px; font-family: 'Bowlby One SC', Impact, sans-serif; font-size: 12px; letter-spacing: 2.4px; color: var(--osk-rust); }
+.turning h3 a { color: var(--osk-beam); text-decoration-color: var(--osk-rust); text-underline-offset: 4px; }
+.turning h3 a:hover { color: var(--osk-rust); }
+.turning p { margin: 10px 0 0; max-width: 58ch; }
+.turning__who { margin: 9px 0 0; font-size: 14.5px; color: var(--osk-dim); }
+.turning__art { flex: 0 1 264px; line-height: 0; }
+.turning__art svg { display: block; width: 100%; height: auto; }
+
+/* A turning that is named and not built. THE POST IS DASHED AND THE WORDS ARE
+   NOT DIMMED, which is the whole care in this rule: the street's empty
+   storefront uses the same dashed grammar, and the temptation is to fade the
+   text to match the idea of "not there yet". A board you cannot read is not a
+   subtler board, it is a broken one — and out here the whole conceit is that
+   what the beam reaches, it reaches properly. The heading drops to the fine
+   print's colour, which still clears the bar on this ground, and every word in
+   the panel stays at full strength. */
+.turning--dark { border-left-style: dashed; border-left-color: var(--osk-weed); }
+.turning--dark h3 { color: var(--osk-dim); }
+.turning--dark .turning__who { color: var(--osk-rust); }
+
+
+/* §35 ── ROOM: Black Leather Lagoon (turning 01 in The Outskirts) ────────────
+   A DRIVE-IN SCREEN STANDING IN BLACK WATER, showing to reeds. Turning 01 off
+   The Outskirts, and it is the first pitch in the second area — which is
+   exactly where the Faery Yurt already proved that an area does not get a house
+   style. The road in is cold, dead, khaki and painted by hand. This is wet,
+   lit, acid green and printed. You arrive out of the dark and there is
+   something ON.
+
+   THE ROOM IT MUST NOT COLLAPSE INTO IS CLUB CHRONIC, and it is the hardest
+   call on the street since The Den. Both are music rooms. Both are dark. Both
+   have an appreciation at the top and a rack of records down the page, and both
+   hold make-club.py's pair of runtime rules. The separation is not tonal:
+
+     · CLUB CHRONIC IS A WALL. Flat, frontal, no light source anywhere in it,
+       no depth — a hundred rectangles of paper pasted onto black and layered
+       like sediment. THIS ROOM HAS A HORIZON. One bright rectangle standing
+       out in the water, everything else lit off it, every object with a face
+       turned towards it and nothing behind. If the water in here ever goes
+       flat, or the screen stops being the only light, they have become one
+       room and it is this one that moves.
+     · the club's paper is the SUBJECT — the room is made of flyers. There is
+       no paper in here at all. A lobby card out in the shallows is a lit
+       surface at a distance, not a thing you could take down and keep.
+     · Anton against Chivo, which is the fight the type section describes: the
+       obvious face for a monster bill is a condensed gothic, and the club has
+       owned the street's condensed since it opened.
+
+   AND IT IS NOT ENID'S ROOM, the other black-walled room with loud colour in
+   it. That is an interior, flat-lit, with no modelling and many hues at once —
+   a bedroom wall covered in stickers. This is outdoors, one light, and
+   essentially two inks. Enid's room has no distance in it; this one is almost
+   entirely distance.
+
+   NOTHING IN HERE FLICKERS, AT ANY SETTING. A drive-in screen is a flickering
+   object — that is nearly its definition — and building one without the
+   flicker took more work than building one with it. Club Chronic's rule, in
+   the room most likely to talk itself out of it: a light that can put somebody
+   on the floor has no business in a room whose argument is come as you are.
+   The dial governs the area and every other world on it. There is nothing in
+   this room for it to flash, and there is not going to be. */
+
+.lagoon { background: var(--lag-water); color: var(--lag-dim); font-family: 'Chivo', system-ui, sans-serif; }
+.lagoon a { color: var(--lag-acid); }
+.lagoon a:hover { color: var(--lag-screen); }
+.lagoon p, .lagoon li { font-size: 16.5px; line-height: 1.68; }
+.lagoon .backlink { font-family: 'Chivo', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--lag-acid); }
+.lagoon .trailmark { margin: 0; font-size: 14px; color: var(--lag-dim); }
+.lagoon h2 { font-family: 'Chivo', system-ui, sans-serif; font-weight: 700; font-size: 21px; letter-spacing: .3px; color: var(--lag-poster); margin: 0 0 13px; }
+.lagoon h3 { font-family: 'Chivo', system-ui, sans-serif; font-weight: 700; font-size: 23px; line-height: 1.16; color: var(--lag-screen); margin: 0; }
+.lagoon cite { font-style: italic; color: var(--lag-screen); }
+
+/* THE BILL, AND THE ONLY PLACE CREEPSTER APPEARS. The h1 and the one line under
+   it, and nothing else, ever. See §1: a dripping face is atmosphere paid for
+   out of somebody's ability to read the page, and this room would spend that
+   money everywhere if the rule were not written down twice. */
+.bill { margin: 26px 0 0; }
+.bill__pres { margin: 0; font-size: 13px; letter-spacing: 2.6px; text-transform: uppercase; color: var(--lag-dim); }
+.lagoon h1 {
+  font-family: 'Creepster', Impact, sans-serif; font-weight: 400;
+  font-size: clamp(44px, 9vw, 96px); line-height: 1.06;
+  color: var(--lag-acid); margin: 8px 0 0; letter-spacing: 1.5px;
+}
+.bill__sub { font-family: 'Creepster', Impact, sans-serif; font-size: clamp(20px, 3.4vw, 30px); color: var(--lag-screen); margin: 6px 0 0; letter-spacing: 1px; }
+.bill__tag { margin: 14px 0 0; font-size: 18px; line-height: 1.5; color: var(--lag-poster); max-width: 52ch; }
+
+.appreciation { margin: 34px 0 0; max-width: 64ch; }
+.appreciation p { margin: 0 0 15px; }
+.appreciation p:last-child { margin-bottom: 0; }
+.lagoon .lede { font-size: 19.5px; line-height: 1.58; color: var(--lag-screen); margin: 0 0 15px; }
+
+/* The Napa section, boxed because it is the one argument on the page that is
+   about somebody else's telling rather than about a record. A flat card, not a
+   quotation: nothing in it is anybody's words but ours. */
+.napa { margin: 34px 0 0; padding: 22px 24px; background: var(--lag-card); border-left: 6px solid var(--lag-poster); border-radius: 0 3px 3px 0; max-width: 68ch; }
+.napa p { margin: 0 0 13px; }
+.napa p:last-child { margin-bottom: 0; }
+
+.tide { margin: 34px 0 0; padding: 22px 24px; background: var(--lag-card); border-radius: 3px; }
+.tide ul { margin: 0; padding: 0 0 0 20px; }
+.tide li { margin: 0 0 11px; }
+.tide li:last-child { margin-bottom: 0; }
+.tide li::marker { color: var(--lag-acid); }
+
+.drivein__intro, .posts__intro { max-width: 64ch; margin: 11px 0 0; }
+
+/* THE SCREEN. A bone rectangle standing on two legs out in the water, and the
+   facade is the picture on it. THE LIT STATE IS STYLED FROM THE CONTAINER AND
+   NEVER FROM THE BUTTON -- love-embed.js replaces the pressed <button> with a
+   bare <div class="facade">, so anything the button was wearing evaporates.
+   That is the fault that shipped Swaying Sweetgrass's players at 0x0, and the
+   container here is a plain block so a stretched div cannot collapse. */
+.drivein { margin: 20px 0 0; }
+.drivein__screen { height: 14px; background: var(--lag-screen); border-radius: 3px 3px 0 0; }
+.feature { background: var(--lag-card); border: 3px solid var(--lag-screen); border-top: 0; padding: 20px 22px 22px; }
+.feature__where { margin: 0; font-size: 12px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--lag-acid); }
+.feature h3 { margin: 7px 0 0; font-size: 26px; }
+.feature__by { margin: 7px 0 0; font-size: 14.5px; color: var(--lag-dim); }
+.feature p { margin: 12px 0 0; max-width: 62ch; }
+.feature .facade { margin: 16px 0 0; border-color: var(--lag-blood); background: var(--lag-water); color: var(--lag-screen); font-family: 'Chivo', system-ui, sans-serif; }
+.feature .facade:hover { background: var(--lag-card); }
+/* The legs: two posts in the water, drawn with a border rather than an element
+   each, because a leg is a line and not a box. Ornament, no text. */
+.drivein__legs { height: 30px; border-left: 10px solid var(--lag-screen); border-right: 10px solid var(--lag-screen); margin: 0 38px; opacity: .62; }
+
+/* THE RACK: lobby cards on posts out in the shallows. Each card has a bright
+   top edge because the screen is in front of and above them, which is the same
+   single-source rule the area's boards follow and the reason nothing in either
+   place has an even border. The post under each card is a ::after rule rather
+   than markup: it carries nothing and says nothing. */
+.posts { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 30px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.post { display: flex; flex-direction: column; }
+.post__card { background: var(--lag-card); border-top: 4px solid var(--lag-screen); padding: 18px 20px 20px; flex: 1 1 auto; }
+.post::after { content: ""; display: block; width: 12px; height: 26px; margin: 0 auto; background: var(--lag-blood); opacity: .7; }
+.post__role { margin: 0; font-size: 11.5px; letter-spacing: 2.2px; text-transform: uppercase; color: var(--lag-acid); }
+.post h3 { margin: 8px 0 0; }
+.post__by { margin: 6px 0 0; font-size: 14px; color: var(--lag-dim); }
+.post__cover { margin: 8px 0 0; font-size: 14px; color: var(--lag-poster); }
+.post p { margin: 12px 0 0; }
+.post .facade { margin: 15px 0 0; border-color: var(--lag-blood); background: var(--lag-water); color: var(--lag-screen); font-family: 'Chivo', system-ui, sans-serif; font-size: 14.5px; }
+.post .facade:hover { background: var(--lag-card); }
+
+.further { margin: 40px 0 0; padding: 22px 24px; background: var(--lag-card); border-left: 6px solid var(--lag-acid); border-radius: 0 3px 3px 0; max-width: 68ch; }
+.further p { margin: 0 0 13px; }
+.further__go { margin: 0; font-size: 15px; }
+
+/* §36 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -7956,7 +8287,7 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §34 says every
+   shipped with no rule here at all — which on a street whose §36 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -8080,7 +8411,7 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §35 ── Print ───────────────────────────────────────────────────────────────
+/* §37 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

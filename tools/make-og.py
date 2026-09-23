@@ -532,6 +532,56 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--camp .stream {{ margin: 0 -60px !important; }}
 .og--camp .stream svg {{ height: 120px; }}
 
+/* the outskirts — THE VERGE AT NIGHT, SEEN FROM THE ROAD. One bright edge down
+   the left, which is the area's whole lighting model: a low, level beam from
+   off the card, so the board has a lit face and no back. The turning numbers
+   along the foot are READ OFF THE PAGE rather than typed here, the campground's
+   rule — this road grows a turning whenever somebody takes one, and a card
+   listing a turning that is not there is the one surface nobody would check. */
+.og--outskirts {{ width: 100%; padding: 50px 60px 44px 54px; gap: 20px;
+  justify-content: space-between; border-left: 14px solid #EDE7D6; }}
+.og--outskirts .og-top {{ display: flex; flex-direction: column; gap: 18px; }}
+.og--outskirts .trailmark {{ font-size: 20px; letter-spacing: 2px; color: #A9A491; }}
+.og--outskirts h1 {{ font-size: 96px; margin: 0 !important; letter-spacing: 1px; }}
+.og--outskirts .og-lede {{ color: #A9A491; max-width: 960px; font-size: 29px; }}
+.og--outskirts .og-foot {{ font-family: 'Bowlby One SC', Impact, sans-serif;
+  color: #D96A3C; letter-spacing: 1.6px; font-size: 20px; }}
+.og--outskirts .og-weeds {{ display: flex; align-items: flex-end; gap: 9px; height: 64px; }}
+.og--outskirts .og-weeds span {{ flex: 1; background: #6E7358;
+  border-radius: 40% 40% 0 0 / 70% 70% 0 0; }}
+.og--outskirts .og-weeds span:nth-child(odd) {{ height: 62%; }}
+.og--outskirts .og-weeds span:nth-child(3n) {{ height: 100%; }}
+.og--outskirts .og-weeds span:nth-child(4n) {{ height: 44%; }}
+
+/* black leather lagoon — THE SCREEN OUT IN THE WATER, WHICH IS THE ONE VIEW THE
+   ROOM HAS. A bone rectangle standing on two legs, lit and blank; the title in
+   the dripping face; the water along the foot with the posts standing in it.
+   THE BILL LINE IS LIFTED FROM THE PAGE, so the card cannot say something the
+   room does not — and the screen is BLANK on purpose, because what is on it is
+   a playlist that changes and a card that showed a frame would be promising a
+   particular one. It does not flicker here either. */
+.og--lagoon {{ width: 100%; padding: 0; gap: 0; justify-content: flex-start; }}
+.og--lagoon .og-top {{ flex: 1; padding: 46px 60px 0; display: flex; gap: 40px;
+  align-items: flex-start; }}
+.og--lagoon .og-words {{ flex: 1; display: flex; flex-direction: column; gap: 14px; }}
+.og--lagoon h1 {{ font-family: 'Creepster', Impact, sans-serif; font-size: 104px;
+  line-height: .96; color: #8CC63F; margin: 0 !important; letter-spacing: 2px; }}
+.og--lagoon .og-sub {{ margin: 0 !important; font-family: 'Creepster', Impact, sans-serif;
+  font-size: 34px; color: #E6E2D2; letter-spacing: 1px; }}
+.og--lagoon .og-lede {{ font-family: 'Chivo', sans-serif; color: #A7AFA0; max-width: 700px;
+  font-size: 25px; margin: 0 !important; }}
+.og--lagoon .og-marquee {{ flex: 0 0 330px; display: flex; flex-direction: column;
+  align-items: center; }}
+.og--lagoon .og-plate {{ width: 330px; height: 196px; background: #E6E2D2;
+  border: 6px solid #B6342F; }}
+.og--lagoon .og-legs {{ width: 250px; height: 74px; border-left: 16px solid #E6E2D2;
+  border-right: 16px solid #E6E2D2; opacity: .62; }}
+.og--lagoon .og-water {{ height: 116px; background: #0F1416; border-top: 3px solid #8CC63F;
+  display: flex; align-items: flex-end; gap: 26px; padding: 0 60px 22px; }}
+.og--lagoon .og-water span {{ flex: 0 0 13px; background: #B6342F; opacity: .72; }}
+.og--lagoon .og-water span:nth-child(odd) {{ height: 46px; }}
+.og--lagoon .og-water span:nth-child(even) {{ height: 68px; }}
+
 /* yurt — the tent at night: fairy lights across the top, the smoke hole, and
    Helen's italic serif on her own canvas. IT KEEPS THE AMBIENT LAYER THAT SITS
    BEHIND ITS HEADLINE, and it keeps it for the reason the pony's lost its: the ember
@@ -1784,6 +1834,62 @@ def card_plain(p):
     )
 
 
+def card_outskirts(p):
+    # NO AMBIENT MARKUP, the campground's reason arriving in the second area:
+    # that page has no ambient layer at any dial setting and neither does this
+    # one, so a card with a sparkle on it would be promising a road that moves.
+    return (
+        "",
+        f'<div class="og og--outskirts" data-fit="card">'
+        f'<div class="og-top">'
+        f'<p class="trailmark">PAST THE LAST STREETLIGHT · NO PAVEMENT FROM HERE</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>'
+        f'<p class="og-foot" data-fit="footer">{p["turnings"]} · stimpunks.love</p>'
+        f'<div class="og-weeds">{"<span></span>" * 22}</div>'
+        f'</div>',
+        f"A black card with a single bright bone-white bar down the left edge, "
+        f"like a headlight catching the side of a sign. Small grey capitals "
+        f"reading past the last streetlight, no pavement from here, then "
+        f"“{p['h1text']}” in a fat rounded bone-coloured face of painted "
+        f"capitals, and under it: {p['desc_plain']} Lower down, in the same painted "
+        f"face in rust red: {p['turnings_alt']}, stimpunks.love. Along the very "
+        f"bottom, a ragged row of dead grass silhouettes in dull khaki.",
+    )
+
+
+def card_lagoon(p):
+    # THE SCREEN IS BLANK, and that is a decision rather than a shortcut. What
+    # is actually on it is a playlist we keep adding to, so a card showing a
+    # frame of anything would be promising one particular thing -- the same
+    # reason the room's own screen carries no runtime. A lit empty rectangle is
+    # the true picture.
+    return (
+        "",
+        f'<div class="og og--lagoon" data-fit="card">'
+        f'<div class="og-top">'
+        f'<div class="og-words">'
+        f'{p["h1"]}'
+        f'<p class="og-sub">{p["billsub"]}</p>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>'
+        f'<div class="og-marquee">'
+        f'<div class="og-plate"></div><div class="og-legs"></div>'
+        f'</div>'
+        f'</div>'
+        f'<div class="og-water" data-fit="water">{"<span></span>" * 9}</div>'
+        f'</div>',
+        f"A near-black card. On the left, “{p['h1text']}” in a large acid-green "
+        f"horror-poster face with the letters dripping, and under it in the same "
+        f"dripping face in bone white: {p['billsub_plain']} Then, in a plain "
+        f"grotesque: {p['desc_plain']} On the right, a blank bone-white drive-in "
+        f"screen in a dark red frame, standing on two pale legs. Along the bottom, "
+        f"a band of black water edged in acid green with a row of short dark red "
+        f"posts standing up out of it.",
+    )
+
+
 CARDS = {
     "street":       card_street,
     "room-pony":    card_pony,
@@ -1803,6 +1909,8 @@ CARDS = {
     # gets.
     "board-2026-summer": card_board,
     "campgrounds":  card_camp,
+    "outskirts":    card_outskirts,
+    "lagoon":       card_lagoon,
     "garden":       card_garden,
     "room-yurt":    card_yurt,
     "hermitage":    card_herm,
@@ -1969,6 +2077,37 @@ def main():
     # The alt text takes commas rather than the card's middots, because a middot
     # is a piece of typesetting and a screen reader reads it out as one.
     lifted["pitches_alt"] = ", ".join(n.lower() for n in nos)
+
+    # THE OUTSKIRTS' CARD LISTS ITS TURNINGS, read off its own boards -- the
+    # campground's rule, one area over. A road out of town grows a turning
+    # whenever somebody takes one, and a card naming a turning that is not there
+    # is the surface nobody would think to check.
+    turns = re.findall(r'<span class="turning__no">([^<]+)</span>',
+                       (ROOT / "the-outskirts.html").read_text())
+    if not turns:
+        raise SystemExit(
+            "REFUSING: the-outskirts.html has no turning numbers on it, and its card\n"
+            "is a list of them. Redesign the card on purpose rather than letting it\n"
+            "render a road with nothing off it."
+        )
+    lifted["turnings"] = " · ".join(turns)
+    # Commas rather than middots, lowercased: the field's card made the same
+    # call, because a middot is typesetting and a screen reader says it out loud.
+    lifted["turnings_alt"] = ", ".join(t.lower() for t in turns)
+
+    # THE LAGOON'S CARD CARRIES THE ROOM'S OWN BILL LINE. Typed here it would be
+    # one more place the room's tagline lives, in the file whose entire argument
+    # is that a card must not be able to disagree with its page.
+    bill = re.search(r'<p class="bill__sub">(.*?)</p>',
+                     (ROOT / "black-leather-lagoon.html").read_text(), re.S)
+    if not bill:
+        raise SystemExit(
+            "REFUSING: black-leather-lagoon.html has no bill line on it, and its card\n"
+            "is built around one. Redesign the card on purpose rather than letting it\n"
+            "render a blank marquee."
+        )
+    lifted["billsub"] = bill.group(1).strip()
+    lifted["billsub_plain"] = html.unescape(re.sub(r"<[^>]+>", "", bill.group(1))).strip()
 
     # THE GARDEN'S CARD IS A ROW OF ITS OWN LABELS, read off the beds rather
     # than typed here -- the campground's pitches' rule, and it matters more in

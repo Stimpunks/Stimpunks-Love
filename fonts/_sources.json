@@ -720,5 +720,44 @@
       "bytes": 17544,
       "src": "https://fonts.gstatic.com/s/overpass/v19/qFda35WCmI96Ajtm83upeyoaX6QPnlo6G_TbPpqKl8Kuo8Az.woff2"
     }
-  ]
+  ],
+
+    "bowlby-one-sc": [
+      {
+        "file": "bowlby-one-sc-400.woff2",
+        "weight": "400",
+        "style": "normal",
+        "bytes": 19868,
+        "src": "https://fonts.gstatic.com/s/bowlbyonesc/v27/DtVlJxerQqQm37tzN3wMug9P_g_2oipOnuA.woff2",
+        "note": "The Outskirts (\u00a734). The area's only face: fat, rounded small capitals, which is what a sign painted on a board by hand and left in the weeds looks like when headlights find it. Everything else out there is the shared base."
+      }
+    ],
+    "creepster": [
+      {
+        "file": "creepster-400.woff2",
+        "weight": "400",
+        "style": "normal",
+        "bytes": 28132,
+        "src": "https://fonts.gstatic.com/s/creepster/v13/AlZy_zVUqJz4yMrniH4Rcn35fh4Dog.woff2",
+        "note": "Black Leather Lagoon (\u00a735), and the TITLE ONLY. A dripping monster-poster face is unreadable at length, so it sets the h1 and the bill and nothing else -- the Doomscroll's rule about blackletter, in the room most likely to talk itself out of it."
+      }
+    ],
+    "chivo": [
+      {
+        "file": "chivo-400.woff2",
+        "weight": "400",
+        "style": "normal",
+        "bytes": 33252,
+        "src": "https://fonts.gstatic.com/s/chivo/v21/va9I4kzIxd1KFrBoQeNVkqDO.woff2",
+        "note": "Black Leather Lagoon (\u00a735), and everything in it that is not the title. A normal-width grotesque ON PURPOSE: the obvious choice for a poster's small print is a condensed gothic, and Club Chronic already sets Anton three doors up. The one room this must not collapse into is the one whose face the obvious choice would have borrowed. One variable file serves both weights, as Space Grotesk, Cinzel and Work Sans already do here."
+      },
+      {
+        "file": "chivo-700.woff2",
+        "weight": "700",
+        "style": "normal",
+        "bytes": 33252,
+        "src": "https://fonts.gstatic.com/s/chivo/v21/va9I4kzIxd1KFrBoQeNVkqDO.woff2",
+        "note": "Black Leather Lagoon (\u00a735), and everything in it that is not the title. A normal-width grotesque ON PURPOSE: the obvious choice for a poster's small print is a condensed gothic, and Club Chronic already sets Anton three doors up. The one room this must not collapse into is the one whose face the obvious choice would have borrowed. One variable file serves both weights, as Space Grotesk, Cinzel and Work Sans already do here."
+      }
+    ]
 }

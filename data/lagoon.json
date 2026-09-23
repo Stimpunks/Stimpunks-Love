@@ -1,0 +1,137 @@
+{
+  "_what": "Black Leather Lagoon: the feature on the drive-in screen (one playlist facade) and the rack of Cramps records on posts in the water. Pitch 01 in The Outskirts. Nothing is hosted here and nothing reaches YouTube until somebody presses something.",
+
+  "_ids": "EVERY ID WAS RESOLVED, NOT REMEMBERED. The playlist is Ryan's own, off our YouTube channel. The rack's ids were read off the band's own artist channel on YouTube -- the album playlists that channel publishes -- and then each one was opened on its own watch page on 2026-09-22 and checked for three things: playabilityStatus, playableInEmbed, and lengthSeconds. All nine answer OK and true, and the runtimes below are the measured lengthSeconds rather than the playlist page's rounded label, which disagreed by a second on four of them.",
+
+  "_agegate": "A TENTH SONG WAS PULLED BY THE CHECK AND THE EPISODE IS KEPT HERE BECAUSE IT IS A THIRD KIND OF ROT NOTHING ON THIS STREET HAD MET. 'Can Your Pussy Do the Dog?' (F0OTys1m_lA, A Date with Elvis) answers LOGIN_REQUIRED rather than OK: it is age-gated, so it plays perfectly for a signed-in adult and renders a refusal inside our frame for everybody else. That is NOT a dead video and NOT an embedding permission -- check-jukebox.py's two existing questions both come back clean-ish on it, and love-embed.js would have built the frame. It is the same shape as the Jungle Room's lesson (playing is not embedding) arriving a third time: playing is not the same permission as playing WITHOUT AN ACCOUNT, and this street's whole promise is that nothing is asked of a visitor before the press. Do not put it back without a way to say so on the button.",
+
+  "_years": "THE YEAR ON A SONG IS THE SONG'S AND NOT THE UPLOAD'S, and the difference is the trap here. Every one of these uploads is auto-generated from a licensor's catalogue, so its own 'Released on' line gives the date of the REISSUE that was licensed -- 1984-01-01 for most of them, which is a compilation, and 2014-10-28 for three, which is a reissue. Taking that at face value would have printed 1984 beside a 1978 single. So the years below are the first release of each RECORDING, resolved against MusicBrainz on 2026-09-22 (artist 96c1edac-1011-4cb8-882c-27248de35071): the release-group first-release-date, cross-checked against the tracklist of the earliest release in that group. A tenth song was dropped rather than published with a year nobody had checked.",
+
+  "_cover_origins": "The two covers name who wrote them and when, off the Psychedelic Jungle album article, because a band whose whole method was digging up other people's forgotten singles is the last band on earth to hand an uncredited cover to.",
+
+  "_no_lyrics": "NOT ONE LINE OF ANY OF THESE SONGS IS ON THE PAGE. The notes are this room's own prose about what the record does. A room built on one band, whose sleeve copy is half the fun, is exactly where the street's rule about lyrics would get broken in the way that looked most affectionate -- and make-lagoon.py refuses a note shaped like verse for that reason.",
+
+  "playlist": {
+    "name": "On YouTube",
+    "title": "Gather 'Round Creeps: Happy Halloween from the Black Leather Lagoon",
+    "by": "Stimpunks Foundation",
+    "frame": "https://www.youtube-nocookie.com/embed/videoseries?list=PLRtKsTScL-vRJyyPqBL6d4rsx_AZ_5JH9",
+    "out": "https://www.youtube.com/playlist?list=PLRtKsTScL-vRJyyPqBL6d4rsx_AZ_5JH9",
+    "note": "Our own Halloween playlist, put on and left running. Monster mash, psychobilly, surf instrumentals, novelty records from 1958, and a good deal of the twenty-first century being ridiculous on purpose. It does not say how long it runs, because it is a list we keep adding to and today's total would be wrong next week. It runs until you stop it.",
+    "_served": "On 2026-09-22 the playlist's own header claimed 97 videos and YouTube served 85 to anybody who is not its owner. That gap is make-chappell.py's, written down rather than rounded off: private and deleted entries stay in the owner's count and are simply absent for everybody else. The room says the number it can actually see, and says it is a snapshot."
+  },
+
+  "songs": [
+    {
+      "id": "XTvrvIqzsZo",
+      "title": "Human Fly",
+      "on": "Gravest Hits",
+      "when": "1978",
+      "length": "2:13",
+      "spoken": "2 min 13 sec",
+      "channel": "The Cramps",
+      "channel_verbatim": "The Cramps - Topic",
+      "role": "THE FIRST ONE",
+      "note": "The first record they put out, and everything the band would ever be is already in it. There is no bass player: two guitars, a drum kit, and a hole underneath where the bottom end is supposed to go, which is why it sounds like it is coming out of a wall rather than a stage. Lux Interior is not singing so much as committing to a bit, at length, with no sign that he intends to stop. Play it first and the rest of this rack explains itself."
+    },
+    {
+      "id": "Jh4f7mMPb9k",
+      "title": "TV Set",
+      "on": "Songs the Lord Taught Us",
+      "when": "1980",
+      "length": "3:12",
+      "spoken": "3 min 12 sec",
+      "channel": "The Cramps",
+      "channel_verbatim": "The Cramps - Topic",
+      "role": "TRACK ONE, SIDE ONE",
+      "note": "The opening track of the first album, and the one that sets the method: take a horror-film premise, deliver it in the flat, pleased voice of somebody describing a hobby, and let the gap between the two do all the work. Nothing is shouted. The guitar keeps going round a figure that never quite lands, the drums are a shoebox, and the whole thing is over before it has explained itself."
+    },
+    {
+      "id": "QKYREsz6AlQ",
+      "title": "Garbageman",
+      "on": "Songs the Lord Taught Us",
+      "when": "1980",
+      "length": "3:33",
+      "spoken": "3 min 33 sec",
+      "channel": "The Cramps",
+      "channel_verbatim": "The Cramps - Topic",
+      "role": "THE MANIFESTO",
+      "note": "The nearest thing the band has to a mission statement, and it is an insult aimed squarely at anybody in the audience who has turned up with a checklist of what counts as punk. The riff is a rockabilly figure played with the patience of somebody who intends to keep doing it until you leave or give in. This is the one to hand to a person who thinks a scene gets to decide who is properly in it."
+    },
+    {
+      "id": "8GLUmIf8STw",
+      "title": "I Was a Teenage Werewolf",
+      "on": "Songs the Lord Taught Us",
+      "when": "1980",
+      "length": "3:04",
+      "spoken": "3 min 4 sec",
+      "channel": "The Cramps",
+      "channel_verbatim": "The Cramps - Topic",
+      "role": "THE ONE THAT IS ABOUT YOU",
+      "note": "Slow, dragging, and the only thing here that is genuinely sad. It takes a 1957 drive-in title at its word and plays it as what it obviously always was: a description of being an adolescent who has been informed that they are turning into something, and who would like everybody to stop watching while it happens. Most of us at this foundation have been told a version of that sentence by a professional."
+    },
+    {
+      "id": "lKvVZOxHSWg",
+      "title": "Green Fuz",
+      "on": "Psychedelic Jungle",
+      "when": "1981",
+      "length": "2:09",
+      "spoken": "2 min 9 sec",
+      "channel": "The Cramps",
+      "channel_verbatim": "The Cramps - Topic",
+      "role": "THE DIG",
+      "cover_of": "Green Fuz, 1969",
+      "role_note": "A cover of a 1969 single by the Texas band Green Fuz.",
+      "note": "Two minutes of almost nothing, and it is here to show the working. Half of Psychedelic Jungle is other people's forgotten singles, and this one was a garage record by a band from Texas that essentially nobody had heard. The Cramps were record collectors first and a band second, and their real argument was that the good stuff had already been made and then dropped on the floor. A room about digging things back up owes this one a post."
+    },
+    {
+      "id": "dlk1HPfrAcE",
+      "title": "Goo Goo Muck",
+      "on": "Psychedelic Jungle",
+      "when": "1981",
+      "length": "3:06",
+      "spoken": "3 min 6 sec",
+      "channel": "TheCrampsVEVO",
+      "role": "THE ONE THAT CAME BACK",
+      "cover_of": "Ronnie Cook and the Gaylads, 1962",
+      "role_note": "A cover of a 1962 single by Ronnie Cook and the Gaylads.",
+      "note": "A cover of a 1962 record, buried for nineteen years, dug up by this band in 1981, and then buried again for another forty-one until a dance scene in a television series put it in front of everybody at once. Billboard counted United States on-demand streams going from about 2,500 a week to over 134,000. It is the same song it always was. Nothing about it improved; the room it was being played in changed."
+    },
+    {
+      "id": "MnCoVKqxXAI",
+      "title": "Bikini Girls with Machine Guns",
+      "on": "Stay Sick!",
+      "when": "1989",
+      "length": "3:18",
+      "spoken": "3 min 18 sec",
+      "channel": "The Cramps",
+      "channel_verbatim": "The Cramps - Topic",
+      "role": "THE HIT",
+      "note": "As close to a chart record as this band ever came, and it is still a novelty premise played absolutely straight for three minutes. Poison Ivy's guitar sound is the whole argument here: enormous, filthy, and doing something so simple that you can hear exactly how it is done and still not do it. She wrote, arranged and produced most of what this band sounds like, which is worth saying out loud, because the singer is the one who gets remembered."
+    },
+    {
+      "id": "BdkEapVungU",
+      "title": "The Creature from the Black Leather Lagoon",
+      "on": "Stay Sick!",
+      "when": "1989",
+      "length": "3:07",
+      "spoken": "3 min 7 sec",
+      "channel": "The Cramps",
+      "channel_verbatim": "The Cramps - Topic",
+      "role": "THE ONE THIS ROOM IS NAMED AFTER",
+      "note": "The song this whole place is named out of. A monster-movie title with a wardrobe joke wedged into the middle of it, which is the band's entire operating principle in one line: take the thing that is supposed to frighten people, put it in better clothes, and let it get on with its evening. There is no moral and nobody is cured at the end. The creature is simply out, and the record is on its side."
+    },
+    {
+      "id": "ZKncSEKnqTQ",
+      "title": "Big Black Witchcraft Rock",
+      "on": "Fiends of Dope Island",
+      "when": "2003",
+      "length": "3:28",
+      "spoken": "3 min 28 sec",
+      "channel": "The Cramps",
+      "channel_verbatim": "The Cramps - Topic",
+      "role": "TWENTY-FIVE YEARS LATER",
+      "note": "From the last album they made, a quarter of a century after the first single in this rack, and the remarkable thing is how little has been conceded. No orchestra, no ballad, no apologetic acoustic number, nobody has learned to play the bass. Two people found a thing they liked in 1976 and were still doing it, unimproved, in 2003. That is not a failure to develop. That is the plan working."
+    }
+  ]
+}

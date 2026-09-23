@@ -140,6 +140,23 @@
     }
    ]
   },
+  "bowlby-one-sc": {
+   "family": "Bowlby One SC",
+   "category": "Display",
+   "designer": "Vernon Adams",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/bowlbyonesc",
+   "copyright": "Copyright (c) 2011, vernon adams (vern@newtypography.co.uk), with Reserved Font Names \"Bowlby\"",
+   "repository": "https://github.com/googlefonts/bowlbyonesc",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "bowlby-one-sc-400.woff2",
+     "sha": "11e41d0cee626090"
+    }
+   ]
+  },
   "bree-serif": {
    "family": "Bree Serif",
    "category": "Serif",
@@ -254,6 +271,29 @@
     }
    ]
   },
+  "chivo": {
+   "family": "Chivo",
+   "category": "Sans Serif",
+   "designer": "Omnibus-Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/chivo",
+   "copyright": "Copyright 2019 The Chivo Project Authors (https://github.com/Omnibus-Type/Chivo)",
+   "repository": "https://github.com/Omnibus-Type/Chivo",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "chivo-400.woff2",
+     "sha": "4b1f32027ce99199"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "chivo-700.woff2",
+     "sha": "4b1f32027ce99199"
+    }
+   ]
+  },
   "cinzel": {
    "family": "Cinzel",
    "category": "Serif",
@@ -314,6 +354,23 @@
      "style": "normal",
      "file": "courier-prime-700.woff2",
      "sha": "06622415713b4150"
+    }
+   ]
+  },
+  "creepster": {
+   "family": "Creepster",
+   "category": "Display",
+   "designer": "Sideshow",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/creepster",
+   "copyright": "Copyright (c) 2011, Font Diner, Inc DBA Sideshow (diner@fontdiner.com), with Reserved Font Names \"Creepster\"",
+   "repository": "https://github.com/googlefonts/creepster",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "creepster-400.woff2",
+     "sha": "6afd8405a83ad535"
     }
    ]
   },

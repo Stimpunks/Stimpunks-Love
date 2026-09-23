@@ -1,6 +1,7 @@
 # Stimpunks.Love
 
-**One street, no two rooms alike, rooms behind rooms, and a campground past the treeline.** A Stimpunks
+**One street, no two rooms alike, rooms behind rooms, and an edge at each end &mdash; a campground
+past the treeline, a road out of town past the last streetlight.** A Stimpunks
 Foundation site, and the loud one.
 
 Live at **[stimpunks.love](https://stimpunks.love/)** since 2026-09-19.
@@ -98,6 +99,8 @@ the-garden.html       The knowledge garden. One bed per site we publish, each li
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
 faery-yurt.html       Pitch 01. Helen Edgar's candlelit yurt; her design, not ours
 solarpunk-hermitage.html  Pitch 03. A cabin on wheels, and the one room the sun is up in
+the-outskirts.html    The road past the last streetlight. Hand-painted signs, lit by headlights
+black-leather-lagoon.html  Turning 01. A drive-in screen in black water; an appreciation of The Cramps
 liner-notes.html      Who made this noise
 changelog.html        What changed, and when. Every Stimpunks site publishes one
 love.css              Shared base (§1–§4) then one self-contained world per room (§5 on)

@@ -2,7 +2,7 @@
   "_source": "Every job on this board was written for this board. The QUESTIONS are the exception to nothing: each one is answered by a sentence that is already published on the page the marker sits on, and each was read off that page before it was written here rather than remembered. Where a question asks for a person's name it is a name our own page already credits -- Barad, Oldaker, Schaber, Thornburg, Lee and Duffy -- because a quiz that made somebody guess at an attribution would be teaching the opposite of the habit this street kept.",
   "_codes": "One word, A-Z, typed case-insensitively with spaces and punctuation ignored. A word rather than a random string because a word can be said out loud, remembered across a walk to another room, and typed by somebody who finds typing expensive. These are not secrets and the board does not pretend they are: the code is printed in the room's own markup, on a public page, and anybody who wants to read the source can have the lot. The board holds a checksum instead of the plain word purely so that View Source on ONE page is not a spoiler sheet for every room. That is a courtesy, not a lock, and make-guild.py says so where it computes it.",
   "_no_score": "There is no tally here, no percentage, no streak, no rank you climb and nothing that expires. The board stamps a job when you hand its code in and that is the whole of the bookkeeping. This is the pebbling cabinet's refusal arriving in the one room on the street most likely to talk itself out of it -- a job board is EXACTLY the shape of thing that grows a score, and a score beside a Disabled people's walking tour would quietly turn a wander into a workload. make-guild.py refuses the vocabulary.",
-  "_class": "The difficulty class is HOW FAR YOU WALK, not how clever you are. I is on the street, II is through a door off a room, III is out past the treeline. Nothing about the class says anything about the person doing it, which is the whole reason it is defined by geography and enumerated in the tool rather than typed per job.",
+  "_class": "The difficulty class is HOW FAR YOU WALK, not how clever you are. I is on the street, II is through a door off a room, III is off the street altogether -- the field past the treeline at one end, or the road past the last streetlight at the other. III IS NOT TWO CLASSES AND THERE IS NO IV: the two edges are opposite directions rather than different distances, and numbering them would invent an ordering nobody walks. Nothing about the class says anything about the person doing it, which is the whole reason it is defined by geography and enumerated in the tool rather than typed per job.",
   "quests": [
     {
       "id": "street-chalk",
@@ -999,6 +999,76 @@
         ]
       },
       "learned": "The street you are standing on is named after a drag performer by way of a French pun, which means the architecture of this site — rooms that refuse to match, and a street that rearranges itself for whoever turns up — was somebody else's idea first and is credited rather than quietly absorbed."
+    },
+    {
+      "id": "outskirts-reflector",
+      "page": "the-outskirts.html",
+      "room": "The Outskirts",
+      "title": "The far end of the street",
+      "posted": "The street has two edges. Everybody finds the field past the treeline; far fewer walk the other way, out past the last streetlight, where the kerb gives up and becomes a verge. Go and read the road, and find out what is actually lighting it.",
+      "rank": 3,
+      "takes": "five minutes, and there is nothing to press",
+      "target": "a reflector set into the verge",
+      "code": "CATSEYE",
+      "hints": [
+        "It is not on the street. Leave by the far end rather than the treeline end — the link is under the shopfronts, past the noticeboard and the gate.",
+        "The answer is in the list at the top of the road, in the item about how far you can see.",
+        "Right at the foot of the road, under the section about the unlit signs."
+      ],
+      "ask": {
+        "question": "The Outskirts says you can only see a certain distance, and it is very specific about what is doing the lighting. What light is it?",
+        "accept": [
+          "headlights",
+          "headlight",
+          "your headlights",
+          "yourheadlights",
+          "car headlights"
+        ],
+        "answer": "Headlights",
+        "why": "Headlights — low, level, close, and coming from off the page, which is why every sign out there has a bright face and no back, and why the road goes black an inch past the beam. It is the one light no other world on this street uses, and it is the whole reason the area can say it is always dark without simply being unreadable: what the beam reaches, it reaches properly.",
+        "hints": [
+          "It is in the first item of the list called What is out here.",
+          "It is not the moon and it is not a lamp. There are no lamps out there; that is the point of the place.",
+          "You are in a car, and you have stopped."
+        ]
+      },
+      "learned": "The street has an edge at each end and they are not the same kind of edge — a field you walk into at one, a road you drive out of at the other — which is also why the guild's class III stopped saying past the treeline and started naming both."
+    },
+    {
+      "id": "lagoon-speaker",
+      "page": "black-leather-lagoon.html",
+      "room": "Black Leather Lagoon",
+      "title": "What the band did without",
+      "posted": "Down the first turning off The Outskirts there is a drive-in screen standing in black water, and an appreciation of the band it is named after. That appreciation makes a point of something the band deliberately did not have, for years, on purpose. Go and find out what.",
+      "rank": 3,
+      "takes": "ten minutes, or an hour if you start pressing the records",
+      "target": "a window speaker on a post",
+      "code": "SPEAKER",
+      "hints": [
+        "It is off the street — out past the last streetlight, then the first turning.",
+        "The answer is in the appreciation at the top, in the short paragraph that is entirely about a thing that was missing.",
+        "Right at the foot of the room, under the rack of records."
+      ],
+      "ask": {
+        "question": "The appreciation says The Cramps deliberately did without one instrument for years. Which one?",
+        "accept": [
+          "bass",
+          "bass guitar",
+          "the bass",
+          "bassguitar",
+          "bassist",
+          "bass player",
+          "bassplayer"
+        ],
+        "answer": "The bass",
+        "why": "The bass — two guitars, a drum kit, and a deliberate hole where the bottom end goes, which is why an early Cramps record sounds like something coming through a wall rather than off a stage. It is a limitation chosen on purpose and then defended for a decade, and that is a more useful noise than it sounds if you have ever been told that the thing you manage without is the thing you need.",
+        "hints": [
+          "It is the paragraph that starts by saying there was no one of these.",
+          "It is the instrument that normally holds down the bottom end of a band.",
+          "Two guitars and drums, and nothing underneath them."
+        ]
+      },
+      "learned": "A band can remove the part everybody treats as structural and keep going for thirty years, and the missing piece becomes the sound rather than a fault in it."
     }
   ],
   "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

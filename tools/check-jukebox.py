@@ -165,6 +165,13 @@ LISTS = [
     # room states which is which on every plate, so a death here changes a
     # sentence as well as a link.
     ("the rabbit hole", "data/rabbit-hole.json", "rabbit-hole.html"),
+    # Black Leather Lagoon, off The Outskirts. One band, all on their own artist
+    # channel, which is about as durable as an upload gets here -- but a tenth
+    # song was already pulled from this rack before it shipped for answering
+    # LOGIN_REQUIRED rather than OK, which is a state this tool reports and
+    # nothing else on the street had met. Age-gating can be switched on after
+    # the fact, and when it is, the button still looks perfect.
+    ("black leather lagoon", "data/lagoon.json", "black-leather-lagoon.html"),
 ]
 
 
@@ -249,6 +256,16 @@ def tracks_in(data):
         return [dict(d, artist=d.get("channel"),
                      state="link" if d.get("how") == "link" else None)
                 for d in (data.get("docs", []) + data.get("solar_watch", []))]
+    if "songs" in data:
+        # Black Leather Lagoon's rack. A FLAT LIST OF ONE BAND, which makes it
+        # the least rot-prone set on this street and the one where rot would be
+        # hardest to spot: every id is on the artist's own channel, so nothing
+        # here is going away the way a one-person upload does -- and precisely
+        # because of that, a row that DID die would sit there looking exactly as
+        # respectable as the eight beside it. The room's screen is a playlist and
+        # is not checked here, for the reason this tool gives about the club's:
+        # a playlist is not one video.
+        return [dict(s_, artist=s_.get("channel")) for s_ in data["songs"]]
     if "cuts" in data:
         # The Mopery's parlour screen: ONE SONG, several times over, so what
         # every other list calls the artist is the performer here and the song

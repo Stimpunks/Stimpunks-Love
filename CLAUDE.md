@@ -1560,6 +1560,107 @@ unchecked quotation must not sit among checked ones looking identical. An unsour
 for the character that is still in circulation was left off on purpose, which is the herbarium's
 refusal to guess at a binomial arriving in a fandom.
 
+**THE STREET HAS AN EDGE AT EACH END NOW, AND THE SECOND AREA IS THE FIRST ONE'S HARDEST CASE.**
+The Outskirts (§34) is past the last streetlight where the campgrounds is past the treeline, and
+*"an area should look like an area"* has already been refused here once &mdash; with the extra trap
+that **both areas are outdoors, at night, with signs standing on bare ground and nothing built**.
+What keeps them apart is physics and has to stay:
+
+  · **the campgrounds is lit by NOTHING.** An open field with the sky still on it, everything
+    evenly dim, nothing casting anything, and you can see all the way to the treeline. **The
+    Outskirts is lit by HEADLIGHTS** &mdash; one low, level, close beam from off the page, so every
+    sign has a bright face and no back and the road goes black an inch past it. It is not dark
+    because it is empty; it is dark because you have no light.
+  · a campground sign is **routed** into wood by a machine and maintained by somebody. A sign out
+    here was **painted** by whoever owned the premises, once, and has been in the weeds since.
+    Alfa Slab One against Bowlby One SC, which is where that difference actually lives.
+  · the field is **cold** &mdash; spruce, lichen, a moon-coloured link. Out here the only colours
+    are the beam and the paint. **Nothing in The Outskirts is blue.**
+
+**AND IT IS NOT DANNY THE STREET**, which is the other road on this site: that page is a road seen
+from **directly above** under sodium, one hue and no shadows because nothing in it stands up. This
+is a road seen from **on** it, at eye level, with things standing at the side. Same subject,
+opposite position &mdash; one has a horizon and one has a plan.
+
+**A SIGN WITH NO ROAD BEHIND IT IS LIT AND SAYS SO.** Sithen and Covenstead are named and not
+built, which is the campgrounds' `.pitch--raising` state arriving on a road. **The post is dashed
+and the words are NOT dimmed**, and that is the whole care in the rule: a board you cannot read is
+not a subtler board, it is a broken one. They are not links, not disabled controls and not hidden
+&mdash; The Den's door rule, one area over.
+
+**THE ROOM AT THE FIRST TURNING IS A MUSIC ROOM WITH A RACK OF RECORDS IN IT, AND SO IS CLUB
+CHRONIC.** Black Leather Lagoon (§35) is the hardest collapse since The Den: both dark, both an
+appreciation over a rack, both holding `make-club.py`'s pair of runtime rules. The separation is
+structural:
+
+  · **Club Chronic is a WALL.** Flat, frontal, no light source anywhere in it, no depth &mdash; a
+    hundred rectangles of paper pasted onto black and layered like sediment. **This room has a
+    HORIZON**: one bright rectangle standing out in the water and every object lit off it, with
+    nothing behind. If the water ever goes flat, or the screen stops being the only light, they
+    have become one room and **it is this one that moves**.
+  · the club's **paper is the subject**. There is no paper in here at all.
+  · Anton against Chivo, and **the type is the front line**: the obvious face for a monster bill is
+    a **condensed gothic**, which is exactly the face the one room this must not resemble has owned
+    since it opened. The obvious choice would have borrowed it.
+
+**AND IT IS NOT ENID'S ROOM**, the other black-walled room with loud colour in it: that is an
+interior, flat-lit, no modelling, many hues at once. This is outdoors, one light, two inks, and
+almost entirely distance.
+
+**THE LAGOON DOES NOT FLICKER AND THAT IS THE POINT, NOT A GAP.** A drive-in screen is a flickering
+object &mdash; nearly its definition &mdash; and building one without the flicker took more work
+than building one with it. Club Chronic's strobe rule, arriving in the room whose subject matter
+asks for a flicker on every line. The room states it on its own door policy so nobody finishes it
+later. **Do not add a flicker, a flash or a rolling scanline**, at MAX or anywhere else.
+
+**AND CREEPSTER SETS THE TITLE AND NOTHING ELSE, EVER.** A dripping poster face is an access
+failure the moment it carries a sentence &mdash; the Doomscroll's blackletter rule, in the room most
+likely to talk itself out of it, because every inch of the subject is asking for it.
+
+**THE YEAR ON A RECORD IS THE RECORD'S AND NOT THE UPLOAD'S, AND THE UPLOAD WILL TELL YOU
+OTHERWISE.** Every id in that rack is an auto-generated upload off the band's own artist channel,
+and each one carries a `Released on` line giving the date of **the reissue that was licensed**
+&mdash; 1984 for most of that rack, which is a compilation, and 2014 for three. Trusting it would
+have printed **1984 beside a 1978 single**, in the one field a reader has no way of checking. The
+years were resolved separately against MusicBrainz and `make-lagoon.py` refuses a song without one.
+**A tenth song was dropped rather than published with a year nobody had checked.**
+
+**AND A THIRD PERMISSION EXISTS, WHICH NOTHING HERE KNEW.** A song in that rack answered
+`LOGIN_REQUIRED` rather than `OK`: age-gated, so it plays perfectly for a signed-in adult and
+renders a refusal inside our frame for everybody else. That is **neither a dead video nor an
+embedding permission** &mdash; `love-embed.js` would have built the frame and `playableInEmbed` is
+not the question. *Playing is not the same permission as embedding* arriving a third time:
+**playing is not the same permission as playing without an account**, on a street whose whole
+promise is that nothing is asked of a visitor before the press. Age-gating can also be switched on
+after the fact, and when it is, the button still looks perfect.
+
+**AND NOT ONE LINE OF ANY OF THOSE SONGS IS ON THAT PAGE.** `make-lagoon.py` refuses a note shaped
+like verse, which is `make-rabbit-hole.py`'s rule in the room that needs it most: a page built out
+of **one band**, whose words are half of why anybody loves them, is exactly where this street's
+promise would be broken in the way that looked most affectionate. It also **refuses a ranked rack**
+&mdash; no best, no greatest, no countdown &mdash; because a rack of one band's records is the
+shape of thing that grows a league table, which is the pebbling cabinet's tally in a leather
+jacket. The records are in the order they were made and that is the only ordering in the room.
+
+**THE NAPA SHOW IS TOLD WITHOUT THE JOKE, AND THE JOKE IS THE STANDARD TELLING.** That 1978 free
+concert at a state psychiatric hospital is almost always written up as *you cannot tell the
+lunatics from the band* &mdash; psychiatric patients as the punchline that certifies how wild
+somebody else is. We are a Disabled people's organisation. The room says what it will stand behind
+and **leaves the gap visible**: whether anybody in that room had a good evening is not ours to
+narrate, we were not there, and every account in circulation is somebody else's. **Do not fill that
+gap with a nice sentence.**
+
+**IT IS ALSO THE ONE ROOM BUILT ON SOMETHING NO PAGE OF OURS ARGUES**, which is unusual here and is
+why the sources are named on the page rather than assumed. Most rooms dress up something
+stimpunks.org already says; this one had nothing to dress.
+
+**AND RANK III STOPPED SAYING "PAST THE TREELINE", WHICH IS THE SENTENCE-IN-ANOTHER-ROOM PROBLEM
+AGAIN.** A class defined by geography cannot name one edge and mean both. **Not a fourth class:**
+IV would encode a false ordering, because the field and the road are opposite directions rather
+than different distances. That sentence lived in `make-guild.py`, in `data/quests.json`, in the
+guild's own house rules, on its share card and in `llms.txt` &mdash; and **none of those is in the
+file that changed**. When an area is added, look for the rooms that describe the street's shape.
+
 **This applies hardest to the things nobody looks at.** `og/` holds a share card per page and
 there is **a card design per room, not one shared** — the place a template would have been the obvious
 choice is exactly the place the rule matters, because a card is not on any page and nobody

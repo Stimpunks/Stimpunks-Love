@@ -436,6 +436,25 @@ FO_RED, FO_BLUE = "#8A1A12", "#10395C"
 # DN_KERB IS ORNAMENT AND CARRIES NO TEXT: 3.08 and 2.62. It is in ORNAMENT with
 # those numbers beside it.
 DN_TAR, DN_LIT = "#1A1917", "#2D261B"
+
+# The Outskirts (§34). TWO GROUNDS: the road itself, and the face of a sign
+# standing in the beam. The board is DARKER than the night around it, because
+# a painted board lit from one low angle is a dull surface rather than a lamp --
+# so it is the harder ground and every ink is measured against both.
+# OSK_WEED IS ORNAMENT AND CARRIES NO TEXT: 4.04 and 3.51. It shipped on the
+# topline note and on the line under each turning for exactly as long as it took
+# to measure it, which is the argument for measuring before believing a palette.
+# It is in ORNAMENT with those numbers beside it.
+OSK_NIGHT, OSK_BOARD = "#08090B", "#1A1B17"
+OSK_BEAM, OSK_DIM, OSK_RUST = "#EDE7D6", "#A9A491", "#D96A3C"
+
+# Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
+# it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
+# screen is the light source in this room, not a surface anything is set on --
+# nothing is ever written on it, because what is on it is somebody else's video.
+LAG_WATER, LAG_CARD = "#07090A", "#12161A"
+LAG_SCREEN, LAG_DIM = "#E6E2D2", "#A7AFA0"
+LAG_ACID, LAG_POSTER = "#8CC63F", "#E4564A"
 DN_PAINT, DN_CHALK, DN_SODIUM = "#F1EADA", "#C0B8A6", "#F0A73F"
 
 PAIRS = [
@@ -1484,6 +1503,53 @@ PAIRS = [
     # the road, so the pair above decides it at 8.91.
     (DN_CHALK,  DN_TAR,  False, "danny: the job marker, a drain in the gutter"),
 
+    # ── The Outskirts (§34) and Black Leather Lagoon (§35) ───────────────────
+    # TWO GROUNDS EACH, and in both cases the second is a lit panel standing on
+    # the first: out on the road it is the face of a board, and in the lagoon it
+    # is a lobby card. Both are DARKER than the room, which is unusual here --
+    # most panels on this street are lighter than what they sit on -- so the
+    # panel is the harder ground and every ink is held against both.
+    (OSK_BEAM,   OSK_NIGHT, False, "outskirts: the h1, every turning's name, the lede and "
+                                   "every bold run on the road"),
+    (OSK_BEAM,   OSK_BOARD, False, "outskirts: the same where they fall on a sign's face"),
+    (OSK_DIM,    OSK_NIGHT, False, "outskirts: every paragraph, the topline note and the "
+                                   "line under each turning"),
+    (OSK_DIM,    OSK_BOARD, False, "outskirts: the verge notice and the foot of the road"),
+    (OSK_RUST,   OSK_NIGHT, False, "outskirts: every link, the backlink, each section "
+                                   "heading and each turning's number"),
+    (OSK_RUST,   OSK_BOARD, False, "outskirts: the same on a sign's face, and the line "
+                                   "under a turning that is named and not built"),
+    # THE MARKER IS HELD TO THE BODY THRESHOLD, the Jungle Room's quills rule:
+    # WCAG 1.4.3 does not reach a graphic, and a reflector you cannot pick out
+    # of the verge is a control you cannot use. It is drawn in the beam and lies
+    # on the road, so the first pair decides it at 16.13.
+    (OSK_BEAM,   OSK_NIGHT, False, "outskirts: the job marker, a reflector in the verge"),
+
+    (LAG_SCREEN, LAG_WATER, False, "lagoon: every heading on the water, the lede, the bill "
+                                   "line under the h1 and the label on every press"),
+    (LAG_SCREEN, LAG_CARD,  False, "lagoon: the same on a lobby card and on the screen's "
+                                   "own panel"),
+    (LAG_DIM,    LAG_WATER, False, "lagoon: the topline note, the line over the bill and "
+                                   "every paragraph the room does not emphasise"),
+    (LAG_DIM,    LAG_CARD,  False, "lagoon: each record's release, year and runtime, and "
+                                   "the fine print inside the boxed sections"),
+    (LAG_ACID,   LAG_WATER, False, "lagoon: the h1, every link, the backlink and each "
+                                   "record's role line"),
+    (LAG_ACID,   LAG_CARD,  False, "lagoon: the same on a card, and the bullet markers in "
+                                   "the door policy"),
+    (LAG_POSTER, LAG_WATER, False, "lagoon: the tagline under the bill and every section "
+                                   "heading"),
+    (LAG_POSTER, LAG_CARD,  False, "lagoon: the same inside the Napa panel, and the line "
+                                   "naming whose song a cover is"),
+    # THE RED THAT CARRIES TEXT AND THE RED THAT DOES NOT ARE TWO COLOURS ON
+    # PURPOSE. LAG_BLOOD is the poster red this room actually wants -- it frames
+    # the screen, posts the cards and rules the presses -- and it measures 3.35
+    # and 3.05, under the bar both ways. LAG_POSTER exists so that the room is
+    # never tempted to let the darker one say something, which is exactly the
+    # shape of mistake the Playhouse made when a fill rule grew a second child.
+    # LAG_BLOOD is in ORNAMENT with those numbers beside it.
+    (LAG_ACID,   LAG_WATER, False, "lagoon: the job marker, a window speaker on a post"),
+
 ]
 
 # THE HERMITAGE'S CHAIRS ARE IN THE LIST AGAIN, and the episode stays written
@@ -1551,6 +1617,8 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#6e7358": "outskirts: the dead grass along the foot of the share card and the dashed post beside a turning that is named and not built, 4.04 on the road and 3.51 on a sign. It carried the topline note and the line under every turning until it was measured, and both were moved to the fine print's own colour; what is left draws weeds and dashes a post. Every word on that road is measured above against both grounds.",
+    "#b6342f": "lagoon: the frame round the drive-in screen, the post under every lobby card and the border on every press, 3.35 on the water and 3.05 on a card. It is the poster red this room is actually built out of and it never says anything -- LAG_POSTER is the lighter one that carries text, and the two exist separately so that the room is never tempted to let this one speak.",
     "#6b665d": "danny: the kerbstones down both sides of the road, the joints between "
                "them, the dashes between entries in the running order, the drain and "
                "the manhole in the drawing, and the rule round the one quotation. 3.08 "

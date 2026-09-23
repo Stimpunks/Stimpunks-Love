@@ -40,6 +40,10 @@ ORDER = ["index.html",
          "the-garden.html",
          "campgrounds.html", "faery-yurt.html", "swaying-sweetgrass.html",
          "solarpunk-hermitage.html",
+         # The other edge, past the last streetlight at the far end. An area
+         # like the campgrounds, listed the same way: the road first, then
+         # what is down its turnings.
+         "the-outskirts.html", "black-leather-lagoon.html",
          "liner-notes.html",
          "changelog.html"]
 
@@ -84,9 +88,11 @@ lines = [
     "",
     "A Stimpunks Foundation site, and the loud one. It has no single design system on purpose: "
     "the street is the system and the rooms refuse to share one. Through a gate in the wall there "
-    "is a garden, with one bed for every site we publish and every bed linking out to it; past "
-    "the treeline at the end of the street there is a campground, for anybody who would rather "
-    "not be on a street at all. "
+    "is a garden, with one bed for every site we publish and every bed linking out to it. The "
+    "street has an edge at each end and they are not the same kind of edge: past the treeline "
+    "there is a campground, for anybody who would rather not be on a street at all, and past the "
+    "last streetlight the other way there is a road out of town, where the mystical and the "
+    "after-dark keep premises. "
     "Two habits survive from our "
     "careful sites — attribution, which is a licence rather than a house style, and contrast, "
     "because clashing is not the same as illegible.",

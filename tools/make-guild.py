@@ -108,7 +108,15 @@ EXEMPT = {"changelog.html", "adventurers-guild.html"}
 RANKS = {
     1: ("I", "on the street", "Everything is on a page you can reach from the front door."),
     2: ("II", "through a door", "The marker is in a room behind another room, so there is a door to go through first."),
-    3: ("III", "past the treeline", "Out of the street altogether, in the field at the end of it."),
+    # III USED TO SAY "past the treeline", WHICH WAS THE ONLY EDGE THERE WAS.
+    # The Outskirts is a second one, at the other end, and a class defined by
+    # geography cannot name one edge and mean both. NOT a fourth class: IV
+    # would encode a false ordering, because the road and the field are not
+    # different distances, they are opposite directions. This is the street
+    # describing its own edges, and when an edge changes the sentences about
+    # it live in other rooms -- the guild's house rules, its card and
+    # llms.txt all said the old thing and none of them is in this file.
+    3: ("III", "off the street", "Out of the street altogether \u2014 the field past the treeline at one end, or the road past the last streetlight at the other."),
 }
 
 # Scoring words, and the negations that make a sentence about NOT scoring. A
@@ -172,6 +180,15 @@ def normalise(s):
 # yellow on that blue measures 3.88 and white measures 5.08 -- the one place
 # here where the room's favourite colour lost to the floor it was lying on.
 DRAW = {
+    # A road stud set into the verge, drawn in the beam's own bone. Flat, low
+    # and catching the light on one face, which is the area's whole lighting
+    # model in a 32px box.
+    "outskirts-reflector": """<path d="M4 20 q0 -6 5 -6 H23 q5 0 5 6 v4 q0 2 -2 2 H6 q-2 0 -2 -2 Z" fill="none" stroke="var(--osk-beam)" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="20" r="2.3" fill="var(--osk-beam)"/><circle cx="20" cy="20" r="2.3" fill="var(--osk-beam)"/><path d="M7 9 H25" stroke="var(--osk-beam)" stroke-width="1.6" stroke-linecap="round" opacity=".5"/>""",
+    # A drive-in window speaker on its hook. Not a hubcap and not a spindle:
+    # The Den already owns a disc with spokes in it and the Arcade owns a coin,
+    # and a marker that reads as another room's object is the shared glyph this
+    # registry exists to prevent, arriving by resemblance instead of by reuse.
+    "lagoon-speaker": """<path d="M11 7 q0 -4 5 -4 q5 0 5 4" fill="none" stroke="var(--lag-acid)" stroke-width="2"/><rect x="8" y="7" width="16" height="21" rx="3" fill="none" stroke="var(--lag-acid)" stroke-width="2.4"/><path d="M12 13 H20 M12 17 H20 M12 21 H20" stroke="var(--lag-acid)" stroke-width="1.8" stroke-linecap="round"/>""",
     "foundry-sort": """<path d="M5 11 H25 V22 H5 Z" fill="none" stroke="var(--fo-brass)" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 22 a3.2 3.2 0 0 1 6.4 0" fill="none" stroke="var(--fo-brass)" stroke-width="2"/><path d="M27 12 V21" stroke="var(--fo-brass)" stroke-width="2.6" stroke-linecap="round"/><path d="M25 14 H27 M25 19 H27" stroke="var(--fo-brass)" stroke-width="1.8"/>""",
     "checkpoint-pillow": """<path d="M5 21 q-2 -9 6 -10 q10 -2 16 1 q6 2 4 9 q-2 4 -11 4 q-11 1 -15 -4 Z" fill="none" stroke="var(--hc-steam)" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 15 q4 3 8 0" fill="none" stroke="var(--hc-steam)" stroke-width="1.8" stroke-linecap="round"/>""",
     "street-chalk": """<path d="M5 24 Q11 15 16 22 Q21 29 27 19" fill="none" stroke="var(--chalk)" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="9" r="2.2" fill="var(--chalk)"/>""",

@@ -162,6 +162,13 @@
         13
       ]
     },
+    "bowlby-one-sc": {
+      "where": "The Outskirts",
+      "page": "the-outskirts.html",
+      "sections": [
+        34
+      ]
+    },
     "bree-serif": {
       "where": "The Latibulum",
       "page": "latibulum.html",
@@ -204,6 +211,13 @@
         14
       ]
     },
+    "chivo": {
+      "where": "Black Leather Lagoon",
+      "page": "black-leather-lagoon.html",
+      "sections": [
+        35
+      ]
+    },
     "cinzel": {
       "where": "The Oracle Deck",
       "page": "oracle-deck.html",
@@ -223,6 +237,13 @@
       "page": "zine-table.html",
       "sections": [
         7
+      ]
+    },
+    "creepster": {
+      "where": "Black Leather Lagoon",
+      "page": "black-leather-lagoon.html",
+      "sections": [
+        35
       ]
     },
     "crimson-pro": {
