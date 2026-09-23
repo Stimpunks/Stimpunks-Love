@@ -1582,6 +1582,25 @@ from **directly above** under sodium, one hue and no shadows because nothing in 
 is a road seen from **on** it, at eye level, with things standing at the side. Same subject,
 opposite position &mdash; one has a horizon and one has a plan.
 
+**AND NOTHING OUT THERE WAS SENT OUT THERE. THIS IS THE ONE THING THE AREA GOT WRONG ON ITS FIRST
+DAY.** The Outskirts shipped carrying the ordinary real-world reading of an edge-of-town: premises
+that *were never going to get planning permission*, a line about out-of-town being *where everything
+gets pushed that a town has decided is not respectable*, and a Covenstead described as a group *the
+town would rather not think about*. Ryan caught it, 2026-09-22, and the objection is structural
+rather than a matter of taste: **our town is stimpunks.love and it accepts everybody, so it has no
+outside to push anybody to.** A street that rearranges itself for whoever turns up cannot also have
+a wrong side of it. The framing was imported from real towns, where it is true, into the one place
+on this site whose entire premise contradicts it — and it arrived sounding sympathetic, which is why
+it got past everything.
+
+**The road is a direction and not a verdict.** What is down these turnings is there because that is
+where it is: a fort stands in a field, a screen stands in water, and neither is in exile. When the
+next turning is built, *this is where the disreputable ends up and we are the disreputable* will
+present itself again as the obvious and rather flattering thing to say. **Out is not the same as out
+of favour**, and there is no group on this site that anybody here would rather not think about. The
+words this area actually wants are about **hours and room** — things that keep their own time and
+want space around them — never about being unwelcome somewhere else.
+
 **A SIGN WITH NO ROAD BEHIND IT IS LIT AND SAYS SO.** Sithen and Covenstead are named and not
 built, which is the campgrounds' `.pitch--raising` state arriving on a road. **The post is dashed
 and the words are NOT dimmed**, and that is the whole care in the rule: a board you cannot read is
