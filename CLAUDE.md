@@ -1601,6 +1601,51 @@ of favour**, and there is no group on this site that anybody here would rather n
 words this area actually wants are about **hours and room** — things that keep their own time and
 want space around them — never about being unwelcome somewhere else.
 
+**THE VENUE ON THAT ROAD IS LIT FROM THE GROUND UP, AND NOTHING ELSE HERE IS.** Looming Rocks
+Amphitheatre (§38) is turning 03: floods stand on the ground and point UP the rock, so a face is
+brightest at its foot and goes dark towards the top, and there is nothing overhead at all. **That is
+the exact inverse of Sithen**, one turning back, lit by a full moon from directly above — and of
+**the Lagoon**, two turnings back, flat frontal light across water at eye level. Three rooms on one
+road, three directions of light, and vertical was the one nobody had taken. It earns the road rather
+than the campsite by Helen's test: crowds, volume and staying out late is what The Outskirts is for.
+
+**AND WHAT GLOWS IS NOT THE LAMP.** The lichen fluoresces — it takes light you cannot see and gives
+back light you can — which is **emission rather than reflection**, and the third kind of transmitted
+light on this street after Swaying Sweetgrass (through grass blades) and The Feed (through a mask).
+The lamps are violet; what comes back is cyan-green. **That green is the pair to watch**: the
+Lagoon's acid is a *yellow*-green one turning along the same road, and the two are far apart in blue
+on purpose. If this ever warms towards yellow, two music rooms on one road have started sharing a
+colour.
+
+**THE STAGE IS THE HERMITAGE'S SET AND KEEPS ITS PROMISES, WHICH ARE THE STREET'S.** While the stage
+is dark, **tuning is silent** and nothing is fetched; once something is playing, tuning changes the
+picture. The desk names the act it is about to move to **and how long that one runs**, before the
+press — and that matters more here than at the campfire, because **these are full concerts**, the
+shortest nearly an hour. `looming.js` is a separate file from `hermitage.js` **on purpose**: the two
+sets look alike and are not the same object, and a shared widget would be the harmonising instinct
+arriving through a script tag. What is shared is `love-embed.js`, still the only thing here that
+builds a YouTube iframe. The running order is a `<details>` and works with scripts off.
+
+**A REFUSAL COPIED FROM ANOTHER ROOM DID NOT SURVIVE THE MOVE, AND THAT IS THE LESSON.** The
+herbarium catches a guessed binomial with a shape test — one capitalised word, one lowercase word —
+which works there because that page is **short labels**. Run over prose it matches the start of
+nearly every sentence, and its first run here refused *Rocks that*, *Once something* and *Ferrell
+sings*. Excepting those phrases would have been the mistake this repo has written down three times.
+**It is a shape IN A PLACE now**: sentence starts are ignored, and it only reads sentences that are
+about lichen at all. **Verified in both directions** — a real binomial in a lichen sentence is
+caught, a band name in a note is not. When you carry a check between rooms, carry its *assumptions*
+too and test the negative case.
+
+**AND THE ROOM STOPPED EXPLAINING WHICH HALF OF ITSELF WAS INVENTED.** A first draft had a section
+headed *what the rocks are, and which half of that is made up*, carefully separating the sentient
+rocks from the real fluorescence. Ryan cut it, 2026-09-22: **this is a street named after a
+genderqueer, shape-shifting road, and a disclaimer explaining that the sentient rocks are fiction is
+a page apologising for being the thing it is.** The rule that survives is narrower and still
+matters: **say what belongs to somebody else.** The real venue is named, credited and disclaimed in
+the credits, because that is a city's property and a real place — which is a different job from
+hedging your own lore. **The guard stayed even though the paragraph went**, and that is the shape to
+copy: a check does not need a paragraph on the page to be worth having.
+
 **SITE HOUSEKEEPING DOES NOT GO IN THE FICTION. IT GOES IN THE CHANGELOG.** When Covenstead moved
 off this road, the area got a section headed *One that moved*, explaining that a third turning had
 existed and where it went. Ryan cut it, 2026-09-22: **it was housekeeping that had just changed,

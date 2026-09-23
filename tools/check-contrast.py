@@ -477,6 +477,18 @@ STH_BONE, STH_DIM, STH_MOON = "#EDEAF2", "#A7A2B8", "#BDB0DE"
 COV_WASH, COV_SUN = "#F3E9E1", "#FCF7EF"
 COV_INK, COV_INK_2 = "#2A211C", "#5E5048"
 COV_DELFT, COV_SAGE, COV_ROSE = "#2F5E86", "#41643A", "#A1384A"
+
+# Looming Rocks Amphitheatre (§38). TWO GROUNDS: unlit stone, and a rock face
+# with a flood on it. The floods point UP, which nothing else on this street
+# does, so a panel is lighter at its FOOT and the flat colour under the gradient
+# is the lighter end -- the worse case for the pale type standing on it.
+# THE LICHEN IS A CYAN-GREEN AND THE LAGOON'S ACID IS A YELLOW-GREEN, one
+# turning along the same road: 200 blue against 63. That is the pair to watch on
+# this street, because two music rooms on one road sharing a green would be the
+# harmonising instinct arriving through a palette.
+LR_ROCK, LR_FACE = "#15120F", "#241E18"
+LR_BONE, LR_DIM = "#EDE7DC", "#ABA196"
+LR_UV, LR_LICHEN = "#A579F0", "#4FD8C8"
 DN_PAINT, DN_CHALK, DN_SODIUM = "#F1EADA", "#C0B8A6", "#F0A73F"
 
 PAIRS = [
@@ -1628,6 +1640,38 @@ PAIRS = [
     # so the pair above decides it at 5.72 -- over the body threshold a marker
     # is held to, which is the Jungle Room's quills rule.
     (COV_DELFT, COV_WASH, False, "covenstead: the job marker, a kettle on the hob"),
+
+    # ── Looming Rocks Amphitheatre (§38) ─────────────────────────────────────
+    # TWO GROUNDS: unlit stone, and a rock face with a flood on it. The floods
+    # point UP, so a panel is a gradient that is lighter at the FOOT -- and the
+    # flat colour under it is LR_FACE, the lighter end, because that is the
+    # worse case for pale type standing on it. The Rabbit Hole's rule, and the
+    # reason both ends are measured rather than the average.
+    # BOTH ACCENTS CARRY TEXT, so this room has no ornament entry either.
+    (LR_BONE,   LR_ROCK, False, "looming rocks: the h1, every heading, the lede, each act's "
+                                "name and every bold run in the room"),
+    (LR_BONE,   LR_FACE, False, "looming rocks: the same on a lit rock face, on the lighting "
+                                "desk and inside every act on the bill"),
+    (LR_DIM,    LR_ROCK, False, "looming rocks: the topline note, the line over the h1 and "
+                                "every paragraph the room does not emphasise"),
+    (LR_DIM,    LR_FACE, False, "looming rocks: each act's artist, channel and runtime, the "
+                                "label on the desk, and the runtime beside the play control"),
+    (LR_UV,     LR_ROCK, False, "looming rocks: every link, the backlink and the line that "
+                                "says the stage is dark"),
+    (LR_UV,     LR_FACE, False, "looming rocks: the same on a panel, and the act number on "
+                                "every entry in the running order"),
+    (LR_LICHEN, LR_ROCK, False, "looming rocks: the line under the h1, the bullet markers "
+                                "and every hover state"),
+    (LR_LICHEN, LR_FACE, False, "looming rocks: every control that puts something on the "
+                                "stage, the open edge of the running order, and the rule "
+                                "beside whichever act is on the desk"),
+    # THE MARKER IS DRAWN IN THE LICHEN RATHER THAN THE LAMP'S OWN VIOLET. Both
+    # clear the body threshold a marker is held to -- the Jungle Room's quills
+    # rule -- and the brighter one is the thing you can actually pick out of a
+    # dark room, which is the point of a marker.
+    (LR_LICHEN, LR_ROCK, False, "looming rocks: the job marker, a flood lamp at the foot of "
+                                "the rock"),
+
 
 
 ]

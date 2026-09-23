@@ -1,0 +1,112 @@
+{
+  "_what": "Looming Rocks Amphitheatre: turning 03 in The Outskirts. The running order on the stage, tuned from a lighting desk. Nothing is hosted here and nothing is fetched until somebody presses something.",
+  "_ids": "EVERY ID WAS RESOLVED AND CHECKED, NOT REMEMBERED. All ten were opened on their own watch pages on 2026-09-22 and read for three things: playabilityStatus, playableInEmbed and lengthSeconds. All ten answer OK and true. The runtimes below are the measured lengthSeconds rather than anything typed, which matters more here than anywhere else on the street: these are FULL CONCERTS, the shortest is nearly an hour and the longest is over two, and a wrong number in front of a two-hour press is the room breaking its own promise at the largest possible scale.",
+  "_real": "THE VENUE IS REAL AND IS CREDITED AS SOMEBODY ELSE'S. Red Rocks Amphitheatre is an open-air venue near Morrison, Colorado, about ten miles south-west of Denver, owned and operated by the city of Denver; it is formed by two enormous sandstone monoliths named Ship Rock and Creation Rock with the smaller Stage Rock between them, and seats 9,525. Read off en.wikipedia.org/wiki/Red_Rocks_Amphitheatre on 2026-09-22. Every recording in this room was made there. LOOMING ROCKS IS NOT RED ROCKS: it is a room on a made-up street that is fond of the real place, and the room says so rather than letting a reader assume this is an official anything. Stimpunks has no connection to the venue, and none of these artists, channels or labels is affiliated with us.",
+  "_lore": "THE ROCKS ARE RYAN'S AND THE ROOM DOES NOT HEDGE ABOUT THEM. Rocks that pre-date the people drawn to them, that hold centuries of storytellers, and that watched the Sithen come up out of the ground two turnings back: that is the room's own lore and it is told straight. AN EARLIER DRAFT SPLIT THE PAGE INTO WHAT IS REAL AND WHAT IS MADE UP and Ryan cut it, 2026-09-22: this is a street named after a genderqueer shape-shifting road, and a disclaimer explaining that the sentient rocks are fiction is a page apologising for being the thing it is. What still needs saying is the part about somebody else's property -- the real venue, in the credits -- which is a different job from hedging the fiction.",
+  "_uv": "THE LICHEN IS REAL AND THE ROOM SAYS SO WITHOUT MAKING A LESSON OF IT. Fluorescence under ultraviolet light is a genuine property of many lichens and a genuine field technique. make-looming.py still refuses anything shaped like a species name anywhere in this file, and that guard stays even though the page no longer talks about it: the room must never tell anybody WHICH lichen glows WHICH colour, because nobody here has checked and a confident binomial beside a colour is the format most likely to be believed. A guard does not need a paragraph on the page to be worth having.",
+  "_tuning": "TUNING IS NOT PLAYING, and looming.js holds that line the way the Hermitage's set does. While the stage is dark, previous and next are silent: the screen names the act and its runtime and NOTHING is fetched, so the whole running order can be walked without a request leaving the page. Once something is playing, tuning changes the picture, because by then the visitor has asked for a stage. The desk names the act it is about to tune to AND how long that one runs, before the press.",
+  "acts": [
+    {
+      "id": "rzXsC2-K46Q",
+      "title": "Sierra Ferrell at Red Rocks, 2025",
+      "who": "Sierra Ferrell",
+      "channel": "Late Night Music",
+      "runs": "1:52:23",
+      "spoken": "1 hr 52 min",
+      "how": "screen",
+      "note": "A full show, shot from the crowd rather than from a truck, which is most of what makes it worth having: you get the rocks going up out of the light and the sound of a few thousand people being quiet in the right places. Ferrell sings old forms without treating them as a costume."
+    },
+    {
+      "id": "n5AMAxOtQBE",
+      "title": "Sierra Ferrell at Red Rocks, 2026",
+      "who": "Sierra Ferrell",
+      "channel": "Late Night Music",
+      "runs": "1:34:50",
+      "spoken": "1 hr 35 min",
+      "how": "screen",
+      "note": "The same artist on the same stage a year on, which is the only pair in this running order and the reason both are here. Put them side by side and what you are watching is somebody who has played a room before deciding what to do with it the second time."
+    },
+    {
+      "id": "3mI_7yIfyKE",
+      "title": "The Red Clay Strays, Live from Red Rocks, Volume 2",
+      "who": "The Red Clay Strays",
+      "channel": "Red Clay Strays",
+      "runs": "2:05:42",
+      "spoken": "2 hr 6 min",
+      "how": "screen",
+      "note": "The longest thing on the rocks by a quarter of an hour, and the band's own upload rather than somebody else's recording of them. Southern rock played without irony, which on this street is a compliment: see the room two turnings back about sincerity being harder to hold than a joke."
+    },
+    {
+      "id": "BhW9rFGdNPs",
+      "title": "Slightly Stoopid at Red Rocks, 2021",
+      "who": "Slightly Stoopid",
+      "channel": "Slightly Stoopid",
+      "runs": "1:47:10",
+      "spoken": "1 hr 47 min",
+      "how": "screen",
+      "note": "August 2021, which places it: one of the first full houses back, and you can hear it in the crowd more than in the band. Reggae, dub and punk in the same set, from a group who have never seen a reason to pick."
+    },
+    {
+      "id": "OG1oI0m6evU",
+      "title": "Stevie Nicks: Live at Red Rocks, 1987",
+      "who": "Stevie Nicks",
+      "channel": "Amplified - Classic Rock & Music History",
+      "runs": "0:56:55",
+      "spoken": "57 min",
+      "how": "screen",
+      "note": "The oldest thing here by nearly forty years, and the one that proves the rocks were doing this long before anybody in the running order above was born. A full concert film from the Rock a Little tour, shot on the same stone the rest of this list is standing on."
+    },
+    {
+      "id": "bktRFl3OvFw",
+      "title": "Mumford & Sons: The Road to Red Rocks",
+      "who": "Mumford & Sons",
+      "channel": "MumfordAndSonsVEVO",
+      "runs": "0:57:15",
+      "spoken": "57 min",
+      "how": "screen",
+      "note": "The only one of these that is a film about arriving somewhere rather than a recording of a night, which is why it is last: the others are the show, and this one is the drive. Worth it for how plainly the band treat the place as the point of the trip."
+    },
+    {
+      "id": "ebNQFJBYoRU",
+      "title": "Zach Bryan at Red Rocks, November 2022",
+      "who": "Zach Bryan",
+      "channel": "Zach Bryan",
+      "runs": "1:37:42",
+      "spoken": "1 hr 38 min",
+      "how": "screen",
+      "note": "On his own channel, which is worth saying because it means this one is not going anywhere. A very big room played quietly for long stretches, and the crowd does most of the work on the choruses without being asked to."
+    },
+    {
+      "id": "3lGjS3yGoRU",
+      "title": "Billy Strings at Red Rocks",
+      "who": "Billy Strings",
+      "channel": "Billy Strings",
+      "runs": "0:58:27",
+      "spoken": "58 min",
+      "how": "screen",
+      "note": "Just under the hour, and the one with the most notes in it by a wide margin. Bluegrass played at a speed that stops being about showing off somewhere in the second tune and turns into four people listening to each other very fast."
+    },
+    {
+      "id": "9qSvbfiqtS8",
+      "title": "Shane Smith & the Saints at Red Rocks, 2023",
+      "who": "Shane Smith & the Saints",
+      "channel": "Shane Smith & the Saints",
+      "channel_verbatim": "SHANE SMITH & THE SAINTS",
+      "runs": "1:40:05",
+      "spoken": "1 hr 40 min",
+      "how": "screen",
+      "note": "Posted by the band as the complete version, which on this street counts for something: no fade at the interesting part and no edit where the tuning was. Fiddle out front, and a set built to be played outdoors at altitude."
+    },
+    {
+      "id": "FnE_-9WVBUw",
+      "title": "The Revivalists at Red Rocks, 2022",
+      "who": "The Revivalists",
+      "channel": "The Revivalists",
+      "runs": "1:43:02",
+      "spoken": "1 hr 43 min",
+      "how": "screen",
+      "note": "A full show from a band with two drummers and a pedal steel, which is a lot of weather to move around a stage. New Orleans by way of a Colorado hillside, and the horns carry further out here than they have any right to."
+    }
+  ],
+  "_own_channels": "SIX OF THE TEN ARE ON THE ARTIST'S OR THE BAND'S OWN CHANNEL, which is the most durable shape of upload this street handles -- the opposite end of the scale from the Pebble Board, where the links are whatever somebody had open that day. The other four are on channels that collect live recordings, and those are the ones check-jukebox.py is really watching. A wording note: the Shane Smith channel is styled in capitals and the room prints it in ordinary case, so the entry carries channel_verbatim and the drift check compares against THAT -- otherwise a deliberate wording choice would be reported as drift on every run, and a report that is always noisy is a report nobody reads."
+}

@@ -442,6 +442,24 @@
 @font-face { font-family: 'Asap'; src: url('fonts/asap-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Asap'; src: url('fonts/asap-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Looming Rocks Amphitheatre (§38). A PAINTED SLAB AND A PLAIN GROTESQUE. Bevan
+   has the weight of a board bolted to a rock face and repainted every few
+   years, which is what the signage at an outdoor venue actually is. It is the
+   FOURTH heavy slab this street holds and they are told apart by era and by
+   making rather than by weight: the campgrounds' Alfa Slab One is ROUTED into
+   wood by a machine and maintained by somebody; The Den's Ultra is a 1970s
+   record sleeve; The Latibulum's Bree Serif is soft carpentry in a burrow. This
+   one is paint on a board out in the weather.
+
+   Archivo carries everything else and is deliberately ordinary, because most of
+   this room is a RUNNING ORDER -- names, dates and runtimes, at small sizes, in
+   the dark. A face with character in it would be fighting the rocks, which are
+   the only thing here that is allowed to be monumental. Under the SIL Open Font
+   License. See fonts/_sources.json. */
+@font-face { font-family: 'Bevan'; src: url('fonts/bevan-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url('fonts/archivo-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url('fonts/archivo-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1100,6 +1118,32 @@
   --cov-ink:   #2A211C;   --cov-ink-2: #5E5048;
   --cov-delft: #2F5E86;   --cov-sage:  #41643A;
   --cov-rose:  #A1384A;
+
+  /* Looming Rocks Amphitheatre (§38). THE LIGHT IS THROWN UPWARD, which no
+     other world on this street does. Floods stand on the ground and point UP
+     the rock faces, so a rock is bright at its foot and goes dark towards the
+     top, and there is nothing overhead at all -- the opposite of Sithen two
+     turnings back, where a full moon lights everything from directly above.
+     AND WHAT GLOWS IS NOT THE LAMP. The lichen fluoresces: a surface taking
+     invisible light and giving back visible, which is emission rather than
+     reflection and is the third kind of transmitted light this street has
+     (Swaying Sweetgrass is lit THROUGH bodies, The Feed through an aperture).
+     --lr-rock is unlit stone and the ground; --lr-face is a rock face with a
+     flood on it and every panel; --lr-bone is every word; --lr-dim the fine
+     print; --lr-uv is the violet of the lamps and every link; --lr-lichen is
+     what the lichen gives back.
+     --lr-lichen IS A CYAN-GREEN AND THE LAGOON'S ACID IS A YELLOW-GREEN, one
+     turning along the same road. They are far apart in blue (200 against 63)
+     and the rooms differ in everything else, but this is the pair to watch: if
+     this ever warms towards yellow the two music rooms on this road have
+     started sharing a colour.
+     BOTH ACCENTS CARRY TEXT, so this room has no ornament entry either.
+     LR- PREFIXED THROUGHOUT: `rock`, `face`, `bone` and `dim` are exactly the
+     plain words this file fills up with, and `bone` is already the
+     campgrounds'. */
+  --lr-rock:   #15120F;   --lr-face:   #241E18;
+  --lr-bone:   #EDE7DC;   --lr-dim:    #ABA196;
+  --lr-uv:     #A579F0;   --lr-lichen: #4FD8C8;
 }
 
 * { box-sizing: border-box; }
@@ -8505,7 +8549,154 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 .seat__quote--more { border-left-color: var(--cov-ink-2); }
 .seat__quote--more p { font-size: 17px; }
 
-/* §38 ── Small screens ───────────────────────────────────────────────────────
+/* §38 ── ROOM: Looming Rocks Amphitheatre (turning 03 in The Outskirts) ──────
+   AN OPEN-AIR VENUE AT THE FOOT OF ENORMOUS ROCK FACES, AFTER DARK. Turning 03
+   off The Outskirts, and it earns that road rather than the campsite: a venue
+   is crowds, volume and staying out late, which is what this area is for and is
+   the opposite of what the field past the other end of the street is for.
+
+   THE LIGHT IS THROWN UPWARD AND NOTHING ELSE HERE DOES THAT. Floods stand on
+   the ground and point UP the rock, so a face is brightest at its foot and goes
+   dark towards the top, and there is nothing overhead at all. That is the exact
+   inverse of Sithen two turnings back, where a full moon lights everything from
+   directly above -- and of Black Leather Lagoon one turning back, where a
+   single lit rectangle throws flat frontal light across water at eye level.
+   Three rooms on one road, three directions of light, and the vertical is the
+   one nobody had taken.
+
+   AND WHAT GLOWS IS NOT THE LAMP. The lichen FLUORESCES: it takes invisible
+   light and gives back visible, which is emission rather than reflection. This
+   street already has two kinds of transmitted light -- Swaying Sweetgrass lit
+   THROUGH grass blades, The Feed lit through a mask -- and this is the third
+   and the strangest, because the source and the colour are not the same thing.
+   The lamps are violet; the rocks come back cyan-green.
+
+   THE ROOM IT MUST NOT COLLAPSE INTO IS THE LAGOON, one turning along the same
+   road, since both are music rooms with a running order in them. The
+   separations are structural: that room is HORIZONTAL -- a horizon, water, a
+   screen at eye level - and this is VERTICAL, with the rock going up out of
+   frame and the visitor at the bottom of it. That room's acid is a YELLOW-green
+   and this lichen is a CYAN-green, far apart in blue. THIS IS THE PAIR TO
+   WATCH: if the lichen ever warms towards yellow, the two music rooms on this
+   road have started sharing a colour.
+
+   IT IS ALSO NOT THE SOLARPUNK HERMITAGE, although both run on the sun. That
+   room is a LIT GROUND under low morning sun, where the panels are how somebody
+   LIVES. Here the array charges batteries all day so the floods can run after
+   dark: the same technology, the opposite hour, and infrastructure for a show
+   rather than for a life. A solar panel is not a style.
+
+   THE SET IS THE HERMITAGE'S MECHANISM AND THE PROMISES COME WITH IT. Tuning is
+   not playing: while the stage is dark, previous and next are silent and
+   nothing is fetched. See looming.js, which says the rest. */
+
+.looming { background: var(--lr-rock); color: var(--lr-dim); font-family: 'Archivo', system-ui, sans-serif; }
+.looming a { color: var(--lr-uv); }
+.looming a:hover { color: var(--lr-lichen); }
+.looming p, .looming li { font-size: 16.5px; line-height: 1.68; }
+.looming .backlink { font-family: 'Archivo', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--lr-uv); }
+.looming .trailmark { margin: 0; font-size: 14px; color: var(--lr-dim); }
+.looming h2 { font-family: 'Bevan', Georgia, serif; font-weight: 400; font-size: 23px; color: var(--lr-bone); margin: 0 0 13px; }
+.looming h3 { font-family: 'Bevan', Georgia, serif; font-weight: 400; font-size: 21px; line-height: 1.24; color: var(--lr-bone); margin: 0; }
+.looming h4 { font-family: 'Bevan', Georgia, serif; font-weight: 400; font-size: 18px; line-height: 1.26; color: var(--lr-bone); margin: 0; }
+.looming .lede { font-size: 19.5px; line-height: 1.6; color: var(--lr-bone); max-width: 62ch; margin: 24px 0 0; }
+
+.amphi { margin: 26px 0 0; }
+.amphi__over { margin: 0; font-size: 13px; letter-spacing: 2.2px; text-transform: uppercase; color: var(--lr-dim); }
+.looming h1 {
+  font-family: 'Bevan', Georgia, serif; font-weight: 400;
+  font-size: clamp(38px, 7.2vw, 74px); line-height: 1.06;
+  color: var(--lr-bone); margin: 10px 0 0;
+}
+.amphi__sub { margin: 10px 0 0; font-size: clamp(17px, 2.6vw, 23px); line-height: 1.34; color: var(--lr-lichen); }
+.amphi__art { margin: 20px 0 0; line-height: 0; }
+.amphi__art svg { display: block; width: 100%; height: auto; }
+
+/* A panel is a rock face with a flood on it: lighter at the FOOT, because that
+   is where the lamp is. A flat colour sits under the gradient and it is the
+   lighter end, which is the worse case for the type standing on it — The Rabbit
+   Hole's rule, and the reason both ends are measured. */
+.scree {
+  margin: 32px 0 0; padding: 22px 26px; max-width: 68ch;
+  background: var(--lr-face);
+  background-image: linear-gradient(to top, var(--lr-face) 0%, var(--lr-rock) 100%);
+  border-bottom: 3px solid var(--lr-uv); border-radius: 3px 3px 0 0;
+}
+.scree p { margin: 0 0 13px; }
+.scree p:last-child { margin-bottom: 0; }
+.scree ul { margin: 0; padding: 0 0 0 20px; }
+.scree li { margin: 0 0 10px; }
+.scree li:last-child { margin-bottom: 0; }
+.scree li::marker { color: var(--lr-lichen); }
+
+/* THE STAGE. A dark apron with the rock behind it, and the picture appears in
+   the middle of it. The glass is a different black from the room, which is the
+   Arcade's trick and is here for the same reason: a screen that is the same
+   colour as what it stands in is not a screen. */
+.apron { margin: 24px 0 0; }
+.apron__glass {
+  position: relative; aspect-ratio: 16 / 9; width: 100%;
+  background: #0C0A09; border: 3px solid var(--lr-face); border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+}
+.apron__glass iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.apron__off { padding: 22px 24px; text-align: center; max-width: 52ch; }
+.apron__dark { margin: 0; font-family: 'Bevan', Georgia, serif; font-size: 13px; letter-spacing: 2.4px; color: var(--lr-uv); }
+.apron__now { margin: 10px 0 0; font-family: 'Bevan', Georgia, serif; font-size: 21px; line-height: 1.24; color: var(--lr-bone); }
+.apron__go { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: center; margin: 14px 0 0; }
+.apron__runs { font-size: 14.5px; color: var(--lr-dim); }
+.apron__play, .apron__door {
+  font-family: 'Archivo', system-ui, sans-serif; font-weight: 700; font-size: 15px;
+  padding: 9px 16px; border-radius: 3px; cursor: pointer;
+  background: var(--lr-face); color: var(--lr-lichen); border: 2px solid var(--lr-lichen);
+  text-decoration: none;
+}
+.apron__play:hover, .apron__door:hover { background: var(--lr-rock); }
+
+/* The lighting desk: previous and next, with the label between them saying
+   where it is going and how long that runs BEFORE it is pressed. */
+.desk { margin: 18px 0 0; display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; justify-content: space-between; padding: 14px 18px; background: var(--lr-face); border-radius: 3px; }
+.desk__btn { font-family: 'Archivo', system-ui, sans-serif; font-weight: 700; font-size: 14.5px; padding: 8px 14px; border-radius: 3px; cursor: pointer; background: var(--lr-rock); color: var(--lr-bone); border: 2px solid var(--lr-dim); }
+.desk__btn:hover { border-color: var(--lr-lichen); color: var(--lr-lichen); }
+.desk__what { margin: 0; flex: 1 1 24ch; text-align: center; font-size: 14.5px; color: var(--lr-dim); }
+
+/* THE RUNNING ORDER, COLLAPSIBLE. A <details>, so it opens and closes with no
+   script at all — which is the guild's rule about its escapes, arriving on a
+   listing. It ships OPEN, because a set list somebody has to discover is a set
+   list most people will not find. */
+.setlist { margin: 26px 0 0; }
+.setlist > summary { cursor: pointer; font-family: 'Bevan', Georgia, serif; font-size: 18px; color: var(--lr-bone); padding: 12px 16px; background: var(--lr-face); border-radius: 3px; border-left: 4px solid var(--lr-lichen); }
+.setlist > summary::marker { color: var(--lr-lichen); }
+.setlist__note { margin: 12px 0 0; max-width: 66ch; font-size: 15.5px; }
+.acts { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.act { padding: 16px 18px; background: var(--lr-face); border-radius: 3px; border-left: 3px solid var(--lr-rock); }
+.act--on { border-left-color: var(--lr-lichen); }
+.act__no { margin: 0; font-family: 'Bevan', Georgia, serif; font-size: 12px; letter-spacing: 2px; color: var(--lr-uv); }
+.act h4 { margin: 7px 0 0; }
+.act__by { margin: 6px 0 0; font-size: 14px; color: var(--lr-dim); }
+.act p { margin: 10px 0 0; }
+.tuneto { margin: 12px 0 0; font-family: 'Archivo', system-ui, sans-serif; font-weight: 700; font-size: 14.5px; padding: 8px 14px; border-radius: 3px; cursor: pointer; background: var(--lr-rock); color: var(--lr-lichen); border: 2px solid var(--lr-lichen); }
+.tuneto:hover { background: var(--lr-face); }
+.scree__go { font-size: 14.5px; color: var(--lr-dim); }
+
+/* THE LICHEN ITSELF, in the space beside the paragraph that explains it. The
+   panels in this room are capped at 68ch for reading, which on a wide screen
+   leaves the right-hand column empty — so the thing the section is ABOUT goes
+   there. Three growth forms, drawn rather than photographed: crustose rosettes
+   with the rock cracking through them, foliose lobes, and little fruticose
+   stalks with fruiting bodies on the ends.
+
+   IT IS AT ONE OPACITY AND IT DOES NOT MOVE. A glow that pulsed would be the
+   obvious next thought and it is refused for Club Chronic's reason, which this
+   room's own door policy repeats: nothing in the rig flashes at any setting.
+   It carries no text, is aria-hidden, and names no species — see
+   tools/make-looming.py on why that last one is a rule rather than a habit. */
+.glowwall { display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: center; }
+.glowwall .scree { flex: 1 1 46ch; margin-top: 32px; }
+.glowwall__art { flex: 1 1 200px; max-width: 320px; line-height: 0; }
+.glowwall__art svg { display: block; width: 100%; height: auto; }
+
+/* §39 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -8612,7 +8803,7 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §38 says every
+   shipped with no rule here at all — which on a street whose §39 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -8736,7 +8927,7 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §39 ── Print ───────────────────────────────────────────────────────────────
+/* §40 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

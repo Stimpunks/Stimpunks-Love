@@ -1139,6 +1139,40 @@
         ]
       },
       "learned": "The best-known line of a living religious tradition is phrased as advice rather than as an order, and has stayed that way — which is a rarer thing than it sounds if you have spent much time being handed rules that were described to you as guidance."
+    },
+    {
+      "id": "looming-flood",
+      "page": "looming-rocks.html",
+      "room": "Looming Rocks Amphitheatre",
+      "title": "What the rocks give back",
+      "posted": "Third turning off the road out of town there is an open-air stage with something enormous on either side of it, and a lighting rig that points the wrong way. The rocks glow after dark. Go and find out what is actually doing the glowing, and which half of that story the room admits it made up.",
+      "rank": 3,
+      "takes": "ten minutes to read, or nine hours if you press everything",
+      "target": "a flood lamp at the foot of the rock",
+      "code": "FLUORESCE",
+      "hints": [
+        "Off the street — past the last streetlight, then the third turning.",
+        "It is in the section about what the rocks are, in the paragraph that begins by saying which half is real.",
+        "Right at the foot of the room, under the section about whose all this is."
+      ],
+      "ask": {
+        "question": "The rocks at Looming Rocks glow under the UV floods, and the room is careful that the stone itself is not what glows. What is?",
+        "accept": [
+          "lichen",
+          "the lichen",
+          "lichens",
+          "lichen on the rocks",
+          "moss and lichen"
+        ],
+        "answer": "The lichen",
+        "why": "The lichen. Many lichens fluoresce under ultraviolet light — they take light you cannot see and give back light you can — and it is a real technique for telling species apart in the field. The rig, the solar array and the sentient rocks are this street's invention; the fluorescence is not. The room separates those two halves in the same paragraph, and its tool refuses to name any particular species, because nobody here has checked which one glows what and a confident Latin name beside a colour is the format most likely to be believed.",
+        "hints": [
+          "It is not the stone and it is not paint. It is alive, and it is growing on the rock.",
+          "It is the thing a walker would call a crust or a patch on a boulder.",
+          "Fungus and alga living as one organism."
+        ]
+      },
+      "learned": "A real property of a living thing is doing the work that looks most like special effects — and the room is careful to say which half of its own story is invented, which is the same care the herbarium two areas over takes about naming a plant."
     }
   ],
   "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

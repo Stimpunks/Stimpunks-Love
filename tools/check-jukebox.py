@@ -172,6 +172,13 @@ LISTS = [
     # nothing else on the street had met. Age-gating can be switched on after
     # the fact, and when it is, the button still looks perfect.
     ("black leather lagoon", "data/lagoon.json", "black-leather-lagoon.html"),
+    # Looming Rocks Amphitheatre, two turnings along the same road. THIS ENTRY
+    # WAS MISSING FOR A DAY, which is the gap this tool's own docstring warns
+    # about in as many words: a new list of facades belongs in LISTS in the same
+    # commit that opens the room, because a checker that reports "all tracks
+    # checked" while silently not knowing about a room reads as coverage and is
+    # worse than not running.
+    ("looming rocks", "data/looming-rocks.json", "looming-rocks.html"),
 ]
 
 
@@ -276,6 +283,17 @@ def tracks_in(data):
         return [dict(d, artist=d.get("channel"),
                      state="link" if d.get("how") == "link" else None)
                 for d in (data.get("docs", []) + data.get("solar_watch", []))]
+    if "acts" in data:
+        # Looming Rocks' running order. SIX OF THE TEN ARE THE ARTIST'S OR THE
+        # BAND'S OWN CHANNEL, which is about the most durable upload this tool
+        # watches; the other four are on channels that collect live recordings,
+        # and those are the ones that actually rot. It is also the list with the
+        # most to lose per row: these are full concerts, so a dead id here is
+        # not a three-minute disappointment, it is somebody clearing two hours
+        # for a video that has gone.
+        return [dict(a_, artist=a_.get("who") or a_.get("channel"),
+                     state="link" if a_.get("how") == "link" else None)
+                for a_ in data["acts"]]
     if "songs" in data:
         # Black Leather Lagoon's rack. A FLAT LIST OF ONE BAND, which makes it
         # the least rot-prone set on this street and the one where rot would be

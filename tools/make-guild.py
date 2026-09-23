@@ -180,6 +180,12 @@ def normalise(s):
 # yellow on that blue measures 3.88 and white measures 5.08 -- the one place
 # here where the room's favourite colour lost to the floor it was lying on.
 DRAW = {
+    # A flood lamp at the foot of the rock, pointing UP, which is the one
+    # thing that room does that nothing else on this street does. Drawn in
+    # the lichen rather than the lamp's own violet: 10.65 against that
+    # ground where the violet is 5.86, and a marker is held to the body
+    # threshold either way, but the brighter one is the thing you can see.
+    "looming-flood": """<path d="M9 28 H23 L21 20 H11 Z" fill="none" stroke="var(--lr-lichen)" stroke-width="2.2" stroke-linejoin="round"/><path d="M11 20 L7 6 M21 20 L25 6" stroke="var(--lr-lichen)" stroke-width="1.6" stroke-linecap="round" opacity=".7"/><path d="M13 19 L14 4 M19 19 L18 4" stroke="var(--lr-lichen)" stroke-width="1.4" stroke-linecap="round" opacity=".45"/><path d="M12 24 H20" stroke="var(--lr-lichen)" stroke-width="1.8" stroke-linecap="round"/>""",
     # A kettle on the hob, drawn in the blue glaze -- 5.72 on that room's
     # limewash, so it clears the body threshold a marker is held to. IT WAS
     # DRAWN IN --cov-tallow UNTIL THE ROOM MOVED onto the street and the

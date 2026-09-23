@@ -60,6 +60,29 @@
     }
    ]
   },
+  "archivo": {
+   "family": "Archivo",
+   "category": "Sans Serif",
+   "designer": "Omnibus-Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/archivo",
+   "copyright": "Copyright 2020 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo)",
+   "repository": "https://github.com/Omnibus-Type/Archivo",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "archivo-400.woff2",
+     "sha": "7150c0ec5ad35645"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "archivo-700.woff2",
+     "sha": "7150c0ec5ad35645"
+    }
+   ]
+  },
   "archivo-black": {
    "family": "Archivo Black",
    "category": "Sans Serif",
@@ -143,6 +166,23 @@
      "style": "normal",
      "file": "barlow-600.woff2",
      "sha": "488b58098126c00b"
+    }
+   ]
+  },
+  "bevan": {
+   "family": "Bevan",
+   "category": "Serif",
+   "designer": "Vernon Adams",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/bevan",
+   "copyright": "Copyright 2016 The Bevan Project Authors (https://github.com/googlefonts/BevanFont)",
+   "repository": "https://github.com/googlefonts/BevanFont",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "bevan-400.woff2",
+     "sha": "9e8d329901d9be63"
     }
    ]
   },

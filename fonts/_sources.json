@@ -825,5 +825,34 @@
         "src": "https://fonts.gstatic.com/s/asap/v34/KFO9CniXp96a4Tc2DaTeuDAoKsE615hJW36eA1Ef.woff2",
         "note": "Covenstead (\u00a737), everything that is not a heading. A plain, slightly rounded grotesque with no mystique whatsoever. One variable file serves both weights, as Chivo, Literata and Space Grotesk already do here."
       }
+    ],
+
+    "bevan": [
+      {
+        "file": "bevan-400.woff2",
+        "weight": "400",
+        "style": "normal",
+        "bytes": 13640,
+        "src": "https://fonts.gstatic.com/s/bevan/v26/4iCj6KZ0a9NXjG8dWCvZtUSI.woff2",
+        "note": "Looming Rocks Amphitheatre (\u00a738), the h1 and the marquee. A heavy slab with the weight of a board bolted to a rock face and repainted every few years. THE FOURTH HEAVY SLAB ON THIS STREET and told apart by era and by making: the campgrounds' Alfa Slab is ROUTED into wood by a machine, The Den's Ultra is a 1970s record sleeve, The Latibulum's Bree Serif is soft carpentry, and this is a painted venue sign."
+      }
+    ],
+    "archivo": [
+      {
+        "file": "archivo-400.woff2",
+        "weight": "400",
+        "style": "normal",
+        "bytes": 34940,
+        "src": "https://fonts.gstatic.com/s/archivo/v25/k3kPo8UDI-1M0wlSV9XAw6lQkqWY8Q82sLydOxKsv4Rn.woff2",
+        "note": "Looming Rocks Amphitheatre (\u00a738), everything that is not the marquee. A plain grotesque drawn for small sizes on screens, which is what a running order and a row of runtimes actually are. One variable file serves both weights, as Chivo, Literata and Space Grotesk already do here."
+      },
+      {
+        "file": "archivo-700.woff2",
+        "weight": "700",
+        "style": "normal",
+        "bytes": 34940,
+        "src": "https://fonts.gstatic.com/s/archivo/v25/k3kPo8UDI-1M0wlSV9XAw6lQkqWY8Q82sLydOxKsv4Rn.woff2",
+        "note": "Looming Rocks Amphitheatre (\u00a738), everything that is not the marquee. A plain grotesque drawn for small sizes on screens, which is what a running order and a row of runtimes actually are. One variable file serves both weights, as Chivo, Literata and Space Grotesk already do here."
+      }
     ]
 }

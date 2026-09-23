@@ -623,6 +623,24 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--covenstead .og-bench {{ margin: auto -60px 0 !important; }}
 .og--covenstead .og-bench svg {{ display: block; width: 100%; height: 150px; }}
 
+/* looming rocks — THE TWO FACES WITH THE STAGE BETWEEN THEM, LIT FROM THE
+   GROUND UP. The card is mostly rock on purpose: this room's whole claim is
+   vertical scale and a thing you cannot see the top of, so the drawing takes
+   the bottom half of the box and is cut off by the edge rather than sitting in
+   it. The lichen is the only bright colour and the lamps are the only violet,
+   which is the room's own division. */
+.og--looming {{ width: 100%; padding: 42px 60px 0; gap: 13px;
+  justify-content: flex-start; }}
+.og--looming .og-over {{ margin: 0 !important; font-size: 19px; letter-spacing: 2.2px;
+  text-transform: uppercase; color: #ABA196; }}
+.og--looming h1 {{ font-size: 60px; line-height: 1.02; margin: 0 !important; }}
+.og--looming .og-sub {{ margin: 0 !important; font-family: 'Archivo', sans-serif;
+  font-size: 23px; line-height: 1.28; color: #4FD8C8; max-width: 900px; }}
+.og--looming .og-lede {{ font-family: 'Archivo', sans-serif; color: #ABA196; max-width: 880px;
+  font-size: 20px; line-height: 1.4; margin: 0 !important; }}
+.og--looming .og-cliffs {{ margin: auto -60px 0 !important; }}
+.og--looming .og-cliffs svg {{ display: block; width: 100%; height: 168px; }}
+
 /* yurt — the tent at night: fairy lights across the top, the smoke hole, and
    Helen's italic serif on her own canvas. IT KEEPS THE AMBIENT LAYER THAT SITS
    BEHIND ITS HEADLINE, and it keeps it for the reason the pony's lost its: the ember
@@ -2036,6 +2054,65 @@ def card_covenstead(p):
     )
 
 
+def card_looming(p):
+    # THE SUBTITLE IS LIFTED FROM THE PAGE, so the card cannot describe a room
+    # the room does not describe. The cliffs are drawn here rather than lifted
+    # because the page's own drawing is 900x300 and this is a 1200x630 box with
+    # most of the height already spoken for by words.
+    return (
+        "",
+        f'<div class="og og--looming" data-fit="card">'
+        f'<p class="og-over">Turning 03 &middot; The Outskirts &middot; the rocks were here first</p>'
+        f'{p["h1"]}'
+        f'<p class="og-sub">{p["amphisub"]}</p>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-cliffs" data-fit="cliffs">'
+        f'<svg viewBox="0 0 1200 210" fill="none" xmlns="http://www.w3.org/2000/svg">'
+        f'<path d="M0 210 V44 L62 8 L112 44 L158 0 L212 56 L252 26 L296 92 L330 64 L366 128 '
+        f'L392 150 L392 210 Z" fill="#241E18"/>'
+        f'<path d="M1200 210 V30 L1138 2 L1092 42 L1042 0 L992 62 L954 34 L912 100 L880 76 '
+        f'L846 136 L820 156 L820 210 Z" fill="#241E18"/>'
+        f'<path d="M0 210 V128 L52 100 L104 136 L152 106 L200 146 L244 120 L292 158 L336 136 '
+        f'L392 168 L392 210 Z" fill="#1B1713"/>'
+        f'<path d="M1200 210 V116 L1148 88 L1096 124 L1048 94 L1000 134 L956 110 L908 148 '
+        f'L864 126 L820 160 L820 210 Z" fill="#1B1713"/>'
+        f'<path d="M392 210 V168 H820 V210 Z" fill="#0C0A09"/>'
+        f'<path d="M392 168 H820" stroke="#4FD8C8" stroke-width="2.4" opacity=".75"/>'
+        f'<path d="M410 168 L392 86 L434 168 Z" fill="#A579F0" opacity=".11"/>'
+        f'<path d="M802 168 L820 80 L778 168 Z" fill="#A579F0" opacity=".11"/>'
+        f'<path d="M350 178 L332 108 L376 178 Z" fill="#A579F0" opacity=".14"/>'
+        f'<path d="M862 178 L880 102 L836 178 Z" fill="#A579F0" opacity=".14"/>'
+        f'<rect x="344" y="176" width="16" height="11" rx="2" fill="#A579F0"/>'
+        f'<rect x="852" y="176" width="16" height="11" rx="2" fill="#A579F0"/>'
+        f'<rect x="402" y="164" width="14" height="9" rx="2" fill="#A579F0"/>'
+        f'<rect x="796" y="164" width="14" height="9" rx="2" fill="#A579F0"/>'
+        f'<ellipse cx="86" cy="148" rx="22" ry="11" fill="#4FD8C8" opacity=".8"/>'
+        f'<ellipse cx="156" cy="120" rx="14" ry="7" fill="#4FD8C8" opacity=".6"/>'
+        f'<ellipse cx="42" cy="182" rx="17" ry="8" fill="#4FD8C8" opacity=".74"/>'
+        f'<ellipse cx="232" cy="162" rx="25" ry="10" fill="#4FD8C8" opacity=".66"/>'
+        f'<ellipse cx="308" cy="192" rx="15" ry="7" fill="#4FD8C8" opacity=".56"/>'
+        f'<ellipse cx="180" cy="196" rx="20" ry="8" fill="#4FD8C8" opacity=".6"/>'
+        f'<ellipse cx="1114" cy="142" rx="23" ry="11" fill="#4FD8C8" opacity=".8"/>'
+        f'<ellipse cx="1042" cy="116" rx="14" ry="7" fill="#4FD8C8" opacity=".58"/>'
+        f'<ellipse cx="1158" cy="178" rx="17" ry="8" fill="#4FD8C8" opacity=".72"/>'
+        f'<ellipse cx="968" cy="158" rx="24" ry="10" fill="#4FD8C8" opacity=".64"/>'
+        f'<ellipse cx="892" cy="190" rx="15" ry="7" fill="#4FD8C8" opacity=".55"/>'
+        f'<ellipse cx="1020" cy="194" rx="19" ry="8" fill="#4FD8C8" opacity=".58"/>'
+        f'<ellipse cx="128" cy="62" rx="10" ry="5" fill="#4FD8C8" opacity=".28"/>'
+        f'<ellipse cx="1072" cy="50" rx="10" ry="5" fill="#4FD8C8" opacity=".28"/>'
+        f'</svg></div>'
+        f'</div>',
+        f"A very dark card, almost black, with two enormous rock masses rising from the "
+        f"bottom corners and going up off the top edge, and a low dark stage between them. "
+        f"Small grey capitals reading turning 03, The Outskirts, the rocks were here first, "
+        f"then “{p['h1text']}” in a heavy slab in off-white, and under it in "
+        f"cyan-green: {p['amphisub_plain']} Then, in a plain sans: {p['desc_plain']} Four "
+        f"small violet lamps stand at the foot of the rocks throwing pale violet cones "
+        f"upward, and scattered across both rock faces are patches of lichen glowing "
+        f"cyan-green, brightest near the ground and fainter further up.",
+    )
+
+
 CARDS = {
     "street":       card_street,
     "room-pony":    card_pony,
@@ -2059,6 +2136,7 @@ CARDS = {
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
     "covenstead":   card_covenstead,
+    "looming":      card_looming,
     "garden":       card_garden,
     "room-yurt":    card_yurt,
     "hermitage":    card_herm,
@@ -2284,6 +2362,19 @@ def main():
             "blank line where the room's own welcome should be.")
     lifted["greeting"] = gr.group(1).strip()
     lifted["greeting_plain"] = html.unescape(re.sub(r"<[^>]+>", "", gr.group(1))).strip()
+
+    # LOOMING ROCKS' CARD CARRIES THE ROOM'S OWN SUBTITLE, lifted rather than
+    # typed, for the reason every other lift in this file exists: a card must
+    # not be able to describe a room the room does not describe.
+    amp = re.search(r'<p class="amphi__sub">(.*?)</p>',
+                    (ROOT / "looming-rocks.html").read_text(), re.S)
+    if not amp:
+        raise SystemExit(
+            "REFUSING: looming-rocks.html has no subtitle on it, and its card is built\n"
+            "around one. Redesign the card on purpose rather than letting it render a\n"
+            "blank line under the name of the venue.")
+    lifted["amphisub"] = amp.group(1).strip()
+    lifted["amphisub_plain"] = html.unescape(re.sub(r"<[^>]+>", "", amp.group(1))).strip()
 
     # THE GARDEN'S CARD IS A ROW OF ITS OWN LABELS, read off the beds rather
     # than typed here -- the campground's pitches' rule, and it matters more in

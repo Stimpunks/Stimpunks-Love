@@ -141,6 +141,13 @@
         7
       ]
     },
+    "archivo": {
+      "where": "Looming Rocks Amphitheatre",
+      "page": "looming-rocks.html",
+      "sections": [
+        38
+      ]
+    },
     "asap": {
       "where": "Covenstead",
       "page": "covenstead.html",
@@ -160,6 +167,13 @@
       "page": "club-chronic.html",
       "sections": [
         20
+      ]
+    },
+    "bevan": {
+      "where": "Looming Rocks Amphitheatre",
+      "page": "looming-rocks.html",
+      "sections": [
+        38
       ]
     },
     "bitter": {
