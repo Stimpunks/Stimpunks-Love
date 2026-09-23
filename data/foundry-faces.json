@@ -758,6 +758,23 @@
     }
    ]
   },
+  "limelight": {
+   "family": "Limelight",
+   "category": "Display",
+   "designer": "Nicole Fally, Sorkin Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/limelight",
+   "copyright": "Copyright (c) 2010 by Sorkin Type Co (eben@eyebytes.com) with Reserved Font Name Limelight. This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "limelight-400.woff2",
+     "sha": "90a42567c2bb01f2"
+    }
+   ]
+  },
   "literata": {
    "family": "Literata",
    "category": "Serif",
@@ -892,6 +909,29 @@
      "style": "normal",
      "file": "nunito-400.woff2",
      "sha": "20fc9b6fc618e7c3"
+    }
+   ]
+  },
+  "outfit": {
+   "family": "Outfit",
+   "category": "Sans Serif",
+   "designer": "Smartsheet Inc, Rodrigo Fuenzalida",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/outfit",
+   "copyright": "Copyright 2021 The Outfit Project Authors (https://github.com/Outfitio/Outfit-Fonts)",
+   "repository": "https://github.com/Outfitio/Outfit-Fonts",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "outfit-400.woff2",
+     "sha": "92684e4acde79ef0"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "outfit-400.woff2",
+     "sha": "92684e4acde79ef0"
     }
    ]
   },

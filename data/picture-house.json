@@ -1,0 +1,195 @@
+{
+  "_what": "The Lightbulb Picture House, a theater on the street. Two screens, each one of our own playlists put on whole, and a rack for Screen One with one card per film. tools/make-picture-house.py builds both screens, the rack, Screen Two's credits line and the liner notes from this file. Do not hand-edit between the markers.",
+  "_source": "Both playlists were read off their own playlist pages (ytInitialData) on 2026-09-23: fifteen entries and a header reading fifteen videos, seven and seven, nothing hidden in either. Every id was then checked on its own watch page the same day: playabilityStatus OK, playableInEmbed true, none LOGIN_REQUIRED. Runtimes are the ones YouTube's own playlist shows, which is the number a visitor will see on the player. Channels are the uploading channel as the watch page names it; where the playlist showed 'Collaborators' (the first film) the watch page's own channel is used.",
+  "_about": "EVERY LINE ON THE RACK IS OURS, and every one was written from the film itself rather than from its title. Six were read from their auto-captions in full; eight were read by a subagent working from the same captions, whose report said what each film covers, what it contains, and what it does not say; the one film whose captions could not be fetched (the double empathy animation, rate-limited) is described from its maker's own description and from our Autism Pathway page, which already embeds it. Makers are named only where the film's own description names them. NO CREATOR'S PRONOUNS ARE USED ANYWHERE ON THE RACK: not one transcript states them, and a name tells you nobody's pronouns.",
+  "_content": "EVERY FILM CARRIES A `content` KEY, and a film without one is refused. Null means somebody looked and there is nothing to warn about; a string is said on the card BEFORE the press, beside the runtime, for the runtime's reason. A sponsor segment is said out loud too, because an advert in the middle of a film is a thing you would want to know before you sat down.",
+  "_order": "Each playlist's own order, which is Stimpunks' and is not re-sorted here.",
+  "_drift": "The rack is a MIRROR of Screen One's playlist and drifts by design. A film added to the playlist is on the screen the next time somebody presses play, and is not on the rack until somebody watches it and writes a card. The room prints the date under the rack.",
+  "_captions": "Every frame here asks for captions on by default (cc_load_policy=1), which was tested on 2026-09-23 by framing both a single film and a playlist from a page on the dev server and seeing the captions come up. Loading the embed URL directly gives Error 153 for every video and says nothing; the test has to be framed.",
+  "_checked": "2026-09-23",
+  "_awareness": "The one quotation in the room. Read off our own Acceptance glossary entry, https://stimpunks.org/glossary/acceptance/, on 2026-09-23, and credited to its author rather than to the entry. It is the line that names the blue lights and the puzzle pieces, from somebody autistic, which is why it is here rather than any description of the campaign in our own words.",
+  "awareness": {
+    "text": "Awareness says: Donate to the awesome organizations that have all the pretty puzzle pieces and all the pretty blue lights!",
+    "who": "Amy Sequenzia",
+    "work": "I Don’t Want Your Awareness",
+    "url": "http://ollibean.com/i-dont-want-your-awareness/",
+    "via": "https://stimpunks.org/glossary/acceptance/"
+  },
+  "screens": [
+    {
+      "id": "one",
+      "name": "Screen One",
+      "list": "PLRtKsTScL-vS6erGuuNmO00A-W6NVtcqD",
+      "title": "Animated Introductions to Autism, ADHD, and Neurodiversity",
+      "note": "Short animations, most of them made by the people they are about. The rack underneath has a card for every one."
+    },
+    {
+      "id": "two",
+      "name": "Screen Two",
+      "list": "PLRtKsTScL-vS11YLFtznfZLhqp1t4GmYc",
+      "title": "More on Autism, ADHD, and Neurodiversity",
+      "note": "Longer ones, for after. Two of them are an hour each."
+    }
+  ],
+  "rack": [
+    {
+      "id": "zDiWGHgWeUk",
+      "title": "An introduction to neurodiversity",
+      "makers": "Written and narrated by Kieran Rose, the Autistic Advocate; animated by Josh Knowles Animation",
+      "channel": "Autism Central Learn",
+      "runtime": "6:17",
+      "about": "Neurodiversity as biodiversity for human brains: every flower is unique and every one is still a flower. It says there is nothing right or wrong about either kind of brain, and that the problem is a world built around the majority, which society needs to fix.",
+      "content": null,
+      "ours": {"name": "Neurodiversity, in our glossary", "url": "https://stimpunks.org/glossary/neurodiversity/"}
+    },
+    {
+      "id": "qpXwYD9bGyU",
+      "title": "An introduction to the Double Empathy problem",
+      "makers": "Written and narrated by Kieran Rose; animated by Josh Knowles Animation, for the National Autism Trainer Programme",
+      "channel": "The Autistic Advocate",
+      "runtime": "5:37",
+      "about": "Damian Milton’s double empathy problem: when autistic and non-autistic people misunderstand each other, the breakdown runs both ways, and it is not an autistic deficit. Our Autism Pathway pairs it with the monotropism film further along this rack.",
+      "content": null,
+      "ours": {"name": "The double empathy problem, in our glossary", "url": "https://stimpunks.org/glossary/double-empathy-problem/"}
+    },
+    {
+      "id": "-eDv2omDMko",
+      "title": "Discovering You’re Autistic",
+      "makers": "Made by an international team of neurodivergent creatives, from the stories of people in Thriving Autistic’s Discovery Programme",
+      "channel": "Thriving Autistic",
+      "runtime": "2:30",
+      "about": "Growing up feeling different without knowing why, and what a word for it can do: help you find ways of doing things that work with your brain and body rather than against them, and help you find the people on your wavelength.",
+      "content": null,
+      "ours": {"name": "Our Autism Pathway", "url": "https://stimpunks.org/pathways/autism/"}
+    },
+    {
+      "id": "3O6hy-usIug",
+      "title": "Lightbulb Moments: Being Autistic",
+      "makers": "Made from the stories of people in Thriving Autistic’s Discovery Programme",
+      "channel": "Thriving Autistic",
+      "runtime": "2:44",
+      "about": "The film this picture house is named after. A string of small recognitions — interests that flow like a river and worries that swirl like a whirlpool, a plan that has to be rebuilt when it changes, thinking in constellations rather than lines — from somebody who thought it was just them.",
+      "content": null,
+      "ours": {"name": "Autism, in our glossary", "url": "https://stimpunks.org/glossary/autism/"}
+    },
+    {
+      "id": "qUFDAevkd3E",
+      "title": "An Introduction to Monotropism",
+      "makers": "Written and narrated by Kieran Rose; animated by Josh Knowles Animation, for the National Autism Trainer Programme",
+      "channel": "The Autistic Advocate",
+      "runtime": "4:01",
+      "about": "Monotropism, the theory Dinah Murray, Wenn Lawson and Mike Lesser built, drawn as a gravity well: autistic attention takes time to build up, locks on, and flows, and being pulled out of it too fast is what gets misread as challenging behaviour.",
+      "content": null,
+      "ours": {"name": "Monotropism, in our glossary", "url": "https://stimpunks.org/glossary/monotropism/"}
+    },
+    {
+      "id": "KSKvazfTLv8",
+      "title": "Walk In My Shoes",
+      "makers": "Made by the Donaldson Trust with Erin Davidson, from Erin’s experiences at fourteen",
+      "channel": "Donaldson Trust",
+      "runtime": "10:23",
+      "about": "The walk to school, the corridors, a lesson with no filter on it, and being surrounded by people and still alone. It ends on what autism means to the person telling it, and on knowing somebody in order to support them.",
+      "content": "Anxiety and panic attacks throughout.",
+      "ours": null
+    },
+    {
+      "id": "b0hL4mJInm0",
+      "title": "I found out I have ADHD.",
+      "makers": "JaidenAnimations and team",
+      "channel": "JaidenAnimations",
+      "runtime": "17:53",
+      "about": "A good student who came apart after leaving home, a brother’s diagnosis that raised the question, eight months before booking an assessment, a report thirty-seven pages long, and the first time on medication.",
+      "content": "Stimulant medication is a large part of it, and there are two passing jokes about suicide.",
+      "ours": null
+    },
+    {
+      "id": "i3Vy2BPmMS4",
+      "title": "Times I should’ve realized I was autistic",
+      "makers": "illymation and team",
+      "channel": "illymation",
+      "runtime": "11:26",
+      "about": "Childhood sensory memories — textures, automatic toilets, itchy jeans — and masking that went wrong, alongside why criteria built around young white boys miss so many girls and people of colour. It stands up for self-identification; the maker has since been diagnosed, and says so under the video.",
+      "content": "Brief bullying at school.",
+      "ours": {"name": "Autism, in our glossary", "url": "https://stimpunks.org/glossary/autism/"}
+    },
+    {
+      "id": "ib56g2DsX-s",
+      "title": "I’m Autistic, and Here’s How People React To My Autism",
+      "makers": "Cypopps",
+      "channel": "Cypopps",
+      "runtime": "4:29",
+      "about": "Coming out as autistic, and the replies: “I don’t think so”, “I’m so sorry”, “you don’t look autistic” — and the best one, which is “cool” and moving on.",
+      "content": null,
+      "ours": null
+    },
+    {
+      "id": "TZ5V_-hP05g",
+      "title": "Do You Have Autism or ADHD (OR Both)?",
+      "makers": "Written by Kelly Soong; revised by Brian Cham and Amanda Silvera; voiced by Amanda Silvera; animated by Tris",
+      "channel": "Psych2Go",
+      "runtime": "9:26",
+      "about": "Where autism and ADHD overlap — sensory sensitivity, hyperfocus, freezing under overload — and how both can look quieter in people who mask. For all its title, it says plainly that it is not there to diagnose anybody, and that nobody needs a diagnosis to deserve understanding.",
+      "content": null,
+      "ours": null
+    },
+    {
+      "id": "LGKvfFRiZy8",
+      "title": "I was the weird kid.",
+      "makers": "Cypopps",
+      "channel": "Cypopps",
+      "runtime": "6:21",
+      "about": "A tenth-grade year of being singled out, and a refusal of the idea that the weird kid is bullied for a reason.",
+      "content": "Sustained bullying throughout, including unwanted physical contact and photographs taken and shared without consent. The maker puts a content warning on it too.",
+      "ours": null
+    },
+    {
+      "id": "iCLvsSfid-Q",
+      "title": "Maria — Autistic Masking",
+      "makers": "Directed, written, designed, animated and edited by Arran Bull; Maria voiced by Gemma-Louise Keanne",
+      "channel": "Third Eye Animation",
+      "runtime": "4:02",
+      "about": "A school day that gets louder until Maria cannot hold it together any more, and one teacher who does not ask for an explanation. Four minutes, almost without words.",
+      "content": "A meltdown in class, with screaming and sobbing.",
+      "ours": {"name": "Masking, in our glossary", "url": "https://stimpunks.org/glossary/masking/"}
+    },
+    {
+      "id": "Z5T3r8rQ2Ho",
+      "title": "the reality of being neurodivergent",
+      "makers": "owiebrainhurts",
+      "channel": "owiebrainhurts",
+      "runtime": "9:12",
+      "about": "Autism and ADHD as disabilities rather than quirky personality traits: a meltdown at eighteen, ordering food in public, executive function at work, and the social model of disability.",
+      "content": "A meltdown at school. Has a sponsor segment.",
+      "ours": {"name": "The social model, in our glossary", "url": "https://stimpunks.org/glossary/social-model/"}
+    },
+    {
+      "id": "NQe5vuEabFc",
+      "title": "not fitting in",
+      "makers": "owiebrainhurts",
+      "channel": "owiebrainhurts",
+      "runtime": "8:34",
+      "about": "Not fitting in, through autism and through gender, and finding that a lot of the friends who stuck turned out to be neurodivergent too.",
+      "content": "Brief bullying and gendered harassment. Has a sponsor segment.",
+      "ours": null
+    },
+    {
+      "id": "f4EV_V2_Ua4",
+      "title": "why nobody realised I was autistic",
+      "makers": "owiebrainhurts",
+      "channel": "owiebrainhurts",
+      "runtime": "6:03",
+      "about": "Diagnosed at twenty-two after a string of other diagnoses: masking, research built on boys, sensory needs written off as picky eating, and why self-identification is necessary for so many people. It credits the illymation film earlier on this rack.",
+      "content": null,
+      "ours": null
+    }
+  ],
+  "screen_two": [
+    {"id": "ALJ3CFRRZpo", "title": "What Exactly is Neurodiversity?", "channel": "How to ADHD", "runtime": "6:04"},
+    {"id": "xMWtGozn5jU", "title": "What is ADHD?", "channel": "How to ADHD", "runtime": "3:27"},
+    {"id": "vycWIzURgZM", "title": "Defining Features of ADHD That Everyone Overlooks", "who": "William Dodson", "channel": "ADDitude Magazine", "runtime": "1:01:28"},
+    {"id": "klmxcj52PQQ", "title": "An ADHD Guide to Emotional Dysregulation and Rejection Sensitive Dysphoria", "who": "William Dodson", "channel": "ADDitude Magazine", "runtime": "1:00:37"},
+    {"id": "H6xl_yJKWVU", "title": "Ask an Autistic #19 — What is Neurodiversity?", "channel": "Amythest Schaber", "runtime": "11:29"},
+    {"id": "T05Sli_-xBA", "title": "ADHD: A Nightmare Under Capitalism", "channel": "Elliot Sang", "runtime": "32:54"},
+    {"id": "0pibDq98raQ", "title": "Good To Be Me", "channel": "Spectrum Gaming", "runtime": "3:38"}
+  ]
+}

@@ -1211,6 +1211,41 @@
       "learned": "Talk to the comic, not to whoever came in with them — which is one of that club’s house rules, and a good one for anywhere with tables in it."
     },
     {
+      "id": "picture-house-earmuffs",
+      "page": "lightbulb-picture-house.html",
+      "room": "The Lightbulb Picture House",
+      "title": "Where the attention goes",
+      "posted": "There is a picture house on the street where the house lights never go down, and one of the films on its rack draws autistic attention as something out in space. Go and find out what.",
+      "rank": 1,
+      "takes": "five minutes, or four more if you watch the film",
+      "target": "a pair of ear defenders left on a seat",
+      "code": "HOUSELIGHTS",
+      "hints": [
+        "On the street itself, in the row of shopfronts — the one with a row of warm bulbs in its awning.",
+        "The rack is between the two screens, and the film is the one about monotropism.",
+        "Right at the foot of the picture house, under the dial, where somebody left them on a seat."
+      ],
+      "ask": {
+        "question": "The monotropism film on the rack says focused autistic attention is like something in space, with a pull you cannot easily get out of. What?",
+        "accept": [
+          "black hole",
+          "a black hole",
+          "blackhole",
+          "gravity well",
+          "a gravity well",
+          "gravity"
+        ],
+        "answer": "A black hole",
+        "why": "In the monotropism film, the focus of autistic attention has more mass than anything else around it, and its gravity drags you in. Coming back out of a gravity well takes time, and being pulled out too fast is what gets mistaken for challenging behaviour.",
+        "hints": [
+          "It is on the card for the monotropism film, and in the film itself.",
+          "The card calls it a gravity well.",
+          "Two words; nothing escapes one."
+        ]
+      },
+      "learned": "Attention that goes deep takes time to come back from. That is monotropism, and it is why a relaxed screening lets you walk in late and leave early."
+    },
+    {
       "id": "looming-flood",
       "page": "looming-rocks.html",
       "room": "Looming Rocks Amphitheatre",

@@ -500,6 +500,20 @@
 @font-face { font-family: 'Bricolage Grotesque'; src: url('fonts/bricolage-grotesque-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Bricolage Grotesque'; src: url('fonts/bricolage-grotesque-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* The Lightbulb Picture House (§42). A FASCIA FACE AND AN EVEN ONE. Limelight
+   is the Art Deco display letter cut into a 1930s picture house's front, and it
+   sets the house's name, the screen numbers, the headings and the running
+   numbers on the rack -- nothing at reading size. It is not the Chappell's
+   Monoton, which is a neon tube, nor Laughingstock's script, which is a sign-
+   writer's hand: it is carved. Outfit carries everything that is read: open,
+   even and unfussy, because a relaxed screening is for people who came to
+   understand something and the face should not be one more thing to get past.
+   One variable file, declared twice. Both under the SIL Open Font License. See
+   fonts/_sources.json. */
+@font-face { font-family: 'Limelight'; src: url('fonts/limelight-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Outfit'; src: url('fonts/outfit-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Outfit'; src: url('fonts/outfit-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1259,6 +1273,32 @@
   --ls-spot:   #FBF0DC;   --ls-ink:    #1F1513;   --ls-ink-2:  #5B3B2F;
   --ls-brick:  #8E3526;   --ls-wall:   #3A1713;
   --ls-joint:  #231513;   --ls-joint-lit: #C9A48E;
+
+  /* The Lightbulb Picture House (§42). AN AUDITORIUM WITH THE HOUSE LIGHTS UP,
+     and that is the whole separation from every dark room on this street with a
+     bright rectangle in it. The room is lit ALL OVER, by bare bulbs in brass
+     sconces down both walls, so the ground is lit velvet -- red, not black --
+     and there is no beam, because a projector's beam only shows in the dark.
+     NOTHING HERE IS BLUE, and make-picture-house.py refuses a blue --lph-
+     colour: a lightbulb theater in a neurodiversity room, lit blue, is Light It
+     Up Blue. The bulbs are warm and the ornament is the gold infinity, Autistic
+     UK's, from Au. --lph-velvet is the room and carries every word of ours;
+     --lph-deep is the rack's cards and the seats; --lph-screen is the one pale
+     thing, and every press-to-play plate is a small screen in it, dark ink on
+     the light. --lph-gold is every link and heading accent. The brass, the bulbs
+     and the curtain's folds draw and carry nothing.
+     LAUGHINGSTOCK IS THE ROOM TO WATCH, one door along and also red, also a
+     room you sit in and face something lit. That room is a DARK house with one
+     spot from behind you onto brick; this is a LIT house with no spot at all and
+     many small sources, velvet rather than brick, and nothing in it standing in
+     a pool. If the house lights here ever go down, it has become that room with
+     a screen in it, and it is this one that moves.
+     LPH- PREFIXED THROUGHOUT: a custom property declared twice in one :root is
+     last-wins and silent. */
+  --lph-velvet: #7A1C2B;   --lph-deep:  #551220;   --lph-fold:  #9A2A3A;
+  --lph-cream:  #FFF4E2;   --lph-text:  #F7E3D0;   --lph-dim:   #EDC9B0;
+  --lph-gold:   #F6C95A;   --lph-bulb:  #FFE3A0;   --lph-brass: #C9953C;
+  --lph-screen: #FFF6E8;   --lph-ink:   #2A0A10;   --lph-ink-2: #6B2230;
 }
 
 * { box-sizing: border-box; }
@@ -1792,6 +1832,17 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 .door--laughingstock .door__name  { font-family: 'Yellowtail', cursive; font-weight: 400; color: var(--ls-neon); font-size: 36px; line-height: 1.05; text-shadow: 0 0 10px rgba(134, 220, 255, .45); }
 .door--laughingstock .door__blurb { font-family: 'Bricolage Grotesque', var(--sans); color: var(--ls-text); }
 .door--laughingstock .door__knock { font-family: 'Bricolage Grotesque', var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ls-neon); }
+
+/* The Lightbulb Picture House (§42). THE ONE FRONT IN THE ROW WITH ITS LIGHTS ON
+   AND NONE OF THEM BLUE: lit velvet under a canopy of warm bulbs, and the name
+   in a carved Deco fascia face. The bulbs in the awning are a static row -- they
+   do not chase, which is the Arcade's marquee and a flicker by another name.
+   Every ink here is on --lph-velvet and is measured in check-contrast.py. */
+.door--picture-house { background: var(--lph-velvet); border-color: var(--lph-brass); }
+.door--picture-house .door__awning { background-color: var(--lph-deep); background-image: radial-gradient(circle, var(--lph-bulb) 0 4px, transparent 5px); background-size: 22px 100%; background-position: 11px 50%; border-bottom-color: var(--lph-brass); }
+.door--picture-house .door__name  { font-family: 'Limelight', Georgia, serif; font-weight: 400; color: var(--lph-cream); font-size: 25px; line-height: 1.15; }
+.door--picture-house .door__blurb { font-family: 'Outfit', var(--sans); color: var(--lph-text); }
+.door--picture-house .door__knock { font-family: 'Outfit', var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--lph-gold); }
 
 .door--feed { background: var(--fd-enamel); border-color: var(--fd-girder); }
 .door--feed .door__awning { background-image: repeating-linear-gradient(180deg, var(--fd-flap) 0 6px, var(--fd-split) 6px 7px); border-bottom-color: var(--fd-girder); }
@@ -9444,7 +9495,143 @@ html[data-intensity="max"] .ls-fizz circle:nth-child(4) { animation-duration: 3.
 }
 
 
-/* §42 ── Small screens ───────────────────────────────────────────────────────
+/* §42 ── ROOM: The Lightbulb Picture House (a shopfront on the street) ───────
+   A PICTURE HOUSE WHERE EVERY SCREENING IS A RELAXED SCREENING. Two screens of
+   films about autism, ADHD and neurodiversity, most of them made by the people
+   they are about, and a rack with a card for every film on the first.
+
+   THE HOUSE LIGHTS STAY UP, AND THAT IS THE ROOM. Every other room on this
+   street with a bright rectangle in it keeps the rectangle in the dark --
+   Black Leather Lagoon's screen stands in black water, Laughingstock's pool of
+   light is on a brick wall in a dark house. This one is lit ALL OVER, by bare
+   bulbs in brass sconces down both walls, which is what a relaxed screening
+   actually is: nobody sits in the dark who did not ask to. So the ground is lit
+   velvet, the seats are a colour rather than a silhouette, and there is no
+   beam. The screen is the palest thing in the room and not the only lit one.
+
+   NOTHING IS BLUE. Not the bulbs, not a link, not a shadow. The page says so,
+   and make-picture-house.py reads this section and the room's :root colours
+   and refuses a blue or cyan hue, because a sentence can be made false by one
+   colour somebody thought looked nice. The ornament is the gold infinity and
+   never the rainbow one.
+
+   THESE ARE THE COLLISIONS TO WATCH, and every one is structural:
+     · LAUGHINGSTOCK is also red and also faces something lit. It is a dark
+       house with one spot from behind you; this is a lit house with no spot.
+     · THE CHAPPELL is also gold ornament in a devotional building. It is
+       votive indigo, arches and glass; there is no indigo in here and there
+       cannot be.
+     · THE ARCADE has bulbs too, on a marquee round a cabinet, and they are its
+       chrome. The bulbs here are house lights on the walls and in a static row
+       on the door, and they never chase.
+     · THE DEN is the warm lamplit room this would collapse into if the velvet
+       browned. It is panelling lit at knee height; this is velvet lit from
+       every wall at once.
+
+   NO BULB FLICKERS, DIMS OR CHASES, at any setting, for Club Chronic's reason.
+   The only motion is the popcorn in the second row, which pops at MAX with a
+   translate, stands still at Regular and is taken away by §3 at Gentle.
+
+   A PRESS-TO-PLAY PLATE IS A SMALL SCREEN, pale with dark ink, and is dressed
+   from `.facade` rather than `button.facade` so the player that replaces it
+   keeps the frame -- love-embed.js hands back a bare div. */
+
+.picture-house { background: var(--lph-velvet); color: var(--lph-text); font-family: 'Outfit', system-ui, sans-serif; }
+.picture-house a { color: var(--lph-gold); text-underline-offset: 3px; }
+.picture-house a:hover { color: var(--lph-cream); }
+.picture-house :where(p, li) { font-size: 17px; line-height: 1.66; }
+.picture-house strong { color: var(--lph-cream); font-weight: 700; }
+.picture-house .backlink { font-family: 'Outfit', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--lph-gold); }
+
+.lph-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.lph-trail { margin: 0; font-size: 14px; color: var(--lph-dim); }
+
+.lph-head { margin: 34px 0 0; }
+.lph-over { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--lph-dim); }
+.picture-house h1 {
+  font-family: 'Limelight', Georgia, serif; font-weight: 400;
+  font-size: clamp(40px, 7.4vw, 84px); line-height: 1.08;
+  color: var(--lph-cream); margin: 10px 0 0;
+}
+.lph-tagline { margin: 10px 0 0; font-weight: 700; font-size: clamp(18px, 2.4vw, 23px); line-height: 1.35; color: var(--lph-gold); }
+.lph-art { margin: 24px 0 0; line-height: 0; }
+.lph-art svg { display: block; width: 100%; height: auto; border-radius: 4px; }
+
+.lph-lede { margin: 30px 0 0; max-width: 66ch; }
+.lph-lede p { margin: 0 0 16px; font-size: 20px; line-height: 1.6; color: var(--lph-cream); }
+
+.lph-part { margin: 64px 0 0; }
+.lph-part > :where(p, ul) { max-width: 70ch; }
+.lph-part > :where(p) { margin: 0 0 14px; }
+.picture-house h2 { font-family: 'Limelight', Georgia, serif; font-weight: 400; font-size: clamp(26px, 3.6vw, 36px); line-height: 1.2; color: var(--lph-cream); margin: 0 0 16px; }
+
+.lph-rules { list-style: none; margin: 18px 0 20px; padding: 0; }
+.lph-rules li { margin: 0; padding: 12px 0; border-top: 1px solid var(--lph-brass); }
+.lph-rules li:last-child { border-bottom: 1px solid var(--lph-brass); }
+.lph-blue { margin-top: 24px; }
+.lph-said { margin: 18px 0 0; max-width: 64ch; padding: 4px 0 4px 20px; border-left: 3px solid var(--lph-gold); }
+.lph-said p { margin: 0; font-size: 19px; line-height: 1.5; color: var(--lph-cream); }
+.lph-said cite { display: block; margin: 8px 0 0; font-size: 14px; font-style: normal; color: var(--lph-dim); }
+
+/* THE SCREENS. A stepped Deco frame in brass round a pale screen, which is the
+   press-to-play plate until it is pressed and the player after. */
+.lph-screen__num { display: block; font-size: .62em; letter-spacing: .12em; text-transform: uppercase; color: var(--lph-gold); }
+.lph-proscenium { margin: 18px 0 0; max-width: 900px; padding: 12px; border: 3px solid var(--lph-brass); border-radius: 18px 18px 4px 4px; background: var(--lph-deep); }
+.picture-house .facade {
+  background: var(--lph-screen); color: var(--lph-ink);
+  border: 2px solid var(--lph-brass); border-radius: 4px;
+  font-family: 'Outfit', system-ui, sans-serif; font-weight: 700; font-size: 17px;
+}
+.picture-house .facade:hover { border-color: var(--lph-gold); }
+.picture-house .facade__play { font-family: 'Outfit', system-ui, sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .14em; color: var(--lph-ink-2); }
+.picture-house .facade iframe { border-radius: 2px; }
+.picture-house .lph-screen__note { margin: 0; }
+.picture-house .lph-screen__credit { margin: 10px 0 0; font-size: 14px; color: var(--lph-dim); max-width: 70ch; }
+.picture-house .lph-two__h { margin: 22px 0 6px; font-weight: 700; color: var(--lph-cream); }
+.lph-two { margin: 0; padding: 0 0 0 1.2em; max-width: 72ch; }
+.picture-house .lph-two li { margin: 0 0 6px; font-size: 15.5px; }
+.lph-two__t { color: var(--lph-cream); font-weight: 700; }
+.lph-two li::marker { color: var(--lph-gold); }
+
+/* THE RACK. One card per film, in the order it plays, on the seats' own deep
+   velvet with a brass hairline. What is in a film is said on the card, before
+   the press, in the same place on every card. */
+.lph-rack { list-style: none; margin: 22px 0 18px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 26px 22px; }
+.lph-card { display: flex; flex-direction: column; gap: 8px; padding: 18px 18px 16px; background: var(--lph-deep); border: 1px solid var(--lph-brass); border-radius: 4px; }
+.picture-house .lph-card__n { margin: 0; font-family: 'Limelight', Georgia, serif; font-size: 22px; line-height: 1; color: var(--lph-gold); }
+.lph-card__title { margin: 0; font-weight: 700; font-size: 20px; line-height: 1.25; color: var(--lph-cream); }
+.picture-house .lph-card__makers { margin: 0; font-size: 14px; line-height: 1.45; color: var(--lph-dim); }
+.picture-house .lph-card__about { margin: 0; font-size: 16px; line-height: 1.55; }
+.picture-house .lph-card__content { margin: 0; font-size: 15px; line-height: 1.5; color: var(--lph-cream); padding-left: 10px; border-left: 3px solid var(--lph-gold); }
+.lph-card__label { font-weight: 700; color: var(--lph-gold); }
+.lph-card .facade { margin-top: auto; }
+.picture-house .lph-card__credit { margin: 0; font-size: 14px; color: var(--lph-dim); }
+.picture-house .lph-card__ours { margin: 0; font-size: 14px; }
+.picture-house .lph-from { font-size: 15px; color: var(--lph-dim); }
+
+.lph-thanks { border-top: 1px solid var(--lph-brass); padding-top: 30px; }
+.picture-house .lph-further { font-size: 15px; color: var(--lph-dim); }
+.lph-dialbox { max-width: 380px; }
+.picture-house .quest { margin-top: 44px; }
+
+/* The popcorn, at MAX only: four kernels hopping, a translate and nothing else. */
+html[data-intensity="max"] .lph-pop circle { animation: lph-pop 1.6s ease-in-out infinite; }
+html[data-intensity="max"] .lph-pop circle:nth-child(2) { animation-delay: -.5s; animation-duration: 1.9s; }
+html[data-intensity="max"] .lph-pop circle:nth-child(3) { animation-delay: -1.1s; animation-duration: 1.4s; }
+html[data-intensity="max"] .lph-pop circle:nth-child(4) { animation-delay: -.8s; animation-duration: 2.2s; }
+@keyframes lph-pop { 0%, 70%, 100% { transform: translate(0, 0); } 80% { transform: translate(0, -9px); } }
+
+/* ON A PHONE the rack is one card to a row and the frame round each screen gets
+   thinner rather than going: a screen with no frame is a video on a page, and
+   that is a different room. Last in the section, after every rule it overrides. */
+@media (max-width: 560px) {
+  .lph-rack { grid-template-columns: minmax(0, 1fr); }
+  .lph-proscenium { padding: 7px; border-width: 2px; border-radius: 12px 12px 4px 4px; }
+  .lph-lede p { font-size: 18px; }
+}
+
+
+/* §43 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -9551,7 +9738,7 @@ html[data-intensity="max"] .ls-fizz circle:nth-child(4) { animation-duration: 3.
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §42 says every
+   shipped with no rule here at all — which on a street whose §43 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -9675,7 +9862,7 @@ html[data-intensity="max"] .ls-fizz circle:nth-child(4) { animation-duration: 3.
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §43 ── Print ───────────────────────────────────────────────────────────────
+/* §44 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

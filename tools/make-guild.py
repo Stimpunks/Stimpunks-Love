@@ -187,6 +187,11 @@ def normalise(s):
 # yellow on that blue measures 3.88 and white measures 5.08 -- the one place
 # here where the room's favourite colour lost to the floor it was lying on.
 DRAW = {
+    # Ear defenders left on a seat in the second row, which is where a relaxed
+    # screening keeps a spare pair: the headband and both cups in --lph-cream,
+    # 10.2 on the velvet, and the seat's edge in --lph-brass, which carries
+    # nothing. Held to the body threshold a marker is held to. No blue.
+    "picture-house-earmuffs": """<path d="M3 27 H29" stroke="var(--lph-brass)" stroke-width="1.8" stroke-linecap="round"/><path d="M8 19 Q8 5 16 5 Q24 5 24 19" fill="none" stroke="var(--lph-cream)" stroke-width="2.4" stroke-linecap="round"/><rect x="4" y="16" width="7" height="10" rx="3" fill="none" stroke="var(--lph-cream)" stroke-width="2.2"/><rect x="21" y="16" width="7" height="10" rx="3" fill="none" stroke="var(--lph-cream)" stroke-width="2.2"/>""",
     # A set list taped to the stage floor by the mic stand, which is where every
     # comic keeps theirs: a sheet in --ls-cream, 15.72 on the house, with three
     # lines of running order on it and a strip of tape across the top in the

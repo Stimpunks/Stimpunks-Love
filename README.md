@@ -96,6 +96,7 @@ rabbit-hole.html      Not a room: a shaft. Rabbit holing, seven presses, six 186
 healing-checkpoint.html  Room 429. A save room lit from the floor. Rest, and a bed with no terms on it
 dead-tired-society.html  Peer support for the burnt out. Big lights off, door ajar, nobody sitting in the light
 laughingstock.html    A comedy club down a ramp. Disabled comics on their own terms; only their lines stand in the light
+lightbulb-picture-house.html  Two screens of neurodiversity films, a rack with a card for each. House lights up; nothing is blue
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 the-garden.html       The knowledge garden. One bed per site we publish, each linking out
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
@@ -140,6 +141,7 @@ data/rabbit-hole.json The shaft's presses, its engravings and its trail. No lyri
 data/checkpoint.json  Room 429's quotations, its Retry-After slips and its way out
 data/dead-tired.json  The pegs by the door: what wore us out, one line from somebody who wrote about it, one of ours
 data/laughingstock.json  The stage, the bill and the lines in the light. Every set names its comics and its runtime
+data/picture-house.json  The two screens and the rack. Every card says who made it, how long, and what is in it
 quest.js              The job markers, and the guild's board. Works with scripts off
 zibaldone.js          The attribution slip. Composes a block of text; sends nothing anywhere
 checkpoint.js         Room 429's copy buttons, which ship hidden. The slips work without it
@@ -186,6 +188,7 @@ python3 tools/make-rabbit-hole.py  # The Rabbit Hole's presses, engravings and t
 python3 tools/make-checkpoint.py   # Room 429's quotations, slips and way out, and the credits
 python3 tools/make-dead-tired.py   # Dead Tired Society's pegs by the door, and the credits
 python3 tools/make-laughingstock.py # Laughingstock's stage, its bill and the lines in the light, and the credits
+python3 tools/make-picture-house.py # The Lightbulb Picture House's screens and rack, and the credits; refuses a blue
 python3 tools/make-foundry.py      # The Foundry's bench, its shelves and its proof
 python3 tools/make-signoff.py      # the sign-off line on every page, and the pavement's links on the front one
 python3 tools/make-structured.py   # each page's JSON-LD, built from its own head
@@ -389,6 +392,15 @@ light**: the comics&rsquo; own lines are the only blockquotes in that room and a
 &ldquo;I suffer from people&rdquo; is allowed to say suffer. It holds `make-club.py`&rsquo;s pair of runtime
 rules, refuses a set that does not name its comics, and refuses a line over thirty words or with no
 context of ours beside it.
+
+`make-picture-house.py` refuses **a blue anywhere in the room's palette** &mdash; it reads the
+`--lph-` colours in `:root` and every literal colour in its own section &mdash; because a lightbulb
+theater in a neurodiversity room, lit blue, is Light It Up Blue, and the page says nothing in the
+building is blue. It refuses **the vocabulary of awareness** in our own voice (puzzle pieces, cure,
+suffers from, functioning labels, *person with autism*), skipping the quotation, the film titles
+and anything in curly quotes; **a card with no `content` key**, because every card says what is in
+its film before the press and a missing key means nobody looked; **a pronoun for any maker**,
+because not one of those films says what theirs are; and `make-club.py`&rsquo;s runtime pair.
 
 `make-guild.py` refuses a job with no estimate of how long it takes &mdash; the street's oldest
 promise arriving at a job board, where the cost is a walk rather than a runtime &mdash; refuses a

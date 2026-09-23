@@ -185,6 +185,10 @@ LISTS = [
     # video -- and its FIRST entry is on the bill, which is the one row that
     # decides whether the whole night embeds at all.
     ("laughingstock", "data/laughingstock.json", "laughingstock.html"),
+    # The Lightbulb Picture House. Both screens are playlists and are not checked
+    # as playlists, for the reason above; every film on BOTH is checked as a film,
+    # including Screen Two's, which has no rack but is named in the room.
+    ("the picture house", "data/picture-house.json", "lightbulb-picture-house.html"),
 ]
 
 
@@ -310,6 +314,13 @@ def tracks_in(data):
         # is not checked here, for the reason this tool gives about the club's:
         # a playlist is not one video.
         return [dict(s_, artist=s_.get("channel")) for s_ in data["songs"]]
+    if "rack" in data:
+        # The Lightbulb Picture House: the rack for Screen One and the named list
+        # for Screen Two. Both, for the Hermitage's reason -- a guard that covers
+        # the list it was written for and not the one beside it reports a
+        # confident total while missing half the room.
+        return [dict(f, artist=f.get("channel"))
+                for f in (data.get("rack", []) + data.get("screen_two", []))]
     if "sets" in data:
         # Laughingstock's bill. A set can have more than one comic on it, and
         # every one of them wrote it, so the report names them all rather than

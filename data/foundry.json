@@ -373,6 +373,13 @@
         40
       ]
     },
+    "limelight": {
+      "where": "The Lightbulb Picture House",
+      "page": "lightbulb-picture-house.html",
+      "sections": [
+        42
+      ]
+    },
     "literata": {
       "where": "Sithen",
       "page": "sithen.html",
@@ -420,6 +427,13 @@
       "page": "latibulum.html",
       "sections": [
         16
+      ]
+    },
+    "outfit": {
+      "where": "The Lightbulb Picture House",
+      "page": "lightbulb-picture-house.html",
+      "sections": [
+        42
       ]
     },
     "overpass": {

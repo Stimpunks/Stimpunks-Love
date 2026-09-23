@@ -918,5 +918,33 @@
       "src": "https://fonts.gstatic.com/s/yellowtail/v25/OZpGg_pnoDtINPfRIlLohlvHwWL9f4k.woff2",
       "note": "Laughingstock (§41), the neon over the stage and the club's name, and nothing at reading size. A 1950s sign-writer's script, which is the letterform a neon tube is bent into. A script carrying a sentence is an access failure wearing atmosphere -- the Doomscroll's blackletter rule -- so it never does."
     }
+  ],
+  "limelight": [
+    {
+      "file": "limelight-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 13340,
+      "src": "https://fonts.gstatic.com/s/limelight/v21/XLYkIZL7aopJVbZJHDuoOulHjHUmTQ.woff2",
+      "note": "The Lightbulb Picture House (§42), the picture house's name, its screen numbers and its headings, and nothing at reading size. An Art Deco display face of the kind cut into a 1930s picture house's fascia, which is where that room is set. It is not the Chappell's Monoton, which is a tube, or the Arcade's pixels: it is a carved sign over a door."
+    }
+  ],
+  "outfit": [
+    {
+      "file": "outfit-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 32228,
+      "src": "https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2",
+      "note": "The Lightbulb Picture House (§42), every word that is read. A geometric sans with open, even letters and nothing fussy in them, because a relaxed screening is for people who have come to understand something, and the face should not be one more thing to get past. One variable file serves both weights, as Archivo, Chivo, Lexend and Space Grotesk already do here."
+    },
+    {
+      "file": "outfit-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 32228,
+      "src": "https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2",
+      "note": "The Lightbulb Picture House (§42), every word that is read. A geometric sans with open, even letters and nothing fussy in them, because a relaxed screening is for people who have come to understand something, and the face should not be one more thing to get past. One variable file serves both weights, as Archivo, Chivo, Lexend and Space Grotesk already do here."
+    }
   ]
 }

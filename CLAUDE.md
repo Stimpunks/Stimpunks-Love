@@ -1996,6 +1996,42 @@ ones (`PLUGzxgyttDkE`, thirteen characters), which **was verified to embed and t
 play inside the frame**, not by reading the poster. The playlist's first entry is on the bill,
 which is the one row that decides whether the whole night embeds at all.
 
+**THE LIGHTBULB PICTURE HOUSE KEEPS ITS HOUSE LIGHTS UP, AND NOTHING IN IT IS BLUE.** §42 is a
+picture house where every screening is a relaxed screening: lit ALL OVER by bare bulbs in brass
+sconces, so the ground is lit velvet rather than black and there is no projector beam, because a
+beam only shows in the dark. That is the separation from every room with a bright rectangle in the
+dark &mdash; the Lagoon's screen in black water, Laughingstock's pool on a brick wall in a dark house.
+**Laughingstock is the one to watch**: also red, also a room you face something lit in. If the
+house lights here ever go down, it has become that room with a screen in it.
+
+**NO BLUE, ENFORCED BY READING THE PALETTE.** A lightbulb theater in a neurodiversity room, lit
+blue, is Light It Up Blue &mdash; the awareness campaign our own Acceptance entry quotes autistic
+people refusing, with Amy Sequenzia's line about "all the pretty blue lights" on the page.
+`make-picture-house.py` reads every `--lph-` colour in `:root` and every literal colour in §42 and
+refuses a blue or cyan hue, because *nothing in this building is blue* is a published sentence one
+nice-looking colour could falsify. The ornament is the gold infinity (Autistic UK's, from Au) and
+never the rainbow one, which has blue in it. **Do not add a blue, and do not add a puzzle piece**;
+the tool also refuses the vocabulary of awareness in our voice with the negation window, skipping
+the quotation, the film titles and anything in curly quotes, because several of those films use
+person-first language about themselves and that is their call.
+
+**EVERY CARD ON THE RACK SAYS WHAT IS IN ITS FILM BEFORE THE PRESS**, beside the runtime and for the
+runtime's reason: a panic attack, sustained bullying with unwanted contact, two jokes about suicide,
+a sponsor segment. The tool refuses a card with no `content` key; **null is a real answer that
+means somebody looked**, and a missing key means nobody did. **The lines were written from the
+films, not the titles**: fourteen from their captions (yt-dlp's auto-subs; YouTube's own timedtext
+endpoint now returns nothing without a session token), one from its maker's description and our
+Autism Pathway, whose captions were rate-limited. **No maker's pronouns appear on the rack** and the
+tool refuses one, because not one film states them. A card is a mirror of the playlist and drifts
+by design; the room prints the date. Screen Two has no rack yet and the house rules say so &mdash;
+open in DECISIONS.md.
+
+**CAPTIONS ARE ON BY DEFAULT, AND THAT WAS TESTED FRAMED.** Every frame here uses `data-embed-src`
+with `cc_load_policy=1`, which `love-embed.js` builds unchanged. It was verified by framing a
+single film and a playlist from a page on the dev server and seeing captions come up; **loading an
+embed URL on its own gives Error 153 for every video** and proves nothing, which is
+`check-jukebox.py`'s old lesson arriving at a new parameter.
+
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
 paleness alone — which is what holds it off the Guild, lit from nowhere with no depth. Netlify

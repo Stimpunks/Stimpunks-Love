@@ -521,6 +521,15 @@ LS_HOUSE, LS_DEEP, LS_SPOT = "#140F10", "#0B0808", "#FBF0DC"
 LS_CREAM, LS_TEXT, LS_DIM, LS_NEON = "#F4E8D8", "#D8C9BB", "#B09F92", "#86DCFF"
 LS_INK, LS_INK_2 = "#1F1513", "#5B3B2F"
 
+# The Lightbulb Picture House (§42). THREE GROUNDS, AND NONE OF THEM BLUE. The
+# lit velvet carries every word of ours; LPH_DEEP is the rack's cards; LPH_SCREEN
+# is the one pale thing, and every press-to-play plate is a small screen in it,
+# dark ink on the light. The brass, the bulbs and the curtain's folds only draw,
+# and are in ORNAMENT with their numbers. make-picture-house.py refuses a blue.
+LPH_VELVET, LPH_DEEP, LPH_SCREEN = "#7A1C2B", "#551220", "#FFF6E8"
+LPH_CREAM, LPH_TEXT, LPH_DIM, LPH_GOLD = "#FFF4E2", "#F7E3D0", "#EDC9B0", "#F6C95A"
+LPH_INK, LPH_INK_2 = "#2A0A10", "#6B2230"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -1720,6 +1729,31 @@ PAIRS = [
     (FG_ENAMEL, FG_PLATE, False, "404: the small No. on the same plate"),
 
 
+
+    # ── The Lightbulb Picture House (§42) ────────────────────────────────────
+    (LPH_CREAM, LPH_VELVET, False, "picture house: the h1, every heading, the lede, every bold "
+                                   "run, Screen Two's titles, the quotation, and the name on "
+                                   "the street door"),
+    (LPH_TEXT,  LPH_VELVET, False, "picture house: every paragraph, the house rules, Screen "
+                                   "Two's list, and the blurb on the street door"),
+    (LPH_DIM,   LPH_VELVET, False, "picture house: the trail line, the line over the h1, the "
+                                   "quotation's cite, each screen's credit and the further reading"),
+    (LPH_GOLD,  LPH_VELVET, False, "picture house: every link, the backlink, the tagline, the "
+                                   "screen numbers, the knock on the street door, the list "
+                                   "markers and the rule beside the quotation"),
+    (LPH_CREAM, LPH_DEEP,   False, "picture house: each card's title, and what is in the film"),
+    (LPH_TEXT,  LPH_DEEP,   False, "picture house: each card's line about the film"),
+    (LPH_DIM,   LPH_DEEP,   False, "picture house: each card's makers and its credit"),
+    (LPH_GOLD,  LPH_DEEP,   False, "picture house: each card's running number, the 'Before you "
+                                   "press' label, and the link to our page"),
+    (LPH_INK,   LPH_SCREEN, False, "picture house: the label on every press-to-play plate, "
+                                   "which is a small screen"),
+    (LPH_INK_2, LPH_SCREEN, False, "picture house: PRESS PLAY on every plate, 12px capitals, "
+                                   "and the bulb drawn on the screen"),
+    # The job marker is a pair of ear defenders on a seat, drawn in the cream on
+    # the velvet, over the body threshold a marker is held to.
+    (LPH_CREAM, LPH_VELVET, False, "picture house: the job marker, ear defenders on a seat"),
+
     # ── Laughingstock (§41) ──────────────────────────────────────────────────
     # THE HOUSE. Every word of ours is out here in the dark with the audience.
     (LS_CREAM, LS_HOUSE, False, "laughingstock: every heading, the lede, every bold run, the "
@@ -1837,6 +1871,16 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#9a2a3a": "picture house: the curtain's folds either side of the screen, and the edge "
+               "of every seat. 1.36 on the velvet; it carries no word.",
+    "#ffe3a0": "picture house: the bare bulbs in the sconces and in the street door's awning, "
+               "8.26 on the velvet, and the halo round each. Warm on purpose, and never blue. "
+               "Drawing, carrying no word.",
+    "#c9953c": "picture house: the brass -- the sconces, the stepped frame round each screen, "
+               "every hairline, the border of every card and plate, and the floor line under "
+               "the job marker. 3.87 on the velvet and 5.25 on the cards, which clears the 3:1 "
+               "a control's edge needs under 1.4.11, and under the body bar on the velvet, so "
+               "nothing is written in it.",
     "#8e3526": "laughingstock: the lit face of every brick inside the follow spot's pool, and the "
                "courses on the street door's awning. 2.43 on the house and 6.92 under the "
                "spot; it carries no word. RED AND NOT BROWN on purpose -- if it browns, the "

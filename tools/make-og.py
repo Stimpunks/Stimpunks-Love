@@ -624,6 +624,18 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--covenstead .og-bench {{ margin: auto -60px 0 !important; }}
 .og--covenstead .og-bench svg {{ display: block; width: 100%; height: 150px; }}
 
+/* the lightbulb picture house — THE AUDITORIUM WITH THE HOUSE LIGHTS UP, lifted
+   whole from the page. The name sits above it on the lit velvet, and nothing on
+   the card is blue, for the room's reason. */
+.og--picture-house {{ width: 100%; padding: 36px 60px 0; gap: 8px; justify-content: flex-start; }}
+.og--picture-house .og-over {{ margin: 0 !important; font-size: 18px; font-weight: 700; letter-spacing: 2.4px;
+  text-transform: uppercase; color: var(--lph-dim); }}
+.og--picture-house h1 {{ font-size: 64px; line-height: 1.05; margin: 0 !important; }}
+.og--picture-house .og-lede {{ font-family: 'Outfit', sans-serif; color: var(--lph-cream);
+  max-width: 1060px; font-size: 25px; line-height: 1.38; margin: 4px 0 0 !important; }}
+.og--picture-house .og-house {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--picture-house .og-house svg {{ display: block; width: 100%; height: auto; }}
+
 /* laughingstock — THE STAGE, WITH NOBODY ON IT AND NOTHING OF OURS IN THE LIGHT.
    The drawing is LIFTED whole out of the page, the doorway's rule and the
    shaft's, because a second copy of a drawing goes stale in one of the two places
@@ -2089,6 +2101,29 @@ def card_covenstead(p):
     )
 
 
+def card_picture_house(p):
+    # THE AUDITORIUM IS LIFTED FROM THE PAGE and the lede is the page's own
+    # og:description, so the card cannot say what the room does not.
+    return (
+        "",
+        f'<div class="og og--picture-house" data-fit="card">'
+        f'<p class="og-over">On the street &middot; a picture house</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-house">{p["house"]}</div>'
+        f'</div>',
+        f"A deep red velvet card, the colour of a picture house with the lights on. Small "
+        f"pale capitals reading on the street, a picture house, then \u201c{p['h1text']}\u201d "
+        f"in a cream Art Deco display face. Then, in cream: {p['desc_plain']} Across the "
+        f"bottom, a drawing of the auditorium from the back row with the house lights up: a "
+        f"pale screen in a stepped brass frame with a lit lightbulb drawn on it and a gold "
+        f"infinity symbol above, red curtains either side, warm bulbs glowing in brass "
+        f"sconces down both walls, and rows of seats in darker red. In the aisle there is a "
+        f"floor cushion; ear defenders hang on one seat and a tub of popcorn sits on "
+        f"another. Nothing in it is blue.",
+    )
+
+
 def card_laughingstock(p):
     # THE STAGE IS LIFTED FROM THE PAGE and the lede is the page's own
     # og:description, so the card cannot say what the room does not.
@@ -2231,6 +2266,7 @@ CARDS = {
     "covenstead":   card_covenstead,
     "dead-tired":   card_dead_tired,
     "laughingstock": card_laughingstock,
+    "picture-house": card_picture_house,
     "looming":      card_looming,
     "garden":       card_garden,
     "room-yurt":    card_yurt,
@@ -2345,6 +2381,7 @@ def main():
         ("bed",      "healing-checkpoint.html", r'(<svg class="hc-bed".*?</svg>)'),
         ("doorway",  "dead-tired-society.html", r'(<svg class="dts-doorway".*?</svg>)'),
         ("stage",    "laughingstock.html", r'(<svg class="ls-stage".*?</svg>)'),
+        ("house",    "lightbulb-picture-house.html", r'(<svg class="lph-auditorium".*?</svg>)'),
         ("galley",   "foundry.html",      r'(<svg class="fo-galley".*?</svg>)'),
         ("falls",    "the-den.html",      r'(<svg class="falls".*?</svg>)'),
         ("otter",    "otterly-adorbs.html", r'(<div class="otter" id="otter".*?</div>\s*</div>)'),
