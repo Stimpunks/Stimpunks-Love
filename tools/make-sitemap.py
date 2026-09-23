@@ -47,6 +47,9 @@ ORDER = ["index.html",
          "the-outskirts.html", "black-leather-lagoon.html", "sithen.html",
          "looming-rocks.html",
          "liner-notes.html",
+         # What the site keeps about the people who visit it. With the other
+         # pages that hold lists rather than rooms, because that is what it is.
+         "privacy.html",
          "changelog.html"]
 
 def field(src, pat):

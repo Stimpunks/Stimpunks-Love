@@ -38,6 +38,14 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-09-23-privacy">2026-09-23 &mdash; A privacy page, which is short because there is very little to say</h2>
+  <ul>
+    <li><strong><a href="privacy.html">The privacy page</a> says what this site knows about you, and all of it.</strong> No cookies on any response; two settings in your own browser, both things you asked it to remember; nothing from any other service until you press play, with each player&rsquo;s own policy linked; and the ordinary logs our host keeps. Netlify&rsquo;s analytics is not switched on. It names who publishes the site, where to write, what your rights are, and that every change to it will be dated here.</li>
+    <li><strong>Every sentence on it was checked against the site rather than written from what a privacy page usually says.</strong> The storage keys were read out of the scripts, the absence of cookies off live responses, the embed services out of the one list the site frames, and each outside policy link was requested. One draft sentence did not survive: it said every recording on the street had a dated consent record, and the readings in Hear Queer Here, read by the people who made that room, do not carry one. The sentence says what is true instead.</li>
+    <li><strong>It is linked from the front door&rsquo;s footer, the liner notes, the Polaroid Wall and the security policy</strong>, is in the sitemap, and has a share card. It carries no job marker: the page somebody reads to find out what happens to them is not a stop on a walking tour.</li>
+    <li>Changed: <code>privacy.html</code> (new), <code>index.html</code>, <code>liner-notes.html</code>, <code>polaroids.html</code>, <code>SECURITY.md</code>, <code>tools/make-sitemap.py</code>, <code>tools/make-guild.py</code>.</li>
+  </ul>
+
   <h2 id="2026-09-23-stale-claims">2026-09-23 &mdash; Sentences that had stopped being true, somewhere to report a hole, and a real favicon.ico</h2>
   <ul>
     <li><strong>The site was still counting its rooms in places the counting check could not see.</strong> The Playhouse opened by giving its own number on the street, Your Room said it was linked beside a number of others, the Arcade&rsquo;s description gave its number too, and the favicon&rsquo;s own source said its stripes were the rooms, one each. <code>check-counts.py</code> looked only for a number in front of a noun; it now also catches the number after one, and the total left hanging at the end of a sentence with the noun understood. Its first run refused a count of tilted leaves in our own notes, and the pattern was narrowed rather than the sentence excepted. It reads the favicon, <code>netlify.toml</code> and <code>SECURITY.md</code> now as well.</li>

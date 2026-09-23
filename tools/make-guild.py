@@ -100,7 +100,11 @@ CREDITS = ROOT / "liner-notes.html"
 #   404.html         is served at every address nobody built, so the only way to
 #                    reach its marker would be to mistype a URL on purpose -- a
 #                    job only somebody who already knew the trick could do.
-EXEMPT = {"changelog.html", "adventurers-guild.html", "404.html"}
+#   privacy.html     is where somebody goes to find out what happens to them
+#                    here. A job marker on it would turn the one page that has
+#                    to be read carefully into a stop on a walking tour, and
+#                    reading it is not a quest.
+EXEMPT = {"changelog.html", "adventurers-guild.html", "404.html", "privacy.html"}
 
 # THE DIFFICULTY CLASS IS HOW FAR YOU WALK. It is enumerated here rather than
 # typed per job so that no job can invent a rank, and defined by geography so

@@ -48,6 +48,7 @@ Every page carries an intensity dial with three settings. It defaults to whateve
 - [Sithen — Stimpunks.Love](https://stimpunks.love/sithen.html): A fairy fort seen from the outside, under a full moon. The rules nobody will say out loud, the ring that a whole country declines to plough, and a door this room does not open.
 - [Looming Rocks Amphitheatre — Stimpunks.Love](https://stimpunks.love/looming-rocks.html): An open-air stage at the foot of enormous rock faces, after dark, with the lichen fluorescing under UV floods run off the day's sun. Six full concerts on the rocks, and nothing is fetched until you press something.
 - [Liner Notes — Stimpunks.Love](https://stimpunks.love/liner-notes.html): Who made this noise. Every song, typeface, quotation and borrowed name on this street, credited to the person it belongs to.
+- [Privacy — Stimpunks.Love](https://stimpunks.love/privacy.html): What this site knows about you, which is very little, and all of it: no cookies, two settings kept in your own browser, nothing from anyone else until you press play, and our host's ordinary logs.
 - [Changelog — Stimpunks.Love](https://stimpunks.love/changelog.html): What changed on the street, and when. Every Stimpunks site publishes one of these.
 
 ## Attribution

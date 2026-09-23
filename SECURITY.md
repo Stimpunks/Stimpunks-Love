@@ -33,7 +33,8 @@ That shape rules out most of what a report usually concerns:
 - **No cookies.** Two keys in `localStorage`, both yours and both on your device
   only: `love-intensity`, the setting you chose on the loudness dial, and
   `love-quests`, the list of jobs you handed in at the Guild, which has a button
-  that forgets it.
+  that forgets it. The whole list of what the site keeps is on
+  [the privacy page](https://stimpunks.love/privacy.html).
 - **Nothing third-party loads until you press it.** `connect-src` is `'none'`,
   every script and typeface is self-hosted, and the only other origins the
   policy names are in `frame-src`, for players that are built only after a

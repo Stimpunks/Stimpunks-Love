@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy — Stimpunks.Love</title>
+<meta name="description" content="What this site knows about you, which is very little, and all of it: no cookies, two settings kept in your own browser, nothing from anyone else until you press play, and our host's ordinary logs.">
+<link rel="canonical" href="https://stimpunks.love/privacy.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#15121f">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.Love">
+<meta property="og:title" content="Privacy — Stimpunks.Love">
+<meta property="og:description" content="What this site knows about you, which is very little, and all of it.">
+<meta property="og:url" content="https://stimpunks.love/privacy.html">
+<meta property="og:image" content="https://stimpunks.love/og/privacy.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A dark indigo card, deliberately quiet. Small cyan capitals reading stimpunks.love above a short pink rule, then “Privacy” in yellow block capitals, and the line: What this site knows about you, which is very little, and all of it.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love — what changed on the street">
+<link rel="stylesheet" href="love.css">
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+</head>
+<body class="room-plain">
+<a class="skip" href="#main">Skip to the content</a>
+
+<main id="main" class="wrap" style="padding-bottom:56px;max-width:840px;">
+
+  <a class="backlink" href="index.html">← BACK TO THE STREET</a>
+
+  <h1>Privacy</h1>
+  <p class="lede">What this site knows about you is very little, and this page is all of it. <strong>Last updated 2026-09-23.</strong> Every change to it is dated in <a href="changelog.html">the changelog</a>.</p>
+
+  <section class="card card--call">
+    <h2 style="margin-top:0;">THE SHORT VERSION</h2>
+    <ul>
+      <li><strong>No cookies.</strong> This site sets none, on any page.</li>
+      <li><strong>No accounts, no advertising, no trackers, nothing sold.</strong> There is nothing to sign up for and nobody to sell anything to.</li>
+      <li><strong>Two settings are kept in your own browser</strong>, because you asked for them, and they never leave your device.</li>
+      <li><strong>Nothing from anybody else loads until you press it.</strong> Every video and player on the street waits for a press.</li>
+      <li><strong>Our host keeps ordinary server logs</strong>, the way every web server does.</li>
+    </ul>
+  </section>
+
+  <h2>Who we are</h2>
+  <p>stimpunks.love is published by <strong>Stimpunks Foundation</strong>, a 501(c)(3) nonprofit run by and for neurodivergent and disabled people. Our mailing address is Stimpunks Foundation, Box #620611, Littleton CO 80162, USA. For anything on this page, <a href="https://stimpunks.org/contact/">contact us through stimpunks.org</a> and say it is about privacy on stimpunks.love.</p>
+  <p>This page covers this site only. Our contact form lives on stimpunks.org, so what happens to a message you send is covered by <a href="https://stimpunks.org/privacy/">stimpunks.org&rsquo;s privacy policy</a> and <a href="https://stimpunks.org/cookie-policy-eu/">its cookie policy</a>.</p>
+
+  <h2>What your browser keeps</h2>
+  <p>Two things, both stored with <code>localStorage</code> in your own browser. Neither is sent to us or to anybody else, and we cannot read either of them. Each one only remembers something you asked this site to remember, which is why there is no consent banner here: there is nothing a banner would be asking about.</p>
+  <table>
+    <caption class="sr">What this site stores in your browser, why, and how to clear it</caption>
+    <thead><tr><th scope="col">Name</th><th scope="col">What it holds</th><th scope="col">How to clear it</th></tr></thead>
+    <tbody>
+      <tr><td><code>love-intensity</code></td><td>The loudness you picked on the dial: Gentle, Regular or MAX GLITTER. Until you pick one, the site follows whatever your device says about reduced motion and stores nothing.</td><td>Clear this site&rsquo;s data in your browser settings.</td></tr>
+      <tr><td><code>love-quests</code></td><td>The jobs you have handed in at <a href="adventurers-guild.html">the Adventurer&rsquo;s Guild</a>, so the board can show them as done. Nothing is scored and nothing is sent.</td><td>The <em>Forget every job I have handed in</em> button on the Guild&rsquo;s board, or your browser settings.</td></tr>
+    </tbody>
+  </table>
+  <p>Nothing else on this site stores anything: no session storage, no IndexedDB, no service worker. The site&rsquo;s own security policy forbids its pages from sending data anywhere (<code>connect-src &rsquo;none&rsquo;</code>) or submitting a form (<code>form-action &rsquo;none&rsquo;</code>), so even a page that wanted to could not.</p>
+
+  <h2>What our host sees</h2>
+  <p>This site is served by <strong>Netlify</strong>. Like any web server, it receives what every browser sends with every request &mdash; your IP address, your browser&rsquo;s user-agent string, the address you asked for and the time &mdash; and it keeps logs of that under <a href="https://www.netlify.com/privacy/">Netlify&rsquo;s own privacy policy</a>, which also says how long. We need that to run and secure a website, which is the legal basis for it (legitimate interests). We have not switched on Netlify&rsquo;s analytics, we do not add anything to those logs, and we do not use them to find out who anybody is.</p>
+  <p>Every typeface, script, stylesheet and image on this site is served from this site, so opening a page makes no request to anybody but Netlify.</p>
+
+  <h2>When you press play</h2>
+  <p>The jukeboxes, screens and players on the street are <strong>press-to-play</strong>: until you press one, this site has made no request to that service on your behalf. When you press, your browser loads that service&rsquo;s player, and from then on the service receives what any website receives from you &mdash; your IP address, your browser details, and that you came from stimpunks.love (the site&rsquo;s address only, not the page) &mdash; and may set its own cookies. What it does with that is covered by its own policy, not ours:</p>
+  <table>
+    <caption class="sr">The services a press-to-play control loads, and their privacy policies</caption>
+    <thead><tr><th scope="col">Service</th><th scope="col">Where on the street</th><th scope="col">Its privacy policy</th></tr></thead>
+    <tbody>
+      <tr><td>YouTube, through <code>youtube-nocookie.com</code></td><td>Most of the videos, songs and live cameras</td><td><a href="https://policies.google.com/privacy">Google&rsquo;s privacy policy</a></td></tr>
+      <tr><td>Spotify</td><td>Club Chronic&rsquo;s stage</td><td><a href="https://www.spotify.com/legal/privacy-policy/">Spotify&rsquo;s privacy policy</a></td></tr>
+      <tr><td>Apple Music</td><td>Club Chronic&rsquo;s stage</td><td><a href="https://www.apple.com/legal/privacy/">Apple&rsquo;s privacy policy</a></td></tr>
+      <tr><td>VideoPress</td><td>Swaying Sweetgrass</td><td><a href="https://automattic.com/privacy/">Automattic&rsquo;s privacy policy</a></td></tr>
+    </tbody>
+  </table>
+  <p>The recordings in <a href="hear-queer-here.html">Hear Queer Here</a>, the Faery Yurt and the Playhouse are served from this site, and none of them loads until you press it either.</p>
+
+  <h2>When you follow a link away</h2>
+  <p>A lot of this site is links to other places. When you follow one, the site you arrive at learns that you came from stimpunks.love &mdash; the address of the site, never the page you were on &mdash; and from then on you are covered by that site&rsquo;s policy.</p>
+
+  <h2>People on these pages</h2>
+  <p>Some pages carry photographs of people, recordings of people&rsquo;s voices, and the names of the people we credit. Every photograph of somebody, and every recording of a community member&rsquo;s voice, is published with that person&rsquo;s consent, recorded in our files with a date. The readings in <a href="hear-queer-here.html">Hear Queer Here</a> are read by people who made that room with us. Whatever it is, <strong>it comes down when the person in it says so</strong>: one message, no reason needed. A young person who is doing the work and has said yes themselves is published and credited like anybody else; a parent&rsquo;s yes does not stand in for theirs, and a child too young to give that consent is not published at all. The whole of that is on <a href="polaroids.html">the Polaroid Wall&rsquo;s page</a>. The photographs are excluded from this site&rsquo;s CC BY-SA licence precisely so that taking one down is something we can actually do.</p>
+
+  <h2>Things that look like forms</h2>
+  <p>A few rooms have boxes you can type into, and none of them sends anything. The Guild&rsquo;s hand-in box checks a code inside the page. <a href="zibaldone.html">The Zibaldone</a>&rsquo;s attribution slip puts a block of text on your own clipboard, and you decide where it goes. <a href="foundry.html">The Foundry</a> sets the words you type in a typeface, in your browser.</p>
+
+  <h2>Your rights</h2>
+  <p>Because we hold so little, most of what the law gives you a right to ask about is not here to ask about. What there is:</p>
+  <ul>
+    <li><strong>Your photograph, your recording or your name in a credit:</strong> ask us to see it, correct it or take it down, and we will.</li>
+    <li><strong>Our host&rsquo;s logs:</strong> Netlify holds those. Ask us and we will ask on your behalf, or contact Netlify directly.</li>
+    <li><strong>What your browser keeps:</strong> it is on your device and yours to clear; we never have a copy.</li>
+  </ul>
+  <p>If you are in the EU or the UK, you also have the right to access, correct, erase, restrict, object to and move your personal data, and to complain to your data protection authority. We do not sell or share personal information for advertising, so a <strong>Global Privacy Control</strong> signal from your browser has nothing here to opt you out of &mdash; the answer is already no.</p>
+
+  <h2>Reporting a security problem</h2>
+  <p>If you have found a hole in this site, <a href="https://github.com/Stimpunks/Stimpunks-Love/security/advisories/new">report it privately on GitHub</a>; the policy is in <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/SECURITY.md">SECURITY.md</a> and <a href="/.well-known/security.txt">security.txt</a>. A report there is handled by GitHub under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub&rsquo;s privacy statement</a>.</p>
+
+  <h2>When this page changes</h2>
+  <p>If what this site does with your information changes, this page changes first, the date at the top moves, and the change is written up in <a href="changelog.html">the changelog</a> on the day, where the <a href="feed.xml">feed</a> will pick it up.</p>
+
+  <div style="max-width:400px;margin-top:34px;">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+
+</main>
+
+<script src="love.js" defer></script>
+</body>
+</html>

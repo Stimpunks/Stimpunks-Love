@@ -9,6 +9,13 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Wed, 23 Sep 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>A privacy page, which is short because there is very little to say</title>
+      <link>https://stimpunks.love/changelog.html#2026-09-23-privacy</link>
+      <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-23-privacy</guid>
+      <pubDate>Wed, 23 Sep 2026 12:00:00 GMT</pubDate>
+      <description>The privacy page says what this site knows about you, and all of it. No cookies on any response; two settings in your own browser, both things you asked it to remember; nothing from any other service until you press play, with each player’s own policy linked; and the ordinary logs our host keeps. Netlify’s analytics is not switched on. It names who publishes the site, where to write, what your rights are, and that every change to it will be dated here. Every sentence on it was checked against the site rather than written from what a privacy page usually says. The storage keys were read out of the scripts, the absence of cookies off live responses, the embed services out of the one list the site frames, and each outside policy link was requested. One draft sentence did not survive: it said every recording on the street had a dated consent record, and the readings in Hear Queer Here, read by the people who made that room, do not carry one. The sentence says what is true instead. It is linked from the front door’s footer, the liner notes, the Polaroid Wall and the security policy, is in the sitemap, and has a share card. It carries no job marker: the page somebody reads to find out what happens to them is not a stop on a walking tour. Changed: privacy.html (new), index.html, liner-notes.html, polaroids.html, SECURITY.md, tools/make-sitemap.py, tools/make-guild.py.</description>
+    </item>
+    <item>
       <title>Sentences that had stopped being true, somewhere to report a hole, and a real favicon.ico</title>
       <link>https://stimpunks.love/changelog.html#2026-09-23-stale-claims</link>
       <guid isPermaLink="true">https://stimpunks.love/changelog.html#2026-09-23-stale-claims</guid>
