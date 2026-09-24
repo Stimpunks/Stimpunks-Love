@@ -607,6 +607,21 @@
 @font-face { font-family: 'Hanken Grotesk'; src: url('fonts/hanken-grotesk-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Hanken Grotesk'; src: url('fonts/hanken-grotesk-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* The Map (§49). A HAND FOR THE LABELS AND A PLAIN FACE FOR THE INSTRUCTIONS.
+   Architects Daughter letters every flag, sign and label on the model and the
+   page's name, and nothing at reading size: it is the upright, even, all-caps-
+   friendly hand an architect letters a drawing in, which is how a card model is
+   labelled. It is NOT the Zibaldone's Kalam, which writes in the margin of a
+   book somebody is reading -- this is lettering done on purpose, to be read from
+   across a table. Albert Sans carries every sentence, because the model is the
+   picture and the words round it are instructions for reading it. One variable
+   file declared at two weights; no italic is shipped and nothing here is set
+   italic. Both under the SIL Open Font License, read off their own records. See
+   fonts/_sources.json. */
+@font-face { font-family: 'Architects Daughter'; src: url('fonts/architects-daughter-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Albert Sans'; src: url('fonts/albert-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Albert Sans'; src: url('fonts/albert-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1535,6 +1550,27 @@
   --cc-card:   #F1ECE2;   --cc-ink:    #1D1A17;   --cc-ink-2:  #5C5449;
   --cc-rust:   #8E3A14;
   --cc-daylight: #DCE6F4; --cc-strip:  #F4D2A8;
+
+  /* The Map (§49). A MODEL IN WHITE CARD ON A CUTTING MAT, AND THE ONLY
+     COLOUR ON THE TABLE IS THE MAT AND THE PINS. --mm-mat is the mat itself,
+     every word off the model stands on it; --mm-grid and --mm-rule are the
+     lines printed on it and carry nothing. --mm-print is every word on the
+     mat, --mm-dim its fine print, --mm-link every link on it -- the pale
+     yellow a cutting mat prints its numbers in. --mm-board is the foamboard
+     the street stands on, --mm-road the road pencilled across it; --mm-face,
+     --mm-top and --mm-side are the three faces of every piece of card the
+     lamp can see, front, top and side. --mm-ink is every word on card and on
+     the board, --mm-pencil the notes and the cut edge every building is
+     carried by. --mm-here is the yellow tape a flag is written on, and
+     --mm-pin the red of a pin's head, which carries nothing. MM- PREFIXED:
+     `board`, `ink`, `face` and `road` are the plainest words a :root fills up
+     with, and a property declared twice is last-wins and silent. */
+  --mm-mat:    #245B4A;   --mm-grid:   #2C6553;   --mm-rule:   #4F8C76;
+  --mm-print:  #EEF4EE;   --mm-dim:    #C9DED2;   --mm-link:   #F4E3A0;
+  --mm-board:  #E6E2D8;   --mm-road:   #D8D3C7;
+  --mm-face:   #F6F3EC;   --mm-top:    #FFFEFA;   --mm-side:   #C9C3B5;
+  --mm-ink:    #22302B;   --mm-pencil: #4B5A54;
+  --mm-here:   #F2C230;   --mm-pin:    #D93A2B;
 }
 
 * { box-sizing: border-box; }
@@ -2259,6 +2295,27 @@ div.facade--audio { border: 0; background: none; }
   display: block; margin: 8px auto 0; font-size: 14.5px; max-width: 58ch;
   color: var(--gd-loam-2);
 }
+
+/* THE MAP, ON A TABLE BY THE FRONT DOOR. Street furniture, and like the gate a
+   glimpse of what it leads to: a strip of the cutting mat the model stands on,
+   grid and all, with the words in the mat's own white and yellow. Lettered in
+   Bungee because on the pavement every sign is in the street's face; the
+   room's own hand is kept for the room. */
+.mapboard { display: block; margin: 30px 0 26px; text-decoration: none; }
+.mapboard__mat {
+  display: block; padding: 16px 22px 18px;
+  background-color: var(--mm-mat);
+  background-image:
+    linear-gradient(to right, var(--mm-rule) 0 1px, transparent 1px),
+    linear-gradient(to bottom, var(--mm-rule) 0 1px, transparent 1px),
+    linear-gradient(to right, var(--mm-grid) 0 1px, transparent 1px),
+    linear-gradient(to bottom, var(--mm-grid) 0 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  border: 5px solid var(--ink-3); border-radius: 5px; color: var(--mm-print);
+}
+.mapboard:hover .mapboard__mat { border-color: var(--mm-link); }
+.mapboard__to { display: block; font-family: 'Bungee', var(--sans); font-size: 17px; letter-spacing: 1px; color: var(--mm-link); }
+.mapboard__why { display: block; margin-top: 7px; font-size: 14.5px; max-width: 70ch; color: var(--mm-print); }
 
 .pavement {
   margin-top: 40px; border-top: 3px solid var(--ink-3); background: var(--ink-2);
@@ -10697,7 +10754,328 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
 }
 
 
-/* §49 ── Small screens ───────────────────────────────────────────────────────
+/* §49 ── THE MAP (street furniture: a model on a table by the stoop) ─────────
+   THE WHOLE STREET AS A MODEL IN WHITE CARD, STANDING ON A CUTTING MAT. Every
+   building, tent, sign and tag on it is a link to the place it stands for, and
+   the markup is written by tools/make-map.py out of the street itself -- the
+   front page's row of doors, the campground's board, the road's signs -- so
+   nothing here has a coordinate and nothing has to be moved when a room opens.
+   The layout is a grid that FLOWS: a new shopfront makes the street longer.
+
+   NOTHING ON THE MODEL IS PAINTED, AND THAT IS THE ROOM'S ONE ARGUMENT. Every
+   room on this street has its own light and its own colours, and a model that
+   painted each building in its room's palette would be a swatch book telling
+   you they belong to one set -- the harmonising instinct arriving as a legend.
+   So it is all one white card, and the only colours on the table are the mat
+   and the pins. If a building on here ever takes its room's colour, the model
+   has started describing the rooms instead of pointing at them.
+
+   THE COLLISIONS ARE STRUCTURAL, AND SCALE IS THE ONE NO OTHER ROOM HAS:
+     · Danny the Street is the other road seen from above, and it is the road
+       ITSELF at four in the morning, straight down, under sodium, with nothing
+       standing up in it. This is a MODEL of the road, seen at an angle from
+       standing height over a table, in daylight, and everything on it stands up
+       and throws a shadow. Life size against table size.
+     · Samefood Cafe is the other thing seen from over a table, straight down
+       under an even light with a soft ring of shade round everything. Here the
+       lamp is off to the upper right, so every piece of card has a lit top, a
+       lit side and a hard shadow falling down and to the LEFT -- the Zibaldone's
+       desk lamp is on the left and throws its shadows the other way.
+     · The Foundry is the mid-grey room and the guild is the pale filed one;
+       this ground is neither. It is the green of a cutting mat, with its grid
+       printed on it, because that is what a model is built on.
+   And it is the only page on the street where you can see every other page at
+   once, which no room does and no room should.
+
+   EVERY PIECE OF CARD IS CARRIED BY ITS CUT EDGE, drawn in pencil. White card
+   on a pale foamboard is 1.17 -- a building you could not pick out of the board
+   is a control you could not find -- so every building has a pencil edge at
+   5.62 against the board, the Hermitage's chairs' rule arriving in card.
+
+   NO TRANSFORM ANYWHERE IN THIS SECTION. The top and side of every building are
+   clipped out of rectangles rather than skewed, because skew is what
+   check-gentle.py reads out of the computed matrix and a checker must not be
+   asked to take a room's word for something. And nothing on the model moves at
+   any setting: a map is for finding something on, and a thing that will not
+   hold still is harder to find a place on. Hover deepens a shadow; it does not
+   move anything. */
+
+.mapping {
+  background-color: var(--mm-mat);
+  background-image:
+    linear-gradient(to right, var(--mm-rule) 0 1px, transparent 1px),
+    linear-gradient(to bottom, var(--mm-rule) 0 1px, transparent 1px),
+    linear-gradient(to right, var(--mm-grid) 0 1px, transparent 1px),
+    linear-gradient(to bottom, var(--mm-grid) 0 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  color: var(--mm-print);
+  font-family: 'Albert Sans', var(--sans);
+}
+.mapping a { color: var(--mm-link); }
+.mapping :focus-visible { outline-color: var(--mm-link); }
+.mapping .backlink { font-family: 'Albert Sans', var(--sans); font-weight: 700; font-size: 15px;
+  letter-spacing: .02em; color: var(--mm-link); }
+
+.mm-topline { display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: baseline; justify-content: space-between;
+  padding: 22px 0 0; }
+.mm-trail { margin: 0; font-size: 14px; color: var(--mm-dim); }
+
+.mm-head { padding: 26px 0 8px; }
+.mm-over { margin: 0; font-family: 'Albert Sans', var(--sans); font-weight: 700; font-size: 14px;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--mm-dim); }
+.mapping h1 { margin: 6px 0 0; font-family: 'Architects Daughter', var(--sans); font-weight: 400;
+  font-size: clamp(52px, 11vw, 104px); line-height: 1; letter-spacing: .03em; text-transform: uppercase;
+  color: var(--mm-print); }
+.mm-sub { margin: 10px 0 0; max-width: 40rem; font-size: 21px; line-height: 1.4; color: var(--mm-print); }
+
+.mm-how, .mm-why { max-width: 44rem; margin: 26px 0; }
+.mm-how h2, .mm-why h2, .mm-tags h3 { margin: 0 0 10px; font-family: 'Architects Daughter', var(--sans); font-weight: 400;
+  font-size: 25px; letter-spacing: .04em; text-transform: uppercase; color: var(--mm-print); }
+.mm-how p, .mm-why p { margin: 0 0 12px; font-size: 17px; line-height: 1.6; }
+.mm-how b { font-weight: 700; }
+
+/* THE MODEL. Everything below stands on the mat or on the board. */
+.mm-model { margin: 34px 0 40px; }
+
+/* The lettering on card. The hand an architect labels a model in, upright and
+   in capitals, and never at reading size -- the notes under it are the plain
+   face, because a hand carrying sentences is an access failure wearing
+   atmosphere. */
+.mm-name { display: block; font-family: 'Architects Daughter', var(--sans); font-weight: 400;
+  font-size: 17px; line-height: 1.2; letter-spacing: .04em; text-transform: uppercase; }
+.mm-note, .mm-no { display: block; margin-top: 4px; font-family: 'Albert Sans', var(--sans);
+  font-size: 13px; line-height: 1.35; color: var(--mm-pencil); }
+
+/* A FLAG. Where you came from carries one, written on yellow tape: the page
+   you followed Where am I? from is the fragment, so this is :target and needs
+   no script. It says it in words, never by colour alone. */
+.mm-model [id^="at-"] { scroll-margin-top: 30vh; }
+.mm-model :where(:target) .mm-name::after,
+.mm-table .mm-name::after {
+  content: "you came from here"; display: block; width: max-content; max-width: 100%; margin-top: 7px;
+  padding: 3px 8px 3px 20px; font-family: 'Albert Sans', var(--sans); font-weight: 700; font-size: 12px;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--mm-ink);
+  background: radial-gradient(circle at 9px 50%, var(--mm-pin) 0 4px, transparent 4.5px), var(--mm-here);
+}
+/* The table is the page you are on, so its tape says so even when it is also
+   the fragment -- :where() above keeps the two rules level, and this one is
+   later. */
+.mm-table .mm-name::after { content: "you are here"; }
+
+/* ── Past the treeline: the field, off the top of the board ─────────────── */
+.mm-field { padding: 0 0 4px; text-align: center; }
+.mm-edge { margin: 0 0 16px; font-family: 'Architects Daughter', var(--sans); font-weight: 400; }
+.mm-edge__name { color: var(--mm-link); }
+.mm-edge__name .mm-name { font-size: 26px; }
+.mm-edge__where { display: block; margin-top: 2px; font-family: 'Albert Sans', var(--sans); font-size: 14px;
+  color: var(--mm-dim); letter-spacing: .02em; text-transform: none; }
+.mm-pitches { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 18px 34px; }
+.mm-tent { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--mm-ink); }
+/* A tent, folded out of one piece of card: the lit face on the right, the
+   shaded one on the left, and its shadow thrown down and to the left. */
+.mm-tent::before { content: ""; width: 74px; height: 46px; margin-bottom: -1px;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  background: linear-gradient(90deg, var(--mm-side) 50%, var(--mm-top) 50%); }
+.mm-tent .mm-name, .mm-sign .mm-name, .mm-tag .mm-name { color: var(--mm-ink); }
+.mm-tent > .mm-name, .mm-tent > .mm-no { max-width: 12rem; }
+.mm-tent > .mm-name { padding: 7px 11px 0; background: var(--mm-face); }
+.mm-tent > .mm-no { margin: 0; padding: 2px 11px 7px; width: 100%; max-width: 12rem; background: var(--mm-face);
+  box-shadow: -6px 7px 0 rgba(12, 36, 28, .45); }
+.mm-plot { display: block; padding: 10px 13px; border: 2px dashed var(--mm-dim); color: var(--mm-print); }
+.mm-plot .mm-no { color: var(--mm-dim); }
+.mm-trees { display: block; width: 100%; height: 44px; margin-top: 22px; }
+.mm-trees__tops { fill: var(--mm-face); }
+.mm-trees__sticks { stroke: var(--mm-face); stroke-width: 3; }
+
+/* ── The board, with the street pencilled down the middle of it ─────────── */
+.mm-board { position: relative; padding: 22px clamp(10px, 3vw, 28px) 70px; background: var(--mm-board);
+  color: var(--mm-ink); border-radius: 2px; box-shadow: -12px 14px 0 rgba(12, 36, 28, .5); }
+.mm-board a { color: var(--mm-ink); }
+.mm-board :focus-visible { outline-color: var(--mm-ink); }
+.mm-roadname { position: relative; z-index: 1; width: max-content; max-width: 100%; margin: 0 auto 26px;
+  padding: 6px 12px; text-align: center; background: var(--mm-road); font-weight: 400; }
+.mm-roadname__a .mm-name { font-size: 20px; }
+.mm-roadname__what { display: block; font-family: 'Albert Sans', var(--sans); font-size: 13px; color: var(--mm-pencil); }
+
+/* THE ROAD IS ITS OWN LAYER, NOT THE LIST'S BACKGROUND. It was the list's
+   background first, and check-focus.py measured every ring on the board against
+   the pencil kerb as the worst stop of that gradient -- correctly, because a
+   tool that reads a gradient cannot know which stop is under which link. So the
+   road is a strip of its own down the middle, and the buildings stand on plain
+   board, which is what they actually stand on. */
+.mm-lots {
+  --mm-lane: 64px;
+  position: relative; list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: minmax(0, 1fr) var(--mm-lane) minmax(0, 1fr); row-gap: 30px;
+}
+.mm-lots::before, .mm-turnings::before {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 50%;
+  width: calc(var(--mm-lane) + 4px); margin-left: calc(var(--mm-lane) / -2 - 2px);
+  background:
+    repeating-linear-gradient(to bottom, var(--mm-pencil) 0 12px, transparent 12px 28px) 50% 0 / 2px 100% no-repeat,
+    var(--mm-road);
+  border-left: 2px solid var(--mm-pencil); border-right: 2px solid var(--mm-pencil);
+}
+.mm-lot, .mm-turn { position: relative; }
+.mm-lot { display: flex; flex-direction: column; gap: 18px; min-width: 0; padding: 12px 0 0; }
+.mm-lot--w { grid-column: 1; align-items: flex-end; padding-right: 16px; }
+.mm-lot--e { grid-column: 3; align-items: flex-start; padding-left: 6px; }
+.mm-lot--furniture { flex-flow: row wrap; gap: 14px 22px; }
+
+/* A BUILDING. The face carries the name; the top and the side are clipped out
+   of rectangles, never skewed; the shadow falls down and to the left, away from
+   a lamp off the upper right of the table. */
+.mm-shop, .mm-back, .mm-table, .mm-notice {
+  position: relative; display: block; min-width: 0; max-width: 100%;
+  background: var(--mm-face); color: var(--mm-ink); text-decoration: none;
+  border: 1.5px solid var(--mm-pencil);
+}
+.mm-shop { --mm-d: 11px; width: 15rem; padding: 14px 13px 16px; margin: var(--mm-d) var(--mm-d) 0 0;
+  box-shadow: -8px 9px 0 rgba(34, 48, 43, .26); }
+.mm-back { --mm-d: 8px; width: 11.5rem; padding: 9px 10px 11px; margin: var(--mm-d) var(--mm-d) 0 0;
+  box-shadow: -6px 7px 0 rgba(34, 48, 43, .24); }
+.mm-back .mm-name { font-size: 14.5px; }
+.mm-shop::before, .mm-back::before {
+  content: ""; position: absolute; left: -1.5px; right: calc(-1 * var(--mm-d) - 1.5px); top: calc(-1 * var(--mm-d) - 1.5px);
+  height: var(--mm-d); background: var(--mm-top);
+  clip-path: polygon(var(--mm-d) 0, 100% 0, calc(100% - var(--mm-d)) 100%, 0 100%);
+}
+.mm-shop::after, .mm-back::after {
+  content: ""; position: absolute; top: calc(-1 * var(--mm-d) - 1.5px); right: calc(-1 * var(--mm-d) - 1.5px);
+  bottom: -1.5px; width: var(--mm-d); background: var(--mm-side);
+  clip-path: polygon(0 var(--mm-d), 100% 0, 100% calc(100% - var(--mm-d)), 0 100%);
+}
+.mm-shop > .mm-name, .mm-back > .mm-name { position: relative; }
+.mm-shop:hover, .mm-back:hover, .mm-table:hover, .mm-notice:hover,
+.mm-shop:focus-visible, .mm-back:focus-visible, .mm-notice:focus-visible {
+  box-shadow: -12px 14px 0 rgba(34, 48, 43, .34); }
+.mm-shop:hover .mm-name, .mm-back:hover .mm-name, .mm-notice:hover .mm-name,
+.mm-tent:hover .mm-name, .mm-sign:hover .mm-name, .mm-tag:hover .mm-name, .mm-gate:hover .mm-name,
+.mm-edge__name:hover .mm-name, .mm-roadname__a:hover .mm-name { text-decoration: underline; text-underline-offset: 3px; }
+
+/* The stoop has steps, which is what makes it a front door. */
+.mm-shop--stoop { box-shadow: 0 7px 0 -1px var(--mm-side), 0 7px 0 .5px var(--mm-pencil),
+  0 14px 0 -2px var(--mm-face), 0 14px 0 -.5px var(--mm-pencil), -8px 20px 0 rgba(34, 48, 43, .24); }
+.mm-lot--stoop { padding-bottom: 12px; }
+
+/* The table this model stands on, drawn on the model: a table top with a small
+   green mat on it. Not a link -- it is the page you are on -- and marked with
+   aria-current so a screen reader says so. */
+.mm-table { width: 10rem; padding: 10px 11px 12px; border-radius: 2px;
+  box-shadow: -7px 8px 0 rgba(34, 48, 43, .24); }
+.mm-table::before { content: ""; display: block; height: 16px; margin-bottom: 8px; background:
+  linear-gradient(to right, var(--mm-rule) 0 1px, transparent 1px) 0 0 / 6px 6px,
+  linear-gradient(to bottom, var(--mm-rule) 0 1px, transparent 1px) 0 0 / 6px 6px, var(--mm-mat); }
+/* The pebble board: a case on two legs, out on the pavement. */
+.mm-notice { width: 10rem; padding: 9px 10px 10px; margin-bottom: 18px; box-shadow: -6px 7px 0 rgba(34, 48, 43, .24); }
+.mm-notice::after { content: ""; position: absolute; left: 22%; right: 22%; bottom: -19px; height: 18px;
+  border-left: 2px solid var(--mm-pencil); border-right: 2px solid var(--mm-pencil); }
+
+/* THE GATE. A gap in the wall with an arch over it, and the garden behind is
+   the note, because a garden in white card is a thing you have to be told. */
+.mm-gate { display: block; width: 15rem; max-width: 100%; padding: 16px 14px 12px; text-decoration: none;
+  color: var(--mm-ink); border: 7px solid var(--mm-face); border-bottom: 0; border-radius: 60px 60px 0 0;
+  outline: 1.5px solid var(--mm-pencil); outline-offset: 0; text-align: center;
+  box-shadow: -7px 8px 0 rgba(34, 48, 43, .2); }
+.mm-gate:focus-visible { outline: 3px solid var(--mm-ink); outline-offset: 3px; }
+
+/* ROOMS BEHIND ROOMS stand further off the road than the room you go through,
+   down a pencilled passage from it. Below and outward rather than beside, so a
+   room with several behind it reads the same on a phone as on a desk. */
+.mm-behind { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 18px; }
+.mm-lot--w .mm-behind { align-items: flex-end; margin-right: 34px; }
+.mm-lot--e .mm-behind { align-items: flex-start; margin-left: 34px; }
+.mm-behind > li { position: relative; }
+.mm-behind > li::before { content: ""; position: absolute; top: -20px; height: 20px; border-left: 2px dashed var(--mm-pencil); }
+.mm-lot--w .mm-behind > li::before { right: 40%; }
+.mm-lot--e .mm-behind > li::before { left: 40%; }
+.mm-stair { max-width: 15rem; margin: 0; font-size: 13.5px; line-height: 1.4; color: var(--mm-pencil); }
+.mm-lot--w .mm-stair { text-align: right; }
+.mm-stair a { color: var(--mm-ink); }
+
+/* The last streetlight, at the foot of the board where the road runs off it. */
+.mm-lamp { position: absolute; left: 50%; bottom: 0; width: 26px; height: 58px; margin: 0 0 0 -13px;
+  background:
+    radial-gradient(circle at 50% 8px, var(--mm-top) 0 6px, var(--mm-pencil) 6px 7.5px, transparent 8px),
+    linear-gradient(var(--mm-pencil), var(--mm-pencil)) 50% 14px / 3px 44px no-repeat; }
+
+/* ── Past the last streetlight: the road out, off the bottom of the board ─ */
+.mm-road { padding: 34px 0 0; text-align: center; }
+.mm-edge--road { margin-bottom: 22px; }
+.mm-turnings {
+  --mm-lane: 40px;
+  position: relative; list-style: none; margin: 0; padding: 0 0 26px; text-align: left;
+  display: grid; grid-template-columns: minmax(0, 1fr) var(--mm-lane) minmax(0, 1fr); row-gap: 22px;
+}
+.mm-turnings::before { border-color: transparent; }
+.mm-turn { display: flex; align-items: center; min-width: 0; }
+.mm-turn--w { grid-column: 1; justify-content: flex-end; padding-right: 22px; }
+.mm-turn--e { grid-column: 3; padding-left: 22px; }
+.mm-turn:nth-child(even) { grid-row-end: span 1; }
+/* The spur of road off to each turning, the same card as the road. */
+.mm-turn::before { content: ""; position: absolute; top: 50%; height: 14px; width: 22px; margin-top: -7px; background: var(--mm-road); }
+.mm-turn--w::before { right: 0; }
+.mm-turn--e::before { left: 0; }
+.mm-sign { position: relative; display: block; width: 14rem; max-width: 100%; padding: 9px 12px 10px;
+  background: var(--mm-face); color: var(--mm-ink); text-decoration: none; border: 1.5px solid var(--mm-pencil);
+  box-shadow: -6px 7px 0 rgba(12, 36, 28, .45); }
+.mm-turn--dark .mm-sign { border-style: dashed; }
+
+/* ── Tags pinned to the edge of the mat: the pages that are not places ─── */
+.mm-tags { margin-top: 38px; padding-top: 22px; border-top: 1px solid var(--mm-rule); }
+.mm-tags ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 14px 22px; }
+.mm-tag { position: relative; display: block; padding: 8px 14px 8px 30px; background: var(--mm-face);
+  color: var(--mm-ink); text-decoration: none; clip-path: polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 50%);
+  box-shadow: none; }
+.mm-tag::before { content: ""; position: absolute; left: 13px; top: 50%; width: 8px; height: 8px; margin-top: -4px;
+  border-radius: 50%; background: var(--mm-pin); }
+.mm-tag .mm-name { font-size: 15px; }
+.mm-tag:focus-visible { outline-offset: 4px; }
+
+/* The job marker lies on the mat, off the model. §4 supplies the behaviour and
+   the panel borrows the mat's ink and ground. */
+.mapping .quest { margin-top: 30px; }
+
+/* THE SIGN-OFF lies on the mat too, so it takes the mat's link colour. */
+.mapping .signoff a { color: var(--mm-link); }
+
+/* ON A PHONE THE STREET STAYS A STREET. Both sides of the road are kept rather
+   than folding it into one column, because a list of shopfronts is the front
+   page and the whole point of this page is which side of the road a thing is
+   on and what it stands next to. So the lane narrows, every piece of card
+   takes its side's full width, and a room behind a room stands under the one
+   you go through, one step in from the edge of the board rather than off it --
+   a room pushed off the side of a phone is a room nobody can reach. Last in the
+   section, because a media block written above the rules it overrides loses
+   exactly the declarations they also set (the Playhouse's lesson). */
+@media (max-width: 700px) {
+  .mm-board { padding: 18px 8px 66px; }
+  .mm-lots { --mm-lane: 34px; row-gap: 22px; }
+  .mm-lot--w { padding-right: 8px; }
+  .mm-lot--e { padding-left: 2px; }
+  .mm-shop, .mm-gate, .mm-table, .mm-notice { width: 100%; }
+  .mm-shop { --mm-d: 8px; padding: 10px 9px 12px; }
+  .mm-back { --mm-d: 6px; width: 100%; padding: 7px 8px 9px; }
+  .mm-lot--w .mm-behind { margin-right: 0; margin-left: 12px; }
+  .mm-lot--e .mm-behind { margin-left: 0; margin-right: 12px; }
+  .mm-behind { align-self: stretch; }
+  .mm-lot--w .mm-behind, .mm-lot--e .mm-behind { align-items: stretch; }
+  .mm-name { font-size: 14.5px; overflow-wrap: anywhere; }
+  .mm-back .mm-name { font-size: 12.5px; }
+  .mm-table .mm-name::after, .mm-model :where(:target) .mm-name::after { font-size: 11px; padding-left: 18px; }
+  .mm-lot--furniture { flex-direction: column; flex-wrap: nowrap; }
+  .mm-notice { margin-bottom: 20px; }
+  .mm-turnings { --mm-lane: 28px; }
+  .mm-turn--w { padding-right: 14px; }
+  .mm-turn--e { padding-left: 14px; }
+  .mm-turn::before { width: 14px; }
+  .mm-sign { padding: 7px 8px 8px; }
+  .mm-tent::before { width: 58px; height: 36px; }
+  .mm-pitches { gap: 16px 18px; }
+}
+
+/* §50 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -10804,7 +11182,7 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §49 says every
+   shipped with no rule here at all — which on a street whose §50 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -10928,7 +11306,7 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §50 ── Print ───────────────────────────────────────────────────────────────
+/* §51 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

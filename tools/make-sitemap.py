@@ -12,6 +12,10 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 # behind it, then off the end of the street into the campgrounds and the one
 # pitch standing on it, then the pages that hold lists.
 ORDER = ["index.html",
+         # The model of the whole street, on a table by the front door. Street
+         # furniture rather than a room, and second because it is the page that
+         # shows where every other page stands.
+         "map.html",
          # The page about the street's own name, which is reached from a line
          # under the dial on the front page rather than from a shopfront: it is
          # about the street rather than a room standing on it. First, because it

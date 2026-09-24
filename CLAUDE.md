@@ -2215,6 +2215,54 @@ fill any of them from memory, from our other pages, or from photographs of their
 elsewhere**, and remember the Faery Yurt's rule: a cabinet in Helen's name is a new thing about her,
 so what goes in it is her call. See DECISIONS.md.
 
+**THE MAP IS THE ONE PAGE THAT SHOWS EVERY OTHER PAGE, AND NOTHING ON IT IS PAINTED.** `map.html`
+(§49) is the whole street as a model in white card on a cutting mat: shopfronts on both sides of a
+pencilled road, rooms behind rooms standing behind them, the garden's gate halfway down, the
+campground's field off the top of the board past the treeline and the road out off the bottom past the
+last streetlight. **Every building is one white card, on purpose**: a model that painted each building
+in its room's colours would be a swatch book saying the rooms belong to one set, which is the
+harmonising instinct arriving as a legend. **If a building on the model ever takes its room's colour,
+the model has started describing the rooms instead of pointing at them.** The collisions are
+structural: Danny the Street is the road ITSELF, straight down, under sodium, nothing standing up;
+this is a MODEL of it, at an angle from standing height over a table, in daylight, everything standing
+up and throwing a shadow. Samefood Cafe is the other thing seen over a table, straight down under an
+even light; here the lamp is off to the upper right and every shadow falls down and to the left.
+**Scale is the one thing no room has**, and no room should get it.
+
+**IT HAS NO COORDINATES AND THAT IS THE MAINTENANCE PLAN.** `tools/make-map.py` reads the shopfronts
+off index.html's row of doors, in order, alternating sides; the pitches off campgrounds.html's board
+and the turnings off the-outskirts.html's signs, with their states; the gate goes halfway down however
+long the street is. The layout is a CSS grid that flows, so a new shopfront makes the street longer
+and nothing has to be put anywhere. **`data/map.json` holds only what the front page does not show**
+— rooms behind rooms, the guild's back stair to 429, names too long to letter, and the pages pinned
+to the mat's edge rather than built. **It refuses** a page in the sitemap's walking order with no place
+on the model, a page placed twice, a room behind a room whose parent does not link to it, and a stale
+entry. So: a new shopfront needs no map edit at all, only a re-run; a new room behind a room needs one
+line in `data/map.json`. **Do not add coordinates, and do not hand-edit between the map markers.**
+
+**WHICH END IS WHICH IS A DECISION THE MAP MADE, and it is Ryan's to change.** The front page lists
+both edges at its foot, so nothing said which end the stoop is at. The model puts the treeline end at
+the top with the stoop just inside it and the far end at the bottom, because "the far end" is what the
+street's own copy calls the Outskirts' end. Flipping it is one edit in the generator's row order.
+
+**WHERE AM I? IS THE ONLY SIGN-OFF LINK THAT DIFFERS PER PAGE, AND IT IS STILL WRITTEN ONCE.**
+`tools/signoff.py` sends every page to `map.html#at-<its own filename>`, every place on the model
+carries that id, and `:target` puts a flag on it saying *you came from here*. No script, no referrer,
+nothing stored. The table on the model is the page you are on and always says *you are here* —
+`:where(:target)` keeps the two rules level so the later one wins. **An id on the model is the
+address of a page's place**, which is why make-map.py refuses a page placed twice.
+
+**ON A PHONE BOTH SIDES OF THE ROAD ARE KEPT.** Folding the street into one column would make the map
+a list of shopfronts, which is the front page. The lane narrows and every piece of card takes its
+side's width; a room behind a room stands under the one you go through, stepped in from the board's
+edge rather than off it, because a room pushed off the side of a phone is a room nobody can reach.
+
+**THE ROAD IS ITS OWN LAYER, NOT THE LIST'S BACKGROUND.** As a gradient on the grid it made
+`check-focus.py` measure every ring on the board against the pencil kerb, correctly, because a tool
+reading a gradient cannot know which stop is under which link. The road is a `::before` strip now and
+the buildings stand on plain board, which is what they actually stand on. **No transform anywhere in
+§49**: the top and side of every building are clipped rectangles, not skews.
+
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
 paleness alone — which is what holds it off the Guild, lit from nowhere with no depth. Netlify

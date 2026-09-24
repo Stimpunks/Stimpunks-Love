@@ -723,6 +723,28 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--samefood .og-table {{ margin: auto 0 8px !important; line-height: 0; }}
 .og--samefood .og-table svg {{ display: block; width: auto; height: 290px; margin: 0 auto; }}
 
+/* the map — A CORNER OF THE MODEL, LIFTED OFF THE PAGE. The mat and its grid
+   come from the room's own body rule, and the piece of street on the right is
+   the page's own generated lots -- the first few, with the rooms behind them
+   left off -- so the card cannot letter a shopfront the model has not got, or
+   stand them in another order. White card and nothing painted, the room's one
+   argument, and the only yellow is the flag. */
+.og--map {{ width: 100%; flex-direction: row; align-items: center; gap: 44px; padding: 0 0 0 64px; }}
+.og--map .og-words {{ flex: 1 1 0; min-width: 0; }}
+.og--map .og-over {{ margin: 0 !important; font-family: 'Albert Sans', sans-serif; font-weight: 700;
+  font-size: 18px; letter-spacing: 2.6px; text-transform: uppercase; color: var(--mm-dim); }}
+.og--map h1 {{ font-size: 120px; margin: 8px 0 0 !important; }}
+.og--map .og-sub {{ margin: 12px 0 0 !important; font-family: 'Albert Sans', sans-serif; font-size: 28px;
+  line-height: 1.3; color: var(--mm-print); }}
+.og--map .og-lede {{ margin: 18px 0 0 !important; font-family: 'Albert Sans', sans-serif; font-size: 21px;
+  line-height: 1.45; color: var(--mm-dim); }}
+.og--map .og-corner {{ flex: 0 0 470px; align-self: stretch; margin: 0 !important; padding: 40px 26px 0 18px !important;
+  box-shadow: -12px 0 0 rgba(12, 36, 28, .5) !important; }}
+.og--map .og-corner .mm-lots {{ --mm-lane: 50px; row-gap: 22px; }}
+.og--map .og-corner .mm-shop, .og--map .og-corner .mm-table, .og--map .og-corner .mm-notice {{ width: 100%; }}
+.og--map .og-corner .mm-name {{ font-size: 16px; }}
+.og--map .og-corner .mm-lot--furniture {{ flex-direction: column; flex-wrap: nowrap; }}
+
 /* the collection collection — THE GALLERY FROM THE DOORWAY, DARK, WITH A LAMP
    ONLY WHERE THERE IS SOMETHING TO LIGHT. The drawing is LIFTED whole out of the
    page, the table's rule and the bed's, because make-collection.py draws it from
@@ -2356,6 +2378,44 @@ def card_samefood(p):
     )
 
 
+def card_map(p):
+    # THE CORNER OF THE MODEL IS LIFTED FROM THE PAGE: the first few lots out of
+    # what make-map.py wrote, with the rooms behind them and the back stair left
+    # off and the ids taken out, because a card is not a second map and an id
+    # belongs to the page. The words beside it are the page's own.
+    sub = re.search(r'<p class="mm-sub">(.*?)</p>', p["src"], re.S)
+    lots = re.findall(r'<li class="mm-lot mm-lot--[we][^"]*">.*?</li>(?=\s*<li class="mm-lot|\s*</ol>)', p["src"], re.S)
+    if not (sub and len(lots) >= 4):
+        raise SystemExit(
+            "REFUSING: map.html has lost its line under the name or the model's lots, and\n"
+            "its card is built out of both. Run make-map.py, or redesign the card on purpose.")
+    corner = []
+    for lot in lots[:4]:
+        lot = re.sub(r'<span class="sr">.*?</span>|<ul class="mm-behind">.*?</ul>|<p class="mm-stair">.*?</p>', "", lot, flags=re.S)
+        corner.append(re.sub(r'\s(id|href|aria-current)="[^"]*"', "", lot).replace("<a ", "<span ").replace("</a>", "</span>"))
+    names = [html.unescape(re.sub(r"<[^>]+>", "", n)) for n in re.findall(r'<span class="mm-name">(.*?)</span>', "".join(corner))]
+    sub_html = sub.group(1).strip()
+    sub_plain = html.unescape(re.sub(r"<[^>]+>", "", sub_html)).strip()
+    return (
+        "",
+        f'<div class="og og--map" data-fit="card">'
+        f'<div class="og-words"><p class="og-over">On the pavement, by the front door</p>'
+        f'{p["h1"]}'
+        f'<p class="og-sub">{sub_html}</p>'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="mm-board og-corner" aria-hidden="true"><ol class="mm-lots">{"".join(corner)}</ol></div>'
+        f'</div>',
+        f"A card the dark green of a cutting mat, with its grid printed across it in paler "
+        f"lines. Small pale capitals reading on the pavement, by the front door, then "
+        f"\u201c{p['h1text']}\u201d very large in white upright hand-lettered capitals, and "
+        f"under it: {sub_plain} Then: {p['desc_plain']} Down the right-hand side, a corner "
+        f"of the model on a pale board: a pencilled road with a dashed centre line and "
+        f"small white card buildings standing either side of it, each lettered by hand "
+        f"\u2014 {', '.join(names)} \u2014 with a strip of yellow tape on one reading "
+        f"you are here.",
+    )
+
+
 def card_collection(p):
     # THE GALLERY IS LIFTED FROM THE PAGE, and so are the line under the name
     # and the window line that says in words what the drawing shows -- so the
@@ -2506,6 +2566,7 @@ CARDS = {
     "covenstead":   card_covenstead,
     "samefood":     card_samefood,
     "collections":  card_collection,
+    "mapping":      card_map,
     "dead-tired":   card_dead_tired,
     "laughingstock": card_laughingstock,
     "picture-house": card_picture_house,

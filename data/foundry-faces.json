@@ -1,8 +1,31 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-09-23",
+ "_checked": "2026-09-24",
  "faces": {
+  "albert-sans": {
+   "family": "Albert Sans",
+   "category": "Sans Serif",
+   "designer": "Andreas Rasmussen",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/albertsans",
+   "copyright": "Copyright 2021 The Albert Sans Project Authors (https://github.com/usted/Albert-Sans)",
+   "repository": "https://github.com/usted/Albert-Sans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "albert-sans-400.woff2",
+     "sha": "acf304385d0648fd"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "albert-sans-400.woff2",
+     "sha": "acf304385d0648fd"
+    }
+   ]
+  },
   "alegreya-sans": {
    "family": "Alegreya Sans",
    "category": "Sans Serif",
@@ -57,6 +80,23 @@
      "style": "normal",
      "file": "anton-400.woff2",
      "sha": "23aab0b2692a0c89"
+    }
+   ]
+  },
+  "architects-daughter": {
+   "family": "Architects Daughter",
+   "category": "Handwriting",
+   "designer": "Kimberly Geswein",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/architectsdaughter",
+   "copyright": "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com)",
+   "repository": "https://github.com/googlefonts/architectsdaughter",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "architects-daughter-400.woff2",
+     "sha": "6f925fb5efb36427"
     }
    ]
   },

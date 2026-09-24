@@ -414,7 +414,7 @@ def main():
     page = TEMPLATE.substitute(
         quest=quest,
         prepaint=prepaint(),
-        signoff=signoff.block(),
+        signoff=signoff.block(page="foundry.html"),
         faces=face_options(built),
         weights="".join(
             f'<option value="{w}">{w}'

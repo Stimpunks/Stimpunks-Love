@@ -580,6 +580,17 @@ CC_DARK, CC_CARD = "#131211", "#F1ECE2"
 CC_BONE, CC_DUST, CC_BRASS = "#EDE7DB", "#ABA396", "#E4B868"
 CC_INK, CC_INK2, CC_RUST = "#1D1A17", "#5C5449", "#8E3A14"
 
+# The Map (§49). THREE GROUNDS: the cutting mat, which every word off the model
+# stands on; the foamboard the street stands on, with the road pencilled across
+# it; and the white card every building, tent, sign and tag is cut from. The
+# card's top and side faces carry no word, nor does the grid printed on the mat,
+# nor the red of a pin's head; they are in ORNAMENT with their numbers. White
+# card on the board is 1.17, which is why every building is carried by a pencil
+# edge, held here against the board like a marker is held against a floor.
+MM_MAT, MM_BOARD, MM_ROAD, MM_FACE = "#245B4A", "#E6E2D8", "#D8D3C7", "#F6F3EC"
+MM_PRINT, MM_DIM, MM_LINK = "#EEF4EE", "#C9DED2", "#F4E3A0"
+MM_INK, MM_PENCIL, MM_HERE = "#22302B", "#4B5A54", "#F2C230"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -1967,6 +1978,25 @@ PAIRS = [
     # The job marker is a luggage tag in --cc-card lying on the dark floor with
     # its string in --cc-dust (held above), both to the body threshold a marker is held to.
     (CC_CARD,  CC_DARK, False, "collection: the job marker, a luggage tag off its string"),
+    # ── The Map (§49) ────────────────────────────────────────────────────────
+    (MM_PRINT, MM_MAT,   False, "map: the h1, every heading and paragraph off the model, and the "
+                                "blurb on the street's mapboard"),
+    (MM_DIM,   MM_MAT,   False, "map: the trail, the line over the h1, the line under each edge's "
+                                "name, and the words of a pitch nobody has taken"),
+    (MM_LINK,  MM_MAT,   False, "map: every link on the mat -- the backlink, the campgrounds and "
+                                "the outskirts, the sign-off -- and the name on the street's mapboard"),
+    (MM_INK,   MM_FACE,  False, "map: the name on every building, tent, sign and tag"),
+    (MM_PENCIL, MM_FACE, False, "map: the note on a building, the number on a pitch or a turning"),
+    (MM_INK,   MM_BOARD, False, "map: the garden's gate, the back stair, anything lettered straight on the board"),
+    (MM_PENCIL, MM_BOARD, False, "map: the back stair's words, and THE CUT EDGE every building is "
+                                 "carried by, held to the body threshold because white card on the "
+                                 "board is 1.17 and a building you cannot pick out is a link you cannot find"),
+    (MM_INK,   MM_ROAD,  False, "map: Danny the Street, lettered on the road"),
+    (MM_PENCIL, MM_ROAD, False, "map: the line under the road's name"),
+    (MM_INK,   MM_HERE,  False, "map: the yellow tape saying you are here, or you came from here"),
+    # Tents, signs and tags stand on the bare mat, and so does the job marker, a
+    # spare white-headed pin: white card on the mat, to the body threshold.
+    (MM_FACE,  MM_MAT,   False, "map: every tent, sign and tag against the mat, and the job marker, a spare pin"),
 
 
 
@@ -2037,6 +2067,15 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#2c6553": "map: the fine grid printed on the cutting mat, 1.16 on the mat. It carries nothing.",
+    "#4f8c76": "map: the heavy grid printed on the mat, the line the job marker stands on and the "
+               "rule over the tags, 2.00 on the mat. It carries nothing.",
+    "#fffefa": "map: the lit top face of every piece of card and the lit side of every tent, 1.28 on "
+               "the board. It carries no word; the pencil edge carries the building.",
+    "#c9c3b5": "map: the shaded side face of every building and tent, 1.36 on the board. It carries no word.",
+    "#d93a2b": "map: the red head of a pin -- 2.73 on the yellow tape it is drawn on and 4.13 on a tag at "
+               "the mat's edge (1.72 against the mat itself). The words on the tape say what it means, "
+               "never the colour.",
     "#211e1b": "collection: the cabinets, one step up from the dark, 1.13 on it. A cabinet carries "
                "no word -- every word is on a label -- and is told from the floor by its outline in "
                "--cc-line and by its label.",

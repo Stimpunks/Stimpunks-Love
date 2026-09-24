@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Map &mdash; Stimpunks.World</title>
+<meta name="description" content="The whole street as a model in white card on a cutting mat: every shopfront where it stands, the rooms behind rooms, the garden through its gate, the campgrounds past the treeline at one end and the road out past the last streetlight at the other. Pick anything up to go there. Built from the street itself, so it grows when the street does.">
+<link rel="canonical" href="https://stimpunks.world/map.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#245B4A">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.World">
+<meta property="og:title" content="The Map &mdash; Stimpunks.World">
+<meta property="og:description" content="Every building, tent and sign on it goes somewhere: pick one up. And at the foot of every page on the street, Where am I? opens it at the page you were on.">
+<meta property="og:url" content="https://stimpunks.world/map.html">
+<meta property="og:image" content="https://stimpunks.world/og/map.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A card the dark green of a cutting mat, with its grid printed across it in paler lines. Small pale capitals reading on the pavement, by the front door, then “The Map” very large in white upright hand-lettered capitals, and under it: The whole street as a model in white card, standing on a cutting mat, and never finished. Then: Every building, tent and sign on it goes somewhere: pick one up. And at the foot of every page on the street, Where am I? opens it at the page you were on. Down the right-hand side, a corner of the model on a pale board: a pencilled road with a dashed centre line and small white card buildings standing either side of it, each lettered by hand — The Stoop, The Map, The Pebble Board, Pink Pony Club, Club Chronic — with a strip of yellow tape on one reading you are here.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World &mdash; what changed on the street">
+<link rel="preload" href="fonts/architects-daughter-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/albert-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<!-- structured-data:begin -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/map.html#webpage","url":"https://stimpunks.world/map.html","name":"The Map — Stimpunks.World","description":"The whole street as a model in white card on a cutting mat: every shopfront where it stands, the rooms behind rooms, the garden through its gate, the campgrounds past the treeline at one end and the road out past the last streetlight at the other. Pick anything up to go there. Built from the street itself, so it grows when the street does.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<!-- structured-data:end -->
+</head>
+<body class="mapping" id="top">
+<a class="skip" href="#main">Skip to the model</a>
+
+<main id="main" class="wrap">
+
+  <div class="mm-topline">
+    <a class="backlink" href="index.html">&larr; back to the street</a>
+    <p class="mm-trail">street furniture &middot; a table in the window by the stoop &middot; mind the pins</p>
+  </div>
+
+  <header class="mm-head">
+    <p class="mm-over">On the pavement, by the front door</p>
+    <h1>The Map</h1>
+    <p class="mm-sub">The whole street as a model in white card, standing on a cutting mat, and never finished.</p>
+  </header>
+
+  <section class="mm-how" aria-labelledby="mm-how-h">
+    <h2 id="mm-how-h">How to read it</h2>
+    <p>The street runs down the middle of the board from the treeline end at the top to the far end at the bottom, with the shopfronts standing on both sides of it in the order they stand on the front page. A small building behind a big one is a room behind a room. Past the treeline, off the top of the board, is the campground&rsquo;s field with its pitches; past the last streetlight, off the bottom, is the road out of town with its turnings. <b>Everything standing on the mat is a link:</b> pick one up and it takes you there.</p>
+    <p>Follow <b>Where am I?</b> at the foot of any page on the street and the model opens at that page, with a flag on it saying you came from there.</p>
+  </section>
+
+  <h2 class="sr">The model</h2>
+  <!-- WRITTEN BY tools/make-map.py out of the street itself: index.html's row
+       of doors, the campground's board, the road's signs, and data/map.json for
+       the rooms behind rooms. Do not hand-edit; run the tool. -->
+<!-- map:begin -->
+<div class="mm-model">
+  <section class="mm-field" aria-labelledby="at-campgrounds">
+    <h3 class="mm-edge"><a class="mm-edge__name" href="campgrounds.html" id="at-campgrounds"><span class="mm-name">The Campgrounds</span></a><span class="mm-edge__where">past the treeline, off the board</span></h3>
+    <ul class="mm-pitches">
+      <li class="mm-pitch"><a class="mm-tent" href="faery-yurt.html" id="at-faery-yurt"><span class="mm-name">The Faery Yurt</span><span class="mm-no">Pitch 01</span></a></li>
+      <li class="mm-pitch"><a class="mm-tent" href="swaying-sweetgrass.html" id="at-swaying-sweetgrass"><span class="mm-name">Swaying Sweetgrass</span><span class="mm-no">Pitch 02</span></a></li>
+      <li class="mm-pitch"><a class="mm-tent" href="solarpunk-hermitage.html" id="at-solarpunk-hermitage"><span class="mm-name">The Solarpunk Hermitage</span><span class="mm-no">Pitch 03</span></a></li>
+    </ul>
+    <svg class="mm-trees" viewBox="0 0 1000 44" preserveAspectRatio="none" aria-hidden="true" focusable="false"><g class="mm-trees__sticks"><path d="M14 30 V44"/><path d="M45 30 V44"/><path d="M76 30 V44"/><path d="M107 30 V44"/><path d="M138 30 V44"/><path d="M169 30 V44"/><path d="M200 30 V44"/><path d="M231 30 V44"/><path d="M262 30 V44"/><path d="M293 30 V44"/><path d="M324 30 V44"/><path d="M355 30 V44"/><path d="M386 30 V44"/><path d="M417 30 V44"/><path d="M448 30 V44"/><path d="M479 30 V44"/><path d="M510 30 V44"/><path d="M541 30 V44"/><path d="M572 30 V44"/><path d="M603 30 V44"/><path d="M634 30 V44"/><path d="M665 30 V44"/><path d="M696 30 V44"/><path d="M727 30 V44"/><path d="M758 30 V44"/><path d="M789 30 V44"/><path d="M820 30 V44"/><path d="M851 30 V44"/><path d="M882 30 V44"/><path d="M913 30 V44"/><path d="M944 30 V44"/><path d="M975 30 V44"/></g><g class="mm-trees__tops"><circle cx="14" cy="20" r="11"/><circle cx="45" cy="25" r="12"/><circle cx="76" cy="30" r="13"/><circle cx="107" cy="20" r="14"/><circle cx="138" cy="25" r="15"/><circle cx="169" cy="30" r="16"/><circle cx="200" cy="20" r="11"/><circle cx="231" cy="25" r="12"/><circle cx="262" cy="30" r="13"/><circle cx="293" cy="20" r="14"/><circle cx="324" cy="25" r="15"/><circle cx="355" cy="30" r="16"/><circle cx="386" cy="20" r="11"/><circle cx="417" cy="25" r="12"/><circle cx="448" cy="30" r="13"/><circle cx="479" cy="20" r="14"/><circle cx="510" cy="25" r="15"/><circle cx="541" cy="30" r="16"/><circle cx="572" cy="20" r="11"/><circle cx="603" cy="25" r="12"/><circle cx="634" cy="30" r="13"/><circle cx="665" cy="20" r="14"/><circle cx="696" cy="25" r="15"/><circle cx="727" cy="30" r="16"/><circle cx="758" cy="20" r="11"/><circle cx="789" cy="25" r="12"/><circle cx="820" cy="30" r="13"/><circle cx="851" cy="20" r="14"/><circle cx="882" cy="25" r="15"/><circle cx="913" cy="30" r="16"/><circle cx="944" cy="20" r="11"/><circle cx="975" cy="25" r="12"/></g></svg>
+  </section>
+  <section class="mm-board" aria-labelledby="at-danny-the-street">
+    <h3 class="mm-roadname"><a class="mm-roadname__a" href="danny-the-street.html" id="at-danny-the-street"><span class="mm-name">Danny the Street</span></a><span class="mm-roadname__what">the street itself</span></h3>
+    <ol class="mm-lots">
+      <li class="mm-lot mm-lot--w mm-lot--stoop"><a class="mm-shop mm-shop--stoop" href="index.html" id="at-index"><span class="mm-name">The Stoop</span><span class="mm-note">the front door</span></a></li>
+      <li class="mm-lot mm-lot--e mm-lot--furniture"><span class="mm-table" id="at-map" aria-current="page"><span class="mm-name">The Map</span><span class="mm-note">this table</span></span><a class="mm-notice" href="pebble-board.html" id="at-pebble-board"><span class="mm-name">The Pebble Board</span></a></li>
+      <li class="mm-lot mm-lot--w"><a class="mm-shop" href="pink-pony-club.html" id="at-pink-pony-club"><span class="mm-name">Pink Pony Club</span></a><span class="sr">, and behind Pink Pony Club:</span><ul class="mm-behind"><li><a class="mm-back" href="the-chappell.html" id="at-the-chappell"><span class="mm-name">The Chappell</span></a></li></ul></li>
+      <li class="mm-lot mm-lot--e"><a class="mm-shop" href="club-chronic.html" id="at-club-chronic"><span class="mm-name">Club Chronic</span></a></li>
+      <li class="mm-lot mm-lot--w"><a class="mm-shop" href="zine-table.html" id="at-zine-table"><span class="mm-name">The Zine Table</span></a><span class="sr">, and behind The Zine Table:</span><ul class="mm-behind"><li><a class="mm-back" href="zine-issue-2.html" id="at-zine-issue-2"><span class="mm-name">Issue #2</span></a></li></ul></li>
+      <li class="mm-lot mm-lot--e"><a class="mm-shop" href="hear-queer-here.html" id="at-hear-queer-here"><span class="mm-name">Hear Queer Here</span></a></li>
+      <li class="mm-lot mm-lot--w"><a class="mm-shop" href="enids-room.html" id="at-enids-room"><span class="mm-name">Enid's Room</span></a><span class="sr">, and behind Enid's Room:</span><ul class="mm-behind"><li><a class="mm-back" href="polaroids.html" id="at-polaroids"><span class="mm-name">The Polaroid Wall</span></a></li></ul></li>
+      <li class="mm-lot mm-lot--e"><a class="mm-shop" href="playhouse.html" id="at-playhouse"><span class="mm-name">The Playhouse</span></a></li>
+      <li class="mm-lot mm-lot--w"><a class="mm-shop" href="arcade.html" id="at-arcade"><span class="mm-name">The Arcade</span></a><span class="sr">, and behind The Arcade:</span><ul class="mm-behind"><li><a class="mm-back" href="quill-drift.html" id="at-quill-drift"><span class="mm-name">Quill Drift</span></a></li><li><a class="mm-back" href="otterly-adorbs.html" id="at-otterly-adorbs"><span class="mm-name">Otterly Adorbs</span></a></li><li><a class="mm-back" href="penguin-pebbling.html" id="at-penguin-pebbling"><span class="mm-name">Penguin Pebbling</span></a></li></ul></li>
+      <li class="mm-lot mm-lot--e"><a class="mm-shop" href="latibulum.html" id="at-latibulum"><span class="mm-name">The Latibulum</span></a></li>
+      <li class="mm-lot mm-lot--w"><a class="mm-shop" href="jungle-room.html" id="at-jungle-room"><span class="mm-name">The Jungle Room</span></a><span class="sr">, and behind The Jungle Room:</span><ul class="mm-behind"><li><a class="mm-back" href="the-den.html" id="at-the-den"><span class="mm-name">The Den</span></a></li></ul></li>
+      <li class="mm-lot mm-lot--e"><a class="mm-shop" href="the-mopery.html" id="at-the-mopery"><span class="mm-name">The Mopery</span></a><span class="sr">, and behind The Mopery:</span><ul class="mm-behind"><li><a class="mm-back" href="oracle-deck.html" id="at-oracle-deck"><span class="mm-name">The Oracle Deck</span></a></li><li><a class="mm-back" href="the-doomscroll.html" id="at-the-doomscroll"><span class="mm-name">The Doomscroll</span></a></li></ul></li>
+      <li class="mm-lot mm-lot--w"><a class="mm-shop" href="adventurers-guild.html" id="at-adventurers-guild"><span class="mm-name">The Adventurer’s Guild</span></a><p class="mm-stair">a back stair up to <a href="healing-checkpoint.html">The Healing Checkpoint</a>, which also has its own front door</p></li>
+      <li class="mm-lot mm-lot--e"><a class="mm-shop" href="the-feed.html" id="at-the-feed"><span class="mm-name">The Feed</span></a></li>
+      <li class="mm-lot mm-lot--w mm-lot--gate"><a class="mm-gate" href="the-garden.html" id="at-the-garden"><span class="mm-name">The Garden</span><span class="mm-note">through the gate in the wall, halfway down</span></a></li>
+      <li class="mm-lot mm-lot--e"><a class="mm-shop" href="zibaldone.html" id="at-zibaldone"><span class="mm-name">The Zibaldone</span></a></li>
+      <li class="mm-lot mm-lot--w"><a class="mm-shop" href="rabbit-hole.html" id="at-rabbit-hole"><span class="mm-name">The Rabbit Hole</span></a></li>
+      <li class="mm-lot mm-lot--e"><a class="mm-shop" href="healing-checkpoint.html" id="at-healing-checkpoint"><span class="mm-name">The Healing Checkpoint</span></a></li>
+      <li class="mm-lot mm-lot--w"><a class="mm-shop" href="foundry.html" id="at-foundry"><span class="mm-name">The Foundry</span></a></li>
+      <li class="mm-lot mm-lot--e"><a class="mm-shop" href="covenstead.html" id="at-covenstead"><span class="mm-name">Covenstead</span></a></li>
+      <li class="mm-lot mm-lot--w"><a class="mm-shop" href="dead-tired-society.html" id="at-dead-tired-society"><span class="mm-name">Dead Tired Society</span></a></li>
+      <li class="mm-lot mm-lot--e"><a class="mm-shop" href="laughingstock.html" id="at-laughingstock"><span class="mm-name">Laughingstock</span></a></li>
+      <li class="mm-lot mm-lot--w"><a class="mm-shop" href="lightbulb-picture-house.html" id="at-lightbulb-picture-house"><span class="mm-name">The Lightbulb Picture House</span></a></li>
+      <li class="mm-lot mm-lot--e"><a class="mm-shop" href="samefood-cafe.html" id="at-samefood-cafe"><span class="mm-name">Samefood Cafe</span></a></li>
+      <li class="mm-lot mm-lot--w"><a class="mm-shop" href="collection-collection.html" id="at-collection-collection"><span class="mm-name">The Collection Collection</span></a></li>
+      <li class="mm-lot mm-lot--e"><a class="mm-shop" href="your-room.html" id="at-your-room"><span class="mm-name">Your Room</span></a></li>
+    </ol>
+    <p class="mm-lamp" aria-hidden="true"></p>
+  </section>
+  <section class="mm-road" aria-labelledby="at-the-outskirts">
+    <h3 class="mm-edge mm-edge--road"><a class="mm-edge__name" href="the-outskirts.html" id="at-the-outskirts"><span class="mm-name">The Outskirts</span></a><span class="mm-edge__where">past the last streetlight, off the board</span></h3>
+    <ol class="mm-turnings">
+      <li class="mm-turn mm-turn--w"><a class="mm-sign" href="black-leather-lagoon.html" id="at-black-leather-lagoon"><span class="mm-name">Black Leather Lagoon</span><span class="mm-no">Turning 01</span></a></li>
+      <li class="mm-turn mm-turn--e"><a class="mm-sign" href="sithen.html" id="at-sithen"><span class="mm-name">Sithen</span><span class="mm-no">Turning 02</span></a></li>
+      <li class="mm-turn mm-turn--w"><a class="mm-sign" href="looming-rocks.html" id="at-looming-rocks"><span class="mm-name">Looming Rocks Amphitheatre</span><span class="mm-no">Turning 03</span></a></li>
+      <li class="mm-turn mm-turn--e"><a class="mm-sign" href="dance-punks.html" id="at-dance-punks"><span class="mm-name">Dance, Punks</span><span class="mm-no">Turning 04</span></a></li>
+      <li class="mm-turn mm-turn--w"><a class="mm-sign" href="small-hours.html" id="at-small-hours"><span class="mm-name">The Small Hours</span><span class="mm-no">Turning 05</span></a></li>
+      <li class="mm-turn mm-turn--e"><a class="mm-sign" href="repeater.html" id="at-repeater"><span class="mm-name">The Repeater</span><span class="mm-no">Turning 06</span></a></li>
+      <li class="mm-turn mm-turn--w"><a class="mm-sign" href="nothing-for-sale.html" id="at-nothing-for-sale"><span class="mm-name">Nothing For Sale</span><span class="mm-no">Turning 07</span></a></li>
+    </ol>
+  </section>
+  <aside class="mm-tags" aria-labelledby="mm-tags-h">
+    <h3 id="mm-tags-h">Pinned to the edge of the mat</h3>
+    <ul>
+      <li><a class="mm-tag" href="liner-notes.html" id="at-liner-notes"><span class="mm-name">Liner Notes</span></a></li>
+      <li><a class="mm-tag" href="changelog.html" id="at-changelog"><span class="mm-name">Changelog</span></a></li>
+      <li><a class="mm-tag" href="privacy.html" id="at-privacy"><span class="mm-name">Privacy</span></a></li>
+    </ul>
+  </aside>
+</div>
+<!-- map:end -->
+
+  <section class="mm-why" aria-labelledby="mm-why-h">
+    <h2 id="mm-why-h">Why nothing on it is painted</h2>
+    <p>Every room on this street is its own world, with its own light, its own colours and its own typefaces, and no two of them alike. A model that tried to paint them all would be telling you they belonged to one set. So the whole thing is one white card under one lamp, the only colour on the table is the mat and the pins, and every room is left to be itself when you get there.</p>
+    <p>Nothing on it was placed by hand, either. The shopfronts come off the front page in the order they stand, the pitches off the campground&rsquo;s own board and the turnings off the road&rsquo;s own signs, and the gate to the garden stands halfway down however long the street happens to be. A room cannot open on this street without going up on the model, because the build refuses until it has.</p>
+  </section>
+
+  <!-- quest:map-pin:begin -->
+  <details class="quest" data-quest="map-pin" data-code="SPAREPIN" data-accept="card|cardboard|whitecard|whitecardboard">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3 29 H29" stroke="var(--mm-rule)" stroke-width="1.6" stroke-linecap="round"/><path d="M16 13 V27" stroke="var(--mm-face)" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="9" r="5.6" fill="var(--mm-face)"/><path d="M12 29 H20" stroke="var(--mm-face)" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a spare pin with a white head, stuck in the cutting mat</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> A pin nobody has used</p>
+      <p class="quest__ask"><b>Before the code:</b> The Map says nothing on the model is painted. What is the model made of? Two words.</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="map-pin-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="map-pin-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is in the line right under the page&#x27;s name.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>It is what an architect builds a model out of before anybody decides what colour anything is.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>Two words: a colour, and what the buildings are cut from.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>White card</b>. Every room on the street has its own light and its own colours, and a model that painted each one would be saying they belonged to one set. So the whole model is one white card, and every room is left to be itself when you get there.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SPAREPIN</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SPAREPIN">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>Every room on the street has its own light and its own colours, and a model that painted each one would be saying they belonged to one set. So the whole model is one white card, and every room is left to be itself when you get there.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SPAREPIN</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SPAREPIN">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:map-pin:end -->
+
+</main>
+
+<!-- signoff:begin -->
+<footer class="signoff">
+  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> &middot; <a href="map.html#at-map">Where am I?</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="your-room.html">Your Room</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="feed.xml">Feed</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+</footer>
+<!-- signoff:end -->
+
+<script src="love.js" defer></script>
+<script src="quest.js" defer></script>
+</body>
+</html>

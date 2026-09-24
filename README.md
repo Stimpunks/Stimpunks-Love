@@ -71,6 +71,7 @@ the balanced tone — was dropped deliberately.
 
 ```
 index.html            The Stoop — the front door and the shopfronts
+map.html              The whole street as a white card model on a cutting mat. Built from the street
 danny-the-street.html The road from above, under one sodium lamp. Where the name came from
 pink-pony-club.html   The dancefloor. Ten press-to-play facades
 club-chronic.html     Club Chronic. Punk community, a wall of playlists, a rack of records
@@ -142,6 +143,7 @@ data/mopery.json      The Mopery's shelves, its screen, and The Raven with Doré
 data/oracle.json      The deck. Thirteen Met open-access engravings, and our questions
 data/doomscroll.json  Thirteen poems, newest first, each naming the printing it came from
 data/quests.json      Every job on the board, and the marker it sends you to
+data/map.json         The rooms behind rooms, and nothing else the map cannot read off the street
 data/garden.json      What grows on each site. The roster is read out of arrivals.json
 data/zibaldone.json   The quote bank. Every line names its printing and how it was checked
 data/rabbit-hole.json The shaft's presses, its engravings and its trail. No lyrics, refused
@@ -196,6 +198,7 @@ python3 tools/make-sweetgrass.py   # the meadow's fire, its readings and its bra
 python3 tools/make-oracle.py       # the oracle deck, and its credits
 python3 tools/make-doomscroll.py   # the doomscroll's feed, sorted by first publication
 python3 tools/make-pebble-board.py # the Pebble Board's current edition, and its back-issue rack
+python3 tools/make-map.py          # the model on map.html, from the doors, the board and the signs; refuses an unmapped page
 python3 tools/make-guild.py        # the job board, a marker in every room, and the credits
 python3 tools/make-arrivals.py     # The Feed's arrival boards; draws what pull-arrivals.py read
 python3 tools/make-garden.py       # The Garden's beds and credits; roster and order from arrivals.json

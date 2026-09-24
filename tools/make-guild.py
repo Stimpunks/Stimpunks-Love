@@ -269,6 +269,11 @@ DRAW = {
     "lagoon-speaker": """<path d="M11 7 q0 -4 5 -4 q5 0 5 4" fill="none" stroke="var(--lag-acid)" stroke-width="2"/><rect x="8" y="7" width="16" height="21" rx="3" fill="none" stroke="var(--lag-acid)" stroke-width="2.4"/><path d="M12 13 H20 M12 17 H20 M12 21 H20" stroke="var(--lag-acid)" stroke-width="1.8" stroke-linecap="round"/>""",
     "foundry-sort": """<path d="M5 11 H25 V22 H5 Z" fill="none" stroke="var(--fo-brass)" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 22 a3.2 3.2 0 0 1 6.4 0" fill="none" stroke="var(--fo-brass)" stroke-width="2"/><path d="M27 12 V21" stroke="var(--fo-brass)" stroke-width="2.6" stroke-linecap="round"/><path d="M25 14 H27 M25 19 H27" stroke="var(--fo-brass)" stroke-width="1.8"/>""",
     "checkpoint-pillow": """<path d="M5 21 q-2 -9 6 -10 q10 -2 16 1 q6 2 4 9 q-2 4 -11 4 q-11 1 -15 -4 Z" fill="none" stroke="var(--hc-steam)" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 15 q4 3 8 0" fill="none" stroke="var(--hc-steam)" stroke-width="1.8" stroke-linecap="round"/>""",
+    # A spare pin stuck upright in the cutting mat beside the model, its head and
+    # its shank both --mm-face, 7.10 on the mat, over the body threshold a marker
+    # is held to. The line it stands on is --mm-rule, the mat's own printed grid,
+    # and carries nothing.
+    "map-pin": """<path d="M3 29 H29" stroke="var(--mm-rule)" stroke-width="1.6" stroke-linecap="round"/><path d="M16 13 V27" stroke="var(--mm-face)" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="9" r="5.6" fill="var(--mm-face)"/><path d="M12 29 H20" stroke="var(--mm-face)" stroke-width="1.6" stroke-linecap="round"/>""",
     "street-chalk": """<path d="M5 24 Q11 15 16 22 Q21 29 27 19" fill="none" stroke="var(--chalk)" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="9" r="2.2" fill="var(--chalk)"/>""",
     "pony-sequin": """<circle cx="16" cy="16" r="9" fill="#2b0a1c"/><circle cx="16" cy="16" r="2.4" fill="var(--hot)"/><path d="M16 7 L19 16 L16 25 L13 16 Z" fill="var(--cream)" opacity=".55"/>""",
     "chappell-rhinestone": """<path d="M16 4 L26 13 L16 28 L6 13 Z" fill="var(--leaf)"/><path d="M16 4 L16 28 M6 13 L26 13" stroke="var(--nave)" stroke-width="1.4"/>""",

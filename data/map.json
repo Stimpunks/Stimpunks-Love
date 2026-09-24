@@ -1,0 +1,24 @@
+{
+  "_what": "What tools/make-map.py cannot read off the street itself, and nothing else. The shopfronts, their names and the order they stand in come off index.html; the pitches off campgrounds.html; the turnings off the-outskirts.html; the garden gate's place is halfway down whatever the street's length is that day. So a room that opens on the front page goes up on the model with no entry here at all. What lives here is the one kind of place the front page does not show: A ROOM BEHIND A ROOM. Each entry names the room it is behind, and the tool refuses one whose parent page does not actually link to it, so the model cannot draw a door that is not there.",
+  "behind": {
+    "the-chappell.html": "pink-pony-club.html",
+    "zine-issue-2.html": "zine-table.html",
+    "polaroids.html": "enids-room.html",
+    "quill-drift.html": "arcade.html",
+    "otterly-adorbs.html": "arcade.html",
+    "penguin-pebbling.html": "arcade.html",
+    "the-den.html": "jungle-room.html",
+    "oracle-deck.html": "the-mopery.html",
+    "the-doomscroll.html": "the-mopery.html"
+  },
+  "_back_stairs": "A room with two doors. The Healing Checkpoint stands on the street as a shopfront of its own AND is reached by the guild's back stair, and its whole argument is that the first door exists -- rest is owed, so it cannot be reachable only through the place that hands out the work. The model draws it where it stands on the street and writes the back stair as a second way in beside the guild, never the other way round.",
+  "back_stairs": {
+    "healing-checkpoint.html": "adventurers-guild.html"
+  },
+  "_names": "Where a page's own <title> is too long to letter on a card. Only what the model has to shorten; everything else is lettered as the page names itself.",
+  "names": {
+    "zine-issue-2.html": "Issue #2"
+  },
+  "_pinned": "Pages that are not places. They are pinned to the edge of the mat on tags rather than built, because a changelog with a shopfront would be the street claiming its own paperwork is a room.",
+  "pinned": ["liner-notes.html", "changelog.html", "privacy.html"]
+}

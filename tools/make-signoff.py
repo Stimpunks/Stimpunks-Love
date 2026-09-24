@@ -56,10 +56,10 @@ def main():
             src = re.sub(
                 re.escape(PAVEMENT_BEGIN) + r".*?" + re.escape(PAVEMENT_END),
                 lambda _: f'{PAVEMENT_BEGIN}<a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> '
-                          f'&middot; {signoff.links()} &middot;{PAVEMENT_END}',
+                          f'&middot; {signoff.links(page=FRONT)} &middot;{PAVEMENT_END}',
                 src, count=1, flags=re.S)
         else:
-            block = signoff.block(absolute=(p.name == "404.html"))
+            block = signoff.block(absolute=(p.name == "404.html"), page=p.name)
             if signoff.BEGIN in src:
                 src = re.sub(re.escape(signoff.BEGIN) + r".*?" + re.escape(signoff.END),
                              lambda _: block, src, count=1, flags=re.S)

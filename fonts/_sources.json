@@ -721,140 +721,136 @@
       "src": "https://fonts.gstatic.com/s/overpass/v19/qFda35WCmI96Ajtm83upeyoaX6QPnlo6G_TbPpqKl8Kuo8Az.woff2"
     }
   ],
-
-    "bowlby-one-sc": [
-      {
-        "file": "bowlby-one-sc-400.woff2",
-        "weight": "400",
-        "style": "normal",
-        "bytes": 19868,
-        "src": "https://fonts.gstatic.com/s/bowlbyonesc/v27/DtVlJxerQqQm37tzN3wMug9P_g_2oipOnuA.woff2",
-        "note": "The Outskirts (\u00a734). The area's only face: fat, rounded small capitals, which is what a sign painted on a board by hand and left in the weeds looks like when headlights find it. Everything else out there is the shared base."
-      }
-    ],
-    "creepster": [
-      {
-        "file": "creepster-400.woff2",
-        "weight": "400",
-        "style": "normal",
-        "bytes": 28132,
-        "src": "https://fonts.gstatic.com/s/creepster/v13/AlZy_zVUqJz4yMrniH4Rcn35fh4Dog.woff2",
-        "note": "Black Leather Lagoon (\u00a735), and the TITLE ONLY. A dripping monster-poster face is unreadable at length, so it sets the h1 and the bill and nothing else -- the Doomscroll's rule about blackletter, in the room most likely to talk itself out of it."
-      }
-    ],
-    "chivo": [
-      {
-        "file": "chivo-400.woff2",
-        "weight": "400",
-        "style": "normal",
-        "bytes": 33252,
-        "src": "https://fonts.gstatic.com/s/chivo/v21/va9I4kzIxd1KFrBoQeNVkqDO.woff2",
-        "note": "Black Leather Lagoon (\u00a735), and everything in it that is not the title. A normal-width grotesque ON PURPOSE: the obvious choice for a poster's small print is a condensed gothic, and Club Chronic already sets Anton three doors up. The one room this must not collapse into is the one whose face the obvious choice would have borrowed. One variable file serves both weights, as Space Grotesk, Cinzel and Work Sans already do here."
-      },
-      {
-        "file": "chivo-700.woff2",
-        "weight": "700",
-        "style": "normal",
-        "bytes": 33252,
-        "src": "https://fonts.gstatic.com/s/chivo/v21/va9I4kzIxd1KFrBoQeNVkqDO.woff2",
-        "note": "Black Leather Lagoon (\u00a735), and everything in it that is not the title. A normal-width grotesque ON PURPOSE: the obvious choice for a poster's small print is a condensed gothic, and Club Chronic already sets Anton three doors up. The one room this must not collapse into is the one whose face the obvious choice would have borrowed. One variable file serves both weights, as Space Grotesk, Cinzel and Work Sans already do here."
-      }
-    ],
-
-    "italiana": [
-      {
-        "file": "italiana-400.woff2",
-        "weight": "400",
-        "style": "normal",
-        "bytes": 10164,
-        "src": "https://fonts.gstatic.com/s/italiana/v21/QldNNTtLsx4E__B0XQmWaXx0xKVu.woff2",
-        "note": "Sithen (\u00a736), and the h1 and headings only. A very thin, very high-contrast face: THE ONLY THIN THING ON THIS STREET, which is most of why it is here, because every other display face we hold is heavy -- a woodtype, a slab, a condensed grotesque, a fat rounded poster face. Frost on a thorn rather than a sign somebody painted."
-      }
-    ],
-    "literata": [
-      {
-        "file": "literata-400.woff2",
-        "weight": "400",
-        "style": "normal",
-        "bytes": 39260,
-        "src": "https://fonts.gstatic.com/s/literata/v40/or3aQ6P12-iJxAIgLa78DkrbXsDgk0oVDaDPYLanFLHpPf2TbBG_df3-vbgKBM6YoggA-vpO-7cHM524.woff2",
-        "note": "Sithen (\u00a736), and everything that is not a heading. A serif drawn for reading on screens, set here without any atmosphere at all: the room is mostly a LIST OF RULES, and the argument is that rules like these are never written down plainly, so the one place they are written down plainly should look like it means it. One variable file serves both weights, as Chivo, Space Grotesk and Cinzel already do here."
-      },
-      {
-        "file": "literata-700.woff2",
-        "weight": "700",
-        "style": "normal",
-        "bytes": 39260,
-        "src": "https://fonts.gstatic.com/s/literata/v40/or3aQ6P12-iJxAIgLa78DkrbXsDgk0oVDaDPYLanFLHpPf2TbBG_df3-vbgKBM6YoggA-vpO-7cHM524.woff2",
-        "note": "Sithen (\u00a736), and everything that is not a heading. A serif drawn for reading on screens, set here without any atmosphere at all: the room is mostly a LIST OF RULES, and the argument is that rules like these are never written down plainly, so the one place they are written down plainly should look like it means it. One variable file serves both weights, as Chivo, Space Grotesk and Cinzel already do here."
-      }
-    ],
-
-    "petrona": [
-      {
-        "file": "petrona-400.woff2",
-        "weight": "400",
-        "style": "normal",
-        "bytes": 35964,
-        "src": "https://fonts.gstatic.com/s/petrona/v38/mtG64_NXL7bZo9XXgXJYtUkS0CQ.woff2",
-        "note": "Covenstead (\u00a737), the headings and the h1. A workhorse text serif with a little roughness in it, set at display sizes ON PURPOSE: this room argues that the work is ordinary -- boots, tea, and going to the people nobody else goes to -- and a room about practical witchcraft that set itself in something gothic would be contradicting its own page in the typography."
-      },
-      {
-        "file": "petrona-700.woff2",
-        "weight": "700",
-        "style": "normal",
-        "bytes": 35964,
-        "src": "https://fonts.gstatic.com/s/petrona/v38/mtG64_NXL7bZo9XXgXJYtUkS0CQ.woff2",
-        "note": "Covenstead (\u00a737), the headings and the h1. A workhorse text serif with a little roughness in it, set at display sizes ON PURPOSE: this room argues that the work is ordinary -- boots, tea, and going to the people nobody else goes to -- and a room about practical witchcraft that set itself in something gothic would be contradicting its own page in the typography."
-      }
-    ],
-    "asap": [
-      {
-        "file": "asap-400.woff2",
-        "weight": "400",
-        "style": "normal",
-        "bytes": 43384,
-        "src": "https://fonts.gstatic.com/s/asap/v34/KFO9CniXp96a4Tc2DaTeuDAoKsE615hJW36eA1Ef.woff2",
-        "note": "Covenstead (\u00a737), everything that is not a heading. A plain, slightly rounded grotesque with no mystique whatsoever. One variable file serves both weights, as Chivo, Literata and Space Grotesk already do here."
-      },
-      {
-        "file": "asap-700.woff2",
-        "weight": "700",
-        "style": "normal",
-        "bytes": 43384,
-        "src": "https://fonts.gstatic.com/s/asap/v34/KFO9CniXp96a4Tc2DaTeuDAoKsE615hJW36eA1Ef.woff2",
-        "note": "Covenstead (\u00a737), everything that is not a heading. A plain, slightly rounded grotesque with no mystique whatsoever. One variable file serves both weights, as Chivo, Literata and Space Grotesk already do here."
-      }
-    ],
-
-    "bevan": [
-      {
-        "file": "bevan-400.woff2",
-        "weight": "400",
-        "style": "normal",
-        "bytes": 13640,
-        "src": "https://fonts.gstatic.com/s/bevan/v26/4iCj6KZ0a9NXjG8dWCvZtUSI.woff2",
-        "note": "Looming Rocks Amphitheatre (\u00a738), the h1 and the marquee. A heavy slab with the weight of a board bolted to a rock face and repainted every few years. THE FOURTH HEAVY SLAB ON THIS STREET and told apart by era and by making: the campgrounds' Alfa Slab is ROUTED into wood by a machine, The Den's Ultra is a 1970s record sleeve, The Latibulum's Bree Serif is soft carpentry, and this is a painted venue sign."
-      }
-    ],
-    "archivo": [
-      {
-        "file": "archivo-400.woff2",
-        "weight": "400",
-        "style": "normal",
-        "bytes": 34940,
-        "src": "https://fonts.gstatic.com/s/archivo/v25/k3kPo8UDI-1M0wlSV9XAw6lQkqWY8Q82sLydOxKsv4Rn.woff2",
-        "note": "Looming Rocks Amphitheatre (\u00a738), everything that is not the marquee. A plain grotesque drawn for small sizes on screens, which is what a running order and a row of runtimes actually are. One variable file serves both weights, as Chivo, Literata and Space Grotesk already do here."
-      },
-      {
-        "file": "archivo-700.woff2",
-        "weight": "700",
-        "style": "normal",
-        "bytes": 34940,
-        "src": "https://fonts.gstatic.com/s/archivo/v25/k3kPo8UDI-1M0wlSV9XAw6lQkqWY8Q82sLydOxKsv4Rn.woff2",
-        "note": "Looming Rocks Amphitheatre (\u00a738), everything that is not the marquee. A plain grotesque drawn for small sizes on screens, which is what a running order and a row of runtimes actually are. One variable file serves both weights, as Chivo, Literata and Space Grotesk already do here."
-      }
-    ],
+  "bowlby-one-sc": [
+    {
+      "file": "bowlby-one-sc-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 19868,
+      "src": "https://fonts.gstatic.com/s/bowlbyonesc/v27/DtVlJxerQqQm37tzN3wMug9P_g_2oipOnuA.woff2",
+      "note": "The Outskirts (§34). The area's only face: fat, rounded small capitals, which is what a sign painted on a board by hand and left in the weeds looks like when headlights find it. Everything else out there is the shared base."
+    }
+  ],
+  "creepster": [
+    {
+      "file": "creepster-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 28132,
+      "src": "https://fonts.gstatic.com/s/creepster/v13/AlZy_zVUqJz4yMrniH4Rcn35fh4Dog.woff2",
+      "note": "Black Leather Lagoon (§35), and the TITLE ONLY. A dripping monster-poster face is unreadable at length, so it sets the h1 and the bill and nothing else -- the Doomscroll's rule about blackletter, in the room most likely to talk itself out of it."
+    }
+  ],
+  "chivo": [
+    {
+      "file": "chivo-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 33252,
+      "src": "https://fonts.gstatic.com/s/chivo/v21/va9I4kzIxd1KFrBoQeNVkqDO.woff2",
+      "note": "Black Leather Lagoon (§35), and everything in it that is not the title. A normal-width grotesque ON PURPOSE: the obvious choice for a poster's small print is a condensed gothic, and Club Chronic already sets Anton three doors up. The one room this must not collapse into is the one whose face the obvious choice would have borrowed. One variable file serves both weights, as Space Grotesk, Cinzel and Work Sans already do here."
+    },
+    {
+      "file": "chivo-700.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 33252,
+      "src": "https://fonts.gstatic.com/s/chivo/v21/va9I4kzIxd1KFrBoQeNVkqDO.woff2",
+      "note": "Black Leather Lagoon (§35), and everything in it that is not the title. A normal-width grotesque ON PURPOSE: the obvious choice for a poster's small print is a condensed gothic, and Club Chronic already sets Anton three doors up. The one room this must not collapse into is the one whose face the obvious choice would have borrowed. One variable file serves both weights, as Space Grotesk, Cinzel and Work Sans already do here."
+    }
+  ],
+  "italiana": [
+    {
+      "file": "italiana-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 10164,
+      "src": "https://fonts.gstatic.com/s/italiana/v21/QldNNTtLsx4E__B0XQmWaXx0xKVu.woff2",
+      "note": "Sithen (§36), and the h1 and headings only. A very thin, very high-contrast face: THE ONLY THIN THING ON THIS STREET, which is most of why it is here, because every other display face we hold is heavy -- a woodtype, a slab, a condensed grotesque, a fat rounded poster face. Frost on a thorn rather than a sign somebody painted."
+    }
+  ],
+  "literata": [
+    {
+      "file": "literata-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 39260,
+      "src": "https://fonts.gstatic.com/s/literata/v40/or3aQ6P12-iJxAIgLa78DkrbXsDgk0oVDaDPYLanFLHpPf2TbBG_df3-vbgKBM6YoggA-vpO-7cHM524.woff2",
+      "note": "Sithen (§36), and everything that is not a heading. A serif drawn for reading on screens, set here without any atmosphere at all: the room is mostly a LIST OF RULES, and the argument is that rules like these are never written down plainly, so the one place they are written down plainly should look like it means it. One variable file serves both weights, as Chivo, Space Grotesk and Cinzel already do here."
+    },
+    {
+      "file": "literata-700.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 39260,
+      "src": "https://fonts.gstatic.com/s/literata/v40/or3aQ6P12-iJxAIgLa78DkrbXsDgk0oVDaDPYLanFLHpPf2TbBG_df3-vbgKBM6YoggA-vpO-7cHM524.woff2",
+      "note": "Sithen (§36), and everything that is not a heading. A serif drawn for reading on screens, set here without any atmosphere at all: the room is mostly a LIST OF RULES, and the argument is that rules like these are never written down plainly, so the one place they are written down plainly should look like it means it. One variable file serves both weights, as Chivo, Space Grotesk and Cinzel already do here."
+    }
+  ],
+  "petrona": [
+    {
+      "file": "petrona-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 35964,
+      "src": "https://fonts.gstatic.com/s/petrona/v38/mtG64_NXL7bZo9XXgXJYtUkS0CQ.woff2",
+      "note": "Covenstead (§37), the headings and the h1. A workhorse text serif with a little roughness in it, set at display sizes ON PURPOSE: this room argues that the work is ordinary -- boots, tea, and going to the people nobody else goes to -- and a room about practical witchcraft that set itself in something gothic would be contradicting its own page in the typography."
+    },
+    {
+      "file": "petrona-700.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 35964,
+      "src": "https://fonts.gstatic.com/s/petrona/v38/mtG64_NXL7bZo9XXgXJYtUkS0CQ.woff2",
+      "note": "Covenstead (§37), the headings and the h1. A workhorse text serif with a little roughness in it, set at display sizes ON PURPOSE: this room argues that the work is ordinary -- boots, tea, and going to the people nobody else goes to -- and a room about practical witchcraft that set itself in something gothic would be contradicting its own page in the typography."
+    }
+  ],
+  "asap": [
+    {
+      "file": "asap-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 43384,
+      "src": "https://fonts.gstatic.com/s/asap/v34/KFO9CniXp96a4Tc2DaTeuDAoKsE615hJW36eA1Ef.woff2",
+      "note": "Covenstead (§37), everything that is not a heading. A plain, slightly rounded grotesque with no mystique whatsoever. One variable file serves both weights, as Chivo, Literata and Space Grotesk already do here."
+    },
+    {
+      "file": "asap-700.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 43384,
+      "src": "https://fonts.gstatic.com/s/asap/v34/KFO9CniXp96a4Tc2DaTeuDAoKsE615hJW36eA1Ef.woff2",
+      "note": "Covenstead (§37), everything that is not a heading. A plain, slightly rounded grotesque with no mystique whatsoever. One variable file serves both weights, as Chivo, Literata and Space Grotesk already do here."
+    }
+  ],
+  "bevan": [
+    {
+      "file": "bevan-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 13640,
+      "src": "https://fonts.gstatic.com/s/bevan/v26/4iCj6KZ0a9NXjG8dWCvZtUSI.woff2",
+      "note": "Looming Rocks Amphitheatre (§38), the h1 and the marquee. A heavy slab with the weight of a board bolted to a rock face and repainted every few years. THE FOURTH HEAVY SLAB ON THIS STREET and told apart by era and by making: the campgrounds' Alfa Slab is ROUTED into wood by a machine, The Den's Ultra is a 1970s record sleeve, The Latibulum's Bree Serif is soft carpentry, and this is a painted venue sign."
+    }
+  ],
+  "archivo": [
+    {
+      "file": "archivo-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 34940,
+      "src": "https://fonts.gstatic.com/s/archivo/v25/k3kPo8UDI-1M0wlSV9XAw6lQkqWY8Q82sLydOxKsv4Rn.woff2",
+      "note": "Looming Rocks Amphitheatre (§38), everything that is not the marquee. A plain grotesque drawn for small sizes on screens, which is what a running order and a row of runtimes actually are. One variable file serves both weights, as Chivo, Literata and Space Grotesk already do here."
+    },
+    {
+      "file": "archivo-700.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 34940,
+      "src": "https://fonts.gstatic.com/s/archivo/v25/k3kPo8UDI-1M0wlSV9XAw6lQkqWY8Q82sLydOxKsv4Rn.woff2",
+      "note": "Looming Rocks Amphitheatre (§38), everything that is not the marquee. A plain grotesque drawn for small sizes on screens, which is what a running order and a row of runtimes actually are. One variable file serves both weights, as Chivo, Literata and Space Grotesk already do here."
+    }
+  ],
   "lexend": [
     {
       "file": "lexend-400.woff2",
@@ -862,7 +858,7 @@
       "style": "normal",
       "bytes": 39692,
       "src": "https://fonts.gstatic.com/s/lexend/v26/wlpwgwvFAVdoq2_v-6QU82RHaA.woff2",
-      "note": "Dead Tired Society (\u00a740), every word that is not the society's name or a heading. Lexend was drawn to reduce visual stress and ease reading fatigue, which is the one reason a room for the dead tired sets it: the face is doing some of the work so the reader does not have to. One variable file serves both weights, as Archivo, Chivo and Space Grotesk already do here."
+      "note": "Dead Tired Society (§40), every word that is not the society's name or a heading. Lexend was drawn to reduce visual stress and ease reading fatigue, which is the one reason a room for the dead tired sets it: the face is doing some of the work so the reader does not have to. One variable file serves both weights, as Archivo, Chivo and Space Grotesk already do here."
     },
     {
       "file": "lexend-400.woff2",
@@ -870,7 +866,7 @@
       "style": "normal",
       "bytes": 39692,
       "src": "https://fonts.gstatic.com/s/lexend/v26/wlpwgwvFAVdoq2_v-6QU82RHaA.woff2",
-      "note": "Dead Tired Society (\u00a740), every word that is not the society's name or a heading. Lexend was drawn to reduce visual stress and ease reading fatigue, which is the one reason a room for the dead tired sets it: the face is doing some of the work so the reader does not have to. One variable file serves both weights, as Archivo, Chivo and Space Grotesk already do here."
+      "note": "Dead Tired Society (§40), every word that is not the society's name or a heading. Lexend was drawn to reduce visual stress and ease reading fatigue, which is the one reason a room for the dead tired sets it: the face is doing some of the work so the reader does not have to. One variable file serves both weights, as Archivo, Chivo and Space Grotesk already do here."
     }
   ],
   "sorts-mill-goudy": [
@@ -880,7 +876,7 @@
       "style": "normal",
       "bytes": 22816,
       "src": "https://fonts.gstatic.com/s/sortsmillgoudy/v16/Qw3GZR9MED_6PSuS_50nEaVrfzgEbHoEj7E49PA.woff2",
-      "note": "Dead Tired Society (\u00a740), the society's name, its headings and nothing at reading size. A revival of Frederic Goudy's Oldstyle, which reads like a founding charter, and that is the joke: the grandest name on the street, set like an institution's, for a society whose members are lying on the floor."
+      "note": "Dead Tired Society (§40), the society's name, its headings and nothing at reading size. A revival of Frederic Goudy's Oldstyle, which reads like a founding charter, and that is the joke: the grandest name on the street, set like an institution's, for a society whose members are lying on the floor."
     },
     {
       "file": "sorts-mill-goudy-400-italic.woff2",
@@ -888,7 +884,7 @@
       "style": "italic",
       "bytes": 24664,
       "src": "https://fonts.gstatic.com/s/sortsmillgoudy/v16/Qw3AZR9MED_6PSuS_50nEaVrfzgEbH80jbs_1vKbfA.woff2",
-      "note": "Dead Tired Society (\u00a740), the society's name, its headings and nothing at reading size. A revival of Frederic Goudy's Oldstyle, which reads like a founding charter, and that is the joke: the grandest name on the street, set like an institution's, for a society whose members are lying on the floor."
+      "note": "Dead Tired Society (§40), the society's name, its headings and nothing at reading size. A revival of Frederic Goudy's Oldstyle, which reads like a founding charter, and that is the joke: the grandest name on the street, set like an institution's, for a society whose members are lying on the floor."
     }
   ],
   "bricolage-grotesque": [
@@ -954,7 +950,7 @@
       "style": "normal",
       "bytes": 50892,
       "src": "https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwu8ZfvRIkSQ.woff2",
-      "note": "Dance, Punks (\u00a743), the room's name, its headings and the channel labels, and nothing at reading size. A very wide, round-shouldered, heavy face: the shape of the lettering printed on a wristband or on the side of a headset, and the opposite of Club Chronic's condensed flyer face, which crams a bill onto a sheet. One variable file serves both weights."
+      "note": "Dance, Punks (§43), the room's name, its headings and the channel labels, and nothing at reading size. A very wide, round-shouldered, heavy face: the shape of the lettering printed on a wristband or on the side of a headset, and the opposite of Club Chronic's condensed flyer face, which crams a bill onto a sheet. One variable file serves both weights."
     },
     {
       "file": "unbounded-400.woff2",
@@ -962,7 +958,7 @@
       "style": "normal",
       "bytes": 50892,
       "src": "https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwu8ZfvRIkSQ.woff2",
-      "note": "Dance, Punks (\u00a743), the room's name, its headings and the channel labels, and nothing at reading size. A very wide, round-shouldered, heavy face: the shape of the lettering printed on a wristband or on the side of a headset, and the opposite of Club Chronic's condensed flyer face, which crams a bill onto a sheet. One variable file serves both weights."
+      "note": "Dance, Punks (§43), the room's name, its headings and the channel labels, and nothing at reading size. A very wide, round-shouldered, heavy face: the shape of the lettering printed on a wristband or on the side of a headset, and the opposite of Club Chronic's condensed flyer face, which crams a bill onto a sheet. One variable file serves both weights."
     }
   ],
   "manrope": [
@@ -972,7 +968,7 @@
       "style": "normal",
       "bytes": 24576,
       "src": "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
-      "note": "Dance, Punks (\u00a743), every word that is read. Plain, open and even, so a room made of loud colour on a dark runway has a body face that is not one more thing to get past. One variable file serves both weights."
+      "note": "Dance, Punks (§43), every word that is read. Plain, open and even, so a room made of loud colour on a dark runway has a body face that is not one more thing to get past. One variable file serves both weights."
     },
     {
       "file": "manrope-400.woff2",
@@ -980,7 +976,7 @@
       "style": "normal",
       "bytes": 24576,
       "src": "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
-      "note": "Dance, Punks (\u00a743), every word that is read. Plain, open and even, so a room made of loud colour on a dark runway has a body face that is not one more thing to get past. One variable file serves both weights."
+      "note": "Dance, Punks (§43), every word that is read. Plain, open and even, so a room made of loud colour on a dark runway has a body face that is not one more thing to get past. One variable file serves both weights."
     }
   ],
   "righteous": [
@@ -990,7 +986,7 @@
       "style": "normal",
       "bytes": 12136,
       "src": "https://fonts.gstatic.com/s/righteous/v18/1cXxaUPXBpj2rGoU7C9WiHGFq8Kk1Q.woff2",
-      "note": "The Small Hours (\u00a744), the diner's name, the sign on its roof, its headings and the dishes on the menu board, and nothing at reading size. The rounded, streamlined lettering bolted along the top of a mid-century roadside diner."
+      "note": "The Small Hours (§44), the diner's name, the sign on its roof, its headings and the dishes on the menu board, and nothing at reading size. The rounded, streamlined lettering bolted along the top of a mid-century roadside diner."
     }
   ],
   "libre-franklin": [
@@ -1000,7 +996,7 @@
       "style": "normal",
       "bytes": 29336,
       "src": "https://fonts.gstatic.com/s/librefranklin/v20/jizDREVItHgc8qDIbSTKq4XkRiUf2zcZiVbJ.woff2",
-      "note": "The Small Hours (\u00a744), every word that is read. A plain American gothic: the letter a menu board and a till receipt have always been set in. One variable file serves both weights."
+      "note": "The Small Hours (§44), every word that is read. A plain American gothic: the letter a menu board and a till receipt have always been set in. One variable file serves both weights."
     },
     {
       "file": "libre-franklin-400.woff2",
@@ -1008,7 +1004,7 @@
       "style": "normal",
       "bytes": 29336,
       "src": "https://fonts.gstatic.com/s/librefranklin/v20/jizDREVItHgc8qDIbSTKq4XkRiUf2zcZiVbJ.woff2",
-      "note": "The Small Hours (\u00a744), every word that is read. A plain American gothic: the letter a menu board and a till receipt have always been set in. One variable file serves both weights."
+      "note": "The Small Hours (§44), every word that is read. A plain American gothic: the letter a menu board and a till receipt have always been set in. One variable file serves both weights."
     }
   ],
   "syncopate": [
@@ -1018,7 +1014,7 @@
       "style": "normal",
       "bytes": 10544,
       "src": "https://fonts.gstatic.com/s/syncopate/v24/pe0sMIuPIYBCpEV5eFdCBfe_Kdxicw.woff2",
-      "note": "The Repeater (\u00a745), the room's name, its headings and the call across the top of each card in the log, and nothing at reading size. A wide geometric face drawn in capitals only, which is how a call sign is printed across the card radio operators send one another to confirm a contact."
+      "note": "The Repeater (§45), the room's name, its headings and the call across the top of each card in the log, and nothing at reading size. A wide geometric face drawn in capitals only, which is how a call sign is printed across the card radio operators send one another to confirm a contact."
     },
     {
       "file": "syncopate-700.woff2",
@@ -1026,7 +1022,7 @@
       "style": "normal",
       "bytes": 10312,
       "src": "https://fonts.gstatic.com/s/syncopate/v24/pe0pMIuPIYBCpEV5eFdKvtKqBP5vWVYgVw.woff2",
-      "note": "The Repeater (\u00a745), the room's name, its headings and the call across the top of each card in the log, and nothing at reading size. A wide geometric face drawn in capitals only, which is how a call sign is printed across the card radio operators send one another to confirm a contact."
+      "note": "The Repeater (§45), the room's name, its headings and the call across the top of each card in the log, and nothing at reading size. A wide geometric face drawn in capitals only, which is how a call sign is printed across the card radio operators send one another to confirm a contact."
     }
   ],
   "ibm-plex-sans": [
@@ -1036,7 +1032,7 @@
       "style": "normal",
       "bytes": 40240,
       "src": "https://fonts.gstatic.com/s/ibmplexsans/v23/zYXzKVElMYYaJe8bpLHnCwDKr932-G7dytD-Dmu1syxeKYbSB4Zh.woff2",
-      "note": "The Repeater (\u00a745), every word that is read. An engineer's sans, the letter of a well-made equipment manual. One variable file serves both weights."
+      "note": "The Repeater (§45), every word that is read. An engineer's sans, the letter of a well-made equipment manual. One variable file serves both weights."
     },
     {
       "file": "ibm-plex-sans-400.woff2",
@@ -1044,7 +1040,7 @@
       "style": "normal",
       "bytes": 40240,
       "src": "https://fonts.gstatic.com/s/ibmplexsans/v23/zYXzKVElMYYaJe8bpLHnCwDKr932-G7dytD-Dmu1syxeKYbSB4Zh.woff2",
-      "note": "The Repeater (\u00a745), every word that is read. An engineer's sans, the letter of a well-made equipment manual. One variable file serves both weights."
+      "note": "The Repeater (§45), every word that is read. An engineer's sans, the letter of a well-made equipment manual. One variable file serves both weights."
     }
   ],
   "patrick-hand": [
@@ -1054,7 +1050,7 @@
       "style": "normal",
       "bytes": 14224,
       "src": "https://fonts.gstatic.com/s/patrickhand/v25/LDI1apSQOAYtSuYWp8ZhfYe8XsLLubg58w.woff2",
-      "note": "Nothing For Sale (\u00a746), the name, the headings and the cardboard sign on each table: short labels and never a sentence. Neat capitals somebody writes on a sign propped against a table -- careful, one sign each, which is not Club Chronic's marker scrawled over a wall of paper."
+      "note": "Nothing For Sale (§46), the name, the headings and the cardboard sign on each table: short labels and never a sentence. Neat capitals somebody writes on a sign propped against a table -- careful, one sign each, which is not Club Chronic's marker scrawled over a wall of paper."
     }
   ],
   "figtree": [
@@ -1064,7 +1060,7 @@
       "style": "normal",
       "bytes": 20184,
       "src": "https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4S9DaRvzig.woff2",
-      "note": "Nothing For Sale (\u00a746), every word that is read. A plain, friendly geometric sans. One variable file serves both weights."
+      "note": "Nothing For Sale (§46), every word that is read. A plain, friendly geometric sans. One variable file serves both weights."
     },
     {
       "file": "figtree-400.woff2",
@@ -1072,7 +1068,7 @@
       "style": "normal",
       "bytes": 20184,
       "src": "https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4S9DaRvzig.woff2",
-      "note": "Nothing For Sale (\u00a746), every word that is read. A plain, friendly geometric sans. One variable file serves both weights."
+      "note": "Nothing For Sale (§46), every word that is read. A plain, friendly geometric sans. One variable file serves both weights."
     }
   ],
   "fredoka": [
@@ -1137,6 +1133,34 @@
       "bytes": 34664,
       "src": "https://fonts.gstatic.com/s/hankengrotesk/v12/ieVn2YZDLWuGJpnzaiwFXS9tYtpd59CxCis4.woff2",
       "note": "The Collection Collection (§48), every word that is read, on the labels and off them. A plain, even grotesque with nothing to say for itself, because the things in the cabinets are the loud part. One variable file serves both weights; no italic is shipped, and the room sets titles upright with font-synthesis off."
+    }
+  ],
+  "architects-daughter": [
+    {
+      "file": "architects-daughter-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 13140,
+      "src": "https://fonts.gstatic.com/s/architectsdaughter/v20/KtkxAKiDZI_td1Lkx62xHZHDtgO_Y-bvTYlg4-7jA-U.woff2",
+      "note": "The Map (§49), the lettering on every label, flag and sign on the model, and the page's name. The hand an architect letters a drawing in -- upright, even, all one weight -- because a model of the street is labelled the way a model is, and nothing at reading size is set in it: a paragraph in a hand is an access failure wearing atmosphere."
+    }
+  ],
+  "albert-sans": [
+    {
+      "file": "albert-sans-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 32008,
+      "src": "https://fonts.gstatic.com/s/albertsans/v4/i7dOIFdwYjGaAMFtZd_QA1ZbYFeQGQyU.woff2",
+      "note": "The Map (§49), every sentence that is read, on the mat and off it. A plain geometric sans with nothing to say for itself, because the model is the picture and the words around it are instructions. One variable file serves both weights; no italic is shipped, and nothing in the room is set italic."
+    },
+    {
+      "file": "albert-sans-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 32008,
+      "src": "https://fonts.gstatic.com/s/albertsans/v4/i7dOIFdwYjGaAMFtZd_QA1ZbYFeQGQyU.woff2",
+      "note": "The Map (§49), every sentence that is read, on the mat and off it. A plain geometric sans with nothing to say for itself, because the model is the picture and the words around it are instructions. One variable file serves both weights; no italic is shipped, and nothing in the room is set italic."
     }
   ]
 }

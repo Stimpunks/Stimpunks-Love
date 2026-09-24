@@ -22,6 +22,40 @@
       "learned": "Every job marker on this street looks like the room it is standing in and none of them look like each other. That is the whole site in one habit."
     },
     {
+      "id": "map-pin",
+      "page": "map.html",
+      "room": "The Map",
+      "title": "A pin nobody has used",
+      "posted": "There is a model of the whole street on a table by the front door, and somebody has left a spare pin stuck in the cutting mat beside it. It is street furniture rather than a shopfront, so there is no door to go through.",
+      "rank": 1,
+      "takes": "about as long as it takes to find the front door on a map of it",
+      "target": "a spare pin with a white head, stuck in the cutting mat",
+      "code": "SPAREPIN",
+      "hints": [
+        "It is on the street itself, by the front door, before any of the shopfronts.",
+        "It is on the mat and not on the model, past the tags pinned to the mat's edge.",
+        "At the very foot of the map, under the part about why nothing on it is painted."
+      ],
+      "ask": {
+        "question": "The Map says nothing on the model is painted. What is the model made of? Two words.",
+        "accept": [
+          "white card",
+          "whitecard",
+          "card",
+          "white cardboard",
+          "cardboard"
+        ],
+        "answer": "White card",
+        "why": "Every room on the street has its own light and its own colours, and a model that painted each one would be saying they belonged to one set. So the whole model is one white card, and every room is left to be itself when you get there.",
+        "hints": [
+          "It is in the line right under the page's name.",
+          "It is what an architect builds a model out of before anybody decides what colour anything is.",
+          "Two words: a colour, and what the buildings are cut from."
+        ]
+      },
+      "learned": "A map can show you where everything is without telling you what anything is like. The model is one white card on purpose, because the rooms do not match and a map that painted them would be pretending they did."
+    },
+    {
       "id": "pony-sequin",
       "page": "pink-pony-club.html",
       "room": "Pink Pony Club",
