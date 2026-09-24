@@ -126,10 +126,13 @@ second thing. When two of our own pages disagree, the one that checked wins.
 
 **ESMX IS OURS *AND* KAYA OLDAKER IS STILL CREDITED — BOTH HALVES.** Stimpunks commissioned Esmx
 the Porkypine and holds the IP. An earlier draft of the Arcade said the opposite ("our mascot
-and not ours"), borrowing the framing from starstuff.earth's Quillery, which says Kaya's artwork
-"is not ours to redraw stroke for stroke". **That sibling page is wrong about the ownership and
-has not been corrected** — do not copy its framing, and raise it with Ryan rather than editing
-another repo. What survives the correction is the credit: Kaya's name is on the drawing's own
+and not ours"), borrowing the framing from starstuff.earth's Quillery, which said Kaya's artwork
+was "not ours to redraw stroke for stroke". **Star Stuff corrected that page on 2026-09-20**,
+the day this room caught it: it now says Stimpunks commissioned Esmx and holds the rights, and it
+keeps the wrong sentence on the page as a correction rather than quietly swapping it. The lesson
+still stands for the next sibling page you borrow from: **a sibling site's framing is a claim to
+check, not a source**, and the wrong sentence here had already travelled one site before anybody
+asked who paid for the drawing. What survives the correction is the credit: Kaya's name is on the drawing's own
 markup, in the room, and in the liner notes, because holding the rights to a commission is not a
 reason to stop naming the hand that drew it. The Esmx in the cabinet is redrawn rather than
 pasted in — **not** a permissions matter but a room-consistency one, plus the fact that our own
