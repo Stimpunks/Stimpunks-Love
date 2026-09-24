@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build The Small Hours' menu and quotations, and the credits.
+"""Build The Small Hours' menu, quotations and placemat, and the credits.
 
 ONE DATA FILE, ONE TOOL, TWO SURFACES. The menu and every quotation go into
 small-hours.html; the same quotations go into liner-notes.html as credits.
@@ -57,10 +57,26 @@ WHAT IT REFUSES, and why each one is here:
     how many songs and how long before the press. The runtimes were measured off
     the files; the album totals are summed here rather than typed.
 
+  - A PLACEMAT PART WITH NO NAME, OR A NAME WITH NO PART. The drawing is in this
+    file and the names each part is spoken by are in the data, and the list of
+    names under the placemat is the only way in for anybody without a pointer:
+    a part missing from it is a part they cannot colour, and a name with no
+    drawing is a button that colours nothing.
+
+  - A CRAYON WHOSE INK IS NOT DECLARED IN love.css's :root, or two crayons
+    alike. CSS drops an unknown var() and paints nothing, which is how
+    Covenstead's kettle lost its line after a repaint.
+
+  - A small-hours.js THAT STORES, SENDS, OR READS THE CLOCK. The house rule is
+    that nothing is kept, and the placemat is the object in this room most
+    likely to grow a "save your drawing" by kindness. Taking it home is a
+    download to the visitor's own device, which is theirs to keep and not ours.
+
 IF THIS REFUSES: fix the cause. Do not loosen the tool.
 """
 import html
 import json
+import math
 import re
 import sys
 from pathlib import Path
@@ -89,6 +105,258 @@ CLOSING = (r"closing time|last orders?|we close|closes at|opening hours|open unt
 TALLY = (r"scores?|streaks?|leaderboards?|tall(?:y|ies)|hours since|nights? awake count|"
          r"visits? (?:counted|logged)|days since")
 CLOCK = re.compile(r"new Date|Date\(|getHours|toLocaleTime|Intl\.DateTimeFormat")
+
+# ── THE PLACEMAT ─────────────────────────────────────────────────────────────
+# ITS DRAWING LIVES HERE AND ITS WORDS LIVE IN THE DATA FILE, keyed by part, and
+# the tool refuses either without the other: a part with no name is a shape
+# nobody using the list can reach, and a name with no shape is a button that
+# colours nothing. Every part is a closed path with the parts inside it cut out
+# (even-odd), so no two parts overlap and a press lands in exactly one of them.
+# The printed lines are every part's edge plus the few lines that are no part's
+# edge -- the window's cross, the clock's ticks, the steam -- and none of it is a
+# transform, because nothing in §44 moves and check-gentle.py reads the matrix.
+
+def f(v):
+    s = f"{v:.1f}"
+    return s[:-2] if s.endswith(".0") else s
+
+def circ(cx, cy, r):
+    return (f"M{f(cx - r)} {f(cy)} A{f(r)} {f(r)} 0 1 0 {f(cx + r)} {f(cy)} "
+            f"A{f(r)} {f(r)} 0 1 0 {f(cx - r)} {f(cy)} Z")
+
+def ell(cx, cy, rx, ry):
+    return (f"M{f(cx - rx)} {f(cy)} A{f(rx)} {f(ry)} 0 1 0 {f(cx + rx)} {f(cy)} "
+            f"A{f(rx)} {f(ry)} 0 1 0 {f(cx - rx)} {f(cy)} Z")
+
+def rrect(x, y, w, h, r):
+    return (f"M{f(x + r)} {f(y)} H{f(x + w - r)} A{f(r)} {f(r)} 0 0 1 {f(x + w)} {f(y + r)} "
+            f"V{f(y + h - r)} A{f(r)} {f(r)} 0 0 1 {f(x + w - r)} {f(y + h)} H{f(x + r)} "
+            f"A{f(r)} {f(r)} 0 0 1 {f(x)} {f(y + h - r)} V{f(y + r)} A{f(r)} {f(r)} 0 0 1 {f(x + r)} {f(y)} Z")
+
+def poly(pts):
+    return "M" + " L".join(f"{f(x)} {f(y)}" for x, y in pts) + " Z"
+
+def star(cx, cy, ro, ri):
+    pts = []
+    for k in range(10):
+        a = math.radians(-90 + k * 36)
+        r = ro if k % 2 == 0 else ri
+        pts.append((cx + r * math.cos(a), cy + r * math.sin(a)))
+    return poly(pts)
+
+def _arc(c, r, a, b, via):
+    """An SVG arc on circle c from a to b that passes through via."""
+    ang = lambda p: math.atan2(p[1] - c[1], p[0] - c[0])
+    ta, tb, tv = ang(a), ang(b), ang(via)
+    span = (tb - ta) % (2 * math.pi)
+    if (tv - ta) % (2 * math.pi) < span:
+        sweep, large = 1, int(span > math.pi)
+    else:
+        sweep, large = 0, int(2 * math.pi - span > math.pi)
+    return f"A{f(r)} {f(r)} 0 {large} {sweep} {f(b[0])} {f(b[1])}"
+
+def crescent(c1, r1, c2, r2):
+    """Circle c1 with circle c2 bitten out of it."""
+    dx, dy = c2[0] - c1[0], c2[1] - c1[1]
+    d = math.hypot(dx, dy)
+    ux, uy = dx / d, dy / d
+    a = (d * d + r1 * r1 - r2 * r2) / (2 * d)
+    h = math.sqrt(r1 * r1 - a * a)
+    mx, my = c1[0] + ux * a, c1[1] + uy * a
+    p1 = (mx - uy * h, my + ux * h)
+    p2 = (mx + uy * h, my - ux * h)
+    far = (c1[0] - ux * r1, c1[1] - uy * r1)
+    near = (c2[0] - ux * r2, c2[1] - uy * r2)
+    return (f"M{f(p1[0])} {f(p1[1])} {_arc(c1, r1, p1, p2, far)} "
+            f"{_arc(c2, r2, p2, p1, near)} Z")
+
+def blob(cx, cy, radii, sx, sy):
+    """A closed smooth shape through points at even angles (Catmull-Rom as cubics)."""
+    n = len(radii)
+    pts = [(cx + radii[i] * sx * math.cos(2 * math.pi * i / n),
+            cy + radii[i] * sy * math.sin(2 * math.pi * i / n)) for i in range(n)]
+    d = f"M{f(pts[0][0])} {f(pts[0][1])}"
+    for i in range(n):
+        p0, p1, p2, p3 = pts[i - 1], pts[i], pts[(i + 1) % n], pts[(i + 2) % n]
+        c1 = (p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6)
+        c2 = (p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6)
+        d += f" C{f(c1[0])} {f(c1[1])} {f(c2[0])} {f(c2[1])} {f(p2[0])} {f(p2[1])}"
+    return d + " Z"
+
+def along(a, b, w, s0, s1, tip=None):
+    """The quadrilateral from s0 to s1 along a->b, w either side; tip narrows the far end."""
+    L = math.hypot(b[0] - a[0], b[1] - a[1])
+    ux, uy = (b[0] - a[0]) / L, (b[1] - a[1]) / L
+    nx, ny = -uy, ux
+    w1 = w if tip is None else tip
+    p = lambda s, k: (a[0] + ux * s + nx * k, a[1] + uy * s + ny * k)
+    return poly([p(s0, w), p(s1, w1), p(s1, -w1), p(s0, -w)])
+
+
+def drawing():
+    """Every part of the placemat, keyed by the name data/small-hours.json speaks it by."""
+    z = {}
+    z["border"] = rrect(10, 10, 780, 480, 22) + " " + rrect(34, 34, 732, 432, 12)
+    # the window, the moon and the stars
+    moon = crescent((104, 170), 22, (115, 162), 18)
+    s_big, s_mid, s_small = star(207, 168, 14, 6), star(224, 248, 10, 4.3), star(98, 250, 8, 3.4)
+    z["sky"] = " ".join([rrect(64, 134, 190, 150, 4), moon, s_big, s_mid, s_small])
+    z["moon"], z["star-big"], z["star-mid"], z["star-small"] = moon, s_big, s_mid, s_small
+    z["sill"] = rrect(52, 284, 214, 14, 3)
+    # the clock with no hands
+    z["clock-rim"] = circ(400, 196, 56) + " " + circ(400, 196, 46)
+    z["clock-face"] = circ(400, 196, 46)
+    # the crayon lying on the paper
+    A, B = (494, 292), (566, 162)
+    L = math.hypot(B[0] - A[0], B[1] - A[1])
+    z["crayon-wax"] = along(A, B, 13, 0, 26) + " " + along(A, B, 13, 92, 116) + " " + along(A, B, 13, 116, L, tip=3)
+    z["crayon-wrap"] = along(A, B, 13, 26, 92)
+    # the jukebox
+    body = "M590 400 V210 A70 70 0 0 1 730 210 V400 Z"
+    dome = "M612 232 V214 A48 48 0 0 1 708 214 V232 Z"
+    win, grille = rrect(612, 250, 96, 62, 6), rrect(612, 330, 96, 54, 8)
+    rec, lab = circ(660, 281, 22), circ(660, 281, 7)
+    z["juke-body"] = " ".join([body, dome, win, grille])
+    z["juke-dome"] = dome
+    z["juke-window"] = win + " " + rec
+    z["record"] = rec + " " + lab
+    z["label"] = lab
+    z["grille"] = grille
+    # breakfast
+    egg = blob(206, 398, [36, 33, 30, 34, 37, 32, 35, 31, 29, 34], 1.08, 0.84)
+    yolk = circ(203, 394, 12)
+    toast = ("M284 434 V386 C274 382 272 366 286 360 C296 350 330 350 340 360 "
+             "C354 366 352 382 342 386 V434 Z")
+    soft = ("M291 427 V381 C283 377 283 369 291 366 C300 357 326 357 335 366 "
+            "C343 369 343 377 335 381 V427 Z")
+    z["plate"] = " ".join([ell(262, 396, 120, 60), egg, toast])
+    z["egg"] = egg + " " + yolk
+    z["yolk"] = yolk
+    z["crust"] = toast + " " + soft
+    z["toast"] = soft
+    # the mug
+    z["mug"] = ("M430 372 V362 A10 10 0 0 1 440 352 H498 A10 10 0 0 1 508 362 V372 Z "
+                "M430 386 H508 V434 A10 10 0 0 1 498 444 H440 A10 10 0 0 1 430 434 Z")
+    z["mug-band"] = "M430 372 H508 V386 H430 Z"
+    z["handle"] = ("M508 370 H520 A24 24 0 0 1 520 418 H508 Z "
+                   "M512 382 H518 A12 12 0 0 1 518 406 H512 Z")
+
+    # PRINTED LINES THAT ARE NOT THE EDGE OF A PART: (d, width, dash)
+    extra = [(rrect(22, 22, 756, 456, 17), 4, "0.1 14"),
+             ("M159 134 V284 M64 209 H254", 4, None)]
+    for k in range(12):
+        a = math.radians(k * 30)
+        r0 = 33 if k % 3 == 0 else 38
+        extra.append((f"M{f(400 + r0 * math.sin(a))} {f(196 - r0 * math.cos(a))} "
+                      f"L{f(400 + 43 * math.sin(a))} {f(196 - 43 * math.cos(a))}", 2.5, None))
+    extra.append((circ(400, 196, 2.5), 2, None))
+    extra.append((circ(660, 281, 15), 1.5, None))
+    extra.append((" ".join(f"M{x} 338 V376" for x in range(628, 700, 12)), 2, None))
+    extra.append(("M600 400 V410 H620 V400 M700 400 V410 H720 V400", 3, None))
+    # wrapper stripes on the drawn crayon
+    extra.append((along(A, B, 13, 34, 34.01) + " " + along(A, B, 13, 84, 84.01), 2, None))
+    extra.append(("M452 342 C444 332 460 324 452 312 M470 342 C462 332 478 324 470 312 "
+                  "M488 342 C480 332 496 324 488 312", 2.5, None))
+    words = [("THE SMALL HOURS", 400, 84, 36, 4, "Righteous", 400),
+             ("colour in anything, at any hour", 400, 110, 15, 0.5, "Libre Franklin", 700)]
+    return z, extra, words
+
+
+STORE = re.compile(r"localStorage|sessionStorage|indexedDB|document\.cookie|fetch\(|"
+                   r"XMLHttpRequest|sendBeacon|WebSocket|EventSource")
+SCRIPT = ROOT / "small-hours.js"
+
+
+def declared_props():
+    css = (ROOT / "love.css").read_text()
+    start = css.index(":root {")
+    root = re.sub(r"/\*.*?\*/", " ", css[start:css.index("\n}", start)], flags=re.S)
+    return set(re.findall(r"(--[a-z0-9-]+)\s*:", root))
+
+
+def check_placemat(pm):
+    z, _, _ = drawing()
+    parts = pm.get("parts", {})
+    for k in sorted(set(z) - set(parts)):
+        refuse(f"placemat: part {k!r} is drawn and has no name, so nobody using the list can colour it.")
+    for k in sorted(set(parts) - set(z)):
+        refuse(f"placemat: part {k!r} has a name and no drawing; its button would colour nothing.")
+    names = [v for v in parts.values()]
+    if len(set(names)) != len(names):
+        refuse("placemat: two parts share a name, so the list cannot tell them apart out loud.")
+    props = declared_props()
+    seen_ink, seen_name = set(), set()
+    for c in pm.get("crayons", []):
+        if c.get("ink") not in props:
+            refuse(f"placemat: the {c.get('name')} crayon's ink {c.get('ink')!r} is not declared in "
+                   "love.css's :root. CSS drops an unknown var() and paints nothing.")
+        if c.get("ink") in seen_ink or c.get("name") in seen_name:
+            refuse(f"placemat: the {c.get('name')} crayon repeats another's name or ink.")
+        seen_ink.add(c.get("ink"))
+        seen_name.add(c.get("name"))
+    if not pm.get("crayons"):
+        refuse("placemat: no crayons.")
+    js = SCRIPT.read_text()
+    if STORE.search(js):
+        refuse(f"{SCRIPT.name} stores or sends something. Nothing in this diner is kept, the placemat "
+               "included; taking it home is the visitor's own save to their own device.")
+    if CLOCK.search(js):
+        refuse(f"{SCRIPT.name} asks the browser for the time. Nothing here notices the hour.")
+
+
+def placemat_block(pm):
+    z, extra, words = drawing()
+    ind = "      "
+    crayons = "\n".join(
+        f'{ind}  <label class="sh-crayon"><input type="radio" name="sh-crayon" value="{e(c["ink"])}" '
+        f'data-name="{e(c["name"])}"{" checked" if i == 0 else ""}>'
+        f'<svg class="sh-crayon__draw" viewBox="0 0 60 16" aria-hidden="true" focusable="false">'
+        f'<path d="M16 2.5 H57 V13.5 H16 L3 9 V7 Z" style="fill: var({e(c["ink"])})"/>'
+        f'<path d="M26 2.5 V13.5 M47 2.5 V13.5"/></svg><span>{e(c["name"])}</span></label>'
+        for i, c in enumerate(pm["crayons"]))
+    lines = [f'<path class="sh-mat__line" d="{d}" stroke-width="{w}"'
+             + (f' stroke-dasharray="{dash}"' if dash else "") + "/>" for d, w, dash in extra]
+    lines += [f'<path class="sh-mat__line" d="{d}" stroke-width="3"/>' for d in z.values()]
+    texts = [f'<text class="sh-mat__word" x="{x}" y="{y}" font-size="{size}" letter-spacing="{ls}" '
+             f'font-family="{fam}, sans-serif" font-weight="{wt}" text-anchor="middle">{e(t)}</text>'
+             for t, x, y, size, ls, fam, wt in words]
+    zones = [f'<path class="sh-mat__zone" data-zone="{k}" data-name="{e(pm["parts"][k])}" d="{d}"/>'
+             for k, d in z.items()]
+    parts = "\n".join(
+        f'{ind}    <li><button type="button" class="sh-mat__part" data-zone="{k}">'
+        f'{e(pm["parts"][k])}<span class="sh-mat__now"></span></button></li>' for k in z)
+    return (
+        f'{ind}<fieldset class="sh-crayons" hidden>\n'
+        f'{ind}  <legend>The crayons</legend>\n{crayons}\n'
+        f'{ind}</fieldset>\n'
+        f'{ind}<fieldset class="sh-mat__how" hidden>\n'
+        f'{ind}  <legend>What a press on the placemat does</legend>\n'
+        f'{ind}  <label class="sh-mat__way"><input type="radio" name="sh-mat-how" value="fill" checked> '
+        f'Colour in: press a shape and it fills</label>\n'
+        f'{ind}  <label class="sh-mat__way"><input type="radio" name="sh-mat-how" value="scribble"> '
+        f'Scribble: draw wherever you like</label>\n'
+        f'{ind}</fieldset>\n'
+        f'{ind}<div class="sh-mat" data-mode="fill" role="img" aria-label="A paper placemat printed in '
+        f'teal ink, ready to colour in: a window with a crescent moon and stars in it, the clock with no '
+        f'hands, a crayon, a jukebox, a plate with an egg and a slice of toast, and a mug with steam coming '
+        f'off it.">\n'
+        f'{ind}  <canvas class="sh-mat__wax" width="1600" height="1000" hidden></canvas>\n'
+        f'{ind}  <svg class="sh-mat__print" viewBox="0 0 800 500" aria-hidden="true" focusable="false">\n'
+        f'{ind}    <g class="sh-mat__lines">\n' + "\n".join(f"{ind}      {l}" for l in lines) + "\n"
+        f'{ind}    </g>\n' + "\n".join(f"{ind}    {t}" for t in texts) + "\n"
+        f'{ind}    <g class="sh-mat__zones">\n' + "\n".join(f"{ind}      {zz}" for zz in zones) + "\n"
+        f'{ind}    </g>\n'
+        f'{ind}  </svg>\n'
+        f'{ind}</div>\n'
+        f'{ind}<p class="sh-mat__said" role="status"></p>\n'
+        f'{ind}<p class="sh-mat__acts" hidden><button type="button" class="sh-mat__btn" data-mat="fresh">'
+        f'A fresh placemat</button> <button type="button" class="sh-mat__btn" data-mat="home">'
+        f'Take it home</button></p>\n'
+        f'{ind}<details class="sh-mat__list" hidden>\n'
+        f'{ind}  <summary>Colour it in by name, one part at a time</summary>\n'
+        f'{ind}  <ul class="sh-mat__parts">\n{parts}\n{ind}  </ul>\n'
+        f'{ind}</details>')
+
 
 problems = []
 
@@ -222,6 +490,11 @@ def main():
         for t in a["tracks"]:
             track_ok(f"{a['title']} track {t.get('n')}", t)
 
+    if data.get("placemat"):
+        check_placemat(data["placemat"])
+    else:
+        refuse("no placemat. The menu promises crayons and a paper placemat on every table.")
+
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1
@@ -305,6 +578,7 @@ def main():
         items.append(f'      <li class="sh-dish"><p class="sh-dish__name">{e(m["dish"])}</p>'
                      f'<p class="sh-dish__note">{e(m["note"])}{link}</p></li>')
     room = swap(room, "sh-menu", "\n".join(items), ROOM.name)
+    room = swap(room, "sh-mat", placemat_block(data["placemat"]), ROOM.name)
     ROOM.write_text(room)
 
     notes = NOTES.read_text()
@@ -326,7 +600,7 @@ def main():
             else "the mirror is not on this machine, so none was checked against it this run")
     tracks = sum(len(a["tracks"]) for a in data.get("albums", []))
     print(f"small hours: {len(data['menu'])} dishes, {len(data['quotes'])} quotations, one record "
-          f"with its words and {tracks} tracks on the jukebox written; {seen}.")
+          f"with its words, {tracks} tracks on the jukebox and the placemat written; {seen}.")
     return 0
 
 

@@ -2098,6 +2098,19 @@ Check the live site after a deploy. Audio players are built by `love-embed.js` l
 each other so only one plays, and sit in a `.facade--audio` shell that §4 keeps off 16:9. **Every
 runtime was measured off the file with ffprobe**, not read off the band's player widget.
 
+**THE DINER'S PLACEMAT KEEPS NOTHING, AND THE FRIENDLY EDIT IS "SAVE YOUR DRAWING".** Every table at
+The Small Hours has a paper placemat and crayons (Ryan's ask, 2026-09-24, for the Kurchak passage under
+the menu). The house rule says nothing is kept, so the placemat is not kept either: no storage, no gallery
+of other people's placemats, no count of what was coloured. **Take it home** is a download to the
+visitor's own device, which is theirs rather than ours, and `make-small-hours.py` refuses `small-hours.js`
+if it ever stores, sends or reads the clock. **The list of part names under it is the way in for anybody
+without a pointer**, so the tool refuses a drawn part with no name and a name with no part; the drawing is
+in the tool and the names are in the data, keyed alike. The wax is one canvas under the print and the
+print is an SVG over it that ignores the pointer, which is how crayon goes over the lines and the lines
+still show. The crayon inks are §2 custom properties, read by the script with `getComputedStyle` because a
+canvas cannot take a `var()`, and the tool refuses one `love.css` does not declare. Do not give the
+crayon you are holding a lift or a wobble: nothing in §44 moves.
+
 **`check-jukebox.py` COULD NOT RUN FROM THE DAY LAUGHINGSTOCK OPENED UNTIL THIS ONE.** That room's data
 has `acts` (comics and their lines) beside `sets` (videos), the `acts` branch came first, and the run
 refused on the first comic. `sets` is tested first now. **When a checker's shapes are told apart by

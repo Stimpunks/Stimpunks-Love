@@ -558,6 +558,7 @@ DP_BLUE, DP_ORANGE, DP_WHITE = "#4F7FF5", "#FF9A3C", "#F4EFE6"
 SH_LOT, SH_GLASS = "#0F1116", "#F2F4F7"
 SH_PALE, SH_TEXT, SH_DIM, SH_NEON = "#EEF0F3", "#D5D9E0", "#A7ADB8", "#FF6B6F"
 SH_INK, SH_INK_2, SH_TEAL = "#1A1D26", "#4A4F5E", "#0F6E68"
+SH_PAPER = "#FFFFFF"  # the placemat on every table, printed in --sh-teal
 
 # The Repeater (§45). EVERYTHING IS A SILHOUETTE, and every word stands on the
 # cloud overhead, on the panel the open line sits on, or on a card in the log.
@@ -1854,6 +1855,9 @@ PAIRS = [
                                 "jukebox and on the record"),
     (SH_GLASS, SH_TEAL,  False, "small hours: the whole-album buttons, and a track button under "
                                 "the pointer"),
+    (SH_TEAL,  SH_PAPER, False, "small hours: the placemat's printed name and line, teal ink on "
+                                "white paper; also every printed line on it, which must be seen to "
+                                "be coloured in"),
 
     # ── Dance, Punks (§43) ───────────────────────────────────────────────────
     (DP_PALE,   DP_TARMAC, False, "dance, punks: the h1, every heading, the lede, every bold "
@@ -2275,7 +2279,21 @@ ORNAMENT = {
                "glass, under the body bar, so no word is set in it; the heading ink is the darker "
                "--sh-teal.",
     "#b8323c": "small hours: the booth and stool vinyl, seen through the glass. 3.20 on the lot; "
-               "drawing, carrying no word.",
+               "drawing, carrying no word. Also the red crayon: see the placemat's crayons below.",
+    # THE PLACEMAT'S CRAYONS. Marks a visitor makes on white paper, carrying no
+    # word. In the crayon box each is drawn with an --sh-ink outline and named in
+    # words beside its own radio button, so no crayon has to stand out from the
+    # glass by its colour, and colour is never the only way to tell them apart.
+    "#e57a2e": "small hours: the orange crayon, 2.94 on the placemat's paper and 2.66 on the glass. "
+               "Outlined in ink and named beside it; carries no word.",
+    "#f5c518": "small hours: the yellow crayon, 1.63 on the paper and 1.48 on the glass, which is why "
+               "every crayon in the box is outlined in ink. Named beside it; carries no word.",
+    "#2e62c9": "small hours: the blue crayon, 5.67 on the paper and 5.14 on the glass. Named beside "
+               "it; carries no word.",
+    "#7a4aae": "small hours: the purple crayon, 6.14 on the paper and 5.58 on the glass. Named beside "
+               "it; carries no word.",
+    "#8b5a2b": "small hours: the brown crayon, 5.84 on the paper and 5.30 on the glass. Named beside "
+               "it; carries no word.",
     "#3b3842": "dance, punks: the runway's faded markings -- centre line, edges, the horizon "
                "-- and the rule beside each house rule. 1.72 on the tarmac; unlit paint, and "
                "it carries no word.",

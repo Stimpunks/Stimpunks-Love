@@ -111,7 +111,7 @@ solarpunk-hermitage.html  Pitch 03. A cabin on wheels, and the one room the sun 
 the-outskirts.html    The road past the last streetlight. Hand-painted signs, lit by headlights
 black-leather-lagoon.html  Turning 01. A drive-in screen in black water; an appreciation of The Cramps
 dance-punks.html      Turning 04. A silent disco on an old airstrip, lit only by the headsets
-small-hours.html      Turning 05. An all-night diner seen from the car park; Josephmooon on the jukebox
+small-hours.html      Turning 05. An all-night diner seen from the car park; Josephmooon on the jukebox, crayons and a placemat
 repeater.html         Turning 06. A radio mast on the ridge; shared-signal space and a line left open
 nothing-for-sale.html Turning 07. A free market in a ring of headlights. Solidarity, not charity
 liner-notes.html      Who made this noise
@@ -161,11 +161,11 @@ data/picture-house.json  The two screens and the rack. Every card says who made 
 data/samefood.json    The table in the window, the menu, the book on the counter, and the regulars' trays as they gave them
 data/collection.json  The cabinets, their lamps, the photographs in them and who described each one. Nothing counted or priced
 data/dance-punks.json The disco's three channels: where each starts in one crate, and in what colour
-data/small-hours.json The diner's quotations, its menu, Up All Night with its permission, and the jukebox
+data/small-hours.json The diner's quotations, its menu, Up All Night with its permission, the jukebox, and the placemat's crayons and part names
 data/repeater.json    The Repeater's two lines of ours and the log's cards, none of which counts anything
 data/nothing-for-sale.json  The lay-by's tables, each a free thing of ours, and the headlights, none alike
 dance-punks.js        The headset. Tuning is silent while it is off; it asks love-embed.js for the frame
-small-hours.js        The whole-album buttons. Plays an album through, saying which song of how many
+small-hours.js        The whole-album buttons, and the placemat: colour in, scribble, take it home. Stores and sends nothing
 repeater.js           The open line: quiet noise made in the browser. Nothing sent, nothing listened to
 quest.js              The job markers, and the guild's board. Works with scripts off
 zibaldone.js          The attribution slip. Composes a block of text; sends nothing anywhere
@@ -219,7 +219,7 @@ python3 tools/make-samefood.py     # Samefood Cafe's table, menu, counter and tr
 python3 tools/make-collection.py   # The Collection Collection's gallery, cabinets and credits; refuses metadata, a filter, or two lamps alike
 python3 tools/make-vital.py        # Vital Plant Living's shelf, builder, board, counter and stereo; refuses a combo off the pantry, or Ital on the menu
 python3 tools/make-dance-punks.py  # the disco's channels and credits; refuses a runtime, shuffle, or two inks alike in greyscale
-python3 tools/make-small-hours.py  # the diner's menu, quotations, record and jukebox; refuses a lyric with no permission
+python3 tools/make-small-hours.py  # the diner's menu, quotations, record, jukebox and placemat; refuses a lyric with no permission, or a placemat that keeps anything
 python3 tools/make-repeater.py     # the Repeater's log and quotations; refuses anything that sends, stores or listens
 python3 tools/make-nothing-for-sale.py # the lay-by's tables; refuses a price, charity's categories, and a debt
 python3 tools/make-foundry.py      # The Foundry's bench, its shelves and its proof

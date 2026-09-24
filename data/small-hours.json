@@ -87,7 +87,7 @@
     },
     {
       "dish": "Crayons and a paper placemat",
-      "note": "On every table, for the reason quoted under the menu. Colouring at a small table while somebody keeps you company is a thing the small hours have been for since long before this diner."
+      "note": "On every table, for the reason quoted under the menu, and there is one waiting in the window below. Colouring at a small table while somebody keeps you company is a thing the small hours have been for since long before this diner."
     },
     {
       "dish": "The quiet end of the counter",
@@ -327,5 +327,73 @@
         }
       ]
     }
-  ]
+  ],
+  "_placemat": "THE PLACEMAT ON EVERY TABLE, for the Kurchak passage under the menu. Its drawing is in tools/make-small-hours.py, keyed by part; the names each part is spoken by are here, and the tool refuses a part with no drawing or a drawing with no name, because the list under the placemat is the only way in for anybody not using a pointer. Each crayon's ink is a custom property in love.css's :root and the tool refuses one that is not declared there: CSS drops an unknown var() and paints nothing, which is how Covenstead's kettle lost its line. NOTHING ON IT IS KEPT: small-hours.js may not store, send or read the clock, and the tool refuses it if it does. Taking it home saves a picture to the visitor's own device and nowhere else. The red is the booths' vinyl, the teal is the counter's formica and the black is the ink the menu is written in; the others are the ordinary colours of a paper sleeve of diner crayons.",
+  "placemat": {
+    "crayons": [
+      {
+        "name": "red",
+        "ink": "--sh-cherry"
+      },
+      {
+        "name": "orange",
+        "ink": "--sh-cr-orange"
+      },
+      {
+        "name": "yellow",
+        "ink": "--sh-cr-yellow"
+      },
+      {
+        "name": "teal",
+        "ink": "--sh-aqua"
+      },
+      {
+        "name": "blue",
+        "ink": "--sh-cr-blue"
+      },
+      {
+        "name": "purple",
+        "ink": "--sh-cr-purple"
+      },
+      {
+        "name": "brown",
+        "ink": "--sh-cr-brown"
+      },
+      {
+        "name": "black",
+        "ink": "--sh-ink"
+      },
+      {
+        "name": "white",
+        "ink": "--sh-paper"
+      }
+    ],
+    "parts": {
+      "border": "the border round the placemat",
+      "sky": "the night through the window",
+      "moon": "the moon",
+      "star-big": "the biggest star",
+      "star-mid": "a smaller star",
+      "star-small": "the smallest star",
+      "sill": "the windowsill",
+      "clock-rim": "the rim of the clock",
+      "clock-face": "the clock face, which has no hands",
+      "crayon-wax": "the wax of the crayon in the picture",
+      "crayon-wrap": "the paper round the crayon in the picture",
+      "juke-body": "the jukebox",
+      "juke-dome": "the lit panel at the top of the jukebox",
+      "juke-window": "the window round the record",
+      "record": "the record",
+      "label": "the label in the middle of the record",
+      "grille": "the jukebox speaker",
+      "plate": "the plate",
+      "egg": "the egg white",
+      "yolk": "the yolk",
+      "crust": "the crust on the toast",
+      "toast": "the middle of the toast",
+      "mug": "the mug",
+      "mug-band": "the stripe round the mug",
+      "handle": "the handle of the mug"
+    }
+  }
 }
