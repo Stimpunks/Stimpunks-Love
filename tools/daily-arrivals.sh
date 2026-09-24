@@ -76,10 +76,13 @@ PY
 # update-logs-daily reads this repository's commits every morning and writes
 # Ryan's changelog out of them; a routine board reset appearing there daily
 # would be noise in a document that exists to record what actually changed. That
-# tool already has an AUTOMATED pattern for exactly this — "daily notes backup",
-# "weekly snapshot" — but it is applied only to its OWN repo, not to the sibling
-# repos it reads. So this subject is written in that pattern's dialect, ready
-# for the one-line fix, and the detail that varies lives in the body.
+# tool's AUTOMATED pattern ("daily notes backup", "weekly snapshot") covered only
+# its own repo until 2026-09-24; it now covers the sibling repos too and names
+# this exact subject, so the reset is filtered out before anyone reads it. That
+# makes the subject LOAD-BEARING: reword it and a board reset lands in the
+# changelog every morning again. Change it only together with the AUTOMATED
+# pattern in the Knowledge System's .claude/skills/update-logs/update_logs.py.
+# The detail that varies lives in the body.
 git add -- "${OWNED[@]}"
 git commit --quiet -m "daily arrivals board reset" -m "$rows
 

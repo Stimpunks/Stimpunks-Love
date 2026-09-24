@@ -283,6 +283,10 @@ And one that is **not a tool you run by hand at all**, listed here only so nobod
 it in the sequence above: `tools/daily-arrivals.sh` is the single command the **arrivals-board-daily**
 scheduled task runs each morning. It pulls, redraws, gates, **commits and pushes** — so it does not
 belong in a pre-deploy checklist, where it would quietly publish from whatever laptop ran it.
+The task's prompt is tracked here, at `.claude/scheduled-tasks/arrivals-board-daily/SKILL.md`, and
+that copy is the source of truth: edit it, then `tools/install-scheduled-task.sh --go` to install it
+(no flag reports drift and writes nothing). Its commit subject, `daily arrivals board reset`, is
+load-bearing — the Knowledge System's `update-logs` skips it by that exact string.
 
 Run them all before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
 is missing a canonical or if an HTML file exists that is not in its page order, `make-csp.py`
