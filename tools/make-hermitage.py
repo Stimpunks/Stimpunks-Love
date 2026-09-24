@@ -46,6 +46,7 @@ ROOM = ROOT / "solarpunk-hermitage.html"
 NOTES = ROOT / "liner-notes.html"
 
 YT = re.compile(r"^[A-Za-z0-9_-]{11}$")
+MOJIBAKE = re.compile("[\u00c2\u00c3][\u0080-\u00bf]|\u00e2[\u0080-\u009f\u20ac]")
 # The second word of a two-word specimen name, when that name is plain English
 # rather than Latin. Short on purpose: it is read as a declaration, so adding to
 # it should feel like a decision rather than like silencing a tool.
@@ -186,6 +187,30 @@ def check(data):
                        "something else is a mis-filed thing that reads as a claim.")
         if not (piece.get("what") or "").strip() or not (piece.get("why") or "").strip():
             bad.append(f"{t!r} does not say what it is, or why it is on this bench.")
+
+    # TEXT DECODED TWICE IS REFUSED, WHEREVER IT IS IN THIS FILE. A title read
+    # off a YouTube watch page in the wrong encoding arrives as three Latin-1
+    # characters where one curly apostrophe should be -- "World" then a-circumflex
+    # and two control characters, then "s Shores" -- and it was published that
+    # way on the campfire's listing and in the liner notes until 2026-09-24, in
+    # a title whose whole claim is that it is YouTube's own words. YouTube's page
+    # had the apostrophe right; the fault was ours. The pattern is the UTF-8 lead
+    # bytes of the punctuation and accented letters these titles actually carry,
+    # read as Latin-1, so it cannot fire on a real word.
+    def strings(o, where):
+        if isinstance(o, dict):
+            for k, v in o.items():
+                yield from strings(v, f"{where}.{k}")
+        elif isinstance(o, list):
+            for i, v in enumerate(o):
+                yield from strings(v, f"{where}[{i}]")
+        elif isinstance(o, str):
+            yield where, o
+    for where, text in strings(data, "hermitage.json"):
+        m = MOJIBAKE.search(text)
+        if m:
+            bad.append(f"{where} has {text[max(0, m.start() - 16):m.end() + 8]!r}, which is "
+                       "text decoded twice. Read it again off its own page, in UTF-8.")
 
     return bad
 
