@@ -323,11 +323,25 @@
         47
       ]
     },
+    "gloock": {
+      "where": "The Collection Collection",
+      "page": "collection-collection.html",
+      "sections": [
+        48
+      ]
+    },
     "gloria-hallelujah": {
       "where": "The Pebble Board",
       "page": "pebble-board.html",
       "sections": [
         21
+      ]
+    },
+    "hanken-grotesk": {
+      "where": "The Collection Collection",
+      "page": "collection-collection.html",
+      "sections": [
+        48
       ]
     },
     "ibm-plex-sans": {

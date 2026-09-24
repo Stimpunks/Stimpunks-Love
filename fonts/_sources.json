@@ -1110,5 +1110,33 @@
       "src": "https://fonts.gstatic.com/s/inclusivesans/v5/0nkxC9biPuwflXcJ46P4PGWE0-7yqQeULw4j.woff2",
       "note": "Samefood Cafe (§47), every word that is read. Olivia King drew it for legibility, with letters that cannot be taken for one another -- the room's rule that nothing on a plate is hidden in anything else, arriving at the level of the alphabet. One variable file serves both weights. Its italic is a sloped roman -- the same drawings leaned -- and tools/check-weights.py rightly refused to offer it as a second style, so it is not shipped and the room sets titles upright with font-synthesis off rather than letting the browser invent a slant."
     }
+  ],
+  "gloock": [
+    {
+      "file": "gloock-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 17576,
+      "src": "https://fonts.gstatic.com/s/gloock/v8/Iurb6YFw84WUY4NJiBakJLRBjA.woff2",
+      "note": "The Collection Collection (§48), the room's name, the heading on every cabinet's label and the name on its street door, and nothing at reading size. A sharp, high-contrast serif of the kind a museum cuts its labels in, because every collection in that room is given the label a museum would give it."
+    }
+  ],
+  "hanken-grotesk": [
+    {
+      "file": "hanken-grotesk-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 34664,
+      "src": "https://fonts.gstatic.com/s/hankengrotesk/v12/ieVn2YZDLWuGJpnzaiwFXS9tYtpd59CxCis4.woff2",
+      "note": "The Collection Collection (§48), every word that is read, on the labels and off them. A plain, even grotesque with nothing to say for itself, because the things in the cabinets are the loud part. One variable file serves both weights; no italic is shipped, and the room sets titles upright with font-synthesis off."
+    },
+    {
+      "file": "hanken-grotesk-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 34664,
+      "src": "https://fonts.gstatic.com/s/hankengrotesk/v12/ieVn2YZDLWuGJpnzaiwFXS9tYtpd59CxCis4.woff2",
+      "note": "The Collection Collection (§48), every word that is read, on the labels and off them. A plain, even grotesque with nothing to say for itself, because the things in the cabinets are the loud part. One variable file serves both weights; no italic is shipped, and the room sets titles upright with font-synthesis off."
+    }
   ]
 }

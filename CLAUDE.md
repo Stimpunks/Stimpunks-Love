@@ -2158,6 +2158,63 @@ one bite, healthy, hungry enough) with the negation window, and skips the book's
 says *Picky Eaters* and is its author's to say. **Two of its quotations are from the book and were read
 off our glossary, not a copy**; the room says so beside them.
 
+**THE COLLECTION COLLECTION IS THE ONLY ROOM LIT BY MORE THAN ONE KIND OF LIGHT, AND NO TWO LAMPS IN
+IT MAY BE ALIKE.** §48 is a dark gallery with no house lights: every collection stands in a cabinet of
+its own under a lamp its owner chose for the thing it lights &mdash; daylight over Ryan's inks because a
+warm bulb lies about an ink's colour, a strip inside his perfume cupboard's door because light spoils
+perfume. **The house brings the furniture and the owner brings the light.** Covenstead used to be the
+multi-lamp room and gave it up when it moved onto the street, so this is a light nobody is using rather
+than one taken back. `make-collection.py` refuses two cabinets with the same lamp: **if two ever share
+one, this has become The Feed with shelves** &mdash; every board there has the same light because a
+station is a system, and a collection is not. A lamp is lit only when its cabinet has something in it,
+**an unchosen lamp is not drawn at all**, and an empty cabinet's label is never dimmed (The Outskirts'
+dashed-post rule). The next lamp goes into `LAMPS` with the reason it suits the thing it lights, and a
+colour of its own in §2 measured in `ORNAMENT`.
+
+**EVERY WORD IS ON A LABEL OR ON THE BARE DARK, NEVER IN A LAMP'S LIGHT, AND THE GLOW NEVER TOUCHES A
+PHOTOGRAPH.** The glow lives on the case's `::before`, behind everything in the case. A lamp's colour
+laid over somebody's picture of an ink would change the ink, which is the one thing the lamp was chosen
+not to do, so the tool refuses a filter, blend or fade that reaches `.cc-photo` &mdash; the polaroid
+wall's no-filter promise, which is not waived because the thing in the picture is a pen. **An opaque
+bed inside a case hides the lamp** (the writing box's velvet shipped that way for an hour): anything
+standing between the `::before` and the things has to be partly see-through.
+
+**THIS ROOM DESCRIBES THINGS SO PEOPLE DO NOT HAVE TO, WHICH IS THE POLAROID WALL INVERTED ON
+PURPOSE.** Ryan's brief, 2026-09-23: having to title, describe and caption every picture would stop
+him ever sending one. The wall promises *we will not describe you in our words* because a description
+of a person is theirs; **a description of a pen is not a description of anybody, and it is work**, so
+here Claude writes the title, alt and caption and every cabinet's label says so. **Do not "fix" that
+by making owners write their own**, and do not stop saying who wrote them. When photographs arrive:
+
+  1. they go in `collection/inbox/` and `python3 tools/intake-collection.py <cabinet>` takes them in
+     &mdash; orientation baked in **before** the tag goes, every byte of metadata stripped, never
+     cropped, the original moved to `collection/inbox/taken/`. **Never commit anything under
+     `collection/inbox/`**: those originals still carry GPS. It is gitignored for that reason.
+  2. **look at each file** (Read shows it) and fill the stub: `title`, `alt`, `caption`,
+     `words: "claude"`, `described_on`, and `nobody_in_it` / `nothing_says_where` set to true **only
+     after looking at the whole frame**. A person in it goes through `data/polaroids.json` instead; an
+     address, post, or a view somebody could place means it does not go up and the owner is told.
+  3. **name no maker, model, ink or scent from what a thing looks like.** A name on a label reads as a
+     determination and is a guess &mdash; the herbarium's binomial rule, in a room where everything is
+     sold on its name. Lettering legible **in the photograph** is transcribed into `reads` and may then
+     be used; the owner's own name for a thing goes in `named` with `named_by`. `MAKERS` is short and
+     says so; the rule covers what it cannot catch.
+  4. run `make-webp.py`, then `make-collection.py`, `make-og.py` (the card's drawing shows which lamps
+     are lit) and the checks.
+
+**NOTHING IN THAT ROOM IS COUNTED, PRICED, VALUED OR CALLED RARE.** A cabinet with a number beside it
+is an inventory, and a list of what people own with prices beside it is a list for somebody else to
+shop from &mdash; which is also why nothing may say where anybody lives. The sweep runs with the
+negation window and **skips a capital in mid-sentence as a name, because its first refusal was Devon
+Price**; the pattern was narrowed by shape rather than the name excepted.
+
+**THE OTHER CABINETS WERE RELAYED, AND ONE OF THEM IS HELEN'S.** Norah and her husband, Chelsea and Helen
+were named by Ryan in the brief; each cabinet says it was relayed and **stays empty until its owner
+sends something**. Their lamps are theirs to choose and the furniture is the house's guess. **Do not
+fill any of them from memory, from our other pages, or from photographs of theirs published
+elsewhere**, and remember the Faery Yurt's rule: a cabinet in Helen's name is a new thing about her,
+so what goes in it is her call. See DECISIONS.md.
+
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
 paleness alone — which is what holds it off the Guild, lit from nowhere with no depth. Netlify

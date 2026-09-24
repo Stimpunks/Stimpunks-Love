@@ -214,6 +214,12 @@ DRAW = {
     # --sf-cress, 5.88 on the table, over the body threshold a marker is held to;
     # the floor line is --sf-ink-2 and carries nothing.
     "samefood-divider": """<path d="M3 29 H29" stroke="var(--sf-ink-2)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 25 L7 13 L10 21 L13 8 L16 21 L19 9 L22 21 L25 12 L27 25 Z" fill="none" stroke="var(--sf-cress)" stroke-width="2.2" stroke-linejoin="round"/><path d="M5 25 H27" stroke="var(--sf-cress)" stroke-width="2.6" stroke-linecap="round"/>""",
+    # A luggage tag come off its string -- the kind tied to every thing in the
+    # gallery -- lying on the dark floor with its string still through the hole.
+    # The tag is --cc-card, 15.89 on the floor, over the body threshold a marker
+    # is held to; its string is --cc-dust at 7.49, and the floor line is
+    # --cc-line and carries nothing.
+    "collection-tag": """<path d="M3 29 H29" stroke="var(--cc-line)" stroke-width="1.6" stroke-linecap="round"/><path d="M8 25 L8 15 L13 10 H26 V25 Z" fill="var(--cc-card)" stroke="var(--cc-card)" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12.4" cy="15.2" r="1.7" fill="var(--cc-dark)"/><path d="M12.4 15.2 C9 12 6 9 4 11 C2 13 5 17 3 21" fill="none" stroke="var(--cc-dust)" stroke-width="1.4" stroke-linecap="round"/><path d="M16 17.5 H23 M16 21 H21" stroke="var(--cc-ink-2)" stroke-width="1.4" stroke-linecap="round"/>""",
     # Ear defenders left on a seat in the second row, which is where a relaxed
     # screening keeps a spare pair: the headband and both cups in --lph-cream,
     # 10.2 on the velvet, and the seat's edge in --lph-brass, which carries

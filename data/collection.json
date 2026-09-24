@@ -1,0 +1,93 @@
+{
+  "_what": "The Collection Collection (collection-collection.html, love.css §48): a dark gallery of our people's collections, one cabinet per collection, each under a lamp of its own and no two lamps alike. Built by tools/make-collection.py, which refuses rather than guesses. Photographs arrive through tools/intake-collection.py, which strips them before they are anywhere near the repository.",
+  "_cabinets": "A cabinet is one person's collection of one kind of thing, named the way they named it. `owner` is how they are named on the label; `said` is their own sentence about it when they gave one, never ours; `given` says how the collection reached this file, and RELAYED is written as relayed -- the Pebble Board's and Samefood Cafe's rule, so the difference is visible and correctable. `build` is the house's guess at the right piece of furniture for that kind of thing (swatches hang, plants stand, rocks lie in a drawer) and is the owner's to change. The order is the order they arrived in and is never sorted.",
+  "_lamps": "Every cabinet has a lamp of its own and no two lamps are alike, which make-collection.py enforces. A lamp is lit only when there is something in the cabinet to light; an empty cabinet stands with its lamp off and its label at full strength, because a label you cannot read is not a quieter label, it is a broken one (The Outskirts' rule). `lamp` is null until the owner chooses one, and the drawing shows no lamp at all until then: what has not been chosen is not drawn. The lamps themselves are defined in make-collection.py's LAMPS, each with the reason it suits the thing it lights.",
+  "_describing": "THIS ROOM DESCRIBES THINGS SO THAT PEOPLE DO NOT HAVE TO. Ryan's brief, 2026-09-23: 'I can't title and describe and caption every picture myself. That'll prevent me from ever submitting a photo.' Writing alt text for every photograph of every pen is labour, and a rule that everybody must do it themselves is a barrier to exactly the people this site is for. So the house writes the title, the alt and the caption, and says it did: `words` is 'claude' when Claude wrote them from the photograph and 'owner' when the owner did. THIS IS THE OPPOSITE OF THE POLAROID WALL ON PURPOSE: polaroids.html promises 'we will not describe you in our words', because a description of a person is theirs to write. A description of a pen is not a description of anybody. Anything that shows a person goes through data/polaroids.json and not here.",
+  "_rules_for_whoever_describes": [
+    "Describe what is visible and nothing else. Colour, material, shape, finish, what it is standing on, what is beside it.",
+    "Do not identify a make, a model, an ink, a scent or a maker from memory. A name typed from what something looks like reads as a determination and is a guess -- the herbarium's refusal to guess at a binomial. If lettering is legible IN THE PHOTOGRAPH, transcribe it into `reads` and the words may then use it. If the owner names it, it goes in `named` with `named_by`.",
+    "Look at the whole frame before writing a word. Nobody in it (a person goes through the polaroid wall's consent record instead) and nothing that says where it was taken: no address, no post, no window with a view somebody could place. Set `nobody_in_it` and `nothing_says_where` to true only after looking. If either is false, do not publish; say so to whoever sent it.",
+    "No value, price, rarity or count, in any field. See the house rules.",
+    "A title is a few words. An alt is one or two sentences a screen reader can say in one breath. A caption is one line that is not the alt again."
+  ],
+  "_licence": "The photographs are NOT under the site's CC BY-SA 4.0 licence and carry no onward licence at all, for the polaroid wall's reason: CC BY-SA cannot be revoked, so a photo published under it could not be taken back when its owner asked. They belong to whoever took them. See LICENSE.",
+  "_withdrawal": "Withdrawal is deletion. Remove the item (or the whole cabinet), delete its file in collection/, and run tools/make-collection.py. The tool refuses a file with no entry and an entry with no file, so nothing is left half-honoured.",
+  "quotes": [
+    {
+      "id": "spin",
+      "text": "Some special interests are short lived, and some last the lifetime of the person; but, however long they last, they are intense, delightful, and a vital part of autistic culture.",
+      "who": "C.L. Lynch",
+      "work": "7 Cool Aspects of Autistic Culture",
+      "where": "NeuroClastic",
+      "year": "2019",
+      "url": "https://neuroclastic.com/7-cool-aspects-of-autistic-culture/",
+      "checked": "read against NeuroClastic's own page on 2026-09-23",
+      "entry": "https://stimpunks.org/glossary/special-interest/",
+      "entry_name": "Special Interest"
+    },
+    {
+      "id": "objects",
+      "text": "Many of us identify with the items we love, and even feel a degree of empathy for them, as if they were alive.",
+      "who": "Devon Price",
+      "work": "Unmasking Autism",
+      "where": "Harmony Books",
+      "year": "2022",
+      "url": "https://www.penguinrandomhouse.com/books/688819/unmasking-autism-by-devon-price-phd/",
+      "checked": "read off our own Object Personification entry, which quotes the book at pages 169 and 170; not checked against a copy of the book from here",
+      "entry": "https://stimpunks.org/glossary/object-personification/",
+      "entry_name": "Object Personification"
+    }
+  ],
+  "cabinets": [
+    {
+      "id": "ryan-pens",
+      "owner": "Ryan",
+      "collection": "Pens and ink",
+      "said": "I have an extensive pen and ink collection.",
+      "given": "in Ryan’s own brief for this room, 2026-09-23",
+      "build": "writing-box",
+      "lamp": "daylight",
+      "items": []
+    },
+    {
+      "id": "ryan-perfume",
+      "owner": "Ryan",
+      "collection": "Perfume",
+      "said": null,
+      "given": "in Ryan’s own brief for this room, 2026-09-23",
+      "build": "cupboard",
+      "lamp": "door-strip",
+      "items": []
+    },
+    {
+      "id": "norah-leather",
+      "owner": "Norah and her husband",
+      "collection": "Leather swatches and stamping tools",
+      "said": null,
+      "given": "relayed by Ryan in the brief for this room, 2026-09-23: they make leather goods together",
+      "build": "pegboard",
+      "lamp": null,
+      "items": []
+    },
+    {
+      "id": "chelsea-plants",
+      "owner": "Chelsea",
+      "collection": "House plants",
+      "said": null,
+      "given": "relayed by Ryan in the brief for this room, 2026-09-23",
+      "build": "plant-stand",
+      "lamp": null,
+      "items": []
+    },
+    {
+      "id": "helen-books-rocks",
+      "owner": "Helen",
+      "collection": "Books and rocks",
+      "said": null,
+      "given": "relayed by Ryan in the brief for this room, 2026-09-23",
+      "build": "specimen-chest",
+      "lamp": null,
+      "items": []
+    }
+  ]
+}

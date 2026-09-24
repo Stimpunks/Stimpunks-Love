@@ -615,6 +615,23 @@
     }
    ]
   },
+  "gloock": {
+   "family": "Gloock",
+   "category": "Display",
+   "designer": "Duarte Pinto",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/gloock",
+   "copyright": "Copyright 2022 The Gloock Project Authors (https://github.com/duartp/gloock)",
+   "repository": "https://github.com/duartp/gloock",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "gloock-400.woff2",
+     "sha": "b862aac1a16f7daf"
+    }
+   ]
+  },
   "gloria-hallelujah": {
    "family": "Gloria Hallelujah",
    "category": "Handwriting",
@@ -629,6 +646,29 @@
      "style": "normal",
      "file": "gloria-hallelujah-400.woff2",
      "sha": "6c897a01ee2ee703"
+    }
+   ]
+  },
+  "hanken-grotesk": {
+   "family": "Hanken Grotesk",
+   "category": "Sans Serif",
+   "designer": "Alfredo Marco Pradil, Hanken Design Co.",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/hankengrotesk",
+   "copyright": "Copyright 2021 The Hanken Grotesk Project Authors (https://github.com/marcologous/hanken-grotesk)",
+   "repository": "https://github.com/marcologous/hanken-grotesk",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "hanken-grotesk-400.woff2",
+     "sha": "1f21c6eaa0000f33"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "hanken-grotesk-400.woff2",
+     "sha": "1f21c6eaa0000f33"
     }
    ]
   },

@@ -99,6 +99,7 @@ dead-tired-society.html  Peer support for the burnt out. Big lights off, door aj
 laughingstock.html    A comedy club down a ramp. Disabled comics on their own terms; only their lines stand in the light
 lightbulb-picture-house.html  Two screens of neurodiversity films, a rack with a card for each. House lights up; nothing is blue
 samefood-cafe.html    A café for samefoods and safe foods, seen from above the table. Nothing on a plate touches anything
+collection-collection.html  A dark gallery of our people's collections, a lamp per cabinet and no two alike. The house describes the photos
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 the-garden.html       The knowledge garden. One bed per site we publish, each linking out
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
@@ -149,6 +150,7 @@ data/dead-tired.json  The pegs by the door: what wore us out, one line from some
 data/laughingstock.json  The stage, the bill and the lines in the light. Every set names its comics and its runtime
 data/picture-house.json  The two screens and the rack. Every card says who made it, how long, and what is in it
 data/samefood.json    The table in the window, the menu, the book on the counter, and the regulars' trays as they gave them
+data/collection.json  The cabinets, their lamps, the photographs in them and who described each one. Nothing counted or priced
 data/dance-punks.json The disco's three channels: where each starts in one crate, and in what colour
 data/small-hours.json The diner's quotations, its menu, Up All Night with its permission, and the jukebox
 data/repeater.json    The Repeater's two lines of ours and the log's cards, none of which counts anything
@@ -204,6 +206,7 @@ python3 tools/make-dead-tired.py   # Dead Tired Society's pegs by the door, and 
 python3 tools/make-laughingstock.py # Laughingstock's stage, its bill and the lines in the light, and the credits
 python3 tools/make-picture-house.py # The Lightbulb Picture House's screens and rack, and the credits; refuses a blue
 python3 tools/make-samefood.py     # Samefood Cafe's table, menu, counter and trays, and the credits; refuses anything that touches
+python3 tools/make-collection.py   # The Collection Collection's gallery, cabinets and credits; refuses metadata, a filter, or two lamps alike
 python3 tools/make-dance-punks.py  # the disco's channels and credits; refuses a runtime, shuffle, or two inks alike in greyscale
 python3 tools/make-small-hours.py  # the diner's menu, quotations, record and jukebox; refuses a lyric with no permission
 python3 tools/make-repeater.py     # the Repeater's log and quotations; refuses anything that sends, stores or listens
@@ -440,6 +443,25 @@ sorting other people's dinners; **a food in the window that is not on somebody's
 written**, so a list that comes down takes its food off the plate too; a quotation over thirty words
 or without a record of how it was checked; and a book with no library link. The regulars' own words
 are not swept: they are theirs.
+
+**Photographs of people's collections come in through `tools/intake-collection.py`**, which is
+the one tool here that exists to take work off somebody: drop phone photographs in
+`collection/inbox/` (gitignored) and run `python3 tools/intake-collection.py ryan-pens`. It turns
+each one the right way up *before* the orientation tag goes, strips EXIF, GPS, XMP and everything
+else a phone writes, shrinks it without cropping, moves the original to `collection/inbox/taken/`
+(still gitignored, because it still carries its location) and writes a **stub** into
+`data/collection.json` with every descriptive field empty. Then somebody &mdash; in practice Claude,
+looking at each file &mdash; writes the title, alt and caption and says they looked at the whole frame.
+`make-collection.py` **refuses the stub until then**, so nothing goes up undescribed. It also refuses
+any metadata left on a file (stricter than `make-polaroids.py`: XMP and IPTC as well as EXIF); a
+photograph nobody has said has **no person in it and nothing that says where it was taken**; **a
+maker's name in words Claude wrote** unless it is legible in the photograph and transcribed into
+`reads` &mdash; the herbarium's refusal to guess at a binomial, in a room where everything is sold on
+its name; value, price, rarity and count in the room's voice and in every description, with the
+negation window and with mid-sentence capitals skipped as names (its first refusal was Devon Price);
+a filter, blend or fade reaching a photograph; a full cabinet with no lamp, and **two cabinets with
+the same lamp**; a file with no entry and an entry with no file. Then run `make-webp.py`, which
+decides per photograph whether WebP earns its place.
 
 `make-guild.py` refuses a job with no estimate of how long it takes &mdash; the street's oldest
 promise arriving at a job board, where the cost is a walk rather than a runtime &mdash; refuses a

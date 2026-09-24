@@ -588,6 +588,25 @@
 @font-face { font-family: 'Inclusive Sans'; src: url('fonts/inclusive-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Inclusive Sans'; src: url('fonts/inclusive-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* The Collection Collection (§48). A LABEL FACE AND A FACE THAT GETS OUT OF THE
+   WAY OF THE THINGS. Gloock sets the room's name and the heading on every
+   cabinet's label and nothing at reading size: a sharp, high-contrast serif
+   with ball terminals, the kind of letter a museum cuts its labels in, because
+   in this room every collection is given the label a museum would give it. It
+   is NOT the Mopery's IM Fell (punched, battered, old) and not the Faery Yurt's
+   Cormorant (calligraphic italic warmth): it is clean, new and cut on purpose.
+
+   Hanken Grotesk carries every word that is read, on the labels and off them --
+   a plain, even grotesque with nothing to say for itself, because the things in
+   the cabinets are the loud part and a label that competed with them would be a
+   label nobody needed. One variable file declared at two weights; no italic is
+   shipped, so the room sets titles upright with font-synthesis off rather than
+   letting the browser invent a slant. Both under the SIL Open Font License, read
+   off their own records. See fonts/_sources.json. */
+@font-face { font-family: 'Gloock'; src: url('fonts/gloock-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Hanken Grotesk'; src: url('fonts/hanken-grotesk-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Hanken Grotesk'; src: url('fonts/hanken-grotesk-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1493,6 +1512,29 @@
   --sf-nut:    #B57A3E;   --sf-coffee: #6B4430;   --sf-cheese: #F29B38;
   --sf-ketchup: #B3261E;  --sf-broth:  #EBCF93;   --sf-noodle: #F7EBC0;
   --sf-onion:  #4F8F35;   --sf-nugget: #D9A04E;
+
+  /* The Collection Collection (§48). A DARK GALLERY WITH NO LIGHT OF ITS OWN,
+     where every cabinet brings its own lamp and no two lamps are alike.
+     --cc-dark is the unlit floor and wall every heading and paragraph off the
+     labels stands on; --cc-body is the cabinets themselves, one step up from
+     the dark, and carries no word. --cc-bone is every word on the dark,
+     --cc-dust the fine print there, --cc-brass every link on the dark.
+     --cc-card is THE LABEL: every cabinet's words and every photograph's tag
+     are on one, because in a collection the words live on the labels, and the
+     lamps' glows never carry a word. --cc-ink, --cc-ink-2 and --cc-rust are the
+     ink, the fine print and the links on a label. --cc-line draws the
+     furniture and carries nothing. --cc-daylight and --cc-strip are LAMPS, one
+     each, never two alike, measured in check-contrast.py's ORNAMENT list: they
+     glow round the photographs and never over them. The next lamp an owner
+     chooses joins them here, with a colour neither of these has. CC- PREFIXED
+     THROUGHOUT: `card`, `ink` and `line` are exactly the plain words a :root
+     fills up with, and a custom property declared twice is last-wins and
+     silent. */
+  --cc-dark:   #131211;   --cc-body:   #211E1B;   --cc-line:   #6A6258;
+  --cc-bone:   #EDE7DB;   --cc-dust:   #ABA396;   --cc-brass:  #E4B868;
+  --cc-card:   #F1ECE2;   --cc-ink:    #1D1A17;   --cc-ink-2:  #5C5449;
+  --cc-rust:   #8E3A14;
+  --cc-daylight: #DCE6F4; --cc-strip:  #F4D2A8;
 }
 
 * { box-sizing: border-box; }
@@ -2055,6 +2097,18 @@ div.facade--audio { border: 0; background: none; }
 .door--samefood .door__name  { font-family: 'Fredoka', var(--sans); font-weight: 600; color: var(--sf-ink); font-size: 30px; line-height: 1.1; }
 .door--samefood .door__blurb { font-family: 'Inclusive Sans', var(--sans); color: var(--sf-ink-2); }
 .door--samefood .door__knock { font-family: 'Fredoka', var(--sans); font-weight: 600; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--sf-sauce); }
+
+/* The Collection Collection (§48). THE ONE FRONT IN THE ROW WHOSE AWNING IS A
+   ROW OF CABINETS IN THE DARK: dark bays with a gap of darker between every
+   one, and NO LAMP LIT ON THE FRONT, because every lamp in there is somebody's
+   own and is inside with their things. The name is the room's label face and
+   the knock is its brass.
+   Every ink here is on --cc-dark and is measured in check-contrast.py. */
+.door--collection { background: var(--cc-dark); border-color: var(--cc-line); }
+.door--collection .door__awning { background-color: var(--cc-dark); background-image: linear-gradient(90deg, var(--cc-body) 0 20px, transparent 20px); background-size: 30px 100%; background-position: 5px 0; border-bottom-color: var(--cc-line); }
+.door--collection .door__name  { font-family: 'Gloock', Georgia, serif; font-weight: 400; color: var(--cc-bone); font-size: 27px; line-height: 1.12; }
+.door--collection .door__blurb { font-family: 'Hanken Grotesk', var(--sans); color: var(--cc-dust); }
+.door--collection .door__knock { font-family: 'Hanken Grotesk', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cc-brass); }
 
 .door--feed { background: var(--fd-enamel); border-color: var(--fd-girder); }
 .door--feed .door__awning { background-image: repeating-linear-gradient(180deg, var(--fd-flap) 0 6px, var(--fd-split) 6px 7px); border-bottom-color: var(--fd-girder); }
@@ -10468,7 +10522,182 @@ html[data-intensity="max"] .sf-plate:hover { box-shadow: 0 0 0 9px var(--sf-rim)
 }
 
 
-/* §48 ── Small screens ───────────────────────────────────────────────────────
+/* §48 ── ROOM: The Collection Collection (a shopfront on the street) ───────────
+   A DARK GALLERY WITH NO LIGHT OF ITS OWN, FULL OF OTHER PEOPLE'S COLLECTIONS,
+   EACH IN A CABINET OF ITS OWN UNDER A LAMP OF ITS OWN, AND NO TWO LAMPS ALIKE.
+   The house lights are off. The house brings the furniture -- a writing box, a
+   cupboard, a pegboard, a plant stand, a chest of shallow drawers -- and the
+   owner brings the light, chosen for the thing it lights: a daylight lamp over
+   the inks because a warm bulb lies about their colour, a strip inside the
+   perfume cupboard's door because light spoils perfume. A cabinet with nothing
+   in it stands with its lamp off, and its label is read at full strength.
+
+   IT IS THE ONLY ROOM ON THE STREET LIT BY MORE THAN ONE KIND OF LIGHT, and
+   that is the separation. Covenstead used to be -- a dark kitchen of lamps that
+   did not match -- and when it moved onto the street it became daylit through
+   one window, which is written down in its own section; so this is a light
+   nobody else is using, rather than one taken back. THESE ARE THE COLLISIONS,
+   and every one of them is structural:
+     · THE FEED is the other dark hall with one light per object in it, and
+       every board there is lit by THE SAME light -- one kind of lamp behind one
+       kind of mask, repeated, because a station is a system. Here no two lamps
+       are the same kind, colour or direction, because a collection is not.
+       If two cabinets ever share a lamp, this has become the Feed with shelves.
+     · THE MOPERY is the other cold dark room full of kept things, and it is lit
+       by candles along the top shelves, a foot of light each in a building of
+       stone. There is no flame in here anywhere: every lamp is electric and was
+       chosen for what it does to the thing under it, not for how it feels.
+     · THE WARM ROOMS -- the yurt, the burrow, the den, the cave, the
+       Mopery, the checkpoint, the meadow -- are each lit by one warm source you
+       could sit beside. Nobody sits in here. You walk past the cabinets, and the
+       ground between them stays dark.
+     · THE SMALL HOURS is lit rooms seen from the dark outside them. Here you are
+       inside, in the dark, and the lit things are small and arm's length away.
+     · SAMEFOOD CAFE is the other room where every panel is one component, and
+       there the sameness IS the subject. Here the label is the same card on
+       every cabinet because the HOUSE wrote the labels; everything behind the
+       label is somebody else's and matches nothing.
+
+   EVERY WORD IS ON A LABEL OR ON THE BARE DARK, NEVER IN A LAMP'S LIGHT. The
+   glows are ornament and carry nothing, so no word's contrast ever depends on
+   how far a glow reaches -- the Rabbit Hole's rule about a ground that changes
+   under a word. THE GLOW GOES ROUND A PHOTOGRAPH AND NEVER OVER IT: it lives on
+   the case's ::before, BEHIND everything in the case, and make-collection.py
+   refuses a filter, a blend or a fade that reaches a photograph -- a lamp's
+   colour laid over somebody's picture of an ink would change the ink, which is
+   the one thing the lamp was chosen not to do. NOTHING MOVES AT ANY SETTING and
+   no lamp flickers, for Club Chronic's reason; at MAX a lit cabinet's glow
+   deepens a touch on hover, which is a colour and not a movement. */
+
+.collections { background: var(--cc-dark); color: var(--cc-bone); font-family: 'Hanken Grotesk', system-ui, sans-serif; font-synthesis: none; }
+.collections :where(i, em, cite) { font-style: normal; }
+.collections a { color: var(--cc-brass); text-underline-offset: 3px; }
+.collections a:hover { color: var(--cc-bone); }
+/* THE RING, decided at the room: brass on the dark, the label's own ink on a
+   label, because §2's yellow was chosen for a different street at night and a
+   pale card needs a dark ring -- the Guild's lesson. */
+.collections :focus-visible { outline-color: var(--cc-brass); }
+.collections :where(.cc-label, .cc-tag) :focus-visible { outline-color: var(--cc-ink); }
+/* :where() so this base is (0,1,0) and every component below wins by order --
+   Dead Tired Society's day-one lesson. */
+.collections :where(p, li) { font-size: 17px; line-height: 1.65; }
+.collections strong { font-weight: 700; color: var(--cc-bone); }
+.collections code { font-size: .9em; color: var(--cc-bone); }
+.collections .backlink { font-family: 'Hanken Grotesk', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--cc-brass); }
+
+.cc-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.cc-trail { margin: 0; font-size: 14px; color: var(--cc-dust); }
+
+.cc-head { margin: 34px 0 0; }
+.cc-over { margin: 0; font-weight: 700; font-size: 13px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--cc-dust); }
+.collections h1 {
+  font-family: 'Gloock', Georgia, serif; font-weight: 400;
+  font-size: clamp(46px, 8.6vw, 100px); line-height: 1.02; letter-spacing: -.005em;
+  color: var(--cc-bone); margin: 10px 0 0;
+}
+.cc-sub { margin: 14px 0 0; max-width: 46ch; font-size: clamp(20px, 2.6vw, 25px); line-height: 1.4; color: var(--cc-bone); }
+.cc-sub b { font-weight: 700; color: var(--cc-brass); }
+.cc-art { margin: 28px 0 0; line-height: 0; }
+.cc-art svg { display: block; width: 100%; height: auto; }
+.collections .cc-window { margin: 12px 0 0; max-width: 72ch; font-size: 15px; color: var(--cc-dust); }
+
+.cc-lede { margin: 30px 0 0; max-width: 62ch; font-size: 20px; line-height: 1.6; }
+
+.cc-part { margin: 60px 0 0; }
+.cc-part > :where(p) { margin: 0 0 14px; max-width: 70ch; }
+.collections h2 { font-family: 'Gloock', Georgia, serif; font-weight: 400; font-size: clamp(30px, 4.2vw, 42px); line-height: 1.12; color: var(--cc-bone); margin: 0 0 14px; }
+.collections h3 { font-family: 'Gloock', Georgia, serif; font-weight: 400; font-size: 30px; line-height: 1.12; color: var(--cc-ink); margin: 0; }
+
+/* A QUOTATION ON THE BARE DARK, set off by a rule in the furniture's line. */
+.cc-quote { margin: 18px 0 24px; padding: 2px 0 2px 20px; max-width: 64ch; border-left: 2px solid var(--cc-line); }
+.cc-quote p { margin: 0; font-size: 20px; line-height: 1.55; color: var(--cc-bone); }
+.cc-quote cite { display: block; margin: 10px 0 0; font-size: 14px; line-height: 1.55; color: var(--cc-dust); }
+.cc-checked { display: block; margin: 4px 0 0; }
+
+.cc-rules { margin: 18px 0 0; padding: 0 0 0 1.1em; max-width: 70ch; display: grid; gap: 12px; }
+.cc-rules li::marker { color: var(--cc-brass); }
+.cc-further { font-size: 15px; color: var(--cc-dust); }
+.collections .quest { margin-top: 48px; }
+
+/* THE CABINETS. Each one is a case one step up from the dark, standing apart
+   from the next, with the label in it and the things beside the label. The
+   case's ::before is where its lamp is: BEHIND everything in the case, so the
+   light falls round the photographs and never on them. A dark case -- nothing
+   in it yet -- has no ::before at all. */
+.cc-cases { list-style: none; margin: 34px 0 0; padding: 0; display: grid; gap: 44px; }
+.cc-case {
+  position: relative; isolation: isolate;
+  display: grid; grid-template-columns: minmax(0, 320px) minmax(0, 1fr); gap: 26px; align-items: start;
+  background: var(--cc-body); border: 1.5px solid var(--cc-line);
+  padding: 24px;
+}
+.cc-case.cc-case--dark { grid-template-columns: minmax(0, 560px); }
+.cc-case::before { content: none; position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+
+/* THE LAMPS, one per cabinet and never two alike. Lit only on a case that has
+   something in it, which is why every rule here is :not(.cc-case--dark). */
+.cc-lamp--daylight:not(.cc-case--dark)::before {
+  content: "";
+  background: radial-gradient(ellipse 85% 75% at 0% 0%, color-mix(in srgb, var(--cc-daylight) 28%, transparent), transparent 72%);
+}
+.cc-lamp--door-strip:not(.cc-case--dark)::before {
+  content: "";
+  background: linear-gradient(180deg, color-mix(in srgb, var(--cc-strip) 24%, transparent), transparent 58%);
+  border-top: 5px solid var(--cc-strip);
+}
+html[data-intensity="max"] .cc-lamp--daylight:not(.cc-case--dark):hover::before {
+  background: radial-gradient(ellipse 90% 80% at 0% 0%, color-mix(in srgb, var(--cc-daylight) 36%, transparent), transparent 74%);
+}
+html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::before {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--cc-strip) 32%, transparent), transparent 62%);
+}
+
+/* THE FURNITURE, the house's guess at each kind of thing, told apart by its
+   build rather than by any colour: none of them brings a colour the room does
+   not already have. */
+.cc-case--writing-box { border-top-width: 12px; }
+/* The velvet bed is HALF-SEEN-THROUGH so the lamp's light falls on it: an
+   opaque bed would sit over the case's ::before and put the things in the dark. */
+.cc-case--writing-box .cc-items { padding: 14px; background-color: color-mix(in srgb, var(--cc-dark) 55%, transparent); background-image: repeating-linear-gradient(90deg, var(--cc-body) 0 2px, transparent 2px 64px); }
+.cc-case--cupboard { border-style: double; border-width: 7px; }
+.cc-case--pegboard { background-image: radial-gradient(circle, var(--cc-dark) 0 2.2px, transparent 2.7px); background-size: 20px 20px; background-position: 10px 10px; }
+.cc-case--plant-stand { border-bottom-width: 10px; }
+.cc-case--specimen-chest { background-image: linear-gradient(0deg, var(--cc-line) 0 1.5px, transparent 1.5px); background-size: 100% 46px; }
+
+/* THE LABEL. The same card on every cabinet, because the house wrote the
+   labels; everything behind a label is somebody else's and matches nothing. */
+.cc-label { background: var(--cc-card); color: var(--cc-ink); padding: 20px 22px; border-radius: 2px; }
+.cc-label a, .cc-tag a { color: var(--cc-rust); }
+.cc-label p { margin: 10px 0 0; }
+.cc-label__whose { margin: 0 0 4px !important; font-weight: 700; font-size: 13px; letter-spacing: 1.8px; text-transform: uppercase; color: var(--cc-ink-2); }
+.cc-label__said { font-size: 17px; color: var(--cc-ink); }
+.cc-label__who { color: var(--cc-ink-2); }
+.cc-label__lamp, .cc-label__words, .cc-label__given { font-size: 14px; line-height: 1.55; color: var(--cc-ink-2); }
+.cc-empty { font-size: 16px; color: var(--cc-ink); }
+
+/* THE THINGS, each in a mat on a tag. The mat goes round the photograph and is
+   the only thing that touches it; the tag hangs under it with the title and
+   the caption. No filter, blend or fade reaches .cc-photo -- see above. */
+.cc-items { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
+.cc-item figure { margin: 0; }
+.cc-mat { background: var(--cc-card); padding: 10px; line-height: 0; }
+.cc-photo { display: block; width: 100%; height: auto; }
+.cc-tag { display: block; margin: 8px 0 0; padding: 10px 12px; background: var(--cc-card); color: var(--cc-ink); font-size: 15px; line-height: 1.45; }
+.cc-tag__title { display: block; font-weight: 700; color: var(--cc-ink); }
+.cc-tag__named { display: block; font-size: 13px; color: var(--cc-ink-2); }
+.cc-tag__caption { display: block; margin: 2px 0 0; color: var(--cc-ink-2); }
+
+/* On a phone the label goes above the things and the things go two across and
+   then one, and nothing is hidden to save room. Written last in the section,
+   after every rule it overrides -- the sound board's lesson about source order. */
+@media (max-width: 760px) {
+  .cc-case, .cc-case.cc-case--dark { grid-template-columns: minmax(0, 1fr); padding: 16px; gap: 18px; }
+  .cc-lede { font-size: 18px; }
+  .cc-items { grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); }
+}
+
+
+/* §49 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -10575,7 +10804,7 @@ html[data-intensity="max"] .sf-plate:hover { box-shadow: 0 0 0 9px var(--sf-rim)
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §48 says every
+   shipped with no rule here at all — which on a street whose §49 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -10699,7 +10928,7 @@ html[data-intensity="max"] .sf-plate:hover { box-shadow: 0 0 0 9px var(--sf-rim)
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §49 ── Print ───────────────────────────────────────────────────────────────
+/* §50 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

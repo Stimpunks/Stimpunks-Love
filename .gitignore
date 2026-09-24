@@ -13,3 +13,8 @@ node_modules/
 
 # Local Netlify folder
 .netlify
+
+# The Collection Collection: photographs as they arrive, BEFORE
+# tools/intake-collection.py has stripped their location and every other byte of
+# metadata. Never committed. Empty collection/inbox/taken/ by hand when done.
+collection/inbox/

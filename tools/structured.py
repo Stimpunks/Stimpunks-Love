@@ -50,6 +50,7 @@ TYPES = {
     "liner-notes.html": "CollectionPage",
     "changelog.html": "CollectionPage",
     "pebble-board.html": "CollectionPage",
+    "collection-collection.html": "CollectionPage",
 }
 BEGIN, END = "<!-- structured-data:begin -->", "<!-- structured-data:end -->"
 

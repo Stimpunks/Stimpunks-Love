@@ -54,7 +54,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 LOG = ROOT / "data" / "webp.json"
-DIRS = ["raven", "oracle", "alice", "pebbles", "photos"]
+DIRS = ["raven", "oracle", "alice", "pebbles", "photos", "collection"]
 FIDELITY = 0.98        # SSIM against the source, on luminance
 MIN_SAVING = 0.10      # a swap has to earn its place
 QUALITIES = [75, 80, 85, 90, 94]
@@ -103,7 +103,10 @@ def main():
     log["_what"] = ("Every JPEG make-webp.py has looked at: the quality chosen and the SSIM it "
                     "reached, or why the JPEG was kept. Decided by measurement; see the tool.")
     files = log.setdefault("files", {})
-    todo = [p for d in DIRS for p in sorted((ROOT / d).rglob("*.jpg"))]
+    # collection/inbox/ holds photographs BEFORE their metadata is stripped and
+    # is never committed; nothing in it is ever a candidate.
+    todo = [p for d in DIRS for p in sorted((ROOT / d).rglob("*.jpg"))
+            if "inbox" not in p.relative_to(ROOT).parts]
     swapped = {}
     with tempfile.TemporaryDirectory() as t:
         tmp = Path(t)

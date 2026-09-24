@@ -1280,7 +1280,40 @@
       },
       "learned": "A special does not have to be one dish for everybody. A café can default to the same thing every time and still make it a different thing for every guest, because it knows its regulars — and for a great many of us the same again is how eating becomes possible at all."
     },
-
+    {
+      "id": "collection-tag",
+      "page": "collection-collection.html",
+      "room": "The Collection Collection",
+      "title": "The question nobody asks",
+      "posted": "There is a dark gallery on the street full of other people’s collections, each under a lamp of its own, and its house rules say there is one question nobody in there will ever ask you about yours. Go and find out which.",
+      "rank": 1,
+      "takes": "as long as it takes to walk past a row of cabinets without counting them",
+      "target": "a luggage tag that has come off its string",
+      "code": "LUGGAGETAG",
+      "hints": [
+        "On the street itself, in the row of shopfronts — the dark one whose awning is a row of unlit bays.",
+        "The house rules are further down the gallery, after the cabinets.",
+        "Right at the foot of the gallery, under the section about whose these are, where a label has come loose."
+      ],
+      "ask": {
+        "question": "The Collection Collection’s house rules say nobody in there will ask you one question about your collection. What is it? Two words.",
+        "accept": [
+          "how many",
+          "howmany",
+          "how many things",
+          "how many have you got",
+          "how many do you have"
+        ],
+        "answer": "How many",
+        "why": "A collection is not a number, and nothing in that gallery is counted — not the things, not the cabinets. A cabinet with a number beside it has become an inventory.",
+        "hints": [
+          "It is the first of the house rules.",
+          "It is the question everybody asks the moment they see a shelf of anything.",
+          "Two words, and the answer to it would be a number."
+        ]
+      },
+      "learned": "A collection does not have to be counted to count. The gallery shows what people keep, lit the way they choose, with no totals, no prices and no ranking — because a number beside somebody’s things turns something they love into an inventory."
+    },
     {
       "id": "looming-flood",
       "page": "looming-rocks.html",

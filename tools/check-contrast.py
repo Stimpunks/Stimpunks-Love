@@ -569,6 +569,17 @@ NFS_HALOGEN, NFS_LED, NFS_FOG = "#FFE1A1", "#E4ECFF", "#FFD23F"
 SF_TABLE, SF_PLATE, SF_WELL = "#E6E0EB", "#FCFAF6", "#F3EEE7"
 SF_INK, SF_INK2, SF_SAUCE, SF_CRESS = "#2A1F30", "#5A4B60", "#9C2F1E", "#3E5C22"
 
+# The Collection Collection (§48). TWO GROUNDS AND NO THIRD, ON PURPOSE: the bare
+# dark of an unlit gallery, which the headings, the paragraphs off the labels
+# and the quotations stand on, and THE LABEL, which every cabinet's words and
+# every photograph's tag stand on. The cabinets themselves (CC_BODY) carry no
+# word, and nor do the lamps' glows, which is why no pair here is held against a
+# glow: the room is built so that no word's contrast depends on how far a light
+# reaches. CC_BODY, CC_LINE and both lamps are in ORNAMENT with their numbers.
+CC_DARK, CC_CARD = "#131211", "#F1ECE2"
+CC_BONE, CC_DUST, CC_BRASS = "#EDE7DB", "#ABA396", "#E4B868"
+CC_INK, CC_INK2, CC_RUST = "#1D1A17", "#5C5449", "#8E3A14"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -1938,6 +1949,24 @@ PAIRS = [
     # The job marker is a plastic grass divider in --sf-cress lying on the
     # table, held to the body threshold a marker is held to.
     (SF_CRESS, SF_TABLE, False, "samefood: the job marker, a plastic grass divider"),
+    # ── The Collection Collection (§48) ──────────────────────────────────────
+    # EVERY INK AGAINST THE ONE GROUND IT MEETS. Nothing stands on a cabinet or
+    # in a lamp's light, so each ink has exactly one ground and that is the pair.
+    (CC_BONE,  CC_DARK, False, "collection: the h1, every heading, every paragraph and house rule, "
+                               "every quotation, and the name on the street door"),
+    (CC_DUST,  CC_DARK, False, "collection: the trail, the line over the h1, the window line, every "
+                               "cite and checked line, the further reading, the blurb on the street "
+                               "door, and the job marker's string"),
+    (CC_BRASS, CC_DARK, False, "collection: every link off the labels, the backlink, the bold line "
+                               "under the h1, the markers on the house rules, the knock on the street door"),
+    (CC_INK,   CC_CARD, False, "collection: every heading and every word on a cabinet's label, the "
+                               "title and every word on a photograph's tag"),
+    (CC_INK2,  CC_CARD, False, "collection: whose cabinet it is, the lamp line, the words line, the "
+                               "given line, a tag's caption and who named it"),
+    (CC_RUST,  CC_CARD, False, "collection: any link on a label or a tag"),
+    # The job marker is a luggage tag in --cc-card lying on the dark floor with
+    # its string in --cc-dust (held above), both to the body threshold a marker is held to.
+    (CC_CARD,  CC_DARK, False, "collection: the job marker, a luggage tag off its string"),
 
 
 
@@ -2008,6 +2037,18 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#211e1b": "collection: the cabinets, one step up from the dark, 1.13 on it. A cabinet carries "
+               "no word -- every word is on a label -- and is told from the floor by its outline in "
+               "--cc-line and by its label.",
+    "#6a6258": "collection: the line every piece of furniture is drawn in, and every cabinet's "
+               "outline, 3.12 on the dark and 2.76 on a cabinet. It carries nothing; the "
+               "furniture is the house's and is described in words under the drawing.",
+    "#dce6f4": "collection: THE DAYLIGHT LAMP over Ryan's pens and ink, 14.85 on the dark. A glow "
+               "behind the things in a lit cabinet at under a third of its strength, never a "
+               "ground under any word and never laid over a photograph.",
+    "#f4d2a8": "collection: THE STRIP LIGHT inside Ryan's perfume cupboard's door, 13.04 on the dark. "
+               "Its bar and its glow, behind the things in the cabinet when there are any; never a "
+               "ground under any word and never laid over a photograph.",
     "#b3a7bd": "samefood: the rim of every plate and every well in the drawing, the rim of every "
                "plate on the page, and the ring round the dot beside each house rule. 1.77 on the "
                "table and 2.19 on the plate; it carries no word, and the plates are told from the "

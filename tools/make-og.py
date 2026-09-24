@@ -723,6 +723,25 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--samefood .og-table {{ margin: auto 0 8px !important; line-height: 0; }}
 .og--samefood .og-table svg {{ display: block; width: auto; height: 290px; margin: 0 auto; }}
 
+/* the collection collection — THE GALLERY FROM THE DOORWAY, DARK, WITH A LAMP
+   ONLY WHERE THERE IS SOMETHING TO LIGHT. The drawing is LIFTED whole out of the
+   page, the table's rule and the bed's, because make-collection.py draws it from
+   the data -- a lamp is lit only over a cabinet with something in it -- and a
+   copy here would be the one drawing that could show a light over an empty
+   cabinet. The line under the name is lifted too, and so is the sentence that
+   says what the drawing shows, which is where the card's alt comes from. */
+.og--collection {{ width: 100%; padding: 36px 60px 0; gap: 6px; justify-content: flex-start; }}
+.og--collection .og-over {{ margin: 0 !important; font-family: 'Hanken Grotesk', sans-serif; font-weight: 700;
+  font-size: 18px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--cc-dust); }}
+.og--collection h1 {{ font-size: 84px; margin: 0 !important; }}
+.og--collection .og-sub {{ margin: 0 !important; font-family: 'Hanken Grotesk', sans-serif; font-size: 28px;
+  line-height: 1.25; color: var(--cc-bone); }}
+.og--collection .og-sub b {{ font-weight: 700; color: var(--cc-brass); }}
+.og--collection .og-lede {{ font-family: 'Hanken Grotesk', sans-serif; color: var(--cc-dust);
+  max-width: 1040px; font-size: 22px; line-height: 1.4; margin: 4px 0 0 !important; }}
+.og--collection .og-gallery {{ margin: auto 0 0 !important; line-height: 0; }}
+.og--collection .og-gallery svg {{ display: block; width: auto; height: 280px; margin: 0 auto; }}
+
 /* dead tired society — THE DOORWAY, AND NOTHING ON THE CARD STANDS IN ITS LIGHT.
    The drawing is LIFTED whole out of the page, the bed's rule and the shaft's,
    because a second copy of a drawing goes stale in one of the two places it
@@ -2337,6 +2356,37 @@ def card_samefood(p):
     )
 
 
+def card_collection(p):
+    # THE GALLERY IS LIFTED FROM THE PAGE, and so are the line under the name
+    # and the window line that says in words what the drawing shows -- so the
+    # card's alt cannot claim a lamp is lit that the room has switched off. The
+    # lede is the page's own og:description.
+    sub = re.search(r'<p class="cc-sub">(.*?)</p>', p["src"], re.S)
+    win = re.search(r'<p class="cc-window">In the picture: (.*?)</p>', p["src"], re.S)
+    if not (sub and win):
+        raise SystemExit(
+            "REFUSING: collection-collection.html has lost its line under the name or the\n"
+            "window line under the drawing, and its card is built out of both. Redesign the\n"
+            "card on purpose.")
+    sub_html = sub.group(1).strip()
+    sub_plain = html.unescape(re.sub(r"<[^>]+>", "", sub_html)).strip()
+    win_plain = html.unescape(re.sub(r"<[^>]+>", "", win.group(1))).strip()
+    return (
+        "",
+        f'<div class="og og--collection" data-fit="card">'
+        f'<p class="og-over">A shopfront on the street</p>'
+        f'{p["h1"]}'
+        f'<p class="og-sub">{sub_html}</p>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-gallery">{p["gallery"]}</div>'
+        f'</div>',
+        f"A near-black card, the unlit floor of a gallery. Small pale-grey capitals reading a "
+        f"shopfront on the street, then \u201c{p['h1text']}\u201d in a large, sharp, "
+        f"high-contrast bone-white serif, and under it: {sub_plain} Then: {p['desc_plain']} "
+        f"Across the bottom, a drawing in thin dim lines of {win_plain[0].lower() + win_plain[1:]}",
+    )
+
+
 def card_dead_tired(p):
     # THE DOORWAY IS LIFTED FROM THE PAGE and the est. line is written here
     # because it is the room's one joke rather than its description; the lede
@@ -2455,6 +2505,7 @@ CARDS = {
     "sithen":       card_sithen,
     "covenstead":   card_covenstead,
     "samefood":     card_samefood,
+    "collections":  card_collection,
     "dead-tired":   card_dead_tired,
     "laughingstock": card_laughingstock,
     "picture-house": card_picture_house,
@@ -2576,6 +2627,7 @@ def main():
         ("bed",      "healing-checkpoint.html", r'(<svg class="hc-bed".*?</svg>)'),
         ("doorway",  "dead-tired-society.html", r'(<svg class="dts-doorway".*?</svg>)'),
         ("table",    "samefood-cafe.html", r'(<svg class="sf-table-art".*?</svg>)'),
+        ("gallery",  "collection-collection.html", r'(<svg class="cc-gallery".*?</svg>)'),
         ("stage",    "laughingstock.html", r'(<svg class="ls-stage".*?</svg>)'),
         ("house",    "lightbulb-picture-house.html", r'(<svg class="lph-auditorium".*?</svg>)'),
         ("crowd",    "dance-punks.html",  r'(<svg class="dp-crowd".*?</svg>)'),
