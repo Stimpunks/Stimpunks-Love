@@ -590,6 +590,8 @@ CC_INK, CC_INK2, CC_RUST = "#1D1A17", "#5C5449", "#8E3A14"
 MM_MAT, MM_BOARD, MM_ROAD, MM_FACE = "#245B4A", "#E6E2D8", "#D8D3C7", "#F6F3EC"
 MM_PRINT, MM_DIM, MM_LINK = "#EEF4EE", "#C9DED2", "#F4E3A0"
 MM_INK, MM_PENCIL, MM_HERE = "#22302B", "#4B5A54", "#F2C230"
+VPL_WALL, VPL_PANEL, VPL_CHIP = "#EDB32A", "#FFF6DC", "#FBE6A6"
+VPL_INK, VPL_INK2, VPL_BEET, VPL_LEAF = "#2A1030", "#5B2F52", "#7E1449", "#1A5226"
 
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
@@ -1978,6 +1980,37 @@ PAIRS = [
     # The job marker is a luggage tag in --cc-card lying on the dark floor with
     # its string in --cc-dust (held above), both to the body threshold a marker is held to.
     (CC_CARD,  CC_DARK, False, "collection: the job marker, a luggage tag off its string"),
+    # ── Vital Plant Living (§50) ─────────────────────────────────────────────
+    # EVERY INK AGAINST EVERY GROUND IT MEETS. The wall is the darkest of the
+    # three, so it is the worst case for every ink; the panel and the chip are
+    # held as well, because a pair that passes on the wall and was never tried
+    # on a panel is a pair nobody decided. A TICKED CHIP INVERTS -- panel ink on
+    # the room's own near-black -- and that is a pair too.
+    (VPL_INK,   VPL_WALL,  False, "vital: the h1, every heading, every paragraph and house rule on "
+                                  "the wall, the step names, the group names, and the name on the street door"),
+    (VPL_INK,   VPL_PANEL, False, "vital: every word on a panel -- the name panel, the pass and its "
+                                  "ticket, every combo, the counter -- and every chip nobody has ticked"),
+    (VPL_INK,   VPL_CHIP,  False, "vital: the rules of thumb, the readout under the ticket and on a "
+                                  "combo, and a chip under the pointer"),
+    (VPL_INK2,  VPL_WALL,  False, "vital: the trail, the line over the h1, the window line, the line "
+                                  "under the rules of thumb, the group notes, every track's uploader "
+                                  "and runtime, the blurb on the street door"),
+    (VPL_INK2,  VPL_PANEL, False, "vital: each combo's base line, the ticket's empty line, the "
+                                  "flavour bases' small print on an unticked chip, the fallback's label"),
+    (VPL_BEET,  VPL_WALL,  False, "vital: every link on the wall, the backlink, the bold word in the "
+                                  "tagline, the knock on the street door"),
+    (VPL_BEET,  VPL_PANEL, False, "vital: every link on a panel, including the one on a combo's readout"),
+    (VPL_BEET,  VPL_CHIP,  False, "vital: the link in a combo's readout, which sits on chip-coloured ground"),
+    (VPL_PANEL, VPL_INK,   False, "vital: a ticked chip, every button, and the stereo's facade"),
+    (VPL_CHIP,  VPL_INK,   False, "vital: the flavour bases' small print on a ticked chip"),
+    (VPL_WALL,  VPL_INK,   True,  "vital: PRESS PLAY on the stereo's facade, in the sign face at 16px, "
+                                  "held to the large-text bar only because it is also -- see the pair above -- well over 4.5"),
+    (VPL_PANEL, VPL_INK2,  False, "vital: a ticked chip under the pointer"),
+    (VPL_PANEL, VPL_BEET,  False, "vital: a button under the pointer"),
+    # The job marker is a sprig of cilantro in --vpl-leaf lying on the wall,
+    # held to the body threshold a marker is held to. The leaves on the shelf
+    # are the same ink on the same wall.
+    (VPL_LEAF,  VPL_WALL,  False, "vital: the job marker, a sprig of cilantro, and every leaf on the shelf"),
     # ── The Map (§49) ────────────────────────────────────────────────────────
     (MM_PRINT, MM_MAT,   False, "map: the h1, every heading and paragraph off the model, and the "
                                 "blurb on the street's mapboard"),
@@ -2067,6 +2100,38 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#b5562c": "vital: the terracotta of every pot on the shelf, cut open, 2.56 on the wall and 2.95 "
+               "against its own soil. Every pot is carried by its --vpl-ink outline at 3.56; it carries no word.",
+    "#3a2618": "vital: the soil inside every pot, 7.54 on the wall. It carries no word; what grows in it "
+               "is drawn in the food inks with an ink outline, which is the Garden's soil-line rule.",
+    "#fffdf6": "vital: the cut face of the bowl in the builder's drawing, 1.06 on the panel, carried by "
+               "its --vpl-ink outline at 16.98. Drawing only.",
+    "#f7edcf": "vital: the rice ink -- rice, tofu, garlic, the white of a scallion, every root on the "
+               "shelf -- 1.08 on the panel and 12.22 on the soil. Carried by its ink outline. Drawing only.",
+    "#f2c14a": "vital: the gold ink -- potatoes, polenta, lemons, ginger -- 1.56 on the panel, 1.13 on the "
+               "wall and 8.50 on the soil. Carried by its ink outline. Drawing only.",
+    "#c99a5e": "vital: the tan ink -- beans, tempeh, pita, the shelf's plank -- 2.35 on the panel, "
+               "carried by its ink outline. Drawing only.",
+    "#7a4a26": "vital: the brown ink -- lentils, mushrooms, the lemon tree's trunk, a slice of bread's "
+               "crust -- 6.87 on the panel. Drawing only.",
+    "#3b2427": "vital: the bean ink -- black beans, soy sauce, olives -- 13.26 on the panel and 1.21 "
+               "against the ink outline, so it is told apart by its shape. Drawing only.",
+    "#3f8f3a": "vital: the green ink -- greens, broccoli, scallions in a bowl -- 3.74 on the panel. "
+               "Drawing only; the leaves on the shelf are --vpl-leaf, which is a pair.",
+    "#9ccb5a": "vital: the sprout ink -- napa cabbage, snap peas, lime -- 1.75 on the panel and 1.00 on "
+               "the wall, carried by its ink outline at 9.14. Drawing only.",
+    "#d2432e": "vital: the red ink -- chili, tomato, bell pepper, sriracha, the red potatoes on the "
+               "shelf -- 4.25 on the panel and 3.12 on the soil. THE ONLY RED IN THE ROOM and it is "
+               "food: nothing the room itself wears is red. Drawing only.",
+    "#ec8a2b": "vital: the orange ink -- carrots, kimchi, papaya -- 2.36 on the panel and 5.60 on the "
+               "soil, carried by its ink outline. Drawing only.",
+    "#7a2c68": "vital: the plum ink -- red onions, blueberries, black salt -- 8.15 on the panel. "
+               "Drawing only.",
+    "#e9cf72": "vital: the oil ink -- oils, mirin, vinegar -- 1.43 on the panel, a drizzle carried by "
+               "its ink edge. Drawing only.",
+    "#f4eedf": "vital: rice paper, a wrap in the drawing, 1.07 on the panel, carried by its ink "
+               "outline. Drawing only.",
+    "#1f2e24": "vital: nori, a wrap in the drawing, 13.20 on the panel. Drawing only.",
     "#2c6553": "map: the fine grid printed on the cutting mat, 1.16 on the mat. It carries nothing.",
     "#4f8c76": "map: the heavy grid printed on the mat, the line the job marker stands on and the "
                "rule over the tags, 2.00 on the mat. It carries nothing.",

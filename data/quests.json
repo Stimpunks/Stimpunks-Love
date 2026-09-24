@@ -1349,6 +1349,38 @@
       "learned": "A collection does not have to be counted to count. The gallery shows what people keep, lit the way they choose, with no totals, no prices and no ranking — because a number beside somebody’s things turns something they love into an inventory."
     },
     {
+      "id": "vital-sprig",
+      "page": "vital-plant-living.html",
+      "room": "Vital Plant Living",
+      "title": "Say it plainly",
+      "posted": "There is a kitchen on the street whose name over the door is a translation, and the room says so near the top. Go and find out what the old name's first word comes from.",
+      "rank": 1,
+      "takes": "about as long as it takes to read a menu board",
+      "target": "a sprig of cilantro, fallen off the shelf",
+      "code": "SPRIG",
+      "learned": "A name can be a translation and say so. Borrowing a word from somebody's faith for a menu that does not keep it would be a claim about the food; saying what the word means in plain English, and crediting where it came from, is the honest version.",
+      "hints": [
+        "On the street itself, in the row of shopfronts: the turmeric one whose awning is a row of pots.",
+        "Near the top of the kitchen, under the lede, there is a panel about where its name comes from.",
+        "Right at the foot of the kitchen, under the section about whose these are, where something fell off the shelf over the counter."
+      ],
+      "ask": {
+        "question": "The kitchen was going to be called Ital Plant Livity. Which English word does Ital come from?",
+        "accept": [
+          "vital",
+          "vital.",
+          "the word vital"
+        ],
+        "answer": "Vital",
+        "why": "Ital is vital with the v taken off, so that the word begins with I, which Rastafari speech does to a great many words. The kitchen is not Ital, because it cooks with salt, MSG and things out of packets, so the name over the door says vital in plain English instead.",
+        "hints": [
+          "It is in the panel headed where the name comes from.",
+          "It is also the first word of the name over the door.",
+          "Take one letter off the front of it and you have Ital."
+        ]
+      }
+    },
+    {
       "id": "looming-flood",
       "page": "looming-rocks.html",
       "room": "Looming Rocks Amphitheatre",

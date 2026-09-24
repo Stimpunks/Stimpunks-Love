@@ -186,6 +186,23 @@
     }
    ]
   },
+  "bagel-fat-one": {
+   "family": "Bagel Fat One",
+   "category": "Display",
+   "designer": "Kyungwon Kim, JAMO",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/bagelfatone",
+   "copyright": "Copyright 2022 The Bagel Fat Project Authors (https://github.com/JAMO-TYPEFACE/BagelFat)",
+   "repository": "https://github.com/JAMO-TYPEFACE/BagelFat",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "bagel-fat-one-400.woff2",
+     "sha": "ccfc6ff997308688"
+    }
+   ]
+  },
   "barlow": {
    "family": "Barlow",
    "category": "Sans Serif",
@@ -206,6 +223,29 @@
      "style": "normal",
      "file": "barlow-600.woff2",
      "sha": "488b58098126c00b"
+    }
+   ]
+  },
+  "be-vietnam-pro": {
+   "family": "Be Vietnam Pro",
+   "category": "Sans Serif",
+   "designer": "Lâm Bảo, Tony Le, ViệtAnh Nguyễn",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/bevietnampro",
+   "copyright": "Copyright 2021 The Be Vietnam Pro Project Authors (https://github.com/bettergui/BeVietnamPro)",
+   "repository": "https://github.com/bettergui/BeVietnamPro",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "be-vietnam-pro-400.woff2",
+     "sha": "d25f70ff7404fddb"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "be-vietnam-pro-700.woff2",
+     "sha": "cf841d2b615f068e"
     }
    ]
   },

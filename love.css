@@ -622,6 +622,28 @@
 @font-face { font-family: 'Albert Sans'; src: url('fonts/albert-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Albert Sans'; src: url('fonts/albert-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Vital Plant Living (§50). A FAT SIGN AND A FACE THAT GOES DOWN A LIST. Bagel
+   Fat One sets the kitchen's name, its headings and the names on the board, and
+   nothing at reading size: a heavy, round, cut-out letter, the kind a menu board
+   is painted in, and fat on purpose, because everything in this room is piled
+   up. It is NOT Samefood Cafe's Fredoka (one mould, every stroke the same curve)
+   and not the Healing Checkpoint's Rubik (squared off, game-like): its counters
+   pinch and its joins are thick where the strokes pile into each other, which
+   is this room's one rule at the size of a letter.
+
+   Be Vietnam Pro carries every word that is read -- a pantry is a long list and
+   this is an open, round-shouldered grotesque that is easy going down one. Two
+   weights, two files; no italic is shipped, so the room sets nothing italic
+   with synthesis off rather than letting the browser invent a slant the
+   Foundry would then be lying about. ONLY THE LATIN SUBSET IS SHIPPED, which is
+   why the credit does not claim the face's Vietnamese: the designers' own
+   names fall back for three letters, and saying otherwise would be a false
+   sentence on the page that makes it. Both under the SIL Open Font License,
+   read off their own records. See fonts/_sources.json. */
+@font-face { font-family: 'Bagel Fat One'; src: url('fonts/bagel-fat-one-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Be Vietnam Pro'; src: url('fonts/be-vietnam-pro-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Be Vietnam Pro'; src: url('fonts/be-vietnam-pro-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1571,6 +1593,35 @@
   --mm-face:   #F6F3EC;   --mm-top:    #FFFEFA;   --mm-side:   #C9C3B5;
   --mm-ink:    #22302B;   --mm-pencil: #4B5A54;
   --mm-here:   #F2C230;   --mm-pin:    #D93A2B;
+
+  /* Vital Plant Living (§50). A PLANT-BASED KITCHEN DRAWN CUT THROUGH THE
+     MIDDLE, where everything in the bowl touches. --vpl-wall is the turmeric
+     wall every word off a panel stands on; --vpl-panel is the rice-paper
+     panel every combo, the pass and the ticket are on, and --vpl-chip the
+     pill each thing you can tick sits in. --vpl-ink is every word and every
+     outline, --vpl-ink-2 the fine print, --vpl-beet every link. --vpl-leaf is
+     the one green that carries anything: the leaves on the shelf and the job
+     marker, 4.86 on the wall, over the body threshold a marker is held to. NO RED IN THE ROOM'S OWN CLOTHES: a turmeric
+     wall with green on it and a red accent would be wearing the Rastafari
+     colours, on the page that decided not to wear the Rastafari name. The one
+     red is --vpl-f-red, a food ink, and a chili is allowed to be red.
+     --vpl-pot and --vpl-soil are the pots on the shelf, cut open, and
+     --vpl-bowl is the cut face of a bowl. The --vpl-f- inks are FOOD, all
+     ornament, every one carried by an --vpl-ink outline and measured in
+     check-contrast.py's ORNAMENT list; make-vital.py reads their names out of
+     this block and refuses a look that names one that is not here, because
+     an unknown custom property paints nothing. VPL- PREFIXED THROUGHOUT:
+     `wall`, `panel`, `chip` and `ink` are the plainest words a :root fills
+     up with, and a property declared twice is last-wins and silent. */
+  --vpl-wall:  #EDB32A;   --vpl-panel: #FFF6DC;   --vpl-chip:  #FBE6A6;
+  --vpl-ink:   #2A1030;   --vpl-ink-2: #5B2F52;   --vpl-beet:  #7E1449;
+  --vpl-leaf:  #1A5226;   --vpl-pot:   #B5562C;   --vpl-soil:  #3A2618;
+  --vpl-bowl:  #FFFDF6;
+  --vpl-f-rice:   #F7EDCF;  --vpl-f-gold:   #F2C14A;  --vpl-f-tan:    #C99A5E;
+  --vpl-f-brown:  #7A4A26;  --vpl-f-bean:   #3B2427;  --vpl-f-green:  #3F8F3A;
+  --vpl-f-sprout: #9CCB5A;  --vpl-f-red:    #D2432E;  --vpl-f-orange: #EC8A2B;
+  --vpl-f-plum:   #7A2C68;  --vpl-f-oil:    #E9CF72;  --vpl-f-paper:  #F4EEDF;
+  --vpl-f-nori:   #1F2E24;
 }
 
 * { box-sizing: border-box; }
@@ -2145,6 +2196,17 @@ div.facade--audio { border: 0; background: none; }
 .door--collection .door__name  { font-family: 'Gloock', Georgia, serif; font-weight: 400; color: var(--cc-bone); font-size: 27px; line-height: 1.12; }
 .door--collection .door__blurb { font-family: 'Hanken Grotesk', var(--sans); color: var(--cc-dust); }
 .door--collection .door__knock { font-family: 'Hanken Grotesk', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cc-brass); }
+
+/* Vital Plant Living (§50). THE ONE FRONT IN THE ROW WITH A SHELF OF POTS FOR
+   AN AWNING: a band of terracotta and a leaf standing up out of every pot, on
+   the kitchen's own turmeric. The name is the room's fat sign face and the
+   knock is its beetroot. Every ink here is on --vpl-wall and is measured in
+   check-contrast.py. */
+.door--vital { background: var(--vpl-wall); border-color: var(--vpl-ink); }
+.door--vital .door__awning { background-color: var(--vpl-wall); background-image: radial-gradient(ellipse 7px 12px at 50% 55%, var(--vpl-leaf) 0 98%, transparent 100%), linear-gradient(0deg, var(--vpl-pot) 0 8px, transparent 8px); background-size: 28px 100%, 100% 100%; background-position: 0 0, 0 0; border-bottom-color: var(--vpl-ink); }
+.door--vital .door__name  { font-family: 'Bagel Fat One', var(--sans); font-weight: 400; color: var(--vpl-ink); font-size: 30px; line-height: 1.08; }
+.door--vital .door__blurb { font-family: 'Be Vietnam Pro', var(--sans); color: var(--vpl-ink-2); }
+.door--vital .door__knock { font-family: 'Be Vietnam Pro', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--vpl-beet); }
 
 .door--feed { background: var(--fd-enamel); border-color: var(--fd-girder); }
 .door--feed .door__awning { background-image: repeating-linear-gradient(180deg, var(--fd-flap) 0 6px, var(--fd-split) 6px 7px); border-bottom-color: var(--fd-girder); }
@@ -11075,7 +11137,254 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
   .mm-pitches { gap: 16px 18px; }
 }
 
-/* §50 ── Small screens ───────────────────────────────────────────────────────
+/* §50 ── ROOM: Vital Plant Living (a shopfront on the street) ─────────────────
+   A PLANT-BASED KITCHEN DRAWN CUT STRAIGHT THROUGH THE MIDDLE, WHERE EVERYTHING
+   IN THE BOWL TOUCHES. Build your own bowl or wrap out of Ryan's own pantry, or
+   start from one of the combos on the board, each standing on a flavour base
+   from somewhere in the world that he wrote down; copy what you build and take
+   it shopping. Songs about food on the stereo, and a shelf of pots over the
+   counter where every plant is something in the pantry.
+
+   THE ROOM IS A SECTION, AND NOTHING ELSE ON THE STREET IS. Every other room is
+   seen at eye level, or from above as a plan (Danny the Street, Samefood Cafe),
+   or as a model at an angle (the map). This one is drawn the way a cook sketches
+   a dish to show what is in it: cut through the middle and seen from the side,
+   so every layer sits on the one under it. The bowl, the wraps and every pot on
+   the shelf are cut open, and in the pots you can see what grows under the
+   soil. EVERYTHING TOUCHES, AND THAT IS THE ROOM: the sauce runs down into the
+   rice and the rice holds it up. THESE ARE THE COLLISIONS TO WATCH, and each is
+   structural:
+     · SAMEFOOD CAFE is the other place on the street that serves food, and it
+       is this room exactly inverted: a PLAN, from directly above, where NOTHING
+       ON THE PLATE TOUCHES ANYTHING and every plate is the same plate. Here the
+       view is a SECTION, everything is piled on something, and every bowl is
+       whatever somebody put in it. The house rules send anybody who needs their
+       food apart there, by name. If anything in this section ever sits in a
+       well of its own with room round it, it has become Samefood Cafe with the
+       lid off -- and it is this room that moves.
+     · THE GARDEN also shows what is under its soil. That is outdoors, beds in
+       the ground at midday under leaves, one bed for every site we publish and
+       every one linking out. These are pots on a shelf in a kitchen, every one
+       is an ingredient, and nothing on the shelf points anywhere.
+     · THE JUNGLE ROOM, SWAYING SWEETGRASS and THE HERMITAGE are the other
+       places full of plants, and all three are LIGHT: under a canopy at night,
+       backlit through blades, lit by a low morning sun. There is no light in
+       this room at all, in the sense those rooms have one -- a section is a
+       diagram, and the cut face is shown at full colour. That is also the
+       ADVENTURER'S GUILD's claim, lit from nowhere, and the difference is the
+       whole shape of the thing: the guild is pale, square, ruled and filed, and
+       nothing in it touches; this is saturated, round, piled and nothing in it
+       is filed. If this ever grows a ruled line between two ingredients, the
+       kitchen has become an office.
+     · THE WARM ROOMS (the Faery Yurt, The Latibulum, The Den, The Mopery) are
+       brown and lit by a flame. This is turmeric, which is a spice and not a
+       light, and there is no flame in here: nothing is cooking in the picture.
+
+   NO RED IN THE ROOM'S OWN CLOTHES, for the reason in :root: a turmeric wall
+   with green on it and a red accent would be the Rastafari colours, on the page
+   that decided not to wear the Rastafari name. Links are beetroot. The one red
+   is a food ink. NOTHING MOVES AT GENTLE OR REGULAR: the steam over a full bowl
+   rises at MAX only, with a translate, because rotation and skew are all
+   check-gentle.py can read. The shelf never moves at any setting. */
+
+.vital { background: var(--vpl-wall); color: var(--vpl-ink); font-family: 'Be Vietnam Pro', system-ui, sans-serif; font-synthesis: none; }
+.vital :where(i, em, cite) { font-style: normal; }
+.vital em { font-weight: 700; }
+.vital a { color: var(--vpl-beet); text-underline-offset: 3px; text-decoration-thickness: 2px; }
+.vital a:hover { color: var(--vpl-ink); }
+/* THE RING IS THE ROOM'S OWN INK, 9.12 on the wall and 16.02 on a panel. §2's
+   yellow ring was chosen for a near-black street and would be a yellow outline
+   on a turmeric wall -- the Guild's lesson, decided here at the room. */
+.vital :focus-visible { outline-color: var(--vpl-ink); }
+/* :where() so this base is (0,1,0) and every component below wins by order --
+   Dead Tired Society's day-one lesson, taken before it could happen here. */
+.vital :where(p, li, dd) { font-size: 17px; line-height: 1.6; }
+.vital strong, .vital b { font-weight: 700; color: var(--vpl-ink); }
+.vital code { font-size: .9em; color: var(--vpl-ink); }
+.vital .backlink { font-family: 'Be Vietnam Pro', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--vpl-beet); }
+.vpl-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+.vpl-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.vpl-trail { margin: 0; font-size: 14px; color: var(--vpl-ink-2); }
+
+.vpl-head { margin: 30px 0 0; }
+.vpl-over { margin: 0; font-weight: 700; font-size: 13px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--vpl-ink-2); }
+.vital h1 {
+  font-family: 'Bagel Fat One', system-ui, sans-serif; font-weight: 400;
+  font-size: clamp(50px, 10vw, 118px); line-height: .96; letter-spacing: -.01em;
+  color: var(--vpl-ink); margin: 10px 0 0;
+}
+.vpl-tag { margin: 14px 0 0; font-size: clamp(20px, 2.6vw, 26px); line-height: 1.3; }
+.vpl-tag b { color: var(--vpl-beet); }
+.vpl-art { margin: 22px 0 0; line-height: 0; }
+.vpl-art svg { display: block; width: 100%; height: auto; }
+.vital .vpl-window { margin: 12px 0 0; max-width: 72ch; font-size: 15px; color: var(--vpl-ink-2); }
+
+.vpl-lede { margin: 30px 0 0; max-width: 64ch; font-size: 20px; line-height: 1.6; }
+
+.vpl-part { margin: 60px 0 0; }
+.vpl-part > :where(p) { margin: 0 0 14px; max-width: 72ch; }
+.vital h2 { font-family: 'Bagel Fat One', system-ui, sans-serif; font-weight: 400; font-size: clamp(32px, 4.6vw, 46px); line-height: 1.05; color: var(--vpl-ink); margin: 0 0 14px; }
+.vital h3 { font-family: 'Bagel Fat One', system-ui, sans-serif; font-weight: 400; font-size: 25px; line-height: 1.1; color: var(--vpl-ink); margin: 0; }
+
+/* THE PANEL. Rice paper with a thick ink edge, and it SITS ON what is under
+   it: the shadow is flat, hard and straight down, a slab resting on a slab,
+   because in a section nothing floats. */
+.vpl-panel, .vpl-name, .vpl-pass, .vpl-combo, .vpl-counter__side {
+  background: var(--vpl-panel); color: var(--vpl-ink);
+  border: 2.5px solid var(--vpl-ink); border-radius: 22px;
+  box-shadow: 0 6px 0 var(--vpl-ink);
+}
+.vpl-name { padding: 22px 26px; max-width: 900px; }
+.vpl-name p { margin: 0 0 12px; max-width: 72ch; }
+.vpl-name > :last-child { margin-bottom: 0; }
+
+/* THE RULES OF THUMB, off the foot of Ryan's list, as a stack of pills that
+   lean on each other -- touching, because everything in here does. */
+.vpl-rules-of-thumb { list-style: none; margin: 18px 0 6px; padding: 0; display: flex; flex-wrap: wrap; gap: 0; }
+.vpl-rules-of-thumb li { margin: 0 -2.5px 8px 0; padding: 7px 16px; border: 2.5px solid var(--vpl-ink); border-radius: 999px; background: var(--vpl-chip); font-weight: 700; font-size: 16px; }
+.vital .vpl-thumb-credit { font-size: 14px; color: var(--vpl-ink-2); }
+.vpl-noscript { font-weight: 700; }
+
+/* THE BUILDER, AND THE PASS BESIDE IT. On a wide screen the pass stays in view
+   while you tick, so the picture changes where you can see it -- the Playhouse's
+   lesson, that an answer off the edge of the screen is no answer. On a phone the
+   pass comes after the steps, and every chip shows its own state where the hand
+   is. */
+.vpl-builder { margin: 26px 0 0; display: grid; gap: 28px; align-items: start; }
+@media (min-width: 960px) {
+  .vpl-builder { grid-template-columns: minmax(0, 1fr) minmax(320px, 400px); }
+  .vpl-pass { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto; }
+}
+.vpl-steps { display: grid; gap: 30px; min-width: 0; }
+.vpl-step { margin: 0; padding: 0; border: 0; min-width: 0; }
+.vpl-step__name { padding: 0; font-family: 'Bagel Fat One', system-ui, sans-serif; font-size: 34px; line-height: 1.1; color: var(--vpl-ink); }
+.vpl-step__no { display: inline-grid; place-items: center; width: 44px; height: 44px; margin-right: 6px; border-radius: 50%; background: var(--vpl-ink); color: var(--vpl-panel); font-size: 24px; vertical-align: 4px; }
+.vital .vpl-step__says { margin: 6px 0 12px; max-width: 64ch; }
+.vpl-group { margin: 0 0 18px; padding: 0; border: 0; min-width: 0; }
+.vpl-group__name { padding: 0; margin: 0 0 8px; font-weight: 700; font-size: 15px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--vpl-ink); }
+.vital .vpl-group__says { margin: 0 0 10px; max-width: 64ch; font-size: 15px; color: var(--vpl-ink-2); }
+.vpl-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.vpl-chips li { margin: 0; }
+.vpl-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 7px 14px 7px 10px; border: 2px solid var(--vpl-ink); border-radius: 999px; background: var(--vpl-panel); color: var(--vpl-ink); cursor: pointer; font-size: 16px; line-height: 1.25; }
+.vpl-chip input { width: 20px; height: 20px; margin: 0; accent-color: var(--vpl-ink); flex: none; }
+.vpl-chip__sub { display: block; font-size: 13px; color: var(--vpl-ink-2); }
+/* A TICKED CHIP GOES DARK, so the state is at the hand and in the shape as
+   well as in the box: the one channel that is never colour alone. */
+.vpl-chip:has(input:checked) { background: var(--vpl-ink); color: var(--vpl-panel); }
+.vpl-chip:has(input:checked) .vpl-chip__sub { color: var(--vpl-chip); }
+.vpl-chip:has(input:checked) input { accent-color: var(--vpl-chip); }
+/* THE RING IS ON THE BOX, NOT THE PILL, because check-focus.py measures the
+   outline of the element that has focus and cannot be asked to take this room's
+   word for a ring drawn on its parent. On a ticked chip the pill is the ink, so
+   the ring turns to the chip's own pale: 13.97 either way. */
+.vpl-chip input:focus-visible { outline: 3px solid var(--vpl-ink); outline-offset: 3px; border-radius: 4px; }
+.vpl-chip:has(input:checked) input:focus-visible { outline-color: var(--vpl-chip); }
+.vpl-chip:hover { background: var(--vpl-chip); }
+.vpl-chip:has(input:checked):hover { background: var(--vpl-ink-2); }
+.vpl-group--bases .vpl-chip { border-radius: 16px; align-items: flex-start; }
+.vpl-group--bases .vpl-chip input { margin-top: 2px; }
+
+.vpl-pass { padding: 20px 22px 22px; }
+.vpl-pass h3 { margin: 0 0 8px; }
+.vpl-cut { display: block; width: 100%; height: auto; }
+.vpl-ticket { margin: 10px 0 0; }
+.vital .vpl-ticket__head { margin: 0 0 6px; font-family: 'Bagel Fat One', system-ui, sans-serif; font-size: 22px; line-height: 1.15; }
+.vital .vpl-ticket__none { margin: 0 0 10px; color: var(--vpl-ink-2); }
+.vpl-ticket__body { margin: 0 0 12px; }
+.vpl-ticket__body dt { margin: 10px 0 0; font-weight: 700; font-size: 13px; letter-spacing: 1.2px; text-transform: uppercase; }
+.vpl-ticket__body dd { margin: 2px 0 0; font-size: 16px; line-height: 1.5; }
+.vpl-ticket__buttons { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 0; }
+.vpl-button, .vpl-load {
+  min-height: 44px; padding: 9px 18px; border: 2.5px solid var(--vpl-ink); border-radius: 999px;
+  background: var(--vpl-ink); color: var(--vpl-panel); cursor: pointer;
+  font-family: 'Be Vietnam Pro', system-ui, sans-serif; font-weight: 700; font-size: 16px; line-height: 1.2;
+  box-shadow: 0 4px 0 var(--vpl-beet);
+}
+.vpl-button:hover, .vpl-load:hover { background: var(--vpl-beet); box-shadow: 0 4px 0 var(--vpl-ink); }
+.vpl-button--quiet { background: var(--vpl-panel); color: var(--vpl-ink); box-shadow: none; }
+.vpl-button--quiet:hover { background: var(--vpl-chip); box-shadow: none; }
+.vital .vpl-said, .vital .vpl-combo__said { margin: 12px 0 0; padding: 10px 14px; border: 2px solid var(--vpl-ink); border-radius: 14px; background: var(--vpl-chip); font-weight: 700; font-size: 15px; }
+label.vpl-fallback { display: block; margin: 12px 0 6px; font-size: 14px; color: var(--vpl-ink-2); }
+textarea.vpl-fallback { display: block; width: 100%; padding: 10px; border: 2px solid var(--vpl-ink); border-radius: 10px; background: var(--vpl-bowl); color: var(--vpl-ink); font: 14px/1.5 'Be Vietnam Pro', system-ui, sans-serif; }
+
+/* THE STEAM, over a bowl with something in it, rising at MAX only and with a
+   translate. At Gentle and Regular it is drawn and still. */
+@keyframes vpl-rise { from { translate: 0 6px; opacity: .2; } 50% { opacity: .7; } to { translate: 0 -10px; opacity: 0; } }
+html[data-intensity="max"] .vpl-steam path { animation: vpl-rise 3.2s ease-in-out infinite; }
+html[data-intensity="max"] .vpl-steam path:nth-child(2) { animation-delay: -1.1s; }
+html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s; }
+
+/* THE BOARD. Every combo on a panel, each with its own section drawn in it. */
+.vpl-board { list-style: none; margin: 30px 0 0; padding: 0; display: grid; gap: 30px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+.vpl-combo { padding: 20px 22px 22px; }
+.vital .vpl-combo__on { margin: 6px 0 0; font-size: 14px; color: var(--vpl-ink-2); }
+.vpl-cut--mini { margin: 10px 0 0; max-width: 300px; }
+.vital .vpl-combo__note { margin: 10px 0 0; }
+.vital .vpl-combo__in { margin: 10px 0 0; font-size: 15px; }
+.vpl-combo__go { margin: 14px 0 0; }
+
+/* THE COUNTER. Two panels side by side, touching, as everything here does. */
+.vpl-counter { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 0; margin: 22px 0 0; max-width: 900px; }
+.vpl-counter__side { padding: 20px 22px; }
+.vpl-counter__side + .vpl-counter__side { margin-left: -2.5px; }
+.vpl-list { margin: 10px 0 0; padding: 0 0 0 1.1em; }
+.vpl-list li { margin: 0 0 4px; }
+.vpl-list li::marker { color: var(--vpl-leaf); }
+
+/* THE STEREO. The facade is the room's ink with the wall's turmeric on it. */
+.vpl-stereo { margin: 18px 0 0; max-width: 900px; }
+.vital .vpl-stereo__note { margin: 0 0 14px; }
+.vital .facade { border: 2.5px solid var(--vpl-ink); border-radius: 22px; background: var(--vpl-ink); color: var(--vpl-panel); font-family: 'Be Vietnam Pro', system-ui, sans-serif; font-weight: 700; font-size: 18px; box-shadow: 0 6px 0 var(--vpl-beet); }
+.vital .facade:hover { background: var(--vpl-ink-2); }
+.vital .facade__play { font-family: 'Bagel Fat One', system-ui, sans-serif; font-size: 16px; letter-spacing: .06em; color: var(--vpl-wall); }
+.vital .facade iframe { border-radius: 19px; }
+.vital .vpl-stereo__credit, .vital .vpl-stereo__read { margin: 12px 0 22px; font-size: 14px; color: var(--vpl-ink-2); }
+/* THE DOOR OUT TO THE WHOLE PLAYLIST, when it will not play in a frame. SHAPED
+   LIKE A DOOR AND NOT A WINDOW: no aspect ratio, because a 16:9 plate is the
+   shape of a player, and dashed where every press in this room is solid --
+   Club Chronic's Qobuz deck, arriving in a kitchen. */
+.vital a.vpl-door { display: block; max-width: 900px; padding: 18px 22px; border: 3px dashed var(--vpl-ink); border-radius: 22px; background: var(--vpl-panel); color: var(--vpl-ink); text-decoration: none; }
+.vital a.vpl-door:hover { background: var(--vpl-chip); color: var(--vpl-ink); }
+.vpl-door__name { display: block; font-family: 'Bagel Fat One', system-ui, sans-serif; font-size: 24px; line-height: 1.15; color: var(--vpl-beet); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.vpl-door__why { display: block; margin: 8px 0 0; font-size: 15px; line-height: 1.55; color: var(--vpl-ink); }
+
+/* EVERY SONG IS ITS OWN PRESS. A panel each, touching the next, and the plate
+   is styled from the card and never from the button, because love-embed.js
+   replaces the button with a bare div.facade and anything it was wearing
+   evaporates -- Swaying Sweetgrass's 0x0 players. The card stretches, so the
+   pressed player has a width to fill. */
+.vpl-tracks { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 22px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); counter-reset: vpl-track; }
+.vpl-track { margin: 0; padding: 14px 16px 16px; background: var(--vpl-panel); border: 2.5px solid var(--vpl-ink); border-radius: 18px; box-shadow: 0 5px 0 var(--vpl-ink); counter-increment: vpl-track; }
+.vital .vpl-track__title { margin: 0; font-weight: 700; font-size: 17px; line-height: 1.3; }
+.vital .vpl-track__title::before { content: counter(vpl-track) ". "; color: var(--vpl-ink-2); }
+.vital .vpl-track__who { margin: 2px 0 10px; font-size: 15px; }
+.vpl-track__aside { color: var(--vpl-ink-2); }
+.vital .vpl-track .facade { font-size: 22px; box-shadow: 0 4px 0 var(--vpl-beet); border-radius: 14px; padding: 12px 14px; }
+.vital .vpl-track .facade__play { inset: auto auto 12px 14px; font-size: 14px; }
+.vital .vpl-track .facade iframe { border-radius: 11px; }
+.vital .vpl-track__up { margin: 10px 0 0; font-size: 14px; color: var(--vpl-ink-2); }
+
+.vpl-rules { margin: 0; padding: 0 0 0 1.1em; max-width: 72ch; }
+.vpl-rules li { margin: 0 0 12px; }
+.vpl-rules li::marker { color: var(--vpl-leaf); }
+.vital .vpl-further { font-size: 15px; color: var(--vpl-ink-2); }
+.vital .quest { margin-top: 48px; }
+
+/* On a phone the steps stack over the pass, the chips wrap at the width they
+   are given, and nothing is hidden to save room -- the lite version arriving
+   through a breakpoint. Written last in the section, after every rule it
+   overrides. */
+@media (max-width: 560px) {
+  .vpl-name, .vpl-pass, .vpl-combo, .vpl-counter__side { padding: 18px 16px; border-radius: 18px; }
+  .vpl-lede { font-size: 18px; }
+  .vpl-step__name { font-size: 28px; }
+  .vpl-chip { font-size: 15px; }
+  .vpl-counter__side + .vpl-counter__side { margin-left: 0; margin-top: -2.5px; }
+}
+
+
+/* §51 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -11182,7 +11491,7 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §50 says every
+   shipped with no rule here at all — which on a street whose §51 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -11306,7 +11615,7 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §51 ── Print ───────────────────────────────────────────────────────────────
+/* §52 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

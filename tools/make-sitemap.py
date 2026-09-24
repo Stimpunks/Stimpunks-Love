@@ -39,6 +39,7 @@ ORDER = ["index.html",
          "lightbulb-picture-house.html",
          "samefood-cafe.html",
          "collection-collection.html",
+         "vital-plant-living.html",
          "your-room.html",
          # Street furniture rather than a door, and listed like everything else:
          # a page nobody can find from the sitemap is unpublished with extra

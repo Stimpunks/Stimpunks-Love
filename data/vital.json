@@ -1,0 +1,1664 @@
+{
+  "_what": "Vital Plant Living, a plant-based kitchen on the street: a builder for your own bowl or wrap, a menu of named combos from around the world, a counter, and a stereo. tools/make-vital.py builds every generated part of vital-plant-living.html and the room's credits in liner-notes.html from this file. Do not hand-edit between the markers.",
+  "_pantry": "THE PANTRY IS RYAN'S OWN, the list he cooks from for himself, given in his brief for this room on 2026-09-24. It is written down as he gave it -- his section names, his words, his capitals, 'Herbs de Provence' and 'Babaganoush' included -- with three kinds of change and no others: (1) a line that held several things is split into its things, because a builder needs something to tick: 'Beans: black, pinto, garbanzo' is three beans and 'Curry paste: red, green' is two pastes; (2) 'Rice' is Basmati rice, Jasmine rice and Sushi rice, Ryan's correction the same morning, and 'Basmatic' in that message is read as the typo it is; (3) a thing on the list twice is in the builder once, in the first section it appears in -- bell peppers are on the list three times and are under Base/Filling. The trinities' own ingredients are NOT in the pantry and are not added to it: 'lemon grass' belongs to the Thai base Ryan wrote down, and choosing that base brings it. The supplements at the foot of Ryan's list are not on this menu at all, because this street gives no advice about eating (Samefood Cafe's rule) and a restaurant serving B12 would be giving some.",
+  "_looks": "Every item in the builder has a look -- a shape and an ink -- so the section of your bowl can draw it. make-vital.py refuses an item with no look, because the failure is not an error anywhere: it is a thing you ticked that never appears in the picture, which reads as broken. The inks are the room's food inks in love.css, all ornament, all carried by an --vpl-ink outline.",
+  "_combos": "THE COMBOS ARE OURS, written for this room, and every one of them is assembled out of the pantry above and stands on one or more of the flavour bases Ryan wrote down. make-vital.py refuses an item that is not in the pantry, a base that is not in his list, and a combo with no base at all -- so a combo cannot quietly bring in an ingredient the kitchen does not keep. Where the dish a combo is thinking about is usually made with something the pantry does not have, the note says so rather than pretending: red beans and rice uses kidney beans, and this pantry has pinto. Nothing on this menu is called authentic, exotic or ethnic, and the tool refuses all three in our voice: a bowl somebody builds themselves out of one person's pantry is not a claim about anybody's grandmother's cooking.",
+  "_ital": "THE NAME IS A TRANSLATION AND THE ROOM SAYS SO. Ryan's brief called the room Ital Plant Livity, and Ital and livity are Rastafari words: Ital from 'vital', with its first syllable replaced by the I of I and I, and livity for the way of life it belongs to. Ryan's call, 2026-09-24: Rastafari has been a big influence on him, and the room takes a more general name. Two reasons, and both are in the room's own copy: this kitchen uses salt, MSG, soy sauce and processed food, which many people who keep Ital do not, so calling the menu Ital would be making a claim about it that is false in Rastafari's own terms; and practice varies among Rastafari, which is not ours to settle from outside. So the menu never calls a dish Ital, and make-vital.py refuses the word in any combo and in the counter. The stereo is the one place it stays, because it is in the songs' own titles and they are the musicians' to name.",
+  "_checked": "2026-09-24",
+  "pantry": [
+    {
+      "key": "wrap",
+      "name": "Wrap",
+      "step": "base",
+      "layer": "vessel",
+      "items": [
+        "Naan",
+        "Pita",
+        "Flour Tortillas",
+        "Corn Tortillas",
+        "Burrito tortillas",
+        "Taco shells",
+        "Rice paper",
+        "Nori",
+        "Bread"
+      ]
+    },
+    {
+      "key": "base",
+      "name": "Base/Filling",
+      "step": "base",
+      "layer": "base",
+      "items": [
+        "Red potatoes",
+        "Golden potatoes",
+        "Basmati rice",
+        "Jasmine rice",
+        "Sushi rice",
+        "Quinoa",
+        "Lentils",
+        "Greens",
+        "Rice noodles",
+        "Black beans",
+        "Pinto beans",
+        "Garbanzo beans",
+        "Falafel",
+        "Tofu",
+        "Tempeh",
+        "Soy curls",
+        "Polenta",
+        "Mushrooms",
+        "Bell peppers",
+        "Sautéed, steamed, roasted veggies",
+        "Edamame",
+        "Vegan textured protein",
+        "Vegan cheese"
+      ]
+    },
+    {
+      "key": "veggies",
+      "name": "Veggies",
+      "step": "base",
+      "layer": "veg",
+      "items": [
+        "Chili peppers",
+        "Spinach",
+        "Snap peas",
+        "Snow peas",
+        "Frozen peas",
+        "Broccoli",
+        "Napa cabbage"
+      ]
+    },
+    {
+      "key": "texture",
+      "name": "Texture",
+      "step": "texture",
+      "layer": "texture",
+      "items": [
+        "Hemp seeds, hearts",
+        "Sesame seeds",
+        "Chia seeds",
+        "Pine nuts",
+        "Pecans",
+        "Pistachios",
+        "Almonds",
+        "Peanuts",
+        "Water chestnuts",
+        "Ground flax",
+        "Bamboo shoots"
+      ]
+    },
+    {
+      "key": "aromatics",
+      "name": "Aromatics",
+      "step": "flavour",
+      "layer": "aroma",
+      "items": [
+        "Garlic",
+        "Ginger",
+        "Scallions",
+        "Flat Italian parsley",
+        "Cilantro",
+        "White onions",
+        "Red onions",
+        "Celery",
+        "Carrots",
+        "Shallots",
+        "Leeks"
+      ]
+    },
+    {
+      "key": "sauces",
+      "name": "Oils, Spreads, Sauces, Dressings",
+      "step": "flavour",
+      "layer": "sauce",
+      "items": [
+        "Olive oil",
+        "Canola oil",
+        "Peanut oil",
+        "Avocado oil",
+        "Sesame oil",
+        "Coconut oil",
+        "Pepper-infused oil",
+        "Vegan butter",
+        "Soy sauce",
+        "Tamari",
+        "Mirin",
+        "Lemon juice",
+        "Lime juice",
+        "Ponzu",
+        "Rice vinegar",
+        "Malt vinegar",
+        "Red wine vinegar",
+        "Apple cider vinegar",
+        "Balsamic vinegar",
+        "Coconut milk",
+        "Red curry paste",
+        "Green curry paste",
+        "Peanut butter",
+        "Cashew butter",
+        "Tahini",
+        "Miso",
+        "Hoisin",
+        "Sriracha",
+        "Cholula",
+        "Salsa",
+        "Hummus",
+        "Guacamole",
+        "Babaganoush",
+        "Pesto",
+        "Marinara",
+        "Sesame ginger salad dressing",
+        "Corn starch + liquid",
+        "Vegan sour cream"
+      ]
+    },
+    {
+      "key": "spices",
+      "name": "Herbs, Spices",
+      "step": "flavour",
+      "layer": "spice",
+      "items": [
+        "Spirulina",
+        "Nooch",
+        "Masalas",
+        "Herbs de Provence",
+        "Sriracha seasoning",
+        "Asafetida",
+        "Black salt",
+        "Sea salt flakes",
+        "Smoked salt (Chihuahua de Mexico)",
+        "Pepper",
+        "Red pepper",
+        "Red pepper flakes",
+        "Turmeric",
+        "Paprika",
+        "Cumin seeds",
+        "Mustard seeds",
+        "Allspice",
+        "5 spice",
+        "MSG"
+      ]
+    },
+    {
+      "key": "toppings",
+      "name": "Toppings",
+      "step": "flavour",
+      "layer": "top",
+      "items": [
+        "Olives",
+        "Pico de gallo",
+        "Gremolata",
+        "Pepperoncini",
+        "Hot peppers",
+        "Kimchi",
+        "Sauerkraut",
+        "Dill pickles",
+        "Capers",
+        "Pickled red onion",
+        "Pickled pepperoncini",
+        "Pickled veggie slaw"
+      ]
+    },
+    {
+      "key": "fruit",
+      "name": "Fruit",
+      "step": "flavour",
+      "layer": "fruit",
+      "items": [
+        "Bananas",
+        "Avocado",
+        "Tomato",
+        "Lemon",
+        "Lime",
+        "Mandarin oranges",
+        "Blueberries",
+        "Blackberries",
+        "Strawberries",
+        "Raspberries",
+        "Grapes",
+        "Mango",
+        "Kiwi",
+        "Papaya",
+        "Apple",
+        "Plums"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "key": "base",
+      "name": "Base",
+      "says": "What it is built on: a bowl or a wrap, and what goes in first."
+    },
+    {
+      "key": "texture",
+      "name": "Texture",
+      "says": "Something to bite on."
+    },
+    {
+      "key": "flavour",
+      "name": "Flavour",
+      "says": "A base of aromatics to start from, if you want one, and then everything that makes it taste of something."
+    }
+  ],
+  "rules": [
+    "Bowl, starch, protein, aromatics",
+    "Wrap, starch, protein, aromatics",
+    "Aromatics, acids, spices",
+    "Hot peppers, everything",
+    "Nooch, everything"
+  ],
+  "bases": [
+    {
+      "key": "gremolata",
+      "name": "Italian Gremolata",
+      "items": [
+        "lemon juice/zest",
+        "garlic",
+        "Italian flat parsley"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "chinese",
+      "name": "Chinese",
+      "items": [
+        "garlic",
+        "ginger",
+        "scallions"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "sichuan",
+      "name": "Sichuan",
+      "items": [
+        "garlic",
+        "ginger",
+        "chili peppers"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "thai",
+      "name": "Thai",
+      "items": [
+        "galangal (ginger)",
+        "kaffir lime",
+        "lemon grass"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "thai-curry",
+      "name": "Thai curry",
+      "items": [
+        "shallots",
+        "garlic",
+        "chiles",
+        "lemongrass"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "japanese",
+      "name": "Japanese",
+      "items": [
+        "mirin",
+        "soy sauce"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "greek",
+      "name": "Greek",
+      "items": [
+        "lemon juice",
+        "olive oil",
+        "oregano"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "hungarian",
+      "name": "Hungarian",
+      "items": [
+        "paprika",
+        "fat",
+        "onion"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "jamaican",
+      "name": "Jamaican",
+      "items": [
+        "garlic",
+        "scallion",
+        "thyme"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "mirepoix",
+      "name": "French Mirepoix, Italian Soffritto",
+      "items": [
+        "onion",
+        "celery",
+        "carrot"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "sofrito",
+      "name": "Spanish Sofrito",
+      "items": [
+        "garlic",
+        "onion",
+        "tomato"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "cajun",
+      "name": "Cajun Holy Trinity",
+      "items": [
+        "onion",
+        "celery",
+        "bell pepper"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "lebanese",
+      "name": "Lebanese",
+      "items": [
+        "garlic",
+        "lemon juice",
+        "olive oil"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "mexican",
+      "name": "Mexican pepper",
+      "items": [
+        "ancho",
+        "pasilla",
+        "guajillo"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "refogado",
+      "name": "Portuguese Refogado",
+      "items": [
+        "onions",
+        "garlic",
+        "peppers",
+        "tomatoes"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "west-african",
+      "name": "West African",
+      "items": [
+        "chili peppers",
+        "onions",
+        "tomatoes"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "suppengrun",
+      "name": "German Suppengrün",
+      "items": [
+        "carrots",
+        "leeks",
+        "celeriac"
+      ],
+      "kind": "trinity"
+    },
+    {
+      "key": "soy-scallion",
+      "name": "Soy sauce, scallions",
+      "items": [
+        "soy sauce",
+        "scallions"
+      ],
+      "kind": "go-to"
+    },
+    {
+      "key": "parsley-scallion",
+      "name": "Parsley, scallions",
+      "items": [
+        "parsley",
+        "scallions"
+      ],
+      "kind": "go-to"
+    },
+    {
+      "key": "tts",
+      "name": "Tahini, tamari, sriracha",
+      "items": [
+        "tahini",
+        "tamari",
+        "sriracha"
+      ],
+      "kind": "go-to"
+    },
+    {
+      "key": "coco-rice-beans",
+      "name": "Coconut milk, rice, beans",
+      "items": [
+        "coconut milk",
+        "rice",
+        "beans"
+      ],
+      "kind": "go-to"
+    },
+    {
+      "key": "oil-black-salt",
+      "name": "Oil, black salt",
+      "items": [
+        "oil",
+        "black salt"
+      ],
+      "kind": "go-to"
+    },
+    {
+      "key": "msg-salt-nooch",
+      "name": "MSG, black salt, nooch",
+      "items": [
+        "MSG",
+        "black salt",
+        "nooch"
+      ],
+      "kind": "go-to"
+    }
+  ],
+  "combos": [
+    {
+      "key": "holy-trinity",
+      "name": "Holy Trinity",
+      "vessel": "Bowl",
+      "on": [
+        "cajun"
+      ],
+      "items": [
+        "Basmati rice",
+        "Pinto beans",
+        "Soy curls",
+        "Garlic",
+        "Scallions",
+        "Canola oil",
+        "Cholula",
+        "Paprika",
+        "Red pepper",
+        "Pepper",
+        "Hot peppers",
+        "Flat Italian parsley"
+      ],
+      "note": "Red beans and rice is what this bowl is thinking about, and that dish is cooked with red kidney beans. This pantry keeps pinto, so this is pinto, and the Cholula is on the table rather than in the pot."
+    },
+    {
+      "key": "gold-and-green",
+      "name": "Gold and Green",
+      "vessel": "Bowl",
+      "on": [
+        "mirepoix"
+      ],
+      "items": [
+        "Polenta",
+        "Mushrooms",
+        "Marinara",
+        "Olive oil",
+        "Garlic",
+        "Vegan butter",
+        "Nooch",
+        "Red pepper flakes",
+        "Gremolata",
+        "Pine nuts"
+      ],
+      "note": "Soft polenta under mushrooms in a marinara started on a soffritto, and the gremolata on top, which is lemon, garlic and parsley, and is the part you will remember."
+    },
+    {
+      "key": "lentils-slowly",
+      "name": "Lentils, Slowly",
+      "vessel": "Bowl",
+      "on": [
+        "mirepoix"
+      ],
+      "items": [
+        "Lentils",
+        "Greens",
+        "Shallots",
+        "Olive oil",
+        "Red wine vinegar",
+        "Mustard seeds",
+        "Herbs de Provence",
+        "Pepper",
+        "Capers",
+        "Flat Italian parsley"
+      ],
+      "note": "Lentils cooked slowly in a mirepoix, dressed while they are still warm with shallot, vinegar and mustard seed, on a heap of greens."
+    },
+    {
+      "key": "chickpeas-spinach",
+      "name": "Chickpeas and Spinach",
+      "vessel": "Bowl",
+      "on": [
+        "sofrito"
+      ],
+      "items": [
+        "Garbanzo beans",
+        "Spinach",
+        "Olive oil",
+        "Paprika",
+        "Cumin seeds",
+        "Red wine vinegar",
+        "Almonds"
+      ],
+      "note": "Chickpeas and spinach wilted into a sofrito with cumin and paprika, which is a tapa in Seville, with almonds on top because the texture step asks for something."
+    },
+    {
+      "key": "refogado-greens",
+      "name": "Refogado Greens",
+      "vessel": "Bowl",
+      "on": [
+        "refogado"
+      ],
+      "items": [
+        "Golden potatoes",
+        "Greens",
+        "Garbanzo beans",
+        "Olive oil",
+        "Paprika",
+        "Olives",
+        "Sea salt flakes"
+      ],
+      "note": "Potatoes and a great many greens cooked down in a refogado, the onion, garlic, pepper and tomato a Portuguese kitchen starts from, with olives."
+    },
+    {
+      "key": "kraut-and-potatoes",
+      "name": "Kraut and Potatoes",
+      "vessel": "Bowl",
+      "on": [
+        "suppengrun"
+      ],
+      "items": [
+        "Red potatoes",
+        "Tempeh",
+        "Sauerkraut",
+        "Mustard seeds",
+        "Dill pickles",
+        "Vegan butter",
+        "Apple cider vinegar",
+        "Pepper",
+        "Flat Italian parsley"
+      ],
+      "note": "Red potatoes and seared tempeh with sauerkraut and pickles, on Suppengrün. The celeriac comes with that base; the pantry does not keep it otherwise."
+    },
+    {
+      "key": "paprika-potatoes",
+      "name": "Paprika Potatoes",
+      "vessel": "Bowl",
+      "on": [
+        "hungarian"
+      ],
+      "items": [
+        "Red potatoes",
+        "Soy curls",
+        "Bell peppers",
+        "Vegan butter",
+        "Paprika",
+        "Vegan sour cream",
+        "Pepper",
+        "Flat Italian parsley"
+      ],
+      "note": "Paprika, fat and onion are the whole of the Hungarian base, and the fat here is vegan butter. A spoon of sour cream on top and it is done."
+    },
+    {
+      "key": "garlic-ginger-scallion",
+      "name": "Garlic Ginger Scallion",
+      "vessel": "Bowl",
+      "on": [
+        "chinese"
+      ],
+      "items": [
+        "Jasmine rice",
+        "Tofu",
+        "Broccoli",
+        "Napa cabbage",
+        "Snow peas",
+        "Soy sauce",
+        "Sesame oil",
+        "Rice vinegar",
+        "Hoisin",
+        "Corn starch + liquid",
+        "5 spice",
+        "Water chestnuts",
+        "Sesame seeds"
+      ],
+      "note": "A stir-fry on the three aromatics Ryan wrote down for Chinese cooking, and a spoon of corn starch in water at the end, which is what makes the sauce shine and hold on."
+    },
+    {
+      "key": "red-oil-tofu",
+      "name": "Red Oil Tofu",
+      "vessel": "Bowl",
+      "on": [
+        "sichuan"
+      ],
+      "items": [
+        "Jasmine rice",
+        "Tofu",
+        "Mushrooms",
+        "Pepper-infused oil",
+        "Soy sauce",
+        "Rice vinegar",
+        "Red pepper flakes",
+        "5 spice",
+        "Scallions",
+        "Peanuts"
+      ],
+      "note": "Hot rather than numbing, and it says so: the numbing comes from Sichuan pepper, which this pantry does not keep. Silken or firm tofu, whichever you have in."
+    },
+    {
+      "key": "green-everything",
+      "name": "Green Curry, Green Everything",
+      "vessel": "Bowl",
+      "on": [
+        "thai-curry"
+      ],
+      "items": [
+        "Jasmine rice",
+        "Tofu",
+        "Green curry paste",
+        "Coconut milk",
+        "Snap peas",
+        "Bell peppers",
+        "Spinach",
+        "Lime juice",
+        "Cilantro",
+        "Peanuts"
+      ],
+      "note": "Green curry paste let down with coconut milk on the curry base Ryan wrote down, with every green thing the pantry has that will hold up in it."
+    },
+    {
+      "key": "hand-roll",
+      "name": "Hand Roll",
+      "vessel": "Nori",
+      "on": [
+        "japanese"
+      ],
+      "items": [
+        "Sushi rice",
+        "Edamame",
+        "Avocado",
+        "Pickled veggie slaw",
+        "Rice vinegar",
+        "Sesame seeds",
+        "Scallions"
+      ],
+      "note": "Sushi rice is rice seasoned with vinegar, which is why the rice vinegar is here. Rolled in nori by hand, a cone rather than a log, and eaten straight away while the nori still snaps."
+    },
+    {
+      "key": "lemon-oil-oregano",
+      "name": "Lemon, Oil, Oregano",
+      "vessel": "Pita",
+      "on": [
+        "greek"
+      ],
+      "items": [
+        "Golden potatoes",
+        "Greens",
+        "Tomato",
+        "Red onions",
+        "Olives",
+        "Pepperoncini",
+        "Vegan sour cream"
+      ],
+      "note": "Potatoes roasted in lemon, olive oil and oregano, which is the Greek base doing all the work, in a pita with olives, pepperoncini and a spoon of sour cream."
+    },
+    {
+      "key": "falafel-pocket",
+      "name": "The Falafel Pocket",
+      "vessel": "Pita",
+      "on": [
+        "lebanese"
+      ],
+      "items": [
+        "Falafel",
+        "Hummus",
+        "Tahini",
+        "Babaganoush",
+        "Tomato",
+        "Greens",
+        "Pickled red onion",
+        "Dill pickles",
+        "Flat Italian parsley"
+      ],
+      "note": "Falafel in a pita with hummus and babaganoush both, because nobody made you choose, and pickles for the crunch that falafel wants beside it."
+    },
+    {
+      "key": "rice-and-peas",
+      "name": "Rice and Peas, Near Enough",
+      "vessel": "Bowl",
+      "on": [
+        "jamaican",
+        "coco-rice-beans"
+      ],
+      "items": [
+        "Basmati rice",
+        "Pinto beans",
+        "Coconut milk",
+        "Greens",
+        "Allspice",
+        "Hot peppers",
+        "Lime juice",
+        "Mango"
+      ],
+      "note": "Rice and peas is cooked with kidney beans or gungo peas, coconut milk, thyme and scallion. This pantry keeps pinto, so it is near enough, and says so. Laurel Aitken's Rice and Peas is on the stereo."
+    },
+    {
+      "key": "groundnut",
+      "name": "Groundnut",
+      "vessel": "Bowl",
+      "on": [
+        "west-african"
+      ],
+      "items": [
+        "Jasmine rice",
+        "Golden potatoes",
+        "Greens",
+        "Peanut butter",
+        "Tomato",
+        "Peanuts"
+      ],
+      "note": "Groundnut stews are cooked across West Africa under a lot of names. This is a bowl thinking about them, on Ryan's West African base, with peanut butter stirred into the tomato until it goes the colour of the wall in here."
+    },
+    {
+      "key": "three-chiles",
+      "name": "Three Chiles Burrito",
+      "vessel": "Burrito tortillas",
+      "on": [
+        "mexican"
+      ],
+      "items": [
+        "Basmati rice",
+        "Black beans",
+        "Vegan textured protein",
+        "Salsa",
+        "Guacamole",
+        "Pico de gallo",
+        "Vegan cheese",
+        "Vegan sour cream",
+        "Cilantro",
+        "Lime juice",
+        "Cumin seeds",
+        "Smoked salt (Chihuahua de Mexico)"
+      ],
+      "note": "Ancho, pasilla and guajillo are the three chiles, and rice, beans and a flour burrito tortilla are Ryan's own line. The rest is everything that fits before it will not roll."
+    },
+    {
+      "key": "the-go-to",
+      "name": "The Go-To",
+      "vessel": "Bowl",
+      "on": [
+        "tts"
+      ],
+      "items": [
+        "Quinoa",
+        "Tofu",
+        "Greens",
+        "Broccoli",
+        "Tahini",
+        "Tamari",
+        "Sriracha",
+        "Scallions",
+        "Sesame seeds",
+        "Hemp seeds, hearts"
+      ],
+      "note": "Tahini, tamari and sriracha is Ryan's own go-to, and it is the dressing here: stir the three together and pour it over whatever is in the bowl. It goes on most things."
+    },
+    {
+      "key": "black-salt-scramble",
+      "name": "Black Salt Scramble",
+      "vessel": "Flour Tortillas",
+      "on": [
+        "msg-salt-nooch"
+      ],
+      "items": [
+        "Tofu",
+        "Golden potatoes",
+        "Spinach",
+        "Bell peppers",
+        "Turmeric",
+        "Salsa",
+        "Hot peppers"
+      ],
+      "note": "Crumbled tofu, gone yellow with turmeric, on Ryan's MSG, black salt and nooch. Black salt smells of eggs, which is the reason it is in there, and the potatoes are left over from last night."
+    }
+  ],
+  "counter": {
+    "snacks": [
+      "Popcorn",
+      "Tofu scramble popcorn",
+      "Baby carrots",
+      "Crudité",
+      "Raisins",
+      "Dried cherries",
+      "Dried cranberries",
+      "Peanut butter",
+      "Apples and peanut butter",
+      "Frozen cherries",
+      "Frozen bananas",
+      "Hummus",
+      "Vegan frozen pizza",
+      "Flatbread, tortilla pizza",
+      "Vegan grilled cheese",
+      "Vegan ice cream",
+      "Peanut butter and jelly sandwich",
+      "Peanut butter and banana sandwich"
+    ],
+    "drinks": [
+      "Water",
+      "Matcha",
+      "Mushroom tea",
+      "Coffee",
+      "Decaf coffee",
+      "Herbal tea",
+      "Black tea",
+      "Green tea",
+      "Kombucha"
+    ]
+  },
+  "playlist": {
+    "id": "PLZ6xBLBiTfpc",
+    "title": "Ital Plant Livity",
+    "channel": "Stimpunks Foundation",
+    "_read": "Read off the playlist page's own data (ytInitialData) on 2026-09-24. The header says nineteen videos and eighteen render, with YouTube's 'Show unavailable videos' offered, so one entry is hidden from everybody but the playlist's owner; YouTube skips it. Every one of the eighteen was checked on its own watch page the same day: playabilityStatus OK and playableInEmbed true for all of them. The first visible entry is NgcI47HPM9A, which plays; the Queercore deck on the dancefloor failed to embed because of a dead video at the top of its list, so the hidden entry's position matters, and the embed was pressed inside a frame on the dev server before this room shipped rather than taken on trust -- which is how it was found not to play at all. See door_why.",
+    "_order": "The playlist's own order, which is Ryan's, and is not re-sorted here. No random start: this is a running order somebody chose, the Chappell's reason.",
+    "_drift": "The list under the stereo is a MIRROR of the playlist and drifts by design. A song added to the playlist plays the next time somebody puts the stereo on and is not listed here until somebody reads the playlist again and adds a row. The room prints the date this file was read. If a row dies, check-jukebox.py is what notices.",
+    "frame": "door",
+    "door_why": "Measured 2026-09-24, framed from a page on the dev server so the referrer was real: every frame of this playlist -- videoseries and listType forms, on youtube-nocookie.com and on youtube.com, and a frame started at a song on it that plays -- shows YouTube's 'This video is unavailable', while every song on it plays in a frame of its own and the Laughingstock playlist, framed the same way beside it, plays. So the fault is the playlist and not the songs or this site, and nothing in this repo can fix it. The likeliest cause is the entry YouTube hides as unavailable, but that is a guess and the page does not say it. Until it is sorted out on YouTube the whole playlist is a DOOR and not a screen -- a link out, shaped like one -- and each song is its own press. When it is fixed: press play inside a frame (not the poster), then set frame to 'screen' and re-run make-vital.py. Ryan's diagnosis the same day: 'allow embedding' was switched off on the playlist itself, a setting on the list that playableInEmbed on each video cannot see. He switched it on and it kept resetting to off, so the door stands."
+  },
+  "tracks": [
+    {
+      "id": "NgcI47HPM9A",
+      "title": "Ital Is Vital",
+      "artist": "Ras Tewelde",
+      "runtime": "2:57",
+      "channel": "Bizzarri",
+      "title_verbatim": "Ras Tewelde - Ital is vital - Impossible riddim (on Itunes from the 5th of Feb 2013)"
+    },
+    {
+      "id": "FLqjLn0W5K0",
+      "title": "Wha Me Eat",
+      "artist": "Macka B",
+      "runtime": "4:45",
+      "channel": "Macka B",
+      "title_verbatim": "Wha Me Eat - Macka B OFFICIAL VIDEO"
+    },
+    {
+      "id": "UJ5mBg2b744",
+      "title": "Fresh Vegetable",
+      "artist": "Tony Rebel",
+      "runtime": "3:42",
+      "channel": "Norm Jordan",
+      "title_verbatim": "Tony Rebel - Fresh Vegetable"
+    },
+    {
+      "id": "Nq3NCJI-AKo",
+      "title": "Healthy Body",
+      "artist": "Admiral Bailey",
+      "runtime": "3:38",
+      "channel": "V!bez Yesteryear",
+      "title_verbatim": "Healthy Body - Admiral Bailey (Punanny Riddim)"
+    },
+    {
+      "id": "PGWcdGwv_Ws",
+      "title": "Avocado",
+      "artist": "Jah9",
+      "runtime": "4:05",
+      "channel": "Reggaeville",
+      "title_verbatim": "Jah9 - Avocado [Official Video 2014]"
+    },
+    {
+      "id": "rFYFOaMQhtc",
+      "title": "Sunday Dish, and its version",
+      "artist": "Early B",
+      "runtime": "6:46",
+      "channel": "Trikkyboy",
+      "title_verbatim": "Early B - Sunday Dish & Version!"
+    },
+    {
+      "id": "KOhPJdFzd2o",
+      "title": "Ital Stew (Favorite Menu)",
+      "artist": "Super Cat",
+      "runtime": "3:44",
+      "channel": "Super Cat - Topic",
+      "title_verbatim": "Ital Stew (Favorite Menu)"
+    },
+    {
+      "id": "9gv311sczBA",
+      "title": "Rice and Peas",
+      "artist": "Laurel Aitken",
+      "runtime": "2:46",
+      "channel": "Laurel Aitken",
+      "title_verbatim": "Rice and Peas"
+    },
+    {
+      "id": "V-JN3TK6IQA",
+      "title": "Spirulina",
+      "artist": "Chronixx",
+      "runtime": "3:24",
+      "channel": "ChronixxMusic",
+      "title_verbatim": "#6 Chronixx - Spirulina"
+    },
+    {
+      "id": "sXt8XvVnhZ4",
+      "title": "Strictly Ital",
+      "artist": "Dubkasm",
+      "runtime": "4:43",
+      "channel": "David GA",
+      "title_verbatim": "Dubkasm - Strictly Ital"
+    },
+    {
+      "id": "rSo_hS4zd0w",
+      "title": "Ital Stew (Extended Version)",
+      "artist": "Turbulence",
+      "runtime": "7:01",
+      "channel": "Turbulence",
+      "title_verbatim": "Ital Stew - Extended Version"
+    },
+    {
+      "id": "QPRk_gi10cI",
+      "title": "Banana Export",
+      "artist": "Clint Eastwood",
+      "runtime": "3:06",
+      "channel": "117 Equinox",
+      "title_verbatim": "Clint Eastwood - Banana Export",
+      "aside": "the Jamaican deejay"
+    },
+    {
+      "id": "dd6jffwH_I0",
+      "title": "Stew Peas",
+      "artist": "Chalice",
+      "runtime": "3:16",
+      "channel": "Chalice - Topic",
+      "title_verbatim": "Stew Peas"
+    },
+    {
+      "id": "FKg-PSH_6ug",
+      "title": "Ital Menu",
+      "artist": "Daweh Congo",
+      "runtime": "3:36",
+      "channel": "Daweh Congo - Topic",
+      "title_verbatim": "Ital Menu"
+    },
+    {
+      "id": "HKFJHJIf9I4",
+      "title": "Fire Pon a Deadas",
+      "artist": "Bushman",
+      "runtime": "3:37",
+      "channel": "RUDEBWOYINTL",
+      "title_verbatim": "BUSHMAN - FIRE PON A DEADAS"
+    },
+    {
+      "id": "bDnNqsy7rYE",
+      "title": "Lively Up Yourself (live at the Rainbow Theatre, London, 1977)",
+      "artist": "Bob Marley & The Wailers",
+      "runtime": "6:56",
+      "channel": "Bob Marley",
+      "title_verbatim": "Bob Marley & The Wailers - Lively Up Yourself (Live At The Rainbow Theatre, London / 1977)"
+    },
+    {
+      "id": "YLJ6_sGbleg",
+      "title": "Guava Jelly",
+      "artist": "Johnny Nash",
+      "runtime": "3:16",
+      "channel": "icemon",
+      "title_verbatim": "Johnny Nash - Guava Jelly",
+      "aside": "written by Bob Marley"
+    },
+    {
+      "id": "XmMll3ANwM8",
+      "title": "Acoustic Medley",
+      "artist": "Bob Marley",
+      "runtime": "12:11",
+      "channel": "Giovanni Paradiso",
+      "title_verbatim": "Bob Marley - Acoustic Medley -"
+    }
+  ],
+  "plants": [
+    {
+      "item": "Scallions",
+      "draw": "scallion"
+    },
+    {
+      "item": "Cilantro",
+      "draw": "herb"
+    },
+    {
+      "item": "Garlic",
+      "draw": "garlic"
+    },
+    {
+      "item": "Ginger",
+      "draw": "ginger"
+    },
+    {
+      "item": "Chili peppers",
+      "draw": "chili"
+    },
+    {
+      "item": "Carrots",
+      "draw": "carrot"
+    },
+    {
+      "item": "Red potatoes",
+      "draw": "potato"
+    },
+    {
+      "item": "Flat Italian parsley",
+      "draw": "parsley"
+    },
+    {
+      "item": "Leeks",
+      "draw": "leek"
+    },
+    {
+      "item": "Lemon",
+      "draw": "lemon"
+    }
+  ],
+  "looks": {
+    "Naan": [
+      "fold",
+      "tan"
+    ],
+    "Pita": [
+      "fold",
+      "tan"
+    ],
+    "Flour Tortillas": [
+      "roll",
+      "rice"
+    ],
+    "Corn Tortillas": [
+      "roll",
+      "gold"
+    ],
+    "Burrito tortillas": [
+      "roll",
+      "rice"
+    ],
+    "Taco shells": [
+      "fold",
+      "gold"
+    ],
+    "Rice paper": [
+      "roll",
+      "paper"
+    ],
+    "Nori": [
+      "roll",
+      "nori"
+    ],
+    "Bread": [
+      "stack",
+      "tan"
+    ],
+    "Red potatoes": [
+      "chunk",
+      "red"
+    ],
+    "Golden potatoes": [
+      "chunk",
+      "gold"
+    ],
+    "Basmati rice": [
+      "grain",
+      "rice"
+    ],
+    "Jasmine rice": [
+      "grain",
+      "rice"
+    ],
+    "Sushi rice": [
+      "grain",
+      "rice"
+    ],
+    "Quinoa": [
+      "grain",
+      "gold"
+    ],
+    "Lentils": [
+      "bean",
+      "brown"
+    ],
+    "Greens": [
+      "leaf",
+      "green"
+    ],
+    "Rice noodles": [
+      "strand",
+      "rice"
+    ],
+    "Black beans": [
+      "bean",
+      "bean"
+    ],
+    "Pinto beans": [
+      "bean",
+      "tan"
+    ],
+    "Garbanzo beans": [
+      "round",
+      "gold"
+    ],
+    "Falafel": [
+      "round",
+      "brown"
+    ],
+    "Tofu": [
+      "chunk",
+      "rice"
+    ],
+    "Tempeh": [
+      "chunk",
+      "tan"
+    ],
+    "Soy curls": [
+      "shred",
+      "tan"
+    ],
+    "Polenta": [
+      "chunk",
+      "gold"
+    ],
+    "Mushrooms": [
+      "slice",
+      "brown"
+    ],
+    "Bell peppers": [
+      "slice",
+      "red"
+    ],
+    "Sautéed, steamed, roasted veggies": [
+      "chunk",
+      "orange"
+    ],
+    "Edamame": [
+      "bean",
+      "green"
+    ],
+    "Vegan textured protein": [
+      "grain",
+      "brown"
+    ],
+    "Vegan cheese": [
+      "chunk",
+      "gold"
+    ],
+    "Chili peppers": [
+      "slice",
+      "red"
+    ],
+    "Spinach": [
+      "leaf",
+      "green"
+    ],
+    "Snap peas": [
+      "pod",
+      "sprout"
+    ],
+    "Snow peas": [
+      "pod",
+      "sprout"
+    ],
+    "Frozen peas": [
+      "pea",
+      "green"
+    ],
+    "Broccoli": [
+      "floret",
+      "green"
+    ],
+    "Napa cabbage": [
+      "shred",
+      "sprout"
+    ],
+    "Hemp seeds, hearts": [
+      "seed",
+      "sprout"
+    ],
+    "Sesame seeds": [
+      "seed",
+      "rice"
+    ],
+    "Chia seeds": [
+      "seed",
+      "bean"
+    ],
+    "Pine nuts": [
+      "nut",
+      "rice"
+    ],
+    "Pecans": [
+      "nut",
+      "brown"
+    ],
+    "Pistachios": [
+      "nut",
+      "sprout"
+    ],
+    "Almonds": [
+      "nut",
+      "tan"
+    ],
+    "Peanuts": [
+      "nut",
+      "tan"
+    ],
+    "Water chestnuts": [
+      "chunk",
+      "rice"
+    ],
+    "Ground flax": [
+      "dust",
+      "brown"
+    ],
+    "Bamboo shoots": [
+      "shred",
+      "gold"
+    ],
+    "Garlic": [
+      "fleck",
+      "rice"
+    ],
+    "Ginger": [
+      "fleck",
+      "gold"
+    ],
+    "Scallions": [
+      "ring",
+      "green"
+    ],
+    "Flat Italian parsley": [
+      "fleck",
+      "green"
+    ],
+    "Cilantro": [
+      "fleck",
+      "green"
+    ],
+    "White onions": [
+      "ring",
+      "rice"
+    ],
+    "Red onions": [
+      "ring",
+      "plum"
+    ],
+    "Celery": [
+      "slice",
+      "sprout"
+    ],
+    "Carrots": [
+      "slice",
+      "orange"
+    ],
+    "Shallots": [
+      "ring",
+      "plum"
+    ],
+    "Leeks": [
+      "ring",
+      "sprout"
+    ],
+    "Olive oil": [
+      "drizzle",
+      "oil"
+    ],
+    "Canola oil": [
+      "drizzle",
+      "oil"
+    ],
+    "Peanut oil": [
+      "drizzle",
+      "oil"
+    ],
+    "Avocado oil": [
+      "drizzle",
+      "oil"
+    ],
+    "Sesame oil": [
+      "drizzle",
+      "brown"
+    ],
+    "Coconut oil": [
+      "drizzle",
+      "rice"
+    ],
+    "Pepper-infused oil": [
+      "drizzle",
+      "red"
+    ],
+    "Vegan butter": [
+      "drizzle",
+      "gold"
+    ],
+    "Soy sauce": [
+      "drizzle",
+      "bean"
+    ],
+    "Tamari": [
+      "drizzle",
+      "bean"
+    ],
+    "Mirin": [
+      "drizzle",
+      "oil"
+    ],
+    "Lemon juice": [
+      "drizzle",
+      "gold"
+    ],
+    "Lime juice": [
+      "drizzle",
+      "sprout"
+    ],
+    "Ponzu": [
+      "drizzle",
+      "brown"
+    ],
+    "Rice vinegar": [
+      "drizzle",
+      "oil"
+    ],
+    "Malt vinegar": [
+      "drizzle",
+      "brown"
+    ],
+    "Red wine vinegar": [
+      "drizzle",
+      "plum"
+    ],
+    "Apple cider vinegar": [
+      "drizzle",
+      "gold"
+    ],
+    "Balsamic vinegar": [
+      "drizzle",
+      "bean"
+    ],
+    "Coconut milk": [
+      "sauce",
+      "rice"
+    ],
+    "Red curry paste": [
+      "sauce",
+      "red"
+    ],
+    "Green curry paste": [
+      "sauce",
+      "green"
+    ],
+    "Peanut butter": [
+      "sauce",
+      "tan"
+    ],
+    "Cashew butter": [
+      "sauce",
+      "tan"
+    ],
+    "Tahini": [
+      "sauce",
+      "tan"
+    ],
+    "Miso": [
+      "sauce",
+      "brown"
+    ],
+    "Hoisin": [
+      "sauce",
+      "bean"
+    ],
+    "Sriracha": [
+      "drizzle",
+      "red"
+    ],
+    "Cholula": [
+      "drizzle",
+      "orange"
+    ],
+    "Salsa": [
+      "sauce",
+      "red"
+    ],
+    "Hummus": [
+      "dollop",
+      "tan"
+    ],
+    "Guacamole": [
+      "dollop",
+      "green"
+    ],
+    "Babaganoush": [
+      "dollop",
+      "tan"
+    ],
+    "Pesto": [
+      "dollop",
+      "green"
+    ],
+    "Marinara": [
+      "sauce",
+      "red"
+    ],
+    "Sesame ginger salad dressing": [
+      "drizzle",
+      "tan"
+    ],
+    "Corn starch + liquid": [
+      "sauce",
+      "oil"
+    ],
+    "Vegan sour cream": [
+      "dollop",
+      "rice"
+    ],
+    "Spirulina": [
+      "dust",
+      "green"
+    ],
+    "Nooch": [
+      "dust",
+      "gold"
+    ],
+    "Masalas": [
+      "dust",
+      "orange"
+    ],
+    "Herbs de Provence": [
+      "dust",
+      "green"
+    ],
+    "Sriracha seasoning": [
+      "dust",
+      "red"
+    ],
+    "Asafetida": [
+      "dust",
+      "gold"
+    ],
+    "Black salt": [
+      "dust",
+      "plum"
+    ],
+    "Sea salt flakes": [
+      "dust",
+      "rice"
+    ],
+    "Smoked salt (Chihuahua de Mexico)": [
+      "dust",
+      "brown"
+    ],
+    "Pepper": [
+      "dust",
+      "bean"
+    ],
+    "Red pepper": [
+      "dust",
+      "red"
+    ],
+    "Red pepper flakes": [
+      "dust",
+      "red"
+    ],
+    "Turmeric": [
+      "dust",
+      "gold"
+    ],
+    "Paprika": [
+      "dust",
+      "red"
+    ],
+    "Cumin seeds": [
+      "seed",
+      "brown"
+    ],
+    "Mustard seeds": [
+      "seed",
+      "gold"
+    ],
+    "Allspice": [
+      "dust",
+      "brown"
+    ],
+    "5 spice": [
+      "dust",
+      "brown"
+    ],
+    "MSG": [
+      "dust",
+      "rice"
+    ],
+    "Olives": [
+      "ring",
+      "bean"
+    ],
+    "Pico de gallo": [
+      "chunk",
+      "red"
+    ],
+    "Gremolata": [
+      "fleck",
+      "green"
+    ],
+    "Pepperoncini": [
+      "ring",
+      "sprout"
+    ],
+    "Hot peppers": [
+      "ring",
+      "red"
+    ],
+    "Kimchi": [
+      "shred",
+      "orange"
+    ],
+    "Sauerkraut": [
+      "shred",
+      "rice"
+    ],
+    "Dill pickles": [
+      "slice",
+      "sprout"
+    ],
+    "Capers": [
+      "pea",
+      "green"
+    ],
+    "Pickled red onion": [
+      "ring",
+      "plum"
+    ],
+    "Pickled pepperoncini": [
+      "ring",
+      "sprout"
+    ],
+    "Pickled veggie slaw": [
+      "shred",
+      "orange"
+    ],
+    "Bananas": [
+      "slice",
+      "rice"
+    ],
+    "Avocado": [
+      "wedge",
+      "green"
+    ],
+    "Tomato": [
+      "wedge",
+      "red"
+    ],
+    "Lemon": [
+      "wedge",
+      "gold"
+    ],
+    "Lime": [
+      "wedge",
+      "sprout"
+    ],
+    "Mandarin oranges": [
+      "wedge",
+      "orange"
+    ],
+    "Blueberries": [
+      "berry",
+      "plum"
+    ],
+    "Blackberries": [
+      "berry",
+      "bean"
+    ],
+    "Strawberries": [
+      "berry",
+      "red"
+    ],
+    "Raspberries": [
+      "berry",
+      "red"
+    ],
+    "Grapes": [
+      "berry",
+      "sprout"
+    ],
+    "Mango": [
+      "chunk",
+      "gold"
+    ],
+    "Kiwi": [
+      "slice",
+      "sprout"
+    ],
+    "Papaya": [
+      "chunk",
+      "orange"
+    ],
+    "Apple": [
+      "wedge",
+      "rice"
+    ],
+    "Plums": [
+      "wedge",
+      "plum"
+    ]
+  }
+}

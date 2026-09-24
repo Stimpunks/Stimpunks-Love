@@ -195,6 +195,13 @@ LISTS = [
     # headset that opens on YouTube's refusal plate. Added in the commit that
     # opened the room, which is the lesson Looming Rocks' missing day taught.
     ("dance, punks", "data/dance-punks.json", "dance-punks.html"),
+    # Vital Plant Living's stereo. The playlist itself is not checked, for the
+    # reason above; every song listed under it is, because the list is a mirror
+    # and a dead row is a credit for a song the stereo no longer plays. The
+    # hidden entry YouTube reports is not here and cannot be: nobody but the
+    # playlist's owner can see which video it is. Added in the commit that
+    # opened the room.
+    ("vital plant living", "data/vital.json", "vital-plant-living.html"),
 ]
 
 

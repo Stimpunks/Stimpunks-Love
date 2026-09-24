@@ -723,6 +723,25 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--samefood .og-table {{ margin: auto 0 8px !important; line-height: 0; }}
 .og--samefood .og-table svg {{ display: block; width: auto; height: 290px; margin: 0 auto; }}
 
+/* vital plant living — THE SHELF, CUT THROUGH THE MIDDLE, LIFTED OFF THE PAGE.
+   A SECTION RATHER THAN A SCENE: the pots are cut open along the foot of the
+   card and you can see what grows under the soil, which is the room's one
+   claim about its plants, and the drawing is the page's own, so there is one
+   shelf and not two. The words stand on the bare turmeric wall above it, the
+   name in the room's fat sign face and the tagline in its reading face. No red
+   on the card that is not a chili, for the room's reason. */
+.og--vital {{ width: 100%; padding: 32px 60px 0; gap: 4px; justify-content: flex-start; }}
+.og--vital .og-over {{ margin: 0 !important; font-family: 'Be Vietnam Pro', sans-serif; font-weight: 700;
+  font-size: 18px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--vpl-ink-2); }}
+.og--vital h1 {{ font-size: 96px; line-height: .98; margin: 0 !important; }}
+.og--vital .og-tag {{ margin: 4px 0 0 !important; font-family: 'Be Vietnam Pro', sans-serif; font-size: 30px;
+  line-height: 1.2; color: var(--vpl-ink); }}
+.og--vital .og-tag b {{ font-weight: 700; color: var(--vpl-beet); }}
+.og--vital .og-lede {{ font-family: 'Be Vietnam Pro', sans-serif; color: var(--vpl-ink);
+  max-width: 1060px; font-size: 22px; line-height: 1.4; margin: 6px 0 0 !important; }}
+.og--vital .og-shelf {{ margin: auto 0 0 !important; line-height: 0; }}
+.og--vital .og-shelf svg {{ display: block; width: 100%; height: auto; }}
+
 /* the map — A CORNER OF THE MODEL, LIFTED OFF THE PAGE. The mat and its grid
    come from the room's own body rule, and the piece of street on the right is
    the page's own generated lots -- the first few, with the rooms behind them
@@ -2378,6 +2397,44 @@ def card_samefood(p):
     )
 
 
+def card_vital(p):
+    # THE SHELF IS LIFTED FROM THE PAGE, and so is the tagline, and the lede is
+    # the page's own og:description, so the card cannot say what the room does
+    # not. The alt describes the drawing, which is aria-hidden on the page and
+    # said there in words by the window line under it.
+    tg = re.search(r'<p class="vpl-tag">(.*?)</p>', p["src"], re.S)
+    if not tg:
+        raise SystemExit(
+            "REFUSING: vital-plant-living.html has no tagline under its name, and its\n"
+            "card is built around one. Redesign the card on purpose.")
+    tg_html = tg.group(1).strip()
+    tg_plain = html.unescape(re.sub(r"<[^>]+>", "", tg_html)).strip()
+    # THE PLANTS IN THE ALT ARE READ OFF THE PAGE'S OWN WINDOW LINE, which the
+    # generator writes from the same data as the drawing, so the card cannot
+    # describe a pot the shelf has not got.
+    win = re.search(r'<p class="vpl-window">.*?in here: (.*?)\. Every pot', p["src"], re.S)
+    if not win:
+        raise SystemExit(
+            "REFUSING: vital-plant-living.html has no window line under its shelf, and\n"
+            "the card's alt text is read off it. Redesign the card on purpose.")
+    shelf = html.unescape(win.group(1)).strip()
+    return (
+        "",
+        f'<div class="og og--vital" data-fit="card">'
+        f'<p class="og-over">A plant-based kitchen on the street</p>'
+        f'{p["h1"]}'
+        f'<p class="og-tag">{tg_html}</p>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-shelf">{p["shelf"]}</div>'
+        f'</div>',
+        f"A saturated turmeric-yellow card. Small dark capitals reading a plant-based kitchen "
+        f"on the street, then \u201c{p['h1text']}\u201d in a very heavy, round, dark aubergine "
+        f"face, and under it: {tg_plain} Then: {p['desc_plain']} Along the foot of the card, a "
+        f"shelf of terracotta pots drawn cut through the middle, so the dark soil shows inside "
+        f"each one and what grows under it can be seen: {shelf}.",
+    )
+
+
 def card_map(p):
     # THE CORNER OF THE MODEL IS LIFTED FROM THE PAGE: the first few lots out of
     # what make-map.py wrote, with the rooms behind them and the back stair left
@@ -2565,6 +2622,7 @@ CARDS = {
     "sithen":       card_sithen,
     "covenstead":   card_covenstead,
     "samefood":     card_samefood,
+    "vital":        card_vital,
     "collections":  card_collection,
     "mapping":      card_map,
     "dead-tired":   card_dead_tired,
@@ -2688,6 +2746,7 @@ def main():
         ("bed",      "healing-checkpoint.html", r'(<svg class="hc-bed".*?</svg>)'),
         ("doorway",  "dead-tired-society.html", r'(<svg class="dts-doorway".*?</svg>)'),
         ("table",    "samefood-cafe.html", r'(<svg class="sf-table-art".*?</svg>)'),
+        ("shelf",    "vital-plant-living.html", r'(<svg class="vpl-shelf-art".*?</svg>)'),
         ("gallery",  "collection-collection.html", r'(<svg class="cc-gallery".*?</svg>)'),
         ("stage",    "laughingstock.html", r'(<svg class="ls-stage".*?</svg>)'),
         ("house",    "lightbulb-picture-house.html", r'(<svg class="lph-auditorium".*?</svg>)'),

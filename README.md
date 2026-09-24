@@ -101,6 +101,7 @@ laughingstock.html    A comedy club down a ramp. Disabled comics on their own te
 lightbulb-picture-house.html  Two screens of neurodiversity films, a rack with a card for each. House lights up; nothing is blue
 samefood-cafe.html    A café for samefoods and safe foods, seen from above the table. Nothing on a plate touches anything
 collection-collection.html  A dark gallery of our people's collections, a lamp per cabinet and no two alike. The house describes the photos
+vital-plant-living.html  A plant-based kitchen drawn cut through the middle. Build a bowl or wrap from a real pantry and copy it
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 the-garden.html       The knowledge garden. One bed per site we publish, each linking out
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
@@ -210,6 +211,7 @@ python3 tools/make-laughingstock.py # Laughingstock's stage, its bill and the li
 python3 tools/make-picture-house.py # The Lightbulb Picture House's screens and rack, and the credits; refuses a blue
 python3 tools/make-samefood.py     # Samefood Cafe's table, menu, counter and trays, and the credits; refuses anything that touches
 python3 tools/make-collection.py   # The Collection Collection's gallery, cabinets and credits; refuses metadata, a filter, or two lamps alike
+python3 tools/make-vital.py        # Vital Plant Living's shelf, builder, board, counter and stereo; refuses a combo off the pantry, or Ital on the menu
 python3 tools/make-dance-punks.py  # the disco's channels and credits; refuses a runtime, shuffle, or two inks alike in greyscale
 python3 tools/make-small-hours.py  # the diner's menu, quotations, record and jukebox; refuses a lyric with no permission
 python3 tools/make-repeater.py     # the Repeater's log and quotations; refuses anything that sends, stores or listens
@@ -465,6 +467,22 @@ negation window and with mid-sentence capitals skipped as names (its first refus
 a filter, blend or fade reaching a photograph; a full cabinet with no lamp, and **two cabinets with
 the same lamp**; a file with no entry and an entry with no file. Then run `make-webp.py`, which
 decides per photograph whether WebP earns its place.
+
+`make-vital.py` builds Vital Plant Living out of `data/vital.json`, **where the pantry is Ryan's own**,
+the list he cooks from at home, written down as he gave it. It **refuses a combo that brings in
+anything the pantry does not keep**, and one that stands on none of the flavour bases off his list,
+so the board cannot quietly serve something the kitchen has not got; **refuses an item with no look**,
+because the failure is a thing somebody ticked that never appears in the drawing of their bowl;
+refuses a pot on the shelf that is not in the pantry, and two pots drawn alike; holds
+`make-club.py`'s pair of runtime rules for the stereo; and **refuses the word Ital anywhere on the
+menu**, because the room was briefed under that name and renamed, Ryan's call, 2026-09-24: this
+kitchen cooks with salt, MSG and processed food, and how Ital is kept is not ours to settle. It
+also refuses authentic, exotic and ethnic, and the vocabulary of wellness and of counting, in the
+room's own voice, with the negation window. **Its first refusal was a sentence of ours**: the
+credits line listing what the tool refuses said "the vocabulary of … authenticity" with the
+"refuses" too far back for the window, and the sentence was rewritten rather than excepted.
+`vital.js` reads every item, shape and ink off the page and keeps no copy; the copy button puts a
+plain-text ticket on the visitor's own clipboard and nothing is stored or sent.
 
 `make-guild.py` refuses a job with no estimate of how long it takes &mdash; the street's oldest
 promise arriving at a job board, where the cost is a walk rather than a runtime &mdash; refuses a

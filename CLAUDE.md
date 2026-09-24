@@ -2215,6 +2215,72 @@ fill any of them from memory, from our other pages, or from photographs of their
 elsewhere**, and remember the Faery Yurt's rule: a cabinet in Helen's name is a new thing about her,
 so what goes in it is her call. See DECISIONS.md.
 
+**THE KITCHEN IS THE ONE ROOM DRAWN CUT THROUGH THE MIDDLE, AND EVERYTHING IN IT TOUCHES.** Vital
+Plant Living (§50) is a plant-based kitchen: build your own bowl or wrap out of **Ryan's own pantry**,
+the list he cooks from at home, or start from a combo on the board, each on a flavour base off his list;
+copy it to the clipboard and take it shopping. Every other room is seen at eye level, as a plan or as a
+model; **this one is a section** — the bowl, the wraps and the pots on the shelf are all cut open, every
+layer sits on the one under it, and the sauce runs into the rice. **It is Samefood Cafe exactly
+inverted**: a plan where nothing on a plate touches anything, a few doors along, and the house rules
+send anybody who needs their food apart there by name. If anything in §50 ever sits in a well of its own
+with room round it, it has become Samefood Cafe with the lid off, and it is this room that moves. The
+other collisions are structural: the Garden also shows what is under its soil, but that is beds in the
+ground outdoors, one per site and each linking out, where these are pots of ingredients on a kitchen
+shelf; the plant rooms (Jungle, Sweetgrass, Hermitage) are each a *light*, and a section is a diagram with
+no light in it; the Guild is also lit from nowhere, and is pale, square, ruled and filed where this is
+saturated, round and piled. **The decor is the larder**: `make-vital.py` refuses a pot on the shelf that
+is not in the pantry.
+
+**THE NAME WAS CHANGED ON PURPOSE AND THE ROOM SAYS WHY, NEAR THE TOP.** It was briefed as Ital Plant
+Livity, and both words are Rastafari's. Ryan's call, 2026-09-24: Rastafari has been a big influence on
+him, and the room takes the plain-English name, because **this kitchen is not Ital** — the pantry has
+three salts, MSG, soy sauce and things out of packets, which many people who keep Ital avoid — and because
+how Ital is kept varies from person to person, which is not ours to settle from outside (Covenstead's
+Rule of Three reason). What the room says about Ital was read against Wikipedia's article, not
+remembered. **The menu never calls a dish Ital and the tool refuses it**; the stereo keeps the word
+because it is in the songs' own titles. **No red in the room's own clothes**: a turmeric wall with green
+leaves and a red accent is the Rastafari tricolour, on the page that decided not to wear the name.
+Links are beetroot; the one red is a food ink, and a chili may be red. **Do not "finish" the name back to
+Ital, and do not give the room a red.**
+
+**THE PANTRY IS RYAN'S AND IS WRITTEN AS HE GAVE IT; THE COMBOS ARE OURS AND CANNOT LEAVE IT.** His
+spellings stay (*Herbs de Provence*, *Babaganoush*); a line that held several things is split, rice is
+three rices by his own correction, and a thing listed twice is in the builder once. The supplements at
+the foot of his list are **not** on the menu — a restaurant serving B12 would be giving advice about
+eating. Every combo is assembled out of the pantry and stands on a base from his list, and
+`make-vital.py` refuses one that brings in anything else. **Nothing on the board is authentic, exotic,
+ethnic, healthy, a superfood or counted**, refused in our voice with the negation window; where a combo is
+thinking about a dish usually made with something the pantry does not keep, its note says so (pinto,
+not kidney beans). "Vital" means alive and never optimised — the friendly edit is a line about what a
+bowl does for your body, and every menu on the internet is written that way. **The tool's first refusal
+was a sentence of ours**, the credits line naming "authenticity" with its "refuses" out of the window's
+reach; rewritten, not excepted.
+
+**`hidden = false` DOES NOT UNHIDE AN SVG.** `hidden` is an HTMLElement property; on an `<svg>` it is an
+expando, the attribute stays, §2's `[hidden]` guard wins with `!important`, and the drawing renders at
+0×0 while the DOM holds every shape — the 0×0 iframe in a new costume. `vital.js` uses
+`removeAttribute('hidden')`. Any script that ships an SVG `hidden` has this bug until it does the same.
+
+**A PLAYLIST HAS AN EMBEDDING PERMISSION OF ITS OWN, AND NOTHING HERE COULD SEE IT.** The stereo's
+playlist rendered *This video is unavailable* in every frame — both hosts, both embed forms, and started
+at a song that plays — while every song on it framed alone played and the Laughingstock playlist beside it
+played. `check-jukebox.py` said all eighteen were `OK` and `playableInEmbed`, **correctly**, because
+that is a fact about each video and this was a setting on the list: *allow embedding* was off on the
+playlist, and when Ryan switched it on (2026-09-24) **it kept resetting to off**, so the door is the room's standing state rather than a stopgap, until it sticks. **That is Queercore's lesson with a different cause** —
+there a dead video at the top, here the list's own setting — and the control that told them apart is
+the same: frame the videos alone, frame a known-good list, frame this list started mid-way. Until a press
+inside a frame plays, `data/vital.json` holds the playlist as `frame: "door"` with `door_why` saying what
+was measured, the page shows it as a link shaped like a door, and **every song is its own press** either
+way, so the stereo plays whatever state the list is in. Flip it to `screen` only after pressing play
+inside a frame, not after reading the poster.
+
+**THE RING IS ON THE BOX, NOT THE PILL.** Each thing you can tick is a pill with a checkbox in it, and the
+first draft drew the focus ring on the pill with `:has()` and switched the box's off — more visible, and
+invisible to `check-focus.py`, which measures the outline of the element that has focus. It counted 170
+controls "drawn some way other than an outline" and could say nothing about any of them. The ring is on
+the box now, and turns pale on a ticked, dark pill. **When a tool can only see one thing, do not ask it to
+take your word for another** — arcade.js's call, arriving at a focus ring.
+
 **THE MAP IS THE ONE PAGE THAT SHOWS EVERY OTHER PAGE, AND NOTHING ON IT IS PAINTED.** `map.html`
 (§49) is the whole street as a model in white card on a cutting mat: shopfronts on both sides of a
 pencilled road, rooms behind rooms standing behind them, the garden's gate halfway down, the

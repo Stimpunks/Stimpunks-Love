@@ -176,11 +176,25 @@
         21
       ]
     },
+    "bagel-fat-one": {
+      "where": "Vital Plant Living",
+      "page": "vital-plant-living.html",
+      "sections": [
+        50
+      ]
+    },
     "barlow": {
       "where": "Club Chronic",
       "page": "club-chronic.html",
       "sections": [
         20
+      ]
+    },
+    "be-vietnam-pro": {
+      "where": "Vital Plant Living",
+      "page": "vital-plant-living.html",
+      "sections": [
+        50
       ]
     },
     "bevan": {
