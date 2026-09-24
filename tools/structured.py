@@ -9,7 +9,7 @@ its canonical. A room renamed in its own head is renamed here on the next run,
 and there is nowhere for the two to disagree.
 
 THE SHAPE, and why each part is there:
-  · a WebSite node for stimpunks.love and an Organization node for Stimpunks
+  · a WebSite node for stimpunks.world and an Organization node for Stimpunks
     Foundation on EVERY page, not only the front one. A graph that refers to an
     @id it does not define is valid, but a reader that fetched one page cannot
     resolve it; two short nodes make every page self-contained.
@@ -35,7 +35,7 @@ import html
 import json
 import re
 
-SITE = "https://stimpunks.love/"
+SITE = "https://stimpunks.world/"
 WEBSITE_ID = SITE + "#website"
 ORG = {
     "@type": "Organization",
@@ -73,7 +73,7 @@ def graph(src, name):
     website = {
         "@type": "WebSite",
         "@id": WEBSITE_ID,
-        "name": "Stimpunks.Love",
+        "name": "Stimpunks.World",
         "url": SITE,
         "description": front,
         "inLanguage": "en",

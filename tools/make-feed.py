@@ -32,7 +32,17 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SITE = "https://stimpunks.love"
+SITE = "https://stimpunks.world"
+# THE GUIDS STAY ON THE OLD DOMAIN, ON PURPOSE. The site moved from
+# stimpunks.love to stimpunks.world on 2026-09-23, and a reader decides whether
+# an item is new by its guid. Rewriting every guid to the new domain would have
+# republished the whole changelog into everybody's reader as if it were news:
+# exactly the failure the id refusal below exists to prevent, arriving through
+# a domain move instead of a missing id. So a guid is an opaque name now
+# (isPermaLink="false"), minted on the address the feed was born on, and the
+# <link> beside it carries the live address. New entries get the same prefix:
+# a guid is a name, not a location, and it never has to resolve.
+GUID_BASE = "https://stimpunks.love"
 SOURCE = "changelog.html"
 
 H2 = re.compile(r'<h2(?P<attrs>[^>]*)>(?P<head>.*?)</h2>', re.S)
@@ -95,7 +105,7 @@ def main():
     out = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
            "  <channel>",
-           "    <title>Stimpunks.Love — what changed on the street</title>",
+           "    <title>Stimpunks.World — what changed on the street</title>",
            f"    <link>{SITE}/{SOURCE}</link>",
            f'    <atom:link href="{SITE}/feed.xml" rel="self" type="application/rss+xml"/>',
            "    <description>Every change to the rooms, the street that joins them and the "
@@ -109,10 +119,11 @@ def main():
 
     for ident, date, title, summary in entries:
         url = f"{SITE}/{SOURCE}#{ident}"
+        guid = f"{GUID_BASE}/{SOURCE}#{ident}"
         out += ["    <item>",
                 f"      <title>{html.escape(title)}</title>",
                 f"      <link>{url}</link>",
-                f'      <guid isPermaLink="true">{url}</guid>',
+                f'      <guid isPermaLink="false">{guid}</guid>',
                 f"      <pubDate>{stamp(d=date)}</pubDate>",
                 f"      <description>{html.escape(summary)}</description>",
                 "    </item>"]

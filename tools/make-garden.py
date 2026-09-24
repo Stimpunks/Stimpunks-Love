@@ -124,7 +124,7 @@ CREDITS = ROOT / "liner-notes.html"
 # Our own hosts. A link to one of these inside a bed's note is a link to a page
 # of ours, which is always allowed: the beds sit on our street and may point
 # back into it.
-OURS = {"stimpunks.love"}
+OURS = {"stimpunks.world"}
 
 # ── The drawings, one habit of growth per bed ────────────────────────────────
 # Every one of them is in THE SAME THREE INKS AND THE SAME ONE FLOWER COLOUR,
@@ -302,7 +302,7 @@ DRAW = {
         + f'<path d="M142 68 C 136 78, 130 88, 122 96 M160 68 C 168 78, 176 86, 184 94" '
           f'fill="none" stroke="{LOAM}" stroke-width="1.2" stroke-dasharray="2 6" stroke-linecap="round"/>'
     ),
-    # stimpunks.love — a scramble. Nasturtiums over the edges of the bed, onto
+    # stimpunks.world — a scramble. Nasturtiums over the edges of the bed, onto
     # the path, and off both sides of the frame: the loud one, and the only
     # drawing here that does not stay inside its own bed.
     "scramble": (

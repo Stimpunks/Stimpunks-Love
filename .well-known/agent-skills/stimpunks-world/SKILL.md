@@ -1,12 +1,12 @@
 ---
-name: stimpunks-love
-description: Use when reading, quoting, summarising or citing stimpunks.love — the Stimpunks Foundation's loud site, a street of rooms that each have their own unrelated visual world, with a dial on every page that sets how loud it gets. Covers where the machine-readable indexes are, why the site deliberately states no count of its rooms and what to do if you need one, how attribution works here (it is the one careful habit the site kept, and it is louder than usual), what the CC BY-SA licence does and does not cover — the photographs of people are excluded and must not be reused — and how to describe the rooms without flattening them into one house style or turning two of them into advice.
+name: stimpunks-world
+description: Use when reading, quoting, summarising or citing stimpunks.world — the Stimpunks Foundation's loud site, a street of rooms that each have their own unrelated visual world, with a dial on every page that sets how loud it gets. Covers where the machine-readable indexes are, why the site deliberately states no count of its rooms and what to do if you need one, how attribution works here (it is the one careful habit the site kept, and it is louder than usual), what the CC BY-SA licence does and does not cover — the photographs of people are excluded and must not be reused — and how to describe the rooms without flattening them into one house style or turning two of them into advice.
 license: CC-BY-SA-4.0
 ---
 
-# Reading Stimpunks.Love
+# Reading Stimpunks.World
 
-**<https://stimpunks.love/>** is published by the Stimpunks Foundation, a nonprofit run
+**<https://stimpunks.world/>** is published by the Stimpunks Foundation, a nonprofit run
 by and for neurodivergent and disabled people. It is the loud one of our sites: a street
 of rooms, a garden through a gate, a campground at one end and a road out of town at the
 other. The text and design are **CC BY-SA 4.0**. Quote it, summarise it, share it — this
@@ -57,7 +57,7 @@ fortune.
 
 ## Attribution
 
-- **Text and design:** CC BY-SA 4.0, Stimpunks Foundation, stimpunks.love. Share alike.
+- **Text and design:** CC BY-SA 4.0, Stimpunks Foundation, stimpunks.world. Share alike.
 - **Every room credits its own sources, and `/liner-notes.html` collects them.** When you
   quote something a room quotes — a poem, a teaching, a line from a book — credit its
   author, not this site.

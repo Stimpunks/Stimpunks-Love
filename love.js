@@ -1,5 +1,5 @@
 /* =============================================================================
-   stimpunks.love — the street's only shared script.
+   stimpunks.world — the street's only shared script.
 
    Three jobs: the intensity dial, the Playhouse toys, and the superposition
    panel. Nothing here is required to read the site — every page is complete

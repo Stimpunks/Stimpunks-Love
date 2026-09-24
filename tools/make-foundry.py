@@ -432,7 +432,7 @@ def main():
                      f"{room['room']['leading']['default']}, "
                      f"{room['room']['tracking']['default']}em, "
                      f"{room['room']['measure']['default']}ch. "
-                     f"Self-hosted from stimpunks.love; the typeface is not ours."),
+                     f"Self-hosted from stimpunks.world; the typeface is not ours."),
         samples=sample_options(sams),
         inks=ink_controls(room["inks"]),
         size=slider("fo-size", "Size", room["room"]["sizes"],
@@ -492,17 +492,17 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Foundry &mdash; Stimpunks.Love</title>
+<title>The Foundry &mdash; Stimpunks.World</title>
 <meta name="description" content="A type foundry on the street: a grey iron workshop where you can set your own words, or words out of The Playhouse, The Mopery and The Zibaldone, in any typeface this site holds. Size, leading, tracking, measure, weight, a real italic or a machine slant, four measured inks, and a proof you can print with the designer's name on it.">
-<link rel="canonical" href="https://stimpunks.love/foundry.html">
+<link rel="canonical" href="https://stimpunks.world/foundry.html">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#3F4548">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Stimpunks.Love">
-<meta property="og:title" content="The Foundry &mdash; Stimpunks.Love">
+<meta property="og:site_name" content="Stimpunks.World">
+<meta property="og:title" content="The Foundry &mdash; Stimpunks.World">
 <meta property="og:description" content="A grey iron workshop under a dirty roof. Set any words on this street in any face on this street, pull a proof, and print it with the designer's name on it.">
-<meta property="og:url" content="https://stimpunks.love/foundry.html">
-<meta property="og:image" content="https://stimpunks.love/og/foundry.png">
+<meta property="og:url" content="https://stimpunks.world/foundry.html">
+<meta property="og:image" content="https://stimpunks.world/og/foundry.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -510,13 +510,13 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
      match it. This copy is here only so a freshly generated page is never without
      one, and it is kept in step by hand -- a stale copy here silently reverts a
      correct alt every time this tool runs, which is how it drifted before. -->
-<meta property="og:image:alt" content="An iron-grey card lit flatly from above, as if through a dirty workshop roof. On the left, a drawing of a compositor’s galley holding three pieces of metal type standing on their feet, each with a nick cut across the shank and its letter mirrored the way cast type is, with one proof sheet lying under them. On the right, small brass capitals reading cast, proofed, and credited, then “The Foundry” in a heavy stencil face in bone, the strokes bridged where a stencil holds itself together. Under it in brass: Every typeface on this street, and the name of whoever drew it. Then, smaller: A grey iron workshop under a dirty roof. Set any words on this street in any face on this street, pull a proof, and print it with the designer&#x27;s name on it. Along the foot, in grey capitals: nothing here is counted, stimpunks.love.">
+<meta property="og:image:alt" content="An iron-grey card lit flatly from above, as if through a dirty workshop roof. On the left, a drawing of a compositor’s galley holding three pieces of metal type standing on their feet, each with a nick cut across the shank and its letter mirrored the way cast type is, with one proof sheet lying under them. On the right, small brass capitals reading cast, proofed, and credited, then “The Foundry” in a heavy stencil face in bone, the strokes bridged where a stencil holds itself together. Under it in brass: Every typeface on this street, and the name of whoever drew it. Then, smaller: A grey iron workshop under a dirty roof. Set any words on this street in any face on this street, pull a proof, and print it with the designer&#x27;s name on it. Along the foot, in grey capitals: nothing here is counted, stimpunks.world.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
-<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.Love &mdash; what changed on the street">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World &mdash; what changed on the street">
 <link rel="preload" href="fonts/stardos-stencil-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="love.css">
 <!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would

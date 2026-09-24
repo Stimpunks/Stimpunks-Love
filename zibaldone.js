@@ -65,7 +65,7 @@
       lines.push('');
     });
     if (!any) return '';
-    lines.push('Sent from the attribution slip at https://stimpunks.love/zibaldone.html');
+    lines.push('Sent from the attribution slip at https://stimpunks.world/zibaldone.html');
     return lines.join('\n').replace(/\n{3,}/g, '\n\n');
   }
 

@@ -1,7 +1,7 @@
 /* =============================================================================
    The laptop in the Solarpunk Hermitage's cave.
 
-   It frames stimpunks.love — this site, inside a room on this site. Nothing
+   It frames stimpunks.world — this site, inside a room on this site. Nothing
    third-party is involved, so this is not the press-to-play facade's problem
    (see love-embed.js) and it still waits to be pressed, for different reasons:
    a whole copy of the street loading itself into a room would mean a second
@@ -47,7 +47,7 @@
     var frame = document.createElement('iframe');
     frame.src = 'index.html';
     frame.className = 'laptop__screen';
-    frame.title = 'stimpunks.love, open on the laptop in the cave';
+    frame.title = 'stimpunks.world, open on the laptop in the cave';
     frame.setAttribute('loading', 'lazy');
     wake.replaceWith(frame);
     frame.focus();

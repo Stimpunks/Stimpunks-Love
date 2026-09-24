@@ -1,10 +1,11 @@
-# Stimpunks.Love
+# Stimpunks.World
 
 **One street, no two rooms alike, rooms behind rooms, and an edge at each end &mdash; a campground
 past the treeline, a road out of town past the last streetlight.** A Stimpunks
 Foundation site, and the loud one.
 
-Live at **[stimpunks.love](https://stimpunks.love/)** since 2026-09-19.
+Live at **[stimpunks.world](https://stimpunks.world/)** since 2026-09-23, and at stimpunks.love from
+2026-09-19 until then; the old domain stays registered and 301s path-for-path.
 
 > Queer without fear. Interdependent and here. Divergent and proud. Living out loud.
 > Plucky pluralism, for human organisms. Becoming and belonging, with ribald songing.

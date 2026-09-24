@@ -162,7 +162,7 @@
       if (slant === 'oblique') set.push('machine slant, 12°');
       KNOBS.forEach(function (k) { if (k.el) set.push(k.el.value + k.unit); });
       colophon.textContent = bits.join(' · ') + ' — set at ' + set.join(', ') +
-        '. Self-hosted from stimpunks.love; the typeface is not ours.';
+        '. Self-hosted from stimpunks.world; the typeface is not ours.';
     }
   }
 

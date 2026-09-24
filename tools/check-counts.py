@@ -128,7 +128,7 @@ def surfaces():
     # number, for as long as this tool had been running.
     for name in ("love.css", "llms.txt", "README.md", "CLAUDE.md", "DECISIONS.md",
                  "site.webmanifest", "favicon.svg", "netlify.toml", "SECURITY.md",
-                 ".well-known/agent-skills/stimpunks-love/SKILL.md"):
+                 ".well-known/agent-skills/stimpunks-world/SKILL.md"):
         p = ROOT / name
         if p.exists():
             yield p

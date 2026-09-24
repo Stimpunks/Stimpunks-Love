@@ -1188,7 +1188,7 @@ def card_street(p):
         f'<p class="og-foot" data-fit="footer">ONE STREET · NO TWO ROOMS ALIKE · A FIELD PAST THE TREELINE</p>'
         f'</div>',
         "A night-black card scattered with small coloured sparks. “stimpunks” in "
-        "white block capitals with pink and cyan offset shadows, “.love” below it "
+        "white block capitals with pink and cyan offset shadows, “.world” below it "
         "in hot pink script, and six taglines each set in a different typeface: "
         "Queer without fear. Interdependent and here. Divergent and proud. Living "
         "out loud. Plucky pluralism, for human organisms. Becoming and belonging, "
@@ -1212,11 +1212,11 @@ def card_pony(p):
         f'<div class="og og--pony" data-fit="card">'
         f'<div class="og-head"><div class="mirrorball" aria-hidden="true"></div>{p["h1"]}</div>'
         f'<p class="og-lede">{p["desc"]}</p>'
-        f'<p class="og-foot" data-fit="footer">stimpunks.love</p>'
+        f'<p class="og-foot" data-fit="footer">stimpunks.world</p>'
         f'</div>',
         f"A flat hot pink card. A mirrorball beside "
         f"“{p['h1text']}” in cream script with a dark red shadow, then the line: "
-        f"{p['desc_plain']} Signed stimpunks.love.",
+        f"{p['desc_plain']} Signed stimpunks.world.",
     )
 
 
@@ -1226,12 +1226,12 @@ def card_zine(p):
         f'<div class="og og--zine" data-fit="card">'
         f'{p["h1"]}'
         f'<p class="og-lede">{p["desc"]}</p>'
-        f'<p class="og-foot" data-fit="footer">stimpunks.love · photocopied at 2am · free, always</p>'
+        f'<p class="og-foot" data-fit="footer">stimpunks.world · photocopied at 2am · free, always</p>'
         f'</div>',
         f"A photocopied grey-white card with visible scanner grain. “{p['h1text']}” "
         f"as a ransom note — every word a different typeface, some pasted on blocks "
         f"of yellow, black, cyan and red, each at its own angle. Under it, in "
-        f"typewriter type: {p['desc_plain']} Along the bottom: stimpunks.love, "
+        f"typewriter type: {p['desc_plain']} Along the bottom: stimpunks.world, "
         f"photocopied at 2am, free, always.",
     )
 
@@ -1242,12 +1242,12 @@ def card_quantum(p):
         f'<div class="og og--quantum" data-fit="card">'
         f'{p["h1"]}'
         f'<p class="og-lede">{p["desc"]}</p>'
-        f'<div class="fringe" data-state="open" aria-hidden="true"><span>stimpunks.love</span></div>'
+        f'<div class="fringe" data-state="open" aria-hidden="true"><span>stimpunks.world</span></div>'
         f'</div>',
         f"A near-black card ruled with fine cyan and violet interference fringes. "
         f"“{p['h1text']}” in a large cyan terminal face, split at the edges into "
         f"pink and green. Below it in italic serif: {p['desc_plain']} A band of "
-        f"overlapping interference patterns runs along the foot with stimpunks.love "
+        f"overlapping interference patterns runs along the foot with stimpunks.world "
         f"across it.",
     )
 
@@ -1259,13 +1259,13 @@ def card_enid(p):
         f'{p["h1"]}'
         f'<p class="og-lede">{p["desc"]}</p>'
         f'{p["stickers"]}'
-        f'<p class="og-foot" data-fit="footer">stimpunks.love · knock first</p>'
+        f'<p class="og-foot" data-fit="footer">stimpunks.world · knock first</p>'
         f'</div>',
         f"A black card washed with violet and green at opposite corners. "
         f"“{p['h1text']}” in a hollow, striped display face in green, then the line: "
         f"{p['desc_plain']} Below, a row of crooked stickers in pink, green, yellow, "
         f"cyan, violet, orange and red reading AUTISTIC, DISABLED, monotropic, QUEER, "
-        f"neuroqueer, STIMMING, not a phase. Along the bottom: stimpunks.love, knock first.",
+        f"neuroqueer, STIMMING, not a phase. Along the bottom: stimpunks.world, knock first.",
     )
 
 
@@ -1276,11 +1276,11 @@ def card_play(p):
         f'{p["h1"]}'
         f'<p class="og-lede">{p["desc"]}</p>'
         f'</div>'
-        f'<div class="floor" data-fit="floor"><span>stimpunks.love</span></div>',
+        f'<div class="floor" data-fit="floor"><span>stimpunks.world</span></div>',
         f"A bright blue card. A strip of red, yellow, green and violet bunting along "
         f"the top; “{p['h1text']}” in a fat rounded yellow face with a hard black "
         f"shadow; then in white: {p['desc_plain']} A black-and-white checkerboard "
-        f"floor across the bottom with stimpunks.love on a black tag.",
+        f"floor across the bottom with stimpunks.world on a black tag.",
     )
 
 
@@ -1293,13 +1293,13 @@ def card_chappell(p):
         f'<p class="og-lede">{p["desc"]}</p>'
         f'</div>'
         f'<div class="og-glass" data-fit="glass">'
-        f'<div class="niche__glass" aria-hidden="true"></div><span>stimpunks.love</span>'
+        f'<div class="niche__glass" aria-hidden="true"></div><span>stimpunks.world</span>'
         f'</div>',
         f"A near-black indigo card lit from the top by a violet rose window with "
         f"thin gold rays fanning out of it. A small gold plate reading THE CHAPPELL, "
         f"then \u201c{p['h1text']}\u201d in a gold neon-marquee face, and below it in "
         f"serif: {p['desc_plain']} A band of stained glass in ruby, gold, sapphire, "
-        f"emerald and amethyst runs along the foot, with stimpunks.love on a gold-"
+        f"emerald and amethyst runs along the foot, with stimpunks.world on a gold-"
         f"edged tag across it.",
     )
 
@@ -1354,14 +1354,14 @@ def card_camp(p):
         f'{p["h1"]}'
         f'<p class="og-lede">{p["desc"]}</p>'
         f'</div>'
-        f'<p class="og-foot" data-fit="footer">{p["pitches"]} · stimpunks.love</p>'
+        f'<p class="og-foot" data-fit="footer">{p["pitches"]} · stimpunks.world</p>'
         f'{p["stream"]}'
         f'</div>',
         f"A cold, dark blue-green card with nothing moving on it. Small green "
         f"capitals reading off the street, past the treeline, no gate, no bell, "
         f"then \u201c{p['h1text']}\u201d in a heavy bone-white slab face like a "
         f"routed park sign, and under it: {p['desc_plain']} Lower down, in the "
-        f"same slab face: {p['pitches_alt']}, stimpunks.love. Along the "
+        f"same slab face: {p['pitches_alt']}, stimpunks.world. Along the "
         f"foot, a drawing of a stream winding across the card with three stones "
         f"in it.",
     )
@@ -1385,7 +1385,7 @@ def card_garden(p):
         f'<div class="og-labels" data-fit="labels">{p["labels"]}</div>'
         f'</div>'
         f'<p class="og-foot" data-fit="footer">every bed links off this street &middot; '
-        f'stimpunks.love</p>'
+        f'stimpunks.world</p>'
         f'{p["hedge"]}'
         f'</div>',
         f"A card on a pale green-white ground, lit as though the sun were overhead "
@@ -1415,7 +1415,7 @@ def card_zibaldone(p):
         f'</div>'
         f'<div>'
         f'<div class="og-slips">{"".join(f"<span>{w}</span>" for w in slips)}</div>'
-        f'<p class="og-foot" data-fit="footer">nothing here is ranked &middot; stimpunks.love</p>'
+        f'<p class="og-foot" data-fit="footer">nothing here is ranked &middot; stimpunks.world</p>'
         f'</div>'
         f'</div>'
         f'</div>',
@@ -1427,7 +1427,7 @@ def card_zibaldone(p):
         f"large oldstyle serif, and under that: {p['desc_plain']} Along the foot, "
         f"three small pasted slips reading short quotations only, no lyrics, and "
         f"every line names its printing, and beneath them, in the same "
-        f"handwriting: nothing here is ranked, stimpunks.love."
+        f"handwriting: nothing here is ranked, stimpunks.world."
     )
 
 def card_hole(p):
@@ -1444,7 +1444,7 @@ def card_hole(p):
         f'<p class="og-tag">You meant to look up one thing.</p>'
         f'<p class="og-lede">{p["desc"]}</p>'
         f'<p class="og-foot" data-fit="footer">NOTHING PLAYS UNTIL YOU PRESS PLAY '
-        f'\u00b7 STIMPUNKS.LOVE</p>'
+        f'\u00b7 STIMPUNKS.WORLD</p>'
         f'</div>'
         f'</div>',
         f"A wet-slate card that darkens from the top of the picture to the bottom, "
@@ -1455,7 +1455,7 @@ def card_hole(p):
         f"street, no floor behind it, then \u201c{p['h1text']}\u201d in a large "
         f"high-contrast engraved serif in white, under it in brass: You meant to "
         f"look up one thing. Then, in a geometric sans: {p['desc_plain']} Along the "
-        f"foot, in grey capitals: nothing plays until you press play, stimpunks.love.",
+        f"foot, in grey capitals: nothing plays until you press play, stimpunks.world.",
     )
 
 
@@ -1473,7 +1473,7 @@ def card_checkpoint(p):
         f'<p class="og-tag">The bed is not a reward.</p>'
         f'<p class="og-lede">{p["desc"]}</p>'
         f'<p class="og-foot" data-fit="footer">NOTHING HERE IS COUNTED '
-        f'\u00b7 STIMPUNKS.LOVE</p>'
+        f'\u00b7 STIMPUNKS.WORLD</p>'
         f'</div>'
         f'</div>',
         f"A dark green-black card with a band of pale aqua light lying along the "
@@ -1484,7 +1484,7 @@ def card_checkpoint(p):
         f"the right, a soft enamel plaque reading 429, then \u201c{p['h1text']}\u201d "
         f"in a large rounded geometric sans in white, under it in warm stone: The "
         f"bed is not a reward. Then, smaller: {p['desc_plain']} Along the foot, in "
-        f"grey capitals: nothing here is counted, stimpunks.love.",
+        f"grey capitals: nothing here is counted, stimpunks.world.",
     )
 
 
@@ -1504,7 +1504,7 @@ def card_foundry(p):
         f'whoever drew it.</p>'
         f'<p class="og-lede">{p["desc"]}</p>'
         f'<p class="og-foot" data-fit="footer">NOTHING HERE IS COUNTED '
-        f'\u00b7 STIMPUNKS.LOVE</p>'
+        f'\u00b7 STIMPUNKS.WORLD</p>'
         f'</div>'
         f'</div>',
         f"An iron-grey card lit flatly from above, as if through a dirty workshop "
@@ -1516,7 +1516,7 @@ def card_foundry(p):
         f"face in bone, the strokes bridged where a stencil holds itself together. "
         f"Under it in brass: Every typeface on this street, and the name of whoever "
         f"drew it. Then, smaller: {p['desc_plain']} Along the foot, in grey "
-        f"capitals: nothing here is counted, stimpunks.love.",
+        f"capitals: nothing here is counted, stimpunks.world.",
     )
 
 
@@ -1572,14 +1572,14 @@ def card_yurt(p):
         f'{p["lights"]}'
         f'<div class="og-head">{p["crown"]}{p["h1"]}</div>'
         f'<p class="og-lede">{p["desc"]}</p>'
-        f'<p class="og-foot" data-fit="footer">a pitch in the campgrounds · stimpunks.love</p>'
+        f'<p class="og-foot" data-fit="footer">a pitch in the campgrounds · stimpunks.world</p>'
         f'</div>',
         f"A warm near-black card lit amber from the top, with a row of twelve "
         f"small gold and orange fairy-light bulbs strung across it. Below them a "
         f"line drawing of a yurt\u2019s crown \u2014 a lit ring with five roof poles "
         f"fanning down from it \u2014 beside \u201c{p['h1text']}\u201d in large cream "
         f"italic serif capitals. Under that: {p['desc_plain']} Along the bottom, "
-        f"handwritten: a pitch in the campgrounds, stimpunks.love.",
+        f"handwritten: a pitch in the campgrounds, stimpunks.world.",
     )
 
 
@@ -1591,7 +1591,7 @@ def card_swg(p):
         f'<p class="trailmark">pitch 02 &middot; the campgrounds &middot; left alone</p>'
         f'{p["h1"]}'
         f'<p class="og-lede">{p["desc"]}</p>'
-        f'<p class="og-foot" data-fit="footer">nothing plays until you press play &middot; stimpunks.love</p>'
+        f'<p class="og-foot" data-fit="footer">nothing plays until you press play &middot; stimpunks.world</p>'
         f'</div>'
         f'{p["clearing"]}'
         f'</div>',
@@ -1599,7 +1599,7 @@ def card_swg(p):
         f"has just gone. Small sage lowercase letters reading pitch 02, the "
         f"campgrounds, left alone, then \u201c{p['h1text']}\u201d in a large "
         f"gold-green flared serif. Under it: {p['desc_plain']} Then, in sage: nothing "
-        f"plays until you press play, stimpunks.love. Filling the bottom of the card "
+        f"plays until you press play, stimpunks.world. Filling the bottom of the card "
         f"and running off its edge, a drawing of a clearing trodden into tall grass "
         f"\u2014 a ring of stones with a small fire burning in it, split-log benches on "
         f"stumps set round the ring, and a strip of worn ground coming in from the "
@@ -1620,7 +1620,7 @@ def card_arcade(p):
         f'<p class="arc-eyebrow">ROOM 07 · THERE IS NO COIN SLOT</p>'
         f'{p["h1"]}'
         f'<p class="og-lede">{p["desc"]}</p>'
-        f'<p class="og-foot" data-fit="footer">QUILL DRIFT · OTTERLY ADORBS · NO SCORE · stimpunks.love</p>'
+        f'<p class="og-foot" data-fit="footer">QUILL DRIFT · OTTERLY ADORBS · NO SCORE · stimpunks.world</p>'
         f'</div>'
         f'{p["esmx"]}'
         f'</div>',
@@ -1629,7 +1629,7 @@ def card_arcade(p):
         f"no coin slot, then \u201c{p['h1text']}\u201d in a large "
         f"gold pixel face with a hard black shadow, and under it: "
         f"{p['desc_plain']} Along the foot, in mint: Quill Drift, "
-        f"Otterly Adorbs, no score, stimpunks.love. On the right stands Esmx the "
+        f"Otterly Adorbs, no score, stimpunks.world. On the right stands Esmx the "
         f"Porkypine \u2014 a pink pig-porcupine with a green snout and belly, an "
         f"earring in one ear and a chunk missing from the other \u2014 with a full "
         f"rainbow mane of twelve spikes trailing back off their shoulders.",
@@ -1650,11 +1650,11 @@ def card_quill(p):
         scene,
         f'<div class="og og--quill" data-fit="card">'
         f'<div class="og-top">{p["h1"]}<p class="og-lede">{p["desc"]}</p></div>'
-        f'<p class="og-foot" data-fit="footer">A CABINET IN THE ARCADE · NO TIMER · NO SCORE · stimpunks.love</p>'
+        f'<p class="og-foot" data-fit="footer">A CABINET IN THE ARCADE · NO TIMER · NO SCORE · stimpunks.world</p>'
         f'</div>',
         f"A flat near-black screen ruled with faint scanlines. \u201c{p['h1text']}\u201d in a "
         f"large gold pixel face, and under it: {p['desc_plain']} Along the foot, in mint: a "
-        f"cabinet in the Arcade, no timer, no score, stimpunks.love. On the right stands Esmx "
+        f"cabinet in the Arcade, no timer, no score, stimpunks.world. On the right stands Esmx "
         f"the Porkypine \u2014 a pink pig-porcupine with a green snout and belly, an earring in "
         f"one ear and a chunk missing from the other \u2014 with a full rainbow mane. Three "
         f"loose quills in gold, blue and pink drift across the screen around them.",
@@ -1674,13 +1674,13 @@ def card_otter(p):
         p["ottdefs"] + scene,
         f'<div class="og og--otter" data-fit="card">'
         f'<div class="og-top">{p["h1"]}<p class="og-lede">{p["desc"]}</p></div>'
-        f'<p class="og-foot" data-fit="footer">NOBODY HAS TO WATCH · stimpunks.love</p>'
+        f'<p class="og-foot" data-fit="footer">NOBODY HAS TO WATCH · stimpunks.world</p>'
         f'</div>',
         f"A kelp bay seen from the side, ruled with faint scanlines: lighter green-blue water "
         f"above a pale green waterline, darker below, and three kelp stipes rising from the "
         f"bottom. \u201c{p['h1text']}\u201d in a large gold pixel face, and under it: "
         f"{p['desc_plain']} Along the foot, in green: nobody has to watch, "
-        f"stimpunks.love. On the right a sea otter floats on its back at the surface, "
+        f"stimpunks.world. On the right a sea otter floats on its back at the surface, "
         f"pale belly up and paws on its chest.",
     )
 
@@ -1705,12 +1705,12 @@ def card_pebble(p):
         p["pengdefs"] + scene,
         f'<div class="og og--pebble" data-fit="card">'
         f'<div class="og-top">{p["h1"]}<p class="og-lede">{p["desc"]}</p></div>'
-        f'<p class="og-foot" data-fit="footer">NOTHING IS COUNTED · stimpunks.love</p>'
+        f'<p class="og-foot" data-fit="footer">NOTHING IS COUNTED · stimpunks.world</p>'
         f'</div>',
         f"A pale card: an overcast sky over a band of grey-blue sea over a shingle beach, ruled "
         f"with faint scanlines. \u201c{p['h1text']}\u201d in a large dark pixel face \u2014 the only "
         f"card on this site that sets its type dark on light \u2014 and under it: {p['desc_plain']} "
-        f"Along the foot: nothing is counted, stimpunks.love. On the right "
+        f"Along the foot: nothing is counted, stimpunks.world. On the right "
         f"a penguin stands beside a nest made of a ring of stones, with a broken shell, a piece of "
         f"sea glass and a pale pebble inside it.",
     )
@@ -1730,7 +1730,7 @@ def card_latibulum(p):
         f'</div>'
         f'</div>'
         f'<div class="og-plaster" data-fit="wall">'
-        f'<b>A burrow of belonging for burnouts.</b><span>stimpunks.love</span>'
+        f'<b>A burrow of belonging for burnouts.</b><span>stimpunks.world</span>'
         f'</div>',
         f"A dark earth-brown card lit by a low lamp. Small capitals reading a door "
         f"on the street, a hill behind it, then a drawing of a round green door in "
@@ -1738,7 +1738,7 @@ def card_latibulum(p):
         f"\u201c{p['h1text']}\u201d in a soft cream slab serif with the line: "
         f"{p['desc_plain']} Along the whole foot of the card, a band of lamplit "
         f"plaster carrying, in dark brown: A burrow of belonging for burnouts. "
-        f"stimpunks.love.",
+        f"stimpunks.world.",
     )
 
 
@@ -1755,7 +1755,7 @@ def card_jungle(p):
         f'<div>{p["h1"]}<p class="og-lede">{p["desc"]}</p></div>'
         f'<div class="og-aperture"><i></i><b>LIVE</b></div>'
         f'</div>'
-        f'<p class="og-foot" data-fit="footer">NO RUNTIME \u00b7 NOTHING ENDS \u00b7 stimpunks.love</p>'
+        f'<p class="og-foot" data-fit="footer">NO RUNTIME \u00b7 NOTHING ENDS \u00b7 stimpunks.world</p>'
         f'</div>',
         f"A deep wet-green card with a band of overlapping dark leaves hanging "
         f"across the top of it and one shaft of pale gold light coming down "
@@ -1765,7 +1765,7 @@ def card_jungle(p):
         f"the right, a leaf-shaped aperture cut out of the dark \u2014 two pointed "
         f"corners and two round ones \u2014 with an orange dot and the word LIVE in "
         f"it. Along the foot, in green capitals: no runtime, nothing ends, "
-        f"stimpunks.love.",
+        f"stimpunks.world.",
     )
 
 
@@ -1781,7 +1781,7 @@ def card_den(p):
         f'</div>'
         f'</div>'
         f'<div class="og-shag" data-fit="carpet">'
-        f'<b>Sixteen cuts, and all of them say how long.</b><span>stimpunks.love</span>'
+        f'<b>Sixteen cuts, and all of them say how long.</b><span>stimpunks.world</span>'
         f'</div>',
         f"A dark brown card, panelled like a wall and lit low from one side. Small "
         f"jade capitals reading behind the jungle room, the other jungle room, then a "
@@ -1789,7 +1789,7 @@ def card_den(p):
         f"pool, and beside that \u201c{p['h1text']}\u201d in an enormous flat slab face "
         f"with the line: {p['desc_plain']} Across the whole foot of the card, behind a "
         f"thick wooden edge, a band of bright green shag carpet carrying, in dark brown: "
-        f"Sixteen cuts, and all of them say how long. stimpunks.love.",
+        f"Sixteen cuts, and all of them say how long. stimpunks.world.",
     )
 
 
@@ -1809,14 +1809,14 @@ def card_mopery(p):
         f'<div>{p["h1"]}<p class="og-lede">{p["desc"]}</p></div>'
         f'</div>'
         f'<p class="og-foot" data-fit="footer">NOTHING PLAYS UNTIL YOU PRESS PLAY '
-        f'\u00b7 stimpunks.love</p>'
+        f'\u00b7 stimpunks.world</p>'
         f'</div>',
         f"A blue-black card, cold as stone. Along the top, a row of small lit "
         f"candles whose glow stops a short way from each flame. Beneath them a "
         f"shelf of coloured book spines standing on a dark board, and beside it "
         f"\u201c{p['h1text']}\u201d in a battered gilt seventeenth-century serif "
         f"with the line: {p['desc_plain']} Along the foot, in small letters: "
-        f"nothing plays until you press play. stimpunks.love.",
+        f"nothing plays until you press play. stimpunks.world.",
     )
 
 
@@ -1837,7 +1837,7 @@ def card_oracle(p):
         f'{p["h1"]}'
         f'<p class="og-ask">It asks. It does not answer.</p>'
         f'<p class="og-foot" data-fit="footer">ENGRAVINGS FROM 1514 TO 1891 '
-        f'\u00b7 PUBLIC DOMAIN \u00b7 stimpunks.love</p>'
+        f'\u00b7 PUBLIC DOMAIN \u00b7 stimpunks.world</p>'
         f'</div>',
         f"A warm ash-grey card with no light source in it. Three narrow cards sit "
         f"in a row across the middle, each a dark rectangle holding a pale old "
@@ -1846,7 +1846,7 @@ def card_oracle(p):
         f"with a small brass lozenge in the middle, then \u201c{p['h1text']}\u201d "
         f"in wide inscriptional Roman capitals cut in bone white, and beneath that, "
         f"in vermilion italic: it asks, it does not answer. Along the foot: "
-        f"engravings from 1514 to 1891, public domain, stimpunks.love.",
+        f"engravings from 1514 to 1891, public domain, stimpunks.world.",
     )
 
 
@@ -1868,7 +1868,7 @@ def card_doom(p):
         f'<div class="og-curl og-curl--foot"></div>'
         f'</div>'
         f'<p class="og-foot" data-fit="footer">Public domain poems of doom, newest '
-        f'first, back to {p["doom_oldest"]} \u00b7 stimpunks.love</p>'
+        f'first, back to {p["doom_oldest"]} \u00b7 stimpunks.world</p>'
         f'</div>',
         f"A dark desk with a long sheet of foxed grey newsprint unrolled across it, "
         f"curling at the top and bottom edges. Across the top of the sheet, in heavy "
@@ -1876,7 +1876,7 @@ def card_doom(p):
         f"feed entries in a serif column, each with a small dark-red dateline above "
         f"a bold headline: {p['stories_alt']}. Along the foot of the card, off the "
         f"paper and on the desk: public domain poems of doom, newest first, back to "
-        f"{p['doom_oldest']}. stimpunks.love.",
+        f"{p['doom_oldest']}. stimpunks.world.",
     )
 
 
@@ -1899,7 +1899,7 @@ def card_guild(p):
         f'</div>'
         f'<div class="og-grid">{p["classes"]}</div>'
         f'<div class="og-stampwrap">'
-        f'<p class="og-foot">stimpunks.love</p>'
+        f'<p class="og-foot">stimpunks.world</p>'
         f'<p class="og-stamp">DONE</p>'
         f'</div>'
         f'</div>'
@@ -1909,7 +1909,7 @@ def card_guild(p):
         f"capitals reading job board, hints at every job, no score kept, then "
         f"\u201c{p['h1text']}\u201d in a heavy woodtype face over a rule, and the "
         f"line: {p['desc_plain']} Under that, ruled rows giving the difficulty "
-        f"classes: {p['classes_alt']}. At the foot, stimpunks.love on the left and "
+        f"classes: {p['classes_alt']}. At the foot, stimpunks.world on the left and "
         f"the word DONE on the right in vermilion inside a double-ruled box, pressed "
         f"square.",
     )
@@ -1944,7 +1944,7 @@ def card_feed(p):
         f'<p class="og-kicker">The concourse</p>'
         f'{p["h1"]}'
         f'<p class="og-lede">{p["desc"]}</p>'
-        f'<p class="og-foot">stimpunks.love</p>'
+        f'<p class="og-foot">stimpunks.world</p>'
         f'</div>'
         f'<div class="og-fdboard">'
         f'<p class="og-fdname">Arrivals</p>'
@@ -1954,7 +1954,7 @@ def card_feed(p):
         f'</div>',
         f"A dark concourse. On the left, small spaced monospaced capitals reading "
         f"the concourse, then \u201c{p['h1text']}\u201d in very wide squared "
-        f"capitals, the line: {p['desc_plain']} and under it stimpunks.love in "
+        f"capitals, the line: {p['desc_plain']} and under it stimpunks.world in "
         f"green. On the right, a freestanding split-flap indicator board standing "
         f"on two metal legs and lit from inside, with a pale pool of its own light "
         f"on the floor beneath it. A nameboard across the top reads ARRIVALS, and "
@@ -1978,7 +1978,7 @@ def card_danny(p):
         f'<p class="og-tag">We borrowed the architecture</p>'
         f'<p class="og-lede">{p["desc"]}</p>'
         f'<p class="og-foot" data-fit="footer">DANNY IS THE STREET '
-        f'\u00b7 STIMPUNKS.LOVE</p>'
+        f'\u00b7 STIMPUNKS.WORLD</p>'
         f'<span class="og-road" aria-hidden="true"></span>'
         f'</div>',
         f"A card the colour of wet tarmac at night, with one pool of amber "
@@ -1991,7 +1991,7 @@ def card_danny(p):
         f"\u201c{p['h1text']}\u201d in large cream capitals. Under the plate, "
         f"in amber capitals: We borrowed the architecture. Then, smaller: "
         f"{p['desc_plain']} Along the foot, in grey capitals: Danny is the "
-        f"street, stimpunks.love.",
+        f"street, stimpunks.world.",
     )
 
 
@@ -2000,13 +2000,13 @@ def card_plain(p):
         "",
         f'<div class="og og--plain" data-fit="card">'
         f'<div class="og-top">'
-        f'<p class="og-kicker">STIMPUNKS.LOVE</p>'
+        f'<p class="og-kicker">STIMPUNKS.WORLD</p>'
         f'<div class="og-rule" aria-hidden="true"></div>'
         f'</div>'
         f'<div class="og-bottom">{p["h1"]}<p class="og-lede">{p["desc"]}</p></div>'
         f'</div>',
         f"A dark indigo card, deliberately quiet. Small cyan capitals reading "
-        f"stimpunks.love above a short pink rule, then “{p['h1text']}” in yellow "
+        f"stimpunks.world above a short pink rule, then “{p['h1text']}” in yellow "
         f"block capitals, and the line: {p['desc_plain']}",
     )
 
@@ -2023,7 +2023,7 @@ def card_outskirts(p):
         f'{p["h1"]}'
         f'<p class="og-lede">{p["desc"]}</p>'
         f'</div>'
-        f'<p class="og-foot" data-fit="footer">{p["turnings"]} · stimpunks.love</p>'
+        f'<p class="og-foot" data-fit="footer">{p["turnings"]} · stimpunks.world</p>'
         f'<div class="og-weeds">{"<span></span>" * 22}</div>'
         f'</div>',
         f"A black card with a single bright bone-white bar down the left edge, "
@@ -2031,7 +2031,7 @@ def card_outskirts(p):
         f"reading past the last streetlight, no pavement from here, then "
         f"“{p['h1text']}” in a fat rounded bone-coloured face of painted "
         f"capitals, and under it: {p['desc_plain']} Lower down, in the same painted "
-        f"face in rust red: {p['turnings_alt']}, stimpunks.love. Along the very "
+        f"face in rust red: {p['turnings_alt']}, stimpunks.world. Along the very "
         f"bottom, a ragged row of dead grass silhouettes in dull khaki.",
     )
 

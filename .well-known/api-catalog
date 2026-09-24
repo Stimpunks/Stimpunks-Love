@@ -1,17 +1,17 @@
 {
   "linkset": [
     {
-      "anchor": "https://stimpunks.love/",
+      "anchor": "https://stimpunks.world/",
       "describedby": [
         {
-          "href": "https://stimpunks.love/llms.txt",
+          "href": "https://stimpunks.world/llms.txt",
           "type": "text/markdown",
           "title": "Every page on the street, for language models"
         }
       ],
       "alternate": [
         {
-          "href": "https://stimpunks.love/feed.xml",
+          "href": "https://stimpunks.world/feed.xml",
           "type": "application/rss+xml",
           "title": "What changed on the street"
         }

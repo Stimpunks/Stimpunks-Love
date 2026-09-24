@@ -82,7 +82,7 @@ csp = (
     "default-src 'self'; base-uri 'none'; object-src 'none'; form-action 'none'; "
     # frame-ancestors is 'self' and NOT 'none', which is a deliberate loosening
     # and the only one in this policy. The laptop in the Solarpunk Hermitage's
-    # cave frames stimpunks.love inside stimpunks.love, and 'none' forbids this
+    # cave frames stimpunks.world inside stimpunks.world, and 'none' forbids this
     # site being framed by ANYBODY -- itself included. 'self' keeps every other
     # origin out, so clickjacking protection against third parties is unchanged;
     # what it permits is exactly one page of ours embedding another page of ours.

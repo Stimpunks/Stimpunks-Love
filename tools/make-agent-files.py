@@ -22,7 +22,7 @@ and `agent-skills` is not advertised in the Link header either, for the same
 reason. The well-known paths are the discovery.
 
 THE SKILL ITSELF IS WRITTEN BY HAND, at
-.well-known/agent-skills/stimpunks-love/SKILL.md, because it is prose about how
+.well-known/agent-skills/stimpunks-world/SKILL.md, because it is prose about how
 to read this site. This checks its frontmatter against the format's own rules
 and refuses a skill whose name does not match its directory.
 """
@@ -33,7 +33,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SITE = "https://stimpunks.love"
+SITE = "https://stimpunks.world"
 WELL = ROOT / ".well-known"
 SKILLS = WELL / "agent-skills"
 SCHEMA = "https://schemas.agentskills.io/discovery/0.2.0/schema.json"

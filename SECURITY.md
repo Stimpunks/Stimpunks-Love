@@ -12,12 +12,12 @@ open one. If you would rather not use GitHub at all, reach us through
 security report; we will find a private route back to you before you send details.
 
 This policy is also published as
-[`/.well-known/security.txt`](https://stimpunks.love/.well-known/security.txt),
+[`/.well-known/security.txt`](https://stimpunks.world/.well-known/security.txt),
 per RFC 9116.
 
 ## What this thing actually is, so you don't waste your time
 
-**[stimpunks.love](https://stimpunks.love/) is a static site.** There is no
+**[stimpunks.world](https://stimpunks.world/) is a static site.** There is no
 application server, no database, no accounts, no login, no session and no
 server-side code of ours anywhere. It is a directory of HTML files, a stylesheet
 and a handful of scripts, served by Netlify. The tools in `tools/` are local
@@ -34,7 +34,7 @@ That shape rules out most of what a report usually concerns:
   only: `love-intensity`, the setting you chose on the loudness dial, and
   `love-quests`, the list of jobs you handed in at the Guild, which has a button
   that forgets it. The whole list of what the site keeps is on
-  [the privacy page](https://stimpunks.love/privacy.html).
+  [the privacy page](https://stimpunks.world/privacy.html).
 - **Nothing third-party loads until you press it.** `connect-src` is `'none'`,
   every script and typeface is self-hosted, and the only other origins the
   policy names are in `frame-src`, for players that are built only after a
@@ -81,7 +81,7 @@ that we sometimes take a week or two off for self-care. So:
   send it again — that is us missing it, not ignoring you.
 - We will tell you what we found and what we changed.
 - **We will publish the fix, and credit you if you want credit**, in
-  [the changelog](https://stimpunks.love/changelog.html), which is where this
+  [the changelog](https://stimpunks.world/changelog.html), which is where this
   site publishes its own mistakes by date.
 - There is no money. We have no bug bounty and we are not going to pretend
   otherwise.

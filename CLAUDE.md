@@ -1,4 +1,4 @@
-# CLAUDE.md — Stimpunks.Love
+# CLAUDE.md — Stimpunks.World
 
 Guidance for Claude Code working in this repository. `README.md` covers what the site is and
 how to run the tools; this file covers the things a session gets wrong.
@@ -1591,7 +1591,7 @@ DAY.** The Outskirts shipped carrying the ordinary real-world reading of an edge
 that *were never going to get planning permission*, a line about out-of-town being *where everything
 gets pushed that a town has decided is not respectable*, and a Covenstead described as a group *the
 town would rather not think about*. Ryan caught it, 2026-09-22, and the objection is structural
-rather than a matter of taste: **our town is stimpunks.love and it accepts everybody, so it has no
+rather than a matter of taste: **our town is stimpunks.world and it accepts everybody, so it has no
 outside to push anybody to.** A street that rearranges itself for whoever turns up cannot also have
 a wrong side of it. The framing was imported from real towns, where it is true, into the one place
 on this site whose entire premise contradicts it — and it arrived sounding sympathetic, which is why

@@ -1,4 +1,4 @@
-# stimpunks.love — static files, no build step. Netlify serves them as-is.
+# stimpunks.world — static files, no build step. Netlify serves them as-is.
 # Pushing to main publishes. There is no staging step.
 #
 # Kept in the repository rather than only in the dashboard so the deploy setup is
@@ -13,5 +13,5 @@
 
 # Response headers and redirects live in _headers and _redirects beside this file,
 # where they were already written, rather than being restated here. _redirects
-# sends the netlify.app hostname to stimpunks.love; that rule was enabled on
-# 2026-09-19, the day the domain resolved, and _redirects says why it waited.
+# sends the netlify.app hostname and the old stimpunks.love domain to
+# stimpunks.world, and says why each rule is there.

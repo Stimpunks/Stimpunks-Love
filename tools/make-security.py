@@ -30,7 +30,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / ".well-known" / "security.txt"
-SITE = "https://stimpunks.love"
+SITE = "https://stimpunks.world"
 REPO = "https://github.com/Stimpunks/Stimpunks-Love"
 
 EXPIRES = datetime.datetime(2027, 9, 23, tzinfo=datetime.timezone.utc)
@@ -48,7 +48,7 @@ def main():
         return 1
 
     text = "\n".join([
-        "# stimpunks.love -- Stimpunks Foundation",
+        "# stimpunks.world -- Stimpunks Foundation",
         "#",
         "# A static site: no server-side code, no accounts, no database, no cookies. The",
         "# full policy, including what is in scope and what is not, is at the Policy URL",

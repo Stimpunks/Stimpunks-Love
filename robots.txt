@@ -1,7 +1,7 @@
-# stimpunks.love — everything here is public and meant to be read, by people and
+# stimpunks.world — everything here is public and meant to be read, by people and
 # by machines. Nothing is disallowed.
 
 User-agent: *
 Allow: /
 
-Sitemap: https://stimpunks.love/sitemap.xml
+Sitemap: https://stimpunks.world/sitemap.xml

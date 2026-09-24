@@ -150,7 +150,7 @@ sm.append("</urlset>")
 (ROOT / "sitemap.xml").write_text("\n".join(sm) + "\n")
 
 lines = [
-    "# Stimpunks.Love",
+    "# Stimpunks.World",
     "",
     "> Queer without fear. Interdependent and here. Divergent and proud. Living out loud. "
     "Plucky pluralism, for human organisms. Becoming and belonging, with ribald songing.",
@@ -181,15 +181,15 @@ lines += [
     "",
     "- Text and design: CC BY-SA 4.0, Stimpunks Foundation.",
     f"- The typefaces keep their own {typeface_licences()}, family by family, as "
-    "https://stimpunks.love/foundry.html records them; the songs keep their own copyright.",
+    "https://stimpunks.world/foundry.html records them; the songs keep their own copyright.",
     "- Nothing musical is hosted here. The jukebox is press-to-play facades that link out.",
-    "- Full credits: https://stimpunks.love/liner-notes.html",
+    "- Full credits: https://stimpunks.world/liner-notes.html",
     "",
     "## For agents",
     "",
-    "- How to read, quote and cite this site: https://stimpunks.love/.well-known/agent-skills/stimpunks-love/SKILL.md",
-    "- Every machine-readable resource, as an RFC 9264 Linkset: https://stimpunks.love/.well-known/api-catalog",
-    "- What the site keeps about visitors: https://stimpunks.love/privacy.html",
+    "- How to read, quote and cite this site: https://stimpunks.world/.well-known/agent-skills/stimpunks-world/SKILL.md",
+    "- Every machine-readable resource, as an RFC 9264 Linkset: https://stimpunks.world/.well-known/api-catalog",
+    "- What the site keeps about visitors: https://stimpunks.world/privacy.html",
     "",
 ]
 (ROOT / "llms.txt").write_text("\n".join(lines))

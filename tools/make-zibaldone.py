@@ -146,7 +146,7 @@ BASES = {
     "ours":          "Ours",
 }
 
-OURS = ("stimpunks.org", "stimpunks.love", "starstuff.earth", "queering.earth",
+OURS = ("stimpunks.org", "stimpunks.world", "starstuff.earth", "queering.earth",
         "cavendish.space", "penguinpebbling.app", "monotropicmap.org", "morerealms.com")
 
 # ── The ranking vocabulary ───────────────────────────────────────────────────

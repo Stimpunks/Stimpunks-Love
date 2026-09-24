@@ -76,7 +76,7 @@ DATA = ROOT / "data" / "arrivals.json"
 # says how many it is showing by counting what it drew.
 ROWS = 6
 
-UA = "Stimpunks.Love arrivals board (+https://stimpunks.love/the-feed.html)"
+UA = "Stimpunks.World arrivals board (+https://stimpunks.world/the-feed.html)"
 
 TAG = re.compile(r"<[^>]+>")
 ENTITY = re.compile(r"&(?:#\d+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]+);")
