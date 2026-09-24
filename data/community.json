@@ -2,7 +2,7 @@
   "_what": "The community service board in the Community Center: a painted steel sorter on the wall with a slot for every room on the street that takes something in from our community. tools/make-community.py builds the board in community-center.html from this file. Do not hand-edit between the markers.",
   "_brief": "Ryan's brief, 2026-09-24: photos for Enid's Room, a collection for The Collection Collection, a yell for the Playhouse, a pebble for the Pebble Board, a quote for the Zibaldone, zine ideas for the zine table, video recommendations for Laughingstock, the Lightbulb Picture House, Looming Rocks, the Lagoon and the rest, samefoods for Samefood Cafe, an idea for a room of your own, and ideas for new shops and turnings -- 'and add whatever I missed'. Added: songs for the rooms that keep a playlist, a poem for the Doomscroll, something we got wrong, and taking something back.",
   "_routes": "NOTHING ON THIS BOARD SENDS ANYTHING, and no slot invents a route a room does not already offer. Every slot says the way its own room says to reach us, and links to the room's own words, where the full terms are. The CB is deliberately not a route: it forgets at midnight and everybody signed on can read it, which is the wrong place for somebody's photograph.",
-  "_holds": "A SLOT REPEATS A PROMISE ANOTHER ROOM MAKES, which is the shape CLAUDE.md calls a claim about one room living in another room's copy: when that room changes its terms, nothing in the room that changed knows the board exists. So every slot that repeats a room's terms names, in `holds`, the words on that room's page that carry them, and make-community.py refuses the slot if the page stops saying so. It reads the published page, never this file or the room's generator.",
+  "_holds": "A SLOT REPEATS A PROMISE ANOTHER ROOM MAKES, which is the shape CLAUDE.md calls a claim about one room living in another room's copy: when that room changes its terms, nothing in the room that changed knows the board exists. So every slot that repeats a room's terms names, in `holds`, the words on that room's page that carry them, and make-community.py refuses the slot if the page stops saying so. It reads the published page, never this file or the room's generator. A slot for several rooms holds each of them the same way, place by place.",
   "_order": "The order a visitor might walk it in: things of yours first, then things you have found, then ideas, then corrections and taking things back.",
   "_no_score": "Nothing on the board is counted, scored, thanked with a badge or ranked, and make-community.py refuses that vocabulary. A board of ways to give things to a community is exactly the shape of thing that grows a leaderboard of who gave most, and that would turn a gift into a workload.",
   "routes": {
@@ -38,7 +38,7 @@
       "label": "Something you collect",
       "room": "The Collection Collection",
       "page": "collection-collection.html",
-      "anchor": "the-cabinets",
+      "anchor": "put-something-in",
       "takes": "Photographs of something you collect, for a cabinet of your own under a lamp you choose.",
       "asks": [
         "Choose the lamp, and say why it suits what it lights. No two lamps in there are alike.",
@@ -46,10 +46,12 @@
         "Nothing is counted, priced or called rare, and nothing in a photograph may say where you live."
       ],
       "holds": [
-        "every lamp in here is somebody"
+        "every lamp in here is somebody",
+        "Putting something in a cabinet",
+        "Send the photographs, and that is the whole job"
       ],
       "route": "contact",
-      "more": "The cabinets as they stand"
+      "more": "How to put something in a cabinet"
     },
     {
       "id": "yell",
@@ -153,27 +155,47 @@
         {
           "page": "laughingstock.html",
           "name": "Laughingstock",
-          "wants": "a set by a Disabled comic, on their own terms"
+          "wants": "a set by a Disabled comic, on their own terms",
+          "anchor": "ls-suggest",
+          "holds": [
+            "The bill takes suggestions"
+          ]
         },
         {
           "page": "lightbulb-picture-house.html",
           "name": "The Lightbulb Picture House",
-          "wants": "a film about Autism, ADHD or neurodiversity, best of all made by the people it is about"
+          "wants": "a film about being Autistic, ADHD or otherwise neurodivergent, best of all made by the people it is about",
+          "anchor": "lph-suggest",
+          "holds": [
+            "The rack takes suggestions"
+          ]
         },
         {
           "page": "looming-rocks.html",
           "name": "Looming Rocks",
-          "wants": "a whole concert, filmed"
+          "wants": "a whole concert, filmed",
+          "anchor": "looming-suggest",
+          "holds": [
+            "The bill takes suggestions"
+          ]
         },
         {
           "page": "black-leather-lagoon.html",
           "name": "Black Leather Lagoon",
-          "wants": "something spooky for the Halloween playlist on the drive-in screen"
+          "wants": "something spooky for the Halloween playlist on the drive-in screen",
+          "anchor": "lagoon-suggest",
+          "holds": [
+            "The screen takes suggestions"
+          ]
         },
         {
           "page": "solarpunk-hermitage.html",
           "name": "The Solarpunk Hermitage",
-          "wants": "a documentary for the campfire"
+          "wants": "a documentary for the campfire",
+          "anchor": "herm-suggest",
+          "holds": [
+            "The campfire takes suggestions"
+          ]
         }
       ],
       "asks": [
@@ -192,17 +214,29 @@
         {
           "page": "dance-punks.html",
           "name": "Dance, Punks",
-          "wants": "something to dance to on the airstrip"
+          "wants": "something to dance to on the airstrip",
+          "anchor": "dp-suggest",
+          "holds": [
+            "The crate takes suggestions"
+          ]
         },
         {
           "page": "vital-plant-living.html",
           "name": "Vital Plant Living",
-          "wants": "a song about food for the stereo"
+          "wants": "a song about food for the stereo",
+          "anchor": "vpl-suggest",
+          "holds": [
+            "Got a song about food?"
+          ]
         },
         {
           "page": "club-chronic.html",
           "name": "Club Chronic",
-          "wants": "a song for Chronic Neurodivergent Depressed Queer Punk, the playlist on the stage"
+          "wants": "a song for Chronic Neurodivergent Depressed Queer Punk, the playlist on the stage",
+          "anchor": "club-suggest",
+          "holds": [
+            "The list takes suggestions"
+          ]
         }
       ],
       "asks": [

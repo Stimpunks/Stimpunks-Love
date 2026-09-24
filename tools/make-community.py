@@ -114,8 +114,17 @@ for slot in data["slots"]:
                         "repeats that room's terms. Read the room, change the slot to say what "
                         "the room says now, and change `holds` with it.")
     for place in slot.get("places", []):
-        if not (ROOT / place["page"]).exists():
+        psrc, ptext = page_text(place["page"])
+        if psrc is None:
             problems.append(f"{where}: {place['page']} does not exist.")
+            continue
+        if place.get("anchor") and not re.search(r'\bid="%s"' % re.escape(place["anchor"]), psrc):
+            problems.append(f"{where}: {place['page']} has no id=\"{place['anchor']}\" to link to.")
+        for phrase in place.get("holds", []):
+            if plain(phrase) not in ptext:
+                problems.append(
+                    f"{where}: {place['page']} no longer says \"{plain(phrase)}\", and this slot "
+                    "sends people there on the strength of it. Read the room and change both.")
     if slot.get("asks") and not slot.get("holds") and target and slot.get("anchor"):
         problems.append(f"{where}: it links to {target}#{slot['anchor']} for that room's terms "
                         "but holds none of them, so nothing would notice the terms changing.")
@@ -137,7 +146,8 @@ for slot in data["slots"]:
     if slot.get("places"):
         out.append('      <ul class="ctr-slot__places">')
         for p in slot["places"]:
-            out.append(f'        <li><a href="{p["page"]}">{p["name"]}</a>: {p["wants"]}.</li>')
+            ph = p["page"] + ("#" + p["anchor"] if p.get("anchor") else "")
+            out.append(f'        <li><a href="{ph}">{p["name"]}</a>: {p["wants"]}.</li>')
         out.append('      </ul>')
     out.append('      <ul class="ctr-slot__asks">')
     for a in slot["asks"]:
@@ -160,6 +170,7 @@ pat = re.compile(r"(<!-- %s:begin -->).*?(<!-- %s:end -->)" % (MARK, MARK), re.S
 if not pat.search(src):
     raise SystemExit(f"REFUSING: {PAGE.name} has no {MARK} markers, so there is nowhere to write.")
 PAGE.write_text(pat.sub(lambda m: m.group(1) + "\n" + block + "\n" + m.group(2), src))
-held = sum(len(s.get("holds", [])) for s in data["slots"])
+held = sum(len(s.get("holds", [])) + sum(len(p.get("holds", [])) for p in s.get("places", []))
+           for s in data["slots"])
 print(f"community service board: written into {PAGE.name}; "
       f"{held} of other rooms' own words held against their published pages")
