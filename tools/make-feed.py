@@ -17,13 +17,19 @@ changelog must carry a stable id, because that id is the item's permalink and a
 feed whose guids move republishes every entry into somebody's reader as if it
 were new. It also refuses on a duplicate id or a date it cannot read.
 
-ONE KNOWN LIMIT, stated rather than papered over: entries on the same day all get
-the same pubDate, 12:00:00 GMT, matching the sibling feeds. Several entries a day
-is normal for a changelog, and readers that sort on pubDate alone will show
-same-day items in whatever order they like. The alternative is inventing times
-that are not true, which this repo does not do for provenance and should not do
-for tidiness either. Document order here is newest first, and the feed preserves
-it.
+SAME-DAY ENTRIES STEP BACK A MINUTE EACH, AND THE MINUTES ARE AN ORDER, NOT A
+CLOCK. Several entries a day is normal here, and every one of them used to get
+12:00:00 GMT. Readers sort on pubDate, and a tie gives them nothing to sort on:
+on 2026-09-23 stimpunks.org's /feeds/ page showed ten of that day's entries in
+an order of its own choosing and left out the newest one entirely, because the
+day had more than ten. So the entry at the top of a day keeps 12:00:00 and each
+one below it in the changelog is a minute earlier. The DATE is still the true
+date. The time is not a claim about when anything was written, and nothing
+should read it as one: it is document order (newest first) written in the only
+field a reader actually sorts on. Changing a pubDate does not move a guid, so
+no reader sees an old entry as new. It refuses a day with more entries than
+there are minutes before noon, rather than letting one spill into the day
+before.
 """
 import datetime
 import html
@@ -99,8 +105,19 @@ def main():
             raise SystemExit(f"REFUSING: the entry {title!r} has no body to describe.")
         entries.append((ident, date, title, summary))
 
-    stamp = "{d:%a}, {d.day:02d} {d:%b %Y} 12:00:00 GMT".format
-    built = stamp(d=max(e[1] for e in entries))
+    # Document order is newest first, so the n-th entry seen on a date is n minutes
+    # before noon. See the docstring: the minutes are an order, not a clock.
+    rank, times = {}, []
+    for _, date, title, _ in entries:
+        n = rank.get(date, 0)
+        rank[date] = n + 1
+        if n >= 12 * 60:
+            raise SystemExit(f"REFUSING: more than {12 * 60} entries on {date}; "
+                             f"{title!r} would step back into the previous day.")
+        times.append(datetime.datetime.combine(date, datetime.time(12)) - datetime.timedelta(minutes=n))
+
+    stamp = "{d:%a}, {d.day:02d} {d:%b %Y} {d:%H:%M:%S} GMT".format
+    built = stamp(d=max(times))
 
     out = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
@@ -117,14 +134,14 @@ def main():
            "    <copyright>CC BY-SA 4.0</copyright>",
            f"    <lastBuildDate>{built}</lastBuildDate>"]
 
-    for ident, date, title, summary in entries:
+    for (ident, date, title, summary), when in zip(entries, times):
         url = f"{SITE}/{SOURCE}#{ident}"
         guid = f"{GUID_BASE}/{SOURCE}#{ident}"
         out += ["    <item>",
                 f"      <title>{html.escape(title)}</title>",
                 f"      <link>{url}</link>",
                 f'      <guid isPermaLink="false">{guid}</guid>',
-                f"      <pubDate>{stamp(d=date)}</pubDate>",
+                f"      <pubDate>{stamp(d=when)}</pubDate>",
                 f"      <description>{html.escape(summary)}</description>",
                 "    </item>"]
 

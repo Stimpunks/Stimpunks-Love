@@ -41,6 +41,14 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-09-23-feed-order">2026-09-23 &mdash; The feed keeps a busy day in order</h2>
+  <ul>
+    <li><strong>Entries from the same day used to arrive in any order.</strong> Every one of them carried the same time, noon, so a reader had nothing to sort them by. On a day with more than ten, stimpunks.org&rsquo;s <a href="https://stimpunks.org/feeds/">feeds page</a> showed ten of them in an order of its own and left out the newest.</li>
+    <li><strong>Now the top entry of a day keeps noon and each one under it is a minute earlier</strong>, so every reader lists them in the same order as this page. The dates are still true. The minutes are only the order, and not a claim about when anything was written.</li>
+    <li><strong>Nothing reappears as new.</strong> Each entry keeps the identifier it was published under.</li>
+    <li>Changed: <code>tools/make-feed.py</code>, <code>feed.xml</code>.</li>
+  </ul>
+
   <h2 id="2026-09-23-stimpunks-world">2026-09-23 &mdash; The street is Stimpunks.World now</h2>
   <ul>
     <li><strong>The site lives at <a href="https://stimpunks.world/">stimpunks.world</a></strong>, and it is called Stimpunks.World. We had been calling it Stimpunks World for a while, as it grew past one street into rooms behind rooms, a campground past the treeline and a road out of town, so the domain was registered to match and the name moved with it: every page title, the feed, the favicon, the share cards, and the wordmark on the front door, whose pink second line now says <b>.world</b>.</li>
