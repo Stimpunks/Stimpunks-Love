@@ -87,6 +87,7 @@ CTR_SHADE, CTR_LIT, CTR_MORTAR = "#B7CCD9", "#DCE8EF", "#A3BACA"
 CTR_INK, CTR_INK2, CTR_LINK = "#132238", "#2F4459", "#7E250A"
 CTR_FELT, CTR_LETTER, CTR_RIB = "#1C1D20", "#F3F1EA", "#2A2B30"
 CTR_DESK, CTR_EDGE, CTR_CHAIR = "#EFE4CF", "#6A553A", "#E0662A"
+CTR_STEEL, CTR_WELL, CTR_PLATE, CTR_FORM = "#52667A", "#28323E", "#E3E8EC", "#FBF8F1"
 # The CB radio, which floats in every room once somebody has signed on. Read the
 # note beside --cb-case in love.css §2.
 CB_CASE, CB_BAR, CB_STEEL, CB_STEEL2 = "#121315", "#24272B", "#D8DCE1", "#A3AAB3"
@@ -2072,6 +2073,15 @@ PAIRS = [
                                    "body threshold so the counter reads as a thing standing there"),
     (CTR_INK,   CTR_DESK,   False, "community: the outline carrying every part of the radio on the desk"),
     (CTR_INK,   CTR_SHADE,  False, "community: the job marker, a push-in letter carried by its ink outline"),
+    (CTR_INK,   CTR_PLATE,  False, "community: the name on every slot's label holder on the board"),
+    (CTR_INK2,  CTR_PLATE,  False, "community: the line under it saying which room the slot is for, "
+                                   "and the rule along the plate's foot"),
+    (CTR_INK,   CTR_FORM,   False, "community: every word on the sheet standing in a slot"),
+    (CTR_INK2,  CTR_FORM,   False, "community: the rule above how to send it"),
+    (CTR_LINK,  CTR_FORM,   False, "community: every link on a slot's sheet"),
+    (CTR_PLATE, CTR_STEEL,  True,  "community: the label holders against the painted steel, held at "
+                                   "the graphics threshold so each slot reads as a slot"),
+    (CTR_STEEL, CTR_SHADE,  True,  "community: the sorter's frame against the wall, graphics threshold"),
     (CTR_INK,   CTR_LIT,    False, "community: the door on the street -- its name on the powder blue, "
                                    "where a slat catches the sun"),
 
@@ -2163,6 +2173,8 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#28323e": "community: the dark inside of each slot on the board, behind the sheet standing in "
+               "it. It carries no word; the sheet and the plate do, and are measured above.",
     "#e0662a": "community: the orange of the stacking chairs, 2.07 on the shaded wall and 2.76 in "
                "the sun. Named in the room's copy and in its palette and never drawn carrying a word.",
     "#a3baca": "community: the mortar joints of the block and the letterboard's aluminium frame, "

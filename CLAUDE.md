@@ -2405,6 +2405,18 @@ the letterboard and never a sentence; Radio Canada carries what is read.** The h
 point at [our covenant](https://stimpunks.org/covenant/) rather than restating it, and say out loud that
 a handle proves nothing and BASE is the one mark that is checked.
 
+**THE COMMUNITY SERVICE BOARD IS A ROOM FULL OF SENTENCES ABOUT OTHER ROOMS, SO EVERY ONE IS HELD.**
+The sorter on the Community Center's wall has a slot for every room that takes something in: what
+it takes, what it asks of you, how to send it. That is the "claim about one room living in another
+room's copy" shape at its most concentrated — a board of other rooms' terms — so **each slot names,
+in `holds`, the words on its room's published page that carry those terms**, and `make-community.py`
+reads the page and refuses if they have gone. When a room changes what it asks for, change its slot
+and its `holds` together; do not delete the `holds` to make the tool quiet. **It is a sorter and not
+a noticeboard** because the Pebble Board is the street's cork. **Nothing on it sends anything and the
+CB is not a route**: every slot uses a way its room already offers, listed once in `routes`. A new
+room that takes submissions gets a slot here, with an anchor on its own heading for the slot to point
+at and the words it promises in `holds`.
+
 **THREE NUMBERS AND ONE CREDIT IN THAT ROOM WERE WRITTEN FROM MEMORY AND ALL FOUR WERE WRONG.** Two
 ornament notes in `check-contrast.py` gave ratios that had not been measured (1.14 and 1.13; they are
 1.21 and 1.19), a third said the desk edge was 5.27 when it measured 4.44 and failed, and the Radio

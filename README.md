@@ -164,6 +164,7 @@ data/dance-punks.json The disco's three channels: where each starts in one crate
 data/small-hours.json The diner's quotations, its menu, Up All Night with its permission, the jukebox, and the placemat's crayons and part names
 data/repeater.json    The Repeater's two lines of ours and the log's cards, none of which counts anything
 data/nothing-for-sale.json  The lay-by's tables, each a free thing of ours, and the headlights, none alike
+data/community.json   The community service board: a slot for every room that takes something in, and the words each one holds its room to
 dance-punks.js        The headset. Tuning is silent while it is off; it asks love-embed.js for the frame
 small-hours.js        The whole-album buttons, and the placemat: colour in, scribble, take it home. Stores and sends nothing
 repeater.js           The open line: quiet noise made in the browser. Nothing sent, nothing listened to
@@ -218,6 +219,7 @@ python3 tools/make-picture-house.py # The Lightbulb Picture House's screens and 
 python3 tools/make-samefood.py     # Samefood Cafe's table, menu, counter and trays, and the credits; refuses anything that touches
 python3 tools/make-collection.py   # The Collection Collection's gallery, cabinets and credits; refuses metadata, a filter, or two lamps alike
 python3 tools/make-vital.py        # Vital Plant Living's shelf, builder, board, counter and stereo; refuses a combo off the pantry, or Ital on the menu
+python3 tools/make-community.py    # The Community Center's service board; refuses a slot whose room has stopped saying what it repeats
 python3 tools/make-dance-punks.py  # the disco's channels and credits; refuses a runtime, shuffle, or two inks alike in greyscale
 python3 tools/make-small-hours.py  # the diner's menu, quotations, record, jukebox and placemat; refuses a lyric with no permission, or a placemat that keeps anything
 python3 tools/make-repeater.py     # the Repeater's log and quotations; refuses anything that sends, stores or listens
@@ -477,6 +479,14 @@ negation window and with mid-sentence capitals skipped as names (its first refus
 a filter, blend or fade reaching a photograph; a full cabinet with no lamp, and **two cabinets with
 the same lamp**; a file with no entry and an entry with no file. Then run `make-webp.py`, which
 decides per photograph whether WebP earns its place.
+
+`make-community.py` builds the Community Center's service board out of `data/community.json`:
+a slot for every room that takes something in from our community, saying what it takes, what it
+asks and how to send it. **A slot repeats another room's terms, so it is held to them**: each one
+names, in `holds`, the words on that room's published page that carry those terms, and the tool
+reads the page and refuses if they have gone. The board cannot go on promising what the room has
+stopped promising. It also refuses a route no room offers, a form or an input, and the vocabulary
+of a score, with a negation window so the board can still say out loud that nothing is ranked.
 
 `make-vital.py` builds Vital Plant Living out of `data/vital.json`, **where the pantry is Ryan's own**,
 the list he cooks from at home, written down as he gave it. It **refuses a combo that brings in

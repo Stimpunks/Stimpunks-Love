@@ -1,0 +1,293 @@
+{
+  "_what": "The community service board in the Community Center: a painted steel sorter on the wall with a slot for every room on the street that takes something in from our community. tools/make-community.py builds the board in community-center.html from this file. Do not hand-edit between the markers.",
+  "_brief": "Ryan's brief, 2026-09-24: photos for Enid's Room, a collection for The Collection Collection, a yell for the Playhouse, a pebble for the Pebble Board, a quote for the Zibaldone, zine ideas for the zine table, video recommendations for Laughingstock, the Lightbulb Picture House, Looming Rocks, the Lagoon and the rest, samefoods for Samefood Cafe, an idea for a room of your own, and ideas for new shops and turnings -- 'and add whatever I missed'. Added: songs for the rooms that keep a playlist, a poem for the Doomscroll, something we got wrong, and taking something back.",
+  "_routes": "NOTHING ON THIS BOARD SENDS ANYTHING, and no slot invents a route a room does not already offer. Every slot says the way its own room says to reach us, and links to the room's own words, where the full terms are. The CB is deliberately not a route: it forgets at midnight and everybody signed on can read it, which is the wrong place for somebody's photograph.",
+  "_holds": "A SLOT REPEATS A PROMISE ANOTHER ROOM MAKES, which is the shape CLAUDE.md calls a claim about one room living in another room's copy: when that room changes its terms, nothing in the room that changed knows the board exists. So every slot that repeats a room's terms names, in `holds`, the words on that room's page that carry them, and make-community.py refuses the slot if the page stops saying so. It reads the published page, never this file or the room's generator.",
+  "_order": "The order a visitor might walk it in: things of yours first, then things you have found, then ideas, then corrections and taking things back.",
+  "_no_score": "Nothing on the board is counted, scored, thanked with a badge or ranked, and make-community.py refuses that vocabulary. A board of ways to give things to a community is exactly the shape of thing that grows a leaderboard of who gave most, and that would turn a gift into a workload.",
+  "routes": {
+    "contact": "Send it through <a href=\"https://stimpunks.org/contact/\">the Stimpunks contact page</a> or in <a href=\"https://stimpunks.org/community/\">our community</a>.",
+    "community": "Tell us in <a href=\"https://stimpunks.org/community/\">our community</a>.",
+    "however": "Send it however you already talk to us: <a href=\"https://stimpunks.org/contact/\">the contact page</a>, <a href=\"https://stimpunks.org/community/\">our community</a>, email, a text message.",
+    "gathering": "Bring it to a gathering in <a href=\"https://stimpunks.org/community/\">our community</a>.",
+    "private": "Send it through <a href=\"https://stimpunks.org/contact/\">the Stimpunks contact page</a>. A security hole goes <a href=\"https://github.com/Stimpunks/Stimpunks-Love/security/advisories/new\">privately on GitHub</a> instead."
+  },
+  "slots": [
+    {
+      "id": "polaroid",
+      "label": "A photograph of you",
+      "room": "The Polaroid Wall, in Enid&rsquo;s Room",
+      "page": "polaroids.html",
+      "anchor": "send-one",
+      "takes": "A photograph of you, for the wall in Enid&rsquo;s Room.",
+      "asks": [
+        "Say how you want to be named, and what you want said about the picture, or nothing at all.",
+        "The yes has to be yours. A young person&rsquo;s yes is their own, and a parent&rsquo;s does not stand in for it.",
+        "It goes up as you sent it: nobody crops it or filters it."
+      ],
+      "holds": [
+        "How to send one, and how to take it back",
+        "Crop you",
+        "Filter you"
+      ],
+      "route": "contact",
+      "more": "How the wall takes one, and gives it back"
+    },
+    {
+      "id": "collection",
+      "label": "Something you collect",
+      "room": "The Collection Collection",
+      "page": "collection-collection.html",
+      "anchor": "the-cabinets",
+      "takes": "Photographs of something you collect, for a cabinet of your own under a lamp you choose.",
+      "asks": [
+        "Choose the lamp, and say why it suits what it lights. No two lamps in there are alike.",
+        "The house writes the titles and descriptions and says it did, so you do not have to.",
+        "Nothing is counted, priced or called rare, and nothing in a photograph may say where you live."
+      ],
+      "holds": [
+        "every lamp in here is somebody"
+      ],
+      "route": "contact",
+      "more": "The cabinets as they stand"
+    },
+    {
+      "id": "yell",
+      "label": "Your yell",
+      "room": "The Playhouse",
+      "page": "playhouse.html",
+      "anchor": "send-a-yell",
+      "takes": "A recording of you yelling, badly, hoarsely, briefly, whatever comes out, for the yell button.",
+      "asks": [
+        "Say how you want to be named, or stay anonymous. The room says whose yell it is out loud when it plays.",
+        "A voice identifies you as surely as a face does, so it keeps the Polaroid Wall&rsquo;s promises, and one message takes it down."
+      ],
+      "holds": [
+        "SEND US A YELL",
+        "one message takes it down"
+      ],
+      "route": "contact",
+      "more": "The Playhouse&rsquo;s own terms for a yell"
+    },
+    {
+      "id": "pebble",
+      "label": "A pebble",
+      "room": "The Pebble Board",
+      "page": "pebble-board.html",
+      "anchor": "what-a-pebble-is",
+      "takes": "A song, a poem, a picture, a joke, a recipe: anything you would bring somebody because it made you think of them.",
+      "asks": [
+        "The board is what one gathering brought each other, and a new edition goes up after the next one.",
+        "Whoever keeps that edition decides what gets pinned."
+      ],
+      "holds": [
+        "What a pebble is",
+        "When the next gathering pins a new edition up"
+      ],
+      "route": "gathering",
+      "more": "What a pebble is"
+    },
+    {
+      "id": "quote",
+      "label": "A quotation",
+      "room": "The Zibaldone",
+      "page": "zibaldone.html",
+      "anchor": "the-slip",
+      "takes": "A short line for the commonplace book, for any state of mind.",
+      "asks": [
+        "Thirty words at most, and never a song lyric.",
+        "Say who said it, which printing it is in, and where you found it. The attribution slip in the room writes that out for you.",
+        "Say what you are unsure of. It is checked against a printing before it goes in, and a line nobody can place stays out."
+      ],
+      "holds": [
+        "The attribution slip",
+        "30 words"
+      ],
+      "route": "however",
+      "more": "The attribution slip"
+    },
+    {
+      "id": "zine",
+      "label": "A page for the zine",
+      "room": "The Zine Table",
+      "page": "zine-table.html",
+      "anchor": "send-a-page",
+      "takes": "A page for the next issue, or an idea for one.",
+      "asks": [
+        "One sheet, black and white, legible out of a bad printer.",
+        "On paper, by photo, by voice note or by AAC: any way you have of getting a sentence out counts as writing.",
+        "Your name goes on it the way you spell it."
+      ],
+      "holds": [
+        "SEND US A PAGE",
+        "legible out of a bad printer"
+      ],
+      "route": "contact",
+      "more": "What the zine table asks for"
+    },
+    {
+      "id": "samefood",
+      "label": "Your samefoods",
+      "room": "Samefood Cafe",
+      "page": "samefood-cafe.html",
+      "anchor": "a-tray-of-your-own",
+      "takes": "The foods that carry you right now, for a tray of your own.",
+      "asks": [
+        "Written exactly as you give them, capitals and spelling and all. Nobody&rsquo;s list is tidied, sorted or compared with anybody else&rsquo;s.",
+        "Say how you like it served, if you do.",
+        "It comes down the moment you ask."
+      ],
+      "holds": [
+        "If you would like a tray of your own",
+        "Every list comes down the moment the person whose it is asks"
+      ],
+      "route": "community",
+      "more": "The trays as they stand"
+    },
+    {
+      "id": "watch",
+      "label": "Something to watch",
+      "room": "The rooms with a screen in them",
+      "takes": "A recommendation for a room with a screen in it.",
+      "places": [
+        {
+          "page": "laughingstock.html",
+          "name": "Laughingstock",
+          "wants": "a set by a Disabled comic, on their own terms"
+        },
+        {
+          "page": "lightbulb-picture-house.html",
+          "name": "The Lightbulb Picture House",
+          "wants": "a film about Autism, ADHD or neurodiversity, best of all made by the people it is about"
+        },
+        {
+          "page": "looming-rocks.html",
+          "name": "Looming Rocks",
+          "wants": "a whole concert, filmed"
+        },
+        {
+          "page": "black-leather-lagoon.html",
+          "name": "Black Leather Lagoon",
+          "wants": "something spooky for the Halloween playlist on the drive-in screen"
+        },
+        {
+          "page": "solarpunk-hermitage.html",
+          "name": "The Solarpunk Hermitage",
+          "wants": "a documentary for the campfire"
+        }
+      ],
+      "asks": [
+        "Every one is checked before it goes up: that it plays, that it can be shown here, and how long it runs.",
+        "A film for the Picture House is watched first, so its card can say what is in it before anybody presses play.",
+        "A recommendation is a suggestion rather than a booking, and the choosing stays with whoever keeps that room&rsquo;s list."
+      ],
+      "route": "contact"
+    },
+    {
+      "id": "listen",
+      "label": "Something to listen to",
+      "room": "The rooms that keep a playlist",
+      "takes": "A song for a room that keeps a list of them.",
+      "places": [
+        {
+          "page": "dance-punks.html",
+          "name": "Dance, Punks",
+          "wants": "something to dance to on the airstrip"
+        },
+        {
+          "page": "vital-plant-living.html",
+          "name": "Vital Plant Living",
+          "wants": "a song about food for the stereo"
+        },
+        {
+          "page": "club-chronic.html",
+          "name": "Club Chronic",
+          "wants": "a song for Chronic Neurodivergent Depressed Queer Punk, the playlist on the stage"
+        }
+      ],
+      "asks": [
+        "Nothing musical is hosted here, so a song goes in as a link to where it already lives, and no lyrics go on any page.",
+        "Every one is checked to see that it plays and can be shown here before it goes in."
+      ],
+      "route": "contact"
+    },
+    {
+      "id": "poem",
+      "label": "A poem for the scroll",
+      "room": "The Doomscroll",
+      "page": "the-doomscroll.html",
+      "takes": "A poem of doom, for the scroll behind the Mopery&rsquo;s library.",
+      "asks": [
+        "Public domain everywhere, not only in the United States: its author has to have been dead more than seventy years.",
+        "Say which printing it comes from, because poems change between printings."
+      ],
+      "holds": [
+        "dead more than seventy years"
+      ],
+      "route": "however",
+      "more": "The scroll and its rule"
+    },
+    {
+      "id": "room",
+      "label": "A room of your own",
+      "room": "Your Room",
+      "page": "your-room.html",
+      "anchor": "how-to-ask",
+      "takes": "An idea for the empty storefront with the keys in the door.",
+      "asks": [
+        "One paragraph is plenty: what it is for, who walks into it, and what it looks like when they do.",
+        "No form, no application, and no portfolio.",
+        "A room here does not expire, and it comes down if you say so once."
+      ],
+      "holds": [
+        "How to ask",
+        "There is no form and no application"
+      ],
+      "route": "contact",
+      "more": "How to ask for Your Room"
+    },
+    {
+      "id": "street",
+      "label": "A new shop, pitch or turning",
+      "room": "The street, the campgrounds and the Outskirts",
+      "page": "index.html",
+      "takes": "An idea for somewhere new: a shopfront on the street, a pitch in the campgrounds past the treeline, or a turning off the Outskirts past the last streetlight.",
+      "asks": [
+        "Say what it is for, and which way it goes. The campgrounds are for being somewhat apart, at peace, with the street still in reach. The Outskirts are for crowds, noise and staying out late, and for getting as far off as you can.",
+        "Helen Edgar&rsquo;s question helps: would it be just as happy on the campsite? Then it is probably a pitch.",
+        "No two rooms here look alike, so say what the light is like in there, if you know."
+      ],
+      "route": "contact",
+      "more": "The street as it stands"
+    },
+    {
+      "id": "wrong",
+      "label": "Something we got wrong",
+      "room": "Anywhere on the street",
+      "page": "changelog.html",
+      "takes": "A name spelled wrong, a credit missing, a quotation we cannot back up, a colour you cannot read, a button you cannot reach.",
+      "asks": [
+        "Anything you cannot read, reach or press is a fault in the room, not in you.",
+        "A correction is written up in the changelog and stays on the page it was made to, rather than being quietly swapped."
+      ],
+      "route": "private",
+      "more": "The changelog, where corrections go"
+    },
+    {
+      "id": "back",
+      "label": "Taking something back",
+      "room": "Anything with you in it",
+      "page": "privacy.html",
+      "takes": "Your photograph, your voice, your tray, your cabinet, your page, your name in a credit.",
+      "asks": [
+        "It comes down when you say so. One message, no reason needed.",
+        "Coming down means gone, not hidden."
+      ],
+      "holds": [
+        "it comes down when the person in it says so"
+      ],
+      "route": "contact",
+      "more": "What this site keeps about you"
+    }
+  ]
+}
