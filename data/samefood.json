@@ -839,6 +839,48 @@
       "asks": [
         "red things in a ramekin of their own"
       ]
+    },
+    {
+      "name": "Chelsea",
+      "items": [
+        "Chicken nuggets",
+        "Bean and cheese burrito",
+        "Strawberry uncrustable",
+        "Coffee"
+      ],
+      "given": "relayed by Ryan, as Chelsea gave it",
+      "date": "2026-09-24",
+      "moment": {
+        "item": "Strawberry uncrustable",
+        "said": "a strawberry Uncrustable, round and sealed all the way round its crimped edge",
+        "bowl": {
+          "center": [
+            110,
+            110
+          ],
+          "rim": 94,
+          "inner": 80,
+          "broth": false,
+          "pieces": [
+            {
+              "circle": [
+                110,
+                110,
+                58
+              ],
+              "fill": "crimp"
+            },
+            {
+              "circle": [
+                110,
+                110,
+                42
+              ],
+              "fill": "bread"
+            }
+          ]
+        }
+      }
     }
   ],
   "_moment": "A SAMEFOOD OF THE MOMENT is optional, is one item already on that person's tray, and gets a bowl of its own drawn on the tray. A BOWL IS ONE DISH, drawn the way its person eats it, so ITS PARTS MAY TOUCH: Ryan does not mind his food touching and the green onions float in among his noodles. Separation is something this cafe offers -- the divided plate, the ramekins -- and never something it imposes; Ronan and Ryan's brother like everything apart, Ryan does not mind, and both are the same again. So the tool keeps a bowl's contents inside its wall and does not check them against each other. It is 'of the moment' because samefoods have seasons; when it changes, the person says so and the bowl changes.",

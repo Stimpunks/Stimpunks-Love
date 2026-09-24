@@ -2179,6 +2179,9 @@ ORNAMENT = {
                "only.",
     "#d9a04e": "samefood: Ronan's chicken nuggets in the drawing, 2.00 on the bowl's well, "
                "carried by their --sf-ink-2 outline. Drawing only.",
+    "#e6bc77": "samefood: the bread of Chelsea's strawberry Uncrustable in the drawing, its "
+               "crimped edge and its sealed middle, 1.54 on the bowl's well, carried by its "
+               "--sf-ink-2 outline. Drawing only.",
     "#6b4430": "samefood: the coffee in the mug in the drawing, 8.07 on the mug's plate-coloured "
                "rim. Drawing only.",
     "#2a2721": "nothing for sale: the lit middle of the ring in the drawing, and the hairlines "

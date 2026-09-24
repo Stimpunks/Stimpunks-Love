@@ -161,11 +161,11 @@ VOCAB = [
 
 INK = {k: f"var(--sf-{k})" for k in
        ("plate", "pop", "pesto", "apple", "nut", "coffee", "cheese", "ketchup",
-        "noodle", "onion", "nugget")}
+        "noodle", "onion", "nugget", "crimp", "bread")}
 
 # THE RED INKS, which matter only to somebody who has asked about red things.
 RED = {"apple", "ketchup"}
-ON_PLATE = set(INK) - {"noodle", "onion", "nugget"}
+ON_PLATE = set(INK) - {"noodle", "onion", "nugget", "crimp", "bread"}
 IN_BOWL = set(INK) - {"plate", "coffee"}
 
 # THE ASKS THIS TOOL KNOWS HOW TO CHECK. A regular's asks are their own way of
@@ -604,6 +604,8 @@ def attr(s):
 
 def svg_shape(sh, stroke, extra=""):
     fill = INK[sh["fill"]] if stroke != "shade" else "var(--sf-shade)"
+    if sh.get("fill") == "crimp":
+        fill = INK["bread"]
     if stroke == "shade":
         paint = f'fill="var(--sf-shade)" stroke="var(--sf-shade)" stroke-width="{SHADE * 2}" stroke-linejoin="round"'
     else:
@@ -622,18 +624,22 @@ def svg_shape(sh, stroke, extra=""):
                 f'stroke-width="5" stroke-linecap="round"{extra}/>')
     if "circle" in sh:
         cx, cy, r = sh["circle"]
-        if sh["fill"] == "pop" and stroke != "shade":
+        if sh["fill"] in ("pop", "crimp") and stroke != "shade":
             # A KERNEL IS A PUFF DRAWN INSIDE ITS OWN CIRCLE: six bumps whose
             # every control point sits on the circle and every anchor inside
             # it, so the box the walker checked is still the box of the ink.
+            # A CRIMPED EDGE -- a sealed round sandwich from above -- is the same
+            # construction with many small bumps and anchors nearer the rim.
+            k_n, depth = (6, .78) if sh["fill"] == "pop" else (18, .93)
+            step = 360 / k_n
             pts = []
-            for k in range(6):
-                a0, a1 = math.radians(k * 60), math.radians(k * 60 + 30)
-                pts.append((cx + r * .78 * math.cos(a0), cy + r * .78 * math.sin(a0),
+            for k in range(k_n):
+                a0, a1 = math.radians(k * step), math.radians(k * step + step / 2)
+                pts.append((cx + r * depth * math.cos(a0), cy + r * depth * math.sin(a0),
                             cx + r * math.cos(a1), cy + r * math.sin(a1)))
             d = f"M{pts[0][0]:.1f} {pts[0][1]:.1f} " + " ".join(
-                f"Q{pts[k][2]:.1f} {pts[k][3]:.1f} {pts[(k + 1) % 6][0]:.1f} {pts[(k + 1) % 6][1]:.1f}"
-                for k in range(6)) + " Z"
+                f"Q{pts[k][2]:.1f} {pts[k][3]:.1f} {pts[(k + 1) % k_n][0]:.1f} {pts[(k + 1) % k_n][1]:.1f}"
+                for k in range(k_n)) + " Z"
             return f'<path d="{d}" {paint}{extra}/>'
         return f'<circle cx="{cx}" cy="{cy}" r="{r}" {paint}{extra}/>'
     if "ellipse" in sh:

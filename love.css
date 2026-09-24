@@ -1548,7 +1548,7 @@
   --sf-pop:    #EFC75E;   --sf-pesto:  #7C9A45;   --sf-apple:  #C0463B;
   --sf-nut:    #B57A3E;   --sf-coffee: #6B4430;   --sf-cheese: #F29B38;
   --sf-ketchup: #B3261E;  --sf-broth:  #EBCF93;   --sf-noodle: #F7EBC0;
-  --sf-onion:  #4F8F35;   --sf-nugget: #D9A04E;
+  --sf-onion:  #4F8F35;   --sf-nugget: #D9A04E;   --sf-bread:  #E6BC77;
 
   /* The Collection Collection (§48). A DARK GALLERY WITH NO LIGHT OF ITS OWN,
      where every cabinet brings its own lamp and no two lamps are alike.
@@ -10602,7 +10602,7 @@ html[data-intensity="max"] .lph-pop circle:nth-child(4) { animation-delay: -.8s;
    -- or the next one on their own list. The words in a well are theirs,
    exactly as given, so nothing in here restyles them: no capitals added, no
    title case, nothing crossed out. */
-.sf-trays { list-style: none; margin: 34px 0 0; padding: 0; display: grid; gap: 44px; }
+.sf-trays { list-style: none; margin: 34px 0 36px; padding: 0; display: grid; gap: 44px; }
 .sf-tray h3 { margin: 0 0 14px; }
 .sf-wells { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr)); }
 .sf-wells li { margin: 0; padding: 14px 16px; background: var(--sf-well); border-radius: 18px; font-size: 17px; line-height: 1.4; text-transform: none; }
