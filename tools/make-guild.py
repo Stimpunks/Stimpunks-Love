@@ -187,6 +187,27 @@ def normalise(s):
 # yellow on that blue measures 3.88 and white measures 5.08 -- the one place
 # here where the room's favourite colour lost to the floor it was lying on.
 DRAW = {
+    # A spare torch left on a tailgate, which is the one kind of light somebody
+    # in that ring can take home: the body in --nfs-pale, 16.45 on the gravel,
+    # its lens and the beam it would throw in --nfs-fog, 13.07, and the tailgate
+    # edge under it in --nfs-dim, 7.98. None of it is switched on.
+    "nothing-for-sale-torch": """<path d="M3 27 H29" stroke="var(--nfs-dim)" stroke-width="1.8" stroke-linecap="round"/><rect x="5" y="15" width="15" height="7" rx="2" fill="var(--nfs-pale)"/><path d="M20 13.5 L25 12 V25 L20 23.5 Z" fill="var(--nfs-fog)"/><path d="M9 18.5 H13" stroke="var(--nfs-gravel)" stroke-width="1.6" stroke-linecap="round"/>""",
+    # A confirmation card blown against the foot of the mast, the kind radio
+    # operators post to one another: the card in --rp-card, 14.79 on the cloud,
+    # with its call stripe in --rp-call along the top, which is detail on the
+    # card rather than a shape on the ground, and the ridge line under it in
+    # --rp-glow, which carries nothing.
+    "repeater-qsl": """<path d="M3 28 H29" stroke="var(--rp-glow)" stroke-width="1.8" stroke-linecap="round"/><path d="M5 10 L25 7 L27 23 L7 26 Z" fill="var(--rp-card)"/><path d="M5 10 L25 7 L25.6 11 L5.6 14 Z" fill="var(--rp-call)"/><path d="M8.5 18.5 L22 16.5 M9 22 L18 20.7" stroke="var(--rp-ink-2)" stroke-width="1.4" stroke-linecap="round"/>""",
+    # A crayon dropped by the diner's door, out on the lot where the window's
+    # light reaches: the wax in --sh-neon, 6.82 on the lot, its paper wrapper in
+    # --sh-pale, 16.54, and the kerb under it in --sh-line, which carries
+    # nothing. From the table of crayons in the menu, for the reason quoted there.
+    "small-hours-crayon": """<path d="M3 28 H29" stroke="var(--sh-line)" stroke-width="1.6" stroke-linecap="round"/><path d="M6 22 L22 12 L26 15 L10 25 Z" fill="var(--sh-neon)"/><path d="M22 12 L28 9.5 L26 15 Z" fill="var(--sh-neon)"/><path d="M11 19 L15 16.5 L19 22 L15 24.5 Z" fill="var(--sh-pale)"/>""",
+    # A glow stick snapped and dropped on the runway, which is the one kind of
+    # light a silent disco leaves lying about: two lengths of it in --dp-orange,
+    # 9.35 on the tarmac, bent at the snap, and the runway's edge in --dp-dim
+    # under it, 8.44. Neither moves; nothing in that room glows on and off.
+    "dance-punks-glowstick": """<path d="M3 28 H29" stroke="var(--dp-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 23 L14.5 16.5" stroke="var(--dp-orange)" stroke-width="4" stroke-linecap="round"/><path d="M17.5 15.5 L27 9" stroke="var(--dp-orange)" stroke-width="4" stroke-linecap="round"/><path d="M14.5 16.5 L17.5 15.5" stroke="var(--dp-orange)" stroke-width="1.6" stroke-linecap="round"/>""",
     # Ear defenders left on a seat in the second row, which is where a relaxed
     # screening keeps a spare pair: the headband and both cups in --lph-cream,
     # 10.2 on the velvet, and the seat's edge in --lph-brass, which carries

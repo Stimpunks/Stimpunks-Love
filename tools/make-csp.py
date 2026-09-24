@@ -61,6 +61,23 @@ if not found:
 # The array holds trailing slashes because it is used with indexOf(); a CSP
 # source expression does not want one.
 origins = " ".join(o.rstrip("/") for o in found)
+
+# THE ORIGINS THE SCRIPT WILL ACTUALLY PLAY AUDIO FROM, read the same way and for
+# the same reason. Kept WITH their path, because a CSP source expression may
+# carry one and a path is tighter than a host: this lets the browser fetch the
+# band's uploads and nothing else on that site. Without a media-src the policy
+# falls back to default-src 'self' and The Small Hours' jukebox is a row of
+# buttons that press and play nothing -- which, like a stale script hash, the
+# browser does silently.
+ablock = re.search(r"var AUDIO_ORIGINS = \[(.*?)\];", embed, re.S)
+if not ablock:
+    print("REFUSING: love-embed.js has no AUDIO_ORIGINS array to read media-src from.")
+    sys.exit(2)
+afound = re.findall(r"'(https://[^']+)'", ablock.group(1))
+if not afound:
+    print("REFUSING: love-embed.js's AUDIO_ORIGINS array parsed to nothing.")
+    sys.exit(2)
+media = " ".join(afound)
 csp = (
     "default-src 'self'; base-uri 'none'; object-src 'none'; form-action 'none'; "
     # frame-ancestors is 'self' and NOT 'none', which is a deliberate loosening
@@ -77,6 +94,9 @@ csp = (
     # in that array and is added here: it is the laptop in the Hermitage's cave
     # framing this site inside itself, which love-embed.js never constructs.
     f"frame-src 'self' {origins}; "
+    # 'self' for the recordings this site does serve (the audio room, the
+    # Playhouse's yells, the yurt), then whatever AUDIO_ORIGINS holds.
+    f"media-src 'self' {media}; "
     "style-src 'self' 'unsafe-inline'; "
     f"script-src 'self' 'sha256-{digest}'; "
     # A SAFETY NET, NOT A FIX. Every subresource here is already https or
@@ -92,4 +112,5 @@ src = hdr.read_text()
 new = re.sub(r"(# >>> csp.*?\n)  Content-Security-Policy: [^\n]*",
              lambda m: m.group(1) + "  Content-Security-Policy: " + csp, src, flags=re.S)
 hdr.write_text(new)
-print(f"csp: sha256-{digest}  ({len(pages)} pages, 1 snippet)\n     frame-src 'self' " + origins + "  (read from love-embed.js)")
+print(f"csp: sha256-{digest}  ({len(pages)} pages, 1 snippet)\n     frame-src 'self' " + origins + "  (read from love-embed.js)"
+      + "\n     media-src 'self' " + media + "  (read from love-embed.js)")

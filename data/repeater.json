@@ -1,0 +1,52 @@
+{
+  "_what": "The Repeater: turning 06 off The Outskirts, a radio mast on the ridge at the far end of the road. Read by tools/make-repeater.py, which writes the log into repeater.html and the credits into liner-notes.html.",
+  "_source": "The argument is our own Shared-Signal Space entry, https://stimpunks.org/glossary/shared-signal-space/, read in the Knowledge System mirror on 2026-09-23. The two lines quoted from it are ours and are quoted as ours. THE AUTISTIC RHIZOME IS NOT HELEN EDGAR'S COINAGE, and the first draft of this room said it was: our Shared-Signal Space entry cites her 2026 article on it, so that was the name to hand. Our own Autistic Rhizome entry shows the name was given in 2023 by DGH Neurodivergent Consultancy, to the network of Autistic communities on Discord; Helen has written about it since, at Autistic Realms. Both are credited, by name, on the page. The communication-preference study is Howard and Sedgewick's, as our entry cites it. THE ARTICLE THAT NAMED IT IS GONE FROM ITS OWN ADDRESS: on 2026-09-23 dghneurodivergentconsultancy.co.uk served a 'Coming Soon' holding page there, and the Internet Archive's only capture of that address is a redirect. So the room links our own entry, which quotes the article, and names the consultancy as our entry does. No byline we could read names a person, so none is named here -- the herbarium's refusal to guess at a binomial, applied to an author.",
+  "_log": "THE LOG CONFIRMS CONTACTS AND COUNTS NONE OF THEM. Radio amateurs keep logbooks and hand one another awards for how many contacts, countries and continents they have worked, which is exactly the shape of thing a room about connection would grow if nobody stopped it. Each card here confirms that one KIND of contact counts, in a line of ours, and make-repeater.py refuses a number, a total or an award anywhere near it. The lines are written for this room rather than lifted from the glossary's own list, which is the entry's to keep.",
+  "_line": "THE OPEN LINE IS MADE IN THE BROWSER AND GOES NOWHERE. repeater.js synthesises a quiet noise with the Web Audio API when somebody presses the button, and stops it when they press again. Nothing is fetched, nothing is sent, there is nobody on the other end and the page says so. The loudest it can be is one constant at the top of repeater.js, and make-repeater.py refuses that constant above 0.2 -- a line left open in the background is a thing somebody forgets is on, and it must never be the loud thing in the room.",
+  "quotes": [
+    {
+      "id": "signal",
+      "text": "The mode of connection carried by signal rather than proximity — a voice note, a thread, a call left open in the background, a message typed and read across distance.",
+      "via": "https://stimpunks.org/glossary/shared-signal-space/",
+      "via_title": "Shared-Signal Space",
+      "checked": "2026-09-23"
+    },
+    {
+      "id": "top",
+      "text": "No mode sits at the top.",
+      "via": "https://stimpunks.org/glossary/shared-signal-space/",
+      "via_title": "Shared-Signal Space",
+      "checked": "2026-09-23"
+    }
+  ],
+  "log": [
+    {
+      "call": "VOICE NOTE",
+      "line": "Left for later and played back twice. The breath in it arrived as well as the words."
+    },
+    {
+      "call": "THREAD",
+      "line": "Picked up again days afterwards, mid-sentence, and nobody asked where anybody had been."
+    },
+    {
+      "call": "OPEN LINE",
+      "line": "A call nobody hung up. Two people getting on with separate things, near each other, saying nothing for an hour."
+    },
+    {
+      "call": "TYPED",
+      "line": "Drafted, read back, rewritten and only then sent, so what arrived was what was meant."
+    },
+    {
+      "call": "LETTERBOARD",
+      "line": "Spelled out one letter at a time. It took longer to arrive and it is no less a voice for that."
+    },
+    {
+      "call": "LURKING",
+      "line": "Read everything and said nothing for months. That was being there the whole time."
+    },
+    {
+      "call": "ONE REPLY",
+      "line": "A single answer after a long quiet. It counts the same as a conversation."
+    }
+  ]
+}

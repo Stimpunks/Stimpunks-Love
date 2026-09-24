@@ -104,6 +104,10 @@ faery-yurt.html       Pitch 01. Helen Edgar's candlelit yurt; her design, not ou
 solarpunk-hermitage.html  Pitch 03. A cabin on wheels, and the one room the sun is up in
 the-outskirts.html    The road past the last streetlight. Hand-painted signs, lit by headlights
 black-leather-lagoon.html  Turning 01. A drive-in screen in black water; an appreciation of The Cramps
+dance-punks.html      Turning 04. A silent disco on an old airstrip, lit only by the headsets
+small-hours.html      Turning 05. An all-night diner seen from the car park; Josephmooon on the jukebox
+repeater.html         Turning 06. A radio mast on the ridge; shared-signal space and a line left open
+nothing-for-sale.html Turning 07. A free market in a ring of headlights. Solidarity, not charity
 liner-notes.html      Who made this noise
 changelog.html        What changed, and when. Every Stimpunks site publishes one
 love.css              Shared base (§1–§4) then one self-contained world per room (§5 on)
@@ -142,6 +146,13 @@ data/checkpoint.json  Room 429's quotations, its Retry-After slips and its way o
 data/dead-tired.json  The pegs by the door: what wore us out, one line from somebody who wrote about it, one of ours
 data/laughingstock.json  The stage, the bill and the lines in the light. Every set names its comics and its runtime
 data/picture-house.json  The two screens and the rack. Every card says who made it, how long, and what is in it
+data/dance-punks.json The disco's three channels: where each starts in one crate, and in what colour
+data/small-hours.json The diner's quotations, its menu, Up All Night with its permission, and the jukebox
+data/repeater.json    The Repeater's two lines of ours and the log's cards, none of which counts anything
+data/nothing-for-sale.json  The lay-by's tables, each a free thing of ours, and the headlights, none alike
+dance-punks.js        The headset. Tuning is silent while it is off; it asks love-embed.js for the frame
+small-hours.js        The whole-album buttons. Plays an album through, saying which song of how many
+repeater.js           The open line: quiet noise made in the browser. Nothing sent, nothing listened to
 quest.js              The job markers, and the guild's board. Works with scripts off
 zibaldone.js          The attribution slip. Composes a block of text; sends nothing anywhere
 checkpoint.js         Room 429's copy buttons, which ship hidden. The slips work without it
@@ -189,6 +200,10 @@ python3 tools/make-checkpoint.py   # Room 429's quotations, slips and way out, a
 python3 tools/make-dead-tired.py   # Dead Tired Society's pegs by the door, and the credits
 python3 tools/make-laughingstock.py # Laughingstock's stage, its bill and the lines in the light, and the credits
 python3 tools/make-picture-house.py # The Lightbulb Picture House's screens and rack, and the credits; refuses a blue
+python3 tools/make-dance-punks.py  # the disco's channels and credits; refuses a runtime, shuffle, or two inks alike in greyscale
+python3 tools/make-small-hours.py  # the diner's menu, quotations, record and jukebox; refuses a lyric with no permission
+python3 tools/make-repeater.py     # the Repeater's log and quotations; refuses anything that sends, stores or listens
+python3 tools/make-nothing-for-sale.py # the lay-by's tables; refuses a price, charity's categories, and a debt
 python3 tools/make-foundry.py      # The Foundry's bench, its shelves and its proof
 python3 tools/make-signoff.py      # the sign-off line on every page, and the pavement's links on the front one
 python3 tools/make-structured.py   # each page's JSON-LD, built from its own head

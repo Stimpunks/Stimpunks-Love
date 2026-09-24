@@ -302,6 +302,13 @@
         28
       ]
     },
+    "figtree": {
+      "where": "Nothing For Sale",
+      "page": "nothing-for-sale.html",
+      "sections": [
+        46
+      ]
+    },
     "fraunces": {
       "where": "The Solarpunk Hermitage",
       "page": "solarpunk-hermitage.html",
@@ -314,6 +321,13 @@
       "page": "pebble-board.html",
       "sections": [
         21
+      ]
+    },
+    "ibm-plex-sans": {
+      "where": "The Repeater",
+      "page": "repeater.html",
+      "sections": [
+        45
       ]
     },
     "im-fell-english": {
@@ -373,6 +387,13 @@
         40
       ]
     },
+    "libre-franklin": {
+      "where": "The Small Hours",
+      "page": "small-hours.html",
+      "sections": [
+        44
+      ]
+    },
     "limelight": {
       "where": "The Lightbulb Picture House",
       "page": "lightbulb-picture-house.html",
@@ -392,6 +413,13 @@
       "page": "zibaldone.html",
       "sections": [
         29
+      ]
+    },
+    "manrope": {
+      "where": "Dance, Punks",
+      "page": "dance-punks.html",
+      "sections": [
+        43
       ]
     },
     "michroma": {
@@ -443,6 +471,13 @@
         33
       ]
     },
+    "patrick-hand": {
+      "where": "Nothing For Sale",
+      "page": "nothing-for-sale.html",
+      "sections": [
+        46
+      ]
+    },
     "permanent-marker": {
       "where": "Club Chronic",
       "page": "club-chronic.html",
@@ -483,6 +518,13 @@
       "page": "healing-checkpoint.html",
       "sections": [
         31
+      ]
+    },
+    "righteous": {
+      "where": "The Small Hours",
+      "page": "small-hours.html",
+      "sections": [
+        44
       ]
     },
     "rock-salt": {
@@ -562,6 +604,13 @@
         32
       ]
     },
+    "syncopate": {
+      "where": "The Repeater",
+      "page": "repeater.html",
+      "sections": [
+        45
+      ]
+    },
     "titan-one": {
       "where": "The Playhouse",
       "page": "playhouse.html",
@@ -574,6 +623,13 @@
       "page": "the-den.html",
       "sections": [
         18
+      ]
+    },
+    "unbounded": {
+      "where": "Dance, Punks",
+      "page": "dance-punks.html",
+      "sections": [
+        43
       ]
     },
     "unifraktur-maguntia": {

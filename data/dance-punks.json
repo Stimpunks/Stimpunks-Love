@@ -1,0 +1,53 @@
+{
+  "_what": "Dance, Punks: turning 04 off The Outskirts, a silent disco on an old airstrip. Read by tools/make-dance-punks.py, which writes the headset's channels into dance-punks.html and the room's credits into liner-notes.html. One data file, one tool, both surfaces.",
+  "_source": "The crate is Stimpunks Foundation's own YouTube playlist, handed to this room by Ryan on 2026-09-23. Its entries were read off the playlist page with yt-dlp the same day. Every opening song was checked on its own watch page the same day: playabilityStatus OK, playableInEmbed true, no age gate, and the channel read back off YouTube's oEmbed rather than typed. Artists come off each upload's own 'Provided to YouTube by' block, not from memory.",
+  "_one_crate": "THREE CHANNELS, ONE CRATE, AND THE ROOM SAYS SO. A real silent disco has three DJs; this one has one playlist, started in three places. The only lever YouTube's embed answers to is /embed/<VIDEO>?list=<PLAYLIST>, which moves the starting point and then plays on in order -- measured in Club Chronic on 2026-09-22 and re-measured here by pressing play inside the frame. So a channel is a starting point, and the page never calls it a DJ, a set or shuffle.",
+  "_drift": "A START POINT IS A VIDEO, NOT A POSITION, and the crate is somebody's list that keeps changing. If an opening song leaves the playlist, that channel is a song that plays and then a list it is no longer in. Nothing on the page can see that; check-jukebox.py checks each opening song as a video, and the playlist itself is Stimpunks'. Positions are not stored at all, because a position is the thing that drifts first.",
+  "_no_runtime": "THE CRATE CARRIES NO RUNTIME AND make-dance-punks.py REFUSES ONE, on the crate or on any channel. It is a list we keep adding to, and today's total is wrong next week and authoritative-looking meanwhile -- make-club.py's rule. The label says it runs until you take the headset off.",
+  "_inks": "Each channel names its colour by the custom property that draws it, and the tool reads the value out of love.css's :root rather than keeping a copy here. It refuses a channel ink under 4.5:1 on the tarmac, because the channel's name is set in it, and refuses two channels less than 1.5:1 apart in brightness from each other, so the three can be told apart with no colour at all. That bar is ours, and it is stated on the page.",
+  "crate": {
+    "id": "PLRtKsTScL-vTHmboCLTELcyoiBYOAy1Y_",
+    "title": "Dance, Punks",
+    "kept_by": "Stimpunks Foundation",
+    "read": "2026-09-23"
+  },
+  "channels": [
+    {
+      "n": 1,
+      "name": "Blue",
+      "ink": "--dp-blue",
+      "opens": {
+        "id": "c7eCpUG9r5U",
+        "title": "Daft Punk Is Playing at My House",
+        "artist": "LCD Soundsystem",
+        "channel": "LCD Soundsystem - Topic"
+      },
+      "about": "The top of the crate, where the playlist itself begins. A song about a party that got out of hand, which is the one kind of party this runway cannot have: nobody here can hear anybody else's music."
+    },
+    {
+      "n": 2,
+      "name": "Orange",
+      "ink": "--dp-orange",
+      "opens": {
+        "id": "TGaAikM62Qk",
+        "title": "Wild Child",
+        "artist": "Shopping",
+        "channel": "Shopping - Topic"
+      },
+      "about": "About a third of the way down the crate. Somebody on the Blue channel will not reach this song until they have danced through everything above it, and nobody on this channel has to."
+    },
+    {
+      "n": 3,
+      "name": "White",
+      "ink": "--dp-white",
+      "opens": {
+        "id": "bzRrORE8LtU",
+        "title": "Starstruck",
+        "artist": "Sorry",
+        "channel": "Sorry - Topic"
+      },
+      "about": "About two thirds of the way down, and the palest headset on the runway, which makes it the easiest one to find across a dark field. That is a perfectly good reason to be on it."
+    }
+  ],
+  "_notes": "THE LINES BESIDE EACH CHANNEL ARE ABOUT THE ROOM AND NOT ABOUT THE SONGS. Nobody writing this file listened to them for it, and a sentence describing how a record sounds, typed without hearing it, is the jukebox's guessed mapping in a friendlier voice. What each line says is where the channel starts and what that means on the runway; the one exception is the first, whose subject is in its own title."
+}

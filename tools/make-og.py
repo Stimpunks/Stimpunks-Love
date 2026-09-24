@@ -624,6 +624,58 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--covenstead .og-bench {{ margin: auto -60px 0 !important; }}
 .og--covenstead .og-bench svg {{ display: block; width: 100%; height: 150px; }}
 
+/* nothing for sale — THE RING OF CARS AND THE TABLES IN THE MIDDLE, lifted whole
+   from the page, every table throwing a fan of shadows. The name sits above it
+   on the dark gravel. */
+.og--nothing-for-sale {{ width: 100%; padding: 38px 60px 0; gap: 10px; justify-content: flex-start; }}
+.og--nothing-for-sale .og-over {{ margin: 0 !important; font-size: 18px; font-weight: 700; letter-spacing: 2.4px;
+  text-transform: uppercase; color: var(--nfs-dim); }}
+.og--nothing-for-sale h1 {{ font-size: 100px; line-height: 1; margin: 4px 0 0 !important; }}
+.og--nothing-for-sale .og-sub {{ margin: 2px 0 0 !important; font-family: 'Figtree', sans-serif; font-size: 26px;
+  line-height: 1.38; color: var(--nfs-text); max-width: 1000px; }}
+.og--nothing-for-sale .og-ring {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--nothing-for-sale .og-ring svg {{ display: block; height: 300px; width: auto; margin: 0 auto; }}
+
+/* the repeater — THE RIDGE AND THE MAST AGAINST THE SKYGLOW, lifted whole from
+   the page. Everything in the drawing is a silhouette and the two red lamps
+   are the only lights of its own; the name stands on the dark cloud above. */
+.og--repeater {{ width: 100%; padding: 38px 60px 0; gap: 10px; justify-content: flex-start; }}
+.og--repeater .og-over {{ margin: 0 !important; font-size: 18px; font-weight: 700; letter-spacing: 2.4px;
+  text-transform: uppercase; color: var(--rp-dim); }}
+.og--repeater h1 {{ font-size: 80px; line-height: 1.04; margin: 4px 0 0 !important; }}
+.og--repeater .og-sub {{ margin: 2px 0 0 !important; font-family: 'IBM Plex Sans', sans-serif; font-size: 27px;
+  line-height: 1.38; color: var(--rp-text); max-width: 900px; }}
+.og--repeater .og-ridge {{ margin: auto -60px 0 !important; line-height: 0; }}
+/* The ridge runs edge to edge: the drawing is sliced from the bottom rather than
+   shrunk, so the skyglow and the hill reach both sides of the card. */
+.og--repeater .og-ridge svg {{ display: block; width: 100%; height: 330px; }}
+
+/* the small hours — THE DINER FROM THE CAR PARK, lifted whole from the page:
+   the lit band of window, the light lying out across the tarmac, and the steady
+   OPEN sign on the roof. The name is out on the lot with you. */
+.og--small-hours {{ width: 100%; padding: 38px 60px 0; gap: 10px; justify-content: flex-start; }}
+.og--small-hours .og-over {{ margin: 0 !important; font-size: 18px; font-weight: 700; letter-spacing: 2.4px;
+  text-transform: uppercase; color: var(--sh-dim); }}
+.og--small-hours h1 {{ font-size: 92px; line-height: 1; margin: 4px 0 0 !important; }}
+.og--small-hours .og-sub {{ margin: 2px 0 0 !important; font-family: 'Libre Franklin', sans-serif; font-size: 27px;
+  line-height: 1.38; color: var(--sh-text); max-width: 980px; }}
+.og--small-hours .og-diner {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--small-hours .og-diner svg {{ display: block; height: 330px; width: auto; margin: 0 auto; }}
+
+/* dance, punks — THE CROWD ON THE RUNWAY, lifted whole from the page, with the
+   name above it on the tarmac. Nothing on the card is lit but the headsets,
+   which is the room's whole lighting model, and nothing on it moves. */
+.og--dance-punks {{ width: 100%; padding: 38px 60px 0; gap: 10px; justify-content: flex-start; }}
+.og--dance-punks .og-over {{ margin: 0 !important; font-size: 18px; font-weight: 700; letter-spacing: 2.4px;
+  text-transform: uppercase; color: var(--dp-dim); }}
+.og--dance-punks h1 {{ font-size: 100px; line-height: 1; margin: 4px 0 0 !important; }}
+.og--dance-punks .og-sub {{ margin: 2px 0 0 !important; font-family: 'Manrope', sans-serif; font-size: 28px;
+  line-height: 1.38; color: var(--dp-text); max-width: 960px; }}
+/* The crowd is drawn wider than it is tall, so it is set by HEIGHT and centred:
+   the tarmac either side is the card's own ground and the join does not show. */
+.og--dance-punks .og-crowd {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--dance-punks .og-crowd svg {{ display: block; height: 344px; width: auto; margin: 0 auto; }}
+
 /* the lightbulb picture house — THE AUDITORIUM WITH THE HOUSE LIGHTS UP, lifted
    whole from the page. The name sits above it on the lit velvet, and nothing on
    the card is blue, for the room's reason. */
@@ -2101,6 +2153,92 @@ def card_covenstead(p):
     )
 
 
+def card_nothing_for_sale(p):
+    # THE RING AND THE SUBTITLE ARE LIFTED FROM THE PAGE.
+    return (
+        "",
+        f'<div class="og og--nothing-for-sale" data-fit="card">'
+        f'<p class="og-over">Turning 07 &middot; The Outskirts &middot; the only free market on the road</p>'
+        f'{p["h1"]}'
+        f'<p class="og-sub">{p["nfssub"]}</p>'
+        f'<div class="og-ring">{p["ring"]}</div>'
+        f'</div>',
+        f"A very dark card, the colour of a gravel lay-by at night. Small grey capitals "
+        f"reading turning 07, The Outskirts, the only free market on the road, then "
+        f"\u201c{p['h1text']}\u201d in large, neat hand-lettered capitals. Then, in pale "
+        f"grey: {p['nfssub_plain']} Across the bottom, a ring of dark parked cars with their "
+        f"headlights on, pointing into a lit clearing; no two lamps are the same colour, "
+        f"warm, cold white and yellow. In the middle stand three trestle tables with small "
+        f"things on them and a cardboard sign on each, and every table throws a whole fan "
+        f"of shadows across the ground, one for every car.",
+    )
+
+
+def card_repeater(p):
+    # THE RIDGE AND THE SUBTITLE ARE LIFTED FROM THE PAGE.
+    return (
+        "",
+        f'<div class="og og--repeater" data-fit="card">'
+        f'<p class="og-over">Turning 06 &middot; The Outskirts &middot; as far as the road goes</p>'
+        f'{p["h1"]}'
+        f'<p class="og-sub">{p["rpsub"]}</p>'
+        f'<div class="og-ridge">{p["ridge"]}</div>'
+        f'</div>',
+        f"A very dark, warm grey card, the colour of low cloud at night. Small grey capitals "
+        f"reading turning 06, The Outskirts, as far as the road goes, then "
+        f"\u201c{p['h1text']}\u201d in wide off-white capitals. Then, in pale grey: "
+        f"{p['rpsub_plain']} Across the bottom, a black ridge against a dull amber glow along "
+        f"the horizon, with tiny distant lights scattered along it and a brighter smear of a "
+        f"town far off to the left. On the ridge a lattice radio mast rises up off the top of "
+        f"the drawing into the dark, held by guy wires, with a small hut at its foot. "
+        f"Everything on the ridge is a black silhouette; the only light of its own is one "
+        f"small steady red lamp partway up the mast.",
+    )
+
+
+def card_small_hours(p):
+    # THE DINER AND THE SUBTITLE ARE LIFTED FROM THE PAGE.
+    return (
+        "",
+        f'<div class="og og--small-hours" data-fit="card">'
+        f'<p class="og-over">Turning 05 &middot; The Outskirts &middot; the lights are on</p>'
+        f'{p["h1"]}'
+        f'<p class="og-sub">{p["shsub"]}</p>'
+        f'<div class="og-diner">{p["diner"]}</div>'
+        f'</div>',
+        f"A very dark blue-black card, the colour of a car park at night. Small grey capitals "
+        f"reading turning 05, The Outskirts, the lights are on, then \u201c{p['h1text']}\u201d "
+        f"in a rounded, streamlined off-white face like diner signage. Then, in pale grey: "
+        f"{p['shsub_plain']} Across the bottom, a long low diner seen from the dark car park: a "
+        f"band of bright white plate-glass windows all along its side, a teal counter and red "
+        f"stools and booths inside, a round clock on the back wall with no hands, a steady red "
+        f"neon sign on the roof reading OPEN, and the windows' light lying out across the "
+        f"tarmac in pale shapes. Nobody is drawn.",
+    )
+
+
+def card_dance_punks(p):
+    # THE CROWD AND THE SUBTITLE ARE LIFTED FROM THE PAGE, so the card cannot
+    # describe a party the room does not throw.
+    return (
+        "",
+        f'<div class="og og--dance-punks" data-fit="card">'
+        f'<p class="og-over">Turning 04 &middot; The Outskirts &middot; you cannot hear it from the road</p>'
+        f'{p["h1"]}'
+        f'<p class="og-sub">{p["dpsub"]}</p>'
+        f'<div class="og-crowd">{p["crowd"]}</div>'
+        f'</div>',
+        f"A near-black card, the colour of an unlit runway at night. Small grey capitals "
+        f"reading turning 04, The Outskirts, you cannot hear it from the road, then "
+        f"\u201c{p['h1text']}\u201d in a very wide, heavy off-white face. Then, in pale grey: "
+        f"{p['dpsub_plain']} Across the bottom, a crowd of dancers seen from behind on an old "
+        f"airstrip, the runway's faded centre line running away to the horizon between "
+        f"them. Nobody's face can be seen. Every dancer wears headphones glowing one of three "
+        f"colours, blue, orange or white, with a soft halo of the same colour round their "
+        f"head, and those small lights are the only light anywhere on the card.",
+    )
+
+
 def card_picture_house(p):
     # THE AUDITORIUM IS LIFTED FROM THE PAGE and the lede is the page's own
     # og:description, so the card cannot say what the room does not.
@@ -2267,6 +2405,10 @@ CARDS = {
     "dead-tired":   card_dead_tired,
     "laughingstock": card_laughingstock,
     "picture-house": card_picture_house,
+    "dance-punks":  card_dance_punks,
+    "small-hours":  card_small_hours,
+    "repeater":     card_repeater,
+    "nothing-for-sale": card_nothing_for_sale,
     "looming":      card_looming,
     "garden":       card_garden,
     "room-yurt":    card_yurt,
@@ -2382,6 +2524,10 @@ def main():
         ("doorway",  "dead-tired-society.html", r'(<svg class="dts-doorway".*?</svg>)'),
         ("stage",    "laughingstock.html", r'(<svg class="ls-stage".*?</svg>)'),
         ("house",    "lightbulb-picture-house.html", r'(<svg class="lph-auditorium".*?</svg>)'),
+        ("crowd",    "dance-punks.html",  r'(<svg class="dp-crowd".*?</svg>)'),
+        ("diner",    "small-hours.html",  r'(<svg class="sh-diner".*?</svg>)'),
+        ("ridge",    "repeater.html",     r'(<svg class="rp-ridge".*?</svg>)'),
+        ("ring",     "nothing-for-sale.html", r'(<svg class="nfs-ring".*?</svg>)'),
         ("galley",   "foundry.html",      r'(<svg class="fo-galley".*?</svg>)'),
         ("falls",    "the-den.html",      r'(<svg class="falls".*?</svg>)'),
         ("otter",    "otterly-adorbs.html", r'(<div class="otter" id="otter".*?</div>\s*</div>)'),
@@ -2514,6 +2660,48 @@ def main():
             "blank line under the name of the venue.")
     lifted["amphisub"] = amp.group(1).strip()
     lifted["amphisub_plain"] = html.unescape(re.sub(r"<[^>]+>", "", amp.group(1))).strip()
+
+    # DANCE, PUNKS' CARD CARRIES THE ROOM'S OWN SUBTITLE, lifted rather than
+    # typed: it says three channels and one crate, and if either ever changes
+    # the card must change with the page rather than go on saying the old thing.
+    dps = re.search(r'<p class="dp-sub">(.*?)</p>', (ROOT / "dance-punks.html").read_text(), re.S)
+    if not dps:
+        raise SystemExit(
+            "REFUSING: dance-punks.html has no subtitle on it, and its card is built\n"
+            "around one. Redesign the card on purpose rather than letting it render a\n"
+            "blank line under the name.")
+    lifted["dpsub"] = dps.group(1).strip()
+    lifted["dpsub_plain"] = html.unescape(re.sub(r"<[^>]+>", "", dps.group(1))).strip()
+
+    # THE SMALL HOURS' CARD CARRIES THE ROOM'S OWN SUBTITLE, for the same reason.
+    shs = re.search(r'<p class="sh-sub">(.*?)</p>', (ROOT / "small-hours.html").read_text(), re.S)
+    if not shs:
+        raise SystemExit(
+            "REFUSING: small-hours.html has no subtitle on it, and its card is built\n"
+            "around one. Redesign the card on purpose rather than letting it render a\n"
+            "blank line under the name.")
+    lifted["shsub"] = shs.group(1).strip()
+    lifted["shsub_plain"] = html.unescape(re.sub(r"<[^>]+>", "", shs.group(1))).strip()
+
+    # THE REPEATER'S CARD CARRIES THE ROOM'S OWN SUBTITLE, for the same reason.
+    rps = re.search(r'<p class="rp-sub">(.*?)</p>', (ROOT / "repeater.html").read_text(), re.S)
+    if not rps:
+        raise SystemExit(
+            "REFUSING: repeater.html has no subtitle on it, and its card is built\n"
+            "around one. Redesign the card on purpose rather than letting it render a\n"
+            "blank line under the name.")
+    lifted["rpsub"] = rps.group(1).strip()
+    lifted["rpsub_plain"] = html.unescape(re.sub(r"<[^>]+>", "", rps.group(1))).strip()
+
+    # NOTHING FOR SALE'S CARD CARRIES THE ROOM'S OWN SUBTITLE, for the same reason.
+    nfs = re.search(r'<p class="nfs-sub">(.*?)</p>', (ROOT / "nothing-for-sale.html").read_text(), re.S)
+    if not nfs:
+        raise SystemExit(
+            "REFUSING: nothing-for-sale.html has no subtitle on it, and its card is built\n"
+            "around one. Redesign the card on purpose rather than letting it render a\n"
+            "blank line under the name.")
+    lifted["nfssub"] = nfs.group(1).strip()
+    lifted["nfssub_plain"] = html.unescape(re.sub(r"<[^>]+>", "", nfs.group(1))).strip()
 
     # THE GARDEN'S CARD IS A ROW OF ITS OWN LABELS, read off the beds rather
     # than typed here -- the campground's pitches' rule, and it matters more in

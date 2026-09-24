@@ -1,0 +1,331 @@
+{
+  "_what": "The Small Hours: turning 05 off The Outskirts, an all-night diner for bodies that keep other hours. Read by tools/make-small-hours.py, which writes the menu and the quotations into small-hours.html and the credits into liner-notes.html.",
+  "_quotes": "EVERY QUOTATION WAS READ OFF THE KNOWLEDGE SYSTEM MIRROR, word for word, from the page of ours named in `via`, on the date in `checked`. make-small-hours.py checks each one against that page again whenever the mirror is on the machine running it, and says so when it is not. The authors were resolved against Open Library and Crossref rather than remembered, because our own pages quote these books far more often than they name who wrote them: the Sleep entry prints the crayons passage under a link to the book and never names its author, and the name this file was about to be given from memory was a different Autistic writer's. It is Sarah Kurchak's.",
+  "_no_advice": "THIS ROOM GIVES NO SLEEP ADVICE AND ITS TOOL REFUSES THE VOCABULARY, in our own voice, with the negation window, skipping quotations. The strongest reason is on the page: the Sleep entry quotes a study in which what helped Autistic adolescents sleep was in direct contrast to standard sleep hygiene advice. A diner that handed out tips at three in the morning would be the sleep-hygiene leaflet by the till, and it would arrive as a kindness.",
+  "_open": "IT DOES NOT CLOSE, and the tool refuses closing time, last orders and opening hours unless the sentence is refusing them. THE SIGN DOES NOT READ YOUR CLOCK. The first draft had it say what time it was where you were and then say open, which is charming for about a second and then is one more thing on the internet noticing what hour somebody is awake; a diner for people up at odd hours is the last place that should be keeping an eye on the time. It says open, whatever time it is, and the tool refuses the page asking the browser for the time at all.",
+  "_no_prices": "There are no prices on the menu. It is a website; a price would be the one thing on it that is certainly made up.",
+  "quotes": [
+    {
+      "id": "kafer",
+      "text": "Rather than bend disabled bodies and minds to meet the clock, crip time bends the clock to meet disabled bodies and minds.",
+      "author": "Alison Kafer",
+      "work": "Feminist, Queer, Crip",
+      "work_url": "https://iupress.org/9780253009340/feminist-queer-crip/",
+      "via": "https://stimpunks.org/glossary/crip-time/",
+      "via_title": "Crip Time",
+      "checked": "2026-09-23"
+    },
+    {
+      "id": "samuels",
+      "text": "Crip time is time travel.",
+      "author": "Ellen Samuels",
+      "work": "Six Ways of Looking at Crip Time",
+      "work_url": "https://dsq-sds.org/index.php/dsq/article/view/5824/4684",
+      "via": "https://stimpunks.org/glossary/crip-time/",
+      "via_title": "Crip Time",
+      "checked": "2026-09-23"
+    },
+    {
+      "id": "price",
+      "text": "The sleep-wake cycles of Autistic adults also differ, on average, from the circadian rhythms of neurotypicals, and many of us experience sleep disorders.",
+      "author": "Devon Price",
+      "work": "Unmasking Autism",
+      "work_url": "https://openlibrary.org/works/OL25325902W/Unmasking_Autism?edition=key%3A/books/OL34184954M",
+      "via": "https://stimpunks.org/glossary/sleep/",
+      "via_title": "Sleep",
+      "checked": "2026-09-23"
+    },
+    {
+      "id": "pavlopoulou",
+      "text": "sleep facilitating factors are in a direct contrast to the sleep hygiene recommendations",
+      "author": "Georgia Pavlopoulou",
+      "work": "A Good Night’s Sleep: Learning About Sleep From Autistic Adolescents’ Personal Accounts",
+      "work_url": "https://www.frontiersin.org/articles/10.3389/fpsyg.2020.583868/full",
+      "via": "https://stimpunks.org/glossary/sleep/",
+      "via_title": "Sleep",
+      "checked": "2026-09-23"
+    },
+    {
+      "id": "kurchak",
+      "text": "they’d sit me at the small table they’d put next to their bed and hand me some crayons so that I could blissfully colour while they watched over me in semi-consciousness.",
+      "author": "Sarah Kurchak",
+      "work": "I Overcame My Autism and All I Got Was This Lousy Anxiety Disorder",
+      "work_url": "https://openlibrary.org/works/OL21875092W/I_Overcame_My_Autism_and_All_I_Got_Was_This_Lousy_Anxiety_Disorder?edition=key%3A/books/OL29828538M",
+      "via": "https://stimpunks.org/glossary/sleep/",
+      "via_title": "Sleep",
+      "checked": "2026-09-23"
+    },
+    {
+      "id": "wolf",
+      "text": "Insomnia is a research priority for autistic communities. At Stimpunks, we keep the hour-of-the-wolf.",
+      "author": "Stimpunks",
+      "work": "The Neurodivergent Experience in Josephmooon’s “So Far So Good”",
+      "work_url": "https://stimpunks.org/2021/09/08/the-neurodivergent-experience-in-josephmooons-so-far-so-good/",
+      "via": "https://stimpunks.org/2021/09/08/the-neurodivergent-experience-in-josephmooons-so-far-so-good/",
+      "via_title": "The Neurodivergent Experience in Josephmooon’s “So Far So Good”",
+      "checked": "2026-09-23"
+    }
+  ],
+  "menu": [
+    {
+      "dish": "Breakfast, whenever it is for you",
+      "note": "Eggs any way and toast cut however you like it, at any hour. It is breakfast because it is the first thing you have eaten since you woke up, and that is the only clock the kitchen goes by."
+    },
+    {
+      "dish": "The same as last time",
+      "note": "Say it and it arrives exactly as it did before, down to where things sit on the plate. Nobody suggests you try something new. A safe food is a perfectly good reason to come back.",
+      "link": "https://stimpunks.org/glossary/safe-food/",
+      "link_title": "Safe Food"
+    },
+    {
+      "dish": "A booth to yourself",
+      "note": "For as long as you like. Nobody is waiting for the table, and nobody will stand near it looking as if they are."
+    },
+    {
+      "dish": "Something warm in a heavy mug",
+      "note": "Refilled without asking, or never refilled at all, whichever you said when you sat down. Either is remembered until you leave and not a minute after."
+    },
+    {
+      "dish": "Crayons and a paper placemat",
+      "note": "On every table, for the reason quoted under the menu. Colouring at a small table while somebody keeps you company is a thing the small hours have been for since long before this diner."
+    },
+    {
+      "dish": "The quiet end of the counter",
+      "note": "Furthest from the kitchen and the door. The stools down there do not spin; the ones at the other end do, for the people who asked for that instead."
+    },
+    {
+      "dish": "Nothing at all",
+      "note": "You can sit here without ordering anything. Nobody brings the bill over to make a point."
+    }
+  ],
+  "_jukebox": "THE JUKEBOX PLAYS BOTH OF JOSEPHMOOON'S ALBUMS FROM THE BAND'S OWN SITE and hosts nothing: every track is a press-to-play button that becomes a player streaming from josephmooon.wordpress.com, one at a time. Titles are the albums' own track listings, read off their pages on 2026-09-23 -- where a page's player spells a title differently from its listing ('High Up In The Sky', 'BusyBodies'), the listing wins, because it is the one the band typed as a list. Every runtime was measured off the file itself with ffprobe the same day, rounded to the second, because every press-to-play control here says how long before the press and a number off a player widget is somebody else's rounding. The first album's release date is on its page; the second's is not, so none is given.",
+  "record": {
+    "title": "Up All Night",
+    "by": "Josephmooon",
+    "album": "So Far So Good",
+    "track": 4,
+    "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/bc5d7-josephmooon-04-up-all-night.mp3",
+    "runs": "2:41",
+    "about": "A song about Autistic insomnia, by a Stimpunk.",
+    "credits": [
+      {
+        "who": "Ronan Boren",
+        "did": "all lyrics"
+      },
+      {
+        "who": "Bill Paige",
+        "did": "vocals, guitar"
+      },
+      {
+        "who": "Ronnie Nice",
+        "did": "guitars, keyboards, bass, drums, programming"
+      },
+      {
+        "who": "Ian Nice",
+        "did": "piano, keyboards, backing vocals"
+      }
+    ],
+    "permission": {
+      "what": "the recording and its lyrics",
+      "held_by": "Stimpunks Foundation",
+      "how": "Stimpunks helped produce the song and has permission to distribute it and its lyrics",
+      "recorded": "2026-09-23",
+      "by": "Ryan Boren",
+      "licence": "not under this site's CC BY-SA 4.0 licence: permission to distribute is not permission to relicense, so the words and the recording stay the band's and the lyricist's"
+    },
+    "lyrics": [
+      [
+        "I’m staying up all night",
+        "All night all night that’s not right",
+        "Staying up all night",
+        "That’s what I’ve been doing"
+      ],
+      [
+        "Up all night all night all night",
+        "Try to stay out of sight in the daytime",
+        "I do it a lot"
+      ],
+      [
+        "I have been up all night all night all night",
+        "That’s not right alright that what I like to do",
+        "Well I sleep when it’s day and stay up all night"
+      ],
+      [
+        "You can go with or without me",
+        "It’s up to you",
+        "I’ve been up all night",
+        "Up all night all night all night",
+        "I sleep when it’s day like I said when its light",
+        "Not a lot of the time",
+        "Most of the time"
+      ],
+      [
+        "I have been up all night all night all night",
+        "And that’s alright alright that’s what I like to do",
+        "Well I sleep when it’s day and stay up all night",
+        "Until it feels alright"
+      ],
+      [
+        "Stay out of sight",
+        "That’s how I write",
+        "Staying up all night",
+        "That’s what I do",
+        "How about you"
+      ]
+    ],
+    "_lyrics": "PRINTED IN FULL, AS SENT, and that is permission rather than quotation. Every other room on this street quotes songs under queering.earth's policy -- a line or two, never the chorus on its own -- or not at all, and their tools refuse lyrics; this is the one song on the street whose words are published whole, because Stimpunks helped make it and holds permission to distribute it and its lyrics. The spelling and punctuation are the lyricist's and are not tidied ('that what I like to do', 'when its light'). Our own 2021 post about the album already published these words. make-small-hours.py refuses a lyric with no permission record."
+  },
+  "albums": [
+    {
+      "title": "So Far So Good",
+      "page": "https://josephmooon.wordpress.com/music/so-far-so-good/",
+      "released": "2021-10-01",
+      "tracks": [
+        {
+          "n": 1,
+          "title": "Floats Boat",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/b802c-josephmooon-01-floats-boat.mp3",
+          "runs": "3:07"
+        },
+        {
+          "n": 2,
+          "title": "One Word",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/f71dd-josephmooon-02-one-word.mp3",
+          "runs": "3:07"
+        },
+        {
+          "n": 3,
+          "title": "Long Ago",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/66a17-josephmooon-03-long-ago.mp3",
+          "runs": "3:03"
+        },
+        {
+          "n": 4,
+          "title": "Up All Night",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/bc5d7-josephmooon-04-up-all-night.mp3",
+          "runs": "2:41"
+        },
+        {
+          "n": 5,
+          "title": "Out Of Tune",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/4600a-josephmooon-05-out-of-tune.mp3",
+          "runs": "2:54"
+        },
+        {
+          "n": 6,
+          "title": "Captolea",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/df200-josephmooon-06-captolea.mp3",
+          "runs": "4:52"
+        },
+        {
+          "n": 7,
+          "title": "Busybodies",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/8ec89-josephmooon-07-busybodies.mp3",
+          "runs": "3:48"
+        },
+        {
+          "n": 8,
+          "title": "High In The Sky",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/c1ddb-josephmooon-08-high-in-the-sky.mp3",
+          "runs": "3:30"
+        },
+        {
+          "n": 9,
+          "title": "Cost Time",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/bf7a2-josephmooon-09-cost-time.mp3",
+          "runs": "2:29"
+        },
+        {
+          "n": 10,
+          "title": "Reusable Money",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/e516d-josephmooon-10-reusable-money.mp3",
+          "runs": "4:03"
+        },
+        {
+          "n": 11,
+          "title": "Check For",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/82b62-josephmooon-11-check-for.mp3",
+          "runs": "3:16"
+        },
+        {
+          "n": 12,
+          "title": "So Far So Good",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/57c92-josephmooon-12-so-far-so-good.mp3",
+          "runs": "3:50"
+        }
+      ]
+    },
+    {
+      "title": "Hand in Heaven",
+      "page": "https://josephmooon.wordpress.com/music/hand-in-heaven/",
+      "tracks": [
+        {
+          "n": 1,
+          "title": "Good Morning",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/6105b-01-good-morning.mp3",
+          "runs": "3:42"
+        },
+        {
+          "n": 2,
+          "title": "Her Smile",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/39855-02-her-smile.mp3",
+          "runs": "4:28"
+        },
+        {
+          "n": 3,
+          "title": "Only One Life",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/f7d17-03-only-one-life.mp3",
+          "runs": "3:05"
+        },
+        {
+          "n": 4,
+          "title": "Just Do It",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/6ef74-04-just-do-it.mp3",
+          "runs": "3:24"
+        },
+        {
+          "n": 5,
+          "title": "Me and My Homies",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/84202-05-me-and-my-homies.mp3",
+          "runs": "1:57"
+        },
+        {
+          "n": 6,
+          "title": "Banjo on My Knee",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/f067d-06-banjo-on-my-knee.mp3",
+          "runs": "3:01"
+        },
+        {
+          "n": 7,
+          "title": "Can’t Be Beat",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/17334-07-cant-be-beat.mp3",
+          "runs": "2:57"
+        },
+        {
+          "n": 8,
+          "title": "You’re Not in Charge",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/ff8ee-08-youre-not-incharge.mp3",
+          "runs": "2:00"
+        },
+        {
+          "n": 9,
+          "title": "Hand in Heaven",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/56091-09-hand-in-heaven.mp3",
+          "runs": "2:34"
+        },
+        {
+          "n": 10,
+          "title": "Last Words",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/08c24-10-last-words.mp3",
+          "runs": "4:07"
+        },
+        {
+          "n": 11,
+          "title": "Something Good",
+          "src": "https://josephmooon.wordpress.com/wp-content/uploads/2025/08/3f0ee-11-something-good.mp3",
+          "runs": "3:04"
+        }
+      ]
+    }
+  ]
+}

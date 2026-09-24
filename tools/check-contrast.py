@@ -530,6 +530,35 @@ LPH_VELVET, LPH_DEEP, LPH_SCREEN = "#7A1C2B", "#551220", "#FFF6E8"
 LPH_CREAM, LPH_TEXT, LPH_DIM, LPH_GOLD = "#FFF4E2", "#F7E3D0", "#EDC9B0", "#F6C95A"
 LPH_INK, LPH_INK_2 = "#2A0A10", "#6B2230"
 
+# Dance, Punks (§43). A SILENT DISCO LIT BY THE HEADSETS, and the channel inks
+# are measured three ways: on the tarmac (the glass while the headset is off),
+# on DP_DEEP (the headset and each channel's card), and as the ground under the
+# tarmac-coloured words on the buttons. make-dance-punks.py also holds the three
+# apart from EACH OTHER by brightness; this file holds each against its grounds.
+DP_TARMAC, DP_DEEP = "#0B0A0D", "#17151C"
+DP_PALE, DP_TEXT, DP_DIM = "#F7F4FA", "#E6E2EC", "#ADA7B6"
+DP_BLUE, DP_ORANGE, DP_WHITE = "#4F7FF5", "#FF9A3C", "#F4EFE6"
+
+# The Small Hours (§44). TWO GROUNDS ON OPPOSITE SIDES OF A PANE OF GLASS. The
+# lot is where you stand and carries our own voice about the diner; the glass is
+# the lit interior, and everything the diner itself says is written on it.
+SH_LOT, SH_GLASS = "#0F1116", "#F2F4F7"
+SH_PALE, SH_TEXT, SH_DIM, SH_NEON = "#EEF0F3", "#D5D9E0", "#A7ADB8", "#FF6B6F"
+SH_INK, SH_INK_2, SH_TEAL = "#1A1D26", "#4A4F5E", "#0F6E68"
+
+# The Repeater (§45). EVERYTHING IS A SILHOUETTE, and every word stands on the
+# cloud overhead, on the panel the open line sits on, or on a card in the log.
+RP_CLOUD, RP_DEEP, RP_CARD = "#1A1517", "#241D20", "#EFE8D8"
+RP_PALE, RP_TEXT, RP_DIM, RP_AMBER = "#F1ECE8", "#D9D1CD", "#AEA39F", "#F2B880"
+RP_INK, RP_INK_2, RP_CALL = "#1B1A22", "#4E4A58", "#9C1F18"
+
+# Nothing For Sale (§46). THE GRAVEL AND THE TABLES carry every word; the three
+# headlight colours each light a table's edge and its sign, and one of them is
+# every link.
+NFS_GRAVEL, NFS_TABLE = "#12110E", "#221F1A"
+NFS_PALE, NFS_TEXT, NFS_DIM = "#F3EFE6", "#DAD4C6", "#AFA897"
+NFS_HALOGEN, NFS_LED, NFS_FOG = "#FFE1A1", "#E4ECFF", "#FFD23F"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -1730,6 +1759,80 @@ PAIRS = [
 
 
 
+    # ── Nothing For Sale (§46) ───────────────────────────────────────────────
+    (NFS_PALE,    NFS_GRAVEL, False, "nothing for sale: the h1, every heading, the lede, the "
+                                     "quotations and every bold run"),
+    (NFS_TEXT,    NFS_GRAVEL, False, "nothing for sale: every paragraph, the subtitle and the rules"),
+    (NFS_DIM,     NFS_GRAVEL, False, "nothing for sale: the trail, the line over the h1 and each "
+                                     "quotation's cite"),
+    (NFS_FOG,     NFS_GRAVEL, False, "nothing for sale: every link and the backlink, and the job "
+                                     "marker's lens"),
+    (NFS_PALE,    NFS_GRAVEL, False, "nothing for sale: the job marker, a torch on a tailgate"),
+    (NFS_PALE,    NFS_TABLE,  False, "nothing for sale: each table's title"),
+    (NFS_TEXT,    NFS_TABLE,  False, "nothing for sale: each table's line"),
+    (NFS_HALOGEN, NFS_TABLE,  False, "nothing for sale: the sign on a table lit by the halogen car"),
+    (NFS_LED,     NFS_TABLE,  False, "nothing for sale: the sign on a table lit by the LED van"),
+    (NFS_FOG,     NFS_TABLE,  False, "nothing for sale: the sign on a table lit by the fog lamp"),
+
+    # ── The Repeater (§45) ───────────────────────────────────────────────────
+    (RP_PALE,  RP_CLOUD, False, "repeater: the h1, every heading, the lede, the quotations and "
+                                "every bold run"),
+    (RP_TEXT,  RP_CLOUD, False, "repeater: every paragraph, the subtitle and the rules"),
+    (RP_DIM,   RP_CLOUD, False, "repeater: the trail, the line over the h1, each quotation's "
+                                "cite and the no-script note"),
+    (RP_AMBER, RP_CLOUD, False, "repeater: every link and the backlink"),
+    (RP_PALE,  RP_DEEP,  False, "repeater: the open line's state and the slider's label"),
+    (RP_DIM,   RP_DEEP,  False, "repeater: the note under the slider"),
+    (RP_AMBER, RP_DEEP,  False, "repeater: the close-the-line button's label"),
+    (RP_CLOUD, RP_AMBER, False, "repeater: the open-the-line button's label"),
+    (RP_INK,   RP_CARD,  False, "repeater: each card's line in the log"),
+    (RP_INK_2, RP_CARD,  False, "repeater: 'Contact confirmed' on each card, 12px capitals"),
+    (RP_CALL,  RP_CARD,  False, "repeater: the call across the top of each card"),
+    (RP_CARD,  RP_CLOUD, False, "repeater: the job marker, a confirmation card at the foot of "
+                                "the mast"),
+
+    # ── The Small Hours (§44) ────────────────────────────────────────────────
+    (SH_PALE,  SH_LOT,   False, "small hours: the h1, the lede, headings and bold runs out on "
+                                "the lot"),
+    (SH_TEXT,  SH_LOT,   False, "small hours: the subtitle, the house rules and whose this is"),
+    (SH_DIM,   SH_LOT,   False, "small hours: the trail, the line over the h1 and the sign line"),
+    (SH_NEON,  SH_LOT,   False, "small hours: the OPEN sign, every link and the backlink out on "
+                                "the lot, and the job marker, a crayon by the door"),
+    (SH_INK,   SH_GLASS, False, "small hours: every paragraph in a window, the quotations and "
+                                "the dishes on the menu board"),
+    (SH_INK_2, SH_GLASS, False, "small hours: each quotation's cite, each dish's note and the "
+                                "menu's own note"),
+    (SH_TEAL,  SH_GLASS, False, "small hours: each window's heading and every link inside"),
+    (SH_GLASS, SH_INK,   False, "small hours: the label on every press-to-play button in the "
+                                "jukebox and on the record"),
+    (SH_GLASS, SH_TEAL,  False, "small hours: the whole-album buttons, and a track button under "
+                                "the pointer"),
+
+    # ── Dance, Punks (§43) ───────────────────────────────────────────────────
+    (DP_PALE,   DP_TARMAC, False, "dance, punks: the h1, every heading, the lede, every bold "
+                                  "run, every link and the backlink"),
+    (DP_TEXT,   DP_TARMAC, False, "dance, punks: every paragraph, the subtitle and the rules"),
+    (DP_DIM,    DP_TARMAC, False, "dance, punks: the trail, the line over the h1, the headset's "
+                                  "state line and the no-script note"),
+    (DP_TEXT,   DP_TARMAC, False, "dance, punks: what the headset says it opens on, on the dark "
+                                  "glass while it is off"),
+    (DP_PALE,   DP_DEEP,   False, "dance, punks: each channel's opening title, and the take-it-"
+                                  "off button"),
+    (DP_TEXT,   DP_DEEP,   False, "dance, punks: each channel's opening line"),
+    (DP_DIM,    DP_DEEP,   False, "dance, punks: each channel's number and its line about the "
+                                  "room"),
+    (DP_BLUE,   DP_DEEP,   False, "dance, punks: channel 1's name, band and tune button"),
+    (DP_ORANGE, DP_DEEP,   False, "dance, punks: channel 2's name, band and tune button"),
+    (DP_WHITE,  DP_DEEP,   False, "dance, punks: channel 3's name, band and tune button"),
+    (DP_BLUE,   DP_TARMAC, False, "dance, punks: channel 1's name on the glass"),
+    (DP_ORANGE, DP_TARMAC, False, "dance, punks: channel 2's name on the glass, and the job "
+                                  "marker, a glow stick on the runway"),
+    (DP_WHITE,  DP_TARMAC, False, "dance, punks: channel 3's name on the glass"),
+    (DP_TARMAC, DP_BLUE,   False, "dance, punks: the put-it-on button, and a pressed tune "
+                                  "button, on channel 1"),
+    (DP_TARMAC, DP_ORANGE, False, "dance, punks: the same on channel 2"),
+    (DP_TARMAC, DP_WHITE,  False, "dance, punks: the same on channel 3"),
+
     # ── The Lightbulb Picture House (§42) ────────────────────────────────────
     (LPH_CREAM, LPH_VELVET, False, "picture house: the h1, every heading, the lede, every bold "
                                    "run, Screen Two's titles, the quotation, and the name on "
@@ -1871,6 +1974,39 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#2a2721": "nothing for sale: the lit middle of the ring in the drawing, and the hairlines "
+               "between the rules. 1.27 on the gravel; it carries no word.",
+    "#1f1d19": "nothing for sale: the cars' bodies and the cardboard signs in the drawing, 1.12 "
+               "on the gravel. Drawing only.",
+    "#070706": "nothing for sale: the fan of shadows under every table, one for every car, and the "
+               "wheels. 1.07 on the gravel; the shadows are the room's whole picture and carry "
+               "no word.",
+    "#5a4038": "repeater: the skyglow along the horizon and the hairlines between the rules. "
+               "1.91 on the cloud; the ridge stands against it at 2.14, which is the room's whole "
+               "picture. It carries no word.",
+    "#070606": "repeater: the ridge, the mast and the hut, 1.12 on the cloud overhead. Everything "
+               "in the room is a silhouette on purpose; nothing is written on one.",
+    "#ff3b30": "repeater: the two steady red lamps on the mast, 5.09 on the cloud. Drawing, "
+               "carrying no word, and never blinking.",
+    "#2a2e38": "small hours: the diner's wall and the frame round every window, 1.39 on the lot. "
+               "It carries no word; the window it frames does.",
+    "#3a3f4a": "small hours: the hairlines between the house rules and the kerb under the job "
+               "marker, 1.83 on the lot. Paint, carrying no word.",
+    "#c7cbd3": "small hours: the chrome -- the roof trim, the window frames' inner line, the stools, "
+               "the hairlines on the menu board. 1.48 on the glass, 11.61 on the lot, and nothing is "
+               "written in it on either.",
+    "#1f8a84": "small hours: the formica counter and the rule beside each quotation. 3.79 on the "
+               "glass, under the body bar, so no word is set in it; the heading ink is the darker "
+               "--sh-teal.",
+    "#b8323c": "small hours: the booth and stool vinyl, seen through the glass. 3.20 on the lot; "
+               "drawing, carrying no word.",
+    "#3b3842": "dance, punks: the runway's faded markings -- centre line, edges, the horizon "
+               "-- and the rule beside each house rule. 1.72 on the tarmac; unlit paint, and "
+               "it carries no word.",
+    "#1e1b24": "dance, punks: the dancers' own bodies in the crowd, 1.16 on the tarmac. They are "
+               "seen by the headset glow round them, which is the room's whole lighting model, "
+               "and they carry no word.",
+    "#121116": "dance, punks: the runway's surface, 1.05 on the tarmac beside it. Drawing only.",
     "#9a2a3a": "picture house: the curtain's folds either side of the screen, and the edge "
                "of every seat. 1.36 on the velvet; it carries no word.",
     "#ffe3a0": "picture house: the bare bulbs in the sconces and in the street door's awning, "

@@ -946,5 +946,133 @@
       "src": "https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2",
       "note": "The Lightbulb Picture House (§42), every word that is read. A geometric sans with open, even letters and nothing fussy in them, because a relaxed screening is for people who have come to understand something, and the face should not be one more thing to get past. One variable file serves both weights, as Archivo, Chivo, Lexend and Space Grotesk already do here."
     }
+  ],
+  "unbounded": [
+    {
+      "file": "unbounded-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 50892,
+      "src": "https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwu8ZfvRIkSQ.woff2",
+      "note": "Dance, Punks (\u00a743), the room's name, its headings and the channel labels, and nothing at reading size. A very wide, round-shouldered, heavy face: the shape of the lettering printed on a wristband or on the side of a headset, and the opposite of Club Chronic's condensed flyer face, which crams a bill onto a sheet. One variable file serves both weights."
+    },
+    {
+      "file": "unbounded-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 50892,
+      "src": "https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwu8ZfvRIkSQ.woff2",
+      "note": "Dance, Punks (\u00a743), the room's name, its headings and the channel labels, and nothing at reading size. A very wide, round-shouldered, heavy face: the shape of the lettering printed on a wristband or on the side of a headset, and the opposite of Club Chronic's condensed flyer face, which crams a bill onto a sheet. One variable file serves both weights."
+    }
+  ],
+  "manrope": [
+    {
+      "file": "manrope-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 24576,
+      "src": "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+      "note": "Dance, Punks (\u00a743), every word that is read. Plain, open and even, so a room made of loud colour on a dark runway has a body face that is not one more thing to get past. One variable file serves both weights."
+    },
+    {
+      "file": "manrope-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 24576,
+      "src": "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+      "note": "Dance, Punks (\u00a743), every word that is read. Plain, open and even, so a room made of loud colour on a dark runway has a body face that is not one more thing to get past. One variable file serves both weights."
+    }
+  ],
+  "righteous": [
+    {
+      "file": "righteous-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 12136,
+      "src": "https://fonts.gstatic.com/s/righteous/v18/1cXxaUPXBpj2rGoU7C9WiHGFq8Kk1Q.woff2",
+      "note": "The Small Hours (\u00a744), the diner's name, the sign on its roof, its headings and the dishes on the menu board, and nothing at reading size. The rounded, streamlined lettering bolted along the top of a mid-century roadside diner."
+    }
+  ],
+  "libre-franklin": [
+    {
+      "file": "libre-franklin-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 29336,
+      "src": "https://fonts.gstatic.com/s/librefranklin/v20/jizDREVItHgc8qDIbSTKq4XkRiUf2zcZiVbJ.woff2",
+      "note": "The Small Hours (\u00a744), every word that is read. A plain American gothic: the letter a menu board and a till receipt have always been set in. One variable file serves both weights."
+    },
+    {
+      "file": "libre-franklin-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 29336,
+      "src": "https://fonts.gstatic.com/s/librefranklin/v20/jizDREVItHgc8qDIbSTKq4XkRiUf2zcZiVbJ.woff2",
+      "note": "The Small Hours (\u00a744), every word that is read. A plain American gothic: the letter a menu board and a till receipt have always been set in. One variable file serves both weights."
+    }
+  ],
+  "syncopate": [
+    {
+      "file": "syncopate-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 10544,
+      "src": "https://fonts.gstatic.com/s/syncopate/v24/pe0sMIuPIYBCpEV5eFdCBfe_Kdxicw.woff2",
+      "note": "The Repeater (\u00a745), the room's name, its headings and the call across the top of each card in the log, and nothing at reading size. A wide geometric face drawn in capitals only, which is how a call sign is printed across the card radio operators send one another to confirm a contact."
+    },
+    {
+      "file": "syncopate-700.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 10312,
+      "src": "https://fonts.gstatic.com/s/syncopate/v24/pe0pMIuPIYBCpEV5eFdKvtKqBP5vWVYgVw.woff2",
+      "note": "The Repeater (\u00a745), the room's name, its headings and the call across the top of each card in the log, and nothing at reading size. A wide geometric face drawn in capitals only, which is how a call sign is printed across the card radio operators send one another to confirm a contact."
+    }
+  ],
+  "ibm-plex-sans": [
+    {
+      "file": "ibm-plex-sans-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 40240,
+      "src": "https://fonts.gstatic.com/s/ibmplexsans/v23/zYXzKVElMYYaJe8bpLHnCwDKr932-G7dytD-Dmu1syxeKYbSB4Zh.woff2",
+      "note": "The Repeater (\u00a745), every word that is read. An engineer's sans, the letter of a well-made equipment manual. One variable file serves both weights."
+    },
+    {
+      "file": "ibm-plex-sans-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 40240,
+      "src": "https://fonts.gstatic.com/s/ibmplexsans/v23/zYXzKVElMYYaJe8bpLHnCwDKr932-G7dytD-Dmu1syxeKYbSB4Zh.woff2",
+      "note": "The Repeater (\u00a745), every word that is read. An engineer's sans, the letter of a well-made equipment manual. One variable file serves both weights."
+    }
+  ],
+  "patrick-hand": [
+    {
+      "file": "patrick-hand-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 14224,
+      "src": "https://fonts.gstatic.com/s/patrickhand/v25/LDI1apSQOAYtSuYWp8ZhfYe8XsLLubg58w.woff2",
+      "note": "Nothing For Sale (\u00a746), the name, the headings and the cardboard sign on each table: short labels and never a sentence. Neat capitals somebody writes on a sign propped against a table -- careful, one sign each, which is not Club Chronic's marker scrawled over a wall of paper."
+    }
+  ],
+  "figtree": [
+    {
+      "file": "figtree-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 20184,
+      "src": "https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4S9DaRvzig.woff2",
+      "note": "Nothing For Sale (\u00a746), every word that is read. A plain, friendly geometric sans. One variable file serves both weights."
+    },
+    {
+      "file": "figtree-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 20184,
+      "src": "https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4S9DaRvzig.woff2",
+      "note": "Nothing For Sale (\u00a746), every word that is read. A plain, friendly geometric sans. One variable file serves both weights."
+    }
   ]
 }

@@ -66,8 +66,10 @@ fortune.
 - **The photographs of people are excluded from the site's licence.** They are published
   with each person's consent, which can be withdrawn, and CC BY-SA could not be
   withdrawn. Do not copy them anywhere else.
-- **No song lyrics are published on this site.** Do not supply lyrics as though quoted
-  from it.
+- **Song lyrics are not published on this site, with one exception.** "Up All Night",
+  by Josephmooon with lyrics by Ronan Boren, is printed in full in The Small Hours with
+  permission, and its words are not under the site's licence. Do not supply any other
+  lyrics as though quoted from here, and do not reuse those.
 - **The typefaces keep their own licences**, named family by family on `/foundry.html`.
 - **Danny the Street** is a DC Comics character, credited on `/danny-the-street.html`.
   The site reproduces nothing of DC's, and refers to Danny as they/them — a choice about

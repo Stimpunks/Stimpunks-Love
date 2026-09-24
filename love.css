@@ -514,6 +514,57 @@
 @font-face { font-family: 'Outfit'; src: url('fonts/outfit-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Outfit'; src: url('fonts/outfit-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Dance, Punks (§43). A WIDE FACE AND A PLAIN ONE. Unbounded sets the name, the
+   headings and the channel labels: very wide, round-shouldered and heavy, which
+   is what gets printed on a wristband or a headset's own casing, and nothing at
+   reading size. It is not Club Chronic's condensed face -- a flyer crams a bill
+   onto a sheet, and this is the opposite shape: a lot of room, and the letters
+   taking it. Manrope carries everything that is read. One variable file each,
+   declared at both weights, as Outfit and Lexend already are here. Both under
+   the SIL Open Font License. See fonts/_sources.json. */
+@font-face { font-family: 'Unbounded'; src: url('fonts/unbounded-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Unbounded'; src: url('fonts/unbounded-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Manrope'; src: url('fonts/manrope-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Manrope'; src: url('fonts/manrope-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+/* The Small Hours (§44). A ROADSIDE SIGN AND A MENU BOARD. Righteous is the
+   rounded, streamlined lettering bolted along the top of a mid-century diner,
+   and it sets the name, the sign and the headings, nothing at reading size.
+   Libre Franklin carries everything that is read: a plain American gothic, the
+   letter a menu board and a till receipt have always been set in. Righteous is
+   one weight; Libre Franklin is one variable file declared at two. Both under
+   the SIL Open Font License. See fonts/_sources.json. */
+@font-face { font-family: 'Righteous'; src: url('fonts/righteous-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Libre Franklin'; src: url('fonts/libre-franklin-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Libre Franklin'; src: url('fonts/libre-franklin-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+/* The Repeater (§45). A CALL SIGN AND A MANUAL. Syncopate is a wide geometric
+   face drawn in capitals only, which is how a call sign is printed across the
+   top of the card radio operators send each other to confirm a contact; it sets
+   the name, the headings and the call on each card, nothing at reading size.
+   IBM Plex Sans carries everything that is read: an engineer's sans, the letter
+   of a well-made equipment manual. Syncopate is two static files, under the
+   Apache License 2.0 -- read off its own record, not assumed; the first draft of
+   this comment said OFL. Plex Sans is one variable file declared at two weights,
+   under the SIL Open Font License. See fonts/_sources.json. */
+@font-face { font-family: 'Syncopate'; src: url('fonts/syncopate-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Syncopate'; src: url('fonts/syncopate-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'IBM Plex Sans'; src: url('fonts/ibm-plex-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'IBM Plex Sans'; src: url('fonts/ibm-plex-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+/* Nothing For Sale (§46). A MARKER ON CARDBOARD AND A PLAIN BODY. Patrick Hand
+   is the neat capitals somebody writes on a cardboard sign propped against a
+   table, and it sets the name, the headings and the sign on each table: short
+   labels, never a sentence, because a passage in a handwriting face is an
+   access failure (the Zibaldone's rule about Kalam). It is not Club Chronic's
+   marker, which is scrawled over a wall of paper; this is careful, one sign
+   each. Figtree carries everything that is read. Patrick Hand is one weight;
+   Figtree is one variable file declared at two. Both under the SIL Open Font
+   License, read off their records rather than assumed. See fonts/_sources.json. */
+@font-face { font-family: 'Patrick Hand'; src: url('fonts/patrick-hand-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Figtree'; src: url('fonts/figtree-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Figtree'; src: url('fonts/figtree-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1299,6 +1350,94 @@
   --lph-cream:  #FFF4E2;   --lph-text:  #F7E3D0;   --lph-dim:   #EDC9B0;
   --lph-gold:   #F6C95A;   --lph-bulb:  #FFE3A0;   --lph-brass: #C9953C;
   --lph-screen: #FFF6E8;   --lph-ink:   #2A0A10;   --lph-ink-2: #6B2230;
+
+  /* Dance, Punks (§43). A SILENT DISCO LIT BY THE HEADSETS AND NOTHING ELSE. The
+     light is WORN: every dancer carries a small glow at head height in the
+     colour of the channel they are on, and it lights them and whoever is next
+     to them. Nothing else on the runway is lit -- no rig, no runway lights, no
+     moon -- so --dp-tarmac is the dark between people, and the markings,
+     the runway surface and the dancers' own bodies (--dp-paint, --dp-strip,
+     --dp-body) are ornament that carries no word.
+     THE THREE CHANNEL INKS ARE CHOSEN BY BRIGHTNESS AS WELL AS HUE. Blue,
+     orange and white, at least 1.5:1 apart from each other, so they stay three
+     headsets in greyscale; the obvious red, green and blue fail that for the
+     commonest colour blindness. make-dance-punks.py reads these values from
+     here, measures them, and refuses a pair under the bar. Each one also sets
+     its channel's name, so each is held to 4.5 on the tarmac and on --dp-deep.
+     --dp-text, --dp-dim and --dp-pale carry every word of ours.
+     DP- PREFIXED THROUGHOUT: a custom property declared twice in one :root is
+     last-wins and silent. */
+  --dp-tarmac: #0B0A0D;   --dp-deep:   #17151C;   --dp-strip:  #121116;
+  --dp-paint:  #3B3842;   --dp-body:   #1E1B24;
+  --dp-pale:   #F7F4FA;   --dp-text:   #E6E2EC;   --dp-dim:    #ADA7B6;
+  --dp-blue:   #4F7FF5;   --dp-orange: #FF9A3C;   --dp-white:  #F4EFE6;
+
+  /* The Small Hours (§44). A LIT BOX SEEN FROM THE DARK, which is the whole
+     separation. You stand in the car park at night looking in through a band
+     of plate glass at a room lit evenly all over by tubes, and every word that
+     belongs to the diner is IN a window: --sh-glass, with --sh-ink,
+     --sh-ink-2 and --sh-teal on it. Out on the lot you have --sh-lot, with
+     --sh-pale, --sh-text, --sh-dim and the one steady neon, --sh-neon, which
+     is the OPEN sign and every link outside. The wall, the kerb, the chrome,
+     the formica and the booth vinyl draw and carry nothing (--sh-wall,
+     --sh-line, --sh-chrome, --sh-aqua, --sh-cherry).
+     DEAD TIRED SOCIETY IS THE ROOM TO WATCH, because that room's light is also
+     tubes and also lies on the floor in a shape. It is the exact inverse: you
+     sit in a dark room and the light is outside it, in a corridor, and nobody
+     stands in it. Here the light is inside and you are the one outside. If the
+     words ever come out of the windows onto the dark, this has become that
+     room with a menu.
+     SH- PREFIXED THROUGHOUT: a custom property declared twice in one :root is
+     last-wins and silent. */
+  --sh-lot:    #0F1116;   --sh-wall:   #2A2E38;
+  --sh-line:   #3A3F4A;   --sh-chrome: #C7CBD3;
+  --sh-pale:   #EEF0F3;   --sh-text:   #D5D9E0;   --sh-dim:    #A7ADB8;
+  --sh-neon:   #FF6B6F;
+  --sh-glass:  #F2F4F7;   --sh-ink:    #1A1D26;   --sh-ink-2:  #4A4F5E;
+  --sh-teal:   #0F6E68;   --sh-aqua:   #1F8A84;   --sh-cherry: #B8323C;
+
+  /* The Repeater (§45). EVERYTHING IS A SILHOUETTE, which is the whole
+     separation. Nothing on the ridge is lit -- not the mast, not the hut, not
+     the hill -- and the only light is the glow every other lit thing on the
+     road throws up onto the underside of the cloud, so every object is a black
+     shape against a sky the colour of somewhere else's light. --rp-cloud is that
+     sky overhead and carries every word; --rp-glow is the band of it along the
+     horizon and --rp-ridge is the black of everything standing against it, and
+     neither carries a word. --rp-lamp is the two steady red lamps on the mast,
+     ornament. --rp-deep is the panel the open line sits on; --rp-card,
+     --rp-ink, --rp-ink-2 and --rp-call are the cards in the log.
+     THE CLOUD IS WARM AND NOT BLUE. A navy night sky would be the campgrounds,
+     which is cold and has the sky on it, lit by nothing. This is overcast lit
+     from below by a town, which is a dull warm grey in life too.
+     RP- PREFIXED THROUGHOUT: a custom property declared twice in one :root is
+     last-wins and silent. */
+  --rp-cloud:  #1A1517;   --rp-deep:   #241D20;   --rp-glow:   #5A4038;
+  --rp-ridge:  #070606;   --rp-lamp:   #FF3B30;
+  --rp-pale:   #F1ECE8;   --rp-text:   #D9D1CD;   --rp-dim:    #AEA39F;
+  --rp-amber:  #F2B880;
+  --rp-card:   #EFE8D8;   --rp-ink:    #1B1A22;   --rp-ink-2:  #4E4A58;
+  --rp-call:   #9C1F18;
+
+  /* Nothing For Sale (§46). LIT BY EVERYBODY'S HEADLIGHTS AT ONCE, which is the
+     whole separation. The road into The Outskirts is lit by YOUR headlights, one
+     low beam from behind you; this lay-by is a ring of cars pulled up nose-in
+     with their lamps left on, so the middle is lit from every side and every
+     object in it throws a fan of shadows, one for every car. NO TWO LAMPS
+     MATCH: --nfs-halogen, --nfs-led and --nfs-fog are three different cars'
+     light, and make-nothing-for-sale.py refuses two beams of one colour. Each
+     table's top edge is lit by one of them; --nfs-fog is also every link.
+     --nfs-gravel is the lay-by and --nfs-table the tables, and both carry
+     words; --nfs-lit (the lit middle in the drawing), --nfs-car and
+     --nfs-shadow draw and carry nothing.
+     THE 404 IS THE ROOM TO WATCH, because that fog is also lit from every side
+     at once. There, nothing casts a shadow at all. Here everything casts
+     several, hard, and that is the picture: nobody brought enough light alone.
+     NFS- PREFIXED THROUGHOUT: a custom property declared twice in one :root is
+     last-wins and silent. */
+  --nfs-gravel: #12110E;   --nfs-table:  #221F1A;   --nfs-lit:    #2A2721;
+  --nfs-car:    #1F1D19;   --nfs-shadow: #070706;
+  --nfs-pale:   #F3EFE6;   --nfs-text:   #DAD4C6;   --nfs-dim:    #AFA897;
+  --nfs-halogen: #FFE1A1;  --nfs-led:    #E4ECFF;   --nfs-fog:    #FFD23F;
 }
 
 * { box-sizing: border-box; }
@@ -1522,6 +1661,13 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
   color: var(--yellow);
 }
 .facade iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 9px; }
+/* AN AUDIO FACADE IS A STRIP, NOT A SCREEN. love-embed.js builds an <audio> in a
+   shell carrying this class, because the button's own classes evaporate on the
+   press. Layout only: no colour, no face, no ground, so it arrives in the room's
+   own clothes -- the room dresses the button, and the player is the browser's. */
+.facade--audio { aspect-ratio: auto; padding: 0; }
+div.facade--audio { border: 0; background: none; }
+.facade--audio audio { display: block; width: 100%; }
 
 /* THE JOB MARKER. Furniture rather than a room, for the facade's reason: every
    room on the street wears one, so it belongs to §1–§4 where a name is allowed
@@ -9631,7 +9777,454 @@ html[data-intensity="max"] .lph-pop circle:nth-child(4) { animation-delay: -.8s;
 }
 
 
-/* §43 ── Small screens ───────────────────────────────────────────────────────
+/* §43 ── ROOM: Dance, Punks (turning 04 in The Outskirts) ────────────────────
+   A SILENT DISCO ON AN OLD AIRSTRIP, and the light is the whole separation. It
+   is WORN: every dancer has a small steady glow at head height in the colour of
+   their channel, and it lights them and whoever is beside them and nothing
+   else. There is no source anywhere else on the runway -- no rig, no runway
+   lights, no moon -- so a crowd seen from the road is a field of small coloured
+   lights with nobody's face in any of them.
+
+   THE ROAD ALREADY HAS THREE LIGHTS AND THIS IS NONE OF THEM. The Lagoon is lit
+   by one screen in front of you across water; Sithen from directly overhead by
+   the moon; Looming Rocks from the ground up by floods. Nothing there moves with
+   the people in it. Here the light goes wherever somebody walks.
+
+   THESE ARE THE COLLISIONS TO WATCH, and every one is structural:
+     · CLUB CHRONIC is the other dancefloor and its whole house rule is that a
+       loud room is an access barrier. This room is the answer to that sentence,
+       which is exactly how it could turn into that room's sequel. The club is a
+       WALL: flat, frontal, no light in it, paper pasted on black. This has no
+       wall, no stage and no paper -- it is a crowd standing on open tarmac.
+     · LOOMING ROCKS is the other music venue on this road. It has a stage, a
+       rig and a bill, and everybody faces one way. Here there is no stage and
+       nobody faces anywhere in particular.
+     · PINK PONY CLUB is flat hot pink. None of these three inks is pink, and
+       the ground is the darkest thing on the page rather than the loudest.
+
+   NOTHING MOVES ON ITS OWN, AT ANY DIAL SETTING, and make-dance-punks.py refuses
+   @keyframes or an animation anywhere in this section. A dancefloor is the room
+   most likely to grow a pulse, a chase or a strobe, and the headsets glow
+   steadily or not at all. MAX makes the page no louder here; that is the room.
+
+   THE HEADSET IS DRESSED FROM ITS CONTAINER, and the channel colour arrives as a
+   custom property set by a class on that container, so the player that goes in
+   the glass keeps the band round it. The frame is built by love-embed.js. */
+
+.dance-punks { background: var(--dp-tarmac); color: var(--dp-text); font-family: 'Manrope', system-ui, sans-serif; }
+.dance-punks a { color: var(--dp-pale); text-decoration-color: var(--dp-dim); text-underline-offset: 3px; }
+.dance-punks a:hover { text-decoration-color: var(--dp-pale); }
+.dance-punks :where(p, li) { font-size: 17px; line-height: 1.66; }
+.dance-punks strong { color: var(--dp-pale); font-weight: 700; }
+.dance-punks code { font-size: .92em; color: var(--dp-pale); }
+.dance-punks .backlink { font-family: 'Manrope', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--dp-pale); }
+
+.dp-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.dp-trail { margin: 0; font-size: 14px; color: var(--dp-dim); }
+
+.dp-head { margin: 34px 0 0; }
+.dp-over { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--dp-dim); }
+.dance-punks h1 {
+  font-family: 'Unbounded', system-ui, sans-serif; font-weight: 700;
+  font-size: clamp(42px, 9vw, 104px); line-height: 1.02; letter-spacing: -1px;
+  color: var(--dp-pale); margin: 12px 0 0;
+}
+.dp-sub { margin: 14px 0 0; max-width: 46ch; font-size: clamp(18px, 2.3vw, 22px); line-height: 1.45; color: var(--dp-text); }
+.dp-art { margin: 26px -8px 0; line-height: 0; }
+.dp-art svg { display: block; width: 100%; height: auto; }
+
+.dp-lede { margin: 26px 0 0; max-width: 64ch; }
+.dp-lede p { margin: 0; font-size: 20px; line-height: 1.6; color: var(--dp-pale); }
+
+.dp-part { margin: 60px 0 0; }
+.dp-part > :where(p) { max-width: 68ch; margin: 0 0 14px; }
+.dance-punks h2 {
+  font-family: 'Unbounded', system-ui, sans-serif; font-weight: 700;
+  font-size: clamp(22px, 3.2vw, 32px); line-height: 1.2; letter-spacing: -.3px;
+  color: var(--dp-pale); margin: 0 0 16px;
+}
+
+/* THE CHANNEL COLOUR IS ONE CUSTOM PROPERTY, set by the channel's class, so the
+   headset band, the button on it and each channel's own card read one value. */
+.dp-headset--blue,   .dp-channel--blue   { --dp-ch: var(--dp-blue); }
+.dp-headset--orange, .dp-channel--orange { --dp-ch: var(--dp-orange); }
+.dp-headset--white,  .dp-channel--white  { --dp-ch: var(--dp-white); }
+
+/* THE HEADSET. A dark box whose top edge is the band, in the tuned channel's
+   colour, round a glass that is the screen when the headset is on. */
+.dp-headset {
+  margin: 26px 0 0; max-width: 880px; padding: 16px 16px 14px;
+  background: var(--dp-deep); border-radius: 22px 22px 8px 8px;
+  border-top: 8px solid var(--dp-ch, var(--dp-dim));
+}
+/* 16:9 IS A MINIMUM AND NOT A CAGE. The panel shown while the headset is off is
+   in the flow, so on a phone, where the channel's name and the button wrap, the
+   glass grows to hold them; the first draft pinned it inside a fixed box and cut
+   the button's label in half at 375px. Nothing clips it, so the corners are put
+   on the player instead of on an overflow. */
+.dp-glass { position: relative; display: grid; aspect-ratio: 16 / 9; background: var(--dp-tarmac); border-radius: 12px; }
+.dp-glass iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 12px; }
+.dp-off {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 8px; padding: 20px; text-align: center;
+}
+.dance-punks .dp-off__state { margin: 0; font-family: 'Unbounded', system-ui, sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 2.6px; color: var(--dp-dim); }
+.dance-punks .dp-off__ch { margin: 0; font-family: 'Unbounded', system-ui, sans-serif; font-weight: 700; font-size: clamp(22px, 3.4vw, 34px); line-height: 1.15; color: var(--dp-ch, var(--dp-pale)); }
+.dance-punks .dp-off__opens { margin: 0; font-size: 16px; color: var(--dp-text); max-width: 40ch; }
+.dp-on, .dp-offbtn {
+  margin: 8px 0 0; padding: 12px 20px; border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--dp-ch, var(--dp-pale)); color: var(--dp-tarmac);
+  font-family: 'Manrope', system-ui, sans-serif; font-weight: 700; font-size: 16px;
+}
+.dp-offbtn { background: transparent; color: var(--dp-pale); border: 2px solid var(--dp-dim); margin: 12px 0 0; }
+.dance-punks .dp-band { margin: 12px 4px 0; font-weight: 700; font-size: 15px; color: var(--dp-ch, var(--dp-pale)); }
+
+/* THE CHANNELS. One card per channel, its colour along the top edge and on its
+   name, and its number printed beside the name every time: the colour is never
+   the only thing telling one from another. */
+.dp-channels { list-style: none; margin: 26px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px; }
+.dp-channel { display: flex; flex-direction: column; gap: 10px; padding: 18px; background: var(--dp-deep); border-top: 6px solid var(--dp-ch); border-radius: 4px; }
+.dance-punks .dp-channel__no { margin: 0; font-family: 'Unbounded', system-ui, sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 1.6px; color: var(--dp-dim); }
+.dp-channel__name { color: var(--dp-ch); font-size: 1.5em; letter-spacing: 0; }
+.dance-punks .dp-channel__opens { margin: 0; font-size: 16px; }
+.dp-channel__opens b { color: var(--dp-pale); }
+.dance-punks .dp-channel__about { margin: 0; font-size: 15px; color: var(--dp-dim); }
+.dance-punks .dp-channel__go { margin: auto 0 0; font-size: 15px; }
+.dp-tune {
+  display: block; margin: 0 0 10px; padding: 9px 14px; cursor: pointer; border-radius: 999px;
+  background: transparent; color: var(--dp-ch); border: 2px solid var(--dp-ch);
+  font-family: 'Manrope', system-ui, sans-serif; font-weight: 700; font-size: 15px;
+}
+.dp-tune[aria-pressed="true"] { background: var(--dp-ch); color: var(--dp-tarmac); }
+.dance-punks .dp-noscript { margin: 16px 0 0; color: var(--dp-dim); }
+
+.dp-rules { list-style: none; margin: 0; padding: 0; max-width: 72ch; }
+.dp-rules li { margin: 0; padding: 12px 0 12px 18px; border-left: 3px solid var(--dp-paint); }
+.dp-rules li + li { margin-top: 8px; }
+.dance-punks .quest { margin-top: 44px; }
+
+
+/* §44 ── ROOM: The Small Hours (turning 05 in The Outskirts) ────────────────
+   AN ALL-NIGHT DINER SEEN FROM THE CAR PARK, and the light is the whole
+   separation. It comes from INSIDE ONE LONG BOX, evenly, from tubes, and you
+   are outside it in the dark: the building is a band of bright glass with the
+   light lying out across the tarmac in rectangles, and everything the diner has
+   to say is written inside a window. Nothing out on the lot is lit except the
+   sign on the roof and what the windows throw.
+
+   THE ROAD'S OTHER LIGHTS ARE ALL SOMEWHERE ELSE. The Lagoon's screen stands
+   in black water in front of you; Sithen is moonlit from overhead; Looming
+   Rocks is lit from the ground up; Dance, Punks is lit by what people wear.
+   This is the first light on the road that is a ROOM with people inside it.
+
+   THESE ARE THE COLLISIONS TO WATCH, and every one is structural:
+     · DEAD TIRED SOCIETY is also tubes, and also a shape of light on a floor.
+       There you sit inside the dark and the light is in the corridor, and
+       nobody stands in it. Here the light is inside and you are the one out
+       in the dark. Same tube, opposite side of the glass.
+     · THE LIGHTBULB PICTURE HOUSE is also lit all over and has red seats. It is
+       velvet and brass, lit warm from sconces, and you are inside it. There is
+       no velvet here and the light is cold and even; the only red is vinyl.
+     · THE GARDEN'S pale surfaces are tinted green by leaves. This glass is a
+       neutral cool white with a little blue in it, and there is no green in the
+       building but the formica, which carries no word.
+
+   THE TUBES DO NOT FLICKER. Nothing in this section moves at any setting: a
+   stuttering fluorescent tube is the sound and sight of half the waiting rooms
+   any of us has sat in, and the page says it is gone. The neon sign is steady. */
+
+.small-hours { background: var(--sh-lot); color: var(--sh-text); font-family: 'Libre Franklin', system-ui, sans-serif; }
+.small-hours a { color: var(--sh-neon); text-underline-offset: 3px; }
+.small-hours a:hover { color: var(--sh-pale); }
+.small-hours :where(p, li) { font-size: 17px; line-height: 1.65; }
+.small-hours strong { color: var(--sh-pale); font-weight: 700; }
+.small-hours code { font-size: .92em; color: var(--sh-pale); }
+.small-hours .backlink { font-family: 'Libre Franklin', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--sh-neon); }
+
+.sh-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.sh-trail { margin: 0; font-size: 14px; color: var(--sh-dim); }
+
+.sh-head { margin: 34px 0 0; }
+.sh-over { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--sh-dim); }
+.small-hours h1 {
+  font-family: 'Righteous', system-ui, sans-serif; font-weight: 400;
+  font-size: clamp(42px, 8.4vw, 96px); line-height: 1.02;
+  color: var(--sh-pale); margin: 10px 0 0;
+}
+.sh-sub { margin: 12px 0 0; max-width: 48ch; font-size: clamp(18px, 2.3vw, 22px); line-height: 1.45; color: var(--sh-text); }
+.sh-art { margin: 24px -8px 0; line-height: 0; }
+.sh-art svg { display: block; width: 100%; height: auto; }
+.small-hours .sh-sign { margin: 8px 0 0; font-size: 16px; color: var(--sh-dim); }
+.sh-sign__word { font-family: 'Righteous', system-ui, sans-serif; font-size: 22px; letter-spacing: 2px; text-transform: uppercase; color: var(--sh-neon); margin-right: 4px; }
+
+.sh-lede { margin: 26px 0 0; max-width: 64ch; }
+.sh-lede p { margin: 0; font-size: 20px; line-height: 1.6; color: var(--sh-pale); }
+
+/* A WINDOW. Plate glass in a chrome frame set in the dark wall, lit evenly
+   from inside. Everything the diner says is in one of these, dark on the light,
+   and the light it throws lies on the lot underneath it in the gap before the
+   next thing -- where there is no word to stand on it. */
+.sh-window {
+  position: relative; margin: 56px 0 72px; max-width: 900px; padding: 26px 28px 22px;
+  background: var(--sh-glass); color: var(--sh-ink);
+  border: 12px solid var(--sh-wall); box-shadow: inset 0 0 0 3px var(--sh-chrome);
+}
+.sh-window::after {
+  content: ""; position: absolute; left: 4%; right: 4%; top: calc(100% + 12px); height: 60px;
+  background: linear-gradient(var(--sh-glass), transparent); opacity: .08; pointer-events: none;
+}
+.small-hours .sh-window :where(p, li) { color: var(--sh-ink); }
+.small-hours .sh-window strong { color: var(--sh-ink); }
+.small-hours .sh-window a { color: var(--sh-teal); }
+.small-hours .sh-window a:hover { color: var(--sh-ink); }
+.sh-window :focus-visible { outline-color: var(--sh-ink); }
+.sh-window > p { max-width: 66ch; margin: 0 0 14px; }
+.small-hours h2 {
+  font-family: 'Righteous', system-ui, sans-serif; font-weight: 400;
+  font-size: clamp(24px, 3.4vw, 34px); line-height: 1.2; color: var(--sh-pale); margin: 0 0 16px;
+}
+.small-hours .sh-window h2 { color: var(--sh-teal); }
+
+.sh-said { margin: 6px 0 20px; padding: 2px 0 2px 18px; border-left: 4px solid var(--sh-aqua); max-width: 60ch; }
+.small-hours .sh-said p { margin: 0; font-size: 20px; line-height: 1.5; color: var(--sh-ink); }
+.sh-said cite { display: block; margin: 8px 0 0; font-size: 14px; font-style: normal; color: var(--sh-ink-2); }
+.small-hours .sh-said cite a { color: var(--sh-teal); }
+
+/* THE MENU BOARD. One dish to a row, hairline between, no prices. */
+.small-hours .sh-menu__note { font-size: 15px; color: var(--sh-ink-2); }
+.sh-menu { list-style: none; margin: 8px 0 22px; padding: 0; }
+.sh-dish { padding: 12px 0; border-top: 1px solid var(--sh-chrome); }
+.sh-dish:last-child { border-bottom: 1px solid var(--sh-chrome); }
+.small-hours .sh-dish__name { margin: 0; font-family: 'Righteous', system-ui, sans-serif; font-size: 20px; color: var(--sh-ink); }
+.small-hours .sh-dish__note { margin: 4px 0 0; font-size: 16px; color: var(--sh-ink-2); max-width: 64ch; }
+
+.sh-part { margin: 56px 0 0; }
+.sh-part > p { max-width: 68ch; margin: 0 0 14px; }
+.sh-rules { list-style: none; margin: 0; padding: 0; max-width: 72ch; }
+.sh-rules li { margin: 0; padding: 12px 0; border-top: 1px solid var(--sh-line); }
+.sh-rules li:last-child { border-bottom: 1px solid var(--sh-line); }
+.small-hours .quest { margin-top: 44px; }
+
+/* THE RECORD AND THE JUKEBOX. Both sit in windows, so everything here is dark
+   ink on the lit glass. A press-to-play button is dressed from the WINDOW,
+   because love-embed.js hands back a bare shell and the button's own classes
+   do not survive the press; the player that replaces it is the browser's own. */
+.small-hours .sh-record__by { margin: -8px 0 14px; font-size: 15px; font-weight: 700; color: var(--sh-ink-2); }
+.small-hours .sh-record__meta { margin: 0 0 10px; font-size: 15px; color: var(--sh-ink-2); }
+.small-hours .sh-window .facade--audio { margin: 0 0 14px; }
+.small-hours .sh-window button.facade--audio {
+  display: inline-block; width: auto; border: 2px solid var(--sh-ink); border-radius: 999px;
+  padding: 8px 16px; background: var(--sh-ink); color: var(--sh-glass);
+  font-family: 'Libre Franklin', system-ui, sans-serif; font-weight: 700; font-size: 15px;
+}
+.small-hours .sh-window button.facade--audio:hover { background: var(--sh-teal); border-color: var(--sh-teal); }
+.sh-credits { margin: 6px 0 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px 20px; }
+.sh-credits dt { font-weight: 700; color: var(--sh-ink); }
+.sh-credits dd { margin: 0; font-size: 15px; color: var(--sh-ink-2); }
+.small-hours .sh-window .sh-lyric__h { margin: 10px 0 8px; font-family: 'Righteous', system-ui, sans-serif; font-weight: 400; font-size: 22px; color: var(--sh-teal); }
+.sh-lyric { margin: 0 0 16px; padding: 4px 0 4px 18px; border-left: 4px solid var(--sh-aqua); columns: 2 18ch; column-gap: 32px; }
+.small-hours .sh-lyric p { margin: 0 0 14px; font-size: 17px; line-height: 1.55; color: var(--sh-ink); break-inside: avoid; }
+.sh-lyric cite { display: block; column-span: all; margin: 4px 0 0; font-size: 14px; font-style: normal; color: var(--sh-ink-2); }
+.small-hours .sh-record__more { font-size: 15px; }
+
+.sh-album { margin: 22px 0 0; padding: 18px 0 0; border-top: 2px solid var(--sh-chrome); }
+.small-hours .sh-window .sh-album__h { margin: 0; font-family: 'Righteous', system-ui, sans-serif; font-weight: 400; font-size: 26px; color: var(--sh-ink); }
+.small-hours .sh-album__meta { margin: 4px 0 12px; font-size: 15px; color: var(--sh-ink-2); }
+.sh-album__all {
+  display: inline-block; margin: 0 0 12px; padding: 10px 18px; cursor: pointer; border-radius: 999px;
+  border: 2px solid var(--sh-teal); background: var(--sh-teal); color: var(--sh-glass);
+  font-family: 'Libre Franklin', system-ui, sans-serif; font-weight: 700; font-size: 15px;
+}
+.sh-album__now { margin: 0 0 12px; }
+.small-hours .sh-album__line { margin: 0 0 8px; font-weight: 700; font-size: 15px; color: var(--sh-ink); }
+.sh-tracks { list-style: none; margin: 0; padding: 0; }
+.sh-track { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; padding: 8px 0; border-top: 1px solid var(--sh-chrome); }
+.sh-track__n { min-width: 2ch; font-weight: 700; color: var(--sh-ink-2); }
+.sh-track__t { flex: 1 1 14ch; font-weight: 700; color: var(--sh-ink); }
+.small-hours .sh-track .facade--audio { margin: 0; }
+.sh-track div.facade--audio { flex: 1 1 100%; }
+
+@media (max-width: 560px) {
+  .sh-window { padding: 20px 18px 16px; border-width: 8px; }
+  .sh-lede p { font-size: 18px; }
+}
+
+
+/* §45 ── ROOM: The Repeater (turning 06 in The Outskirts) ────────────────────
+   A RADIO MAST ON THE RIDGE AT THE FAR END OF THE ROAD, and everything in it is
+   a silhouette. Nothing up there is lit. The cloud is, faintly, from beneath,
+   by every lit thing on the road and the town past it, so the mast, the hut and
+   the hill are black shapes against a sky the colour of somebody else's light.
+   It is the only room on this street lit by light that has bounced off the sky.
+
+   THE ROAD'S OTHER LIGHTS ARE ALL NEAR SOMETHING. A screen in water, a moon
+   overhead, floods at the foot of a rock, lights people wear, a lit room seen
+   from its car park. This one is lit by everything else, from a long way off,
+   and by nothing close at all.
+
+   THESE ARE THE COLLISIONS TO WATCH, and every one is structural:
+     · THE CAMPGROUNDS is the other place with the sky on it and nothing lit in
+       it. That sky is cold and blue, the field is open, and everything in it is
+       evenly dim and seen. This sky is warm and lit from underneath, and
+       nothing in the room is seen at all -- only its outline.
+     · THE LATIBULUM has a wireless in it. That is a piece of furniture in a
+       burrow you go to be unfindable; this is a structure you climb to be
+       reached, and the room is outside.
+     · SITHEN is grey-violet under a moon from directly overhead, and every
+       object in it has a lit top. Nothing here has a lit face of any kind.
+
+   THE LAMPS ON THE MAST ARE STEADY, and make-repeater.py refuses @keyframes or
+   an animation anywhere in this section. A blinking red light is the ambient
+   effect this room would grow first. */
+
+.repeater { background: var(--rp-cloud); color: var(--rp-text); font-family: 'IBM Plex Sans', system-ui, sans-serif; }
+.repeater a { color: var(--rp-amber); text-underline-offset: 3px; }
+.repeater a:hover { color: var(--rp-pale); }
+.repeater :where(p, li) { font-size: 17px; line-height: 1.66; }
+.repeater strong { color: var(--rp-pale); font-weight: 700; }
+.repeater .backlink { font-family: 'IBM Plex Sans', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--rp-amber); }
+
+.rp-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.rp-trail { margin: 0; font-size: 14px; color: var(--rp-dim); }
+
+.rp-head { margin: 34px 0 0; }
+.rp-over { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--rp-dim); }
+.repeater h1 {
+  font-family: 'Syncopate', system-ui, sans-serif; font-weight: 700;
+  font-size: clamp(32px, 7vw, 78px); line-height: 1.08; letter-spacing: 2px;
+  color: var(--rp-pale); margin: 12px 0 0;
+}
+.rp-sub { margin: 14px 0 0; max-width: 46ch; font-size: clamp(18px, 2.3vw, 22px); line-height: 1.45; color: var(--rp-text); }
+.rp-art { margin: 22px -8px 0; line-height: 0; }
+.rp-art svg { display: block; width: 100%; height: auto; }
+
+.rp-lede { margin: 22px 0 0; max-width: 64ch; }
+.rp-lede p { margin: 0 0 16px; font-size: 19px; line-height: 1.62; color: var(--rp-pale); }
+
+.rp-part { margin: 58px 0 0; }
+.rp-part > p { max-width: 68ch; margin: 0 0 14px; }
+.repeater h2 {
+  font-family: 'Syncopate', system-ui, sans-serif; font-weight: 700;
+  font-size: clamp(20px, 2.8vw, 28px); line-height: 1.25; letter-spacing: 1.2px;
+  color: var(--rp-pale); margin: 0 0 16px;
+}
+.rp-said { margin: 6px 0 20px; padding: 2px 0 2px 18px; border-left: 3px solid var(--rp-amber); max-width: 60ch; }
+.repeater .rp-said p { margin: 0; font-size: 20px; line-height: 1.5; color: var(--rp-pale); }
+.rp-said cite { display: block; margin: 8px 0 0; font-size: 14px; font-style: normal; color: var(--rp-dim); }
+
+/* THE OPEN LINE. A plain panel with a state line, one button that opens and
+   another that closes, and a slider whose top is a quiet line. */
+.rp-set {
+  margin: 20px 0 0; max-width: 560px; padding: 20px 22px 18px;
+  background: var(--rp-deep); border-left: 4px solid var(--rp-amber); border-radius: 2px;
+}
+.repeater .rp-set__state { margin: 0 0 12px; font-family: 'Syncopate', system-ui, sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 2.4px; color: var(--rp-pale); }
+.rp-set__open, .rp-set__close {
+  display: inline-block; padding: 11px 18px; border-radius: 2px; cursor: pointer;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif; font-weight: 700; font-size: 16px;
+  background: var(--rp-amber); color: var(--rp-cloud); border: 2px solid var(--rp-amber);
+}
+.rp-set__close { background: transparent; color: var(--rp-amber); }
+.rp-set__lab { display: block; margin: 18px 0 6px; font-weight: 700; font-size: 15px; color: var(--rp-pale); }
+.rp-set__level { width: 100%; max-width: 360px; accent-color: var(--rp-amber); }
+.repeater .rp-set__note { margin: 12px 0 0; font-size: 15px; color: var(--rp-dim); }
+.repeater .rp-noscript { color: var(--rp-dim); }
+
+/* THE LOG. One card per kind of contact, printed the way a confirmation card
+   is: the call across the top in red capitals, a line saying the contact is
+   confirmed, and one line of ours. Square, straight, nothing rotated. */
+.rp-log { list-style: none; margin: 22px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 18px; }
+.rp-card { padding: 16px 18px 18px; background: var(--rp-card); color: var(--rp-ink); border-top: 6px solid var(--rp-call); border-radius: 2px; }
+.repeater .rp-card__call { margin: 0; font-family: 'Syncopate', system-ui, sans-serif; font-weight: 700; font-size: 17px; letter-spacing: 1.4px; color: var(--rp-call); }
+.repeater .rp-card__ok { margin: 4px 0 10px; font-size: 12px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--rp-ink-2); }
+.repeater .rp-card__line { margin: 0; font-size: 16px; line-height: 1.55; color: var(--rp-ink); }
+
+.rp-rules { list-style: none; margin: 0 0 18px; padding: 0; max-width: 72ch; }
+.rp-rules li { margin: 0; padding: 12px 0; border-top: 1px solid var(--rp-glow); }
+.rp-rules li:last-child { border-bottom: 1px solid var(--rp-glow); }
+.repeater .quest { margin-top: 44px; }
+
+
+/* §46 ── ROOM: Nothing For Sale (turning 07 in The Outskirts) ──────────────
+   A FREE MARKET IN A LAY-BY, lit by a ring of parked cars with their
+   headlights left on and pointed at the middle. Everything is lit from every
+   side, and every object throws as many shadows as there are cars.
+
+   THE ROAD'S OWN LIGHT, TURNED INWARD. The Outskirts is lit by the visitor's
+   headlights, one beam from behind, so a sign has a bright face and no back.
+   This is the same kind of lamp from everybody at once, so nothing has a back
+   at all. That is the room's argument drawn in light and it is why it is on
+   this road rather than the street: it is what happens when people who each
+   brought a little pull up together.
+
+   THESE ARE THE COLLISIONS TO WATCH, and every one is structural:
+     · THE 404 is lit from every side too, by fog, and nothing in it casts a
+       shadow. Here every object casts several, hard, in slightly different
+       colours. If the shadows ever go, this has become the fog with tables in it.
+     · DANCE, PUNKS is the other room lit by many small sources. Those move with
+       the people wearing them; these are parked and point one way each.
+     · THE PEBBLE BOARD is the other place where people bring each other things.
+       It is a noticeboard on the street, pinned edition by edition; this is a
+       ring of tables under the sky, and nothing on it is ever taken down.
+
+   NOTHING IN THE RING MOVES, and make-nothing-for-sale.py refuses @keyframes
+   or an animation in this section. Headlights that swept would be a car
+   leaving. */
+
+.nothing-for-sale { background: var(--nfs-gravel); color: var(--nfs-text); font-family: 'Figtree', system-ui, sans-serif; }
+.nothing-for-sale a { color: var(--nfs-fog); text-underline-offset: 3px; }
+.nothing-for-sale a:hover { color: var(--nfs-pale); }
+.nothing-for-sale :where(p, li) { font-size: 17px; line-height: 1.66; }
+.nothing-for-sale strong { color: var(--nfs-pale); font-weight: 700; }
+.nothing-for-sale .backlink { font-family: 'Figtree', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--nfs-fog); }
+
+.nfs-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.nfs-trail { margin: 0; font-size: 14px; color: var(--nfs-dim); }
+
+.nfs-head { margin: 34px 0 0; }
+.nfs-over { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--nfs-dim); }
+.nothing-for-sale h1 {
+  font-family: 'Patrick Hand', system-ui, sans-serif; font-weight: 400;
+  font-size: clamp(46px, 9vw, 104px); line-height: 1; color: var(--nfs-pale); margin: 10px 0 0;
+}
+.nfs-sub { margin: 12px 0 0; max-width: 48ch; font-size: clamp(18px, 2.3vw, 22px); line-height: 1.45; color: var(--nfs-text); }
+.nfs-art { margin: 22px -8px 0; line-height: 0; }
+.nfs-art svg { display: block; width: 100%; height: auto; }
+
+.nfs-lede { margin: 22px 0 0; max-width: 64ch; }
+.nfs-lede p { margin: 0 0 16px; font-size: 19px; line-height: 1.62; color: var(--nfs-pale); }
+
+.nfs-part { margin: 58px 0 0; }
+.nfs-part > p { max-width: 68ch; margin: 0 0 14px; }
+.nothing-for-sale h2 {
+  font-family: 'Patrick Hand', system-ui, sans-serif; font-weight: 400;
+  font-size: clamp(28px, 3.8vw, 40px); line-height: 1.15; color: var(--nfs-pale); margin: 0 0 14px;
+}
+.nfs-said { margin: 6px 0 20px; padding: 2px 0 2px 18px; border-left: 3px solid var(--nfs-halogen); max-width: 60ch; }
+.nothing-for-sale .nfs-said p { margin: 0; font-size: 20px; line-height: 1.5; color: var(--nfs-pale); }
+.nfs-said cite { display: block; margin: 8px 0 0; font-size: 14px; font-style: normal; color: var(--nfs-dim); }
+
+/* THE TABLES. One per free thing, each with its cardboard sign and its top edge
+   lit by one car's lamp; no two neighbours are lit by the same one twice in a
+   row, and none is lit by a colour no car brought. */
+.nfs-table--halogen { --nfs-beam: var(--nfs-halogen); }
+.nfs-table--led     { --nfs-beam: var(--nfs-led); }
+.nfs-table--fog     { --nfs-beam: var(--nfs-fog); }
+.nfs-tables { list-style: none; margin: 22px 0 22px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+.nfs-table { display: flex; flex-direction: column; gap: 8px; padding: 16px 18px 18px; background: var(--nfs-table); border-top: 5px solid var(--nfs-beam); border-radius: 2px; }
+.nothing-for-sale .nfs-table__sign { margin: 0; font-family: 'Patrick Hand', system-ui, sans-serif; font-size: 22px; letter-spacing: 1px; color: var(--nfs-beam); }
+.nfs-table__what { margin: 0; font-family: 'Figtree', system-ui, sans-serif; font-weight: 700; font-size: 19px; line-height: 1.3; }
+.nfs-table__what a { color: var(--nfs-pale); text-decoration-color: var(--nfs-beam); }
+.nothing-for-sale .nfs-table__line { margin: 0; font-size: 16px; line-height: 1.55; }
+.nothing-for-sale .nfs-notlaid { color: var(--nfs-text); }
+
+.nfs-rules { list-style: none; margin: 0; padding: 0; max-width: 72ch; }
+.nfs-rules li { margin: 0; padding: 12px 0; border-top: 1px solid var(--nfs-lit); }
+.nfs-rules li:last-child { border-bottom: 1px solid var(--nfs-lit); }
+.nothing-for-sale .quest { margin-top: 44px; }
+
+
+/* §47 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -9738,7 +10331,7 @@ html[data-intensity="max"] .lph-pop circle:nth-child(4) { animation-delay: -.8s;
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §43 says every
+   shipped with no rule here at all — which on a street whose §47 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -9862,7 +10455,7 @@ html[data-intensity="max"] .lph-pop circle:nth-child(4) { animation-delay: -.8s;
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §44 ── Print ───────────────────────────────────────────────────────────────
+/* §48 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

@@ -2032,6 +2032,75 @@ single film and a playlist from a page on the dev server and seeing captions com
 embed URL on its own gives Error 153 for every video** and proves nothing, which is
 `check-jukebox.py`'s old lesson arriving at a new parameter.
 
+**FOUR MORE TURNINGS, AND EACH ONE TOOK A LIGHT THE ROAD DID NOT HAVE.** 2026-09-23, Ryan's call. The
+road already had the Lagoon's screen in front of you, Sithen's moon overhead and Looming Rocks' floods
+from the ground up. **Dance, Punks** (§43) is lit by what people WEAR — a glow at head height per
+headset, moving with them. **The Small Hours** (§44) is a lit ROOM seen from outside in the dark.
+**The Repeater** (§45) is lit by NOTHING NEAR IT — everything is a silhouette against skyglow, light
+that has bounced off cloud from every other lit thing on the road. **Nothing For Sale** (§46) is the
+road's own light turned inward: everybody's headlights at once, so everything throws one shadow per
+car. **A fifth turning needs a fifth light; these are taken.** Each passes Helen's test (it would not
+be as happy on the campsite) and none is out there because it was sent there.
+
+  · **The disco's three channels are ONE playlist started in three places**, because
+    `/embed/<id>?list=` is the only lever the embed has (Club Chronic measured it). The room says
+    so and `make-dance-punks.py` refuses the word shuffle. **Its channel inks are held 1.5:1 apart
+    from EACH OTHER in brightness** so they are three headsets in greyscale — red/green/blue fails
+    that for the commonest colour blindness. The bar is ours and the page prints it. **The copy says
+    "three" in several places**, so the tool refuses a fourth channel until the sentences change.
+  · **Dead Tired Society is the diner's collision**: same tubes, opposite side of the glass. There
+    you sit in the dark and the light is in the corridor; here the light is inside and you are out
+    in the car park. **The sign does not read the visitor's clock** — the first draft did, and a
+    diner for people up at odd hours is the last place that should notice the hour. The tool refuses
+    the page asking for the time, sleep advice in our voice, and closing time.
+  · **The Repeater's sky is WARM on purpose.** Navy would be the campgrounds. Overcast lit from below
+    by a town is a dull warm grey in life too. **Its open line is synthesised noise that sends
+    nothing and listens to nothing**; `MAX_GAIN` in `repeater.js` is refused above 0.2, and the tool
+    refuses a form, a fetch, storage or the microphone anywhere in the room. **The dial's pre-paint
+    snippet uses localStorage on every page**, so that one exact snippet is cut before the sweep and
+    nothing else is.
+  · **Nothing For Sale's tables are only things of ours that their own pages say are free**, checked
+    in the mirror. **Our mutual aid grants are NOT on a table** — they have an application, limits
+    and a waiting list, and "take what you need" would promise what they cannot do. It is **Sithen's
+    hospitality trap inverted**: taking puts nobody in anybody's debt, and the tool refuses the
+    vocabulary of obligation, including *pay it forward*. **Its charity check refused the room's own
+    sentence explaining charity on its first run** and was narrowed to the words that sort people
+    — the deserving, the needy, the less fortunate — rather than excepted.
+
+**TWO ATTRIBUTIONS WERE WRONG IN THE FIRST DRAFT AND BOTH WERE CAUGHT BY LOOKING, NOT REMEMBERING.**
+The crayons passage in our Sleep entry is **Sarah Kurchak's** (Open Library), and the name typed from
+memory was a different Autistic writer's; our entry links the book without naming its author, which is
+the Hermitage's shelf lesson again. And **the Autistic Rhizome was named by DGH Neurodivergent
+Consultancy**, not Helen Edgar — our Shared-Signal Space entry cites Helen's article on it, our Autistic
+Rhizome entry shows who named it. **That article's own address now serves a holding page** and the
+Internet Archive has only a redirect, so the room links our entry and names the consultancy, not a
+person: no byline we could read names one. **Our glossary entry still links the dead page**; that is
+stimpunks.org's to fix. **Syncopate is Apache 2.0**, and two credits said OFL until the pull caught it.
+
+**THE SMALL HOURS HAS THE ONE SONG ON THIS STREET PRINTED IN FULL, AND THAT IS PERMISSION, NOT
+QUOTATION.** "Up All Night", Josephmooon, lyrics by Ronan Boren, a Stimpunk — a song about Autistic
+insomnia that Stimpunks helped produce and holds permission to distribute with its lyrics (Ryan,
+2026-09-23). **Every other room's lyric refusals stand**, and DECISIONS.md's quoting policy still governs
+everything else. `make-small-hours.py` refuses a lyric without a permission record naming what, who,
+how, when, by whom and the licence; **the words are excluded from CC BY-SA in `LICENSE`**, because
+permission to distribute is not permission to relicense. The lyricist's spelling is kept, not tidied.
+**Do not read this as the lyric rule relaxing.** A second song needs its own permission, recorded.
+
+**AND THE JUKEBOX STREAMS FROM THE BAND'S OWN SITE, SO "NOTHING MUSICAL IS HOSTED HERE" IS STILL TRUE.**
+That needed a second origin list: **`love-embed.js`'s `AUDIO_ORIGINS`**, beside `ORIGINS`, read by
+`make-csp.py` into `media-src` (path included — tighter than a host) and by `make-small-hours.py` at
+build time. Without a `media-src` the policy falls back to `'self'` and every button presses and plays
+nothing, silently — **and the dev server serves no headers, so that failure is invisible locally.**
+Check the live site after a deploy. Audio players are built by `love-embed.js` like frames are, pause
+each other so only one plays, and sit in a `.facade--audio` shell that §4 keeps off 16:9. **Every
+runtime was measured off the file with ffprobe**, not read off the band's player widget.
+
+**`check-jukebox.py` COULD NOT RUN FROM THE DAY LAUGHINGSTOCK OPENED UNTIL THIS ONE.** That room's data
+has `acts` (comics and their lines) beside `sets` (videos), the `acts` branch came first, and the run
+refused on the first comic. `sets` is tested first now. **When a checker's shapes are told apart by
+which key a file has, a file with two known keys is read as whichever comes first** — order those
+branches from most specific to least, and run the checker after adding a room rather than assuming.
+
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
 paleness alone — which is what holds it off the Guild, lit from nowhere with no depth. Netlify

@@ -189,6 +189,12 @@ LISTS = [
     # as playlists, for the reason above; every film on BOTH is checked as a film,
     # including Screen Two's, which has no rack but is named in the room.
     ("the picture house", "data/picture-house.json", "lightbulb-picture-house.html"),
+    # Dance, Punks, off The Outskirts. The crate is a playlist and is not checked
+    # as one, for the reason above; what IS checked is the song each channel
+    # opens on, because a channel is a starting video and a dead one is a
+    # headset that opens on YouTube's refusal plate. Added in the commit that
+    # opened the room, which is the lesson Looming Rocks' missing day taught.
+    ("dance, punks", "data/dance-punks.json", "dance-punks.html"),
 ]
 
 
@@ -293,6 +299,20 @@ def tracks_in(data):
         return [dict(d, artist=d.get("channel"),
                      state="link" if d.get("how") == "link" else None)
                 for d in (data.get("docs", []) + data.get("solar_watch", []))]
+    # LAUGHINGSTOCK IS TESTED BEFORE LOOMING ROCKS, AND THE ORDER IS THE FIX.
+    # Its data file carries 'acts' too -- the comics and their lines in the
+    # light, which are people rather than videos -- and this branch used to sit
+    # after the 'acts' one, so the comics were read as videos, came back with
+    # no artist, and the whole run refused before checking a single track. It
+    # did that from the day the room opened until 2026-09-23. A file with
+    # 'sets' is Laughingstock's whatever else it holds.
+    if "sets" in data:
+        # Laughingstock's bill. A set can have more than one comic on it, and
+        # every one of them wrote it, so the report names them all rather than
+        # the channel -- a report that names the shop beside a DEAD sends
+        # somebody looking in the wrong place.
+        return [dict(s_, artist=" and ".join(s_.get("comics") or []) or s_.get("channel"))
+                for s_ in data["sets"]]
     if "acts" in data:
         # Looming Rocks' running order. SIX OF THE TEN ARE THE ARTIST'S OR THE
         # BAND'S OWN CHANNEL, which is about the most durable upload this tool
@@ -321,13 +341,12 @@ def tracks_in(data):
         # confident total while missing half the room.
         return [dict(f, artist=f.get("channel"))
                 for f in (data.get("rack", []) + data.get("screen_two", []))]
-    if "sets" in data:
-        # Laughingstock's bill. A set can have more than one comic on it, and
-        # every one of them wrote it, so the report names them all rather than
-        # the channel -- a report that names the shop beside a DEAD sends
-        # somebody looking in the wrong place.
-        return [dict(s_, artist=" and ".join(s_.get("comics") or []) or s_.get("channel"))
-                for s_ in data["sets"]]
+    if "channels" in data:
+        # Dance, Punks: each channel is the song it OPENS on, then the crate
+        # plays on from there. Only the opening song is one video; the rest is
+        # the playlist, which this tool does not pretend to check.
+        return [dict(c["opens"], title=f'channel {c["n"]}, opening on {c["opens"]["title"]}')
+                for c in data["channels"]]
     if "cuts" in data:
         # The Mopery's parlour screen: ONE SONG, several times over, so what
         # every other list calls the artist is the performer here and the song

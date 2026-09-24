@@ -48,7 +48,8 @@ ORDER = ["index.html",
          # like the campgrounds, listed the same way: the road first, then
          # what is down its turnings.
          "the-outskirts.html", "black-leather-lagoon.html", "sithen.html",
-         "looming-rocks.html",
+         "looming-rocks.html", "dance-punks.html", "small-hours.html",
+         "repeater.html", "nothing-for-sale.html",
          "liner-notes.html",
          # What the site keeps about the people who visit it. With the other
          # pages that hold lists rather than rooms, because that is what it is.

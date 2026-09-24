@@ -552,6 +552,29 @@
     }
    ]
   },
+  "figtree": {
+   "family": "Figtree",
+   "category": "Sans Serif",
+   "designer": "Erik Kennedy",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/figtree",
+   "copyright": "Copyright 2022 The Figtree Project Authors (https://github.com/erikdkennedy/figtree)",
+   "repository": "https://github.com/erikdkennedy/figtree",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "figtree-400.woff2",
+     "sha": "8330490a01c60c19"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "figtree-400.woff2",
+     "sha": "8330490a01c60c19"
+    }
+   ]
+  },
   "fraunces": {
    "family": "Fraunces",
    "category": "Serif",
@@ -583,6 +606,29 @@
      "style": "normal",
      "file": "gloria-hallelujah-400.woff2",
      "sha": "6c897a01ee2ee703"
+    }
+   ]
+  },
+  "ibm-plex-sans": {
+   "family": "IBM Plex Sans",
+   "category": "Sans Serif",
+   "designer": "Mike Abbink, Bold Monday",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/ibmplexsans",
+   "copyright": "Copyright 2019 IBM Corp. All rights reserved.",
+   "repository": "https://github.com/googlefonts/plex",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "ibm-plex-sans-400.woff2",
+     "sha": "056e4e2459f57a00"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "ibm-plex-sans-400.woff2",
+     "sha": "056e4e2459f57a00"
     }
    ]
   },
@@ -758,6 +804,29 @@
     }
    ]
   },
+  "libre-franklin": {
+   "family": "Libre Franklin",
+   "category": "Sans Serif",
+   "designer": "Impallari Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/librefranklin",
+   "copyright": "Copyright 2020 The Libre Franklin Project Authors (https://github.com/googlefonts/Libre-Franklin)",
+   "repository": "https://github.com/googlefonts/Libre-Franklin",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "libre-franklin-400.woff2",
+     "sha": "d21d1545591ddfa2"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "libre-franklin-400.woff2",
+     "sha": "d21d1545591ddfa2"
+    }
+   ]
+  },
   "limelight": {
    "family": "Limelight",
    "category": "Display",
@@ -818,6 +887,29 @@
      "style": "italic",
      "file": "lora-400-italic.woff2",
      "sha": "e93da94dec22f905"
+    }
+   ]
+  },
+  "manrope": {
+   "family": "Manrope",
+   "category": "Sans Serif",
+   "designer": "Mikhail Sharanda",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/manrope",
+   "copyright": "Copyright 2019 The Manrope Project Authors (https://github.com/googlefonts/manrope)",
+   "repository": "https://github.com/googlefonts/manrope",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "manrope-400.woff2",
+     "sha": "e310b55a7fd9677f"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "manrope-400.woff2",
+     "sha": "e310b55a7fd9677f"
     }
    ]
   },
@@ -958,6 +1050,23 @@
     }
    ]
   },
+  "patrick-hand": {
+   "family": "Patrick Hand",
+   "category": "Handwriting",
+   "designer": "Patrick Wagesreiter",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/patrickhand",
+   "copyright": "Copyright (c) 2010-2012 Patrick Wagesreiter (mail@patrickwagesreiter.at)",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "patrick-hand-400.woff2",
+     "sha": "42156e008dd5fc30"
+    }
+   ]
+  },
   "permanent-marker": {
    "family": "Permanent Marker",
    "category": "Handwriting",
@@ -1075,6 +1184,23 @@
      "style": "normal",
      "file": "quicksand-700.woff2",
      "sha": "1b092c711df1c7ad"
+    }
+   ]
+  },
+  "righteous": {
+   "family": "Righteous",
+   "category": "Display",
+   "designer": "Astigmatic",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/righteous",
+   "copyright": "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved Font Name \"Righteous\"",
+   "repository": "https://github.com/librefonts/righteous",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "righteous-400.woff2",
+     "sha": "17bb3e21ead29ad2"
     }
    ]
   },
@@ -1301,6 +1427,29 @@
     }
    ]
   },
+  "syncopate": {
+   "family": "Syncopate",
+   "category": "Sans Serif",
+   "designer": "Astigmatic",
+   "licence": "Apache License 2.0",
+   "licence_url": "https://github.com/google/fonts/tree/main/apache/syncopate",
+   "copyright": "Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved. Available under the Apache 2.0 licence. http://www.apache.org/licenses/LICENSE-2.0.html",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "syncopate-400.woff2",
+     "sha": "1fddf428333ba0ba"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "syncopate-700.woff2",
+     "sha": "371cfc398e762b5e"
+    }
+   ]
+  },
   "titan-one": {
    "family": "Titan One",
    "category": "Display",
@@ -1332,6 +1481,29 @@
      "style": "normal",
      "file": "ultra-400.woff2",
      "sha": "af0439a2dbbc1263"
+    }
+   ]
+  },
+  "unbounded": {
+   "family": "Unbounded",
+   "category": "Sans Serif",
+   "designer": "NaN",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/unbounded",
+   "copyright": "Copyright 2022 The Unbounded Project Authors (https://github.com/googlefonts/unbounded)",
+   "repository": "https://github.com/googlefonts/unbounded",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "unbounded-400.woff2",
+     "sha": "d7f07f8a308ce0a7"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "unbounded-400.woff2",
+     "sha": "d7f07f8a308ce0a7"
     }
    ]
   },

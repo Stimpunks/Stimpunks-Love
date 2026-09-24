@@ -1,0 +1,81 @@
+{
+  "_what": "Nothing For Sale: turning 07 off The Outskirts, a free market in a lay-by, lit by a ring of cars that pulled up nose-in and left their headlights on. Read by tools/make-nothing-for-sale.py, which writes the tables and the quotations into nothing-for-sale.html and the credits into liner-notes.html.",
+  "_tables": "EVERY TABLE IS SOMETHING OF OURS THAT ITS OWN PAGE SAYS IS FREE, and make-nothing-for-sale.py refuses a table that does not point at a stimpunks.org page the Knowledge System mirror has. Each was read on 2026-09-23 for the word that makes it belong here: the courses page offers free training, the starter pack is a download, the broadsides are CC0 and made to be printed and handed out. A table with nothing on it would be the one lie a free market can tell.",
+  "_not_laid_out": "TWO THINGS OF OURS ARE NOT ON A TABLE, ON PURPOSE, AND THE ROOM SAYS WHY. Our mutual aid grants have an application, eligibility limits and a waiting list, so laying them out under 'take what you need' would promise something they cannot do; they are pointed to, with that said. And our Things Library page argues for library economies without yet listing any things, so it is in the prose and not on a table.",
+  "_authors": "The starter pack is David Gray-Hammond's and Helen Edgar's, named as its own page names them. The mutual aid quotation is by Sparrow, writing at Unstrange Mind: our entry links the post under the title 'A Mind Unstrange', and the site's own About page gives the author's name as Sparrow and nothing more, so nothing more is given here.",
+  "_beams": "NO TWO HEADLIGHTS MATCH. Each car that pulled up has its own kind of lamp, and each beam's colour is a custom property in love.css's :root, read by the tool rather than copied here; it refuses two beams of the same colour. That mismatch is the room's argument in light: nobody brought enough on their own, and what everybody brought is different.",
+  "beams": [
+    { "car": "an old estate with halogen bulbs", "ink": "--nfs-halogen" },
+    { "car": "a newer van with LED lamps", "ink": "--nfs-led" },
+    { "car": "a hatchback running on one yellow fog lamp", "ink": "--nfs-fog" }
+  ],
+  "quotes": [
+    {
+      "id": "sparrow",
+      "text": "Mutual aid is not charity. It is not a handout or an act of pity. It is a profound, ongoing, messy practice of loving each other into the future.",
+      "author": "Sparrow",
+      "work": "Mutual Aid: How We Survive, How We Transform",
+      "work_url": "https://unstrangemind.com/mutual-aid-how-we-survive-how-we-transform/",
+      "via": "https://stimpunks.org/glossary/mutual-aid/",
+      "via_title": "Mutual Aid",
+      "checked": "2026-09-23"
+    },
+    {
+      "id": "worthiness",
+      "text": "showing up for each other, laterally, with no proof of worthiness required.",
+      "author": "Stimpunks",
+      "work": "Mutual Aid: Real Help Against the Onslaught",
+      "work_url": "https://stimpunks.org/aid/",
+      "via": "https://stimpunks.org/aid/",
+      "via_title": "Mutual Aid",
+      "checked": "2026-09-23"
+    },
+    {
+      "id": "infrastructure",
+      "text": "Knowledge is infrastructure. Access to it is mutual aid.",
+      "author": "Stimpunks",
+      "work": "Library",
+      "work_url": "https://stimpunks.org/library/",
+      "via": "https://stimpunks.org/library/",
+      "via_title": "Library",
+      "checked": "2026-09-23"
+    }
+  ],
+  "tables": [
+    {
+      "sign": "BOOKS",
+      "what": "Our library",
+      "url": "https://stimpunks.org/library/",
+      "line": "Books from the edges, music, bookmarks, and reading lists by and for neurodivergent and disabled people. First table, because the library page is where the argument for all the others is written down.",
+      "beam": "--nfs-halogen"
+    },
+    {
+      "sign": "START HERE",
+      "what": "The Autism and Neurodiversity Starter Pack",
+      "url": "https://stimpunks.org/library/ebooks/autism-and-neurodiversity-starter-pack/",
+      "line": "A download: foundational ideas, why so many of us are burnt out, and ways forward. By David Gray-Hammond and Helen Edgar.",
+      "beam": "--nfs-led"
+    },
+    {
+      "sign": "LEARN",
+      "what": "Our courses",
+      "url": "https://stimpunks.org/library/courses/",
+      "line": "Made out of surviving bad systems and building better ones, including free training for educators who want to stop replicating harm.",
+      "beam": "--nfs-fog"
+    },
+    {
+      "sign": "PRINT A STACK",
+      "what": "Broadsides",
+      "url": "https://stimpunks.org/library/broadsides/",
+      "line": "Single sheets made to be carried, handed over and pinned up in rooms where nobody is going to open a laptop. CC0, so print as many as you like and give them away.",
+      "beam": "--nfs-halogen"
+    },
+    {
+      "sign": "PIN IT UP",
+      "what": "Zine walls",
+      "url": "https://stimpunks.org/library/zine-walls/",
+      "line": "Walls of declarations: short lines, one idea each, made to be read fast by somebody who has not got long.",
+      "beam": "--nfs-led"
+    }
+  ]
+}

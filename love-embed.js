@@ -83,18 +83,63 @@
     return el;
   }
 
-  window.loveEmbed = { frame: frame, frameUrl: frameUrl };
+  /* THE ORIGINS THIS SITE WILL PLAY AUDIO FROM, and the same argument as the
+     frame list above, one element over. A recording streamed from somebody
+     else's server is still not hosted here -- "nothing musical is hosted here"
+     stays true -- but it is a request to a third party, so it waits for the
+     press like every frame does, and it is checked against this list like
+     every frame is. make-csp.py reads THIS array for media-src exactly as it
+     reads ORIGINS for frame-src, and make-small-hours.py reads it to refuse a
+     track from anywhere else at build time. Adding a source is one edit here
+     and a re-run of make-csp.py.
+
+     Josephmooon's own site, where the band keeps both albums. The Small Hours'
+     jukebox plays them from there, because Stimpunks helped produce them and
+     the band's own shelf is where they belong. */
+  var AUDIO_ORIGINS = [
+    'https://josephmooon.wordpress.com/wp-content/uploads/'
+  ];
+
+  /* ONE RECORDING AT A TIME. A jukebox that let two songs play over each other
+     because somebody pressed a second button would be the loud room this
+     street keeps refusing, arriving through a click. Any audio this file built
+     pauses the others when it starts. */
+  function audio(src, title) {
+    if (!src || !AUDIO_ORIGINS.some(function (o) { return src.indexOf(o) === 0; })) return null;
+    var el = document.createElement('audio');
+    el.src = src;
+    el.controls = true;
+    el.autoplay = true;
+    el.preload = 'auto';
+    el.setAttribute('aria-label', title || 'Recording');
+    el.setAttribute('data-love-audio', '');
+    el.addEventListener('play', function () {
+      var all = document.querySelectorAll('audio[data-love-audio]');
+      Array.prototype.forEach.call(all, function (other) {
+        if (other !== el && !other.paused) other.pause();
+      });
+    });
+    return el;
+  }
+
+  window.loveEmbed = { frame: frame, frameUrl: frameUrl, audio: audio };
 
   function swap(btn) {
     /* Named player, not `frame`: `var frame` here would be hoisted over the
        builder above it and the call on the line before would hit undefined. */
-    var player = btn.dataset.embedSrc
-      ? frameUrl(btn.dataset.embedSrc, btn.dataset.embedTitle)
-      : frame(btn.dataset.embedId, btn.dataset.embedTitle);
+    var isAudio = !!btn.dataset.audioSrc;
+    var player = isAudio
+      ? audio(btn.dataset.audioSrc, btn.dataset.embedTitle)
+      : btn.dataset.embedSrc
+        ? frameUrl(btn.dataset.embedSrc, btn.dataset.embedTitle)
+        : frame(btn.dataset.embedId, btn.dataset.embedTitle);
     if (!player) return;
 
     var shell = document.createElement('div');
-    shell.className = 'facade';
+    /* An audio player is a strip, not a screen, so its shell says so: the
+       class is set HERE because the button's own classes do not survive the
+       press (the Sweetgrass lesson), and §4 gives .facade--audio no 16:9. */
+    shell.className = isAudio ? 'facade facade--audio' : 'facade';
     shell.style.padding = '0';
     shell.appendChild(player);
     btn.replaceWith(shell);
