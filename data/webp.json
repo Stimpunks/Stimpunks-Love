@@ -577,6 +577,139 @@
       "ssim": 0.9843,
       "bytes_before": 155331,
       "bytes_after": 121888
+    },
+    "collection/ryan-pens-001.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 519538 bytes against 531339, under the 10% a swap has to save",
+      "quality": 90,
+      "ssim": 0.9873,
+      "sha256": "0261ec5b44957bb0d62f4b6e1cdbe3de9b4cf85e5ab8fcd52f05823afe4a4af1",
+      "bytes": 531339
+    },
+    "collection/ryan-pens-002.webp": {
+      "from": "collection/ryan-pens-002.jpg",
+      "quality": 85,
+      "ssim": 0.9834,
+      "bytes_before": 586704,
+      "bytes_after": 479080
+    },
+    "collection/ryan-pens-003.webp": {
+      "from": "collection/ryan-pens-003.jpg",
+      "quality": 90,
+      "ssim": 0.9871,
+      "bytes_before": 425772,
+      "bytes_after": 369798
+    },
+    "collection/ryan-pens-004.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 531228 bytes against 543691, under the 10% a swap has to save",
+      "quality": 90,
+      "ssim": 0.9875,
+      "sha256": "7c1af52280d878eb74249b37ea050c51dcb3f96cc34ffdeec3a554d981203cd3",
+      "bytes": 543691
+    },
+    "collection/ryan-pens-005.webp": {
+      "from": "collection/ryan-pens-005.jpg",
+      "quality": 85,
+      "ssim": 0.9818,
+      "bytes_before": 536123,
+      "bytes_after": 404564
+    },
+    "collection/ryan-pens-007.webp": {
+      "from": "collection/ryan-pens-007.jpg",
+      "quality": 85,
+      "ssim": 0.9804,
+      "bytes_before": 425124,
+      "bytes_after": 265262
+    },
+    "collection/ryan-pens-008.webp": {
+      "from": "collection/ryan-pens-008.jpg",
+      "quality": 90,
+      "ssim": 0.9856,
+      "bytes_before": 406164,
+      "bytes_after": 337764
+    },
+    "collection/ryan-pens-009.webp": {
+      "from": "collection/ryan-pens-009.jpg",
+      "quality": 90,
+      "ssim": 0.9808,
+      "bytes_before": 306101,
+      "bytes_after": 223706
+    },
+    "collection/ryan-pens-010.webp": {
+      "from": "collection/ryan-pens-010.jpg",
+      "quality": 85,
+      "ssim": 0.9808,
+      "bytes_before": 502648,
+      "bytes_after": 354426
+    },
+    "collection/ryan-pens-011.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 570654 bytes against 625977, under the 10% a swap has to save",
+      "quality": 85,
+      "ssim": 0.9858,
+      "sha256": "f892b6d7d1af0cbbfcb1210efe33ae8fd3b6e64e3d8d852e100065b80d2e9095",
+      "bytes": 625977
+    },
+    "collection/ryan-pens-012.webp": {
+      "from": "collection/ryan-pens-012.jpg",
+      "quality": 85,
+      "ssim": 0.9849,
+      "bytes_before": 584392,
+      "bytes_after": 480352
+    },
+    "collection/ryan-pens-013.webp": {
+      "from": "collection/ryan-pens-013.jpg",
+      "quality": 85,
+      "ssim": 0.9822,
+      "bytes_before": 547143,
+      "bytes_after": 435188
+    },
+    "collection/ryan-pens-014.webp": {
+      "from": "collection/ryan-pens-014.jpg",
+      "quality": 90,
+      "ssim": 0.9876,
+      "bytes_before": 439599,
+      "bytes_after": 386356
+    },
+    "collection/ryan-pens-015.webp": {
+      "from": "collection/ryan-pens-015.jpg",
+      "quality": 85,
+      "ssim": 0.9836,
+      "bytes_before": 648115,
+      "bytes_after": 533672
+    },
+    "collection/ryan-pens-016.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 440114 bytes against 359997, under the 10% a swap has to save",
+      "quality": 94,
+      "ssim": 0.988,
+      "sha256": "6cb26372c4acb804bce43170a5c5f5f061890c550feb07f5241efccf271eae4a",
+      "bytes": 359997
+    },
+    "collection/ryan-pens-017.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 346096 bytes against 379016, under the 10% a swap has to save",
+      "quality": 90,
+      "ssim": 0.9818,
+      "sha256": "61d86ce87946e12187d0dd554c163caddf76e98d959daa00411c9e80af6572d2",
+      "bytes": 379016
+    },
+    "collection/ryan-pens-018.webp": {
+      "from": "collection/ryan-pens-018.jpg",
+      "quality": 90,
+      "ssim": 0.9841,
+      "bytes_before": 432656,
+      "bytes_after": 388190
+    },
+    "collection/ryan-pens-019.webp": {
+      "from": "collection/ryan-pens-019.jpg",
+      "quality": 90,
+      "ssim": 0.987,
+      "bytes_before": 321436,
+      "bytes_after": 259000
+    },
+    "collection/ryan-pens-020.webp": {
+      "from": "collection/ryan-pens-020.jpg",
+      "quality": 90,
+      "ssim": 0.9834,
+      "bytes_before": 280891,
+      "bytes_after": 193790
     }
   }
 }

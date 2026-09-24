@@ -42,12 +42,347 @@
     {
       "id": "ryan-pens",
       "owner": "Ryan",
-      "collection": "Pens and ink",
+      "collection": "Pens, paper and ink",
       "said": "I have an extensive pen and ink collection.",
       "given": "in Ryan’s own brief for this room, 2026-09-23",
       "build": "writing-box",
       "lamp": "daylight",
-      "items": []
+      "items": [
+        {
+          "id": "ryan-pens-001",
+          "file": "collection/ryan-pens-001.jpg",
+          "title": "Blue ink and a dark pen, boxed",
+          "alt": "An open black presentation box lined with folded silver satin, holding a round blue glass bottle of ink whose label reads PILOT, BLUE, 70ml, and a capped dark brown fountain pen with gold trim.",
+          "caption": "Still in the box it came in, satin and all.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [
+            "PILOT",
+            "BLUE · 70ml",
+            "MADE IN JAPAN"
+          ],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-002",
+          "file": "collection/ryan-pens-002.webp",
+          "title": "Two sleeves, one of them tweed",
+          "alt": "On a wooden table, a red and black fountain pen with gold bands lies on a plush burgundy sleeve, beside a pink and purple tweed case holding a copper-and-black striped pen and a marbled navy blue pen, both with gold clips.",
+          "caption": "Tweed for two, velvet for one.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-003",
+          "file": "collection/ryan-pens-003.webp",
+          "title": "Black pen with an engraved band",
+          "alt": "A glossy black fountain pen with a silver clip lies on a red plush sleeve whose tab reads RICKSHAW. Its satin silver band carries a small engraved drawing between two rows of tiny squares.",
+          "caption": "A silver band with a picture on it, and a mug just out of the way.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [
+            "RICKSHAW"
+          ],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-004",
+          "file": "collection/ryan-pens-004.jpg",
+          "title": "A green case of green pens",
+          "alt": "A dark green leather case lies unzipped, with pens held in its elastic loops: a clear turquoise pen full of sparkle with a band reading SAILOR, a purple and teal swirl that shimmers, and a green and cream pen like broken stone.",
+          "caption": "Greens in a green case.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [
+            "SAILOR"
+          ],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-005",
+          "file": "collection/ryan-pens-005.webp",
+          "title": "Tortoiseshell, marble and black",
+          "alt": "A tan leather pen case, flap open over a handwritten journal. In it: a tortoiseshell cap on a pearly white body with an ornate silver band, a swirled brown, cream and orange pen whose band reads Kilk, and a glossy black pen with gold rings.",
+          "caption": "A leather case, and the journal open underneath.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [
+            "Kilk"
+          ],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-007",
+          "file": "collection/ryan-pens-007.webp",
+          "title": "See-through pens on a winter card",
+          "alt": "See-through fountain pens on a card painted with a reindeer, a bullfinch on a post, a hanging lantern and snowy pines: one perfectly clear with gold trim, one teal-green with gold trim, and one smoky grey with silver trim.",
+          "caption": "Nothing about them is hidden, least of all the ink.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-008",
+          "file": "collection/ryan-pens-008.webp",
+          "title": "Pens across a journal spread",
+          "alt": "An open journal with a print of a red torii gate in water on one page and notes in coloured inks on the other. On it: a black pen with a wavy silver cap, a slim brass pen, and an amber see-through pen reading PILOT.",
+          "caption": "Behind them, a tea bag in a dish and three sand timers.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [
+            "PILOT"
+          ],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-009",
+          "file": "collection/ryan-pens-009.webp",
+          "title": "Resin pens in a leather holder",
+          "alt": "A brown leather holder with stitched slots sits on a green notebook on a rumpled grey blanket. Two of its pens are cast half in turquoise or pearly white and half in glowing orange-gold; the third is black with a gold clip.",
+          "caption": "Half sea, half sunset.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-010",
+          "file": "collection/ryan-pens-010.webp",
+          "title": "The whole table",
+          "alt": "A wide view across a wooden table at night: clear acrylic shelves stacked with ink bottles and boxes, open bags packed with pens and markers, perfume bottles, rocks and sand timers, and in front a laptop covered in stickers, one reading STIMPUNKS.",
+          "caption": "Where it all lives, more or less.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [
+            "STIMPUNKS"
+          ],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-011",
+          "file": "collection/ryan-pens-011.jpg",
+          "title": "Black, red and brass",
+          "alt": "Pens side by side on a dark grey wood-grain desk: a black hexagonal pen with gold ends and its tip out, a red faceted pen with thin gold pinstripes that reads YSTUDIO, and a faceted brass pen that reads Kaweco BRASS Sport Germany.",
+          "caption": "Pens with corners.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [
+            "YSTUDIO",
+            "Kaweco BRASS Sport Germany"
+          ],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-012",
+          "file": "collection/ryan-pens-012.webp",
+          "title": "Purple pen on a pink sleeve",
+          "alt": "A matte purple pen with a glossy gunmetal cap and clip lies across a pink fabric pen sleeve printed with a lattice of six-pointed stars, with a black tab that reads RICKSHAW.",
+          "caption": "Purple on pink on wood.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [
+            "RICKSHAW"
+          ],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-013",
+          "file": "collection/ryan-pens-013.webp",
+          "title": "Gunmetal pen on a pink sleeve",
+          "alt": "A brushed gunmetal pen with dark chrome bands, clip and ends lies across a pink fabric pen sleeve printed with six-pointed stars, its black tab reading RICKSHAW.",
+          "caption": "Same sleeve, different pen.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [
+            "RICKSHAW"
+          ],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-014",
+          "file": "collection/ryan-pens-014.webp",
+          "title": "A row of pens under a list",
+          "alt": "Fountain pens in a row on a wooden desk, under an open notebook listing pens and inks in handwriting, each line in its own colour: brushed gunmetal, matte purple, a purple see-through demonstrator, glossy red, bright blue, translucent purple and matte black.",
+          "caption": "Lined up under the list.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-015",
+          "file": "collection/ryan-pens-015.webp",
+          "title": "Pens on a cutting mat",
+          "alt": "Pens on a black cutting mat ruled in white: a matte navy pen with a wire clip, a blue and clear see-through pen with rose-gold trim, a sage green pen with a pearly white body, and a faceted metal pen shifting green to bronze.",
+          "caption": "Ruled lines for pens that do not need them.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [
+            "ORIONS Japan Quality"
+          ],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-016",
+          "file": "collection/ryan-pens-016.jpg",
+          "title": "Peacock, burl and gold",
+          "alt": "Pens on a turquoise tabletop: a teal pen with gold peacock feathers on its cap, one patterned like blue and gold burl, an ornate green pen with an openwork gold cap, a slim dark grey metal pen, and a brass pen reading HONGDIAN M2.",
+          "caption": "From very plain to very much not.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [
+            "HONGDIAN M2"
+          ],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-017",
+          "file": "collection/ryan-pens-017.jpg",
+          "title": "A swirl in a white-lined box",
+          "alt": "An open black pen box lined in white holds a shimmering fountain pen swirled in deep purple, blue and teal, with a silver clip and the words Edison Pen Co. engraved on its barrel. Behind it, the maker's cards are splashed with rainbow paint.",
+          "caption": "Straight out of the box, card still tucked in the lid.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [
+            "Edison Pen Co.",
+            "2025 Limited Edition"
+          ],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-018",
+          "file": "collection/ryan-pens-018.webp",
+          "title": "Ink boxes, laid out",
+          "alt": "Boxes of fountain pen ink in rows on a dark wooden table, each one painted: a crescent moon over a stage, cats with green and yellow eyes, a lion, a night sky, a reef, Greek heroes in helmets, and a flower meadow reading LADYBUG.",
+          "caption": "Every box its own painting.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [
+            "Encore",
+            "Marriage of Figaro",
+            "Pas de Deux",
+            "Stage Fright",
+            "Van Dieman's Ink",
+            "Emerald Eyes",
+            "Lion's Roar",
+            "Tortoiseshell",
+            "Mad Half Hour",
+            "Night",
+            "Blackened Seas",
+            "Sea Turtle",
+            "Bioluminescence",
+            "Greek Heroes",
+            "Achilles",
+            "Odysseus",
+            "Ladybug"
+          ],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-019",
+          "file": "collection/ryan-pens-019.webp",
+          "title": "Red and black, in suede",
+          "alt": "A close view of a glossy red and black fountain pen resting in a box lined with grey suede, with a gold band near one end cut with a black flower.",
+          "caption": "Lying in its box like it has nowhere to be.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        },
+        {
+          "id": "ryan-pens-020",
+          "file": "collection/ryan-pens-020.webp",
+          "title": "Two reds on a journal page",
+          "alt": "On an open dotted journal lie a red and black pen with a gold band set with a black flower and a slim glossy dark red pen with a faceted gold ring. A green bookmark quotes Virginia Woolf: books are the mirrors of the soul.",
+          "caption": "The page above them is about perfume, which is the next cabinet along.",
+          "words": "claude",
+          "described_on": "2026-09-24",
+          "reads": [
+            "Books are the mirrors of the soul",
+            "Virginia Woolf"
+          ],
+          "named": null,
+          "named_by": null,
+          "nobody_in_it": true,
+          "nothing_says_where": true,
+          "received_on": "2026-09-24"
+        }
+      ]
     },
     {
       "id": "ryan-perfume",

@@ -2043,7 +2043,7 @@ ORNAMENT = {
     "#6a6258": "collection: the line every piece of furniture is drawn in, and every cabinet's "
                "outline, 3.12 on the dark and 2.76 on a cabinet. It carries nothing; the "
                "furniture is the house's and is described in words under the drawing.",
-    "#dce6f4": "collection: THE DAYLIGHT LAMP over Ryan's pens and ink, 14.85 on the dark. A glow "
+    "#dce6f4": "collection: THE DAYLIGHT LAMP over Ryan's pens, paper and ink, 14.85 on the dark. A glow "
                "behind the things in a lit cabinet at under a third of its strength, never a "
                "ground under any word and never laid over a photograph.",
     "#f4d2a8": "collection: THE STRIP LIGHT inside Ryan's perfume cupboard's door, 13.04 on the dark. "
