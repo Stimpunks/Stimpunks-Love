@@ -592,6 +592,29 @@
     }
    ]
   },
+  "fredoka": {
+   "family": "Fredoka",
+   "category": "Sans Serif",
+   "designer": "Milena Brandão, Hafontia",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/fredoka",
+   "copyright": "Copyright 2016 The Fredoka Project Authors (https://github.com/hafontia/Fredoka-One)",
+   "repository": "https://github.com/hafontia-zz/Fredoka-One",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "fredoka-400.woff2",
+     "sha": "27d49d7c8362279b"
+    },
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "fredoka-400.woff2",
+     "sha": "27d49d7c8362279b"
+    }
+   ]
+  },
   "gloria-hallelujah": {
    "family": "Gloria Hallelujah",
    "category": "Handwriting",
@@ -652,6 +675,29 @@
      "style": "italic",
      "file": "im-fell-english-400-italic.woff2",
      "sha": "8fc678575e83868f"
+    }
+   ]
+  },
+  "inclusive-sans": {
+   "family": "Inclusive Sans",
+   "category": "Sans Serif",
+   "designer": "Olivia King",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/inclusivesans",
+   "copyright": "Copyright 2024 The Inclusive Sans Project Authors (https://github.com/LivKing/Inclusive-Sans)",
+   "repository": "https://github.com/LivKing/Inclusive-Sans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "inclusive-sans-400.woff2",
+     "sha": "1119f155aa6e56e1"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "inclusive-sans-400.woff2",
+     "sha": "1119f155aa6e56e1"
     }
    ]
   },

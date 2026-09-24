@@ -316,6 +316,13 @@
         19
       ]
     },
+    "fredoka": {
+      "where": "Samefood Cafe",
+      "page": "samefood-cafe.html",
+      "sections": [
+        47
+      ]
+    },
     "gloria-hallelujah": {
       "where": "The Pebble Board",
       "page": "pebble-board.html",
@@ -335,6 +342,13 @@
       "page": "the-mopery.html",
       "sections": [
         22
+      ]
+    },
+    "inclusive-sans": {
+      "where": "Samefood Cafe",
+      "page": "samefood-cafe.html",
+      "sections": [
+        47
       ]
     },
     "instrument-serif": {

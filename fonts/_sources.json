@@ -1074,5 +1074,41 @@
       "src": "https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4S9DaRvzig.woff2",
       "note": "Nothing For Sale (\u00a746), every word that is read. A plain, friendly geometric sans. One variable file serves both weights."
     }
+  ],
+  "fredoka": [
+    {
+      "file": "fredoka-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 29704,
+      "src": "https://fonts.gstatic.com/s/fredoka/v17/X7n64b87HvSqjb_WIi2yDCRwoQ_k7367_DWu89XgHPyh.woff2",
+      "note": "Samefood Cafe (§47), the cafe's name, its headings, the specials line and the names on the regulars' trays, and nothing at reading size. A round, fat, soft face whose every stroke ends in the same curve, like a plate that came out of one mould. One variable file serves both weights."
+    },
+    {
+      "file": "fredoka-400.woff2",
+      "weight": "600",
+      "style": "normal",
+      "bytes": 29704,
+      "src": "https://fonts.gstatic.com/s/fredoka/v17/X7n64b87HvSqjb_WIi2yDCRwoQ_k7367_DWu89XgHPyh.woff2",
+      "note": "Samefood Cafe (§47), the cafe's name, its headings, the specials line and the names on the regulars' trays, and nothing at reading size. A round, fat, soft face whose every stroke ends in the same curve, like a plate that came out of one mould. One variable file serves both weights."
+    }
+  ],
+  "inclusive-sans": [
+    {
+      "file": "inclusive-sans-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 30156,
+      "src": "https://fonts.gstatic.com/s/inclusivesans/v5/0nkxC9biPuwflXcJ46P4PGWE0-7yqQeULw4j.woff2",
+      "note": "Samefood Cafe (§47), every word that is read. Olivia King drew it for legibility, with letters that cannot be taken for one another -- the room's rule that nothing on a plate is hidden in anything else, arriving at the level of the alphabet. One variable file serves both weights. Its italic is a sloped roman -- the same drawings leaned -- and tools/check-weights.py rightly refused to offer it as a second style, so it is not shipped and the room sets titles upright with font-synthesis off rather than letting the browser invent a slant."
+    },
+    {
+      "file": "inclusive-sans-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 30156,
+      "src": "https://fonts.gstatic.com/s/inclusivesans/v5/0nkxC9biPuwflXcJ46P4PGWE0-7yqQeULw4j.woff2",
+      "note": "Samefood Cafe (§47), every word that is read. Olivia King drew it for legibility, with letters that cannot be taken for one another -- the room's rule that nothing on a plate is hidden in anything else, arriving at the level of the alphabet. One variable file serves both weights. Its italic is a sloped roman -- the same drawings leaned -- and tools/check-weights.py rightly refused to offer it as a second style, so it is not shipped and the room sets titles upright with font-synthesis off rather than letting the browser invent a slant."
+    }
   ]
 }

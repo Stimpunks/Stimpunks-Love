@@ -6,6 +6,8 @@ Settled choices and open ones, each with the reasoning, so the same question is 
 
 ## Open
 
+**Samefood Cafe's trays are first names, and the first two arrived in a brief rather than from their people.** Ryan's list is his own; Helen's and Ronan's were relayed by Ryan as they gave them, and each tray says so. Open: how a tray is asked for and taken down once lists arrive from the Discord &mdash; who writes them into `data/samefood.json`, whether a surname or a link goes beside a name when the person wants one, whether Helen and Ronan would like to confirm theirs or change how they read, and who picks a samefood of the moment when somebody has not named one. Not open: tidying anybody's list, sorting the trays, or adding anything that counts across them. `tools/make-samefood.py` refuses any key on a regular beyond name, items, given and date.
+
 **Our Autistic Rhizome glossary entry links an article that is gone.** It quotes DGH Neurodivergent Consultancy's 2023 article naming the Autistic Rhizome, and on 2026-09-23 that address served a holding page; the Internet Archive has only a redirect for it. The Repeater links our entry instead and names the consultancy rather than a person, because no byline we could read names one. Open: what stimpunks.org does about the dead link, which is that site's to decide, not this repo's.
 
 **Older rooms still say "autistic" in our own voice.** Ryan's rule, 2026-09-23: always capitalise Autistic. The four new turnings and the diner follow it; quotations and titles keep their authors' spelling. Open: a sweep of the older rooms' own-voice copy, which is a lot of pages and a lot of generated text, and whether a checker should hold the line afterwards (it would have to skip quotations the way the rooms' sweeps do).

@@ -565,6 +565,29 @@
 @font-face { font-family: 'Figtree'; src: url('fonts/figtree-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Figtree'; src: url('fonts/figtree-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Samefood Cafe (§47). A FACE CUT FROM ONE MOULD AND A FACE WITH NOTHING HIDDEN
+   IN IT. Fredoka sets the cafe's name, its headings, the specials line and the
+   names on the regulars' trays, and nothing at reading size: round, fat, soft,
+   and every stroke ends in the same curve, which is what a melamine plate looks
+   like when every one of them came out of the same mould. It is NOT the
+   Healing Checkpoint's rounded sans (Rubik is squared-off and game-like) and it
+   is not a hand -- nothing in this room was written by anybody in a hurry.
+
+   Inclusive Sans carries every word that is read. Olivia King drew it for
+   legibility, so that no letter can be taken for another -- a capital I, a
+   lower l and a 1 all differ -- which is this room's one rule arriving at the
+   level of the alphabet: nothing on the plate is hidden in anything else, and
+   nothing on the page is either. ITS ITALIC IS NOT SHIPPED: it is a sloped roman,
+   the same drawings leaned, and check-weights.py refused it as a style that does
+   nothing -- correctly, since a slant has the roman's ink and advance. So the
+   room sets titles upright and turns font-synthesis off, rather than letting the
+   browser invent a slant the Foundry would then be lying about. Both faces are
+   one variable file declared against more than one weight. Under the SIL Open Font License. See fonts/_sources.json. */
+@font-face { font-family: 'Fredoka'; src: url('fonts/fredoka-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Fredoka'; src: url('fonts/fredoka-400.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Inclusive Sans'; src: url('fonts/inclusive-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Inclusive Sans'; src: url('fonts/inclusive-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1438,6 +1461,38 @@
   --nfs-car:    #1F1D19;   --nfs-shadow: #070706;
   --nfs-pale:   #F3EFE6;   --nfs-text:   #DAD4C6;   --nfs-dim:    #AFA897;
   --nfs-halogen: #FFE1A1;  --nfs-led:    #E4ECFF;   --nfs-fog:    #FFD23F;
+
+  /* Samefood Cafe (§47). A CAFE SEEN FROM DIRECTLY ABOVE THE TABLE, UNDER ONE
+     EVEN LIGHT THAT DOES NOT CHANGE WITH THE HOUR, and nothing on any plate
+     touches anything else. --sf-table is the laminate every word in the room
+     stands on, and it is a lilac grey BECAUSE ALMOST NOTHING ON THE MENU IS
+     THAT COLOUR: nothing on the table can be mistaken for the table. --sf-plate
+     is the plate, and EVERY PLATE HERE IS THE SAME PLATE -- one colour, one
+     mould, which is COVENSTEAD INVERTED, one door along: there nobody's cup is
+     anybody else's and that is its subject; here the sameness is. --sf-well is
+     the recess of each compartment on it, and words sit in those too.
+     --sf-ink is every word, --sf-ink-2 the fine print, --sf-sauce every link
+     (the one red on a pale table), and --sf-cress draws the job marker.
+     --sf-rim and --sf-shade draw and carry nothing: the rim of the plate and
+     the soft ring of shade the overhead light puts round every object, which
+     is the light drawing a gap round each thing. The food colours are
+     ornament, each carried by an --sf-ink-2 outline, and are measured in
+     check-contrast.py's ORNAMENT list with their numbers. --sf-apple and
+     --sf-ketchup are the red ones; red matters only to somebody who has asked
+     about it, and Ronan has, for his own food. NO BLUE: a lilac is
+     the closest this room comes, on purpose -- see the Lightbulb Picture
+     House for why a neurodiversity room lit blue is a campaign we refuse.
+     SF- PREFIXED THROUGHOUT: `plate`, `rim` and `shade` are exactly the plain
+     words this file fills up with, and a custom property declared twice in one
+     :root is last-wins and silent. */
+  --sf-table:  #E6E0EB;   --sf-plate:  #FCFAF6;   --sf-well:   #F3EEE7;
+  --sf-ink:    #2A1F30;   --sf-ink-2:  #5A4B60;
+  --sf-sauce:  #9C2F1E;   --sf-cress:  #3E5C22;
+  --sf-rim:    #B3A7BD;   --sf-shade:  #D4CBDC;
+  --sf-pop:    #EFC75E;   --sf-pesto:  #7C9A45;   --sf-apple:  #C0463B;
+  --sf-nut:    #B57A3E;   --sf-coffee: #6B4430;   --sf-cheese: #F29B38;
+  --sf-ketchup: #B3261E;  --sf-broth:  #EBCF93;   --sf-noodle: #F7EBC0;
+  --sf-onion:  #4F8F35;   --sf-nugget: #D9A04E;
 }
 
 * { box-sizing: border-box; }
@@ -1989,6 +2044,17 @@ div.facade--audio { border: 0; background: none; }
 .door--picture-house .door__name  { font-family: 'Limelight', Georgia, serif; font-weight: 400; color: var(--lph-cream); font-size: 25px; line-height: 1.15; }
 .door--picture-house .door__blurb { font-family: 'Outfit', var(--sans); color: var(--lph-text); }
 .door--picture-house .door__knock { font-family: 'Outfit', var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--lph-gold); }
+
+/* Samefood Cafe (§47). THE ONE FRONT IN THE ROW WHOSE AWNING IS A TRAY: a grid
+   of little wells with a gap of table round every one of them, so that nothing
+   in it touches anything else before you have even come in. The name is the
+   cafe's own moulded face and the knock is the sauce. Every ink here is on
+   --sf-table and is measured in check-contrast.py. */
+.door--samefood { background: var(--sf-table); border-color: var(--sf-ink-2); }
+.door--samefood .door__awning { background-color: var(--sf-table); background-image: linear-gradient(90deg, var(--sf-table) 0 5px, transparent 5px), linear-gradient(0deg, var(--sf-table) 0 5px, transparent 5px), linear-gradient(var(--sf-plate), var(--sf-plate)); background-size: 26px 100%, 100% 16px, 100% 100%; background-position: 0 0, 0 0, 0 0; border-bottom-color: var(--sf-ink-2); }
+.door--samefood .door__name  { font-family: 'Fredoka', var(--sans); font-weight: 600; color: var(--sf-ink); font-size: 30px; line-height: 1.1; }
+.door--samefood .door__blurb { font-family: 'Inclusive Sans', var(--sans); color: var(--sf-ink-2); }
+.door--samefood .door__knock { font-family: 'Fredoka', var(--sans); font-weight: 600; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--sf-sauce); }
 
 .door--feed { background: var(--fd-enamel); border-color: var(--fd-girder); }
 .door--feed .door__awning { background-image: repeating-linear-gradient(180deg, var(--fd-flap) 0 6px, var(--fd-split) 6px 7px); border-bottom-color: var(--fd-girder); }
@@ -10224,7 +10290,185 @@ html[data-intensity="max"] .lph-pop circle:nth-child(4) { animation-delay: -.8s;
 .nothing-for-sale .quest { margin-top: 44px; }
 
 
-/* §47 ── Small screens ───────────────────────────────────────────────────────
+/* §47 ── ROOM: Samefood Cafe (a shopfront on the street) ────────────────────
+   A CAFE SEEN FROM DIRECTLY ABOVE THE TABLE, UNDER ONE EVEN LIGHT THAT DOES NOT
+   CHANGE WITH THE HOUR, WHERE NOTHING ON ANY PLATE TOUCHES ANYTHING ELSE. For
+   samefoods, safe foods and food aversions, understood rather than corrected,
+   with Matthew Broberg-Moffitt's Color Taste Texture on the counter and the
+   regulars' own samefoods on trays of their own.
+
+   NOTHING TOUCHES UNLESS YOU WANT IT TO, AND THAT IS THE ROOM. Separation is
+   OFFERED here and never imposed: a bowl is one person's dish as they eat it and
+   its parts may touch (Ryan does not mind; Ronan likes everything apart), and
+   the tool keeps its walker off them. Every plate is divided; every food
+   sits in its own well with room round it; every object on the table stands
+   apart from every other; and the page is built the same way -- the menu, the
+   book and each regular's list are each on a plate of their own, each regular's
+   samefood of the moment is in a bowl of its own, Ronan's ketchup is in a
+   ramekin because that is how Ronan has red things -- his way, not the house's:
+   THE HOUSE DEFAULTS TO STRUCTURE, SEPARATION AND PREDICTABILITY AND
+   ACCOMMODATES EVERY GUEST INDIVIDUALLY, and nobody's way imposes on anybody
+   else's plate -- and every item
+   on a tray has a well of its own with a gap of plate between it and the next.
+   make-samefood.py walks every coordinate of the drawing in the window and
+   refuses a food that comes within a gap of its well's wall or of another
+   food. NOTHING IN THIS SECTION MAY OVERLAP ANYTHING: no negative margin, no
+   absolute positioning of one thing over another, no rotation. Club Chronic is
+   a hundred rectangles pasted over each other and the Jungle Room is a canopy
+   where everything overlaps something; this is the other end of that line.
+
+   THE LIGHT IS STRAIGHT OVERHEAD AND DIFFUSE, so every object throws a soft
+   even ring of shade all round itself, with no offset -- box-shadow with a
+   spread and nothing else -- and that ring is the light drawing a gap round each
+   thing. There is no window, so the hour never shows and nothing on the plate
+   ever looks different from the last time: a samefood is the same colour at
+   midnight as at noon. THESE ARE THE COLLISIONS TO WATCH, and each is structural:
+     · DANNY THE STREET is the other plan view, seen from directly above under
+       one sodium lamp, and under sodium NOTHING HAS A COLOUR OF ITS OWN. This
+       lamp was chosen so that EVERYTHING KEEPS ITS OWN COLOUR, exactly, every
+       time -- the opposite promise, which is the samefood's.
+     · THE GARDEN is also lit from overhead, through leaves: green, dappled,
+       hard little shadows, outdoors. This is indoors, soft, not green, and
+       nothing is dappled, because a light that moved would be a surprise.
+     · THE ADVENTURER'S GUILD is the other orderly pale room, and it is lit from
+       nowhere, casts nothing, and is ruled into square rows. Here everything
+       casts its ring and there is no straight rule anywhere -- every well is a
+       moulded round-cornered hollow, and nothing is filed.
+     · COVENSTEAD is the other room with crockery in it, one door along, and
+       NOBODY'S CUP THERE IS ANYBODY ELSE'S, which is its subject. EVERY PLATE
+       HERE IS THE SAME PLATE -- one colour, one mould, one component used for
+       every panel on the page -- and that is this room's. If the plates ever
+       start to differ from each other, it has become Covenstead with a menu.
+     · THE SMALL HOURS is the other place that serves food, and it is a diner
+       seen from the car park at night through glass. You are sitting at this
+       table, looking down at it, and it is lit the same all day.
+
+   THE TABLE IS LILAC BECAUSE ALMOST NOTHING ON THE MENU IS, so nothing on the
+   table can be mistaken for the table. NO BLUE, for the Lightbulb Picture
+   House's reason. NOTHING MOVES AT ANY SETTING except the drawing's shade rings
+   deepening a touch on hover at MAX, which is a colour change and not a
+   movement: a cafe for people who need their plate to be the same as last
+   time does not rearrange itself while they look at it. */
+
+.samefood { background: var(--sf-table); color: var(--sf-ink); font-family: 'Inclusive Sans', system-ui, sans-serif; font-synthesis: none; }
+.samefood :where(i, em, cite) { font-style: normal; }
+.samefood a { color: var(--sf-sauce); text-underline-offset: 3px; }
+.samefood a:hover { color: var(--sf-ink); }
+/* THE RING IS THE ROOM'S OWN INK, 12.14 on the table and 15.07 on a plate.
+   §2's yellow ring was chosen for a near-black street and is nearly invisible
+   on anything this pale -- the Guild's lesson, decided here at the room. */
+.samefood :focus-visible { outline-color: var(--sf-ink); }
+/* :where() so this base is (0,1,0) and every component below wins by order --
+   Dead Tired Society's day-one lesson, taken before it could happen here. */
+.samefood :where(p, li) { font-size: 17px; line-height: 1.65; }
+.samefood strong { font-weight: 700; color: var(--sf-ink); }
+.samefood code { font-size: .9em; color: var(--sf-ink); }
+.samefood .backlink { font-family: 'Inclusive Sans', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--sf-sauce); }
+
+.sf-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.sf-trail { margin: 0; font-size: 14px; color: var(--sf-ink-2); }
+
+.sf-head { margin: 34px 0 0; }
+.sf-over { margin: 0; font-family: 'Fredoka', system-ui, sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--sf-ink-2); }
+.samefood h1 {
+  font-family: 'Fredoka', system-ui, sans-serif; font-weight: 600;
+  font-size: clamp(48px, 9.4vw, 104px); line-height: 1; letter-spacing: -.01em;
+  color: var(--sf-ink); margin: 10px 0 0;
+}
+/* THE SPECIALS LINE, which is the room's one joke and the answer to its job. */
+.sf-special { margin: 14px 0 0; font-family: 'Fredoka', system-ui, sans-serif; font-weight: 400; font-size: clamp(21px, 2.8vw, 27px); line-height: 1.3; color: var(--sf-ink); }
+.sf-special b { font-weight: 600; color: var(--sf-sauce); }
+.sf-art { margin: 26px 0 0; line-height: 0; }
+.sf-art svg { display: block; width: 100%; height: auto; }
+.samefood .sf-window { margin: 12px 0 0; max-width: 70ch; font-size: 15px; color: var(--sf-ink-2); }
+
+.sf-lede { margin: 30px 0 0; max-width: 62ch; font-size: 20px; line-height: 1.6; }
+
+.sf-part { margin: 60px 0 0; }
+.sf-part > :where(p) { margin: 0 0 14px; max-width: 70ch; }
+.samefood h2 { font-family: 'Fredoka', system-ui, sans-serif; font-weight: 600; font-size: clamp(30px, 4.2vw, 40px); line-height: 1.12; color: var(--sf-ink); margin: 0 0 14px; }
+.samefood h3 { font-family: 'Fredoka', system-ui, sans-serif; font-weight: 600; font-size: 25px; line-height: 1.15; color: var(--sf-ink); margin: 0; }
+
+/* THE HOUSE RULES, on the bare table. Each one has a dot beside it that does
+   not touch its words, which is the whole rule of the room at the size of a
+   bullet. */
+.sf-rules { list-style: none; margin: 18px 0 0; padding: 0; max-width: 70ch; display: grid; gap: 14px; }
+.sf-rules li { position: relative; padding-left: 30px; }
+.sf-rules li::before { content: ""; position: absolute; left: 4px; top: .55em; width: 11px; height: 11px; border-radius: 50%; background: var(--sf-plate); box-shadow: 0 0 0 3px var(--sf-shade); border: 1.5px solid var(--sf-rim); }
+
+/* THE PLATE. ONE COMPONENT, USED FOR EVERY PANEL ON THE PAGE -- the three
+   dishes, the book and every regular's tray -- because every plate here is the
+   same plate. Its shade is an even ring with NO OFFSET, because the light is
+   straight overhead: a spread and nothing else. */
+.sf-plate {
+  background: var(--sf-plate); color: var(--sf-ink);
+  border: 1.5px solid var(--sf-rim); border-radius: 30px;
+  box-shadow: 0 0 0 9px var(--sf-shade);
+  padding: 24px 26px;
+}
+.sf-plates { list-style: none; margin: 34px 0 0; padding: 0; display: grid; gap: 40px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+.sf-plate h3 { margin: 0 0 10px; }
+.sf-plate p { margin: 0 0 12px; }
+.sf-plate > :last-child { margin-bottom: 0; }
+.sf-quote { margin: 14px 0; padding: 14px 16px; background: var(--sf-well); border-radius: 18px; }
+.sf-quote p { margin: 0; font-size: 18px; line-height: 1.55; }
+.sf-quote cite { display: block; margin: 8px 0 0; font-size: 14px; font-style: normal; line-height: 1.5; color: var(--sf-ink-2); }
+.sf-quote .sf-checked { display: block; margin: 4px 0 0; }
+.sf-entry { font-size: 15px; }
+
+/* THE BOOK ON THE COUNTER. The same plate, because it is the same plate. */
+.sf-book { margin: 30px 0 0; max-width: 780px; }
+.sf-book__title { margin: 0; font-family: 'Fredoka', system-ui, sans-serif; font-weight: 600; font-size: 30px; line-height: 1.1; }
+.sf-book__sub { margin: 6px 0 0; font-size: 17px; }
+.sf-book__by { margin: 10px 0 0; font-size: 15px; color: var(--sf-ink-2); }
+.sf-book__get { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.sf-book__get a { display: inline-block; padding: 8px 16px; background: var(--sf-well); border-radius: 999px; font-size: 15px; }
+
+/* THE REGULARS' TRAYS. One plate per person and one well per food, with a gap
+   of plate round every well, so that nobody's samefood touches anybody else's
+   -- or the next one on their own list. The words in a well are theirs,
+   exactly as given, so nothing in here restyles them: no capitals added, no
+   title case, nothing crossed out. */
+.sf-trays { list-style: none; margin: 34px 0 0; padding: 0; display: grid; gap: 44px; }
+.sf-tray h3 { margin: 0 0 14px; }
+.sf-wells { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr)); }
+.sf-wells li { margin: 0; padding: 14px 16px; background: var(--sf-well); border-radius: 18px; font-size: 17px; line-height: 1.4; text-transform: none; }
+.sf-tray__given { margin: 14px 0 0; font-size: 14px; color: var(--sf-ink-2); }
+
+/* THE SAMEFOOD OF THE MOMENT: one bowl on the tray, beside its name in words.
+   Every bowl is the same bowl, as every plate is the same plate. A grid rather
+   than a float, so the bowl and its caption sit side by side and never overlap. */
+.sf-moment { margin: 0 0 20px; display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 24px; align-items: center; }
+.sf-bowl { display: block; width: 190px; height: auto; }
+.sf-moment figcaption { font-size: 16px; line-height: 1.5; }
+.sf-moment__label { display: block; font-family: 'Fredoka', system-ui, sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--sf-ink-2); }
+.sf-moment__item { display: block; font-family: 'Fredoka', system-ui, sans-serif; font-weight: 600; font-size: 22px; line-height: 1.2; margin: 2px 0 4px; }
+.sf-moment__said { display: block; font-size: 15px; color: var(--sf-ink-2); }
+
+.sf-nots { margin: 0; padding: 0 0 0 1.1em; max-width: 70ch; }
+.sf-nots li { margin: 0 0 12px; }
+.sf-nots li::marker { color: var(--sf-sauce); }
+.sf-further { font-size: 15px; color: var(--sf-ink-2); }
+.sf-thanks { padding-top: 6px; }
+.samefood .quest { margin-top: 48px; }
+
+/* The one thing that answers a hover, and only at MAX: the shade ring deepens.
+   A colour, not a movement -- nothing on this table moves at any setting. */
+html[data-intensity="max"] .sf-plate:hover { box-shadow: 0 0 0 9px var(--sf-rim); }
+
+/* On a phone the plates stack and the wells go two across and then one, and
+   nothing is hidden to save room -- the lite version arriving through a
+   breakpoint. Written last in the section, after every rule it overrides. */
+@media (max-width: 560px) {
+  .sf-plate { padding: 20px 18px; border-radius: 24px; }
+  .sf-lede { font-size: 18px; }
+  .sf-wells { grid-template-columns: repeat(auto-fill, minmax(min(100%, 130px), 1fr)); }
+  .sf-moment { grid-template-columns: 120px minmax(0, 1fr); gap: 14px; }
+  .sf-bowl { width: 120px; }
+}
+
+
+/* §48 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -10331,7 +10575,7 @@ html[data-intensity="max"] .lph-pop circle:nth-child(4) { animation-delay: -.8s;
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §47 says every
+   shipped with no rule here at all — which on a street whose §48 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -10455,7 +10699,7 @@ html[data-intensity="max"] .lph-pop circle:nth-child(4) { animation-delay: -.8s;
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §48 ── Print ───────────────────────────────────────────────────────────────
+/* §49 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

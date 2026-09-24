@@ -1246,6 +1246,42 @@
       "learned": "Attention that goes deep takes time to come back from. That is monotropism, and it is why a relaxed screening lets you walk in late and leave early."
     },
     {
+      "id": "samefood-divider",
+      "page": "samefood-cafe.html",
+      "room": "Samefood Cafe",
+      "title": "Same again",
+      "posted": "There is a café on the street whose kitchen knows its regulars, and whose specials line says what today’s special is — for everybody who walks in. Go and read it.",
+      "rank": 1,
+      "takes": "as long as a cup of coffee, the same cup as last time",
+      "target": "a little plastic grass divider, dropped from a tray",
+      "code": "DIVIDER",
+      "hints": [
+        "On the street itself, in the row of shopfronts — the pale one whose awning is a tray of little wells.",
+        "The specials line is right under the café’s name, above the drawing of the table.",
+        "Right at the foot of the café, under the section about whose these are, where something slipped off a tray."
+      ],
+      "ask": {
+        "question": "Samefood Cafe’s specials line says what today’s special is. What is it?",
+        "accept": [
+          "your favourite",
+          "your favorite",
+          "favourite",
+          "favorite",
+          "yours",
+          "your favourite one"
+        ],
+        "answer": "Your favourite",
+        "why": "Today’s special is your favourite, whoever you are. The kitchen knows its regulars and keeps what each of them has, so the special is never one person’s dish put in front of everybody else — it is the same promise to every guest at once.",
+        "hints": [
+          "It is the line directly under the café’s name.",
+          "It is not the same dish for everybody, and it is the same answer for everybody.",
+          "Two words: whose, and how much you like it."
+        ]
+      },
+      "learned": "A special does not have to be one dish for everybody. A café can default to the same thing every time and still make it a different thing for every guest, because it knows its regulars — and for a great many of us the same again is how eating becomes possible at all."
+    },
+
+    {
       "id": "looming-flood",
       "page": "looming-rocks.html",
       "room": "Looming Rocks Amphitheatre",

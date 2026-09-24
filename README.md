@@ -97,6 +97,7 @@ healing-checkpoint.html  Room 429. A save room lit from the floor. Rest, and a b
 dead-tired-society.html  Peer support for the burnt out. Big lights off, door ajar, nobody sitting in the light
 laughingstock.html    A comedy club down a ramp. Disabled comics on their own terms; only their lines stand in the light
 lightbulb-picture-house.html  Two screens of neurodiversity films, a rack with a card for each. House lights up; nothing is blue
+samefood-cafe.html    A café for samefoods and safe foods, seen from above the table. Nothing on a plate touches anything
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 the-garden.html       The knowledge garden. One bed per site we publish, each linking out
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
@@ -146,6 +147,7 @@ data/checkpoint.json  Room 429's quotations, its Retry-After slips and its way o
 data/dead-tired.json  The pegs by the door: what wore us out, one line from somebody who wrote about it, one of ours
 data/laughingstock.json  The stage, the bill and the lines in the light. Every set names its comics and its runtime
 data/picture-house.json  The two screens and the rack. Every card says who made it, how long, and what is in it
+data/samefood.json    The table in the window, the menu, the book on the counter, and the regulars' trays as they gave them
 data/dance-punks.json The disco's three channels: where each starts in one crate, and in what colour
 data/small-hours.json The diner's quotations, its menu, Up All Night with its permission, and the jukebox
 data/repeater.json    The Repeater's two lines of ours and the log's cards, none of which counts anything
@@ -200,6 +202,7 @@ python3 tools/make-checkpoint.py   # Room 429's quotations, slips and way out, a
 python3 tools/make-dead-tired.py   # Dead Tired Society's pegs by the door, and the credits
 python3 tools/make-laughingstock.py # Laughingstock's stage, its bill and the lines in the light, and the credits
 python3 tools/make-picture-house.py # The Lightbulb Picture House's screens and rack, and the credits; refuses a blue
+python3 tools/make-samefood.py     # Samefood Cafe's table, menu, counter and trays, and the credits; refuses anything that touches
 python3 tools/make-dance-punks.py  # the disco's channels and credits; refuses a runtime, shuffle, or two inks alike in greyscale
 python3 tools/make-small-hours.py  # the diner's menu, quotations, record and jukebox; refuses a lyric with no permission
 python3 tools/make-repeater.py     # the Repeater's log and quotations; refuses anything that sends, stores or listens
@@ -416,6 +419,26 @@ suffers from, functioning labels, *person with autism*), skipping the quotation,
 and anything in curly quotes; **a card with no `content` key**, because every card says what is in
 its film before the press and a missing key means nobody looked; **a pronoun for any maker**,
 because not one of those films says what theirs are; and `make-club.py`&rsquo;s runtime pair.
+
+`make-samefood.py` **walks every coordinate of the drawing of the table and refuses two foods on
+the divided plate that touch** &mdash; a food within a gap of its well's wall or of a different food,
+an object whose ring of shade meets the plate's &mdash; because the café defaults to structure,
+separation and predictability, and the next drawing will be added by somebody who has not read this.
+**It does not separate anybody who does not want separating**: pieces of one food may touch, and each
+regular's bowl is their dish the way they eat it. A regular may carry **asks**, their own way of being
+served, and the tool checks an ask only against that person's food &mdash; Ronan has red things in a
+ramekin of their own, so his ketchup is refused anywhere else and nobody else's is &mdash; because the
+house accommodates every guest individually and no one's rules impose on someone else. A path's control points count as if they were on the curve, so the check can
+be stricter than the picture and never kinder. It refuses **the vocabulary of correcting somebody's
+plate** in our own voice (picky, fussy, one bite, healthy, junk food, hungry enough, sneaking
+vegetables in), with the negation window so the room can say nobody in it is a picky eater, and
+skipping quotations, titles and the book's own subtitle; **a tally**, above all one across the trays,
+because two regulars list the same drink and somebody will want to say so; **advice about eating**;
+**a regular with any key but name, items, given and date**, since every other key is the start of
+sorting other people's dinners; **a food in the window that is not on somebody's tray exactly as
+written**, so a list that comes down takes its food off the plate too; a quotation over thirty words
+or without a record of how it was checked; and a book with no library link. The regulars' own words
+are not swept: they are theirs.
 
 `make-guild.py` refuses a job with no estimate of how long it takes &mdash; the street's oldest
 promise arriving at a job board, where the cost is a walk rather than a runtime &mdash; refuses a

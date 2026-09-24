@@ -2101,6 +2101,60 @@ refused on the first comic. `sets` is tested first now. **When a checker's shape
 which key a file has, a file with two known keys is read as whichever comes first** — order those
 branches from most specific to least, and run the checker after adding a room rather than assuming.
 
+**SAMEFOOD CAFE IS THE ONE ROOM WHERE NOTHING TOUCHES UNLESS YOU WANT IT TO, AND THE TOOL WALKS IT.** §47 is a café seen
+from directly above the table, under one even overhead light that is the same at every hour, so every
+object sits in its own soft ring of shade (`box-shadow` with a spread and no offset). Every food on the
+plate is in its own well with room round it, and `make-samefood.py` walks every coordinate of the
+drawing and refuses anything within a gap of anything else — `make-garden.py`'s soil-line walker for
+this room's line. **Nothing in §47 may overlap anything**: no negative margin, nothing positioned over
+something else, no rotation. **Every plate on the page is the same plate** — one component for the
+dishes, the book and every tray — which is **Covenstead inverted**: there nobody's cup matches and that
+is its subject; here the sameness is. If the plates ever start to differ, it has become Covenstead with
+a menu. The other collisions: Danny the Street is the other plan view and under sodium nothing has a
+colour, where this lamp keeps every food exactly its own colour; the Garden is also overhead but
+through leaves, green and dappled; the Guild is the other orderly pale room and casts nothing.
+
+**SEPARATION IS OFFERED, NEVER IMPOSED.** Ryan, 2026-09-23: *"Personally, I don't mind my food
+touching. Ronan and my brother like everything separated."* So the house's divided plate and its
+ramekins are walked strictly — that is the offer to whoever needs things apart — but **a bowl is one
+dish, drawn the way its person eats it, and its parts may touch**: the green onions float among Ryan's
+noodles. The walker keeps a bowl's contents inside its wall and does not check them against each other.
+Do not "fix" that into a gap; a room that made everybody's food separate would be correcting the people
+who do not mind, which is the thing the room refuses in the other direction. **THE HOUSE DEFAULTS TO STRUCTURE, SEPARATION AND PREDICTABILITY, AND ACCOMMODATES EVERY GUEST
+INDIVIDUALLY** — Ryan, 2026-09-23: *"You are never regarded as fussy, picky, or too much. You are just
+quietly and professionally accommodated."* **No one's rules impose on someone else.** A regular may
+carry `asks`, their own way of being served, and the tool checks an ask only against that person's
+food: Ronan has red things in a ramekin of their own, so his ketchup is refused anywhere but one, and
+Ryan's red apples are free. **The first draft made Ronan's way a house rule and refused red
+everywhere**; that was the room imposing one guest's way on every other guest, which is the exact
+thing it exists to refuse, and it will be the friendly edit again — somebody will want a "nice
+consistent rule". An ask the tool does not know is refused rather than ignored. Each tray
+may carry a **samefood of the moment** in a bowl, and it must be an item already on that person's tray,
+because it is theirs and not ours to pick.
+
+**THE MENU CHANGES ONLY WHEN SOMEBODY ASKS.** Ryan's call, 2026-09-23: the first draft said the menu
+could never change, and he loosened it — the kitchen **knows its patrons**, keeps what each regular
+has the way they have it, and is ready for their seasonal changes, **because samefoods have seasons**: they carry somebody for a while, get put down, come
+back. So no surprise dish and nothing taken off because somebody else got bored, but a regular or a
+newcomer asking is how a dish arrives. Do not tighten it back into "never"; a samefood is a comfort,
+not a sentence. **And no magic**: an earlier line made it a magic kitchen that could make any samefood
+there is, and Ryan took it out the same day — the point is attention to people, not a trick.
+**Today's special is "your favourite", and it does not rotate.** Ryan asked whether it should cycle
+through the regulars' favourites; a special that names one regular's dish each day puts that person
+above the others for a day and makes the line read differently tomorrow, in a room that defaults to
+predictability. "Your favourite" is the same promise to every guest at once. If it ever rotates,
+that is Ryan's call to reverse, and the rotation must not rank anybody.
+
+**THE REGULARS' TRAYS ARE THEIR WORDS AND THE TOOL DOES NOT SWEEP THEM.** Lowercase stays lowercase and
+nothing is glossed, sorted, merged or counted — **two regulars list coffee, and the friendly edit is to
+say so**; that is a tally across other people's dinners and the tool refuses the vocabulary. A regular
+takes no key but name, items, given, date and moment. **Every food in the window names the tray it is off**, so
+when somebody asks for their list to come down the build stops until the drawing lets go of it too —
+`make-polaroids.py`'s withdrawal rule. The room refuses the vocabulary of correcting a plate (picky,
+one bite, healthy, hungry enough) with the negation window, and skips the book's own subtitle, which
+says *Picky Eaters* and is its author's to say. **Two of its quotations are from the book and were read
+off our glossary, not a copy**; the room says so beside them.
+
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
 paleness alone — which is what holds it off the Guild, lit from nowhere with no depth. Netlify

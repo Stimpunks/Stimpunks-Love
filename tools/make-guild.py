@@ -208,6 +208,12 @@ DRAW = {
     # 9.35 on the tarmac, bent at the snap, and the runway's edge in --dp-dim
     # under it, 8.44. Neither moves; nothing in that room glows on and off.
     "dance-punks-glowstick": """<path d="M3 28 H29" stroke="var(--dp-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 23 L14.5 16.5" stroke="var(--dp-orange)" stroke-width="4" stroke-linecap="round"/><path d="M17.5 15.5 L27 9" stroke="var(--dp-orange)" stroke-width="4" stroke-linecap="round"/><path d="M14.5 16.5 L17.5 15.5" stroke="var(--dp-orange)" stroke-width="1.6" stroke-linecap="round"/>""",
+    # A little plastic grass divider slipped off a tray -- the kind a lunchbox
+    # keeps two foods apart with -- lying on the cafe floor and, being in that
+    # room, touching nothing, not even the floor line under it. The blades are
+    # --sf-cress, 5.88 on the table, over the body threshold a marker is held to;
+    # the floor line is --sf-ink-2 and carries nothing.
+    "samefood-divider": """<path d="M3 29 H29" stroke="var(--sf-ink-2)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 25 L7 13 L10 21 L13 8 L16 21 L19 9 L22 21 L25 12 L27 25 Z" fill="none" stroke="var(--sf-cress)" stroke-width="2.2" stroke-linejoin="round"/><path d="M5 25 H27" stroke="var(--sf-cress)" stroke-width="2.6" stroke-linecap="round"/>""",
     # Ear defenders left on a seat in the second row, which is where a relaxed
     # screening keeps a spare pair: the headband and both cups in --lph-cream,
     # 10.2 on the velvet, and the seat's edge in --lph-brass, which carries

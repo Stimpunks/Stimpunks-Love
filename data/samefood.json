@@ -1,0 +1,846 @@
+{
+  "_what": "Samefood Cafe: the plate in the window, the three dishes on the menu, the book on the counter and the regulars' trays. Built into samefood-cafe.html and liner-notes.html by tools/make-samefood.py. Every key starting with an underscore is the record of why, and is skipped by the sweep so that this file may explain its refusals without tripping them.",
+  "_nothing_touches": "THE ROOM'S ONE RULE, AND IT IS ENFORCED RATHER THAN REMEMBERED. Nothing on the house's divided plate touches anything else unless whoever is eating it puts it there -- and whoever does not mind is not made to mind: see _moment. So every food in the window is drawn from primitives the tool can walk, every coordinate of every one is checked to sit inside its own well with room to spare, and two foods in one well, or two objects on the table, are refused if they come within a gap of each other. The next drawing will be added by somebody who has not read this sentence; that is who the check is for.",
+  "_from_the_lists": "EVERY FOOD IN THE WINDOW IS OFF A REGULAR'S TRAY, and `from` names the tray and the item exactly as it is written there. That is not decoration: when somebody asks for their list to come down, the tool stops until the plate has let go of it too, which is make-polaroids.py's rule about a withdrawal being honoured everywhere and not half-honoured in one place.",
+  "_regulars": "WRITTEN DOWN EXACTLY AS GIVEN. Lowercase stays lowercase, a brand stays a brand, and nothing is glossed, tidied, corrected, sorted or merged. The order on a tray is the order the person gave it in; the order of the trays is the order they arrived in. A tray changes whenever its person says so -- samefoods have seasons, get put down and come back -- and the change is theirs to make, never ours to tidy. No key other than name, items, given, date, moment and asks is accepted on a regular, because every other key anybody will want to add -- a count, a category, a star, a tag -- is the start of a league table of other people's dinners. Each list comes down the moment its person asks, and coming down means deleting the entry, not hiding it.",
+  "_menu": "THE MENU CHANGES ONLY WHEN SOMEBODY ASKS. Ryan's call, 2026-09-23: the kitchen knows its patrons, keeps what each regular has the way they have it, and is ready for their seasonal changes, because samefoods have seasons -- they carry somebody for a while, get put down, and come back. So nothing is ever added that nobody ordered and nothing comes off because somebody else got bored of it, but a regular or a newcomer asking is how a dish arrives. An earlier draft said the menu could never change; that made a samefood sound like a sentence rather than a comfort. A later one made it a magic kitchen that could make anything, and Ryan took the magic out: the point is knowing people, not a trick.",
+  "_quotes": "Every quotation is thirty words or fewer, names who said it, where and when, and says how it was checked. Two were read against their own pages on 2026-09-23. The two from the book were read off our own glossary, which quotes them, and could not be checked against a copy from here; the room says so beside them rather than letting them sit among the checked ones looking identical.",
+  "_book": "Resolved rather than remembered: title, subtitle, author, publisher, year and ISBN off Open Library's edition record OL46647981M on 2026-09-23. Open Library holds no copy to lend, so the library link is a WorldCat search on the ISBN, which finds the libraries that do. The shop link is the one our own Samefood entry already uses. No pronoun is written for the author anywhere, because none of the pages we read states one.",
+  "table": {
+    "wells": [
+      {
+        "id": "a",
+        "x": 272,
+        "y": 48,
+        "w": 214,
+        "h": 204,
+        "rx": 30
+      },
+      {
+        "id": "b",
+        "x": 504,
+        "y": 48,
+        "w": 224,
+        "h": 96,
+        "rx": 26
+      },
+      {
+        "id": "c",
+        "x": 504,
+        "y": 160,
+        "w": 136,
+        "h": 92,
+        "rx": 26
+      },
+      {
+        "id": "d",
+        "x": 656,
+        "y": 160,
+        "w": 72,
+        "h": 92,
+        "rx": 26
+      }
+    ],
+    "plate": {
+      "x": 252,
+      "y": 28,
+      "w": 496,
+      "h": 244,
+      "rx": 44
+    },
+    "foods": [
+      {
+        "id": "pasta",
+        "well": "a",
+        "from": [
+          "Helen",
+          "pesto pasta"
+        ],
+        "said": "pesto pasta in the big well on the left",
+        "shapes": [
+          {
+            "ellipse": [
+              318,
+              88,
+              24,
+              11
+            ],
+            "fill": "pesto"
+          },
+          {
+            "ellipse": [
+              388,
+              88,
+              24,
+              11
+            ],
+            "fill": "pesto"
+          },
+          {
+            "ellipse": [
+              446,
+              106,
+              22,
+              11
+            ],
+            "fill": "pesto"
+          },
+          {
+            "ellipse": [
+              312,
+              148,
+              22,
+              11
+            ],
+            "fill": "pesto"
+          },
+          {
+            "ellipse": [
+              378,
+              152,
+              24,
+              11
+            ],
+            "fill": "pesto"
+          },
+          {
+            "ellipse": [
+              444,
+              168,
+              22,
+              11
+            ],
+            "fill": "pesto"
+          },
+          {
+            "ellipse": [
+              326,
+              210,
+              24,
+              11
+            ],
+            "fill": "pesto"
+          },
+          {
+            "ellipse": [
+              398,
+              214,
+              24,
+              11
+            ],
+            "fill": "pesto"
+          }
+        ]
+      },
+      {
+        "id": "popcorn",
+        "well": "b",
+        "from": [
+          "Ryan",
+          "nooch popcorn"
+        ],
+        "said": "nooch popcorn along the top right",
+        "shapes": [
+          {
+            "circle": [
+              530,
+              78,
+              11
+            ],
+            "fill": "pop"
+          },
+          {
+            "circle": [
+              574,
+              78,
+              11
+            ],
+            "fill": "pop"
+          },
+          {
+            "circle": [
+              618,
+              78,
+              11
+            ],
+            "fill": "pop"
+          },
+          {
+            "circle": [
+              662,
+              78,
+              11
+            ],
+            "fill": "pop"
+          },
+          {
+            "circle": [
+              706,
+              78,
+              11
+            ],
+            "fill": "pop"
+          },
+          {
+            "circle": [
+              552,
+              114,
+              11
+            ],
+            "fill": "pop"
+          },
+          {
+            "circle": [
+              596,
+              114,
+              11
+            ],
+            "fill": "pop"
+          },
+          {
+            "circle": [
+              640,
+              114,
+              11
+            ],
+            "fill": "pop"
+          },
+          {
+            "circle": [
+              684,
+              114,
+              11
+            ],
+            "fill": "pop"
+          }
+        ]
+      },
+      {
+        "id": "cheese",
+        "well": "c",
+        "from": [
+          "Helen",
+          "cheese"
+        ],
+        "said": "cheese in the well below it",
+        "shapes": [
+          {
+            "rect": [
+              522,
+              180,
+              22,
+              22,
+              6
+            ],
+            "fill": "cheese"
+          },
+          {
+            "rect": [
+              562,
+              180,
+              22,
+              22,
+              6
+            ],
+            "fill": "cheese"
+          },
+          {
+            "rect": [
+              602,
+              180,
+              22,
+              22,
+              6
+            ],
+            "fill": "cheese"
+          },
+          {
+            "rect": [
+              542,
+              216,
+              22,
+              22,
+              6
+            ],
+            "fill": "cheese"
+          },
+          {
+            "rect": [
+              582,
+              216,
+              22,
+              22,
+              6
+            ],
+            "fill": "cheese"
+          }
+        ]
+      },
+      {
+        "id": "peanut-butter",
+        "well": "d",
+        "from": [
+          "Ryan",
+          "peanut butter and apples"
+        ],
+        "said": "and the peanut butter in a small well of its own",
+        "shapes": [
+          {
+            "path": "M670 214 Q668 186 692 184 Q714 184 714 206 Q716 232 692 232 Q672 234 670 214 Z",
+            "fill": "nut"
+          }
+        ]
+      }
+    ],
+    "objects": [
+      {
+        "id": "mug",
+        "from": [
+          "Ryan",
+          "coffee"
+        ],
+        "also": [
+          "Helen",
+          "coffee"
+        ],
+        "said": "On the right of the plate, a mug of coffee",
+        "box": [
+          794,
+          88,
+          172,
+          124
+        ],
+        "shapes": [
+          {
+            "rect": [
+              908,
+              134,
+              44,
+              32,
+              14
+            ],
+            "fill": "plate"
+          },
+          {
+            "circle": [
+              854,
+              150,
+              58
+            ],
+            "fill": "plate"
+          },
+          {
+            "circle": [
+              854,
+              150,
+              45
+            ],
+            "fill": "coffee"
+          }
+        ]
+      }
+    ],
+    "ramekins": [
+      {
+        "id": "apples",
+        "from": [
+          "Ryan",
+          "peanut butter and apples"
+        ],
+        "said": "On the left, the apple slices in a ramekin, to go with the peanut butter on the plate; on Ryan’s list they are one thing, and they meet when whoever is eating them decides they meet",
+        "center": [
+          70,
+          110
+        ],
+        "rim": 44,
+        "inner": 34,
+        "pieces": [
+          {
+            "path": "M54 96 Q64 100 62 110 Q60 120 54 125 Q59 110 54 96 Z",
+            "fill": "apple"
+          },
+          {
+            "path": "M77 96 Q87 100 85 110 Q83 120 77 125 Q82 110 77 96 Z",
+            "fill": "apple"
+          }
+        ]
+      },
+      {
+        "id": "ketchup",
+        "from": [
+          "Ronan",
+          "ketchup in its own ramekin"
+        ],
+        "said": "and below them Ronan’s ketchup in its own ramekin, touching nothing, which is how Ronan has every red thing",
+        "center": [
+          176,
+          196
+        ],
+        "rim": 34,
+        "inner": 25,
+        "pieces": [
+          {
+            "circle": [
+              176,
+              196,
+              14
+            ],
+            "fill": "ketchup"
+          }
+        ]
+      }
+    ],
+    "_ramekins": "RONAN'S WAY, NOT THE HOUSE'S. Ronan, a Stimpunk, keeps every condiment in a ramekin of its own and red things always, touching nothing else -- relayed by Ryan on 2026-09-23. Ryan's correction the same day: that is Ronan's rule, not a house rule, and NO ONE'S RULES IMPOSE ON SOMEONE ELSE; THE HOUSE ALWAYS ACCOMMODATES THE INDIVIDUAL. So it lives on Ronan's own record as an `asks` entry, and make-samefood.py enforces an ask only on food off that person's tray. Ryan's apples are red and sit in a ramekin because that is a nice way to serve them beside peanut butter, not because anybody's rule sends them there. A first draft made it a house rule and refused red anywhere but a ramekin; that was the room imposing one person's way on everybody, which is the thing it exists to refuse."
+  },
+  "menu": [
+    {
+      "id": "samefood",
+      "name": "Samefood",
+      "entry": "https://stimpunks.org/glossary/samefood/",
+      "note": "Eating the same food, often, sometimes for weeks or months at a time, made the same way every time and sometimes only one brand of it. It is how a great many of us eat, and plenty of us say it brings peace. Samefoods have seasons, too: one can carry you for months, get put down, and come back years later, and the kitchen here keeps every one of them. Nobody has an opinion about any of it.",
+      "quote": {
+        "text": "A samefood often needs to be prepared in a very specific way, eaten in a ritualistic manner, or may only be a specific brand.",
+        "who": "C.L. Lynch",
+        "work": "7 Cool Aspects of Autistic Culture",
+        "where": "NeuroClastic",
+        "url": "https://neuroclastic.com/7-cool-aspects-of-autistic-culture/",
+        "year": "2019",
+        "checked": "read against NeuroClastic's own page on 2026-09-23, byline from the page's own metadata"
+      }
+    },
+    {
+      "id": "safe-food",
+      "name": "Safe food",
+      "entry": "https://stimpunks.org/glossary/safe-food/",
+      "note": "A food you can reliably eat, especially when everything else is hard: the texture, the taste, the smell and the predictability are all right, and it asks nothing unexpected of you. Our glossary puts it plainly: safe foods are about access, and for many of us they are how eating becomes possible at all.",
+      "quote": {
+        "text": "These foods are not boring to me. They are the reason I can sit at a table at all.",
+        "who": "Kari Burroughs Kraakevik",
+        "work": "Safe Foods",
+        "where": "Thinking Person’s Guide to Autism",
+        "url": "https://thinkingautismguide.com/2026/05/safe-foods.html",
+        "year": "2026",
+        "checked": "read against Thinking Person’s Guide to Autism’s own page on 2026-09-23"
+      }
+    },
+    {
+      "id": "food-aversion",
+      "name": "Food aversion",
+      "entry": "https://stimpunks.org/glossary/food-aversion/",
+      "note": "A body saying that a food is not safe, through its texture, its taste, its temperature, its smell or its colour, and meaning it. It is neurobiological rather than a mood, and nobody in here argues with it. Our glossary entry is careful about where it sits beside ARFID, and is the better place to read about that than a menu.",
+      "quote": {
+        "text": "Food aversion is okay. It’s not something I’m trying to cure.",
+        "who": "Matthew Broberg-Moffitt",
+        "work": "Color Taste Texture",
+        "where": "Penguin Publishing Group",
+        "url": "https://openlibrary.org/works/OL34387539W/Color_Taste_Texture?edition=key%3A/books/OL46647981M",
+        "year": "2023",
+        "checked": "read off our own Food Aversion entry, which quotes the book; not checked against a copy of the book from here"
+      }
+    }
+  ],
+  "book": {
+    "title": "Color Taste Texture",
+    "subtitle": "Recipes for Picky Eaters, Those with Food Aversion, and Anyone Who’s Ever Cringed at Food",
+    "author": "Matthew Broberg-Moffitt",
+    "publisher": "Penguin Publishing Group",
+    "year": "2023",
+    "isbn": "9780593538593",
+    "library": "https://search.worldcat.org/search?q=bn:9780593538593",
+    "record": "https://openlibrary.org/works/OL34387539W/Color_Taste_Texture?edition=key%3A/books/OL46647981M",
+    "shop": "https://bookshop.org/p/books/color-taste-texture-recipes-for-picky-eaters-those-with-food-aversion-and-anyone-who-s-ever-cringed-at-food-matthew-broberg-moffitt/c030f18795f35319?ean=9780593538593",
+    "note": "A cookbook that starts from acceptance rather than correction. Our glossary calls it a compassionate, validating and accessible guide, and recommends it to our community, which is why it is the one book on this counter. The recipes are for the people its subtitle names, and the stance is the one this whole café is built on: the plate is not the problem, and neither is the person eating from it.",
+    "quote": {
+      "text": "If you only eat a specific brand of frozen breaded chicken nuggets, you find comfort in the knowledge that what you are going to eat is both familiar and unproblematic.",
+      "who": "Matthew Broberg-Moffitt",
+      "work": "Color Taste Texture",
+      "where": "Penguin Publishing Group",
+      "url": "https://openlibrary.org/works/OL34387539W/Color_Taste_Texture?edition=key%3A/books/OL46647981M",
+      "year": "2023",
+      "checked": "read off our own Samefood entry, which quotes the book; not checked against a copy of the book from here"
+    }
+  },
+  "regulars": [
+    {
+      "name": "Ryan",
+      "items": [
+        "ramen with fresh green onions",
+        "nooch popcorn",
+        "mushroom and garlic broth",
+        "tofu scramble",
+        "vegan quesadillas",
+        "vegan cheese flat bread",
+        "dark chocolate pretzel bars",
+        "peanut butter and apples",
+        "coffee"
+      ],
+      "given": "in Ryan’s own brief for this café",
+      "date": "2026-09-23",
+      "moment": {
+        "item": "ramen with fresh green onions",
+        "said": "a bowl of ramen, with the green onions floating in among the noodles, which is how Ryan likes it",
+        "bowl": {
+          "center": [
+            110,
+            110
+          ],
+          "rim": 94,
+          "inner": 80,
+          "broth": true,
+          "pieces": [
+            {
+              "path": "M84 58 Q97 50 110 58 Q123 66 136 58",
+              "fill": "noodle"
+            },
+            {
+              "path": "M61 76 Q86 68 110 76 Q134 84 159 76",
+              "fill": "noodle"
+            },
+            {
+              "path": "M50 94 Q80 86 110 94 Q140 102 170 94",
+              "fill": "noodle"
+            },
+            {
+              "path": "M46 112 Q78 104 110 112 Q142 120 174 112",
+              "fill": "noodle"
+            },
+            {
+              "path": "M52 130 Q81 122 110 130 Q139 138 168 130",
+              "fill": "noodle"
+            },
+            {
+              "path": "M65 148 Q88 140 110 148 Q132 156 155 148",
+              "fill": "noodle"
+            },
+            {
+              "path": "M88 164 Q99 156 110 164 Q121 172 132 164",
+              "fill": "noodle"
+            },
+            {
+              "ring": [
+                84,
+                70,
+                7
+              ],
+              "fill": "onion"
+            },
+            {
+              "ring": [
+                132,
+                74,
+                7
+              ],
+              "fill": "onion"
+            },
+            {
+              "ring": [
+                100,
+                100,
+                7
+              ],
+              "fill": "onion"
+            },
+            {
+              "ring": [
+                148,
+                104,
+                7
+              ],
+              "fill": "onion"
+            },
+            {
+              "ring": [
+                70,
+                118,
+                7
+              ],
+              "fill": "onion"
+            },
+            {
+              "ring": [
+                122,
+                128,
+                7
+              ],
+              "fill": "onion"
+            },
+            {
+              "ring": [
+                92,
+                152,
+                7
+              ],
+              "fill": "onion"
+            },
+            {
+              "ring": [
+                146,
+                146,
+                7
+              ],
+              "fill": "onion"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Helen",
+      "items": [
+        "pesto pasta",
+        "cheese",
+        "coffee"
+      ],
+      "given": "relayed by Ryan in the brief for this café, as Helen gave it",
+      "date": "2026-09-23",
+      "moment": {
+        "item": "pesto pasta",
+        "said": "a bowl of pesto pasta, all of it together, which is how Helen has it",
+        "bowl": {
+          "center": [
+            110,
+            110
+          ],
+          "rim": 94,
+          "inner": 80,
+          "broth": false,
+          "pieces": [
+            {
+              "ellipse": [
+                92,
+                86,
+                20,
+                9
+              ],
+              "fill": "pesto"
+            },
+            {
+              "ellipse": [
+                126,
+                80,
+                20,
+                9
+              ],
+              "fill": "pesto"
+            },
+            {
+              "ellipse": [
+                150,
+                102,
+                20,
+                9
+              ],
+              "fill": "pesto"
+            },
+            {
+              "ellipse": [
+                110,
+                104,
+                20,
+                9
+              ],
+              "fill": "pesto"
+            },
+            {
+              "ellipse": [
+                78,
+                114,
+                20,
+                9
+              ],
+              "fill": "pesto"
+            },
+            {
+              "ellipse": [
+                134,
+                124,
+                20,
+                9
+              ],
+              "fill": "pesto"
+            },
+            {
+              "ellipse": [
+                100,
+                134,
+                20,
+                9
+              ],
+              "fill": "pesto"
+            },
+            {
+              "ellipse": [
+                122,
+                152,
+                20,
+                9
+              ],
+              "fill": "pesto"
+            },
+            {
+              "ellipse": [
+                86,
+                150,
+                20,
+                9
+              ],
+              "fill": "pesto"
+            },
+            {
+              "ellipse": [
+                140,
+                144,
+                20,
+                9
+              ],
+              "fill": "pesto"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Ronan",
+      "items": [
+        "chicken nuggets",
+        "fries",
+        "bacon",
+        "turkey and cheese sandwiches",
+        "plain hamburgers",
+        "ketchup in its own ramekin"
+      ],
+      "given": "relayed by Ryan in the brief for this café, as Ronan gave it",
+      "date": "2026-09-23",
+      "moment": {
+        "item": "chicken nuggets",
+        "said": "a bowl of chicken nuggets, touching each other as much as they like; the ketchup is on the table in its own ramekin",
+        "bowl": {
+          "center": [
+            110,
+            110
+          ],
+          "rim": 94,
+          "inner": 80,
+          "broth": false,
+          "pieces": [
+            {
+              "rect": [
+                64,
+                70,
+                34,
+                26,
+                11
+              ],
+              "fill": "nugget"
+            },
+            {
+              "rect": [
+                96,
+                62,
+                34,
+                26,
+                11
+              ],
+              "fill": "nugget"
+            },
+            {
+              "rect": [
+                128,
+                74,
+                34,
+                26,
+                11
+              ],
+              "fill": "nugget"
+            },
+            {
+              "rect": [
+                56,
+                102,
+                34,
+                26,
+                11
+              ],
+              "fill": "nugget"
+            },
+            {
+              "rect": [
+                90,
+                94,
+                34,
+                26,
+                11
+              ],
+              "fill": "nugget"
+            },
+            {
+              "rect": [
+                124,
+                104,
+                34,
+                26,
+                11
+              ],
+              "fill": "nugget"
+            },
+            {
+              "rect": [
+                142,
+                98,
+                34,
+                26,
+                11
+              ],
+              "fill": "nugget"
+            },
+            {
+              "rect": [
+                72,
+                132,
+                34,
+                26,
+                11
+              ],
+              "fill": "nugget"
+            },
+            {
+              "rect": [
+                106,
+                128,
+                34,
+                26,
+                11
+              ],
+              "fill": "nugget"
+            },
+            {
+              "rect": [
+                128,
+                128,
+                34,
+                26,
+                11
+              ],
+              "fill": "nugget"
+            },
+            {
+              "rect": [
+                94,
+                148,
+                34,
+                26,
+                11
+              ],
+              "fill": "nugget"
+            }
+          ]
+        }
+      },
+      "asks": [
+        "red things in a ramekin of their own"
+      ]
+    }
+  ],
+  "_moment": "A SAMEFOOD OF THE MOMENT is optional, is one item already on that person's tray, and gets a bowl of its own drawn on the tray. A BOWL IS ONE DISH, drawn the way its person eats it, so ITS PARTS MAY TOUCH: Ryan does not mind his food touching and the green onions float in among his noodles. Separation is something this cafe offers -- the divided plate, the ramekins -- and never something it imposes; Ronan and Ryan's brother like everything apart, Ryan does not mind, and both are the same again. So the tool keeps a bowl's contents inside its wall and does not check them against each other. It is 'of the moment' because samefoods have seasons; when it changes, the person says so and the bowl changes.",
+  "_asks": "A REGULAR'S ASKS ARE THEIR OWN WAY OF BEING SERVED, and apply to their food and nobody else's. The house always accommodates the individual and no one's rules impose on someone else -- Ryan, 2026-09-23. make-samefood.py knows each ask it can check, refuses one it does not know rather than ignoring it, and checks it only against drawings of food off that person's tray."
+}

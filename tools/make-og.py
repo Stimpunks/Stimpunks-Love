@@ -704,6 +704,25 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--laughingstock .og-stage {{ margin: auto -60px 0 !important; line-height: 0; }}
 .og--laughingstock .og-stage svg {{ display: block; width: 100%; height: auto; }}
 
+/* samefood cafe — THE TABLE FROM DIRECTLY ABOVE, AND NOTHING ON IT TOUCHES
+   ANYTHING. The drawing is LIFTED whole out of the page, the doorway's rule and
+   the bed's, because a second copy of a drawing goes stale in one of the two
+   places it lives -- and this one is walked coordinate by coordinate by
+   make-samefood.py, so a copy here would be the one drawing on the street that
+   nobody checks. The words sit on the bare table above it; the specials line is
+   lifted too, because it is the room's one joke. */
+.og--samefood {{ width: 100%; padding: 40px 60px 0; gap: 8px; justify-content: flex-start; }}
+.og--samefood .og-over {{ margin: 0 !important; font-family: 'Fredoka', sans-serif; font-weight: 600;
+  font-size: 18px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--sf-ink-2); }}
+.og--samefood h1 {{ font-size: 88px; margin: 0 !important; }}
+.og--samefood .og-special {{ margin: 0 !important; font-family: 'Fredoka', sans-serif; font-size: 30px;
+  line-height: 1.2; color: var(--sf-ink); }}
+.og--samefood .og-special b {{ font-weight: 600; color: var(--sf-sauce); }}
+.og--samefood .og-lede {{ font-family: 'Inclusive Sans', sans-serif; color: var(--sf-ink);
+  max-width: 1040px; font-size: 23px; line-height: 1.4; margin: 4px 0 0 !important; }}
+.og--samefood .og-table {{ margin: auto 0 8px !important; line-height: 0; }}
+.og--samefood .og-table svg {{ display: block; width: auto; height: 290px; margin: 0 auto; }}
+
 /* dead tired society — THE DOORWAY, AND NOTHING ON THE CARD STANDS IN ITS LIGHT.
    The drawing is LIFTED whole out of the page, the bed's rule and the shaft's,
    because a second copy of a drawing goes stale in one of the two places it
@@ -2285,6 +2304,39 @@ def card_laughingstock(p):
     )
 
 
+def card_samefood(p):
+    # THE TABLE IS LIFTED FROM THE PAGE, and so is the specials line, and the
+    # lede is the page's own og:description, so the card cannot say what the
+    # room does not. The alt describes the drawing, which is aria-hidden on the
+    # page and said there in words by the window line.
+    sp = re.search(r'<p class="sf-special">(.*?)</p>', p["src"], re.S)
+    if not sp:
+        raise SystemExit(
+            "REFUSING: samefood-cafe.html has no specials line under its name, and its\n"
+            "card is built around one. Redesign the card on purpose.")
+    sp_html = sp.group(1).strip()
+    sp_plain = html.unescape(re.sub(r"<[^>]+>", "", sp_html)).strip()
+    return (
+        "",
+        f'<div class="og og--samefood" data-fit="card">'
+        f'<p class="og-over">On the street &middot; the same as last time</p>'
+        f'{p["h1"]}'
+        f'<p class="og-special">{sp_html}</p>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-table">{p["table"]}</div>'
+        f'</div>',
+        f"A pale lilac-grey card, the colour of a laminate café table seen from directly "
+        f"above. Small grey capitals reading on the street, the same as last time, then "
+        f"\u201c{p['h1text']}\u201d in a large, round, soft dark-aubergine face, and under it: "
+        f"{sp_plain} Then: {p['desc_plain']} Across the bottom, a drawing of the table from "
+        f"above: on the left a ramekin of red apple slices and a smaller ramekin of ketchup, "
+        f"in the middle one cream divided plate with four wells \u2014 green pasta pieces in "
+        f"the big one, popcorn in another, cubes of cheese in a third and peanut butter in a "
+        f"small one of its own \u2014 and a mug of coffee on the right. Every thing sits in its "
+        f"own soft ring of shade, and nothing touches anything else.",
+    )
+
+
 def card_dead_tired(p):
     # THE DOORWAY IS LIFTED FROM THE PAGE and the est. line is written here
     # because it is the room's one joke rather than its description; the lede
@@ -2402,6 +2454,7 @@ CARDS = {
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
     "covenstead":   card_covenstead,
+    "samefood":     card_samefood,
     "dead-tired":   card_dead_tired,
     "laughingstock": card_laughingstock,
     "picture-house": card_picture_house,
@@ -2522,6 +2575,7 @@ def main():
         ("well",     "rabbit-hole.html",  r'(<svg class="rh-well".*?</svg>)'),
         ("bed",      "healing-checkpoint.html", r'(<svg class="hc-bed".*?</svg>)'),
         ("doorway",  "dead-tired-society.html", r'(<svg class="dts-doorway".*?</svg>)'),
+        ("table",    "samefood-cafe.html", r'(<svg class="sf-table-art".*?</svg>)'),
         ("stage",    "laughingstock.html", r'(<svg class="ls-stage".*?</svg>)'),
         ("house",    "lightbulb-picture-house.html", r'(<svg class="lph-auditorium".*?</svg>)'),
         ("crowd",    "dance-punks.html",  r'(<svg class="dp-crowd".*?</svg>)'),

@@ -559,6 +559,16 @@ NFS_GRAVEL, NFS_TABLE = "#12110E", "#221F1A"
 NFS_PALE, NFS_TEXT, NFS_DIM = "#F3EFE6", "#DAD4C6", "#AFA897"
 NFS_HALOGEN, NFS_LED, NFS_FOG = "#FFE1A1", "#E4ECFF", "#FFD23F"
 
+# Samefood Cafe (§47). THREE GROUNDS, ALL PALE, and every ink is held against
+# all three: the lilac table every word stands on, the plate (one colour, the
+# same for every plate on the page, which is the room), and the well of each
+# compartment on it, where the quotations and the regulars' foods sit. SF_RIM and
+# SF_SHADE only draw -- the plate's rim and the soft ring of shade the overhead
+# light puts round every object -- and the food colours are ornament carried by
+# an SF_INK2 outline; all of them are in ORNAMENT with their numbers.
+SF_TABLE, SF_PLATE, SF_WELL = "#E6E0EB", "#FCFAF6", "#F3EEE7"
+SF_INK, SF_INK2, SF_SAUCE, SF_CRESS = "#2A1F30", "#5A4B60", "#9C2F1E", "#3E5C22"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -1904,6 +1914,30 @@ PAIRS = [
     # room's own floor, so the pair above decides it at 10.74 -- over the body
     # threshold a marker is held to, the Jungle Room's quills rule.
     (DTS_EXIT, DTS_ROOM, False, "dead tired: the job marker, a rubber doorstop"),
+    # ── Samefood Cafe (§47) ──────────────────────────────────────────────────
+    # EVERY INK AGAINST EVERY GROUND IT MEETS. The table is the darkest of the
+    # three, so it is the worst case for every ink; the plate and the well are
+    # held as well, because a pair that passes on the table and was never tried
+    # on the plate is a pair nobody decided.
+    (SF_INK,   SF_TABLE, False, "samefood: the h1, every heading, every paragraph and house rule on "
+                                "the table, the specials line, and the name on the street door"),
+    (SF_INK,   SF_PLATE, False, "samefood: every word on a plate -- the dishes, the book, the "
+                                "regulars' names"),
+    (SF_INK,   SF_WELL,  False, "samefood: every quotation, and every food on a regular's tray, "
+                                "which sit in the wells"),
+    (SF_INK2,  SF_TABLE, False, "samefood: the trail, the line over the h1, the window line, the "
+                                "further reading, the blurb on the street door"),
+    (SF_INK2,  SF_PLATE, False, "samefood: the book's byline and each tray's given line"),
+    (SF_INK2,  SF_WELL,  False, "samefood: every quotation's cite and its checked line"),
+    (SF_SAUCE, SF_TABLE, False, "samefood: every link on the table, the backlink, the bold word in "
+                                "the specials line, the knock on the street door, the markers on "
+                                "what is not on the menu"),
+    (SF_SAUCE, SF_PLATE, False, "samefood: every link on a plate"),
+    (SF_SAUCE, SF_WELL,  False, "samefood: every link in a quotation's cite, and the book's three "
+                                "links, which sit on well-coloured pills"),
+    # The job marker is a plastic grass divider in --sf-cress lying on the
+    # table, held to the body threshold a marker is held to.
+    (SF_CRESS, SF_TABLE, False, "samefood: the job marker, a plastic grass divider"),
 
 
 
@@ -1974,6 +2008,34 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#b3a7bd": "samefood: the rim of every plate and every well in the drawing, the rim of every "
+               "plate on the page, and the ring round the dot beside each house rule. 1.77 on the "
+               "table and 2.19 on the plate; it carries no word, and the plates are told from the "
+               "table by their ring of shade and their colour as well as by the rim.",
+    "#d4cbdc": "samefood: the soft ring of shade the overhead light puts round every object on "
+               "the table and every plate on the page, 1.21 on the table. It is the light drawing a "
+               "gap round each thing; it carries nothing.",
+    "#efc75e": "samefood: the popcorn in the drawing, 1.25 on the table and 1.40 on the well, "
+               "carried by an --sf-ink-2 outline at 6.97 on the well.",
+    "#7c9a45": "samefood: the pesto pasta in the drawing, 2.77 on the well, carried by its "
+               "--sf-ink-2 outline.",
+    "#c0463b": "samefood: the apple slices in the drawing, 4.35 on the well, with their outline.",
+    "#b57a3e": "samefood: the peanut butter in the drawing, 3.13 on the well, with its outline.",
+    "#f29b38": "samefood: Helen's cheese in the drawing, 1.91 on the well, carried by its "
+               "--sf-ink-2 outline at 3.65 against it.",
+    "#b3261e": "samefood: Ronan's ketchup in its own ramekin in the drawing, 5.66 on the "
+               "ramekin's well. Ronan asks for red things in a ramekin of their own, and "
+               "make-samefood.py holds his food, and nobody else's, to that.",
+    "#ebcf93": "samefood: the broth in Ryan's bowl of ramen, 1.31 against the bowl's rim; the "
+               "bowl is carried by its --sf-rim edge and ring of shade. Drawing only.",
+    "#f7ebc0": "samefood: the noodles in the ramen, 1.27 on the broth, each drawn over an "
+               "--sf-ink-2 stroke at 5.32 on the broth, which is what carries it.",
+    "#4f8f35": "samefood: the green onion floating in the ramen, 2.61 on the broth. Drawing "
+               "only.",
+    "#d9a04e": "samefood: Ronan's chicken nuggets in the drawing, 2.00 on the bowl's well, "
+               "carried by their --sf-ink-2 outline. Drawing only.",
+    "#6b4430": "samefood: the coffee in the mug in the drawing, 8.07 on the mug's plate-coloured "
+               "rim. Drawing only.",
     "#2a2721": "nothing for sale: the lit middle of the ring in the drawing, and the hairlines "
                "between the rules. 1.27 on the gravel; it carries no word.",
     "#1f1d19": "nothing for sale: the cars' bodies and the cardboard signs in the drawing, 1.12 "
