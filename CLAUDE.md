@@ -2329,6 +2329,76 @@ reading a gradient cannot know which stop is under which link. The road is a `::
 the buildings stand on plain board, which is what they actually stand on. **No transform anywhere in
 §49**: the top and side of every building are clipped rectangles, not skews.
 
+**THE CB IS THE ONLY SERVER-SIDE CODE ON THIS SITE, AND IT GOT IN ON NARROW TERMS.** A chat
+channel patterned after citizens band radio (Ryan's brief, 2026-09-24): five Netlify Functions in
+`netlify/functions/` sharing `netlify/cb/lib.mjs`, one JSON blob in Netlify Blobs holding the latest
+ten messages, deleted at midnight Colorado time. **`privacy.html` was rewritten before a line of it
+was built**, and every sentence there is enforced in `lib.mjs`: no IP address stored (Netlify's own
+`rateLimit` in each function's config counts addresses and never hands them over, so do not "improve"
+it by keeping a list), **nothing a person types is ever logged** — no `console.log` of a handle,
+message, password or pass, not even while debugging — and a pass is an HMAC keyed by the current
+password, so **rotating is changing `CB_PASSWORD` and redeploying** and there is no list of passes
+anywhere. `connect-src` is `'self'` and must not go further: a realtime service elsewhere would be a
+third party every signed-on visitor talked to on every page. Both passwords live in Netlify's
+environment, never in the repo.
+
+**NOBODY WHO HAS NOT SIGNED ON EVER DOWNLOADS `cb.js`.** `love.js` injects it only when a pass is
+already in `localStorage`, never inside a frame (the Hermitage's laptop frames this site), and never
+on a page whose `<body>` says `data-cb="off"` or `data-cb="here"`. **The Healing Checkpoint is `off`,
+Ryan's call**, because it promises it writes nothing down about you, and `make-checkpoint.py` refuses
+the page without the attribute. The Community Center is `here` because it loads `cb.js` itself. **When
+a floating thing reached every room, the rooms' own promises had to be narrowed**: "nothing is stored,
+nothing is sent" became "the cabinets store nothing and send nothing", "nothing is fetched until you
+press" became "nothing is fetched from YouTube until you press". **A new room scopes its promises to
+its own objects** and does not say anything about the whole page that the radio would make untrue.
+
+**THE RADIO LIVES IN A SHADOW ROOT, AND THAT IS THE SKIP LINK'S LESSON APPLIED IN ADVANCE.** Every room
+styles `.room-x a`, `.room-x p` and buttons at (0,2,0), and a panel appended to `<body>` in every room
+meets all of them at once, in rooms nobody is thinking about when they change the radio. Inside the
+shadow root only `cb.css` applies. **The colours are still §2's `--cb-*`**, because custom properties
+on `:root` inherit across the boundary, which keeps them in `check-contrast.py`'s coverage check. It
+keeps its own clothes in every room, the dial's precedent, and **nothing on it moves or lights up at
+any setting**: a receive lamp is an alert with the sound off. **It never claims what it has not
+heard** — it says *tuning in* until the first listen answers and *no signal* when one fails, because
+"nobody has said anything" is a statement about the channel and only a reply can make it true. It
+also never counts: no people on the channel, no unread number.
+
+**OPEN IS ON AND CLOSED IS OFF, AND THAT IS ONE FUNCTION.** `Radio.prototype.tune` is the only place
+that decides whether the radio makes requests: open *and* `document.visibilityState === 'visible'`.
+Folded or in a background tab it sends nothing, which is both the brief's "if the CB is closed you
+get nothing" and the whole of the cost control. **The browser pane in this app reports `hidden` when
+the pane is not showing**, so a radio that seems to have stopped listening in a test may be obeying
+that rule. Do not add a second timer anywhere else in the file.
+
+**`onlyIfMatch: undefined` IS NOT A CONDITIONAL WRITE, IT IS AN UNCONDITIONAL ONE.** Netlify's local
+Blobs emulator sends no etag on a read, so the first draft's compare-and-swap quietly wrote without a
+version, and fifteen people transmitting at once came out as three messages, every one told it had
+worked. `versioned()` takes the version off a listing on both sides of the read when the read has none,
+and the code never writes without one. **The emulator's conditional write is also not atomic**, so
+concurrency cannot be tested against it at all: the logic was tested against an in-memory store whose
+check-and-write is atomic, with `node --experimental-test-module-mocks`, down both etag paths. Test it
+that way again after touching `updateChannel`.
+
+**THE COMMUNITY CENTER IS LIT BY SUN THROUGH A VENETIAN BLIND, AND IT IS THE ONLY COOL PALE GROUND.**
+§51: painted powder-blue block at ten in the morning, the light chopped into hard diagonal bars,
+stacking chairs, a letterboard over the door, the front desk. **Covenstead is the collision**: the other
+daylit interior with light from one side, where it lands in one warm patch on pink limewash. If this
+light ever pools into a patch, or the paint warms, it has become Covenstead with a noticeboard, and it is
+this room that moves. It is **Dead Tired Society's building in the morning** — there, one hard wedge from
+a corridor and every word in the shade; here, every word on the lit wall. The bars are soft (1.33
+between the bands) because a hard stripe behind a paragraph is something some readers cannot read
+through, and the flat ground under every word is `--ctr-shade`, the darker band. **Varela Round sets
+the letterboard and never a sentence; Radio Canada carries what is read.** The house norms are ours,
+point at [our covenant](https://stimpunks.org/covenant/) rather than restating it, and say out loud that
+a handle proves nothing and BASE is the one mark that is checked.
+
+**THREE NUMBERS AND ONE CREDIT IN THAT ROOM WERE WRITTEN FROM MEMORY AND ALL FOUR WERE WRONG.** Two
+ornament notes in `check-contrast.py` gave ratios that had not been measured (1.14 and 1.13; they are
+1.21 and 1.19), a third said the desk edge was 5.27 when it measured 4.44 and failed, and the Radio
+Canada designers typed into the room's credits named a studio that did not draw it. `pull-foundry.py`
+and the pair list caught every one. **Measure before a number goes in a note, and read a designer off
+the record.** The habit this site keeps attribution for applies to the numbers in its own tools as well.
+
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
 paleness alone — which is what holds it off the Guild, lit from nowhere with no depth. Netlify

@@ -17,33 +17,58 @@ per RFC 9116.
 
 ## What this thing actually is, so you don't waste your time
 
-**[stimpunks.world](https://stimpunks.world/) is a static site.** There is no
-application server, no database, no accounts, no login, no session and no
-server-side code of ours anywhere. It is a directory of HTML files, a stylesheet
-and a handful of scripts, served by Netlify. The tools in `tools/` are local
-scripts that write those files; nothing in them runs on a server.
+**[stimpunks.world](https://stimpunks.world/) is a static site with one small
+exception, the CB.** Every page is a file Netlify serves as-is: a directory of
+HTML files, a stylesheet and a handful of scripts. The tools in `tools/` are
+local scripts that write those files; nothing in them runs on a server.
 
-That shape rules out most of what a report usually concerns:
+**The exception is the CB**, a chat channel patterned after citizens band
+radio, and it is the only server-side code of ours. It is five small Netlify
+Functions in [`netlify/functions/`](netlify/functions/) sharing
+[`netlify/cb/lib.mjs`](netlify/cb/lib.mjs), storing one JSON blob in Netlify
+Blobs: the latest ten messages on the channel, deleted every day at midnight
+Colorado time. There are no accounts and no database. Signing on takes a handle
+and a password we share with the community and rotate; it hands back a pass,
+an HMAC of the handle keyed by the current password, which the browser keeps in
+`localStorage` and sends as an `Authorization` header. Changing the password
+invalidates every pass at once. A second password makes you the base station,
+which can take a message off the channel.
 
-- **No authentication, so no auth bypass.** There is nothing to log in to.
+What that shape rules out, and what it does not:
+
+- **No accounts, so no account takeover.** There is nothing registered. A
+  shared password is not an identity, and handles are not checked; the CB says
+  so on the privacy page and on the counter where people sign on. Impersonating
+  a handle is expected. **Getting a message marked BASE without the
+  moderators' password is not**, and that is worth a report.
 - **No form submits anywhere.** The Content-Security-Policy sets
-  `form-action 'none'`. The Zibaldone's attribution slip composes a block of text
-  onto your own clipboard, and the Adventurer's Guild's hand-in box checks a code
-  in the page; neither sends anything.
-- **No cookies.** Two keys in `localStorage`, both yours and both on your device
-  only: `love-intensity`, the setting you chose on the loudness dial, and
-  `love-quests`, the list of jobs you handed in at the Guild, which has a button
-  that forgets it. The whole list of what the site keeps is on
-  [the privacy page](https://stimpunks.world/privacy.html).
-- **Nothing third-party loads until you press it.** `connect-src` is `'none'`,
-  every script and typeface is self-hosted, and the only other origins the
-  policy names are in `frame-src`, for players that are built only after a
-  press: `youtube-nocookie.com`, `open.spotify.com`, `videopress.com` and
-  `embed.music.apple.com`.
-- **No secrets in the repository**, because there is nowhere to put one.
+  `form-action 'none'`. The CB's boxes send with `fetch`, to this site only. The
+  Zibaldone's attribution slip composes a block of text onto your own clipboard,
+  and the Adventurer's Guild's hand-in box checks a code in the page; neither
+  sends anything.
+- **No cookies.** The pass travels in a header, never a cookie, so no other
+  site can make a browser send it. What `localStorage` holds is listed on
+  [the privacy page](https://stimpunks.world/privacy.html): the dial's setting,
+  the jobs handed in at the Guild, and, once you have signed on, the CB's
+  handle, pass and where you put the radio.
+- **Nothing third-party loads until you press it.** `connect-src` is `'self'`:
+  the CB's radio fetches from this site's own `/cb/` endpoints and nothing on
+  any page can fetch from anywhere else. Every script and typeface is
+  self-hosted, and the only other origins the policy names are in `frame-src`,
+  for players that are built only after a press: `youtube-nocookie.com`,
+  `open.spotify.com`, `videopress.com` and `embed.music.apple.com`.
+- **No secrets in the repository.** The CB's two passwords live in Netlify's
+  environment as `CB_PASSWORD` and `CB_MOD_PASSWORD`, and never in this repo.
 
 **What is in scope, and is worth telling us about:**
 
+- **Anything in the CB.** Reading or writing the channel without a valid pass,
+  forging a pass or the BASE mark, reading what anybody said after midnight
+  (Colorado time), getting a stranger's words onto a page as markup rather than
+  text, or finding an IP address, handle or message anywhere the privacy page
+  says there is none. Password guessing is rate-limited by Netlify per address;
+  a way round that limit is in scope, and a report that the password can be
+  guessed slowly is not.
 - **Anything that makes a page contact a third party before somebody presses
   play.** "Nothing plays until you press play" is printed on the site, so a
   request that leaves on load is a false statement on a published page as well
@@ -61,7 +86,7 @@ That shape rules out most of what a report usually concerns:
 - A supply-chain problem in a file we serve — the typefaces in
   [`fonts/`](fonts/), the audio in `audio/`, the images.
 
-**Out of scope:** missing headers with no demonstrated impact on a static site,
+**Out of scope:** missing headers with no demonstrated impact on the static pages,
 scanner output with no working proof, and anything about Netlify's, GitHub's or
 an embedded player's own infrastructure — report those to them.
 

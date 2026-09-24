@@ -88,7 +88,16 @@ csp = (
     # what it permits is exactly one page of ours embedding another page of ours.
     # X-Frame-Options above it is SAMEORIGIN for the same reason, since it has no
     # 'none' that means anything different.
-    "frame-ancestors 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; "
+    "frame-ancestors 'self'; img-src 'self'; font-src 'self'; "
+    # connect-src is 'self' and NOT 'none', and that is the second loosening in
+    # this policy. The CB (cb.js, netlify/functions/cb-*) is the one thing on the
+    # site that sends anything: its radio asks this site's own /cb/ endpoints
+    # for the channel while it is open. 'self' lets a page fetch from
+    # stimpunks.world and nowhere else, so no page can send anything to anybody
+    # but us -- which is the sentence privacy.html now prints. Ryan's call,
+    # 2026-09-24. Do not widen it past 'self': a realtime service somewhere else
+    # would be a third party every signed-on visitor talked to on every page.
+    "connect-src 'self'; "
     # Every third-party origin here is read off love-embed.js above, so the
     # browser is told exactly what the script will try to build. 'self' is not
     # in that array and is added here: it is the laptop in the Hermitage's cave

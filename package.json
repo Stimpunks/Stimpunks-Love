@@ -1,0 +1,9 @@
+{
+  "name": "stimpunks-world",
+  "private": true,
+  "description": "Only here for the CB. The site is static files with no build step; this lists the one library the CB's Netlify Functions need, so Netlify installs it when it bundles them. Nothing in it is a build tool and nothing runs when a page is served.",
+  "license": "CC-BY-SA-4.0",
+  "dependencies": {
+    "@netlify/blobs": "11.1.1"
+  }
+}

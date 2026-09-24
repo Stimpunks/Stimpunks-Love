@@ -1,0 +1,116 @@
+/* =============================================================================
+   The CB radio, drawn inside its own shadow root by cb.js.
+
+   NOTHING ON THE STREET CAN REACH IN HERE AND NOTHING IN HERE REACHES OUT. Every
+   room styles its own links, paragraphs and buttons with rules that would have
+   matched a radio appended to <body> -- the skip link's twenty-one rooms, again
+   -- so this sheet is the only one that applies to the radio, and it applies to
+   nothing else. The colours are love.css §2's --cb-* tokens, which inherit into
+   a shadow root, so check-contrast.py measures them where it measures everything.
+
+   IT KEEPS ITS OWN CLOTHES IN EVERY ROOM, the dial's precedent: a piece of
+   furniture that is the same object wherever it turns up. It does not take a
+   room's colours, and no room may dress it.
+
+   NOTHING IN IT MOVES AT ANY SETTING. No blinking receive lamp, no pulse when a
+   message lands, no transition: "no alerts" is a promise on privacy.html, and a
+   lamp that lights up when somebody talks is an alert with the sound off.
+   ============================================================================= */
+:host { all: initial; }
+[hidden] { display: none !important; }
+.sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.cb-radio {
+  position: fixed; z-index: 90;
+  width: min(360px, calc(100vw - 16px));
+  box-sizing: border-box;
+  background: var(--cb-case);
+  border: 2px solid var(--cb-steel-2);
+  border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .55);
+  color: var(--cb-steel);
+  font: 15px/1.45 'Atkinson Hyperlegible', system-ui, sans-serif;
+  text-align: left;
+}
+.cb-radio *, .cb-radio *::before, .cb-radio *::after { box-sizing: border-box; }
+.cb-radio p { margin: 0; }
+.cb-radio a { color: var(--cb-amber); }
+.cb-radio :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+
+.cb-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 8px 6px 12px;
+  background: var(--cb-bar);
+  border-radius: 8px 8px 0 0;
+  cursor: grab; touch-action: none; user-select: none;
+}
+.cb-radio--folded .cb-bar { border-radius: 8px; }
+.cb-radio--held .cb-bar { cursor: grabbing; }
+.cb-name { flex: 1 1 auto; display: flex; align-items: baseline; gap: 10px; }
+.cb-brand { font-family: 'Bungee', system-ui, sans-serif; font-size: 15px; letter-spacing: .08em; }
+.cb-chan {
+  font-family: 'VT323', ui-monospace, monospace; font-size: 20px; line-height: 1;
+  color: var(--cb-amber); background: var(--cb-lcd);
+  padding: 2px 7px; border-radius: 3px;
+}
+
+.cb-btn {
+  min-height: 44px; min-width: 44px; padding: 6px 11px;
+  font: 700 13px/1.2 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .02em;
+  color: var(--cb-steel); background: var(--cb-case);
+  border: 2px solid var(--cb-steel-2); border-radius: 6px; cursor: pointer;
+}
+.cb-btn:hover { border-color: var(--cb-steel); }
+.cb-btn[aria-pressed="true"] { border-color: var(--cb-amber); }
+.cb-move { cursor: move; }
+
+.cb-set { padding: 10px 12px 12px; display: grid; gap: 10px; }
+.cb-who { font-size: 14px; }
+.cb-tag {
+  display: inline-block; margin-left: 8px; padding: 0 5px;
+  font: 700 11px/1.5 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .1em;
+  color: var(--cb-lcd); background: var(--cb-amber); border-radius: 2px;
+  vertical-align: 1px;
+}
+
+/* The readout. Amber on near-black, because that is what the set's display is,
+   and because it is the highest-contrast thing on the radio. */
+.cb-lcd {
+  background: var(--cb-lcd); color: var(--cb-amber);
+  border: 2px solid #000; border-radius: 6px;
+  padding: 8px 10px;
+}
+.cb-log {
+  list-style: none; margin: 0; padding: 0;
+  max-height: min(42vh, 320px); overflow-y: auto;
+  display: grid; gap: 9px;
+}
+.cb-msg { display: grid; gap: 2px; }
+.cb-head { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.cb-handle { font-weight: 700; }
+.cb-time { margin-left: auto; font-size: 13px; color: var(--cb-amber-2); }
+.cb-text { overflow-wrap: anywhere; }
+.cb-msg .cb-tag { margin-left: 0; }
+.cb-take {
+  justify-self: start; min-height: 44px;
+  color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2);
+}
+.cb-quiet { color: var(--cb-amber-2); font-size: 14px; }
+
+.cb-lab { display: block; font-size: 13px; margin-bottom: 4px; }
+.cb-row { display: flex; gap: 8px; }
+.cb-say {
+  flex: 1 1 auto; min-width: 0; min-height: 44px; padding: 6px 10px;
+  font: 15px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif;
+  color: var(--cb-amber); background: var(--cb-lcd);
+  border: 2px solid var(--cb-steel-2); border-radius: 6px;
+}
+.cb-said { font-size: 13px; min-height: 0; }
+.cb-said:empty { display: none; }
+.cb-tools { display: flex; flex-wrap: wrap; gap: 8px; }
+.cb-norms { font-size: 13px; }
+
+@media print { .cb-radio { display: none; } }

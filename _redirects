@@ -31,3 +31,15 @@ http://www.stimpunks.love/*           https://stimpunks.world/:splat  301!
 # why queering.earth kept its own commented until 2026-09-07.
 https://stimpunks-love.netlify.app/*  https://stimpunks.world/:splat  301!
 http://stimpunks-love.netlify.app/*   https://stimpunks.world/:splat  301!
+
+# THE CB'S PLUMBING IS NOT PART OF THE STREET. The site publishes its own root
+# (publish = "." in netlify.toml), and the CB brought the first things into that
+# root that are not pages: netlify/, which holds the functions' source, and the
+# node_modules/ Netlify installs from package.json to bundle them. Neither is
+# secret -- the source is on GitHub and holds no password -- but neither is a
+# room either, and a library served at a public address is a surface nobody
+# chose to publish. Forced, because both would otherwise be real files.
+/node_modules/*   /404.html   404!
+/netlify/*        /404.html   404!
+/package.json     /404.html   404!
+/package-lock.json /404.html  404!

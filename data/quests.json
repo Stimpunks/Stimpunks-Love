@@ -1567,6 +1567,41 @@
         ]
       },
       "learned": "Mutual aid goes sideways and charity comes down. Solidarity, not charity, and no proof of worthiness required."
+    },
+    {
+      "id": "community-letter",
+      "page": "community-center.html",
+      "room": "Community Center",
+      "title": "The door the radio waits outside",
+      "posted": "There is a radio on this street that follows you from room to room once you have switched it on. There is one door it will not go through. Find out which, and why.",
+      "rank": 1,
+      "takes": "about as long as it takes to read a noticeboard",
+      "target": "a push-in letter, fallen off the letterboard",
+      "code": "TENFOUR",
+      "learned": "A room's promise about itself holds even against the street's own furniture. The Healing Checkpoint says it writes nothing down about you, so the radio that remembers where you put it waits outside, rather than the room's promise being quietly narrowed to fit the radio.",
+      "hints": [
+        "On the street itself, in the row of shopfronts: the powder-blue one with its blinds half down.",
+        "Inside, under the front desk, there is a list of how the radio works. The last thing on it is a room.",
+        "Right at the foot of the hall, under the section about whose this is, where something fell off the letterboard."
+      ],
+      "ask": {
+        "question": "Which room does the CB's radio stay out of?",
+        "accept": [
+          "the healing checkpoint",
+          "healing checkpoint",
+          "room 429",
+          "429",
+          "the checkpoint",
+          "checkpoint"
+        ],
+        "answer": "The Healing Checkpoint",
+        "why": "Room 429 promises that it writes nothing down about you and has no fetch in it. The radio listens to a server and remembers where you put it, so it would make that promise untrue, and it waits outside the door instead.",
+        "hints": [
+          "It is the last thing in the list headed How the radio works.",
+          "It is a guest room with a bed nobody is charging you for.",
+          "Its room number is 429."
+        ]
+      }
     }
   ],
   "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

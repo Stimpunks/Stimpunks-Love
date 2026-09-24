@@ -1017,7 +1017,30 @@
     }
   }
 
-  function go() { dial(); playhouse(); soundboard(); superposition(); sequences(); yurtEggs(); }
+  /* ── The CB ──────────────────────────────────────────────────────────────
+     Loads the radio, and only when somebody has already signed on at the
+     Community Center: until then cb.js is not so much as downloaded, so a
+     visitor who never signs on is on a street that sends nothing. It does not
+     load inside a frame -- the laptop in the Hermitage's cave shows this site
+     inside itself, and one radio is enough -- and it does not load on a page
+     whose <body> says data-cb="off". The Healing Checkpoint says so, because a
+     room that promises it writes nothing down about you is not a room with a
+     radio in it; make-checkpoint.py refuses that page without the attribute.
+     The Community Center loads cb.js itself, so this skips that page too. */
+  function cb() {
+    var b = document.body;
+    if (!b || b.getAttribute('data-cb') === 'off' || b.getAttribute('data-cb') === 'here') return;
+    try { if (window.top !== window.self) return; } catch (e) { return; }
+    var s = null;
+    try { s = localStorage.getItem('love-cb'); } catch (e) { return; }
+    if (!s || s.indexOf('"pass"') < 0) return;
+    var tag = document.createElement('script');
+    tag.src = '/cb.js';
+    tag.defer = true;
+    document.head.appendChild(tag);
+  }
+
+  function go() { dial(); playhouse(); soundboard(); superposition(); sequences(); yurtEggs(); cb(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
   else go();
 })();

@@ -1190,5 +1190,33 @@
       "src": "https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HSMIG81Rb0JcBao.woff2",
       "note": "Vital Plant Living (§50), every word that is read: the pantry, the ticket, the notes on the board. An open, round-shouldered grotesque that is easy going down a long list, which is most of that page. Latin subset only, which is why the room does not claim the face's Vietnamese. Two weights, two files, no italic shipped."
     }
+  ],
+  "varela-round": [
+    {
+      "file": "varela-round-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 15884,
+      "src": "https://fonts.gstatic.com/s/varelaround/v21/w8gdH283Tvk__Lua32TysjIfp8uPLdshZg.woff2",
+      "note": "The Community Center (§51), the letterboard and nothing else: the room's name, the line over it and the headings, set in capitals the way push-in plastic letters sit in ribbed felt. Rounded ends, because moulded letters have them. One weight, one file, no italic shipped. Never a sentence: a letterboard says four words at a time."
+    }
+  ],
+  "radio-canada": [
+    {
+      "file": "radio-canada-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 25268,
+      "src": "https://fonts.gstatic.com/s/radiocanada/v26/XRXG3ISXn0dBMcibU6jlAqr3ejLv5OLZYiYXik6dRW_Qfub6AVw.woff2",
+      "note": "The Community Center (§51), every word that is read: the house norms, the counter, the notes. A plain humanist sans for a civic room, and yes, it was drawn for a broadcaster, which is the one joke the room allows itself about the radio. It ships as a variable font, so Google serves the same file for 400 and 700; it is downloaded once and declared twice against the weight axis, Space Grotesk's call. No italic shipped."
+    },
+    {
+      "file": "radio-canada-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 25268,
+      "src": "https://fonts.gstatic.com/s/radiocanada/v26/XRXG3ISXn0dBMcibU6jlAqr3ejLv5OLZYiYXik6dRW_Qfub6AVw.woff2",
+      "note": "Byte-identical to the 400 above; see that note."
+    }
   ]
 }

@@ -314,6 +314,20 @@ for h in held:
         f'<td><a href="{esc(h["where"])}">where it lives</a></td></tr>')
 swap(CREDITS, "checkpoint-credits", "\n".join(credit_rows), "      ")
 
+# ── No radio in room 429 ─────────────────────────────────────────────────────
+# The CB floats on every page of the street once somebody has signed on, and
+# love.js keeps it off any page whose <body> carries data-cb="off". This room
+# says it writes nothing down about you and has no fetch in it, which stops being
+# true the moment a radio that polls a server turns up in the corner -- Ryan's
+# call, 2026-09-24: keep it out. The attribute is one word in a hand-kept <body>
+# tag that nothing else would miss, so it is refused here rather than trusted.
+if not re.search(r'<body[^>]*\bdata-cb="off"', ROOM.read_text()):
+    raise SystemExit(
+        "REFUSING: healing-checkpoint.html's <body> has lost data-cb=\"off\", so the CB\n"
+        "would float in room 429. That room promises no fetch and nothing written down\n"
+        "about you; the radio polls a server and remembers where you put it. Put the\n"
+        "attribute back.")
+
 # ── The page's own copy, swept ───────────────────────────────────────────────
 # AFTER the write rather than before it, so what is checked is what is
 # published. check-quests.py reads the built HTML for the same reason: a

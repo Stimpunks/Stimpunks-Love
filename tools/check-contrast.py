@@ -78,6 +78,19 @@ SUNFLOWER, SCREEN = "#E8C33A", "#A3D4DF"
 # dangerous colours rather than the greys, and --bloom was darkened twice before
 # it passed on the noon ground.
 NOON, NOON2 = "#F7F3E6", "#ECE6D2"
+# The Community Center (love.css §51). Powder-blue block under bars of sun
+# through a blind. Every word is on the wall, and CTR_SHADE is the flat ground
+# under all of it: the darker band, and so the worse case for dark ink. CTR_LIT
+# is what a bar of sun makes of the same paint -- the rgba stripe composited over
+# the shade, and within a hair of --ctr-lit, which the door's slats use flat.
+CTR_SHADE, CTR_LIT, CTR_MORTAR = "#B7CCD9", "#DCE8EF", "#A3BACA"
+CTR_INK, CTR_INK2, CTR_LINK = "#132238", "#2F4459", "#7E250A"
+CTR_FELT, CTR_LETTER, CTR_RIB = "#1C1D20", "#F3F1EA", "#2A2B30"
+CTR_DESK, CTR_EDGE, CTR_CHAIR = "#EFE4CF", "#6A553A", "#E0662A"
+# The CB radio, which floats in every room once somebody has signed on. Read the
+# note beside --cb-case in love.css §2.
+CB_CASE, CB_BAR, CB_STEEL, CB_STEEL2 = "#121315", "#24272B", "#D8DCE1", "#A3AAB3"
+CB_LCD, CB_AMBER, CB_AMBER2 = "#1B1305", "#FFB83F", "#D9A042"
 SKY_H, SKY_2 = "#BCDDEA", "#E4F0F1"   # --daysky, --daysky-2
 FURROW, FURROW2 = "#16291C", "#34483A"
 SPROUT, SPROUT2, BLOOM = "#2C6B45", "#1D4D30", "#B5760A"   # --sprout, --sprout-2
@@ -2031,6 +2044,52 @@ PAIRS = [
     # spare white-headed pin: white card on the mat, to the body threshold.
     (MM_FACE,  MM_MAT,   False, "map: every tent, sign and tag against the mat, and the job marker, a spare pin"),
 
+    # ── The Community Center (§51) ───────────────────────────────────────────
+    (CTR_INK,   CTR_SHADE,  False, "community: the lede, every paragraph, the house norms and the "
+                                   "list of how the radio works, on the wall where the slats' shadow falls"),
+    (CTR_INK,   CTR_LIT,    False, "community: the same words where a bar of sun lands on them"),
+    (CTR_INK,   CTR_MORTAR, False, "community: any glyph that crosses a mortar joint in the block"),
+    (CTR_INK2,  CTR_SHADE,  False, "community: the trail, the fine print, the list numbers, the line "
+                                   "of credits"),
+    (CTR_INK2,  CTR_LIT,    False, "community: the fine print in a bar of sun"),
+    (CTR_INK2,  CTR_MORTAR, False, "community: the fine print across a mortar joint"),
+    (CTR_LINK,  CTR_SHADE,  False, "community: every link on the wall and the backlink"),
+    (CTR_LINK,  CTR_LIT,    False, "community: a link in a bar of sun"),
+    (CTR_LINK,  CTR_MORTAR, False, "community: a link across a mortar joint"),
+    (CTR_LETTER, CTR_FELT,  False, "community: every push-in letter on the letterboard and on the "
+                                   "felt strip each heading is set in, and the focus ring there"),
+    (CTR_LETTER, CTR_RIB,   False, "community: a letter where it crosses one of the felt's grooves"),
+    (CTR_INK,   CTR_DESK,   False, "community: every word on the front desk, the labels, what you type"),
+    (CTR_INK2,  CTR_DESK,   False, "community: the fine print under the counter"),
+    (CTR_LINK,  CTR_DESK,   False, "community: the links on the front desk"),
+    (CTR_DESK,  CTR_INK,    False, "community: Sign on and Sign off, desk-coloured on ink"),
+    (CTR_DESK,  CTR_INK2,   False, "community: a button under the pointer"),
+    (CTR_EDGE,  CTR_DESK,   False, "community: the desk's edge against its own top, held to the "
+                                   "body threshold so the counter reads as a thing standing there"),
+    (CTR_INK,   CTR_DESK,   False, "community: the outline carrying every part of the radio on the desk"),
+    (CTR_INK,   CTR_SHADE,  False, "community: the job marker, a push-in letter carried by its ink outline"),
+    (CTR_INK,   CTR_LIT,    False, "community: the door on the street -- its name on the powder blue, "
+                                   "where a slat catches the sun"),
+
+    # ── The CB radio (cb.css, tokens in love.css §2) ─────────────────────────
+    # Furniture, not a room: it floats in every room once somebody has signed on,
+    # inside a shadow root no room can reach, so these pairs are the whole of
+    # what it can ever put on a screen. It keeps its own clothes everywhere.
+    (CB_STEEL,  CB_CASE,  False, "cb: every word on the case -- who you are on the channel as, the "
+                                 "label over the message box, the status line, every button"),
+    (CB_STEEL,  CB_BAR,   False, "cb: the name on the bar and the bar's buttons' words where the "
+                                 "bar shows round them"),
+    (CB_AMBER,  CB_LCD,   False, "cb: every message, handle and link on the readout, the channel "
+                                 "number, and what you type into the message box"),
+    (CB_AMBER2, CB_LCD,   False, "cb: the time on each message and the line saying nobody has said "
+                                 "anything today"),
+    (CB_AMBER,  CB_CASE,  False, "cb: the link to the house norms, and the focus ring on the case"),
+    (CB_AMBER,  CB_BAR,   False, "cb: the focus ring on the bar's buttons"),
+    (CB_LCD,    CB_AMBER, False, "cb: BASE, the moderators' mark, dark on an amber tag"),
+    (CB_STEEL2, CB_CASE,  False, "cb: every button's border and the case's rim, held to the body "
+                                 "threshold because a button you cannot find the edge of is a "
+                                 "button you cannot find"),
+
 
 
 ]
@@ -2100,6 +2159,13 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#e0662a": "community: the orange of the stacking chairs, 2.07 on the shaded wall and 2.76 in "
+               "the sun. Named in the room's copy and in its palette and never drawn carrying a word.",
+    "#a3baca": "community: the mortar joints of the block and the letterboard's aluminium frame, "
+               "1.21 against the shaded paint. Texture only; every ink is measured against it above "
+               "as well, because a glyph can cross a joint.",
+    "#2a2b30": "community: the grooves in the letterboard's felt, 1.19 against the felt. Texture "
+               "only, and the letters are measured against it above.",
     "#b5562c": "vital: the terracotta of every pot on the shelf, cut open, 2.56 on the wall and 2.95 "
                "against its own soil. Every pot is carried by its --vpl-ink outline at 3.56; it carries no word.",
     "#3a2618": "vital: the soil inside every pot, 7.54 on the wall. It carries no word; what grows in it "

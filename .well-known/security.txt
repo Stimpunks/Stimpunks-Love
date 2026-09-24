@@ -1,7 +1,8 @@
 # stimpunks.world -- Stimpunks Foundation
 #
-# A static site: no server-side code, no accounts, no database, no cookies. The
-# full policy, including what is in scope and what is not, is at the Policy URL
+# A static site with one exception, the CB, a small chat channel on Netlify
+# Functions. No accounts, no database, no cookies. The full policy, including
+# what is in scope and what is not, is at the Policy URL
 # below. Please use the private channel -- issues on the repository are public
 # the moment they are opened.
 

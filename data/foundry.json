@@ -729,6 +729,20 @@
       "sections": [
         17
       ]
+    },
+    "varela-round": {
+      "where": "Community Center",
+      "page": "community-center.html",
+      "sections": [
+        51
+      ]
+    },
+    "radio-canada": {
+      "where": "Community Center",
+      "page": "community-center.html",
+      "sections": [
+        51
+      ]
     }
   }
 }

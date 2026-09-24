@@ -1353,6 +1353,29 @@
     }
    ]
   },
+  "radio-canada": {
+   "family": "Radio Canada",
+   "category": "Sans Serif",
+   "designer": "Charles Daoud, Coppers and Brasses, Alexandre Saumier Demers, Jacques Le Bailly",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/radiocanada",
+   "copyright": "Copyright 2017 The Radio-Canada Project Authors (https://github.com/cbcrc/radiocanadafonts)",
+   "repository": "https://github.com/cbcrc/radiocanadafonts",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "radio-canada-400.woff2",
+     "sha": "46e0e8f81f3318d0"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "radio-canada-400.woff2",
+     "sha": "46e0e8f81f3318d0"
+    }
+   ]
+  },
   "righteous": {
    "family": "Righteous",
    "category": "Display",
@@ -1687,6 +1710,23 @@
      "style": "normal",
      "file": "unifraktur-maguntia-400.woff2",
      "sha": "d98f10104192ccb3"
+    }
+   ]
+  },
+  "varela-round": {
+   "family": "Varela Round",
+   "category": "Sans Serif",
+   "designer": "Joe Prince",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/varelaround",
+   "copyright": "Copyright 2023 The Varela Round Project Authors (https://github.com/alefalefalef/Varela-Round-Hebrew/), with Reserved Font Names Varela and Varela Round.",
+   "repository": "https://github.com/m4rc1e/Varela-Round-Hebrew",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "varela-round-400.woff2",
+     "sha": "2051818aecd1dbbe"
     }
    ]
   },

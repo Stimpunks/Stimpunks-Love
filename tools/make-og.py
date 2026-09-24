@@ -742,6 +742,22 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--vital .og-shelf {{ margin: auto 0 0 !important; line-height: 0; }}
 .og--vital .og-shelf svg {{ display: block; width: 100%; height: auto; }}
 
+/* the community center — THE LETTERBOARD AND THE RADIO ON THE BLUE WALL.
+   The wall and its bars of sun come from the room's own body rule, so the card
+   is lit through the same blind as the hall. The letterboard is the page's own
+   three lines, in the felt and the push-in capitals, and the radio is lifted
+   off the front desk, so there is one drawing of it and not two. The lede is
+   dark ink on the wall, where the room sets every word. */
+.og--community {{ width: 100%; padding: 44px 60px 40px; gap: 18px; justify-content: flex-start; }}
+.og--community .og-row {{ display: flex; gap: 36px; align-items: flex-end; margin: 0 !important; }}
+.og--community .ctr-board {{ margin: 0 !important; flex: 1 1 auto; padding: 26px 34px 28px; }}
+.og--community .ctr-board p {{ margin: 0 !important; font-size: 20px; }}
+.og--community h1 {{ font-size: 84px; line-height: 1.02; margin: 14px 0 !important; }}
+.og--community .og-radio {{ flex: 0 0 300px; margin: 0 !important; line-height: 0; }}
+.og--community .og-radio svg {{ display: block; width: 100%; height: auto; }}
+.og--community .og-lede {{ font-family: 'Radio Canada', sans-serif; color: var(--ctr-ink);
+  max-width: 1060px; font-size: 27px; line-height: 1.4; margin: 6px 0 0 !important; }}
+
 /* the map — A CORNER OF THE MODEL, LIFTED OFF THE PAGE. The mat and its grid
    come from the room's own body rule, and the piece of street on the right is
    the page's own generated lots -- the first few, with the rooms behind them
@@ -2435,6 +2451,38 @@ def card_vital(p):
     )
 
 
+def card_community(p):
+    # THE LETTERBOARD'S THREE LINES ARE LIFTED FROM THE PAGE, the radio is the
+    # front desk's own drawing, and the lede is the page's og:description, so
+    # the card cannot say what the room does not.
+    over = re.search(r'<p class="ctr-over">(.*?)</p>', p["src"], re.S)
+    line = re.search(r'<p class="ctr-board__line">(.*?)</p>', p["src"], re.S)
+    if not over or not line:
+        raise SystemExit(
+            "REFUSING: community-center.html's letterboard has lost its line over the\n"
+            "name or its line under it, and the card is built around both. Redesign\n"
+            "the card on purpose.")
+    o_html, l_html = over.group(1).strip(), line.group(1).strip()
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--community" data-fit="card">'
+        f'<div class="og-row">'
+        f'<header class="ctr-board"><p class="ctr-over">{o_html}</p>{p["h1"]}'
+        f'<p class="ctr-board__line">{l_html}</p></header>'
+        f'<div class="og-radio">{p["radio"]}</div>'
+        f'</div>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>',
+        f"A powder-blue painted block wall with bars of morning sun falling across it at an "
+        f"angle, through a half-open blind. A black felt letterboard in an aluminium frame "
+        f"reads, in white push-in capitals: {plain(o_html)}, then \u201c{p['h1text']}\u201d, then "
+        f"{plain(l_html)}. Beside it, a drawing of a CB base station on a desk, with its aerial "
+        f"up and its microphone on a stand, the channel window reading 19. Under it, in dark "
+        f"ink on the wall: {p['desc_plain']}",
+    )
+
+
 def card_map(p):
     # THE CORNER OF THE MODEL IS LIFTED FROM THE PAGE: the first few lots out of
     # what make-map.py wrote, with the rooms behind them and the back stair left
@@ -2623,6 +2671,7 @@ CARDS = {
     "covenstead":   card_covenstead,
     "samefood":     card_samefood,
     "vital":        card_vital,
+    "community":    card_community,
     "collections":  card_collection,
     "mapping":      card_map,
     "dead-tired":   card_dead_tired,
@@ -2747,6 +2796,7 @@ def main():
         ("doorway",  "dead-tired-society.html", r'(<svg class="dts-doorway".*?</svg>)'),
         ("table",    "samefood-cafe.html", r'(<svg class="sf-table-art".*?</svg>)'),
         ("shelf",    "vital-plant-living.html", r'(<svg class="vpl-shelf-art".*?</svg>)'),
+        ("radio",    "community-center.html", r'(<svg class="ctr-desk__radio".*?</svg>)'),
         ("gallery",  "collection-collection.html", r'(<svg class="cc-gallery".*?</svg>)'),
         ("stage",    "laughingstock.html", r'(<svg class="ls-stage".*?</svg>)'),
         ("house",    "lightbulb-picture-house.html", r'(<svg class="lph-auditorium".*?</svg>)'),

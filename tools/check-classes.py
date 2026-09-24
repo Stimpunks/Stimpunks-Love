@@ -30,7 +30,7 @@ is the bug. The rest of a selector is not a claim: `.room-latibulum .facade` is
 a room dressing a piece of §4's shared furniture, which is what §4 is FOR, and
 calling that a collision would teach people to ignore this tool.
 
-RULES INSIDE AN AT-RULE CLAIM NOTHING. §51 and §52 are entirely @media, and they
+RULES INSIDE AN AT-RULE CLAIM NOTHING. §52 and §53 are entirely @media, and they
 restyle every room on the street by design; they are adjustments to rules that
 already exist rather than worlds of their own. Neither is anywhere to introduce
 a component, so neither can take a name.

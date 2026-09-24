@@ -102,6 +102,7 @@ lightbulb-picture-house.html  Two screens of neurodiversity films, a rack with a
 samefood-cafe.html    A café for samefoods and safe foods, seen from above the table. Nothing on a plate touches anything
 collection-collection.html  A dark gallery of our people's collections, a lamp per cabinet and no two alike. The house describes the photos
 vital-plant-living.html  A plant-based kitchen drawn cut through the middle. Build a bowl or wrap from a real pantry and copy it
+community-center.html A painted block hall, blinds half open. House norms and the front desk for the CB
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 the-garden.html       The knowledge garden. One bed per site we publish, each linking out
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
@@ -118,6 +119,11 @@ changelog.html        What changed, and when. Every Stimpunks site publishes one
 love.css              Shared base (§1–§4) then one self-contained world per room (§5 on)
 love.js               The dial, the toys, the superposition panel
 love-embed.js         The press-to-play facade
+cb.js                 The CB's radio and the front desk. The only script that sends anything; loaded only once signed on
+cb.css                The radio's own sheet, inside its shadow root. No room can reach it
+netlify/functions/    The CB's five functions: sign on, listen, transmit, moderate, the midnight sweep
+netlify/cb/lib.mjs    What they share, and every promise the privacy page makes about the channel
+package.json          Only there for the CB: the one library its functions need. Not a build step
 arcade.js             Quill Drift. Loaded by its own page only; nothing before the coin
 otterly.js            Otterly Adorbs. The same, for the cabinet next to it
 pebbling.js           Penguin Pebbling. Built on the locution, not on the card game
@@ -548,6 +554,15 @@ npx -y serve . -l 8919
 Or start it from `.claude/launch.json`, which is tracked here for the same reason it is in
 every sibling repo. There is no build step; the only thing to install is a Chrome for
 `check-print.py`.
+
+**The CB does not run on that server.** `serve` serves files and nothing else, so `/cb/*`
+answers 404 there and the radio says it has no signal. Everything the CB does is five Netlify
+Functions in `netlify/functions/`, and they run under `netlify dev` (after `npm install`) or on
+the live site. They need two environment variables set in Netlify, never in this repository:
+`CB_PASSWORD`, the shared password, and `CB_MOD_PASSWORD`, the base station's, each at least
+eight characters. **Rotating the password is changing `CB_PASSWORD` and redeploying**: every
+pass is an HMAC keyed by it, so the redeploy signs everybody off at once and there is nothing
+else to clear. Nothing on the channel survives midnight, Colorado time, whatever you do.
 
 ## Attribution
 
