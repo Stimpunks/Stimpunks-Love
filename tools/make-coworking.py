@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Build Cavendish Coworking's doors from data/coworking.json.
 
-A shopfront on the street with every door propped open onto one of our calls:
+A house on the street after Henry Cavendish's in Bedford Square, with a shut and
+unlocked door onto each of our calls:
 the Operations and Editorial meetings, which are open to the world, and the
 room our events meet in. Ryan's brief, 2026-09-25: those meetings have been
 held in our Discord, and many people refuse to use Discord.
@@ -30,9 +31,9 @@ IT ALSO REFUSES:
   · a slot with no time said in words, or no days, or a start that is not a
     clock time -- the page works out the visitor's own hour from these, and the
     words are what a page with no script shows;
-  · Proton Meet framed anywhere on the page. It is a DOOR because Proton's
-    frame-ancestors only lets Proton's own apps frame it (measured 2026-09-25),
-    and a link dressed as a window promises the one thing it cannot do;
+  · Proton Meet framed anywhere on the page. The call is behind the door
+    because Proton's frame-ancestors only lets Proton's own apps frame it
+    (measured 2026-09-25), and a frame dressed as a room would be a blank box;
   · the events page's own closing line, that the meetings are open to Discord
     members and the Discord is where to get the links. It was true until this
     room existed, and it is the friendly edit that will arrive: somebody copying
@@ -41,7 +42,12 @@ IT ALSO REFUSES:
     visitor's clock and time zone to write the hour underneath, which is a thing
     this room has to say out loud and has to keep small;
   · a count of who went through a door, in the room's own voice, with
-    make-guild.py's negation window so the room can say it keeps none.
+    make-guild.py's negation window so the room can say it keeps none;
+  · openness as being on show -- an open plan, doors propped wide, glass all
+    the way along -- in the room's own voice. Ryan's correction, 2026-09-25:
+    transparency does not mean an open floor plan and always-open doors. The
+    room is Henry Cavendish's house now: every door shut, every door saying what
+    is behind it and when, and none of them locked.
 """
 import html
 import json
@@ -67,6 +73,14 @@ FRAME = re.compile(r"<iframe[^>]*proton|data-embed-src=\"[^\"]*proton", re.I)
 SENDS = re.compile(
     r"localStorage|sessionStorage|indexedDB|document\.cookie|\bfetch\s*\(|XMLHttpRequest|"
     r"sendBeacon|WebSocket|EventSource|getUserMedia|navigator\.geolocation")
+# Ryan's correction, 2026-09-25, the afternoon the room opened: TRANSPARENCY
+# DOES NOT MEAN AN OPEN FLOOR PLAN AND ALWAYS-OPEN DOORS. The first version was a
+# glass office with every door propped wide, and it read openness as being on
+# show. It is refused in the room's own voice, with the negation window, so the
+# room can still say it has no open plan.
+ON_SHOW = re.compile(
+    r"\b(open[- ]plan|propped (?:wide )?open|always[- ]open|doors? (?:standing |left )?wide open|"
+    r"glass all the way along|nothing to hide)\b", re.I)
 TALLY = re.compile(
     r"\b(attendance|attendees|headcount|visitors?|visits|check-?ins?|"
     r"(?:people|folks|times) (?:went|have gone|came) through)\b", re.I)
@@ -168,19 +182,26 @@ def slot(s):
 
 
 def door(d):
+    # A Coade stone case with its fanlight, a mahogany leaf, a brass plate with the
+    # room's name, and a note pinned to it. THE DOOR IS SHUT AND THE LINK IS THE
+    # HANDLE: nothing is shown propped open, because transparency here is being
+    # able to read what is behind a door and when, not every door standing wide.
     i, name = d["id"], e(d["name"])
     return "\n".join([
         f'    <article class="cw-door" id="door-{i}" aria-labelledby="cw-{i}-h">',
-        f'      <div class="cw-door__pane">',
+        f'      <div class="cw-door__fan" aria-hidden="true"></div>',
+        f'      <div class="cw-door__leaf">',
         f'        <h2 class="cw-door__name" id="cw-{i}-h">{name}</h2>',
-        f'        <p class="cw-door__tag">{e(d["tagline"])}</p>',
-        f'        <p class="cw-door__said">{e(d["said"])}</p>',
-        f'        <ul class="cw-when" data-tz="{e(data["tz"])}">',
-        *[slot(s) for s in d["slots"]],
-        f'        </ul>',
-        f'        <p class="cw-door__from">In the words of <a href="{e(data["page"])}{e(d["anchor"])}">our events page</a>.</p>',
+        f'        <div class="cw-door__note">',
+        f'          <p class="cw-door__tag">{e(d["tagline"])}</p>',
+        f'          <p class="cw-door__said">{e(d["said"])}</p>',
+        f'          <ul class="cw-when" data-tz="{e(data["tz"])}">',
+        *["  " + slot(s) for s in d["slots"]],
+        f'          </ul>',
+        f'          <p class="cw-door__from">In the words of <a href="{e(data["page"])}{e(d["anchor"])}">our events page</a>.</p>',
+        f'        </div>',
         f'        <a class="cw-open" href="{e(d["url"])}">Open the {name} door<span aria-hidden="true"> &rarr;</span></a>',
-        f'        <p class="cw-open__off">Off site: Proton Meet&rsquo;s guest page for the room named {e(d["proton_name"])}. Nothing reaches Proton until you press.</p>',
+        f'        <p class="cw-open__off">Off site: Proton Meet&rsquo;s guest page for the room named {e(d["proton_name"])}. Nothing reaches Proton until you open it.</p>',
         f'      </div>',
         f'    </article>',
     ])
@@ -208,6 +229,12 @@ if m:
            "sentence is the events page's, from before this room, and must not be copied in.")
 ours = re.sub(r"<blockquote\b.*?</blockquote>|<(script|style|svg)\b.*?</\1>", " ", bare, flags=re.S)
 ours = html.unescape(re.sub(r"<[^>]+>", " ", ours))
+for m in ON_SHOW.finditer(ours):
+    window = ours[max(0, m.start() - 48):m.end()]
+    if not NEGATED.search(window):
+        refuse(f"the room says {m.group(0)!r} and is not refusing it. Open here means you can "
+               "read what is behind a door and when, and nothing is locked; it does not mean "
+               "every door propped wide or everybody on show.")
 for m in TALLY.finditer(ours):
     window = ours[max(0, m.start() - 48):m.end()]
     if not NEGATED.search(window):

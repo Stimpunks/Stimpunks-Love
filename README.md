@@ -107,7 +107,7 @@ dopamine-dress-up-den.html  Helen's idea: a boutique for dopamine dressing. Mix 
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 now-playing.html      A poster column beside the Pebble Board. What every room puts on first, read off the rooms
 plural-mural.html     An end wall that repaints itself, because the street is Danny's. By itself at MAX only; propose one in words
-cavendish-coworking.html Glass all the way along, every door open onto one of our calls. Proton Meet links, never frames
+cavendish-coworking.html Henry Cavendish's house: a shut, unlocked door onto each of our calls. Proton Meet links, never frames
 community-library.html  A public reading room with the sky in its windows. Free to all; our collections on the front desk
 l-space.html          Behind it: every library at once, bent by the weight of books. Nothing straight; a ball of string
 oook.html             And behind that: a Discworld homage in the Librarian's colours. He is not drawn

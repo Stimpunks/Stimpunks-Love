@@ -1812,33 +1812,35 @@
       "id": "cavendish-marker",
       "page": "cavendish-coworking.html",
       "room": "Cavendish Coworking",
-      "title": "Who stood off to the side?",
-      "posted": "There is a shopfront on the street that is glass all the way along, with every door in it propped open onto one of our calls. Go in, do not open a door, and find out who the room is named after and which club was his campfire.",
+      "title": "Who signed for his own books?",
+      "posted": "There is a house on the street, green throughout, with a shut door onto each of our calls and not one of them locked. Go in, do not open a door, and find out what the man it is named after signed every time he took a book out of his own library.",
       "rank": 1,
       "takes": "about as long as reading one paragraph, and no call to join",
-      "target": "a whiteboard marker dropped on the carpet, with its cap rolled off beside it",
-      "code": "GLASSDOOR",
-      "learned": "Cavendish Space is named after Henry Cavendish, who needed his cave and also, now and then, the company of a few peers on his own terms. So every door in that room opens straight onto one of our calls with no Discord in the way, and there is a chair by the wall for anybody who would rather come in the way he did.",
+      "target": "a folded note left on the hall floor, with a round seal on it",
+      "code": "FANLIGHT",
+      "learned": "Henry Cavendish opened his library in Bedford Square for borrowing and signed its register for every book he took, like anybody else. A house can be open without being open-plan: what makes it open is that anybody can find out what is behind each door and when, that the rules apply to the people who run it, and that nothing is locked.",
       "hints": [
-        "On the street itself, in the row of shopfronts: the one that is glass all the way along.",
-        "Under the doors, where the room says why it is called Cavendish.",
-        "At the foot of the room, on the carpet, where somebody dropped a pen on the way in."
+        "On the street itself, in the row of shopfronts: the one with its blinds down.",
+        "In the part of the room about the house in Bedford Square.",
+        "At the foot of the room, on the hall floor, where somebody left a note."
       ],
       "ask": {
-        "question": "Henry Cavendish's campfire was a club of the Royal Society named after a day of the week. Which day?",
+        "question": "Every time Henry Cavendish took a book out of his own library, he signed something, like anybody else. What?",
         "accept": [
-          "monday",
-          "mondays",
-          "mondayclub",
-          "themondayclub",
-          "mon"
+          "register",
+          "theregister",
+          "registers",
+          "libraryregister",
+          "theregisterbook",
+          "receipt",
+          "areceipt"
         ],
-        "answer": "Monday",
-        "why": "The Royal Society's Monday Club was where Cavendish came, now and then, to a small set of his peers and on his own terms. Our glossary calls it his campfire, which is one of the three kinds of space Cavendish Space is made of.",
+        "answer": "The register",
+        "why": "The library in Bedford Square had rules, and the rules were his too: he signed its register for every book he took to his other house at Clapham. That is the room's idea of open: the rules on the door apply to the people who run the house.",
         "hints": [
-          "It is in the part of the room about why it is called Cavendish.",
-          "It is the name of the club, and the name is a day.",
-          "The first day of the working week."
+          "It is in the part of the room about the house in Bedford Square.",
+          "It is the book a library keeps of what has gone out.",
+          "One word, and it is also what you do when you sign in somewhere."
         ]
       }
     }

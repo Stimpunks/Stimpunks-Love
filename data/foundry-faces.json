@@ -970,29 +970,6 @@
     }
    ]
   },
-  "inter": {
-   "family": "Inter",
-   "category": "Sans Serif",
-   "designer": "Rasmus Andersson",
-   "licence": "SIL Open Font License 1.1",
-   "licence_url": "https://github.com/google/fonts/tree/main/ofl/inter",
-   "copyright": "Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter)",
-   "repository": "https://www.github.com/rsms/inter",
-   "variants": [
-    {
-     "weight": "400",
-     "style": "normal",
-     "file": "inter-400.woff2",
-     "sha": "c940764593d0fe5d"
-    },
-    {
-     "weight": "700",
-     "style": "normal",
-     "file": "inter-400.woff2",
-     "sha": "c940764593d0fe5d"
-    }
-   ]
-  },
   "italiana": {
    "family": "Italiana",
    "category": "Sans Serif",
@@ -1162,6 +1139,35 @@
      "style": "normal",
      "file": "libre-caslon-display-400.woff2",
      "sha": "d7157ad185167325"
+    }
+   ]
+  },
+  "libre-caslon-text": {
+   "family": "Libre Caslon Text",
+   "category": "Serif",
+   "designer": "Pablo Impallari",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/librecaslontext",
+   "copyright": "Copyright 2020 The Libre Caslon Text Project Authors (https://github.com/thundernixon/Libre-Caslon)",
+   "repository": "https://github.com/thundernixon/Libre-Caslon",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "libre-caslon-text-400.woff2",
+     "sha": "1471d8a9f22ba5c4"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "libre-caslon-text-700.woff2",
+     "sha": "7dc7dc90fb6e140d"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "libre-caslon-text-400-italic.woff2",
+     "sha": "33a3280b9c3adb72"
     }
    ]
   },

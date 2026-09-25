@@ -2598,22 +2598,28 @@ Hermitage's shelf lesson again; the novel is OL453735W, and stimpunks.org's page
 to correct. **Ranganathan's five laws are Wikipedia's wording**, and the room says the 1931
 printing was not checked. Broken on purpose first; all four caught.
 
-**CAVENDISH COWORKING IS LIT BY WHAT THE MEETING ROOMS LET THROUGH, AND A BLIND WOULD PUT IT IN
-THE DARK.** §58 is a shared floor with a row of glass meeting rooms along it, every door propped
-open onto one of our calls (Ryan's brief, 2026-09-25: the Operations and Editorial meetings are open
-to the world, and many people refuse to use Discord). The floor has no light of its own: its ceiling
-panels are drawn off, and every bit of light out there has come through a room's glass. **Default to
-open is what lights the building**, so every word of ours is pale on the floor and every word on a
-door is the room's own, dark in the room's daylight. **Dead Tired Society is the collision, inside
-out**: there you sit in the dark and the corridor's light is one hard wedge through a door ajar; here
-you stand in the corridor and the rooms' light is broad and soft through whole walls of glass, doors
-wide. The Small Hours is a lit room seen from outside at night; the Community Center is lit through a
-blind. **If a blind or a frosted band ever goes on that glass, or the floor gets a lamp, it has lost
-its argument.** The links are the green of a pane's edge, and only the edges are green.
+**CAVENDISH COWORKING IS HENRY CAVENDISH'S HOUSE, AND EVERY DOOR IN IT IS SHUT.** §58 is a Georgian
+house after his library in Bedford Square, green throughout, with a shut and unlocked mahogany door
+onto each of our calls (Ryan's brief, 2026-09-25: the Operations and Editorial meetings are open to
+the world, and many people refuse to use Discord). **It opened the same afternoon as a glass office
+with every door propped wide, and Ryan corrected it: transparency does not mean an open floor plan and
+always-open doors.** Openness here is that anybody can read what is behind each door and when, that
+the rules apply to the people who run the house (Cavendish signed his own library's register), and
+that nothing is locked. `make-coworking.py` refuses the open-plan vocabulary in the room's voice, with
+the negation window, because the glass office is the friendly edit that will come back. **The blinds
+are down and you can see through them**: the house's mahogany blinds were lined with green
+transparent canvas (Jungnickel and McCormmach), which is the light. **Every fact about his houses is
+from their *Cavendish: The Experimental Life*, ch. 11**, read 2026-09-25, and the drawing is ours and
+not a picture of his house; do not add a detail from memory. **The Den is the collision**: panelled,
+green in it, but its walls are brown, its green is the carpet and it has no daylight; here the walls
+are green, the wood is only in the doors, and the light is day. The Jungle Room and the campgrounds
+are the near-black greens; the Mopery is the other old-letters room and is stone after dark; the
+Community Library has the sky in its windows. **If a door is ever drawn open, or the wall goes
+near-black, it has lost its argument.** Caslon for display and text, because it is his century's.
 
-**THE DOORS ARE LINKS, AND THAT WAS MEASURED.** Proton Meet's `frame-ancestors` names only Proton's own
-apps, and our Permissions-Policy gives no page the camera or microphone, so a framed call is a blank
-box. Do not add meet.proton.me to `ORIGINS`. **Each link carries the room's `#pwd-` on purpose**: the
+**THE CALL IS BEHIND THE DOOR, AND THAT WAS MEASURED.** Proton Meet's `frame-ancestors` names only
+Proton's own apps, and our Permissions-Policy gives no page the camera or microphone, so a framed call
+is a blank box. Do not add meet.proton.me to `ORIGINS`. **Each link carries the room's `#pwd-` on purpose**: the
 meetings are open, the password is what takes somebody straight to the name box, and a browser never
 sends a fragment to a server. `tools/make-coworking.py` refuses a door without one. **Every line on a
 door is our events page's, word for word**, re-read from the mirror on every build, in that page's

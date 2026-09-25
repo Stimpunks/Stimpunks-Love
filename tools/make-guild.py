@@ -204,11 +204,12 @@ DRAW = {
     # wall: seen a little from above, in --pm-line, 10.59 on the road, with a
     # ring of yellow paint dried round its rim in --pm-yellow, 7.56, and the
     # kerb line under it in --pm-yellow too, which carries nothing. It lies still.
-    # A dry-wipe marker somebody dropped on the carpet on the way into a call,
-    # with its cap rolled off beside it: the barrel in --cw-text, 12.41 on the
-    # floor, the nib and the cap in --cw-glass, 8.76, and the floor line under it
-    # in --cw-frame, which carries nothing. It lies still.
-    "cavendish-marker": """<path d="M3 28 H29" stroke="var(--cw-frame)" stroke-width="1.6" stroke-linecap="round"/><path d="M8 20 L21 12 L25 18 L12 26 Z" fill="var(--cw-text)"/><path d="M8 20 L12 26 L5 26 Z" fill="var(--cw-glass)"/><path d="M19 13.2 L23 19.2" stroke="var(--cw-frame)" stroke-width="1.6"/><rect x="21" y="22" width="8" height="4.5" rx="2" fill="var(--cw-glass)"/>""",
+    # A note somebody folded and left on the hall floor, the way the house's
+    # business went round in notes: the paper in --cw-card, 7.9 on the painted
+    # wall, the fold and the edge in --cw-ink-2, a round seal on it in
+    # --cw-brass, 5.30, and the skirting under it in --cw-stone, which carries
+    # nothing. It lies still and square.
+    "cavendish-marker": """<path d="M3 28 H29" stroke="var(--cw-stone)" stroke-width="1.6" stroke-linecap="round"/><rect x="5" y="11" width="22" height="14" fill="var(--cw-card)"/><path d="M5 11 L16 19 L27 11" fill="none" stroke="var(--cw-ink-2)" stroke-width="1.4" stroke-linejoin="round"/><circle cx="16" cy="19" r="3.2" fill="var(--cw-brass)"/>""",
     "mural-lid": """<path d="M3 28 H29" stroke="var(--pm-yellow)" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="16" cy="21" rx="12" ry="5.5" fill="var(--pm-line)"/><ellipse cx="16" cy="21" rx="8.5" ry="3.4" fill="none" stroke="var(--pm-yellow)" stroke-width="2"/><path d="M26 23 Q27 26 25.5 27" fill="none" stroke="var(--pm-yellow)" stroke-width="1.6" stroke-linecap="round"/>""",
     # The paste brush the bill went up with, put down on the pavement at the
     # foot of the column: a wide flat brush on a short handle, bristles and

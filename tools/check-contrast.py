@@ -621,11 +621,13 @@ DD_INK2, DD_LINK = "#47306A", "#7C0F50"
 # trail, the marker and the sign-off.
 NP_NIGHT, NP_STOCK, NP_BOTH, NP_COBALT = "#17141E", "#F2ECDF", "#241721", "#2B5BB5"
 
-# Cavendish Coworking (love.css §58). A shared floor with no light of its own and
-# a row of glass meeting rooms along it. Every word of ours is on the floor; every
-# word on a door is the room's own and stands in the room's daylight.
-CW_FLOOR, CW_DEEP, CW_TEXT, CW_DIM = "#23272B", "#191C1F", "#E8EAE5", "#B4BBB6"
-CW_GLASS, CW_DAY, CW_INK, CW_INK2, CW_LINK = "#8FD3BE", "#F2F4EF", "#1B2226", "#46525B", "#1C5B4B"
+# Cavendish Coworking (love.css §58). Henry Cavendish's house in Bedford Square,
+# green throughout, with a shut mahogany door onto each call. Every word of ours
+# is on the painted hall; every word on a door is on its brass plate or on the
+# note pinned to it; the handle is brass on the mahogany.
+CW_WALL, CW_CREAM, CW_DIM, CW_BRASS = "#34503F", "#F1EBDA", "#D3D4C2", "#E3C57A"
+CW_MAHOG, CW_PLATE, CW_PLATE_INK = "#5A2417", "#D9B866", "#2A1A10"
+CW_CARD, CW_INK, CW_INK2, CW_LINK = "#F7F1E1", "#2A2119", "#5B4D3E", "#2F5A36"
 
 # Plural Mural (love.css §54). An end wall seen from across the road at golden
 # hour. Every word is on the road, never on the wall: the markings' white for
@@ -2128,20 +2130,22 @@ PAIRS = [
                                   "ring, and the job marker, a banana skin"),
 
     # ── Cavendish Coworking (§58) ────────────────────────────────────────────
-    (CW_TEXT,  CW_FLOOR, False, "cavendish: every word of ours on the floor -- the h1, every h2, "
-                                "the lede, the lists, the quotation -- and the name on the street door"),
-    (CW_DIM,   CW_FLOOR, False, "cavendish: the trail, the lines over and under the h1, how the "
+    (CW_CREAM, CW_WALL,  False, "cavendish: every word of ours on the hall wall -- the h1, the lede, "
+                                "the lists, the history, the quotations -- and the name on the street door"),
+    (CW_DIM,   CW_WALL,  False, "cavendish: the trail, the lines over and under the h1, how the "
                                 "times work, the citations, the further reading, the street door's blurb"),
-    (CW_GLASS, CW_FLOOR, False, "cavendish: every link on the floor, the backlink, the focus ring, "
-                                "the knock on the street door, and the job marker's nib and cap"),
-    (CW_GLASS, CW_DEEP,  False, "cavendish: the focus ring round a door, drawn on its frame"),
-    (CW_INK,   CW_DAY,   False, "cavendish: every door -- the room's name, what it is for, every "
-                                "time, and the focus ring inside a door"),
-    (CW_INK2,  CW_DAY,   False, "cavendish: every door's own line, an event's line, the hour where "
-                                "you are, where the words came from, and off site"),
-    (CW_LINK,  CW_DAY,   False, "cavendish: every link on a door, to our events page and each event"),
-    (CW_DAY,   CW_INK,   False, "cavendish: the words on the button that opens a door"),
-    (CW_DAY,   CW_LINK,  False, "cavendish: the button that opens a door, under the pointer"),
+    (CW_BRASS, CW_WALL,  False, "cavendish: every link and h2 on the wall, the backlink, the focus "
+                                "ring, the knock on the street door, and the job marker's seal"),
+    (CW_PLATE_INK, CW_PLATE, False, "cavendish: the room's name on every door's brass plate, and the "
+                                "words on the handle"),
+    (CW_INK,   CW_CARD,  False, "cavendish: every note -- the room's own line, what it is for, "
+                                "every time, and the focus ring inside a note"),
+    (CW_INK2,  CW_CARD,  False, "cavendish: an event's line, the hour where you are, and where "
+                                "the words came from"),
+    (CW_LINK,  CW_CARD,  False, "cavendish: every link on a note, to our events page and each event"),
+    (CW_DIM,   CW_MAHOG, False, "cavendish: off site, under the handle, on the mahogany"),
+    (CW_BRASS, CW_MAHOG, False, "cavendish: the focus ring round the handle, on the mahogany"),
+    (CW_PLATE_INK, CW_CARD, False, "cavendish: the handle under the pointer"),
 
     # ── Plural Mural (§54) ───────────────────────────────────────────────────
     (PM_LINE,   PM_ROAD,   False, "plural mural: every word -- the trail, the lines over and under "
@@ -2322,9 +2326,16 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
-    "#66737c": "cavendish: the mullions, door frames, handles, the rules between the times on "
-               "a door and the switched-off ceiling panels, 3.08 on the floor and 4.40 on the "
-               "daylight. It carries no word.",
+    "#5a2417": "cavendish: the mahogany of every door, 1.39 on the hall wall, which is why the "
+               "Coade stone case round it is what separates it (5.76). It carries only the "
+               "plate, the note and the handle, each on a ground of its own, and the line "
+               "under the handle, which is measured as a pair.",
+    "#dccfb3": "cavendish: the Coade stone case, the string course and the glazing bars, 5.76 "
+               "on the wall. It carries no word.",
+    "#eef0dc": "cavendish: the daylight in every fanlight, from the room behind the door. It "
+               "carries no word.",
+    "#86ae8f": "cavendish: the green transparent canvas of the blinds, 3.58 on the wall. It "
+               "carries no word.",
     "#8a5b36": "plural mural: the chalkboard's wooden frame, 2.12 on the road and 2.33 on the "
                "slate. It carries no word. It is also what separates the board from the road, "
                "because the slate itself is 1.10 against the tarmac, and a board is not a control.",
