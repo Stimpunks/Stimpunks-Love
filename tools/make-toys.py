@@ -43,6 +43,23 @@ WHAT IT REFUSES, and why each one is here:
     as a joke about counting. Checked with the negation rule rather than a flat
     ban, because the sentences that REFUSE a tally have to stay sayable.
 
+IT ALSO BUILDS TODAY'S SECRET WORD, because the sign is the same shape of
+problem. The bit is Pee-Wee's Playhouse's -- whenever anybody says the secret
+word, everybody screams -- and here "anybody" is the toys: Chairy, the word
+clock, the telephone and the infodump all say things, and when one of them says
+today's word the whole room loses its mind. So this refuses:
+
+  · A SECRET WORD NOTHING IN THE ROOM EVER SAYS. It would only scream when
+    somebody pressed the sign, which is a secret word nobody says. Every word
+    is matched against every payload the toys carry and every one of Chairy's
+    sayings, with the same pattern love.js uses -- the word, an optional s,
+    word boundaries both ends -- so the two cannot disagree about a hit.
+
+  · A WORD THAT IS NOT ONE PLAIN WORD, because it becomes a regular
+    expression in the browser, and a word that is not a glossary entry of ours.
+
+  · A WORD ON THE ROTA TWICE, which would be a day that is secretly yesterday.
+
 IT CARRIES TWO PAYLOADS IT DOES NOT OWN. Chairy's sayings are written by
 make-chairy.py out of data/chairy.json, and the yell button's recordings by
 make-yells.py out of data/yells.json. This lifts those attributes off the
@@ -197,6 +214,34 @@ def main():
         if t.get("shape") == "pair" and len(t.get("ends", [])) != 2:
             problems.append(f"{where} is a pair and does not have two ends on it.")
 
+    secret = data.get("secret") or {}
+    words = secret.get("words", [])
+    chairy_lines = [c.get("text", "") for c in
+                    json.loads((ROOT / "data/chairy.json").read_text()).get("sayings", [])]
+    said = " \n ".join(strings([t.get(f) for t in toys for f in CARRIES]) + chairy_lines)
+    if not words:
+        problems.append("data/toys.json has no secret words, and the sign says TODAY'S.")
+    if not secret.get("credit"):
+        problems.append("The secret word has no credit. It is Pee-Wee's Playhouse's bit.")
+    seen_word = set()
+    for w in words:
+        word, url = w.get("word", ""), w.get("url", "")
+        if not re.fullmatch(r"[a-z]+", word):
+            problems.append(f"secret word {word!r} is not one plain lowercase word; it "
+                            "becomes a regular expression in love.js.")
+            continue
+        if word in seen_word:
+            problems.append(f"secret word {word!r} is on the rota twice.")
+        seen_word.add(word)
+        if not url.startswith(OURS + "glossary/"):
+            problems.append(f"secret word {word!r} points at {url!r}, which is not one "
+                            "of our glossary entries.")
+        if not heard(word).search(said):
+            problems.append(
+                f"secret word {word!r} is never said by anything in this room, so it "
+                "could only scream when somebody pressed the sign. The bit is that it "
+                "comes up in conversation.")
+
     if problems:
         raise SystemExit("REFUSING:\n  " + "\n  ".join(problems))
 
@@ -266,16 +311,67 @@ def main():
             f"REFUSING: {PAGE.name} has no {begin} / {end} markers, so there is nowhere\n"
             "to write. Put them back rather than letting this tool go quiet — a\n"
             "generator that writes nothing and exits 0 is how two surfaces drift apart.")
-    PAGE.write_text(re.sub(re.escape(begin) + r".*?" + re.escape(end),
-                           lambda m: begin + "\n" + block + "\n  " + end,
-                           src, flags=re.S))
+    src = re.sub(re.escape(begin) + r".*?" + re.escape(end),
+                 lambda m: begin + "\n" + block + "\n  " + end, src, flags=re.S)
+
+    s_begin, s_end = "<!-- secret:begin -->", "<!-- secret:end -->"
+    if s_begin not in src or s_end not in src:
+        raise SystemExit(f"REFUSING: {PAGE.name} has no {s_begin} / {s_end} markers.")
+    src = re.sub(re.escape(s_begin) + r".*?" + re.escape(s_end),
+                 lambda m: s_begin + "\n" + sign(secret) + "\n    " + s_end,
+                 src, flags=re.S)
+    PAGE.write_text(src)
 
     pairs = sum(1 for t in toys if t.get("shape") == "pair")
     ideas = sum(1 for t in toys if t.get("wears"))
+    print(f"toys: secret word rota written, every word said by something in the room")
     print(f"toys: {len(toys)} tiles, {len(toys) + pairs} controls, {len(toys)} fills none "
           f"alike, {ideas} wearing a named idea")
     for k in kept:
         print(f"      carried across: {k}")
+
+
+def strings(v):
+    """Every string inside a payload, however deeply it is nested."""
+    if isinstance(v, str):
+        return [v]
+    if isinstance(v, dict):
+        return [x for k in v.values() for x in strings(k)]
+    if isinstance(v, (list, tuple)):
+        return [x for k in v for x in strings(k)]
+    return []
+
+
+def heard(word):
+    """love.js's pattern for a hit, exactly: see heard() there."""
+    return re.compile(rf"\b{word}s?\b", re.I)
+
+
+def sign(secret):
+    """TODAY'S SECRET WORD. The markup shows the first word on the rota, which is
+    what a page with no scripts keeps; love.js picks the visitor's own day out of
+    data-words and marks it in the rota. The button ships hidden for the same
+    reason the toys' readouts do: no script, no dead control. The rota is a
+    <details>, so every word is on the page at every setting and with scripts
+    off -- nothing here is behind chance, the oracle deck's rule."""
+    words = secret["words"]
+    first = words[0]
+    rota = "\n".join(f'          <li><a href="{e(w["url"])}">{e(w["word"])}</a></li>'
+                     for w in words)
+    return f'''    <section class="secret" style="flex:0 1 320px;" data-words="{e("|".join(w["word"] for w in words))}" data-urls="{e("|".join(w["url"] for w in words))}">
+      <h2>TODAY&rsquo;S SECRET WORD</h2>
+      <p class="secret__word">{e(first["word"].upper())}</p>
+      <small class="secret__rule">When anybody in this room says it, everybody screams. You know what to do. (<a class="secret__means" href="{e(first["url"])}">what it means</a>)</small>
+      <button type="button" class="secret__say" hidden>SAY IT OUT LOUD</button>
+      <span class="secret__said" aria-hidden="true" hidden></span>
+      <details class="secret__rota">
+        <summary>Every secret word, one a day</summary>
+        <ol>
+{rota}
+        </ol>
+      </details>
+      <small class="secret__credit">The secret word is <a href="liner-notes.html">{secret["credit"]}</a>&rsquo;s, where everybody screams. Groucho Marx had one first, on <i>You Bet Your Life</i>, and a duck came down.</small>
+    </section>'''
 
 
 ONES = ("zero one two three four five six seven eight nine ten eleven twelve "

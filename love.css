@@ -3003,8 +3003,50 @@ html[data-intensity="gentle"] .polaroid { transform: none; }
 .secret { background: var(--red); border: 5px solid #101014; border-radius: 20px; padding: 18px 20px; transform: rotate(2deg); }
 html[data-intensity="gentle"] .secret { transform: none; }
 .secret h2 { font-family: 'Bungee', var(--sans); font-size: 13px; letter-spacing: 1px; color: var(--yellow); margin: 0; }
-.secret p  { font-family: 'Titan One', var(--sans); font-size: clamp(30px,4.6vw,42px); line-height: 1; color: #fff; margin: 7px 0 8px; }
-.secret small { font-size: 13px; color: #ffe0e2; font-weight: 500; }
+/* BY CLASS, NOT BY ELEMENT. These were `.secret p` and `.secret small` while
+   the sign held one of each; the moment it grew a rota and a credit, both rules
+   would have reached things they were never written for, which is exactly how
+   `.toy--orange span` put four readouts at 1.00:1. */
+.secret__word { font-family: 'Titan One', var(--sans); font-size: clamp(30px,4.6vw,42px); line-height: 1; color: #fff; margin: 7px 0 8px; overflow-wrap: anywhere; }
+.secret__rule, .secret__credit { display: block; font-size: 13px; line-height: 1.45; color: #ffe0e2; font-weight: 500; }
+.secret__credit { margin-top: 12px; font-size: 12px; }
+/* The button is the says-box in miniature: yellow on the room's near-black,
+   which is a pair already measured, so pressing it adds no ground nobody has
+   looked at. So is the readout, which is every toy's readout. */
+.secret__say {
+  display: block; margin-top: 12px; cursor: pointer;
+  font-family: 'Bungee', var(--sans); font-size: 13px; letter-spacing: .5px;
+  background: #101014; color: var(--yellow);
+  border: 3px solid #101014; border-radius: 12px; padding: 10px 14px;
+  transition: transform .12s ease;
+}
+.secret__say:hover { transform: translateY(-2px); }
+.secret__say:active { transform: translateY(2px); }
+.secret__said {
+  display: block; margin-top: 10px; padding: 9px 11px;
+  background: #101014; color: var(--cream); border-radius: 10px;
+  font-size: 12.5px; line-height: 1.45; font-weight: 500;
+}
+.secret__rota { margin-top: 12px; font-size: 13px; color: #fff; }
+.secret__rota summary { cursor: pointer; font-weight: 700; }
+/* A wrapping row rather than columns: the longest word on the rota is most of
+   a column wide at 13px, and a numbered column ran it into its neighbour. Row
+   order is rota order, so the first word is still the first day. */
+.secret__rota ol { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 8px 0 0; padding: 0; list-style: none; line-height: 1.5; }
+.secret__rota li { overflow-wrap: anywhere; }
+.secret__today { font-weight: 800; }
+/* EVERYBODY SCREAMS AND THE SIGN JUMPS, AT MAX AND NOWHERE ELSE. Regular is
+   motion on hover and focus, and a scream is neither, so at Regular and Gentle
+   the words say it and the sign holds still. A translate and a scale, never a
+   flash: nothing in this room strobes, and rotation is all check-gentle.py can
+   read, so the jump adds none beyond the tilt the sign already wears. */
+@keyframes secret-jump {
+  0%, 100% { transform: rotate(2deg); }
+  25%      { transform: rotate(2deg) translateY(-12px) scale(1.05); }
+  50%      { transform: rotate(2deg) translateY(3px); }
+  75%      { transform: rotate(2deg) translateY(-5px); }
+}
+html[data-intensity="max"] .secret--heard { animation: secret-jump .7s ease-out; }
 
 .toys { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; margin: 0; padding: 0; list-style: none; }
 @media (max-width: 620px) { .toys { grid-template-columns: 1fr; } }

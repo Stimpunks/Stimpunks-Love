@@ -702,6 +702,12 @@ PAIRS = [
     (YELLOW,   RED, False, "playhouse: secret-word label 13px"),
     ("#ffffff", RED, True,  "playhouse: the secret word itself"),
     ("#ffe0e2", RED, False, "playhouse: secret-word small print"),
+    # The sign grew a rota, a credit, a button and a readout on 2026-09-25.
+    # White on the red carries the rota's links and summary at 13px, so it is
+    # held at the body threshold here rather than riding on the display pair.
+    ("#ffffff", RED, False, "playhouse: secret-word rota and its links"),
+    ("#ffe0e2", RED, False, "playhouse: secret-word credit line, 12px"),
+    (YELLOW, "#101014", False, "playhouse: SAY IT OUT LOUD button"),
     # THE LINKS, WHICH NOBODY HAD DECIDED UNTIL 2026-09-21. The room's `a` was
     # yellow and every link on the page sits either on the blue ground or
     # inside a white card: 3.88 and 1.31, both live, neither visible to this

@@ -156,5 +156,77 @@
         }
       ]
     }
-  ]
+  ],
+  "secret": {
+    "_source": "The secret word is Pee-Wee's Playhouse's, Paul Reubens's show: every episode had one, and whenever anybody said it, everybody screamed. That is the bit this sign borrows, and it credits it on its face. It is not where the secret word started -- Groucho Marx had one on You Bet Your Life, where a duck came down instead -- and the sign says that too, because crediting only the most recent hand is how an idea's history gets shorter every time it is retold. Every word below is a glossary entry, CHECKED AGAINST THE KNOWLEDGE SYSTEM MIRROR'S OWN FRONTMATTER on 2026-09-25 rather than fetched live, for the reason data/toys.json's _source gives.",
+    "_sayable": "EVERY WORD IS ONE SOMETHING IN THIS ROOM ACTUALLY SAYS -- the word clock, Chairy, the infodump, the telephone -- and make-toys.py refuses one that nothing here ever says. The joke is that it comes up in conversation and the room loses its mind; a secret word no toy can say only screams when somebody presses the sign, which is a secret word nobody says.",
+    "_rota": "In this order, one a day, changing at the visitor's own midnight. The whole rota is printed under the sign in a <details>, so a page with no scripts still has every word and nothing is behind chance. Nothing is counted: no tally of screams, no streak of days, nothing kept between visits.",
+    "credit": "Pee-Wee&rsquo;s Playhouse",
+    "words": [
+      {
+        "word": "monotropism",
+        "url": "https://stimpunks.org/glossary/monotropism/"
+      },
+      {
+        "word": "stimpunk",
+        "url": "https://stimpunks.org/glossary/stimpunk/"
+      },
+      {
+        "word": "interdependence",
+        "url": "https://stimpunks.org/glossary/interdependence/"
+      },
+      {
+        "word": "neuroqueer",
+        "url": "https://stimpunks.org/glossary/neuroqueer/"
+      },
+      {
+        "word": "care",
+        "url": "https://stimpunks.org/glossary/care/"
+      },
+      {
+        "word": "masking",
+        "url": "https://stimpunks.org/glossary/masking/"
+      },
+      {
+        "word": "neurodiversity",
+        "url": "https://stimpunks.org/glossary/neurodiversity/"
+      },
+      {
+        "word": "pluralism",
+        "url": "https://stimpunks.org/glossary/pluralism/"
+      },
+      {
+        "word": "stimming",
+        "url": "https://stimpunks.org/glossary/stimming/"
+      },
+      {
+        "word": "emergence",
+        "url": "https://stimpunks.org/glossary/emergence/"
+      },
+      {
+        "word": "ableism",
+        "url": "https://stimpunks.org/glossary/ableism/"
+      },
+      {
+        "word": "neurotype",
+        "url": "https://stimpunks.org/glossary/neurotype/"
+      },
+      {
+        "word": "queer",
+        "url": "https://stimpunks.org/glossary/queer/"
+      },
+      {
+        "word": "intersectionality",
+        "url": "https://stimpunks.org/glossary/intersectionality/"
+      },
+      {
+        "word": "normal",
+        "url": "https://stimpunks.org/glossary/normal/"
+      },
+      {
+        "word": "meritocracy",
+        "url": "https://stimpunks.org/glossary/meritocracy/"
+      }
+    ]
+  }
 }

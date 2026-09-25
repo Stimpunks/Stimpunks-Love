@@ -43,11 +43,40 @@
       <h1>THE PLAYHOUSE</h1>
       <p class="lede" style="margin-top:18px;">This is the room with the toys in it. Every object on this page does something when you touch it, and every object is a real idea from the glossary wearing a costume.</p>
     </div>
-    <section class="secret" style="flex:0 1 320px;">
-      <h2>TODAY'S SECRET WORD</h2>
-      <p>MONOTROPISM</p>
-      <small>You know what to do when somebody says it. (<a href="https://stimpunks.org/glossary/monotropism/" style="color:#fff;">what it means</a>)</small>
+    <!-- Today's secret word. Written by tools/make-toys.py out of the `secret`
+         rota in data/toys.json, which refuses a word nothing in this room ever
+         says. love.js picks the visitor's day. Do not hand-edit. -->
+    <!-- secret:begin -->
+    <section class="secret" style="flex:0 1 320px;" data-words="monotropism|stimpunk|interdependence|neuroqueer|care|masking|neurodiversity|pluralism|stimming|emergence|ableism|neurotype|queer|intersectionality|normal|meritocracy" data-urls="https://stimpunks.org/glossary/monotropism/|https://stimpunks.org/glossary/stimpunk/|https://stimpunks.org/glossary/interdependence/|https://stimpunks.org/glossary/neuroqueer/|https://stimpunks.org/glossary/care/|https://stimpunks.org/glossary/masking/|https://stimpunks.org/glossary/neurodiversity/|https://stimpunks.org/glossary/pluralism/|https://stimpunks.org/glossary/stimming/|https://stimpunks.org/glossary/emergence/|https://stimpunks.org/glossary/ableism/|https://stimpunks.org/glossary/neurotype/|https://stimpunks.org/glossary/queer/|https://stimpunks.org/glossary/intersectionality/|https://stimpunks.org/glossary/normal/|https://stimpunks.org/glossary/meritocracy/">
+      <h2>TODAY&rsquo;S SECRET WORD</h2>
+      <p class="secret__word">MONOTROPISM</p>
+      <small class="secret__rule">When anybody in this room says it, everybody screams. You know what to do. (<a class="secret__means" href="https://stimpunks.org/glossary/monotropism/">what it means</a>)</small>
+      <button type="button" class="secret__say" hidden>SAY IT OUT LOUD</button>
+      <span class="secret__said" aria-hidden="true" hidden></span>
+      <details class="secret__rota">
+        <summary>Every secret word, one a day</summary>
+        <ol>
+          <li><a href="https://stimpunks.org/glossary/monotropism/">monotropism</a></li>
+          <li><a href="https://stimpunks.org/glossary/stimpunk/">stimpunk</a></li>
+          <li><a href="https://stimpunks.org/glossary/interdependence/">interdependence</a></li>
+          <li><a href="https://stimpunks.org/glossary/neuroqueer/">neuroqueer</a></li>
+          <li><a href="https://stimpunks.org/glossary/care/">care</a></li>
+          <li><a href="https://stimpunks.org/glossary/masking/">masking</a></li>
+          <li><a href="https://stimpunks.org/glossary/neurodiversity/">neurodiversity</a></li>
+          <li><a href="https://stimpunks.org/glossary/pluralism/">pluralism</a></li>
+          <li><a href="https://stimpunks.org/glossary/stimming/">stimming</a></li>
+          <li><a href="https://stimpunks.org/glossary/emergence/">emergence</a></li>
+          <li><a href="https://stimpunks.org/glossary/ableism/">ableism</a></li>
+          <li><a href="https://stimpunks.org/glossary/neurotype/">neurotype</a></li>
+          <li><a href="https://stimpunks.org/glossary/queer/">queer</a></li>
+          <li><a href="https://stimpunks.org/glossary/intersectionality/">intersectionality</a></li>
+          <li><a href="https://stimpunks.org/glossary/normal/">normal</a></li>
+          <li><a href="https://stimpunks.org/glossary/meritocracy/">meritocracy</a></li>
+        </ol>
+      </details>
+      <small class="secret__credit">The secret word is <a href="liner-notes.html">Pee-Wee&rsquo;s Playhouse</a>&rsquo;s, where everybody screams. Groucho Marx had one first, on <i>You Bet Your Life</i>, and a duck came down.</small>
     </section>
+    <!-- secret:end -->
   </header>
 
   <p id="playhouse-says" role="status" aria-live="polite" style="margin:24px 0 0;min-height:56px;background:#101014;border:5px solid #fff;border-radius:18px;padding:16px 20px;font-family:'Bungee',sans-serif;font-size:16px;line-height:1.4;color:var(--yellow);">Press something. Every toy answers on itself, and this box keeps saying what happened, out loud, for anyone who cannot see the room wobble.</p>

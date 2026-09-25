@@ -1089,6 +1089,16 @@ left, found again in an older room, and found by looking at the page rather than
 The room decides at each ground it actually has now. A room that adds a link to a ground it has
 not decided a colour for is repeating this.
 
+**TODAY'S SECRET WORD IS SAID BY THE TOYS, AND `make-toys.py` REFUSES ONE THEY NEVER SAY.** Pee-Wee's
+Playhouse's bit (whenever anybody says it, everybody screams), credited on the sign along with Groucho
+Marx's *You Bet Your Life*, which had one first. The first draft said Paul Reubens made it up.
+The word changes at the visitor's midnight, out of a rota in `data/toys.json`, and when Chairy,
+the clock, the telephone or the infodump says it the scream goes on the end of that sentence. So a
+word on the rota has to be one the room actually says, matched with the pattern `love.js` uses. A
+word the toys never say only screams when somebody presses the sign, which is not the joke. The
+scream is words first at every setting, and only MAX makes the sign jump. **Nothing is counted**:
+no tally of screams, no streak of days. It is the next object in this room likely to grow one.
+
 **THE SOUND BOARD'S BOTTOM ROW IS NOT A FEELINGS CHART, AND THAT IS WHY IT HAS NO FACES ON
 IT.** Ryan's brief, 2026-09-21: a 3×3 board of stimmy noise keys with a row of mood keys along
 the bottom that toggle between happy, sad and angry. The obvious drawing for a mood key is a

@@ -122,6 +122,34 @@
     } catch (e) { /* no audio available: the button still works, just quietly */ }
   }
 
+  /* EVERYBODY SCREAMS, which is not one person yelling. The yell above is one
+     voice: two saws and a breath, up fast and then down. This is a room of
+     them -- five voices at five pitches, each starting a hair after the last,
+     each with its own wobble, all of them staying UP rather than running out
+     of air, over a wide hiss for the people who are mostly just breathing
+     loudly. Nothing else in this room makes a noise like it, which is the
+     toys' rule and the sound board's: no two alike. */
+  function screamNoise() {
+    try {
+      var c = ac(), t = c.currentTime;
+      [620, 760, 880, 540, 990].forEach(function (hz, i) {
+        var s = t + i * 0.035, dur = 0.9 - i * 0.05;
+        var o = c.createOscillator(), f = c.createBiquadFilter();
+        o.type = i % 2 ? 'sawtooth' : 'square';
+        o.frequency.setValueAtTime(hz * 0.7, s);
+        o.frequency.exponentialRampToValueAtTime(hz, s + 0.09);
+        vib(c, o, s, dur, 6 + i, hz * 0.03, false);
+        f.type = 'lowpass'; f.frequency.value = 2600;
+        o.connect(f); f.connect(env(c, s, 0.05, 0.02, dur));
+        o.start(s); o.stop(s + dur + 0.05);
+      });
+      var n = hiss(c, 0.9), b = c.createBiquadFilter();
+      b.type = 'bandpass'; b.frequency.value = 1800; b.Q.value = 0.9;
+      n.connect(b); b.connect(env(c, t, 0.18, 0.015, 0.85));
+      n.start(t); n.stop(t + 0.9);
+    } catch (e) { /* no audio available: the words still say it */ }
+  }
+
   /* ── The sound board ─────────────────────────────────────────────────────
      Nine keys, every noise built here out of oscillators, filters and a buffer
      of white noise. NOTHING IS FETCHED and nothing exists until a press: the
@@ -718,7 +746,8 @@
      ITS OWN NOISE COMES AFTER THE SILENCE, which is the only order that makes
      sense for this button and is why it is played once the stopping is done. */
   toy('off', function (el, r) {
-    var was = !!ctx;
+    var was = !!ctx || !!screamT;
+    if (screamT) { window.clearTimeout(screamT); screamT = null; }
     if (ctx) { try { ctx.close(); } catch (e) {} ctx = null; }
     var media = document.querySelectorAll('audio');
     for (var i = 0; i < media.length; i++) {
@@ -745,6 +774,86 @@
   });
 
 
+  /* ── Today's secret word ─────────────────────────────────────────────────
+     Pee-Wee's Playhouse's bit, credited on the sign: whenever anybody says the
+     secret word, everybody screams. Here "anybody" is mostly the toys. When
+     Chairy, the word clock, the telephone or the infodump says today's word,
+     the sentence gets the scream on the end of it and the room screams too.
+     tools/make-toys.py refuses a word that nothing in the room ever says.
+
+     THE SCREAM IS WORDS FIRST AND NOISE SECOND, at every setting: the sentence
+     is the same at Gentle, Regular and MAX, and only MAX makes the sign jump.
+     A fanfare is decoration, which is the guild's rule about its own.
+
+     ONE DAY IS THE VISITOR'S DAY. The word changes at their midnight rather
+     than ours, because a sign that said TODAY'S and meant somebody else's
+     today would be wrong for most of the planet. Nothing is kept: no count of
+     screams, no streak of days, nothing between visits.
+
+     The echo gets it right without being told: the scream goes into the room's
+     last sentence and its last noise, so THE ECHO repeats the whole thing,
+     scream and all, rather than noticing the word a second time. */
+  var secret = null, screamT = null;
+
+  /* The pattern make-toys.py checks with, exactly: see heard() there. */
+  function heard(text) { return !!secret && secret.re.test(text); }
+  function screamLine() {
+    return secret.word.toUpperCase() +
+           '! That\u2019s today\u2019s secret word. Everybody scream! AAAAAAAAAAAAAAAAAH!';
+  }
+
+  /* After the toy's own noise, so both are heard, and folded into lastNoise
+     so the echo plays the pair. `after` is false when the scream IS the noise. */
+  function scream(after) {
+    var prev = after ? lastNoise : null;
+    function later() {
+      if (screamT) window.clearTimeout(screamT);
+      screamT = window.setTimeout(function () { screamT = null; screamNoise(); }, prev ? 280 : 0);
+    }
+    lastNoise = function () { if (prev) { try { prev(); } catch (e) {} } later(); };
+    later();
+    var sign = secret.sign;
+    sign.classList.remove('secret--heard');
+    void sign.offsetWidth;                 /* restart the jump if it is mid-air */
+    sign.classList.add('secret--heard');
+  }
+
+  function secretWord() {
+    var sign = document.querySelector('.secret[data-words]');
+    var say = document.getElementById('playhouse-says');
+    if (!sign || !say) return;
+    var words = (sign.dataset.words || '').split('|');
+    var urls = (sign.dataset.urls || '').split('|');
+    if (!words[0]) return;
+    var now = new Date();
+    var day = Math.floor(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 864e5);
+    var i = day % words.length;
+
+    secret = { word: words[i], re: new RegExp('\\b' + words[i] + 's?\\b', 'i'), sign: sign };
+    sign.querySelector('.secret__word').textContent = words[i].toUpperCase();
+    var means = sign.querySelector('.secret__means');
+    if (means && urls[i]) means.href = urls[i];
+
+    var rota = sign.querySelectorAll('.secret__rota li');
+    if (rota[i]) {
+      rota[i].classList.add('secret__today');
+      var mark = document.createElement('span');
+      mark.textContent = ' \u2190 today';
+      rota[i].appendChild(mark);
+    }
+
+    sign.addEventListener('animationend', function () { sign.classList.remove('secret--heard'); });
+
+    var btn = sign.querySelector('.secret__say');
+    var mine = sign.querySelector('.secret__said');
+    if (!btn) return;
+    btn.hidden = false;
+    btn.addEventListener('click', function () {
+      speak(say, 'You said it. ' + screamLine(), true, mine);
+      scream(false);
+    });
+  }
+
   function playhouse() {
     var say = document.getElementById('playhouse-says');
     if (!say) return;
@@ -754,7 +863,11 @@
       if (!fn) return;                 /* make-toys.py refuses this at build time */
       var mine = el.querySelector('.toy__said');
       var r = {
-        say:  function (t) { speak(say, t, true, mine); },
+        say:  function (t) {
+          var hit = heard(t);
+          speak(say, hit ? t + ' \u2014 ' + screamLine() : t, true, mine);
+          if (hit) scream(true);
+        },
         echo: function (t) { speak(say, t, false, mine); },
         last: function () { return lastSaid; },
         /* Make this toy's own noise. The factory is called now, so what gets
@@ -1040,7 +1153,7 @@
     document.head.appendChild(tag);
   }
 
-  function go() { dial(); playhouse(); soundboard(); superposition(); sequences(); yurtEggs(); cb(); }
+  function go() { dial(); secretWord(); playhouse(); soundboard(); superposition(); sequences(); yurtEggs(); cb(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
   else go();
 })();
