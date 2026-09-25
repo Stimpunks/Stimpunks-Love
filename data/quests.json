@@ -1602,6 +1602,39 @@
           "Its room number is 429."
         ]
       }
+    },
+    {
+      "id": "dressup-feather",
+      "page": "dopamine-dress-up-den.html",
+      "room": "Dopamine Dress-Up Den",
+      "title": "Black is a colour",
+      "posted": "There is a shop on the street for dressing in whatever makes you glad to have it on. Go and find out which colour every rail in it comes in, whatever else it comes in.",
+      "rank": 1,
+      "takes": "about as long as it takes to try something on",
+      "target": "a feather, come off the boa, on the floor",
+      "code": "FEATHER",
+      "learned": "Dopamine dressing is not the same as wearing colour. It is wearing what makes you glad to have it on, and for a great many people that is black. A room that told them colour was what they needed would be a dress code with a nicer name.",
+      "hints": [
+        "On the street itself, in the row of shopfronts: the lavender one with a strip of patchwork for an awning.",
+        "Under the stand and the looks off the peg there are house rules, and the first one is about dress codes.",
+        "Right at the foot of the shop, under the section about whose this is, where something fell off the boa."
+      ],
+      "ask": {
+        "question": "Every rail in the Dress-Up Den comes in one colour, whatever else it comes in. Which colour?",
+        "accept": [
+          "black",
+          "black.",
+          "all black",
+          "black on black"
+        ],
+        "answer": "Black",
+        "why": "Black is a colour in there. Our Dress Codes entry has a school that banned black clothing on the grounds of mental health, and a room that said colour was the cure would be that dress code with a nicer name. So every rail comes in all black, and choosing it is as much dopamine dressing as choosing all the colours there are.",
+        "hints": [
+          "It is in the first of the house rules.",
+          "It is also the last colourway in every colours list on the rails.",
+          "A school in our Dress Codes entry banned clothes in it."
+        ]
+      }
     }
   ],
   "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

@@ -608,6 +608,12 @@ MM_INK, MM_PENCIL, MM_HERE = "#22302B", "#4B5A54", "#F2C230"
 VPL_WALL, VPL_PANEL, VPL_CHIP = "#EDB32A", "#FFF6DC", "#FBE6A6"
 VPL_INK, VPL_INK2, VPL_BEET, VPL_LEAF = "#2A1030", "#5B2F52", "#7E1449", "#1A5226"
 
+# The Dopamine Dress-Up Den (love.css §52). A lavender wall in a shop with the
+# sun coming in the front and a crystal in the window. Every word is on the
+# wall or on a pale panel -- the rails, the looks -- and the buttons invert.
+DD_WALL, DD_PANEL, DD_INK = "#D2C6EC", "#F7F3FD", "#1E1030"
+DD_INK2, DD_LINK = "#47306A", "#7C0F50"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -2049,6 +2055,26 @@ PAIRS = [
     # spare white-headed pin: white card on the mat, to the body threshold.
     (MM_FACE,  MM_MAT,   False, "map: every tent, sign and tag against the mat, and the job marker, a spare pin"),
 
+    # ── The Dopamine Dress-Up Den (§52) ──────────────────────────────────────
+    # EVERY INK AGAINST EVERY GROUND IT MEETS. A picked hanger turns to the wall
+    # colour inside its panel, which is why ink and ink-2 are held on both.
+    (DD_INK,   DD_WALL,  False, "dress-up den: the h1, every heading, the tagline, the lede, the "
+                                "readout under the stand, the house rules, a picked hanger's name, "
+                                "the focus ring on the wall, and the name on the street door"),
+    (DD_INK,   DD_PANEL, False, "dress-up den: every garment's name on the rails, the looks, what "
+                                "the selects and the copy box say, and the focus ring on a panel"),
+    (DD_INK2,  DD_WALL,  False, "dress-up den: the trail, the line over the h1, the window and "
+                                "start lines under the stand, the fine print, a picked hanger's "
+                                "feel and fastening lines, and the blurb on the street door"),
+    (DD_INK2,  DD_PANEL, False, "dress-up den: every garment's feel and fastening lines, the print "
+                                "and colours labels, whose a look is, and a look's note"),
+    (DD_LINK,  DD_WALL,  False, "dress-up den: every link on the wall, the backlink, the knock on the "
+                                "street door, and the job marker, a feather off the boa"),
+    (DD_LINK,  DD_PANEL, False, "dress-up den: a link on a panel"),
+    (DD_PANEL, DD_INK,   False, "dress-up den: every button's words -- copy, surprise me, put this on the stand"),
+    (DD_PANEL, DD_INK2,  False, "dress-up den: a button under the pointer"),
+    (DD_INK,   DD_PANEL, False, "dress-up den: the words on the quiet button, take it all off"),
+
     # ── The Community Center (§51) ───────────────────────────────────────────
     (CTR_INK,   CTR_SHADE,  False, "community: the lede, every paragraph, the house norms and the "
                                    "list of how the radio works, on the wall where the slats' shadow falls"),
@@ -2173,6 +2199,86 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#7a4b2e": "dress-up den: the wooden valet stand, 4.53 on the wall and carried by its "
+               "--dd-ink outline at 11.12. It carries no word.",
+    "#eef6ff": "dress-up den: the crystal hanging in the window, 1.48 on the wall and carried "
+               "by its --dd-ink outline at 11.12. Drawing only.",
+    "#e5432f": "dress-up den: band 1 of the spectrum the crystal throws on the wall and the "
+               "tomato cloth on the rails, 2.52 on the wall; every garment is carried by its "
+               "--dd-ink outline at 11.12. It carries no word: a rainbow on the wall is light,"
+               " not a label, and nothing is set on cloth.",
+    "#f2a900": "dress-up den: band 2 of the spectrum the crystal throws on the wall and the "
+               "marigold cloth on the rails, 1.25 on the wall; every garment is carried by its"
+               " --dd-ink outline at 11.12. It carries no word: a rainbow on the wall is "
+               "light, not a label, and nothing is set on cloth.",
+    "#e8d12a": "dress-up den: band 3 of the spectrum the crystal throws on the wall, 1.04 on "
+               "the wall; every garment is carried by its --dd-ink outline at 11.12. It "
+               "carries no word: a rainbow on the wall is light, not a label, and nothing is "
+               "set on cloth.",
+    "#5dbb4a": "dress-up den: band 4 of the spectrum the crystal throws on the wall, 1.50 on "
+               "the wall; every garment is carried by its --dd-ink outline at 11.12. It "
+               "carries no word: a rainbow on the wall is light, not a label, and nothing is "
+               "set on cloth.",
+    "#2f8fd8": "dress-up den: band 5 of the spectrum the crystal throws on the wall, 2.16 on "
+               "the wall; every garment is carried by its --dd-ink outline at 11.12. It "
+               "carries no word: a rainbow on the wall is light, not a label, and nothing is "
+               "set on cloth.",
+    "#7b3fc4": "dress-up den: band 6 of the spectrum the crystal throws on the wall and the "
+               "violet cloth on the rails, 3.89 on the wall; every garment is carried by its "
+               "--dd-ink outline at 11.12, and a cloth this dark by its own fill as well. It "
+               "carries no word: a rainbow on the wall is light, not a label, and nothing is "
+               "set on cloth.",
+    "#9bd93a": "dress-up den: the lime cloth on the rails, 1.05 on the wall; every garment is "
+               "carried by its --dd-ink outline at 11.12. It carries no word; nothing is set "
+               "on cloth.",
+    "#2bc4c0": "dress-up den: the turquoise cloth on the rails, 1.33 on the wall; every "
+               "garment is carried by its --dd-ink outline at 11.12. It carries no word; "
+               "nothing is set on cloth.",
+    "#28307a": "dress-up den: the indigo cloth on the rails, 7.26 on the wall; every garment "
+               "is carried by its --dd-ink outline at 11.12, and a cloth this dark by its own "
+               "fill as well. It carries no word; nothing is set on cloth.",
+    "#0f7c7a": "dress-up den: the teal cloth on the rails, 3.11 on the wall; every garment is "
+               "carried by its --dd-ink outline at 11.12, and a cloth this dark by its own "
+               "fill as well. It carries no word; nothing is set on cloth.",
+    "#f6ebd2": "dress-up den: the cream cloth on the rails, 1.36 on the wall; every garment is"
+               " carried by its --dd-ink outline at 11.12. It carries no word; nothing is set "
+               "on cloth.",
+    "#ff3d8b": "dress-up den: the hotpink cloth on the rails, 2.07 on the wall; every garment "
+               "is carried by its --dd-ink outline at 11.12. It carries no word; nothing is "
+               "set on cloth.",
+    "#e8b923": "dress-up den: the gold cloth on the rails, 1.14 on the wall; every garment is "
+               "carried by its --dd-ink outline at 11.12. It carries no word; nothing is set "
+               "on cloth.",
+    "#7ec8f2": "dress-up den: the sky cloth on the rails, 1.14 on the wall; every garment is "
+               "carried by its --dd-ink outline at 11.12. It carries no word; nothing is set "
+               "on cloth.",
+    "#6b1f5c": "dress-up den: the plum cloth on the rails, 6.59 on the wall; every garment is "
+               "carried by its --dd-ink outline at 11.12, and a cloth this dark by its own "
+               "fill as well. It carries no word; nothing is set on cloth.",
+    "#9fe2bf": "dress-up den: the mint cloth on the rails, 1.08 on the wall; every garment is "
+               "carried by its --dd-ink outline at 11.12. It carries no word; nothing is set "
+               "on cloth.",
+    "#ff7f66": "dress-up den: the coral cloth on the rails, 1.54 on the wall; every garment is"
+               " carried by its --dd-ink outline at 11.12. It carries no word; nothing is set "
+               "on cloth.",
+    "#5e7a2e": "dress-up den: the moss cloth on the rails, 3.03 on the wall; every garment is "
+               "carried by its --dd-ink outline at 11.12, and a cloth this dark by its own "
+               "fill as well. It carries no word; nothing is set on cloth.",
+    "#a8481f": "dress-up den: the rust cloth on the rails, 3.61 on the wall; every garment is "
+               "carried by its --dd-ink outline at 11.12, and a cloth this dark by its own "
+               "fill as well. It carries no word; nothing is set on cloth.",
+    "#3e5f8a": "dress-up den: the denim cloth on the rails, 4.06 on the wall; every garment is"
+               " carried by its --dd-ink outline at 11.12, and a cloth this dark by its own "
+               "fill as well. It carries no word; nothing is set on cloth.",
+    "#141414": "dress-up den: the black cloth on the rails, 11.43 on the wall; every garment "
+               "is carried by its --dd-ink outline at 11.12, and a cloth this dark by its own "
+               "fill as well. It carries no word; nothing is set on cloth.",
+    "#c9ccd3": "dress-up den: the silver cloth on the rails, 1.00 on the wall; every garment "
+               "is carried by its --dd-ink outline at 11.12. It carries no word; nothing is "
+               "set on cloth.",
+    "#34343b": "dress-up den: the coal cloth on the rails, 7.66 on the wall; every garment is "
+               "carried by its --dd-ink outline at 11.12, and a cloth this dark by its own "
+               "fill as well. It carries no word; nothing is set on cloth.",
     "#28323e": "community: the dark inside of each slot on the board, behind the sheet standing in "
                "it. It carries no word; the sheet and the plate do, and are measured above.",
     "#e0662a": "community: the orange of the stacking chairs, 2.07 on the shaded wall and 2.76 in "

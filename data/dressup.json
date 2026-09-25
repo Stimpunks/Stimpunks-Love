@@ -1,0 +1,516 @@
+{
+  "_what": "The Dopamine Dress-Up Den's rails, its prints and colourways, and the looks off the peg. tools/make-dressup.py builds the room out of this file and refuses rather than guesses; see its docstring for every refusal. The drawings of the garments and the prints are in the tool, keyed by the names here, and a garment or a print with no drawing is refused.",
+  "_brief": "Helen Edgar suggested the room and its name. Ryan's brief, 2026-09-25: he almost exclusively wears Thai fisherman pants, for sensory and comfort reasons and because they come in bold florals, bold block patterns and patchwork; button-down shirts of various colours over them; a haori on top, more subdued than the pants but still often patchwork and bold blocks of colour; and beanies and slouchy beanies in a staggering array of colours and patterns. Helen loves cardigans and flowing dresses and has a witchy style. Others in our community take it further, with a veritable drag show of colours and variety. The ask: explore dopamine dressing with a store that lets us mix and match.",
+  "_spelling": "The brief wrote hoari; the garment is a haori, which is how Wikipedia's article and every source spell it, so the rail says haori. Ryan's own words are otherwise kept as he gave them in the looks below.",
+  "_feel": "EVERY GARMENT SAYS HOW IT FEELS AND HOW IT GOES ON AND COMES OFF, and the tool refuses one that does not. Our own glossary defines dopamine dressing as choosing colours, textures and styles that make you feel good, and Ryan wears his pants for sensory and comfort reasons first. A rail that only said how things look would be missing half of it. The fastenings come from Ryan's own field guide page on dressing, which says all of his outerwear has a means of escape, and that the knot on fisherman pants is not accessible to everybody.",
+  "_black": "BLACK IS A COLOUR IN HERE, and the tool refuses a set of colourways with no all-black one. Dopamine dressing is whatever makes you glad to have it on, and for a great many people that is black. Our Dress Codes entry has a school banning black clothing for mental health reasons; a room that told people colour was the cure would be that dress code with a nicer name.",
+  "_checked": "2026-09-25",
+  "_sources": {
+    "dopamine dressing": "https://stimpunks.org/glossary/dopamine-dressing/ -- read in the Knowledge System mirror, 2026-09-25. It defines the practice, links our Masking entry, and quotes From the Slow Lane on unmasking; the room links the entry and says it in our own words rather than quoting.",
+    "dress codes": "https://stimpunks.org/glossary/dress-codes/ -- read in the mirror, 2026-09-25, including the El Paso school that banned black clothing.",
+    "dressing": "https://stimpunks.org/fieldguide/coping/dressing-hygiene/ -- Ryan's own field guide page, read in the mirror, 2026-09-25: the hoodie requirements, the means of escape, the fisherman pants and their knot.",
+    "hoodie": "https://stimpunks.org/why/hoodie/ -- our Why Sheet for a hoodie instead of a school blazer, read in the mirror, 2026-09-25.",
+    "haori": "https://en.wikipedia.org/wiki/Haori -- read 2026-09-25: a Japanese jacket worn over a kimono, usually tied at the front with two short cords.",
+    "fisherman pants": "https://en.wikipedia.org/wiki/Fisherman_pants -- read 2026-09-25: wide in the waist so that one size fits all, wrapped round and tied with ribbons, the excess folded over the knot."
+  },
+  "slots": [
+    {
+      "key": "head",
+      "name": "On your head",
+      "garments": [
+        {
+          "key": "slouchy-beanie",
+          "name": "Slouchy beanie",
+          "a": "a slouchy beanie",
+          "feel": "Soft knit, loose at the back, and nothing tight across the forehead.",
+          "on": "Pulls on and off in one go."
+        },
+        {
+          "key": "beanie",
+          "name": "Beanie",
+          "a": "a beanie",
+          "feel": "Close knit, snug over the ears, with a pompom on top.",
+          "on": "Pulls on. The cuff turns up or down."
+        },
+        {
+          "key": "wide-brim",
+          "name": "Wide-brimmed hat",
+          "a": "a wide-brimmed hat",
+          "feel": "Soft felt, a crown with a point to it and a brim that throws shade.",
+          "on": "Sits on. No elastic, no strap under the chin."
+        },
+        {
+          "key": "headscarf",
+          "name": "Headscarf",
+          "a": "a headscarf",
+          "feel": "Light cotton, as smooth or as crumpled as you like it.",
+          "on": "Ties and unties, as tight or as loose as you knot it."
+        },
+        {
+          "key": "wig",
+          "name": "Big wig",
+          "a": "a big wig",
+          "feel": "A great cloud of curls. Warm, and a bit itchy for some people.",
+          "on": "Goes on over a wig cap and comes off in one lift."
+        }
+      ]
+    },
+    {
+      "key": "outer",
+      "name": "Over the top",
+      "garments": [
+        {
+          "key": "haori",
+          "name": "Haori",
+          "a": "a haori",
+          "feel": "A light Japanese jacket with straight, wide sleeves, cut to hang open over whatever is underneath.",
+          "on": "Two short cords tie it loosely at the front, or leave them untied."
+        },
+        {
+          "key": "cardigan",
+          "name": "Cardigan",
+          "a": "a cardigan",
+          "feel": "Soft, long knit with pockets you can put your hands in.",
+          "on": "Buttons down the front, or hangs open."
+        },
+        {
+          "key": "hoodie",
+          "name": "Zip hoodie",
+          "a": "a zip hoodie",
+          "feel": "Soft fleece, an ample hood to pull up, and two pockets, one for each hand.",
+          "on": "Zips all the way down, so there is always a way out of it."
+        },
+        {
+          "key": "cape",
+          "name": "Velvet cape",
+          "a": "a velvet cape",
+          "feel": "Heavy, soft velvet from the shoulders to the shins. There is a weight to it.",
+          "on": "One clasp at the throat."
+        },
+        {
+          "key": "sequin-jacket",
+          "name": "Sequin jacket",
+          "a": "a sequin jacket",
+          "feel": "Sequins sewn onto mesh. They catch the light, and some people find they scratch.",
+          "on": "Zips up the front."
+        }
+      ]
+    },
+    {
+      "key": "top",
+      "name": "Underneath",
+      "garments": [
+        {
+          "key": "button-down",
+          "name": "Button-down shirt",
+          "a": "a button-down shirt",
+          "feel": "Woven cotton, a soft collar that buttons down, and long sleeves you can roll up.",
+          "on": "Buttons all the way down the front."
+        },
+        {
+          "key": "tee",
+          "name": "T-shirt",
+          "a": "a T-shirt",
+          "feel": "Soft jersey, with the label cut out.",
+          "on": "Over the head."
+        },
+        {
+          "key": "corset",
+          "name": "Corset top",
+          "a": "a corset top",
+          "feel": "Boned and laced. Some people love the squeeze and some cannot bear it.",
+          "on": "Laces up the back, as tight or as loose as you want it."
+        },
+        {
+          "key": "flowing-dress",
+          "name": "Flowing dress",
+          "a": "a flowing dress",
+          "feel": "Long, light and loose, down to the calf, and it moves when you do.",
+          "on": "Over the head. No zip, no buttons."
+        },
+        {
+          "key": "gown",
+          "name": "Sequin gown",
+          "a": "a sequin gown",
+          "feel": "Sequins from the neck to the floor, close at the top and flaring out. Heavy, and it sparkles.",
+          "on": "Zips up the back. You may want a hand with it, and asking for one is fine."
+        }
+      ]
+    },
+    {
+      "key": "bottom",
+      "name": "The bottom half",
+      "garments": [
+        {
+          "key": "fisherman",
+          "name": "Thai fisherman pants",
+          "a": "Thai fisherman pants",
+          "feel": "Light cotton, loose from the waist to the ankle, and made so wide in the waist that one pair fits anybody.",
+          "on": "Wraps round and ties at the front, with the extra folded down over the knot. Tying a knot is not everybody's, so every other bottom on this rail does up without one."
+        },
+        {
+          "key": "skirt",
+          "name": "Flowing skirt",
+          "a": "a flowing skirt",
+          "feel": "Long and light, many panels, down to the ankle.",
+          "on": "Pulls on. An elastic waist."
+        },
+        {
+          "key": "wide-leg",
+          "name": "Wide-leg trousers",
+          "a": "wide-leg trousers",
+          "feel": "A soft, heavy drape that falls straight from the hip.",
+          "on": "Pulls on, with a drawstring you can leave loose."
+        },
+        {
+          "key": "leggings",
+          "name": "Leggings",
+          "a": "leggings",
+          "feel": "Stretch cotton, close all the way down. Some people want exactly that pressure.",
+          "on": "Pull on."
+        }
+      ]
+    },
+    {
+      "key": "feet",
+      "name": "On your feet",
+      "garments": [
+        {
+          "key": "platforms",
+          "name": "Platform boots",
+          "a": "platform boots",
+          "feel": "A great deal of sole. Heavy, and loud on a wooden floor.",
+          "on": "Zip up the inside."
+        },
+        {
+          "key": "slip-ons",
+          "name": "Canvas slip-ons",
+          "a": "canvas slip-ons",
+          "feel": "Soft canvas and a flat sole.",
+          "on": "Step in. No laces."
+        },
+        {
+          "key": "crocs",
+          "name": "Crocs",
+          "a": "Crocs",
+          "feel": "Soft, light foam, full of holes, with room for your toes and charms in the holes if you want them.",
+          "on": "Step in. The strap goes back behind the heel or forward out of the way."
+        },
+        {
+          "key": "hi-tops",
+          "name": "Hi-top trainers",
+          "a": "hi-top trainers",
+          "feel": "Cushioned, and laced up high round the ankle.",
+          "on": "Laces, or elastic laces that never need tying."
+        },
+        {
+          "key": "socks",
+          "name": "Just socks",
+          "a": "just socks",
+          "feel": "Seamless toes, and nothing else.",
+          "on": "Pull on."
+        }
+      ]
+    }
+  ],
+  "extras": [
+    {
+      "key": "boa",
+      "name": "Feather boa",
+      "a": "a feather boa",
+      "feel": "Soft, and it sheds. There will be feathers everywhere.",
+      "on": "Drape it round your neck."
+    },
+    {
+      "key": "scarf",
+      "name": "Long scarf",
+      "a": "a long scarf",
+      "feel": "Knitted, and long enough to go round twice.",
+      "on": "Wrap it, or let it hang."
+    }
+  ],
+  "prints": [
+    {
+      "key": "solid",
+      "name": "plain",
+      "a": "plain"
+    },
+    {
+      "key": "floral",
+      "name": "florals",
+      "a": "in bold florals"
+    },
+    {
+      "key": "blocks",
+      "name": "colour blocks",
+      "a": "in big blocks of colour"
+    },
+    {
+      "key": "patchwork",
+      "name": "patchwork",
+      "a": "in patchwork"
+    },
+    {
+      "key": "stripes",
+      "name": "stripes",
+      "a": "in stripes"
+    },
+    {
+      "key": "dots",
+      "name": "polka dots",
+      "a": "in polka dots"
+    },
+    {
+      "key": "gingham",
+      "name": "gingham",
+      "a": "in gingham"
+    },
+    {
+      "key": "moons",
+      "name": "moons and stars",
+      "a": "in moons and stars"
+    },
+    {
+      "key": "sequins",
+      "name": "sequins",
+      "a": "in sequins"
+    }
+  ],
+  "_colourways": "Every colourway names its inks, which are --dd-f- custom properties in love.css; the tool reads the stylesheet and refuses an ink it does not declare, because CSS paints nothing for an unknown custom property. A print uses the inks in order: a plain garment is the first ink, stripes run through all of them. The all-black one is required; see _black.",
+  "ink_names": {
+    "tomato": "tomato",
+    "marigold": "marigold",
+    "lime": "lime",
+    "turquoise": "turquoise",
+    "indigo": "indigo",
+    "violet": "violet",
+    "teal": "teal",
+    "cream": "cream",
+    "hotpink": "hot pink",
+    "gold": "gold",
+    "sky": "sky blue",
+    "plum": "plum",
+    "mint": "mint",
+    "coral": "coral",
+    "moss": "moss",
+    "rust": "rust",
+    "denim": "denim",
+    "black": "black",
+    "silver": "silver",
+    "coal": "charcoal"
+  },
+  "colourways": [
+    {
+      "key": "rainbow",
+      "name": "all the colours there are",
+      "inks": [
+        "tomato",
+        "marigold",
+        "lime",
+        "turquoise",
+        "indigo",
+        "violet"
+      ]
+    },
+    {
+      "key": "marigold-teal",
+      "name": "marigold and teal",
+      "inks": [
+        "marigold",
+        "teal",
+        "cream"
+      ]
+    },
+    {
+      "key": "pink-lime",
+      "name": "hot pink and lime",
+      "inks": [
+        "hotpink",
+        "lime",
+        "cream"
+      ]
+    },
+    {
+      "key": "tomato-turquoise",
+      "name": "tomato and turquoise",
+      "inks": [
+        "tomato",
+        "turquoise",
+        "gold"
+      ]
+    },
+    {
+      "key": "indigo-cream",
+      "name": "indigo and cream",
+      "inks": [
+        "indigo",
+        "cream",
+        "sky"
+      ]
+    },
+    {
+      "key": "violet-gold",
+      "name": "violet and gold",
+      "inks": [
+        "violet",
+        "gold",
+        "plum"
+      ]
+    },
+    {
+      "key": "mint-coral",
+      "name": "mint and coral",
+      "inks": [
+        "mint",
+        "coral",
+        "cream"
+      ]
+    },
+    {
+      "key": "moss-rust",
+      "name": "moss and rust",
+      "inks": [
+        "moss",
+        "rust",
+        "marigold"
+      ]
+    },
+    {
+      "key": "denim-sky",
+      "name": "denim and sky",
+      "inks": [
+        "denim",
+        "sky",
+        "cream"
+      ]
+    },
+    {
+      "key": "midnight-gold",
+      "name": "midnight and gold",
+      "inks": [
+        "indigo",
+        "gold",
+        "cream"
+      ]
+    },
+    {
+      "key": "plum-black",
+      "name": "plum and black",
+      "inks": [
+        "plum",
+        "black",
+        "violet"
+      ]
+    },
+    {
+      "key": "black-silver",
+      "name": "black and silver",
+      "inks": [
+        "black",
+        "silver",
+        "coal"
+      ]
+    },
+    {
+      "key": "black",
+      "name": "all black",
+      "inks": [
+        "black",
+        "coal"
+      ]
+    }
+  ],
+  "_looks": "LOOKS OFF THE PEG. A look with a person's name on it carries who gave it, when, and their words as given, and the tool refuses one that does not: Ryan's is his own; Helen's was relayed by Ryan in the brief, the prints and colours on it are the house's guess at witchy, and she has the final say on it (see DECISIONS.md). The full show is nobody's in particular, because the brief gives it to others in our community without naming anybody, and it stays that way. A slot a look leaves out is left as whatever you have on.",
+  "_dressed_in": "THE STAND IS DRESSED WHEN YOU WALK IN, in the look named here, because the room started from Ryan's wardrobe and a bare stand reads as a room nobody has opened yet. It is a starting point and not a recommendation, and the page says so beside it. The share card draws the stand as it ships, so the card and the room cannot disagree.",
+  "dressed_in": "ryan",
+  "looks": [
+    {
+      "key": "ryan",
+      "name": "Ryan's usual",
+      "whose": "Ryan",
+      "given": "Ryan, in the brief for this room, 2026-09-25",
+      "as_given": "Thai fisherman pants almost exclusively, in bold florals, bold block patterns or patchwork; button-down shirts of various colours; a haori on top, more subdued than the pants but still often patchwork and bold blocks of colour; and beanies and slouchy beanies in a staggering array of colours and patterns.",
+      "note": "The pants are the loud part and the haori is the quieter one, which is the order he gave them in.",
+      "pieces": {
+        "head": {
+          "garment": "slouchy-beanie",
+          "print": "stripes",
+          "colours": "rainbow"
+        },
+        "outer": {
+          "garment": "haori",
+          "print": "patchwork",
+          "colours": "moss-rust"
+        },
+        "top": {
+          "garment": "button-down",
+          "print": "solid",
+          "colours": "denim-sky"
+        },
+        "bottom": {
+          "garment": "fisherman",
+          "print": "floral",
+          "colours": "pink-lime"
+        }
+      },
+      "extras": {}
+    },
+    {
+      "key": "helen",
+      "name": "Helen's",
+      "whose": "Helen Edgar",
+      "given": "relayed by Ryan in the brief for this room, 2026-09-25",
+      "as_given": "Helen loves cardigans and flowing dresses and has a witchy style.",
+      "note": "A cardigan over a flowing dress is what the brief says. The moons, the midnight and the plum are the house's guess at witchy, and Helen has the final say on every one of them.",
+      "pieces": {
+        "outer": {
+          "garment": "cardigan",
+          "print": "solid",
+          "colours": "plum-black"
+        },
+        "top": {
+          "garment": "flowing-dress",
+          "print": "moons",
+          "colours": "midnight-gold"
+        }
+      },
+      "extras": {}
+    },
+    {
+      "key": "show",
+      "name": "The full show",
+      "whose": "",
+      "given": "",
+      "as_given": "",
+      "note": "For whoever wants all of it at once. The brief says others in our community take it further, with a veritable drag show of colours and variety; nobody is named, so nobody is.",
+      "pieces": {
+        "head": {
+          "garment": "wig",
+          "print": "solid",
+          "colours": "pink-lime"
+        },
+        "outer": {
+          "garment": "cape",
+          "print": "solid",
+          "colours": "violet-gold"
+        },
+        "top": {
+          "garment": "gown",
+          "print": "sequins",
+          "colours": "violet-gold"
+        },
+        "feet": {
+          "garment": "platforms",
+          "print": "sequins",
+          "colours": "black-silver"
+        }
+      },
+      "extras": {
+        "boa": {
+          "print": "solid",
+          "colours": "pink-lime"
+        }
+      }
+    }
+  ]
+}

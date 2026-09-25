@@ -2424,6 +2424,47 @@ Canada designers typed into the room's credits named a studio that did not draw 
 and the pair list caught every one. **Measure before a number goes in a note, and read a designer off
 the record.** The habit this site keeps attribution for applies to the numbers in its own tools as well.
 
+**THE DOPAMINE DRESS-UP DEN IS HELEN EDGAR'S IDEA, AND NOBODY'S BODY IS DRAWN IN IT.** §52 is a
+boutique for dopamine dressing (Ryan's brief from Helen's suggestion, 2026-09-25): a wooden valet stand
+and rails round a lavender wall, and you mix an outfit on the stand in any print and any colours. **The
+obvious build is a paper doll, and a doll is a body** (one size, one shape, one skin, one gender, handed
+to everybody who walks in), so the clothes hang on a knob, two bars and a base, and whoever wears them is
+you. `make-dressup.py` holds every cut and every print tile itself and refuses a garment it cannot draw,
+a cut whose markup names a body part, and a look with somebody's name on it and not their words. **Do not
+add a figure, a mannequin, a skin tone or a size.** Laughingstock's rule, in the room whose whole shape
+invites breaking it.
+
+**THE LIGHT IS SUN TAKEN APART BY A CRYSTAL, and white light is why.** Most of it comes in white so every
+cloth looks like itself: a room for choosing colours cannot have a coloured lamp, which is the Collection's
+reason for daylight over Ryan's inks. The rest lands on the wall as small rainbows. That is dispersion,
+and nobody else has it. **Vital Plant Living is the collision to watch**: the other saturated room you
+build something in. It is a *section* with no light and no pattern; this is a *front view* of clothes
+hung up, and pattern is the subject. If the clothes are ever drawn cut open, or the prints go flat, it has
+become the kitchen with a wardrobe. Covenstead (one warm patch) and the Community Center (bars on powder
+blue) are the other side-lit interiors; if the rainbows line up or pool, or the wall warms, it moves.
+**Its prefix is `dd-` and its copy never says "the Den" alone**, which the tool refuses unless the words
+link to the-den.html, because The Den is Graceland's.
+
+**EVERY GARMENT SAYS HOW IT FEELS AND HOW IT COMES OFF, AND EVERY RAIL COMES IN ALL BLACK.** Both are
+refusals in the tool. The first is our glossary's own definition (colours, textures and styles) and
+Ryan's field guide: all his outerwear has a means of escape, and the knot on fisherman pants is not
+everybody's, so every other bottom half does up without one. The second is our Dress Codes entry: a school
+banned black clothing for mental health reasons, and **a room that told people colour was the cure would be
+that dress code with a nicer name.** The friendly edits are "brighten up", "ditch the black" and "wear
+colour to boost your mood". The sweep refuses brain-chemistry claims, sizes and bodies, gendered rails,
+fashion rules, othering words (exotic, tribal, harem pants, costume) and rating, in our voice, with the
+negation window. **Helen's look was relayed** and its witchy prints are the house's guess. She has the
+final say, as she does on the yurt. Crocs are on the rail at Ryan's ask, and the liner notes say the name
+is Crocs, Inc.'s.
+
+**A PATTERN IS PARAMETERISED BY CUSTOM PROPERTIES ON THE `<pattern>` ELEMENT.** One pattern per slot;
+the colourway rides on it as `--c1..--c6` (inks cycled) and `--g`/`--f1..--f5` (ground and figures), and
+the tile's children inherit them, so `dressup.js` never writes a colour and love.css fills each slot with
+`url(#dd-p-slot)`. A figure print uses `--f`, never `--c`, or a two-ink colourway draws its dots in the
+ground colour and they vanish. **On a phone the stand is sticky at the top of the rails** (the wrapper is
+`display: contents` so the drawing can stick for the whole fitting): the rails are longer than a phone is
+tall, and a pick that changes a drawing three screens away is the Playhouse's unseen answer again.
+
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
 paleness alone — which is what holds it off the Guild, lit from nowhere with no depth. Netlify

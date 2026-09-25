@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://stimpunks.world/</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-09-25</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/map.html</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-09-25</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/danny-the-street.html</loc>
@@ -78,7 +78,7 @@
   </url>
   <url>
     <loc>https://stimpunks.world/the-mopery.html</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-09-25</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/oracle-deck.html</loc>
@@ -90,7 +90,7 @@
   </url>
   <url>
     <loc>https://stimpunks.world/adventurers-guild.html</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-09-25</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/the-feed.html</loc>
@@ -110,7 +110,7 @@
   </url>
   <url>
     <loc>https://stimpunks.world/foundry.html</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-09-25</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/covenstead.html</loc>
@@ -143,6 +143,10 @@
   <url>
     <loc>https://stimpunks.world/community-center.html</loc>
     <lastmod>2026-09-24</lastmod>
+  </url>
+  <url>
+    <loc>https://stimpunks.world/dopamine-dress-up-den.html</loc>
+    <lastmod>2026-09-25</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/your-room.html</loc>
@@ -206,7 +210,7 @@
   </url>
   <url>
     <loc>https://stimpunks.world/liner-notes.html</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-09-25</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/privacy.html</loc>
@@ -214,6 +218,6 @@
   </url>
   <url>
     <loc>https://stimpunks.world/changelog.html</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-09-25</lastmod>
   </url>
 </urlset>

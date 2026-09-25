@@ -659,6 +659,26 @@
 @font-face { font-family: 'Radio Canada'; src: url('fonts/radio-canada-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Radio Canada'; src: url('fonts/radio-canada-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* The Dopamine Dress-Up Den (§52). A PUFFED LETTER AND A PLAIN ONE. DynaPuff
+   sets the shop's name, its headings, the names of the rails and the looks, and
+   nothing at reading size: a soft, inflated letter whose strokes swell at the
+   ends as if they had been stuffed and stitched shut, which is what a quilted
+   jacket and a padded sign have in common. It is NOT Vital Plant Living's Bagel
+   Fat One, whose weight is PILED and whose joins thicken where strokes crowd
+   into each other; this one is ROUND ALL THE WAY ROUND, and nothing in it
+   touches anything. One weight, 600, one static file, because that is all the
+   room sets.
+
+   Plus Jakarta Sans carries every word that is read: the rails are a long list
+   of how things feel and how they come off, and this is an open, even sans that
+   stays out of the way of the clothes. It ships as a variable font, so one file
+   is declared at 400 and 700 against the weight axis, Radio Canada's call. No
+   italic is shipped for either, so the room sets nothing italic with synthesis
+   off. Both read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'DynaPuff'; src: url('fonts/dynapuff-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Plus Jakarta Sans'; src: url('fonts/plus-jakarta-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Plus Jakarta Sans'; src: url('fonts/plus-jakarta-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1682,6 +1702,38 @@
      standing in it, which is where every word on the board is set. */
   --ctr-steel: #52667A;   --ctr-well:  #28323E;   --ctr-plate:  #E3E8EC;
   --ctr-form:  #FBF8F1;
+
+  /* The Dopamine Dress-Up Den (§52). A LAVENDER WALL IN A SHOP WITH THE SUN
+     COMING IN THE FRONT, AND A CRYSTAL HANGING IN THE WINDOW. --dd-wall is the
+     painted wall every word off a panel stands on, --dd-panel the pale board
+     every rail and every look is pinned to. --dd-ink is every word and every
+     outline, --dd-ink-2 the fine print, --dd-link every link, a deep magenta.
+     --dd-wood is the valet stand, carried by its --dd-ink outline, and
+     --dd-glass the crystal. --dd-sp-1 to --dd-sp-6 are the spectrum the crystal
+     throws on the wall, red to violet in order, because that is the order a
+     prism puts them in; they carry no word and are measured in ORNAMENT. The
+     --dd-f- inks are CLOTH, every one of them ornament and carried by the ink
+     outline of whatever it is printed on; a dark cloth separates from the wall
+     by its own fill instead. --dd-f-black and --dd-f-coal are the all-black
+     colourway, which make-dressup.py refuses to build without. It is COOL, and
+     the only lavender ground on the street: Covenstead's limewash is pink, the
+     Community Center's block is powder blue, and Sithen's violet is a moonlit
+     grey you cannot read a label by. If this wall ever warms towards pink it
+     has become Covenstead with a clothes rail, and it is this room that moves.
+     DD- PREFIXED because --den- would read as The Den's, and that room is
+     Graceland's. */
+  --dd-wall:   #D2C6EC;   --dd-panel:  #F7F3FD;   --dd-ink:    #1E1030;
+  --dd-ink-2:  #47306A;   --dd-link:   #7C0F50;   --dd-wood:   #7A4B2E;
+  --dd-glass:  #EEF6FF;
+  --dd-sp-1: #E5432F;  --dd-sp-2: #F2A900;  --dd-sp-3: #E8D12A;
+  --dd-sp-4: #5DBB4A;  --dd-sp-5: #2F8FD8;  --dd-sp-6: #7B3FC4;
+  --dd-f-tomato:   #E5432F;  --dd-f-marigold: #F2A900;  --dd-f-lime:     #9BD93A;
+  --dd-f-turquoise:#2BC4C0;  --dd-f-indigo:   #28307A;  --dd-f-violet:   #7B3FC4;
+  --dd-f-teal:     #0F7C7A;  --dd-f-cream:    #F6EBD2;  --dd-f-hotpink:  #FF3D8B;
+  --dd-f-gold:     #E8B923;  --dd-f-sky:      #7EC8F2;  --dd-f-plum:     #6B1F5C;
+  --dd-f-mint:     #9FE2BF;  --dd-f-coral:    #FF7F66;  --dd-f-moss:     #5E7A2E;
+  --dd-f-rust:     #A8481F;  --dd-f-denim:    #3E5F8A;  --dd-f-black:    #141414;
+  --dd-f-silver:   #C9CCD3;  --dd-f-coal:     #34343B;
 }
 
 * { box-sizing: border-box; }
@@ -2278,6 +2330,17 @@ div.facade--audio { border: 0; background: none; }
 .door--community .door__name  { font-family: 'Varela Round', var(--sans); font-weight: 400; color: var(--ctr-ink); font-size: 25px; line-height: 1.12; letter-spacing: .06em; text-transform: uppercase; }
 .door--community .door__blurb { font-family: 'Radio Canada', var(--sans); color: var(--ctr-ink-2); }
 .door--community .door__knock { font-family: 'Radio Canada', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--ctr-link); }
+
+/* The Dopamine Dress-Up Den (§52). THE ONE FRONT IN THE ROW WITH A STRIP OF
+   PATCHWORK FOR AN AWNING: squares of the rails' own cloth, sewn edge to edge
+   along a running stitch, over the lavender wall. The name is the shop's puffed
+   sign face and the knock is its magenta. Every ink here is on --dd-wall and is
+   measured in check-contrast.py; the patchwork carries no word. */
+.door--dressup { background: var(--dd-wall); border-color: var(--dd-ink); }
+.door--dressup .door__awning { background-color: var(--dd-wall); background-image: linear-gradient(0deg, transparent 0 5px, var(--dd-wall) 5px 6px, transparent 6px), repeating-linear-gradient(90deg, var(--dd-f-tomato) 0 18px, var(--dd-f-marigold) 18px 36px, var(--dd-f-lime) 36px 54px, var(--dd-f-turquoise) 54px 72px, var(--dd-f-indigo) 72px 90px, var(--dd-f-violet) 90px 108px, var(--dd-f-hotpink) 108px 126px); border-bottom-color: var(--dd-ink); }
+.door--dressup .door__name  { font-family: 'DynaPuff', var(--sans); font-weight: 600; color: var(--dd-ink); font-size: 28px; line-height: 1.08; }
+.door--dressup .door__blurb { font-family: 'Plus Jakarta Sans', var(--sans); color: var(--dd-ink-2); }
+.door--dressup .door__knock { font-family: 'Plus Jakarta Sans', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--dd-link); }
 
 .door--feed { background: var(--fd-enamel); border-color: var(--fd-girder); }
 .door--feed .door__awning { background-image: repeating-linear-gradient(180deg, var(--fd-flap) 0 6px, var(--fd-split) 6px 7px); border-bottom-color: var(--fd-girder); }
@@ -11718,7 +11781,244 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
 .community .quest { margin-top: 40px; }
 
 
-/* §52 ── Small screens ───────────────────────────────────────────────────────
+/* §52 ── ROOM: The Dopamine Dress-Up Den (a shopfront on the street) ────────
+   A BOUTIQUE FOR DOPAMINE DRESSING, Helen Edgar's idea and her name for it: a
+   wooden valet stand in the middle of the floor, rails round a lavender wall,
+   and the sun coming in the front window with a crystal hanging in it. You put
+   an outfit together on the stand out of the rails -- head, over the top,
+   underneath, the bottom half, your feet, a boa or a scarf -- in any print and
+   any colours, and nothing has to go with anything.
+
+   THE LIGHT IS THE ONLY LIGHT ON THE STREET THAT HAS BEEN TAKEN APART. Most of
+   the sun comes straight in white, which is what lets every cloth on the rails
+   look like itself -- a room for choosing colours cannot be lit by a coloured
+   lamp, the Collection Collection's reason for putting daylight over Ryan's
+   inks -- and some of it goes through the crystal and comes out the other side
+   as every colour it was made of, in small rainbows about the wall. DISPERSION,
+   and nobody else has it: the mirrorball throws white specks, the Chappell's
+   glass filters one colour per pane, the Community Center's blinds cut the sun
+   into bars, and the meadow, the Feed and Looming Rocks are all light going
+   THROUGH something whole. THESE ARE THE COLLISIONS TO WATCH, and each is
+   structural:
+     · VITAL PLANT LIVING is the other mix-and-match room with a saturated
+       palette and a thing you build on the page, and it is the one most likely
+       to swallow this. It is a SECTION -- everything cut through the middle,
+       every layer touching the one under it, no light at all, and no pattern
+       anywhere, only flat food inks. This is a FRONT VIEW of clothes hung up,
+       nothing is cut, and PATTERN IS THE SUBJECT. If the clothes are ever drawn
+       cut open, or the prints go flat, this has become the kitchen with a
+       wardrobe in it.
+     · COVENSTEAD AND THE COMMUNITY CENTER are the other daylit interiors lit
+       from one side. Covenstead's sun lands in one warm patch on pink
+       limewash; the Community Center's is cut into parallel bars on powder
+       blue. Here it lands in PIECES, scattered, each one every colour, on a
+       cool lavender. If the rainbows ever line up into bars, or pool into a
+       patch, or the wall warms, it has turned into one of them.
+     · ENID'S ROOM is the other room of many colours at once, and it is flat,
+       black-walled and made of stickers. This is pale, lit, and made of cloth.
+     · PINK PONY CLUB is where the drag rail would be tempted to go, and that
+       room is flat hot pink with cream Shrikhand. The full show is a look on a
+       rail here, not a stage.
+     · THE DEN (§18) shares a word with this room and nothing else: it is
+       Graceland's panelled room with the shag carpet. This room is always
+       the Dress-Up Den in full, and make-dressup.py refuses the bare name.
+
+   NOBODY'S BODY IS DRAWN. The clothes hang on a stand -- a knob, a bar for the
+   shoulders, a bar for the waist, a base for the shoes -- because a paper doll
+   is one size, one shape, one skin and one gender handed to everybody. The
+   cuts are cloth and nothing else, and make-dressup.py refuses one that names
+   a body part.
+
+   EVERY PIECE OF CLOTH IS CARRIED BY ITS OUTLINE. The fabric inks mostly
+   measure under 3:1 against the wall, which is fine for cloth and would be a
+   failure for a shape you had to find, so every .dd-fab has a --dd-ink
+   outline at 11.12, and a dark cloth separates by its own fill. The fill is the
+   slot's own <pattern>, which dressup.js rewrites; the colourway rides on the
+   pattern as custom properties its tile inherits.
+
+   NOTHING MOVES AT GENTLE OR REGULAR, and nothing flashes or sparkles on its
+   own at any setting, the sequins included -- Club Chronic's rule. At MAX the
+   rainbows drift a few pixels as the crystal turns, with a translate, because
+   rotation and skew are all check-gentle.py can read. The dial never takes a
+   garment off the rails. */
+
+.dressup { background: var(--dd-wall); color: var(--dd-ink); font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-synthesis: none; }
+.dressup :where(i, em, cite) { font-style: normal; }
+.dressup em { font-weight: 700; }
+.dressup a { color: var(--dd-link); text-underline-offset: 3px; text-decoration-thickness: 2px; }
+.dressup a:hover { color: var(--dd-ink); }
+/* THE RING IS THE ROOM'S OWN INK, 11.12 on the wall and 16.38 on a panel. §2's
+   yellow was chosen for a near-black street and would vanish on lavender --
+   the Guild's lesson, decided here at the room. */
+.dressup :focus-visible { outline-color: var(--dd-ink); }
+/* :where() so this base is (0,1,0) and every component below wins by order --
+   Dead Tired Society's day-one lesson, taken before it could happen here. */
+.dressup :where(p, li, dd) { font-size: 17px; line-height: 1.6; }
+.dressup strong, .dressup b { font-weight: 700; }
+.dressup code { font-size: .9em; }
+.dressup .backlink { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--dd-link); }
+
+.dd-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.dd-trail { margin: 0; font-size: 14px; color: var(--dd-ink-2); }
+
+/* THE SIGN. Puffed letters on the bare wall, and under them a ribbon of the
+   rails' own patchwork, sewn along a running stitch. The ribbon carries no word. */
+.dd-sign { margin: 30px 0 0; }
+.dressup .dd-over { margin: 0; font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--dd-ink-2); }
+.dressup h1 {
+  margin: 6px 0 0; font-family: 'DynaPuff', system-ui, sans-serif; font-weight: 600;
+  font-size: clamp(42px, 8vw, 78px); line-height: 1.02; letter-spacing: 0; color: var(--dd-ink);
+}
+.dd-sign::after {
+  content: ""; display: block; height: 16px; margin: 14px 0 0; max-width: 520px;
+  border-block: 2px solid var(--dd-ink);
+  background-image:
+    linear-gradient(0deg, transparent 0 7px, var(--dd-panel) 7px 8px, transparent 8px),
+    repeating-linear-gradient(90deg, var(--dd-f-tomato) 0 26px, var(--dd-f-marigold) 26px 52px,
+      var(--dd-f-lime) 52px 78px, var(--dd-f-turquoise) 78px 104px, var(--dd-f-indigo) 104px 130px,
+      var(--dd-f-violet) 130px 156px, var(--dd-f-hotpink) 156px 182px);
+}
+.dressup .dd-tag { margin: 14px 0 0; font-size: 21px; line-height: 1.35; }
+.dressup .dd-lede { margin: 24px 0 0; max-width: 800px; font-size: 18px; }
+
+.dressup h2 { margin: 0 0 12px; font-family: 'DynaPuff', system-ui, sans-serif; font-weight: 600; font-size: 32px; line-height: 1.1; color: var(--dd-ink); }
+.dressup h3 { margin: 0 0 8px; font-family: 'DynaPuff', system-ui, sans-serif; font-weight: 600; font-size: 22px; line-height: 1.15; color: var(--dd-ink); }
+.dd-part { margin: 48px 0 0; }
+.dd-part > p { max-width: 800px; }
+
+/* THE FITTING. The stand on the left, the rails on the right, and on a wide
+   screen the stand stays put while you go down the rails, so what you pick is
+   in view the moment you pick it -- the Playhouse's lesson, that a control
+   which answers somewhere you cannot see has not answered. It is sticky, which
+   is layout rather than motion: nothing slides. */
+.dd-fitting { display: grid; grid-template-columns: minmax(260px, 5fr) 7fr; gap: 28px; align-items: start; }
+.dd-fitting__stand { position: sticky; top: 14px; }
+.dd-stand { display: block; width: 100%; max-width: 440px; height: auto; max-height: calc(100vh - 230px); margin: 0 auto; }
+.dressup .dd-readout { margin: 10px 0 0; font-size: 16px; font-weight: 700; }
+.dressup .dd-window, .dressup .dd-start { margin: 10px 0 0; font-size: 15px; line-height: 1.55; color: var(--dd-ink-2); }
+
+/* The drawing. Every piece of cloth is outlined in the room's ink and filled
+   with its own slot's pattern; see the section note for why the outline is
+   what carries it. */
+.dd-fab { stroke: var(--dd-ink); stroke-width: 2; stroke-linejoin: round; }
+.dd-slot--head .dd-fab   { fill: url(#dd-p-head); }
+.dd-slot--outer .dd-fab  { fill: url(#dd-p-outer); }
+.dd-slot--top .dd-fab    { fill: url(#dd-p-top); }
+.dd-slot--bottom .dd-fab { fill: url(#dd-p-bottom); }
+.dd-slot--feet .dd-fab   { fill: url(#dd-p-feet); }
+.dd-slot--boa .dd-fab    { fill: url(#dd-p-boa); }
+.dd-slot--scarf .dd-fab  { fill: url(#dd-p-scarf); }
+.dd-seam { fill: none; stroke: var(--dd-ink); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.dd-knot { fill: var(--dd-panel); stroke: var(--dd-ink); stroke-width: 1.4; }
+.dd-wood { fill: var(--dd-wood); stroke: var(--dd-ink); stroke-width: 2; }
+.dd-glass { fill: var(--dd-glass); stroke: var(--dd-ink); stroke-width: 1.4; stroke-linejoin: round; }
+.dd-fleck { opacity: .78; }
+html[data-intensity="max"] .dd-fleck { animation: dd-drift 7s ease-in-out infinite alternate; }
+html[data-intensity="max"] .dd-fleck:nth-child(2n) { animation-duration: 9s; animation-delay: -3s; }
+html[data-intensity="max"] .dd-fleck:nth-child(3n) { animation-duration: 11s; animation-delay: -5s; }
+@keyframes dd-drift { to { transform: translate(9px, 4px); } }
+
+/* The buttons under the stand. Ink with panel letters; the quiet one is an
+   outline, because taking everything off should not look like the main event. */
+.dd-do { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 0; }
+.dd-go {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700; font-size: 15px;
+  padding: 10px 16px; border-radius: 999px; cursor: pointer;
+  background: var(--dd-ink); color: var(--dd-panel); border: 2px solid var(--dd-ink);
+}
+.dd-go:hover { background: var(--dd-ink-2); border-color: var(--dd-ink-2); }
+.dd-go--quiet { background: var(--dd-panel); color: var(--dd-ink); }
+.dd-go--quiet:hover { background: var(--dd-wall); color: var(--dd-ink); border-color: var(--dd-ink); }
+.dd-do :focus-visible { outline-offset: 3px; }
+.dressup .dd-said { flex: 1 1 100%; margin: 4px 0 0; min-height: 1.6em; font-size: 15px; font-weight: 700; }
+.dd-fallback { flex: 1 1 100%; font-size: 14px; }
+textarea.dd-fallback {
+  width: 100%; padding: 10px; font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background: var(--dd-panel); color: var(--dd-ink); border: 2px solid var(--dd-ink); border-radius: 6px;
+}
+
+/* THE RAILS. Each one is a patch of pale board with a running stitch sewn
+   round its edge -- the only room on the street that is SEWN rather than cut,
+   pasted, printed or painted. The stitch is an outline inset into the patch,
+   so it never takes the room's focus ring's place. */
+.dd-rails { display: grid; gap: 18px; }
+.dressup .dd-rails__h { margin: 0; font-size: 26px; }
+.dd-rail {
+  margin: 0; padding: 16px 18px 18px; min-width: 0;
+  background: var(--dd-panel); border: 2px solid var(--dd-ink); border-radius: 10px;
+  outline: 2px dashed var(--dd-ink-2); outline-offset: -9px;
+}
+.dd-rail__name { padding: 0 6px; font-family: 'DynaPuff', system-ui, sans-serif; font-weight: 600; font-size: 21px; color: var(--dd-ink); background: var(--dd-panel); }
+.dd-hangers { list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+.dd-hangers li { margin: 0; }
+.dd-hanger {
+  display: flex; gap: 10px; align-items: flex-start; height: 100%;
+  padding: 9px 10px; border: 2px solid transparent; border-radius: 8px; cursor: pointer;
+}
+.dd-hanger:hover { border-color: var(--dd-ink-2); }
+.dd-hanger:has(input:checked) { border-color: var(--dd-ink); background: var(--dd-wall); }
+.dd-hanger input { flex: 0 0 auto; width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--dd-ink); }
+/* THE RING IS ON THE BOX, not on the hanger: check-focus.py measures the
+   outline of the element that has focus, and Vital Plant Living's first
+   draft taught this repo that a ring drawn somewhere else is a ring that tool
+   cannot see. */
+.dd-hanger input:focus-visible { outline: 3px solid var(--dd-ink); outline-offset: 2px; }
+.dd-hanger__words { display: flex; flex-direction: column; gap: 2px; }
+.dressup .dd-hanger__name { font-weight: 700; font-size: 16px; line-height: 1.3; }
+.dressup .dd-hanger__feel, .dressup .dd-hanger__on { font-size: 14px; line-height: 1.45; color: var(--dd-ink-2); }
+.dressup .dd-hanger__on { font-style: normal; }
+.dd-cloth { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 12px; margin: 12px 0 0; }
+.dd-cloth__lab { grid-row: 1; font-size: 13px; font-weight: 700; color: var(--dd-ink-2); }
+.dd-cloth__pick {
+  grid-row: 2; width: 100%; padding: 8px 10px; font: inherit; font-size: 15px;
+  background: var(--dd-panel); color: var(--dd-ink); border: 2px solid var(--dd-ink); border-radius: 8px;
+}
+.dd-extra + .dd-extra { margin-top: 12px; padding-top: 12px; border-top: 2px dashed var(--dd-ink-2); }
+
+/* OFF THE PEG. Each look is a patch like the rails, and says whose it is in
+   their own words before it says anything of ours. */
+.dd-looks { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+.dd-look {
+  margin: 0; padding: 18px 20px 20px; background: var(--dd-panel);
+  border: 2px solid var(--dd-ink); border-radius: 10px; outline: 2px dashed var(--dd-ink-2); outline-offset: -9px;
+}
+.dressup .dd-look__given { margin: 0; font-size: 15px; }
+.dressup .dd-look__who { margin: 2px 0 10px; font-size: 14px; color: var(--dd-ink-2); }
+.dd-look__pieces { margin: 0; padding-left: 18px; }
+.dressup .dd-look__pieces li { font-size: 15px; line-height: 1.5; }
+.dd-look__slot { font-weight: 700; }
+.dressup .dd-look__note { margin: 10px 0 0; font-size: 15px; color: var(--dd-ink-2); }
+.dressup .dd-look__go { margin: 12px 0 0; }
+.dd-put {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700; font-size: 15px;
+  padding: 9px 15px; border-radius: 999px; cursor: pointer;
+  background: var(--dd-ink); color: var(--dd-panel); border: 2px solid var(--dd-ink);
+}
+.dd-put:hover { background: var(--dd-ink-2); border-color: var(--dd-ink-2); }
+.dd-put:focus-visible { outline-offset: 3px; }
+
+.dd-rules { margin: 0; padding-left: 24px; max-width: 820px; }
+.dressup .dd-rules li { margin: 0 0 12px; }
+.dressup .dd-further { font-size: 15px; color: var(--dd-ink-2); }
+.dressup .quest { margin-top: 40px; }
+
+/* ON A PHONE THE DRAWING STAYS AT THE TOP WHILE THE RAILS GO UNDER IT, for the
+   same reason as the sticky column above: the rails are longer than a phone is
+   tall, and a choice that changes a drawing three screens away gives no sign of
+   having worked. The stand's wrapper steps out of the way (display: contents)
+   so the drawing is a child of the whole fitting and can stick for as long as
+   the rails run; it stands on the room's own wall, so nothing shows through. */
+@media (max-width: 760px) {
+  .dd-fitting { grid-template-columns: 1fr; gap: 14px; }
+  .dd-fitting__stand { display: contents; }
+  .dd-stand {
+    position: sticky; top: 0; z-index: 2; max-width: none; height: 34vh; max-height: 300px;
+    background: var(--dd-wall); border-bottom: 2px solid var(--dd-ink); padding: 6px 0;
+  }
+  .dd-hangers { grid-template-columns: 1fr; }
+}
+
+/* §53 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -11825,7 +12125,7 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §52 says every
+   shipped with no rule here at all — which on a street whose §53 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -11949,7 +12249,7 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §53 ── Print ───────────────────────────────────────────────────────────────
+/* §54 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

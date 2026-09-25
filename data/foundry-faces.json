@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-09-24",
+ "_checked": "2026-09-25",
  "faces": {
   "albert-sans": {
    "family": "Albert Sans",
@@ -560,6 +560,23 @@
      "style": "italic",
      "file": "crimson-pro-400-italic.woff2",
      "sha": "dd6179ff8c14dea8"
+    }
+   ]
+  },
+  "dynapuff": {
+   "family": "DynaPuff",
+   "category": "Display",
+   "designer": "Toshi Omagari, Jennifer Daniel",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/dynapuff",
+   "copyright": "Copyright 2021 The DynaPuff Project Authors (https://github.com/googlefonts/dynapuff)",
+   "repository": "https://github.com/googlefonts/dynapuff",
+   "variants": [
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "dynapuff-600.woff2",
+     "sha": "fb44978e6e96cacf"
     }
    ]
   },
@@ -1287,6 +1304,29 @@
      "style": "normal",
      "file": "playfair-display-700.woff2",
      "sha": "02af2688dd8c8a55"
+    }
+   ]
+  },
+  "plus-jakarta-sans": {
+   "family": "Plus Jakarta Sans",
+   "category": "Sans Serif",
+   "designer": "Tokotype",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/plusjakartasans",
+   "copyright": "Copyright 2020 The Plus Jakarta Sans Project Authors (https://github.com/tokotype/PlusJakartaSans)",
+   "repository": "https://github.com/tokotype/PlusJakartaSans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "plus-jakarta-sans-400.woff2",
+     "sha": "cd8db90cd950e26b"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "plus-jakarta-sans-400.woff2",
+     "sha": "cd8db90cd950e26b"
     }
    ]
   },

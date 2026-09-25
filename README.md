@@ -103,6 +103,7 @@ samefood-cafe.html    A café for samefoods and safe foods, seen from above the 
 collection-collection.html  A dark gallery of our people's collections, a lamp per cabinet and no two alike. The house describes the photos
 vital-plant-living.html  A plant-based kitchen drawn cut through the middle. Build a bowl or wrap from a real pantry and copy it
 community-center.html A painted block hall, blinds half open. House norms and the front desk for the CB
+dopamine-dress-up-den.html  Helen's idea: a boutique for dopamine dressing. Mix an outfit on a valet stand; nobody's body is drawn
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 the-garden.html       The knowledge garden. One bed per site we publish, each linking out
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
@@ -220,6 +221,7 @@ python3 tools/make-samefood.py     # Samefood Cafe's table, menu, counter and tr
 python3 tools/make-collection.py   # The Collection Collection's gallery, cabinets and credits; refuses metadata, a filter, or two lamps alike
 python3 tools/make-vital.py        # Vital Plant Living's shelf, builder, board, counter and stereo; refuses a combo off the pantry, or Ital on the menu
 python3 tools/make-community.py    # The Community Center's service board; refuses a slot whose room has stopped saying what it repeats
+python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, and the credits; refuses a size, a gendered rail, or no all-black colourway
 python3 tools/make-dance-punks.py  # the disco's channels and credits; refuses a runtime, shuffle, or two inks alike in greyscale
 python3 tools/make-small-hours.py  # the diner's menu, quotations, record, jukebox and placemat; refuses a lyric with no permission, or a placemat that keeps anything
 python3 tools/make-repeater.py     # the Repeater's log and quotations; refuses anything that sends, stores or listens
@@ -487,6 +489,16 @@ names, in `holds`, the words on that room's published page that carry those term
 reads the page and refuses if they have gone. The board cannot go on promising what the room has
 stopped promising. It also refuses a route no room offers, a form or an input, and the vocabulary
 of a score, with a negation window so the board can still say out loud that nothing is ranked.
+
+`make-dressup.py` builds the Dopamine Dress-Up Den out of `data/dressup.json`, and **the drawings of every
+garment and every print live in the tool**, so it refuses a garment or print it cannot draw rather than
+putting nothing on the stand. It **refuses a garment that does not say how it feels and how it comes off**,
+a set of colourways with no all-black one, an ink `love.css` does not declare, a look with somebody's name
+on it and not their words, and a cut that names a body part: **nobody's body is drawn**, the clothes hang
+on a valet stand. It sweeps the room's own copy, with the negation window, for the vocabulary of bodies
+and sizes, gendered rails, fashion rules, brain chemistry, othering and rating, and refuses the bare name
+*The Den*, which is Graceland's room behind the Jungle Room. `dressup.js` reads every cut, print and
+colourway off the page; the tool refuses it if it ever stores, sends or reads the dial.
 
 `make-vital.py` builds Vital Plant Living out of `data/vital.json`, **where the pantry is Ryan's own**,
 the list he cooks from at home, written down as he gave it. It **refuses a combo that brings in

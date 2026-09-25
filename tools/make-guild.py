@@ -213,6 +213,12 @@ DRAW = {
     # room, touching nothing, not even the floor line under it. The blades are
     # --sf-cress, 5.88 on the table, over the body threshold a marker is held to;
     # the floor line is --sf-ink-2 and carries nothing.
+    # A feather come off the boa, lying on the shop floor under the stand: a
+    # quill in --dd-ink and a curved vane in --dd-link, the room's magenta, 6.38
+    # on the lavender wall and over the body threshold a marker is held to; the
+    # pink of the boa itself is 2.07 there and would be a feather nobody could
+    # find. The floor line is --dd-ink and carries nothing. It lies still.
+    "dressup-feather": """<path d="M3 29 H29" stroke="var(--dd-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M7 26 Q12 12 27 6 Q26 16 17 22 Q12 25 7 26 Z" fill="var(--dd-link)" stroke="var(--dd-ink)" stroke-width="1.4" stroke-linejoin="round"/><path d="M5 28 Q15 17 26 7" fill="none" stroke="var(--dd-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M13 20 L10 16 M17 17 L15 12 M21 13 L20 9" stroke="var(--dd-ink)" stroke-width="1.1" stroke-linecap="round"/>""",
     # A sprig of cilantro fallen off the shelf over the counter, lying on the
     # kitchen floor: a stem and three lobed leaflets in --vpl-leaf, 4.86 on the
     # turmeric wall, over the body threshold a marker is held to. The floor

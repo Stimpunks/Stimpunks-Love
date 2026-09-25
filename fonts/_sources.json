@@ -1218,5 +1218,33 @@
       "src": "https://fonts.gstatic.com/s/radiocanada/v26/XRXG3ISXn0dBMcibU6jlAqr3ejLv5OLZYiYXik6dRW_Qfub6AVw.woff2",
       "note": "Byte-identical to the 400 above; see that note."
     }
+  ],
+  "dynapuff": [
+    {
+      "file": "dynapuff-600.woff2",
+      "weight": "600",
+      "style": "normal",
+      "bytes": 22192,
+      "src": "https://fonts.gstatic.com/s/dynapuff/v9/z7N5dRvsZDIVHbYPMhZJ3HQ83UaSu4uhr7-ZFeoYkgAr1x8RS8gp2Y_hSDk90n59Vw.woff2",
+      "note": "The Dopamine Dress-Up Den (§52), the shop's name, its headings, the names of the rails and the looks, and nothing at reading size. A soft, inflated letter whose strokes swell at the ends as if stuffed and stitched shut -- round all the way round, where Vital Plant Living's Bagel Fat One is piled. Requested at 600 alone, so Google serves a static instance; one file, one declaration."
+    }
+  ],
+  "plus-jakarta-sans": [
+    {
+      "file": "plus-jakarta-sans-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 27272,
+      "src": "https://fonts.gstatic.com/s/plusjakartasans/v12/LDIoaomQNQcsA88c7O9yZ4KMCoOg4Ko20yygg_vb.woff2",
+      "note": "The Dopamine Dress-Up Den (§52), every word that is read: the rails, how each thing feels and how it comes off, the looks and the house rules. An open, even sans that stays out of the way of the clothes. It ships as a variable font, so Google serves the same file for 400 and 700; it is downloaded once and declared twice against the weight axis, Radio Canada's call. No italic shipped."
+    },
+    {
+      "file": "plus-jakarta-sans-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 27272,
+      "src": "https://fonts.gstatic.com/s/plusjakartasans/v12/LDIoaomQNQcsA88c7O9yZ4KMCoOg4Ko20yygg_vb.woff2",
+      "note": "Byte-identical to the 400 above; see that note."
+    }
   ]
 }

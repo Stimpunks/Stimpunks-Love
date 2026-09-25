@@ -742,6 +742,25 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--vital .og-shelf {{ margin: auto 0 0 !important; line-height: 0; }}
 .og--vital .og-shelf svg {{ display: block; width: 100%; height: auto; }}
 
+/* the dopamine dress-up den — THE STAND AS IT STANDS WHEN YOU WALK IN, LIFTED
+   OFF THE PAGE. The valet stand is the page's own drawing, dressed in whatever
+   the page ships dressed in, rainbows from the crystal and all, so there is one
+   stand and not two. No body on the card either: the clothes hang on wood. The
+   words stand on the bare lavender wall to its left, under the sign's own
+   ribbon of patchwork, and the lede is the page's og:description. */
+.og--dressup {{ width: 100%; flex-direction: row; align-items: stretch; padding: 34px 40px 0 60px; gap: 24px; }}
+.og--dressup .og-words {{ flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center;
+  gap: 0; padding-bottom: 34px; margin: 0 !important; }}
+.og--dressup .dd-sign {{ margin: 0 !important; }}
+.og--dressup .dd-sign::after {{ max-width: 100%; margin-top: 16px; }}
+.og--dressup .dd-over {{ font-size: 17px; }}
+.og--dressup h1 {{ font-size: 84px; line-height: 1.0; margin: 8px 0 0 !important; }}
+.og--dressup .dd-tag {{ font-size: 28px; margin: 14px 0 0 !important; }}
+.og--dressup .og-lede {{ font-family: 'Plus Jakarta Sans', sans-serif; color: var(--dd-ink);
+  font-size: 22px; line-height: 1.42; margin: 20px 0 0 !important; max-width: 680px; }}
+.og--dressup .og-stand {{ flex: 0 0 396px; align-self: flex-end; margin: 0 !important; line-height: 0; }}
+.og--dressup .og-stand svg {{ display: block; width: 396px; height: auto; max-height: none; }}
+
 /* the community center — THE LETTERBOARD AND THE RADIO ON THE BLUE WALL.
    The wall and its bars of sun come from the room's own body rule, so the card
    is lit through the same blind as the hall. The letterboard is the page's own
@@ -2451,6 +2470,40 @@ def card_vital(p):
     )
 
 
+def card_dressup(p):
+    # THE SIGN'S TWO LINES ARE LIFTED FROM THE PAGE, the stand is the page's own
+    # drawing, and the lede is its og:description, so the card cannot say what
+    # the room does not. The alt describes the clothes on the stand by reading
+    # the page's own readout line, which make-dressup.py writes from the same
+    # data as the drawing, so it cannot describe a garment the stand has not got.
+    over = re.search(r'<p class="dd-over">(.*?)</p>', p["src"], re.S)
+    tag = re.search(r'<p class="dd-tag">(.*?)</p>', p["src"], re.S)
+    ro = re.search(r'<p class="dd-readout" id="dd-readout">(.*?)</p>', p["src"], re.S)
+    if not over or not tag or not ro:
+        raise SystemExit(
+            "REFUSING: dopamine-dress-up-den.html has lost the line over its name, its\n"
+            "tagline or the readout under the stand, and the card is built out of all\n"
+            "three. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    on = plain(ro.group(1))
+    return (
+        "",
+        f'<div class="og og--dressup" data-fit="card">'
+        f'<div class="og-words"><header class="dd-sign"><p class="dd-over">{over.group(1).strip()}</p>'
+        f'{p["h1"]}<p class="dd-tag">{tag.group(1).strip()}</p></header>'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-stand">{p["stand"]}</div>'
+        f'</div>',
+        f"A pale lavender card. Small dark capitals reading {plain(over.group(1))}, then "
+        f"\u201c{p['h1text']}\u201d in a soft, puffed, near-black face, and a ribbon of patchwork "
+        f"squares in tomato, marigold, lime, turquoise, indigo, violet and hot pink sewn along a "
+        f"running stitch. Under it: {plain(tag.group(1))} Then: {p['desc_plain']} On the right, "
+        f"a wooden valet stand with no one in it, a knob for a hat, a bar for the shoulders and "
+        f"a bar for the waist, dressed in clothes outlined in dark ink. {on} Small rainbows "
+        f"from a crystal hanging in the top corner are scattered on the wall behind it.",
+    )
+
+
 def card_community(p):
     # THE LETTERBOARD'S THREE LINES ARE LIFTED FROM THE PAGE, the radio is the
     # front desk's own drawing, and the lede is the page's og:description, so
@@ -2672,6 +2725,7 @@ CARDS = {
     "samefood":     card_samefood,
     "vital":        card_vital,
     "community":    card_community,
+    "dressup":      card_dressup,
     "collections":  card_collection,
     "mapping":      card_map,
     "dead-tired":   card_dead_tired,
@@ -2797,6 +2851,7 @@ def main():
         ("table",    "samefood-cafe.html", r'(<svg class="sf-table-art".*?</svg>)'),
         ("shelf",    "vital-plant-living.html", r'(<svg class="vpl-shelf-art".*?</svg>)'),
         ("radio",    "community-center.html", r'(<svg class="ctr-desk__radio".*?</svg>)'),
+        ("stand",    "dopamine-dress-up-den.html", r'(<svg class="dd-stand".*?</svg>)'),
         ("gallery",  "collection-collection.html", r'(<svg class="cc-gallery".*?</svg>)'),
         ("stage",    "laughingstock.html", r'(<svg class="ls-stage".*?</svg>)'),
         ("house",    "lightbulb-picture-house.html", r'(<svg class="lph-auditorium".*?</svg>)'),
