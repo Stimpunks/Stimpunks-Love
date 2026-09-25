@@ -2625,8 +2625,12 @@ sends a fragment to a server. `tools/make-coworking.py` refuses a door without o
 door is our events page's, word for word**, re-read from the mirror on every build, in that page's
 order; when the events page changes, re-copy the line, never loosen the check. It also refuses the
 events page's own closing line (*open to Stimpunks Discord community members*), which was true until
-this room and is the friendly edit that will arrive. **The Events door is an assumption** (that the
-recurring events meet in the Proton room named Events) and DECISIONS.md says so. **A door's name is
+this room and is the friendly edit that will arrive. **The Events door opens the room our recurring
+events meet in**, confirmed by Ryan; the events page still says the meetings are for Discord members
+and is left that way on purpose while the Proton setup is experimental. **The Hang Suites upstairs are
+Ryan's words** (Cave, Campfire, Watering Hole, each with its norms), not the events page's, so they are
+not re-read against it; the tool refuses a suite with hours (that is a meeting), one with no norms, and
+the section without David Thornburg's name, because caves, campfires and watering holes are his. **A door's name is
 read off Proton's guest page, never guessed**: open the link as far as the name box and no further.
 `coworking.js` reads the visitor's clock and time zone to write the same hour underneath, and the tool
 refuses it if it ever stores, sends or listens; the Central line is what a page with no script shows.

@@ -41,6 +41,10 @@ IT ALSO REFUSES:
   · anything in coworking.js that stores, sends or listens. It reads the
     visitor's clock and time zone to write the hour underneath, which is a thing
     this room has to say out loud and has to keep small;
+  · a hang suite that is not a real door into the room it names, that says
+    nothing about how things go in there, or that has hours -- a suite with
+    hours is a meeting -- and the suites without David Thornburg's name on the
+    page, because caves, campfires and watering holes are his;
   · a count of who went through a door, in the room's own voice, with
     make-guild.py's negation window so the room can say it keeps none;
   · openness as being on show -- an open plan, doors propped wide, glass all
@@ -160,6 +164,30 @@ else:
     print("coworking: the Knowledge System mirror is not on this machine, so the doors' "
           "words were NOT re-checked against the events page this run.")
 
+# THE HANG SUITES. Ryan's words, as he gave them, so nothing here re-checks them
+# against a page; what is checked is that each one is a real door into the room
+# it says, that it says how things go in there before you knock, and that it
+# has no hours, because a suite with hours is a meeting and belongs up there.
+suites = data.get("suites", [])
+for x in suites:
+    where = f"suite {x.get('id')!r}"
+    if x["id"] in ids:
+        refuse(f"{where}: an id a door already has.")
+    ids.add(x["id"])
+    if not DOOR.match(x.get("url", "")):
+        refuse(f"{where}: {x.get('url')!r} is not a Proton Meet join link carrying its #pwd- password.")
+    if not x.get("proton_name"):
+        refuse(f"{where}: no proton_name. Read it off Proton's guest page; do not guess it.")
+    if not x.get("norms") or not str(x.get("norms_title", "")).strip():
+        refuse(f"{where}: no norms. A suite says how things go in there before you knock, "
+               "which is what a meeting's time does on its door.")
+    if x.get("slots") or x.get("start"):
+        refuse(f"{where}: a suite with hours is a meeting. Put it with the doors, with its "
+               "times off our events page, or take the hours off.")
+    lk = x.get("link")
+    if lk and lk["text"] not in x.get("said", ""):
+        refuse(f"{where}: the link text {lk['text']!r} is not in what the suite says.")
+
 # The data is refused before anything is built from it: a door with a field
 # missing would otherwise stop this tool with a traceback instead of a reason.
 if problems:
@@ -207,7 +235,43 @@ def door(d):
     ])
 
 
+def suite(x):
+    i, name = x["id"], e(x["name"])
+    said = e(x["said"])
+    if x.get("link"):
+        t = e(x["link"]["text"])
+        said = said.replace(t, f'<a href="{e(x["link"]["href"])}">{t}</a>', 1)
+    further = ""
+    if x.get("further"):
+        further = (f'          <p class="cw-door__from">Read more: <a href="{e(x["further"]["href"])}">'
+                   f'{e(x["further"]["text"])}</a>.</p>')
+    return "\n".join([l for l in [
+        f'    <article class="cw-door cw-door--suite" id="suite-{i}" aria-labelledby="cw-{i}-h">',
+        f'      <div class="cw-door__fan" aria-hidden="true"></div>',
+        f'      <div class="cw-door__leaf">',
+        f'        <h3 class="cw-door__name" id="cw-{i}-h">{name}</h3>',
+        f'        <div class="cw-door__note">',
+        f'          <p class="cw-door__said">{said}</p>',
+        f'          <p class="cw-norms__title">{e(x["norms_title"])}</p>',
+        f'          <ul class="cw-norms">',
+        *[f'            <li>{e(n)}</li>' for n in x["norms"]],
+        f'          </ul>',
+        further,
+        f'        </div>',
+        f'        <a class="cw-open" href="{e(x["url"])}">Open the {name} door<span aria-hidden="true"> &rarr;</span></a>',
+        f'        <p class="cw-open__off">Off site: Proton Meet&rsquo;s guest page for the room named {e(x["proton_name"])}. Nothing reaches Proton until you open it.</p>',
+        f'      </div>',
+        f'    </article>',
+    ] if l])
+
+
 src = PAGE.read_text()
+if suites:
+    src = swap(src, "cw-suites-intro", f'    <p class="cw-lede">{e(data["suites_intro"])}</p>')
+    src = swap(src, "cw-suites", "\n".join(suite(x) for x in suites))
+note = data.get("access_note")
+if note:
+    src = swap(src, "cw-access", f'    <h2>{e(note["title"])}</h2>\n    <p class="cw-access">{e(note["said"])}</p>')
 src = swap(src, "cw-doors", "\n".join(door(d) for d in doors))
 credits = (
     f'    <p><strong>Every line on a door is our events page&rsquo;s</strong>, word for word: '
@@ -240,6 +304,9 @@ for m in TALLY.finditer(ours):
     if not NEGATED.search(window):
         refuse(f"the room says {m.group(0)!r} and is not refusing it. Nothing in here counts "
                "who went through a door.")
+if suites and "David Thornburg" not in norm(bare):
+    refuse("the Hang Suites are caves, campfires and watering holes, and the room no longer "
+           "names David Thornburg. The three zones are his and are named as his.")
 js = SCRIPT.read_text() if SCRIPT.exists() else ""
 if not js:
     refuse("coworking.js is missing; the page loads it.")
@@ -252,5 +319,5 @@ if problems:
 
 PAGE.write_text(src)
 slots = sum(len(d["slots"]) for d in doors)
-print(f"coworking: {len(doors)} doors and {slots} times written into {PAGE.name}"
+print(f"coworking: {len(doors)} doors, {slots} times and {len(suites)} hang suites written into {PAGE.name}"
       + ("; every line re-read against the events page." if mirror is not None else "."))

@@ -12999,6 +12999,19 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 .cw-door__leaf a.cw-open:focus-visible { outline: 3px solid var(--cw-brass); outline-offset: 3px; }
 .cw-open__off { margin: 10px 0 0; font-size: 14px; line-height: 1.45; color: var(--cw-dim); text-align: center; }
 
+/* THE HANG SUITES, up the stairs. The same door as the meetings', because it is
+   the same house: a note on each saying how things go in there instead of when. */
+.cw-suites-part { margin: 56px 0 0; }
+.cavendish .cw-suites-h {
+  margin: 0; font-family: 'Libre Caslon Display', Georgia, serif; font-weight: 400;
+  font-size: clamp(38px, 6vw, 56px); line-height: 1.05; color: var(--cw-brass);
+}
+.cw-suites-part .cw-lede { margin-top: 14px; }
+.cw-norms__title { margin: 14px 0 0; font-weight: 700; font-size: 15px; }
+.cw-norms { margin: 6px 0 0; padding-left: 1.15em; font-size: 15px; line-height: 1.5; }
+.cw-norms li + li { margin-top: 3px; }
+.cw-access { font-size: 20px; }
+
 .cw-part { margin: 50px 0 0; max-width: 44em; }
 .cavendish .cw-part h2 {
   margin: 0 0 12px; font-family: 'Libre Caslon Display', Georgia, serif; font-weight: 400;

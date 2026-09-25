@@ -19,7 +19,9 @@
           "tagline": "The radical act of showing up for each other.",
           "link": "https://stimpunks.org/events/solidarity-sesh/",
           "said": "Saturdays, 10AM Central",
-          "days": [6],
+          "days": [
+            6
+          ],
           "start": "10:00"
         },
         {
@@ -27,7 +29,9 @@
           "tagline": "Bring Your Muchness Down the Rabbit Hole",
           "link": "https://stimpunks.org/events/infodumplings/",
           "said": "Thursdays, 7PM Central",
-          "days": [4],
+          "days": [
+            4
+          ],
           "start": "19:00"
         },
         {
@@ -35,7 +39,9 @@
           "tagline": "Expert lecturers. Community wisdom. Zero hierarchy.",
           "link": "https://stimpunks.org/events/campfire-learn-together/",
           "said": "Sundays, 10 AM Central",
-          "days": [0],
+          "days": [
+            0
+          ],
           "start": "10:00"
         },
         {
@@ -43,7 +49,13 @@
           "tagline": "Drop in. Space out. Belong here.",
           "link": "https://stimpunks.org/events/watering-hole-hangs/",
           "said": "Weekdays, 9AM Central — and spontaneously whenever someone feels like gathering",
-          "days": [1, 2, 3, 4, 5],
+          "days": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
           "start": "09:00"
         }
       ]
@@ -60,7 +72,9 @@
         {
           "what": "The Operations meeting",
           "said": "Every Tuesday · 10:00–11:00 AM CT",
-          "days": [2],
+          "days": [
+            2
+          ],
           "start": "10:00",
           "end": "11:00"
         }
@@ -78,11 +92,71 @@
         {
           "what": "The Editorial meeting",
           "said": "Every Thursday · 10:00–11:00 AM CT",
-          "days": [4],
+          "days": [
+            4
+          ],
           "start": "10:00",
           "end": "11:00"
         }
       ]
     }
-  ]
+  ],
+  "_suites": "The Hang Suites are Ryan's, written in his brief of 2026-09-25 and copied here as he gave them, with two changes: the Watering Hole's list of norms was headed 'Campfire Norms' in the brief, a slip, and is headed with its own room's name; and the opening line said how many rooms there are, which check-counts.py refuses, so it says 'rooms'. Each link was opened on 2026-09-25 as far as Proton Meet's guest page and no further, and named the room exactly as `proton_name` says. They are named for Cavendish Space's caves, campfires and watering holes, which are David Thornburg's, and make-coworking.py refuses the section if the room stops naming him. A suite has no times on purpose: they are drop-in rooms, and a suite with hours is a meeting and belongs with the doors.",
+  "suites_intro": "Wanna just hang out or work on something together? We have rooms for that.",
+  "suites": [
+    {
+      "id": "cave",
+      "name": "Cave",
+      "proton_name": "Cave",
+      "url": "https://meet.proton.me/join/id-5TYSJEARVW#pwd-2BoCwop5LZsM",
+      "said": "The Cave / Quiet Room is for quiet co-presence, ambient togetherness, and low-demand connection.",
+      "norms_title": "Cave / Quiet Room Norms",
+      "norms": [
+        "No spoken chat.",
+        "Minimal text chat.",
+        "Don’t @ anyone.",
+        "It’s okay to text a hi to the room.",
+        "Video optional."
+      ],
+      "further": {
+        "text": "Parallel Presence",
+        "href": "https://stimpunks.org/experiences/parallel-presence/"
+      }
+    },
+    {
+      "id": "campfire",
+      "name": "Campfire",
+      "proton_name": "Campfire",
+      "url": "https://meet.proton.me/join/id-ER58AY42WG#pwd-KSEW8BLE8JYk",
+      "said": "The Campfire is for small groups and teams working on something together or watching/listening together.",
+      "norms_title": "Campfire Norms",
+      "norms": [
+        "Video optional.",
+        "Mute when you’re not actively talking.",
+        "Quietly lurking with camera and video off is perfectly fine and accepted."
+      ]
+    },
+    {
+      "id": "watering-hole",
+      "name": "Watering Hole",
+      "proton_name": "Watering Hole",
+      "url": "https://meet.proton.me/join/id-NSQ8HBMH2C#pwd-SRiIqaPCwseT",
+      "said": "The Watering Hole is for open, come-and-go, group Watercooler chat where random and off-topic are on-topic. This is a casual, drop-in space where people come together without any particular agenda.",
+      "link": {
+        "text": "Watercooler chat",
+        "href": "https://revelry.co/insights/remote-work/watercooler-channel/"
+      },
+      "norms_title": "Watering Hole Norms",
+      "norms": [
+        "Video optional.",
+        "Mute when you’re not actively talking.",
+        "Quietly lurking with camera and video off is perfectly fine and accepted.",
+        "Come-and-go as you please. If you need to drop out suddenly, no need to worry with goodbyes. We understand."
+      ]
+    }
+  ],
+  "access_note": {
+    "title": "A Note on Communication Access",
+    "said": "We support multiple modes of participation including text chat, audio, and video — whatever works for your communication needs on a given day. You do not need to speak to belong here."
+  }
 }
