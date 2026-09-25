@@ -2455,7 +2455,11 @@ colour to boost your mood". The sweep refuses brain-chemistry claims, sizes and 
 fashion rules, othering words (exotic, tribal, harem pants, costume) and rating, in our voice, with the
 negation window. **Helen's look was relayed** and its witchy prints are the house's guess. She has the
 final say, as she does on the yurt. Crocs are on the rail at Ryan's ask, and the liner notes say the name
-is Crocs, Inc.'s.
+is Crocs, Inc.'s. **It takes looks from our community, in words and never as a
+photograph** (the stand has no body to put a photograph on), under *A look of your own*, with a slot on the
+service board holding those terms. An arriving look is a `looks` entry with `whose`, `given` and `as_given`;
+"somebody in our community" is a name. A garment it needs that no rail has gets drawn and hung up,
+with its feel and fastening lines, rather than approximated.
 
 **A PATTERN IS PARAMETERISED BY CUSTOM PROPERTIES ON THE `<pattern>` ELEMENT.** One pattern per slot;
 the colourway rides on it as `--c1..--c6` (inks cycled) and `--g`/`--f1..--f5` (ground and figures), and

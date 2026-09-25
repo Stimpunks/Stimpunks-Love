@@ -147,6 +147,28 @@
       "more": "The trays as they stand"
     },
     {
+      "id": "look",
+      "label": "Your look",
+      "room": "The Dopamine Dress-Up Den",
+      "page": "dopamine-dress-up-den.html",
+      "anchor": "a-look-of-your-own",
+      "takes": "What you wear, in your own words, for a look on the peg with your name on it.",
+      "asks": [
+        "Words, not a photograph: the pieces, the prints, the colours, and how they feel if you like.",
+        "Your words go beside the look exactly as you give them. If something you wear is not on a rail yet, the house draws it and hangs it up.",
+        "Say how you want to be named. Nothing is rated, and it comes down the moment you ask."
+      ],
+      "holds": [
+        "Words, not a photograph",
+        "Your words go beside the look exactly as you give them",
+        "If something you wear is not on a rail yet, the house draws it and hangs it up",
+        "Say how you want to be named",
+        "It comes down the moment you ask"
+      ],
+      "route": "contact",
+      "more": "How the Dress-Up Den takes a look"
+    },
+    {
       "id": "watch",
       "label": "Something to watch",
       "room": "The rooms with a screen in them",
@@ -312,7 +334,7 @@
       "label": "Taking something back",
       "room": "Anything with you in it",
       "page": "privacy.html",
-      "takes": "Your photograph, your voice, your tray, your cabinet, your page, your name in a credit.",
+      "takes": "Your photograph, your voice, your tray, your cabinet, your look, your page, your name in a credit.",
       "asks": [
         "It comes down when you say so. One message, no reason needed.",
         "Coming down means gone, not hidden."
