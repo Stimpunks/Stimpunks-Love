@@ -1705,6 +1705,108 @@
           "It is the loudest of the three."
         ]
       }
+    },
+    {
+      "id": "lib-slip",
+      "page": "community-library.html",
+      "room": "Community Library",
+      "title": "What are you, at the library?",
+      "posted": "There is a public library on the street with the sky in its windows, and somebody has left a book on the floor with its date-due slip sticking out. Go and read the room, and find out what the library says you are when you walk in.",
+      "rank": 1,
+      "takes": "about as long as it takes to read a reading room's notices, and you can sit down",
+      "target": "a returned book lying on the floor, its date-due slip sticking out of the top",
+      "code": "PATRON",
+      "learned": "At the library you are a patron, not a customer. Nothing requires a card, you do not have to buy anything to be there, and nobody checks whether you are being social correctly. That is what makes a library a third place.",
+      "hints": [
+        "On the street itself, in the row of shopfronts: the one with sky in its windows.",
+        "In the first paragraph under the drawing of the reading room, and again in the praise of the public library.",
+        "On the floor at the foot of the room, under the last notice, where somebody put a book down."
+      ],
+      "ask": {
+        "question": "At the library, you are a patron and not a what?",
+        "accept": [
+          "customer",
+          "acustomer",
+          "customers",
+          "consumer"
+        ],
+        "answer": "a customer",
+        "why": "The library says it twice: at the library you are a patron, not a customer. Nothing there requires a card, and nobody asks you to buy anything to justify being in the room.",
+        "hints": [
+          "It is in bold at the end of the paragraph under the drawing.",
+          "It is the word for somebody a shop wants money from.",
+          "Cory Doctorow's line uses it too."
+        ]
+      }
+    },
+    {
+      "id": "lsp-string",
+      "page": "l-space.html",
+      "room": "L-Space",
+      "title": "What do you need to find your way through L-space?",
+      "posted": "There is a gap in the stacks at the back of the Community Library that is longer on the inside than it is on the outside. Go down it, and find out what you need to find your way back.",
+      "rank": 2,
+      "takes": "one gap in the stacks, and as long in there as you like, which is never as long as it felt",
+      "target": "the loose end of a ball of string, coiled on the floor where it was tied off",
+      "code": "STRING",
+      "learned": "In L-space what you need is not a map but a ball of string, because nothing in there is straight. Tie one end to the door you came in by and follow the thread: that is how we think about a library, and how a monotropic mind walks one anyway.",
+      "hints": [
+        "Through the gap in the stacks at the back of the Community Library.",
+        "In the first paragraph under the drawing, and again in Terry Pratchett's own words further down.",
+        "On the floor at the foot of the room, where the string was tied off."
+      ],
+      "ask": {
+        "question": "When you set out to look something up in the folds of L-space, what do you really need?",
+        "accept": [
+          "aballofstring",
+          "ballofstring",
+          "string",
+          "stringball",
+          "aball",
+          "ball"
+        ],
+        "answer": "a ball of string",
+        "why": "Nothing in L-space is straight, so a map would be no use. Pratchett's answer, in Guards! Guards!, is a ball of string: tie it to the door and follow it back.",
+        "hints": [
+          "It is not a map.",
+          "It is drawn right across the top of the room.",
+          "You tie one end to the door."
+        ]
+      }
+    },
+    {
+      "id": "ook-peel",
+      "page": "oook.html",
+      "room": "Oook",
+      "title": "Why did the Librarian keep his job?",
+      "posted": "At the far end of the string in L-space somebody has tied it round a banana, and on the other side of the shelf there is a room in the Librarian's own colours. Go and find out why he kept his job when everything else about him changed.",
+      "rank": 2,
+      "takes": "the length of a ball of string, and one room at the end of it",
+      "target": "a banana skin on the floor, left where somebody finished the banana",
+      "code": "BANANA",
+      "learned": "The Librarian kept his job because he was the only one who knew where all the books were. His body changed by accident, he found the new one suited the work, and he declined to be changed back; being the expert is a reason to keep a job that an institution cannot argue with.",
+      "hints": [
+        "Through the Community Library's gap in the stacks, and all the way along the string in L-space to the end.",
+        "In the first paragraph under the drawing of the Disc, and again under why we find him relatable.",
+        "On the floor at the foot of the room, where somebody dropped a banana skin."
+      ],
+      "ask": {
+        "question": "The Librarian kept his job because he was the only one who knew where all the what were?",
+        "accept": [
+          "books",
+          "thebooks",
+          "allthebooks",
+          "allofthebooks",
+          "book"
+        ],
+        "answer": "the books",
+        "why": "He was the only one who knew where all the books were, so however the University felt about an orangutan in the stacks, the matter was never really raised.",
+        "hints": [
+          "It is in the first paragraph under the drawing.",
+          "A library is full of them.",
+          "He climbs the shelves to reach them."
+        ]
+      }
     }
   ],
   "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

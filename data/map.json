@@ -9,7 +9,9 @@
     "penguin-pebbling.html": "arcade.html",
     "the-den.html": "jungle-room.html",
     "oracle-deck.html": "the-mopery.html",
-    "the-doomscroll.html": "the-mopery.html"
+    "the-doomscroll.html": "the-mopery.html",
+    "l-space.html": "community-library.html",
+    "oook.html": "l-space.html"
   },
   "_back_stairs": "A room with two doors. The Healing Checkpoint stands on the street as a shopfront of its own AND is reached by the guild's back stair, and its whole argument is that the first door exists -- rest is owed, so it cannot be reachable only through the place that hands out the work. The model draws it where it stands on the street and writes the back stair as a second way in beside the guild, never the other way round.",
   "back_stairs": {

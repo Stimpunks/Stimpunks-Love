@@ -66,6 +66,35 @@
     }
    ]
   },
+  "andika": {
+   "family": "Andika",
+   "category": "Sans Serif",
+   "designer": "SIL International",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/andika",
+   "copyright": "Copyright (c) 2004-2022 SIL International",
+   "repository": "https://github.com/silnrsi/font-andika",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "andika-400.woff2",
+     "sha": "50841fc9db96758f"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "andika-700.woff2",
+     "sha": "6b73917d10eda36a"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "andika-400-italic.woff2",
+     "sha": "228f85db9f7965f7"
+    }
+   ]
+  },
   "anton": {
    "family": "Anton",
    "category": "Display",
@@ -786,6 +815,23 @@
     }
    ]
   },
+  "gravitas-one": {
+   "family": "Gravitas One",
+   "category": "Display",
+   "designer": "Riccardo De Franceschi",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/gravitasone",
+   "copyright": "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com eben@eyebytes.com) with Reserved Font Name \"Gravitas\". This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+   "repository": "https://github.com/googlefonts/gravitasone",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "gravitas-one-400.woff2",
+     "sha": "c998e78f87df0fba"
+    }
+   ]
+  },
   "hanken-grotesk": {
    "family": "Hanken Grotesk",
    "category": "Sans Serif",
@@ -1050,6 +1096,35 @@
     }
    ]
   },
+  "libre-baskerville": {
+   "family": "Libre Baskerville",
+   "category": "Serif",
+   "designer": "Impallari Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/librebaskerville",
+   "copyright": "Copyright 2012 The Libre Baskerville Project Authors (https://github.com/impallari/Libre-Baskerville)",
+   "repository": "https://github.com/impallari/Libre-Baskerville",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "libre-baskerville-400.woff2",
+     "sha": "b62b98ef69e6e55b"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "libre-baskerville-400.woff2",
+     "sha": "b62b98ef69e6e55b"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "libre-baskerville-400-italic.woff2",
+     "sha": "f1eeeb479c5f256e"
+    }
+   ]
+  },
   "libre-franklin": {
    "family": "Libre Franklin",
    "category": "Sans Serif",
@@ -1156,6 +1231,23 @@
      "style": "normal",
      "file": "manrope-400.woff2",
      "sha": "e310b55a7fd9677f"
+    }
+   ]
+  },
+  "marcellus-sc": {
+   "family": "Marcellus SC",
+   "category": "Serif",
+   "designer": "Astigmatic",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/marcellussc",
+   "copyright": "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved Font Name \"Marcellus\"",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "marcellus-sc-400.woff2",
+     "sha": "c7cd5bc57764efc9"
     }
    ]
   },
@@ -1587,6 +1679,29 @@
     }
    ]
   },
+  "sniglet": {
+   "family": "Sniglet",
+   "category": "Display",
+   "designer": "Multiple Designers",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/sniglet",
+   "copyright": "Copyright (c) 2008, Haley Fiege (haley@kingdomofawesome.com), Copyright (c) 2012, Brenda Gallo (gbrenda1987@gmail.com) Copyright (c) 2013, Pablo Impallari (www.impallari.com|impallari@gmail.com), with no Reserved Font Name.",
+   "repository": "https://github.com/theleagueof/sniglet",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "sniglet-400.woff2",
+     "sha": "0838df2f63c97133"
+    },
+    {
+     "weight": "800",
+     "style": "normal",
+     "file": "sniglet-800.woff2",
+     "sha": "3e00f84a98ccaacd"
+    }
+   ]
+  },
   "sora": {
    "family": "Sora",
    "category": "Sans Serif",
@@ -1624,6 +1739,35 @@
      "style": "italic",
      "file": "sorts-mill-goudy-400-italic.woff2",
      "sha": "69cd7caaab814290"
+    }
+   ]
+  },
+  "source-serif-4": {
+   "family": "Source Serif 4",
+   "category": "Serif",
+   "designer": "Frank Grießhammer",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/sourceserif4",
+   "copyright": "© 2014 - 2021 Adobe Systems Incorporated (http://www.adobe.com/), with Reserved Font Name ‘Source’.",
+   "repository": "https://github.com/adobe-fonts/source-serif",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "source-serif-4-400.woff2",
+     "sha": "286e05e5e444f44e"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "source-serif-4-400.woff2",
+     "sha": "286e05e5e444f44e"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "source-serif-4-400-italic.woff2",
+     "sha": "bdd0e2a056f9d959"
     }
    ]
   },

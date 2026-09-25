@@ -207,6 +207,22 @@ for page, parent in behind.items():
 back_stair_from = {via: page for page, via in stairs.items()}
 
 
+def behind_lot(page):
+    """A room behind a room, and whatever is behind that in turn. The Community
+    Library's L-Space has Oook behind it, so a room two doors deep hangs under
+    the one you walk through to reach it rather than beside the shopfront, which
+    would draw a door into the library that is not there."""
+    out = [link(page, "mm-back")]
+    kids = children.get(page, [])
+    if kids:
+        out.append(f'<span class="sr">, and behind {name(page)}:</span>')
+        out.append('<ul class="mm-behind">')
+        for k in kids:
+            out.append(f"<li>{behind_lot(k)}</li>")
+        out.append("</ul>")
+    return "".join(out)
+
+
 def lot(page, side):
     out = [f'<li class="mm-lot mm-lot--{side}">', link(page, "mm-shop")]
     kids = children.get(page, [])
@@ -214,7 +230,7 @@ def lot(page, side):
         out.append(f'<span class="sr">, and behind {name(page)}:</span>')
         out.append('<ul class="mm-behind">')
         for k in kids:
-            out.append(f"<li>{link(k, 'mm-back')}</li>")
+            out.append(f"<li>{behind_lot(k)}</li>")
         out.append("</ul>")
     if page in back_stair_from:
         to = back_stair_from[page]

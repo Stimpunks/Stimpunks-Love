@@ -2530,6 +2530,50 @@ The two inks alone carry no word. **The misregistered fringe is on display type 
 would be the Doomscroll's blackletter problem. If the sheet ever becomes several sheets, or its darkest
 value becomes a black, it has collapsed into one of those two rooms.
 
+**THE COMMUNITY LIBRARY IS THE SECOND LIBRARY ON THE STREET, AND THE MOPERY IS ITS NIGHT.** §55 is
+our Library in this street's clothes, led by a celebration of the public library (Ryan's brief,
+2026-09-25): a public reading room at eleven in the morning, windows set high over the shelving,
+**and the sky in every one of them.** That is the whole separation and it is structural: every
+other interior here is lit by something you cannot see out of -- candle, lamp, corridor, blind, one
+window's patch, the floor -- and a library was built round its windows. The Mopery is a building
+you are let into after everybody has gone home, blue-black stone the candles never reach, an
+institution's books; this is opening hours, every wall lit, everybody's books, **and no flame
+anywhere, the desk lamp not even drawn.** If a candle ever appears in §55 it has become the Mopery
+at lunchtime, and it is this room that moves. Covenstead and the Community Center are the other
+daylit interiors and both are lit from one side, into a patch or into bars; here the light is high
+and general and lands in neither. **The only riot is the spines**, which carry no word.
+
+**L-SPACE HAS NOTHING STRAIGHT IN IT AND NOTHING LIT, AND OOOK IS NOT A LIBRARY.** §56 is behind the
+library, §57 behind that, and the map draws a room behind a room behind a room now (`make-map.py`'s
+`behind_lot`). L-space is the shelving with enough weight in the middle that every line bends into
+the well, deep violet, no floor or lamp, one cotton string for every link; **the Rabbit Hole is the
+collapse to watch** (both are threads you keep following), and it is a vertical grey shaft daylit
+from one end. **The obvious build of a Discworld room reached through L-space is the Library of
+Unseen University, which is the Mopery with an ape in it**, so Oook is not in the Library at all:
+it is the world the Librarian looks after the books of, a disc on four elephants on a turtle, in
+his colours, rust and banana. If the rust ever dulls to brown or a candle appears, it has joined
+The Den and the yurt. Nothing in any of the three moves at any setting.
+
+**THE LIBRARIAN IS NOT DRAWN ANYWHERE ON THIS SITE, AND NEITHER IS ANY PICTURE OF HIM.** The
+paintings are their painters' and our Library page's photographs carry NC and ND licences this
+site's CC BY-SA cannot. **The friendly edit is a lovely orangutan in the corner**; the room says out
+loud that he is up in the shelves and would rather you did not stare. The Disc is ours, and a world
+on a turtle is older than Pratchett. **Discworld is a trade mark and the credit says so.**
+
+**EVERY QUOTATION IN THOSE ROOMS WAS READ OFF OUR OWN LIBRARY PAGE, NOT OFF THE BOOK, AND EACH ONE
+SAYS SO UNDER ITS WORDS.** Two have no source on that page at all (Octavia Butler's, John Waters')
+and are there on its word, visibly. `make-library.py` writes them from `data/library.json` into
+the rooms and the liner notes, and refuses a quotation over the cap in the data file (forty, for
+Covenstead's reason rather than the Zibaldone's: the long Guards! Guards! passage stays on our page,
+linked), one with no line about how it was checked, a lyric (**the Linda Lindas' line is on our
+page and is refused here**), and an address on stimpunks.org without its trailing slash. **And it
+refuses the graphic novel by id:** our Library page cites the 1989 novel and links Open Library's
+record for the 2000 graphic adaptation (OL21372059W, a 122-page Gollancz edition with Briggs and
+Higgins on it). That was found by asking the record rather than trusting the link, which is the
+Hermitage's shelf lesson again; the novel is OL453735W, and stimpunks.org's page is that site's
+to correct. **Ranganathan's five laws are Wikipedia's wording**, and the room says the 1931
+printing was not checked. Broken on purpose first; all four caught.
+
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
 paleness alone — which is what holds it off the Guild, lit from nowhere with no depth. Netlify

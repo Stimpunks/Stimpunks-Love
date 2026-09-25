@@ -777,6 +777,46 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--community .og-lede {{ font-family: 'Radio Canada', sans-serif; color: var(--ctr-ink);
   max-width: 1060px; font-size: 27px; line-height: 1.4; margin: 6px 0 0 !important; }}
 
+/* community library — THE READING ROOM'S FAR WALL UNDER ITS LINTEL. The header is
+   lifted whole, lintel and all, and the drawing is the page's own, cropped from
+   the foot so the shelves and the desk stay in and the tops of the windows go:
+   the sky is still in every pane. The lede stands on the plaster like every word
+   in the room. */
+.og--library {{ width: 100%; padding: 34px 0 0; gap: 0; align-items: center; text-align: center; }}
+.og--library .cl-head {{ margin: 0 !important; }}
+.og--library .cl-lintel {{ font-size: 19px; }}
+.og--library h1 {{ font-size: 76px; margin: 10px 0 4px !important; }}
+.og--library .cl-sub {{ font-size: 21px; }}
+.og--library .og-lede {{ font-family: 'Andika', sans-serif; color: var(--cl-ink); max-width: 1000px;
+  font-size: 22px; line-height: 1.4; margin: 12px 60px 14px !important; }}
+.og--library .cl-view {{ width: 100%; margin: 0 !important; flex: 1 1 auto; min-height: 0; }}
+.og--library .cl-room {{ width: 100%; height: 100%; }}
+
+/* l-space — THE WARP ON THE RIGHT, THE WORDS ON THE VIOLET. The drawing is the
+   page's own, sliced to the card's height so the well sits in the middle of its
+   half; the words never stand on a shelf line. */
+.og--lspace {{ width: 100%; flex-direction: row; align-items: stretch; gap: 0; padding: 0; }}
+.og--lspace .og-words {{ flex: 0 0 540px; padding: 64px 36px 0 60px; margin: 0 !important; }}
+.og--lspace .lsp-head {{ margin: 0 !important; }}
+.og--lspace .lsp-over {{ font-size: 17px; }}
+.og--lspace h1 {{ font-size: 86px; white-space: nowrap; margin: 14px 0 14px !important; }}
+.og--lspace .lsp-sub {{ font-size: 23px; }}
+.og--lspace .og-lede {{ font-family: 'Source Serif 4', serif; color: var(--lsp-bone);
+  font-size: 23px; line-height: 1.45; margin: 26px 0 0 !important; }}
+.og--lspace .lsp-view {{ flex: 1 1 auto; margin: 0 !important; }}
+.og--lspace .lsp-warp {{ width: 100%; height: 100%; }}
+
+/* oook — THE DISC ON THE LEFT AND THE NAME ON THE RIGHT, in the Librarian's own
+   colours. The drawing is the page's own, and nobody is drawn on it. */
+.og--oook {{ width: 100%; flex-direction: row; align-items: center; gap: 20px; padding: 0 56px 0 20px; }}
+.og--oook .ook-view {{ flex: 0 0 640px; margin: 0 !important; }}
+.og--oook .og-words {{ flex: 1 1 auto; margin: 0 !important; }}
+.og--oook .ook-head {{ margin: 0 !important; text-align: left; }}
+.og--oook .ook-over, .og--oook .ook-sub {{ font-size: 20px; }}
+.og--oook h1 {{ font-size: 128px; margin: 6px 0 8px !important; }}
+.og--oook .og-lede {{ font-family: 'Libre Baskerville', serif; color: var(--ook-cream);
+  font-size: 20px; line-height: 1.5; margin: 18px 0 0 !important; }}
+
 /* plural mural — THE WALL FROM ACROSS THE ROAD, with whichever mural is first up on
    it. The header and the wall are lifted off the page whole, mural and all, so the
    card cannot show paint the wall has not got; the words stand on the road like
@@ -2534,6 +2574,83 @@ def card_dressup(p):
     )
 
 
+def card_library(p):
+    # THE HEADER AND THE DRAWING ARE LIFTED WHOLE, so the card cannot show a
+    # reading room the page has not got, or a lintel with different words on it.
+    head = re.search(r'(<header class="cl-head">.*?</header>)', p["src"], re.S)
+    room = re.search(r'(<svg class="cl-room".*?</svg>)', p["src"], re.S)
+    lintel = re.search(r'<p class="cl-lintel">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="cl-sub">(.*?)</p>', p["src"], re.S)
+    if not (head and room and lintel and sub):
+        raise SystemExit(
+            "REFUSING: community-library.html has lost its header or its drawing of the\n"
+            "reading room, and the card is those two. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--library" data-fit="card">{head.group(1)}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="cl-view">{room.group(1)}</div></div>',
+        f"A pale plaster card. A band of stone with {plain(lintel.group(1)).upper()} cut into it, "
+        f"then \u201c{p['h1text']}\u201d in carved Roman capitals, then {plain(sub.group(1))} "
+        f"Under it: {p['desc_plain']} Across the foot, the far wall of a reading room: tall "
+        f"arched windows full of blue sky and white cloud, a long run of shelves under them "
+        f"packed with books in every colour, and the front desk in the middle with a pile of "
+        f"returns and a date stamp on it.",
+    )
+
+
+def card_lspace(p):
+    # THE HEADER AND THE WARP ARE LIFTED WHOLE: the card's shelves are the page's
+    # shelves, bending into the same well, with the same string through them.
+    head = re.search(r'(<header class="lsp-head">.*?</header>)', p["src"], re.S)
+    warp = re.search(r'(<svg class="lsp-warp".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="lsp-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="lsp-sub">(.*?)</p>', p["src"], re.S)
+    if not (head and warp and over and sub):
+        raise SystemExit(
+            "REFUSING: l-space.html has lost its header or its warp, and the card is\n"
+            "those two. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--lspace" data-fit="card">'
+        f'<div class="og-words">{head.group(1)}<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="lsp-view">{warp.group(1)}</div></div>',
+        f"A deep violet card. Small pale capitals reading {plain(over.group(1))}, then "
+        f"\u201c{p['h1text']}\u201d in a very heavy, high-contrast letter, then "
+        f"{plain(sub.group(1))} Under it: {p['desc_plain']} On the right, a grid of shelves "
+        f"with books standing on them, every line bending in towards a dark well in the middle, "
+        f"and one cream string winding through them and round the well.",
+    )
+
+
+def card_oook(p):
+    # THE HEADER AND THE DISC ARE LIFTED WHOLE. Nobody is drawn on it, and the
+    # card says so, because the Librarian is not drawn anywhere on this site.
+    head = re.search(r'(<header class="ook-head">.*?</header>)', p["src"], re.S)
+    disc = re.search(r'(<svg class="ook-disc".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="ook-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="ook-sub">(.*?)</p>', p["src"], re.S)
+    if not (head and disc and over and sub):
+        raise SystemExit(
+            "REFUSING: oook.html has lost its header or its drawing of the Disc, and\n"
+            "the card is those two. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--oook" data-fit="card">'
+        f'<div class="ook-view">{disc.group(1)}</div>'
+        f'<div class="og-words">{head.group(1)}<p class="og-lede">{p["desc"]}</p></div></div>',
+        f"A rust-orange card with small banana-yellow stars. On the left, a flat round world "
+        f"with a mountain at its middle and the sea running off its edge, on the backs of four "
+        f"pale elephants standing on the shell of a great turtle, with a small sun off to one "
+        f"side; nobody is drawn on it. On the right, {plain(over.group(1))}, then "
+        f"\u201c{p['h1text']}\u201d in a big, round banana-yellow letter, then "
+        f"{plain(sub.group(1))}. Under it: {p['desc_plain']}",
+    )
+
+
 def card_mural(p):
     # THE HEADER AND THE WALL ARE LIFTED WHOLE, and the wall carries only the
     # mural that is first up and the lamppost's shadow, exactly as the page paints
@@ -2821,6 +2938,9 @@ CARDS = {
     "community":    card_community,
     "now-playing":  card_nowplaying,
     "plural-mural": card_mural,
+    "room-library": card_library,
+    "room-lspace":  card_lspace,
+    "room-oook":    card_oook,
     "dressup":      card_dressup,
     "collections":  card_collection,
     "mapping":      card_map,

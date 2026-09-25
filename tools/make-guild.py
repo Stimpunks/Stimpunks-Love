@@ -187,6 +187,19 @@ def normalise(s):
 # yellow on that blue measures 3.88 and white measures 5.08 -- the one place
 # here where the room's favourite colour lost to the floor it was lying on.
 DRAW = {
+    # A returned book lying on the reading-room floor, seen from above: the cover
+    # in --cl-stamp, 8.63 on the plaster, its spine in --cl-ink, 13.35, and the
+    # date-due slip sticking out of the top in --cl-card with --cl-ink-2 lines on
+    # it, which carry nothing. It lies still.
+    "lib-slip": """<path d="M11 3 H18 V8 H11 Z" fill="var(--cl-card)" stroke="var(--cl-ink-2)" stroke-width="1"/><path d="M12.5 5 H16.5 M12.5 6.6 H15.5" stroke="var(--cl-ink-2)" stroke-width="1"/><rect x="6" y="7" width="20" height="21" rx="1.5" fill="var(--cl-stamp)"/><rect x="6" y="7" width="4" height="21" fill="var(--cl-ink)"/><path d="M14 14 H22 M14 17 H20" stroke="var(--cl-card)" stroke-width="1.4" stroke-linecap="round"/>""",
+    # The loose end of the string in L-space, coiled on the floor where it was
+    # tied off: one line in --lsp-string, 13.32 on the violet, with its frayed
+    # end. It lies still.
+    "lsp-string": """<path d="M4 24 C8 24 9 20 13 20 C19 20 21 26 16 27 C11 28 10 22 15 19 C21 15 27 19 25 24 C24 27 20 26 21 23" fill="none" stroke="var(--lsp-string)" stroke-width="2.2" stroke-linecap="round"/><path d="M4 24 L2 22 M4 24 L1.5 25" stroke="var(--lsp-string)" stroke-width="1.4" stroke-linecap="round"/>""",
+    # A banana skin on the floor of Oook, left where somebody finished the banana:
+    # the peel in --ook-banana, 9.99 on the rust, splayed in three, with its stalk
+    # and the tips in --ook-cream, 12.31. It lies still.
+    "ook-peel": """<path d="M16 17 C12 18 7 22 4 27 C9 26 13 23 16 19 Z" fill="var(--ook-banana)"/><path d="M16 17 C20 18 25 22 28 27 C23 26 19 23 16 19 Z" fill="var(--ook-banana)"/><path d="M16 17 C14 22 15 26 17 29 C18 25 18 21 17 17 Z" fill="var(--ook-banana)"/><path d="M15 17 C15 13 16 9 18 6 L19.5 7 C18 10 17.5 13 17.5 17 Z" fill="var(--ook-banana)"/><path d="M18 6 L19.5 4.5" stroke="var(--ook-cream)" stroke-width="2" stroke-linecap="round"/><circle cx="4.5" cy="26.5" r="1" fill="var(--ook-cream)"/><circle cx="27.5" cy="26.5" r="1" fill="var(--ook-cream)"/>""",
     # The lid off a tin of paint, put down on the pavement at the foot of the
     # wall: seen a little from above, in --pm-line, 10.59 on the road, with a
     # ring of yellow paint dried round its rim in --pm-yellow, 7.56, and the

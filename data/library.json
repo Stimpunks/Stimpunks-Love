@@ -1,0 +1,164 @@
+{
+  "_what": "The Community Library, L-Space and Oook: every quotation on those three pages, the collections on the library's front desk, and the threads at the end of L-space. Built into the pages, and into the liner notes, by tools/make-library.py. The prose round them is hand-written in the pages and is ours; everything here is either somebody else's words, with their name, their work and their year, or a link to one of our own pages on stimpunks.org.",
+  "_source": "Every quotation here was read off our own Library page, https://stimpunks.org/library/ (modified 2026-07-24), in the Knowledge System mirror, and copied word for word from that page on 2026-09-25. NONE OF THEM WAS CHECKED AGAINST THE BOOK OR THE RECORDING IT COMES FROM, and each entry says so in `checked` rather than looking like it had been, because an unchecked quotation must not sit among checked ones looking identical. Where our page gives no source at all, the entry says that too. The book links were resolved against Open Library's search on 2026-09-25 rather than copied, and one of them is why (see `_graphic_novel`).",
+  "_graphic_novel": "OUR LIBRARY PAGE LINKS THE WRONG GUARDS! GUARDS! Its citation for the Librarian passage reads 'Guards! Guards!: A Discworld Novel (pp. 3-4). HarperCollins' and links Open Library work OL21372059W, edition OL7878556M. Asked on 2026-09-25, that edition answers as Gollancz, 2000, 122 pages, ISBN 0575070714, and the work lists Stephen Briggs and Graham Higgins beside Pratchett: it is the graphic-novel adaptation, not the 1989 novel the quotation is out of. The novel is OL453735W, first published 1989. make-library.py refuses both of the adaptation's ids, because the friendly edit is to copy the link off our own page, which looks sourced. The page on stimpunks.org is that site's to correct.",
+  "_cap": {
+    "words": 40,
+    "why": "These rooms quote a handful of named lines the prose round them is about, which is Covenstead's case rather than the Zibaldone's, so the cap is set here rather than borrowed. Forty fits the longest line these rooms need, Pratchett's ball of string, and refuses the long passages our Library page quotes whole: the Librarian's arrival in Guards! Guards! runs to well over a hundred words and stays on that page, linked, where it is already cited. Raise this on purpose, with the reason written down, and never to fit one passage."
+  },
+  "_refused": "Two things on our Library page are deliberately not in these rooms. THE LINDA LINDAS' LINE is a lyric, and a lyric is refused on this street in every room but one, which holds a written permission (see DECISIONS.md and make-small-hours.py); the library says that libraries and punk share the same bones and leaves the song on the band's own record. THE PHOTOGRAPHS AND THE PAINTING are there under CC BY-NC-ND 2.0, CC BY-NC-SA 2.0 and a painter's own copyright, none of which this site's CC BY-SA 4.0 can carry, so they stay on that page and nothing here is a picture of the Librarian at all.",
+  "quotes": [
+    {
+      "id": "vonnegut-front-desks",
+      "page": "community-library.html",
+      "text": "The America I loved still exists at the front desks of our public libraries.",
+      "who": "Kurt Vonnegut",
+      "work": "A Man Without a Country",
+      "href": "https://openlibrary.org/works/OL15006670W",
+      "year": 2005,
+      "checked": "Read off our Library page, which cites the book on WorldCat. Not checked against the book."
+    },
+    {
+      "id": "doctorow-upside-down-cops",
+      "page": "community-library.html",
+      "text": "Librarians are kind of upside-down cops: public employees who are stepping in wherever the rest of our services have failed.",
+      "who": "Cory Doctorow",
+      "work": "They Want to Kill Libraries",
+      "href": "https://doctorow.medium.com/they-want-to-kill-libraries-ec045c06097e",
+      "year": 2022,
+      "checked": "Read off our Library page, which links the essay. Not checked against the essay."
+    },
+    {
+      "id": "ranganathan-five-laws",
+      "page": "community-library.html",
+      "text": "Books are for use. Every person his or her book. Every book its reader. Save the time of the reader. A library is a growing organism.",
+      "who": "S. R. Ranganathan",
+      "work": "The Five Laws of Library Science",
+      "href": "https://openlibrary.org/works/OL356224W",
+      "year": 1931,
+      "laws": true,
+      "checked": "Read off our Library page, which gives the laws as Wikipedia does. The book's record was resolved on Open Library; the 1931 printing itself was not checked, so this is the wording as Wikipedia gives it, which may not be Ranganathan's word for word."
+    },
+    {
+      "id": "threets-library-joy",
+      "page": "community-library.html",
+      "text": "There’s so much good at your local library!",
+      "who": "Mychal Threets",
+      "work": "a video on TikTok",
+      "href": "https://www.tiktok.com/@mychal3ts/video/7307435924290407723",
+      "year": 2023,
+      "checked": "Read off our Library page, which links the video. Not checked against the video, which is not played here."
+    },
+    {
+      "id": "butler-public-libraries",
+      "page": "community-library.html",
+      "text": "I’m a writer at least partly because I had access to public libraries.",
+      "who": "Octavia E. Butler",
+      "work": null,
+      "href": null,
+      "year": null,
+      "checked": "Read off our Library page, WHICH GIVES IT NO SOURCE, and we could not trace it from here. It is here on that page's word, and it says so under the quotation rather than wearing a citation it has not got."
+    },
+    {
+      "id": "pratchett-mass-distorts",
+      "page": "l-space.html",
+      "text": "And mass distorts space. It distorts it into polyfractal L-space.",
+      "who": "Terry Pratchett",
+      "work": "Guards! Guards!",
+      "href": "https://openlibrary.org/works/OL453735W",
+      "year": 1989,
+      "checked": "Read off our Library page, which quotes the passage it comes out of at length. Not checked against the book."
+    },
+    {
+      "id": "pratchett-ball-of-string",
+      "page": "l-space.html",
+      "text": "So, while the Dewey system has its fine points, when you’re setting out to look something up in the multidimensional folds of L-space what you really need is a ball of string.",
+      "who": "Terry Pratchett",
+      "work": "Guards! Guards!",
+      "href": "https://openlibrary.org/works/OL453735W",
+      "year": 1989,
+      "checked": "Read off our Library page, which quotes the passage it comes out of at length. Not checked against the book."
+    },
+    {
+      "id": "pratchett-books-bend",
+      "page": "l-space.html",
+      "text": "Books bend space and time.",
+      "who": "Terry Pratchett",
+      "work": "Guards! Guards!",
+      "href": "https://openlibrary.org/works/OL453735W",
+      "year": 1989,
+      "checked": "Read off our Library page, which credits it to Guards! Guards! on WorldCat. Not checked against the book."
+    },
+    {
+      "id": "waters-unread-library",
+      "page": "l-space.html",
+      "text": "Nothing is more important than an unread library.",
+      "who": "John Waters",
+      "work": null,
+      "href": null,
+      "year": null,
+      "checked": "Read off our Library page, WHICH GIVES IT NO SOURCE, and we could not trace it from here. It is here on that page's word, and it says so under the quotation."
+    },
+    {
+      "id": "pratchett-an-ape",
+      "page": "oook.html",
+      "text": "Not many people these days remarked upon the fact that he was an ape.",
+      "who": "Terry Pratchett",
+      "work": "Guards! Guards!",
+      "href": "https://openlibrary.org/works/OL453735W",
+      "year": 1989,
+      "checked": "Read off our Library page, which quotes the whole passage and gives it as pages 3 and 4. Not checked against the book."
+    },
+    {
+      "id": "lspace-rules",
+      "page": "oook.html",
+      "text": "Silence. Books must be returned no later than the date shown. Do not meddle with the nature of causality.",
+      "who": "the Discworld Wiki",
+      "work": "The Librarian",
+      "href": "https://discworld.fandom.com/wiki/The_Librarian",
+      "year": null,
+      "undated": "A wiki article is revised continuously and has no year of its own to give.",
+      "laws": true,
+      "checked": "Read off our Library page, which quotes the Discworld Wiki's article on the Librarian. The rules are from the novels; the wiki is fan-written and published under CC BY-SA, and it is credited as the place these words were read rather than as their author."
+    },
+    {
+      "id": "science-higher-life-form",
+      "page": "oook.html",
+      "text": "there is no higher life form than a librarian",
+      "who": "Terry Pratchett, Ian Stewart and Jack Cohen",
+      "work": "The Science of Discworld",
+      "href": "https://openlibrary.org/works/OL453947W",
+      "year": 1999,
+      "checked": "Read off our Library page, which gives it as page 13. The end of a longer sentence, which is why it starts in lower case. Not checked against the book."
+    }
+  ],
+  "collections": [
+    {"label": "Courses", "url": "https://stimpunks.org/library/courses/"},
+    {"label": "Things Library", "url": "https://stimpunks.org/library/things/"},
+    {"label": "Infographics", "url": "https://stimpunks.org/library/infographics/"},
+    {"label": "Fundamental Texts of Progressive Pedagogy", "url": "https://stimpunks.org/library/fundamental-texts-of-progressive-pedagogy/"},
+    {"label": "Books Every Progressive Educator Should Read", "url": "https://stimpunks.org/library/books-every-progressive-educator-should-read/"},
+    {"label": "Silberman Collection: Autism Books For Parents and Clinicians", "url": "https://stimpunks.org/library/silberman-collection-autism-books-for-parents-and-clinicians/"},
+    {"label": "Silberman Collection: For Autistic People, by Autistic People", "url": "https://stimpunks.org/library/silberman-collection-for-autistic-people-by-autistic-people/"},
+    {"label": "By the Stimpunks Community", "url": "https://stimpunks.org/library/by-the-stimpunks-community/"},
+    {"label": "In Our Own Voices 2022 and 2023", "url": "https://stimpunks.org/library/in-our-own-voices-2022-and-2023/"},
+    {"label": "Autistic Collaboration Trust", "url": "https://stimpunks.org/library/autistic-collaboration-trust/"},
+    {"label": "The Autism Books by Autistic Authors Project", "url": "https://stimpunks.org/library/the-autism-books-by-autistic-authors-project/"},
+    {"label": "Bookmarks", "url": "https://stimpunks.org/library/bookmarks/"},
+    {"label": "Highlights", "url": "https://stimpunks.org/library/highlights/"},
+    {"label": "Music", "url": "https://stimpunks.org/library/music/"},
+    {"label": "eBooks", "url": "https://stimpunks.org/library/ebooks/"},
+    {"label": "Neurodiversity Affirming Reading Recommendations", "url": "https://stimpunks.org/library/neurodiversity-affirming-reading-recommendations/"},
+    {"label": "Zine Walls", "url": "https://stimpunks.org/library/zine-walls/"},
+    {"label": "Broadsides", "url": "https://stimpunks.org/library/broadsides/"}
+  ],
+  "_collections": "In our Library page's own order, which is not ours to re-sort, and every address checked against the Knowledge System mirror on 2026-09-25 rather than fetched, because on stimpunks.org a 301 is a failure and a live fetch that follows redirects will happily confirm a page that is not there.",
+  "threads": [
+    {"label": "Anti-library", "url": "https://stimpunks.org/glossary/anti-library/", "why": "the books you have not read yet, which are the part of a library that knows there is more to know"},
+    {"label": "Library Economy", "url": "https://stimpunks.org/glossary/library-economy/", "why": "borrowing as a way of running more of the world than books"},
+    {"label": "Rabbit Hole", "url": "https://stimpunks.org/glossary/rabbit-hole/", "why": "what following one thread all the way in feels like, from the inside"},
+    {"label": "Reading", "url": "https://stimpunks.org/glossary/reading/", "why": "the thing all of this is for, and all the ways of doing it"},
+    {"label": "Monotropism", "url": "https://stimpunks.org/glossary/monotropism/", "why": "a mind that goes one thread at a time, and deep, which is how L-space is walked"}
+  ],
+  "_threads": "Our Library page's own list at its foot, Further Explorations in L-space, in its order. Every slug checked against the mirror's glossary on 2026-09-25. The line after each one is ours, written for this room."
+}

@@ -1302,5 +1302,121 @@
       "src": "https://fonts.gstatic.com/s/commissioner/v24/tDbw2o2WnlgI0FNDgduEk4jAhwgumbU1SVfU5BD8OuRL8OstC6KOhgvBYWSFJ-Mgdrgiju6fF8m0akXaaRg2_g.woff2",
       "note": "Byte-identical to the 400 above; see that note."
     }
+  ],
+  "marcellus-sc": [
+    {
+      "file": "marcellus-sc-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 14288,
+      "src": "https://fonts.gstatic.com/s/marcellussc/v14/ke8iOgUHP1dg-Rmi6RWjbLE_htacOqu0hQ.woff2",
+      "note": "Community Library (§55), the lintel over the door, the room's name, every heading and the street door's name, and nothing at reading size. A Roman capital with the flare of a letter cut into stone, because a Carnegie library carves what it promises over its door. One weight, one static file."
+    }
+  ],
+  "andika": [
+    {
+      "file": "andika-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 12768,
+      "src": "https://fonts.gstatic.com/s/andika/v27/mem_Ya6iyW-LwqgwarYQeL8WVQ.woff2",
+      "note": "Community Library (§55), every word that is read. Drawn by SIL International for literacy and beginning readers, with the letters that get confused drawn apart from each other; a public library is where a great many people learn to read. Static files, so 700 and the italic are files of their own."
+    },
+    {
+      "file": "andika-700.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 12780,
+      "src": "https://fonts.gstatic.com/s/andika/v27/mem8Ya6iyW-Lwqg40ZMFVZ0bf8pkAg.woff2",
+      "note": "Community Library (§55): bold, for the strong words in the room's own copy and the street door's knock."
+    },
+    {
+      "file": "andika-400-italic.woff2",
+      "weight": "400",
+      "style": "italic",
+      "bytes": 14420,
+      "src": "https://fonts.gstatic.com/s/andika/v27/mem9Ya6iyW-Lwqgwb4YScrg0V8Bs.woff2",
+      "note": "Community Library (§55): the italic, for titles of books. A real italic file, so the room never asks the browser to invent one."
+    }
+  ],
+  "gravitas-one": [
+    {
+      "file": "gravitas-one-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 13508,
+      "src": "https://fonts.gstatic.com/s/gravitasone/v21/5h1diZ4hJ3cblKy3LWakKQmqCm5MjXPjbA.woff2",
+      "note": "L-Space (§56), the room's name, every heading and the street-side door's words into it, and nothing at reading size. A very heavy, very high-contrast display face, and the name is the joke: in L-space enough weight bends everything near it. One weight, one static file."
+    }
+  ],
+  "source-serif-4": [
+    {
+      "file": "source-serif-4-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 50924,
+      "src": "https://fonts.gstatic.com/s/sourceserif4/v14/vEFF2_tTDB4M7-auWDN0ahZJW3IX2ih5nk3AucvUHf6kDXr4Y3qwzQ.woff2",
+      "note": "L-Space (§56), every word that is read, pale on the violet. It ships as a variable font, so one file is declared at 400 and 700 against the weight axis, Radio Canada's call. The italic is a file of its own."
+    },
+    {
+      "file": "source-serif-4-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 50924,
+      "src": "https://fonts.gstatic.com/s/sourceserif4/v14/vEFF2_tTDB4M7-auWDN0ahZJW3IX2ih5nk3AucvUHf6kDXr4Y3qwzQ.woff2",
+      "note": "Byte-identical to the 400 above; see that note."
+    },
+    {
+      "file": "source-serif-4-400-italic.woff2",
+      "weight": "400",
+      "style": "italic",
+      "bytes": 20132,
+      "src": "https://fonts.gstatic.com/s/sourceserif4/v14/vEF02_tTDB4M7-auWDN0ahZJW1ge6NmXpVAHV83Bfb_US2D2QYxoUKIkn98pRl9tDMQCjDDUXmAz.woff2",
+      "note": "L-Space (§56): the italic, for titles of books and for the steps of the derivation in the Pratchett passage."
+    }
+  ],
+  "sniglet": [
+    {
+      "file": "sniglet-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 15900,
+      "src": "https://fonts.gstatic.com/s/sniglet/v18/cIf9MaFLtkE3UjaJ9C6hYUsEkIo.woff2",
+      "note": "Oook (§57): the lighter weight, for the over- and sub-lines round the name."
+    },
+    {
+      "file": "sniglet-800.woff2",
+      "weight": "800",
+      "style": "normal",
+      "bytes": 17392,
+      "src": "https://fonts.gstatic.com/s/sniglet/v18/cIf4MaFLtkE3UjaJ_ImHdGYmnaBnSL8.woff2",
+      "note": "Oook (§57), the room's name and every heading, and nothing at reading size. Round, soft, heavy and pleased with itself, which is the one tone of voice a room named after a single word of the Librarian's can carry. Two static files."
+    }
+  ],
+  "libre-baskerville": [
+    {
+      "file": "libre-baskerville-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 33852,
+      "src": "https://fonts.gstatic.com/s/librebaskerville/v24/kmKnZrc3Hgbbcjq75U4uslyuy4kn0qNZaxMaC82U.woff2",
+      "note": "Oook (§57), every word that is read, cream on the Librarian's rust. A sturdy book face drawn for reading on screens, because this is a room about a library and its sentences should look like they came out of a book. It ships as a variable font, so one file is declared at 400 and 700 against the weight axis. The italic is a file of its own."
+    },
+    {
+      "file": "libre-baskerville-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 33852,
+      "src": "https://fonts.gstatic.com/s/librebaskerville/v24/kmKnZrc3Hgbbcjq75U4uslyuy4kn0qNZaxMaC82U.woff2",
+      "note": "Byte-identical to the 400 above; see that note."
+    },
+    {
+      "file": "libre-baskerville-400-italic.woff2",
+      "weight": "400",
+      "style": "italic",
+      "bytes": 21564,
+      "src": "https://fonts.gstatic.com/s/librebaskerville/v24/kmKWZrc3Hgbbcjq75U4uslyuy4kn0qNccR04_RUJeby2OU36SjNNlufweKgfqIc.woff2",
+      "note": "Oook (§57): the italic, for titles of books."
+    }
   ]
 }

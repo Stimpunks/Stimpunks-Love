@@ -627,6 +627,18 @@ NP_NIGHT, NP_STOCK, NP_BOTH, NP_COBALT = "#17141E", "#F2ECDF", "#241721", "#2B5B
 # own paint is measured in make-mural.py, painted word by painted word.
 PM_ROAD, PM_LINE, PM_YELLOW = "#3A3431", "#F4EEE2", "#F3C640"
 
+# Community Library (love.css §55). A public reading room at eleven in the
+# morning. Every word stands on the plaster, on a white card, or cut into the
+# stone lintel; the sky in the windows and the oak of the shelves carry nothing.
+CL_WALL, CL_INK, CL_INK2, CL_STAMP = "#F2F0E8", "#1F2630", "#4B5463", "#5B2C83"
+CL_CARD, CL_STONE = "#FFFDF8", "#D8CFBD"
+
+# L-Space (§56). Every word on the violet, and nothing else under one.
+LSP_VOID, LSP_BONE, LSP_DIM, LSP_STRING = "#1C0640", "#EFE8F8", "#C3B6DD", "#F4D9A4"
+
+# Oook (§57). Every word on the Librarian's rust.
+OOK_COAT, OOK_CREAM, OOK_DIM, OOK_BANANA = "#4B1B07", "#FCEBD3", "#F1CBA6", "#F7D54C"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -2068,6 +2080,41 @@ PAIRS = [
     # spare white-headed pin: white card on the mat, to the body threshold.
     (MM_FACE,  MM_MAT,   False, "map: every tent, sign and tag against the mat, and the job marker, a spare pin"),
 
+    # ── Community Library (§55) ──────────────────────────────────────────────
+    (CL_INK,    CL_WALL,  False, "community library: every word on the plaster -- the h1, the h2s, "
+                                 "the lede, the praise, the library economy, the desk's paragraph -- "
+                                 "and the street door's name"),
+    (CL_INK2,   CL_WALL,  False, "community library: the trail, the line under the h1, and the "
+                                 "street door's blurb"),
+    (CL_STAMP,  CL_WALL,  False, "community library: every link on the plaster, the backlink, the "
+                                 "focus ring, the street door's knock, and the job marker, a "
+                                 "returned book"),
+    (CL_INK,    CL_CARD,  False, "community library: every word on a notice, a quotation on one, "
+                                 "and the gap in the stacks"),
+    (CL_INK2,   CL_CARD,  False, "community library: who said it and how it was checked, under "
+                                 "every quotation"),
+    (CL_STAMP,  CL_CARD,  False, "community library: every link on a card -- the collections on "
+                                 "the desk, the notices, the gap in the stacks -- and the focus "
+                                 "ring round each"),
+    (CL_INK,    CL_STONE, False, "community library: FREE TO ALL, cut into the lintel"),
+
+    # ── L-Space (§56) ────────────────────────────────────────────────────────
+    (LSP_BONE,   LSP_VOID, False, "l-space: every word -- the h1, the h2s, the lede, the "
+                                  "quotations, the threads, the way on"),
+    (LSP_DIM,    LSP_VOID, False, "l-space: the trail, the lines over and under the h1, who said "
+                                  "it and how it was checked"),
+    (LSP_STRING, LSP_VOID, False, "l-space: every link, the backlinks, the focus ring, the rule "
+                                  "down the side of every quotation, and the job marker, the "
+                                  "loose end of the string"),
+
+    # ── Oook (§57) ───────────────────────────────────────────────────────────
+    (OOK_CREAM,  OOK_COAT, False, "oook: every word -- the lede, the quotations, why we find him "
+                                  "relatable, the rules, the Disc, what is not in here"),
+    (OOK_DIM,    OOK_COAT, False, "oook: the trail, the lines over and under the h1, who said it "
+                                  "and how it was checked"),
+    (OOK_BANANA, OOK_COAT, False, "oook: the h1, every h2, every link, the backlinks, the focus "
+                                  "ring, and the job marker, a banana skin"),
+
     # ── Plural Mural (§54) ───────────────────────────────────────────────────
     (PM_LINE,   PM_ROAD,   False, "plural mural: every word -- the trail, the lines over and under "
                                   "the h1, what is on the wall now, the lede, the list, how to "
@@ -2239,6 +2286,21 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#9ccbea": "community library: the sky in the windows, 1.52 on the plaster, and the panes "
+               "in the street door's awning. It carries no word; what matters is that it is sky.",
+    "#7a4e26": "community library: the shelving, the desk and the dashed edge of the gap in the "
+               "stacks, 6.25 on the plaster. It carries no word: the collections on the desk are "
+               "on white cards, each with a margin of card round its link.",
+    "#6e55a8": "l-space: the shelves, drawn as the lines of a grid bending into the well, 3.07 on "
+               "the violet. Nothing is set on them.",
+    "#0d0222": "l-space: the bottom of the well, 1.10 against the violet, where the shelves bend "
+               "out of sight. A gradient in the drawing; no word is ever over it.",
+    "#c4561d": "oook: the turtle and the edge of the Disc in the drawing, 3.22 on the rust. It "
+               "carries no word.",
+    "#8a3a12": "oook: the lines on the turtle's shell, 1.85 on the rust and drawn over the "
+               "turtle rather than on the ground. It carries no word.",
+    "#fff2b8": "oook: the Disc's small sun and the peak of the mountain at the Hub, 12.78 on the "
+               "rust. It carries no word.",
     "#e6cfa8": "plural mural: the wall's own sunlit concrete round the edge of whatever is "
                "painted, 8.08 on the road. Nothing is set on it; the stage stands on it and "
                "the lamppost's shadow falls across it.",

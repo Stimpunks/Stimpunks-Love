@@ -785,6 +785,48 @@
       "sections": [
         54
       ]
+    },
+    "marcellus-sc": {
+      "where": "Community Library",
+      "page": "community-library.html",
+      "sections": [
+        55
+      ]
+    },
+    "andika": {
+      "where": "Community Library",
+      "page": "community-library.html",
+      "sections": [
+        55
+      ]
+    },
+    "gravitas-one": {
+      "where": "L-Space",
+      "page": "l-space.html",
+      "sections": [
+        56
+      ]
+    },
+    "source-serif-4": {
+      "where": "L-Space",
+      "page": "l-space.html",
+      "sections": [
+        56
+      ]
+    },
+    "sniglet": {
+      "where": "Oook",
+      "page": "oook.html",
+      "sections": [
+        57
+      ]
+    },
+    "libre-baskerville": {
+      "where": "Oook",
+      "page": "oook.html",
+      "sections": [
+        57
+      ]
     }
   }
 }

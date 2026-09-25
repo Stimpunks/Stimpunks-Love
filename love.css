@@ -712,6 +712,49 @@
 @font-face { font-family: 'Commissioner'; src: url('fonts/commissioner-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Commissioner'; src: url('fonts/commissioner-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Community Library (§55). A LETTER CUT OVER A DOOR AND A LETTER FOR LEARNING TO
+   READ. Marcellus SC carves the lintel, the room's name and every heading: a
+   Roman capital with the flare of a chisel in it, because a Carnegie library
+   carries what it promises in stone over its door. It is NOT the Oracle Deck's
+   Cinzel, which is an engraver's capital on a card you hold; this one is cut
+   into a building you walk under. Nothing at reading size.
+
+   Andika carries every word that is read. SIL International drew it for
+   literacy and beginning readers, with the letters that get muddled drawn
+   apart from each other -- and a public library is where a great many people
+   learn to read at all. Static files, with a real italic for book titles.
+   Both read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Marcellus SC'; src: url('fonts/marcellus-sc-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Andika'; src: url('fonts/andika-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Andika'; src: url('fonts/andika-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Andika'; src: url('fonts/andika-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+
+/* L-Space (§56). THE HEAVIEST LETTER ON THE STREET, AND THE NAME IS THE JOKE.
+   Gravitas One sets the room's name and every heading: a fat, high-contrast
+   display face, and in L-space enough weight bends everything near it. Nothing
+   at reading size.
+
+   Source Serif 4 carries every word that is read, pale on the violet. It ships
+   as a variable font, so one file is declared at 400 and 700 against the weight
+   axis, Radio Canada's call; the italic is a file of its own. */
+@font-face { font-family: 'Gravitas One'; src: url('fonts/gravitas-one-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Source Serif 4'; src: url('fonts/source-serif-4-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Source Serif 4'; src: url('fonts/source-serif-4-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Source Serif 4'; src: url('fonts/source-serif-4-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+
+/* Oook (§57). A ROUND, SOFT, HEAVY LETTER AND A BOOK LETTER. Sniglet sets the
+   room's name and every heading, at 800, and the lines round the name at 400:
+   the one tone of voice a room named after a single word of the Librarian's can
+   carry. Two static files. Libre Baskerville carries every word that is read,
+   cream on rust, because this is a room about a librarian and its sentences
+   should look like they came out of a book. Variable, so one file at 400 and
+   700; the italic is its own file. */
+@font-face { font-family: 'Sniglet'; src: url('fonts/sniglet-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Sniglet'; src: url('fonts/sniglet-800.woff2') format('woff2'); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Libre Baskerville'; src: url('fonts/libre-baskerville-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Libre Baskerville'; src: url('fonts/libre-baskerville-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Libre Baskerville'; src: url('fonts/libre-baskerville-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1797,6 +1840,38 @@
      painted on it is measured there. */
   --pm-road:   #3A3431;   --pm-line:   #F4EEE2;   --pm-yellow: #F3C640;
   --pm-render: #E6CFA8;   --pm-coping: #9C7F63;   --pm-sky:    #F2B880;
+
+  /* Community Library (§55). A CARNEGIE READING ROOM AT ELEVEN IN THE MORNING,
+     with its windows set high above the shelves and the sky in every one of
+     them. --cl-wall is the plaster under the windows, washed with that
+     daylight, and the ground every word stands on: --cl-ink for the words,
+     --cl-ink-2 for what is quieter, --cl-stamp for every link, in the purple of
+     a date-due stamp. --cl-card is the cards laid out on the front desk.
+     --cl-sky is the sky in the windows and --cl-stone their reveals and the
+     lintel over the door; --cl-oak is the shelving and the desk. The sky and the
+     oak carry nothing; the lintel carries its carved words in --cl-ink. */
+  --cl-wall:   #F2F0E8;   --cl-ink:    #1F2630;   --cl-ink-2:  #4B5463;
+  --cl-stamp:  #5B2C83;   --cl-card:   #FFFDF8;   --cl-sky:    #9CCBEA;
+  --cl-stone:  #D8CFBD;   --cl-oak:    #7A4E26;
+
+  /* L-Space (§56). THE SPACE BETWEEN THE SHELVES OF EVERY LIBRARY AT ONCE,
+     where enough books have bent everything towards them. --lsp-void is the
+     ground and there is nothing else under a word: --lsp-bone for the words,
+     --lsp-dim for what is quieter, --lsp-string for every link, in the colour
+     of the cotton string that is the only way through. --lsp-shelf is the
+     shelving, drawn as lines bending into the well, and --lsp-well the bottom
+     of it; both carry nothing. */
+  --lsp-void:  #1C0640;   --lsp-bone:  #EFE8F8;   --lsp-dim:   #C3B6DD;
+  --lsp-string: #F4D9A4;  --lsp-shelf: #6E55A8;   --lsp-well:  #0D0222;
+
+  /* Oook (§57). THE LIBRARIAN'S OWN COLOURS. --ook-coat is the ground, the
+     rust of an orangutan's coat: --ook-cream for the words, --ook-dim for what
+     is quieter, --ook-banana for the name, every heading and every link.
+     --ook-ginger and --ook-shell draw the Disc, its elephants and its turtle,
+     and --ook-sun is the Disc's small sun; none of the three carries a word. */
+  --ook-coat:  #4B1B07;   --ook-cream: #FCEBD3;   --ook-dim:   #F1CBA6;
+  --ook-banana: #F7D54C;  --ook-ginger: #C4561D;  --ook-shell: #8A3A12;
+  --ook-sun:   #FFF2B8;
 }
 
 * { box-sizing: border-box; }
@@ -2404,6 +2479,17 @@ div.facade--audio { border: 0; background: none; }
 .door--dressup .door__name  { font-family: 'DynaPuff', var(--sans); font-weight: 600; color: var(--dd-ink); font-size: 28px; line-height: 1.08; }
 .door--dressup .door__blurb { font-family: 'Plus Jakarta Sans', var(--sans); color: var(--dd-ink-2); }
 .door--dressup .door__knock { font-family: 'Plus Jakarta Sans', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--dd-link); }
+
+/* Community Library (§55). THE ONE FRONT IN THE ROW WITH THE SKY IN ITS
+   WINDOWS: the awning is a run of tall panes of sky between stone mullions under
+   a stone lintel, which is what the reading room's far wall looks like from the
+   floor, and the ground is the plaster. Every word is measured on --cl-wall in
+   check-contrast.py; the sky and the stone carry nothing. */
+.door--library { background: var(--cl-wall); border-color: var(--cl-oak); }
+.door--library .door__awning { background-color: var(--cl-stone); background-image: linear-gradient(180deg, var(--cl-stone) 0 7px, transparent 7px), repeating-linear-gradient(90deg, var(--cl-sky) 0 22px, var(--cl-stone) 22px 30px); border-bottom-color: var(--cl-oak); }
+.door--library .door__name  { font-family: 'Marcellus SC', Georgia, serif; color: var(--cl-ink); font-size: 23px; letter-spacing: .04em; line-height: 1.1; }
+.door--library .door__blurb { font-family: 'Andika', var(--sans); color: var(--cl-ink-2); }
+.door--library .door__knock { font-family: 'Andika', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cl-stamp); }
 
 /* Plural Mural (§54). THE ONE FRONT IN THE ROW THAT IS NOT A SHOPFRONT AT ALL
    BUT THE WALL AT THE END OF ONE: the awning is the capping along the top of the
@@ -11342,6 +11428,9 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
 .mm-lot--w .mm-behind { align-items: flex-end; margin-right: 34px; }
 .mm-lot--e .mm-behind { align-items: flex-start; margin-left: 34px; }
 .mm-behind > li { position: relative; }
+/* A room behind a room behind a room hangs under the one you go through to
+   reach it, stepped in again, with the same pencilled path down to it. */
+.mm-behind .mm-behind { margin-top: 18px; }
 .mm-behind > li::before { content: ""; position: absolute; top: -20px; height: 20px; border-left: 2px dashed var(--mm-pencil); }
 .mm-lot--w .mm-behind > li::before { right: 40%; }
 .mm-lot--e .mm-behind > li::before { left: 40%; }
@@ -12376,7 +12465,291 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .pm-wall::after { right: 3px; width: 8px; }
 }
 
-/* §55 ── Small screens ───────────────────────────────────────────────────────
+/* §55 ── ROOM: Community Library (a shopfront on the street) ─────────────────
+   A public reading room at eleven in the morning. Ryan's brief, 2026-09-25: our
+   Library in this street's clothes, led by a celebration of the public library.
+   The quotations, the front desk's cards and their credits are written by
+   tools/make-library.py out of data/library.json; this is the room.
+
+   THE SKY IS IN THE ROOM, AND NOWHERE ELSE INDOORS ON THIS STREET IS IT. Every
+   other interior here is lit by something you cannot see out of -- a candle, a
+   lamp at knee height, a corridor through a door left ajar, one window's patch,
+   a blind, the floor. A library was built round its windows, set high in the
+   wall above the shelving so the daylight comes in over the stacks and nobody
+   reads with the sun in their eyes, and from the reading-room floor what you
+   see in them is sky. So the light here is the whole morning at once, general
+   and high, with nothing between you and it. If the windows ever lose their
+   sky, this has become a plain room with books in it.
+
+   THE MOPERY IS THE OTHER LIBRARY AND IT IS THIS ONE'S NIGHT. That room is a
+   building you are let into after everybody has gone home: blue-black stone
+   the candles never reach, an institution's books, type punched into the page
+   by a press. This is opening hours, every wall lit, everybody's books, and no
+   flame anywhere -- the desk lamp is not even drawn. If a candle ever appears in
+   §55, it has become the Mopery at lunchtime, and it is this room that moves.
+
+   COVENSTEAD AND THE COMMUNITY CENTER ARE THE OTHER DAYLIT INTERIORS, and both
+   are lit from one side: one window laying one warm patch on pink limewash, and
+   a venetian blind chopping the sun into bars on powder blue. Here nothing lands
+   in a patch or a bar, because the light comes from above the shelves on its
+   way across the whole room, and the wall is plain plaster.
+
+   THE ONLY RIOT IN IT IS THE SPINES. The ground is plaster, the ink is dark, the
+   links are the purple of a date-due stamp, and every other colour in the room
+   is on the backs of the books, which is where a library keeps them. The spines
+   carry no word; every word stands on the plaster or on a white card on the
+   desk. The lintel over the door is carved in Marcellus SC and the reading is in
+   Andika, SIL's face for people learning to read. Nothing in §55 moves or
+   rotates at any setting. */
+
+.room-library {
+  background: var(--cl-wall); color: var(--cl-ink);
+  font-family: 'Andika', var(--sans); font-synthesis: none;
+}
+.room-library a { color: var(--cl-stamp); }
+.room-library :focus-visible { outline-color: var(--cl-stamp); }
+.room-library .backlink {
+  font-family: 'Andika', var(--sans); font-weight: 700; font-size: 14px;
+  letter-spacing: .04em; color: var(--cl-stamp);
+}
+.cl-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.cl-trail { margin: 0; font-size: 14px; color: var(--cl-ink-2); }
+
+.cl-head { margin: 30px 0 0; text-align: center; }
+/* The lintel: a band of stone over the door, with what the building promises
+   cut into it. Real text, not a picture of text. */
+.cl-lintel {
+  display: inline-block; margin: 0; padding: 9px 30px 7px;
+  background: var(--cl-stone); color: var(--cl-ink);
+  font-family: 'Marcellus SC', Georgia, serif; font-size: 21px; letter-spacing: .34em;
+  text-shadow: 0 1px 0 rgba(255, 253, 248, .7);
+}
+.room-library h1 {
+  margin: 14px 0 6px; font-family: 'Marcellus SC', Georgia, serif; font-weight: 400;
+  font-size: clamp(40px, 7.4vw, 82px); line-height: 1.05; letter-spacing: .04em;
+}
+.cl-sub { margin: 0; font-size: 18px; color: var(--cl-ink-2); }
+
+.cl-view { margin: 24px 0 0; }
+.cl-room { display: block; width: 100%; height: auto; }
+
+.cl-lede { margin: 28px auto 0; max-width: 68ch; font-size: 19px; line-height: 1.6; }
+.cl-part { margin: 48px 0 0; }
+.room-library h2 {
+  margin: 0 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--cl-stone);
+  font-family: 'Marcellus SC', Georgia, serif; font-weight: 400; font-size: 30px; letter-spacing: .05em;
+}
+.room-library h3 {
+  margin: 0 0 8px; font-family: 'Marcellus SC', Georgia, serif; font-weight: 400;
+  font-size: 21px; letter-spacing: .04em;
+}
+.cl-part > p { max-width: 68ch; font-size: 17px; line-height: 1.6; }
+
+/* Notices on white card, each lit from above like everything else in here, so
+   the only shadow is a line of stone under the card. */
+.cl-notices {
+  list-style: none; margin: 16px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px;
+}
+.cl-notice { background: var(--cl-card); border: 1px solid var(--cl-stone); box-shadow: 0 3px 0 var(--cl-stone); padding: 18px 20px 12px; }
+.cl-notice p { margin: 0 0 10px; font-size: 16px; line-height: 1.6; }
+
+.cl-quote { margin: 14px 0; padding: 0 0 0 14px; border-left: 4px solid var(--cl-stamp); }
+.cl-quote__text { margin: 0; font-size: 17px; line-height: 1.5; }
+.cl-quote__text p { margin: 0; }
+.cl-quote__laws { margin: 0; padding-left: 22px; }
+.cl-quote__who { margin: 6px 0 0; font-size: 14px; color: var(--cl-ink-2); }
+.cl-notice .cl-quote__checked, .cl-quote__checked { margin: 4px 0 0; font-size: 13px; line-height: 1.45; color: var(--cl-ink-2); }
+
+/* The front desk: an oak top with the collections laid out on it as cards. The
+   oak carries no word; every link is on a card, with the card's own margin
+   round it so a focus ring lands on white. */
+.cl-desk {
+  list-style: none; margin: 16px 0 0; padding: 20px;
+  display: flex; flex-wrap: wrap; gap: 12px; background: var(--cl-oak);
+}
+.cl-desk__card { background: var(--cl-card); padding: 10px 14px; font-size: 15px; line-height: 1.35; box-shadow: 0 2px 0 rgba(31, 38, 48, .35); }
+.cl-desk__card a { font-weight: 700; }
+.cl-start { margin-top: 16px; }
+
+/* The gap in the stacks: a dashed door in the shelving, a real link at full
+   size and in the tab order, The Den's rule. */
+.cl-gap {
+  display: block; max-width: 68ch; margin: 14px 0 0; padding: 16px 20px;
+  background: var(--cl-card); border: 2px dashed var(--cl-oak);
+  color: var(--cl-ink); text-decoration: none;
+}
+.cl-gap__mark { display: block; font-family: 'Marcellus SC', Georgia, serif; font-size: 23px; color: var(--cl-stamp); text-decoration: underline; text-underline-offset: 4px; }
+.cl-gap__say { display: block; margin-top: 6px; font-size: 16px; line-height: 1.55; }
+.cl-gap:hover .cl-gap__mark { text-decoration-thickness: 3px; }
+.cl-gap:focus-visible { outline-offset: 4px; }
+
+.room-library .quest { margin-top: 40px; }
+.cl-dial { max-width: 400px; margin-top: 34px; }
+
+@media (max-width: 640px) {
+  .cl-lintel { font-size: 16px; letter-spacing: .24em; padding: 7px 16px 5px; }
+  .cl-desk { padding: 12px; gap: 8px; }
+}
+
+/* §56 ── SUBROOM: L-Space (behind the Community Library) ──────────────────────
+   The space between the shelves of every library at once. Terry Pratchett's, from
+   the Discworld books, and credited in the room and in the liner notes.
+
+   NOTHING IN IT IS STRAIGHT, AND NOTHING IN IT IS LIT. The library in front is a
+   room of vertical cases and level shelves under a high, general daylight; this
+   is the same shelving with enough weight in the middle of it that every line
+   bends towards the well, drawn as a diagram of curvature rather than as a
+   place. There is no floor, no wall, no window and no lamp, and nothing casts a
+   shadow, because there is nothing straight in here to hang a lamp from. It
+   shares nothing with the room in front of it: pale and daylit there, the
+   deepest violet on the street here; a carved Roman capital there, the
+   heaviest letter on the street here.
+
+   THE RABBIT HOLE IS THE ROOM THIS COLLAPSES INTO, because both are somewhere
+   you follow a thread and keep going. That one is a shaft: vertical, wet slate,
+   daylit from one end and dimmer the further down you read. This one has no up
+   or down and no daylight at either end, and its colour is violet rather than
+   grey. If the violet here ever greys, or anything in it starts to fall rather
+   than to bend, it has become the shaft with shelves in it.
+
+   AND THE MOPERY IS THE OTHER DARK ROOM FULL OF BOOKS. It is a building, cold
+   blue-black stone with candles on the top shelves; there is no stone in here,
+   no flame, and no shelf that is level.
+
+   THE STRING IS THE ONLY STRAIGHT PROMISE. Every link is in --lsp-string, the
+   colour of the cotton string in the drawing, which is the one continuous thing
+   in the room: the way in is where it is tied, and the way on is where it
+   leaves. The warp does not move at any setting. */
+
+.room-lspace {
+  background: var(--lsp-void); color: var(--lsp-bone);
+  font-family: 'Source Serif 4', Georgia, serif; font-synthesis: none;
+}
+.room-lspace a { color: var(--lsp-string); }
+.room-lspace :focus-visible { outline-color: var(--lsp-string); }
+.room-lspace .backlink {
+  font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; letter-spacing: .03em; color: var(--lsp-string);
+}
+.lsp-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.lsp-trail { margin: 6px 0 0; font-size: 14px; font-style: italic; color: var(--lsp-dim); }
+
+.lsp-head { margin: 34px 0 0; }
+.lsp-over { margin: 0; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--lsp-dim); }
+.room-lspace h1 {
+  margin: 10px 0 10px; font-family: 'Gravitas One', Georgia, serif; font-weight: 400;
+  font-size: clamp(50px, 10vw, 116px); line-height: 1; white-space: nowrap;
+}
+.lsp-sub { margin: 0; max-width: 46ch; font-size: 19px; font-style: italic; color: var(--lsp-dim); }
+
+.lsp-view { margin: 28px 0 0; }
+.lsp-warp { display: block; width: 100%; height: auto; }
+
+.lsp-lede { margin: 28px 0 0; max-width: 66ch; font-size: 19px; line-height: 1.62; }
+.lsp-part { margin: 50px 0 0; max-width: 70ch; }
+.room-lspace h2 { margin: 0 0 12px; font-family: 'Gravitas One', Georgia, serif; font-weight: 400; font-size: 30px; line-height: 1.15; }
+.lsp-part > p { font-size: 17px; line-height: 1.65; }
+
+.lsp-quote { margin: 24px 0; padding: 0 0 0 20px; border-left: 3px solid var(--lsp-string); max-width: 60ch; }
+.lsp-quote__text { margin: 0; font-size: 21px; font-style: italic; line-height: 1.45; }
+.lsp-quote__text p { margin: 0; }
+.lsp-quote__who { margin: 8px 0 0; font-size: 15px; color: var(--lsp-dim); }
+.lsp-quote__checked { margin: 4px 0 0; font-size: 13px; line-height: 1.45; color: var(--lsp-dim); }
+
+.lsp-threads { margin: 12px 0 0; padding-left: 22px; font-size: 17px; line-height: 1.6; }
+.lsp-threads li { margin: 0 0 8px; }
+
+/* The way on: the far end of the string, a real link in the tab order. */
+.lsp-end {
+  display: block; max-width: 64ch; margin: 54px 0 0; padding: 18px 0 4px;
+  border-top: 3px solid var(--lsp-string); color: var(--lsp-bone); text-decoration: none;
+}
+.lsp-end__mark { display: block; font-family: 'Gravitas One', Georgia, serif; font-size: 25px; color: var(--lsp-string); text-decoration: underline; text-underline-offset: 6px; }
+.lsp-end__say { display: block; margin-top: 8px; font-size: 17px; line-height: 1.6; }
+.lsp-end:hover .lsp-end__mark { text-decoration-thickness: 3px; }
+.lsp-end:focus-visible { outline-offset: 4px; }
+
+.room-lspace .quest { margin-top: 40px; }
+.lsp-dial { max-width: 400px; margin-top: 34px; }
+
+/* §57 ── SUBROOM: Oook (behind L-Space, at the far end of the string) ─────────
+   A Discworld homage, in the Librarian's own colours. Ryan's brief, 2026-09-25:
+   a Discworld room you reach through L-space. Terry Pratchett's world, credited
+   in the room and in the liner notes, and nothing of his reproduced beyond short
+   named quotations.
+
+   IT IS A ROOM IN SOMEBODY'S COLOURS, AND THAT SOMEBODY IS AN ORANGUTAN. The
+   ground is the rust of his coat, every heading and link is banana, and the
+   words are cream. It shares nothing with the room in front of it: violet and
+   bent there, warm and round here; the heaviest high-contrast letter there,
+   the softest round one here.
+
+   IT IS NOT A LIBRARY INTERIOR, AND THAT IS HOW IT STAYS OFF THE MOPERY. The
+   obvious build of a Discworld room reached through L-space is the Library of
+   Unseen University, which is a dark room full of books lit by something magic
+   -- the Mopery with an ape in it. So the room is not in the Library at all: it
+   is the world the Librarian looks after the books of, a disc on four elephants
+   on a turtle, drawn small against the dark in his colours, and lit by the
+   Disc's own little sun off to one side, so everything in the drawing has one
+   lit side. Nobody is drawn, and the Librarian least of all.
+
+   THE BROWN ROOMS ARE THE COLLAPSE TO WATCH. The Den, The Latibulum and the
+   Faery Yurt are brown, and every one of them is an interior lit by one warm
+   flame. This is rust rather than brown -- saturated, orange at the edges --
+   and it is outdoors in space with no flame in it. If the rust ever dulls to
+   brown, or a candle appears, it has joined them.
+
+   The type is Sniglet for the name and the headings and Libre Baskerville for
+   everything that is read. Nothing in §57 moves at any setting: the Disc does
+   not turn and the sun does not go round, because a picture that moved on its
+   own would need the dial's permission and this one has not asked for it. */
+
+.room-oook {
+  background: var(--ook-coat); color: var(--ook-cream);
+  font-family: 'Libre Baskerville', Georgia, serif; font-synthesis: none;
+}
+.room-oook a { color: var(--ook-banana); }
+.room-oook :focus-visible { outline-color: var(--ook-banana); }
+.room-oook .backlink { font-family: 'Libre Baskerville', Georgia, serif; font-size: 14px; color: var(--ook-banana); }
+.ook-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; }
+.ook-topline .backlink:last-child { margin-left: auto; }
+.ook-trail { margin: 6px 0 0; font-size: 14px; font-style: italic; color: var(--ook-dim); }
+
+.ook-head { margin: 30px 0 0; text-align: center; }
+.ook-over, .ook-sub { margin: 0; font-family: 'Sniglet', var(--sans); font-weight: 400; font-size: 20px; color: var(--ook-dim); }
+.room-oook h1 {
+  margin: 4px 0 6px; font-family: 'Sniglet', var(--sans); font-weight: 800;
+  font-size: clamp(66px, 14vw, 164px); line-height: .95; color: var(--ook-banana);
+}
+
+.ook-view { margin: 18px 0 0; }
+.ook-disc { display: block; width: 100%; height: auto; }
+
+.ook-lede { max-width: 64ch; margin: 24px auto 0; font-size: 18px; line-height: 1.75; }
+.ook-part { max-width: 66ch; margin: 48px auto 0; }
+.room-oook h2 { margin: 0 0 10px; font-family: 'Sniglet', var(--sans); font-weight: 800; font-size: 32px; line-height: 1.1; color: var(--ook-banana); }
+.ook-part > p { font-size: 16px; line-height: 1.75; }
+
+.ook-quote { max-width: 56ch; margin: 28px auto; text-align: center; }
+.ook-quote__text { margin: 0; font-size: 21px; font-style: italic; line-height: 1.55; }
+.ook-quote__text p { margin: 0; }
+.ook-quote__laws { margin: 0; padding: 0; list-style: decimal inside; }
+.ook-quote__laws li { margin: 0 0 4px; }
+.ook-quote__who { margin: 10px 0 0; font-size: 14px; color: var(--ook-dim); }
+.ook-quote__checked { margin: 4px auto 0; max-width: 52ch; font-size: 13px; line-height: 1.5; color: var(--ook-dim); }
+
+.ook-list { margin: 10px 0 0; padding-left: 22px; font-size: 16px; line-height: 1.7; }
+.ook-list li { margin: 0 0 10px; }
+.ook-return { margin-top: 20px; font-style: italic; }
+
+.room-oook .quest { margin-top: 44px; }
+.ook-dial { max-width: 400px; margin-top: 34px; }
+
+@media (max-width: 640px) {
+  .ook-topline .backlink:last-child { margin-left: 0; }
+}
+
+/* §58 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -12483,7 +12856,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §55 says every
+   shipped with no rule here at all — which on a street whose §58 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -12607,7 +12980,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §56 ── Print ───────────────────────────────────────────────────────────────
+/* §59 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
