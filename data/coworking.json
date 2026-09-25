@@ -101,7 +101,7 @@
       ]
     }
   ],
-  "_suites": "The Hang Suites are Ryan's, written in his brief of 2026-09-25 and copied here as he gave them, with two changes: the Watering Hole's list of norms was headed 'Campfire Norms' in the brief, a slip, and is headed with its own room's name; and the opening line said how many rooms there are, which check-counts.py refuses, so it says 'rooms'. Each link was opened on 2026-09-25 as far as Proton Meet's guest page and no further, and named the room exactly as `proton_name` says. They are named for Cavendish Space's caves, campfires and watering holes, which are David Thornburg's, and make-coworking.py refuses the section if the room stops naming him. A suite has no times on purpose: they are drop-in rooms, and a suite with hours is a meeting and belongs with the doors.",
+  "_suites": "The Hang Suites are Ryan's, written in his brief of 2026-09-25 and copied here as he gave them, with three changes: both lurking norms said 'camera and video off' and Ryan corrected them to 'camera and mic off' the same day; the Watering Hole's list of norms was headed 'Campfire Norms' in the brief, a slip, and is headed with its own room's name; and the opening line said how many rooms there are, which check-counts.py refuses, so it says 'rooms'. Each link was opened on 2026-09-25 as far as Proton Meet's guest page and no further, and named the room exactly as `proton_name` says. They are named for Cavendish Space's caves, campfires and watering holes, which are David Thornburg's, and make-coworking.py refuses the section if the room stops naming him. A suite has no times on purpose: they are drop-in rooms, and a suite with hours is a meeting and belongs with the doors.",
   "suites_intro": "Wanna just hang out or work on something together? We have rooms for that.",
   "suites": [
     {
@@ -133,7 +133,7 @@
       "norms": [
         "Video optional.",
         "Mute when you’re not actively talking.",
-        "Quietly lurking with camera and video off is perfectly fine and accepted."
+        "Quietly lurking with camera and mic off is perfectly fine and accepted."
       ]
     },
     {
@@ -150,7 +150,7 @@
       "norms": [
         "Video optional.",
         "Mute when you’re not actively talking.",
-        "Quietly lurking with camera and video off is perfectly fine and accepted.",
+        "Quietly lurking with camera and mic off is perfectly fine and accepted.",
         "Come-and-go as you please. If you need to drop out suddenly, no need to worry with goodbyes. We understand."
       ]
     }
