@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plural Mural &mdash; Stimpunks.World</title>
+<meta name="description" content="An end wall on the street with a mural on it, and then another. The street is Danny's, and Danny repaints: at MAX GLITTER the wall dissolves into the next mural every three minutes and you can hold the one you like; at every setting you can put any of them up yourself. The murals are the house's, and anybody can propose one in words.">
+<link rel="canonical" href="https://stimpunks.world/plural-mural.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#3A3431">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.World">
+<meta property="og:title" content="Plural Mural &mdash; Stimpunks.World">
+<meta property="og:description" content="An end wall on the street that repaints itself, because the street is Danny's. Hold the mural you like, put up any of them, or propose one of your own.">
+<meta property="og:url" content="https://stimpunks.world/plural-mural.html">
+<meta property="og:image" content="https://stimpunks.world/og/plural-mural.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A card the colour of sunlit tarmac. Small pale capitals reading An end wall that will not stay one colour, then “Plural Mural” in a very fat, round, yellow brush letter, then The street is Danny’s, and Danny repaints. Under it: An end wall on the street that repaints itself, because the street is Danny&#x27;s. Hold the mural you like, put up any of them, or propose one of your own. On the right, the end wall of a building in evening sun, a strip of sky and a capping along its top, with a mural painted on it: A rainbow in six broad bands, red through violet, arching up from the foot of the wall on a navy ground scattered with small cream stars, and across the top a cream banner with its ends notched, painted in navy capitals: QUEER WITHOUT FEAR. The shadow of a lamppost lies up the wall across the paint.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World &mdash; what changed on the street">
+<link rel="preload" href="fonts/chango-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/commissioner-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<!-- structured-data:begin -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/plural-mural.html#webpage","url":"https://stimpunks.world/plural-mural.html","name":"Plural Mural — Stimpunks.World","description":"An end wall on the street with a mural on it, and then another. The street is Danny's, and Danny repaints: at MAX GLITTER the wall dissolves into the next mural every three minutes and you can hold the one you like; at every setting you can put any of them up yourself. The murals are the house's, and anybody can propose one in words.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<!-- structured-data:end -->
+<!-- With no script the wall cannot turn over, so every mural stands on it at
+     once, one above the other, and nothing painted is out of reach. -->
+<noscript><style>
+.pm-stage { aspect-ratio: auto; }
+.pm-mural { position: static; opacity: 1; display: block; width: 100%; height: auto; margin: 0 0 14px; }
+.pm-shadow { display: none; }
+</style></noscript>
+</head>
+<body class="plural-mural" id="top">
+<a class="skip" href="#main">Skip to the wall</a>
+
+<main id="main" class="wrap" style="padding-bottom:54px;">
+
+  <div class="pm-topline">
+    <a class="backlink" href="index.html">&larr; back to the street</a>
+    <p class="pm-trail">on the street &middot; across the road from the end wall &middot; golden hour, the sun behind you</p>
+  </div>
+
+  <header class="pm-head">
+    <p class="pm-over">An end wall that will not stay one colour</p>
+    <h1>Plural Mural</h1>
+    <p class="pm-sub">The street is Danny&rsquo;s, and Danny repaints</p>
+  </header>
+
+  <!-- THE WALL. Rendered brick-free concrete in the evening sun, lit square on
+       by a sun low behind you, so every mural is at its own full colour. The
+       shadow of the lamppost you are standing by lies up the wall and stays
+       where it is whatever is painted under it: the murals change, the street
+       does not. Every mural is aria-hidden paint, and what it shows is in words
+       under the wall and in the list below it. -->
+  <div class="pm-wall">
+    <div class="pm-stage" id="pm-stage" aria-hidden="true">
+<!-- pm-stage:begin -->
+<svg class="pm-mural pm-mural--up" data-key="queer" data-title="Queer without fear" data-shows="A rainbow in six broad bands, red through violet, arching up from the foot of the wall on a navy ground scattered with small cream stars, and across the top a cream banner with its ends notched, painted in navy capitals: QUEER WITHOUT FEAR." viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect width="1200" height="600" fill="#1D3557"/>
+<g fill="#FFF4E0"><circle cx="90" cy="70" r="5"/><circle cx="210" cy="250" r="4"/><circle cx="1110" cy="90" r="5"/><circle cx="990" cy="260" r="4"/><circle cx="1150" cy="330" r="3"/><circle cx="60" cy="360" r="3"/><circle cx="600" cy="240" r="4"/></g>
+<g fill="none" stroke-width="50">
+<path d="M80 600 A520 520 0 0 1 1120 600" stroke="#E63946"/>
+<path d="M130 600 A470 470 0 0 1 1070 600" stroke="#F4A261"/>
+<path d="M180 600 A420 420 0 0 1 1020 600" stroke="#F1D302"/>
+<path d="M230 600 A370 370 0 0 1 970 600" stroke="#2A9D8F"/>
+<path d="M280 600 A320 320 0 0 1 920 600" stroke="#4EA8DE"/>
+<path d="M330 600 A270 270 0 0 1 870 600" stroke="#9D4EDD"/>
+</g>
+<path d="M150 60 L110 110 L150 160 Z M1050 60 L1090 110 L1050 160 Z" fill="#E8D5B0"/>
+<rect x="150" y="50" width="900" height="120" rx="6" fill="#FFF4E0"/>
+<text x="600" y="134" text-anchor="middle" textLength="820" lengthAdjust="spacingAndGlyphs" font-family="Chango, sans-serif" font-size="58" fill="#1D3557">QUEER WITHOUT FEAR</text></svg>
+<svg class="pm-mural" data-key="interdependent" data-title="Interdependent and here" data-shows="A hillside cut open like a page. Above the ground, a sunflower, a tuft of grass, a red-capped mushroom, a round tree, a fern and a tulip, none of them alike. Below it, in the brown soil, each of their roots runs down into one pale net of threads that joins every one of them to every other. Across the pale sky, in dark brown capitals: INTERDEPENDENT AND HERE." viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect width="1200" height="600" fill="#F6E7C1"/>
+<rect y="340" width="1200" height="260" fill="#5B3A29"/>
+<g fill="none" stroke="#F3E3C3" stroke-width="4" stroke-linecap="round">
+<path d="M150 340 V430 M150 380 L120 420 M150 390 L182 425"/>
+<path d="M330 340 V410 M330 360 L305 400 M330 365 L352 398"/>
+<path d="M520 340 V440 M520 380 L495 425"/>
+<path d="M700 340 V450 M700 380 L670 430 M700 390 L735 435"/>
+<path d="M880 340 V420 M880 370 L905 410"/>
+<path d="M1050 340 V430 M1050 375 L1025 415"/>
+<path d="M120 420 C220 520 260 470 305 400 M182 425 C260 540 420 500 495 425 M352 398 C420 470 600 540 670 430 M520 440 C600 560 800 560 905 410 M735 435 C820 520 960 520 1025 415 M150 430 C400 590 800 600 1050 430"/>
+</g>
+<path d="M150 340 V175" stroke="#4F772D" stroke-width="10"/>
+<ellipse cx="128" cy="270" rx="26" ry="11" fill="#4F772D"/><ellipse cx="172" cy="240" rx="26" ry="11" fill="#4F772D"/>
+<circle cx="150" cy="160" r="50" fill="#F2B705"/><circle cx="150" cy="160" r="22" fill="#6B3E1E"/>
+<path d="M300 340 L312 280 L322 340 Z M322 340 L334 262 L346 340 Z M346 340 L358 290 L366 340 Z" fill="#90A955"/>
+<rect x="508" y="290" width="24" height="50" rx="6" fill="#F3E3C3"/>
+<path d="M466 296 Q520 220 574 296 Z" fill="#C1440E"/><g fill="#F3E3C3"><circle cx="500" cy="276" r="7"/><circle cx="536" cy="266" r="6"/><circle cx="552" cy="286" r="5"/></g>
+<rect x="690" y="250" width="20" height="90" fill="#6B3E1E"/>
+<circle cx="700" cy="215" r="60" fill="#4F772D"/><circle cx="660" cy="240" r="38" fill="#4F772D"/><circle cx="742" cy="240" r="38" fill="#4F772D"/>
+<path d="M880 340 C880 290 890 250 920 225" stroke="#90A955" stroke-width="6" fill="none"/>
+<g fill="#90A955"><ellipse cx="870" cy="310" rx="18" ry="7"/><ellipse cx="896" cy="300" rx="18" ry="7"/><ellipse cx="872" cy="280" rx="16" ry="6"/><ellipse cx="900" cy="268" rx="16" ry="6"/><ellipse cx="886" cy="252" rx="13" ry="5"/><ellipse cx="912" cy="240" rx="12" ry="5"/></g>
+<path d="M1050 340 V240" stroke="#4F772D" stroke-width="8"/>
+<path d="M1026 240 Q1024 196 1036 186 L1050 206 L1064 186 Q1076 196 1074 240 Z" fill="#D1495B"/>
+<text x="600" y="110" text-anchor="middle" textLength="940" lengthAdjust="spacingAndGlyphs" font-family="Chango, sans-serif" font-size="56" fill="#3B2A20">INTERDEPENDENT AND HERE</text></svg>
+<svg class="pm-mural" data-key="divergent" data-title="Divergent and proud" data-shows="An orange wall with a huge yellow sun in the middle of it and a purple tree at the foot, its branches spreading every way at once, and a flock of purple birds leaving it in every direction, no two of them flying the same way. Across the top, in purple capitals: DIVERGENT AND PROUD." viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect width="1200" height="600" fill="#F28C28"/>
+<circle cx="600" cy="330" r="210" fill="#FFD166"/>
+<g fill="none" stroke="#3D1E6D" stroke-linecap="round">
+<path d="M600 600 V470" stroke-width="30"/>
+<path d="M600 480 C560 440 520 430 470 420 M600 480 C640 440 690 430 740 415 M600 470 C590 420 600 400 610 370 M470 420 C450 400 440 380 420 350 M740 415 C760 395 780 380 800 345 M470 420 C430 425 400 415 370 400 M740 415 C780 425 810 420 840 405" stroke-width="12"/>
+</g>
+<g fill="none" stroke="#3D1E6D" stroke-width="9" stroke-linecap="round">
+<path d="M380 300 q27 -32 54 0 q27 -32 54 0"/>
+<path d="M300 220 q22 -27 43 0 q22 -27 43 0" transform="rotate(-18 324 220)"/>
+<path d="M820 290 q27 -32 54 0 q27 -32 54 0" transform="rotate(14 850 290)"/>
+<path d="M920 200 q22 -27 43 0 q22 -27 43 0" transform="rotate(32 944 200)"/>
+<path d="M640 200 q22 -25 43 0 q22 -25 43 0" transform="rotate(-6 664 200)"/>
+<path d="M170 330 q22 -27 43 0 q22 -27 43 0" transform="rotate(-38 194 330)"/>
+<path d="M1040 350 q22 -27 43 0 q22 -27 43 0" transform="rotate(48 1064 350)"/>
+<path d="M500 250 q18 -22 36 0 q18 -22 36 0" transform="rotate(22 520 250)"/>
+<path d="M1080 230 q18 -22 36 0 q18 -22 36 0" transform="rotate(-24 1100 230)"/>
+<path d="M90 230 q18 -22 36 0 q18 -22 36 0" transform="rotate(10 110 230)"/>
+<path d="M740 180 q18 -22 36 0 q18 -22 36 0" transform="rotate(62 760 180)"/>
+<path d="M240 420 q22 -27 43 0 q22 -27 43 0" transform="rotate(-60 264 420)"/>
+<path d="M960 440 q22 -27 43 0 q22 -27 43 0" transform="rotate(70 984 440)"/>
+</g>
+<text x="600" y="100" text-anchor="middle" textLength="880" lengthAdjust="spacingAndGlyphs" font-family="Chango, sans-serif" font-size="62" fill="#3D1E6D">DIVERGENT AND PROUD</text></svg>
+<svg class="pm-mural" data-key="loud" data-title="Living out loud" data-shows="A deep raspberry wall with a navy speaker cabinet on the left, its two cones in yellow, throwing yellow rings of sound out across the paint, and yellow lightning bolts zigzagging off to the right. On the right, in big cream capitals over two lines: LIVING OUT LOUD." viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect width="1200" height="600" fill="#B5174B"/>
+<g fill="none" stroke="#FFE66D" stroke-width="16">
+<circle cx="300" cy="330" r="170"/><circle cx="300" cy="330" r="230"/><circle cx="300" cy="330" r="290"/>
+</g>
+<rect x="190" y="200" width="220" height="260" rx="16" fill="#1B1B3A"/>
+<circle cx="300" cy="275" r="42" fill="#FFE66D"/><circle cx="300" cy="275" r="16" fill="#1B1B3A"/>
+<circle cx="300" cy="385" r="56" fill="#FFE66D"/><circle cx="300" cy="385" r="22" fill="#1B1B3A"/>
+<g fill="#FFE66D"><path d="M1110 18 L1078 72 L1100 72 L1068 136 L1132 62 L1108 62 L1134 18 Z"/><path d="M1130 420 L1105 465 L1125 465 L1098 520 L1150 458 L1130 458 L1150 420 Z"/></g>
+<g font-family="Chango, sans-serif" fill="#FFF8E7" text-anchor="middle">
+<text x="850" y="275" textLength="440" lengthAdjust="spacingAndGlyphs" font-size="104">LIVING</text>
+<text x="850" y="400" textLength="440" lengthAdjust="spacingAndGlyphs" font-size="104">OUT LOUD</text>
+</g></svg>
+<svg class="pm-mural" data-key="plucky" data-title="Plucky pluralism, for human organisms" data-shows="A pale green wall covered in small living things, every one of them different: a snail, a bee, a daisy, a grey pebble, a fern leaf, a blue fish, a ladybird, a little mushroom, an orange star and a falling leaf, spread across the paint with room round each of them. Across the top, in dark green capitals over two lines: PLUCKY PLURALISM, FOR HUMAN ORGANISMS." viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect width="1200" height="600" fill="#DDEBC8"/>
+<g font-family="Chango, sans-serif" fill="#203020" text-anchor="middle">
+<text x="600" y="100" textLength="760" lengthAdjust="spacingAndGlyphs" font-size="52">PLUCKY PLURALISM,</text>
+<text x="600" y="172" textLength="840" lengthAdjust="spacingAndGlyphs" font-size="52">FOR HUMAN ORGANISMS</text>
+</g>
+<g transform="translate(120 330)"><ellipse cx="0" cy="40" rx="60" ry="16" fill="#8C6A4F"/><circle cx="10" cy="10" r="36" fill="#C1440E"/><path d="M10 10 m-22 0 a22 22 0 1 1 22 22 a14 14 0 1 1 -14 -14 a6 6 0 1 1 6 6" fill="none" stroke="#F3E3C3" stroke-width="4"/><path d="M-52 36 L-66 10 M-44 32 L-50 8" stroke="#8C6A4F" stroke-width="4" stroke-linecap="round"/></g>
+<g transform="translate(330 270)"><ellipse cx="-14" cy="-22" rx="20" ry="12" fill="#FFFFFF"/><ellipse cx="14" cy="-22" rx="20" ry="12" fill="#FFFFFF"/><ellipse cx="0" cy="0" rx="40" ry="24" fill="#F2B705"/><path d="M-14 -22 V22 M6 -24 V24" stroke="#2B2B2B" stroke-width="8"/><circle cx="36" cy="-4" r="5" fill="#2B2B2B"/></g>
+<g transform="translate(540 420)"><g fill="#FFFFFF"><ellipse cx="0" cy="-34" rx="12" ry="26"/><ellipse cx="0" cy="34" rx="12" ry="26"/><ellipse cx="-34" cy="0" rx="26" ry="12"/><ellipse cx="34" cy="0" rx="26" ry="12"/><ellipse cx="-24" cy="-24" rx="10" ry="22" transform="rotate(-45 -24 -24)"/><ellipse cx="24" cy="24" rx="10" ry="22" transform="rotate(-45 24 24)"/><ellipse cx="24" cy="-24" rx="10" ry="22" transform="rotate(45 24 -24)"/><ellipse cx="-24" cy="24" rx="10" ry="22" transform="rotate(45 -24 24)"/></g><circle r="16" fill="#F2B705"/></g>
+<ellipse cx="760" cy="300" rx="52" ry="34" fill="#9AA5A8"/>
+<g transform="translate(960 300)"><path d="M0 60 C0 20 10 -20 40 -50" stroke="#4F772D" stroke-width="6" fill="none"/><g fill="#4F772D"><ellipse cx="-12" cy="40" rx="18" ry="7"/><ellipse cx="14" cy="32" rx="18" ry="7"/><ellipse cx="-6" cy="12" rx="16" ry="6"/><ellipse cx="20" cy="2" rx="16" ry="6"/><ellipse cx="10" cy="-20" rx="13" ry="5"/><ellipse cx="32" cy="-30" rx="11" ry="5"/></g></g>
+<g transform="translate(1090 460)"><ellipse cx="0" cy="0" rx="48" ry="24" fill="#4EA8DE"/><path d="M44 0 L80 -24 L80 24 Z" fill="#4EA8DE"/><circle cx="-26" cy="-4" r="5" fill="#1D3557"/></g>
+<g transform="translate(250 500)"><circle r="30" fill="#E63946"/><path d="M0 -30 V30" stroke="#2B2B2B" stroke-width="4"/><g fill="#2B2B2B"><circle cx="-13" cy="-8" r="6"/><circle cx="13" cy="10" r="6"/><circle cx="-11" cy="14" r="5"/><circle cx="12" cy="-12" r="5"/></g><circle cy="-34" r="11" fill="#2B2B2B"/></g>
+<g transform="translate(700 520)"><rect x="-9" y="-10" width="18" height="36" rx="5" fill="#F3E3C3"/><path d="M-36 -8 Q0 -60 36 -8 Z" fill="#8C6A4F"/></g>
+<path d="M880 500 l14 30 32 4 -24 22 7 32 -29 -16 -29 16 7 -32 -24 -22 32 -4 z" fill="#F4A261"/>
+<g transform="translate(420 560) rotate(-24)"><path d="M-40 0 Q0 -32 40 0 Q0 32 -40 0 Z" fill="#90A955"/><path d="M-40 0 H40" stroke="#4F772D" stroke-width="3"/></g></svg>
+<svg class="pm-mural" data-key="becoming" data-title="Becoming and belonging, with ribald songing" data-shows="A dusk-blue wall with three telephone wires sagging across it and birds of five colours sitting along them with their beaks open, yellow notes rising out of them, a caterpillar on the lowest wire and a butterfly lifting off beside it. Along the foot, in yellow capitals over two lines: BECOMING AND BELONGING, WITH RIBALD SONGING." viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect width="1200" height="600" fill="#2B2D5C"/>
+<g fill="none" stroke="#F2E9DC" stroke-width="4">
+<path d="M0 110 Q600 190 1200 100"/><path d="M0 200 Q600 290 1200 190"/><path d="M0 290 Q600 380 1200 280"/>
+</g>
+<g>
+<g transform="translate(180 130) scale(1.5)"><ellipse cx="0" cy="-20" rx="24" ry="20" fill="#F2A65A"/><path d="M20 -26 L40 -34 L22 -18 Z" fill="#FFD166"/><circle cx="10" cy="-26" r="3" fill="#2B2D5C"/></g>
+<g transform="translate(470 147) scale(1.5)"><ellipse cx="0" cy="-20" rx="24" ry="20" fill="#8FB996"/><path d="M20 -26 L40 -34 L22 -18 Z" fill="#FFD166"/><circle cx="10" cy="-26" r="3" fill="#2B2D5C"/></g>
+<g transform="translate(830 139) scale(1.5)"><ellipse cx="0" cy="-20" rx="24" ry="20" fill="#E4572E"/><path d="M-20 -26 L-40 -34 L-22 -18 Z" fill="#FFD166"/><circle cx="-10" cy="-26" r="3" fill="#2B2D5C"/></g>
+<g transform="translate(300 233) scale(1.5)"><ellipse cx="0" cy="-20" rx="24" ry="20" fill="#C9A7E0"/><path d="M20 -26 L40 -34 L22 -18 Z" fill="#FFD166"/><circle cx="10" cy="-26" r="3" fill="#2B2D5C"/></g>
+<g transform="translate(700 240) scale(1.5)"><ellipse cx="0" cy="-20" rx="24" ry="20" fill="#F2E9DC"/><path d="M-20 -26 L-40 -34 L-22 -18 Z" fill="#FFD166"/><circle cx="-10" cy="-26" r="3" fill="#2B2D5C"/></g>
+<g transform="translate(1010 217) scale(1.5)"><ellipse cx="0" cy="-20" rx="24" ry="20" fill="#F2A65A"/><path d="M20 -26 L40 -34 L22 -18 Z" fill="#FFD166"/><circle cx="10" cy="-26" r="3" fill="#2B2D5C"/></g>
+<g transform="translate(560 333) scale(1.5)"><ellipse cx="0" cy="-20" rx="24" ry="20" fill="#E4572E"/><path d="M20 -26 L40 -34 L22 -18 Z" fill="#FFD166"/><circle cx="10" cy="-26" r="3" fill="#2B2D5C"/></g>
+</g>
+<g fill="#FFD166">
+<circle cx="236" cy="60" r="9"/><path d="M244 60 V30 h14" stroke="#FFD166" stroke-width="4" fill="none"/>
+<circle cx="526" cy="80" r="9"/><path d="M534 80 V50 h14" stroke="#FFD166" stroke-width="4" fill="none"/>
+<circle cx="770" cy="66" r="9"/><path d="M778 66 V36 h14" stroke="#FFD166" stroke-width="4" fill="none"/>
+<circle cx="356" cy="160" r="8"/><path d="M363 160 V134 h12" stroke="#FFD166" stroke-width="4" fill="none"/>
+<circle cx="640" cy="180" r="8"/><path d="M647 180 V154 h12" stroke="#FFD166" stroke-width="4" fill="none"/>
+<circle cx="1070" cy="150" r="8"/><path d="M1077 150 V124 h12" stroke="#FFD166" stroke-width="4" fill="none"/>
+</g>
+<g transform="translate(880 311)"><circle cx="0" cy="0" r="9" fill="#8FB996"/><circle cx="16" cy="-2" r="9" fill="#8FB996"/><circle cx="32" cy="-3" r="9" fill="#8FB996"/><circle cx="48" cy="-3" r="10" fill="#8FB996"/><circle cx="52" cy="-6" r="2.5" fill="#2B2D5C"/></g>
+<g transform="translate(1000 300)"><path d="M0 0 C-30 -40 -60 -20 -40 10 Z M0 0 C30 -40 60 -20 40 10 Z" fill="#F2A65A"/><path d="M0 0 C-20 20 -40 30 -26 40 Z M0 0 C20 20 40 30 26 40 Z" fill="#E4572E"/><path d="M0 -12 V30" stroke="#F2E9DC" stroke-width="4"/></g>
+<g font-family="Chango, sans-serif" fill="#FFD166" text-anchor="middle">
+<text x="600" y="470" textLength="900" lengthAdjust="spacingAndGlyphs" font-size="54">BECOMING AND BELONGING,</text>
+<text x="600" y="548" textLength="800" lengthAdjust="spacingAndGlyphs" font-size="54">WITH RIBALD SONGING</text>
+</g></svg>
+<!-- pm-stage:end -->
+      <svg class="pm-shadow" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path d="M830 600 L866 600 L858 92 L840 92 Z"/>
+        <path d="M838 100 L860 88 L960 70 L964 88 L866 104 Z"/>
+        <path d="M944 86 L990 82 L994 106 L948 110 Z"/>
+        <path d="M240 600 L520 600 L512 560 L248 560 Z M262 560 L270 510 L482 510 L490 560 Z"/>
+      </svg>
+    </div>
+  </div>
+
+  <p class="pm-now" id="pm-now">On the wall now: <span class="pm-now__title" id="pm-now-title">Queer without fear</span>. <span class="pm-now__shows" id="pm-now-shows">A rainbow in six broad bands, red through violet, arching up from the foot of the wall on a navy ground scattered with small cream stars, and across the top a cream banner with its ends notched, painted in navy capitals: QUEER WITHOUT FEAR.</span></p>
+
+  <div class="pm-controls" id="pm-controls" hidden>
+    <button type="button" class="pm-turn" id="pm-prev">&larr; Back</button>
+    <button type="button" class="pm-turn" id="pm-next">Turn it over &rarr;</button>
+    <button type="button" class="pm-turn pm-hold" id="pm-hold" aria-pressed="false">Keep this one up</button>
+  </div>
+  <p class="sr" id="pm-says" aria-live="polite"></p>
+
+  <p class="pm-lede">This is the end wall of a building on the street, and it is never painted the same way twice. <strong>The street is <a href="danny-the-street.html">Danny&rsquo;s</a></strong>, and Danny rearranges what is on them for whoever turns up, so one day the wall is a rainbow and the next it is a hillside with its roots showing. <strong>At MAX GLITTER the wall repaints itself every three minutes</strong>, one mural dissolving into the next, and you can keep the one you like up for as long as you stay. <strong>At Gentle and Regular it holds still</strong> until you turn it over yourself. Every mural is on the list below at every setting, in words, with a button to put it up.</p>
+
+  <section class="pm-part" aria-labelledby="pm-list-h">
+    <h2 id="pm-list-h">On the wall, in turn</h2>
+    <p class="pm-note">In the order they went up. Each one says what is painted on it, because the wall itself is paint.</p>
+<!-- pm-list:begin -->
+<ol class="pm-list">
+  <li class="pm-item pm-item--up" id="mural-queer" aria-current="true">
+    <h3 class="pm-item__title">Queer without fear <span class="pm-item__now">on the wall now</span></h3>
+    <p class="pm-item__shows">A rainbow in six broad bands, red through violet, arching up from the foot of the wall on a navy ground scattered with small cream stars, and across the top a cream banner with its ends notched, painted in navy capitals: QUEER WITHOUT FEAR.</p>
+    <p class="pm-item__idea">The idea: the first line of the street’s own tagline, which is Stimpunks’. Painted by the house.</p>
+    <p class="pm-item__go"><button type="button" class="pm-put" data-n="0" hidden>Put this one up</button></p>
+  </li>
+  <li class="pm-item" id="mural-interdependent">
+    <h3 class="pm-item__title">Interdependent and here <span class="pm-item__now" hidden>on the wall now</span></h3>
+    <p class="pm-item__shows">A hillside cut open like a page. Above the ground, a sunflower, a tuft of grass, a red-capped mushroom, a round tree, a fern and a tulip, none of them alike. Below it, in the brown soil, each of their roots runs down into one pale net of threads that joins every one of them to every other. Across the pale sky, in dark brown capitals: INTERDEPENDENT AND HERE.</p>
+    <p class="pm-item__idea">The idea: the second line of the street’s own tagline, which is Stimpunks’. Painted by the house.</p>
+    <p class="pm-item__go"><button type="button" class="pm-put" data-n="1" hidden>Put this one up</button></p>
+  </li>
+  <li class="pm-item" id="mural-divergent">
+    <h3 class="pm-item__title">Divergent and proud <span class="pm-item__now" hidden>on the wall now</span></h3>
+    <p class="pm-item__shows">An orange wall with a huge yellow sun in the middle of it and a purple tree at the foot, its branches spreading every way at once, and a flock of purple birds leaving it in every direction, no two of them flying the same way. Across the top, in purple capitals: DIVERGENT AND PROUD.</p>
+    <p class="pm-item__idea">The idea: the third line of the street’s own tagline, which is Stimpunks’. Painted by the house.</p>
+    <p class="pm-item__go"><button type="button" class="pm-put" data-n="2" hidden>Put this one up</button></p>
+  </li>
+  <li class="pm-item" id="mural-loud">
+    <h3 class="pm-item__title">Living out loud <span class="pm-item__now" hidden>on the wall now</span></h3>
+    <p class="pm-item__shows">A deep raspberry wall with a navy speaker cabinet on the left, its two cones in yellow, throwing yellow rings of sound out across the paint, and yellow lightning bolts zigzagging off to the right. On the right, in big cream capitals over two lines: LIVING OUT LOUD.</p>
+    <p class="pm-item__idea">The idea: the fourth line of the street’s own tagline, which is Stimpunks’. Painted by the house.</p>
+    <p class="pm-item__go"><button type="button" class="pm-put" data-n="3" hidden>Put this one up</button></p>
+  </li>
+  <li class="pm-item" id="mural-plucky">
+    <h3 class="pm-item__title">Plucky pluralism, for human organisms <span class="pm-item__now" hidden>on the wall now</span></h3>
+    <p class="pm-item__shows">A pale green wall covered in small living things, every one of them different: a snail, a bee, a daisy, a grey pebble, a fern leaf, a blue fish, a ladybird, a little mushroom, an orange star and a falling leaf, spread across the paint with room round each of them. Across the top, in dark green capitals over two lines: PLUCKY PLURALISM, FOR HUMAN ORGANISMS.</p>
+    <p class="pm-item__idea">The idea: the fifth line of the street’s own tagline, which is Stimpunks’. Painted by the house.</p>
+    <p class="pm-item__go"><button type="button" class="pm-put" data-n="4" hidden>Put this one up</button></p>
+  </li>
+  <li class="pm-item" id="mural-becoming">
+    <h3 class="pm-item__title">Becoming and belonging, with ribald songing <span class="pm-item__now" hidden>on the wall now</span></h3>
+    <p class="pm-item__shows">A dusk-blue wall with three telephone wires sagging across it and birds of five colours sitting along them with their beaks open, yellow notes rising out of them, a caterpillar on the lowest wire and a butterfly lifting off beside it. Along the foot, in yellow capitals over two lines: BECOMING AND BELONGING, WITH RIBALD SONGING.</p>
+    <p class="pm-item__idea">The idea: the sixth line of the street’s own tagline, which is Stimpunks’. Painted by the house.</p>
+    <p class="pm-item__go"><button type="button" class="pm-put" data-n="5" hidden>Put this one up</button></p>
+  </li>
+</ol>
+<!-- pm-list:end -->
+  </section>
+
+  <section class="pm-part" aria-labelledby="a-mural-of-your-own">
+    <h2 id="a-mural-of-your-own">A mural of your own</h2>
+    <p>If there is something you would like painted on this wall, tell us, and the house will paint it and put it up in turn with the rest.</p>
+    <ul class="pm-rules">
+      <li><strong>Words, not a picture.</strong> Say what is on it, what it says if it says anything, and the colours. The house paints it, the way the rest of the wall is painted.</li>
+      <li><strong>Nobody real is painted on this wall.</strong> A person on it is nobody in particular, because a face is somebody&rsquo;s own, and a mural of a real person would be putting them up on a street they never asked to be on.</li>
+      <li><strong>Your idea goes up with your name on it</strong>, and your words beside the mural exactly as you give them. Say how you want to be named, or be somebody in our community.</li>
+      <li><strong>Nothing is voted on.</strong> A mural goes up in the order it arrives and takes its turn with all the others.</li>
+      <li><strong>It comes down the moment you ask</strong>, and down means painted over rather than hidden.</li>
+    </ul>
+    <p>Send it through <a href="https://stimpunks.org/contact/">the Stimpunks contact page</a> or in <a href="https://stimpunks.org/community/">our community</a>. It is on <a href="community-center.html#slot-mural">the Community Center&rsquo;s service board</a> too, beside everything else the street takes in.</p>
+  </section>
+
+  <section class="pm-part" aria-labelledby="pm-how-h">
+    <h2 id="pm-how-h">How the wall works</h2>
+    <ul class="pm-rules">
+      <li><strong>The wall turns over by itself at MAX GLITTER and nowhere else.</strong> A picture that changes without being asked is something moving on the page, and at Gentle and Regular nothing moves until you ask it to. Turning it over yourself dissolves one mural into the next at Regular, and simply swaps them at Gentle.</li>
+      <li><strong>Keep this one up</strong> holds the wall on the mural you like for as long as you are on the page. Nothing about it is stored, and nobody knows which one you held.</li>
+      <li><strong>Nothing is counted.</strong> Not the murals, not how long anybody looked at one, and there is no favourite of the week, because nothing here watches what you look at.</li>
+      <li><strong>Every mural is the house&rsquo;s own painting.</strong> None of them is a photograph of a real mural, because a mural is its painter&rsquo;s work wherever it stands, and a picture of one is a copy of somebody else&rsquo;s wall.</li>
+      <li><strong>The first ones are the street&rsquo;s own tagline</strong>, a line to a mural, which is Stimpunks&rsquo;. The idea of a street that repaints itself is Danny&rsquo;s, and Danny is DC Comics&rsquo;: <a href="danny-the-street.html">where Danny came from</a>. Nothing of DC&rsquo;s is painted on the wall.</li>
+    </ul>
+  </section>
+
+<!-- quest:mural-lid:begin -->
+  <details class="quest" data-quest="mural-lid" data-code="REPAINT" data-accept="glitter|max|maxglitter|maxglitterr|themaxglitter">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3 28 H29" stroke="var(--pm-yellow)" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="16" cy="21" rx="12" ry="5.5" fill="var(--pm-line)"/><ellipse cx="16" cy="21" rx="8.5" ry="3.4" fill="none" stroke="var(--pm-yellow)" stroke-width="2"/><path d="M26 23 Q27 26 25.5 27" fill="none" stroke="var(--pm-yellow)" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; the lid off a tin of paint, left on the pavement with a ring of yellow dried round it</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> When does the wall repaint itself?</p>
+      <p class="quest__ask"><b>Before the code:</b> The wall repaints itself at one setting of the dial and holds still at the other two. Which setting?</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="mural-lid-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="mural-lid-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is in the first of the rules about how the wall works.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>The hold button only appears at that setting.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>It is the loudest of the three.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>MAX GLITTER</b>. Only at MAX GLITTER does anything on this street move without being asked. At Gentle and Regular the wall waits for you to turn it over, and the list under it holds every mural in words at every setting.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">REPAINT</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=REPAINT">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>Only at MAX GLITTER does anything on this street move without being asked. At Gentle and Regular the wall waits for you to turn it over, and the list under it holds every mural in words at every setting.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">REPAINT</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=REPAINT">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:mural-lid:end -->
+
+  <div style="max-width:400px;margin-top:34px;">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- signoff:begin -->
+<footer class="signoff">
+  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> &middot; <a href="map.html#at-plural-mural">Where am I?</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="your-room.html">Your Room</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="feed.xml">Feed</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+</footer>
+<!-- signoff:end -->
+
+<script src="love.js" defer></script>
+<script src="mural.js" defer></script>
+<script src="quest.js" defer></script>
+</body>
+</html>

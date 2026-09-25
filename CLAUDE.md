@@ -2469,6 +2469,31 @@ ground colour and they vanish. **On a phone the stand is sticky at the top of th
 `display: contents` so the drawing can stick for the whole fitting): the rails are longer than a phone is
 tall, and a pick that changes a drawing three screens away is the Playhouse's unseen answer again.
 
+**PLURAL MURAL'S WALL TURNS OVER BY ITSELF AT MAX GLITTER AND NOWHERE ELSE, AND THE BRIEF ASKED FOR
+MORE.** §54 is an end wall on the street that repaints itself because the street is Danny's (Ryan's
+brief, 2026-09-25: murals that dissolve into the next every few minutes). A picture that changes
+without being asked is ambient change, and Regular is motion on hover and focus only, so at Gentle
+and Regular the wall holds still until somebody turns it over (a dissolve at Regular, a swap at
+Gentle, because §3 takes the transition away) and **every mural is in words in the list under the
+wall at every setting**. `mural.js` reads the dial on every tick, turns over every three minutes at
+MAX only, never in a hidden tab, and **speaks only when somebody pressed something**. The hold is a
+MAX control and stores nothing. **Do not wire the timer to Regular**; if Ryan wants the magic at the
+default setting that is a change to the dial's own definition and his call, not a room's.
+
+**THE MURALS ARE THE HOUSE'S PAINT, AND THE SHADOW IS THE ONE THING THAT STAYS.** `make-mural.py` holds
+every drawing and refuses: a mural with no words for what it shows (the wall is aria-hidden), no
+credit, **painted words under 4.5 against every colour they cross** (lettering is decoration in
+WCAG's terms and the first thing anybody reads), two murals on one ground, an `<image>`, href or
+url() in a drawing (a photograph of a real mural is a copy of its painter's work), a name with no
+`as_given`, and the vocabulary of a vote (`like` narrowed to `likes`/`liked`, before its first run
+this time). **Proposals come in words and the house paints them**, the Dress-Up Den's rule; nobody
+real is painted on the wall, and the service board holds the room's terms. The light is a low sun
+**behind you**, square on, so every mural is at full colour and the lamppost's shadow lies up the wall
+over whichever is painted. **The Hermitage is the collision to watch** (low sun, warm wall) and its
+shadows fall sideways; Laughingstock is lit from behind you onto a wall too and is one hard pool in a
+dark cellar. **Every word is on the road, never on the wall.** A new mural is an entry in
+`data/mural.json` and a drawing in `DRAW` with its `ground`, `letter` and `under`.
+
 **NOW PLAYING IS A PAGE OF SENTENCES ABOUT OTHER ROOMS, AND THE ONE CLAIM MOST LIKELY TO CHANGE IS
 READ, NEVER WRITTEN.** §53 is a screenprinted bill pasted round a poster column on the pavement beside
 the Pebble Board (Ryan's brief, 2026-09-25): every room with something in it to press and play, and

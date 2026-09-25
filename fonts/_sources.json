@@ -1274,5 +1274,33 @@
       "src": "https://fonts.gstatic.com/s/instrumentsans/v4/pxiTypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr0SZe1ZuWi3g.woff2",
       "note": "Byte-identical to the 400 above; see that note."
     }
+  ],
+  "chango": [
+    {
+      "file": "chango-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 12032,
+      "src": "https://fonts.gstatic.com/s/chango/v29/2V0cKI0OB5U7WaJCyHe5blYKAg.woff2",
+      "note": "Plural Mural (§54), every word painted on a mural and the room's name, and nothing at reading size. Very fat and very round, the letter a loaded brush makes on a big wall, where Now Playing's Rammetto One is a poster letter printed through a screen. One weight, one static file, one declaration."
+    }
+  ],
+  "commissioner": [
+    {
+      "file": "commissioner-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 36696,
+      "src": "https://fonts.gstatic.com/s/commissioner/v24/tDbw2o2WnlgI0FNDgduEk4jAhwgumbU1SVfU5BD8OuRL8OstC6KOhgvBYWSFJ-Mgdrgiju6fF8m0akXaaRg2_g.woff2",
+      "note": "Plural Mural (§54), every word that is read: what is on each mural, how the wall works and how to propose one. It ships as a variable font, so Google serves the same file for 400 and 700; it is downloaded once and declared twice against the weight axis, Radio Canada's call. No italic shipped."
+    },
+    {
+      "file": "commissioner-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 36696,
+      "src": "https://fonts.gstatic.com/s/commissioner/v24/tDbw2o2WnlgI0FNDgduEk4jAhwgumbU1SVfU5BD8OuRL8OstC6KOhgvBYWSFJ-Mgdrgiju6fF8m0akXaaRg2_g.woff2",
+      "note": "Byte-identical to the 400 above; see that note."
+    }
   ]
 }

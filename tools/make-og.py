@@ -777,6 +777,20 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--community .og-lede {{ font-family: 'Radio Canada', sans-serif; color: var(--ctr-ink);
   max-width: 1060px; font-size: 27px; line-height: 1.4; margin: 6px 0 0 !important; }}
 
+/* plural mural — THE WALL FROM ACROSS THE ROAD, with whichever mural is first up on
+   it. The header and the wall are lifted off the page whole, mural and all, so the
+   card cannot show paint the wall has not got; the words stand on the road like
+   every word in the room. */
+.og--mural {{ width: 100%; flex-direction: row; align-items: center; gap: 40px; padding: 0 56px; }}
+.og--mural .og-words {{ flex: 0 0 470px; margin: 0 !important; }}
+.og--mural .pm-head {{ margin: 0 !important; }}
+.og--mural .pm-head p {{ margin: 0 !important; font-size: 17px; }}
+.og--mural h1 {{ font-size: 78px; margin: 12px 0 12px !important; }}
+.og--mural .og-lede {{ font-family: 'Commissioner', sans-serif; color: var(--pm-line);
+  font-size: 25px; line-height: 1.4; margin: 22px 0 0 !important; }}
+.og--mural .pm-wall {{ flex: 1 1 auto; margin: 0 !important; padding: 56px 22px 22px; }}
+.og--mural .pm-stage {{ margin: 0 !important; }}
+
 /* now playing — THE SHEET ON ITS DRUM, and the only card on the street printed in
    two inks with nothing in black. The column's painted iron runs down both sides
    and off the foot of the card, which is where the pavement is; the header, the
@@ -2520,6 +2534,36 @@ def card_dressup(p):
     )
 
 
+def card_mural(p):
+    # THE HEADER AND THE WALL ARE LIFTED WHOLE, and the wall carries only the
+    # mural that is first up and the lamppost's shadow, exactly as the page paints
+    # them before anybody turns it over. The alt reads that mural's own words
+    # off the page, so the card cannot describe a painting that is not there.
+    head = re.search(r'(<header class="pm-head">.*?</header>)', p["src"], re.S)
+    first = re.search(r'(<svg class="pm-mural pm-mural--up".*?</svg>)', p["src"], re.S)
+    shadow = re.search(r'(<svg class="pm-shadow".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="pm-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="pm-sub">(.*?)</p>', p["src"], re.S)
+    if not (head and first and shadow and over and sub):
+        raise SystemExit(
+            "REFUSING: plural-mural.html has lost its header, its first mural or the\n"
+            "lamppost's shadow, and the card is those three. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    shows = html.unescape(re.search(r'data-shows="([^"]*)"', first.group(1)).group(1))
+    return (
+        "",
+        f'<div class="og og--mural" data-fit="card">'
+        f'<div class="og-words">{head.group(1)}<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="pm-wall"><div class="pm-stage">{first.group(1)}{shadow.group(1)}</div></div>'
+        f'</div>',
+        f"A card the colour of sunlit tarmac. Small pale capitals reading {plain(over.group(1))}, "
+        f"then \u201c{p['h1text']}\u201d in a very fat, round, yellow brush letter, then "
+        f"{plain(sub.group(1))}. Under it: {p['desc_plain']} On the right, the end wall of a "
+        f"building in evening sun, a strip of sky and a capping along its top, with a mural "
+        f"painted on it: {shows} The shadow of a lamppost lies up the wall across the paint.",
+    )
+
+
 def card_nowplaying(p):
     # THE HEADER IS LIFTED WHOLE -- over-line, h1, sub-line and the two screens'
     # ornament -- and the lede is the page's og:description, so the card cannot
@@ -2776,6 +2820,7 @@ CARDS = {
     "vital":        card_vital,
     "community":    card_community,
     "now-playing":  card_nowplaying,
+    "plural-mural": card_mural,
     "dressup":      card_dressup,
     "collections":  card_collection,
     "mapping":      card_map,

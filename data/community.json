@@ -169,6 +169,30 @@
       "more": "How the Dress-Up Den takes a look"
     },
     {
+      "id": "mural",
+      "label": "A mural",
+      "room": "Plural Mural",
+      "page": "plural-mural.html",
+      "anchor": "a-mural-of-your-own",
+      "takes": "Something you would like painted on the end wall, in words, for the house to paint and put up in turn.",
+      "asks": [
+        "Words, not a picture: what is on it, what it says if it says anything, and the colours. The house paints it.",
+        "Nobody real is painted on the wall.",
+        "Your words go beside the mural exactly as you give them. Say how you want to be named. Nothing is voted on, and it comes down the moment you ask."
+      ],
+      "holds": [
+        "Words, not a picture",
+        "The house paints it",
+        "Nobody real is painted on this wall",
+        "your words beside the mural exactly as you give them",
+        "Say how you want to be named",
+        "Nothing is voted on",
+        "It comes down the moment you ask"
+      ],
+      "route": "contact",
+      "more": "How Plural Mural takes a mural"
+    },
+    {
       "id": "watch",
       "label": "Something to watch",
       "room": "The rooms with a screen in them",

@@ -621,6 +621,12 @@ DD_INK2, DD_LINK = "#47306A", "#7C0F50"
 # trail, the marker and the sign-off.
 NP_NIGHT, NP_STOCK, NP_BOTH, NP_COBALT = "#17141E", "#F2ECDF", "#241721", "#2B5BB5"
 
+# Plural Mural (love.css §54). An end wall seen from across the road at golden
+# hour. Every word is on the road, never on the wall: the markings' white for
+# the words, the double yellow lines for every link and button. The murals'
+# own paint is measured in make-mural.py, painted word by painted word.
+PM_ROAD, PM_LINE, PM_YELLOW = "#3A3431", "#F4EEE2", "#F3C640"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -2062,6 +2068,16 @@ PAIRS = [
     # spare white-headed pin: white card on the mat, to the body threshold.
     (MM_FACE,  MM_MAT,   False, "map: every tent, sign and tag against the mat, and the job marker, a spare pin"),
 
+    # ── Plural Mural (§54) ───────────────────────────────────────────────────
+    (PM_LINE,   PM_ROAD,   False, "plural mural: every word -- the trail, the lines over and under "
+                                  "the h1, what is on the wall now, the lede, the list, how to "
+                                  "propose one, how the wall works -- and the blurb on the street door"),
+    (PM_YELLOW, PM_ROAD,   False, "plural mural: the h1, every h2, every link, the backlink, the "
+                                  "focus ring, the name and the knock on the street door, and the "
+                                  "job marker, a paint tin lid"),
+    (PM_ROAD,   PM_YELLOW, False, "plural mural: every button's words, and ON THE WALL NOW"),
+    (PM_ROAD,   PM_LINE,   False, "plural mural: a button under the pointer, and the hold while it holds"),
+
     # ── Now Playing (§53) ────────────────────────────────────────────────────
     (NP_BOTH,   NP_STOCK,  False, "now playing: every word on the sheet -- the h1, the over- and "
                                   "sub-lines, the lede, every room's name, where it is, our line "
@@ -2223,6 +2239,14 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#e6cfa8": "plural mural: the wall's own sunlit concrete round the edge of whatever is "
+               "painted, 8.08 on the road. Nothing is set on it; the stage stands on it and "
+               "the lamppost's shadow falls across it.",
+    "#9c7f63": "plural mural: the capping along the top of the wall and its drainpipe, 3.28 on "
+               "the road and 2.46 on the render, and the capping over the street door. It "
+               "carries no word.",
+    "#f2b880": "plural mural: the strip of evening sky over the wall, 6.96 on the road. It "
+               "carries no word; the sun it stands for is behind you.",
     "#d8412f": "now playing: the red screen, 3.78 on the stock. It prints the disc in the "
                "ornament, the rule over every room on the bill, the underline on a link and "
                "the slipped edge on the display type, and carries no word: every word is "

@@ -437,6 +437,23 @@
     }
    ]
   },
+  "chango": {
+   "family": "Chango",
+   "category": "Display",
+   "designer": "Fontstage",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/chango",
+   "copyright": "Copyright (c) 2011 Fontstage (info@fontstage.com), with Reserved Font Name \"Chango\"",
+   "repository": "https://github.com/googlefonts/chango",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "chango-400.woff2",
+     "sha": "c1e459fc5f67e713"
+    }
+   ]
+  },
   "chivo": {
    "family": "Chivo",
    "category": "Sans Serif",
@@ -474,6 +491,29 @@
      "style": "normal",
      "file": "cinzel-400.woff2",
      "sha": "ef95296c778719c3"
+    }
+   ]
+  },
+  "commissioner": {
+   "family": "Commissioner",
+   "category": "Sans Serif",
+   "designer": "Kostas Bartsokas",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/commissioner",
+   "copyright": "Copyright 2019 The Commissioner Project Authors (github.com/kosbarts/Commissioner)",
+   "repository": "https://github.com/m4rc1e/Commissioner",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "commissioner-400.woff2",
+     "sha": "737ec8f28006b815"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "commissioner-400.woff2",
+     "sha": "737ec8f28006b815"
     }
    ]
   },

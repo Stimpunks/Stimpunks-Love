@@ -187,6 +187,11 @@ def normalise(s):
 # yellow on that blue measures 3.88 and white measures 5.08 -- the one place
 # here where the room's favourite colour lost to the floor it was lying on.
 DRAW = {
+    # The lid off a tin of paint, put down on the pavement at the foot of the
+    # wall: seen a little from above, in --pm-line, 10.59 on the road, with a
+    # ring of yellow paint dried round its rim in --pm-yellow, 7.56, and the
+    # kerb line under it in --pm-yellow too, which carries nothing. It lies still.
+    "mural-lid": """<path d="M3 28 H29" stroke="var(--pm-yellow)" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="16" cy="21" rx="12" ry="5.5" fill="var(--pm-line)"/><ellipse cx="16" cy="21" rx="8.5" ry="3.4" fill="none" stroke="var(--pm-yellow)" stroke-width="2"/><path d="M26 23 Q27 26 25.5 27" fill="none" stroke="var(--pm-yellow)" stroke-width="1.6" stroke-linecap="round"/>""",
     # The paste brush the bill went up with, put down on the pavement at the
     # foot of the column: a wide flat brush on a short handle, bristles and
     # handle both in --np-stock, 16.3 on the street's night, the ferrule band

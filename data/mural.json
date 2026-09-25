@@ -1,0 +1,45 @@
+{
+ "_what": "Plural Mural: an end wall on the street with a mural on it, and then another. Ryan's brief, 2026-09-25: murals that dissolve into the next every few minutes, because Danny the Street is magic; folks can propose new murals and pause on a favourite. Read by tools/make-mural.py, which holds the drawings.",
+ "_dial": "THE WALL TURNS OVER BY ITSELF AT MAX GLITTER AND NOWHERE ELSE, and that is the brief meeting the dial rather than the dial giving way. Regular is motion on hover and focus only, and a picture that changes every few minutes without being asked is ambient change; Gentle takes every transition away. So at Gentle and Regular the wall holds still until somebody turns it over, which dissolves at Regular and swaps at Gentle, and every mural is listed in words under the wall at every setting. At MAX it repaints itself every three minutes, and the hold button keeps the one you like up for as long as you are on the page. Nothing about the hold is stored.",
+ "_ours": "EVERY MURAL ON THIS WALL IS PAINTED BY THE HOUSE, in this repository, and the first ones are the lines of the street's own tagline, which is Stimpunks'. Nothing on the wall is a photograph of a real mural, because a mural is its painter's work wherever it stands, and a photograph of one is a copy of it. Nobody real is painted on it.",
+ "_proposals": "A PROPOSAL ARRIVES IN WORDS AND THE HOUSE PAINTS IT, the Dress-Up Den's rule about a look. It goes up credited to whoever proposed it, in their words as given, or as somebody in our community, and it comes down when they ask. An entry with a name on it and no `as_given` is refused: a credit with nobody's words behind it is a credit we made up.",
+ "_order": "The murals take their turn in the order they went up. Nothing is voted on, liked, ranked or counted, and the wall does not start on whichever is most looked at, because nothing is looked at here in a way anybody records.",
+ "murals": [
+  {
+   "key": "queer",
+   "title": "Queer without fear",
+   "shows": "A rainbow in six broad bands, red through violet, arching up from the foot of the wall on a navy ground scattered with small cream stars, and across the top a cream banner with its ends notched, painted in navy capitals: QUEER WITHOUT FEAR.",
+   "idea": "the first line of the street’s own tagline, which is Stimpunks’"
+  },
+  {
+   "key": "interdependent",
+   "title": "Interdependent and here",
+   "shows": "A hillside cut open like a page. Above the ground, a sunflower, a tuft of grass, a red-capped mushroom, a round tree, a fern and a tulip, none of them alike. Below it, in the brown soil, each of their roots runs down into one pale net of threads that joins every one of them to every other. Across the pale sky, in dark brown capitals: INTERDEPENDENT AND HERE.",
+   "idea": "the second line of the street’s own tagline, which is Stimpunks’"
+  },
+  {
+   "key": "divergent",
+   "title": "Divergent and proud",
+   "shows": "An orange wall with a huge yellow sun in the middle of it and a purple tree at the foot, its branches spreading every way at once, and a flock of purple birds leaving it in every direction, no two of them flying the same way. Across the top, in purple capitals: DIVERGENT AND PROUD.",
+   "idea": "the third line of the street’s own tagline, which is Stimpunks’"
+  },
+  {
+   "key": "loud",
+   "title": "Living out loud",
+   "shows": "A deep raspberry wall with a navy speaker cabinet on the left, its two cones in yellow, throwing yellow rings of sound out across the paint, and yellow lightning bolts zigzagging off to the right. On the right, in big cream capitals over two lines: LIVING OUT LOUD.",
+   "idea": "the fourth line of the street’s own tagline, which is Stimpunks’"
+  },
+  {
+   "key": "plucky",
+   "title": "Plucky pluralism, for human organisms",
+   "shows": "A pale green wall covered in small living things, every one of them different: a snail, a bee, a daisy, a grey pebble, a fern leaf, a blue fish, a ladybird, a little mushroom, an orange star and a falling leaf, spread across the paint with room round each of them. Across the top, in dark green capitals over two lines: PLUCKY PLURALISM, FOR HUMAN ORGANISMS.",
+   "idea": "the fifth line of the street’s own tagline, which is Stimpunks’"
+  },
+  {
+   "key": "becoming",
+   "title": "Becoming and belonging, with ribald songing",
+   "shows": "A dusk-blue wall with three telephone wires sagging across it and birds of five colours sitting along them with their beaks open, yellow notes rising out of them, a caterpillar on the lowest wire and a butterfly lifting off beside it. Along the foot, in yellow capitals over two lines: BECOMING AND BELONGING, WITH RIBALD SONGING.",
+   "idea": "the sixth line of the street’s own tagline, which is Stimpunks’"
+  }
+ ]
+}

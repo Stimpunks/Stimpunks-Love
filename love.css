@@ -696,6 +696,22 @@
 @font-face { font-family: 'Instrument Sans'; src: url('fonts/instrument-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Instrument Sans'; src: url('fonts/instrument-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Plural Mural (§54). A SIGN-WRITER'S LETTER AND A PLAIN ONE. Chango paints the
+   words on every mural on the wall and sets the room's name, and nothing at
+   reading size: very fat, very round, the letter a brush makes when it is
+   loaded and the wall is big. It is NOT Now Playing's Rammetto One, which is a
+   poster letter printed through a screen; this one is PAINTED, and a mural is
+   seen from across a road. One weight, one static file.
+
+   Commissioner carries every word that is read: what is on each mural, how the
+   wall works, and how to propose one. It ships as a variable font, so one file
+   is declared at 400 and 700 against the weight axis, Radio Canada's call. No
+   italic is shipped, so the room sets nothing italic. Both read off their own
+   records; see fonts/_sources.json. */
+@font-face { font-family: 'Chango'; src: url('fonts/chango-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Commissioner'; src: url('fonts/commissioner-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Commissioner'; src: url('fonts/commissioner-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1768,6 +1784,19 @@
   --np-night:  #17141E;   --np-stock:  #F2ECDF;
   --np-red:    #D8412F;   --np-cobalt: #2B5BB5;   --np-both:   #241721;
   --np-drum:   #1E3A31;   --np-drum-2: #2E5647;
+
+  /* Plural Mural (§54). AN END WALL SEEN FROM ACROSS THE ROAD AT GOLDEN HOUR,
+     the sun low and behind you. --pm-road is the tarmac you are standing on,
+     in the same sun, and it is the ground every word stands on: --pm-line is
+     the road-marking white every word is in, --pm-yellow the double yellow
+     lines and every link and button. --pm-render is the wall's own sunlit
+     concrete round the edge of whatever is painted, --pm-coping the capping
+     along its top and its drainpipe, and --pm-sky the strip of evening above
+     it; all three carry nothing. The murals' own paint is in make-mural.py,
+     because it is a painting rather than the room's palette, and every word
+     painted on it is measured there. */
+  --pm-road:   #3A3431;   --pm-line:   #F4EEE2;   --pm-yellow: #F3C640;
+  --pm-render: #E6CFA8;   --pm-coping: #9C7F63;   --pm-sky:    #F2B880;
 }
 
 * { box-sizing: border-box; }
@@ -2375,6 +2404,18 @@ div.facade--audio { border: 0; background: none; }
 .door--dressup .door__name  { font-family: 'DynaPuff', var(--sans); font-weight: 600; color: var(--dd-ink); font-size: 28px; line-height: 1.08; }
 .door--dressup .door__blurb { font-family: 'Plus Jakarta Sans', var(--sans); color: var(--dd-ink-2); }
 .door--dressup .door__knock { font-family: 'Plus Jakarta Sans', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--dd-link); }
+
+/* Plural Mural (§54). THE ONE FRONT IN THE ROW THAT IS NOT A SHOPFRONT AT ALL
+   BUT THE WALL AT THE END OF ONE: the awning is the capping along the top of the
+   wall with a strip of fresh paint dripping under it, and the ground is the
+   road you look at it from. The name is the mural's own brush letter in the
+   double yellow lines; every word is on --pm-road and measured in
+   check-contrast.py. The paint strip carries no word. */
+.door--mural { background: var(--pm-road); border-color: var(--pm-line); }
+.door--mural .door__awning { background-color: var(--pm-coping); background-image: linear-gradient(180deg, var(--pm-coping) 0 16px, transparent 16px), repeating-linear-gradient(90deg, #E63946 0 30px, #F1D302 30px 60px, #2A9D8F 60px 90px, #4EA8DE 90px 120px, #9D4EDD 120px 150px); border-bottom-color: var(--pm-line); }
+.door--mural .door__name  { font-family: 'Chango', var(--sans); color: var(--pm-yellow); font-size: 25px; line-height: 1.1; }
+.door--mural .door__blurb { font-family: 'Commissioner', var(--sans); color: var(--pm-line); }
+.door--mural .door__knock { font-family: 'Commissioner', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--pm-yellow); }
 
 .door--feed { background: var(--fd-enamel); border-color: var(--fd-girder); }
 .door--feed .door__awning { background-image: repeating-linear-gradient(180deg, var(--fd-flap) 0 6px, var(--fd-split) 6px 7px); border-bottom-color: var(--fd-girder); }
@@ -12216,7 +12257,126 @@ textarea.dd-fallback {
   .np-bill__name { font-size: 22px; }
 }
 
-/* §54 ── Small screens ───────────────────────────────────────────────────────
+/* §54 ── ROOM: Plural Mural (a shopfront on the street) ────────────────────────
+   An end wall on the street, and never the same mural twice. Ryan's brief,
+   2026-09-25: the street is Danny's, and Danny repaints. The murals are painted
+   by tools/make-mural.py; this is the wall, the road you stand on, and the
+   dissolve.
+
+   IT IS LIT BY A LOW SUN BEHIND YOU, SQUARE ON, AND THAT IS WHERE IT PARTS FROM
+   ITS NEIGHBOURS. The Solarpunk Hermitage is low sun too, on a warm plaster
+   wall, but from the side: everything in it stands in front of the wall and
+   its shadows fall away sideways. Here the sun is at your back, so the wall
+   faces it and every mural comes up at its own full colour with no shadow of
+   its own on it, and the only shadow is the lamppost's beside you, laid up the
+   wall. Laughingstock is the other thing lit from behind you onto a wall, and it
+   is one hard pool in a dark cellar on red brick; here nothing is dark, the
+   wall is concrete, and the light is the whole sky's end of the day. If the
+   wall ever takes a pool of light, it has become that room with paint on it.
+
+   AND THE SHADOW IS THE ONE THING THAT STAYS. The murals dissolve into each
+   other; the lamppost and the bench on your side of the road throw the same
+   shadow over every one of them, because the street does not change when the
+   wall does. It is a layer over the stage and never part of a mural, and it
+   carries nothing.
+
+   THE WORDS ARE ON THE ROAD, NEVER ON THE WALL. The wall is paint and changes;
+   the road is the same ground under every sentence, sunlit tarmac a long way
+   short of the street's night black, with the markings' white for every word
+   and the double yellow lines for every link. It is NOT Danny the Street,
+   which is a road seen from directly above under sodium with one hue in it:
+   this is at eye level in daylight, looking up at the only thing on the page
+   with more than two colours on it.
+
+   THE DISSOLVE IS A TRANSITION, SO §3 TAKES IT AWAY AT GENTLE, where a turn is
+   a swap. mural.js turns the wall over by itself at MAX only, and reads the
+   dial on every tick. Nothing rotates outside a drawing: the birds that lean
+   are rotated inside their own mural's <svg>, where a transform is part of the
+   picture. */
+
+.plural-mural {
+  background: var(--pm-road); color: var(--pm-line);
+  font-family: 'Commissioner', var(--sans); font-synthesis: none;
+}
+.plural-mural a { color: var(--pm-yellow); }
+.plural-mural :focus-visible { outline-color: var(--pm-yellow); }
+.plural-mural .backlink {
+  font-family: 'Commissioner', var(--sans); font-weight: 700; font-size: 14px;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--pm-yellow);
+}
+.pm-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.pm-trail { margin: 0; font-size: 14px; color: var(--pm-line); }
+
+.pm-head { margin: 34px 0 0; }
+.pm-over, .pm-sub { margin: 0; font-weight: 700; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; }
+.plural-mural h1 {
+  margin: 8px 0 8px; font-family: 'Chango', var(--sans); font-weight: 400;
+  font-size: clamp(42px, 8vw, 84px); line-height: 1.02; color: var(--pm-yellow);
+}
+
+/* The wall: a strip of evening, the capping, and the sunlit concrete round the
+   mural. A gradient, and nothing stands on it but the stage. */
+.pm-wall {
+  position: relative; margin: 26px 0 0; padding: 64px 28px 28px;
+  background: linear-gradient(180deg, var(--pm-sky) 0 34px, var(--pm-coping) 34px 48px, var(--pm-render) 48px);
+  border-bottom: 16px solid #8E8579;
+}
+.pm-wall::after {
+  content: ""; position: absolute; right: 10px; top: 48px; bottom: 0; width: 12px;
+  background: var(--pm-coping);
+}
+.pm-stage { position: relative; aspect-ratio: 2 / 1; overflow: hidden; }
+.pm-mural {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+  opacity: 0; transition: opacity 2.4s ease;
+}
+.pm-mural--up { opacity: 1; }
+.pm-shadow {
+  position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;
+  fill: rgba(40, 26, 18, .30); mix-blend-mode: multiply;
+}
+
+.pm-now { margin: 18px 0 0; font-size: 17px; line-height: 1.5; max-width: 72ch; }
+.pm-now__title { font-weight: 700; }
+.pm-controls { display: flex; flex-wrap: wrap; gap: 10px 12px; margin: 16px 0 0; }
+.pm-turn, .pm-put {
+  font-family: 'Commissioner', var(--sans); font-weight: 700; font-size: 15px; line-height: 1.3;
+  padding: 9px 15px; border: 0; border-radius: 3px; cursor: pointer;
+  background: var(--pm-yellow); color: var(--pm-road);
+}
+.pm-turn:hover, .pm-put:hover { background: var(--pm-line); }
+.pm-turn:focus-visible, .pm-put:focus-visible { outline-offset: 3px; }
+/* The hold is a MAX control, because only at MAX does the wall move by itself;
+   at the other two settings it is already holding. */
+html:not([data-intensity="max"]) .pm-hold { display: none; }
+.pm-hold[aria-pressed="true"] { background: var(--pm-line); }
+
+.pm-lede { margin: 30px 0 0; font-size: 18px; line-height: 1.55; max-width: 66ch; }
+.pm-part { margin: 42px 0 0; }
+.plural-mural h2 { margin: 0 0 8px; font-family: 'Chango', var(--sans); font-weight: 400; font-size: 27px; line-height: 1.15; color: var(--pm-yellow); }
+.pm-part > p, .pm-note { font-size: 16px; line-height: 1.55; max-width: 66ch; }
+
+.pm-list { list-style: none; margin: 16px 0 0; padding: 0; max-width: 780px; }
+.pm-item { padding: 16px 0 18px; border-top: 3px dashed var(--pm-line); }
+.pm-item__title { margin: 0; font-size: 19px; font-weight: 700; line-height: 1.3; }
+.pm-item__now {
+  display: inline-block; margin-left: 8px; padding: 2px 8px; vertical-align: 2px;
+  background: var(--pm-yellow); color: var(--pm-road);
+  font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+}
+.pm-item__shows, .pm-item__idea, .pm-item__who { margin: 8px 0 0; font-size: 16px; line-height: 1.55; }
+.pm-item__go { margin: 10px 0 0; }
+
+.pm-rules { margin: 12px 0 0; padding-left: 22px; max-width: 68ch; font-size: 16px; line-height: 1.55; }
+.pm-rules li { margin: 0 0 10px; }
+.plural-mural .quest { margin-top: 40px; }
+
+@media (max-width: 640px) {
+  .pm-wall { padding: 54px 14px 16px; }
+  .pm-wall::after { right: 3px; width: 8px; }
+}
+
+/* §55 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -12323,7 +12483,7 @@ textarea.dd-fallback {
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §54 says every
+   shipped with no rule here at all — which on a street whose §55 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -12447,7 +12607,7 @@ textarea.dd-fallback {
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §55 ── Print ───────────────────────────────────────────────────────────────
+/* §56 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

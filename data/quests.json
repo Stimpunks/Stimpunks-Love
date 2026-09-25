@@ -1671,6 +1671,40 @@
           "It is the word for the act a gig poster is built around."
         ]
       }
+    },
+    {
+      "id": "mural-lid",
+      "page": "plural-mural.html",
+      "room": "Plural Mural",
+      "title": "When does the wall repaint itself?",
+      "posted": "There is an end wall on the street that will not stay one colour. Go and stand across the road from it, and find out when it repaints itself without anybody asking.",
+      "rank": 1,
+      "takes": "about as long as it takes to watch a wall, which is not as long as you would think",
+      "target": "the lid off a tin of paint, left on the pavement with a ring of yellow dried round it",
+      "code": "REPAINT",
+      "learned": "A picture that changes without being asked is something moving on the page, so the wall only turns over by itself at MAX GLITTER. At Gentle and Regular it holds still until you turn it over, and every mural is in words under it at every setting, because the dial takes away the wobble and never the words.",
+      "hints": [
+        "On the street itself, in the row of shopfronts: the one with a strip of fresh paint under its capping.",
+        "Under the list of murals, where the room says how the wall works.",
+        "At the foot of the wall, on the pavement, where somebody put the lid down."
+      ],
+      "ask": {
+        "question": "The wall repaints itself at one setting of the dial and holds still at the other two. Which setting?",
+        "accept": [
+          "maxglitter",
+          "max",
+          "maxglitterr",
+          "themaxglitter",
+          "glitter"
+        ],
+        "answer": "MAX GLITTER",
+        "why": "Only at MAX GLITTER does anything on this street move without being asked. At Gentle and Regular the wall waits for you to turn it over, and the list under it holds every mural in words at every setting.",
+        "hints": [
+          "It is in the first of the rules about how the wall works.",
+          "The hold button only appears at that setting.",
+          "It is the loudest of the three."
+        ]
+      }
     }
   ],
   "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."
