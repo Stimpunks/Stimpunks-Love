@@ -817,6 +817,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--oook .og-lede {{ font-family: 'Libre Baskerville', serif; color: var(--ook-cream);
   font-size: 20px; line-height: 1.5; margin: 18px 0 0 !important; }}
 
+/* cavendish coworking — THE SHARED FLOOR, LIFTED WHOLE: the header with its
+   drawing of the row of glass rooms, every door open and the daylight lying on
+   the carpet in front of each, and the lede under the name. The words stand on
+   the floor like every word of ours in the room. */
+.og--cavendish {{ width: 100%; padding: 38px 60px 0; }}
+.og--cavendish .cw-head {{ margin: 0 !important; display: flex; flex-direction: column; }}
+.og--cavendish .cw-over, .og--cavendish .cw-sub {{ font-size: 16px; }}
+.og--cavendish h1 {{ font-size: 80px; margin: 8px 0 6px !important; }}
+.og--cavendish .og-lede {{ order: 4; font-family: 'Inter', sans-serif; color: var(--cw-text);
+  max-width: 1040px; font-size: 25px; line-height: 1.4; margin: 16px 0 0 !important; }}
+.og--cavendish .cw-art {{ order: 5; margin: 18px 0 0 !important; }}
+.og--cavendish .cw-floor {{ width: 1080px; }}
+
 /* plural mural — THE WALL FROM ACROSS THE ROAD, with whichever mural is first up on
    it. The header and the wall are lifted off the page whole, mural and all, so the
    card cannot show paint the wall has not got; the words stand on the road like
@@ -2651,6 +2664,36 @@ def card_oook(p):
     )
 
 
+def card_cavendish(p):
+    # THE HEADER IS LIFTED WHOLE, drawing and all, and the lede is the page's
+    # og:description, so the card cannot show a room the floor has not got. The
+    # alt counts nothing: it says "a row", because the doors are the events
+    # page's and there will be more of them.
+    head = re.search(r'(<header class="cw-head">.*?</header>)', p["src"], re.S)
+    over = re.search(r'<p class="cw-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="cw-sub">(.*?)</p>', p["src"], re.S)
+    if not (head and over and sub and 'class="cw-floor"' in head.group(1)):
+        raise SystemExit(
+            "REFUSING: cavendish-coworking.html has lost its header or its drawing of the\n"
+            "floor, and the card is those two. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    block = head.group(1).replace("</header>", f'<p class="og-lede">{p["desc"]}</p></header>')
+    return (
+        "",
+        f'<div class="og og--cavendish" data-fit="card">{block}</div>',
+        f"A dark graphite card, the colour of a carpet with no light of its own. Small grey "
+        f"capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in a large "
+        f"old-style serif in pale grey, then {plain(sub.group(1))}. Under it: {p['desc_plain']} "
+        f"Across the bottom, a drawing of the shared floor: a row of meeting rooms along the far "
+        f"side, each glazed from floor to ceiling with thin green edges to the glass and no blind, "
+        f"each with a window at its back, a table and chairs, and its glass door swung wide open. "
+        f"The ceiling panels over the floor are switched off, and the only light out here is the "
+        f"daylight lying on the carpet in front of each open room. Against the near wall on the "
+        f"left, in the shade, stands one empty chair with a mug on the floor beside it, and "
+        f"nobody is drawn.",
+    )
+
+
 def card_mural(p):
     # THE HEADER AND THE WALL ARE LIFTED WHOLE, and the wall carries only the
     # mural that is first up and the lamppost's shadow, exactly as the page paints
@@ -2938,6 +2981,7 @@ CARDS = {
     "community":    card_community,
     "now-playing":  card_nowplaying,
     "plural-mural": card_mural,
+    "cavendish":    card_cavendish,
     "room-library": card_library,
     "room-lspace":  card_lspace,
     "room-oook":    card_oook,

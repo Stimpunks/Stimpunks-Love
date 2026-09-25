@@ -1418,5 +1418,33 @@
       "src": "https://fonts.gstatic.com/s/librebaskerville/v24/kmKWZrc3Hgbbcjq75U4uslyuy4kn0qNccR04_RUJeby2OU36SjNNlufweKgfqIc.woff2",
       "note": "Oook (§57): the italic, for titles of books."
     }
+  ],
+  "libre-caslon-display": [
+    {
+      "file": "libre-caslon-display-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 16124,
+      "src": "https://fonts.gstatic.com/s/librecaslondisplay/v18/TuGOUUFxWphYQ6YI6q9Xp61FQzxDRKmzr1lWfxlPCz4c.woff2",
+      "note": "Cavendish Coworking (§58), the room's name, the lettering on every door and each room's own line, and nothing at reading size. Caslon's is the English letter of the century Henry Cavendish worked in, lettered on glass the way a name goes on an office door. One weight, one static file, one declaration."
+    }
+  ],
+  "inter": [
+    {
+      "file": "inter-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 48432,
+      "src": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2",
+      "note": "Cavendish Coworking (§58), everything that is read: our words on the floor and the rooms' words on every door. The plain letter of almost every screen a call happens on. It ships as a variable font, so Google serves the same file for 400 and 700; it is downloaded once and declared twice against the weight axis, Radio Canada's call. No italic shipped."
+    },
+    {
+      "file": "inter-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 48432,
+      "src": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2",
+      "note": "Byte-identical to the 400 above; see that note."
+    }
   ]
 }

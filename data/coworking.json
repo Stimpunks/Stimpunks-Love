@@ -1,0 +1,88 @@
+{
+  "_source": "Cavendish Coworking's doors. Ryan's brief, 2026-09-25: our Editorial and Operations meetings are open to the world as part of our commitment to transparency, they have been held in our Discord, and many people refuse to use Discord, so a shopfront on the street with doors that open the Proton Meet rooms. The Events room was added the same afternoon. EVERY TAGLINE, DESCRIPTION AND TIME IS WORD FOR WORD OFF OUR OWN EVENTS PAGE, https://stimpunks.org/events/, read in the Knowledge System mirror and against the live page on 2026-09-25; tools/make-coworking.py re-reads the mirror and refuses a line that is no longer on it. The door links are Ryan's, pasted in the brief. Each was opened on 2026-09-25 as far as Proton Meet's guest page and no further: it answered at meet.proton.me/guest/join/, asked for a name and no account, offered to go in without microphone or camera, and named the room exactly as `proton_name` says. Nobody joined a meeting to check. The doors are in the events page's own order, events before meetings, which is not ours to re-sort.",
+  "measured": "2026-09-25",
+  "tz": "America/Chicago",
+  "tz_said": "Central",
+  "page": "https://stimpunks.org/events/",
+  "doors": [
+    {
+      "id": "events",
+      "name": "Events",
+      "proton_name": "Events",
+      "url": "https://meet.proton.me/join/id-Y4J3G5E9JM#pwd-MxqykbQkP1JK",
+      "tagline": "The steady pulse beneath everything we do.",
+      "said": "Our recurring events are the heartbeat of Stimpunks: weekly, consistent, and always here.",
+      "anchor": "#h-recurring-events-the-steady-pulse-beneath-everything-we-do",
+      "slots": [
+        {
+          "what": "Solidarity Sesh",
+          "tagline": "The radical act of showing up for each other.",
+          "link": "https://stimpunks.org/events/solidarity-sesh/",
+          "said": "Saturdays, 10AM Central",
+          "days": [6],
+          "start": "10:00"
+        },
+        {
+          "what": "Infodumplings",
+          "tagline": "Bring Your Muchness Down the Rabbit Hole",
+          "link": "https://stimpunks.org/events/infodumplings/",
+          "said": "Thursdays, 7PM Central",
+          "days": [4],
+          "start": "19:00"
+        },
+        {
+          "what": "Campfire Learn Together",
+          "tagline": "Expert lecturers. Community wisdom. Zero hierarchy.",
+          "link": "https://stimpunks.org/events/campfire-learn-together/",
+          "said": "Sundays, 10 AM Central",
+          "days": [0],
+          "start": "10:00"
+        },
+        {
+          "what": "Watering Hole Hangs",
+          "tagline": "Drop in. Space out. Belong here.",
+          "link": "https://stimpunks.org/events/watering-hole-hangs/",
+          "said": "Weekdays, 9AM Central — and spontaneously whenever someone feels like gathering",
+          "days": [1, 2, 3, 4, 5],
+          "start": "09:00"
+        }
+      ]
+    },
+    {
+      "id": "operations",
+      "name": "Operations",
+      "proton_name": "Operations",
+      "url": "https://meet.proton.me/join/id-67YQW2AQVR#pwd-dM9QVBNkhhPs",
+      "tagline": "Where we run the thing.",
+      "said": "The Operations meeting is where the work of keeping Stimpunks running gets done. Each week we hold a task scrub — triage, prioritize, and move work forward together. If you want to understand how the organization operates or get involved in the doing, this is the meeting for you.",
+      "anchor": "#h-operations-meeting",
+      "slots": [
+        {
+          "what": "The Operations meeting",
+          "said": "Every Tuesday · 10:00–11:00 AM CT",
+          "days": [2],
+          "start": "10:00",
+          "end": "11:00"
+        }
+      ]
+    },
+    {
+      "id": "editorial",
+      "name": "Editorial",
+      "proton_name": "Editorial",
+      "url": "https://meet.proton.me/join/id-VKJR75ZZ50#pwd-rYSbmnrnTjQq",
+      "tagline": "Words, design, and everything we put into the world.",
+      "said": "The Editorial meeting is where we work on the Stimpunks website and print materials — writing, editing, and designing for publication. Whether you’re a writer, editor, designer, or someone who just cares deeply about how we communicate, join us.",
+      "anchor": "#h-editorial-meeting",
+      "slots": [
+        {
+          "what": "The Editorial meeting",
+          "said": "Every Thursday · 10:00–11:00 AM CT",
+          "days": [4],
+          "start": "10:00",
+          "end": "11:00"
+        }
+      ]
+    }
+  ]
+}

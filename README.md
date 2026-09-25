@@ -107,6 +107,7 @@ dopamine-dress-up-den.html  Helen's idea: a boutique for dopamine dressing. Mix 
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 now-playing.html      A poster column beside the Pebble Board. What every room puts on first, read off the rooms
 plural-mural.html     An end wall that repaints itself, because the street is Danny's. By itself at MAX only; propose one in words
+cavendish-coworking.html Glass all the way along, every door open onto one of our calls. Proton Meet links, never frames
 community-library.html  A public reading room with the sky in its windows. Free to all; our collections on the front desk
 l-space.html          Behind it: every library at once, bent by the weight of books. Nothing straight; a ball of string
 oook.html             And behind that: a Discworld homage in the Librarian's colours. He is not drawn
@@ -231,6 +232,7 @@ python3 tools/make-vital.py        # Vital Plant Living's shelf, builder, board,
 python3 tools/make-community.py    # The Community Center's service board; refuses a slot whose room has stopped saying what it repeats
 python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, and the credits; refuses a size, a gendered rail, or no all-black colourway
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
+python3 tools/make-coworking.py    # Cavendish Coworking's doors, from our events page's own words; refuses a line the page has dropped, a door with no password, or a frame
 python3 tools/make-library.py      # the library's, L-space's and Oook's quotations, the front desk and the threads; refuses a long passage, a lyric, or the graphic novel
 python3 tools/make-dance-punks.py  # the disco's channels and credits; refuses a runtime, shuffle, or two inks alike in greyscale
 python3 tools/make-small-hours.py  # the diner's menu, quotations, record, jukebox and placemat; refuses a lyric with no permission, or a placemat that keeps anything

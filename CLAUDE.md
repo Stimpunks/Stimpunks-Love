@@ -2598,6 +2598,33 @@ Hermitage's shelf lesson again; the novel is OL453735W, and stimpunks.org's page
 to correct. **Ranganathan's five laws are Wikipedia's wording**, and the room says the 1931
 printing was not checked. Broken on purpose first; all four caught.
 
+**CAVENDISH COWORKING IS LIT BY WHAT THE MEETING ROOMS LET THROUGH, AND A BLIND WOULD PUT IT IN
+THE DARK.** §58 is a shared floor with a row of glass meeting rooms along it, every door propped
+open onto one of our calls (Ryan's brief, 2026-09-25: the Operations and Editorial meetings are open
+to the world, and many people refuse to use Discord). The floor has no light of its own: its ceiling
+panels are drawn off, and every bit of light out there has come through a room's glass. **Default to
+open is what lights the building**, so every word of ours is pale on the floor and every word on a
+door is the room's own, dark in the room's daylight. **Dead Tired Society is the collision, inside
+out**: there you sit in the dark and the corridor's light is one hard wedge through a door ajar; here
+you stand in the corridor and the rooms' light is broad and soft through whole walls of glass, doors
+wide. The Small Hours is a lit room seen from outside at night; the Community Center is lit through a
+blind. **If a blind or a frosted band ever goes on that glass, or the floor gets a lamp, it has lost
+its argument.** The links are the green of a pane's edge, and only the edges are green.
+
+**THE DOORS ARE LINKS, AND THAT WAS MEASURED.** Proton Meet's `frame-ancestors` names only Proton's own
+apps, and our Permissions-Policy gives no page the camera or microphone, so a framed call is a blank
+box. Do not add meet.proton.me to `ORIGINS`. **Each link carries the room's `#pwd-` on purpose**: the
+meetings are open, the password is what takes somebody straight to the name box, and a browser never
+sends a fragment to a server. `tools/make-coworking.py` refuses a door without one. **Every line on a
+door is our events page's, word for word**, re-read from the mirror on every build, in that page's
+order; when the events page changes, re-copy the line, never loosen the check. It also refuses the
+events page's own closing line (*open to Stimpunks Discord community members*), which was true until
+this room and is the friendly edit that will arrive. **The Events door is an assumption** (that the
+recurring events meet in the Proton room named Events) and DECISIONS.md says so. **A door's name is
+read off Proton's guest page, never guessed**: open the link as far as the name box and no further.
+`coworking.js` reads the visitor's clock and time zone to write the same hour underneath, and the tool
+refuses it if it ever stores, sends or listens; the Central line is what a page with no script shows.
+
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
 paleness alone — which is what holds it off the Guild, lit from nowhere with no depth. Netlify

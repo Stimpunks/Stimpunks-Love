@@ -827,6 +827,20 @@
       "sections": [
         57
       ]
+    },
+    "libre-caslon-display": {
+      "where": "Cavendish Coworking",
+      "page": "cavendish-coworking.html",
+      "sections": [
+        58
+      ]
+    },
+    "inter": {
+      "where": "Cavendish Coworking",
+      "page": "cavendish-coworking.html",
+      "sections": [
+        58
+      ]
     }
   }
 }

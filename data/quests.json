@@ -1807,6 +1807,40 @@
           "He climbs the shelves to reach them."
         ]
       }
+    },
+    {
+      "id": "cavendish-marker",
+      "page": "cavendish-coworking.html",
+      "room": "Cavendish Coworking",
+      "title": "Who stood off to the side?",
+      "posted": "There is a shopfront on the street that is glass all the way along, with every door in it propped open onto one of our calls. Go in, do not open a door, and find out who the room is named after and which club was his campfire.",
+      "rank": 1,
+      "takes": "about as long as reading one paragraph, and no call to join",
+      "target": "a whiteboard marker dropped on the carpet, with its cap rolled off beside it",
+      "code": "GLASSDOOR",
+      "learned": "Cavendish Space is named after Henry Cavendish, who needed his cave and also, now and then, the company of a few peers on his own terms. So every door in that room opens straight onto one of our calls with no Discord in the way, and there is a chair by the wall for anybody who would rather come in the way he did.",
+      "hints": [
+        "On the street itself, in the row of shopfronts: the one that is glass all the way along.",
+        "Under the doors, where the room says why it is called Cavendish.",
+        "At the foot of the room, on the carpet, where somebody dropped a pen on the way in."
+      ],
+      "ask": {
+        "question": "Henry Cavendish's campfire was a club of the Royal Society named after a day of the week. Which day?",
+        "accept": [
+          "monday",
+          "mondays",
+          "mondayclub",
+          "themondayclub",
+          "mon"
+        ],
+        "answer": "Monday",
+        "why": "The Royal Society's Monday Club was where Cavendish came, now and then, to a small set of his peers and on his own terms. Our glossary calls it his campfire, which is one of the three kinds of space Cavendish Space is made of.",
+        "hints": [
+          "It is in the part of the room about why it is called Cavendish.",
+          "It is the name of the club, and the name is a day.",
+          "The first day of the working week."
+        ]
+      }
     }
   ],
   "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

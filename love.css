@@ -755,6 +755,25 @@
 @font-face { font-family: 'Libre Baskerville'; src: url('fonts/libre-baskerville-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Libre Baskerville'; src: url('fonts/libre-baskerville-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 
+/* Cavendish Coworking (§58). A LETTER FROM CAVENDISH'S CENTURY AND THE LETTER OF
+   THE SCREEN ON THE OTHER SIDE OF THE DOOR. Libre Caslon Display sets the room's
+   name, the lettering on every door and each room's own line, and nothing at
+   reading size: Caslon's is the English letter of the century Henry Cavendish
+   worked in, and it is lettered on glass here the way a name goes on an office
+   door. It is NOT the Mopery's IM Fell, which is punched into paper in a
+   building after dark; this is cut out of vinyl and stuck on a window at ten in
+   the morning. One weight, one static file.
+
+   Inter carries everything that is read, because it is the plain letter of
+   almost every screen a call happens on, and a room whose whole job is to open
+   a door onto one should read like the thing it opens. It ships as a variable
+   font, so one file is declared at 400 and 700 against the weight axis, Radio
+   Canada's call. No italic is shipped, so the room sets nothing italic. Both
+   read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Libre Caslon Display'; src: url('fonts/libre-caslon-display-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Inter'; src: url('fonts/inter-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Inter'; src: url('fonts/inter-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1876,6 +1895,21 @@
   --ook-coat:  #4B1B07;   --ook-cream: #FCEBD3;   --ook-dim:   #F1CBA6;
   --ook-banana: #F7D54C;  --ook-ginger: #C4561D;  --ook-shell: #8A3A12;
   --ook-sun:   #FFF2B8;
+
+  /* Cavendish Coworking (§58). A SHARED FLOOR WITH NO LIGHT OF ITS OWN, and a
+     row of glass meeting rooms along it with the daylight in them. --cw-floor
+     is the carpet you stand on, the ground for every word of ours: --cw-text
+     for the words, --cw-dim for what is quieter, --cw-glass for every link, in
+     the green every pane of float glass has along its edge. --cw-day is the
+     daylight inside a room, and the ground of every door, because a door's
+     words are the room's and stand in the room's light: --cw-ink and --cw-ink-2
+     for them, --cw-link for their links. --cw-deep is the floor furthest from
+     the glass and --cw-frame the mullions, door frames and the switched-off
+     ceiling panels; neither carries a word. */
+  --cw-floor:  #23272B;   --cw-deep:   #191C1F;   --cw-text:   #E8EAE5;
+  --cw-dim:    #B4BBB6;   --cw-glass:  #8FD3BE;   --cw-day:    #F2F4EF;
+  --cw-ink:    #1B2226;   --cw-ink-2:  #46525B;   --cw-link:   #1C5B4B;
+  --cw-frame:  #66737C;
 }
 
 * { box-sizing: border-box; }
@@ -2494,6 +2528,17 @@ div.facade--audio { border: 0; background: none; }
 .door--library .door__name  { font-family: 'Marcellus SC', Georgia, serif; color: var(--cl-ink); font-size: 23px; letter-spacing: .04em; line-height: 1.1; }
 .door--library .door__blurb { font-family: 'Andika', var(--sans); color: var(--cl-ink-2); }
 .door--library .door__knock { font-family: 'Andika', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cl-stamp); }
+
+/* Cavendish Coworking (§58). THE ONE FRONT IN THE ROW THAT IS GLASS ALL THE WAY
+   ALONG: the awning is a run of daylit panes between green glass edges, which is
+   what the row of meeting rooms looks like from the floor, and the ground is the
+   floor. Every word is measured on --cw-floor in check-contrast.py; the panes
+   and their edges carry nothing. */
+.door--cavendish { background: var(--cw-floor); border-color: var(--cw-glass); }
+.door--cavendish .door__awning { background-color: var(--cw-day); background-image: repeating-linear-gradient(90deg, var(--cw-glass) 0 3px, var(--cw-day) 3px 44px); border-bottom-color: var(--cw-glass); }
+.door--cavendish .door__name  { font-family: 'Libre Caslon Display', Georgia, serif; color: var(--cw-text); font-size: 27px; line-height: 1.08; }
+.door--cavendish .door__blurb { font-family: 'Inter', var(--sans); color: var(--cw-dim); }
+.door--cavendish .door__knock { font-family: 'Inter', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cw-glass); }
 
 /* Plural Mural (§54). THE ONE FRONT IN THE ROW THAT IS NOT A SHOPFRONT AT ALL
    BUT THE WALL AT THE END OF ONE: the awning is the capping along the top of the
@@ -12832,7 +12877,126 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .ook-topline .backlink:last-child { margin-left: 0; }
 }
 
-/* §58 ── Small screens ───────────────────────────────────────────────────────
+/* §58 ── ROOM: Cavendish Coworking (a shopfront on the street) ────────────────
+   A shared floor with a row of glass meeting rooms along it, every door propped
+   open onto one of our calls. Ryan's brief, 2026-09-25: our Operations and
+   Editorial meetings are open to the world, they were held in the Discord, and a
+   great many people will not use Discord. The doors are built by
+   tools/make-coworking.py out of our own events page's words.
+
+   THE FLOOR HAS NO LIGHT OF ITS OWN, AND THAT IS THE ROOM. The ceiling panels
+   are drawn switched off; every bit of light out here has come through a
+   meeting room's glass, from the window at the back of that room, and lies on
+   the carpet in front of it. Default to open is what lights the building, and a
+   room that drew its blinds would put the floor in the dark. So every word of
+   OURS is on the floor, pale on --cw-floor, and every word on a DOOR is the
+   room's own and stands in the room's light, dark on --cw-day.
+
+   THREE ROOMS ARE THE ONES TO WATCH. Dead Tired Society is this geometry turned
+   inside out: there you sit in a dark room and the light is the corridor's,
+   one hard wedge through a door left ajar, and nobody sits in it; here you
+   stand in the corridor and the light is the rooms', broad and soft through
+   whole walls of clear glass, and the doors are wide open so that you can walk
+   into it. The Small Hours is a lit room seen from outside in the dark, through
+   a diner's window you do not go through; this is ten in the morning, the light
+   is daylight rather than tubes, and every door is open. The Community Center is
+   the other daylit room with our community in it, and it is lit through a
+   venetian blind into bars on powder blue; there is no blind anywhere in here,
+   which is the point, and the floor is not pale. If a blind or a frosted band
+   ever goes on this glass, the room has lost its argument; if the floor ever
+   gets a lamp of its own, it has lost its light.
+
+   AND THE LINKS ARE THE GLASS'S EDGE. Float glass is green at its edge, and that
+   green is the one colour this room has that is not light or carpet. It is not
+   the Garden's green, which is sunlight tinted by leaves over everything: here
+   the daylight stays white and only the edges are green.
+
+   NOTHING MOVES AT ANY SETTING. There is nothing ambient in a room whose job is
+   to get out of the way of a door. */
+
+.cavendish {
+  background: var(--cw-floor); color: var(--cw-text);
+  font-family: 'Inter', var(--sans); font-synthesis: none;
+}
+.cavendish a { color: var(--cw-glass); }
+.cavendish :focus-visible { outline-color: var(--cw-glass); }
+.cavendish .backlink {
+  font-family: 'Inter', var(--sans); font-weight: 700; font-size: 14px;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--cw-glass);
+}
+.cw-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.cw-trail { margin: 0; font-size: 14px; color: var(--cw-dim); }
+
+.cw-head { margin: 34px 0 0; }
+.cw-over, .cw-sub { margin: 0; font-weight: 700; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--cw-dim); }
+.cavendish h1 {
+  margin: 10px 0 8px; font-family: 'Libre Caslon Display', Georgia, serif; font-weight: 400;
+  font-size: clamp(44px, 8vw, 88px); line-height: 1.02; color: var(--cw-text);
+}
+.cw-art { margin: 26px 0 0; }
+.cw-floor { display: block; width: 100%; height: auto; }
+
+.cw-lede { margin: 30px 0 0; max-width: 44em; font-size: 19px; line-height: 1.6; }
+.cw-how { margin: 16px 0 0; max-width: 44em; font-size: 16px; line-height: 1.6; color: var(--cw-dim); }
+
+/* THE DOORS. Each is a glass door in a green-edged frame, with the room's
+   daylight as its ground and the room's own words on it. The handle is a bar
+   down the latch side, drawn, and carries nothing. */
+.cw-doors {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 22px; margin: 36px 0 0; align-items: start;
+}
+.cw-door { border: 3px solid var(--cw-glass); padding: 8px; background: var(--cw-deep); }
+.cw-door__pane {
+  position: relative; background: var(--cw-day); color: var(--cw-ink);
+  padding: 22px 34px 20px 22px;
+}
+.cw-door__pane::after {
+  content: ""; position: absolute; right: 12px; top: 38%; width: 6px; height: 72px;
+  background: var(--cw-frame); border-radius: 3px;
+}
+.cw-door a { color: var(--cw-link); }
+.cw-door :focus-visible { outline-color: var(--cw-ink); }
+.cavendish .cw-door__name {
+  margin: 0; font-family: 'Libre Caslon Display', Georgia, serif; font-weight: 400;
+  font-size: 40px; line-height: 1.05; color: var(--cw-ink);
+}
+.cw-door__tag {
+  margin: 6px 0 0; font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: 23px; line-height: 1.25; color: var(--cw-ink-2);
+}
+.cw-door__said { margin: 14px 0 0; font-size: 16px; line-height: 1.55; }
+.cw-when { list-style: none; margin: 16px 0 0; padding: 0; border-top: 1px solid var(--cw-frame); }
+.cw-slot { padding: 10px 0; border-bottom: 1px solid var(--cw-frame); font-size: 15px; line-height: 1.45; }
+.cw-slot__what { display: block; font-weight: 700; }
+.cw-slot__tag, .cw-slot__said, .cw-slot__local { display: block; }
+.cw-slot__tag { color: var(--cw-ink-2); }
+.cw-slot__local { margin-top: 2px; font-size: 14px; color: var(--cw-ink-2); }
+.cw-door__from { margin: 12px 0 0; font-size: 14px; color: var(--cw-ink-2); }
+.cw-door a.cw-open {
+  display: block; margin: 18px 0 0; padding: 14px 16px;
+  background: var(--cw-ink); color: var(--cw-day);
+  font-weight: 700; font-size: 18px; text-decoration: none;
+}
+.cw-door a.cw-open:hover { background: var(--cw-link); }
+.cw-door a.cw-open:focus-visible { outline: 3px solid var(--cw-ink); outline-offset: 3px; }
+.cw-open__off { margin: 8px 0 0; font-size: 13px; line-height: 1.45; color: var(--cw-ink-2); }
+
+.cw-part { margin: 48px 0 0; max-width: 46em; }
+.cavendish .cw-part h2 {
+  margin: 0 0 12px; font-family: 'Libre Caslon Display', Georgia, serif; font-weight: 400;
+  font-size: 34px; line-height: 1.1; color: var(--cw-text);
+}
+.cw-part p, .cw-list li { font-size: 17px; line-height: 1.6; }
+.cw-list { margin: 12px 0 0; padding-left: 1.2em; }
+.cw-list li + li { margin-top: 8px; }
+.cw-said { margin: 18px 0; padding: 4px 0 4px 18px; border-left: 3px solid var(--cw-glass); }
+.cw-said p { margin: 0; font-size: 19px; }
+.cw-said cite { display: block; margin-top: 8px; font-style: normal; font-size: 14px; color: var(--cw-dim); }
+.cavendish .cw-further { font-size: 15px; color: var(--cw-dim); }
+.cavendish code { font-size: .92em; }
+
+/* §59 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -12939,7 +13103,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §58 says every
+   shipped with no rule here at all — which on a street whose §59 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -13063,7 +13227,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §59 ── Print ───────────────────────────────────────────────────────────────
+/* §60 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
