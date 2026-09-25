@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy — Stimpunks.World</title>
-<meta name="description" content="What this site knows about you, which is very little, and all of it: no cookies, a few things kept in your own browser, a CB that keeps one day of chat and nothing longer, nothing from anyone else until you press play, and our host's ordinary logs.">
+<meta name="description" content="What this site knows about you, which is very little, and all of it: no cookies, a few things kept in your own browser, a CB that keeps one day of chat and nothing longer, a chalkboard anybody can read that keeps a week, nothing from anyone else until you press play, and our host's ordinary logs.">
 <link rel="canonical" href="https://stimpunks.world/privacy.html">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#15121f">
@@ -27,7 +27,7 @@
 <link rel="stylesheet" href="love.css">
 <script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
 <!-- structured-data:begin -->
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/privacy.html#webpage","url":"https://stimpunks.world/privacy.html","name":"Privacy — Stimpunks.World","description":"What this site knows about you, which is very little, and all of it: no cookies, a few things kept in your own browser, a CB that keeps one day of chat and nothing longer, nothing from anyone else until you press play, and our host's ordinary logs.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/privacy.html#webpage","url":"https://stimpunks.world/privacy.html","name":"Privacy — Stimpunks.World","description":"What this site knows about you, which is very little, and all of it: no cookies, a few things kept in your own browser, a CB that keeps one day of chat and nothing longer, a chalkboard anybody can read that keeps a week, nothing from anyone else until you press play, and our host's ordinary logs.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
 <!-- structured-data:end -->
 </head>
 <body class="room-plain" id="top">
@@ -38,15 +38,16 @@
   <a class="backlink" href="index.html">← BACK TO THE STREET</a>
 
   <h1>Privacy</h1>
-  <p class="lede">What this site knows about you is very little, and this page is all of it. <strong>Last updated 2026-09-24.</strong> Every change to it is dated in <a href="changelog.html">the changelog</a>.</p>
+  <p class="lede">What this site knows about you is very little, and this page is all of it. <strong>Last updated 2026-09-25.</strong> Every change to it is dated in <a href="changelog.html">the changelog</a>.</p>
 
   <section class="card card--call">
     <h2 style="margin-top:0;">THE SHORT VERSION</h2>
     <ul>
       <li><strong>No cookies.</strong> This site sets none, on any page.</li>
       <li><strong>No accounts, no advertising, no trackers, nothing sold.</strong> There is nothing to sign up for and nobody to sell anything to. The CB asks for a handle and a shared password, and neither is an account: nothing is registered, and your handle is whatever you type.</li>
-      <li><strong>A few things are kept in your own browser</strong>, each because you asked for it. Only one of them is ever sent anywhere, and only to us, and only by the CB.</li>
+      <li><strong>A few things are kept in your own browser</strong>, each because you asked for it. Only one of them is ever sent anywhere, and only to us, and only by the CB and its chalkboard.</li>
       <li><strong>The CB is the one thing on this site that sends anything</strong>, and only while you have it open. What is said on it is kept for the day, ten messages at most, and then deleted.</li>
+      <li><strong>The chalkboard on <a href="plural-mural.html">Plural Mural</a> is the CB&rsquo;s too, and it is public.</strong> Only people signed on to the CB can write on it, anybody at all can read it, and every note is rubbed out after seven days.</li>
       <li><strong>Nothing from anybody else loads until you press it.</strong> Every video and player on the street waits for a press.</li>
       <li><strong>Our host keeps ordinary server logs</strong>, the way every web server does.</li>
     </ul>
@@ -57,17 +58,17 @@
   <p>This page covers this site only. Our contact form lives on stimpunks.org, so what happens to a message you send is covered by <a href="https://stimpunks.org/privacy/">stimpunks.org&rsquo;s privacy policy</a> and <a href="https://stimpunks.org/cookie-policy-eu/">its cookie policy</a>.</p>
 
   <h2>What your browser keeps</h2>
-  <p>These are stored with <code>localStorage</code> in your own browser. The first two are never sent to us or to anybody else, and we cannot read them. The third only exists once you have signed on to the CB, and it is sent to us, and only to us, each time the radio checks the channel. Each one only remembers something you asked this site to remember, which is why there is no consent banner here: there is nothing a banner would be asking about.</p>
+  <p>These are stored with <code>localStorage</code> in your own browser. The first two are never sent to us or to anybody else, and we cannot read them. The third only exists once you have signed on to the CB, and it is sent to us, and only to us, each time the radio checks the channel and when you write on the chalkboard. Each one only remembers something you asked this site to remember, which is why there is no consent banner here: there is nothing a banner would be asking about.</p>
   <table>
     <caption class="sr">What this site stores in your browser, why, and how to clear it</caption>
     <thead><tr><th scope="col">Name</th><th scope="col">What it holds</th><th scope="col">How to clear it</th></tr></thead>
     <tbody>
       <tr><td><code>love-intensity</code></td><td>The loudness you picked on the dial: Gentle, Regular or MAX GLITTER. Until you pick one, the site follows whatever your device says about reduced motion and stores nothing.</td><td>Clear this site&rsquo;s data in your browser settings.</td></tr>
       <tr><td><code>love-quests</code></td><td>The jobs you have handed in at <a href="adventurers-guild.html">the Adventurer&rsquo;s Guild</a>, so the board can show them as done. Nothing is scored and nothing is sent.</td><td>The <em>Forget every job I have handed in</em> button on the Guild&rsquo;s board, or your browser settings.</td></tr>
-      <tr><td><code>love-cb</code></td><td>Your CB handle, the pass that lets the radio onto the channel, where you last put the radio on your screen, whether you left it folded away, and whether it reads new messages aloud. It is only there once you have signed on at <a href="community-center.html">the Community Center</a>. The pass is sent to us each time the radio checks the channel, is checked and not kept, and stops working the moment the password changes.</td><td>Sign off on the radio, or your browser settings.</td></tr>
+      <tr><td><code>love-cb</code></td><td>Your CB handle, the pass that lets the radio onto the channel, where you last put the radio on your screen, whether you left it folded away, and whether it reads new messages aloud. It is only there once you have signed on at <a href="community-center.html">the Community Center</a>. The pass is sent to us each time the radio checks the channel and when you write on the chalkboard, is checked and not kept, and stops working the moment the password changes.</td><td>Sign off on the radio, or your browser settings.</td></tr>
     </tbody>
   </table>
-  <p>Nothing else on this site stores anything: no session storage, no IndexedDB, no service worker. The site&rsquo;s own security policy lets its pages send data to this site and nowhere else (<code>connect-src &rsquo;self&rsquo;</code>) and never lets them submit a form (<code>form-action &rsquo;none&rsquo;</code>), and the only thing on any page that sends anything at all is the CB.</p>
+  <p>Nothing else on this site stores anything: no session storage, no IndexedDB, no service worker. The site&rsquo;s own security policy lets its pages send data to this site and nowhere else (<code>connect-src &rsquo;self&rsquo;</code>) and never lets them submit a form (<code>form-action &rsquo;none&rsquo;</code>), and the only thing on any page that sends anything at all is the CB, with its chalkboard. Opening Plural Mural asks this site for what is on the board, once, and that request carries nothing of yours.</p>
 
   <h2>What our host sees</h2>
   <p>This site is served by <strong>Netlify</strong>. Like any web server, it receives what every browser sends with every request &mdash; your IP address, your browser&rsquo;s user-agent string, the address you asked for and the time &mdash; and it keeps logs of that under <a href="https://www.netlify.com/privacy/">Netlify&rsquo;s own privacy policy</a>, which also says how long. We need that to run and secure a website, which is the legal basis for it (legitimate interests). We have not switched on Netlify&rsquo;s analytics, we do not add anything to those logs, and we do not use them to find out who anybody is.</p>
@@ -106,14 +107,26 @@
   </ul>
   <p>We keep a message because you sent it for other people on the channel to read, and keeping it for the day is what that takes. Transmitting is your consent to it, and you can take that back by asking us to delete what you said.</p>
 
+  <h2 id="the-chalkboard">The chalkboard</h2>
+  <p>Plural Mural has a chalkboard leaning against the foot of its wall, for leaving a note to whoever comes by next. It was <a href="https://autisticrealms.com/">Helen Edgar</a>&rsquo;s idea. It is part of the CB and runs on the same rules, with two differences, both written above the box you write in: <strong>anybody can read it</strong>, and <strong>a note stays up for seven days</strong> rather than until midnight.</p>
+  <ul>
+    <li><strong>Who can write on it.</strong> Only people signed on to the CB. Writing sends your handle, your note and your pass to us, the same as transmitting on the radio.</li>
+    <li><strong>Who can read it.</strong> Anybody who opens <a href="plural-mural.html">Plural Mural</a>, signed on or not. That makes it a board in the street rather than a room, so write on it what you would write on a board in the street. Handles are not checked, so a name on the board is not proof of who wrote it. The board&rsquo;s answers ask search engines not to index or archive it; that is a request they honour rather than a lock.</li>
+    <li><strong>What we keep.</strong> The latest thirty notes, each with its handle, its words and the time it went up. A thirty-first rubs out the oldest. <strong>Every note is deleted seven days after it was written</strong>, and the base station can rub one out sooner. There is no archive, no backup and no copy.</li>
+    <li><strong>What we do not keep.</strong> The same as the radio: no IP address, nothing in any log, and no list of who wrote or who read.</li>
+    <li><strong>Where it is kept.</strong> Beside the channel, at Netlify, under <a href="https://www.netlify.com/privacy/">Netlify&rsquo;s privacy policy</a>.</li>
+  </ul>
+  <p>We keep a note because you chalked it up for passers-by to read, and keeping it for the week is what that takes. Writing it is your consent to that, and you can take it back by asking us to rub it out.</p>
+
   <h2>Things that look like forms</h2>
-  <p>A few rooms have boxes you can type into, and none of them sends anything. The Guild&rsquo;s hand-in box checks a code inside the page. <a href="zibaldone.html">The Zibaldone</a>&rsquo;s attribution slip puts a block of text on your own clipboard, and you decide where it goes. <a href="foundry.html">The Foundry</a> sets the words you type in a typeface, in your browser. <strong>The CB is the one exception</strong>: its boxes send what you type, to us, as written up above.</p>
+  <p>A few rooms have boxes you can type into, and none of them sends anything. The Guild&rsquo;s hand-in box checks a code inside the page. <a href="zibaldone.html">The Zibaldone</a>&rsquo;s attribution slip puts a block of text on your own clipboard, and you decide where it goes. <a href="foundry.html">The Foundry</a> sets the words you type in a typeface, in your browser. <strong>The CB is the one exception</strong>: its boxes, the chalkboard&rsquo;s included, send what you type, to us, as written up above.</p>
 
   <h2>Your rights</h2>
   <p>Because we hold so little, most of what the law gives you a right to ask about is not here to ask about. What there is:</p>
   <ul>
     <li><strong>Your photograph, your recording or your name in a credit:</strong> ask us to see it, correct it or take it down, and we will.</li>
     <li><strong>What you said on the CB:</strong> ask us and we will delete it now rather than at midnight. After midnight there is nothing left to ask about.</li>
+    <li><strong>What you chalked on the board:</strong> ask us and we will rub it out now rather than at the end of its week.</li>
     <li><strong>Our host&rsquo;s logs:</strong> Netlify holds those. Ask us and we will ask on your behalf, or contact Netlify directly.</li>
     <li><strong>What your browser keeps:</strong> it is on your device and yours to clear. We never keep a copy, the CB pass included.</li>
   </ul>

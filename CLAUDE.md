@@ -2402,6 +2402,20 @@ concurrency cannot be tested against it at all: the logic was tested against an 
 check-and-write is atomic, with `node --experimental-test-module-mocks`, down both etag paths. Test it
 that way again after touching `updateChannel`.
 
+**PLURAL MURAL'S CHALKBOARD IS THE CB'S, AND IT IS THE ONE PUBLIC THING THE CB HOLDS.** Helen Edgar's
+idea, after the board at her floatation tank place. Ryan's call, 2026-09-25: **anybody reads it, only a CB
+pass writes on it, and a note stays seven days**, thirty at most. Those two differences from the channel
+are the whole of what the privacy page's section on it says, and the box you write in repeats the first
+one above itself. So **do not "tidy" it into the channel's rules**, and do not widen it the other way: no
+reply threads, no reactions, no count. `chalk.js` reads `love-cb` and never writes it; signing on is the
+radio's job. It reads the board once on load and once after writing, with no polling, because a board is
+not a channel. Every read carries `x-robots-tag: noindex`. **It stands on the pavement, not on the wall**,
+which is why it may carry words when the wall may not; the notes are set in the room's plain face, never
+a chalk hand, because they are other people's words. `updateChalk` shares `versioned()` with the channel.
+Touch either one and run the fifteen-at-once test again against an atomic in-memory store, down both
+etag paths. The invariant is **no write told it worked is missing**; with no etag on reads, some of the
+fifteen may be told busy, and that was true of the channel before the board existed.
+
 **THE COMMUNITY CENTER IS LIT BY SUN THROUGH A VENETIAN BLIND, AND IT IS THE ONLY COOL PALE GROUND.**
 §51: painted powder-blue block at ten in the morning, the light chopped into hard diagonal bars,
 stacking chairs, a letterboard over the door, the front desk. **Covenstead is the collision**: the other

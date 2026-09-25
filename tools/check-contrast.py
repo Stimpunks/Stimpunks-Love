@@ -2130,6 +2130,14 @@ PAIRS = [
                                   "job marker, a paint tin lid"),
     (PM_ROAD,   PM_YELLOW, False, "plural mural: every button's words, and ON THE WALL NOW"),
     (PM_ROAD,   PM_LINE,   False, "plural mural: a button under the pointer, and the hold while it holds"),
+    # The chalkboard (Helen Edgar's idea, 2026-09-25): a slate in a frame on the
+    # pavement. The notes are chalk on the slate; who wrote each one is in the
+    # yellow; the box you write in is road on the markings' white.
+    ("#ECEAE2", "#26312D", False, "plural mural: every note on the chalkboard, and what the board "
+                                  "says while it is reading, empty, or out of reach; the focus ring "
+                                  "on a rub-out button"),
+    (PM_YELLOW, "#26312D", False, "plural mural: who chalked each note, and when"),
+    (PM_ROAD,   PM_LINE,   False, "plural mural: what you type in the chalkboard's box"),
 
     # ── Now Playing (§53) ────────────────────────────────────────────────────
     (NP_BOTH,   NP_STOCK,  False, "now playing: every word on the sheet -- the h1, the over- and "
@@ -2292,6 +2300,9 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#8a5b36": "plural mural: the chalkboard's wooden frame, 2.12 on the road and 2.33 on the "
+               "slate. It carries no word. It is also what separates the board from the road, "
+               "because the slate itself is 1.10 against the tarmac, and a board is not a control.",
     "#9ccbea": "community library: the sky in the windows, 1.52 on the plaster, and the panes "
                "in the street door's awning. It carries no word; what matters is that it is sky.",
     "#7a4e26": "community library: the shelving, the desk and the dashed edge of the gap in the "

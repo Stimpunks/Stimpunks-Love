@@ -18,6 +18,15 @@
      · NOTHING A PERSON TYPES IS LOGGED. No console.log of a handle, a message, a
        password or a pass, anywhere. privacy.html promises it, and a log line is the
        easiest place in the world to break that promise while debugging.
+     · THE CHALKBOARD KEEPS A WEEK, AND ANYBODY CAN READ IT. Helen Edgar's idea,
+       after the board at her floatation tank place; the retention and the
+       readership are Ryan's call, 2026-09-25. It is a second blob beside the
+       channel: thirty notes at most, each rubbed out seven days after it was
+       chalked, whether or not the sweep has got to it. Writing needs a pass,
+       the same pass the radio uses; reading needs nothing, because a board on
+       the pavement is read by whoever walks past, and privacy.html says so
+       above the box you write in. Nothing else about it differs from the
+       channel: no address, no log, no copy.
      · A PASS IS CHECKED AND NOT KEPT. It is an HMAC of the handle keyed by the
        current password, so changing the password in Netlify's environment and
        redeploying signs everybody off at once, and there is no list of passes
@@ -31,6 +40,12 @@ export const HANDLE_MAX = 24;       // characters
 export const TEXT_MAX = 280;        // characters
 export const ZONE = 'America/Denver';
 const KEY = 'channel';
+
+export const CHALK_KEEP = 30;                     // notes on the board at once
+export const CHALK_MAX = 200;                     // characters
+export const CHALK_DAYS = 7;
+const CHALK = 'chalk';
+const WEEK = CHALK_DAYS * 24 * 60 * 60 * 1000;
 
 /* Which day is it, in Colorado. "Cleared daily" has to mean a midnight somebody
    can name, and privacy.html names this one. */
@@ -63,14 +78,14 @@ export async function readChannel(s = store()) {
    one of them told it had worked. So a read with no etag takes the version off
    a listing instead, on both sides of the read: if the listing did not move, the
    data belongs to it. What this never does is write without a version. */
-async function versioned(s) {
-  const got = await s.getWithMetadata(KEY, { type: 'json' });
+async function versioned(s, key = KEY) {
+  const got = await s.getWithMetadata(key, { type: 'json' });
   if (!got) return { exists: false };
   if (got.etag) return { exists: true, data: got.data, etag: got.etag };
   for (let attempt = 0; attempt < 4; attempt++) {
-    const tag = async () => ((await s.list({ prefix: KEY })).blobs.find((b) => b.key === KEY) || {}).etag;
+    const tag = async () => ((await s.list({ prefix: key })).blobs.find((b) => b.key === key) || {}).etag;
     const before = await tag();
-    const data = await s.get(KEY, { type: 'json' });
+    const data = await s.get(key, { type: 'json' });
     const after = await tag();
     if (!before && !after) return { exists: false };
     if (before && before === after) return { exists: true, data, etag: before };
@@ -107,6 +122,57 @@ export async function sweep() {
     return true;
   }
   return false;
+}
+
+/* ── The chalkboard ──────────────────────────────────────────────────── */
+
+/* A note is on the board for seven days from the moment it was chalked. The
+   check is made on every read, so a note is gone at seven days whether or not
+   the hourly sweep has reached it -- the channel's midnight rule, with a week
+   in it instead of a day. */
+function fresh(n, now = Date.now()) { return n && typeof n.t === 'number' && now - n.t < WEEK; }
+
+export async function readChalk(s = store()) {
+  const data = await s.get(CHALK, { type: 'json' });
+  return ((data && data.notes) || []).filter((n) => fresh(n));
+}
+
+/* updateChannel's conditional write, on the other blob. Stale notes are
+   dropped on the way through every write, and a full board rubs out its
+   oldest, the way a real one does when somebody needs the room. */
+export async function updateChalk(change, s = store()) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, CHALK);
+    const was = (cur.exists && cur.data && cur.data.notes) || [];
+    const live = was.filter((n) => fresh(n));
+    const next = change(live.slice());
+    if (next === null) return live;
+    const body = { notes: next.slice(-CHALK_KEEP) };
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(CHALK, body, opts);
+    if (res.modified) return body.notes;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* Hourly, with the channel's sweep: rewrite the board without anything past
+   its week. A board with nothing stale on it is left alone. */
+export async function sweepChalk(s = store()) {
+  const data = await s.get(CHALK, { type: 'json' });
+  const notes = (data && data.notes) || [];
+  if (!notes.some((n) => !fresh(n))) return false;
+  await updateChalk((list) => list, s);
+  return true;
+}
+
+export function cleanChalk(s) {
+  const t = tidy(s);
+  return t && [...t].length <= CHALK_MAX ? t : null;
+}
+
+export function shapeChalk(notes) {
+  return notes.map((n) => ({ id: n.id, handle: n.handle, text: n.text, t: n.t, base: !!n.base }));
 }
 
 /* ── Passes ────────────────────────────────────────────────────────────── */
@@ -182,7 +248,7 @@ export function cleanText(s) {
 
 /* ── Answers ───────────────────────────────────────────────────────────── */
 
-export function json(status, body) {
+export function json(status, body, extra = {}) {
   return new Response(JSON.stringify(body), {
     status,
     headers: {
@@ -190,6 +256,7 @@ export function json(status, body) {
       // Nothing on the channel may sit in a cache anywhere: a cached copy is a
       // copy, and privacy.html says there are none.
       'cache-control': 'no-store',
+      ...extra,
     },
   });
 }

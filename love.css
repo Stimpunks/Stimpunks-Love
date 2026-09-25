@@ -1840,6 +1840,10 @@
      painted on it is measured there. */
   --pm-road:   #3A3431;   --pm-line:   #F4EEE2;   --pm-yellow: #F3C640;
   --pm-render: #E6CFA8;   --pm-coping: #9C7F63;   --pm-sky:    #F2B880;
+  /* The chalkboard leaning against the foot of the wall (Helen Edgar's idea):
+     --pm-slate is the board, --pm-chalk every note on it, --pm-frame its wooden
+     frame, which carries nothing. */
+  --pm-slate:  #26312D;   --pm-chalk:  #ECEAE2;   --pm-frame:  #8A5B36;
 
   /* Community Library (§55). A CARNEGIE READING ROOM AT ELEVEN IN THE MORNING,
      with its windows set high above the shelves and the sky in every one of
@@ -12500,6 +12504,43 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 .pm-rules { margin: 12px 0 0; padding-left: 22px; max-width: 68ch; font-size: 16px; line-height: 1.55; }
 .pm-rules li { margin: 0 0 10px; }
+
+/* THE CHALKBOARD IS ON THE PAVEMENT, NOT ON THE WALL, which is why it may carry
+   words when the wall may not: it leans against the foot of the wall on your
+   side of the road, a slate in a wooden frame. Helen Edgar's idea, after the
+   board at her floatation tank place. The notes are other people's words, so
+   they are set plainly in the room's own face, never in a chalk handwriting:
+   what somebody wrote has to be readable by whoever walks past. Newest at the
+   top, nothing tilted, nothing moving at any setting. */
+.pm-board {
+  margin: 14px 0 0; max-width: 780px; padding: 18px 20px;
+  background: var(--pm-slate); color: var(--pm-chalk);
+  border: 12px solid var(--pm-frame); border-radius: 4px;
+}
+.pm-board__state { margin: 0; font-size: 16px; line-height: 1.5; color: var(--pm-chalk); }
+.pm-board__notes { list-style: none; margin: 0; padding: 0; }
+.pm-note-chalk { padding: 12px 0; border-top: 2px dashed rgba(236, 234, 226, .35); }
+.pm-note-chalk:first-child { border-top: 0; padding-top: 0; }
+.pm-note-chalk:last-child { padding-bottom: 0; }
+.pm-note-chalk__text { margin: 0; font-size: 17px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+.pm-note-chalk__by { margin: 4px 0 0; font-size: 14px; color: var(--pm-yellow); overflow-wrap: anywhere; }
+.pm-note-chalk--base .pm-note-chalk__by { font-weight: 700; }
+.pm-note-chalk__rub { margin-top: 8px; font-size: 13px; padding: 6px 11px; }
+.pm-board :focus-visible { outline-color: var(--pm-chalk); }
+
+.pm-chalk__write { margin: 16px 0 0; max-width: 780px; }
+.pm-chalk__lab { display: block; font-weight: 700; font-size: 16px; }
+.pm-chalk__public { margin: 6px 0 8px; font-size: 15px; line-height: 1.5; }
+.pm-chalk__text {
+  display: block; width: 100%; box-sizing: border-box; resize: vertical;
+  font: 400 17px/1.5 'Commissioner', var(--sans);
+  background: var(--pm-line); color: var(--pm-road);
+  border: 3px solid var(--pm-line); border-radius: 3px; padding: 10px 12px;
+}
+.pm-chalk__row { display: block; margin: 10px 0 0; }
+.pm-chalk__said { margin: 8px 0 0; min-height: 1.5em; font-size: 15px; line-height: 1.5; }
+.pm-chalk__signon { margin: 14px 0 0; font-size: 16px; line-height: 1.5; max-width: 66ch; }
+.pm-chalk .pm-rules { margin-top: 18px; }
 .plural-mural .quest { margin-top: 40px; }
 
 @media (max-width: 640px) {

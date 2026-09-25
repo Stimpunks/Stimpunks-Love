@@ -201,6 +201,31 @@
 
   <p class="pm-lede">This is the end wall of a building on the street, and it is never painted the same way twice. <strong>The street is <a href="danny-the-street.html">Danny&rsquo;s</a></strong>, and Danny rearranges what is on them for whoever turns up, so one day the wall is a rainbow and the next it is a hillside with its roots showing. <strong>At MAX GLITTER the wall repaints itself every three minutes</strong>, one mural dissolving into the next, and you can keep the one you like up for as long as you stay. <strong>At Gentle and Regular it holds still</strong> until you turn it over yourself. Every mural is on the list below at every setting, in words, with a button to put it up.</p>
 
+  <section class="pm-part pm-chalk" aria-labelledby="pm-chalk-h">
+    <h2 id="pm-chalk-h">The chalkboard</h2>
+    <p>Leaning against the foot of the wall, on the pavement and not on the paint, there is a chalkboard for leaving a note to whoever comes by next. <strong>It is <a href="https://autisticrealms.com/">Helen Edgar</a>&rsquo;s idea</strong>, after the board at her floatation tank place.</p>
+    <div class="pm-board">
+      <p class="pm-board__state" id="pm-board-state">The chalkboard needs scripts to read it.</p>
+      <ol class="pm-board__notes" id="pm-board-notes" hidden></ol>
+    </div>
+    <div class="pm-chalk__write" id="pm-chalk-write" hidden>
+      <form class="pm-chalk__form" id="pm-chalk-form">
+        <label class="pm-chalk__lab" for="pm-chalk-text">A note, chalked up as <b id="pm-chalk-as"></b></label>
+        <p class="pm-chalk__public" id="pm-chalk-public"><strong>Anybody who walks past can read this board</strong>, signed on to the CB or not, for seven days. Write what you would write on a board in the street.</p>
+        <textarea class="pm-chalk__text" id="pm-chalk-text" rows="3" maxlength="200" aria-describedby="pm-chalk-public"></textarea>
+        <span class="pm-chalk__row"><button type="submit" class="pm-put pm-chalk__go">Chalk it up</button></span>
+        <p class="pm-chalk__said" id="pm-chalk-said" role="status"></p>
+      </form>
+    </div>
+    <p class="pm-chalk__signon" id="pm-chalk-signon" hidden>Writing on the board takes a CB handle and this week&rsquo;s password: <a href="community-center.html">sign on at the Community Center</a>, then come back. Reading it takes nothing.</p>
+    <ul class="pm-rules">
+      <li><strong>Anybody can read it, and only people signed on to the CB can write on it.</strong> That is what keeps the chalk in the community&rsquo;s hands: the password is shared in <a href="https://stimpunks.org/community/">our community</a> and changes from time to time. A handle is whatever somebody typed, so a name on the board is not proof of who wrote it.</li>
+      <li><strong>A note is rubbed out seven days after it goes up</strong>, and the board holds thirty, so a full board loses its oldest note to make room. There is no archive and no copy. Search engines are asked not to keep it.</li>
+      <li><strong>The base station can rub a note out sooner</strong>, and so can we if you ask: <a href="privacy.html#the-chalkboard">what the board keeps</a>.</li>
+      <li><strong>Nothing on it is counted or ranked.</strong> It is a board, not a feed: a note is there, and then it is not.</li>
+    </ul>
+  </section>
+
   <section class="pm-part" aria-labelledby="pm-list-h">
     <h2 id="pm-list-h">On the wall, in turn</h2>
     <p class="pm-note">In the order they went up. Each one says what is painted on it, because the wall itself is paint.</p>
@@ -331,6 +356,7 @@
 
 <script src="love.js" defer></script>
 <script src="mural.js" defer></script>
+<script src="chalk.js" defer></script>
 <script src="quest.js" defer></script>
 </body>
 </html>
