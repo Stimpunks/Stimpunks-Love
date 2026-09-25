@@ -2469,6 +2469,42 @@ ground colour and they vanish. **On a phone the stand is sticky at the top of th
 `display: contents` so the drawing can stick for the whole fitting): the rails are longer than a phone is
 tall, and a pick that changes a drawing three screens away is the Playhouse's unseen answer again.
 
+**NOW PLAYING IS A PAGE OF SENTENCES ABOUT OTHER ROOMS, AND THE ONE CLAIM MOST LIKELY TO CHANGE IS
+READ, NEVER WRITTEN.** §53 is a screenprinted bill pasted round a poster column on the pavement beside
+the Pebble Board (Ryan's brief, 2026-09-25): every room with something in it to press and play, and
+what each one puts on first. `tools/make-now-playing.py` reads **each room's published page** and takes
+the first facade, set channel or headset after the point `after` names, with its title and runtime as
+that room prints them, so a room re-sorting its rack changes the poster on the next run and nothing in
+`data/now-playing.json` has to be remembered. Our line about each room carries `holds`, the Community
+Center's rule. **It finds the venues by looking**: a page with something to press that is not on the
+bill stops the build, and so does a venue with nothing left to press. It must run **after** the room
+generators, because it reads what they wrote. **A new shape of player** (anything that is not a
+facade, a `data-runs` list item or a `dp-tune`) is invisible to it until `PLAYABLE` learns it, which
+is why the check runs in both directions.
+
+**BESIDE THE BOARD AND NOT ON IT.** The glass holds what people brought, and §21 says it is the second
+body with different things behind glass and not a licence for a third; a generated listing is not a
+pebble. The Community Center was the other candidate and its wall already carries the service board,
+a board of sentences about other rooms; a second one would make the hall the street's directory. The
+column is street furniture in the street's clothes, round where the others are square, pointed or
+arched, and its hover goes **darker** because the street's pink on `--ink-3` is 2.76.
+
+**NOTHING ON THE POSTER PLAYS, NOTHING IS COUNTED, AND THERE IS NO HEADLINER.** The tool refuses a
+facade, frame or audio element on the page, and sweeps our own words for top billing and for a count,
+with the negation window. A gig poster is exactly the object that prints one act biggest, and here that
+ranks our own rooms on a sheet that belongs to all of them. **The order is the sitemap's walking order**
+and there is no other. Where a room plays a whole list, the poster says what the room's button says
+(runs until you stop it, starts somewhere random) and, where `then` names the room's own bill, what that
+bill shows first. **It does not guess what a playlist opens on**; that is Club Chronic's lesson.
+
+**INK OVERLAPS HERE, NOT PAPER, AND THERE IS NO BLACK.** Club Chronic is a hundred flyers pasted over
+each other on a black wall, and the paper is its subject; the zine is black toner on white. This is one
+sheet through two transparent screens, and `--np-both` is the multiply of `--np-red` and `--np-cobalt`
+(measured: exactly `#241721`), which is the ink every word is in, because every word is printed on both.
+The two inks alone carry no word. **The misregistered fringe is on display type only**; on a paragraph it
+would be the Doomscroll's blackletter problem. If the sheet ever becomes several sheets, or its darkest
+value becomes a black, it has collapsed into one of those two rooms.
+
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
 paleness alone — which is what holds it off the Guild, lit from nowhere with no depth. Netlify

@@ -187,6 +187,14 @@ def normalise(s):
 # yellow on that blue measures 3.88 and white measures 5.08 -- the one place
 # here where the room's favourite colour lost to the floor it was lying on.
 DRAW = {
+    # The paste brush the bill went up with, put down on the pavement at the
+    # foot of the column: a wide flat brush on a short handle, bristles and
+    # handle both in --np-stock, 16.3 on the street's night, the ferrule band
+    # in --np-drum-2 as detail on the brush rather than a shape on the ground,
+    # and a smear of paste on the kerb line in --np-drum-2, which carries
+    # nothing. Not in either ink: the screens are the poster's, and the brush
+    # is the fly-poster's. It lies still.
+    "now-playing-brush": """<path d="M3 28 H29" stroke="var(--np-drum-2)" stroke-width="1.8" stroke-linecap="round"/><path d="M4 21 H15 V26 H4 Z" fill="var(--np-stock)"/><path d="M15 21.5 H18 V25.5 H15 Z" fill="var(--np-drum-2)"/><path d="M18 22.2 L28 21 V25.8 L18 24.8 Z" fill="var(--np-stock)"/><path d="M6 21 V26 M9 21 V26 M12 21 V26" stroke="var(--np-night)" stroke-width="0.9"/>""",
     # A spare torch left on a tailgate, which is the one kind of light somebody
     # in that ring can take home: the body in --nfs-pale, 16.45 on the gravel,
     # its lens and the beam it would throw in --nfs-fog, 13.07, and the tailgate

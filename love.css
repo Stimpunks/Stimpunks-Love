@@ -679,6 +679,23 @@
 @font-face { font-family: 'Plus Jakarta Sans'; src: url('fonts/plus-jakarta-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Plus Jakarta Sans'; src: url('fonts/plus-jakarta-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Now Playing (§53). A POSTER FACE AND A READING ONE. Rammetto One sets the
+   bill's title and the name of every room on it, and nothing at reading size:
+   wide and heavy with round shoulders, the letter a gig poster is cut in. It
+   is NOT Club Chronic's Anton, which is condensed because a flyer crams a bill
+   onto one sheet; this one is WIDE, because a column has room to go round.
+   One weight, one static file.
+
+   Instrument Sans carries every word that is read, the lines about each room
+   and the titles and running times out of them. A plain grotesque, because a
+   bill is a list somebody reads standing on a pavement. It ships as a variable
+   font, so one file is declared at 400 and 700 against the weight axis, Radio
+   Canada's call. No italic is shipped, so the room sets nothing italic. Both
+   read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Rammetto One'; src: url('fonts/rammetto-one-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Instrument Sans'; src: url('fonts/instrument-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Instrument Sans'; src: url('fonts/instrument-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1734,6 +1751,23 @@
   --dd-f-mint:     #9FE2BF;  --dd-f-coral:    #FF7F66;  --dd-f-moss:     #5E7A2E;
   --dd-f-rust:     #A8481F;  --dd-f-denim:    #3E5F8A;  --dd-f-black:    #141414;
   --dd-f-silver:   #C9CCD3;  --dd-f-coal:     #34343B;
+
+  /* Now Playing (§53). ONE SHEET SCREENPRINTED IN TWO INKS, PASTED ROUND A
+     COLUMN ON THE PAVEMENT. --np-stock is the paper and --np-night the street
+     around the column. --np-red and --np-cobalt are the two screens, and they
+     carry NO WORD: they are the ornament, the rules and the misregistered
+     fringe on the display type, measured in ORNAMENT. --np-both is not a colour
+     anybody mixed. It is what --np-red and --np-cobalt make where one is
+     printed over the other (a multiply, channel by channel), and it is the ink
+     every word on the sheet is in, because every word is printed on both
+     screens -- which is why it is the darkest thing on it. THERE IS NO BLACK:
+     the zine table is toner on white and the guild is printer's black on
+     manila, and a sheet whose darkest value is two transparent inks crossing is
+     neither. --np-drum and --np-drum-2 are the column's painted iron, shaded
+     where the curve turns away from the shop windows, and carry nothing. */
+  --np-night:  #17141E;   --np-stock:  #F2ECDF;
+  --np-red:    #D8412F;   --np-cobalt: #2B5BB5;   --np-both:   #241721;
+  --np-drum:   #1E3A31;   --np-drum-2: #2E5647;
 }
 
 * { box-sizing: border-box; }
@@ -2414,6 +2448,32 @@ div.facade--audio { border: 0; background: none; }
 .noticeboard__legs::before, .noticeboard__legs::after {
   content: ""; width: 10px; height: 16px; background: var(--ink-3); border-radius: 0 0 3px 3px;
 }
+
+/* The poster column beside the board, and a street object that is round where
+   every other one is square, pointed or arched. It is not a second noticeboard:
+   the board is a CASE, with glass, a lamp and legs, holding what people brought;
+   this is a DRUM of painted iron with a bill pasted straight onto it and nothing
+   in front. So it has no border and no glass, a domed cap in place of a roof,
+   and its ends round off where the case's corners are square. A street object
+   in the street's clothes, like the others: the street's Bungee, and the
+   street's pink, which none of the other furniture wears. What is pasted on it
+   is Now Playing's own two inks, and none of that comes out here. */
+.postercol { display: block; margin: 22px 0 0; text-decoration: none; }
+.postercol__cap {
+  display: block; height: 16px; margin: 0 22px;
+  background: var(--ink-3); border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+.postercol__drum {
+  display: block; background: var(--ink-2); color: var(--chalk);
+  border-radius: 0 0 26px 26px; padding: 14px 24px 16px;
+  box-shadow: inset 0 3px 0 var(--pink);
+}
+.postercol:hover .postercol__drum { background: var(--ink); }
+.postercol__what {
+  display: block; font-family: 'Bungee', var(--sans); font-size: 17px;
+  letter-spacing: 1px; color: var(--pink);
+}
+.postercol__why { display: block; margin-top: 7px; font-size: 14.5px; max-width: 62ch; color: var(--chalk); }
 
 .signpost { display: flex; align-items: stretch; margin: 26px 0 0; text-decoration: none; }
 .signpost__post { flex: 0 0 14px; background: var(--ink-3); border-radius: 3px 3px 0 0; }
@@ -11174,7 +11234,7 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
 /* A BUILDING. The face carries the name; the top and the side are clipped out
    of rectangles, never skewed; the shadow falls down and to the left, away from
    a lamp off the upper right of the table. */
-.mm-shop, .mm-back, .mm-table, .mm-notice {
+.mm-shop, .mm-back, .mm-table, .mm-notice, .mm-poster {
   position: relative; display: block; min-width: 0; max-width: 100%;
   background: var(--mm-face); color: var(--mm-ink); text-decoration: none;
   border: 1.5px solid var(--mm-pencil);
@@ -11195,10 +11255,10 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
   clip-path: polygon(0 var(--mm-d), 100% 0, 100% calc(100% - var(--mm-d)), 0 100%);
 }
 .mm-shop > .mm-name, .mm-back > .mm-name { position: relative; }
-.mm-shop:hover, .mm-back:hover, .mm-table:hover, .mm-notice:hover,
-.mm-shop:focus-visible, .mm-back:focus-visible, .mm-notice:focus-visible {
+.mm-shop:hover, .mm-back:hover, .mm-table:hover, .mm-notice:hover, .mm-poster:hover,
+.mm-shop:focus-visible, .mm-back:focus-visible, .mm-notice:focus-visible, .mm-poster:focus-visible {
   box-shadow: -12px 14px 0 rgba(34, 48, 43, .34); }
-.mm-shop:hover .mm-name, .mm-back:hover .mm-name, .mm-notice:hover .mm-name,
+.mm-shop:hover .mm-name, .mm-back:hover .mm-name, .mm-notice:hover .mm-name, .mm-poster:hover .mm-name,
 .mm-tent:hover .mm-name, .mm-sign:hover .mm-name, .mm-tag:hover .mm-name, .mm-gate:hover .mm-name,
 .mm-edge__name:hover .mm-name, .mm-roadname__a:hover .mm-name { text-decoration: underline; text-underline-offset: 3px; }
 
@@ -11219,6 +11279,12 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
 .mm-notice { width: 10rem; padding: 9px 10px 10px; margin-bottom: 18px; box-shadow: -6px 7px 0 rgba(34, 48, 43, .24); }
 .mm-notice::after { content: ""; position: absolute; left: 22%; right: 22%; bottom: -19px; height: 18px;
   border-left: 2px solid var(--mm-pencil); border-right: 2px solid var(--mm-pencil); }
+/* The poster column: a drum of card rolled round, with a round cap, standing
+   straight on the pavement with no legs. Same white card as everything else. */
+.mm-poster { width: 7.5rem; padding: 14px 10px 12px; margin-top: 8px; text-align: center;
+  border-radius: 0 0 14px 14px; box-shadow: -6px 7px 0 rgba(34, 48, 43, .24); }
+.mm-poster::before { content: ""; position: absolute; left: -5px; right: -5px; top: -9px; height: 10px;
+  background: var(--mm-top); border: 1.5px solid var(--mm-pencil); border-radius: 50% 50% 2px 2px / 100% 100% 2px 2px; }
 
 /* THE GATE. A gap in the wall with an arch over it, and the garden behind is
    the note, because a garden in white card is a thing you have to be told. */
@@ -12018,7 +12084,139 @@ textarea.dd-fallback {
   .dd-hangers { grid-template-columns: 1fr; }
 }
 
-/* §53 ── Small screens ───────────────────────────────────────────────────────
+/* §53 ── Now Playing (street furniture: the poster column beside the board) ──
+   One bill, screenprinted, pasted round a column on the pavement. Every room on
+   the street with something to press and play, and what it puts on first --
+   printed by tools/make-now-playing.py off the rooms' own published pages.
+
+   IT IS INK THAT OVERLAPS HERE, NOT PAPER, and that is the separation from the
+   two rooms this could most easily become. Club Chronic is a hundred flyers
+   pasted over one another on a black wall, flat, layered like sediment, with
+   marker written over the paper: the PAPER is its subject. The zine table is a
+   photocopy, black toner on white, cut with scissors, and the page is the
+   sheet. This is ONE sheet, nothing pasted over it, printed through two screens
+   in transparent inks, and where one ink crosses the other a third colour comes
+   up that nobody mixed. There is no black on it anywhere. If it ever becomes
+   several sheets, or the darkest value on it becomes a black, it has become one
+   of those two rooms.
+
+   AND IT IS NOT THE PEBBLE BOARD, WHICH STANDS BESIDE IT. The board is a case
+   with a roof, a lamp and glass, holding papers different people brought and
+   pinned by hand at angles. The column has no lamp of its own, no glass and
+   nothing pinned: it stands in the light the shop windows throw across the
+   pavement, which is why the sheet is lit from the front and falls into shadow
+   at both edges where the drum curves away from it. Nothing is at an angle.
+
+   THE SHADE AT THE EDGES CARRIES NO WORD. It lives on the sheet's own inset
+   shadow, inside a margin nothing is set in -- The Outskirts' rule about the
+   lamp's wash, kept apart rather than measured -- so every word stands on flat
+   stock. And every word is in --np-both, printed on both screens, so the two
+   inks alone carry only ornament, rules and the fringe. THE FRINGE IS ON THE
+   DISPLAY TYPE ONLY: the screens have slipped a pixel or two, as screens do,
+   and on a heading that is the look of the thing; on a paragraph it would be
+   an access failure wearing atmosphere, the Doomscroll's blackletter rule.
+   Nothing on the sheet moves at any setting, because nothing on a pasted
+   poster does. */
+
+.now-playing {
+  background: var(--np-night); color: var(--np-stock);
+  font-family: 'Instrument Sans', var(--sans); font-synthesis: none;
+}
+.now-playing a { color: var(--np-stock); }
+.now-playing :focus-visible { outline-color: var(--np-stock); }
+.now-playing .backlink {
+  font-family: 'Instrument Sans', var(--sans); font-weight: 700; font-size: 14px;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--np-stock);
+}
+.np-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.np-trail { margin: 0; font-size: 14px; color: var(--np-stock); }
+
+/* The drum. Painted iron, lighter on the side facing the windows and darker
+   where it turns away; a domed cap on top, and it goes on down past the foot of
+   the sheet into the pavement. Carries nothing. */
+.np-column {
+  position: relative; max-width: 860px; margin: 58px auto 0; padding: 26px 16px 34px;
+  background: linear-gradient(90deg, var(--np-drum) 0%, var(--np-drum-2) 22%, var(--np-drum) 64%, #10221C 100%);
+  border-radius: 6px 6px 0 0;
+}
+.np-column::before {
+  content: ""; position: absolute; left: -10px; right: -10px; top: -34px; height: 40px;
+  background: linear-gradient(90deg, var(--np-drum) 0%, var(--np-drum-2) 22%, var(--np-drum) 64%, #10221C 100%);
+  border-radius: 50% 50% 8px 8px / 100% 100% 8px 8px;
+}
+
+.np-sheet {
+  background: var(--np-stock); color: var(--np-both);
+  padding: 42px 54px 46px;
+  box-shadow: inset 22px 0 26px -18px rgba(23, 20, 30, .30), inset -34px 0 30px -20px rgba(23, 20, 30, .52);
+}
+.np-sheet a { color: var(--np-both); text-decoration-color: var(--np-red); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.np-sheet a:hover { text-decoration-color: var(--np-cobalt); }
+.np-sheet :focus-visible { outline-color: var(--np-cobalt); }
+
+.np-head { display: grid; grid-template-columns: 1fr minmax(160px, 300px); gap: 8px 26px; align-items: end; }
+.np-head > :not(.np-inks) { grid-column: 1; }
+.np-inks { grid-column: 2; grid-row: 1 / span 3; width: 100%; height: auto; }
+.np-ink { mix-blend-mode: multiply; }
+.np-ink--a { fill: var(--np-red); }
+.np-ink--b { fill: var(--np-cobalt); }
+.np-hole { fill: var(--np-stock); }
+
+.np-over, .np-sub {
+  margin: 0; font-weight: 700; font-size: 13px; letter-spacing: .1em; text-transform: uppercase;
+}
+.np-sheet h1, .np-sheet h2, .np-bill__name {
+  font-family: 'Rammetto One', var(--sans); font-weight: 400; color: var(--np-both);
+  text-shadow: -1px 1px 0 var(--np-red), 1px -1px 0 var(--np-cobalt);
+}
+.np-sheet h1 {
+  margin: 10px 0 12px; font-size: clamp(46px, 9vw, 94px); line-height: .96; letter-spacing: .01em;
+  text-shadow: -3px 2px 0 var(--np-red), 2px -2px 0 var(--np-cobalt);
+}
+.np-sheet h2 { margin: 0 0 8px; font-size: 30px; line-height: 1.1; }
+
+.np-lede { margin: 30px 0 0; font-size: 19px; line-height: 1.5; max-width: 62ch; }
+.np-part { margin: 40px 0 0; }
+.np-note { margin: 0 0 6px; font-size: 16px; line-height: 1.5; max-width: 62ch; }
+
+.np-bill { list-style: none; margin: 18px 0 0; padding: 0; }
+.np-bill__act { border-top: 3px solid var(--np-red); padding: 18px 0 20px; }
+.np-bill__act:last-child { border-bottom: 3px solid var(--np-cobalt); }
+.np-bill__name { margin: 0; font-size: 25px; line-height: 1.12; }
+.np-bill__where {
+  margin: 6px 0 0; font-weight: 700; font-size: 12.5px; letter-spacing: .09em; text-transform: uppercase;
+}
+.np-bill__what { margin: 8px 0 0; font-size: 16px; line-height: 1.5; max-width: 64ch; }
+.np-bill__first { margin: 10px 0 0; font-size: 16px; line-height: 1.55; }
+.np-bill__first--then { margin-top: 6px; }
+/* Reversed out of the solid: the stock showing through where both screens were
+   printed, which is paper rather than a third ink. */
+.np-bill__on {
+  display: inline-block; margin-right: 6px; padding: 2px 7px 1px;
+  background: var(--np-both); color: var(--np-stock);
+  font-weight: 700; font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase;
+}
+.np-bill__title { font-weight: 700; }
+.np-bill__runs { font-variant-numeric: tabular-nums; }
+
+.np-rules { margin: 12px 0 0; padding-left: 22px; max-width: 66ch; font-size: 16px; line-height: 1.5; }
+.np-rules li { margin: 0 0 10px; }
+
+/* The job marker lies on the pavement at the foot of the column, on the
+   street's night rather than on the sheet. */
+.now-playing .quest { margin-top: 40px; }
+
+@media (max-width: 640px) {
+  .np-column { margin-top: 48px; padding: 20px 8px 26px; }
+  .np-column::before { left: -6px; right: -6px; }
+  .np-sheet { padding: 28px 24px 32px; box-shadow: inset 12px 0 14px -10px rgba(23, 20, 30, .30), inset -16px 0 16px -10px rgba(23, 20, 30, .52); }
+  .np-head { grid-template-columns: 1fr; }
+  .np-head > :not(.np-inks), .np-inks { grid-column: 1; grid-row: auto; }
+  .np-inks { max-width: 220px; }
+  .np-bill__name { font-size: 22px; }
+}
+
+/* §54 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -12125,7 +12323,7 @@ textarea.dd-fallback {
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §53 says every
+   shipped with no rule here at all — which on a street whose §54 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -12249,7 +12447,7 @@ textarea.dd-fallback {
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §54 ── Print ───────────────────────────────────────────────────────────────
+/* §55 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

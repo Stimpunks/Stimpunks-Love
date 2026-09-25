@@ -1246,5 +1246,33 @@
       "src": "https://fonts.gstatic.com/s/plusjakartasans/v12/LDIoaomQNQcsA88c7O9yZ4KMCoOg4Ko20yygg_vb.woff2",
       "note": "Byte-identical to the 400 above; see that note."
     }
+  ],
+  "rammetto-one": [
+    {
+      "file": "rammetto-one-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 13040,
+      "src": "https://fonts.gstatic.com/s/rammettoone/v21/LhWiMV3HOfMbMetJG3lQDppNNfGdqOyvSA.woff2",
+      "note": "Now Playing (§53), the title on the bill and the name of every room on it, and nothing at reading size. Wide and heavy with round shoulders, where Club Chronic's Anton is condensed: a flyer crams a bill onto one sheet, and a column has room to go round. One weight, one static file, one declaration."
+    }
+  ],
+  "instrument-sans": [
+    {
+      "file": "instrument-sans-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 29904,
+      "src": "https://fonts.gstatic.com/s/instrumentsans/v4/pxiTypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr0SZe1ZuWi3g.woff2",
+      "note": "Now Playing (§53), every word that is read: the line about each room, and the titles and running times read out of them. A plain grotesque for a list somebody reads standing on a pavement. It ships as a variable font, so Google serves the same file for 400 and 700; it is downloaded once and declared twice against the weight axis, Radio Canada's call. No italic shipped."
+    },
+    {
+      "file": "instrument-sans-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 29904,
+      "src": "https://fonts.gstatic.com/s/instrumentsans/v4/pxiTypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr0SZe1ZuWi3g.woff2",
+      "note": "Byte-identical to the 400 above; see that note."
+    }
   ]
 }

@@ -757,6 +757,20 @@
       "sections": [
         52
       ]
+    },
+    "rammetto-one": {
+      "where": "Now Playing",
+      "page": "now-playing.html",
+      "sections": [
+        53
+      ]
+    },
+    "instrument-sans": {
+      "where": "Now Playing",
+      "page": "now-playing.html",
+      "sections": [
+        53
+      ]
     }
   }
 }

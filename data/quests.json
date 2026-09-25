@@ -1635,6 +1635,42 @@
           "A school in our Dress Codes entry banned clothes in it."
         ]
       }
+    },
+    {
+      "id": "now-playing-brush",
+      "page": "now-playing.html",
+      "room": "Now Playing",
+      "title": "Nobody is bigger than anybody",
+      "posted": "There is a poster pasted round a column out on the pavement, saying what every room on the street puts on first. Go and read it, and find out the one thing every other gig poster has that this one will not print.",
+      "rank": 1,
+      "takes": "about as long as it takes to read a bill standing on a pavement",
+      "target": "the paste brush the bill went up with, left on the pavement at the foot of the column",
+      "code": "WHEATPASTE",
+      "learned": "The poster belongs to all of those rooms at once, so every name on it is set the same size and they run in the order you would walk to them. A gig poster that put one of them in big letters at the top would be ranking our own rooms against each other, on a sheet none of them chose.",
+      "hints": [
+        "On the pavement beside the Pebble Board, on a column of its own rather than behind the glass.",
+        "Under the bill, where the poster says how it is printed.",
+        "At the foot of the column, on the pavement, where the paste brush was put down."
+      ],
+      "ask": {
+        "question": "Most gig posters print one act bigger than all the others, at the top. What does this poster have no room for?",
+        "accept": [
+          "headliner",
+          "aheadliner",
+          "noheadliner",
+          "headliners",
+          "topbilling",
+          "atopbilling",
+          "notopbilling"
+        ],
+        "answer": "No headliner",
+        "why": "There is no headliner. Every room's name is the same size, in the order you would reach them walking down the street, because a poster that belongs to every room cannot make one of them the draw.",
+        "hints": [
+          "It is in the line just above the bill.",
+          "It is also in how the poster is printed, in the third rule.",
+          "It is the word for the act a gig poster is built around."
+        ]
+      }
     }
   ],
   "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

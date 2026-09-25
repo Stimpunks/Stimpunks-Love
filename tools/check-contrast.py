@@ -614,6 +614,13 @@ VPL_INK, VPL_INK2, VPL_BEET, VPL_LEAF = "#2A1030", "#5B2F52", "#7E1449", "#1A522
 DD_WALL, DD_PANEL, DD_INK = "#D2C6EC", "#F7F3FD", "#1E1030"
 DD_INK2, DD_LINK = "#47306A", "#7C0F50"
 
+# Now Playing (love.css §53). One sheet screenprinted in two inks and pasted
+# round a column on the pavement. Every word on the sheet is --np-both, which is
+# the multiply of the two inks rather than a colour anybody mixed; the inks
+# alone carry no word. The night around the column carries the backlink, the
+# trail, the marker and the sign-off.
+NP_NIGHT, NP_STOCK, NP_BOTH, NP_COBALT = "#17141E", "#F2ECDF", "#241721", "#2B5BB5"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -2055,6 +2062,23 @@ PAIRS = [
     # spare white-headed pin: white card on the mat, to the body threshold.
     (MM_FACE,  MM_MAT,   False, "map: every tent, sign and tag against the mat, and the job marker, a spare pin"),
 
+    # ── Now Playing (§53) ────────────────────────────────────────────────────
+    (NP_BOTH,   NP_STOCK,  False, "now playing: every word on the sheet -- the h1, the over- and "
+                                  "sub-lines, the lede, every room's name, where it is, our line "
+                                  "about it, what is on first, how the poster is printed, and "
+                                  "every link on the sheet"),
+    (NP_STOCK,  NP_BOTH,   False, "now playing: ON FIRST, reversed out of the solid where both "
+                                  "screens were printed"),
+    (NP_STOCK,  NP_NIGHT,  False, "now playing: the backlink, the trail, the sign-off, the focus "
+                                  "ring off the sheet, and the job marker, a paste brush on the "
+                                  "pavement"),
+    (NP_COBALT, NP_STOCK,  True,  "now playing: the focus ring on the sheet, a non-text 3:1"),
+    # The column on the street, in the street's own pink. Its hover goes DARKER,
+    # to --ink, because the noticeboard's --ink-3 puts that pink at 2.76.
+    (PINK,      INK2,      False, "street: NOW PLAYING on the poster column"),
+    (PINK,      INK,       False, "street: NOW PLAYING on the poster column, under the pointer"),
+    (CHALK,     INK,       False, "street: the poster column's line, under the pointer"),
+
     # ── The Dopamine Dress-Up Den (§52) ──────────────────────────────────────
     # EVERY INK AGAINST EVERY GROUND IT MEETS. A picked hanger turns to the wall
     # colour inside its panel, which is why ink and ink-2 are held on both.
@@ -2199,6 +2223,16 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#d8412f": "now playing: the red screen, 3.78 on the stock. It prints the disc in the "
+               "ornament, the rule over every room on the bill, the underline on a link and "
+               "the slipped edge on the display type, and carries no word: every word is "
+               "printed on both screens, in --np-both at 14.63.",
+    "#2e5647": "now playing: the lit side of the column's painted iron, 2.20 on the night. "
+               "It carries no word, and on the job marker it is the brush's ferrule and the "
+               "kerb line, detail rather than the shape a marker is found by.",
+    "#1e3a31": "now playing: the column's painted iron where it turns away from the windows, "
+               "1.48 on the night. It shows only as the bands either side of the sheet and "
+               "the cap on top, and carries nothing.",
     "#7a4b2e": "dress-up den: the wooden valet stand, 4.53 on the wall and carried by its "
                "--dd-ink outline at 11.12. It carries no word.",
     "#eef6ff": "dress-up den: the crystal hanging in the window, 1.48 on the wall and carried "

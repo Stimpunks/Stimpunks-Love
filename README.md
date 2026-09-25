@@ -105,6 +105,7 @@ vital-plant-living.html  A plant-based kitchen drawn cut through the middle. Bui
 community-center.html A painted block hall, blinds half open. House norms and the front desk for the CB
 dopamine-dress-up-den.html  Helen's idea: a boutique for dopamine dressing. Mix an outfit on a valet stand; nobody's body is drawn
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
+now-playing.html      A poster column beside the Pebble Board. What every room puts on first, read off the rooms
 the-garden.html       The knowledge garden. One bed per site we publish, each linking out
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
 faery-yurt.html       Pitch 01. Helen Edgar's candlelit yurt; her design, not ours
@@ -227,6 +228,7 @@ python3 tools/make-small-hours.py  # the diner's menu, quotations, record, jukeb
 python3 tools/make-repeater.py     # the Repeater's log and quotations; refuses anything that sends, stores or listens
 python3 tools/make-nothing-for-sale.py # the lay-by's tables; refuses a price, charity's categories, and a debt
 python3 tools/make-foundry.py      # The Foundry's bench, its shelves and its proof
+python3 tools/make-now-playing.py  # the bill on the poster column, read off every room's own page; after the rooms, so it reads what they wrote
 python3 tools/make-signoff.py      # the sign-off line on every page, and the pavement's links on the front one
 python3 tools/make-structured.py   # each page's JSON-LD, built from its own head
 python3 tools/make-agent-files.py  # /.well-known/api-catalog and the agent skills index, digest computed

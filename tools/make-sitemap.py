@@ -47,6 +47,10 @@ ORDER = ["index.html",
          # a page nobody can find from the sitemap is unpublished with extra
          # steps. Back issues join this list as they rotate off the board.
          "pebble-board.html",
+         # The poster column beside the board: street furniture too, and a page
+         # of what is on in every other room, so it goes where you would stop to
+         # read it, right after the board it stands beside.
+         "now-playing.html",
          # The gate in the wall, which is also not a door: every bed out there
          # links off this street, so the garden is a page of ours listing sites
          # that are not.

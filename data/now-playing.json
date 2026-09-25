@@ -1,0 +1,108 @@
+{
+ "_what": "Now Playing: one screenprinted bill pasted on the poster column on the pavement, beside the Pebble Board. Every room on this street with something in it to press and play, what is on there, and what that room puts on first. Read by tools/make-now-playing.py. Ryan's brief, 2026-09-25.",
+ "_first": "NOTHING ABOUT WHAT IS ON FIRST IS WRITTEN IN THIS FILE. The tool reads each room's PUBLISHED PAGE and takes the first thing on it you can press -- a press-to-play button, a channel on a set, a headset -- after the point named in `after`, with the title and the runtime exactly as that room prints them. A poster whose top line was typed would be a claim about another room living in this one's copy, which is the shape CLAUDE.md warns about most often, and it would go on naming last month's opener the day the room changed it. So the only things here are OUR words about each room, and the marker in the room's page where its running order starts.",
+ "_what_is_ours": "The `what` line on each venue is ours, written for this poster, and nothing is lifted from the room it describes. It still repeats that room's claims about itself, so each one carries `holds`: words on the room's published page that carry what the line says. The tool reads the page and refuses when they have gone -- make-community.py's rule, for make-community.py's reason.",
+ "_order": "There is no order in this file that the poster uses. The bill runs in the sitemap's walking order, read out of make-sitemap.py, which is the order you would reach the rooms in walking down the street and out past either end. No headliner: every venue's name is set the same size, and the tool refuses the vocabulary of a top billing. A gig poster is exactly the shape of thing that puts one act in big letters, and on this street that would be one room ranked above the others by a poster that belongs to all of them.",
+ "_where": "Where each room is -- on the street, behind another room, in the campgrounds, down the road out of town -- is not written here either. It is read off data/map.json's rooms-behind-rooms and off which page links to the room: the campgrounds' board, the Outskirts' signs, the front page's doors.",
+ "_bill": "EVERY ROOM WITH SOMETHING TO PRESS IS ON THE BILL, and the tool finds them by looking rather than by being told. A page carrying a press-to-play facade, a set with a running order in it, or a headset is a venue; one that is not on this bill and not in `left_off` with a reason stops the build. So a room cannot open with a stage in it and be missing from the poster, which is make-sitemap.py's refusal of an unlisted page, arriving at a listing.",
+ "_nothing_plays": "NOTHING ON THE POSTER PLAYS. It is paper. It says where to go and what is on first when you get there, and every one of those waits for you to press it in its own room. The tool refuses a facade, a frame or an audio element anywhere on the page, because a poster that could play a song is a second jukebox with nobody's room around it.",
+ "venues": [
+  {
+   "page": "pink-pony-club.html",
+   "what": "The dancefloor. A jukebox of songs our own pages already credit, and decks of whole playlists off our own channel to put on and leave running.",
+   "holds": ["Every song we have ever hung on a page lives in here, in one jukebox", "THE DECKS"],
+   "after": "<!-- jukebox:begin -->"
+  },
+  {
+   "page": "the-chappell.html",
+   "what": "A rhinestone chapel of Chappell Roan videos, one to a niche, and the whole playlist put on at the east end.",
+   "holds": ["THE ARCADE", "NICHES"]
+  },
+  {
+   "page": "club-chronic.html",
+   "what": "Freaks to the front. A punk club with every playlist we keep on the stage and a rack of records along the back wall, and nothing in there strobes.",
+   "holds": ["Freaks to the front"]
+  },
+  {
+   "page": "latibulum.html",
+   "what": "A burrow under the hill for burnouts, with a wireless playing ocean waves and a television showing seated tai chi.",
+   "holds": ["Ocean Waves", "Seated Tai Chi"]
+  },
+  {
+   "page": "jungle-room.html",
+   "what": "A viewing room under a canopy, with the nature live cams from our Watering Hole Hangs page. None of it ends, so nothing in there says how long it runs.",
+   "holds": ["Watering Hole Hangs"]
+  },
+  {
+   "page": "the-den.html",
+   "what": "Elvis Presley’s den at Graceland, and the songs cut on its green shag in 1976, in the order they were recorded and with the writers named on every one.",
+   "holds": ["1976"]
+  },
+  {
+   "page": "the-mopery.html",
+   "what": "A cold library with a parlour screen that plays one song a great many ways, most of them on a cello.",
+   "holds": ["Paint It Black", "One song, one screen"],
+   "song": "Paint It Black"
+  },
+  {
+   "page": "rabbit-hole.html",
+   "what": "A shaft you fall down on purpose, with the recordings off our own glossary entry on rabbit holing.",
+   "holds": ["rabbit hol"]
+  },
+  {
+   "page": "laughingstock.html",
+   "what": "A comedy club down a ramp. Disabled comics on their own terms, off our Disabled Comedy playlist, in the order we put them in.",
+   "holds": ["Disabled Comedy", "The whole night"],
+   "then": "<h2 id=\"ls-bill-h\">"
+  },
+  {
+   "page": "lightbulb-picture-house.html",
+   "what": "A picture house where every screening is a relaxed screening: house lights up, captions on, and films about autism, ADHD and neurodiversity, most of them made by the people they are about.",
+   "holds": ["Every screening is a relaxed screening"],
+   "then": "<!-- lph-rack:begin -->"
+  },
+  {
+   "page": "vital-plant-living.html",
+   "what": "A plant-based kitchen where everything in the bowl touches, and the stereo plays songs about food.",
+   "holds": ["On the stereo"],
+   "after": "<h2 id=\"vpl-stereo-h\">"
+  },
+  {
+   "page": "pebble-board.html",
+   "what": "Show-and-tell under glass, right beside this column: the songs and videos our people brought each other at a gathering, one edition at a time.",
+   "holds": ["Songs"]
+  },
+  {
+   "page": "swaying-sweetgrass.html",
+   "what": "A meadow left alone, with a fire pit in the clearing where the story is Robin Wall Kimmerer in her own voice.",
+   "holds": ["The fire pit"],
+   "after": "<!-- sweetgrass-fire:begin -->"
+  },
+  {
+   "page": "solarpunk-hermitage.html",
+   "what": "A cabin on wheels under solar panels, with one television at the campfire and a channel listing of documentaries to have on while you get on with something else.",
+   "holds": ["The campfire", "Channel Listing"]
+  },
+  {
+   "page": "black-leather-lagoon.html",
+   "what": "A drive-in screen standing in black water where it is always Halloween: our Halloween playlist on the screen and The Cramps on posts in the water. Nothing out there flickers.",
+   "holds": ["On the screen", "The Cramps"]
+  },
+  {
+   "page": "looming-rocks.html",
+   "what": "An open-air stage under rock faces glowing with lichen, and whole concerts on it, every one saying how long it runs.",
+   "holds": ["Tuning is not playing"]
+  },
+  {
+   "page": "dance-punks.html",
+   "what": "A silent disco on an old airstrip: one crate of our dance-punk playlist on three headsets, and the volume in your own hand.",
+   "holds": ["Three channels, and they are one crate started in three places"]
+  },
+  {
+   "page": "small-hours.html",
+   "what": "An all-night diner with Josephmooon on the jukebox, and Up All Night, a Stimpunk’s song about Autistic insomnia, on the counter.",
+   "holds": ["Up All Night", "The jukebox"]
+  }
+ ],
+ "left_off": {}
+}

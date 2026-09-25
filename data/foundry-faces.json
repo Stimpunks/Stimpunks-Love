@@ -838,6 +838,29 @@
     }
    ]
   },
+  "instrument-sans": {
+   "family": "Instrument Sans",
+   "category": "Sans Serif",
+   "designer": "Rodrigo Fuenzalida, Jordan Egstad",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/instrumentsans",
+   "copyright": "Copyright 2022 The Instrument Sans Project Authors (https://github.com/Instrument/instrument-sans)",
+   "repository": "https://github.com/Instrument/instrument-sans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "instrument-sans-400.woff2",
+     "sha": "6219bc4bfdfc5d9b"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "instrument-sans-400.woff2",
+     "sha": "6219bc4bfdfc5d9b"
+    }
+   ]
+  },
   "instrument-serif": {
    "family": "Instrument Serif",
    "category": "Serif",
@@ -1413,6 +1436,23 @@
      "style": "normal",
      "file": "radio-canada-400.woff2",
      "sha": "46e0e8f81f3318d0"
+    }
+   ]
+  },
+  "rammetto-one": {
+   "family": "Rammetto One",
+   "category": "Display",
+   "designer": "Vernon Adams",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/rammettoone",
+   "copyright": "Copyright 2011 The Rammetto Project Authors (https://github.com/googlefonts/RammettoFont), with Reserved Font Name Rammetto.",
+   "repository": "https://github.com/googlefonts/RammettoFont",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "rammetto-one-400.woff2",
+     "sha": "7157a901123bf56a"
     }
    ]
   },

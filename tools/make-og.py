@@ -777,6 +777,22 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--community .og-lede {{ font-family: 'Radio Canada', sans-serif; color: var(--ctr-ink);
   max-width: 1060px; font-size: 27px; line-height: 1.4; margin: 6px 0 0 !important; }}
 
+/* now playing — THE SHEET ON ITS DRUM, and the only card on the street printed in
+   two inks with nothing in black. The column's painted iron runs down both sides
+   and off the foot of the card, which is where the pavement is; the header, the
+   over-line and the two screens' ornament are the page's own, lifted rather than
+   typed, so the card cannot bill something the poster does not. The fringe on
+   the title is the page's own misregistration. */
+.og--nowplaying {{ width: 100%; padding: 70px 96px 0; justify-content: flex-start; }}
+.og--nowplaying .np-column {{ margin: 0 !important; max-width: none; flex: 1 1 auto; min-height: 0; padding: 22px 16px 0; }}
+.og--nowplaying .np-column::before {{ top: -30px; height: 36px; }}
+.og--nowplaying .np-sheet {{ height: 100%; margin: 0 !important; padding: 34px 50px 30px; }}
+.og--nowplaying .np-head {{ grid-template-columns: 1fr 330px; gap: 8px 40px; margin: 0 !important; }}
+.og--nowplaying .np-head p {{ margin: 0 !important; font-size: 16px; }}
+.og--nowplaying h1 {{ font-size: 104px; margin: 12px 0 14px !important; }}
+.og--nowplaying .og-lede {{ font-family: 'Instrument Sans', sans-serif; color: var(--np-both);
+  font-size: 27px; line-height: 1.4; max-width: 900px; margin: 22px 0 0 !important; }}
+
 /* the map — A CORNER OF THE MODEL, LIFTED OFF THE PAGE. The mat and its grid
    come from the room's own body rule, and the piece of street on the right is
    the page's own generated lots -- the first few, with the rooms behind them
@@ -2504,6 +2520,40 @@ def card_dressup(p):
     )
 
 
+def card_nowplaying(p):
+    # THE HEADER IS LIFTED WHOLE -- over-line, h1, sub-line and the two screens'
+    # ornament -- and the lede is the page's og:description, so the card cannot
+    # say what the poster does not. It names no room and no song: the bill is
+    # printed off the rooms and changes when they do, and a card is the one
+    # surface nobody would think to reprint.
+    head = re.search(r'(<header class="np-head">.*?</header>)', p["src"], re.S)
+    over = re.search(r'<p class="np-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="np-sub">(.*?)</p>', p["src"], re.S)
+    if not head or not over or not sub:
+        raise SystemExit(
+            "REFUSING: now-playing.html has lost its header, the line over its name\n"
+            "or the line under it, and the card is the header. Redesign the card on\n"
+            "purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--nowplaying" data-fit="card">'
+        f'<div class="np-column"><div class="np-sheet">{head.group(1)}'
+        f'<p class="og-lede">{p["desc"]}</p></div></div>'
+        f'</div>',
+        f"A night-dark card with a dark green painted poster column standing up it, a domed "
+        f"cap on top and its foot running off the bottom, and a pale screenprinted poster "
+        f"pasted round the column, "
+        f"shaded where the column curves away at both edges. In small capitals: "
+        f"{plain(over.group(1))}. Then \u201c{p['h1text']}\u201d in a wide, heavy, round-"
+        f"shouldered face, printed in a dark aubergine with a thin red edge on one side and "
+        f"a thin blue edge on the other, where the two screens have slipped. Then, in small "
+        f"capitals: {plain(sub.group(1))}. Beside the title, a red disc like a record and a "
+        f"blue wave printed over it, and where they cross a third, darker colour. Under it: "
+        f"{p['desc_plain']}",
+    )
+
+
 def card_community(p):
     # THE LETTERBOARD'S THREE LINES ARE LIFTED FROM THE PAGE, the radio is the
     # front desk's own drawing, and the lede is the page's og:description, so
@@ -2725,6 +2775,7 @@ CARDS = {
     "samefood":     card_samefood,
     "vital":        card_vital,
     "community":    card_community,
+    "now-playing":  card_nowplaying,
     "dressup":      card_dressup,
     "collections":  card_collection,
     "mapping":      card_map,
