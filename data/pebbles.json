@@ -1,0 +1,20 @@
+{
+  "_what": "The pebble bowls by the door of each hosted room. tools/make-pebbles.py writes each one into its room between the pebbles markers. Helen Edgar's idea, 2026-09-26, the day she came to the Solarpunk Hermitage to watch a film: \"May be visitors could leave a foot print or the opportunity to leave a penguin pebble when we visit? You can make a basket of pebbles stuff you like for people to take away or leave you?\" Ryan's calls the same day: anybody can see what is left, only people signed on to the CB can leave one, a pebble stays a week, and the Hermitage and the Faery Yurt have one each.",
+  "_basket": "THE BASKET IS THE HOST'S AND ONLY THE HOST FILLS IT. Each item is something the host likes and has put out for anybody to take: a title, where it is, and one line in the host's own words about why. Taking one is following it; nothing records that it was taken and nothing is counted. An empty basket says it is waiting for its host, rather than being filled by somebody guessing what the host likes, which is the Collection Collection's rule about other people's cabinets.",
+  "_left": "WHAT VISITORS LEAVE IS NOT IN THIS FILE. It is kept by the CB, beside the chalkboard, for seven days, and read by pebbles.js; netlify/cb/lib.mjs names the rooms that have a bowl, and this tool refuses a room that list does not name. A pebble left is the footprint: there is no separate 'I was here', because a list of who came by is a visitor log, and the Hermitage says in its own copy that nothing in there will ask you to say hello.",
+  "rooms": {
+    "solarpunk-hermitage": {
+      "page": "solarpunk-hermitage.html",
+      "host": "Ryan",
+      "basket": [],
+      "idea": "It was <a href=\"https://autisticrealms.com/\">Helen Edgar</a>&rsquo;s idea, the day she came here to watch a film"
+    },
+    "faery-yurt": {
+      "page": "faery-yurt.html",
+      "host": "Helen",
+      "basket": [],
+      "wrap": "hearth-card",
+      "idea": "It was Helen&rsquo;s own idea, the day she went to <a href=\"solarpunk-hermitage.html\">the Solarpunk Hermitage</a> to watch a film"
+    }
+  }
+}

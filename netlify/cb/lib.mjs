@@ -45,6 +45,19 @@ export const CHALK_KEEP = 30;                     // notes on the board at once
 export const CHALK_MAX = 200;                     // characters
 export const CHALK_DAYS = 7;
 const CHALK = 'chalk';
+
+/* The pebble bowls: one per hosted room, on the chalkboard's rules. Helen
+   Edgar's idea, 2026-09-26, on a visit to the Solarpunk Hermitage. Anybody
+   reads a bowl, a CB pass leaves a pebble, and a pebble stays a week. The rooms
+   are named HERE and nowhere else on the server side; tools/make-pebbles.py
+   reads this array and refuses a page it does not name, the way make-csp.py
+   reads love-embed.js's origins, so a bowl cannot exist in a page while the
+   server refuses it, or the other way round. */
+export const PEBBLE_ROOMS = ['solarpunk-hermitage', 'faery-yurt'];
+export const PEBBLE_KEEP = 30;                    // pebbles in one bowl at once
+export const PEBBLE_MAX = 200;                    // characters of words
+export const PEBBLE_LINK_MAX = 300;               // characters of an address
+const pebbleKey = (room) => `pebbles-${room}`;
 const WEEK = CHALK_DAYS * 24 * 60 * 60 * 1000;
 
 /* Which day is it, in Colorado. "Cleared daily" has to mean a midnight somebody
@@ -132,43 +145,89 @@ export async function sweep() {
    in it instead of a day. */
 function fresh(n, now = Date.now()) { return n && typeof n.t === 'number' && now - n.t < WEEK; }
 
-export async function readChalk(s = store()) {
-  const data = await s.get(CHALK, { type: 'json' });
+/* A board of notes that each last a week, kept in one blob: the chalkboard,
+   and each room's pebble bowl. Written once, used by both, so the bowl cannot
+   drift from the board's rules about how long a thing stays and how a write
+   that loses a race tries again. */
+async function readNotes(key, s) {
+  const data = await s.get(key, { type: 'json' });
   return ((data && data.notes) || []).filter((n) => fresh(n));
 }
 
-/* updateChannel's conditional write, on the other blob. Stale notes are
+/* updateChannel's conditional write, on the other blobs. Stale notes are
    dropped on the way through every write, and a full board rubs out its
    oldest, the way a real one does when somebody needs the room. */
-export async function updateChalk(change, s = store()) {
+async function updateNotes(key, keep, change, s) {
   for (let attempt = 0; attempt < 12; attempt++) {
-    const cur = await versioned(s, CHALK);
+    const cur = await versioned(s, key);
     const was = (cur.exists && cur.data && cur.data.notes) || [];
     const live = was.filter((n) => fresh(n));
     const next = change(live.slice());
     if (next === null) return live;
-    const body = { notes: next.slice(-CHALK_KEEP) };
+    const body = { notes: next.slice(-keep) };
     const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
-    const res = await s.setJSON(CHALK, body, opts);
+    const res = await s.setJSON(key, body, opts);
     if (res.modified) return body.notes;
     await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
   }
   throw new Error('busy');
 }
 
-/* Hourly, with the channel's sweep: rewrite the board without anything past
-   its week. A board with nothing stale on it is left alone. */
-export async function sweepChalk(s = store()) {
-  const data = await s.get(CHALK, { type: 'json' });
+/* Rewrite a board without anything past its week. A board with nothing stale
+   on it is left alone. */
+async function sweepNotes(key, keep, s) {
+  const data = await s.get(key, { type: 'json' });
   const notes = (data && data.notes) || [];
   if (!notes.some((n) => !fresh(n))) return false;
-  await updateChalk((list) => list, s);
+  await updateNotes(key, keep, (list) => list, s);
   return true;
 }
+
+export function readChalk(s = store()) { return readNotes(CHALK, s); }
+export function updateChalk(change, s = store()) { return updateNotes(CHALK, CHALK_KEEP, change, s); }
+/* Hourly, with the channel's sweep. */
+export function sweepChalk(s = store()) { return sweepNotes(CHALK, CHALK_KEEP, s); }
 
 export function cleanChalk(s) {
   const t = tidy(s);
   return t && [...t].length <= CHALK_MAX ? t : null;
+}
+
+/* ── The pebble bowls ─────────────────────────────────────────────────── */
+
+export function pebbleRoom(room) { return PEBBLE_ROOMS.includes(room) ? room : null; }
+export function readPebbles(room, s = store()) { return readNotes(pebbleKey(room), s); }
+export function updatePebbles(room, change, s = store()) {
+  return updateNotes(pebbleKey(room), PEBBLE_KEEP, change, s);
+}
+export async function sweepPebbles(s = store()) {
+  let any = false;
+  for (const room of PEBBLE_ROOMS) any = (await sweepNotes(pebbleKey(room), PEBBLE_KEEP, s)) || any;
+  return any;
+}
+
+/* A pebble's words, on the chalk's rules. */
+export function cleanPebble(s) {
+  const t = tidy(s);
+  return t && [...t].length <= PEBBLE_MAX ? t : null;
+}
+
+/* A pebble's link, if it has one: an http or https address and nothing else,
+   with no name or password in it, short enough to print whole. It is shown as
+   its own address, so what somebody reads is where it goes. Returns '' for no
+   link and null for one that is refused. */
+export function cleanLink(s) {
+  const t = tidy(s);
+  if (!t) return '';
+  if (t.length > PEBBLE_LINK_MAX) return null;
+  let u;
+  try { u = new URL(t); } catch (e) { return null; }
+  if ((u.protocol !== 'https:' && u.protocol !== 'http:') || u.username || u.password) return null;
+  return u.href;
+}
+
+export function shapePebbles(list) {
+  return list.map((n) => ({ id: n.id, handle: n.handle, text: n.text, link: n.link || '', t: n.t, base: !!n.base }));
 }
 
 export function shapeChalk(notes) {

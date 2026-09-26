@@ -40,7 +40,7 @@ STEPS=(
   # The rooms, each from its own data file.
   make-jukebox make-liner-notes make-chappell make-readings make-polaroids
   make-toys make-chairy make-yells make-soundboard make-yurt-sound
-  make-latibulum make-jungle make-den make-hermitage make-club make-mopery
+  make-pebbles make-latibulum make-jungle make-den make-hermitage make-club make-mopery
   make-sweetgrass make-oracle make-doomscroll make-pebble-board make-guild
   make-arrivals make-garden make-zibaldone make-rabbit-hole make-checkpoint
   make-dead-tired make-laughingstock make-picture-house make-samefood
@@ -56,6 +56,14 @@ STEPS=(
   check-quests check-faces check-print check-gentle check-contrast-live
   check-focus check-weights
 )
+
+# The CB's one invariant, first, because it needs nothing but Node: no write
+# that was told it worked is ever missing. See netlify/cb/lib.test.mjs.
+printf '\n\033[1m== the CB under load\033[0m\n'
+if ! node --test netlify/cb/lib.test.mjs; then
+  printf '\n\033[1mSTOPPED at the CB test.\033[0m A write the CB said worked can go missing.\n'
+  exit 1
+fi
 
 for s in "${STEPS[@]}"; do
   printf '\n\033[1m== %s\033[0m\n' "$s"

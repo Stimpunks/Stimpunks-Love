@@ -654,6 +654,39 @@
     </div>
   </section>
 
+  <!-- The pebble bowl by the door. Written by tools/make-pebbles.py out of
+       data/pebbles.json; what visitors leave is read by pebbles.js from the CB.
+       Helen Edgar's idea, 2026-09-26. Do not hand-edit between the markers. -->
+  <!-- pebbles:begin -->
+  <section class="pebbles" id="pebbles" data-room="solarpunk-hermitage" aria-labelledby="pebbles-h">
+    <h2 id="pebbles-h">Pebbles by the door</h2>
+    <p class="pebbles__intro">Penguins bring each other pebbles, and so do we: a small thing somebody found and thought somebody else would like, given on nobody&rsquo;s clock. There is a basket here of things Ryan has put out for anybody to take, and a bowl for leaving one of your own. It was <a href="https://autisticrealms.com/">Helen Edgar</a>&rsquo;s idea, the day she came here to watch a film; what pebbling is, and whose word it is, is in <a href="https://stimpunks.org/glossary/penguin-pebbling/">our glossary</a> and in <a href="penguin-pebbling.html">the Arcade&rsquo;s pebbling cabinet</a>.</p>
+    <h3 id="pebbles-take-h">The basket: take one</h3>
+    <p class="pebbles__empty">The basket is empty until Ryan fills it.</p>
+    <h3 id="pebbles-leave-h">The bowl: leave one</h3>
+    <p class="pebbles__state" id="pebbles-state">The bowl needs scripts to read it.</p>
+    <ol class="pebbles__left" id="pebbles-left" aria-labelledby="pebbles-leave-h" hidden></ol>
+    <div class="pebbles__write" id="pebbles-write" hidden>
+      <form class="pebbles__form" id="pebbles-form">
+        <p class="pebbles__public" id="pebbles-public"><strong>Anybody who comes to this door can see what is in the bowl</strong>, signed on to the CB or not, for seven days.</p>
+        <label class="pebbles__lab" for="pebbles-text">A pebble, left as <b id="pebbles-as"></b>: what it is, in your words</label>
+        <textarea class="pebbles__text" id="pebbles-text" rows="2" maxlength="200" aria-describedby="pebbles-public"></textarea>
+        <label class="pebbles__lab" for="pebbles-link">Where it is, if it is somewhere else (you can leave this empty)</label>
+        <input class="pebbles__link" id="pebbles-link" type="url" inputmode="url" maxlength="300" autocomplete="off" spellcheck="false">
+        <span class="pebbles__row"><button type="submit" class="pebbles__go">Leave it</button></span>
+        <p class="pebbles__said" id="pebbles-said" role="status"></p>
+      </form>
+    </div>
+    <p class="pebbles__signon" id="pebbles-signon" hidden>Leaving a pebble takes a CB handle and the community password: <a href="community-center.html">sign on at the Community Center</a>, then come back. Taking one takes nothing.</p>
+    <ul class="pebbles__rules">
+      <li><strong>Anybody can see the bowl, and only people signed on to the CB can leave a pebble in it.</strong> A handle is whatever somebody typed, so a name in the bowl is not proof of who left it.</li>
+      <li><strong>A pebble goes seven days after it is left</strong>, and a full bowl lets its oldest go to make room. The base station can lift one out sooner, and so can we if you ask: <a href="privacy.html#the-pebble-bowls">what the bowls keep</a>.</li>
+      <li><strong>A link shows its whole address</strong>, so what you read is where it goes.</li>
+      <li><strong>Nothing here is counted</strong>: not what was taken, not what was left, and not who came to the door. Leaving a pebble is the only footprint there is, and nobody has to leave one.</li>
+    </ul>
+  </section>
+  <!-- pebbles:end -->
+
   <div class="dial" style="margin:36px 0 0;max-width:420px;">
     <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
     <div class="dial__row" role="group" aria-labelledby="dial-label">
@@ -719,6 +752,7 @@
 <script src="love.js" defer></script>
 <script src="love-embed.js" defer></script>
 <script src="hermitage.js" defer></script>
+<script src="pebbles.js" defer></script>
 <script src="quest.js" defer></script>
 </body>
 </html>

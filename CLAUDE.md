@@ -2505,6 +2505,23 @@ Touch either one and run the fifteen-at-once test again against an atomic in-mem
 etag paths. The invariant is **no write told it worked is missing**; with no etag on reads, some of the
 fifteen may be told busy, and that was true of the channel before the board existed.
 
+**THE PEBBLE BOWLS ARE THE CHALKBOARD'S RULES IN A ROOM, AND THE ROOMS ARE NAMED ONCE.** Helen
+Edgar's idea, 2026-09-26, on a visit to the Hermitage: somewhere by the door to leave a penguin
+pebble, and a basket of the host's own things to take. Ryan's calls: anybody sees what is in a
+bowl, only a CB pass leaves one, a pebble stays a week, and the Hermitage and the Faery Yurt have
+one each. **`PEBBLE_ROOMS` in `netlify/cb/lib.mjs` is the list**, and `make-pebbles.py` reads it and
+refuses a page it does not name, so a bowl cannot be on a page the server refuses. The bowl is
+**§4 layout with no colour**, like the job marker, and each room dresses it in its own section.
+**The basket is filled by its host and nobody else**: an empty one says it is waiting, rather than
+being filled by somebody guessing what the host likes. **Leaving a pebble is the only footprint**:
+there is no "I was here", because a list of who came by is a visitor log and the Hermitage says in
+its own copy that nothing in there will ask you to say hello. Nothing is counted, and a pebble is
+given rather than traded, which is the pebbling cabinet's line. The board store is shared with the
+chalkboard now (`readNotes`, `updateNotes`, `sweepNotes`), and **`netlify/cb/lib.test.mjs` is the
+fifteen-at-once test, committed at last**, run first by `tools/check-all.sh`; it was broken on
+purpose and caught a lost write in all four cases. In the Faery Yurt the bowl is the third thing this
+repository has put into Helen's room, and the first she asked for.
+
 **THE COMMUNITY CENTER IS LIT BY SUN THROUGH A VENETIAN BLIND, AND IT IS THE ONLY COOL PALE GROUND.**
 §51: painted powder-blue block at ten in the morning, the light chopped into hard diagonal bars,
 stacking chairs, a letterboard over the door, the front desk. **Covenstead is the collision**: the other

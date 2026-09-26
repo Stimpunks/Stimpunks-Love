@@ -131,6 +131,8 @@ cb.js                 The CB's radio and the front desk. Loaded only once signed
 chalk.js              Plural Mural's chalkboard, which is the CB's too: anybody reads it, a CB pass writes on it
 cb.css                The radio's own sheet, inside its shadow root. No room can reach it
 cb-rooms.json         The rooms the CB knows by #tag, in walking order. Written by make-sitemap.py
+pebbles.js            The pebble bowl by a hosted room's door: reads what was left, leaves one with a CB pass
+data/pebbles.json     Each hosted room's basket of things to take, filled by its host and nobody else
 netlify/functions/    The CB's functions: sign on, listen, transmit, moderate, the hourly sweep, and the
                       chalkboard's read, write and rub-out
 netlify/cb/lib.mjs    What they share, and every promise the privacy page makes about the channel and the board
@@ -238,6 +240,7 @@ python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, 
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
 python3 tools/make-coworking.py    # Cavendish Coworking's doors, from our events page's own words; refuses a line the page has dropped, a door with no password, or a frame
 python3 tools/make-live-room.py     # The Live Room's desk, a channel strip per session, and the credits; refuses a set played outside, or a studio with nothing on it
+python3 tools/make-pebbles.py      # the pebble bowl by the Hermitage's and the Yurt's doors; refuses a room the server has no bowl for, a count, or a trade
 python3 tools/make-broadside.py    # The Broadsheet Broadside's sheets, both sides; refuses a third side, a long claim line, a shared ink pair, a link that is not its address, or an order to the reader
 python3 tools/make-covenstead.py   # Covenstead's tenets and quotations; refuses a tenet written as an order, a contested one that does not say why, or membership
 python3 tools/make-lagoon.py       # Black Leather Lagoon's rack and credits; refuses a ranked rack, a note shaped like verse, or a song with no year

@@ -2293,6 +2293,31 @@ div.facade--audio { border: 0; background: none; }
 .quest__yes { font-weight: 700; }
 
 
+/* THE PEBBLE BOWL BY THE DOOR (tools/make-pebbles.py, pebbles.js). Helen
+   Edgar's idea, 2026-09-26: a basket of the host's things to take, and a bowl
+   to leave a pebble in. It stands in more than one room, so its names are
+   global and live here with the job marker, and it is LAYOUT AND NOTHING ELSE:
+   no colour, no face, no ground, no border. Every room it stands in dresses it
+   in that room's own inks, in that room's section -- a bowl that brought its
+   own colours would be the one piece of shared paint in two worlds that share
+   nothing, and a pair nobody measured in both. */
+.pebbles__basket, .pebbles__left { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 10px; }
+.pebbles__stone, .pebbles__pebble { padding: 12px 18px; }
+.pebbles__stone p, .pebbles__pebble p { margin: 4px 0 0; }
+.pebbles__pebble .pebbles__who { margin: 0; }
+.pebbles__where { overflow-wrap: anywhere; }
+.pebbles__form { display: grid; gap: 6px; margin: 12px 0 0; }
+.pebbles__public { margin: 0 0 6px; }
+.pebbles__text, .pebbles__link {
+  width: 100%; box-sizing: border-box; min-height: 44px; padding: 8px 10px; font: inherit;
+}
+.pebbles__row { display: flex; margin: 4px 0 0; }
+.pebbles__go, .pebbles__lift { min-height: 44px; padding: 8px 18px; font: inherit; cursor: pointer; }
+.pebbles__lift { margin: 8px 0 0; }
+.pebbles__said:empty { display: none; }
+.pebbles__rules { margin: 18px 0 0; padding-left: 1.2em; }
+.pebbles__rules li + li { margin-top: 6px; }
+
 /* §5 ── THE STREET (index) ───────────────────────────────────────────────────
    Night asphalt, shopfronts, bunting. The only page that has to hold every one
    of those worlds side by side without letting any of them win. */
@@ -4059,6 +4084,32 @@ html[data-intensity="gentle"] .nook .egg__mark { opacity: 1; }
 .room-yurt .colophon { margin: 40px 0 0; text-align: center; font-size: 16px; color: var(--tallow-3); }
 
 
+/* THE PEBBLE BOWL IN THE YURT, in Helen's own declared colours and her card,
+   and nothing of anybody else's. The bowl was put here on 2026-09-26 at her
+   own suggestion, and how it looks in her room is hers: this is a first
+   dressing in her palette, for her to change. The pebbles are the canvas of
+   her nook's tiles, rounded like stones; the words are her tallows. */
+.room-yurt .pebbles h3 { font-size: 23px; font-style: italic; margin: 22px 0 0; }
+.room-yurt .pebbles__intro, .room-yurt .pebbles__public, .room-yurt .pebbles__rules li { color: var(--tallow-2); }
+.room-yurt .pebbles__empty, .room-yurt .pebbles__state { color: var(--tallow-2); font-style: italic; }
+.room-yurt .pebbles__stone, .room-yurt .pebbles__pebble {
+  background: var(--canvas); border: 1px solid rgba(233,200,116,.28);
+  border-radius: 20px 26px 22px 28px / 24px 20px 28px 22px;
+}
+.room-yurt .pebbles__who, .room-yurt .pebbles__stone p { color: var(--tallow-2); font-size: 16px; }
+.room-yurt .pebbles__what { color: var(--tallow); }
+.room-yurt .pebbles__lab { color: var(--tallow); }
+.room-yurt .pebbles__text, .room-yurt .pebbles__link {
+  background: var(--hearth); color: var(--tallow);
+  border: 1px solid var(--tallow-3); border-radius: 6px;
+}
+.room-yurt .pebbles__go, .room-yurt .pebbles__lift {
+  background: var(--ember-2); color: var(--hearth); border: 1px solid var(--ember-2);
+  border-radius: 6px; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 18px;
+}
+.room-yurt .pebbles__go:hover, .room-yurt .pebbles__lift:hover { background: var(--candle); border-color: var(--candle); }
+.room-yurt .pebbles__said { color: var(--tallow); }
+
 /* §15 ── ROOM: The Arcade ────────────────────────────────────────────────────
    The only room on this street with a game in it. Coin-op at
    midnight: a grape carpet, a cabinet built out of hard blocks, and a screen
@@ -5484,6 +5535,31 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
   line-height: 1.22; margin: 0; }
 .kin p { margin: 0; font-size: 14.5px; }
 .kin__why { color: var(--furrow-2); font-size: 13.5px !important; }
+
+/* THE PEBBLE BOWL BY THE HERMITAGE DOOR. Daylight on the lime plaster, so the
+   pebbles are pale stones with a dark edge, rounded unevenly the way a stone
+   is, and the words are the room's own green-black. The step outside the door
+   is where a visitor leaves one; nothing about it glows. */
+.hermitage .pebbles { margin: 40px 0 0; max-width: 62ch; }
+.hermitage .pebbles h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 21px; color: var(--furrow); margin: 22px 0 0; }
+.hermitage .pebbles__stone, .hermitage .pebbles__pebble {
+  background: var(--noon-2); border: 2px solid var(--furrow-2);
+  border-radius: 22px 30px 24px 32px / 28px 22px 32px 24px;
+}
+.hermitage .pebbles__stone a { font-weight: 600; }
+.hermitage .pebbles__who { font-size: 14.5px; }
+.hermitage .pebbles__what { color: var(--furrow); }
+.hermitage .pebbles__empty, .hermitage .pebbles__state { font-style: italic; }
+.hermitage .pebbles__lab { font-weight: 600; color: var(--furrow); }
+.hermitage .pebbles__text, .hermitage .pebbles__link {
+  background: var(--noon); color: var(--furrow);
+  border: 2px solid var(--furrow-2); border-radius: 10px;
+}
+.hermitage .pebbles__go, .hermitage .pebbles__lift {
+  background: var(--sprout-2); color: var(--noon); border: 2px solid var(--sprout-2);
+  border-radius: 999px; font-weight: 700;
+}
+.hermitage .pebbles__go:hover, .hermitage .pebbles__lift:hover { background: var(--furrow); border-color: var(--furrow); }
 
 /* §20 ── ROOM: Club Chronic ──────────────────────────────────────────────────
    A BLACK WALL WITH PAPER STUCK TO IT. Every other room on this street is a
