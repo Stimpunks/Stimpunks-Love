@@ -70,7 +70,7 @@ fi
 rows="$(python3 - <<'PY'
 import json
 d = json.load(open("data/doom-scoop.json"))
-live = [s for s in d["scoops"] if s["state"] in ("screen", "door")]
+live = [s for s in d["scoops"] if s["state"] in ("screen", "door") and s["edition"] <= d["newest"]]
 print(f"{len(live)} scoops on the page, newest morning {d['newest']}, filled {d['set']}")
 PY
 )"
