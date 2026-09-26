@@ -6,7 +6,19 @@
     "solarpunk-hermitage": {
       "page": "solarpunk-hermitage.html",
       "host": "Ryan",
-      "basket": [],
+      "basket": [
+        {
+          "title": "The grass in my front yard",
+          "href": "swaying-sweetgrass.html#swg-grass",
+          "why": "Ten seconds of bunchgrass gone to seed, backlit on a January afternoon. It plays in Swaying Sweetgrass when you press it. Not sweetgrass, and nobody here has named it."
+        },
+        {
+          "title": "TOMORA, &ldquo;I Drink the Light&rdquo;, on <i>Later&hellip; with Jools Holland</i>",
+          "href": "https://www.youtube.com/watch?v=6kyFT-lx2t0",
+          "why": "AURORA channeling joy. TOMORA is Tom Rowlands of The Chemical Brothers and AURORA, playing live in 2026. On YouTube, via BBC Music, 4:48.",
+          "_checked": "Resolved against YouTube on 2026-09-26: status OK, 4:48, on BBC Music's channel; the performers read off the video's own description. The link's si= share parameter was dropped."
+        }
+      ],
       "idea": "It was <a href=\"https://autisticrealms.com/\">Helen Edgar</a>&rsquo;s idea, the day she came here to watch a film"
     },
     "faery-yurt": {
