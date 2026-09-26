@@ -14,10 +14,11 @@
        other time. Folded down, or in a tab nobody is looking at, it sends
        nothing at all. That is the whole of "if the CB is closed you get
        nothing", and it is also what keeps this cheap.
-     · NO ALERTS. No sound, no notification, no badge, no unread count, nothing
+     · NO ALERTS. No chime, no notification, no badge, no unread count, nothing
        in the page title, and nothing is saved up for when you come back. The
-       one channel it does use is the screen reader's, and only while the radio
-       is open, and there is a switch for that on the radio.
+       channels it does use are the screen reader's and, if you switch it on,
+       a voice reading the words out, and both only while the radio is open,
+       each with its own switch on the radio. See setSpeak.
      · NOTHING IS COUNTED. No number of people on the channel, no number of
        messages. The pebbling cabinet's refusal of a tally, on the one object on
        this street that has other people on the other end of it.
@@ -344,6 +345,10 @@
     var aloud = this.aloudBtn = el('button', 'cb-btn cb-aloud');
     aloud.type = 'button';
     tools.appendChild(aloud);
+    var speak = this.speakBtn = el('button', 'cb-btn cb-speak');
+    speak.type = 'button';
+    speak.hidden = !VOICE;
+    tools.appendChild(speak);
     if (state.base) {
       var clear = el('button', 'cb-btn cb-clear', 'Clear the channel');
       clear.type = 'button';
@@ -370,6 +375,7 @@
     find.addEventListener('input', function () { me.tpRender(); });
     find.addEventListener('keydown', function (e) { me.tpKey(e); });
     aloud.addEventListener('click', function () { me.setAloud(!me.aloud()); });
+    speak.addEventListener('click', function () { me.setSpeak(!me.state.speak); });
     form.addEventListener('submit', function (e) { e.preventDefault(); me.transmit(); });
     say.addEventListener('input', function () { me.complete(); });
     say.addEventListener('click', function () { me.complete(); });
@@ -406,6 +412,7 @@
     root.appendChild(box);
     document.body.appendChild(host);
     this.setAloud(this.aloud(), true);
+    this.setSpeak(!!this.state.speak, true);
     this.setSmall(!!state.small, true);
     this.setFolded(!!state.folded, true);
     this.place();
@@ -417,8 +424,77 @@
     this.state.aloud = on;
     this.log.setAttribute('aria-live', on ? 'polite' : 'off');
     this.aloudBtn.setAttribute('aria-pressed', String(on));
-    this.aloudBtn.textContent = on ? 'Read new messages aloud: on' : 'Read new messages aloud: off';
+    this.aloudBtn.textContent = on ? 'New messages to a screen reader: on' : 'New messages to a screen reader: off';
     if (!quiet) save(this.state);
+  };
+
+  /* SPEAK IS FOR THOSE OF US NOT USING A SCREEN READER. Ryan, 2026-09-26:
+     the radio's "Read new messages aloud" switch only ever reached a screen
+     reader, and is labelled for that now, and a voice
+     coming out of the radio is what makes it a CB. So the browser's own speech
+     reads out each new message -- the handle, then the words -- as it arrives.
+
+       · OFF UNTIL SOMEBODY SWITCHES IT ON. A voice nobody asked for is an
+         alert, and this radio has none. It is a second switch rather than the
+         first one changed, because a screen reader user with both on would
+         hear everything twice, and one with only this on has chosen that.
+       · ONLY WHAT ARRIVES AFTER THE SWITCH, and never your own transmission.
+         The ten already on the channel when you tune in are not read at you.
+       · ONLY WHILE THE RADIO IS ON. Folding it away, signing off, or turning
+         the switch off stops a voice mid-word, because folded is off. Small is
+         still on, so small still speaks.
+       · ONLY ON-DEVICE VOICES. Some browsers offer voices that are a speech
+         service somewhere else -- Chrome's "Google" voices send the text to
+         Google to be spoken -- and reading somebody's message through one
+         would hand a stranger's words to a third party nobody on the channel
+         agreed to. SpeechSynthesisVoice.localService says which is which; a
+         device with no local voice gets told so rather than a remote one.
+       · A #ROOM IS READ AS ITS NAME, the way the screen reader hears it, with
+         the drawn # left out, rather than as "hash the dash den". */
+  var VOICE = typeof window.speechSynthesis !== 'undefined' && typeof window.SpeechSynthesisUtterance === 'function';
+  // Chrome lists its voices a moment after it is first asked; asking now means
+  // they are there by the time a message arrives.
+  if (VOICE) window.speechSynthesis.getVoices();
+
+  function localVoice() {
+    var all = VOICE ? window.speechSynthesis.getVoices() : [];
+    var lang = (document.documentElement.lang || 'en').toLowerCase().split('-')[0];
+    var mine = null, any = null;
+    for (var i = 0; i < all.length; i++) {
+      if (!all[i].localService) continue;
+      any = any || all[i];
+      if (all[i].lang && all[i].lang.toLowerCase().split('-')[0] === lang) {
+        if (!mine || all[i]['default']) mine = all[i];
+      }
+    }
+    return mine || any;
+  }
+
+  Radio.prototype.setSpeak = function (on, quiet) {
+    if (!VOICE) on = false;
+    this.state.speak = on;
+    this.speakBtn.setAttribute('aria-pressed', String(on));
+    this.speakBtn.textContent = on ? 'Speak new messages aloud: on' : 'Speak new messages aloud: off';
+    if (!on) this.hush();
+    else if (!quiet && window.speechSynthesis.getVoices().length && !localVoice()) this.tell('This device has no voice of its own to read with, so nothing will be spoken.');
+    if (!quiet) save(this.state);
+  };
+
+  Radio.prototype.hush = function () {
+    if (VOICE) window.speechSynthesis.cancel();
+  };
+
+  Radio.prototype.speak = function (li) {
+    if (!this.state.speak || this.state.folded) return;
+    var voice = localVoice();
+    if (!voice) return;
+    var words = li.querySelector('.cb-text').cloneNode(true);
+    var drawn = words.querySelectorAll('[aria-hidden="true"]');
+    for (var i = 0; i < drawn.length; i++) drawn[i].remove();
+    var u = new SpeechSynthesisUtterance(li.querySelector('.cb-handle').textContent + '. ' + words.textContent);
+    u.voice = voice;
+    u.lang = voice.lang;
+    window.speechSynthesis.speak(u);
   };
 
   /* SMALL IS STILL ON, AND THAT IS THE WHOLE DIFFERENCE FROM FOLDED. Ryan,
@@ -452,6 +528,7 @@
     if (folded && !this.tpPanel.hidden) this.setTeleport(false);
     this.foldBtn.setAttribute('aria-expanded', String(!folded));
     this.foldBtn.textContent = folded ? 'Switch on' : 'Fold away';
+    if (folded) this.hush();
     if (!quiet) save(this.state);
     this.place();
     this.tune();
@@ -461,6 +538,9 @@
      decides whether the radio is making requests. */
   Radio.prototype.tune = function () {
     var on = !this.state.folded && document.visibilityState === 'visible';
+    // Whatever was said while it was off is on the screen when it comes back,
+    // and is not read out: nothing is saved up for when you come back.
+    if (!on) this.heard = false;
     clearTimeout(this.timer);
     this.timer = null;
     if (on) this.listen();
@@ -493,6 +573,9 @@
     var me = this, want = {}, i, added = 0;
     var log = this.log;
     var atEnd = log.hidden || log.scrollHeight - log.scrollTop - log.clientHeight < 24;
+    // The first hearing is what was already said; only what comes after is news.
+    var news = this.heard;
+    this.heard = true;
     for (i = 0; i < messages.length; i++) want[messages[i].id] = true;
     // Gone from the channel: pushed off by an eleventh, taken off by the base,
     // or midnight.
@@ -525,6 +608,7 @@
         li.appendChild(off);
       }
       this.log.appendChild(li);
+      if (news && !(mine && m.handle === this.state.handle)) this.speak(li);
     }
     this.quiet.textContent = 'Nobody has said anything today.';
     this.quiet.hidden = messages.length > 0;
@@ -755,6 +839,7 @@
   Radio.prototype.lost = function () {
     forget();
     clearTimeout(this.timer);
+    this.hush();
     this.set.hidden = false;
     this.set.textContent = '';
     var p = el('p', 'cb-who');
@@ -844,7 +929,7 @@
 
   function signOff() {
     forget();
-    if (radio) { clearTimeout(radio.timer); radio.host.remove(); radio = null; }
+    if (radio) { clearTimeout(radio.timer); radio.hush(); radio.host.remove(); radio = null; }
     counter();
   }
 
