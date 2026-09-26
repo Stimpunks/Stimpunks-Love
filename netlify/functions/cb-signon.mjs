@@ -8,7 +8,7 @@ export default async (req) => {
   const handle = cleanHandle(b && b.handle);
   if (!handle) return json(400, { error: 'A handle is between one and 24 characters.' });
   const role = roleFor(b && b.password);
-  if (!role) return json(401, { error: 'That is not the password this week.' });
+  if (!role) return json(401, { error: 'That is not the community password.' });
   return json(200, { pass: issuePass(role, handle), handle, base: role === 'base' });
 };
 
