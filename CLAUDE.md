@@ -3,6 +3,61 @@
 Guidance for Claude Code working in this repository. `README.md` covers what the site is and
 how to run the tools; this file covers the things a session gets wrong.
 
+## Who is working here
+
+**Two people commit to this street: Ryan Boren and Helen Edgar** (GitHub: `ryanboren` and
+`AutisticRealms`), from 2026-09-26. Each works through their own Claude. **Find out who is at the
+keyboard before anything else**: the session's git user says so, and `git config user.name` does
+too. If neither settles it, ask.
+
+**Helen can change anything here. This is her world to change too.** That was Ryan's call on
+2026-09-26, and it goes further than the Faery Yurt. This file is written mostly from Ryan's side,
+so read it with that in mind:
+
+  · **"Ask Helen", "Helen's call" and "Helen has the final say"** are about decisions that belong
+    to her. When Helen is at the keyboard, asking her *is* asking Helen. Her own room is hers to
+    redesign, and nothing written about the yurt below binds her.
+  · **"Ryan's call"** records a decision already made and why. Helen may change one. When a change
+    reverses something this file or `DECISIONS.md` records, say so before doing it, and say so in
+    the commit and the changelog, so the other person meets the change written down rather than in
+    a diff. Do not refuse.
+  · **The rules the tools enforce hold for both of them**: attribution, contrast, the dial, consent
+    for every photograph and voice, nothing counted. A tool that refuses is not waiting for
+    permission from the other person. Fix the cause, whoever you are working for.
+
+**Both of them work straight on `main`, one at a time.** They agree between themselves, outside
+this repository, whose turn it is. Pull requests may come later, once both of them have learned
+them. A push to `main` deploys to stimpunks.world within a minute or two, and nothing reviews it
+first. So:
+
+  1. **`git pull` before touching anything**, even when you think nobody else has pushed. Ryan's
+     laptop runs a scheduled task that commits and pushes the Feed's boards every morning
+     (`tools/daily-arrivals.sh`).
+  2. **Run `tools/check-all.sh` before every commit.** It runs every generator and every checker
+     in the one order that works and stops at the first refusal. On a clean tree it changes
+     nothing. If files change, they are generated files catching up with a source: commit them
+     with the change that caused them.
+  3. **Commit and push when you stop.** Work left uncommitted blocks the other person's turn, and
+     it blocks the morning's arrivals task, which refuses to run over anybody's edits.
+  4. **Never hand-merge a generated file.** If a pull conflicts in `feed.xml`, `sitemap.xml`,
+     `llms.txt`, `cb-rooms.json`, a share card in `og/`, or anything between `:begin` and `:end`
+     markers, take either side, finish the merge in the sources, and run `tools/check-all.sh` to
+     regenerate them.
+  5. **A new changelog entry goes at the top, with its own id**, even when the other person already
+     wrote one that day. A feed reader never shows an edited entry again.
+
+**What a machine needs**: Python 3 and Google Chrome for everything (the render checks, the print
+check, the icons and the share cards all drive Chrome headless), and Node for the preview server in
+`.claude/launch.json`. Only for particular jobs: `cwebp` and `ffmpeg` when a new JPEG arrives
+(`make-webp.py`), `ffprobe` when a recording does, and Pillow for `intake-collection.py`. The Stimpunks Knowledge System mirror that this file keeps
+mentioning is on Ryan's machine only. On any other machine, check a glossary slug or a stimpunks.org
+page on the live site, and remember that a redirect there counts as a failure. The one tool that
+reads the mirror, `make-coworking.py`, says the mirror is missing and carries on.
+
+**Helen's contributions are under the site's licence, CC BY-SA 4.0.** She accepted that on
+2026-09-26, and `LICENSE` says so. The exclusions still apply to what she brings: photographs,
+recordings of voices, and borrowed names.
+
 ## The rule that matters most: do not tidy this site
 
 **There is no single design system here and there must not become one.** Every room on this

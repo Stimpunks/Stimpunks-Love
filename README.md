@@ -239,6 +239,10 @@ python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a
 python3 tools/make-coworking.py    # Cavendish Coworking's doors, from our events page's own words; refuses a line the page has dropped, a door with no password, or a frame
 python3 tools/make-live-room.py     # The Live Room's desk, a channel strip per session, and the credits; refuses a set played outside, or a studio with nothing on it
 python3 tools/make-broadside.py    # The Broadsheet Broadside's sheets, both sides; refuses a third side, a long claim line, a shared ink pair, a link that is not its address, or an order to the reader
+python3 tools/make-covenstead.py   # Covenstead's tenets and quotations; refuses a tenet written as an order, a contested one that does not say why, or membership
+python3 tools/make-lagoon.py       # Black Leather Lagoon's rack and credits; refuses a ranked rack, a note shaped like verse, or a song with no year
+python3 tools/make-looming.py      # Looming Rocks' stage and running order; refuses an act not played outdoors, a named lichen, or a ranked bill
+python3 tools/make-sithen.py       # Sithen's rules and their sources; refuses advice, or anything drawn from the two novel series
 python3 tools/make-library.py      # the library's, L-space's and Oook's quotations, the front desk and the threads; refuses a long passage, a lyric, or the graphic novel
 python3 tools/make-dance-punks.py  # the disco's channels and credits; refuses a runtime, shuffle, or two inks alike in greyscale
 python3 tools/make-small-hours.py  # the diner's menu, quotations, record, jukebox and placemat; refuses a lyric with no permission, or a placemat that keeps anything
@@ -264,6 +268,7 @@ python3 tools/check-ids.py         # refuses a repeated id, and one no page actu
 python3 tools/check-classes.py     # refuses a class two rooms claim, or a page wears wrongly
 python3 tools/check-quests.py      # refuses a code a room and the board disagree about
 python3 tools/check-faces.py       # refuses a typeface either room about type has lost
+python3 tools/check-weights.py     # refuses a weight on the Foundry's bench that renders the same as another, or one love.css does not declare
 ```
 
 `make-mopery.py` refuses a book with no way to borrow it, a cut that does not name Jagger and
@@ -311,7 +316,10 @@ that copy is the source of truth: edit it, then `tools/install-scheduled-task.sh
 (no flag reports drift and writes nothing). Its commit subject, `daily arrivals board reset`, is
 load-bearing — the Knowledge System's `update-logs` skips it by that exact string.
 
-Run them all before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
+**`tools/check-all.sh` runs every one of them, in the order that works, and stops at the first
+refusal**; it is the command to run before every commit, and on a clean tree it changes nothing.
+The list above is for reading, and it was five tools behind the directory when the script was
+written, which is why the script is the list. Run them all before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
 is missing a canonical or if an HTML file exists that is not in its page order, `make-csp.py`
 stops if the inline snippet has drifted between pages — because a stale hash does not warn, it
 silently breaks the dial for everyone — `make-feed.py` stops if a changelog entry has no stable

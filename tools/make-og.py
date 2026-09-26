@@ -88,6 +88,14 @@ def find_browser():
 CARD_CSS = f"""
 html, body {{ width: {W}px; height: {H}px; margin: 0; padding: 0; overflow: hidden; }}
 body {{ display: flex; flex-direction: column; min-height: 0; position: relative; }}
+/* A CARD IS A STILL, AND IT MUST COME OUT THE SAME EVERY TIME. Cards are shot at
+   Regular, where Swaying Sweetgrass's grass leans on a nine-second loop, so every
+   run caught the blades somewhere else in the lean and rewrote that PNG with
+   nothing changed -- a generated file that is never clean, which is noise in
+   every diff and, with two people committing, a file they would trade back and
+   forth forever. Found 2026-09-26 by running tools/check-all.sh on a clean tree.
+   Animations are off in the picture; the room still moves on the page. */
+*, *::before, *::after {{ animation: none !important; transition: none !important; }}
 .og {{
   flex: 1 1 auto; min-height: 0; position: relative; z-index: 1;
   display: flex; flex-direction: column; justify-content: center;

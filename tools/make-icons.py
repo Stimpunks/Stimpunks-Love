@@ -84,12 +84,22 @@ def render(chrome, tmp, size, fill, bleed, out):
         f"img{{display:block;width:{edge}px;height:{edge}px;"
         f"margin:{(size - edge) // 2}px auto 0}}"
         f"</style></head><body><img src=\"{SVG.as_uri()}\"></body></html>")
-    subprocess.run(
-        [chrome, "--headless=new", "--disable-gpu", "--no-sandbox", "--hide-scrollbars",
-         "--force-device-scale-factor=1", "--force-color-profile=srgb",
-         "--default-background-color=00000000", f"--window-size={size},{size}",
-         "--allow-file-access-from-files", f"--screenshot={out}", page.as_uri()],
-        check=True, capture_output=True, timeout=120)
+    cmd = [chrome, "--headless=new", "--disable-gpu", "--no-sandbox", "--hide-scrollbars",
+           "--force-device-scale-factor=1", "--force-color-profile=srgb",
+           "--default-background-color=00000000", f"--window-size={size},{size}",
+           "--allow-file-access-from-files", f"--screenshot={out}", page.as_uri()]
+    # ONE RETRY, AND ONLY FOR A HANG. Headless Chrome now and then never returns
+    # from a tiny screenshot: the first run of tools/check-all.sh, 2026-09-26,
+    # stopped for two minutes on the 16px icon, and the same command alone took
+    # eight seconds. A second hang is a real problem and still stops the run.
+    for attempt in (1, 2):
+        try:
+            subprocess.run(cmd, check=True, capture_output=True, timeout=60)
+            break
+        except subprocess.TimeoutExpired:
+            if attempt == 2:
+                raise SystemExit(f"REFUSING: Chrome hung twice rendering {out.name}.")
+            print(f"  (Chrome hung on {out.name}; trying once more)")
     got = imgsize.size(out)
     if got != (size, size):
         raise SystemExit(f"REFUSING: {out.name} came out {got[0]}x{got[1]}, not {size}x{size}.")
