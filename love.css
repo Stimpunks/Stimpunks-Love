@@ -786,6 +786,29 @@
 @font-face { font-family: 'B612'; src: url('fonts/b612-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Just Another Hand'; src: url('fonts/just-another-hand-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 
+/* The Broadsheet Broadside (§60). A SHIP'S NAME IN A DIDONE, AND A SHEET IN
+   THE FACE A HAND-OUT IS READ IN. Bodoni Moda, by Owen Earl, is the name
+   painted along the hull and the room's own headings, and NOTHING ON THE
+   SHEET: the Stimpunks broadside method sets no display serif on paper, because
+   a high-contrast serif loses its hairlines in the first photocopy, which is
+   most of a broadside's life. Atkinson Hyperlegible Next carries every word on
+   both sides of every sheet and the room's prose, and Atkinson Hyperlegible
+   Mono the small capitals on the sheet; it is the face the Stimpunks
+   broadsides on stimpunks.org and whysheet.press are set in, drawn for
+   letterform distinction at the small sizes a hand-out does its work at. It
+   is NOT the Pebble Board's Atkinson Hyperlegible, which is a separate, older
+   family with its own record. Both Atkinsons ship variable: one roman file
+   declared against every weight the sheet sets, one italic, one mono file
+   declared twice. All three read off their own records; see
+   fonts/_sources.json. */
+@font-face { font-family: 'Bodoni Moda'; src: url('fonts/bodoni-moda-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('fonts/atkinson-hyperlegible-next-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('fonts/atkinson-hyperlegible-next-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('fonts/atkinson-hyperlegible-next-400.woff2') format('woff2'); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('fonts/atkinson-hyperlegible-next-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Atkinson Hyperlegible Mono'; src: url('fonts/atkinson-hyperlegible-mono-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Atkinson Hyperlegible Mono'; src: url('fonts/atkinson-hyperlegible-mono-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1941,6 +1964,24 @@
   --lvr-tape:  #EEE2C0;   --lvr-marker: #1C1B22;  --lvr-glass: #D6E4EC;
   --lvr-panel: #B9CAD4;   --lvr-live:  #6E8292;   --lvr-well:  #10161F;
   --lvr-lamp:  #E5483C;   --lvr-meter: #62D38E;
+
+  /* The Broadsheet Broadside (§60). THE SIDE OF A SHIP IN THE NELSON CHEQUER,
+     SEEN FROM A BOAT AT THE WATERLINE, AND ONE WHITE SHEET. --bb-hull is the
+     tarred side, the ground for every word of ours: --bb-bone for the words,
+     --bb-dim for what is quieter, --bb-ochre for the name, every heading and
+     every link, which is the yellow band of the chequer. --bb-lid is the red
+     inside of an open gunport lid, --bb-sea the water, --bb-glint the sun
+     thrown back off it and --bb-haze the sky; none of the four carries a word.
+     THE SHEET IS INK ON WHITE, the Stimpunks broadside method: --bb-paper,
+     --bb-ink (Solarized base03, the house's ink on paper), --bb-ink-2 for
+     secondary prose, --bb-ink-3 for small print, --bb-rule for hairlines.
+     Every sheet brings its own pair of spot inks out of data/broadside.json,
+     inline, and check-contrast.py reads them from there. */
+  --bb-hull:   #16171B;   --bb-bone:   #EEE8DA;   --bb-dim:    #BFB8A8;
+  --bb-ochre:  #DDAA45;   --bb-lid:    #A8322A;   --bb-sea:    #2E4A4F;
+  --bb-glint:  #DCE6E0;   --bb-haze:   #C9D3D1;   --bb-paper:  #FFFFFF;
+  --bb-ink:    #002B36;   --bb-ink-2:  #073642;   --bb-ink-3:  #586E75;
+  --bb-rule:   #D8D2C4;
 }
 
 * { box-sizing: border-box; }
@@ -2581,6 +2622,16 @@ div.facade--audio { border: 0; background: none; }
 .door--live-room .door__name  { font-family: 'Just Another Hand', cursive; font-weight: 400; color: var(--lvr-tape); font-size: 40px; line-height: 1; letter-spacing: .02em; }
 .door--live-room .door__blurb { font-family: 'B612', var(--sans); color: var(--lvr-dim); }
 .door--live-room .door__knock { font-family: 'B612', var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--lvr-link); }
+
+/* The Broadsheet Broadside (§60). THE ONE FRONT IN THE ROW THAT IS THE SIDE OF
+   A SHIP: the awning is the Nelson chequer, a yellow band broken by the black
+   squares of the gunports, and the ground is the tarred hull. Every word is
+   measured on --bb-hull in check-contrast.py; the chequer carries no word. */
+.door--broadside { background: var(--bb-hull); border-color: var(--bb-ochre); }
+.door--broadside .door__awning { background-color: var(--bb-ochre); background-image: repeating-linear-gradient(90deg, transparent 0 22px, var(--bb-hull) 22px 44px); background-size: 100% 50%; background-position: 0 50%; background-repeat: no-repeat; border-bottom-color: var(--bb-hull); }
+.door--broadside .door__name  { font-family: 'Bodoni Moda', Georgia, serif; font-weight: 700; color: var(--bb-ochre); font-size: 26px; line-height: 1.08; }
+.door--broadside .door__blurb { font-family: 'Atkinson Hyperlegible Next', var(--sans); color: var(--bb-dim); }
+.door--broadside .door__knock { font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--bb-ochre); }
 
 /* Plural Mural (§54). THE ONE FRONT IN THE ROW THAT IS NOT A SHOPFRONT AT ALL
    BUT THE WALL AT THE END OF ONE: the awning is the capping along the top of the
@@ -13197,7 +13248,210 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 .live-room .lvr-further { font-size: 15px; color: var(--lvr-dim); }
 .live-room code { font-size: .9em; }
 
-/* §60 ── Small screens ───────────────────────────────────────────────────────
+/* §60 ── ROOM: The Broadsheet Broadside (a shopfront on the street) ─────────────
+   A broadsheet press for this street, which prints broadsides the way the
+   Stimpunks broadsides on stimpunks.org and whysheet.press are printed: one
+   sheet, both sides, ink on white, sized to come out of any printer uncropped.
+   Ryan's brief, 2026-09-25: "Manifestos and Mementos Served Across Your Bow".
+   The sheets are built by tools/make-broadside.py out of data/broadside.json.
+
+   THE ROOM IS THE SIDE OF A SHIP AND THE SHEET IS WHAT COMES OUT OF IT. A
+   broadside is two things: a sheet of paper printed on one side and posted
+   up, and the side of a warship, with every gun along it. The storefront is
+   the second, seen from a boat at the waterline: a tarred hull in the Nelson
+   chequer, a yellow band broken by the black squares of the gunports, the red
+   inside of every open lid, and out of every port on the upper deck a sheet
+   of paper where a gun would be. NO GUN IS DRAWN ANYWHERE ON THIS SHIP, and
+   nothing is aimed at anybody: a shot across the bow is the one that is meant
+   to miss. It makes you look, and that is all a broadside is for.
+
+   THE LIGHT IS THE SEA'S. The sun is somewhere above the drawing and out of
+   it; what reaches the hull is the glare thrown back up off the water, which
+   is why the only lit marks on that black side are short broken dashes low
+   down by the waterline, and why the band and the lids are flat colour. No
+   other light on this street is reflected off moving water.
+
+   THE ROOMS TO WATCH, and every separation is structural:
+     · THE FOUNDRY is the obvious collapse, because this is a press. That room
+       is a grey iron workshop under a sawtooth roof, and its subject is the
+       type: you stand at the bench and set it. Here there is no workshop drawn
+       at all. The press is inside the hull and never shown; what you see is
+       what comes out of a port, and the subject is the sheet.
+     · NOW PLAYING is the other printed sheet pasted up somewhere public, and it
+       is two transparent inks overprinting into a third on one sheet round a
+       column. The broadside's two spot inks print flat on white and NEVER
+       OVERLAP, and the sheet has a back. If a spot ink here ever lies across
+       the other, it has become that poster.
+     · THE ZINE TABLE is a photocopy cut with scissors and scattered at angles;
+       the page is the sheet. This sheet is a fixed composition measured to a
+       paper size, square to the page, and it is a preview of the paper rather
+       than the paper.
+     · THE DOOMSCROLL calls itself a broadside of bad news in its own comments,
+       and it is one unbroken roll of foxed grey newsprint that never ends. A
+       broadside ENDS: it has four edges and two sides, and it is white.
+     · THE GUILD is manila and ruled and lit from nowhere. The sheet is white,
+       and the room round it is black, red, yellow and the sea.
+
+   NOTHING MOVES AT ANY SETTING, and nothing is fired. A broadside going off is
+   a flash and a cloud of smoke, which is Club Chronic's strobe rule arriving on
+   a gun deck: the sheets are drawn already out of the ports and the one in the
+   air is drawn in the air. Nothing leans either, so there is no tilt to reset.
+
+   THE SHEET IS INK ON WHITE ON SCREEN AS WELL AS ON PAPER, which is the whole
+   method: the screen is a preview of the artefact and not the artefact. Its
+   borders carry the registration bar because a border survives the print
+   dialog's "background graphics" setting and a background does not. Every
+   class on it is `bb-`, its sizes are in points and millimetres, and §62
+   prints it and nothing else. */
+
+.room-broadside {
+  background: var(--bb-hull); color: var(--bb-bone);
+  font-family: 'Atkinson Hyperlegible Next', var(--sans); font-synthesis: none;
+}
+.room-broadside a { color: var(--bb-ochre); text-underline-offset: 3px; }
+.room-broadside :focus-visible { outline-color: var(--bb-ochre); }
+.room-broadside :where(p, li) { font-size: 17px; line-height: 1.65; }
+.room-broadside strong { color: var(--bb-bone); }
+.room-broadside .backlink {
+  font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-weight: 700;
+  font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--bb-ochre);
+}
+.bb-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.bb-trail { margin: 0; font-size: 14px; color: var(--bb-dim); }
+
+.bb-head { margin: 34px 0 0; }
+.bb-over { margin: 0; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--bb-dim); }
+.room-broadside h1 {
+  margin: 12px 0 0; font-family: 'Bodoni Moda', Georgia, serif; font-weight: 700;
+  font-size: clamp(44px, 8vw, 96px); line-height: 1.02; letter-spacing: -.01em; color: var(--bb-ochre);
+}
+.bb-sub { margin: 12px 0 0; max-width: 40em; font-size: 20px; font-style: italic; color: var(--bb-bone); }
+.bb-art { margin: 26px 0 0; }
+.bb-view { display: block; width: 100%; height: auto; border: 2px solid var(--bb-ochre); }
+
+.bb-lede { margin: 30px 0 0; max-width: 44em; }
+.bb-lede p { font-size: 19px; line-height: 1.65; }
+
+.bb-part, .bb-sheets { margin: 50px 0 0; }
+.bb-part { max-width: 46em; }
+.room-broadside h2 {
+  margin: 0 0 12px; font-family: 'Bodoni Moda', Georgia, serif; font-weight: 700;
+  font-size: 30px; line-height: 1.2; color: var(--bb-ochre);
+}
+.bb-articles { margin: 0; padding-left: 1.2em; }
+.bb-articles li + li { margin-top: 8px; }
+.bb-articles li::marker { color: var(--bb-ochre); }
+
+/* ONE SET PER BROADSIDE: its number and name, the moment somebody reaches for
+   it, the print button, and both sides one under the other. */
+.bb-shelf { list-style: none; margin: 0; padding: 0; }
+.bb-set + .bb-set { margin-top: 64px; }
+.bb-issue { max-width: 46em; }
+.room-broadside .bb-moment { margin: 0; color: var(--bb-dim); }
+.room-broadside .bb-moment b { color: var(--bb-bone); }
+.bb-printrow { margin: 14px 0 0; }
+.bb-print {
+  font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-weight: 700;
+  font-size: 14px; letter-spacing: .1em; text-transform: uppercase;
+  background: var(--bb-hull); color: var(--bb-ochre);
+  border: 2px solid var(--bb-ochre); padding: 10px 18px; cursor: pointer;
+}
+.bb-print:hover { background: var(--bb-ochre); color: var(--bb-hull); }
+.room-broadside .bb-printsaid { margin: 8px 0 0; font-size: 15px; color: var(--bb-dim); }
+.bb-sides { display: flex; flex-direction: column; align-items: center; gap: 28px; margin: 26px 0 0; }
+
+/* ── The sheet ──────────────────────────────────────────────────────────────
+   194mm is the column the largest page that fits both A4 and US Letter leaves
+   at whysheet.press's 9 / 7 / 7 mm margins; §62 prints it on that page. The
+   minimum height is two millimetres short of the page box on purpose: the
+   Stimpunks method found a third page appearing out of 0.4mm of rounding. */
+.bb-sheet {
+  width: 194mm; max-width: 100%; min-height: 259mm;
+  display: flex; flex-direction: column;
+  background: var(--bb-paper); color: var(--bb-ink);
+  padding: 11mm 12mm 9mm;
+  border: 1px solid var(--bb-rule); border-top: 3mm solid var(--bb-spot);
+  font-family: 'Atkinson Hyperlegible Next', var(--sans); font-weight: 400;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.bb-sheet--b { border-top-color: var(--bb-spot-2); }
+.bb-sheet :where(p, h3, h4, ul, ol, li, blockquote) { margin: 0; padding: 0; }
+.bb-sheet :where(ul, ol) { list-style: none; }
+.room-broadside .bb-sheet a { color: var(--bb-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.room-broadside .bb-sheet :focus-visible { outline-color: var(--bb-spot-2); }
+.room-broadside .bb-sheet strong { color: var(--bb-ink); }
+.bb-mono { font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; }
+
+.bb-mast { display: flex; justify-content: space-between; align-items: flex-start; gap: 6mm; padding-bottom: 3mm; border-bottom: .6mm solid var(--bb-ink); }
+.room-broadside .bb-mast__org { font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-size: 6.4pt; line-height: 1.9; letter-spacing: .24em; text-transform: uppercase; color: var(--bb-ink-2); }
+.room-broadside .bb-mast__org strong { display: block; font-size: 7.4pt; letter-spacing: .18em; color: var(--bb-ink); }
+.room-broadside .bb-mast__side { font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-weight: 700; font-size: 6.4pt; line-height: 1.9; letter-spacing: .2em; text-transform: uppercase; text-align: right; white-space: nowrap; color: var(--bb-spot); }
+.room-broadside .bb-sheet--b .bb-mast__side { color: var(--bb-spot-2); }
+
+.room-broadside .bb-title { margin-top: 5mm; font-weight: 800; font-size: 34pt; line-height: .98; letter-spacing: -.02em; text-transform: uppercase; color: var(--bb-ink); }
+.room-broadside .bb-title em { font-style: normal; color: var(--bb-spot); }
+.room-broadside .bb-sheet--b .bb-title { font-size: 24pt; }
+.room-broadside .bb-sheet--b .bb-title em { color: var(--bb-spot-2); }
+.room-broadside .bb-standfirst { margin-top: 4mm; max-width: 158mm; font-style: italic; font-size: 11.5pt; line-height: 1.44; color: var(--bb-ink-2); }
+.bb-bar { height: 0; margin-top: 5mm; border-top: .8mm solid var(--bb-ink); }
+
+.bb-claim { margin-top: 9mm; text-align: center; }
+.room-broadside .bb-claim__line { font-weight: 800; font-size: 38pt; line-height: 1.06; letter-spacing: -.02em; text-transform: uppercase; color: var(--bb-ink); }
+.room-broadside .bb-claim__line em { font-style: normal; color: var(--bb-spot); }
+.room-broadside .bb-claim__sub { margin-top: 3mm; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-size: 8.4pt; line-height: 1.8; letter-spacing: .18em; text-transform: uppercase; color: var(--bb-ink-2); }
+
+.bb-panels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7mm; margin-top: 10mm; }
+.bb-panel { padding-left: 3.5mm; border-left: .8mm solid var(--bb-spot); }
+.bb-panel:nth-child(even) { border-left-color: var(--bb-spot-2); }
+.room-broadside .bb-panel h4 { margin-bottom: 2.2mm; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-weight: 700; font-size: 7.6pt; line-height: 1.5; letter-spacing: .12em; text-transform: uppercase; color: var(--bb-spot); }
+.room-broadside .bb-panel:nth-child(even) h4 { color: var(--bb-spot-2); }
+.room-broadside .bb-panel p { font-size: 10.8pt; line-height: 1.45; color: var(--bb-ink-2); }
+
+.bb-motto { margin-top: 10mm; padding-left: 4mm; border-left: .8mm solid var(--bb-spot-2); }
+.room-broadside .bb-motto p:not(.bb-cite) { font-weight: 700; font-size: 16pt; line-height: 1.3; color: var(--bb-ink); }
+.room-broadside .bb-motto .bb-cite { margin-top: 2.2mm; }
+.room-broadside .bb-cite { font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-style: normal; font-size: 6.8pt; line-height: 1.7; letter-spacing: .12em; text-transform: uppercase; color: var(--bb-ink-3); }
+.bb-quote { margin-top: 5mm; padding-left: 4mm; border-left: .8mm solid var(--bb-spot); }
+.room-broadside .bb-quote p { font-style: italic; font-size: 12pt; line-height: 1.34; color: var(--bb-ink); }
+
+.bb-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm 9mm; margin-top: 6mm; }
+.room-broadside .bb-colhead { padding-bottom: 2.2mm; margin-bottom: 3.5mm; border-bottom: .4mm solid var(--bb-rule); font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-weight: 700; font-size: 8pt; letter-spacing: .2em; text-transform: uppercase; color: var(--bb-spot-2); }
+.bb-col:nth-child(even) .bb-colhead { color: var(--bb-spot); }
+.room-broadside .bb-list li { position: relative; margin-bottom: 2.6mm; padding-left: 5mm; font-size: 10.2pt; line-height: 1.42; color: var(--bb-ink-2); }
+.bb-list li::before { content: '\2192'; position: absolute; left: 0; font-weight: 700; color: var(--bb-spot-2); }
+.bb-col:nth-child(even) .bb-list li::before { color: var(--bb-spot); }
+
+.bb-principle { margin-top: 4mm; padding-top: 3mm; border-top: .6mm solid var(--bb-ink); }
+.room-broadside .bb-principle h4 { font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-weight: 700; font-size: 8pt; letter-spacing: .2em; text-transform: uppercase; color: var(--bb-spot-2); }
+.room-broadside .bb-principle p { margin-top: 2mm; font-size: 10.2pt; line-height: 1.45; color: var(--bb-ink-2); }
+.room-broadside .bb-sources { margin-top: 3.5mm; font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-size: 7pt; line-height: 1.6; color: var(--bb-ink-2); }
+.room-broadside .bb-sources + .bb-sources { margin-top: 1.6mm; }
+
+.bb-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 6mm; margin-top: auto; padding-top: 3mm; border-top: .6mm solid var(--bb-ink); }
+.room-broadside .bb-foot__left { font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-size: 6.2pt; line-height: 1.95; letter-spacing: .16em; text-transform: uppercase; color: var(--bb-ink-3); }
+.room-broadside .bb-foot__right { font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-weight: 700; font-size: 8pt; line-height: 1.5; letter-spacing: .14em; text-transform: uppercase; text-align: right; color: var(--bb-spot); }
+.room-broadside .bb-sheet--b .bb-foot__right { color: var(--bb-spot-2); }
+/* Space between the body and the foot, so a short side does not butt its last
+   line against the rule. margin-top:auto on the foot does the rest. */
+.bb-sheet > :nth-last-child(2) { margin-bottom: 6mm; }
+
+.bb-note { margin: 36px 0 0; max-width: 46em; }
+.room-broadside .bb-further { font-size: 15px; color: var(--bb-dim); }
+
+/* A PHONE REFLOWS THE SHEET, AND THE BREAKPOINT SITS BELOW ANY PAGE BOX. Print
+   media queries resolve against the page, not the screen, and the page box
+   here is 194mm, about 733px: a breakpoint above that would reflow the sheet on
+   paper and push it onto a third page. The Stimpunks method's number. */
+@media (max-width: 700px) {
+  .bb-sheet { min-height: 0; padding: 8mm 6mm; }
+  .bb-panels, .bb-cols { grid-template-columns: 1fr; }
+  .room-broadside .bb-title { font-size: 26pt; }
+  .room-broadside .bb-claim__line { font-size: 22pt; }
+  .bb-mast { flex-direction: column; gap: 2mm; }
+  .room-broadside .bb-mast__side { text-align: left; }
+}
+
+/* §61 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -13304,7 +13558,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §60 says every
+   shipped with no rule here at all — which on a street whose §61 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -13428,7 +13682,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §61 ── Print ───────────────────────────────────────────────────────────────
+/* §62 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
@@ -13534,5 +13788,62 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .room-foundry .fo-proof { padding: 0 !important; }
   .room-foundry .fo-colophon { margin-top: 18pt !important; padding-top: 6pt !important;
     border-top: 0.5pt solid #000 !important; font-size: 8pt !important; }
+
+  /* THE BROADSIDE PRINTS THE SHEET AND NOTHING ELSE, ONE SIDE TO A PAGE. The
+     ship, the articles, the notes and the way back to the street stay off the
+     paper, which is the Foundry's rule for the Foundry's reason: none of them is
+     any use once it is printed. What comes out is side A and then side B, so a
+     printer set to both sides makes one sheet.
+     THE PAGE IS WHYSHEET.PRESS'S: 208 x 277 mm at 9 / 7 / 7 mm margins, the
+     largest page that fits both A4 and US Letter, so one file prints uncropped
+     in either country. It is a named page, so it reaches the sheets and nothing
+     else, and the street's own letter-sized @page above is untouched.
+     THE TWO SPOT INKS SURVIVE, AND THIS IS THE ONE PLACE THE RULE ABOVE BENDS.
+     The universal reset forces every word to black because this site's grounds
+     are dark and drop out; the sheet's ground is already the white paper it
+     prints on, and its inks were chosen for that paper: every one is held at AA
+     on white by make-broadside.py, and check-print.py reads them out of the PDF
+     against the sheet's own record. Backgrounds still go white, because the
+     sheet has none: the registration bar and every rule are borders.
+     A LINK ON A SHEET PRINTS ONCE. The street's rule above writes the address
+     after every link, and on a sheet every link's words ARE its address already,
+     which make-broadside.py refuses otherwise, so here it would print twice. */
+  /* THE MARGIN IS PAPER TOO. This page says color-scheme: dark, and Chrome
+     paints the page margins in its dark canvas, #121212, whatever the universal
+     reset above does to the elements; check-print.py found it as a stray ink
+     the first time it rendered a sheet. A broadside's margin is the white edge
+     of the sheet, so the scheme goes light on paper. */
+  html:has(body.room-broadside) { color-scheme: light; background: #fff !important; }
+  @page bb { size: 208mm 277mm; margin: 9mm 7mm 7mm; }
+  .room-broadside .bb-topline, .room-broadside .bb-head, .room-broadside .bb-lede,
+  .room-broadside .bb-part, .room-broadside .bb-issue,
+  .room-broadside .bb-note { display: none !important; }
+  .room-broadside main { width: auto !important; padding: 0 !important; margin: 0 !important; }
+  .room-broadside .bb-sheets, .room-broadside .bb-shelf, .room-broadside .bb-set,
+  .room-broadside .bb-sides { display: block !important; margin: 0 !important; padding: 0 !important; }
+  body[data-bb-print] .bb-set:not(.bb-printing) { display: none !important; }
+  .room-broadside .bb-sheet { page: bb; break-before: page; break-inside: auto;
+    width: 194mm !important; max-width: none !important; min-height: 259mm !important;
+    margin: 0 !important; padding: 9mm 10mm 7mm !important; border-right: 0 !important;
+    border-left: 0 !important; border-bottom: 0 !important; }
+  .room-broadside .bb-sheet a::after { content: none !important; }
+  .room-broadside .bb-sheet, .room-broadside .bb-sheet *,
+  .room-broadside .bb-sheet *::before { color: var(--bb-ink) !important; }
+  .room-broadside .bb-sheet .bb-mast__org, .room-broadside .bb-sheet .bb-standfirst,
+  .room-broadside .bb-sheet .bb-claim__sub, .room-broadside .bb-sheet .bb-panel p,
+  .room-broadside .bb-sheet .bb-list li, .room-broadside .bb-sheet .bb-principle p,
+  .room-broadside .bb-sheet .bb-sources { color: var(--bb-ink-2) !important; }
+  .room-broadside .bb-sheet .bb-cite, .room-broadside .bb-sheet .bb-foot__left { color: var(--bb-ink-3) !important; }
+  .room-broadside .bb-sheet--a .bb-mast__side, .room-broadside .bb-sheet--a .bb-title em,
+  .room-broadside .bb-sheet .bb-claim__line em, .room-broadside .bb-sheet .bb-panel:nth-child(odd) h4,
+  .room-broadside .bb-sheet .bb-col:nth-child(even) .bb-colhead,
+  .room-broadside .bb-sheet .bb-col:nth-child(even) .bb-list li::before,
+  .room-broadside .bb-sheet--a .bb-foot__right { color: var(--bb-spot) !important; }
+  .room-broadside .bb-sheet--b .bb-mast__side, .room-broadside .bb-sheet--b .bb-title em,
+  .room-broadside .bb-sheet .bb-panel:nth-child(even) h4,
+  .room-broadside .bb-sheet .bb-col:nth-child(odd) .bb-colhead,
+  .room-broadside .bb-sheet .bb-col:nth-child(odd) .bb-list li::before,
+  .room-broadside .bb-sheet .bb-principle h4,
+  .room-broadside .bb-sheet--b .bb-foot__right { color: var(--bb-spot-2) !important; }
 }
 

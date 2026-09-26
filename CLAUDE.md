@@ -2672,6 +2672,51 @@ about the desk (the oldest, the longest), because it goes false the day another 
 says so beside the runtime, because a runtime is only honest if you know what it is the runtime of.
 **A studio with no sessions is refused**: a studio is named on the page in words until somebody sends a session from it.
 
+**THE BROADSHEET BROADSIDE (§60) IS A PRESS WITH NO PRESS IN IT, AND THAT IS WHAT HOLDS IT OFF THE
+FOUNDRY.** Ryan's brief, 2026-09-25: a broadsheet press printing broadsides like whysheet.press,
+*Manifestos and Mementos Served Across Your Bow*, with an introduction to this street first. A
+broadside is two things, a sheet posted up and the side of a warship, and the room is the second: a
+tarred hull in the Nelson chequer seen from a boat at the waterline, with **a sheet of paper in every
+open port where a gun would be**. The Foundry is a grey iron workshop whose subject is the type and
+you stand at its bench; here no workshop is drawn at all, the press is inside the hull, and the
+subject is what comes out of a port. **Now Playing** is the other public sheet and its two inks
+overprint into a third; the broadside's two inks print flat on white and never overlap. **The
+Doomscroll** calls itself a broadside in its own comments and is a grey roll that never ends; a
+broadside has four edges and a back. **The light is the sea's**: sun thrown back up off the water in
+broken dashes low on the hull, which no other room has. **No gun is drawn on that ship and nothing
+is fired**, because a broadside going off is a flash, which is Club Chronic's rule on a gun deck, and
+because a shot across the bow is the one that is meant to miss. If anybody "finishes" the ship with
+cannon, it has become a room about firing at people.
+
+**THE SHEET IS THE STIMPUNKS BROADSIDE METHOD, NOT A DESIGN OF OURS, AND ITS NUMBERS ARE NOT
+PREFERENCES.** Read off stimpunks.org's print notes (`fieldguide/design/print/` in the mirror): ink on
+white in both media, so the screen is a preview of the paper; borders rather than backgrounds for
+anything that must survive the print dialog; two spot inks per sheet darkened until they clear on
+white, **no two sheets sharing a pair**, because the pair is what tells sheets apart face down in a
+stack; Atkinson Hyperlegible and a mono for the apparatus; **no display serif on the paper**, which is
+why Bodoni Moda names the ship and never touches a sheet; the phone breakpoint under 700px, because
+print media queries resolve against the page box. The page is whysheet.press's, 208 × 277 mm at
+9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
+sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
+a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
+an underline that goes nowhere, so §62 also stops the street's print rule writing it out twice), and
+**an order to the reader**, narrowly second person: a sheet says what we hold and never what you
+must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
+record, so neither can be left off the paper.
+
+**§62 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
+out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
+`!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
+real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
+the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §62 sets
+the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
+has looked. **The minimum height is two millimetres under the page box on purpose**, for the Stimpunks
+method's 0.4mm-onto-a-third-page reason, and a side that overruns spills onto a third page rather than
+clipping, which is what makes the page count the check. **The sheets are CC BY-SA 4.0 and the
+Stimpunks broadsides are CC0**; that is open in DECISIONS.md and it is Ryan's.
+
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
 paleness alone — which is what holds it off the Guild, lit from nowhere with no depth. Netlify

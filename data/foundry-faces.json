@@ -215,6 +215,46 @@
     }
    ]
   },
+  "atkinson-hyperlegible-mono": {
+   "family": "Atkinson Hyperlegible Mono",
+   "category": "Sans Serif",
+   "designer": "Braille Institute, Applied Design Works, Elliott Scott, Megan Eiswerth, Letters From Sweden",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/atkinsonhyperlegiblemono",
+   "copyright": "Copyright 2020-2024 The Atkinson Hyperlegible Mono Project Authors (https://github.com/googlefonts/atkinson-hyperlegible-next-mono)",
+   "repository": "https://github.com/googlefonts/atkinson-hyperlegible-next-mono",
+   "variants": [
+    {
+     "weight": "400 700",
+     "style": "normal",
+     "file": "atkinson-hyperlegible-mono-400.woff2",
+     "sha": "f0230cab68ecdc96"
+    }
+   ]
+  },
+  "atkinson-hyperlegible-next": {
+   "family": "Atkinson Hyperlegible Next",
+   "category": "Sans Serif",
+   "designer": "Braille Institute, Applied Design Works, Elliott Scott, Megan Eiswerth, Letters From Sweden",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/atkinsonhyperlegiblenext",
+   "copyright": "Copyright 2020-2024 The Atkinson Hyperlegible Next Project Authors (https://github.com/googlefonts/atkinson-hyperlegible-next)",
+   "repository": "https://github.com/googlefonts/atkinson-hyperlegible-next",
+   "variants": [
+    {
+     "weight": "400 700 800",
+     "style": "normal",
+     "file": "atkinson-hyperlegible-next-400.woff2",
+     "sha": "1e4cea71d75ec427"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "atkinson-hyperlegible-next-400-italic.woff2",
+     "sha": "55246a59197759ec"
+    }
+   ]
+  },
   "b612": {
    "family": "B612",
    "category": "Sans Serif",
@@ -332,6 +372,23 @@
      "style": "normal",
      "file": "bitter-400.woff2",
      "sha": "261cfc4d27941b27"
+    }
+   ]
+  },
+  "bodoni-moda": {
+   "family": "Bodoni Moda",
+   "category": "Serif",
+   "designer": "Owen Earl",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/bodonimoda",
+   "copyright": "Copyright 2020 The Bodoni Moda Project Authors (https://github.com/indestructible-type/Bodoni)",
+   "repository": "https://github.com/indestructible-type/Bodoni",
+   "variants": [
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "bodoni-moda-700.woff2",
+     "sha": "3c333fd0ebf74942"
     }
    ]
   },

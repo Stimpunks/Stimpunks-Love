@@ -855,6 +855,27 @@
       "sections": [
         59
       ]
+    },
+    "atkinson-hyperlegible-next": {
+      "where": "The Broadsheet Broadside",
+      "page": "broadsheet-broadside.html",
+      "sections": [
+        60
+      ]
+    },
+    "atkinson-hyperlegible-mono": {
+      "where": "The Broadsheet Broadside",
+      "page": "broadsheet-broadside.html",
+      "sections": [
+        60
+      ]
+    },
+    "bodoni-moda": {
+      "where": "The Broadsheet Broadside",
+      "page": "broadsheet-broadside.html",
+      "sections": [
+        60
+      ]
     }
   }
 }

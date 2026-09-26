@@ -1,0 +1,81 @@
+{
+  "_what": "The Broadsheet Broadside's sheets. tools/make-broadside.py builds each one into broadsheet-broadside.html, both sides, and refuses a sheet that breaks the form. The form is the Stimpunks broadsides' on stimpunks.org/library/broadsides/ and whysheet.press, and theirs is Alfie Kohn's Why Sheet: one sheet, printed both sides, the face carrying one thing readable across a room and the reverse doing the work. Ryan's brief, 2026-09-25: a broadsheet press for this street, and the first sheet an introduction to it.",
+  "_fields": "Every text field is HTML and goes into the markup as written, so an entity is right here. Every link on a sheet must read as its own address, because a link on paper is an underlined word that goes nowhere; make-broadside.py refuses one that does not. The type credit and the licence line are generated, the first out of data/foundry-faces.json and the second out of `licence`, so neither can be left off a sheet.",
+  "_spots": "Each sheet brings its own pair of spot inks and no two sheets share a pair, which is the Stimpunks method: hues run out long before pairs do, and the pair is what tells two sheets apart face down in a stack. Each ink is held at AA on white by the tool and printed on paper by love.css's §62, the one place this street lets a colour survive the print reset.",
+  "sheets": [
+    {
+      "id": "no-1",
+      "number": 1,
+      "name": "An introduction to Stimpunks.World",
+      "moment": "Somebody asks what Stimpunks.World is, and there is a table, a door or a noticeboard to leave the answer on.",
+      "made": "2026-09-25",
+      "spots": ["#9C3A11", "#175A7D"],
+      "spots_why": "The house's own orange and blue paper inks, from the Stimpunks broadside method's table: the red inside a gunport lid and the sea under the hull, darkened until they print. 6.94 and 7.51 on white.",
+      "licence": "CC BY-SA 4.0",
+      "licence_href": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "a": {
+        "side": "Side A &middot; to pin up",
+        "title": "Stimpunks<em>.World</em>",
+        "standfirst": "A street on the web where every room is a world of its own and no two are alike. It is loud on purpose, it was built by a Disabled people&rsquo;s organisation, and you decide how loud it gets.",
+        "claim": "One street. <em>No two rooms alike.</em>",
+        "claim_sub": "The volume is yours to hold &middot; <a href=\"https://stimpunks.world/\">stimpunks.world</a>",
+        "panels": [
+          {
+            "name": "The street is the system",
+            "text": "Every other site we run keeps one careful look on every page. Here the street is what holds it together, and each room gets its own light, its own type and its own colours, even where they argue with the room next door."
+          },
+          {
+            "name": "The dial is yours",
+            "text": "Every page carries a dial: Gentle, Regular and MAX GLITTER. It starts wherever your device says and turns up or down from there. Gentle takes away the wobble, never the words."
+          },
+          {
+            "name": "Nothing plays until you press",
+            "text": "No sound, no video, and nothing loaded from a video or music service until you press play. Every play button says how long the thing runs before you press it."
+          }
+        ],
+        "motto": {
+          "text": "Queer without fear. Interdependent and here. Divergent and proud. Living out loud.",
+          "whose": "Over the front door of the street"
+        },
+        "quote": null,
+        "foot_left": "Stimpunks.World &middot; a Stimpunks Foundation street",
+        "foot_right": "Turn over &rarr;"
+      },
+      "b": {
+        "side": "Side B &middot; to hand over",
+        "title": "How the <em>street</em> works",
+        "standfirst": "Walk in anywhere. This is what you will find, and what we kept careful while we got loud.",
+        "cols": [
+          {
+            "head": "Where to go",
+            "items": [
+              "<strong>The front door</strong> is <a href=\"https://stimpunks.world/\">stimpunks.world</a>. The shopfronts run along the street from there, and some rooms have more rooms behind them.",
+              "<strong>Past the treeline</strong> at one end is a campground, for being a little apart from everybody. <strong>Past the last streetlight</strong> at the other is a road out of town, for staying out late.",
+              "<strong>The map</strong> is the whole street as a model in white card, at <a href=\"https://stimpunks.world/map.html\">stimpunks.world/map.html</a>. Every page has a <em>Where am I?</em> at its foot.",
+              "<strong>Your Room</strong> is an empty storefront with the keys in the door, kept for somebody from our community: <a href=\"https://stimpunks.world/your-room.html\">stimpunks.world/your-room.html</a>."
+            ]
+          },
+          {
+            "head": "What stayed careful",
+            "items": [
+              "<strong>Attribution.</strong> A licence, not a house style. Every song, typeface, quotation and borrowed name is credited, loudly, at <a href=\"https://stimpunks.world/liner-notes.html\">stimpunks.world/liner-notes.html</a>.",
+              "<strong>Contrast.</strong> Clashing is not the same as illegible. The colour under every word is measured, and a pair that fails stops the build.",
+              "<strong>Access.</strong> A loud site that shut out the people it is for would be the thing we exist to name. So the loudness is something you hold, and never something done to you."
+            ]
+          }
+        ],
+        "principle": {
+          "head": "Where the street came from",
+          "text": "The street has a name, and it is not ours. Danny the Street is a character in DC Comics&rsquo; <em>Doom Patrol</em>, created in 1990 by Grant Morrison and Richard Case: a living street who turns up wherever somebody needs shelter and rearranges what is on them to suit whoever has arrived. More at <a href=\"https://stimpunks.world/danny-the-street.html\">stimpunks.world/danny-the-street.html</a>."
+        },
+        "quote": null,
+        "sources": [
+          "What changed, and when: <a href=\"https://stimpunks.world/changelog.html\">stimpunks.world/changelog.html</a> &middot; the Stimpunks Foundation: <a href=\"https://stimpunks.org/\">stimpunks.org</a>",
+          "The form is the Stimpunks broadsides&rsquo;, at <a href=\"https://stimpunks.org/library/broadsides/\">stimpunks.org/library/broadsides/</a>, and theirs is Alfie Kohn&rsquo;s Why Sheet."
+        ],
+        "foot_left": "Stimpunks.World &middot; The Broadsheet Broadside",
+        "foot_right": "No. 1 &middot; Side B"
+      }
+    }
+  ]
+}

@@ -8,6 +8,7 @@ be checkable or it is decoration. This is the check.
 Large text (>=24px, or >=18.66px bold) is held to 3:1 per WCAG 1.4.3; everything
 else to 4.5:1. Each pair below names where it is used so a failure is findable.
 """
+import json
 import re
 import sys
 from pathlib import Path
@@ -638,6 +639,19 @@ CW_CARD, CW_INK, CW_INK2, CW_LINK = "#F7F1E1", "#2A2119", "#5B4D3E", "#2F5A36"
 LVR_ROOM, LVR_FACE, LVR_TEXT, LVR_DIM = "#1A2330", "#2A3647", "#ECE7DA", "#B4BEC9"
 LVR_LINK, LVR_CAP, LVR_TAPE, LVR_MARKER = "#FF9C8F", "#7E8C9B", "#EEE2C0", "#1C1B22"
 LVR_WELL = "#10161F"
+
+# The Broadsheet Broadside (love.css §60). The side of a ship, and one white
+# sheet. Every word of ours is on the tarred hull; the sheet is ink on white,
+# the Stimpunks broadside method. THE SPOT INKS ARE READ OUT OF
+# data/broadside.json, WHICH IS WHERE THE PAGE GETS THEM: each sheet carries its
+# own pair inline, and the Hermitage's chairs are the reason a colour that lives
+# in a data file is never typed here instead. make-broadside.py holds them at AA
+# on white as well; this is the second opinion, and it is not optional.
+BB_HULL, BB_BONE, BB_DIM, BB_OCHRE = "#16171B", "#EEE8DA", "#BFB8A8", "#DDAA45"
+BB_PAPER, BB_INK, BB_INK2, BB_INK3 = "#FFFFFF", "#002B36", "#073642", "#586E75"
+BB_SPOTS = [(sheet["id"], ink) for sheet in json.loads(
+    (Path(__file__).resolve().parent.parent / "data/broadside.json").read_text())["sheets"]
+    for ink in sheet["spots"]]
 
 # Plural Mural (love.css §54). An end wall seen from across the road at golden
 # hour. Every word is on the road, never on the wall: the markings' white for
@@ -2176,6 +2190,21 @@ PAIRS = [
     (LVR_CAP,    LVR_FACE, True,  "live room: a strip's outline against its own faceplate"),
     (LVR_CAP,    LVR_ROOM, True,  "live room: a strip's outline and a play plate's edge against the room"),
 
+    # ── The Broadsheet Broadside (§60) ───────────────────────────────────────
+    (BB_BONE,  BB_HULL,  False, "broadside: every word of ours on the hull -- the lede, the articles, "
+                                "whose this all is, the line under the name"),
+    (BB_DIM,   BB_HULL,  False, "broadside: the trail, the line over the name, each sheet's moment, "
+                                "the type credit, and the street door's blurb"),
+    (BB_OCHRE, BB_HULL,  False, "broadside: the name, every heading and link, the print button, the "
+                                "knock and name on the street door, and the focus ring on the hull"),
+    (BB_HULL,  BB_OCHRE, False, "broadside: the print button's words under the pointer"),
+    (BB_INK,   BB_PAPER, False, "broadside: the sheet's ink -- titles, claim lines, links, mottoes"),
+    (BB_INK2,  BB_PAPER, False, "broadside: the sheet's secondary prose, panels, lists and sources"),
+    (BB_INK3,  BB_PAPER, False, "broadside: the sheet's small print -- credits and the foot"),
+    *[(ink, BB_PAPER, False, f"broadside: {sid}'s spot ink on the sheet, read out of "
+                             "data/broadside.json -- headings, the side labels, the claim's "
+                             "stress, and the focus ring on the paper") for sid, ink in BB_SPOTS],
+
     # ── Plural Mural (§54) ───────────────────────────────────────────────────
     (PM_LINE,   PM_ROAD,   False, "plural mural: every word -- the trail, the lines over and under "
                                   "the h1, what is on the wall now, the lede, the list, how to "
@@ -2355,6 +2384,18 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#a8322a": "broadside: the red inside of every open gunport lid in the drawing of the "
+               "ship, 2.69 on the hull. It carries no word.",
+    "#2e4a4f": "broadside: the sea under the hull, 1.88 on the hull, and the print on the "
+               "little sheets in the drawing. It carries no word.",
+    "#dce6e0": "broadside: the sun's glare thrown up off the water, the only light in the "
+               "drawing, 7.44 on the sea and 14.02 on the hull. It carries no word and it "
+               "does not move.",
+    "#c9d3d1": "broadside: the haze of sky above the ship, 11.70 against the hull. It carries "
+               "no word.",
+    "#d8d2c4": "broadside: the hairline round a sheet and under a column's head, 1.51 on the "
+               "paper. It separates nothing a reader needs: the sheet is white on a black "
+               "hull (17.91) and every word on it is measured above.",
     "#d6e4ec": "live room: the live room seen through the glass, lit for the cameras, 12.18 on "
                "the control room. It carries no word.",
     "#b9cad4": "live room: the acoustic panels on the live room's walls, 1.30 on the lit room "

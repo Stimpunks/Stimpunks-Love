@@ -33,6 +33,18 @@ room and finding it in the printed output is exactly the moment to decide whethe
 it survives the photocopier, and a tool that quietly tolerated it would be a tool
 that let the claim rot again.
 
+THE BROADSHEET BROADSIDE MAKES THE SAME KIND OF CLAIM AND GETS THE SAME CHECK.
+Its articles say every broadside prints to exactly one sheet, side A then side
+B, and that each sheet prints in its own two spot inks on white. So any page
+whose body carries class="room-broadside" is rendered too, and must come out at
+exactly two pages for every sheet in data/broadside.json -- a sheet whose
+content overruns does not clip, it spills onto a third page, which is what the
+Stimpunks broadside method found the hard way -- and its inks are held to the
+sheet's own record: white, the ink, its two lighter greys, the hairline, and
+the spot pairs the data file names. That room is the one place love.css's §62
+lets a colour survive the print reset, which is exactly why the colour that
+reaches the paper is read back out of the PDF rather than trusted.
+
 WHAT IT STILL DOES NOT CHECK is text drawn on a ground it cannot be read against,
 directly. Doing that from a PDF needs full graphics-state and transform tracking;
 the attempt returned zero findings on pages that visibly had the bug, which is
@@ -133,6 +145,69 @@ def sheets_in(pdf: bytes) -> int:
     raise SystemExit("REFUSING: could not count pages in the rendered PDF.")
 
 
+def hex_ink(h):
+    h = h.lstrip("#")
+    return tuple(round(int(h[i:i + 2], 16) / 255, 4) for i in (0, 2, 4))
+
+
+def render(browser, page, out):
+    subprocess.run(
+        [browser, "--headless=new", "--disable-gpu", "--no-sandbox",
+         # let the self-hosted faces load; their metrics decide the layout
+         "--virtual-time-budget=4000",
+         "--no-pdf-header-footer",
+         f"--print-to-pdf={out}", page.as_uri()],
+        check=True, capture_output=True, timeout=120,
+    )
+    return out.read_bytes()
+
+
+def broadside_check(browser):
+    """The press's claim: two pages per sheet, and only the sheet's own inks.
+    Returns the list of failures, printed as it goes."""
+    import json
+    pages = sorted(
+        p for p in ROOT.glob("*.html")
+        if re.search(r'<body[^>]*class="[^"]*\broom-broadside\b', p.read_text())
+    )
+    if not pages:
+        return []
+    sheets = json.loads((ROOT / "data/broadside.json").read_text())["sheets"]
+    allowed = {
+        (0.0, 0.0, 0.0): "black",
+        (1.0, 1.0, 1.0): "white - paper",
+        hex_ink("#002B36"): "--bb-ink",
+        hex_ink("#073642"): "--bb-ink-2",
+        hex_ink("#586E75"): "--bb-ink-3",
+        hex_ink("#D8D2C4"): "--bb-rule - hairlines",
+    }
+    for sh in sheets:
+        for ink in sh["spots"]:
+            allowed[hex_ink(ink)] = f"{sh['id']} spot {ink}"
+    ok_ink = lambda i: any(all(abs(a - b) <= 0.02 for a, b in zip(i, k)) for k in allowed)
+    bad = []
+    with tempfile.TemporaryDirectory() as tmp:
+        for page in pages:
+            pdf = render(browser, page, Path(tmp) / (page.stem + ".pdf"))
+            n, want = sheets_in(pdf), 2 * len(sheets)
+            stray = sorted(i for i in inks_in(pdf) if not ok_ink(i))
+            good = n == want and not stray
+            print(f"{'ok  ' if good else 'FAIL'} {n} pages for {len(sheets)} broadside"
+                  f"{'s' if len(sheets) != 1 else ''} (want {want}), {len(stray)} stray "
+                  f"ink{'s' if len(stray) != 1 else ''}  {page.name}")
+            for i in stray:
+                print(f"       {describe(i)}")
+            if not good:
+                bad.append(page.name)
+    if bad:
+        print(
+            "\nThe press says every broadside prints to one sheet, both sides, in its own\n"
+            "two inks on white. Cut something from the side that ran over, or fix the\n"
+            "print rules in love.css's §62 -- do not edit the claim off the page, and do\n"
+            "not add an ink to this list without deciding it survives a photocopier.\n")
+    return bad
+
+
 def main():
     browser = find_browser()
     pages = sorted(
@@ -146,6 +221,7 @@ def main():
         )
 
     fails, inkbad = [], []
+    broadside = broadside_check(browser)
     with tempfile.TemporaryDirectory() as tmp:
         for page in pages:
             out = Path(tmp) / (page.stem + ".pdf")
@@ -187,7 +263,7 @@ def main():
             "something,\nor tighten the room's print rules in love.css's Print section -- "
             "do not edit the claim\nout of zine-table.html to make this pass."
         )
-    sys.exit(1 if (fails or inkbad) else 0)
+    sys.exit(1 if (fails or inkbad or broadside) else 0)
 
 
 if __name__ == "__main__":

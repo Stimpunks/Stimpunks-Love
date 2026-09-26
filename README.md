@@ -111,6 +111,7 @@ cavendish-coworking.html Henry Cavendish's house: a shut, unlocked door onto eac
 community-library.html  A public reading room with the sky in its windows. Free to all; our collections on the front desk
 l-space.html          Behind it: every library at once, bent by the weight of books. Nothing straight; a ball of string
 oook.html             And behind that: a Discworld homage in the Librarian's colours. He is not drawn
+broadsheet-broadside.html  A press in the side of a ship. Broadsides printed both sides, ink on white, one to pin up and one to hand over
 the-garden.html       The knowledge garden. One bed per site we publish, each linking out
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
 faery-yurt.html       Pitch 01. Helen Edgar's candlelit yurt; her design, not ours
@@ -175,6 +176,7 @@ data/repeater.json    The Repeater's two lines of ours and the log's cards, none
 data/nothing-for-sale.json  The lay-by's tables, each a free thing of ours, and the headlights, none alike
 data/library.json     Every quotation in the library, L-space and Oook, with how it was checked; the desk and the threads
 data/community.json   The community service board: a slot for every room that takes something in, and the words each one holds its room to
+data/broadside.json   The press's sheets, both sides of each, with their two spot inks. No two sheets share a pair
 dance-punks.js        The headset. Tuning is silent while it is off; it asks love-embed.js for the frame
 small-hours.js        The whole-album buttons, and the placemat: colour in, scribble, take it home. Stores and sends nothing
 repeater.js           The open line: quiet noise made in the browser. Nothing sent, nothing listened to
@@ -182,6 +184,7 @@ quest.js              The job markers, and the guild's board. Works with scripts
 zibaldone.js          The attribution slip. Composes a block of text; sends nothing anywhere
 checkpoint.js         Room 429's copy buttons, which ship hidden. The slips work without it
 dead-tired.js         The talking piece. Pass is a whole turn; what you type goes nowhere and is not kept
+broadside.js          The press's print buttons, which ship hidden. Printing the page prints every sheet without it
 raven/                Doré's 1884 engravings and three leaves of an 1865 printing
 alice/                Six of Tenniel's 1865 wood engravings. Public domain, scans credited
 oracle/               The deck's plates. Public domain, CC0, from one collection
@@ -234,6 +237,7 @@ python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, 
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
 python3 tools/make-coworking.py    # Cavendish Coworking's doors, from our events page's own words; refuses a line the page has dropped, a door with no password, or a frame
 python3 tools/make-live-room.py     # The Live Room's desk, a channel strip per session, and the credits; refuses a set played outside, or a studio with nothing on it
+python3 tools/make-broadside.py    # The Broadsheet Broadside's sheets, both sides; refuses a third side, a long claim line, a shared ink pair, a link that is not its address, or an order to the reader
 python3 tools/make-library.py      # the library's, L-space's and Oook's quotations, the front desk and the threads; refuses a long passage, a lyric, or the graphic novel
 python3 tools/make-dance-punks.py  # the disco's channels and credits; refuses a runtime, shuffle, or two inks alike in greyscale
 python3 tools/make-small-hours.py  # the diner's menu, quotations, record, jukebox and placemat; refuses a lyric with no permission, or a placemat that keeps anything
@@ -249,7 +253,7 @@ python3 tools/make-og.py           # the share cards, and the og:image tags that
 python3 tools/make-icons.py        # favicon.ico, the touch icon and the manifest's icons, all from favicon.svg
 python3 tools/make-security.py     # /.well-known/security.txt; refuses from 30 days before it expires
 python3 tools/check-contrast.py    # every pair against WCAG; exits 1 on a failure
-python3 tools/check-print.py       # renders each zine page to PDF; exits 1 if it is not one sheet
+python3 tools/check-print.py       # renders each zine page to PDF, and the press; exits 1 if a zine is not one sheet or a broadside not two pages
 python3 tools/check-gentle.py      # every page at all three dial settings; exits 1 on a leak
 python3 tools/check-contrast-live.py # every piece of text on every page, as rendered
 python3 tools/check-focus.py       # every focus ring on every page, against the ground it is drawn on

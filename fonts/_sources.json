@@ -1482,5 +1482,43 @@
       "src": "https://fonts.gstatic.com/s/justanotherhand/v21/845CNN4-AJyIGvIou-6yJKyptyOpOfr4DGiHSIax.woff2",
       "note": "The Live Room (§59), the room's name and the name on each channel strip's masking tape, and nothing at reading size. A tall, narrow marker capital, which is the hand a channel's name is written in on the tape along the foot of a desk. A hand carrying a sentence is an access failure wearing atmosphere, so it never does."
     }
+  ],
+  "atkinson-hyperlegible-next": [
+    {
+      "file": "atkinson-hyperlegible-next-400.woff2",
+      "weight": "400 700 800",
+      "style": "normal",
+      "bytes": 34024,
+      "src": "https://fonts.gstatic.com/s/atkinsonhyperlegiblenext/v7/NaPNcYPdHfdVxJw0IfIP0lvYFqijb-UxCtm5_wdGseiJn3q0pkZ_.woff2",
+      "note": "The Broadsheet Broadside (§60), the sheet: every word on both sides of every broadside, the claim line at 800 and the heads at 700, and the room's own prose. It is the face the Stimpunks broadsides on stimpunks.org and whysheet.press are set in, because the Braille Institute drew Atkinson Hyperlegible for letterform distinction at exactly the small sizes a hand-out does most of its work at, and on paper nobody can zoom. NOT the Pebble Board's Atkinson Hyperlegible: Next is a separate family with its own record, drawn again with a wider weight range. Ships variable: one roman file declared against 400, 700 and 800, and one italic."
+    },
+    {
+      "file": "atkinson-hyperlegible-next-400-italic.woff2",
+      "weight": "400",
+      "style": "italic",
+      "bytes": 14204,
+      "src": "https://fonts.gstatic.com/s/atkinsonhyperlegiblenext/v7/NaP6cYPdHfdVxJw0IfIP0lvYFqijb-UxCtm5_wdGseiMhXSWUJ7iyGKiJPfJ9-N-9Tg9FJNOSSA.woff2",
+      "note": "The Broadsheet Broadside (§60), the sheet: every word on both sides of every broadside, the claim line at 800 and the heads at 700, and the room's own prose. It is the face the Stimpunks broadsides on stimpunks.org and whysheet.press are set in, because the Braille Institute drew Atkinson Hyperlegible for letterform distinction at exactly the small sizes a hand-out does most of its work at, and on paper nobody can zoom. NOT the Pebble Board's Atkinson Hyperlegible: Next is a separate family with its own record, drawn again with a wider weight range. Ships variable: one roman file declared against 400, 700 and 800, and one italic."
+    }
+  ],
+  "atkinson-hyperlegible-mono": [
+    {
+      "file": "atkinson-hyperlegible-mono-400.woff2",
+      "weight": "400 700",
+      "style": "normal",
+      "bytes": 17740,
+      "src": "https://fonts.gstatic.com/s/atkinsonhyperlegiblemono/v8/tss4AoFBci4C4gvhPXrt3wjT1MqSzhA4t7IIcncBiwKthFyDHi0j.woff2",
+      "note": "The Broadsheet Broadside (§60), the small capitals on the sheet -- the masthead, the side labels, the panel names, the addresses printed at the foot -- which is the monospace that is Atkinson Hyperlegible Next's own relative, so the apparatus and the text are one family's letters. Ships variable: one file declared against 400 and 700."
+    }
+  ],
+  "bodoni-moda": [
+    {
+      "file": "bodoni-moda-700.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 27312,
+      "src": "https://fonts.gstatic.com/s/bodonimoda/v28/aFTH7PxzY382XsXX63LUYL6GYFksw-NIrKp-S_31KOxQVAS1Eg.woff2",
+      "note": "The Broadsheet Broadside (§60), the ship's name painted along the hull and the room's headings, and NOTHING ON THE SHEET. A high-contrast Didone looks right on the counter of a ship and loses its hairlines in the first photocopy, which is the Stimpunks broadside method's own reason for setting no display serif on paper. So it names the ship and never the sheet. Ships variable: one file, declared at 700."
+    }
   ]
 }

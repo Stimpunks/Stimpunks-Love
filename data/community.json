@@ -128,6 +128,25 @@
       "more": "What the zine table asks for"
     },
     {
+      "id": "broadside",
+      "label": "An idea for a broadside",
+      "room": "The Broadsheet Broadside",
+      "page": "broadsheet-broadside.html",
+      "anchor": "bb-suggest",
+      "takes": "An idea for the press&rsquo;s next sheet: a manifesto somebody on this street would want to pin up, or a memento of a room worth handing over.",
+      "asks": [
+        "In words. Every sheet is written for the press, so an idea is an idea for a sheet rather than a sheet printed as it arrives.",
+        "A sheet says what we hold and never what you must do.",
+        "One sheet, both sides, and its credits and its licence on the paper."
+      ],
+      "holds": [
+        "The press takes suggestions",
+        "an idea for a sheet rather than a sheet we will print as it arrives"
+      ],
+      "route": "contact",
+      "more": "What the press takes"
+    },
+    {
       "id": "samefood",
       "label": "Your samefoods",
       "room": "Samefood Cafe",

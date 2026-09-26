@@ -837,6 +837,20 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--live .lvr-art {{ order: 5; margin: 16px 0 0 !important; align-self: stretch; }}
 .og--live .lvr-view {{ width: 1080px; height: auto; }}
 
+/* the broadsheet broadside -- THE SIDE OF THE SHIP, LIFTED WHOLE: the header
+   with the ship's name, the chequer, the open ports with a sheet in each and the
+   one crossing your bow, and the page's og:description under the name. The words
+   stand on the tarred hull like every word of ours in the room. */
+.og--broadside {{ width: 100%; padding: 26px 60px 0; }}
+.og--broadside .bb-head {{ margin: 0 !important; display: flex; flex-direction: column; align-items: flex-start; }}
+.og--broadside .bb-over {{ font-size: 16px; margin: 0 !important; }}
+.og--broadside h1 {{ font-size: 58px; margin: 8px 0 0 !important; }}
+.og--broadside .bb-sub {{ font-size: 21px; margin: 6px 0 0 !important; }}
+.og--broadside .og-lede {{ font-family: 'Atkinson Hyperlegible Next', sans-serif; color: var(--bb-dim);
+  max-width: 1060px; font-size: 19px; line-height: 1.4; margin: 8px 0 0 !important; }}
+.og--broadside .bb-art {{ order: 5; margin: 14px 0 0 !important; align-self: stretch; }}
+.og--broadside .bb-view {{ width: 834px; height: auto; }}
+
 .og--cavendish {{ width: 100%; padding: 30px 60px 0; }}
 .og--cavendish .cw-head {{ margin: 0 !important; display: flex; flex-direction: column; }}
 .og--cavendish .cw-over, .og--cavendish .cw-sub {{ font-size: 16px; }}
@@ -2709,6 +2723,35 @@ def card_live(p):
     )
 
 
+def card_broadside(p):
+    # THE HEADER IS LIFTED WHOLE, ship and all, and the lede is the page's
+    # og:description, so the card cannot show a ship the page has not got. The
+    # alt counts no sheets and names no sheet: both will grow.
+    head = re.search(r'(<header class="bb-head">.*?</header>)', p["src"], re.S)
+    over = re.search(r'<p class="bb-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="bb-sub">(.*?)</p>', p["src"], re.S)
+    if not (head and over and sub and 'class="bb-view"' in head.group(1)):
+        raise SystemExit(
+            "REFUSING: broadsheet-broadside.html has lost its header or its drawing of\n"
+            "the ship, and the card is those two. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    block = head.group(1).replace("</header>", f'<p class="og-lede">{p["desc"]}</p></header>')
+    return (
+        "",
+        f'<div class="og og--broadside" data-fit="card">{block}</div>',
+        f"A near-black card, the colour of a tarred hull. Small grey capitals reading "
+        f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in a tall yellow ochre "
+        f"serif, and under it in pale italic: {plain(sub.group(1))} Then, in grey: "
+        f"{p['desc_plain']} Across the bottom, a drawing of the side of a ship seen from the "
+        f"waterline, painted in black with two yellow bands along it. The lower row of "
+        f"gunports is shut; every port in the upper row is open, its lid swung up to show a "
+        f"red inside, and in each one is a white sheet of paper where a gun would be. One "
+        f"sheet is in the air on a dotted line, crossing in front of the pale bow of a small "
+        f"boat in the foreground. Short dashes of light lie on the sea and low on the hull. "
+        f"No gun is drawn.",
+    )
+
+
 def card_cavendish(p):
     # THE HEADER IS LIFTED WHOLE, drawing and all, and the lede is the page's
     # og:description, so the card cannot show a house the page has not got. The
@@ -3025,6 +3068,7 @@ CARDS = {
     "plural-mural": card_mural,
     "cavendish":    card_cavendish,
     "live-room":    card_live,
+    "room-broadside": card_broadside,
     "room-library": card_library,
     "room-lspace":  card_lspace,
     "room-oook":    card_oook,

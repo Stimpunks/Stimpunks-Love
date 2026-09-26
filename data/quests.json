@@ -1882,6 +1882,39 @@
           "The last night of October."
         ]
       }
+    },
+    {
+      "id": "broadside-sheet",
+      "page": "broadsheet-broadside.html",
+      "room": "The Broadsheet Broadside",
+      "title": "Whose street is it?",
+      "posted": "There is a ship on the street with its ports open and a sheet of paper in every one where a gun would be. Go alongside, turn the first sheet over, and find out who the street is named after.",
+      "rank": 1,
+      "takes": "about as long as reading one side of one sheet, and nothing to print",
+      "target": "a sheet that came down in the bottom of your boat",
+      "code": "BROADSHEET",
+      "learned": "The street is Danny the Street's: a living street in DC Comics' Doom Patrol, created in 1990 by Grant Morrison and Richard Case, who turns up wherever somebody needs shelter. Side B of the first sheet says so on the paper, because a printed sheet is the one place a credit cannot be a link somebody follows later.",
+      "hints": [
+        "On the street itself, in the row of shopfronts: the one that is the side of a ship.",
+        "On side B of the first sheet on the press.",
+        "At the foot of the room, where a sheet came down in the bottom of your boat."
+      ],
+      "ask": {
+        "question": "Side B of No. 1 says the street has a name and that it is not ours. Whose name is it?",
+        "accept": [
+          "danny",
+          "dannythestreet",
+          "danny the street",
+          "dannystreet"
+        ],
+        "answer": "Danny the Street",
+        "why": "The street is named after Danny the Street, a living street in DC Comics' Doom Patrol, created in 1990 by Grant Morrison and Richard Case. Side B of the first sheet says so on the paper, because a printed sheet is the one place a credit cannot be a link somebody follows later.",
+        "hints": [
+          "It is on side B of No. 1, under Where the street came from.",
+          "A character in DC Comics' Doom Patrol.",
+          "A living street, and a first name you have heard before."
+        ]
+      }
     }
   ],
   "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."
