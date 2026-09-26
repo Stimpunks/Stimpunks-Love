@@ -476,25 +476,126 @@
     this.speakBtn.setAttribute('aria-pressed', String(on));
     this.speakBtn.textContent = on ? 'Speak new messages aloud: on' : 'Speak new messages aloud: off';
     if (!on) this.hush();
+    // Pressing the switch is the gesture that lets this page make a sound.
+    else if (!quiet && AUDIO && !gentle()) { try { this.ctx = this.ctx || new AUDIO(); this.ctx.resume(); } catch (e) { /* no audio */ } }
     else if (!quiet && window.speechSynthesis.getVoices().length && !localVoice()) this.tell('This device has no voice of its own to read with, so nothing will be spoken.');
     if (!quiet) save(this.state);
   };
 
+  /* THE SQUELCH. Ryan, 2026-09-26: a burst of static when a station keys up,
+     the words, and the tail of static when it lets go, which is the sound a CB
+     actually makes. It is noise made here, in the page, through Web Audio:
+     nothing is fetched and nothing is recorded.
+
+       · IT ONLY EVER COMES WITH THE WORDS. No squelch without a message being
+         spoken, so with Speak off the radio is exactly as silent as it was,
+         and "no chimes" stays true: a squelch is not a signal that something
+         arrived, it is what the voice arriving sounds like.
+       · IT FOLLOWS THE DIAL AND THE WORDS NEVER DO. Gentle speaks the message
+         with no static round it; Regular and MAX key up and let go. The
+         Adventurer's Guild fanfare's rule: decoration goes, the words stay.
+       · ONE STATION AT A TIME. Messages are queued here rather than handed to
+         speechSynthesis together, so each one gets its own key-up and tail
+         instead of a pile of static and then a stream of words. */
+  var AUDIO = window.AudioContext || window.webkitAudioContext;
+  var BURST = 0.11, TAIL = 0.24, GAP = 260; // seconds, seconds, ms
+
+  function gentle() {
+    return document.documentElement.getAttribute('data-intensity') === 'gentle';
+  }
+
+  // The browser only lets a page make a sound once somebody has pressed or
+  // typed something on it. Where it can say so, ask rather than fail.
+  function mayPlay() {
+    var ua = navigator.userActivation;
+    return !ua || ua.hasBeenActive;
+  }
+
   Radio.prototype.hush = function () {
+    this.air = [];
+    this.onAir = false;
+    clearTimeout(this.airTimer);
+    if (this.noise) { try { this.noise.stop(); } catch (e) { /* already stopped */ } this.noise = null; }
     if (VOICE) window.speechSynthesis.cancel();
+  };
+
+  Radio.prototype.squelch = function (length, then) {
+    if (gentle() || !AUDIO) { then(); return; }
+    var ctx = this.ctx;
+    try { if (!ctx) ctx = this.ctx = new AUDIO(); } catch (e) { then(); return; }
+    if (ctx.state === 'suspended') ctx.resume();
+    if (ctx.state !== 'running' && !mayPlay()) { then(); return; }
+    var n = Math.ceil(ctx.sampleRate * length), buf = ctx.createBuffer(1, n, ctx.sampleRate);
+    var d = buf.getChannelData(0);
+    for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+    var src = this.noise = ctx.createBufferSource();
+    src.buffer = buf;
+    // A radio's speaker: nothing much below 400Hz or above 3kHz.
+    var band = ctx.createBiquadFilter();
+    band.type = 'bandpass';
+    band.frequency.value = 1700;
+    band.Q.value = 0.7;
+    var amp = ctx.createGain(), t = ctx.currentTime;
+    amp.gain.setValueAtTime(0.0001, t);
+    amp.gain.exponentialRampToValueAtTime(0.12, t + 0.006);
+    amp.gain.setValueAtTime(0.12, t + length * 0.4);
+    amp.gain.exponentialRampToValueAtTime(0.0001, t + length);
+    src.connect(band); band.connect(amp); amp.connect(ctx.destination);
+    var me = this, done = false;
+    function next() { if (done) return; done = true; if (me.noise === src) me.noise = null; then(); }
+    src.onended = next;
+    // onended is not promised on every browser; the words must not wait on it.
+    setTimeout(next, length * 1000 + 80);
+    src.start(t);
+    src.stop(t + length);
   };
 
   Radio.prototype.speak = function (li) {
     if (!this.state.speak || this.state.folded) return;
-    var voice = localVoice();
-    if (!voice) return;
     var words = li.querySelector('.cb-text').cloneNode(true);
     var drawn = words.querySelectorAll('[aria-hidden="true"]');
     for (var i = 0; i < drawn.length; i++) drawn[i].remove();
-    var u = new SpeechSynthesisUtterance(li.querySelector('.cb-handle').textContent + '. ' + words.textContent);
-    u.voice = voice;
-    u.lang = voice.lang;
-    window.speechSynthesis.speak(u);
+    (this.air = this.air || []).push(li.querySelector('.cb-handle').textContent + '. ' + words.textContent);
+    if (!this.onAir) this.transmitNext();
+  };
+
+  // One message off the queue: key up, the words, let go, a breath, the next.
+  Radio.prototype.transmitNext = function () {
+    var me = this, text = this.air.shift(), voice = localVoice();
+    if (!text || !voice || !this.state.speak || this.state.folded) { this.onAir = false; return; }
+    this.onAir = true;
+    if (!mayPlay()) {
+      this.air = [];
+      this.onAir = false;
+      if (!this.askedToPlay) {
+        this.askedToPlay = true;
+        this.tell('Your browser will not let the radio speak on this page until you have pressed or typed something on it.');
+      }
+      return;
+    }
+    this.squelch(BURST, function () {
+      if (!me.onAir) return;
+      var u = new SpeechSynthesisUtterance(text), over = false;
+      u.voice = voice;
+      u.lang = voice.lang;
+      function done(e) {
+        if (over) return;
+        over = true;
+        clearTimeout(me.airTimer);
+        if (!me.onAir) return;
+        if (e && e.error === 'not-allowed') { me.air = []; me.onAir = false; return; }
+        me.squelch(TAIL, function () {
+          if (!me.onAir) return;
+          me.airTimer = setTimeout(function () { me.transmitNext(); }, GAP);
+        });
+      }
+      u.onend = done;
+      u.onerror = done;
+      // Some browsers drop onend now and then; a message is never so long that
+      // the queue should stall on it.
+      me.airTimer = setTimeout(done, 4000 + text.length * 120);
+      window.speechSynthesis.speak(u);
+    });
   };
 
   /* SMALL IS STILL ON, AND THAT IS THE WHOLE DIFFERENCE FROM FOLDED. Ryan,
