@@ -2712,7 +2712,14 @@ real PDF and refuses anything but **two pages per sheet** in `data/broadside.jso
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
 `#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §62 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
-has looked. **The minimum height is two millimetres under the page box on purpose**, for the Stimpunks
+has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
+he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the
+street's letter page, and moving from that page to the sheets' named page forces a break. A browser
+extension's injected box is the same shape. So the whole document is on the sheets' page, every
+child of `<body>` but `<main>` is hidden on paper, no side breaks *before* itself, `.cb-host` is
+hidden on paper site-wide, and `check-print.py` prints the room a second time with a stray block at
+each end of `<body>` (the old rules failed it at four pages). **A headless render has no extensions
+and nobody signed in; test the document you did not write, too.** **The minimum height is two millimetres under the page box on purpose**, for the Stimpunks
 method's 0.4mm-onto-a-third-page reason, and a side that overruns spills onto a third page rather than
 clipping, which is what makes the page count the check. **The sheets are CC BY-SA 4.0 and the
 Stimpunks broadsides are CC0**; that is open in DECISIONS.md and it is Ryan's.

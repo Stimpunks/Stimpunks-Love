@@ -13709,6 +13709,15 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
      room's promise, and the first time the addition was on every page. */
   .signoff { display: none !important; }
 
+  /* NOR DOES THE CB. cb.css hides the radio inside its shadow root on paper,
+     but the host it lives in is a block at the foot of <body>, and on the
+     Broadsheet Broadside, whose sheets are on a named page, that empty block
+     was enough to start a fresh letter-sized page: Ryan's print preview came
+     out with blank pages in it, and only for somebody signed on. A zine page
+     with a pass in the browser would have gone over its one sheet the same way.
+     The radio is a control; controls never belong on paper. */
+  .cb-host { display: none !important; }
+
   /* Ink on paper, everywhere, with no exceptions by class.
      This used to reset backgrounds on a LIST of components, which meant every
      box not on the list kept its colour: the ransom note printed in full yellow,
@@ -13815,14 +13824,25 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
      of the sheet, so the scheme goes light on paper. */
   html:has(body.room-broadside) { color-scheme: light; background: #fff !important; }
   @page bb { size: 208mm 277mm; margin: 9mm 7mm 7mm; }
-  .room-broadside .bb-topline, .room-broadside .bb-head, .room-broadside .bb-lede,
-  .room-broadside .bb-part, .room-broadside .bb-issue,
-  .room-broadside .bb-note { display: none !important; }
+  /* ONLY THE SHEETS, AND NOTHING ELSE THAT MIGHT BE IN THE DOCUMENT. Not a list
+     of this room's own parts: anything the page did not write -- the CB's host,
+     a browser extension's injected box -- is also a child of <body>, and any
+     box outside the sheets is somewhere a page can start. The whole document is
+     on the sheets' page, so a stray empty box cannot force a page change either,
+     and no side is broken BEFORE: side A breaks after itself, and a second sheet
+     breaks before its own side A only when the whole shelf is printing. The
+     first draft broke before every side and put the sheets alone on the named
+     page, and it printed two blank pages for Ryan while printing clean here. */
+  body.room-broadside { page: bb; }
+  body.room-broadside > :not(main), .room-broadside main > :not(.bb-sheets),
+  .room-broadside .bb-issue { display: none !important; }
   .room-broadside main { width: auto !important; padding: 0 !important; margin: 0 !important; }
   .room-broadside .bb-sheets, .room-broadside .bb-shelf, .room-broadside .bb-set,
   .room-broadside .bb-sides { display: block !important; margin: 0 !important; padding: 0 !important; }
   body[data-bb-print] .bb-set:not(.bb-printing) { display: none !important; }
-  .room-broadside .bb-sheet { page: bb; break-before: page; break-inside: auto;
+  .room-broadside .bb-sheet--a { break-after: page; }
+  body:not([data-bb-print]) .bb-set + .bb-set .bb-sheet--a { break-before: page; }
+  .room-broadside .bb-sheet { break-inside: auto;
     width: 194mm !important; max-width: none !important; min-height: 259mm !important;
     margin: 0 !important; padding: 9mm 10mm 7mm !important; border-right: 0 !important;
     border-left: 0 !important; border-bottom: 0 !important; }

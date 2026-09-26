@@ -199,6 +199,28 @@ def broadside_check(browser):
                 print(f"       {describe(i)}")
             if not good:
                 bad.append(page.name)
+            # AND AGAIN WITH SOMETHING ELSE IN THE DOCUMENT. The first version of
+            # this room printed two clean pages here and two blank ones in Ryan's
+            # browser, because he was signed on to the CB and its host is a block
+            # at the foot of <body> -- and a browser extension's injected box is
+            # the same shape. So the page is printed a second time with a stray
+            # block at each end of <body>, from a copy beside it so every relative
+            # path still resolves, and must come out the same.
+            src = page.read_text()
+            stray = ROOT / f"_print-stray-{page.name}"
+            try:
+                stray.write_text(src.replace(
+                    '<body class="room-broadside"',
+                    '<body class="room-broadside" data-stray', 1).replace(
+                    'id="top">', 'id="top"><div style="height:40px">stray</div>', 1).replace(
+                    '</body>', '<div class="cb-host" style="height:30px">stray</div></body>', 1))
+                n2 = sheets_in(render(browser, stray, Path(tmp) / "stray.pdf"))
+            finally:
+                stray.unlink(missing_ok=True)
+            print(f"{'ok  ' if n2 == want else 'FAIL'} {n2} pages with a stray box at each end "
+                  f"of <body> (want {want})  {page.name}")
+            if n2 != want:
+                bad.append(page.name + " (with something else in the document)")
     if bad:
         print(
             "\nThe press says every broadside prints to one sheet, both sides, in its own\n"
