@@ -1,6 +1,7 @@
 {
   "_what": "The Broadsheet Broadside's sheets. tools/make-broadside.py builds each one into broadsheet-broadside.html, both sides, and refuses a sheet that breaks the form. The form is the Stimpunks broadsides' on stimpunks.org/library/broadsides/ and whysheet.press, and theirs is Alfie Kohn's Why Sheet: one sheet, printed both sides, the face carrying one thing readable across a room and the reverse doing the work. Ryan's brief, 2026-09-25: a broadsheet press for this street, and the first sheet an introduction to it.",
   "_fields": "Every text field is HTML and goes into the markup as written, so an entity is right here. Every link on a sheet must read as its own address, because a link on paper is an underlined word that goes nowhere; make-broadside.py refuses one that does not. The type credit and the licence line are generated, the first out of data/foundry-faces.json and the second out of `licence`, so neither can be left off a sheet.",
+  "_licence": "Every sheet is dedicated CC0 1.0, Ryan's call of 2026-09-25, like the Stimpunks broadsides on stimpunks.org: print a stack and give them away, with no permission needed and no credit required. It covers the sheets' words and layout wherever they appear, this file included, and nothing else: not the typefaces, which keep their own licences, not Danny the Street, whose name is DC Comics', and not the room around the sheets, which is this street's and stays CC BY-SA 4.0. See LICENSE.",
   "_spots": "Each sheet brings its own pair of spot inks and no two sheets share a pair, which is the Stimpunks method: hues run out long before pairs do, and the pair is what tells two sheets apart face down in a stack. Each ink is held at AA on white by the tool and printed on paper by love.css's §62, the one place this street lets a colour survive the print reset.",
   "sheets": [
     {
@@ -11,8 +12,8 @@
       "made": "2026-09-25",
       "spots": ["#9C3A11", "#175A7D"],
       "spots_why": "The house's own orange and blue paper inks, from the Stimpunks broadside method's table: the red inside a gunport lid and the sea under the hull, darkened until they print. 6.94 and 7.51 on white.",
-      "licence": "CC BY-SA 4.0",
-      "licence_href": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "licence": "CC0 1.0",
+      "licence_href": "https://creativecommons.org/publicdomain/zero/1.0/",
       "a": {
         "side": "Side A &middot; to pin up",
         "title": "Stimpunks<em>.World</em>",

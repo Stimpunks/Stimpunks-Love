@@ -76,6 +76,19 @@ AA = 4.5
 # The two families every sheet is set in. The credit on each sheet names who
 # drew them, read off the record, never typed.
 SHEET_FACES = ("atkinson-hyperlegible-next", "atkinson-hyperlegible-mono")
+# The licences a sheet may carry, each with its address and the words that go
+# on the paper after it. A licence this does not know is refused rather than
+# printed with somebody else's sentence, because the sentence is the licence as
+# a reader meets it: CC0 asks for nothing, so its line cannot say "keep this on
+# it" the way BY-SA's must. Ryan's call, 2026-09-25: the press's sheets are CC0,
+# like the Stimpunks broadsides they are modelled on.
+LICENCES = {
+    "CC0 1.0": ("https://creativecommons.org/publicdomain/zero/1.0/",
+                "print it, copy it, change it and share it, with no permission needed "
+                "and no credit required. We ask for the credits anyway."),
+    "CC BY-SA 4.0": ("https://creativecommons.org/licenses/by-sa/4.0/",
+                     "copy it, change it and share it, with this line still on it."),
+}
 
 HEX = re.compile(r"^#[0-9A-Fa-f]{6}$")
 LINK = re.compile(r'<a\s+href="([^"]+)"\s*>(.*?)</a>', re.S)
@@ -163,6 +176,12 @@ def check(d, faces):
         for k in ("name", "moment", "made", "licence", "licence_href", "spots_why"):
             if not s.get(k):
                 bad.append(f"{who}: no {k}.")
+        if s.get("licence") not in LICENCES:
+            bad.append(f"{who}: licence {s.get('licence')!r} is not one this press knows the "
+                       f"words for ({', '.join(LICENCES)}).")
+        elif s.get("licence_href") != LICENCES[s["licence"]][0]:
+            bad.append(f"{who}: {s['licence']} lives at {LICENCES[s['licence']][0]}, not "
+                       f"{s.get('licence_href')}.")
         if set(k for k in s if k in ("a", "b", "c")) != {"a", "b"}:
             bad.append(f"{who}: a sheet is two sides, A and B, and nothing else.")
             continue
@@ -333,8 +352,7 @@ def side_b(s, faces):
     page = "https://stimpunks.world/broadsheet-broadside.html"
     out.append(f'      <p class="bb-sources">This sheet: <a href="{page}">{address(page)}</a> '
                f'&middot; {html.escape(s["licence"])}, <a href="{html.escape(s["licence_href"])}">'
-               f'{address(s["licence_href"])}</a>: copy it, change it and share it, with this '
-               'line still on it.</p>')
+               f'{address(s["licence_href"])}</a>: {LICENCES[s["licence"]][1]}</p>')
     out += [foot(b), '    </section>']
     return "\n".join(out)
 

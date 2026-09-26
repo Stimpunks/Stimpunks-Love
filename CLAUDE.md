@@ -2721,8 +2721,11 @@ hidden on paper site-wide, and `check-print.py` prints the room a second time wi
 each end of `<body>` (the old rules failed it at four pages). **A headless render has no extensions
 and nobody signed in; test the document you did not write, too.** **The minimum height is two millimetres under the page box on purpose**, for the Stimpunks
 method's 0.4mm-onto-a-third-page reason, and a side that overruns spills onto a third page rather than
-clipping, which is what makes the page count the check. **The sheets are CC BY-SA 4.0 and the
-Stimpunks broadsides are CC0**; that is open in DECISIONS.md and it is Ryan's.
+clipping, which is what makes the page count the check. **The sheets are CC0 and the room is
+CC BY-SA**, Ryan's call of 2026-09-25, and `LICENSE` says which is which. `make-broadside.py`
+writes each licence's own sentence rather than one for all of them: CC0 asks for nothing, so its
+line cannot say "keep this on it" the way BY-SA's must, and a licence the tool has no words for is
+refused.
 
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
