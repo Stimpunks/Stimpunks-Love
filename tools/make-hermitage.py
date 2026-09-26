@@ -32,6 +32,14 @@ WHAT IT REFUSES, and why each one is a bug that does not announce itself:
   - A LINK-OUT WITH NO REASON ON IT. Playing and embedding are two different
     permissions. A doc published as a door rather than a screen has to say why
     on its own face, or it reads as an inconsistency somebody forgot to fix.
+  - A RUNTIME ON THE CAVE'S PLAYLIST, which is the documentary rule upside
+    down in the same file, on purpose. A film has a length; a playlist is a
+    list somebody keeps adding to, and today's total is wrong the next time it
+    changes while looking authoritative in the meantime. make-chappell.py and
+    make-club.py hold the same pair. Do not make them agree.
+  - A CAVE PLAYLIST FRAMED SOMEWHERE love-embed.js WILL NOT BUILD, or carrying
+    no list id. The first is a button that is pressed and pressed and never
+    becomes anything; the second is a label lying about what it plays.
   - MARKERS WITH NO DATA, OR DATA WITH NO MARKERS, in either surface.
 """
 import html
@@ -117,6 +125,25 @@ def check(data):
             bad.append(f"{title!r} is neither a screen nor a door.")
         if d.get("how") == "link" and not (d.get("why_link") or "").strip():
             bad.append(f"{title!r} is a door out and does not say why on its own face.")
+
+    pl = data.get("cave_playlist") or {}
+    if not pl:
+        bad.append("data/hermitage.json has no cave_playlist, and the cave's speaker plays it.")
+    else:
+        src = (pl.get("frame") or "").strip()
+        if not src.startswith(origins()):
+            bad.append(f"the cave's playlist frames {src!r}, which is not an origin in "
+                       "love-embed.js's ORIGINS, so the button would never become a player.")
+        if "list=" not in src:
+            bad.append("the cave's playlist frame carries no list id, so it is not a playlist.")
+        if pl.get("length") or pl.get("spoken") or pl.get("runtime"):
+            bad.append("the cave's playlist carries a runtime. Every documentary here must "
+                       "have one and this must not: a playlist is a list somebody keeps "
+                       "adding to, so a total is wrong the next time it changes. Say it "
+                       "runs until you stop it.")
+        for k in ("title", "note", "list", "from", "from_title"):
+            if not (pl.get(k) or "").strip():
+                bad.append(f"the cave's playlist has no {k}.")
 
     for b in data.get("beanbags") or []:
         t = (b.get("term") or "").strip() or "<unnamed chair>"
@@ -213,6 +240,36 @@ def check(data):
                        "text decoded twice. Read it again off its own page, in UTF-8.")
 
     return bad
+
+
+def origins():
+    """The origins love-embed.js will build a frame for, read out of its own
+    ORIGINS array rather than restated here -- a third hand-kept copy of that
+    list is how videopress.com went missing from the live site."""
+    src = (ROOT / "love-embed.js").read_text()
+    block = re.search(r"ORIGINS\s*=\s*\[(.*?)\]", src, re.S)
+    if not block:
+        raise SystemExit("REFUSING: love-embed.js has no ORIGINS array, so this tool "
+                         "cannot tell whether the cave's frame points anywhere it builds.")
+    return tuple(re.findall(r"'(https://[^']+)'", block.group(1)))
+
+
+def speaker(pl):
+    """The cave's speaker. NO RUNTIME ON THIS LABEL, and it says why in the
+    room rather than leaving a blank for somebody to fill in."""
+    return (
+        f'    <p style="margin:10px 0 0;max-width:60ch;">{esc(pl["note"])}</p>\n'
+        f'    <button type="button" class="facade" '
+        f'data-embed-src="{esc(pl["frame"])}" '
+        f'data-embed-title="{esc(pl["title"])} on YouTube">\n'
+        f'      Play {esc(pl["title"])} &mdash; runs until you stop it\n'
+        f'      <span class="facade__play">&#9654; PRESS PLAY</span>\n'
+        f'    </button>\n'
+        f'    <p class="speaker__note">No runtime on this one: a playlist is a list somebody '
+        f'keeps adding to, and a total here would be wrong the next time it changed. It is '
+        f'Ryan&rsquo;s, one of the stimming and coping playlists on our '
+        f'<a href="{esc(pl["from"])}">{esc(pl["from_title"])}</a> page, and it starts at the '
+        f'top in his order. On YouTube, from <a href="{esc(pl["list"])}">our own channel</a>.</p>')
 
 
 def shelves(books):
@@ -346,6 +403,14 @@ def kin(pieces):
     return "\n".join(out)
 
 
+def playlist_row(pl):
+    return (f'  <p>The speaker in the cave plays <a href="{esc(pl["list"])}">{esc(pl["title"])}</a>, '
+            f'which is Ryan&rsquo;s: one of the stimming and coping playlists on our '
+            f'<a href="{esc(pl["from"])}">{esc(pl["from_title"])}</a> page, where it is on Spotify, '
+            f'copied to our YouTube channel with TuneMyMusic. Every piece on it is its composer&rsquo;s '
+            f'and its performers&rsquo;, and none of them is affiliated with Stimpunks or endorses us. It says no runtime, on purpose.</p>')
+
+
 def herb_rows(specimens):
     out = []
     for sp in specimens:
@@ -413,6 +478,7 @@ def main():
 
     books, docs = data["books"], data["docs"]
     swap(ROOM, "hermitage-shelves", shelves(books), "    ")
+    swap(ROOM, "hermitage-speaker", speaker(data["cave_playlist"]), "    ")
     swap(ROOM, "hermitage-campfire", campfire(docs), "    ")
     swap(ROOM, "hermitage-chairs", chairs(data["beanbags"]), "    ")
     swap(ROOM, "hermitage-herbarium", sheets(data["herbarium"]), "    ")
@@ -420,6 +486,7 @@ def main():
     swap(ROOM, "hermitage-kin", kin(data["starstuff"]), "    ")
     swap(NOTES, "hermitage-docs", doc_rows(docs), "      ")
     swap(NOTES, "hermitage-books", book_rows(books), "      ")
+    swap(NOTES, "hermitage-playlist", playlist_row(data["cave_playlist"]), "  ")
     swap(NOTES, "hermitage-herb", herb_rows(data["herbarium"]), "      ")
     swap(NOTES, "hermitage-solar", solar_rows(data["solar_watch"], data["solar_read"]), "      ")
     swap(NOTES, "hermitage-kin-credits", kin_rows(data["starstuff"]), "      ")

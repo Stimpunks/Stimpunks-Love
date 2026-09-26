@@ -95,8 +95,8 @@
   },
   {
    "page": "solarpunk-hermitage.html",
-   "what": "A cabin on wheels under solar panels, with one television at the campfire and a channel listing of documentaries to have on while you get on with something else.",
-   "holds": ["The campfire", "Channel Listing"]
+   "what": "A cabin on wheels under solar panels, with a speaker in the cave's curtain playing one playlist, and one television at the campfire with a channel listing of documentaries to have on while you get on with something else.",
+   "holds": ["The speaker", "The campfire", "Channel Listing"]
   },
   {
    "page": "black-leather-lagoon.html",

@@ -5402,6 +5402,16 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 .laptop__base { height: 12px; border-radius: 0 0 14px 14px; background: var(--velvet-2); border: 2px solid var(--gilt); border-top: 0; }
 .laptop__note { margin: 10px 0 0; font-size: 14px; color: var(--wick-2); }
 
+/* The speaker. A §4 facade in the cave's own clothes rather than the street's
+   ink-and-yellow, and styled FROM THE CONTAINER: love-embed.js swaps the button
+   for a bare <div class="facade"> on the press, so a class on the button would
+   evaporate and leave the player in the street's colours. Velvet-3 and gilt,
+   the laptop's bezel, because they are two things in one room. */
+.cave .facade { margin: 14px 0 0; background: var(--velvet-3); border: 2px solid var(--gilt); color: var(--wick); font-family: 'Sora', sans-serif; font-size: 16px; }
+.cave button.facade:hover { background: var(--velvet-2); }
+.cave .facade .facade__play { color: var(--gilt); }
+.speaker__note { margin: 10px 0 0; font-size: 14px; max-width: 60ch; }
+
 /* The campfire. A SHAG RUG WITH BEAN BAGS ON IT, which is the third green
    carpet on this street and has to answer for itself: The Den's is a slab of
    1976 pile with a track list set DARK ON TOP OF IT, and this is a rug you sit
