@@ -330,9 +330,15 @@ def tracks_in(data):
         # BELOW KEYS ON state: a doc already published as a door out is expected
         # to fail the embed check, and reporting it every run would be this tool
         # shouting about a decision somebody already made.
+        #
+        # AND THE SOUND SYSTEM'S RECORDS SINCE 2026-09-26, which is the third
+        # list in that file and the same hole a third time if it is left out.
+        # A record that is an album list carries the video at its POSITION 1 as
+        # 'id', because that entry decides whether the whole list embeds.
         return [dict(d, artist=d.get("channel"),
                      state="link" if d.get("how") == "link" else None)
-                for d in (data.get("docs", []) + data.get("solar_watch", []))]
+                for d in (data.get("docs", []) + data.get("solar_watch", [])
+                          + data.get("sound", []))]
     # LAUGHINGSTOCK IS TESTED BEFORE LOOMING ROCKS, AND THE ORDER IS THE FIX.
     # Its data file carries 'acts' too -- the comics and their lines in the
     # light, which are people rather than videos -- and this branch used to sit

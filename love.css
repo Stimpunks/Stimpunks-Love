@@ -5590,6 +5590,48 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 .tune:hover { background: var(--sprout-2); }
 .ch--on .tune { background: var(--furrow); }
 
+/* The sound system. A stereo on a long low console against the wall behind
+   the chairs, standing on the same green shag. THE SCENE'S RULE HOLDS: the
+   wood carries a --furrow outline, because cedar on the rug is 1.15; the
+   casings are the television's bakelite and carry themselves, 3.22 on the
+   cedar, 3.71 on the rug and 13.54 on the wall. Every other ink is one this
+   room already uses, and every pair is in check-contrast.py. Nothing in the
+   drawing moves at any setting, and it is aria-hidden: the paragraph above it
+   says what is on the console. */
+.hifi { margin: 16px 0 0; }
+.hifi__drawing { display: block; width: 100%; height: auto; }
+.hifi-floor { fill: var(--turf); }
+.hifi-case { fill: var(--bakelite); }
+.hifi-trim { fill: var(--bakelite-2); }
+.hifi-black { fill: var(--bigscreen-off); }
+.hifi-face { fill: var(--bigscreen-dim); }
+.hifi-lamp { fill: var(--bloom); }
+.hifi-leaf { fill: var(--sprout); }
+.hifi-wood { fill: var(--cedar); stroke: var(--furrow); stroke-width: 3; }
+.hifi-line { fill: none; stroke: var(--furrow); stroke-width: 3; stroke-linecap: round; }
+.hifi-needle { fill: none; stroke: var(--furrow); stroke-width: 2.5; stroke-linecap: round; }
+.hifi-arm { fill: none; stroke: var(--bigscreen-dim); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+
+/* The records. Cards on the page ground like the channel listing's, and each
+   press-to-play dressed as the set's own casing rather than the street's ink
+   and yellow -- styled FROM THE CONTAINER, because love-embed.js swaps the
+   button for a bare <div class="facade"> and a class on the button would not
+   survive the press. */
+.hifi__records { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.hifi__record { background: var(--noon-2); border: 2px solid var(--furrow); border-radius: 12px;
+  padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; }
+.hifi__record h4 { margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 19px;
+  line-height: 1.2; color: var(--furrow); }
+.hifi__record p { margin: 0; font-size: 14.5px; color: var(--furrow-2); }
+.hifi__record .hifi__year { font-family: 'Sora', sans-serif; font-size: 11.5px; letter-spacing: 2px; color: var(--sprout-2); }
+.hifi__record .hifi__by { font-size: 13.5px; }
+.hifi__record .hifi__credit { font-size: 13px; }
+.hifi__record .facade { margin: 4px 0 0; background: var(--bakelite); border: 0; color: var(--bigscreen-lit);
+  font-family: 'Sora', sans-serif; font-size: 15px; }
+.hifi__record button.facade:hover { background: var(--bigscreen-off); }
+.hifi__record .facade .facade__play { color: var(--bigscreen-dim); }
+
 /* THE WATERING HOLE. Three benches under a window, and the shape has to answer
    to the two zones either side of it in the same room: the cave is enclosed,
    round-cornered and dark; the campfire is seated, and its cards are rounded

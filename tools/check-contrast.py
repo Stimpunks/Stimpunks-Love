@@ -962,6 +962,21 @@ PAIRS = [
     (TELLY_LIT, BAKELITE, True,  "campfire: the play button's ring where it meets the casing"),
     (TELLY_OFF, TELLY_LIT, False, "campfire: the play button inverted, under the pointer"),
     (BAKELITE_2, BAKELITE, True, "campfire: the brand strip on the set's casing"),
+    # The sound system, on the wall behind the chairs. The casings carry
+    # themselves, like the set; the wood takes the scene's --furrow outline.
+    (BAKELITE, CEDAR,  True,  "sound system: a casing standing on the console, 3.22"),
+    (BAKELITE, NOON,   True,  "sound system: the speakers and the stack against the wall"),
+    (TELLY_OFF, BAKELITE_2, True, "sound system: a speaker cone inside its surround, and the record on the platter"),
+    (TELLY_DIM, BAKELITE, True, "sound system: the meter faces, the display and the tonearm on a casing"),
+    (FURROW,  TELLY_DIM, True, "sound system: a meter's needle on its face"),
+    (BLOOM,   BAKELITE, True, "sound system: the power lamp, and a lit spine in the cupboard"),
+    (BLOOM,   TELLY_OFF, True, "sound system: the label in the middle of the record"),
+    (FURROW,  NOON,   True,  "sound system: the console's outline where it stands against the wall"),
+    (TELLY_LIT, BAKELITE, False, "sound system: the words on a record's play button"),
+    (TELLY_DIM, BAKELITE, False, "sound system: PRESS PLAY on the same button"),
+    (TELLY_LIT, TELLY_OFF, False, "sound system: the play button's words, hovered"),
+    (TELLY_DIM, TELLY_OFF, False, "sound system: PRESS PLAY, hovered"),
+    (SPROUT2, NOON2,  False, "sound system: a record's year, on its card"),
 
     # THE THIRTEEN COLOURS THIS FILE HAD NEVER SEEN, resolved. Five were a dead
     # palette and are deleted; these are the ones that turned out to be real.

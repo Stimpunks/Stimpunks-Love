@@ -40,6 +40,14 @@ WHAT IT REFUSES, and why each one is a bug that does not announce itself:
   - A CAVE PLAYLIST FRAMED SOMEWHERE love-embed.js WILL NOT BUILD, or carrying
     no list id. The first is a button that is pressed and pressed and never
     becomes anything; the second is a label lying about what it plays.
+  - A RECORD AT THE CAMPFIRE'S SOUND SYSTEM WITH NO RUNTIME, which is the cave
+    speaker's rule the right way up again: a record here is a WHOLE ALBUM, and
+    an album is finished, so it has a length the way a song does. And a record
+    framed from any list that is NOT an album is refused, because both other
+    kinds arrived on the first day: a PL playlist on somebody else's channel,
+    with a 78-minute pop mix grown onto the end of the album, and a radio mix
+    (RD), which is different for every listener and never ends. An album list
+    (OLAK5uy_) or a single video; nothing else has a length anybody can state.
   - MARKERS WITH NO DATA, OR DATA WITH NO MARKERS, in either surface.
 """
 import html
@@ -144,6 +152,30 @@ def check(data):
         for k in ("title", "note", "list", "from", "from_title"):
             if not (pl.get(k) or "").strip():
                 bad.append(f"the cave's playlist has no {k}.")
+
+    records = data.get("sound") or []
+    if not records:
+        bad.append("data/hermitage.json has no sound records, and the stereo is for them.")
+    for r in records:
+        t = (r.get("title") or "").strip() or "<untitled record>"
+        for k in ("artist", "note", "channel"):
+            if not (r.get(k) or "").strip():
+                bad.append(f"the record {t!r} has no {k}.")
+        if not re.fullmatch(r"\d{4}", (r.get("year") or "").strip()):
+            bad.append(f"the record {t!r} has no year of first release. Read it off "
+                       "MusicBrainz, never off an upload's 'Released on' line.")
+        if not YT.match((r.get("id") or "").strip()):
+            bad.append(f"the record {t!r} has {r.get('id')!r} for its first video, which "
+                       "is not a YouTube id.")
+        if not (r.get("length") or "").strip() or not (r.get("spoken") or "").strip():
+            bad.append(f"the record {t!r} has no runtime. An album is finished and has a "
+                       "length; every control at the campfire says it before the press.")
+        lst = (r.get("list") or "").strip()
+        if lst and not re.fullmatch(r"OLAK5uy_[A-Za-z0-9_-]{33}", lst):
+            bad.append(f"the record {t!r} plays the list {lst!r}, which is not an album. "
+                       "A PL playlist can grow and a radio mix never ends, so neither has "
+                       "the runtime this label states. Use the album's own list, or the "
+                       "single video.")
 
     for b in data.get("beanbags") or []:
         t = (b.get("term") or "").strip() or "<unnamed chair>"
@@ -270,6 +302,37 @@ def speaker(pl):
         f'Ryan&rsquo;s, one of the stimming and coping playlists on our '
         f'<a href="{esc(pl["from"])}">{esc(pl["from_title"])}</a> page, and it starts at the '
         f'top in his order. On YouTube, from <a href="{esc(pl["list"])}">our own channel</a>.</p>')
+
+
+def records(recs):
+    """The records beside the stereo. EVERY ONE SAYS HOW LONG IT RUNS BEFORE THE
+    PRESS, like every channel on the television, and names the writers where the
+    performers wrote none of it."""
+    out = []
+    for r in recs:
+        if r.get("list"):
+            attrs = (f'data-embed-src="https://www.youtube-nocookie.com/embed/videoseries?'
+                     f'list={esc(r["list"])}"')
+            what = "the whole album"
+        else:
+            attrs = f'data-embed-id="{esc(r["id"])}"'
+            what = "the whole album, in one video"
+        writers = (f'\n        <p class="hifi__credit">{esc(r["writers"])}</p>'
+                   if r.get("writers") else "")
+        out.append(
+            '      <li class="hifi__record">\n'
+            f'        <p class="hifi__year">{esc(r["year"])}</p>\n'
+            f'        <h4>{esc(r["title"])}</h4>\n'
+            f'        <p class="hifi__by">{esc(r["artist"])} &middot; {what} &middot; {esc(r["length"])}</p>\n'
+            f'        <p>{esc(r["note"])}</p>\n'
+            f'        <button type="button" class="facade" {attrs} '
+            f'data-embed-title="{esc(r["artist"])} — {esc(r["title"])}">\n'
+            f'          Put the record on &mdash; {esc(r["spoken"])}\n'
+            f'          <span class="facade__play">&#9654; PRESS PLAY</span>\n'
+            f'        </button>{writers}\n'
+            f'        <p class="hifi__credit">On YouTube, from {esc(r["channel"])}.</p>\n'
+            '      </li>')
+    return "\n".join(out)
 
 
 def shelves(books):
@@ -411,6 +474,18 @@ def playlist_row(pl):
             f'and its performers&rsquo;, and none of them is affiliated with Stimpunks or endorses us. It says no runtime, on purpose.</p>')
 
 
+def record_rows(recs):
+    out = []
+    for r in recs:
+        where = (f'https://www.youtube.com/playlist?list={esc(r["list"])}' if r.get("list")
+                 else f'https://www.youtube.com/watch?v={esc(r["id"])}')
+        out.append(
+            f'      <tr><td><strong>{esc(r["title"])}</strong></td><td>{esc(r["artist"])}</td>'
+            f'<td>{esc(r["year"])}</td><td>{esc(r["length"])}</td><td>{esc(r["channel"])}</td>'
+            f'<td><a href="{where}">listen</a></td></tr>')
+    return "\n".join(out)
+
+
 def herb_rows(specimens):
     out = []
     for sp in specimens:
@@ -480,6 +555,7 @@ def main():
     swap(ROOM, "hermitage-shelves", shelves(books), "    ")
     swap(ROOM, "hermitage-speaker", speaker(data["cave_playlist"]), "    ")
     swap(ROOM, "hermitage-campfire", campfire(docs), "    ")
+    swap(ROOM, "hermitage-sound", records(data["sound"]), "    ")
     swap(ROOM, "hermitage-chairs", chairs(data["beanbags"]), "    ")
     swap(ROOM, "hermitage-herbarium", sheets(data["herbarium"]), "    ")
     swap(ROOM, "hermitage-bench", bench(data["solar_watch"], data["solar_read"]), "    ")
@@ -487,6 +563,7 @@ def main():
     swap(NOTES, "hermitage-docs", doc_rows(docs), "      ")
     swap(NOTES, "hermitage-books", book_rows(books), "      ")
     swap(NOTES, "hermitage-playlist", playlist_row(data["cave_playlist"]), "  ")
+    swap(NOTES, "hermitage-sound-credits", record_rows(data["sound"]), "      ")
     swap(NOTES, "hermitage-herb", herb_rows(data["herbarium"]), "      ")
     swap(NOTES, "hermitage-solar", solar_rows(data["solar_watch"], data["solar_read"]), "      ")
     swap(NOTES, "hermitage-kin-credits", kin_rows(data["starstuff"]), "      ")

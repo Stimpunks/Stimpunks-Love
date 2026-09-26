@@ -14,6 +14,53 @@
     "from_title": "Our Stims",
     "note": "Tucked into the curtain beside the chair, and running off the same panels as the lamp. It plays one playlist, Oblivion Slip: pieces by Erik Satie, Philip Glass, Steve Reich, Brian Eno, Nils Frahm and others, for reading to or for not reading at all."
   },
+  "_sound": "The campfire's sound system: a stereo on a long low console behind the chairs, and the records beside it. RYAN CHOSE THE RECORDS, 2026-09-26, in this order; nothing here was picked in this repo. EVERY RECORD IS A WHOLE ALBUM AND SAYS HOW LONG IT RUNS, which is the campfire's promise and not the cave speaker's: an album is finished and nobody adds to it, so it has a length the way a song does (make-den.py's rule), where a playlist somebody keeps adding to has none. make-hermitage.py therefore REFUSES a record with no runtime, and REFUSES one framed from any list that is not an album: a PL playlist can grow, and a radio mix (RD) is different for every listener and never ends. BOTH OF THOSE ARRIVED. The AURORA link Ryan sent was a playlist on somebody else's channel (Revive Music) with the sixteen songs on it and then a 78-minute 'Clean Pop' mix added on the end, so the record plays YouTube's own album list for What Happened to the Heart? instead (OLAK5uy_kEak_Ju97hI10fO5oKKeW577uY8GAnkKI, read off the album's first track's own watch page). The Pink Floyd link carried a radio mix (list=RD…&start_radio=1) after the video, so the record is the video alone, which is the whole album on Pink Floyd's own channel. MEASURED 2026-09-26: each runtime is the sum of what the list actually plays today, read with yt-dlp, and the single video's own lengthSeconds. 'id' is the video at POSITION 1 of each list, because that entry decides whether the whole list embeds at all (Queercore's lesson), and check-jukebox.py checks it with its channel. Every one answered OK and playableInEmbed true. Years are the albums' first releases off MusicBrainz, never an upload's 'Released on' line (the Lagoon's lesson: the Mingus upload says 1995). Credits are read off the uploads' own descriptions. WRITERS ARE NAMED WHERE THE PERFORMERS WROTE NONE OF IT, which is The Den's rule: the Coltrane and Hartman record is six standards, and each composer and lyricist was read off that track's own description. AURORA'S ALBUM LIST PLAYS HER VISUALISERS, mostly on iamAURORAVEVO, and for 'My Body Is Not Mine' the Warriors Version on her own channel: that is what YouTube's own list for the album holds, and the note says so rather than calling it the album as released. No lyrics are on the page.",
+  "sound": [
+    {
+      "title": "John Coltrane and Johnny Hartman",
+      "artist": "John Coltrane and Johnny Hartman",
+      "year": "1963",
+      "list": "OLAK5uy_ngX5UfQV3KBXD2cBpUFU1i4haE6dihe1Q",
+      "id": "tUnm-lxHn2A",
+      "channel": "Johnny Hartman - Topic",
+      "length": "31:17",
+      "spoken": "31 min",
+      "note": "John Coltrane with the singer Johnny Hartman: six songs, the whole album, in its own order. Produced by Bob Thiele and John Coltrane, and recorded by Rudy Van Gelder.",
+      "writers": "None of the six is theirs. The songs are by Irving Berlin; Sammy Cahn, Saul Chaplin and Hy Zaret; Guy B. Wood and Robert Mellin; Billy Strayhorn; Richard Rodgers and Lorenz Hart; and Peter DeRose and Sammy Gallop."
+    },
+    {
+      "title": "The Black Saint and the Sinner Lady",
+      "artist": "Charles Mingus",
+      "year": "1963",
+      "list": "OLAK5uy_lIO_RYYjq7xrmEnlIy3mZMoSJUDtSAoAQ",
+      "id": "4FdNFttVrOo",
+      "channel": "Charles Mingus - Topic",
+      "length": "39:28",
+      "spoken": "39 min",
+      "note": "Composed by Charles Mingus and played by eleven musicians, every one of them named on the album’s own tracks. Four tracks, and the last is three movements run together. Produced by Bob Thiele."
+    },
+    {
+      "title": "The Dark Side of the Moon",
+      "artist": "Pink Floyd",
+      "year": "1973",
+      "id": "k9ynZnEBtvw",
+      "channel": "Pink Floyd",
+      "length": "42:56",
+      "spoken": "43 min",
+      "note": "The 2023 remaster, made for the album’s fiftieth anniversary, as one video on Pink Floyd’s own channel, with its ten tracks marked in the video’s description."
+    },
+    {
+      "title": "What Happened to the Heart?",
+      "artist": "AURORA",
+      "year": "2024",
+      "list": "OLAK5uy_kEak_Ju97hI10fO5oKKeW577uY8GAnkKI",
+      "id": "5TLG3gU--qw",
+      "channel": "iamAURORAVEVO",
+      "length": "1:01:58",
+      "spoken": "1 hr 2 min",
+      "note": "Sixteen songs, played the way YouTube’s own list for the album plays them: mostly as AURORA’s visualisers, and “My Body Is Not Mine” as its Warriors Version."
+    }
+  ],
   "_runtime": "EVERY ONE CARRIES ITS RUNTIME AND make-hermitage.py REFUSES ONE WITHOUT. A documentary has a length, and the number is what lets somebody decide before they press. That is the opposite check to make-jungle.py's, which refuses a runtime, and it is the same promise: a live camera has no length to give and a film does.",
   "_beanbags": "What is on each chair around the campfire. EACH ONE NAMES A REAL ENTRY IN OUR OWN GLOSSARY and make-hermitage.py refuses one without a page, because a chair with an invented hobby on it is set dressing and the rest of this room is not. Two of them carry somebody else's words and say so out loud: parallel play is @neurowonderful's description, and stim-watching is Jim Irion's term and his account.",
   "_herbarium": "The pressed sheets on the workshop's first table. EVERY SPECIMEN IS ON IT BECAUSE ONE OF OUR OWN PAGES ARGUES FROM IT, and make-hermitage.py refuses one without that page — which is why there is no sunflower sheet, although sunflowers are the plant growing outside the door. We have no page about them, so there is nothing to press. NO BINOMIALS ANYWHERE IN HERE, on purpose: a Latin name typed from memory is a taxonomic claim nobody checked, wearing the one kind of authority a herbarium sheet has. Moss, lichen, fern and mycelium are groups rather than species in any case, and the mycelium is not a plant at all and says so on its own sheet.",
