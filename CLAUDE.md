@@ -2404,6 +2404,13 @@ scrolls under a reader**: it used to jump to the bottom on every listen, so scro
 four seconds later. It follows the newest message only when something new arrived and the log was
 already at the bottom, or when you transmitted.
 
+**SMALL IS STILL ON, AND FOLDED IS OFF.** Ryan, 2026-09-25, watching a film at the Hermitage's
+campfire with the radio over the screen: small is the bar and the newest message, clamped, listening
+exactly as full size does. It is the same log with the older messages hidden, so the live region
+still reads what arrives. **Do not merge small into folded** to save a button: folded sending nothing
+is a promise on the privacy page, and small exists precisely because somebody wanted to keep hearing.
+Nothing lights up when a message lands in either size.
+
 **OPEN IS ON AND CLOSED IS OFF, AND THAT IS ONE FUNCTION.** `Radio.prototype.tune` is the only place
 that decides whether the radio makes requests: open *and* `document.visibilityState === 'visible'`.
 Folded or in a background tab it sends nothing, which is both the brief's "if the CB is closed you

@@ -129,4 +129,19 @@
 .cb-tools { display: flex; flex-wrap: wrap; gap: 8px; }
 .cb-norms { font-size: 13px; }
 
+/* SMALL: the bar and the newest message, and nothing else. It is the same log
+   with the older messages hidden, so the live region still reads what arrives,
+   and the newest is clamped to a few lines so a long one cannot grow the radio
+   back over whatever it was made small to get out of the way of. */
+.cb-radio--small .cb-who, .cb-radio--small .cb-tx, .cb-radio--small .cb-said,
+.cb-radio--small .cb-tools, .cb-radio--small .cb-norms, .cb-radio--small .cb-take { display: none; }
+.cb-radio--small .cb-set { padding: 8px; }
+.cb-radio--small .cb-lcd { padding: 6px 9px; }
+.cb-radio--small .cb-log { max-height: none; overflow: hidden; }
+.cb-radio--small .cb-log > li:not(:last-child) { display: none; }
+.cb-radio--small .cb-text {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3;
+  overflow: hidden;
+}
+
 @media print { .cb-radio { display: none; } }

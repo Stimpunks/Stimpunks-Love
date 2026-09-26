@@ -30,6 +30,10 @@
        out of the list in /cb-rooms.json; a #word that is not a room stays a
        word. See hashRooms, and the completion list under the message box.
      · IT NEVER SCROLLS UNDER SOMEBODY WHO IS READING. See show.
+     · SMALL IS STILL ON. Folded is off and sends nothing; small is the bar and
+       the newest message and nothing else, listening as it does full size, so
+       somebody can watch a film in a room and still see the channel. See
+       setSmall.
 
    It moves with the pointer or with the keyboard, and the keyboard is not an
    afterthought: a panel you can only reposition by dragging is a panel some of
@@ -211,6 +215,10 @@
     bar.appendChild(move);
     bar.appendChild(moveHow);
 
+    var size = this.sizeBtn = el('button', 'cb-btn cb-size');
+    size.type = 'button';
+    bar.appendChild(size);
+
     var fold = this.foldBtn = el('button', 'cb-btn cb-fold');
     fold.type = 'button';
     fold.setAttribute('aria-controls', 'cb-set');
@@ -302,6 +310,7 @@
     box.appendChild(set);
 
     fold.addEventListener('click', function () { me.setFolded(!me.state.folded); });
+    size.addEventListener('click', function () { me.setSmall(!me.state.small); });
     aloud.addEventListener('click', function () { me.setAloud(!me.aloud()); });
     form.addEventListener('submit', function (e) { e.preventDefault(); me.transmit(); });
     say.addEventListener('input', function () { me.complete(); });
@@ -339,6 +348,7 @@
     root.appendChild(box);
     document.body.appendChild(host);
     this.setAloud(this.aloud(), true);
+    this.setSmall(!!state.small, true);
     this.setFolded(!!state.folded, true);
     this.place();
   }
@@ -353,10 +363,33 @@
     if (!quiet) save(this.state);
   };
 
+  /* SMALL IS STILL ON, AND THAT IS THE WHOLE DIFFERENCE FROM FOLDED. Ryan,
+     2026-09-25, watching a film at the Hermitage's campfire: a way to see the
+     latest message as it comes in without the radio covering the screen. Small
+     is the bar and the newest message, clamped to a few lines, and nothing
+     else; it listens exactly as full size does, and the screen reader hears
+     what arrives exactly as it does full size, because the log is the same log
+     with the older messages hidden. Nothing lights up when a message lands,
+     here as anywhere on the radio. To answer, make it full size again: a box
+     to type in is most of what the radio's height is. The radio is anchored by
+     its bottom right corner, so it shrinks towards wherever it was put. */
+  Radio.prototype.setSmall = function (small, quiet) {
+    this.state.small = small;
+    this.box.classList.toggle('cb-radio--small', small);
+    this.sizeBtn.setAttribute('aria-pressed', String(small));
+    this.sizeBtn.textContent = 'Small';
+    this.sizeBtn.setAttribute('aria-label', small ? 'Small: showing only the newest message' : 'Small: show only the newest message');
+    if (small) this.close();
+    if (!quiet) save(this.state);
+    this.place();
+    if (!small) this.log.scrollTop = this.log.scrollHeight;
+  };
+
   Radio.prototype.setFolded = function (folded, quiet) {
     this.state.folded = folded;
     this.box.classList.toggle('cb-radio--folded', folded);
     this.set.hidden = folded;
+    this.sizeBtn.hidden = folded;
     this.foldBtn.setAttribute('aria-expanded', String(!folded));
     this.foldBtn.textContent = folded ? 'Switch on' : 'Fold away';
     if (!quiet) save(this.state);
