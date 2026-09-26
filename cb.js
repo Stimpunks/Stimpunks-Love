@@ -26,6 +26,9 @@
        An address on this street in a message becomes a link, built as an
        element whose href is a path this script assembled after checking every
        character of it; an address anywhere else stays words. See streetLinks.
+       #the-den becomes a link to that room, named as the room names itself,
+       out of the list in /cb-rooms.json; a #word that is not a room stays a
+       word. See hashRooms, and the completion list under the message box.
      · IT NEVER SCROLLS UNDER SOMEBODY WHO IS READING. See show.
 
    It moves with the pointer or with the keyboard, and the keyboard is not an
@@ -99,15 +102,79 @@
       var prev = m.index ? text.charAt(m.index - 1) : ' ';
       if (!m[1] && /[A-Za-z0-9-]/.test(next)) continue;
       if (/[A-Za-z0-9.\/@_~%-]/.test(prev)) continue;
-      if (m.index > at) parent.appendChild(document.createTextNode(text.slice(at, m.index)));
+      if (m.index > at) hashRooms(parent, text.slice(at, m.index));
       var a = el('a', null, said);
       a.href = path;
       parent.appendChild(a);
       at = m.index + said.length;
       STREET.lastIndex = at;
     }
-    if (at < text.length) parent.appendChild(document.createTextNode(text.slice(at)));
+    if (at < text.length) hashRooms(parent, text.slice(at));
     return parent;
+  }
+
+  /* #ROOMS, DISCORD'S WAY. Ryan's call, 2026-09-25: a message carries
+     #the-den, and every radio shows it as "#The Den", linked to the room. The
+     tag is the room's filename and the name is its own <title>, both out of
+     /cb-rooms.json, which tools/make-sitemap.py writes from every page's head,
+     so a new room is a tag the day it is in the street's order. The list is
+     fetched from this site once, the first time the radio listens -- never
+     while it is folded, because folded means it sends nothing -- and until it
+     arrives, or if it cannot, a #tag is shown as the words somebody typed. A
+     #word that is not a room is a word: #1, #metoo and #tbt stay what they
+     were. Nothing about the list is counted, and it is in walking order. */
+  var rooms = null, byTag = {};
+  var TAG = /#([a-z0-9]+(?:-[a-z0-9]+)*)/gi;
+  var ROOMPATH = /^\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\.html)?$/;
+
+  function takeRooms(list) {
+    var ok = [];
+    for (var i = 0; i < (list || []).length; i++) {
+      var r = list[i];
+      if (r && typeof r.tag === 'string' && typeof r.name === 'string' &&
+          typeof r.path === 'string' && ROOMPATH.test(r.path)) {
+        ok.push(r);
+        byTag[r.tag] = r;
+      }
+    }
+    rooms = ok;
+  }
+
+  function hashRooms(parent, text) {
+    var at = 0, m;
+    TAG.lastIndex = 0;
+    while ((m = TAG.exec(text))) {
+      var room = byTag[m[1].toLowerCase()];
+      var prev = m.index ? text.charAt(m.index - 1) : ' ';
+      var next = text.charAt(m.index + m[0].length);
+      if (!room || /[A-Za-z0-9_&#\/-]/.test(prev) || /[A-Za-z0-9_]/.test(next)) continue;
+      if (m.index > at) parent.appendChild(document.createTextNode(text.slice(at, m.index)));
+      var a = el('a', 'cb-room');
+      a.href = room.path;
+      var hash = el('span', null, '#');
+      hash.setAttribute('aria-hidden', 'true');
+      a.appendChild(hash);
+      a.appendChild(document.createTextNode(room.name));
+      parent.appendChild(a);
+      at = m.index + m[0].length;
+    }
+    if (at < text.length) parent.appendChild(document.createTextNode(text.slice(at)));
+  }
+
+  /* What the completion list offers for what has been typed after a #: every
+     room whose tag, or any word of whose name, starts with it, in walking
+     order and no other, and no more than PICK of them. */
+  var PICK = 8;
+  function roomsFor(q) {
+    var out = [], flat = q.replace(/-/g, '');
+    for (var i = 0; i < rooms.length && out.length < PICK; i++) {
+      var r = rooms[i];
+      var words = r.name.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+      var hit = r.tag.indexOf(q) === 0 || words.join('').indexOf(flat) === 0;
+      for (var w = 0; !hit && w < words.length; w++) hit = words[w].indexOf(flat) === 0;
+      if (hit) out.push(r);
+    }
+    return out;
   }
 
   function clock(t) {
@@ -179,12 +246,30 @@
     say.maxLength = 280;
     say.autocomplete = 'off';
     say.setAttribute('enterkeyhint', 'send');
+    /* THE COMPLETION LIST, the ARIA combobox pattern. Typing # and a letter
+       opens it; arrows move, Enter or Tab puts the room in, Escape closes it
+       for that # and leaves what you typed alone. With the list closed, Enter
+       transmits as it always did. The screen reader hears the room under the
+       arrow and never how many there are. */
+    say.setAttribute('role', 'combobox');
+    say.setAttribute('aria-autocomplete', 'list');
+    say.setAttribute('aria-controls', 'cb-pick');
+    say.setAttribute('aria-expanded', 'false');
+    var pick = this.pick = el('ul', 'cb-pick');
+    pick.id = 'cb-pick';
+    pick.setAttribute('role', 'listbox');
+    pick.setAttribute('aria-label', 'Rooms on the street');
+    pick.hidden = true;
+    this.offer = [];
+    this.active = -1;
+    this.dismissed = -1;
     var send = el('button', 'cb-btn cb-send', 'Transmit');
     send.type = 'submit';
     var row = el('div', 'cb-row');
     row.appendChild(say);
     row.appendChild(send);
     form.appendChild(lab);
+    form.appendChild(pick);
     form.appendChild(row);
     set.appendChild(form);
 
@@ -219,6 +304,13 @@
     fold.addEventListener('click', function () { me.setFolded(!me.state.folded); });
     aloud.addEventListener('click', function () { me.setAloud(!me.aloud()); });
     form.addEventListener('submit', function (e) { e.preventDefault(); me.transmit(); });
+    say.addEventListener('input', function () { me.complete(); });
+    say.addEventListener('click', function () { me.complete(); });
+    say.addEventListener('keyup', function (e) {
+      if (/^(ArrowLeft|ArrowRight|Home|End)$/.test(e.key)) me.complete();
+    });
+    say.addEventListener('keydown', function (e) { me.pickKey(e); });
+    say.addEventListener('blur', function () { me.close(); });
     move.addEventListener('keydown', function (e) { me.keyMove(e); });
     this.dragging();
 
@@ -283,6 +375,13 @@
 
   Radio.prototype.listen = function () {
     var me = this;
+    if (!this.askedRooms) {
+      this.askedRooms = true;
+      fetch('/cb-rooms.json', { credentials: 'omit', headers: { 'accept': 'application/json' } })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) { if (d) { takeRooms(d.rooms); me.rerender(); me.complete(); } })
+        .catch(function () { /* #tags stay words, which is what they are */ });
+    }
     call('/cb/channel', null, this.state.pass).then(function (r) {
       if (r.status === 401) return me.lost();
       if (r.status === 200) { me.signal(true); me.show(r.body.messages || []); }
@@ -327,7 +426,9 @@
       when.dateTime = new Date(m.t).toISOString();
       head.appendChild(when);
       li.appendChild(head);
-      li.appendChild(streetLinks(el('p', 'cb-text'), m.text));
+      var said = el('p', 'cb-text');
+      said.cbRaw = m.text;
+      li.appendChild(streetLinks(said, m.text));
       added++;
       if (this.state.base) {
         var off = el('button', 'cb-btn cb-take', 'Take off the air');
@@ -344,8 +445,102 @@
     if (mine || (added && atEnd)) this.log.scrollTop = this.log.scrollHeight;
   };
 
+  /* Once the rooms arrive, the messages already on the screen get their #tags. */
+  Radio.prototype.rerender = function () {
+    var ps = this.log.querySelectorAll('.cb-text');
+    for (var i = 0; i < ps.length; i++) {
+      if (typeof ps[i].cbRaw !== 'string') continue;
+      ps[i].textContent = '';
+      streetLinks(ps[i], ps[i].cbRaw);
+    }
+  };
+
+  // The # being typed at the caret, if any: where it starts and what follows.
+  Radio.prototype.token = function () {
+    var v = this.say.value, c = this.say.selectionStart;
+    if (c == null || c !== this.say.selectionEnd) return null;
+    var m = v.slice(0, c).match(/(^|[\s(\[])#([a-z][a-z0-9-]*)$/i);
+    if (!m) return null;
+    return { start: c - m[2].length - 1, end: c, q: m[2].toLowerCase() };
+  };
+
+  Radio.prototype.complete = function () {
+    var t = rooms && this.say.getRootNode().activeElement === this.say && this.token();
+    if (!t || t.start === this.dismissed) { if (!t) this.dismissed = -1; this.close(); return; }
+    var offer = roomsFor(t.q);
+    if (!offer.length) { this.close(); return; }
+    var keep = this.active >= 0 && this.offer[this.active] && offer.indexOf(this.offer[this.active]);
+    this.offer = offer;
+    this.pick.textContent = '';
+    for (var i = 0; i < offer.length; i++) {
+      var li = el('li', 'cb-opt');
+      li.id = 'cb-pick-' + offer[i].tag;
+      li.setAttribute('role', 'option');
+      li.appendChild(el('span', 'cb-opt__name', offer[i].name));
+      li.appendChild(el('span', 'cb-opt__tag', '#' + offer[i].tag));
+      li.addEventListener('mousedown', function (e) { e.preventDefault(); });
+      (function (n, me) { li.addEventListener('click', function () { me.choose(n); }); })(i, this);
+      this.pick.appendChild(li);
+    }
+    this.pick.hidden = false;
+    this.say.setAttribute('aria-expanded', 'true');
+    this.mark(typeof keep === 'number' && keep >= 0 ? keep : 0);
+  };
+
+  Radio.prototype.mark = function (n) {
+    var lis = this.pick.children;
+    this.active = n;
+    for (var i = 0; i < lis.length; i++) lis[i].setAttribute('aria-selected', String(i === n));
+    if (lis[n]) {
+      this.say.setAttribute('aria-activedescendant', lis[n].id);
+      var li = lis[n], box = this.pick;
+      if (li.offsetTop < box.scrollTop) box.scrollTop = li.offsetTop;
+      else if (li.offsetTop + li.offsetHeight > box.scrollTop + box.clientHeight)
+        box.scrollTop = li.offsetTop + li.offsetHeight - box.clientHeight;
+    }
+  };
+
+  Radio.prototype.close = function () {
+    this.pick.hidden = true;
+    this.pick.textContent = '';
+    this.offer = [];
+    this.active = -1;
+    this.say.setAttribute('aria-expanded', 'false');
+    this.say.removeAttribute('aria-activedescendant');
+  };
+
+  Radio.prototype.pickKey = function (e) {
+    if (this.pick.hidden || e.isComposing) return;
+    var n = this.offer.length;
+    if (e.key === 'ArrowDown') { e.preventDefault(); this.mark((this.active + 1) % n); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); this.mark((this.active - 1 + n) % n); }
+    else if (e.key === 'Enter' || e.key === 'Tab') { e.preventDefault(); this.choose(this.active); }
+    else if (e.key === 'Escape') {
+      e.preventDefault();
+      var t = this.token();
+      this.dismissed = t ? t.start : -1;
+      this.close();
+    }
+  };
+
+  // Put the chosen room's #tag in place of what was typed after the #.
+  Radio.prototype.choose = function (n) {
+    var t = this.token(), room = this.offer[n];
+    if (!t || !room) { this.close(); return; }
+    var v = this.say.value, after = v.slice(t.end);
+    var put = '#' + room.tag + (after.charAt(0) === ' ' ? '' : ' ');
+    var next = v.slice(0, t.start) + put + after;
+    if (next.length > this.say.maxLength) { this.tell('That room would not fit in the message.'); this.close(); return; }
+    this.say.value = next;
+    var c = t.start + put.length;
+    this.say.setSelectionRange(c, c);
+    this.close();
+    this.say.focus();
+  };
+
   Radio.prototype.transmit = function () {
     var me = this, text = this.say.value.trim();
+    this.close();
     if (!text) { this.tell('Type something first.'); return; }
     this.tell('Transmitting…');
     call('/cb/transmit', { body: { text: text } }, this.state.pass).then(function (r) {

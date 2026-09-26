@@ -108,6 +108,22 @@
   color: var(--cb-amber); background: var(--cb-lcd);
   border: 2px solid var(--cb-steel-2); border-radius: 6px;
 }
+/* The rooms under a # you are typing. Amber on the readout's black, and the
+   one under the arrow the other way round -- the BASE tag's pair -- so nothing
+   here is a colour check-contrast.py has not already measured. */
+.cb-pick {
+  list-style: none; margin: 0 0 6px; padding: 4px;
+  max-height: 220px; overflow-y: auto;
+  background: var(--cb-lcd); border: 2px solid var(--cb-amber-2); border-radius: 6px;
+}
+.cb-opt {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  min-height: 44px; padding: 10px; border-radius: 3px; cursor: pointer;
+  color: var(--cb-amber);
+}
+.cb-opt__tag { font-size: 13px; color: var(--cb-amber-2); overflow-wrap: anywhere; text-align: right; }
+.cb-opt[aria-selected="true"] { color: var(--cb-lcd); background: var(--cb-amber); }
+.cb-opt[aria-selected="true"] .cb-opt__tag { color: var(--cb-lcd); }
 .cb-said { font-size: 13px; min-height: 0; }
 .cb-said:empty { display: none; }
 .cb-tools { display: flex; flex-wrap: wrap; gap: 8px; }

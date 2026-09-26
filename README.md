@@ -130,6 +130,7 @@ love-embed.js         The press-to-play facade
 cb.js                 The CB's radio and the front desk. Loaded only once signed on
 chalk.js              Plural Mural's chalkboard, which is the CB's too: anybody reads it, a CB pass writes on it
 cb.css                The radio's own sheet, inside its shadow root. No room can reach it
+cb-rooms.json         The rooms the CB knows by #tag, in walking order. Written by make-sitemap.py
 netlify/functions/    The CB's functions: sign on, listen, transmit, moderate, the hourly sweep, and the
                       chalkboard's read, write and rub-out
 netlify/cb/lib.mjs    What they share, and every promise the privacy page makes about the channel and the board
@@ -199,7 +200,7 @@ list of things is generated, and each of them has a tool:
 python3 tools/make-jukebox.py      # the track list in pink-pony-club.html
 python3 tools/make-liner-notes.py  # the same tracks as credits in liner-notes.html
 python3 tools/make-chappell.py     # The Chappell's arcade, and its credits with it
-python3 tools/make-sitemap.py      # sitemap.xml and llms.txt, from the pages' own heads
+python3 tools/make-sitemap.py      # sitemap.xml, llms.txt and the CB's cb-rooms.json, from the pages' own heads
 python3 tools/make-csp.py          # the script hash in _headers
 python3 tools/make-feed.py         # feed.xml, from changelog.html's own entries
 python3 tools/make-readings.py     # the audio room, from data/readings.json

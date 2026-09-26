@@ -1,0 +1,320 @@
+{
+ "_what": "The rooms the CB knows by #tag, in walking order. Written by tools/make-sitemap.py from each page's own title. Do not hand-edit.",
+ "rooms": [
+  {
+   "tag": "street",
+   "name": "The Street",
+   "path": "/"
+  },
+  {
+   "tag": "map",
+   "name": "The Map",
+   "path": "/map.html"
+  },
+  {
+   "tag": "danny-the-street",
+   "name": "Danny the Street",
+   "path": "/danny-the-street.html"
+  },
+  {
+   "tag": "pink-pony-club",
+   "name": "Pink Pony Club",
+   "path": "/pink-pony-club.html"
+  },
+  {
+   "tag": "the-chappell",
+   "name": "The Chappell",
+   "path": "/the-chappell.html"
+  },
+  {
+   "tag": "club-chronic",
+   "name": "Club Chronic",
+   "path": "/club-chronic.html"
+  },
+  {
+   "tag": "zine-table",
+   "name": "The Zine Table",
+   "path": "/zine-table.html"
+  },
+  {
+   "tag": "zine-issue-2",
+   "name": "The Zine Table, Issue #2: One Root, Two Rainbows",
+   "path": "/zine-issue-2.html"
+  },
+  {
+   "tag": "hear-queer-here",
+   "name": "Hear Queer Here",
+   "path": "/hear-queer-here.html"
+  },
+  {
+   "tag": "enids-room",
+   "name": "Enid's Room",
+   "path": "/enids-room.html"
+  },
+  {
+   "tag": "polaroids",
+   "name": "The Polaroid Wall",
+   "path": "/polaroids.html"
+  },
+  {
+   "tag": "playhouse",
+   "name": "The Playhouse",
+   "path": "/playhouse.html"
+  },
+  {
+   "tag": "arcade",
+   "name": "The Arcade",
+   "path": "/arcade.html"
+  },
+  {
+   "tag": "quill-drift",
+   "name": "Quill Drift",
+   "path": "/quill-drift.html"
+  },
+  {
+   "tag": "otterly-adorbs",
+   "name": "Otterly Adorbs",
+   "path": "/otterly-adorbs.html"
+  },
+  {
+   "tag": "penguin-pebbling",
+   "name": "Penguin Pebbling",
+   "path": "/penguin-pebbling.html"
+  },
+  {
+   "tag": "latibulum",
+   "name": "The Latibulum",
+   "path": "/latibulum.html"
+  },
+  {
+   "tag": "jungle-room",
+   "name": "The Jungle Room",
+   "path": "/jungle-room.html"
+  },
+  {
+   "tag": "the-den",
+   "name": "The Den",
+   "path": "/the-den.html"
+  },
+  {
+   "tag": "the-mopery",
+   "name": "The Mopery",
+   "path": "/the-mopery.html"
+  },
+  {
+   "tag": "oracle-deck",
+   "name": "The Oracle Deck",
+   "path": "/oracle-deck.html"
+  },
+  {
+   "tag": "the-doomscroll",
+   "name": "The Doomscroll",
+   "path": "/the-doomscroll.html"
+  },
+  {
+   "tag": "adventurers-guild",
+   "name": "The Adventurer’s Guild",
+   "path": "/adventurers-guild.html"
+  },
+  {
+   "tag": "the-feed",
+   "name": "The Feed",
+   "path": "/the-feed.html"
+  },
+  {
+   "tag": "zibaldone",
+   "name": "The Zibaldone",
+   "path": "/zibaldone.html"
+  },
+  {
+   "tag": "rabbit-hole",
+   "name": "The Rabbit Hole",
+   "path": "/rabbit-hole.html"
+  },
+  {
+   "tag": "healing-checkpoint",
+   "name": "The Healing Checkpoint",
+   "path": "/healing-checkpoint.html"
+  },
+  {
+   "tag": "foundry",
+   "name": "The Foundry",
+   "path": "/foundry.html"
+  },
+  {
+   "tag": "covenstead",
+   "name": "Covenstead",
+   "path": "/covenstead.html"
+  },
+  {
+   "tag": "dead-tired-society",
+   "name": "Dead Tired Society",
+   "path": "/dead-tired-society.html"
+  },
+  {
+   "tag": "laughingstock",
+   "name": "Laughingstock",
+   "path": "/laughingstock.html"
+  },
+  {
+   "tag": "lightbulb-picture-house",
+   "name": "The Lightbulb Picture House",
+   "path": "/lightbulb-picture-house.html"
+  },
+  {
+   "tag": "samefood-cafe",
+   "name": "Samefood Cafe",
+   "path": "/samefood-cafe.html"
+  },
+  {
+   "tag": "collection-collection",
+   "name": "The Collection Collection",
+   "path": "/collection-collection.html"
+  },
+  {
+   "tag": "vital-plant-living",
+   "name": "Vital Plant Living",
+   "path": "/vital-plant-living.html"
+  },
+  {
+   "tag": "community-center",
+   "name": "Community Center",
+   "path": "/community-center.html"
+  },
+  {
+   "tag": "dopamine-dress-up-den",
+   "name": "Dopamine Dress-Up Den",
+   "path": "/dopamine-dress-up-den.html"
+  },
+  {
+   "tag": "plural-mural",
+   "name": "Plural Mural",
+   "path": "/plural-mural.html"
+  },
+  {
+   "tag": "community-library",
+   "name": "Community Library",
+   "path": "/community-library.html"
+  },
+  {
+   "tag": "l-space",
+   "name": "L-Space",
+   "path": "/l-space.html"
+  },
+  {
+   "tag": "oook",
+   "name": "Oook",
+   "path": "/oook.html"
+  },
+  {
+   "tag": "cavendish-coworking",
+   "name": "Cavendish Coworking",
+   "path": "/cavendish-coworking.html"
+  },
+  {
+   "tag": "live-room",
+   "name": "The Live Room",
+   "path": "/live-room.html"
+  },
+  {
+   "tag": "broadsheet-broadside",
+   "name": "The Broadsheet Broadside",
+   "path": "/broadsheet-broadside.html"
+  },
+  {
+   "tag": "your-room",
+   "name": "Your Room",
+   "path": "/your-room.html"
+  },
+  {
+   "tag": "pebble-board",
+   "name": "The Pebble Board",
+   "path": "/pebble-board.html"
+  },
+  {
+   "tag": "now-playing",
+   "name": "Now Playing",
+   "path": "/now-playing.html"
+  },
+  {
+   "tag": "the-garden",
+   "name": "The Garden",
+   "path": "/the-garden.html"
+  },
+  {
+   "tag": "campgrounds",
+   "name": "The Campgrounds",
+   "path": "/campgrounds.html"
+  },
+  {
+   "tag": "faery-yurt",
+   "name": "Faery Yurt",
+   "path": "/faery-yurt.html"
+  },
+  {
+   "tag": "swaying-sweetgrass",
+   "name": "Swaying Sweetgrass",
+   "path": "/swaying-sweetgrass.html"
+  },
+  {
+   "tag": "solarpunk-hermitage",
+   "name": "The Solarpunk Hermitage",
+   "path": "/solarpunk-hermitage.html"
+  },
+  {
+   "tag": "the-outskirts",
+   "name": "The Outskirts",
+   "path": "/the-outskirts.html"
+  },
+  {
+   "tag": "black-leather-lagoon",
+   "name": "Black Leather Lagoon",
+   "path": "/black-leather-lagoon.html"
+  },
+  {
+   "tag": "sithen",
+   "name": "Sithen",
+   "path": "/sithen.html"
+  },
+  {
+   "tag": "looming-rocks",
+   "name": "Looming Rocks Amphitheatre",
+   "path": "/looming-rocks.html"
+  },
+  {
+   "tag": "dance-punks",
+   "name": "Dance, Punks",
+   "path": "/dance-punks.html"
+  },
+  {
+   "tag": "small-hours",
+   "name": "The Small Hours",
+   "path": "/small-hours.html"
+  },
+  {
+   "tag": "repeater",
+   "name": "The Repeater",
+   "path": "/repeater.html"
+  },
+  {
+   "tag": "nothing-for-sale",
+   "name": "Nothing For Sale",
+   "path": "/nothing-for-sale.html"
+  },
+  {
+   "tag": "liner-notes",
+   "name": "Liner Notes",
+   "path": "/liner-notes.html"
+  },
+  {
+   "tag": "privacy",
+   "name": "Privacy",
+   "path": "/privacy.html"
+  },
+  {
+   "tag": "changelog",
+   "name": "Changelog",
+   "path": "/changelog.html"
+  }
+ ]
+}

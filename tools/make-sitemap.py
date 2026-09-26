@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Generate sitemap.xml and llms.txt from the pages themselves.
+"""Generate sitemap.xml, llms.txt and cb-rooms.json from the pages themselves.
+
+cb-rooms.json is the CB's list of rooms: what #the-den on the channel means. It
+is written here because this is the one tool that already walks every page in
+the street's order and reads its title, so a new room is a name on the radio
+the moment it is in ORDER, and a renamed one changes on the radio when its
+<title> does. Nothing about the list is counted or ranked; it is in walking
+order because that is the only order this street has.
 
 Both are DERIVED, so neither can drift from the site: the canonical, the title
 and the description all come out of each page's own head. A hand-kept sitemap is
@@ -210,5 +217,30 @@ lines += [
     "",
 ]
 (ROOT / "llms.txt").write_text("\n".join(lines))
+
+# THE CB'S ROOMS. #slug on the channel is a room's filename without .html, and
+# the name shown is the page's own <title> without the site's name after it. The
+# front page is "the street", because its title is only the site's name.
+import json
+SUFFIX = " \u2014 Stimpunks.World"
+rooms = []
+for p in pages:
+    slug = "street" if p["file"] == "index.html" else p["file"][:-len(".html")]
+    title = html.unescape(p["title"])
+    name = "The Street" if p["file"] == "index.html" else title.removesuffix(SUFFIX)
+    if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
+        raise SystemExit(f"REFUSING: {p['file']} gives the CB the tag #{slug}, which a message "
+                         "cannot carry. Rooms are lowercase letters, digits and hyphens.")
+    if name == title and p["file"] != "index.html":
+        raise SystemExit(f"REFUSING: {p['file']}'s title does not end in the site's name, so the "
+                         "CB cannot tell the room's name from it.")
+    rooms.append({"tag": slug, "name": name,
+                  "path": "/" if p["file"] == "index.html" else "/" + p["file"]})
+if len({r["tag"] for r in rooms}) != len(rooms):
+    raise SystemExit("REFUSING: two pages give the CB the same #tag.")
+(ROOT / "cb-rooms.json").write_text(json.dumps(
+    {"_what": "The rooms the CB knows by #tag, in walking order. Written by "
+              "tools/make-sitemap.py from each page's own title. Do not hand-edit.",
+     "rooms": rooms}, indent=1, ensure_ascii=False) + "\n")
 print(f"sitemap.xml: {len(pages)} urls, lastmod from git ({min(dates.values())} to "
       f"{max(dates.values())}) · llms.txt: {len(pages)} pages")

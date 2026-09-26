@@ -2387,7 +2387,15 @@ heard** — it says *tuning in* until the first listen answers and *no signal* w
 also never counts: no people on the channel, no unread number.
 
 **A ROOM ON THE STREET IS A LINK ON THE CHANNEL AND NOTHING ELSE IS.** Ryan, 2026-09-25, so somebody
-can drop a room for somebody else to join them in. `streetLinks` in `cb.js` turns only this street's
+can drop a room for somebody else to join them in. **#rooms are Discord's way, Ryan's call**: the
+message carries `#the-den` and every radio shows "#The Den", linked, out of `/cb-rooms.json`, which
+`make-sitemap.py` writes from every page's own `<title>` in walking order, so a new room is a tag the
+day it is in ORDER and a room's tag is its filename. **Renaming a file breaks the tag in every
+message still on the channel that day**, which is one reason to rename rarely. The list is fetched
+once, on the radio's first listen, never while folded; until it arrives a #tag is the words somebody
+typed, and a #word that is no room stays a word. The completion list is the ARIA combobox pattern:
+Enter picks while it is open and transmits while it is shut, Escape leaves that # alone, and the
+screen reader hears the room under the arrow and never how many there are. `streetLinks` in `cb.js` turns only this street's
 own addresses into links, as a path checked character by character and never as HTML, and leaves
 every other address as words: the channel is a stranger's words reaching the page, and a clickable
 link to anywhere is the one way it could send somebody off the street without noticing where. The
