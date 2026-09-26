@@ -24,7 +24,15 @@
     "faery-yurt": {
       "page": "faery-yurt.html",
       "host": "Helen",
-      "basket": [],
+      "basket": [
+        {
+          "title": "The amethyst cave: Anya Gallaccio&rsquo;s <i>The Light Pours Out Of Me</i>",
+          "href": "https://www.youtube.com/shorts/HcQCqzd10mw",
+          "why": "Amethyst is a violet quartz, coloured by traces of iron, and the birthstone for February. It has long been held to be a calming stone, kept for peace of mind, clear thinking and restful sleep. Wishing you a magical glimmer day. A grotto lined with it at Jupiter Artland, near Edinburgh, on YouTube via Yoga &amp; Healing Fairy, 0:30.",
+          "_checked": "Helen's pebble, 2026-09-26; the line was drafted to her brief (a brief word on amethyst's healing properties and a wish for a magical glimmer day), and reworded at her ask to leave out the Greek meaning of the name. Resolved against YouTube on 2026-09-26: status OK, 30 seconds, on the Yoga & Healing Fairy channel, which is not Helen's and is credited by name. The artwork was read off Jupiter Artland's own page: Anya Gallaccio, The Light Pours Out Of Me, 2012. The link's si= share parameter was dropped."
+        }
+      ],
+      "look": "yurt-wicker",
       "wrap": "hearth-card",
       "idea": "It was Helen&rsquo;s own idea, the day she went to <a href=\"solarpunk-hermitage.html\">the Solarpunk Hermitage</a> to watch a film"
     }

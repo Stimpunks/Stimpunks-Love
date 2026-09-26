@@ -96,11 +96,16 @@ def duration_seconds(path: Path) -> float:
             "not print a label saying how long it is without knowing. Install ffmpeg,\n"
             "or give it a file whose container says."
         )
+    # After the four bytes of 'mvhd' come version and flags (4), then creation
+    # and modification times (4 each in version 0, 8 each in version 1), then
+    # the timescale and the duration. This read the modification time as the
+    # timescale until 2026-09-26, and nobody knew, because the machine that ran
+    # it had ffprobe; the first one that did not reported 0.0 seconds.
     ver = raw[i + 4]
     if ver == 1:
-        scale, units = struct.unpack(">IQ", raw[i + 20:i + 32])
+        scale, units = struct.unpack(">IQ", raw[i + 24:i + 36])
     else:
-        scale, units = struct.unpack(">II", raw[i + 12:i + 20])
+        scale, units = struct.unpack(">II", raw[i + 16:i + 24])
     return units / scale if scale else 0.0
 
 

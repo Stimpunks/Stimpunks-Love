@@ -34,6 +34,12 @@ WHAT IT REFUSES:
     trading, which is that the neighbours bring you things whether or not you
     have ever given them anything.
 
+  - A LOOK THAT IS NOT THE ROOM'S OWN. A room may give its basket a drawing
+    of its own ("look" in the data file, a class dressed in that room's
+    section); the Faery Yurt's is a wicker basket, Helen's ask, 2026-09-26. The
+    class is the room's, so check-classes.py holds it to one section like any
+    other name, and a basket with no look is the plain list.
+
   - A PAGE THAT DOES NOT LOAD pebbles.js, which would print a bowl that can
     never be read and a box that can never send.
 """
@@ -78,7 +84,8 @@ def bowl(room, r):
         '    <h3 id="pebbles-take-h">The basket: take one</h3>',
     ]
     if r["basket"]:
-        out.append('    <ul class="pebbles__basket" aria-labelledby="pebbles-take-h">')
+        look = (" " + r["look"]) if r.get("look") else ""
+        out.append(f'    <ul class="pebbles__basket{look}" aria-labelledby="pebbles-take-h">')
         for item in r["basket"]:
             out += ['      <li class="pebbles__stone">',
                     f'        <a href="{html.escape(item["href"], quote=True)}">{item["title"]}</a>',

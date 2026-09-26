@@ -3916,9 +3916,9 @@ html[data-intensity="max"] .vinyl { animation: yurt-spin 6s linear infinite; }
 .welcome p { margin: 0 0 14px; }
 .welcome p:last-child { margin-bottom: 0; }
 
-/* The record. Helen's soundtrack is not recorded yet and the room says so out
-   loud instead of hiding an empty shelf — the same thing Enid's wall does when
-   nobody has sent a photograph. */
+/* The record. Until 2026-09-26 Helen's soundtrack was "coming soon" and the
+   room said so out loud instead of hiding an empty shelf; now it is her own
+   playlist, on the deck below, and the record turns at MAX as it always did. */
 .record { display: flex; align-items: center; gap: 22px; background: var(--canvas); border: 1px solid rgba(233,200,116,.18); border-radius: 6px; padding: 22px; }
 .vinyl {
   flex: 0 0 auto; width: 74px; height: 74px; border-radius: 50%;
@@ -3927,13 +3927,27 @@ html[data-intensity="max"] .vinyl { animation: yurt-spin 6s linear infinite; }
     repeating-radial-gradient(circle at center, #17110F 0 3px, var(--canvas) 3px 6px);
   box-shadow: 0 8px 18px -8px rgba(0,0,0,.55);
 }
-.record__soon {
-  display: inline-block; margin: 0 0 8px; padding: 3px 12px;
-  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic;
-  font-size: 14px; letter-spacing: .08em; text-transform: uppercase;
-  color: var(--ember-2); border: 1px solid rgba(224,144,74,.4); border-radius: 999px;
-}
 .record p:last-child { margin: 0; color: var(--tallow-2); }
+
+/* THE DECK, 2026-09-26, when Helen's playlist arrived and the record stopped
+   being a promise. The press-to-play button in her own clothes: tent ground,
+   tallow words, candle on the play mark. Styled from the container as well as
+   the button, because love-embed.js swaps the button for a bare div on the
+   press and anything worn by the button goes with it. The tracklist is her
+   playlist as it stood when it was read, set like the back of a sleeve. */
+.room-yurt .yurt-deck { margin: 18px 0 0; }
+.room-yurt .yurt-deck .facade {
+  background: var(--tent); color: var(--tallow); border: 1px solid rgba(233,200,116,.28); border-radius: 6px;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 21px; line-height: 1.3; padding: 20px 22px;
+}
+.room-yurt .yurt-deck button.facade:hover { background: var(--canvas); border-color: var(--candle); }
+.room-yurt .yurt-deck .facade__play { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 16px; letter-spacing: .12em; color: var(--candle); inset: auto auto 18px 22px; }
+.room-yurt .yurt-deck__credit { margin: 14px 0 0; font-size: 16px; color: var(--tallow-2); }
+.room-yurt .yurt-tracks { margin: 10px 0 0; padding-left: 1.6em; color: var(--tallow-2); font-size: 16px; }
+.room-yurt .yurt-tracks li { padding: 3px 0; border-bottom: 1px dotted rgba(194,172,145,.22); }
+.room-yurt .yurt-tracks li::marker { color: var(--tallow-3); }
+.room-yurt .yurt-tracks__who { color: var(--tallow); }
+.room-yurt .yurt-tracks__len { float: right; margin-left: 12px; font-variant-numeric: tabular-nums; color: var(--tallow-3); }
 
 /* The bookshelf. Spines stood on a timber plank, scrollable sideways, because a
    shelf you cannot overfill is not a shelf. The six spine colours are grounds
@@ -4109,6 +4123,57 @@ html[data-intensity="gentle"] .nook .egg__mark { opacity: 1; }
 }
 .room-yurt .pebbles__go:hover, .room-yurt .pebbles__lift:hover { background: var(--candle); border-color: var(--candle); }
 .room-yurt .pebbles__said { color: var(--tallow); }
+
+/* HELEN'S WICKER BASKET, her ask, 2026-09-26: the basket is drawn, and the
+   pebbles sit in it, and a pebble is the whole thing you press. The weave, the
+   rim and the handle are ornament in her own browns and carry no word; every
+   word is on a pebble, and a pebble is her nook's canvas with her tallows on
+   it, pairs already measured. The link is the pebble's title and is stretched
+   over the stone with ::after, so the name a screen reader hears is still the
+   title and the target is the size of the stone. Nothing here moves at any
+   setting: a hover and a focus light the stone's edge in candle and that is
+   all. The class is the yurt's; the Hermitage's basket stays its own list. */
+.room-yurt .yurt-wicker {
+  position: relative; margin: 64px auto 8px; max-width: 640px;
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 14px;
+  padding: 40px 30px 46px;
+  background-color: var(--timber);
+  /* The weave: upright stakes showing where the weavers pass behind them,
+     one row over and the next row under, and round horizontal weavers lit
+     along their middles. Two ellipses per 44x36 tile make the over-under. */
+  background-image:
+    radial-gradient(ellipse 6px 10px at 11px 9px, rgba(18,11,8,.62) 0 60%, transparent 100%),
+    radial-gradient(ellipse 6px 10px at 33px 27px, rgba(18,11,8,.62) 0 60%, transparent 100%),
+    repeating-linear-gradient(180deg, rgba(0,0,0,.42) 0, rgba(242,182,115,.26) 7px, rgba(242,182,115,.30) 10px, rgba(0,0,0,.42) 18px);
+  background-size: 44px 36px, 44px 36px, auto;
+  border-radius: 16px 16px 46% 46% / 16px 16px 26% 26%;
+  box-shadow:
+    inset 0 10px 0 var(--canvas-2), inset 0 12px 0 rgba(0,0,0,.45),
+    inset 0 -18px 30px -12px rgba(0,0,0,.55),
+    0 22px 34px -18px rgba(0,0,0,.7);
+}
+/* The handle: a twisted withy arched over the rim, behind the pebbles. */
+.room-yurt .yurt-wicker::before {
+  content: ""; position: absolute; z-index: 0; left: 18%; right: 18%; top: -52px; height: 70px;
+  border: 9px solid var(--timber); border-bottom: 0; border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  box-shadow: inset 0 3px 0 rgba(242,182,115,.14), 0 -2px 0 rgba(0,0,0,.35);
+}
+.room-yurt .yurt-wicker .pebbles__stone {
+  position: relative; z-index: 1; flex: 1 1 280px; max-width: 470px;
+  padding: 30px 40px 32px; background: var(--canvas);
+  border: 1px solid rgba(233,200,116,.28);
+  border-radius: 44% 56% 42% 58% / 34% 30% 38% 32%;
+  box-shadow: inset 0 6px 14px rgba(242,230,212,.07), inset 0 -10px 18px rgba(0,0,0,.45), 0 8px 12px -6px rgba(0,0,0,.6);
+  text-align: center;
+}
+.room-yurt .yurt-wicker .pebbles__stone a { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 20px; line-height: 1.3; }
+.room-yurt .yurt-wicker .pebbles__stone a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.room-yurt .yurt-wicker .pebbles__stone:hover,
+.room-yurt .yurt-wicker .pebbles__stone:focus-within { border-color: var(--candle); }
+@media (max-width: 560px) {
+  .room-yurt .yurt-wicker { padding: 28px 14px 34px; border-radius: 14px 14px 30% 30% / 14px 14px 14% 14%; }
+  .room-yurt .yurt-wicker .pebbles__stone { padding: 16px 18px 18px; border-radius: 28px 34px 30px 36px / 32px 28px 36px 30px; }
+}
 
 /* §15 ── ROOM: The Arcade ────────────────────────────────────────────────────
    The only room on this street with a game in it. Coin-op at

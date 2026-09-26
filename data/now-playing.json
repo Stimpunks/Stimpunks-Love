@@ -78,6 +78,11 @@
    "holds": ["Songs"]
   },
   {
+   "page": "faery-yurt.html",
+   "what": "Helen’s candlelit yurt at the edge of the woods, where the record on the shelf is her own playlist, Faery Yurt’s Yarn, put on whole.",
+   "holds": ["Faery Yurt&rsquo;s Yarn", "runs until you stop it"]
+  },
+  {
    "page": "swaying-sweetgrass.html",
    "what": "A meadow left alone, with a fire pit in the clearing where the story is Robin Wall Kimmerer in her own voice.",
    "holds": ["The fire pit"],
