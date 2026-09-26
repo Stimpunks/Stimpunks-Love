@@ -834,6 +834,22 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
    name on its strip of tape and the drawing of the view over the desk through
    the double glass, and the page's og:description under the name. The words
    stand on the control room like every word of ours in the room. */
+/* the doom scoop -- THE CABINET, LIFTED WHOLE: the parlour's name painted in
+   its one script, Ryan's line under it, and the drawing of the dipping cabinet
+   after closing with its seven tubs, and the page's og:description beside the
+   name. The words stand on the dark shop like every word of ours in the room.
+   The drawing does not know what day it is, on purpose, so the card does not
+   change every morning with the cabinet. */
+.og--scoop {{ width: 100%; padding: 30px 60px 0; }}
+.og--scoop .ds-head {{ margin: 0 !important; display: flex; flex-direction: column; align-items: flex-start; }}
+.og--scoop .ds-over {{ font-size: 16px; margin: 0 !important; }}
+.og--scoop h1 {{ margin: 4px 0 0 !important; font-size: 92px; }}
+.og--scoop .ds-sub {{ margin: 0 !important; font-size: 26px; color: var(--ds-frost); }}
+.og--scoop .og-lede {{ font-family: 'Onest', sans-serif; color: var(--ds-rime);
+  max-width: 1060px; font-size: 21px; line-height: 1.45; margin: 12px 0 0 !important; }}
+.og--scoop .ds-art {{ order: 5; margin: 14px 0 0 !important; align-self: stretch; }}
+.og--scoop .ds-view {{ width: 1080px; height: auto; }}
+
 .og--live {{ width: 100%; padding: 28px 60px 0; }}
 .og--live .lvr-head {{ margin: 0 !important; display: flex; flex-direction: column; align-items: flex-start; }}
 .og--live .lvr-over {{ font-size: 16px; margin: 0 !important; }}
@@ -2702,6 +2718,34 @@ def card_oook(p):
     )
 
 
+def card_scoop(p):
+    # THE HEADER IS LIFTED WHOLE, name, line and drawing, and the lede is the
+    # page's og:description, so the card cannot show a parlour the page has not
+    # got. The alt names no source and counts nothing: the cabinet changes every
+    # morning and the card must not.
+    head = re.search(r'(<header class="ds-head">.*?</header>)', p["src"], re.S)
+    over = re.search(r'<p class="ds-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="ds-sub">(.*?)</p>', p["src"], re.S)
+    if not (head and over and sub and 'class="ds-view"' in head.group(1)):
+        raise SystemExit(
+            "REFUSING: the-doom-scoop.html has lost its header, its line or its drawing of\n"
+            "the cabinet, and the card is those three. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    block = head.group(1).replace("</header>", f'<p class="og-lede">{p["desc"]}</p></header>')
+    return (
+        "",
+        f'<div class="og og--scoop" data-fit="card">{block}</div>',
+        f"A dark cold teal card, the colour of an ice cream parlour with its lights off. Small "
+        f"pale capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d painted in a "
+        f"fat white brush script, and under it \u201c{plain(sub.group(1))}\u201d In a paler grey: "
+        f"{p['desc_plain']} Across the bottom, a drawing of a dipping cabinet seen straight on: a "
+        f"steel frame with a curved glass top, frost along the edges of the glass and a cold white "
+        f"tube along the underside of the lid, and in a row under it tubs of ice cream in pistachio, "
+        f"lemon, mint, vanilla, mango, blueberry and taro, the first heaped up with a scoop "
+        f"standing in it and each one after it scraped further down, the last nearly empty.",
+    )
+
+
 def card_live(p):
     # THE HEADER IS LIFTED WHOLE, tape, drawing and all, and the lede is the
     # page's og:description, so the card cannot show a control room the page has
@@ -3076,6 +3120,7 @@ CARDS = {
     "plural-mural": card_mural,
     "cavendish":    card_cavendish,
     "live-room":    card_live,
+    "doom-scoop":   card_scoop,
     "room-broadside": card_broadside,
     "room-library": card_library,
     "room-lspace":  card_lspace,

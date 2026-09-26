@@ -2805,18 +2805,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §62 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §63 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§62 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§63 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §62 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §63 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the
@@ -2832,6 +2832,49 @@ CC BY-SA**, Ryan's call of 2026-09-25, and `LICENSE` says which is which. `make-
 writes each licence's own sentence rather than one for all of them: CC0 asks for nothing, so its
 line cannot say "keep this on it" the way BY-SA's must, and a licence the tool has no words for is
 refused.
+
+**THE DOOM SCOOP IS THE DOOMSCROLL'S NAME AND SUBJECT, AND IT MUST NEVER BE PAPER.** §61 is daily news,
+usually bad (Ryan's brief, 2026-09-26): an ice cream parlour after closing, a tub in the lit dipping
+cabinet for every morning of the last week. **The obvious way to dress a news room is newsprint, and
+newsprint is the Doomscroll**, one door-name away. So there is no paper, no masthead, no column rule and
+no blackletter anywhere in §61, and the argument is the opposite of that room's: the scroll has no end
+and the scoop has a bottom. **The light is the cabinet's tube, which exists to keep things cold**, falling
+straight down into the tubs; no pink (Pink Pony Club), no amber or split-flap (The Feed, the other room a
+timer fills every morning), one tube rather than a lamp per case (the Collection Collection), and light
+from above where the Healing Checkpoint's comes up out of water. **Every morning is a flavour and the
+flavour is the weekday**, so a tub keeps its colour as it ages; how scraped out it is says its age and
+nothing about how much is in it. Nothing moves at any setting.
+
+**A WEEK AND THEN IT IS GONE, AND THE TOOL REFUSES AN ARCHIVE.** `pull-doom-scoop.py` drops the eighth
+morning and `make-doom-scoop.py` refuses a scoop older than that. The friendly edit is a back-issues
+rack; that turns the room into the scroll it exists to refuse. **An edition is five to five Mountain
+time** because the laptop's 06:10 timer is 05:10 Mountain on Central time, and an edition must have
+closed before the timer that fills it runs. Mountain is the street's clock (the CB's too). The pull
+works out every scoop's morning again from its publication time on every run, so moving the cut moves
+every row.
+
+**NOBODY WATCHES THESE FIRST, AND THE ROOM SAYS SO.** It is the one list of facades on this street that
+no person chose video by video. What the puller asks each new video's watch page, once, is
+`playabilityStatus`, `playableInEmbed` and `lengthSeconds`: embedding off or age-gated is a **door**, live
+or not out yet is `pending` and asked again, anything else not OK is `gone` and not drawn. **A scoop is an
+id, a title, a channel, a time and a length**, and the tool refuses a description, a thumbnail or any
+count of views, likes or subscribers: The Feed's refused summary and the pebbling cabinet's refused tally
+in one rule. **The headlines are quoted as written**, capitals, emoji and all, and the sweep for ranking
+words skips them, because they are the channels' words. Do not tidy a headline.
+
+**A FEED CARRIES FIFTEEN AND SOME CHANNELS POST MORE THAN THAT IN A DAY.** `covered` records, per source,
+the stretches the feeds were read all the way through, and a tub whose window a source's coverage does not
+span says so on that source. Generated, never typed. **The sources are Ryan's**, in his groups and order;
+a new one is an entry in `data/doom-scoop.json` with the `feed` for the exact list he linked (`UULF` for a
+channel's /videos, `UUSH` for /shorts, a `PL` id for a playlist) and a `shape`, and its channel id read
+off the channel's own page. Ground News and meidasnews.com publish no feed and one answers a machine
+with a bot check, so they are doors on the counter; **do not scrape past a bot check.**
+
+**THE TIMER IS `tools/daily-scoop.sh`, RUN BY THE SAME TASK AS `daily-arrivals.sh`, AND THEY STAY TWO
+SCRIPTS** so one room's failing feed never leaves the other unset. It owns `data/doom-scoop.json`,
+`the-doom-scoop.html` and `now-playing.html` (the poster reads what the cabinet puts on first, so it moves
+every morning), and commits as `daily doom scoop edition`. The header drawing does not know what day it
+is, so the share card does not change every morning. `check-jukebox.py` knows the file as `scoops`.
 
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by

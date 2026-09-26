@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-09-25",
+ "_checked": "2026-09-26",
  "faces": {
   "albert-sans": {
    "family": "Albert Sans",
@@ -1170,6 +1170,23 @@
     }
    ]
   },
+  "leckerli-one": {
+   "family": "Leckerli One",
+   "category": "Handwriting",
+   "designer": "Gesine Todt",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/leckerlione",
+   "copyright": "Copyright (c) 2011 Gesine Todt (www.gesine-todt.de hallo@gesine-todt.de), with Reserved Font Names \"Leckerli\"",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "leckerli-one-400.woff2",
+     "sha": "d1646b21ac95366c"
+    }
+   ]
+  },
   "lexend": {
    "family": "Lexend",
    "category": "Sans Serif",
@@ -1482,6 +1499,29 @@
      "style": "normal",
      "file": "nunito-400.woff2",
      "sha": "20fc9b6fc618e7c3"
+    }
+   ]
+  },
+  "onest": {
+   "family": "Onest",
+   "category": "Sans Serif",
+   "designer": "Dmitri Voloshin, Andrey Kudryavtsev",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/onest",
+   "copyright": "Copyright 2021 The Onest Project Authors (https://github.com/simpals/onest)",
+   "repository": "https://github.com/simpals/onest",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "onest-400.woff2",
+     "sha": "cc61cbd632bb677c"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "onest-400.woff2",
+     "sha": "cc61cbd632bb677c"
     }
    ]
   },

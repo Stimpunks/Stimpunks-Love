@@ -207,6 +207,13 @@ LISTS = [
     # that collect recordings rather than the show's own, which is the shape
     # this tool is really for.
     ("the live room", "data/live-room.json", "live-room.html"),
+    # The Doom Scoop. THE ONE LIST HERE THAT NOBODY CHOSE VIDEO BY VIDEO: a timer
+    # fills it every morning from the sources' own feeds, and tools/pull-doom-
+    # scoop.py asks each new video's watch page once, the morning it arrives.
+    # News rots fastest of anything on this street -- a clip corrected, re-cut
+    # or taken down within the day is ordinary -- so this is where a second
+    # asking, later in the week, is most likely to find something.
+    ("the doom scoop", "data/doom-scoop.json", "the-doom-scoop.html"),
 ]
 
 
@@ -228,6 +235,15 @@ def tracks_in(data):
     render anywhere, so reporting it every time would be this tool shouting
     about a decision somebody already made -- which is how a report stops being
     read."""
+    # THE DOOM SCOOP IS TESTED FIRST, and its key is its own. Every scoop names
+    # its source by slug, and the channel YouTube gave on the morning it was read
+    # is the artist here, because a report naming the source's label beside a
+    # DEAD would send somebody to the wrong channel. Pending and gone scoops are
+    # not on the page, and a door is expected to refuse the frame.
+    if "scoops" in data:
+        return [dict(s_, artist=s_.get("channel") or s_["source"],
+                     state="link" if s_.get("state") == "door" else None)
+                for s_ in data["scoops"] if s_.get("state") in ("screen", "door")]
     if "tracks" in data:
         return data["tracks"]
     # THE LIVE ROOM IS TESTED BEFORE 'sessions', because its studios hold

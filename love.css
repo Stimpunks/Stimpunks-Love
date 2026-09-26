@@ -786,6 +786,19 @@
 @font-face { font-family: 'B612'; src: url('fonts/b612-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Just Another Hand'; src: url('fonts/just-another-hand-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 
+/* The Doom Scoop (§61). A PARLOUR'S SIGN AND A MENU BOARD. Leckerli One, by
+   Gesine Todt, is a fat, soft brush script, the lettering painted on the glass
+   of an ice cream parlour's window, and it sets the room's name and the name on
+   its street door and NOTHING ELSE: a script carrying a headline would be the
+   Doomscroll's blackletter problem in a sweeter wrapper. Onest carries every
+   word that is read, every headline included, because the headlines are other
+   people's and some of them are long and shouting, and the one job the face has
+   is to stay readable under that. One variable file declared at two weights.
+   Both read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Leckerli One'; src: url('fonts/leckerli-one-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Onest'; src: url('fonts/onest-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Onest'; src: url('fonts/onest-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* The Broadsheet Broadside (§60). A SHIP'S NAME IN A DIDONE, AND A SHEET IN
    THE FACE A HAND-OUT IS READ IN. Bodoni Moda, by Owen Earl, is the name
    painted along the hull and the room's own headings, and NOTHING ON THE
@@ -1982,6 +1995,25 @@
   --bb-glint:  #DCE6E0;   --bb-haze:   #C9D3D1;   --bb-paper:  #FFFFFF;
   --bb-ink:    #002B36;   --bb-ink-2:  #073642;   --bb-ink-3:  #586E75;
   --bb-rule:   #D8D2C4;
+
+  /* The Doom Scoop (§61). AN ICE CREAM PARLOUR AFTER CLOSING, LIT ONLY BY THE
+     DIPPING CABINET. --ds-shop is the shop with its own lights off, the ground
+     for every word of ours: --ds-frost for the words, --ds-rime for what is
+     quieter, --ds-mint for every link, which is the one flavour every parlour
+     has. --ds-well is the dark steel well inside the cabinet, the ground of the
+     cabinet's own headings; --ds-steel is the stainless rim of every tub and
+     the frame, --ds-tube the cold light along the lid and --ds-front the front
+     of the counter, and those three carry no word. EVERY MORNING IS A FLAVOUR
+     AND THE FLAVOUR IS THE DAY: --ds-pistachio is Monday through --ds-taro on
+     Sunday, each a flat ground for --ds-ink, --ds-ink-2 and --ds-ink-link, and
+     each held against all three in check-contrast.py. */
+  --ds-shop:   #182A2F;   --ds-frost:  #EAF3F4;   --ds-rime:   #A9C6CB;
+  --ds-mint-link: #8FE3C8; --ds-well:  #0E191C;   --ds-steel:  #8FA6AC;
+  --ds-tube:   #F6FCFF;   --ds-front:  #111E22;   --ds-ink:    #1D2427;
+  --ds-ink-2:  #434C50;   --ds-ink-link: #0D5A6A;
+  --ds-pistachio: #CFE3AE; --ds-lemon: #F3E78F;   --ds-mint:   #BCEBD6;
+  --ds-vanilla: #F4EBD2;  --ds-mango:  #F8C792;   --ds-blueberry: #C3CDF2;
+  --ds-taro:   #DCCBEA;
 }
 
 * { box-sizing: border-box; }
@@ -2657,6 +2689,17 @@ div.facade--audio { border: 0; background: none; }
 .door--broadside .door__name  { font-family: 'Bodoni Moda', Georgia, serif; font-weight: 700; color: var(--bb-ochre); font-size: 26px; line-height: 1.08; }
 .door--broadside .door__blurb { font-family: 'Atkinson Hyperlegible Next', var(--sans); color: var(--bb-dim); }
 .door--broadside .door__knock { font-family: 'Atkinson Hyperlegible Mono', ui-monospace, monospace; font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--bb-ochre); }
+
+/* The Doom Scoop (§61). THE ONE FRONT IN THE ROW THAT IS A LIT FREEZER AFTER
+   CLOSING: the awning is the cabinet seen through the window from the
+   pavement, a row of tubs in the week's flavours, and the ground is the dark
+   shop. Every word is measured on --ds-shop in check-contrast.py; the tubs on
+   the awning carry no word. */
+.door--doom-scoop { background: var(--ds-shop); border-color: var(--ds-steel); }
+.door--doom-scoop .door__awning { background-color: var(--ds-well); background-image: linear-gradient(90deg, var(--ds-pistachio) 0 14.28%, var(--ds-lemon) 0 28.57%, var(--ds-mint) 0 42.85%, var(--ds-vanilla) 0 57.14%, var(--ds-mango) 0 71.42%, var(--ds-blueberry) 0 85.71%, var(--ds-taro) 0 100%); background-size: 100% 58%; background-position: 0 100%; background-repeat: no-repeat; border-top: 4px solid var(--ds-tube); border-bottom-color: var(--ds-steel); }
+.door--doom-scoop .door__name  { font-family: 'Leckerli One', cursive; font-weight: 400; color: var(--ds-frost); font-size: 34px; line-height: 1.05; }
+.door--doom-scoop .door__blurb { font-family: 'Onest', var(--sans); color: var(--ds-rime); }
+.door--doom-scoop .door__knock { font-family: 'Onest', var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ds-mint-link); }
 
 /* Plural Mural (§54). THE ONE FRONT IN THE ROW THAT IS NOT A SHOPFRONT AT ALL
    BUT THE WALL AT THE END OF ONE: the awning is the capping along the top of the
@@ -13442,7 +13485,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §62
+   class on it is `bb-`, its sizes are in points and millimetres, and §63
    prints it and nothing else. */
 
 .room-broadside {
@@ -13503,7 +13546,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §62 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §63 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -13592,7 +13635,194 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .room-broadside .bb-mast__side { text-align: left; }
 }
 
-/* §61 ── Small screens ───────────────────────────────────────────────────────
+/* §61 ── ROOM: The Doom Scoop (a shopfront on the street) ─────────────────────
+   Daily news, usually bad. An ice cream parlour after closing, with a tub in
+   the dipping cabinet for every morning of the last week. Ryan's brief,
+   2026-09-26. The cabinet is filled every morning by tools/pull-doom-scoop.py
+   and drawn by tools/make-doom-scoop.py out of data/doom-scoop.json.
+
+   THE ONLY LIGHT IN THE ROOM IS THE CABINET'S, AND ITS JOB IS TO KEEP THINGS
+   COLD. The shop's own lights are off. A tube along the underside of the lid
+   shows the flavours without warming them, so it falls straight down into the
+   tubs and stops at the glass, and the tops of the tubs are the brightest
+   things in the room. Every other light on this street is there to show
+   something or to warm somebody; this one is chosen for what it does NOT do.
+   Frost grows where the cold meets the room, round the edge of the glass.
+
+   EVERY MORNING IS A FLAVOUR, AND THE FLAVOUR IS THE DAY OF THE WEEK: Monday is
+   pistachio whatever it carries, so a tub keeps its colour as it ages towards
+   the back. How far down a tub is scraped says how many mornings old it is and
+   nothing about how much is in it. The flavours are the only riot in the room,
+   and each is a flat ground held against its inks.
+
+   THE ROOMS TO WATCH, and every separation is structural:
+     · THE DOOMSCROLL is the collision the NAME invites, and the one the subject
+       invites too, because the obvious way to dress a room of news is
+       newsprint -- which is exactly that room: foxed grey newsprint, one
+       unbroken roll, a blackletter masthead. THERE IS NO PAPER IN HERE AT ALL,
+       no masthead, no column rule and no blackletter. And the scroll has no end
+       where this has a bottom: a week, and then it is gone. If anything in §61
+       ever starts to look printed, it has become the Doomscroll with a freezer.
+     · THE FEED is the other room filled every morning by a timer reading other
+       people's feeds, and a dark hall of machines. It is lit from inside each
+       board through a mask, amber, crisp, in ruled rows, and it only points;
+       this is lit from above by a cold tube, soft, in round-cornered tubs, and
+       it plays. No amber anywhere, and nothing here is a split-flap.
+     · PINK PONY CLUB is the street's other sweet thing and is flat hot pink with
+       cream Shrikhand on it. There is no pink tub in this cabinet, on purpose.
+     · THE COLLECTION COLLECTION is the other room of lit cases in the dark, and
+       every case there has its own lamp, chosen by its owner to show a thing
+       truly. This is one cabinet, one tube, and the tube is chosen to keep
+       things from melting.
+     · THE HEALING CHECKPOINT is the other cold dark-teal room, and its light
+       comes UP out of water on the floor. Here it comes DOWN, from a tube, and
+       nothing is under water.
+
+   NOTHING MOVES AT ANY SETTING. The room says so on its dial: the news does
+   enough of that. Nothing leans either, so there is no tilt to reset. */
+
+.doom-scoop {
+  background: var(--ds-shop); color: var(--ds-frost);
+  font-family: 'Onest', var(--sans); font-synthesis: none;
+}
+.doom-scoop a { color: var(--ds-mint-link); text-underline-offset: 3px; }
+.doom-scoop :focus-visible { outline-color: var(--ds-frost); }
+.doom-scoop :where(p, li) { font-size: 17px; line-height: 1.6; }
+.doom-scoop strong { color: var(--ds-frost); }
+.doom-scoop .backlink {
+  font-family: 'Onest', var(--sans); font-weight: 700; font-size: 13px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ds-mint-link);
+}
+.ds-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.ds-trail { margin: 0; font-size: 14px; color: var(--ds-rime); }
+
+.ds-head { margin: 34px 0 0; }
+.ds-over, .ds-sub { margin: 0; color: var(--ds-rime); }
+.ds-over { font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+/* THE NAME IS PAINTED ON THE GLASS, in the one script in the room. */
+.doom-scoop h1 {
+  margin: 10px 0 0; font-family: 'Leckerli One', cursive; font-weight: 400;
+  font-size: clamp(56px, 11vw, 116px); line-height: 1.05; color: var(--ds-frost);
+}
+.ds-sub { margin-top: 6px; font-size: 22px; }
+.ds-art { margin: 24px 0 0; }
+.ds-view { display: block; width: 100%; height: auto; }
+
+.ds-lede { margin: 30px 0 0; max-width: 44em; }
+.ds-lede p { font-size: 19px; line-height: 1.6; }
+.doom-scoop .ds-set { font-size: 16px; color: var(--ds-rime); }
+.doom-scoop .ds-set b { color: var(--ds-frost); }
+
+.ds-part { margin: 50px 0 0; max-width: 46em; }
+.doom-scoop h2 {
+  margin: 0 0 12px; font-family: 'Onest', var(--sans); font-weight: 700;
+  font-size: 22px; line-height: 1.25; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ds-frost);
+}
+.ds-rules { margin: 0; padding-left: 1.2em; }
+.ds-rules li + li { margin-top: 8px; }
+.ds-rules li::marker { color: var(--ds-mint-link); }
+.doom-scoop .ds-further { font-size: 15px; color: var(--ds-rime); }
+
+/* A DOOR IS NOT A SCREEN, SO IT HAS NO SCREEN'S SHAPE: no aspect ratio, dashed
+   where every plate is solid. A link dressed as a window promises the one
+   thing it cannot do. It takes the ink of whatever ground it stands on. */
+.ds-counter { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.ds-door {
+  display: block; padding: 11px 16px; border: 2px dashed currentColor; border-radius: 10px;
+  font-weight: 700; text-decoration: none;
+}
+.ds-door:hover { text-decoration: underline; }
+
+/* THE CABINET. A steel well under a cold tube, frost round the glass. */
+.ds-cabinet {
+  margin: 56px 0 0; padding: 22px 22px 26px;
+  background: var(--ds-well); border: 3px solid var(--ds-steel); border-radius: 28px 28px 8px 8px;
+  box-shadow: inset 0 6px 0 var(--ds-tube), inset 0 0 0 9px var(--ds-front);
+}
+.ds-cabinet > h2 { margin: 8px 0 0; }
+
+/* A TUB. The flavour is the day; the rim is the steel. The lid is the summary,
+   and the band across its top is the ice cream's surface: heaped on the newest,
+   and scraped a little further down on every morning behind it. */
+.ds-tub {
+  --flav: var(--ds-vanilla); --dip: 0%;
+  margin: 18px 0 0; background: var(--flav); color: var(--ds-ink);
+  border: 3px solid var(--ds-steel); border-radius: 4px 4px 18px 18px;
+}
+.ds-tub--pistachio { --flav: var(--ds-pistachio); }
+.ds-tub--lemon     { --flav: var(--ds-lemon); }
+.ds-tub--mint      { --flav: var(--ds-mint); }
+.ds-tub--vanilla   { --flav: var(--ds-vanilla); }
+.ds-tub--mango     { --flav: var(--ds-mango); }
+.ds-tub--blueberry { --flav: var(--ds-blueberry); }
+.ds-tub--taro      { --flav: var(--ds-taro); }
+.ds-tub--age-1 { --dip: 26%; }  .ds-tub--age-2 { --dip: 38%; }
+.ds-tub--age-3 { --dip: 50%; }  .ds-tub--age-4 { --dip: 62%; }
+.ds-tub--age-5 { --dip: 76%; }  .ds-tub--age-6 { --dip: 92%; }
+.ds-tub a { color: var(--ds-ink-link); }
+.ds-tub :focus-visible { outline-color: var(--ds-ink); }
+.ds-tub strong { color: var(--ds-ink); }
+
+.ds-tub__lid {
+  display: block; cursor: pointer; padding: 0 18px 14px; list-style: none;
+}
+.ds-tub__lid::-webkit-details-marker { display: none; }
+.ds-tub__lid::before {
+  content: ""; display: block; height: 30px; margin: 0 -18px 12px;
+  background: radial-gradient(ellipse 34% var(--dip) at 62% 0, var(--ds-well) 97%, transparent 100%);
+  border-bottom: 2px solid var(--ds-steel);
+}
+.ds-tub--age-0 > .ds-tub__lid::before {
+  background: radial-gradient(ellipse 46% 100% at 50% 100%, transparent 97%, var(--ds-well) 100%);
+}
+.ds-tub__lid::after { content: "Open the lid +" / ""; display: block; margin-top: 8px; font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ds-ink-2); }
+.ds-tub[open] > .ds-tub__lid::after { content: "Put the lid on \2212" / ""; }
+.ds-tub__day { display: block; font-weight: 700; font-size: 26px; line-height: 1.2; }
+.ds-tub__flavour { display: inline-block; margin-top: 4px; font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.ds-tub__span { display: block; margin-top: 2px; font-size: 15px; color: var(--ds-ink-2); }
+.ds-tub__in { padding: 0 18px 20px; }
+.doom-scoop .ds-tub__none, .doom-scoop .ds-tub__foot, .doom-scoop .ds-src__gap { font-size: 15px; color: var(--ds-ink-2); }
+
+.ds-group { margin: 22px 0 0; padding-top: 14px; border-top: 2px solid var(--ds-steel); }
+.doom-scoop .ds-group__name { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--ds-ink); }
+.ds-src { margin: 18px 0 0; }
+.doom-scoop .ds-src__name { margin: 0; font-size: 20px; font-weight: 700; line-height: 1.3; }
+.doom-scoop .ds-src__gap { margin: 4px 0 0; }
+
+.ds-scoops { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 16px; }
+.ds-scoops--wide { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+.ds-scoops--tall { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.ds-scoop { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.doom-scoop .ds-scoop__title { margin: 0; font-weight: 700; font-size: 16px; line-height: 1.35; overflow-wrap: anywhere; }
+.doom-scoop .ds-scoop__when { margin: 0; font-size: 14px; color: var(--ds-ink-2); }
+.doom-scoop .ds-door__why { margin: 0; font-size: 14px; color: var(--ds-ink-2); }
+.ds-scoop .facade, .ds-scoop .ds-door { margin-top: auto; }
+
+/* THE PLATE IS THE SHAPE OF WHAT PLAYS, and a short plays upright. Styled from
+   the list item and never from a class on the button, which love-embed.js
+   drops on the press: the Sweetgrass lesson. */
+.doom-scoop .facade {
+  border: 3px solid var(--ds-ink); border-radius: 10px;
+  background: var(--ds-ink); color: var(--ds-frost);
+  font-family: 'Onest', var(--sans); font-weight: 700; font-size: 15px;
+}
+.doom-scoop .facade:hover { background: var(--ds-well); }
+.doom-scoop .facade__play { font-family: 'Onest', var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .14em; color: var(--ds-lemon); }
+.doom-scoop .facade iframe { border-radius: 7px; }
+.ds-scoop--tall .facade { aspect-ratio: 9 / 16; }
+.doom-scoop .ds-tub .ds-door { color: var(--ds-ink-link); }
+
+/* A PHONE. Last in the section, for the stimpad's reason: a media block above
+   the rules it overrides loses exactly the declarations they also set. */
+@media (max-width: 560px) {
+  .ds-cabinet { padding: 16px 10px 18px; border-radius: 20px 20px 6px 6px; }
+  .ds-tub__lid, .ds-tub__in { padding-left: 12px; padding-right: 12px; }
+  .ds-tub__lid::before { margin: 0 -12px 12px; }
+  .ds-scoops--tall { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+}
+
+/* §62 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -13699,7 +13929,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §61 says every
+   shipped with no rule here at all — which on a street whose §62 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -13823,7 +14053,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §62 ── Print ───────────────────────────────────────────────────────────────
+/* §63 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

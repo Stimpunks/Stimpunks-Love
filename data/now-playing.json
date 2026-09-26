@@ -73,6 +73,11 @@
    "holds": ["While the red light is on"]
   },
   {
+   "page": "the-doom-scoop.html",
+   "what": "Daily news, usually bad: a parlour after closing with a tub of the news in the cabinet for every morning of the week, from the independent news, the late-night shows and the YouTubers, and then it is gone.",
+   "holds": ["usually bad", "A week, and then it is gone"]
+  },
+  {
    "page": "pebble-board.html",
    "what": "Show-and-tell under glass, right beside this column: the songs and videos our people brought each other at a gathering, one edition at a time.",
    "holds": ["Songs"]

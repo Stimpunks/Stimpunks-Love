@@ -1,15 +1,18 @@
 ---
 name: arrivals-board-daily
-description: Daily re-set of The Feed's arrivals board on stimpunks.world — re-reads every sibling site's RSS feed, redraws the board, commits two paths and pushes
+description: Daily re-set of The Feed's arrivals board and The Doom Scoop's cabinet on stimpunks.world — re-reads the feeds, redraws both rooms, commits each room's own paths and pushes
 ---
 
 Re-set the arrivals board in The Feed on stimpunks.world, so the room is this morning's rather than last week's.
 
 Project root: /Users/ryan/Documents/GitHub/Stimpunks-Love (the repository kept the Stimpunks-Love name when the site moved to stimpunks.world on 2026-09-23; the path is correct)
 
-RUN EXACTLY THIS, and nothing else:
+RUN EXACTLY THESE TWO, in this order, and nothing else:
 
     bash /Users/ryan/Documents/GitHub/Stimpunks-Love/tools/daily-arrivals.sh
+    bash /Users/ryan/Documents/GitHub/Stimpunks-Love/tools/daily-scoop.sh
+
+Run the second whatever the first returned. They are separate scripts on purpose: a sibling site's feed failing must not leave The Doom Scoop unfilled, and a news channel failing must not leave The Feed's board unset. Everything below about daily-arrivals.sh is true of daily-scoop.sh as well, with its own paths (data/doom-scoop.json, the-doom-scoop.html and now-playing.html), its own fixed commit subject ("daily doom scoop edition") and its own refusals: it reads YouTube's own feeds for the sources Ryan chose and each new video's watch page, and takes a few minutes. Do not hand-edit data/doom-scoop.json, drop a source that failed, or add one.
 
 It takes under a minute. Do not run the steps by hand, do not run `pull-arrivals.py` or `make-arrivals.py` yourself, and do not commit or push anything yourself — the script exists because the order matters, because each stage gates the next, and because it commits exactly two paths and a headless run that improvises will one day commit something nobody read.
 
@@ -34,7 +37,7 @@ ONE KNOWN INTERACTION, now handled. The Knowledge System's update-logs-daily rea
 
 THIS PROMPT IS TRACKED in the Stimpunks-Love repository at .claude/scheduled-tasks/arrivals-board-daily/SKILL.md, and the repo copy is the source of truth; tools/install-scheduled-task.sh installs it here and reports drift. Do not edit this installed copy to change the task.
 
-REPORT, in two or three plain sentences:
+REPORT, in two or three plain sentences for each script:
   - Committed and pushed, a clean no-op, or refused — and if refused, the refusal verbatim.
   - The wire and row counts and the minute the board was set, from the script's own output.
   - Anything the script flagged: a failed push, or paths left dirty outside its scope.

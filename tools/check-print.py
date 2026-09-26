@@ -41,7 +41,7 @@ exactly two pages for every sheet in data/broadside.json -- a sheet whose
 content overruns does not clip, it spills onto a third page, which is what the
 Stimpunks broadside method found the hard way -- and its inks are held to the
 sheet's own record: white, the ink, its two lighter greys, the hairline, and
-the spot pairs the data file names. That room is the one place love.css's §62
+the spot pairs the data file names. That room is the one place love.css's §63
 lets a colour survive the print reset, which is exactly why the colour that
 reaches the paper is read back out of the PDF rather than trusted.
 
@@ -225,7 +225,7 @@ def broadside_check(browser):
         print(
             "\nThe press says every broadside prints to one sheet, both sides, in its own\n"
             "two inks on white. Cut something from the side that ran over, or fix the\n"
-            "print rules in love.css's §62 -- do not edit the claim off the page, and do\n"
+            "print rules in love.css's §63 -- do not edit the claim off the page, and do\n"
             "not add an ink to this list without deciding it survives a photocopier.\n")
     return bad
 

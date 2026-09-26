@@ -640,6 +640,18 @@ LVR_ROOM, LVR_FACE, LVR_TEXT, LVR_DIM = "#1A2330", "#2A3647", "#ECE7DA", "#B4BEC
 LVR_LINK, LVR_CAP, LVR_TAPE, LVR_MARKER = "#FF9C8F", "#7E8C9B", "#EEE2C0", "#1C1B22"
 LVR_WELL = "#10161F"
 
+# The Doom Scoop (love.css §61). An ice cream parlour after closing, lit only by
+# the dipping cabinet. Every word of ours is on the dark shop; the cabinet's own
+# heading is on its steel well. Every morning's tub is a flavour, the flavour is
+# the day of the week, and each is a flat ground for the dark ink, the quieter
+# ink and the link ink -- the headlines, the times, the channels' names, the
+# press-to-play plates. A plate is the ink with frost on it and a lemon PRESS
+# PLAY, and goes to the well's dark under the pointer.
+DS_SHOP, DS_FROST, DS_RIME, DS_MINTLINK = "#182A2F", "#EAF3F4", "#A9C6CB", "#8FE3C8"
+DS_WELL, DS_STEEL, DS_INK, DS_INK2, DS_INKLINK = "#0E191C", "#8FA6AC", "#1D2427", "#434C50", "#0D5A6A"
+DS_FLAVOURS = {"pistachio": "#CFE3AE", "lemon": "#F3E78F", "mint": "#BCEBD6", "vanilla": "#F4EBD2",
+               "mango": "#F8C792", "blueberry": "#C3CDF2", "taro": "#DCCBEA"}
+
 # The Broadsheet Broadside (love.css §60). The side of a ship, and one white
 # sheet. Every word of ours is on the tarred hull; the sheet is ink on white,
 # the Stimpunks broadside method. THE SPOT INKS ARE READ OUT OF
@@ -2194,6 +2206,36 @@ PAIRS = [
     (LVR_CAP,    LVR_FACE, True,  "live room: a strip's outline against its own faceplate"),
     (LVR_CAP,    LVR_ROOM, True,  "live room: a strip's outline and a play plate's edge against the room"),
 
+    # ── The Doom Scoop (§61) ─────────────────────────────────────────────────
+    (DS_FROST,    DS_SHOP, False, "doom scoop: every word of ours in the shop -- the lede, the rules, the "
+                                  "counter, whose this all is, the h1, and the street door's name"),
+    (DS_RIME,     DS_SHOP, False, "doom scoop: the trail, the lines over and under the h1, when the "
+                                  "cabinet was filled, the type credit, and the street door's blurb"),
+    (DS_MINTLINK, DS_SHOP, False, "doom scoop: every link in the shop, the backlink, the doors on the "
+                                  "counter, the list markers and the knock on the street door"),
+    (DS_FROST,    DS_WELL, False, "doom scoop: the cabinet's own heading, on its steel well"),
+    (DS_FROST,    DS_SHOP, True,  "doom scoop: the focus ring in the shop"),
+    (DS_STEEL,    DS_SHOP, True,  "doom scoop: the street door's frame, and the job marker's scoop on the floor"),
+    (DS_STEEL,    DS_WELL, True,  "doom scoop: the rim of every tub against the cabinet's well"),
+    (DS_FLAVOURS["mint"], DS_SHOP, False, "doom scoop: the mint left in the job marker's scoop"),
+    (DS_FROST,    DS_INK,  False, "doom scoop: a play plate's words"),
+    (DS_FLAVOURS["lemon"], DS_INK, False, "doom scoop: PRESS PLAY on a plate"),
+    (DS_FROST,    DS_WELL, False, "doom scoop: a plate's words under the pointer"),
+    (DS_FLAVOURS["lemon"], DS_WELL, False, "doom scoop: PRESS PLAY with a plate under the pointer"),
+] + [
+    pair for name, flav in DS_FLAVOURS.items() for pair in (
+        (DS_INK,     flav, False, f"doom scoop: the {name} tub -- its day, its flavour, every headline, "
+                                  "the group and source names"),
+        (DS_INK2,    flav, False, f"doom scoop: the {name} tub -- its window, every time and runtime, why "
+                                  "a door is a door, and the lines at its foot"),
+        (DS_INKLINK, flav, False, f"doom scoop: the {name} tub -- the source links and the doors out to "
+                                  "YouTube"),
+        (DS_INK,     flav, True,  f"doom scoop: the focus ring inside the {name} tub, and a play plate's "
+                                  "edge against it"),
+        (flav,    DS_WELL, True,  f"doom scoop: the {name} tub against the cabinet's well"),
+    )
+] + [
+
     # ── The Broadsheet Broadside (§60) ───────────────────────────────────────
     (BB_BONE,  BB_HULL,  False, "broadside: every word of ours on the hull -- the lede, the articles, "
                                 "whose this all is, the line under the name"),
@@ -2388,6 +2430,10 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#f6fcff": "doom scoop: the cabinet's cold tube along the lid, 17.27 on the well. It lights the "
+               "drawing and carries no word.",
+    "#111e22": "doom scoop: the front of the counter in the drawing and the ring just inside the "
+               "cabinet's frame, 1.14 on the shop. Shading; it carries no word.",
     "#a8322a": "broadside: the red inside of every open gunport lid in the drawing of the "
                "ship, 2.69 on the hull. It carries no word.",
     "#2e4a4f": "broadside: the sea under the hull, 1.88 on the hull, and the print on the "

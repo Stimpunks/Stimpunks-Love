@@ -876,6 +876,20 @@
       "sections": [
         60
       ]
+    },
+    "leckerli-one": {
+      "where": "The Doom Scoop",
+      "page": "the-doom-scoop.html",
+      "sections": [
+        61
+      ]
+    },
+    "onest": {
+      "where": "The Doom Scoop",
+      "page": "the-doom-scoop.html",
+      "sections": [
+        61
+      ]
     }
   }
 }

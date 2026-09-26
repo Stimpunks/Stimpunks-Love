@@ -1915,6 +1915,38 @@
           "A living street, and a first name you have heard before."
         ]
       }
+    },
+    {
+      "id": "doom-scoop-scoop",
+      "page": "the-doom-scoop.html",
+      "room": "The Doom Scoop",
+      "title": "What flavour is Thursday?",
+      "posted": "There is an ice cream parlour on the street that stays lit after closing, with the news of every morning of the week in its cabinet, a tub to a morning. Go in and find out what flavour Thursday comes in.",
+      "rank": 1,
+      "takes": "about as long as reading the lids in the cabinet, and nothing to play",
+      "target": "an ice cream scoop dropped on the floor by the cabinet, with some mint still in it",
+      "code": "SPRINKLES",
+      "learned": "Every morning's tub in the cabinet is a flavour, and the flavour is the day of the week, so Thursday is always vanilla whatever is in it. How far down a tub is scraped says how many mornings old it is, and after a week it is gone.",
+      "hints": [
+        "On the street itself, in the row of shopfronts: the one with a row of ice cream tubs in its awning.",
+        "In the cabinet: every tub's lid names its day and its flavour.",
+        "At the foot of the room, on the floor in front of the cabinet, where somebody dropped the scoop."
+      ],
+      "ask": {
+        "question": "Every tub in the cabinet is a morning, and every morning is a flavour. What flavour is Thursday?",
+        "accept": [
+          "vanilla",
+          "vanillaicecream",
+          "vanille"
+        ],
+        "answer": "Vanilla",
+        "why": "Every morning's tub in the cabinet is a flavour, and the flavour is the day of the week, so Thursday is always vanilla whatever is in it. How far down a tub is scraped says how many mornings old it is, and after a week it is gone.",
+        "hints": [
+          "Every tub's lid says its day and its flavour, right under the date.",
+          "Find the tub whose date is a Thursday; there is always exactly one in a week.",
+          "The plainest flavour there is."
+        ]
+      }
     }
   ],
   "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

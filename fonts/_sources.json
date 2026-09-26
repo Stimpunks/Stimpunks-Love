@@ -1520,5 +1520,33 @@
       "src": "https://fonts.gstatic.com/s/bodonimoda/v28/aFTH7PxzY382XsXX63LUYL6GYFksw-NIrKp-S_31KOxQVAS1Eg.woff2",
       "note": "The Broadsheet Broadside (§60), the ship's name painted along the hull and the room's headings, and NOTHING ON THE SHEET. A high-contrast Didone looks right on the counter of a ship and loses its hairlines in the first photocopy, which is the Stimpunks broadside method's own reason for setting no display serif on paper. So it names the ship and never the sheet. Ships variable: one file, declared at 700."
     }
+  ],
+  "leckerli-one": [
+    {
+      "file": "leckerli-one-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 16640,
+      "src": "https://fonts.gstatic.com/s/leckerlione/v22/V8mCoQH8VCsNttEnxnGQ-1idKpZdJNE9Fg.woff2",
+      "note": "The Doom Scoop (§61), the room's name and the name on its street door, and nothing at reading size. A fat, soft brush script, the lettering painted on an ice cream parlour's window. A script carrying a headline would be an access failure wearing atmosphere, so it never does."
+    }
+  ],
+  "onest": [
+    {
+      "file": "onest-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 33808,
+      "src": "https://fonts.gstatic.com/s/onest/v11/gNMKW3F-SZuj7xmf-HYoEoey.woff2",
+      "note": "The Doom Scoop (§61), every word that is read, the channels' headlines included, because some of them are long and shouting and the face's one job is to stay readable under that. One variable file serves both weights."
+    },
+    {
+      "file": "onest-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 33808,
+      "src": "https://fonts.gstatic.com/s/onest/v11/gNMKW3F-SZuj7xmf-HYoEoey.woff2",
+      "note": "The Doom Scoop (§61), every word that is read, the channels' headlines included, because some of them are long and shouting and the face's one job is to stay readable under that. One variable file serves both weights."
+    }
   ]
 }

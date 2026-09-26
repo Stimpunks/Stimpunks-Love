@@ -1,0 +1,1105 @@
+{
+ "_what": "The Doom Scoop: daily news, usually bad. An ice cream parlour after closing, with the only light in it coming from the dipping cabinet, and a tub in the cabinet for every morning of the last week. Ryan's brief, 2026-09-26. Read by tools/pull-doom-scoop.py, which writes `scoops`, and by tools/make-doom-scoop.py, which draws the room from this file and needs nothing else.",
+ "_sources": "THE SOURCES ARE RYAN'S, IN THE GROUPS HE PUT THEM IN AND THE ORDER HE LISTED THEM, and nothing in the room re-sorts them: not alphabetically, not by who posted most, not by whose was newest. Picking a news source is a curation decision and it belongs to a person, which is The Feed's rule about its wires. `url` is the address Ryan gave, word for word. `feed` is the one YouTube publishes for that exact list: for a channel link to /videos it is the channel's long-form list (UULF), for a link to /shorts it is the shorts list (UUSH), and a playlist link is that playlist. The channel ids were read off each channel's own page on 2026-09-26 and not typed from memory. A source with no feed is a DOOR: the room links it and scoops nothing from it.",
+ "_doors": "Ground News and meidasnews.com publish no feed a timer can read. Both were asked on 2026-09-26 at /feed, /rss and /feed.xml: ground.news answered 404 at every one, and meidasnews.com answered 404 or a bot check that asks for JavaScript and no ad blocker. A bot check is somebody saying no to a machine, so nothing here tries to get past it. They are doors on the counter rather than tubs in the cabinet, and the room says so.",
+ "_window": "AN EDITION IS A MORNING, AND IT IS DATED BY THE MORNING IT WAS SCOOPED: everything published from five in the morning the day before to five that morning, Mountain time, which is the street's own clock: the CB clears at midnight Mountain too. Five and not six because the timer runs at ten past six on whatever clock the laptop is keeping, and on Central time that is ten past five Mountain; an edition has to have closed before the timer that fills it comes round. A morning paper carries yesterday's news for the same reason. An edition whose five o'clock has not come yet is not on the page, however much is in it, because a tub that is still being filled is not a scoop.",
+ "_week": "A WEEK AND THEN IT IS GONE. The puller keeps the last seven mornings and drops anything older from this file, and the room refuses a scoop older than that. Not archived, not moved to a back page: gone from here, and still on the channel that posted it. The Doomscroll one door along is one roll with no end to it; this is the room with a bottom.",
+ "_scoops": "WHAT IS TAKEN OFF EACH VIDEO: its id, its title exactly as the channel wrote it, the channel's name as YouTube gives it, when it was published, and how long it runs. Nothing else. Not the description, not the thumbnail, not a count of views, likes or comments. The titles are the channels' own and some of them shout; they are quoted as written, because rewriting somebody's headline is putting words in their mouth. `runs` is lengthSeconds off the video's own watch page, read the same morning, never typed. `state` is what the watch page said: `screen` plays here, `door` plays on YouTube and not in a frame here (its owner switched embedding off, or it is age-gated and shows only to signed-in adults), `pending` is live or not out yet and is asked again next morning, `gone` would not play and is not shown.",
+ "_coverage": "A CHANNEL'S FEED CARRIES ITS NEWEST UPLOADS AND NO FURTHER BACK, so a channel that posts more between two readings than its feed holds has the earliest of them left off, and nothing can fetch them afterwards from the feed. `covered` records, per source, the stretches of time the feeds have been read all the way through; an edition whose window a source's coverage does not reach all the way across says, on that source, that some of its day may be missing. That is generated, never typed, for check-counts.py's reason.",
+ "groups": [
+  {
+   "name": "Independent News",
+   "sources": [
+    {
+     "slug": "ground-news",
+     "name": "Ground News",
+     "url": "https://ground.news/",
+     "feed": null
+    },
+    {
+     "slug": "meidasnews",
+     "name": "MeidasTouch News",
+     "url": "https://meidasnews.com/",
+     "feed": null
+    },
+    {
+     "slug": "meidastouch",
+     "name": "MeidasTouch",
+     "url": "https://www.youtube.com/@MeidasTouch/videos",
+     "feed": "UULF9r9HYFxEQOBXSopFS61ZWg",
+     "shape": "wide"
+    }
+   ]
+  },
+  {
+   "name": "Late Night",
+   "sources": [
+    {
+     "slug": "closer-look",
+     "name": "A Closer Look — Late Night with Seth Meyers",
+     "url": "https://www.youtube.com/playlist?list=PLJaq64dKJZoqsh7PGGUi-SARV4wUz_lVa",
+     "feed": "PLJaq64dKJZoqsh7PGGUi-SARV4wUz_lVa",
+     "shape": "wide"
+    },
+    {
+     "slug": "late-night-monologues",
+     "name": "Monologues on Late Night",
+     "url": "https://www.youtube.com/playlist?list=PLJaq64dKJZoo15TV_g43FvHDwIL6dAkpy",
+     "feed": "PLJaq64dKJZoo15TV_g43FvHDwIL6dAkpy",
+     "shape": "wide"
+    },
+    {
+     "slug": "kimmel",
+     "name": "Jimmy Kimmel Live",
+     "url": "https://www.youtube.com/@JimmyKimmelLive/videos",
+     "feed": "UULFa6vGFO9ty8v5KZJXQxdhaw",
+     "shape": "wide"
+    },
+    {
+     "slug": "daily-show",
+     "name": "The Daily Show",
+     "url": "https://www.youtube.com/@TheDailyShow",
+     "feed": "UULFwWhs_6x42TyRM4Wstoq8HA",
+     "shape": "wide",
+     "_feed": "Ryan linked the channel itself rather than one of its tabs, 2026-09-26, so this reads its long-form list, the same as Jimmy Kimmel Live beside it: the late-night shows are here for their segments, and a channel root on YouTube opens on those. Its shorts are left off; that is one word in `feed` to change if Ryan wants them."
+    }
+   ]
+  },
+  {
+   "name": "YouTubers",
+   "sources": [
+    {
+     "slug": "jason-salmon",
+     "name": "Jason Salmon",
+     "url": "https://www.youtube.com/@jasonsalmon/shorts",
+     "feed": "UUSH7y7CTTIM7QPGpPQL7O5myQ",
+     "shape": "tall"
+    },
+    {
+     "slug": "texas-paul",
+     "name": "Texas Paul",
+     "url": "https://www.youtube.com/@TheRealTexasPaul/shorts",
+     "feed": "UUSHJb3YLSqBdSSx-86_ByHb3Q",
+     "shape": "tall"
+    },
+    {
+     "slug": "tennessee-brando",
+     "name": "Tennessee Brando",
+     "url": "https://www.youtube.com/@TennesseeBrando/videos",
+     "feed": "UULFaHkDyvWVXXAGyG2lURMaYg",
+     "shape": "wide"
+    },
+    {
+     "slug": "lawyer-oyer",
+     "name": "Lawyer Oyer",
+     "url": "https://www.youtube.com/@Lawyer_Oyer/shorts",
+     "feed": "UUSHZMPqMQFU9Y37a2iOj5gkhg",
+     "shape": "tall"
+    },
+    {
+     "slug": "hawk",
+     "name": "Hawk’s Podcasts / mdg650hawk",
+     "url": "https://www.youtube.com/@hawkpodcasts/shorts",
+     "feed": "UUSHCcrmvbQbfwSZaTgBZPrjMQ",
+     "shape": "tall"
+    }
+   ]
+  }
+ ],
+ "set": "2026-09-26T13:10Z",
+ "covered": {
+  "meidastouch": [
+   [
+    "2026-09-25T11:00:39Z",
+    "2026-09-26T13:10:22Z"
+   ]
+  ],
+  "closer-look": [
+   [
+    "2026-07-17T01:00:31Z",
+    "2026-09-26T13:10:22Z"
+   ]
+  ],
+  "late-night-monologues": [
+   [
+    "2026-07-15T01:00:12Z",
+    "2026-09-26T13:10:22Z"
+   ]
+  ],
+  "kimmel": [
+   [
+    "2026-09-18T06:00:06Z",
+    "2026-09-26T13:10:22Z"
+   ]
+  ],
+  "jason-salmon": [
+   [
+    "2026-08-24T15:00:06Z",
+    "2026-09-26T13:10:22Z"
+   ]
+  ],
+  "texas-paul": [
+   [
+    "2026-09-17T21:37:08Z",
+    "2026-09-26T13:10:22Z"
+   ]
+  ],
+  "tennessee-brando": [
+   [
+    "2026-09-17T16:07:51Z",
+    "2026-09-26T13:10:22Z"
+   ]
+  ],
+  "lawyer-oyer": [
+   [
+    "2026-09-01T01:12:06Z",
+    "2026-09-26T13:10:22Z"
+   ]
+  ],
+  "hawk": [
+   [
+    "2026-09-25T01:00:17Z",
+    "2026-09-26T13:10:22Z"
+   ]
+  ],
+  "daily-show": [
+   [
+    "2026-09-18T11:35:00Z",
+    "2026-09-26T13:10:22Z"
+   ]
+  ]
+ },
+ "scoops": [
+  {
+   "id": "h2Z1nQKotaQ",
+   "source": "daily-show",
+   "title": "Josh on Kash Patel's Bestiality Stance & Kosta on Another Oil Strait Closure | The Daily Show",
+   "published": "2026-09-19T13:00:29Z",
+   "edition": "2026-09-20",
+   "state": "screen",
+   "runs": 1671,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "zeRpVwW9C04",
+   "source": "tennessee-brando",
+   "title": "I’m Calling BS on Joe Rogan’s Latest Claim",
+   "published": "2026-09-19T15:00:22Z",
+   "edition": "2026-09-20",
+   "state": "screen",
+   "runs": 715,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "cfkt6k8RhE8",
+   "source": "texas-paul",
+   "title": "Trump's. CNN distraction and why MAGA shouldn't vote or in some cases be American citizens.",
+   "published": "2026-09-19T15:23:16Z",
+   "edition": "2026-09-20",
+   "state": "screen",
+   "runs": 178,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "s_eyC9-lL9E",
+   "source": "texas-paul",
+   "title": "Virginia, Vermont, Mississippi, Minnesota & South Dakota early or early absentee voting has begun.",
+   "published": "2026-09-19T21:05:59Z",
+   "edition": "2026-09-20",
+   "state": "screen",
+   "runs": 33,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "CrsO9HCe_58",
+   "source": "tennessee-brando",
+   "title": "Trump’s “Jokes” Have a VERY Familiar Pattern",
+   "published": "2026-09-20T01:00:10Z",
+   "edition": "2026-09-20",
+   "state": "screen",
+   "runs": 711,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "GDIJArb0LgA",
+   "source": "texas-paul",
+   "title": "You need to brace for it.  Trump's  m.o. is to do something really awful when in trouble.",
+   "published": "2026-09-20T18:19:28Z",
+   "edition": "2026-09-21",
+   "state": "screen",
+   "runs": 150,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "xVw-v37_7xA",
+   "source": "tennessee-brando",
+   "title": "Trump Just ESCALATED His WAR on the Press",
+   "published": "2026-09-20T23:04:09Z",
+   "edition": "2026-09-21",
+   "state": "screen",
+   "runs": 561,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "rsqVqPDkPlQ",
+   "source": "texas-paul",
+   "title": "There is cell phone footage released of the Ice shooting in Austin. Looks like attempted murder.",
+   "published": "2026-09-20T23:40:23Z",
+   "edition": "2026-09-21",
+   "state": "screen",
+   "runs": 79,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "tPgr9Wasw-g",
+   "source": "texas-paul",
+   "title": "Wilber Garces Perez, the man shot by ICE in Austin today, has been transferred in to ICE custody.",
+   "published": "2026-09-21T01:42:32Z",
+   "edition": "2026-09-21",
+   "state": "screen",
+   "runs": 92,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "Asbx4cSbJjM",
+   "source": "texas-paul",
+   "title": "NSFW, ICE are lazy trash that interfere with legal immigration to fill their invented quotas.",
+   "published": "2026-09-21T13:29:21Z",
+   "edition": "2026-09-22",
+   "state": "screen",
+   "runs": 168,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "CJKuapnHegA",
+   "source": "tennessee-brando",
+   "title": "These Lauren Boebert Allegations Are WILD",
+   "published": "2026-09-21T15:00:18Z",
+   "edition": "2026-09-22",
+   "state": "screen",
+   "runs": 636,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "aB5-ogw1V7c",
+   "source": "jason-salmon",
+   "title": "That's a calling card for Gen Xers #shorts #genx #crowdwork",
+   "published": "2026-09-21T15:00:38Z",
+   "edition": "2026-09-22",
+   "state": "screen",
+   "runs": 116,
+   "channel": "Jason Salmon"
+  },
+  {
+   "id": "s6sX0Vp9bfU",
+   "source": "texas-paul",
+   "title": "You chastised me for condemning all MAGA, Republicans & conservatives.  Let's talk about it.",
+   "published": "2026-09-21T17:34:04Z",
+   "edition": "2026-09-22",
+   "state": "screen",
+   "runs": 124,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "0gYUpb5Zcq0",
+   "source": "tennessee-brando",
+   "title": "MTG Is FINALLY Learning What She Voted For",
+   "published": "2026-09-21T21:00:11Z",
+   "edition": "2026-09-22",
+   "state": "screen",
+   "runs": 658,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "TfoJdCr1X_g",
+   "source": "lawyer-oyer",
+   "title": "Trump’s illegal assault on the press",
+   "published": "2026-09-21T23:14:21Z",
+   "edition": "2026-09-22",
+   "state": "screen",
+   "runs": 165,
+   "channel": "Lawyer Oyer"
+  },
+  {
+   "id": "Y3e0Kvyqv90",
+   "source": "closer-look",
+   "title": "Trump's Media Ban Backfires, Arch Gets Drones & Snipers & Seth Recaps a Crazy Summer: A Closer Look",
+   "published": "2026-09-22T01:00:38Z",
+   "edition": "2026-09-22",
+   "state": "screen",
+   "runs": 1287,
+   "channel": "Late Night with Seth Meyers"
+  },
+  {
+   "id": "RvK8jkSTN9Q",
+   "source": "daily-show",
+   "title": "Trump's WH Press Ban Riles Even Fox News & D.C. Arch to Double as Military Complex? | The Daily Show",
+   "published": "2026-09-22T02:26:03Z",
+   "edition": "2026-09-22",
+   "state": "screen",
+   "runs": 1433,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "k6WLJ5co3PE",
+   "source": "daily-show",
+   "title": "White House Bans Media Outlets & MAGA Embraces AI While Demonizing Immigrants | The Daily Show",
+   "published": "2026-09-22T03:08:39Z",
+   "edition": "2026-09-22",
+   "state": "screen",
+   "runs": 1157,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "ctuvImgGpvE",
+   "source": "daily-show",
+   "title": "Ari Emanuel on Channeling Rage and Ego Into Hollywood Success | The Daily Show",
+   "published": "2026-09-22T03:30:26Z",
+   "edition": "2026-09-22",
+   "state": "screen",
+   "runs": 1310,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "eMHKNCwe_QI",
+   "source": "kimmel",
+   "title": "Trump Bans News Outlets from the White House, Has a Thing for Mamdani & Is Melania A.I.?",
+   "published": "2026-09-22T03:45:35Z",
+   "edition": "2026-09-22",
+   "state": "screen",
+   "runs": 893,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "l4HyAorKfv8",
+   "source": "kimmel",
+   "title": "Woody Harrelson on Emmys Bathroom with Jimmy & Matthew McConaughey & Matthew Being His Brother",
+   "published": "2026-09-22T06:00:21Z",
+   "edition": "2026-09-22",
+   "state": "screen",
+   "runs": 894,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "I0tQ2UFlwlQ",
+   "source": "kimmel",
+   "title": "Sam Richardson on Loving the Detroit Lions, Batting Practice with the Tigers & Matchbox: the Movie",
+   "published": "2026-09-22T06:00:33Z",
+   "edition": "2026-09-22",
+   "state": "screen",
+   "runs": 459,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "8o9tAS8kPxg",
+   "source": "late-night-monologues",
+   "title": "Trump Tells Voters to Pretend He's Running",
+   "published": "2026-09-22T09:00:11Z",
+   "edition": "2026-09-22",
+   "state": "screen",
+   "runs": 1500,
+   "channel": "Late Night with Seth Meyers"
+  },
+  {
+   "id": "Jppbf_M9E8k",
+   "source": "texas-paul",
+   "title": "Dan Patrick criminal AI deep fakes and also how AI is about to make EVERYTHING even more expensive.",
+   "published": "2026-09-22T12:46:53Z",
+   "edition": "2026-09-23",
+   "state": "screen",
+   "runs": 177,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "LQkQ7DKCJhQ",
+   "source": "tennessee-brando",
+   "title": "Trump’s Press Ban BACKFIRED Immediately",
+   "published": "2026-09-22T18:02:24Z",
+   "edition": "2026-09-23",
+   "state": "screen",
+   "runs": 712,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "uvrFAFzmTEY",
+   "source": "lawyer-oyer",
+   "title": "Republican senator calls for investigation of Donald Trump Jr.",
+   "published": "2026-09-22T20:49:30Z",
+   "edition": "2026-09-23",
+   "state": "screen",
+   "runs": 140,
+   "channel": "Lawyer Oyer"
+  },
+  {
+   "id": "KI_YtilG5AE",
+   "source": "late-night-monologues",
+   "title": "Trump Pardons PGA Golf Caddy for 30-Year-Old Drug Conviction",
+   "published": "2026-09-23T01:00:32Z",
+   "edition": "2026-09-23",
+   "state": "screen",
+   "runs": 557,
+   "channel": "Late Night with Seth Meyers"
+  },
+  {
+   "id": "P-UucwAj0aQ",
+   "source": "daily-show",
+   "title": "Trump Talks S**t at the U.N., Rebrands AI as \"Superintelligence\" & Praises Mamdani | The Daily Show",
+   "published": "2026-09-23T02:00:27Z",
+   "edition": "2026-09-23",
+   "state": "screen",
+   "runs": 689,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "0Y3tvfR8yXw",
+   "source": "daily-show",
+   "title": "Tom Morello On “Everyone Gets Everything They Want” & Power to the People Festival | The Daily Show",
+   "published": "2026-09-23T03:29:19Z",
+   "edition": "2026-09-23",
+   "state": "screen",
+   "runs": 630,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "hkI0vcecwew",
+   "source": "kimmel",
+   "title": "Trump’s Threatening Ramble at the UN, His Minions Defend News Ban & Guillermo the Dancing Star!",
+   "published": "2026-09-23T03:45:29Z",
+   "edition": "2026-09-23",
+   "state": "screen",
+   "runs": 781,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "kGBwvqON2cM",
+   "source": "kimmel",
+   "title": "Ke Huy Quan on Filming The Goonies, Being Cast in Everything Everywhere All at Once & New Memoir",
+   "published": "2026-09-23T06:00:01Z",
+   "edition": "2026-09-23",
+   "state": "screen",
+   "runs": 546,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "s7DcP3r_QHk",
+   "source": "kimmel",
+   "title": "Jamie Foxx on Appreciating Life Now, Expecting a Baby & His Dad Living with Him",
+   "published": "2026-09-23T06:00:07Z",
+   "edition": "2026-09-23",
+   "state": "screen",
+   "runs": 1025,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "SOUHkViWhJI",
+   "source": "daily-show",
+   "title": "Hitman Candidate: Josh Johnson Talks to NJ Councilman & Ex-Mob Enforcer John Alite | The Daily Show",
+   "published": "2026-09-23T11:35:17Z",
+   "edition": "2026-09-24",
+   "state": "screen",
+   "runs": 372,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "veF5dzjd_nA",
+   "source": "lawyer-oyer",
+   "title": "Trump’s media ban gets even more disturbing",
+   "published": "2026-09-23T14:39:30Z",
+   "edition": "2026-09-24",
+   "state": "screen",
+   "runs": 95,
+   "channel": "Lawyer Oyer"
+  },
+  {
+   "id": "3-xWbqu9nj4",
+   "source": "jason-salmon",
+   "title": "When my wife asks me a question, it's not a question #marriage #relationship #standupshorts",
+   "published": "2026-09-23T15:19:31Z",
+   "edition": "2026-09-24",
+   "state": "screen",
+   "runs": 116,
+   "channel": "Jason Salmon"
+  },
+  {
+   "id": "ovmBsb2WrfM",
+   "source": "texas-paul",
+   "title": "Trump, JD Vance and Mehmet Oz just lied about fraud in the Obamacare exchanges.",
+   "published": "2026-09-23T17:57:22Z",
+   "edition": "2026-09-24",
+   "state": "screen",
+   "runs": 178,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "-kPelDQpwJM",
+   "source": "tennessee-brando",
+   "title": "What Rehab Taught Me About My Life",
+   "published": "2026-09-23T19:20:46Z",
+   "edition": "2026-09-24",
+   "state": "screen",
+   "runs": 1339,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "ITe8T8vnlPU",
+   "source": "tennessee-brando",
+   "title": "Hunter Biden Shares HIS STORY With Me… And It Hit Home",
+   "published": "2026-09-24T01:00:25Z",
+   "edition": "2026-09-24",
+   "state": "screen",
+   "runs": 1982,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "qY1HkfsLZ3E",
+   "source": "closer-look",
+   "title": "Trump Faces GOP Backlash for Xi Visit, Snaps at CNN's Kaitlan Collins, Threatens Iran: A Closer Look",
+   "published": "2026-09-24T01:00:39Z",
+   "edition": "2026-09-24",
+   "state": "screen",
+   "runs": 886,
+   "channel": "Late Night with Seth Meyers"
+  },
+  {
+   "id": "W7009vJkPA8",
+   "source": "daily-show",
+   "title": "Trump Can’t Find Rubio, Pirro Tackles Meteorite Corruption & Melania Gets a Sequel | The Daily Show",
+   "published": "2026-09-24T02:01:43Z",
+   "edition": "2026-09-24",
+   "state": "screen",
+   "runs": 520,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "q27E9n7Tomg",
+   "source": "daily-show",
+   "title": "Jessica Tarlov - “I Disagree: Winning Arguments Without Losing Friends” | The Daily Show",
+   "published": "2026-09-24T03:30:04Z",
+   "edition": "2026-09-24",
+   "state": "screen",
+   "runs": 1635,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "pXhHkGE97ks",
+   "source": "kimmel",
+   "title": "Trump’s TV Network FLOPS, Panicking Republicans Spew NONSENSE & Guillermo Dances His Heart Out!",
+   "published": "2026-09-24T03:45:26Z",
+   "edition": "2026-09-24",
+   "state": "screen",
+   "runs": 855,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "p5O4fSbGaFU",
+   "source": "kimmel",
+   "title": "John Wilson on New Documentary The History of Concrete & Opening a Movie Theater in Queens",
+   "published": "2026-09-24T06:00:09Z",
+   "edition": "2026-09-24",
+   "state": "screen",
+   "runs": 594,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "rpBfB5JoS-M",
+   "source": "kimmel",
+   "title": "Brandi Carlile on Sad Gay Version of Her Album, Covering Alanis Morissette & Taking Her Kids on Tour",
+   "published": "2026-09-24T06:00:21Z",
+   "edition": "2026-09-24",
+   "state": "screen",
+   "runs": 763,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "YggJqn0wwow",
+   "source": "late-night-monologues",
+   "title": "Trump Renames AI to \"Super Intelligence\"",
+   "published": "2026-09-24T09:00:14Z",
+   "edition": "2026-09-24",
+   "state": "screen",
+   "runs": 1115,
+   "channel": "Late Night with Seth Meyers"
+  },
+  {
+   "id": "-vydnMiw1PM",
+   "source": "daily-show",
+   "title": "Midterm Anal-a-Zone: Hot Dog Rage, BDSM Pics & Salsa with a Side of Racism | The Daily Show",
+   "published": "2026-09-24T11:32:04Z",
+   "edition": "2026-09-25",
+   "state": "screen",
+   "runs": 403,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "qYRqIvD-5M4",
+   "source": "texas-paul",
+   "title": "Republicans cheat again as Greg Abbott's DPS doesn't hand over voter registrations.",
+   "published": "2026-09-24T15:35:40Z",
+   "edition": "2026-09-25",
+   "state": "screen",
+   "runs": 176,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "FxI4GliGPQY",
+   "source": "texas-paul",
+   "title": "Never forget or let them forget that these high prices were a choice made by Trump & MAGA voters.",
+   "published": "2026-09-24T19:44:52Z",
+   "edition": "2026-09-25",
+   "state": "screen",
+   "runs": 108,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "XZrjse7nSBM",
+   "source": "tennessee-brando",
+   "title": "I Don’t Think Trump Knows What He’s WALKING INTO",
+   "published": "2026-09-24T21:30:08Z",
+   "edition": "2026-09-25",
+   "state": "screen",
+   "runs": 585,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "BqHJisgxu_g",
+   "source": "closer-look",
+   "title": "Trump's GOP Allies Distance Themselves From Him, Media Ban Lifted, Xi Gets Red Carpet: A Closer Look",
+   "published": "2026-09-25T01:00:08Z",
+   "edition": "2026-09-25",
+   "state": "screen",
+   "runs": 893,
+   "channel": "Late Night with Seth Meyers"
+  },
+  {
+   "id": "mZVuJPATQOs",
+   "source": "tennessee-brando",
+   "title": "I Keep Hearing the Same Thing About Trump’s AI Push",
+   "published": "2026-09-25T01:00:08Z",
+   "edition": "2026-09-25",
+   "state": "screen",
+   "runs": 574,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "OTLB7iHNlNo",
+   "source": "hawk",
+   "title": "16k to zero",
+   "published": "2026-09-25T01:00:17Z",
+   "edition": "2026-09-25",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 90,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "FzYLPvj_LjU",
+   "source": "hawk",
+   "title": "This is about the midterms",
+   "published": "2026-09-25T01:39:49Z",
+   "edition": "2026-09-25",
+   "state": "screen",
+   "runs": 116,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "DhNEcUGaVmI",
+   "source": "daily-show",
+   "title": "Trump Spooked by Plane at Xi Meeting & Sen. Tuberville Rails Against Flying Furries | The Daily Show",
+   "published": "2026-09-25T01:59:30Z",
+   "edition": "2026-09-25",
+   "state": "screen",
+   "runs": 626,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "1OM-ZEvWmVE",
+   "source": "hawk",
+   "title": "Texas Cheatin’",
+   "published": "2026-09-25T02:00:33Z",
+   "edition": "2026-09-25",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 87,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "8V1LvW8VIds",
+   "source": "hawk",
+   "title": "Blue Wave In Red States",
+   "published": "2026-09-25T03:00:26Z",
+   "edition": "2026-09-25",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 102,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "3o1Jr7QdwwU",
+   "source": "daily-show",
+   "title": "Merritt Wever’s Late Night Debut & “Primetime” | The Daily Show",
+   "published": "2026-09-25T03:29:49Z",
+   "edition": "2026-09-25",
+   "state": "screen",
+   "runs": 934,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "BzWfnwr_430",
+   "source": "kimmel",
+   "title": "Trump Showers Chinese President with Praise & Jimmy’s Assistant Natalie Interrupts the Monologue",
+   "published": "2026-09-25T03:45:38Z",
+   "edition": "2026-09-25",
+   "state": "screen",
+   "runs": 765,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "xV4A7sPhn3U",
+   "source": "hawk",
+   "title": "It’s gonna be rough",
+   "published": "2026-09-25T04:00:22Z",
+   "edition": "2026-09-25",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 76,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "64LduxVGbIQ",
+   "source": "hawk",
+   "title": "Let’s just try it",
+   "published": "2026-09-25T05:00:15Z",
+   "edition": "2026-09-25",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 92,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "N54xBFDV8m4",
+   "source": "hawk",
+   "title": "Idaho",
+   "published": "2026-09-25T06:00:01Z",
+   "edition": "2026-09-25",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 126,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "nFzDAtm8XlM",
+   "source": "kimmel",
+   "title": "Mo Amer on James Bond Moment with Pierce Brosnan, Doing a USO Tour & Headlining Radio City",
+   "published": "2026-09-25T06:00:19Z",
+   "edition": "2026-09-25",
+   "state": "screen",
+   "runs": 651,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "nHoquA-kUhI",
+   "source": "kimmel",
+   "title": "Ben Affleck on Giving His Kids Advice, Winning Millionaire & New Movie Animals",
+   "published": "2026-09-25T06:00:27Z",
+   "edition": "2026-09-25",
+   "state": "screen",
+   "runs": 1222,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "uTDbfFLgNc4",
+   "source": "hawk",
+   "title": "But why?",
+   "published": "2026-09-25T07:00:18Z",
+   "edition": "2026-09-25",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 55,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "0CH6Eg4bQgA",
+   "source": "hawk",
+   "title": "He doesn’t want this",
+   "published": "2026-09-25T08:00:06Z",
+   "edition": "2026-09-25",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 73,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "X8qf7kUcJ4s",
+   "source": "late-night-monologues",
+   "title": "Trump Clashed with First White House Ballroom Architect",
+   "published": "2026-09-25T09:00:03Z",
+   "edition": "2026-09-25",
+   "state": "screen",
+   "runs": 1177,
+   "channel": "Late Night with Seth Meyers"
+  },
+  {
+   "id": "Tq2Kgb2hvUo",
+   "source": "hawk",
+   "title": "We all see who and what they are",
+   "published": "2026-09-25T09:00:28Z",
+   "edition": "2026-09-25",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 100,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "LrYwD2El2Zo",
+   "source": "hawk",
+   "title": "They just gave up",
+   "published": "2026-09-25T10:00:37Z",
+   "edition": "2026-09-25",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 104,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "w-UYrmzNhgs",
+   "source": "meidastouch",
+   "title": "🚨Trump hits ROCK BOTTOM as XI LEAVES…",
+   "published": "2026-09-25T11:00:39Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 969,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "oCJ88M2Sc9M",
+   "source": "daily-show",
+   "title": "Tech Yeah: Eavesdropping Smart Watches, Humanoid Games & Busty Robo-Companions | The Daily Show",
+   "published": "2026-09-25T11:32:09Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 324,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "1fWzKFV_EEQ",
+   "source": "meidastouch",
+   "title": "🚨ALL HELL BREAKS LOOSE as Zelensky GOES DEEP…",
+   "published": "2026-09-25T12:30:36Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 901,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "AuUh3Qu880Y",
+   "source": "meidastouch",
+   "title": "🚨Trump’s PICK Gets CORNERED…",
+   "published": "2026-09-25T14:00:17Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 1197,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "tBthmdiilgs",
+   "source": "tennessee-brando",
+   "title": "Why Is NOBODY Talking About How STRAGE This Was",
+   "published": "2026-09-25T15:00:10Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 758,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "zXmpwPsVvXg",
+   "source": "meidastouch",
+   "title": "🚨 Trump gets BLINDSIDED in Texas..BY MTG?!!",
+   "published": "2026-09-25T15:30:16Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 1167,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "GvYmtMlO4Oc",
+   "source": "hawk",
+   "title": "#duet with Ms Mayday Seven Hours",
+   "published": "2026-09-25T15:38:53Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 66,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "RJd3yOtRIIk",
+   "source": "hawk",
+   "title": "Grateful",
+   "published": "2026-09-25T15:39:39Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 95,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "7bjmidH3YwM",
+   "source": "hawk",
+   "title": "#duet with AngryMaleVet At this point I’m almost speechless",
+   "published": "2026-09-25T15:40:12Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 126,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "5I2RBGlX7IA",
+   "source": "jason-salmon",
+   "title": "Xi Loves Me…Not  #cnn #xi #unitednations #iran #israel #war #casualties #politics #comedy #shorts",
+   "published": "2026-09-25T15:50:21Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 179,
+   "channel": "Jason Salmon"
+  },
+  {
+   "id": "5cYiD7BNK-0",
+   "source": "meidastouch",
+   "title": "🚨 Trump Makes It SO MUCH WORSE…",
+   "published": "2026-09-25T17:02:08Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 1290,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "QUZtR-9CKpQ",
+   "source": "texas-paul",
+   "title": "Sorry folks I can't do my normal video takes on today's events like the SCOTUS voting ruling.",
+   "published": "2026-09-25T17:32:54Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 120,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "DHSckusgJIg",
+   "source": "meidastouch",
+   "title": "🚨 Iran DROPS REALITY CHECK….",
+   "published": "2026-09-25T19:07:24Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 954,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "1VCONyeQW_w",
+   "source": "meidastouch",
+   "title": "Trump DOJ Just BLEW ANOTHER Epstein Deadline...",
+   "published": "2026-09-25T20:30:32Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 925,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "Z5dbFPnpf88",
+   "source": "hawk",
+   "title": "Friday",
+   "published": "2026-09-25T20:40:57Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 21,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "TzZYDEe7Zd0",
+   "source": "meidastouch",
+   "title": "🚨 GOP split and go after TRUMPS FAMILY",
+   "published": "2026-09-25T22:05:26Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 701,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "ekOvvXgQBOM",
+   "source": "meidastouch",
+   "title": "BREAKING: Supreme Court JUST RULED…",
+   "published": "2026-09-25T23:09:39Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 1063,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "870LqIdXatg",
+   "source": "meidastouch",
+   "title": "🚨Trump JUST ESCALATED AGAIN…",
+   "published": "2026-09-26T02:07:37Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 979,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "v3-dK90rBss",
+   "source": "meidastouch",
+   "title": "Trump’s Housing Market Just FROZE UP...",
+   "published": "2026-09-26T03:00:05Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 1049,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "-A3Pb3ROiyA",
+   "source": "meidastouch",
+   "title": "Trump ICE Shooting Just Took a DARK TURN…",
+   "published": "2026-09-26T05:00:21Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 648,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "lK0p2-qKeGk",
+   "source": "meidastouch",
+   "title": "Navy’s OWN LETTER Just BLEW UP Trump’s Story...",
+   "published": "2026-09-26T06:30:28Z",
+   "edition": "2026-09-26",
+   "state": "screen",
+   "runs": 616,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "8fqbSbOQeBM",
+   "source": "meidastouch",
+   "title": "🚨Trump LOSES IT as Trip ENDS…",
+   "published": "2026-09-26T11:00:35Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 978,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "axRv1JNkNE8",
+   "source": "meidastouch",
+   "title": "🚨All HELL BREAKS LOOSE as Putin STRIKES IT…",
+   "published": "2026-09-26T12:30:30Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 958,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "IU0eY96lAoI",
+   "source": "daily-show",
+   "title": "Jon Stewart on MAGA's Embrace of AI & Desi Lydic on Trump's U.N. Rant and Xi Meetup | The Daily Show",
+   "published": "2026-09-26T13:00:39Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 2493,
+   "channel": "The Daily Show"
+  }
+ ],
+ "newest": "2026-09-26"
+}

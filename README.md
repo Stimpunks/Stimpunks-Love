@@ -240,6 +240,7 @@ python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, 
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
 python3 tools/make-coworking.py    # Cavendish Coworking's doors, from our events page's own words; refuses a line the page has dropped, a door with no password, or a frame
 python3 tools/make-live-room.py     # The Live Room's desk, a channel strip per session, and the credits; refuses a set played outside, or a studio with nothing on it
+python3 tools/make-doom-scoop.py    # The Doom Scoop's cabinet, a tub per morning for a week, and the credits; refuses a scoop kept past a week, a description or a count, or a screen with no runtime
 python3 tools/make-pebbles.py      # the pebble bowl by the Hermitage's and the Yurt's doors; refuses a room the server has no bowl for, a count, or a trade
 python3 tools/make-broadside.py    # The Broadsheet Broadside's sheets, both sides; refuses a third side, a long claim line, a shared ink pair, a link that is not its address, or an order to the reader
 python3 tools/make-covenstead.py   # Covenstead's tenets and quotations; refuses a tenet written as an order, a contested one that does not say why, or membership
@@ -305,6 +306,7 @@ network — a checker that fails on a train either blocks a deploy or teaches ev
 ```bash
 python3 tools/check-jukebox.py     # presses nothing; asks YouTube whether every facade still plays
 python3 tools/pull-arrivals.py     # reads the sibling sites' RSS feeds into data/arrivals.json
+python3 tools/pull-doom-scoop.py   # reads The Doom Scoop's sources' YouTube feeds, and each new video's watch page, into data/doom-scoop.json
 python3 tools/pull-foundry.py      # reads every typeface's own record into data/foundry-faces.json
 python3 tools/pull-club.py         # mirrors Club Chronic's playlist ids into data/club.json
 python3 tools/pull-club.py --check # reports drift between that mirror and the live playlist
@@ -318,6 +320,11 @@ The task's prompt is tracked here, at `.claude/scheduled-tasks/arrivals-board-da
 that copy is the source of truth: edit it, then `tools/install-scheduled-task.sh --go` to install it
 (no flag reports drift and writes nothing). Its commit subject, `daily arrivals board reset`, is
 load-bearing — the Knowledge System's `update-logs` skips it by that exact string.
+`tools/daily-scoop.sh` is its twin for The Doom Scoop, run by the same task straight after it: it
+pulls, fills the cabinet, re-prints Now Playing, gates, and commits **only** `data/doom-scoop.json`,
+`the-doom-scoop.html` and `now-playing.html`, under the fixed subject `daily doom scoop edition`. Two
+scripts rather than one so that a news feed failing cannot leave The Feed's board unset, or the other
+way round.
 
 **`tools/check-all.sh` runs every one of them, in the order that works, and stops at the first
 refusal**; it is the command to run before every commit, and on a clean tree it changes nothing.
