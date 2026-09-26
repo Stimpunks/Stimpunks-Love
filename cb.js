@@ -23,6 +23,10 @@
        this street that has other people on the other end of it.
      · WHAT PEOPLE TYPE IS WRITTEN WITH textContent AND NEVER innerHTML. It is
        the only place on the street where a stranger's words reach the page.
+       An address on this street in a message becomes a link, built as an
+       element whose href is a path this script assembled after checking every
+       character of it; an address anywhere else stays words. See streetLinks.
+     · IT NEVER SCROLLS UNDER SOMEBODY WHO IS READING. See show.
 
    It moves with the pointer or with the keyboard, and the keyboard is not an
    afterthought: a panel you can only reposition by dragging is a panel some of
@@ -64,6 +68,46 @@
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
     });
+  }
+
+  /* A LINK TO ANOTHER ROOM IS CLICKABLE AND A LINK ANYWHERE ELSE IS NOT. Ryan
+     asked, 2026-09-25, so that somebody can drop a room on the channel for
+     somebody else to join them in. Only this street's own addresses become
+     links -- stimpunks.world/..., with or without https:// and www. -- and they
+     open as a path on whatever host is serving the page, so they work the same
+     on the dev server. Everything else somebody types stays plain words you can
+     copy: the channel is a stranger's words reaching the page, and a clickable
+     link to anywhere is the one way it could send somebody off the street
+     without their noticing where. The path is checked character by character
+     rather than escaped, so nothing but a path can reach an href. */
+  var STREET = /(?:https?:\/\/)?(?:www\.)?stimpunks\.world(\/[A-Za-z0-9\-._~\/#?=&%+]*)?/gi;
+  var TRAIL = /[.,;:!?)\]'"]+$/;
+
+  function streetLinks(parent, text) {
+    var at = 0, m;
+    STREET.lastIndex = 0;
+    while ((m = STREET.exec(text))) {
+      var said = m[0], path = m[1] || '/';
+      var tail = said.match(TRAIL);
+      if (tail) {
+        said = said.slice(0, -tail[0].length);
+        path = path.slice(0, Math.max(1, path.length - tail[0].length));
+      }
+      // "stimpunks.worldly" is a word, not an address, and neither is the tail
+      // of somebody else's, like notstimpunks.world or elsewhere.example/stimpunks.world.
+      var next = text.charAt(m.index + said.length);
+      var prev = m.index ? text.charAt(m.index - 1) : ' ';
+      if (!m[1] && /[A-Za-z0-9-]/.test(next)) continue;
+      if (/[A-Za-z0-9.\/@_~%-]/.test(prev)) continue;
+      if (m.index > at) parent.appendChild(document.createTextNode(text.slice(at, m.index)));
+      var a = el('a', null, said);
+      a.href = path;
+      parent.appendChild(a);
+      at = m.index + said.length;
+      STREET.lastIndex = at;
+    }
+    if (at < text.length) parent.appendChild(document.createTextNode(text.slice(at)));
+    return parent;
   }
 
   function clock(t) {
@@ -252,8 +296,17 @@
       });
   };
 
-  Radio.prototype.show = function (messages) {
-    var me = this, want = {}, i;
+  /* IT NEVER SCROLLS UNDER SOMEBODY WHO IS READING. This used to set the log to
+     the bottom on every listen, every four seconds, so scrolling up to read
+     something earlier was undone a moment later; Ryan found it. Now it follows
+     the newest message only when something new has arrived AND the log was
+     already at the bottom, or when you have just transmitted yourself. Anybody
+     scrolled up stays where they are; the screen reader still hears what
+     arrives, because that is the live region's job and not the scroll bar's. */
+  Radio.prototype.show = function (messages, mine) {
+    var me = this, want = {}, i, added = 0;
+    var log = this.log;
+    var atEnd = log.hidden || log.scrollHeight - log.scrollTop - log.clientHeight < 24;
     for (i = 0; i < messages.length; i++) want[messages[i].id] = true;
     // Gone from the channel: pushed off by an eleventh, taken off by the base,
     // or midnight.
@@ -274,7 +327,8 @@
       when.dateTime = new Date(m.t).toISOString();
       head.appendChild(when);
       li.appendChild(head);
-      li.appendChild(el('p', 'cb-text', m.text));
+      li.appendChild(streetLinks(el('p', 'cb-text'), m.text));
+      added++;
       if (this.state.base) {
         var off = el('button', 'cb-btn cb-take', 'Take off the air');
         off.type = 'button';
@@ -287,7 +341,7 @@
     this.quiet.textContent = 'Nobody has said anything today.';
     this.quiet.hidden = messages.length > 0;
     this.log.hidden = messages.length === 0;
-    this.log.scrollTop = this.log.scrollHeight;
+    if (mine || (added && atEnd)) this.log.scrollTop = this.log.scrollHeight;
   };
 
   Radio.prototype.transmit = function () {
@@ -296,7 +350,7 @@
     this.tell('Transmitting…');
     call('/cb/transmit', { body: { text: text } }, this.state.pass).then(function (r) {
       if (r.status === 401) return me.lost();
-      if (r.status === 200) { me.say.value = ''; me.tell(''); me.show(r.body.messages || []); return; }
+      if (r.status === 200) { me.say.value = ''; me.tell(''); me.show(r.body.messages || [], true); return; }
       if (r.status === 429) { me.tell('Easy on the mic: too many in a minute. Try again shortly.'); return; }
       me.tell(r.body.error || 'That did not go out. Try again.');
     }).catch(function () { me.tell('No signal. That did not go out.'); });

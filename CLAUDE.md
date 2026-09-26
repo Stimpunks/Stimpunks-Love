@@ -2386,6 +2386,16 @@ heard** — it says *tuning in* until the first listen answers and *no signal* w
 "nobody has said anything" is a statement about the channel and only a reply can make it true. It
 also never counts: no people on the channel, no unread number.
 
+**A ROOM ON THE STREET IS A LINK ON THE CHANNEL AND NOTHING ELSE IS.** Ryan, 2026-09-25, so somebody
+can drop a room for somebody else to join them in. `streetLinks` in `cb.js` turns only this street's
+own addresses into links, as a path checked character by character and never as HTML, and leaves
+every other address as words: the channel is a stranger's words reaching the page, and a clickable
+link to anywhere is the one way it could send somebody off the street without noticing where. The
+house norms say so. **Widening it to every URL is Ryan's call, not a tidy-up.** And **the log never
+scrolls under a reader**: it used to jump to the bottom on every listen, so scrolling up was undone
+four seconds later. It follows the newest message only when something new arrived and the log was
+already at the bottom, or when you transmitted.
+
 **OPEN IS ON AND CLOSED IS OFF, AND THAT IS ONE FUNCTION.** `Radio.prototype.tune` is the only place
 that decides whether the radio makes requests: open *and* `document.visibilityState === 'visible'`.
 Folded or in a background tab it sends nothing, which is both the brief's "if the CB is closed you
