@@ -1,7 +1,7 @@
 {
   "_what": "Looming Rocks Amphitheatre: turning 03 in The Outskirts. The running order on the stage, tuned from a lighting desk. Nothing is hosted here and nothing is fetched until somebody presses something.",
-  "_ids": "EVERY ID WAS RESOLVED AND CHECKED, NOT REMEMBERED. All ten were opened on their own watch pages on 2026-09-22 and read for three things: playabilityStatus, playableInEmbed and lengthSeconds. All ten answer OK and true. The runtimes below are the measured lengthSeconds rather than anything typed, which matters more here than anywhere else on the street: these are FULL CONCERTS, the shortest is nearly an hour and the longest is over two, and a wrong number in front of a two-hour press is the room breaking its own promise at the largest possible scale.",
-  "_real": "THE VENUE IS REAL AND IS CREDITED AS SOMEBODY ELSE'S. Red Rocks Amphitheatre is an open-air venue near Morrison, Colorado, about ten miles south-west of Denver, owned and operated by the city of Denver; it is formed by two enormous sandstone monoliths named Ship Rock and Creation Rock with the smaller Stage Rock between them, and seats 9,525. Read off en.wikipedia.org/wiki/Red_Rocks_Amphitheatre on 2026-09-22. Every recording in this room was made there. LOOMING ROCKS IS NOT RED ROCKS: it is a room on a made-up street that is fond of the real place, and the room says so rather than letting a reader assume this is an official anything. Stimpunks has no connection to the venue, and none of these artists, channels or labels is affiliated with us.",
+  "_ids": "EVERY ID WAS RESOLVED AND CHECKED, NOT REMEMBERED. All ten were opened on their own watch pages on 2026-09-22 and read for three things: playabilityStatus, playableInEmbed and lengthSeconds. All ten answer OK and true. The runtimes below are the measured lengthSeconds rather than anything typed, which matters more here than anywhere else on the street: these are FULL CONCERTS, the shortest is nearly an hour and the longest is over two, and a wrong number in front of a two-hour press is the room breaking its own promise at the largest possible scale. THE ELEVENTH, Noah Kahan's festival set, was checked the same way on 2026-09-25: OK, true, 3845 seconds.",
+  "_real": "THE ROOM STARTED AT ONE REAL VENUE AND IS FOR OUTDOOR MUSIC IN GENERAL NOW, Ryan's call, 2026-09-25. Red Rocks Amphitheatre is an open-air venue near Morrison, Colorado, about ten miles south-west of Denver, owned and operated by the city of Denver; it is formed by two enormous sandstone monoliths named Ship Rock and Creation Rock with the smaller Stage Rock between them, and seats 9,525. Read off en.wikipedia.org/wiki/Red_Rocks_Amphitheatre on 2026-09-22. Austin City Limits Music Festival takes place in Zilker Park in Austin, Texas, and is produced by C3 Presents; it is inspired by the Austin City Limits television series and is a different thing from it. Read off en.wikipedia.org/wiki/Austin_City_Limits_Music_Festival on 2026-09-25. EVERY ACT CARRIES 'at' AND 'outdoors', and make-looming.py refuses an act that was not played outdoors, because 'every one of them played outdoors' is a sentence the room now prints and one indoor taping would make it false. LOOMING ROCKS IS NOT RED ROCKS, OR ANY OTHER REAL PLACE: it is a room on a made-up street that is fond of the real ones, and the room says so rather than letting a reader assume this is an official anything. Stimpunks has no connection to any of these venues or festivals, and none of these artists, channels or labels is affiliated with us.",
   "_lore": "THE ROCKS ARE RYAN'S AND THE ROOM DOES NOT HEDGE ABOUT THEM. Rocks that pre-date the people drawn to them, that hold centuries of storytellers, and that watched the Sithen come up out of the ground two turnings back: that is the room's own lore and it is told straight. AN EARLIER DRAFT SPLIT THE PAGE INTO WHAT IS REAL AND WHAT IS MADE UP and Ryan cut it, 2026-09-22: this is a street named after a genderqueer shape-shifting road, and a disclaimer explaining that the sentient rocks are fiction is a page apologising for being the thing it is. What still needs saying is the part about somebody else's property -- the real venue, in the credits -- which is a different job from hedging the fiction.",
   "_uv": "THE LICHEN IS REAL AND THE ROOM SAYS SO WITHOUT MAKING A LESSON OF IT. Fluorescence under ultraviolet light is a genuine property of many lichens and a genuine field technique. make-looming.py still refuses anything shaped like a species name anywhere in this file, and that guard stays even though the page no longer talks about it: the room must never tell anybody WHICH lichen glows WHICH colour, because nobody here has checked and a confident binomial beside a colour is the format most likely to be believed. A guard does not need a paragraph on the page to be worth having.",
   "_tuning": "TUNING IS NOT PLAYING, and looming.js holds that line the way the Hermitage's set does. While the stage is dark, previous and next are silent: the screen names the act and its runtime and NOTHING is fetched, so the whole running order can be walked without a request leaving the page. Once something is playing, tuning changes the picture, because by then the visitor has asked for a stage. The desk names the act it is about to tune to AND how long that one runs, before the press.",
@@ -14,7 +14,9 @@
       "runs": "1:52:23",
       "spoken": "1 hr 52 min",
       "how": "screen",
-      "note": "A full show, shot from the crowd rather than from a truck, which is most of what makes it worth having: you get the rocks going up out of the light and the sound of a few thousand people being quiet in the right places. Ferrell sings old forms without treating them as a costume."
+      "note": "A full show, shot from the crowd rather than from a truck, which is most of what makes it worth having: you get the rocks going up out of the light and the sound of a few thousand people being quiet in the right places. Ferrell sings old forms without treating them as a costume.",
+      "at": "Red Rocks",
+      "outdoors": true
     },
     {
       "id": "n5AMAxOtQBE",
@@ -24,7 +26,9 @@
       "runs": "1:34:50",
       "spoken": "1 hr 35 min",
       "how": "screen",
-      "note": "The same artist on the same stage a year on, which is the only pair in this running order and the reason both are here. Put them side by side and what you are watching is somebody who has played a room before deciding what to do with it the second time."
+      "note": "The same artist on the same stage a year on, which is the only pair in this running order and the reason both are here. Put them side by side and what you are watching is somebody who has played a room before deciding what to do with it the second time.",
+      "at": "Red Rocks",
+      "outdoors": true
     },
     {
       "id": "3mI_7yIfyKE",
@@ -34,7 +38,9 @@
       "runs": "2:05:42",
       "spoken": "2 hr 6 min",
       "how": "screen",
-      "note": "The longest thing on the rocks by a quarter of an hour, and the band's own upload rather than somebody else's recording of them. Southern rock played without irony, which on this street is a compliment: see the room two turnings back about sincerity being harder to hold than a joke."
+      "note": "The longest thing on the rocks by thirteen minutes, and the band's own upload rather than somebody else's recording of them. Southern rock played without irony, which on this street is a compliment: see the room two turnings back about sincerity being harder to hold than a joke.",
+      "at": "Red Rocks",
+      "outdoors": true
     },
     {
       "id": "BhW9rFGdNPs",
@@ -44,7 +50,9 @@
       "runs": "1:47:10",
       "spoken": "1 hr 47 min",
       "how": "screen",
-      "note": "August 2021, which places it: one of the first full houses back, and you can hear it in the crowd more than in the band. Reggae, dub and punk in the same set, from a group who have never seen a reason to pick."
+      "note": "August 2021, which places it: one of the first full houses back, and you can hear it in the crowd more than in the band. Reggae, dub and punk in the same set, from a group who have never seen a reason to pick.",
+      "at": "Red Rocks",
+      "outdoors": true
     },
     {
       "id": "OG1oI0m6evU",
@@ -54,7 +62,9 @@
       "runs": "0:56:55",
       "spoken": "57 min",
       "how": "screen",
-      "note": "The oldest thing here by nearly forty years, and the one that proves the rocks were doing this long before anybody in the running order above was born. A full concert film from the Rock a Little tour, shot on the same stone the rest of this list is standing on."
+      "note": "The oldest thing here by more than thirty years, and the proof that the rocks were doing this long before most of this bill got there. A full concert film from the Rock a Little tour, shot on the same stone as every other Red Rocks night in this list.",
+      "at": "Red Rocks",
+      "outdoors": true
     },
     {
       "id": "bktRFl3OvFw",
@@ -64,7 +74,9 @@
       "runs": "0:57:15",
       "spoken": "57 min",
       "how": "screen",
-      "note": "The only one of these that is a film about arriving somewhere rather than a recording of a night, which is why it is last: the others are the show, and this one is the drive. Worth it for how plainly the band treat the place as the point of the trip."
+      "note": "The only one of these that is a film about arriving somewhere rather than a recording of a night: the others are the show, and this one is the drive. Worth it for how plainly the band treat the place as the point of the trip.",
+      "at": "Red Rocks",
+      "outdoors": true
     },
     {
       "id": "ebNQFJBYoRU",
@@ -74,7 +86,9 @@
       "runs": "1:37:42",
       "spoken": "1 hr 38 min",
       "how": "screen",
-      "note": "On his own channel, which is worth saying because it means this one is not going anywhere. A very big room played quietly for long stretches, and the crowd does most of the work on the choruses without being asked to."
+      "note": "On his own channel, which is worth saying because it means this one is not going anywhere. A very big room played quietly for long stretches, and the crowd does most of the work on the choruses without being asked to.",
+      "at": "Red Rocks",
+      "outdoors": true
     },
     {
       "id": "3lGjS3yGoRU",
@@ -84,7 +98,9 @@
       "runs": "0:58:27",
       "spoken": "58 min",
       "how": "screen",
-      "note": "Just under the hour, and the one with the most notes in it by a wide margin. Bluegrass played at a speed that stops being about showing off somewhere in the second tune and turns into four people listening to each other very fast."
+      "note": "Just under the hour, and the one with the most notes in it by a wide margin. Bluegrass played at a speed that stops being about showing off somewhere in the second tune and turns into four people listening to each other very fast.",
+      "at": "Red Rocks",
+      "outdoors": true
     },
     {
       "id": "9qSvbfiqtS8",
@@ -95,7 +111,9 @@
       "runs": "1:40:05",
       "spoken": "1 hr 40 min",
       "how": "screen",
-      "note": "Posted by the band as the complete version, which on this street counts for something: no fade at the interesting part and no edit where the tuning was. Fiddle out front, and a set built to be played outdoors at altitude."
+      "note": "Posted by the band as the complete version, which on this street counts for something: no fade at the interesting part and no edit where the tuning was. Fiddle out front, and a set built to be played outdoors at altitude.",
+      "at": "Red Rocks",
+      "outdoors": true
     },
     {
       "id": "FnE_-9WVBUw",
@@ -105,8 +123,23 @@
       "runs": "1:43:02",
       "spoken": "1 hr 43 min",
       "how": "screen",
-      "note": "A full show from a band with two drummers and a pedal steel, which is a lot of weather to move around a stage. New Orleans by way of a Colorado hillside, and the horns carry further out here than they have any right to."
+      "note": "A full show from a band with two drummers and a pedal steel, which is a lot of weather to move around a stage. New Orleans by way of a Colorado hillside, and the horns carry further out here than they have any right to.",
+      "at": "Red Rocks",
+      "outdoors": true
+    },
+    {
+      "id": "K1lBOHeBaXw",
+      "title": "Noah Kahan at Austin City Limits Music Festival, 2023",
+      "who": "Noah Kahan",
+      "channel": "World Music Festivals VHS",
+      "runs": "1:04:05",
+      "spoken": "1 hr 4 min",
+      "how": "screen",
+      "at": "ACL Music Festival in Zilker Park",
+      "outdoors": true,
+      "note": "The first night on this bill that was not on the rocks, and the reason the room is for outdoor music in general now: a festival set in a city park in Austin on 7 October 2023, posted by a channel that collects festival footage rather than by him. Most of it comes off Stick Season, and Mt. Joy come out for one song."
     }
   ],
-  "_own_channels": "SIX OF THE TEN ARE ON THE ARTIST'S OR THE BAND'S OWN CHANNEL, which is the most durable shape of upload this street handles -- the opposite end of the scale from the Pebble Board, where the links are whatever somebody had open that day. The other four are on channels that collect live recordings, and those are the ones check-jukebox.py is really watching. A wording note: the Shane Smith channel is styled in capitals and the room prints it in ordinary case, so the entry carries channel_verbatim and the drift check compares against THAT -- otherwise a deliberate wording choice would be reported as drift on every run, and a report that is always noisy is a report nobody reads."
+  "_own_channels": "MOST OF THE BILL IS ON THE ARTIST'S OR THE BAND'S OWN CHANNEL, which is the most durable shape of upload this street handles -- the opposite end of the scale from the Pebble Board, where the links are whatever somebody had open that day. The rest are on channels that collect live recordings, and those are the ones check-jukebox.py is really watching. The room's own count of which is which is generated by make-looming.py. A wording note: the Shane Smith channel is styled in capitals and the room prints it in ordinary case, so the entry carries channel_verbatim and the drift check compares against THAT -- otherwise a deliberate wording choice would be reported as drift on every run, and a report that is always noisy is a report nobody reads.",
+  "_held": "THE NINE THAT WERE NOT OUTDOORS WENT TO THEIR OWN ROOM. Ryan sent ten Austin City Limits videos on 2026-09-25 in the same message that widened this room to outdoor music in general. One was the festival set in Zilker Park, on the bill above. The other nine are the television series, taped indoors in front of a studio audience, and this room refuses an act that was not played outdoors -- so they were held here for an hour, and that afternoon Ryan asked for a room for Live In Studio sets. They are on its desk now: live-room.html, built by make-live-room.py, which refuses the opposite of what this tool refuses. make-looming.py still accepts a 'held' list with a reason on every entry, for the next time something arrives that belongs somewhere else."
 }

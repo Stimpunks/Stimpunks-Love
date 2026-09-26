@@ -822,6 +822,21 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
    the green canvas blinds down with the shelves showing through, and the lede
    under the name. The words stand on the painted hall like every word of ours
    in the room. */
+/* the live room -- THE CONTROL ROOM, LIFTED WHOLE: the header with the room's
+   name on its strip of tape and the drawing of the view over the desk through
+   the double glass, and the page's og:description under the name. The words
+   stand on the control room like every word of ours in the room. */
+.og--live {{ width: 100%; padding: 28px 60px 0; }}
+.og--live .lvr-head {{ margin: 0 !important; display: flex; flex-direction: column; align-items: flex-start; }}
+.og--live .lvr-over {{ font-size: 16px; margin: 0 !important; }}
+.og--live h1 {{ margin: 10px 0 0 !important; }}
+.og--live h1 span {{ font-size: 86px; padding: 4px 24px 0; }}
+.og--live .lvr-sub {{ display: none; }}
+.og--live .og-lede {{ font-family: 'B612', sans-serif; color: var(--lvr-text);
+  max-width: 1060px; font-size: 22px; line-height: 1.45; margin: 14px 0 0 !important; }}
+.og--live .lvr-art {{ order: 5; margin: 16px 0 0 !important; align-self: stretch; }}
+.og--live .lvr-view {{ width: 1080px; height: auto; }}
+
 .og--cavendish {{ width: 100%; padding: 30px 60px 0; }}
 .og--cavendish .cw-head {{ margin: 0 !important; display: flex; flex-direction: column; }}
 .og--cavendish .cw-over, .og--cavendish .cw-sub {{ font-size: 16px; }}
@@ -2665,6 +2680,35 @@ def card_oook(p):
     )
 
 
+def card_live(p):
+    # THE HEADER IS LIFTED WHOLE, tape, drawing and all, and the lede is the
+    # page's og:description, so the card cannot show a control room the page has
+    # not got. The alt names no studio and counts no sessions: both will grow.
+    head = re.search(r'(<header class="lvr-head">.*?</header>)', p["src"], re.S)
+    over = re.search(r'<p class="lvr-over">(.*?)</p>', p["src"], re.S)
+    if not (head and over and 'class="lvr-view"' in head.group(1)):
+        raise SystemExit(
+            "REFUSING: live-room.html has lost its header or its drawing of the view\n"
+            "through the glass, and the card is those two. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    block = head.group(1).replace("</header>", f'<p class="og-lede">{p["desc"]}</p></header>')
+    return (
+        "",
+        f'<div class="og og--live" data-fit="card">{block}</div>',
+        f"A dark blue-grey card, the colour of a control room kept dim. Small grey capitals "
+        f"reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d written in black "
+        f"marker on a torn strip of cream masking tape. Under it, in pale grey: "
+        f"{p['desc_plain']} Across the bottom, a drawing of the view from the control room: "
+        f"a wide window of angled double glass, and through it a pale, evenly lit live room "
+        f"with acoustic panels on the walls, a microphone on a stand, a stool and an amp, "
+        f"each drawn a second time, faintly and a little lower, as the reflection in the inner "
+        f"pane. A red lamp is lit over the window. Studio monitors stand either side, and "
+        f"along the foot runs a mixing desk of channel strips with rows of knobs and faders, "
+        f"a few green level lights, and a strip of masking tape scribbled with names. Nobody "
+        f"is drawn.",
+    )
+
+
 def card_cavendish(p):
     # THE HEADER IS LIFTED WHOLE, drawing and all, and the lede is the page's
     # og:description, so the card cannot show a house the page has not got. The
@@ -2980,6 +3024,7 @@ CARDS = {
     "now-playing":  card_nowplaying,
     "plural-mural": card_mural,
     "cavendish":    card_cavendish,
+    "live-room":    card_live,
     "room-library": card_library,
     "room-lspace":  card_lspace,
     "room-oook":    card_oook,

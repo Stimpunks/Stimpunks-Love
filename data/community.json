@@ -219,10 +219,21 @@
         {
           "page": "looming-rocks.html",
           "name": "Looming Rocks",
-          "wants": "a whole concert, filmed",
+          "wants": "a whole concert played outdoors, filmed",
           "anchor": "looming-suggest",
           "holds": [
-            "The bill takes suggestions"
+            "The bill takes suggestions",
+            "a whole concert played outdoors"
+          ]
+        },
+        {
+          "page": "live-room.html",
+          "name": "The Live Room",
+          "wants": "a whole session played in a studio, filmed",
+          "anchor": "lvr-suggest",
+          "holds": [
+            "The desk takes suggestions",
+            "a whole session played in a studio"
           ]
         },
         {

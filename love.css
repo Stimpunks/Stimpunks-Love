@@ -770,6 +770,22 @@
 @font-face { font-family: 'Libre Caslon Text'; src: url('fonts/libre-caslon-text-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Libre Caslon Text'; src: url('fonts/libre-caslon-text-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 
+/* The Live Room (§59). A COCKPIT LEGEND AND A MARKER ON TAPE. B612 was drawn
+   for the displays in an aircraft's cockpit, to be read at a glance under bad
+   light by somebody busy with something else, which is the job the legend on a
+   studio desk does; it carries every word that is read, and the headings at
+   700. Static files. Just Another Hand is a tall, narrow marker capital, the
+   hand every engineer writes a channel's name in on the strip of masking tape
+   along the foot of a desk, and it sets the room's name and the name on each
+   strip's tape and nothing else: a hand carrying a sentence is an access
+   failure wearing atmosphere, the Doomscroll's rule. It is NOT Club Chronic's
+   Permanent Marker, which is a fat felt tip written OVER a flyer; this is a
+   fine one written ON a label. Both read off their own records; see
+   fonts/_sources.json. */
+@font-face { font-family: 'B612'; src: url('fonts/b612-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'B612'; src: url('fonts/b612-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Just Another Hand'; src: url('fonts/just-another-hand-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -1907,6 +1923,24 @@
   --cw-light:  #EEF0DC;   --cw-plate:  #D9B866;   --cw-plate-ink: #2A1A10;
   --cw-card:   #F7F1E1;   --cw-ink:    #2A2119;   --cw-ink-2:  #5B4D3E;
   --cw-link:   #2F5A36;   --cw-canvas: #86AE8F;
+
+  /* The Live Room (§59). THE CONTROL ROOM, KEPT DIM SO YOU CAN SEE THROUGH THE
+     GLASS. --lvr-room is the room itself, the ground for every word of ours:
+     --lvr-text for the words, --lvr-dim for what is quieter, --lvr-link for
+     every link, the pale of the red lamp. --lvr-face is the faceplate of each
+     channel strip, 1.29 against the room, which is why every strip is drawn
+     round in --lvr-cap, the grey of the knob caps (3.56 on the faceplate, 4.61
+     on the room). The name on each strip is --lvr-marker on --lvr-tape. Through
+     the window: --lvr-glass is the live room lit for the cameras, --lvr-panel
+     its acoustic panels and --lvr-live the microphone, stool and amp standing
+     in it; --lvr-well is the dark of the window frame and the fader slots,
+     --lvr-lamp the red light over the glass and --lvr-meter the desk's green
+     LEDs. None of those seven carries a word. */
+  --lvr-room:  #1A2330;   --lvr-face:  #2A3647;   --lvr-text:  #ECE7DA;
+  --lvr-dim:   #B4BEC9;   --lvr-link:  #FF9C8F;   --lvr-cap:   #7E8C9B;
+  --lvr-tape:  #EEE2C0;   --lvr-marker: #1C1B22;  --lvr-glass: #D6E4EC;
+  --lvr-panel: #B9CAD4;   --lvr-live:  #6E8292;   --lvr-well:  #10161F;
+  --lvr-lamp:  #E5483C;   --lvr-meter: #62D38E;
 }
 
 * { box-sizing: border-box; }
@@ -2536,6 +2570,17 @@ div.facade--audio { border: 0; background: none; }
 .door--cavendish .door__name  { font-family: 'Libre Caslon Display', Georgia, serif; color: var(--cw-cream); font-size: 27px; line-height: 1.08; }
 .door--cavendish .door__blurb { font-family: 'Libre Caslon Text', Georgia, serif; color: var(--cw-dim); }
 .door--cavendish .door__knock { font-family: 'Libre Caslon Text', Georgia, serif; font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cw-brass); }
+
+/* The Live Room (§59). THE ONE FRONT IN THE ROW WITH A RED LAMP OVER THE DOOR:
+   the awning is the strip of masking tape along the foot of a desk, with the
+   channels' names scribbled on it in marker, and a steady red lamp at its
+   middle; the ground is the control room. Every word is measured on --lvr-room
+   in check-contrast.py; the tape here carries marks and no word. */
+.door--live-room { background: var(--lvr-room); border-color: var(--lvr-cap); }
+.door--live-room .door__awning { background-color: var(--lvr-tape); background-image: radial-gradient(circle at 50% 50%, var(--lvr-lamp) 0 7px, transparent 8px), repeating-linear-gradient(90deg, transparent 0 10px, var(--lvr-marker) 10px 34px, transparent 34px 46px); background-size: 100% 100%, 100% 3px; background-position: 0 0, 0 60%; background-repeat: no-repeat, repeat-x; border-bottom-color: var(--lvr-cap); }
+.door--live-room .door__name  { font-family: 'Just Another Hand', cursive; font-weight: 400; color: var(--lvr-tape); font-size: 40px; line-height: 1; letter-spacing: .02em; }
+.door--live-room .door__blurb { font-family: 'B612', var(--sans); color: var(--lvr-dim); }
+.door--live-room .door__knock { font-family: 'B612', var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--lvr-link); }
 
 /* Plural Mural (§54). THE ONE FRONT IN THE ROW THAT IS NOT A SHOPFRONT AT ALL
    BUT THE WALL AT THE END OF ONE: the awning is the capping along the top of the
@@ -13026,7 +13071,133 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 .cavendish .cw-further { font-size: 16px; color: var(--cw-dim); }
 .cavendish code { font-size: .88em; }
 
-/* §59 ── Small screens ───────────────────────────────────────────────────────
+/* §59 ── ROOM: The Live Room (a shopfront on the street) ───────────────────────
+   A recording studio, seen from the control room, over the desk, through the
+   glass: sessions played in a studio rather than at a gig. Ryan's brief,
+   2026-09-25, starting with the Austin City Limits tapings Looming Rocks could
+   not hold, and taking KEXP, KCRW and other studios after them. The desk is
+   built by tools/make-live-room.py out of data/live-room.json.
+
+   THE LIGHT ARRIVES THROUGH TWO PANES OF GLASS, AND IT IS THE ONLY LIGHT ON
+   THIS STREET THAT ARRIVES DOUBLED. The control room is kept dim so the
+   engineer can see through the window; the live room beyond it is lit bright
+   and even for the cameras. Studio glass is two panes set out of parallel, so
+   sound cannot bounce between them, and that is why everything lit in there is
+   drawn twice in the header, the second time faint and lower. One red lamp over
+   the window, lit and steady. The desk's own LEDs are tiny and light nothing.
+
+   EACH SESSION IS A CHANNEL STRIP, AND THE STRIPS STAND IN COLUMNS. A
+   faceplate drawn round in the knob caps' grey, a strip of masking tape at the
+   top with the name on it in marker, then the legend in B612. The tape is the
+   one warm thing in the room and the only place the hand is used.
+
+   THE ROOMS TO WATCH, and every separation is structural:
+     · THE SMALL HOURS is a lit room seen through glass from the dark. There
+       you are OUTSIDE, in a car park, looking through one plate window into a
+       public room you could walk into; here you are INSIDE a sealed building,
+       the glass is between two rooms of it and doubled, and while the lamp is
+       lit nobody goes through.
+     · THE DEN is the street's other studio: Elvis Presley's den in 1976, brown
+       panelling, green shag, lamps at knee height, and you are in the room with
+       the band. There is no wood and no carpet here, the walls are blue-grey,
+       and you are on the other side of the glass. If a panel in here ever goes
+       brown it has become The Den with a mixing desk.
+     · THE FEED is the other dark room of machines in rows, lit from inside
+       each board through a mask, amber on near-black, the boards standing on
+       legs in a hall. Nothing in here gives off light but the lamp; the strips
+       are lit from the window, stand in columns rather than rows, and there is
+       no amber anywhere.
+     · THE MOPERY is the other blue-dark room and is stone after dark with
+       candles on every shelf. No flame here, and the blue is painted metal.
+     · LOOMING ROCKS is the other room of whole concerts, and the only rule the
+       two share is the same one pointing opposite ways: that room refuses a set
+       played indoors and this one refuses a set played outside.
+
+   NOTHING MOVES AT ANY SETTING, the lamp included. Nothing leans, either: tape
+   on a desk is laid straight, and a tilt would need its own Gentle reset. */
+
+.live-room {
+  background: var(--lvr-room); color: var(--lvr-text);
+  font-family: 'B612', var(--sans); font-synthesis: none;
+}
+.live-room a { color: var(--lvr-link); text-underline-offset: 3px; }
+.live-room :focus-visible { outline-color: var(--lvr-tape); }
+.live-room :where(p, li) { font-size: 17px; line-height: 1.65; }
+.live-room strong { color: var(--lvr-text); }
+.live-room .backlink {
+  font-family: 'B612', var(--sans); font-weight: 700; font-size: 13px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--lvr-link);
+}
+.lvr-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.lvr-trail { margin: 0; font-size: 14px; color: var(--lvr-dim); }
+
+.lvr-head { margin: 34px 0 0; }
+.lvr-over, .lvr-sub { margin: 0; color: var(--lvr-dim); }
+.lvr-over { font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.lvr-sub { margin-top: 12px; max-width: 40em; font-size: 18px; }
+/* THE NAME IS WRITTEN ON A STRIP OF TAPE, with its ends torn rather than cut. */
+.live-room h1 { margin: 14px 0 0; line-height: 1; }
+.live-room h1 span, .lvr-tape span {
+  display: inline-block; background: var(--lvr-tape); color: var(--lvr-marker);
+  font-family: 'Just Another Hand', cursive; font-weight: 400;
+  clip-path: polygon(0 6%, 3% 0, 97% 4%, 100% 0, 99% 50%, 100% 100%, 96% 94%, 2% 100%, 0 96%, 1% 50%);
+}
+.live-room h1 span { padding: 4px 28px 0; font-size: clamp(60px, 11vw, 120px); letter-spacing: .02em; }
+.lvr-art { margin: 26px 0 0; }
+.lvr-view { display: block; width: 100%; height: auto; border: 2px solid var(--lvr-cap); border-radius: 6px; }
+
+.lvr-lede { margin: 30px 0 0; max-width: 44em; }
+.lvr-lede p { font-size: 19px; line-height: 1.65; }
+
+.lvr-part, .lvr-studio { margin: 50px 0 0; }
+.lvr-part { max-width: 46em; }
+.live-room h2 {
+  margin: 0 0 12px; font-family: 'B612', var(--sans); font-weight: 700;
+  font-size: 22px; line-height: 1.25; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--lvr-text);
+}
+.lvr-rules { margin: 0; padding-left: 1.2em; }
+.lvr-rules li + li { margin-top: 8px; }
+.lvr-rules li::marker { color: var(--lvr-link); }
+
+.lvr-studio__name { display: block; font-size: 30px; letter-spacing: .08em; }
+.lvr-studio__place { display: block; margin-top: 4px; font-size: 14px; font-weight: 400; letter-spacing: .16em; color: var(--lvr-dim); }
+.lvr-studio__about { max-width: 46em; margin: 0; }
+
+/* THE DESK. Strips in columns, each a faceplate drawn round in the caps' grey. */
+.lvr-desk {
+  list-style: none; margin: 24px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px;
+}
+.lvr-strip {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 0 16px 16px; background: var(--lvr-face);
+  border: 2px solid var(--lvr-cap); border-radius: 4px;
+}
+.lvr-tape { margin: 0 -16px 4px; }
+.lvr-tape span {
+  display: block; padding: 8px 16px 2px; font-size: 32px; line-height: 1;
+  letter-spacing: .03em; text-transform: uppercase;
+}
+.live-room .lvr-strip__title { margin: 0; font-family: 'B612', var(--sans); font-weight: 700; font-size: 17px; line-height: 1.35; color: var(--lvr-text); }
+.live-room .lvr-strip__where { margin: 0; font-size: 14px; letter-spacing: .04em; color: var(--lvr-dim); }
+.live-room .lvr-strip__note { margin: 0; font-size: 15px; line-height: 1.6; }
+.live-room .lvr-strip__on { margin: 0; font-size: 13px; color: var(--lvr-dim); }
+.lvr-strip .facade { margin-top: auto; }
+.live-room .facade {
+  border: 2px solid var(--lvr-cap); border-radius: 3px;
+  background: var(--lvr-room); color: var(--lvr-text);
+  font-family: 'B612', var(--sans); font-weight: 700; font-size: 15px;
+}
+.live-room .facade:hover { background: var(--lvr-well); border-color: var(--lvr-tape); }
+.live-room .facade__play { font-family: 'B612', var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .14em; color: var(--lvr-link); }
+.live-room .facade iframe { border-radius: 1px; }
+
+.lvr-note { margin: 36px 0 0; max-width: 46em; }
+.live-room .lvr-further { font-size: 15px; color: var(--lvr-dim); }
+.live-room code { font-size: .9em; }
+
+/* §60 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -13133,7 +13304,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §59 says every
+   shipped with no rule here at all — which on a street whose §60 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -13257,7 +13428,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §60 ── Print ───────────────────────────────────────────────────────────────
+/* §61 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

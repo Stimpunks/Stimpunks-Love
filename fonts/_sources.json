@@ -1454,5 +1454,33 @@
       "src": "https://fonts.gstatic.com/s/librecaslontext/v5/DdT678IGsGw1aF1JU10PUbTvNNaDMfq95-BDGjG2u9s.woff2",
       "note": "Cavendish Coworking (§58): the italic, for titles of books and the quotations."
     }
+  ],
+  "b612": [
+    {
+      "file": "b612-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 12448,
+      "src": "https://fonts.gstatic.com/s/b612/v13/3JnySDDxiSz36j6yGRqjQX0.woff2",
+      "note": "The Live Room (§59), every word that is read, and the headings at 700. B612 was drawn by Nicolas Chauveau, Thomas Paillot, Jonathan Favre-Lamarine and Jean-Luc Vinot for the displays in an aircraft's cockpit, to be read at a glance in bad light by somebody busy with something else -- the job the legend on a studio desk does. Two static files."
+    },
+    {
+      "file": "b612-700.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 12628,
+      "src": "https://fonts.gstatic.com/s/b612/v13/3Jn9SDDxiSz34oWXDDeBTFcHXuA.woff2",
+      "note": "The Live Room (§59), every word that is read, and the headings at 700. B612 was drawn by Nicolas Chauveau, Thomas Paillot, Jonathan Favre-Lamarine and Jean-Luc Vinot for the displays in an aircraft's cockpit, to be read at a glance in bad light by somebody busy with something else -- the job the legend on a studio desk does. Two static files."
+    }
+  ],
+  "just-another-hand": [
+    {
+      "file": "just-another-hand-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 27172,
+      "src": "https://fonts.gstatic.com/s/justanotherhand/v21/845CNN4-AJyIGvIou-6yJKyptyOpOfr4DGiHSIax.woff2",
+      "note": "The Live Room (§59), the room's name and the name on each channel strip's masking tape, and nothing at reading size. A tall, narrow marker capital, which is the hand a channel's name is written in on the tape along the foot of a desk. A hand carrying a sentence is an access failure wearing atmosphere, so it never does."
+    }
   ]
 }

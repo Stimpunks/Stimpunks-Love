@@ -1843,6 +1843,45 @@
           "One word, and it is also what you do when you sign in somewhere."
         ]
       }
+    },
+    {
+      "id": "live-room-tape",
+      "page": "live-room.html",
+      "room": "The Live Room",
+      "title": "What night was it?",
+      "posted": "There is a control room on the street with the red light on and a desk full of sessions, each with its name written on tape. Go in, read the strips, and find out what night of the year one of them was taped on.",
+      "rank": 1,
+      "takes": "about as long as reading a few strips, and nothing to play",
+      "target": "a roll of masking tape dropped under the desk, with a marker beside it",
+      "code": "TALKBACK",
+      "learned": "Leonard Cohen's first time on Austin City Limits was taped on Halloween night 1988, on the I'm Your Man tour, and first broadcast the next year. Every strip on the desk says where and when its session was taped, before the press, alongside how long it runs.",
+      "hints": [
+        "On the street itself, in the row of shopfronts: the one with a red lamp over the door.",
+        "On the desk, in the Austin City Limits section.",
+        "At the foot of the room, under the desk, where somebody dropped a roll of tape."
+      ],
+      "ask": {
+        "question": "One session on the desk was taped on a night most people know by name. Which night?",
+        "accept": [
+          "halloween",
+          "halloweennight",
+          "hallowe'en",
+          "halloween1988",
+          "allhallowseve",
+          "allhallowseven",
+          "october31",
+          "31october",
+          "october31st",
+          "31stoctober"
+        ],
+        "answer": "Halloween",
+        "why": "Leonard Cohen's first time on Austin City Limits was taped on Halloween night 1988, on the I'm Your Man tour, and first broadcast the next year. Every strip on the desk says where and when its session was taped before you press it.",
+        "hints": [
+          "It is on the Leonard Cohen strip.",
+          "The strip gives the tour and the year as well as the night.",
+          "The last night of October."
+        ]
+      }
     }
   ],
   "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

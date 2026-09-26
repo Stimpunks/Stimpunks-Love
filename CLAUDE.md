@@ -2635,6 +2635,43 @@ read off Proton's guest page, never guessed**: open the link as far as the name 
 `coworking.js` reads the visitor's clock and time zone to write the same hour underneath, and the tool
 refuses it if it ever stores, sends or listens; the Central line is what a page with no script shows.
 
+**LOOMING ROCKS IS FOR OUTDOOR MUSIC AND THE LIVE ROOM IS FOR INDOOR MUSIC, AND THEIR TOOLS HOLD
+OPPOSITE RULES ON PURPOSE.** Ryan, 2026-09-25: Looming Rocks stopped being a Red Rocks room and
+became the room for outdoor music in general, in the same message as ten Austin City Limits links.
+Nine of those were the television series, **taped indoors**, and one was a festival set in Zilker
+Park. So every act carries `at` and `outdoors`, and `make-looming.py` **refuses an act not played
+outdoors**, because the room prints "every one of them played outdoors". The nine went to a new
+room the same afternoon, and `make-live-room.py` **refuses a session not played indoors**.
+make-jungle.py and make-den.py's runtime pair, arriving as a fact about where. **Do not make them
+agree**, and check a description for where a set was played before it goes in either one: KEXP films
+sessions away from its studio too.
+
+**THE LIVE ROOM (§59) IS THE ONLY LIGHT ON THE STREET THAT ARRIVES DOUBLED.** You are in a dim
+control room, over the desk, looking through studio glass: two panes set out of parallel, so
+everything lit in the live room is drawn twice, the second time faint and lower. One red lamp over
+the window, lit and steady, which does not flash at any setting (Club Chronic's rule). Each session
+is a **channel strip**, with its name in Just Another Hand on a strip of masking tape and everything
+else in B612. The hand never carries a sentence. The collisions are structural:
+**The Small Hours** is a lit room seen through glass from the dark, but there you are outside in a
+car park looking through one plate window you could walk through, and here you are inside a sealed
+building with the glass doubled between two of its rooms. **The Den** is the street's other studio,
+and you are in the room with the band: brown panelling and shag. **There is no wood and no carpet in
+§59**; if a panel ever goes brown it has become The Den with a desk. **The Feed** is the other dark
+room of machines, lit from inside each board through a mask, amber, in rows; nothing here gives off
+light but the lamp, the strips stand in columns, and there is no amber. Nobody is drawn in the live
+room, Laughingstock's rule.
+
+**A STRIP SAYS NOTHING THE VIDEO'S OWN DESCRIPTION DOES NOT.** Every date, venue, player and
+host on the desk was read off the video's description, and the first draft of the notes had to be
+cut back: a band called a trio from memory when the upload lists no line-up, a duet in the
+Hall of Fame episode that was really a separate clip, and three sentences about how a set
+*sounded* from somebody who had not watched it. **Describe what the description shows**: who
+played, who hosted, how many songs, what is cut. `make-live-room.py` also refuses a superlative
+about the desk (the oldest, the longest), because it goes false the day another studio arrives.
+**The Stevie Ray Vaughan upload is titled a full concert and has six songs cut**, and its strip
+says so beside the runtime, because a runtime is only honest if you know what it is the runtime of.
+**A studio with no sessions is refused**: a studio is named on the page in words until somebody sends a session from it.
+
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
 paleness alone — which is what holds it off the Guild, lit from nowhere with no depth. Netlify

@@ -233,6 +233,7 @@ python3 tools/make-community.py    # The Community Center's service board; refus
 python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, and the credits; refuses a size, a gendered rail, or no all-black colourway
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
 python3 tools/make-coworking.py    # Cavendish Coworking's doors, from our events page's own words; refuses a line the page has dropped, a door with no password, or a frame
+python3 tools/make-live-room.py     # The Live Room's desk, a channel strip per session, and the credits; refuses a set played outside, or a studio with nothing on it
 python3 tools/make-library.py      # the library's, L-space's and Oook's quotations, the front desk and the threads; refuses a long passage, a lyric, or the graphic novel
 python3 tools/make-dance-punks.py  # the disco's channels and credits; refuses a runtime, shuffle, or two inks alike in greyscale
 python3 tools/make-small-hours.py  # the diner's menu, quotations, record, jukebox and placemat; refuses a lyric with no permission, or a placemat that keeps anything

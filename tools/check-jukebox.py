@@ -202,6 +202,11 @@ LISTS = [
     # playlist's owner can see which video it is. Added in the commit that
     # opened the room.
     ("vital plant living", "data/vital.json", "vital-plant-living.html"),
+    # The Live Room's desk, one strip per session, grouped by studio. Added in
+    # the commit that opened the room. Five of its first nine are on channels
+    # that collect recordings rather than the show's own, which is the shape
+    # this tool is really for.
+    ("the live room", "data/live-room.json", "live-room.html"),
 ]
 
 
@@ -225,6 +230,12 @@ def tracks_in(data):
     read."""
     if "tracks" in data:
         return data["tracks"]
+    # THE LIVE ROOM IS TESTED BEFORE 'sessions', because its studios hold
+    # sessions and The Den's file is keyed on 'sessions' at the top. A file with
+    # 'studios' is the Live Room's; its sessions are one video each.
+    if "studios" in data:
+        return [dict(s_, artist=s_.get("who") or s_.get("channel"))
+                for st in data["studios"] for s_ in st["sessions"]]
     if "groups" in data:
         return [dict(c, artist=c.get("artist") or c.get("channel"))
                 for g in data["groups"] for c in g["cams"] if c.get("state") != "dark"]

@@ -841,6 +841,20 @@
       "sections": [
         58
       ]
+    },
+    "b612": {
+      "where": "The Live Room",
+      "page": "live-room.html",
+      "sections": [
+        59
+      ]
+    },
+    "just-another-hand": {
+      "where": "The Live Room",
+      "page": "live-room.html",
+      "sections": [
+        59
+      ]
     }
   }
 }

@@ -209,6 +209,12 @@ DRAW = {
     # wall, the fold and the edge in --cw-ink-2, a round seal on it in
     # --cw-brass, 5.30, and the skirting under it in --cw-stone, which carries
     # nothing. It lies still and square.
+    # A roll of masking tape dropped under the desk, with the marker that
+    # wrote the strips beside it: the roll in --lvr-tape, 12.26 on the room,
+    # its hole in the room's own colour, the marker in --lvr-text with its cap
+    # in --lvr-link, 7.84, and the floor line in --lvr-cap, which carries
+    # nothing. It lies still.
+    "live-room-tape": """<path d="M3 28 H29" stroke="var(--lvr-cap)" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="18" r="8.5" fill="var(--lvr-tape)"/><circle cx="12" cy="18" r="4" fill="var(--lvr-room)"/><path d="M20.5 18 L23 26" stroke="var(--lvr-tape)" stroke-width="3" stroke-linecap="round"/><rect x="20" y="10" width="10" height="3.6" rx="1.8" fill="var(--lvr-text)"/><rect x="26.5" y="10" width="3.5" height="3.6" rx="1.2" fill="var(--lvr-link)"/>""",
     "cavendish-marker": """<path d="M3 28 H29" stroke="var(--cw-stone)" stroke-width="1.6" stroke-linecap="round"/><rect x="5" y="11" width="22" height="14" fill="var(--cw-card)"/><path d="M5 11 L16 19 L27 11" fill="none" stroke="var(--cw-ink-2)" stroke-width="1.4" stroke-linejoin="round"/><circle cx="16" cy="19" r="3.2" fill="var(--cw-brass)"/>""",
     "mural-lid": """<path d="M3 28 H29" stroke="var(--pm-yellow)" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="16" cy="21" rx="12" ry="5.5" fill="var(--pm-line)"/><ellipse cx="16" cy="21" rx="8.5" ry="3.4" fill="none" stroke="var(--pm-yellow)" stroke-width="2"/><path d="M26 23 Q27 26 25.5 27" fill="none" stroke="var(--pm-yellow)" stroke-width="1.6" stroke-linecap="round"/>""",
     # The paste brush the bill went up with, put down on the pavement at the

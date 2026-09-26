@@ -43,6 +43,17 @@ WHAT IT REFUSES:
     a two-hour button somebody presses and presses that never becomes a video.
     None of this music is ours and every act names whose channel it is on.
 
+  - AN ACT THAT WAS NOT PLAYED OUTDOORS, OR ONE THAT DOES NOT SAY WHERE.
+    The room started at one real venue and is for outdoor music in general
+    now (Ryan's call, 2026-09-25), and it prints "every one of them played
+    outdoors" -- so one indoor taping would make a published sentence false.
+    It arrived the same day as the rule: ten Austin City Limits videos, nine of
+    them taped in a television studio. Those went to The Live Room, whose
+    make-live-room.py refuses the opposite -- a session NOT played indoors --
+    and the two tools must not be made to agree. Something that arrives here
+    and belongs elsewhere can wait under "held"; a held entry needs a reason
+    and cannot also be an act.
+
   - AN HTML ENTITY IN ANY FIELD, and a note shaped like verse. The fifth and
     sixth shapes of each on this street; see data/lagoon.json.
 """
@@ -135,6 +146,14 @@ def check(d):
             bad.append(f"{t!r} names no channel. None of this music is ours.")
         if not (a.get("who") or "").strip():
             bad.append(f"{t!r} does not say who is playing.")
+        if not (a.get("at") or "").strip():
+            bad.append(f"{t!r} does not say where it was played. The bill says where every "
+                       "act was recorded, because the room is no longer only one place.")
+        if a.get("outdoors") is not True:
+            bad.append(
+                f"{t!r} is not marked as played outdoors. This room is for outdoor music "
+                "and says every act on the bill was played outdoors; an indoor show goes "
+                "under 'held' with its reason, not on the stage.")
         runs = (a.get("runs") or "").strip()
         if not CLOCK.match(runs):
             bad.append(
@@ -168,6 +187,14 @@ def check(d):
                         f"{t!r}'s {field} quotes {quoted[:36]!r}... from the stage. Nothing "
                         "musical is hosted on this street and no words out of these "
                         "performances are on this page. Describe what it does instead.")
+
+    for h in d.get("held") or []:
+        t = (h.get("title") or "").strip() or "<untitled>"
+        if not (h.get("why") or "").strip():
+            bad.append(f"held entry {t!r} gives no reason. A held entry is a decision, and a "
+                       "decision nobody wrote down gets reversed by the next person to find it.")
+        if (h.get("id") or "") in seen:
+            bad.append(f"{h.get('id')} is both held and on the bill.")
 
     # The lichen rule sweeps the WHOLE file, headers included, because the
     # temptation is in the prose about the rocks rather than in an act's note.
@@ -207,16 +234,14 @@ def summary(acts):
     lo = min(acts, key=lambda a: secs(a["runs"]))
     hi = max(acts, key=lambda a: secs(a["runs"]))
     n = len(acts)
-    word = {6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven",
-            12: "twelve"}.get(n, str(n))
+    word = ownword_of(n)
     return (f"The running order &mdash; {word} act{'' if n == 1 else 's'}, "
             f"shortest {spoken_of(lo)}, longest {spoken_of(hi)}")
 
 
 def count_line(acts):
     n = len(acts)
-    word = {6: "Six", 7: "Seven", 8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven",
-            12: "Twelve"}.get(n, str(n))
+    word = ownword_of(n).capitalize()
     own = sum(1 for a in acts if a["who"].lower() in a["channel"].lower()
               or a["channel"].lower() in a["who"].lower())
     # The tail is generated too, not just the number. A line reading "1 of them
@@ -227,8 +252,25 @@ def count_line(acts):
     tail = ("none of them posted by the artists themselves" if own == 0 else
             f"{ownword} of them posted by the artist or the band "
             f"{'themself' if own == 1 else 'themselves'}")
-    return (f"{word} full show{'' if n == 1 else 's'}, all of them recorded at the real "
-            f"place this one is fond of, and {tail}.")
+    # WHERE, GENERATED AND IN THE BILL'S OWN ORDER. This line said "all of them
+    # recorded at the real place this one is fond of" until the room widened to
+    # outdoor music in general, which is the same hand-typed-total mistake in a
+    # different field: a fact about every row belongs to the tool that reads
+    # every row.
+    places = []
+    for a in acts:
+        if a["at"] not in places:
+            places.append(a["at"])
+    here = [f"{ownword_of(sum(1 for a in acts if a['at'] == p_))} at {p_}" for p_ in places]
+    where = here[0] if len(here) == 1 else ", ".join(here[:-1]) + " and " + here[-1]
+    every = "played outdoors" if n == 1 else "every one of them played outdoors"
+    return (f"{word} full show{'' if n == 1 else 's'}, {every} &mdash; {where} &mdash; "
+            f"and {tail}.")
+
+
+def ownword_of(k):
+    return {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven",
+            8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve"}.get(k, str(k))
 
 
 def running(acts):
@@ -241,7 +283,8 @@ def running(acts):
             f'            data-spoken="{esc(a["spoken"])}" data-how="{esc(a["how"])}">\n'
             f'          <p class="act__no">ACT {i:02d}</p>\n'
             f'          <h3>{esc(a["title"])}</h3>\n'
-            f'          <p class="act__by">{esc(a["who"])} &middot; on {esc(a["channel"])} '
+            f'          <p class="act__by">{esc(a["who"])} &middot; at {esc(a["at"])} '
+            f'&middot; on {esc(a["channel"])} '
             f'&middot; {esc(a["runs"])}</p>\n'
             f'          <p>{esc(a["note"])}</p>\n'
             f'          <button type="button" class="tuneto" data-ch="{i}">'

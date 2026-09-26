@@ -215,6 +215,29 @@
     }
    ]
   },
+  "b612": {
+   "family": "B612",
+   "category": "Sans Serif",
+   "designer": "Nicolas Chauveau, Thomas Paillot, Jonathan Favre-Lamarine, Jean-Luc Vinot",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/b612",
+   "copyright": "Copyright 2012 The B612 Project Authors (https://github.com/polarsys/b612)",
+   "repository": "https://github.com/polarsys/b612",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "b612-400.woff2",
+     "sha": "f25e3d3c4dc723ef"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "b612-700.woff2",
+     "sha": "da25e53a19193e1b"
+    }
+   ]
+  },
   "bagel-fat-one": {
    "family": "Bagel Fat One",
    "category": "Display",
@@ -1024,6 +1047,23 @@
      "style": "normal",
      "file": "jost-500.woff2",
      "sha": "235d8f8964bfdf10"
+    }
+   ]
+  },
+  "just-another-hand": {
+   "family": "Just Another Hand",
+   "category": "Handwriting",
+   "designer": "Astigmatic",
+   "licence": "Apache License 2.0",
+   "licence_url": "https://github.com/google/fonts/tree/main/apache/justanotherhand",
+   "copyright": "Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved. Available under the Apache 2.0 licence. http://www.apache.org/licenses/LICENSE-2.0.html",
+   "repository": "https://github.com/librefonts/justanotherhand",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "just-another-hand-400.woff2",
+     "sha": "306505b5334bc790"
     }
    ]
   },

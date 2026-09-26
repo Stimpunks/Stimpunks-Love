@@ -629,6 +629,16 @@ CW_WALL, CW_CREAM, CW_DIM, CW_BRASS = "#34503F", "#F1EBDA", "#D3D4C2", "#E3C57A"
 CW_MAHOG, CW_PLATE, CW_PLATE_INK = "#5A2417", "#D9B866", "#2A1A10"
 CW_CARD, CW_INK, CW_INK2, CW_LINK = "#F7F1E1", "#2A2119", "#5B4D3E", "#2F5A36"
 
+# The Live Room (love.css §59). A control room kept dim so you can see through
+# the glass. Every word of ours is on the room; each session is a channel strip
+# whose faceplate is 1.29 against the room, so the strip's outline in the knob
+# caps' grey is held as an object against both; the name on each strip is
+# marker on masking tape. A press-to-play plate is the room's own colour and
+# goes to the window frame's dark under the pointer.
+LVR_ROOM, LVR_FACE, LVR_TEXT, LVR_DIM = "#1A2330", "#2A3647", "#ECE7DA", "#B4BEC9"
+LVR_LINK, LVR_CAP, LVR_TAPE, LVR_MARKER = "#FF9C8F", "#7E8C9B", "#EEE2C0", "#1C1B22"
+LVR_WELL = "#10161F"
+
 # Plural Mural (love.css §54). An end wall seen from across the road at golden
 # hour. Every word is on the road, never on the wall: the markings' white for
 # the words, the double yellow lines for every link and button. The murals'
@@ -2147,6 +2157,25 @@ PAIRS = [
     (CW_BRASS, CW_MAHOG, False, "cavendish: the focus ring round the handle, on the mahogany"),
     (CW_PLATE_INK, CW_CARD, False, "cavendish: the handle under the pointer"),
 
+    # ── The Live Room (§59) ──────────────────────────────────────────────────
+    (LVR_TEXT,   LVR_ROOM, False, "live room: every word of ours in the room -- the lede, the rules, "
+                                  "each studio's line, whose this all is -- and every play plate's words"),
+    (LVR_TEXT,   LVR_FACE, False, "live room: each strip's title and note, on its faceplate"),
+    (LVR_DIM,    LVR_ROOM, False, "live room: the trail, the lines over and under the h1, each studio's "
+                                  "place, the type credit, and the street door's blurb"),
+    (LVR_DIM,    LVR_FACE, False, "live room: where and when each session was taped, and whose channel "
+                                  "it is on"),
+    (LVR_LINK,   LVR_ROOM, False, "live room: every link, the backlink, the list markers, PRESS PLAY, "
+                                  "and the knock on the street door"),
+    (LVR_LINK,   LVR_WELL, False, "live room: PRESS PLAY with a plate under the pointer"),
+    (LVR_TEXT,   LVR_WELL, False, "live room: a plate's words under the pointer"),
+    (LVR_MARKER, LVR_TAPE, False, "live room: the room's name, and the name written on every strip's tape"),
+    (LVR_TAPE,   LVR_ROOM, False, "live room: the focus ring, the name on the street door, and the job "
+                                  "marker's roll of tape"),
+    (LVR_TAPE,   LVR_FACE, False, "live room: the focus ring inside a strip"),
+    (LVR_CAP,    LVR_FACE, True,  "live room: a strip's outline against its own faceplate"),
+    (LVR_CAP,    LVR_ROOM, True,  "live room: a strip's outline and a play plate's edge against the room"),
+
     # ── Plural Mural (§54) ───────────────────────────────────────────────────
     (PM_LINE,   PM_ROAD,   False, "plural mural: every word -- the trail, the lines over and under "
                                   "the h1, what is on the wall now, the lede, the list, how to "
@@ -2326,6 +2355,16 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#d6e4ec": "live room: the live room seen through the glass, lit for the cameras, 12.18 on "
+               "the control room. It carries no word.",
+    "#b9cad4": "live room: the acoustic panels on the live room's walls, 1.30 on the lit room "
+               "behind them. They are shading inside a drawing and carry no word.",
+    "#6e8292": "live room: the microphone, the stool and the amp standing in the live room, 3.07 "
+               "on the lit room, and their reflection in the inner pane. They carry no word.",
+    "#e5483c": "live room: the red lamp over the glass and the dots of red on the desk, 4.01 on "
+               "the control room. Lit and steady at every setting; it carries no word.",
+    "#62d38e": "live room: the desk's green level lights, 8.46 on the room. They carry no word "
+               "and they do not move.",
     "#5a2417": "cavendish: the mahogany of every door, 1.39 on the hall wall, which is why the "
                "Coade stone case round it is what separates it (5.76). It carries only the "
                "plate, the note and the handle, each on a ground of its own, and the line "
