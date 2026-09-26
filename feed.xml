@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Fri, 25 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 26 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The CB’s teleporter</title>
+      <link>https://stimpunks.world/changelog.html#2026-09-26-cb-teleporter</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-26-cb-teleporter</guid>
+      <pubDate>Sat, 26 Sep 2026 12:00:00 GMT</pubDate>
+      <description>“CH 19” on the CB’s bar is a Teleport button now. Press it and a list of every room on the street opens under the bar; type to narrow it, use the arrow keys to move, and press Enter to go. The room you are in says you are here. Escape puts it away. Teleporting is an ordinary link: it sends nothing to the channel and tells nobody where you went. The button hides while the radio is folded away, because folded sends nothing at all.</description>
+    </item>
     <item>
       <title>The CB can be made small</title>
       <link>https://stimpunks.world/changelog.html#2026-09-25-cb-small</link>

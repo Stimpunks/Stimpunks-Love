@@ -49,13 +49,25 @@
 }
 .cb-radio--folded .cb-bar { border-radius: 8px; }
 .cb-radio--held .cb-bar { cursor: grabbing; }
-.cb-name { flex: 1 1 auto; display: flex; align-items: baseline; gap: 10px; }
+.cb-name { flex: 1 1 auto; display: flex; align-items: center; gap: 8px; }
+/* One line per label; on a phone too narrow for the row, the row wraps instead. */
+.cb-bar { flex-wrap: wrap; }
+.cb-bar .cb-btn, .cb-tp { white-space: nowrap; }
+.cb-bar .cb-btn { padding-left: 8px; padding-right: 8px; }
 .cb-brand { font-family: 'Bungee', system-ui, sans-serif; font-size: 15px; letter-spacing: .08em; }
-.cb-chan {
+/* The teleporter sits where the channel number did, dressed as the same piece
+   of readout, and is a real 44px button. */
+.cb-tp {
+  min-height: 44px; padding: 2px 7px;
   font-family: 'VT323', ui-monospace, monospace; font-size: 20px; line-height: 1;
   color: var(--cb-amber); background: var(--cb-lcd);
-  padding: 2px 7px; border-radius: 3px;
+  border: 2px solid var(--cb-steel-2); border-radius: 6px; cursor: pointer;
 }
+.cb-tp:hover, .cb-tp[aria-expanded="true"] { border-color: var(--cb-amber); }
+.cb-tp-panel { padding: 10px 12px 0; display: grid; gap: 6px; }
+.cb-tp-panel .cb-lab { margin: 0; }
+.cb-tp-find { width: 100%; }
+.cb-tp-list { max-height: min(40vh, 260px); margin: 0; }
 
 .cb-btn {
   min-height: 44px; min-width: 44px; padding: 6px 11px;

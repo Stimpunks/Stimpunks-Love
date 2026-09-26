@@ -2459,6 +2459,15 @@ scrolls under a reader**: it used to jump to the bottom on every listen, so scro
 four seconds later. It follows the newest message only when something new arrived and the log was
 already at the bottom, or when you transmitted.
 
+**THE TELEPORTER IS WHERE "CH 19" WAS, AND IT SENDS NOTHING.** Ryan, 2026-09-26: the channel number
+was decoration, so the bar's readout became a button that opens a filterable list of every room on
+the street, out of the same `/cb-rooms.json` as the #tags, and goes there. Going is ordinary
+navigation: nothing reaches the channel and nobody learns where you went. It hides while folded,
+like Small, because folded sends nothing and the list is a fetch. **The bar is full**: at 360px it
+fits CB, Teleport, Move, Small and Fold away with twelve pixels to spare after the buttons' side
+padding was trimmed. A sixth thing on it wraps the row, which the bar allows on a phone and should
+not need anywhere else.
+
 **SMALL IS STILL ON, AND FOLDED IS OFF.** Ryan, 2026-09-25, watching a film at the Hermitage's
 campfire with the radio over the screen: small is the bar and the newest message, clamped, listening
 exactly as full size does. It is the same log with the older messages hidden, so the live region

@@ -82,7 +82,7 @@
           rub.disabled = true;
           call('/cb/chalk/rub', { remove: n.id }, me.pass).then(function (r) {
             if (r.status === 200 && r.body.notes) { draw(r.body.notes); say('Rubbed out.'); }
-            else { rub.disabled = false; say(r.body.error || 'That did not work. Try again in a moment.'); }
+            else { rub.disabled = false; say(why(r, 'That did not work. Try again in a moment.')); }
           }, function () { rub.disabled = false; say('The board could not be reached just now.'); });
         });
         li.appendChild(rub);
@@ -92,6 +92,21 @@
   }
 
   var said = document.getElementById('pm-chalk-said');
+  /* WHAT WENT WRONG, IN WORDS. Our functions answer a refusal with
+     { error: "a sentence" }, and that sentence is shown as it is. Anything else
+     that answers -- the local preview server, which has no functions and says
+     { error: { code, message } } with a 404, or a host having a bad minute --
+     is not ours to repeat, so it gets our own sentence instead. The first
+     version printed body.error whatever it was, and signing on at the preview
+     said "[object Object]"; Ryan found it, 2026-09-26. */
+  function why(r, otherwise) {
+    if (r && r.body && typeof r.body.error === 'string' && r.body.error) return r.body.error;
+    if (r && (r.status === 404 || r.status === 405)) {
+      return 'The CB is not running on this server. It only answers on stimpunks.world itself.';
+    }
+    return otherwise;
+  }
+
   function say(t) { if (said) said.textContent = t; }
 
   function read() {
@@ -129,7 +144,7 @@
       } else if (r.status === 401) {
         say('The password has changed since you signed on. Sign on again at the Community Center, then come back.');
       } else {
-        say(r.body.error || 'That did not go up. Try again in a moment.');
+        say(why(r, 'That did not go up. Try again in a moment.'));
       }
     }, function () { go.disabled = false; say('The board could not be reached just now. Nothing was written.'); });
   });

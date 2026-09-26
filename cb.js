@@ -30,6 +30,7 @@
        out of the list in /cb-rooms.json; a #word that is not a room stays a
        word. See hashRooms, and the completion list under the message box.
      · IT NEVER SCROLLS UNDER SOMEBODY WHO IS READING. See show.
+     · THE TELEPORTER GOES TO A ROOM AND SENDS NOTHING. See setTeleport.
      · SMALL IS STILL ON. Folded is off and sends nothing; small is the bar and
        the newest message and nothing else, listening as it does full size, so
        somebody can watch a film in a room and still see the channel. See
@@ -169,9 +170,9 @@
      room whose tag, or any word of whose name, starts with it, in walking
      order and no other, and no more than PICK of them. */
   var PICK = 8;
-  function roomsFor(q) {
-    var out = [], flat = q.replace(/-/g, '');
-    for (var i = 0; i < rooms.length && out.length < PICK; i++) {
+  function roomsFor(q, most) {
+    var out = [], flat = q.replace(/-/g, ''), cap = most || PICK;
+    for (var i = 0; i < rooms.length && out.length < cap; i++) {
       var r = rooms[i];
       var words = r.name.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
       var hit = r.tag.indexOf(q) === 0 || words.join('').indexOf(flat) === 0;
@@ -179,6 +180,21 @@
       if (hit) out.push(r);
     }
     return out;
+  }
+
+  /* WHAT WENT WRONG, IN WORDS. Our functions answer a refusal with
+     { error: "a sentence" }, and that sentence is shown as it is. Anything else
+     that answers -- the local preview server, which has no functions and says
+     { error: { code, message } } with a 404, or a host having a bad minute --
+     is not ours to repeat, so it gets our own sentence instead. The first
+     version printed body.error whatever it was, and signing on at the preview
+     said "[object Object]"; Ryan found it, 2026-09-26. */
+  function why(r, otherwise) {
+    if (r && r.body && typeof r.body.error === 'string' && r.body.error) return r.body.error;
+    if (r && (r.status === 404 || r.status === 405)) {
+      return 'The CB is not running on this server. It only answers on stimpunks.world itself.';
+    }
+    return otherwise;
   }
 
   function clock(t) {
@@ -203,7 +219,18 @@
     var bar = this.bar = el('div', 'cb-bar');
     var name = el('p', 'cb-name');
     name.appendChild(el('span', 'cb-brand', 'CB'));
-    name.appendChild(el('span', 'cb-chan', 'CH 19'));
+    /* THE TELEPORTER, where "CH 19" used to sit. Ryan, 2026-09-26: the channel
+       number was decoration, and the radio now knows every room on the street.
+       Pressing it opens a box under the bar: type to narrow the list, arrows to
+       move, Enter to go, Escape to put it away. Going to a room is ordinary
+       navigation on this site, so it sends nothing to the channel and tells
+       nobody where you went. It hides while the radio is folded, like Small,
+       because folded sends nothing and the list is fetched from this site. */
+    var tp = this.tpBtn = el('button', 'cb-tp', 'Teleport');
+    tp.type = 'button';
+    tp.setAttribute('aria-expanded', 'false');
+    tp.setAttribute('aria-controls', 'cb-tp-panel');
+    name.appendChild(tp);
     bar.appendChild(name);
 
     var move = this.moveBtn = el('button', 'cb-btn cb-move', 'Move');
@@ -224,6 +251,34 @@
     fold.setAttribute('aria-controls', 'cb-set');
     bar.appendChild(fold);
     box.appendChild(bar);
+
+    var tpp = this.tpPanel = el('div', 'cb-tp-panel');
+    tpp.id = 'cb-tp-panel';
+    tpp.hidden = true;
+    var tlab = el('label', 'cb-lab', 'Teleport to a room');
+    tlab.htmlFor = 'cb-tp-find';
+    var find = this.tpFind = el('input', 'cb-say cb-tp-find');
+    find.id = 'cb-tp-find';
+    find.type = 'text';
+    find.autocomplete = 'off';
+    find.spellcheck = false;
+    find.setAttribute('role', 'combobox');
+    find.setAttribute('aria-autocomplete', 'list');
+    find.setAttribute('aria-controls', 'cb-tp-list');
+    find.setAttribute('aria-expanded', 'true');
+    var tlist = this.tpList = el('ul', 'cb-pick cb-tp-list');
+    tlist.id = 'cb-tp-list';
+    tlist.setAttribute('role', 'listbox');
+    tlist.setAttribute('aria-label', 'Rooms on the street');
+    this.tpNone = el('p', 'cb-quiet', '');
+    this.tpNone.hidden = true;
+    this.tpOffer = [];
+    this.tpActive = -1;
+    tpp.appendChild(tlab);
+    tpp.appendChild(find);
+    tpp.appendChild(tlist);
+    tpp.appendChild(this.tpNone);
+    box.appendChild(tpp);
 
     // Everything below the bar is the set, and folding it switches it off.
     var set = this.set = el('div', 'cb-set');
@@ -311,6 +366,9 @@
 
     fold.addEventListener('click', function () { me.setFolded(!me.state.folded); });
     size.addEventListener('click', function () { me.setSmall(!me.state.small); });
+    tp.addEventListener('click', function () { me.setTeleport(tpp.hidden); });
+    find.addEventListener('input', function () { me.tpRender(); });
+    find.addEventListener('keydown', function (e) { me.tpKey(e); });
     aloud.addEventListener('click', function () { me.setAloud(!me.aloud()); });
     form.addEventListener('submit', function (e) { e.preventDefault(); me.transmit(); });
     say.addEventListener('input', function () { me.complete(); });
@@ -390,6 +448,8 @@
     this.box.classList.toggle('cb-radio--folded', folded);
     this.set.hidden = folded;
     this.sizeBtn.hidden = folded;
+    this.tpBtn.hidden = folded;
+    if (folded && !this.tpPanel.hidden) this.setTeleport(false);
     this.foldBtn.setAttribute('aria-expanded', String(!folded));
     this.foldBtn.textContent = folded ? 'Switch on' : 'Fold away';
     if (!quiet) save(this.state);
@@ -408,13 +468,7 @@
 
   Radio.prototype.listen = function () {
     var me = this;
-    if (!this.askedRooms) {
-      this.askedRooms = true;
-      fetch('/cb-rooms.json', { credentials: 'omit', headers: { 'accept': 'application/json' } })
-        .then(function (r) { return r.ok ? r.json() : null; })
-        .then(function (d) { if (d) { takeRooms(d.rooms); me.rerender(); me.complete(); } })
-        .catch(function () { /* #tags stay words, which is what they are */ });
-    }
+    this.loadRooms();
     call('/cb/channel', null, this.state.pass).then(function (r) {
       if (r.status === 401) return me.lost();
       if (r.status === 200) { me.signal(true); me.show(r.body.messages || []); }
@@ -478,6 +532,25 @@
     if (mine || (added && atEnd)) this.log.scrollTop = this.log.scrollHeight;
   };
 
+  /* The room list, fetched from this site once, and only while the radio is
+     on: by the first listen, or by opening the teleporter, whichever is first. */
+  Radio.prototype.loadRooms = function () {
+    var me = this;
+    if (this.askedRooms) return;
+    this.askedRooms = true;
+    fetch('/cb-rooms.json', { credentials: 'omit', headers: { 'accept': 'application/json' } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (d) { takeRooms(d.rooms); me.rerender(); me.complete(); }
+        if (!me.tpPanel.hidden) me.tpRender();
+      })
+      .catch(function () {
+        // #tags stay words, which is what they are, and the teleporter says so.
+        rooms = rooms || [];
+        if (!me.tpPanel.hidden) me.tpRender(true);
+      });
+  };
+
   /* Once the rooms arrive, the messages already on the screen get their #tags. */
   Radio.prototype.rerender = function () {
     var ps = this.log.querySelectorAll('.cb-text');
@@ -520,17 +593,91 @@
     this.mark(typeof keep === 'number' && keep >= 0 ? keep : 0);
   };
 
-  Radio.prototype.mark = function (n) {
-    var lis = this.pick.children;
-    this.active = n;
+  // Highlight option n in a listbox and point its combobox at it.
+  function markIn(box, input, n) {
+    var lis = box.children;
     for (var i = 0; i < lis.length; i++) lis[i].setAttribute('aria-selected', String(i === n));
-    if (lis[n]) {
-      this.say.setAttribute('aria-activedescendant', lis[n].id);
-      var li = lis[n], box = this.pick;
-      if (li.offsetTop < box.scrollTop) box.scrollTop = li.offsetTop;
-      else if (li.offsetTop + li.offsetHeight > box.scrollTop + box.clientHeight)
-        box.scrollTop = li.offsetTop + li.offsetHeight - box.clientHeight;
+    if (!lis[n]) { input.removeAttribute('aria-activedescendant'); return; }
+    input.setAttribute('aria-activedescendant', lis[n].id);
+    var li = lis[n];
+    if (li.offsetTop < box.scrollTop) box.scrollTop = li.offsetTop;
+    else if (li.offsetTop + li.offsetHeight > box.scrollTop + box.clientHeight)
+      box.scrollTop = li.offsetTop + li.offsetHeight - box.clientHeight;
+  }
+
+  Radio.prototype.mark = function (n) {
+    this.active = n;
+    markIn(this.pick, this.say, n);
+  };
+
+  // Where this page is, as the room list writes it, so the list can say so.
+  function herePath() {
+    var p = location.pathname.replace(/\/index(?:\.html)?$/, '/');
+    return p === '/' ? '/' : p.replace(/\.html$/, '') + '.html';
+  }
+
+  Radio.prototype.setTeleport = function (open) {
+    this.tpPanel.hidden = !open;
+    this.tpBtn.setAttribute('aria-expanded', String(open));
+    if (open) {
+      this.tpFind.value = '';
+      this.loadRooms();
+      this.tpRender();
+      this.tpFind.focus();
+    } else {
+      this.tpList.textContent = '';
+      this.tpOffer = [];
+      this.tpActive = -1;
     }
+    this.place();
+  };
+
+  Radio.prototype.tpRender = function (failed) {
+    var list = this.tpList, none = this.tpNone;
+    list.textContent = '';
+    if (!rooms || failed || !rooms.length) {
+      this.tpOffer = [];
+      none.textContent = rooms && !failed ? 'No rooms to go to.' : (failed ? 'The list of rooms cannot be reached just now.' : 'Finding the rooms\u2026');
+      none.hidden = false;
+      list.hidden = true;
+      markIn(list, this.tpFind, -1);
+      return;
+    }
+    var q = this.tpFind.value.toLowerCase().trim().replace(/^#/, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    var offer = this.tpOffer = roomsFor(q, Infinity), here = herePath();
+    for (var i = 0; i < offer.length; i++) {
+      var li = el('li', 'cb-opt');
+      li.id = 'cb-tp-' + offer[i].tag;
+      li.setAttribute('role', 'option');
+      li.appendChild(el('span', 'cb-opt__name', offer[i].name));
+      li.appendChild(el('span', 'cb-opt__tag', offer[i].path === here ? 'you are here' : '#' + offer[i].tag));
+      li.addEventListener('mousedown', function (e) { e.preventDefault(); });
+      (function (room, me) { li.addEventListener('click', function () { me.go(room); }); })(offer[i], this);
+      list.appendChild(li);
+    }
+    none.textContent = 'No room by that name.';
+    none.hidden = offer.length > 0;
+    list.hidden = offer.length === 0;
+    this.tpActive = offer.length ? 0 : -1;
+    markIn(list, this.tpFind, this.tpActive);
+  };
+
+  Radio.prototype.tpKey = function (e) {
+    if (e.isComposing) return;
+    var n = this.tpOffer.length;
+    if (e.key === 'Escape') { e.preventDefault(); this.setTeleport(false); this.tpBtn.focus(); return; }
+    if (!n) return;
+    if (e.key === 'ArrowDown') { e.preventDefault(); this.tpActive = (this.tpActive + 1) % n; markIn(this.tpList, this.tpFind, this.tpActive); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); this.tpActive = (this.tpActive - 1 + n) % n; markIn(this.tpList, this.tpFind, this.tpActive); }
+    else if (e.key === 'Enter') { e.preventDefault(); this.go(this.tpOffer[this.tpActive]); }
+  };
+
+  // Going is ordinary navigation: nothing is sent, and the panel is closed so a
+  // page restored from the back-forward cache does not come back with it open.
+  Radio.prototype.go = function (room) {
+    if (!room) return;
+    this.setTeleport(false);
+    location.href = room.path;
   };
 
   Radio.prototype.close = function () {
@@ -580,7 +727,7 @@
       if (r.status === 401) return me.lost();
       if (r.status === 200) { me.say.value = ''; me.tell(''); me.show(r.body.messages || [], true); return; }
       if (r.status === 429) { me.tell('Easy on the mic: too many in a minute. Try again shortly.'); return; }
-      me.tell(r.body.error || 'That did not go out. Try again.');
+      me.tell(why(r, 'That did not go out. Try again.'));
     }).catch(function () { me.tell('No signal. That did not go out.'); });
   };
 
@@ -588,7 +735,7 @@
     var me = this;
     call('/cb/moderate', { body: what }, this.state.pass).then(function (r) {
       if (r.status === 200) { me.show(r.body.messages || []); me.tell(what.clear ? 'Channel cleared.' : 'Taken off the air.'); }
-      else me.tell(r.body.error || 'That did not work.');
+      else me.tell(why(r, 'That did not work.'));
     }).catch(function () { me.tell('No signal.'); });
   };
 
@@ -736,7 +883,7 @@
           return;
         }
         if (r.status === 429) { said.textContent = 'Too many tries from here in a minute. Wait a moment and try again.'; return; }
-        said.textContent = r.body.error || 'That did not work. Try again.';
+        said.textContent = why(r, 'That did not work. Try again.');
       }).catch(function () {
         btn.disabled = false;
         said.textContent = 'No signal: the counter could not be reached.';
