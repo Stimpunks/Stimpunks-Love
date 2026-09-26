@@ -5284,6 +5284,31 @@ html[data-intensity="max"] .falls__water { animation: den-fall 7s ease-in-out in
 .hermitage .lede { font-size: 20px; line-height: 1.58; color: var(--furrow-2); max-width: 56ch; margin: 20px 0 0; }
 .hermitage .trailmark { margin: 0; font-size: 13.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--sprout-2); }
 
+/* Ryan's welcome, with his portrait beside it: his room, the way the Faery
+   Yurt is Helen's, and hung the same way for the same reason. THE FRAME IS
+   THIS CABIN'S, NOT HERS: cedar with the scene's --furrow line round it and a
+   hard shadow thrown to one side by the low sun, where the yurt's is dark wood
+   glowing in candlelight. Nothing is done TO the photograph -- no filter, no
+   crop, no blend -- which polaroids.html promises and make-polaroids.py
+   checks. The card is a space card's ground, so every pair is one this room
+   already holds. */
+.hermit-welcome {
+  margin: 24px 0 0; max-width: 760px; display: flex; gap: 26px; align-items: center;
+  background: var(--noon-2); border: 2px solid var(--furrow); border-radius: 14px; padding: 22px 24px;
+}
+.hermit-portrait {
+  flex: 0 0 auto; width: 150px; border: 8px solid var(--cedar); border-radius: 3px;
+  box-shadow: 0 0 0 3px var(--furrow), 8px 8px 0 3px rgba(22,41,28,.16);
+}
+.hermit-portrait img { display: block; width: 100%; height: auto; }
+.hermit-welcome p { margin: 0 0 12px; color: var(--furrow-2); font-size: 16.5px; line-height: 1.6; }
+.hermit-welcome p:last-child { margin-bottom: 0; }
+.hermit-welcome .hermit-welcome__sig { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 18px; color: var(--furrow); }
+@media (max-width: 560px) {
+  .hermit-welcome { flex-direction: column; align-items: flex-start; padding: 18px; }
+  .hermit-portrait { width: 132px; }
+}
+
 /* THE SKY IS A REAL BAND AND NOT A TINT ON THE PAGE. A wash behind everything
    would have made the whole room pale blue, which is a mood; a band with a
    horizon in it is a place you are standing outside of. It is the only
