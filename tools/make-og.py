@@ -562,6 +562,22 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--outskirts .og-weeds span:nth-child(3n) {{ height: 100%; }}
 .og--outskirts .og-weeds span:nth-child(4n) {{ height: 44%; }}
 
+/* arlesglad caverns — THE PASSAGE AT HAND HEIGHT. The rail crosses the card
+   edge to edge a little below the middle, the one light down there, and it
+   glows onto the rock above and below it; the words stand clear of the glow.
+   The levels along the foot are READ OFF THE LIFT PANEL, the Outskirts' rule
+   for its turnings: a card listing a level the panel does not have is the
+   surface nobody would think to check. No sky, no lamp, no brown. */
+.og--caverns {{ width: 100%; padding: 52px 60px 42px; gap: 22px; justify-content: space-between; }}
+.og--caverns .og-top {{ display: flex; flex-direction: column; gap: 16px; }}
+.og--caverns .trailmark {{ font-size: 20px; letter-spacing: 2px; color: #A69F94; }}
+.og--caverns h1 {{ font-size: 104px; margin: 0 !important; letter-spacing: -1px; }}
+.og--caverns .og-lede {{ color: #D9D3C9; max-width: 980px; font-size: 29px; }}
+.og--caverns .og-rail {{ height: 5px; background: #FFE2AE; margin: 0 -60px !important;
+  box-shadow: 0 0 22px 8px rgba(255, 226, 174, .28); }}
+.og--caverns .og-foot {{ font-family: 'Rethink Sans', sans-serif; font-weight: 700;
+  color: #FFE2AE; letter-spacing: 2px; font-size: 22px; }}
+
 /* black leather lagoon — THE SCREEN OUT IN THE WATER, WHICH IS THE ONE VIEW THE
    ROOM HAS. A bone rectangle standing on two legs, lit and blank; the title in
    the dripping face; the water along the foot with the posts standing in it.
@@ -2268,6 +2284,30 @@ def card_outskirts(p):
     )
 
 
+def card_caverns(p):
+    # NO AMBIENT MARKUP: the passage has no ambient layer at any setting, and a
+    # card that shimmered would be promising a rail that flickers.
+    return (
+        "",
+        f'<div class="og og--caverns" data-fit="card">'
+        f'<div class="og-top">'
+        f'<p class="trailmark">UNDER THE STREET · LIFT AND STAIR · HOLD THE RAIL</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>'
+        f'<div class="og-rail"></div>'
+        f'<p class="og-foot" data-fit="footer">{p["levels"]} · stimpunks.world</p>'
+        f'</div>',
+        f"A near-black card like the inside of a cave. Small grey capitals reading "
+        f"under the street, lift and stair, hold the rail, then “{p['h1text']}” in a "
+        f"wide, heavy face in warm white, and under it in pale grey: {p['desc_plain']} "
+        f"Below that a single thin warm-white line runs straight across the card from "
+        f"edge to edge, glowing softly onto the dark above and below it, like a "
+        f"handrail with a light strip in it. Under the line, in plain bold warm white: "
+        f"{p['levels_alt']}, stimpunks.world.",
+    )
+
+
 def card_lagoon(p):
     # THE SCREEN IS BLANK, and that is a decision rather than a shortcut. What
     # is actually on it is a playlist we keep adding to, so a card showing a
@@ -3110,6 +3150,7 @@ CARDS = {
     "board-2026-summer": card_board,
     "campgrounds":  card_camp,
     "outskirts":    card_outskirts,
+    "caverns":      card_caverns,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
     "covenstead":   card_covenstead,
@@ -3336,6 +3377,19 @@ def main():
     # Commas rather than middots, lowercased: the field's card made the same
     # call, because a middot is typesetting and a screen reader says it out loud.
     lifted["turnings_alt"] = ", ".join(t.lower() for t in turns)
+
+    # THE CAVERNS' CARD LISTS ITS LEVELS, read off the lift panel for the same
+    # reason: a panel grows a button whenever a room opens under the street.
+    levels = re.findall(r'<span class="cav-stop__no">(?:LEVEL )?([^<]+)</span>',
+                        (ROOT / "arlesglad-caverns.html").read_text())
+    if not levels:
+        raise SystemExit(
+            "REFUSING: arlesglad-caverns.html has no levels on its lift panel, and\n"
+            "its card is a list of them. Redesign the card on purpose rather than\n"
+            "letting it render a lift that goes nowhere."
+        )
+    lifted["levels"] = " · ".join(levels)
+    lifted["levels_alt"] = ", ".join(levels)
 
     # THE LAGOON'S CARD CARRIES THE ROOM'S OWN BILL LINE. Typed here it would be
     # one more place the room's tagline lives, in the file whose entire argument

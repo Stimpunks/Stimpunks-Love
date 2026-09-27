@@ -890,6 +890,20 @@
       "sections": [
         61
       ]
+    },
+    "syne": {
+      "where": "Arlesglad Caverns",
+      "page": "arlesglad-caverns.html",
+      "sections": [
+        62
+      ]
+    },
+    "rethink-sans": {
+      "where": "Arlesglad Caverns",
+      "page": "arlesglad-caverns.html",
+      "sections": [
+        62
+      ]
     }
   }
 }

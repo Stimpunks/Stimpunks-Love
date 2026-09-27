@@ -4,14 +4,16 @@
 WHAT THE MAP IS. A model of the whole street in white card, standing on a
 cutting mat: every shopfront where it stands, the rooms behind rooms, the garden
 through its gate, the campgrounds past the treeline at one end and the road out
-past the last streetlight at the other. Every building, tent and sign on it is a
-link to the place it stands for.
+past the last streetlight at the other, and the caverns under it all, down the
+lift by the stoop. Every building, tent, sign and plate on it is a link to the
+place it stands for.
 
 NOTHING ON IT IS PLACED BY HAND, AND THAT IS THE MAINTENANCE PLAN. There are no
 coordinates anywhere in this repository. The shopfronts, their order and which
 side of the road they fall on come off index.html's own row of doors; the
-pitches come off campgrounds.html's board and the turnings off
-the-outskirts.html's signs, state and all; the garden gate stands halfway down
+pitches come off campgrounds.html's board, the turnings off
+the-outskirts.html's signs and the caverns' levels off the lift panel on
+arlesglad-caverns.html, state and all; the garden gate stands halfway down
 whatever length the street is that day, because §28 says halfway and a fixed
 position would drift out of halfway the first time a room opened. The layout is
 a CSS grid that flows, so a new building pushes the street longer rather than
@@ -94,7 +96,7 @@ def furniture():
     rather than where they sit, so moving one on the page does not lose it."""
     src = (ROOT / "index.html").read_text()
     out = {}
-    for cls in ("noticeboard", "postercol", "gardengate", "signpost", "roadout"):
+    for cls in ("noticeboard", "postercol", "gardengate", "signpost", "roadout", "liftdown"):
         m = re.search(rf'<a class="{cls}" href="([^"]+)"', src)
         if not m:
             raise SystemExit(f"REFUSING: index.html has lost its {cls}, and the model stands one where it goes.")
@@ -132,6 +134,7 @@ street = doors()
 furn = furniture()
 pitches = signs("campgrounds.html", "pitch")
 turnings = signs("the-outskirts.html", "turning")
+levels = signs("arlesglad-caverns.html", "cav-stop")
 
 problems = []
 placed = {}
@@ -157,6 +160,9 @@ for p in pitches:
 for t in turnings:
     if t["href"]:
         place(t["href"], t["no"])
+for lv in levels:
+    if lv["href"]:
+        place(lv["href"], lv["no"])
 for page, parent in behind.items():
     place(page, f"behind {parent}")
     if parent not in placed and parent not in behind:
@@ -180,7 +186,8 @@ unmapped = [p for p in order if p not in placed and p not in NO_ADDRESS]
 if unmapped:
     problems.append("these pages have no place on the model: " + ", ".join(unmapped) +
                     ".\n    A shopfront goes on index.html's row of doors, a pitch on the campground's board,\n"
-                    "    a turning on the road's signs, and a room behind a room into data/map.json.")
+                    "    a turning on the road's signs, a room under the street on the caverns' lift panel,\n"
+                    "    and a room behind a room into data/map.json.")
 off = [p for p in placed if p not in order]
 if off:
     problems.append("placed on the model but not in the sitemap's walking order: " + ", ".join(off))
@@ -253,7 +260,15 @@ rows = []
 # the pebble board beside it and the poster column beside that.
 rows.append(f'<li class="mm-lot mm-lot--w mm-lot--stoop">'
             f'<a class="mm-shop mm-shop--stoop" href="index.html" id="at-index">'
-            f'<span class="mm-name">The Stoop</span><span class="mm-note">the front door</span></a></li>')
+            f'<span class="mm-name">The Stoop</span><span class="mm-note">the front door</span></a>'
+            # THE LIFT HEAD STANDS BY THE STOOP, so the way down is at the start
+            # of the street and not a walk away. It is a jump to the lower board
+            # rather than a second link to the caverns, because the caverns'
+            # place on the model is the board they stand on, and one page has one
+            # place (make-map.py refuses a page placed twice).
+            f'<a class="mm-lifthead" href="#at-{slug(furn["liftdown"])}">'
+            f'<span class="mm-name">The lift down</span>'
+            f'<span class="mm-note">and the stair beside it</span></a></li>')
 rows.append(f'<li class="mm-lot mm-lot--e mm-lot--furniture">'
             f'<span class="mm-table" id="at-map" aria-current="page">'
             f'<span class="mm-name">The Map</span><span class="mm-note">this table</span></span>'
@@ -296,7 +311,17 @@ def turning(t, side):
             f'<span class="mm-no">{no} &middot; a sign with no road behind it yet</span></span></li>')
 
 
-camp, road = furn["signpost"], furn["roadout"]
+camp, road, under = furn["signpost"], furn["roadout"], furn["liftdown"]
+
+
+def level(lv):
+    no = html.escape(lv["no"].title(), quote=False)
+    if lv["href"]:
+        return f'<li class="mm-level">{link(lv["href"], "mm-plate", lv["name"], numbered(no))}</li>'
+    return (f'<li class="mm-level mm-level--raising"><span class="mm-plate">'
+            f'<span class="mm-name">{html.escape(lv["name"], quote=False)}</span>'
+            f'<span class="mm-no">{no} &middot; not open yet</span></span></li>')
+
 trees = "".join(
     f'<circle cx="{x}" cy="{20 + (i % 3) * 5}" r="{11 + (i * 7) % 6}"/>'
     for i, x in enumerate(range(14, 1000, 31)))
@@ -328,6 +353,17 @@ block = "\n".join([
     f'<span class="mm-edge__where">past the last streetlight, off the board</span></h3>',
     '    <ol class="mm-turnings">',
     *[f"      {turning(t, 'w' if i % 2 == 0 else 'e')}" for i, t in enumerate(turnings)],
+    "    </ol>",
+    "  </section>",
+    # A LEVEL BELOW THE MAT. The model flows in one column at every width, so
+    # the caverns cannot stand beside the board without falling off a phone;
+    # they are a second, smaller board at the foot of the model, set lower, with
+    # the lift shaft pencilled down the middle of it.
+    f'  <section class="mm-under" aria-labelledby="at-{slug(under)}">',
+    f'    <h3 class="mm-edge mm-edge--under">{link(under, "mm-edge__name")}'
+    f'<span class="mm-edge__where">under the street, down the lift by the stoop</span></h3>',
+    '    <ol class="mm-levels">',
+    *[f"      {level(lv)}" for lv in levels],
     "    </ol>",
     "  </section>",
     '  <aside class="mm-tags" aria-labelledby="mm-tags-h">',

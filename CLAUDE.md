@@ -2805,18 +2805,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §63 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §64 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§63 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§64 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §63 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §64 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the
@@ -2875,6 +2875,45 @@ SCRIPTS** so one room's failing feed never leaves the other unset. It owns `data
 `the-doom-scoop.html` and `now-playing.html` (the poster reads what the cabinet puts on first, so it moves
 every morning), and commits as `daily doom scoop edition`. The header drawing does not know what day it
 is, so the share card does not change every morning. `check-jukebox.py` knows the file as `scoops`.
+
+**THE THIRD AREA IS UNDER THE STREET, AND IT IS FOR WHAT NEEDS THINGS TO STAY THE SAME.** Arlesglad
+Caverns (§62), Ryan's brief, 2026-09-26: a natural cavern down a lift by the stoop, with the stair
+beside it. The test for placing anything there is Helen's test turned downward: *would this be just
+as happy up on the street, with a clock and weather?* If yes, it is not a caverns room. The brief,
+the per-room refusals and the open questions are in `DECISIONS.md`; read them before building a
+room down there. **Buoyant Bodyminds waits on Helen**, Ryan's call: her floatation tank place is
+where the Plural Mural chalkboard came from.
+
+  · **the lift is drawn first and is the same size as the stair**, and the area's board is its
+    panel: one button per room, top to bottom. An unlit button is a room not open yet, and it is
+    the campgrounds' raising state in a lift: **dashed ring, words not dimmed, not a link.**
+  · **the only light is the handrail**: one strip at hand height along the route, so the rock is lit
+    in a band where the path goes. Every notice has the rail along its FOOT, never a bright edge
+    down the left, which is the Outskirts' verge. **The only colour in the passage is the light**;
+    the rooms off it bring their own. There is no brown in §62, which is what holds it off The
+    Latibulum, and no daylight from the top, which is what holds it off The Rabbit Hole.
+  · **down is a direction and not a verdict.** Nothing is down there because it was hidden or sent,
+    which is the Outskirts' first-day mistake in darker clothes; *underground* never means *out of
+    sight* in that area's copy.
+  · **the name is Carlsbad Caverns plus ARLES plus glad**, and ARLES is a design METHOD, not a
+    visual system, which is why an area can carry its name on a street whose first rule is that it
+    has no design system. **No room is mapped onto the ladder's rungs**, and nothing borrows the look
+    of an ARLES poster or deck. Carlsbad is a real national park, named and disclaimed.
+  · **Stay Frosty's 68°F is the Park Service's**, off nps.gov/cave's weather page: the Big Room
+    averages 56°F and moves with the seasons, the lowest point holds a constant 68°F. So Stay
+    Frosty is at the BOTTOM. A first draft of the brief called 68 thermostat-warm and swapped in a
+    Colorado cave's 54 before anybody read the page for the cave the name plays on: **when a number
+    comes with a namesake, read the namesake's number.**
+  · **Syne's figures are small old-style ones**, and B1 on a lift button read as B with a subscript,
+    so every level number is in Rethink Sans and Syne sets names only. On the card too.
+  · **the guild's class III names all three ways off the street** and did not grow a IV: down is
+    not even along the street, so there is no distance to put it at. The sentence lives in
+    `make-guild.py`, `data/quests.json`, the guild's house rules and `llms.txt`'s intro in
+    `make-sitemap.py`, and every one of them had to change.
+  · **on the map it is a smaller board at the foot of the model**, with a lift head on the stoop row
+    that jumps down to it. The model flows in one column, so "beside the mat" could not hold at every
+    width. `make-map.py` reads the levels off the lift panel like the pitches and turnings; a room
+    that opens down there needs its level's `h3` to link and nothing else.
 
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by

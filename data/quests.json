@@ -2,7 +2,7 @@
   "_source": "Every job on this board was written for this board. The QUESTIONS are the exception to nothing: each one is answered by a sentence that is already published on the page the marker sits on, and each was read off that page before it was written here rather than remembered. Where a question asks for a person's name it is a name our own page already credits -- Barad, Oldaker, Schaber, Thornburg, Lee and Duffy -- because a quiz that made somebody guess at an attribution would be teaching the opposite of the habit this street kept.",
   "_codes": "One word, A-Z, typed case-insensitively with spaces and punctuation ignored. A word rather than a random string because a word can be said out loud, remembered across a walk to another room, and typed by somebody who finds typing expensive. These are not secrets and the board does not pretend they are: the code is printed in the room's own markup, on a public page, and anybody who wants to read the source can have the lot. The board holds a checksum instead of the plain word purely so that View Source on ONE page is not a spoiler sheet for every room. That is a courtesy, not a lock, and make-guild.py says so where it computes it.",
   "_no_score": "There is no tally here, no percentage, no streak, no rank you climb and nothing that expires. The board stamps a job when you hand its code in and that is the whole of the bookkeeping. This is the pebbling cabinet's refusal arriving in the one room on the street most likely to talk itself out of it -- a job board is EXACTLY the shape of thing that grows a score, and a score beside a Disabled people's walking tour would quietly turn a wander into a workload. make-guild.py refuses the vocabulary.",
-  "_class": "The difficulty class is HOW FAR YOU WALK, not how clever you are. I is on the street, II is through a door off a room, III is off the street altogether -- the field past the treeline at one end, or the road past the last streetlight at the other. III IS NOT TWO CLASSES AND THERE IS NO IV: the two edges are opposite directions rather than different distances, and numbering them would invent an ordering nobody walks. Nothing about the class says anything about the person doing it, which is the whole reason it is defined by geography and enumerated in the tool rather than typed per job.",
+  "_class": "The difficulty class is HOW FAR YOU WALK, not how clever you are. I is on the street, II is through a door off a room, III is off the street altogether -- the field past the treeline at one end, the road past the last streetlight at the other, or the caverns underneath. III IS NOT THREE CLASSES AND THERE IS NO IV OR V: the edges are different directions rather than different distances -- one is not even along the street, it is down -- and numbering them would invent an ordering nobody walks. Nothing about the class says anything about the person doing it, which is the whole reason it is defined by geography and enumerated in the tool rather than typed per job.",
   "quests": [
     {
       "id": "street-chalk",
@@ -1567,6 +1567,41 @@
         ]
       },
       "learned": "Mutual aid goes sideways and charity comes down. Solidarity, not charity, and no proof of worthiness required."
+    },
+    {
+      "id": "caverns-rail",
+      "page": "arlesglad-caverns.html",
+      "room": "Arlesglad Caverns",
+      "title": "Under the street",
+      "posted": "The street has an edge at each end, and a third one that is not at either end: straight down, by the lift by the stoop or the stair beside it. Go down and read the caverns, and find out what is doing the lighting.",
+      "rank": 3,
+      "takes": "five minutes, and there is nothing to press",
+      "target": "a length of handrail on the cavern floor",
+      "code": "FLOWSTONE",
+      "hints": [
+        "It is not on the street and not past either end of it. Look for the way down, under the shopfronts with the other things that are not doors.",
+        "The answer is in the list called What is down here, in the item about light.",
+        "Right at the foot of the caverns, under the section about where the name comes from."
+      ],
+      "ask": {
+        "question": "Arlesglad Caverns has one light, and it is very particular about where that light is built. What is it built into?",
+        "accept": [
+          "handrail",
+          "the handrail",
+          "rail",
+          "the rail",
+          "hand rail",
+          "a handrail"
+        ],
+        "answer": "The handrail",
+        "why": "The handrail. The strip runs at hand height along the one route, from the lift to every door, so the rock is lit where the path goes and nowhere else. There is no sky down there and no lamp overhead, which is why the only colour in the passage is the light and every room off it brings its own.",
+        "hints": [
+          "It is in the second item of the list called What is down here.",
+          "It is not a lamp and it is not the sky. There is neither down there.",
+          "You are holding it."
+        ]
+      },
+      "learned": "The street has three edges now and only two of them are at an end of it. The caverns are the one you reach by going down, which is also why the guild's class III names all three rather than growing a fourth class for the one that is underneath."
     },
     {
       "id": "community-letter",

@@ -799,6 +799,18 @@
 @font-face { font-family: 'Onest'; src: url('fonts/onest-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Onest'; src: url('fonts/onest-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Arlesglad Caverns (§62). A LIFT PLATE AND A PLAIN PAGE. Syne, by Bonjour
+   Monde, Lucas Descroix and George Triantafyllakos, sets the caverns' name and
+   the headings and room names, and NOTHING at reading size and no figure: wide, square-
+   shouldered and a little pleased with itself, which is the glad in the name.
+   Rethink Sans, by Hans Thiessen, carries every word that is read, because the
+   only light down there is the handrail and the face's one job is to stay open
+   in it. Both variable, both read off their own records; see
+   fonts/_sources.json. Syne is declared at one weight on purpose. */
+@font-face { font-family: 'Syne'; src: url('fonts/syne-800.woff2') format('woff2'); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Rethink Sans'; src: url('fonts/rethink-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Rethink Sans'; src: url('fonts/rethink-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* The Broadsheet Broadside (§60). A SHIP'S NAME IN A DIDONE, AND A SHEET IN
    THE FACE A HAND-OUT IS READ IN. Bodoni Moda, by Owen Earl, is the name
    painted along the hull and the room's own headings, and NOTHING ON THE
@@ -2014,6 +2026,22 @@
   --ds-pistachio: #CFE3AE; --ds-lemon: #F3E78F;   --ds-mint:   #BCEBD6;
   --ds-vanilla: #F4EBD2;  --ds-mango:  #F8C792;   --ds-blueberry: #C3CDF2;
   --ds-taro:   #DCCBEA;
+
+  /* Arlesglad Caverns (§62). THE ONLY LIGHT IS THE HANDRAIL, and the only
+     colour down here is the light: every value is stone except --cav-rail,
+     the warm white of the strip along the rail, which carries the name, every
+     room's name and every link. --cav-rock is the cave with nothing on it and
+     the ground of every word; --cav-wall is the rock face in the band the rail
+     lights, the ground of every notice; --cav-steel is the lift's panel.
+     --cav-lime is every word that is read and --cav-dim the fine print.
+     --cav-seam IS ORNAMENT AND CARRIES NO TEXT: 2.10 on the rock, 1.84 on the
+     wall and 1.60 on the steel, so it draws strata, stanchions and the edges
+     of the passage and nothing else. It is in check-contrast.py's ORNAMENT
+     list with those numbers beside it. The rooms bring their own colours;
+     the passage between them has none. */
+  --cav-rock:  #0D0D0C;   --cav-wall:  #1D1C1A;   --cav-steel: #26282A;
+  --cav-rail:  #FFE2AE;   --cav-lime:  #D9D3C9;   --cav-dim:   #A69F94;
+  --cav-seam:  #4A4741;
 }
 
 * { box-sizing: border-box; }
@@ -2853,6 +2881,29 @@ div.facade--audio { border: 0; background: none; }
 .roadout:hover .roadout__arm { background: var(--ink-3); }
 .roadout__to { font-family: 'Bungee', var(--sans); font-size: 17px; letter-spacing: 1px; color: var(--yellow); }
 .roadout__why { font-size: 14.5px; max-width: 62ch; }
+
+/* DOWN, and the fifth thing on this street that is not a door. The signpost
+   points off one end and the last streetlight off the other; this is a LIFT
+   HEAD, a plate on the pavement with a call button beside it and an arrow that
+   points at the ground. The street's own kit, in the street's own clothes: a
+   steel plate rather than a painted arm, and the call button lit, because the
+   lift is the ordinary way down. Nothing moves on it at any setting. */
+.liftdown { display: flex; align-items: center; gap: 14px; margin: 26px 0 0; text-decoration: none; }
+.liftdown__call {
+  flex: 0 0 30px; height: 30px; border-radius: 50%;
+  background: var(--ink-2); border: 3px solid var(--yellow);
+  box-shadow: 0 0 0 5px var(--ink-3);
+}
+.liftdown__plate {
+  flex: 1 1 auto; display: flex; flex-wrap: wrap; gap: 4px 20px;
+  align-items: baseline; justify-content: space-between;
+  padding: 15px 20px 15px 22px; border-radius: 8px;
+  background: var(--ink-3); color: var(--cream);
+  border-bottom: 3px solid var(--yellow);
+}
+.liftdown:hover .liftdown__plate { background: var(--ink-2); }
+.liftdown__to { font-family: 'Bungee', var(--sans); font-size: 17px; letter-spacing: 1px; color: var(--yellow); }
+.liftdown__why { font-size: 14.5px; max-width: 62ch; }
 
 /* THE GATE IN THE WALL, and the THIRD thing on this street that is not a door.
    The signpost points off the end of the street at a field; the noticeboard is
@@ -11838,6 +11889,17 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
 .mm-shop--stoop { box-shadow: 0 7px 0 -1px var(--mm-side), 0 7px 0 .5px var(--mm-pencil),
   0 14px 0 -2px var(--mm-face), 0 14px 0 -.5px var(--mm-pencil), -8px 20px 0 rgba(34, 48, 43, .24); }
 .mm-lot--stoop { padding-bottom: 12px; }
+/* THE LIFT HEAD, beside the stoop: a small steel box on the pavement with its
+   door facing the road, cut from the same card as everything else. It jumps
+   to the caverns' board at the foot of the model rather than leaving the map,
+   because the caverns' place on the model is down there. */
+.mm-lot--stoop { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; }
+.mm-lifthead { position: relative; display: block; width: 8.5rem; padding: 8px 10px 9px;
+  background: var(--mm-face); color: var(--mm-ink); text-decoration: none; text-align: right;
+  border: 1.5px solid var(--mm-pencil); box-shadow: -6px 7px 0 rgba(34, 48, 43, .24); }
+.mm-lifthead .mm-name { font-size: 15px; color: var(--mm-ink); }
+.mm-lifthead .mm-note { color: var(--mm-pencil); }
+.mm-lifthead:hover .mm-name { text-decoration: underline; text-underline-offset: 3px; }
 
 /* The table this model stands on, drawn on the model: a table top with a small
    green mat on it. Not a link -- it is the page you are on -- and marked with
@@ -11911,6 +11973,32 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
   box-shadow: -6px 7px 0 rgba(12, 36, 28, .45); }
 .mm-turn--dark .mm-sign { border-style: dashed; }
 
+/* ── Under the street: the caverns, a level below the board ───────────── */
+/* A SECOND, SMALLER BOARD SET LOWER, with the lift shaft pencilled down the
+   middle and each level a plate standing on it. It is the same white card as
+   everything else on the model, deeper shadowed because it is further down,
+   and never painted in the caverns' own colours: the model points at rooms
+   and does not describe them. */
+.mm-under { margin: 40px auto 0; max-width: 34rem; padding: 20px clamp(10px, 3vw, 24px) 24px;
+  text-align: center; background: var(--mm-board); color: var(--mm-ink); border-radius: 2px;
+  box-shadow: -16px 20px 0 rgba(12, 36, 28, .6); }
+.mm-under a { color: var(--mm-ink); }
+.mm-under :focus-visible { outline-color: var(--mm-ink); }
+.mm-under .mm-edge__name .mm-name { color: var(--mm-ink); }
+.mm-under .mm-edge__where { color: var(--mm-pencil); }
+.mm-levels { position: relative; list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.mm-levels::before { content: ""; position: absolute; top: -8px; bottom: -8px; left: 50%;
+  border-left: 2px dashed var(--mm-pencil); }
+.mm-level { position: relative; width: 100%; display: flex; justify-content: center; }
+.mm-plate { position: relative; display: block; width: 15rem; max-width: 100%; padding: 8px 12px 9px;
+  background: var(--mm-face); color: var(--mm-ink); text-decoration: none;
+  border: 1.5px solid var(--mm-pencil); box-shadow: -6px 7px 0 rgba(12, 36, 28, .35); }
+.mm-plate .mm-name { color: var(--mm-ink); }
+.mm-plate .mm-no { color: var(--mm-pencil); }
+.mm-level--raising .mm-plate { border-style: dashed; }
+.mm-plate:hover .mm-name { text-decoration: underline; text-underline-offset: 3px; }
+
 /* ── Tags pinned to the edge of the mat: the pages that are not places ─── */
 .mm-tags { margin-top: 38px; padding-top: 22px; border-top: 1px solid var(--mm-rule); }
 .mm-tags ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 14px 22px; }
@@ -11943,7 +12031,7 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
   .mm-lots { --mm-lane: 34px; row-gap: 22px; }
   .mm-lot--w { padding-right: 8px; }
   .mm-lot--e { padding-left: 2px; }
-  .mm-shop, .mm-gate, .mm-table, .mm-notice { width: 100%; }
+  .mm-shop, .mm-gate, .mm-table, .mm-notice, .mm-lifthead { width: 100%; }
   .mm-shop { --mm-d: 8px; padding: 10px 9px 12px; }
   .mm-back { --mm-d: 6px; width: 100%; padding: 7px 8px 9px; }
   .mm-lot--w .mm-behind { margin-right: 0; margin-left: 12px; }
@@ -13562,7 +13650,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §63
+   class on it is `bb-`, its sizes are in points and millimetres, and §64
    prints it and nothing else. */
 
 .room-broadside {
@@ -13623,7 +13711,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §63 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §64 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -13899,7 +13987,142 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .ds-scoops--tall { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 }
 
-/* §62 ── Small screens ───────────────────────────────────────────────────────
+/* §62 ── ARLESGLAD CAVERNS (under the street, by lift or stair) ─────────────
+   THE THIRD AREA, AND THE FIRST ONE YOU REACH BY GOING DOWN. The campgrounds
+   is past the treeline and The Outskirts is past the last streetlight, and
+   "an area should look like an area" has been refused twice already. This one
+   has a new version of the trap: it is a hole in the ground, and so are two
+   rooms on the street. What keeps it apart is structural and has to stay:
+
+     · THE LIGHT IS AT HAND HEIGHT AND FOLLOWS THE ROUTE. The campgrounds is lit
+       by the sky, The Outskirts by headlights from off the page. Down here
+       there is no sky and no lamp: one strip along the handrail, so the rock
+       is lit in a band where the path goes and is black above and below it.
+       Every notice here sits ON that band, with the rail along its FOOT and
+       the light spilling up the rock and down onto the floor. Not a bright
+       edge down the left, which is the Outskirts' verge; along the bottom,
+       because a handrail is under your hand.
+     · THE RABBIT HOLE is a vertical grey shaft daylit badly from one end,
+       where you keep going. This has a floor, no daylight at all, and you
+       arrive. If a gradient of daylight ever comes down from the top of this
+       page it has become the hole with a lift in it.
+     · THE LATIBULUM is a burrow somebody dug, brown, dark type on lit
+       plaster, one lamp at knee height, for being unfindable. This is rock
+       nobody dug, pale type on the dark, no lamp, and open to everybody.
+       THERE IS NO BROWN IN §62: the greys are stone, and if they ever warm at
+       the edges this has become the burrow with a handrail.
+     · THE MOPERY is the other cold stone, and it is a building.
+
+   THE ONLY COLOUR IS THE LIGHT. Far from daylight a cave has only the colours
+   your lamp gives it, so the passage is stone greys and one warm white, and
+   the rooms off it bring their own colours. Links are the rail's colour and
+   are underlined, because a warm white beside a cool one is not a difference
+   anybody should have to see.
+
+   THE LIFT IS DRAWN FIRST AND IS THE SAME SIZE AS THE STAIR, and the area's
+   board is its panel: one button per room, top to bottom. An unlit button is
+   a room that is not open yet, the campgrounds' raising state in a lift. THE
+   RING IS DASHED AND THE WORDS ARE NOT DIMMED, the Outskirts' rule: a plate
+   you cannot read is not a subtler plate, it is a broken one.
+
+   NO AMBIENT LAYER AT ANY SETTING. The rail does not flicker, because it is
+   the one thing in here you are holding. */
+
+.caverns { background: var(--cav-rock); color: var(--cav-lime); font-family: 'Rethink Sans', var(--sans); }
+.caverns a { color: var(--cav-rail); text-decoration: underline; text-underline-offset: 3px; }
+.caverns a:hover { color: var(--cav-lime); }
+.caverns :where(p, li) { font-size: 16.5px; line-height: 1.66; }
+.caverns :focus-visible { outline-color: var(--cav-rail); }
+
+/* The backlink drops Bungee, for the areas' shared reason: it is the one piece
+   of shared furniture carrying a typeface, and the street's voice would be the
+   loudest thing in a cave. */
+.caverns .backlink { font-family: 'Rethink Sans', var(--sans); font-size: 15px; letter-spacing: 0; color: var(--cav-rail); }
+.caverns .trailmark { margin: 0; font-size: 14px; color: var(--cav-dim); }
+
+.caverns h1 {
+  font-family: 'Syne', var(--sans); font-weight: 800;
+  font-size: clamp(36px, 7vw, 72px); line-height: 1.02;
+  color: var(--cav-rail); margin: 14px 0 0; letter-spacing: -.5px;
+}
+.caverns h2 { font-family: 'Syne', var(--sans); font-weight: 800; font-size: 19px; letter-spacing: .4px; color: var(--cav-rail); margin: 0 0 12px; }
+.caverns h3 { font-family: 'Syne', var(--sans); font-weight: 800; font-size: 23px; line-height: 1.14; color: var(--cav-rail); margin: 0; }
+.caverns .lede { font-size: 19px; line-height: 1.6; color: var(--cav-lime); max-width: 56ch; margin: 20px 0 0; }
+
+/* The passage. A drawing, aria-hidden, and the one picture of the area's
+   light: the rail crossing the page at hand height with its glow drawn as two
+   wide soft strokes rather than a filter, and the lift doors standing open on
+   the left, where you came in. */
+.cav-passage { margin: 28px 0 0; line-height: 0; }
+.cav-passage svg { display: block; width: 100%; height: auto; }
+
+/* A ledge: a notice on the rock face in the band the rail lights. The words
+   stand on the flat wall colour and nothing else; the light is the rail along
+   the FOOT of the ledge, and what it throws is a box-shadow onto the floor
+   below, where no word stands. */
+.cav-ledge {
+  margin: 30px 0 0; padding: 20px 24px 22px;
+  background: var(--cav-wall);
+  border-bottom: 3px solid var(--cav-rail);
+  box-shadow: 0 14px 22px -14px rgba(255, 226, 174, .45);
+}
+.cav-ledge ul { margin: 0; padding: 0 0 0 20px; }
+.cav-ledge li { margin: 0 0 10px; }
+.cav-ledge li:last-child { margin-bottom: 0; }
+.cav-ledge li::marker { color: var(--cav-rail); }
+.cav-ledge p { margin: 0 0 10px; max-width: 64ch; }
+.cav-ledge p:last-child { margin-bottom: 0; }
+.cav-ledge strong { color: var(--cav-rail); font-weight: 700; }
+.cav-ledge--foot { margin-top: 36px; }
+
+/* The lift panel. A steel plate, and each stop a button beside its engraving.
+   THE LEVEL NUMBERS ARE SET IN RETHINK SANS, NOT SYNE: Syne's figures are small
+   old-style ones, and B1 on a button read as B with a subscript. A level you
+   have to squint at is the one thing a lift panel cannot have.
+   The button is aria-hidden decoration: the level's name is in the words
+   beside it, and a round thing that looked pressable and was not a control
+   would be the one lie on the plate. */
+.cav-down { margin: 38px 0 8px; }
+.cav-panel__note { margin: 0 0 16px; max-width: 62ch; }
+.cav-panel__note strong { color: var(--cav-rail); }
+.cav-panel {
+  list-style: none; margin: 0; padding: 12px 22px;
+  background: var(--cav-steel); border-radius: 10px;
+  border-bottom: 3px solid var(--cav-rail);
+  box-shadow: 0 14px 22px -14px rgba(255, 226, 174, .45);
+}
+.cav-stop { display: flex; gap: 18px; align-items: flex-start; padding: 16px 0; }
+.cav-stop + .cav-stop { border-top: 1px solid var(--cav-seam); }
+.cav-stop__key {
+  flex: 0 0 52px; height: 52px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Rethink Sans', var(--sans); font-weight: 700; font-size: 16px;
+  color: var(--cav-rail); border: 3px solid var(--cav-rail);
+  box-shadow: 0 0 0 4px var(--cav-steel), 0 0 14px 2px rgba(255, 226, 174, .35);
+}
+.cav-stop__plate { flex: 1 1 auto; min-width: 0; }
+.cav-stop__no { display: block; margin: 0 0 6px; font-family: 'Rethink Sans', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: 2px; color: var(--cav-dim); }
+.cav-stop h3 a { color: var(--cav-rail); }
+.cav-stop p { margin: 8px 0 0; max-width: 60ch; }
+.cav-stop__who { font-size: 14.5px; color: var(--cav-dim); }
+
+/* A room that is not open yet. THE RING IS DASHED, UNLIT AND NOT DIMMED: the
+   button loses its glow and its line goes to the fine print's colour, which
+   still clears the bar on the steel, and every word on the plate stays at full
+   strength. It is not a link and not a disabled control; it is a plate saying
+   what is behind it. */
+.cav-stop--raising .cav-stop__key { border-style: dashed; border-color: var(--cav-dim); color: var(--cav-dim); box-shadow: none; }
+
+@media (max-width: 560px) {
+  .cav-ledge { padding: 18px 18px 20px; }
+  .cav-panel { padding: 8px 16px; }
+  .cav-stop { gap: 14px; }
+  .cav-stop__key { flex-basis: 44px; height: 44px; font-size: 14px; }
+  .caverns h3 { font-size: 20px; }
+}
+
+
+/* §63 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -14006,7 +14229,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §62 says every
+   shipped with no rule here at all — which on a street whose §63 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -14130,7 +14353,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §63 ── Print ───────────────────────────────────────────────────────────────
+/* §64 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

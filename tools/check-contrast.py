@@ -463,6 +463,17 @@ DN_TAR, DN_LIT = "#1A1917", "#2D261B"
 OSK_NIGHT, OSK_BOARD = "#08090B", "#1A1B17"
 OSK_BEAM, OSK_DIM, OSK_RUST = "#EDE7D6", "#A9A491", "#D96A3C"
 
+# Arlesglad Caverns (§62). THREE GROUNDS, all stone: the cave with nothing on
+# it, the rock face in the band the handrail lights, and the steel of the lift's
+# panel. The panel is the LIGHTEST of the three, so it is the harder ground for
+# the pale inks and every one is held against all three. THE ONLY WARM VALUE IS
+# THE RAIL, and it carries the name, every room's name and every link.
+# CAV_SEAM IS ORNAMENT AND CARRIES NO TEXT: 2.10 on the rock, 1.84 on the wall
+# and 1.60 on the steel. It draws strata, stanchions and the rules between the
+# plates, and it is in ORNAMENT with those numbers beside it.
+CAV_ROCK, CAV_WALL, CAV_STEEL = "#0D0D0C", "#1D1C1A", "#26282A"
+CAV_RAIL, CAV_LIME, CAV_DIM = "#FFE2AE", "#D9D3C9", "#A69F94"
+
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
 # screen is the light source in this room, not a surface anything is set on --
@@ -1039,6 +1050,14 @@ PAIRS = [
     (CEDAR,   NOON,   True,  "workshop: the hairline around a pressed sheet"),
     (INK,    GREEN,  False, "street: the signpost arm, dark on painted green"),
     (INK,    CYAN,   False, "street: the signpost arm on hover"),
+    # The lift head down to the caverns, the fifth thing on the street that is
+    # not a door: a steel plate on --ink-3 that goes to --ink-2 under the
+    # pointer, and the call button's lit ring beside it.
+    (YELLOW, INK3,   False, "street: the lift head's DOWN line, on its plate"),
+    (CREAM,  INK3,   False, "street: the lift head's line about the caverns"),
+    (YELLOW, INK2,   False, "street: the lift head's DOWN line, under the pointer"),
+    (CREAM,  INK2,   False, "street: the lift head's line, under the pointer"),
+    (YELLOW, INK,    True,  "street: the lift head's call button, lit, on the pavement"),
 
     # THE FAERY YURT (love.css §14). Helen's palette, checked against all four
     # of her grounds AND against GLOW, which is what her canvas weave and ember
@@ -2237,6 +2256,23 @@ PAIRS = [
     (DS_FLAVOURS["lemon"], DS_INK, False, "doom scoop: PRESS PLAY on a plate"),
     (DS_FROST,    DS_WELL, False, "doom scoop: a plate's words under the pointer"),
     (DS_FLAVOURS["lemon"], DS_WELL, False, "doom scoop: PRESS PLAY with a plate under the pointer"),
+
+    # ── Arlesglad Caverns (§62) ──────────────────────────────────────────────
+    (CAV_RAIL, CAV_ROCK,  False, "caverns: the h1, every heading, the backlink and every link on the rock"),
+    (CAV_RAIL, CAV_WALL,  False, "caverns: the headings, links and bold runs on a ledge"),
+    (CAV_RAIL, CAV_STEEL, False, "caverns: every room's name and link on the lift panel"),
+    (CAV_LIME, CAV_ROCK,  False, "caverns: the lede and every paragraph on the rock"),
+    (CAV_LIME, CAV_WALL,  False, "caverns: every paragraph on a ledge"),
+    (CAV_LIME, CAV_STEEL, False, "caverns: what each level holds, on the panel"),
+    (CAV_DIM,  CAV_ROCK,  False, "caverns: the trail line under the backlink"),
+    (CAV_DIM,  CAV_STEEL, False, "caverns: each level's number and the line saying it is not open yet"),
+    # A BUTTON IS HELD TO THE BODY THRESHOLD, the Jungle Room's quills rule:
+    # it is aria-hidden decoration, and still a round thing you would read the
+    # level off. Lit, it is the rail; not open yet, it is the fine print,
+    # dashed, and the words on it are not dimmed.
+    (CAV_RAIL, CAV_STEEL, True,  "caverns: a lit button's ring and its level"),
+    (CAV_DIM,  CAV_STEEL, True,  "caverns: an unlit button's dashed ring and its level"),
+    (CAV_RAIL, CAV_ROCK,  True,  "caverns: the focus ring, the rail along a ledge and the job marker"),
 ] + [
     pair for name, flav in DS_FLAVOURS.items() for pair in (
         (DS_INK,     flav, False, f"doom scoop: the {name} tub -- its day, its flavour, every headline, "
@@ -2790,6 +2826,7 @@ ORNAMENT = {
                "near object that is not a sign, and it carries no word; the plate above it "
                "carries its own ground.",
     "#6e6880": "sithen: the thorn trees and branches in the mound drawing, the rule under the half of each taboo that is ours, and the edge of every banked panel, 3.69 on the field and 3.30 on the bank. It is the one colour in that room that is supposed to be faint -- a thorn that measured 4.5 would be a painted line rather than a branch -- and it never carries a word. The room's own job marker is drawn in the moon rather than in this, because a marker is held to the body threshold and this would not clear it.",
+    "#4a4741": "caverns: the seams in the rock, the stanchions under the rail and the rule between two plates on the lift panel, 2.10 on the rock, 1.84 on the wall and 1.60 on the steel. It carries no word and no control; every word down there is measured above against all three grounds.",
     "#6e7358": "outskirts: the dead grass along the foot of the share card and the dashed post beside a turning that is named and not built, 4.04 on the road and 3.51 on a sign. It carried the topline note and the line under every turning until it was measured, and both were moved to the fine print's own colour; what is left draws weeds and dashes a post. Every word on that road is measured above against both grounds.",
     "#b6342f": "lagoon: the frame round the drive-in screen, the post under every lobby card and the border on every press, 3.35 on the water and 3.05 on a card. It is the poster red this room is actually built out of and it never says anything -- LAG_POSTER is the lighter one that carries text, and the two exist separately so that the room is never tempted to let this one speak.",
     "#6b665d": "danny: the kerbstones down both sides of the road, the joints between "

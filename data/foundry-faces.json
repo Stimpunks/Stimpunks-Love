@@ -1771,6 +1771,29 @@
     }
    ]
   },
+  "rethink-sans": {
+   "family": "Rethink Sans",
+   "category": "Sans Serif",
+   "designer": "Hans Thiessen",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/rethinksans",
+   "copyright": "Copyright 2022 The Rethink Sans Project Authors (https://github.com/hans-thiessen/Rethink-Sans)",
+   "repository": "https://github.com/hans-thiessen/Rethink-Sans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "rethink-sans-400.woff2",
+     "sha": "5e5662b2a90a6fb3"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "rethink-sans-400.woff2",
+     "sha": "5e5662b2a90a6fb3"
+    }
+   ]
+  },
   "righteous": {
    "family": "Righteous",
    "category": "Display",
@@ -2083,6 +2106,23 @@
      "style": "normal",
      "file": "syncopate-700.woff2",
      "sha": "371cfc398e762b5e"
+    }
+   ]
+  },
+  "syne": {
+   "family": "Syne",
+   "category": "Display",
+   "designer": "Bonjour Monde, Lucas Descroix, George Triantafyllakos",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/syne",
+   "copyright": "Copyright 2019 The Syne Project Authors (https://gitlab.com/bonjour-monde/fonderie/syne-typeface)",
+   "repository": "https://gitlab.com/bonjour-monde/fonderie/syne-typeface",
+   "variants": [
+    {
+     "weight": "800",
+     "style": "normal",
+     "file": "syne-800.woff2",
+     "sha": "cfff412005eed2f0"
     }
    ]
   },

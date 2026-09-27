@@ -123,7 +123,11 @@ RANKS = {
     # describing its own edges, and when an edge changes the sentences about
     # it live in other rooms -- the guild's house rules, its card and
     # llms.txt all said the old thing and none of them is in this file.
-    3: ("III", "off the street", "Out of the street altogether \u2014 the field past the treeline at one end, or the road past the last streetlight at the other."),
+    # And then a third, which is not at either end: Arlesglad Caverns is
+    # UNDER the street. Still not a fourth class, for the same reason and a
+    # stronger one -- down is not even along the street, so there is no
+    # distance to put it at. The sentence changed in the same places again.
+    3: ("III", "off the street", "Out of the street altogether \u2014 the field past the treeline at one end, the road past the last streetlight at the other, or the caverns underneath."),
 }
 
 # Scoring words, and the negations that make a sentence about NOT scoring. A
@@ -332,6 +336,10 @@ DRAW = {
     # The Den already owns a disc with spokes in it and the Arcade owns a coin,
     # and a marker that reads as another room's object is the shared glyph this
     # registry exists to prevent, arriving by resemblance instead of by reuse.
+    # A length of handrail with its two stanchions, drawn in the rail's own
+    # warm white, which is the only colour the caverns' passage has: 15.50 on
+    # the rock it lies on. The floor line is --cav-seam and carries nothing.
+    "caverns-rail": """<path d="M3 28 H29" stroke="var(--cav-seam)" stroke-width="1.8" stroke-linecap="round"/><path d="M3 12 H29" stroke="var(--cav-rail)" stroke-width="2.6" stroke-linecap="round"/><path d="M8 12 V28 M24 12 V28" stroke="var(--cav-rail)" stroke-width="2" stroke-linecap="round"/><path d="M5 16 H27" stroke="var(--cav-rail)" stroke-width="1.2" stroke-linecap="round" opacity=".45"/>""",
     "lagoon-speaker": """<path d="M11 7 q0 -4 5 -4 q5 0 5 4" fill="none" stroke="var(--lag-acid)" stroke-width="2"/><rect x="8" y="7" width="16" height="21" rx="3" fill="none" stroke="var(--lag-acid)" stroke-width="2.4"/><path d="M12 13 H20 M12 17 H20 M12 21 H20" stroke="var(--lag-acid)" stroke-width="1.8" stroke-linecap="round"/>""",
     "foundry-sort": """<path d="M5 11 H25 V22 H5 Z" fill="none" stroke="var(--fo-brass)" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 22 a3.2 3.2 0 0 1 6.4 0" fill="none" stroke="var(--fo-brass)" stroke-width="2"/><path d="M27 12 V21" stroke="var(--fo-brass)" stroke-width="2.6" stroke-linecap="round"/><path d="M25 14 H27 M25 19 H27" stroke="var(--fo-brass)" stroke-width="1.8"/>""",
     "checkpoint-pillow": """<path d="M5 21 q-2 -9 6 -10 q10 -2 16 1 q6 2 4 9 q-2 4 -11 4 q-11 1 -15 -4 Z" fill="none" stroke="var(--hc-steam)" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 15 q4 3 8 0" fill="none" stroke="var(--hc-steam)" stroke-width="1.8" stroke-linecap="round"/>""",

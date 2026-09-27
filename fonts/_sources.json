@@ -1548,5 +1548,33 @@
       "src": "https://fonts.gstatic.com/s/onest/v11/gNMKW3F-SZuj7xmf-HYoEoey.woff2",
       "note": "The Doom Scoop (§61), every word that is read, the channels' headlines included, because some of them are long and shouting and the face's one job is to stay readable under that. One variable file serves both weights."
     }
+  ],
+  "syne": [
+    {
+      "file": "syne-800.woff2",
+      "weight": "800",
+      "style": "normal",
+      "bytes": 34560,
+      "src": "https://fonts.gstatic.com/s/syne/v24/8vIH7w4qzmVxm2BL9G78HEY.woff2",
+      "note": "Arlesglad Caverns (§62), the name of the caverns, its headings and the room names on the lift panel, and nothing at reading size. Wide, square-shouldered and a little pleased with itself, which is the glad in the name. Its figures are small old-style ones, so the level numbers are set in Rethink Sans. One variable file; the caverns set it at one weight only."
+    }
+  ],
+  "rethink-sans": [
+    {
+      "file": "rethink-sans-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 35604,
+      "src": "https://fonts.gstatic.com/s/rethinksans/v7/AMOWz4SDuXOMCPfdoglY9JQEVFi34dpL4w.woff2",
+      "note": "Arlesglad Caverns (§62), every word that is read. A plain, open sans that stays readable in low light, because the only light down there is the handrail. One variable file serves both weights."
+    },
+    {
+      "file": "rethink-sans-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 35604,
+      "src": "https://fonts.gstatic.com/s/rethinksans/v7/AMOWz4SDuXOMCPfdoglY9JQEVFi34dpL4w.woff2",
+      "note": "Arlesglad Caverns (§62), every word that is read. A plain, open sans that stays readable in low light, because the only light down there is the handrail. One variable file serves both weights."
+    }
   ]
 }

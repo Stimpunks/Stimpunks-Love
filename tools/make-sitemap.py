@@ -76,6 +76,11 @@ ORDER = ["index.html",
          "the-outskirts.html", "black-leather-lagoon.html", "sithen.html",
          "looming-rocks.html", "dance-punks.html", "small-hours.html",
          "repeater.html", "nothing-for-sale.html",
+         # The third edge, and the first one that is under the street rather
+         # than past an end of it: down the lift by the stoop. An area like the
+         # other two, listed the same way: the caverns first, then its rooms as
+         # they open.
+         "arlesglad-caverns.html",
          "liner-notes.html",
          # What the site keeps about the people who visit it. With the other
          # pages that hold lists rather than rooms, because that is what it is.
@@ -186,7 +191,8 @@ lines = [
     "street has an edge at each end and they are not the same kind of edge: past the treeline "
     "there is a campground, for anybody who would rather not be on a street at all, and past the "
     "last streetlight the other way there is a road out of town, where the mystical and the "
-    "after-dark keep premises. "
+    "after-dark keep premises. Under the street, by lift or stair, there are caverns, for "
+    "everything that needs things to stay the same. "
     "Two habits survive from our "
     "careful sites — attribution, which is a licence rather than a house style, and contrast, "
     "because clashing is not the same as illegible.",
