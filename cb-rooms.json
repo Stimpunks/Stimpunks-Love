@@ -312,6 +312,11 @@
    "path": "/arlesglad-caverns.html"
   },
   {
+   "tag": "stay-frosty",
+   "name": "Stay Frosty",
+   "path": "/stay-frosty.html"
+  },
+  {
    "tag": "liner-notes",
    "name": "Liner Notes",
    "path": "/liner-notes.html"

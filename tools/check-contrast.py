@@ -474,6 +474,14 @@ OSK_BEAM, OSK_DIM, OSK_RUST = "#EDE7D6", "#A9A491", "#D96A3C"
 CAV_ROCK, CAV_WALL, CAV_STEEL = "#0D0D0C", "#1D1C1A", "#26282A"
 CAV_RAIL, CAV_LIME, CAV_DIM = "#FFE2AE", "#D9D3C9", "#A69F94"
 
+# Stay Frosty (§63). TWO GROUNDS, the wet rock and a shelf of flowstone, and the
+# only warm value is CAV_RAIL: the room's glints and links are the rail's light
+# reflected, so they are the area's colour on purpose. FRO_BEAD IS ORNAMENT AND
+# CARRIES NO TEXT: 3.44 on the rock and 3.05 on a ledge, a bead of damp holding
+# no light. It is in ORNAMENT with those numbers beside it.
+FRO_ROCK, FRO_LEDGE = "#0E1316", "#172024"
+FRO_FROST, FRO_MIST = "#E3EBEE", "#A3B2B8"
+
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
 # screen is the light source in this room, not a surface anything is set on --
@@ -2273,6 +2281,16 @@ PAIRS = [
     (CAV_RAIL, CAV_STEEL, True,  "caverns: a lit button's ring and its level"),
     (CAV_DIM,  CAV_STEEL, True,  "caverns: an unlit button's dashed ring and its level"),
     (CAV_RAIL, CAV_ROCK,  True,  "caverns: the focus ring, the rail along a ledge and the job marker"),
+
+    # ── Stay Frosty (§63) ────────────────────────────────────────────────────
+    (FRO_FROST, FRO_ROCK,  False, "frosty: the h1, the lede, and every word on the rock"),
+    (FRO_FROST, FRO_LEDGE, False, "frosty: every heading and paragraph on a ledge, and the reading on the dial"),
+    (FRO_MIST,  FRO_ROCK,  False, "frosty: the over-line, the trail, the line beside the dial and the credit"),
+    (FRO_MIST,  FRO_LEDGE, False, "frosty: the Celsius reading on the dial and the list markers"),
+    (CAV_RAIL,  FRO_ROCK,  False, "frosty: the backlink and every link on the rock"),
+    (CAV_RAIL,  FRO_LEDGE, False, "frosty: every link on a ledge"),
+    (FRO_FROST, FRO_ROCK,  True,  "frosty: the dial's ring, on the rock"),
+    (CAV_RAIL,  FRO_ROCK,  True,  "frosty: the focus ring, the glints, and the job marker on the floor"),
 ] + [
     pair for name, flav in DS_FLAVOURS.items() for pair in (
         (DS_INK,     flav, False, f"doom scoop: the {name} tub -- its day, its flavour, every headline, "
@@ -2826,6 +2844,7 @@ ORNAMENT = {
                "near object that is not a sign, and it carries no word; the plate above it "
                "carries its own ground.",
     "#6e6880": "sithen: the thorn trees and branches in the mound drawing, the rule under the half of each taboo that is ours, and the edge of every banked panel, 3.69 on the field and 3.30 on the bank. It is the one colour in that room that is supposed to be faint -- a thorn that measured 4.5 would be a painted line rather than a branch -- and it never carries a word. The room's own job marker is drawn in the moon rather than in this, because a marker is held to the body threshold and this would not clear it.",
+    "#5e6c72": "frosty: a bead of damp holding no light, in the wall and along the lip of every ledge, 3.44 on the rock and 3.05 on a ledge. It carries no word and no control; every word in the room is measured above against both grounds.",
     "#4a4741": "caverns: the seams in the rock, the stanchions under the rail and the rule between two plates on the lift panel, 2.10 on the rock, 1.84 on the wall and 1.60 on the steel. It carries no word and no control; every word down there is measured above against all three grounds.",
     "#6e7358": "outskirts: the dead grass along the foot of the share card and the dashed post beside a turning that is named and not built, 4.04 on the road and 3.51 on a sign. It carried the topline note and the line under every turning until it was measured, and both were moved to the fine print's own colour; what is left draws weeds and dashes a post. Every word on that road is measured above against both grounds.",
     "#b6342f": "lagoon: the frame round the drive-in screen, the post under every lobby card and the border on every press, 3.35 on the water and 3.05 on a card. It is the poster red this room is actually built out of and it never says anything -- LAG_POSTER is the lighter one that carries text, and the two exist separately so that the room is never tempted to let this one speak.",

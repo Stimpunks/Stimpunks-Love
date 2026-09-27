@@ -47,6 +47,7 @@ so. The alt describes the card and quotes the words drawn on it, because both
 halves are what a sighted reader gets from the unfurl.
 """
 import html
+import json
 import os
 import re
 import shutil
@@ -577,6 +578,27 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
   box-shadow: 0 0 22px 8px rgba(255, 226, 174, .28); }}
 .og--caverns .og-foot {{ font-family: 'Rethink Sans', sans-serif; font-weight: 700;
   color: #FFE2AE; letter-spacing: 2px; font-size: 22px; }}
+
+/* stay frosty — THE BOTTOM, LIT BY REFLECTIONS. A band of wet rock across the
+   top with the rail's light in it as points and never as a pool, the name in
+   frost, and the dial on the right with the reading READ OFF THE DATA FILE: a
+   card is the one surface nobody checks, and a thermometer on it typed by hand
+   is the number most likely to drift. Nothing on it glows or shimmers. */
+.og--frosty {{ width: 100%; padding: 0 60px 44px; gap: 18px; justify-content: space-between; }}
+.og--frosty .og-wall {{ margin: 0 -60px !important; line-height: 0; }}
+.og--frosty .og-wall svg {{ display: block; width: 1200px; height: 150px; }}
+.og--frosty .og-row {{ display: flex; gap: 48px; align-items: center; }}
+.og--frosty .og-copy {{ flex: 1 1 auto; display: flex; flex-direction: column; gap: 14px; }}
+.og--frosty .fro-over {{ margin: 0 !important; font-size: 19px; }}
+.og--frosty h1 {{ font-size: 104px; margin: 0 !important; }}
+.og--frosty .og-lede {{ color: #E3EBEE; max-width: 720px; font-size: 27px; }}
+.og--frosty .og-dial {{ flex: 0 0 250px; height: 250px; border-radius: 50%; border: 4px solid #E3EBEE;
+  background: #172024; display: flex; flex-direction: column; align-items: center; justify-content: center; }}
+.og--frosty .og-dial b {{ font-family: 'Geologica', sans-serif; font-weight: 700; font-size: 72px;
+  line-height: 1; color: #E3EBEE; }}
+.og--frosty .og-dial span {{ margin-top: 10px; font-family: 'Geologica', sans-serif; font-size: 26px; color: #A3B2B8; }}
+.og--frosty .og-foot {{ font-family: 'Geologica', sans-serif; font-weight: 700; color: #FFE2AE;
+  letter-spacing: 1px; font-size: 21px; }}
 
 /* black leather lagoon — THE SCREEN OUT IN THE WATER, WHICH IS THE ONE VIEW THE
    ROOM HAS. A bone rectangle standing on two legs, lit and blank; the title in
@@ -2308,6 +2330,31 @@ def card_caverns(p):
     )
 
 
+def card_frosty(p):
+    # NO AMBIENT MARKUP: nothing in that room moves at any setting, and its own
+    # tool refuses motion in its stylesheet.
+    return (
+        "",
+        f'<div class="og og--frosty" data-fit="card">'
+        f'<div class="og-wall">{p["frosty_wall"]}</div>'
+        f'<div class="og-row"><div class="og-copy">'
+        f'<p class="fro-over">Arlesglad Caverns, level B5</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>'
+        f'<div class="og-dial"><b>{p["frosty_f"]}°F</b><span>{p["frosty_c"]}°C</span></div></div>'
+        f'<p class="og-foot" data-fit="footer">UNDER THE STREET · THE BOTTOM · stimpunks.world</p>'
+        f'</div>',
+        f"A very dark blue-grey card. Across the top, a band of wet rock scattered "
+        f"with tiny points of warm light and duller grey beads, and no other light "
+        f"anywhere. Small grey capitals reading Arlesglad Caverns, level B5, then "
+        f"“{p['h1text']}” in a plain heavy sans in frosty white, and under it: "
+        f"{p['desc_plain']} On the right, a round dial outlined in the same white "
+        f"reading {p['frosty_f']}°F, and under that {p['frosty_c']}°C in grey. Along "
+        f"the foot, in warm white: under the street, the bottom, stimpunks.world.",
+    )
+
+
 def card_lagoon(p):
     # THE SCREEN IS BLANK, and that is a decision rather than a shortcut. What
     # is actually on it is a playlist we keep adding to, so a card showing a
@@ -3151,6 +3198,7 @@ CARDS = {
     "campgrounds":  card_camp,
     "outskirts":    card_outskirts,
     "caverns":      card_caverns,
+    "frosty":       card_frosty,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
     "covenstead":   card_covenstead,
@@ -3390,6 +3438,16 @@ def main():
         )
     lifted["levels"] = " · ".join(levels)
     lifted["levels_alt"] = ", ".join(levels)
+
+    # STAY FROSTY'S CARD CARRIES THE ROOM'S OWN WALL AND THE DATA FILE'S NUMBER,
+    # so neither the drawing nor the reading can drift from the room.
+    frosty = (ROOT / "stay-frosty.html").read_text()
+    wall = re.search(r'<div class="fro-wall" aria-hidden="true">\s*(<svg.*?</svg>)', frosty, re.S)
+    if not wall:
+        raise SystemExit("REFUSING: stay-frosty.html has lost its wall, and its card is built out of it.")
+    lifted["frosty_wall"] = wall.group(1)
+    temp = json.loads((ROOT / "data/stay-frosty.json").read_text())["temperature"]
+    lifted["frosty_f"], lifted["frosty_c"] = temp["f"], temp["c"]
 
     # THE LAGOON'S CARD CARRIES THE ROOM'S OWN BILL LINE. Typed here it would be
     # one more place the room's tagline lives, in the file whose entire argument

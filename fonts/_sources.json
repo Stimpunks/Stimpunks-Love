@@ -1576,5 +1576,23 @@
       "src": "https://fonts.gstatic.com/s/rethinksans/v7/AMOWz4SDuXOMCPfdoglY9JQEVFi34dpL4w.woff2",
       "note": "Arlesglad Caverns (§62), every word that is read. A plain, open sans that stays readable in low light, because the only light down there is the handrail. One variable file serves both weights."
     }
+  ],
+  "geologica": [
+    {
+      "file": "geologica-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 24964,
+      "src": "https://fonts.gstatic.com/s/geologica/v5/oY1l8evIr7j9P3TN9YwNAdyjzUyDKkKdAGOJh1UlCDUIhAIdhCZOn1fLsig7jfvCCPHZckUWE1lELWNN-w.woff2",
+      "note": "Stay Frosty (§63), every word in the room, heading and paragraph alike: a room of one temperature does not change its voice between the sign and the page. Full-height lining figures, which matters in a room built round a number. One variable file serves both weights."
+    },
+    {
+      "file": "geologica-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 24964,
+      "src": "https://fonts.gstatic.com/s/geologica/v5/oY1l8evIr7j9P3TN9YwNAdyjzUyDKkKdAGOJh1UlCDUIhAIdhCZOn1fLsig7jfvCCPHZckUWE1lELWNN-w.woff2",
+      "note": "Stay Frosty (§63), every word in the room, heading and paragraph alike: a room of one temperature does not change its voice between the sign and the page. Full-height lining figures, which matters in a room built round a number. One variable file serves both weights."
+    }
   ]
 }

@@ -1,0 +1,15 @@
+{
+  "_what": "Stay Frosty, level B5 of Arlesglad Caverns: the bottom, and the one room down there whose temperature never moves. This file holds that temperature ONCE, with where it came from, and tools/make-stay-frosty.py writes it into every place it is stated -- the room's own dial and sentences, and the room's plate on the caverns' lift panel. A number said in two rooms and typed in both is a number that will one day disagree with itself, which is the sentence-in-another-room problem with a thermometer in it.",
+  "_why_this_number": "Ryan's call, 2026-09-26, was to match a real cave, and the caverns are named after Carlsbad. The Park Service's weather page gives the Big Room an average of 56F that moves with the seasons and the lowest point a constant 68F. So the room is at the bottom, because the bottom is where the temperature stops changing. A first draft of the brief swapped in a Colorado show cave's 54F before anybody had read the page for the cave the name plays on: when a number comes with a namesake, read the namesake's number.",
+  "_not_instrumental": "The room is not FOR anything. It is not cold therapy, not a plunge, not a reset, not somewhere to recharge, and nobody has to come out of it better. Every wellness page on the internet says what a cool quiet room will do for you, and one kind sentence of that would turn a steady room into a treatment. The tool sweeps the published page for that vocabulary with the checkpoint's negation window, so the room can still say it will not.",
+  "_nothing_to_press": "There is no button in the room, no sound, no script of its own, no clock and nothing stored. The only things to follow are links out and the guild's marker on the floor, whose hand-in box is the guild's and not the room's. The tool refuses a button, a player, a script, an animation or a transition anywhere in the room or its section of love.css, because 'nothing moves at any setting' is a sentence on the page.",
+  "temperature": {
+    "f": 68,
+    "c": 20,
+    "where": "the lowest point of Carlsbad Cavern",
+    "measured_by": "the National Park Service",
+    "source": "https://www.nps.gov/cave/learn/nature/weather.htm",
+    "read": "2026-09-26",
+    "says": "this lowest point remains a more constant and warmer 68°F (20ºC) and closer to 100% relative humidity"
+  }
+}

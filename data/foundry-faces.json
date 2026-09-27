@@ -861,6 +861,29 @@
     }
    ]
   },
+  "geologica": {
+   "family": "Geologica",
+   "category": "Sans Serif",
+   "designer": "Monokrom, Sindre Bremnes, Frode Helland",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/geologica",
+   "copyright": "Copyright 2020 The Geologica Project Authors (https://github.com/googlefonts/geologica)",
+   "repository": "https://github.com/googlefonts/geologica",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "geologica-400.woff2",
+     "sha": "0df4fc8d54587111"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "geologica-400.woff2",
+     "sha": "0df4fc8d54587111"
+    }
+   ]
+  },
   "gloock": {
    "family": "Gloock",
    "category": "Display",

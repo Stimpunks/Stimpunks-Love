@@ -1604,6 +1604,40 @@
       "learned": "The street has three edges now and only two of them are at an end of it. The caverns are the one you reach by going down, which is also why the guild's class III names all three rather than growing a fourth class for the one that is underneath."
     },
     {
+      "id": "frosty-thermometer",
+      "page": "stay-frosty.html",
+      "room": "Stay Frosty",
+      "title": "The bottom of the caverns",
+      "posted": "Go all the way down: past every level of the caverns to the one at the bottom, where the temperature stops moving. Read the room's rules, and find out what the dial on the page does down there.",
+      "rank": 3,
+      "takes": "five minutes, and there is nothing to press",
+      "target": "a thermometer lying on the floor",
+      "code": "STEADY",
+      "hints": [
+        "It is under the street. Take the lift by the stoop down to the caverns, and then go to the bottom of its panel.",
+        "The answer is in the list called What never changes in here.",
+        "Right at the foot of the room, under the credit line."
+      ],
+      "ask": {
+        "question": "Every page on this street has a dial that turns the motion and sparkle up and down. What does it change in Stay Frosty?",
+        "accept": [
+          "nothing",
+          "nothing at all",
+          "none",
+          "it changes nothing",
+          "nothing here"
+        ],
+        "answer": "Nothing",
+        "why": "Nothing. The dial still works on that page, and it has nothing to change there, because nothing in the room moves at any setting. That is a sentence on the page, so the room's own tool refuses an animation, a transition or a transform in its stylesheet rather than trusting the dial to reset one.",
+        "hints": [
+          "It is in the second item of the list called What never changes in here.",
+          "The dial works. The question is what it finds to do.",
+          "Nothing moves in that room."
+        ]
+      },
+      "learned": "The dial is the street's promise that loudness is yours to hold. In a room with nothing loud in it, the promise is kept by there being nothing to turn down, which is the one setting where Gentle, Regular and MAX look exactly the same."
+    },
+    {
       "id": "community-letter",
       "page": "community-center.html",
       "room": "Community Center",

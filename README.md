@@ -123,6 +123,7 @@ small-hours.html      Turning 05. An all-night diner seen from the car park; Jos
 repeater.html         Turning 06. A radio mast on the ridge; shared-signal space and a line left open
 nothing-for-sale.html Turning 07. A free market in a ring of headlights. Solidarity, not charity
 arlesglad-caverns.html  Under the street, by lift or stair. A cavern lit only by its handrail
+stay-frosty.html      Level B5, the bottom. 68F all year; nothing to press, nothing moves
 liner-notes.html      Who made this noise
 changelog.html        What changed, and when. Every Stimpunks site publishes one
 love.css              Shared base (§1–§4) then one self-contained world per room (§5 on)

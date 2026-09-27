@@ -2805,18 +2805,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §64 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §65 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§64 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§65 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §64 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §65 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the
@@ -2914,6 +2914,35 @@ where the Plural Mural chalkboard came from.
     that jumps down to it. The model flows in one column, so "beside the mat" could not hold at every
     width. `make-map.py` reads the levels off the lift panel like the pitches and turnings; a room
     that opens down there needs its level's `h3` to link and nothing else.
+
+**STAY FROSTY IS THE BOTTOM OF THE CAVERNS AND THE ROOM WHERE NOTHING CHANGES.** §63, level B5,
+the first room open down there. A quiet place to chill, literally: **chill as in calm, not cold**,
+at the Park Service's 68°F for Carlsbad's lowest point, which lives once in `data/stay-frosty.json`
+and is written by `tools/make-stay-frosty.py` into the room AND onto its plate on the caverns' lift
+panel. **Do not type that number anywhere**; put a `frosty:temp` or `frosty:short` marker pair there
+instead, and the tool refuses any other degree on the room's page.
+
+  · **the light is reflected, in points.** Every other rest room on this street is lit by a flame,
+    by a spring under the floor or by a corridor's wedge. Nothing here emits anything: the rail is
+    up the slope and what reaches the bottom is its reflection in every bead of damp. **The only
+    warm value in the room is `var(--cav-rail)`**, used only where the rail's own light would land,
+    the glints and the links. If a glow ever gathers anywhere in §63 it has become a room with a
+    lamp in it. It is not the passage above either: that is a warm-grey BAND, this is cool wet
+    POINTS.
+  · **it is not for anything, and the friendly edit is a kind one.** Every cool quiet room on the
+    internet says what the cold will do for you. The tool sweeps the room with the checkpoint's
+    negation window for rest as an investment, **cold as a treatment** (plunges, ice baths, cryo,
+    biohacking, resets, boosts, calming your nervous system) and medical claims. Do not add a line
+    about what the room does for a body.
+  · **nothing to press, nothing moves, nothing makes a sound, no clock**, and all four are sentences
+    on the page, so the tool refuses a button (the guild's marker cut out first), a player, a frame,
+    a timer, a script of its own, and any `animation`, `transition`, `@keyframes` or `transform` in
+    its section of `love.css`. **The CB stays upstairs** with `data-cb="off"`, the Healing
+    Checkpoint's mechanism, because a squelch is a sound. The room counts and keeps nothing, scoped
+    to the room, because the dial remembers its setting street-wide.
+  · **one face, Geologica, for every word**: a room of one temperature does not change its voice
+    between the sign and the page, and its figures are full-height, which matters in the one room
+    built round a number.
 
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by
