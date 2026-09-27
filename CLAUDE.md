@@ -2805,18 +2805,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §65 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §66 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§65 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§66 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §65 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §66 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the
@@ -2943,6 +2943,36 @@ instead, and the tool refuses any other degree on the room's page.
   · **one face, Geologica, for every word**: a room of one temperature does not change its voice
     between the sign and the page, and its figures are full-height, which matters in the one room
     built round a number.
+
+**STAY BREEZY IS THE ROOM BEHIND STAY FROSTY, AND IT IS ITS OPPOSITE ON PURPOSE.** §64, Ryan's,
+2026-09-26, in his own words on the page: *"Even in a 68°F room, I need a fan blowing on me."* A
+hall full of fans, synthesised in the browser by `stay-breezy.js` out of `data/stay-breezy.json`,
+built by `tools/make-stay-breezy.py`. **A subroom shares nothing with its parent, and here that runs
+backwards**: Frosty is dark, cool, wet, lit by reflections in points, with nothing to press and no
+sound; Breezy is pale, warm, dry, lit by a lamp under every ceiling fan, and made of controls. If
+§64 ever goes dark or cool it has become Frosty with a fan in it; if §63 ever hums, the reverse.
+The number in Ryan's quotation is a `frosty:f` marker filled by `make-stay-frosty.py`.
+
+  · **every fan says what it feels like and what it sounds like, in words, before you switch it
+    on.** A fan has no runtime to give, like a live cam, so its sound is what it says instead. The
+    tool refuses a fan without both sentences, and two fans that would sound the same.
+  · **the lamp is below the blades, which is an access rule.** A lamp above turning blades throws a
+    flickering shadow, Club Chronic's strobe through a light fitting. The tool reads the drawings'
+    coordinates and refuses a ceiling fan whose lamp is not under its hub, and refuses any keyframe
+    in §64 that animates a light or a colour.
+  · **Gentle stops the blades and keeps the fan.** The sound is what the visitor switched on; the
+    turn is decoration, and §3's reset stops it. The words on each card are identical at every
+    setting. The blades turn inside each fan's `<svg>` about a hub the tool writes on the group.
+  · **the hall has a ceiling, and it is shared**: `MAX_GAIN` is refused above 0.2 (the Repeater's),
+    and the running fans divide it rather than add to it, so more fans make the hall fuller and
+    never louder, which is a sentence on the page. **A fan keeps going in another tab**, like a fan.
+  · **no fan is named for who made it**, and **none is for anything**: the tool refuses a short
+    list of makers and the vocabulary of sleep, focus and treatment. *You do not need a reason to
+    love a fan* is the room's line; the friendly edit is "great for sleep".
+  · **the room of your own has a door**: switching anything on in there switches the hall's fans
+    off, and a hall fan switches your room's off, and both say so. The table's fan is chosen from
+    the floor's table fans and copies that fan's own tile, so the two cannot describe it
+    differently.
 
 **THE 404 IS A WORLD WITH NO ADDRESS, AND THREE TOOLS NAME IT RATHER THAN SKIP IT.** `404.html`
 (§39) is fog: lit from every side at once, so nothing casts a shadow and distance is carried by

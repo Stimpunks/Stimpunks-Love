@@ -80,7 +80,7 @@ ORDER = ["index.html",
          # than past an end of it: down the lift by the stoop. An area like the
          # other two, listed the same way: the caverns first, then its rooms as
          # they open.
-         "arlesglad-caverns.html", "stay-frosty.html",
+         "arlesglad-caverns.html", "stay-frosty.html", "stay-breezy.html",
          "liner-notes.html",
          # What the site keeps about the people who visit it. With the other
          # pages that hold lists rather than rooms, because that is what it is.

@@ -600,6 +600,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--frosty .og-foot {{ font-family: 'Geologica', sans-serif; font-weight: 700; color: #FFE2AE;
   letter-spacing: 1px; font-size: 21px; }}
 
+/* stay breezy — THE HALL, LIFTED OFF THE ROOM ITSELF. Three ceiling fans on
+   their rods with a lamp hung under each, the air drawn in lines beneath them,
+   on the pale painted wall; the name in its round face and Ryan's reason for
+   the room under it. Nothing turns on a card. */
+.og--breezy {{ width: 100%; padding: 30px 60px 44px; gap: 18px; justify-content: space-between; }}
+.og--breezy .og-hall {{ margin: -30px -60px 0 !important; line-height: 0; }}
+.og--breezy .og-hall svg {{ display: block; width: 1200px; height: 250px; }}
+.og--breezy .bz-over {{ margin: 0 !important; font-size: 19px; }}
+.og--breezy h1 {{ font-size: 100px; margin: 0 !important; }}
+.og--breezy .og-lede {{ color: #1E2B33; max-width: 1000px; font-size: 28px; }}
+.og--breezy .og-foot {{ font-family: 'Urbanist', sans-serif; font-weight: 700; color: #1F5F63;
+  letter-spacing: 1px; font-size: 21px; }}
+
 /* black leather lagoon — THE SCREEN OUT IN THE WATER, WHICH IS THE ONE VIEW THE
    ROOM HAS. A bone rectangle standing on two legs, lit and blank; the title in
    the dripping face; the water along the foot with the posts standing in it.
@@ -2355,6 +2368,27 @@ def card_frosty(p):
     )
 
 
+def card_breezy(p):
+    # NO AMBIENT MARKUP: a card cannot be switched on, so nothing on it turns.
+    return (
+        "",
+        f'<div class="og og--breezy" data-fit="card">'
+        f'<div class="og-hall">{p["breezy_hall"]}</div>'
+        f'<p class="bz-over">Arlesglad Caverns, behind Stay Frosty</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">A ROOM FULL OF FANS · NOTHING PLAYS UNTIL YOU SWITCH IT ON · stimpunks.world</p>'
+        f'</div>',
+        f"A pale cream card. Across the top, three ceiling fans hang on rods, each "
+        f"with a small warm lamp under its blades and a soft pool of light beneath, "
+        f"and under them three long wavy lines of pale grey-green drawn air. Small "
+        f"grey capitals reading Arlesglad Caverns, behind Stay Frosty, then "
+        f"“{p['h1text']}” in a round, open face in dark blue-grey, and under it: "
+        f"{p['desc_plain']} Along the foot, in teal: a room full of fans, nothing "
+        f"plays until you switch it on, stimpunks.world.",
+    )
+
+
 def card_lagoon(p):
     # THE SCREEN IS BLANK, and that is a decision rather than a shortcut. What
     # is actually on it is a playlist we keep adding to, so a card showing a
@@ -3199,6 +3233,7 @@ CARDS = {
     "outskirts":    card_outskirts,
     "caverns":      card_caverns,
     "frosty":       card_frosty,
+    "breezy":       card_breezy,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
     "covenstead":   card_covenstead,
@@ -3448,6 +3483,11 @@ def main():
     lifted["frosty_wall"] = wall.group(1)
     temp = json.loads((ROOT / "data/stay-frosty.json").read_text())["temperature"]
     lifted["frosty_f"], lifted["frosty_c"] = temp["f"], temp["c"]
+    breezy = re.search(r'<div class="bz-hall" aria-hidden="true">\s*(<svg.*?</svg>)',
+                       (ROOT / "stay-breezy.html").read_text(), re.S)
+    if not breezy:
+        raise SystemExit("REFUSING: stay-breezy.html has lost its hall, and its card is built out of it.")
+    lifted["breezy_hall"] = breezy.group(1)
 
     # THE LAGOON'S CARD CARRIES THE ROOM'S OWN BILL LINE. Typed here it would be
     # one more place the room's tagline lives, in the file whose entire argument

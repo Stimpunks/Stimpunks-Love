@@ -482,6 +482,14 @@ CAV_RAIL, CAV_LIME, CAV_DIM = "#FFE2AE", "#D9D3C9", "#A69F94"
 FRO_ROCK, FRO_LEDGE = "#0E1316", "#172024"
 FRO_FROST, FRO_MIST = "#E3EBEE", "#A3B2B8"
 
+# Stay Breezy (§64). THREE GROUNDS, all pale: the hall's painted wall, a fan's
+# enamel card, and the same card with its fan running. The running card is the
+# darkest of the three, so it decides. BZ_AIR, BZ_LAMP AND BZ_CAGE ARE ORNAMENT
+# AND CARRY NO TEXT: the air lines at 1.36 on the wall, the lamps at 1.17, the
+# cage wire at 3.52. In ORNAMENT with those numbers beside them.
+BZ_WALL, BZ_CARD, BZ_ON = "#F1ECDF", "#FBF8F1", "#DCE9E6"
+BZ_INK, BZ_INK2, BZ_BLADE, BZ_RIBBON = "#1E2B33", "#4A5860", "#1F5F63", "#A8321F"
+
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
 # screen is the light source in this room, not a surface anything is set on --
@@ -2291,6 +2299,22 @@ PAIRS = [
     (CAV_RAIL,  FRO_LEDGE, False, "frosty: every link on a ledge"),
     (FRO_FROST, FRO_ROCK,  True,  "frosty: the dial's ring, on the rock"),
     (CAV_RAIL,  FRO_ROCK,  True,  "frosty: the focus ring, the glints, and the job marker on the floor"),
+
+    # ── Stay Breezy (§64) ────────────────────────────────────────────────────
+    (BZ_INK,   BZ_WALL,  False, "breezy: the h1, the lede, every heading and paragraph on the wall"),
+    (BZ_INK,   BZ_CARD,  False, "breezy: every fan's name and words, Ryan's words, the rules"),
+    (BZ_INK,   BZ_ON,    False, "breezy: the same on a running fan's card, and the line saying it is on"),
+    (BZ_INK2,  BZ_WALL,  False, "breezy: the over-line, the trail and the credit"),
+    (BZ_INK2,  BZ_CARD,  False, "breezy: the note under the hall's controls and who said Ryan's words"),
+    (BZ_BLADE, BZ_WALL,  False, "breezy: the backlink and every link on the wall"),
+    (BZ_BLADE, BZ_CARD,  False, "breezy: every link on a card"),
+    (BZ_CARD,  BZ_INK,   False, "breezy: the words on a switch and on Switch every fan off"),
+    (BZ_CARD,  BZ_BLADE, False, "breezy: the words on a switch under the pointer and on the chosen speed"),
+    (BZ_INK,   BZ_CARD,  True,  "breezy: every fan's body, hub and outline, and the focus ring"),
+    (BZ_BLADE, BZ_CARD,  True,  "breezy: the blades, on a card"),
+    (BZ_BLADE, BZ_ON,    True,  "breezy: the blades and the running card's border"),
+    (BZ_RIBBON, BZ_CARD, True,  "breezy: the ribbon on a cage, and the rule over Ryan's words"),
+    (BZ_RIBBON, BZ_ON,   True,  "breezy: the ribbon lifted on a running fan"),
 ] + [
     pair for name, flav in DS_FLAVOURS.items() for pair in (
         (DS_INK,     flav, False, f"doom scoop: the {name} tub -- its day, its flavour, every headline, "
@@ -2844,6 +2868,9 @@ ORNAMENT = {
                "near object that is not a sign, and it carries no word; the plate above it "
                "carries its own ground.",
     "#6e6880": "sithen: the thorn trees and branches in the mound drawing, the rule under the half of each taboo that is ours, and the edge of every banked panel, 3.69 on the field and 3.30 on the bank. It is the one colour in that room that is supposed to be faint -- a thorn that measured 4.5 would be a painted line rather than a branch -- and it never carries a word. The room's own job marker is drawn in the moon rather than in this, because a marker is held to the body threshold and this would not clear it.",
+    "#bfd0cc": "breezy: the lines of moving air under the hall's fans, 1.36 on the wall. Drawn air, carrying no word and no control.",
+    "#f7d98c": "breezy: the lamp under every ceiling fan and the light it throws, 1.17 on the wall and 1.30 on a card. Every lamp is outlined in the ink, which carries it; the fill is the light.",
+    "#6f7f86": "breezy: the cage wire over every fan's blades and the shadow under a card, 3.52 on the wall, 3.92 on a card and 3.33 on a running one. Wire, not an outline anybody needs: every fan's body is drawn in the ink.",
     "#5e6c72": "frosty: a bead of damp holding no light, in the wall and along the lip of every ledge, 3.44 on the rock and 3.05 on a ledge. It carries no word and no control; every word in the room is measured above against both grounds.",
     "#4a4741": "caverns: the seams in the rock, the stanchions under the rail and the rule between two plates on the lift panel, 2.10 on the rock, 1.84 on the wall and 1.60 on the steel. It carries no word and no control; every word down there is measured above against all three grounds.",
     "#6e7358": "outskirts: the dead grass along the foot of the share card and the dashed post beside a turning that is named and not built, 4.04 on the road and 3.51 on a sign. It carried the topline note and the line under every turning until it was measured, and both were moved to the fine print's own colour; what is left draws weeds and dashes a post. Every word on that road is measured above against both grounds.",

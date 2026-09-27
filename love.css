@@ -820,6 +820,16 @@
 @font-face { font-family: 'Geologica'; src: url('fonts/geologica-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Geologica'; src: url('fonts/geologica-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Stay Breezy (§64). A ROUND NAME AND A PLAIN PAGE. Comfortaa, by Johan
+   Aakerlund, sets the room's name, its headings and the name on every fan and
+   nothing at reading size: round, open and even, with counters you could put
+   your hand through, which is as near as a typeface gets to the shape of moving
+   air. Urbanist, by Corey Hu, carries every word that is read. Both read off
+   their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Comfortaa'; src: url('fonts/comfortaa-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Urbanist'; src: url('fonts/urbanist-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Urbanist'; src: url('fonts/urbanist-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* The Broadsheet Broadside (§60). A SHIP'S NAME IN A DIDONE, AND A SHEET IN
    THE FACE A HAND-OUT IS READ IN. Bodoni Moda, by Owen Earl, is the name
    painted along the hull and the room's own headings, and NOTHING ON THE
@@ -2065,6 +2075,20 @@
      holding no light. In check-contrast.py's ORNAMENT list with those numbers. */
   --fro-rock:  #0E1316;   --fro-ledge: #172024;
   --fro-frost: #E3EBEE;   --fro-mist:  #A3B2B8;   --fro-bead:  #5E6C72;
+
+  /* Stay Breezy (§64). A PALE HALL OF FANS, LIT BY A LAMP UNDER EVERY CEILING
+     FAN. --bz-wall is the painted hall and the ground of every word; --bz-card
+     the enamel of a fan's card on the floor; --bz-on the same card with its fan
+     running, a faint cool tint, never the only sign it is on. --bz-ink is every
+     word and every fan's body; --bz-ink-2 the quieter lines; --bz-blade the
+     blades and every link; --bz-ribbon the ribbon tied to a cage, a graphic
+     held to 3:1. --bz-air, --bz-lamp and --bz-cage ARE ORNAMENT AND CARRY NO
+     TEXT: the air lines at 1.36, the lamps at 1.17, the cage wire at 3.52 on
+     the wall. In check-contrast.py's ORNAMENT list with those numbers. */
+  --bz-wall:   #F1ECDF;   --bz-card:   #FBF8F1;   --bz-on:     #DCE9E6;
+  --bz-ink:    #1E2B33;   --bz-ink-2:  #4A5860;   --bz-blade:  #1F5F63;
+  --bz-ribbon: #A8321F;   --bz-air:    #BFD0CC;   --bz-lamp:   #F7D98C;
+  --bz-cage:   #6F7F86;
 }
 
 * { box-sizing: border-box; }
@@ -12020,6 +12044,10 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
 .mm-plate .mm-name { color: var(--mm-ink); }
 .mm-plate .mm-no { color: var(--mm-pencil); }
 .mm-level--raising .mm-plate { border-style: dashed; }
+.mm-level { flex-direction: column; align-items: center; }
+.mm-level .mm-behind { margin-top: 18px; align-items: center; }
+.mm-level .mm-behind > li::before { left: 50%; }
+.mm-level .mm-back { position: relative; width: 13rem; max-width: 100%; }
 .mm-plate:hover .mm-name { text-decoration: underline; text-underline-offset: 3px; }
 
 /* ── Tags pinned to the edge of the mat: the pages that are not places ─── */
@@ -13673,7 +13701,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §65
+   class on it is `bb-`, its sizes are in points and millimetres, and §66
    prints it and nothing else. */
 
 .room-broadside {
@@ -13734,7 +13762,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §65 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §66 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -14234,6 +14262,10 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 .fro-ledge li::marker { color: var(--fro-mist); }
 .fro-ledge strong { font-weight: 700; color: var(--fro-frost); }
 .fro-credit { margin: 30px 0 0; font-size: 14.5px; color: var(--fro-mist); max-width: 64ch; }
+/* The door at the back, to Stay Breezy. A link on the rock like any other,
+   with its first words bold so it reads as a door; nothing about it lights up. */
+.fro-door { margin: 34px 0 0; max-width: 64ch; }
+.fro-door a { font-weight: 700; }
 
 @media (max-width: 560px) {
   .fro-ledge { padding: 18px 18px; }
@@ -14242,7 +14274,151 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 }
 
 
-/* §64 ── Small screens ───────────────────────────────────────────────────────
+/* §64 ── SUBROOM: Stay Breezy (behind Stay Frosty) ──────────────────────────
+   A HALL FULL OF FANS, AND THE ONE PLACE IN THE CAVERNS WHERE THE AIR MOVES.
+   Ryan's, 2026-09-26: "Even in a 68F room, I need a fan blowing on me." A
+   subroom shares nothing with the room it hangs off, and this one is the
+   hardest case of that rule running backwards: Stay Frosty promises nothing
+   moves and nothing makes a sound, and the room behind it is air that moves and
+   a hum you asked for. So they are opposites on every axis and have to stay so:
+
+     · FROSTY IS DARK, COOL AND WET, lit by reflections in points. THIS IS PALE,
+       WARM AND DRY, lit by a lamp hung under every ceiling fan. If anything in
+       §64 goes dark or cool it has become Stay Frosty with a fan in it; if
+       anything in §63 ever hums, the reverse.
+     · FROSTY HAS NOTHING TO PRESS. This room is controls: a switch and three
+       speeds on every fan, and the page says what each fan sounds like before
+       the switch.
+
+   AND THE LIGHT IS BELOW THE BLADES, WHICH IS AN ACCESS RULE AND NOT A LOOK. A
+   lamp above turning blades throws a flickering shadow, which is Club
+   Chronic's strobe arriving through a light fitting. Every ceiling fan's lamp
+   hangs under its hub, and make-stay-breezy.py checks the drawings' coordinates
+   rather than trusting this sentence. THE COLLISIONS ON THE STREET ARE the
+   other pale warm grounds: Covenstead is lit by one window into one patch and
+   is about mismatched china; the Guild is lit from nowhere and filed; the
+   Hermitage is a landscape under a low sun. This is an interior lit by a row of
+   identical lamps, and the only thing it is about is air.
+
+   THE ONLY MOTION IS BLADES TURNING AND A RIBBON LIFTING. The blades turn only
+   on a fan somebody switched on, and §3's Gentle reset stops them there while
+   the fan keeps running: the sound is what was asked for, the turning is
+   decoration. At MAX the ribbon flutters. NOTHING FLASHES: the tool refuses a
+   keyframe here that animates a light or a colour. The turn is a rotation
+   INSIDE each fan's <svg>, about its hub, which is part of the drawing. */
+
+.breezy { background: var(--bz-wall); color: var(--bz-ink); font-family: 'Urbanist', var(--sans); }
+.breezy a { color: var(--bz-blade); text-underline-offset: 3px; }
+.breezy a:hover { color: var(--bz-ink); }
+.breezy :where(p, li) { font-size: 17px; line-height: 1.62; }
+.breezy :focus-visible { outline-color: var(--bz-ink); }
+.breezy .backlink { font-family: 'Urbanist', var(--sans); font-weight: 700; font-size: 15px; letter-spacing: 0; color: var(--bz-blade); }
+.breezy .trailmark { margin: 0; font-size: 14px; color: var(--bz-ink-2); }
+
+.bz-over { margin: 22px 0 0; font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--bz-ink-2); }
+.breezy h1 { font-family: 'Comfortaa', var(--sans); font-weight: 700; font-size: clamp(40px, 8vw, 80px);
+  line-height: 1.02; letter-spacing: -.01em; color: var(--bz-ink); margin: 8px 0 0; }
+.breezy h2 { font-family: 'Comfortaa', var(--sans); font-weight: 700; font-size: 24px; color: var(--bz-ink); margin: 0 0 10px; }
+.breezy h3 { font-family: 'Comfortaa', var(--sans); font-weight: 700; font-size: 19px; line-height: 1.2; color: var(--bz-ink); margin: 0; }
+.breezy .lede { font-size: 19.5px; line-height: 1.55; max-width: 56ch; margin: 18px 0 0; }
+
+/* Ryan's own words, on a card, credited under them. */
+.bz-words { margin: 28px 0 0; padding: 20px 24px; background: var(--bz-card); border-radius: 14px;
+  border-top: 4px solid var(--bz-ribbon); max-width: 62ch; }
+.bz-words p { margin: 0; font-size: 20px; line-height: 1.5; }
+.bz-words .bz-words__who { margin-top: 10px; font-size: 15px; font-weight: 700; color: var(--bz-ink-2); }
+
+.bz-hall { margin: 26px 0 0; line-height: 0; }
+.bz-hall svg { display: block; width: 100%; height: auto; }
+
+/* The hall's two controls: how loud, and everything off. */
+.bz-panel { margin: 22px 0 0; padding: 16px 20px; background: var(--bz-card); border-radius: 14px;
+  border: 2px solid var(--bz-ink); display: flex; flex-wrap: wrap; gap: 10px 26px; align-items: center; }
+.bz-panel__row { margin: 0; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.bz-panel__row label { font-weight: 700; }
+.bz-panel input[type="range"] { width: 200px; accent-color: var(--bz-blade); }
+.bz-panel__note { flex: 1 1 100%; margin: 0; font-size: 15px; color: var(--bz-ink-2); max-width: 70ch; }
+.bz-alloff, .bz-switch, .bz-speed {
+  font: 700 15px/1 'Urbanist', var(--sans); cursor: pointer;
+  border: 2px solid var(--bz-ink); border-radius: 999px;
+  background: var(--bz-ink); color: var(--bz-card); padding: 9px 16px;
+}
+.bz-alloff:hover, .bz-switch:hover { background: var(--bz-blade); border-color: var(--bz-blade); }
+.bz-alloff:focus-visible, .bz-switch:focus-visible, .bz-speed:focus-visible { outline: 3px solid var(--bz-ink); outline-offset: 3px; }
+
+.bz-intro { max-width: 62ch; margin: 0 0 16px; }
+section[aria-labelledby="bz-floor-h"], .bz-own, .bz-rules { margin-top: 38px; }
+
+/* THE FLOOR. One card per fan, the drawing beside the words, the words before
+   the switch. A running fan's card takes --bz-on AND its switch says Switch off
+   AND the line under it says so: the tint is never the only sign. */
+.bz-floor, .bz-room { list-style: none; margin: 0; padding: 0; display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+.bz-fan { display: flex; gap: 14px; align-items: flex-start; padding: 16px; background: var(--bz-card);
+  border: 2px solid var(--bz-card); border-radius: 16px; box-shadow: 0 2px 0 var(--bz-cage); }
+.bz-fan.is-on { background: var(--bz-on); border-color: var(--bz-blade); }
+.bz-fan__art { flex: 0 0 96px; line-height: 0; }
+.bz-fan__art svg { display: block; width: 96px; height: 96px; overflow: visible; }
+.bz-fan__words { flex: 1 1 auto; min-width: 0; }
+.bz-fan__words p { margin: 7px 0 0; font-size: 15.5px; line-height: 1.5; }
+.bz-fan__words b { font-weight: 700; }
+.bz-fan__controls { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.bz-speeds { display: inline-flex; gap: 6px; }
+.bz-speed { padding: 8px 12px; background: var(--bz-card); color: var(--bz-ink); }
+.bz-speed[aria-pressed="true"] { background: var(--bz-blade); border-color: var(--bz-blade); color: var(--bz-card); }
+.bz-switch[aria-pressed="true"] { background: var(--bz-card); color: var(--bz-ink); }
+.bz-said { flex: 1 1 100%; margin: 0; font-size: 14.5px; font-weight: 700; color: var(--bz-ink); }
+.bz-perch { margin: 10px 0 0; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+.bz-perch label { font-weight: 700; font-size: 15px; }
+.bz-perch select { font: 15px 'Urbanist', var(--sans); padding: 6px 8px; border: 2px solid var(--bz-ink);
+  border-radius: 8px; background: var(--bz-card); color: var(--bz-ink); }
+
+/* The drawings. */
+.bz-fan svg .bz-body { fill: var(--bz-card); stroke: var(--bz-ink); stroke-width: 2.4; }
+.bz-fan svg .bz-body-line, .bz-fan svg .bz-rod { fill: none; stroke: var(--bz-ink); stroke-width: 3; stroke-linecap: round; }
+.bz-fan svg .bz-cage { fill: none; stroke: var(--bz-cage); stroke-width: 1.3; }
+.bz-fan svg .bz-blades path { fill: var(--bz-blade); }
+.bz-fan svg .bz-hub { fill: var(--bz-ink); }
+.bz-fan svg .bz-blur { fill: var(--bz-blade); opacity: 0; }
+.bz-fan.is-on svg .bz-blur { opacity: .14; }
+.bz-fan svg .bz-lamp { fill: var(--bz-lamp); stroke: var(--bz-ink); stroke-width: 1.6; }
+.bz-fan svg .bz-glow { fill: var(--bz-lamp); opacity: .55; }
+.bz-fan svg .bz-ribbon { fill: none; stroke: var(--bz-ribbon); stroke-width: 2.6; stroke-linecap: round; }
+.bz-fan svg .bz-ribbon--lift { display: none; }
+.bz-fan.is-on svg .bz-ribbon--lift { display: inline; }
+.bz-fan.is-on svg .bz-ribbon--hang { display: none; }
+
+/* THE TURN, only on a fan somebody switched on. transform-origin is the hub,
+   written on each blades group by make-stay-breezy.py; §3 stops this at Gentle
+   and the fan keeps running. */
+.bz-fan[data-speed="1"] { --bz-turn: 1.9s; }
+.bz-fan[data-speed="2"] { --bz-turn: 1.1s; }
+.bz-fan[data-speed="3"] { --bz-turn: .7s; }
+.bz-fan.is-on .bz-blades { transform-box: view-box; animation: bz-spin var(--bz-turn, 1.1s) linear infinite; }
+@keyframes bz-spin { to { transform: rotate(360deg); } }
+/* At MAX GLITTER the lifted ribbon flutters. A stretch, never a flash. */
+html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
+  transform-box: fill-box; transform-origin: 0 50%;
+  animation: bz-flutter .42s ease-in-out infinite alternate;
+}
+@keyframes bz-flutter { from { transform: scaleY(.55); } to { transform: scaleY(1.3); } }
+
+.bz-rules { padding: 20px 24px; background: var(--bz-card); border-radius: 16px; }
+.bz-rules ul { margin: 0; padding: 0 0 0 20px; }
+.bz-rules li { margin: 0 0 10px; }
+.bz-rules li:last-child { margin-bottom: 0; }
+.bz-rules li::marker { color: var(--bz-blade); }
+.bz-credit { margin: 30px 0 0; font-size: 15px; color: var(--bz-ink-2); max-width: 64ch; }
+
+@media (max-width: 560px) {
+  .bz-floor, .bz-room { grid-template-columns: 1fr; }
+  .bz-fan__art { flex-basis: 72px; }
+  .bz-fan__art svg { width: 72px; height: 72px; }
+  .bz-words p { font-size: 18px; }
+}
+
+
+/* §65 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -14349,7 +14525,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §64 says every
+   shipped with no rule here at all — which on a street whose §65 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -14473,7 +14649,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §65 ── Print ───────────────────────────────────────────────────────────────
+/* §66 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

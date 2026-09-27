@@ -317,6 +317,11 @@
    "path": "/stay-frosty.html"
   },
   {
+   "tag": "stay-breezy",
+   "name": "Stay Breezy",
+   "path": "/stay-breezy.html"
+  },
+  {
    "tag": "liner-notes",
    "name": "Liner Notes",
    "path": "/liner-notes.html"

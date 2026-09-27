@@ -5,8 +5,8 @@ Stay Frosty is level B5 of Arlesglad Caverns: the bottom, and the one room down
 there whose temperature never moves. The number is the National Park Service's
 measurement of Carlsbad Cavern's lowest point, and it lives ONCE, in
 data/stay-frosty.json. This tool writes it into every marker pair that states
-it -- the room's thermometer and sentences, and the room's plate on the caverns'
-lift panel -- because a number said in two rooms and typed in both will one day
+it -- the room's thermometer and sentences, the room's plate on the caverns'
+lift panel, and Ryan's own sentence in Stay Breezy, the room behind this one -- because a number said in two rooms and typed in both will one day
 disagree with itself, and nothing else would notice. That is the sentence-in-
 another-room problem with a thermometer in it.
 
@@ -50,6 +50,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data/stay-frosty.json"
 ROOM = ROOT / "stay-frosty.html"
 CAVERNS = ROOT / "arlesglad-caverns.html"
+BREEZY = ROOT / "stay-breezy.html"
 CSS = ROOT / "love.css"
 SECTION = "Stay Frosty"
 
@@ -131,7 +132,10 @@ dial = "\n".join([
     "  </div>",
 ])
 
-BLOCKS = {"temp": deg, "short": short, "measured": measured, "dial": dial}
+# "f" is the bare Fahrenheit figure, for Ryan's own sentence in Stay Breezy,
+# the room behind this one: he said "a 68F room", and a quotation takes the
+# number as he said it rather than with a Celsius figure he did not say.
+BLOCKS = {"temp": deg, "short": short, "measured": measured, "dial": dial, "f": f"{t['f']}&deg;F"}
 
 
 def fill(path, required):
@@ -158,6 +162,7 @@ def fill(path, required):
 
 room_src, room_out = fill(ROOM, ("dial", "temp", "measured"))
 cav_src, cav_out = fill(CAVERNS, ("short",))
+bz_src, bz_out = fill(BREEZY, ("f",))
 
 # ── Refusing ─────────────────────────────────────────────────────────────────
 # The room's own <main> only: the card's alt text in <head> carries the reading
@@ -199,7 +204,8 @@ sweep(visible(room_out), "stay-frosty.html")
 if problems:
     raise SystemExit("REFUSING:\n  " + "\n  ".join(problems))
 
-for path, before, after in ((ROOM, room_src, room_out), (CAVERNS, cav_src, cav_out)):
+for path, before, after in ((ROOM, room_src, room_out), (CAVERNS, cav_src, cav_out),
+                            (BREEZY, bz_src, bz_out)):
     if after != before:
         path.write_text(after)
 print(f"stay frosty: {t['f']}F ({t['c']}C) from {t['measured_by']}, written into the room and its plate; "

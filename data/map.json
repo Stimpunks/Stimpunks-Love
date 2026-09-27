@@ -11,7 +11,8 @@
     "oracle-deck.html": "the-mopery.html",
     "the-doomscroll.html": "the-mopery.html",
     "l-space.html": "community-library.html",
-    "oook.html": "l-space.html"
+    "oook.html": "l-space.html",
+    "stay-breezy.html": "stay-frosty.html"
   },
   "_back_stairs": "A room with two doors. The Healing Checkpoint stands on the street as a shopfront of its own AND is reached by the guild's back stair, and its whole argument is that the first door exists -- rest is owed, so it cannot be reachable only through the place that hands out the work. The model draws it where it stands on the street and writes the back stair as a second way in beside the guild, never the other way round.",
   "back_stairs": {
@@ -22,5 +23,9 @@
     "zine-issue-2.html": "Issue #2"
   },
   "_pinned": "Pages that are not places. They are pinned to the edge of the mat on tags rather than built, because a changelog with a shopfront would be the street claiming its own paperwork is a room.",
-  "pinned": ["liner-notes.html", "changelog.html", "privacy.html"]
+  "pinned": [
+    "liner-notes.html",
+    "changelog.html",
+    "privacy.html"
+  ]
 }

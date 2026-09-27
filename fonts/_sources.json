@@ -1594,5 +1594,33 @@
       "src": "https://fonts.gstatic.com/s/geologica/v5/oY1l8evIr7j9P3TN9YwNAdyjzUyDKkKdAGOJh1UlCDUIhAIdhCZOn1fLsig7jfvCCPHZckUWE1lELWNN-w.woff2",
       "note": "Stay Frosty (§63), every word in the room, heading and paragraph alike: a room of one temperature does not change its voice between the sign and the page. Full-height lining figures, which matters in a room built round a number. One variable file serves both weights."
     }
+  ],
+  "comfortaa": [
+    {
+      "file": "comfortaa-700.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 13540,
+      "src": "https://fonts.gstatic.com/s/comfortaa/v47/1Pt_g8LJRfWJmhDAuUsSQamb1W0lwk4S4Y_LDrMfIB1Zyc61YA.woff2",
+      "note": "Stay Breezy (§64), the room's name, its headings and the name on every fan, and nothing at reading size: round, open and even, with counters you could put your hand through, which is as near as a typeface gets to the shape of moving air. One weight."
+    }
+  ],
+  "urbanist": [
+    {
+      "file": "urbanist-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 27812,
+      "src": "https://fonts.gstatic.com/s/urbanist/v18/L0x-DF02iFML4hGCyMqlbS1miXK2.woff2",
+      "note": "Stay Breezy (§64), every word that is read. A clear, even sans with open shapes, set on a pale wall under a room full of lamps. One variable file serves both weights."
+    },
+    {
+      "file": "urbanist-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 27812,
+      "src": "https://fonts.gstatic.com/s/urbanist/v18/L0x-DF02iFML4hGCyMqlbS1miXK2.woff2",
+      "note": "Stay Breezy (§64), every word that is read. A clear, even sans with open shapes, set on a pale wall under a room full of lamps. One variable file serves both weights."
+    }
   ]
 }

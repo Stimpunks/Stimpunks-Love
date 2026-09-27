@@ -317,7 +317,15 @@ camp, road, under = furn["signpost"], furn["roadout"], furn["liftdown"]
 def level(lv):
     no = html.escape(lv["no"].title(), quote=False)
     if lv["href"]:
-        return f'<li class="mm-level">{link(lv["href"], "mm-plate", lv["name"], numbered(no))}</li>'
+        # A ROOM BEHIND A LEVEL hangs under the plate, the way a room behind a
+        # shopfront hangs under the shopfront: Stay Breezy is through the door
+        # at the back of Stay Frosty.
+        kids = children.get(lv["href"], [])
+        behind = ""
+        if kids:
+            behind = (f'<span class="sr">, and behind {name(lv["href"])}:</span><ul class="mm-behind">'
+                      + "".join(f"<li>{behind_lot(k)}</li>" for k in kids) + "</ul>")
+        return f'<li class="mm-level">{link(lv["href"], "mm-plate", lv["name"], numbered(no))}{behind}</li>'
     return (f'<li class="mm-level mm-level--raising"><span class="mm-plate">'
             f'<span class="mm-name">{html.escape(lv["name"], quote=False)}</span>'
             f'<span class="mm-no">{no} &middot; not open yet</span></span></li>')

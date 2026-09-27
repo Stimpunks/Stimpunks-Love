@@ -911,6 +911,20 @@
       "sections": [
         63
       ]
+    },
+    "comfortaa": {
+      "where": "Stay Breezy",
+      "page": "stay-breezy.html",
+      "sections": [
+        64
+      ]
+    },
+    "urbanist": {
+      "where": "Stay Breezy",
+      "page": "stay-breezy.html",
+      "sections": [
+        64
+      ]
     }
   }
 }

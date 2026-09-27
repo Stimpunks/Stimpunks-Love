@@ -1,0 +1,90 @@
+{
+  "_what": "Stay Breezy, the room behind Stay Frosty at the bottom of Arlesglad Caverns: a hall full of fans, for anybody who loves moving air and the noise it makes. Ryan's brief, 2026-09-26, in his own words on the page. Every fan on the floor is an entry here, and tools/make-stay-breezy.py builds the floor, the table in the room of your own, and the sound each one makes out of this file. Every sound is synthesised in the visitor's own browser by stay-breezy.js; nothing is recorded, fetched or hosted, which keeps 'nothing musical is hosted here' true and keeps a fan from being a download.",
+  "_words_first": "EVERY FAN SAYS WHAT IT FEELS LIKE AND WHAT IT SOUNDS LIKE, IN WORDS, BEFORE YOU SWITCH IT ON. The street's oldest promise is that a press-to-play control says what it is before the press, and a fan has no runtime to give -- it runs until you switch it off, like a live cam -- so what it says instead is its sound. The Playhouse's sound board locked nobody out because every key says what it sounds like in words; a floor of fans is the same shape of thing, and the tool refuses a fan without its sentences.",
+  "_no_makers": "NO FAN HERE IS NAMED FOR WHO MADE IT. A maker's name beside a fan is an advertisement on a street that sells nothing, and a fan described by its brand is described by the one thing about it that is not the fan. They are named by what they are. The tool keeps a short list of fan makers and refuses any of them anywhere in this file; the rule covers what the list cannot catch.",
+  "_not_for_anything": "A FAN HERE IS NOT A SLEEP AID, A FOCUS TOOL OR A TREATMENT. Every page about fan noise on the internet says what it will do for you -- help you sleep, help you concentrate, calm you down -- and one of those sentences would make a thing somebody loves into a thing somebody is prescribed. You do not need a reason to love a fan. The tool sweeps this file and the published room for that vocabulary with the checkpoint's negation window.",
+  "_sound": "What each number does, in stay-breezy.js: `noise` is the colour of the rush (white is bright, pink is even, brown is dark); `low` is where the rush is cut off at the middle speed, in hertz; `hum` is the motor's hum in hertz, 0 for none, with `hum_level` how much of it you hear; `beat` is how often a blade passes at the middle speed, in hertz, 0 for none, with `depth` how much it swells; `sweep` is how many seconds an oscillating fan takes to turn one way, 0 for a fan that does not turn; `level` is how much of the room's loudness this fan takes on its own. NO TWO FANS SHARE A SOUND, and the tool refuses two that would.",
+  "_kinds": "`ceiling` hangs in the hall; `floor` stands on the floor; `table` is small enough to perch on the table in a room of your own, and is the only kind that can; `room` is the ceiling fan in a room of your own and nowhere else.",
+  "fans": [
+    {
+      "id": "hall-ceiling",
+      "name": "The big ceiling fan",
+      "kind": "ceiling",
+      "feel": "A slow, wide push of air coming down on the whole hall at once, the kind you only notice when it stops.",
+      "sound": "A low, soft whoosh with a slow beat in it from the blades going round, and almost no motor at all.",
+      "noise": "brown", "low": 520, "hum": 0, "hum_level": 0, "beat": 1.6, "depth": 0.35, "sweep": 0, "level": 0.8
+    },
+    {
+      "id": "box",
+      "name": "Box fan",
+      "kind": "floor",
+      "feel": "A flat, square wall of air, straight at you, all of it at once.",
+      "sound": "A broad, even rush like steady rain on a roof, with the motor humming underneath it.",
+      "noise": "pink", "low": 2400, "hum": 120, "hum_level": 0.12, "beat": 0, "depth": 0, "sweep": 0, "level": 0.9
+    },
+    {
+      "id": "pedestal",
+      "name": "Oscillating pedestal fan",
+      "kind": "floor",
+      "feel": "Air that arrives, leaves and comes back, sweeping across you and away on a long slow turn.",
+      "sound": "A bright whir that swings from one side of the room to the other and back again.",
+      "noise": "pink", "low": 3000, "hum": 120, "hum_level": 0.06, "beat": 0, "depth": 0, "sweep": 11, "level": 0.75
+    },
+    {
+      "id": "tower",
+      "name": "Tower fan",
+      "kind": "floor",
+      "feel": "A tall, soft sheet of air with no blades to look at, from the floor up to about your shoulders.",
+      "sound": "A smooth, dark hiss with no beat in it at all, as steady as a held breath.",
+      "noise": "brown", "low": 1400, "hum": 0, "hum_level": 0, "beat": 0, "depth": 0, "sweep": 0, "level": 0.8
+    },
+    {
+      "id": "window",
+      "name": "Twin window fan",
+      "kind": "floor",
+      "feel": "Two streams of air side by side, drawing in from one side of the room and pushing out the other.",
+      "sound": "A deep, doubled drone with a slow beat in it, the two fans never quite in step.",
+      "noise": "brown", "low": 900, "hum": 120, "hum_level": 0.08, "beat": 1.1, "depth": 0.25, "sweep": 0, "level": 0.85
+    },
+    {
+      "id": "drum",
+      "name": "Drum fan",
+      "kind": "floor",
+      "feel": "A strong, wide gale off a big round fan on wheels, the kind that keeps a workshop moving.",
+      "sound": "A heavy, rushing roar with a low motor growl in it, the biggest noise on the floor and still under the hall's ceiling.",
+      "noise": "pink", "low": 1800, "hum": 60, "hum_level": 0.15, "beat": 0, "depth": 0, "sweep": 0, "level": 1.0
+    },
+    {
+      "id": "desk",
+      "name": "Desk fan in a wire cage",
+      "kind": "table",
+      "feel": "A small, close breeze aimed at your face, cool on whichever side it is pointed at.",
+      "sound": "A quick, light whir with a thin hum in it, the sound of a fan a foot away.",
+      "noise": "white", "low": 4200, "hum": 240, "hum_level": 0.05, "beat": 0, "depth": 0, "sweep": 0, "level": 0.6
+    },
+    {
+      "id": "clip",
+      "name": "Clip-on fan",
+      "kind": "table",
+      "feel": "A narrow stream of air from wherever you clipped it: on your hands, your neck, the back of your head.",
+      "sound": "A high, tidy buzz, one of the smallest voices in the hall.",
+      "noise": "white", "low": 6000, "hum": 360, "hum_level": 0.04, "beat": 0, "depth": 0, "sweep": 0, "level": 0.45
+    },
+    {
+      "id": "little",
+      "name": "Little fan on a stand",
+      "kind": "table",
+      "feel": "A breeze about the size of a hand, from a fan about the size of a mug.",
+      "sound": "A faint, fast whir, very close and very quiet.",
+      "noise": "white", "low": 7200, "hum": 0, "hum_level": 0, "beat": 0, "depth": 0, "sweep": 0, "level": 0.3
+    },
+    {
+      "id": "room-ceiling",
+      "name": "Your room's ceiling fan",
+      "kind": "room",
+      "feel": "A ceiling fan of your own, smaller than the big one in the hall, turning over your own table.",
+      "sound": "A soft whoosh close over your head, with a quicker beat than the big fan in the hall.",
+      "noise": "brown", "low": 720, "hum": 0, "hum_level": 0, "beat": 2.4, "depth": 0.3, "sweep": 0, "level": 0.7
+    }
+  ]
+}

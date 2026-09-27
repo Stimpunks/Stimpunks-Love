@@ -603,6 +603,23 @@
     }
    ]
   },
+  "comfortaa": {
+   "family": "Comfortaa",
+   "category": "Display",
+   "designer": "Johan Aakerlund",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/comfortaa",
+   "copyright": "Copyright 2011 The Comfortaa Project Authors (https://github.com/alexeiva/comfortaa), with Reserved Font Name \"Comfortaa\".",
+   "repository": "https://github.com/alexeiva/comfortaa",
+   "variants": [
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "comfortaa-700.woff2",
+     "sha": "9c04952bd228b7e6"
+    }
+   ]
+  },
   "commissioner": {
    "family": "Commissioner",
    "category": "Sans Serif",
@@ -2220,6 +2237,29 @@
      "style": "normal",
      "file": "unifraktur-maguntia-400.woff2",
      "sha": "d98f10104192ccb3"
+    }
+   ]
+  },
+  "urbanist": {
+   "family": "Urbanist",
+   "category": "Sans Serif",
+   "designer": "Corey Hu",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/urbanist",
+   "copyright": "Copyright 2021 The Urbanist Project Authors (https://github.com/coreyhu/Urbanist)",
+   "repository": "https://github.com/coreyhu/Urbanist",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "urbanist-400.woff2",
+     "sha": "ce6e0dd89c3ffa4d"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "urbanist-400.woff2",
+     "sha": "ce6e0dd89c3ffa4d"
     }
    ]
   },

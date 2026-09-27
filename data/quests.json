@@ -1638,6 +1638,43 @@
       "learned": "The dial is the street's promise that loudness is yours to hold. In a room with nothing loud in it, the promise is kept by there being nothing to turn down, which is the one setting where Gentle, Regular and MAX look exactly the same."
     },
     {
+      "id": "breezy-ribbon",
+      "page": "stay-breezy.html",
+      "room": "Stay Breezy",
+      "title": "Behind the quiet room",
+      "posted": "At the very bottom of the caverns there is a room where nothing moves, and a door at the back of it. Go through, and read the house rules of the room full of fans.",
+      "rank": 3,
+      "takes": "five minutes, and you can do it without switching a single fan on",
+      "target": "a ribbon off a fan's cage, lying on the floor",
+      "code": "WHIRR",
+      "hints": [
+        "It is under the street. Take the lift down to the caverns, go to the bottom, and look for the door at the back of the quiet room.",
+        "The answer is in the house rules, in the one about the ceiling fans.",
+        "Right at the foot of the room, under the credit line."
+      ],
+      "ask": {
+        "question": "Every ceiling fan in Stay Breezy has its lamp hung in one particular place, so that nothing in the room flickers. Where is the lamp?",
+        "accept": [
+          "below the blades",
+          "under the blades",
+          "below",
+          "under",
+          "beneath the blades",
+          "under the hub",
+          "below the hub",
+          "underneath"
+        ],
+        "answer": "Below the blades",
+        "why": "Below the blades. A lamp above turning blades throws a flickering shadow onto everything under it, which on this street is a strobe arriving through a light fitting. So every ceiling fan's lamp hangs under its hub, and the room's own tool checks the drawings to make sure.",
+        "hints": [
+          "It is in the house rules, the second one.",
+          "Think about which side of the blades the light has to be on for them never to cut across it.",
+          "Not above."
+        ]
+      },
+      "learned": "The loudest room in the caverns and the quietest one share a wall, and both keep the same promise from opposite ends: nothing flashes, and nothing happens to you that you did not switch on."
+    },
+    {
       "id": "community-letter",
       "page": "community-center.html",
       "room": "Community Center",

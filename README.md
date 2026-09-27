@@ -124,6 +124,8 @@ repeater.html         Turning 06. A radio mast on the ridge; shared-signal space
 nothing-for-sale.html Turning 07. A free market in a ring of headlights. Solidarity, not charity
 arlesglad-caverns.html  Under the street, by lift or stair. A cavern lit only by its handrail
 stay-frosty.html      Level B5, the bottom. 68F all year; nothing to press, nothing moves
+stay-breezy.html      Behind Stay Frosty. A hall full of fans, synthesised; nothing plays until switched on
+stay-breezy.js        The fans' sound, made in the browser; nothing fetched, sent or kept
 liner-notes.html      Who made this noise
 changelog.html        What changed, and when. Every Stimpunks site publishes one
 love.css              Shared base (§1–§4) then one self-contained world per room (§5 on)
