@@ -217,6 +217,9 @@ LISTS = [
     # Mycelium Munchies: Derek Sarno's mushroom cooking videos, on his own
     # channel, the most recent in his playlist when it was read.
     ("mycelium munchies", "data/mycelium.json", "mycelium-munchies.html"),
+    # Big Steep: three long cellar ambience videos on their makers' own
+    # channels, the kind of upload that goes private without ceremony.
+    ("big steep", "data/big-steep.json", "big-steep-fermentables.html"),
 ]
 
 
@@ -253,6 +256,10 @@ def tracks_in(data):
     # which are food rather than videos, under a key of its own.
     if "videos" in data:
         return [dict(v, artist=v.get("channel")) for v in data["videos"]]
+    # BIG STEEP keeps its cellar videos beside its house styles, which are
+    # drinks rather than videos.
+    if "ambience" in data:
+        return [dict(a, artist=a.get("channel")) for a in data["ambience"]]
     # THE LIVE ROOM IS TESTED BEFORE 'sessions', because its studios hold
     # sessions and The Den's file is keyed on 'sessions' at the top. A file with
     # 'studios' is the Live Room's; its sessions are one video each.

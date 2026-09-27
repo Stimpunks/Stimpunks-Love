@@ -14734,6 +14734,21 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
 .bs-ledge li::marker { color: var(--bs-straw); }
 .bs-credit { margin: 30px 0 0; font-size: 14.5px; color: var(--bs-dim); max-width: 64ch; }
 
+/* SOMEBODY ELSE'S CELLAR, TO LEAVE ON. Three long videos in niches of their
+   own, each with its runtime above the press; the facade wears the rock, and
+   the pressed container is styled from .facade, never the button. */
+.bs-ambience { list-style: none; margin: 0; padding: 0; display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.bs-amb { display: flex; flex-direction: column; gap: 6px; padding: 14px; background: var(--bs-niche); border-radius: 12px; }
+.bs-amb .bs-amb__title { font-family: 'Red Hat Text', var(--sans); font-weight: 700; font-size: 16px; line-height: 1.35; }
+.bs-amb__who { margin: 0; font-size: 14px; color: var(--bs-dim); }
+.bs-amb .facade { margin-top: auto; }
+.bigsteep .facade { border: 2px solid var(--bs-dim); background: var(--bs-rock); color: var(--bs-cream);
+  font-family: 'Red Hat Text', var(--sans); font-weight: 700; border-radius: 8px; }
+.bigsteep .facade:hover { border-color: var(--bs-straw); }
+.bigsteep .facade__play { font-family: 'Red Hat Text', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .12em; color: var(--bs-straw); }
+.bigsteep .facade iframe { border-radius: 6px; }
+
 @media (max-width: 560px) {
   .bs-racks { grid-template-columns: 1fr; }
   .bs-style { flex-direction: column; }

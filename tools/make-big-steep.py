@@ -26,6 +26,10 @@ WHAT IT REFUSES:
   · A HEALTH CLAIM. Probiotics, gut health, antioxidants, detox, a hangover cure:
     kombucha in particular is sold on its body, and a drink here is a drink.
   · A COUNT: no tally of pours, rounds or units.
+  · AN AMBIENCE VIDEO WITHOUT A RUNTIME, OR WITH AN ID THAT IS NOT ONE. The
+    street's oldest promise, for three ten-hour cellars that are somebody
+    else's. Their titles are quoted as written and cut out of the sweep,
+    because they are their uploaders' words.
   · WOOD, in the room's own words about the cellar: the vessels are glass and
     steel, which is what keeps the room off the brown rooms.
 
@@ -119,6 +123,25 @@ for st in styles:
             if isinstance(value, str):
                 sweep(value, f"{where} pour {i + 1} ({key})")
 
+VID = re.compile(r"^[A-Za-z0-9_-]{11}$")
+RUNTIME = re.compile(r"^(?:\d+:)?[0-5]?\d:[0-5]\d$")
+for a in data.get("ambience", []):
+    where = f"ambience {a.get('id')!r}"
+    if not VID.match(a.get("id", "")):
+        problems.append(f"{where} is not a YouTube id; the button would never become a video.")
+    if not RUNTIME.match(str(a.get("runtime", ""))):
+        problems.append(f"{where} has no runtime. It says how long it runs before the press.")
+    for key in ("title", "channel"):
+        if not a.get(key):
+            problems.append(f"{where} has no {key}.")
+    # A YOUTUBE MIX is a list YouTube builds on the fly, starting from this
+    # video: its id is RD followed by the video's own. Anything else is a mix of
+    # something else, and the label would be describing the wrong list.
+    if "mix" in a and a["mix"] != "RD" + a.get("id", ""):
+        problems.append(f"{where}'s mix is {a['mix']!r}; a YouTube mix of this video is RD{a.get('id')}.")
+if data.get("ambience") and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", data.get("ambience_read", "")):
+    problems.append("the ambience videos have no date they were read on.")
+
 # Refuse on the data before writing anything: a pour with no strength must stop
 # the build with its reason, not crash half way through drawing the card.
 if problems:
@@ -164,15 +187,48 @@ def card(st):
 
 
 block = "\n".join(['  <ul class="bs-racks">', *[card(st) for st in styles], "  </ul>"])
+att = lambda s: html.escape(s, quote=True)
+amb = ['  <ul class="bs-ambience">']
+for a in data.get("ambience", []):
+    if a.get("mix"):
+        # THE MIX PLAYS ON PAST THE FIRST VIDEO, so the label gives that
+        # video's runtime and then says the rest has none and is unchecked.
+        embed = (f'data-embed-src="https://www.youtube-nocookie.com/embed/{a["id"]}?list={a["mix"]}"')
+        label = f'Put it on &mdash; {a["runtime"]}, then YouTube&rsquo;s own mix until you stop it'
+        note = (f'{esc(a["channel"])} &middot; {a["runtime"]}, and then a mix YouTube picks as it goes. '
+                'Nobody here has checked what the mix plays after the first video.')
+    else:
+        embed = f'data-embed-id="{a["id"]}"'
+        label = f'Put it on &mdash; {a["runtime"]}'
+        note = f'{esc(a["channel"])} &middot; {a["runtime"]}'
+    amb += ['    <li class="bs-amb">',
+            f'      <h3 class="bs-amb__title">{esc(a["title"])}</h3>',
+            f'      <p class="bs-amb__who">{note}</p>',
+            f'      <button type="button" class="facade" {embed} '
+            f'data-embed-title="{att(a["channel"])} &mdash; {att(a["title"])}">',
+            f'        {label}',
+            '        <span class="facade__play">&#9654; PRESS PLAY</span>',
+            '      </button>',
+            '    </li>']
+amb.append("  </ul>")
+amb_block = "\n".join(amb)
 src = ROOM.read_text()
 if "<!-- bigsteep:styles:begin -->" not in src:
     problems.append("big-steep-fermentables.html has lost its bigsteep:styles markers.")
 out = re.sub(r"<!-- bigsteep:styles:begin -->.*?<!-- bigsteep:styles:end -->",
              lambda _: f"<!-- bigsteep:styles:begin -->\n{block}\n  <!-- bigsteep:styles:end -->", src, flags=re.S)
+if data.get("ambience"):
+    if "<!-- bigsteep:ambience:begin -->" not in out:
+        problems.append("big-steep-fermentables.html has lost its bigsteep:ambience markers.")
+    out = re.sub(r"<!-- bigsteep:ambience:begin -->.*?<!-- bigsteep:ambience:end -->",
+                 lambda _: f"<!-- bigsteep:ambience:begin -->\n{amb_block}\n  <!-- bigsteep:ambience:end -->", out, flags=re.S)
 
 main = re.search(r"<main\b.*?</main>", out, re.S)
 text = main.group(0) if main else ""
 text = re.sub(r"<!-- quest:[^:]+:begin -->.*?<!-- quest:[^:]+:end -->", " ", text, flags=re.S)
+# THE AMBIENCE TITLES ARE THEIR UPLOADERS' WORDS, quoted as written, and cut out
+# before the room's own voice is swept; the sentences of ours around them are not.
+text = re.sub(r"<!-- bigsteep:ambience:begin -->.*?<!-- bigsteep:ambience:end -->", " ", text, flags=re.S)
 text = re.sub(r"<!--.*?-->|<(svg|script|style)\b.*?</\1>", " ", text, flags=re.S)
 text = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", text)))
 sweep(text, "big-steep-fermentables.html")

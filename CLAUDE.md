@@ -2976,6 +2976,14 @@ rooms and a row of oak barrels. The light comes **through the drinks** from lamp
 the Chappell's stained glass is the collision, and that is fixed colour in a window of a building.
 **Nothing moves**: the first friendly edit to a brewery is a glass filling up. Its break test found
 the tool crashing on a missing strength rather than refusing it; it refuses on the data first now.
+**Its cellar videos are somebody else's cellars and say so**, Ryan's brief, 2026-09-27 ("not an exact
+fit, but they'll do"): barrels, wood and fire, none of which is in §66, so the room presents them as
+other places to leave on. Runtimes are MEASURED (the speakeasy's title says 4 hours and its
+description 5; it runs 4:46:57). **The speakeasy plays into a YouTube mix (`list=RD` + its own id)**,
+Ryan's call after it was first dropped: a list YouTube builds on the fly, so the label gives the
+first video's runtime, then says the mix has none and is unchecked. `make-big-steep.py` refuses a mix
+that is not RD plus the video's own id, because a label describing the wrong list is the broken
+thing. Their descriptions sell them for sleep and focus; none of that is copied.
 
 **MYCELIUM MUNCHIES IS LEVEL B2, A MUSHROOM FARM WITH A RESTAURANT AT THE END OF IT.** §65, Ryan's
 brief, 2026-09-26, built by `tools/make-mycelium.py` out of `data/mycelium.json`. **Vital Plant
