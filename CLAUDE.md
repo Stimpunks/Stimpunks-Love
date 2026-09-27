@@ -2805,18 +2805,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §66 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §67 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§66 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§67 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §66 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §67 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the
@@ -2914,6 +2914,28 @@ where the Plural Mural chalkboard came from.
     that jumps down to it. The model flows in one column, so "beside the mat" could not hold at every
     width. `make-map.py` reads the levels off the lift panel like the pitches and turnings; a room
     that opens down there needs its level's `h3` to link and nothing else.
+
+**MYCELIUM MUNCHIES IS LEVEL B2, A MUSHROOM FARM WITH A RESTAURANT AT THE END OF IT.** §65, Ryan's
+brief, 2026-09-26, built by `tools/make-mycelium.py` out of `data/mycelium.json`. **Vital Plant
+Living is the collision**: that kitchen is a section with no light, everything touching, and you
+build your own; this is seen straight on across a pass, lit only by **heat lamps**, red and
+electric, and the kitchen composes every dish. There is no wood in §65 (the brown rooms), and the
+lamps' red is kept RED because Glow Go Gee Gaws, the level above, is down for orange.
+
+  · **nothing here is a field guide**, the most dangerous friendly edit on the street: a sentence
+    about how a mushroom looks beside one about where it grows is one step from somebody eating
+    what they found. Every look is written as it is on this farm's shelves, every mushroom was
+    grown here, and the tool refuses the vocabulary of foraging and identification.
+  · **nothing is named in Latin** (a list of genera plus the binomial shape) and **nothing is a
+    supplement**: lion's mane is sold as a brain booster, which here is the cure framing on a
+    plate, so brains, focus, memory, nerves, immunity, energy and medicine are refused, and so is
+    "magic". The wood wide web is not stated as fact.
+  · **everything on a plate was grown here and every crop reaches a plate**; the three house
+    specialities are exactly the brief's; **every dish says what is in it**, the runtime rule for a
+    kitchen; nothing is served raw.
+  · **the one quotation is ours**, from *The Mycelial Worldview Is Punk*, checked against the
+    mirror word for word when the mirror is present. Its first run refused "scored", the cooking
+    verb, and the pattern was narrowed rather than the word excepted.
 
 **STAY FROSTY IS THE BOTTOM OF THE CAVERNS AND THE ROOM WHERE NOTHING CHANGES.** §63, level B5,
 the first room open down there. A quiet place to chill, literally: **chill as in calm, not cold**,

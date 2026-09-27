@@ -925,6 +925,20 @@
       "sections": [
         64
       ]
+    },
+    "caprasimo": {
+      "where": "Mycelium Munchies",
+      "page": "mycelium-munchies.html",
+      "sections": [
+        65
+      ]
+    },
+    "schibsted-grotesk": {
+      "where": "Mycelium Munchies",
+      "page": "mycelium-munchies.html",
+      "sections": [
+        65
+      ]
     }
   }
 }

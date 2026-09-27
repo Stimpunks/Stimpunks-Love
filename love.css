@@ -830,6 +830,17 @@
 @font-face { font-family: 'Urbanist'; src: url('fonts/urbanist-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Urbanist'; src: url('fonts/urbanist-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Mycelium Munchies (§65). A MUSHROOM CAP AND A KITCHEN TICKET. Caprasimo, by
+   The DocRepair Project, Phaedra Charles and Flavia Zimbardi, sets the
+   restaurant's name, its headings and the name of every dish and mushroom, and
+   nothing at reading size: a soft, fat serif with round ends, the shape of a
+   cap. Schibsted Grotesk, by Bakken & Baeck and Henrik Kongsvoll, carries every
+   word that is read, the plain face of a printed ticket rather than a sign. Both
+   read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Caprasimo'; src: url('fonts/caprasimo-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Schibsted Grotesk'; src: url('fonts/schibsted-grotesk-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Schibsted Grotesk'; src: url('fonts/schibsted-grotesk-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* The Broadsheet Broadside (§60). A SHIP'S NAME IN A DIDONE, AND A SHEET IN
    THE FACE A HAND-OUT IS READ IN. Bodoni Moda, by Owen Earl, is the name
    painted along the hull and the room's own headings, and NOTHING ON THE
@@ -2089,6 +2100,21 @@
   --bz-ink:    #1E2B33;   --bz-ink-2:  #4A5860;   --bz-blade:  #1F5F63;
   --bz-ribbon: #A8321F;   --bz-air:    #BFD0CC;   --bz-lamp:   #F7D98C;
   --bz-cage:   #6F7F86;
+
+  /* Mycelium Munchies (§65). A KITCHEN IN THE DARK, LIT BY THE HEAT LAMPS OVER
+     THE PASS. --myc-dark is the kitchen and the ground of every word; --myc-steel
+     a steel counter or card; --myc-pass the pass itself, steel with the heat
+     lamps' red on it. --myc-lamp is that red, which carries every link and the
+     heat lamp's glow, and is kept RED because Glow Go Gee Gaws, the level above,
+     glows orange. --myc-cream is every word; --myc-grey the fine print. THE
+     MUSHROOMS BRING THE ONLY OTHER COLOURS, their own: --myc-pink, --myc-gold,
+     --myc-blue and --myc-tan paint a cap beside a mushroom's name, always with
+     the name in words. --myc-shelf IS ORNAMENT AND CARRIES NO TEXT: 1.73 on the
+     dark, the growing shelves standing in it. In ORNAMENT with that number. */
+  --myc-dark:  #141618;   --myc-steel: #262A2D;   --myc-pass:  #3A2724;
+  --myc-lamp:  #FF6E57;   --myc-cream: #F2EBDF;   --myc-grey:  #AEB0AE;
+  --myc-pink:  #EFA3B6;   --myc-gold:  #EBC455;   --myc-blue:  #9DB3C6;
+  --myc-tan:   #C9A57E;   --myc-shelf: #3B4043;
 }
 
 * { box-sizing: border-box; }
@@ -13701,7 +13727,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §66
+   class on it is `bb-`, its sizes are in points and millimetres, and §67
    prints it and nothing else. */
 
 .room-broadside {
@@ -13762,7 +13788,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §66 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §67 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -14425,7 +14451,107 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
 }
 
 
-/* §65 ── Small screens ───────────────────────────────────────────────────────
+/* §65 ── ROOM: Mycelium Munchies (level B2 of Arlesglad Caverns) ───────────
+   A MUSHROOM FARM WITH A RESTAURANT AT THE END OF THE GROWING ROOMS. Ryan's
+   brief, 2026-09-26, built out of data/mycelium.json by make-mycelium.py. The
+   room it could collapse into is VITAL PLANT LIVING, the other kitchen, and the
+   separation is structural:
+
+     · Vital is drawn as a SECTION: the bowl, the wraps and the pots cut open,
+       everything touching, on a turmeric wall, and you build your own. This is
+       seen STRAIGHT ON ACROSS A PASS: a steel counter at the foot, plates set
+       on it, heat lamps over them, and the farm's shelves in the dark behind.
+       The kitchen composes every dish; there is nothing to build.
+     · Vital's world has no light in it at all, because a section is a
+       diagram. This room is lit by exactly one kind of light: HEAT LAMPS, low
+       over the pass, deep red, electric and not a flame. Nothing else here
+       glows; the farm behind stands in the dark.
+     · it is not SAMEFOOD CAFE, which is a plan view from directly above under an
+       even light with nothing touching. And not LAUGHINGSTOCK, the other room
+       with red light: that is one follow spot from behind you onto a brick
+       wall, and only the comics' words stand in it. Here the lamps are over
+       the food and every word of ours sits on the dark or on steel.
+     · it is not THE DEN or THE LATIBULUM, the brown rooms: there is no wood in
+       §65. The kitchen is steel, and the only warm colours are the lamps' red
+       and the mushrooms' own.
+
+   THE MUSHROOMS' OWN COLOURS ARE THE PALETTE, and each is only ever a cap
+   drawn beside a name in words, never the only sign of anything. NOTHING
+   MOVES AT ANY SETTING and the lamps do not flicker. */
+
+.mycelium { background: var(--myc-dark); color: var(--myc-cream); font-family: 'Schibsted Grotesk', var(--sans); }
+.mycelium a { color: var(--myc-lamp); text-underline-offset: 3px; }
+.mycelium a:hover { color: var(--myc-cream); }
+.mycelium :where(p, li) { font-size: 16.5px; line-height: 1.62; }
+.mycelium :focus-visible { outline-color: var(--myc-cream); }
+.mycelium .backlink { font-family: 'Schibsted Grotesk', var(--sans); font-weight: 700; font-size: 15px; letter-spacing: 0; color: var(--myc-lamp); }
+.mycelium .trailmark { margin: 0; font-size: 14px; color: var(--myc-grey); }
+
+.myc-over { margin: 22px 0 0; font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--myc-grey); }
+.mycelium h1 { font-family: 'Caprasimo', Georgia, serif; font-weight: 400; font-size: clamp(40px, 8vw, 80px);
+  line-height: 1.02; color: var(--myc-cream); margin: 8px 0 0; }
+.mycelium h2 { font-family: 'Caprasimo', Georgia, serif; font-weight: 400; font-size: 26px; color: var(--myc-cream); margin: 0 0 12px; }
+.mycelium h3 { font-family: 'Caprasimo', Georgia, serif; font-weight: 400; font-size: 21px; line-height: 1.2; color: var(--myc-cream); margin: 0; }
+.mycelium .lede { font-size: 19px; line-height: 1.58; max-width: 56ch; margin: 18px 0 0; }
+
+.myc-scene { margin: 28px 0 0; line-height: 0; }
+.myc-scene svg { display: block; width: 100%; height: auto; }
+
+.myc-section, .myc-onpass { margin-top: 40px; }
+.myc-intro { max-width: 62ch; margin: 0 0 16px; color: var(--myc-grey); }
+
+/* THE PASS. The house specialities stand on the steel under the heat lamps,
+   the red on the counter and a line of it along each plate's top edge where the
+   lamp is. The words stand on the flat --myc-pass. */
+.myc-pass { list-style: none; margin: 0; padding: 0; display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.myc-plate { padding: 18px 20px; background: var(--myc-pass); border-top: 4px solid var(--myc-lamp);
+  border-radius: 4px 4px 12px 12px; box-shadow: 0 -12px 22px -14px rgba(255, 110, 87, .55); }
+.myc-plate h3 { font-size: 23px; }
+
+/* The rest of the menu, each dish on a steel card. */
+.myc-menu { list-style: none; margin: 0; padding: 0; display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.myc-dish { padding: 16px 18px; background: var(--myc-steel); border-radius: 10px; }
+.myc-plate p, .myc-dish p { margin: 8px 0 0; font-size: 15.5px; line-height: 1.55; }
+.myc-way { font-weight: 700; color: var(--myc-grey); }
+.myc-in b { font-weight: 700; }
+
+/* THE GROWING ROOMS. A row per crop, with a cap in the mushroom's own colour
+   beside its name. The cap is aria-hidden: the name says it all in words. */
+.myc-rooms { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.myc-crop { display: flex; gap: 16px; align-items: flex-start; padding: 14px 0; border-top: 1px solid var(--myc-shelf); }
+.myc-crop p { margin: 6px 0 0; max-width: 66ch; font-size: 15.5px; line-height: 1.55; }
+.myc-crop b { font-weight: 700; }
+.myc-grown { color: var(--myc-grey); }
+.myc-cap { flex: 0 0 34px; height: 20px; margin-top: 6px; border-radius: 50% 50% 6px 6px / 100% 100% 6px 6px; }
+.myc-cap--grey { background: var(--myc-grey); }
+.myc-cap--pink { background: var(--myc-pink); }
+.myc-cap--gold { background: var(--myc-gold); }
+.myc-cap--blue { background: var(--myc-blue); }
+.myc-cap--cream { background: var(--myc-cream); }
+.myc-cap--tan { background: var(--myc-tan); }
+
+.myc-ledge { margin: 40px 0 0; padding: 20px 24px; background: var(--myc-steel); border-radius: 12px; }
+.myc-ledge p { margin: 0 0 12px; max-width: 66ch; }
+.myc-ledge p:last-child { margin-bottom: 0; }
+.myc-ledge ul { margin: 0; padding: 0 0 0 20px; }
+.myc-ledge li { margin: 0 0 10px; }
+.myc-ledge li:last-child { margin-bottom: 0; }
+.myc-ledge li::marker { color: var(--myc-lamp); }
+.myc-ledge strong { font-weight: 700; }
+.myc-quote { margin: 4px 0 14px; padding: 12px 0 12px 18px; border-left: 4px solid var(--myc-lamp); }
+.myc-quote p { margin: 0; font-weight: 700; font-size: 20px; line-height: 1.4; }
+.myc-quote .myc-quote__from { margin-top: 8px; font-family: 'Schibsted Grotesk', var(--sans); font-size: 15px; color: var(--myc-grey); }
+.myc-credit { margin: 30px 0 0; font-size: 14.5px; color: var(--myc-grey); max-width: 64ch; }
+
+@media (max-width: 560px) {
+  .myc-ledge { padding: 18px; }
+  .myc-quote p { font-size: 19px; }
+}
+
+
+/* §66 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -14532,7 +14658,7 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §65 says every
+   shipped with no rule here at all — which on a street whose §66 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -14656,7 +14782,7 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §66 ── Print ───────────────────────────────────────────────────────────────
+/* §67 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

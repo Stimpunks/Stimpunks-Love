@@ -613,6 +613,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--breezy .og-foot {{ font-family: 'Urbanist', sans-serif; font-weight: 700; color: #1F5F63;
   letter-spacing: 1px; font-size: 21px; }}
 
+/* mycelium munchies — THE PASS, LIFTED OFF THE ROOM. The heat lamps over three
+   plates on a steel counter, the growing shelves in the dark behind with the
+   mushrooms on them in their own colours, and the name in its round cap face.
+   The lamps' red is the only light on the card, as it is in the room. */
+.og--mycelium {{ width: 100%; padding: 0 60px 44px; gap: 16px; justify-content: space-between; }}
+.og--mycelium .og-scene {{ margin: 0 -60px !important; line-height: 0; }}
+.og--mycelium .og-scene svg {{ display: block; width: 1200px; height: 300px; }}
+.og--mycelium .myc-over {{ margin: 0 !important; font-size: 19px; }}
+.og--mycelium h1 {{ font-size: 92px; margin: 0 !important; }}
+.og--mycelium .og-lede {{ color: #F2EBDF; max-width: 1060px; font-size: 26px; }}
+.og--mycelium .og-foot {{ font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; color: #FF6E57;
+  letter-spacing: 1px; font-size: 20px; }}
+
 /* black leather lagoon — THE SCREEN OUT IN THE WATER, WHICH IS THE ONE VIEW THE
    ROOM HAS. A bone rectangle standing on two legs, lit and blank; the title in
    the dripping face; the water along the foot with the posts standing in it.
@@ -2389,6 +2402,27 @@ def card_breezy(p):
     )
 
 
+def card_mycelium(p):
+    # NO AMBIENT MARKUP: nothing in the room moves and the lamps do not flicker.
+    return (
+        "",
+        f'<div class="og og--mycelium" data-fit="card">'
+        f'<div class="og-scene">{p["myc_scene"]}</div>'
+        f'<p class="myc-over">Arlesglad Caverns, level B2</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">A MUSHROOM FARM AND A RESTAURANT · EVERYTHING GROWN HERE · stimpunks.world</p>'
+        f'</div>',
+        f"A dark kitchen card. Across the top, shelves stand in the dark with "
+        f"mushrooms on them in their own colours, grey, pink, yellow, blue, white and "
+        f"tan, and in front of them three heat lamps hang low over a steel counter, "
+        f"each throwing a faint red cone onto a plate. Small grey capitals reading "
+        f"Arlesglad Caverns, level B2, then “{p['h1text']}” in a soft, fat, rounded "
+        f"serif in cream, and under it: {p['desc_plain']} Along the foot, in red: a "
+        f"mushroom farm and a restaurant, everything grown here, stimpunks.world.",
+    )
+
+
 def card_lagoon(p):
     # THE SCREEN IS BLANK, and that is a decision rather than a shortcut. What
     # is actually on it is a playlist we keep adding to, so a card showing a
@@ -3234,6 +3268,7 @@ CARDS = {
     "caverns":      card_caverns,
     "frosty":       card_frosty,
     "breezy":       card_breezy,
+    "mycelium":     card_mycelium,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
     "covenstead":   card_covenstead,
@@ -3488,6 +3523,11 @@ def main():
     if not breezy:
         raise SystemExit("REFUSING: stay-breezy.html has lost its hall, and its card is built out of it.")
     lifted["breezy_hall"] = breezy.group(1)
+    myc = re.search(r'<div class="myc-scene" aria-hidden="true">\s*(<svg.*?</svg>)',
+                    (ROOT / "mycelium-munchies.html").read_text(), re.S)
+    if not myc:
+        raise SystemExit("REFUSING: mycelium-munchies.html has lost its pass, and its card is built out of it.")
+    lifted["myc_scene"] = myc.group(1)
 
     # THE LAGOON'S CARD CARRIES THE ROOM'S OWN BILL LINE. Typed here it would be
     # one more place the room's tagline lives, in the file whose entire argument

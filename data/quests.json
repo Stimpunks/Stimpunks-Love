@@ -1604,6 +1604,40 @@
       "learned": "The street has three edges now and only two of them are at an end of it. The caverns are the one you reach by going down, which is also why the guild's class III names all three rather than growing a fourth class for the one that is underneath."
     },
     {
+      "id": "mycelium-block",
+      "page": "mycelium-munchies.html",
+      "room": "Mycelium Munchies",
+      "title": "The farm under the street",
+      "posted": "Two floors down in the caverns there is a mushroom farm with a restaurant at the end of it. Read why it is there, and find out what happens to the blocks the mushrooms grew on once they are finished.",
+      "rank": 3,
+      "takes": "five minutes, and there is nothing to press",
+      "target": "a spent growing block on the kitchen floor",
+      "code": "FRUITING",
+      "hints": [
+        "It is under the street. Take the lift down to the caverns and look for level B2.",
+        "The answer is in the section called Why a mushroom farm.",
+        "Right at the foot of the room, under the credit line."
+      ],
+      "ask": {
+        "question": "When a block of straw or sawdust has given all the mushrooms it is going to, what does it go out of the farm as?",
+        "accept": [
+          "compost",
+          "as compost",
+          "composting",
+          "compost heap",
+          "soil"
+        ],
+        "answer": "Compost",
+        "why": "Compost. The mushroom is only the fruit; the mycelium is the part that grew all the way through the block, and when it is spent the block goes back out as compost. Which is the line of ours the room is built on: composting is not destruction, it is how a commons renews itself.",
+        "hints": [
+          "It is in the paragraph after the quotation.",
+          "Our own line about it is quoted just above.",
+          "It goes back to the soil."
+        ]
+      },
+      "learned": "A mushroom is the fruit and not the thing that grows. The part doing the work is the mycelium, the part nobody sees on a plate, which is a fair description of most of the work on this street."
+    },
+    {
       "id": "frosty-thermometer",
       "page": "stay-frosty.html",
       "room": "Stay Frosty",

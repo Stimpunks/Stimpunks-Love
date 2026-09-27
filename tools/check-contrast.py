@@ -490,6 +490,14 @@ FRO_FROST, FRO_MIST = "#E3EBEE", "#A3B2B8"
 BZ_WALL, BZ_CARD, BZ_ON = "#F1ECDF", "#FBF8F1", "#DCE9E6"
 BZ_INK, BZ_INK2, BZ_BLADE, BZ_RIBBON = "#1E2B33", "#4A5860", "#1F5F63", "#A8321F"
 
+# Mycelium Munchies (§65). THREE GROUNDS: the kitchen in the dark, a steel card,
+# and the pass with the heat lamps' red on it, which is the lightest and so
+# decides. The mushrooms' own colours paint caps beside names, held as
+# graphics. MYC_SHELF IS ORNAMENT: 1.73 on the dark, the shelves in it.
+MYC_DARK, MYC_STEEL, MYC_PASS = "#141618", "#262A2D", "#3A2724"
+MYC_LAMP, MYC_CREAM, MYC_GREY = "#FF6E57", "#F2EBDF", "#AEB0AE"
+MYC_PINK, MYC_GOLD, MYC_BLUE, MYC_TAN = "#EFA3B6", "#EBC455", "#9DB3C6", "#C9A57E"
+
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
 # screen is the light source in this room, not a surface anything is set on --
@@ -2315,6 +2323,23 @@ PAIRS = [
     (BZ_BLADE, BZ_ON,    True,  "breezy: the blades and the running card's border"),
     (BZ_RIBBON, BZ_CARD, True,  "breezy: the ribbon on a cage, and the rule over Ryan's words"),
     (BZ_RIBBON, BZ_ON,   True,  "breezy: the ribbon lifted on a running fan"),
+
+    # ── Mycelium Munchies (§65) ──────────────────────────────────────────────
+    (MYC_CREAM, MYC_DARK,  False, "mycelium: the h1, the lede, every heading and word on the dark"),
+    (MYC_CREAM, MYC_STEEL, False, "mycelium: every dish on a steel card and every ledge"),
+    (MYC_CREAM, MYC_PASS,  False, "mycelium: the house specialities on the pass"),
+    (MYC_GREY,  MYC_DARK,  False, "mycelium: the over-line, the trail, each intro, where each crop grows"),
+    (MYC_GREY,  MYC_STEEL, False, "mycelium: how each dish is cooked, on a card, and who the quotation is from"),
+    (MYC_GREY,  MYC_PASS,  False, "mycelium: how each house speciality is cooked, on the pass"),
+    (MYC_LAMP,  MYC_DARK,  False, "mycelium: the backlink and every link on the dark"),
+    (MYC_LAMP,  MYC_STEEL, False, "mycelium: every link on a card or ledge"),
+    (MYC_LAMP,  MYC_PASS,  True,  "mycelium: the heat lamp's line along the top of each plate"),
+    (MYC_CREAM, MYC_DARK,  True,  "mycelium: the focus ring"),
+    (MYC_GREY,  MYC_DARK,  True,  "mycelium: a grey oyster's cap beside its name"),
+    (MYC_PINK,  MYC_DARK,  True,  "mycelium: a pink oyster's cap"),
+    (MYC_GOLD,  MYC_DARK,  True,  "mycelium: a golden oyster's cap"),
+    (MYC_BLUE,  MYC_DARK,  True,  "mycelium: a blue oyster's cap"),
+    (MYC_TAN,   MYC_DARK,  True,  "mycelium: a brown mushroom's cap"),
 ] + [
     pair for name, flav in DS_FLAVOURS.items() for pair in (
         (DS_INK,     flav, False, f"doom scoop: the {name} tub -- its day, its flavour, every headline, "
@@ -2868,6 +2893,7 @@ ORNAMENT = {
                "near object that is not a sign, and it carries no word; the plate above it "
                "carries its own ground.",
     "#6e6880": "sithen: the thorn trees and branches in the mound drawing, the rule under the half of each taboo that is ours, and the edge of every banked panel, 3.69 on the field and 3.30 on the bank. It is the one colour in that room that is supposed to be faint -- a thorn that measured 4.5 would be a painted line rather than a branch -- and it never carries a word. The room's own job marker is drawn in the moon rather than in this, because a marker is held to the body threshold and this would not clear it.",
+    "#3b4043": "mycelium: the growing shelves standing in the dark behind the pass and the rule between two crops, 1.73 on the dark. They carry no word and no control.",
     "#bfd0cc": "breezy: the lines of moving air under the hall's fans, 1.36 on the wall. Drawn air, carrying no word and no control.",
     "#f7d98c": "breezy: the lamp under every ceiling fan and the light it throws, 1.17 on the wall and 1.30 on a card. Every lamp is outlined in the ink, which carries it; the fill is the light.",
     "#6f7f86": "breezy: the cage wire over every fan's blades and the shadow under a card, 3.52 on the wall, 3.92 on a card and 3.33 on a running one. Wire, not an outline anybody needs: every fan's body is drawn in the ink.",

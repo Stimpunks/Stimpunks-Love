@@ -1622,5 +1622,33 @@
       "src": "https://fonts.gstatic.com/s/urbanist/v18/L0x-DF02iFML4hGCyMqlbS1miXK2.woff2",
       "note": "Stay Breezy (§64), every word that is read. A clear, even sans with open shapes, set on a pale wall under a room full of lamps. One variable file serves both weights."
     }
+  ],
+  "caprasimo": [
+    {
+      "file": "caprasimo-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 20772,
+      "src": "https://fonts.gstatic.com/s/caprasimo/v6/esDT31JQOPuXIUGBp72Ukp8DOJKuGA.woff2",
+      "note": "Mycelium Munchies (§65), the restaurant's name, its headings and the name of every dish and every mushroom, and nothing at reading size: a soft, fat serif with round ends, the shape of a mushroom cap. One weight."
+    }
+  ],
+  "schibsted-grotesk": [
+    {
+      "file": "schibsted-grotesk-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 46864,
+      "src": "https://fonts.gstatic.com/s/schibstedgrotesk/v7/Jqz55SSPQuCQF3t8uOwiUL-taUTtap9GayojdSFO.woff2",
+      "note": "Mycelium Munchies (§65), every word that is read: the menu, what is in every dish, and the growing rooms. A plain, sturdy grotesque, the face of a kitchen's printed ticket rather than its sign. One variable file serves both weights."
+    },
+    {
+      "file": "schibsted-grotesk-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 46864,
+      "src": "https://fonts.gstatic.com/s/schibstedgrotesk/v7/Jqz55SSPQuCQF3t8uOwiUL-taUTtap9GayojdSFO.woff2",
+      "note": "Mycelium Munchies (§65), every word that is read: the menu, what is in every dish, and the growing rooms. A plain, sturdy grotesque, the face of a kitchen's printed ticket rather than its sign. One variable file serves both weights."
+    }
   ]
 }

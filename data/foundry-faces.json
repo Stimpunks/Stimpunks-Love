@@ -506,6 +506,23 @@
     }
    ]
   },
+  "caprasimo": {
+   "family": "Caprasimo",
+   "category": "Display",
+   "designer": "The DocRepair Project, Phaedra Charles, Flavia Zimbardi",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/caprasimo",
+   "copyright": "Copyright 2023 The Caprasimo Project Authors (https://github.com/docrepair-fonts/caprasimo-fonts).",
+   "repository": "https://github.com/docrepair-fonts/caprasimo-fonts",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "caprasimo-400.woff2",
+     "sha": "8be0594f223844d3"
+    }
+   ]
+  },
   "cardo": {
    "family": "Cardo",
    "category": "Serif",
@@ -1905,6 +1922,29 @@
      "style": "normal",
      "file": "rye-400.woff2",
      "sha": "213b4683d65efe68"
+    }
+   ]
+  },
+  "schibsted-grotesk": {
+   "family": "Schibsted Grotesk",
+   "category": "Sans Serif",
+   "designer": "Bakken & Bæck, Henrik Kongsvoll",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/schibstedgrotesk",
+   "copyright": "Copyright 2023 The Schibsted-Grotesk Project Authors (https://github.com/schibsted/schibsted-grotesk)",
+   "repository": "https://github.com/schibsted/schibsted-grotesk",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "schibsted-grotesk-400.woff2",
+     "sha": "e3b56e90510a84ac"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "schibsted-grotesk-400.woff2",
+     "sha": "e3b56e90510a84ac"
     }
    ]
   },

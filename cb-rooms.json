@@ -312,6 +312,11 @@
    "path": "/arlesglad-caverns.html"
   },
   {
+   "tag": "mycelium-munchies",
+   "name": "Mycelium Munchies",
+   "path": "/mycelium-munchies.html"
+  },
+  {
    "tag": "stay-frosty",
    "name": "Stay Frosty",
    "path": "/stay-frosty.html"

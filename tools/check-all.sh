@@ -47,7 +47,7 @@ STEPS=(
   make-collection make-vital make-community make-dressup make-mural
   make-coworking make-live-room make-broadside make-doom-scoop make-library make-dance-punks
   make-small-hours make-repeater make-nothing-for-sale make-covenstead
-  make-lagoon make-looming make-sithen make-stay-frosty make-stay-breezy make-foundry
+  make-lagoon make-looming make-sithen make-stay-frosty make-stay-breezy make-mycelium make-foundry
   # Things that read the rooms, after the rooms.
   make-now-playing make-map make-signoff make-structured make-sitemap
   make-feed make-csp make-agent-files make-og make-icons make-security
