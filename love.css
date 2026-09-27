@@ -14571,6 +14571,24 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
 .myc-quote .myc-quote__from { margin-top: 8px; font-family: 'Schibsted Grotesk', var(--sans); font-size: 15px; color: var(--myc-grey); }
 .myc-credit { margin: 30px 0 0; font-size: 14.5px; color: var(--myc-grey); max-width: 64ch; }
 
+/* DEREK SARNO'S RACK. The whole playlist on one steel plate, and then his most
+   recent videos, each with its date and runtime above the press. The facades
+   wear the kitchen's steel; the pressed container is styled from .facade, never
+   from the button (Swaying Sweetgrass's 0x0 players). */
+.myc-watchplate { margin: 0 0 22px; padding: 16px; background: var(--myc-steel); border-radius: 12px; max-width: 640px; }
+.myc-watchplate__credit { margin: 10px 0 0; font-size: 14.5px; color: var(--myc-grey); }
+.myc-rack { list-style: none; margin: 0; padding: 0; display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.myc-vid { display: flex; flex-direction: column; gap: 6px; padding: 14px; background: var(--myc-steel); border-radius: 10px; }
+.myc-vid .myc-vid__title { font-family: 'Schibsted Grotesk', var(--sans); font-weight: 700; font-size: 16.5px; line-height: 1.35; }
+.myc-vid__when { margin: 0; font-size: 14px; color: var(--myc-grey); }
+.myc-vid .facade { margin-top: auto; }
+.mycelium .facade { border: 2px solid var(--myc-grey); background: var(--myc-dark); color: var(--myc-cream);
+  font-family: 'Schibsted Grotesk', var(--sans); font-weight: 700; border-radius: 8px; }
+.mycelium .facade:hover { border-color: var(--myc-lamp); }
+.mycelium .facade__play { font-family: 'Schibsted Grotesk', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .12em; color: var(--myc-lamp); }
+.mycelium .facade iframe { border-radius: 6px; }
+
 @media (max-width: 560px) {
   .myc-ledge { padding: 18px; }
   .myc-quote p { font-size: 19px; }

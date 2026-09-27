@@ -214,6 +214,9 @@ LISTS = [
     # or taken down within the day is ordinary -- so this is where a second
     # asking, later in the week, is most likely to find something.
     ("the doom scoop", "data/doom-scoop.json", "the-doom-scoop.html"),
+    # Mycelium Munchies: Derek Sarno's mushroom cooking videos, on his own
+    # channel, the most recent in his playlist when it was read.
+    ("mycelium munchies", "data/mycelium.json", "mycelium-munchies.html"),
 ]
 
 
@@ -246,6 +249,10 @@ def tracks_in(data):
                 for s_ in data["scoops"] if s_.get("state") in ("screen", "door")]
     if "tracks" in data:
         return data["tracks"]
+    # MYCELIUM MUNCHIES keeps Derek Sarno's rack beside its mushrooms and dishes,
+    # which are food rather than videos, under a key of its own.
+    if "videos" in data:
+        return [dict(v, artist=v.get("channel")) for v in data["videos"]]
     # THE LIVE ROOM IS TESTED BEFORE 'sessions', because its studios hold
     # sessions and The Den's file is keyed on 'sessions' at the top. A file with
     # 'studios' is the Live Room's; its sessions are one video each.

@@ -13,104 +13,337 @@
     "mirror": "posts/campfire-learn-together-the-mycelial-worldview-is-punk.md",
     "line": "Composting is not destruction. It is how a commons renews itself."
   },
+  "_watch": "DEREK SARNO'S MUSHROOM MASTERCLASS, Ryan's brief, 2026-09-26: the whole playlist on one press, and a rack of the most recent videos in it. The playlist is his, on his own channel; every video was read on 2026-09-26 with yt-dlp and found public, embeddable, not age-gated, on his channel, with its length and upload date as they are here. The rack is the ten most recent by UPLOAD DATE, not by playlist position: the playlist is not in date order, and its first thirty entries ran from 2018 to 2023. THE RACK DRIFTS BY DESIGN, like Laughingstock's bill: a new video in the playlist is on the whole-playlist press straight away and not in the rack until somebody reads the playlist again, which is why the room prints the date it was read. The playlist has no runtime, because a list somebody keeps adding to does not have one, and every video does; make-club.py's pair. HIS TITLES ARE QUOTED AS WRITTEN, capitals, emoji and all, the Doom Scoop's rule, and the room's sweeps skip them because they are his words. One title in the playlist says 'brain boosting'; it is from 2021 and not in the rack, and if it ever were, the room's own sentence that no dish is for your brain would be sitting beside it, which is the right way round.",
+  "watch": {
+    "who": "Derek Sarno",
+    "channel_id": "UCF4FF7ZzsDfcxFg3g68eY5A",
+    "playlist": {
+      "id": "PLs4BDq9QT73o27w2fwrk_qGYu-sOv7G5_",
+      "title": "Mushroom Masterclass - How to cook Mushrooms!",
+      "first": "oaARq5qw3jk"
+    },
+    "read": "2026-09-26"
+  },
+  "_grow": "NORTH SPORE, Ryan's brief: somewhere to learn to grow your own mushrooms for cooking. It is a shop, which is unusual for a link on this street, so the room says so: we are not affiliated with it, not paid by it, and the link carries no affiliate code or tracking. The tool refuses a query string on the address.",
+  "grow": {
+    "name": "North Spore",
+    "url": "https://northspore.com/",
+    "guide": {
+      "title": "How to Use a Mushroom Fruiting Block Kit",
+      "url": "https://northspore.com/blogs/the-black-trumpet/how-to-use-a-mushroom-fruiting-block-kit",
+      "read": "2026-09-26",
+      "why": "Ryan's pick, 2026-09-26: North Spore's guides are nicely done. This one is about growing at home from a fruiting block and says nothing about foraging; the shop's site has a foraging and identification section elsewhere, and the room links this guide rather than that, because the room itself is not a field guide."
+    }
+  },
   "mushrooms": [
-    {"id": "grey-oyster", "name": "Grey oyster mushroom", "colour": "grey",
-     "look": "Soft grey fans growing in overlapping clusters out of the side of their bags, like little shelves.",
-     "cooked": "Tender and a little chewy, and it tears into strips along its gills.",
-     "grown_on": "straw"},
-    {"id": "pink-oyster", "name": "Pink oyster mushroom", "colour": "pink",
-     "look": "Fans of a bright, almost unlikely pink, with frilled edges.",
-     "cooked": "Chewier than the grey, and it goes a pale tan when it cooks, which surprises everybody once.",
-     "grown_on": "straw"},
-    {"id": "golden-oyster", "name": "Golden oyster mushroom", "colour": "gold",
-     "look": "Small yellow caps in tight bunches, like a bouquet somebody handed you.",
-     "cooked": "Delicate and nutty, and it cooks in almost no time at all.",
-     "grown_on": "hardwood sawdust"},
-    {"id": "blue-oyster", "name": "Blue oyster mushroom", "colour": "blue",
-     "look": "Blue-grey caps when they are young, fading towards grey as they open out.",
-     "cooked": "Firm enough to press flat under a weight and brown hard.",
-     "grown_on": "straw"},
-    {"id": "king-oyster", "name": "King oyster mushroom", "colour": "cream",
-     "look": "A thick white stem as long as your hand with a small brown cap on top, so nearly all of it is stem.",
-     "cooked": "Dense and meaty, and it holds its shape when it is cut into planks.",
-     "grown_on": "sawdust, in bottles"},
-    {"id": "lions-mane", "name": "Lion's mane", "colour": "cream",
-     "look": "A round white cluster of soft hanging spines, like a pom-pom or a waterfall that stopped.",
-     "cooked": "Soft and stringy the way crab is, and it pulls apart into pieces.",
-     "grown_on": "blocks of hardwood sawdust"},
-    {"id": "shiitake", "name": "Shiitake", "colour": "tan",
-     "look": "Brown caps with pale flecks, on short tough stems that go into the broth rather than the pan.",
-     "cooked": "Rich and savoury, and deeper again once it has been dried.",
-     "grown_on": "blocks of hardwood sawdust, and logs"},
-    {"id": "maitake", "name": "Maitake", "colour": "tan",
-     "look": "A frilled grey-brown cluster of overlapping fronds, big enough to need both hands.",
-     "cooked": "Crisp at the edges and tender in the middle when it is roasted whole.",
-     "grown_on": "hardwood sawdust"},
-    {"id": "enoki", "name": "Enoki", "colour": "cream",
-     "look": "Long, thin white stems with tiny caps, packed tight in bundles.",
-     "cooked": "Soft and slippery in a broth, and crisp at the tips on a grill.",
-     "grown_on": "bottles, in the dark, which is why it comes out long, thin and white"},
-    {"id": "button", "name": "Button mushroom", "colour": "cream",
-     "look": "Small, smooth white caps, closed tight underneath.",
-     "cooked": "Mild, and it takes on whatever it is cooked with.",
-     "grown_on": "compost"},
-    {"id": "chestnut", "name": "Chestnut mushroom", "colour": "tan",
-     "look": "The same kind of mushroom as the button, in a brown skin, with a firmer bite.",
-     "cooked": "A little deeper in flavour than the white one.",
-     "grown_on": "compost"},
-    {"id": "portobello", "name": "Portobello", "colour": "tan",
-     "look": "The chestnut mushroom again, left to grow until its cap opens as flat and wide as a saucer.",
-     "cooked": "Deep, dark and juicy, and big enough to be a meal on its own.",
-     "grown_on": "compost"}
+    {
+      "id": "grey-oyster",
+      "name": "Grey oyster mushroom",
+      "colour": "grey",
+      "look": "Soft grey fans growing in overlapping clusters out of the side of their bags, like little shelves.",
+      "cooked": "Tender and a little chewy, and it tears into strips along its gills.",
+      "grown_on": "straw"
+    },
+    {
+      "id": "pink-oyster",
+      "name": "Pink oyster mushroom",
+      "colour": "pink",
+      "look": "Fans of a bright, almost unlikely pink, with frilled edges.",
+      "cooked": "Chewier than the grey, and it goes a pale tan when it cooks, which surprises everybody once.",
+      "grown_on": "straw"
+    },
+    {
+      "id": "golden-oyster",
+      "name": "Golden oyster mushroom",
+      "colour": "gold",
+      "look": "Small yellow caps in tight bunches, like a bouquet somebody handed you.",
+      "cooked": "Delicate and nutty, and it cooks in almost no time at all.",
+      "grown_on": "hardwood sawdust"
+    },
+    {
+      "id": "blue-oyster",
+      "name": "Blue oyster mushroom",
+      "colour": "blue",
+      "look": "Blue-grey caps when they are young, fading towards grey as they open out.",
+      "cooked": "Firm enough to press flat under a weight and brown hard.",
+      "grown_on": "straw"
+    },
+    {
+      "id": "king-oyster",
+      "name": "King oyster mushroom",
+      "colour": "cream",
+      "look": "A thick white stem as long as your hand with a small brown cap on top, so nearly all of it is stem.",
+      "cooked": "Dense and meaty, and it holds its shape when it is cut into planks.",
+      "grown_on": "sawdust, in bottles"
+    },
+    {
+      "id": "lions-mane",
+      "name": "Lion's mane",
+      "colour": "cream",
+      "look": "A round white cluster of soft hanging spines, like a pom-pom or a waterfall that stopped.",
+      "cooked": "Soft and stringy the way crab is, and it pulls apart into pieces.",
+      "grown_on": "blocks of hardwood sawdust"
+    },
+    {
+      "id": "shiitake",
+      "name": "Shiitake",
+      "colour": "tan",
+      "look": "Brown caps with pale flecks, on short tough stems that go into the broth rather than the pan.",
+      "cooked": "Rich and savoury, and deeper again once it has been dried.",
+      "grown_on": "blocks of hardwood sawdust, and logs"
+    },
+    {
+      "id": "maitake",
+      "name": "Maitake",
+      "colour": "tan",
+      "look": "A frilled grey-brown cluster of overlapping fronds, big enough to need both hands.",
+      "cooked": "Crisp at the edges and tender in the middle when it is roasted whole.",
+      "grown_on": "hardwood sawdust"
+    },
+    {
+      "id": "enoki",
+      "name": "Enoki",
+      "colour": "cream",
+      "look": "Long, thin white stems with tiny caps, packed tight in bundles.",
+      "cooked": "Soft and slippery in a broth, and crisp at the tips on a grill.",
+      "grown_on": "bottles, in the dark, which is why it comes out long, thin and white"
+    },
+    {
+      "id": "button",
+      "name": "Button mushroom",
+      "colour": "cream",
+      "look": "Small, smooth white caps, closed tight underneath.",
+      "cooked": "Mild, and it takes on whatever it is cooked with.",
+      "grown_on": "compost"
+    },
+    {
+      "id": "chestnut",
+      "name": "Chestnut mushroom",
+      "colour": "tan",
+      "look": "The same kind of mushroom as the button, in a brown skin, with a firmer bite.",
+      "cooked": "A little deeper in flavour than the white one.",
+      "grown_on": "compost"
+    },
+    {
+      "id": "portobello",
+      "name": "Portobello",
+      "colour": "tan",
+      "look": "The chestnut mushroom again, left to grow until its cap opens as flat and wide as a saucer.",
+      "cooked": "Deep, dark and juicy, and big enough to be a meal on its own.",
+      "grown_on": "compost"
+    }
   ],
   "dishes": [
-    {"id": "crispy-oysters", "name": "Crispy fried oyster mushrooms", "house": true, "way": "fried",
-     "mushrooms": ["grey-oyster", "pink-oyster", "golden-oyster"],
-     "what": "Oyster mushrooms torn into pieces along their own gills, coated and fried until the edges shatter.",
-     "in": "Grey, pink and golden oyster mushrooms; flour, cornflour, salt, pepper and smoked paprika; fried in sunflower oil; a lemon and garlic dip on the side, made with oil and no egg."},
-    {"id": "lions-mane-nuggets", "name": "Lion's mane nuggets", "house": true, "way": "fried",
-     "mushrooms": ["lions-mane"],
-     "what": "Lion's mane pulled into pieces the size of a bite, pressed, breaded and fried, soft all the way through.",
-     "in": "Lion's mane; flour, oat milk and breadcrumbs; salt, garlic powder and onion powder; fried in sunflower oil; a mustard and maple dip."},
-    {"id": "mushroom-steaks", "name": "Mushroom steaks", "house": true, "way": "seared",
-     "mushrooms": ["king-oyster", "portobello"],
-     "what": "A king oyster cut into thick planks and scored, or a whole portobello cap, seared hard in a heavy pan and finished with the pan's own juices. Your pick of the two.",
-     "in": "King oyster mushrooms or portobello caps; olive oil, garlic, thyme, soy sauce and black pepper; mashed potatoes and greens on the side."},
-    {"id": "shiitake-broth", "name": "Shiitake broth with noodles", "house": false, "way": "simmered",
-     "mushrooms": ["shiitake", "enoki"],
-     "what": "A dark, clear broth made from dried and fresh shiitake, with noodles, and a nest of enoki dropped in at the end.",
-     "in": "Shiitake, fresh and dried; enoki; wheat noodles; soy sauce, ginger, spring onion and sesame oil."},
-    {"id": "roast-maitake", "name": "Roast maitake", "house": false, "way": "roasted",
-     "mushrooms": ["maitake"],
-     "what": "A whole maitake cluster roasted until the frilled edges crisp and the middle stays tender, pulled apart at the table.",
-     "in": "Maitake; olive oil, salt and lemon; a spoonful of miso butter made with plant butter."},
-    {"id": "blue-oyster-tacos", "name": "Blue oyster tacos", "house": false, "way": "griddled",
-     "mushrooms": ["blue-oyster"],
-     "what": "Blue oyster mushrooms griddled flat under a weight until they brown, folded into warm tortillas.",
-     "in": "Blue oyster mushrooms; corn tortillas; cumin, chilli, lime and salt; shredded cabbage and coriander."},
-    {"id": "enoki-bundles", "name": "Grilled enoki bundles", "house": false, "way": "grilled",
-     "mushrooms": ["enoki"],
-     "what": "Bundles of enoki tied at the root end and grilled until the tips go crisp.",
-     "in": "Enoki; soy sauce, maple syrup and garlic; a sprinkle of sesame seeds."},
-    {"id": "mushrooms-on-toast", "name": "Mushrooms on toast", "house": false, "way": "fried slowly",
-     "mushrooms": ["button", "chestnut"],
-     "what": "Button and chestnut mushrooms cooked slowly in a wide pan until they give up their water and take colour, piled on toast.",
-     "in": "Button and chestnut mushrooms; plant butter, garlic and parsley; sourdough toast."},
-    {"id": "chestnut-soup", "name": "Chestnut mushroom soup", "house": false, "way": "simmered and blended",
-     "mushrooms": ["chestnut"],
-     "what": "A thick soup of chestnut mushrooms cooked down with onions and blended smooth.",
-     "in": "Chestnut mushrooms; onion, garlic, potato, vegetable stock, thyme and oat cream."},
-    {"id": "pink-oyster-crisps", "name": "Pink oyster crisps", "house": false, "way": "baked",
-     "mushrooms": ["pink-oyster"],
-     "what": "Pink oyster mushrooms pressed thin and baked slowly until they snap, which is when they stop being pink.",
-     "in": "Pink oyster mushrooms; olive oil, smoked salt and a little maple syrup."},
-    {"id": "golden-stir-fry", "name": "Golden oyster stir-fry", "house": false, "way": "stir-fried",
-     "mushrooms": ["golden-oyster"],
-     "what": "Golden oyster mushrooms tossed fast in a very hot pan with greens, over rice.",
-     "in": "Golden oyster mushrooms; pak choi, garlic, ginger and soy sauce; white rice."},
-    {"id": "skewers", "name": "Mushroom skewers", "house": false, "way": "grilled",
-     "mushrooms": ["king-oyster", "shiitake", "button"],
-     "what": "Chunks of king oyster, whole shiitake caps and button mushrooms on skewers, grilled and brushed as they go.",
-     "in": "King oyster, shiitake and button mushrooms; olive oil, garlic, smoked paprika, and a lemon to squeeze."}
+    {
+      "id": "crispy-oysters",
+      "name": "Crispy fried oyster mushrooms",
+      "house": true,
+      "way": "fried",
+      "mushrooms": [
+        "grey-oyster",
+        "pink-oyster",
+        "golden-oyster"
+      ],
+      "what": "Oyster mushrooms torn into pieces along their own gills, coated and fried until the edges shatter.",
+      "in": "Grey, pink and golden oyster mushrooms; flour, cornflour, salt, pepper and smoked paprika; fried in sunflower oil; a lemon and garlic dip on the side, made with oil and no egg."
+    },
+    {
+      "id": "lions-mane-nuggets",
+      "name": "Lion's mane nuggets",
+      "house": true,
+      "way": "fried",
+      "mushrooms": [
+        "lions-mane"
+      ],
+      "what": "Lion's mane pulled into pieces the size of a bite, pressed, breaded and fried, soft all the way through.",
+      "in": "Lion's mane; flour, oat milk and breadcrumbs; salt, garlic powder and onion powder; fried in sunflower oil; a mustard and maple dip."
+    },
+    {
+      "id": "mushroom-steaks",
+      "name": "Mushroom steaks",
+      "house": true,
+      "way": "seared",
+      "mushrooms": [
+        "king-oyster",
+        "portobello"
+      ],
+      "what": "A king oyster cut into thick planks and scored, or a whole portobello cap, seared hard in a heavy pan and finished with the pan's own juices. Your pick of the two.",
+      "in": "King oyster mushrooms or portobello caps; olive oil, garlic, thyme, soy sauce and black pepper; mashed potatoes and greens on the side."
+    },
+    {
+      "id": "shiitake-broth",
+      "name": "Shiitake broth with noodles",
+      "house": false,
+      "way": "simmered",
+      "mushrooms": [
+        "shiitake",
+        "enoki"
+      ],
+      "what": "A dark, clear broth made from dried and fresh shiitake, with noodles, and a nest of enoki dropped in at the end.",
+      "in": "Shiitake, fresh and dried; enoki; wheat noodles; soy sauce, ginger, spring onion and sesame oil."
+    },
+    {
+      "id": "roast-maitake",
+      "name": "Roast maitake",
+      "house": false,
+      "way": "roasted",
+      "mushrooms": [
+        "maitake"
+      ],
+      "what": "A whole maitake cluster roasted until the frilled edges crisp and the middle stays tender, pulled apart at the table.",
+      "in": "Maitake; olive oil, salt and lemon; a spoonful of miso butter made with plant butter."
+    },
+    {
+      "id": "blue-oyster-tacos",
+      "name": "Blue oyster tacos",
+      "house": false,
+      "way": "griddled",
+      "mushrooms": [
+        "blue-oyster"
+      ],
+      "what": "Blue oyster mushrooms griddled flat under a weight until they brown, folded into warm tortillas.",
+      "in": "Blue oyster mushrooms; corn tortillas; cumin, chilli, lime and salt; shredded cabbage and coriander."
+    },
+    {
+      "id": "enoki-bundles",
+      "name": "Grilled enoki bundles",
+      "house": false,
+      "way": "grilled",
+      "mushrooms": [
+        "enoki"
+      ],
+      "what": "Bundles of enoki tied at the root end and grilled until the tips go crisp.",
+      "in": "Enoki; soy sauce, maple syrup and garlic; a sprinkle of sesame seeds."
+    },
+    {
+      "id": "mushrooms-on-toast",
+      "name": "Mushrooms on toast",
+      "house": false,
+      "way": "fried slowly",
+      "mushrooms": [
+        "button",
+        "chestnut"
+      ],
+      "what": "Button and chestnut mushrooms cooked slowly in a wide pan until they give up their water and take colour, piled on toast.",
+      "in": "Button and chestnut mushrooms; plant butter, garlic and parsley; sourdough toast."
+    },
+    {
+      "id": "chestnut-soup",
+      "name": "Chestnut mushroom soup",
+      "house": false,
+      "way": "simmered and blended",
+      "mushrooms": [
+        "chestnut"
+      ],
+      "what": "A thick soup of chestnut mushrooms cooked down with onions and blended smooth.",
+      "in": "Chestnut mushrooms; onion, garlic, potato, vegetable stock, thyme and oat cream."
+    },
+    {
+      "id": "pink-oyster-crisps",
+      "name": "Pink oyster crisps",
+      "house": false,
+      "way": "baked",
+      "mushrooms": [
+        "pink-oyster"
+      ],
+      "what": "Pink oyster mushrooms pressed thin and baked slowly until they snap, which is when they stop being pink.",
+      "in": "Pink oyster mushrooms; olive oil, smoked salt and a little maple syrup."
+    },
+    {
+      "id": "golden-stir-fry",
+      "name": "Golden oyster stir-fry",
+      "house": false,
+      "way": "stir-fried",
+      "mushrooms": [
+        "golden-oyster"
+      ],
+      "what": "Golden oyster mushrooms tossed fast in a very hot pan with greens, over rice.",
+      "in": "Golden oyster mushrooms; pak choi, garlic, ginger and soy sauce; white rice."
+    },
+    {
+      "id": "skewers",
+      "name": "Mushroom skewers",
+      "house": false,
+      "way": "grilled",
+      "mushrooms": [
+        "king-oyster",
+        "shiitake",
+        "button"
+      ],
+      "what": "Chunks of king oyster, whole shiitake caps and button mushrooms on skewers, grilled and brushed as they go.",
+      "in": "King oyster, shiitake and button mushrooms; olive oil, garlic, smoked paprika, and a lemon to squeeze."
+    }
+  ],
+  "videos": [
+    {
+      "id": "hv5GFaBdOIk",
+      "title": "The Meal I Made at The Farm Sanctuary 🔥",
+      "channel": "Derek Sarno",
+      "runtime": "25:28",
+      "published": "2026-08-01"
+    },
+    {
+      "id": "3rQKnbZzlrA",
+      "title": "My Greatest Meal In A Van Down By The River",
+      "channel": "Derek Sarno",
+      "runtime": "21:55",
+      "published": "2026-05-20"
+    },
+    {
+      "id": "U3D9Cu_nQjo",
+      "title": "The Dish That Beats Everything I've Ever Made",
+      "channel": "Derek Sarno",
+      "runtime": "28:36",
+      "published": "2026-04-07"
+    },
+    {
+      "id": "DAKN0fCXwXY",
+      "title": "The Most Exciting Ingredient In The Kitchen Right Now",
+      "channel": "Derek Sarno",
+      "runtime": "33:20",
+      "published": "2026-03-16"
+    },
+    {
+      "id": "EMqiykqc02w",
+      "title": "This New England Classic Made Even Better",
+      "channel": "Derek Sarno",
+      "runtime": "20:17",
+      "published": "2025-12-08"
+    },
+    {
+      "id": "9Xv9yULYEXo",
+      "title": "The Special That Sold Out Every Time",
+      "channel": "Derek Sarno",
+      "runtime": "24:24",
+      "published": "2025-10-19"
+    },
+    {
+      "id": "e15QY84-S48",
+      "title": "Three Chef Techniques Worth Knowing | King Oyster Mushrooms",
+      "channel": "Derek Sarno",
+      "runtime": "37:27",
+      "published": "2025-09-20"
+    },
+    {
+      "id": "C9UgnDSx5So",
+      "title": "Big Bad Breakfast Filthy Fast vs From Scratch",
+      "channel": "Derek Sarno",
+      "runtime": "34:36",
+      "published": "2025-08-21"
+    },
+    {
+      "id": "7I2rmoVoMJ8",
+      "title": "Best Camp Cook So Far",
+      "channel": "Derek Sarno",
+      "runtime": "24:56",
+      "published": "2025-05-21"
+    },
+    {
+      "id": "A0cAhT_D-2o",
+      "title": "Saying 'I Love You' With Green Enchiladas",
+      "channel": "Derek Sarno",
+      "runtime": "32:23",
+      "published": "2025-05-08"
+    }
   ]
 }

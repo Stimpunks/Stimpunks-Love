@@ -2950,6 +2950,21 @@ lamps' red is kept RED because Glow Go Gee Gaws, the level above, is down for or
   · **everything on a plate was grown here and every crop reaches a plate**; the three house
     specialities are exactly the brief's; **every dish says what is in it**, the runtime rule for a
     kitchen; nothing is served raw.
+  · **Derek Sarno's rack is make-club.py's pair and the Doom Scoop's quoting rule**, Ryan's brief,
+    2026-09-26: his whole *Mushroom Masterclass* playlist on one press with no runtime, and the most
+    recent videos in it, each with one, **chosen by UPLOAD DATE and not playlist position**, because
+    the playlist is not in date order (its first thirty entries ran 2018 to 2023). The rack drifts by
+    design and prints the date it was read; re-read with `yt-dlp --flat-playlist -J` and each id's
+    `upload_date`, `playable_in_embed`, `age_limit` and `channel_id`. **His titles are quoted as
+    written and the sweeps skip them**; one title in the playlist says "brain boosting" and is from
+    2021, not in the rack. **North Spore is the one shop linked from the room**, plain, no query
+    string, and its guide is a growing guide specifically: their site has a foraging section, and
+    the room links around it.
+  · **the rack shipped without `love-embed.js` on the page**, so every button pressed and did
+    nothing, and no checker saw it: the markup was perfect. `make-now-playing.py`, which already
+    reads every page for things to press, now refuses a real facade tag on a page that does not
+    load the script. Its first run matched `&lt;div class="facade"&gt;` in the changelog's prose
+    and was narrowed to real tags.
   · **the one quotation is ours**, from *The Mycelial Worldview Is Punk*, checked against the
     mirror word for word when the mirror is present. Its first run refused "scored", the cooking
     verb, and the pattern was narrowed rather than the word excepted.

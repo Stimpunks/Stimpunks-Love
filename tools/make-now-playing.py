@@ -151,6 +151,8 @@ def where(page, behind):
         return "in the campgrounds, past the treeline"
     if links_to("the-outskirts.html", page):
         return "down the road out of town, past the last streetlight"
+    if links_to("arlesglad-caverns.html", page):
+        return "under the street in Arlesglad Caverns, down the lift by the stoop"
     idx = (ROOT / "index.html").read_text()
     if re.search(r'<a class="noticeboard" href="%s"' % re.escape(page), idx):
         return "on the pavement, right beside this column"
@@ -213,8 +215,19 @@ found = set()
 for p in sorted(ROOT.glob("*.html")):
     if p.name == HERE:
         continue
-    if PLAYABLE.search(p.read_text()):
+    text = p.read_text()
+    if PLAYABLE.search(text):
         found.add(p.name)
+    # A FACADE ON A PAGE THAT DOES NOT LOAD love-embed.js IS A BUTTON THAT NEVER
+    # BECOMES A VIDEO, and nothing else on this street would say so: the markup
+    # is perfect, the button presses, and nothing happens. Mycelium Munchies
+    # shipped its rack that way for as long as it took to press one. This tool
+    # already reads every page for things to press, so it is where the check is.
+    # A real tag and not prose about one: the changelog writes
+    # &lt;div class="facade"&gt; in a sentence, and its first run matched that.
+    if re.search(r'<(?:button|div)\b[^>]*\bclass="facade[" ]', text) and 'src="love-embed.js"' not in text:
+        problems.append(f"{p.name} has a press-to-play facade and does not load love-embed.js, so pressing "
+                        "it does nothing. Add <script src=\"love-embed.js\" defer></script>.")
 
 for name in sorted(found - set(venues) - set(left_off)):
     problems.append(f"{name} has something in it to press and play and is not on the bill. Put it on "
@@ -279,7 +292,7 @@ for page in order:
     w = where(page, behind)
     if not w:
         problems.append(f"{at}: could not tell where the room is. Nothing links to it from the street, "
-                        "the campgrounds, the Outskirts or a room it is behind.")
+                        "the campgrounds, the Outskirts, the caverns or a room it is behind.")
     lines.append((page, v, first, then, w))
 
 # The page's own words, everything but the bill (whose titles are other people's).

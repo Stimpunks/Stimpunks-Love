@@ -30,6 +30,12 @@ WHAT IT REFUSES:
   · THE WOOD WIDE WEB stated as fact. Argued about among the people who study it;
     a menu is not where it gets settled.
   · The Vital kitchen's refusals too: authentic, exotic, healthy, and a ranking.
+  · DEREK SARNO'S RACK, make-club.py's pair and the Doom Scoop's quoting rule:
+    every video carries a runtime and the playlist carries none; every video is
+    on his own channel and in the rack newest first by upload date; his titles
+    are quoted as written and the sweeps skip them, because they are his words.
+    And North Spore, the one shop linked from the room, carries no query string,
+    so no affiliate code or tracking can ride on it.
   · A QUOTATION OF OURS THAT OUR PAGE DOES NOT SAY. Where the Knowledge System
     mirror is on this machine the line is checked against it word for word; where
     it is not, the tool says so and carries on, make-coworking.py's rule.
@@ -134,6 +140,50 @@ for mid in mids:
     if mid not in used:
         problems.append(f"the growing rooms grow {mid!r} and no dish serves it.")
 
+# ── Derek Sarno's rack ───────────────────────────────────────────────────────
+VID = re.compile(r"^[A-Za-z0-9_-]{11}$")
+RUNTIME = re.compile(r"^(?:\d+:)?[0-5]?\d:[0-5]\d$")
+watch, videos, grow = data["watch"], data["videos"], data["grow"]
+pl = watch["playlist"]
+if "runtime" in pl:
+    problems.append("the playlist carries a runtime. A list somebody keeps adding to does not have one.")
+if not re.fullmatch(r"PL[A-Za-z0-9_-]{16,40}", pl.get("id", "")):
+    problems.append(f"the playlist id {pl.get('id')!r} is not a YouTube playlist id.")
+if not VID.match(pl.get("first", "")):
+    problems.append("the playlist has no first entry recorded, which is the one that decides whether it embeds.")
+if not videos:
+    problems.append("the rack is empty.")
+seen_v = set()
+for i, v in enumerate(videos):
+    where = f"video {v.get('id')!r}"
+    if not VID.match(v.get("id", "")):
+        problems.append(f"{where} is not a YouTube id. love-embed.js would refuse it quietly, and the button "
+                        "would never become a video.")
+    if v.get("id") in seen_v:
+        problems.append(f"{where} is in the rack twice.")
+    seen_v.add(v.get("id"))
+    if not RUNTIME.match(str(v.get("runtime", ""))):
+        problems.append(f"{where} has no runtime. Every video says how long it runs before the press.")
+    if v.get("channel") != watch["who"]:
+        problems.append(f"{where} is on {v.get('channel')!r}, not {watch['who']}'s own channel.")
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", v.get("published", "")):
+        problems.append(f"{where} has no upload date, and the rack is ordered by it.")
+    if i and v.get("published", "") > videos[i - 1].get("published", ""):
+        problems.append(f"{where} is newer than the video before it. The rack is newest first by upload date.")
+    if not v.get("title"):
+        problems.append(f"{where} has no title.")
+if "?" in grow.get("url", "") or "#" in grow.get("url", ""):
+    problems.append(f"{grow.get('name')}'s address carries a query or fragment. The one shop linked from this "
+                    "room goes plain, with no affiliate code and no tracking.")
+if not grow.get("url", "").startswith("https://"):
+    problems.append(f"{grow.get('name')}'s address is not https.")
+guide = grow.get("guide", {})
+if guide:
+    if "?" in guide.get("url", "") or "#" in guide.get("url", "") or not guide.get("url", "").startswith(grow.get("url", "")):
+        problems.append(f"{grow.get('name')}'s guide address is not a plain address on their own site.")
+    if guide.get("url") and guide["url"] not in ROOM.read_text():
+        problems.append(f"the room does not link {grow.get('name')}'s guide, which the data file says it does.")
+
 mirror_note = "the mirror is not on this machine, so the quotation was not re-checked"
 src_post = MIRROR / why["mirror"]
 if src_post.exists():
@@ -181,7 +231,42 @@ def room(m):
     ])
 
 
+MONTHS = ("January February March April May June July August September October November December").split()
+
+
+def day(iso):
+    y, m, d_ = iso.split("-")
+    return f"{int(d_)} {MONTHS[int(m) - 1]} {y}"
+
+
+att = lambda s: html.escape(s, quote=True)
+who = esc(watch["who"])
+rack = [f'  <div class="myc-watchplate">',
+        f'    <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/videoseries?list={pl["id"]}" '
+        f'data-embed-title="{att(watch["who"])} &mdash; {att(pl["title"])}">',
+        f'      Put the whole masterclass on &mdash; runs until you stop it',
+        f'      <span class="facade__play">&#9654; PRESS PLAY</span>',
+        f'    </button>',
+        f'    <p class="myc-watchplate__credit"><a href="https://www.youtube.com/playlist?list={pl["id"]}">{esc(pl["title"])}</a>, '
+        f'on YouTube, from {who}&rsquo;s own channel. No runtime on this one: it is his list, and he keeps adding to it.</p>',
+        f'  </div>',
+        f'  <p class="myc-intro">Or pick one: the most recent in the playlist, newest first, as it stood when we read it on '
+        f'{day(watch["read"])}. Every video says how long it runs before you press it, and each title is his, as he wrote it.</p>',
+        '  <ul class="myc-rack">']
+for v in videos:
+    rack += [f'    <li class="myc-vid">',
+             f'      <h3 class="myc-vid__title">{esc(v["title"])}</h3>',
+             f'      <p class="myc-vid__when">{day(v["published"])} &middot; {v["runtime"]}</p>',
+             f'      <button type="button" class="facade" data-embed-id="{v["id"]}" '
+             f'data-embed-title="{att(watch["who"])} &mdash; {att(v["title"])}">',
+             f'        Play &mdash; {v["runtime"]}',
+             f'        <span class="facade__play">&#9654; PRESS PLAY</span>',
+             f'      </button>',
+             f'    </li>']
+rack.append("  </ul>")
+
 BLOCKS = {
+    "watch": "\n".join(rack),
     "pass": "\n".join(['  <ul class="myc-pass">', *[dish(d, "myc-plate") for d in dishes if d.get("house")], "  </ul>"]),
     "menu": "\n".join(['  <ul class="myc-menu">', *[dish(d, "myc-dish") for d in dishes if not d.get("house")], "  </ul>"]),
     "rooms": "\n".join(['  <ul class="myc-rooms">', *[room(m) for m in mushrooms], "  </ul>"]),
@@ -207,13 +292,29 @@ main = re.search(r"<main\b.*?</main>", out, re.S)
 text = main.group(0) if main else ""
 text = re.sub(r"<!-- quest:[^:]+:begin -->.*?<!-- quest:[^:]+:end -->", " ", text, flags=re.S)
 text = re.sub(r"<blockquote\b.*?</blockquote>", " ", text, flags=re.S)
+# DEREK SARNO'S TITLES ARE HIS, quoted as written, so the rack is cut out before
+# the room's own words are swept; the sentences of ours around it are not.
+text = re.sub(r"<!-- mycelium:watch:begin -->.*?<!-- mycelium:watch:end -->", " ", text, flags=re.S)
 text = re.sub(r"<!--.*?-->|<(svg|script|style)\b.*?</\1>", " ", text, flags=re.S)
 text = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", text)))
 sweep(text, "mycelium-munchies.html")
+
+NOTES = ROOT / "liner-notes.html"
+notes = NOTES.read_text()
+if "<!-- mycelium-credits:begin -->" not in notes:
+    problems.append("liner-notes.html has lost its mycelium-credits markers, so Derek Sarno's rack would go uncredited.")
+credit_rows = "\n".join(
+    f'      <tr><td><strong>{esc(v["title"])}</strong></td><td>{day(v["published"])}</td>'
+    f'<td>{v["runtime"]}</td><td><a href="https://www.youtube.com/watch?v={v["id"]}">watch</a></td></tr>'
+    for v in videos)
+notes_out = re.sub(r"(<!-- mycelium-credits:begin -->).*?(<!-- mycelium-credits:end -->)",
+                   lambda m: m.group(1) + "\n" + credit_rows + "\n" + m.group(2), notes, flags=re.S)
 
 if problems:
     raise SystemExit("REFUSING:\n  " + "\n  ".join(problems))
 if out != src:
     ROOM.write_text(out)
+if notes_out != notes:
+    NOTES.write_text(notes_out)
 print(f"mycelium munchies: the pass, the menu and the growing rooms written from data/mycelium.json; "
       f"everything on a plate grown here, nothing raw, nothing named in Latin; {mirror_note}")
