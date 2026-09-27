@@ -315,7 +315,22 @@
       ]
     },
     "faery-yurt.html": {
-      "off": "Helen Edgar's room. The window would put a picture in her colours into it, which changes how her room reads, and that is hers to decide. Off until she says yes."
+      "kind": "orbit",
+      "trap": "ring",
+      "radius": 0.9,
+      "c": [
+        -0.74543,
+        0.11301
+      ],
+      "orbit": 0.015,
+      "ground": "--hearth",
+      "inks": [
+        "--timber",
+        "--tallow-3",
+        "--ember-2",
+        "--candle",
+        "--tallow"
+      ]
     },
     "foundry.html": {
       "kind": "newton",

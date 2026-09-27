@@ -9,10 +9,17 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sun, 27 Sep 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>The fractal window is on in the Faery Yurt</title>
+      <link>https://stimpunks.world/changelog.html#2026-09-27-fractal-window-yurt</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-27-fractal-window-yurt</guid>
+      <pubDate>Sun, 27 Sep 2026 12:00:00 GMT</pubDate>
+      <description>Helen Edgar said yes, so the Faery Yurt has the fractal window now. Its switch is in the sign-off like every other room’s. It draws a lantern of tracery in her own colours, from the hearth’s dark through timber and tallow to candle, and it never flashes. It is the fourth thing this site has added to her room, after the one colour, the candle stub and the pebble bowl, and the second she asked for. The liner notes say so too. Stay Frosty is still the one room without the window, because its own page promises there is nothing to press.</description>
+    </item>
+    <item>
       <title>A fractal window in (almost) every room</title>
       <link>https://stimpunks.world/changelog.html#2026-09-27-fractal-window</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-27-fractal-window</guid>
-      <pubDate>Sun, 27 Sep 2026 12:00:00 GMT</pubDate>
+      <pubDate>Sun, 27 Sep 2026 11:59:00 GMT</pubDate>
       <description>Every page’s sign-off has a new switch: Switch on the fractal window. It opens a small window of its own in the corner of the screen with a slow fractal in it, drawn in your browser in that room’s own colours. No two rooms draw the same picture: Julia sets, the edge of the Mandelbrot set, Newton fractals, a fern, a dragon curve, a crystal. The window has its own speed control (Slow, Steady, Quick), moves between corners, goes full screen, and closes when you switch it off or leave the room. It is not synced to the music, and it says so before you press. Almost everything that plays here plays inside another site’s frame, and a page is not allowed to listen to another site’s frame. The one plain audio player streams from a host that does not let other sites read the sound. So the window is a picture that runs beside the music. It follows the Arcade, not the dial. It runs at every setting because the motion is the thing you switched on, and the dial is not wired to it. At Gentle it starts at Slow. It never flashes, and that is enforced in its code. Every frame, no pixel is allowed to change brightness, or redness, faster than a fixed rate. That keeps every spot well under the three flashes a second that the accessibility rule for seizures (WCAG 2.3.1) allows. Played without that limit, most rooms’ pictures would flash at Quick. A test counts flashes in what every room’s window actually paints, using its own arithmetic, before anything is published. Nothing is fetched until you press. The window’s script and stylesheet download on the first press and not before. It stores nothing and sends nothing. Two rooms do not have it yet, on purpose. Stay Frosty promises on its own page that there is nothing to press in it and nothing moves, so a switch there would make that false. And the Faery Yurt is Helen Edgar’s room: a picture in her colours changes how her room reads, which is hers to decide.</description>
     </item>
     <item>

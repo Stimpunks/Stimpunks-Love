@@ -2520,7 +2520,8 @@ given rather than traded, which is the pebbling cabinet's line. The board store 
 chalkboard now (`readNotes`, `updateNotes`, `sweepNotes`), and **`netlify/cb/lib.test.mjs` is the
 fifteen-at-once test, committed at last**, run first by `tools/check-all.sh`; it was broken on
 purpose and caught a lost write in all four cases. In the Faery Yurt the bowl is the third thing this
-repository has put into Helen's room, and the first she asked for.
+repository has put into Helen's room, and the first she asked for. The fractal window's switch is the fourth,
+and the second she asked for.
 
 **THE FRACTAL WINDOW IS IN EVERY ROOM'S SIGN-OFF, AND IT CANNOT HEAR THE MUSIC.** Ryan, 2026-09-27:
 a visualizer to switch on in rooms that play music, then in every room, following the Arcade: it runs
@@ -2546,10 +2547,11 @@ Permissions-Policy denies both, and the Repeater refuses the microphone).
   · **nothing is fetched until the press**: love.js unhides the switch and injects `fractal.js` on the
     first click. It stores nothing. The canvas is `aria-hidden` and the window describes its own
     picture in words built from the recipe.
-  · **two rooms are `off`, each with its reason in the data.** Stay Frosty says on its page that there
-    is nothing to press and nothing moves. The Faery Yurt is Helen's: a picture in her colours changes
-    how her room reads, so it waits for her yes, the rule above about her room. Either is one line to
-    flip, and the flip goes in the changelog.
+  · **Stay Frosty is `off`, with its reason in the data**: it says on its page that there is nothing
+    to press and nothing moves. Flipping it is one line, and the flip goes in the changelog.
+  · **the Faery Yurt has it because Helen said yes** (relayed by Ryan, 2026-09-27). It shipped `off`
+    waiting for her, under the rule about her room; its recipe is drawn only in her declared colours.
+    If she changes her mind, it goes back to `off` with her reason.
 
 **THE COMMUNITY CENTER IS LIT BY SUN THROUGH A VENETIAN BLIND, AND IT IS THE ONLY COOL PALE GROUND.**
 §51: painted powder-blue block at ten in the morning, the light chopped into hard diagonal bars,
