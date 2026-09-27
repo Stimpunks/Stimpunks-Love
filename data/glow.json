@@ -1,0 +1,29 @@
+{
+  "_what": "Glow Go Gee Gaws, level B3 of Arlesglad Caverns: glow-in-the-dark toys and trinkets. Ryan's brief, 2026-09-26, and his call the same day: ALL THE GLOW COLOURS, blue included, and other rooms do not limit what this room does. Every toy is an entry here, and tools/make-glow.py writes the shelves out of this file.",
+  "_every_colour": "RYAN'S CALL, 2026-09-26, REVERSING TWO OF CLAUDE'S PICKS. The brief first had this room glow orange only, chosen to stay off Looming Rocks' cyan-green and the Lagoon's yellow-green, and it ruled out blue because a glowing blue in a neurodiversity room read as Light It Up Blue. Ryan's words: 'Let's use all the glow colors. Light It Up Blue shouldn't take blue away from us, and other rooms shouldn't limit what this room does.' So every colour glow pigment comes in is on these shelves. The Lightbulb Picture House keeps its own no-blue rule, because that rule is that room's own argument; this is not that room.",
+  "_stored_light": "WHAT MAKES THE ROOM ITS OWN IS THE KIND OF LIGHT, NOT ITS COLOURS. A glow-in-the-dark toy stores the light you give it and gives it back afterwards, slowly, until it has none left. Nothing else on the street has a light that runs down after you press: Looming Rocks' lichen fluoresces only while the lamp is on it, the Dance, Punks headsets glow because they are switched on, Stay Frosty shines with reflections. So every toy here starts dark, is charged by holding it up to the rail, and fades. The glow stick is the one exception and says so: it is chemistry rather than stored light, you bend it once, and it glows until you leave.",
+  "_how_long": "DOWN HERE A GLOW LASTS SECONDS, NOT HOURS, so that anybody can watch one go. `fade` is how many seconds each toy takes. The ORDER at the two ends is real and was checked on 2026-09-26: green glow pigment is the brightest and longest-lasting there is, and red and orange are the dimmest and go first, partly because the pigments are weaker and partly because the eye is least sensitive to red in the dark. The order of the colours in between is ours, not measured, and the room says so. make-glow.py refuses a green that is not the longest, and a red or orange that is not among the shortest.",
+  "_nothing_for_sale": "Nothing on these shelves is for sale, the brief's own word 'trinkets' notwithstanding: you play with them on the page. The tool refuses prices and the vocabulary of buying.",
+  "toys": [
+    {"id": "stars", "name": "Ceiling stars", "colour": "green", "kind": "stored", "fade": 40,
+     "what": "A handful of stars for a ceiling, the kind you stick up over a bed and look at from the pillow."},
+    {"id": "ball", "name": "Bouncy ball", "colour": "aqua", "kind": "stored", "fade": 32,
+     "what": "A small, heavy rubber ball that bounces higher than you meant it to."},
+    {"id": "dino", "name": "Dinosaur skeleton", "colour": "blue", "kind": "stored", "fade": 28,
+     "what": "A skeleton in pieces that press together, bone by bone, into something that was never quite this shape."},
+    {"id": "moon", "name": "Moon and planets", "colour": "white", "kind": "stored", "fade": 24,
+     "what": "A moon and a string of small planets to hang from a thread, turning slowly when anybody walks past."},
+    {"id": "bat", "name": "Rubber bat", "colour": "violet", "kind": "stored", "fade": 20,
+     "what": "A soft bat with its wings folded, the right size to sit on the edge of a shelf and watch."},
+    {"id": "putty", "name": "Glow putty", "colour": "yellow", "kind": "stored", "fade": 16,
+     "what": "A tin of putty to stretch, fold, press flat and roll up again, for as long as your hands want."},
+    {"id": "beads", "name": "Bracelet beads", "colour": "pink", "kind": "stored", "fade": 12,
+     "what": "A string of round beads, loose enough to turn one at a time with your thumb."},
+    {"id": "dice", "name": "A pair of dice", "colour": "orange", "kind": "stored", "fade": 9,
+     "what": "Two dice with the spots in glow, so you can read the roll with the lights off."},
+    {"id": "key", "name": "Keyring", "colour": "red", "kind": "stored", "fade": 6,
+     "what": "A little tag for a set of keys, so they can be found in the dark at the bottom of a bag."},
+    {"id": "stick", "name": "Glow stick", "colour": "green", "kind": "chemical",
+     "what": "A thin plastic tube with a glass capsule inside. Bend it until the capsule cracks, and the two liquids mix and light up."}
+  ]
+}

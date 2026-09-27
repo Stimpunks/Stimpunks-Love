@@ -123,6 +123,8 @@ small-hours.html      Turning 05. An all-night diner seen from the car park; Jos
 repeater.html         Turning 06. A radio mast on the ridge; shared-signal space and a line left open
 nothing-for-sale.html Turning 07. A free market in a ring of headlights. Solidarity, not charity
 arlesglad-caverns.html  Under the street, by lift or stair. A cavern lit only by its handrail
+glow-go-gee-gaws.html  Level B3. Glow toys in every colour; charged at the rail, they fade
+glow.js               The glow toys' charge and fade; silent, keeps nothing
 big-steep-fermentables.html  Level B1. A brewery and cellar; alcohol-free first, every strength before the pour
 mycelium-munchies.html  Level B2. A mushroom farm and restaurant; everything grown here
 stay-frosty.html      Level B5, the bottom. 68F all year; nothing to press, nothing moves

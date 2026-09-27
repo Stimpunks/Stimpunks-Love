@@ -639,6 +639,18 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--bigsteep .og-foot {{ font-family: 'Red Hat Text', sans-serif; font-weight: 700; color: #E9D27F;
   letter-spacing: 1px; font-size: 20px; }}
 
+/* glow go gee gaws — THE SHOP WITH THE LIGHTS OFF, LIFTED OFF THE ROOM. The
+   shelves with the toys just charged in every colour glow comes in, and the
+   name in its moulded face. Nothing on the card glows more than once. */
+.og--glowgo {{ width: 100%; padding: 30px 60px 44px; gap: 16px; justify-content: space-between; }}
+.og--glowgo .og-scene {{ margin: -30px -60px 0 !important; line-height: 0; }}
+.og--glowgo .og-scene svg {{ display: block; width: 1200px; height: 320px; }}
+.og--glowgo .gg-over {{ margin: 0 !important; font-size: 19px; }}
+.og--glowgo h1 {{ font-size: 104px; margin: 0 !important; }}
+.og--glowgo .og-lede {{ color: #ECE9F2; max-width: 1060px; font-size: 26px; }}
+.og--glowgo .og-foot {{ font-family: 'Poppins', sans-serif; font-weight: 600; color: #9CF08C;
+  letter-spacing: 1px; font-size: 20px; }}
+
 /* black leather lagoon — THE SCREEN OUT IN THE WATER, WHICH IS THE ONE VIEW THE
    ROOM HAS. A bone rectangle standing on two legs, lit and blank; the title in
    the dripping face; the water along the foot with the posts standing in it.
@@ -2457,6 +2469,28 @@ def card_bigsteep(p):
     )
 
 
+def card_glowgo(p):
+    # NO AMBIENT MARKUP: a card cannot be charged, so nothing on it fades.
+    return (
+        "",
+        f'<div class="og og--glowgo" data-fit="card">'
+        f'<div class="og-scene">{p["gg_scene"]}</div>'
+        f'<p class="gg-over">Arlesglad Caverns, level B3</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">EVERY COLOUR GLOW COMES IN · NOTHING FOR SALE · stimpunks.world</p>'
+        f'</div>',
+        f"A near-black card. Across the top, two dark shelves with glow-in-the-dark "
+        f"toys on them just charged, each glowing a different colour: a green star, an "
+        f"aqua ball, a blue dinosaur, a white moon, a violet bat, yellow putty, pink "
+        f"beads, orange dice, a red keyring and a green glow stick, with two toys still "
+        f"dark. Small grey capitals reading Arlesglad Caverns, level B3, then "
+        f"“{p['h1text']}” in a round, fat, moulded face in pale lilac-white, and under "
+        f"it: {p['desc_plain']} Along the foot, in green: every colour glow comes in, "
+        f"nothing for sale, stimpunks.world.",
+    )
+
+
 def card_lagoon(p):
     # THE SCREEN IS BLANK, and that is a decision rather than a shortcut. What
     # is actually on it is a playlist we keep adding to, so a card showing a
@@ -3304,6 +3338,7 @@ CARDS = {
     "breezy":       card_breezy,
     "mycelium":     card_mycelium,
     "bigsteep":     card_bigsteep,
+    "glowgo":       card_glowgo,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
     "covenstead":   card_covenstead,
@@ -3568,6 +3603,11 @@ def main():
     if not bs:
         raise SystemExit("REFUSING: big-steep-fermentables.html has lost its racks, and its card is built out of them.")
     lifted["bs_scene"] = bs.group(1)
+    gg = re.search(r'<div class="gg-shop" aria-hidden="true">\s*(<svg.*?</svg>)',
+                   (ROOT / "glow-go-gee-gaws.html").read_text(), re.S)
+    if not gg:
+        raise SystemExit("REFUSING: glow-go-gee-gaws.html has lost its shelves, and its card is built out of them.")
+    lifted["gg_scene"] = gg.group(1)
 
     # THE LAGOON'S CARD CARRIES THE ROOM'S OWN BILL LINE. Typed here it would be
     # one more place the room's tagline lives, in the file whose entire argument

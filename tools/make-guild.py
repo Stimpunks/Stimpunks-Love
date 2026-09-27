@@ -356,6 +356,10 @@ DRAW = {
     # the straw of a pale drink with the light through it, 11.24 on the rock.
     # The floor line is --bs-rack and carries nothing.
     "bigsteep-carboy": """<path d="M3 29 H29" stroke="var(--bs-rack)" stroke-width="1.8" stroke-linecap="round"/><path d="M13 5 H19 V9 Q27 12 27 20 V25 Q27 28 24 28 H8 Q5 28 5 25 V20 Q5 12 13 9 Z" fill="none" stroke="var(--bs-straw)" stroke-width="2.2" stroke-linejoin="round"/><path d="M16 5 V1 M14 2 H18" stroke="var(--bs-straw)" stroke-width="1.6" stroke-linecap="round"/><path d="M7 21 H25" stroke="var(--bs-straw)" stroke-width="1.2" opacity=".6"/>""",
+    # A glow-in-the-dark star fallen off a ceiling onto the shop floor, drawn in
+    # the green that lasts longest, 15.18 on the shop's dark. The floor line is
+    # --gg-shelf-line and carries nothing.
+    "glow-star": """<path d="M3 29 H29" stroke="var(--gg-shelf-line)" stroke-width="1.8" stroke-linecap="round"/><path d="M16 4 L19.1 11.7 L27.4 12.3 L21 17.7 L23 25.8 L16 21.4 L9 25.8 L11 17.7 L4.6 12.3 L12.9 11.7 Z" fill="none" stroke="var(--gg-green)" stroke-width="2.2" stroke-linejoin="round"/>""",
     "lagoon-speaker": """<path d="M11 7 q0 -4 5 -4 q5 0 5 4" fill="none" stroke="var(--lag-acid)" stroke-width="2"/><rect x="8" y="7" width="16" height="21" rx="3" fill="none" stroke="var(--lag-acid)" stroke-width="2.4"/><path d="M12 13 H20 M12 17 H20 M12 21 H20" stroke="var(--lag-acid)" stroke-width="1.8" stroke-linecap="round"/>""",
     "foundry-sort": """<path d="M5 11 H25 V22 H5 Z" fill="none" stroke="var(--fo-brass)" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 22 a3.2 3.2 0 0 1 6.4 0" fill="none" stroke="var(--fo-brass)" stroke-width="2"/><path d="M27 12 V21" stroke="var(--fo-brass)" stroke-width="2.6" stroke-linecap="round"/><path d="M25 14 H27 M25 19 H27" stroke="var(--fo-brass)" stroke-width="1.8"/>""",
     "checkpoint-pillow": """<path d="M5 21 q-2 -9 6 -10 q10 -2 16 1 q6 2 4 9 q-2 4 -11 4 q-11 1 -15 -4 Z" fill="none" stroke="var(--hc-steam)" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 15 q4 3 8 0" fill="none" stroke="var(--hc-steam)" stroke-width="1.8" stroke-linecap="round"/>""",

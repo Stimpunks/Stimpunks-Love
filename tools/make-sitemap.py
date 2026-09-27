@@ -81,7 +81,7 @@ ORDER = ["index.html",
          # other two, listed the same way: the caverns first, then its rooms as
          # they open.
          "arlesglad-caverns.html", "big-steep-fermentables.html", "mycelium-munchies.html",
-         "stay-frosty.html",
+         "glow-go-gee-gaws.html", "stay-frosty.html",
          "stay-breezy.html",
          "liner-notes.html",
          # What the site keeps about the people who visit it. With the other

@@ -851,6 +851,16 @@
 @font-face { font-family: 'Red Hat Text'; src: url('fonts/red-hat-text-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Red Hat Text'; src: url('fonts/red-hat-text-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Glow Go Gee Gaws (§67). A MOULDED TOY AND A PLAIN LABEL. Baloo 2, by Ek Type,
+   sets the shop's name, its headings and every toy's name, and nothing at
+   reading size: round, fat and soft-cornered, the shape a toy comes out of a
+   mould in. Poppins, by Indian Type Foundry, Jonny Pinhorn and Ninad Kale,
+   carries every word that is read; it is not variable, so it is two files.
+   Both read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Baloo 2'; src: url('fonts/baloo-2-800.woff2') format('woff2'); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Poppins'; src: url('fonts/poppins-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Poppins'; src: url('fonts/poppins-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+
 /* The Broadsheet Broadside (§60). A SHIP'S NAME IN A DIDONE, AND A SHEET IN
    THE FACE A HAND-OUT IS READ IN. Bodoni Moda, by Owen Earl, is the name
    painted along the hull and the room's own headings, and NOTHING ON THE
@@ -2115,8 +2125,9 @@
      THE PASS. --myc-dark is the kitchen and the ground of every word; --myc-steel
      a steel counter or card; --myc-pass the pass itself, steel with the heat
      lamps' red on it. --myc-lamp is that red, which carries every link and the
-     heat lamp's glow, and is kept RED because Glow Go Gee Gaws, the level above,
-     glows orange. --myc-cream is every word; --myc-grey the fine print. THE
+     heat lamp's glow. It was first kept red to leave orange to Glow Go Gee
+     Gaws, the level below; Ryan's call of the same day gave that room every
+     glow colour, and the lamps stay red because heat lamps are. --myc-cream is every word; --myc-grey the fine print. THE
      MUSHROOMS BRING THE ONLY OTHER COLOURS, their own: --myc-pink, --myc-gold,
      --myc-blue and --myc-tan paint a cap beside a mushroom's name, always with
      the name in words. --myc-shelf IS ORNAMENT AND CARRIES NO TEXT: 1.73 on the
@@ -2141,6 +2152,22 @@
   --bs-dim:    #ABA79E;   --bs-straw:  #E9D27F;   --bs-amber:  #E3A03A;
   --bs-haze:   #E4DDB0;   --bs-garnet: #B8384F;   --bs-stout:  #2A1A14;
   --bs-hibiscus: #D9577A; --bs-rack:   #44464A;
+
+  /* Glow Go Gee Gaws (§67). A SHOP WITH THE LIGHTS OFF, AND EVERY COLOUR GLOW
+     COMES IN. Ryan's call, 2026-09-26: all of them, blue included, and no
+     other room's colour limits this one. --gg-dark is the shop and the ground
+     of every word; --gg-shelf a shelf, the ground of every toy. --gg-text is
+     every word, --gg-dim the fine print and a dark toy's outline, --gg-link
+     every link. The nine glows are the toys' light when charged; every one of
+     them clears the body threshold on both grounds, so a lit toy could carry
+     words. --gg-unlit (2.58) and --gg-shelf-line (1.66) ARE ORNAMENT AND CARRY
+     NO TEXT: a toy with no light in it, and the shelves. In ORNAMENT. */
+  --gg-dark:   #0B0B10;   --gg-shelf:  #17171F;   --gg-text:   #ECE9F2;
+  --gg-dim:    #A8A4B6;   --gg-link:   #9CF08C;   --gg-unlit:  #55544E;
+  --gg-shelf-line: #2A2A34;
+  --gg-green:  #6DFF7A;   --gg-aqua:   #4FF5D6;   --gg-blue:   #5AA9FF;
+  --gg-white:  #EEF4FF;   --gg-violet: #B98BFF;   --gg-yellow: #F7EE5A;
+  --gg-pink:   #FF7FC8;   --gg-orange: #FF9E3D;   --gg-red:    #FF5A52;
 }
 
 * { box-sizing: border-box; }
@@ -13753,7 +13780,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §68
+   class on it is `bb-`, its sizes are in points and millimetres, and §69
    prints it and nothing else. */
 
 .room-broadside {
@@ -13814,7 +13841,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §68 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §69 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -14694,7 +14721,102 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
 }
 
 
-/* §67 ── Small screens ───────────────────────────────────────────────────────
+/* §67 ── ROOM: Glow Go Gee Gaws (level B3 of Arlesglad Caverns) ────────────
+   GLOW-IN-THE-DARK TOYS AND TRINKETS, IN EVERY COLOUR GLOW COMES IN. Ryan's
+   brief, 2026-09-26, and his call the same day reversing two picks the brief
+   first made: not orange only, and not no blue. "Other rooms shouldn't limit
+   what this room does": so this section uses every glow colour, including ones
+   Looming Rocks, the Lagoon and Dance, Punks use, and it does not measure itself
+   against them by hue.
+
+   WHAT MAKES IT ITS OWN WORLD IS THE KIND OF LIGHT. Every toy STARTS DARK, is
+   charged on a press, and GIVES THE LIGHT BACK until it has none: light that
+   runs down after you press, which nothing else on the street has. Looming
+   Rocks' lichen fluoresces only while the floods are on it; the headsets at
+   Dance, Punks glow because they are switched on; Stay Frosty shines with
+   reflections. If a toy here ever glows before anybody charges it, or never
+   stops, it has become one of those. The glow stick is the one exception and
+   the page says why.
+
+   THE FADE IS A TRANSITION, ONCE, AND NOTHING HERE HAS A KEYFRAME:
+   make-glow.py refuses one. Nothing pulses, flickers or flashes at any
+   setting. At Gentle §3 takes the transition away and glow.js keeps the toy
+   lit for its time and then darkens it in one step, with the same words. */
+
+.glowgo { background: var(--gg-dark); color: var(--gg-text); font-family: 'Poppins', var(--sans); }
+.glowgo a { color: var(--gg-link); text-underline-offset: 3px; }
+.glowgo a:hover { color: var(--gg-text); }
+.glowgo :where(p, li) { font-size: 16px; line-height: 1.66; }
+.glowgo :focus-visible { outline-color: var(--gg-link); }
+.glowgo .backlink { font-family: 'Poppins', var(--sans); font-weight: 600; font-size: 15px; letter-spacing: 0; color: var(--gg-link); }
+.glowgo .trailmark { margin: 0; font-size: 14px; color: var(--gg-dim); }
+.gg-over { margin: 22px 0 0; font-size: 14px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gg-dim); }
+.glowgo h1 { font-family: 'Baloo 2', var(--sans); font-weight: 800; font-size: clamp(42px, 8.4vw, 86px);
+  line-height: .98; color: var(--gg-text); margin: 8px 0 0; }
+.glowgo h2 { font-family: 'Baloo 2', var(--sans); font-weight: 800; font-size: 28px; line-height: 1.1; color: var(--gg-text); margin: 0 0 10px; }
+.glowgo h3 { font-family: 'Baloo 2', var(--sans); font-weight: 800; font-size: 22px; line-height: 1.1; color: var(--gg-text); margin: 0; }
+.glowgo .lede { font-size: 19px; line-height: 1.58; max-width: 56ch; margin: 18px 0 0; }
+
+.gg-shop { margin: 26px 0 0; line-height: 0; }
+.gg-shop svg { display: block; width: 100%; height: auto; }
+.gg-shop .gg-lit { filter: drop-shadow(0 0 6px rgba(236, 233, 242, .35)); }
+
+.gg-section { margin-top: 38px; }
+.gg-intro { max-width: 62ch; margin: 0 0 14px; }
+.gg-all { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 4px 0 0; }
+.gg-all__note { color: var(--gg-dim); font-size: 15px; }
+
+.gg-hold { font: 600 15px/1 'Poppins', var(--sans); cursor: pointer; padding: 10px 16px;
+  border: 2px solid var(--gg-text); border-radius: 999px; background: var(--gg-shelf); color: var(--gg-text); }
+.gg-hold:hover { background: var(--gg-text); color: var(--gg-dark); }
+.gg-hold:focus-visible { outline: 3px solid var(--gg-link); outline-offset: 3px; }
+
+/* THE SHELVES. A toy per shelf card, dark until charged. Its colour is --c,
+   one of the nine glows; the tint on the drawing is never the only sign, the
+   line of words under the toy says what state it is in. */
+.gg-shelves { list-style: none; margin: 0; padding: 0; display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+.gg-toy { display: flex; gap: 14px; align-items: flex-start; padding: 16px; background: var(--gg-shelf); border-radius: 14px; }
+.gg-toy--green  { --c: var(--gg-green); }
+.gg-toy--aqua   { --c: var(--gg-aqua); }
+.gg-toy--blue   { --c: var(--gg-blue); }
+.gg-toy--white  { --c: var(--gg-white); }
+.gg-toy--violet { --c: var(--gg-violet); }
+.gg-toy--yellow { --c: var(--gg-yellow); }
+.gg-toy--pink   { --c: var(--gg-pink); }
+.gg-toy--orange { --c: var(--gg-orange); }
+.gg-toy--red    { --c: var(--gg-red); }
+.gg-toy__art { flex: 0 0 80px; line-height: 0; }
+.gg-toy__art svg { display: block; width: 80px; height: 80px; overflow: visible; }
+.gg-toy .gg-shape > * { fill: var(--gg-unlit); stroke: var(--gg-dim); stroke-width: 1.4; }
+.gg-toy .gg-over > * { fill: var(--gg-dark); }
+.gg-toy.is-lit .gg-shape > * { fill: var(--c); stroke: var(--c); }
+.gg-toy.is-lit .gg-shape { filter: drop-shadow(0 0 7px var(--c)); }
+html[data-intensity="max"] .gg-toy.is-lit .gg-shape { filter: drop-shadow(0 0 14px var(--c)); }
+.gg-toy.is-fading .gg-shape { opacity: .1; transition: opacity var(--gg-fade, 10s) linear; }
+.gg-toy__words { flex: 1 1 auto; min-width: 0; }
+.gg-toy__words > p { margin: 7px 0 0; font-size: 15px; line-height: 1.55; }
+.gg-toy__how { color: var(--gg-dim); }
+.gg-toy__words > .gg-toy__do { margin: 12px 0 0; }
+.gg-toy__said { font-weight: 600; }
+
+.gg-ledge { margin: 40px 0 0; padding: 20px 24px; background: var(--gg-shelf); border-radius: 14px; }
+.gg-ledge p { margin: 0 0 12px; max-width: 66ch; }
+.gg-ledge p:last-child { margin-bottom: 0; }
+.gg-ledge ul { margin: 0; padding: 0 0 0 20px; }
+.gg-ledge li { margin: 0 0 10px; }
+.gg-ledge li:last-child { margin-bottom: 0; }
+.gg-ledge li::marker { color: var(--gg-link); }
+.gg-ledge strong, .gg-intro strong { font-weight: 600; }
+.gg-credit { margin: 30px 0 0; font-size: 14.5px; color: var(--gg-dim); max-width: 64ch; }
+
+@media (max-width: 560px) {
+  .gg-shelves { grid-template-columns: 1fr; }
+  .gg-ledge { padding: 18px; }
+}
+
+
+/* §68 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -14801,7 +14923,7 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §67 says every
+   shipped with no rule here at all — which on a street whose §68 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -14925,7 +15047,7 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §68 ── Print ───────────────────────────────────────────────────────────────
+/* §69 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

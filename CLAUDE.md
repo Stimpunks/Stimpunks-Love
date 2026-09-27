@@ -2805,18 +2805,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §68 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §69 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§68 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§69 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §68 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §69 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the
@@ -2915,6 +2915,20 @@ where the Plural Mural chalkboard came from.
     width. `make-map.py` reads the levels off the lift panel like the pitches and turnings; a room
     that opens down there needs its level's `h3` to link and nothing else.
 
+**GLOW GO GEE GAWS IS LEVEL B3, IN EVERY COLOUR GLOW COMES IN.** §67, Ryan's brief, 2026-09-26, and
+his call the same day **reversing two of Claude's picks**: it was to glow orange only, to stay off
+Looming Rocks' and the Lagoon's greens, with blue ruled out as Light It Up Blue. *"Light It Up Blue
+shouldn't take blue away from us, and other rooms shouldn't limit what this room does."* So §67 is
+not measured against other rooms by hue, and **the Lightbulb Picture House's no-blue rule is that
+room's own argument, not a street-wide one**. What keeps §67 its own world is **the kind of light**:
+every toy starts dark, is charged on a press, and gives the light back until it has none, which no
+other room has. `tools/make-glow.py` refuses a green that is not the longest fade and a red or
+orange that is not among the shortest (checked; the middle order is the room's and it says so),
+a colour missing from the shelves, a glow stick with a fade (it is chemistry, bent once), a
+keyframe in §67, and selling. Its break test found `\b\$\d` can never match, because `$` is not a
+word character; a price is its own pattern now. **At Gentle a toy stays lit for its time and
+darkens in one step**, because §3 takes transitions away and an instant fade would be a blackout.
+
 **BIG STEEP FERMENTABLES IS LEVEL B1, AND EVERY RULE IN IT IS ABOUT THE PEOPLE WHO DO NOT DRINK.**
 §66, Ryan's brief, 2026-09-26 ("try our house styles"), built by `tools/make-big-steep.py` out of
 `data/big-steep.json`. **Every pour says how strong it is before the pour** (the runtime rule for a
@@ -2937,7 +2951,8 @@ brief, 2026-09-26, built by `tools/make-mycelium.py` out of `data/mycelium.json`
 Living is the collision**: that kitchen is a section with no light, everything touching, and you
 build your own; this is seen straight on across a pass, lit only by **heat lamps**, red and
 electric, and the kitchen composes every dish. There is no wood in §65 (the brown rooms), and the
-lamps' red is kept RED because Glow Go Gee Gaws, the level above, is down for orange.
+lamps are red because heat lamps are. (They were first kept red to leave orange to Glow Go Gee Gaws,
+the level below; Ryan's call gave that room every glow colour the same day.)
 
   · **nothing here is a field guide**, the most dangerous friendly edit on the street: a sentence
     about how a mushroom looks beside one about where it grows is one step from somebody eating

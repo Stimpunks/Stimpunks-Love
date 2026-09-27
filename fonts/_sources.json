@@ -1678,5 +1678,33 @@
       "src": "https://fonts.gstatic.com/s/redhattext/v19/RrQXbohi_ic6B3yVSzGBrMxQaKctMc-JPQ.woff2",
       "note": "Big Steep Fermentables (§66), every word that is read, and every strength, which is the one number that has to be read before the pour. Clear, open figures. One variable file serves both weights."
     }
+  ],
+  "baloo-2": [
+    {
+      "file": "baloo-2-800.woff2",
+      "weight": "800",
+      "style": "normal",
+      "bytes": 18612,
+      "src": "https://fonts.gstatic.com/s/baloo2/v23/wXK0E3kTposypRydzVT08TS3JnAmtdiayppo_leP6HcMqzQ.woff2",
+      "note": "Glow Go Gee Gaws (§67), the shop's name, its headings and the name of every toy, and nothing at reading size: round, fat and soft-cornered, the shape a toy is moulded in. One weight."
+    }
+  ],
+  "poppins": [
+    {
+      "file": "poppins-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 7900,
+      "src": "https://fonts.gstatic.com/s/poppins/v24/pxiEyp8kv8JHgFVrJJfecnFHGPc.woff2",
+      "note": "Glow Go Gee Gaws (§67), every word that is read. A plain geometric sans; the toys are the loud part."
+    },
+    {
+      "file": "poppins-600.woff2",
+      "weight": "600",
+      "style": "normal",
+      "bytes": 7992,
+      "src": "https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLEj6Z1xlFd2JQEk.woff2",
+      "note": "Glow Go Gee Gaws (§67), the bold runs and the controls. A separate file: Poppins is not variable."
+    }
   ]
 }

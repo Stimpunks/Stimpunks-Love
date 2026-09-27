@@ -506,6 +506,15 @@ BS_ROCK, BS_NICHE = "#1C1D1F", "#2B2C2F"
 BS_CREAM, BS_DIM, BS_STRAW = "#F1EADB", "#ABA79E", "#E9D27F"
 BS_AMBER, BS_HAZE = "#E3A03A", "#E4DDB0"
 
+# Glow Go Gee Gaws (§67). TWO GROUNDS, the dark shop and a shelf, the lighter.
+# THE NINE GLOWS are every colour glow comes in, Ryan's call; each is held at
+# the body threshold on both grounds as a graphic, because a lit toy is the
+# answer to a press and has to be seen. GG_UNLIT and GG_SHELF_LINE ARE ORNAMENT.
+GG_DARK, GG_SHELF = "#0B0B10", "#17171F"
+GG_TEXT, GG_DIM, GG_LINK = "#ECE9F2", "#A8A4B6", "#9CF08C"
+GG_GLOWS = {"green": "#6DFF7A", "aqua": "#4FF5D6", "blue": "#5AA9FF", "white": "#EEF4FF",
+            "violet": "#B98BFF", "yellow": "#F7EE5A", "pink": "#FF7FC8", "orange": "#FF9E3D", "red": "#FF5A52"}
+
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
 # screen is the light source in this room, not a surface anything is set on --
@@ -2360,6 +2369,21 @@ PAIRS = [
     (BS_STRAW, BS_ROCK,  True,  "big steep: the focus ring"),
     (BS_AMBER, BS_NICHE, True,  "big steep: an amber vessel, lit from behind"),
     (BS_HAZE,  BS_NICHE, True,  "big steep: a pale wine's bottle, lit from behind"),
+
+    # ── Glow Go Gee Gaws (§67) ───────────────────────────────────────────────
+    (GG_TEXT, GG_DARK,  False, "glow: the h1, the lede and every word in the shop"),
+    (GG_TEXT, GG_SHELF, False, "glow: every toy's name and words, and the line saying what state it is in"),
+    (GG_DIM,  GG_DARK,  False, "glow: the over-line, the trail, the note by the rail and the credit"),
+    (GG_DIM,  GG_SHELF, False, "glow: how long each toy glows, on its shelf"),
+    (GG_LINK, GG_DARK,  False, "glow: the backlink and every link in the shop"),
+    (GG_LINK, GG_SHELF, False, "glow: every link on a shelf or ledge"),
+    (GG_DARK, GG_TEXT,  False, "glow: a button's words under the pointer"),
+    (GG_DIM,  GG_SHELF, True,  "glow: a dark toy's outline, which is how a toy with no light in it is seen"),
+    (GG_LINK, GG_DARK,  True,  "glow: the focus ring"),
+] + [
+    (hexv, ground, True, f"glow: a toy glowing {name}, just charged")
+    for name, hexv in GG_GLOWS.items() for ground in (GG_DARK, GG_SHELF)
+] + [
 ] + [
     pair for name, flav in DS_FLAVOURS.items() for pair in (
         (DS_INK,     flav, False, f"doom scoop: the {name} tub -- its day, its flavour, every headline, "
@@ -2913,6 +2937,8 @@ ORNAMENT = {
                "near object that is not a sign, and it carries no word; the plate above it "
                "carries its own ground.",
     "#6e6880": "sithen: the thorn trees and branches in the mound drawing, the rule under the half of each taboo that is ours, and the edge of every banked panel, 3.69 on the field and 3.30 on the bank. It is the one colour in that room that is supposed to be faint -- a thorn that measured 4.5 would be a painted line rather than a branch -- and it never carries a word. The room's own job marker is drawn in the moon rather than in this, because a marker is held to the body threshold and this would not clear it.",
+    "#55544e": "glow: a toy with no light in it yet, 2.58 on the shop's dark and 2.35 on a shelf. Every dark toy is outlined in --gg-dim, which carries it, and the words under it say it is dark.",
+    "#2a2a34": "glow: the shelves themselves and the edge of the shop, 1.66 on the dark. No word and no control.",
     "#b8384f": "big steep: a red wine's bottle with the light through it, 2.99 on the rock and 2.47 in a niche. It fills a vessel, is outlined in the cream, and carries no word; the words say what the drink is.",
     "#2a1a14": "big steep: a stout's vessel, nearly black, which is what a stout looks like with a light behind it. Outlined in the cream and carrying no word.",
     "#d9577a": "big steep: the hibiscus kombucha's vessel with the light through it, 4.49 on the rock and 3.72 in a niche. Outlined in the cream and carrying no word.",

@@ -1604,6 +1604,39 @@
       "learned": "The street has three edges now and only two of them are at an end of it. The caverns are the one you reach by going down, which is also why the guild's class III names all three rather than growing a fourth class for the one that is underneath."
     },
     {
+      "id": "glow-star",
+      "page": "glow-go-gee-gaws.html",
+      "room": "Glow Go Gee Gaws",
+      "title": "The dark shop",
+      "posted": "Three floors down in the caverns there is a shop full of glow-in-the-dark toys, every one of them dark until you give it some light. Charge them, and find out which colour lasts longest.",
+      "rank": 3,
+      "takes": "five minutes, and a toy or two to hold up to the rail if you want",
+      "target": "a glow-in-the-dark star, fallen off a ceiling onto the shop floor",
+      "code": "AFTERGLOW",
+      "hints": [
+        "It is under the street. Take the lift down to the caverns and look for level B3.",
+        "The answer is in the section called How long a glow lasts.",
+        "Right at the foot of the shop, under the credit line."
+      ],
+      "ask": {
+        "question": "Of every colour glow comes in, which one lasts longest?",
+        "accept": [
+          "green",
+          "the green one",
+          "green glow",
+          "green pigment"
+        ],
+        "answer": "Green",
+        "why": "Green. Green glow pigment is the brightest and longest-lasting there is, and red and orange are the dimmest and first to go, partly because those pigments are weaker and partly because the eye is least sensitive to red in the dark. The shop's own tool refuses a green that does not outlast every other toy on the shelves.",
+        "hints": [
+          "Press Hold everything up to the rail at once, and watch.",
+          "It is in the second paragraph of How long a glow lasts.",
+          "The colour of the ceiling stars."
+        ]
+      },
+      "learned": "A glow-in-the-dark toy does not make light. It keeps some of the light you give it and hands it back, slowly, which is the only light on this street that runs down after you press."
+    },
+    {
       "id": "bigsteep-carboy",
       "page": "big-steep-fermentables.html",
       "room": "Big Steep Fermentables",

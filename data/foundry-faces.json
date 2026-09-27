@@ -295,6 +295,23 @@
     }
    ]
   },
+  "baloo-2": {
+   "family": "Baloo 2",
+   "category": "Display",
+   "designer": "Ek Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/baloo2",
+   "copyright": "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+   "repository": "https://github.com/yanone/Baloo2-Variable",
+   "variants": [
+    {
+     "weight": "800",
+     "style": "normal",
+     "file": "baloo-2-800.woff2",
+     "sha": "05dada341dc76ec6"
+    }
+   ]
+  },
   "barlow": {
    "family": "Barlow",
    "category": "Sans Serif",
@@ -1722,6 +1739,29 @@
      "style": "normal",
      "file": "plus-jakarta-sans-400.woff2",
      "sha": "cd8db90cd950e26b"
+    }
+   ]
+  },
+  "poppins": {
+   "family": "Poppins",
+   "category": "Sans Serif",
+   "designer": "Indian Type Foundry, Jonny Pinhorn, Ninad Kale",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/poppins",
+   "copyright": "Copyright 2020 The Poppins Project Authors (https://github.com/itfoundry/Poppins)",
+   "repository": "https://github.com/itfoundry/Poppins",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "poppins-400.woff2",
+     "sha": "3dc5d0c52428fe16"
+    },
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "poppins-600.woff2",
+     "sha": "872e862918591a9e"
     }
    ]
   },
