@@ -93,6 +93,11 @@ CTR_STEEL, CTR_WELL, CTR_PLATE, CTR_FORM = "#52667A", "#28323E", "#E3E8EC", "#FB
 # note beside --cb-case in love.css §2.
 CB_CASE, CB_BAR, CB_STEEL, CB_STEEL2 = "#121315", "#24272B", "#D8DCE1", "#A3AAB3"
 CB_LCD, CB_AMBER, CB_AMBER2 = "#1B1305", "#FFB83F", "#D9A042"
+# The fractal window, furniture again: its own frame in every room it is switched
+# on in. Read the note beside --fx-case in love.css §2. The picture inside it
+# carries no words and is the room's own colours, limited so it cannot flash.
+FX_CASE, FX_BAR, FX_TEXT, FX_DIM = "#121216", "#1F1F26", "#ECEAF2", "#ADA8BA"
+FX_LIT, FX_ON = "#C6F36B", "#16180F"
 SKY_H, SKY_2 = "#BCDDEA", "#E4F0F1"   # --daysky, --daysky-2
 FURROW, FURROW2 = "#16291C", "#34483A"
 SPROUT, SPROUT2, BLOOM = "#2C6B45", "#1D4D30", "#B5760A"   # --sprout, --sprout-2
@@ -2519,6 +2524,15 @@ PAIRS = [
     (CB_AMBER,  CB_CASE,  False, "cb: the link to the house norms, and the focus ring on the case"),
     (CB_AMBER,  CB_BAR,   False, "cb: the focus ring on the bar's buttons"),
     (CB_LCD,    CB_AMBER, False, "cb: BASE, the moderators' mark, dark on an amber tag"),
+    (FX_TEXT, FX_CASE, False, "fractal window: every button's words, on the case"),
+    (FX_TEXT, FX_BAR,  False, "fractal window: its name on the bar"),
+    (FX_DIM,  FX_CASE, False, "fractal window: the words saying what the picture is, the Speed label, "
+                              "and every button's border and the frame's rim, held to the body "
+                              "threshold for the radio's reason"),
+    (FX_DIM,  FX_BAR,  False, "fractal window: the edge of the bar's buttons against the bar"),
+    (FX_LIT,  FX_CASE, False, "fractal window: the focus ring, and the pressed speed's edge"),
+    (FX_LIT,  FX_BAR,  False, "fractal window: the focus ring on the bar's buttons"),
+    (FX_ON,   FX_LIT,  False, "fractal window: the pressed speed's word, dark on lime"),
     (CB_STEEL2, CB_CASE,  False, "cb: every button's border and the case's rim, held to the body "
                                  "threshold because a button you cannot find the edge of is a "
                                  "button you cannot find"),

@@ -65,6 +65,15 @@ if ! node --test netlify/cb/lib.test.mjs; then
   exit 1
 fi
 
+# The fractal window's one invariant, also Node and nothing else: no room's
+# picture flashes at the quickest speed, counted in what it paints. See
+# tools/fractal.test.mjs.
+printf '\n\033[1m== the fractal window never flashes\033[0m\n'
+if ! node --test tools/fractal.test.mjs; then
+  printf '\n\033[1mSTOPPED at the fractal test.\033[0m A room'"'"'s fractal can flash.\n'
+  exit 1
+fi
+
 for s in "${STEPS[@]}"; do
   printf '\n\033[1m== %s\033[0m\n' "$s"
   if ! python3 "tools/$s.py"; then

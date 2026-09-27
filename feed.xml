@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Sat, 26 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 27 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>A fractal window in (almost) every room</title>
+      <link>https://stimpunks.world/changelog.html#2026-09-27-fractal-window</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-27-fractal-window</guid>
+      <pubDate>Sun, 27 Sep 2026 12:00:00 GMT</pubDate>
+      <description>Every page’s sign-off has a new switch: Switch on the fractal window. It opens a small window of its own in the corner of the screen with a slow fractal in it, drawn in your browser in that room’s own colours. No two rooms draw the same picture: Julia sets, the edge of the Mandelbrot set, Newton fractals, a fern, a dragon curve, a crystal. The window has its own speed control (Slow, Steady, Quick), moves between corners, goes full screen, and closes when you switch it off or leave the room. It is not synced to the music, and it says so before you press. Almost everything that plays here plays inside another site’s frame, and a page is not allowed to listen to another site’s frame. The one plain audio player streams from a host that does not let other sites read the sound. So the window is a picture that runs beside the music. It follows the Arcade, not the dial. It runs at every setting because the motion is the thing you switched on, and the dial is not wired to it. At Gentle it starts at Slow. It never flashes, and that is enforced in its code. Every frame, no pixel is allowed to change brightness, or redness, faster than a fixed rate. That keeps every spot well under the three flashes a second that the accessibility rule for seizures (WCAG 2.3.1) allows. Played without that limit, most rooms’ pictures would flash at Quick. A test counts flashes in what every room’s window actually paints, using its own arithmetic, before anything is published. Nothing is fetched until you press. The window’s script and stylesheet download on the first press and not before. It stores nothing and sends nothing. Two rooms do not have it yet, on purpose. Stay Frosty promises on its own page that there is nothing to press in it and nothing moves, so a switch there would make that false. And the Faery Yurt is Helen Edgar’s room: a picture in her colours changes how her room reads, which is hers to decide.</description>
+    </item>
     <item>
       <title>Glow Go Gee Gaws opens on level B3</title>
       <link>https://stimpunks.world/changelog.html#2026-09-26-glow-go-gee-gaws</link>

@@ -32,11 +32,19 @@ and a page that is not on the model is a refusal in make-map.py before it can be
 a dead fragment here. 404.html has no address of its own, so its link is to the
 model without one.
 
+THE FRACTAL WINDOW'S SWITCH RIDES HERE TOO, on a line of its own under the
+links, because the sign-off is the one place that is the same place on every
+page -- the job markers' reason for all lying on the floor. tools/fractals.py
+writes it, with the room's own recipe on it, and refuses a page it has no recipe
+for; a room the window is off in simply has no second line.
+
 THE LIST IS HERE ONCE. make-signoff.py writes it into every page; make-foundry.py
 builds its whole page from a template and calls the same function, so a rebuild
 of the Foundry cannot quietly drop it.
 """
 import html
+
+import fractals
 
 LINKS = [
     ("liner-notes.html", "Liner notes"),
@@ -65,15 +73,17 @@ def links(absolute=False, page=None):
         [f'<a href="{pre}{href}">{html.escape(text)}</a>' for href, text in LINKS])
 
 
-def block(absolute=False, page=None):
+def block(absolute=False, page=None, recipes=None):
     """The whole sign-off, between its markers. A <footer> directly in <body>,
     so it is the page's contentinfo landmark and a screen reader can jump to it."""
+    fx = fractals.switch(page, recipes) if page else ""
     return (
         f"{BEGIN}\n"
         '<footer class="signoff">\n'
         f'  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a>'
         f" &middot; {links(absolute, page)} &middot; "
         'A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>\n'
+        + (f"  {fx}\n" if fx else "") +
         "</footer>\n"
         f"{END}"
     )

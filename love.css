@@ -906,6 +906,16 @@
   --cb-case: #121315;  --cb-bar: #24272B;  --cb-steel: #D8DCE1;  --cb-steel-2: #A3AAB3;
   --cb-lcd: #1B1305;   --cb-amber: #FFB83F; --cb-amber-2: #D9A042;
 
+  /* The fractal window (fractal.js, fractal.css). NOT A ROOM'S PALETTE either:
+     furniture that appears in any room somebody switches it on in, so it keeps
+     its own clothes, the dial's and the radio's precedent -- a graphite frame, a
+     pale label and one lime for what is pressed. The PICTURE inside it is the
+     room's own, read off the room's custom properties; only the frame is these.
+     Declared here so they inherit into its shadow root and check-contrast.py can
+     hold each one to a pair. */
+  --fx-case: #121216;  --fx-bar: #1F1F26;  --fx-text: #ECEAF2;  --fx-dim: #ADA8BA;
+  --fx-lit: #C6F36B;   --fx-on: #16180F;
+
   /* The Chappell (§12). Its own five, because a subroom that borrowed the
      dancefloor's palette would be the harmonising instinct getting in through
      the side door it was told not to use. --nave is the ground; the glass
@@ -2352,6 +2362,16 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
   text-align: center;
 }
 .signoff__line { margin: 0; }
+/* The fractal window's switch, on a line of its own under the links. It is a
+   button, so it is reset to the sentence around it: the room's own ink and face,
+   underlined because it does something. Still no colour of its own. */
+.signoff__fx { margin: 6px 0 0; }
+.signoff__fx .signoff__fx-btn {
+  font: inherit; color: inherit; background: none; border: 0; border-radius: 0;
+  padding: 0; margin: 0; text-decoration: underline; text-underline-offset: 3px;
+  cursor: pointer; box-shadow: none; text-transform: none; letter-spacing: inherit;
+}
+.pavement .signoff__fx { flex: 1 1 100%; margin: 0; font-size: 14px; color: var(--chalk); }
 
 /* The margin hand. It was written inside the zine table, and then Enid's room
    and issue #2 started wearing it too — three rooms on one class, which makes
@@ -15082,6 +15102,7 @@ html[data-intensity="max"] .gg-toy.is-lit .gg-shape { filter: drop-shadow(0 0 14
      with a pass in the browser would have gone over its one sheet the same way.
      The radio is a control; controls never belong on paper. */
   .cb-host { display: none !important; }
+  .fx-host { display: none !important; }
 
   /* Ink on paper, everywhere, with no exceptions by class.
      This used to reset backgrounds on a LIST of components, which meant every

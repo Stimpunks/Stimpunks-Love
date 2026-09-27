@@ -2522,6 +2522,35 @@ fifteen-at-once test, committed at last**, run first by `tools/check-all.sh`; it
 purpose and caught a lost write in all four cases. In the Faery Yurt the bowl is the third thing this
 repository has put into Helen's room, and the first she asked for.
 
+**THE FRACTAL WINDOW IS IN EVERY ROOM'S SIGN-OFF, AND IT CANNOT HEAR THE MUSIC.** Ryan, 2026-09-27:
+a visualizer to switch on in rooms that play music, then in every room, following the Arcade: it runs
+at every setting, starts only when pressed, and has its own speed control (Slow at Gentle, Steady
+otherwise). **It is not synced to anything and cannot be**: a page may not read audio out of another
+site's frame, and the band's host behind The Small Hours sends no `Access-Control-Allow-Origin`
+(measured). The switch and the window both say so. Do not "finish" it with the IFrame Player API
+(YouTube's own script, a `script-src` loosening) or with screen or microphone capture (the
+Permissions-Policy denies both, and the Repeater refuses the microphone).
+
+  · **the limit is the feature.** `fractal.js` lets no pixel change relative luminance faster than
+    `RATE_L` or linear (R − G − B) faster than `RATE_E` per second, whatever the fractal wants, so a
+    flash takes most of a second and WCAG 2.3.1 allows three. **Played without it, most rooms flash
+    at Quick**, which `tools/fractal.test.mjs` shows every run: it counts flashes in the painted bytes
+    with its own arithmetic, for every recipe, and fails an unlimited strobe to prove it still counts.
+    Do not raise the rates to make Quick feel quicker, and do not move any drawing outside
+    `Picture.frame`, where the limit is.
+  · **one engine, a recipe per room.** `data/fractals.json` names the kind and which of the room's own
+    `:root` hexes it is drawn in; `tools/fractals.py` writes it onto the switch and refuses a page with
+    no entry, an unknown key, a colour love.css does not declare as a hex, and two rooms with the same
+    picture. A new room needs a recipe before `make-signoff.py` will run. **The frame is furniture**
+    (§2's `--fx-*`, a shadow root, the radio's precedent); **the picture is the room's**.
+  · **nothing is fetched until the press**: love.js unhides the switch and injects `fractal.js` on the
+    first click. It stores nothing. The canvas is `aria-hidden` and the window describes its own
+    picture in words built from the recipe.
+  · **two rooms are `off`, each with its reason in the data.** Stay Frosty says on its page that there
+    is nothing to press and nothing moves. The Faery Yurt is Helen's: a picture in her colours changes
+    how her room reads, so it waits for her yes, the rule above about her room. Either is one line to
+    flip, and the flip goes in the changelog.
+
 **THE COMMUNITY CENTER IS LIT BY SUN THROUGH A VENETIAN BLIND, AND IT IS THE ONLY COOL PALE GROUND.**
 §51: painted powder-blue block at ten in the morning, the light chopped into hard diagonal bars,
 stacking chairs, a letterboard over the door, the front desk. **Covenstead is the collision**: the other

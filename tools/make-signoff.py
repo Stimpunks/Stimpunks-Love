@@ -22,11 +22,13 @@ import re
 import sys
 from pathlib import Path
 
+import fractals
 import signoff
 
 ROOT = Path(__file__).resolve().parent.parent
 FRONT = "index.html"
 PAVEMENT_BEGIN, PAVEMENT_END = "<!-- signoff-links:begin -->", "<!-- signoff-links:end -->"
+FX_BEGIN, FX_END = "<!-- signoff-fx:begin -->", "<!-- signoff-fx:end -->"
 
 
 def with_top(src, name):
@@ -44,6 +46,7 @@ def with_top(src, name):
 
 def main():
     changed = 0
+    recipes = fractals.load()
     pages = sorted(ROOT.glob("*.html"))
     for p in pages:
         src = p.read_text()
@@ -58,8 +61,14 @@ def main():
                 lambda _: f'{PAVEMENT_BEGIN}<a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> '
                           f'&middot; {signoff.links(page=FRONT)} &middot;{PAVEMENT_END}',
                 src, count=1, flags=re.S)
+            if FX_BEGIN not in src or FX_END not in src:
+                raise SystemExit(f"REFUSING: {FRONT}'s pavement has no signoff-fx markers. The fractal "
+                                 "window's switch is on every page, the street's included.")
+            src = re.sub(re.escape(FX_BEGIN) + r".*?" + re.escape(FX_END),
+                         lambda _: FX_BEGIN + fractals.switch(FRONT, recipes) + FX_END,
+                         src, count=1, flags=re.S)
         else:
-            block = signoff.block(absolute=(p.name == "404.html"), page=p.name)
+            block = signoff.block(absolute=(p.name == "404.html"), page=p.name, recipes=recipes)
             if signoff.BEGIN in src:
                 src = re.sub(re.escape(signoff.BEGIN) + r".*?" + re.escape(signoff.END),
                              lambda _: block, src, count=1, flags=re.S)

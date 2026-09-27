@@ -2,7 +2,8 @@
    stimpunks.world — the street's only shared script.
 
    Three jobs: the intensity dial, the Playhouse toys, and the superposition
-   panel. Nothing here is required to read the site — every page is complete
+   panel. (And two loaders: the CB radio and the fractal window, each of which
+   is its own file, fetched only when somebody asks for it.) Nothing here is required to read the site — every page is complete
    markup before this file arrives, and the dial's own default is applied by a
    tiny inline snippet in each <head> so nobody is flashed the loud version on
    the way to the quiet one.
@@ -1153,7 +1154,29 @@
     document.head.appendChild(tag);
   }
 
-  function go() { dial(); secretWord(); playhouse(); soundboard(); superposition(); sequences(); yurtEggs(); cb(); }
+  /* ── The fractal window ────────────────────────────────────────────────
+     The switch is in every page's sign-off, written by tools/fractals.py with
+     the room's recipe on it, and ships hidden so a page with no script shows
+     no dead control. fractal.js is not downloaded until somebody presses it:
+     a visitor who never does is on a page that fetched nothing for it. */
+  function fractal() {
+    var btn = document.querySelector('.signoff__fx-btn');
+    if (!btn) return;
+    btn.parentNode.hidden = false;
+    var loading = false;
+    btn.addEventListener('click', function () {
+      if (window.LoveFractal) { window.LoveFractal.toggle(btn); return; }
+      if (loading) return;
+      loading = true;
+      var tag = document.createElement('script');
+      tag.src = '/fractal.js';
+      tag.onload = function () { if (window.LoveFractal) window.LoveFractal.toggle(btn); };
+      tag.onerror = function () { loading = false; };
+      document.head.appendChild(tag);
+    });
+  }
+
+  function go() { dial(); secretWord(); playhouse(); soundboard(); superposition(); sequences(); yurtEggs(); cb(); fractal(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
   else go();
 })();
