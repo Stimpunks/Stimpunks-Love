@@ -14338,13 +14338,20 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 .bz-panel__row label { font-weight: 700; }
 .bz-panel input[type="range"] { width: 200px; accent-color: var(--bz-blade); }
 .bz-panel__note { flex: 1 1 100%; margin: 0; font-size: 15px; color: var(--bz-ink-2); max-width: 70ch; }
-.bz-alloff, .bz-switch, .bz-speed {
+.bz-alloff, .bz-switch, .bz-speed, .bz-usual__on, .bz-usual__forget {
   font: 700 15px/1 'Urbanist', var(--sans); cursor: pointer;
   border: 2px solid var(--bz-ink); border-radius: 999px;
   background: var(--bz-ink); color: var(--bz-card); padding: 9px 16px;
 }
-.bz-alloff:hover, .bz-switch:hover { background: var(--bz-blade); border-color: var(--bz-blade); }
-.bz-alloff:focus-visible, .bz-switch:focus-visible, .bz-speed:focus-visible { outline: 3px solid var(--bz-ink); outline-offset: 3px; }
+.bz-alloff:hover, .bz-switch:hover, .bz-usual__on:hover { background: var(--bz-blade); border-color: var(--bz-blade); }
+.bz-alloff:focus-visible, .bz-switch:focus-visible, .bz-speed:focus-visible,
+.bz-usual__on:focus-visible, .bz-usual__forget:focus-visible { outline: 3px solid var(--bz-ink); outline-offset: 3px; }
+/* YOUR USUAL, on the hall's panel. The button that starts it is the one thing
+   here that switches several fans on at once, and it says which before the
+   press: the line beside it names every fan and its speed. */
+.bz-usual { flex: 1 1 100%; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.bz-usual__what { font-size: 15.5px; font-weight: 700; }
+.bz-usual__forget { background: var(--bz-card); color: var(--bz-ink); }
 
 .bz-intro { max-width: 62ch; margin: 0 0 16px; }
 section[aria-labelledby="bz-floor-h"], .bz-own, .bz-rules { margin-top: 38px; }

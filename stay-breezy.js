@@ -8,8 +8,16 @@
    for each come off the fan's own tile, written there by make-stay-breezy.py
    out of data/stay-breezy.json. Nothing is recorded, fetched or hosted.
 
-   NOTHING IS FETCHED, SENT, STORED OR LISTENED TO. make-stay-breezy.py refuses
-   a request, storage or the microphone anywhere in this file.
+   NOTHING IS FETCHED, SENT OR LISTENED TO, AND ONE THING IS KEPT: YOUR USUAL.
+   Ryan's call, 2026-09-26. Under one key, love-breezy, in your own browser
+   and nowhere else: the speed you last set on each fan, which fan is perched
+   on your table, and which fans you last had on. It is a convenience and never
+   a record -- nothing is counted, and nothing says when. IT NEVER SWITCHES A FAN
+   ON BY ITSELF: loading the page puts your speeds back and your fan on the
+   table, silently, and the sound only comes when you press Switch on my usual,
+   because nothing on this street makes a sound before somebody presses.
+   Forget my usual clears the key. make-stay-breezy.py refuses a request, the
+   microphone, any other storage, and any other key.
 
    THE LOUDEST THE HALL CAN BE IS MAX_GAIN, AND make-stay-breezy.py REFUSES IT
    ABOVE 0.2, the Repeater's ceiling: a fan is a thing somebody forgets is on.
@@ -32,6 +40,7 @@
   'use strict';
 
   var MAX_GAIN = 0.18;
+  var KEY = 'love-breezy';
   var AC = window.AudioContext || window.webkitAudioContext;
   var panel = document.getElementById('bz-panel');
   if (!panel || !AC) return;
@@ -40,6 +49,11 @@
   var volume = document.getElementById('bz-volume');
   var alloff = document.getElementById('bz-alloff');
   var perch = document.getElementById('bz-perch');
+  var usualBox = document.getElementById('bz-usual');
+  var usualOn = document.getElementById('bz-usual-on');
+  var usualWhat = document.getElementById('bz-usual-what');
+  var forget = document.getElementById('bz-forget');
+  var usual = [];
   var ctx = null, master = null, buffers = {};
   var running = [];
   var SPEED = { 1: { low: 0.7, level: 0.55, beat: 0.6 },
@@ -218,11 +232,12 @@
     say(line);
   }
 
-  function setSpeed(tile, n) {
+  function setSpeed(tile, n, quiet) {
     tile.setAttribute('data-speed', n);
     tile.querySelectorAll('.bz-speed').forEach(function (b) {
       b.setAttribute('aria-pressed', b.getAttribute('data-speed') === String(n) ? 'true' : 'false');
     });
+    if (quiet) return;
     if (find(tile) >= 0) {
       stop(tile); start(tile);
       say(cap(nameOf(tile)) + ' is at speed ' + n + '.');
@@ -233,7 +248,7 @@
      name, its words and its drawing -- so the table can never describe a fan
      differently from the fan on the floor. One copy of every fan's words in the
      document, the Mopery's rule for its popups. */
-  function perchFan(id) {
+  function perchFan(id, quiet) {
     var from = document.getElementById('fan-' + id), to = document.getElementById('fan-perch');
     if (!from || !to) return;
     ['noise', 'low', 'hum', 'hum-level', 'beat', 'depth', 'sweep', 'level'].forEach(function (k) {
@@ -246,16 +261,68 @@
     to.querySelector('.bz-fan__art svg').innerHTML = from.querySelector('.bz-fan__art svg').innerHTML;
     to.querySelector('.bz-switch .sr').textContent = ' ' + nameOf(to);
     to.querySelector('.bz-speeds').setAttribute('aria-label', from.querySelector('.bz-fan__name').textContent + ': speed');
+    if (quiet) return;
     var was = find(to) >= 0;
     if (was) { stop(to); start(to); }
     say(cap(nameOf(to)) + ' is perched on your table' +
         (was ? ', and it is on.' : '.'));
   }
 
+  /* YOUR USUAL. Every read and write is wrapped, because localStorage throws
+     rather than returning nothing in a private window, and the room has to
+     work there exactly as it works everywhere else: it just forgets. */
+  function read() {
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY) || 'null');
+      return v && typeof v === 'object' ? v : null;
+    } catch (e) { return null; }
+  }
+  function describe(list) {
+    var parts = list.map(function (u) {
+      var tile = document.getElementById(u.tile);
+      return nameOf(tile) + ' at speed ' + u.speed;
+    });
+    if (parts.length < 2) return parts.join('');
+    return parts.slice(0, -1).join(', ') + ' and ' + parts[parts.length - 1];
+  }
+  function showUsual() {
+    if (!usualBox) return;
+    usualBox.hidden = usual.length === 0;
+    usualWhat.textContent = usual.length ? 'Your usual is ' + describe(usual) + '.' : '';
+  }
+  function remember() {
+    var speeds = {};
+    document.querySelectorAll('.bz-fan').forEach(function (t) { speeds[t.id] = parseInt(t.getAttribute('data-speed'), 10); });
+    if (running.length) {
+      usual = running.map(function (r) { return { tile: r.tile.id, speed: parseInt(r.tile.getAttribute('data-speed'), 10) }; });
+    }
+    try {
+      localStorage.setItem(KEY, JSON.stringify({ speeds: speeds, perch: perch ? perch.value : null, usual: usual }));
+    } catch (e) { /* a private window: the room forgets, and works */ }
+    showUsual();
+  }
+  function recall() {
+    var v = read();
+    if (!v) return;
+    if (perch && v.perch && perch.querySelector('option[value="' + String(v.perch).replace(/[^a-z-]/g, '') + '"]')) {
+      perch.value = v.perch;
+      perchFan(v.perch, true);
+    }
+    Object.keys(v.speeds || {}).forEach(function (id) {
+      var tile = document.getElementById(id), n = v.speeds[id];
+      if (tile && tile.classList.contains('bz-fan') && (n === 1 || n === 2 || n === 3)) setSpeed(tile, n, true);
+    });
+    usual = (v.usual || []).filter(function (u) {
+      var tile = u && document.getElementById(u.tile);
+      return tile && tile.classList.contains('bz-fan') && (u.speed === 1 || u.speed === 2 || u.speed === 3);
+    });
+    showUsual();
+  }
+
   document.querySelectorAll('.bz-fan').forEach(function (tile) {
-    tile.querySelector('.bz-switch').addEventListener('click', function () { toggle(tile); });
+    tile.querySelector('.bz-switch').addEventListener('click', function () { toggle(tile); remember(); });
     tile.querySelectorAll('.bz-speed').forEach(function (b) {
-      b.addEventListener('click', function () { setSpeed(tile, parseInt(b.getAttribute('data-speed'), 10)); });
+      b.addEventListener('click', function () { setSpeed(tile, parseInt(b.getAttribute('data-speed'), 10)); remember(); });
     });
     tile.querySelector('.bz-fan__controls').hidden = false;
   });
@@ -272,8 +339,30 @@
   volume.setAttribute('aria-valuetext', volume.value + ' percent of the hall’s ceiling');
 
   if (perch) {
-    perch.addEventListener('change', function () { perchFan(perch.value); });
+    perch.addEventListener('change', function () { perchFan(perch.value); remember(); });
     perch.closest('.bz-perch').hidden = false;
   }
+  if (usualOn) {
+    usualOn.addEventListener('click', function () {
+      running.slice().forEach(function (r) { stop(r.tile); });
+      usual.forEach(function (u) {
+        var tile = document.getElementById(u.tile);
+        setSpeed(tile, u.speed, true);
+        start(tile);
+      });
+      say('Your usual is on: ' + describe(usual) + '.');
+      remember();
+    });
+    forget.addEventListener('click', function () {
+      try { localStorage.removeItem(KEY); } catch (e) {}
+      usual = [];
+      showUsual();
+      say('Forgotten. Nothing about your fans is kept in this browser now, until you next change one.');
+      usualBox.hidden = true;
+      alloff.focus();
+    });
+  }
+
+  recall();
   panel.hidden = false;
 })();

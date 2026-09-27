@@ -38,7 +38,9 @@ WHAT IT REFUSES, and why each one would arrive as a kindness:
     blades turning and a ribbon lifting.
   · A LOUDER CEILING, OR A SCRIPT THAT REACHES OUT. MAX_GAIN in stay-breezy.js is
     refused above 0.2, the Repeater's ceiling, and the script may not fetch,
-    send, store, or ask for the microphone.
+    send, or ask for the microphone. It keeps ONE thing, the visitor's usual,
+    under love-breezy in their own browser, and the tool refuses any other key,
+    any other storage, and a privacy page that does not list it.
 
 IT NEEDS NOTHING BUT THE FILES, so it is in the pre-deploy sequence.
 """
@@ -303,9 +305,24 @@ elif float(g.group(1)) > CEILING:
     problems.append(f"MAX_GAIN is {g.group(1)}, over {CEILING}. A fan left on must stay under the ceiling.")
 for pat, what in ((r"\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource", "a request"),
                   (r"getUserMedia|mediaDevices", "the microphone"),
-                  (r"localStorage|sessionStorage|indexedDB|document\.cookie", "storage")):
+                  (r"sessionStorage|indexedDB|document\.cookie|caches\.", "storage other than your usual")):
     if re.search(pat, js):
         problems.append(f"stay-breezy.js reaches for {what}. The fans are made here and go nowhere.")
+# YOUR USUAL IS ONE KEY, AND IT IS ON THE PRIVACY PAGE. Ryan's call,
+# 2026-09-26. The script may keep the visitor's usual under love-breezy and
+# nothing else, every call has to go through KEY, and privacy.html has to list
+# the key -- because a thing kept in somebody's browser that the page about
+# what we keep does not mention is the one quiet lie this street's privacy
+# page cannot afford.
+key = re.search(r"var KEY\s*=\s*'([^']+)'", js)
+if not key or key.group(1) != "love-breezy":
+    problems.append("stay-breezy.js keeps its usual under a key other than love-breezy, or none.")
+for m in re.finditer(r"localStorage\.(\w+)\(([^,)]*)", js):
+    if m.group(2).strip() != "KEY":
+        problems.append(f"stay-breezy.js calls localStorage.{m.group(1)}({m.group(2).strip()}); every "
+                        "call goes through KEY, so there is one thing kept and one name for it.")
+if "<code>love-breezy</code>" not in (ROOT / "privacy.html").read_text():
+    problems.append("privacy.html does not list love-breezy. Say what is kept before keeping it.")
 
 css = CSS.read_text()
 sec = re.search(r"/\* §\d+ ── SUBROOM: Stay Breezy.*?(?=/\* §\d+ ── )", css, re.S)

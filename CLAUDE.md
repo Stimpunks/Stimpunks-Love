@@ -2969,6 +2969,13 @@ The number in Ryan's quotation is a `frosty:f` marker filled by `make-stay-frost
   · **no fan is named for who made it**, and **none is for anything**: the tool refuses a short
     list of makers and the vocabulary of sleep, focus and treatment. *You do not need a reason to
     love a fan* is the room's line; the friendly edit is "great for sleep".
+  · **it keeps one thing, your usual, and never plays it by itself.** Ryan's call, 2026-09-26:
+    under `love-breezy` in the visitor's own browser, the speed on each fan, the fan on the table
+    and the fans last switched on. Loading the page puts the speeds and the table back SILENTLY;
+    the sound only comes from *Switch on my usual*, whose line names every fan and speed before the
+    press. The tool refuses any other key, any other storage, and a `privacy.html` that does not
+    list `love-breezy`. **Do not make the usual start on load**: that is autoplay with a nicer
+    name, on the street whose oldest promise is that nothing plays until you press.
   · **the room of your own has a door**: switching anything on in there switches the hall's fans
     off, and a hall fan switches your room's off, and both say so. The table's fan is chosen from
     the floor's table fans and copies that fan's own tile, so the two cannot describe it
