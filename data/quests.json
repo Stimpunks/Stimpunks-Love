@@ -1604,6 +1604,44 @@
       "learned": "The street has three edges now and only two of them are at an end of it. The caverns are the one you reach by going down, which is also why the guild's class III names all three rather than growing a fourth class for the one that is underneath."
     },
     {
+      "id": "bigsteep-carboy",
+      "page": "big-steep-fermentables.html",
+      "room": "Big Steep Fermentables",
+      "title": "The cellar at the top of the lift",
+      "posted": "One floor down under the street there is a cellar with house styles of beer, wine and kombucha. Read how the pours are set out, and find out which one comes first.",
+      "rank": 3,
+      "takes": "five minutes, and there is nothing to press or to drink",
+      "target": "a glass carboy standing on the cellar floor",
+      "code": "STEEPED",
+      "hints": [
+        "It is under the street. Take the lift down to the caverns; this is the first level.",
+        "The answer is in the introduction to Try our house styles.",
+        "Right at the foot of the cellar, under the credit line."
+      ],
+      "ask": {
+        "question": "Every house style in Big Steep comes as two pours. Which pour always comes first?",
+        "accept": [
+          "alcohol-free",
+          "alcohol free",
+          "the alcohol-free one",
+          "alcoholfree",
+          "no alcohol",
+          "non-alcoholic",
+          "zero",
+          "the alcohol free pour",
+          "alcohol-free pour"
+        ],
+        "answer": "The alcohol-free one",
+        "why": "The alcohol-free one, and at the same size as the other, because it is not the lesser pour. Many people do not drink, for all kinds of reasons and for none, and a cellar that listed that pour second or smaller would be telling them they were an afterthought. The room's own tool refuses a house style whose first pour has alcohol in it.",
+        "hints": [
+          "It is in the sentence in bold just under Try our house styles.",
+          "Look at the two boxes under any house style, and read the left one.",
+          "The one without."
+        ]
+      },
+      "learned": "Every pour on this street says how strong it is before you take it, the same way every button says how long it runs before you press it. The number is what lets somebody decide."
+    },
+    {
       "id": "mycelium-block",
       "page": "mycelium-munchies.html",
       "room": "Mycelium Munchies",

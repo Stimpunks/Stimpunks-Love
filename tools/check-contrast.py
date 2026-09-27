@@ -498,6 +498,14 @@ MYC_DARK, MYC_STEEL, MYC_PASS = "#141618", "#262A2D", "#3A2724"
 MYC_LAMP, MYC_CREAM, MYC_GREY = "#FF6E57", "#F2EBDF", "#AEB0AE"
 MYC_PINK, MYC_GOLD, MYC_BLUE, MYC_TAN = "#EFA3B6", "#EBC455", "#9DB3C6", "#C9A57E"
 
+# Big Steep Fermentables (§66). TWO GROUNDS: the bare rock and a niche cut in
+# it, the lighter, which decides. The drinks' colours only ever fill a vessel;
+# amber and haze are held as graphics, and garnet, stout, hibiscus and the rack
+# are ORNAMENT with their numbers beside them.
+BS_ROCK, BS_NICHE = "#1C1D1F", "#2B2C2F"
+BS_CREAM, BS_DIM, BS_STRAW = "#F1EADB", "#ABA79E", "#E9D27F"
+BS_AMBER, BS_HAZE = "#E3A03A", "#E4DDB0"
+
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
 # screen is the light source in this room, not a surface anything is set on --
@@ -2340,6 +2348,18 @@ PAIRS = [
     (MYC_GOLD,  MYC_DARK,  True,  "mycelium: a golden oyster's cap"),
     (MYC_BLUE,  MYC_DARK,  True,  "mycelium: a blue oyster's cap"),
     (MYC_TAN,   MYC_DARK,  True,  "mycelium: a brown mushroom's cap"),
+
+    # ── Big Steep Fermentables (§66) ─────────────────────────────────────────
+    (BS_CREAM, BS_ROCK,  False, "big steep: the h1, the lede and every word on the rock"),
+    (BS_CREAM, BS_NICHE, False, "big steep: every house style's words, and each pour's label"),
+    (BS_DIM,   BS_ROCK,  False, "big steep: the over-line, the trail and the credit"),
+    (BS_DIM,   BS_NICHE, False, "big steep: what kind of drink, and how each pour is made"),
+    (BS_STRAW, BS_ROCK,  False, "big steep: the backlink and every link on the rock"),
+    (BS_STRAW, BS_NICHE, False, "big steep: every strength, the number read before the pour, and links on a ledge"),
+    (BS_DIM,   BS_NICHE, True,  "big steep: the outline of each pour's box, the same on both"),
+    (BS_STRAW, BS_ROCK,  True,  "big steep: the focus ring"),
+    (BS_AMBER, BS_NICHE, True,  "big steep: an amber vessel, lit from behind"),
+    (BS_HAZE,  BS_NICHE, True,  "big steep: a pale wine's bottle, lit from behind"),
 ] + [
     pair for name, flav in DS_FLAVOURS.items() for pair in (
         (DS_INK,     flav, False, f"doom scoop: the {name} tub -- its day, its flavour, every headline, "
@@ -2893,6 +2913,10 @@ ORNAMENT = {
                "near object that is not a sign, and it carries no word; the plate above it "
                "carries its own ground.",
     "#6e6880": "sithen: the thorn trees and branches in the mound drawing, the rule under the half of each taboo that is ours, and the edge of every banked panel, 3.69 on the field and 3.30 on the bank. It is the one colour in that room that is supposed to be faint -- a thorn that measured 4.5 would be a painted line rather than a branch -- and it never carries a word. The room's own job marker is drawn in the moon rather than in this, because a marker is held to the body threshold and this would not clear it.",
+    "#b8384f": "big steep: a red wine's bottle with the light through it, 2.99 on the rock and 2.47 in a niche. It fills a vessel, is outlined in the cream, and carries no word; the words say what the drink is.",
+    "#2a1a14": "big steep: a stout's vessel, nearly black, which is what a stout looks like with a light behind it. Outlined in the cream and carrying no word.",
+    "#d9577a": "big steep: the hibiscus kombucha's vessel with the light through it, 4.49 on the rock and 3.72 in a niche. Outlined in the cream and carrying no word.",
+    "#44464a": "big steep: the racks, stanchions and strata in the rock, 1.78 on the rock. No word and no control.",
     "#3b4043": "mycelium: the growing shelves standing in the dark behind the pass and the rule between two crops, 1.73 on the dark. They carry no word and no control.",
     "#bfd0cc": "breezy: the lines of moving air under the hall's fans, 1.36 on the wall. Drawn air, carrying no word and no control.",
     "#f7d98c": "breezy: the lamp under every ceiling fan and the light it throws, 1.17 on the wall and 1.30 on a card. Every lamp is outlined in the ink, which carries it; the fill is the light.",

@@ -841,6 +841,16 @@
 @font-face { font-family: 'Schibsted Grotesk'; src: url('fonts/schibsted-grotesk-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Schibsted Grotesk'; src: url('fonts/schibsted-grotesk-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Big Steep Fermentables (§66). A STAMP ON A CRATE AND A CLEAR NUMBER. Zilla
+   Slab, by Typotheque, sets the cellar's name, its headings and the name of
+   every house style, and nothing at reading size: a heavy slab, the letter
+   stencilled on a tank. Red Hat Text, by MCKL, carries every word that is read
+   and every strength, the one number that must be read before the pour, in
+   open figures. Both read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Zilla Slab'; src: url('fonts/zilla-slab-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Red Hat Text'; src: url('fonts/red-hat-text-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Red Hat Text'; src: url('fonts/red-hat-text-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* The Broadsheet Broadside (§60). A SHIP'S NAME IN A DIDONE, AND A SHEET IN
    THE FACE A HAND-OUT IS READ IN. Bodoni Moda, by Owen Earl, is the name
    painted along the hull and the room's own headings, and NOTHING ON THE
@@ -2115,6 +2125,22 @@
   --myc-lamp:  #FF6E57;   --myc-cream: #F2EBDF;   --myc-grey:  #AEB0AE;
   --myc-pink:  #EFA3B6;   --myc-gold:  #EBC455;   --myc-blue:  #9DB3C6;
   --myc-tan:   #C9A57E;   --myc-shelf: #3B4043;
+
+  /* Big Steep Fermentables (§66). A CELLAR IN THE ROCK, LIT FROM BEHIND ITS OWN
+     GLASS. Lamps stand behind the racks, so the light reaches the room through
+     the drinks and takes their colours. --bs-rock is the bare rock and the
+     ground of every word; --bs-niche a niche cut in it, the ground of every
+     house style. --bs-cream is every word, --bs-dim the fine print, --bs-straw
+     every link and the colour of a pale drink with light through it.
+     --bs-amber, --bs-haze, --bs-garnet, --bs-stout and --bs-hibiscus are the
+     drinks with the light through them, and only ever fill a vessel; amber at
+     7.52 and haze are held as graphics, and GARNET (2.99), STOUT, HIBISCUS
+     (4.49) AND --bs-rack (1.78) ARE ORNAMENT AND CARRY NO TEXT. In ORNAMENT with
+     those numbers. */
+  --bs-rock:   #1C1D1F;   --bs-niche:  #2B2C2F;   --bs-cream:  #F1EADB;
+  --bs-dim:    #ABA79E;   --bs-straw:  #E9D27F;   --bs-amber:  #E3A03A;
+  --bs-haze:   #E4DDB0;   --bs-garnet: #B8384F;   --bs-stout:  #2A1A14;
+  --bs-hibiscus: #D9577A; --bs-rack:   #44464A;
 }
 
 * { box-sizing: border-box; }
@@ -13727,7 +13753,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §67
+   class on it is `bb-`, its sizes are in points and millimetres, and §68
    prints it and nothing else. */
 
 .room-broadside {
@@ -13788,7 +13814,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §67 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §68 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -14551,7 +14577,106 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
 }
 
 
-/* §66 ── Small screens ───────────────────────────────────────────────────────
+/* §66 ── ROOM: Big Steep Fermentables (level B1 of Arlesglad Caverns) ───────
+   A BREWERY AND CELLAR IN THE ROCK, for wine, beer and kombucha. Ryan's brief,
+   2026-09-26, "try our house styles", built out of data/big-steep.json by
+   make-big-steep.py. Every rule in the room is about the people who do not
+   drink: every pour says how strong it is before the pour, and the
+   alcohol-free pour of every house style comes FIRST and the SAME SIZE.
+   §66 draws the two pours as two equal boxes side by side and styles the
+   first one no differently, and that is load-bearing: do not make the
+   alcohol-free box smaller, paler or second.
+
+   THE LIGHT COMES THROUGH THE DRINKS. Lamps stand behind the racks against the
+   rock, so every vessel is lit from behind and the room gets its colour from
+   what is in the glass. The collisions are structural:
+
+     · THE CHAPPELL is the other room lit by coloured light coming through
+       glass, and that is stained glass in a window: fixed colour, votive
+       indigo and gold, arches, a building. This is liquid in vessels standing
+       on racks on bare rock, and the colour is what was brewed.
+     · LAUGHINGSTOCK is the street's other cellar, and it is red brick with a
+       follow spot. There is NO BRICK in §66.
+     · THE DEN AND THE LATIBULUM are the brown rooms, and a wine cellar is
+       always about to become one with a row of oak barrels. THERE IS NO WOOD
+       IN §66: the vessels are glass and steel, and make-big-steep.py refuses
+       the vocabulary of barrels and casks in the room's own words.
+     · MYCELIUM MUNCHIES, one level down, is lit by heat lamps over a steel
+       pass, red and from above. This is lit from behind, through glass, in
+       the drinks' colours.
+
+   NOTHING MOVES AT ANY SETTING: no bubbles rising, no pour animating, because
+   the first friendly edit to a brewery is a glass filling up. */
+
+.bigsteep { background: var(--bs-rock); color: var(--bs-cream); font-family: 'Red Hat Text', var(--sans); }
+.bigsteep a { color: var(--bs-straw); text-underline-offset: 3px; }
+.bigsteep a:hover { color: var(--bs-cream); }
+.bigsteep :where(p, li) { font-size: 16.5px; line-height: 1.62; }
+.bigsteep :focus-visible { outline-color: var(--bs-straw); }
+.bigsteep .backlink { font-family: 'Red Hat Text', var(--sans); font-weight: 700; font-size: 15px; letter-spacing: 0; color: var(--bs-straw); }
+.bigsteep .trailmark { margin: 0; font-size: 14px; color: var(--bs-dim); }
+
+.bs-over { margin: 22px 0 0; font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--bs-dim); }
+.bigsteep h1 { font-family: 'Zilla Slab', Georgia, serif; font-weight: 700; font-size: clamp(38px, 7.6vw, 78px);
+  line-height: 1.02; color: var(--bs-cream); margin: 8px 0 0; }
+.bigsteep h2 { font-family: 'Zilla Slab', Georgia, serif; font-weight: 700; font-size: 27px; color: var(--bs-cream); margin: 0 0 12px; }
+.bigsteep h3 { font-family: 'Zilla Slab', Georgia, serif; font-weight: 700; font-size: 25px; line-height: 1.15; color: var(--bs-cream); margin: 0; }
+.bigsteep .lede { font-size: 19px; line-height: 1.58; max-width: 56ch; margin: 18px 0 0; }
+
+.bs-cellar { margin: 28px 0 0; line-height: 0; }
+.bs-cellar svg { display: block; width: 100%; height: auto; border-radius: 8px; }
+
+.bs-section { margin-top: 40px; }
+.bs-intro { max-width: 62ch; margin: 0 0 18px; }
+.bs-intro strong, .bs-ledge strong { font-weight: 700; }
+
+/* A HOUSE STYLE, in a niche cut in the rock, with its vessel lit from behind at
+   the top left. The glow is a drop-shadow on the drawing, which carries no
+   word; the words stand on the flat --bs-niche. */
+.bs-racks { list-style: none; margin: 0; padding: 0; display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+.bs-style { display: flex; gap: 16px; align-items: flex-start; padding: 18px; background: var(--bs-niche); border-radius: 14px 14px 6px 6px; }
+.bs-style__words { flex: 1 1 auto; min-width: 0; }
+.bs-style__words > p { margin: 8px 0 0; font-size: 15.5px; line-height: 1.55; }
+.bs-style__words > .bs-kind { margin: 0 0 4px; font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--bs-dim); }
+.bs-vessel { flex: 0 0 52px; width: 52px; height: 72px; }
+.bs-vessel .bs-glass path { stroke: var(--bs-cream); stroke-opacity: .55; stroke-width: 1.6; }
+.bs-vessel--amber .bs-glass path { fill: var(--bs-amber); }
+.bs-vessel--straw .bs-glass path { fill: var(--bs-straw); }
+.bs-vessel--haze .bs-glass path { fill: var(--bs-haze); }
+.bs-vessel--garnet .bs-glass path { fill: var(--bs-garnet); }
+.bs-vessel--stout .bs-glass path { fill: var(--bs-stout); }
+.bs-vessel--hibiscus .bs-glass path { fill: var(--bs-hibiscus); }
+.bs-vessel--amber { filter: drop-shadow(0 0 10px rgba(227, 160, 58, .5)); }
+.bs-vessel--straw { filter: drop-shadow(0 0 10px rgba(233, 210, 127, .45)); }
+.bs-vessel--haze { filter: drop-shadow(0 0 10px rgba(228, 221, 176, .4)); }
+.bs-vessel--garnet { filter: drop-shadow(0 0 10px rgba(184, 56, 79, .6)); }
+.bs-vessel--stout { filter: drop-shadow(0 0 8px rgba(241, 234, 219, .25)); }
+.bs-vessel--hibiscus { filter: drop-shadow(0 0 10px rgba(217, 87, 122, .55)); }
+
+/* THE TWO POURS, TWO EQUAL BOXES. The alcohol-free one is first, and it is
+   styled no differently from the other: same size, same weight, same ink. */
+.bs-pours { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.bs-pour { display: flex; flex-direction: column; gap: 3px; padding: 10px 12px; border: 2px solid var(--bs-dim); border-radius: 8px; }
+.bs-pour__label { font-size: 14px; font-weight: 700; color: var(--bs-cream); }
+.bs-pour__strength { font-size: 21px; font-weight: 700; line-height: 1.2; color: var(--bs-straw); }
+.bs-pour__how { font-size: 13.5px; line-height: 1.45; color: var(--bs-dim); }
+
+.bs-ledge { margin: 40px 0 0; padding: 20px 24px; background: var(--bs-niche); border-radius: 12px; }
+.bs-ledge ul { margin: 0; padding: 0 0 0 20px; }
+.bs-ledge li { margin: 0 0 10px; }
+.bs-ledge li:last-child { margin-bottom: 0; }
+.bs-ledge li::marker { color: var(--bs-straw); }
+.bs-credit { margin: 30px 0 0; font-size: 14.5px; color: var(--bs-dim); max-width: 64ch; }
+
+@media (max-width: 560px) {
+  .bs-racks { grid-template-columns: 1fr; }
+  .bs-style { flex-direction: column; }
+  .bs-ledge { padding: 18px; }
+}
+
+
+/* §67 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -14658,7 +14783,7 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §66 says every
+   shipped with no rule here at all — which on a street whose §67 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -14782,7 +14907,7 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §67 ── Print ───────────────────────────────────────────────────────────────
+/* §68 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

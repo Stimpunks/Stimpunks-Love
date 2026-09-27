@@ -1,0 +1,52 @@
+{
+  "_what": "Big Steep Fermentables, level B1 of Arlesglad Caverns: a brewery and cellar for wine, beer and kombucha. Ryan's brief, 2026-09-26: try our house styles. Every house style is an entry here, and tools/make-big-steep.py writes the cellar's racks out of this file.",
+  "_strength_first": "EVERY POUR SAYS HOW STRONG IT IS BEFORE YOU TAKE IT. The street's runtime rule for a drink: a press-to-play control says how long it runs before the press, and a pour says how much alcohol is in it before the pour, because that number is what lets somebody decide. The tool refuses a pour without its strength.",
+  "_alcohol_free_first": "EVERY HOUSE STYLE COMES WITHOUT ALCOHOL, AND THAT POUR COMES FIRST AND THE SAME SIZE. Many of us do not drink -- medication, recovery, disability, faith, or simply not wanting to -- and a cellar that listed the alcohol-free pour second, smaller, or as a 'mocktail' would be telling those people they are the afterthought. Dead Tired Society's rule about passing: the choice not to is first and the same size. The tool refuses a style whose first pour has alcohol in it, and the vocabulary that makes an alcohol-free drink sound like an imitation.",
+  "_kombucha": "KOMBUCHA IS NEVER QUITE ZERO, AND SAYS SO. It is fermented, so there is always a trace of alcohol in it, and the trace varies from batch to batch. So its fermented pour gives a ceiling rather than a number, and its alcohol-free pour is the same tea and fruit, not fermented, which is the only honest way to have none. The tool refuses a kombucha that claims a fixed strength.",
+  "_no_pressure": "NOTHING HERE PRESSES ANYBODY TO DRINK, AND NOTHING COUNTS HOW MUCH. No rounds, no 'one more', no drinking games, nothing glamorising being drunk, and no count of pours. And nothing is good for you: no probiotic, no gut, no antioxidants, no hangover cure. The tool sweeps this file and the published room for all of it, with the checkpoint's negation window so the room can say what it will not do.",
+  "_in_the_glass": "Each style's `glow` is the colour its light comes through the glass as, in love.css: amber, straw, garnet, stout, haze or hibiscus. It paints the vessel drawn above the style and nothing else; the words say what the drink is.",
+  "styles": [
+    {"id": "amber", "name": "Big Steep Amber", "kind": "beer", "glow": "amber",
+     "what": "A copper-coloured ale with a bready malt to it and a bitter finish, brewed in steel and conditioned in the cold of the rock.",
+     "pours": [
+       {"label": "Alcohol-free", "strength": "under 0.05%", "abv": 0.05, "how": "the same ale with the alcohol taken out after brewing"},
+       {"label": "Full strength", "strength": "5.0%", "abv": 5.0, "how": "as brewed"}
+     ]},
+    {"id": "lager", "name": "Cave Lager", "kind": "beer", "glow": "straw",
+     "what": "A pale, clean lager, kept for weeks in the cold before it is poured; the word comes from the German for storing it.",
+     "pours": [
+       {"label": "Alcohol-free", "strength": "under 0.05%", "abv": 0.05, "how": "the same lager with the alcohol taken out"},
+       {"label": "Full strength", "strength": "4.4%", "abv": 4.4, "how": "as brewed"}
+     ]},
+    {"id": "stout", "name": "Handrail Stout", "kind": "beer", "glow": "stout",
+     "what": "A black stout with roasted grain in it, coffee and bitter chocolate, and a thick pale head.",
+     "pours": [
+       {"label": "Alcohol-free", "strength": "under 0.05%", "abv": 0.05, "how": "the same stout with the alcohol taken out"},
+       {"label": "Full strength", "strength": "6.2%", "abv": 6.2, "how": "as brewed"}
+     ]},
+    {"id": "red", "name": "Level B1 Red", "kind": "wine", "glow": "garnet",
+     "what": "A soft, dark red wine with plum and a little pepper in it, rested in steel tanks in the rock.",
+     "pours": [
+       {"label": "Alcohol-free", "strength": "under 0.05%", "abv": 0.05, "how": "the same wine with the alcohol taken out"},
+       {"label": "Full strength", "strength": "12.5%", "abv": 12.5, "how": "as made"}
+     ]},
+    {"id": "white", "name": "The Pale Steep", "kind": "wine", "glow": "haze",
+     "what": "A crisp, pale white wine that tastes of green apple and cut grass.",
+     "pours": [
+       {"label": "Alcohol-free", "strength": "under 0.05%", "abv": 0.05, "how": "the same wine with the alcohol taken out"},
+       {"label": "Full strength", "strength": "11.5%", "abv": 11.5, "how": "as made"}
+     ]},
+    {"id": "ginger", "name": "Ginger House Kombucha", "kind": "kombucha", "glow": "straw",
+     "what": "Black and green tea fermented with a live culture, then fermented again with fresh ginger until it sparkles.",
+     "pours": [
+       {"label": "Alcohol-free", "strength": "none", "abv": 0, "how": "the same tea and ginger, not fermented, so there is no alcohol in it at all"},
+       {"label": "Fermented", "strength": "a trace, under 0.5%", "abv_max": 0.5, "varies": true, "how": "as fermented; the trace varies from batch to batch, so this gives the most it can be rather than a number"}
+     ]},
+    {"id": "hibiscus", "name": "Hibiscus House Kombucha", "kind": "kombucha", "glow": "hibiscus",
+     "what": "Tea fermented with hibiscus flowers, deep red and sharp, like cranberries without the sweetness.",
+     "pours": [
+       {"label": "Alcohol-free", "strength": "none", "abv": 0, "how": "the same tea and hibiscus, not fermented, so there is no alcohol in it at all"},
+       {"label": "Fermented", "strength": "a trace, under 0.5%", "abv_max": 0.5, "varies": true, "how": "as fermented; the trace varies from batch to batch, so this gives the most it can be rather than a number"}
+     ]}
+  ]
+}

@@ -626,6 +626,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--mycelium .og-foot {{ font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; color: #FF6E57;
   letter-spacing: 1px; font-size: 20px; }}
 
+/* big steep fermentables — THE RACKS, LIFTED OFF THE ROOM. Bottles, carboys
+   and tanks on racks in the rock, lit from behind so the light comes through
+   the drinks, and the name stamped in its slab. The foot says the rule the
+   room is built on: alcohol-free first. */
+.og--bigsteep {{ width: 100%; padding: 0 60px 44px; gap: 16px; justify-content: space-between; }}
+.og--bigsteep .og-scene {{ margin: 0 -60px !important; line-height: 0; }}
+.og--bigsteep .og-scene svg {{ display: block; width: 1200px; height: 300px; }}
+.og--bigsteep .bs-over {{ margin: 0 !important; font-size: 19px; }}
+.og--bigsteep h1 {{ font-size: 88px; margin: 0 !important; }}
+.og--bigsteep .og-lede {{ color: #F1EADB; max-width: 1060px; font-size: 26px; }}
+.og--bigsteep .og-foot {{ font-family: 'Red Hat Text', sans-serif; font-weight: 700; color: #E9D27F;
+  letter-spacing: 1px; font-size: 20px; }}
+
 /* black leather lagoon — THE SCREEN OUT IN THE WATER, WHICH IS THE ONE VIEW THE
    ROOM HAS. A bone rectangle standing on two legs, lit and blank; the title in
    the dripping face; the water along the foot with the posts standing in it.
@@ -2423,6 +2436,27 @@ def card_mycelium(p):
     )
 
 
+def card_bigsteep(p):
+    # NO AMBIENT MARKUP: nothing in the cellar moves, no bubble rises.
+    return (
+        "",
+        f'<div class="og og--bigsteep" data-fit="card">'
+        f'<div class="og-scene">{p["bs_scene"]}</div>'
+        f'<p class="bs-over">Arlesglad Caverns, level B1</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">EVERY POUR SAYS HOW STRONG IT IS · ALCOHOL-FREE FIRST · stimpunks.world</p>'
+        f'</div>',
+        f"A dark rock card. Across the top, racks of bottles, glass carboys and "
+        f"small tanks stand against the rock, lit from behind so each one glows the "
+        f"colour of what is in it: amber, straw, pale gold, deep red, black and "
+        f"pink-red. Small grey capitals reading Arlesglad Caverns, level B1, then "
+        f"“{p['h1text']}” in a heavy slab face in cream, and under it: {p['desc_plain']} "
+        f"Along the foot, in pale gold: every pour says how strong it is, "
+        f"alcohol-free first, stimpunks.world.",
+    )
+
+
 def card_lagoon(p):
     # THE SCREEN IS BLANK, and that is a decision rather than a shortcut. What
     # is actually on it is a playlist we keep adding to, so a card showing a
@@ -3269,6 +3303,7 @@ CARDS = {
     "frosty":       card_frosty,
     "breezy":       card_breezy,
     "mycelium":     card_mycelium,
+    "bigsteep":     card_bigsteep,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
     "covenstead":   card_covenstead,
@@ -3528,6 +3563,11 @@ def main():
     if not myc:
         raise SystemExit("REFUSING: mycelium-munchies.html has lost its pass, and its card is built out of it.")
     lifted["myc_scene"] = myc.group(1)
+    bs = re.search(r'<div class="bs-cellar" aria-hidden="true">\s*(<svg.*?</svg>)',
+                   (ROOT / "big-steep-fermentables.html").read_text(), re.S)
+    if not bs:
+        raise SystemExit("REFUSING: big-steep-fermentables.html has lost its racks, and its card is built out of them.")
+    lifted["bs_scene"] = bs.group(1)
 
     # THE LAGOON'S CARD CARRIES THE ROOM'S OWN BILL LINE. Typed here it would be
     # one more place the room's tagline lives, in the file whose entire argument

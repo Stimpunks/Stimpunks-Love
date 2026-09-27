@@ -1650,5 +1650,33 @@
       "src": "https://fonts.gstatic.com/s/schibstedgrotesk/v7/Jqz55SSPQuCQF3t8uOwiUL-taUTtap9GayojdSFO.woff2",
       "note": "Mycelium Munchies (§65), every word that is read: the menu, what is in every dish, and the growing rooms. A plain, sturdy grotesque, the face of a kitchen's printed ticket rather than its sign. One variable file serves both weights."
     }
+  ],
+  "zilla-slab": [
+    {
+      "file": "zilla-slab-700.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 16788,
+      "src": "https://fonts.gstatic.com/s/zillaslab/v12/dFa5ZfeM_74wlPZtksIFYoEf6HOpW3pwfa0.woff2",
+      "note": "Big Steep Fermentables (§66), the cellar's name, its headings and the name on every house style, and nothing at reading size: a heavy slab, the letter stamped on the end of a crate or stencilled on a tank. One weight."
+    }
+  ],
+  "red-hat-text": [
+    {
+      "file": "red-hat-text-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 30164,
+      "src": "https://fonts.gstatic.com/s/redhattext/v19/RrQXbohi_ic6B3yVSzGBrMxQaKctMc-JPQ.woff2",
+      "note": "Big Steep Fermentables (§66), every word that is read, and every strength, which is the one number that has to be read before the pour. Clear, open figures. One variable file serves both weights."
+    },
+    {
+      "file": "red-hat-text-400.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 30164,
+      "src": "https://fonts.gstatic.com/s/redhattext/v19/RrQXbohi_ic6B3yVSzGBrMxQaKctMc-JPQ.woff2",
+      "note": "Big Steep Fermentables (§66), every word that is read, and every strength, which is the one number that has to be read before the pour. Clear, open figures. One variable file serves both weights."
+    }
   ]
 }

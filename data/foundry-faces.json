@@ -1828,6 +1828,29 @@
     }
    ]
   },
+  "red-hat-text": {
+   "family": "Red Hat Text",
+   "category": "Sans Serif",
+   "designer": "MCKL",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/redhattext",
+   "copyright": "Copyright 2024 The Red Hat Project Authors (https://github.com/RedHatOfficial/RedHatFont)",
+   "repository": "https://github.com/RedHatOfficial/RedHatFont",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "red-hat-text-400.woff2",
+     "sha": "cecc57ca573b6fb6"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "red-hat-text-400.woff2",
+     "sha": "cecc57ca573b6fb6"
+    }
+   ]
+  },
   "rethink-sans": {
    "family": "Rethink Sans",
    "category": "Sans Serif",
@@ -2408,6 +2431,23 @@
      "style": "normal",
      "file": "yeseva-one-400.woff2",
      "sha": "0d4e9b9006711830"
+    }
+   ]
+  },
+  "zilla-slab": {
+   "family": "Zilla Slab",
+   "category": "Serif",
+   "designer": "Typotheque",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/zillaslab",
+   "copyright": "Copyright 2017, The Mozilla Foundation",
+   "repository": "https://github.com/mozilla/zilla-slab",
+   "variants": [
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "zilla-slab-700.woff2",
+     "sha": "6d5ec30c781ce44a"
     }
    ]
   }

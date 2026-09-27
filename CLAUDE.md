@@ -2805,18 +2805,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §67 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §68 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§67 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§68 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §67 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §68 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the
@@ -2914,6 +2914,23 @@ where the Plural Mural chalkboard came from.
     that jumps down to it. The model flows in one column, so "beside the mat" could not hold at every
     width. `make-map.py` reads the levels off the lift panel like the pitches and turnings; a room
     that opens down there needs its level's `h3` to link and nothing else.
+
+**BIG STEEP FERMENTABLES IS LEVEL B1, AND EVERY RULE IN IT IS ABOUT THE PEOPLE WHO DO NOT DRINK.**
+§66, Ryan's brief, 2026-09-26 ("try our house styles"), built by `tools/make-big-steep.py` out of
+`data/big-steep.json`. **Every pour says how strong it is before the pour** (the runtime rule for a
+drink), and **every house style comes as two pours with the alcohol-free one FIRST and the SAME
+SIZE**, Dead Tired Society's passing rule: the tool refuses a style whose first pour has alcohol in
+it, and §66 styles the two boxes identically on purpose. **Do not make the alcohol-free box smaller,
+paler or second.** Alcohol-free means at most 0.05% for a dealcoholised beer or wine, and the room
+says a faint trace can stay; **kombucha is never quite zero**, so its fermented pour gives a ceiling
+and says it varies, and its alcohol-free pour is the tea unfermented. The tool refuses pressure
+(rounds, one more, drinking games, being drunk as the fun part), **"mocktail" and "virgin"**, which
+make an alcohol-free drink an imitation, health claims (kombucha is sold on its gut), a count of
+drinks, and **wood**: the vessels are glass and steel on bare rock, which keeps it off the brown
+rooms and a row of oak barrels. The light comes **through the drinks** from lamps behind the racks;
+the Chappell's stained glass is the collision, and that is fixed colour in a window of a building.
+**Nothing moves**: the first friendly edit to a brewery is a glass filling up. Its break test found
+the tool crashing on a missing strength rather than refusing it; it refuses on the data first now.
 
 **MYCELIUM MUNCHIES IS LEVEL B2, A MUSHROOM FARM WITH A RESTAURANT AT THE END OF IT.** §65, Ryan's
 brief, 2026-09-26, built by `tools/make-mycelium.py` out of `data/mycelium.json`. **Vital Plant

@@ -939,6 +939,20 @@
       "sections": [
         65
       ]
+    },
+    "zilla-slab": {
+      "where": "Big Steep Fermentables",
+      "page": "big-steep-fermentables.html",
+      "sections": [
+        66
+      ]
+    },
+    "red-hat-text": {
+      "where": "Big Steep Fermentables",
+      "page": "big-steep-fermentables.html",
+      "sections": [
+        66
+      ]
     }
   }
 }
