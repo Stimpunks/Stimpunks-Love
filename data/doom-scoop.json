@@ -106,120 +106,70 @@
    ]
   }
  ],
- "set": "2026-09-26T13:37Z",
+ "set": "2026-09-27T11:16Z",
  "covered": {
   "meidastouch": [
    [
     "2026-09-25T11:00:39Z",
-    "2026-09-26T13:37:36Z"
+    "2026-09-27T11:16:55Z"
    ]
   ],
   "closer-look": [
    [
     "2026-07-17T01:00:31Z",
-    "2026-09-26T13:37:36Z"
+    "2026-09-27T11:16:55Z"
    ]
   ],
   "late-night-monologues": [
    [
     "2026-07-15T01:00:12Z",
-    "2026-09-26T13:37:36Z"
+    "2026-09-27T11:16:55Z"
    ]
   ],
   "kimmel": [
    [
     "2026-09-18T06:00:06Z",
-    "2026-09-26T13:37:36Z"
+    "2026-09-27T11:16:55Z"
    ]
   ],
   "jason-salmon": [
    [
     "2026-08-24T15:00:06Z",
-    "2026-09-26T13:37:36Z"
+    "2026-09-27T11:16:55Z"
    ]
   ],
   "texas-paul": [
    [
     "2026-09-17T21:37:08Z",
-    "2026-09-26T13:37:36Z"
+    "2026-09-27T11:16:55Z"
    ]
   ],
   "tennessee-brando": [
    [
     "2026-09-17T16:07:51Z",
-    "2026-09-26T13:37:36Z"
+    "2026-09-27T11:16:55Z"
    ]
   ],
   "lawyer-oyer": [
    [
     "2026-09-01T01:12:06Z",
-    "2026-09-26T13:37:36Z"
+    "2026-09-27T11:16:55Z"
    ]
   ],
   "hawk": [
    [
     "2026-09-25T01:00:17Z",
-    "2026-09-26T13:37:36Z"
+    "2026-09-27T11:16:55Z"
    ]
   ],
   "daily-show": [
    [
     "2026-09-18T11:35:00Z",
-    "2026-09-26T13:37:36Z"
+    "2026-09-27T11:16:55Z"
    ]
   ]
  },
  "scoops": [
-  {
-   "id": "h2Z1nQKotaQ",
-   "source": "daily-show",
-   "title": "Josh on Kash Patel's Bestiality Stance & Kosta on Another Oil Strait Closure | The Daily Show",
-   "published": "2026-09-19T13:00:29Z",
-   "edition": "2026-09-20",
-   "state": "screen",
-   "runs": 1671,
-   "channel": "The Daily Show"
-  },
-  {
-   "id": "zeRpVwW9C04",
-   "source": "tennessee-brando",
-   "title": "I’m Calling BS on Joe Rogan’s Latest Claim",
-   "published": "2026-09-19T15:00:22Z",
-   "edition": "2026-09-20",
-   "state": "screen",
-   "runs": 715,
-   "channel": "Tennessee Brando"
-  },
-  {
-   "id": "cfkt6k8RhE8",
-   "source": "texas-paul",
-   "title": "Trump's. CNN distraction and why MAGA shouldn't vote or in some cases be American citizens.",
-   "published": "2026-09-19T15:23:16Z",
-   "edition": "2026-09-20",
-   "state": "screen",
-   "runs": 178,
-   "channel": "Texas Paul"
-  },
-  {
-   "id": "s_eyC9-lL9E",
-   "source": "texas-paul",
-   "title": "Virginia, Vermont, Mississippi, Minnesota & South Dakota early or early absentee voting has begun.",
-   "published": "2026-09-19T21:05:59Z",
-   "edition": "2026-09-20",
-   "state": "screen",
-   "runs": 33,
-   "channel": "Texas Paul"
-  },
-  {
-   "id": "CrsO9HCe_58",
-   "source": "tennessee-brando",
-   "title": "Trump’s “Jokes” Have a VERY Familiar Pattern",
-   "published": "2026-09-20T01:00:10Z",
-   "edition": "2026-09-20",
-   "state": "screen",
-   "runs": 711,
-   "channel": "Tennessee Brando"
-  },
   {
    "id": "GDIJArb0LgA",
    "source": "texas-paul",
@@ -1099,7 +1049,311 @@
    "state": "screen",
    "runs": 2493,
    "channel": "The Daily Show"
+  },
+  {
+   "id": "GXV8YFI-okk",
+   "source": "meidastouch",
+   "title": "🚨Ivanka Gets DISGRACED by Donald…",
+   "published": "2026-09-26T14:00:08Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 981,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "u_0kvQeIoG4",
+   "source": "tennessee-brando",
+   "title": "THIS Is What Tommy Tuberville Wants to Talk About",
+   "published": "2026-09-26T15:04:07Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 748,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "DwhEp8rixhA",
+   "source": "meidastouch",
+   "title": "🚨Fox News PANICS ON AIR over THIS…",
+   "published": "2026-09-26T15:30:28Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 1003,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "sfoGBUlG-y0",
+   "source": "meidastouch",
+   "title": "🚨Trump’s SATURDAY MORNING is a DISASTER…",
+   "published": "2026-09-26T17:31:13Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 1388,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "-WsO6ooGHJ0",
+   "source": "meidastouch",
+   "title": "🚨Trump FACES WORST LEAKS YET…",
+   "published": "2026-09-26T19:00:34Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 841,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "EyAwwBfXGhM",
+   "source": "meidastouch",
+   "title": "🚨Trump’s FLORIDA NIGHTMARE Just Got WORSE…",
+   "published": "2026-09-26T20:30:38Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 975,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "dfdypfTEzJU",
+   "source": "tennessee-brando",
+   "title": "Hunter Biden Says He’ll Testify About EVERYTHING",
+   "published": "2026-09-26T21:00:00Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 2620,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "zc_-CuupTh4",
+   "source": "hawk",
+   "title": "Normal",
+   "published": "2026-09-26T22:00:16Z",
+   "edition": "2026-09-27",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 83,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "iFjMO8MDQaM",
+   "source": "meidastouch",
+   "title": "🚨 Trump CANCELS FOX NEWS as it all FALLS APART",
+   "published": "2026-09-26T22:00:18Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 749,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "kP6n4E50RiA",
+   "source": "hawk",
+   "title": "HOT MASCULINE JESUS",
+   "published": "2026-09-26T23:00:08Z",
+   "edition": "2026-09-27",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 108,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "2b04tvth8kc",
+   "source": "texas-paul",
+   "title": "MAGA tries to blame high oil prices on the Keystone XL project being stopped.  It's the Iran War.",
+   "published": "2026-09-26T23:13:54Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 97,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "44ip0oOSU4g",
+   "source": "meidastouch",
+   "title": "🚨Clinton GOES FOR KILL….",
+   "published": "2026-09-26T23:30:18Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 835,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "8ZycFlTPBWs",
+   "source": "hawk",
+   "title": "We’ve failed Palestine",
+   "published": "2026-09-27T00:00:34Z",
+   "edition": "2026-09-27",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 87,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "2fRLSJ1eFqg",
+   "source": "hawk",
+   "title": "#duet with TJ Adams-Falconer It’s all coming out Josh! Lol",
+   "published": "2026-09-27T01:00:10Z",
+   "edition": "2026-09-27",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 23,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "geVPRdzKrZ4",
+   "source": "meidastouch",
+   "title": "🚨 Trump CAN'T FACE THE HEAT over Declining Polls",
+   "published": "2026-09-27T01:30:02Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 495,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "QqIyPhcPsUs",
+   "source": "hawk",
+   "title": "#duet with Chey Stone VOTE BLUE KANSAS",
+   "published": "2026-09-27T02:00:24Z",
+   "edition": "2026-09-27",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 16,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "luIBSvGS9bg",
+   "source": "meidastouch",
+   "title": "🚨Trump Prosecutor RESIGNS IN PROTEST…",
+   "published": "2026-09-27T03:00:03Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 844,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "-gbs8Hx0diE",
+   "source": "hawk",
+   "title": "#duet with American Power They’ve been lying the entire time",
+   "published": "2026-09-27T03:00:32Z",
+   "edition": "2026-09-27",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 75,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "TiR3me6PCh8",
+   "source": "hawk",
+   "title": "#duet with Jordan The Grey The boos always come from the cheap seats",
+   "published": "2026-09-27T04:00:31Z",
+   "edition": "2026-09-27",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 52,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "_42nHdQUxOA",
+   "source": "meidastouch",
+   "title": "🚨It Just Got UGLY For Netanyahu....",
+   "published": "2026-09-27T04:30:28Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 794,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "Re1mTKc4kig",
+   "source": "hawk",
+   "title": "#duet with Ashley Boulos 🇵🇸 Wheelchairs",
+   "published": "2026-09-27T05:00:36Z",
+   "edition": "2026-09-27",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 117,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "pT3h-gCpmjg",
+   "source": "meidastouch",
+   "title": "Trump UNDERCUT by his OWN Nominee…",
+   "published": "2026-09-27T06:00:22Z",
+   "edition": "2026-09-27",
+   "state": "screen",
+   "runs": 822,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "z8i99fWThj4",
+   "source": "hawk",
+   "title": "#duet with American Power They’ve been lying the entire time",
+   "published": "2026-09-27T06:00:35Z",
+   "edition": "2026-09-27",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 75,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "v8F53lCmDXE",
+   "source": "hawk",
+   "title": "#duet with NowThis Impact Peter Thiel is insane",
+   "published": "2026-09-27T07:00:00Z",
+   "edition": "2026-09-27",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 11,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "v4B8fSc-RPQ",
+   "source": "hawk",
+   "title": "#duet with Courier Newsroom VOTE BLUE KANSAS",
+   "published": "2026-09-27T08:00:15Z",
+   "edition": "2026-09-27",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 30,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "rA_syoSUywY",
+   "source": "hawk",
+   "title": "#duet with ChaosNCarpool Tgat is some Virgo sh*t",
+   "published": "2026-09-27T09:00:12Z",
+   "edition": "2026-09-27",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 75,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "lpq9tPB3Ld8",
+   "source": "hawk",
+   "title": "#duet with themargaretcho They deserve to live in peace",
+   "published": "2026-09-27T10:00:02Z",
+   "edition": "2026-09-27",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 24,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "oZTqslyB_jw",
+   "source": "hawk",
+   "title": "#duet with Mic The Snare The new Taylor Swift song is a banger!",
+   "published": "2026-09-27T11:00:02Z",
+   "edition": "2026-09-28",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 22,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "q6v1MOD-oZg",
+   "source": "meidastouch",
+   "title": "🚨Trump CAN’T HANDLE THIS…",
+   "published": "2026-09-27T11:00:02Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 969,
+   "channel": "MeidasTouch"
   }
  ],
- "newest": "2026-09-26"
+ "newest": "2026-09-27"
 }
