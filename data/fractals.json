@@ -505,6 +505,18 @@
         "--chalk"
       ]
     },
+    "design.html": {
+      "kind": "ifs",
+      "figure": "crystal",
+      "sway": 0.05,
+      "ground": "--ink",
+      "inks": [
+        "--cyan",
+        "--yellow",
+        "--pink",
+        "--chalk"
+      ]
+    },
     "live-room.html": {
       "kind": "newton",
       "degree": 3,

@@ -357,6 +357,11 @@
    "path": "/liner-notes.html"
   },
   {
+   "tag": "design",
+   "name": "How this site is made",
+   "path": "/design.html"
+  },
+  {
    "tag": "privacy",
    "name": "Privacy",
    "path": "/privacy.html"

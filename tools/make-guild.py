@@ -104,7 +104,11 @@ CREDITS = ROOT / "liner-notes.html"
 #                    here. A job marker on it would turn the one page that has
 #                    to be read carefully into a stop on a walking tour, and
 #                    reading it is not a quest.
-EXEMPT = {"changelog.html", "adventurers-guild.html", "404.html", "privacy.html"}
+#   design.html      says how the street is made and who and what makes it,
+#                    AI included. It is a disclosure, read for the privacy
+#                    page's reason, and a job sending somebody through it would
+#                    make an account owed to every visitor into a quest.
+EXEMPT = {"changelog.html", "adventurers-guild.html", "404.html", "privacy.html", "design.html"}
 
 # THE DIFFICULTY CLASS IS HOW FAR YOU WALK. It is enumerated here rather than
 # typed per job so that no job can invent a rank, and defined by geography so

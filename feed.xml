@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Sun, 27 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 28 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>How this site is made, and how we use AI</title>
+      <link>https://stimpunks.world/changelog.html#2026-09-28-how-this-site-is-made</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-how-this-site-is-made</guid>
+      <pubDate>Mon, 28 Sep 2026 12:00:00 GMT</pubDate>
+      <description>A new page, How this site is made, like the design pages our sibling sites keep. It says why there is no design system here, what every room shares anyway, how the dial works, how contrast is measured, why nothing plays until you press it, and how the site is built and checked. It says how we use AI, in one place and plainly. Ryan Boren and Helen Edgar decide what the street is. Claude, an AI model made by Anthropic, writes nearly all of the code and drafts most of the words, and the drawings are code it writes. No picture here came out of an image generator, no voice here was made by an AI, and nothing a visitor does is sent to one. The page also says which mistakes a language model makes and how the site catches them. Every page’s sign-off links to it, beside the liner notes, so the account is one press away wherever you are.</description>
+    </item>
     <item>
       <title>Other people on the Slake</title>
       <link>https://stimpunks.world/changelog.html#2026-09-27-the-slake-multi-user</link>

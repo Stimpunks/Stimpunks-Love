@@ -86,6 +86,9 @@ ORDER = ["index.html",
          "glow-go-gee-gaws.html", "stay-frosty.html",
          "stay-breezy.html",
          "liner-notes.html",
+         # How the site is made, and who and what makes it, AI included. A
+         # page with a job rather than a room, so it stands with the credits.
+         "design.html",
          # What the site keeps about the people who visit it. With the other
          # pages that hold lists rather than rooms, because that is what it is.
          "privacy.html",
@@ -219,6 +222,7 @@ lines += [
     "https://stimpunks.world/foundry.html records them; the songs keep their own copyright.",
     "- Nothing musical is hosted here. The jukebox is press-to-play facades that link out.",
     "- Full credits: https://stimpunks.world/liner-notes.html",
+    "- How the site is made, and how we use AI: https://stimpunks.world/design.html",
     "",
     "## For agents",
     "",

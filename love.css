@@ -3786,8 +3786,9 @@ html[data-intensity="max"] .burst--confetti span { animation: pb-confetti 1.5s e
 .floor span { background: #101014; padding: 9px 22px; border-radius: 30px; font-family: 'Bungee', var(--sans); font-size: 14px; color: var(--yellow); letter-spacing: 1px; }
 
 
-/* §11 ── The plain rooms: Your Room, Liner Notes, Changelog ──────────────────
-   Three pages that have a job rather than a vibe. They take the street's night
+/* §11 ── The plain rooms: Your Room, Liner Notes, Changelog and the others ───
+   The pages that have a job rather than a vibe: Your Room, the liner notes,
+   how the site is made, privacy and the changelog. They take the street's night
    ground and one accent, and otherwise get out of the way. A site this loud
    needs somewhere to put a list. */
 

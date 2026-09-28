@@ -1,7 +1,8 @@
 """The sign-off line at the foot of every page, written in one place.
 
 WHAT IT IS AND WHAT IT IS NOT. Every page ends with the same short line of links
--- back to the top, the liner notes, Your Room, the changelog, the privacy page,
+-- back to the top, the liner notes, how it is made, Your Room, the changelog,
+the privacy page,
 the feed, whose street this is -- because a visitor looking for how to leave,
 who made this, or what happens to them should find it in the same place
 wherever they are. That is the spec's "consistent help", and a privacy page is
@@ -48,6 +49,7 @@ import fractals
 
 LINKS = [
     ("liner-notes.html", "Liner notes"),
+    ("design.html", "How it’s made"),
     ("your-room.html", "Your Room"),
     ("changelog.html", "Changelog"),
     ("privacy.html", "Privacy"),
