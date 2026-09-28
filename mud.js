@@ -13,10 +13,18 @@
    arrives and the answer is where the hand is. The map is aria-hidden: it is a
    picture of the same words.
 
-   NOTHING IS KEPT, SENT OR HEARD. No storage, no request, no sound; closing the
-   page puts the tide back out and the finds back on the foreshore. make-mud.py
-   refuses this file if it ever does otherwise. Nothing is counted either: the
-   map marks where you have been, and nothing adds it up.
+   NOTHING IS KEPT OR HEARD, AND NOTHING IS SENT UNTIL YOU ARE SEEN. No storage
+   of its own and no sound; closing the page puts the tide back out and the finds
+   back on the foreshore. The one thing it sends is through the CB, and only
+   once somebody signed on has pressed Be seen out here, on this visit, with the
+   tab in front: where they are and what they say, to /cb/mud/ and nowhere
+   else. It reads the radio's pass out of love-cb and never writes it, which is
+   the chalkboard's rule. make-mud.py refuses this file if it ever does more.
+
+   SEEING IS THE SAME SWITCH AS BEING SEEN. Nobody watches the Slake unseen, and
+   you meet people only in the place you are in: the map shows you and nobody
+   else, and nothing anywhere lists or counts who is out here. Your tide is your
+   own; somebody else waiting does not flood your mud.
 
    NOTHING MOVES BY ITSELF. The tide turns when somebody says wait, and the
    footprint on the map jumps rather than slides, at every setting of the dial.
@@ -283,6 +291,7 @@
     seen[id] = true;
     if (places[id].reveal) { Object.keys(places).forEach(function (k) { seen[k] = true; }); }
     describe();
+    if (seenOn) { setTimeout(tick, 0); }
   }
 
   function go(dir) {
@@ -411,7 +420,7 @@
   }
 
   function help() {
-    say('The words the Slake knows: north, south, east, west, up, down and across (or n, s, e, w, u, d); look; look at something; take and drop; wear and take off; talk to somebody; show a find to Ada; wait; sit; slide; ring; join in; home; help. Every button does the same thing as a word.');
+    say('The words the Slake knows: north, south, east, west, up, down and across (or n, s, e, w, u, d); look; look at something; take and drop; wear and take off; talk to somebody; show a find to Ada; wait; sit; slide; ring; join in; home; help. Signed on to the CB and seen, say something (or start with a quote mark) and whoever is seen here hears it, and who says who else is here. Every button does the same thing as a word.');
   }
 
   function run(raw) {
@@ -433,6 +442,7 @@
     else if (/^(?:wait|z|rest|wait for the tide)$/.test(cmd)) { wait(); }
     else if (/^(?:home|go home|recall)$/.test(cmd)) { say(lines.home); arrive(start); }
     else if (/^(?:help|\?|commands|h)$/.test(cmd)) { help(); }
+    else if (/^(?:who|who is here|look for people)$/.test(cmd)) { who(); }
     else if (/^(?:sit|sit down)$/.test(cmd)) { say(here().sit ? strip(here().sit).textContent.trim() : lines.sit); }
     else if (/^(?:slide|slide down|go down the slide)$/.test(cmd)) {
       say(where.slide === state.here ? lines.slide : 'There is nothing to slide down here. There is on the mudflat.');
@@ -446,7 +456,8 @@
       if (ines.place !== state.here) { say('There is nothing here to join in with. Ines is building a boat at the boathouse.'); }
       else { sayEl(ines.join[ines.joined % ines.join.length]); ines.joined += 1; }
     }
-    else if ((m = cmd.match(/^(?:say|shout|yell|tell) (.+)$/))) { say(lines.say); }
+    else if (/^(?:say|shout|yell|tell) ./.test(cmd)) { speak(raw.trim().replace(/^\S+\s+/, '')); }
+    else if (/^["'].+/.test(cmd)) { speak(raw.trim().slice(1).replace(/["']$/, '').trim()); }
     else { say(lines.unknown); }
   }
 
@@ -454,6 +465,188 @@
     echo(cmd);
     run(cmd);
     draw();
+  }
+
+  // ── Other people, through the CB ──────────────────────────────────────────
+  // Nothing in this part sends anything until somebody signed on has pressed Be
+  // seen out here. Everything it prints that somebody else typed goes in with
+  // textContent, and a handle is never proof of who somebody is.
+  var EVERY = 5000;
+  var company = document.getElementById('mud-company');
+  var signon = document.getElementById('mud-signon');
+  var seenBtn = document.getElementById('mud-seen');
+  var cstate = document.getElementById('mud-company-state');
+  var me = (function () {
+    try { var v = JSON.parse(localStorage.getItem('love-cb') || 'null'); return v && v.pass ? v : null; }
+    catch (e) { return null; }
+  }());
+  var base = !!(me && (me.base || /^cb1\.base\./.test(me.pass)));
+  var seenOn = false, visit = null, timer = null, others = [], heard = {}, metAt = null;
+
+  function newVisit() {
+    var a = new Uint8Array(18);
+    crypto.getRandomValues(a);
+    return btoa(String.fromCharCode.apply(null, a)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+
+  function call(path, send, keep) {
+    return fetch(path, {
+      method: 'POST', credentials: 'omit', cache: 'no-store', keepalive: !!keep,
+      headers: { 'accept': 'application/json', 'content-type': 'application/json', 'authorization': 'Bearer ' + me.pass },
+      body: JSON.stringify(send),
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
+    });
+  }
+
+  /* Our functions refuse with { error: "a sentence" }, shown as it is. Anything
+     else that answers is not ours to repeat: the chalkboard's rule. */
+  function why(r, otherwise) {
+    if (r && r.body && typeof r.body.error === 'string' && r.body.error) { return r.body.error; }
+    if (r && (r.status === 404 || r.status === 405)) {
+      return 'The CB is not running on this server. It only answers on stimpunks.world itself.';
+    }
+    return otherwise;
+  }
+
+  function live() { return seenOn && document.visibilityState === 'visible'; }
+  function schedule() { clearTimeout(timer); timer = live() ? setTimeout(tick, EVERY) : null; }
+
+  function named(o) { return o.handle + (o.base ? ' (the base station)' : ''); }
+
+  function line(m) {
+    var p = document.createElement('p');
+    var who_ = document.createElement('b');
+    who_.textContent = (me && m.handle === me.handle ? 'You' : named(m)) + ': ';
+    p.appendChild(who_);
+    p.appendChild(document.createTextNode(m.text));
+    if (base && !(me && m.handle === me.handle)) {
+      var off = document.createElement('button');
+      off.type = 'button';
+      off.className = 'mud-btn mud-btn--small mud-btn--off';
+      off.textContent = 'Take this off the air';
+      off.setAttribute('data-remove', m.id);
+      off.setAttribute('data-place', state.here);
+      p.appendChild(document.createTextNode(' '));
+      p.appendChild(off);
+    }
+    return p;
+  }
+
+  function hear(place, b) {
+    if (place !== state.here) { return; }
+    var names = (b.others || []).map(named);
+    var messages = b.messages || [];
+    if (metAt !== place) {
+      // ARRIVING somewhere: who else is seen here, and what has been said here
+      // today, once. After that only what changes.
+      metAt = place;
+      heard = {};
+      if (names.length) { say('Also here: ' + names.join(', ') + '.'); }
+      var earlier = messages.filter(function (m) { return !heard[m.id]; });
+      if (earlier.length) { say('Said here earlier today:'); }
+      earlier.forEach(function (m) { heard[m.id] = true; say(line(m)); });
+    } else {
+      names.forEach(function (n) { if (others.indexOf(n) < 0) { say(n + ' is here.'); } });
+      others.forEach(function (n) { if (names.indexOf(n) < 0) { say(n + ' has gone.'); } });
+      messages.forEach(function (m) { if (!heard[m.id]) { heard[m.id] = true; say(line(m)); } });
+    }
+    others = names;
+    cstate.textContent = names.length ? 'Also here: ' + names.join(', ') + '.' : 'Nobody else is seen here just now.';
+  }
+
+  function tick() {
+    clearTimeout(timer);
+    timer = null;
+    if (!live()) { return; }
+    var place = state.here;
+    call('/cb/mud/here', { place: place, visit: visit }).then(function (r) {
+      if (!seenOn) { return; }
+      if (r.status === 200) { hear(place, r.body); }
+      else if (r.status === 401) { stopSeen('The password has changed since you signed on. Sign on again at the Community Center, then come back.'); return; }
+      else { cstate.textContent = why(r, 'No answer from the Slake just now. Trying again.'); }
+      schedule();
+    }, function () {
+      if (seenOn) { cstate.textContent = 'No answer from the Slake just now. Trying again.'; schedule(); }
+    });
+  }
+
+  function leave() { if (visit) { call('/cb/mud/leave', { visit: visit }, true).catch(function () {}); } }
+
+  function startSeen() {
+    seenOn = true;
+    visit = newVisit();
+    others = [];
+    metAt = null;
+    seenBtn.setAttribute('aria-pressed', 'true');
+    seenBtn.textContent = 'Stop being seen';
+    // IT NEVER CLAIMS WHAT IT HAS NOT HEARD, which is the radio's rule: until
+    // the first answer it is looking, and "nobody else" waits for a reply.
+    cstate.textContent = 'Looking round for anybody else\u2026';
+    say('You are seen out here now, as ' + me.handle + '. Anybody else who is seen in the same place can see you and hear what you say, and you them.');
+    tick();
+  }
+
+  function stopSeen(reason) {
+    if (seenOn) { leave(); }
+    seenOn = false;
+    visit = null;
+    clearTimeout(timer);
+    timer = null;
+    others = [];
+    metAt = null;
+    seenBtn.setAttribute('aria-pressed', 'false');
+    seenBtn.textContent = 'Be seen out here';
+    cstate.textContent = reason || 'You are not seen, and you cannot see anybody. Nothing is being sent.';
+    say(reason || 'You are not seen any more, and nothing is being sent.');
+  }
+
+  function speak(text) {
+    if (!text) { say('Say what? Put the words after say.'); return; }
+    if (!me) { say(lines['say-signon']); return; }
+    if (!seenOn) { say(lines['say-unseen']); return; }
+    var place = state.here;
+    call('/cb/mud/say', { place: place, visit: visit, text: text }).then(function (r) {
+      if (r.status === 200 && place === state.here) {
+        (r.body.messages || []).forEach(function (m) { if (!heard[m.id]) { heard[m.id] = true; say(line(m)); } });
+      } else if (r.status === 401) {
+        stopSeen('The password has changed since you signed on. Sign on again at the Community Center, then come back.');
+      } else if (r.status !== 200) {
+        say(why(r, 'That did not reach anybody. Nothing was said. Try again in a moment.'));
+      }
+    }, function () { say('The Slake could not be reached just now. Nothing was said.'); });
+  }
+
+  function who() {
+    if (!me) { say(lines['say-signon']); return; }
+    if (!seenOn) { say(lines['say-unseen']); return; }
+    say(cstate.textContent);
+  }
+
+  if (me && company && seenBtn) {
+    company.hidden = false;
+    cstate.textContent = 'You are not seen, and you cannot see anybody. Nothing is being sent.';
+    seenBtn.addEventListener('click', function () { if (seenOn) { stopSeen(); } else { startSeen(); } });
+    // A HIDDEN TAB SENDS NOTHING, the radio's rule, and it stops being seen
+    // rather than standing in a place nobody is looking at.
+    document.addEventListener('visibilitychange', function () {
+      if (!seenOn) { return; }
+      if (document.visibilityState === 'visible') { metAt = null; tick(); }
+      else { clearTimeout(timer); timer = null; leave(); }
+    });
+    window.addEventListener('pagehide', function () { if (seenOn) { leave(); } });
+    // The base station's one extra: taking something said off the air.
+    log.addEventListener('click', function (ev) {
+      var off = ev.target.closest('button[data-remove]');
+      if (!off || !base) { return; }
+      off.disabled = true;
+      call('/cb/mud/moderate', { place: off.getAttribute('data-place'), remove: off.getAttribute('data-remove') }).then(function (r) {
+        if (r.status === 200) { off.parentNode.remove(); say('Taken off the air.'); }
+        else { off.disabled = false; say(why(r, 'That did not work. Try again in a moment.')); }
+      }, function () { off.disabled = false; say('The Slake could not be reached just now.'); });
+    });
+  } else if (signon) {
+    signon.hidden = false;
   }
 
   // ── Wiring ────────────────────────────────────────────────────────────────

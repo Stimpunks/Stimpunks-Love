@@ -17,7 +17,7 @@
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="A dark mud-grey card. Small pale capitals reading a multi-user dungeon with nobody to fight · one user so far, then “The MUD Room” in a large, pale, old-style serif, and under it in grey-white: A multi-user dungeon with nobody to fight. Out the back door is the Slake, a tidal estuary made of words: a marsh, a mill, a hut full of things found in the mud, and an island you can walk to while the tide is out. Nothing is counted, and the tide turns when you wait for it. Along the foot, a wide flat estuary at low tide seen from the back step under a pale overcast sky: a dark line of far shore with a small island and a black-and-white striped beacon on it, channels of water lying in the dark mud and shining with the sky, a line of posts going out across the mud towards the island, a heron standing dark in a channel on the right, and reeds in the foreground on the left.">
+<meta property="og:image:alt" content="A dark mud-grey card. Small pale capitals reading a multi-user dungeon with nobody to fight · open to everybody, then “The MUD Room” in a large, pale, old-style serif, and under it in grey-white: A multi-user dungeon with nobody to fight. Out the back door is the Slake, a tidal estuary made of words: a marsh, a mill, a hut full of things found in the mud, and an island you can walk to while the tide is out. Nothing is counted, and the tide turns when you wait for it. Along the foot, a wide flat estuary at low tide seen from the back step under a pale overcast sky: a dark line of far shore with a small island and a black-and-white striped beacon on it, channels of water lying in the dark mud and shining with the sky, a line of posts going out across the mud towards the island, a heron standing dark in a channel on the right, and reeds in the foreground on the left.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="32x32">
@@ -45,7 +45,7 @@
   </div>
 
   <header class="mud-sign">
-    <p class="mud-sign__over">A multi-user dungeon with nobody to fight &middot; one user so far</p>
+    <p class="mud-sign__over">A multi-user dungeon with nobody to fight &middot; open to everybody</p>
     <h1>The MUD Room</h1>
     <p class="mud-sign__tag">Take your boots off, or put them on. <b>The Slake is out the back door.</b></p>
   </header>
@@ -171,6 +171,16 @@
             <div class="mud-here__row" id="mud-here-things"></div>
             <div class="mud-here__row" id="mud-here-people"></div>
           </div>
+          <!-- OTHER PEOPLE, through the CB. Both ship hidden: mud.js shows the
+               switch to somebody signed on and the sign-on line to anybody else.
+               The switch is off on every visit and is never remembered. -->
+          <div class="mud-company" id="mud-company" hidden>
+            <p class="mud-lab">Other people out here</p>
+            <p class="mud-company__state" id="mud-company-state"></p>
+            <button type="button" class="mud-btn mud-btn--seen" id="mud-seen" aria-pressed="false">Be seen out here</button>
+            <p class="mud-company__fine">Seen, you meet whoever else is seen in the same place and hear what is said there. Nobody sees you unless you are seen, and you cannot see anybody unless you are.</p>
+          </div>
+          <p class="mud-company mud-company__fine" id="mud-signon" hidden>Sign on to <a href="community-center.html">the CB</a> at the Community Center and you can meet whoever else is out here.</p>
           <div class="mud-ways-now" role="group" aria-labelledby="mud-ways-lab">
             <p class="mud-lab" id="mud-ways-lab">Ways on</p>
             <div class="mud-btns" id="mud-exits"></div>
@@ -194,7 +204,8 @@
 <!-- mud:lines:begin -->
       <div class="mud-lines" hidden>
         <p data-line="home">However far out you were, the way back is always open. You are in the MUD Room, and you can take your boots off.</p>
-        <p data-line="say">There is nobody out here to hear it yet. The Slake is a multi-user dungeon with one user so far, and it says why on the page.</p>
+        <p data-line="say-signon">Nobody can hear you out here unless you are signed on to the CB. Sign on at the Community Center, come back, and choose to be seen: then whoever else is seen in the same place hears what you say.</p>
+        <p data-line="say-unseen">Nobody can hear you unless you are seen. Press Be seen out here, and whoever else is seen in the same place will hear what you say, and you them.</p>
         <p data-line="sit">You sit down where you are for a while. Nothing is asked of you.</p>
         <p data-line="slide">You sit down at the top of the polished mud and let go. You are in the channel at the bottom a moment later, a great deal muddier, which was the idea.</p>
         <p data-line="dark-blocked">It is too dark to see anything down here. Something to see by would help.</p>
@@ -222,6 +233,7 @@
       <dt><code>wait</code></dt><dd>Wait for the tide to turn. It only turns when you do this, and only somewhere dry.</dd>
       <dt><code>home</code></dt><dd>Straight back to the MUD Room, from anywhere.</dd>
       <dt><code>sit</code>, <code>slide</code>, <code>ring</code>, <code>join in</code></dt><dd>For the places that have somewhere to sit, a slide, a bell and a boat.</dd>
+      <dt><code>say</code> something, or <code>'</code> in front</dt><dd>Signed on to the CB and seen, whoever else is seen where you are hears it. <code>who</code> says who else is here.</dd>
       <dt><code>help</code></dt><dd>These words again.</dd>
     </dl>
     <p>What happens is written into the box under the buttons, newest at the foot, and a screen reader reads each line out as it arrives. The map shows where you have been and the ways you have seen but not taken yet. It is a picture of the same words, so there is nothing on it you cannot also find by reading.</p>
@@ -236,15 +248,22 @@
       <li><strong>Say home and you are home.</strong> However far out you get, one word or one button brings you back to the MUD Room, and from every place there is also a walk back at every tide it can be reached at. The tool that builds the Slake will not build a place without one, or a way on without a way back.</li>
       <li><strong>The words are the game.</strong> Every place, thing and person is written out, and the map is drawn from the same words. With scripts off, the whole Slake is the guidebook at the foot of this page, and its ways on are links you can follow.</li>
       <li><strong>Nobody teaches and nobody tests.</strong> Each person out there is doing something our glossary has an entry for, and if you talk to them twice they tell you its name, linked. That is all the learning there is. Nothing quizzes you, and nothing has to be understood before anything else opens.</li>
-      <li><strong>Nothing is kept, sent or heard.</strong> The Slake keeps nothing when you close the page, sends nothing anywhere, and makes no sound. The tide goes back out and the finds go back on the foreshore.</li>
+      <li><strong>Nothing is kept or heard, and nothing is sent until you are seen.</strong> The Slake keeps nothing about where you went, in your browser or anywhere else, and it makes no sound. It sends nothing at all until you are signed on to the CB and press Be seen out here, and then only where you are and what you say. Closing the page puts the tide back out and the finds back on the foreshore.</li>
       <li><strong>Nothing out there is a field guide.</strong> There is samphire on the marsh and a heron in the creek, and the Slake says what they look like and what they are doing. It will never tell you what is safe to pick or eat.</li>
     </ol>
   </section>
 
-  <section class="mud-part" aria-labelledby="mud-others-h" id="nobody-else">
-    <h2 id="mud-others-h">Nobody else here yet</h2>
-    <p>A MUD is multi-user, and this one has one user so far, which is you. The other half is not built yet. It will run on <a href="community-center.html">the CB</a>, the street&rsquo;s radio, with the same pass you sign on with at the Community Center, the same house norms and the same base station.</p>
-    <p>When it is built, two things about it are already settled. <strong>You are seen by your CB handle only if you choose to be</strong>, on each visit, and nobody is listed or counted: there is no list of who is out there and no number of people on the mud. <strong>And each place on the Slake has a channel of its own</strong>, under the CB&rsquo;s rules, which <a href="privacy.html">the privacy page</a> sets out. Until then the logbook in the hide is empty, and the peg at the end of the row is free.</p>
+  <section class="mud-part" aria-labelledby="mud-others-h" id="other-people">
+    <h2 id="mud-others-h">Other people out here</h2>
+    <p>A MUD is multi-user, and so is this one, through <a href="community-center.html">the CB</a>, the street&rsquo;s radio. Sign on at the Community Center, come back, and press <strong>Be seen out here</strong> beside the map. It is off every time you arrive, and nothing is sent until you press it.</p>
+    <ul class="mud-rules">
+      <li><strong>You are seen by your CB handle only when you choose to be</strong>, on this visit. Being seen is also the only way to see: nobody can watch the Slake without being seen on it, and when you stop being seen, you stop seeing anybody else.</li>
+      <li><strong>You meet people in the place you are in, and nobody is listed or counted.</strong> There is no list of who is out on the Slake and no number of people anywhere, the map shows you and nobody else, and who is here is said in names, in alphabetical order, so nobody is first for arriving first.</li>
+      <li><strong>Each place has its own talk, under the radio&rsquo;s rules.</strong> Say something and whoever is seen in the same place hears it. The latest ten things said in a place stay until midnight in Colorado and are gone after that, and the base station can take one off the air sooner. A handle is not proof of who somebody is.</li>
+      <li><strong>Your tide is your own.</strong> Somebody else waiting does not flood your mud, so you may meet somebody on the mudflat while it is under water for you. That is the street&rsquo;s promise that nothing moves until you say so, kept for each of you.</li>
+      <li><strong>A hidden tab is not out here.</strong> Put the page behind another and you stop being seen until you come back to it, the way the radio stops listening.</li>
+    </ul>
+    <p>What the Slake sends and what it keeps is on <a href="privacy.html#the-slake">the privacy page</a>, beside the radio&rsquo;s.</p>
   </section>
 
   <section class="mud-part" aria-labelledby="mud-whose-h">
@@ -292,7 +311,7 @@
         <p class="mud-sit"><span class="mud-when">If you sit down.</span> You sit on the end of the bench and look out through the slot. Wren and Tam do not look round, and that is a welcome.</p>
         <ul class="mud-things">
           <li class="mud-thing" data-thing="slot" data-words="slot|window|birds|marsh"><b class="mud-thing__name">the slot of a window</b>. <span class="mud-look" data-when="any">Through the slot: the marsh, the creeks, a line of mud beyond, and birds getting on with things because nobody is bothering them. The slot is exactly as wide as it needs to be and not an inch wider.</span></li>
-          <li class="mud-thing" data-thing="logbook" data-words="logbook|log|book|pencil"><b class="mud-thing__name">the logbook</b>. <span class="mud-look" data-when="any">A logbook on a string, with a pencil on another string, for writing down what you saw. Its pages are empty. So far the Slake has only ever had one visitor at a time, and this one is you.</span></li>
+          <li class="mud-thing" data-thing="logbook" data-words="logbook|log|book|pencil"><b class="mud-thing__name">the logbook</b>. <span class="mud-look" data-when="any">A logbook on a string, with a pencil on another string, for writing down what you saw. Its pages are empty, because the Slake writes nothing down. Whoever else is out here, you meet them where they are, not in a book.</span></li>
         </ul>
         <ul class="mud-people">
           <li class="mud-person" data-person="watchers" data-words="wren|tam|wren and tam|watchers|them|people"><b class="mud-person__name">Wren and Tam</b>. <span class="mud-here">Wren and Tam are on the bench, watching the marsh.</span> <span class="mud-says">Wren glances round, smiles, and goes back to watching. Tam shifts along the bench to make room for you. That is the whole conversation, and it is a good one.</span> <span class="mud-says">Sitting side by side with nothing to say and no need to say it has a name. Our glossary calls it <a href="https://stimpunks.org/glossary/parallel-play/">Parallel Play</a>: being alone together, in the same place, where just being there with each other counts.</span></li>

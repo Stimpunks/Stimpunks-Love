@@ -15206,6 +15206,11 @@ html[data-intensity="max"] .gg-toy.is-lit .gg-shape { filter: drop-shadow(0 0 14
        model and has no scale: it is a MUD map, places and the ways between them,
        and it only shows what you have walked to.
 
+   OTHER PEOPLE ARE NEVER ON THE MAP. The Slake's multi-user half (the CB, on
+   the Slake) shows who else is seen in the place you are, in words, in the
+   panel; a map with everybody's footprint on it would be the list of who is out
+   here that the room refuses, drawn.
+
    NOTHING IN HERE MOVES AT ANY SETTING, and the room says so in its own way:
    the tide turns when you wait for it. The footprint on the map jumps rather
    than slides. The map is aria-hidden and every word on it is also in the panel
@@ -15252,6 +15257,14 @@ html[data-intensity="max"] .gg-toy.is-lit .gg-shape { filter: drop-shadow(0 0 14
 }
 .mud-btn:hover { border-color: var(--mud-welly); color: var(--mud-sky); }
 .mud-btn--small { font-size: 15.5px; padding: 6px 11px; }
+/* OTHER PEOPLE: a panel of its own under where you are, with the switch in it
+   and who else is seen here written beside the switch, where the hand is. */
+.mud-company { margin: 0; padding: 14px 18px; background: var(--mud-bank); border-left: 3px solid var(--mud-welly); }
+.mud-company__state { margin: 0 0 10px !important; color: var(--mud-sky); }
+.mud-company__fine { margin: 10px 0 0 !important; font-size: 15.5px !important; line-height: 1.5 !important; color: var(--mud-dim); }
+p.mud-company.mud-company__fine { margin: 0 !important; }
+.mud-btn--seen[aria-pressed="true"] { border-color: var(--mud-welly); color: var(--mud-sky); }
+.mud-btn--off { margin-left: 4px; }
 .mud-ways-now .mud-btns { flex-direction: column; }
 .mud-btn--way { width: 100%; }
 .mud-btn--shut { border-style: dashed; color: var(--mud-dim); }

@@ -27,6 +27,15 @@
        the pavement is read by whoever walks past, and privacy.html says so
        above the box you write in. Nothing else about it differs from the
        channel: no address, no log, no copy.
+     · THE SLAKE, OUT THE BACK OF THE MUD ROOM, IS THE CB TOO. Ryan's calls,
+       2026-09-27: you are seen by your handle only if you choose to be, on each
+       visit, and each place on it has a channel of its own under the radio's
+       rules. So presence is one tiny blob per visit, keyed so that a single
+       listing says who is where, and it is shown to nobody thirty seconds after
+       its last check and deleted by the next sweep at the latest; a place's talk
+       is the channel's own blob shape, ten messages and gone at midnight. There
+       is no list of everybody out there and no count of them, anywhere, and the
+       places a visit has been are replaced rather than added to.
      · A PASS IS CHECKED AND NOT KEPT. It is an HMAC of the handle keyed by the
        current password, so changing the password in Netlify's environment and
        redeploying signs everybody off at once, and there is no list of passes
@@ -76,11 +85,7 @@ export function store() {
 
 /* The channel as it stands today. Yesterday's is not returned, whether or not
    the sweep has reached it yet. */
-export async function readChannel(s = store()) {
-  const data = await s.get(KEY, { type: 'json' });
-  if (!data || data.day !== today()) return { day: today(), messages: [] };
-  return { day: data.day, messages: data.messages || [] };
-}
+export function readChannel(s = store()) { return readLog(KEY, s); }
 
 /* The channel AND the version it was read at, which a write needs.
 
@@ -109,16 +114,27 @@ async function versioned(s, key = KEY) {
 /* Change the channel without losing somebody else's change. Two people keying
    up in the same second both read the same blob; a plain write would drop one of
    them in silence. Conditional writes make the second one read again. */
-export async function updateChannel(change) {
-  const s = store();
+export function updateChannel(change, s = store()) { return updateLog(KEY, change, s); }
+
+/* A day's worth of messages in one blob, ten at most: the channel, and each
+   place on the Slake. Written once so a place cannot drift from the channel's
+   rules about how long a message stays or how a write that loses a race tries
+   again. */
+async function readLog(key, s) {
+  const data = await s.get(key, { type: 'json' });
+  if (!data || data.day !== today()) return { day: today(), messages: [] };
+  return { day: data.day, messages: data.messages || [] };
+}
+
+async function updateLog(key, change, s) {
   for (let attempt = 0; attempt < 12; attempt++) {
-    const cur = await versioned(s);
+    const cur = await versioned(s, key);
     const live = cur.exists && cur.data && cur.data.day === today() ? cur.data.messages || [] : [];
     const next = change(live.slice());
     if (next === null) return live;
     const body = { day: today(), messages: next.slice(-KEEP) };
     const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
-    const res = await s.setJSON(KEY, body, opts);
+    const res = await s.setJSON(key, body, opts);
     if (res.modified) return body.messages;
     // Somebody else got there first. Wait a moment, a different moment for
     // each of us, and read again.
@@ -232,6 +248,98 @@ export function shapePebbles(list) {
 
 export function shapeChalk(notes) {
   return notes.map((n) => ({ id: n.id, handle: n.handle, text: n.text, t: n.t, base: !!n.base }));
+}
+
+/* ── The Slake ───────────────────────────────────────────────────────────── */
+
+/* Every place on the Slake, named HERE and nowhere else on the server side.
+   tools/make-mud.py reads this array and refuses data/mud.json if the two
+   disagree, the way make-pebbles.py reads PEBBLE_ROOMS: a place the game can
+   walk to and the server refuses would be a place where nobody can meet. */
+export const MUD_PLACES = ['mud-room', 'sea-wall', 'hide', 'reedbed', 'saltmarsh', 'tea-hut', 'tide-mill',
+  'wheel-pit', 'mudlarks-hut', 'creek', 'boathouse', 'foreshore', 'mudflat', 'ferry-steps', 'causeway',
+  'holm', 'beacon-top'];
+export const MUD_FRESH = 30 * 1000;        // shown to nobody this long after its last check
+const MUD_GONE = 2 * 60 * 1000;            // anybody's check deletes a record this stale
+const HERE = 'mud-here/';
+const talkKey = (place) => `mud-talk-${place}`;
+
+export function mudPlace(p) { return MUD_PLACES.includes(p) ? p : null; }
+
+/* A visit is a random id the page makes when it opens, and never shows anybody.
+   It is what lets a visit move and leave without a list of visits anywhere. */
+export function mudVisit(v) { return typeof v === 'string' && /^[A-Za-z0-9_-]{22,64}$/.test(v) ? v : null; }
+
+/* PRESENCE IS IN THE KEY, so one listing answers who is where without reading
+   anything: the place, the visit, the time, the role and the handle. The value
+   is empty. Each key belongs to one visit, so writing one is not a race, and
+   nothing here needs a conditional write. */
+function hereKey(place, visit, t, role, handle) {
+  return `${HERE}${place}/${visit}.${t}.${role}.${b64(handle)}`;
+}
+function parseHere(key) {
+  const m = /^mud-here\/([a-z0-9-]+)\/([A-Za-z0-9_-]+)\.(\d+)\.(mobile|base)\.([A-Za-z0-9_-]+)$/.exec(key);
+  if (!m) return null;
+  let handle;
+  try { handle = Buffer.from(m[5], 'base64url').toString('utf8'); } catch (e) { return null; }
+  return { key, place: m[1], visit: m[2], t: Number(m[3]), base: m[4] === 'base', handle };
+}
+async function everyHere(s) {
+  return ((await s.list({ prefix: HERE })).blobs || []).map((b) => parseHere(b.key)).filter(Boolean);
+}
+
+/* WHO ELSE IS HERE: handles only, each once however many tabs somebody has
+   open, in alphabetical order so nobody is first for having arrived first. No
+   count is returned, because the page must not have one to print. */
+function othersAt(all, place, visit, now) {
+  const seen = new Map();
+  for (const r of all) {
+    if (r.place !== place || r.visit === visit || now - r.t >= MUD_FRESH) continue;
+    if (!seen.has(r.handle)) seen.set(r.handle, { handle: r.handle, base: r.base });
+  }
+  return [...seen.values()].sort((a, b) => a.handle.localeCompare(b.handle));
+}
+
+/* Be seen at a place, which is also what lets you see. Your visit's earlier
+   record goes, wherever it was, so where you have been is never a trail; and
+   any record two minutes stale goes too, so a tab somebody closed without
+   saying so does not wait for the hourly sweep. */
+export async function beHere(who, place, visit, s = store(), now = Date.now()) {
+  const all = await everyHere(s);
+  const key = hereKey(place, visit, now, who.role, who.handle);
+  await s.set(key, '');
+  for (const r of all) {
+    if (r.key !== key && (r.visit === visit || now - r.t >= MUD_GONE)) await s.delete(r.key);
+  }
+  return othersAt(all, place, visit, now);
+}
+
+/* Stop being seen: every record for this visit, now. */
+export async function leaveSlake(visit, s = store()) {
+  for (const r of await everyHere(s)) if (r.visit === visit) await s.delete(r.key);
+}
+
+/* Only somebody seen at a place may speak there: talking unseen would be the
+   one-way mirror this is built to refuse. */
+export async function seenAt(place, visit, s = store(), now = Date.now()) {
+  return (await everyHere(s)).some((r) => r.visit === visit && r.place === place && now - r.t < MUD_FRESH);
+}
+
+export function readTalk(place, s = store()) { return readLog(talkKey(place), s); }
+export function updateTalk(place, change, s = store()) { return updateLog(talkKey(place), change, s); }
+
+/* Hourly, with the channel's sweep: every stale presence record, and every
+   place's talk from a day that is over in Colorado. */
+export async function sweepSlake(s = store(), now = Date.now()) {
+  let any = false;
+  for (const r of await everyHere(s)) {
+    if (now - r.t >= MUD_FRESH) { await s.delete(r.key); any = true; }
+  }
+  for (const place of MUD_PLACES) {
+    const data = await s.get(talkKey(place), { type: 'json' });
+    if (data && data.day !== today()) { await s.delete(talkKey(place)); any = true; }
+  }
+  return any;
 }
 
 /* ── Passes ────────────────────────────────────────────────────────────── */

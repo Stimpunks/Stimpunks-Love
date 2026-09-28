@@ -149,6 +149,7 @@ pebbles.js            The pebble bowl by a hosted room's door: reads what was le
 data/pebbles.json     Each hosted room's basket of things to take, filled by its host and nobody else
 netlify/functions/    The CB's functions: sign on, listen, transmit, moderate, the hourly sweep, and the
                       chalkboard's read, write and rub-out
+                      and the Slake's: be seen at a place, say something there, leave, and the base station's
 netlify/cb/lib.mjs    What they share, and every promise the privacy page makes about the channel and the board
 package.json          Only there for the CB: the one library its functions need. Not a build step
 arcade.js             Quill Drift. Loaded by its own page only; nothing before the coin

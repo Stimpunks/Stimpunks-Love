@@ -17,7 +17,9 @@
    write that was told it worked and is not there is not. */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { updateChalk, readChalk, updatePebbles, readPebbles, cleanLink, PEBBLE_ROOMS } from './lib.mjs';
+import { updateChalk, readChalk, updatePebbles, readPebbles, cleanLink, PEBBLE_ROOMS,
+  updateChannel, readChannel, updateTalk, readTalk, beHere, leaveSlake, seenAt, sweepSlake,
+  MUD_PLACES, MUD_FRESH, KEEP, today } from './lib.mjs';
 
 function memoryStore({ etagOnRead }) {
   const blobs = new Map();          // key -> { value, etag }
@@ -39,6 +41,17 @@ function memoryStore({ etagOnRead }) {
       await tick();
       return { blobs: [...blobs].filter(([k]) => k.startsWith(prefix)).map(([key, b]) => ({ key, etag: b.etag })) };
     },
+    // THE ONE UNCONDITIONAL WRITE ALLOWED is a presence record on the Slake,
+    // because each of those keys belongs to one visit and nobody else writes it.
+    // Anything else written this way fails the test.
+    async set(key, value) {
+      await tick();
+      if (!key.startsWith('mud-here/')) throw new Error('an unconditional write outside presence: ' + key);
+      blobs.set(key, { value, etag: `e${++n}` });
+      return { modified: true };
+    },
+    async delete(key) { await tick(); blobs.delete(key); },
+    keys() { return [...blobs.keys()]; },
     async setJSON(key, value, opts = {}) {
       await tick();
       // Atomic from here: no await between the check and the write.
@@ -54,9 +67,9 @@ function memoryStore({ etagOnRead }) {
   };
 }
 
-async function fifteen(write, read, s) {
+async function fifteen(write, read, s, n = 15) {
   const told = await Promise.allSettled(
-    Array.from({ length: 15 }, (_, i) => write((list) => { list.push({ id: `w${i}`, t: Date.now() }); return list; }, s)));
+    Array.from({ length: n }, (_, i) => write((list) => { list.push({ id: `w${i}`, t: Date.now() }); return list; }, s)));
   const worked = told.map((r, i) => (r.status === 'fulfilled' ? `w${i}` : null)).filter(Boolean);
   const kept = new Set((await read(s)).map((n) => n.id));
   const missing = worked.filter((id) => !kept.has(id));
@@ -84,6 +97,99 @@ for (const etagOnRead of [true, false]) {
     if (etagOnRead) assert.equal(worked.length, 15);
   });
 }
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  const log = (read) => async (st) => (await read(st)).messages;
+  // TEN AT ONCE FOR A LOG, not fifteen: a channel keeps ten, so an eleventh
+  // pushing the first off is the rule working, not a lost write. Its first run
+  // raced fifteen and reported the five it had pushed off as missing.
+
+  test(`the radio's channel, fifteen at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const { missing, failed } = await fifteen(updateChannel, log(readChannel), s, KEEP);
+    assert.deepEqual(missing, [], 'a message that was told it went out is not on the channel');
+    for (const f of failed) assert.equal(f.reason.message, 'busy');
+  });
+
+  test(`a place on the Slake, fifteen at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const place = MUD_PLACES[0];
+    const { worked, missing, failed } = await fifteen(
+      (change, st) => updateTalk(place, change, st), log((st) => readTalk(place, st)), s, KEEP);
+    assert.deepEqual(missing, [], 'something that was told it was said is not in the place');
+    for (const f of failed) assert.equal(f.reason.message, 'busy');
+    if (etagOnRead) assert.equal(worked.length, KEEP);
+  });
+}
+
+const ada = { role: 'mobile', handle: 'Ada' };
+const bex = { role: 'mobile', handle: 'Bex' };
+const V = (c) => c.repeat(24);
+
+test('two people seen in one place see each other, and nobody else sees either', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  await beHere(ada, 'hide', V('a'), s, now);
+  const seenByBex = await beHere(bex, 'hide', V('b'), s, now + 1);
+  assert.deepEqual(seenByBex, [{ handle: 'Ada', base: false }]);
+  assert.deepEqual(await beHere(ada, 'hide', V('a'), s, now + 2), [{ handle: 'Bex', base: false }]);
+  assert.deepEqual(await beHere({ role: 'mobile', handle: 'Cy' }, 'creek', V('c'), s, now + 3), []);
+});
+
+test('moving leaves no trail: a visit has one record, wherever it is', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  for (const [i, place] of ['mud-room', 'sea-wall', 'hide', 'reedbed'].entries()) {
+    await beHere(ada, place, V('a'), s, now + i);
+  }
+  const mine = s.keys().filter((k) => k.includes(V('a')));
+  assert.equal(mine.length, 1);
+  assert.ok(mine[0].startsWith('mud-here/reedbed/'));
+});
+
+test('a record past its thirty seconds is shown to nobody, and a stale one is deleted', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  await beHere(ada, 'hide', V('a'), s, now);
+  assert.deepEqual(await beHere(bex, 'hide', V('b'), s, now + MUD_FRESH), []);
+  await beHere(bex, 'hide', V('b'), s, now + 3 * 60 * 1000);
+  assert.equal(s.keys().filter((k) => k.includes(V('a'))).length, 0, 'two minutes stale and still kept');
+});
+
+test('one handle in two tabs is one person, and nothing about them is counted', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  await beHere(ada, 'hide', V('a'), s, now);
+  await beHere(ada, 'hide', V('d'), s, now);
+  const got = await beHere(bex, 'hide', V('b'), s, now + 1);
+  assert.deepEqual(got, [{ handle: 'Ada', base: false }]);
+  assert.ok(Array.isArray(got), 'the answer is a list of handles and nothing else');
+});
+
+test('leaving is immediate, and only somebody seen in a place can speak there', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  await beHere(ada, 'hide', V('a'), s, now);
+  assert.equal(await seenAt('hide', V('a'), s, now + 1), true);
+  assert.equal(await seenAt('creek', V('a'), s, now + 1), false);
+  await leaveSlake(V('a'), s);
+  assert.equal(await seenAt('hide', V('a'), s, now + 1), false);
+  assert.deepEqual(await beHere(bex, 'hide', V('b'), s, now + 2), []);
+});
+
+test('the sweep takes stale presence and yesterday\'s talk, and leaves today\'s', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  await beHere(ada, 'hide', V('a'), s, now - MUD_FRESH - 1);
+  await updateTalk('hide', (l) => [...l, { id: 'today', t: now }], s);
+  await s.setJSON('mud-talk-creek', { day: '2000-01-01', messages: [{ id: 'old' }] }, { onlyIfNew: true });
+  await sweepSlake(s, now);
+  assert.equal(s.keys().filter((k) => k.startsWith('mud-here/')).length, 0);
+  assert.ok(!s.keys().includes('mud-talk-creek'));
+  assert.deepEqual((await readTalk('hide', s)).messages.map((m) => m.id), ['today']);
+  assert.equal((await readTalk('hide', s)).day, today());
+});
 
 test('the bowls are separate, and neither is the chalkboard', async () => {
   const s = memoryStore({ etagOnRead: true });

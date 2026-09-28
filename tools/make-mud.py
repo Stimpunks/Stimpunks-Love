@@ -51,9 +51,17 @@ WHAT IT REFUSES, and each is a sentence the room says:
     marsh and people forage it; Mycelium Munchies' rule, that nothing here is a
     field guide, holds in an estuary too.
 
-  - A SCRIPT THAT KEEPS, SENDS OR SOUNDS ANYTHING. The room says nothing is kept
-    or sent and it makes no sound. When the CB half is built, that line changes
-    on purpose, in this tool, with the page.
+  - A SCRIPT THAT KEEPS OR SOUNDS ANYTHING, OR SENDS ANYTHING ANYWHERE BUT THE
+    SLAKE'S OWN FUNCTIONS. The multi-user half is the CB, so mud.js may read the
+    radio's pass out of love-cb and never write it (the chalkboard's rule), and
+    may send to /cb/mud/ and nowhere else, through one call(). Any other
+    storage, any other address, a beacon, a socket or a sound is refused. This
+    rule was "sends nothing" until 2026-09-27 and was changed on purpose, here,
+    in the same commit as the page and the privacy page.
+
+  - A PLACE THE SERVER DOES NOT KNOW. netlify/cb/lib.mjs names every place in
+    MUD_PLACES, and a place the game can walk to that the server refuses would
+    be somewhere nobody can meet. The two must be the same list.
 """
 import html
 import json
@@ -98,8 +106,10 @@ FORAGE = re.compile(r"\b(?:edible|eat (?:it|them|this|some)|forag(?:e|es|ed|ing|
 # widened by one verb of putting something down, rather than the sentence cut.
 NEGATED = re.compile(r"\b(?:not|no|nothing|never|nor|without|nobody|none|refuses?|isn['’]t|"
                      r"discard(?:s|ed|ing)?)\b[^.;:]*$", re.I)
-KEEPS = re.compile(r"localStorage|sessionStorage|indexedDB|document\.cookie|fetch\(|XMLHttpRequest|"
-                   r"sendBeacon|WebSocket|EventSource|AudioContext|new Audio\b|\.play\(")
+KEEPS = re.compile(r"localStorage\.(?:setItem|removeItem|clear)|localStorage\[|sessionStorage|indexedDB|"
+                   r"document\.cookie|XMLHttpRequest|sendBeacon|WebSocket|EventSource|AudioContext|"
+                   r"speechSynthesis|new Audio\b|\.play\(")
+LIB = ROOT / "netlify/cb/lib.mjs"
 
 
 def esc(s):
@@ -310,7 +320,7 @@ def check(d, page, js):
               f"thing {tid!r}", bad)
     for hid, h in people.items():
         sweep(" ".join(h.get("says", []) + h.get("join", []) + [h.get("here", "")]), f"{hid!r}", bad)
-    for k in ("home", "say", "sit", "slide", "dark-blocked", "unknown"):
+    for k in ("home", "say-signon", "say-unseen", "sit", "slide", "dark-blocked", "unknown"):
         sweep(d.get(k, ""), f"the line {k!r}", bad)
     for k, v in list(d.get("wait", {}).items()) + list(d.get("closed", {}).items()):
         sweep(v, f"the line {k!r}", bad)
@@ -324,9 +334,26 @@ def check(d, page, js):
         if promise not in said.lower() and promise not in plain(page).lower():
             bad.append(f"the room no longer says {promise!r}.")
     if KEEPS.search(js):
-        bad.append(f"mud.js uses {KEEPS.search(js).group(0)!r}. The room says nothing is kept or "
-                   "sent and the Slake makes no sound. When the CB half is built, this changes on "
-                   "purpose, here and on the page together.")
+        bad.append(f"mud.js uses {KEEPS.search(js).group(0)!r}. The room says the Slake keeps nothing, "
+                   "makes no sound, and sends only to its own functions.")
+    reads = re.findall(r"localStorage\.getItem\(\s*'([^']*)'", js)
+    if len(reads) != js.count("localStorage.") or any(k != "love-cb" for k in reads):
+        bad.append("mud.js touches localStorage for something other than reading love-cb, the radio's "
+                   "pass. It reads that and nothing else, and never writes it.")
+    if js.count("fetch(") != 1:
+        bad.append("mud.js sends from somewhere other than its one call(). Everything it sends goes "
+                   "through that, so this tool can see every address.")
+    for path in re.findall(r"call\(\s*'([^']*)'", js):
+        if not path.startswith("/cb/mud/"):
+            bad.append(f"mud.js sends to {path!r}, and the Slake sends to /cb/mud/ and nowhere else.")
+    m = re.search(r"export const MUD_PLACES = \[([^\]]*)\];", LIB.read_text())
+    server = set(re.findall(r"'([a-z0-9-]+)'", m.group(1))) if m else None
+    if server is None:
+        bad.append("netlify/cb/lib.mjs has no MUD_PLACES array to read.")
+    elif server != {p["id"] for p in places}:
+        diff = sorted(server ^ {p["id"] for p in places})
+        bad.append(f"the server's MUD_PLACES and data/mud.json disagree about {', '.join(diff)}. A place "
+                   "the game can walk to and the server refuses is somewhere nobody can meet.")
     return bad
 
 
@@ -561,7 +588,8 @@ def lines(d):
     """The things the Slake says that belong to no one place. Hidden: mud.js
     reads them and the book does not need them."""
     out = ['      <div class="mud-lines" hidden>']
-    flat = {"home": d["home"], "say": d["say"], "sit": d["sit"], "slide": d["slide"],
+    flat = {"home": d["home"], "say-signon": d["say-signon"], "say-unseen": d["say-unseen"],
+            "sit": d["sit"], "slide": d["slide"],
             "dark-blocked": d["dark-blocked"], "unknown": d["unknown"]}
     for k, v in d["wait"].items():
         flat["wait-" + k] = v

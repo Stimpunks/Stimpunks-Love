@@ -1,5 +1,5 @@
 {
-  "_source": "The Slake, the world out the back door of the MUD Room. Ryan's brief, 2026-09-27: a playable, non-violent graphical multi-user dungeon set in Stimpunks.World, focused on exploration and learning. Ryan's calls the same day: single-player first, a world of its own, and when the multi-user half is built on the CB, players seen by their handle only if they choose, with a channel in each place under the CB's rules. Every place, thing and person here is ours and invented for this world; nothing is taken from any other game. tools/make-mud.py builds the guidebook, the map and the credits out of this file, and mud.js plays the game out of the guidebook's markup, so this file is the only copy of any of it.",
+  "_source": "The Slake, the world out the back door of the MUD Room. Ryan's brief, 2026-09-27: a playable, non-violent graphical multi-user dungeon set in Stimpunks.World, focused on exploration and learning. Ryan's calls the same day: single-player first, a world of its own, and a multi-user half built on the CB the same day: players seen by their handle only if they choose, seeing only while they are seen, and a channel in each place under the CB's rules. Every place, thing and person here is ours and invented for this world; nothing is taken from any other game. tools/make-mud.py builds the guidebook, the map and the credits out of this file, and mud.js plays the game out of the guidebook's markup, so this file is the only copy of any of it.",
   "_checked": "Checked 2026-09-27 against sources read that day rather than remembered, and the page says so where it uses them. A tide mill's pond fills through a one-way gate on the rising tide and is let out through the wheel once the tide has fallen (Wikipedia, Tide mill). Common reed spreads mainly by rhizomes and stolons once established (North Carolina DEQ). Glasswort, which is samphire, grows on saltmarshes and is a pioneer on intertidal mud (Wildlife Trusts; JNCC). Grey herons may stand motionless in the shallows waiting for prey, and curlews feed by probing soft mud with a very long curved bill (Wikipedia). The Thames foreshore is littered with clay pipes, mostly fragments of stems (London Museum). A day beacon is an unlighted sea mark, and its daymark is the part made to be seen in daylight (Wikipedia). 'Slake' is a tidal wetland in Wiktionary, and its 1868 quotation calls slakes common in Northumberland.",
   "start": "mud-room",
   "tide": "low",
@@ -621,7 +621,7 @@
         "pencil"
       ],
       "look": {
-        "any": "A logbook on a string, with a pencil on another string, for writing down what you saw. Its pages are empty. So far the Slake has only ever had one visitor at a time, and this one is you."
+        "any": "A logbook on a string, with a pencil on another string, for writing down what you saw. Its pages are empty, because the Slake writes nothing down. Whoever else is out here, you meet them where they are, not in a book."
       }
     },
     "reeds": {
@@ -1093,7 +1093,6 @@
     "not-here": "Not out here. The tide can come in across flat mud very fast, so the Slake only lets you wait for it somewhere dry: up on the marsh, on the wall, or out on the island."
   },
   "home": "However far out you were, the way back is always open. You are in the MUD Room, and you can take your boots off.",
-  "say": "There is nobody out here to hear it yet. The Slake is a multi-user dungeon with one user so far, and it says why on the page.",
   "sit": "You sit down where you are for a while. Nothing is asked of you.",
   "dark-blocked": "It is too dark to see anything down here. Something to see by would help.",
   "unknown": "The Slake does not know that word. Say help for the words it does know, or use the buttons, which do everything the words do.",
@@ -1101,5 +1100,7 @@
     "low": "That way is under water while the tide is in. Wait somewhere dry for it to go out, or find another way round.",
     "high": "The ferry only runs while the tide is in, and just now the boat is sitting on the mud. While the tide is out you can walk to the island along the causeway."
   },
-  "nothing": "There is nothing like that here. The things you can look at here are listed beside the map, and under Here."
+  "nothing": "There is nothing like that here. The things you can look at here are listed beside the map, and under Here.",
+  "say-signon": "Nobody can hear you out here unless you are signed on to the CB. Sign on at the Community Center, come back, and choose to be seen: then whoever else is seen in the same place hears what you say.",
+  "say-unseen": "Nobody can hear you unless you are seen. Press Be seen out here, and whoever else is seen in the same place will hear what you say, and you them."
 }

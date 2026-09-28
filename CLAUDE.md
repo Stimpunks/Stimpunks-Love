@@ -2236,8 +2236,8 @@ is this road's own**, a first name and a place, never a brand. Its first two ref
 **THE MUD ROOM (§70) IS A MULTI-USER DUNGEON WITH NOBODY TO FIGHT, AND ONE USER SO FAR.** Ryan's brief,
 2026-09-27, after an Ultima Online retrospective: a non-violent graphical MUD for exploring and learning.
 The shop is a boot room; out of its back door is **the Slake**, a tidal estuary of places, things and
-residents in `data/mud.json`, built by `tools/make-mud.py` and played by `mud.js`. Single-player first,
-Ryan's call, because the multi-user half needs the CB; what that half will be is in `DECISIONS.md`.
+residents in `data/mud.json`, built by `tools/make-mud.py` and played by `mud.js`, with a multi-user half
+on the CB built the same day. What was settled and what is open is in `DECISIONS.md`.
 
   · **THE GUIDEBOOK IS THE GAME.** The tool writes every place, thing, person and way on as a book at the
     foot of the page, and `mud.js` reads that markup, clones from it and closes the book. With scripts
@@ -2265,9 +2265,19 @@ Ryan's call, because the multi-user half needs the CB; what that half will be is
     this is the longest view on the street), the **Healing Checkpoint** (a glow under water; nothing here
     emits), and the **Rabbit Hole** (wet slate; these greys are olive, the colour of mud). **The Slake's
     map is not the street's model**: it has no scale and shows only where you have walked.
-  · **THREE SENTENCES STOP BEING TRUE WHEN THE CB HALF ARRIVES, ON PURPOSE**: the empty logbook, the free
-    peg and what `say` answers. Change them with the privacy page, and change the tool's refusal of
-    storage and requests in `mud.js` in the same commit rather than loosening it on the way past.
+  · **THE MULTI-USER HALF IS THE CB, AND SEEING IS THE SAME SWITCH AS BEING SEEN.** Four functions
+    (`cb-mud-here`, `-say`, `-leave`, `-moderate`) on `netlify/cb/lib.mjs`, with every place named in
+    `MUD_PLACES` there and `make-mud.py` refusing data that disagrees. **Presence is in the KEY**, one
+    empty blob per visit (`mud-here/<place>/<visit>.<time>.<role>.<handle>`), so one listing answers
+    who is where with no reads and no shared blob to race on; its write is the one unconditional write
+    the test store allows. Moving REPLACES the record, so where somebody has been is never a trail.
+    **Others are never on the map**, the answer has no count in it, names come alphabetically, and the
+    tide stays each player's own. Each place's talk is the channel's own `updateLog`, ten and gone at
+    midnight. **The friendly edits are a who's-online list, a headcount, and everybody's footprints on
+    the map**: each is the list of who is out there that the room refuses. `mud.js` may read `love-cb`
+    and never write it, and send to `/cb/mud/` through one `call()`; the tool reads the file for
+    exactly that. **The concurrency test races TEN for a log, not fifteen**: a channel keeps ten, and
+    its first run reported the five it had pushed off as lost writes.
   · **`classList.toggle(name, undefined)` FLIPS THE CLASS**, it does not clear it. The map's first render
     drew every way between places for a visitor who had seen one, because an `&&` chain came out
     `undefined`. It is `!!(...)` now. Any toggle whose force can be undefined has this bug.
