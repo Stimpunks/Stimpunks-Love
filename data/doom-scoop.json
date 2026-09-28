@@ -106,110 +106,70 @@
    ]
   }
  ],
- "set": "2026-09-27T11:16Z",
+ "set": "2026-09-28T11:16Z",
  "covered": {
   "meidastouch": [
    [
     "2026-09-25T11:00:39Z",
-    "2026-09-27T11:16:55Z"
+    "2026-09-28T11:16:58Z"
    ]
   ],
   "closer-look": [
    [
     "2026-07-17T01:00:31Z",
-    "2026-09-27T11:16:55Z"
+    "2026-09-28T11:16:58Z"
    ]
   ],
   "late-night-monologues": [
    [
     "2026-07-15T01:00:12Z",
-    "2026-09-27T11:16:55Z"
+    "2026-09-28T11:16:58Z"
    ]
   ],
   "kimmel": [
    [
     "2026-09-18T06:00:06Z",
-    "2026-09-27T11:16:55Z"
+    "2026-09-28T11:16:58Z"
    ]
   ],
   "jason-salmon": [
    [
     "2026-08-24T15:00:06Z",
-    "2026-09-27T11:16:55Z"
+    "2026-09-28T11:16:58Z"
    ]
   ],
   "texas-paul": [
    [
     "2026-09-17T21:37:08Z",
-    "2026-09-27T11:16:55Z"
+    "2026-09-28T11:16:58Z"
    ]
   ],
   "tennessee-brando": [
    [
     "2026-09-17T16:07:51Z",
-    "2026-09-27T11:16:55Z"
+    "2026-09-28T11:16:58Z"
    ]
   ],
   "lawyer-oyer": [
    [
     "2026-09-01T01:12:06Z",
-    "2026-09-27T11:16:55Z"
+    "2026-09-28T11:16:58Z"
    ]
   ],
   "hawk": [
    [
     "2026-09-25T01:00:17Z",
-    "2026-09-27T11:16:55Z"
+    "2026-09-28T11:16:58Z"
    ]
   ],
   "daily-show": [
    [
     "2026-09-18T11:35:00Z",
-    "2026-09-27T11:16:55Z"
+    "2026-09-28T11:16:58Z"
    ]
   ]
  },
  "scoops": [
-  {
-   "id": "GDIJArb0LgA",
-   "source": "texas-paul",
-   "title": "You need to brace for it.  Trump's  m.o. is to do something really awful when in trouble.",
-   "published": "2026-09-20T18:19:28Z",
-   "edition": "2026-09-21",
-   "state": "screen",
-   "runs": 150,
-   "channel": "Texas Paul"
-  },
-  {
-   "id": "xVw-v37_7xA",
-   "source": "tennessee-brando",
-   "title": "Trump Just ESCALATED His WAR on the Press",
-   "published": "2026-09-20T23:04:09Z",
-   "edition": "2026-09-21",
-   "state": "screen",
-   "runs": 561,
-   "channel": "Tennessee Brando"
-  },
-  {
-   "id": "rsqVqPDkPlQ",
-   "source": "texas-paul",
-   "title": "There is cell phone footage released of the Ice shooting in Austin. Looks like attempted murder.",
-   "published": "2026-09-20T23:40:23Z",
-   "edition": "2026-09-21",
-   "state": "screen",
-   "runs": 79,
-   "channel": "Texas Paul"
-  },
-  {
-   "id": "tPgr9Wasw-g",
-   "source": "texas-paul",
-   "title": "Wilber Garces Perez, the man shot by ICE in Austin today, has been transferred in to ICE custody.",
-   "published": "2026-09-21T01:42:32Z",
-   "edition": "2026-09-21",
-   "state": "screen",
-   "runs": 92,
-   "channel": "Texas Paul"
-  },
   {
    "id": "Asbx4cSbJjM",
    "source": "texas-paul",
@@ -1353,7 +1313,298 @@
    "state": "screen",
    "runs": 969,
    "channel": "MeidasTouch"
+  },
+  {
+   "id": "RDv9jdDSPPI",
+   "source": "hawk",
+   "title": "#duet with that_ben_guy Sue them",
+   "published": "2026-09-27T12:00:29Z",
+   "edition": "2026-09-28",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 92,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "3cEdGG3mUy0",
+   "source": "hawk",
+   "title": "#duet with phallacies.podcast Zero cases",
+   "published": "2026-09-27T13:00:17Z",
+   "edition": "2026-09-28",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 122,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "x5yNLwFZpb0",
+   "source": "meidastouch",
+   "title": "🚨All HELL BREAKS LOOSE as WAR TAKES DARK TURN…",
+   "published": "2026-09-27T13:00:37Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 1295,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "kzoJ1wNjHnY",
+   "source": "hawk",
+   "title": "The Hannibal Directive",
+   "published": "2026-09-27T14:00:32Z",
+   "edition": "2026-09-28",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 58,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "UpXw6T-Sdlw",
+   "source": "hawk",
+   "title": "Effing Centrists",
+   "published": "2026-09-27T15:00:02Z",
+   "edition": "2026-09-28",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 63,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "thX-gr-3Ov0",
+   "source": "meidastouch",
+   "title": "🚨FURIOUS World Leaders DELIVER FATAL BLOW…",
+   "published": "2026-09-27T15:00:25Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 1816,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "3SUSB1kCcWA",
+   "source": "hawk",
+   "title": "GO AWAY JILL",
+   "published": "2026-09-27T16:00:18Z",
+   "edition": "2026-09-28",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 32,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "p61UUgyi8Vw",
+   "source": "tennessee-brando",
+   "title": "Trump’s Iran Answer Is Absolutely Stunning",
+   "published": "2026-09-27T16:00:34Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 616,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "btEC9sxGBTc",
+   "source": "hawk",
+   "title": "Your sons know The Seven",
+   "published": "2026-09-27T17:00:14Z",
+   "edition": "2026-09-28",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 85,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "ql7lo27Zwfk",
+   "source": "meidastouch",
+   "title": "🚨Trump’s Sunday JUST Got Even UGLIER…",
+   "published": "2026-09-27T17:47:06Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 1264,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "GxSNCIrFjAo",
+   "source": "hawk",
+   "title": "AIPAC",
+   "published": "2026-09-27T18:00:38Z",
+   "edition": "2026-09-28",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 102,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "BuJpufObvsw",
+   "source": "texas-paul",
+   "title": "We Democrats need to be talking to young folks with respect.  This video is for them.",
+   "published": "2026-09-27T18:09:52Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 180,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "bfM7VNebwLE",
+   "source": "hawk",
+   "title": "He took the money",
+   "published": "2026-09-27T19:00:28Z",
+   "edition": "2026-09-28",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 77,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "xHXPqAeDWF0",
+   "source": "meidastouch",
+   "title": "🚨Trump BLINDSIDED as MAGA TURNS ON HIM…",
+   "published": "2026-09-27T19:30:27Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 1558,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "BHI-rRBWt_E",
+   "source": "hawk",
+   "title": "F*ck Chuck Schumer",
+   "published": "2026-09-27T20:00:28Z",
+   "edition": "2026-09-28",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 150,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "xemLuQspwG4",
+   "source": "meidastouch",
+   "title": "YIKES! Fox COLLAPSES ON AIR over THIS…",
+   "published": "2026-09-27T21:00:00Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 1094,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "7kYLgaOb1is",
+   "source": "hawk",
+   "title": "The bodies are still there",
+   "published": "2026-09-27T21:00:29Z",
+   "edition": "2026-09-28",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 180,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "HJS1ZXOWbMI",
+   "source": "hawk",
+   "title": "Shortages of everything are coming",
+   "published": "2026-09-27T22:00:36Z",
+   "edition": "2026-09-28",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 163,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "aXuV7dIb-T4",
+   "source": "meidastouch",
+   "title": "🚨OBAMA just ended Trump’s TERM…",
+   "published": "2026-09-27T22:30:10Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 654,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "1WUzUiRZBT8",
+   "source": "meidastouch",
+   "title": "🚨GOP Just HIT NEW LOW…",
+   "published": "2026-09-27T23:30:26Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 2025,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "0iMb3nnJZ-s",
+   "source": "texas-paul",
+   "title": "Looks like the Republican Hail Mary play this election is to just lie about everything.",
+   "published": "2026-09-28T00:36:05Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 159,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "u4xYfmR21wo",
+   "source": "tennessee-brando",
+   "title": "Republicans Are Quietly RUNNING From Trump",
+   "published": "2026-09-28T01:00:10Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 648,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "8i5XAP4xo8g",
+   "source": "meidastouch",
+   "title": "🚨Trump’s Big Launch Goes WRONG…",
+   "published": "2026-09-28T01:30:05Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 472,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "45dVHr39kK8",
+   "source": "hawk",
+   "title": "800 bases",
+   "published": "2026-09-28T01:41:00Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 32,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "8ATdFDT2vdI",
+   "source": "meidastouch",
+   "title": "🚨Trump’s OWN JUDGES JUST CAUGHT ON…",
+   "published": "2026-09-28T03:00:03Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 784,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "aOLaQaB-JiI",
+   "source": "hawk",
+   "title": "The Presumption",
+   "published": "2026-09-28T03:40:53Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 123,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "BDxN9M28biM",
+   "source": "meidastouch",
+   "title": "Lawyer Who BEAT TRUMP Just Came BACK…",
+   "published": "2026-09-28T04:30:01Z",
+   "edition": "2026-09-28",
+   "state": "screen",
+   "runs": 584,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "NDhPrkzyXn0",
+   "source": "meidastouch",
+   "title": "🚨Trump RETURNS and IT GETS MUCH WORSE….",
+   "published": "2026-09-28T11:00:24Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 1207,
+   "channel": "MeidasTouch"
   }
  ],
- "newest": "2026-09-27"
+ "newest": "2026-09-28"
 }
