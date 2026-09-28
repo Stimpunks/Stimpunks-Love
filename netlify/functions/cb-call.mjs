@@ -11,7 +11,10 @@ export default async (req) => {
   const b = await body(req);
   const room = roomTag(b && b.room);
   if (!room) return json(400, { error: 'That is not a room on the street.' });
-  return json(200, { room, src: callSrc(room, callToken(who, room)) });
+  let token = null;
+  try { token = callToken(who, room); } catch (e) { token = null; }
+  if (!token) return json(503, { error: 'Calls are switched on but the signing key cannot be read. Tell the base.' });
+  return json(200, { room, src: callSrc(room, token) });
 };
 
 export const config = {

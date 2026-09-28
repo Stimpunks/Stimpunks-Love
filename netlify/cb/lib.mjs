@@ -68,7 +68,7 @@
        redeploying signs everybody off at once, and there is no list of passes
        anywhere to go stale or leak.
    ============================================================================= */
-import { createHmac, createHash, createSign, timingSafeEqual } from 'node:crypto';
+import { createHmac, createHash, createSign, createPrivateKey, timingSafeEqual } from 'node:crypto';
 import { getStore } from '@netlify/blobs';
 
 export const KEEP = 10;             // messages on the channel at once
@@ -407,12 +407,29 @@ export const JAAS_HOST = 'https://8x8.vc/';
 export const CALL_HOURS = 4;               // a token lets you (re)join for this long
 export const callRoom = (tag) => `stimpunks-${tag}`;
 
-function jaasKey() {
-  const kid = process.env.CB_JAAS_KID, pem = process.env.CB_JAAS_KEY;
-  if (!kid || !pem || kid.indexOf(JAAS_APP + '/') !== 0) return null;
-  // Netlify's environment keeps a pasted key's line breaks as \n.
-  return { kid, pem: pem.replace(/\\n/g, '\n') };
+/* A PASTED KEY LOSES ITS LINE BREAKS, and Node will not read a PEM without
+   them. The first real key arrived in Netlify's environment as one line, its
+   body in space-separated pieces, and signing threw inside the function; the
+   radio could only say the call could not be opened. So the key is rebuilt
+   here from what cannot be lost -- the armour's name and the base64 between
+   -- and wrapped at 64, whatever whitespace or escaped newlines it came in. */
+export function tidyPem(raw) {
+  const m = /-----BEGIN ([A-Z ]+)-----([\s\S]*?)-----END \1-----/.exec(String(raw || '').replace(/\\n/g, '\n'));
+  if (!m) return null;
+  const body = m[2].replace(/[^A-Za-z0-9+/=]/g, '');
+  if (!body) return null;
+  return `-----BEGIN ${m[1]}-----\n${body.match(/.{1,64}/g).join('\n')}\n-----END ${m[1]}-----\n`;
 }
+
+function jaasKey() {
+  const kid = process.env.CB_JAAS_KID;
+  if (!kid || kid.indexOf(JAAS_APP + '/') !== 0) return null;
+  const pem = tidyPem(process.env.CB_JAAS_KEY);
+  if (!pem) return null;
+  try { createPrivateKey(pem); } catch (e) { return null; }
+  return { kid, pem };
+}
+// A key that cannot be read switches calls off, rather than a button that fails.
 export function callsReady() { return !!jaasKey(); }
 
 /* One token, for one handle in one room's call. 8x8 counts people by id, so

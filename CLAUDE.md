@@ -606,7 +606,12 @@ delegates to an origin `ORIGINS` does not frame, or gives the three to anything 
 second iframe in `cb.js`. The window is not the radio, so folding the radio leaves the call up;
 leaving the page hangs up. Every call arrives muted on Jitsi's pre-join screen. That screen asks
 the browser for the devices so it can show a preview, and that is 8x8's, not a fault. **8x8's
-own pages answer scripts with 429**, so check them in a browser. **The friendly edit is auto-follow, a host whose
+own pages answer scripts with 429**, so check them in a browser. **Netlify's box turned the first real key's line breaks
+into spaces**, and Node refuses a PEM like that (`ERR_OSSL_UNSUPPORTED`). The function threw, and
+the radio could only say the call could not be opened. `tidyPem` rebuilds any pasted key from its
+armour and base64, and a key that still cannot be read switches calls off rather than leaving a
+button that fails. Check a key's *shape* with `netlify env:get` piped into a script that prints
+counts, never the key. **The friendly edit is auto-follow, a host whose
 jumps move everybody.** That is forced sync, and the watch-togethers rely on people pausing
 when they need to. It is Ryan's call and nobody else's.
 

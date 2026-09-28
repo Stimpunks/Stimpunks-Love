@@ -22,7 +22,7 @@ import { updateChalk, readChalk, updatePebbles, readPebbles, cleanLink, PEBBLE_R
   MUD_PLACES, MUD_FRESH, KEEP, today,
   hostBeacon, stopBeacon, readBeacons, sweepBeacons, beaconRoom, cleanAt, BEACON_FRESH,
   updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag,
-  callToken, callSrc, callsReady, JAAS_APP, CALL_HOURS } from './lib.mjs';
+  callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
 function memoryStore({ etagOnRead }) {
@@ -365,4 +365,21 @@ test('no key, no calls; and the address arrives muted on the pre-join screen', (
   assert.ok(src.startsWith(`https://8x8.vc/${JAAS_APP}/stimpunks-the-den?jwt=TOKEN#`));
   for (const c of ['startWithAudioMuted=true', 'startWithVideoMuted=true', 'prejoinConfig.enabled=true', 'disableInviteFunctions=true'])
     assert.ok(src.includes('config.' + c), c);
+});
+
+test('a key pasted with its line breaks turned to spaces, or to \\n, still signs', () => {
+  const flat = key.pem.trim().split('\n').join(' ');           // what Netlify's box made of the real one
+  const escaped = key.pem.trim().split('\n').join('\\n');
+  for (const raw of [flat, escaped, key.pem]) {
+    const t = open(callToken(ada, 'the-den', Date.now(), { kid: key.kid, pem: tidyPem(raw) }));
+    assert.equal(t.ok, true);
+  }
+  const was = [process.env.CB_JAAS_KID, process.env.CB_JAAS_KEY];
+  process.env.CB_JAAS_KID = key.kid; process.env.CB_JAAS_KEY = flat;
+  assert.equal(callsReady(), true, 'the flattened key is read');
+  process.env.CB_JAAS_KEY = '-----BEGIN PRIVATE KEY----- not a key -----END PRIVATE KEY-----';
+  assert.equal(callsReady(), false, 'a key that cannot be read switches calls off');
+  for (const [k, v] of [['CB_JAAS_KID', was[0]], ['CB_JAAS_KEY', was[1]]]) {
+    if (v === undefined) delete process.env[k]; else process.env[k] = v;
+  }
 });
