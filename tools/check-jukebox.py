@@ -339,7 +339,15 @@ def tracks_in(data):
         # stays generic; this function's whole job is knowing what shape a file
         # is in.
         walled = data.get("_readings_channel")
-        return [dict(t, artist=t.get("channel") or walled,
+        # THE FIRE ITSELF IS A PLAYLIST and this tool asks about one video, so
+        # what it asks about is the video the list OPENS on: position 1 decides
+        # whether the whole list embeds (Queercore's lesson). The rest of the
+        # list is not checked and this does not pretend it is.
+        h = data.get("hearth") or {}
+        hearth = ([dict(h["opens"], artist=h.get("channel"), channel=h.get("channel"),
+                        title=f'the fire, opening on {h["opens"]["title"]}')]
+                  if h.get("opens") else [])
+        return hearth + [dict(t, artist=t.get("channel") or walled,
                      channel=t.get("channel") or walled,
                      state="link" if t.get("how") == "link" else None)
                 for t in (data.get("fire", []) + data.get("readings", [])

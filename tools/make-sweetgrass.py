@@ -37,6 +37,17 @@ has, which is the reason this file is worth reading before editing the room.
     refused, because the only thing that ever distinguished those ids was the
     channel name. They arrived in the same brief looking identical.
 
+  · AND THE FIRE ITSELF IS THE ONE THING HERE THAT MAY NOT HAVE A RUNTIME.
+    Ryan's brief, 2026-09-28: the pit had talks round it and no fire in it. The
+    fire is a whole playlist of campfires, put on and left burning, so this
+    tool holds make-club.py's pair at once -- a runtime REQUIRED on every
+    recording and REFUSED on the list, because a list its channel keeps adding
+    to has no length and today's total is wrong next week. It also refuses a
+    list that does not say what it OPENS on (Queercore's lesson: position 1
+    decides whether the whole list embeds), and our note saying what a fire is
+    FOR. Those videos are sold for sleep and focus, and this room says out loud
+    that it does not treat a meadow as a treatment.
+
   · THE BRAID IS THREE BUNDLES OF SEVEN AND THE TOOL COUNTS THEM. Seven behind,
     seven laws, seven ahead, twenty-one in the braid. That is somebody's
     teaching rather than a layout, and a bundle that lost a strand to an edit
@@ -71,6 +82,10 @@ ROOM = ROOT / "swaying-sweetgrass.html"
 NOTES = ROOT / "liner-notes.html"
 
 YT = re.compile(r"^[A-Za-z0-9_-]{11}$")
+# What the fire's own titles sell it for. Our note says what is in the picture
+# and what you hear, never what it will do for you.
+FOR = re.compile(r"\b(sleep\w*|relax\w*|focus\w*|calm\w*|soothe?s?|soothing|stress\w*|"
+                 r"anxi\w*|insomnia|therap\w*|heal\w*|asmr|meditat\w*|productiv\w*)\b", re.I)
 CLOCK = re.compile(r"^\d{1,2}:\d{2}(:\d{2})?$")
 
 def framed_origins():
@@ -167,6 +182,43 @@ def check(d):
             if not (r.get("note") or "").strip():
                 bad.append(f"{label}: {r.get('title')!r} has no note saying what it is.")
 
+    # The fire itself: a playlist, so the runtime rule turns over.
+    h = d.get("hearth") or {}
+    if not h:
+        bad.append("no fire in the fire pit. The hearth is a playlist of real fires and the "
+                   "clearing was built round it.")
+    else:
+        t = h.get("title") or "<untitled>"
+        src = (h.get("frame") or "").strip()
+        if not src.startswith(framed_origins()):
+            bad.append(f"the fire frames {src!r}, which is not an origin this site frames. "
+                       "love-embed.js returns quietly for it, which is a button somebody "
+                       "presses and presses.")
+        if "list=" not in src:
+            bad.append("the fire's frame carries no list id, so it is not the playlist it "
+                       "says it is.")
+        if h.get("length") or h.get("spoken") or h.get("runtime"):
+            bad.append("the fire carries a runtime. Every recording at the fire must have one "
+                       "and this must not: a playlist its channel keeps adding to has no "
+                       "length, and today's total would be wrong next week while looking "
+                       "authoritative. Say it runs until you stop it.")
+        for field in ("title", "channel", "note", "playlist", "read"):
+            if not (h.get(field) or "").strip():
+                bad.append(f"the fire has no {field}.")
+        if walled and (h.get("channel") or "").strip() == walled:
+            bad.append(f"the fire is on {walled!r}, which is the chapter readings' channel.")
+        o = h.get("opens") or {}
+        if not YT.match(o.get("id") or "") or not (o.get("title") or "").strip() \
+                or not CLOCK.match((o.get("length") or "").strip()):
+            bad.append("the fire does not say which video its playlist opens on, with that "
+                       "video's id, title and runtime. Position 1 decides whether the whole "
+                       "list embeds at all, and check-jukebox.py asks YouTube about it.")
+        m = FOR.search(h.get("note") or "")
+        if m:
+            bad.append(f"the fire's note says {m.group(0)!r}. The channel sells these fires for "
+                       "sleep and focus and this room copies none of it: it does not treat a "
+                       "meadow, or a fire, as a treatment. Say what is in the picture.")
+
     # The braid is somebody's teaching and the numbers are part of it.
     br = d.get("braid") or {}
     bundles = br.get("bundles") or []
@@ -229,6 +281,27 @@ def screens(rows, cls):
             f'Play &middot; {esc(r["spoken"])}</button>\n'
             f'      </li>')
     return "\n".join(out)
+
+
+def hearth_block(h):
+    # A LARGE PLATE, AND DRAWN IN THE ROOM'S OWN GOLDS. No poster: the fire's
+    # real orange arrives only inside a frame somebody pressed for, so the page
+    # is not made flame-lit by the back door (see §25). The plate is the width
+    # of the clearing rather than one sit in the grid, because this is the fire
+    # and the others are told round it.
+    return (
+        f'      <div class="swg-plot swg-hearth">\n'
+        f'        <h3>The fire</h3>\n'
+        f'        <p class="swg-by">{esc(h["channel"])} &middot; a playlist, so no runtime</p>\n'
+        f'        <p>{esc(h["note"])}</p>\n'
+        f'        <button type="button" class="facade" data-embed-src="{html.escape(h["frame"], quote=True)}"\n'
+        f'                data-embed-title="{html.escape(h["title"], quote=True)}, on YouTube">'
+        f'Light the fire &middot; runs until you stop it</button>\n'
+        f'        <p class="swg-cap">No runtime on this one, and every other press in the clearing '
+        f'has one: a playlist is a list its channel keeps adding to, and a total here would '
+        f'be wrong the next time it changed. It is <a href="{esc(h["playlist"])}">'
+        f'{esc(h["title"])}</a>, on YouTube, read on {esc(h["read"])}, and it starts at the top.</p>\n'
+        f'      </div>')
 
 
 def doors(rows):
@@ -353,6 +426,7 @@ def main():
             print("  - " + b)
         return 1
 
+    swap(ROOM, "sweetgrass-hearth", hearth_block(d["hearth"]), "    ")
     swap(ROOM, "sweetgrass-fire", screens(d["fire"], "swg-sit"), "    ")
     swap(ROOM, "sweetgrass-readings", doors(d["readings"]), "    ")
     swap(ROOM, "sweetgrass-guide", screens(d["teachings"], "swg-teach"), "    ")
@@ -362,13 +436,19 @@ def main():
     for q in d["quotes"]:
         swap(ROOM, f"sweetgrass-quote-{q['key']}", quote_block(q), "    ")
 
+    h = d["hearth"]
+    swap(NOTES, "sweetgrass-hearth-credits",
+         f'      <tr><td>{esc(h["title"])}</td><td>{esc(h["channel"])}</td>'
+         f'<td>no runtime</td><td>a playlist, a screen</td>'
+         f'<td><a href="{esc(h["playlist"])}">watch</a></td></tr>', "      ")
     swap(NOTES, "sweetgrass-fire-credits", rows(d["fire"], "a screen"), "      ")
     swap(NOTES, "sweetgrass-readings-credits",
          reading_rows(d["readings"], d["_readings_channel"]), "      ")
     swap(NOTES, "sweetgrass-guide-credits", rows(d["teachings"], "a screen"), "      ")
     swap(NOTES, "sweetgrass-quote-credits", quote_rows(d["quotes"]), "      ")
 
-    print(f"sweetgrass: {len(d['fire'])} recordings at the fire, {len(d['readings'])} chapter "
+    print(f"sweetgrass: a playlist of real fires in the pit with no runtime, "
+          f"{len(d['fire'])} recordings at the fire, {len(d['readings'])} chapter "
           f"readings as doors out, {len(d['teachings'])} teachings in the field guide, "
           f"{len(d['braid']['bundles'])} bundles of seven in the braid, "
           f"{len(d['quotes'])} passages, credits rebuilt.")

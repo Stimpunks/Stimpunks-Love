@@ -689,6 +689,14 @@ its own would have made this a flame-lit room by the back door, after all that. 
 object in the middle distance that you walk to; it is not what the page is lit by. Do not give it
 a colour nothing else in the room has.
 
+**AND THE PIT HAS A REAL FIRE IN IT NOW, WHICH DOES NOT UNDO THAT.** Ryan, 2026-09-28: a
+playlist of real campfires, on one plate the width of the clearing, the one press there with no
+runtime (`make-sweetgrass.py` holds make-club.py's pair: required on every recording, refused on
+the list, and it refuses a list that does not say what it `opens` on). **The plate is soil and
+seed and shows no poster**, so the fire's orange only ever appears inside a frame somebody pressed
+for. A poster, or a plate in a flame colour, would make this a flame-lit room by the back door.
+The channel sells those videos for sleep and focus; the tool refuses that vocabulary in our note.
+
 **IT IS ALSO THE FOURTH GREEN THING, and the Jungle Room is the one to watch.** That room is
 night-green UNDER A ROOF: light falls down and lands in patches, and nothing stands alone because
 everything overlaps something. This is open, and the light arrives sideways at eye level. You are

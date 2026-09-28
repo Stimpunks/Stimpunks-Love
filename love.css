@@ -7485,6 +7485,30 @@ html[data-intensity="max"]     .meadow .swg-flit { animation: swg-drift 11s ease
 .swg-clip { max-width: 320px; }
 .swg-clip div.facade { aspect-ratio: 9 / 16; }
 
+/* The fire itself (Ryan, 2026-09-28): a whole playlist of real campfires, and
+   the one press in the clearing with no runtime. It is a plot like the others,
+   WIDER than the reading column because it is the fire and everything else is
+   told round it, so it takes the width of the clearing up to the street's own
+   wrap and no further. Negative margins rather than a transform: rotation and
+   skew are all check-gentle.py can read, and a centring translate is one more
+   thing to ask it to take on trust.
+   THE PLATE IS SOIL AND SEED, THE ROOM'S OWN INKS, and it shows no poster. The
+   fire's orange arrives only inside a frame somebody pressed for; a plate in a
+   flame colour of its own would make this a flame-lit room by the back door,
+   which is the thing §25's fire pit is painted in two golds to avoid. The
+   pressed shell is `.meadow div.facade` above and needs nothing here. */
+.swg-hearth { margin-inline: calc((100% - min(1136px, 100vw - 44px)) / 2); }
+.meadow .swg-hearth button.facade {
+  display: grid; place-items: center; aspect-ratio: 16 / 9; width: 100%;
+  margin: 16px 0 0; padding: 0 18px; background: var(--soil);
+  border: 2px solid var(--stem); color: var(--seed); text-align: center;
+  font-family: 'Eczar', Georgia, serif; font-weight: 600;
+  font-size: clamp(19px, 2.6vw, 26px); letter-spacing: .3px;
+}
+.meadow .swg-hearth button.facade:hover { background: var(--soil); color: var(--straw);
+  border-color: var(--sedge); }
+.swg-hearth .swg-cap { margin: 12px 0 0; }
+
 /* ── The chapter readings, which are doors and not screens ────────────────
    Deliberately unlike everything else on the page: no press, no runtime badge
    in the same shape as the fire's, no box. A list of links that leaves. The

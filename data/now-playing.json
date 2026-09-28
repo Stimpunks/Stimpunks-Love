@@ -126,11 +126,12 @@
     },
     {
       "page": "swaying-sweetgrass.html",
-      "what": "A meadow left alone, with a fire pit in the clearing where the story is Robin Wall Kimmerer in her own voice.",
+      "what": "A meadow left alone, with a real fire burning in the pit in the clearing and Robin Wall Kimmerer in her own voice round it.",
       "holds": [
-        "The fire pit"
+        "The fire pit",
+        "Light the fire"
       ],
-      "after": "<!-- sweetgrass-fire:begin -->"
+      "after": "<!-- sweetgrass-hearth:begin -->"
     },
     {
       "page": "solarpunk-hermitage.html",

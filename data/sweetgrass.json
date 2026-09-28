@@ -18,6 +18,21 @@
     "cited": "https://stimpunks.org/glossary/nature/",
     "cited_title": "Nature"
   },
+  "_hearth": "THE FIRE ITSELF, and the one thing in the clearing that is not a voice. Ryan's brief, 2026-09-28: the pit had talks round it and no fire in it. It is a whole playlist from Norwegian Fireplace and Campfire, put on and left burning, so it follows make-club.py's pair of rules: every recording at the fire and in the field guide needs a runtime, and this refuses one, because a list the channel keeps adding to has no length and today's total would be wrong next week. It says it runs until you stop it. It is not a Kimmerer recording and not on the readings' channel, and make-sweetgrass.py refuses it on either. READ ON 2026-09-28 with yt-dlp --flat-playlist and one watch-page fetch of its position 1: the list's position 1 is 'opens' below, public, playable, playableInEmbed true, no age gate, on the same channel as the list. Position 1 is recorded because it decides whether the whole list embeds at all (Queercore's lesson on Pink Pony Club). The playlist's own embedding was checked by pressing play inside a frame on the dev server, not by reading the poster (Vital Plant Living's lesson). ITS TITLES AND DESCRIPTION SELL THE FIRES FOR SLEEP, RELAXATION AND FOCUS and none of that is copied: the title is quoted as written, because it is the channel's, and our note says what is in the picture and what you hear. make-sweetgrass.py refuses the vocabulary of what a fire is for in our note, for the reason the room's own last section gives: it does not treat a meadow as a treatment. AND THE FLAME ON THE PLATE IS STILL THE ROOM'S OWN TWO GOLDS. The plate shows no poster and takes no colour of its own; the real fire's orange arrives only inside a frame somebody pressed for, so the page is not made flame-lit by the back door.",
+  "hearth": {
+    "title": "Forest Campfires 4K - Real Fire, Wind & Bird Calls | No Loop, No Music",
+    "channel": "Norwegian Fireplace and Campfire",
+    "channel_id": "UCgzbXVZe1lUTrKLH8CW01oA",
+    "playlist": "https://www.youtube.com/playlist?list=PLzg9YUxtaLXWHQtkPkVJWJq_HYTBNdkT0",
+    "frame": "https://www.youtube-nocookie.com/embed/videoseries?list=PLzg9YUxtaLXWHQtkPkVJWJq_HYTBNdkT0",
+    "read": "2026-09-28",
+    "opens": {
+      "id": "MeXUPQNyLrE",
+      "title": "4K Spring Campfire in Norwegian Forest | Real Fire & Birdsong for Relaxation & Focus (No Music)",
+      "length": "1:01:58"
+    },
+    "note": "Campfires filmed in the forest, one fire to a video: the crackle, the wind in the trees, and birds somewhere off. No voice and no music, and the channel says none of it is looped. The only thing in this clearing that is not a story."
+  },
   "fire": [
     {
       "id": "RdS_tnc-PXY",

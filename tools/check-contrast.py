@@ -1527,6 +1527,8 @@ PAIRS = [
     (SWG_SEDGE,  SWG_SOIL,    False, "sweetgrass: who published a recording, the runtimes, the "
                              "strand numbers, the caption under Ryan's video"),
     (SWG_SEDGE,  SWG_WASH, False, "sweetgrass: the same near the top"),
+    (SWG_SEDGE,  SWG_SHADE,   False, "sweetgrass: the fire's channel line and the caption under "
+                             "its plate, inside its plot (5.49)"),
     (SWG_BAND,   SWG_SOIL,    False, "sweetgrass: the roots line at the foot of the braid"),
     (SWG_BAND,   SWG_WASH, False, "sweetgrass: the same, if the page is short"),
 
