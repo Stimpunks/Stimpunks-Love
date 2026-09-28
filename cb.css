@@ -34,7 +34,18 @@
   color: var(--cb-steel);
   font: 15px/1.45 'Atkinson Hyperlegible', system-ui, sans-serif;
   text-align: left;
+  /* NEVER TALLER THAN THE WINDOW, less the gap it keeps from each edge (EDGE
+     in cb.js). It is anchored by its bottom corner, so a radio that grew past
+     the window pushed its own bar, and Fold away with it, off the top of the
+     screen; Ryan found it with a full channel, hosts and the teleporter open.
+     The bar stays where it is and everything under it scrolls instead. */
+  max-height: calc(100vh - 16px);
+  max-height: calc(100dvh - 16px);
+  display: flex; flex-direction: column;
 }
+.cb-bar { flex: none; }
+.cb-tp-panel { flex: none; }
+.cb-set { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
 .cb-radio *, .cb-radio *::before, .cb-radio *::after { box-sizing: border-box; }
 .cb-radio p { margin: 0; }
 .cb-radio a { color: var(--cb-amber); }

@@ -542,6 +542,11 @@
 
     document.addEventListener('visibilitychange', function () { me.tune(); });
     window.addEventListener('resize', function () { me.place(); });
+    /* It grows as messages and hosts arrive, and place() is what keeps its top
+       on the screen, so it is placed again whenever its own size changes, not
+       only when the window's does. place() sets right and bottom and never the
+       size, so this cannot feed itself. */
+    if (window.ResizeObserver) new ResizeObserver(function () { me.place(); }).observe(box);
 
     /* IN A SHADOW ROOT, because it floats in every room and every room's own
        rules would otherwise reach into it. `.room-x a` at (0,2,0) is how the
