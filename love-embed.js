@@ -169,9 +169,21 @@
     return el;
   }
 
-  function frame(id, title) {
+  /* A PLACE TO START FROM, carried in by a spot on the CB. cb.js puts
+     data-embed-start on the one play button a spot is about, and this is
+     where it becomes YouTube's own start= on the frame the press builds, so
+     the building stays in this file. A single video only: on a playlist,
+     start= would land that far into whichever film comes first, which is a
+     different film from the one the spot is about. */
+  function withStart(src, start) {
+    var n = parseInt(start, 10);
+    if (!(n > 0) || src.indexOf(YT + '/embed/') !== 0 || /[?&](list|start)=|\/embed\/videoseries/.test(src)) return src;
+    return src + (src.indexOf('?') < 0 ? '?' : '&') + 'start=' + n;
+  }
+
+  function frame(id, title, start) {
     if (!id || !/^[A-Za-z0-9_-]{11}$/.test(id)) return null;
-    var el = frameUrl('https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0', title);
+    var el = frameUrl(withStart('https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0', start), title);
     if (!el) return null;
     el.title = title || 'Embedded video';
     return el;
@@ -225,8 +237,8 @@
     var player = isAudio
       ? audio(btn.dataset.audioSrc, btn.dataset.embedTitle)
       : btn.dataset.embedSrc
-        ? frameUrl(btn.dataset.embedSrc, btn.dataset.embedTitle)
-        : frame(btn.dataset.embedId, btn.dataset.embedTitle);
+        ? frameUrl(withStart(btn.dataset.embedSrc, btn.dataset.embedStart), btn.dataset.embedTitle)
+        : frame(btn.dataset.embedId, btn.dataset.embedTitle, btn.dataset.embedStart);
     if (!player) return;
 
     var shell = document.createElement('div');

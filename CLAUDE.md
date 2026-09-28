@@ -559,7 +559,13 @@ moves anybody's film but their own press. **Add my spot writes `@34:12 in “the
 dropped from one room used to move whatever was playing in another. Ryan found that by trying it
 from several rooms. `cb.js` reads what each stamp names off the whole message before
 `streetLinks` splits it round addresses and #tags, so `isStamp` must stay the one test both
-passes share. **The friendly edit is auto-follow, a host whose
+passes share. **The room's link carries the spot as `#spot=2052&film=…`**, which is a fragment
+and never reaches any server. On arrival `arrive()` in `cb.js` finds that film's own play button
+by title prefix. Our facades name the film and then its channel. It sets `data-embed-start`,
+opens any `<details>` round it, focuses it, and says so on the radio, and **it presses nothing**.
+`withStart()` in `love-embed.js` turns that into YouTube's `start=`, so the building stays in that
+file, **on a single video only**: `start=` on a playlist lands that far into whichever film comes
+first. A film with no button of its own gets a sentence saying what to do instead, never a guess. **The friendly edit is auto-follow, a host whose
 jumps move everybody.** That is forced sync, and the watch-togethers rely on people pausing
 when they need to. It is Ryan's call and nobody else's.
 

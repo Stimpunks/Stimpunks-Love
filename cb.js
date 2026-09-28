@@ -114,14 +114,14 @@
       var prev = m.index ? text.charAt(m.index - 1) : ' ';
       if (!m[1] && /[A-Za-z0-9-]/.test(next)) continue;
       if (/[A-Za-z0-9.\/@_~%-]/.test(prev)) continue;
-      if (m.index > at) hashRooms(parent, text.slice(at, m.index));
+      if (m.index > at) hashRooms(parent, text.slice(at, m.index), at);
       var a = el('a', null, said);
       a.href = path;
       parent.appendChild(a);
       at = m.index + said.length;
       STREET.lastIndex = at;
     }
-    if (at < text.length) hashRooms(parent, text.slice(at));
+    if (at < text.length) hashRooms(parent, text.slice(at), at);
     return parent;
   }
 
@@ -152,7 +152,8 @@
     rooms = ok;
   }
 
-  function hashRooms(parent, text) {
+  function hashRooms(parent, text, off) {
+    off = off || 0;
     var at = 0, m;
     TAG.lastIndex = 0;
     while ((m = TAG.exec(text))) {
@@ -160,17 +161,21 @@
       var prev = m.index ? text.charAt(m.index - 1) : ' ';
       var next = text.charAt(m.index + m[0].length);
       if (!room || /[A-Za-z0-9_&#\/-]/.test(prev) || /[A-Za-z0-9_]/.test(next)) continue;
-      if (m.index > at) stamps(parent, text.slice(at, m.index));
+      if (m.index > at) stamps(parent, text.slice(at, m.index), off + at);
       var a = el('a', 'cb-room');
-      a.href = room.path;
+      var spot = tagAt[off + m.index];
+      // A room named by a spot carries the spot, in the fragment, which no
+      // browser sends to any server. See arrive.
+      a.href = room.path + (spot ? '#spot=' + spot.secs + '&film=' + encodeURIComponent(spot.film) : '');
       var hash = el('span', null, '#');
       hash.setAttribute('aria-hidden', 'true');
       a.appendChild(hash);
       a.appendChild(document.createTextNode(room.name));
+      if (spot) a.appendChild(el('span', 'sr', ', ready at ' + place(spot.secs)));
       parent.appendChild(a);
       at = m.index + m[0].length;
     }
-    if (at < text.length) stamps(parent, text.slice(at));
+    if (at < text.length) stamps(parent, text.slice(at), off + at);
   }
 
   /* A PLACE IN A FILM. Ryan, 2026-09-28: at a watch-together everybody runs
@@ -194,9 +199,11 @@
      place is. A stamp typed bare still moves whatever is playing, as it did.
      The message is split round addresses and #tags before stamps() sees it,
      so what each stamp names is read here off the whole message first, with
-     the same test for where a stamp may start, and handed out in order. */
+     the same test for where a stamp may start, and kept by where it stands
+     in the message: stampAt for the stamp, tagAt for the # of the room it
+     names, whose link then carries the spot. */
   var NAMED = /^ in “([^”]{1,200})”(?:,? (?:at )?#([a-z0-9]+(?:-[a-z0-9]+)*))?/i;
-  var named = [];
+  var stampAt = {}, tagAt = {};
 
   function isStamp(text, i) {
     return !/[A-Za-z0-9_@.\/]/.test(i ? text.charAt(i - 1) : ' ');
@@ -204,22 +211,28 @@
 
   function stampsIn(text) {
     var m;
-    named = [];
+    stampAt = {}; tagAt = {};
     STAMP.lastIndex = 0;
     while ((m = STAMP.exec(text))) {
       if (!isStamp(text, m.index)) continue;
-      var n = text.slice(m.index + m[0].length).match(NAMED);
-      named.push(n ? { film: n[1], room: n[2] ? n[2].toLowerCase() : '' } : { film: '', room: '' });
+      var end = m.index + m[0].length, n = text.slice(end).match(NAMED);
+      stampAt[m.index] = n ? { film: n[1], room: n[2] ? n[2].toLowerCase() : '' } : { film: '', room: '' };
+      if (n && n[2]) tagAt[end + n[0].lastIndexOf('#')] = { secs: secsOf(m), film: n[1] };
     }
   }
 
-  function stamps(parent, text) {
+  function secsOf(m) {
+    return m[1] != null ? (+m[1]) * 3600 + (+m[2]) * 60 + (+m[4]) : (+m[3]) * 60 + (+m[4]);
+  }
+
+  function stamps(parent, text, off) {
     var at = 0, m;
+    off = off || 0;
     STAMP.lastIndex = 0;
     while ((m = STAMP.exec(text))) {
       if (!isStamp(text, m.index)) continue;
-      var secs = m[1] != null ? (+m[1]) * 3600 + (+m[2]) * 60 + (+m[4]) : (+m[3]) * 60 + (+m[4]);
-      var what = named.shift() || { film: '', room: '' };
+      var secs = secsOf(m);
+      var what = stampAt[off + m.index] || { film: '', room: '' };
       if (m.index > at) parent.appendChild(document.createTextNode(text.slice(at, m.index)));
       var b = el('button', 'cb-jump', m[0]);
       b.type = 'button';
@@ -1239,9 +1252,50 @@
     counter();
   }
 
+  /* ARRIVING BY A SPOT. The room's name in a spot links here with
+     #spot=2052&film=..., and this finds that film's own play button on the
+     page, has it start there when pressed, puts the keyboard on it and says
+     so on the radio. It presses nothing: the film still waits for its press,
+     like everything on this street. A title is matched from its start,
+     because a button here names the film and then its channel. A playlist
+     cannot start at a place in one film, so only a single video's button is
+     used, and when there is none the radio says what to do instead. */
+  function norm(t) {
+    return String(t || '').toLowerCase().replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"').replace(/\s+/g, ' ').trim();
+  }
+
+  function arrive() {
+    var m = location.hash.match(/^#spot=(\d{1,6})(?:&film=([^&]*))?$/);
+    if (!m || !radio) return;
+    var secs = +m[1], film = '';
+    try { film = decodeURIComponent(m[2] || ''); } catch (e) { return; }
+    var want = norm(film), cut = want.slice(-1) === '\u2026';
+    if (cut) want = want.slice(0, -1).trim();
+    var at = place(secs), called = film ? '\u201c' + film + '\u201d' : 'the film';
+    var btns = document.querySelectorAll('button.facade'), hit = null;
+    for (var i = 0; want && !hit && i < btns.length; i++) {
+      var b = btns[i], src = b.dataset.embedSrc || '';
+      var single = b.dataset.embedId || /^https:\/\/www\.youtube-nocookie\.com\/embed\/[A-Za-z0-9_-]{11}(\?|$)/.test(src);
+      if (!single || /[?&]list=/.test(src)) continue;
+      var t = norm(b.dataset.embedTitle);
+      if (t.indexOf(want) === 0 && (cut || t.length === want.length || /^[\s,:(\-\u2013\u2014|]/.test(t.charAt(want.length)))) hit = b;
+    }
+    if (!hit) {
+      radio.tell(called + ' has no play button of its own on this page, so it could not be set to start at ' + at + '. Press play on it, then press @' + at + ' on the channel.');
+      return;
+    }
+    hit.dataset.embedStart = String(secs);
+    for (var d = hit.closest('details'); d; d = d.parentElement && d.parentElement.closest('details')) d.open = true;
+    hit.focus();
+    radio.tell('You came for ' + at + ' in ' + called + '. Its play button has the keyboard: press it and it starts there.');
+  }
+
   function start() {
     wireCounter();
     tuneIn();
+    arrive();
+    // Following a spot to the room you are already in changes only the hash.
+    window.addEventListener('hashchange', arrive);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();
