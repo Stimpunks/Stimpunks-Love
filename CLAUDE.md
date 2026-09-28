@@ -2190,7 +2190,7 @@ an opt-in and nothing else**, and every piece of it is a sentence on the page th
     restart it**: a strobe that resumed by itself is one nobody asked for this time. Nothing is stored.
   · **the knob starts at four and stops at eleven**, `MAX_RATE` in `rave.js` and the range's `max` must
     agree, and past eleven is refused. Past four is past the HSE's figure and the knob says so as it turns.
-    How fast it goes is open in DECISIONS.md and is Ryan's call.
+    Four to eleven is Ryan's call, settled 2026-09-27, and so is keeping the fan-posted Tomorrowland film.
   · **the flash is white**, because a saturated red flash is the worst there is; `--rr-strobe` is
     refused with any hue. **It lands on the hangar picture and never on a word**, unless the visitor takes
     the rig full screen, which is a third choice of theirs.
