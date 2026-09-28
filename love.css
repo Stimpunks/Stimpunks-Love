@@ -10962,9 +10962,11 @@ html[data-intensity="max"] .ls-fizz circle:nth-child(4) { animation-duration: 3.
 
 
 /* §42 ── ROOM: The Lightbulb Picture House (a shopfront on the street) ───────
-   A PICTURE HOUSE WHERE EVERY SCREENING IS A RELAXED SCREENING. Two screens of
+   A PICTURE HOUSE WHERE EVERY SCREENING IS A RELAXED SCREENING. Screens of
    films about autism, ADHD and neurodiversity, most of them made by the people
-   they are about, and a rack with a card for every film on the first.
+   they are about, a rack with a card for every film on the first, and a
+   campfire rack for the third, which is everything we have watched at
+   Campfire Learn Together.
 
    THE HOUSE LIGHTS STAY UP, AND THAT IS THE ROOM. Every other room on this
    street with a bright rectangle in it keeps the rectangle in the dark --
@@ -11065,6 +11067,9 @@ html[data-intensity="max"] .ls-fizz circle:nth-child(4) { animation-duration: 3.
 .lph-rack { list-style: none; margin: 22px 0 18px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 26px 22px; }
 .lph-card { display: flex; flex-direction: column; gap: 8px; padding: 18px 18px 16px; background: var(--lph-deep); border: 1px solid var(--lph-brass); border-radius: 4px; }
 .picture-house .lph-card__n { margin: 0; font-family: 'Limelight', Georgia, serif; font-size: 22px; line-height: 1; color: var(--lph-gold); }
+/* Screen Three's cards say which campfire they were watched at, in the gold the
+   number and the label already use, so the campfire rack adds no new pair. */
+.picture-house .lph-card__when { margin: 0; font-size: 14px; letter-spacing: .02em; color: var(--lph-gold); }
 .lph-card__title { margin: 0; font-weight: 700; font-size: 20px; line-height: 1.25; color: var(--lph-cream); }
 .picture-house .lph-card__makers { margin: 0; font-size: 14px; line-height: 1.45; color: var(--lph-dim); }
 .picture-house .lph-card__about { margin: 0; font-size: 16px; line-height: 1.55; }

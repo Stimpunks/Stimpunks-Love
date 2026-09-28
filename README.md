@@ -98,7 +98,7 @@ rabbit-hole.html      Not a room: a shaft. Rabbit holing, seven presses, six 186
 healing-checkpoint.html  Room 429. A save room lit from the floor. Rest, and a bed with no terms on it
 dead-tired-society.html  Peer support for the burnt out. Big lights off, door ajar, nobody sitting in the light
 laughingstock.html    A comedy club down a ramp. Disabled comics on their own terms; only their lines stand in the light
-lightbulb-picture-house.html  Two screens of neurodiversity films, a rack with a card for each. House lights up; nothing is blue
+lightbulb-picture-house.html  Neurodiversity films and every Campfire Learn Together film, racks of cards. House lights up; nothing is blue
 samefood-cafe.html    A café for samefoods and safe foods, seen from above the table. Nothing on a plate touches anything
 collection-collection.html  A dark gallery of our people's collections, a lamp per cabinet and no two alike. The house describes the photos
 vital-plant-living.html  A plant-based kitchen drawn cut through the middle. Build a bowl or wrap from a real pantry and copy it
@@ -185,7 +185,7 @@ data/rabbit-hole.json The shaft's presses, its engravings and its trail. No lyri
 data/checkpoint.json  Room 429's quotations, its Retry-After slips and its way out
 data/dead-tired.json  The pegs by the door: what wore us out, one line from somebody who wrote about it, one of ours
 data/laughingstock.json  The stage, the bill and the lines in the light. Every set names its comics and its runtime
-data/picture-house.json  The two screens and the rack. Every card says who made it, how long, and what is in it
+data/picture-house.json  The screens, the rack and the campfire rack. Every card says who made it, how long, and what is in it
 data/samefood.json    The table in the window, the menu, the book on the counter, and the regulars' trays as they gave them
 data/collection.json  The cabinets, their lamps, the photographs in them and who described each one. Nothing counted or priced
 data/dance-punks.json The disco's three channels: where each starts in one crate, and in what colour

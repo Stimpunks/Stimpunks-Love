@@ -1,10 +1,25 @@
 #!/usr/bin/env python3
-"""Build The Lightbulb Picture House's two screens, its rack and the credits, from data/picture-house.json.
+"""Build The Lightbulb Picture House's screens, its racks and the credits, from data/picture-house.json.
 
 ONE DATA FILE, ONE TOOL, TWO SURFACES -- the contract make-yells.py set and
 every generator here has kept since. Each screen is one of our own playlists put
 on whole; the rack is a card for every film on Screen One; Screen Two gets a
-credits line naming what is on it. The credits also go to liner-notes.html.
+credits line naming what is on it; the campfire rack is a card for every film on
+Screen Three. The credits also go to liner-notes.html.
+
+SCREEN THREE IS EVERYTHING WE HAVE WATCHED AT CAMPFIRE LEARN TOGETHER, and its
+rack is built out of `campfire`: one entry per campfire, each naming the post we
+wrote for it on stimpunks.org and the films watched there, in the order the
+session watched them. Ryan's brief, 2026-09-28: newest first, because new
+campfires go on at the TOP of the playlist. So the tool refuses campfires out of
+date order -- the rack is a mirror of the playlist and the playlist's order is a
+date -- refuses a post that is not a stimpunks.org post address, and, when the
+Knowledge System mirror is on this machine, refuses a post the mirror does not
+have at that address with that title. A card that links the wrong campfire's
+post would be crediting the wrong conversation. A campfire whose film cannot be
+on a playlist (private now, or on Vimeo) stays in the data with no films and an
+`off_screen` reason, and the room lists it under the rack, because leaving it out
+would make the screen look like the whole record when it is not.
 
 WHAT IT REFUSES, and the first two are the room:
 
@@ -121,6 +136,33 @@ def no_entity(v, where):
         problems.append(f"{where} carries an HTML entity; write the character.")
 
 
+def check_card(f, where, seen):
+    """One card on either rack. The rules are the same card's rules wherever it hangs."""
+    if not ID.match(str(f.get("id", ""))):
+        problems.append(f"{where}: {f.get('id')!r} is not a YouTube id.")
+    if f.get("id") in seen:
+        problems.append(f"{where}: the id is on this rack twice.")
+    seen.add(f.get("id"))
+    if not RUNTIME.match(str(f.get("runtime", ""))):
+        problems.append(f"{where}: no runtime. Every press says how long before the press.")
+    for need in ("title", "makers", "channel", "about"):
+        if not str(f.get(need, "")).strip():
+            problems.append(f"{where}: no {need}.")
+    if "content" not in f:
+        problems.append(f"{where}: no `content` key. Null means somebody looked and found "
+                        "nothing to warn about; a missing key means nobody looked.")
+    for need in ("makers", "about", "content"):
+        v = f.get(need) or ""
+        no_entity(v, f"{where} {need}")
+        m = PRONOUN.search(re.sub(r"“[^”]*”", " ", str(v)))
+        if m:
+            problems.append(f"{where} {need}: {m.group(0)!r}. No creator's pronouns are "
+                            "stated in any of these films; write round them.")
+        if need != "makers":
+            sweep(v, f"{where} {need}")
+    no_entity(f.get("title", ""), f"{where} title")
+
+
 # ── No blue ──────────────────────────────────────────────────────────────────
 def blue(hexstr):
     h = hexstr.lstrip("#")
@@ -159,6 +201,7 @@ d = json.loads(DATA.read_text())
 screens = d.get("screens") or []
 rack = d.get("rack") or []
 two = d.get("screen_two") or []
+campfire = d.get("campfire") or []
 aw = d.get("awareness") or {}
 page_src = ROOM.read_text()
 
@@ -193,33 +236,77 @@ if not rack:
 seen = set()
 for i, f in enumerate(rack, 1):
     where = f"rack card {i} ({f.get('title', 'no title')!r})"
-    if not ID.match(str(f.get("id", ""))):
-        problems.append(f"{where}: {f.get('id')!r} is not a YouTube id.")
-    if f.get("id") in seen:
-        problems.append(f"{where}: the id is on the rack twice.")
-    seen.add(f.get("id"))
-    if not RUNTIME.match(str(f.get("runtime", ""))):
-        problems.append(f"{where}: no runtime. Every press says how long before the press.")
-    for need in ("title", "makers", "channel", "about"):
-        if not str(f.get(need, "")).strip():
-            problems.append(f"{where}: no {need}.")
-    if "content" not in f:
-        problems.append(f"{where}: no `content` key. Null means somebody looked and found "
-                        "nothing to warn about; a missing key means nobody looked.")
+    check_card(f, where, seen)
     ours = f.get("ours")
     if ours is not None and not str(ours.get("url", "")).startswith(OURS):
         problems.append(f"{where}: `ours` points at {ours.get('url')!r}, which is not one of "
                         "our own pages.")
-    for need in ("makers", "about", "content"):
-        v = f.get(need) or ""
-        no_entity(v, f"{where} {need}")
-        m = PRONOUN.search(re.sub(r"“[^”]*”", " ", str(v)))
-        if m:
-            problems.append(f"{where} {need}: {m.group(0)!r}. No creator's pronouns are "
-                            "stated in any of these films; write round them.")
-        if need != "makers":
-            sweep(v, f"{where} {need}")
-    no_entity(f.get("title", ""), f"{where} title")
+
+# ── Screen Three: the campfire rack ─────────────────────────────────────────
+POST = re.compile(r"^https://stimpunks\.org/(\d{4})/(\d{2})/(\d{2})/[a-z0-9-]+/$")
+DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+MIRROR = Path.home() / "Documents/Claude/Projects/Stimpunks Knowledge System/site/stimpunks.org/posts"
+
+
+def mirror_posts():
+    if not MIRROR.is_dir():
+        print("  (the Knowledge System mirror is not on this machine, so the campfire posts "
+              "were not checked against it)")
+        return None
+    found = {}
+    for md in MIRROR.glob("*.md"):
+        head = md.read_text(encoding="utf-8").split("---", 2)[1]
+        u = re.search(r'^url:\s*"(.*)"', head, re.M)
+        t = re.search(r'^title:\s*"(.*)"', head, re.M)
+        if u and t:
+            found[u.group(1)] = t.group(1)
+    return found
+
+
+def plain(s):
+    return re.sub(r"\s+", " ", html.unescape(str(s))).strip()
+
+
+screen_ids = [sc.get("id") for sc in screens]
+if campfire and "three" not in screen_ids:
+    problems.append("there is a campfire rack and no Screen Three for it to hang under.")
+if "three" in screen_ids and not any(c.get("films") for c in campfire):
+    problems.append("Screen Three has no campfire rack under it.")
+posts = mirror_posts() if campfire else None
+seen = set()
+last = None
+for c in campfire:
+    post = c.get("post") or {}
+    where = f"campfire {c.get('date')!r} ({post.get('title', 'no post')!r})"
+    if not DATE.match(str(c.get("date", ""))):
+        problems.append(f"{where}: no date, as YYYY-MM-DD.")
+    elif last is not None and c["date"] >= last:
+        problems.append(f"{where} comes after {last} and is not older than it. The rack is newest "
+                        "first, because new campfires go on at the top of the playlist.")
+    else:
+        last = c["date"]
+    if not POST.match(str(post.get("url", ""))):
+        problems.append(f"{where}: {post.get('url')!r} is not a stimpunks.org post address "
+                        "(https://stimpunks.org/YYYY/MM/DD/slug/, with the trailing slash).")
+    if not str(post.get("title", "")).strip():
+        problems.append(f"{where}: the post has no title.")
+    no_entity(post.get("title", ""), f"{where} post title")
+    if posts is not None and post.get("url"):
+        if post["url"] not in posts:
+            problems.append(f"{where}: the mirror has no post at {post['url']}.")
+        elif plain(posts[post["url"]]) != plain(post.get("title", "")):
+            problems.append(f"{where}: the mirror titles that post {posts[post['url']]!r}.")
+    films = c.get("films") or []
+    if films and "off_screen" in c:
+        problems.append(f"{where} has films on the screen and an `off_screen` reason; it is one "
+                        "or the other.")
+    if not films and not str(c.get("off_screen", "")).strip():
+        problems.append(f"{where} has no films and no `off_screen` reason saying why none of "
+                        "what it watched can be on the playlist.")
+    no_entity(c.get("off_screen", ""), f"{where} off_screen")
+    sweep(c.get("off_screen", ""), f"{where} off_screen")
+    for i, f in enumerate(films, 1):
+        check_card(f, f"{where}, film {i} ({f.get('title', 'no title')!r})", seen)
 
 for i, f in enumerate(two, 1):
     where = f"screen two, film {i}"
@@ -230,7 +317,7 @@ for i, f in enumerate(two, 1):
     for v in f.values():
         no_entity(v, where)
 
-for m in ("lph-rack", "lph-awareness"):
+for m in ("lph-rack", "lph-awareness") + (("lph-campfire",) if campfire else ()):
     if f"<!-- {m}:begin -->" not in page_src:
         problems.append(f"{ROOM.name} has no {m} markers.")
 
@@ -255,6 +342,15 @@ def esc(s):
 
 def attr(s):
     return html.escape(str(s), quote=True)
+
+
+def when(iso):
+    y, m, d_ = iso.split("-")
+    return f"{int(d_)} {MONTHS[int(m) - 1]} {y}"
+
+
+MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August",
+          "September", "October", "November", "December")
 
 
 def film_src(vid):
@@ -324,8 +420,51 @@ swap(ROOM, "lph-rack",
      f'The playlist is ours and we keep adding to it, so Screen One may be showing a film by now '
      f'that the rack has no card for yet.</p>', "")
 
-rows = [f'      <tr><td>{esc(f["title"])}</td><td><strong>{esc(f["makers"])}</strong></td>'
-        f'<td>{esc(f["channel"])}</td><td>{esc(f["runtime"])}</td></tr>' for f in rack]
+if campfire:
+    cards = []
+    n = 0
+    for c in campfire:
+        for f in c.get("films") or []:
+            n += 1
+            content = (f'\n        <p class="lph-card__content"><span class="lph-card__label">Before you '
+                       f'press:</span> {esc(f["content"])}</p>') if f.get("content") else ""
+            cards.append(
+                f'      <li class="lph-card" id="campfire-{attr(f["id"])}">\n'
+                f'        <p class="lph-card__n" aria-hidden="true">{n:02d}</p>\n'
+                f'        <p class="lph-card__when">At the campfire of {when(c["date"])}</p>\n'
+                f'        <h3 class="lph-card__title">{esc(f["title"])}</h3>\n'
+                f'        <p class="lph-card__makers">{esc(f["makers"])}</p>\n'
+                f'        <p class="lph-card__about">{esc(f["about"])}</p>{content}\n'
+                f'        <button type="button" class="facade" data-embed-src="{attr(film_src(f["id"]))}" '
+                f'data-embed-title="{attr(f["title"])}, {attr(f["channel"])}">\n'
+                f'          Play &mdash; {esc(f["runtime"])}\n'
+                f'          <span class="facade__play">&#9654; PRESS PLAY</span>\n'
+                f'        </button>\n'
+                f'        <p class="lph-card__credit">{esc(f["runtime"])} &middot; on YouTube, via '
+                f'{esc(f["channel"])}</p>\n'
+                f'        <p class="lph-card__ours"><a href="{attr(c["post"]["url"])}">'
+                f'{esc(c["post"]["title"])} &rarr;</a></p>\n'
+                f'      </li>')
+    off = [f'      <li><a href="{attr(c["post"]["url"])}">{esc(c["post"]["title"])}</a> &middot; '
+           f'{when(c["date"])} &middot; {esc(c["off_screen"])}</li>'
+           for c in campfire if not c.get("films")]
+    off_block = ('\n    <p class="lph-two__h">Watched at a campfire, and not on this screen:</p>\n'
+                 '    <ul class="lph-two lph-off">\n' + "\n".join(off) + '\n    </ul>') if off else ""
+    swap(ROOM, "lph-campfire",
+         '    <ol class="lph-rack">\n' + "\n".join(cards) + '\n    </ol>' + off_block + '\n'
+         f'    <p class="lph-from">Carded on {esc(d["_campfire_checked"])} from our own campfire '
+         f'posts, newest first, which is the playlist&rsquo;s own order. New campfires go on at '
+         f'the top of the playlist, so Screen Three may be showing one by now that the rack has '
+         f'no card for yet.</p>', "")
+
+credited = set()
+rows = []
+for f in rack + [f for c in campfire for f in c.get("films") or []]:
+    if f["id"] in credited:
+        continue
+    credited.add(f["id"])
+    rows.append(f'      <tr><td>{esc(f["title"])}</td><td><strong>{esc(f["makers"])}</strong></td>'
+                f'<td>{esc(f["channel"])}</td><td>{esc(f["runtime"])}</td></tr>')
 rows += [f'      <tr><td>{esc(f["title"])}</td><td><strong>{esc(f.get("who") or f["channel"])}'
          f'</strong></td><td>{esc(f["channel"])}</td><td>{esc(f["runtime"])}</td></tr>' for f in two]
 swap(NOTES, "picture-house-credits", "\n".join(rows), "      ")
@@ -346,7 +485,12 @@ if len(problems) > before:
     raise SystemExit("REFUSING, on the published page:\n  " + "\n  ".join(problems[before:]))
 
 warned = sum(1 for f in rack if f.get("content"))
+lit = [f for c in campfire for f in c.get("films") or []]
 print(f"picture house: {len(screens)} screens and {len(rack)} cards on the rack, in {ROOM.name}")
+if campfire:
+    print(f"  {len(lit)} cards on the campfire rack from {len(campfire)} campfires, "
+          f"{sum(1 for f in lit if f.get('content'))} saying something before the press; "
+          f"{sum(1 for c in campfire if not c.get('films'))} campfires listed as not on the screen")
 print(f"  {warned} cards say something before the press besides the runtime; "
       f"{len(palette)} colours in the palette and none of them blue")
 print(f"  {len(rows)} credit rows in {NOTES.name}")

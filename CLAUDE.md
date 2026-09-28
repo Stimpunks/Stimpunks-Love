@@ -2108,6 +2108,20 @@ single film and a playlist from a page on the dev server and seeing captions com
 embed URL on its own gives Error 153 for every video** and proves nothing, which is
 `check-jukebox.py`'s old lesson arriving at a new parameter.
 
+**SCREEN THREE IS EVERY CAMPFIRE, NEWEST FIRST, AND ITS RACK IS BUILT FROM THE CAMPFIRES, NOT THE
+FILMS.** Ryan's brief, 2026-09-28. `campfire` in `data/picture-house.json` is one entry per Campfire
+Learn Together, each naming the post we wrote for it and the films that session watched, in its
+order; `make-picture-house.py` refuses campfires out of date order (new ones go at the TOP of the
+playlist and of the data), a post the mirror does not have at that address and title, and a campfire
+with no films and no `off_screen` reason. **A campfire whose film cannot be on a YouTube playlist
+stays in the data** (Vimeo, or made private since) and is listed under the rack, so the screen does
+not pass for the whole record. **Which films a session watched is read from its post, not from its
+links**: a campfire post links songs, credits and further reading, and only the ones it says the
+room watched are carded. Several cards could only be written from descriptions because YouTube
+answered 429 all day; `_campfire` says which, and they are worth re-carding from captions later.
+**Pronouns are written round here too**, even where our own post uses them for a speaker, for the
+same reason as Screen One: no film states them.
+
 **FOUR MORE TURNINGS, AND EACH ONE TOOK A LIGHT THE ROAD DID NOT HAVE.** 2026-09-23, Ryan's call. The
 road already had the Lagoon's screen in front of you, Sithen's moon overhead and Looming Rocks' floods
 from the ground up. **Dance, Punks** (§43) is lit by what people WEAR — a glow at head height per

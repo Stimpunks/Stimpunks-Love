@@ -1,5 +1,5 @@
 {
-  "_what": "The Lightbulb Picture House, a theater on the street. Two screens, each one of our own playlists put on whole, and a rack for Screen One with one card per film. tools/make-picture-house.py builds both screens, the rack, Screen Two's credits line and the liner notes from this file. Do not hand-edit between the markers.",
+  "_what": "The Lightbulb Picture House, a theater on the street. Every screen is one of our own playlists put on whole; Screen One has a rack with one card per film, and Screen Three, everything we have watched at Campfire Learn Together, has the campfire rack. tools/make-picture-house.py builds the screens, both racks, Screen Two's credits line and the liner notes from this file. Do not hand-edit between the markers.",
   "_source": "Both playlists were read off their own playlist pages (ytInitialData) on 2026-09-23: fifteen entries and a header reading fifteen videos, seven and seven, nothing hidden in either. Every id was then checked on its own watch page the same day: playabilityStatus OK, playableInEmbed true, none LOGIN_REQUIRED. Runtimes are the ones YouTube's own playlist shows, which is the number a visitor will see on the player. Channels are the uploading channel as the watch page names it; where the playlist showed 'Collaborators' (the first film) the watch page's own channel is used.",
   "_about": "EVERY LINE ON THE RACK IS OURS, and every one was written from the film itself rather than from its title. Six were read from their auto-captions in full; eight were read by a subagent working from the same captions, whose report said what each film covers, what it contains, and what it does not say; the one film whose captions could not be fetched (the double empathy animation, rate-limited) is described from its maker's own description and from our Autism Pathway page, which already embeds it. Makers are named only where the film's own description names them. NO CREATOR'S PRONOUNS ARE USED ANYWHERE ON THE RACK: not one transcript states them, and a name tells you nobody's pronouns.",
   "_content": "EVERY FILM CARRIES A `content` KEY, and a film without one is refused. Null means somebody looked and there is nothing to warn about; a string is said on the card BEFORE the press, beside the runtime, for the runtime's reason. A sponsor segment is said out loud too, because an advert in the middle of a film is a thing you would want to know before you sat down.",
@@ -7,6 +7,8 @@
   "_drift": "The rack is a MIRROR of Screen One's playlist and drifts by design. A film added to the playlist is on the screen the next time somebody presses play, and is not on the rack until somebody watches it and writes a card. The room prints the date under the rack.",
   "_captions": "Every frame here asks for captions on by default (cc_load_policy=1), which was tested on 2026-09-23 by framing both a single film and a playlist from a page on the dev server and seeing the captions come up. Loading the embed URL directly gives Error 153 for every video and says nothing; the test has to be framed.",
   "_checked": "2026-09-23",
+  "_campfire": "Screen Three, Ryan's brief of 2026-09-28: every video watched at Campfire Learn Together, newest first, each card linking the post we wrote for that campfire, because new campfires go on at the top of the playlist. THE CAMPFIRES were read out of the Knowledge System mirror on 2026-09-28: every post tagged 'campfire learn together' (nineteen, the same nineteen stimpunks.org's REST API returns for tag 6319), plus two April campfires whose posts carry the event's name and not the tag (Solving the Frankenstein Problem, and the recap In Defense of Inefficiency). Dates are the campfire's own, from the post, not the post's publication date. WHICH FILMS: the ones each post says the session watched, in the order it watched them. Not the further-reading links: the six songs at the foot of the Arday post are his set list ('come with a song'), the Dolphining post's attachment series is 'going deeper', and the Kid's Hobbies post's other two links are credits. The double empathy film was 'optional, if time allows' and is carded anyway, reusing Screen One's card for it. OFF THE SCREEN: three campfires watched nothing that can be on a YouTube playlist, and stay in the data with an off_screen reason so the room lists them rather than letting the screen look like the whole record. EVERY ID was checked with yt-dlp on 2026-09-28: public, playable_in_embed true, age_limit 0. Titles, channels and runtimes are YouTube's. THE CARDS were written by five subagents from each film's auto-captions read in full, its own YouTube description, and our post for context only, with makers named only as the description or the film credits them. Six have no captions (or YouTube refused them with 429 all day) and are written from the description and our post: the Dystopia documentary, the Screaming Females cover, the farruca, the 1980 two-pianos concert and the Wonderstruck audiobook preview. The Dystopia card's content line in particular is the description's sponsor credit plus our post, unchecked against the film. TWO THINGS OUR POSTS SAY THAT THE FILMS DO NOT, found while carding and left for stimpunks.org to correct: the Anti-AI post says the film opens with an unhoused disabled trans woman's story, and it opens with Sam Altman, the story coming near 51 minutes; the Arday post's content note calls the suicide account extended and first-person, and in the film it is brief and implied, which is what the card says.",
+  "_campfire_checked": "2026-09-28",
   "_awareness": "The one quotation in the room. Read off our own Acceptance glossary entry, https://stimpunks.org/glossary/acceptance/, on 2026-09-23, and credited to its author rather than to the entry. It is the line that names the blue lights and the puzzle pieces, from somebody autistic, which is why it is here rather than any description of the campaign in our own words.",
   "awareness": {
     "text": "Awareness says: Donate to the awesome organizations that have all the pretty puzzle pieces and all the pretty blue lights!",
@@ -29,6 +31,13 @@
       "list": "PLRtKsTScL-vS11YLFtznfZLhqp1t4GmYc",
       "title": "More on Autism, ADHD, and Neurodiversity",
       "note": "Longer ones, for after. Two of them are an hour each."
+    },
+    {
+      "id": "three",
+      "name": "Screen Three",
+      "list": "PLQFofwex8JBM",
+      "title": "Campfire Learn Together",
+      "note": "Everything we have watched together at our Sunday campfires, newest first. Some of these run for hours; the campfire rack underneath says how long each one is and what is in it."
     }
   ],
   "rack": [
@@ -191,5 +200,454 @@
     {"id": "H6xl_yJKWVU", "title": "Ask an Autistic #19 — What is Neurodiversity?", "channel": "Amythest Schaber", "runtime": "11:29"},
     {"id": "T05Sli_-xBA", "title": "ADHD: A Nightmare Under Capitalism", "channel": "Elliot Sang", "runtime": "32:54"},
     {"id": "0pibDq98raQ", "title": "Good To Be Me", "channel": "Spectrum Gaming", "runtime": "3:38"}
+  ],
+  "campfire": [
+    {
+      "date": "2026-09-13",
+      "post": {
+        "title": "Campfire Learn Together: We’ve Killed Kid’s Hobbies",
+        "url": "https://stimpunks.org/2026/09/13/campfire-learn-together-weve-killed-kids-hobbies/"
+      },
+      "films": [
+        {
+          "id": "l4zR4EKKOpc",
+          "title": "We've Killed Kid's Hobbies",
+          "makers": "Reptarus On Ice",
+          "channel": "Reptarus On Ice",
+          "runtime": "30:27",
+          "about": "Why kids quit the things they love: once an adult can see a return in a hobby, it turns into work. Pokémon card grading, private-equity travel teams and family vlogging, told by a parent whose own kids are caught up in all three.",
+          "content": "Has an ad read for the maker’s own shop partway through. Mentions the Ruby Franke child abuse case, and says in passing that people have died over Pokémon cards."
+        }
+      ]
+    },
+    {
+      "date": "2026-09-06",
+      "post": {
+        "title": "Campfire Learn Together: The Subtle Art of Normalising Dystopia",
+        "url": "https://stimpunks.org/2026/08/31/campfire-learn-together-the-subtle-art-of-normalising-dystopia/"
+      },
+      "films": [
+        {
+          "id": "aLPrNSFLb2U",
+          "title": "The Subtle Art of Normalising Dystopia",
+          "makers": "Written and directed by Campbell Walker, for struthless",
+          "channel": "struthless",
+          "runtime": "51:10",
+          "about": "How ownership was taken away in steps too dull to notice: Amazon deleting 1984 from Kindles, a coffee machine that refuses unlicensed coffee, printer ink that stops working after an update. It takes a Cory Doctorow keynote from ten years ago as homework now due, and ends on the GPL and right to repair as things that held.",
+          "content": "Has a sponsor segment (ProtonVPN). Mentions Aaron Swartz’s death by suicide."
+        }
+      ]
+    },
+    {
+      "date": "2026-08-30",
+      "post": {
+        "title": "Campfire Learn Together: Unlearning Toward Hope with Jason Arday",
+        "url": "https://stimpunks.org/2026/08/22/campfire-learn-together-unlearning-toward-hope/"
+      },
+      "films": [
+        {
+          "id": "LOZW-J1hcd4",
+          "title": "UNLEARN LIGHTBULB: I guess I'm doing fine, I guess I'm doing fine.",
+          "makers": "Professor Jason Arday, for Anglia Ruskin University’s Unlearning Lightbulb series",
+          "channel": "Anglia Ruskin University",
+          "runtime": "1:35:35",
+          "about": "A keynote with no slides, built on a set list of songs taped to the floor: belonging, being seen, and a politics of care in an unkind academy. In the questions, Jason Arday turns to masking at work, to allyship that stays quiet, and to people who trivialise neurodivergence, calling a late diagnosis “life affirming”.",
+          "content": "The first ten minutes are music and introductions. About 33 minutes in, a short account of a stranger who, the talk implies, took their own life minutes after Jason Arday saw them; later, a colleague who cried in the toilets at work every day. Racism throughout. Jason Arday has since died."
+        },
+        {
+          "id": "H30IeW5J69I",
+          "title": "Jason Arday - Things Can Only Get Better",
+          "makers": "Jason Arday, at the Society for Experimental Biology’s symposium on decolonising and diversifying biosciences education",
+          "channel": "Society for Experimental Biology",
+          "runtime": "46:55",
+          "about": "What happens to a word once institutions franchise it: inclusion, then diversity, then decolonising. Jason Arday argues that nobody can decolonise without first understanding what was colonised, that swapping reading lists is a tick box, and that the cost falls on staff of colour doing the work unrecognised. Culture first, strategy second.",
+          "content": "Brief mentions of George Floyd’s murder, other killings caught on camera, and a fatal crush at a London venue. Racism throughout. Jason Arday has since died."
+        }
+      ]
+    },
+    {
+      "date": "2026-08-23",
+      "post": {
+        "title": "Campfire Learn Together: Seated Tai Chi, Transformative Somatic Practices, and Bodily Survival Knowledge",
+        "url": "https://stimpunks.org/2026/08/21/campfire-learn-together-seated-tai-chi-transformative-somatic-practices-and-bodily-survival-knowledge/"
+      },
+      "films": [
+        {
+          "id": "NeCNtqOwthk",
+          "title": "Seated Tai Chi for Beginners and Seniors | Gentle Movements for Balance Mobility Energy",
+          "makers": "Annette, for Itstimefitness",
+          "channel": "Itstimefitness",
+          "runtime": "22:45",
+          "about": "A seated tai chi and qigong class done entirely in a chair: warm-ups for the neck, shoulders, legs and ankles, slow punches with the breath, then forms called Repulse Monkey, Parting the Horse’s Mane and Cloud Arms, each done three times so they become familiar.",
+          "content": null
+        },
+        {
+          "id": "RItPRHz0DhA",
+          "title": "Neuroqueering Somatics: A conversation at the intersection of neurodivergence and somatic practice",
+          "makers": "Katy Higgins Lee in conversation with Dr. Nick Walker, for ISMETA",
+          "channel": "ISMETA",
+          "runtime": "1:27:39",
+          "about": "Nick Walker defines neurodiversity, neurodivergence in its original broad sense, and neuroqueering, then turns to aikido, walking, polyvagal theory and psychedelics. On masking: unmasking is not safe for everybody, so the aim is flexibility, a mask put on on purpose and taken off when alone rather than one held tight in the body.",
+          "content": "The first five minutes are introductions. Psychedelic use is discussed as a tool, trauma and PTSD come up in the questions, and there is a passing mention of a scholar’s transphobia."
+        },
+        {
+          "id": "Zm1-bVYio1k",
+          "title": "Screaming Females cover Taylor Swift's \"Shake It Off\"",
+          "makers": "Screaming Females, for The A.V. Club’s Undercover series",
+          "channel": "The A.V. Club",
+          "runtime": "4:15",
+          "about": "The New Jersey trio Screaming Females cover Taylor Swift’s “Shake It Off” for The A.V. Club’s Undercover series, with what the description calls a different sort of energy from the original. It was the band’s second time on the series, after a Sheryl Crow song.",
+          "content": null
+        },
+        {
+          "id": "eIBCd4zmPDA",
+          "title": "Melina Najjar- Flamenco dance Farruca with Yazan Ibrahim",
+          "makers": "Melina Najjar, dancer, with Yazan Ibrahim on guitar; directed by Firas Rouby, edited by Eskandar Hilwi",
+          "channel": "Melina Najar",
+          "runtime": "6:41",
+          "about": "Melina Najjar dances a farruca, one of the forms of flamenco, to Yazan Ibrahim’s guitar, filmed at Studio Naim in Haifa.",
+          "content": "No speech; guitar and dance only."
+        },
+        {
+          "id": "Uq_7tui2inE",
+          "title": "\"Thrive\" by Scarlet Monk",
+          "makers": "Scarlet Monk, on the Mugs and Pockets channel; video created and edited by Sunny Raskin, with dancers of the Raskin Dance Studio Company: Marcelina Palmer, Olivia Gutierrez, Jada Geneus, Maya Mejias and Jasmine Banegas",
+          "channel": "Mugs and Pockets",
+          "runtime": "5:46",
+          "about": "A music video for Scarlet Monk’s song “Thrive”, danced by five dancers of the Raskin Dance Studio Company, in a video created and edited by Sunny Raskin. The song plays through a second time under the closing credits.",
+          "content": "Opens with a short spoken line about killing someone."
+        }
+      ]
+    },
+    {
+      "date": "2026-08-16",
+      "post": {
+        "title": "Campfire Learn Together: Head, Heart, and Hands at the End of the World",
+        "url": "https://stimpunks.org/2026/08/09/campfire-learn-together-head-heart-and-hands-at-the-end-of-the-world/"
+      },
+      "films": [
+        {
+          "id": "Xx3wqSexKj4",
+          "title": "Documentary Together: The Bildung Climate School",
+          "makers": "The Bildung Climate School, founded by Ginie Servant-Miklos and Rutger Engels",
+          "channel": "The Bildung Climate School",
+          "runtime": "31:23",
+          "about": "Rotterdam’s Bildung Climate School puts vocational, applied-sciences and university students in one room for eleven weeks: boxing and breathing to handle climate grief, then remaking other people’s cast-off clothes for a sustainable fashion show. It shows the friction too, when the vocational students say the university ones make them feel stupid.",
+          "content": "Climate anxiety and “eco depression” are talked about openly, and fast fashion’s child labour is mentioned. A little strong language, and stretches of music with little talk."
+        },
+        {
+          "id": "IxcJxWuegcc",
+          "title": "Pedagogies of Collapse: A Hopeful Education for the End of the World As We Know It w/ Dr. GInie S...",
+          "makers": "Dr. Ginie Servant-Miklos, in a Q&A hosted by the Human Restoration Project",
+          "channel": "Human Restoration Project",
+          "runtime": "56:44",
+          "about": "The author of Pedagogies of Collapse answers a book club’s questions, and the forecast is bleak: burning forests, AI data centres taking the power and water, a left that abandoned the working class. Then the school’s answer: regulate yourself, find your group, and only then face the overwhelming questions.",
+          "content": "Heavy throughout: climate and geopolitical collapse, mass death from heat, fascism, drug use including the speaker’s own, and strong language. One remark blames the far right’s rise on “neurodivergent guys in a basement”, a story mocks a pronoun go-round, and there is a figurative line about teachers killing themselves."
+        }
+      ]
+    },
+    {
+      "date": "2026-08-09",
+      "post": {
+        "title": "Campfire Learn Together: Code for the People",
+        "url": "https://stimpunks.org/2026/08/04/campfire-learn-together-code-for-the-people/"
+      },
+      "films": [
+        {
+          "id": "8lQijrTaaGg",
+          "title": "Code for the People | A Film by Bao Nguyen | Full Documentary",
+          "makers": "A film by Bao Nguyen",
+          "channel": "Code for the People",
+          "runtime": "19:31",
+          "about": "A documentary short on open source and the open web: enshittification, “free as in freedom, not free as in beer”, and owning your own website instead of being a tenant on a platform. It tells how WordPress and Automattic grew, and argues that closed AI, trained on work from people who never opted in, raises the stakes.",
+          "content": "One swear word in the first minute. Near the end, a speaker remembers a father who has died."
+        }
+      ]
+    },
+    {
+      "date": "2026-07-26",
+      "post": {
+        "title": "Campfire Learn Together: The Existential Movement — Bringing Wisdom to a Turbulent World",
+        "url": "https://stimpunks.org/2026/07/25/campfire-learn-together-the-existential-movement-bringing-wisdom-to-a-turbulent-world/"
+      },
+      "films": [
+        {
+          "id": "ZjVZmn28rXo",
+          "title": "Existential Movement | Bringing Wisdom to a Turbulent World | Philosophy & Life | Emmy's Existential",
+          "makers": "The Existential Movement, whose speakers are not named in the film; posted by Emmy’s Existential Zone",
+          "channel": "Emmy's Existential Zone",
+          "runtime": "20:59",
+          "about": "A short manifesto film: people are more comfortable than ever and still living with record anxiety and depression, because of the human environment we have built. Therapists and philosophers argue for restorative relationships, for treating anxiety and sadness as attunement rather than faults, for facing mortality, and for gathering up the world’s wisdom for ordinary people.",
+          "content": "Mentions suicide, depression and death in general terms. Ends with an appeal to join and fund the Existential Movement."
+        }
+      ]
+    },
+    {
+      "date": "2026-07-19",
+      "post": {
+        "title": "Campfire Munch Together: Why Don’t Fascists Eat Vegetables?",
+        "url": "https://stimpunks.org/2026/07/11/campfire-munch-together-why-dont-fascists-eat-vegetables/"
+      },
+      "films": [
+        {
+          "id": "K35FtbuyTh4",
+          "title": "Why Don't Fascists Eat Vegetables?",
+          "makers": "The Leftist Cooks, with interviews with Olivia Wee, Lily Hi’ilani, Rohan Davis, Zoe Bee and ChrisWaves",
+          "channel": "The Leftist Cooks",
+          "runtime": "5:52:23",
+          "about": "A video essay on the carnivore diet and what it calls the “meat-to-fascism pipeline”: Jordan Peterson, the Liver King, Joe Rogan and Gwyneth Paltrow, supplement grifts, milk as a white-supremacist symbol, the meat industry paying for doubt, vegetarianism in Hitler’s and Modi’s politics, and an ecofeminist answer that ends in food sovereignty and mutual aid.",
+          "content": "Strong language throughout. Covers eating disorders, benzodiazepine addiction and an induced coma, animal slaughter and dairy farming described in detail (no images shown), racist and antisemitic propaganda quoted, genocide, lynchings, a mass shooting and infant death. Has an appeal for Patreon support just before the three-hour mark."
+        }
+      ]
+    },
+    {
+      "date": "2026-07-12",
+      "post": {
+        "title": "Campfire Learn Together: The Mycelial Worldview Is Punk",
+        "url": "https://stimpunks.org/2026/07/08/campfire-learn-together-the-mycelial-worldview-is-punk/"
+      },
+      "off_screen": "Both films we watched are hosted off YouTube, on Vimeo and on MOTH’s own site, so neither can be on a YouTube playlist."
+    },
+    {
+      "date": "2026-07-05",
+      "post": {
+        "title": "Campfire Learn Together: Two Masters at Two Pianos",
+        "url": "https://stimpunks.org/2026/07/04/campfire-learn-together-two-masters-at-two-pianos/"
+      },
+      "films": [
+        {
+          "id": "2HAZP7nWo6A",
+          "title": "[FULL CONCERT] Oscar Peterson & Count Basie & Joe Pass 1980 - Words & Music",
+          "makers": "Oscar Peterson and Count Basie (piano), Joe Pass (guitar), Niels Pedersen (bass) and Martin Drew (drums), in the BBC’s Words & Music, 1980",
+          "channel": "Palanzana",
+          "runtime": "46:47",
+          "about": "A 1980 BBC special in two parts, the first with guitarist Joe Pass and the second with Count Basie, where Oscar Peterson and Basie sit at two pianos and talk between numbers about the players who came before them, Art Tatum most of all.",
+          "content": "Mostly music, with conversation between the numbers. It has no captions."
+        }
+      ]
+    },
+    {
+      "date": "2026-06-28",
+      "post": {
+        "title": "Campfire Learn Together: The Dive and the Water — Dolphining, Attachment Theory, and the Broken-Systems Frame",
+        "url": "https://stimpunks.org/2026/06/26/campfire-learn-together-the-dive-and-the-water-dolphining-attachment-theory-and-the-broken-systems-frame/"
+      },
+      "films": [
+        {
+          "id": "sFK0sedmUrY",
+          "title": "New “neurodivergent attachment theory” framework 2025 paper",
+          "makers": "Dr. Michelle Karth, PhD",
+          "channel": "Dr. Michelle Karth, PhD",
+          "runtime": "2:50",
+          "about": "A short summary of a 2025 paper proposing Neurodivergent Attachment Theory: that avoiding eye contact or touch can be attachment done differently rather than insecurity. It walks through five proposed styles, from “sensory secure” to “cognitive connector”, argues that constant masking stops secure attachment forming, and says plainly the framework is untested.",
+          "content": null
+        },
+        {
+          "id": "qpXwYD9bGyU",
+          "title": "An introduction to the Double Empathy problem",
+          "makers": "Written and narrated by Kieran Rose; animated by Josh Knowles Animation, for the National Autism Trainer Programme",
+          "channel": "The Autistic Advocate",
+          "runtime": "5:36",
+          "about": "Damian Milton’s double empathy problem: when autistic and non-autistic people misunderstand each other, the breakdown runs both ways, and it is not an autistic deficit. Our Autism Pathway pairs it with the monotropism film further along this rack.",
+          "content": null
+        }
+      ]
+    },
+    {
+      "date": "2026-06-14",
+      "post": {
+        "title": "Campfire Learn Together: Free for All — A People’s History of the Public Library",
+        "url": "https://stimpunks.org/2026/06/12/campfire-learn-together-free-for-all-a-peoples-history-of-the-public-library/"
+      },
+      "off_screen": "The documentary we watched has since been made private on YouTube, so it cannot be on a playlist."
+    },
+    {
+      "date": "2026-06-07",
+      "post": {
+        "title": "Campfire Learn Together: Teaching in the Wreckage of the Real",
+        "url": "https://stimpunks.org/2026/06/01/campfire-learn-together-teaching-in-the-wreckage-of-the-real/"
+      },
+      "films": [
+        {
+          "id": "ebkGtaPCVXA",
+          "title": "Teaching in the Wreckage of the Real: A Narration",
+          "makers": "Written by Chris McNutt, read by Nick, for the Human Restoration Project",
+          "channel": "Human Restoration Project",
+          "runtime": "27:27",
+          "about": "A read-aloud essay on manufactured confusion, from the Kremlin’s “firehose of falsehood” to Baudrillard’s simulations, AI model collapse and scripted curricula that do the teaching for the teacher. It argues that schools train students to receive knowledge rather than build it, and ends on the rhizome: classrooms where students make meaning.",
+          "content": "The first minute is an announcement for the Human Restoration Project’s summer book club."
+        }
+      ]
+    },
+    {
+      "date": "2026-05-31",
+      "post": {
+        "title": "Campfire Learn Together: Lines of Flight in the Classroom",
+        "url": "https://stimpunks.org/2026/05/29/campfire-learn-together-lines-of-flight-in-the-classroom/"
+      },
+      "films": [
+        {
+          "id": "FIGjAkNmUIw",
+          "title": "Lines of Flight in the Classroom",
+          "makers": "Ian Buchanan, a talk for the English Schools Foundation in Hong Kong",
+          "channel": "Ian Buchanan",
+          "runtime": "39:36",
+          "about": "Deleuze and Guattari’s three kinds of line, which start from Fernand Deligny following Autistic children’s wandering paths, worked through Henry James and the film Muriel’s Wedding, then turned on the classroom: the curriculum, the play that makes it bearable, and the point where either one tips into boredom or chaos.",
+          "content": "Tells the whole plot of Muriel’s Wedding, ending included, and that includes a suicide. Uses alcoholism as an extended example, and makes passing jokes about killing. It starts partway through the introduction."
+        }
+      ]
+    },
+    {
+      "date": "2026-05-24",
+      "post": {
+        "title": "Campfire Learn Together: The Double Empathy Problem",
+        "url": "https://stimpunks.org/2026/05/20/campfire-learn-together-the-double-empathy-problem/"
+      },
+      "off_screen": "Damian Milton’s keynote is on Vimeo, so it cannot be on a YouTube playlist."
+    },
+    {
+      "date": "2026-05-17",
+      "post": {
+        "title": "Campfire Learn Together: Therapy Is Not Neutral",
+        "url": "https://stimpunks.org/2026/05/13/campfire-learn-together-therapy-is-not-neutral/"
+      },
+      "films": [
+        {
+          "id": "j-b9jTSG2VA",
+          "title": "Therapy Is Not Neutral with Dr. Jennifer Mullan, facilitated by Iya Affo",
+          "makers": "Dr. Jennifer Mullan, in conversation with Iya Affo, for Science and Nonduality",
+          "channel": "Science and Nonduality",
+          "runtime": "1:12:14",
+          "about": "Dr. Jennifer Mullan on why therapy has never been neutral: diagnoses that pathologise big reactions to grief and rage, the DSM’s history (drapetomania, homosexuality), Eurocentric boundaries, and a “trauma burger” of present stress, childhood and ancestral pain. It argues for circles, land, ritual and collaboration instead of treatment.",
+          "content": "Slavery, police violence, prisons, and Gaza and Sudan (named as genocide) come up, plus a hospital stay. The last seventeen minutes are audience questions."
+        }
+      ]
+    },
+    {
+      "date": "2026-05-10",
+      "post": {
+        "title": "Campfire Learn Together: What Makes Life Worth Wondering",
+        "url": "https://stimpunks.org/2026/05/09/campfire-learn-together-what-makes-life-worth-wondering/"
+      },
+      "films": [
+        {
+          "id": "yGyTYrrSzzk",
+          "title": "Helen De Cruz on What Makes Life Worth Living | Closer To Truth Chats",
+          "makers": "Helen De Cruz, in conversation with Robert Lawrence Kuhn, for Closer To Truth",
+          "channel": "Closer To Truth",
+          "runtime": "57:31",
+          "about": "Philosopher Helen De Cruz talks with Robert Lawrence Kuhn about the book Wonderstruck: wonder as a push to investigate what puzzles us, awe as standing before something vast, and both as ordinary as frost on a window. It moves through magic, religion and science, and ends asking what all the drive for efficiency is for.",
+          "content": null
+        },
+        {
+          "id": "ULvSsiQvSGo",
+          "title": "Wonderstruck: How Wonder and Awe Shape the Way… by Helen De Cruz · Audiobook preview",
+          "makers": "Helen De Cruz, read by Lisa S. Ware; an audiobook preview from Tantor Media, published by Google Play Books",
+          "channel": "Google Play Books",
+          "runtime": "39:23",
+          "about": "The opening of Helen De Cruz’s Wonderstruck read aloud: the first chapter, “Freedom to Wonder”, and the first few minutes of the second, on how wonder fuels philosophy, named for Descartes’s “that sudden surprise of the soul”.",
+          "content": "An audiobook reading, put out to sell the book, and it stops a few minutes into the second chapter. It has no captions."
+        }
+      ]
+    },
+    {
+      "date": "2026-05-03",
+      "post": {
+        "title": "Campfire Learn Together: Being Disabled Can Be Pretty Funny",
+        "url": "https://stimpunks.org/2026/05/02/campfire-learn-together-being-disabled-can-be-pretty-funny/"
+      },
+      "films": [
+        {
+          "id": "Yoa7MUa-AL0",
+          "title": "Being Disabled Can Be Pretty Funny | Josh Blue Full Special",
+          "makers": "Josh Blue, for Dry Bar Comedy",
+          "channel": "Dry Bar Comedy",
+          "runtime": "24:38",
+          "about": "Josh Blue on cerebral palsy and years on the US Paralympic soccer team: losing to Russia 11–1, a cafeteria of 3,000 disabled athletes where everybody still stares at Josh, feeling obliged to use the ramp on a date, and a waiter who asks a friend what Josh will have.",
+          "content": "A clean set with almost no swearing, but one slur for little people, and jokes about Make-A-Wish and faking Tourette’s."
+        },
+        {
+          "id": "LbaK754C4Kk",
+          "title": "“I’m Like the Bisexuality of Ability” - Tina Friml - Stand-Up Featuring",
+          "makers": "Tina Friml, for Comedy Central Stand-Up Featuring",
+          "channel": "Comedy Central Stand-Up",
+          "runtime": "11:08",
+          "about": "Tina Friml as “the bisexuality of ability”, not quite committed either way: dating-app bios full of open-minded men, going to bars on bad days to blend in with the drunk people, and a woman at a Vermont Democratic Party fundraiser who was furious for half the set, sure it was faked.",
+          "content": "Jokes about drinking and dating, and one about cocaine."
+        },
+        {
+          "id": "1vfBdTUeI6o",
+          "title": "The Perks of Being Disabled | Tina Friml | Stand Up Comedy",
+          "makers": "Written and performed by Tina Friml, for Don’t Tell Comedy; directed by Gordie Earle III",
+          "channel": "Don't Tell Comedy",
+          "runtime": "10:42",
+          "about": "Tina Friml’s three reasons to love being a disabled comic: none of it can be hack, it is the most interesting thing about “a liberal white girl from Vermont”, and cheating death as a baby means life since is “free play”. Also: disability as the one minority everybody joins.",
+          "content": "Sexual jokes, including about kink, bondage and choking, and a joke about nearly dying as a baby."
+        },
+        {
+          "id": "hyOawy9gYbA",
+          "title": "Josh Blue | Freak Accident (Full Comedy Special)",
+          "makers": "Josh Blue, for 800 Pound Gorilla Media",
+          "channel": "800 Pound Gorilla Media",
+          "runtime": "1:11:00",
+          "about": "Josh Blue on coming third on America’s Got Talent and losing to a magician, which becomes a running callback: a colourblind racist neighbour, strangers who spill the soup they insisted on carrying, 50% custody, a palsy arm busy after dark, a day-program bus driver who never believes Josh works there, and Botox.",
+          "content": "Strong language and sex jokes throughout (one involves a dog), plus a serial-killer bit, jokes about Josh Blue’s own death, and a closing throwaway line about beating up a woman."
+        }
+      ]
+    },
+    {
+      "date": "2026-04-26",
+      "post": {
+        "title": "Campfire Learn Together: “How to (Anti) AI Better” by Dr. Fatima",
+        "url": "https://stimpunks.org/2026/04/26/campfire-learn-together-how-to-anti-ai-better-by-dr-fatima/"
+      },
+      "films": [
+        {
+          "id": "y85nqc2zm7M",
+          "title": "How to (Anti) AI Better",
+          "makers": "Dr. Fatima, with interviews with Jordan Harrod and Devon Price",
+          "channel": "Dr. Fatima",
+          "runtime": "1:30:11",
+          "about": "Dr. Fatima argues that shaming people for using chatbots makes the harms worse, and makes the case for harm reduction instead: AI literacy, choosing less harmful tools, organising locally against data centres, and being somebody people can talk to. It ends with a personal story of using ChatGPT to fight an eviction, then depending on it.",
+          "content": "Suicide and other deaths linked to chatbots, pollution making a Black neighbourhood ill, drug addiction, a passing mention of sexual images of children made by a chatbot, and a personal story of panic attacks and months of chatbot dependence. Strong language, mostly bleeped. Has a Patreon ad, and the last ten minutes answer comments on an earlier video."
+        }
+      ]
+    },
+    {
+      "date": "2026-04-19",
+      "post": {
+        "title": "Campfire Learn Together: Solving the Frankenstein Problem",
+        "url": "https://stimpunks.org/2026/04/19/campfire-learn-together-solving-the-frankenstein-problem/"
+      },
+      "films": [
+        {
+          "id": "FUG_ATjjiw4",
+          "title": "Keynote: Dr. Mary Helen Immordino-Yang | Solving the Frankenstein Problem",
+          "makers": "Dr. Mary Helen Immordino-Yang, a keynote at Human Restoration Project’s Conference to Restore Humanity 2024",
+          "channel": "Human Restoration Project",
+          "runtime": "1:00:53",
+          "about": "Mary Helen Immordino-Yang argues against teaching children as a Frankenstein’s monster of separate skills. Brain scans show deep emotional thinking running on the systems that keep us alive, and teenagers who reflect on what a story means beyond itself show more brain growth later. Two classrooms follow: a points game, and algebra used to plan a real family’s finances.",
+          "content": "Describes children harmed by neglect in Romanian institutions and, briefly, brain surgery on people with epilepsy. Teenagers respond to the story of a girl in Pakistan under the Taliban."
+        }
+      ]
+    },
+    {
+      "date": "2026-04-12",
+      "post": {
+        "title": "Campfire Learn Together Recap: In Defense of Inefficiency",
+        "url": "https://stimpunks.org/2026/04/12/campfire-learn-together-recap-in-defense-of-inefficiency/"
+      },
+      "films": [
+        {
+          "id": "7-_rK0KkB6k",
+          "title": "In Defense of Inefficiency",
+          "makers": "Zoe Bee",
+          "channel": "Zoe Bee",
+          "runtime": "1:09:14",
+          "about": "Zoe Bee traces our obsession with efficiency back to Frederick Taylor’s scientific management, then takes apart both halves of it: what counts as waste (a teacher calling out doodling that was helping Zoe listen) and what counts as effective (the cobra bounty, Goodhart’s law, schools measuring obedience). It argues for room to stare out of windows.",
+          "content": "Has a sponsor segment in the first two minutes. Some strong language, partly bleeped, and a short aside about nearly fainting while filming after not eating."
+        }
+      ]
+    }
   ]
 }

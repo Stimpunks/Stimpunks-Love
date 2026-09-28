@@ -185,9 +185,9 @@ LISTS = [
     # video -- and its FIRST entry is on the bill, which is the one row that
     # decides whether the whole night embeds at all.
     ("laughingstock", "data/laughingstock.json", "laughingstock.html"),
-    # The Lightbulb Picture House. Both screens are playlists and are not checked
-    # as playlists, for the reason above; every film on BOTH is checked as a film,
-    # including Screen Two's, which has no rack but is named in the room.
+    # The Lightbulb Picture House. Its screens are playlists and are not checked
+    # as playlists, for the reason above; every film on every one is checked as a
+    # film, including Screen Two's, which has no rack but is named in the room.
     ("the picture house", "data/picture-house.json", "lightbulb-picture-house.html"),
     # Dance, Punks, off The Outskirts. The crate is a playlist and is not checked
     # as one, for the reason above; what IS checked is the song each channel
@@ -413,12 +413,15 @@ def tracks_in(data):
         # a playlist is not one video.
         return [dict(s_, artist=s_.get("channel")) for s_ in data["songs"]]
     if "rack" in data:
-        # The Lightbulb Picture House: the rack for Screen One and the named list
-        # for Screen Two. Both, for the Hermitage's reason -- a guard that covers
-        # the list it was written for and not the one beside it reports a
-        # confident total while missing half the room.
+        # The Lightbulb Picture House: the rack for Screen One, the named list
+        # for Screen Two and the campfire rack for Screen Three. All of them, for
+        # the Hermitage's reason -- a guard that covers the list it was written
+        # for and not the one beside it reports a confident total while missing
+        # half the room. The campfire rack is the one most likely to rot: its
+        # films are other people's uploads, and one already went private.
+        campfire = [f for c in data.get("campfire", []) for f in c.get("films") or []]
         return [dict(f, artist=f.get("channel"))
-                for f in (data.get("rack", []) + data.get("screen_two", []))]
+                for f in (data.get("rack", []) + data.get("screen_two", []) + campfire)]
     if "screens" in data:
         # Rebellion Rave Room: a mix is its first video, a playlist the video
         # at its position 1, carried as 'opens'.
