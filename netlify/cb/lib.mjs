@@ -36,6 +36,16 @@
        is the channel's own blob shape, ten messages and gone at midnight. There
        is no list of everybody out there and no count of them, anywhere, and the
        places a visit has been are replaced rather than added to.
+     · A HOST'S BEACON SAYS WHERE ONE FILM HAS GOT TO, AND NOTHING ELSE. Ryan,
+       2026-09-28, for watch-togethers: somebody watching a film in a room can
+       host it, and every radio then shows their place in it, with a way to
+       catch up. One small blob holds every beacon on the street, one per room,
+       each the handle, the room, the film, the place, whether it is playing
+       and when it was last heard; each is REPLACED on every update, so there
+       is no history of anybody's viewing, and one not heard from for
+       seventy-five seconds is shown to nobody and dropped by the next write.
+       The channel's answer carries all of them, so the radio never has to
+       tell us which room anybody is in to find the beacon for theirs.
      · A PASS IS CHECKED AND NOT KEPT. It is an HMAC of the handle keyed by the
        current password, so changing the password in Netlify's environment and
        redeploying signs everybody off at once, and there is no list of passes
@@ -340,6 +350,86 @@ export async function sweepSlake(s = store(), now = Date.now()) {
     if (data && data.day !== today()) { await s.delete(talkKey(place)); any = true; }
   }
   return any;
+}
+
+/* ── The beacons ───────────────────────────────────────────────────────── */
+
+export const BEACON_FRESH = 75 * 1000;     // shown to nobody this long after it was last heard
+export const FILM_MAX = 120;               // characters of a film's title
+const BEACONS = 'beacons';
+
+/* A room is named by its tag, the filename the street's own list uses. The
+   server only checks its shape: the radio shows nothing for a tag that is not
+   a room on the street. */
+export function beaconRoom(r) {
+  return typeof r === 'string' && r.length <= 80 && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(r) ? r : null;
+}
+export function cleanFilm(s) {
+  const t = tidy(s);
+  return t && [...t].length <= FILM_MAX ? t : null;
+}
+// A place in a film, in seconds, to a tenth; a day at most.
+export function cleanAt(n) {
+  return typeof n === 'number' && Number.isFinite(n) && n >= 0 && n <= 86400 ? Math.round(n * 10) / 10 : null;
+}
+
+function heard(b, now) { return b && typeof b.t === 'number' && now - b.t < BEACON_FRESH; }
+
+export async function readBeacons(s = store(), now = Date.now()) {
+  const data = await s.get(BEACONS, { type: 'json' });
+  return ((data && data.beacons) || []).filter((b) => heard(b, now));
+}
+
+/* The boards' conditional write, on the beacons: a stale one goes on the way
+   through every write, and nothing is written without a version. */
+async function updateBeacons(change, s, now) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, BEACONS);
+    const live = ((cur.exists && cur.data && cur.data.beacons) || []).filter((b) => heard(b, now));
+    const next = change(live.slice());
+    if (next === null) return live;
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(BEACONS, { beacons: next }, opts);
+    if (res.modified) return next;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* Host a room's film, or say where it has got to. One host per room: somebody
+   else's live beacon there is theirs until they stop or go quiet, and only the
+   base station can take a room over. The same handle may keep its own. */
+export async function hostBeacon(who, room, film, at, playing, s = store(), now = Date.now()) {
+  let held = null;
+  const beacons = await updateBeacons((list) => {
+    held = null;
+    const there = list.find((b) => b.room === room);
+    if (there && there.handle !== who.handle && who.role !== 'base') { held = there.handle; return null; }
+    return list.filter((b) => b.room !== room)
+      .concat({ room, handle: who.handle, base: who.role === 'base', film, at, playing: !!playing, t: now });
+  }, s, now);
+  return held ? { held } : { beacons };
+}
+
+/* Stop hosting: your own beacon, or anybody's if you are the base. */
+export async function stopBeacon(who, room, s = store(), now = Date.now()) {
+  return updateBeacons((list) => {
+    const next = list.filter((b) => !(b.room === room && (b.handle === who.handle || who.role === 'base')));
+    return next.length === list.length ? null : next;
+  }, s, now);
+}
+
+/* Hourly: a blob with nothing live left in it is emptied. */
+export async function sweepBeacons(s = store(), now = Date.now()) {
+  const data = await s.get(BEACONS, { type: 'json' });
+  const all = (data && data.beacons) || [];
+  if (!all.some((b) => !heard(b, now))) return false;
+  await updateBeacons((list) => list, s, now);
+  return true;
+}
+
+export function shapeBeacons(list) {
+  return list.map((b) => ({ room: b.room, handle: b.handle, base: !!b.base, film: b.film, at: b.at, playing: !!b.playing, t: b.t }));
 }
 
 /* ── Passes ────────────────────────────────────────────────────────────── */

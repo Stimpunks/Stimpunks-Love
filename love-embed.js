@@ -140,7 +140,9 @@
 
   function where() {
     var p = active();
-    return p ? { time: p.time, duration: p.duration || null, film: name(p) } : null;
+    // Buffering counts as playing: it is on its way, and a host's beacon
+    // flickering to paused on every buffer would be noise on everybody's radio.
+    return p ? { time: p.time, duration: p.duration || null, film: name(p), playing: p.state === 1 || p.state === 3 } : null;
   }
 
   function seek(seconds) {

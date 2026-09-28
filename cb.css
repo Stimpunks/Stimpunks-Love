@@ -106,7 +106,17 @@
 .cb-time { margin-left: auto; font-size: 13px; color: var(--cb-amber-2); }
 .cb-text { overflow-wrap: anywhere; }
 .cb-msg .cb-tag { margin-left: 0; }
-.cb-take {
+/* Hosts, in the readout under the log. Amber on the readout's black, as the
+   log is, and the Catch up button is the Take-off-the-air button's pair. */
+.cb-beacons {
+  list-style: none; margin: 8px 0 0; padding: 8px 0 0;
+  border-top: 1px solid var(--cb-amber-2);
+  display: grid; gap: 6px; font-size: 14px;
+}
+.cb-beacon { overflow-wrap: anywhere; }
+.cb-beacon .cb-tag { margin: 0 0 0 6px; }
+.cb-catch { margin-left: 8px; }
+.cb-take, .cb-catch {
   justify-self: start; min-height: 44px;
   color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2);
 }

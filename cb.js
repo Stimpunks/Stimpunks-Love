@@ -32,6 +32,11 @@
        word. See hashRooms, and the completion list under the message box.
      · IT NEVER SCROLLS UNDER SOMEBODY WHO IS READING. See show.
      · THE TELEPORTER GOES TO A ROOM AND SENDS NOTHING. See setTeleport.
+     · HOSTING A FILM IS A BEACON, AND IT GOES OUT ONLY FROM INSIDE listen().
+       Host this film tells the channel where the film on your page has got
+       to, when it plays, pauses or jumps and every half minute besides, and
+       stops the moment the radio is folded; every radio shows each host and a
+       way to catch up. See setHosting and drawBeacons.
      · @34:12 IS A PLACE IN THE FILM, and pressing it moves the film playing
        on YOUR page there, without pressing play. Add my spot writes your own
        place, film and room into the box and sends nothing. A stamp that
@@ -51,6 +56,8 @@
 
   var KEY = 'love-cb';
   var EVERY = 4000;       // ms between listens while open and in front
+  var BEAT = 30000;       // ms a host's beacon goes unsent at most, while nothing changes
+  var FILM_MAX = 120;     // characters of a film's title on a beacon, as the server takes it
   var STEP = 24;          // px per arrow press when moving by keyboard
   var EDGE = 8;           // px the radio keeps from the edge of the window
 
@@ -386,6 +393,16 @@
     // Nothing is claimed about the channel until it has been heard.
     this.quiet = el('p', 'cb-quiet', 'Tuning in\u2026');
     lcd.appendChild(this.quiet);
+    /* HOSTS: every beacon on the street, this room's with a Catch up button and
+       the others with a link to their room that carries the host's spot. Not a
+       live region: it is redrawn on every listen, and something read out every
+       four seconds is the alert this radio refuses. Nothing is counted. */
+    var beacons = this.beaconList = el('ul', 'cb-beacons');
+    beacons.setAttribute('aria-label', 'Hosts');
+    beacons.hidden = true;
+    lcd.appendChild(beacons);
+    this.beacons = [];
+    this.skew = 0;
     set.appendChild(lcd);
 
     var form = this.form = el('form', 'cb-tx');
@@ -437,6 +454,14 @@
     spot.type = 'button';
     spot.hidden = true;
     tools.appendChild(spot);
+    /* HOST THIS FILM, shown with Add my spot. See setHosting. Never
+       remembered: a new page starts with nobody hosting. */
+    var hostBtn = this.hostBtn = el('button', 'cb-btn cb-hosting', 'Host this film');
+    hostBtn.type = 'button';
+    hostBtn.hidden = true;
+    hostBtn.setAttribute('aria-pressed', 'false');
+    tools.appendChild(hostBtn);
+    this.hosting = null;
     var aloud = this.aloudBtn = el('button', 'cb-btn cb-aloud');
     aloud.type = 'button';
     tools.appendChild(aloud);
@@ -471,6 +496,11 @@
     find.addEventListener('keydown', function (e) { me.tpKey(e); });
     aloud.addEventListener('click', function () { me.setAloud(!me.aloud()); });
     spot.addEventListener('click', function () { me.addSpot(); });
+    hostBtn.addEventListener('click', function () { me.setHosting(!me.hosting); });
+    beacons.addEventListener('click', function (e) {
+      var c = e.target.closest('.cb-catch');
+      if (c) me.catchUp(c.dataset.room);
+    });
     log.addEventListener('click', function (e) {
       var b = e.target.closest('.cb-jump');
       if (b) me.jump(+b.dataset.at, b.dataset.film || '', b.dataset.room || '');
@@ -730,6 +760,9 @@
     this.foldBtn.setAttribute('aria-expanded', String(!folded));
     this.foldBtn.textContent = folded ? 'Switch on' : 'Fold away';
     if (folded) this.hush();
+    // Folded sends nothing, so a beacon cannot say it has stopped: it goes
+    // quiet, and every radio stops showing it within seventy-five seconds.
+    if (folded && this.hosting) { this.hosting = null; this.hostShown(); }
     if (!quiet) save(this.state);
     this.place();
     this.tune();
@@ -750,10 +783,13 @@
   Radio.prototype.listen = function () {
     var me = this;
     this.loadRooms();
-    this.spotBtn.hidden = !(window.loveEmbed && window.loveEmbed.where && window.loveEmbed.where());
+    var w = window.loveEmbed && window.loveEmbed.where ? window.loveEmbed.where() : null;
+    this.spotBtn.hidden = !w;
+    this.hostBtn.hidden = !w && !this.hosting;
+    this.hostTick(w);
     call('/cb/channel', null, this.state.pass).then(function (r) {
       if (r.status === 401) return me.lost();
-      if (r.status === 200) { me.signal(true); me.show(r.body.messages || []); }
+      if (r.status === 200) { me.signal(true); me.show(r.body.messages || []); me.showBeacons(r.body.beacons, r.body.now); }
       else me.signal(false);
     }).catch(function () { me.signal(false); })
       .then(function () {
@@ -1031,10 +1067,7 @@
   Radio.prototype.jump = function (secs, film, room) {
     var e = window.loveEmbed, w = e && e.where ? e.where() : null;
     var at = place(secs), called = film ? '\u201c' + film + '\u201d' : 'the film';
-    var here = hereRoom();
-    // A tag is the room's filename, so without the list it can still be told.
-    var hereTag = here ? here.tag : herePath().replace(/^\//, '').replace(/\.html$/, '');
-    if (room && hereTag !== room) {
+    if (room && hereTag() !== room) {
       var there = byTag[room] ? byTag[room].name : '#' + room;
       this.tell(at + ' is in ' + called + ' at ' + there + ', and you are in another room, so nothing moved. The room\u2019s name in that message takes you there.');
       return;
@@ -1061,6 +1094,12 @@
     var b = (playing || '').toLowerCase().replace(/\s+/g, ' ').trim();
     if (a.slice(-1) === '\u2026') return b.indexOf(a.slice(0, -1).trim()) === 0;
     return a === b;
+  }
+
+  // This room's tag. It is the room's filename, so without the list it can still be told.
+  function hereTag() {
+    var here = hereRoom();
+    return here ? here.tag : herePath().replace(/^\//, '').replace(/\.html$/, '') || 'street';
   }
 
   // The room this page is, out of the street's own list, or null.
@@ -1094,6 +1133,160 @@
     this.say.focus();
     this.say.setSelectionRange(c, c);
     this.tell('Your spot in \u201c' + film + '\u201d is in your message. Nothing goes out until you transmit.');
+  };
+
+  /* HOSTING. Ryan, 2026-09-28: somebody watching a film in a room can host it,
+     and every radio on the channel then shows where the host has got to, with
+     a way to catch up. It is a beacon and not a remote control: nobody's film
+     moves unless they press Catch up themselves. What goes out is the handle,
+     this room, the film's title, the place in it and whether it is playing;
+     it is sent from hostTick, which only listen() calls, so it goes only when
+     the radio is open and the tab is in front, and only when the film plays,
+     pauses, jumps or changes, or half a minute has passed. One host per room;
+     the server says who has it. */
+  Radio.prototype.setHosting = function (on, why2) {
+    var e = window.loveEmbed, w = e && e.where ? e.where() : null;
+    if (!on) {
+      var was = this.hosting;
+      this.hosting = null;
+      this.hostShown();
+      if (was) this.sendBeacon({ room: was.room, off: true }, null, why2 || 'You have stopped hosting.');
+      return;
+    }
+    if (!w) { this.tell('Start a film on this page first, then you can host it.'); return; }
+    if (rooms && rooms.length && !hereRoom()) { this.tell('This page is not a room on the street, so it cannot be hosted.'); return; }
+    this.hosting = { room: hereTag(), sent: null, busy: false };
+    this.hostShown();
+    this.tell('You are hosting \u201c' + w.film + '\u201d. Everybody on the channel can see where you are in it, and in which room. Putting this tab behind another pauses it; folding the radio away or leaving the page stops it.');
+    this.hostTick(w);
+  };
+
+  Radio.prototype.hostShown = function () {
+    this.hostBtn.setAttribute('aria-pressed', String(!!this.hosting));
+    if (this.hosting) this.hostBtn.hidden = false;
+  };
+
+  Radio.prototype.hostTick = function (w) {
+    var h = this.hosting;
+    if (!h || h.busy) return;
+    if (!w) { this.setHosting(false, 'Your film is off, so you have stopped hosting.'); return; }
+    var now = Date.now(), last = h.sent;
+    var guess = last ? last.at + (last.playing ? (now - last.when) / 1000 : 0) : 0;
+    if (last && last.film === w.film && last.playing === w.playing &&
+        Math.abs(w.time - guess) < 3 && now - last.when < BEAT) return;
+    var film = Array.from(w.film);
+    film = film.length > FILM_MAX ? film.slice(0, FILM_MAX - 1).join('') + '\u2026' : w.film;
+    this.sendBeacon({ room: h.room, film: film, at: Math.max(0, w.time), playing: !!w.playing },
+                    { film: w.film, at: w.time, playing: !!w.playing, when: now });
+  };
+
+  Radio.prototype.sendBeacon = function (b, sent, done) {
+    var me = this, h = this.hosting;
+    if (h && !b.off) h.busy = true;
+    call('/cb/beacon', { body: b }, this.state.pass).then(function (r) {
+      if (h && !b.off) h.busy = false;
+      if (r.status === 401) return me.lost();
+      if (r.status === 200) {
+        if (sent && h && me.hosting === h) h.sent = sent;
+        me.showBeacons(r.body.beacons, r.body.now);
+        if (done) me.tell(done);
+        return;
+      }
+      if (b.off) { me.tell(why(r, 'That did not reach the channel. Your beacon goes quiet by itself within a minute or two.')); return; }
+      // Somebody else has this room, or the beacon was refused: stop. Anything
+      // else, a busy channel or too many in a minute, is tried again next listen.
+      if (r.status === 409 || r.status === 400) {
+        if (me.hosting === h) { me.hosting = null; me.hostShown(); }
+        me.tell(why(r, 'Your beacon was refused, so you are not hosting.'));
+      }
+    }).catch(function () { if (h && !b.off) h.busy = false; });
+  };
+
+  Radio.prototype.showBeacons = function (list, now) {
+    this.beacons = Array.isArray(list) ? list : [];
+    if (typeof now === 'number') this.skew = now - Date.now();
+    this.drawBeacons();
+  };
+
+  // Where a host has got to by now: a playing film has gone on since it was heard.
+  Radio.prototype.placeOf = function (b) {
+    return b.at + (b.playing ? Math.max(0, (Date.now() + this.skew - b.t) / 1000) : 0);
+  };
+
+  /* This room's beacon first, then the rest in the street's walking order, so
+     nothing is ranked. A beacon for a tag that is not a room on the street is
+     not shown. Each row is updated where it stands when it can be, so the
+     keyboard is not thrown off a Catch up button every four seconds. */
+  Radio.prototype.drawBeacons = function () {
+    var ul = this.beaconList, tag = hereTag(), me = this;
+    var order = {};
+    for (var i = 0; rooms && i < rooms.length; i++) order[rooms[i].tag] = i;
+    var list = this.beacons.filter(function (b) { return b.room === tag || byTag[b.room]; });
+    list.sort(function (a, b) {
+      if (a.room === tag) return -1;
+      if (b.room === tag) return 1;
+      return (order[a.room] || 0) - (order[b.room] || 0);
+    });
+    var keys = list.map(function (b) {
+      return [b.room, b.room === tag ? (b.handle === me.state.handle ? 'mine' : 'here') : 'there', b.handle, b.base, b.film].join('|');
+    });
+    var kids = ul.children, same = kids.length === keys.length;
+    for (i = 0; same && i < kids.length; i++) same = kids[i].dataset.key === keys[i];
+    if (!same) {
+      ul.textContent = '';
+      for (i = 0; i < list.length; i++) ul.appendChild(this.beaconRow(list[i], keys[i]));
+    }
+    for (i = 0; i < list.length; i++) {
+      var b = list[i], li = ul.children[i], at = place(this.placeOf(b));
+      li.querySelector('.cb-beacon-at').textContent = at + (b.playing ? ', playing' : ', paused');
+      var a = li.querySelector('a.cb-room');
+      if (a) a.href = byTag[b.room].path + '#spot=' + Math.floor(this.placeOf(b)) + '&film=' + encodeURIComponent(b.film);
+    }
+    ul.hidden = list.length === 0;
+  };
+
+  Radio.prototype.beaconRow = function (b, key) {
+    var li = el('li', 'cb-beacon'), kind = key.split('|')[1];
+    li.dataset.key = key;
+    if (kind === 'mine') {
+      li.appendChild(document.createTextNode('You are hosting '));
+    } else {
+      li.appendChild(el('b', 'cb-handle', b.handle));
+      if (b.base) li.appendChild(el('span', 'cb-tag', 'BASE'));
+      li.appendChild(document.createTextNode(' is hosting '));
+    }
+    li.appendChild(document.createTextNode('\u201c' + b.film + '\u201d '));
+    if (kind === 'there') {
+      li.appendChild(document.createTextNode('at '));
+      var a = el('a', 'cb-room');
+      var hash = el('span', null, '#');
+      hash.setAttribute('aria-hidden', 'true');
+      a.appendChild(hash);
+      a.appendChild(document.createTextNode(byTag[b.room].name));
+      li.appendChild(a);
+      li.appendChild(document.createTextNode(': '));
+    } else {
+      li.appendChild(document.createTextNode('here: '));
+    }
+    li.appendChild(el('span', 'cb-beacon-at'));
+    li.appendChild(document.createTextNode('.'));
+    if (kind === 'here') {
+      var c = el('button', 'cb-btn cb-catch', 'Catch up');
+      c.type = 'button';
+      c.dataset.room = b.room;
+      c.setAttribute('aria-label', 'Catch up with ' + b.handle + ' in ' + b.film);
+      li.appendChild(c);
+    }
+    return li;
+  };
+
+  // Catch up: the same jump a spot makes, to where the host is at the press.
+  Radio.prototype.catchUp = function (room) {
+    for (var i = 0; i < this.beacons.length; i++) {
+      var b = this.beacons[i];
+      if (b.room === room) { this.jump(Math.floor(this.placeOf(b)), b.film, b.room); return; }
+    }
+    this.tell('That host has stopped.');
   };
 
   Radio.prototype.tell = function (s) { this.said.textContent = s; };

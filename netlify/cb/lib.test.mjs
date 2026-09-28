@@ -19,7 +19,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { updateChalk, readChalk, updatePebbles, readPebbles, cleanLink, PEBBLE_ROOMS,
   updateChannel, readChannel, updateTalk, readTalk, beHere, leaveSlake, seenAt, sweepSlake,
-  MUD_PLACES, MUD_FRESH, KEEP, today } from './lib.mjs';
+  MUD_PLACES, MUD_FRESH, KEEP, today,
+  hostBeacon, stopBeacon, readBeacons, sweepBeacons, beaconRoom, cleanAt, BEACON_FRESH } from './lib.mjs';
 
 function memoryStore({ etagOnRead }) {
   const blobs = new Map();          // key -> { value, etag }
@@ -216,4 +217,64 @@ test('a link is an http or https address and nothing else', () => {
   assert.equal(cleanLink('https://user:pw@example.org/'), null);
   assert.equal(cleanLink('not a link'), null);
   assert.equal(cleanLink('https://example.org/' + 'x'.repeat(400)), null);
+});
+
+/* ── The beacons ── */
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+
+  test(`fifteen hosts in fifteen rooms at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) =>
+      hostBeacon({ role: 'mobile', handle: `h${i}` }, `room-${i}`, 'A film', i, true, s)));
+    const worked = told.map((r, i) => (r.status === 'fulfilled' && r.value.beacons ? `room-${i}` : null)).filter(Boolean);
+    const kept = new Set((await readBeacons(s)).map((b) => b.room));
+    assert.deepEqual(worked.filter((r) => !kept.has(r)), [], 'a beacon that was told it went up is not there');
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(worked.length, 15);
+  });
+}
+
+test('one host per room: somebody else is refused, the same handle keeps it, the base takes over', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const base = { role: 'base', handle: 'Base' };
+  assert.ok((await hostBeacon(ada, 'lightbulb-picture-house', 'Film A', 10, true, s)).beacons);
+  assert.equal((await hostBeacon(bex, 'lightbulb-picture-house', 'Film B', 20, true, s)).held, 'Ada');
+  const again = await hostBeacon(ada, 'lightbulb-picture-house', 'Film A', 30, false, s);
+  assert.deepEqual(again.beacons.map((b) => [b.handle, b.at, b.playing]), [['Ada', 30, false]], 'an update replaces, it does not add');
+  assert.ok((await hostBeacon(bex, 'the-den', 'Film C', 5, true, s)).beacons, 'another room is free');
+  assert.ok((await hostBeacon(base, 'lightbulb-picture-house', 'Film D', 0, true, s)).beacons);
+  const here = (await readBeacons(s)).filter((b) => b.room === 'lightbulb-picture-house');
+  assert.deepEqual(here.map((b) => b.handle), ['Base']);
+});
+
+test('only the host or the base stops a beacon', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await hostBeacon(ada, 'the-den', 'Film', 1, true, s);
+  await stopBeacon(bex, 'the-den', s);
+  assert.equal((await readBeacons(s)).length, 1, 'somebody else cannot stop it');
+  await stopBeacon(ada, 'the-den', s);
+  assert.equal((await readBeacons(s)).length, 0);
+  await hostBeacon(ada, 'the-den', 'Film', 1, true, s);
+  await stopBeacon({ role: 'base', handle: 'Base' }, 'the-den', s);
+  assert.equal((await readBeacons(s)).length, 0, 'the base can');
+});
+
+test('a beacon nobody has heard from is shown to nobody, frees its room, and is swept', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const then = Date.now() - BEACON_FRESH - 1;
+  await hostBeacon(ada, 'the-den', 'Film', 1, true, s, then);
+  assert.equal((await readBeacons(s)).length, 0);
+  assert.ok((await hostBeacon(bex, 'lightbulb-picture-house', 'Film', 1, true, s, then)).beacons);
+  assert.equal(await sweepBeacons(s), true);
+  assert.deepEqual((await s.get('beacons')).beacons, []);
+  assert.ok((await hostBeacon(bex, 'the-den', 'Film', 1, true, s)).beacons, 'a quiet host does not keep the room');
+});
+
+test('a beacon names a room by its tag and a place by seconds, and nothing else', () => {
+  assert.equal(beaconRoom('the-den'), 'the-den');
+  for (const bad of ['The-Den', '../x', 'a b', '', 'x'.repeat(81), 7]) assert.equal(beaconRoom(bad), null);
+  assert.equal(cleanAt(12.34), 12.3);
+  for (const bad of [-1, 86401, NaN, Infinity, '12']) assert.equal(cleanAt(bad), null);
 });

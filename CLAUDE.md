@@ -568,7 +568,20 @@ file, **on a single video only**: `start=` on a playlist lands that far into whi
 first. A film with no button of its own gets a sentence saying what to do instead, never a guess.
 The Picture House's big-screen button reads the start off its own card's play button, and
 `cb.js` knows nothing about big screens. A room with a second way to play a film does the same:
-read `data-embed-start` from the facade beside it, and pass it through `loveEmbed.withStart`. **The friendly edit is auto-follow, a host whose
+read `data-embed-start` from the facade beside it, and pass it through `loveEmbed.withStart`.
+
+**A HOST'S BEACON IS THE CB'S, AND IT IS SENT FROM INSIDE `listen()` AND NOWHERE ELSE.** Host
+this film (`setHosting` in `cb.js`) keeps no timer of its own. `hostTick` runs on each listen and
+posts to `/cb/beacon` only when the film plays, pauses, jumps more than three seconds or changes,
+or `BEAT` has passed. So "closed is off" holds without a second rule: folding drops the hosting
+and sends nothing, and the beacon goes quiet. `netlify/cb/lib.mjs` keeps every beacon in one blob
+(`beacons`) with the boards' conditional write, one per room, **replaced and never appended**. A
+beacon not heard for `BEACON_FRESH` is shown to nobody and dropped by the next write, and
+`lib.test.mjs` races fifteen hosts like the boards. **`/cb/channel` returns every beacon and the
+server's clock**, so the radio finds its own room's host without saying where it is. Do not
+"optimise" that into a `?room=` on the listen: it would tell us where every listener is, every
+four seconds. **The hosts list is not a live region, and it updates rows in place**, because
+redrawing every four seconds threw the keyboard off Catch up. **The friendly edit is auto-follow, a host whose
 jumps move everybody.** That is forced sync, and the watch-togethers rely on people pausing
 when they need to. It is Ryan's call and nobody else's.
 
