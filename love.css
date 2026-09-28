@@ -902,6 +902,16 @@
 @font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('fonts/atkinson-hyperlegible-next-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 @font-face { font-family: 'Atkinson Hyperlegible Mono'; src: url('fonts/atkinson-hyperlegible-mono-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Atkinson Hyperlegible Mono'; src: url('fonts/atkinson-hyperlegible-mono-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+/* The MUD Room (§70). CASTORO, Tiro Typeworks' text serif, carries every word
+   you read on the Slake and every name on its map, and its true italic is kept
+   for water, which is what a chart does with the names of rivers and seas. It
+   is one weight, so the room turns font-synthesis off and says things with
+   brightness rather than with a bold the browser would have to invent.
+   JETBRAINS MONO is the command line and nothing else: what you type, the words
+   the Slake knows, and the echo of each one in the log. Never a sentence. */
+@font-face { font-family: 'Castoro';        src: url('fonts/castoro-400.woff2') format('woff2');        font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Castoro';        src: url('fonts/castoro-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'JetBrains Mono'; src: url('fonts/jetbrains-mono-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -2227,6 +2237,21 @@
   --cool-cabinet: #2C3F46; --cool-shade: #0E181C;
   --cool-lilac: #C9B6F2;  --cool-butter: #F2DB8A; --cool-sky:   #9FD3F2;
   --cool-rose:  #F2A7C3;
+
+  /* The MUD Room (§70). THE SKY LYING IN THE MUD. --mud-ground is wet mud and
+     the ground of every word; --mud-bank a raised bank and every panel;
+     --mud-deep the log, the command line and every button. --mud-text is what
+     you read, --mud-sky what stands out of it, --mud-dim the fine print,
+     --mud-glass every link, --mud-welly the yellow boot print that is you on the
+     map and the prompt you type at. --mud-silver is the water holding the sky,
+     and with --mud-land, --mud-marsh, --mud-marsh-dk, --mud-reed and --mud-high
+     (the tide laid over the mud) it paints the map and the view and carries no
+     sentence. */
+  --mud-ground: #262B27;  --mud-bank:  #343B35;  --mud-deep:  #181C19;
+  --mud-text:   #CDD5CF;  --mud-sky:   #EEF2EE;  --mud-dim:   #A6B0A8;
+  --mud-glass:  #8FD6C4;  --mud-welly: #F4C542;  --mud-silver: #C3CECC;
+  --mud-land:   #2F3A2D;  --mud-marsh: #6F8C55;  --mud-marsh-dk: #34432F;
+  --mud-reed:   #BFA56A;  --mud-high:  #7E908E;
 }
 
 * { box-sizing: border-box; }
@@ -2951,6 +2976,14 @@ div.facade--audio { border: 0; background: none; }
 .door--zibaldone .door__name  { font-family: 'EB Garamond', Georgia, serif; font-weight: 600; color: var(--zb-oak); font-size: 30px; }
 .door--zibaldone .door__blurb { font-family: 'Lora', Georgia, serif; color: var(--zb-pencil); }
 .door--zibaldone .door__knock { font-family: 'Kalam', cursive; font-weight: 700; font-size: 13px; letter-spacing: 0; color: var(--zb-rubric); }
+
+/* THE MUD ROOM'S DOOR IS A STRIP OF THE VIEW FROM ITS BACK STEP: sky, a dark
+   line of far shore, the sky again lying in the mud, then the mud. */
+.door--mud { background: var(--mud-ground); border-color: var(--mud-silver); }
+.door--mud .door__awning { background-image: linear-gradient(180deg, var(--mud-sky) 0 45%, var(--mud-land) 45% 55%, var(--mud-silver) 55% 70%, var(--mud-ground) 70%); border-bottom-color: var(--mud-silver); }
+.door--mud .door__name  { font-family: 'Castoro', Georgia, serif; color: var(--mud-sky); font-size: 30px; font-synthesis: none; }
+.door--mud .door__blurb { font-family: 'Castoro', Georgia, serif; color: var(--mud-text); }
+.door--mud .door__knock { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .06em; color: var(--mud-welly); }
 
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
@@ -13849,7 +13882,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §71
+   class on it is `bb-`, its sizes are in points and millimetres, and §72
    prints it and nothing else. */
 
 .room-broadside {
@@ -13910,7 +13943,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §71 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §72 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -15137,7 +15170,154 @@ html[data-intensity="max"] .gg-toy.is-lit .gg-shape { filter: drop-shadow(0 0 14
   .cool-slots { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* §70 ── Small screens ───────────────────────────────────────────────────────
+/* §70 ── ROOM: The MUD Room (a shopfront on the street, and the Slake behind it)
+   A MULTI-USER DUNGEON WITH NOBODY TO FIGHT. The shop is a boot room, and out
+   of its back door is the Slake: a tidal estuary made of words and drawn as a
+   map. tools/make-mud.py writes the guidebook and the map out of data/mud.json;
+   mud.js plays the game out of the guidebook's markup.
+
+   THE LIGHT IS THE SKY LYING IN THE MUD. Overcast daylight, from everywhere at
+   once, and the brightest thing below the horizon is the water in the channels,
+   because the water is holding the sky. Everything standing up out of the mud is
+   dark against it. Nothing here has a lamp, a flame or a sun you could point at.
+
+   THE COLLISIONS, and each is held off by something structural:
+     · THE ARCADE is the other room with a game in it: a cabinet, a pixel face,
+       a screen a different black from the carpet, and a coin before anything
+       moves. The Slake has no cabinet, no screen and no pixel. It is a book you
+       can walk, and the picture is a map drawn from the words. If this ever
+       grows a bezel or a bitmap face, it has become the Arcade with mud on it.
+     · THE 404's FOG is the other overcast: lit from every side, no shadow, no
+       distance. The Slake has the longest view on the street, all the way to a
+       horizon, and its light comes back UP off the ground as reflection.
+     · THE HEALING CHECKPOINT is lit from below too, by a glow under water in a
+       floor. Here nothing glows: the sky is reflected, the water is a mirror,
+       and it is outdoors. If anything in §70 ever emits light, it has moved in
+       with the checkpoint.
+     · THE RABBIT HOLE is wet slate and pale words on the dark, daylit badly from
+       one end. It is vertical and gets darker the further you go; the Slake is
+       flat, horizontal and the same light all the way out. Its greys are OLIVE,
+       the colour of mud, never slate blue. If they cool to slate, it is the hole.
+     · THE WARM BROWN ROOMS. Mud is the nearest thing to brown on this street
+       that is not brown: there is no amber here, nothing lamplit, and the only
+       warm value is the yellow of one pair of wellies.
+     · THE MAP (§49) is the street as a model in white card on a table, and it
+       says scale is the one thing no room should get. The Slake's map is not a
+       model and has no scale: it is a MUD map, places and the ways between them,
+       and it only shows what you have walked to.
+
+   NOTHING IN HERE MOVES AT ANY SETTING, and the room says so in its own way:
+   the tide turns when you wait for it. The footprint on the map jumps rather
+   than slides. The map is aria-hidden and every word on it is also in the panel
+   beside it and the guidebook under it. */
+
+.mud { background: var(--mud-ground); color: var(--mud-text); font-family: 'Castoro', Georgia, serif; font-synthesis: none; }
+.mud a { color: var(--mud-glass); }
+.mud a:hover { color: var(--mud-welly); }
+.mud :where(p, li, dd) { font-size: 18px; line-height: 1.62; }
+.mud :where(strong, b) { font-weight: 400; color: var(--mud-sky); }
+.mud code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .86em; color: var(--mud-welly); }
+.mud .backlink { font-family: 'Castoro', Georgia, serif; font-size: 16px; letter-spacing: 0; color: var(--mud-glass); }
+.mud h2 { font-family: 'Castoro', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.15; color: var(--mud-sky); margin: 0 0 12px; }
+
+.mud-topline { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: space-between; align-items: baseline; }
+.mud-trail { margin: 0; font-size: 15px !important; color: var(--mud-dim); font-style: italic; }
+.mud-sign { margin: 30px 0 0; }
+.mud-sign__over { margin: 0; font-size: 14px !important; letter-spacing: .14em; text-transform: uppercase; color: var(--mud-dim); }
+.mud-sign h1 { font-family: 'Castoro', Georgia, serif; font-weight: 400; font-size: clamp(48px, 10vw, 104px); line-height: .98; color: var(--mud-sky); margin: 8px 0 0; letter-spacing: -.01em; }
+.mud-sign__tag { margin: 12px 0 0; font-size: clamp(19px, 2.8vw, 25px) !important; line-height: 1.35; color: var(--mud-text); }
+.mud-view { margin: 26px 0 0; line-height: 0; border-top: 1px solid var(--mud-silver); border-bottom: 1px solid var(--mud-silver); }
+.mud-view svg { display: block; width: 100%; height: auto; }
+.mud-lede { margin: 26px 0 0; max-width: 64ch; font-size: 20px !important; line-height: 1.6; color: var(--mud-text); }
+.mud-part { margin: 48px 0 0; max-width: 72ch; }
+.mud-part#the-slake { max-width: none; }
+.mud-note { padding: 12px 16px; background: var(--mud-bank); }
+
+/* THE GAME: the map on one side and everything you press on the other. */
+.mud-screen { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 20px; align-items: start; }
+.mud-map { background: var(--mud-ground); border: 1px solid var(--mud-silver); line-height: 0; }
+.mud-map__svg { display: block; width: 100%; height: auto; }
+.mud-side { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.mud-here { padding: 16px 18px; background: var(--mud-bank); }
+.mud-here__tide { margin: 0; font-size: 14px !important; letter-spacing: .12em; text-transform: uppercase; color: var(--mud-dim); }
+.mud-here__name { margin: 4px 0 8px; font-weight: 400; font-size: 28px; line-height: 1.15; color: var(--mud-sky); }
+.mud-here__text p { margin: 0 0 10px; }
+.mud-here__row { margin: 12px 0 0; }
+.mud-lab { margin: 0 0 6px; font-size: 14px !important; letter-spacing: .12em; text-transform: uppercase; color: var(--mud-dim); }
+.mud-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.mud-btn {
+  display: inline-block; padding: 8px 13px; background: var(--mud-deep); color: var(--mud-text);
+  border: 1.5px solid var(--mud-dim); border-radius: 4px; cursor: pointer; text-align: left; text-decoration: none;
+  font-family: 'Castoro', Georgia, serif; font-size: 16.5px; line-height: 1.35;
+}
+.mud-btn:hover { border-color: var(--mud-welly); color: var(--mud-sky); }
+.mud-btn--small { font-size: 15.5px; padding: 6px 11px; }
+.mud-ways-now .mud-btns { flex-direction: column; }
+.mud-btn--way { width: 100%; }
+.mud-btn--shut { border-style: dashed; color: var(--mud-dim); }
+.mud-btn--leave { color: var(--mud-glass); }
+.mud-cmd__row { display: flex; gap: 8px; align-items: center; }
+.mud-cmd__prompt { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 20px; color: var(--mud-welly); }
+.mud-cmd__in {
+  flex: 1 1 auto; min-width: 0; padding: 9px 11px; background: var(--mud-deep); color: var(--mud-sky);
+  border: 1.5px solid var(--mud-dim); border-radius: 4px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 16px;
+}
+.mud-cmd__in::placeholder { color: var(--mud-dim); opacity: 1; }
+.mud-btn--go { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 15px; }
+.mud-log { max-height: 340px; overflow-y: auto; padding: 14px 16px; background: var(--mud-deep); border-left: 3px solid var(--mud-silver); }
+.mud-log__line { margin: 0 0 9px !important; font-size: 16.5px !important; line-height: 1.55 !important; }
+.mud-log__line:last-child { margin-bottom: 0 !important; }
+.mud-log__line--you { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 15px !important; color: var(--mud-welly); }
+
+/* THE MAP'S STATES are classes mud.js sets: a place you have seen is drawn and
+   named; a place you know is there but have not reached is a dashed ring and a
+   question mark; anything else is not on the map yet. */
+.mud-map__svg .mud-node { display: none; cursor: pointer; }
+.mud-map__svg .mud-node.is-seen, .mud-map__svg .mud-node.is-known { display: inline; }
+.mud-node__ring { fill: var(--mud-deep); fill-opacity: .55; stroke: none; }
+.mud-node.is-known .mud-node__ring { fill-opacity: .8; stroke: var(--mud-dim); stroke-width: 2; stroke-dasharray: 4 5; }
+.mud-node.is-here .mud-node__ring { stroke: var(--mud-welly); stroke-width: 3; stroke-dasharray: none; }
+.mud-node.is-known .mud-node__draw, .mud-node.is-known .mud-node__name { display: none; }
+.mud-node__q { display: none; fill: var(--mud-dim); font-family: 'Castoro', Georgia, serif; font-size: 22px; }
+.mud-node.is-known .mud-node__q { display: inline; }
+.mud-node__name { fill: var(--mud-sky); font-family: 'Castoro', Georgia, serif; font-size: 15px; paint-order: stroke; stroke: var(--mud-deep); stroke-width: 4px; stroke-linejoin: round; }
+.mud-map__svg .mud-link { display: none; fill: none; stroke: var(--mud-dim); stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 1 7; }
+.mud-map__svg .mud-link.is-on { display: inline; }
+.mud-link--ferry { stroke: var(--mud-silver); stroke-dasharray: 8 6; }
+.mud-tide { opacity: 0; }
+.mud-map__svg[data-tide="high"] .mud-tide { opacity: .94; }
+.mud-map__svg[data-tide="high"] .mud-node[data-tidal] { opacity: .5; }
+.mud-me { pointer-events: none; }
+
+/* THE HOUSE'S OWN LISTS. */
+.mud-words { margin: 14px 0 0; }
+.mud-words dt { margin: 14px 0 2px; font-size: 17px; color: var(--mud-sky); }
+.mud-words dd { margin: 0; }
+.mud-rules { padding-left: 24px; }
+.mud-rules li { margin: 0 0 12px; }
+.mud-further { font-size: 16px !important; color: var(--mud-dim); }
+
+/* THE GUIDEBOOK: every place as a page of a book, with its ways on as links. */
+.mud-book { margin: 16px 0 0; }
+.mud-book > summary { display: inline-block; padding: 8px 14px; background: var(--mud-deep); border: 1.5px solid var(--mud-dim); border-radius: 4px; cursor: pointer; color: var(--mud-text); }
+.mud-book > summary:hover { border-color: var(--mud-welly); }
+.mud-book[open] > summary { margin-bottom: 8px; }
+.mud-place { margin: 0; padding: 18px 0 6px; border-top: 1px solid var(--mud-high); }
+.mud-place__name { margin: 0 0 8px; font-weight: 400; font-size: 24px; color: var(--mud-sky); }
+.mud-place[data-water] .mud-place__name { font-style: italic; }
+.mud-text, .mud-sit, .mud-ways, .mud-leave { margin: 0 0 10px; }
+.mud-things, .mud-people { margin: 0 0 10px; padding-left: 22px; }
+.mud-things li, .mud-people li { margin: 0 0 8px; }
+.mud-when { font-style: italic; color: var(--mud-dim); }
+.mud-look, .mud-says, .mud-join, .mud-lore { display: inline; }
+
+@media (max-width: 880px) {
+  .mud-screen { grid-template-columns: minmax(0, 1fr); }
+  .mud-map { order: 2; }
+  .mud-side { order: 1; }
+}
+
+/* §71 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -15244,7 +15424,7 @@ html[data-intensity="max"] .gg-toy.is-lit .gg-shape { filter: drop-shadow(0 0 14
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §70 says every
+   shipped with no rule here at all — which on a street whose §71 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -15368,7 +15548,7 @@ html[data-intensity="max"] .gg-toy.is-lit .gg-shape { filter: drop-shadow(0 0 14
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §71 ── Print ───────────────────────────────────────────────────────────────
+/* §72 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

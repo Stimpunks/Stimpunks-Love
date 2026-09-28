@@ -2228,6 +2228,46 @@
           "The plainest flavour there is."
         ]
       }
+    },
+    {
+      "id": "mud-welly",
+      "page": "the-mud-room.html",
+      "room": "The MUD Room",
+      "title": "What turns the tide",
+      "posted": "There is a boot room on the street with a whole estuary out of its back door, and the tide out there does not keep time. Go and find out what turns it.",
+      "rank": 1,
+      "takes": "a walk down the street, and a look out the back door",
+      "target": "a yellow welly, left standing by the back door",
+      "code": "LOWTIDE",
+      "hints": [
+        "It is a shopfront on the street, near the far end of the row.",
+        "The answer is on the noticeboard by the back door, and in the house rules.",
+        "Right at the foot of the room, under the guidebook."
+      ],
+      "ask": {
+        "question": "On the Slake, out the back door of the MUD Room, what makes the tide turn?",
+        "accept": [
+          "waiting",
+          "wait",
+          "you",
+          "me",
+          "i do",
+          "you wait",
+          "you waiting",
+          "when you wait",
+          "waiting for it",
+          "if you wait",
+          "me waiting"
+        ],
+        "answer": "Waiting for it",
+        "why": "Waiting for it. Nothing on the Slake runs on a clock: the tide is in or out until you say wait, somewhere dry, and then it turns. That is the street's oldest promise, that nothing moves until you say so, made into weather.",
+        "hints": [
+          "Read the noticeboard in the MUD Room itself.",
+          "It is the third house rule.",
+          "It is also one of the buttons beside the map."
+        ]
+      },
+      "learned": "A world can wait for you. Nothing on the Slake changes until you ask it to."
     }
   ],
   "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

@@ -1132,6 +1132,22 @@
         "--cool-sky",
         "--cool-coral"
       ]
+    },
+    "the-mud-room.html": {
+      "kind": "julia",
+      "power": 2,
+      "c": [
+        0.0,
+        1.0
+      ],
+      "orbit": 0.02,
+      "ground": "--mud-ground",
+      "inks": [
+        "--mud-silver",
+        "--mud-marsh",
+        "--mud-glass",
+        "--mud-welly"
+      ]
     }
   }
 }

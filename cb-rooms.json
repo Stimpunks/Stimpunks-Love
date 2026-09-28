@@ -227,6 +227,11 @@
    "path": "/the-doom-scoop.html"
   },
   {
+   "tag": "the-mud-room",
+   "name": "The MUD Room",
+   "path": "/the-mud-room.html"
+  },
+  {
    "tag": "your-room",
    "name": "Your Room",
    "path": "/your-room.html"

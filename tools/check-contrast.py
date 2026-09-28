@@ -537,6 +537,9 @@ RR_LASER, RR_MAGENTA, RR_CYAN = "#4DFF88", "#FF5AD9", "#3FE0FF"
 COOL_ROOM, COOL_COUCH, COOL_GLASS = "#15232A", "#203238", "#EEF6F8"
 COOL_TEXT, COOL_DIM, COOL_MINT, COOL_CORAL = "#EAF2F0", "#A9BFBC", "#8EE6CC", "#FFA38F"
 COOL_INK, COOL_INK2, COOL_CABINET, COOL_SHADE = "#16252B", "#45585E", "#2C3F46", "#0E181C"
+MUD_GROUND, MUD_BANK, MUD_DEEP = "#262B27", "#343B35", "#181C19"
+MUD_TEXT, MUD_SKY, MUD_DIM = "#CDD5CF", "#EEF2EE", "#A6B0A8"
+MUD_GLASS, MUD_WELLY = "#8FD6C4", "#F4C542"
 
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
@@ -2438,6 +2441,23 @@ PAIRS = [
     (COOL_TEXT,  COOL_SHADE, False, "cooldown: what is in the tray"),
     (COOL_DIM,   COOL_SHADE, False, "cooldown: the tray's label"),
     (COOL_MINT,  COOL_ROOM,  True,  "cooldown: the job marker, a bottle cap under a couch"),
+    (MUD_TEXT,  MUD_GROUND, False, "mud room: every paragraph, the lede, the house rules and the door's blurb on the street"),
+    (MUD_SKY,   MUD_GROUND, False, "mud room: the h1, every heading, every bold run and the door's name"),
+    (MUD_DIM,   MUD_GROUND, False, "mud room: the trail, the over-line, the fine print and every label in the guidebook"),
+    (MUD_GLASS, MUD_GROUND, False, "mud room: every link and the backlink"),
+    (MUD_WELLY, MUD_GROUND, False, "mud room: every hover, every word of code in How to play, and the door's knock"),
+    (MUD_TEXT,  MUD_BANK,   False, "mud room: where you are, beside the map"),
+    (MUD_SKY,   MUD_BANK,   False, "mud room: the name of the place you are in"),
+    (MUD_DIM,   MUD_BANK,   False, "mud room: the tide line and every label on the panel"),
+    (MUD_GLASS, MUD_BANK,   False, "mud room: a link in a place's words on the panel"),
+    (MUD_TEXT,  MUD_DEEP,   False, "mud room: every button and every line in the log"),
+    (MUD_SKY,   MUD_DEEP,   False, "mud room: what you type, a button under the pointer, and every name on the map on its halo"),
+    (MUD_DIM,   MUD_DEEP,   False, "mud room: a way on that is closed just now, the placeholder, and the question mark on the map"),
+    (MUD_GLASS, MUD_DEEP,   False, "mud room: a glossary link in the log, and the way out the front door"),
+    (MUD_WELLY, MUD_DEEP,   False, "mud room: the prompt, and every command echoed into the log"),
+    (MUD_WELLY, MUD_DEEP,   True,  "mud room: the footprint on the map, which is you, on its dark disc"),
+    (MUD_DIM,   MUD_DEEP,   True,  "mud room: the edge of every button, and the dashed ring round a place you have not reached"),
+    (MUD_WELLY, MUD_GROUND, True,  "mud room: the job marker, a yellow welly by the back door, held to the body threshold"),
 ] + [
     (hexv, ground, True, f"glow: a toy glowing {name}, just charged")
     for name, hexv in GG_GLOWS.items() for ground in (GG_DARK, GG_SHELF)
@@ -2659,6 +2679,21 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#c3cecc": "mud room: the water on the Slake -- the creek, the channels and the sky lying in the "
+               "mud in the view -- 8.94 on the mud. It carries no word; it is the light the room is "
+               "lit by, and every word is set in the room's own inks, measured above.",
+    "#2f3a2d": "mud room: the land behind the sea wall and the island's grass on the map, 1.21 on the "
+               "mud. A ground for drawings, carrying no word: every name on the map stands on its "
+               "own dark halo, measured above as the deep ground.",
+    "#6f8c55": "mud room: the marsh's lines on the map -- samphire tufts, the sea wall's grass, the "
+               "foreshore's edge -- 3.81 on the mud and 2.79 on the marsh ground. Drawing only, "
+               "and every place it draws is named in words beside the map.",
+    "#34432f": "mud room: the saltmarsh as a ground on the map, 1.37 on the mud. It carries no word.",
+    "#bfa56a": "mud room: the reeds in the view and the map, and the boat's timbers, 6.04 on the mud. "
+               "It carries no word.",
+    "#7e908e": "mud room: the tide laid over the mud on the map while it is in, 4.30 on the mud, and "
+               "the rule above each place in the guidebook. Nothing is set on it: the names over it "
+               "stand on their halos, and places under water are shown faded rather than hidden.",
     "#2b303c": "rave: the hangar's scaffolding, roof ribs and every rail and frame in the drawing, "
                "1.52 on the hangar and 1.34 on a deck. It carries no word.",
     "#ffffff": "rave: the strobe's flash, laid over the hangar picture only after two presses. "

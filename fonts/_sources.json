@@ -1762,5 +1762,32 @@
       "src": "https://fonts.gstatic.com/s/kumbhsans/v27/c4mw1n92AsfhuCq6tVsaoIx1LQICk0boNoq0ShNPVo0wPFXC.woff2",
       "note": "The Cooldown Room (§69), every word that is read, and the machine's readout. A plain, soft-cornered sans with open counters, because a room for coming down from somewhere loud should be the easiest thing on the road to read. One variable file serves both weights."
     }
+  ],
+  "castoro": [
+    {
+      "file": "castoro-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 20160,
+      "src": "https://fonts.gstatic.com/s/castoro/v20/1q2GY5yMCld3-O4cLY9OzcQdjEQ.woff2",
+      "note": "The MUD Room's face for place names and everything you read. A text serif with a true italic, and the italic is kept for water, which is what a chart does."
+    },
+    {
+      "file": "castoro-400-italic.woff2",
+      "weight": "400",
+      "style": "italic",
+      "bytes": 20604,
+      "src": "https://fonts.gstatic.com/s/castoro/v20/1q2EY5yMCld3-O4cLYp-z84arkbpfg.woff2"
+    }
+  ],
+  "jetbrains-mono": [
+    {
+      "file": "jetbrains-mono-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 21212,
+      "src": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxTOlOVk6OThhvA.woff2",
+      "note": "The MUD Room's command line: what you type and the words the Slake knows. Never a sentence you read."
+    }
   ]
 }

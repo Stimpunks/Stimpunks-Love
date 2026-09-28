@@ -580,6 +580,29 @@
     }
    ]
   },
+  "castoro": {
+   "family": "Castoro",
+   "category": "Serif",
+   "designer": "Tiro Typeworks, John Hudson, Paul Hanslow, Kaja Słojewska",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/castoro",
+   "copyright": "Copyright 2020 The Castoro Project Authors (https://github.com/TiroTypeworks/Castoro)",
+   "repository": "https://github.com/TiroTypeworks/Castoro",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "castoro-400.woff2",
+     "sha": "4a9ad7e5a2a33639"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "castoro-400-italic.woff2",
+     "sha": "5081c13640756c77"
+    }
+   ]
+  },
   "caveat": {
    "family": "Caveat",
    "category": "Handwriting",
@@ -1178,6 +1201,23 @@
      "style": "normal",
      "file": "italiana-400.woff2",
      "sha": "80d645be0fa66004"
+    }
+   ]
+  },
+  "jetbrains-mono": {
+   "family": "JetBrains Mono",
+   "category": "Monospace",
+   "designer": "JetBrains, Philipp Nurullin, Konstantin Bulenkov",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/jetbrainsmono",
+   "copyright": "Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)",
+   "repository": "https://github.com/JetBrains/JetBrainsMono",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "jetbrains-mono-400.woff2",
+     "sha": "d3dcdccdaba31643"
     }
    ]
   },

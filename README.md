@@ -126,6 +126,8 @@ rebellion-rave-room.html  Turning 08. An old hangar; the one strobe on the stree
 rave.js               The hangar's rig and big screen; nothing runs until pressed, Escape stops all
 cooldown-room.html    Behind the rave's ante-chamber. Couches, water, a free vending machine
 cooldown.js           The vending machine; drops a snack, keeps nothing
+the-mud-room.html     A boot room on the street, and the Slake out its back door: a MUD with nobody to fight
+mud.js                Plays the Slake out of its own guidebook; keeps, sends and sounds nothing
 arlesglad-caverns.html  Under the street, by lift or stair. A cavern lit only by its handrail
 glow-go-gee-gaws.html  Level B3. Glow toys in every colour; charged at the rail, they fade
 glow.js               The glow toys' charge and fade; silent, keeps nothing
@@ -260,6 +262,7 @@ python3 tools/make-lagoon.py       # Black Leather Lagoon's rack and credits; re
 python3 tools/make-looming.py      # Looming Rocks' stage and running order; refuses an act not played outdoors, a named lichen, or a ranked bill
 python3 tools/make-rave.py         # Rebellion Rave Room's screen; refuses the warning below the rig, a knob past eleven, a coloured flash, or a rig that remembers
 python3 tools/make-cooldown.py     # The Cooldown Room's vending machine; refuses a snack that does not say what is in it, a price, or a verdict on food
+python3 tools/make-mud.py          # The MUD Room's Slake: guidebook, map and credits; refuses a way on with no way back, no walk home, a fight or a score
 python3 tools/make-sithen.py       # Sithen's rules and their sources; refuses advice, or anything drawn from the two novel series
 python3 tools/make-library.py      # the library's, L-space's and Oook's quotations, the front desk and the threads; refuses a long passage, a lyric, or the graphic novel
 python3 tools/make-dance-punks.py  # the disco's channels and credits; refuses a runtime, shuffle, or two inks alike in greyscale

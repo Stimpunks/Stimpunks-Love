@@ -2233,6 +2233,45 @@ body, a maker who is a business, and a script that keeps, sends or sounds anythi
 is this road's own**, a first name and a place, never a brand. Its first two refusals were false positives,
 *Cucumber Coins* and *the fuel pumps*, and both patterns were narrowed rather than excepted.
 
+**THE MUD ROOM (§70) IS A MULTI-USER DUNGEON WITH NOBODY TO FIGHT, AND ONE USER SO FAR.** Ryan's brief,
+2026-09-27, after an Ultima Online retrospective: a non-violent graphical MUD for exploring and learning.
+The shop is a boot room; out of its back door is **the Slake**, a tidal estuary of places, things and
+residents in `data/mud.json`, built by `tools/make-mud.py` and played by `mud.js`. Single-player first,
+Ryan's call, because the multi-user half needs the CB; what that half will be is in `DECISIONS.md`.
+
+  · **THE GUIDEBOOK IS THE GAME.** The tool writes every place, thing, person and way on as a book at the
+    foot of the page, and `mud.js` reads that markup, clones from it and closes the book. With scripts
+    off the book is the game and its ways on are links. Do not give `mud.js` a data file of its own:
+    the day the game and the book are two copies is the day they disagree.
+  · **NOBODY TO FIGHT AND NOTHING COUNTED**, and the tool sweeps the data and the room for both
+    vocabularies with the negation window. UO is built on combat and skills that rise with use, and an
+    exploring game is exactly the shape of thing that grows a percentage explored. **The friendly edits
+    are "N of M places found" and a trophy for finishing**; the map is a record of where you went, not a
+    total. Its first run refused the room's own history of TinyMUD discarding combat, and the window was
+    taught *discard* rather than the sentence cut.
+  · **THE TIDE TURNS WHEN YOU WAIT, AND ONLY SOMEWHERE DRY.** Nothing runs on a clock: the street's
+    oldest promise made into weather. The tool refuses a way onto the mud that ignores the tide, a ferry
+    at low water, **a way on with no way back, and a place with no walk home at any tide it can be
+    reached at**, because the noticeboard says SAY HOME AND YOU ARE HOME. A dark place still has words
+    without the lantern: the light adds to what is there and never unlocks the only words there are.
+  · **EVERY RESIDENT IS DOING SOMETHING OUR GLOSSARY HAS AN ENTRY FOR**, says its name the second time you
+    talk to them, linked, and no two point at the same entry. The slugs are checked against the mirror
+    when it is here. **Nothing teaches and nothing tests**: the Playhouse's rule that a toy is not an
+    explainer, arriving where the brief says *learning*. Ottilie's entry is in Helen Edgar's words and the
+    liner notes say so. **Nothing out there is a field guide**, Mycelium Munchies' rule on a saltmarsh.
+  · **THE LIGHT IS THE SKY LYING IN THE MUD**: overcast, from everywhere, and the brightest thing below
+    the horizon is the water because it is holding the sky. The collisions are in §70's comment: the
+    **Arcade** (a cabinet, a screen and a pixel face; this has none), the **404's fog** (no distance;
+    this is the longest view on the street), the **Healing Checkpoint** (a glow under water; nothing here
+    emits), and the **Rabbit Hole** (wet slate; these greys are olive, the colour of mud). **The Slake's
+    map is not the street's model**: it has no scale and shows only where you have walked.
+  · **THREE SENTENCES STOP BEING TRUE WHEN THE CB HALF ARRIVES, ON PURPOSE**: the empty logbook, the free
+    peg and what `say` answers. Change them with the privacy page, and change the tool's refusal of
+    storage and requests in `mud.js` in the same commit rather than loosening it on the way past.
+  · **`classList.toggle(name, undefined)` FLIPS THE CLASS**, it does not clear it. The map's first render
+    drew every way between places for a visitor who had seen one, because an `&&` chain came out
+    `undefined`. It is `!!(...)` now. Any toggle whose force can be undefined has this bug.
+
 **`check-jukebox.py` COULD NOT RUN FROM THE DAY LAUGHINGSTOCK OPENED UNTIL THIS ONE.** That room's data
 has `acts` (comics and their lines) beside `sets` (videos), the `acts` branch came first, and the run
 refused on the first comic. `sets` is tested first now. **When a checker's shapes are told apart by
@@ -2893,18 +2932,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §71 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §72 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§71 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§72 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §71 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §72 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

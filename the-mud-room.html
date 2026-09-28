@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The MUD Room &mdash; Stimpunks.World</title>
+<meta name="description" content="A multi-user dungeon with nobody to fight. Out the back door of a boot room on the street is the Slake, a tidal estuary made of words and drawn as a map: a marsh, a mill, a hut full of things people found in the mud, and an island you can walk to while the tide is out. Explore it by typing or by pressing, and the people out there tell you what they are doing and what our glossary calls it. Nothing is counted, and the tide turns when you wait for it.">
+<link rel="canonical" href="https://stimpunks.world/the-mud-room.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#262B27">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.World">
+<meta property="og:title" content="The MUD Room &mdash; Stimpunks.World">
+<meta property="og:description" content="A multi-user dungeon with nobody to fight. Out the back door is the Slake, a tidal estuary made of words: a marsh, a mill, a hut full of things found in the mud, and an island you can walk to while the tide is out. Nothing is counted, and the tide turns when you wait for it.">
+<meta property="og:url" content="https://stimpunks.world/the-mud-room.html">
+<meta property="og:image" content="https://stimpunks.world/og/the-mud-room.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A dark mud-grey card. Small pale capitals reading a multi-user dungeon with nobody to fight · one user so far, then “The MUD Room” in a large, pale, old-style serif, and under it in grey-white: A multi-user dungeon with nobody to fight. Out the back door is the Slake, a tidal estuary made of words: a marsh, a mill, a hut full of things found in the mud, and an island you can walk to while the tide is out. Nothing is counted, and the tide turns when you wait for it. Along the foot, a wide flat estuary at low tide seen from the back step under a pale overcast sky: a dark line of far shore with a small island and a black-and-white striped beacon on it, channels of water lying in the dark mud and shining with the sky, a line of posts going out across the mud towards the island, a heron standing dark in a channel on the right, and reeds in the foreground on the left.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World &mdash; what changed on the street">
+<link rel="preload" href="fonts/castoro-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<!-- structured-data:begin -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/the-mud-room.html#webpage","url":"https://stimpunks.world/the-mud-room.html","name":"The MUD Room — Stimpunks.World","description":"A multi-user dungeon with nobody to fight. Out the back door of a boot room on the street is the Slake, a tidal estuary made of words and drawn as a map: a marsh, a mill, a hut full of things people found in the mud, and an island you can walk to while the tide is out. Explore it by typing or by pressing, and the people out there tell you what they are doing and what our glossary calls it. Nothing is counted, and the tide turns when you wait for it.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<!-- structured-data:end -->
+</head>
+<body class="mud" id="top">
+<a class="skip" href="#main">Skip to the MUD Room</a>
+
+<main id="main" class="wrap" style="padding-bottom:54px;">
+
+  <div class="mud-topline">
+    <a class="backlink" href="index.html">&larr; back to the street</a>
+    <p class="mud-trail">on the street &middot; the mud room &middot; the Slake is out the back door</p>
+  </div>
+
+  <header class="mud-sign">
+    <p class="mud-sign__over">A multi-user dungeon with nobody to fight &middot; one user so far</p>
+    <h1>The MUD Room</h1>
+    <p class="mud-sign__tag">Take your boots off, or put them on. <b>The Slake is out the back door.</b></p>
+  </header>
+
+  <!-- THE VIEW FROM THE BACK STEP, at eye level, with the tide out. The light is
+       the sky lying in the mud: every channel holds it, so the brightest things
+       below the horizon are the water, and everything standing up out of the
+       mud is dark against it. aria-hidden; the lede says what is out there. -->
+  <div class="mud-view" aria-hidden="true">
+    <svg viewBox="0 0 1200 400" fill="none" focusable="false" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="mud-sky-g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--mud-sky)"/><stop offset="1" stop-color="var(--mud-silver)"/></linearGradient>
+        <linearGradient id="mud-lie-g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--mud-silver)"/><stop offset="1" stop-color="var(--mud-sky)"/></linearGradient>
+      </defs>
+      <rect width="1200" height="196" fill="url(#mud-sky-g)"/>
+      <rect y="196" width="1200" height="204" fill="var(--mud-ground)"/>
+      <path d="M0 196 H1200 V204 H0 Z" fill="var(--mud-land)"/>
+      <path d="M760 198 Q800 182 846 186 Q880 190 900 198 Z" fill="var(--mud-land)"/>
+      <rect x="818" y="140" width="12" height="52" fill="var(--mud-sky)" stroke="var(--mud-land)" stroke-width="1.5"/>
+      <path d="M818 152 H830 M818 166 H830 M818 180 H830" stroke="var(--mud-land)" stroke-width="6"/>
+      <path d="M300 207 Q520 211 700 208 Q900 204 1200 212 V216 Q930 210 720 213 Q520 216 300 209 Z" fill="url(#mud-lie-g)"/>
+      <path d="M814 208 H834 L832 236 H816 Z" fill="var(--mud-silver)" opacity=".7"/>
+      <path d="M0 266 Q180 242 380 254 Q560 264 640 247 Q720 233 910 238 Q760 243 662 257 Q560 276 380 266 Q180 256 0 282 Z" fill="url(#mud-lie-g)"/>
+      <path d="M150 400 Q300 332 520 325 Q700 319 860 295 Q980 281 1200 283 V291 Q1000 294 880 308 Q720 334 540 345 Q360 356 282 400 Z" fill="url(#mud-lie-g)"/>
+      <ellipse cx="1060" cy="250" rx="70" ry="4" fill="var(--mud-silver)" opacity=".75"/>
+      <ellipse cx="250" cy="228" rx="90" ry="3.5" fill="var(--mud-silver)" opacity=".7"/>
+      <ellipse cx="760" cy="364" rx="120" ry="7" fill="var(--mud-silver)" opacity=".6"/>
+      <g stroke="var(--mud-deep)" stroke-linecap="round">
+        <path d="M430 400 V330" stroke-width="9"/><path d="M500 360 V318" stroke-width="7"/><path d="M560 334 V300" stroke-width="5.5"/>
+        <path d="M612 314 V288" stroke-width="4.5"/><path d="M656 296 V276" stroke-width="3.6"/><path d="M694 280 V264" stroke-width="3"/>
+        <path d="M726 266 V254" stroke-width="2.4"/><path d="M752 252 V243" stroke-width="2"/><path d="M774 240 V233" stroke-width="1.6"/>
+      </g>
+      <g stroke="var(--mud-deep)" stroke-linecap="round" fill="none">
+        <path d="M982 254 L979 288 M989 254 L993 288" stroke-width="2.6"/>
+        <path d="M996 238 Q1008 222 998 212 Q990 204 1000 198" stroke-width="6"/>
+        <path d="M1003 197 L1024 201" stroke-width="2.6"/>
+      </g>
+      <path d="M958 248 Q964 232 986 232 Q1002 234 1002 246 Q992 258 968 256 Z" fill="var(--mud-deep)"/>
+      <circle cx="1002" cy="197" r="4.5" fill="var(--mud-deep)"/>
+      <path d="M958 292 Q985 287 1012 292" stroke="var(--mud-silver)" stroke-width="2" opacity=".8"/>
+      <g stroke="var(--mud-reed)" stroke-width="3" stroke-linecap="round">
+        <path d="M20 400 Q24 330 40 270"/><path d="M44 400 Q46 320 62 250"/><path d="M68 400 Q70 340 84 284"/>
+        <path d="M92 400 Q94 330 104 262"/><path d="M116 400 Q118 350 128 300"/><path d="M6 400 Q10 350 18 300"/>
+      </g>
+      <g fill="var(--mud-reed)">
+        <ellipse cx="42" cy="262" rx="4" ry="12"/><ellipse cx="64" cy="242" rx="4" ry="12"/><ellipse cx="86" cy="276" rx="4" ry="11"/>
+        <ellipse cx="106" cy="254" rx="4" ry="12"/><ellipse cx="130" cy="292" rx="3.5" ry="10"/><ellipse cx="20" cy="292" rx="3.5" ry="10"/>
+      </g>
+    </svg>
+  </div>
+
+  <p class="mud-lede">A MUD is a multi-user dungeon: a world made of words that people walk around in together, typing where to go and what to look at. The first one was written by Roy Trubshaw and Richard Bartle at the University of Essex in the autumn of 1978. <strong>This one is the kind with nothing in it to fight.</strong> Out the back door of this room is the Slake, a tidal estuary with a marsh, a mill, a hut full of things people found in the mud, and an island you can walk to while the tide is out. There is nobody to fight and nothing is counted. You go where you like and look at what you like, and the people who live out there tell you what they are doing and what our glossary calls it. Everything is words first and picture second, so a screen reader plays it as well as a pointer does.</p>
+
+  <section class="mud-part" aria-labelledby="mud-play-h" id="the-slake">
+    <h2 id="mud-play-h">Out the back door</h2>
+    <noscript><p class="mud-note">Scripts are off, so the Slake is a guidebook: every place is further down this page with its ways on as links, and you can walk it by following them.</p></noscript>
+
+    <!-- THE GAME. Ships hidden, so a page with no script shows no dead controls;
+         mud.js unhides it, reads the guidebook below, and closes the book. The
+         map is aria-hidden: the panel beside it says in words where you are and
+         which ways are open, and every button there does what a typed word does. -->
+    <div class="mud-game" id="mud-game" hidden>
+      <div class="mud-screen">
+        <div class="mud-map">
+<!-- mud:map:begin -->
+<svg class="mud-map__svg" id="mud-svg" viewBox="0 0 600 740" data-tide="low" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+<rect width="600" height="740" fill="var(--mud-ground)"/>
+<rect width="600" height="158" fill="var(--mud-land)"/>
+<rect y="158" width="600" height="44" fill="var(--mud-bank)"/>
+<path d="M0 202 H600 V340 Q360.0 360 180.0 344 T0 350 Z" fill="var(--mud-marsh-dk)"/>
+<path class="mud-creek" d="M420 200 Q436 260 420 300 T420 420 Q460 500 580 680 L600 740" fill="none" stroke="var(--mud-silver)" stroke-width="12" stroke-linecap="round"/>
+<path class="mud-channel" d="M20 700 Q150 630 210 550 T310 410" fill="none" stroke="var(--mud-silver)" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+<path class="mud-tide" d="M0 344 Q180.0 330 360.0 352 T600 338 V740 H0 Z" fill="var(--mud-high)"/>
+<ellipse cx="300" cy="666" rx="64" ry="34" fill="var(--mud-land)"/>
+<path class="mud-link" data-a="mud-room" data-b="sea-wall" d="M180 60 L180 180"/>
+<path class="mud-link" data-a="hide" data-b="sea-wall" d="M180 180 L60 180"/>
+<path class="mud-link" data-a="sea-wall" data-b="tea-hut" d="M180 180 L300 180"/>
+<path class="mud-link" data-a="saltmarsh" data-b="sea-wall" d="M180 180 L180 300"/>
+<path class="mud-link" data-a="hide" data-b="reedbed" d="M60 180 L60 300"/>
+<path class="mud-link" data-a="reedbed" data-b="saltmarsh" d="M60 300 L180 300"/>
+<path class="mud-link" data-a="mudlarks-hut" data-b="saltmarsh" d="M180 300 L300 300"/>
+<path class="mud-link mud-link--tide" data-a="foreshore" data-b="saltmarsh" d="M180 300 L180 420"/>
+<path class="mud-link" data-a="tea-hut" data-b="tide-mill" d="M300 180 L420 180"/>
+<path class="mud-link" data-a="mudlarks-hut" data-b="tea-hut" d="M300 180 L300 300"/>
+<path class="mud-link" data-a="creek" data-b="tide-mill" d="M420 180 L420 300"/>
+<path class="mud-link" data-a="tide-mill" data-b="wheel-pit" d="M420 180 L540 180"/>
+<path class="mud-link" data-a="creek" data-b="mudlarks-hut" d="M300 300 L420 300"/>
+<path class="mud-link mud-link--tide" data-a="mudflat" data-b="mudlarks-hut" d="M300 300 L300 420"/>
+<path class="mud-link" data-a="boathouse" data-b="creek" d="M420 300 L540 300"/>
+<path class="mud-link" data-a="creek" data-b="ferry-steps" d="M420 300 L420 420"/>
+<path class="mud-link mud-link--tide" data-a="foreshore" data-b="mudflat" d="M180 420 L300 420"/>
+<path class="mud-link" data-a="ferry-steps" data-b="mudflat" d="M300 420 L420 420"/>
+<path class="mud-link mud-link--tide" data-a="causeway" data-b="mudflat" d="M300 420 L300 540"/>
+<path class="mud-link mud-link--ferry" data-a="ferry-steps" data-b="holm" d="M420 420 Q410.0 550.0 300 660"/>
+<path class="mud-link mud-link--tide" data-a="causeway" data-b="holm" d="M300 540 L300 660"/>
+<path class="mud-link" data-a="beacon-top" data-b="holm" d="M300 660 L420 660"/>
+<g class="mud-node" data-node="mud-room" transform="translate(180 60)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><path d="M-24 22 V-6 L0 -26 L24 -6 V22 Z" fill="var(--mud-bank)" stroke="var(--mud-text)" stroke-width="2" stroke-linejoin="round"/><rect x="-8" y="0" width="16" height="22" fill="var(--mud-ground)" stroke="var(--mud-text)" stroke-width="1.6"/><rect x="-4.5" y="4" width="9" height="7" fill="var(--mud-silver)"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle">The MUD Room</text></g>
+<g class="mud-node" data-node="sea-wall" transform="translate(180 180)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><path d="M-30 12 Q-15 -6 0 -6 Q15 -6 30 12 Z" fill="var(--mud-land)" stroke="var(--mud-marsh)" stroke-width="2"/><path d="M-24 4 Q0 -10 24 4" fill="none" stroke="var(--mud-text)" stroke-width="1.6" stroke-dasharray="3 3"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle">The Sea Wall</text></g>
+<g class="mud-node" data-node="hide" transform="translate(60 180)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><path d="M-24 18 V-4 L0 -18 L24 -4 V18 Z" fill="var(--mud-bank)" stroke="var(--mud-text)" stroke-width="2" stroke-linejoin="round"/><rect x="-16" y="0" width="32" height="4" fill="var(--mud-silver)"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle">The Hide</text></g>
+<g class="mud-node" data-node="reedbed" transform="translate(60 300)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><path d="M-24 20 Q-22 0 -19 -14" fill="none" stroke="var(--mud-reed)" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="-19" cy="-16" rx="2" ry="5" fill="var(--mud-reed)"/><path d="M-16 20 Q-14 0 -11 -19" fill="none" stroke="var(--mud-reed)" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="-11" cy="-21" rx="2" ry="5" fill="var(--mud-reed)"/><path d="M-8 20 Q-6 0 -3 -24" fill="none" stroke="var(--mud-reed)" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="-3" cy="-26" rx="2" ry="5" fill="var(--mud-reed)"/><path d="M0 20 Q2 0 5 -14" fill="none" stroke="var(--mud-reed)" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="5" cy="-16" rx="2" ry="5" fill="var(--mud-reed)"/><path d="M8 20 Q10 0 13 -19" fill="none" stroke="var(--mud-reed)" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="13" cy="-21" rx="2" ry="5" fill="var(--mud-reed)"/><path d="M16 20 Q18 0 21 -24" fill="none" stroke="var(--mud-reed)" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="21" cy="-26" rx="2" ry="5" fill="var(--mud-reed)"/><path d="M24 20 Q26 0 29 -14" fill="none" stroke="var(--mud-reed)" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="29" cy="-16" rx="2" ry="5" fill="var(--mud-reed)"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle">The Reedbed</text></g>
+<g class="mud-node" data-node="saltmarsh" transform="translate(180 300)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><path d="M-26 14 Q-8 4 0 14 T26 10" fill="none" stroke="var(--mud-silver)" stroke-width="2.4" stroke-linecap="round"/><path d="M-18 2 v-10 M-21 2 v-7 M-15 2 v-7" stroke="var(--mud-marsh)" stroke-width="2" stroke-linecap="round"/><path d="M-4 -6 v-10 M-7 -6 v-7 M-1 -6 v-7" stroke="var(--mud-marsh)" stroke-width="2" stroke-linecap="round"/><path d="M12 -2 v-10 M9 -2 v-7 M15 -2 v-7" stroke="var(--mud-marsh)" stroke-width="2" stroke-linecap="round"/><path d="M20 20 v-10 M17 20 v-7 M23 20 v-7" stroke="var(--mud-marsh)" stroke-width="2" stroke-linecap="round"/><path d="M-12 22 v-10 M-15 22 v-7 M-9 22 v-7" stroke="var(--mud-marsh)" stroke-width="2" stroke-linecap="round"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle">The Saltmarsh</text></g>
+<g class="mud-node" data-node="tea-hut" transform="translate(300 180)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><path d="M-22 18 V-4 L-24 -6 H24 L22 -4 V18 Z" fill="var(--mud-bank)" stroke="var(--mud-text)" stroke-width="2" stroke-linejoin="round"/><path d="M-24 -6 L-6 -22 H24 L24 -6" fill="none" stroke="var(--mud-text)" stroke-width="1.6"/><rect x="-12" y="4" width="24" height="14" fill="var(--mud-ground)"/><path d="M2 -26 q-4 -5 0 -10 q4 -5 0 -10" fill="none" stroke="var(--mud-silver)" stroke-width="1.6" stroke-linecap="round"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle">The Tea Hut</text></g>
+<g class="mud-node" data-node="tide-mill" transform="translate(420 180)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><rect x="-22" y="-14" width="30" height="34" fill="var(--mud-sky)" stroke="var(--mud-text)" stroke-width="1.6"/><path d="M-24 -14 L-7 -28 L10 -14 Z" fill="var(--mud-bank)" stroke="var(--mud-text)" stroke-width="1.6" stroke-linejoin="round"/><path d="M-22 -4 H8 M-22 6 H8" stroke="var(--mud-dim)" stroke-width="1"/><circle cx="16" cy="10" r="11" fill="none" stroke="var(--mud-silver)" stroke-width="2"/><path d="M16 -1 V21 M5 10 H27 M8 2 L24 18 M24 2 L8 18" stroke="var(--mud-silver)" stroke-width="1.3"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle">The Tide Mill</text></g>
+<g class="mud-node" data-node="wheel-pit" transform="translate(540 180)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><rect x="-22" y="-20" width="44" height="40" rx="4" fill="var(--mud-deep)" stroke="var(--mud-dim)" stroke-width="1.6"/><path d="M-8 -20 V20 M8 -20 V20 M-8 -12 H8 M-8 -4 H8 M-8 4 H8 M-8 12 H8" stroke="var(--mud-text)" stroke-width="1.6"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle">The Wheel Pit</text></g>
+<g class="mud-node" data-node="mudlarks-hut" transform="translate(300 300)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><path d="M-22 4 V-12 L0 -24 L22 -12 V4 Z" fill="var(--mud-bank)" stroke="var(--mud-text)" stroke-width="2" stroke-linejoin="round"/><path d="M-18 4 V24 M-6 4 V24 M6 4 V24 M18 4 V24" stroke="var(--mud-text)" stroke-width="2"/><rect x="-14" y="-8" width="28" height="7" fill="var(--mud-silver)"/><path d="M-10 -4.5 h3 M-3 -4.5 h2 M4 -4.5 h4" stroke="var(--mud-ground)" stroke-width="2"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle">The Mudlarks’ Hut</text></g>
+<g class="mud-node" data-node="creek" transform="translate(420 300)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><path d="M-26 -18 Q0 -10 -4 4 T26 22" fill="none" stroke="var(--mud-silver)" stroke-width="7" stroke-linecap="round"/><path d="M6 8 V-12 Q6 -20 12 -20 L16 -18 M6 -2 Q-2 -2 -2 6 L6 8" fill="none" stroke="var(--mud-text)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 8 L2 16 M8 8 L9 16" stroke="var(--mud-text)" stroke-width="1.4"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle" font-style="italic">The Creek</text></g>
+<g class="mud-node" data-node="boathouse" transform="translate(540 300)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><path d="M-24 22 V-8 L0 -26 L24 -8 V22" fill="var(--mud-bank)" stroke="var(--mud-text)" stroke-width="2" stroke-linejoin="round"/><path d="M-14 8 Q0 18 14 8" fill="none" stroke="var(--mud-reed)" stroke-width="2.4" stroke-linecap="round"/><path d="M-8 10 V2 M0 13 V2 M8 10 V2" stroke="var(--mud-reed)" stroke-width="1.4"/><path d="M-12 12 V22 M12 12 V22" stroke="var(--mud-text)" stroke-width="1.6"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle">The Boathouse</text></g>
+<g class="mud-node" data-node="foreshore" data-tidal transform="translate(180 420)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><path d="M-28 -2 Q0 -12 28 -2" fill="none" stroke="var(--mud-marsh)" stroke-width="2"/><circle cx="-18" cy="8" r="2.2" fill="var(--mud-dim)"/><circle cx="-8" cy="14" r="1.6" fill="var(--mud-dim)"/><circle cx="4" cy="6" r="2" fill="var(--mud-dim)"/><circle cx="14" cy="16" r="2.4" fill="var(--mud-dim)"/><circle cx="22" cy="6" r="1.6" fill="var(--mud-dim)"/><circle cx="-2" cy="22" r="1.8" fill="var(--mud-dim)"/><rect x="-14" y="18" width="10" height="2.6" rx="1.3" fill="var(--mud-sky)"/><circle cx="10" cy="-4" r="2.6" fill="var(--mud-glass)"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle">The Foreshore</text></g>
+<g class="mud-node" data-node="mudflat" data-tidal transform="translate(300 420)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><path d="M-28 16 Q-6 8 4 14 T28 8" fill="none" stroke="var(--mud-silver)" stroke-width="3" stroke-linecap="round"/><path d="M-18 -4 q3 -3 0 -5 q-3 -2 0 -4" fill="none" stroke="var(--mud-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M-4 -10 q3 -3 0 -5 q-3 -2 0 -4" fill="none" stroke="var(--mud-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M10 -2 q3 -3 0 -5 q-3 -2 0 -4" fill="none" stroke="var(--mud-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M20 -14 q3 -3 0 -5 q-3 -2 0 -4" fill="none" stroke="var(--mud-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M-12 6 q3 -3 0 -5 q-3 -2 0 -4" fill="none" stroke="var(--mud-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M14 2 q-2 -8 4 -10 l6 3" fill="none" stroke="var(--mud-text)" stroke-width="1.6" stroke-linecap="round"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle">The Mudflat</text></g>
+<g class="mud-node" data-node="ferry-steps" transform="translate(420 420)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><path d="M-24 -18 H-12 V-10 H-2 V-2 H8 V6 H18" fill="none" stroke="var(--mud-text)" stroke-width="2" stroke-linejoin="round"/><path d="M-20 -18 V-30 M-20 -28 H-14" stroke="var(--mud-text)" stroke-width="1.6"/><path d="M-15 -28 q1 6 -1 6 h4 q-2 0 -1 -6" fill="var(--mud-welly)"/><path d="M0 16 Q14 24 28 16 L24 22 Q14 28 4 22 Z" fill="var(--mud-bank)" stroke="var(--mud-text)" stroke-width="1.6" stroke-linejoin="round"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle">The Ferry Steps</text></g>
+<g class="mud-node" data-node="causeway" data-tidal transform="translate(300 540)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><path d="M0 -30 V30" stroke="var(--mud-dim)" stroke-width="10"/><path d="M-9 -14 v-12" stroke="var(--mud-text)" stroke-width="2.2" stroke-linecap="round"/><path d="M9 -2 v-12" stroke="var(--mud-text)" stroke-width="2.2" stroke-linecap="round"/><path d="M-9 10 v-12" stroke="var(--mud-text)" stroke-width="2.2" stroke-linecap="round"/><path d="M9 22 v-12" stroke="var(--mud-text)" stroke-width="2.2" stroke-linecap="round"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle">The Causeway</text></g>
+<g class="mud-node" data-node="holm" transform="translate(300 660)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><ellipse cx="0" cy="12" rx="28" ry="12" fill="var(--mud-land)" stroke="var(--mud-marsh)" stroke-width="2"/><rect x="-4" y="-26" width="8" height="34" fill="var(--mud-sky)" stroke="var(--mud-text)" stroke-width="1.2"/><path d="M-4 -18 H4 M-4 -10 H4 M-4 -2 H4" stroke="var(--mud-deep)" stroke-width="4"/><circle cx="16" cy="10" r="3.4" fill="none" stroke="var(--mud-text)" stroke-width="1.4"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle">The Holm</text></g>
+<g class="mud-node" data-node="beacon-top" transform="translate(420 660)"><circle class="mud-node__ring" r="36"/><g class="mud-node__draw"><circle cx="0" cy="0" r="24" fill="none" stroke="var(--mud-silver)" stroke-width="1.6" stroke-dasharray="2 4"/><rect x="-11" y="-11" width="22" height="22" fill="var(--mud-bank)" stroke="var(--mud-text)" stroke-width="2"/><path d="M-11 -4 H11 M-11 4 H11" stroke="var(--mud-sky)" stroke-width="3"/></g><text class="mud-node__q" y="7" text-anchor="middle">?</text><text class="mud-node__name" y="52" text-anchor="middle">The Top of the Beacon</text></g>
+<g class="mud-me" id="mud-me" transform="translate(180 60)"><g transform="translate(27 -27)"><circle r="15" fill="var(--mud-deep)"/><ellipse cx="0" cy="-3" rx="5.5" ry="7.5" fill="var(--mud-welly)"/><ellipse cx="0" cy="8" rx="4.2" ry="3.8" fill="var(--mud-welly)"/><path d="M-3 -6 H3 M-3 -2 H3" stroke="var(--mud-deep)" stroke-width="1.2"/></g></g>
+</svg>
+          <!-- mud:map:end -->
+        </div>
+        <div class="mud-side">
+          <div class="mud-here">
+            <p class="mud-here__tide" id="mud-tide"></p>
+            <h3 class="mud-here__name" id="mud-here-name">The MUD Room</h3>
+            <div class="mud-here__text" id="mud-here-text"></div>
+            <div class="mud-here__row" id="mud-here-things"></div>
+            <div class="mud-here__row" id="mud-here-people"></div>
+          </div>
+          <div class="mud-ways-now" role="group" aria-labelledby="mud-ways-lab">
+            <p class="mud-lab" id="mud-ways-lab">Ways on</p>
+            <div class="mud-btns" id="mud-exits"></div>
+          </div>
+          <div class="mud-acts" role="group" aria-label="Things you can do anywhere">
+            <div class="mud-btns">
+              <button type="button" class="mud-btn" data-cmd="look">Look around</button>
+              <button type="button" class="mud-btn" data-cmd="wait">Wait for the tide</button>
+              <button type="button" class="mud-btn" data-cmd="inventory">What am I carrying?</button>
+              <button type="button" class="mud-btn" data-cmd="home">Home</button>
+              <button type="button" class="mud-btn" data-cmd="help">Help</button>
+            </div>
+          </div>
+          <form class="mud-cmd" id="mud-form" autocomplete="off">
+            <label class="mud-lab" for="mud-in">Or type what you want to do</label>
+            <span class="mud-cmd__row"><span class="mud-cmd__prompt" aria-hidden="true">&gt;</span><input class="mud-cmd__in" id="mud-in" type="text" autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="look at the view"><button type="submit" class="mud-btn mud-btn--go">Do it</button></span>
+          </form>
+          <div class="mud-log" id="mud-log" role="log" aria-live="polite" aria-label="What happens"></div>
+        </div>
+      </div>
+<!-- mud:lines:begin -->
+      <div class="mud-lines" hidden>
+        <p data-line="home">However far out you were, the way back is always open. You are in the MUD Room, and you can take your boots off.</p>
+        <p data-line="say">There is nobody out here to hear it yet. The Slake is a multi-user dungeon with one user so far, and it says why on the page.</p>
+        <p data-line="sit">You sit down where you are for a while. Nothing is asked of you.</p>
+        <p data-line="slide">You sit down at the top of the polished mud and let go. You are in the channel at the bottom a moment later, a great deal muddier, which was the idea.</p>
+        <p data-line="dark-blocked">It is too dark to see anything down here. Something to see by would help.</p>
+        <p data-line="unknown">The Slake does not know that word. Say help for the words it does know, or use the buttons, which do everything the words do.</p>
+        <p data-line="wait-to-high">You wait. The water comes in over the mud, quietly at first and then all at once, filling the creeks from the bottom up. The tide is in.</p>
+        <p data-line="wait-to-low">You wait. The water goes out the way it came, draining off the mud into the creeks and down them to the sea. The tide is out.</p>
+        <p data-line="wait-not-here">Not out here. The tide can come in across flat mud very fast, so the Slake only lets you wait for it somewhere dry: up on the marsh, on the wall, or out on the island.</p>
+        <p data-line="closed-low">That way is under water while the tide is in. Wait somewhere dry for it to go out, or find another way round.</p>
+        <p data-line="closed-high">The ferry only runs while the tide is in, and just now the boat is sitting on the mud. While the tide is out you can walk to the island along the causeway.</p>
+        <p data-line="nothing">There is nothing like that here. The things you can look at here are listed beside the map, and under Here.</p>
+      </div>
+      <!-- mud:lines:end -->
+    </div>
+  </section>
+
+  <section class="mud-part" aria-labelledby="mud-how-h">
+    <h2 id="mud-how-h">How to play</h2>
+    <p>Every button does what a word does, so you never have to type. If you would rather type, these are the words the Slake knows, and most of them take a shorter form.</p>
+    <dl class="mud-words">
+      <dt><code>north</code>, <code>south</code>, <code>east</code>, <code>west</code>, <code>up</code>, <code>down</code>, <code>across</code></dt><dd>Go that way. <code>n</code>, <code>s</code>, <code>e</code>, <code>w</code>, <code>u</code> and <code>d</code> work too, and so does <code>go</code> in front.</dd>
+      <dt><code>look</code></dt><dd>Say where you are again. <code>look at</code> something, or <code>examine</code> it, or <code>x</code> it, to see it properly.</dd>
+      <dt><code>take</code> and <code>drop</code></dt><dd>Pick something up and put it down again somewhere else. <code>wear</code> the wellies, or <code>take off</code> the wellies.</dd>
+      <dt><code>talk to</code> somebody</dt><dd>Say hello. Talk to them again and they tell you what they are doing, and what it is called.</dd>
+      <dt><code>show</code> a find</dt><dd>At the Mudlarks&rsquo; Hut, show Ada something from the foreshore and it goes on the table.</dd>
+      <dt><code>wait</code></dt><dd>Wait for the tide to turn. It only turns when you do this, and only somewhere dry.</dd>
+      <dt><code>home</code></dt><dd>Straight back to the MUD Room, from anywhere.</dd>
+      <dt><code>sit</code>, <code>slide</code>, <code>ring</code>, <code>join in</code></dt><dd>For the places that have somewhere to sit, a slide, a bell and a boat.</dd>
+      <dt><code>help</code></dt><dd>These words again.</dd>
+    </dl>
+    <p>What happens is written into the box under the buttons, newest at the foot, and a screen reader reads each line out as it arrives. The map shows where you have been and the ways you have seen but not taken yet. It is a picture of the same words, so there is nothing on it you cannot also find by reading.</p>
+  </section>
+
+  <section class="mud-part" aria-labelledby="mud-rules-h" id="house-rules">
+    <h2 id="mud-rules-h">House rules</h2>
+    <ol class="mud-rules">
+      <li><strong>Nobody to fight.</strong> There is no combat anywhere on the Slake, nothing has hit points, nothing chases you, and nothing can hurt you. You cannot fall in: at the edge of the water the Slake stops you and says why.</li>
+      <li><strong>Nothing is counted.</strong> No score, no points, no levels, no rank, and no count of how much of the Slake you have seen. Ultima Online, which this room owes its first idea to, gives you skills that go up with use. The Slake gives you nothing to grow but what you notice, and the map is a record of where you went rather than a total of it.</li>
+      <li><strong>The tide turns when you wait for it, and not before.</strong> Nothing out there runs on a clock. The tide is in or out until you say wait, somewhere dry, and then it turns. That is the street&rsquo;s oldest promise, that nothing moves until you say so, made into weather.</li>
+      <li><strong>Say home and you are home.</strong> However far out you get, one word or one button brings you back to the MUD Room, and from every place there is also a walk back at every tide it can be reached at. The tool that builds the Slake will not build a place without one, or a way on without a way back.</li>
+      <li><strong>The words are the game.</strong> Every place, thing and person is written out, and the map is drawn from the same words. With scripts off, the whole Slake is the guidebook at the foot of this page, and its ways on are links you can follow.</li>
+      <li><strong>Nobody teaches and nobody tests.</strong> Each person out there is doing something our glossary has an entry for, and if you talk to them twice they tell you its name, linked. That is all the learning there is. Nothing quizzes you, and nothing has to be understood before anything else opens.</li>
+      <li><strong>Nothing is kept, sent or heard.</strong> The Slake keeps nothing when you close the page, sends nothing anywhere, and makes no sound. The tide goes back out and the finds go back on the foreshore.</li>
+      <li><strong>Nothing out there is a field guide.</strong> There is samphire on the marsh and a heron in the creek, and the Slake says what they look like and what they are doing. It will never tell you what is safe to pick or eat.</li>
+    </ol>
+  </section>
+
+  <section class="mud-part" aria-labelledby="mud-others-h" id="nobody-else">
+    <h2 id="mud-others-h">Nobody else here yet</h2>
+    <p>A MUD is multi-user, and this one has one user so far, which is you. The other half waits on <a href="community-center.html">the CB</a>, the street&rsquo;s radio, which is built and not yet switched on. A world that other people walk around in needs the same things the radio needs first: a password somebody gives out, somebody holding the base station, and house norms.</p>
+    <p>When it is built, two things about it are already settled. <strong>You are seen by your CB handle only if you choose to be</strong>, on each visit, and nobody is listed or counted: there is no list of who is out there and no number of people on the mud. <strong>And each place on the Slake has a channel of its own</strong>, under the CB&rsquo;s rules, which <a href="privacy.html">the privacy page</a> sets out. Until then the logbook in the hide is empty, and the peg at the end of the row is free.</p>
+  </section>
+
+  <section class="mud-part" aria-labelledby="mud-whose-h">
+    <h2 id="mud-whose-h">Whose this is</h2>
+    <p><strong>The Slake is ours.</strong> Every place, thing and person on it was invented for this room, and it takes nothing from any other game except the idea of one. The brief was Ryan&rsquo;s: a non-violent graphical MUD set in Stimpunks.World, for exploring and learning, with <a href="https://www.youtube.com/watch?v=35SKawn2SDI">Majuular&rsquo;s <cite>Ultima Online Retrospective | The Last Hurrah</cite></a> as its inspiration. <a href="https://en.wikipedia.org/wiki/Ultima_Online">Ultima Online</a> was released by Origin Systems in 1997.</p>
+    <p><strong>The games it comes after.</strong> <a href="https://mud.co.uk/richard/mudhist.htm">Richard Bartle&rsquo;s own history</a> dates the first MUD to the autumn of 1978, when Roy Trubshaw wrote its first version at Essex. <a href="https://www.dourish.com/publications/mud-intro.html">Paul Dourish&rsquo;s introduction to MUDs</a> says that when Jim Aspnes wrote TinyMUD in 1989 he set out to discard combat altogether, which is the Slake&rsquo;s first rule thirty-odd years early. Lucasfilm&rsquo;s <a href="https://en.wikipedia.org/wiki/Habitat_(video_game)">Habitat</a>, by Chip Morningstar and Randy Farmer with Aric Wilmunder and Janet Hunter, went into beta in 1986 as the first graphical virtual world. And Amy Bruckman&rsquo;s <a href="https://en.wikipedia.org/wiki/MOO">MOOSE Crossing</a>, from 1996, was a MOO for children aged nine to thirteen who learned to program by building things in it, which our glossary would call <a href="https://stimpunks.org/glossary/constructionism/">constructionism</a>.</p>
+    <p><strong>The name.</strong> <a href="https://en.wiktionary.org/wiki/slake">Wiktionary</a> gives <em>slake</em> as a tidal wetland, and its 1868 quotation calls slakes common in Northumberland. The Slake is not any of them.</p>
+<!-- mud:checked:begin -->
+    <p class="mud-further">Checked 2026-09-27 against sources read that day rather than remembered, and the page says so where it uses them. A tide mill's pond fills through a one-way gate on the rising tide and is let out through the wheel once the tide has fallen (Wikipedia, Tide mill). Common reed spreads mainly by rhizomes and stolons once established (North Carolina DEQ). Glasswort, which is samphire, grows on saltmarshes and is a pioneer on intertidal mud (Wildlife Trusts; JNCC). Grey herons may stand motionless in the shallows waiting for prey, and curlews feed by probing soft mud with a very long curved bill (Wikipedia). The Thames foreshore is littered with clay pipes, mostly fragments of stems (London Museum). A day beacon is an unlighted sea mark, and its daymark is the part made to be seen in daylight (Wikipedia). 'Slake' is a tidal wetland in Wiktionary, and its 1868 quotation calls slakes common in Northumberland.</p>
+<!-- mud:checked:end -->
+    <p class="mud-further">The Slake&rsquo;s map and the view from the back step are drawn for this room. The type is credited in <a href="liner-notes.html#the-mud-room">the liner notes</a>, with every resident and the entry in our glossary they point at.</p>
+  </section>
+
+  <section class="mud-part" aria-labelledby="mud-book-h" id="guidebook">
+    <h2 id="mud-book-h">The whole Slake, as a guidebook</h2>
+    <p>Everything the game knows, written out as a book, for reading instead of playing or as well as it. The game is built from this, so they never disagree. It gives away every place, so it starts closed when the game is running.</p>
+    <details class="mud-book" id="mud-book" open>
+      <summary>Open the guidebook</summary>
+<!-- mud:book:begin -->
+      <article class="mud-place" id="mud-at-mud-room" data-place="mud-room" data-x="1" data-y="0">
+        <h3 class="mud-place__name">The MUD Room</h3>
+        <p class="mud-text" data-when="any">A narrow room at the back of the shop, with a bench along one wall, coats on pegs above it and a rack of boots under that, every one of them muddy. The back door has a window in it, and through the window is a great deal of sky. Everybody who goes out onto the Slake comes back in through here, which is the whole reason it is called a mud room.</p>
+        <p class="mud-sit"><span class="mud-when">If you sit down.</span> You sit on the bench by the boots for a while. Nobody asks you where you are going.</p>
+        <ul class="mud-things">
+          <li class="mud-thing" data-thing="wellies" data-words="wellies|wellington boots|boots|welly|wellingtons" data-take data-wear><b class="mud-thing__name">a pair of yellow wellies</b>. <span class="mud-look" data-when="any">A pair of yellow wellington boots, your size, whatever your size is. You can wear them out onto the mud, or go barefoot. The Slake is fine with either.</span></li>
+          <li class="mud-thing" data-thing="pegs" data-words="pegs|peg|coats|coat|hats"><b class="mud-thing__name">the coat pegs</b>. <span class="mud-look" data-when="any">A row of coat pegs with coats and hats on them, and one empty peg at the end, for whoever comes next.</span></li>
+          <li class="mud-thing" data-thing="noticeboard" data-words="noticeboard|notice|board|card"><b class="mud-thing__name">the noticeboard</b>. <span class="mud-look" data-when="any">A card pinned up by the back door, in capitals: NOBODY TO FIGHT. NOTHING IS COUNTED. THE TIDE TURNS WHEN YOU WAIT FOR IT, AND NOT BEFORE. SAY HOME AND YOU ARE HOME.</span></li>
+          <li class="mud-thing" data-thing="bench" data-words="bench|seat"><b class="mud-thing__name">the bench</b>. <span class="mud-look" data-when="any">A bench for sitting on to take your boots off, or to put them on, or neither.</span></li>
+        </ul>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-sea-wall" data-dir="south" data-to="sea-wall">South, out the back door, up onto the sea wall</a></p>
+        <p class="mud-leave"><a href="index.html">Out the front door, back to the street</a></p>
+      </article>
+      <article class="mud-place" id="mud-at-sea-wall" data-place="sea-wall" data-x="1" data-y="1">
+        <h3 class="mud-place__name">The Sea Wall</h3>
+        <p class="mud-text" data-when="low"><span class="mud-when">At low tide.</span> You are up on the sea wall, a long grassed bank with a path along the top. Behind you is the back of the shop. In front of you the Slake opens out below: marsh, then mud, then channels of water lying in the mud and holding the sky, all the way out to a small island with a striped mark standing on it. The tide is out.</p>
+        <p class="mud-text" data-when="high"><span class="mud-when">At high tide.</span> You are up on the sea wall, a long grassed bank with a path along the top. Behind you is the back of the shop. In front of you the marsh runs down to a sheet of pale water where the mud was, and the small island with the striped mark on it is properly an island now. The tide is in.</p>
+        <ul class="mud-things">
+          <li class="mud-thing" data-thing="view" data-words="view|slake|island|sky"><b class="mud-thing__name">the view</b>. <span class="mud-look" data-when="low"><span class="mud-when">At low tide.</span> Marsh first, green and cut up by little creeks, then a great flat of shining mud, then the island with its striped beacon. To the left, the reeds and a hut with a slot in it. To the right, a white mill and a tall shed by the creek. Nothing out there is in a hurry.</span><span class="mud-look" data-when="high"><span class="mud-when">At high tide.</span> Marsh first, then a sheet of pale water all the way to the island, with the tops of the causeway posts standing out of it in a line. To the right the creek is brim full, and there is a rowing boat out on it.</span></li>
+        </ul>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-mud-room" data-dir="north" data-to="mud-room">North, in at the back door</a> &middot; <a class="mud-way" href="#mud-at-hide" data-dir="west" data-to="hide">West, along the wall to the hide</a> &middot; <a class="mud-way" href="#mud-at-tea-hut" data-dir="east" data-to="tea-hut">East, along the wall to the tea hut</a> &middot; <a class="mud-way" href="#mud-at-saltmarsh" data-dir="south" data-to="saltmarsh">South, down the steps onto the marsh</a></p>
+      </article>
+      <article class="mud-place" id="mud-at-hide" data-place="hide" data-x="0" data-y="1">
+        <h3 class="mud-place__name">The Hide</h3>
+        <p class="mud-text" data-when="any">A wooden hut at the west end of the wall with one long slot of a window facing the marsh, a bench under the slot, and two people on the bench, watching. Nobody speaks above a murmur in a hide, and nobody has to speak at all.</p>
+        <p class="mud-sit"><span class="mud-when">If you sit down.</span> You sit on the end of the bench and look out through the slot. Wren and Tam do not look round, and that is a welcome.</p>
+        <ul class="mud-things">
+          <li class="mud-thing" data-thing="slot" data-words="slot|window|birds|marsh"><b class="mud-thing__name">the slot of a window</b>. <span class="mud-look" data-when="any">Through the slot: the marsh, the creeks, a line of mud beyond, and birds getting on with things because nobody is bothering them. The slot is exactly as wide as it needs to be and not an inch wider.</span></li>
+          <li class="mud-thing" data-thing="logbook" data-words="logbook|log|book|pencil"><b class="mud-thing__name">the logbook</b>. <span class="mud-look" data-when="any">A logbook on a string, with a pencil on another string, for writing down what you saw. Its pages are empty. So far the Slake has only ever had one visitor at a time, and this one is you.</span></li>
+        </ul>
+        <ul class="mud-people">
+          <li class="mud-person" data-person="watchers" data-words="wren|tam|wren and tam|watchers|them|people"><b class="mud-person__name">Wren and Tam</b>. <span class="mud-here">Wren and Tam are on the bench, watching the marsh.</span> <span class="mud-says">Wren glances round, smiles, and goes back to watching. Tam shifts along the bench to make room for you. That is the whole conversation, and it is a good one.</span> <span class="mud-says">Sitting side by side with nothing to say and no need to say it has a name. Our glossary calls it <a href="https://stimpunks.org/glossary/parallel-play/">Parallel Play</a>: being alone together, in the same place, where just being there with each other counts.</span></li>
+        </ul>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-sea-wall" data-dir="east" data-to="sea-wall">East, back along the wall</a> &middot; <a class="mud-way" href="#mud-at-reedbed" data-dir="south" data-to="reedbed">South, down the boardwalk into the reeds</a></p>
+      </article>
+      <article class="mud-place" id="mud-at-reedbed" data-place="reedbed" data-x="0" data-y="2">
+        <h3 class="mud-place__name">The Reedbed</h3>
+        <p class="mud-text" data-when="any">A boardwalk runs into reeds taller than you are, and the whole world goes to pale stems and a strip of sky. They hiss when the wind moves them. You cannot see far in here, which is what some people come in here for.</p>
+        <ul class="mud-things">
+          <li class="mud-thing" data-thing="reeds" data-words="reeds|reed|stems"><b class="mud-thing__name">the reeds</b>. <span class="mud-look" data-when="any">Every reed in here is joined to others under the mud. Once a reedbed has taken hold it spreads by stems that run along underground and put up new shoots, so a bed that looks like thousands of plants may be only a few. Our glossary has an entry for the same shape in people: the <a href="https://stimpunks.org/glossary/autistic-rhizome/">Autistic Rhizome</a>.</span></li>
+        </ul>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-hide" data-dir="north" data-to="hide">North, back up the boardwalk to the hide</a> &middot; <a class="mud-way" href="#mud-at-saltmarsh" data-dir="east" data-to="saltmarsh">East, out of the reeds onto the marsh</a></p>
+      </article>
+      <article class="mud-place" id="mud-at-saltmarsh" data-place="saltmarsh" data-x="1" data-y="2">
+        <h3 class="mud-place__name">The Saltmarsh</h3>
+        <p class="mud-text" data-when="any">Low ground under the wall, cropped short and cut through with little creeks, with samphire standing up out of the wettest patches like small green fingers. The sea only comes over it at the highest tides, and then only for a while.</p>
+        <ul class="mud-things">
+          <li class="mud-thing" data-thing="samphire" data-words="samphire|glasswort|fingers|plants"><b class="mud-thing__name">the samphire</b>. <span class="mud-look" data-when="any">Short, jointed, fleshy green stems with no leaves to speak of, standing up out of the wettest mud on the marsh. It grows where hardly anything else will, out at the very edge of the land, and it is the first thing to grow there.</span></li>
+          <li class="mud-thing" data-thing="stake" data-words="stake|tag|square|survey"><b class="mud-thing__name">the survey stake</b>. <span class="mud-look" data-when="any">A wooden stake with a tag on it, marking one square metre of marsh that Juno comes back to look at, season after season, to see what has changed.</span></li>
+        </ul>
+        <ul class="mud-people">
+          <li class="mud-person" data-person="juno" data-words="juno|warden"><b class="mud-person__name">Juno</b>. <span class="mud-here">Juno is kneeling at the survey stake with a notebook.</span> <span class="mud-says">Juno is looking at the same square metre of marsh they looked at last month, and the month before that, and writing down what has changed. They show you: a new shoot here, a little more mud there.</span> <span class="mud-says">The best way Juno knows to learn about a place is to keep coming back to the ground you are standing on and looking at it properly. Our glossary calls that <a href="https://stimpunks.org/glossary/place-based-education/">Place-Based Education</a>: learning that happens in the natural, cultural and built places around you.</span></li>
+        </ul>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-sea-wall" data-dir="north" data-to="sea-wall">North, up the steps to the wall</a> &middot; <a class="mud-way" href="#mud-at-reedbed" data-dir="west" data-to="reedbed">West, into the reeds</a> &middot; <a class="mud-way" href="#mud-at-mudlarks-hut" data-dir="east" data-to="mudlarks-hut">East, along the edge of the marsh to the hut on stilts</a> &middot; <a class="mud-way" href="#mud-at-foreshore" data-dir="south" data-to="foreshore" data-tide="low">South, down onto the foreshore (while the tide is out)</a></p>
+      </article>
+      <article class="mud-place" id="mud-at-tea-hut" data-place="tea-hut" data-x="2" data-y="1">
+        <h3 class="mud-place__name">The Tea Hut</h3>
+        <p class="mud-text" data-when="any">A hut on the wall with its front propped open, a kettle that is always nearly boiling, benches outside it and a sign that says NOTHING TO BUY. There are tin mugs on hooks and a biscuit tin that is somehow never empty.</p>
+        <p class="mud-sit"><span class="mud-when">If you sit down.</span> You sit on a bench outside the hut with a mug going cold in your hands. Moss does not ask whether you want another one. They just bring it.</p>
+        <ul class="mud-things">
+          <li class="mud-thing" data-thing="kettle" data-words="kettle|tea|mug|mugs|biscuits|tin"><b class="mud-thing__name">the kettle</b>. <span class="mud-look" data-when="any">Nearly boiling, as it always is. The mugs are tin and chipped and there is always one free.</span></li>
+          <li class="mud-thing" data-thing="sign" data-words="sign"><b class="mud-thing__name">the sign</b>. <span class="mud-look" data-when="any">NOTHING TO BUY, in white paint on a board. It has never said anything else.</span></li>
+        </ul>
+        <ul class="mud-people">
+          <li class="mud-person" data-person="moss" data-words="moss"><b class="mud-person__name">Moss</b>. <span class="mud-here">Moss is behind the counter, keeping the kettle nearly boiling.</span> <span class="mud-says">Moss pours you tea into a tin mug and does not ask for anything back, because there is nothing to ask for. The sign says so.</span> <span class="mud-says">The tea hut is not anybody's home and it is not anybody's work, and nobody has to buy anything to sit in it. That is what our glossary means by one of the <a href="https://stimpunks.org/glossary/third-places/">Third Places</a>: somewhere with regulars, a level floor and no price at the door.</span></li>
+        </ul>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-sea-wall" data-dir="west" data-to="sea-wall">West, along the wall</a> &middot; <a class="mud-way" href="#mud-at-tide-mill" data-dir="east" data-to="tide-mill">East, along the wall to the mill</a> &middot; <a class="mud-way" href="#mud-at-mudlarks-hut" data-dir="south" data-to="mudlarks-hut">South, down the steps to the hut on stilts</a></p>
+      </article>
+      <article class="mud-place" id="mud-at-tide-mill" data-place="tide-mill" data-x="3" data-y="1">
+        <h3 class="mud-place__name">The Tide Mill</h3>
+        <p class="mud-text" data-when="low"><span class="mud-when">At low tide.</span> A white weatherboarded mill standing where the creek meets the wall, with a millpond behind it. The tide is out, and the pond is still full, because the gates shut on the water when the sea went down. Now the mill is letting that water out through the wheel, slowly, and the whole building is humming with it.</p>
+        <p class="mud-text" data-when="high"><span class="mud-when">At high tide.</span> A white weatherboarded mill standing where the creek meets the wall, with a millpond behind it. The tide is in, and the rising sea has pushed the gates open and is filling the pond. The wheel is still. The mill is waiting for the water to go down again, because that is the only time it can work.</p>
+        <ul class="mud-things">
+          <li class="mud-thing" data-thing="gates" data-words="gates|gate|sluice|pond|millpond"><b class="mud-thing__name">the tide gates</b>. <span class="mud-look" data-when="low"><span class="mud-when">At low tide.</span> The gates are shut against the pond. They are hung so that the falling tide leaves them closed and the water is kept in, and nobody has to work them.</span><span class="mud-look" data-when="high"><span class="mud-when">At high tide.</span> The gates are standing open. They are hung so that the rising tide pushes them open on its own and fills the pond, and nobody has to work them.</span></li>
+          <li class="mud-thing" data-thing="wheel" data-words="wheel|waterwheel|stones|millstones"><b class="mud-thing__name">the wheel</b>. <span class="mud-look" data-when="low"><span class="mud-when">At low tide.</span> The pond water is going out through the wheel and the wheel is turning, slowly, and turning the stones upstairs.</span><span class="mud-look" data-when="high"><span class="mud-when">At high tide.</span> The wheel is still. It will turn again when the tide has gone out far enough to let the pond water through it.</span></li>
+        </ul>
+        <ul class="mud-people">
+          <li class="mud-person" data-person="ottilie" data-words="ottilie|miller"><b class="mud-person__name">Ottilie</b>. <span class="mud-here">Ottilie the miller is here, dusted with flour.</span> <span class="mud-says">Ottilie is watching the stones and does not hear you the first time. When they do, they blink, as if they had come back from a long way off.</span> <span class="mud-says">When the wheel is turning Ottilie loses track of the hours completely, and is glad to. Our glossary calls that <a href="https://stimpunks.org/glossary/monotropic-time/">Monotropic Time</a>, in Helen Edgar's words: being so wholly inside something you love that ordinary time dissolves.</span></li>
+        </ul>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-tea-hut" data-dir="west" data-to="tea-hut">West, along the wall to the tea hut</a> &middot; <a class="mud-way" href="#mud-at-creek" data-dir="south" data-to="creek">South, down the bank to the creek</a> &middot; <a class="mud-way" href="#mud-at-wheel-pit" data-dir="down" data-to="wheel-pit">Down, down the ladder into the wheel pit</a></p>
+      </article>
+      <article class="mud-place" id="mud-at-wheel-pit" data-place="wheel-pit" data-x="4" data-y="1" data-dark>
+        <h3 class="mud-place__name">The Wheel Pit</h3>
+        <p class="mud-text" data-when="dark"><span class="mud-when">Without a light.</span> Down the ladder, under the mill floor, it is completely dark. You can hear water close by and feel the damp coming off the stone. Your hand finds a wooden beam, worn smooth, with something cut into it that you cannot read by touch.</p>
+        <p class="mud-text" data-when="lit"><span class="mud-when">With a light.</span> The lantern shows a stone pit under the mill with the great wheel standing in it, black with wet, and a wooden beam across the pit worn smooth by hands. Somebody cut a line of words into the beam a long time ago.</p>
+        <ul class="mud-things">
+          <li class="mud-thing" data-thing="beam" data-words="beam|words|carving|letters"><b class="mud-thing__name">the beam</b>. <span class="mud-look" data-when="dark"><span class="mud-when">Without a light.</span> Your fingers find letters cut into the wood, but not what they say. It would take a light.</span><span class="mud-look" data-when="lit"><span class="mud-when">With a light.</span> Cut into the beam, in capitals worn soft at the edges: THE WHEEL TURNS WHEN THE WATER SAYS.</span></li>
+        </ul>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-tide-mill" data-dir="up" data-to="tide-mill">Up, up the ladder into the mill</a></p>
+      </article>
+      <article class="mud-place" id="mud-at-mudlarks-hut" data-place="mudlarks-hut" data-x="2" data-y="2">
+        <h3 class="mud-place__name">The Mudlarks’ Hut</h3>
+        <p class="mud-text" data-when="any">A hut on stilts at the edge of the marsh with a long table down the middle, covered in things people have found on the foreshore: pipe stems, bits of plate, sea glass, buttons, all laid out in no order but the order they arrived in. Anybody can bring something to this table, and everybody at it is somebody who once did.</p>
+        <ul class="mud-things">
+          <li class="mud-thing" data-thing="table" data-words="table|finds|things"><b class="mud-thing__name">the finds table</b>. <span class="mud-look" data-when="any">Pipe stems, sherds of plate, sea glass in three colours, buttons, a key with no lock, a marble. Nothing on it has a price or a label, only a scrap of paper under each thing saying where on the foreshore it came up. Anything you bring and show to Ada goes on the table with the rest.</span></li>
+        </ul>
+        <ul class="mud-people">
+          <li class="mud-person" data-person="ada" data-words="ada|mudlark"><b class="mud-person__name">Ada</b>. <span class="mud-here">Ada is at the finds table, with a lens.</span> <span class="mud-says">Ada looks up from a sherd of plate and starts telling you all about it before you have said hello: where it came up, how the tide turned it over, the other half of the pattern that somebody found three winters ago. Nobody has ever asked Ada to stop.</span> <span class="mud-says">Nobody is in charge of this table. Somebody who found their first pipe stem this morning sits beside somebody who has been coming for forty years, and they learn from each other. Our glossary calls a place like that, built around a shared passion rather than around who you are, an <a href="https://stimpunks.org/glossary/affinity-space/">Affinity Space</a>.</span></li>
+        </ul>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-tea-hut" data-dir="north" data-to="tea-hut">North, up the steps to the tea hut</a> &middot; <a class="mud-way" href="#mud-at-saltmarsh" data-dir="west" data-to="saltmarsh">West, along the edge of the marsh</a> &middot; <a class="mud-way" href="#mud-at-creek" data-dir="east" data-to="creek">East, across to the creek</a> &middot; <a class="mud-way" href="#mud-at-mudflat" data-dir="south" data-to="mudflat" data-tide="low">South, down the ladder onto the mud (while the tide is out)</a></p>
+      </article>
+      <article class="mud-place" id="mud-at-creek" data-place="creek" data-x="3" data-y="2" data-water>
+        <h3 class="mud-place__name">The Creek</h3>
+        <p class="mud-text" data-when="low"><span class="mud-when">At low tide.</span> A channel through the mud with steep, shining banks and a thread of water running along the bottom of it. A heron is standing in the thread, perfectly still. Boats lie over on their sides on the mud, waiting to be floated.</p>
+        <p class="mud-text" data-when="high"><span class="mud-when">At high tide.</span> The creek is full to the top of its banks and the boats are floating upright on their moorings. The heron has gone somewhere shallower.</p>
+        <ul class="mud-things">
+          <li class="mud-thing" data-thing="boats" data-words="boats|rowing boats|moorings"><b class="mud-thing__name">the boats</b>. <span class="mud-look" data-when="low"><span class="mud-when">At low tide.</span> Small wooden boats lying over on the mud, each tied to a stake on a long rope, waiting for the water to stand them up.</span><span class="mud-look" data-when="high"><span class="mud-when">At high tide.</span> Small wooden boats floating upright on their long ropes, turned all the same way by the tide.</span></li>
+          <li class="mud-thing" data-thing="heron" data-words="heron|bird" data-seen="low"><b class="mud-thing__name">the heron</b>. <span class="mud-when">Only while the tide is out.</span> <span class="mud-look" data-when="any">It was standing in exactly that spot before you came and it will be standing there after you go. A heron fishes by standing still for longer than a fish can.</span></li>
+        </ul>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-tide-mill" data-dir="north" data-to="tide-mill">North, up the bank to the mill</a> &middot; <a class="mud-way" href="#mud-at-mudlarks-hut" data-dir="west" data-to="mudlarks-hut">West, across to the hut on stilts</a> &middot; <a class="mud-way" href="#mud-at-boathouse" data-dir="east" data-to="boathouse">East, along the bank to the boathouse</a> &middot; <a class="mud-way" href="#mud-at-ferry-steps" data-dir="south" data-to="ferry-steps">South, down the bank to the ferry steps</a></p>
+      </article>
+      <article class="mud-place" id="mud-at-boathouse" data-place="boathouse" data-x="4" data-y="2">
+        <h3 class="mud-place__name">The Boathouse</h3>
+        <p class="mud-text" data-when="any">A tall shed open at the creek end, smelling of wood shavings and tar, with a small boat half built on trestles in the middle. Its ribs are up and about half of its planks are on. The tools hang on the wall, each one inside its own painted outline, so you can see where it goes back.</p>
+        <ul class="mud-things">
+          <li class="mud-thing" data-thing="boat" data-words="boat|ribs|planks|trestles"><b class="mud-thing__name">the half-built boat</b>. <span class="mud-look" data-when="any">A keel, a row of ribs, and about half of its planks, each one lapped over the one below it. It has been half built for as long as anybody on the Slake can remember, and Ines likes it that way.</span></li>
+          <li class="mud-thing" data-thing="tools" data-words="tools|outlines|wall|planes|clamps"><b class="mud-thing__name">the tools on the wall</b>. <span class="mud-look" data-when="any">Planes, clamps, a mallet, a bevel and a spokeshave, each one hung inside its own painted outline. You can tell at a glance what is out being used and where it goes back.</span></li>
+          <li class="mud-thing" data-thing="lantern" data-words="lantern|lamp|light" data-take><b class="mud-thing__name">a storm lantern</b>. <span class="mud-look" data-when="any">A storm lantern, already lit, the sort that does not blow out. It is for anybody who needs to see somewhere dark.</span></li>
+        </ul>
+        <ul class="mud-people">
+          <li class="mud-person" data-person="ines" data-words="ines|boatbuilder|builder"><b class="mud-person__name">Ines</b>. <span class="mud-here">Ines is fitting a plank to the boat.</span> <span class="mud-says">Ines hands you the other end of the plank without asking whether you know how. You hold it while they fix it. Now you know a little of how.</span> <span class="mud-says">Ines never learned boats out of a book. They learned by building one, and then another. Our glossary calls that <a href="https://stimpunks.org/glossary/constructionism/">Constructionism</a>: people learn most when they are making something that matters to them.</span> <span class="mud-join"><span class="mud-when">If you join in.</span> You hold a plank steady while Ines fixes it to the one below.</span> <span class="mud-join"><span class="mud-when">If you join in.</span> You pass Ines the nails one at a time, which is a job, and a real one.</span> <span class="mud-join"><span class="mud-when">If you join in.</span> You sweep the shavings into a pile, which is also boatbuilding.</span></li>
+        </ul>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-creek" data-dir="west" data-to="creek">West, out along the bank to the creek</a></p>
+      </article>
+      <article class="mud-place" id="mud-at-foreshore" data-place="foreshore" data-x="1" data-y="3" data-tidal>
+        <h3 class="mud-place__name">The Foreshore</h3>
+        <p class="mud-text" data-when="any">The strip of mud and shingle along the foot of the marsh that the tide uncovers and covers again. It is where the Slake gives things back. You have to look down to see them, and once you start looking down, you see them everywhere.</p>
+        <p class="mud-text" data-when="boots"><span class="mud-when">In wellies.</span> Your wellies sink an inch at every step and come out again with a noise.</p>
+        <p class="mud-text" data-when="bare"><span class="mud-when">Barefoot.</span> Barefoot, the mud is cold and soft and comes up between your toes.</p>
+        <ul class="mud-things">
+          <li class="mud-thing" data-thing="pipe-stem" data-words="pipe|pipe stem|stem|clay|clay pipe" data-take data-find><b class="mud-thing__name">a clay pipe stem</b>. <span class="mud-look" data-when="any">A little white tube of fired clay about as long as your finger, with a hole down the middle. Somebody smoked out of it once.</span> <span class="mud-lore"><span class="mud-when">If you show it to Ada.</span> Ada says the foreshore is littered with pipe stems, because clay pipes were cheap and broke easily and nobody minded. They keep a jar of them, and a great many people's first find is one.</span></li>
+          <li class="mud-thing" data-thing="sherd" data-words="sherd|shard|plate|pottery|china" data-take data-find><b class="mud-thing__name">a sherd of blue-and-white plate</b>. <span class="mud-look" data-when="any">A piece of plate about the size of a coin, white with a blue pattern on it: part of a bridge, part of a tree.</span> <span class="mud-lore"><span class="mud-when">If you show it to Ada.</span> Ada turns it over and tells you the rest of the pattern, the willow and the bridge and the two birds, and whose whole dinner service it probably was, most of which is still out there. They have found this pattern more times than they could say and are glad every time.</span></li>
+          <li class="mud-thing" data-thing="sea-glass" data-words="glass|sea glass|seaglass" data-take data-find><b class="mud-thing__name">a piece of sea glass</b>. <span class="mud-look" data-when="any">A piece of green glass as smooth as soap, with all its edges rounded off and its shine gone to frost.</span> <span class="mud-lore"><span class="mud-when">If you show it to Ada.</span> Ada holds it up to the window. This was a bottle once, and the tide has been sanding it ever since, for years and years. Ada likes to think about all that time it was lying out there being turned over.</span></li>
+          <li class="mud-thing" data-thing="button" data-words="button" data-take data-find><b class="mud-thing__name">a button</b>. <span class="mud-look" data-when="any">A small metal button, dull green, with four holes in it.</span> <span class="mud-lore"><span class="mud-when">If you show it to Ada.</span> Ada has a jar just for buttons. They say nobody on the Slake has ever found the same button twice, which is exactly the kind of fact Ada collects as well.</span></li>
+        </ul>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-saltmarsh" data-dir="north" data-to="saltmarsh">North, up onto the marsh</a> &middot; <a class="mud-way" href="#mud-at-mudflat" data-dir="east" data-to="mudflat" data-tide="low">East, out onto the open mud (while the tide is out)</a></p>
+      </article>
+      <article class="mud-place" id="mud-at-mudflat" data-place="mudflat" data-x="2" data-y="3" data-tidal>
+        <h3 class="mud-place__name">The Mudflat</h3>
+        <p class="mud-text" data-when="any">Open mud as far as you can see, shining where it is wettest, so that the sky is under your feet as well as over your head. Little coiled casts are everywhere, where something lives underneath. A curlew walks past, putting its long curved bill into the mud right up to its face.</p>
+        <p class="mud-text" data-when="boots"><span class="mud-when">In wellies.</span> Your wellies make a sucking sound every time you lift one.</p>
+        <p class="mud-text" data-when="bare"><span class="mud-when">Barefoot.</span> Barefoot, you leave clear prints behind you, and the mud fills them in.</p>
+        <ul class="mud-things">
+          <li class="mud-thing" data-thing="casts" data-words="casts|cast|coils|worms"><b class="mud-thing__name">the casts</b>. <span class="mud-look" data-when="any">Coils of mud like squeezed-out toothpaste, all over the flat. Something that lives down in the mud makes them, and the curlews know exactly what.</span></li>
+          <li class="mud-thing" data-thing="curlew" data-words="curlew|bird"><b class="mud-thing__name">the curlew</b>. <span class="mud-look" data-when="any">It walks and probes, walks and probes, feeling for things deep in the mud with a very long bill that curves down at the end. It is not bothered by you in the slightest.</span></li>
+          <li class="mud-thing" data-thing="slide" data-words="slide|slope|polished"><b class="mud-thing__name">the slide</b>. <span class="mud-look" data-when="any">A place where the mud slopes down into a channel, slid down so many times that it is polished. You can go down it if you like: say slide. Our glossary's entry on <a href="https://stimpunks.org/glossary/play/">Play</a> opens with a line from the Human Restoration Project: there is nothing more human than play.</span></li>
+        </ul>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-mudlarks-hut" data-dir="north" data-to="mudlarks-hut">North, up the ladder to the hut on stilts</a> &middot; <a class="mud-way" href="#mud-at-foreshore" data-dir="west" data-to="foreshore" data-tide="low">West, across to the foreshore (while the tide is out)</a> &middot; <a class="mud-way" href="#mud-at-ferry-steps" data-dir="east" data-to="ferry-steps">East, across the mud to the ferry steps</a> &middot; <a class="mud-way" href="#mud-at-causeway" data-dir="south" data-to="causeway" data-tide="low">South, onto the causeway (while the tide is out)</a></p>
+      </article>
+      <article class="mud-place" id="mud-at-ferry-steps" data-place="ferry-steps" data-x="3" data-y="3">
+        <h3 class="mud-place__name">The Ferry Steps</h3>
+        <p class="mud-text" data-when="low"><span class="mud-when">At low tide.</span> Stone steps going down the creek bank to a landing stage, with a rowing boat lying on the mud at the bottom of them and a bell on a post at the top. The ferry only runs when there is water to row on, and just now there is not.</p>
+        <p class="mud-text" data-when="high"><span class="mud-when">At high tide.</span> Stone steps going down the creek bank to a landing stage, with the water right up to it and a rowing boat bobbing at the bottom. There is a bell on a post at the top. The ferry is running.</p>
+        <ul class="mud-things">
+          <li class="mud-thing" data-thing="bell" data-words="bell|post"><b class="mud-thing__name">the bell</b>. <span class="mud-look" data-when="low"><span class="mud-when">At low tide.</span> A brass bell on a post. At low tide you can ring it all you like and the boat stays on the mud, which is also fine.</span><span class="mud-look" data-when="high"><span class="mud-when">At high tide.</span> A brass bell on a post, for ringing when you want the ferry. The ferry is already at the steps.</span></li>
+        </ul>
+        <ul class="mud-people">
+          <li class="mud-person" data-person="bex" data-words="bex|ferry|ferry keeper|ferryman|rower"><b class="mud-person__name">Bex</b>. <span class="mud-here">Bex, who rows the ferry, is sitting on the steps.</span> <span class="mud-says">Bex asks you what you saw out on the mud today, listens to the whole of the answer, and asks you another question about it.</span> <span class="mud-says">Bex has rowed this ferry longer than anybody and still learns something from nearly everybody they row across. There is no teacher in this boat and no student, only two people who each know something. Our glossary calls that <a href="https://stimpunks.org/glossary/omni-directional-learning/">Omni-directional Learning</a>.</span></li>
+        </ul>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-creek" data-dir="north" data-to="creek">North, up the bank to the creek</a> &middot; <a class="mud-way" href="#mud-at-mudflat" data-dir="west" data-to="mudflat" data-tide="low">West, out onto the mud (while the tide is out)</a> &middot; <a class="mud-way" href="#mud-at-holm" data-dir="across" data-to="holm" data-tide="high">Across, across on the ferry to the island (while the tide is in)</a></p>
+      </article>
+      <article class="mud-place" id="mud-at-causeway" data-place="causeway" data-x="2" data-y="4" data-tidal>
+        <h3 class="mud-place__name">The Causeway</h3>
+        <p class="mud-text" data-when="any">A raised path of stones and gravel across the mud to the island, with tall posts standing along it every few steps so that nobody loses the way. It is only a path while the tide is out, and it says so on a board at each end.</p>
+        <p class="mud-text" data-when="boots"><span class="mud-when">In wellies.</span> The stones are firm under your wellies, and the mud either side of them is not.</p>
+        <p class="mud-text" data-when="bare"><span class="mud-when">Barefoot.</span> The stones are hard under bare feet after the mud, and warm where the sun has been on them.</p>
+        <ul class="mud-things">
+          <li class="mud-thing" data-thing="posts" data-words="posts|post|markers"><b class="mud-thing__name">the posts</b>. <span class="mud-look" data-when="any">Tall wooden posts every few steps, so you can see the way even when the mud is shining so hard it hurts to look at.</span></li>
+          <li class="mud-thing" data-thing="board" data-words="board|notice|sign"><b class="mud-thing__name">the board</b>. <span class="mud-look" data-when="any">A board at each end of the causeway: THIS IS A PATH WHILE THE TIDE IS OUT. WHEN IT IS IN, THE FERRY RUNS.</span></li>
+        </ul>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-mudflat" data-dir="north" data-to="mudflat" data-tide="low">North, back onto the mudflat (while the tide is out)</a> &middot; <a class="mud-way" href="#mud-at-holm" data-dir="south" data-to="holm" data-tide="low">South, along the causeway to the island (while the tide is out)</a></p>
+      </article>
+      <article class="mud-place" id="mud-at-holm" data-place="holm" data-x="2" data-y="5">
+        <h3 class="mud-place__name">The Holm</h3>
+        <p class="mud-text" data-when="low"><span class="mud-when">At low tide.</span> A little grassy island with a well on it, a bench, and a tall striped beacon standing at its highest point. The causeway runs back across the mud to the north.</p>
+        <p class="mud-text" data-when="high"><span class="mud-when">At high tide.</span> A little grassy island with a well on it, a bench, and a tall striped beacon standing at its highest point. The tide is in all round, the causeway has gone under it, and the ferry is tied up at the landing on the east side.</p>
+        <p class="mud-sit"><span class="mud-when">If you sit down.</span> You sit on the bench, which faces back the way you came, and look at the shop from out here. It looks small, and it looks lit.</p>
+        <ul class="mud-things">
+          <li class="mud-thing" data-thing="well" data-words="well|bucket|water"><b class="mud-thing__name">the well</b>. <span class="mud-look" data-when="any">A stone well with a wooden lid and a bucket on a chain. The water in it is fresh, which on a little island in the sea is a small wonder.</span></li>
+          <li class="mud-thing" data-thing="holm-bench" data-words="bench|seat"><b class="mud-thing__name">the bench</b>. <span class="mud-look" data-when="any">A bench facing back towards the shop, for looking at where you came from.</span></li>
+          <li class="mud-thing" data-thing="beacon" data-words="beacon|tower|stripes|mark|daymark"><b class="mud-thing__name">the beacon</b>. <span class="mud-look" data-when="any">A tower of black and white stripes, taller than a house, with no lamp in it anywhere. It is a day beacon: the stripes are its daymark, the part made to be seen in daylight. There is a ladder inside, and up is the only way in.</span></li>
+        </ul>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-causeway" data-dir="north" data-to="causeway" data-tide="low">North, back along the causeway (while the tide is out)</a> &middot; <a class="mud-way" href="#mud-at-ferry-steps" data-dir="across" data-to="ferry-steps" data-tide="high">Across, back on the ferry to the steps (while the tide is in)</a> &middot; <a class="mud-way" href="#mud-at-beacon-top" data-dir="up" data-to="beacon-top">Up, up the ladder inside the beacon</a></p>
+      </article>
+      <article class="mud-place" id="mud-at-beacon-top" data-place="beacon-top" data-x="3" data-y="5" data-reveal>
+        <h3 class="mud-place__name">The Top of the Beacon</h3>
+        <p class="mud-text" data-when="any">A ladder inside the striped tower brings you out onto a small platform at the top. There is no lamp up here and there never was: it is a mark for daylight, striped so it can be seen from a long way off, and it does its whole job by standing still. From up here you can see all of the Slake at once, laid out below you like a map, and every place on it is somewhere you could walk to.</p>
+        <p class="mud-ways"><span class="mud-when">Ways on:</span> <a class="mud-way" href="#mud-at-holm" data-dir="down" data-to="holm">Down, down the ladder to the island</a></p>
+      </article>
+      <!-- mud:book:end -->
+    </details>
+  </section>
+
+<!-- quest:mud-welly:begin -->
+  <details class="quest" data-quest="mud-welly" data-code="LOWTIDE" data-accept="ido|ifyouwait|me|mewaiting|wait|waiting|waitingforit|whenyouwait|you|youwait|youwaiting">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3 29 H29" stroke="var(--mud-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 24 V13 Q5 10 8 10 H17 Q19 10 19 13 V17 H25 Q28 17 28 21 V24 Z" fill="var(--mud-welly)" stroke="var(--mud-welly)" stroke-width="1.4" stroke-linejoin="round"/><path d="M4.5 26 H28.5" stroke="var(--mud-dim)" stroke-width="2.4" stroke-linecap="round"/><path d="M8 13.5 H16" stroke="var(--mud-ground)" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a yellow welly, left standing by the back door</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> What turns the tide</p>
+      <p class="quest__ask"><b>Before the code:</b> On the Slake, out the back door of the MUD Room, what makes the tide turn?</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="mud-welly-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="mud-welly-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>Read the noticeboard in the MUD Room itself.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>It is the third house rule.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>It is also one of the buttons beside the map.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Waiting for it</b>. Waiting for it. Nothing on the Slake runs on a clock: the tide is in or out until you say wait, somewhere dry, and then it turns. That is the street&#x27;s oldest promise, that nothing moves until you say so, made into weather.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">LOWTIDE</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=LOWTIDE">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>Waiting for it. Nothing on the Slake runs on a clock: the tide is in or out until you say wait, somewhere dry, and then it turns. That is the street&#x27;s oldest promise, that nothing moves until you say so, made into weather.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">LOWTIDE</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=LOWTIDE">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:mud-welly:end -->
+
+  <div style="max-width:400px;margin-top:34px;">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- signoff:begin -->
+<footer class="signoff">
+  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> &middot; <a href="map.html#at-the-mud-room">Where am I?</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="your-room.html">Your Room</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="feed.xml">Feed</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+  <p class="signoff__fx" hidden><button type="button" class="signoff__fx-btn" data-fx="{&quot;kind&quot;:&quot;julia&quot;,&quot;power&quot;:2,&quot;c&quot;:[0.0,1.0],&quot;orbit&quot;:0.02,&quot;ground&quot;:&quot;--mud-ground&quot;,&quot;inks&quot;:[&quot;--mud-silver&quot;,&quot;--mud-marsh&quot;,&quot;--mud-glass&quot;,&quot;--mud-welly&quot;]}" aria-describedby="signoff-fx-about">Switch on the fractal window</button> <span id="signoff-fx-about">A slow fractal in this room’s own colours, drawn in your browser in a window of its own. It is not synced to any music, it never flashes at any speed, and it runs until you switch it off or leave the room.</span></p>
+</footer>
+<!-- signoff:end -->
+
+<script src="love.js" defer></script>
+<script src="mud.js" defer></script>
+<script src="quest.js" defer></script>
+</body>
+</html>

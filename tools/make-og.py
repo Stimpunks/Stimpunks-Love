@@ -664,6 +664,17 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--cooldown .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
 .og--cooldown .og-scene svg {{ display: block; width: 1200px; height: 330px; }}
 
+/* the mud room — THE VIEW FROM THE BACK STEP, LIFTED OFF THE ROOM: the sky, the
+   far shore, the causeway posts going out to the beacon, and the sky lying in
+   the mud, under the room's own name. Nothing on it moves, which is the
+   Slake's rule too: the tide turns when you wait for it. */
+.og--mud {{ width: 100%; padding: 32px 60px 0; gap: 10px; justify-content: flex-start; }}
+.og--mud .mud-sign__over {{ margin: 0 !important; font-size: 18px !important; }}
+.og--mud h1 {{ font-size: 110px; margin: 0 !important; white-space: nowrap; }}
+.og--mud .og-lede {{ font-family: 'Castoro', Georgia, serif; color: #CDD5CF; max-width: 1040px; font-size: 24px; line-height: 1.4; margin: 4px 0 0 !important; }}
+.og--mud .og-scene {{ margin: auto -60px 0 !important; line-height: 0; border-top: 1px solid #C3CECC; }}
+.og--mud .og-scene svg {{ display: block; width: 1200px; height: 250px; }}
+
 /* glow go gee gaws — THE SHOP WITH THE LIGHTS OFF, LIFTED OFF THE ROOM. The
    shelves with the toys just charged in every colour glow comes in, and the
    name in its moulded face. Nothing on the card glows more than once. */
@@ -2538,6 +2549,26 @@ def card_cooldown(p):
     )
 
 
+def card_mud(p):
+    return (
+        "",
+        f'<div class="og og--mud" data-fit="card">'
+        f'<p class="mud-sign__over">{p["mud_over"]}</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-scene">{p["mud_view"]}</div>'
+        f'</div>',
+        f"A dark mud-grey card. Small pale capitals reading {p['mud_over_plain']}, then "
+        f"“{p['h1text']}” in a large, pale, old-style serif, and under it in grey-white: "
+        f"{p['desc_plain']} Along the foot, a wide flat estuary at low tide seen from the "
+        f"back step under a pale overcast sky: a dark line of far shore with a small island "
+        f"and a black-and-white striped beacon on it, channels of water lying in the dark mud "
+        f"and shining with the sky, a line of posts going out across the mud towards the "
+        f"island, a heron standing dark in a channel on the right, and reeds in the "
+        f"foreground on the left.",
+    )
+
+
 def card_glowgo(p):
     # NO AMBIENT MARKUP: a card cannot be charged, so nothing on it fades.
     return (
@@ -3410,6 +3441,7 @@ CARDS = {
     "glowgo":       card_glowgo,
     "rave":         card_rave,
     "cooldown":     card_cooldown,
+    "mud":          card_mud,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
     "covenstead":   card_covenstead,
@@ -3690,6 +3722,18 @@ def main():
     if not cl:
         raise SystemExit("REFUSING: cooldown-room.html has lost its lounge, and its card is built out of it.")
     lifted["cool_scene"] = cl.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 150 1200 330"', 1)
+    # THE MUD ROOM'S CARD CARRIES THE ROOM'S OWN VIEW AND OVER-LINE, cropped by its
+    # viewBox to the horizon and the mud, so the card cannot disagree with the room.
+    mud_src = (ROOT / "the-mud-room.html").read_text()
+    mv = re.search(r'<div class="mud-view" aria-hidden="true">\s*(<svg.*?</svg>)', mud_src, re.S)
+    mo = re.search(r'<p class="mud-sign__over">(.*?)</p>', mud_src, re.S)
+    if not mv or not mo:
+        raise SystemExit("REFUSING: the-mud-room.html has lost its view or its over-line, and its card is built out of both.")
+    lifted["mud_view"] = mv.group(1).replace('viewBox="0 0 1200 400"', 'viewBox="0 120 1200 250"', 1).replace(
+        'id="mud-sky-g"', 'id="og-mud-sky-g"').replace('url(#mud-sky-g)', 'url(#og-mud-sky-g)').replace(
+        'id="mud-lie-g"', 'id="og-mud-lie-g"').replace('url(#mud-lie-g)', 'url(#og-mud-lie-g)')
+    lifted["mud_over"] = mo.group(1).strip()
+    lifted["mud_over_plain"] = html.unescape(re.sub(r"<[^>]+>", "", mo.group(1))).strip().lower()
     gg = re.search(r'<div class="gg-shop" aria-hidden="true">\s*(<svg.*?</svg>)',
                    (ROOT / "glow-go-gee-gaws.html").read_text(), re.S)
     if not gg:
