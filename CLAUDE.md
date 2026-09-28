@@ -3266,6 +3266,29 @@ opens a PNG in review. `make-og.py` builds each card from the page's own body cl
 `love.css` attached and lifts the h1 verbatim, so a room's card cannot drift from the room and
 a new room **refuses to build** rather than inheriting somebody else's face.
 
+**A ROOM SOMEBODY BUILT WITH THEIR OWN AI COMES IN THROUGH `tools/import-room.py`, AND IT IS
+THEIRS.** Your Room hands out a prompt; their AI builds one self-contained page ending in a
+`FOR THE STREET` comment in a fixed `Key: value` shape, and the importer reads it, holds the page to
+the street's rules and writes nothing without `--go`. Four things are not obvious:
+
+  · **it refuses rather than fixes**, with every reason at once, because the fix belongs in the
+    artifact where the person can see it. The one exception loses nothing: a literal hex that is one
+    of the room's own declared colours becomes `var()` of it. Do not teach it to repair anything else.
+  · **it leaves the share card, the job marker and the Now Playing line to a person on purpose**, and
+    `check-all.sh` stops until they exist. The friendly edit is a card template for imported rooms;
+    that is the one place "a card design per room" would quietly stop being true.
+  · **everything it writes is between `import:<slug>` markers and is replaced whole on re-import**,
+    which is how iterating with their AI works. A change to an imported room belongs in their
+    artifact, not between the markers; dressing its plain door means moving it out of them first.
+    Importing the same artifact twice changes nothing, and that was tested.
+  · **it asks `check-contrast-live.py`'s own probe for every pair by patching the probe's source**, so
+    there is one probe rather than two. If that probe changes shape the importer refuses; update the
+    patch, do not copy the probe. Its pairs land in `data/rooms/<slug>.json`, labelled as measured by
+    the import rather than chosen by a person, and `check-contrast.py` reads them.
+
+A room made with an AI is credited as one, in the room and in the liner notes, because
+`design.html` says that is how we treat our own.
+
 ## What this site is FOR, so you know what you are protecting
 
 Ryan's brief, 2026-09-19: *"All of our sites are so careful. Careful color palettes, careful

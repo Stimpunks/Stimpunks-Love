@@ -2636,6 +2636,20 @@ PAIRS = [
 # somebody goes looking. The share card leaves the glow off until it is decided.
 
 
+# ROOMS BROUGHT IN BY tools/import-room.py carry their pairs in their own data
+# file, measured off the room as it rendered at import, because their colours
+# came in with them rather than being chosen here. WHEN A COLOUR LIVES IN A DATA
+# FILE, THE PAIR HAS TO COME FROM THE DATA FILE -- the chairs' lesson above.
+# Each entry says it was measured by the import and not chosen by a person, and
+# the file is replaced whole when the room is imported again.
+IMPORTED_ORNAMENT = {}
+for _room in sorted((ROOT / "data" / "rooms").glob("*.json")):
+    _r = json.loads(_room.read_text())
+    for _p in _r.get("pairs", []):
+        PAIRS.append((_p["ink"], _p["ground"], _p["large"],
+                      f"{_r['title']} (imported, measured {_r['imported']}): {_p['where']}"))
+    IMPORTED_ORNAMENT.update({h.lower(): why for h, why in _r.get("ornament", {}).items()})
+
 fails = []
 for fg, bg, large, where in PAIRS:
     need = 3.0 if large else 4.5
@@ -3208,7 +3222,7 @@ ORNAMENT = {
 # adding a colour to :root and watching it refuse.
 measured = {c.lower() for fg, bg, _, _ in PAIRS for c in (fg, bg)}
 stray = [h for h in sorted(declared() - measured)
-         if h not in ORNAMENT and h not in VIA_COMPOSITE]
+         if h not in ORNAMENT and h not in VIA_COMPOSITE and h not in IMPORTED_ORNAMENT]
 if stray:
     print("\nREFUSING: declared in love.css's :root and measured nowhere here:")
     for h in stray:

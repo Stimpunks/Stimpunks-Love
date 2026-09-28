@@ -92,22 +92,40 @@ Use my own words for anything about me. Don't write my story for me. If you draf
 THEN BUILD IT as a single self-contained HTML page I can preview and we can keep changing together.
 
 HOW THE PAGE HAS TO BE BUILT, so the street can bring it in:
-1. One HTML file with lang="en", one &lt;h1&gt;, and headings in order. Put class="room-SLUG" on &lt;body&gt;, where SLUG is a short name for the room in lowercase with hyphens. Everything the room shows goes inside &lt;main&gt;.
-2. All the CSS goes in one &lt;style&gt; element. Every selector starts with .room-SLUG, apart from :root. Every class name starts with a short prefix of two or three letters followed by a hyphen (for example "xy-"). Declare every colour once, as a hex custom property on :root that uses the same prefix (for example --xy-ground).
+1. One HTML file with lang="en", a &lt;title&gt; that is the room's name, a &lt;meta name="description"&gt; of one short sentence saying what the room is (it goes on the room's door and its share card, so keep it under 200 characters), one &lt;h1&gt;, and headings in order. Put class="room-SLUG" on &lt;body&gt;, where SLUG is a short name for the room in lowercase with hyphens. Everything the room shows goes inside &lt;main&gt;.
+2. All the CSS goes in one &lt;style&gt; element. Every selector starts with .room-SLUG, apart from :root. Every class name starts with a short prefix of two or three letters followed by a hyphen (for example "xy-"), and so does every @keyframes name. Declare every solid colour once, as a hex custom property on :root that uses the same prefix (for example --xy-ground), and use var() everywhere else, in the CSS and in any SVG fill or stroke. A translucent colour for a shadow can be written as rgba(). Set the room's ground (background-color) and text colour on .room-SLUG itself, and a link colour on .room-SLUG a: the street's own furniture (the way back to the street, the loudness dial and the sign-off at the foot) sits in your room and takes those.
 3. Typefaces from Google Fonts only, under the SIL Open Font License or the Apache License 2.0. You may load them from Google Fonts for the preview; the street hosts its own copies.
-4. No other external files at all: no scripts, stylesheets, images, trackers or embeds from anywhere else. Draw pictures as inline SVG or CSS. Don't use an image generator: nothing on this street comes from one. If I want a photograph in the room, leave a clearly marked space and say so in the notes. I'll send the photo separately, and only one I took myself, with the say-so of anybody in it.
+4. No other external files at all: no scripts, stylesheets, images, trackers or embeds from anywhere else, and no &lt;img&gt;. Draw pictures as inline SVG or CSS. Don't use an image generator: nothing on this street comes from one. If I want a photograph in the room, leave a clearly marked space and say so in the notes. I'll send the photo separately, and only one I took myself, with the say-so of anybody in it.
 5. THE DIAL. The street sets data-intensity="gentle", "regular" or "max" on &lt;html&gt;, and the room has to honour all three:
    - gentle: nothing moves. No animation, no transition, no rotation or skew. Every word and every thing is still there. Gentle turns the room down and never takes anything away.
    - regular: motion only on hover or keyboard focus.
    - max: ambient motion is allowed.
-   At every setting, nothing flashes or strobes (never more than three flashes a second). Until the street sets the attribute, follow prefers-reduced-motion. Add a small preview dial with three buttons, marked data-preview-only, so I can try all three settings; the street removes it and uses its own.
+   At every setting, nothing flashes or strobes (never more than three flashes a second). Until the street sets the attribute, follow prefers-reduced-motion. Add a small preview dial with three buttons so I can try all three settings. Put its markup, its styles and its script each in their own element marked data-preview-only, so the street can remove it cleanly and put its own dial where yours was.
 6. CONTRAST. Every piece of text must reach at least 4.5:1 against the colour actually behind it. Put text on flat colour, never directly on a gradient, pattern or picture. Choose a link colour for every ground a link sits on, and make the keyboard focus ring clearly visible on each of those grounds. Next to each colour in the CSS, note in a comment which colours it is used with and the ratio.
-7. NOTHING PLAYS BY ITSELF. No &lt;audio&gt;, no &lt;video&gt;, no iframes. For each song or video I want, put a button saying what it is, who made it and how long it runs, with the link in a data-media attribute. The street turns those into its own press-to-play players.
-8. NOTHING IS SENT OR KEPT. No forms, no fetch, no cookies, no localStorage, no analytics. Any script is small, plain JavaScript in one &lt;script&gt; at the end of the page, and the room still reads completely with scripts switched off. Anything meant to be found is reachable by keyboard and by a screen reader. Nothing is hidden with display:none or shrunk to a tiny target to make it a secret.
+7. NOTHING PLAYS BY ITSELF. No &lt;audio&gt;, no &lt;video&gt;, no iframes. For each YouTube video I want, put a &lt;button type="button" data-media="LINK"&gt; saying what it is, who made it and how long it runs (like 3:45). The street turns those into its own press-to-play players. Anything that isn't a single YouTube video, just link to it.
+8. NOTHING IS SENT OR KEPT. No forms, no fetch, no cookies, no localStorage, no analytics. Any script is small, plain JavaScript in one &lt;script&gt; at the end of the page, with no onclick-style attributes, and the room still reads completely with scripts switched off. Anything meant to be found is reachable by keyboard and by a screen reader. Nothing is hidden with display:none or shrunk to a tiny target to make it a secret.
 9. It works at 360 pixels wide with no sideways scrolling. Every meaningful picture has alt text, and decoration is aria-hidden.
-10. CREDITS. Add a credits section at the foot of the room. Name every quotation (who, which work, which year, and a link), every typeface and who designed it, every song, and anything else borrowed. Don't quote anything you can't source. If you're unsure of a source, say so rather than guessing. Say in the credits that the room was built with your help, and name which AI you are.
+10. CREDITS. Add a section at the foot of the room under a heading with the word Credits in it. Name every quotation (who, which work, which year, and a link), every typeface and who designed it, every song, and anything else borrowed. Don't quote anything you can't source. If you're unsure of a source, say so rather than guessing. Say in the credits that the room was built with your help, and name which AI you are.
 
-LAST, add an HTML comment at the very top of the file headed "FOR THE STREET". In it list: my name as credited and where it links; the slug; where the room's light comes from; the typefaces; every song or video with its link and runtime; any photographs to come; which words are mine and which you drafted; and anything I asked for that you couldn't do within these rules.
+LAST, put this comment at the very top of the file, filled in in exactly this shape: one "Key: value" to a line, each item of a list on its own line starting with "- ", and "none" wherever there is nothing. The street's import tool reads it.
+
+&lt;!-- FOR THE STREET
+Name: my name as I want it credited
+Link: where my name links, or none
+Pronouns: as I want them shown, or none
+Say it: how to say my name, or none
+Slug: the same SLUG as in room-SLUG
+Prefix: the two or three letters every class and colour starts with
+Light: where the room's light comes from, in one sentence
+Typefaces:
+- each family, exactly as Google Fonts names it
+Media:
+- title | who made it | link | how long it runs
+Photographs: none, or what is still to come
+Words: which words are mine and which you drafted
+Built with: which AI you are, and who makes you
+Could not do: anything I asked for that these rules did not allow, or none
+--&gt;
 
 Keep improving the page with me until I say it's done.</pre>
     <p class="yr-prompt__go"><button type="button" class="yr-prompt__copy" data-copy="yr-prompt-text" hidden>Copy the prompt</button> <span class="yr-prompt__said" aria-hidden="true" hidden></span></p>

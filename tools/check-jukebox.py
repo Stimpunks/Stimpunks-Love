@@ -229,6 +229,16 @@ LISTS = [
 ]
 
 
+# Rooms brought in by tools/import-room.py: each carries its players as a flat
+# 'tracks' list in its own data file, read off the FOR THE STREET comment it
+# arrived with. Found by globbing, because the import tool adds rooms and this
+# list must not be one more place somebody has to remember.
+LISTS += [(json.loads(p.read_text())["title"].lower(), f"data/rooms/{p.name}",
+           json.loads(p.read_text())["page"])
+          for p in sorted((ROOT / "data" / "rooms").glob("*.json"))
+          if json.loads(p.read_text()).get("tracks")]
+
+
 def tracks_in(data):
     """Every facade in one data file, whichever shape that file has.
 
@@ -487,7 +497,9 @@ def main():
         # verbatim name was right there. It never showed up because every list
         # until the Pebble Board happened to have both keys.
         expected = t.get("channel_verbatim") or t.get("channel")
-        if chan and chan != expected:
+        # An imported room records who made each track and not which channel
+        # it is on, so there is nothing to compare a rename against.
+        if chan and expected and chan != expected:
             drift.append((t, expected, chan))
 
     if drift:

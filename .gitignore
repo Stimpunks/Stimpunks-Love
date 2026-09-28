@@ -18,3 +18,13 @@ node_modules/
 # tools/intake-collection.py has stripped their location and every other byte of
 # metadata. Never committed. Empty collection/inbox/taken/ by hand when done.
 collection/inbox/
+
+# Rooms people built with their own AI, as they arrive, before
+# tools/import-room.py brings them in. The room it writes is the published copy
+# and data/rooms/<slug>.json records the artifact's hash, so the file itself is
+# not committed. Keep the latest one somewhere: it is what gets imported again.
+rooms/inbox/
+
+# The import's own probe files, deleted when it finishes; ignored in case it is
+# interrupted mid-render.
+.import-*

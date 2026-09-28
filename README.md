@@ -518,6 +518,20 @@ written**, so a list that comes down takes its food off the plate too; a quotati
 or without a record of how it was checked; and a book with no library link. The regulars' own words
 are not swept: they are theirs.
 
+**Rooms people built with their own AI come in through `tools/import-room.py`.** Your Room hands
+out a prompt (`your-room.html#with-your-ai`) that has somebody's AI interview them and build the room
+as one self-contained page ending in a `FOR THE STREET` comment. Drop what they send in
+`rooms/inbox/` (gitignored) and run `python3 tools/import-room.py rooms/inbox/their-room.html`: it
+reads the comment, holds the page to the street's rules, renders it as it would ship with
+check-contrast-live.py's and check-gentle.py's own probes, and **writes nothing** until you add
+`--go`. Then it writes the page, its section of `love.css` (renumbering the sections after it), its
+colours in `:root`, its script, a plain door on the front page, its place in the walking order, a
+fractal recipe, its liner-notes credit and `data/rooms/<slug>.json`, whose measured pairs
+`check-contrast.py` holds and whose tracks `check-jukebox.py` checks. **It leaves the share card, the
+job marker and any Now Playing line to a person**, and `check-all.sh` stops until they are done.
+Sending a new version is importing again: everything it wrote is between import markers and is
+replaced whole, the quest markers are carried over, and the same artifact twice changes nothing.
+
 **Photographs of people's collections come in through `tools/intake-collection.py`**, which is
 the one tool here that exists to take work off somebody: drop phone photographs in
 `collection/inbox/` (gitignored) and run `python3 tools/intake-collection.py ryan-pens`. It turns
