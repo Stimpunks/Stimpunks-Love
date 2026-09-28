@@ -63,9 +63,103 @@
     'https://embed.music.apple.com/'
   ];
 
+  /* WHERE EVERYBODY IS UP TO, without YouTube's script. Ryan's ask,
+     2026-09-28: at a watch-together everybody runs their own player, pauses
+     when they like, and used to paste timestamps into the CB by hand. The CB
+     turns "@34:12" into a button now, and this is what the button presses.
+
+     The player inside a youtube-nocookie frame answers postMessage when its
+     address carries enablejsapi=1: tell it "listening" and it reports its
+     position, state and title back to this page; send it "seekTo" and it
+     moves. That is the same protocol YouTube's IFrame Player API speaks, but
+     spoken from here, so there is NO www.youtube.com/iframe_api script on the
+     page and script-src does not move -- which is the whole reason this was
+     possible (Club Chronic's note on setShuffle is the other half of it).
+     Measured 2026-09-28 before anything was built: play, seekTo 300 and pause
+     all obeyed, and currentTime came back.
+
+     The frame still waits for its press: nothing here builds one. It sends
+     nothing new to YouTube either: the page's origin was already in the
+     Referer, and the messages stay inside this browser. Nothing is stored,
+     and nothing about anybody's position leaves the page unless they type it
+     into the CB and transmit it themselves. seek() never presses play: a jump
+     moves your place, and whether it plays is still yours. */
+  var YT = 'https://www.youtube-nocookie.com';
+  var players = [];
+
+  function hear(e) {
+    if (e.origin !== YT) return;
+    var d;
+    try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch (x) { return; }
+    if (!d || !d.info) return;
+    for (var i = 0; i < players.length; i++) {
+      var p = players[i];
+      if (!p.el.contentWindow || p.el.contentWindow !== e.source) continue;
+      var info = d.info;
+      if (typeof info.currentTime === 'number') p.time = info.currentTime;
+      if (typeof info.duration === 'number' && info.duration > 0) p.duration = info.duration;
+      if (info.videoData) {
+        if (info.videoData.title) p.film = info.videoData.title;
+        p.live = !!info.videoData.isLive;
+      }
+      if (typeof info.playerState === 'number') {
+        p.state = info.playerState;
+        // 1 playing, 2 paused, 3 buffering: somebody has started this one.
+        if (p.state === 1 || p.state === 2 || p.state === 3) p.started = true;
+        if (p.state === 1) p.lastPlayed = Date.now();
+      }
+      return;
+    }
+  }
+
+  function track(el) {
+    var p = { el: el, time: 0, state: -1, started: false, lastPlayed: 0 };
+    players.push(p);
+    el.addEventListener('load', function () {
+      el.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: players.indexOf(p) + 1, channel: 'widget' }), YT);
+    });
+  }
+  window.addEventListener('message', hear);
+
+  /* The film this page's jump means: the one playing now, or else the one
+     that played last, and never one nobody has started or a live camera,
+     where a time means nothing. */
+  function active() {
+    players = players.filter(function (p) { return p.el.isConnected; });
+    var best = null;
+    for (var i = 0; i < players.length; i++) {
+      var p = players[i];
+      if (!p.started || p.live) continue;
+      var playing = p.state === 1, was = best && best.state === 1;
+      if (!best || (playing && !was) || (playing === was && p.lastPlayed >= best.lastPlayed)) best = p;
+    }
+    return best;
+  }
+
+  function name(p) { return p.film || p.el.title || 'the film'; }
+
+  function where() {
+    var p = active();
+    return p ? { time: p.time, duration: p.duration || null, film: name(p) } : null;
+  }
+
+  function seek(seconds) {
+    var p = active();
+    if (!p || !(seconds >= 0)) return null;
+    if (p.duration && seconds > p.duration) return { film: name(p), duration: p.duration, past: true };
+    p.el.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'seekTo', args: [seconds, true], id: 1, channel: 'widget' }), YT);
+    p.time = seconds;
+    return { film: name(p), duration: p.duration || null, past: false };
+  }
+
   function frameUrl(src, title) {
     if (!src || !ORIGINS.some(function (o) { return src.indexOf(o) === 0; })) return null;
+    var yt = src.indexOf(YT + '/') === 0;
+    if (yt && !/[?&]enablejsapi=/.test(src)) {
+      src += (src.indexOf('?') < 0 ? '?' : '&') + 'enablejsapi=1&origin=' + encodeURIComponent(location.origin);
+    }
     var el = document.createElement('iframe');
+    if (yt) track(el);
     el.src = src;
     el.title = title || 'Embedded player';
     el.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen';
@@ -122,7 +216,7 @@
     return el;
   }
 
-  window.loveEmbed = { frame: frame, frameUrl: frameUrl, audio: audio };
+  window.loveEmbed = { frame: frame, frameUrl: frameUrl, audio: audio, where: where, seek: seek };
 
   function swap(btn) {
     /* Named player, not `frame`: `var frame` here would be hoisted over the

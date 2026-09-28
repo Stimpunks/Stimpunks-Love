@@ -111,6 +111,16 @@
   color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2);
 }
 .cb-quiet { color: var(--cb-amber-2); font-size: 14px; }
+/* A place in a film, "@34:12", as the sender typed it. A button, because it
+   does something, sitting in the line like a word; amber on the readout like
+   every other thing in it, so it brings no pair check-contrast.py has not
+   already measured. */
+.cb-jump {
+  font: inherit; color: var(--cb-amber); background: var(--cb-lcd);
+  border: 1px solid var(--cb-amber-2); border-radius: 3px;
+  padding: 0 4px; margin: 0; cursor: pointer;
+}
+.cb-jump:hover { border-color: var(--cb-amber); }
 
 .cb-lab { display: block; font-size: 13px; margin-bottom: 4px; }
 .cb-row { display: flex; gap: 8px; }
@@ -145,7 +155,7 @@
    with the older messages hidden, so the live region still reads what arrives,
    and the newest is clamped to a few lines so a long one cannot grow the radio
    back over whatever it was made small to get out of the way of. */
-.cb-radio--small .cb-who, .cb-radio--small .cb-tx, .cb-radio--small .cb-said,
+.cb-radio--small .cb-who, .cb-radio--small .cb-tx,
 .cb-radio--small .cb-tools, .cb-radio--small .cb-norms, .cb-radio--small .cb-take { display: none; }
 .cb-radio--small .cb-set { padding: 8px; }
 .cb-radio--small .cb-lcd { padding: 6px 9px; }

@@ -545,6 +545,19 @@ The set retunes, which the press-to-play plate never had to do, but two copies o
 is one copy that gets a `referrerpolicy` fixed and one that does not, silently, in the
 security-relevant half of that file. One builder, two callers. Do not inline a second one.
 
+**AND IT IS THE ONLY THING THAT TALKS TO A PLAYER, WITHOUT YOUTUBE'S SCRIPT.** Ryan, 2026-09-28,
+for watch-togethers: `@34:12` in a CB message is a button that moves the film on the reader's own
+page there. `frameUrl` adds `enablejsapi=1&origin=` to every youtube-nocookie frame, and the
+player answers postMessage from the page: `listening` gets its time, state, title and
+`isLive` back, and `seekTo` moves it. **That is the IFrame Player API's own protocol spoken
+from our side, so `www.youtube.com/iframe_api` is never loaded and `script-src` does not move.**
+Measured before it was built, in a frame on the dev server. `loveEmbed.where()` and `seek()`
+use the film that is playing, or else the one that played last. They skip live cameras, and
+they **never press play**: a jump moves your place, and whether it plays stays yours. Nothing
+moves anybody's film but their own press. **The friendly edit is auto-follow, a host whose
+jumps move everybody.** That is forced sync, and the watch-togethers rely on people pausing
+when they need to. It is Ryan's call and nobody else's.
+
 **EVERY OBJECT IN THAT SCENE IS CARRIED BY ITS OUTLINE.** The bright chairs each measured under 2.3
 against the rug — a chair you cannot pick out of the carpet, which is the Jungle Room's canopy
 arriving as upholstery — so the outline is measured against the rug on one side and the fill on the

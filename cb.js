@@ -32,6 +32,9 @@
        word. See hashRooms, and the completion list under the message box.
      · IT NEVER SCROLLS UNDER SOMEBODY WHO IS READING. See show.
      · THE TELEPORTER GOES TO A ROOM AND SENDS NOTHING. See setTeleport.
+     · @34:12 IS A PLACE IN THE FILM, and pressing it moves the film playing
+       on YOUR page there, without pressing play. Add my spot writes your own
+       place into the box and sends nothing. See stamps and jump.
      · SMALL IS STILL ON. Folded is off and sends nothing; small is the bar and
        the newest message and nothing else, listening as it does full size, so
        somebody can watch a film in a room and still see the channel. See
@@ -154,7 +157,7 @@
       var prev = m.index ? text.charAt(m.index - 1) : ' ';
       var next = text.charAt(m.index + m[0].length);
       if (!room || /[A-Za-z0-9_&#\/-]/.test(prev) || /[A-Za-z0-9_]/.test(next)) continue;
-      if (m.index > at) parent.appendChild(document.createTextNode(text.slice(at, m.index)));
+      if (m.index > at) stamps(parent, text.slice(at, m.index));
       var a = el('a', 'cb-room');
       a.href = room.path;
       var hash = el('span', null, '#');
@@ -164,7 +167,45 @@
       parent.appendChild(a);
       at = m.index + m[0].length;
     }
+    if (at < text.length) stamps(parent, text.slice(at));
+  }
+
+  /* A PLACE IN A FILM. Ryan, 2026-09-28: at a watch-together everybody runs
+     their own player and pauses when they like, which is the point, and
+     somebody drops a timestamp on the channel now and then so the others can
+     find where the room has got to. "@34:12" or "@1:02:03" is shown as the
+     sender typed it, as a button; pressing it moves the film on the page YOU
+     are on to that place, through love-embed.js, which is the only thing on
+     this site that talks to a player. It moves your place and never presses
+     play: whether it plays is still yours, and nobody else's press moves
+     anything of yours. The @ is what makes it a place rather than a time of
+     day: "back at 7:30" stays words. */
+  var STAMP = /@(?:(\d{1,2}):([0-5]\d)|(\d{1,3})):([0-5]\d)(?![\d:])/g;
+
+  function stamps(parent, text) {
+    var at = 0, m;
+    STAMP.lastIndex = 0;
+    while ((m = STAMP.exec(text))) {
+      var prev = m.index ? text.charAt(m.index - 1) : ' ';
+      if (/[A-Za-z0-9_@.]/.test(prev)) continue;
+      var secs = m[1] != null ? (+m[1]) * 3600 + (+m[2]) * 60 + (+m[4]) : (+m[3]) * 60 + (+m[4]);
+      if (m.index > at) parent.appendChild(document.createTextNode(text.slice(at, m.index)));
+      var b = el('button', 'cb-jump', m[0]);
+      b.type = 'button';
+      b.dataset.at = String(secs);
+      b.setAttribute('aria-label', 'Jump to ' + place(secs));
+      parent.appendChild(b);
+      at = m.index + m[0].length;
+    }
     if (at < text.length) parent.appendChild(document.createTextNode(text.slice(at)));
+  }
+
+  // 754 -> "12:34", 3723 -> "1:02:03"
+  function place(secs) {
+    secs = Math.floor(secs);
+    var h = Math.floor(secs / 3600), mi = Math.floor(secs / 60) % 60, se = secs % 60;
+    var two = function (n) { return (n < 10 ? '0' : '') + n; };
+    return h ? h + ':' + two(mi) + ':' + two(se) : mi + ':' + two(se);
   }
 
   /* What the completion list offers for what has been typed after a #: every
@@ -342,6 +383,14 @@
     set.appendChild(this.said);
 
     var tools = el('div', 'cb-tools');
+    /* ADD MY SPOT, shown only while a film on this page has been started. It
+       reads where your player is and writes "@34:12" into the box, and that
+       is all: nothing goes out until you transmit, the same as anything else
+       you type. */
+    var spot = this.spotBtn = el('button', 'cb-btn cb-spot', 'Add my spot');
+    spot.type = 'button';
+    spot.hidden = true;
+    tools.appendChild(spot);
     var aloud = this.aloudBtn = el('button', 'cb-btn cb-aloud');
     aloud.type = 'button';
     tools.appendChild(aloud);
@@ -375,6 +424,11 @@
     find.addEventListener('input', function () { me.tpRender(); });
     find.addEventListener('keydown', function (e) { me.tpKey(e); });
     aloud.addEventListener('click', function () { me.setAloud(!me.aloud()); });
+    spot.addEventListener('click', function () { me.addSpot(); });
+    log.addEventListener('click', function (e) {
+      var b = e.target.closest('.cb-jump');
+      if (b) me.jump(+b.dataset.at);
+    });
     speak.addEventListener('click', function () { me.setSpeak(!me.state.speak); });
     form.addEventListener('submit', function (e) { e.preventDefault(); me.transmit(); });
     say.addEventListener('input', function () { me.complete(); });
@@ -614,7 +668,7 @@
     this.sizeBtn.setAttribute('aria-pressed', String(small));
     this.sizeBtn.textContent = 'Small';
     this.sizeBtn.setAttribute('aria-label', small ? 'Small: showing only the newest message' : 'Small: show only the newest message');
-    if (small) this.close();
+    if (small) { this.close(); this.tell(''); }
     if (!quiet) save(this.state);
     this.place();
     if (!small) this.log.scrollTop = this.log.scrollHeight;
@@ -650,6 +704,7 @@
   Radio.prototype.listen = function () {
     var me = this;
     this.loadRooms();
+    this.spotBtn.hidden = !(window.loveEmbed && window.loveEmbed.where && window.loveEmbed.where());
     call('/cb/channel', null, this.state.pass).then(function (r) {
       if (r.status === 401) return me.lost();
       if (r.status === 200) { me.signal(true); me.show(r.body.messages || []); }
@@ -922,6 +977,35 @@
       if (r.status === 200) { me.show(r.body.messages || []); me.tell(what.clear ? 'Channel cleared.' : 'Taken off the air.'); }
       else me.tell(why(r, 'That did not work.'));
     }).catch(function () { me.tell('No signal.'); });
+  };
+
+  /* The answer is on the radio, under the log, at every size: in small it is
+     the one line shown besides the newest message, because a jump that did
+     nothing and said nothing would look broken (the Playhouse's lesson). */
+  Radio.prototype.jump = function (secs) {
+    var e = window.loveEmbed, r = e && e.seek ? e.seek(secs) : null;
+    if (!r) {
+      this.tell('No film has been started on this page, so there is nothing to move. Press play on one first, then ' + place(secs) + ' will take it there.');
+    } else if (r.past) {
+      this.tell(place(secs) + ' is past the end of ' + r.film + ', which runs ' + place(r.duration) + '. It may have been said about a different film.');
+    } else {
+      this.tell('Moved ' + r.film + ' to ' + place(secs) + '. It plays or stays paused, as it was.');
+    }
+  };
+
+  Radio.prototype.addSpot = function () {
+    var w = window.loveEmbed && window.loveEmbed.where && window.loveEmbed.where();
+    if (!w) { this.spotBtn.hidden = true; this.tell('No film has been started on this page.'); return; }
+    var put = '@' + place(w.time), v = this.say.value;
+    var c = this.say.selectionStart == null ? v.length : this.say.selectionStart;
+    var before = v.slice(0, c), after = v.slice(c);
+    if (before && !/\s$/.test(before)) put = ' ' + put;
+    if (!after || !/^\s/.test(after)) put += ' ';
+    this.say.value = (before + put + after).slice(0, this.say.maxLength);
+    c = Math.min(before.length + put.length, this.say.value.length);
+    this.say.focus();
+    this.say.setSelectionRange(c, c);
+    this.tell('Your spot in ' + w.film + ' is in your message. Nothing goes out until you transmit.');
   };
 
   Radio.prototype.tell = function (s) { this.said.textContent = s; };
