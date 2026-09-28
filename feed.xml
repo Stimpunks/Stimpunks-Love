@@ -9,17 +9,24 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Mon, 28 Sep 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Your Room, built with your own AI</title>
+      <link>https://stimpunks.world/changelog.html#2026-09-28-your-room-with-your-ai</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-your-room-with-your-ai</guid>
+      <pubDate>Mon, 28 Sep 2026 12:00:00 GMT</pubDate>
+      <description>Your Room has a prompt you can give Claude, or whichever AI you use. It asks you about the room first, then builds it as one page you can keep changing until it is right, and you send us the result. The prompt carries the street’s rules with it: the dial, contrast you can read, nothing that plays by itself, nothing sent or kept, no image generators, and credits for everything borrowed. It also leaves a note at the top of the page saying what we need to bring the room onto the street. It tells the AI to use your own words for anything about you, and not to write your story for you. The page says plainly that whatever you tell an AI goes to the company that runs it, that you do not need one, and that a room made with an AI is credited as such, the way How this site is made says how we use one.</description>
+    </item>
+    <item>
       <title>A correction in the licence file: not every typeface is OFL</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-licence-typefaces</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-licence-typefaces</guid>
-      <pubDate>Mon, 28 Sep 2026 12:00:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:59:00 GMT</pubDate>
       <description>The site’s licence file said every typeface here keeps the SIL Open Font License, and that was wrong. Most do, and some are under the Apache License 2.0. It now says so, and points at the Foundry, where each family’s licence is read off its own record rather than typed in.</description>
     </item>
     <item>
       <title>How this site is made, and how we use AI</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-how-this-site-is-made</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-how-this-site-is-made</guid>
-      <pubDate>Mon, 28 Sep 2026 11:59:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:58:00 GMT</pubDate>
       <description>A new page, How this site is made, like the design pages our sibling sites keep. It says why there is no design system here, what every room shares anyway, how the dial works, how contrast is measured, why nothing plays until you press it, and how the site is built and checked. It says how we use AI, in one place and plainly. Ryan Boren and Helen Edgar decide what the street is. Claude, an AI model made by Anthropic, writes nearly all of the code and drafts most of the words, and the drawings are code it writes. No picture here came out of an image generator, no voice here was made by an AI, and nothing a visitor does is sent to one. The page also says which mistakes a language model makes and how the site catches them. Every page’s sign-off links to it, beside the liner notes, so the account is one press away wherever you are.</description>
     </item>
     <item>

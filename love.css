@@ -3810,6 +3810,17 @@ html[data-intensity="max"] .burst--confetti span { animation: pb-confetti 1.5s e
 .room-plain th, .room-plain td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--ink-3); font-size: 14.5px; vertical-align: top; }
 .room-plain th { font-family: 'Bungee', var(--sans); font-weight: 400; font-size: 12px; color: var(--chalk); letter-spacing: .5px; }
 
+/* Your Room's prompt for somebody's own AI. A block of text to copy, so it is
+   set as text to read rather than as code: wrapped, the room's own body face,
+   on the card's flat ground. The copy button ships hidden and your-room.js
+   switches it on, so a page with no script shows no dead control, and the
+   prompt still selects by hand. */
+.room-plain .yr-prompt__text { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; font-size: 15px; line-height: 1.6; color: var(--chalk); background: var(--ink); border: 2px solid var(--ink-3); border-radius: 10px; padding: 16px 18px; margin: 10px 0 14px; max-height: 32em; overflow: auto; }
+.room-plain .yr-prompt__go { margin: 0; }
+.room-plain .yr-prompt__copy { font-family: 'Bungee', var(--sans); font-size: 14px; letter-spacing: .5px; color: var(--ink); background: var(--yellow); border: 0; border-radius: 8px; padding: 10px 16px; cursor: pointer; }
+.room-plain .yr-prompt__copy:hover { background: #fff; }
+.room-plain .yr-prompt__said { display: inline-block; margin-left: 10px; color: var(--chalk); font-size: 15px; }
+
 
 /* §12 ── SUBROOM: The Chappell (off Pink Pony Club) ──────────────────────────
    RHINESTONE VATICAN. A chapel built by somebody who thinks a chapel should
