@@ -81,6 +81,13 @@
 
 .cb-set { padding: 10px 12px 12px; display: grid; gap: 10px; }
 .cb-who { font-size: 14px; }
+/* World or this room: two buttons, the pressed one with the amber edge every
+   pressed button on the radio has. */
+.cb-band { display: flex; gap: 8px; flex-wrap: wrap; }
+.cb-band-now {
+  margin: 0 0 6px; font-size: 13px; color: var(--cb-amber-2);
+  letter-spacing: .04em;
+}
 .cb-tag {
   display: inline-block; margin-left: 8px; padding: 0 5px;
   font: 700 11px/1.5 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .1em;
@@ -165,7 +172,7 @@
    with the older messages hidden, so the live region still reads what arrives,
    and the newest is clamped to a few lines so a long one cannot grow the radio
    back over whatever it was made small to get out of the way of. */
-.cb-radio--small .cb-who, .cb-radio--small .cb-tx,
+.cb-radio--small .cb-who, .cb-radio--small .cb-band, .cb-radio--small .cb-tx,
 .cb-radio--small .cb-tools, .cb-radio--small .cb-norms, .cb-radio--small .cb-take { display: none; }
 .cb-radio--small .cb-set { padding: 8px; }
 .cb-radio--small .cb-lcd { padding: 6px 9px; }

@@ -20,7 +20,8 @@ import assert from 'node:assert/strict';
 import { updateChalk, readChalk, updatePebbles, readPebbles, cleanLink, PEBBLE_ROOMS,
   updateChannel, readChannel, updateTalk, readTalk, beHere, leaveSlake, seenAt, sweepSlake,
   MUD_PLACES, MUD_FRESH, KEEP, today,
-  hostBeacon, stopBeacon, readBeacons, sweepBeacons, beaconRoom, cleanAt, BEACON_FRESH } from './lib.mjs';
+  hostBeacon, stopBeacon, readBeacons, sweepBeacons, beaconRoom, cleanAt, BEACON_FRESH,
+  updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag } from './lib.mjs';
 
 function memoryStore({ etagOnRead }) {
   const blobs = new Map();          // key -> { value, etag }
@@ -277,4 +278,39 @@ test('a beacon names a room by its tag and a place by seconds, and nothing else'
   for (const bad of ['The-Den', '../x', 'a b', '', 'x'.repeat(81), 7]) assert.equal(beaconRoom(bad), null);
   assert.equal(cleanAt(12.34), 12.3);
   for (const bad of [-1, 86401, NaN, Infinity, '12']) assert.equal(cleanAt(bad), null);
+});
+
+/* ── Room channels ── */
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`a room's channel, ten at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const { missing, failed } = await fifteen(
+      (change, st) => updateRoomTalk('the-den', change, st), async (st) => (await readRoomTalk('the-den', st)).messages, s, KEEP);
+    assert.deepEqual(missing, [], 'a message that was told it went out is not on the room\'s channel');
+    for (const f of failed) assert.equal(f.reason.message, 'busy');
+  });
+}
+
+test('a room hears only its own channel, and World hears neither room', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const say = (id) => (list) => { list.push({ id, t: Date.now() }); return list; };
+  await updateTuned(null, say('world'), s);
+  await updateTuned('the-den', say('den'), s);
+  await updateTuned('faery-yurt', say('yurt'), s);
+  const ids = async (room) => (await readTuned(room, s)).messages.map((m) => m.id);
+  assert.deepEqual(await ids(null), ['world']);
+  assert.deepEqual(await ids('the-den'), ['den']);
+  assert.deepEqual(await ids('faery-yurt'), ['yurt']);
+});
+
+test('a room channel from yesterday is not heard and is swept; today\'s stays', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await s.setJSON('room-talk-the-den', { day: '2000-01-01', messages: [{ id: 'old', t: 1 }] }, { onlyIfNew: true });
+  await updateRoomTalk('faery-yurt', (list) => { list.push({ id: 'new', t: Date.now() }); return list; }, s);
+  assert.deepEqual((await readRoomTalk('the-den', s)).messages, [], 'yesterday is not returned before the sweep');
+  assert.equal(await sweepRoomTalk(s), true);
+  assert.deepEqual(s.keys().filter((k) => k.startsWith('room-talk-')), ['room-talk-faery-yurt']);
+  assert.equal(roomTag('../channel'), null);
 });

@@ -32,6 +32,11 @@
        word. See hashRooms, and the completion list under the message box.
      · IT NEVER SCROLLS UNDER SOMEBODY WHO IS READING. See show.
      · THE TELEPORTER GOES TO A ROOM AND SENDS NOTHING. See setTeleport.
+     · WORLD OR THIS ROOM. The radio hears one channel at a time: World, the
+       channel it always had, or the room it is on, each with the same rules.
+       Tuned to a room it says which room every time it listens, and tuned to
+       World it says nothing about where it is, so World is where it starts.
+       See setBand.
      · HOSTING A FILM IS A BEACON, AND IT GOES OUT ONLY FROM INSIDE listen().
        Host this film tells the channel where the film on your page has got
        to, when it plays, pauses or jumps and every half minute besides, and
@@ -385,10 +390,26 @@
     if (state.base) who.appendChild(el('span', 'cb-tag', 'BASE'));
     set.appendChild(who);
 
+    /* THE BAND SWITCH: World, or this room's own channel. Two buttons, one
+       pressed, the dial's pattern. This room is only offered on a page that is
+       a room on the street. */
+    var band = el('div', 'cb-band');
+    band.setAttribute('role', 'group');
+    band.setAttribute('aria-label', 'Channel');
+    var bw = this.worldBtn = el('button', 'cb-btn cb-band-btn', 'World');
+    bw.type = 'button';
+    var br = this.roomBtn = el('button', 'cb-btn cb-band-btn', 'This room');
+    br.type = 'button';
+    band.appendChild(bw);
+    band.appendChild(br);
+    set.appendChild(band);
+
     var lcd = el('div', 'cb-lcd');
+    // Which channel this is, at every size, because small shows only the readout.
+    this.bandNow = el('p', 'cb-band-now');
+    lcd.appendChild(this.bandNow);
     var log = this.log = el('ol', 'cb-log');
     log.setAttribute('role', 'log');
-    log.setAttribute('aria-label', 'The channel, latest ten messages');
     lcd.appendChild(log);
     // Nothing is claimed about the channel until it has been heard.
     this.quiet = el('p', 'cb-quiet', 'Tuning in\u2026');
@@ -497,6 +518,8 @@
     aloud.addEventListener('click', function () { me.setAloud(!me.aloud()); });
     spot.addEventListener('click', function () { me.addSpot(); });
     hostBtn.addEventListener('click', function () { me.setHosting(!me.hosting); });
+    bw.addEventListener('click', function () { me.setBand('world'); });
+    br.addEventListener('click', function () { me.setBand('room'); });
     beacons.addEventListener('click', function (e) {
       var c = e.target.closest('.cb-catch');
       if (c) me.catchUp(c.dataset.room);
@@ -541,6 +564,7 @@
     root.appendChild(sheet);
     root.appendChild(box);
     document.body.appendChild(host);
+    this.bandShown();
     this.setAloud(this.aloud(), true);
     this.setSpeak(!!this.state.speak, true);
     this.setSmall(!!state.small, true);
@@ -783,12 +807,24 @@
   Radio.prototype.listen = function () {
     var me = this;
     this.loadRooms();
+    /* Tuned to a room, the first listen waits for the street's list, so that
+       a page that is no room (the 404 answers any address) never sends its
+       address to us as if it were one: it hears World instead. */
+    if (this.state.band === 'room' && rooms === null) {
+      this.roomsReady.then(function () {
+        if (radio === me && !me.state.folded && document.visibilityState === 'visible') me.tune();
+      });
+      return;
+    }
     var w = window.loveEmbed && window.loveEmbed.where ? window.loveEmbed.where() : null;
     this.spotBtn.hidden = !w;
     this.hostBtn.hidden = !w && !this.hosting;
     this.hostTick(w);
-    call('/cb/channel', null, this.state.pass).then(function (r) {
+    var room = this.tunedRoom();
+    call('/cb/channel' + (room ? '?room=' + room : ''), null, this.state.pass).then(function (r) {
       if (r.status === 401) return me.lost();
+      // Retuned while this was on its way: it is the other channel's answer.
+      if (r.status === 200 && (r.body.room || null) !== me.tunedRoom()) return;
       if (r.status === 200) { me.signal(true); me.show(r.body.messages || []); me.showBeacons(r.body.beacons, r.body.now); }
       else me.signal(false);
     }).catch(function () { me.signal(false); })
@@ -848,7 +884,7 @@
       this.log.appendChild(li);
       if (news && !(mine && m.handle === this.state.handle)) this.speak(li);
     }
-    this.quiet.textContent = 'Nobody has said anything today.';
+    this.quiet.textContent = this.quietText();
     this.quiet.hidden = messages.length > 0;
     this.log.hidden = messages.length === 0;
     if (mine || (added && atEnd)) this.log.scrollTop = this.log.scrollHeight;
@@ -860,10 +896,10 @@
     var me = this;
     if (this.askedRooms) return;
     this.askedRooms = true;
-    fetch('/cb-rooms.json', { credentials: 'omit', headers: { 'accept': 'application/json' } })
+    this.roomsReady = fetch('/cb-rooms.json', { credentials: 'omit', headers: { 'accept': 'application/json' } })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
-        if (d) { takeRooms(d.rooms); me.rerender(); me.complete(); }
+        if (d) { takeRooms(d.rooms); me.rerender(); me.complete(); me.bandShown(); }
         if (!me.tpPanel.hidden) me.tpRender();
       })
       .catch(function () {
@@ -1045,9 +1081,16 @@
     this.close();
     if (!text) { this.tell('Type something first.'); return; }
     this.tell('Transmitting…');
-    call('/cb/transmit', { body: { text: text } }, this.state.pass).then(function (r) {
+    var room = this.tunedRoom(), b = { text: text };
+    if (room) b.room = room;
+    call('/cb/transmit', { body: b }, this.state.pass).then(function (r) {
       if (r.status === 401) return me.lost();
-      if (r.status === 200) { me.say.value = ''; me.tell(''); me.show(r.body.messages || [], true); return; }
+      if (r.status === 200) {
+        me.say.value = '';
+        me.tell('');
+        if (room === me.tunedRoom()) me.show(r.body.messages || [], true);
+        return;
+      }
       if (r.status === 429) { me.tell('Easy on the mic: too many in a minute. Try again shortly.'); return; }
       me.tell(why(r, 'That did not go out. Try again.'));
     }).catch(function () { me.tell('No signal. That did not go out.'); });
@@ -1055,8 +1098,10 @@
 
   Radio.prototype.moderate = function (what) {
     var me = this;
+    var room = this.tunedRoom();
+    if (room) what.room = room;
     call('/cb/moderate', { body: what }, this.state.pass).then(function (r) {
-      if (r.status === 200) { me.show(r.body.messages || []); me.tell(what.clear ? 'Channel cleared.' : 'Taken off the air.'); }
+      if (r.status === 200 && room === me.tunedRoom()) { me.show(r.body.messages || []); me.tell(what.clear ? 'Channel cleared.' : 'Taken off the air.'); }
       else me.tell(why(r, 'That did not work.'));
     }).catch(function () { me.tell('No signal.'); });
   };
@@ -1133,6 +1178,53 @@
     this.say.focus();
     this.say.setSelectionRange(c, c);
     this.tell('Your spot in \u201c' + film + '\u201d is in your message. Nothing goes out until you transmit.');
+  };
+
+  /* WORLD OR THIS ROOM. Ryan, 2026-09-28: the radio can tune to the World
+     channel, as it always could, or to the channel of the room it is on, and
+     a room's channel keeps the World's rules exactly. One at a time, like a
+     radio. The choice is remembered, like Small, so moving between rooms
+     tuned to rooms hears each room's own channel in turn. A page that is not a
+     room on the street, like the 404, has no channel of its own and hears
+     World. Retuning starts the log afresh, and what is already on the other
+     channel is not read out as news. */
+  Radio.prototype.tunedRoom = function () {
+    if (this.state.band !== 'room') return null;
+    if (rooms && rooms.length && !hereRoom()) return null;
+    var tag = hereTag();
+    return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(tag) ? tag : null;
+  };
+
+  Radio.prototype.setBand = function (band) {
+    var was = this.tunedRoom();
+    this.state.band = band === 'room' ? 'room' : 'world';
+    save(this.state);
+    this.bandShown();
+    if (this.tunedRoom() === was) return;
+    this.log.textContent = '';
+    this.seen = {};
+    this.heard = false;
+    this.log.hidden = true;
+    this.quiet.textContent = 'Tuning in\u2026';
+    this.quiet.hidden = false;
+    this.tell('');
+    this.tune();
+  };
+
+  Radio.prototype.bandShown = function () {
+    var room = this.tunedRoom(), here = hereRoom();
+    var name = here ? here.name : 'this room';
+    this.roomBtn.hidden = !!(rooms && rooms.length && !here);
+    this.worldBtn.setAttribute('aria-pressed', String(!room));
+    this.roomBtn.setAttribute('aria-pressed', String(!!room));
+    this.roomBtn.textContent = 'This room';
+    this.roomBtn.setAttribute('aria-label', 'This room: ' + name);
+    this.bandNow.textContent = room ? 'Tuned to ' + name : 'Tuned to World';
+    this.log.setAttribute('aria-label', (room ? name + '\u2019s channel' : 'The World channel') + ', latest ten messages');
+  };
+
+  Radio.prototype.quietText = function () {
+    return this.tunedRoom() ? 'Nobody has said anything in this room today.' : 'Nobody has said anything today.';
   };
 
   /* HOSTING. Ryan, 2026-09-28: somebody watching a film in a room can host it,
@@ -1295,7 +1387,7 @@
      like a quiet channel, because "nobody has said anything" and "we could not
      hear the channel" are different sentences, and only one of them is true. */
   Radio.prototype.signal = function (ok) {
-    this.quiet.textContent = ok ? 'Nobody has said anything today.' : 'No signal: the channel cannot be reached just now. Still trying.';
+    this.quiet.textContent = ok ? this.quietText() : 'No signal: the channel cannot be reached just now. Still trying.';
     if (!ok) { this.quiet.hidden = false; }
     else if (this.log.children.length) { this.quiet.hidden = true; }
   };

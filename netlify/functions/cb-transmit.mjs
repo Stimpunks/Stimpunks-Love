@@ -1,7 +1,7 @@
-/* The CB: keying up. One message onto the channel; the eleventh pushes the
-   oldest off. */
+/* The CB: keying up. One message onto the channel the radio is tuned to, the
+   World's or a room's; the eleventh pushes the oldest off. */
 import { randomUUID } from 'node:crypto';
-import { readPass, updateChannel, cleanText, shape, json, body, sameSite, TEXT_MAX } from '../cb/lib.mjs';
+import { readPass, updateTuned, roomTag, cleanText, shape, json, body, sameSite, TEXT_MAX } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
@@ -10,8 +10,10 @@ export default async (req) => {
   const b = await body(req);
   const text = cleanText(b && b.text);
   if (!text) return json(400, { error: `A message is between one and ${TEXT_MAX} characters.` });
+  const room = b.room == null ? null : roomTag(b.room);
+  if (b.room != null && !room) return json(400, { error: 'That is not a room on the street.' });
   try {
-    const messages = await updateChannel((list) => {
+    const messages = await updateTuned(room, (list) => {
       list.push({ id: randomUUID(), handle: who.handle, text, t: Date.now(), base: who.role === 'base' });
       return list;
     });

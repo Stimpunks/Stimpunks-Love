@@ -36,6 +36,14 @@
        is the channel's own blob shape, ten messages and gone at midnight. There
        is no list of everybody out there and no count of them, anywhere, and the
        places a visit has been are replaced rather than added to.
+     · EVERY ROOM HAS A CHANNEL OF ITS OWN, BESIDE THE WORLD ONE. Ryan,
+       2026-09-28: the radio tunes to World, the channel it always had, or to
+       the room it is in, and a room's channel is the World channel's shape
+       exactly, ten messages and gone at midnight in Colorado, in a blob of
+       its own. Tuned to a room, the radio has to say which room it wants,
+       every time it listens; tuned to World it says nothing about where it
+       is. That difference is written on privacy.html, and it is why World is
+       where a radio starts.
      · A HOST'S BEACON SAYS WHERE ONE FILM HAS GOT TO, AND NOTHING ELSE. Ryan,
        2026-09-28, for watch-togethers: somebody watching a film in a room can
        host it, and every radio then shows their place in it, with a way to
@@ -352,18 +360,44 @@ export async function sweepSlake(s = store(), now = Date.now()) {
   return any;
 }
 
+/* ── Room channels ─────────────────────────────────────────────────────── */
+
+const ROOM_TALK = 'room-talk-';
+
+/* A room is named by its tag, the filename the street's own list uses. The
+   server only checks its shape: a tag that is no room is a channel nobody's
+   radio can tune to, and it is gone at midnight like every other. */
+export function roomTag(r) {
+  return typeof r === 'string' && r.length <= 80 && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(r) ? r : null;
+}
+
+export function readRoomTalk(room, s = store()) { return readLog(ROOM_TALK + room, s); }
+export function updateRoomTalk(room, change, s = store()) { return updateLog(ROOM_TALK + room, change, s); }
+
+/* The channel a request names: a room's, or World's when it names none. */
+export function readTuned(room, s = store()) { return room ? readRoomTalk(room, s) : readChannel(s); }
+export function updateTuned(room, change, s = store()) { return room ? updateRoomTalk(room, change, s) : updateChannel(change, s); }
+
+/* Hourly, with the World channel's sweep: every room's channel whose day is
+   over in Colorado. */
+export async function sweepRoomTalk(s = store()) {
+  let any = false;
+  for (const b of (await s.list({ prefix: ROOM_TALK })).blobs || []) {
+    const data = await s.get(b.key, { type: 'json' });
+    if (!data || data.day !== today()) { await s.delete(b.key); any = true; }
+  }
+  return any;
+}
+
 /* ── The beacons ───────────────────────────────────────────────────────── */
 
 export const BEACON_FRESH = 75 * 1000;     // shown to nobody this long after it was last heard
 export const FILM_MAX = 120;               // characters of a film's title
 const BEACONS = 'beacons';
 
-/* A room is named by its tag, the filename the street's own list uses. The
-   server only checks its shape: the radio shows nothing for a tag that is not
-   a room on the street. */
-export function beaconRoom(r) {
-  return typeof r === 'string' && r.length <= 80 && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(r) ? r : null;
-}
+/* A beacon's room is checked the way a room channel's is; the radio shows
+   nothing for a tag that is not a room on the street. */
+export const beaconRoom = roomTag;
 export function cleanFilm(s) {
   const t = tidy(s);
   return t && [...t].length <= FILM_MAX ? t : null;

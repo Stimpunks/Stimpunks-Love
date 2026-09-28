@@ -581,7 +581,17 @@ beacon not heard for `BEACON_FRESH` is shown to nobody and dropped by the next w
 server's clock**, so the radio finds its own room's host without saying where it is. Do not
 "optimise" that into a `?room=` on the listen: it would tell us where every listener is, every
 four seconds. **The hosts list is not a live region, and it updates rows in place**, because
-redrawing every four seconds threw the keyboard off Catch up. **The friendly edit is auto-follow, a host whose
+redrawing every four seconds threw the keyboard off Catch up.
+
+**EVERY ROOM HAS A CHANNEL, AND ONLY THAT ONE TELLS US WHERE ANYBODY IS.** Ryan, 2026-09-28: the
+radio tunes to World (the `channel` blob, as it always was) or to this room (`room-talk-<tag>`, the
+same day log as each place on the Slake). `readTuned` / `updateTuned` in `lib.mjs` pick the blob,
+and listen, transmit and moderate each take an optional room. World sends no room at all, and it is
+where a radio starts. **A room listen waits for `cb-rooms.json`**, because the 404 answers every
+address, and its first build sent `?room=no-such-room` before the list said it was no room. The
+server only checks a tag's shape, so a tag that is no room is a channel nobody can reach, swept at
+midnight. The choice is remembered in `love-cb` as `band`. A room with a promise about sending
+nothing already sets `data-cb="off"`, so no new opt-out is needed. **The friendly edit is auto-follow, a host whose
 jumps move everybody.** That is forced sync, and the watch-togethers rely on people pausing
 when they need to. It is Ryan's call and nobody else's.
 
