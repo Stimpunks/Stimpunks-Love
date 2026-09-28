@@ -203,4 +203,33 @@
   overflow: hidden;
 }
 
-@media print { .cb-radio { display: none; } }
+/* A ROOM'S CALL: a window of its own at the foot of the page, bottom left
+   where the radio is bottom right, one step under it so the radio can always
+   be reached. Its clothes are the radio's, because it is the radio's. The
+   frame fills the screen box: a call measured at 0x0 is Swaying Sweetgrass's
+   player again, so the screen has a size of its own and the frame takes it. */
+.cb-call {
+  position: fixed; z-index: 89; left: 8px; bottom: 8px;
+  width: min(560px, calc(100vw - 16px));
+  max-height: calc(100vh - 16px); max-height: calc(100dvh - 16px);
+  display: flex; flex-direction: column; box-sizing: border-box;
+  background: var(--cb-case); color: var(--cb-steel);
+  border: 2px solid var(--cb-steel-2); border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .55);
+  font: 15px/1.45 'Atkinson Hyperlegible', system-ui, sans-serif; text-align: left;
+}
+.cb-call *, .cb-call *::before, .cb-call *::after { box-sizing: border-box; }
+.cb-call p { margin: 0; }
+.cb-call :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.cb-call-bar {
+  flex: none; display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+  padding: 6px 8px 6px 12px; background: var(--cb-bar); border-radius: 8px 8px 0 0;
+}
+.cb-call-name { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+.cb-call-note { flex: none; padding: 4px 12px; font-size: 13px; }
+.cb-call-screen { flex: 1 1 auto; min-height: 0; aspect-ratio: 16 / 10; background: #000; border-radius: 0 0 8px 8px; overflow: hidden; }
+.cb-call-screen iframe { display: block; width: 100%; height: 100%; border: 0; }
+.cb-call--large { width: calc(100vw - 16px); height: calc(100vh - 16px); height: calc(100dvh - 16px); }
+.cb-call--large .cb-call-screen { aspect-ratio: auto; }
+
+@media print { .cb-radio, .cb-call { display: none; } }

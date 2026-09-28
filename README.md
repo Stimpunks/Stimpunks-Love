@@ -655,7 +655,10 @@ answers 404 there and the radio says it has no signal. Everything the CB does is
 Functions in `netlify/functions/`, and they run under `netlify dev` (after `npm install`) or on
 the live site. They need two environment variables set in Netlify, never in this repository:
 `CB_PASSWORD`, the shared password, and `CB_MOD_PASSWORD`, the base station's, each at least
-eight characters. **Rotating the password is changing `CB_PASSWORD` and redeploying**: every
+eight characters. **A room's call needs two more**, from an API key made in the JaaS console
+(8x8's Jitsi as a Service): `CB_JAAS_KID`, the key's id, which starts with our App ID and a
+slash, and `CB_JAAS_KEY`, the private key's PEM. Without both, `/cb/call` answers that calls are
+not switched on and the radio shows no call button. **Rotating the password is changing `CB_PASSWORD` and redeploying**: every
 pass is an HMAC keyed by it, so the redeploy signs everybody off at once and there is nothing
 else to clear. Nothing on the channel survives midnight, Colorado time, whatever you do.
 **The chalkboard on Plural Mural is the one exception, and it is public**: Helen Edgar's idea,

@@ -21,7 +21,9 @@ import { updateChalk, readChalk, updatePebbles, readPebbles, cleanLink, PEBBLE_R
   updateChannel, readChannel, updateTalk, readTalk, beHere, leaveSlake, seenAt, sweepSlake,
   MUD_PLACES, MUD_FRESH, KEEP, today,
   hostBeacon, stopBeacon, readBeacons, sweepBeacons, beaconRoom, cleanAt, BEACON_FRESH,
-  updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag } from './lib.mjs';
+  updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag,
+  callToken, callSrc, callsReady, JAAS_APP, CALL_HOURS } from './lib.mjs';
+import { generateKeyPairSync, createVerify } from 'node:crypto';
 
 function memoryStore({ etagOnRead }) {
   const blobs = new Map();          // key -> { value, etag }
@@ -313,4 +315,54 @@ test('a room channel from yesterday is not heard and is swept; today\'s stays', 
   assert.equal(await sweepRoomTalk(s), true);
   assert.deepEqual(s.keys().filter((k) => k.startsWith('room-talk-')), ['room-talk-faery-yurt']);
   assert.equal(roomTag('../channel'), null);
+});
+
+/* ── Calls ── */
+
+const pair = generateKeyPairSync('rsa', { modulusLength: 2048 });
+const key = { kid: `${JAAS_APP}/test`, pem: pair.privateKey.export({ type: 'pkcs8', format: 'pem' }) };
+const open = (tok) => {
+  const [h, p, sig] = tok.split('.');
+  const ok = createVerify('RSA-SHA256').update(`${h}.${p}`).verify(pair.publicKey, Buffer.from(sig, 'base64url'));
+  return { ok, header: JSON.parse(Buffer.from(h, 'base64url')), body: JSON.parse(Buffer.from(p, 'base64url')) };
+};
+
+test('a call token is signed, names one room, and lasts its hours', () => {
+  const now = Date.UTC(2026, 8, 28, 20, 0, 0);
+  const t = open(callToken(ada, 'the-den', now, key));
+  assert.equal(t.ok, true, 'the signature verifies with the public half');
+  assert.deepEqual(t.header, { alg: 'RS256', typ: 'JWT', kid: key.kid });
+  assert.equal(t.body.aud, 'jitsi'); assert.equal(t.body.iss, 'chat'); assert.equal(t.body.sub, JAAS_APP);
+  assert.equal(t.body.room, 'stimpunks-the-den', 'one room, never *');
+  assert.equal(t.body.exp - t.body.iat, CALL_HOURS * 3600);
+  assert.equal(t.body.context.user.name, 'Ada');
+});
+
+test('only the base moderates, records or transcribes; nobody streams or dials out', () => {
+  const who = (role) => open(callToken({ role, handle: 'Same' }, 'the-den', Date.now(), key)).body.context;
+  const mobile = who('mobile'), base = who('base');
+  assert.equal(mobile.user.moderator, 'false'); assert.equal(base.user.moderator, 'true');
+  assert.equal(mobile.features.recording, false); assert.equal(base.features.recording, true);
+  assert.equal(mobile.features.transcription, false); assert.equal(base.features.transcription, true);
+  for (const f of ['livestreaming', 'outbound-call', 'inbound-call', 'sip-outbound-call', 'sip-inbound-call']) {
+    assert.equal(mobile.features[f], false); assert.equal(base.features[f], false);
+  }
+  assert.notEqual(mobile.user.id, base.user.id, 'the same handle as base is a different person to 8x8');
+  assert.equal(who('mobile').user.id, mobile.user.id, 'the same person is one id every time');
+});
+
+test('no key, no calls; and the address arrives muted on the pre-join screen', () => {
+  const was = [process.env.CB_JAAS_KID, process.env.CB_JAAS_KEY];
+  delete process.env.CB_JAAS_KID; delete process.env.CB_JAAS_KEY;
+  assert.equal(callsReady(), false);
+  assert.equal(callToken(ada, 'the-den'), null);
+  process.env.CB_JAAS_KID = 'somebody-elses/1'; process.env.CB_JAAS_KEY = key.pem;
+  assert.equal(callsReady(), false, 'a key for another App ID is refused');
+  for (const [k, v] of [['CB_JAAS_KID', was[0]], ['CB_JAAS_KEY', was[1]]]) {
+    if (v === undefined) delete process.env[k]; else process.env[k] = v;
+  }
+  const src = callSrc('the-den', 'TOKEN');
+  assert.ok(src.startsWith(`https://8x8.vc/${JAAS_APP}/stimpunks-the-den?jwt=TOKEN#`));
+  for (const c of ['startWithAudioMuted=true', 'startWithVideoMuted=true', 'prejoinConfig.enabled=true', 'disableInviteFunctions=true'])
+    assert.ok(src.includes('config.' + c), c);
 });

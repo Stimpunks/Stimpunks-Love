@@ -60,8 +60,19 @@
        permission as embedding" stated by the vendor rather than discovered by
        us. The page a person browses is the one that refuses; the embed host is
        the one to frame. */
-    'https://embed.music.apple.com/'
+    'https://embed.music.apple.com/',
+    /* A room's call, through 8x8's Jitsi as a Service. FIFTH ORIGIN, AND THE
+       FIRST ONE HANDED THE CAMERA AND THE MICROPHONE. Ryan, 2026-09-28. It
+       is still only framed after a press, and only from the CB, with a token
+       the CB signed for one handle and one room; nobody who has not signed on
+       can reach it. 8x8 sends no X-Frame-Options and no frame-ancestors
+       (measured), and _headers' Permissions-Policy delegates camera,
+       microphone and display-capture to this origin and no other. CALL, below,
+       is the one allow list with those three in it. */
+    'https://8x8.vc/'
   ];
+
+  var CALL = 'https://8x8.vc/';
 
   /* WHERE EVERYBODY IS UP TO, without YouTube's script. Ryan's ask,
      2026-09-28: at a watch-together everybody runs their own player, pauses
@@ -165,6 +176,10 @@
     el.src = src;
     el.title = title || 'Embedded player';
     el.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen';
+    // A call, and only a call, may ask for the camera, the microphone and a
+    // shared screen: the frame says so here, and the page's policy says so
+    // for this origin only. Both halves are needed, and neither alone works.
+    if (src.indexOf(CALL) === 0) el.allow = 'autoplay; fullscreen; camera; microphone; display-capture; clipboard-write';
     el.setAttribute('allowfullscreen', '');
     el.setAttribute('loading', 'lazy');
     el.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');

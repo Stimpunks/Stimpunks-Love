@@ -120,6 +120,32 @@ hdr = ROOT / "_headers"
 src = hdr.read_text()
 new = re.sub(r"(# >>> csp.*?\n)  Content-Security-Policy: [^\n]*",
              lambda m: m.group(1) + "  Content-Security-Policy: " + csp, src, flags=re.S)
+# THE PERMISSIONS-POLICY IS WRITTEN BY HAND, AND THIS HOLDS IT TO THE SAME LIST.
+# It delegates a device to an origin by name, so an origin in it that
+# love-embed.js does not frame is a permission for nothing, and the camera, the
+# microphone and a shared screen go to the call origin (CALL in love-embed.js)
+# and to nothing else, this site included: no page of ours asks for them, and
+# the fractal window, the Repeater and Stay Breezy all say so out loud.
+pp = re.search(r"^  Permissions-Policy: ([^\n]*)", new, re.M)
+if not pp:
+    print("REFUSING: _headers has no Permissions-Policy line to check.")
+    sys.exit(2)
+framed = {o.rstrip("/") for o in found}
+stray = sorted(set(re.findall(r'"(https://[^"]+)"', pp.group(1))) - framed)
+if stray:
+    print("REFUSING: the Permissions-Policy delegates to an origin love-embed.js never frames:")
+    for o in stray: print("  " + o)
+    print("Take it out of the policy, or add it to ORIGINS if this site really frames it.")
+    sys.exit(2)
+cm = re.search(r"var CALL = '(https://[^']+)'", embed)
+call = cm.group(1).rstrip("/") if cm else None
+for feat in ("camera", "microphone", "display-capture"):
+    m = re.search(r"(?:^|, )" + feat + r"=\(([^)]*)\)", pp.group(1))
+    given = m.group(1).split() if m else []
+    if not m or any(g != f'"{call}"' for g in given):
+        print(f"REFUSING: {feat} in the Permissions-Policy is given to {given or 'nothing named'}.")
+        print(f"It goes to the call origin ({call}) and to nothing else, 'self' included.")
+        sys.exit(2)
 hdr.write_text(new)
 print(f"csp: sha256-{digest}  ({len(pages)} pages, 1 snippet)\n     frame-src 'self' " + origins + "  (read from love-embed.js)"
       + "\n     media-src 'self' " + media + "  (read from love-embed.js)")

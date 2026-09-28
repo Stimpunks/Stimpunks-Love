@@ -37,6 +37,12 @@
        Tuned to a room it says which room every time it listens, and tuned to
        World it says nothing about where it is, so World is where it starts.
        See setBand.
+     · A ROOM'S CALL IS A WINDOW OF ITS OWN. Join this room's call asks our
+       /cb/call for a token for this handle and this room, and frames 8x8's
+       call through love-embed.js, the only thing here that builds a frame.
+       It is shown only when the channel says calls are switched on, the
+       camera and microphone start off, and leaving the page hangs up. See
+       setCall.
      · HOSTING A FILM IS A BEACON, AND IT GOES OUT ONLY FROM INSIDE listen().
        Host this film tells the channel where the film on your page has got
        to, when it plays, pauses or jumps and every half minute besides, and
@@ -483,6 +489,13 @@
     hostBtn.setAttribute('aria-pressed', 'false');
     tools.appendChild(hostBtn);
     this.hosting = null;
+    var callBtn = this.callBtn = el('button', 'cb-btn cb-call-btn', 'Join this room\u2019s call');
+    callBtn.type = 'button';
+    callBtn.hidden = true;
+    callBtn.setAttribute('aria-pressed', 'false');
+    tools.appendChild(callBtn);
+    this.calls = false;
+    this.call = null;
     var aloud = this.aloudBtn = el('button', 'cb-btn cb-aloud');
     aloud.type = 'button';
     tools.appendChild(aloud);
@@ -518,6 +531,7 @@
     aloud.addEventListener('click', function () { me.setAloud(!me.aloud()); });
     spot.addEventListener('click', function () { me.addSpot(); });
     hostBtn.addEventListener('click', function () { me.setHosting(!me.hosting); });
+    callBtn.addEventListener('click', function () { me.setCall(!me.call); });
     bw.addEventListener('click', function () { me.setBand('world'); });
     br.addEventListener('click', function () { me.setBand('room'); });
     beacons.addEventListener('click', function (e) {
@@ -830,7 +844,11 @@
       if (r.status === 401) return me.lost();
       // Retuned while this was on its way: it is the other channel's answer.
       if (r.status === 200 && (r.body.room || null) !== me.tunedRoom()) return;
-      if (r.status === 200) { me.signal(true); me.show(r.body.messages || []); me.showBeacons(r.body.beacons, r.body.now); }
+      if (r.status === 200) {
+        me.signal(true); me.show(r.body.messages || []); me.showBeacons(r.body.beacons, r.body.now);
+        me.calls = !!r.body.calls;
+        me.callShown();
+      }
       else me.signal(false);
     }).catch(function () { me.signal(false); })
       .then(function () {
@@ -1234,6 +1252,96 @@
 
   Radio.prototype.quietText = function () {
     return this.tunedRoom() ? 'Nobody has said anything in this room today.' : 'Nobody has said anything today.';
+  };
+
+  /* A ROOM'S CALL. Ryan, 2026-09-28: voice and video through 8x8's Jitsi as a
+     Service, one call per room, and only for people signed on to the CB,
+     because a JaaS call lets nobody in without a token and only our /cb/call
+     signs one. The call is a window of its own at the foot of the page, not
+     part of the radio, so folding the radio away leaves it running; leaving
+     the page hangs up, and the window says so. The frame is built by
+     love-embed.js, loaded here if this page has not already got it. Nothing in
+     the window moves at any setting. */
+  Radio.prototype.callShown = function () {
+    this.callBtn.hidden = !(this.call || (this.calls && hereRoom()));
+    this.callBtn.setAttribute('aria-pressed', String(!!this.call));
+  };
+
+  function withEmbed(then) {
+    if (window.loveEmbed) { then(); return; }
+    var s = document.createElement('script');
+    s.src = '/love-embed.js';
+    s.addEventListener('load', then);
+    s.addEventListener('error', then);
+    document.head.appendChild(s);
+  }
+
+  Radio.prototype.setCall = function (on) {
+    var me = this;
+    if (!on) {
+      var was = !!this.call;
+      if (this.call) { this.call.host.remove(); this.call = null; }
+      this.callShown();
+      this.tell('You have left the call.');
+      // The window the keyboard was in has gone, so it comes back to the
+      // button that opened it rather than falling to the top of the page.
+      if (was && !this.state.folded) this.callBtn.focus();
+      return;
+    }
+    var here = hereRoom();
+    if (!here) { this.tell('This page is not a room on the street, so it has no call.'); return; }
+    this.tell('Opening the call\u2026');
+    call('/cb/call', { body: { room: here.tag } }, this.state.pass).then(function (r) {
+      if (r.status === 401) return me.lost();
+      if (r.status !== 200 || !r.body.src) { me.tell(why(r, 'The call could not be opened. Try again in a moment.')); return; }
+      withEmbed(function () {
+        var frame = window.loveEmbed && window.loveEmbed.frameUrl(r.body.src, 'The call in ' + here.name);
+        if (!frame) { me.tell('The call could not be opened on this page.'); return; }
+        if (me.call) me.call.host.remove();
+        me.call = me.callWindow(here, frame);
+        me.callShown();
+        me.tell('The call is open at the foot of the page. Your browser may ask about your camera and microphone so its first screen can show a preview; both start off, and nothing goes to the call until you join there.');
+      });
+    }).catch(function () { me.tell('No signal. The call could not be opened.'); });
+  };
+
+  Radio.prototype.callWindow = function (here, frame) {
+    var me = this;
+    var host = el('div', 'cb-call-host');
+    var root = host.attachShadow({ mode: 'open' });
+    var sheet = document.createElement('link');
+    sheet.rel = 'stylesheet';
+    sheet.href = '/cb.css';
+    root.appendChild(sheet);
+    var box = el('section', 'cb-call');
+    box.setAttribute('aria-label', 'Call in ' + here.name);
+    var bar = el('div', 'cb-call-bar');
+    var name = el('p', 'cb-call-name');
+    name.appendChild(el('span', 'cb-brand', 'CALL'));
+    name.appendChild(document.createTextNode(' ' + here.name));
+    bar.appendChild(name);
+    var big = el('button', 'cb-btn', 'Large');
+    big.type = 'button';
+    big.setAttribute('aria-pressed', 'false');
+    big.addEventListener('click', function () {
+      var on = !box.classList.contains('cb-call--large');
+      box.classList.toggle('cb-call--large', on);
+      big.setAttribute('aria-pressed', String(on));
+    });
+    bar.appendChild(big);
+    var leave = el('button', 'cb-btn cb-call-leave', 'Leave the call');
+    leave.type = 'button';
+    leave.addEventListener('click', function () { me.setCall(false); });
+    bar.appendChild(leave);
+    box.appendChild(bar);
+    box.appendChild(el('p', 'cb-call-note', 'Leaving this page hangs up. Nothing about the call is kept on stimpunks.world.'));
+    var screen = el('div', 'cb-call-screen');
+    screen.appendChild(frame);
+    box.appendChild(screen);
+    root.appendChild(box);
+    document.body.appendChild(host);
+    leave.focus();
+    return { host: host };
   };
 
   /* HOSTING. Ryan, 2026-09-28: somebody watching a film in a room can host it,

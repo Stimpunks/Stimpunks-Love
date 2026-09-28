@@ -54,12 +54,21 @@
        seventy-five seconds is shown to nobody and dropped by the next write.
        The channel's answer carries all of them, so the radio never has to
        tell us which room anybody is in to find the beacon for theirs.
+     · A CALL IS A ROOM'S, AND ONLY THE CB GETS YOU INTO ONE. Ryan, 2026-09-28:
+       voice and video through 8x8's Jitsi as a Service, one call per room.
+       JaaS lets nobody in without a token signed with our private key, so
+       this signs one for a signed-on handle and one room, and nothing else:
+       the handle as the name shown in the call, a stable id made from it so
+       8x8 does not count one person twice, moderator only for the base, and
+       recording and transcription only for the base, who is who starts them.
+       We keep nothing about a call. What 8x8 keeps is 8x8's, and
+       privacy.html says so and links its policy.
      · A PASS IS CHECKED AND NOT KEPT. It is an HMAC of the handle keyed by the
        current password, so changing the password in Netlify's environment and
        redeploying signs everybody off at once, and there is no list of passes
        anywhere to go stale or leak.
    ============================================================================= */
-import { createHmac, timingSafeEqual } from 'node:crypto';
+import { createHmac, createHash, createSign, timingSafeEqual } from 'node:crypto';
 import { getStore } from '@netlify/blobs';
 
 export const KEEP = 10;             // messages on the channel at once
@@ -387,6 +396,66 @@ export async function sweepRoomTalk(s = store()) {
     if (!data || data.day !== today()) { await s.delete(b.key); any = true; }
   }
   return any;
+}
+
+/* ── Calls ─────────────────────────────────────────────────────────────── */
+
+/* Our JaaS App ID. Not a secret: it is in every call's address. The private key
+   and its id are, and they live in Netlify's environment, never here. */
+export const JAAS_APP = 'vpaas-magic-cookie-7c4c52a95081498db34c04fcdadc50a2';
+export const JAAS_HOST = 'https://8x8.vc/';
+export const CALL_HOURS = 4;               // a token lets you (re)join for this long
+export const callRoom = (tag) => `stimpunks-${tag}`;
+
+function jaasKey() {
+  const kid = process.env.CB_JAAS_KID, pem = process.env.CB_JAAS_KEY;
+  if (!kid || !pem || kid.indexOf(JAAS_APP + '/') !== 0) return null;
+  // Netlify's environment keeps a pasted key's line breaks as \n.
+  return { kid, pem: pem.replace(/\\n/g, '\n') };
+}
+export function callsReady() { return !!jaasKey(); }
+
+/* One token, for one handle in one room's call. 8x8 counts people by id, so
+   the id is made from the handle and the role, the same every time, and says
+   nothing a name in the call does not already say. */
+export function callToken(who, tag, now = Date.now(), key = jaasKey()) {
+  if (!key) return null;
+  const base = who.role === 'base';
+  const t = Math.floor(now / 1000);
+  const header = { alg: 'RS256', typ: 'JWT', kid: key.kid };
+  const payload = {
+    aud: 'jitsi', iss: 'chat', sub: JAAS_APP, room: callRoom(tag),
+    iat: t, nbf: t - 10, exp: t + CALL_HOURS * 3600,
+    context: {
+      user: {
+        id: createHash('sha256').update(`stimpunks-call\0${who.role}\0${who.handle}`).digest('base64url').slice(0, 22),
+        name: who.handle,
+        moderator: base ? 'true' : 'false',
+      },
+      features: {
+        recording: base, transcription: base,
+        livestreaming: false, 'outbound-call': false, 'inbound-call': false,
+        'sip-outbound-call': false, 'sip-inbound-call': false,
+        'file-upload': false, 'list-visitors': false,
+        'send-groupchat': true, 'create-polls': true,
+      },
+    },
+  };
+  const part = (o) => b64(JSON.stringify(o));
+  const unsigned = `${part(header)}.${part(payload)}`;
+  const sig = createSign('RSA-SHA256').update(unsigned).sign(key.pem);
+  return `${unsigned}.${b64(sig)}`;
+}
+
+/* The address the call window frames. The fragment is Jitsi's own config:
+   everybody arrives on the pre-join screen with camera and microphone OFF, no
+   invite links (an invite would be an address with no token in it), and
+   nothing fetched from third parties such as avatar services. */
+export function callSrc(tag, token) {
+  const conf = ['startWithAudioMuted=true', 'startWithVideoMuted=true', 'prejoinConfig.enabled=true',
+    'disableDeepLinking=true', 'disableInviteFunctions=true', 'disableThirdPartyRequests=true']
+    .map((c) => 'config.' + c).join('&');
+  return `${JAAS_HOST}${JAAS_APP}/${callRoom(tag)}?jwt=${token}#${conf}`;
 }
 
 /* ── The beacons ───────────────────────────────────────────────────────── */

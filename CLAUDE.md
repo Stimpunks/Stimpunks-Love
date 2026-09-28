@@ -591,7 +591,22 @@ where a radio starts. **A room listen waits for `cb-rooms.json`**, because the 4
 address, and its first build sent `?room=no-such-room` before the list said it was no room. The
 server only checks a tag's shape, so a tag that is no room is a channel nobody can reach, swept at
 midnight. The choice is remembered in `love-cb` as `band`. A room with a promise about sending
-nothing already sets `data-cb="off"`, so no new opt-out is needed. **The friendly edit is auto-follow, a host whose
+nothing already sets `data-cb="off"`, so no new opt-out is needed.
+
+**A ROOM'S CALL IS 8x8's JITSI AS A SERVICE, AND THE CB IS THE ONLY WAY IN.** Ryan, 2026-09-28:
+one call per room, the base as the only moderator, and recording and transcription for the base
+only. JaaS lets nobody join without an RS256 token signed with our private key
+(`CB_JAAS_KID`, `CB_JAAS_KEY` in Netlify), and `callToken` in `lib.mjs` signs one for one handle
+and one room (`stimpunks-<tag>`, never `*`). **It is the only thing on the site given the
+camera, the microphone or a shared screen.** `Permissions-Policy` in `_headers` names `8x8.vc`
+for those three and nothing else, `self` included. `make-csp.py` refuses the header if it
+delegates to an origin `ORIGINS` does not frame, or gives the three to anything but `CALL` in
+`love-embed.js`, which is also the one allow list carrying them. **The frame is built by
+`love-embed.js`, which `cb.js` loads on the first press if the page lacks it**: do not build a
+second iframe in `cb.js`. The window is not the radio, so folding the radio leaves the call up;
+leaving the page hangs up. Every call arrives muted on Jitsi's pre-join screen. That screen asks
+the browser for the devices so it can show a preview, and that is 8x8's, not a fault. **8x8's
+own pages answer scripts with 429**, so check them in a browser. **The friendly edit is auto-follow, a host whose
 jumps move everybody.** That is forced sync, and the watch-togethers rely on people pausing
 when they need to. It is Ryan's call and nobody else's.
 

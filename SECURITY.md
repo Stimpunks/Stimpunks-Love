@@ -56,9 +56,17 @@ What that shape rules out, and what it does not:
   any page can fetch from anywhere else. Every script and typeface is
   self-hosted, and the only other origins the policy names are in `frame-src`,
   for players that are built only after a press: `youtube-nocookie.com`,
-  `open.spotify.com`, `videopress.com` and `embed.music.apple.com`.
+  `open.spotify.com`, `videopress.com`, `embed.music.apple.com`, and `8x8.vc` for
+  a room's call. **The call is the only thing given the camera, the microphone
+  or a shared screen**: `Permissions-Policy` delegates the three to `8x8.vc` and
+  to nothing else, this site included, and `tools/make-csp.py` refuses the
+  header otherwise. A call needs a token our `/cb/call` signs for one signed-on
+  handle and one room.
 - **No secrets in the repository.** The CB's two passwords live in Netlify's
-  environment as `CB_PASSWORD` and `CB_MOD_PASSWORD`, and never in this repo.
+  environment as `CB_PASSWORD` and `CB_MOD_PASSWORD`, and the JaaS signing key
+  as `CB_JAAS_KID` and `CB_JAAS_KEY`, never in this repo. Getting a call token
+  without a pass, for a room it was not asked for, or with moderator rights
+  without the moderators' password is worth a report.
 
 **What is in scope, and is worth telling us about:**
 
