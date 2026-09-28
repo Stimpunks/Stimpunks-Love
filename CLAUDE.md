@@ -2099,8 +2099,9 @@ films, not the titles**: fourteen from their captions (yt-dlp's auto-subs; YouTu
 endpoint now returns nothing without a session token), one from its maker's description and our
 Autism Pathway, whose captions were rate-limited. **No maker's pronouns appear on the rack** and the
 tool refuses one, because not one film states them. A card is a mirror of the playlist and drifts
-by design; the room prints the date. Screen Two has no rack yet and the house rules say so &mdash;
-open in DECISIONS.md.
+by design; the room prints the date. Every screen has a rack now, and **every rack is a `<details>`
+that ships OPEN**: shut, its cards have no layout, so `check-contrast-live.py` and `check-focus.py`
+would pass a page they never measured. Do not flip the default to make the page shorter.
 
 **CAPTIONS ARE ON BY DEFAULT, AND THAT WAS TESTED FRAMED.** Every frame here uses `data-embed-src`
 with `cc_load_policy=1`, which `love-embed.js` builds unchanged. It was verified by framing a

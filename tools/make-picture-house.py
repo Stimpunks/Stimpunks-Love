@@ -3,9 +3,9 @@
 
 ONE DATA FILE, ONE TOOL, TWO SURFACES -- the contract make-yells.py set and
 every generator here has kept since. Each screen is one of our own playlists put
-on whole; the rack is a card for every film on Screen One; Screen Two gets a
-credits line naming what is on it; the campfire rack is a card for every film on
-Screen Three. The credits also go to liner-notes.html.
+on whole, and each has a rack under it with a card for every film on it: Screen
+One's, Screen Two's, and the campfire rack for Screen Three. Every rack folds
+away and ships open, for the reason fold() gives. The credits also go to liner-notes.html.
 
 SCREEN THREE IS EVERYTHING WE HAVE WATCHED AT CAMPFIRE LEARN TOGETHER, and its
 rack is built out of `campfire`: one entry per campfire, each naming the post we
@@ -316,19 +316,20 @@ for c in campfire:
     for i, f in enumerate(films, 1):
         check_card(f, f"{where}, film {i} ({f.get('title', 'no title')!r})", seen)
 
+seen = set()
 for i, f in enumerate(two, 1):
-    where = f"screen two, film {i}"
-    if not ID.match(str(f.get("id", ""))) or not RUNTIME.match(str(f.get("runtime", ""))) \
-            or not str(f.get("channel", "")).strip() or not str(f.get("title", "")).strip():
-        problems.append(f"{where}: every film named on Screen Two needs an id, a title, a "
-                        "channel and a runtime.")
-    for v in f.values():
-        no_entity(v, where)
+    where = f"Screen Two's rack, card {i} ({f.get('title', 'no title')!r})"
+    check_card(f, where, seen)
+    ours = f.get("ours")
+    if ours is not None and not str(ours.get("url", "")).startswith(OURS):
+        problems.append(f"{where}: `ours` points at {ours.get('url')!r}, which is not one of "
+                        "our own pages.")
 
 if '<script src="picture-house.js" defer></script>' not in page_src:
     problems.append(f"{ROOM.name} does not load picture-house.js, so every card's second button "
                     "would ship hidden and stay hidden. Load it after love-embed.js.")
-for m in ("lph-rack", "lph-awareness") + (("lph-campfire",) if campfire else ()):
+for m in ("lph-rack", "lph-awareness") + (("lph-rack-two",) if two else ()) + \
+        (("lph-campfire",) if campfire else ()):
     if f"<!-- {m}:begin -->" not in page_src:
         problems.append(f"{ROOM.name} has no {m} markers.")
 
@@ -388,24 +389,16 @@ swap(ROOM, "lph-awareness",
      f'as quoted in our <a href="{attr(aw["via"])}">Acceptance</a> entry</cite>\n'
      f'    </blockquote>', "")
 
-RACKED = {"one": bool(rack), "three": any(c.get("films") for c in campfire)}
+RACKED = {"one": bool(rack), "two": bool(two), "three": any(c.get("films") for c in campfire)}
+screen_name = {sc["id"]: sc["name"] for sc in screens}
 
 for sc in screens:
-    extra = ""
     racked = RACKED.get(sc["id"], False)
     glass = f' data-lph-screen="{sc["id"]}"' if racked else ""
     now = (f'\n    <p class="lph-screen__now" id="lph-now-{sc["id"]}" tabindex="-1" hidden></p>\n'
            f'    <p class="lph-screen__back" hidden><button type="button" class="lph-back" '
            f'id="lph-back-{sc["id"]}" data-lph-screen="{sc["id"]}">Take it off and put the whole '
            f'programme back</button></p>') if racked else ""
-    if sc["id"] == "two" and two:
-        items = []
-        for f in two:
-            who = f' with {esc(f["who"])}' if f.get("who") else ""
-            items.append(f'<li><span class="lph-two__t">{esc(f["title"])}</span>{who} '
-                         f'&middot; {esc(f["channel"])} &middot; {esc(f["runtime"])}</li>')
-        extra = ('\n    <p class="lph-two__h">On this screen, in the order it plays:</p>\n'
-                 '    <ul class="lph-two">\n      ' + "\n      ".join(items) + '\n    </ul>')
     swap(ROOM, f"lph-screen:{sc['id']}",
          f'    <h2 id="lph-screen-{sc["id"]}-h"><span class="lph-screen__num">{esc(sc["name"])}</span> '
          f'{esc(sc["title"])}</h2>\n'
@@ -420,34 +413,55 @@ for sc in screens:
          f'    <p class="lph-screen__credit">No runtime on a whole screen: it is a playlist we '
          f'keep adding to, and a total would be wrong the next time it changed. '
          f'<a href="https://www.youtube.com/playlist?list={attr(sc["list"])}">{esc(sc["title"])}</a>, '
-         f'on YouTube, from our own channel.</p>{extra}', "")
+         f'on YouTube, from our own channel.</p>', "")
 
-screen_name = {sc["id"]: sc["name"] for sc in screens}
-cards = []
-for n, f in enumerate(rack, 1):
+
+def card(f, n, prefix, screen, when_line="", ours=None):
+    """One card, on whichever rack. Every rack's cards are the same card."""
+    cid = f"{prefix}-{f['id']}"
     content = (f'\n        <p class="lph-card__content"><span class="lph-card__label">Before you '
                f'press:</span> {esc(f["content"])}</p>') if f.get("content") else ""
-    ours = (f'\n        <p class="lph-card__ours"><a href="{attr(f["ours"]["url"])}">'
-            f'{esc(f["ours"]["name"])} &rarr;</a></p>') if f.get("ours") else ""
-    cards.append(
-        f'      <li class="lph-card" id="film-{attr(f["id"])}">\n'
-        f'        <p class="lph-card__n" aria-hidden="true">{n:02d}</p>\n'
-        f'        <h3 class="lph-card__title" id="film-{attr(f["id"])}-t">{esc(f["title"])}</h3>\n'
-        f'        <p class="lph-card__makers">{esc(f["makers"])}</p>\n'
-        f'        <p class="lph-card__about">{esc(f["about"])}</p>{content}\n'
-        f'        <button type="button" class="facade" data-embed-src="{attr(film_src(f["id"]))}" '
-        f'data-embed-title="{attr(f["title"])}, {attr(f["channel"])}">\n'
-        f'          Play &mdash; {esc(f["runtime"])}\n'
-        f'          <span class="facade__play">&#9654; PRESS PLAY</span>\n'
-        f'        </button>{big(f, "one", screen_name["one"], "film-" + f["id"])}\n'
-        f'        <p class="lph-card__credit">{esc(f["runtime"])} &middot; on YouTube, via '
-        f'{esc(f["channel"])}</p>{ours}\n'
-        f'      </li>')
+    whenp = f'\n        <p class="lph-card__when">{when_line}</p>' if when_line else ""
+    oursp = (f'\n        <p class="lph-card__ours"><a href="{attr(ours["url"])}">'
+             f'{esc(ours["name"])} &rarr;</a></p>') if ours else ""
+    return (f'      <li class="lph-card" id="{attr(cid)}">\n'
+            f'        <p class="lph-card__n" aria-hidden="true">{n:02d}</p>{whenp}\n'
+            f'        <h3 class="lph-card__title" id="{attr(cid)}-t">{esc(f["title"])}</h3>\n'
+            f'        <p class="lph-card__makers">{esc(f["makers"])}</p>\n'
+            f'        <p class="lph-card__about">{esc(f["about"])}</p>{content}\n'
+            f'        <button type="button" class="facade" data-embed-src="{attr(film_src(f["id"]))}" '
+            f'data-embed-title="{attr(f["title"])}, {attr(f["channel"])}">\n'
+            f'          Play &mdash; {esc(f["runtime"])}\n'
+            f'          <span class="facade__play">&#9654; PRESS PLAY</span>\n'
+            f'        </button>{big(f, screen, screen_name[screen], cid)}\n'
+            f'        <p class="lph-card__credit">{esc(f["runtime"])} &middot; on YouTube, via '
+            f'{esc(f["channel"])}</p>{oursp}\n'
+            f'      </li>')
+
+
+def fold(screen, cards):
+    """EVERY RACK FOLDS AWAY (Ryan's ask, 2026-09-28), as a <details> that works with no
+    script, and it SHIPS OPEN. Shut, its cards have no layout, so check-contrast-live.py and
+    check-focus.py would walk past every card on the page and report a clean run over text they
+    never measured -- a rack a visitor can fold is fine; a rack the checkers cannot see is not."""
+    return (f'    <details class="lph-fold" open>\n'
+            f'      <summary class="lph-fold__sum">The cards for {esc(screen_name[screen])}</summary>\n'
+            f'    <ol class="lph-rack">\n' + "\n".join(cards) + '\n    </ol>\n'
+            f'    </details>')
+
+
 swap(ROOM, "lph-rack",
-     '    <ol class="lph-rack">\n' + "\n".join(cards) + '\n    </ol>\n'
+     fold("one", [card(f, n, "film", "one", ours=f.get("ours")) for n, f in enumerate(rack, 1)]) + '\n'
      f'    <p class="lph-from">Carded from the playlist on {esc(d["_checked"])}, in its own order. '
      f'The playlist is ours and we keep adding to it, so Screen One may be showing a film by now '
      f'that the rack has no card for yet.</p>', "")
+
+if two:
+    swap(ROOM, "lph-rack-two",
+         fold("two", [card(f, n, "two", "two", ours=f.get("ours")) for n, f in enumerate(two, 1)]) + '\n'
+         f'    <p class="lph-from">Carded from the playlist on {esc(d["_two_checked"])}, in its own '
+         f'order. The playlist is ours and we keep adding to it, so Screen Two may be showing a film '
+         f'by now that the rack has no card for yet.</p>', "")
 
 if campfire:
     cards = []
@@ -455,32 +469,15 @@ if campfire:
     for c in campfire:
         for f in c.get("films") or []:
             n += 1
-            content = (f'\n        <p class="lph-card__content"><span class="lph-card__label">Before you '
-                       f'press:</span> {esc(f["content"])}</p>') if f.get("content") else ""
-            cards.append(
-                f'      <li class="lph-card" id="campfire-{attr(f["id"])}">\n'
-                f'        <p class="lph-card__n" aria-hidden="true">{n:02d}</p>\n'
-                f'        <p class="lph-card__when">At the campfire of {when(c["date"])}</p>\n'
-                f'        <h3 class="lph-card__title" id="campfire-{attr(f["id"])}-t">{esc(f["title"])}</h3>\n'
-                f'        <p class="lph-card__makers">{esc(f["makers"])}</p>\n'
-                f'        <p class="lph-card__about">{esc(f["about"])}</p>{content}\n'
-                f'        <button type="button" class="facade" data-embed-src="{attr(film_src(f["id"]))}" '
-                f'data-embed-title="{attr(f["title"])}, {attr(f["channel"])}">\n'
-                f'          Play &mdash; {esc(f["runtime"])}\n'
-                f'          <span class="facade__play">&#9654; PRESS PLAY</span>\n'
-                f'        </button>{big(f, "three", screen_name["three"], "campfire-" + f["id"])}\n'
-                f'        <p class="lph-card__credit">{esc(f["runtime"])} &middot; on YouTube, via '
-                f'{esc(f["channel"])}</p>\n'
-                f'        <p class="lph-card__ours"><a href="{attr(c["post"]["url"])}">'
-                f'{esc(c["post"]["title"])} &rarr;</a></p>\n'
-                f'      </li>')
+            cards.append(card(f, n, "campfire", "three", f"At the campfire of {when(c['date'])}",
+                              {"url": c["post"]["url"], "name": c["post"]["title"]}))
     off = [f'      <li><a href="{attr(c["post"]["url"])}">{esc(c["post"]["title"])}</a> &middot; '
            f'{when(c["date"])} &middot; {esc(c["off_screen"])}</li>'
            for c in campfire if not c.get("films")]
     off_block = ('\n    <p class="lph-two__h">Watched at a campfire, and not on this screen:</p>\n'
                  '    <ul class="lph-two lph-off">\n' + "\n".join(off) + '\n    </ul>') if off else ""
     swap(ROOM, "lph-campfire",
-         '    <ol class="lph-rack">\n' + "\n".join(cards) + '\n    </ol>' + off_block + '\n'
+         fold("three", cards) + off_block + '\n'
          f'    <p class="lph-from">Carded on {esc(d["_campfire_checked"])} from our own campfire '
          f'posts, newest first, which is the playlist&rsquo;s own order. New campfires go on at '
          f'the top of the playlist, so Screen Three may be showing one by now that the rack has '
@@ -488,14 +485,12 @@ if campfire:
 
 credited = set()
 rows = []
-for f in rack + [f for c in campfire for f in c.get("films") or []]:
+for f in rack + two + [f for c in campfire for f in c.get("films") or []]:
     if f["id"] in credited:
         continue
     credited.add(f["id"])
     rows.append(f'      <tr><td>{esc(f["title"])}</td><td><strong>{esc(f["makers"])}</strong></td>'
                 f'<td>{esc(f["channel"])}</td><td>{esc(f["runtime"])}</td></tr>')
-rows += [f'      <tr><td>{esc(f["title"])}</td><td><strong>{esc(f.get("who") or f["channel"])}'
-         f'</strong></td><td>{esc(f["channel"])}</td><td>{esc(f["runtime"])}</td></tr>' for f in two]
 swap(NOTES, "picture-house-credits", "\n".join(rows), "      ")
 
 # ── The page's own copy, swept ───────────────────────────────────────────────
@@ -505,7 +500,6 @@ page = re.sub(r"<!--.*?-->", " ", page, flags=re.S)
 page = re.sub(r"<(script|style|svg|head)\b.*?</\1>", " ", page, flags=re.S)
 page = re.sub(r"<blockquote\b.*?</blockquote>", " ", page, flags=re.S)
 page = re.sub(r'<h[23][^>]*>.*?</h[23]>', " ", page, flags=re.S)
-page = re.sub(r'<span class="lph-two__t">.*?</span>', " ", page, flags=re.S)
 page = re.sub(r"<[^>]+>", " ", page)
 page = html.unescape(re.sub(r"\s+", " ", page))
 before = len(problems)
@@ -515,7 +509,7 @@ if len(problems) > before:
 
 warned = sum(1 for f in rack if f.get("content"))
 lit = [f for c in campfire for f in c.get("films") or []]
-print(f"picture house: {len(screens)} screens and {len(rack)} cards on the rack, in {ROOM.name}")
+print(f"picture house: {len(screens)} screens; {len(rack)} cards on Screen One's rack and {len(two)} on Screen Two's, in {ROOM.name}")
 if campfire:
     print(f"  {len(lit)} cards on the campfire rack from {len(campfire)} campfires, "
           f"{sum(1 for f in lit if f.get('content'))} saying something before the press; "

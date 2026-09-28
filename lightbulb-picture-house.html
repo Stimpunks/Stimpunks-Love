@@ -122,7 +122,7 @@
 
   <div class="lph-lede">
     <p><strong>A lot of us found out who we were from a video.</strong> Somebody on a screen described a life that turned out to be ours &mdash; the textures, the plans that fell apart, the conversations that went sideways for no reason anybody would name &mdash; and something switched on. This picture house is named for that moment, and for the short film on its first screen that calls it a <a href="#film-3O6hy-usIug">lightbulb moment</a>.</p>
-    <p>Most of what is showing here was made by the people it is about. Every screen is one of our own playlists, and every film on the first and the third has a card on a rack saying who made it, how long it runs and what is in it, before you press anything.</p>
+    <p>Most of what is showing here was made by the people it is about. Every screen is one of our own playlists, and every film on them has a card on a rack saying who made it, how long it runs and what is in it, before you press anything.</p>
   </div>
 
   <section class="lph-part" aria-labelledby="lph-rules-h">
@@ -134,7 +134,7 @@
       <li><strong>Move, stim, rock, pace, flap, hum, sit on the floor, lie across three seats.</strong> Nobody shushes anybody.</li>
       <li><strong>Bring your ear defenders</strong>, or borrow the pair hung on the seat in the second row.</li>
       <li><strong>Come in late and leave early.</strong> You can walk out in the middle of a film and walk back in at the end of it, and nobody will ask why.</li>
-      <li><strong>Every film on the rack tells you what is in it before you press play</strong> &mdash; how long it runs, and anything you might want to know first, from a panic attack to a sponsor segment. Screen Two says how long each film runs and has no rack yet; Screen Three has the campfire rack.</li>
+      <li><strong>Every film on a rack tells you what is in it before you press play</strong> &mdash; how long it runs, and anything you might want to know first, from a panic attack to a sponsor segment. Every screen has a rack under it, and every rack folds away if you would rather not scroll past it.</li>
     </ul>
     <p class="lph-blue"><strong>Nothing in this building is blue.</strong> Every April, autism charities run by parents and professionals light landmarks up blue, and autistic people have been saying for years what they think of it &mdash; one of them, below, better than we could. The bulbs here are warm on purpose, there is no puzzle piece anywhere in the place, and the ornament over the screen is the gold infinity &mdash; <a href="https://stimpunks.org/glossary/neurodiversity-infinity-symbol/">Autistic UK&rsquo;s</a>, from Au, the chemical symbol for gold.</p>
 <!-- lph-awareness:begin -->
@@ -165,6 +165,8 @@
     <h2 id="lph-rack-h">The rack</h2>
     <p>Every film on Screen One, in the order it plays, one card each. Press any card to watch just that film, there on the card or up on Screen One in place of the whole programme; the screen says what is showing, and puts the programme back when you ask.</p>
 <!-- lph-rack:begin -->
+    <details class="lph-fold" open>
+      <summary class="lph-fold__sum">The cards for Screen One</summary>
     <ol class="lph-rack">
       <li class="lph-card" id="film-zDiWGHgWeUk">
         <p class="lph-card__n" aria-hidden="true">01</p>
@@ -362,6 +364,7 @@
         <p class="lph-card__credit">6:03 &middot; on YouTube, via owiebrainhurts</p>
       </li>
     </ol>
+    </details>
     <p class="lph-from">Carded from the playlist on 2026-09-23, in its own order. The playlist is ours and we keep adding to it, so Screen One may be showing a film by now that the rack has no card for yet.</p>
 <!-- lph-rack:end -->
     <p id="lph-suggest"><strong>The rack takes suggestions.</strong> A film about being Autistic, ADHD or otherwise neurodivergent, best of all made by the people it is about: send it through <a href="https://stimpunks.org/contact/">the Stimpunks contact page</a> or in <a href="https://stimpunks.org/community/">our community</a>. Every film is watched before it goes on a screen, so its card can say what is in it before anybody presses play, and captions come on by default here whatever you send.</p>
@@ -370,25 +373,125 @@
   <section class="lph-part lph-screen" aria-labelledby="lph-screen-two-h">
 <!-- lph-screen:two:begin -->
     <h2 id="lph-screen-two-h"><span class="lph-screen__num">Screen Two</span> More on Autism, ADHD, and Neurodiversity</h2>
-    <p class="lph-screen__note">Longer ones, for after. Two of them are an hour each.</p>
-    <div class="lph-proscenium">
+    <p class="lph-screen__note">Longer ones, for after. The rack underneath says how long each one runs.</p>
+    <div class="lph-proscenium" data-lph-screen="two">
       <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/videoseries?list=PLRtKsTScL-vS11YLFtznfZLhqp1t4GmYc&amp;autoplay=1&amp;cc_load_policy=1" data-embed-title="More on Autism, ADHD, and Neurodiversity, on YouTube">
         Start the programme &mdash; runs until you stop it, captions on
         <span class="facade__play">&#9654; PRESS PLAY</span>
       </button>
     </div>
+    <p class="lph-screen__now" id="lph-now-two" tabindex="-1" hidden></p>
+    <p class="lph-screen__back" hidden><button type="button" class="lph-back" id="lph-back-two" data-lph-screen="two">Take it off and put the whole programme back</button></p>
     <p class="lph-screen__credit">No runtime on a whole screen: it is a playlist we keep adding to, and a total would be wrong the next time it changed. <a href="https://www.youtube.com/playlist?list=PLRtKsTScL-vS11YLFtznfZLhqp1t4GmYc">More on Autism, ADHD, and Neurodiversity</a>, on YouTube, from our own channel.</p>
-    <p class="lph-two__h">On this screen, in the order it plays:</p>
-    <ul class="lph-two">
-      <li><span class="lph-two__t">What Exactly is Neurodiversity?</span> &middot; How to ADHD &middot; 6:04</li>
-      <li><span class="lph-two__t">What is ADHD?</span> &middot; How to ADHD &middot; 3:27</li>
-      <li><span class="lph-two__t">Defining Features of ADHD That Everyone Overlooks</span> with William Dodson &middot; ADDitude Magazine &middot; 1:01:28</li>
-      <li><span class="lph-two__t">An ADHD Guide to Emotional Dysregulation and Rejection Sensitive Dysphoria</span> with William Dodson &middot; ADDitude Magazine &middot; 1:00:37</li>
-      <li><span class="lph-two__t">Ask an Autistic #19 — What is Neurodiversity?</span> &middot; Amythest Schaber &middot; 11:29</li>
-      <li><span class="lph-two__t">ADHD: A Nightmare Under Capitalism</span> &middot; Elliot Sang &middot; 32:54</li>
-      <li><span class="lph-two__t">Good To Be Me</span> &middot; Spectrum Gaming &middot; 3:38</li>
-    </ul>
 <!-- lph-screen:two:end -->
+  </section>
+
+  <section class="lph-part" aria-labelledby="lph-rack-two-h">
+    <h2 id="lph-rack-two-h">Screen Two&rsquo;s rack</h2>
+    <p>Every film on Screen Two, in the order it plays, one card each. Press any card to watch just that film, there on the card or up on Screen Two in place of the whole programme.</p>
+<!-- lph-rack-two:begin -->
+    <details class="lph-fold" open>
+      <summary class="lph-fold__sum">The cards for Screen Two</summary>
+    <ol class="lph-rack">
+      <li class="lph-card" id="two-ALJ3CFRRZpo">
+        <p class="lph-card__n" aria-hidden="true">01</p>
+        <h3 class="lph-card__title" id="two-ALJ3CFRRZpo-t">What Exactly is Neurodiversity?</h3>
+        <p class="lph-card__makers">How to ADHD, with research by Farah Mahmud, M.S., and Dr. Patrick LaCount as research consultant</p>
+        <p class="lph-card__about">What neurodiversity means, from Judy Singer’s word to the movement Autistic self-advocates led. It sets out three ideas — brains differ, the difference is valuable, much of the disability comes from the world rather than the brain — and answers the critics: acceptance and support, therapy and medication included, are not opposites.</p>
+        <p class="lph-card__content"><span class="lph-card__label">Before you press:</span> Has a sponsor segment, about a minute and a half, near the end.</p>
+        <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/ALJ3CFRRZpo?autoplay=1&amp;rel=0&amp;cc_load_policy=1" data-embed-title="What Exactly is Neurodiversity?, How to ADHD">
+          Play &mdash; 6:04
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+        <button type="button" class="lph-card__big" hidden data-lph-screen="two" data-lph-name="Screen Two" data-lph-src="https://www.youtube-nocookie.com/embed/ALJ3CFRRZpo?autoplay=1&amp;rel=0&amp;cc_load_policy=1" data-lph-title="What Exactly is Neurodiversity?, How to ADHD, on Screen Two" data-lph-film="What Exactly is Neurodiversity?" data-lph-runtime="6:04" aria-describedby="two-ALJ3CFRRZpo-t">Play on Screen Two instead &mdash; 6:04</button>
+        <p class="lph-card__credit">6:04 &middot; on YouTube, via How to ADHD</p>
+        <p class="lph-card__ours"><a href="https://stimpunks.org/glossary/neurodiversity/">Neurodiversity, in our glossary &rarr;</a></p>
+      </li>
+      <li class="lph-card" id="two-xMWtGozn5jU">
+        <p class="lph-card__n" aria-hidden="true">02</p>
+        <h3 class="lph-card__title" id="two-xMWtGozn5jU-t">What is ADHD?</h3>
+        <p class="lph-card__makers">How to ADHD</p>
+        <p class="lph-card__about">The textbook definition of ADHD, read off the DSM: the signs, the six-symptom threshold, the three presentations, and “twice exceptional”. It adds that the name dates from 1987 though descriptions go back to 1798, and that emotional dysregulation is well researched but not yet in the manual.</p>
+        <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/xMWtGozn5jU?autoplay=1&amp;rel=0&amp;cc_load_policy=1" data-embed-title="What is ADHD?, How to ADHD">
+          Play &mdash; 3:27
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+        <button type="button" class="lph-card__big" hidden data-lph-screen="two" data-lph-name="Screen Two" data-lph-src="https://www.youtube-nocookie.com/embed/xMWtGozn5jU?autoplay=1&amp;rel=0&amp;cc_load_policy=1" data-lph-title="What is ADHD?, How to ADHD, on Screen Two" data-lph-film="What is ADHD?" data-lph-runtime="3:27" aria-describedby="two-xMWtGozn5jU-t">Play on Screen Two instead &mdash; 3:27</button>
+        <p class="lph-card__credit">3:27 &middot; on YouTube, via How to ADHD</p>
+      </li>
+      <li class="lph-card" id="two-vycWIzURgZM">
+        <p class="lph-card__n" aria-hidden="true">03</p>
+        <h3 class="lph-card__title" id="two-vycWIzURgZM-t">Defining Features of ADHD That Everyone Overlooks</h3>
+        <p class="lph-card__makers">William Dodson, M.D., for ADDitude Magazine, with Susan from ADDitude asking the questions</p>
+        <p class="lph-card__about">A psychiatrist’s case that the DSM checklist misses what defines ADHD: a nervous system run by interest, challenge, novelty and urgency rather than importance, rejection sensitive dysphoria, and an inner hyperarousal. Half an hour of slides, then listeners’ questions on school, parenting, bipolar, borderline and medication.</p>
+        <p class="lph-card__content"><span class="lph-card__label">Before you press:</span> Opens with a sponsor read. Medication is a large part of it, and rejection sensitivity is described as bringing suicidal thoughts; road rage and domestic violence come up in the questions.</p>
+        <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/vycWIzURgZM?autoplay=1&amp;rel=0&amp;cc_load_policy=1" data-embed-title="Defining Features of ADHD That Everyone Overlooks, ADDitude Magazine">
+          Play &mdash; 1:01:28
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+        <button type="button" class="lph-card__big" hidden data-lph-screen="two" data-lph-name="Screen Two" data-lph-src="https://www.youtube-nocookie.com/embed/vycWIzURgZM?autoplay=1&amp;rel=0&amp;cc_load_policy=1" data-lph-title="Defining Features of ADHD That Everyone Overlooks, ADDitude Magazine, on Screen Two" data-lph-film="Defining Features of ADHD That Everyone Overlooks" data-lph-runtime="1:01:28" aria-describedby="two-vycWIzURgZM-t">Play on Screen Two instead &mdash; 1:01:28</button>
+        <p class="lph-card__credit">1:01:28 &middot; on YouTube, via ADDitude Magazine</p>
+        <p class="lph-card__ours"><a href="https://stimpunks.org/glossary/rejection-sensitive-dysphoria/">Rejection Sensitive Dysphoria, in our glossary &rarr;</a></p>
+      </li>
+      <li class="lph-card" id="two-klmxcj52PQQ">
+        <p class="lph-card__n" aria-hidden="true">04</p>
+        <h3 class="lph-card__title" id="two-klmxcj52PQQ-t">An ADHD Guide to Emotional Dysregulation and Rejection Sensitive Dysphoria</h3>
+        <p class="lph-card__makers">William Dodson, M.D., for ADDitude Magazine, with Susan from ADDitude asking the questions</p>
+        <p class="lph-card__about">An hour on emotional dysregulation: why the checklist leaves it out, why emotions arrive “raw”, and rejection sensitive dysphoria — sudden, physical, hard to put into words. It covers how people guard against it, the alpha agonist medications, then questions on bipolar, borderline, hormones and trauma.</p>
+        <p class="lph-card__content"><span class="lph-card__label">Before you press:</span> Opens with a sponsor read for an omega-3 supplement. Medication, doses and side effects are a large part of it; suicidal thoughts, rage, and parents afraid of a violent child are mentioned.</p>
+        <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/klmxcj52PQQ?autoplay=1&amp;rel=0&amp;cc_load_policy=1" data-embed-title="An ADHD Guide to Emotional Dysregulation and Rejection Sensitive Dysphoria, ADDitude Magazine">
+          Play &mdash; 1:00:37
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+        <button type="button" class="lph-card__big" hidden data-lph-screen="two" data-lph-name="Screen Two" data-lph-src="https://www.youtube-nocookie.com/embed/klmxcj52PQQ?autoplay=1&amp;rel=0&amp;cc_load_policy=1" data-lph-title="An ADHD Guide to Emotional Dysregulation and Rejection Sensitive Dysphoria, ADDitude Magazine, on Screen Two" data-lph-film="An ADHD Guide to Emotional Dysregulation and Rejection Sensitive Dysphoria" data-lph-runtime="1:00:37" aria-describedby="two-klmxcj52PQQ-t">Play on Screen Two instead &mdash; 1:00:37</button>
+        <p class="lph-card__credit">1:00:37 &middot; on YouTube, via ADDitude Magazine</p>
+        <p class="lph-card__ours"><a href="https://stimpunks.org/glossary/rejection-sensitive-dysphoria/">Rejection Sensitive Dysphoria, in our glossary &rarr;</a></p>
+      </li>
+      <li class="lph-card" id="two-H6xl_yJKWVU">
+        <p class="lph-card__n" aria-hidden="true">05</p>
+        <h3 class="lph-card__title" id="two-H6xl_yJKWVU-t">Ask an Autistic #19 — What is Neurodiversity?</h3>
+        <p class="lph-card__makers">Amythest Schaber, for Ask an Autistic</p>
+        <p class="lph-card__about">Neurodiversity from the social model of disability: everybody has a different brain, and that is okay. Then the myths, one by one — that it rejects all support and treatment, rejects formal diagnosis, is only for Autistic people, only for those who speak, or says autism is not a disability.</p>
+        <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/H6xl_yJKWVU?autoplay=1&amp;rel=0&amp;cc_load_policy=1" data-embed-title="Ask an Autistic #19 — What is Neurodiversity?, Amythest Schaber">
+          Play &mdash; 11:29
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+        <button type="button" class="lph-card__big" hidden data-lph-screen="two" data-lph-name="Screen Two" data-lph-src="https://www.youtube-nocookie.com/embed/H6xl_yJKWVU?autoplay=1&amp;rel=0&amp;cc_load_policy=1" data-lph-title="Ask an Autistic #19 — What is Neurodiversity?, Amythest Schaber, on Screen Two" data-lph-film="Ask an Autistic #19 — What is Neurodiversity?" data-lph-runtime="11:29" aria-describedby="two-H6xl_yJKWVU-t">Play on Screen Two instead &mdash; 11:29</button>
+        <p class="lph-card__credit">11:29 &middot; on YouTube, via Amythest Schaber</p>
+        <p class="lph-card__ours"><a href="https://stimpunks.org/glossary/neurodiversity/">Neurodiversity, in our glossary &rarr;</a></p>
+      </li>
+      <li class="lph-card" id="two-T05Sli_-xBA">
+        <p class="lph-card__n" aria-hidden="true">06</p>
+        <h3 class="lph-card__title" id="two-T05Sli_-xBA-t">ADHD: A Nightmare Under Capitalism</h3>
+        <p class="lph-card__makers">Elliot Sang, with Jesse Meadows of the Sluggish substack; editing by danae o.</p>
+        <p class="lph-card__about">A video essay asking what “time blindness” assumes about time. It traces clock time through capitalism and empire, sets Russell Barkley’s lecture beside colonial and phrenologist writing, and, with Jesse Meadows, reads the studies, which it says are far less settled than the term suggests.</p>
+        <p class="lph-card__content"><span class="lph-card__label">Before you press:</span> Has a sponsor segment. Some strong language, and it quotes racist colonial and phrenological descriptions of African and Aboriginal people.</p>
+        <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/T05Sli_-xBA?autoplay=1&amp;rel=0&amp;cc_load_policy=1" data-embed-title="ADHD: A Nightmare Under Capitalism, Elliot Sang">
+          Play &mdash; 32:54
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+        <button type="button" class="lph-card__big" hidden data-lph-screen="two" data-lph-name="Screen Two" data-lph-src="https://www.youtube-nocookie.com/embed/T05Sli_-xBA?autoplay=1&amp;rel=0&amp;cc_load_policy=1" data-lph-title="ADHD: A Nightmare Under Capitalism, Elliot Sang, on Screen Two" data-lph-film="ADHD: A Nightmare Under Capitalism" data-lph-runtime="32:54" aria-describedby="two-T05Sli_-xBA-t">Play on Screen Two instead &mdash; 32:54</button>
+        <p class="lph-card__credit">32:54 &middot; on YouTube, via Elliot Sang</p>
+        <p class="lph-card__ours"><a href="https://stimpunks.org/glossary/crip-time/">Crip Time, in our glossary &rarr;</a></p>
+      </li>
+      <li class="lph-card" id="two-0pibDq98raQ">
+        <p class="lph-card__n" aria-hidden="true">07</p>
+        <h3 class="lph-card__title" id="two-0pibDq98raQ-t">Good To Be Me</h3>
+        <p class="lph-card__makers">Spectrum Gaming community members, for the Greater Manchester #BeeWell initiative</p>
+        <p class="lph-card__about">A music video made by members of Spectrum Gaming: sung verses with their own spoken lines between them, going from hating a diagnosis to liking being Autistic, and putting the hard part on how other people treat Autistic people rather than on autism itself.</p>
+        <p class="lph-card__content"><span class="lph-card__label">Before you press:</span> Early on it names being picked on at school, wanting to give up, and wishing not to have been born.</p>
+        <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/0pibDq98raQ?autoplay=1&amp;rel=0&amp;cc_load_policy=1" data-embed-title="Good To Be Me, Spectrum Gaming">
+          Play &mdash; 3:38
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+        <button type="button" class="lph-card__big" hidden data-lph-screen="two" data-lph-name="Screen Two" data-lph-src="https://www.youtube-nocookie.com/embed/0pibDq98raQ?autoplay=1&amp;rel=0&amp;cc_load_policy=1" data-lph-title="Good To Be Me, Spectrum Gaming, on Screen Two" data-lph-film="Good To Be Me" data-lph-runtime="3:38" aria-describedby="two-0pibDq98raQ-t">Play on Screen Two instead &mdash; 3:38</button>
+        <p class="lph-card__credit">3:38 &middot; on YouTube, via Spectrum Gaming</p>
+        <p class="lph-card__ours"><a href="https://stimpunks.org/glossary/acceptance/">Acceptance, in our glossary &rarr;</a></p>
+      </li>
+    </ol>
+    </details>
+    <p class="lph-from">Carded from the playlist on 2026-09-28, in its own order. The playlist is ours and we keep adding to it, so Screen Two may be showing a film by now that the rack has no card for yet.</p>
+<!-- lph-rack-two:end -->
   </section>
 
   <section class="lph-part lph-screen" aria-labelledby="lph-screen-three-h">
@@ -411,6 +514,8 @@
     <h2 id="lph-campfire-h">The campfire rack</h2>
     <p><a href="https://stimpunks.org/events/campfire-learn-together/">Campfire Learn Together</a> is our Sunday watch-along: we screen something together, take a bodymind break, and talk about it as a community, with nobody at the front. The name is the campfire of David Thornburg&rsquo;s <a href="https://stimpunks.org/glossary/caves-campfires-watering-holes/">caves, campfires and watering holes</a>, the place where people gather round a story. Screen Three is everything we have watched there, and this rack has a card for every film on it, each one linking to the post we wrote for that campfire. Press any card to watch just that film, there on the card or up on Screen Three in place of the whole programme.</p>
 <!-- lph-campfire:begin -->
+    <details class="lph-fold" open>
+      <summary class="lph-fold__sum">The cards for Screen Three</summary>
     <ol class="lph-rack">
       <li class="lph-card" id="campfire-l4zR4EKKOpc">
         <p class="lph-card__n" aria-hidden="true">01</p>
@@ -843,6 +948,7 @@
         <p class="lph-card__ours"><a href="https://stimpunks.org/2026/04/12/campfire-learn-together-recap-in-defense-of-inefficiency/">Campfire Learn Together Recap: In Defense of Inefficiency &rarr;</a></p>
       </li>
     </ol>
+    </details>
     <p class="lph-two__h">Watched at a campfire, and not on this screen:</p>
     <ul class="lph-two lph-off">
       <li><a href="https://stimpunks.org/2026/07/08/campfire-learn-together-the-mycelial-worldview-is-punk/">Campfire Learn Together: The Mycelial Worldview Is Punk</a> &middot; 12 July 2026 &middot; Both films we watched are hosted off YouTube, on Vimeo and on MOTH’s own site, so neither can be on a YouTube playlist.</li>

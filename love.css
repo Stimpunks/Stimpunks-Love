@@ -11070,7 +11070,12 @@ html[data-intensity="max"] .ls-fizz circle:nth-child(4) { animation-duration: 3.
 .picture-house .lph-two__h { margin: 22px 0 6px; font-weight: 700; color: var(--lph-cream); }
 .lph-two { margin: 0; padding: 0 0 0 1.2em; max-width: 72ch; }
 .picture-house .lph-two li { margin: 0 0 6px; font-size: 15.5px; }
-.lph-two__t { color: var(--lph-cream); font-weight: 700; }
+/* EVERY RACK FOLDS AWAY. A <details>, so it works with no script, and it ships
+   open for the reason make-picture-house.py's fold() gives: a shut rack is
+   text the render checkers cannot see. The summary is cream on the velvet,
+   the body text's pair, and the marker is the gold the card numbers use. */
+.picture-house .lph-fold__sum { margin: 18px 0 0; cursor: pointer; font-weight: 700; font-size: 17px; color: var(--lph-cream); }
+.picture-house .lph-fold__sum::marker { color: var(--lph-gold); }
 .lph-two li::marker { color: var(--lph-gold); }
 
 /* THE RACK. One card per film, in the order it plays, on the seats' own deep

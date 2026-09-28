@@ -1,5 +1,5 @@
 {
-  "_what": "The Lightbulb Picture House, a theater on the street. Every screen is one of our own playlists put on whole; Screen One has a rack with one card per film, and Screen Three, everything we have watched at Campfire Learn Together, has the campfire rack. tools/make-picture-house.py builds the screens, both racks, Screen Two's credits line and the liner notes from this file. Do not hand-edit between the markers.",
+  "_what": "The Lightbulb Picture House, a theater on the street. Every screen is one of our own playlists put on whole, with a rack under it holding a card for every film on it; Screen Three, everything we have watched at Campfire Learn Together, has the campfire rack. tools/make-picture-house.py builds the screens, the racks and the liner notes from this file. Do not hand-edit between the markers.",
   "_source": "Both playlists were read off their own playlist pages (ytInitialData) on 2026-09-23: fifteen entries and a header reading fifteen videos, seven and seven, nothing hidden in either. Every id was then checked on its own watch page the same day: playabilityStatus OK, playableInEmbed true, none LOGIN_REQUIRED. Runtimes are the ones YouTube's own playlist shows, which is the number a visitor will see on the player. Channels are the uploading channel as the watch page names it; where the playlist showed 'Collaborators' (the first film) the watch page's own channel is used.",
   "_about": "EVERY LINE ON THE RACK IS OURS, and every one was written from the film itself rather than from its title. Six were read from their auto-captions in full; eight were read by a subagent working from the same captions, whose report said what each film covers, what it contains, and what it does not say; the one film whose captions could not be fetched (the double empathy animation, rate-limited) is described from its maker's own description and from our Autism Pathway page, which already embeds it. Makers are named only where the film's own description names them. NO CREATOR'S PRONOUNS ARE USED ANYWHERE ON THE RACK: not one transcript states them, and a name tells you nobody's pronouns.",
   "_content": "EVERY FILM CARRIES A `content` KEY, and a film without one is refused. Null means somebody looked and there is nothing to warn about; a string is said on the card BEFORE the press, beside the runtime, for the runtime's reason. A sponsor segment is said out loud too, because an advert in the middle of a film is a thing you would want to know before you sat down.",
@@ -9,6 +9,8 @@
   "_checked": "2026-09-23",
   "_campfire": "Screen Three, Ryan's brief of 2026-09-28: every video watched at Campfire Learn Together, newest first, each card linking the post we wrote for that campfire, because new campfires go on at the top of the playlist. THE CAMPFIRES were read out of the Knowledge System mirror on 2026-09-28: every post tagged 'campfire learn together' (nineteen, the same nineteen stimpunks.org's REST API returns for tag 6319), plus two April campfires whose posts carry the event's name and not the tag (Solving the Frankenstein Problem, and the recap In Defense of Inefficiency). Dates are the campfire's own, from the post, not the post's publication date. WHICH FILMS: the ones each post says the session watched, in the order it watched them. Not the further-reading links: the six songs at the foot of the Arday post are his set list ('come with a song'), the Dolphining post's attachment series is 'going deeper', and the Kid's Hobbies post's other two links are credits. The double empathy film was 'optional, if time allows' and is carded anyway, reusing Screen One's card for it. OFF THE SCREEN: three campfires watched nothing that can be on a YouTube playlist, and stay in the data with an off_screen reason so the room lists them rather than letting the screen look like the whole record. EVERY ID was checked with yt-dlp on 2026-09-28: public, playable_in_embed true, age_limit 0. Titles, channels and runtimes are YouTube's. THE CARDS were written by five subagents from each film's auto-captions read in full, its own YouTube description, and our post for context only, with makers named only as the description or the film credits them. Six have no captions (or YouTube refused them with 429 all day) and are written from the description and our post: the Dystopia documentary, the Screaming Females cover, the farruca, the 1980 two-pianos concert and the Wonderstruck audiobook preview. The Dystopia card's content line in particular is the description's sponsor credit plus our post, unchecked against the film. TWO THINGS OUR POSTS SAY THAT THE FILMS DO NOT, found while carding and left for stimpunks.org to correct: the Anti-AI post says the film opens with an unhoused disabled trans woman's story, and it opens with Sam Altman, the story coming near 51 minutes; the Arday post's content note calls the suicide account extended and first-person, and in the film it is brief and implied, which is what the card says.",
   "_campfire_checked": "2026-09-28",
+  "_two_checked": "2026-09-28",
+  "_two": "Screen Two's rack, Ryan's ask of 2026-09-28. Its playlist was re-read the same day and is unchanged since 2026-09-23. Every card was written by a subagent from the film's auto-captions read in full and its own description, like Screen One's; the second Dodson webinar's captions read like a machine translation and mangle names, so its card names no product. The Spectrum Gaming song is described and not quoted. `ours` is a glossary entry checked against the mirror, or absent where none fits (our glossary has no entry for ADHD itself).",
   "_awareness": "The one quotation in the room. Read off our own Acceptance glossary entry, https://stimpunks.org/glossary/acceptance/, on 2026-09-23, and credited to its author rather than to the entry. It is the line that names the blue lights and the puzzle pieces, from somebody autistic, which is why it is here rather than any description of the campaign in our own words.",
   "awareness": {
     "text": "Awareness says: Donate to the awesome organizations that have all the pretty puzzle pieces and all the pretty blue lights!",
@@ -30,7 +32,7 @@
       "name": "Screen Two",
       "list": "PLRtKsTScL-vS11YLFtznfZLhqp1t4GmYc",
       "title": "More on Autism, ADHD, and Neurodiversity",
-      "note": "Longer ones, for after. Two of them are an hour each."
+      "note": "Longer ones, for after. The rack underneath says how long each one runs."
     },
     {
       "id": "three",
@@ -193,13 +195,93 @@
     }
   ],
   "screen_two": [
-    {"id": "ALJ3CFRRZpo", "title": "What Exactly is Neurodiversity?", "channel": "How to ADHD", "runtime": "6:04"},
-    {"id": "xMWtGozn5jU", "title": "What is ADHD?", "channel": "How to ADHD", "runtime": "3:27"},
-    {"id": "vycWIzURgZM", "title": "Defining Features of ADHD That Everyone Overlooks", "who": "William Dodson", "channel": "ADDitude Magazine", "runtime": "1:01:28"},
-    {"id": "klmxcj52PQQ", "title": "An ADHD Guide to Emotional Dysregulation and Rejection Sensitive Dysphoria", "who": "William Dodson", "channel": "ADDitude Magazine", "runtime": "1:00:37"},
-    {"id": "H6xl_yJKWVU", "title": "Ask an Autistic #19 — What is Neurodiversity?", "channel": "Amythest Schaber", "runtime": "11:29"},
-    {"id": "T05Sli_-xBA", "title": "ADHD: A Nightmare Under Capitalism", "channel": "Elliot Sang", "runtime": "32:54"},
-    {"id": "0pibDq98raQ", "title": "Good To Be Me", "channel": "Spectrum Gaming", "runtime": "3:38"}
+    {
+      "id": "ALJ3CFRRZpo",
+      "title": "What Exactly is Neurodiversity?",
+      "makers": "How to ADHD, with research by Farah Mahmud, M.S., and Dr. Patrick LaCount as research consultant",
+      "channel": "How to ADHD",
+      "runtime": "6:04",
+      "about": "What neurodiversity means, from Judy Singer’s word to the movement Autistic self-advocates led. It sets out three ideas — brains differ, the difference is valuable, much of the disability comes from the world rather than the brain — and answers the critics: acceptance and support, therapy and medication included, are not opposites.",
+      "content": "Has a sponsor segment, about a minute and a half, near the end.",
+      "ours": {
+        "name": "Neurodiversity, in our glossary",
+        "url": "https://stimpunks.org/glossary/neurodiversity/"
+      }
+    },
+    {
+      "id": "xMWtGozn5jU",
+      "title": "What is ADHD?",
+      "makers": "How to ADHD",
+      "channel": "How to ADHD",
+      "runtime": "3:27",
+      "about": "The textbook definition of ADHD, read off the DSM: the signs, the six-symptom threshold, the three presentations, and “twice exceptional”. It adds that the name dates from 1987 though descriptions go back to 1798, and that emotional dysregulation is well researched but not yet in the manual.",
+      "content": null
+    },
+    {
+      "id": "vycWIzURgZM",
+      "title": "Defining Features of ADHD That Everyone Overlooks",
+      "makers": "William Dodson, M.D., for ADDitude Magazine, with Susan from ADDitude asking the questions",
+      "channel": "ADDitude Magazine",
+      "runtime": "1:01:28",
+      "about": "A psychiatrist’s case that the DSM checklist misses what defines ADHD: a nervous system run by interest, challenge, novelty and urgency rather than importance, rejection sensitive dysphoria, and an inner hyperarousal. Half an hour of slides, then listeners’ questions on school, parenting, bipolar, borderline and medication.",
+      "content": "Opens with a sponsor read. Medication is a large part of it, and rejection sensitivity is described as bringing suicidal thoughts; road rage and domestic violence come up in the questions.",
+      "ours": {
+        "name": "Rejection Sensitive Dysphoria, in our glossary",
+        "url": "https://stimpunks.org/glossary/rejection-sensitive-dysphoria/"
+      }
+    },
+    {
+      "id": "klmxcj52PQQ",
+      "title": "An ADHD Guide to Emotional Dysregulation and Rejection Sensitive Dysphoria",
+      "makers": "William Dodson, M.D., for ADDitude Magazine, with Susan from ADDitude asking the questions",
+      "channel": "ADDitude Magazine",
+      "runtime": "1:00:37",
+      "about": "An hour on emotional dysregulation: why the checklist leaves it out, why emotions arrive “raw”, and rejection sensitive dysphoria — sudden, physical, hard to put into words. It covers how people guard against it, the alpha agonist medications, then questions on bipolar, borderline, hormones and trauma.",
+      "content": "Opens with a sponsor read for an omega-3 supplement. Medication, doses and side effects are a large part of it; suicidal thoughts, rage, and parents afraid of a violent child are mentioned.",
+      "ours": {
+        "name": "Rejection Sensitive Dysphoria, in our glossary",
+        "url": "https://stimpunks.org/glossary/rejection-sensitive-dysphoria/"
+      }
+    },
+    {
+      "id": "H6xl_yJKWVU",
+      "title": "Ask an Autistic #19 — What is Neurodiversity?",
+      "makers": "Amythest Schaber, for Ask an Autistic",
+      "channel": "Amythest Schaber",
+      "runtime": "11:29",
+      "about": "Neurodiversity from the social model of disability: everybody has a different brain, and that is okay. Then the myths, one by one — that it rejects all support and treatment, rejects formal diagnosis, is only for Autistic people, only for those who speak, or says autism is not a disability.",
+      "content": null,
+      "ours": {
+        "name": "Neurodiversity, in our glossary",
+        "url": "https://stimpunks.org/glossary/neurodiversity/"
+      }
+    },
+    {
+      "id": "T05Sli_-xBA",
+      "title": "ADHD: A Nightmare Under Capitalism",
+      "makers": "Elliot Sang, with Jesse Meadows of the Sluggish substack; editing by danae o.",
+      "channel": "Elliot Sang",
+      "runtime": "32:54",
+      "about": "A video essay asking what “time blindness” assumes about time. It traces clock time through capitalism and empire, sets Russell Barkley’s lecture beside colonial and phrenologist writing, and, with Jesse Meadows, reads the studies, which it says are far less settled than the term suggests.",
+      "content": "Has a sponsor segment. Some strong language, and it quotes racist colonial and phrenological descriptions of African and Aboriginal people.",
+      "ours": {
+        "name": "Crip Time, in our glossary",
+        "url": "https://stimpunks.org/glossary/crip-time/"
+      }
+    },
+    {
+      "id": "0pibDq98raQ",
+      "title": "Good To Be Me",
+      "makers": "Spectrum Gaming community members, for the Greater Manchester #BeeWell initiative",
+      "channel": "Spectrum Gaming",
+      "runtime": "3:38",
+      "about": "A music video made by members of Spectrum Gaming: sung verses with their own spoken lines between them, going from hating a diagnosis to liking being Autistic, and putting the hard part on how other people treat Autistic people rather than on autism itself.",
+      "content": "Early on it names being picked on at school, wanting to give up, and wishing not to have been born.",
+      "ours": {
+        "name": "Acceptance, in our glossary",
+        "url": "https://stimpunks.org/glossary/acceptance/"
+      }
+    }
   ],
   "campfire": [
     {
