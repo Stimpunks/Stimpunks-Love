@@ -880,7 +880,11 @@
       li.appendChild(streetLinks(said, m.text));
       added++;
       if (this.state.base) {
-        var off = el('button', 'cb-btn cb-take', 'Take off the air');
+        /* Drawn on the message's own name-and-time line by cb.css, but kept
+           AFTER the words in the markup: the log is a live region, and a new
+           message is announced in markup order, so "Take off" first would be
+           read in front of every message the base hears. */
+        var off = el('button', 'cb-btn cb-take', 'Take off');
         off.type = 'button';
         off.setAttribute('aria-label', 'Take ' + m.handle + '’s message at ' + clock(m.t) + ' off the air');
         (function (id) { off.addEventListener('click', function () { me.moderate({ remove: id }); }); })(m.id);

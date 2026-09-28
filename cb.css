@@ -118,7 +118,16 @@
   max-height: min(42vh, 320px); overflow-y: auto;
   display: grid; gap: 9px;
 }
-.cb-msg { display: grid; gap: 2px; }
+.cb-msg { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 8px; row-gap: 2px; }
+.cb-msg > .cb-head { grid-column: 1; grid-row: 1; }
+.cb-msg > .cb-text { grid-column: 1 / -1; grid-row: 2; }
+/* The base's Take off sits at the end of the name-and-time line rather than on
+   a row of its own under every message, which doubled the log's height. Still
+   a real target: 32px tall, over WCAG's 24. */
+.cb-msg > .cb-take {
+  grid-column: 2; grid-row: 1; align-self: center;
+  min-height: 32px; min-width: 0; padding: 2px 8px; font-size: 12px;
+}
 .cb-head { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
 .cb-handle { font-weight: 700; }
 .cb-time { margin-left: auto; font-size: 13px; color: var(--cb-amber-2); }
@@ -134,8 +143,8 @@
 .cb-beacon { overflow-wrap: anywhere; }
 .cb-beacon .cb-tag { margin: 0 0 0 6px; }
 .cb-catch { margin-left: 8px; }
+.cb-catch { justify-self: start; min-height: 44px; }
 .cb-take, .cb-catch {
-  justify-self: start; min-height: 44px;
   color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2);
 }
 .cb-quiet { color: var(--cb-amber-2); font-size: 14px; }
