@@ -639,6 +639,31 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--bigsteep .og-foot {{ font-family: 'Red Hat Text', sans-serif; font-weight: 700; color: #E9D27F;
   letter-spacing: 1px; font-size: 20px; }}
 
+/* rebellion rave room — THE HANGAR, LIFTED OFF THE ROOM, WITH THE RIG OFF. The
+   scaffold tiers, the booth two floors up and the beams standing still in the
+   haze, under a hazard stripe and the name in its stencil. A card is a still
+   picture, so the strobe is not on it and nothing on it flashes: the room's
+   own rule, that the rig only runs when somebody asks, holds on a card too. */
+.og--rave {{ width: 100%; padding: 40px 60px 0; gap: 10px; justify-content: flex-start;
+  border-top: 16px solid #FFD23F;
+  border-image: repeating-linear-gradient(-45deg, #FFD23F 0 16px, #07080C 16px 32px) 16 0 0 0; }}
+.og--rave .rr-over {{ margin: 0 !important; font-size: 18px; letter-spacing: 2.2px; text-transform: uppercase; color: #A7ADBD; }}
+.og--rave h1 {{ font-size: 104px; white-space: nowrap; margin: 0 !important; }}
+.og--rave .og-sub {{ margin: 0 !important; font-family: 'Exo 2', sans-serif; font-weight: 700; font-size: 30px; color: #4DFF88; }}
+.og--rave .og-lede {{ font-family: 'Exo 2', sans-serif; color: #EFF1F7; max-width: 1000px; font-size: 24px; margin: 4px 0 0 !important; }}
+.og--rave .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--rave .og-scene svg {{ display: block; width: 1200px; height: 280px; }}
+
+/* the cooldown room — THE LOUNGE, LIFTED OFF THE ROOM: the couches, the low
+   table, the water, and the vending machine lighting the room from its side.
+   Nothing on it moves, which is the room's rule too. */
+.og--cooldown {{ width: 100%; padding: 44px 60px 0; gap: 10px; justify-content: flex-start; }}
+.og--cooldown .cool-over {{ margin: 0 !important; font-size: 20px; color: #A9BFBC; }}
+.og--cooldown h1 {{ font-size: 104px; margin: 0 !important; }}
+.og--cooldown .og-lede {{ font-family: 'Kumbh Sans', sans-serif; color: #EAF2F0; max-width: 1000px; font-size: 26px; margin: 4px 0 0 !important; }}
+.og--cooldown .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--cooldown .og-scene svg {{ display: block; width: 1200px; height: 330px; }}
+
 /* glow go gee gaws — THE SHOP WITH THE LIGHTS OFF, LIFTED OFF THE ROOM. The
    shelves with the toys just charged in every colour glow comes in, and the
    name in its moulded face. Nothing on the card glows more than once. */
@@ -2469,6 +2494,50 @@ def card_bigsteep(p):
     )
 
 
+def card_rave(p):
+    # THE RIG IS OFF ON THE CARD. A picture of the strobe going would be a
+    # flash somebody met in a timeline without asking, which is the one thing
+    # this room exists to prevent.
+    return (
+        "",
+        f'<div class="og og--rave" data-fit="card">'
+        f'<p class="rr-over">Turning 08, The Outskirts · hangar 8</p>'
+        f'{p["h1"]}'
+        f'<p class="og-sub">{p["rave_sub"]}</p>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-scene">{p["rave_scene"]}</div>'
+        f'</div>',
+        f"A near-black card with a yellow and black hazard stripe along its top edge. Small "
+        f"grey capitals reading turning 08, The Outskirts, hangar 8, then “{p['h1text']}” in a "
+        f"huge condensed stencil face in safety yellow, and under it in bright green: "
+        f"{p['rave_sub_plain']}. Then, in white: {p['desc_plain']} Along the foot, the inside of "
+        f"an aircraft hangar at night: scaffolding climbing both walls in tiers with speaker "
+        f"stacks and lights on every deck, a DJ booth raised on a tower in the middle with a "
+        f"magenta front, tables and chairs at the edges of an empty floor with a yellow dashed "
+        f"line painted on it, and thin green, magenta and cyan laser beams standing still in the "
+        f"haze. Nothing on the card is flashing.",
+    )
+
+
+def card_cooldown(p):
+    return (
+        "",
+        f'<div class="og og--cooldown" data-fit="card">'
+        f'<p class="cool-over">Next to the ante-chamber at the Rebellion Rave Room</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-scene">{p["cool_scene"]}</div>'
+        f'</div>',
+        f"A dark blue-green card. A small grey line reading next to the ante-chamber at the "
+        f"Rebellion Rave Room, then “{p['h1text']}” in a soft, round, chewy face in coral, and "
+        f"under it in pale grey-white: {p['desc_plain']} Along the foot, a small lounge: a "
+        f"dusty teal sofa with coral, mint and lilac cushions, a low table with two cups on it, "
+        f"a plum armchair, a floor cushion, and on the right a vending machine with a lit pale "
+        f"front full of small coloured packets, its light lying across the floor, with a water "
+        f"cooler beside it. Every couch has a pale edge on the side facing the machine.",
+    )
+
+
 def card_glowgo(p):
     # NO AMBIENT MARKUP: a card cannot be charged, so nothing on it fades.
     return (
@@ -3339,6 +3408,8 @@ CARDS = {
     "mycelium":     card_mycelium,
     "bigsteep":     card_bigsteep,
     "glowgo":       card_glowgo,
+    "rave":         card_rave,
+    "cooldown":     card_cooldown,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
     "covenstead":   card_covenstead,
@@ -3603,6 +3674,22 @@ def main():
     if not bs:
         raise SystemExit("REFUSING: big-steep-fermentables.html has lost its racks, and its card is built out of them.")
     lifted["bs_scene"] = bs.group(1)
+    rr = re.search(r'<div class="rr-scene" id="rr-scene">\s*(<svg.*?</svg>)',
+                   (ROOT / "rebellion-rave-room.html").read_text(), re.S)
+    rrsub = re.search(r'<p class="rr-head__sub">(.*?)</p>',
+                      (ROOT / "rebellion-rave-room.html").read_text(), re.S)
+    if not rr or not rrsub:
+        raise SystemExit("REFUSING: rebellion-rave-room.html has lost its hangar or its tagline, and its card is built out of both.")
+    # CROPPED BY ITS VIEWBOX to the decks, the booth and the floor, so nothing
+    # runs past the card to be clipped.
+    lifted["rave_scene"] = rr.group(1).replace('viewBox="0 0 1200 640"', 'viewBox="0 360 1200 280"', 1)
+    lifted["rave_sub"] = rrsub.group(1).strip()
+    lifted["rave_sub_plain"] = html.unescape(re.sub(r"<[^>]+>", "", rrsub.group(1))).strip()
+    cl = re.search(r'<div class="cool-head__art">\s*(<svg.*?</svg>)',
+                   (ROOT / "cooldown-room.html").read_text(), re.S)
+    if not cl:
+        raise SystemExit("REFUSING: cooldown-room.html has lost its lounge, and its card is built out of it.")
+    lifted["cool_scene"] = cl.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 150 1200 330"', 1)
     gg = re.search(r'<div class="gg-shop" aria-hidden="true">\s*(<svg.*?</svg>)',
                    (ROOT / "glow-go-gee-gaws.html").read_text(), re.S)
     if not gg:

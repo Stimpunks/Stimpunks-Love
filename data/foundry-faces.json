@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-09-26",
+ "_checked": "2026-09-27",
  "faces": {
   "albert-sans": {
    "family": "Albert Sans",
@@ -372,6 +372,23 @@
      "style": "normal",
      "file": "bevan-400.woff2",
      "sha": "9e8d329901d9be63"
+    }
+   ]
+  },
+  "big-shoulders-stencil": {
+   "family": "Big Shoulders Stencil",
+   "category": "Display",
+   "designer": "Patric King",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/bigshouldersstencil",
+   "copyright": "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+   "repository": "https://github.com/xotypeco/big_shoulders",
+   "variants": [
+    {
+     "weight": "800",
+     "style": "normal",
+     "file": "big-shoulders-stencil-800.woff2",
+     "sha": "561a8c4f7b77af52"
     }
    ]
   },
@@ -826,6 +843,29 @@
     }
    ]
   },
+  "exo-2": {
+   "family": "Exo 2",
+   "category": "Sans Serif",
+   "designer": "Natanael Gama",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/exo2",
+   "copyright": "Copyright 2013 The Exo 2 Project Authors (https://github.com/googlefonts/Exo-2.0)",
+   "repository": "https://github.com/googlefonts/Exo-2.0",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "exo-2-400.woff2",
+     "sha": "3dad6838887f694f"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "exo-2-700.woff2",
+     "sha": "3dad6838887f694f"
+    }
+   ]
+  },
   "faustina": {
    "family": "Faustina",
    "category": "Serif",
@@ -1241,6 +1281,29 @@
      "style": "normal",
      "file": "karla-400.woff2",
      "sha": "690fabf2f17b4a98"
+    }
+   ]
+  },
+  "kumbh-sans": {
+   "family": "Kumbh Sans",
+   "category": "Sans Serif",
+   "designer": "Saurabh Sharma",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/kumbhsans",
+   "copyright": "Copyright 2020 The KumbhSans Project Authors (https://github.com/xconsau/KumbhSans)",
+   "repository": "https://github.com/xconsau/KumbhSans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "kumbh-sans-400.woff2",
+     "sha": "adedef4c0363483a"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "kumbh-sans-700.woff2",
+     "sha": "adedef4c0363483a"
     }
    ]
   },
@@ -2088,6 +2151,23 @@
      "style": "italic",
      "file": "sorts-mill-goudy-400-italic.woff2",
      "sha": "69cd7caaab814290"
+    }
+   ]
+  },
+  "sour-gummy": {
+   "family": "Sour Gummy",
+   "category": "Sans Serif",
+   "designer": "Stefie Justprince",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/sourgummy",
+   "copyright": "Copyright 2018 The Sour Gummy Project Authors (https://github.com/eifetx/Sour-Gummy-Fonts)",
+   "repository": "https://github.com/eifetx/Sour-Gummy-Fonts",
+   "variants": [
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "sour-gummy-700.woff2",
+     "sha": "609eb471e899f31f"
     }
    ]
   },

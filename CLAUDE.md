@@ -2176,6 +2176,63 @@ still show. The crayon inks are §2 custom properties, read by the script with `
 canvas cannot take a `var()`, and the tool refuses one `love.css` does not declare. Do not give the
 crayon you are holding a lift or a wobble: nothing in §44 moves.
 
+**THE REBELLION RAVE ROOM IS THE ONE ROOM WITH A STROBE, AND IT REVERSES CLUB CHRONIC'S RULE FOR THAT
+ROOM ONLY.** Turning 08 (§68), Ryan's brief, 2026-09-27: an old aircraft hangar by the airstrip, taken over
+by the sensory seekers, because some of us stim with strobes, lasers and flicker devices. **The reversal is
+an opt-in and nothing else**, and every piece of it is a sentence on the page that `make-rave.py` holds:
+
+  · **the warning is above the rig, and the rig ships `hidden`.** The ante-chamber comes first on the page
+    because it comes first in the building. It gives the Epilepsy Society's figures (3 to 30 a second the
+    common trigger range, 16 to 25 the most likely) and the HSE's four a second for a club, read off that
+    charity's page, not from memory.
+  · **two presses.** The first opens a question that names the rate; only yes starts it. Escape, both
+    Stop buttons, a hidden tab and `pagehide` stop everything, and **coming back to the tab does not
+    restart it**: a strobe that resumed by itself is one nobody asked for this time. Nothing is stored.
+  · **the knob starts at four and stops at eleven**, `MAX_RATE` in `rave.js` and the range's `max` must
+    agree, and past eleven is refused. Past four is past the HSE's figure and the knob says so as it turns.
+    How fast it goes is open in DECISIONS.md and is Ryan's call.
+  · **the flash is white**, because a saturated red flash is the worst there is; `--rr-strobe` is
+    refused with any hue. **It lands on the hangar picture and never on a word**, unless the visitor takes
+    the rig full screen, which is a third choice of theirs.
+  · **the dial does not switch the rig, in either direction** (the Arcade's rule), so the beams and the
+    flash are driven from one `requestAnimationFrame` loop in `rave.js` rather than CSS, which §3 takes
+    away at Gentle. **Do not add a keyframe or transition to §68**: CSS animation there would be the rig
+    starting unasked. The beams rotate inside their own `<svg>`, where a transform is part of the picture.
+  · **no claim of safety or of treatment** in the room's voice: no rate is safe for somebody
+    photosensitive, and the room links a flicker device while repeating nothing its maker says flicker does.
+
+**AND THE SENTENCE THAT SAID IT HELD EVERYWHERE HAD TO CHANGE.** The Adventurer's Guild's house rules
+said Club Chronic's rule "holds everywhere on this street"; that line names the rave now. Every other
+room's promise that nothing in *it* flashes is about that room and still true. **When a room reverses a
+street-wide rule, grep every page for the rule** — `strobe` and `flash` — because the claims live in the
+rooms that repeat it, not in the room that changed. The dial's own line, *nothing moves, flashes, or plays
+until you say so*, stays true only because of the opt-in; that is the sentence to protect.
+
+**THE FESTIVAL FILMS HAVE THEIR OWN STROBES IN THEM, AND THE ROOM SAYS SO ABOVE THE SCREEN**, because a page
+cannot reach inside another site's player. `make-rave.py` refuses the page without that sentence. The
+screen is the Hermitage's set (silent while dark); a channel is a **mix** (one video, then `RD` + its id,
+Big Steep's rule, with the video's runtime) or a **playlist** (no runtime, and its position 1 as `opens`,
+Queercore's lesson). **The Tomorrowland film is a fan channel's mix, not the festival's**, and the note
+beside it says so; its channel's own name contains *Best*, which the ranking sweep skips as the channel's
+words. Every channel was pressed inside a frame and played, 2026-09-27.
+
+**THE LIGHT IS LIGHT YOU SEE IN THE AIR**, beams caught along their length by haze, and the strobe is light
+in time. That is the road's fifth light, and it is taken. **Dance, Punks is the collision**: outdoors,
+silent, lit steadily by what people wear. If anything in the hangar ever glows steadily at head height it
+has become the airstrip with a roof on.
+
+**THE COOLDOWN ROOM (§69) IS BEHIND THE ANTE-CHAMBER AND IS LIT BY A VENDING MACHINE**, one steady pale panel
+at the side of a small soft room. It shares nothing with the hangar, which runs the long way: immense,
+black, steel and beams against small, soft, upholstered and still. **It is one more room for resting in,
+and the light is what holds it off the others**: every one of those is lit by a flame, a lamp, a corridor
+or from under water, and there is no flame and no brown here. The Doom Scoop's cabinet lights *down* into
+its tubs in a closed parlour; this lights *out* across a room people sit in. `make-cooldown.py` refuses a
+snack that does not say what is in it and how it feels (the runtime rule at a vending machine), a price or
+anything owed (Nothing For Sale's rule), a verdict on food or anything a snack is supposed to *do* for a
+body, a maker who is a business, and a script that keeps, sends or sounds anything. **Every snack and maker
+is this road's own**, a first name and a place, never a brand. Its first two refusals were false positives,
+*Cucumber Coins* and *the fuel pumps*, and both patterns were narrowed rather than excepted.
+
 **`check-jukebox.py` COULD NOT RUN FROM THE DAY LAUGHINGSTOCK OPENED UNTIL THIS ONE.** That room's data
 has `acts` (comics and their lines) beside `sets` (videos), the `acts` branch came first, and the run
 refused on the first comic. `sets` is tested first now. **When a checker's shapes are told apart by
@@ -2836,18 +2893,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §69 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §71 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§69 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§71 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §69 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §71 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

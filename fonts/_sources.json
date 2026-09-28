@@ -1706,5 +1706,61 @@
       "src": "https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLEj6Z1xlFd2JQEk.woff2",
       "note": "Glow Go Gee Gaws (§67), the bold runs and the controls. A separate file: Poppins is not variable."
     }
+  ],
+  "big-shoulders-stencil": [
+    {
+      "file": "big-shoulders-stencil-800.woff2",
+      "weight": "800",
+      "style": "normal",
+      "bytes": 14880,
+      "src": "https://fonts.gstatic.com/s/bigshouldersstencil/v4/TwM2-JIEQ1Je5sI6Bx1TKHD83rT3u3NSCfbFxqa9oQbR_CiZMgOzPB7iSLKdsgE9Sp0x4tZOlKpSJ44Jfcg.woff2",
+      "note": "Rebellion Rave Room (§68), the hangar's name, its headings, the bay number and every label on the rig, and nothing at reading size: a condensed stencil, which is how a hangar numbers its doors and how a flight case says what is in it. One weight."
+    }
+  ],
+  "exo-2": [
+    {
+      "file": "exo-2-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 40932,
+      "src": "https://fonts.gstatic.com/s/exo2/v26/7cHmv4okm5zmbtYoK-4W4nIp.woff2",
+      "note": "Rebellion Rave Room (§68), every word that is read: the warnings, the house rules, the channel list and every control. A squared, open sans that stays legible small and fast, which is what a warning sign has to be. One variable file serves both weights."
+    },
+    {
+      "file": "exo-2-700.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 40932,
+      "src": "https://fonts.gstatic.com/s/exo2/v26/7cHmv4okm5zmbtYoK-4W4nIp.woff2",
+      "note": "Rebellion Rave Room (§68), every word that is read: the warnings, the house rules, the channel list and every control. A squared, open sans that stays legible small and fast, which is what a warning sign has to be. One variable file serves both weights."
+    }
+  ],
+  "sour-gummy": [
+    {
+      "file": "sour-gummy-700.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 17556,
+      "src": "https://fonts.gstatic.com/s/sourgummy/v3/8AtGGs2gPYuNDii97MjjBrLbYfdJvDU5AZfP5opPVCC4oC5ANR1NFMRk8FqNLW5MoLma.woff2",
+      "note": "The Cooldown Room (§69), the room's name, its headings and the name of every snack in the machine, and nothing at reading size: soft, round and a little chewy, the shape of a sweet. One weight."
+    }
+  ],
+  "kumbh-sans": [
+    {
+      "file": "kumbh-sans-400.woff2",
+      "weight": "400",
+      "style": "normal",
+      "bytes": 29556,
+      "src": "https://fonts.gstatic.com/s/kumbhsans/v27/c4mw1n92AsfhuCq6tVsaoIx1LQICk0boNoq0ShNPVo0wPFXC.woff2",
+      "note": "The Cooldown Room (§69), every word that is read, and the machine's readout. A plain, soft-cornered sans with open counters, because a room for coming down from somewhere loud should be the easiest thing on the road to read. One variable file serves both weights."
+    },
+    {
+      "file": "kumbh-sans-700.woff2",
+      "weight": "700",
+      "style": "normal",
+      "bytes": 29556,
+      "src": "https://fonts.gstatic.com/s/kumbhsans/v27/c4mw1n92AsfhuCq6tVsaoIx1LQICk0boNoq0ShNPVo0wPFXC.woff2",
+      "note": "The Cooldown Room (§69), every word that is read, and the machine's readout. A plain, soft-cornered sans with open counters, because a room for coming down from somewhere loud should be the easiest thing on the road to read. One variable file serves both weights."
+    }
   ]
 }

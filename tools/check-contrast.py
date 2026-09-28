@@ -520,6 +520,24 @@ GG_TEXT, GG_DIM, GG_LINK = "#ECE9F2", "#A8A4B6", "#9CF08C"
 GG_GLOWS = {"green": "#6DFF7A", "aqua": "#4FF5D6", "blue": "#5AA9FF", "white": "#EEF4FF",
             "violet": "#B98BFF", "yellow": "#F7EE5A", "pink": "#FF7FC8", "orange": "#FF9E3D", "red": "#FF5A52"}
 
+# Rebellion Rave Room (§68). TWO GROUNDS, the dark under the hangar roof and a
+# scaffold deck, and every word stands on one of them flat. The beams, the
+# strobe and the scaffolding are drawn in the hangar picture and carry no word;
+# the strobe is white and is ornament, because nothing is ever written on a
+# flash. The hazard yellow carries the warning, the h1 and every link; the
+# laser green every control on the rig.
+RR_HANGAR, RR_DECK = "#07080C", "#151821"
+RR_TEXT, RR_DIM, RR_HAZARD = "#EFF1F7", "#A7ADBD", "#FFD23F"
+RR_LASER, RR_MAGENTA, RR_CYAN = "#4DFF88", "#FF5AD9", "#3FE0FF"
+
+# The Cooldown Room (§69). THREE GROUNDS: the room, the upholstery every panel
+# is, and the machine's lit glass, which is the one pale card here and carries
+# dark ink. The dark round the readout and tray is the fourth and carries the
+# machine's own words.
+COOL_ROOM, COOL_COUCH, COOL_GLASS = "#15232A", "#203238", "#EEF6F8"
+COOL_TEXT, COOL_DIM, COOL_MINT, COOL_CORAL = "#EAF2F0", "#A9BFBC", "#8EE6CC", "#FFA38F"
+COOL_INK, COOL_INK2, COOL_CABINET, COOL_SHADE = "#16252B", "#45585E", "#2C3F46", "#0E181C"
+
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
 # screen is the light source in this room, not a surface anything is set on --
@@ -2385,6 +2403,41 @@ PAIRS = [
     (GG_DARK, GG_TEXT,  False, "glow: a button's words under the pointer"),
     (GG_DIM,  GG_SHELF, True,  "glow: a dark toy's outline, which is how a toy with no light in it is seen"),
     (GG_LINK, GG_DARK,  True,  "glow: the focus ring"),
+
+    # ── Rebellion Rave Room (§68) ────────────────────────────────────────────
+    (RR_TEXT,   RR_HANGAR, False, "rave: the lede, every heading, the warning's words and every bold run"),
+    (RR_TEXT,   RR_DECK,   False, "rave: the same in the ante-chamber, on the rig and in every channel"),
+    (RR_DIM,    RR_HANGAR, False, "rave: every paragraph the room does not emphasise, and the trail"),
+    (RR_DIM,    RR_DECK,   False, "rave: each channel's by-line, the desk's label and the house rules"),
+    (RR_HAZARD, RR_HANGAR, False, "rave: the h1, every link, the warning's heading and its bold runs"),
+    (RR_HAZARD, RR_DECK,   False, "rave: every link on a deck and the channel numbers"),
+    (RR_HANGAR, RR_HAZARD, False, "rave: the words on the Stop buttons and on yes, start the strobe"),
+    (RR_LASER,  RR_HANGAR, False, "rave: the line under the h1 and every control on the rig and the screen"),
+    (RR_LASER,  RR_DECK,   False, "rave: the rig's switches and every hover state on a deck"),
+    (RR_HANGAR, RR_LASER,  False, "rave: a switch's words once it is on"),
+    (RR_MAGENTA, RR_HANGAR, True, "rave: the magenta beams and the DJ booth's front, drawn in the haze"),
+    (RR_CYAN,   RR_HANGAR, True,  "rave: the cyan beams and the moving heads' lenses"),
+    (RR_LASER,  RR_HANGAR, True,  "rave: the green beams"),
+    (RR_HAZARD, RR_HANGAR, True,  "rave: the job marker, a foam earplug on the hangar floor"),
+
+    # ── The Cooldown Room (§69) ──────────────────────────────────────────────
+    (COOL_TEXT,  COOL_ROOM,  False, "cooldown: the lede, every heading and every bold run"),
+    (COOL_TEXT,  COOL_COUCH, False, "cooldown: the same on every panel"),
+    (COOL_DIM,   COOL_ROOM,  False, "cooldown: the over-line, the trail and every plain paragraph"),
+    (COOL_DIM,   COOL_COUCH, False, "cooldown: every plain paragraph on a panel"),
+    (COOL_MINT,  COOL_ROOM,  False, "cooldown: every link and the backlink"),
+    (COOL_MINT,  COOL_COUCH, False, "cooldown: every link on a panel and the list markers"),
+    (COOL_CORAL, COOL_ROOM,  False, "cooldown: the h1 and every hover state"),
+    (COOL_CORAL, COOL_COUCH, False, "cooldown: a hover state on a panel"),
+    (COOL_INK,   COOL_GLASS, False, "cooldown: every snack's name, how it feels and what drops, on the lit glass"),
+    (COOL_INK2,  COOL_GLASS, False, "cooldown: every slot's code, who made it and what is in it"),
+    (COOL_INK,   COOL_GLASS, True,  "cooldown: the focus ring on a slot, which is a pale card in a dark room"),
+    (COOL_INK2,  COOL_GLASS, True,  "cooldown: the edge of every slot"),
+    (COOL_TEXT,  COOL_CABINET, False, "cooldown: the line across the top of the machine"),
+    (COOL_MINT,  COOL_SHADE, False, "cooldown: the machine's readout"),
+    (COOL_TEXT,  COOL_SHADE, False, "cooldown: what is in the tray"),
+    (COOL_DIM,   COOL_SHADE, False, "cooldown: the tray's label"),
+    (COOL_MINT,  COOL_ROOM,  True,  "cooldown: the job marker, a bottle cap under a couch"),
 ] + [
     (hexv, ground, True, f"glow: a toy glowing {name}, just charged")
     for name, hexv in GG_GLOWS.items() for ground in (GG_DARK, GG_SHELF)
@@ -2606,6 +2659,18 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#2b303c": "rave: the hangar's scaffolding, roof ribs and every rail and frame in the drawing, "
+               "1.52 on the hangar and 1.34 on a deck. It carries no word.",
+    "#ffffff": "rave: the strobe's flash, laid over the hangar picture only after two presses. "
+               "Nothing is ever written on a flash, and make-rave.py refuses it with any colour in it.",
+    "#2c3f46": "cooldown: the vending machine's cabinet, 1.46 on the room, and the floor line under "
+               "the job marker. It carries one line of the machine's own words, measured above.",
+    "#c9b6f2": "cooldown: the lilac band across the top of a slot, 1.67 on the glass. It carries no "
+               "word, and every slot says what it is in words.",
+    "#f2db8a": "cooldown: the butter band across the top of a slot, 1.26 on the glass. No word.",
+    "#9fd3f2": "cooldown: the sky band across the top of a slot, and the water in the cooler in the "
+               "drawing, 1.47 on the glass. No word.",
+    "#f2a7c3": "cooldown: the rose band across the top of a slot, 1.73 on the glass. No word.",
     "#f6fcff": "doom scoop: the cabinet's cold tube along the lid, 17.27 on the well. It lights the "
                "drawing and carries no word.",
     "#111e22": "doom scoop: the front of the counter in the drawing and the ring just inside the "

@@ -307,6 +307,16 @@
    "path": "/nothing-for-sale.html"
   },
   {
+   "tag": "rebellion-rave-room",
+   "name": "Rebellion Rave Room",
+   "path": "/rebellion-rave-room.html"
+  },
+  {
+   "tag": "cooldown-room",
+   "name": "The Cooldown Room",
+   "path": "/cooldown-room.html"
+  },
+  {
    "tag": "arlesglad-caverns",
    "name": "Arlesglad Caverns",
    "path": "/arlesglad-caverns.html"

@@ -195,6 +195,12 @@ LISTS = [
     # headset that opens on YouTube's refusal plate. Added in the commit that
     # opened the room, which is the lesson Looming Rocks' missing day taught.
     ("dance, punks", "data/dance-punks.json", "dance-punks.html"),
+    # Rebellion Rave Room's big screen, off The Outskirts. Added in the commit
+    # that opened the room. Three channels are one video and then YouTube's own
+    # mix of it, and only the video is checked, because the mix is built on the
+    # fly and nobody here can. The fourth is a fan's playlist and is checked at
+    # its POSITION 1, which decides whether the whole list embeds.
+    ("rebellion rave room", "data/rebellion-rave.json", "rebellion-rave-room.html"),
     # Vital Plant Living's stereo. The playlist itself is not checked, for the
     # reason above; every song listed under it is, because the list is a mirror
     # and a dead row is a credit for a song the stereo no longer plays. The
@@ -395,6 +401,12 @@ def tracks_in(data):
         # confident total while missing half the room.
         return [dict(f, artist=f.get("channel"))
                 for f in (data.get("rack", []) + data.get("screen_two", []))]
+    if "screens" in data:
+        # Rebellion Rave Room: a mix is its first video, a playlist the video
+        # at its position 1, carried as 'opens'.
+        return [dict(c["opens"], artist=c["channel"], title=f'{c["title"]}, opening on {c["opens"]["title"]}')
+                if c["kind"] == "playlist" else dict(c, artist=c["channel"])
+                for c in data["screens"]]
     if "channels" in data:
         # Dance, Punks: each channel is the song it OPENS on, then the crate
         # plays on from there. Only the opening song is one video; the rest is

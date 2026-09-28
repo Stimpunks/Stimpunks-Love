@@ -861,6 +861,25 @@
 @font-face { font-family: 'Poppins'; src: url('fonts/poppins-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Poppins'; src: url('fonts/poppins-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
 
+/* Rebellion Rave Room (§68). A NUMBER STENCILLED ON A HANGAR DOOR, AND A
+   WARNING SIGN YOU CAN READ AT A GLANCE. Big Shoulders Stencil, by Patric
+   King, sets the hangar's name, its headings and every label on the rig, and
+   nothing at reading size. Exo 2, by Natanael Gama, carries every word that is
+   read, the warnings first; one variable file serves both weights. Both read
+   off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Big Shoulders Stencil'; src: url('fonts/big-shoulders-stencil-800.woff2') format('woff2'); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Exo 2'; src: url('fonts/exo-2-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Exo 2'; src: url('fonts/exo-2-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+/* The Cooldown Room (§69). A SWEET, AND THE PLAINEST THING ON THE ROAD TO READ.
+   Sour Gummy, by Stefie Justprince, sets the room's name, its headings and the
+   name of every snack, and nothing at reading size. Kumbh Sans, by Saurabh
+   Sharma, carries every word that is read, the machine's readout included;
+   one variable file serves both weights. Both read off their own records. */
+@font-face { font-family: 'Sour Gummy'; src: url('fonts/sour-gummy-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Kumbh Sans'; src: url('fonts/kumbh-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Kumbh Sans'; src: url('fonts/kumbh-sans-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* The Broadsheet Broadside (§60). A SHIP'S NAME IN A DIDONE, AND A SHEET IN
    THE FACE A HAND-OUT IS READ IN. Bodoni Moda, by Owen Earl, is the name
    painted along the hull and the room's own headings, and NOTHING ON THE
@@ -2178,6 +2197,36 @@
   --gg-green:  #6DFF7A;   --gg-aqua:   #4FF5D6;   --gg-blue:   #5AA9FF;
   --gg-white:  #EEF4FF;   --gg-violet: #B98BFF;   --gg-yellow: #F7EE5A;
   --gg-pink:   #FF7FC8;   --gg-orange: #FF9E3D;   --gg-red:    #FF5A52;
+
+  /* Rebellion Rave Room (§68). AN OLD HANGAR, AND LIGHT YOU SEE IN THE AIR.
+     --rr-hangar is the dark under the roof and the ground of every word;
+     --rr-deck a scaffold deck, a flight case and every panel. --rr-text is
+     every word, --rr-dim the fine print, --rr-hazard the safety yellow of the
+     warning, the h1 and every link. --rr-laser, --rr-magenta and --rr-cyan are
+     the beams, and the laser also marks every control on the rig. --rr-steel
+     (1.52) IS ORNAMENT AND CARRIES NO TEXT: the scaffolding and the roof.
+     --rr-strobe IS THE FLASH AND IT IS WHITE, and make-rave.py refuses it with
+     any colour in it; it carries no text and is ORNAMENT too. */
+  --rr-hangar: #07080C;   --rr-deck:   #151821;   --rr-steel:  #2B303C;
+  --rr-text:   #EFF1F7;   --rr-dim:    #A7ADBD;   --rr-hazard: #FFD23F;
+  --rr-laser:  #4DFF88;   --rr-magenta: #FF5AD9;  --rr-cyan:   #3FE0FF;
+  --rr-strobe: #FFFFFF;
+
+  /* The Cooldown Room (§69). A SMALL SOFT ROOM LIT BY A VENDING MACHINE.
+     --cool-room is the room and the ground of every word; --cool-couch the
+     upholstery and every panel. --cool-text is every word, --cool-dim the fine
+     print, --cool-mint every link and control, --cool-coral the h1. The
+     machine's glass is --cool-glass, lit, and on it everything is --cool-ink
+     and --cool-ink-2. --cool-cabinet (1.46) and --cool-shade are the machine's
+     body and the dark round it and carry no text but the machine's own top
+     line, which is measured. The four wrapper colours are the bands across the
+     top of each slot and carry no text; they are ORNAMENT with their numbers. */
+  --cool-room:  #15232A;  --cool-couch: #203238;  --cool-text:  #EAF2F0;
+  --cool-dim:   #A9BFBC;  --cool-mint:  #8EE6CC;  --cool-coral: #FFA38F;
+  --cool-glass: #EEF6F8;  --cool-ink:   #16252B;  --cool-ink-2: #45585E;
+  --cool-cabinet: #2C3F46; --cool-shade: #0E181C;
+  --cool-lilac: #C9B6F2;  --cool-butter: #F2DB8A; --cool-sky:   #9FD3F2;
+  --cool-rose:  #F2A7C3;
 }
 
 * { box-sizing: border-box; }
@@ -13800,7 +13849,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §69
+   class on it is `bb-`, its sizes are in points and millimetres, and §71
    prints it and nothing else. */
 
 .room-broadside {
@@ -13861,7 +13910,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §69 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §71 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -14851,7 +14900,244 @@ html[data-intensity="max"] .gg-toy.is-lit .gg-shape { filter: drop-shadow(0 0 14
 }
 
 
-/* §68 ── Small screens ───────────────────────────────────────────────────────
+/* §68 ── ROOM: Rebellion Rave Room (turning 08 in The Outskirts) ───────────
+   AN OLD AIRCRAFT HANGAR BY THE AIRSTRIP, TAKEN OVER BY THE SENSORY SEEKERS.
+   Ryan's brief, 2026-09-27. It earns the road by Helen's test: a rave is
+   crowds, volume and staying out late, and it would not be happier on the
+   campsite. It is out here because a hangar is where an airstrip is, not
+   because it was sent: the Outskirts' first-day lesson.
+
+   THE ONE ROOM ON THIS STREET WITH A STROBE IN IT, and it reverses a rule the
+   street has held since Club Chronic. The reversal is an opt-in and nothing
+   else: NOTHING IN THIS SECTION MOVES OR FLASHES BY ITSELF, at any dial
+   setting. There is no keyframe, no transition and no ambient layer here.
+   The beams and the flash are driven by rave.js from one animation frame
+   loop, only after a press, and stop on Escape. A CSS animation here would be
+   the rig starting without being asked, so do not add one.
+
+   THE LIGHT IS LIGHT YOU SEE IN THE AIR, and nothing else on this road has it.
+   Every other turning shows light where it lands: on a screen across water,
+   on grass under the moon, on rock from its foot, on headsets, through a
+   window, against skyglow, in a ring of headlights. Here the haze catches each
+   beam along its whole length, so a laser is a line across the room -- and the
+   strobe is light in TIME rather than in space. That is the fifth light the
+   road's note in CLAUDE.md asked for, and it is taken now.
+
+   THE ROOM IT COULD COLLAPSE INTO IS DANCE, PUNKS, out on the same strip: a
+   dance floor in the dark with coloured lights. The separation is structural.
+   That room is OUTDOORS and SILENT, lit only by what people wear, glowing
+   steadily; this is INDOORS under a roof a long way up, the rig is bolted to
+   the building, and the light moves through the air rather than sitting on a
+   person. If anything in here ever glows steadily at head height it has
+   become the airstrip with a roof on. Its other near neighbour is Looming
+   Rocks, the other venue: that is vertical ROCK lit from its foot, with no
+   beam in the air anywhere, and nothing overhead. Here the thing overhead is
+   the whole point. */
+
+.rave { background: var(--rr-hangar); color: var(--rr-dim); font-family: 'Exo 2', system-ui, sans-serif; }
+.rave a { color: var(--rr-hazard); }
+.rave a:hover { color: var(--rr-laser); }
+.rave :where(p, li) { font-size: 16.5px; line-height: 1.66; }
+.rave strong { color: var(--rr-text); }
+.rave .backlink { font-family: 'Exo 2', system-ui, sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0; color: var(--rr-hazard); }
+.rave .trailmark { margin: 0; font-size: 14px; color: var(--rr-dim); }
+.rave h1 {
+  font-family: 'Big Shoulders Stencil', 'Exo 2', sans-serif; font-weight: 800;
+  font-size: clamp(56px, 11vw, 136px); line-height: .9; letter-spacing: .01em;
+  text-transform: uppercase; color: var(--rr-hazard); margin: 10px 0 0;
+}
+.rave h2 { font-family: 'Big Shoulders Stencil', 'Exo 2', sans-serif; font-weight: 800; font-size: 34px; line-height: 1.05; letter-spacing: .02em; text-transform: uppercase; color: var(--rr-text); margin: 0 0 12px; }
+.rave h3 { font-family: 'Big Shoulders Stencil', 'Exo 2', sans-serif; font-weight: 800; font-size: 25px; line-height: 1.1; letter-spacing: .03em; text-transform: uppercase; color: var(--rr-text); margin: 0 0 8px; }
+.rave .lede { font-size: 19.5px; line-height: 1.6; color: var(--rr-text); max-width: 62ch; margin: 22px 0 0; }
+
+.rr-head { margin: 28px 0 0; }
+.rr-head__over { margin: 0; font-size: 13px; letter-spacing: 2.2px; text-transform: uppercase; color: var(--rr-dim); }
+.rr-head__sub { margin: 12px 0 0; font-weight: 700; font-size: clamp(18px, 3vw, 27px); line-height: 1.25; color: var(--rr-laser); }
+
+/* THE ANTE-CHAMBER, framed in the hazard stripe a hangar paints round anything
+   you should look at before you walk past it. The stripe is a border and
+   carries no word; everything inside it stands on the flat deck. */
+.rr-ante {
+  margin: 34px 0 0; padding: 26px 28px; max-width: 80ch;
+  background: var(--rr-deck);
+  border: 12px solid var(--rr-hazard);
+  border-image: repeating-linear-gradient(-45deg, var(--rr-hazard) 0 14px, var(--rr-hangar) 14px 28px) 12;
+}
+.rr-ante > p { margin: 0 0 16px; }
+.rr-ante h3 { margin-top: 24px; }
+.rr-warn { margin: 18px 0 0; padding: 18px 22px; background: var(--rr-hangar); border: 3px solid var(--rr-hazard); }
+.rr-warn h3 { margin: 0 0 10px; color: var(--rr-hazard); }
+.rr-warn p { margin: 0 0 12px; color: var(--rr-text); }
+.rr-warn p:last-child { margin-bottom: 0; }
+.rr-warn strong { color: var(--rr-hazard); }
+.rr-rules { margin: 0; padding: 0 0 0 20px; }
+.rr-rules li { margin: 0 0 10px; }
+.rr-rules li::marker { color: var(--rr-hazard); }
+.rr-station { margin: 22px 0 0; padding: 18px 0 0; border-top: 2px dashed var(--rr-steel); }
+.rr-station h3 { margin-top: 0; }
+.rr-station p { margin: 0 0 12px; }
+.rr-station__door { margin: 16px 0 0 !important; }
+.rave .rr-door {
+  display: inline-block; font-weight: 700; font-size: 16px; padding: 11px 18px;
+  color: var(--rr-laser); background: var(--rr-hangar); border: 2px solid var(--rr-laser); text-decoration: none;
+}
+.rave .rr-door:hover { color: var(--rr-hangar); background: var(--rr-laser); }
+
+.rr-in { margin: 46px 0 0 !important; }
+.rr-prose { max-width: 66ch; margin: 12px 0 0; }
+
+/* THE HANGAR, and the flash lives inside it. The overlay is exactly the size
+   of the picture, so the strobe never lands on a word unless somebody takes
+   the rig full screen, which is a choice of its own. No transition on it:
+   a fade would turn a flash into a pulse, which is a different thing and
+   not what anybody asked for. */
+.rr-scene { position: relative; margin: 22px 0 0; border: 3px solid var(--rr-steel); background: var(--rr-hangar); line-height: 0; overflow: hidden; }
+.rr-scene__art { display: block; width: 100%; height: auto; }
+.rr-flash { position: absolute; inset: 0; background: var(--rr-strobe); opacity: 0; pointer-events: none; }
+.rr-scene:fullscreen { display: flex; align-items: center; justify-content: center; border: 0; }
+.rr-scene:fullscreen .rr-scene__art { width: 100%; height: 100%; }
+.rr-stop--scene { position: absolute; top: 12px; right: 12px; z-index: 2; line-height: normal; }
+
+/* THE RIG. Every control is a real button with its state in words. */
+.rr-rig { margin: 18px 0 0; padding: 20px 22px; background: var(--rr-deck); border-left: 4px solid var(--rr-laser); max-width: 80ch; }
+.rr-rig__note { margin: 0 0 14px; }
+.rr-rig__row { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; margin: 0 0 12px; }
+.rr-switch, .rr-stop, .rr-desk__btn, .rr-screen__play, .rr-tuneto {
+  font-family: 'Exo 2', system-ui, sans-serif; font-weight: 700; font-size: 15px;
+  padding: 10px 16px; cursor: pointer; text-align: left;
+}
+.rr-switch { background: var(--rr-hangar); color: var(--rr-laser); border: 2px solid var(--rr-laser); }
+.rr-switch[aria-pressed="true"] { background: var(--rr-laser); color: var(--rr-hangar); }
+.rr-switch--go { background: var(--rr-hazard); color: var(--rr-hangar); border-color: var(--rr-hazard); }
+.rr-stop { background: var(--rr-hazard); color: var(--rr-hangar); border: 2px solid var(--rr-hazard); }
+.rr-knob { font-weight: 700; color: var(--rr-text); }
+.rr-knob__in { width: min(340px, 100%); accent-color: var(--rr-laser); }
+.rr-knob__out { font-size: 15px; color: var(--rr-text); }
+.rr-confirm { margin: 0 0 14px; padding: 16px 18px; background: var(--rr-hangar); border: 3px solid var(--rr-hazard); }
+.rr-confirm__what { margin: 0 0 12px; color: var(--rr-text); }
+.rr-confirm__row { display: flex; flex-wrap: wrap; gap: 10px 14px; }
+.rr-said { margin: 4px 0 0; min-height: 1.6em; color: var(--rr-text); }
+
+/* THE BIG SCREEN, the Hermitage's set on a hangar wall. */
+.rr-screen { margin: 22px 0 0; }
+.rr-screen__glass { position: relative; aspect-ratio: 16 / 9; width: 100%; background: #000; border: 3px solid var(--rr-steel); display: flex; align-items: center; justify-content: center; }
+.rr-screen__glass iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.rr-screen__off { padding: 22px 24px; text-align: center; max-width: 56ch; }
+.rr-screen__dark { margin: 0; font-family: 'Big Shoulders Stencil', 'Exo 2', sans-serif; font-weight: 800; font-size: 17px; letter-spacing: 3px; color: var(--rr-hazard); }
+.rr-screen__now { margin: 10px 0 0; font-weight: 700; font-size: 19px; line-height: 1.3; color: var(--rr-text); }
+.rr-screen__go { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: center; margin: 14px 0 0; }
+.rr-screen__runs { font-size: 14.5px; color: var(--rr-dim); }
+.rr-screen__play { background: var(--rr-hangar); color: var(--rr-laser); border: 2px solid var(--rr-laser); }
+.rr-screen__play:hover, .rr-tuneto:hover, .rr-desk__btn:hover { background: var(--rr-deck); }
+.rr-desk { margin: 16px 0 0; display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; justify-content: space-between; padding: 14px 18px; background: var(--rr-deck); }
+.rr-desk__btn { background: var(--rr-hangar); color: var(--rr-text); border: 2px solid var(--rr-dim); }
+.rr-desk__what { margin: 0; flex: 1 1 24ch; text-align: center; font-size: 14.5px; color: var(--rr-dim); }
+.rr-list { margin: 24px 0 0; }
+.rr-list > summary { cursor: pointer; font-weight: 700; font-size: 17px; color: var(--rr-text); padding: 12px 16px; background: var(--rr-deck); border-left: 4px solid var(--rr-laser); }
+.rr-list > summary::marker { color: var(--rr-laser); }
+.rr-channels { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.rr-chan { padding: 16px 18px; background: var(--rr-deck); border-left: 3px solid var(--rr-steel); }
+.rr-chan--on { border-left-color: var(--rr-laser); }
+.rr-chan__no { margin: 0; font-family: 'Big Shoulders Stencil', 'Exo 2', sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 2px; color: var(--rr-hazard); }
+.rr-chan h3 { font-family: 'Exo 2', system-ui, sans-serif; font-weight: 700; font-size: 18px; line-height: 1.3; letter-spacing: 0; text-transform: none; margin: 6px 0 0; }
+.rr-chan__by { margin: 6px 0 0; font-size: 14px; color: var(--rr-dim); }
+.rr-chan p { margin: 10px 0 0; }
+.rr-tuneto { margin: 12px 0 0; background: var(--rr-hangar); color: var(--rr-laser); border: 2px solid var(--rr-laser); }
+
+.rr-whose { margin: 40px 0 0; padding: 22px 26px; max-width: 72ch; background: var(--rr-deck); }
+.rr-whose p { margin: 0 0 13px; }
+.rr-whose p:last-child { margin-bottom: 0; }
+.rr-whose__go { font-size: 14.5px; }
+
+/* §69 ── SUBROOM: The Cooldown Room (off the Rebellion Rave Room) ──────────
+   THE OTHER DOOR IN THE ANTE-CHAMBER, and a subroom shares nothing with the
+   room it hangs off, which here runs the long way: the hangar is immense,
+   black, vertical, full of steel and light you can see in the air; this is
+   the size of a living room, soft, horizontal, full of upholstery, and lit by
+   one steady pale panel at the side of it.
+
+   IT IS LIT BY THE VENDING MACHINE, and that is what holds it off the street's
+   other rooms for resting in. The Faery Yurt, The Latibulum, The Den, the
+   Hermitage's cave, The Mopery and Dead Tired Society are lit by a flame, a
+   lamp or a corridor; the Healing Checkpoint from under water in the floor.
+   There is no flame here and no brown: if the room ever goes warm and amber
+   it has become the burrow with a snack machine in it, and it is this room
+   that moves.
+
+   THE TWO NEAREST COLLISIONS ARE BOTH A LIT BOX IN THE DARK. The Doom Scoop's
+   dipping cabinet lights DOWNWARD into its own tubs, in a parlour after
+   closing, to keep things cold; this machine lights OUTWARD across a room
+   that is open, and people sit in its light. Black Leather Lagoon's screen is
+   a long way off across water; this is an arm's length away, indoors, at the
+   height of your head. If the glass ever reads as a screen, or the light ever
+   falls only on what is behind the glass, one of those two has arrived.
+
+   NOTHING IN HERE MOVES, AT ANY SETTING, and nothing makes a sound. The glass
+   is a pale card inside a dark room, so it sets its own focus ring. */
+
+.cooldown { background: var(--cool-room); color: var(--cool-dim); font-family: 'Kumbh Sans', system-ui, sans-serif; }
+.cooldown a { color: var(--cool-mint); }
+.cooldown a:hover { color: var(--cool-coral); }
+.cooldown :where(p, li) { font-size: 17px; line-height: 1.68; }
+.cooldown strong { color: var(--cool-text); }
+.cooldown .backlink { font-family: 'Kumbh Sans', system-ui, sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0; color: var(--cool-mint); }
+.cooldown .trailmark { margin: 0; font-size: 14px; color: var(--cool-dim); }
+.cooldown h1 { font-family: 'Sour Gummy', 'Kumbh Sans', sans-serif; font-weight: 700; font-size: clamp(44px, 9vw, 96px); line-height: 1; color: var(--cool-coral); margin: 8px 0 0; }
+.cooldown h2 { font-family: 'Sour Gummy', 'Kumbh Sans', sans-serif; font-weight: 700; font-size: 29px; line-height: 1.15; color: var(--cool-text); margin: 0 0 12px; }
+.cooldown .lede { font-size: 19.5px; line-height: 1.6; color: var(--cool-text); max-width: 62ch; margin: 24px 0 0; }
+
+.cool-head { margin: 28px 0 0; }
+.cool-head__over { margin: 0; font-size: 14px; color: var(--cool-dim); }
+.cool-head__sub { margin: 10px 0 0; font-size: clamp(18px, 2.8vw, 24px); color: var(--cool-text); }
+.cool-head__art { margin: 22px 0 0; line-height: 0; border-radius: 22px; overflow: hidden; }
+.cool-head__art svg { display: block; width: 100%; height: auto; }
+
+.cool-panel { margin: 30px 0 0; padding: 22px 26px; max-width: 68ch; background: var(--cool-couch); border-radius: 22px; }
+.cool-panel p { margin: 0 0 12px; }
+.cool-panel p:last-child { margin-bottom: 0; }
+.cool-panel ul { margin: 0; padding: 0 0 0 20px; }
+.cool-panel li { margin: 0 0 10px; }
+.cool-panel li::marker { color: var(--cool-mint); }
+.cool-in { margin: 44px 0 0 !important; }
+.cool-prose { max-width: 66ch; margin: 10px 0 0; }
+
+/* THE MACHINE: a dark cabinet, lit glass, and the slots are the buttons. */
+.cool-machine { margin: 22px 0 0; padding: 16px; background: var(--cool-cabinet); border-radius: 18px; }
+.cool-machine__top { padding: 6px 4px 14px; font-family: 'Sour Gummy', 'Kumbh Sans', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: 1px; color: var(--cool-text); line-height: 1.2; }
+.cool-machine__body { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 16px; align-items: start; }
+.cool-slots { list-style: none; margin: 0; padding: 12px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; background: var(--cool-glass); border-radius: 10px; }
+.cool-slot-wrap { display: flex; }
+.cool-slot {
+  display: flex; flex-direction: column; gap: 4px; width: 100%; text-align: left; cursor: pointer;
+  padding: 10px 12px 12px; background: var(--cool-glass); color: var(--cool-ink);
+  border: 2px solid var(--cool-ink-2); border-top: 12px solid var(--cool-ink-2); border-radius: 8px;
+  font-family: 'Kumbh Sans', system-ui, sans-serif;
+}
+.cool-slot--mint   { border-top-color: var(--cool-mint); }
+.cool-slot--coral  { border-top-color: var(--cool-coral); }
+.cool-slot--lilac  { border-top-color: var(--cool-lilac); }
+.cool-slot--butter { border-top-color: var(--cool-butter); }
+.cool-slot--sky    { border-top-color: var(--cool-sky); }
+.cool-slot--rose   { border-top-color: var(--cool-rose); }
+.cool-slot:hover { border-color: var(--cool-ink); }
+.cool-slot:focus-visible { outline-color: var(--cool-ink); }
+.cool-slot__code { font-weight: 700; font-size: 13px; letter-spacing: 1.5px; color: var(--cool-ink-2); }
+.cool-slot__name { font-family: 'Sour Gummy', 'Kumbh Sans', sans-serif; font-weight: 700; font-size: 21px; line-height: 1.15; color: var(--cool-ink); }
+.cool-slot__who, .cool-slot__in { font-size: 13.5px; line-height: 1.45; color: var(--cool-ink-2); }
+.cool-slot__feels { font-size: 14.5px; line-height: 1.45; color: var(--cool-ink); }
+.cool-slot__in b { color: var(--cool-ink); }
+.cool-slot__drop { margin: 4px 0 0; font-weight: 700; font-size: 14px; color: var(--cool-ink); }
+.cool-machine__side { display: flex; flex-direction: column; gap: 12px; }
+.cool-readout { margin: 0; padding: 14px 16px; min-height: 5.5em; background: var(--cool-shade); color: var(--cool-mint); font-weight: 700; font-size: 15.5px; line-height: 1.5; border-radius: 8px; }
+.cool-tray { padding: 12px 16px; background: var(--cool-shade); border-radius: 8px; }
+.cool-tray__lab { margin: 0; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cool-dim); }
+.cool-tray__in { margin: 4px 0 0; color: var(--cool-text); }
+@media (max-width: 760px) {
+  .cool-machine__body { grid-template-columns: minmax(0, 1fr); }
+  .cool-slots { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* §70 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -14958,7 +15244,7 @@ html[data-intensity="max"] .gg-toy.is-lit .gg-shape { filter: drop-shadow(0 0 14
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §68 says every
+   shipped with no rule here at all — which on a street whose §70 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -15082,7 +15368,7 @@ html[data-intensity="max"] .gg-toy.is-lit .gg-shape { filter: drop-shadow(0 0 14
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §69 ── Print ───────────────────────────────────────────────────────────────
+/* §71 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

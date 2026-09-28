@@ -360,6 +360,15 @@ DRAW = {
     # the green that lasts longest, 15.18 on the shop's dark. The floor line is
     # --gg-shelf-line and carries nothing.
     "glow-star": """<path d="M3 29 H29" stroke="var(--gg-shelf-line)" stroke-width="1.8" stroke-linecap="round"/><path d="M16 4 L19.1 11.7 L27.4 12.3 L21 17.7 L23 25.8 L16 21.4 L9 25.8 L11 17.7 L4.6 12.3 L12.9 11.7 Z" fill="none" stroke="var(--gg-green)" stroke-width="2.2" stroke-linejoin="round"/>""",
+    # A foam earplug dropped on the hangar floor, from the basket at the
+    # hydration station, drawn in the hazard yellow of the warning it sits
+    # beside, 13.86 on the hangar's dark. The floor line is --rr-steel and
+    # carries nothing.
+    "rave-earplug": """<path d="M3 29 H29" stroke="var(--rr-steel)" stroke-width="1.8" stroke-linecap="round"/><path d="M8 23 Q7 17 12.5 16 L22 13.8 Q26.5 13 27 17.5 Q27.5 22 23 22.6 L13.5 25 Q9 26 8 23 Z" fill="none" stroke="var(--rr-hazard)" stroke-width="2.2" stroke-linejoin="round"/><path d="M15 16.2 L16.6 24.2 M19.4 15.2 L20.9 23.4" stroke="var(--rr-hazard)" stroke-width="1.3" stroke-linecap="round" opacity=".7"/>""",
+    # A bottle cap rolled under a couch, crimped round its edge, in the mint the
+    # room uses for every control, 10.98 on the room. The floor line is
+    # --cool-cabinet and carries nothing.
+    "cool-cap": """<path d="M3 29 H29" stroke="var(--cool-cabinet)" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="17" r="8.2" fill="none" stroke="var(--cool-mint)" stroke-width="2.2"/><circle cx="16" cy="17" r="4.4" fill="none" stroke="var(--cool-mint)" stroke-width="1.4" opacity=".7"/><path d="M16 5.6 V7.4 M16 26.6 V28.4 M4.6 17 H6.4 M25.6 17 H27.4 M7.9 8.9 L9.2 10.2 M22.8 23.8 L24.1 25.1 M7.9 25.1 L9.2 23.8 M22.8 10.2 L24.1 8.9" stroke="var(--cool-mint)" stroke-width="1.8" stroke-linecap="round"/>""",
     "lagoon-speaker": """<path d="M11 7 q0 -4 5 -4 q5 0 5 4" fill="none" stroke="var(--lag-acid)" stroke-width="2"/><rect x="8" y="7" width="16" height="21" rx="3" fill="none" stroke="var(--lag-acid)" stroke-width="2.4"/><path d="M12 13 H20 M12 17 H20 M12 21 H20" stroke="var(--lag-acid)" stroke-width="1.8" stroke-linecap="round"/>""",
     "foundry-sort": """<path d="M5 11 H25 V22 H5 Z" fill="none" stroke="var(--fo-brass)" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 22 a3.2 3.2 0 0 1 6.4 0" fill="none" stroke="var(--fo-brass)" stroke-width="2"/><path d="M27 12 V21" stroke="var(--fo-brass)" stroke-width="2.6" stroke-linecap="round"/><path d="M25 14 H27 M25 19 H27" stroke="var(--fo-brass)" stroke-width="1.8"/>""",
     "checkpoint-pillow": """<path d="M5 21 q-2 -9 6 -10 q10 -2 16 1 q6 2 4 9 q-2 4 -11 4 q-11 1 -15 -4 Z" fill="none" stroke="var(--hc-steam)" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 15 q4 3 8 0" fill="none" stroke="var(--hc-steam)" stroke-width="1.8" stroke-linecap="round"/>""",

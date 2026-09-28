@@ -1,0 +1,51 @@
+{
+  "_what": "Rebellion Rave Room's big screen: the channels on the shared screen over the dance floor, in Ryan's order from his brief of 2026-09-27. tools/make-rave.py builds the channel list into rebellion-rave-room.html between the rave-screens markers and the credits into liner-notes.html, and refuses a channel that breaks the rules below. rave.js tunes the screen the way the Hermitage's set does: silent while it is dark, changing the picture once something is on.",
+  "_read": "Every title, channel, date and runtime here was read off the video's own page with yt-dlp on 2026-09-27, and every playable_in_embed and age_limit with it: all of them true and 0. Nothing was typed from the brief or from memory. A title is quoted as its channel wrote it, capitals and emoji and all, which is the Doom Scoop's rule: they are the channels' words, and the sweep for ranking words skips them.",
+  "_kinds": "A channel is either a MIX, one video and then the mix YouTube builds from it, whose id is RD followed by that video's own (Big Steep's rule: a label describing the wrong list is the broken thing), or a PLAYLIST somebody keeps. A mix's first video has a runtime and the label gives it; what YouTube plays after it has none and nobody here has checked it. A playlist has no runtime at all, because a list somebody can add to has none that stays true (make-club.py's pair), and it carries the video at its POSITION 1 as `opens`, because that one entry decides whether the whole list embeds -- Queercore's lesson on the Pink Pony Club's decks.",
+  "_lighting": "EVERY ONE OF THESE HAS FESTIVAL LIGHTING IN IT, strobe and lasers included, and none of the rig's limits reach inside somebody else's video. A page cannot read a frame out of another site's player, any more than the fractal window can hear the music. The room says so above the screen, before the press, and make-rave.py refuses the page if that sentence goes.",
+  "_notes": "Every note says only what the video's own page says: who posted it, where and when, what is in it. None of them says what a set sounds like, which is The Live Room's rule, because nobody writing these watched four hours of festival footage.",
+  "screens": [
+    {
+      "kind": "mix",
+      "id": "ecIr-JaLwcs",
+      "mix": "RDecIr-JaLwcs",
+      "title": "Tomorrowland 2026 🔥 Martin Garrix, Anyma, David Guetta, Alesso, Tiësto | Best Stage 2026",
+      "channel": "Best Stage Tomorrowland",
+      "runs": "1:04:23",
+      "spoken": "1 hr 4 min",
+      "note": "Not the festival's own upload. A channel called Best Stage Tomorrowland posted it on 26 September 2026 and its description calls it a mix inspired by Tomorrowland 2026. The names in the title are the channel's, and nobody here has checked whose tracks are in it or whether any of those artists played them."
+    },
+    {
+      "kind": "playlist",
+      "list": "PLgdsaBoLcljIlYjIYWFdyq2fegGNJbSMS",
+      "title": "THUNDERDOME 2025",
+      "channel": "Lidia S",
+      "opens": {
+        "id": "cXXk2Kecc24",
+        "title": "EXCISION | NIGHT 2 Crowd View | THUNDERDOME 2025 | 4K 2160p (Tacoma Dome)",
+        "runs": "4:12"
+      },
+      "note": "Filmed from the crowd by Lidia S at Excision's Thunderdome in the Tacoma Dome, on 7 and 8 February 2025, and kept in her own playlist in her own order: the intro to each night, a crowd view, a stretch of the first night and its last five minutes. One more entry in it is private, and YouTube skips it."
+    },
+    {
+      "kind": "mix",
+      "id": "4c0AIeBdCFQ",
+      "mix": "RD4c0AIeBdCFQ",
+      "title": "Electric Love Festival – Opening Ceremony 2026",
+      "channel": "Electric Love Festival",
+      "runs": "18:30",
+      "spoken": "18 min",
+      "note": "The festival's own film of its 2026 opening ceremony, posted on its own channel on 16 July 2026. Its description puts the festival in Salzburg, Austria, with four campsites and four days of camping."
+    },
+    {
+      "kind": "mix",
+      "id": "OE5KJVAk7X0",
+      "mix": "RDOE5KJVAk7X0",
+      "title": "World Record: Largest Laser Show [1.100 lasers] - Verknipt ArenA 2025 | 360° Experience Show",
+      "channel": "VERKNIPT",
+      "runs": "10:25",
+      "spoken": "10 min",
+      "note": "Verknipt's own video of its 2025 show in the Johan Cruijff ArenA in Amsterdam, the last of its editions held inside the arena, where its description says 1,100 lasers set a Guinness World Record on a stage built all the way round the crowd."
+    }
+  ]
+}

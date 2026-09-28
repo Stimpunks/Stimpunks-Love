@@ -76,6 +76,7 @@ ORDER = ["index.html",
          "the-outskirts.html", "black-leather-lagoon.html", "sithen.html",
          "looming-rocks.html", "dance-punks.html", "small-hours.html",
          "repeater.html", "nothing-for-sale.html",
+         "rebellion-rave-room.html", "cooldown-room.html",
          # The third edge, and the first one that is under the street rather
          # than past an end of it: down the lift by the stoop. An area like the
          # other two, listed the same way: the caverns first, then its rooms as

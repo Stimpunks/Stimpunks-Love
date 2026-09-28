@@ -967,6 +967,34 @@
       "sections": [
         67
       ]
+    },
+    "big-shoulders-stencil": {
+      "where": "Rebellion Rave Room",
+      "page": "rebellion-rave-room.html",
+      "sections": [
+        68
+      ]
+    },
+    "exo-2": {
+      "where": "Rebellion Rave Room",
+      "page": "rebellion-rave-room.html",
+      "sections": [
+        68
+      ]
+    },
+    "sour-gummy": {
+      "where": "The Cooldown Room",
+      "page": "cooldown-room.html",
+      "sections": [
+        69
+      ]
+    },
+    "kumbh-sans": {
+      "where": "The Cooldown Room",
+      "page": "cooldown-room.html",
+      "sections": [
+        69
+      ]
     }
   }
 }

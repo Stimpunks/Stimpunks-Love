@@ -1097,6 +1097,41 @@
         "--yellow",
         "--red"
       ]
+    },
+    "rebellion-rave-room.html": {
+      "kind": "orbit",
+      "trap": "cross",
+      "power": 2,
+      "c": [
+        -0.12,
+        0.74
+      ],
+      "orbit": 0.03,
+      "ground": "--rr-hangar",
+      "inks": [
+        "--rr-steel",
+        "--rr-cyan",
+        "--rr-magenta",
+        "--rr-laser",
+        "--rr-hazard"
+      ]
+    },
+    "cooldown-room.html": {
+      "kind": "phoenix",
+      "c": [
+        0.5667,
+        0.0
+      ],
+      "p": -0.5,
+      "orbit": 0.01,
+      "swing": 0.02,
+      "ground": "--cool-room",
+      "inks": [
+        "--cool-couch",
+        "--cool-mint",
+        "--cool-sky",
+        "--cool-coral"
+      ]
     }
   }
 }

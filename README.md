@@ -122,6 +122,10 @@ dance-punks.html      Turning 04. A silent disco on an old airstrip, lit only by
 small-hours.html      Turning 05. An all-night diner seen from the car park; Josephmooon on the jukebox, crayons and a placemat
 repeater.html         Turning 06. A radio mast on the ridge; shared-signal space and a line left open
 nothing-for-sale.html Turning 07. A free market in a ring of headlights. Solidarity, not charity
+rebellion-rave-room.html  Turning 08. An old hangar; the one strobe on the street, opt-in, and festival films
+rave.js               The hangar's rig and big screen; nothing runs until pressed, Escape stops all
+cooldown-room.html    Behind the rave's ante-chamber. Couches, water, a free vending machine
+cooldown.js           The vending machine; drops a snack, keeps nothing
 arlesglad-caverns.html  Under the street, by lift or stair. A cavern lit only by its handrail
 glow-go-gee-gaws.html  Level B3. Glow toys in every colour; charged at the rail, they fade
 glow.js               The glow toys' charge and fade; silent, keeps nothing
@@ -254,6 +258,8 @@ python3 tools/make-broadside.py    # The Broadsheet Broadside's sheets, both sid
 python3 tools/make-covenstead.py   # Covenstead's tenets and quotations; refuses a tenet written as an order, a contested one that does not say why, or membership
 python3 tools/make-lagoon.py       # Black Leather Lagoon's rack and credits; refuses a ranked rack, a note shaped like verse, or a song with no year
 python3 tools/make-looming.py      # Looming Rocks' stage and running order; refuses an act not played outdoors, a named lichen, or a ranked bill
+python3 tools/make-rave.py         # Rebellion Rave Room's screen; refuses the warning below the rig, a knob past eleven, a coloured flash, or a rig that remembers
+python3 tools/make-cooldown.py     # The Cooldown Room's vending machine; refuses a snack that does not say what is in it, a price, or a verdict on food
 python3 tools/make-sithen.py       # Sithen's rules and their sources; refuses advice, or anything drawn from the two novel series
 python3 tools/make-library.py      # the library's, L-space's and Oook's quotations, the front desk and the threads; refuses a long passage, a lyric, or the graphic novel
 python3 tools/make-dance-punks.py  # the disco's channels and credits; refuses a runtime, shuffle, or two inks alike in greyscale

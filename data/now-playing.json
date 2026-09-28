@@ -186,6 +186,14 @@
         "Somebody else",
         "to leave on"
       ]
+    },
+    {
+      "page": "rebellion-rave-room.html",
+      "what": "An old hangar by the airstrip, with festival films on the big screen and the street's one strobe, off until you switch it on and say yes.",
+      "holds": [
+        "Nothing is fetched from YouTube until you press something",
+        "the one place on the street where you will see a strobe"
+      ]
     }
   ],
   "left_off": {}

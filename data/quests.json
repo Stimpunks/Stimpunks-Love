@@ -1637,6 +1637,76 @@
       "learned": "A glow-in-the-dark toy does not make light. It keeps some of the light you give it and hands it back, slowly, which is the only light on this street that runs down after you press."
     },
     {
+      "id": "rave-earplug",
+      "page": "rebellion-rave-room.html",
+      "room": "Rebellion Rave Room",
+      "title": "Where the knob stops",
+      "posted": "Out past the last streetlight, an old hangar by the airstrip has the only strobe on the street. Read the walls in the ante-chamber before you go in, and find out how far it goes.",
+      "rank": 3,
+      "takes": "five minutes, and nothing needs switching on",
+      "target": "a foam earplug, dropped on the hangar floor",
+      "code": "HANDSTAMP",
+      "hints": [
+        "It is off The Outskirts, past the last streetlight. Look for turning 08.",
+        "The answer is on the strobe and laser warning, in the ante-chamber.",
+        "Right at the foot of the hangar, under Whose this all is."
+      ],
+      "ask": {
+        "question": "The rig's strobe runs from one flash a second up to a number, and the knob stops there on purpose. What number?",
+        "accept": [
+          "eleven",
+          "11",
+          "it goes to eleven",
+          "eleven a second"
+        ],
+        "answer": "Eleven",
+        "why": "Eleven. It is a joke about Nigel Tufnel's amplifier in This Is Spinal Tap, and it is also where the knob really ends: the Epilepsy Society puts the flashing most likely to trigger a seizure at 16 to 25 a second, and the room's own tool refuses a knob that goes past eleven. It starts at four, the Health and Safety Executive's recommendation for a club.",
+        "hints": [
+          "It is in the first paragraph of the warning.",
+          "It is in the line just under the room's name, too.",
+          "Spinal Tap's amplifiers go one louder than ten."
+        ]
+      },
+      "learned": "The one room on the street with a strobe in it relaxes a rule by holding the opt-in harder than anywhere else: off on every visit, two presses to start it, and Escape stops everything at once."
+    },
+    {
+      "id": "cool-cap",
+      "page": "cooldown-room.html",
+      "room": "The Cooldown Room",
+      "title": "What the machine takes",
+      "posted": "Beside the rave's ante-chamber there is a small soft room with a vending machine along one wall. Go and sit down in it for a minute, and find out what the machine takes.",
+      "rank": 3,
+      "takes": "a minute, and a couch",
+      "target": "a bottle cap, rolled under a couch",
+      "code": "ICECUBE",
+      "hints": [
+        "It is through the other door in the Rebellion Rave Room's ante-chamber, off The Outskirts.",
+        "The answer is in the section called The machine.",
+        "Right at the foot of the room, under Whose this all is."
+      ],
+      "ask": {
+        "question": "What do you have to put into the Cooldown Room's vending machine to get a snack out of it?",
+        "accept": [
+          "nothing",
+          "nothing at all",
+          "none",
+          "its free",
+          "it's free",
+          "free",
+          "zero",
+          "0"
+        ],
+        "answer": "Nothing",
+        "why": "Nothing. Everything in it is free, you can take as many as you like, and it does not run out and does not ask. The room's own tool will not let a slot carry a price, which is Nothing For Sale's rule arriving on a machine that was built to take money.",
+        "hints": [
+          "Read the sign across the top of the machine.",
+          "It is in the first line under The machine.",
+          "The same thing Nothing For Sale charges, a few turnings back."
+        ]
+      },
+      "learned": "A free vending machine does the one thing it was never built for. Taking from it puts nobody in anybody's debt."
+    },
+    {
       "id": "bigsteep-carboy",
       "page": "big-steep-fermentables.html",
       "room": "Big Steep Fermentables",
