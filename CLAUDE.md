@@ -2126,6 +2126,19 @@ rack's screen** (`picture-house.js`, which builds nothing and calls `loveEmbed.f
 hidden, moves focus to the screen's now-showing line so the film does not start out of sight, and
 the way back restores the screen's unpressed plate rather than playing the programme.
 
+**THAT RACK IS THE PATTERN FOR RACKS NOW, AND IT IS A BEHAVIOUR RATHER THAN A LOOK.** Ryan's call,
+2026-09-28: fold-away racks whose cards play in place or on the room's own screen are how racks
+work here from now on, and applying it to existing rooms is his call after he has lived with it
+(DECISIONS.md lists the candidates). **The friendly edit is to copy the Picture House's cards**
+into the next room, and that is the harmonising instinct arriving through a component: what
+travels is the behaviour, exactly as `.facade` and `.quest` travel, and every room dresses the
+rack, the cards and both buttons in its own section. **The next room to take it moves the
+script's behaviour out of `picture-house.js` into one shared file** rather than copying it, and
+keeps every rule above: runtime on the button, hidden until the script runs, focus to a
+now-showing line, the way back restores the plate without playing, the frame from `loveEmbed`, and
+the rack a `<details>` that ships open. A room whose screen is a set you tune already holds the
+rule that tuning is not playing; the pattern meets that rule, it does not overrule it.
+
 **FOUR MORE TURNINGS, AND EACH ONE TOOK A LIGHT THE ROAD DID NOT HAVE.** 2026-09-23, Ryan's call. The
 road already had the Lagoon's screen in front of you, Sithen's moon overhead and Looming Rocks' floods
 from the ground up. **Dance, Punks** (§43) is lit by what people WEAR — a glow at head height per
