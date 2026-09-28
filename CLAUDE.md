@@ -2120,7 +2120,10 @@ links**: a campfire post links songs, credits and further reading, and only the 
 room watched are carded. Several cards could only be written from descriptions because YouTube
 answered 429 all day; `_campfire` says which, and they are worth re-carding from captions later.
 **Pronouns are written round here too**, even where our own post uses them for a speaker, for the
-same reason as Screen One: no film states them.
+same reason as Screen One: no film states them. **Every card also has a second press that plays its film on its
+rack's screen** (`picture-house.js`, which builds nothing and calls `loveEmbed.frameUrl`). It ships
+hidden, moves focus to the screen's now-showing line so the film does not start out of sight, and
+the way back restores the screen's unpressed plate rather than playing the programme.
 
 **FOUR MORE TURNINGS, AND EACH ONE TOOK A LIGHT THE ROAD DID NOT HAVE.** 2026-09-23, Ryan's call. The
 road already had the Lagoon's screen in front of you, Sithen's moon overhead and Looming Rocks' floods

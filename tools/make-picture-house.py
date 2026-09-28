@@ -69,6 +69,14 @@ WHAT IT REFUSES, and the first two are the room:
 
   - AN HTML ENTITY IN ANY FIELD, and any missing marker pair.
 
+EVERY CARD ON A RACK HAS A SECOND PRESS that puts its film on the rack's own
+screen in place of the programme (Ryan's ask, 2026-09-28). It is written here,
+hidden, beside the card's own plate, and picture-house.js unhides it and does
+the swap with loveEmbed.frameUrl, so this tool refuses a page that does not
+load that script: without it every second button would stay hidden and nobody
+would know it was meant to be there. Only a screen with a rack under it gets
+the now-showing line and the way back.
+
 WHAT IT DOES NOT CHECK, on purpose: whether the rack still matches the playlist.
 That needs the network; the rack is a mirror and the room says so, with the
 date. check-jukebox.py is what notices a film that has died.
@@ -317,6 +325,9 @@ for i, f in enumerate(two, 1):
     for v in f.values():
         no_entity(v, where)
 
+if '<script src="picture-house.js" defer></script>' not in page_src:
+    problems.append(f"{ROOM.name} does not load picture-house.js, so every card's second button "
+                    "would ship hidden and stay hidden. Load it after love-embed.js.")
 for m in ("lph-rack", "lph-awareness") + (("lph-campfire",) if campfire else ()):
     if f"<!-- {m}:begin -->" not in page_src:
         problems.append(f"{ROOM.name} has no {m} markers.")
@@ -353,6 +364,15 @@ MONTHS = ("January", "February", "March", "April", "May", "June", "July", "Augus
           "September", "October", "November", "December")
 
 
+def big(f, screen, name, card):
+    """The card's second press: the same film on the rack's own screen, in place of the programme."""
+    return (f'\n        <button type="button" class="lph-card__big" hidden data-lph-screen="{screen}" '
+            f'data-lph-name="{attr(name)}" data-lph-src="{attr(film_src(f["id"]))}" '
+            f'data-lph-title="{attr(f["title"])}, {attr(f["channel"])}, on {attr(name)}" '
+            f'data-lph-film="{attr(f["title"])}" data-lph-runtime="{attr(f["runtime"])}" '
+            f'aria-describedby="{card}-t">Play on {esc(name)} instead &mdash; {esc(f["runtime"])}</button>')
+
+
 def film_src(vid):
     return f"{EMBED}{vid}?autoplay=1&rel=0&cc_load_policy=1"
 
@@ -368,8 +388,16 @@ swap(ROOM, "lph-awareness",
      f'as quoted in our <a href="{attr(aw["via"])}">Acceptance</a> entry</cite>\n'
      f'    </blockquote>', "")
 
+RACKED = {"one": bool(rack), "three": any(c.get("films") for c in campfire)}
+
 for sc in screens:
     extra = ""
+    racked = RACKED.get(sc["id"], False)
+    glass = f' data-lph-screen="{sc["id"]}"' if racked else ""
+    now = (f'\n    <p class="lph-screen__now" id="lph-now-{sc["id"]}" tabindex="-1" hidden></p>\n'
+           f'    <p class="lph-screen__back" hidden><button type="button" class="lph-back" '
+           f'id="lph-back-{sc["id"]}" data-lph-screen="{sc["id"]}">Take it off and put the whole '
+           f'programme back</button></p>') if racked else ""
     if sc["id"] == "two" and two:
         items = []
         for f in two:
@@ -382,18 +410,19 @@ for sc in screens:
          f'    <h2 id="lph-screen-{sc["id"]}-h"><span class="lph-screen__num">{esc(sc["name"])}</span> '
          f'{esc(sc["title"])}</h2>\n'
          f'    <p class="lph-screen__note">{esc(sc["note"])}</p>\n'
-         f'    <div class="lph-proscenium">\n'
+         f'    <div class="lph-proscenium"{glass}>\n'
          f'      <button type="button" class="facade" data-embed-src="{attr(list_src(sc["list"]))}" '
          f'data-embed-title="{attr(sc["title"])}, on YouTube">\n'
          f'        Start the programme &mdash; runs until you stop it, captions on\n'
          f'        <span class="facade__play">&#9654; PRESS PLAY</span>\n'
          f'      </button>\n'
-         f'    </div>\n'
+         f'    </div>{now}\n'
          f'    <p class="lph-screen__credit">No runtime on a whole screen: it is a playlist we '
          f'keep adding to, and a total would be wrong the next time it changed. '
          f'<a href="https://www.youtube.com/playlist?list={attr(sc["list"])}">{esc(sc["title"])}</a>, '
          f'on YouTube, from our own channel.</p>{extra}', "")
 
+screen_name = {sc["id"]: sc["name"] for sc in screens}
 cards = []
 for n, f in enumerate(rack, 1):
     content = (f'\n        <p class="lph-card__content"><span class="lph-card__label">Before you '
@@ -403,14 +432,14 @@ for n, f in enumerate(rack, 1):
     cards.append(
         f'      <li class="lph-card" id="film-{attr(f["id"])}">\n'
         f'        <p class="lph-card__n" aria-hidden="true">{n:02d}</p>\n'
-        f'        <h3 class="lph-card__title">{esc(f["title"])}</h3>\n'
+        f'        <h3 class="lph-card__title" id="film-{attr(f["id"])}-t">{esc(f["title"])}</h3>\n'
         f'        <p class="lph-card__makers">{esc(f["makers"])}</p>\n'
         f'        <p class="lph-card__about">{esc(f["about"])}</p>{content}\n'
         f'        <button type="button" class="facade" data-embed-src="{attr(film_src(f["id"]))}" '
         f'data-embed-title="{attr(f["title"])}, {attr(f["channel"])}">\n'
         f'          Play &mdash; {esc(f["runtime"])}\n'
         f'          <span class="facade__play">&#9654; PRESS PLAY</span>\n'
-        f'        </button>\n'
+        f'        </button>{big(f, "one", screen_name["one"], "film-" + f["id"])}\n'
         f'        <p class="lph-card__credit">{esc(f["runtime"])} &middot; on YouTube, via '
         f'{esc(f["channel"])}</p>{ours}\n'
         f'      </li>')
@@ -432,14 +461,14 @@ if campfire:
                 f'      <li class="lph-card" id="campfire-{attr(f["id"])}">\n'
                 f'        <p class="lph-card__n" aria-hidden="true">{n:02d}</p>\n'
                 f'        <p class="lph-card__when">At the campfire of {when(c["date"])}</p>\n'
-                f'        <h3 class="lph-card__title">{esc(f["title"])}</h3>\n'
+                f'        <h3 class="lph-card__title" id="campfire-{attr(f["id"])}-t">{esc(f["title"])}</h3>\n'
                 f'        <p class="lph-card__makers">{esc(f["makers"])}</p>\n'
                 f'        <p class="lph-card__about">{esc(f["about"])}</p>{content}\n'
                 f'        <button type="button" class="facade" data-embed-src="{attr(film_src(f["id"]))}" '
                 f'data-embed-title="{attr(f["title"])}, {attr(f["channel"])}">\n'
                 f'          Play &mdash; {esc(f["runtime"])}\n'
                 f'          <span class="facade__play">&#9654; PRESS PLAY</span>\n'
-                f'        </button>\n'
+                f'        </button>{big(f, "three", screen_name["three"], "campfire-" + f["id"])}\n'
                 f'        <p class="lph-card__credit">{esc(f["runtime"])} &middot; on YouTube, via '
                 f'{esc(f["channel"])}</p>\n'
                 f'        <p class="lph-card__ours"><a href="{attr(c["post"]["url"])}">'

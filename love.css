@@ -11053,6 +11053,18 @@ html[data-intensity="max"] .ls-fizz circle:nth-child(4) { animation-duration: 3.
 .picture-house .facade:hover { border-color: var(--lph-gold); }
 .picture-house .facade__play { font-family: 'Outfit', system-ui, sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .14em; color: var(--lph-ink-2); }
 .picture-house .facade iframe { border-radius: 2px; }
+/* A card's second press puts its film on the rack's own screen. It is a quiet
+   outlined button so the plate above it stays the obvious one, and it and the
+   way back are cream on the grounds cream already reads on: the card's deep
+   red and the velvet. picture-house.js unhides them; they ship hidden. */
+.picture-house .lph-card__big, .picture-house .lph-back {
+  align-self: flex-start; padding: 7px 12px; background: transparent; color: var(--lph-cream);
+  border: 1px solid var(--lph-brass); border-radius: 4px; cursor: pointer;
+  font-family: 'Outfit', system-ui, sans-serif; font-weight: 700; font-size: 14px; line-height: 1.3;
+}
+.picture-house .lph-card__big:hover, .picture-house .lph-back:hover { border-color: var(--lph-gold); }
+.picture-house .lph-screen__now { margin: 12px 0 0; max-width: 70ch; font-weight: 700; color: var(--lph-cream); }
+.picture-house .lph-screen__back { margin: 8px 0 0; }
 .picture-house .lph-screen__note { margin: 0; }
 .picture-house .lph-screen__credit { margin: 10px 0 0; font-size: 14px; color: var(--lph-dim); max-width: 70ch; }
 .picture-house .lph-two__h { margin: 22px 0 6px; font-weight: 700; color: var(--lph-cream); }

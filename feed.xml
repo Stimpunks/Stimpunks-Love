@@ -9,45 +9,52 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Mon, 28 Sep 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>A card&#x27;s film on the big screen</title>
+      <link>https://stimpunks.world/changelog.html#2026-09-28-picture-house-big-screen</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-picture-house-big-screen</guid>
+      <pubDate>Mon, 28 Sep 2026 12:00:00 GMT</pubDate>
+      <description>Every card on a rack at the Lightbulb Picture House can now put its film on that rack’s own screen, in place of the whole programme: Screen One for the first rack, Screen Three for the campfire rack. The button says how long the film runs before you press it, like every other press here. Pressing it takes you to the screen, which says what is now showing, so the film does not start somewhere you cannot see. Putting the programme back does not start it: the screen goes back to its own press-to-play plate and waits. Without scripts the button is not there at all, rather than being a button that does nothing, and every card still plays its film in place.</description>
+    </item>
+    <item>
       <title>Screen Three at the Lightbulb Picture House: every campfire</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-picture-house-campfire</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-picture-house-campfire</guid>
-      <pubDate>Mon, 28 Sep 2026 12:00:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:59:00 GMT</pubDate>
       <description>The Lightbulb Picture House has a third screen, and on it is everything we have watched together at Campfire Learn Together, our Sunday watch-along, newest first. New campfires go on at the top. It has a rack like Screen One’s: a card for every film saying who made it, how long it runs, what it is about and what is in it before you press play, and which campfire it was watched at, with a link to the post we wrote for that campfire. The words are ours, written from each film’s captions rather than from its title; the few films with no captions are described from their own descriptions and from our posts, and the liner notes say which. Three campfires are listed under the rack and are not on the screen, because what we watched is on Vimeo or has since been made private on YouTube. Leaving them out would make the screen look like the whole record when it is not. Checked before it went up: every film plays and embeds, the whole playlist plays inside a frame on this site with captions on, and nothing reaches YouTube until you press play. The page no longer says how many screens it has.</description>
     </item>
     <item>
       <title>A fire in the fire pit at Swaying Sweetgrass</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-sweetgrass-fire</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-sweetgrass-fire</guid>
-      <pubDate>Mon, 28 Sep 2026 11:59:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:58:00 GMT</pubDate>
       <description>Swaying Sweetgrass had a fire pit with talks round it and no fire in it. Now it has one: a whole playlist of real campfires filmed in the forest by Norwegian Fireplace and Campfire, on one large screen the width of the clearing. You hear the crackle, the wind and birds. There is no voice and no music, and the channel says none of it is looped. Nothing loads until you press it. It is the one thing in the clearing that does not say how long it runs, because a playlist the channel keeps adding to has no length. The room says so beside it, and the sentence that said every label there gives a runtime has been rewritten to be true again. Everything told at the fire still says how long before you press. The screen shows no fire until you press it. Before that it is drawn in the meadow’s own colours, because the fire in this room is small and far off and is not what lights the page. The videos’ own titles sell them for sleep and focus. The room repeats none of that. Checked before it went up: the first video in the list plays and embeds, and the whole list plays inside a frame on this site. It is credited in the liner notes and is the first thing on the Now Playing poster for that room.</description>
     </item>
     <item>
       <title>A way in for rooms built with your own AI</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-import-room</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-import-room</guid>
-      <pubDate>Mon, 28 Sep 2026 11:58:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:57:00 GMT</pubDate>
       <description>A room somebody builds with their AI from Your Room’s prompt can now come onto the street through one tool, tools/import-room.py. It reads the note the prompt asks the AI to leave at the top of the page, checks everything it says against the page itself, and holds the room to the same promises every room here keeps. The dial has to work, every word has to be readable against what is actually behind it, nothing plays by itself, nothing is sent or kept, and everything borrowed is credited, the AI included. It measures the room as it would be published, not as it was sent, with the same checks the rest of the street runs, and it sends a room back with every reason at once rather than quietly changing it. The fix belongs where the person and their AI can see it. Sending a new version is importing it again. The room is replaced whole and nothing else moves. What the tool will not do is make a room’s share card or its job for the Adventurer’s Guild: those are still made by hand for every room, and the street will not publish one without them. The prompt on Your Room now asks for that note in an exact shape, a name and a description for the door, and the preview dial in parts that can be lifted out cleanly.</description>
     </item>
     <item>
       <title>Your Room, built with your own AI</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-your-room-with-your-ai</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-your-room-with-your-ai</guid>
-      <pubDate>Mon, 28 Sep 2026 11:57:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:56:00 GMT</pubDate>
       <description>Your Room has a prompt you can give Claude, or whichever AI you use. It asks you about the room first, then builds it as one page you can keep changing until it is right, and you send us the result. The prompt carries the street’s rules with it: the dial, contrast you can read, nothing that plays by itself, nothing sent or kept, no image generators, and credits for everything borrowed. It also leaves a note at the top of the page saying what we need to bring the room onto the street. It tells the AI to use your own words for anything about you, and not to write your story for you. The page says plainly that whatever you tell an AI goes to the company that runs it, that you do not need one, and that a room made with an AI is credited as such, the way How this site is made says how we use one.</description>
     </item>
     <item>
       <title>A correction in the licence file: not every typeface is OFL</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-licence-typefaces</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-licence-typefaces</guid>
-      <pubDate>Mon, 28 Sep 2026 11:56:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:55:00 GMT</pubDate>
       <description>The site’s licence file said every typeface here keeps the SIL Open Font License, and that was wrong. Most do, and some are under the Apache License 2.0. It now says so, and points at the Foundry, where each family’s licence is read off its own record rather than typed in.</description>
     </item>
     <item>
       <title>How this site is made, and how we use AI</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-how-this-site-is-made</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-how-this-site-is-made</guid>
-      <pubDate>Mon, 28 Sep 2026 11:55:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:54:00 GMT</pubDate>
       <description>A new page, How this site is made, like the design pages our sibling sites keep. It says why there is no design system here, what every room shares anyway, how the dial works, how contrast is measured, why nothing plays until you press it, and how the site is built and checked. It says how we use AI, in one place and plainly. Ryan Boren and Helen Edgar decide what the street is. Claude, an AI model made by Anthropic, writes nearly all of the code and drafts most of the words, and the drawings are code it writes. No picture here came out of an image generator, no voice here was made by an AI, and nothing a visitor does is sent to one. The page also says which mistakes a language model makes and how the site catches them. Every page’s sign-off links to it, beside the liner notes, so the account is one press away wherever you are.</description>
     </item>
     <item>
