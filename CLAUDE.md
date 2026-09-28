@@ -554,7 +554,12 @@ from our side, so `www.youtube.com/iframe_api` is never loaded and `script-src` 
 Measured before it was built, in a frame on the dev server. `loveEmbed.where()` and `seek()`
 use the film that is playing, or else the one that played last. They skip live cameras, and
 they **never press play**: a jump moves your place, and whether it plays stays yours. Nothing
-moves anybody's film but their own press. **The friendly edit is auto-follow, a host whose
+moves anybody's film but their own press. **Add my spot writes `@34:12 in “the film” at
+#the-room`, and a stamp that names a room or a film moves nothing anywhere else.** A bare stamp
+dropped from one room used to move whatever was playing in another. Ryan found that by trying it
+from several rooms. `cb.js` reads what each stamp names off the whole message before
+`streetLinks` splits it round addresses and #tags, so `isStamp` must stay the one test both
+passes share. **The friendly edit is auto-follow, a host whose
 jumps move everybody.** That is forced sync, and the watch-togethers rely on people pausing
 when they need to. It is Ryan's call and nobody else's.
 

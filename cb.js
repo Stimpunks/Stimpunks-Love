@@ -34,7 +34,9 @@
      · THE TELEPORTER GOES TO A ROOM AND SENDS NOTHING. See setTeleport.
      · @34:12 IS A PLACE IN THE FILM, and pressing it moves the film playing
        on YOUR page there, without pressing play. Add my spot writes your own
-       place into the box and sends nothing. See stamps and jump.
+       place, film and room into the box and sends nothing. A stamp that
+       names a film or a room moves nothing anywhere else. See stamps and
+       jump.
      · SMALL IS STILL ON. Folded is off and sends nothing; small is the bar and
        the newest message and nothing else, listening as it does full size, so
        somebody can watch a film in a room and still see the channel. See
@@ -97,6 +99,7 @@
 
   function streetLinks(parent, text) {
     var at = 0, m;
+    stampsIn(text);
     STREET.lastIndex = 0;
     while ((m = STREET.exec(text))) {
       var said = m[0], path = m[1] || '/';
@@ -182,18 +185,48 @@
      day: "back at 7:30" stays words. */
   var STAMP = /@(?:(\d{1,2}):([0-5]\d)|(\d{1,3})):([0-5]\d)(?![\d:])/g;
 
+  /* WHICH FILM, AND WHICH ROOM. Ryan, 2026-09-28: a bare @34:12 dropped from
+     one room moved whatever happened to be playing in another. So Add my spot
+     writes @34:12 in “the film” at #the-room, the #tag becomes the
+     room's name, linked, like any other, and a stamp that names a room or a
+     film checks both before it moves anything: somewhere else, or a
+     different film playing, and nothing moves, and the radio says where that
+     place is. A stamp typed bare still moves whatever is playing, as it did.
+     The message is split round addresses and #tags before stamps() sees it,
+     so what each stamp names is read here off the whole message first, with
+     the same test for where a stamp may start, and handed out in order. */
+  var NAMED = /^ in “([^”]{1,200})”(?:,? (?:at )?#([a-z0-9]+(?:-[a-z0-9]+)*))?/i;
+  var named = [];
+
+  function isStamp(text, i) {
+    return !/[A-Za-z0-9_@.\/]/.test(i ? text.charAt(i - 1) : ' ');
+  }
+
+  function stampsIn(text) {
+    var m;
+    named = [];
+    STAMP.lastIndex = 0;
+    while ((m = STAMP.exec(text))) {
+      if (!isStamp(text, m.index)) continue;
+      var n = text.slice(m.index + m[0].length).match(NAMED);
+      named.push(n ? { film: n[1], room: n[2] ? n[2].toLowerCase() : '' } : { film: '', room: '' });
+    }
+  }
+
   function stamps(parent, text) {
     var at = 0, m;
     STAMP.lastIndex = 0;
     while ((m = STAMP.exec(text))) {
-      var prev = m.index ? text.charAt(m.index - 1) : ' ';
-      if (/[A-Za-z0-9_@.]/.test(prev)) continue;
+      if (!isStamp(text, m.index)) continue;
       var secs = m[1] != null ? (+m[1]) * 3600 + (+m[2]) * 60 + (+m[4]) : (+m[3]) * 60 + (+m[4]);
+      var what = named.shift() || { film: '', room: '' };
       if (m.index > at) parent.appendChild(document.createTextNode(text.slice(at, m.index)));
       var b = el('button', 'cb-jump', m[0]);
       b.type = 'button';
       b.dataset.at = String(secs);
-      b.setAttribute('aria-label', 'Jump to ' + place(secs));
+      if (what.film) b.dataset.film = what.film;
+      if (what.room) b.dataset.room = what.room;
+      b.setAttribute('aria-label', 'Jump to ' + place(secs) + (what.film ? ' in ' + what.film : ''));
       parent.appendChild(b);
       at = m.index + m[0].length;
     }
@@ -427,7 +460,7 @@
     spot.addEventListener('click', function () { me.addSpot(); });
     log.addEventListener('click', function (e) {
       var b = e.target.closest('.cb-jump');
-      if (b) me.jump(+b.dataset.at);
+      if (b) me.jump(+b.dataset.at, b.dataset.film || '', b.dataset.room || '');
     });
     speak.addEventListener('click', function () { me.setSpeak(!me.state.speak); });
     form.addEventListener('submit', function (e) { e.preventDefault(); me.transmit(); });
@@ -982,30 +1015,72 @@
   /* The answer is on the radio, under the log, at every size: in small it is
      the one line shown besides the newest message, because a jump that did
      nothing and said nothing would look broken (the Playhouse's lesson). */
-  Radio.prototype.jump = function (secs) {
-    var e = window.loveEmbed, r = e && e.seek ? e.seek(secs) : null;
-    if (!r) {
-      this.tell('No film has been started on this page, so there is nothing to move. Press play on one first, then ' + place(secs) + ' will take it there.');
-    } else if (r.past) {
-      this.tell(place(secs) + ' is past the end of ' + r.film + ', which runs ' + place(r.duration) + '. It may have been said about a different film.');
+  Radio.prototype.jump = function (secs, film, room) {
+    var e = window.loveEmbed, w = e && e.where ? e.where() : null;
+    var at = place(secs), called = film ? '\u201c' + film + '\u201d' : 'the film';
+    var here = hereRoom();
+    // A tag is the room's filename, so without the list it can still be told.
+    var hereTag = here ? here.tag : herePath().replace(/^\//, '').replace(/\.html$/, '');
+    if (room && hereTag !== room) {
+      var there = byTag[room] ? byTag[room].name : '#' + room;
+      this.tell(at + ' is in ' + called + ' at ' + there + ', and you are in another room, so nothing moved. The room\u2019s name in that message takes you there.');
+      return;
+    }
+    if (!w) {
+      this.tell('No film has been started on this page, so there is nothing to move. Press play on ' + called + ' first, then ' + at + ' will take it there.');
+      return;
+    }
+    if (film && !sameFilm(film, w.film)) {
+      this.tell(at + ' is in ' + called + ', and the film playing here is \u201c' + w.film + '\u201d, so nothing moved. Press play on ' + called + ' first.');
+      return;
+    }
+    var r = e.seek(secs);
+    if (r.past) {
+      this.tell(at + ' is past the end of \u201c' + r.film + '\u201d, which runs ' + place(r.duration) + '. It may have been said about a different film.');
     } else {
-      this.tell('Moved ' + r.film + ' to ' + place(secs) + '. It plays or stays paused, as it was.');
+      this.tell('Moved \u201c' + r.film + '\u201d to ' + at + '. It plays or stays paused, as it was.');
     }
   };
 
+  // A title cut short to fit a message ends in an ellipsis and matches by its start.
+  function sameFilm(said, playing) {
+    var a = said.toLowerCase().replace(/\s+/g, ' ').trim();
+    var b = (playing || '').toLowerCase().replace(/\s+/g, ' ').trim();
+    if (a.slice(-1) === '\u2026') return b.indexOf(a.slice(0, -1).trim()) === 0;
+    return a === b;
+  }
+
+  // The room this page is, out of the street's own list, or null.
+  function hereRoom() {
+    var p = herePath();
+    for (var i = 0; rooms && i < rooms.length; i++) if (rooms[i].path === p) return rooms[i];
+    return null;
+  }
+
+  /* Writes "@34:12 in “the film” at #the-room" where the caret is,
+     cutting the title short with an ellipsis if the whole message would
+     otherwise run past what the box takes. A page that is not on the street's
+     list, like the 404, gets no #tag. */
   Radio.prototype.addSpot = function () {
     var w = window.loveEmbed && window.loveEmbed.where && window.loveEmbed.where();
     if (!w) { this.spotBtn.hidden = true; this.tell('No film has been started on this page.'); return; }
-    var put = '@' + place(w.time), v = this.say.value;
+    var v = this.say.value;
     var c = this.say.selectionStart == null ? v.length : this.say.selectionStart;
     var before = v.slice(0, c), after = v.slice(c);
-    if (before && !/\s$/.test(before)) put = ' ' + put;
-    if (!after || !/^\s/.test(after)) put += ' ';
-    this.say.value = (before + put + after).slice(0, this.say.maxLength);
-    c = Math.min(before.length + put.length, this.say.value.length);
+    var here = hereRoom();
+    var lead = (before && !/\s$/.test(before)) ? ' ' : '';
+    var trail = (!after || !/^\s/.test(after)) ? ' ' : '';
+    var head = '@' + place(w.time) + ' in \u201c', tail = '\u201d' + (here ? ' at #' + here.tag : '');
+    var film = w.film.replace(/[\u201c\u201d]/g, '"').replace(/\s+/g, ' ').trim();
+    var space = this.say.maxLength - before.length - after.length - lead.length - trail.length - head.length - tail.length;
+    if (space < 8) { this.tell('Your message is too full for your spot. Make some room and try again.'); return; }
+    if (film.length > space) film = film.slice(0, space - 1).trim() + '\u2026';
+    var put = lead + head + film + tail + trail;
+    this.say.value = before + put + after;
+    c = before.length + put.length;
     this.say.focus();
     this.say.setSelectionRange(c, c);
-    this.tell('Your spot in ' + w.film + ' is in your message. Nothing goes out until you transmit.');
+    this.tell('Your spot in \u201c' + film + '\u201d is in your message. Nothing goes out until you transmit.');
   };
 
   Radio.prototype.tell = function (s) { this.said.textContent = s; };
