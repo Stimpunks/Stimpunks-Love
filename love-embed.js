@@ -228,7 +228,7 @@
     return el;
   }
 
-  window.loveEmbed = { frame: frame, frameUrl: frameUrl, audio: audio, where: where, seek: seek };
+  window.loveEmbed = { frame: frame, frameUrl: frameUrl, audio: audio, where: where, seek: seek, withStart: withStart };
 
   function swap(btn) {
     /* Named player, not `frame`: `var frame` here would be hoisted over the

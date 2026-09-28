@@ -565,7 +565,10 @@ by title prefix. Our facades name the film and then its channel. It sets `data-e
 opens any `<details>` round it, focuses it, and says so on the radio, and **it presses nothing**.
 `withStart()` in `love-embed.js` turns that into YouTube's `start=`, so the building stays in that
 file, **on a single video only**: `start=` on a playlist lands that far into whichever film comes
-first. A film with no button of its own gets a sentence saying what to do instead, never a guess. **The friendly edit is auto-follow, a host whose
+first. A film with no button of its own gets a sentence saying what to do instead, never a guess.
+The Picture House's big-screen button reads the start off its own card's play button, and
+`cb.js` knows nothing about big screens. A room with a second way to play a film does the same:
+read `data-embed-start` from the facade beside it, and pass it through `loveEmbed.withStart`. **The friendly edit is auto-follow, a host whose
 jumps move everybody.** That is forced sync, and the watch-togethers rely on people pausing
 when they need to. It is Ryan's call and nobody else's.
 

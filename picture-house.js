@@ -18,6 +18,12 @@
    the screen that names what is showing, which brings the screen into view,
    with no smooth scroll, because the dial exists so nothing glides unasked.
 
+   A SPOT ON THE CB REACHES THE BIG SCREEN TOO. Arriving by a spot's room
+   link, cb.js marks the card's own play button with where to start
+   (data-embed-start), and this reads it off the same card, so the film
+   starts there on the screen as well, and the now-showing line says from
+   where. The start becomes YouTube's start= in love-embed.js, not here.
+
    PUTTING THE PROGRAMME BACK DOES NOT PLAY IT. It takes the film off and puts
    the screen's own PRESS PLAY plate back, exactly as the page shipped it, so
    the whole programme still waits for its own press. Nothing is stored. */
@@ -40,11 +46,21 @@
     if (screens[btn.getAttribute('data-lph-screen')]) btn.hidden = false;
   });
 
+  // 100 -> "1:40", 3723 -> "1:02:03"
+  function clock(s) {
+    var h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, x = s % 60;
+    return (h ? h + ':' + (m < 10 ? '0' : '') : '') + m + ':' + (x < 10 ? '0' : '') + x;
+  }
+
   function show(btn) {
     var s = screens[btn.getAttribute('data-lph-screen')];
     if (!s) return;
-    var player = window.loveEmbed.frameUrl(btn.getAttribute('data-lph-src'),
-                                           btn.getAttribute('data-lph-title'));
+    var card = btn.closest('.lph-card'), own = card && card.querySelector('button.facade');
+    var start = parseInt(own && own.getAttribute('data-embed-start'), 10);
+    var src = btn.getAttribute('data-lph-src');
+    if (start > 0 && window.loveEmbed.withStart) src = window.loveEmbed.withStart(src, start);
+    else start = 0;
+    var player = window.loveEmbed.frameUrl(src, btn.getAttribute('data-lph-title'));
     if (!player) return;
     var shell = document.createElement('div');
     shell.className = 'facade';
@@ -54,6 +70,7 @@
     s.glass.appendChild(shell);
     s.now.textContent = 'Now showing on ' + btn.getAttribute('data-lph-name') + ': ' +
       btn.getAttribute('data-lph-film') + ', ' + btn.getAttribute('data-lph-runtime') +
+      (start ? ', from ' + clock(start) : '') +
       '. The whole programme is off until you put it back.';
     s.now.hidden = false;
     s.back.parentNode.hidden = false;
