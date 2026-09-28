@@ -169,6 +169,15 @@ def check_card(f, where, seen):
         if need != "makers":
             sweep(v, f"{where} {need}")
     no_entity(f.get("title", ""), f"{where} title")
+    if "not_in_list" in f:
+        # A FILM ON A RACK THAT ITS SCREEN'S PLAYLIST CANNOT HOLD. Ryan, 2026-09-28: YouTube
+        # would not let Jason Arday's second talk be added to the campfire playlist, although it
+        # plays and embeds. It stays on the rack, because the campfire watched it, and the card
+        # says why the programme skips it, so nobody waits for it on the big screen.
+        if not str(f["not_in_list"]).strip():
+            problems.append(f"{where}: `not_in_list` is empty; say why the playlist cannot hold it.")
+        no_entity(f["not_in_list"], f"{where} not_in_list")
+        sweep(f["not_in_list"], f"{where} not_in_list")
 
 
 # ── No blue ──────────────────────────────────────────────────────────────────
@@ -422,6 +431,9 @@ def card(f, n, prefix, screen, when_line="", ours=None):
     content = (f'\n        <p class="lph-card__content"><span class="lph-card__label">Before you '
                f'press:</span> {esc(f["content"])}</p>') if f.get("content") else ""
     whenp = f'\n        <p class="lph-card__when">{when_line}</p>' if when_line else ""
+    if f.get("not_in_list"):
+        content += (f'\n        <p class="lph-card__content"><span class="lph-card__label">Not in the '
+                    f'programme:</span> {esc(f["not_in_list"])}</p>')
     oursp = (f'\n        <p class="lph-card__ours"><a href="{attr(ours["url"])}">'
              f'{esc(ours["name"])} &rarr;</a></p>') if ours else ""
     return (f'      <li class="lph-card" id="{attr(cid)}">\n'
