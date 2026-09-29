@@ -516,7 +516,10 @@ export function callToken(who, tag, now = Date.now(), key = jaasKey()) {
         recording: base, transcription: base,
         livestreaming: false, 'outbound-call': false, 'inbound-call': false,
         'sip-outbound-call': false, 'sip-inbound-call': false,
-        'file-upload': false, 'list-visitors': false,
+        // Sharing a file in the call is for everybody in it, guests included:
+        // Ryan's call, 2026-09-29, for screenshots and photos. The file goes to
+        // 8x8, never to us, and privacy.html says so.
+        'file-upload': true, 'list-visitors': false,
         'send-groupchat': true, 'create-polls': true,
       },
     },

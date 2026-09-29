@@ -349,6 +349,9 @@ test('only the base moderates, records or transcribes; nobody streams or dials o
   for (const f of ['livestreaming', 'outbound-call', 'inbound-call', 'sip-outbound-call', 'sip-inbound-call']) {
     assert.equal(mobile.features[f], false); assert.equal(base.features[f], false);
   }
+  const guest = open(callToken({ role: 'guest', handle: 'Visitor' }, PUBLIC_CALLS[0], Date.now(), key)).body.context;
+  for (const who of [mobile, base, guest]) assert.equal(who.features['file-upload'], true, 'everybody in a call can share a file');
+  assert.equal(guest.features.recording, false, 'sharing a file is not recording');
   assert.notEqual(mobile.user.id, base.user.id, 'the same handle as base is a different person to 8x8');
   assert.equal(who('mobile').user.id, mobile.user.id, 'the same person is one id every time');
 });

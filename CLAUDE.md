@@ -635,7 +635,7 @@ It does nothing until it is registered in the JaaS console, and until then a gue
 in. **The radio and the call move with one `Mover`** in `call.js`: drag the bar, or Move plus the
 arrows, with Home back to the corner. Do not give either window its own copy. Anything that changes
 a window's size places it again at once, as well as through the `ResizeObserver`, because a hidden
-tab never delivers that. **Shared video in a call is Jitsi's `!disableThirdPartyRequests` and nothing else**, so that
+tab never delivers that. **Everybody in a call may share a file** (`'file-upload': true` in `callToken`, guests included; Ryan's call, 2026-09-29): it goes to 8x8 and never to us, and the privacy page says 8x8 publishes no retention for it. **The CB's own channel stays words only.** **Shared video in a call is Jitsi's `!disableThirdPartyRequests` and nothing else**, so that
 switch must stay off. It also gates analytics, gravatar and Giphy, and `callSrc` turns those off
 by name; all four keys are on Jitsi's `configWhitelist`, and a key that isn't there does nothing
 from an address. **8x8's
