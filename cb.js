@@ -162,16 +162,68 @@
   var STREET = /(?:https?:\/\/)?(?:www\.)?stimpunks\.world(\/[A-Za-z0-9\-._~\/#?=&%+]*)?/gi;
   var TRAIL = /[.,;:!?)\]'"]+$/;
 
+  /* AND AN ADDRESS ON ANOTHER SITE IS A LINK THAT SAYS IT IS LEAVING. Ryan's
+     call, 2026-09-29, which widens the rule above rather than dropping its
+     reason: a link off the street must not look like one on it. So only an
+     address written out with http:// or https:// is taken, it is parsed with
+     URL() and must still be http or https with a dotted host and no name or
+     password in it (stimpunks.world@elsewhere is elsewhere), and it opens in a
+     new tab with no referrer, nofollow and ugc, with the site it goes to
+     written after it, as the browser spells that host, so a lookalike name
+     shows its punycode. What was typed stays the words; the href is what
+     URL() made of it. An address on this street is left to STREET above. */
+  var AWAY = /\bhttps?:\/\/[^\s<>"“”‘’]+/gi;
+  function awayUrl(said) {
+    var u;
+    try { u = new URL(said); } catch (e) { return null; }
+    if (!/^https?:$/.test(u.protocol) || u.username || u.password) return null;
+    if (!/\./.test(u.hostname)) return null;
+    return u;
+  }
+  function onStreet(said) {
+    try { var u = new URL(said); } catch (e) { return false; }
+    return !u.username && !u.password && /^(?:www\.)?stimpunks\.world$/i.test(u.hostname);
+  }
+  // The address as typed, less punctuation after it (and Markdown's * and ~,
+  // so **https://...** stays bold), and less a ) it did not open. One that
+  // URL() refuses is kept as words, whole: stimpunks.world@elsewhere must not
+  // come out half a link to the street.
+  var AWAY_TRAIL = /[.,;:!?)\]'"*~]+$/;
+  function awayAt(text) {
+    var out = [], m, re = new RegExp(AWAY.source, 'gi');
+    while ((m = re.exec(text))) {
+      var said = m[0], t = said.match(AWAY_TRAIL);
+      if (t) said = said.slice(0, -t[0].length);
+      var opens = (said.match(/\(/g) || []).length, shuts = (said.match(/\)/g) || []).length;
+      if (shuts < opens && m[0].charAt(said.length) === ')') said += ')';
+      if (said.length > 8 && !onStreet(said)) out.push({ at: m.index, end: m.index + said.length, said: said, url: awayUrl(said) });
+      re.lastIndex = m.index + Math.max(1, said.length);
+    }
+    return out;
+  }
+  function awayLink(said, u) {
+    var a = el('a', 'cb-away', said);
+    a.href = u.href;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer nofollow ugc';
+    var host = u.hostname.replace(/^www\./, '');
+    var mark = el('span', 'cb-away-host', ' \u2197\u00a0' + host);
+    mark.setAttribute('aria-hidden', 'true');
+    a.appendChild(mark);
+    a.appendChild(el('span', 'sr', ', leaves the street for ' + host + ', in a new tab'));
+    return a;
+  }
+
   /* BASIC MARKDOWN, Ryan's ask, 2026-09-29, and it is drawn as elements, never
      as HTML: a message is split into lines and every piece becomes a node built
      here, with the words as text, so nothing anybody types can become markup.
      Paragraphs and line breaks; > a quote; - or * or 1. a list; ``` a block of
      code; **bold**, *italic* or _italic_, ~~struck~~ and `code` inline.
-     NOT links: a [text](address) stays as it was typed, because the only links
-     on the channel are this street's own addresses and #rooms (streetLinks),
-     and widening that is Ryan's call, not a Markdown feature.
-     TWO THINGS ARE KEPT WHOLE and never parsed for emphasis: a street address
-     (underscores in a path are not italics) and a place in a film with what it
+     NOT links: a [text](address) stays as it was typed, because a link's
+     words are the address it goes to (streetLinks), so nobody can dress one
+     address up as another.
+     TWO THINGS ARE KEPT WHOLE and never parsed for emphasis: an address,
+     on the street or off it (underscores in a path are not italics) and a place in a film with what it
      names (@1:25 in “the film” at #the-room), because a title with an asterisk
      in it would otherwise break the button that jumps to it. */
   var MD_ITEM = /^\s*([-*•]|\d{1,3}[.)])\s+(.*)$/;
@@ -234,7 +286,8 @@
   }
 
   function kept(text) {
-    var out = [], m, re = new RegExp(STREET.source, 'gi'), st = new RegExp(STAMP.source, 'g');
+    var out = awayAt(text).map(function (w) { return [w.at, w.end]; });
+    var m, re = new RegExp(STREET.source, 'gi'), st = new RegExp(STAMP.source, 'g');
     while ((m = re.exec(text))) out.push([m.index, m.index + m[0].length]);
     while ((m = st.exec(text))) {
       var end = m.index + m[0].length, n = text.slice(end).match(NAMED);
@@ -248,7 +301,10 @@
     while ((m = re.exec(text))) {
       var lead = m[3] != null ? m[3] : m[5] != null ? m[5] : '';
       var s = m.index + lead.length, e = m.index + m[0].length;
-      var hit = keep.some(function (k) { return s < k[1] && e > k[0]; });
+      // A protected range may sit wholly inside the emphasis (**see https://...**)
+      // but may not touch either of its markers.
+      var ml = m[1] != null || m[2] != null ? 2 : 1;
+      var hit = keep.some(function (k) { return (k[0] < s + ml && k[1] > s) || (k[0] < e && k[1] > e - ml); });
       if (hit) { re.lastIndex = m.index + 1; continue; }
       if (s > at) streetLinks(parent, text.slice(at, s));
       var tag = m[1] != null ? 'strong' : m[2] != null ? 's' : 'em';
@@ -261,9 +317,22 @@
   }
 
   function streetLinks(parent, text) {
-    var at = 0, m;
     stampsIn(text);
-    STREET.lastIndex = 0;
+    var from = 0, away = awayAt(text);
+    for (var i = 0; i < away.length; i++) {
+      if (away[i].at > from) streetPart(parent, text, from, away[i].at);
+      parent.appendChild(away[i].url ? awayLink(away[i].said, away[i].url) : document.createTextNode(away[i].said));
+      from = away[i].end;
+    }
+    if (from < text.length) streetPart(parent, text, from, text.length);
+    return parent;
+  }
+
+  // The street's own addresses between from and to; every offset stays the
+  // whole text's, because the #tags and stamps were read off the whole text.
+  function streetPart(parent, whole, from, to) {
+    var text = whole.slice(0, to), at = from, m;
+    STREET.lastIndex = from;
     while ((m = STREET.exec(text))) {
       var said = m[0], path = m[1] || '/';
       var tail = said.match(TRAIL);
@@ -274,7 +343,7 @@
       // "stimpunks.worldly" is a word, not an address, and neither is the tail
       // of somebody else's, like notstimpunks.world or elsewhere.example/stimpunks.world.
       var next = text.charAt(m.index + said.length);
-      var prev = m.index ? text.charAt(m.index - 1) : ' ';
+      var prev = m.index > from ? text.charAt(m.index - 1) : ' ';
       if (!m[1] && /[A-Za-z0-9-]/.test(next)) continue;
       if (/[A-Za-z0-9.\/@_~%-]/.test(prev)) continue;
       if (m.index > at) hashRooms(parent, text.slice(at, m.index), at);
@@ -284,8 +353,7 @@
       at = m.index + said.length;
       STREET.lastIndex = at;
     }
-    if (at < text.length) hashRooms(parent, text.slice(at), at);
-    return parent;
+    if (at < to) hashRooms(parent, text.slice(at, to), at);
   }
 
   /* #ROOMS, DISCORD'S WAY. Ryan's call, 2026-09-25: a message carries

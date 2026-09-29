@@ -55,6 +55,9 @@
 .cb-radio *, .cb-radio *::before, .cb-radio *::after { box-sizing: border-box; }
 .cb-radio p { margin: 0; }
 .cb-radio a { color: var(--cb-amber); }
+/* A link off the street says where it goes, in the log's second amber, a pair
+   check-contrast.py already measures (cb-time uses it). */
+.cb-away-host { color: var(--cb-amber-2); font-size: .88em; white-space: nowrap; }
 .cb-radio :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
 
 .cb-bar {

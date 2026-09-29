@@ -2699,7 +2699,7 @@ heard** — it says *tuning in* until the first listen answers and *no signal* w
 "nobody has said anything" is a statement about the channel and only a reply can make it true. It
 also never counts: no people on the channel, no unread number.
 
-**A ROOM ON THE STREET IS A LINK ON THE CHANNEL AND NOTHING ELSE IS.** Ryan, 2026-09-25, so somebody
+**A ROOM ON THE STREET IS A LINK ON THE CHANNEL, AND A LINK OFF IT SAYS SO.** Ryan, 2026-09-25, so somebody
 can drop a room for somebody else to join them in. **#rooms are Discord's way, Ryan's call**: the
 message carries `#the-den` and every radio shows "#The Den", linked, out of `/cb-rooms.json`, which
 `make-sitemap.py` writes from every page's own `<title>` in walking order, so a new room is a tag the
@@ -2709,10 +2709,15 @@ once, on the radio's first listen, never while folded; until it arrives a #tag i
 typed, and a #word that is no room stays a word. The completion list is the ARIA combobox pattern:
 Enter picks while it is open and transmits while it is shut, Escape leaves that # alone, and the
 screen reader hears the room under the arrow and never how many there are. `streetLinks` in `cb.js` turns only this street's
-own addresses into links, as a path checked character by character and never as HTML, and leaves
-every other address as words: the channel is a stranger's words reaching the page, and a clickable
-link to anywhere is the one way it could send somebody off the street without noticing where. The
-house norms say so. **Widening it to every URL is Ryan's call, not a tidy-up.** And **the log never
+own addresses into paths, checked character by character and never as HTML. **Every other
+`http(s)://` address is a link too since 2026-09-29, Ryan's call, reversing the street-only rule**,
+but it is built so the old reason still holds: the channel is a stranger's words reaching the page,
+so a link off the street must never look like one on it. `awayUrl` parses it with `URL()` and wants
+http or https, a dotted host and no name or password (`stimpunks.world@elsewhere` stays words, whole,
+rather than half a link to the street); it opens in a new tab with `noopener noreferrer nofollow
+ugc`, its words are what was typed, and `↗ host` after it is the host as `URL()` spells it, so a
+lookalike shows its punycode. Nothing lets a link's words differ from its address: a Markdown
+`[text](url)` stays as typed. The house norms and the privacy page say so. And **the log never
 scrolls under a reader**: it used to jump to the bottom on every listen, so scrolling up was undone
 four seconds later. It follows the newest message only when something new arrived and the log was
 already at the bottom, or when you transmitted.
