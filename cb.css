@@ -96,7 +96,10 @@
 .cb-btn[aria-pressed="true"] { border-color: var(--cb-amber); }
 .cb-move { cursor: move; }
 
-.cb-set { padding: 10px 12px 12px; display: grid; gap: 10px; }
+.cb-set { padding: 10px 12px 12px; display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
+/* The same cap as the log's, one level up: the radio's body is a grid too, and
+   an automatic column here grew to a picture's natural width in Safari, which
+   pushed Transmit, Take off and Clear the channel off the radio's edge. */
 .cb-who { font-size: 14px; }
 /* World or this room: two buttons, the pressed one with the amber edge every
    pressed button on the radio has. */
@@ -122,7 +125,11 @@
 .cb-log {
   list-style: none; margin: 0; padding: 0;
   max-height: min(42vh, 320px); overflow-y: auto;
-  display: grid; gap: 9px;
+  /* One column that can never be wider than the radio. An automatic column
+     grows to the widest thing in it, and a picture's max-width: 100% does not
+     count while that width is being worked out, so a 1600-pixel photo made the
+     whole radio 1600 pixels wide and pushed Transmit off the edge. */
+  display: grid; gap: 9px; grid-template-columns: minmax(0, 1fr);
 }
 .cb-msg { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 8px; row-gap: 2px; }
 .cb-msg > .cb-head { grid-column: 1; grid-row: 1; }
@@ -174,8 +181,8 @@
    off the screen; the whole picture is there to open. Its description, when
    there is one, is under it in the log's own amber, which is a pair
    check-contrast.py already measures. */
-.cb-msg > .cb-picture { grid-column: 1 / -1; grid-row: 3; margin: 4px 0 0; }
-.cb-picture-img { display: block; max-width: 100%; max-height: 180px; height: auto; border: 1px solid var(--cb-amber-2); border-radius: 3px; background: var(--cb-lcd); }
+.cb-msg > .cb-picture { grid-column: 1 / -1; grid-row: 3; margin: 4px 0 0; min-width: 0; max-width: 100%; }
+.cb-picture-img { display: block; width: auto; max-width: 100%; max-height: 180px; height: auto; border: 1px solid var(--cb-amber-2); border-radius: 3px; background: var(--cb-lcd); }
 .cb-picture-alt, .cb-picture-gone { margin: 4px 0 0; font-size: 13px; color: var(--cb-amber-2); overflow-wrap: anywhere; }
 .cb-radio--small .cb-picture-img { max-height: 90px; }
 .cb-pic-ready { display: grid; gap: 6px; margin: 8px 0 0; }
