@@ -377,6 +377,10 @@ DRAW = {
     # threshold a marker is held to. The floor line and the sole are --mud-dim
     # and carry nothing. It lies still.
     "mud-welly": """<path d="M3 29 H29" stroke="var(--mud-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 24 V13 Q5 10 8 10 H17 Q19 10 19 13 V17 H25 Q28 17 28 21 V24 Z" fill="var(--mud-welly)" stroke="var(--mud-welly)" stroke-width="1.4" stroke-linejoin="round"/><path d="M4.5 26 H28.5" stroke="var(--mud-dim)" stroke-width="2.4" stroke-linecap="round"/><path d="M8 13.5 H16" stroke="var(--mud-ground)" stroke-width="1.4" stroke-linecap="round"/>""",
+    # A pencil, rolled off the Board's table: a long body, its sharpened end
+    # and a ferrule, in the peach the room reads its links in, on the dark
+    # room. The floor line is --bd-edge and carries nothing.
+    "bd-lamp": """<path d="M3 29.5 H29" stroke="var(--bd-edge)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 25 H23 L28 22.5 L23 20 H5 Z" fill="none" stroke="var(--bd-link)" stroke-width="2.2" stroke-linejoin="round"/><path d="M9 20 V25" stroke="var(--bd-link)" stroke-width="1.8"/>""",
     # A key, left on the floor inside the Directors' door: a ring and a
     # blade with its teeth, in the pale blue the room reads its links in, on
     # the dark room. The floor line is --dr-frame and carries nothing.

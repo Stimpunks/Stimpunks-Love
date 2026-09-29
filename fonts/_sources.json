@@ -2073,5 +2073,33 @@
    "src": "https://fonts.gstatic.com/s/ibmplexserif/v20/jizAREVNn1dOx-zrZ2X3pZvkTi2k_iI0q1vjitOh.woff2",
    "note": "The Directors' room (§79): bold, for the strong words, the directors' names and the join button."
   }
+ ],
+ "dm-serif-display": [
+  {
+   "file": "dm-serif-display-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 17844,
+   "src": "https://fonts.gstatic.com/s/dmserifdisplay/v17/-nFnOHM81r4j6k0gjAW3mujVU2B2G_Bx0vrx52g.woff2",
+   "note": "The Board room (§80), off the Town Hall: the room's name and headings. Never a sentence."
+  }
+ ],
+ "source-sans-3": [
+  {
+   "file": "source-sans-3-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 28792,
+   "src": "https://fonts.gstatic.com/s/sourcesans3/v19/nwpStKy2OAdR1K-IwhWudF-R3w8aZejf5Hc.woff2",
+   "note": "The Board room (§80): every word that is read. One variable file serves both weights; no italic is shipped, and nothing in the room is set italic."
+  },
+  {
+   "file": "source-sans-3-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 28792,
+   "src": "https://fonts.gstatic.com/s/sourcesans3/v19/nwpStKy2OAdR1K-IwhWudF-R3w8aZejf5Hc.woff2",
+   "note": "The Board room (§80): every word that is read. One variable file serves both weights; no italic is shipped, and nothing in the room is set italic."
+  }
  ]
 }

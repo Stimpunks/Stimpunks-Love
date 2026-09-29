@@ -1135,6 +1135,20 @@
       "sections": [
         79
       ]
+    },
+    "dm-serif-display": {
+      "where": "Board",
+      "page": "town-hall-board.html",
+      "sections": [
+        80
+      ]
+    },
+    "source-sans-3": {
+      "where": "Board",
+      "page": "town-hall-board.html",
+      "sections": [
+        80
+      ]
     }
   }
 }

@@ -866,6 +866,23 @@
     }
    ]
   },
+  "dm-serif-display": {
+   "family": "DM Serif Display",
+   "category": "Serif",
+   "designer": "Colophon Foundry",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/dmserifdisplay",
+   "copyright": "Copyright 2014 - 2017 Adobe Systems Incorporated (http://www.adobe.com/), with Reserved Font Name 'Source'. Copyright 2019 Google LLC.",
+   "repository": "https://github.com/googlefonts/dm-fonts",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "dm-serif-display-400.woff2",
+     "sha": "f273cf2c9ce9bc7d"
+    }
+   ]
+  },
   "dynapuff": {
    "family": "DynaPuff",
    "category": "Display",
@@ -2575,6 +2592,29 @@
      "style": "normal",
      "file": "sour-gummy-700.woff2",
      "sha": "609eb471e899f31f"
+    }
+   ]
+  },
+  "source-sans-3": {
+   "family": "Source Sans 3",
+   "category": "Sans Serif",
+   "designer": "Paul D. Hunt",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/sourcesans3",
+   "copyright": "© 2023 Adobe (http://www.adobe.com/), with Reserved Font Name ‘Source’",
+   "repository": "https://github.com/adobe-fonts/source-sans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "source-sans-3-400.woff2",
+     "sha": "ac057a5593cbe3df"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "source-sans-3-400.woff2",
+     "sha": "ac057a5593cbe3df"
     }
    ]
   },

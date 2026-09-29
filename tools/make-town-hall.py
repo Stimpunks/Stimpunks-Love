@@ -43,7 +43,8 @@ DATA = ROOT / "data/town-hall.json"
 HALL = ROOT / "town-hall.html"
 LIB = ROOT / "netlify/cb/lib.mjs"
 ABOUT = "https://stimpunks.org/about/"
-MIRROR_ABOUT = Path.home() / "Documents/Claude/Projects/Stimpunks Knowledge System/site/stimpunks.org/pages/about.md"
+PAGES = Path.home() / "Documents/Claude/Projects/Stimpunks Knowledge System/site/stimpunks.org/pages"
+MIRROR_ABOUT = PAGES / "about.md"
 
 
 def refuse(msg):
@@ -135,8 +136,20 @@ def door(r):
 
 
 def people(r):
-    """Who a room is for, as stimpunks.org/about/ lists them: in that page's
-    order, each with the title it gives, linked to their own section."""
+    """Who a room is for: in the order, and with the titles, of the page it
+    came from, each linked to their own section of stimpunks.org/about/."""
+    src_page = r.get("people_from") or {}
+    for f in ("url", "mirror", "called"):
+        if not src_page.get(f):
+            refuse(f"room {r['id']!r} lists people and its `people_from` has no `{f}`.")
+    listed = (PAGES / src_page["mirror"]).read_text() if (PAGES / src_page["mirror"]).exists() else None
+    if listed is not None:
+        at = [listed.find(x["name"]) for x in r["people"]]
+        if -1 in at:
+            gone = r["people"][at.index(-1)]["name"]
+            refuse(f"room {r['id']!r}: {gone} is not on {src_page['mirror']} any more. Re-read it.")
+        if at != sorted(at):
+            refuse(f"room {r['id']!r}: its people are not in the order {src_page['mirror']} gives them.")
     rows = []
     for x in r["people"]:
         for f in ("name", "title", "anchor"):
@@ -150,8 +163,61 @@ def people(r):
         rows.append(f'      <li><a href="{ABOUT}#{e(x["anchor"])}"><b>{e(x["name"])}</b></a>, {e(x["title"])}</li>')
     p = r["prefix"]
     return "\n".join([f'    <ul class="{p}-people">', *rows, '    </ul>',
-                      f'    <p class="{p}-people__from">As <a href="{ABOUT}#h-directors-and-board-members">our About page</a> '
-                      f'lists them, in its order and with its titles, read on {e(r["people_read"])}.</p>'])
+                      f'    <p class="{p}-people__from">As <a href="{e(src_page["url"])}">{src_page["called"]}</a> '
+                      f'lists them, in its order and with its titles, read on {e(r["people_read"])}.'
+                      + ('' if src_page["mirror"] == "about.md" else
+                         f' Each name goes to their own section of <a href="{ABOUT}">our About page</a>.')
+                      + '</p>'])
+
+
+def md_plain(t):
+    """A mirror page as plain words: links down to their text, bold and
+    italic marks gone, runs of space folded, so a sentence can be looked for."""
+    t = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", t)
+    t = t.replace("**", "").replace("__", "")
+    return re.sub(r"\s+", " ", t)
+
+
+def governance(r):
+    """A section of one of our own stimpunks.org pages, word for word, every
+    sentence and link looked for in the mirror's copy of that page."""
+    g = r["governance"]
+    src_page = g["from"]
+    mirror = PAGES / src_page["mirror"]
+    if mirror.exists():
+        raw = mirror.read_text()
+        start = raw.find("## " + src_page["heading"])
+        if start < 0:
+            refuse(f"room {r['id']!r}: {src_page['mirror']} has no section headed {src_page['heading']!r} any more.")
+        nxt = raw.find("\n## ", start + 3)
+        section = raw[start:nxt if nxt > 0 else None]
+        plain = md_plain(section)
+        for t in g["lede"] + g["close"] + [x.get("note", "") for x in g["items"]] + [x["name"] for x in g["items"]]:
+            if t and md_plain(t) not in plain:
+                refuse(f"room {r['id']!r}: {t[:70]!r} is not in the {src_page['heading']} section of "
+                       f"{src_page['mirror']} any more. Re-copy the section rather than keeping words the page dropped.")
+        for x in g["items"]:
+            rel = x["url"].replace("https://stimpunks.org", "")
+            if x["url"] not in section and f"({rel})" not in section:
+                refuse(f"room {r['id']!r}: {x['name']} no longer links to {x['url']} on {src_page['mirror']}.")
+    p = r["prefix"]
+    def linked(t):
+        t = e(t)
+        for words, url in g.get("close_links", {}).items():
+            t = t.replace(e(words), f'<a href="{e(url)}">{e(words)}</a>', 1)
+        return t
+    # A link the page has that goes nowhere is left off, and the data says so.
+    rows = []
+    for x in g["items"]:
+        note = f' &mdash; {e(x["note"])}' if x.get("note") else ""
+        rows.append(f'      <li><a href="{e(x["url"])}"><b>{e(x["name"])}</b></a>{note}</li>')
+    return "\n".join([f'    <div class="{p}-gov">',
+                      *[f'    <p>{e(t)}</p>' for t in g["lede"]],
+                      f'    <ul class="{p}-gov__list">', *rows, '    </ul>',
+                      *[f'    <p>{linked(t)}</p>' for t in g["close"]],
+                      f'    <p class="{p}-gov__from">This section is <a href="{e(src_page["url"])}">{src_page["called"]}</a>&rsquo;s, '
+                      f'word for word, read on {e(g["read"])}.</p>',
+                      '    </div>'])
 
 
 def panel(r):
@@ -204,6 +270,8 @@ for r in rooms:
     src = swap(src, r["page"], f"{r['prefix']}-call", panel(r))
     if r.get("people"):
         src = swap(src, r["page"], f"{r['prefix']}-people", people(r))
+    if r.get("governance"):
+        src = swap(src, r["page"], f"{r['prefix']}-governance", governance(r))
     for a in re.findall(r'<a [^>]*class="backlink"[^>]*>', src):
         if 'href="town-hall.html' not in a:
             refuse(f"{r['page']}'s way back goes somewhere other than the Town Hall: {a}")

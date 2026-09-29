@@ -1,7 +1,7 @@
 /* The Broadsheet Broadside's print buttons. Loaded by its own page only.
 
    Printing the page already prints every sheet, one side to a page, because
-   love.css's §81 hides everything else; that is what happens with scripts off,
+   love.css's §82 hides everything else; that is what happens with scripts off,
    and it is why the buttons ship `hidden` rather than sitting there dead. What
    a button adds is choosing ONE sheet: it marks that sheet's set, marks the
    body, asks the browser to print, and takes both marks off again afterwards,

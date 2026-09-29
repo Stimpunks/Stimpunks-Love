@@ -197,6 +197,11 @@
    "path": "/town-hall-directors.html"
   },
   {
+   "tag": "town-hall-board",
+   "name": "Board",
+   "path": "/town-hall-board.html"
+  },
+  {
    "tag": "dopamine-dress-up-den",
    "name": "Dopamine Dress-Up Den",
    "path": "/dopamine-dress-up-den.html"

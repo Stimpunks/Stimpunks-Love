@@ -2009,6 +2009,47 @@
    }
   },
   {
+   "id": "bd-lamp",
+   "page": "town-hall-board.html",
+   "room": "Board",
+   "title": "Whose lamp is biggest",
+   "posted": "Through a door off the Town Hall there is a room for Stimpunks' board, at one long table. Go and find out what every seat at it has in front of it.",
+   "rank": 2,
+   "takes": "about as long as it takes to count down a table",
+   "target": "a pencil, rolled off the table",
+   "code": "ONEVOTE",
+   "learned": "A board is a table where every seat counts the same. Nobody's lamp is bigger, and there is no light over the head of the table.",
+   "hints": [
+    "Go into the Town Hall on the street, and through the Board's door.",
+    "Read Why a lamp at every seat.",
+    "The pencil is on the floor at the foot of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "What does every seat at the Board's table have in front of it?",
+    "accept": [
+     "a lamp",
+     "lamp",
+     "the same lamp",
+     "same lamp",
+     "a small lamp",
+     "its own lamp",
+     "a lamp each",
+     "lamps",
+     "the same small lamp",
+     "a reading lamp",
+     "a pool of light",
+     "light"
+    ],
+    "answer": "The same lamp",
+    "why": "Every seat has the same small shaded lamp and the same pool of light in front of it, down both sides, and nobody's lamp is bigger: a board is a table where every seat counts the same.",
+    "hints": [
+     "There is no light over the head of the table.",
+     "Look at the drawing, down both sides.",
+     "It is small and shaded, and it is the same at every seat."
+    ]
+   }
+  },
+  {
    "id": "dressup-feather",
    "page": "dopamine-dress-up-den.html",
    "room": "Dopamine Dress-Up Den",

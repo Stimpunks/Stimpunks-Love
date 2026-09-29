@@ -1292,6 +1292,22 @@
     "--dr-link",
     "--dr-pane"
    ]
+  },
+  "town-hall-board.html": {
+   "kind": "mandel",
+   "center": [
+    -1.25,
+    0.02
+   ],
+   "depth": 44,
+   "ground": "--bd-room",
+   "inks": [
+    "--bd-edge",
+    "--bd-brass",
+    "--bd-link",
+    "--bd-pool"
+   ],
+   "span": 0.6
   }
  }
 }

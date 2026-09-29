@@ -41,7 +41,12 @@
      "title": "Co-Creative Director",
      "anchor": "h-helen-edgar-she-her-co-creative-director"
     }
-   ]
+   ],
+   "people_from": {
+    "url": "https://stimpunks.org/about/#h-directors-and-board-members",
+    "mirror": "about.md",
+    "called": "our About page"
+   }
   },
   {
    "id": "board",
@@ -50,7 +55,98 @@
    "what": "A room for Stimpunks Board Members to meet.",
    "for": "mods",
    "prefix": "bd",
-   "body": "bdroom"
+   "body": "bdroom",
+   "people_read": "2026-09-29",
+   "people_from": {
+    "url": "https://stimpunks.org/about/accountability/board-governance/#h-board-of-directors",
+    "mirror": "about__accountability__board-governance.md",
+    "called": "our Board &amp; Governance page"
+   },
+   "people": [
+    {
+     "name": "Ryan Boren",
+     "title": "President, Co-Founder, Co-Creative Director",
+     "anchor": "ryan-boren-he-they"
+    },
+    {
+     "name": "Betsy Selvam",
+     "title": "Vice President",
+     "anchor": "betsy-selvam"
+    },
+    {
+     "name": "Kristina Brooke Daniele",
+     "title": "Secretary",
+     "anchor": "kristina-brooke-daniele-she-her"
+    },
+    {
+     "name": "Becky Hicks",
+     "title": "Board Member",
+     "anchor": "becky-hicks-she-her"
+    }
+   ],
+   "governance": {
+    "from": {
+     "url": "https://stimpunks.org/about/accountability/#h-governance-amp-ethics",
+     "mirror": "about__accountability.md",
+     "called": "our Accountability &amp; Transparency page",
+     "heading": "Governance & Ethics"
+    },
+    "read": "2026-09-29",
+    "lede": [
+     "Clear governance, transparent leadership, and documented organizational structure are essential to accountability. The following pages provide essential information about our legal status, board composition, financial oversight, and institutional policies.",
+     "Accountability starts with governance, oversight, and clear ethical commitments."
+    ],
+    "items": [
+     {
+      "name": "Frequently Requested Information",
+      "url": "https://stimpunks.org/about/frequently-requested-information/",
+      "note": "Legal status, EIN, board and staff composition, funding overview, and core organizational facts."
+     },
+     {
+      "name": "Bylaws",
+      "url": "https://stimpunks.org/about/accountability/bylaws/",
+      "note": "The rules that govern how we are run, published in full. The version shown is the one proposed for adoption at our September 2026 board meeting, with the family qualification for directors removed from §2.1."
+     },
+     {
+      "name": "Board Roles & Responsibilities",
+      "url": "https://stimpunks.org/about/accountability/board-roles-responsibilities/",
+      "note": "What we ask of a director, what we deliberately do not ask — no give-or-get, no travel, no performing wellness — what each officer does, and what the Foundation owes its board in return."
+     },
+     {
+      "name": "Conflict of Interest Policy",
+      "url": "https://stimpunks.org/about/accountability/conflict-of-interest/"
+     },
+     {
+      "name": "Gift Acceptance Policy",
+      "url": "https://stimpunks.org/about/accountability/gift-acceptance/"
+     },
+     {
+      "name": "Whistleblower & Concern Reporting Policy",
+      "url": "https://stimpunks.org/about/accountability/reporting-concerns/"
+     },
+     {
+      "name": "Document Retention & Destruction Policy",
+      "url": "https://stimpunks.org/about/accountability/document-retention/"
+     },
+     {
+      "name": "Board & Governance",
+      "url": "https://stimpunks.org/about/accountability/board-governance/"
+     },
+     {
+      "name": "Transparency Log",
+      "url": "https://stimpunks.org/about/accountability/transparency-log/"
+     },
+     {
+      "name": "Community Covenant",
+      "url": "https://stimpunks.org/covenant/"
+     }
+    ],
+    "close": [
+     "Governance is not bureaucracy. Governance is how we keep the commons safe and durable.",
+     "Our governance model is grounded in lived experience leadership and epistemic justice, ensuring decision-making reflects the communities most impacted by the systems we seek to redesign."
+    ],
+    "_dropped": "The page links \"epistemic justice\" to /philosophy/epistemic-justice/, which answered 404 on 2026-09-29, and stimpunks.org has no page by that name (the glossary has Epistemic Injustice). The words are kept as the page has them and the dead link is left off; the link is stimpunks.org's to fix."
+   }
   },
   {
    "id": "moderators",
@@ -62,5 +158,6 @@
    "body": "mdroom"
   }
  ],
- "_people": "A room may list who it is for, read off stimpunks.org/about/ (the Directors and Board Members section), in that page's order, with each person's title as that page gives it and a link to their own section of it. Ryan's ask, 2026-09-29, for the Directors room. tools/make-town-hall.py checks every anchor against the Knowledge System mirror's copy of the About page when the mirror is on this machine, and refuses one that has gone; the anchors were also checked on the live page on 2026-09-29. Nothing here is typed from memory: when the About page changes, re-read it."
+ "_people": "A room may list who it is for. Each person links to their own section of stimpunks.org/about/, and the list is in the order, and with the titles, of the page named in `people_from` (the About page's Directors and Board Members section for the Directors, at Ryan's ask, 2026-09-29; the Board Governance page's Board of Directors for the Board, which is the page that says who is on it and that the people who run the work day to day are not). tools/make-town-hall.py checks every name against the Knowledge System mirror's copy of the page it came from, and every anchor against the mirror's About page, when the mirror is on this machine, and refuses what has gone; the anchors were also checked on the live pages on 2026-09-29. Nothing here is typed from memory: when either page changes, re-read it.",
+ "_governance": "A room may carry a section of one of our own stimpunks.org pages, word for word, at Ryan's ask: the Board room carries the Governance & Ethics section of our Accountability & Transparency page (2026-09-29). Every sentence and every link here is that page's, copied as it stands, with its relative links made absolute; tools/make-town-hall.py looks for every one of them in the Knowledge System mirror's copy of the page when the mirror is on this machine, and refuses one that has gone. When the page changes, re-copy the section; never loosen the check. The Bylaws line names the September 2026 board meeting, so it will change once the Board votes."
 }

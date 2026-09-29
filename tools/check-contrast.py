@@ -585,6 +585,7 @@ TH_SHADE, TH_WALL, TH_TEXT, TH_DIM = "#312E2B", "#3E3A36", "#F3EEE4", "#D6CEC1"
 TH_LINK, TH_SUN = "#F3C98B", "#F7E8C2"
 FB_WATER, FB_SHALLOW, FB_INK, FB_INK2, FB_LINK = "#D6EEEA", "#BFE3DD", "#0D3432", "#2A5754", "#9B330C"
 DR_DARK, DR_PANEL, DR_TEXT, DR_DIM, DR_LINK, DR_PANE = "#1C212B", "#262D3A", "#E8EDF2", "#AFBBC8", "#A6CFF0", "#DCE6EE"
+BD_ROOM, BD_TABLE, BD_TEXT, BD_DIM, BD_LINK, BD_POOL = "#17161B", "#2A2530", "#F2EEE8", "#C3BCB2", "#E9A77F", "#F6E3B4"
 
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
@@ -2604,6 +2605,17 @@ PAIRS = [
     (DR_PANE, DR_DARK,  True,  "directors: the focus ring"),
     (DR_PANE, DR_PANEL, True,  "directors: the focus ring on a panel"),
     (DR_LINK, DR_DARK,  True,  "directors: the job marker, a key left inside the door"),
+    (BD_TEXT, BD_ROOM,  False, "board: every paragraph, the h1, the headings and the lede"),
+    (BD_DIM,  BD_ROOM,  False, "board: the over-line, the trail, where the list was read, and the credits"),
+    (BD_LINK, BD_ROOM,  False, "board: every link and the backlink"),
+    (BD_TEXT, BD_TABLE, False, "board: a board member's title, and the call panel's words"),
+    (BD_LINK, BD_TABLE, False, "board: a board member's name, linked, and a link in the call panel"),
+    (BD_DIM,  BD_TABLE, False, "board: the call's fine print"),
+    (BD_ROOM, BD_POOL,  False, "board: the join button, for the base"),
+    (BD_ROOM, BD_LINK,  False, "board: the join button while it is hovered"),
+    (BD_POOL, BD_ROOM,  True,  "board: the focus ring"),
+    (BD_POOL, BD_TABLE, True,  "board: the focus ring on a place at the table"),
+    (BD_LINK, BD_ROOM,  True,  "board: the job marker, a pencil rolled off the table"),
     (MUD_TEXT,  MUD_GROUND, False, "mud room: every paragraph, the lede, the house rules and the door's blurb on the street"),
     (MUD_SKY,   MUD_GROUND, False, "mud room: the h1, every heading, every bold run and the door's name"),
     (MUD_DIM,   MUD_GROUND, False, "mud room: the trail, the over-line, the fine print and every label in the guidebook"),
@@ -2856,6 +2868,9 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#ede7da": "board: the lampshades, 14.60 on the dark room. Drawing only; they carry no word.",
+    "#a88a4e": "board: the lamps' brass stems, 5.49 on the dark room. Drawing only.",
+    "#3a3342": "board: the table's edge, the chairs and the far wall, 1.48 on the dark room. Drawing only.",
     "#7e91a6": "directors: the hall's light where it falls off across the floor, and the edge of every "
                "director's panel, 4.98 on the dark room. The room's light, drawn; it carries no word.",
     "#3b4557": "directors: the door's frame and the floor's edge, 1.67 on the dark room. Drawing only.",
