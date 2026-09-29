@@ -3,6 +3,23 @@
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
  "_checked": "2026-09-29",
  "faces": {
+  "abril-fatface": {
+   "family": "Abril Fatface",
+   "category": "Display",
+   "designer": "TypeTogether",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/abrilfatface",
+   "copyright": "Copyright (c) 2011, Copyright (c) 2011, TypeTogether (www.type-together.com info@type-together.com), with Reserved Font Names \"Abril\" and \"Abril Fatface\"",
+   "repository": "https://github.com/librefonts/abrilfatface",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "abril-fatface-400.woff2",
+     "sha": "804040b2e060e7ed"
+    }
+   ]
+  },
   "albert-sans": {
    "family": "Albert Sans",
    "category": "Sans Serif",
@@ -1269,6 +1286,29 @@
      "style": "normal",
      "file": "ibm-plex-sans-condensed-600.woff2",
      "sha": "63e486a9c9ec9fb7"
+    }
+   ]
+  },
+  "ibm-plex-serif": {
+   "family": "IBM Plex Serif",
+   "category": "Serif",
+   "designer": "Mike Abbink, Bold Monday",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/ibmplexserif",
+   "copyright": "Copyright 2020 IBM Corp. All rights reserved.",
+   "repository": "https://github.com/googlefonts/plex",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "ibm-plex-serif-400.woff2",
+     "sha": "9fbb32c4c07037bc"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "ibm-plex-serif-700.woff2",
+     "sha": "8d256fda8c12db0d"
     }
    ]
   },

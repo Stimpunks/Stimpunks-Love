@@ -1967,6 +1967,48 @@
    }
   },
   {
+   "id": "dr-key",
+   "page": "town-hall-directors.html",
+   "room": "Directors",
+   "title": "How the light gets in",
+   "posted": "Through a door off the Town Hall there is a room for Stimpunks' directors, with no lamp in it. Go and find out what the light comes through.",
+   "rank": 2,
+   "takes": "about as long as it takes to read a name backwards",
+   "target": "a key, left on the floor inside the door",
+   "code": "FROSTED",
+   "learned": "A room can be private without being hidden. The door is not locked, the directors' names are on the wall, and the glass lets the light through while keeping the detail back.",
+   "hints": [
+    "Go into the Town Hall on the street, and through the Directors' door.",
+    "Read Why frosted glass.",
+    "The key is on the floor at the foot of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "What does the light in the Directors' room come through?",
+    "accept": [
+     "frosted glass",
+     "the frosted glass",
+     "a frosted pane",
+     "the frosted pane",
+     "frosted pane",
+     "glass",
+     "the glass",
+     "the door",
+     "the door's pane",
+     "the pane",
+     "pane",
+     "the frosted glass in the door",
+     "a pane of frosted glass"
+    ],
+    "answer": "Frosted glass",
+    "why": "There is no lamp in the room: the only light is the hall's, through the frosted pane in the door, so it comes in soft and without an edge, and the name on the glass reads backwards from inside.",
+    "hints": [
+     "There is no lamp in the room.",
+     "Look at the door in the drawing.",
+     "It lets light through and keeps the detail back."
+    ]
+   }
+  },
+  {
    "id": "dressup-feather",
    "page": "dopamine-dress-up-den.html",
    "room": "Dopamine Dress-Up Den",

@@ -9,24 +9,31 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Tue, 29 Sep 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>The Directors’ room, off the Town Hall</title>
+      <link>https://stimpunks.world/changelog.html#2026-09-29-directors</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-directors</guid>
+      <pubDate>Tue, 29 Sep 2026 12:00:00 GMT</pubDate>
+      <description>A door off the Town Hall opens onto the Directors’ room: a room for Stimpunks Directors to meet, lit only through the frosted pane in its door. It lists the directors as our About page does, each linked to their own section there. Anybody can walk in; the radio and the call in there are for the base, and the server keeps it that way.</description>
+    </item>
+    <item>
       <title>The Fishbowl, off the Town Hall</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-fishbowl</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-fishbowl</guid>
-      <pubDate>Tue, 29 Sep 2026 12:00:00 GMT</pubDate>
+      <pubDate>Tue, 29 Sep 2026 11:59:00 GMT</pubDate>
       <description>The first door off the Town Hall opens onto the Fishbowl: a room for community fishbowl meetings for anyone with CB access. A few people talk in the middle, everybody else listens round the outside, and one seat in the middle is always kept empty for whoever wants to step in. It is a glass bowl of water on a sunny sill, lit by the sun bent through the water into bright lines on the gravel, with a ring of stones inside that always has one gap in it. The call is for people signed on to the CB, and anybody can look round.</description>
     </item>
     <item>
       <title>The Town Hall</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-town-hall</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-town-hall</guid>
-      <pubDate>Tue, 29 Sep 2026 11:59:00 GMT</pubDate>
+      <pubDate>Tue, 29 Sep 2026 11:58:00 GMT</pubDate>
       <description>A new shopfront on the street: the Town Hall, a round hall under a dome that is open to the sky, where the sun lies on the floor as one disc. Doors round its wall go to the Fishbowl, for community fishbowl meetings on the CB, and to rooms for our directors, our board and our moderators. The rooms behind the doors open one at a time. Those three rooms are the base’s. Anybody can walk into them; their channel, their call and any film hosted in them are handed to people signed on with the moderators’ password and to nobody else, by the server rather than only by the page, and the radio waits outside for everybody else.</description>
     </item>
     <item>
       <title>The meeting hall, at the Community Center</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-meeting-hall</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-meeting-hall</guid>
-      <pubDate>Tue, 29 Sep 2026 11:58:00 GMT</pubDate>
+      <pubDate>Tue, 29 Sep 2026 11:57:00 GMT</pubDate>
       <description>The Community Center now starts with the meeting hall: our community’s group chat, which is moving from Discord to Stoat. It says what Stoat is, how to get an invite through the join form on stimpunks.org, what the channels are, and how the hall and the CB differ: the hall keeps things and has proper sign-in, and the CB forgets everything at midnight. The hall is a link, not part of this page. Stoat’s app does not let other sites frame it, and nothing on the street sends anything to Stoat.</description>
     </item>
     <item>

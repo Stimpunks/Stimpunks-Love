@@ -192,6 +192,11 @@
    "path": "/town-hall-fishbowl.html"
   },
   {
+   "tag": "town-hall-directors",
+   "name": "Directors",
+   "path": "/town-hall-directors.html"
+  },
+  {
    "tag": "dopamine-dress-up-den",
    "name": "Dopamine Dress-Up Den",
    "path": "/dopamine-dress-up-den.html"

@@ -18,7 +18,30 @@
    "what": "A room for Stimpunks Directors to meet.",
    "for": "mods",
    "prefix": "dr",
-   "body": "drroom"
+   "body": "drroom",
+   "people_read": "2026-09-29",
+   "people": [
+    {
+     "name": "Ryan Boren",
+     "title": "President, Co-Founder, Co-Creative Director",
+     "anchor": "ryan-boren-he-they"
+    },
+    {
+     "name": "Chelsea Adams",
+     "title": "Executive Director",
+     "anchor": "chelsea"
+    },
+    {
+     "name": "Norah Hobbs",
+     "title": "Program Director",
+     "anchor": "h-norah-hobbs-she-her-program-director"
+    },
+    {
+     "name": "Helen Edgar",
+     "title": "Co-Creative Director",
+     "anchor": "h-helen-edgar-she-her-co-creative-director"
+    }
+   ]
   },
   {
    "id": "board",
@@ -38,5 +61,6 @@
    "prefix": "md",
    "body": "mdroom"
   }
- ]
+ ],
+ "_people": "A room may list who it is for, read off stimpunks.org/about/ (the Directors and Board Members section), in that page's order, with each person's title as that page gives it and a link to their own section of it. Ryan's ask, 2026-09-29, for the Directors room. tools/make-town-hall.py checks every anchor against the Knowledge System mirror's copy of the About page when the mirror is on this machine, and refuses one that has gone; the anchors were also checked on the live page on 2026-09-29. Nothing here is typed from memory: when the About page changes, re-read it."
 }

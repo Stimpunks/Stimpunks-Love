@@ -743,6 +743,15 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--fbroom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
 .og--fbroom .og-scene svg {{ display: block; width: 1200px; height: 300px; }}
 
+/* the directors' room — THE ROOM FROM INSIDE, LIFTED OFF THE ROOM: the door's
+   frosted pane with the name on it backwards, and the round table against it. */
+.og--drroom {{ width: 100%; padding: 40px 60px 0; gap: 8px; justify-content: flex-start; }}
+.og--drroom .dr-over {{ margin: 0 !important; font-size: 19px; letter-spacing: .06em; text-transform: uppercase; color: #AFBBC8; }}
+.og--drroom h1 {{ font-size: 88px; margin: 0 !important; }}
+.og--drroom .og-lede {{ font-family: 'IBM Plex Serif', serif; color: #E8EDF2; max-width: 1060px; font-size: 25px; margin: 4px 0 0 !important; }}
+.og--drroom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--drroom .og-scene svg {{ display: block; width: 1200px; height: 300px; }}
+
 /* the mud room — THE VIEW FROM THE BACK STEP, LIFTED OFF THE ROOM: the sky, the
    far shore, the causeway posts going out to the beacon, and the sky lying in
    the mud, under the room's own name. Nothing on it moves, which is the
@@ -2771,6 +2780,23 @@ def card_fbroom(p):
     )
 
 
+def card_drroom(p):
+    return (
+        "",
+        f'<div class="og og--drroom" data-fit="card">'
+        f'<p class="dr-over">Through a door off the Town Hall</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-scene">{p["dr_scene"]}</div>'
+        f'</div>',
+        f"A dark blue-grey card. A small line in pale capitals reading through a door off the Town "
+        f"Hall, then “{p['h1text']}” in heavy gilded capitals, and under it: {p['desc_plain']} Along "
+        f"the foot, the room from inside: a shut door whose frosted pane glows with the light of the "
+        f"hall behind it, the word DIRECTORS gilded on the glass and reading backwards, soft light "
+        f"falling across the floor, and a round table with its chairs dark against it.",
+    )
+
+
 def card_mud(p):
     return (
         "",
@@ -3671,6 +3697,7 @@ CARDS = {
     "cvroom":       card_cvroom,
     "townhall":     card_townhall,
     "fbroom":       card_fbroom,
+    "drroom":       card_drroom,
     "mud":          card_mud,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
@@ -3992,6 +4019,11 @@ def main():
     if not fb:
         raise SystemExit("REFUSING: town-hall-fishbowl.html has lost its bowl, and its card is built out of it.")
     lifted["fb_scene"] = fb.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 180 1200 300"', 1)
+    dr = re.search(r'<div class="dr-head__art">\s*(?:<!--.*?-->\s*)?(<svg.*?</svg>)',
+                   (ROOT / "town-hall-directors.html").read_text(), re.S)
+    if not dr:
+        raise SystemExit("REFUSING: town-hall-directors.html has lost its door, and its card is built out of it.")
+    lifted["dr_scene"] = dr.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 150 1200 300"', 1)
     # THE MUD ROOM'S CARD CARRIES THE ROOM'S OWN VIEW AND OVER-LINE, cropped by its
     # viewBox to the horizon and the mud, so the card cannot disagree with the room.
     mud_src = (ROOT / "the-mud-room.html").read_text()

@@ -103,6 +103,7 @@ samefood-cafe.html    A café for samefoods and safe foods, seen from above the 
 collection-collection.html  A dark gallery of our people's collections, a lamp per cabinet and no two alike. The house describes the photos
 vital-plant-living.html  A plant-based kitchen drawn cut through the middle. Build a bowl or wrap from a real pantry and copy it
 town-hall.html        A round hall under an open dome, one disc of sun on the floor. Doors to the Fishbowl and to rooms for directors, board and moderators
+town-hall-directors.html Off the Town Hall: lit only through the frosted pane in its door. The directors, linked to our About page. The base's radio
 town-hall-fishbowl.html Off the Town Hall: a glass fishbowl on a sunny sill, lit by the sun bent through the water. Community fishbowl meetings on the CB
 community-center.html A painted block hall, blinds half open. The meeting hall (our group chat on Stoat, and how to get in), house norms and the front desk for the CB
 dopamine-dress-up-den.html  Helen's idea: a boutique for dopamine dressing. Mix an outfit on a valet stand; nobody's body is drawn

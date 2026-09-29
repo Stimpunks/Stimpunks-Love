@@ -42,6 +42,8 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data/town-hall.json"
 HALL = ROOT / "town-hall.html"
 LIB = ROOT / "netlify/cb/lib.mjs"
+ABOUT = "https://stimpunks.org/about/"
+MIRROR_ABOUT = Path.home() / "Documents/Claude/Projects/Stimpunks Knowledge System/site/stimpunks.org/pages/about.md"
 
 
 def refuse(msg):
@@ -68,6 +70,7 @@ def swap(src, where, marker, block):
                   lambda m: begin + "\n" + block + "\n" + end, src, flags=re.S)
 
 
+about = MIRROR_ABOUT.read_text() if MIRROR_ABOUT.exists() else None
 MODS = array("MOD_ROOMS")
 PUBLIC = array("PUBLIC_CALLS")
 data = json.loads(DATA.read_text())
@@ -131,6 +134,26 @@ def door(r):
                       '    </li>'])
 
 
+def people(r):
+    """Who a room is for, as stimpunks.org/about/ lists them: in that page's
+    order, each with the title it gives, linked to their own section."""
+    rows = []
+    for x in r["people"]:
+        for f in ("name", "title", "anchor"):
+            if not str(x.get(f, "")).strip():
+                refuse(f"room {r['id']!r}: somebody on its list has no `{f}`.")
+        if about is not None and f"(#{x['anchor']})" not in about:
+            refuse(f"room {r['id']!r}: #{x['anchor']} ({x['name']}) is not on our About page any more. "
+                   "Re-read stimpunks.org/about/ rather than keeping a link that lands at the top of it.")
+        if about is not None and x["name"] not in about:
+            refuse(f"room {r['id']!r}: {x['name']} is not named on our About page.")
+        rows.append(f'      <li><a href="{ABOUT}#{e(x["anchor"])}"><b>{e(x["name"])}</b></a>, {e(x["title"])}</li>')
+    p = r["prefix"]
+    return "\n".join([f'    <ul class="{p}-people">', *rows, '    </ul>',
+                      f'    <p class="{p}-people__from">As <a href="{ABOUT}#h-directors-and-board-members">our About page</a> '
+                      f'lists them, in its order and with its titles, read on {e(r["people_read"])}.</p>'])
+
+
 def panel(r):
     p, tag, name = r["prefix"], r["tag"], e(r["name"])
     if r["for"] == "mods":
@@ -179,6 +202,8 @@ for r in rooms:
     if e(r["what"]).replace("&#x27;", "&rsquo;") not in src and r["what"] not in src:
         refuse(f"{r['page']} does not say its own line, which is Ryan's, word for word: {r['what']!r}")
     src = swap(src, r["page"], f"{r['prefix']}-call", panel(r))
+    if r.get("people"):
+        src = swap(src, r["page"], f"{r['prefix']}-people", people(r))
     for a in re.findall(r'<a [^>]*class="backlink"[^>]*>', src):
         if 'href="town-hall.html' not in a:
             refuse(f"{r['page']}'s way back goes somewhere other than the Town Hall: {a}")

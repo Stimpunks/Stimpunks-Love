@@ -1280,6 +1280,18 @@
     "--fb-link",
     "--fb-ink"
    ]
+  },
+  "town-hall-directors.html": {
+   "kind": "newton",
+   "degree": 4,
+   "relax": 0.6,
+   "ground": "--dr-dark",
+   "inks": [
+    "--dr-frame",
+    "--dr-milk",
+    "--dr-link",
+    "--dr-pane"
+   ]
   }
  }
 }

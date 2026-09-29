@@ -584,6 +584,7 @@ CV_LINK, CV_CRACK, CV_SEAM = "#8FE3F2", "#D2F1F9", "#134E66"
 TH_SHADE, TH_WALL, TH_TEXT, TH_DIM = "#312E2B", "#3E3A36", "#F3EEE4", "#D6CEC1"
 TH_LINK, TH_SUN = "#F3C98B", "#F7E8C2"
 FB_WATER, FB_SHALLOW, FB_INK, FB_INK2, FB_LINK = "#D6EEEA", "#BFE3DD", "#0D3432", "#2A5754", "#9B330C"
+DR_DARK, DR_PANEL, DR_TEXT, DR_DIM, DR_LINK, DR_PANE = "#1C212B", "#262D3A", "#E8EDF2", "#AFBBC8", "#A6CFF0", "#DCE6EE"
 
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
@@ -2592,6 +2593,17 @@ PAIRS = [
     (FB_INK,   FB_WATER,   True,  "fishbowl: the focus ring"),
     (FB_INK,   FB_SHALLOW, True,  "fishbowl: the focus ring on the call panel"),
     (FB_LINK,  FB_WATER,   True,  "fishbowl: the job marker, a flake of fish food on the sill"),
+    (DR_TEXT, DR_DARK,  False, "directors: every paragraph, the h1, the headings and the lede"),
+    (DR_DIM,  DR_DARK,  False, "directors: the over-line, the trail, where the list was read, and the credits"),
+    (DR_LINK, DR_DARK,  False, "directors: every link and the backlink"),
+    (DR_TEXT, DR_PANEL, False, "directors: a director's title, and the call panel's words"),
+    (DR_LINK, DR_PANEL, False, "directors: a director's name, linked, and a link in the call panel"),
+    (DR_DIM,  DR_PANEL, False, "directors: the call's fine print"),
+    (DR_DARK, DR_PANE,  False, "directors: the join button, for the base"),
+    (DR_DARK, DR_LINK,  False, "directors: the join button while it is hovered"),
+    (DR_PANE, DR_DARK,  True,  "directors: the focus ring"),
+    (DR_PANE, DR_PANEL, True,  "directors: the focus ring on a panel"),
+    (DR_LINK, DR_DARK,  True,  "directors: the job marker, a key left inside the door"),
     (MUD_TEXT,  MUD_GROUND, False, "mud room: every paragraph, the lede, the house rules and the door's blurb on the street"),
     (MUD_SKY,   MUD_GROUND, False, "mud room: the h1, every heading, every bold run and the door's name"),
     (MUD_DIM,   MUD_GROUND, False, "mud room: the trail, the over-line, the fine print and every label in the guidebook"),
@@ -2844,6 +2856,12 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#7e91a6": "directors: the hall's light where it falls off across the floor, and the edge of every "
+               "director's panel, 4.98 on the dark room. The room's light, drawn; it carries no word.",
+    "#3b4557": "directors: the door's frame and the floor's edge, 1.67 on the dark room. Drawing only.",
+    "#11151c": "directors: the table and chairs, dark against the light, 1.32 on the floor. Drawing only.",
+    "#b98e3e": "directors: DIRECTORS gilded on the frosted pane, backwards from inside, 2.37 on the glass. "
+               "Drawing only, aria-hidden, and it is the room's name, which the h1 says in full strength.",
     "#ffffff": "fishbowl: the sun bent by the water into bright lines on the gravel and the sill, and the "
                "glint on the glass, 1.22 on the room's water. The room's light, drawn; it carries no word.",
     "#8fcbc3": "fishbowl: the glass of the bowl, the waterline and the sill's edge, 1.50 on the water. Drawing "

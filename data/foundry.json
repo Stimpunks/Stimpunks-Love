@@ -1121,6 +1121,20 @@
       "sections": [
         78
       ]
+    },
+    "abril-fatface": {
+      "where": "Directors",
+      "page": "town-hall-directors.html",
+      "sections": [
+        79
+      ]
+    },
+    "ibm-plex-serif": {
+      "where": "Directors",
+      "page": "town-hall-directors.html",
+      "sections": [
+        79
+      ]
     }
   }
 }

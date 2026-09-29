@@ -377,6 +377,10 @@ DRAW = {
     # threshold a marker is held to. The floor line and the sole are --mud-dim
     # and carry nothing. It lies still.
     "mud-welly": """<path d="M3 29 H29" stroke="var(--mud-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 24 V13 Q5 10 8 10 H17 Q19 10 19 13 V17 H25 Q28 17 28 21 V24 Z" fill="var(--mud-welly)" stroke="var(--mud-welly)" stroke-width="1.4" stroke-linejoin="round"/><path d="M4.5 26 H28.5" stroke="var(--mud-dim)" stroke-width="2.4" stroke-linecap="round"/><path d="M8 13.5 H16" stroke="var(--mud-ground)" stroke-width="1.4" stroke-linecap="round"/>""",
+    # A key, left on the floor inside the Directors' door: a ring and a
+    # blade with its teeth, in the pale blue the room reads its links in, on
+    # the dark room. The floor line is --dr-frame and carries nothing.
+    "dr-key": """<path d="M3 29.5 H29" stroke="var(--dr-frame)" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="21" r="5" fill="none" stroke="var(--dr-link)" stroke-width="2.2"/><path d="M14 21 H28 M24 21 V25 M20 21 V24" stroke="var(--dr-link)" stroke-width="2.2" stroke-linecap="round"/>""",
     # A flake of fish food, fallen on the Fishbowl's sill: a small curled
     # flake in the goldfish's orange the room reads its links in, dark on the
     # pale water. The sill line is --fb-glass and carries nothing.
