@@ -87,8 +87,6 @@
   {
    "id": "editorial",
    "name": "Editorial",
-   "proton_name": "Editorial",
-   "url": "https://meet.proton.me/join/id-VKJR75ZZ50#pwd-rYSbmnrnTjQq",
    "tagline": "Words, design, and everything we put into the world.",
    "said": "The Editorial meeting is where we work on the Stimpunks website and print materials — writing, editing, and designing for publication. Whether you’re a writer, editor, designer, or someone who just cares deeply about how we communicate, join us.",
    "anchor": "#h-editorial-meeting",
@@ -102,7 +100,11 @@
      "start": "10:00",
      "end": "11:00"
     }
-   ]
+   ],
+   "page": "cavendish-editorial.html",
+   "room": "The Editorial Room",
+   "prefix": "ed",
+   "item": "proof"
   }
  ],
  "_suites": "The Hang Suites are Ryan's, written in his brief of 2026-09-25 and copied here as he gave them, with three changes: both lurking norms said 'camera and video off' and Ryan corrected them to 'camera and mic off' the same day; the Watering Hole's list of norms was headed 'Campfire Norms' in the brief, a slip, and is headed with its own room's name; and the opening line said how many rooms there are, which check-counts.py refuses, so it says 'rooms'. Each link was opened on 2026-09-25 as far as Proton Meet's guest page and no further, and named the room exactly as `proton_name` says. They are named for Cavendish Space's caves, campfires and watering holes, which are David Thornburg's, and make-coworking.py refuses the section if the room stops naming him. A suite has no times on purpose: they are drop-in rooms, and a suite with hours is a meeting and belongs with the doors.",

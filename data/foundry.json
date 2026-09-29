@@ -1037,6 +1037,20 @@
       "sections": [
         72
       ]
+    },
+    "young-serif": {
+      "where": "The Editorial Room",
+      "page": "cavendish-editorial.html",
+      "sections": [
+        73
+      ]
+    },
+    "dm-sans": {
+      "where": "The Editorial Room",
+      "page": "cavendish-editorial.html",
+      "sections": [
+        73
+      ]
     }
   }
 }

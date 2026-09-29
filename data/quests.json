@@ -2339,6 +2339,45 @@
     ]
    },
    "learned": "A plant room hides nothing: every pipe says what is in it. A task scrub is the same idea, done weekly, where anybody can watch."
+  },
+  {
+   "id": "ed-loupe",
+   "page": "cavendish-editorial.html",
+   "room": "The Editorial Room",
+   "title": "When the proofs are checked",
+   "posted": "Behind the Editorial door at Cavendish Coworking there is a light table in a dark studio, with the proofs laid out on it. Go and look at what is on the table, and find out what time the meeting starts.",
+   "rank": 2,
+   "takes": "a minute, in the dark",
+   "target": "a loupe, left lying on the proofs",
+   "code": "LOUPE",
+   "hints": [
+    "Go into Cavendish Coworking on the street and through the door marked Editorial.",
+    "The proof on the table is under the room's drawing, under On the table.",
+    "The loupe is at the foot of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "At what time, Central time, does the Editorial meeting start?",
+    "accept": [
+     "10",
+     "10am",
+     "10 am",
+     "10:00",
+     "10:00 am",
+     "10:00am",
+     "ten",
+     "ten am",
+     "10 o'clock",
+     "ten o'clock"
+    ],
+    "answer": "10:00 AM",
+    "why": "Every Thursday, 10:00 to 11:00 AM Central, in our events page's own words, and the room works out the same hour on your own clock underneath.",
+    "hints": [
+     "It is on the proof on the table.",
+     "Read the line under The Editorial meeting.",
+     "The same hour as the Operations meeting, two days later."
+    ]
+   },
+   "learned": "A light table shows a page from behind, so what is wrong with it can be seen before it goes out. An editorial meeting is that, for everything we publish."
   }
  ],
  "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

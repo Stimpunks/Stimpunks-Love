@@ -1193,6 +1193,21 @@
     "--op-red",
     "--op-lamp"
    ]
+  },
+  "cavendish-editorial.html": {
+   "kind": "julia",
+   "c": [
+    -0.8,
+    0.156
+   ],
+   "orbit": 0.01,
+   "ground": "--ed-studio",
+   "inks": [
+    "--ed-process-c",
+    "--ed-process-m",
+    "--ed-process-y",
+    "--ed-glow"
+   ]
   }
  }
 }

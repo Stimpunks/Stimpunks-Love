@@ -685,6 +685,16 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--oproom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
 .og--oproom .og-scene svg {{ display: block; width: 1200px; height: 320px; }}
 
+/* the editorial room — THE LIGHT TABLE, LIFTED OFF THE ROOM: the lit glass in
+   the dark studio with its two spreads, their crop marks, the colour bar, the
+   registration target, a proofreader's mark and the loupe. */
+.og--edroom {{ width: 100%; padding: 40px 60px 0; gap: 8px; justify-content: flex-start; }}
+.og--edroom .ed-over {{ margin: 0 !important; font-size: 19px; letter-spacing: .06em; text-transform: uppercase; color: #A1A7B0; }}
+.og--edroom h1 {{ font-size: 92px; margin: 0 !important; }}
+.og--edroom .og-lede {{ font-family: 'DM Sans', sans-serif; color: #E3E6EA; max-width: 1060px; font-size: 26px; margin: 4px 0 0 !important; }}
+.og--edroom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--edroom .og-scene svg {{ display: block; width: 1200px; height: 300px; }}
+
 /* the mud room — THE VIEW FROM THE BACK STEP, LIFTED OFF THE ROOM: the sky, the
    far shore, the causeway posts going out to the beacon, and the sky lying in
    the mud, under the room's own name. Nothing on it moves, which is the
@@ -2607,6 +2617,25 @@ def card_oproom(p):
     )
 
 
+def card_edroom(p):
+    return (
+        "",
+        f'<div class="og og--edroom" data-fit="card">'
+        f'<p class="ed-over">Behind the Editorial door at Cavendish Coworking</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-scene">{p["ed_scene"]}</div>'
+        f'</div>',
+        f"A near-black card. A small line in grey capitals reading behind the Editorial door at "
+        f"Cavendish Coworking, then “{p['h1text']}” in a heavy old-style serif, and under it in "
+        f"pale grey: {p['desc_plain']} Along the foot, a light table glowing white in a dark "
+        f"studio: two page spreads laid out on it with crop marks at their corners, text lines and "
+        f"crossed-out picture boxes, a small colour bar in cyan, magenta, yellow and black, a "
+        f"registration target, a magenta proofreader's mark in a margin, and a loupe lying on the "
+        f"proofs, with a switched-off desk lamp overhead caught by the glow.",
+    )
+
+
 def card_mud(p):
     return (
         "",
@@ -3501,6 +3530,7 @@ CARDS = {
     "cooldown":     card_cooldown,
     "watchroom":    card_watchroom,
     "oproom":       card_oproom,
+    "edroom":       card_edroom,
     "mud":          card_mud,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
@@ -3792,6 +3822,11 @@ def main():
     if not op:
         raise SystemExit("REFUSING: cavendish-operations.html has lost its plant room, and its card is built out of it.")
     lifted["op_scene"] = op.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 84 1200 320"', 1)
+    ed = re.search(r'<div class="ed-head__art">\s*(?:<!--.*?-->\s*)?(<svg.*?</svg>)',
+                   (ROOT / "cavendish-editorial.html").read_text(), re.S)
+    if not ed:
+        raise SystemExit("REFUSING: cavendish-editorial.html has lost its light table, and its card is built out of it.")
+    lifted["ed_scene"] = ed.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 180 1200 300"', 1)
     # THE MUD ROOM'S CARD CARRIES THE ROOM'S OWN VIEW AND OVER-LINE, cropped by its
     # viewBox to the horizon and the mud, so the card cannot disagree with the room.
     mud_src = (ROOT / "the-mud-room.html").read_text()

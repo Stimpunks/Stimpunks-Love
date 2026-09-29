@@ -110,6 +110,7 @@ plural-mural.html     An end wall that repaints itself, because the street is Da
 cavendish-coworking.html Henry Cavendish's house: a shut, unlocked door onto each of our calls, each opening a room of its own
 cavendish-events.html Behind the Events door: a lighthouse's watch room, our events as its light list, and a call anybody can knock on
 cavendish-operations.html Behind the Operations door: a plant room, every pipe the colour of what it carries, one caged lamp
+cavendish-editorial.html Behind the Editorial door: a light table in a dark studio, the only light the proofs themselves
 community-library.html  A public reading room with the sky in its windows. Free to all; our collections on the front desk
 l-space.html          Behind it: every library at once, bent by the weight of books. Nothing straight; a ball of string
 oook.html             And behind that: a Discworld homage in the Librarian's colours. He is not drawn

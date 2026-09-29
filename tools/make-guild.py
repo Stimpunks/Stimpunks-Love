@@ -377,6 +377,10 @@ DRAW = {
     # threshold a marker is held to. The floor line and the sole are --mud-dim
     # and carry nothing. It lies still.
     "mud-welly": """<path d="M3 29 H29" stroke="var(--mud-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 24 V13 Q5 10 8 10 H17 Q19 10 19 13 V17 H25 Q28 17 28 21 V24 Z" fill="var(--mud-welly)" stroke="var(--mud-welly)" stroke-width="1.4" stroke-linejoin="round"/><path d="M4.5 26 H28.5" stroke="var(--mud-dim)" stroke-width="2.4" stroke-linecap="round"/><path d="M8 13.5 H16" stroke="var(--mud-ground)" stroke-width="1.4" stroke-linecap="round"/>""",
+    # A loupe, left lying on the Editorial Room's proofs: a ring of glass on a
+    # short handle, in the cyan the room uses for every link in the studio,
+    # 9.35 on the dark. The floor line is --ed-halo and carries nothing.
+    "ed-loupe": """<path d="M3 29.5 H29" stroke="var(--ed-halo)" stroke-width="1.6" stroke-linecap="round"/><circle cx="13.5" cy="13.5" r="8" fill="none" stroke="var(--ed-cyan)" stroke-width="2.4"/><circle cx="13.5" cy="13.5" r="4.5" fill="none" stroke="var(--ed-cyan)" stroke-width="1.2" opacity=".6"/><path d="M19.3 19.3 L25.5 25.5" stroke="var(--ed-cyan)" stroke-width="3.2" stroke-linecap="round"/>""",
     # A brass valve tag, fallen off a valve onto the Operations Room's floor:
     # a small plate with its hole and its number stamped in, in the brass the
     # room uses for its tags, 6.18 on the concrete. The floor line is

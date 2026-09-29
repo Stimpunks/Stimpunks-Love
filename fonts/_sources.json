@@ -1861,5 +1861,41 @@
    "src": "https://fonts.gstatic.com/s/saira/v23/memjYa2wxmKQyPMrZX79wwYZQMhsyuSLiIvSdyqOvg.woff2",
    "note": "The Operations Room (§72): what a tag or the log says first, and the buttons."
   }
+ ],
+ "young-serif": [
+  {
+   "file": "young-serif-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 18520,
+   "src": "https://fonts.gstatic.com/s/youngserif/v2/3qTpojO2nS2VtkB3KtkQZ1t93kY6ah7E.woff2",
+   "note": "The Editorial Room (§73), behind Cavendish Coworking's Editorial door: the room's name and headings, a heavy old-style serif like a masthead set on a proof. Never a sentence."
+  }
+ ],
+ "dm-sans": [
+  {
+   "file": "dm-sans-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 36980,
+   "src": "https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K6z9mXg.woff2",
+   "note": "The Editorial Room (§73): every sentence, and the proofs on the light table."
+  },
+  {
+   "file": "dm-sans-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 15140,
+   "src": "https://fonts.gstatic.com/s/dmsans/v17/rP2rp2ywxg089UriCZaSExd86J3t9jz86Mvy4qCRAL19DksVat-JDV30TGcro9o45zw.woff2",
+   "note": "The Editorial Room (§73): the italic, for a proof's marks in the margin."
+  },
+  {
+   "file": "dm-sans-600.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 36980,
+   "src": "https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K6z9mXg.woff2",
+   "note": "The Editorial Room (§73): what a proof says first, and the buttons."
+  }
  ]
 }

@@ -557,6 +557,13 @@ OP_CONCRETE, OP_WALL, OP_SHEET = "#1E2124", "#2B3034", "#ECE6D4"
 OP_INK, OP_RED, OP_TEXT = "#1F2225", "#A3322A", "#E6E2D8"
 OP_DIM, OP_YELLOW, OP_BRASS = "#ABA89F", "#E3B53A", "#C29A4E"
 
+# The Editorial Room (§73). THREE GROUNDS: the dark studio, where most words
+# are; the light table, lit from beneath, the one pale ground, dark ink with
+# the proof's magenta for its links; and the desk round it, the call's panel.
+ED_STUDIO, ED_DESK, ED_GLOW = "#15171C", "#23262D", "#F3F7F8"
+ED_INK, ED_MAG, ED_TEXT = "#15171C", "#B0125A", "#E3E6EA"
+ED_DIM, ED_CYAN = "#A1A7B0", "#5CC9E6"
+
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
 # screen is the light source in this room, not a surface anything is set on --
@@ -2487,6 +2494,20 @@ PAIRS = [
     (OP_INK,    OP_YELLOW,   False, "operations room: Knock on the door and Join the call"),
     (OP_INK,    OP_TEXT,     False, "operations room: a button's hover"),
     (OP_BRASS,  OP_CONCRETE, True,  "operations room: the job marker, a brass valve tag on the floor"),
+    # ── The Editorial Room (§73) ─────────────────────────────────────────────
+    (ED_TEXT, ED_STUDIO, False, "editorial room: every paragraph in the studio, the headings, the lede, and what you type in the name box"),
+    (ED_DIM,  ED_STUDIO, False, "editorial room: the over-line, the trail and the credits"),
+    (ED_CYAN, ED_STUDIO, False, "editorial room: every link in the studio and the backlink"),
+    (ED_TEXT, ED_DESK,   False, "editorial room: the call panel's words, its label and what it says back"),
+    (ED_DIM,  ED_DESK,   False, "editorial room: the call's fine print"),
+    (ED_CYAN, ED_DESK,   False, "editorial room: a link in the call panel"),
+    (ED_DIM,  ED_DESK,   True,  "editorial room: the edge of the name box, against the panel"),
+    (ED_INK,  ED_GLOW,   False, "editorial room: the proof on the light table, and its crop marks"),
+    (ED_MAG,  ED_GLOW,   False, "editorial room: every link on the proof"),
+    (ED_INK,  ED_GLOW,   True,  "editorial room: the focus ring on the proof, a pale ground in a dark room"),
+    (ED_INK,  ED_CYAN,   False, "editorial room: Knock on the door and Join the call"),
+    (ED_INK,  ED_TEXT,   False, "editorial room: a button's hover"),
+    (ED_CYAN, ED_STUDIO, True,  "editorial room: the job marker, a loupe left on the proofs"),
     (MUD_TEXT,  MUD_GROUND, False, "mud room: every paragraph, the lede, the house rules and the door's blurb on the street"),
     (MUD_SKY,   MUD_GROUND, False, "mud room: the h1, every heading, every bold run and the door's name"),
     (MUD_DIM,   MUD_GROUND, False, "mud room: the trail, the over-line, the fine print and every label in the guidebook"),
@@ -2758,6 +2779,10 @@ ORNAMENT = {
                "1.52 on the hangar and 1.34 on a deck. It carries no word.",
     "#ffffff": "rave: the strobe's flash, laid over the hangar picture only after two presses. "
                "Nothing is ever written on a flash, and make-rave.py refuses it with any colour in it.",
+    "#00a3d1": "editorial room: the colour bar's process cyan, 6.11 on the studio; a printer's mark, and it carries no word",
+    "#d6246e": "editorial room: the colour bar's process magenta and the proofreader's mark in the margin, 4.49 on the table; marks, and no word stands in them",
+    "#f2c200": "editorial room: the colour bar's process yellow, 10.67 on the studio; a printer's mark, and it carries no word",
+    "#3a4550": "editorial room: the table's light on the dark studio, the switched-off lamp caught from below, and the job marker's floor line, 1.83 on the studio; they carry nothing",
     "#2f7d4f": "operations room: the water main, 3.21 on the concrete; drawn in its service colour, and carries no word",
     "#3e6fa6": "operations room: the air main, 3.10 on the concrete; drawn, and carries no word",
     "#4a5157": "operations room: the pipework's brackets, the valve wheels, the lamp's cage and the clipboard, 2.01 on the concrete, and the job marker's floor line; they carry nothing",

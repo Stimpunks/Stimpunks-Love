@@ -820,6 +820,35 @@
     }
    ]
   },
+  "dm-sans": {
+   "family": "DM Sans",
+   "category": "Sans Serif",
+   "designer": "Colophon Foundry",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/dmsans",
+   "copyright": "Copyright 2014 The DM Sans Project Authors (https://github.com/googlefonts/dm-fonts)",
+   "repository": "https://github.com/googlefonts/dm-fonts",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "dm-sans-400.woff2",
+     "sha": "468d56b6b25b05b7"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "dm-sans-400-italic.woff2",
+     "sha": "7be750b96f7be42d"
+    },
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "dm-sans-600.woff2",
+     "sha": "468d56b6b25b05b7"
+    }
+   ]
+  },
   "dynapuff": {
    "family": "DynaPuff",
    "category": "Display",
@@ -2683,6 +2712,23 @@
      "style": "normal",
      "file": "yeseva-one-400.woff2",
      "sha": "0d4e9b9006711830"
+    }
+   ]
+  },
+  "young-serif": {
+   "family": "Young Serif",
+   "category": "Serif",
+   "designer": "Bastien Sozeau",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/youngserif",
+   "copyright": "Copyright 2023 The Young Serif Project Authors (https://github.com/noirblancrouge/YoungSerif)",
+   "repository": "https://github.com/noirblancrouge/YoungSerif",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "young-serif-400.woff2",
+     "sha": "a46a84bfaa83dea2"
     }
    ]
   },

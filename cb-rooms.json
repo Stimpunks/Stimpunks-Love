@@ -222,6 +222,11 @@
    "path": "/cavendish-operations.html"
   },
   {
+   "tag": "cavendish-editorial",
+   "name": "The Editorial Room",
+   "path": "/cavendish-editorial.html"
+  },
+  {
    "tag": "live-room",
    "name": "The Live Room",
    "path": "/live-room.html"
