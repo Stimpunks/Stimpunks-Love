@@ -14,9 +14,10 @@
        because a public call's lobby is on and a moderator lets you in;
      · not signed on, in one of the suites -- the way to get CB access, at the
        Community Center, and nothing to press;
-     · in one of the Town Hall's private rooms (data-call-mods), anybody not
-       signed on as the base gets the [data-call-cb] part, which there says the
-       call is the base's. The server refuses them either way.
+     · in one of the Town Hall's private rooms (data-call-mods="<role>"),
+       anybody not signed on as the base with that role, or as an
+       administrator, gets the [data-call-cb] part, which there says whose the
+       call is. The server refuses them either way.
 
    THE BEHAVIOUR IS SHARED AND THE LOOK IS NOT, the job marker's rule: every
    room dresses its own panel, and this file only finds the parts by their
@@ -44,7 +45,7 @@
   Array.prototype.forEach.call(document.querySelectorAll('[data-call]'), function (panel) {
     var room = { tag: panel.getAttribute('data-call'), name: panel.getAttribute('data-call-name') };
     var open = panel.hasAttribute('data-call-public');
-    var mods = panel.hasAttribute('data-call-mods');
+    var mods = panel.getAttribute('data-call-mods');
     var said = panel.querySelector('[data-call-said]');
     var guest = panel.querySelector('[data-call-guest]');
     var join = panel.querySelector('[data-call-join]');
@@ -65,7 +66,9 @@
       });
     }
 
-    if (me && join && (!mods || me.base)) {
+    var roles = (me && me.roles) || [];
+    var mayJoin = mods == null || (!!(me && me.base) && (roles.indexOf('administrator') >= 0 || roles.indexOf(mods || 'moderator') >= 0));
+    if (me && join && mayJoin) {
       var who = join.querySelector('[data-call-handle]');
       if (who) who.textContent = me.handle;
       join.hidden = false;

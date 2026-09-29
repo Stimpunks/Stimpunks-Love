@@ -397,12 +397,24 @@ export function updateRoomTalk(room, change, s = store()) { return updateLog(ROO
    with the moderators' password. A page that only hid the radio would be a
    lock painted on a door, so every function that touches a room asks here:
    listening, transmitting, hosting, the beacons everybody hears, and the call.
-   tools/make-town-hall.py reads this array and refuses a page that disagrees,
-   so a room cannot be private on the page and open on the server. When roles
-   arrive, this is where a room names the role it needs. */
-export const MOD_ROOMS = ['town-hall-directors', 'town-hall-board', 'town-hall-moderators'];
-export function modRoom(tag) { return MOD_ROOMS.includes(tag) ? tag : null; }
-export function roomAllows(who, tag) { return !modRoom(tag) || !!(who && who.role === 'base'); }
+   tools/make-town-hall.py reads this map and refuses a page that disagrees,
+   so a room cannot be private on the page and open on the server.
+
+   EACH ROOM NAMES THE ROLE IT NEEDS, and the roles are CB_MODS's (see Passes
+   below). Ryan, 2026-09-29: the Moderators room takes any MOD, the Board room
+   the board role, the Directors room the director role, and an administrator
+   can go anywhere. */
+export const MOD_ROOMS = {
+  'town-hall-directors': 'director',
+  'town-hall-board': 'board',
+  'town-hall-moderators': 'moderator',
+};
+export function modRoom(tag) { return Object.prototype.hasOwnProperty.call(MOD_ROOMS, tag) ? tag : null; }
+export function roomAllows(who, tag) {
+  if (!modRoom(tag)) return true;
+  if (!who || who.role !== 'base' || !who.roles) return false;
+  return who.roles.has('administrator') || who.roles.has(MOD_ROOMS[tag]);
+}
 
 /* The channel a request names: a room's, or World's when it names none. */
 export function readTuned(room, s = store()) { return room ? readRoomTalk(room, s) : readChannel(s); }
@@ -627,22 +639,75 @@ function same(a, b) {
   return timingSafeEqual(x, y);
 }
 
-/* Which role a password opens, if either. The moderators' password makes you
-   the base station: your messages are marked as the base's, and you can take
-   a message off the channel before midnight. */
-export function roleFor(password) {
+/* THE MODS' LIST. Ryan, 2026-09-29: a pre-approved list of MOD handles, which
+   sign on only with the moderators' password and never with the community
+   one, each with roles. It lives in Netlify's environment as CB_MODS, never in
+   the repo, because who holds which role is not ours to publish, as one JSON
+   object from handle to roles:
+
+     {"Ryan":["administrator","board","director"],"Helen":["administrator","director"]}
+
+   · moderator is implied: being on the list makes you one.
+   · only ROLES are accepted; a list naming anything else is not read at all,
+     rather than read as less than was meant.
+   · a handle is matched folded (Unicode NFKC, case, runs of space), so "ryan "
+     cannot pass for "Ryan", and two entries that fold alike are refused.
+   · it is read on every request, so a change takes effect on the next listen:
+     somebody taken off the list, or given a role, needs no new pass.
+   · a list that is missing or unreadable locks MOD sign-on and every base pass,
+     and nothing reaches a private room: fail closed. The community CB goes on
+     working. Nothing here ever logs the list. */
+export const ROLES = ['moderator', 'board', 'director', 'administrator'];
+
+export function foldHandle(h) {
+  return String(h == null ? '' : h).normalize('NFKC').toLowerCase().replace(/\s+/g, ' ').trim();
+}
+
+export function readMods(raw = process.env.CB_MODS) {
+  if (!raw) return null;
+  let data;
+  try { data = JSON.parse(raw); } catch (e) { return null; }
+  if (!data || typeof data !== 'object' || Array.isArray(data)) return null;
+  const mods = new Map();
+  for (const [handle, roles] of Object.entries(data)) {
+    if (cleanHandle(handle) !== handle || !Array.isArray(roles)) return null;
+    if (!roles.every((r) => ROLES.includes(r))) return null;
+    const key = foldHandle(handle);
+    if (mods.has(key)) return null;
+    mods.set(key, { handle, roles: new Set(['moderator', ...roles]) });
+  }
+  return mods.size ? mods : null;
+}
+
+/* Signing on. The moderators' password is only for a handle on the list, and
+   the community password is refused for any handle on it. The answer is a role
+   and the roles, or a sentence saying why not. */
+export function signOn(handle, password, mods = readMods()) {
   const mod = secretFor('base');
-  if (mod && same(password, mod)) return 'base';
+  if (mod && same(password, mod)) {
+    if (!mods) return { error: 'Moderator sign-on is switched off until its list of handles can be read. Tell Ryan or Helen.' };
+    const m = mods.get(foldHandle(handle));
+    if (!m) return { error: 'That handle is not on the moderators\' list.' };
+    return { role: 'base', handle: m.handle, roles: m.roles };
+  }
   const all = secretFor('mobile');
-  if (all && same(password, all)) return 'mobile';
-  return null;
+  if (all && same(password, all)) {
+    if (mods && mods.has(foldHandle(handle))) {
+      return { error: 'That handle belongs to a moderator. Sign on with the moderators\' password, or pick another handle.' };
+    }
+    return { role: 'mobile', handle, roles: new Set() };
+  }
+  return { error: 'That is not the community password.' };
 }
 
 export function issuePass(role, handle) {
   return `cb1.${role}.${b64(handle)}.${b64(sign(secretFor(role), role, handle))}`;
 }
 
-export function readPass(req) {
+/* A pass is checked against the list every time, both ways: a base pass is only
+   good while its handle is on the list, with the roles it has now; a community
+   pass is refused once its handle belongs to a moderator. */
+export function readPass(req, mods = readMods()) {
   const h = req.headers.get('authorization') || '';
   const m = /^Bearer (cb1)\.(mobile|base)\.([A-Za-z0-9_-]+)\.([A-Za-z0-9_-]+)$/.exec(h);
   if (!m) return null;
@@ -655,8 +720,15 @@ export function readPass(req) {
   const want = sign(secret, role, handle);
   const got = Buffer.from(m[4], 'base64url');
   if (got.length !== want.length || !timingSafeEqual(got, want)) return null;
-  return { role, handle };
+  const on = mods && mods.get(foldHandle(handle));
+  if (role === 'base') return on ? { role, handle, roles: on.roles } : null;
+  if (on) return null;
+  return { role, handle, roles: new Set() };
 }
+
+/* What a radio is told about its own pass: which of the rooms that need a role
+   it may go into, so the page can keep quiet in the others. */
+export function rolesOf(who) { return who && who.roles ? [...who.roles].sort() : []; }
 
 /* ── What people type ──────────────────────────────────────────────────── */
 

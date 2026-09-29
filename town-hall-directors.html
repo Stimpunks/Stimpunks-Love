@@ -33,10 +33,11 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/town-hall-directors.html#webpage","url":"https://stimpunks.world/town-hall-directors.html","name":"Directors — Stimpunks.World","description":"Through a door off the Town Hall: the room where Stimpunks' directors meet, lit only through the frosted pane in its door, with their name on the glass backwards from inside. Anybody can walk in; its radio and call are for the base.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
 <!-- structured-data:end -->
 </head>
-<!-- data-cb="mods": the radio comes into this room only with the base. The
-     server refuses this room's channel and call to anybody else, whatever the
-     page does; see MOD_ROOMS in netlify/cb/lib.mjs. -->
-<body class="drroom" id="top" data-cb="mods">
+<!-- data-cb="mods": the radio comes into this room only with a moderator who
+     has the director role, or an administrator. The server refuses this room's
+     channel and call to anybody else, whatever the page does; see MOD_ROOMS
+     in netlify/cb/lib.mjs. -->
+<body class="drroom" id="top" data-cb="mods" data-cb-role="director">
 <a class="skip" href="#main">Skip to the Directors' room</a>
 
 <main id="main" class="wrap" style="padding-bottom:54px;">
@@ -110,13 +111,13 @@
   <section class="dr-part" aria-labelledby="dr-call-h">
     <h2 id="dr-call-h">Talking</h2>
 <!-- dr-call:begin -->
-    <div class="dr-call" data-call="town-hall-directors" data-call-name="Directors" data-call-mods>
-      <p>The channel and the call in here are for the base: people signed on at the Community Center with the moderators&rsquo; password. Anybody can come in and look around, and the radio waits outside the door for everybody else.</p>
-      <p class="dr-call__cb" data-call-cb hidden>This browser is not signed on as the base, so the call in here is not yours to join. The base signs on at <a href="community-center.html#cb-signon-desk">the front desk</a>.</p>
+    <div class="dr-call" data-call="town-hall-directors" data-call-name="Directors" data-call-mods="director">
+      <p>The channel and the call in here are for moderators with the director role, and for administrators: moderators sign on at the Community Center with the moderators&rsquo; password, under a handle on the moderators&rsquo; list. Anybody can come in and look around, and the radio waits outside the door for everybody else.</p>
+      <p class="dr-call__cb" data-call-cb hidden>This browser is not signed on as a moderator this room is for, so the call in here is not yours to join. Moderators sign on at <a href="community-center.html#cb-signon-desk">the front desk</a>.</p>
       <p class="dr-call__member" data-call-join hidden><button type="button">Join the call as <b data-call-handle></b></button></p>
       <p class="dr-call__said" role="status" data-call-said></p>
       <noscript><p>Joining the call needs JavaScript: it opens in a window of its own on this page.</p></noscript>
-      <p class="dr-call__fine">The call is run by 8x8&rsquo;s Jitsi as a Service, and the server hands a pass into it to the base and nobody else. Camera and microphone start off, and we keep nothing about a call. <a href="privacy.html#calls">What goes where.</a></p>
+      <p class="dr-call__fine">The call is run by 8x8&rsquo;s Jitsi as a Service, and the server hands a pass into it to the moderators this room is for and nobody else. Camera and microphone start off, and we keep nothing about a call. <a href="privacy.html#calls">What goes where.</a></p>
     </div>
 <!-- dr-call:end -->
   </section>

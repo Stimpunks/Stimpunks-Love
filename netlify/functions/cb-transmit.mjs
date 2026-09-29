@@ -12,7 +12,7 @@ export default async (req) => {
   if (!text) return json(400, { error: `A message is between one and ${TEXT_MAX} characters.` });
   const room = b.room == null ? null : roomTag(b.room);
   if (b.room != null && !room) return json(400, { error: 'That is not a room on the street.' });
-  if (!roomAllows(who, room)) return json(403, { error: 'This room\'s channel is for the base.' });
+  if (!roomAllows(who, room)) return json(403, { error: 'This room\'s channel is for the moderators it is for.' });
   try {
     const messages = await updateTuned(room, (list) => {
       list.push({ id: randomUUID(), handle: who.handle, text, t: Date.now(), base: who.role === 'base' });

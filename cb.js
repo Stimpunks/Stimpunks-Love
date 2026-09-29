@@ -858,6 +858,7 @@
         me.signal(true); me.show(r.body.messages || []); me.showBeacons(r.body.beacons, r.body.now);
         me.calls = !!r.body.calls;
         me.callShown();
+        me.keepRoles(r.body.roles);
       }
       else me.signal(false);
     }).catch(function () { me.signal(false); })
@@ -1595,8 +1596,29 @@
     if (document.body.getAttribute('data-cb') === 'off') return;
     // A Town Hall private room: the radio is the base's there (love.js does not
     // load this file for anybody else, and the server refuses them anyway).
-    if (document.body.getAttribute('data-cb') === 'mods' && !s.base) return;
+    if (!mayHere(s)) return;
     radio = new Radio(s);
+  }
+
+  /* The roles a pass carries are the server's, read off CB_MODS on every
+     request, and every listen says what they are now. They are kept beside the
+     pass only so love.js can keep the radio out of a Town Hall room this pass
+     cannot use; the lock is on the server whatever is kept here. */
+  Radio.prototype.keepRoles = function (roles) {
+    if (!Array.isArray(roles)) return;
+    var now = roles.slice().sort().join(',');
+    if (now === (this.state.roles || []).slice().sort().join(',')) return;
+    this.state.roles = roles.slice();
+    save(this.state);
+  };
+
+  // May this pass have the radio on a Town Hall page that names a role?
+  function mayHere(s) {
+    var b = document.body;
+    if (b.getAttribute('data-cb') !== 'mods') return true;
+    var need = b.getAttribute('data-cb-role') || 'moderator';
+    var roles = (s && s.roles) || [];
+    return !!(s && s.base) && (roles.indexOf('administrator') >= 0 || roles.indexOf(need) >= 0);
   }
 
   function signOff() {
@@ -1632,7 +1654,7 @@
         if (r.status === 200) {
           form.elements.password.value = '';
           said.textContent = '';
-          save({ handle: r.body.handle, pass: r.body.pass, base: !!r.body.base, folded: false, aloud: true });
+          save({ handle: r.body.handle, pass: r.body.pass, base: !!r.body.base, roles: r.body.roles || [], folded: false, aloud: true });
           counter();
           tuneIn();
           var hello = document.getElementById('cb-on-said');

@@ -23,7 +23,8 @@ import { updateChalk, readChalk, updatePebbles, readPebbles, cleanLink, PEBBLE_R
   hostBeacon, stopBeacon, readBeacons, sweepBeacons, beaconRoom, cleanAt, BEACON_FRESH,
   updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
-  PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, roomAllows, shapeBeacons } from './lib.mjs';
+  PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, roomAllows, shapeBeacons,
+  ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
 function memoryStore({ etagOnRead }) {
@@ -412,29 +413,96 @@ test('the settings webhook puts a lobby on the public calls and only them', () =
   for (const bad of [undefined, '', 'nonsense', `${JAAS_APP}/${PUBLIC_CALLS[0]}`]) assert.deepEqual(callSettings(bad), { lobbyEnabled: false });
 });
 
-/* ── The Town Hall's private rooms ── */
+/* ── The Town Hall's private rooms, and the mods' list ── */
 
-test('a private room is the base\'s: its call, its hosting, and its beacon in everybody else\'s answer', async () => {
-  const s = memoryStore({ etagOnRead: true });
-  const base = { role: 'base', handle: 'Base' };
-  const guest = { role: 'guest', handle: 'Visitor' };
-  assert.ok(MOD_ROOMS.length > 0);
-  for (const room of MOD_ROOMS) {
-    assert.equal(roomAllows(ada, room), false, 'a CB pass is not enough');
-    assert.equal(roomAllows(guest, room), false);
+const admin = { role: 'base', handle: 'Ryan', roles: new Set(['moderator', 'administrator', 'board', 'director']) };
+const director = { role: 'base', handle: 'Chelsea', roles: new Set(['moderator', 'director']) };
+const boardie = { role: 'base', handle: 'Becky', roles: new Set(['moderator', 'board']) };
+const plainMod = { role: 'base', handle: 'Sam', roles: new Set(['moderator']) };
+const rooms = Object.keys(MOD_ROOMS);
+
+test('each private room takes its own role, an administrator takes them all, and nobody else takes any', async () => {
+  assert.ok(rooms.length > 0);
+  const want = { 'town-hall-directors': ['Ryan', 'Chelsea'], 'town-hall-board': ['Ryan', 'Becky'], 'town-hall-moderators': ['Ryan', 'Chelsea', 'Becky', 'Sam'] };
+  for (const room of rooms) {
+    const who = [admin, director, boardie, plainMod].filter((w) => roomAllows(w, room)).map((w) => w.handle);
+    assert.deepEqual(who, want[room], room);
+    assert.equal(roomAllows(ada, room), false, 'a community pass is not enough');
+    assert.equal(roomAllows({ role: 'base', handle: 'Old' }, room), false, 'a base pass with no roles read is not enough');
     assert.equal(roomAllows(null, room), false);
-    assert.equal(roomAllows(base, room), true);
     assert.equal(publicCall(room), null, 'no private room is a public call');
     assert.equal(callToken(ada, room, Date.now(), key), null);
-    assert.equal(callToken(guest, room, Date.now(), key), null);
-    assert.equal(open(callToken(base, room, Date.now(), key)).body.room, 'stimpunks-' + room);
-    assert.equal((await hostBeacon(ada, room, 'Film', 1, true, s)).closed, true);
   }
+  assert.equal(callToken(director, 'town-hall-board', Date.now(), key), null, 'a director has no board call');
+  assert.equal(open(callToken(boardie, 'town-hall-board', Date.now(), key)).body.room, 'stimpunks-town-hall-board');
   assert.equal(roomAllows(ada, null), true, 'World is everybody\'s');
   assert.equal(roomAllows(ada, 'the-den'), true);
-  await hostBeacon(base, MOD_ROOMS[0], 'Minutes', 1, true, s);
+});
+
+test('a private room\'s hosting and beacons follow the same roles', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.equal((await hostBeacon(director, 'town-hall-board', 'Minutes', 1, true, s)).closed, true);
+  await hostBeacon(boardie, 'town-hall-board', 'Minutes', 1, true, s);
   await hostBeacon(ada, 'the-den', 'Film', 1, true, s);
   const all = await readBeacons(s);
-  assert.deepEqual(shapeBeacons(all, ada).map((b) => b.room), ['the-den'], 'nobody else hears the private room is hosting');
-  assert.deepEqual(shapeBeacons(all, base).map((b) => b.room).sort(), [MOD_ROOMS[0], 'the-den'].sort());
+  assert.deepEqual(shapeBeacons(all, ada).map((b) => b.room), ['the-den'], 'the street does not hear the board is hosting');
+  assert.deepEqual(shapeBeacons(all, director).map((b) => b.room), ['the-den'], 'nor does a director');
+  assert.deepEqual(shapeBeacons(all, admin).map((b) => b.room).sort(), ['the-den', 'town-hall-board']);
+});
+
+test('the mods\' list: moderator implied, handles folded, and anything odd means no list at all', () => {
+  const m = readMods('{"Ryan":["administrator","board","director"],"Helen":["administrator","director"],"Sam":[]}');
+  assert.deepEqual([...m.get('ryan').roles].sort(), ['administrator', 'board', 'director', 'moderator']);
+  assert.deepEqual([...m.get('sam').roles], ['moderator']);
+  assert.equal(m.get(foldHandle('  RYAN ')).handle, 'Ryan');
+  assert.equal(foldHandle('Ｒｙａｎ'), 'ryan', 'full-width letters fold too');
+  for (const bad of [undefined, '', 'not json', '[]', '{}', '{"Ryan":"director"}', '{"Ryan":["direktor"]}',
+    '{"Ryan":["director"],"ryan":["board"]}', '{"":["board"]}', '{"' + 'x'.repeat(30) + '":[]}']) {
+    assert.equal(readMods(bad), null, String(bad));
+  }
+  assert.deepEqual(ROLES.slice().sort(), ['administrator', 'board', 'director', 'moderator']);
+});
+
+test('sign-on: the MOD password only for a listed handle, the community one never for a listed handle', () => {
+  const was = [process.env.CB_PASSWORD, process.env.CB_MOD_PASSWORD];
+  process.env.CB_PASSWORD = 'community-pw'; process.env.CB_MOD_PASSWORD = 'moderators-pw';
+  try {
+    const mods = readMods('{"Ryan":["administrator"],"Helen":["director"]}');
+    const r = signOn('ryan', 'moderators-pw', mods);
+    assert.equal(r.role, 'base'); assert.equal(r.handle, 'Ryan', 'the list\'s spelling of the handle');
+    assert.ok(r.roles.has('administrator') && r.roles.has('moderator'));
+    assert.ok(signOn('Somebody', 'moderators-pw', mods).error, 'not on the list');
+    assert.ok(signOn('Ryan ', 'community-pw', mods).error, 'a moderator\'s handle is reserved');
+    assert.ok(signOn('HELEN', 'community-pw', mods).error);
+    assert.equal(signOn('Ada', 'community-pw', mods).role, 'mobile');
+    assert.ok(signOn('Ryan', 'moderators-pw', null).error, 'no readable list, no MOD sign-on');
+    assert.equal(signOn('Ada', 'community-pw', null).role, 'mobile', 'the community CB goes on');
+    assert.ok(signOn('Ada', 'wrong', mods).error);
+    assert.deepEqual(rolesOf(r), ['administrator', 'moderator']);
+  } finally {
+    for (const [k, v] of [['CB_PASSWORD', was[0]], ['CB_MOD_PASSWORD', was[1]]]) {
+      if (v === undefined) delete process.env[k]; else process.env[k] = v;
+    }
+  }
+});
+
+test('a pass is read against the list every time: roles follow it, and a removal or a reservation takes effect at once', () => {
+  const was = [process.env.CB_PASSWORD, process.env.CB_MOD_PASSWORD];
+  process.env.CB_PASSWORD = 'community-pw'; process.env.CB_MOD_PASSWORD = 'moderators-pw';
+  const req = (pass) => ({ headers: { get: (k) => (k === 'authorization' ? 'Bearer ' + pass : null) } });
+  try {
+    const basePass = issuePass('base', 'Helen'), comPass = issuePass('mobile', 'Ada');
+    const before = readMods('{"Helen":["director"]}'), after = readMods('{"Helen":["director","board"]}');
+    assert.deepEqual(rolesOf(readPass(req(basePass), before)), ['director', 'moderator']);
+    assert.deepEqual(rolesOf(readPass(req(basePass), after)), ['board', 'director', 'moderator'], 'a new role, no new pass');
+    assert.equal(readPass(req(basePass), readMods('{"Ryan":["administrator"]}')), null, 'taken off the list');
+    assert.equal(readPass(req(basePass), null), null, 'no readable list, no base pass');
+    assert.equal(readPass(req(comPass), before).role, 'mobile');
+    assert.equal(readPass(req(comPass), readMods('{"Ada":[]}')), null, 'a community pass for a handle now reserved');
+    assert.equal(readPass(req(comPass), null).role, 'mobile');
+  } finally {
+    for (const [k, v] of [['CB_PASSWORD', was[0]], ['CB_MOD_PASSWORD', was[1]]]) {
+      if (v === undefined) delete process.env[k]; else process.env[k] = v;
+    }
+  }
 });

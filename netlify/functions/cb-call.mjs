@@ -19,7 +19,7 @@ export default async (req) => {
     if (!name) return json(400, { error: 'Type the name you want to appear under, up to 24 characters.' });
     who = { role: 'guest', handle: name };
   }
-  if (!roomAllows(who, room)) return json(403, { error: 'This room\'s call is for the base.' });
+  if (!roomAllows(who, room)) return json(403, { error: 'This room\'s call is for the moderators it is for.' });
   let token = null;
   try { token = callToken(who, room); } catch (e) { token = null; }
   if (!token) return json(503, { error: 'Calls are switched on but the signing key cannot be read. Tell the base.' });

@@ -1142,9 +1142,11 @@
      radio in it; make-checkpoint.py refuses that page without the attribute.
      The Community Center loads cb.js itself, so this skips that page too.
      data-cb="mods" is the Town Hall's private rooms: anybody may walk in, and
-     the radio only comes with them if they signed on as the base. That is the
-     page keeping quiet, not the lock: netlify/cb/lib.mjs refuses those rooms'
-     channel, call and beacons to any other pass, whatever a browser says. */
+     the radio only comes with them if they signed on as the base with the role
+     the room names in data-cb-role (an administrator goes anywhere). That is
+     the page keeping quiet, not the lock: netlify/cb/lib.mjs refuses those
+     rooms' channel, call and beacons to any other pass, whatever a browser
+     says, and the roles kept here are only the last ones the server told it. */
   function cb() {
     var b = document.body;
     if (!b || b.getAttribute('data-cb') === 'off' || b.getAttribute('data-cb') === 'here') return;
@@ -1153,7 +1155,10 @@
     try { s = localStorage.getItem('love-cb'); } catch (e) { return; }
     if (!s || s.indexOf('"pass"') < 0) return;
     if (b.getAttribute('data-cb') === 'mods') {
-      try { if (!JSON.parse(s).base) return; } catch (e) { return; }
+      try {
+        var v = JSON.parse(s), roles = v.roles || [], need = b.getAttribute('data-cb-role') || 'moderator';
+        if (!v.base || (roles.indexOf('administrator') < 0 && roles.indexOf(need) < 0)) return;
+      } catch (e) { return; }
     }
     var tag = document.createElement('script');
     tag.src = '/cb.js';
