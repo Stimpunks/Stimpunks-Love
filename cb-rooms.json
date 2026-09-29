@@ -292,6 +292,11 @@
    "path": "/the-mud-room.html"
   },
   {
+   "tag": "neurohome",
+   "name": "NeuroHome",
+   "path": "/neurohome.html"
+  },
+  {
    "tag": "your-room",
    "name": "Your Room",
    "path": "/your-room.html"

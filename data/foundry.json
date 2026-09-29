@@ -1177,6 +1177,13 @@
       "sections": [
         82
       ]
+    },
+    "ibm-plex-mono": {
+      "where": "NeuroHome",
+      "page": "neurohome.html",
+      "sections": [
+        2
+      ]
     }
   }
 }

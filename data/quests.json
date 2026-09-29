@@ -2722,6 +2722,44 @@
     ]
    },
    "learned": "A quiet room is not an empty one. Being there with other people and saying nothing is the whole of it."
+  },
+  {
+   "id": "nh-honey",
+   "page": "neurohome.html",
+   "room": "NeuroHome",
+   "rank": 1,
+   "title": "Somewhere nobody can book",
+   "posted": "Isha Snow has let us into her NeuroHome by the Columbia River. Walk round the house and out past the bee yard, and find out what the quiet retreat rooms in the village's commons can never be booked for.",
+   "target": "a jar of honey, set down on the floor",
+   "takes": "a few minutes of reading",
+   "code": "HONEYJAR",
+   "hints": [
+    "Walk into NeuroHome from the street: Isha Snow's tiny home by the river.",
+    "Read how the house is built, or what the community around it shares.",
+    "The jar of honey is on the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "What can the quiet retreat rooms in the commons never be booked for?",
+    "answer": "A group",
+    "accept": [
+     "group",
+     "a group",
+     "groups",
+     "group event",
+     "a group event",
+     "group events",
+     "events",
+     "an event",
+     "event"
+    ],
+    "hints": [
+     "It is in How the house is built, and again under The commons.",
+     "The opposite of being on your own.",
+     "More than one person, meeting together."
+    ],
+    "why": "A group: the commons are split into gathering spaces and quiet retreat rooms, and the retreat rooms can never be booked for a group event, so there is always somewhere quiet to go."
+   },
+   "learned": "A quiet room that nobody can book is a promise that there will always be somewhere to go."
   }
  ],
  "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

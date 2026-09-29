@@ -95,7 +95,7 @@ HOW THE PAGE HAS TO BE BUILT, so the street can bring it in:
 1. One HTML file with lang="en", a &lt;title&gt; that is the room's name, a &lt;meta name="description"&gt; of one short sentence saying what the room is (it goes on the room's door and its share card, so keep it under 200 characters), one &lt;h1&gt;, and headings in order. Put class="room-SLUG" on &lt;body&gt;, where SLUG is a short name for the room in lowercase with hyphens. Everything the room shows goes inside &lt;main&gt;.
 2. All the CSS goes in one &lt;style&gt; element. Every selector starts with .room-SLUG, apart from :root. Every class name starts with a short prefix of two or three letters followed by a hyphen (for example "xy-"), and so does every @keyframes name. Declare every solid colour once, as a hex custom property on :root that uses the same prefix (for example --xy-ground), and use var() everywhere else, in the CSS and in any SVG fill or stroke. A translucent colour for a shadow can be written as rgba(). Set the room's ground (background-color) and text colour on .room-SLUG itself, and a link colour on .room-SLUG a: the street's own furniture (the way back to the street, the loudness dial and the sign-off at the foot) sits in your room and takes those.
 3. Typefaces from Google Fonts only, under the SIL Open Font License or the Apache License 2.0. You may load them from Google Fonts for the preview; the street hosts its own copies.
-4. No other external files at all: no scripts, stylesheets, images, trackers or embeds from anywhere else, and no &lt;img&gt;. Draw pictures as inline SVG or CSS. Don't use an image generator: nothing on this street comes from one. If I want a photograph in the room, leave a clearly marked space and say so in the notes. I'll send the photo separately, and only one I took myself, with the say-so of anybody in it.
+4. No other external files at all: no scripts, stylesheets, images, trackers or embeds from anywhere else, and no &lt;img&gt;. Draw pictures as inline SVG or CSS. Don't use an image generator: nothing on this street comes from one. If I want a photograph in the room, leave a clearly marked space for it: an element with data-photo="a-short-name", role="img" and an aria-label describing the photograph, and list its name under Photographs in the notes. I'll send the photo separately, named to match, and only one I took myself, with the say-so of anybody in it. The street puts it in that space.
 5. THE DIAL. The street sets data-intensity="gentle", "regular" or "max" on &lt;html&gt;, and the room has to honour all three:
    - gentle: nothing moves. No animation, no transition, no rotation or skew. Every word and every thing is still there. Gentle turns the room down and never takes anything away.
    - regular: motion only on hover or keyboard focus.
@@ -121,7 +121,8 @@ Typefaces:
 - each family, exactly as Google Fonts names it
 Media:
 - title | who made it | link | how long it runs
-Photographs: none, or what is still to come
+Photographs: none, or a line about them
+- the data-photo name of each space a photograph goes in
 Words: which words are mine and which you drafted
 Built with: which AI you are, and who makes you
 Could not do: anything I asked for that these rules did not allow, or none

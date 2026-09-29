@@ -1,0 +1,166 @@
+{
+  "_what": "A room brought onto the street by tools/import-room.py from an artifact somebody built with their own AI. Everything here is read off that artifact's FOR THE STREET comment or measured from the room as it renders; nothing is typed. check-contrast.py holds the pairs, check-jukebox.py checks the tracks, and re-importing replaces this file whole.",
+  "slug": "neurohome",
+  "page": "neurohome.html",
+  "title": "NeuroHome",
+  "description": "Isha Snow's tiny home by the river: daylight through the firs, candles, a full bookshelf, a radio on the desk, a creativity corner and a bee yard out front.",
+  "name": "Isha Snow",
+  "link": "https://substack.com/@ishasnow",
+  "pronouns": "she/they",
+  "say_it": null,
+  "prefix": "nh",
+  "light": "Daylight through tall firs and flashing off the river, with candles set all through the house.",
+  "typefaces": [
+    "Young Serif",
+    "Atkinson Hyperlegible",
+    "IBM Plex Mono"
+  ],
+  "photographs": null,
+  "words": "Isha chose everything in the room and gave its facts, lists, titles and links. The house specifications are from the NeuroHomes Community Design Standards, and the community cards from neurohomes.org, both shortened. The short lines of description in each section are drafts by Claude that Isha reviewed and edited.",
+  "built_with": "Claude, an AI made by Anthropic",
+  "could_not_do": "The NeuroHomes concept art and videos were made with an image generator, so none of it is used; every picture here is drawn by hand in SVG.",
+  "imported": "2026-09-29",
+  "artifact": "neurohome.html",
+  "artifact_sha256": "35b4df4309edc52cea568b6ef5088de5c2a637ec25166f64bff4380e82c0afa4",
+  "clothes": {
+    "ground": "--nh-ground",
+    "text": "--nh-text",
+    "heading": "--nh-text",
+    "link": "--nh-link",
+    "heading_face": "\"Young Serif\", Georgia, \"Times New Roman\", serif",
+    "text_face": "\"Atkinson Hyperlegible\", \"Segoe UI\", system-ui, sans-serif"
+  },
+  "fractal_from": "small-hours.html",
+  "tracks": [
+    {
+      "id": "0TsuxetIARM",
+      "title": "Autism Is Not a Disorder, It's a Cultural Mismatch",
+      "artist": "Autistic Culture Podcast Network",
+      "runtime": "49:47",
+      "link": "https://www.youtube.com/watch?v=0TsuxetIARM"
+    },
+    {
+      "id": "q9rf2Hq2Rq4",
+      "title": "We Have Existed. We Will Exist",
+      "artist": "Autistic Culture Podcast Network",
+      "runtime": "2:06:41",
+      "link": "https://www.youtube.com/watch?v=q9rf2Hq2Rq4"
+    },
+    {
+      "id": "jkQE4AeTww4",
+      "title": "Autistic Standpoint Theory the Talkshow, Dani AST EP 1",
+      "artist": "Isha Snow",
+      "runtime": "55:37",
+      "link": "https://www.youtube.com/watch?v=jkQE4AeTww4"
+    },
+    {
+      "id": "DqW2YXHw0yk",
+      "title": "Autistic Standpoint Theory the Talkshow, Lanita AST EP 2",
+      "artist": "Isha Snow",
+      "runtime": "1:01:00",
+      "link": "https://www.youtube.com/watch?v=DqW2YXHw0yk"
+    }
+  ],
+  "pairs": [
+    {
+      "ink": "#12566a",
+      "ground": "#e1efd6",
+      "large": false,
+      "ratio": 6.83,
+      "where": "a.backlink “← back to the street”"
+    },
+    {
+      "ink": "#43504a",
+      "ground": "#e1efd6",
+      "large": false,
+      "ratio": 7.05,
+      "where": "p.nh-eyebrow “A NeuroHome by the river · Cathlamet, Washin”"
+    },
+    {
+      "ink": "#1d2622",
+      "ground": "#e1efd6",
+      "large": true,
+      "ratio": 12.95,
+      "where": "h1 “NeuroHome”"
+    },
+    {
+      "ink": "#1d2622",
+      "ground": "#e1efd6",
+      "large": false,
+      "ratio": 12.95,
+      "where": "p.nh-lede “Come in. The light is coming through the fir”"
+    },
+    {
+      "ink": "#7a4506",
+      "ground": "#f8f3e4",
+      "large": false,
+      "ratio": 7.06,
+      "where": "p.nh-eyebrow “Books”"
+    },
+    {
+      "ink": "#1d2622",
+      "ground": "#f8f3e4",
+      "large": false,
+      "ratio": 14.0,
+      "where": "h3 “Autism in America”"
+    },
+    {
+      "ink": "#12566a",
+      "ground": "#f8f3e4",
+      "large": false,
+      "ratio": 7.38,
+      "where": "a “@ishasnow on Substack”"
+    },
+    {
+      "ink": "#1d2622",
+      "ground": "#f3f1e7",
+      "large": false,
+      "ratio": 13.71,
+      "where": "button.facade.nh-play “▶ Autism Is Not a Disorder, It's a Cultural ”"
+    },
+    {
+      "ink": "#43504a",
+      "ground": "#f3f1e7",
+      "large": false,
+      "ratio": 7.46,
+      "where": "span “Neil Gaiman”"
+    },
+    {
+      "ink": "#43504a",
+      "ground": "#e1efd6",
+      "large": true,
+      "ratio": 7.05,
+      "where": "h2 “Credits”"
+    }
+  ],
+  "ornament": {
+    "#eef0e4": "NeuroHome: --nh-sky carried no text when tools/import-room.py rendered the room on 2026-09-29; 1.04 against the room's ground. Measured by the import, not chosen by a person.",
+    "#fbf2c9": "NeuroHome: --nh-sun carried no text when tools/import-room.py rendered the room on 2026-09-29; 1.06 against the room's ground. Measured by the import, not chosen by a person.",
+    "#2f4a3a": "NeuroHome: --nh-fir carried no text when tools/import-room.py rendered the room on 2026-09-29; 8.11 against the room's ground. Measured by the import, not chosen by a person.",
+    "#3d5e48": "NeuroHome: --nh-fir2 carried no text when tools/import-room.py rendered the room on 2026-09-29; 6.06 against the room's ground. Measured by the import, not chosen by a person.",
+    "#5b6b4c": "NeuroHome: --nh-bank carried no text when tools/import-room.py rendered the room on 2026-09-29; 4.80 against the room's ground. Measured by the import, not chosen by a person.",
+    "#5e8c99": "NeuroHome: --nh-river carried no text when tools/import-room.py rendered the room on 2026-09-29; 3.08 against the room's ground. Measured by the import, not chosen by a person.",
+    "#fffbea": "NeuroHome: --nh-glint carried no text when tools/import-room.py rendered the room on 2026-09-29; 1.16 against the room's ground. Measured by the import, not chosen by a person.",
+    "#e9a23b": "NeuroHome: --nh-flame carried no text when tools/import-room.py rendered the room on 2026-09-29; 1.81 against the room's ground. Measured by the import, not chosen by a person.",
+    "#f7f3e6": "NeuroHome: --nh-wax carried no text when tools/import-room.py rendered the room on 2026-09-29; 1.08 against the room's ground. Measured by the import, not chosen by a person.",
+    "#9aaca2": "NeuroHome: --nh-far carried no text when tools/import-room.py rendered the room on 2026-09-29; 1.99 against the room's ground. Measured by the import, not chosen by a person.",
+    "#7e9c6a": "NeuroHome: --nh-island carried no text when tools/import-room.py rendered the room on 2026-09-29; 2.56 against the room's ground. Measured by the import, not chosen by a person.",
+    "#8e4a3c": "NeuroHome: --nh-barn carried no text when tools/import-room.py rendered the room on 2026-09-29; 5.48 against the room's ground. Measured by the import, not chosen by a person.",
+    "#56666c": "NeuroHome: --nh-steel carried no text when tools/import-room.py rendered the room on 2026-09-29; 4.99 against the room's ground. Measured by the import, not chosen by a person.",
+    "#58704f": "NeuroHome: --nh-hill carried no text when tools/import-room.py rendered the room on 2026-09-29; 4.56 against the room's ground. Measured by the import, not chosen by a person.",
+    "#fbfaf3": "NeuroHome: --nh-hall carried no text when tools/import-room.py rendered the room on 2026-09-29; 1.15 against the room's ground. Measured by the import, not chosen by a person.",
+    "#5a4a3e": "NeuroHome: --nh-hallroof carried no text when tools/import-room.py rendered the room on 2026-09-29; 7.05 against the room's ground. Measured by the import, not chosen by a person.",
+    "#3f4f56": "NeuroHome: --nh-hull carried no text when tools/import-room.py rendered the room on 2026-09-29; 7.11 against the room's ground. Measured by the import, not chosen by a person.",
+    "#7a5a3e": "NeuroHome: --nh-wood carried no text when tools/import-room.py rendered the room on 2026-09-29; 5.21 against the room's ground. Measured by the import, not chosen by a person.",
+    "#4a3727": "NeuroHome: --nh-darkwood carried no text when tools/import-room.py rendered the room on 2026-09-29; 9.38 against the room's ground. Measured by the import, not chosen by a person.",
+    "#6f915f": "NeuroHome: --nh-leaf carried no text when tools/import-room.py rendered the room on 2026-09-29; 2.97 against the room's ground. Measured by the import, not chosen by a person.",
+    "#9bbb84": "NeuroHome: --nh-leaf2 carried no text when tools/import-room.py rendered the room on 2026-09-29; 1.78 against the room's ground. Measured by the import, not chosen by a person.",
+    "#d98aa0": "NeuroHome: --nh-bloom carried no text when tools/import-room.py rendered the room on 2026-09-29; 2.16 against the room's ground. Measured by the import, not chosen by a person.",
+    "#f5efdc": "NeuroHome: --nh-hive carried no text when tools/import-room.py rendered the room on 2026-09-29; 1.04 against the room's ground. Measured by the import, not chosen by a person.",
+    "#e8b04a": "NeuroHome: --nh-comb carried no text when tools/import-room.py rendered the room on 2026-09-29; 1.63 against the room's ground. Measured by the import, not chosen by a person.",
+    "#2b241c": "NeuroHome: --nh-bee carried no text when tools/import-room.py rendered the room on 2026-09-29; 12.77 against the room's ground. Measured by the import, not chosen by a person.",
+    "#5d7a8c": "NeuroHome: --nh-spine1 carried no text when tools/import-room.py rendered the room on 2026-09-29; 3.79 against the room's ground. Measured by the import, not chosen by a person.",
+    "#9a6b4f": "NeuroHome: --nh-spine2 carried no text when tools/import-room.py rendered the room on 2026-09-29; 3.82 against the room's ground. Measured by the import, not chosen by a person.",
+    "#b98f3e": "NeuroHome: --nh-spine4 carried no text when tools/import-room.py rendered the room on 2026-09-29; 2.48 against the room's ground. Measured by the import, not chosen by a person."
+  }
+}

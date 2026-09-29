@@ -1260,6 +1260,23 @@
     }
    ]
   },
+  "ibm-plex-mono": {
+   "family": "IBM Plex Mono",
+   "category": "Monospace",
+   "designer": "Mike Abbink, Bold Monday",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/ibmplexmono",
+   "copyright": "Copyright 2017 IBM Corp. All rights reserved.",
+   "repository": "https://github.com/googlefonts/plex",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "ibm-plex-mono-400.woff2",
+     "sha": "c36f509c0a8f9f85"
+    }
+   ]
+  },
   "ibm-plex-sans": {
    "family": "IBM Plex Sans",
    "category": "Sans Serif",

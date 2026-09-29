@@ -1599,6 +1599,21 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
   letter-spacing: 3px; text-transform: uppercase; color: var(--fd-dim);
   border-top: 2px solid var(--fd-girder); padding-top: 13px;
   margin: 14px 0 0 !important; }}
+/* neurohome — ISHA SNOW'S ROOM, imported from her own artifact, and the card
+   is ours. It carries her front window lifted out of the page rather than
+   redrawn, the way the yurt's crown and the hermitage's cabin are, so the card
+   cannot disagree with the room: her firs, her river, her bridge, her ferry,
+   in her wooden frame, on her meadow-green ground. Her three faces, at card
+   size. The light is hers too: daylight through firs off the river, which is
+   why this is a pale card and the window is the brightest thing on it. */
+.og--nh {{ flex-direction: row; align-items: center; gap: 44px; padding: 50px 60px; }}
+.og--nh .og-top {{ flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 16px; }}
+.og--nh .og-top > * {{ margin: 0 !important; }}
+.og--nh .nh-eyebrow {{ font-size: 17px; }}
+.og--nh h1 {{ font-size: 88px; line-height: 1; }}
+.og--nh .og-lede {{ font-family: 'Atkinson Hyperlegible', sans-serif; font-size: 28px; line-height: 1.4; }}
+.og--nh .nh-card-window {{ flex: 0 0 460px; }}
+.og--nh .nh-card-window .nh-view {{ display: block; width: 100%; height: auto; }}
 """
 
 # Chrome hands the layout back out of the same run that takes the picture. A
@@ -2858,6 +2873,22 @@ def card_mdroom(p):
     )
 
 
+def card_neurohome(p):
+    return (
+        "",
+        f'<div class="og og--nh" data-fit="card">'
+        f'<div class="og-top"><p class="nh-eyebrow">{p["nh_over"]}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="nh-card-window"><div class="nh-frame">{p["nh_window"]}</div></div>'
+        f'</div>',
+        f"A pale meadow-green card. A small line in grey capitals reading {p['nh_over_plain']}, then "
+        f"“{p['h1text']}” in a heavy serif, and under it: {p['desc_plain']} To the right, the room's front "
+        f"window in a wooden frame: tall dark firs on either side, and beyond them the wide grey-blue "
+        f"Columbia flecked with sun, a steel truss bridge humping over to a long flat green island with a "
+        f"red barn, a small ferry crossing, and a white hall with a bell tower on a hill downriver.",
+    )
+
+
 def card_esroom(p):
     return (
         "",
@@ -3779,6 +3810,7 @@ CARDS = {
     "bdroom":       card_bdroom,
     "mdroom":       card_mdroom,
     "esroom":       card_esroom,
+    "room-neurohome": card_neurohome,
     "mud":          card_mud,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
@@ -4120,6 +4152,16 @@ def main():
     if not es:
         raise SystemExit("REFUSING: town-hall-executive-session.html has lost its door, and its card is built out of it.")
     lifted["es_scene"] = es.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 70 1200 300"', 1)
+    # ISHA SNOW'S CARD CARRIES HER FRONT WINDOW AND HER OVER-LINE, lifted out of
+    # the page she built rather than redrawn, so the card cannot disagree with it.
+    nh_src = (ROOT / "neurohome.html").read_text()
+    nw = re.search(r'<div class="nh-frame">(<svg class="nh-view".*?</svg>)</div>', nh_src, re.S)
+    no = re.search(r'<p class="nh-eyebrow">(.*?)</p>', nh_src, re.S)
+    if not nw or not no:
+        raise SystemExit("REFUSING: neurohome.html has lost its front window or its over-line, and its card is built out of both.")
+    lifted["nh_window"] = nw.group(1).replace('role="img" aria-labelledby="nh-view-t nh-view-d"', 'aria-hidden="true"', 1)
+    lifted["nh_over"] = no.group(1).strip()
+    lifted["nh_over_plain"] = html.unescape(re.sub(r"<[^>]+>", "", no.group(1))).strip().lower()
     # THE MUD ROOM'S CARD CARRIES THE ROOM'S OWN VIEW AND OVER-LINE, cropped by its
     # viewBox to the horizon and the mud, so the card cannot disagree with the room.
     mud_src = (ROOT / "the-mud-room.html").read_text()

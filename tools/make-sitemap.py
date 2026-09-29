@@ -59,6 +59,7 @@ ORDER = ["index.html",
          "broadsheet-broadside.html",
          "the-doom-scoop.html",
          "the-mud-room.html",
+         "neurohome.html",  # Isha Snow's, brought in by tools/import-room.py
          "your-room.html",
          # Street furniture rather than a door, and listed like everything else:
          # a page nobody can find from the sitemap is unpublished with extra

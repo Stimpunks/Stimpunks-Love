@@ -54,8 +54,17 @@ WHAT IT DOES NOT DO, ON PURPOSE, AND WHAT STOPS THE ROOM UNTIL SOMEBODY DOES:
   · FONTS THE STREET DOES NOT HOST YET. Adding a face is its own job (the file
     in fonts/, its @font-face in §1, fonts/_sources.json, pull-foundry.py), and
     this refuses a room that sets one rather than loading it from Google.
-  · PHOTOGRAPHS. They go through a consent record first, so a room waiting for
-    one is refused until it arrives that way.
+  · TAKING A PHOTOGRAPH IN. A photograph goes through its consent record in
+    data/polaroids.json first, never through the artifact, which cannot hold an
+    <img>. What the artifact holds is the SPACE: an element with data-photo="a-
+    name", which the prompt asks for. When a record with the id <slug>-<name> and
+    its file in photos/ exist, the import puts the photograph into that space,
+    with the record's alt text; until then the space stays exactly as the person
+    drew it. So the photograph survives every re-import, and withdrawing it is
+    still deleting the record and the file and importing again. (Until the
+    first room arrived with its photographs, this refused any room waiting for
+    one and told us to bring it in without the space, which contradicted the
+    prompt; Ryan's call, 2026-09-29.)
 
 The door it writes is a plain one in the room's own colours and faces, which is
 a starting point and not a design. The fractal recipe borrows the shape of a
@@ -75,6 +84,8 @@ import sys
 from datetime import date
 from html.parser import HTMLParser
 from pathlib import Path
+
+import imgsize           # tools/imgsize.py: width and height read off the file
 
 ROOT = Path(__file__).resolve().parent.parent
 TOOLS = ROOT / "tools"
@@ -97,7 +108,7 @@ def load(name):
 
 KEYS = ["name", "link", "pronouns", "say it", "slug", "prefix", "light", "typefaces",
         "media", "photographs", "words", "built with", "could not do"]
-LISTS = {"typefaces", "media"}
+LISTS = {"typefaces", "media", "photographs"}
 NONE = re.compile(r"^(?:none|n/?a|-)\.?$", re.I)
 NOTE = re.compile(r"<!--\s*FOR THE STREET\b(.*?)-->", re.S)
 KEYLINE = re.compile(r"^([A-Za-z][A-Za-z ]{1,20}):(?:\s+(.*))?$")
@@ -137,7 +148,11 @@ def read_notes(src, problems):
             if key in notes:
                 problems.append(f"FOR THE STREET: {m.group(1)!r} is given twice.")
             val = (m.group(2) or "").strip()
-            if key in LISTS:
+            if key == "photographs":
+                # The line is a sentence about them, or none; the list under
+                # it names the spaces (data-photo) they go in.
+                notes[key] = []
+            elif key in LISTS:
                 notes[key] = [] if (not val or NONE.match(val)) else [v.strip() for v in val.split(";") if v.strip()]
             else:
                 notes[key] = val
@@ -182,10 +197,7 @@ def read_notes(src, problems):
             continue
         media.append({"title": title, "who": who, "link": link, "id": m.group(1), "runtime": runtime})
     notes["media"] = media
-    if notes.get("photographs"):
-        problems.append("FOR THE STREET says photographs are still to come: " + repr(notes["photographs"])
-                        + ". A photograph goes through its consent record first (data/polaroids.json); "
-                        "bring the room in without the space for it, then add the photograph that way.")
+    notes["photographs"] = [re.split(r"\s+[|\u2014-]\s+", p, 1)[0].strip() for p in notes.get("photographs", [])]
     return notes
 
 
@@ -455,8 +467,14 @@ class CSS:
         self.css, self.m, self.slug, self.prefix, self.problems = css, mask_css(css), slug, prefix, problems
         self.root = {}            # --name -> value
         self.uses, self.faces, self.keyframes, self.edits = set(), set(), [], []
+        # :root IS html. The prompt says every selector starts with .room-SLUG
+        # "apart from :root", and the dial is an attribute on <html>, so an AI
+        # honouring the dial writes :root[data-intensity=...] .room-SLUG as
+        # often as html[...]. The first room imported did exactly that and this
+        # refused every one of its dial rules as unscoped. Only the prefix is
+        # widened: whatever follows still has to be .room-SLUG.
         self.scope = re.compile(
-            r"^(?:html(?:\[[^\]]*\]|:[\w-]+(?:\((?:[^()]|\([^()]*\))*\))?)*\s+(?:>\s*)?)?(?:body)?\.room-"
+            r"^(?:(?:html|:root)(?:\[[^\]]*\]|:[\w-]+(?:\((?:[^()]|\([^()]*\))*\))?)*\s+(?:>\s*)?)?(?:body)?\.room-"
             + re.escape(slug) + r"(?![\w-])")
         self.palette = {}
         self._pass(collect=True)
@@ -570,6 +588,12 @@ class CSS:
             value = self.css[vs:ve]
             value_clean = re.sub(r"/\*.*?\*/", " ", value, flags=re.S).replace("!important", "").strip()
             if root:
+                if prop == "color-scheme":
+                    # The street writes the room's color-scheme into its own
+                    # <meta>, worked out from the ground; on love.css's :root it
+                    # would set every room on the street. The :root rule is not
+                    # carried over, so dropping this loses nothing.
+                    continue
                 if collect:
                     self.root[prop] = value_clean
                     continue
@@ -825,7 +849,7 @@ def main():
         problems.append(f"No colours are declared on :root as --{prefix}- hex custom properties.")
 
     # The markup: names, colours, handlers, addresses, and the players.
-    edits, media_ids, credits_at = [], set(), None
+    edits, media_ids, credits_at, photo_spaces = [], set(), None, []
     notes_media = {m["id"]: m for m in notes["media"]}
     for n in main_el.walk():
         if any(n.inside(d) for d in drop) or n.tag in ("script", "style"):
@@ -889,8 +913,41 @@ def main():
                     changed = True
         if changed:
             edits.append((n.start, n.open_end, start_tag(n.tag, new, n.selfclose)))
+        if "data-photo" in n.attrs:
+            photo_spaces.append((n, new))
         if credits_at is None and re.fullmatch(r"h[2-6]", n.tag) and "credit" in text_of(src, n).lower():
             credits_at = n
+    # The spaces left for photographs. One whose record and file exist gets its
+    # photograph, with the record's alt text; the rest come in as drawn.
+    records = {ph.get("id"): ph for ph in json.loads((ROOT / "data/polaroids.json").read_text()).get("photos", [])}
+    spaces = {}
+    for n, attrs in photo_spaces:
+        name = (n.attrs.get("data-photo") or "").strip()
+        if not SLUG.match(name):
+            problems.append(f"<{n.tag} data-photo=\"{name}\">: name the space in lowercase with hyphens.")
+            continue
+        if name in spaces:
+            problems.append(f"Two spaces are both data-photo=\"{name}\"; one photograph cannot go in both.")
+            continue
+        spaces[name] = n
+        pid = f"{slug}-{name}"
+        f = next((ROOT / "photos" / f"{pid}{suf}" for suf in (".webp", ".jpg", ".jpeg", ".png")
+                  if (ROOT / "photos" / f"{pid}{suf}").exists()), None)
+        ph = records.get(pid)
+        if not (ph and f and page_name in ph.get("elsewhere", [])):
+            warnings.append(f"The space data-photo=\"{name}\" is waiting for its photograph: an entry "
+                            f"{pid!r} in data/polaroids.json listing {page_name} under 'elsewhere', and its "
+                            "file in photos/. It comes in as drawn until then.")
+            continue
+        keep = [(k, v) for k, v in attrs if k.lower() not in ("role", "aria-label", "aria-labelledby")]
+        img = (f'<img class="photo" src="photos/{f.name}" {imgsize.attrs(f)} '
+               f'alt="{H.escape(ph["alt"], quote=True)}" loading="lazy" decoding="async">')
+        edits = [e for e in edits if not (n.start <= e[0] < n.end)]
+        edits.append((n.start, n.end, start_tag(n.tag, keep, False) + img + f"</{n.tag}>"))
+    for name in notes["photographs"]:
+        if name not in spaces:
+            warnings.append(f"FOR THE STREET lists a photograph for {name!r} and no element in the room "
+                            f"has data-photo=\"{name}\".")
     for vid in sorted(set(notes_media) - media_ids):
         problems.append(f"Media lists {notes_media[vid]['title']!r} and no button in the room plays it.")
     for sym in sorted(css.uses - set(css.root)):

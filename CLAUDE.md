@@ -3141,18 +3141,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §84 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §85 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§84 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§85 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §84 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §85 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the
@@ -3484,6 +3484,16 @@ the street's rules and writes nothing without `--go`. Four things are not obviou
     there is one probe rather than two. If that probe changes shape the importer refuses; update the
     patch, do not copy the probe. Its pairs land in `data/rooms/<slug>.json`, labelled as measured by
     the import rather than chosen by a person, and `check-contrast.py` reads them.
+
+  · **a photograph goes into the space the room left for it**, never into the artifact. The page
+    marks a space with `data-photo="name"`; the photograph gets an entry `<slug>-<name>` in
+    `data/polaroids.json` (on_wall false, `elsewhere` naming the page) and its file in `photos/`,
+    stripped of metadata; the import then puts it in, with the record's alt text. Until
+    2026-09-29 the importer refused any room waiting for a photograph, although the prompt told
+    people to leave a space and send it, and Isha Snow's NeuroHome, the first room to arrive, did
+    exactly that. Ryan's call that day: make it easy. **`sips` writes an EXIF block when it
+    resizes**; save through Pillow instead. The same day it stopped refusing `:root[data-intensity]`
+    (it is `html`) and a room's own `color-scheme`, which the street works out anyway.
 
 A room made with an AI is credited as one, in the room and in the liner notes, because
 `design.html` says that is how we treat our own.

@@ -163,12 +163,16 @@ def sections_setting():
     # nothing on the street uses -- it is set once, on --sans in §2, and every
     # room reaches it through that variable. A checker that cries wolf about the
     # body face of the whole site is a checker nobody runs twice.
+    # AND IN EITHER QUOTE. Every room written here quotes a family in single
+    # quotes; a room brought in by import-room.py keeps its author's, and the
+    # first one, Isha Snow's NeuroHome, set IBM Plex Mono as "IBM Plex Mono" on
+    # its --nh-mono in §2, which this read as a face nothing uses.
     out = {}
-    for m in re.finditer(r"'([^'\n]+)'", code):
+    for m in re.finditer(r"'([^'\n]+)'|\"([^\"\n]+)\"", code):
         n = section_at(m.start())
         if n in (None, 1):
             continue
-        out.setdefault(m.group(1), set()).add(n)
+        out.setdefault(m.group(1) or m.group(2), set()).add(n)
     return out
 
 

@@ -404,6 +404,9 @@ DRAW = {
     # A mitten, dropped on the ice in the Cave: a thumb and a cuff, in the pale
     # aqua the room uses for every link, 8.24 on the deep ice. The floor line
     # is --cv-seam and carries nothing.
+    # NeuroHome, Isha Snow's room: a jar of honey off the stump by her bee yard,
+    # in her honey ink on her meadow floor. The floor line is --nh-soft.
+    "nh-honey": """<path d="M3 29.5 H29" stroke="var(--nh-soft)" stroke-width="1.6" stroke-linecap="round"/><rect x="11" y="6" width="10" height="4" rx="1" fill="none" stroke="var(--nh-honey)" stroke-width="2"/><path d="M10.5 10 H21.5 Q24 12 24 16 V24 Q24 26.5 21.5 26.5 H10.5 Q8 26.5 8 24 V16 Q8 12 10.5 10 Z" fill="none" stroke="var(--nh-honey)" stroke-width="2.2" stroke-linejoin="round"/><path d="M8.5 16 H23.5 M13 16 V19.5 Q13 21 14.2 21 Q15.4 21 15.4 19.5 V16" fill="none" stroke="var(--nh-honey)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>""",
     "cv-icicle": """<path d="M3 29.5 H29" stroke="var(--cv-seam)" stroke-width="1.6" stroke-linecap="round"/><path d="M10 26 V12 Q10 6 16 6 Q22 6 22 12 V26 Z" fill="none" stroke="var(--cv-link)" stroke-width="2.2" stroke-linejoin="round"/><path d="M10 16 Q5 15 5.5 19.5 Q6 23 10 22" fill="none" stroke="var(--cv-link)" stroke-width="2.2" stroke-linecap="round"/><path d="M9 22.5 H23" stroke="var(--cv-link)" stroke-width="3" stroke-linecap="round"/>""",
     # A toasting stick, left leaning against a log at the Campfire: a green
     # stick with its forked end, in the fire's orange the room uses for every

@@ -1002,6 +1002,11 @@
 @font-face { font-family: 'Sofia Sans Condensed'; src: url('fonts/sofia-sans-condensed-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Sofia Sans'; src: url('fonts/sofia-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Sofia Sans'; src: url('fonts/sofia-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+/* Isha Snow's NeuroHome, imported from her own artifact. IBM PLEX MONO sets
+   its small labels, the map's lettering and the instrument plates. Her three
+   faces are her choice; Young Serif and Atkinson Hyperlegible were already
+   hosted, and this is the one the street did not have. */
+@font-face { font-family: 'IBM Plex Mono'; src: url('fonts/ibm-plex-mono-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -2486,6 +2491,51 @@
   --es-dark: #111513;  --es-panel: #1B211E;  --es-text: #EDF3EE;  --es-dim: #AEBCB3;
   --es-link: #8FE3AA;  --es-exit: #39D16F;   --es-glow: #1E5A36;  --es-frame: #29312C;
   --es-door: #0B0E0C;
+
+  /* import:neurohome:root:begin */
+  /* Isha Snow's room, NeuroHome -- brought in by tools/import-room.py.
+     Their colours exactly as their artifact declared them, replaced whole on
+     re-import. Measured in data/rooms/neurohome.json. */
+  --nh-ground: #e1efd6;
+  --nh-shade: #f8f3e4;
+  --nh-paper: #f3f1e7;
+  --nh-text: #1d2622;
+  --nh-soft: #43504a;
+  --nh-link: #12566a;
+  --nh-honey: #7a4506;
+  --nh-sky: #eef0e4;
+  --nh-sun: #fbf2c9;
+  --nh-fir: #2f4a3a;
+  --nh-fir2: #3d5e48;
+  --nh-bank: #5b6b4c;
+  --nh-river: #5e8c99;
+  --nh-glint: #fffbea;
+  --nh-flame: #e9a23b;
+  --nh-wax: #f7f3e6;
+  --nh-far: #9aaca2;
+  --nh-island: #7e9c6a;
+  --nh-barn: #8e4a3c;
+  --nh-steel: #56666c;
+  --nh-hill: #58704f;
+  --nh-hall: #fbfaf3;
+  --nh-hallroof: #5a4a3e;
+  --nh-hull: #3f4f56;
+  --nh-wood: #7a5a3e;
+  --nh-darkwood: #4a3727;
+  --nh-leaf: #6f915f;
+  --nh-leaf2: #9bbb84;
+  --nh-bloom: #d98aa0;
+  --nh-hive: #f5efdc;
+  --nh-comb: #e8b04a;
+  --nh-bee: #2b241c;
+  --nh-spine1: #5d7a8c;
+  --nh-spine2: #9a6b4f;
+  --nh-spine3: #6f915f;
+  --nh-spine4: #b98f3e;
+  --nh-display: "Young Serif", Georgia, "Times New Roman", serif;
+  --nh-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --nh-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  /* import:neurohome:root:end */
 }
 
 * { box-sizing: border-box; }
@@ -2680,6 +2730,16 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
   cursor: pointer; box-shadow: none; text-transform: none; letter-spacing: inherit;
 }
 .pavement .signoff__fx { flex: 1 1 100%; margin: 0; font-size: 14px; color: var(--chalk); }
+
+/* A PHOTOGRAPH IN A SPACE A ROOM LEFT FOR IT. An imported room cannot hold an
+   <img>; it leaves an element with data-photo, and tools/import-room.py puts
+   the photograph in once its consent record exists. Layout and nothing else:
+   it fills the space the room drew, in the room's shape, rounded if the space
+   is. No filter, ever (make-polaroids.py). It is taken out of the flow on
+   purpose: in the flow, a portrait photograph's own height stretched a round
+   space drawn with aspect-ratio into an oval, the first time one went in. */
+[data-photo]:has(> img.photo) { position: relative; overflow: hidden; }
+[data-photo] > img.photo { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
 
 /* The margin hand. It was written inside the zine table, and then Enid's room
    and issue #2 started wearing it too — three rooms on one class, which makes
@@ -3234,6 +3294,14 @@ div.facade--audio { border: 0; background: none; }
 .door--empty .door__name  { font-family: 'Bungee', var(--sans); color: var(--chalk); font-size: 23px; }
 .door--empty .door__blurb { color: var(--chalk); }
 .door--empty .door__knock { font-family: 'Rock Salt', var(--sans); font-size: 11px; letter-spacing: 0; color: #9d8cc8; }
+/* import:neurohome:door:begin -- NeuroHome's door, in the room's own colours and faces. A plain
+   awning, written by tools/import-room.py: a starting point for dressing, not a design. */
+.door--neurohome { background: var(--nh-ground); border-color: var(--nh-link); }
+.door--neurohome .door__awning { background: var(--nh-text); border-bottom-color: var(--nh-link); }
+.door--neurohome .door__name  { font-family: "Young Serif", Georgia, "Times New Roman", serif; color: var(--nh-text); }
+.door--neurohome .door__blurb { font-family: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif; color: var(--nh-text); }
+.door--neurohome .door__knock { font-family: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif; color: var(--nh-link); }
+/* import:neurohome:door:end */
 
 /* The signpost at the end of the shopfronts. NOT A DOOR AT ALL, and the grid
    above is why: a door on this street is a storefront you walk into, and the
@@ -14217,7 +14285,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §84
+   class on it is `bb-`, its sizes are in points and millimetres, and §85
    prints it and nothing else. */
 
 .room-broadside {
@@ -14278,7 +14346,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §84 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §85 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -16699,7 +16767,186 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .esroom .es-call__fine { font-size: 16px; color: var(--es-dim); margin-bottom: 0; }
 .esroom .es-credits p { font-size: 16px; color: var(--es-dim); }
 
-/* §83 ── Small screens ───────────────────────────────────────────────────────
+/* import:neurohome:section:begin */
+/* §83 ── ROOM: NeuroHome (a shopfront on the street) ──────────────────────────
+   ISHA SNOW'S ROOM (she/they), AND NOT OURS TO REDESIGN. Built with
+   Claude, an AI made by Anthropic and brought onto the street by tools/import-room.py from the
+   artifact they sent. Everything between the import markers is theirs and is
+   replaced whole when they send a new version: change the artifact and import
+   it again, never the lines between. Its light, in their words:
+   Daylight through tall firs and flashing off the river, with candles set all through the house. */
+
+/* Layout: walk in the door and go round the house in order, window, corner, desk, shelf, art, then out to the garden, the map and the wider community. One column, room to breathe. */
+
+.room-neurohome { margin: 0; background-color: var(--nh-ground); color: var(--nh-text); font-family: var(--nh-body); font-size: 1.0625rem; line-height: 1.6; }
+.room-neurohome a { color: var(--nh-link); text-underline-offset: 0.2em; }
+.room-neurohome a:focus-visible, .room-neurohome button:focus-visible { outline: 3px solid var(--nh-link); outline-offset: 3px; border-radius: 3px; }
+.room-neurohome main { max-width: 42rem; margin: 0 auto; padding-block: 2.5rem 3rem; padding-inline: 1rem; display: grid; gap: 3rem; }
+.room-neurohome h1, .room-neurohome h2, .room-neurohome h3 { font-family: var(--nh-display); font-weight: 400; text-wrap: balance; line-height: 1.15; margin: 0; }
+.room-neurohome h1 { font-size: clamp(2.4rem, 9vw, 3.6rem); }
+.room-neurohome h2 { font-size: 1.6rem; }
+.room-neurohome h3 { font-size: 1.15rem; }
+.room-neurohome p { margin: 0; max-width: 62ch; }
+.room-neurohome section { display: grid; gap: 1rem; min-width: 0; }
+.room-neurohome .nh-eyebrow { font-family: var(--nh-mono); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--nh-soft); }
+.room-neurohome .nh-door { display: grid; gap: 0.9rem; }
+.room-neurohome .nh-lede { font-size: 1.2rem; }
+.room-neurohome .nh-byline { color: var(--nh-soft); }
+.room-neurohome .nh-h2 { display: flex; align-items: center; gap: 0.55rem; }
+.room-neurohome .nh-candle { width: 0.8em; height: 1.3em; flex: none; }
+.room-neurohome .nh-flame { fill: var(--nh-flame); transform-origin: 10px 14px; }
+.room-neurohome .nh-wax { fill: var(--nh-wax); stroke: var(--nh-soft); stroke-width: 1; }
+.room-neurohome .nh-note { background: var(--nh-paper); border: 2px dashed var(--nh-soft); border-radius: 4px; padding: 0.75rem 1rem; color: var(--nh-soft); font-size: 0.95rem; }
+.room-neurohome .nh-caption { color: var(--nh-soft); font-size: 0.95rem; }
+
+/* window */
+.room-neurohome .nh-frame { border: 12px solid var(--nh-wood); border-radius: 4px; background: var(--nh-sky); overflow: hidden; }
+.room-neurohome .nh-view, .room-neurohome .nh-garden, .room-neurohome .nh-map { width: 100%; height: auto; display: block; }
+.room-neurohome .nh-sky { fill: var(--nh-sky); }
+.room-neurohome .nh-dapple { fill: var(--nh-sun); }
+.room-neurohome .nh-bank { fill: var(--nh-bank); }
+.room-neurohome .nh-fir { fill: var(--nh-fir); }
+.room-neurohome .nh-fir2 { fill: var(--nh-fir2); }
+.room-neurohome .nh-river { fill: var(--nh-river); }
+.room-neurohome .nh-glint { fill: var(--nh-glint); }
+
+.room-neurohome .nh-far { fill: var(--nh-far); }
+.room-neurohome .nh-island { fill: var(--nh-island); }
+.room-neurohome .nh-leafdot { fill: var(--nh-leaf); }
+.room-neurohome .nh-barn { fill: var(--nh-barn); }
+.room-neurohome .nh-steel { stroke: var(--nh-steel); }
+.room-neurohome .nh-pier { fill: var(--nh-steel); }
+.room-neurohome .nh-hill { fill: var(--nh-hill); }
+.room-neurohome .nh-hall { fill: var(--nh-hall); }
+.room-neurohome .nh-hallroof { fill: var(--nh-hallroof); }
+.room-neurohome .nh-window-dot { fill: var(--nh-steel); }
+.room-neurohome .nh-hull { fill: var(--nh-hull); }
+.room-neurohome .nh-cabin { fill: var(--nh-hall); stroke: var(--nh-hull); stroke-width: 1; }
+/* bookshelf */
+.room-neurohome .nh-shelf { background: var(--nh-darkwood); padding: 0.75rem 0.75rem 0; border-radius: 4px; }
+.room-neurohome .nh-books { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr)); gap: 0.4rem; align-items: end; border-bottom: 10px solid var(--nh-wood); padding-bottom: 0; }
+.room-neurohome .nh-book { background: var(--nh-paper); color: var(--nh-text); padding: 0.55rem 0.65rem; border-top: 8px solid var(--nh-spine1); border-radius: 2px 2px 0 0; min-height: 5rem; display: grid; align-content: start; gap: 0.2rem; font-size: 0.95rem; min-width: 0; }
+.room-neurohome .nh-book:nth-child(4n+2) { border-top-color: var(--nh-spine2); min-height: 6rem; }
+.room-neurohome .nh-book:nth-child(4n+3) { border-top-color: var(--nh-spine3); min-height: 5.5rem; }
+.room-neurohome .nh-book:nth-child(4n+4) { border-top-color: var(--nh-spine4); min-height: 5.5rem; }
+.room-neurohome .nh-book b { font-family: var(--nh-display); font-weight: 400; }
+.room-neurohome .nh-book span { color: var(--nh-soft); font-size: 0.85rem; }
+
+/* desk */
+.room-neurohome .nh-desk { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr); gap: 1.25rem; align-items: start; }
+@media (max-width: 520px) { .room-neurohome .nh-desk { grid-template-columns: minmax(0, 1fr); } .room-neurohome .nh-radio { max-width: 11rem; } }
+.room-neurohome .nh-radio { width: 100%; height: auto; }
+.room-neurohome .nh-wood { fill: var(--nh-wood); }
+.room-neurohome .nh-grille { fill: var(--nh-comb); }
+.room-neurohome .nh-grille-line { stroke: var(--nh-darkwood); stroke-width: 2; fill: none; }
+.room-neurohome .nh-dial { fill: var(--nh-paper); stroke: var(--nh-darkwood); stroke-width: 2; }
+.room-neurohome .nh-antenna { stroke: var(--nh-darkwood); stroke-width: 3; stroke-linecap: round; fill: none; }
+.room-neurohome .nh-desk-words { display: grid; gap: 0.75rem; min-width: 0; }
+.room-neurohome .nh-list { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.45rem; }
+
+/* creativity corner */
+.room-neurohome .nh-corner { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 0.75rem; }
+.room-neurohome .nh-thing { background: var(--nh-shade); border-radius: 4px; padding: 1rem; display: grid; gap: 0.4rem; align-content: start; min-width: 0; }
+.room-neurohome .nh-thing .nh-eyebrow { color: var(--nh-honey); }
+.room-neurohome .nh-thing p { font-size: 0.97rem; }
+
+.room-neurohome .nh-episodes { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
+.room-neurohome .nh-episodes li { display: grid; gap: 0.3rem; justify-items: start; }
+.room-neurohome .nh-play { font: inherit; font-size: 0.95rem; text-align: left; background: var(--nh-paper); color: var(--nh-text); border: 2px solid var(--nh-link); border-radius: 4px; padding: 0.55rem 0.75rem; min-height: 44px; cursor: pointer; }
+.room-neurohome .nh-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); gap: 1.25rem 1rem; }
+.room-neurohome .nh-art { margin: 0; display: grid; gap: 0.5rem; align-content: start; min-width: 0; }
+.room-neurohome .nh-artframe { background: var(--nh-paper); border: 2px dashed var(--nh-soft); outline: 8px solid var(--nh-wood); outline-offset: -1px; display: grid; place-items: center; max-width: 100%; margin: 8px; }
+.room-neurohome .nh-artframe span { font-family: var(--nh-mono); font-size: 0.8rem; color: var(--nh-soft); padding: 0.5rem; text-align: center; }
+.room-neurohome .nh-land { aspect-ratio: 3 / 2; }
+.room-neurohome .nh-tall { aspect-ratio: 3 / 4; }
+.room-neurohome .nh-round { aspect-ratio: 1 / 1; border-radius: 50%; outline: none; border: 8px solid var(--nh-wood); }
+.room-neurohome .nh-art figcaption { display: grid; gap: 0.1rem; font-size: 0.95rem; }
+.room-neurohome .nh-art figcaption b { font-family: var(--nh-display); font-weight: 400; }
+.room-neurohome .nh-art figcaption b { font-size: 1.05rem; }
+.room-neurohome .nh-art figcaption span { color: var(--nh-soft); font-size: 0.85rem; }
+.room-neurohome .nh-feats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 0.75rem; }
+.room-neurohome .nh-feat { background: var(--nh-shade); border-radius: 4px; padding: 1rem; display: grid; grid-template-columns: 3rem minmax(0, 1fr); column-gap: 0.85rem; row-gap: 0.25rem; align-content: start; min-width: 0; }
+.room-neurohome .nh-feat .nh-icon { grid-row: span 2; width: 3rem; height: 3rem; }
+.room-neurohome .nh-feat p { font-size: 0.97rem; }
+.room-neurohome .nh-i-wall { fill: var(--nh-paper); stroke: var(--nh-darkwood); stroke-width: 2; }
+.room-neurohome .nh-i-roof { fill: var(--nh-wood); }
+.room-neurohome .nh-i-door { fill: var(--nh-darkwood); }
+.room-neurohome .nh-i-win { fill: var(--nh-comb); }
+.room-neurohome .nh-i-leaf { fill: var(--nh-leaf); }
+.room-neurohome .nh-i-bloom { fill: var(--nh-bloom); }
+.room-neurohome .nh-i-honey { fill: var(--nh-comb); }
+.room-neurohome .nh-i-bed { fill: var(--nh-wood); }
+.room-neurohome .nh-i-stem, .room-neurohome .nh-i-line, .room-neurohome .nh-i-key { stroke: var(--nh-darkwood); stroke-width: 2.5; fill: none; stroke-linecap: round; }
+.room-neurohome .nh-i-path { stroke: var(--nh-river); stroke-width: 5; fill: none; stroke-linecap: round; }
+.room-neurohome .nh-i-bench { fill: var(--nh-wood); }
+/* garden */
+.room-neurohome .nh-grass { fill: var(--nh-leaf2); }
+.room-neurohome .nh-bed, .room-neurohome .nh-stand { fill: var(--nh-wood); }
+.room-neurohome .nh-stump { fill: var(--nh-darkwood); }
+.room-neurohome .nh-greens circle { fill: var(--nh-leaf); }
+.room-neurohome .nh-flowers circle { fill: var(--nh-bloom); }
+.room-neurohome .nh-hive rect { fill: var(--nh-hive); stroke: var(--nh-darkwood); stroke-width: 1.5; }
+.room-neurohome .nh-hive .nh-hive-lid { fill: var(--nh-comb); }
+.room-neurohome .nh-hive .nh-hive-door { fill: var(--nh-darkwood); stroke: none; }
+.room-neurohome .nh-hive-seam { stroke: var(--nh-darkwood); stroke-width: 1.5; fill: none; }
+.room-neurohome .nh-jar { fill: var(--nh-comb); stroke: var(--nh-darkwood); stroke-width: 1; }
+.room-neurohome .nh-jar-lid { fill: var(--nh-darkwood); }
+.room-neurohome .nh-bee ellipse { fill: var(--nh-bee); }
+.room-neurohome .nh-bee .nh-wing { fill: var(--nh-glint); }
+.room-neurohome .nh-exchange { font-family: var(--nh-display); font-size: 1.2rem; background: var(--nh-paper); padding: 0.9rem 1rem; border-radius: 3px; display: grid; gap: 0.35rem; }
+.room-neurohome .nh-exchange span + span { color: var(--nh-soft); padding-left: 2rem; }
+
+/* map and house specs */
+.room-neurohome .nh-mapwrap { background: var(--nh-paper); border-radius: 4px; padding: 0.5rem; }
+.room-neurohome .nh-mapground { fill: var(--nh-paper); }
+.room-neurohome .nh-road { stroke: var(--nh-bank); stroke-width: 5; fill: none; stroke-linecap: round; }
+.room-neurohome .nh-arm { stroke: var(--nh-leaf); stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.room-neurohome .nh-home { fill: var(--nh-wood); }
+.room-neurohome .nh-pad { fill: var(--nh-sky); stroke: var(--nh-leaf2); stroke-width: 1; }
+.room-neurohome .nh-here { fill: var(--nh-flame); }
+.room-neurohome .nh-porch { fill: var(--nh-comb); }
+.room-neurohome .nh-core rect, .room-neurohome .nh-entry { fill: var(--nh-darkwood); }
+.room-neurohome .nh-plot { fill: var(--nh-leaf2); stroke: var(--nh-leaf); stroke-width: 1; }
+.room-neurohome .nh-rows { stroke: var(--nh-leaf); stroke-width: 1; fill: none; }
+.room-neurohome .nh-lot { fill: none; stroke: var(--nh-soft); stroke-width: 1.5; stroke-dasharray: 3 3; }
+.room-neurohome .nh-core-glow circle { fill: var(--nh-comb); opacity: 0.15; }
+.room-neurohome .nh-here-ring { fill: none; stroke: var(--nh-flame); stroke-width: 1.5; }
+.room-neurohome .nh-onbuilding { fill: var(--nh-paper); }
+.room-neurohome .nh-maptitle { fill: var(--nh-text); font-family: var(--nh-display); font-size: 22px; }
+.room-neurohome .nh-label { fill: var(--nh-soft); font-family: var(--nh-mono); font-size: 11px; }
+.room-neurohome .nh-instruments { list-style: none; margin: 0; padding: 0; }
+.room-neurohome .nh-plates { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.room-neurohome .nh-plate { font-family: var(--nh-mono); font-size: 0.85rem; background: var(--nh-paper); color: var(--nh-text); padding: 0.3rem 0.6rem; border-radius: 3px; font-variant-numeric: tabular-nums; }
+.room-neurohome .nh-credits { border-top: 1px solid var(--nh-soft); padding-top: 1.5rem; color: var(--nh-soft); font-size: 0.95rem; }
+
+/* THE DIAL. gentle: nothing moves. regular: books lift a little on hover or focus. max: light drifts through the trees, the river glints, candles sway, bees wander. Nothing flashes. */
+:root[data-intensity="regular"] .room-neurohome .nh-book, :root[data-intensity="max"] .room-neurohome .nh-book { transition: transform 300ms ease; }
+:root[data-intensity="regular"] .room-neurohome .nh-book:hover, :root[data-intensity="max"] .room-neurohome .nh-book:hover,
+:root[data-intensity="regular"] .room-neurohome .nh-book:focus-within, :root[data-intensity="max"] .room-neurohome .nh-book:focus-within { transform: translateY(-4px); }
+:root[data-intensity="max"] .room-neurohome .nh-dapples { animation: nh-drift 14s ease-in-out infinite alternate; }
+:root[data-intensity="max"] .room-neurohome .nh-ferry { animation: nh-cross 24s ease-in-out infinite alternate; }
+:root[data-intensity="max"] .room-neurohome .nh-glints { animation: nh-shimmer 7s ease-in-out infinite alternate; }
+:root[data-intensity="max"] .room-neurohome .nh-flame { animation: nh-sway 4s ease-in-out infinite alternate; }
+:root[data-intensity="max"] .room-neurohome .nh-bee { animation: nh-wander 11s ease-in-out infinite alternate; }
+:root[data-intensity="max"] .room-neurohome .nh-bee2 { animation-duration: 13s; }
+:root[data-intensity="max"] .room-neurohome .nh-bee3 { animation-duration: 9s; }
+@keyframes nh-cross { from { transform: translate(0, 0); } to { transform: translate(-40px, 8px); } }
+@keyframes nh-drift { from { transform: translate(0, 0); } to { transform: translate(18px, 6px); } }
+@keyframes nh-shimmer { from { opacity: 0.55; transform: translateX(0); } to { opacity: 1; transform: translateX(8px); } }
+@keyframes nh-sway { from { transform: skewX(-4deg); } to { transform: skewX(4deg); } }
+@keyframes nh-wander { from { transform: translate(0, 0); } to { transform: translate(24px, -10px); } }
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-intensity]) .room-neurohome .nh-book { transition: transform 300ms ease; }
+  :root:not([data-intensity]) .room-neurohome .nh-book:hover, :root:not([data-intensity]) .room-neurohome .nh-book:focus-within { transform: translateY(-4px); }
+}
+/* import:neurohome:section:end */
+/* The street's own furniture in Isha's room, outside the import markers so a
+   re-import keeps it. Her ring is river blue on her links and buttons; the job
+   marker is the street's, and it came in wearing §2's yellow, which measured
+   1.09 on her meadow floor. It takes her ring, in her colour. */
+.room-neurohome :where(summary, input):focus-visible { outline-color: var(--nh-link); }
+
+/* §84 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -16806,7 +17053,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §83 says every
+   shipped with no rule here at all — which on a street whose §84 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -16930,7 +17177,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §84 ── Print ───────────────────────────────────────────────────────────────
+/* §85 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

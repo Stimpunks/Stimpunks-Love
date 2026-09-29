@@ -710,6 +710,48 @@
       "ssim": 0.9834,
       "bytes_before": 280891,
       "bytes_after": 193790
+    },
+    "photos/neurohome-a-possible-world.webp": {
+      "from": "photos/neurohome-a-possible-world.jpg",
+      "quality": 85,
+      "ssim": 0.9846,
+      "bytes_before": 250001,
+      "bytes_after": 199332
+    },
+    "photos/neurohome-cosmic-world.webp": {
+      "from": "photos/neurohome-cosmic-world.jpg",
+      "quality": 85,
+      "ssim": 0.9851,
+      "bytes_before": 266941,
+      "bytes_after": 224866
+    },
+    "photos/neurohome-history-course.webp": {
+      "from": "photos/neurohome-history-course.jpg",
+      "quality": 80,
+      "ssim": 0.9833,
+      "bytes_before": 314446,
+      "bytes_after": 250036
+    },
+    "photos/neurohome-miracle-worker.webp": {
+      "from": "photos/neurohome-miracle-worker.jpg",
+      "quality": 85,
+      "ssim": 0.9859,
+      "bytes_before": 273299,
+      "bytes_after": 239754
+    },
+    "photos/neurohome-the-survivor.webp": {
+      "from": "photos/neurohome-the-survivor.jpg",
+      "quality": 85,
+      "ssim": 0.9859,
+      "bytes_before": 276103,
+      "bytes_after": 245396
+    },
+    "photos/neurohome-wish-you-were-here.webp": {
+      "from": "photos/neurohome-wish-you-were-here.jpg",
+      "quality": 75,
+      "ssim": 0.982,
+      "bytes_before": 309678,
+      "bytes_after": 210698
     }
   }
 }
