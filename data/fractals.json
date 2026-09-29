@@ -1177,6 +1177,22 @@
     "--wr-brass",
     "--wr-lit"
    ]
+  },
+  "cavendish-operations.html": {
+   "kind": "mandel",
+   "center": [
+    -0.1011,
+    0.9563
+   ],
+   "depth": 60,
+   "ground": "--op-concrete",
+   "inks": [
+    "--op-green",
+    "--op-blue",
+    "--op-yellow",
+    "--op-red",
+    "--op-lamp"
+   ]
   }
  }
 }

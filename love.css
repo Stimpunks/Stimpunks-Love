@@ -923,6 +923,13 @@
 @font-face { font-family: 'Old Standard TT'; src: url('fonts/old-standard-tt-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'IBM Plex Sans Condensed'; src: url('fonts/ibm-plex-sans-condensed-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'IBM Plex Sans Condensed'; src: url('fonts/ibm-plex-sans-condensed-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+/* The Operations Room (§72). CHAKRA PETCH, Cadson Demak's squared sans, sets
+   the room's name and headings the way a plant room's engraved labels are cut,
+   and nothing at reading size. SAIRA, by Omnibus-Type, carries every sentence
+   and the log sheet; one variable file serves both weights. */
+@font-face { font-family: 'Chakra Petch'; src: url('fonts/chakra-petch-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Saira'; src: url('fonts/saira-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Saira'; src: url('fonts/saira-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -2278,6 +2285,20 @@
   --wr-ink:   #1C2530;  --wr-flare: #8E1F5E;  --wr-text:  #DCE3E8;
   --wr-dim:   #A3AFB9;  --wr-brass: #D9B266;
   --wr-sea:   #13283A;  --wr-dusk:  #3C5670;  --wr-rail:  #3A4652;  --wr-glow: #8C876F;
+
+  /* The Operations Room (§72). A PLANT ROOM, LIT BY ONE CAGED LAMP. --op-concrete
+     is the floor and the wall behind the pipes, and the ground of the room;
+     --op-wall the painted band at the foot of the wall and the ground of the
+     call's panel; --op-sheet the log sheet on the clipboard, with --op-ink on it
+     and --op-red, the fire main's red, for its links. --op-text is what you read,
+     --op-dim the fine print, --op-yellow the gas main's yellow and every link on
+     the concrete, --op-brass the valve tags. --op-green, --op-blue, --op-steel and
+     --op-lamp are the water and air mains, the pipework and cage, and the bulb,
+     and carry no word. */
+  --op-concrete: #1E2124;  --op-wall:   #2B3034;  --op-sheet:  #ECE6D4;
+  --op-ink:      #1F2225;  --op-red:    #A3322A;  --op-text:   #E6E2D8;
+  --op-dim:      #ABA89F;  --op-yellow: #E3B53A;  --op-brass:  #C29A4E;
+  --op-green:    #2F7D4F;  --op-blue:   #3E6FA6;  --op-steel:  #4A5157;  --op-lamp: #FFE7A6;
 }
 
 * { box-sizing: border-box; }
@@ -13966,7 +13987,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §73
+   class on it is `bb-`, its sizes are in points and millimetres, and §74
    prints it and nothing else. */
 
 .room-broadside {
@@ -14027,7 +14048,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §73 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §74 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -15518,7 +15539,104 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
   .wr-call { padding: 16px; }
 }
 
-/* §72 ── Small screens ───────────────────────────────────────────────────────
+/* §72 ── SUBROOM: The Operations Room (behind Cavendish Coworking's Operations door)
+   A BUILDING'S PLANT ROOM, WHERE THE THING RUNS. The door says it in our events
+   page's words: where we run the thing, a task scrub each week, triage,
+   prioritise and move work forward together. A plant room is that: every pipe
+   painted in the colour of what it carries, so anybody can tell which is which
+   without opening anything; a brass tag on every valve; and the log on a
+   clipboard by the door, which is where this room's time is written.
+
+   THE LIGHT IS ONE CAGED LAMP ON A HOOK, AND ITS CAGE IS IN EVERY SHADOW. No
+   daylight reaches a plant room. The one work lamp hangs from a pipe in its wire
+   guard, and the guard throws a hard grid of shadow lines across the pipes, the
+   wall and the floor, fanning out from the bulb: the only light on the street
+   that stripes everything it lands on. Words stand on the concrete, pale, or on
+   the log sheet, dark; the pipes and the grid carry none.
+
+   THE ROOMS TO WATCH. The Foundry is the other industrial room, and it is a
+   mid-grey iron workshop under a sawtooth roof in north daylight, about type;
+   this is a basement with no window, near-black concrete, and pipes in their
+   service colours. The Rebellion Rave Room is the other room of steel, an
+   immense black hangar with beams in haze, and it owns stencilled lettering;
+   this is small and close, and its labels are engraved, which is why it sets a
+   squared sans and not a stencil. The Feed is the other room of machines in the
+   dark, and each board there is lit from inside through a mask; nothing here
+   gives off light but one bulb. Stay Breezy is the other room of running
+   machinery, and it is a pale warm hall of fans lit under every one. Its
+   parent is green daylight through canvas; this shares nothing with it. If
+   the pipes ever lose their colours, the room has lost its argument.
+
+   NOTHING MOVES AT ANY SETTING, the lamp included: a swinging bulb is a
+   shadow moving across every word in the room. */
+
+.oproom {
+  background: var(--op-concrete); color: var(--op-text);
+  font-family: 'Saira', 'Arial', sans-serif;
+}
+.oproom a { color: var(--op-yellow); }
+.oproom a:hover { color: var(--op-text); }
+.oproom :where(p, li) { font-size: 18px; line-height: 1.62; }
+.oproom .backlink { font-family: 'Saira', 'Arial', sans-serif; font-weight: 600; font-size: 16px; letter-spacing: .01em; text-transform: none; color: var(--op-yellow); }
+.oproom .trailmark { margin: 0; font-size: 15px; color: var(--op-dim); }
+.oproom h1, .oproom h2 { font-family: 'Chakra Petch', 'Arial', sans-serif; font-weight: 600; color: var(--op-text); letter-spacing: .02em; }
+.oproom h1 { font-size: clamp(40px, 7.4vw, 78px); line-height: 1.04; margin: 6px 0 0; text-transform: uppercase; }
+.oproom h2 { font-size: clamp(24px, 3.6vw, 32px); margin: 44px 0 10px; text-transform: uppercase; }
+.oproom .lede { font-size: 20px; max-width: 42em; }
+
+.op-head { margin: 20px 0 8px; }
+.op-head__over { margin: 0; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--op-dim); }
+.op-head__sub { margin: 10px 0 0; font-weight: 600; font-size: 23px; color: var(--op-yellow); }
+.op-head__art { margin: 22px 0 0; border-radius: 4px; overflow: hidden; background: var(--op-concrete); }
+.op-head__art svg { display: block; width: 100%; height: auto; }
+
+.op-part { max-width: 46em; }
+.op-part > p { max-width: 42em; }
+
+/* THE LOG SHEET, clipped to its board: paper, dark ink, a ruled line under each
+   entry, and the fire main's red for its links. */
+.op-list {
+  list-style: none; margin: 16px 0 0; padding: 10px 22px 12px;
+  background: var(--op-sheet); color: var(--op-ink);
+  border-top: 14px solid var(--op-brass); border-radius: 2px;
+}
+.op-list a { color: var(--op-red); }
+.op-list a:hover { color: var(--op-ink); }
+.op-list :focus-visible { outline-color: var(--op-ink); }
+.op-entry { padding: 12px 0 14px; border-bottom: 1px solid var(--op-ink); }
+.op-entry:last-child { border-bottom: 0; }
+.op-entry p { margin: 0; }
+.op-entry__name { font-weight: 600; font-size: 21px; }
+.op-entry__char { margin-top: 4px !important; font-weight: 600; letter-spacing: .02em; }
+.op-entry__local { font-size: 16px; }
+
+/* THE CALL, on the painted band at the foot of the wall. */
+.op-call { margin: 14px 0 0; padding: 18px 22px 20px; background: var(--op-wall); border-left: 6px solid var(--op-yellow); }
+.op-call p { margin: 0 0 12px; }
+.op-call label { display: block; margin: 4px 0 6px; font-weight: 600; }
+.op-call__row { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; }
+.op-call input {
+  flex: 1 1 14em; min-width: 0; min-height: 48px; padding: 8px 12px;
+  font: inherit; font-size: 18px; color: var(--op-text); background: var(--op-concrete);
+  border: 2px solid var(--op-dim); border-radius: 2px;
+}
+.op-call button {
+  min-height: 48px; padding: 8px 18px; cursor: pointer;
+  font: 600 18px/1.2 'Saira', 'Arial', sans-serif;
+  color: var(--op-ink); background: var(--op-yellow); border: 2px solid var(--op-yellow); border-radius: 2px;
+}
+.op-call button:hover { background: var(--op-text); border-color: var(--op-text); }
+.op-call__said { min-height: 0; font-weight: 600; }
+.op-call__fine { font-size: 16px; color: var(--op-dim); margin-bottom: 0 !important; }
+
+.op-credits { font-size: 16px; color: var(--op-dim); }
+
+@media (max-width: 760px) {
+  .op-list { padding: 8px 16px 10px; }
+  .op-call { padding: 16px; }
+}
+
+/* §73 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -15625,7 +15743,7 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §72 says every
+   shipped with no rule here at all — which on a street whose §73 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -15749,7 +15867,7 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §73 ── Print ───────────────────────────────────────────────────────────────
+/* §74 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

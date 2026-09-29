@@ -9,164 +9,171 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Mon, 28 Sep 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>The Operations Room, behind Cavendish’s Operations door</title>
+      <link>https://stimpunks.world/changelog.html#2026-09-28-cavendish-operations-room</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-cavendish-operations-room</guid>
+      <pubDate>Mon, 28 Sep 2026 12:00:00 GMT</pubDate>
+      <description>The Operations door at Cavendish Coworking opens onto the Operations Room: a building’s plant room, where we run the thing, with every main painted the colour of what it carries and one caged lamp throwing its cage’s shadow across everything. The weekly task scrub’s time is on the log, in our events page’s own words, with the hour on your own clock. Its call is open to anybody, the same way as the Events Room’s: type the name you want to be called, knock, and wait in the lobby for a moderator.</description>
+    </item>
+    <item>
       <title>The Events Room, behind Cavendish’s Events door</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-cavendish-events-room</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-cavendish-events-room</guid>
-      <pubDate>Mon, 28 Sep 2026 12:00:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:59:00 GMT</pubDate>
       <description>The Events door at Cavendish Coworking opens onto a room of its own now: the Events Room, a lighthouse keeper’s watch room, lit by one column of light from the lantern above. Our recurring events are its light list, in our events page’s own words, with the hour on your own clock under each one. Its call is open to anybody. If you are not signed on to the CB, type the name you want to be called and knock, and you wait in the lobby until a moderator lets you in. It is the first of the rooms that replace the Proton links, one door at a time; the other doors still open Proton until theirs are built.</description>
     </item>
     <item>
       <title>Follow the host</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-cb-follow-the-host</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-cb-follow-the-host</guid>
-      <pubDate>Mon, 28 Sep 2026 11:59:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:58:00 GMT</pubDate>
       <description>When somebody is hosting the film in your room, the CB’s radio has a Follow switch beside Catch up. Press it and your own film keeps pace with the host’s: it plays when they play, pauses when they pause, and moves when they jump, while its volume and captions stay yours. That is the thing Jitsi’s shared video cannot do, since only the person who shares one gets a volume. Pausing your own film stops following, which is how you take a break, and pressing Follow again picks up where the host is. It is off until you press it, it is never remembered, it sends nothing, and it stops when the host stops.</description>
     </item>
     <item>
       <title>Share a YouTube video in a call</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-cb-call-shared-video</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-cb-call-shared-video</guid>
-      <pubDate>Mon, 28 Sep 2026 11:58:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:57:00 GMT</pubDate>
       <description>A room’s call can share a YouTube video now, from the call’s own menu, for everybody in it to watch in step. It was missing because one setting of ours, which kept Jitsi from contacting anybody else, also switches that feature off. That setting is gone, and the three other things it covered (Jitsi’s analytics, its avatar lookups and its animated-picture search) are each switched off on their own instead. The person who shares a video plays and pauses it for everybody, and Jitsi mutes your microphone while it plays with the sound on. When somebody shares one, YouTube loads in everybody’s call window, and the privacy page says so.</description>
     </item>
     <item>
       <title>The radio’s answers no longer run under its buttons</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-cb-answers-overlap</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-cb-answers-overlap</guid>
-      <pubDate>Mon, 28 Sep 2026 11:57:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:56:00 GMT</pubDate>
       <description>A long answer on the CB’s radio, like the one Catch up gives when no film has been started, ran underneath the buttons below it on a full radio. Every part of the radio keeps its own height now, and the radio scrolls instead.</description>
     </item>
     <item>
       <title>A call moves like the radio</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-cb-call-moves</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-cb-call-moves</guid>
-      <pubDate>Mon, 28 Sep 2026 11:56:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:55:00 GMT</pubDate>
       <description>A room’s call can be moved anywhere on the screen, the way the radio can: drag its bar, or put the keyboard on its Move button and use the arrow keys, and Home puts it back in its corner. It never goes off the edge, and Large still fills the window and then goes back to where you had it. Where you put it is not remembered, because nothing about a call is kept.</description>
     </item>
     <item>
       <title>A small size for a call</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-cb-call-small</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-cb-call-small</guid>
-      <pubDate>Mon, 28 Sep 2026 11:55:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:54:00 GMT</pubDate>
       <description>A room’s call has a Small size now, beside Large: a tile in the corner, so there is room to watch a film on the page while you are in the call. Changing size never interrupts the call. Small and Large each go back to the middle size when you press them again.</description>
     </item>
     <item>
       <title>A call for every room</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-cb-room-calls</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-cb-room-calls</guid>
-      <pubDate>Mon, 28 Sep 2026 11:54:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:53:00 GMT</pubDate>
       <description>Join this room’s call on the CB’s radio opens voice and video for the room you are in, in a window of its own at the foot of the page, for people signed on to the CB. It runs on 8x8’s Jitsi as a Service, and it replaces nothing: the channel and the Proton rooms are still there. Camera and microphone start off, and you arrive on a screen where you choose before joining. The base station moderates and is the only one who can record or transcribe a call. Leaving the page hangs up; folding the radio away does not. It is the first thing on this site allowed to ask for a camera or a microphone, and the only thing: our pages never ask for either themselves. The privacy page says what goes to 8x8, and that we keep nothing about a call.</description>
     </item>
     <item>
       <title>The radio fits the window</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-cb-fits-the-window</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-cb-fits-the-window</guid>
-      <pubDate>Mon, 28 Sep 2026 11:53:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:52:00 GMT</pubDate>
       <description>The CB radio is never taller than your window now. With a full channel, a host and the teleporter open, it could grow past the top of the screen and take its own Fold away and Small buttons with it. The bar along the top stays where it is and everything under it scrolls, and the radio moves back onto the screen whenever it grows, wherever you have put it. For the base station, Take off now sits at the end of each message’s name-and-time line instead of on a row of its own under every message, which roughly halves the height of a full channel. A screen reader still hears each new message’s words before the button.</description>
     </item>
     <item>
       <title>A channel for every room</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-cb-room-channels</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-cb-room-channels</guid>
-      <pubDate>Mon, 28 Sep 2026 11:52:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:51:00 GMT</pubDate>
       <description>The CB tunes to World or to this room. World is the channel it always had. Every room on the street now has a channel of its own too, with the same rules: ten messages, and gone at midnight, Colorado time. The radio hears one at a time, says which at the top of its readout, and remembers which you chose, so walking between rooms tuned to rooms hears each room’s channel in turn. Listening to World tells us nothing about where you are. Listening to a room’s channel has to say which room, and the privacy page says so. Nothing records who listened where.</description>
     </item>
     <item>
       <title>Hosting a film on the CB</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-cb-host-beacon</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-cb-host-beacon</guid>
-      <pubDate>Mon, 28 Sep 2026 11:51:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:50:00 GMT</pubDate>
       <description>Host this film is on the radio once a film on your page has been started. Press it and everybody on the channel sees which film you are watching, in which room, and where it has got to, as it plays and pauses. In the same room, each radio has a Catch up button that moves that person’s own film to where the host is. Nobody else’s film moves, so anybody taking a break can catch up when they come back. From another room, the host’s room is a link that arrives with the film ready to start at the host’s place. One person hosts a room at a time. It is never remembered, it only sends while the radio is open and the tab is in front, and folding the radio away or leaving the page stops it. The radio never tells us which room you are in to find your room’s host: every radio is sent every host. The privacy page says exactly what is kept, and for how long.</description>
     </item>
     <item>
       <title>A spot reaches the big screen</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-picture-house-big-screen-spot</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-picture-house-big-screen-spot</guid>
-      <pubDate>Mon, 28 Sep 2026 11:50:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:49:00 GMT</pubDate>
       <description>Arriving at the Lightbulb Picture House by a spot on the CB, the film starts at the spot whether you press its card or put it on the big screen, and the line under the screen says where it started from.</description>
     </item>
     <item>
       <title>A spot’s room link takes you to the film, ready</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-cb-spot-link-arrives-ready</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-cb-spot-link-arrives-ready</guid>
-      <pubDate>Mon, 28 Sep 2026 11:49:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:48:00 GMT</pubDate>
       <description>Following the room’s name in a spot takes you to that room with the film’s play button ready to start at the spot. The keyboard lands on it, the radio says what it is, and nothing plays until you press it. If the film has no play button of its own there, because it is part of a whole programme, the radio says so and tells you what to do instead.</description>
     </item>
     <item>
       <title>A spot on the CB says which film and which room</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-cb-spot-names-film-room</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-cb-spot-names-film-room</guid>
-      <pubDate>Mon, 28 Sep 2026 11:48:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:47:00 GMT</pubDate>
       <description>Add my spot writes the film and the room now, like @34:12 in “An introduction to neurodiversity” at #lightbulb-picture-house. The room shows as its name, linked, so anybody can go there. Before this, a spot dropped from one room moved whatever happened to be playing in another. A spot that names a room or a film only moves that film in that room. Anywhere else, or with a different film playing, nothing moves, and the radio says where that spot is. A time typed bare, like @34:12, still moves whatever is playing on your page.</description>
     </item>
     <item>
       <title>A place in a film is a button on the CB</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-cb-film-places</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-cb-film-places</guid>
-      <pubDate>Mon, 28 Sep 2026 11:47:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:46:00 GMT</pubDate>
       <description>@34:12 in a CB message is a button now. Pressing it moves the film on your own page to that place. It does not press play, so somebody back from a break can catch up with the room and still keep their own pace, their own volume and their own pauses. This replaces pasting timestamps into the channel by hand at a watch-together. A time without the @, like 7:30, stays words. Add my spot appears on the radio once a film on the page has been started. It writes where your film has got to into your message box, and sends nothing until you transmit. It works in every room with a YouTube player, and it does not load YouTube’s own script: the page asks the player it already framed. We tested that the player takes a jump before building anything. Live cameras are left out, because a place means nothing in a live picture. The privacy page and the house norms say how it works.</description>
     </item>
     <item>
       <title>One campfire film the playlist cannot hold</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-picture-house-arday-card</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-picture-house-arday-card</guid>
-      <pubDate>Mon, 28 Sep 2026 11:46:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:45:00 GMT</pubDate>
       <description>Jason Arday’s second talk, Things Can Only Get Better, is on the campfire rack at the Lightbulb Picture House and not in Screen Three’s programme, because YouTube would not let it be added to the playlist. It still plays, from its card or up on the screen from there, and the card says why the programme skips it. The two April campfires whose posts had not been tagged Campfire Learn Together on stimpunks.org are tagged now, so the tag page holds every campfire on the rack.</description>
     </item>
     <item>
       <title>Screen Two’s rack, and racks that fold away</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-picture-house-screen-two-rack</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-picture-house-screen-two-rack</guid>
-      <pubDate>Mon, 28 Sep 2026 11:45:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:44:00 GMT</pubDate>
       <description>Screen Two at the Lightbulb Picture House has a rack now, like the others: a card for every film saying who made it, how long it runs, what it is about and what is in it before you press play, written from the films’ own captions. Each card can play its film in place or up on Screen Two. Every rack folds away. They start open, so nothing on the page is hidden until you choose to fold it, and folding one is a single press on its heading. It works without scripts.</description>
     </item>
     <item>
       <title>A card&#x27;s film on the big screen</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-picture-house-big-screen</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-picture-house-big-screen</guid>
-      <pubDate>Mon, 28 Sep 2026 11:44:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:43:00 GMT</pubDate>
       <description>Every card on a rack at the Lightbulb Picture House can now put its film on that rack’s own screen, in place of the whole programme: Screen One for the first rack, Screen Three for the campfire rack. The button says how long the film runs before you press it, like every other press here. Pressing it takes you to the screen, which says what is now showing, so the film does not start somewhere you cannot see. Putting the programme back does not start it: the screen goes back to its own press-to-play plate and waits. Without scripts the button is not there at all, rather than being a button that does nothing, and every card still plays its film in place.</description>
     </item>
     <item>
       <title>Screen Three at the Lightbulb Picture House: every campfire</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-picture-house-campfire</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-picture-house-campfire</guid>
-      <pubDate>Mon, 28 Sep 2026 11:43:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:42:00 GMT</pubDate>
       <description>The Lightbulb Picture House has a third screen, and on it is everything we have watched together at Campfire Learn Together, our Sunday watch-along, newest first. New campfires go on at the top. It has a rack like Screen One’s: a card for every film saying who made it, how long it runs, what it is about and what is in it before you press play, and which campfire it was watched at, with a link to the post we wrote for that campfire. The words are ours, written from each film’s captions rather than from its title; the few films with no captions are described from their own descriptions and from our posts, and the liner notes say which. Three campfires are listed under the rack and are not on the screen, because what we watched is on Vimeo or has since been made private on YouTube. Leaving them out would make the screen look like the whole record when it is not. Checked before it went up: every film plays and embeds, the whole playlist plays inside a frame on this site with captions on, and nothing reaches YouTube until you press play. The page no longer says how many screens it has.</description>
     </item>
     <item>
       <title>A fire in the fire pit at Swaying Sweetgrass</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-sweetgrass-fire</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-sweetgrass-fire</guid>
-      <pubDate>Mon, 28 Sep 2026 11:42:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:41:00 GMT</pubDate>
       <description>Swaying Sweetgrass had a fire pit with talks round it and no fire in it. Now it has one: a whole playlist of real campfires filmed in the forest by Norwegian Fireplace and Campfire, on one large screen the width of the clearing. You hear the crackle, the wind and birds. There is no voice and no music, and the channel says none of it is looped. Nothing loads until you press it. It is the one thing in the clearing that does not say how long it runs, because a playlist the channel keeps adding to has no length. The room says so beside it, and the sentence that said every label there gives a runtime has been rewritten to be true again. Everything told at the fire still says how long before you press. The screen shows no fire until you press it. Before that it is drawn in the meadow’s own colours, because the fire in this room is small and far off and is not what lights the page. The videos’ own titles sell them for sleep and focus. The room repeats none of that. Checked before it went up: the first video in the list plays and embeds, and the whole list plays inside a frame on this site. It is credited in the liner notes and is the first thing on the Now Playing poster for that room.</description>
     </item>
     <item>
       <title>A way in for rooms built with your own AI</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-import-room</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-import-room</guid>
-      <pubDate>Mon, 28 Sep 2026 11:41:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:40:00 GMT</pubDate>
       <description>A room somebody builds with their AI from Your Room’s prompt can now come onto the street through one tool, tools/import-room.py. It reads the note the prompt asks the AI to leave at the top of the page, checks everything it says against the page itself, and holds the room to the same promises every room here keeps. The dial has to work, every word has to be readable against what is actually behind it, nothing plays by itself, nothing is sent or kept, and everything borrowed is credited, the AI included. It measures the room as it would be published, not as it was sent, with the same checks the rest of the street runs, and it sends a room back with every reason at once rather than quietly changing it. The fix belongs where the person and their AI can see it. Sending a new version is importing it again. The room is replaced whole and nothing else moves. What the tool will not do is make a room’s share card or its job for the Adventurer’s Guild: those are still made by hand for every room, and the street will not publish one without them. The prompt on Your Room now asks for that note in an exact shape, a name and a description for the door, and the preview dial in parts that can be lifted out cleanly.</description>
     </item>
     <item>
       <title>Your Room, built with your own AI</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-your-room-with-your-ai</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-your-room-with-your-ai</guid>
-      <pubDate>Mon, 28 Sep 2026 11:40:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:39:00 GMT</pubDate>
       <description>Your Room has a prompt you can give Claude, or whichever AI you use. It asks you about the room first, then builds it as one page you can keep changing until it is right, and you send us the result. The prompt carries the street’s rules with it: the dial, contrast you can read, nothing that plays by itself, nothing sent or kept, no image generators, and credits for everything borrowed. It also leaves a note at the top of the page saying what we need to bring the room onto the street. It tells the AI to use your own words for anything about you, and not to write your story for you. The page says plainly that whatever you tell an AI goes to the company that runs it, that you do not need one, and that a room made with an AI is credited as such, the way How this site is made says how we use one.</description>
     </item>
     <item>
       <title>A correction in the licence file: not every typeface is OFL</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-licence-typefaces</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-licence-typefaces</guid>
-      <pubDate>Mon, 28 Sep 2026 11:39:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:38:00 GMT</pubDate>
       <description>The site’s licence file said every typeface here keeps the SIL Open Font License, and that was wrong. Most do, and some are under the Apache License 2.0. It now says so, and points at the Foundry, where each family’s licence is read off its own record rather than typed in.</description>
     </item>
     <item>
       <title>How this site is made, and how we use AI</title>
       <link>https://stimpunks.world/changelog.html#2026-09-28-how-this-site-is-made</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-28-how-this-site-is-made</guid>
-      <pubDate>Mon, 28 Sep 2026 11:38:00 GMT</pubDate>
+      <pubDate>Mon, 28 Sep 2026 11:37:00 GMT</pubDate>
       <description>A new page, How this site is made, like the design pages our sibling sites keep. It says why there is no design system here, what every room shares anyway, how the dial works, how contrast is measured, why nothing plays until you press it, and how the site is built and checked. It says how we use AI, in one place and plainly. Ryan Boren and Helen Edgar decide what the street is. Claude, an AI model made by Anthropic, writes nearly all of the code and drafts most of the words, and the drawings are code it writes. No picture here came out of an image generator, no voice here was made by an AI, and nothing a visitor does is sent to one. The page also says which mistakes a language model makes and how the site catches them. Every page’s sign-off links to it, beside the liner notes, so the account is one press away wherever you are.</description>
     </item>
     <item>

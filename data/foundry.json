@@ -1023,6 +1023,20 @@
       "sections": [
         71
       ]
+    },
+    "chakra-petch": {
+      "where": "The Operations Room",
+      "page": "cavendish-operations.html",
+      "sections": [
+        72
+      ]
+    },
+    "saira": {
+      "where": "The Operations Room",
+      "page": "cavendish-operations.html",
+      "sections": [
+        72
+      ]
     }
   }
 }

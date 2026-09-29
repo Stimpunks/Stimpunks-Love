@@ -146,7 +146,7 @@ def room_check(d, where, public):
         if d.get("url") or d.get("proton_name"):
             refuse(f"{where}: it has a room of its own AND a Proton link. Proton has gone from "
                    "a door once its room is built; take the url and proton_name out.")
-        for f in ("room", "prefix"):
+        for f in ("room", "prefix", "item"):
             if not str(d.get(f, "")).strip():
                 refuse(f"{where}: a door with a page needs its `{f}`.")
         tag = d["page"][:-5] if d["page"].endswith(".html") else ""
@@ -370,17 +370,18 @@ PAGE.write_text(src)
 
 # ── The rooms behind the doors ───────────────────────────────────────────────
 
-def room_slot(p, s):
+def room_slot(p, s, item):
     what = e(s["what"])
     if s.get("link"):
         what = f'<a href="{e(s["link"])}">{what}</a>'
     end = f' data-end="{s["end"]}"' if s.get("end") else ""
     days = " ".join(str(x) for x in s["days"])
-    tag = f'<p class="{p}-light__tag">{e(s["tagline"])}</p>' if s.get("tagline") else ""
-    return (f'      <li class="{p}-light" data-days="{days}" data-start="{s["start"]}"{end}>'
-            f'<p class="{p}-light__name">{what}</p>{tag}'
-            f'<p class="{p}-light__char">{e(s["said"])}</p>'
-            f'<p class="{p}-light__local" data-local hidden></p></li>')
+    c = f"{p}-{item}"
+    tag = f'<p class="{c}__tag">{e(s["tagline"])}</p>' if s.get("tagline") else ""
+    return (f'      <li class="{c}" data-days="{days}" data-start="{s["start"]}"{end}>'
+            f'<p class="{c}__name">{what}</p>{tag}'
+            f'<p class="{c}__char">{e(s["said"])}</p>'
+            f'<p class="{c}__local" data-local hidden></p></li>')
 
 
 def room_call(p, d, tag, public):
@@ -428,7 +429,7 @@ def write_room(d, public):
         s = swapin(s, page, f"{p}-words", f'    <p class="{p}-head__sub">{e(d["tagline"])}</p>')
         s = swapin(s, page, f"{p}-lede", f'  <p class="lede">{e(d["said"])}</p>')
         s = swapin(s, page, f"{p}-list", "\n".join(
-            [f'    <ol class="{p}-list" data-tz="{e(data["tz"])}">'] + [room_slot(p, x) for x in d["slots"]] + ['    </ol>']))
+            [f'    <ol class="{p}-list" data-tz="{e(data["tz"])}">'] + [room_slot(p, x, d.get("item", "slot")) for x in d["slots"]] + ['    </ol>']))
     s = swapin(s, page, f"{p}-call", room_call(p, d, tag, public))
     s = swapin(s, page, f"{p}-credits", (
         f'    <p>Every line about when is our events page&rsquo;s, word for word, read off '

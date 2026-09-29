@@ -2302,6 +2302,43 @@
     ]
    },
    "learned": "A light list is a timetable of things that do not change, and a recurring event is the same promise: you do not have to ask whether it is on."
+  },
+  {
+   "id": "op-tag",
+   "page": "cavendish-operations.html",
+   "room": "The Operations Room",
+   "title": "How long the round takes",
+   "posted": "Behind the Operations door at Cavendish Coworking there is a plant room, every pipe painted the colour of what it carries. Go down the steps, read the log on its clipboard, and find out how long the weekly round takes.",
+   "rank": 2,
+   "takes": "a minute, and the steps down",
+   "target": "a brass valve tag, fallen off a valve onto the floor",
+   "code": "VALVETAG",
+   "hints": [
+    "Go into Cavendish Coworking on the street and through the door marked Operations.",
+    "The log is on its clipboard, under the room's drawing.",
+    "The fallen tag is at the foot of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "How long does the Operations meeting run, from start to finish?",
+    "accept": [
+     "an hour",
+     "one hour",
+     "1 hour",
+     "hour",
+     "60 minutes",
+     "sixty minutes",
+     "1hr",
+     "1 hr"
+    ],
+    "answer": "An hour",
+    "why": "Every Tuesday, 10:00 to 11:00 AM Central, in our events page's own words: an hour, and the room works out the same hour on your own clock underneath.",
+    "hints": [
+     "It is on the log sheet.",
+     "Read the line under The Operations meeting.",
+     "From ten to eleven."
+    ]
+   },
+   "learned": "A plant room hides nothing: every pipe says what is in it. A task scrub is the same idea, done weekly, where anybody can watch."
   }
  ],
  "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

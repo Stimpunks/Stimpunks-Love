@@ -59,13 +59,12 @@
    ],
    "page": "cavendish-events.html",
    "room": "The Events Room",
-   "prefix": "wr"
+   "prefix": "wr",
+   "item": "light"
   },
   {
    "id": "operations",
    "name": "Operations",
-   "proton_name": "Operations",
-   "url": "https://meet.proton.me/join/id-67YQW2AQVR#pwd-dM9QVBNkhhPs",
    "tagline": "Where we run the thing.",
    "said": "The Operations meeting is where the work of keeping Stimpunks running gets done. Each week we hold a task scrub — triage, prioritize, and move work forward together. If you want to understand how the organization operates or get involved in the doing, this is the meeting for you.",
    "anchor": "#h-operations-meeting",
@@ -79,7 +78,11 @@
      "start": "10:00",
      "end": "11:00"
     }
-   ]
+   ],
+   "page": "cavendish-operations.html",
+   "room": "The Operations Room",
+   "prefix": "op",
+   "item": "entry"
   },
   {
    "id": "editorial",

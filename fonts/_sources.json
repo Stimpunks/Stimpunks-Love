@@ -1833,5 +1833,33 @@
    "src": "https://fonts.gstatic.com/s/ibmplexsanscondensed/v15/Gg8gN4UfRSqiPg7Jn2ZI12V4DCEwkj1E4LVeHY527LvspYYnFBq4.woff2",
    "note": "The Events Room (§71): each event's name on the light list."
   }
+ ],
+ "chakra-petch": [
+  {
+   "file": "chakra-petch-600.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 10040,
+   "src": "https://fonts.gstatic.com/s/chakrapetch/v13/cIflMapbsEk7TDLdtEz1BwkeQI51R5_F_gUk0w.woff2",
+   "note": "The Operations Room (§72), behind Cavendish Coworking's Operations door: the room's name and headings, squared like the engraved labels screwed to a plant room's pipes. Never a sentence."
+  }
+ ],
+ "saira": [
+  {
+   "file": "saira-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 32988,
+   "src": "https://fonts.gstatic.com/s/saira/v23/memjYa2wxmKQyPMrZX79wwYZQMhsyuSLiIvSdyqOvg.woff2",
+   "note": "The Operations Room (§72): every sentence and the log sheet."
+  },
+  {
+   "file": "saira-600.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 32988,
+   "src": "https://fonts.gstatic.com/s/saira/v23/memjYa2wxmKQyPMrZX79wwYZQMhsyuSLiIvSdyqOvg.woff2",
+   "note": "The Operations Room (§72): what a tag or the log says first, and the buttons."
+  }
  ]
 }

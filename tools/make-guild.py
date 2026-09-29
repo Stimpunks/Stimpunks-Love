@@ -377,6 +377,11 @@ DRAW = {
     # threshold a marker is held to. The floor line and the sole are --mud-dim
     # and carry nothing. It lies still.
     "mud-welly": """<path d="M3 29 H29" stroke="var(--mud-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 24 V13 Q5 10 8 10 H17 Q19 10 19 13 V17 H25 Q28 17 28 21 V24 Z" fill="var(--mud-welly)" stroke="var(--mud-welly)" stroke-width="1.4" stroke-linejoin="round"/><path d="M4.5 26 H28.5" stroke="var(--mud-dim)" stroke-width="2.4" stroke-linecap="round"/><path d="M8 13.5 H16" stroke="var(--mud-ground)" stroke-width="1.4" stroke-linecap="round"/>""",
+    # A brass valve tag, fallen off a valve onto the Operations Room's floor:
+    # a small plate with its hole and its number stamped in, in the brass the
+    # room uses for its tags, 6.18 on the concrete. The floor line is
+    # --op-steel and carries nothing.
+    "op-tag": """<path d="M3 29.5 H29" stroke="var(--op-steel)" stroke-width="1.6" stroke-linecap="round"/><rect x="6" y="10" width="20" height="13" rx="2.5" fill="none" stroke="var(--op-brass)" stroke-width="2.2"/><circle cx="10.5" cy="16.5" r="1.8" fill="none" stroke="var(--op-brass)" stroke-width="1.6"/><path d="M15 14 H22 M15 19 H20" stroke="var(--op-brass)" stroke-width="1.8" stroke-linecap="round"/><path d="M10.5 10 Q9 5 13 4" fill="none" stroke="var(--op-brass)" stroke-width="1.4" stroke-linecap="round"/>""",
     # A spare lamp mantle, left by the Events Room's chart table: the mesh a
     # lighthouse's paraffin lamp glowed through, and its collar, in the brass
     # the room uses for every link on the wall, 8.9 on the stone. The floor

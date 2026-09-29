@@ -675,6 +675,16 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--watchroom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
 .og--watchroom .og-scene svg {{ display: block; width: 1200px; height: 330px; }}
 
+/* the operations room — THE PLANT ROOM, LIFTED OFF THE ROOM: the mains in their
+   service colours, the valves and their tags, the gauge, the log on its
+   clipboard, and the caged lamp with its shadow fanning out over all of it. */
+.og--oproom {{ width: 100%; padding: 40px 60px 0; gap: 8px; justify-content: flex-start; }}
+.og--oproom .op-over {{ margin: 0 !important; font-size: 19px; letter-spacing: .08em; text-transform: uppercase; color: #ABA89F; }}
+.og--oproom h1 {{ font-size: 84px; margin: 0 !important; }}
+.og--oproom .og-lede {{ font-family: 'Saira', sans-serif; color: #E6E2D8; max-width: 1060px; font-size: 26px; margin: 4px 0 0 !important; }}
+.og--oproom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--oproom .og-scene svg {{ display: block; width: 1200px; height: 320px; }}
+
 /* the mud room — THE VIEW FROM THE BACK STEP, LIFTED OFF THE ROOM: the sky, the
    far shore, the causeway posts going out to the beacon, and the sky lying in
    the mud, under the room's own name. Nothing on it moves, which is the
@@ -2578,6 +2588,25 @@ def card_watchroom(p):
     )
 
 
+def card_oproom(p):
+    return (
+        "",
+        f'<div class="og og--oproom" data-fit="card">'
+        f'<p class="op-over">Behind the Operations door at Cavendish Coworking</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-scene">{p["op_scene"]}</div>'
+        f'</div>',
+        f"A near-black concrete card. A small line in grey capitals reading behind the Operations "
+        f"door at Cavendish Coworking, then “{p['h1text']}” in squared capitals like an engraved "
+        f"label, and under it in pale grey: {p['desc_plain']} Along the foot, a plant room: pipes "
+        f"running across the wall painted green, blue and yellow, a red fire main coming down, "
+        f"valves with brass tags hanging from them, a round gauge, a clipboard with a ruled log "
+        f"sheet on it, and one bulb in a wire cage hanging from a pipe, its cage throwing lines of "
+        f"shadow out across everything.",
+    )
+
+
 def card_mud(p):
     return (
         "",
@@ -3471,6 +3500,7 @@ CARDS = {
     "rave":         card_rave,
     "cooldown":     card_cooldown,
     "watchroom":    card_watchroom,
+    "oproom":       card_oproom,
     "mud":          card_mud,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
@@ -3757,6 +3787,11 @@ def main():
     if not wr:
         raise SystemExit("REFUSING: cavendish-events.html has lost its watch room, and its card is built out of it.")
     lifted["wr_scene"] = wr.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 120 1200 330"', 1)
+    op = re.search(r'<div class="op-head__art">\s*(?:<!--.*?-->\s*)?(<svg.*?</svg>)',
+                   (ROOT / "cavendish-operations.html").read_text(), re.S)
+    if not op:
+        raise SystemExit("REFUSING: cavendish-operations.html has lost its plant room, and its card is built out of it.")
+    lifted["op_scene"] = op.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 84 1200 320"', 1)
     # THE MUD ROOM'S CARD CARRIES THE ROOM'S OWN VIEW AND OVER-LINE, cropped by its
     # viewBox to the horizon and the mud, so the card cannot disagree with the room.
     mud_src = (ROOT / "the-mud-room.html").read_text()

@@ -549,6 +549,14 @@ WR_STONE, WR_LIME, WR_LIT = "#1B232C", "#28323C", "#F5E9C4"
 WR_INK, WR_FLARE, WR_TEXT = "#1C2530", "#8E1F5E", "#DCE3E8"
 WR_DIM, WR_BRASS = "#A3AFB9", "#D9B266"
 
+# The Operations Room (§72). THREE GROUNDS: the concrete, where most words
+# are; the log sheet on its clipboard, the one pale ground, dark ink with the
+# fire main's red for its links; and the painted band at the foot of the wall,
+# which is the call's panel.
+OP_CONCRETE, OP_WALL, OP_SHEET = "#1E2124", "#2B3034", "#ECE6D4"
+OP_INK, OP_RED, OP_TEXT = "#1F2225", "#A3322A", "#E6E2D8"
+OP_DIM, OP_YELLOW, OP_BRASS = "#ABA89F", "#E3B53A", "#C29A4E"
+
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
 # screen is the light source in this room, not a surface anything is set on --
@@ -2465,6 +2473,20 @@ PAIRS = [
     (WR_INK,   WR_BRASS, False, "events room: Knock on the door and Join the call"),
     (WR_INK,   WR_TEXT,  False, "events room: a button's hover"),
     (WR_BRASS, WR_STONE, True,  "events room: the job marker, a spare lamp mantle by the chart table"),
+    # ── The Operations Room (§72) ────────────────────────────────────────────
+    (OP_TEXT,   OP_CONCRETE, False, "operations room: every paragraph on the concrete, the headings, the lede, and what you type in the name box"),
+    (OP_DIM,    OP_CONCRETE, False, "operations room: the over-line, the trail and the credits"),
+    (OP_YELLOW, OP_CONCRETE, False, "operations room: every link on the concrete, the backlink and the door's own line under the name"),
+    (OP_TEXT,   OP_WALL,     False, "operations room: the call panel's words, its label and what it says back"),
+    (OP_DIM,    OP_WALL,     False, "operations room: the call's fine print"),
+    (OP_YELLOW, OP_WALL,     False, "operations room: a link in the call panel, and its edge"),
+    (OP_DIM,    OP_WALL,     True,  "operations room: the edge of the name box, against the panel"),
+    (OP_INK,    OP_SHEET,    False, "operations room: the log sheet"),
+    (OP_RED,    OP_SHEET,    False, "operations room: every link on the log sheet"),
+    (OP_INK,    OP_SHEET,    True,  "operations room: the focus ring on the log sheet, a pale ground in a dark room"),
+    (OP_INK,    OP_YELLOW,   False, "operations room: Knock on the door and Join the call"),
+    (OP_INK,    OP_TEXT,     False, "operations room: a button's hover"),
+    (OP_BRASS,  OP_CONCRETE, True,  "operations room: the job marker, a brass valve tag on the floor"),
     (MUD_TEXT,  MUD_GROUND, False, "mud room: every paragraph, the lede, the house rules and the door's blurb on the street"),
     (MUD_SKY,   MUD_GROUND, False, "mud room: the h1, every heading, every bold run and the door's name"),
     (MUD_DIM,   MUD_GROUND, False, "mud room: the trail, the over-line, the fine print and every label in the guidebook"),
@@ -2736,6 +2758,10 @@ ORNAMENT = {
                "1.52 on the hangar and 1.34 on a deck. It carries no word.",
     "#ffffff": "rave: the strobe's flash, laid over the hangar picture only after two presses. "
                "Nothing is ever written on a flash, and make-rave.py refuses it with any colour in it.",
+    "#2f7d4f": "operations room: the water main, 3.21 on the concrete; drawn in its service colour, and carries no word",
+    "#3e6fa6": "operations room: the air main, 3.10 on the concrete; drawn, and carries no word",
+    "#4a5157": "operations room: the pipework's brackets, the valve wheels, the lamp's cage and the clipboard, 2.01 on the concrete, and the job marker's floor line; they carry nothing",
+    "#ffe7a6": "operations room: the bulb and its light, 13.27 on the concrete; drawn, and no word stands in it",
     "#13283a": "events room: the sea in the window, 1.05 on the wall; the window is drawn and carries no word",
     "#3c5670": "events room: the sky at dusk in the window, 2.08 on the wall; drawn, and carries nothing",
     "#3a4652": "events room: the ladder, the table's legs and the window's frame, 1.65 on the wall, and the job marker's floor line; they carry nothing",

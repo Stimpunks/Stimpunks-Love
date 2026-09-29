@@ -620,6 +620,23 @@
     }
    ]
   },
+  "chakra-petch": {
+   "family": "Chakra Petch",
+   "category": "Sans Serif",
+   "designer": "Cadson Demak",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/chakrapetch",
+   "copyright": "Copyright 2018 The Chakra Petch Project Authors (https://github.com/m4rc1e/Chakra-Petch.git)",
+   "repository": "https://github.com/m4rc1e/Chakra-Petch",
+   "variants": [
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "chakra-petch-600.woff2",
+     "sha": "4d6d5f0b31b3a471"
+    }
+   ]
+  },
   "chango": {
    "family": "Chango",
    "category": "Display",
@@ -2140,6 +2157,29 @@
      "style": "normal",
      "file": "rye-400.woff2",
      "sha": "213b4683d65efe68"
+    }
+   ]
+  },
+  "saira": {
+   "family": "Saira",
+   "category": "Sans Serif",
+   "designer": "Omnibus-Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/saira",
+   "copyright": "Copyright 2020 The Saira Project Authors (https://github.com/Omnibus-Type/Saira)",
+   "repository": "https://github.com/Omnibus-Type/Saira",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "saira-400.woff2",
+     "sha": "d00e219103120bc7"
+    },
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "saira-600.woff2",
+     "sha": "d00e219103120bc7"
     }
    ]
   },
