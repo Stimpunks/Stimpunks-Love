@@ -583,6 +583,7 @@ CV_DEEP, CV_SHELF, CV_TEXT, CV_DIM = "#0C3B4E", "#082F40", "#EAF7FA", "#A6D0DD"
 CV_LINK, CV_CRACK, CV_SEAM = "#8FE3F2", "#D2F1F9", "#134E66"
 TH_SHADE, TH_WALL, TH_TEXT, TH_DIM = "#312E2B", "#3E3A36", "#F3EEE4", "#D6CEC1"
 TH_LINK, TH_SUN = "#F3C98B", "#F7E8C2"
+FB_WATER, FB_SHALLOW, FB_INK, FB_INK2, FB_LINK = "#D6EEEA", "#BFE3DD", "#0D3432", "#2A5754", "#9B330C"
 
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
@@ -2580,6 +2581,17 @@ PAIRS = [
     (TH_SUN,  TH_SHADE, True,  "town hall: the focus ring, the colour of the disc of sun"),
     (TH_SUN,  TH_WALL,  True,  "town hall: the focus ring on a door, and an open door's frame while it is hovered"),
     (TH_LINK, TH_SHADE, True,  "town hall: the job marker, a gavel left on the floor"),
+    (FB_INK,   FB_WATER,   False, "fishbowl: every paragraph, the h1, the headings and the lede"),
+    (FB_INK2,  FB_WATER,   False, "fishbowl: the over-line, the trail and the credits"),
+    (FB_LINK,  FB_WATER,   False, "fishbowl: every link and the backlink"),
+    (FB_INK,   FB_SHALLOW, False, "fishbowl: the call panel's words"),
+    (FB_INK2,  FB_SHALLOW, False, "fishbowl: the call's fine print"),
+    (FB_LINK,  FB_SHALLOW, False, "fishbowl: a link in the call panel"),
+    (FB_WATER, FB_INK,     False, "fishbowl: the join button"),
+    (FB_WATER, FB_LINK,    False, "fishbowl: the join button while it is hovered"),
+    (FB_INK,   FB_WATER,   True,  "fishbowl: the focus ring"),
+    (FB_INK,   FB_SHALLOW, True,  "fishbowl: the focus ring on the call panel"),
+    (FB_LINK,  FB_WATER,   True,  "fishbowl: the job marker, a flake of fish food on the sill"),
     (MUD_TEXT,  MUD_GROUND, False, "mud room: every paragraph, the lede, the house rules and the door's blurb on the street"),
     (MUD_SKY,   MUD_GROUND, False, "mud room: the h1, every heading, every bold run and the door's name"),
     (MUD_DIM,   MUD_GROUND, False, "mud room: the trail, the over-line, the fine print and every label in the guidebook"),
@@ -2832,6 +2844,18 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#ffffff": "fishbowl: the sun bent by the water into bright lines on the gravel and the sill, and the "
+               "glint on the glass, 1.22 on the room's water. The room's light, drawn; it carries no word.",
+    "#8fcbc3": "fishbowl: the glass of the bowl, the waterline and the sill's edge, 1.50 on the water. Drawing "
+               "only; it carries no word.",
+    "#f3ecdd": "fishbowl: the sill in the sun, 1.03 on the water. A ground for drawings only; no word stands on it.",
+    "#e4762a": "fishbowl: the goldfish, 2.50 on the water. It carries no word; every link is the same orange "
+               "taken dark enough to read, measured above.",
+    "#f7e0cb": "fishbowl: the shells of the outer ring, 1.05 on the water and outlined in the room's ink. "
+               "Drawing only.",
+    "#cdbe9e": "fishbowl: the gravel in the bowl, 1.51 on the water. Drawing only.",
+    "#93a5a1": "fishbowl: the stones of the inner ring, 2.12 on the water and outlined in the room's ink. "
+               "Drawing only; the ring and its gap are said in words on the page.",
     "#5f5a55": "town hall: the grey granite of the floor, the cornice and the plaques over the doors in the "
                "drawing, and the frame of every door, 1.98 on the hall's shade and 1.65 on the drum wall. It "
                "carries no word: a door is named in its own words, and a door not open yet says so in words "

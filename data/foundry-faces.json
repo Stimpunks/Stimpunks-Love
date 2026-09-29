@@ -1152,6 +1152,23 @@
     }
    ]
   },
+  "grandstander": {
+   "family": "Grandstander",
+   "category": "Display",
+   "designer": "Tyler Finck, ETC",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/grandstander",
+   "copyright": "Copyright 2020 The Grandstander Project Authors (https://github.com/Etcetera-Type-Co/Grandstander)",
+   "repository": "https://github.com/Etcetera-Type-Co/Grandstander",
+   "variants": [
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "grandstander-700.woff2",
+     "sha": "9342856447c8f7d0"
+    }
+   ]
+  },
   "gravitas-one": {
    "family": "Gravitas One",
    "category": "Display",
@@ -2415,6 +2432,29 @@
      "style": "normal",
      "file": "shrikhand-400.woff2",
      "sha": "78a6223af12c516c"
+    }
+   ]
+  },
+  "signika": {
+   "family": "Signika",
+   "category": "Sans Serif",
+   "designer": "Anna Giedryś",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/signika",
+   "copyright": "Copyright 2018 The Signika Project Authors (https://github.com/googlefonts/Signika).",
+   "repository": "https://github.com/googlefonts/Signika",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "signika-400.woff2",
+     "sha": "056a41b167d5600c"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "signika-400.woff2",
+     "sha": "056a41b167d5600c"
     }
    ]
   },

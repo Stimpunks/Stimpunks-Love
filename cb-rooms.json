@@ -187,6 +187,11 @@
    "path": "/town-hall.html"
   },
   {
+   "tag": "town-hall-fishbowl",
+   "name": "The Fishbowl",
+   "path": "/town-hall-fishbowl.html"
+  },
+  {
    "tag": "dopamine-dress-up-den",
    "name": "Dopamine Dress-Up Den",
    "path": "/dopamine-dress-up-den.html"

@@ -734,6 +734,15 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--townhall .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
 .og--townhall .og-scene svg {{ display: block; width: 1200px; height: 300px; }}
 
+/* the fishbowl — THE BOWL ON ITS SILL, LIFTED OFF THE ROOM: the inner ring
+   with its gap, the goldfish, the outer ring of shells and the bent sun. */
+.og--fbroom {{ width: 100%; padding: 40px 60px 0; gap: 8px; justify-content: flex-start; }}
+.og--fbroom .fb-over {{ margin: 0 !important; font-size: 19px; letter-spacing: .05em; text-transform: uppercase; color: #2A5754; }}
+.og--fbroom h1 {{ font-size: 84px; margin: 0 !important; }}
+.og--fbroom .og-lede {{ font-family: 'Signika', sans-serif; color: #0D3432; max-width: 1060px; font-size: 25px; margin: 4px 0 0 !important; }}
+.og--fbroom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--fbroom .og-scene svg {{ display: block; width: 1200px; height: 300px; }}
+
 /* the mud room — THE VIEW FROM THE BACK STEP, LIFTED OFF THE ROOM: the sky, the
    far shore, the causeway posts going out to the beacon, and the sky lying in
    the mud, under the room's own name. Nothing on it moves, which is the
@@ -2745,6 +2754,23 @@ def card_townhall(p):
     )
 
 
+def card_fbroom(p):
+    return (
+        "",
+        f'<div class="og og--fbroom" data-fit="card">'
+        f'<p class="fb-over">Through a door off the Town Hall</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-scene">{p["fb_scene"]}</div>'
+        f'</div>',
+        f"A pale aqua card. A small line in dark teal capitals reading through a door off the Town "
+        f"Hall, then “{p['h1text']}” in round bold letters, and under it: {p['desc_plain']} Along the "
+        f"foot, a round glass bowl of water on a sunny sill: a ring of round stones on the gravel "
+        f"inside it with one gap at the front, a goldfish, a wider ring of shells round the foot of "
+        f"the glass, and the sun bent by the water into bright tangled lines on the gravel and the sill.",
+    )
+
+
 def card_mud(p):
     return (
         "",
@@ -3644,6 +3670,7 @@ CARDS = {
     "cfroom":       card_cfroom,
     "cvroom":       card_cvroom,
     "townhall":     card_townhall,
+    "fbroom":       card_fbroom,
     "mud":          card_mud,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
@@ -3960,6 +3987,11 @@ def main():
     if not th:
         raise SystemExit("REFUSING: town-hall.html has lost its rotunda, and its card is built out of it.")
     lifted["th_scene"] = th.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 176 1200 300"', 1)
+    fb = re.search(r'<div class="fb-head__art">\s*(?:<!--.*?-->\s*)?(<svg.*?</svg>)',
+                   (ROOT / "town-hall-fishbowl.html").read_text(), re.S)
+    if not fb:
+        raise SystemExit("REFUSING: town-hall-fishbowl.html has lost its bowl, and its card is built out of it.")
+    lifted["fb_scene"] = fb.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 180 1200 300"', 1)
     # THE MUD ROOM'S CARD CARRIES THE ROOM'S OWN VIEW AND OVER-LINE, cropped by its
     # viewBox to the horizon and the mud, so the card cannot disagree with the room.
     mud_src = (ROOT / "the-mud-room.html").read_text()

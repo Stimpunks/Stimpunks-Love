@@ -970,6 +970,13 @@
 @font-face { font-family: 'Forum'; src: url('fonts/forum-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Gelasio'; src: url('fonts/gelasio-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Gelasio'; src: url('fonts/gelasio-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+/* The Fishbowl (§78). GRANDSTANDER, by Tyler Finck with ETC, is round and bold, and sets
+   the room's name and headings; never a sentence. SIGNIKA, by Anna Giedryś, was
+   drawn for signs that have to be read in a hurry, and carries every word that
+   is read; one variable file serves both weights. */
+@font-face { font-family: 'Grandstander'; src: url('fonts/grandstander-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Signika'; src: url('fonts/signika-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Signika'; src: url('fonts/signika-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -2397,6 +2404,18 @@
   --th-shade: #312E2B;  --th-wall: #3E3A36;  --th-text: #F3EEE4;  --th-dim: #D6CEC1;
   --th-link: #F3C98B;   --th-sun: #F7E8C2;   --th-coffer: #25221F; --th-sky: #CFE3EE;
   --th-granite: #5F5A55; --th-porphyry: #7E332D;
+
+  /* The Fishbowl (§78). A GLASS BOWL OF WATER ON A SUNNY SILL. --fb-water is
+     the room's ground, the colour of looking through the bowl; --fb-shallow the
+     water in the bowl a shade deeper, the ground of every panel. --fb-ink is what
+     you read and the ground of the buttons, --fb-ink-2 the fine print, --fb-link
+     every link, a goldfish's orange taken dark enough to read. --fb-caustic is
+     the sun bent by the water into bright lines, --fb-glass the bowl, --fb-sill
+     the sill, --fb-gold the goldfish, --fb-shell, --fb-gravel and --fb-stone the
+     two rings and the floor of the bowl; they carry no word. */
+  --fb-water: #D6EEEA;  --fb-shallow: #BFE3DD;  --fb-ink: #0D3432;  --fb-ink-2: #2A5754;
+  --fb-link: #9B330C;   --fb-caustic: #FFFFFF;  --fb-glass: #8FCBC3; --fb-sill: #F3ECDD;
+  --fb-gold: #E4762A;   --fb-shell: #F7E0CB;    --fb-gravel: #CDBE9E; --fb-stone: #93A5A1;
 }
 
 * { box-sizing: border-box; }
@@ -14103,7 +14122,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §79
+   class on it is `bb-`, its sizes are in points and millimetres, and §80
    prints it and nothing else. */
 
 .room-broadside {
@@ -14164,7 +14183,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §79 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §80 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -16211,7 +16230,78 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 
 .townhall .th-credits p { font-size: 16px; color: var(--th-dim); }
 
-/* §78 ── Small screens ───────────────────────────────────────────────────────
+/* §78 ── SUBROOM: The Fishbowl (through a door off the Town Hall) ────────────
+   A GLASS BOWL OF WATER ON A SUNNY SILL. The door says it in Ryan's words: a
+   room for community Fishbowl Meetings for anyone with CB access. A fishbowl is
+   a small circle that talks, a wide circle that listens, and one seat in the
+   middle kept empty, and this is the object the format is named after: a ring
+   of stones on the gravel with one gap in it, and a ring of shells round the
+   foot of the glass.
+
+   THE LIGHT IS BENT. The sun comes in from the left, through the water, and the
+   water focuses it into bright tangled lines on the gravel and on the sill
+   behind the bowl. No other room is lit by refraction. Every word is dark on the
+   pale water, where you would read through the glass.
+
+   THE COLLISIONS TO WATCH:
+     · ITS PARENT, THE TOWN HALL, is a round stone hall in shade with one hard
+       disc of sun on the floor, and every word in it pale on the dark. This is
+       pale, wet, glass and bright, and the light in it is a tangle, not a disc.
+       A round room off a round room, and that is all they share.
+     · THE HEALING CHECKPOINT is the other room lit through water, and there the
+       light comes UP out of a spring under the floor, soft, in a dark room with
+       every top surface dark. Here the room is bright, the light comes in from
+       the side, and it lands in hard lines.
+     · THE GARDEN is the other pale room whose light has been through something
+       on the way, leaves, and it lands as dappled shade, dark holes in sunlight.
+       Caustics are the opposite: bright lines on a lit ground. If the lines in
+       here ever go dark, it has become the garden in a bowl.
+     · THE CAVE at Cavendish is lit through ice and is deep blue; nothing in it
+       is pale.
+   If the water ever goes dark, or a lamp appears, the bowl has been emptied.
+
+   NOTHING MOVES AT ANY SETTING. Real caustics shimmer; these are drawn still,
+   and the goldfish is not going anywhere. */
+
+.fbroom {
+  background: var(--fb-water); color: var(--fb-ink);
+  font-family: 'Signika', 'Trebuchet MS', sans-serif;
+}
+.fbroom :where(i, em, cite) { font-style: normal; }
+.fbroom a { color: var(--fb-link); text-underline-offset: 3px; }
+.fbroom a:hover { color: var(--fb-ink); }
+.fbroom :focus-visible { outline-color: var(--fb-ink); }
+.fbroom :where(p, li) { font-size: 18px; line-height: 1.6; }
+.fbroom .backlink { font-family: 'Signika', 'Trebuchet MS', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0; text-transform: none; color: var(--fb-link); }
+.fb-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.fbroom .fb-trail { margin: 0; font-size: 15px; color: var(--fb-ink-2); }
+.fbroom h1, .fbroom h2 { font-family: 'Grandstander', 'Trebuchet MS', sans-serif; font-weight: 700; color: var(--fb-ink); }
+.fbroom h1 { font-size: clamp(40px, 7.6vw, 80px); line-height: 1.02; margin: 8px 0 0; }
+.fbroom h2 { font-size: clamp(22px, 3.2vw, 28px); margin: 46px 0 12px; }
+.fb-head { margin: 22px 0 8px; }
+.fbroom .fb-head__over { margin: 0; font-size: 15px; letter-spacing: .05em; text-transform: uppercase; color: var(--fb-ink-2); }
+.fb-head__art { margin: 20px 0 0; overflow: hidden; border-radius: 6px; background: var(--fb-water); }
+.fb-head__art svg { display: block; width: 100%; height: auto; }
+.fbroom .fb-lede { margin: 26px 0 0; max-width: 40em; font-size: 21px; }
+.fb-part { max-width: 50em; }
+.fb-part > p { max-width: 42em; }
+.fb-list { margin: 0; padding-left: 1.2em; }
+.fb-list > li { margin: 0 0 12px; }
+
+/* THE CIRCLE: the call, in the bowl's water. */
+.fb-call { margin: 14px 0 0; padding: 18px 22px 20px; background: var(--fb-shallow); border-radius: 22px; }
+.fb-call p { margin: 0 0 12px; }
+.fb-call button {
+  min-height: 48px; padding: 8px 20px; cursor: pointer;
+  font: 700 18px/1.2 'Signika', 'Trebuchet MS', sans-serif;
+  color: var(--fb-water); background: var(--fb-ink); border: 2px solid var(--fb-ink); border-radius: 24px;
+}
+.fb-call button:hover { background: var(--fb-link); border-color: var(--fb-link); }
+.fb-call__said { font-weight: 700; }
+.fbroom .fb-call__fine { font-size: 16px; color: var(--fb-ink-2); margin-bottom: 0; }
+.fbroom .fb-credits p { font-size: 16px; color: var(--fb-ink-2); }
+
+/* §79 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -16318,7 +16408,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §78 says every
+   shipped with no rule here at all — which on a street whose §79 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -16442,7 +16532,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §79 ── Print ───────────────────────────────────────────────────────────────
+/* §80 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

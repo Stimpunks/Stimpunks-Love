@@ -1107,6 +1107,20 @@
       "sections": [
         77
       ]
+    },
+    "grandstander": {
+      "where": "The Fishbowl",
+      "page": "town-hall-fishbowl.html",
+      "sections": [
+        78
+      ]
+    },
+    "signika": {
+      "where": "The Fishbowl",
+      "page": "town-hall-fishbowl.html",
+      "sections": [
+        78
+      ]
     }
   }
 }

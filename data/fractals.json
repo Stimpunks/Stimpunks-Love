@@ -1264,6 +1264,22 @@
     "--th-link",
     "--th-sun"
    ]
+  },
+  "town-hall-fishbowl.html": {
+   "kind": "julia",
+   "power": 2,
+   "c": [
+    -0.8,
+    0.156
+   ],
+   "orbit": 0.015,
+   "ground": "--fb-water",
+   "inks": [
+    "--fb-glass",
+    "--fb-stone",
+    "--fb-link",
+    "--fb-ink"
+   ]
   }
  }
 }

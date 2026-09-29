@@ -176,6 +176,8 @@ for r in rooms:
         refuse(f'{r["page"]} is for anybody on the CB and its <body> says data-cb="mods".')
     if f'class="{r["body"]}' not in body.group(0):
         refuse(f"{r['page']}'s <body> does not wear {r['body']}, the class its card and section are built on.")
+    if e(r["what"]).replace("&#x27;", "&rsquo;") not in src and r["what"] not in src:
+        refuse(f"{r['page']} does not say its own line, which is Ryan's, word for word: {r['what']!r}")
     src = swap(src, r["page"], f"{r['prefix']}-call", panel(r))
     for a in re.findall(r'<a [^>]*class="backlink"[^>]*>', src):
         if 'href="town-hall.html' not in a:

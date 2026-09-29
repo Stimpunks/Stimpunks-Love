@@ -2017,5 +2017,33 @@
    "src": "https://fonts.gstatic.com/s/gelasio/v14/cIf9MaFfvUQxTTqS9C6hYUsEkIo.woff2",
    "note": "The Town Hall (§77): every word that is read. One variable file serves both weights; no italic is shipped, and nothing in the room is set italic."
   }
+ ],
+ "grandstander": [
+  {
+   "file": "grandstander-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 22856,
+   "src": "https://fonts.gstatic.com/s/grandstander/v20/ga6fawtA-GpSsTWrnNHPCSIMZhhKpFjyNZIQD7i5P3_ct_NDiQhJYQ.woff2",
+   "note": "The Fishbowl (§78), through a door off the Town Hall: the room's name and headings, round and bold like a bowl. Never a sentence."
+  }
+ ],
+ "signika": [
+  {
+   "file": "signika-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 42272,
+   "src": "https://fonts.gstatic.com/s/signika/v29/vEFO2_JTCgwQ5ejvMV0Ox_Kg1UwJ0tKfX6bBjM7-f7e0.woff2",
+   "note": "The Fishbowl (§78): every word that is read. One variable file serves both weights; no italic is shipped, and nothing in the room is set italic: a title in its credits is set upright."
+  },
+  {
+   "file": "signika-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 42272,
+   "src": "https://fonts.gstatic.com/s/signika/v29/vEFO2_JTCgwQ5ejvMV0Ox_Kg1UwJ0tKfX6bBjM7-f7e0.woff2",
+   "note": "The Fishbowl (§78): every word that is read. One variable file serves both weights; no italic is shipped, and nothing in the room is set italic: a title in its credits is set upright."
+  }
  ]
 }

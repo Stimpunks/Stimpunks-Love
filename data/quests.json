@@ -1922,6 +1922,51 @@
    }
   },
   {
+   "id": "fb-flake",
+   "page": "town-hall-fishbowl.html",
+   "room": "The Fishbowl",
+   "title": "The seat nobody sits in",
+   "posted": "Through a door off the Town Hall there is a fishbowl on a sunny sill. Go and find out what the circle in the middle always keeps.",
+   "rank": 2,
+   "takes": "about as long as it takes to feed a fish",
+   "target": "a flake of fish food, fallen on the sill",
+   "code": "EMPTYSEAT",
+   "learned": "A conversation stays open when there is always room to come in. The fishbowl keeps one seat in the middle empty, and whoever takes it is joined by somebody else stepping back out.",
+   "hints": [
+    "Go into the Town Hall on the street, and through the Fishbowl's door.",
+    "Read How a fishbowl goes.",
+    "The flake is on the sill at the foot of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "What does the middle of a fishbowl always keep?",
+    "accept": [
+     "an empty seat",
+     "empty seat",
+     "one empty seat",
+     "an empty chair",
+     "empty chair",
+     "a seat",
+     "seat",
+     "a chair",
+     "chair",
+     "a free seat",
+     "free seat",
+     "the empty seat",
+     "the empty chair",
+     "room",
+     "a gap",
+     "gap"
+    ],
+    "answer": "An empty seat",
+    "why": "One seat in the middle is always left empty, so anybody from the outer circle can come in and take it; when they do, somebody in the middle goes back out.",
+    "hints": [
+     "It is in the first paragraph of How a fishbowl goes.",
+     "Look at the ring of stones in the bowl.",
+     "Nobody is sitting in it."
+    ]
+   }
+  },
+  {
    "id": "dressup-feather",
    "page": "dopamine-dress-up-den.html",
    "room": "Dopamine Dress-Up Den",
