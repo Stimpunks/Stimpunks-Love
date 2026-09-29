@@ -84,6 +84,39 @@
   function save(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) { /* private window */ } }
   function forget() { try { localStorage.removeItem(KEY); } catch (e) { /* nothing to forget */ } }
 
+  /* Redraw a picture on a canvas: at most 1600 pixels on its long side, the
+     right way up, on white, as a JPEG. Nothing the camera wrote into the file
+     survives a redraw, which is the point; the server refuses a file that
+     still carries it. Smaller and softer again if it is still too big. */
+  var PIC_SIDE = 1600, PIC_MAX = 1500000;
+  function redraw(file) {
+    return createImageBitmap(file, { imageOrientation: 'from-image' }).then(function (bmp) {
+      function draw(side, q) {
+        var sc = Math.min(1, side / Math.max(bmp.width, bmp.height));
+        var c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(bmp.width * sc));
+        c.height = Math.max(1, Math.round(bmp.height * sc));
+        var g = c.getContext('2d');
+        g.fillStyle = '#ffffff';
+        g.fillRect(0, 0, c.width, c.height);
+        g.drawImage(bmp, 0, 0, c.width, c.height);
+        return new Promise(function (ok, no) { c.toBlob(function (b) { b ? ok(b) : no(); }, 'image/jpeg', q); });
+      }
+      return draw(PIC_SIDE, 0.86).then(function (b) {
+        return b.size <= PIC_MAX ? b : draw(1100, 0.78).then(function (b2) { if (b2.size > PIC_MAX) throw new Error('big'); return b2; });
+      });
+    });
+  }
+
+  function sendPicture(blob, room, pass) {
+    return fetch('/cb/image' + (room ? '?room=' + encodeURIComponent(room) : ''), {
+      method: 'POST', body: blob, credentials: 'omit', cache: 'no-store',
+      headers: { 'content-type': 'image/jpeg', 'authorization': 'Bearer ' + pass, 'accept': 'application/json' },
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
+    });
+  }
+
   function el(tag, cls, text) {
     var e = document.createElement(tag);
     if (cls) e.className = cls;
@@ -465,12 +498,48 @@
     this.dismissed = -1;
     var send = el('button', 'cb-btn cb-send', 'Transmit');
     send.type = 'submit';
+    /* A PICTURE, Ryan's ask, 2026-09-29: a screenshot or a photo on the
+       channel, which goes when its message goes. The file is redrawn here,
+       in this browser, before anything is sent, which drops what the camera
+       wrote into it, GPS first. The description is optional. */
+    var picBtn = el('button', 'cb-btn cb-pic', 'Picture');
+    picBtn.type = 'button';
+    picBtn.setAttribute('aria-label', 'Add a picture to your message');
+    var picFile = this.picFile = el('input', 'cb-pic-file');
+    picFile.type = 'file';
+    picFile.accept = 'image/*';
+    picFile.hidden = true;
+    picFile.tabIndex = -1;
+    picBtn.addEventListener('click', function () { picFile.click(); });
+    picFile.addEventListener('change', function () { me.pickPicture(picFile.files && picFile.files[0]); });
     var row = el('div', 'cb-row');
     row.appendChild(say);
+    row.appendChild(picBtn);
     row.appendChild(send);
+    var ready = this.picReady = el('div', 'cb-pic-ready');
+    ready.hidden = true;
+    var readyLine = this.picReadyLine = el('p', 'cb-pic-line');
+    var altLab = el('label', 'cb-lab', 'Say what is in it, if you like');
+    altLab.htmlFor = 'cb-pic-alt';
+    var alt = this.picAlt = el('input', 'cb-say cb-pic-alt');
+    alt.id = 'cb-pic-alt';
+    alt.type = 'text';
+    alt.maxLength = 280;
+    alt.autocomplete = 'off';
+    var drop = el('button', 'cb-btn cb-pic-drop', 'Remove the picture');
+    drop.type = 'button';
+    drop.addEventListener('click', function () { me.dropPicture(); picBtn.focus(); });
+    ready.appendChild(readyLine);
+    ready.appendChild(altLab);
+    ready.appendChild(alt);
+    ready.appendChild(drop);
+    // In the form, hidden: a file input outside the document is one some
+    // browsers will not open a picker for.
+    form.appendChild(picFile);
     form.appendChild(lab);
     form.appendChild(pick);
     form.appendChild(row);
+    form.appendChild(ready);
     set.appendChild(form);
 
     this.said = el('p', 'cb-said');
@@ -736,7 +805,9 @@
     var words = li.querySelector('.cb-text').cloneNode(true);
     var drawn = words.querySelectorAll('[aria-hidden="true"]');
     for (var i = 0; i < drawn.length; i++) drawn[i].remove();
-    (this.air = this.air || []).push(li.querySelector('.cb-handle').textContent + '. ' + words.textContent);
+    var pic = li.querySelector('img[data-pic]');
+    var told = pic ? ' A picture: ' + pic.alt : '';
+    (this.air = this.air || []).push(li.querySelector('.cb-handle').textContent + '. ' + words.textContent + told);
     if (!this.onAir) this.transmitNext();
   };
 
@@ -889,7 +960,12 @@
     // or midnight.
     var lis = this.log.querySelectorAll('li');
     for (i = 0; i < lis.length; i++) {
-      if (!want[lis[i].dataset.id]) { delete this.seen[lis[i].dataset.id]; lis[i].remove(); }
+      if (!want[lis[i].dataset.id]) {
+        delete this.seen[lis[i].dataset.id];
+        var gone = lis[i].querySelector('img[data-pic]');
+        if (gone && this.pics && this.pics[gone.dataset.pic]) { URL.revokeObjectURL(this.pics[gone.dataset.pic]); delete this.pics[gone.dataset.pic]; }
+        lis[i].remove();
+      }
     }
     for (i = 0; i < messages.length; i++) {
       var m = messages[i];
@@ -907,6 +983,7 @@
       var said = el('p', 'cb-text');
       said.cbRaw = m.text;
       li.appendChild(streetLinks(said, m.text));
+      if (m.img) li.appendChild(this.picture_(m));
       added++;
       if (this.state.base) {
         /* Drawn on the message's own name-and-time line by cb.css, but kept
@@ -926,6 +1003,31 @@
     this.quiet.hidden = messages.length > 0;
     this.log.hidden = messages.length === 0;
     if (mine || (added && atEnd)) this.log.scrollTop = this.log.scrollHeight;
+  };
+
+  /* A picture in the log. It has no public address, so it is fetched with the
+     pass, once, and shown from memory until its message goes. */
+  Radio.prototype.picture_ = function (m) {
+    var me = this, fig = el('figure', 'cb-picture');
+    var img = el('img', 'cb-picture-img');
+    img.alt = m.alt || (m.handle + ' sent a picture, with no description.');
+    img.dataset.pic = m.img;
+    img.decoding = 'async';
+    fig.appendChild(img);
+    // The description is shown for eyes and said once, as the alt text: the
+    // caption is aria-hidden so a screen reader does not hear it twice.
+    if (m.alt) { var cap = el('p', 'cb-picture-alt', m.alt); cap.setAttribute('aria-hidden', 'true'); fig.appendChild(cap); }
+    this.pics = this.pics || {};
+    if (this.pics[m.img]) { img.src = this.pics[m.img]; return fig; }
+    fetch('/cb/image?id=' + encodeURIComponent(m.img), {
+      headers: { 'authorization': 'Bearer ' + this.state.pass }, credentials: 'omit', cache: 'no-store',
+    }).then(function (r) { return r.ok ? r.blob() : null; }).then(function (b) {
+      if (!b) { fig.replaceChild(el('p', 'cb-picture-gone', 'That picture has gone with its message.'), img); return; }
+      var url = URL.createObjectURL(b);
+      me.pics[m.img] = url;
+      img.src = url;
+    }).catch(function () { fig.replaceChild(el('p', 'cb-picture-gone', 'No signal: the picture did not come through.'), img); });
+    return fig;
   };
 
   /* The room list, fetched from this site once, and only while the radio is
@@ -1114,17 +1216,47 @@
     this.say.focus();
   };
 
+  // A picture chosen, and redrawn at once, so what is waiting to go already
+  // has nothing of the camera's in it.
+  Radio.prototype.pickPicture = function (file) {
+    var me = this;
+    this.picFile.value = '';
+    if (!file) return;
+    if (!/^image\//.test(file.type)) { this.tell('That is not a picture.'); return; }
+    this.tell('Getting the picture ready…');
+    redraw(file).then(function (blob) {
+      me.picture = blob;
+      me.picReadyLine.textContent = 'Picture ready to go with your message. The radio has taken off anything the camera wrote into it.';
+      me.picReady.hidden = false;
+      me.tell('');
+      me.picAlt.focus();
+    }).catch(function () { me.tell('The radio could not read that picture.'); });
+  };
+
+  Radio.prototype.dropPicture = function () {
+    this.picture = null;
+    this.picAlt.value = '';
+    this.picReady.hidden = true;
+  };
+
   Radio.prototype.transmit = function () {
-    var me = this, text = this.say.value.trim();
+    var me = this, text = this.say.value.trim(), picture = this.picture;
     this.close();
-    if (!text) { this.tell('Type something first.'); return; }
-    this.tell('Transmitting…');
+    if (!text && !picture) { this.tell('Type something, or add a picture, first.'); return; }
+    this.tell(picture ? 'Sending the picture…' : 'Transmitting…');
     var room = this.tunedRoom(), b = { text: text };
     if (room) b.room = room;
-    call('/cb/transmit', { body: b }, this.state.pass).then(function (r) {
+    var first = picture ? sendPicture(picture, room, this.state.pass) : Promise.resolve(null);
+    first.then(function (up) {
+      if (up && up.status === 401) return { status: 401 };
+      if (up && up.status !== 200) return up;
+      if (up) { b.img = up.body.id; b.alt = me.picAlt.value.trim(); }
+      return call('/cb/transmit', { body: b }, me.state.pass);
+    }).then(function (r) {
       if (r.status === 401) return me.lost();
       if (r.status === 200) {
         me.say.value = '';
+        if (picture) me.dropPicture();
         me.tell('');
         if (room === me.tunedRoom()) me.show(r.body.messages || [], true);
         return;

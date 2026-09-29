@@ -24,7 +24,8 @@ import { updateChalk, readChalk, updatePebbles, readPebbles, cleanLink, PEBBLE_R
   updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
   PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons,
-  ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf } from './lib.mjs';
+  ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
+  imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
 function memoryStore({ etagOnRead }) {
@@ -36,7 +37,7 @@ function memoryStore({ etagOnRead }) {
       await tick();
       const b = blobs.get(key);
       if (!b) return null;
-      return { data: structuredClone(b.value), etag: etagOnRead ? b.etag : undefined };
+      return { data: structuredClone(b.value), etag: etagOnRead ? b.etag : undefined, metadata: b.metadata };
     },
     async get(key) {
       await tick();
@@ -47,13 +48,13 @@ function memoryStore({ etagOnRead }) {
       await tick();
       return { blobs: [...blobs].filter(([k]) => k.startsWith(prefix)).map(([key, b]) => ({ key, etag: b.etag })) };
     },
-    // THE ONE UNCONDITIONAL WRITE ALLOWED is a presence record on the Slake,
-    // because each of those keys belongs to one visit and nobody else writes it.
-    // Anything else written this way fails the test.
-    async set(key, value) {
+    // THE ONLY UNCONDITIONAL WRITES ALLOWED are a presence record on the Slake
+    // and a picture on the channel, because each of those keys belongs to one
+    // visit or one upload and nobody else writes it. Anything else fails.
+    async set(key, value, opts = {}) {
       await tick();
-      if (!key.startsWith('mud-here/')) throw new Error('an unconditional write outside presence: ' + key);
-      blobs.set(key, { value, etag: `e${++n}` });
+      if (!key.startsWith('mud-here/') && !key.startsWith('img/')) throw new Error('an unconditional write outside presence: ' + key);
+      blobs.set(key, { value, etag: `e${++n}`, metadata: opts.metadata });
       return { modified: true };
     },
     async delete(key) { await tick(); blobs.delete(key); },
@@ -525,4 +526,42 @@ test('executive session is the board role and nothing else: the administrator ke
     assert.equal(callToken(adminOnly, room, Date.now(), key), null);
   }
   assert.equal(roomAllows(adminOnly, 'town-hall-board'), true, 'everywhere else, the administrator key still works');
+});
+
+/* ── Pictures on the channel ── */
+
+const jpeg = (...rest) => new Uint8Array([0xff, 0xd8, 0xff, 0xdb, 0, 0, 0, 0, 0, 0, 0, 0, ...rest]);
+const exifJpeg = () => new Uint8Array([0xff, 0xd8, 0xff, 0xe1, 0x12, 0x34, ...Buffer.from('Exif\0\0'), 0, 0, 0, 0]);
+
+test('a picture is a real image with nothing from the camera left in it', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.equal(imageKind(jpeg()), 'image/jpeg');
+  assert.equal(imageKind(new Uint8Array(Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"/>'))), null, 'an SVG can carry script');
+  assert.equal(carriesMetadata(jpeg(), 'image/jpeg'), false);
+  assert.equal(carriesMetadata(exifJpeg(), 'image/jpeg'), true, 'Exif is where the GPS lives');
+  const png = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, ...Buffer.from('....tEXtComment'), 0]);
+  assert.equal(carriesMetadata(png, 'image/png'), true);
+  assert.ok((await putImage(ada, null, exifJpeg(), s)).error);
+  assert.ok((await putImage(ada, null, new Uint8Array(IMG_MAX + 1).fill(0xff), s)).error, 'too big');
+  const ok = await putImage(ada, 'town-hall-board', jpeg(), s);
+  assert.ok(ok.id);
+  const got = await getImage(ok.id, s);
+  assert.equal(got.meta.handle, 'Ada'); assert.equal(got.meta.room, 'town-hall-board', 'bound to its room');
+  assert.equal(await getImage('../channel', s), null);
+});
+
+test('a picture goes when its message goes, and an unsent one within the hour', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  const held = (await putImage(ada, null, jpeg(), s, now)).id;
+  const pushed = (await putImage(ada, null, jpeg(), s, now)).id;
+  const unsentNew = (await putImage(ada, null, jpeg(), s, now)).id;
+  const unsentOld = (await putImage(ada, null, jpeg(), s, now - 2 * 60 * 60 * 1000)).id;
+  const before = [{ id: 'a', img: pushed }, { id: 'b', img: held }, { id: 'c' }];
+  assert.deepEqual(droppedImages(before, before.slice(1)), [pushed], 'the eleventh pushes the oldest off, picture and all');
+  await updateTuned(null, (list) => { list.push({ id: 'b', handle: 'Ada', text: '', t: now, img: held }); return list; }, s);
+  await sweepImages(s, now);
+  const left = s.keys().filter((k) => k.startsWith('img/')).map((k) => k.slice(4)).sort();
+  assert.deepEqual(left, [held, pushed, unsentNew].sort(), 'held stays, a fresh upload waits, an old unsent one goes');
+  assert.deepEqual(shape([{ id: 'b', handle: 'Ada', t: now, img: held, alt: 'A cat' }])[0], { id: 'b', handle: 'Ada', text: '', t: now, base: false, img: held, alt: 'A cat' });
 });

@@ -169,6 +169,19 @@
 }
 .cb-jump:hover { border-color: var(--cb-amber); }
 
+/* A PICTURE ON THE CHANNEL, under its words, in the readout's amber frame.
+   It is kept small in the log so a screenshot does not push everything else
+   off the screen; the whole picture is there to open. Its description, when
+   there is one, is under it in the log's own amber, which is a pair
+   check-contrast.py already measures. */
+.cb-msg > .cb-picture { grid-column: 1 / -1; grid-row: 3; margin: 4px 0 0; }
+.cb-picture-img { display: block; max-width: 100%; max-height: 180px; height: auto; border: 1px solid var(--cb-amber-2); border-radius: 3px; background: var(--cb-lcd); }
+.cb-picture-alt, .cb-picture-gone { margin: 4px 0 0; font-size: 13px; color: var(--cb-amber-2); overflow-wrap: anywhere; }
+.cb-radio--small .cb-picture-img { max-height: 90px; }
+.cb-pic-ready { display: grid; gap: 6px; margin: 8px 0 0; }
+.cb-pic-line { margin: 0; font-size: 13px; }
+.cb-pic-drop { justify-self: start; min-height: 36px; }
+
 .cb-lab { display: block; font-size: 13px; margin-bottom: 4px; }
 .cb-row { display: flex; gap: 8px; }
 .cb-say {

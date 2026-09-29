@@ -88,7 +88,11 @@ csp = (
     # what it permits is exactly one page of ours embedding another page of ours.
     # X-Frame-Options above it is SAMEORIGIN for the same reason, since it has no
     # 'none' that means anything different.
-    "frame-ancestors 'self'; img-src 'self'; font-src 'self'; "
+    # img-src takes blob: for the CB's pictures and nothing else: a picture on the
+    # channel has no public address, so cb.js fetches it from /cb/image with the
+    # pass and shows it from memory. blob: is a URL the page made for itself out
+    # of bytes it already holds; it reaches no other origin.
+    "frame-ancestors 'self'; img-src 'self' blob:; font-src 'self'; "
     # connect-src is 'self' and NOT 'none', and that is the second loosening in
     # this policy. The CB (cb.js, netlify/functions/cb-*) is the one thing on the
     # site that sends anything: its radio asks this site's own /cb/ endpoints

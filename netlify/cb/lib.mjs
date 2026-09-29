@@ -76,7 +76,7 @@
        redeploying signs everybody off at once, and there is no list of passes
        anywhere to go stale or leak.
    ============================================================================= */
-import { createHmac, createHash, createSign, createPrivateKey, timingSafeEqual } from 'node:crypto';
+import { createHmac, createHash, createSign, createPrivateKey, timingSafeEqual, randomUUID } from 'node:crypto';
 import { getStore } from '@netlify/blobs';
 
 export const KEEP = 10;             // messages on the channel at once
@@ -373,6 +373,102 @@ export async function sweepSlake(s = store(), now = Date.now()) {
   for (const place of MUD_PLACES) {
     const data = await s.get(talkKey(place), { type: 'json' });
     if (data && data.day !== today()) { await s.delete(talkKey(place)); any = true; }
+  }
+  return any;
+}
+
+/* ── Pictures on the channel ─────────────────────────────────────────── */
+
+/* A PICTURE IS PART OF ITS MESSAGE AND GOES WHEN THE MESSAGE GOES. Ryan,
+   2026-09-29: screenshots and photos on the CB, which stay on the channel and
+   never go onto the street, so none of the street's rules for published
+   photographs apply to them. What does apply is the channel's own promise:
+   a picture is deleted the moment its message leaves, whether it was pushed off
+   by an eleventh, taken off by the base, or swept at midnight, and one that was
+   uploaded and never sent is swept within the hour.
+
+   IT IS REDRAWN IN THE SENDER'S BROWSER BEFORE IT IS SENT, which drops
+   everything a camera writes into a file, the GPS first, so a photo taken at
+   home does not say where home is. The server refuses a file that still
+   carries any of it, because that file did not come through the radio.
+
+   IT IS BOUND TO ITS ROOM. A picture sent in one of the Town Hall's private
+   rooms is served to the passes that room lets in and nobody else, by the same
+   roomAllows() that guards its words. A picture has no public address: it is
+   fetched with the pass, like the channel. */
+export const IMG_MAX = 1500000;          // bytes, after the browser has redrawn it
+export const ALT_MAX = 280;              // characters of a description, which is optional
+const IMG = 'img/';
+const IMG_UNSENT = 60 * 60 * 1000;       // an upload nobody sent is swept after this
+
+export function imageId(v) { return typeof v === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(v) ? v : null; }
+export function cleanAlt(v) { const t = tidy(v); return t && [...t].length <= ALT_MAX ? t : ''; }
+
+/* What a file is, from its first bytes; anything else is refused. */
+export function imageKind(b) {
+  if (!b || b.length < 12) return null;
+  if (b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff) return 'image/jpeg';
+  if (b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47) return 'image/png';
+  if (String.fromCharCode(...b.subarray(0, 4)) === 'RIFF' && String.fromCharCode(...b.subarray(8, 12)) === 'WEBP') return 'image/webp';
+  return null;
+}
+
+/* Whether a file still carries what a camera or a phone writes into it: Exif
+   (where the GPS lives), XMP, or a PNG's eXIf/tEXt chunks. A canvas's output
+   carries none of those. */
+export function carriesMetadata(b, kind) {
+  const text = Buffer.from(b.subarray(0, Math.min(b.length, 131072))).toString('latin1');
+  if (kind === 'image/jpeg') return /\xff\xe1..Exif\x00|\xff\xe1..http:\/\/ns\.adobe\.com\/xap/s.test(text);
+  if (kind === 'image/png') return /eXIf|iTXtXML:com\.adobe\.xmp|tEXt/.test(text);
+  if (kind === 'image/webp') return /EXIF|XMP /.test(text);
+  return true;
+}
+
+export async function putImage(who, room, bytes, s = store(), now = Date.now()) {
+  if (!bytes || !bytes.length) return { error: 'There was no picture in that.' };
+  if (bytes.length > IMG_MAX) return { error: 'That picture is too big to send, even after the radio made it smaller.' };
+  const kind = imageKind(bytes);
+  if (!kind) return { error: 'That is not a picture the radio can send.' };
+  if (carriesMetadata(bytes, kind)) return { error: 'That picture still carries its camera data. Send it through the radio, which takes that off.' };
+  const id = randomUUID();
+  await s.set(IMG + id, bytes, { metadata: { handle: who.handle, room: room || '', t: now, type: kind } });
+  return { id };
+}
+
+export async function getImage(id, s = store()) {
+  if (!imageId(id)) return null;
+  const got = await s.getWithMetadata(IMG + id, { type: 'arrayBuffer' });
+  if (!got || !got.metadata) return null;
+  return { data: got.data, meta: got.metadata };
+}
+
+export async function dropImages(ids, s = store()) {
+  for (const id of ids) if (imageId(id)) await s.delete(IMG + id);
+}
+
+/* Which pictures a change pushed off the channel: the ones in the messages it
+   was given and not in the ones it left. */
+export function droppedImages(before, after) {
+  const kept = new Set(after.map((m) => m.img).filter(Boolean));
+  return before.map((m) => m.img).filter((id) => id && !kept.has(id));
+}
+
+/* Hourly: every picture no live message holds, once it is past the hour an
+   upload is given to be sent. A read never returns yesterday's channel, so
+   yesterday's pictures are held by nothing and go on the next sweep. */
+export async function sweepImages(s = store(), now = Date.now()) {
+  const held = new Set();
+  const keys = [KEY, ...((await s.list({ prefix: ROOM_TALK })).blobs || []).map((b) => b.key)];
+  for (const key of keys) for (const m of (await readLog(key, s)).messages) if (m.img) held.add(m.img);
+  let any = false;
+  for (const b of (await s.list({ prefix: IMG })).blobs || []) {
+    const id = b.key.slice(IMG.length);
+    if (held.has(id)) continue;
+    const got = await s.getWithMetadata(b.key, { type: 'arrayBuffer' });
+    const t = got && got.metadata && got.metadata.t;
+    if (typeof t === 'number' && now - t < IMG_UNSENT) continue;
+    await s.delete(b.key);
+    any = true;
   }
   return any;
 }
@@ -779,7 +875,11 @@ export function json(status, body, extra = {}) {
 }
 
 export function shape(messages) {
-  return messages.map((m) => ({ id: m.id, handle: m.handle, text: m.text, t: m.t, base: !!m.base }));
+  return messages.map((m) => {
+    const out = { id: m.id, handle: m.handle, text: m.text || '', t: m.t, base: !!m.base };
+    if (m.img) { out.img = m.img; out.alt = m.alt || ''; }
+    return out;
+  });
 }
 
 export async function body(req) {
