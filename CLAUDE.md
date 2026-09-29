@@ -605,7 +605,10 @@ delegates to an origin `ORIGINS` does not frame, or gives the three to anything 
 `love-embed.js`, which `cb.js` loads on the first press if the page lacks it**: do not build a
 second iframe in `cb.js`. The window is not the radio, so folding the radio leaves the call up;
 leaving the page hangs up. Every call arrives muted on Jitsi's pre-join screen. That screen asks
-the browser for the devices so it can show a preview, and that is 8x8's, not a fault. **8x8's
+the browser for the devices so it can show a preview, and that is 8x8's, not a fault. **The radio and the call move with one `Mover`** in `cb.js`: drag the bar, or Move plus the
+arrows, with Home back to the corner. Do not give either window its own copy. Anything that changes
+a window's size places it again at once, as well as through the `ResizeObserver`, because a hidden
+tab never delivers that. **8x8's
 own pages answer scripts with 429**, so check them in a browser. **Netlify's box turned the first real key's line breaks
 into spaces**, and Node refuses a PEM like that (`ERR_OSSL_UNSUPPORTED`). The function threw, and
 the radio could only say the call could not be opened. `tidyPem` rebuilds any pasted key from its

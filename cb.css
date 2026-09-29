@@ -224,7 +224,9 @@
 .cb-call-bar {
   flex: none; display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
   padding: 6px 8px 6px 12px; background: var(--cb-bar); border-radius: 8px 8px 0 0;
+  cursor: grab; touch-action: none; user-select: none;
 }
+.cb-call--held .cb-call-bar { cursor: grabbing; }
 .cb-call-name { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
 .cb-call-note { flex: none; padding: 4px 12px; font-size: 13px; }
 .cb-call-screen { flex: 1 1 auto; min-height: 0; aspect-ratio: 16 / 10; background: #000; border-radius: 0 0 8px 8px; overflow: hidden; }

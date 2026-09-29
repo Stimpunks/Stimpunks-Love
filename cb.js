@@ -70,6 +70,7 @@
   var BEAT = 30000;       // ms a host's beacon goes unsent at most, while nothing changes
   var FILM_MAX = 120;     // characters of a film's title on a beacon, as the server takes it
   var STEP = 24;          // px per arrow press when moving by keyboard
+  var HOME = 16;          // px from its corner that a radio or a call starts at
   var EDGE = 8;           // px the radio keeps from the edge of the window
 
   function load() {
@@ -551,8 +552,7 @@
     });
     say.addEventListener('keydown', function (e) { me.pickKey(e); });
     say.addEventListener('blur', function () { me.close(); });
-    move.addEventListener('keydown', function (e) { me.keyMove(e); });
-    this.dragging();
+    this.mover = new Mover(box, bar, move, state, 'right', 'cb-radio--held', function () { save(me.state); });
 
     document.addEventListener('visibilitychange', function () { me.tune(); });
     window.addEventListener('resize', function () { me.place(); });
@@ -1280,7 +1280,7 @@
     var me = this;
     if (!on) {
       var was = !!this.call;
-      if (this.call) { this.call.host.remove(); this.call = null; }
+      if (this.call) { this.call.off(); this.call.host.remove(); this.call = null; }
       this.callShown();
       this.tell('You have left the call.');
       // The window the keyboard was in has gone, so it comes back to the
@@ -1297,7 +1297,7 @@
       withEmbed(function () {
         var frame = window.loveEmbed && window.loveEmbed.frameUrl(r.body.src, 'The call in ' + here.name);
         if (!frame) { me.tell('The call could not be opened on this page.'); return; }
-        if (me.call) me.call.host.remove();
+        if (me.call) { me.call.off(); me.call.host.remove(); }
         me.call = me.callWindow(here, frame);
         me.callShown();
         me.tell('The call is open at the foot of the page. Your browser may ask about your camera and microphone so its first screen can show a preview; both start off, and nothing goes to the call until you join there.');
@@ -1326,21 +1326,34 @@
        2026-09-28); Large is the whole window. Small and Large each toggle back
        to the middle size, the radio's Small button's pattern. Not remembered:
        nothing about a call is kept, in the browser either. */
+    // Moves like the radio, with the radio's own Mover. Not remembered either.
+    var move = el('button', 'cb-btn cb-move', 'Move');
+    move.type = 'button';
+    move.setAttribute('aria-describedby', 'cb-call-move-how');
+    var moveHow = el('span', 'sr', 'Arrow keys move the call. Home puts it back in the corner.');
+    moveHow.id = 'cb-call-move-how';
     var small = el('button', 'cb-btn', 'Small');
     var big = el('button', 'cb-btn', 'Large');
     var leave = el('button', 'cb-btn cb-call-leave', 'Leave the call');
+    var mover = null;
     function size(to) {
       box.classList.toggle('cb-call--small', to === 'small');
       box.classList.toggle('cb-call--large', to === 'large');
       small.setAttribute('aria-pressed', String(to === 'small'));
       big.setAttribute('aria-pressed', String(to === 'large'));
       leave.textContent = to === 'small' ? 'Leave' : 'Leave the call';
+      // Placed again at once, not only when the ResizeObserver gets round to
+      // it: a call moved to a corner and made Large hung off the screen until
+      // then, and a hidden tab never gets round to it at all.
+      if (mover) mover.place();
     }
     small.type = big.type = leave.type = 'button';
     leave.setAttribute('aria-label', 'Leave the call');
     small.addEventListener('click', function () { size(box.classList.contains('cb-call--small') ? 'regular' : 'small'); });
     big.addEventListener('click', function () { size(box.classList.contains('cb-call--large') ? 'regular' : 'large'); });
     leave.addEventListener('click', function () { me.setCall(false); });
+    bar.appendChild(move);
+    bar.appendChild(moveHow);
     bar.appendChild(small);
     bar.appendChild(big);
     bar.appendChild(leave);
@@ -1352,8 +1365,15 @@
     box.appendChild(screen);
     root.appendChild(box);
     document.body.appendChild(host);
+    mover = new Mover(box, bar, move, { x: null, y: null }, 'left', 'cb-call--held');
+    function put() { mover.place(); }
+    window.addEventListener('resize', put);
+    // Small and Large change its size, so it is placed again to keep it on the screen.
+    var watch = window.ResizeObserver ? new ResizeObserver(put) : null;
+    if (watch) watch.observe(box);
+    put();
     leave.focus();
-    return { host: host };
+    return { host: host, off: function () { window.removeEventListener('resize', put); if (watch) watch.disconnect(); } };
   };
 
   /* HOSTING. Ryan, 2026-09-28: somebody watching a film in a room can host it,
@@ -1550,21 +1570,60 @@
 
   // Stored as a distance from the bottom-right corner, because that is where
   // it docks and where it goes back to.
-  Radio.prototype.place = function () {
-    var s = this.state, b = this.box;
+  /* MOVING, for the radio and a room's call alike: drag the bar, or put the
+     keyboard on Move and use the arrows, and Home puts it back in its corner.
+     One copy, so the two cannot drift apart. The radio is anchored by its
+     bottom right corner and the call by its bottom left, so `side` says which;
+     pos holds the distance from that corner (x across, y up), null meaning the
+     corner itself, and save is called when a move ends. A button on the bar
+     other than Move does not start a drag. */
+  function Mover(box, bar, moveBtn, pos, side, held, save) {
+    var me = this;
+    this.box = box; this.pos = pos; this.side = side; this.save = save || function () {};
+    moveBtn.addEventListener('keydown', function (e) { me.key(e); });
+    var start = null;
+    bar.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 || (e.target.closest('button') && e.target !== moveBtn)) return;
+      var p = me.place();
+      start = { px: e.clientX, py: e.clientY, x: p.x, y: p.y, id: e.pointerId };
+      bar.setPointerCapture(e.pointerId);
+      box.classList.add(held);
+      e.preventDefault();
+    });
+    bar.addEventListener('pointermove', function (e) {
+      if (!start || e.pointerId !== start.id) return;
+      var dx = e.clientX - start.px;
+      me.pos.x = me.side === 'right' ? start.x - dx : start.x + dx;
+      me.pos.y = start.y - (e.clientY - start.py);
+      me.place();
+    });
+    function drop(e) {
+      if (!start || e.pointerId !== start.id) return;
+      start = null;
+      box.classList.remove(held);
+      var q = me.place();
+      me.pos.x = q.x; me.pos.y = q.y;
+      me.save();
+    }
+    bar.addEventListener('pointerup', drop);
+    bar.addEventListener('pointercancel', drop);
+  }
+
+  Mover.prototype.place = function () {
+    var s = this.pos, b = this.box;
     var maxX = Math.max(EDGE, window.innerWidth - b.offsetWidth - EDGE);
     var maxY = Math.max(EDGE, window.innerHeight - b.offsetHeight - EDGE);
-    var x = Math.min(Math.max(EDGE, s.x == null ? 16 : s.x), maxX);
-    var y = Math.min(Math.max(EDGE, s.y == null ? 16 : s.y), maxY);
-    b.style.right = x + 'px';
+    var x = Math.min(Math.max(EDGE, s.x == null ? HOME : s.x), maxX);
+    var y = Math.min(Math.max(EDGE, s.y == null ? HOME : s.y), maxY);
+    b.style[this.side] = x + 'px';
     b.style.bottom = y + 'px';
     return { x: x, y: y };
   };
 
-  Radio.prototype.keyMove = function (e) {
-    var s = this.state, p = this.place(), k = e.key;
-    if (k === 'ArrowLeft') s.x = p.x + STEP;
-    else if (k === 'ArrowRight') s.x = p.x - STEP;
+  Mover.prototype.key = function (e) {
+    var s = this.pos, p = this.place(), k = e.key, out = this.side === 'right' ? 1 : -1;
+    if (k === 'ArrowLeft') s.x = p.x + STEP * out;
+    else if (k === 'ArrowRight') s.x = p.x - STEP * out;
     else if (k === 'ArrowUp') s.y = p.y + STEP;
     else if (k === 'ArrowDown') s.y = p.y - STEP;
     else if (k === 'Home') { s.x = null; s.y = null; }
@@ -1573,36 +1632,10 @@
     var q = this.place();
     if (s.x != null) s.x = q.x;
     if (s.y != null) s.y = q.y;
-    save(s);
+    this.save();
   };
 
-  Radio.prototype.dragging = function () {
-    var me = this, bar = this.bar, start = null;
-    bar.addEventListener('pointerdown', function (e) {
-      if (e.button !== 0 || (e.target.closest('button') && e.target !== me.moveBtn)) return;
-      var p = me.place();
-      start = { px: e.clientX, py: e.clientY, x: p.x, y: p.y, id: e.pointerId };
-      bar.setPointerCapture(e.pointerId);
-      me.box.classList.add('cb-radio--held');
-      e.preventDefault();
-    });
-    bar.addEventListener('pointermove', function (e) {
-      if (!start || e.pointerId !== start.id) return;
-      me.state.x = start.x - (e.clientX - start.px);
-      me.state.y = start.y - (e.clientY - start.py);
-      me.place();
-    });
-    function drop(e) {
-      if (!start || e.pointerId !== start.id) return;
-      start = null;
-      me.box.classList.remove('cb-radio--held');
-      var q = me.place();
-      me.state.x = q.x; me.state.y = q.y;
-      save(me.state);
-    }
-    bar.addEventListener('pointerup', drop);
-    bar.addEventListener('pointercancel', drop);
-  };
+  Radio.prototype.place = function () { return this.mover.place(); };
 
   function tuneIn() {
     var s = load();
