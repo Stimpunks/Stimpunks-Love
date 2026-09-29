@@ -2821,6 +2821,15 @@ the letterboard and never a sentence; Radio Canada carries what is read.** The h
 point at [our covenant](https://stimpunks.org/covenant/) rather than restating it, and say out loud that
 a handle proves nothing and BASE is the one mark that is checked.
 
+**THE MEETING HALL IS STOAT, AND IT IS A DOOR, NOT A WINDOW.** Ryan, 2026-09-29: the community is
+moving from Discord to Stoat, and the Community Center is where people are onboarded, so it opens
+with the meeting hall (the name is our community page's own, from its 4 Ms of Membership). Stoat's
+app sends `X-Frame-Options: SAMEORIGIN` (measured), so **do not add stoat.chat to `ORIGINS`**: a
+framed hall is a blank box. The hall is for what needs its own sign-in, roles and history, and the
+CB is for what forgets at midnight; **do not blur the two**, and do not send anything from the
+street to Stoat. The channel list there is the field guide's Discord list in outline, written without
+a count, and gets brought up to date once the move is done. Self-hosting is in `DECISIONS.md`.
+
 **THE COMMUNITY SERVICE BOARD IS A ROOM FULL OF SENTENCES ABOUT OTHER ROOMS, SO EVERY ONE IS HELD.**
 The sorter on the Community Center's wall has a slot for every room that takes something in: what
 it takes, what it asks of you, how to send it. That is the "claim about one room living in another

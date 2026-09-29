@@ -102,7 +102,7 @@ lightbulb-picture-house.html  Neurodiversity films and every Campfire Learn Toge
 samefood-cafe.html    A café for samefoods and safe foods, seen from above the table. Nothing on a plate touches anything
 collection-collection.html  A dark gallery of our people's collections, a lamp per cabinet and no two alike. The house describes the photos
 vital-plant-living.html  A plant-based kitchen drawn cut through the middle. Build a bowl or wrap from a real pantry and copy it
-community-center.html A painted block hall, blinds half open. House norms and the front desk for the CB
+community-center.html A painted block hall, blinds half open. The meeting hall (our group chat on Stoat, and how to get in), house norms and the front desk for the CB
 dopamine-dress-up-den.html  Helen's idea: a boutique for dopamine dressing. Mix an outfit on a valet stand; nobody's body is drawn
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 now-playing.html      A poster column beside the Pebble Board. What every room puts on first, read off the rooms

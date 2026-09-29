@@ -12827,6 +12827,14 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
   background-image: repeating-linear-gradient(180deg, var(--ctr-felt) 0 5px, var(--ctr-rib) 5px 6px);
   border-radius: 3px;
 }
+/* The meeting hall's subheadings are the room's reading face in its own ink,
+   on the wall like every other word here: a letterboard strip is for a
+   heading you would read from the door, and three of them in one section
+   would turn the hall into a row of signs. */
+.community .ctr-h3 {
+  margin: 26px 0 10px; font-family: 'Radio Canada', system-ui, sans-serif;
+  font-size: 19px; font-weight: 700; line-height: 1.3; color: var(--ctr-ink);
+}
 
 /* THE FRONT DESK. A laminate top and a darker edge, standing on the floor
    of the hall rather than floating in it, so the shadow is flat and short. The
