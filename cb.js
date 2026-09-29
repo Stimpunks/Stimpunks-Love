@@ -1320,19 +1320,31 @@
     name.appendChild(el('span', 'cb-brand', 'CALL'));
     name.appendChild(document.createTextNode(' ' + here.name));
     bar.appendChild(name);
+    /* THREE SIZES, and the frame is only ever resized, never rebuilt, so the
+       call carries on through every change. Small is a tile in the corner, so
+       a film on the page can be watched beside the people in the call (Ryan,
+       2026-09-28); Large is the whole window. Small and Large each toggle back
+       to the middle size, the radio's Small button's pattern. Not remembered:
+       nothing about a call is kept, in the browser either. */
+    var small = el('button', 'cb-btn', 'Small');
     var big = el('button', 'cb-btn', 'Large');
-    big.type = 'button';
-    big.setAttribute('aria-pressed', 'false');
-    big.addEventListener('click', function () {
-      var on = !box.classList.contains('cb-call--large');
-      box.classList.toggle('cb-call--large', on);
-      big.setAttribute('aria-pressed', String(on));
-    });
-    bar.appendChild(big);
     var leave = el('button', 'cb-btn cb-call-leave', 'Leave the call');
-    leave.type = 'button';
+    function size(to) {
+      box.classList.toggle('cb-call--small', to === 'small');
+      box.classList.toggle('cb-call--large', to === 'large');
+      small.setAttribute('aria-pressed', String(to === 'small'));
+      big.setAttribute('aria-pressed', String(to === 'large'));
+      leave.textContent = to === 'small' ? 'Leave' : 'Leave the call';
+    }
+    small.type = big.type = leave.type = 'button';
+    leave.setAttribute('aria-label', 'Leave the call');
+    small.addEventListener('click', function () { size(box.classList.contains('cb-call--small') ? 'regular' : 'small'); });
+    big.addEventListener('click', function () { size(box.classList.contains('cb-call--large') ? 'regular' : 'large'); });
     leave.addEventListener('click', function () { me.setCall(false); });
+    bar.appendChild(small);
+    bar.appendChild(big);
     bar.appendChild(leave);
+    size('regular');
     box.appendChild(bar);
     box.appendChild(el('p', 'cb-call-note', 'Leaving this page hangs up. Nothing about the call is kept on stimpunks.world.'));
     var screen = el('div', 'cb-call-screen');

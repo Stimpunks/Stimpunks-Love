@@ -230,6 +230,19 @@
 .cb-call-screen { flex: 1 1 auto; min-height: 0; aspect-ratio: 16 / 10; background: #000; border-radius: 0 0 8px 8px; overflow: hidden; }
 .cb-call-screen iframe { display: block; width: 100%; height: 100%; border: 0; }
 .cb-call--large { width: calc(100vw - 16px); height: calc(100vh - 16px); height: calc(100dvh - 16px); }
+/* Small: a tile in the corner, so a film on the page has the room. The note
+   goes (the middle size says it), the bar tightens, and every button stays a
+   real target, 36px tall, over WCAG's 24. */
+.cb-call--small { width: min(300px, calc(100vw - 16px)); }
+.cb-call--small .cb-call-note { display: none; }
+.cb-call--small .cb-call-bar { gap: 6px; padding: 4px 6px 4px 10px; flex-wrap: nowrap; }
+/* One row: a long room name is cut short rather than wrapped onto a row of
+   its own, which took a third of the tile. The window's label says it whole. */
+.cb-call--small .cb-call-name {
+  flex: 1 1 0; font-size: 13px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal;
+}
+.cb-call--small .cb-btn { min-height: 36px; min-width: 36px; padding: 4px 8px; font-size: 12px; }
 .cb-call--large .cb-call-screen { aspect-ratio: auto; }
 
 @media print { .cb-radio, .cb-call { display: none; } }
