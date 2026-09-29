@@ -13,7 +13,7 @@
     "mirror": "posts/campfire-learn-together-the-mycelial-worldview-is-punk.md",
     "line": "Composting is not destruction. It is how a commons renews itself."
   },
-  "_watch": "DEREK SARNO'S MUSHROOM MASTERCLASS, Ryan's brief, 2026-09-26: the whole playlist on one press, and a rack of the most recent videos in it. The playlist is his, on his own channel; every video was read on 2026-09-26 with yt-dlp and found public, embeddable, not age-gated, on his channel, with its length and upload date as they are here. The rack is the ten most recent by UPLOAD DATE, not by playlist position: the playlist is not in date order, and its first thirty entries ran from 2018 to 2023. THE RACK DRIFTS BY DESIGN, like Laughingstock's bill: a new video in the playlist is on the whole-playlist press straight away and not in the rack until somebody reads the playlist again, which is why the room prints the date it was read. The playlist has no runtime, because a list somebody keeps adding to does not have one, and every video does; make-club.py's pair. HIS TITLES ARE QUOTED AS WRITTEN, capitals, emoji and all, the Doom Scoop's rule, and the room's sweeps skip them because they are his words. One title in the playlist says 'brain boosting'; it is from 2021 and not in the rack, and if it ever were, the room's own sentence that no dish is for your brain would be sitting beside it, which is the right way round.",
+  "_watch": "DEREK SARNO'S MUSHROOM MASTERCLASS, Ryan's brief, 2026-09-26: the whole playlist on one press, and a rack of the most recent videos in it. The playlist is his, on his own channel; the first ten videos were read on 2026-09-26 and ten more on 2026-09-29, when the playlist was read again and the top ten were unchanged, each with yt-dlp, and every one was found public, embeddable, not age-gated, on his channel, with its length and upload date as they are here. The rack is the most recent by UPLOAD DATE, not by playlist position: the playlist is not in date order, and its first thirty entries ran from 2018 to 2023. THE RACK DRIFTS BY DESIGN, like Laughingstock's bill: a new video in the playlist is on the whole-playlist press straight away and not in the rack until somebody reads the playlist again, which is why the room prints the date it was read. The playlist has no runtime, because a list somebody keeps adding to does not have one, and every video does; make-club.py's pair. HIS TITLES ARE QUOTED AS WRITTEN, capitals, emoji and all, the Doom Scoop's rule, and the room's sweeps skip them because they are his words. One title in the playlist says 'brain boosting'; it is from 2021 and not in the rack, and if it ever were, the room's own sentence that no dish is for your brain would be sitting beside it, which is the right way round.",
   "watch": {
     "who": "Derek Sarno",
     "channel_id": "UCF4FF7ZzsDfcxFg3g68eY5A",
@@ -22,7 +22,7 @@
       "title": "Mushroom Masterclass - How to cook Mushrooms!",
       "first": "oaARq5qw3jk"
     },
-    "read": "2026-09-26"
+    "read": "2026-09-29"
   },
   "_grow": "NORTH SPORE, Ryan's brief: somewhere to learn to grow your own mushrooms for cooking. It is a shop, which is unusual for a link on this street, so the room says so: we are not affiliated with it, not paid by it, and the link carries no affiliate code or tracking. The tool refuses a query string on the address.",
   "grow": {
@@ -344,6 +344,76 @@
       "channel": "Derek Sarno",
       "runtime": "32:23",
       "published": "2025-05-08"
+    },
+    {
+      "id": "FmJd88Y0jBY",
+      "title": "The Back Bone of Every Recipe",
+      "channel": "Derek Sarno",
+      "runtime": "19:42",
+      "published": "2025-04-28"
+    },
+    {
+      "id": "evOA_Jx43mg",
+      "title": "The Perfect Reverse Seared Lions Mane Mushroom Steak",
+      "channel": "Derek Sarno",
+      "runtime": "13:54",
+      "published": "2024-11-13"
+    },
+    {
+      "id": "7zZyWcuSwSI",
+      "title": "Party Food Worth Breaking Every Rule For",
+      "channel": "Derek Sarno",
+      "runtime": "28:27",
+      "published": "2024-09-18"
+    },
+    {
+      "id": "M72oVn5YVlY",
+      "title": "What Culinary Schools Won't Teach You",
+      "channel": "Derek Sarno",
+      "runtime": "22:17",
+      "published": "2024-09-14"
+    },
+    {
+      "id": "arkXyMbdyFU",
+      "title": "This Chicken To Mushroom Farm Transformation Will Amaze",
+      "channel": "Derek Sarno",
+      "runtime": "17:03",
+      "published": "2024-08-25"
+    },
+    {
+      "id": "0q6_1YiyAZQ",
+      "title": "What I Would Serve If I Start Another Restaurant",
+      "channel": "Derek Sarno",
+      "runtime": "15:56",
+      "published": "2024-08-21"
+    },
+    {
+      "id": "fBdviJWQTi8",
+      "title": "KING Mushroom dream tour",
+      "channel": "Derek Sarno",
+      "runtime": "5:03",
+      "published": "2024-04-02"
+    },
+    {
+      "id": "XJ_nkTIp2H8",
+      "title": "Jersey Mike's but better",
+      "channel": "Derek Sarno",
+      "runtime": "5:13",
+      "published": "2024-03-28"
+    },
+    {
+      "id": "Q6sY0RPHgys",
+      "title": "5 AMAZING Meals From the Best Birria",
+      "channel": "Derek Sarno",
+      "runtime": "11:00",
+      "published": "2024-02-28"
+    },
+    {
+      "id": "7a4r3DUaLzA",
+      "title": "The ORIGINAL Lion's Mane Steaks | Rock Star Status",
+      "channel": "Derek Sarno",
+      "runtime": "6:25",
+      "published": "2023-12-28"
     }
   ]
 }

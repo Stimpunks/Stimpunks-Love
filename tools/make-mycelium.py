@@ -34,6 +34,7 @@ WHAT IT REFUSES:
     every video carries a runtime and the playlist carries none; every video is
     on his own channel and in the rack newest first by upload date; his titles
     are quoted as written and the sweeps skip them, because they are his words.
+    It is rack.js's pattern, so the page must load rack.js and love-embed.js.
     And North Spore, the one shop linked from the room, carries no query string,
     so no affiliate code or tracking can ride on it.
   · A QUOTATION OF OURS THAT OUR PAGE DOES NOT SAY. Where the Knowledge System
@@ -241,29 +242,51 @@ def day(iso):
 
 att = lambda s: html.escape(s, quote=True)
 who = esc(watch["who"])
+# THE RACK IS rack.js's PATTERN, Ryan's call of 2026-09-28: the masterclass
+# plate is the room's screen, and every video plays where it hangs or goes up on
+# the screen in place of the masterclass. The behaviour is shared and the look is
+# §65's own, so every class here is the room's and rack.js finds the parts by
+# their data-rack-* attributes. The rack is a <details> that SHIPS OPEN, because
+# a shut rack is text the render checkers cannot measure.
+EMBED = "https://www.youtube-nocookie.com/embed/"
+SCREEN = "the big screen"
 rack = [f'  <div class="myc-watchplate">',
-        f'    <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/videoseries?list={pl["id"]}" '
+        f'    <div class="myc-screen" data-rack-screen="myc" '
+        f'data-rack-off="The whole masterclass is off until you put it back.">',
+        f'      <button type="button" class="facade" data-embed-src="{EMBED}videoseries?list={pl["id"]}&amp;autoplay=1" '
         f'data-embed-title="{att(watch["who"])} &mdash; {att(pl["title"])}">',
-        f'      Put the whole masterclass on &mdash; runs until you stop it',
-        f'      <span class="facade__play">&#9654; PRESS PLAY</span>',
-        f'    </button>',
+        f'        Put the whole masterclass on &mdash; runs until you stop it',
+        f'        <span class="facade__play">&#9654; PRESS PLAY</span>',
+        f'      </button>',
+        f'    </div>',
+        f'    <p class="myc-screen__now" data-rack-now="myc" tabindex="-1" hidden></p>',
+        f'    <p class="myc-screen__back" hidden><button type="button" class="myc-back" data-rack-back="myc">'
+        f'Take it off and put the whole masterclass back</button></p>',
         f'    <p class="myc-watchplate__credit"><a href="https://www.youtube.com/playlist?list={pl["id"]}">{esc(pl["title"])}</a>, '
         f'on YouTube, from {who}&rsquo;s own channel. No runtime on this one: it is his list, and he keeps adding to it.</p>',
         f'  </div>',
-        f'  <p class="myc-intro">Or pick one: the most recent in the playlist, newest first, as it stood when we read it on '
-        f'{day(watch["read"])}. Every video says how long it runs before you press it, and each title is his, as he wrote it.</p>',
-        '  <ul class="myc-rack">']
+        f'  <details class="myc-racked" open>',
+        f'    <summary>His most recent videos</summary>',
+        f'    <p class="myc-intro">Or pick one: the most recent in the playlist, newest first, as it stood when we read it on '
+        f'{day(watch["read"])}. Every video says how long it runs before you press it, and each title is his, as he wrote it. '
+        f'Each one plays where it hangs, or goes up on {SCREEN} in place of the masterclass.</p>',
+        '    <ul class="myc-rack">']
 for v in videos:
-    rack += [f'    <li class="myc-vid">',
-             f'      <h3 class="myc-vid__title">{esc(v["title"])}</h3>',
-             f'      <p class="myc-vid__when">{day(v["published"])} &middot; {v["runtime"]}</p>',
-             f'      <button type="button" class="facade" data-embed-id="{v["id"]}" '
+    src = f'{EMBED}{v["id"]}?autoplay=1&rel=0'
+    rack += [f'      <li class="myc-vid" data-rack-card>',
+             f'        <h3 class="myc-vid__title">{esc(v["title"])}</h3>',
+             f'        <p class="myc-vid__when">{day(v["published"])} &middot; {v["runtime"]}</p>',
+             f'        <button type="button" class="facade" data-embed-id="{v["id"]}" '
              f'data-embed-title="{att(watch["who"])} &mdash; {att(v["title"])}">',
-             f'        Play &mdash; {v["runtime"]}',
-             f'        <span class="facade__play">&#9654; PRESS PLAY</span>',
-             f'      </button>',
-             f'    </li>']
-rack.append("  </ul>")
+             f'          Watch it here &mdash; {v["runtime"]}',
+             f'          <span class="facade__play">&#9654; PRESS PLAY</span>',
+             f'        </button>',
+             f'        <button type="button" class="myc-vid__big" hidden data-rack-to="myc" data-rack-name="{SCREEN}" '
+             f'data-rack-src="{att(src)}" data-rack-title="{att(watch["who"])} &mdash; {att(v["title"])}, on {SCREEN}" '
+             f'data-rack-film="{att(v["title"])}" data-rack-runtime="{v["runtime"]}">'
+             f'Put it on {SCREEN} &mdash; {v["runtime"]}</button>',
+             f'      </li>']
+rack += ["    </ul>", "  </details>"]
 
 BLOCKS = {
     "watch": "\n".join(rack),
@@ -309,6 +332,11 @@ credit_rows = "\n".join(
     for v in videos)
 notes_out = re.sub(r"(<!-- mycelium-credits:begin -->).*?(<!-- mycelium-credits:end -->)",
                    lambda m: m.group(1) + "\n" + credit_rows + "\n" + m.group(2), notes, flags=re.S)
+
+for js in ("love-embed.js", "rack.js"):
+    if f'<script src="{js}" defer></script>' not in out:
+        problems.append(f"mycelium-munchies.html has a rack and does not load {js}, so its buttons would "
+                        "press and do nothing, which is how this rack first shipped.")
 
 if problems:
     raise SystemExit("REFUSING:\n  " + "\n  ".join(problems))
