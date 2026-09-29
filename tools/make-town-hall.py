@@ -33,6 +33,7 @@ never a door somebody cannot read.
 Everything this writes is between markers: the doors in town-hall.html
 (th-doors) and each room's call panel in its own page (<prefix>-call).
 """
+import datetime
 import html
 import json
 import re
@@ -220,6 +221,42 @@ def governance(r):
                       '    </div>'])
 
 
+def agenda(r):
+    """The outline of a room's meeting: the date, the decisions required, and
+    the order of business with its timings. A meeting whose date has gone by
+    is written in the past tense, so it never reads as the next one."""
+    a = r["agenda"]
+    try:
+        day = datetime.date.fromisoformat(a["date"])
+    except (KeyError, ValueError):
+        refuse(f"room {r['id']!r}: its agenda has no date, or one that is not YYYY-MM-DD.")
+    if not a.get("decisions") or not a.get("order"):
+        refuse(f"room {r['id']!r}: an agenda needs its decisions and its order of business.")
+    for num, item, minutes in a["order"]:
+        if not isinstance(minutes, int) or minutes <= 0:
+            refuse(f"room {r['id']!r}: {item!r} on the agenda has no time given.")
+    said = f"{day.strftime('%A')} {day.day} {day.strftime('%B %Y')}"
+    past = day < datetime.date.today()
+    draft = " draft" if a.get("status") == "draft" else ""
+    p = r["prefix"]
+    head = (f"The{draft} agenda of the meeting on {said}" if past else f"The{draft} agenda for {said}")
+    return "\n".join([
+        f'    <div class="{p}-agenda">',
+        f'    <p class="{p}-agenda__when"><b>{e(head)}</b> &middot; {e(a["kind"])}.</p>',
+        f'    <h3 class="{p}-agenda__h">Decisions required</h3>',
+        f'    <ol class="{p}-agenda__list">', *[f'      <li>{e(x)}</li>' for x in a["decisions"]], '    </ol>',
+        f'    <p>Everything else is discussion or reporting.</p>',
+        f'    <h3 class="{p}-agenda__h">Order of business</h3>',
+        # The agenda's own numbers, not the list's: its items refer to each other
+        # by number, and it has an 8a.
+        f'    <ul class="{p}-agenda__list {p}-agenda__list--numbered">',
+        *[f'      <li><span class="{p}-agenda__n">{e(num)}.</span> {e(item)} &mdash; {m} min</li>' for num, item, m in a["order"]],
+        '    </ul>',
+        *[f'    <p>{e(x)}</p>' for x in a.get("access", [])],
+        f'    <p class="{p}-agenda__fine">This is the outline of the agenda. The papers behind it go to the board.</p>',
+        '    </div>'])
+
+
 def panel(r):
     p, tag, name = r["prefix"], r["tag"], e(r["name"])
     if r["for"] == "mods":
@@ -270,6 +307,8 @@ for r in rooms:
     src = swap(src, r["page"], f"{r['prefix']}-call", panel(r))
     if r.get("people"):
         src = swap(src, r["page"], f"{r['prefix']}-people", people(r))
+    if r.get("agenda"):
+        src = swap(src, r["page"], f"{r['prefix']}-agenda", agenda(r))
     if r.get("governance"):
         src = swap(src, r["page"], f"{r['prefix']}-governance", governance(r))
     for a in re.findall(r'<a [^>]*class="backlink"[^>]*>', src):

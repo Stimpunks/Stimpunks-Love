@@ -146,6 +146,80 @@
      "Our governance model is grounded in lived experience leadership and epistemic justice, ensuring decision-making reflects the communities most impacted by the systems we seek to redesign."
     ],
     "_dropped": "The page links \"epistemic justice\" to /philosophy/epistemic-justice/, which answered 404 on 2026-09-29, and stimpunks.org has no page by that name (the glossary has Epistemic Injustice). The words are kept as the page has them and the dead link is left off; the link is stimpunks.org's to fix."
+   },
+   "agenda": {
+    "date": "2026-09-29",
+    "kind": "Quarterly meeting (rescheduled from summer)",
+    "status": "draft",
+    "decisions": [
+     "Approve the minutes of the 24 March 2026 meeting",
+     "Resolve to terminate private foundation status under IRC §507(b)(1)(B) and authorize the Form 8940 filing",
+     "Resolve to adopt GAAP accrual accounting from FY2026",
+     "Adopt the revised Conflict of Interest Policy, superseding the 2022 policy",
+     "Adopt the revised Whistleblower Policy, superseding the 2022 policy",
+     "Adopt the annual Conflict of Interest Statement, and set the signing cycle",
+     "Resolve the bylaws conflict, and adopt the amended v2 text (§2.1 family qualification removed) if that version governs",
+     "Adopt the Document Retention & Destruction Policy, superseding the 2022 policy",
+     "Adopt the revised Gift Acceptance Policy",
+     "Elect a Treasurer, and decide whether they also join the Board as a director",
+     "Extend indemnification to volunteers under Article V §5.7, so our unpaid Co-Creative Directors are covered"
+    ],
+    "order": [
+     [
+      "1",
+      "Opening",
+      5
+     ],
+     [
+      "2",
+      "Financial position",
+      25
+     ],
+     [
+      "3",
+      "Public charity conversion",
+      30
+     ],
+     [
+      "4",
+      "Bylaws",
+      25
+     ],
+     [
+      "5",
+      "Governance policies",
+      30
+     ],
+     [
+      "6",
+      "Officers",
+      15
+     ],
+     [
+      "7",
+      "Compensation review",
+      15
+     ],
+     [
+      "8",
+      "Reporting",
+      10
+     ],
+     [
+      "8a",
+      "One conflict the retention policy surfaced",
+      5
+     ],
+     [
+      "9",
+      "Closing",
+      5
+     ]
+    ],
+    "access": [
+     "We will break for ten minutes at the halfway point. Cameras optional. Ask for anything you need.",
+     "If you cannot be in the room, join by phone or video: under bylaws §2.5, taking part where everyone can hear each other counts as presence in person, for quorum and for voting."
+    ]
    }
   },
   {
@@ -159,5 +233,6 @@
   }
  ],
  "_people": "A room may list who it is for. Each person links to their own section of stimpunks.org/about/, and the list is in the order, and with the titles, of the page named in `people_from` (the About page's Directors and Board Members section for the Directors, at Ryan's ask, 2026-09-29; the Board Governance page's Board of Directors for the Board, which is the page that says who is on it and that the people who run the work day to day are not). tools/make-town-hall.py checks every name against the Knowledge System mirror's copy of the page it came from, and every anchor against the mirror's About page, when the mirror is on this machine, and refuses what has gone; the anchors were also checked on the live pages on 2026-09-29. Nothing here is typed from memory: when either page changes, re-read it.",
- "_governance": "A room may carry a section of one of our own stimpunks.org pages, word for word, at Ryan's ask: the Board room carries the Governance & Ethics section of our Accountability & Transparency page (2026-09-29). Every sentence and every link here is that page's, copied as it stands, with its relative links made absolute; tools/make-town-hall.py looks for every one of them in the Knowledge System mirror's copy of the page when the mirror is on this machine, and refuses one that has gone. When the page changes, re-copy the section; never loosen the check. The Bylaws line names the September 2026 board meeting, so it will change once the Board votes."
+ "_governance": "A room may carry a section of one of our own stimpunks.org pages, word for word, at Ryan's ask: the Board room carries the Governance & Ethics section of our Accountability & Transparency page (2026-09-29). Every sentence and every link here is that page's, copied as it stands, with its relative links made absolute; tools/make-town-hall.py looks for every one of them in the Knowledge System mirror's copy of the page when the mirror is on this machine, and refuses one that has gone. When the page changes, re-copy the section; never loosen the check. The Bylaws line names the September 2026 board meeting, so it will change once the Board votes.",
+ "_agenda": "A room may carry the outline of its next meeting's agenda. The Board room's is Ryan's draft agenda for the board meeting of 2026-09-29, given 2026-09-29, and only its outline is here, Ryan's call the same day: the meeting's date, the decisions required and the order of business with its timings, as the draft words them, and its access notes. Its detailed notes stay off the page, because the Board room's walls are public and those notes carry things that are not public yet. One change from the draft's wording: the Treasurer decision does not name the candidate until the Board has elected them. tools/make-town-hall.py writes the heading in the past tense once the date has gone by, so an old agenda never reads as the next meeting's."
 }

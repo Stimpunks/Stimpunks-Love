@@ -16467,6 +16467,16 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .bd-gov__list > li { margin: 0 0 10px; }
 .bdroom .bd-gov__from { font-size: 16px; color: var(--bd-dim); }
 
+/* THE MEETING: the outline of the agenda, on the table. */
+.bd-agenda { padding: 18px 22px 8px; background: var(--bd-table); border-top: 3px solid var(--bd-pool); }
+.bd-agenda > p { max-width: 42em; margin: 0 0 12px; }
+.bdroom .bd-agenda__h { margin: 18px 0 8px; font-family: 'Source Sans 3', 'Helvetica Neue', Arial, sans-serif; font-weight: 700; font-size: 19px; color: var(--bd-text); }
+.bd-agenda__list { margin: 0 0 14px; padding-left: 1.5em; }
+.bd-agenda__list > li { margin: 0 0 8px; }
+.bd-agenda__list--numbered { list-style: none; padding-left: 0; }
+.bd-agenda__n { display: inline-block; min-width: 2.2em; font-weight: 700; }
+.bdroom .bd-agenda__fine { font-size: 16px; color: var(--bd-dim); }
+
 .bd-call { margin: 14px 0 0; padding: 18px 22px 20px; background: var(--bd-table); }
 .bd-call p { margin: 0 0 12px; }
 .bd-call button {
