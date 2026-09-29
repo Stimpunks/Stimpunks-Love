@@ -106,7 +106,16 @@ csp = (
     # browser is told exactly what the script will try to build. 'self' is not
     # in that array and is added here: it is the laptop in the Hermitage's cave
     # framing this site inside itself, which love-embed.js never constructs.
-    f"frame-src 'self' {origins}; "
+    # blob: is for downloads out of a call, and it frames nothing. Jitsi saves a
+    # shared file by fetching it and clicking a link to a blob: URL it made from
+    # the bytes; Firefox (and, it seems, Safari) checks that click against THIS
+    # page's frame-src as if the call's frame were loading it, and refused it
+    # without a word, so "Download started" came up and nothing ever arrived
+    # (Ryan's console, 2026-09-29). Chrome does not ask, which is why a test in
+    # Chrome passed. A blob: URL can only be made by a script already running in
+    # its own origin and carries that origin's policy with it, so this admits
+    # no new origin: 8x8's blob is 8x8's, inside the frame 8x8 already has.
+    f"frame-src 'self' blob: {origins}; "
     # 'self' for the recordings this site does serve (the audio room, the
     # Playhouse's yells, the yurt), then whatever AUDIO_ORIGINS holds.
     f"media-src 'self' {media}; "
@@ -151,5 +160,5 @@ for feat in ("camera", "microphone", "display-capture"):
         print(f"It goes to the call origin ({call}) and to nothing else, 'self' included.")
         sys.exit(2)
 hdr.write_text(new)
-print(f"csp: sha256-{digest}  ({len(pages)} pages, 1 snippet)\n     frame-src 'self' " + origins + "  (read from love-embed.js)"
+print(f"csp: sha256-{digest}  ({len(pages)} pages, 1 snippet)\n     frame-src 'self' blob: " + origins + "  (read from love-embed.js)"
       + "\n     media-src 'self' " + media + "  (read from love-embed.js)")
