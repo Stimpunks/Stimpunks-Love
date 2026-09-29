@@ -414,7 +414,8 @@ export const MOD_ROOMS = {
 /* A ROOM THE ADMINISTRATOR KEY DOES NOT OPEN. Ryan, 2026-09-29: Executive
    Session is for those with the board role only. An executive session is the
    board meeting without staff, and an administrator who is not on the board
-   is staff, so here the room's own roles are the only way in. */
+   is staff, so here the room's own roles are the only way in. Confirmed by
+   Ryan the same day: administrators stay out. */
 export const STRICT_ROOMS = ['town-hall-executive-session'];
 export function modRoom(tag) { return Object.prototype.hasOwnProperty.call(MOD_ROOMS, tag) ? tag : null; }
 export function roomAllows(who, tag) {
