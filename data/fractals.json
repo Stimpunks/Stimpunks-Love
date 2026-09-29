@@ -1308,6 +1308,24 @@
     "--bd-pool"
    ],
    "span": 0.6
+  },
+  "town-hall-moderators.html": {
+   "kind": "orbit",
+   "trap": "cross",
+   "radius": 0.5,
+   "c": [
+    -0.4,
+    0.6
+   ],
+   "orbit": 0.01,
+   "ground": "--md-dark",
+   "inks": [
+    "--md-pink",
+    "--md-gold",
+    "--md-green",
+    "--md-blue",
+    "--md-violet"
+   ]
   }
  }
 }

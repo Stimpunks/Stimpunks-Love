@@ -202,6 +202,11 @@
    "path": "/town-hall-board.html"
   },
   {
+   "tag": "town-hall-moderators",
+   "name": "Moderators",
+   "path": "/town-hall-moderators.html"
+  },
+  {
    "tag": "dopamine-dress-up-den",
    "name": "Dopamine Dress-Up Den",
    "path": "/dopamine-dress-up-den.html"

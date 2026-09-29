@@ -1149,6 +1149,20 @@
       "sections": [
         80
       ]
+    },
+    "oxanium": {
+      "where": "Moderators",
+      "page": "town-hall-moderators.html",
+      "sections": [
+        81
+      ]
+    },
+    "inter": {
+      "where": "Moderators",
+      "page": "town-hall-moderators.html",
+      "sections": [
+        81
+      ]
     }
   }
 }

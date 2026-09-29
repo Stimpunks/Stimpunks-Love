@@ -2757,7 +2757,7 @@ stops `love.js` loading the radio for anybody whose stored pass is not the base'
 checks again, but **that is the page keeping quiet, not the lock**: never move the gate into the
 client. `tools/make-town-hall.py` reads `MOD_ROOMS` and `PUBLIC_CALLS` and refuses a room whose
 `for` disagrees, a private page without `data-cb="mods"`, and a call panel without
-`data-call-mods`, which `callroom.js` reads, and a room page that does not say Ryan's own line for it. **The Fishbowl (§78) is a glass bowl of water on a sunny sill**, the one room lit by refraction: the sun bent through the water into bright lines, dark ink on the pale water, and a ring of stones inside with one gap kept open; its collisions are in its section. **The Directors' room (§79) is lit only through the frosted pane in its door**, soft and edgeless, the name backwards on the glass; it lists the directors off stimpunks.org/about/ in that page's order and titles, from `people` in `data/town-hall.json`, and the tool refuses an anchor the mirror's About page no longer has. **The Board room (§80) is one long table with the same lamp at every seat**, the Collection Collection's rule inverted on purpose: there no two lamps may be alike, here none may differ. It lists the board off the Board & Governance page, and carries the Governance & Ethics section of the Accountability page **word for word, from `governance` in the data**, every sentence and link looked for in the mirror's section on every build. **When that page changes, re-copy the section; never loosen the check.** A link on it that goes nowhere is left off with a note, not repointed by guess. **Roles come next** (a MOD handle allowlist with
+`data-call-mods`, which `callroom.js` reads, and a room page that does not say Ryan's own line for it. **The Fishbowl (§78) is a glass bowl of water on a sunny sill**, the one room lit by refraction: the sun bent through the water into bright lines, dark ink on the pale water, and a ring of stones inside with one gap kept open; its collisions are in its section. **The Directors' room (§79) is lit only through the frosted pane in its door**, soft and edgeless, the name backwards on the glass; it lists the directors off stimpunks.org/about/ in that page's order and titles, from `people` in `data/town-hall.json`, and the tool refuses an anchor the mirror's About page no longer has. **The Board room (§80) is one long table with the same lamp at every seat**, the Collection Collection's rule inverted on purpose: there no two lamps may be alike, here none may differ. It lists the board off the Board & Governance page, and carries the Governance & Ethics section of the Accountability page **word for word, from `governance` in the data**, every sentence and link looked for in the mirror's section on every build. **When that page changes, re-copy the section; never loosen the check.** A link on it that goes nowhere is left off with a note, not repointed by guess. **The Moderators' room (§81) is above the street at night, lit only by the shopfronts' colours on its ceiling**, side by side and never mixed, which is what holds it off the Repeater's blended skyglow; the radio on its desk is drawn off. **Roles come next** (a MOD handle allowlist with
 moderator, board, director and administrator), and `DECISIONS.md` has the shape: when they arrive,
 `MOD_ROOMS` becomes a map from room to role and `roomAllows` is still the only place that decides.
 
@@ -3113,18 +3113,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §82 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §83 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§82 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§83 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §82 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §83 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

@@ -2101,5 +2101,33 @@
    "src": "https://fonts.gstatic.com/s/sourcesans3/v19/nwpStKy2OAdR1K-IwhWudF-R3w8aZejf5Hc.woff2",
    "note": "The Board room (§80): every word that is read. One variable file serves both weights; no italic is shipped, and nothing in the room is set italic."
   }
+ ],
+ "oxanium": [
+  {
+   "file": "oxanium-600.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 7304,
+   "src": "https://fonts.gstatic.com/s/oxanium/v21/RrQPboN_4yJ0JmiMUW7sIGjd1IA9G82XeUiLD3UZcr7wZYw.woff2",
+   "note": "The Moderators' room (§81), off the Town Hall: the room's name and headings. Never a sentence."
+  }
+ ],
+ "inter": [
+  {
+   "file": "inter-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 48432,
+   "src": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2",
+   "note": "The Moderators' room (§81): every word that is read. One variable file serves both weights; no italic is shipped, and nothing in the room is set italic."
+  },
+  {
+   "file": "inter-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 48432,
+   "src": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2",
+   "note": "The Moderators' room (§81): every word that is read. One variable file serves both weights; no italic is shipped, and nothing in the room is set italic."
+  }
  ]
 }

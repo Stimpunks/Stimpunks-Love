@@ -586,6 +586,7 @@ TH_LINK, TH_SUN = "#F3C98B", "#F7E8C2"
 FB_WATER, FB_SHALLOW, FB_INK, FB_INK2, FB_LINK = "#D6EEEA", "#BFE3DD", "#0D3432", "#2A5754", "#9B330C"
 DR_DARK, DR_PANEL, DR_TEXT, DR_DIM, DR_LINK, DR_PANE = "#1C212B", "#262D3A", "#E8EDF2", "#AFBBC8", "#A6CFF0", "#DCE6EE"
 BD_ROOM, BD_TABLE, BD_TEXT, BD_DIM, BD_LINK, BD_POOL = "#17161B", "#2A2530", "#F2EEE8", "#C3BCB2", "#E9A77F", "#F6E3B4"
+MD_DARK, MD_PANEL, MD_TEXT, MD_DIM, MD_LINK = "#16141C", "#221F2B", "#F1EEF6", "#BDB6CC", "#9FE3C6"
 
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
@@ -2616,6 +2617,17 @@ PAIRS = [
     (BD_POOL, BD_ROOM,  True,  "board: the focus ring"),
     (BD_POOL, BD_TABLE, True,  "board: the focus ring on a place at the table"),
     (BD_LINK, BD_ROOM,  True,  "board: the job marker, a pencil rolled off the table"),
+    (MD_TEXT, MD_DARK,  False, "moderators: every paragraph, the h1, the headings and the lede"),
+    (MD_DIM,  MD_DARK,  False, "moderators: the over-line, the trail and the credits"),
+    (MD_LINK, MD_DARK,  False, "moderators: every link and the backlink"),
+    (MD_TEXT, MD_PANEL, False, "moderators: the call panel's words"),
+    (MD_DIM,  MD_PANEL, False, "moderators: the call's fine print"),
+    (MD_LINK, MD_PANEL, False, "moderators: a link in the call panel"),
+    (MD_DARK, MD_LINK,  False, "moderators: the join button, for the base"),
+    (MD_DARK, MD_TEXT,  False, "moderators: the join button while it is hovered"),
+    (MD_LINK, MD_DARK,  True,  "moderators: the focus ring"),
+    (MD_LINK, MD_PANEL, True,  "moderators: the focus ring on the call panel"),
+    (MD_LINK, MD_DARK,  True,  "moderators: the job marker, a spare fuse"),
     (MUD_TEXT,  MUD_GROUND, False, "mud room: every paragraph, the lede, the house rules and the door's blurb on the street"),
     (MUD_SKY,   MUD_GROUND, False, "mud room: the h1, every heading, every bold run and the door's name"),
     (MUD_DIM,   MUD_GROUND, False, "mud room: the trail, the over-line, the fine print and every label in the guidebook"),
@@ -2868,6 +2880,13 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#e26aa0": "moderators: a shopfront's pink come up onto the ceiling, 5.91 on the dark room. Light, drawn; no word.",
+    "#e9c46a": "moderators: a shopfront's gold come up onto the ceiling, 10.92 on the dark room. Light, drawn; no word.",
+    "#56c49a": "moderators: a shopfront's green come up onto the ceiling, 8.48 on the dark room. Light, drawn; no word.",
+    "#6aa8e2": "moderators: a shopfront's blue come up onto the ceiling, 7.22 on the dark room. Light, drawn; no word.",
+    "#a98be8": "moderators: a shopfront's violet come up onto the ceiling, 6.56 on the dark room. Light, drawn; no word.",
+    "#2e2a3a": "moderators: the window's bars, the desk, the radio and the chair, 1.31 on the dark room. Drawing only.",
+    "#0e0c12": "moderators: the window's glass, 1.07 on the dark room. Drawing only.",
     "#ede7da": "board: the lampshades, 14.60 on the dark room. Drawing only; they carry no word.",
     "#a88a4e": "board: the lamps' brass stems, 5.49 on the dark room. Drawing only.",
     "#3a3342": "board: the table's edge, the chairs and the far wall, 1.48 on the dark room. Drawing only.",

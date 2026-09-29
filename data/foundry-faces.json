@@ -1421,6 +1421,29 @@
     }
    ]
   },
+  "inter": {
+   "family": "Inter",
+   "category": "Sans Serif",
+   "designer": "Rasmus Andersson",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/inter",
+   "copyright": "Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter)",
+   "repository": "https://www.github.com/rsms/inter",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "inter-400.woff2",
+     "sha": "c940764593d0fe5d"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "inter-400.woff2",
+     "sha": "c940764593d0fe5d"
+    }
+   ]
+  },
   "italiana": {
    "family": "Italiana",
    "category": "Sans Serif",
@@ -2060,6 +2083,23 @@
      "style": "normal",
      "file": "overpass-700.woff2",
      "sha": "f7a12c2600a2feb6"
+    }
+   ]
+  },
+  "oxanium": {
+   "family": "Oxanium",
+   "category": "Display",
+   "designer": "Severin Meyer",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/oxanium",
+   "copyright": "Copyright 2019 The Oxanium Project Authors (https://github.com/sevmeyer/oxanium)",
+   "repository": "https://github.com/sevmeyer/oxanium",
+   "variants": [
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "oxanium-600.woff2",
+     "sha": "c12aca99f01910a5"
     }
    ]
   },

@@ -761,6 +761,15 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--bdroom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
 .og--bdroom .og-scene svg {{ display: block; width: 1200px; height: 300px; }}
 
+/* the moderators' room — THE CEILING, LIFTED OFF THE ROOM: the shopfronts'
+   colours come up through the window, side by side, and the window below. */
+.og--mdroom {{ width: 100%; padding: 40px 60px 0; gap: 8px; justify-content: flex-start; }}
+.og--mdroom .md-over {{ margin: 0 !important; font-size: 19px; letter-spacing: .06em; text-transform: uppercase; color: #BDB6CC; }}
+.og--mdroom h1 {{ font-size: 84px; margin: 0 !important; }}
+.og--mdroom .og-lede {{ font-family: 'Inter', sans-serif; color: #F1EEF6; max-width: 1060px; font-size: 24px; margin: 4px 0 0 !important; }}
+.og--mdroom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--mdroom .og-scene svg {{ display: block; width: 1200px; height: 300px; }}
+
 /* the mud room — THE VIEW FROM THE BACK STEP, LIFTED OFF THE ROOM: the sky, the
    far shore, the causeway posts going out to the beacon, and the sky lying in
    the mud, under the room's own name. Nothing on it moves, which is the
@@ -2823,6 +2832,23 @@ def card_bdroom(p):
     )
 
 
+def card_mdroom(p):
+    return (
+        "",
+        f'<div class="og og--mdroom" data-fit="card">'
+        f'<p class="md-over">Through a door off the Town Hall</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-scene">{p["md_scene"]}</div>'
+        f'</div>',
+        f"A near-black card. A small line in pale capitals reading through a door off the Town Hall, "
+        f"then “{p['h1text']}” in squared letters, and under it: {p['desc_plain']} Along the foot, a "
+        f"dark room at night: bands of pink, gold, green, blue and violet light lying side by side on "
+        f"the ceiling, fading as they spread, and below them one window, the street's colours glowing "
+        f"at its foot, with a desk and a chair dark against the wall.",
+    )
+
+
 def card_mud(p):
     return (
         "",
@@ -3725,6 +3751,7 @@ CARDS = {
     "fbroom":       card_fbroom,
     "drroom":       card_drroom,
     "bdroom":       card_bdroom,
+    "mdroom":       card_mdroom,
     "mud":          card_mud,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
@@ -4056,6 +4083,11 @@ def main():
     if not bd:
         raise SystemExit("REFUSING: town-hall-board.html has lost its table, and its card is built out of it.")
     lifted["bd_scene"] = bd.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 170 1200 300"', 1)
+    md = re.search(r'<div class="md-head__art">\s*(?:<!--.*?-->\s*)?(<svg.*?</svg>)',
+                   (ROOT / "town-hall-moderators.html").read_text(), re.S)
+    if not md:
+        raise SystemExit("REFUSING: town-hall-moderators.html has lost its ceiling, and its card is built out of it.")
+    lifted["md_scene"] = md.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 172 1200 300"', 1)
     # THE MUD ROOM'S CARD CARRIES THE ROOM'S OWN VIEW AND OVER-LINE, cropped by its
     # viewBox to the horizon and the mud, so the card cannot disagree with the room.
     mud_src = (ROOT / "the-mud-room.html").read_text()
