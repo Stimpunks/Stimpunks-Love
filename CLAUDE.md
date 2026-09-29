@@ -2730,8 +2730,8 @@ is full.
 was decoration, so the bar's readout became a button that opens a filterable list of every room on
 the street, out of the same `/cb-rooms.json` as the #tags, and goes there. Going is ordinary
 navigation: nothing reaches the channel and nobody learns where you went. It hides while folded,
-like Small, because folded sends nothing and the list is a fetch. **The bar is full**: at 360px it
-fits CB, Teleport, Move, Small and Fold away with twelve pixels to spare after the buttons' side
+like Size, because folded sends nothing and the list is a fetch. **The bar is full**: at 360px it
+fits CB, Teleport, Move, Size and Fold away with twelve pixels to spare after the buttons' side
 padding was trimmed. A sixth thing on it wraps the row, which the bar allows on a phone and should
 not need anywhere else.
 
