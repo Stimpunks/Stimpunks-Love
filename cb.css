@@ -46,6 +46,12 @@
 .cb-bar { flex: none; }
 .cb-tp-panel { flex: none; }
 .cb-set { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+/* EVERY ROW KEEPS ITS OWN HEIGHT, and the set scrolls instead. Once the radio
+   was capped at the window's height the set had a height shorter than what is
+   in it, and a grid shrinks any row that is allowed to shrink: the answer line
+   under Transmit went to 0px and ran under the buttons below it (Ryan's
+   screenshot, a long Catch up answer). max-content rows cannot be squeezed. */
+.cb-set { grid-auto-rows: max-content; }
 .cb-radio *, .cb-radio *::before, .cb-radio *::after { box-sizing: border-box; }
 .cb-radio p { margin: 0; }
 .cb-radio a { color: var(--cb-amber); }
@@ -183,7 +189,7 @@
 .cb-opt__tag { font-size: 13px; color: var(--cb-amber-2); overflow-wrap: anywhere; text-align: right; }
 .cb-opt[aria-selected="true"] { color: var(--cb-lcd); background: var(--cb-amber); }
 .cb-opt[aria-selected="true"] .cb-opt__tag { color: var(--cb-lcd); }
-.cb-said { font-size: 13px; min-height: 0; }
+.cb-said { font-size: 13px; }
 .cb-said:empty { display: none; }
 .cb-tools { display: flex; flex-wrap: wrap; gap: 8px; }
 .cb-norms { font-size: 13px; }
