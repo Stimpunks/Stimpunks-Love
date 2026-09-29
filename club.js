@@ -19,10 +19,18 @@
    curation into the shared builder would be one room's idea leaking into every
    other room's mechanism.
 
-   THE ORDER IS THE WHOLE TRICK AND IT IS NOT AN ACCIDENT: this listener is on
-   the BUTTON and love-embed.js's is on the document, so this one runs at the
-   target and that one runs on the way up. Move this to the document and it
-   becomes a race decided by which script tag loads first.
+   THE ORDER IS THE WHOLE TRICK AND IT IS NOT AN ACCIDENT: this listener is in
+   the CAPTURE phase on the document and love-embed.js's is in the bubble phase
+   on the document, so this one runs on the way down and that one on the way
+   up, whichever script tag loads first. Make this a bubble listener on the
+   document and it becomes a race decided by script order.
+
+   IT USED TO BE ON THE BUTTON, and the rack is why it moved (2026-09-29). The
+   YouTube deck is the rack's screen: rack.js keeps the plate's markup and puts
+   it back as NEW markup when a record comes off the stage, and a listener on the
+   old button does not come with it. The press after that played the list from
+   the top while its label said it starts somewhere random. Capture on the
+   document reaches every button that ever carries data-embed-starts.
 
    IT FAILS BACK TO THE TOP OF THE LIST, never to nothing. A missing list, a
    malformed id or a frame that is not the shape this expects leaves the button
@@ -49,16 +57,8 @@
     btn.setAttribute('data-embed-src', base.replace(SERIES, '/embed/' + id + '?'));
   }
 
-  function arm() {
-    var decks = document.querySelectorAll('button.facade[data-embed-starts]');
-    Array.prototype.forEach.call(decks, function (btn) {
-      btn.addEventListener('click', function () { pick(btn); });
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', arm);
-  } else {
-    arm();
-  }
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('button.facade[data-embed-starts]');
+    if (btn) pick(btn);
+  }, true);
 })();

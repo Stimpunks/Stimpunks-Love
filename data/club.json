@@ -81,6 +81,7 @@
   "playlists": [
     {
       "slug": "youtube",
+      "screen": true,
       "name": "On YouTube",
       "title": "Chronic Neurodivergent Depressed Queer Punk",
       "by": "Stimpunks Foundation",

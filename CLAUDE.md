@@ -344,10 +344,13 @@ short list is not an error anywhere. **A START POINT IS A VIDEO RATHER THAN A PO
 why repeats are dropped: nine of those songs really are in the playlist twice, each with its own
 `setVideoId`, and `/embed/<id>?list=` opens at the first occurrence whichever one you meant. **And
 `club.js` builds nothing** — it rewrites `data-embed-src` before the press reaches the document, so
-`love-embed.js` stays the only thing on this site that builds a frame. The listener is on the
-button and the builder's is on the document, which is what makes the order reliable rather than a
-race between script tags; move it and it breaks silently. It fails back to the top of the list,
-never to nothing.
+`love-embed.js` stays the only thing on this site that builds a frame. Its listener is in the
+capture phase on the document and the builder's is in the bubble phase, which is what makes the
+order reliable rather than a race between script tags; make it a bubble listener and it breaks
+silently. **It was on the button until the rack took the YouTube deck as its screen
+(2026-09-29)**: `rack.js` puts the plate back as new markup, a listener on the old button does not
+come with it, and the press after a record came off the stage played from the top. It fails back to
+the top of the list, never to nothing.
 
 **AND THE THIRD DECK ON THAT STAGE IS A DOOR, BECAUSE QOBUZ PUBLISHES NO EMBED.** This is the
 purest version of *playing is not the same permission as embedding* the street has met, because

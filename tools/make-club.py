@@ -50,6 +50,9 @@ WHAT IT REFUSES:
     changing their mind, and a door carrying start points is a draw nothing
     will ever read.
 
+  - A STAGE WITH NO SCREEN FOR THE RACK, OR MORE THAN ONE. The rack is
+    rack.js's pattern: every record plays where it hangs, or goes up on the
+    stage's YouTube deck in place of the playlist. That deck cannot be a door.
   - A SONG WITH NO CHANNEL. None of this music is ours.
   - A COLLECTION LINK WITH NO DESCRIPTION, because a wall of bare links is a
     bookmark folder rather than a room.
@@ -190,6 +193,20 @@ def check(data):
                        "adding to; today's total is wrong next week and authoritative in "
                        "the meantime. Say it runs until you stop it.")
 
+    # THE RACK PUTS A RECORD ON THE STAGE, rack.js's pattern (Ryan's call,
+    # 2026-09-28): exactly one deck is the screen, it is a YouTube deck because
+    # every record in the rack is a YouTube video, and it is not a door, because
+    # a door has nothing on it to take off and put back.
+    screens = [pl for pl in plays if pl.get("screen")]
+    if len(screens) != 1:
+        bad.append("exactly one deck on the stage must be the rack's screen (`screen` in data/club.json).")
+    for pl in screens:
+        if (pl.get("how") or "").strip() == "link":
+            bad.append(f"the {pl.get('name')} deck is a door and cannot be the rack's screen.")
+        if not (pl.get("frame") or "").startswith("https://www.youtube-nocookie.com/"):
+            bad.append(f"the {pl.get('name')} deck is the rack's screen and is not YouTube, and every record "
+                       "in the rack is a YouTube video.")
+
     for c in cols:
         t = (c.get("title") or "").strip() or "<untitled>"
         if not (c.get("url") or "").strip():
@@ -245,6 +262,21 @@ def stage(plays):
                 f'</a>\n'
                 '      </div>')
             continue
+        button = (f'<button type="button" class="facade" data-embed-src="{esc(pl["frame"])}"\n'
+                  f'                data-embed-title="{esc(pl["title"])} on {esc(pl["name"])[3:] or esc(pl["name"])}"'
+                  f'{attr}>'
+                  f'{label}</button>')
+        # THE RACK'S SCREEN. rack.js keeps the plate's markup and puts it back as
+        # new markup, which is why club.js listens on the document rather than on
+        # this button: a listener on the button would not survive the way back.
+        if pl.get("screen"):
+            button = ('<div class="deck__screen" data-rack-screen="stage" '
+                      'data-rack-off="The playlist is off until you put it back.">\n'
+                      f'          {button}\n'
+                      '        </div>\n'
+                      '        <p class="deck__now" data-rack-now="stage" tabindex="-1" hidden></p>\n'
+                      '        <p class="deck__back" hidden><button type="button" class="deck__return" '
+                      'data-rack-back="stage">Take it off and put the playlist back</button></p>')
         out.append(
             f'      <div class="deck deck--{esc(pl["slug"])}">\n'
             f'        <p class="deck__where">{esc(pl["name"])}</p>\n'
@@ -252,10 +284,7 @@ def stage(plays):
             f'        <p class="deck__by">Kept by {esc(pl["by"])} &middot; '
             f'<a href="{esc(pl["out"])}">open it there &rarr;</a></p>\n'
             f'        <p>{esc(pl["note"])}</p>\n'
-            f'        <button type="button" class="facade" data-embed-src="{esc(pl["frame"])}"\n'
-            f'                data-embed-title="{esc(pl["title"])} on {esc(pl["name"])[3:] or esc(pl["name"])}"'
-            f'{attr}>'
-            f'{label}</button>\n'
+            f'        {button}\n'
             '      </div>')
     return "\n".join(out)
 
@@ -268,11 +297,13 @@ def rackwall(racks):
             f'      <p class="rack__no">Rack {esc(r["n"])}</p>\n'
             f'      <h2>{esc(r["title"])}</h2>\n'
             f'      <p class="rack__intro">{esc(r["intro"])}</p>\n'
+            f'      <details class="rack__fold" open>\n'
+            f'        <summary class="rack__sum">The records in Rack {esc(r["n"])}</summary>\n'
             f'      <ul class="sleeves">')
         for s in r["songs"]:
             when = f' &middot; {esc(s["when"])}' if s.get("when") else ""
             out.append(
-                '        <li class="sleeve">\n'
+                '        <li class="sleeve" data-rack-card>\n'
                 f'          <p class="sleeve__role">{esc(s["role"])}</p>\n'
                 f'          <h3>{esc(s["title"])}</h3>\n'
                 f'          <p class="sleeve__by">{esc(s["artist"])}{when} &middot; {esc(s["length"])}</p>\n'
@@ -280,8 +311,16 @@ def rackwall(racks):
                 f'          <button type="button" class="facade" data-embed-id="{esc(s["id"])}"\n'
                 f'                  data-embed-title="{esc(s["artist"])} &mdash; {esc(s["title"])}">'
                 f'Play &middot; {esc(s["spoken"])}</button>\n'
+                # The second press: the same record on the stage, in place of the
+                # playlist. Hidden until rack.js is here to unhide it.
+                f'          <button type="button" class="sleeve__stage" hidden data-rack-to="stage" '
+                f'data-rack-name="the stage" '
+                f'data-rack-src="https://www.youtube-nocookie.com/embed/{esc(s["id"])}?autoplay=1&amp;rel=0" '
+                f'data-rack-title="{esc(s["artist"])} &mdash; {esc(s["title"])}, on the stage" '
+                f'data-rack-film="{esc(s["title"])}" data-rack-runtime="{esc(s["length"])}">'
+                f'Put it on the stage &middot; {esc(s["spoken"])}</button>\n'
                 '        </li>')
-        out.append('      </ul>\n    </section>')
+        out.append('      </ul>\n      </details>\n    </section>')
     return "\n".join(out)
 
 
@@ -307,6 +346,11 @@ def main():
     swap(ROOM, "club-stage", stage(data["playlists"]), "    ")
     swap(ROOM, "club-rack", rackwall(data["racks"]), "  ")
     swap(NOTES, "club-credits", credit_rows(data["racks"]), "      ")
+    page = ROOM.read_text()
+    for js in ("love-embed.js", "rack.js", "club.js"):
+        if f'<script src="{js}" defer></script>' not in page:
+            print(f"REFUSING: club-chronic.html does not load {js}, so its rack's buttons would press and do nothing.")
+            return 1
 
     songs = sum(len(r["songs"]) for r in data["racks"])
     print(f"club chronic: {len(data['playlists'])} playlists on the stage, {songs} songs in "
