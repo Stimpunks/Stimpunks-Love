@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-09-27",
+ "_checked": "2026-09-28",
  "faces": {
   "albert-sans": {
    "family": "Albert Sans",
@@ -1095,6 +1095,29 @@
     }
    ]
   },
+  "ibm-plex-sans-condensed": {
+   "family": "IBM Plex Sans Condensed",
+   "category": "Sans Serif",
+   "designer": "Mike Abbink, Bold Monday",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/ibmplexsanscondensed",
+   "copyright": "Copyright 2019 IBM Corp. All rights reserved.",
+   "repository": "https://github.com/googlefonts/plex",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "ibm-plex-sans-condensed-400.woff2",
+     "sha": "9427f9b040d9de07"
+    },
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "ibm-plex-sans-condensed-600.woff2",
+     "sha": "63e486a9c9ec9fb7"
+    }
+   ]
+  },
   "im-fell-english": {
    "family": "IM Fell English",
    "category": "Serif",
@@ -1676,6 +1699,35 @@
      "style": "normal",
      "file": "nunito-400.woff2",
      "sha": "20fc9b6fc618e7c3"
+    }
+   ]
+  },
+  "old-standard-tt": {
+   "family": "Old Standard TT",
+   "category": "Serif",
+   "designer": "Alexey Kryukov",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/oldstandardtt",
+   "copyright": "Copyright 2011 The Old Standard Project Authors (amkryukov@gmail.com)",
+   "repository": "https://git.sr.ht/~ralessi/oldstandard",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "old-standard-tt-400.woff2",
+     "sha": "48f9f02f3deb51cb"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "old-standard-tt-400-italic.woff2",
+     "sha": "37de00fad3261e45"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "old-standard-tt-700.woff2",
+     "sha": "b57915f2b753b4dc"
     }
    ]
   },

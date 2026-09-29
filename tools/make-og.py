@@ -664,6 +664,17 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--cooldown .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
 .og--cooldown .og-scene svg {{ display: block; width: 1200px; height: 330px; }}
 
+/* the events room — THE WATCH ROOM, LIFTED OFF THE ROOM: the lamp's column
+   falling onto the chart table, the ladder, the brass weight on its chain and
+   the window with the sea at dusk, under the room's own name in its almanac
+   serif. Nothing on it moves; nothing in the room does either. */
+.og--watchroom {{ width: 100%; padding: 40px 60px 0; gap: 8px; justify-content: flex-start; }}
+.og--watchroom .wr-over {{ margin: 0 !important; font-size: 19px; letter-spacing: .06em; text-transform: uppercase; color: #A3AFB9; }}
+.og--watchroom h1 {{ font-size: 96px; margin: 0 !important; }}
+.og--watchroom .og-lede {{ font-family: 'IBM Plex Sans Condensed', sans-serif; color: #DCE3E8; max-width: 1040px; font-size: 27px; margin: 4px 0 0 !important; }}
+.og--watchroom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--watchroom .og-scene svg {{ display: block; width: 1200px; height: 330px; }}
+
 /* the mud room — THE VIEW FROM THE BACK STEP, LIFTED OFF THE ROOM: the sky, the
    far shore, the causeway posts going out to the beacon, and the sky lying in
    the mud, under the room's own name. Nothing on it moves, which is the
@@ -2549,6 +2560,24 @@ def card_cooldown(p):
     )
 
 
+def card_watchroom(p):
+    return (
+        "",
+        f'<div class="og og--watchroom" data-fit="card">'
+        f'<p class="wr-over">Behind the Events door at Cavendish Coworking</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-scene">{p["wr_scene"]}</div>'
+        f'</div>',
+        f"A dark slate card. A small line in grey capitals reading behind the Events door at "
+        f"Cavendish Coworking, then “{p['h1text']}” in a tall nineteenth-century serif, and under "
+        f"it in pale grey: {p['desc_plain']} Along the foot, the round room under the lantern: a "
+        f"column of pale light falling from a hatch in the ceiling onto a chart table with an open "
+        f"book on it, a ladder going up into the light, a brass weight hanging on a chain by the "
+        f"wall, and a small arched window with the sea at dusk and a far light on the horizon.",
+    )
+
+
 def card_mud(p):
     return (
         "",
@@ -3441,6 +3470,7 @@ CARDS = {
     "glowgo":       card_glowgo,
     "rave":         card_rave,
     "cooldown":     card_cooldown,
+    "watchroom":    card_watchroom,
     "mud":          card_mud,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
@@ -3722,6 +3752,11 @@ def main():
     if not cl:
         raise SystemExit("REFUSING: cooldown-room.html has lost its lounge, and its card is built out of it.")
     lifted["cool_scene"] = cl.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 150 1200 330"', 1)
+    wr = re.search(r'<div class="wr-head__art">\s*(?:<!--.*?-->\s*)?(<svg.*?</svg>)',
+                   (ROOT / "cavendish-events.html").read_text(), re.S)
+    if not wr:
+        raise SystemExit("REFUSING: cavendish-events.html has lost its watch room, and its card is built out of it.")
+    lifted["wr_scene"] = wr.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 120 1200 330"', 1)
     # THE MUD ROOM'S CARD CARRIES THE ROOM'S OWN VIEW AND OVER-LINE, cropped by its
     # viewBox to the horizon and the mud, so the card cannot disagree with the room.
     mud_src = (ROOT / "the-mud-room.html").read_text()

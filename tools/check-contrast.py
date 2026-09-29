@@ -541,6 +541,14 @@ MUD_GROUND, MUD_BANK, MUD_DEEP = "#262B27", "#343B35", "#181C19"
 MUD_TEXT, MUD_SKY, MUD_DIM = "#CDD5CF", "#EEF2EE", "#A6B0A8"
 MUD_GLASS, MUD_WELLY = "#8FD6C4", "#F4C542"
 
+# The Events Room (§71). THREE GROUNDS: the wall in the dark, where most words
+# are; the lamp's column on the chart table, which is the one pale ground and
+# carries the light list in dark ink with a chart's magenta for its links; and
+# the whitewash where some of the light reaches it, which is the call's panel.
+WR_STONE, WR_LIME, WR_LIT = "#1B232C", "#28323C", "#F5E9C4"
+WR_INK, WR_FLARE, WR_TEXT = "#1C2530", "#8E1F5E", "#DCE3E8"
+WR_DIM, WR_BRASS = "#A3AFB9", "#D9B266"
+
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
 # screen is the light source in this room, not a surface anything is set on --
@@ -2443,6 +2451,20 @@ PAIRS = [
     (COOL_TEXT,  COOL_SHADE, False, "cooldown: what is in the tray"),
     (COOL_DIM,   COOL_SHADE, False, "cooldown: the tray's label"),
     (COOL_MINT,  COOL_ROOM,  True,  "cooldown: the job marker, a bottle cap under a couch"),
+    # ── The Events Room (§71) ────────────────────────────────────────────────
+    (WR_TEXT,  WR_STONE, False, "events room: every paragraph on the wall, the headings, the lede, and what you type in the name box"),
+    (WR_DIM,   WR_STONE, False, "events room: the over-line, the trail and the credits"),
+    (WR_BRASS, WR_STONE, False, "events room: every link on the wall and the backlink"),
+    (WR_TEXT,  WR_LIME,  False, "events room: the call panel's words, its label and what it says back"),
+    (WR_DIM,   WR_LIME,  False, "events room: the call's fine print"),
+    (WR_BRASS, WR_LIME,  False, "events room: a link in the call panel"),
+    (WR_DIM,   WR_LIME,  True,  "events room: the edge of the name box, against the panel"),
+    (WR_INK,   WR_LIT,   False, "events room: the light list, on the chart table in the lamp's column"),
+    (WR_FLARE, WR_LIT,   False, "events room: every link on the light list and the dot before each light's character"),
+    (WR_INK,   WR_LIT,   True,  "events room: the focus ring on the light list, a pale ground in a dark room"),
+    (WR_INK,   WR_BRASS, False, "events room: Knock on the door and Join the call"),
+    (WR_INK,   WR_TEXT,  False, "events room: a button's hover"),
+    (WR_BRASS, WR_STONE, True,  "events room: the job marker, a spare lamp mantle by the chart table"),
     (MUD_TEXT,  MUD_GROUND, False, "mud room: every paragraph, the lede, the house rules and the door's blurb on the street"),
     (MUD_SKY,   MUD_GROUND, False, "mud room: the h1, every heading, every bold run and the door's name"),
     (MUD_DIM,   MUD_GROUND, False, "mud room: the trail, the over-line, the fine print and every label in the guidebook"),
@@ -2714,6 +2736,10 @@ ORNAMENT = {
                "1.52 on the hangar and 1.34 on a deck. It carries no word.",
     "#ffffff": "rave: the strobe's flash, laid over the hangar picture only after two presses. "
                "Nothing is ever written on a flash, and make-rave.py refuses it with any colour in it.",
+    "#13283a": "events room: the sea in the window, 1.05 on the wall; the window is drawn and carries no word",
+    "#3c5670": "events room: the sky at dusk in the window, 2.08 on the wall; drawn, and carries nothing",
+    "#3a4652": "events room: the ladder, the table's legs and the window's frame, 1.65 on the wall, and the job marker's floor line; they carry nothing",
+    "#8c876f": "events room: the lamp's light lying on the floor under the table, 4.39 on the wall; drawn, and nothing stands on it",
     "#2c3f46": "cooldown: the vending machine's cabinet, 1.46 on the room, and the floor line under "
                "the job marker. It carries one line of the machine's own words, measured above.",
     "#c9b6f2": "cooldown: the lilac band across the top of a slot, 1.67 on the glass. It carries no "

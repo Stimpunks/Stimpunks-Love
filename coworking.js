@@ -1,4 +1,4 @@
-/* Cavendish Coworking: the same hour on your own clock.
+/* Cavendish Coworking, and the rooms behind its doors: the same hour on your own clock.
 
    Every door says when its room is in use in Central time, as our events page
    gives it, and that line stands on its own with no script. This adds one line
@@ -10,7 +10,9 @@
    offset on the actual day, not by assuming one. */
 (function () {
   'use strict';
-  var slots = document.querySelectorAll('.cw-slot[data-days][data-start]');
+  // By attribute rather than by class: Cavendish's own doors and every room
+  // behind them say when in their own clothes, and a class name is a room's.
+  var slots = document.querySelectorAll('[data-days][data-start]');
   if (!slots.length || !window.Intl || !Intl.DateTimeFormat) return;
 
   var here;
@@ -65,7 +67,7 @@
   Array.prototype.forEach.call(slots, function (li) {
     var tz = li.closest('[data-tz]');
     tz = tz && tz.getAttribute('data-tz');
-    var out = li.querySelector('.cw-slot__local');
+    var out = li.querySelector('[data-local]');
     if (!tz || !out) return;
     var s = li.getAttribute('data-start').split(':');
     var en = li.getAttribute('data-end');

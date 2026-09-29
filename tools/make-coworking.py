@@ -21,6 +21,20 @@ THE DOORS ARE IN THE EVENTS PAGE'S OWN ORDER, events before meetings, and the
 tool refuses a data file that has re-sorted them -- the Jungle Room's rule about
 somebody else's running order, where the somebody else is us.
 
+EVERY DOOR OPENS ONTO A ROOM OF ITS OWN NOW, AND THIS TOOL WRITES THEM TOO.
+Ryan's brief, 2026-09-28: Proton goes, and each door at Cavendish opens onto a
+room with a call in it, through 8x8's Jitsi as a Service. A door with a `page`
+in the data is one of those rooms, and this tool writes that room's generated
+parts from the same data the door is built from (its words, its light list or
+norms, its call panel, its credits), so the door and the room behind it cannot
+say two different things. Each room dresses those parts in its own section of
+love.css, under its own class prefix; only the markup's shape is shared, the
+job marker's rule. A door with no `page` yet still opens its Proton room.
+Events, Operations and Editorial are PUBLIC calls and the suites are the CB's,
+and which is which is read out of PUBLIC_CALLS in netlify/cb/lib.mjs, never
+restated here: a room that said it was open while the server refused its
+guests would be a door that looks like it worked.
+
 IT ALSO REFUSES:
   · a door whose link is not a Proton Meet join link WITH its password. These
     meetings are open, so the password is not a secret; without it the door
@@ -66,6 +80,13 @@ MIRROR = Path.home() / "Documents/Claude/Projects/Stimpunks Knowledge System/sit
 EVENTS = MIRROR / "pages/events.md"
 
 DOOR = re.compile(r"^https://meet\.proton\.me/join/id-[A-Za-z0-9]+#pwd-[A-Za-z0-9]+$")
+LIB = ROOT / "netlify/cb/lib.mjs"
+_pub = re.search(r"export const PUBLIC_CALLS = \[(.*?)\];", LIB.read_text(), re.S)
+if not _pub:
+    raise SystemExit("REFUSING: netlify/cb/lib.mjs has no PUBLIC_CALLS array, so this tool cannot tell "
+                     "which rooms are open to the world. Put it back rather than restating it here.")
+PUBLIC = set(re.findall(r"'([a-z0-9-]+)'", _pub.group(1)))
+PROTON = re.compile(r"meet\.proton\.me", re.I)
 CLOCK = re.compile(r"^(?:[01]\d|2[0-3]):[0-5]\d$")
 SAID_TIME = re.compile(r"\d\s*(?::\d\d)?\s*(?:AM|PM)", re.I)
 DAYNAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
@@ -117,6 +138,35 @@ def swap(src, marker, block):
                   lambda m: begin + "\n" + block + "\n" + end, src, flags=re.S)
 
 
+def room_check(d, where, public):
+    """A door opens a room of its own (`page`), or, until that room is built,
+    its Proton room (`url` with its password, and the `proton_name` read off
+    Proton's guest page). Never both."""
+    if d.get("page"):
+        if d.get("url") or d.get("proton_name"):
+            refuse(f"{where}: it has a room of its own AND a Proton link. Proton has gone from "
+                   "a door once its room is built; take the url and proton_name out.")
+        for f in ("room", "prefix"):
+            if not str(d.get(f, "")).strip():
+                refuse(f"{where}: a door with a page needs its `{f}`.")
+        tag = d["page"][:-5] if d["page"].endswith(".html") else ""
+        if not (ROOT / d["page"]).exists():
+            refuse(f"{where}: {d['page']} does not exist.")
+        if public and tag not in PUBLIC:
+            refuse(f"{where}: {tag} is a meeting that is open to the world, and it is not in "
+                   "PUBLIC_CALLS in netlify/cb/lib.mjs, so its guests would be refused a call.")
+        if not public and tag in PUBLIC:
+            refuse(f"{where}: {tag} is a hang suite, for people signed on to the CB, and "
+                   "PUBLIC_CALLS in netlify/cb/lib.mjs would give anybody a call there.")
+        return
+    if not DOOR.match(d.get("url", "")):
+        refuse(f"{where}: {d.get('url')!r} is not a Proton Meet join link carrying its "
+               "#pwd- password. Without the password the door opens onto a locked room.")
+    if not d.get("proton_name"):
+        refuse(f"{where}: no proton_name. Open the link as far as Proton's guest page and "
+               "write down the name it gives the room; a door must not be labelled by guess.")
+
+
 data = json.loads(DATA.read_text())
 doors = data["doors"]
 mirror = norm(EVENTS.read_text()) if EVENTS.exists() else None
@@ -127,12 +177,7 @@ for d in doors:
     if d["id"] in ids:
         refuse(f"{where}: two doors with one id.")
     ids.add(d["id"])
-    if not DOOR.match(d.get("url", "")):
-        refuse(f"{where}: {d.get('url')!r} is not a Proton Meet join link carrying its "
-               "#pwd- password. Without the password the door opens onto a locked room.")
-    if not d.get("proton_name"):
-        refuse(f"{where}: no proton_name. Open the link as far as Proton's guest page and "
-               "write down the name it gives the room; a door must not be labelled by guess.")
+    room_check(d, where, public=True)
     for field in ("name", "tagline", "said", "anchor"):
         if not str(d.get(field, "")).strip():
             refuse(f"{where}: no {field}.")
@@ -174,10 +219,7 @@ for x in suites:
     if x["id"] in ids:
         refuse(f"{where}: an id a door already has.")
     ids.add(x["id"])
-    if not DOOR.match(x.get("url", "")):
-        refuse(f"{where}: {x.get('url')!r} is not a Proton Meet join link carrying its #pwd- password.")
-    if not x.get("proton_name"):
-        refuse(f"{where}: no proton_name. Read it off Proton's guest page; do not guess it.")
+    room_check(x, where, public=False)
     if not x.get("norms") or not str(x.get("norms_title", "")).strip():
         refuse(f"{where}: no norms. A suite says how things go in there before you knock, "
                "which is what a meeting's time does on its door.")
@@ -206,7 +248,15 @@ def slot(s):
     return (f'          <li class="cw-slot" data-days="{days}" data-start="{s["start"]}"{end}>'
             f'<span class="cw-slot__what">{what}</span>{tag}'
             f'<span class="cw-slot__said">{e(s["said"])}</span>'
-            f'<span class="cw-slot__local" hidden></span></li>')
+            f'<span class="cw-slot__local" data-local hidden></span></li>')
+
+
+def opening(d, name):
+    if d.get("page"):
+        return [f'        <a class="cw-open" href="{e(d["page"])}">Go through the {name} door<span aria-hidden="true"> &rarr;</span></a>',
+                f'        <p class="cw-open__off">Into {e(d["room"])}: what goes on in there, and its call.</p>']
+    return [f'        <a class="cw-open" href="{e(d["url"])}">Open the {name} door<span aria-hidden="true"> &rarr;</span></a>',
+            f'        <p class="cw-open__off">Off site: Proton Meet&rsquo;s guest page for the room named {e(d["proton_name"])}. Nothing reaches Proton until you open it.</p>']
 
 
 def door(d):
@@ -228,8 +278,7 @@ def door(d):
         f'          </ul>',
         f'          <p class="cw-door__from">In the words of <a href="{e(data["page"])}{e(d["anchor"])}">our events page</a>.</p>',
         f'        </div>',
-        f'        <a class="cw-open" href="{e(d["url"])}">Open the {name} door<span aria-hidden="true"> &rarr;</span></a>',
-        f'        <p class="cw-open__off">Off site: Proton Meet&rsquo;s guest page for the room named {e(d["proton_name"])}. Nothing reaches Proton until you open it.</p>',
+        *opening(d, name),
         f'      </div>',
         f'    </article>',
     ])
@@ -258,8 +307,7 @@ def suite(x):
         f'          </ul>',
         further,
         f'        </div>',
-        f'        <a class="cw-open" href="{e(x["url"])}">Open the {name} door<span aria-hidden="true"> &rarr;</span></a>',
-        f'        <p class="cw-open__off">Off site: Proton Meet&rsquo;s guest page for the room named {e(x["proton_name"])}. Nothing reaches Proton until you open it.</p>',
+        *opening(x, name),
         f'      </div>',
         f'    </article>',
     ] if l])
@@ -318,6 +366,102 @@ if problems:
     raise SystemExit("REFUSING:\n  " + "\n  ".join(problems))
 
 PAGE.write_text(src)
+
+
+# ── The rooms behind the doors ───────────────────────────────────────────────
+
+def room_slot(p, s):
+    what = e(s["what"])
+    if s.get("link"):
+        what = f'<a href="{e(s["link"])}">{what}</a>'
+    end = f' data-end="{s["end"]}"' if s.get("end") else ""
+    days = " ".join(str(x) for x in s["days"])
+    tag = f'<p class="{p}-light__tag">{e(s["tagline"])}</p>' if s.get("tagline") else ""
+    return (f'      <li class="{p}-light" data-days="{days}" data-start="{s["start"]}"{end}>'
+            f'<p class="{p}-light__name">{what}</p>{tag}'
+            f'<p class="{p}-light__char">{e(s["said"])}</p>'
+            f'<p class="{p}-light__local" data-local hidden></p></li>')
+
+
+def room_call(p, d, tag, public):
+    """The call panel. Its parts are found by callroom.js by their data-
+    attributes, and every part that needs a script ships hidden."""
+    room = e(d["room"])
+    if public:
+        lines = [
+            f'    <div class="{p}-call" data-call="{tag}" data-call-name="{room}" data-call-public>',
+            f'      <p>This call is open to anybody. Type the name you want to be called, and knock: you wait in the lobby until a moderator lets you in. Everybody who is not a moderator knocks, signed on to the CB or not, and the moderators are the base station, who are in here at the times on the list above. Between those times there may be nobody to open the door.</p>',
+            f'      <form class="{p}-call__knock" data-call-guest hidden>',
+            f'        <label for="{p}-call-name">The name you want to be called in the call</label>',
+            f'        <div class="{p}-call__row"><input id="{p}-call-name" name="name" maxlength="24" autocomplete="nickname" spellcheck="false"><button type="submit">Knock on the door</button></div>',
+            f'      </form>',
+        ]
+    else:
+        lines = [
+            f'    <div class="{p}-call" data-call="{tag}" data-call-name="{room}">',
+            f'      <p>The call in here is for people signed on to the CB. Anybody can come in and look around; to talk, and to be in the call, you need the CB, and <a href="community-center.html#cb-norms">the Community Center</a> says how to get on it.</p>',
+            f'      <p class="{p}-call__cb" data-call-cb hidden>You are not signed on to the CB in this browser. <a href="community-center.html">Sign on at the Community Center</a>, then come back and the way in is here.</p>',
+        ]
+    lines += [
+        f'      <p class="{p}-call__member" data-call-join hidden><button type="button">Join the call as <b data-call-handle></b></button></p>',
+        f'      <p class="{p}-call__said" role="status" data-call-said></p>',
+        f'      <noscript><p>Joining the call needs JavaScript: it opens in a window of its own on this page.</p></noscript>',
+    ]
+    note = data.get("access_note")
+    if note:
+        lines.append(f'      <p><strong>{e(note["title"])}.</strong> {e(note["said"])}</p>')
+    lines += [
+        f'      <p class="{p}-call__fine">The call is run by 8x8&rsquo;s Jitsi as a Service. Your camera and microphone start off, the name you are called by goes to 8x8 inside your pass into the call, and we keep nothing about a call. <a href="privacy.html#calls">What goes where.</a></p>',
+        f'    </div>',
+    ]
+    return "\n".join(lines)
+
+
+def write_room(d, public):
+    p, tag = d["prefix"], d["page"][:-5]
+    page = ROOT / d["page"]
+    s = page.read_text()
+    here = f"door-{d['id']}" if public else f"suite-{d['id']}"
+    if f'href="cavendish-coworking.html#{here}"' not in s:
+        refuse(f"{d['page']}: it has no way back through its own door, cavendish-coworking.html#{here}.")
+    if public:
+        s = swapin(s, page, f"{p}-words", f'    <p class="{p}-head__sub">{e(d["tagline"])}</p>')
+        s = swapin(s, page, f"{p}-lede", f'  <p class="lede">{e(d["said"])}</p>')
+        s = swapin(s, page, f"{p}-list", "\n".join(
+            [f'    <ol class="{p}-list" data-tz="{e(data["tz"])}">'] + [room_slot(p, x) for x in d["slots"]] + ['    </ol>']))
+    s = swapin(s, page, f"{p}-call", room_call(p, d, tag, public))
+    s = swapin(s, page, f"{p}-credits", (
+        f'    <p>Every line about when is our events page&rsquo;s, word for word, read off '
+        f'<a href="{e(data["page"])}{e(d.get("anchor", ""))}">stimpunks.org/events</a> on {e(data["measured"])}, '
+        f'and <code>tools/make-coworking.py</code> reads that page again every time it builds this room and its door. '
+        f'The hour on your own clock is worked out in your browser.</p>') if public else (
+        f'    <p>What goes on in here, and the norms, are Ryan&rsquo;s words, as he wrote them for the Hang Suites; '
+        f'caves, campfires and watering holes are <a href="https://stimpunks.org/glossary/primordial-learning-spaces/">David Thornburg&rsquo;s</a>.</p>'))
+    m = re.search(r'data-call="([^"]+)"', s)
+    if not m or m.group(1) != tag:
+        refuse(f"{d['page']}: its call panel names {m.group(1) if m else 'no room'!r}, not {tag!r}.")
+    if PROTON.search(re.sub(r"<!--.*?-->", " ", s, flags=re.S)):
+        refuse(f"{d['page']}: Proton Meet is on the page. The rooms behind the doors use the street's own calls.")
+    return page, s
+
+
+def swapin(src, page, marker, block):
+    begin, end = f"<!-- {marker}:begin -->", f"<!-- {marker}:end -->"
+    if begin not in src or end not in src:
+        refuse(f"{page.name}: no {marker} markers, so there is nowhere to write.")
+        return src
+    return re.sub(re.escape(begin) + r".*?" + re.escape(end),
+                  lambda m: begin + "\n" + block + "\n" + end, src, flags=re.S)
+
+
+built = [write_room(d, True) for d in doors if d.get("page")] + \
+        [write_room(x, False) for x in suites if x.get("page")]
+if problems:
+    raise SystemExit("REFUSING:\n  " + "\n  ".join(problems))
+for page, text in built:
+    page.write_text(text)
+print(f"coworking: {len(built)} room(s) behind the doors written" if built else "coworking: no rooms behind the doors yet")
+
 slots = sum(len(d["slots"]) for d in doors)
 print(f"coworking: {len(doors)} doors, {slots} times and {len(suites)} hang suites written into {PAGE.name}"
       + ("; every line re-read against the events page." if mirror is not None else "."))

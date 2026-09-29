@@ -605,7 +605,19 @@ delegates to an origin `ORIGINS` does not frame, or gives the three to anything 
 `love-embed.js`, which `cb.js` loads on the first press if the page lacks it**: do not build a
 second iframe in `cb.js`. The window is not the radio, so folding the radio leaves the call up;
 leaving the page hangs up. Every call arrives muted on Jitsi's pre-join screen. That screen asks
-the browser for the devices so it can show a preview, and that is 8x8's, not a fault. **A call's window and the `Mover` live in `call.js`, not `cb.js`**, because a public room's guest
+the browser for the devices so it can show a preview, and that is 8x8's, not a fault. **EVERY CAVENDISH DOOR OPENS A ROOM OF ITS OWN, AND `make-coworking.py` WRITES THEM.** Ryan,
+2026-09-28: Proton goes, one door at a time. A door or suite with a `page` in `data/coworking.json`
+is a room, and the tool writes its generated parts, meaning its words, light list or norms, call
+panel and credits, from the same data the door is built from. Each room dresses those parts in its
+own §-section under its own `prefix`, the job marker's rule: shared markup shape, no shared look.
+`callroom.js` finds a call panel by its `data-call*` attributes and decides between signed on,
+guest and CB-only. The tool reads which rooms are public from `PUBLIC_CALLS` in `lib.mjs`, and
+refuses a door with a room and a Proton link, a room with no way back through its door, and a
+call panel naming another room. **The Events Room (§71) is a lighthouse's watch room lit by one
+column from the hatch**; its collisions are in its section. Every room behind one house must be its
+own world, and the next one to be tempted to match its neighbour is the one to stop.
+
+**A call's window and the `Mover` live in `call.js`, not `cb.js`**, because a public room's guest
 must never download the radio. `cb.js` loads `call.js` before it builds the radio. `call.js` reads
 the `love-cb` pass and never writes it. `/cb/call` signs a guest token, never a moderator, only for
 `PUBLIC_CALLS` in `lib.mjs`, and only under a name the guest typed. `/cb/call-settings` is JaaS's
@@ -3068,18 +3080,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §72 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §73 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§72 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§73 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §72 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §73 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

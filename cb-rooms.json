@@ -212,6 +212,11 @@
    "path": "/cavendish-coworking.html"
   },
   {
+   "tag": "cavendish-events",
+   "name": "The Events Room",
+   "path": "/cavendish-events.html"
+  },
+  {
    "tag": "live-room",
    "name": "The Live Room",
    "path": "/live-room.html"

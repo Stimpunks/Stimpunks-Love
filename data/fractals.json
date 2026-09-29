@@ -1,1165 +1,1182 @@
 {
-  "_about": "The fractal window's recipe for every page: which fractal, and which of the room's own custom properties it is drawn in (ground, then the inks it cycles through). tools/fractals.py writes each one onto the switch in that page's sign-off and refuses a page with no entry here, a key a kind does not take, a colour love.css does not declare, and two rooms with the same picture. An entry that is `off` says why the room has no window. The limit that stops the picture flashing is in fractal.js and is counted by tools/fractal.test.mjs; nothing here can loosen it. Recipes were chosen by rendering them, 2026-09-27, and are not claims about any room.",
-  "rooms": {
-    "404.html": {
-      "kind": "julia",
-      "c": [
-        -0.7,
-        0.27015
-      ],
-      "orbit": 0.02,
-      "bands": 0.05,
-      "ground": "--fg-fog",
-      "inks": [
-        "--fg-enamel",
-        "--fg-post",
-        "--fg-plate",
-        "--fg-post"
-      ]
-    },
-    "adventurers-guild.html": {
-      "kind": "ifs",
-      "figure": "triangle",
-      "sway": 0.08,
-      "ground": "--gu-paper",
-      "inks": [
-        "--gu-ink",
-        "--gu-file",
-        "--gu-stamp",
-        "--gu-rule"
-      ]
-    },
-    "arcade.html": {
-      "kind": "mandel",
-      "center": [
-        -0.743643887,
-        0.131825904
-      ],
-      "depth": 120,
-      "ground": "--crt",
-      "inks": [
-        "--cab",
-        "--mint",
-        "--zap",
-        "--coin"
-      ],
-      "span": 1.4
-    },
-    "arlesglad-caverns.html": {
-      "kind": "mandel",
-      "center": [
-        -0.1011,
-        0.9563
-      ],
-      "depth": 40,
-      "period": 120,
-      "ground": "--cav-rock",
-      "inks": [
-        "--cav-seam",
-        "--cav-dim",
-        "--cav-rail",
-        "--cav-lime"
-      ],
-      "span": 1.4
-    },
-    "big-steep-fermentables.html": {
-      "kind": "phoenix",
-      "c": [
-        0.5667,
-        0.0
-      ],
-      "p": -0.5,
-      "orbit": 0.01,
-      "ground": "--bs-rock",
-      "inks": [
-        "--bs-stout",
-        "--bs-garnet",
-        "--bs-amber",
-        "--bs-straw",
-        "--bs-haze"
-      ]
-    },
-    "black-leather-lagoon.html": {
-      "kind": "newton",
-      "degree": 3,
-      "relax": 0.35,
-      "ground": "--lag-water",
-      "inks": [
-        "--lag-acid",
-        "--lag-poster",
-        "--lag-screen"
-      ]
-    },
-    "broadsheet-broadside.html": {
-      "kind": "orbit",
-      "trap": "cross",
-      "c": [
-        -0.8,
-        0.156
-      ],
-      "orbit": 0.015,
-      "ground": "--bb-hull",
-      "inks": [
-        "--bb-ink-3",
-        "--bb-ochre",
-        "--bb-bone",
-        "--bb-ink-2"
-      ]
-    },
-    "campgrounds.html": {
-      "kind": "julia",
-      "c": [
-        -0.162,
-        1.04
-      ],
-      "orbit": 0.015,
-      "bands": 0.06,
-      "ground": "--dusk",
-      "inks": [
-        "--spruce",
-        "--bark",
-        "--moss",
-        "--lichen",
-        "--moon"
-      ]
-    },
-    "cavendish-coworking.html": {
-      "kind": "julia",
-      "c": [
-        -0.4,
-        0.6
-      ],
-      "orbit": 0.02,
-      "ground": "--cw-wall",
-      "inks": [
-        "--cw-link",
-        "--cw-canvas",
-        "--cw-light",
-        "--cw-brass",
-        "--cw-mahogany"
-      ]
-    },
-    "changelog.html": {
-      "kind": "newton",
-      "degree": 5,
-      "relax": 0.25,
-      "ground": "--ink",
-      "inks": [
-        "--pink",
-        "--yellow",
-        "--cyan",
-        "--green",
-        "--chalk"
-      ]
-    },
-    "club-chronic.html": {
-      "kind": "orbit",
-      "trap": "cross",
-      "c": [
-        0.28,
-        0.008
-      ],
-      "orbit": 0.02,
-      "ground": "--bootblack",
-      "inks": [
-        "--brick-2",
-        "--marker",
-        "--siren",
-        "--paste"
-      ]
-    },
-    "collection-collection.html": {
-      "kind": "julia",
-      "power": 3,
-      "c": [
-        -0.55,
-        0.35
-      ],
-      "orbit": 0.03,
-      "ground": "--cc-dark",
-      "inks": [
-        "--cc-line",
-        "--cc-brass",
-        "--cc-strip",
-        "--cc-bone"
-      ]
-    },
-    "community-center.html": {
-      "kind": "mandel",
-      "center": [
-        -0.7453,
-        0.1127
-      ],
-      "depth": 40,
-      "ground": "--ctr-shade",
-      "inks": [
-        "--ctr-ink",
-        "--ctr-ink-2",
-        "--ctr-mortar",
-        "--ctr-letter"
-      ],
-      "span": 1.4
-    },
-    "community-library.html": {
-      "kind": "julia",
-      "c": [
-        -0.7269,
-        0.1889
-      ],
-      "orbit": 0.015,
-      "ground": "--cl-wall",
-      "inks": [
-        "--cl-ink",
-        "--cl-stamp",
-        "--cl-oak",
-        "--cl-stone"
-      ]
-    },
-    "covenstead.html": {
-      "kind": "orbit",
-      "trap": "point",
-      "radius": 0.5,
-      "c": [
-        -0.52,
-        0.57
-      ],
-      "orbit": 0.02,
-      "ground": "--cov-wash",
-      "inks": [
-        "--cov-delft",
-        "--cov-rose",
-        "--cov-sage",
-        "--cov-ink"
-      ]
-    },
-    "dance-punks.html": {
-      "kind": "julia",
-      "power": 4,
-      "c": [
-        -0.2,
-        0.6
-      ],
-      "orbit": 0.03,
-      "ground": "--dp-tarmac",
-      "inks": [
-        "--dp-paint",
-        "--dp-blue",
-        "--dp-orange",
-        "--dp-text"
-      ]
-    },
-    "danny-the-street.html": {
-      "kind": "ifs",
-      "figure": "dragon",
-      "sway": 0.1,
-      "ground": "--dn-tar",
-      "inks": [
-        "--dn-kerb",
-        "--dn-sodium",
-        "--dn-paint",
-        "--dn-chalk"
-      ]
-    },
-    "dead-tired-society.html": {
-      "kind": "mandel",
-      "center": [
-        -0.16,
-        1.0405
-      ],
-      "depth": 20,
-      "period": 150,
-      "ground": "--dts-room",
-      "inks": [
-        "--dts-edge",
-        "--dts-dim",
-        "--dts-exit",
-        "--dts-pale"
-      ],
-      "span": 1.4
-    },
-    "dopamine-dress-up-den.html": {
-      "kind": "orbit",
-      "power": 3,
-      "trap": "point",
-      "radius": 0.4,
-      "c": [
-        0.3,
-        0.5
-      ],
-      "orbit": 0.03,
-      "ground": "--dd-ink",
-      "inks": [
-        "--dd-f-tomato",
-        "--dd-f-marigold",
-        "--dd-f-lime",
-        "--dd-f-turquoise",
-        "--dd-wall"
-      ]
-    },
-    "enids-room.html": {
-      "kind": "julia",
-      "power": 5,
-      "c": [
-        -0.7,
-        0.15
-      ],
-      "orbit": 0.03,
-      "ground": "--ink",
-      "inks": [
-        "--pink",
-        "--orange",
-        "--yellow",
-        "--green",
-        "--cyan",
-        "--violet"
-      ]
-    },
-    "faery-yurt.html": {
-      "kind": "orbit",
-      "trap": "ring",
-      "radius": 0.9,
-      "c": [
-        -0.74543,
-        0.11301
-      ],
-      "orbit": 0.015,
-      "ground": "--hearth",
-      "inks": [
-        "--timber",
-        "--tallow-3",
-        "--ember-2",
-        "--candle",
-        "--tallow"
-      ]
-    },
-    "foundry.html": {
-      "kind": "newton",
-      "degree": 4,
-      "relax": 0.3,
-      "ground": "--fo-floor",
-      "inks": [
-        "--fo-ink",
-        "--fo-lead",
-        "--fo-brass",
-        "--fo-bone"
-      ]
-    },
-    "glow-go-gee-gaws.html": {
-      "kind": "orbit",
-      "trap": "ring",
-      "radius": 0.8,
-      "c": [
-        -0.75,
-        0.11
-      ],
-      "orbit": 0.02,
-      "ground": "--gg-dark",
-      "inks": [
-        "--gg-green",
-        "--gg-aqua",
-        "--gg-blue",
-        "--gg-violet",
-        "--gg-white"
-      ]
-    },
-    "healing-checkpoint.html": {
-      "kind": "julia",
-      "c": [
-        -0.4,
-        -0.59
-      ],
-      "orbit": 0.015,
-      "bands": 0.06,
-      "ground": "--hc-vault",
-      "inks": [
-        "--hc-spring",
-        "--hc-lit",
-        "--hc-glim",
-        "--hc-steam"
-      ]
-    },
-    "hear-queer-here.html": {
-      "kind": "phoenix",
-      "c": [
-        0.5667,
-        0.0
-      ],
-      "p": -0.5,
-      "orbit": 0.02,
-      "spin": 0.3,
-      "ground": "--ink",
-      "inks": [
-        "--violet",
-        "--cyan",
-        "--green",
-        "--pink"
-      ]
-    },
-    "index.html": {
-      "kind": "mandel",
-      "center": [
-        -0.088,
-        0.654
-      ],
-      "depth": 40,
-      "ground": "--ink",
-      "inks": [
-        "--ink-3",
-        "--pink",
-        "--yellow",
-        "--cyan",
-        "--green"
-      ],
-      "span": 1.4
-    },
-    "jungle-room.html": {
-      "kind": "ifs",
-      "figure": "tree",
-      "sway": 0.14,
-      "ground": "--canopy",
-      "inks": [
-        "--understory",
-        "--palm",
-        "--sap",
-        "--sun",
-        "--heliconia"
-      ]
-    },
-    "l-space.html": {
-      "kind": "julia",
-      "c": [
-        -0.75,
-        0.11
-      ],
-      "orbit": 0.01,
-      "bands": 0.05,
-      "ground": "--lsp-void",
-      "inks": [
-        "--lsp-dim",
-        "--lsp-string",
-        "--lsp-bone"
-      ]
-    },
-    "latibulum.html": {
-      "kind": "julia",
-      "c": [
-        -0.54,
-        0.54
-      ],
-      "orbit": 0.02,
-      "ground": "--plaster",
-      "inks": [
-        "--umber",
-        "--rust",
-        "--door",
-        "--lamp"
-      ]
-    },
-    "laughingstock.html": {
-      "kind": "orbit",
-      "trap": "point",
-      "radius": 0.2,
-      "c": [
-        -0.12,
-        0.75
-      ],
-      "orbit": 0.02,
-      "ground": "--ls-house",
-      "inks": [
-        "--ls-deep",
-        "--ls-ink-2",
-        "--ls-edge",
-        "--ls-spot",
-        "--ls-neon"
-      ]
-    },
-    "lightbulb-picture-house.html": {
-      "kind": "orbit",
-      "trap": "ring",
-      "radius": 1.2,
-      "c": [
-        -0.4,
-        0.6
-      ],
-      "orbit": 0.02,
-      "ground": "--lph-deep",
-      "inks": [
-        "--lph-velvet",
-        "--lph-brass",
-        "--lph-gold",
-        "--lph-cream"
-      ]
-    },
-    "liner-notes.html": {
-      "kind": "julia",
-      "c": [
-        -0.70176,
-        -0.3842
-      ],
-      "orbit": 0.02,
-      "ground": "--ink-2",
-      "inks": [
-        "--cyan",
-        "--pink",
-        "--yellow",
-        "--chalk"
-      ]
-    },
-    "design.html": {
-      "kind": "ifs",
-      "figure": "crystal",
-      "sway": 0.05,
-      "ground": "--ink",
-      "inks": [
-        "--cyan",
-        "--yellow",
-        "--pink",
-        "--chalk"
-      ]
-    },
-    "live-room.html": {
-      "kind": "newton",
-      "degree": 3,
-      "relax": 0.2,
-      "twist": 0.2,
-      "ground": "--lvr-well",
-      "inks": [
-        "--lvr-face",
-        "--lvr-cap",
-        "--lvr-link",
-        "--lvr-tape"
-      ]
-    },
-    "looming-rocks.html": {
-      "kind": "ember",
-      "c": [
-        -0.55,
-        0.1
-      ],
-      "orbit": 0.02,
-      "span": 3.0,
-      "ground": "--lr-rock",
-      "inks": [
-        "--lr-face",
-        "--lr-uv",
-        "--lr-lichen",
-        "--lr-bone"
-      ]
-    },
-    "map.html": {
-      "kind": "newton",
-      "degree": 4,
-      "relax": 0.2,
-      "twist": 0.25,
-      "ground": "--mm-face",
-      "inks": [
-        "--mm-ink",
-        "--mm-rule",
-        "--mm-pencil",
-        "--mm-side"
-      ]
-    },
-    "mycelium-munchies.html": {
-      "kind": "julia",
-      "c": [
-        0.0,
-        1.0
-      ],
-      "orbit": 0.01,
-      "bands": 0.05,
-      "ground": "--myc-dark",
-      "inks": [
-        "--myc-pass",
-        "--myc-lamp",
-        "--myc-pink",
-        "--myc-cream",
-        "--myc-gold"
-      ]
-    },
-    "nothing-for-sale.html": {
-      "kind": "orbit",
-      "trap": "point",
-      "radius": 0.8,
-      "c": [
-        -0.8,
-        0.156
-      ],
-      "orbit": 0.02,
-      "ground": "--nfs-gravel",
-      "inks": [
-        "--nfs-lit",
-        "--nfs-halogen",
-        "--nfs-fog",
-        "--nfs-led"
-      ]
-    },
-    "now-playing.html": {
-      "kind": "newton",
-      "degree": 3,
-      "relax": 0.3,
-      "twist": 0.1,
-      "ground": "--np-stock",
-      "inks": [
-        "--np-red",
-        "--np-both",
-        "--np-cobalt"
-      ]
-    },
-    "oook.html": {
-      "kind": "julia",
-      "c": [
-        -0.835,
-        -0.2321
-      ],
-      "orbit": 0.02,
-      "ground": "--ook-coat",
-      "inks": [
-        "--ook-banana",
-        "--ook-dim",
-        "--ook-cream"
-      ]
-    },
-    "oracle-deck.html": {
-      "kind": "orbit",
-      "power": 4,
-      "trap": "ring",
-      "radius": 1,
-      "c": [
-        0.6,
-        0.2
-      ],
-      "orbit": 0.02,
-      "ground": "--orc-deep",
-      "inks": [
-        "--orc-edge",
-        "--orc-brass",
-        "--orc-red",
-        "--orc-cut"
-      ]
-    },
-    "otterly-adorbs.html": {
-      "kind": "ifs",
-      "figure": "spiral",
-      "sway": 0.1,
-      "ground": "--crt",
-      "inks": [
-        "--cab",
-        "--tube-2",
-        "--mint",
-        "--sky"
-      ]
-    },
-    "pebble-board.html": {
-      "kind": "julia",
-      "c": [
-        0.355534,
-        -0.337292
-      ],
-      "orbit": 0.02,
-      "ground": "--pbnight",
-      "inks": [
-        "--pbink-soft",
-        "--pblamp",
-        "--pbpaper",
-        "--pbchalk"
-      ]
-    },
-    "penguin-pebbling.html": {
-      "kind": "orbit",
-      "trap": "point",
-      "radius": 0.6,
-      "c": [
-        0.0,
-        0.65
-      ],
-      "orbit": 0.02,
-      "ground": "--cab",
-      "inks": [
-        "--pen-dark",
-        "--tube-2",
-        "--sky",
-        "--coin"
-      ]
-    },
-    "pink-pony-club.html": {
-      "kind": "orbit",
-      "trap": "ring",
-      "radius": 0.6,
-      "c": [
-        -0.1,
-        0.65
-      ],
-      "orbit": 0.02,
-      "ground": "--hot",
-      "inks": [
-        "--cream",
-        "--yellow",
-        "--hot"
-      ]
-    },
-    "playhouse.html": {
-      "kind": "newton",
-      "degree": 6,
-      "relax": 0.25,
-      "ground": "--blue",
-      "inks": [
-        "--yellow",
-        "--red",
-        "--green",
-        "--orange",
-        "--cream",
-        "--cyan"
-      ]
-    },
-    "plural-mural.html": {
-      "kind": "mandel",
-      "power": 3,
-      "center": [
-        -0.55,
-        0.35
-      ],
-      "depth": 20,
-      "ground": "--pm-slate",
-      "inks": [
-        "--pm-frame",
-        "--pm-render",
-        "--pm-sky",
-        "--pm-yellow"
-      ],
-      "span": 1.4
-    },
-    "polaroids.html": {
-      "kind": "orbit",
-      "trap": "cross",
-      "c": [
-        -0.4,
-        0.6
-      ],
-      "orbit": 0.02,
-      "ground": "--ink",
-      "inks": [
-        "--ink-3",
-        "--chalk",
-        "--pink"
-      ]
-    },
-    "privacy.html": {
-      "kind": "mandel",
-      "center": [
-        0.2819,
-        0.0103
-      ],
-      "depth": 30,
-      "ground": "--ink",
-      "inks": [
-        "--ink-3",
-        "--chalk",
-        "--cyan"
-      ],
-      "span": 1.4
-    },
-    "quill-drift.html": {
-      "kind": "julia",
-      "c": [
-        -0.75,
-        0.02
-      ],
-      "orbit": 0.02,
-      "ground": "--carpet",
-      "inks": [
-        "--cab",
-        "--mint",
-        "--coin",
-        "--zap"
-      ]
-    },
-    "rabbit-hole.html": {
-      "kind": "julia",
-      "c": [
-        -0.123,
-        0.745
-      ],
-      "orbit": 0.01,
-      "spin": 0.25,
-      "ground": "--rh-deep",
-      "inks": [
-        "--rh-slate",
-        "--rh-graphite",
-        "--rh-daylight",
-        "--rh-brass",
-        "--rh-chalk"
-      ]
-    },
-    "repeater.html": {
-      "kind": "orbit",
-      "trap": "ring",
-      "radius": 0.5,
-      "c": [
-        0.285,
-        0.01
-      ],
-      "orbit": 0.02,
-      "ground": "--rp-cloud",
-      "inks": [
-        "--rp-deep",
-        "--rp-glow",
-        "--rp-amber",
-        "--rp-pale"
-      ]
-    },
-    "samefood-cafe.html": {
-      "kind": "ifs",
-      "figure": "crystal",
-      "sway": 0.06,
-      "ground": "--sf-table",
-      "inks": [
-        "--sf-ink-2",
-        "--sf-sauce",
-        "--sf-rim",
-        "--sf-ink"
-      ]
-    },
-    "sithen.html": {
-      "kind": "orbit",
-      "trap": "ring",
-      "radius": 1,
-      "c": [
-        -0.7,
-        0.27
-      ],
-      "orbit": 0.015,
-      "ground": "--sth-night",
-      "inks": [
-        "--sth-bank",
-        "--sth-thorn",
-        "--sth-moon",
-        "--sth-bone"
-      ]
-    },
-    "small-hours.html": {
-      "kind": "phoenix",
-      "c": [
-        0.5667,
-        0.0
-      ],
-      "p": -0.5,
-      "orbit": 0.015,
-      "ground": "--sh-ink",
-      "inks": [
-        "--sh-teal",
-        "--sh-aqua",
-        "--sh-neon",
-        "--sh-glass"
-      ]
-    },
-    "solarpunk-hermitage.html": {
-      "kind": "orbit",
-      "trap": "point",
-      "radius": 0.3,
-      "c": [
-        -0.4,
-        0.6
-      ],
-      "orbit": 0.02,
-      "ground": "--noon",
-      "inks": [
-        "--furrow",
-        "--sprout",
-        "--gilt",
-        "--cedar"
-      ]
-    },
-    "stay-breezy.html": {
-      "kind": "julia",
-      "power": 3,
-      "c": [
-        -0.55,
-        0.3
-      ],
-      "orbit": 0.02,
-      "spin": 0.5,
-      "ground": "--bz-wall",
-      "inks": [
-        "--bz-blade",
-        "--bz-ink",
-        "--bz-ribbon",
-        "--bz-lamp"
-      ]
-    },
-    "stay-frosty.html": {
-      "off": "Stay Frosty promises on its own page that there is nothing to press in it and that nothing in it moves, at any setting. A switch in its sign-off would make the first false and the window the second."
-    },
-    "swaying-sweetgrass.html": {
-      "kind": "orbit",
-      "trap": "cross",
-      "c": [
-        -0.75,
-        0.11
-      ],
-      "orbit": 0.015,
-      "ground": "--soil",
-      "inks": [
-        "--shade",
-        "--stem",
-        "--sedge",
-        "--glow",
-        "--seed"
-      ]
-    },
-    "the-chappell.html": {
-      "kind": "julia",
-      "power": 6,
-      "c": [
-        -0.1,
-        0.8
-      ],
-      "orbit": 0.03,
-      "ground": "--glass",
-      "inks": [
-        "--nave",
-        "--amethyst",
-        "--ruby",
-        "--leaf",
-        "--sapphire",
-        "--emerald"
-      ]
-    },
-    "the-den.html": {
-      "kind": "orbit",
-      "trap": "cross",
-      "c": [
-        -0.12,
-        0.75
-      ],
-      "orbit": 0.02,
-      "ground": "--panel",
-      "inks": [
-        "--teak",
-        "--jade",
-        "--tiki",
-        "--rum",
-        "--coconut"
-      ]
-    },
-    "the-doom-scoop.html": {
-      "kind": "mandel",
-      "center": [
-        -1.25066,
-        0.02012
-      ],
-      "depth": 50,
-      "ground": "--ds-well",
-      "inks": [
-        "--ds-steel",
-        "--ds-rime",
-        "--ds-vanilla",
-        "--ds-lemon",
-        "--ds-mint-link"
-      ],
-      "span": 1.4
-    },
-    "the-doomscroll.html": {
-      "kind": "julia",
-      "c": [
-        -1.0,
-        0.0
-      ],
-      "orbit": 0.03,
-      "ground": "--dsc-desk",
-      "inks": [
-        "--dsc-ink-2",
-        "--dsc-rule",
-        "--dsc-paper",
-        "--dsc-red"
-      ]
-    },
-    "the-feed.html": {
-      "kind": "newton",
-      "degree": 3,
-      "relax": 0.15,
-      "ground": "--fd-enamel",
-      "inks": [
-        "--fd-flap",
-        "--fd-girder",
-        "--fd-amber",
-        "--fd-signal",
-        "--fd-lamp"
-      ]
-    },
-    "the-garden.html": {
-      "kind": "ifs",
-      "figure": "fern",
-      "sway": 0.1,
-      "ground": "--gd-day",
-      "inks": [
-        "--gd-loam",
-        "--gd-leaf",
-        "--gd-leaf-2",
-        "--gd-bloom"
-      ]
-    },
-    "the-mopery.html": {
-      "kind": "julia",
-      "c": [
-        -0.8,
-        0.156
-      ],
-      "orbit": 0.015,
-      "ground": "--mop-deep",
-      "inks": [
-        "--mop-stone",
-        "--mop-rule",
-        "--mop-wax",
-        "--mop-flame",
-        "--mop-gilt"
-      ]
-    },
-    "the-outskirts.html": {
-      "kind": "mandel",
-      "conj": true,
-      "center": [
-        -0.2,
-        0.0
-      ],
-      "depth": 6,
-      "ground": "--osk-night",
-      "inks": [
-        "--osk-board",
-        "--osk-weed",
-        "--osk-rust",
-        "--osk-beam"
-      ],
-      "span": 2.4
-    },
-    "vital-plant-living.html": {
-      "kind": "julia",
-      "power": 4,
-      "c": [
-        0.6,
-        0.55
-      ],
-      "orbit": 0.02,
-      "ground": "--vpl-wall",
-      "inks": [
-        "--vpl-leaf",
-        "--vpl-beet",
-        "--vpl-ink",
-        "--vpl-chip"
-      ]
-    },
-    "your-room.html": {
-      "kind": "julia",
-      "power": 3,
-      "c": [
-        0.25,
-        0.75
-      ],
-      "orbit": 0.02,
-      "ground": "--ink",
-      "inks": [
-        "--green",
-        "--yellow",
-        "--pink"
-      ]
-    },
-    "zibaldone.html": {
-      "kind": "orbit",
-      "power": 3,
-      "trap": "ring",
-      "radius": 0.7,
-      "c": [
-        0.1,
-        0.66
-      ],
-      "orbit": 0.02,
-      "ground": "--zb-desk",
-      "inks": [
-        "--zb-oak",
-        "--zb-rubric",
-        "--zb-gutter",
-        "--zb-laid"
-      ]
-    },
-    "zine-issue-2.html": {
-      "kind": "ember",
-      "c": [
-        0.35,
-        0.05
-      ],
-      "orbit": 0.02,
-      "ground": "--paper",
-      "inks": [
-        "--ink",
-        "--red",
-        "--cyan"
-      ]
-    },
-    "zine-table.html": {
-      "kind": "orbit",
-      "power": 3,
-      "trap": "cross",
-      "c": [
-        0.1,
-        0.7
-      ],
-      "orbit": 0.02,
-      "ground": "--paper",
-      "inks": [
-        "--ink",
-        "--yellow",
-        "--red"
-      ]
-    },
-    "rebellion-rave-room.html": {
-      "kind": "orbit",
-      "trap": "cross",
-      "power": 2,
-      "c": [
-        -0.12,
-        0.74
-      ],
-      "orbit": 0.03,
-      "ground": "--rr-hangar",
-      "inks": [
-        "--rr-steel",
-        "--rr-cyan",
-        "--rr-magenta",
-        "--rr-laser",
-        "--rr-hazard"
-      ]
-    },
-    "cooldown-room.html": {
-      "kind": "phoenix",
-      "c": [
-        0.5667,
-        0.0
-      ],
-      "p": -0.5,
-      "orbit": 0.01,
-      "swing": 0.02,
-      "ground": "--cool-room",
-      "inks": [
-        "--cool-couch",
-        "--cool-mint",
-        "--cool-sky",
-        "--cool-coral"
-      ]
-    },
-    "the-mud-room.html": {
-      "kind": "julia",
-      "power": 2,
-      "c": [
-        0.0,
-        1.0
-      ],
-      "orbit": 0.02,
-      "ground": "--mud-ground",
-      "inks": [
-        "--mud-silver",
-        "--mud-marsh",
-        "--mud-glass",
-        "--mud-welly"
-      ]
-    }
+ "_about": "The fractal window's recipe for every page: which fractal, and which of the room's own custom properties it is drawn in (ground, then the inks it cycles through). tools/fractals.py writes each one onto the switch in that page's sign-off and refuses a page with no entry here, a key a kind does not take, a colour love.css does not declare, and two rooms with the same picture. An entry that is `off` says why the room has no window. The limit that stops the picture flashing is in fractal.js and is counted by tools/fractal.test.mjs; nothing here can loosen it. Recipes were chosen by rendering them, 2026-09-27, and are not claims about any room.",
+ "rooms": {
+  "404.html": {
+   "kind": "julia",
+   "c": [
+    -0.7,
+    0.27015
+   ],
+   "orbit": 0.02,
+   "bands": 0.05,
+   "ground": "--fg-fog",
+   "inks": [
+    "--fg-enamel",
+    "--fg-post",
+    "--fg-plate",
+    "--fg-post"
+   ]
+  },
+  "adventurers-guild.html": {
+   "kind": "ifs",
+   "figure": "triangle",
+   "sway": 0.08,
+   "ground": "--gu-paper",
+   "inks": [
+    "--gu-ink",
+    "--gu-file",
+    "--gu-stamp",
+    "--gu-rule"
+   ]
+  },
+  "arcade.html": {
+   "kind": "mandel",
+   "center": [
+    -0.743643887,
+    0.131825904
+   ],
+   "depth": 120,
+   "ground": "--crt",
+   "inks": [
+    "--cab",
+    "--mint",
+    "--zap",
+    "--coin"
+   ],
+   "span": 1.4
+  },
+  "arlesglad-caverns.html": {
+   "kind": "mandel",
+   "center": [
+    -0.1011,
+    0.9563
+   ],
+   "depth": 40,
+   "period": 120,
+   "ground": "--cav-rock",
+   "inks": [
+    "--cav-seam",
+    "--cav-dim",
+    "--cav-rail",
+    "--cav-lime"
+   ],
+   "span": 1.4
+  },
+  "big-steep-fermentables.html": {
+   "kind": "phoenix",
+   "c": [
+    0.5667,
+    0.0
+   ],
+   "p": -0.5,
+   "orbit": 0.01,
+   "ground": "--bs-rock",
+   "inks": [
+    "--bs-stout",
+    "--bs-garnet",
+    "--bs-amber",
+    "--bs-straw",
+    "--bs-haze"
+   ]
+  },
+  "black-leather-lagoon.html": {
+   "kind": "newton",
+   "degree": 3,
+   "relax": 0.35,
+   "ground": "--lag-water",
+   "inks": [
+    "--lag-acid",
+    "--lag-poster",
+    "--lag-screen"
+   ]
+  },
+  "broadsheet-broadside.html": {
+   "kind": "orbit",
+   "trap": "cross",
+   "c": [
+    -0.8,
+    0.156
+   ],
+   "orbit": 0.015,
+   "ground": "--bb-hull",
+   "inks": [
+    "--bb-ink-3",
+    "--bb-ochre",
+    "--bb-bone",
+    "--bb-ink-2"
+   ]
+  },
+  "campgrounds.html": {
+   "kind": "julia",
+   "c": [
+    -0.162,
+    1.04
+   ],
+   "orbit": 0.015,
+   "bands": 0.06,
+   "ground": "--dusk",
+   "inks": [
+    "--spruce",
+    "--bark",
+    "--moss",
+    "--lichen",
+    "--moon"
+   ]
+  },
+  "cavendish-coworking.html": {
+   "kind": "julia",
+   "c": [
+    -0.4,
+    0.6
+   ],
+   "orbit": 0.02,
+   "ground": "--cw-wall",
+   "inks": [
+    "--cw-link",
+    "--cw-canvas",
+    "--cw-light",
+    "--cw-brass",
+    "--cw-mahogany"
+   ]
+  },
+  "changelog.html": {
+   "kind": "newton",
+   "degree": 5,
+   "relax": 0.25,
+   "ground": "--ink",
+   "inks": [
+    "--pink",
+    "--yellow",
+    "--cyan",
+    "--green",
+    "--chalk"
+   ]
+  },
+  "club-chronic.html": {
+   "kind": "orbit",
+   "trap": "cross",
+   "c": [
+    0.28,
+    0.008
+   ],
+   "orbit": 0.02,
+   "ground": "--bootblack",
+   "inks": [
+    "--brick-2",
+    "--marker",
+    "--siren",
+    "--paste"
+   ]
+  },
+  "collection-collection.html": {
+   "kind": "julia",
+   "power": 3,
+   "c": [
+    -0.55,
+    0.35
+   ],
+   "orbit": 0.03,
+   "ground": "--cc-dark",
+   "inks": [
+    "--cc-line",
+    "--cc-brass",
+    "--cc-strip",
+    "--cc-bone"
+   ]
+  },
+  "community-center.html": {
+   "kind": "mandel",
+   "center": [
+    -0.7453,
+    0.1127
+   ],
+   "depth": 40,
+   "ground": "--ctr-shade",
+   "inks": [
+    "--ctr-ink",
+    "--ctr-ink-2",
+    "--ctr-mortar",
+    "--ctr-letter"
+   ],
+   "span": 1.4
+  },
+  "community-library.html": {
+   "kind": "julia",
+   "c": [
+    -0.7269,
+    0.1889
+   ],
+   "orbit": 0.015,
+   "ground": "--cl-wall",
+   "inks": [
+    "--cl-ink",
+    "--cl-stamp",
+    "--cl-oak",
+    "--cl-stone"
+   ]
+  },
+  "covenstead.html": {
+   "kind": "orbit",
+   "trap": "point",
+   "radius": 0.5,
+   "c": [
+    -0.52,
+    0.57
+   ],
+   "orbit": 0.02,
+   "ground": "--cov-wash",
+   "inks": [
+    "--cov-delft",
+    "--cov-rose",
+    "--cov-sage",
+    "--cov-ink"
+   ]
+  },
+  "dance-punks.html": {
+   "kind": "julia",
+   "power": 4,
+   "c": [
+    -0.2,
+    0.6
+   ],
+   "orbit": 0.03,
+   "ground": "--dp-tarmac",
+   "inks": [
+    "--dp-paint",
+    "--dp-blue",
+    "--dp-orange",
+    "--dp-text"
+   ]
+  },
+  "danny-the-street.html": {
+   "kind": "ifs",
+   "figure": "dragon",
+   "sway": 0.1,
+   "ground": "--dn-tar",
+   "inks": [
+    "--dn-kerb",
+    "--dn-sodium",
+    "--dn-paint",
+    "--dn-chalk"
+   ]
+  },
+  "dead-tired-society.html": {
+   "kind": "mandel",
+   "center": [
+    -0.16,
+    1.0405
+   ],
+   "depth": 20,
+   "period": 150,
+   "ground": "--dts-room",
+   "inks": [
+    "--dts-edge",
+    "--dts-dim",
+    "--dts-exit",
+    "--dts-pale"
+   ],
+   "span": 1.4
+  },
+  "dopamine-dress-up-den.html": {
+   "kind": "orbit",
+   "power": 3,
+   "trap": "point",
+   "radius": 0.4,
+   "c": [
+    0.3,
+    0.5
+   ],
+   "orbit": 0.03,
+   "ground": "--dd-ink",
+   "inks": [
+    "--dd-f-tomato",
+    "--dd-f-marigold",
+    "--dd-f-lime",
+    "--dd-f-turquoise",
+    "--dd-wall"
+   ]
+  },
+  "enids-room.html": {
+   "kind": "julia",
+   "power": 5,
+   "c": [
+    -0.7,
+    0.15
+   ],
+   "orbit": 0.03,
+   "ground": "--ink",
+   "inks": [
+    "--pink",
+    "--orange",
+    "--yellow",
+    "--green",
+    "--cyan",
+    "--violet"
+   ]
+  },
+  "faery-yurt.html": {
+   "kind": "orbit",
+   "trap": "ring",
+   "radius": 0.9,
+   "c": [
+    -0.74543,
+    0.11301
+   ],
+   "orbit": 0.015,
+   "ground": "--hearth",
+   "inks": [
+    "--timber",
+    "--tallow-3",
+    "--ember-2",
+    "--candle",
+    "--tallow"
+   ]
+  },
+  "foundry.html": {
+   "kind": "newton",
+   "degree": 4,
+   "relax": 0.3,
+   "ground": "--fo-floor",
+   "inks": [
+    "--fo-ink",
+    "--fo-lead",
+    "--fo-brass",
+    "--fo-bone"
+   ]
+  },
+  "glow-go-gee-gaws.html": {
+   "kind": "orbit",
+   "trap": "ring",
+   "radius": 0.8,
+   "c": [
+    -0.75,
+    0.11
+   ],
+   "orbit": 0.02,
+   "ground": "--gg-dark",
+   "inks": [
+    "--gg-green",
+    "--gg-aqua",
+    "--gg-blue",
+    "--gg-violet",
+    "--gg-white"
+   ]
+  },
+  "healing-checkpoint.html": {
+   "kind": "julia",
+   "c": [
+    -0.4,
+    -0.59
+   ],
+   "orbit": 0.015,
+   "bands": 0.06,
+   "ground": "--hc-vault",
+   "inks": [
+    "--hc-spring",
+    "--hc-lit",
+    "--hc-glim",
+    "--hc-steam"
+   ]
+  },
+  "hear-queer-here.html": {
+   "kind": "phoenix",
+   "c": [
+    0.5667,
+    0.0
+   ],
+   "p": -0.5,
+   "orbit": 0.02,
+   "spin": 0.3,
+   "ground": "--ink",
+   "inks": [
+    "--violet",
+    "--cyan",
+    "--green",
+    "--pink"
+   ]
+  },
+  "index.html": {
+   "kind": "mandel",
+   "center": [
+    -0.088,
+    0.654
+   ],
+   "depth": 40,
+   "ground": "--ink",
+   "inks": [
+    "--ink-3",
+    "--pink",
+    "--yellow",
+    "--cyan",
+    "--green"
+   ],
+   "span": 1.4
+  },
+  "jungle-room.html": {
+   "kind": "ifs",
+   "figure": "tree",
+   "sway": 0.14,
+   "ground": "--canopy",
+   "inks": [
+    "--understory",
+    "--palm",
+    "--sap",
+    "--sun",
+    "--heliconia"
+   ]
+  },
+  "l-space.html": {
+   "kind": "julia",
+   "c": [
+    -0.75,
+    0.11
+   ],
+   "orbit": 0.01,
+   "bands": 0.05,
+   "ground": "--lsp-void",
+   "inks": [
+    "--lsp-dim",
+    "--lsp-string",
+    "--lsp-bone"
+   ]
+  },
+  "latibulum.html": {
+   "kind": "julia",
+   "c": [
+    -0.54,
+    0.54
+   ],
+   "orbit": 0.02,
+   "ground": "--plaster",
+   "inks": [
+    "--umber",
+    "--rust",
+    "--door",
+    "--lamp"
+   ]
+  },
+  "laughingstock.html": {
+   "kind": "orbit",
+   "trap": "point",
+   "radius": 0.2,
+   "c": [
+    -0.12,
+    0.75
+   ],
+   "orbit": 0.02,
+   "ground": "--ls-house",
+   "inks": [
+    "--ls-deep",
+    "--ls-ink-2",
+    "--ls-edge",
+    "--ls-spot",
+    "--ls-neon"
+   ]
+  },
+  "lightbulb-picture-house.html": {
+   "kind": "orbit",
+   "trap": "ring",
+   "radius": 1.2,
+   "c": [
+    -0.4,
+    0.6
+   ],
+   "orbit": 0.02,
+   "ground": "--lph-deep",
+   "inks": [
+    "--lph-velvet",
+    "--lph-brass",
+    "--lph-gold",
+    "--lph-cream"
+   ]
+  },
+  "liner-notes.html": {
+   "kind": "julia",
+   "c": [
+    -0.70176,
+    -0.3842
+   ],
+   "orbit": 0.02,
+   "ground": "--ink-2",
+   "inks": [
+    "--cyan",
+    "--pink",
+    "--yellow",
+    "--chalk"
+   ]
+  },
+  "design.html": {
+   "kind": "ifs",
+   "figure": "crystal",
+   "sway": 0.05,
+   "ground": "--ink",
+   "inks": [
+    "--cyan",
+    "--yellow",
+    "--pink",
+    "--chalk"
+   ]
+  },
+  "live-room.html": {
+   "kind": "newton",
+   "degree": 3,
+   "relax": 0.2,
+   "twist": 0.2,
+   "ground": "--lvr-well",
+   "inks": [
+    "--lvr-face",
+    "--lvr-cap",
+    "--lvr-link",
+    "--lvr-tape"
+   ]
+  },
+  "looming-rocks.html": {
+   "kind": "ember",
+   "c": [
+    -0.55,
+    0.1
+   ],
+   "orbit": 0.02,
+   "span": 3.0,
+   "ground": "--lr-rock",
+   "inks": [
+    "--lr-face",
+    "--lr-uv",
+    "--lr-lichen",
+    "--lr-bone"
+   ]
+  },
+  "map.html": {
+   "kind": "newton",
+   "degree": 4,
+   "relax": 0.2,
+   "twist": 0.25,
+   "ground": "--mm-face",
+   "inks": [
+    "--mm-ink",
+    "--mm-rule",
+    "--mm-pencil",
+    "--mm-side"
+   ]
+  },
+  "mycelium-munchies.html": {
+   "kind": "julia",
+   "c": [
+    0.0,
+    1.0
+   ],
+   "orbit": 0.01,
+   "bands": 0.05,
+   "ground": "--myc-dark",
+   "inks": [
+    "--myc-pass",
+    "--myc-lamp",
+    "--myc-pink",
+    "--myc-cream",
+    "--myc-gold"
+   ]
+  },
+  "nothing-for-sale.html": {
+   "kind": "orbit",
+   "trap": "point",
+   "radius": 0.8,
+   "c": [
+    -0.8,
+    0.156
+   ],
+   "orbit": 0.02,
+   "ground": "--nfs-gravel",
+   "inks": [
+    "--nfs-lit",
+    "--nfs-halogen",
+    "--nfs-fog",
+    "--nfs-led"
+   ]
+  },
+  "now-playing.html": {
+   "kind": "newton",
+   "degree": 3,
+   "relax": 0.3,
+   "twist": 0.1,
+   "ground": "--np-stock",
+   "inks": [
+    "--np-red",
+    "--np-both",
+    "--np-cobalt"
+   ]
+  },
+  "oook.html": {
+   "kind": "julia",
+   "c": [
+    -0.835,
+    -0.2321
+   ],
+   "orbit": 0.02,
+   "ground": "--ook-coat",
+   "inks": [
+    "--ook-banana",
+    "--ook-dim",
+    "--ook-cream"
+   ]
+  },
+  "oracle-deck.html": {
+   "kind": "orbit",
+   "power": 4,
+   "trap": "ring",
+   "radius": 1,
+   "c": [
+    0.6,
+    0.2
+   ],
+   "orbit": 0.02,
+   "ground": "--orc-deep",
+   "inks": [
+    "--orc-edge",
+    "--orc-brass",
+    "--orc-red",
+    "--orc-cut"
+   ]
+  },
+  "otterly-adorbs.html": {
+   "kind": "ifs",
+   "figure": "spiral",
+   "sway": 0.1,
+   "ground": "--crt",
+   "inks": [
+    "--cab",
+    "--tube-2",
+    "--mint",
+    "--sky"
+   ]
+  },
+  "pebble-board.html": {
+   "kind": "julia",
+   "c": [
+    0.355534,
+    -0.337292
+   ],
+   "orbit": 0.02,
+   "ground": "--pbnight",
+   "inks": [
+    "--pbink-soft",
+    "--pblamp",
+    "--pbpaper",
+    "--pbchalk"
+   ]
+  },
+  "penguin-pebbling.html": {
+   "kind": "orbit",
+   "trap": "point",
+   "radius": 0.6,
+   "c": [
+    0.0,
+    0.65
+   ],
+   "orbit": 0.02,
+   "ground": "--cab",
+   "inks": [
+    "--pen-dark",
+    "--tube-2",
+    "--sky",
+    "--coin"
+   ]
+  },
+  "pink-pony-club.html": {
+   "kind": "orbit",
+   "trap": "ring",
+   "radius": 0.6,
+   "c": [
+    -0.1,
+    0.65
+   ],
+   "orbit": 0.02,
+   "ground": "--hot",
+   "inks": [
+    "--cream",
+    "--yellow",
+    "--hot"
+   ]
+  },
+  "playhouse.html": {
+   "kind": "newton",
+   "degree": 6,
+   "relax": 0.25,
+   "ground": "--blue",
+   "inks": [
+    "--yellow",
+    "--red",
+    "--green",
+    "--orange",
+    "--cream",
+    "--cyan"
+   ]
+  },
+  "plural-mural.html": {
+   "kind": "mandel",
+   "power": 3,
+   "center": [
+    -0.55,
+    0.35
+   ],
+   "depth": 20,
+   "ground": "--pm-slate",
+   "inks": [
+    "--pm-frame",
+    "--pm-render",
+    "--pm-sky",
+    "--pm-yellow"
+   ],
+   "span": 1.4
+  },
+  "polaroids.html": {
+   "kind": "orbit",
+   "trap": "cross",
+   "c": [
+    -0.4,
+    0.6
+   ],
+   "orbit": 0.02,
+   "ground": "--ink",
+   "inks": [
+    "--ink-3",
+    "--chalk",
+    "--pink"
+   ]
+  },
+  "privacy.html": {
+   "kind": "mandel",
+   "center": [
+    0.2819,
+    0.0103
+   ],
+   "depth": 30,
+   "ground": "--ink",
+   "inks": [
+    "--ink-3",
+    "--chalk",
+    "--cyan"
+   ],
+   "span": 1.4
+  },
+  "quill-drift.html": {
+   "kind": "julia",
+   "c": [
+    -0.75,
+    0.02
+   ],
+   "orbit": 0.02,
+   "ground": "--carpet",
+   "inks": [
+    "--cab",
+    "--mint",
+    "--coin",
+    "--zap"
+   ]
+  },
+  "rabbit-hole.html": {
+   "kind": "julia",
+   "c": [
+    -0.123,
+    0.745
+   ],
+   "orbit": 0.01,
+   "spin": 0.25,
+   "ground": "--rh-deep",
+   "inks": [
+    "--rh-slate",
+    "--rh-graphite",
+    "--rh-daylight",
+    "--rh-brass",
+    "--rh-chalk"
+   ]
+  },
+  "repeater.html": {
+   "kind": "orbit",
+   "trap": "ring",
+   "radius": 0.5,
+   "c": [
+    0.285,
+    0.01
+   ],
+   "orbit": 0.02,
+   "ground": "--rp-cloud",
+   "inks": [
+    "--rp-deep",
+    "--rp-glow",
+    "--rp-amber",
+    "--rp-pale"
+   ]
+  },
+  "samefood-cafe.html": {
+   "kind": "ifs",
+   "figure": "crystal",
+   "sway": 0.06,
+   "ground": "--sf-table",
+   "inks": [
+    "--sf-ink-2",
+    "--sf-sauce",
+    "--sf-rim",
+    "--sf-ink"
+   ]
+  },
+  "sithen.html": {
+   "kind": "orbit",
+   "trap": "ring",
+   "radius": 1,
+   "c": [
+    -0.7,
+    0.27
+   ],
+   "orbit": 0.015,
+   "ground": "--sth-night",
+   "inks": [
+    "--sth-bank",
+    "--sth-thorn",
+    "--sth-moon",
+    "--sth-bone"
+   ]
+  },
+  "small-hours.html": {
+   "kind": "phoenix",
+   "c": [
+    0.5667,
+    0.0
+   ],
+   "p": -0.5,
+   "orbit": 0.015,
+   "ground": "--sh-ink",
+   "inks": [
+    "--sh-teal",
+    "--sh-aqua",
+    "--sh-neon",
+    "--sh-glass"
+   ]
+  },
+  "solarpunk-hermitage.html": {
+   "kind": "orbit",
+   "trap": "point",
+   "radius": 0.3,
+   "c": [
+    -0.4,
+    0.6
+   ],
+   "orbit": 0.02,
+   "ground": "--noon",
+   "inks": [
+    "--furrow",
+    "--sprout",
+    "--gilt",
+    "--cedar"
+   ]
+  },
+  "stay-breezy.html": {
+   "kind": "julia",
+   "power": 3,
+   "c": [
+    -0.55,
+    0.3
+   ],
+   "orbit": 0.02,
+   "spin": 0.5,
+   "ground": "--bz-wall",
+   "inks": [
+    "--bz-blade",
+    "--bz-ink",
+    "--bz-ribbon",
+    "--bz-lamp"
+   ]
+  },
+  "stay-frosty.html": {
+   "off": "Stay Frosty promises on its own page that there is nothing to press in it and that nothing in it moves, at any setting. A switch in its sign-off would make the first false and the window the second."
+  },
+  "swaying-sweetgrass.html": {
+   "kind": "orbit",
+   "trap": "cross",
+   "c": [
+    -0.75,
+    0.11
+   ],
+   "orbit": 0.015,
+   "ground": "--soil",
+   "inks": [
+    "--shade",
+    "--stem",
+    "--sedge",
+    "--glow",
+    "--seed"
+   ]
+  },
+  "the-chappell.html": {
+   "kind": "julia",
+   "power": 6,
+   "c": [
+    -0.1,
+    0.8
+   ],
+   "orbit": 0.03,
+   "ground": "--glass",
+   "inks": [
+    "--nave",
+    "--amethyst",
+    "--ruby",
+    "--leaf",
+    "--sapphire",
+    "--emerald"
+   ]
+  },
+  "the-den.html": {
+   "kind": "orbit",
+   "trap": "cross",
+   "c": [
+    -0.12,
+    0.75
+   ],
+   "orbit": 0.02,
+   "ground": "--panel",
+   "inks": [
+    "--teak",
+    "--jade",
+    "--tiki",
+    "--rum",
+    "--coconut"
+   ]
+  },
+  "the-doom-scoop.html": {
+   "kind": "mandel",
+   "center": [
+    -1.25066,
+    0.02012
+   ],
+   "depth": 50,
+   "ground": "--ds-well",
+   "inks": [
+    "--ds-steel",
+    "--ds-rime",
+    "--ds-vanilla",
+    "--ds-lemon",
+    "--ds-mint-link"
+   ],
+   "span": 1.4
+  },
+  "the-doomscroll.html": {
+   "kind": "julia",
+   "c": [
+    -1.0,
+    0.0
+   ],
+   "orbit": 0.03,
+   "ground": "--dsc-desk",
+   "inks": [
+    "--dsc-ink-2",
+    "--dsc-rule",
+    "--dsc-paper",
+    "--dsc-red"
+   ]
+  },
+  "the-feed.html": {
+   "kind": "newton",
+   "degree": 3,
+   "relax": 0.15,
+   "ground": "--fd-enamel",
+   "inks": [
+    "--fd-flap",
+    "--fd-girder",
+    "--fd-amber",
+    "--fd-signal",
+    "--fd-lamp"
+   ]
+  },
+  "the-garden.html": {
+   "kind": "ifs",
+   "figure": "fern",
+   "sway": 0.1,
+   "ground": "--gd-day",
+   "inks": [
+    "--gd-loam",
+    "--gd-leaf",
+    "--gd-leaf-2",
+    "--gd-bloom"
+   ]
+  },
+  "the-mopery.html": {
+   "kind": "julia",
+   "c": [
+    -0.8,
+    0.156
+   ],
+   "orbit": 0.015,
+   "ground": "--mop-deep",
+   "inks": [
+    "--mop-stone",
+    "--mop-rule",
+    "--mop-wax",
+    "--mop-flame",
+    "--mop-gilt"
+   ]
+  },
+  "the-outskirts.html": {
+   "kind": "mandel",
+   "conj": true,
+   "center": [
+    -0.2,
+    0.0
+   ],
+   "depth": 6,
+   "ground": "--osk-night",
+   "inks": [
+    "--osk-board",
+    "--osk-weed",
+    "--osk-rust",
+    "--osk-beam"
+   ],
+   "span": 2.4
+  },
+  "vital-plant-living.html": {
+   "kind": "julia",
+   "power": 4,
+   "c": [
+    0.6,
+    0.55
+   ],
+   "orbit": 0.02,
+   "ground": "--vpl-wall",
+   "inks": [
+    "--vpl-leaf",
+    "--vpl-beet",
+    "--vpl-ink",
+    "--vpl-chip"
+   ]
+  },
+  "your-room.html": {
+   "kind": "julia",
+   "power": 3,
+   "c": [
+    0.25,
+    0.75
+   ],
+   "orbit": 0.02,
+   "ground": "--ink",
+   "inks": [
+    "--green",
+    "--yellow",
+    "--pink"
+   ]
+  },
+  "zibaldone.html": {
+   "kind": "orbit",
+   "power": 3,
+   "trap": "ring",
+   "radius": 0.7,
+   "c": [
+    0.1,
+    0.66
+   ],
+   "orbit": 0.02,
+   "ground": "--zb-desk",
+   "inks": [
+    "--zb-oak",
+    "--zb-rubric",
+    "--zb-gutter",
+    "--zb-laid"
+   ]
+  },
+  "zine-issue-2.html": {
+   "kind": "ember",
+   "c": [
+    0.35,
+    0.05
+   ],
+   "orbit": 0.02,
+   "ground": "--paper",
+   "inks": [
+    "--ink",
+    "--red",
+    "--cyan"
+   ]
+  },
+  "zine-table.html": {
+   "kind": "orbit",
+   "power": 3,
+   "trap": "cross",
+   "c": [
+    0.1,
+    0.7
+   ],
+   "orbit": 0.02,
+   "ground": "--paper",
+   "inks": [
+    "--ink",
+    "--yellow",
+    "--red"
+   ]
+  },
+  "rebellion-rave-room.html": {
+   "kind": "orbit",
+   "trap": "cross",
+   "power": 2,
+   "c": [
+    -0.12,
+    0.74
+   ],
+   "orbit": 0.03,
+   "ground": "--rr-hangar",
+   "inks": [
+    "--rr-steel",
+    "--rr-cyan",
+    "--rr-magenta",
+    "--rr-laser",
+    "--rr-hazard"
+   ]
+  },
+  "cooldown-room.html": {
+   "kind": "phoenix",
+   "c": [
+    0.5667,
+    0.0
+   ],
+   "p": -0.5,
+   "orbit": 0.01,
+   "swing": 0.02,
+   "ground": "--cool-room",
+   "inks": [
+    "--cool-couch",
+    "--cool-mint",
+    "--cool-sky",
+    "--cool-coral"
+   ]
+  },
+  "the-mud-room.html": {
+   "kind": "julia",
+   "power": 2,
+   "c": [
+    0.0,
+    1.0
+   ],
+   "orbit": 0.02,
+   "ground": "--mud-ground",
+   "inks": [
+    "--mud-silver",
+    "--mud-marsh",
+    "--mud-glass",
+    "--mud-welly"
+   ]
+  },
+  "cavendish-events.html": {
+   "kind": "orbit",
+   "trap": "ring",
+   "radius": 0.9,
+   "c": [
+    0.2854,
+    0.0132
+   ],
+   "orbit": 0.01,
+   "ground": "--wr-stone",
+   "inks": [
+    "--wr-lime",
+    "--wr-dusk",
+    "--wr-brass",
+    "--wr-lit"
+   ]
   }
+ }
 }

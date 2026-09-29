@@ -1009,6 +1009,20 @@
       "sections": [
         70
       ]
+    },
+    "old-standard-tt": {
+      "where": "The Events Room",
+      "page": "cavendish-events.html",
+      "sections": [
+        71
+      ]
+    },
+    "ibm-plex-sans-condensed": {
+      "where": "The Events Room",
+      "page": "cavendish-events.html",
+      "sections": [
+        71
+      ]
     }
   }
 }

@@ -107,7 +107,8 @@ dopamine-dress-up-den.html  Helen's idea: a boutique for dopamine dressing. Mix 
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 now-playing.html      A poster column beside the Pebble Board. What every room puts on first, read off the rooms
 plural-mural.html     An end wall that repaints itself, because the street is Danny's. By itself at MAX only; propose one in words
-cavendish-coworking.html Henry Cavendish's house: a shut, unlocked door onto each of our calls. Proton Meet links, never frames
+cavendish-coworking.html Henry Cavendish's house: a shut, unlocked door onto each of our calls, each opening a room of its own
+cavendish-events.html Behind the Events door: a lighthouse's watch room, our events as its light list, and a call anybody can knock on
 community-library.html  A public reading room with the sky in its windows. Free to all; our collections on the front desk
 l-space.html          Behind it: every library at once, bent by the weight of books. Nothing straight; a ball of string
 oook.html             And behind that: a Discworld homage in the Librarian's colours. He is not drawn
@@ -142,6 +143,8 @@ love.css              Shared base (§1–§4) then one self-contained world per 
 love.js               The dial, the toys, the superposition panel
 love-embed.js         The press-to-play facade
 cb.js                 The CB's radio and the front desk. Loaded only once signed on
+call.js               A room's call window, and the Mover the radio shares. A public room loads it for a guest
+callroom.js           Joining a call from inside a room behind a Cavendish door. Nothing is fetched until the press
 chalk.js              Plural Mural's chalkboard, which is the CB's too: anybody reads it, a CB pass writes on it
 cb.css                The radio's own sheet, inside its shadow root. No room can reach it
 cb-rooms.json         The rooms the CB knows by #tag, in walking order. Written by make-sitemap.py
