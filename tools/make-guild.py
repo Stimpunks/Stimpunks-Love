@@ -377,6 +377,11 @@ DRAW = {
     # threshold a marker is held to. The floor line and the sole are --mud-dim
     # and carry nothing. It lies still.
     "mud-welly": """<path d="M3 29 H29" stroke="var(--mud-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 24 V13 Q5 10 8 10 H17 Q19 10 19 13 V17 H25 Q28 17 28 21 V24 Z" fill="var(--mud-welly)" stroke="var(--mud-welly)" stroke-width="1.4" stroke-linejoin="round"/><path d="M4.5 26 H28.5" stroke="var(--mud-dim)" stroke-width="2.4" stroke-linecap="round"/><path d="M8 13.5 H16" stroke="var(--mud-ground)" stroke-width="1.4" stroke-linecap="round"/>""",
+    # An ostrich feather, blown up against a stone at the Watering Hole: a quill
+    # with its soft vanes, in the water's teal the room uses for every link,
+    # 6.68 on the sand. The stone and the floor line are --wh-dune and carry
+    # nothing.
+    "wh-feather": """<path d="M3 29.5 H29" stroke="var(--wh-dune)" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="23" cy="26" rx="5" ry="3.2" fill="var(--wh-dune)"/><path d="M6 26 Q13 16 24 5" fill="none" stroke="var(--wh-water)" stroke-width="2" stroke-linecap="round"/><path d="M10 21 q-2 -6 3 -9 M13 17 q0 -6 5 -8 M16 13 q1 -5 6 -6 M12 22 q5 1 8 -3 M15 18 q5 1 8 -3 M18 14 q4 0 6 -4" fill="none" stroke="var(--wh-water)" stroke-width="1.6" stroke-linecap="round"/>""",
     # A loupe, left lying on the Editorial Room's proofs: a ring of glass on a
     # short handle, in the cyan the room uses for every link in the studio,
     # 9.35 on the dark. The floor line is --ed-halo and carries nothing.

@@ -2378,6 +2378,38 @@
     ]
    },
    "learned": "A light table shows a page from behind, so what is wrong with it can be seen before it goes out. An editorial meeting is that, for everything we publish."
+  },
+  {
+   "id": "wh-feather",
+   "page": "cavendish-watering-hole.html",
+   "room": "The Watering Hole",
+   "title": "Whose cams these are",
+   "posted": "Behind the Watering Hole door at Cavendish Coworking there is a pan of water in the desert at noon, with a rack of cams to leave on. Go and stand about by the water, and find out which room on the street the cams come from.",
+   "rank": 2,
+   "takes": "a minute, standing about",
+   "target": "an ostrich feather, blown up against a stone",
+   "code": "OSTRICH",
+   "hints": [
+    "Go into Cavendish Coworking on the street and through the Watering Hole door, upstairs with the Hang Suites.",
+    "Read the paragraph under The screen by the water.",
+    "The feather is at the foot of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "Which room on the street are the Watering Hole's cams read out of?",
+    "accept": [
+     "the jungle room",
+     "jungle room",
+     "jungle"
+    ],
+    "answer": "The Jungle Room",
+    "why": "The Jungle Room. The cams are read out of that room's own list, not copied, so the two rooms can never say two different things about one camera, and a cam that goes dark there goes dark here too.",
+    "hints": [
+     "It is named in the first sentences under The screen by the water.",
+     "It is up the street, under a roof of leaves.",
+     "The room Elvis's Den is behind."
+    ]
+   },
+   "learned": "A watering hole is a pool in a dry place, and whoever turns up. Nobody arranges to meet there."
   }
  ],
  "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

@@ -1897,5 +1897,33 @@
    "src": "https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K6z9mXg.woff2",
    "note": "The Editorial Room (§73): what a proof says first, and the buttons."
   }
+ ],
+ "epilogue": [
+  {
+   "file": "epilogue-800.woff2",
+   "weight": "800",
+   "style": "normal",
+   "bytes": 14716,
+   "src": "https://fonts.gstatic.com/s/epilogue/v20/O4ZMFGj5hxF0EhjimngomvnCCtqb30OXsDTSC5_UqATfVXtU.woff2",
+   "note": "The Watering Hole (§74), behind Cavendish Coworking's Watering Hole door: the room's name and headings, heavy and wide like a sign painted to be read across a pan. Never a sentence."
+  }
+ ],
+ "readex-pro": [
+  {
+   "file": "readex-pro-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 31392,
+   "src": "https://fonts.gstatic.com/s/readexpro/v27/SLXYc1bJ7HE5YDoGPuzj_dh8uc7wUy8ZQQyX2IwwZEzehiB9.woff2",
+   "note": "The Watering Hole (§74): every sentence and every card on the rack; drawn for readability, which a room in full sun needs."
+  },
+  {
+   "file": "readex-pro-600.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 31392,
+   "src": "https://fonts.gstatic.com/s/readexpro/v27/SLXYc1bJ7HE5YDoGPuzj_dh8uc7wUy8ZQQyX2IwwZEzehiB9.woff2",
+   "note": "The Watering Hole (§74): a cam's name, and the buttons."
+  }
  ]
 }

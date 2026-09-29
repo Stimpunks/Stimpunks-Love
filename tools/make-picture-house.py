@@ -71,7 +71,7 @@ WHAT IT REFUSES, and the first two are the room:
 
 EVERY CARD ON A RACK HAS A SECOND PRESS that puts its film on the rack's own
 screen in place of the programme (Ryan's ask, 2026-09-28). It is written here,
-hidden, beside the card's own plate, and picture-house.js unhides it and does
+hidden, beside the card's own plate, and rack.js unhides it and does
 the swap with loveEmbed.frameUrl, so this tool refuses a page that does not
 load that script: without it every second button would stay hidden and nobody
 would know it was meant to be there. Only a screen with a rack under it gets
@@ -334,8 +334,8 @@ for i, f in enumerate(two, 1):
         problems.append(f"{where}: `ours` points at {ours.get('url')!r}, which is not one of "
                         "our own pages.")
 
-if '<script src="picture-house.js" defer></script>' not in page_src:
-    problems.append(f"{ROOM.name} does not load picture-house.js, so every card's second button "
+if '<script src="rack.js" defer></script>' not in page_src:
+    problems.append(f"{ROOM.name} does not load rack.js, so every card's second button "
                     "would ship hidden and stay hidden. Load it after love-embed.js.")
 for m in ("lph-rack", "lph-awareness") + (("lph-rack-two",) if two else ()) + \
         (("lph-campfire",) if campfire else ()):
@@ -376,10 +376,10 @@ MONTHS = ("January", "February", "March", "April", "May", "June", "July", "Augus
 
 def big(f, screen, name, card):
     """The card's second press: the same film on the rack's own screen, in place of the programme."""
-    return (f'\n        <button type="button" class="lph-card__big" hidden data-lph-screen="{screen}" '
-            f'data-lph-name="{attr(name)}" data-lph-src="{attr(film_src(f["id"]))}" '
-            f'data-lph-title="{attr(f["title"])}, {attr(f["channel"])}, on {attr(name)}" '
-            f'data-lph-film="{attr(f["title"])}" data-lph-runtime="{attr(f["runtime"])}" '
+    return (f'\n        <button type="button" class="lph-card__big" hidden data-rack-to="{screen}" '
+            f'data-rack-name="{attr(name)}" data-rack-src="{attr(film_src(f["id"]))}" '
+            f'data-rack-title="{attr(f["title"])}, {attr(f["channel"])}, on {attr(name)}" '
+            f'data-rack-film="{attr(f["title"])}" data-rack-runtime="{attr(f["runtime"])}" '
             f'aria-describedby="{card}-t">Play on {esc(name)} instead &mdash; {esc(f["runtime"])}</button>')
 
 
@@ -403,10 +403,11 @@ screen_name = {sc["id"]: sc["name"] for sc in screens}
 
 for sc in screens:
     racked = RACKED.get(sc["id"], False)
-    glass = f' data-lph-screen="{sc["id"]}"' if racked else ""
-    now = (f'\n    <p class="lph-screen__now" id="lph-now-{sc["id"]}" tabindex="-1" hidden></p>\n'
+    glass = (f' data-rack-screen="{sc["id"]}" data-rack-off="The whole programme is off until you '
+             f'put it back."') if racked else ""
+    now = (f'\n    <p class="lph-screen__now" id="lph-now-{sc["id"]}" data-rack-now="{sc["id"]}" tabindex="-1" hidden></p>\n'
            f'    <p class="lph-screen__back" hidden><button type="button" class="lph-back" '
-           f'id="lph-back-{sc["id"]}" data-lph-screen="{sc["id"]}">Take it off and put the whole '
+           f'id="lph-back-{sc["id"]}" data-rack-back="{sc["id"]}">Take it off and put the whole '
            f'programme back</button></p>') if racked else ""
     swap(ROOM, f"lph-screen:{sc['id']}",
          f'    <h2 id="lph-screen-{sc["id"]}-h"><span class="lph-screen__num">{esc(sc["name"])}</span> '
@@ -436,7 +437,7 @@ def card(f, n, prefix, screen, when_line="", ours=None):
                     f'programme:</span> {esc(f["not_in_list"])}</p>')
     oursp = (f'\n        <p class="lph-card__ours"><a href="{attr(ours["url"])}">'
              f'{esc(ours["name"])} &rarr;</a></p>') if ours else ""
-    return (f'      <li class="lph-card" id="{attr(cid)}">\n'
+    return (f'      <li class="lph-card" id="{attr(cid)}" data-rack-card>\n'
             f'        <p class="lph-card__n" aria-hidden="true">{n:02d}</p>{whenp}\n'
             f'        <h3 class="lph-card__title" id="{attr(cid)}-t">{esc(f["title"])}</h3>\n'
             f'        <p class="lph-card__makers">{esc(f["makers"])}</p>\n'

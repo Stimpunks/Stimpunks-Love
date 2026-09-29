@@ -145,8 +145,6 @@
   {
    "id": "watering-hole",
    "name": "Watering Hole",
-   "proton_name": "Watering Hole",
-   "url": "https://meet.proton.me/join/id-NSQ8HBMH2C#pwd-SRiIqaPCwseT",
    "said": "The Watering Hole is for open, come-and-go, group Watercooler chat where random and off-topic are on-topic. This is a casual, drop-in space where people come together without any particular agenda.",
    "link": {
     "text": "Watercooler chat",
@@ -158,7 +156,27 @@
     "Mute when you’re not actively talking.",
     "Quietly lurking with camera and mic off is perfectly fine and accepted.",
     "Come-and-go as you please. If you need to drop out suddenly, no need to worry with goodbyes. We understand."
-   ]
+   ],
+   "page": "cavendish-watering-hole.html",
+   "room": "The Watering Hole",
+   "prefix": "wh",
+   "item": "cam",
+   "rack": {
+    "_why": "Ryan's brief, 2026-09-28: the Watering Hole gets a selection from the Jungle Room, particularly the Namib Desert, the otters and the jellyfish. The cams are read out of data/jungle.json by id, never restated, so the two rooms cannot say two different things about one camera, and a cam that goes dark there goes dark here.",
+    "screen": "the screen by the water",
+    "rack_title": "The cams: the desert, the otters and the jellies",
+    "off": "The desert is off it until you put it back.",
+    "cams_from": "data/jungle.json",
+    "cams": [
+     "ydYDqZQpim8",
+     "9mg9PoFEX2U",
+     "_KXHUb0wFRE",
+     "abbR-Ttd-cA",
+     "LrO-tgqYXXI",
+     "NqOmHpwMUxs",
+     "eQ_foBERmzA"
+    ]
+   }
   }
  ],
  "access_note": {

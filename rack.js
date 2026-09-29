@@ -1,0 +1,113 @@
+/* A rack: cards under a room's screen, each of which can play its own film in
+   place or put it up on the screen, in place of whatever the screen had.
+
+   The Lightbulb Picture House's rack came first (picture-house.js), and Ryan's
+   call on 2026-09-28 made it the pattern for racks: the next room to take it
+   moves the behaviour into one shared file, and this is that file. THE
+   BEHAVIOUR IS SHARED AND THE LOOK IS NOT: every room dresses its own screen,
+   cards and buttons in its own section of love.css, and this file only finds
+   the parts by their data- attributes, the job marker's rule. The promises are
+   the Picture House's, and each one is somebody else's lesson:
+
+   IT BUILDS NOTHING OF ITS OWN. The frame comes from loveEmbed.frameUrl, so
+   love-embed.js is still the only thing on this site that builds a frame, with
+   the referrer policy and the origin check in one place.
+
+   THE BUTTON SAYS HOW LONG BEFORE THE PRESS, like every press here (a live
+   camera says it runs until you close it), and it ships hidden, so a page with
+   no script shows no control that does nothing. This file unhides them.
+
+   THE ANSWER IS WHERE THE EYE GOES. A screen can be a long way up the page from
+   the card that was pressed, and a press that starts a film nobody can see is
+   the Playhouse's unseen answer again. So the press moves focus to the line
+   under the screen that names what is showing, which brings the screen into
+   view, with no smooth scroll, because the dial exists so nothing glides.
+
+   PUTTING THE SCREEN BACK DOES NOT PLAY IT. It takes the film off and puts the
+   screen's own plate back, exactly as the page shipped it, so whatever the
+   screen had waits for its own press again. Nothing is stored.
+
+   A SPOT FROM THE CB REACHES THE SCREEN TOO. Arriving by a spot's room link,
+   cb.js marks the card's own play button with where to start
+   (data-embed-start), and this reads it off the same card, so the film starts
+   there on the screen as well.
+
+   The parts, all found by attribute:
+     [data-rack-screen=ID]  the element holding a screen's plate
+     [data-rack-now=ID]     the line under it that names what is showing
+     [data-rack-back=ID]    the button that puts the screen back (in a hidden parent)
+     [data-rack-to=ID]      a card's second button, with data-rack-src,
+                            data-rack-title, data-rack-film, data-rack-runtime
+                            and data-rack-name (the screen's name)
+     [data-rack-card]       a card, round its own plate and its second button
+   A screen may carry data-rack-off, a sentence saying what the screen has
+   given up while a card's film is on it. */
+(function () {
+  var screens = {};
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-rack-screen]'), function (glass) {
+    var id = glass.getAttribute('data-rack-screen');
+    screens[id] = {
+      glass: glass,
+      plate: glass.innerHTML,
+      off: glass.getAttribute('data-rack-off') || '',
+      now: document.querySelector('[data-rack-now="' + id + '"]'),
+      back: document.querySelector('[data-rack-back="' + id + '"]')
+    };
+  });
+
+  if (!window.loveEmbed) return;
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-rack-to]'), function (btn) {
+    if (screens[btn.getAttribute('data-rack-to')]) btn.hidden = false;
+  });
+
+  // 100 -> "1:40", 3723 -> "1:02:03"
+  function clock(s) {
+    var h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, x = s % 60;
+    return (h ? h + ':' + (m < 10 ? '0' : '') : '') + m + ':' + (x < 10 ? '0' : '') + x;
+  }
+
+  function show(btn) {
+    var s = screens[btn.getAttribute('data-rack-to')];
+    if (!s) return;
+    var card = btn.closest('[data-rack-card]'), own = card && card.querySelector('button.facade');
+    var start = parseInt(own && own.getAttribute('data-embed-start'), 10);
+    var src = btn.getAttribute('data-rack-src');
+    if (start > 0 && window.loveEmbed.withStart) src = window.loveEmbed.withStart(src, start);
+    else start = 0;
+    var player = window.loveEmbed.frameUrl(src, btn.getAttribute('data-rack-title'));
+    if (!player) return;
+    var shell = document.createElement('div');
+    shell.className = 'facade';
+    shell.style.padding = '0';
+    shell.appendChild(player);
+    s.glass.innerHTML = '';
+    s.glass.appendChild(shell);
+    if (s.now) {
+      s.now.textContent = 'Now showing on ' + btn.getAttribute('data-rack-name') + ': ' +
+        btn.getAttribute('data-rack-film') + ', ' + btn.getAttribute('data-rack-runtime') +
+        (start ? ', from ' + clock(start) : '') + '.' + (s.off ? ' ' + s.off : '');
+      s.now.hidden = false;
+    }
+    if (s.back) s.back.parentNode.hidden = false;
+    if (s.now) s.now.focus();
+  }
+
+  function putBack(btn) {
+    var s = screens[btn.getAttribute('data-rack-back')];
+    if (!s) return;
+    s.glass.innerHTML = s.plate;
+    if (s.now) { s.now.hidden = true; s.now.textContent = ''; }
+    if (s.back) s.back.parentNode.hidden = true;
+    var plate = s.glass.querySelector('button');
+    if (plate) plate.focus();
+  }
+
+  document.addEventListener('click', function (e) {
+    var to = e.target.closest('[data-rack-to]');
+    if (to) { show(to); return; }
+    var back = e.target.closest('[data-rack-back]');
+    if (back) putBack(back);
+  });
+})();

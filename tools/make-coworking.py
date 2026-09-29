@@ -418,6 +418,100 @@ def room_call(p, d, tag, public):
     return "\n".join(lines)
 
 
+EMBED = "https://www.youtube-nocookie.com/embed/"
+VID = re.compile(r"^[A-Za-z0-9_-]{11}$")
+LIST = re.compile(r"^PL[A-Za-z0-9_-]{16,40}$")
+RUNTIME = re.compile(r"^(?:\d{1,2}:)?\d{1,2}:\d{2}$")
+LIVE = "live, runs until you close it"
+
+
+def rack_items(d):
+    """A suite's rack, as a list of {id, title, channel, note, runs}. Cams come out of
+    the Jungle Room's own data by id, never restated, so the two rooms cannot say two
+    different things about one camera; videos carry their own measured runtime."""
+    r = d.get("rack") or {}
+    where = f"suite {d['id']!r}'s rack"
+    items = []
+    if r.get("cams_from"):
+        src = json.loads((ROOT / r["cams_from"]).read_text())
+        cams = {c["id"]: c for g in src.get("groups", []) for c in g.get("cams", [])}
+        for cid in r.get("cams", []):
+            c = cams.get(cid)
+            if not c:
+                refuse(f"{where}: {cid!r} is not a cam in {r['cams_from']}.")
+                continue
+            if c.get("dead") or c.get("frame") == "door":
+                refuse(f"{where}: {cid!r} is dark or cannot be framed in {r['cams_from']}; "
+                       "a rack shows only cams that play here.")
+            if c.get("runtime") or c.get("length"):
+                refuse(f"{where}: {cid!r} carries a runtime, and a live camera has none to give.")
+            items.append({"id": cid, "title": c["title"], "channel": c["channel"], "note": c.get("note", ""), "runs": LIVE})
+    for v in r.get("videos", []):
+        w = f"{where}, {v.get('title')!r}"
+        if not VID.match(v.get("id", "")):
+            refuse(f"{w}: {v.get('id')!r} is not a YouTube id.")
+        if not RUNTIME.match(v.get("runtime", "")):
+            refuse(f"{w}: no runtime. Every press here says how long before the press.")
+        for f in ("title", "channel", "note", "measured"):
+            if not str(v.get(f, "")).strip():
+                refuse(f"{w}: no `{f}`.")
+        items.append({"id": v["id"], "title": v["title"], "channel": v["channel"], "note": v["note"], "runs": v["runtime"]})
+    if r and not items:
+        refuse(f"{where}: nothing on it.")
+    return items
+
+
+def rack_block(p, d, items):
+    """The screen and the rack under it, for rack.js: the screen's plate is the
+    rack's first thing, or a whole playlist when the rack names one."""
+    r = d["rack"]
+    scr = e(r["screen"])
+    lst = r.get("playlist")
+    if lst:
+        if not LIST.match(lst.get("id", "")):
+            refuse(f"suite {d['id']!r}: the playlist {lst.get('id')!r} is not a playlist id.")
+        if lst.get("runtime"):
+            refuse(f"suite {d['id']!r}: the playlist has a runtime. A list somebody keeps adding to has none.")
+        plate_src, plate_title = f"{EMBED}videoseries?list={lst['id']}&autoplay=1", f"{lst['title']}, on YouTube"
+        plate_label, back_label = f"Put on the whole playlist &mdash; runs until you stop it", "Put the whole playlist back on the screen"
+    else:
+        first = items[0]
+        plate_src, plate_title = f"{EMBED}{first['id']}?autoplay=1&rel=0", f"{first['title']}, {first['channel']}"
+        plate_label, back_label = f"Watch {e(first['title'])} &mdash; {e(first['runs'])}", f"Put {e(first['title'])} back on the screen"
+    out = [
+        f'    <div class="{p}-screen" data-rack-screen="{p}" data-rack-off="{e(r["off"])}">',
+        f'      <button type="button" class="facade" data-embed-src="{e(plate_src)}" data-embed-title="{e(plate_title)}">',
+        f'        {plate_label}',
+        f'        <span class="facade__play">&#9654; PRESS PLAY</span>',
+        f'      </button>',
+        f'    </div>',
+        f'    <p class="{p}-screen__now" data-rack-now="{p}" tabindex="-1" hidden></p>',
+        f'    <p class="{p}-screen__back" hidden><button type="button" class="{p}-back" data-rack-back="{p}">{back_label}</button></p>',
+        f'    <details class="{p}-rack" open>',
+        f'      <summary>{e(r["rack_title"])}</summary>',
+        f'      <ul class="{p}-cards">',
+    ]
+    for it in items:
+        src = f"{EMBED}{it['id']}?autoplay=1&rel=0"
+        who = f"{it['title']}, {it['channel']}"
+        out += [
+            f'        <li class="{p}-card" data-rack-card>',
+            f'          <h3 class="{p}-card__title">{e(it["title"])}</h3>',
+            f'          <p class="{p}-card__who">{e(it["channel"])}, on YouTube</p>',
+            f'          <p class="{p}-card__note">{e(it["note"])}</p>',
+            f'          <button type="button" class="facade" data-embed-src="{e(src)}" data-embed-title="{e(who)}">',
+            f'            Watch it here &mdash; {e(it["runs"])}',
+            f'            <span class="facade__play">&#9654; PRESS PLAY</span>',
+            f'          </button>',
+            f'          <button type="button" class="{p}-card__big" hidden data-rack-to="{p}" data-rack-name="{scr}" '
+            f'data-rack-src="{e(src)}" data-rack-title="{e(who)}, on {scr}" data-rack-film="{e(it["title"])}" '
+            f'data-rack-runtime="{e(it["runs"])}">Put it on {scr} &mdash; {e(it["runs"])}</button>',
+            f'        </li>',
+        ]
+    out += [f'      </ul>', f'    </details>']
+    return "\n".join(out)
+
+
 def write_room(d, public):
     p, tag = d["prefix"], d["page"][:-5]
     page = ROOT / d["page"]
@@ -430,6 +524,23 @@ def write_room(d, public):
         s = swapin(s, page, f"{p}-lede", f'  <p class="lede">{e(d["said"])}</p>')
         s = swapin(s, page, f"{p}-list", "\n".join(
             [f'    <ol class="{p}-list" data-tz="{e(data["tz"])}">'] + [room_slot(p, x, d.get("item", "slot")) for x in d["slots"]] + ['    </ol>']))
+    if not public:
+        said = e(d["said"])
+        if d.get("link"):
+            t = e(d["link"]["text"])
+            said = said.replace(t, f'<a href="{e(d["link"]["href"])}">{t}</a>', 1)
+        s = swapin(s, page, f"{p}-lede", f'  <p class="lede">{said}</p>')
+        s = swapin(s, page, f"{p}-norms", "\n".join(
+            [f'    <p class="{p}-norms__title">{e(d["norms_title"])}</p>', f'    <ul class="{p}-norms">']
+            + [f'      <li>{e(n)}</li>' for n in d["norms"]] + ['    </ul>']
+            + ([f'    <p>Read more: <a href="{e(d["further"]["href"])}">{e(d["further"]["text"])}</a>.</p>'] if d.get("further") else [])))
+        if d.get("rack"):
+            items = rack_items(d)
+            if items:
+                s = swapin(s, page, f"{p}-rack", rack_block(p, d, items))
+            for js in ("love-embed.js", "rack.js"):
+                if f'<script src="{js}" defer></script>' not in s:
+                    refuse(f"{d['page']}: it has a rack and does not load {js}.")
     s = swapin(s, page, f"{p}-call", room_call(p, d, tag, public))
     s = swapin(s, page, f"{p}-credits", (
         f'    <p>Every line about when is our events page&rsquo;s, word for word, read off '
@@ -437,7 +548,7 @@ def write_room(d, public):
         f'and <code>tools/make-coworking.py</code> reads that page again every time it builds this room and its door. '
         f'The hour on your own clock is worked out in your browser.</p>') if public else (
         f'    <p>What goes on in here, and the norms, are Ryan&rsquo;s words, as he wrote them for the Hang Suites; '
-        f'caves, campfires and watering holes are <a href="https://stimpunks.org/glossary/primordial-learning-spaces/">David Thornburg&rsquo;s</a>.</p>'))
+        f'caves, campfires and watering holes are <a href="https://stimpunks.org/glossary/caves-campfires-watering-holes/">David Thornburg&rsquo;s</a>.</p>'))
     m = re.search(r'data-call="([^"]+)"', s)
     if not m or m.group(1) != tag:
         refuse(f"{d['page']}: its call panel names {m.group(1) if m else 'no room'!r}, not {tag!r}.")

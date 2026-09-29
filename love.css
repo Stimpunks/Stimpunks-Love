@@ -938,6 +938,15 @@
 @font-face { font-family: 'DM Sans'; src: url('fonts/dm-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'DM Sans'; src: url('fonts/dm-sans-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 @font-face { font-family: 'DM Sans'; src: url('fonts/dm-sans-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+/* The Watering Hole (§74). EPILOGUE, by Tyler Finck and ETC, sets the room's
+   name and headings heavy and wide, like a sign meant to be read across a
+   pan, and nothing at reading size. READEX PRO, by Thomas Jockin, Nadine
+   Chahine, Bonnie Shaver-Troup, Santiago Orozco and Héctor Gómez, carries every
+   sentence and every card; it was drawn for readability, and a room in full
+   sun needs it. One variable file serves both weights. */
+@font-face { font-family: 'Epilogue'; src: url('fonts/epilogue-800.woff2') format('woff2'); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Readex Pro'; src: url('fonts/readex-pro-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Readex Pro'; src: url('fonts/readex-pro-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -2320,6 +2329,17 @@
   --ed-ink:    #15171C;  --ed-mag:   #B0125A;  --ed-text:  #E3E6EA;
   --ed-dim:    #A1A7B0;  --ed-cyan:  #5CC9E6;
   --ed-process-c: #00A3D1;  --ed-process-m: #D6246E;  --ed-process-y: #F2C200;  --ed-halo: #3A4550;
+
+  /* The Watering Hole (§74). A PAN IN THE DESERT, AT NOON. --wh-sand is the
+     ground of the room, bleached; --wh-board every card on the rack and the
+     one paler thing, a board left out in the sun; --wh-panel the call's panel,
+     the sand in a wind-shadow. --wh-ink is what you read, --wh-dim the fine
+     print, --wh-water every link and the buttons' ground, --wh-rust the oryx
+     and every hover. --wh-dune, --wh-pool and --wh-shade draw the dunes, the
+     water and the black pool of shadow under everything, and carry no word. */
+  --wh-sand:  #F1E6CB;  --wh-board: #FBF7EE;  --wh-panel: #E4D3AC;
+  --wh-ink:   #2A2016;  --wh-dim:   #5E4E39;  --wh-water: #17565F;
+  --wh-rust:  #8C3517;  --wh-dune:  #D8BD86;  --wh-pool:  #2C7F8A;  --wh-shade: #2A2016;
 }
 
 * { box-sizing: border-box; }
@@ -11124,7 +11144,7 @@ html[data-intensity="max"] .ls-fizz circle:nth-child(4) { animation-duration: 3.
 /* A card's second press puts its film on the rack's own screen. It is a quiet
    outlined button so the plate above it stays the obvious one, and it and the
    way back are cream on the grounds cream already reads on: the card's deep
-   red and the velvet. picture-house.js unhides them; they ship hidden. */
+   red and the velvet. rack.js unhides them; they ship hidden. */
 .picture-house .lph-card__big, .picture-house .lph-back {
   align-self: flex-start; padding: 7px 12px; background: transparent; color: var(--lph-cream);
   border: 1px solid var(--lph-brass); border-radius: 4px; cursor: pointer;
@@ -14008,7 +14028,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §75
+   class on it is `bb-`, its sizes are in points and millimetres, and §76
    prints it and nothing else. */
 
 .room-broadside {
@@ -14069,7 +14089,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §75 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §76 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -15755,7 +15775,106 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
   .ed-call { padding: 16px; }
 }
 
-/* §74 ── Small screens ───────────────────────────────────────────────────────
+/* §74 ── SUBROOM: The Watering Hole (behind Cavendish Coworking's Watering Hole door)
+   A PAN OF WATER IN THE DESERT, AT NOON. The door says it in Ryan's words:
+   open, come-and-go, group watercooler chat where random and off-topic are
+   on-topic, with no particular agenda. A watering hole is that, and it is what
+   the Watering Hole Hangs are named after: a pool in a dry place, and whoever
+   turns up. The desert is the Namib, because that is where the first cam on
+   this room's rack is, and the rack is the Jungle Room's desert, otters and
+   jellies, read out of its own data.
+
+   THE LIGHT IS THE UNFILTERED MIDDAY SUN. Nothing stands between the sand and
+   the sky, so the sand is bleached to nearly white and every shadow is a black
+   pool directly under the thing that casts it, and nowhere else. The sun is
+   overhead and not in the drawing. Every word is dark on the pale ground, and
+   the cards are boards left out in the sun, paler still.
+
+   THE ROOMS TO WATCH. The Garden is the other room lit from overhead, and its
+   light comes down through leaves, so everything in it is green and dappled
+   and planted; here there is nothing between the sun and the sand, nothing is
+   green, and there is one pool of water in the whole view. The Solarpunk
+   Hermitage is the other room in sunshine, and its sun is low and throws every
+   shadow sideways across a warm wall; here the shadows go straight down. Samefood
+   Cafe is the other even overhead light, and it is a plan seen straight down on
+   a table; this is a landscape at eye level with the farthest horizon on the
+   street. The Jungle Room is where these cams live, and it is night under a
+   roof of leaves. Its parent is green daylight through canvas. If a shadow here
+   ever falls to one side, the sun has gone down and the room has gone with it.
+
+   NOTHING MOVES AT ANY SETTING, the heat shimmer included: it is drawn, and it
+   stays drawn. */
+
+.whroom {
+  background: var(--wh-sand); color: var(--wh-ink);
+  font-family: 'Readex Pro', 'Verdana', sans-serif;
+}
+.whroom a { color: var(--wh-water); }
+.whroom a:hover { color: var(--wh-rust); }
+.whroom :focus-visible { outline-color: var(--wh-ink); }
+.whroom :where(p, li) { font-size: 18px; line-height: 1.62; }
+.whroom .backlink { font-family: 'Readex Pro', 'Verdana', sans-serif; font-weight: 600; font-size: 16px; letter-spacing: 0; text-transform: none; color: var(--wh-water); }
+.whroom .trailmark { margin: 0; font-size: 15px; color: var(--wh-dim); }
+.whroom h1, .whroom h2, .whroom h3 { font-family: 'Epilogue', 'Verdana', sans-serif; font-weight: 800; color: var(--wh-ink); }
+.whroom h1 { font-size: clamp(40px, 7.6vw, 80px); line-height: 1.02; margin: 6px 0 0; letter-spacing: -.01em; }
+.whroom h2 { font-size: clamp(24px, 3.8vw, 32px); margin: 44px 0 10px; }
+.whroom .lede { font-size: 20px; max-width: 42em; }
+
+.wh-head { margin: 20px 0 8px; }
+.wh-head__over { margin: 0; font-size: 15px; letter-spacing: .06em; text-transform: uppercase; color: var(--wh-dim); }
+.wh-head__art { margin: 22px 0 0; border-radius: 4px; overflow: hidden; background: var(--wh-sand); }
+.wh-head__art svg { display: block; width: 100%; height: auto; }
+
+.wh-part { max-width: 50em; }
+.wh-part > p { max-width: 42em; }
+
+.wh-norms__title { margin: 0 0 6px; font-weight: 600; }
+.wh-norms { margin: 0 0 12px; padding-left: 1.2em; }
+
+/* THE SCREEN BY THE WATER, and the rack of cams under it. */
+/* No ground of its own: the plate is dark, and a focus ring drawn round it has
+   to land on the sand, where the room's ink shows, not on a dark frame. */
+.wh-screen { margin: 14px 0 0; }
+.wh-screen .facade { font-size: 21px; padding: 22px 24px; }
+.wh-screen__now { margin: 10px 0 0; font-weight: 600; }
+.wh-screen__back { margin: 8px 0 0; }
+.wh-back, .wh-card__big {
+  min-height: 44px; padding: 8px 14px; cursor: pointer;
+  font: 600 16px/1.25 'Readex Pro', 'Verdana', sans-serif;
+  color: var(--wh-board); background: var(--wh-water); border: 2px solid var(--wh-water); border-radius: 3px;
+}
+.wh-back:hover, .wh-card__big:hover { background: var(--wh-rust); border-color: var(--wh-rust); }
+.wh-rack { margin: 22px 0 0; }
+.wh-rack > summary { cursor: pointer; font-family: 'Epilogue', 'Verdana', sans-serif; font-weight: 800; font-size: 22px; }
+.wh-cards { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.wh-card { display: grid; gap: 8px; align-content: start; padding: 16px; background: var(--wh-board); border-radius: 3px; box-shadow: 0 6px 0 -2px var(--wh-dune); }
+.wh-card p { margin: 0; }
+.wh-card__title { margin: 0; font-size: 20px; line-height: 1.2; }
+.wh-card__who { font-size: 15px; color: var(--wh-dim); }
+.wh-card__note { font-size: 16px; line-height: 1.5; }
+.whroom .facade { color: var(--wh-board); background: var(--wh-ink); border-color: var(--wh-ink); font-family: 'Readex Pro', 'Verdana', sans-serif; }
+.whroom .facade:hover { background: var(--wh-water); border-color: var(--wh-water); }
+.whroom .facade__play { color: var(--wh-dune); font-family: 'Epilogue', 'Verdana', sans-serif; letter-spacing: .04em; }
+
+/* THE CALL, on the sand in a wind-shadow. */
+.wh-call { margin: 14px 0 0; padding: 18px 22px 20px; background: var(--wh-panel); border-radius: 3px; }
+.wh-call p { margin: 0 0 12px; }
+.wh-call button {
+  min-height: 48px; padding: 8px 18px; cursor: pointer;
+  font: 600 18px/1.2 'Readex Pro', 'Verdana', sans-serif;
+  color: var(--wh-board); background: var(--wh-water); border: 2px solid var(--wh-water); border-radius: 3px;
+}
+.wh-call button:hover { background: var(--wh-rust); border-color: var(--wh-rust); }
+.wh-call__said { min-height: 0; font-weight: 600; }
+.wh-call__fine { font-size: 16px; color: var(--wh-dim); margin-bottom: 0 !important; }
+
+.wh-credits { font-size: 16px; color: var(--wh-dim); }
+
+@media (max-width: 760px) {
+  .wh-call { padding: 16px; }
+}
+
+/* §75 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -15862,7 +15981,7 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §74 says every
+   shipped with no rule here at all — which on a street whose §75 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -15986,7 +16105,7 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §75 ── Print ───────────────────────────────────────────────────────────────
+/* §76 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

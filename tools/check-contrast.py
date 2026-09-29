@@ -564,6 +564,13 @@ ED_STUDIO, ED_DESK, ED_GLOW = "#15171C", "#23262D", "#F3F7F8"
 ED_INK, ED_MAG, ED_TEXT = "#15171C", "#B0125A", "#E3E6EA"
 ED_DIM, ED_CYAN = "#A1A7B0", "#5CC9E6"
 
+# The Watering Hole (§74). A PALE ROOM, AND FOUR GROUNDS: the bleached sand,
+# where most words are; the boards on the rack, paler still; the call's panel,
+# sand in a wind-shadow; and the dark of every screen and play plate, which
+# carries the pale board's colour.
+WH_SAND, WH_BOARD, WH_PANEL = "#F1E6CB", "#FBF7EE", "#E4D3AC"
+WH_INK, WH_DIM, WH_WATER, WH_RUST, WH_DUNE = "#2A2016", "#5E4E39", "#17565F", "#8C3517", "#D8BD86"
+
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
 # screen is the light source in this room, not a surface anything is set on --
@@ -2508,6 +2515,23 @@ PAIRS = [
     (ED_INK,  ED_CYAN,   False, "editorial room: Knock on the door and Join the call"),
     (ED_INK,  ED_TEXT,   False, "editorial room: a button's hover"),
     (ED_CYAN, ED_STUDIO, True,  "editorial room: the job marker, a loupe left on the proofs"),
+    # ── The Watering Hole (§74) ──────────────────────────────────────────────
+    (WH_INK,   WH_SAND,  False, "watering hole: every paragraph on the sand, the headings, the lede, the norms and the now-showing line"),
+    (WH_DIM,   WH_SAND,  False, "watering hole: the over-line, the trail and the credits"),
+    (WH_WATER, WH_SAND,  False, "watering hole: every link on the sand and the backlink"),
+    (WH_RUST,  WH_SAND,  False, "watering hole: a link's hover"),
+    (WH_INK,   WH_SAND,  True,  "watering hole: the focus ring, which is the room's ink on a pale room"),
+    (WH_INK,   WH_BOARD, False, "watering hole: a cam's name and note on its board"),
+    (WH_DIM,   WH_BOARD, False, "watering hole: a cam's channel on its board"),
+    (WH_WATER, WH_BOARD, False, "watering hole: a link on a board"),
+    (WH_INK,   WH_PANEL, False, "watering hole: the call panel's words and what it says back"),
+    (WH_DIM,   WH_PANEL, False, "watering hole: the call's fine print"),
+    (WH_WATER, WH_PANEL, False, "watering hole: a link in the call panel"),
+    (WH_BOARD, WH_INK,   False, "watering hole: the words on every play plate and on the screen"),
+    (WH_DUNE,  WH_INK,   False, "watering hole: PRESS PLAY on every plate"),
+    (WH_BOARD, WH_WATER, False, "watering hole: every button, and a plate's hover"),
+    (WH_BOARD, WH_RUST,  False, "watering hole: a button's hover"),
+    (WH_WATER, WH_SAND,  True,  "watering hole: the job marker, an ostrich feather against a stone"),
     (MUD_TEXT,  MUD_GROUND, False, "mud room: every paragraph, the lede, the house rules and the door's blurb on the street"),
     (MUD_SKY,   MUD_GROUND, False, "mud room: the h1, every heading, every bold run and the door's name"),
     (MUD_DIM,   MUD_GROUND, False, "mud room: the trail, the over-line, the fine print and every label in the guidebook"),
@@ -2779,6 +2803,7 @@ ORNAMENT = {
                "1.52 on the hangar and 1.34 on a deck. It carries no word.",
     "#ffffff": "rave: the strobe's flash, laid over the hangar picture only after two presses. "
                "Nothing is ever written on a flash, and make-rave.py refuses it with any colour in it.",
+    "#2c7f8a": "watering hole: the rim of the pool, 3.75 on the sand; drawn, and carries no word",
     "#00a3d1": "editorial room: the colour bar's process cyan, 6.11 on the studio; a printer's mark, and it carries no word",
     "#d6246e": "editorial room: the colour bar's process magenta and the proofreader's mark in the margin, 4.49 on the table; marks, and no word stands in them",
     "#f2c200": "editorial room: the colour bar's process yellow, 10.67 on the studio; a printer's mark, and it carries no word",

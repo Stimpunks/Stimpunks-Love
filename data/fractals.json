@@ -1208,6 +1208,18 @@
     "--ed-process-y",
     "--ed-glow"
    ]
+  },
+  "cavendish-watering-hole.html": {
+   "kind": "ifs",
+   "figure": "tree",
+   "sway": 0.05,
+   "ground": "--wh-sand",
+   "inks": [
+    "--wh-dune",
+    "--wh-pool",
+    "--wh-water",
+    "--wh-rust"
+   ]
   }
  }
 }

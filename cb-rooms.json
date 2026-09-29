@@ -227,6 +227,11 @@
    "path": "/cavendish-editorial.html"
   },
   {
+   "tag": "cavendish-watering-hole",
+   "name": "The Watering Hole",
+   "path": "/cavendish-watering-hole.html"
+  },
+  {
    "tag": "live-room",
    "name": "The Live Room",
    "path": "/live-room.html"

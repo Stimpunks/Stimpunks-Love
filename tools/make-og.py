@@ -695,6 +695,17 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--edroom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
 .og--edroom .og-scene svg {{ display: block; width: 1200px; height: 300px; }}
 
+/* the watering hole — THE PAN AT NOON, LIFTED OFF THE ROOM: the dunes, the one
+   pool, the oryx, the springbok and the camel-thorn, each shadow straight under
+   it. The one pale card among the Cavendish rooms, because it is the one room
+   among them in the sun. */
+.og--whroom {{ width: 100%; padding: 40px 60px 0; gap: 8px; justify-content: flex-start; }}
+.og--whroom .wh-over {{ margin: 0 !important; font-size: 19px; letter-spacing: .06em; text-transform: uppercase; color: #5E4E39; }}
+.og--whroom h1 {{ font-size: 90px; margin: 0 !important; }}
+.og--whroom .og-lede {{ font-family: 'Readex Pro', sans-serif; color: #2A2016; max-width: 1060px; font-size: 25px; margin: 4px 0 0 !important; }}
+.og--whroom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--whroom .og-scene svg {{ display: block; width: 1200px; height: 290px; }}
+
 /* the mud room — THE VIEW FROM THE BACK STEP, LIFTED OFF THE ROOM: the sky, the
    far shore, the causeway posts going out to the beacon, and the sky lying in
    the mud, under the room's own name. Nothing on it moves, which is the
@@ -2636,6 +2647,24 @@ def card_edroom(p):
     )
 
 
+def card_whroom(p):
+    return (
+        "",
+        f'<div class="og og--whroom" data-fit="card">'
+        f'<p class="wh-over">Behind the Watering Hole door at Cavendish Coworking</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-scene">{p["wh_scene"]}</div>'
+        f'</div>',
+        f"A bleached pale sand card. A small line in brown capitals reading behind the Watering "
+        f"Hole door at Cavendish Coworking, then “{p['h1text']}” in heavy dark-brown letters, and "
+        f"under it: {p['desc_plain']} Along the foot, a desert pan at noon under a white sky: low "
+        f"dunes, one pool of deep teal water, a rust-coloured oryx with long straight horns at the "
+        f"water, a pale springbok coming in, and a flat-topped camel-thorn tree, each with a black "
+        f"pool of shadow directly beneath it.",
+    )
+
+
 def card_mud(p):
     return (
         "",
@@ -3531,6 +3560,7 @@ CARDS = {
     "watchroom":    card_watchroom,
     "oproom":       card_oproom,
     "edroom":       card_edroom,
+    "whroom":       card_whroom,
     "mud":          card_mud,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
@@ -3827,6 +3857,11 @@ def main():
     if not ed:
         raise SystemExit("REFUSING: cavendish-editorial.html has lost its light table, and its card is built out of it.")
     lifted["ed_scene"] = ed.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 180 1200 300"', 1)
+    wh = re.search(r'<div class="wh-head__art">\s*(?:<!--.*?-->\s*)?(<svg.*?</svg>)',
+                   (ROOT / "cavendish-watering-hole.html").read_text(), re.S)
+    if not wh:
+        raise SystemExit("REFUSING: cavendish-watering-hole.html has lost its pan, and its card is built out of it.")
+    lifted["wh_scene"] = wh.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 170 1200 290"', 1)
     # THE MUD ROOM'S CARD CARRIES THE ROOM'S OWN VIEW AND OVER-LINE, cropped by its
     # viewBox to the horizon and the mud, so the card cannot disagree with the room.
     mud_src = (ROOT / "the-mud-room.html").read_text()

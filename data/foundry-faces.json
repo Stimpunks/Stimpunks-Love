@@ -912,6 +912,23 @@
     }
    ]
   },
+  "epilogue": {
+   "family": "Epilogue",
+   "category": "Sans Serif",
+   "designer": "Tyler Finck, ETC",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/epilogue",
+   "copyright": "Copyright 2020 The Epilogue Project Authors (https://github.com/Etcetera-Type-Co/Epilogue)",
+   "repository": "https://github.com/Etcetera-Type-Co/Epilogue",
+   "variants": [
+    {
+     "weight": "800",
+     "style": "normal",
+     "file": "epilogue-800.woff2",
+     "sha": "4902207bd78ab525"
+    }
+   ]
+  },
   "exo-2": {
    "family": "Exo 2",
    "category": "Sans Serif",
@@ -2066,6 +2083,29 @@
      "style": "normal",
      "file": "rammetto-one-400.woff2",
      "sha": "7157a901123bf56a"
+    }
+   ]
+  },
+  "readex-pro": {
+   "family": "Readex Pro",
+   "category": "Sans Serif",
+   "designer": "Thomas Jockin, Nadine Chahine, Bonnie Shaver-Troup, Santiago Orozco, Héctor Gómez",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/readexpro",
+   "copyright": "Copyright 2019 The Readex Pro Project Authors (https://github.com/ThomasJockin/readexpro)",
+   "repository": "https://github.com/ThomasJockin/readexpro",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "readex-pro-400.woff2",
+     "sha": "87022255400cd42a"
+    },
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "readex-pro-600.woff2",
+     "sha": "87022255400cd42a"
     }
    ]
   },
