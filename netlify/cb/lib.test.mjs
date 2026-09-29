@@ -22,7 +22,8 @@ import { updateChalk, readChalk, updatePebbles, readPebbles, cleanLink, PEBBLE_R
   MUD_PLACES, MUD_FRESH, KEEP, today,
   hostBeacon, stopBeacon, readBeacons, sweepBeacons, beaconRoom, cleanAt, BEACON_FRESH,
   updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag,
-  callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS } from './lib.mjs';
+  callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
+  PUBLIC_CALLS, publicCall, callSettings } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
 function memoryStore({ etagOnRead }) {
@@ -385,4 +386,28 @@ test('a key pasted with its line breaks turned to spaces, or to \\n, still signs
   for (const [k, v] of [['CB_JAAS_KID', was[0]], ['CB_JAAS_KEY', was[1]]]) {
     if (v === undefined) delete process.env[k]; else process.env[k] = v;
   }
+});
+
+test('a guest gets a token for a public call only, and never as a moderator', () => {
+  const guest = { role: 'guest', handle: 'Visitor' };
+  for (const room of PUBLIC_CALLS) {
+    const t = open(callToken(guest, room, Date.now(), key));
+    assert.equal(t.ok, true);
+    assert.equal(t.body.room, 'stimpunks-' + room);
+    assert.equal(t.body.context.user.moderator, 'false');
+    assert.equal(t.body.context.features.recording, false);
+    assert.equal(t.body.context.features.transcription, false);
+  }
+  assert.equal(callToken(guest, 'the-den', Date.now(), key), null, 'not a room of the CB\'s');
+  assert.equal(publicCall('the-den'), null);
+  const base = open(callToken({ role: 'base', handle: 'Mod' }, PUBLIC_CALLS[0], Date.now(), key)).body.context.user;
+  assert.equal(base.moderator, 'true', 'the base moderates the public calls too');
+});
+
+test('the settings webhook puts a lobby on the public calls and only them', () => {
+  for (const room of PUBLIC_CALLS)
+    assert.deepEqual(callSettings(`${JAAS_APP}/stimpunks-${room}`), { lobbyEnabled: true, lobbyType: 'WAIT_FOR_APPROVAL' });
+  assert.deepEqual(callSettings(`${JAAS_APP}/stimpunks-the-den`), { lobbyEnabled: false });
+  assert.deepEqual(callSettings(`somebody-else/stimpunks-${PUBLIC_CALLS[0]}`), { lobbyEnabled: false }, 'another App ID');
+  for (const bad of [undefined, '', 'nonsense', `${JAAS_APP}/${PUBLIC_CALLS[0]}`]) assert.deepEqual(callSettings(bad), { lobbyEnabled: false });
 });

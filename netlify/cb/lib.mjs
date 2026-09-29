@@ -63,6 +63,14 @@
        recording and transcription only for the base, who is who starts them.
        We keep nothing about a call. What 8x8 keeps is 8x8's, and
        privacy.html says so and links its policy.
+     · THREE CALLS ARE PUBLIC, AND THE LOBBY IS WHAT KEEPS THEM SAFE. Ryan,
+       2026-09-28: Cavendish Coworking's Events, Operations and Editorial rooms
+       are open to the world, as our meetings always were, so /cb/call signs a
+       GUEST token for those three and no others, for a name the guest typed:
+       never a moderator, never recording or transcribing. JaaS asks our
+       settings webhook before each meeting, and for those three we answer
+       with the lobby on, so a guest knocks and waits for a moderator, which
+       keeps strangers and bots out of the room and off our monthly-user bill.
      · A PASS IS CHECKED AND NOT KEPT. It is an HMAC of the handle keyed by the
        current password, so changing the password in Netlify's environment and
        redeploying signs everybody off at once, and there is no list of passes
@@ -407,6 +415,22 @@ export const JAAS_HOST = 'https://8x8.vc/';
 export const CALL_HOURS = 4;               // a token lets you (re)join for this long
 export const callRoom = (tag) => `stimpunks-${tag}`;
 
+/* The only calls a guest with no CB pass can get a token for. Each is a page
+   on the street, by its filename, and each one's meeting starts with the lobby
+   on (callSettings). Add a room here and it is open to the world. */
+export const PUBLIC_CALLS = ['cavendish-events', 'cavendish-operations', 'cavendish-editorial'];
+export function publicCall(tag) { return PUBLIC_CALLS.includes(tag) ? tag : null; }
+
+/* JaaS's SETTINGS_PROVISIONING webhook: asked before every meeting, with the
+   meeting's "AppID/roomName". A public call starts with the lobby on and every
+   non-moderator knocking; every other call starts without one, because only
+   people signed on to the CB can get into those at all. */
+export function callSettings(fqn) {
+  const m = /^([^/]+)\/stimpunks-([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(String(fqn || ''));
+  if (!m || m[1] !== JAAS_APP) return { lobbyEnabled: false };
+  return publicCall(m[2]) ? { lobbyEnabled: true, lobbyType: 'WAIT_FOR_APPROVAL' } : { lobbyEnabled: false };
+}
+
 /* A PASTED KEY LOSES ITS LINE BREAKS, and Node will not read a PEM without
    them. The first real key arrived in Netlify's environment as one line, its
    body in space-separated pieces, and signing threw inside the function; the
@@ -437,6 +461,9 @@ export function callsReady() { return !!jaasKey(); }
    nothing a name in the call does not already say. */
 export function callToken(who, tag, now = Date.now(), key = jaasKey()) {
   if (!key) return null;
+  // A guest (role 'guest') is somebody with no CB pass in a public call: the
+  // same token as a participant's, and never the base's.
+  if (who.role === 'guest' && !publicCall(tag)) return null;
   const base = who.role === 'base';
   const t = Math.floor(now / 1000);
   const header = { alg: 'RS256', typ: 'JWT', kid: key.kid };

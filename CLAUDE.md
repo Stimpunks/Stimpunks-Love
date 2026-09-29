@@ -605,7 +605,13 @@ delegates to an origin `ORIGINS` does not frame, or gives the three to anything 
 `love-embed.js`, which `cb.js` loads on the first press if the page lacks it**: do not build a
 second iframe in `cb.js`. The window is not the radio, so folding the radio leaves the call up;
 leaving the page hangs up. Every call arrives muted on Jitsi's pre-join screen. That screen asks
-the browser for the devices so it can show a preview, and that is 8x8's, not a fault. **The radio and the call move with one `Mover`** in `cb.js`: drag the bar, or Move plus the
+the browser for the devices so it can show a preview, and that is 8x8's, not a fault. **A call's window and the `Mover` live in `call.js`, not `cb.js`**, because a public room's guest
+must never download the radio. `cb.js` loads `call.js` before it builds the radio. `call.js` reads
+the `love-cb` pass and never writes it. `/cb/call` signs a guest token, never a moderator, only for
+`PUBLIC_CALLS` in `lib.mjs`, and only under a name the guest typed. `/cb/call-settings` is JaaS's
+SETTINGS_PROVISIONING webhook: it answers lobby on, `WAIT_FOR_APPROVAL`, for exactly those rooms.
+It does nothing until it is registered in the JaaS console, and until then a guest walks straight
+in. **The radio and the call move with one `Mover`** in `call.js`: drag the bar, or Move plus the
 arrows, with Home back to the corner. Do not give either window its own copy. Anything that changes
 a window's size places it again at once, as well as through the `ResizeObserver`, because a hidden
 tab never delivers that. **Shared video in a call is Jitsi's `!disableThirdPartyRequests` and nothing else**, so that
