@@ -232,6 +232,11 @@
    "path": "/cavendish-watering-hole.html"
   },
   {
+   "tag": "cavendish-campfire",
+   "name": "The Campfire",
+   "path": "/cavendish-campfire.html"
+  },
+  {
    "tag": "live-room",
    "name": "The Live Room",
    "path": "/live-room.html"

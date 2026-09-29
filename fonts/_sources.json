@@ -1925,5 +1925,41 @@
    "src": "https://fonts.gstatic.com/s/readexpro/v27/SLXYc1bJ7HE5YDoGPuzj_dh8uc7wUy8ZQQyX2IwwZEzehiB9.woff2",
    "note": "The Watering Hole (§74): a cam's name, and the buttons."
   }
+ ],
+ "holtwood-one-sc": [
+  {
+   "file": "holtwood-one-sc-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 12040,
+   "src": "https://fonts.gstatic.com/s/holtwoodonesc/v23/yYLx0hLR0P-3vMFSk1TCq3Txg5BHdrz7D5h9yw.woff2",
+   "note": "The Campfire (§75), upstairs at Cavendish Coworking: the room's name and headings, a heavy wood type like letters burnt into a log. Never a sentence."
+  }
+ ],
+ "lato": [
+  {
+   "file": "lato-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 13980,
+   "src": "https://fonts.gstatic.com/s/lato/v25/S6uyw4BMUTPHjx4wXiWtFCc.woff2",
+   "note": "The Campfire (§75): every sentence and every card on the rack."
+  },
+  {
+   "file": "lato-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 14860,
+   "src": "https://fonts.gstatic.com/s/lato/v25/S6u8w4BMUTPHjxsAXC-qNiXg7Q.woff2",
+   "note": "The Campfire (§75): the italic, for what somebody says round the fire."
+  },
+  {
+   "file": "lato-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 14168,
+   "src": "https://fonts.gstatic.com/s/lato/v25/S6u9w4BMUTPHh6UVSwiPGQ3q5d0.woff2",
+   "note": "The Campfire (§75): a fire's name on the rack, and the buttons."
+  }
  ]
 }

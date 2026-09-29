@@ -112,6 +112,7 @@ cavendish-events.html Behind the Events door: a lighthouse's watch room, our eve
 cavendish-operations.html Behind the Operations door: a plant room, every pipe the colour of what it carries, one caged lamp
 cavendish-editorial.html Behind the Editorial door: a light table in a dark studio, the only light the proofs themselves
 cavendish-watering-hole.html Behind the Watering Hole door: a pan in the desert at noon, the Jungle Room's desert, otter and jelly cams on a rack
+cavendish-campfire.html Behind the Campfire door: a fire in a clearing at night, lit from its centre, Swaying Sweetgrass's fires on a rack
 rack.js               A rack's screen and its cards' second press, shared by every room with a rack. Found by data-rack-*, never by class
 community-library.html  A public reading room with the sky in its windows. Free to all; our collections on the front desk
 l-space.html          Behind it: every library at once, bent by the weight of books. Nothing straight; a ball of string

@@ -203,6 +203,14 @@
     "read out of that room",
     "each one runs until you close it"
    ]
+  },
+  {
+   "page": "cavendish-campfire.html",
+   "what": "A fire in a clearing at night, behind a door at Cavendish Coworking, with a ring of logs and the fire pit at Swaying Sweetgrass's real campfires to leave burning.",
+   "holds": [
+    "read out of that room",
+    "each with how long it runs"
+   ]
   }
  ],
  "left_off": {}

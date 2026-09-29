@@ -2410,6 +2410,38 @@
     ]
    },
    "learned": "A watering hole is a pool in a dry place, and whoever turns up. Nobody arranges to meet there."
+  },
+  {
+   "id": "cf-marshmallow",
+   "page": "cavendish-campfire.html",
+   "room": "The Campfire",
+   "title": "Whose fire this is",
+   "posted": "Behind the Campfire door at Cavendish Coworking there is a fire in a clearing at night, with a ring of logs round it and real campfires to leave burning. Go and sit on a log, and find out where the fires come from.",
+   "rank": 2,
+   "takes": "a minute, on a log",
+   "target": "a toasting stick, left leaning against a log",
+   "code": "TOASTING",
+   "hints": [
+    "Go into Cavendish Coworking on the street and through the Campfire door, upstairs with the Hang Suites.",
+    "Read the paragraph under The fire.",
+    "The stick is at the foot of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "Which room on the street's fire pit are the Campfire's fires from?",
+    "accept": [
+     "swaying sweetgrass",
+     "sweetgrass",
+     "the swaying sweetgrass"
+    ],
+    "answer": "Swaying Sweetgrass",
+    "why": "Swaying Sweetgrass. The fire in the middle is the playlist of real campfires that room keeps burning in its fire pit, read out of its own list, and the fires round it are from the same playlist, each with how long it runs.",
+    "hints": [
+     "It is named in the first sentence under The fire.",
+     "It is a meadow past the treeline, at golden hour.",
+     "Pitch 02 at the campgrounds."
+    ]
+   },
+   "learned": "A campfire is a place where everybody faces in and nobody is at the head of it."
   }
  ],
  "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

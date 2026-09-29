@@ -616,8 +616,9 @@ refuses a door with a room and a Proton link, a room with no way back through it
 call panel naming another room. **The Events Room (§71) is a lighthouse's watch room lit by one
 column from the hatch, the Operations Room (§72) is a plant room under one caged lamp whose
 cage stripes everything, the Editorial Room (§73) is a light table in a dark studio, the proofs
-lit from beneath and the only light there is, and the Watering Hole (§74) is a pan in the Namib at
-noon, every shadow straight under its thing**; each one's collisions are in its section. A room's generated list
+lit from beneath and the only light there is, the Watering Hole (§74) is a pan in the Namib at
+noon, every shadow straight under its thing, and the Campfire (§75) is a fire in a clearing at night,
+the one room lit from its own centre, every shadow pointing away**; each one's collisions are in its section. A room's generated list
 items take the word in `item`, so the markup says light or entry and not a shared name. **A
 suite's rack is built from its `rack` entry**: cams by id out of `data/jungle.json`, never
 restated, refused if dark, link-only or given a runtime, and videos with their own measured
@@ -3089,18 +3090,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §76 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §77 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§76 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§77 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §76 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §77 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

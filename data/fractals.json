@@ -1220,6 +1220,21 @@
     "--wh-water",
     "--wh-rust"
    ]
+  },
+  "cavendish-campfire.html": {
+   "kind": "ember",
+   "c": [
+    -0.7269,
+    0.1889
+   ],
+   "orbit": 0.01,
+   "ground": "--cf-night",
+   "inks": [
+    "--cf-lit",
+    "--cf-ember",
+    "--cf-fire",
+    "--cf-flame"
+   ]
   }
  }
 }

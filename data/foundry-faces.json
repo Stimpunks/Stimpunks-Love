@@ -1135,6 +1135,23 @@
     }
    ]
   },
+  "holtwood-one-sc": {
+   "family": "Holtwood One SC",
+   "category": "Serif",
+   "designer": "Vernon Adams",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/holtwoodonesc",
+   "copyright": "Copyright 2011 The Holtwood Project Authors (https://github.com/googlefonts/HoltwoodFont)",
+   "repository": "https://github.com/googlefonts/HoltwoodFont",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "holtwood-one-sc-400.woff2",
+     "sha": "0831dcf0a71eddfb"
+    }
+   ]
+  },
   "ibm-plex-sans": {
    "family": "IBM Plex Sans",
    "category": "Sans Serif",
@@ -1430,6 +1447,35 @@
      "style": "normal",
      "file": "kumbh-sans-700.woff2",
      "sha": "adedef4c0363483a"
+    }
+   ]
+  },
+  "lato": {
+   "family": "Lato",
+   "category": "Sans Serif",
+   "designer": "Łukasz Dziedzic",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/lato",
+   "copyright": "Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/) with Reserved Font Name \"Lato\". Licensed under the SIL Open Font License, Version 1.1 (http://scripts.sil.org/OFL). ",
+   "repository": "https://github.com/googlefonts/LatoGFVersion",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "lato-400.woff2",
+     "sha": "d4ae5188a65370ec"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "lato-400-italic.woff2",
+     "sha": "5c3360f8439a1a3f"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "lato-700.woff2",
+     "sha": "7a7ce1a34f3e9944"
     }
    ]
   },

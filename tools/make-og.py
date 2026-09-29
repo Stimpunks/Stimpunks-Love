@@ -706,6 +706,16 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--whroom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
 .og--whroom .og-scene svg {{ display: block; width: 1200px; height: 290px; }}
 
+/* the campfire — THE CLEARING AT NIGHT, LIFTED OFF THE ROOM: the fire in the
+   middle, the ring of logs lit on the side facing in, every shadow thrown out,
+   and the black trees past them. */
+.og--cfroom {{ width: 100%; padding: 40px 60px 0; gap: 8px; justify-content: flex-start; }}
+.og--cfroom .cf-over {{ margin: 0 !important; font-size: 19px; letter-spacing: .06em; text-transform: uppercase; color: #B5A797; }}
+.og--cfroom h1 {{ font-size: 78px; margin: 0 !important; }}
+.og--cfroom .og-lede {{ font-family: 'Lato', sans-serif; color: #F2E6D8; max-width: 1060px; font-size: 25px; margin: 4px 0 0 !important; }}
+.og--cfroom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--cfroom .og-scene svg {{ display: block; width: 1200px; height: 300px; }}
+
 /* the mud room — THE VIEW FROM THE BACK STEP, LIFTED OFF THE ROOM: the sky, the
    far shore, the causeway posts going out to the beacon, and the sky lying in
    the mud, under the room's own name. Nothing on it moves, which is the
@@ -2665,6 +2675,24 @@ def card_whroom(p):
     )
 
 
+def card_cfroom(p):
+    return (
+        "",
+        f'<div class="og og--cfroom" data-fit="card">'
+        f'<p class="cf-over">Behind the Campfire door at Cavendish Coworking</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-scene">{p["cf_scene"]}</div>'
+        f'</div>',
+        f"A warm near-black card. A small line in grey capitals reading behind the Campfire door "
+        f"at Cavendish Coworking, then “{p['h1text']}” in heavy wood-type capitals, and under it in "
+        f"pale cream: {p['desc_plain']} Along the foot, a clearing at night: a small fire of "
+        f"orange and gold in a ring of stones, a ring of logs round it each lit brown on the side "
+        f"facing the fire, every log's shadow thrown outward away from it, black trees at the "
+        f"edges, and smoke going straight up.",
+    )
+
+
 def card_mud(p):
     return (
         "",
@@ -3561,6 +3589,7 @@ CARDS = {
     "oproom":       card_oproom,
     "edroom":       card_edroom,
     "whroom":       card_whroom,
+    "cfroom":       card_cfroom,
     "mud":          card_mud,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
@@ -3862,6 +3891,11 @@ def main():
     if not wh:
         raise SystemExit("REFUSING: cavendish-watering-hole.html has lost its pan, and its card is built out of it.")
     lifted["wh_scene"] = wh.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 170 1200 290"', 1)
+    cf = re.search(r'<div class="cf-head__art">\s*(?:<!--.*?-->\s*)?(<svg.*?</svg>)',
+                   (ROOT / "cavendish-campfire.html").read_text(), re.S)
+    if not cf:
+        raise SystemExit("REFUSING: cavendish-campfire.html has lost its clearing, and its card is built out of it.")
+    lifted["cf_scene"] = cf.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 150 1200 300"', 1)
     # THE MUD ROOM'S CARD CARRIES THE ROOM'S OWN VIEW AND OVER-LINE, cropped by its
     # viewBox to the horizon and the mud, so the card cannot disagree with the room.
     mud_src = (ROOT / "the-mud-room.html").read_text()

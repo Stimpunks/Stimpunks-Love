@@ -467,6 +467,15 @@ def rack_block(p, d, items):
     r = d["rack"]
     scr = e(r["screen"])
     lst = r.get("playlist")
+    if r.get("playlist_from"):
+        # Another room's playlist, read out of that room's own data by key, so the
+        # two rooms cannot disagree about which list it is or what it is called.
+        path, key = r["playlist_from"]
+        src = json.loads((ROOT / path).read_text()).get(key) or {}
+        m = re.search(r"[?&]list=([A-Za-z0-9_-]+)", src.get("playlist", ""))
+        if not m:
+            refuse(f"suite {d['id']!r}: {path} has no playlist under {key!r}.")
+        lst = {"id": m.group(1) if m else "", "title": src.get("title", "")}
     if lst:
         if not LIST.match(lst.get("id", "")):
             refuse(f"suite {d['id']!r}: the playlist {lst.get('id')!r} is not a playlist id.")

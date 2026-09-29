@@ -1065,6 +1065,20 @@
       "sections": [
         74
       ]
+    },
+    "holtwood-one-sc": {
+      "where": "The Campfire",
+      "page": "cavendish-campfire.html",
+      "sections": [
+        75
+      ]
+    },
+    "lato": {
+      "where": "The Campfire",
+      "page": "cavendish-campfire.html",
+      "sections": [
+        75
+      ]
     }
   }
 }

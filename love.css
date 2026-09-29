@@ -947,6 +947,14 @@
 @font-face { font-family: 'Epilogue'; src: url('fonts/epilogue-800.woff2') format('woff2'); font-weight: 800; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Readex Pro'; src: url('fonts/readex-pro-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Readex Pro'; src: url('fonts/readex-pro-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+/* The Campfire (§75). HOLTWOOD ONE SC, by Vernon Adams, sets the room's name
+   and headings, a heavy wood type like letters burnt into a log, and nothing
+   at reading size. LATO, by Łukasz Dziedzic, carries every sentence and every
+   card; its true italic is kept for what somebody says round the fire. */
+@font-face { font-family: 'Holtwood One SC'; src: url('fonts/holtwood-one-sc-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Lato'; src: url('fonts/lato-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Lato'; src: url('fonts/lato-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Lato'; src: url('fonts/lato-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -2340,6 +2348,17 @@
   --wh-sand:  #F1E6CB;  --wh-board: #FBF7EE;  --wh-panel: #E4D3AC;
   --wh-ink:   #2A2016;  --wh-dim:   #5E4E39;  --wh-water: #17565F;
   --wh-rust:  #8C3517;  --wh-dune:  #D8BD86;  --wh-pool:  #2C7F8A;  --wh-shade: #2A2016;
+
+  /* The Campfire (§75). A FIRE IN A CLEARING, AT NIGHT. --cf-night is the dark
+     past the ring of logs, and the ground of the room; --cf-log the shadow side
+     of a log, the ground of every card and of the call's panel. --cf-text is
+     what you read, --cf-dim the fine print, --cf-fire every link and the
+     buttons' ground, --cf-ember every hover. --cf-flame, --cf-lit, --cf-bark and
+     --cf-smoke draw the flame, the lit earth, the logs and the smoke, and carry
+     no word. */
+  --cf-night: #121110;  --cf-log:   #231D19;  --cf-text:  #F2E6D8;
+  --cf-dim:   #B5A797;  --cf-fire:  #F4A45C;  --cf-ember: #E26A36;
+  --cf-flame: #FFD88E;  --cf-lit:   #4A3222;  --cf-bark:  #3A2C22;  --cf-smoke: #57504B;
 }
 
 * { box-sizing: border-box; }
@@ -14028,7 +14047,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §76
+   class on it is `bb-`, its sizes are in points and millimetres, and §77
    prints it and nothing else. */
 
 .room-broadside {
@@ -14089,7 +14108,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §76 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §77 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -15874,7 +15893,101 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
   .wh-call { padding: 16px; }
 }
 
-/* §75 ── Small screens ───────────────────────────────────────────────────────
+/* §75 ── SUBROOM: The Campfire (behind Cavendish Coworking's Campfire door)
+   A FIRE IN A CLEARING, AT NIGHT, WITH A RING OF LOGS ROUND IT. The door says
+   it in Ryan's words: for small groups and teams working on something
+   together, or watching and listening together. That is what a fire is for,
+   and what people have sat round one doing for as long as there have been
+   people; the campfire is David Thornburg's name for the place where you
+   learn from somebody by listening.
+
+   THE LIGHT COMES FROM THE MIDDLE OF THE ROOM, AT GROUND HEIGHT. No other room
+   on this street is lit from its own centre. Every shadow points outward, away
+   from the fire; everybody on the logs is lit on the side facing in and dark on
+   the side facing out; and past the ring there is only the black of the trees.
+   Every word is pale on that dark.
+
+   THE ROOMS TO WATCH, and there are a lot of warm ones. Swaying Sweetgrass has a
+   fire pit, in a meadow at golden hour lit from BEHIND by a low sun, and there
+   the fire is a small object you walk to and never the light; here it is night
+   and the fire is the only light there is. The campgrounds are the other night
+   outdoors, a cold field lit by nothing; this is warm, and lit, and small. The
+   Solarpunk Hermitage's campfire is a television on a rug indoors. The Faery
+   Yurt, The Latibulum, The Den, the Hermitage's cave and The Mopery are lit by a
+   flame you could put your hand over, and every one of them is enclosed, so its
+   light meets a wall; this has no wall and no roof, and people sit in a circle
+   facing in. Its parent is green daylight through canvas. If a shadow in here
+   ever points at the fire, or a wall ever appears, it has become an indoor room.
+
+   NOTHING MOVES AT ANY SETTING, the flame included: a flicker is Club Chronic's
+   strobe, arriving through a fire. */
+
+.cfroom {
+  background: var(--cf-night); color: var(--cf-text);
+  font-family: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+}
+.cfroom a { color: var(--cf-fire); }
+.cfroom a:hover { color: var(--cf-ember); }
+.cfroom :where(p, li) { font-size: 18px; line-height: 1.64; }
+.cfroom .backlink { font-family: 'Lato', 'Helvetica Neue', Arial, sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0; text-transform: none; color: var(--cf-fire); }
+.cfroom .trailmark { margin: 0; font-size: 15px; color: var(--cf-dim); }
+.cfroom h1, .cfroom h2, .cfroom h3 { font-family: 'Holtwood One SC', Georgia, serif; font-weight: 400; color: var(--cf-text); }
+.cfroom h1 { font-size: clamp(36px, 7vw, 72px); line-height: 1.06; margin: 6px 0 0; }
+.cfroom h2 { font-size: clamp(22px, 3.4vw, 28px); margin: 44px 0 10px; }
+.cfroom .lede { font-size: 20px; max-width: 42em; }
+
+.cf-head { margin: 20px 0 8px; }
+.cf-head__over { margin: 0; font-size: 15px; letter-spacing: .06em; text-transform: uppercase; color: var(--cf-dim); }
+.cf-head__art { margin: 22px 0 0; border-radius: 4px; overflow: hidden; background: var(--cf-night); }
+.cf-head__art svg { display: block; width: 100%; height: auto; }
+
+.cf-part { max-width: 50em; }
+.cf-part > p { max-width: 42em; }
+.cf-norms__title { margin: 0 0 6px; font-weight: 700; }
+.cf-norms { margin: 0 0 12px; padding-left: 1.2em; }
+
+/* THE FIRE, and the fires on the rack round it. */
+.cfroom .facade { color: var(--cf-text); background: var(--cf-log); border-color: var(--cf-lit); font-family: 'Lato', 'Helvetica Neue', Arial, sans-serif; }
+.cfroom .facade:hover { background: var(--cf-lit); }
+.cfroom .facade__play { color: var(--cf-fire); font-family: 'Holtwood One SC', Georgia, serif; letter-spacing: .02em; }
+.cf-screen { margin: 14px 0 0; }
+.cf-screen .facade { font-size: 21px; padding: 22px 24px; }
+.cf-screen__now { margin: 10px 0 0; font-weight: 700; }
+.cf-screen__back { margin: 8px 0 0; }
+.cf-back, .cf-card__big {
+  min-height: 44px; padding: 8px 14px; cursor: pointer;
+  font: 700 16px/1.25 'Lato', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--cf-night); background: var(--cf-fire); border: 2px solid var(--cf-fire); border-radius: 3px;
+}
+.cf-back:hover, .cf-card__big:hover { background: var(--cf-flame); border-color: var(--cf-flame); }
+.cf-rack { margin: 22px 0 0; }
+.cf-rack > summary { cursor: pointer; font-family: 'Holtwood One SC', Georgia, serif; font-size: 20px; }
+.cf-cards { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.cf-card { display: grid; gap: 8px; align-content: start; padding: 16px; background: var(--cf-log); border-radius: 3px; }
+.cf-card p { margin: 0; }
+.cfroom .cf-card__title { margin: 0; font-family: 'Lato', 'Helvetica Neue', Arial, sans-serif; font-weight: 700; font-size: 17px; line-height: 1.3; }
+.cf-card__who { font-size: 15px; color: var(--cf-dim); }
+.cf-card__note { font-style: italic; font-size: 16px; line-height: 1.5; }
+
+/* THE CALL, on a log. */
+.cf-call { margin: 14px 0 0; padding: 18px 22px 20px; background: var(--cf-log); border-radius: 3px; }
+.cf-call p { margin: 0 0 12px; }
+.cf-call button {
+  min-height: 48px; padding: 8px 18px; cursor: pointer;
+  font: 700 18px/1.2 'Lato', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--cf-night); background: var(--cf-fire); border: 2px solid var(--cf-fire); border-radius: 3px;
+}
+.cf-call button:hover { background: var(--cf-flame); border-color: var(--cf-flame); }
+.cf-call__said { min-height: 0; font-weight: 700; }
+.cf-call__fine { font-size: 16px; color: var(--cf-dim); margin-bottom: 0 !important; }
+
+.cf-credits { font-size: 16px; color: var(--cf-dim); }
+
+@media (max-width: 760px) {
+  .cf-call { padding: 16px; }
+}
+
+/* §76 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -15981,7 +16094,7 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §75 says every
+   shipped with no rule here at all — which on a street whose §76 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -16105,7 +16218,7 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §76 ── Print ───────────────────────────────────────────────────────────────
+/* §77 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

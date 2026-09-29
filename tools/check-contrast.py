@@ -571,6 +571,11 @@ ED_DIM, ED_CYAN = "#A1A7B0", "#5CC9E6"
 WH_SAND, WH_BOARD, WH_PANEL = "#F1E6CB", "#FBF7EE", "#E4D3AC"
 WH_INK, WH_DIM, WH_WATER, WH_RUST, WH_DUNE = "#2A2016", "#5E4E39", "#17565F", "#8C3517", "#D8BD86"
 
+# The Campfire (§75). TWO GROUNDS: the night past the ring, where most words
+# are, and the shadow side of a log, which is every card and the call's panel.
+CF_NIGHT, CF_LOG, CF_TEXT, CF_DIM = "#121110", "#231D19", "#F2E6D8", "#B5A797"
+CF_FIRE, CF_EMBER, CF_FLAME, CF_LIT = "#F4A45C", "#E26A36", "#FFD88E", "#4A3222"
+
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
 # screen is the light source in this room, not a surface anything is set on --
@@ -2532,6 +2537,20 @@ PAIRS = [
     (WH_BOARD, WH_WATER, False, "watering hole: every button, and a plate's hover"),
     (WH_BOARD, WH_RUST,  False, "watering hole: a button's hover"),
     (WH_WATER, WH_SAND,  True,  "watering hole: the job marker, an ostrich feather against a stone"),
+    # ── The Campfire (§75) ───────────────────────────────────────────────────
+    (CF_TEXT,  CF_NIGHT, False, "campfire: every paragraph in the night, the headings, the lede, the norms and the now-showing line"),
+    (CF_DIM,   CF_NIGHT, False, "campfire: the over-line, the trail and the credits"),
+    (CF_FIRE,  CF_NIGHT, False, "campfire: every link in the night and the backlink"),
+    (CF_EMBER, CF_NIGHT, False, "campfire: a link's hover"),
+    (CF_TEXT,  CF_LOG,   False, "campfire: a fire's name and note on its card, the call panel's words, and the words on every play plate"),
+    (CF_DIM,   CF_LOG,   False, "campfire: a fire's channel on its card, and the call's fine print"),
+    (CF_FIRE,  CF_LOG,   False, "campfire: a link on a card or in the call panel, and PRESS PLAY on every plate"),
+    (CF_EMBER, CF_LOG,   False, "campfire: a link's hover on a card"),
+    (CF_TEXT,  CF_LIT,   False, "campfire: a play plate's words while it is hovered"),
+    (CF_FIRE,  CF_LIT,   False, "campfire: PRESS PLAY while its plate is hovered"),
+    (CF_NIGHT, CF_FIRE,  False, "campfire: every button"),
+    (CF_NIGHT, CF_FLAME, False, "campfire: a button's hover"),
+    (CF_FIRE,  CF_NIGHT, True,  "campfire: the job marker, a toasting stick against a log"),
     (MUD_TEXT,  MUD_GROUND, False, "mud room: every paragraph, the lede, the house rules and the door's blurb on the street"),
     (MUD_SKY,   MUD_GROUND, False, "mud room: the h1, every heading, every bold run and the door's name"),
     (MUD_DIM,   MUD_GROUND, False, "mud room: the trail, the over-line, the fine print and every label in the guidebook"),
@@ -2803,6 +2822,8 @@ ORNAMENT = {
                "1.52 on the hangar and 1.34 on a deck. It carries no word.",
     "#ffffff": "rave: the strobe's flash, laid over the hangar picture only after two presses. "
                "Nothing is ever written on a flash, and make-rave.py refuses it with any colour in it.",
+    "#3a2c22": "campfire: the logs' bark, 1.40 on the night, and the job marker's log and floor line; they carry nothing",
+    "#57504b": "campfire: the stones round the fire and the smoke, 2.38 on the night; drawn, and carry no word",
     "#2c7f8a": "watering hole: the rim of the pool, 3.75 on the sand; drawn, and carries no word",
     "#00a3d1": "editorial room: the colour bar's process cyan, 6.11 on the studio; a printer's mark, and it carries no word",
     "#d6246e": "editorial room: the colour bar's process magenta and the proofreader's mark in the margin, 4.49 on the table; marks, and no word stands in them",
