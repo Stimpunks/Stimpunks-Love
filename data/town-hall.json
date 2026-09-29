@@ -1,6 +1,6 @@
 {
  "_source": "The Town Hall's rooms. Ryan's brief, 2026-09-29: a new location on the street, the Town Hall, with a Fishbowl for community fishbowl meetings open to anybody with CB access, and rooms for the Stimpunks Directors, Board Members and Moderators, which anybody can walk into and whose CB only shows for people signed on with the moderators' password (the base). Every `what` is Ryan's own sentence from the brief, word for word, and the rooms are in his order. Which rooms are private is NOT decided here: it is MOD_ROOMS in netlify/cb/lib.mjs, the one list the server checks, and tools/make-town-hall.py refuses this file if its `for` disagrees with that list. A room with no page yet is on the rotunda's wall as a door not open yet, which is the campgrounds' raising state: named, not dimmed, not a link.",
- "_roles": "Roles are built (2026-09-29). A room's `for` is \"cb\" or the role it needs, and it must match MOD_ROOMS in netlify/cb/lib.mjs, the map the server checks: moderator for the Moderators room (any MOD), board for the Board room, director for the Directors room. An administrator goes into all of them. Who holds which role is CB_MODS in Netlify's environment, never in this repository.",
+ "_roles": "Roles are built (2026-09-29). A room's `for` is \"cb\" or the list of roles it takes, and it must match MOD_ROOMS in netlify/cb/lib.mjs, the map the server checks: moderator for the Moderators room (any MOD); board and director for the Board room, because directors join board meetings (Ryan, 2026-09-29); director for the Directors room. An administrator goes into all of them. Who holds which role is CB_MODS in Netlify's environment, never in this repository.",
  "rooms": [
   {
    "id": "fishbowl",
@@ -16,7 +16,9 @@
    "page": "town-hall-directors.html",
    "name": "Directors",
    "what": "A room for Stimpunks Directors to meet.",
-   "for": "director",
+   "for": [
+    "director"
+   ],
    "prefix": "dr",
    "body": "drroom",
    "people_read": "2026-09-29",
@@ -53,7 +55,10 @@
    "page": "town-hall-board.html",
    "name": "Board",
    "what": "A room for Stimpunks Board Members to meet.",
-   "for": "board",
+   "for": [
+    "board",
+    "director"
+   ],
    "prefix": "bd",
    "body": "bdroom",
    "people_read": "2026-09-29",
@@ -227,7 +232,9 @@
    "page": "town-hall-moderators.html",
    "name": "Moderators",
    "what": "A room for Stimpunks Moderators to meet.",
-   "for": "moderator",
+   "for": [
+    "moderator"
+   ],
    "prefix": "md",
    "body": "mdroom"
   }

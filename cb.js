@@ -1616,9 +1616,10 @@
   function mayHere(s) {
     var b = document.body;
     if (b.getAttribute('data-cb') !== 'mods') return true;
-    var need = b.getAttribute('data-cb-role') || 'moderator';
+    var need = (b.getAttribute('data-cb-role') || 'moderator').split(/\s+/);
     var roles = (s && s.roles) || [];
-    return !!(s && s.base) && (roles.indexOf('administrator') >= 0 || roles.indexOf(need) >= 0);
+    return !!(s && s.base) && (roles.indexOf('administrator') >= 0 ||
+      need.some(function (r) { return roles.indexOf(r) >= 0; }));
   }
 
   function signOff() {

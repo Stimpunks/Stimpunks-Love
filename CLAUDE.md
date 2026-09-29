@@ -2764,8 +2764,8 @@ entries that fold alike**, because a list read as less than was meant is a silen
 or unreadable list fails closed**: no MOD sign-on, no base pass, nothing into a private room, while the
 community CB goes on. `signOn()` gives the MOD password only to a listed handle and refuses the community
 password for one; `readPass()` re-checks both ways every time, so a removal or a new role needs no new
-pass. `MOD_ROOMS` is a map from room to role and `roomAllows()` is still the only place that decides;
-pages carry `data-cb-role` and `data-call-mods="<role>"`, and the roles a radio keeps in `love-cb` are
+pass. `MOD_ROOMS` is a map from room to the list of roles it takes (the Board room takes board and director, Ryan's call, because directors join board meetings) and `roomAllows()` is still the only place that decides;
+pages carry `data-cb-role` and `data-call-mods`, each a space-separated list of roles, and the roles a radio keeps in `love-cb` are
 only the last ones `/cb/channel` told it, for the page to keep quiet by. **Never log `CB_MODS`**, and
 never put a real role list in a test or a doc: who holds which role is not ours to publish.
 

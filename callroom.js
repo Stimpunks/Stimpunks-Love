@@ -67,7 +67,9 @@
     }
 
     var roles = (me && me.roles) || [];
-    var mayJoin = mods == null || (!!(me && me.base) && (roles.indexOf('administrator') >= 0 || roles.indexOf(mods || 'moderator') >= 0));
+    var need = (mods || 'moderator').split(/\s+/);
+    var mayJoin = mods == null || (!!(me && me.base) && (roles.indexOf('administrator') >= 0 ||
+      need.some(function (r) { return roles.indexOf(r) >= 0; })));
     if (me && join && mayJoin) {
       var who = join.querySelector('[data-call-handle]');
       if (who) who.textContent = me.handle;

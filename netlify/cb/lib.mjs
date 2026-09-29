@@ -401,19 +401,20 @@ export function updateRoomTalk(room, change, s = store()) { return updateLog(ROO
    so a room cannot be private on the page and open on the server.
 
    EACH ROOM NAMES THE ROLE IT NEEDS, and the roles are CB_MODS's (see Passes
-   below). Ryan, 2026-09-29: the Moderators room takes any MOD, the Board room
-   the board role, the Directors room the director role, and an administrator
-   can go anywhere. */
+   below), and a room may take more than one. Ryan, 2026-09-29: the Moderators
+   room takes any MOD, the Board room the board role and the director role,
+   because directors join board meetings, the Directors room the director role,
+   and an administrator can go anywhere. */
 export const MOD_ROOMS = {
-  'town-hall-directors': 'director',
-  'town-hall-board': 'board',
-  'town-hall-moderators': 'moderator',
+  'town-hall-directors': ['director'],
+  'town-hall-board': ['board', 'director'],
+  'town-hall-moderators': ['moderator'],
 };
 export function modRoom(tag) { return Object.prototype.hasOwnProperty.call(MOD_ROOMS, tag) ? tag : null; }
 export function roomAllows(who, tag) {
   if (!modRoom(tag)) return true;
   if (!who || who.role !== 'base' || !who.roles) return false;
-  return who.roles.has('administrator') || who.roles.has(MOD_ROOMS[tag]);
+  return who.roles.has('administrator') || MOD_ROOMS[tag].some((r) => who.roles.has(r));
 }
 
 /* The channel a request names: a room's, or World's when it names none. */

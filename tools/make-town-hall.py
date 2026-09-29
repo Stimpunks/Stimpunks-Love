@@ -65,19 +65,25 @@ def array(name):
 
 
 def rolemap(name):
-    """MOD_ROOMS is a map from room to the role it needs."""
+    """MOD_ROOMS is a map from room to the list of roles it takes."""
     m = re.search(r"export const " + name + r" = \{(.*?)\};", LIB.read_text(), re.S)
     if not m:
         refuse(f"netlify/cb/lib.mjs has no {name} map, so this tool cannot tell which rooms need which "
                "role. Put it back rather than restating it here.")
-    return dict(re.findall(r"'([a-z0-9-]+)':\s*'([a-z]+)'", m.group(1)))
+    return {tag: re.findall(r"'([a-z]+)'", roles)
+            for tag, roles in re.findall(r"'([a-z0-9-]+)':\s*\[([^\]]*)\]", m.group(1))}
 
 
-ROLE_WORDS = {
-    "moderator": "any moderator",
-    "board": "moderators with the board role",
-    "director": "moderators with the director role",
-}
+ROLE_WORDS = {"moderator", "board", "director"}
+
+
+def who_for(roles):
+    """The people a room is for, in words."""
+    if roles == ["moderator"]:
+        return "any moderator"   # administrators are moderators already
+    named = [x for x in roles if x != "moderator"]
+    said = named[0] if len(named) == 1 else " or ".join([", ".join(named[:-1]), named[-1]])
+    return f"moderators with the {said} role"
 
 
 def swap(src, where, marker, block):
@@ -109,11 +115,11 @@ for r in rooms:
     if not tag.startswith("town-hall-"):
         refuse(f"{where}: {r['page']} is not a Town Hall page (town-hall-<something>.html).")
     r["tag"] = tag
-    if r["for"] != "cb" and r["for"] not in ROLE_WORDS:
-        refuse(f"{where}: `for` is cb or a role ({', '.join(ROLE_WORDS)}), not {r['for']!r}.")
     r["mods"] = r["for"] != "cb"
-    if r["mods"] and MODS.get(tag) != r["for"]:
-        refuse(f"{where} says it needs the {r['for']} role, and MOD_ROOMS in netlify/cb/lib.mjs gives "
+    if r["mods"] and (not isinstance(r["for"], list) or not r["for"] or not set(r["for"]) <= ROLE_WORDS):
+        refuse(f"{where}: `for` is cb or a list of roles from {sorted(ROLE_WORDS)}, not {r['for']!r}.")
+    if r["mods"] and sorted(MODS.get(tag, [])) != sorted(r["for"]):
+        refuse(f"{where} says it takes {r['for']}, and MOD_ROOMS in netlify/cb/lib.mjs gives "
                f"{tag} {MODS.get(tag)!r}, so the page and the server would disagree about who is let in.")
     if r["for"] == "cb" and tag in MODS:
         refuse(f"{where} says it is for anybody on the CB, and MOD_ROOMS in netlify/cb/lib.mjs "
@@ -127,8 +133,8 @@ for tag in MODS:
 
 def access(r):
     if r["mods"]:
-        return (f"Anybody can walk in. The radio and the call in there are for {ROLE_WORDS[r['for']]}, "
-                "and for administrators.")
+        return (f"Anybody can walk in. The radio and the call in there are for {who_for(r['for'])}"
+                + ("." if r["for"] == ["moderator"] else ", and for administrators."))
     return "Anybody can walk in, and anybody signed on to the CB can talk there."
 
 
@@ -276,10 +282,11 @@ def agenda(r):
 
 def panel(r):
     p, tag, name = r["prefix"], r["tag"], e(r["name"])
+    roles_attr = " ".join(r["for"]) if r["mods"] else ""
     if r["mods"]:
         return "\n".join([
-            f'    <div class="{p}-call" data-call="{tag}" data-call-name="{name}" data-call-mods="{r["for"]}">',
-            f'      <p>The channel and the call in here are for {ROLE_WORDS[r["for"]]}, and for administrators: moderators sign on at the Community Center with the moderators&rsquo; password, under a handle on the moderators&rsquo; list. Anybody can come in and look around, and the radio waits outside the door for everybody else.</p>',
+            f'    <div class="{p}-call" data-call="{tag}" data-call-name="{name}" data-call-mods="{roles_attr}">',
+            f'      <p>The channel and the call in here are for {who_for(r["for"])}{"" if r["for"] == ["moderator"] else ", and for administrators"}: moderators sign on at the Community Center with the moderators&rsquo; password, under a handle on the moderators&rsquo; list. Anybody can come in and look around, and the radio waits outside the door for everybody else.</p>',
             f'      <p class="{p}-call__cb" data-call-cb hidden>This browser is not signed on as a moderator this room is for, so the call in here is not yours to join. Moderators sign on at <a href="community-center.html#cb-signon-desk">the front desk</a>.</p>',
             f'      <p class="{p}-call__member" data-call-join hidden><button type="button">Join the call as <b data-call-handle></b></button></p>',
             f'      <p class="{p}-call__said" role="status" data-call-said></p>',
@@ -316,7 +323,7 @@ for r in rooms:
         refuse(f'{r["page"]} is the base\'s and its <body> does not say data-cb="mods", so the radio '
                "would walk into the room with everybody.")
     if r["mods"]:
-        want = f'data-cb-role="{r["for"]}"'
+        want = f'data-cb-role="{" ".join(r["for"])}"'
         if want not in body.group(0):
             refuse(f"{r['page']}'s <body> does not say {want}, so love.js would let the radio in for the wrong moderators.")
     if r["for"] == "cb" and cb and cb.group(1) == "mods":

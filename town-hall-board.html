@@ -34,10 +34,10 @@
 <!-- structured-data:end -->
 </head>
 <!-- data-cb="mods": the radio comes into this room only with a moderator who
-     has the board role, or an administrator. The server refuses this room's
+     has the board role or the director role, or an administrator. The server refuses this room's
      channel and call to anybody else, whatever the page does; see MOD_ROOMS
      in netlify/cb/lib.mjs. -->
-<body class="bdroom" id="top" data-cb="mods" data-cb-role="board">
+<body class="bdroom" id="top" data-cb="mods" data-cb-role="board director">
 <a class="skip" href="#main">Skip to the Board room</a>
 
 <main id="main" class="wrap" style="padding-bottom:54px;">
@@ -190,8 +190,8 @@
   <section class="bd-part" aria-labelledby="bd-call-h">
     <h2 id="bd-call-h">Talking</h2>
 <!-- bd-call:begin -->
-    <div class="bd-call" data-call="town-hall-board" data-call-name="Board" data-call-mods="board">
-      <p>The channel and the call in here are for moderators with the board role, and for administrators: moderators sign on at the Community Center with the moderators&rsquo; password, under a handle on the moderators&rsquo; list. Anybody can come in and look around, and the radio waits outside the door for everybody else.</p>
+    <div class="bd-call" data-call="town-hall-board" data-call-name="Board" data-call-mods="board director">
+      <p>The channel and the call in here are for moderators with the board or director role, and for administrators: moderators sign on at the Community Center with the moderators&rsquo; password, under a handle on the moderators&rsquo; list. Anybody can come in and look around, and the radio waits outside the door for everybody else.</p>
       <p class="bd-call__cb" data-call-cb hidden>This browser is not signed on as a moderator this room is for, so the call in here is not yours to join. Moderators sign on at <a href="community-center.html#cb-signon-desk">the front desk</a>.</p>
       <p class="bd-call__member" data-call-join hidden><button type="button">Join the call as <b data-call-handle></b></button></p>
       <p class="bd-call__said" role="status" data-call-said></p>

@@ -1156,8 +1156,9 @@
     if (!s || s.indexOf('"pass"') < 0) return;
     if (b.getAttribute('data-cb') === 'mods') {
       try {
-        var v = JSON.parse(s), roles = v.roles || [], need = b.getAttribute('data-cb-role') || 'moderator';
-        if (!v.base || (roles.indexOf('administrator') < 0 && roles.indexOf(need) < 0)) return;
+        // data-cb-role is a space-separated list; any one of them is enough.
+        var v = JSON.parse(s), roles = v.roles || [], need = (b.getAttribute('data-cb-role') || 'moderator').split(/\s+/);
+        if (!v.base || (roles.indexOf('administrator') < 0 && !need.some(function (r) { return roles.indexOf(r) >= 0; }))) return;
       } catch (e) { return; }
     }
     var tag = document.createElement('script');

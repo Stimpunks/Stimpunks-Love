@@ -423,7 +423,7 @@ const rooms = Object.keys(MOD_ROOMS);
 
 test('each private room takes its own role, an administrator takes them all, and nobody else takes any', async () => {
   assert.ok(rooms.length > 0);
-  const want = { 'town-hall-directors': ['Ryan', 'Chelsea'], 'town-hall-board': ['Ryan', 'Becky'], 'town-hall-moderators': ['Ryan', 'Chelsea', 'Becky', 'Sam'] };
+  const want = { 'town-hall-directors': ['Ryan', 'Chelsea'], 'town-hall-board': ['Ryan', 'Chelsea', 'Becky'], 'town-hall-moderators': ['Ryan', 'Chelsea', 'Becky', 'Sam'] };
   for (const room of rooms) {
     const who = [admin, director, boardie, plainMod].filter((w) => roomAllows(w, room)).map((w) => w.handle);
     assert.deepEqual(who, want[room], room);
@@ -433,7 +433,9 @@ test('each private room takes its own role, an administrator takes them all, and
     assert.equal(publicCall(room), null, 'no private room is a public call');
     assert.equal(callToken(ada, room, Date.now(), key), null);
   }
-  assert.equal(callToken(director, 'town-hall-board', Date.now(), key), null, 'a director has no board call');
+  assert.equal(open(callToken(director, 'town-hall-board', Date.now(), key)).body.room, 'stimpunks-town-hall-board', 'directors join board meetings');
+  assert.equal(callToken(boardie, 'town-hall-directors', Date.now(), key), null, 'a board member has no directors\' call');
+  assert.equal(callToken(plainMod, 'town-hall-board', Date.now(), key), null, 'nor does a moderator with neither role');
   assert.equal(open(callToken(boardie, 'town-hall-board', Date.now(), key)).body.room, 'stimpunks-town-hall-board');
   assert.equal(roomAllows(ada, null), true, 'World is everybody\'s');
   assert.equal(roomAllows(ada, 'the-den'), true);
@@ -441,13 +443,13 @@ test('each private room takes its own role, an administrator takes them all, and
 
 test('a private room\'s hosting and beacons follow the same roles', async () => {
   const s = memoryStore({ etagOnRead: true });
-  assert.equal((await hostBeacon(director, 'town-hall-board', 'Minutes', 1, true, s)).closed, true);
-  await hostBeacon(boardie, 'town-hall-board', 'Minutes', 1, true, s);
+  assert.equal((await hostBeacon(boardie, 'town-hall-directors', 'Minutes', 1, true, s)).closed, true);
+  await hostBeacon(director, 'town-hall-directors', 'Minutes', 1, true, s);
   await hostBeacon(ada, 'the-den', 'Film', 1, true, s);
   const all = await readBeacons(s);
-  assert.deepEqual(shapeBeacons(all, ada).map((b) => b.room), ['the-den'], 'the street does not hear the board is hosting');
-  assert.deepEqual(shapeBeacons(all, director).map((b) => b.room), ['the-den'], 'nor does a director');
-  assert.deepEqual(shapeBeacons(all, admin).map((b) => b.room).sort(), ['the-den', 'town-hall-board']);
+  assert.deepEqual(shapeBeacons(all, ada).map((b) => b.room), ['the-den'], 'the street does not hear the directors are hosting');
+  assert.deepEqual(shapeBeacons(all, boardie).map((b) => b.room), ['the-den'], 'nor does a board member who is not a director');
+  assert.deepEqual(shapeBeacons(all, admin).map((b) => b.room).sort(), ['the-den', 'town-hall-directors']);
 });
 
 test('the mods\' list: moderator implied, handles folded, and anything odd means no list at all', () => {
