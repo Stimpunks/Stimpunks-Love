@@ -363,8 +363,11 @@ test('no key, no calls; and the address arrives muted on the pre-join screen', (
   }
   const src = callSrc('the-den', 'TOKEN');
   assert.ok(src.startsWith(`https://8x8.vc/${JAAS_APP}/stimpunks-the-den?jwt=TOKEN#`));
-  for (const c of ['startWithAudioMuted=true', 'startWithVideoMuted=true', 'prejoinConfig.enabled=true', 'disableInviteFunctions=true'])
+  for (const c of ['startWithAudioMuted=true', 'startWithVideoMuted=true', 'prejoinConfig.enabled=true', 'disableInviteFunctions=true',
+    'analytics.disabled=true', 'gravatar.disabled=true', 'giphy.enabled=false'])
     assert.ok(src.includes('config.' + c), c);
+  // Jitsi's shared video is !disableThirdPartyRequests and nothing else.
+  assert.ok(!src.includes('disableThirdPartyRequests'), 'shared video needs this off');
 });
 
 test('a key pasted with its line breaks turned to spaces, or to \\n, still signs', () => {

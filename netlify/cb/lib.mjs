@@ -465,12 +465,22 @@ export function callToken(who, tag, now = Date.now(), key = jaasKey()) {
 }
 
 /* The address the call window frames. The fragment is Jitsi's own config:
-   everybody arrives on the pre-join screen with camera and microphone OFF, no
-   invite links (an invite would be an address with no token in it), and
-   nothing fetched from third parties such as avatar services. */
+   everybody arrives on the pre-join screen with camera and microphone OFF, and
+   no invite links (an invite would be an address with no token in it).
+
+   SHARED VIDEO NEEDS disableThirdPartyRequests OFF, and that one switch also
+   brings back three things we do not want. Jitsi's isSharedVideoEnabled() is
+   nothing but !disableThirdPartyRequests, so the first build, which set it,
+   had no Share video in the menu (Ryan, 2026-09-28). The same switch also
+   gates Jitsi's analytics, avatar lookups (gravatar, from a participant's id
+   or email) and Giphy, so each of those is turned off by its own setting
+   instead; all four keys are on Jitsi's configWhitelist, which is what lets
+   an address set them. A shared video is YouTube, loaded by Jitsi inside the
+   call for everybody in it, and privacy.html says so. */
 export function callSrc(tag, token) {
   const conf = ['startWithAudioMuted=true', 'startWithVideoMuted=true', 'prejoinConfig.enabled=true',
-    'disableDeepLinking=true', 'disableInviteFunctions=true', 'disableThirdPartyRequests=true']
+    'disableDeepLinking=true', 'disableInviteFunctions=true',
+    'analytics.disabled=true', 'gravatar.disabled=true', 'giphy.enabled=false']
     .map((c) => 'config.' + c).join('&');
   return `${JAAS_HOST}${JAAS_APP}/${callRoom(tag)}?jwt=${token}#${conf}`;
 }
