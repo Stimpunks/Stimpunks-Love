@@ -2764,7 +2764,7 @@ entries that fold alike**, because a list read as less than was meant is a silen
 or unreadable list fails closed**: no MOD sign-on, no base pass, nothing into a private room, while the
 community CB goes on. `signOn()` gives the MOD password only to a listed handle and refuses the community
 password for one; `readPass()` re-checks both ways every time, so a removal or a new role needs no new
-pass. `MOD_ROOMS` is a map from room to the list of roles it takes (the Board room takes board and director, Ryan's call, because directors join board meetings) and `roomAllows()` is still the only place that decides;
+pass. `MOD_ROOMS` is a map from room to the list of roles it takes (the Board room takes board and director, Ryan's call, because directors join board meetings) and `roomAllows()` is still the only place that decides. **`STRICT_ROOMS` are the rooms the administrator key does not open**: Executive Session (§82), the board role only, because an executive session is the board without staff; the page says `data-cb-strict` and the panel `data-call-strict`, and the tool refuses a page that disagrees with the server. Its light is the EXIT sign over the shut door, and it never flickers;
 pages carry `data-cb-role` and `data-call-mods`, each a space-separated list of roles, and the roles a radio keeps in `love-cb` are
 only the last ones `/cb/channel` told it, for the page to keep quiet by. **Never log `CB_MODS`**, and
 never put a real role list in a test or a doc: who holds which role is not ours to publish.
@@ -3121,18 +3121,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §83 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §84 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§83 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§84 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §83 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §84 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

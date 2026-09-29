@@ -1163,6 +1163,20 @@
       "sections": [
         81
       ]
+    },
+    "sofia-sans-condensed": {
+      "where": "Executive Session",
+      "page": "town-hall-executive-session.html",
+      "sections": [
+        82
+      ]
+    },
+    "sofia-sans": {
+      "where": "Executive Session",
+      "page": "town-hall-executive-session.html",
+      "sections": [
+        82
+      ]
     }
   }
 }

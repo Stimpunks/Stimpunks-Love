@@ -996,6 +996,12 @@
 @font-face { font-family: 'Oxanium'; src: url('fonts/oxanium-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Inter'; src: url('fonts/inter-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Inter'; src: url('fonts/inter-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+/* Executive Session (§82). SOFIA SANS CONDENSED is the lettering of an exit
+   sign, and sets the room's name and headings; never a sentence. SOFIA SANS
+   carries every word that is read; one variable file serves both weights. */
+@font-face { font-family: 'Sofia Sans Condensed'; src: url('fonts/sofia-sans-condensed-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Sofia Sans'; src: url('fonts/sofia-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Sofia Sans'; src: url('fonts/sofia-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -2469,6 +2475,17 @@
   --md-link: #9FE3C6;  --md-frame: #2E2A3A;  --md-glass: #0E0C12;
   --md-pink: #E26AA0;  --md-gold: #E9C46A;   --md-green: #56C49A; --md-blue: #6AA8E2;
   --md-violet: #A98BE8;
+
+  /* Executive Session (§82). A DARK ROOM LIT ONLY BY THE EXIT SIGN OVER ITS DOOR.
+     --es-dark is the room, its ground; --es-panel the floor and the ground of
+     every panel. --es-text is what you read, --es-dim the fine print, --es-link
+     every link and the ground of the buttons. --es-exit is the sign's lettering,
+     --es-glow its green lying over the wall and floor, --es-frame the door's
+     frame and the floor's edge, --es-door the door, the table and the chairs.
+     Those four carry no word. */
+  --es-dark: #111513;  --es-panel: #1B211E;  --es-text: #EDF3EE;  --es-dim: #AEBCB3;
+  --es-link: #8FE3AA;  --es-exit: #39D16F;   --es-glow: #1E5A36;  --es-frame: #29312C;
+  --es-door: #0B0E0C;
 }
 
 * { box-sizing: border-box; }
@@ -14175,7 +14192,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §83
+   class on it is `bb-`, its sizes are in points and millimetres, and §84
    prints it and nothing else. */
 
 .room-broadside {
@@ -14236,7 +14253,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §83 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §84 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -16573,7 +16590,77 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .mdroom .md-call__fine { font-size: 15.5px; color: var(--md-dim); margin-bottom: 0; }
 .mdroom .md-credits p { font-size: 15.5px; color: var(--md-dim); }
 
-/* §82 ── Small screens ───────────────────────────────────────────────────────
+/* §82 ── SUBROOM: Executive Session (through a door off the Town Hall) ───────
+   THE BOARD WITHOUT STAFF, IN A DARK ROOM LIT ONLY BY THE EXIT SIGN. Ryan's
+   brief, 2026-09-29: a Town Hall subroom for those with the board role only,
+   built on BoardSource's guide to executive sessions. It is the one room here
+   the administrator key does not open (STRICT_ROOMS in netlify/cb/lib.mjs).
+
+   THE LIGHT IS THE EXIT SIGN, steady, over a shut door: a small green box that
+   lights the door and the floor near it and fades before the far wall, and the
+   chairs drawn up round the table each catch a green edge on the side facing
+   it. It is the light left on once everybody else has gone out through that
+   door. Every word is pale on the dark room.
+
+   THE COLLISIONS TO WATCH:
+     · THE BOARD ROOM next door is the same people at the same work, and it is
+       lit by the same lamp at every seat down one long table. This has no lamp
+       at all, one small table, and a light that is somebody else's: the
+       building's, over the way out. If a lamp is ever put on this table, it has
+       become the Board room with fewer chairs.
+     · THE DIRECTORS' ROOM is lit through its door's frosted pane, from the hall.
+       This door has no glass; the light is the sign over it, inside the room.
+     · THE JUNGLE ROOM and THE DEN are the street's green rooms, a canopy's
+       darkness and a shag carpet. The only green here is one small sign's light
+       and where it lands.
+     · CLUB CHRONIC, LAUGHINGSTOCK and THE LAGOON are dark rooms lit by one
+       thing too, and every one of those is a stage or a screen people face. In
+       here nobody faces the light; it is behind the door they came in by.
+
+   NOTHING MOVES AT ANY SETTING, and the sign never flickers: Club Chronic's
+   rule, and an exit sign that flickered would be a broken one. */
+
+.esroom {
+  background: var(--es-dark); color: var(--es-text);
+  font-family: 'Sofia Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+.esroom a { color: var(--es-link); text-underline-offset: 3px; }
+.esroom a:hover { color: var(--es-text); }
+.esroom :focus-visible { outline-color: var(--es-link); }
+.esroom :where(p, li) { font-size: 18.5px; line-height: 1.6; }
+.esroom .backlink { font-family: 'Sofia Sans', 'Helvetica Neue', Arial, sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0; text-transform: none; color: var(--es-link); }
+.es-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.esroom .es-trail { margin: 0; font-size: 15px; color: var(--es-dim); }
+.esroom h1, .esroom h2 { font-family: 'Sofia Sans Condensed', 'Arial Narrow', sans-serif; font-weight: 700; color: var(--es-text); letter-spacing: .03em; text-transform: uppercase; }
+.esroom h1 { font-size: clamp(42px, 7.6vw, 82px); line-height: 1; margin: 8px 0 0; }
+.esroom h2 { font-size: clamp(24px, 3.3vw, 30px); margin: 46px 0 12px; }
+.es-head { margin: 22px 0 8px; }
+.esroom .es-head__over { margin: 0; font-size: 15px; letter-spacing: .06em; text-transform: uppercase; color: var(--es-dim); }
+.es-head__art { margin: 20px 0 0; overflow: hidden; background: var(--es-dark); }
+.es-head__art svg { display: block; width: 100%; height: auto; }
+.esroom .es-lede { margin: 26px 0 0; max-width: 40em; font-size: 21px; }
+.es-part { max-width: 50em; }
+.es-part > p { max-width: 42em; }
+.es-list { margin: 0 0 14px; padding-left: 1.2em; }
+.es-list > li { margin: 0 0 10px; }
+
+.es-people { list-style: none; margin: 0 0 12px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.es-people > li { margin: 0; padding: 12px 16px; background: var(--es-panel); border-left: 3px solid var(--es-glow); }
+.esroom .es-people__from { margin: 0; font-size: 16px; color: var(--es-dim); }
+
+.es-call { margin: 14px 0 0; padding: 18px 22px 20px; background: var(--es-panel); }
+.es-call p { margin: 0 0 12px; }
+.es-call button {
+  min-height: 48px; padding: 8px 18px; cursor: pointer;
+  font: 700 18px/1.2 'Sofia Sans', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--es-dark); background: var(--es-link); border: 2px solid var(--es-link); border-radius: 3px;
+}
+.es-call button:hover { background: var(--es-text); border-color: var(--es-text); }
+.es-call__said { font-weight: 700; }
+.esroom .es-call__fine { font-size: 16px; color: var(--es-dim); margin-bottom: 0; }
+.esroom .es-credits p { font-size: 16px; color: var(--es-dim); }
+
+/* §83 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -16680,7 +16767,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §82 says every
+   shipped with no rule here at all — which on a street whose §83 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -16804,7 +16891,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §83 ── Print ───────────────────────────────────────────────────────────────
+/* §84 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

@@ -1618,8 +1618,8 @@
     if (b.getAttribute('data-cb') !== 'mods') return true;
     var need = (b.getAttribute('data-cb-role') || 'moderator').split(/\s+/);
     var roles = (s && s.roles) || [];
-    return !!(s && s.base) && (roles.indexOf('administrator') >= 0 ||
-      need.some(function (r) { return roles.indexOf(r) >= 0; }));
+    var key = !b.hasAttribute('data-cb-strict') && roles.indexOf('administrator') >= 0;
+    return !!(s && s.base) && (key || need.some(function (r) { return roles.indexOf(r) >= 0; }));
   }
 
   function signOff() {

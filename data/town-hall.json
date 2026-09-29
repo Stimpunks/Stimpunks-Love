@@ -237,9 +237,50 @@
    ],
    "prefix": "md",
    "body": "mdroom"
+  },
+  {
+   "id": "executive-session",
+   "page": "town-hall-executive-session.html",
+   "name": "Executive Session",
+   "what": "For those with the board role only.",
+   "for": [
+    "board"
+   ],
+   "strict": true,
+   "prefix": "es",
+   "body": "esroom",
+   "people_read": "2026-09-29",
+   "people_from": {
+    "url": "https://stimpunks.org/about/accountability/board-governance/#h-board-of-directors",
+    "mirror": "about__accountability__board-governance.md",
+    "called": "our Board &amp; Governance page"
+   },
+   "people": [
+    {
+     "name": "Ryan Boren",
+     "title": "President, Co-Founder, Co-Creative Director",
+     "anchor": "ryan-boren-he-they"
+    },
+    {
+     "name": "Betsy Selvam",
+     "title": "Vice President",
+     "anchor": "betsy-selvam"
+    },
+    {
+     "name": "Kristina Brooke Daniele",
+     "title": "Secretary",
+     "anchor": "kristina-brooke-daniele-she-her"
+    },
+    {
+     "name": "Becky Hicks",
+     "title": "Board Member",
+     "anchor": "becky-hicks-she-her"
+    }
+   ]
   }
  ],
  "_people": "A room may list who it is for. Each person links to their own section of stimpunks.org/about/, and the list is in the order, and with the titles, of the page named in `people_from` (the About page's Directors and Board Members section for the Directors, at Ryan's ask, 2026-09-29; the Board Governance page's Board of Directors for the Board, which is the page that says who is on it and that the people who run the work day to day are not). tools/make-town-hall.py checks every name against the Knowledge System mirror's copy of the page it came from, and every anchor against the mirror's About page, when the mirror is on this machine, and refuses what has gone; the anchors were also checked on the live pages on 2026-09-29. Nothing here is typed from memory: when either page changes, re-read it.",
  "_governance": "A room may carry a section of one of our own stimpunks.org pages, word for word, at Ryan's ask: the Board room carries the Governance & Ethics section of our Accountability & Transparency page (2026-09-29). Every sentence and every link here is that page's, copied as it stands, with its relative links made absolute; tools/make-town-hall.py looks for every one of them in the Knowledge System mirror's copy of the page when the mirror is on this machine, and refuses one that has gone. When the page changes, re-copy the section; never loosen the check. The Bylaws line names the September 2026 board meeting, so it will change once the Board votes.",
- "_agenda": "A room may carry the outline of its next meeting's agenda. The Board room's is Ryan's draft agenda for the board meeting of 2026-09-29, given 2026-09-29, and only its outline is here, Ryan's call the same day: the meeting's date, the decisions required and the order of business with its timings, as the draft words them, and its access notes. Its detailed notes stay off the page, because the Board room's walls are public and those notes carry things that are not public yet. One change from the draft's wording: the Treasurer decision does not name the candidate until the Board has elected them. tools/make-town-hall.py writes the heading in the past tense once the date has gone by, so an old agenda never reads as the next meeting's."
+ "_agenda": "A room may carry the outline of its next meeting's agenda. The Board room's is Ryan's draft agenda for the board meeting of 2026-09-29, given 2026-09-29, and only its outline is here, Ryan's call the same day: the meeting's date, the decisions required and the order of business with its timings, as the draft words them, and its access notes. Its detailed notes stay off the page, because the Board room's walls are public and those notes carry things that are not public yet. One change from the draft's wording: the Treasurer decision does not name the candidate until the Board has elected them. tools/make-town-hall.py writes the heading in the past tense once the date has gone by, so an old agenda never reads as the next meeting's.",
+ "_strict": "A room marked `strict` is one the administrator key does not open, and it must match STRICT_ROOMS in netlify/cb/lib.mjs. Executive Session is the only one: Ryan's brief, 2026-09-29, \"for those with the board role only\", and an executive session is the board without staff, so an administrator who is not on the board is not let in. Its `what` is Ryan's phrase from that brief."
 }

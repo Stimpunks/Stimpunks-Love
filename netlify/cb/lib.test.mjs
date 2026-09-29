@@ -23,7 +23,7 @@ import { updateChalk, readChalk, updatePebbles, readPebbles, cleanLink, PEBBLE_R
   hostBeacon, stopBeacon, readBeacons, sweepBeacons, beaconRoom, cleanAt, BEACON_FRESH,
   updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
-  PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, roomAllows, shapeBeacons,
+  PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons,
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
@@ -423,7 +423,8 @@ const rooms = Object.keys(MOD_ROOMS);
 
 test('each private room takes its own role, an administrator takes them all, and nobody else takes any', async () => {
   assert.ok(rooms.length > 0);
-  const want = { 'town-hall-directors': ['Ryan', 'Chelsea'], 'town-hall-board': ['Ryan', 'Chelsea', 'Becky'], 'town-hall-moderators': ['Ryan', 'Chelsea', 'Becky', 'Sam'] };
+  const want = { 'town-hall-directors': ['Ryan', 'Chelsea'], 'town-hall-board': ['Ryan', 'Chelsea', 'Becky'],
+    'town-hall-moderators': ['Ryan', 'Chelsea', 'Becky', 'Sam'], 'town-hall-executive-session': ['Ryan', 'Becky'] };
   for (const room of rooms) {
     const who = [admin, director, boardie, plainMod].filter((w) => roomAllows(w, room)).map((w) => w.handle);
     assert.deepEqual(who, want[room], room);
@@ -507,4 +508,18 @@ test('a pass is read against the list every time: roles follow it, and a removal
       if (v === undefined) delete process.env[k]; else process.env[k] = v;
     }
   }
+});
+
+test('executive session is the board role and nothing else: the administrator key does not open it', () => {
+  const adminOnly = { role: 'base', handle: 'Helen', roles: new Set(['moderator', 'administrator', 'director']) };
+  const boardAdmin = { role: 'base', handle: 'Ryan', roles: new Set(['moderator', 'administrator', 'board']) };
+  assert.deepEqual(STRICT_ROOMS, ['town-hall-executive-session']);
+  for (const room of STRICT_ROOMS) {
+    assert.equal(roomAllows(adminOnly, room), false, 'an administrator not on the board');
+    assert.equal(roomAllows(director, room), false, 'directors do not join executive session');
+    assert.equal(roomAllows(boardAdmin, room), true, 'the board role, whatever else');
+    assert.equal(roomAllows(boardie, room), true);
+    assert.equal(callToken(adminOnly, room, Date.now(), key), null);
+  }
+  assert.equal(roomAllows(adminOnly, 'town-hall-board'), true, 'everywhere else, the administrator key still works');
 });

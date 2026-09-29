@@ -1326,6 +1326,22 @@
     "--md-blue",
     "--md-violet"
    ]
+  },
+  "town-hall-executive-session.html": {
+   "kind": "phoenix",
+   "c": [
+    0.4,
+    0.1
+   ],
+   "p": -0.35,
+   "orbit": 0.012,
+   "ground": "--es-dark",
+   "inks": [
+    "--es-frame",
+    "--es-glow",
+    "--es-exit",
+    "--es-link"
+   ]
   }
  }
 }

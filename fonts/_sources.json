@@ -2129,5 +2129,33 @@
    "src": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2",
    "note": "The Moderators' room (§81): every word that is read. One variable file serves both weights; no italic is shipped, and nothing in the room is set italic."
   }
+ ],
+ "sofia-sans-condensed": [
+  {
+   "file": "sofia-sans-condensed-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 16084,
+   "src": "https://fonts.gstatic.com/s/sofiasanscondensed/v6/r05xGKVS5aVKd567NYXawnFKJaTtoAuLnK0EjiAN5s9CZwUqYOackM4P_uLgQJf3.woff2",
+   "note": "Executive Session (§82), off the Town Hall: the room's name, its headings and the EXIT sign in its drawing. Never a sentence."
+  }
+ ],
+ "sofia-sans": [
+  {
+   "file": "sofia-sans-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 40520,
+   "src": "https://fonts.gstatic.com/s/sofiasans/v20/Yq6R-LCVXSLy9uPBwlATrOF6kjouQb4.woff2",
+   "note": "Executive Session (§82): every word that is read. One variable file serves both weights; no italic is shipped, and nothing in the room is set italic."
+  },
+  {
+   "file": "sofia-sans-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 40520,
+   "src": "https://fonts.gstatic.com/s/sofiasans/v20/Yq6R-LCVXSLy9uPBwlATrOF6kjouQb4.woff2",
+   "note": "Executive Session (§82): every word that is read. One variable file serves both weights; no italic is shipped, and nothing in the room is set italic."
+  }
  ]
 }

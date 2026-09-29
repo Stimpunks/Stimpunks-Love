@@ -587,6 +587,7 @@ FB_WATER, FB_SHALLOW, FB_INK, FB_INK2, FB_LINK = "#D6EEEA", "#BFE3DD", "#0D3432"
 DR_DARK, DR_PANEL, DR_TEXT, DR_DIM, DR_LINK, DR_PANE = "#1C212B", "#262D3A", "#E8EDF2", "#AFBBC8", "#A6CFF0", "#DCE6EE"
 BD_ROOM, BD_TABLE, BD_TEXT, BD_DIM, BD_LINK, BD_POOL = "#17161B", "#2A2530", "#F2EEE8", "#C3BCB2", "#E9A77F", "#F6E3B4"
 MD_DARK, MD_PANEL, MD_TEXT, MD_DIM, MD_LINK = "#16141C", "#221F2B", "#F1EEF6", "#BDB6CC", "#9FE3C6"
+ES_DARK, ES_PANEL, ES_TEXT, ES_DIM, ES_LINK = "#111513", "#1B211E", "#EDF3EE", "#AEBCB3", "#8FE3AA"
 
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
@@ -2628,6 +2629,17 @@ PAIRS = [
     (MD_LINK, MD_DARK,  True,  "moderators: the focus ring"),
     (MD_LINK, MD_PANEL, True,  "moderators: the focus ring on the call panel"),
     (MD_LINK, MD_DARK,  True,  "moderators: the job marker, a spare fuse"),
+    (ES_TEXT, ES_DARK,  False, "executive session: every paragraph, the h1, the headings and the lede"),
+    (ES_DIM,  ES_DARK,  False, "executive session: the over-line, the trail, where the list was read, and the credits"),
+    (ES_LINK, ES_DARK,  False, "executive session: every link and the backlink"),
+    (ES_TEXT, ES_PANEL, False, "executive session: a board member's title, and the call panel's words"),
+    (ES_LINK, ES_PANEL, False, "executive session: a board member's name, linked, and a link in the call panel"),
+    (ES_DIM,  ES_PANEL, False, "executive session: the call's fine print"),
+    (ES_DARK, ES_LINK,  False, "executive session: the join button, for the board"),
+    (ES_DARK, ES_TEXT,  False, "executive session: the join button while it is hovered"),
+    (ES_LINK, ES_DARK,  True,  "executive session: the focus ring"),
+    (ES_LINK, ES_PANEL, True,  "executive session: the focus ring on a panel"),
+    (ES_LINK, ES_DARK,  True,  "executive session: the job marker, a folded note"),
     (MUD_TEXT,  MUD_GROUND, False, "mud room: every paragraph, the lede, the house rules and the door's blurb on the street"),
     (MUD_SKY,   MUD_GROUND, False, "mud room: the h1, every heading, every bold run and the door's name"),
     (MUD_DIM,   MUD_GROUND, False, "mud room: the trail, the over-line, the fine print and every label in the guidebook"),
@@ -2880,6 +2892,13 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#39d16f": "executive session: EXIT lettered on the sign in the drawing, 9.23 on the dark room. Drawing "
+               "only, aria-hidden; the room's light, and the page says in words what it is.",
+    "#1e5a36": "executive session: the sign's green lying over the wall and floor, the chairs' lit edges and "
+               "the edge of each board member's panel, 2.25 on the dark room. It carries no word.",
+    "#29312c": "executive session: the door's frame, the sign's box and the floor's edge, 1.38 on the dark "
+               "room. Drawing only.",
+    "#0b0e0c": "executive session: the door, the table and the chairs, 1.05 on the dark room. Drawing only.",
     "#e26aa0": "moderators: a shopfront's pink come up onto the ceiling, 5.91 on the dark room. Light, drawn; no word.",
     "#e9c46a": "moderators: a shopfront's gold come up onto the ceiling, 10.92 on the dark room. Light, drawn; no word.",
     "#56c49a": "moderators: a shopfront's green come up onto the ceiling, 8.48 on the dark room. Light, drawn; no word.",

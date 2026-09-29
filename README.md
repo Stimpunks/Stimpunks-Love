@@ -103,6 +103,7 @@ samefood-cafe.html    A café for samefoods and safe foods, seen from above the 
 collection-collection.html  A dark gallery of our people's collections, a lamp per cabinet and no two alike. The house describes the photos
 vital-plant-living.html  A plant-based kitchen drawn cut through the middle. Build a bowl or wrap from a real pantry and copy it
 town-hall.html        A round hall under an open dome, one disc of sun on the floor. Doors to the Fishbowl and to rooms for directors, board and moderators
+town-hall-executive-session.html Off the Town Hall: the board without staff, lit only by the EXIT sign. Board role only, no administrator key
 town-hall-moderators.html Off the Town Hall: above the street at night, lit by the shopfronts' colours on its ceiling. The base's radio
 town-hall-board.html  Off the Town Hall: one long table with the same lamp at every seat. The board, and our Governance & Ethics section. The base's radio
 town-hall-directors.html Off the Town Hall: lit only through the frosted pane in its door. The directors, linked to our About page. The base's radio

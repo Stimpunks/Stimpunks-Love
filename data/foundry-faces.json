@@ -2578,6 +2578,46 @@
     }
    ]
   },
+  "sofia-sans": {
+   "family": "Sofia Sans",
+   "category": "Sans Serif",
+   "designer": "Lettersoup, Botio Nikoltchev, Ani Petrova",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/sofiasans",
+   "copyright": "Copyright 2019 The Sofia Sans Project Authors (https://github.com/lettersoup/Sofia-Sans)",
+   "repository": "https://github.com/lettersoup/Sofia-Sans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "sofia-sans-400.woff2",
+     "sha": "e0ea7bf0ba351883"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "sofia-sans-400.woff2",
+     "sha": "e0ea7bf0ba351883"
+    }
+   ]
+  },
+  "sofia-sans-condensed": {
+   "family": "Sofia Sans Condensed",
+   "category": "Sans Serif",
+   "designer": "Lettersoup, Botio Nikoltchev, Ani Petrova",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/sofiasanscondensed",
+   "copyright": "Copyright 2019 The Sofia Sans Project Authors (https://github.com/lettersoup/Sofia-Sans)",
+   "repository": "https://github.com/lettersoup/Sofia-Sans",
+   "variants": [
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "sofia-sans-condensed-700.woff2",
+     "sha": "bb7fc92cfae82bfc"
+    }
+   ]
+  },
   "sora": {
    "family": "Sora",
    "category": "Sans Serif",

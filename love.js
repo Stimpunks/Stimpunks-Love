@@ -1158,7 +1158,9 @@
       try {
         // data-cb-role is a space-separated list; any one of them is enough.
         var v = JSON.parse(s), roles = v.roles || [], need = (b.getAttribute('data-cb-role') || 'moderator').split(/\s+/);
-        if (!v.base || (roles.indexOf('administrator') < 0 && !need.some(function (r) { return roles.indexOf(r) >= 0; }))) return;
+        // data-cb-strict: the administrator key does not open this room.
+        var key = !b.hasAttribute('data-cb-strict') && roles.indexOf('administrator') >= 0;
+        if (!v.base || (!key && !need.some(function (r) { return roles.indexOf(r) >= 0; }))) return;
       } catch (e) { return; }
     }
     var tag = document.createElement('script');

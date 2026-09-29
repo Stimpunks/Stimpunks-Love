@@ -2091,6 +2091,44 @@
    }
   },
   {
+   "id": "es-note",
+   "page": "town-hall-executive-session.html",
+   "room": "Executive Session",
+   "title": "The one light left on",
+   "posted": "Through a door off the Town Hall there is a room where the board meets without staff, with no lamp in it. Go and find out what the one light in it is.",
+   "rank": 2,
+   "takes": "about as long as it takes to read a sign",
+   "target": "a folded note, left on a chair",
+   "code": "INCAMERA",
+   "learned": "An executive session is the board meeting without staff, and a board that holds one at every meeting never has to mean anything by holding one.",
+   "hints": [
+    "Go into the Town Hall on the street, and through the Executive Session door.",
+    "Read Why an exit sign.",
+    "The note is on the floor at the foot of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "What is the only light in the Executive Session room?",
+    "accept": [
+     "the exit sign",
+     "exit sign",
+     "an exit sign",
+     "the sign",
+     "sign",
+     "exit",
+     "the green sign",
+     "the sign over the door",
+     "the exit"
+    ],
+    "answer": "The EXIT sign",
+    "why": "There is no lamp: the one light is the EXIT sign over the shut door, left on once everybody who is not on the board has gone out through it.",
+    "hints": [
+     "There is no lamp in the room.",
+     "Look over the door in the drawing.",
+     "It is green, and it says the way out."
+    ]
+   }
+  },
+  {
    "id": "dressup-feather",
    "page": "dopamine-dress-up-den.html",
    "room": "Dopamine Dress-Up Den",

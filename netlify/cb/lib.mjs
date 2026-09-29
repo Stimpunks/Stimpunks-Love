@@ -409,12 +409,19 @@ export const MOD_ROOMS = {
   'town-hall-directors': ['director'],
   'town-hall-board': ['board', 'director'],
   'town-hall-moderators': ['moderator'],
+  'town-hall-executive-session': ['board'],
 };
+/* A ROOM THE ADMINISTRATOR KEY DOES NOT OPEN. Ryan, 2026-09-29: Executive
+   Session is for those with the board role only. An executive session is the
+   board meeting without staff, and an administrator who is not on the board
+   is staff, so here the room's own roles are the only way in. */
+export const STRICT_ROOMS = ['town-hall-executive-session'];
 export function modRoom(tag) { return Object.prototype.hasOwnProperty.call(MOD_ROOMS, tag) ? tag : null; }
 export function roomAllows(who, tag) {
   if (!modRoom(tag)) return true;
   if (!who || who.role !== 'base' || !who.roles) return false;
-  return who.roles.has('administrator') || MOD_ROOMS[tag].some((r) => who.roles.has(r));
+  if (!STRICT_ROOMS.includes(tag) && who.roles.has('administrator')) return true;
+  return MOD_ROOMS[tag].some((r) => who.roles.has(r));
 }
 
 /* The channel a request names: a room's, or World's when it names none. */

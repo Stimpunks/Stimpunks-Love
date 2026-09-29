@@ -207,6 +207,11 @@
    "path": "/town-hall-moderators.html"
   },
   {
+   "tag": "town-hall-executive-session",
+   "name": "Executive Session",
+   "path": "/town-hall-executive-session.html"
+  },
+  {
    "tag": "dopamine-dress-up-den",
    "name": "Dopamine Dress-Up Den",
    "path": "/dopamine-dress-up-den.html"
