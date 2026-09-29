@@ -1593,6 +1593,9 @@
     // itself, and a radio inside that screen would be a second radio.
     try { if (window.top !== window.self) return; } catch (e) { return; }
     if (document.body.getAttribute('data-cb') === 'off') return;
+    // A Town Hall private room: the radio is the base's there (love.js does not
+    // load this file for anybody else, and the server refuses them anyway).
+    if (document.body.getAttribute('data-cb') === 'mods' && !s.base) return;
     radio = new Radio(s);
   }
 

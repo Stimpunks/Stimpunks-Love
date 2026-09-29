@@ -1140,7 +1140,11 @@
      whose <body> says data-cb="off". The Healing Checkpoint says so, because a
      room that promises it writes nothing down about you is not a room with a
      radio in it; make-checkpoint.py refuses that page without the attribute.
-     The Community Center loads cb.js itself, so this skips that page too. */
+     The Community Center loads cb.js itself, so this skips that page too.
+     data-cb="mods" is the Town Hall's private rooms: anybody may walk in, and
+     the radio only comes with them if they signed on as the base. That is the
+     page keeping quiet, not the lock: netlify/cb/lib.mjs refuses those rooms'
+     channel, call and beacons to any other pass, whatever a browser says. */
   function cb() {
     var b = document.body;
     if (!b || b.getAttribute('data-cb') === 'off' || b.getAttribute('data-cb') === 'here') return;
@@ -1148,6 +1152,9 @@
     var s = null;
     try { s = localStorage.getItem('love-cb'); } catch (e) { return; }
     if (!s || s.indexOf('"pass"') < 0) return;
+    if (b.getAttribute('data-cb') === 'mods') {
+      try { if (!JSON.parse(s).base) return; } catch (e) { return; }
+    }
     var tag = document.createElement('script');
     tag.src = '/cb.js';
     tag.defer = true;

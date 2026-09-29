@@ -963,6 +963,13 @@
 @font-face { font-family: 'Encode Sans Expanded'; src: url('fonts/encode-sans-expanded-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Nunito Sans'; src: url('fonts/nunito-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Nunito Sans'; src: url('fonts/nunito-sans-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+/* The Town Hall (§77). FORUM, by Denis Masharov, is Roman capitals cut for
+   inscriptions, and sets the hall's name, its headings and the name over every
+   door; never a sentence. GELASIO, by Eben Sorkin, carries every word that is
+   read; one variable file serves both weights. */
+@font-face { font-family: 'Forum'; src: url('fonts/forum-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Gelasio'; src: url('fonts/gelasio-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Gelasio'; src: url('fonts/gelasio-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -2378,6 +2385,18 @@
   --cv-deep:  #0C3B4E;  --cv-shelf: #082F40;  --cv-text:  #EAF7FA;
   --cv-dim:   #A6D0DD;  --cv-link:  #8FE3F2;
   --cv-thin:  #2A89A8;  --cv-glow:  #5DBBD6;  --cv-crack: #D2F1F9;  --cv-seam: #134E66;
+
+  /* The Town Hall (§77). A ROTUNDA AT NOON, LIT THROUGH A HOLE IN THE ROOF.
+     --th-shade is the hall in the dome's shade, the ground of the room; --th-wall
+     the drum wall, the ground of every door and panel. --th-text is what you
+     read, --th-dim the fine print, --th-link every link. --th-sun is the disc of
+     sun on the floor and the ground of the one kind of button; --th-coffer the
+     dome's coffers and the dark of the doorways, --th-sky the sky in the hole,
+     --th-granite and --th-porphyry the floor's grey and red rings. Those five
+     carry no word, except the sun under a button's. */
+  --th-shade: #312E2B;  --th-wall: #3E3A36;  --th-text: #F3EEE4;  --th-dim: #D6CEC1;
+  --th-link: #F3C98B;   --th-sun: #F7E8C2;   --th-coffer: #25221F; --th-sky: #CFE3EE;
+  --th-granite: #5F5A55; --th-porphyry: #7E332D;
 }
 
 * { box-sizing: border-box; }
@@ -3042,6 +3061,16 @@ div.facade--audio { border: 0; background: none; }
 .door--cavendish .door__name  { font-family: 'Libre Caslon Display', Georgia, serif; color: var(--cw-cream); font-size: 27px; line-height: 1.08; }
 .door--cavendish .door__blurb { font-family: 'Libre Caslon Text', Georgia, serif; color: var(--cw-dim); }
 .door--cavendish .door__knock { font-family: 'Libre Caslon Text', Georgia, serif; font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cw-brass); }
+
+/* The Town Hall (§77). THE ONE FRONT IN THE ROW WITH A HOLE IN ITS ROOF: the
+   awning is the dome's coffers in shade with the sky in one round opening at
+   the middle of it, and the ground is the hall under the dome. Every word is
+   measured on --th-shade in check-contrast.py; the coffers carry nothing. */
+.door--townhall { background: var(--th-shade); border-color: var(--th-granite); }
+.door--townhall .door__awning { background-color: var(--th-coffer); background-image: radial-gradient(ellipse 26px 9px at 50% 45%, var(--th-sky) 0 96%, var(--th-sun) 97% 100%, transparent 101%), repeating-linear-gradient(90deg, var(--th-wall) 0 4px, transparent 4px 30px), linear-gradient(0deg, var(--th-granite) 0 5px, transparent 5px); border-bottom-color: var(--th-granite); }
+.door--townhall .door__name  { font-family: 'Forum', Georgia, serif; font-weight: 400; color: var(--th-text); font-size: 31px; line-height: 1.05; letter-spacing: .08em; text-transform: uppercase; }
+.door--townhall .door__blurb { font-family: 'Gelasio', Georgia, serif; color: var(--th-dim); }
+.door--townhall .door__knock { font-family: 'Gelasio', Georgia, serif; font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--th-link); }
 
 /* The Live Room (§59). THE ONE FRONT IN THE ROW WITH A RED LAMP OVER THE DOOR:
    the awning is the strip of masking tape along the foot of a desk, with the
@@ -14074,7 +14103,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §78
+   class on it is `bb-`, its sizes are in points and millimetres, and §79
    prints it and nothing else. */
 
 .room-broadside {
@@ -14135,7 +14164,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §78 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §79 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -16106,7 +16135,83 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
   .cv-call { padding: 16px; }
 }
 
-/* §77 ── Small screens ───────────────────────────────────────────────────────
+/* §77 ── ROOM: The Town Hall (a shopfront on the street) ─────────────────────
+   A ROTUNDA AT NOON. Ryan's brief, 2026-09-29: the street's town hall, where
+   Stimpunks meets to run itself, with doors round its wall to the Fishbowl and
+   to rooms for our directors, our board and our moderators. One round room
+   under a coffered dome, and the top of the dome is open to the sky.
+
+   THE LIGHT COMES THROUGH A HOLE IN THE ROOF, AND LANDS AS ONE DISC. No lamp,
+   no window, no glass: a round opening, and the sun through it lying on the
+   floor as a single hard-edged disc, with everything else in the hall in the
+   dome's even shade. Clean air shows no beam, so none is drawn. That light is
+   the argument: the rooms round the wall have doors, and the middle of the
+   building is open to the sky.
+
+   THE COLLISIONS TO WATCH, and there are a lot of rooms lit by one pool:
+     · LAUGHINGSTOCK throws one hard pool onto a brick wall from a follow spot
+       behind you, in a dark cellar, and it is where a comic stands. This pool
+       is the sky's, it lies on a floor, and nobody stands in it: every word here
+       is in the shade, and the disc carries no word at all.
+     · DEAD TIRED SOCIETY has one hard wedge of corridor light lying on a floor,
+       and every word in the shade. Its light is a tube's, through a door left
+       ajar, after hours; this is the sun, through a roof, at noon, and it is
+       round.
+     · THE EVENTS ROOM at Cavendish is a lighthouse watch room lit by one column
+       from the hatch; that is a lamp room, glazed, at the top of a tower. This
+       is the bottom of a dome, and nothing in it is glass.
+     · THE COMMUNITY CENTER is the street's other civic building, and it is a
+       painted block hall in sun through a blind, pale, striped and full of
+       stacking chairs. This is stone, round, in shade, and empty in the middle.
+       Two civic rooms kept apart by the light, the paint and the shape of the
+       room; if this hall ever goes pale, or the disc ever turns to stripes, it
+       has become the Community Center with a dome on.
+   If the disc ever softens into a glow, or a second light comes into the hall,
+   it has stopped being a hole in the roof.
+
+   NOTHING MOVES AT ANY SETTING. The real sun moves round a hall like this
+   through the day; this one is drawn at noon and stays there. */
+
+.townhall {
+  background: var(--th-shade); color: var(--th-text);
+  font-family: 'Gelasio', Georgia, serif;
+}
+.townhall a { color: var(--th-link); text-underline-offset: 3px; }
+.townhall a:hover { color: var(--th-text); }
+.townhall :focus-visible { outline-color: var(--th-sun); }
+.townhall :where(p, li) { font-size: 18px; line-height: 1.62; }
+.townhall .backlink { font-family: 'Gelasio', Georgia, serif; font-weight: 700; font-size: 16px; letter-spacing: 0; text-transform: none; color: var(--th-link); }
+.th-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.townhall .th-trail { margin: 0; font-size: 15px; color: var(--th-dim); }
+.townhall h1, .townhall h2 { font-family: 'Forum', Georgia, serif; font-weight: 400; color: var(--th-text); text-transform: uppercase; letter-spacing: .1em; }
+.townhall h1 { font-size: clamp(44px, 8vw, 88px); line-height: 1; margin: 8px 0 0; }
+.townhall h2 { font-size: clamp(22px, 3.2vw, 28px); margin: 50px 0 14px; }
+.th-head { margin: 22px 0 8px; }
+.townhall .th-head__over { margin: 0; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--th-dim); }
+.th-head__art { margin: 22px 0 0; overflow: hidden; background: var(--th-shade); }
+.th-head__art svg { display: block; width: 100%; height: auto; }
+.townhall .th-lede { margin: 28px 0 0; max-width: 42em; font-size: 20px; }
+.th-part { max-width: 52em; }
+.th-part > p { max-width: 42em; }
+.th-list { margin: 0; padding-left: 1.2em; }
+.th-list > li { margin: 0 0 12px; }
+
+/* THE DOORS ROUND THE WALL. Each is a panel of the drum wall with the door's
+   name cut over it; a door not open yet is framed in a dashed line, in words at
+   full strength, and is not a link. */
+.th-doors { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
+.th-door__way { display: grid; gap: 8px; align-content: start; height: 100%; padding: 18px 18px 16px; background: var(--th-wall); border: 2px solid var(--th-granite); border-radius: 60px 60px 3px 3px; color: var(--th-text); text-decoration: none; }
+a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
+.th-door--raising .th-door__way { border-style: dashed; }
+.th-door__name { font-family: 'Forum', Georgia, serif; font-size: 25px; line-height: 1.1; letter-spacing: .08em; text-transform: uppercase; text-align: center; padding: 6px 0 4px; }
+.th-door__what { font-size: 17px; line-height: 1.5; }
+.th-door__who { font-size: 15.5px; line-height: 1.5; color: var(--th-dim); }
+.th-door__go { font-weight: 700; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; color: var(--th-link); }
+.th-door--raising .th-door__go { color: var(--th-dim); }
+
+.townhall .th-credits p { font-size: 16px; color: var(--th-dim); }
+
+/* §78 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -16213,7 +16318,7 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §77 says every
+   shipped with no rule here at all — which on a street whose §78 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -16337,7 +16442,7 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §78 ── Print ───────────────────────────────────────────────────────────────
+/* §79 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

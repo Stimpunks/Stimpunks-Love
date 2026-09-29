@@ -1,0 +1,42 @@
+{
+ "_source": "The Town Hall's rooms. Ryan's brief, 2026-09-29: a new location on the street, the Town Hall, with a Fishbowl for community fishbowl meetings open to anybody with CB access, and rooms for the Stimpunks Directors, Board Members and Moderators, which anybody can walk into and whose CB only shows for people signed on with the moderators' password (the base). Every `what` is Ryan's own sentence from the brief, word for word, and the rooms are in his order. Which rooms are private is NOT decided here: it is MOD_ROOMS in netlify/cb/lib.mjs, the one list the server checks, and tools/make-town-hall.py refuses this file if its `for` disagrees with that list. A room with no page yet is on the rotunda's wall as a door not open yet, which is the campgrounds' raising state: named, not dimmed, not a link.",
+ "_roles": "Ryan's next step, not built yet: a list of MOD handles, each with roles (moderator, board, director, administrator), so that the Board room is for the board role, the Directors room for the director role, the Moderators room for any MOD, and an administrator for everything. When it arrives, `for` becomes the role a room needs, and MOD_ROOMS in lib.mjs becomes a map from room to role. See DECISIONS.md.",
+ "rooms": [
+  {
+   "id": "fishbowl",
+   "page": "town-hall-fishbowl.html",
+   "name": "The Fishbowl",
+   "what": "A room for community Fishbowl Meetings for anyone with CB access.",
+   "for": "cb",
+   "prefix": "fb",
+   "body": "fbroom"
+  },
+  {
+   "id": "directors",
+   "page": "town-hall-directors.html",
+   "name": "Directors",
+   "what": "A room for Stimpunks Directors to meet.",
+   "for": "mods",
+   "prefix": "dr",
+   "body": "drroom"
+  },
+  {
+   "id": "board",
+   "page": "town-hall-board.html",
+   "name": "Board",
+   "what": "A room for Stimpunks Board Members to meet.",
+   "for": "mods",
+   "prefix": "bd",
+   "body": "bdroom"
+  },
+  {
+   "id": "moderators",
+   "page": "town-hall-moderators.html",
+   "name": "Moderators",
+   "what": "A room for Stimpunks Moderators to meet.",
+   "for": "mods",
+   "prefix": "md",
+   "body": "mdroom"
+  }
+ ]
+}

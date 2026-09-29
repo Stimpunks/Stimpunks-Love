@@ -1989,5 +1989,33 @@
    "src": "https://fonts.gstatic.com/s/nunitosans/v19/pe0TMImSLYBIv1o4X1M8ce2xCx3yop4tQpF_MeTm0lfGWVpNn64CL7U8upHZIbMV51Q42ptCp7t1R-tQKr51.woff2",
    "note": "The Cave (§76): a cave's name on the rack, and the buttons."
   }
+ ],
+ "forum": [
+  {
+   "file": "forum-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 13684,
+   "src": "https://fonts.gstatic.com/s/forum/v19/6aey4Ky-Vb8Ew8IROpI43XnS.woff2",
+   "note": "The Town Hall (§77): the hall's name, its headings and the name over every door, in Roman capitals cut for inscriptions. Never a sentence."
+  }
+ ],
+ "gelasio": [
+  {
+   "file": "gelasio-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 34796,
+   "src": "https://fonts.gstatic.com/s/gelasio/v14/cIf9MaFfvUQxTTqS9C6hYUsEkIo.woff2",
+   "note": "The Town Hall (§77): every word that is read. One variable file serves both weights; no italic is shipped, and nothing in the room is set italic."
+  },
+  {
+   "file": "gelasio-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 34796,
+   "src": "https://fonts.gstatic.com/s/gelasio/v14/cIf9MaFfvUQxTTqS9C6hYUsEkIo.woff2",
+   "note": "The Town Hall (§77): every word that is read. One variable file serves both weights; no italic is shipped, and nothing in the room is set italic."
+  }
  ]
 }

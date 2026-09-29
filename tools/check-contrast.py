@@ -581,6 +581,8 @@ CF_FIRE, CF_EMBER, CF_FLAME, CF_LIT = "#F4A45C", "#E26A36", "#FFD88E", "#4A3222"
 # the ice thins is behind the drawing only, and no word stands on it.
 CV_DEEP, CV_SHELF, CV_TEXT, CV_DIM = "#0C3B4E", "#082F40", "#EAF7FA", "#A6D0DD"
 CV_LINK, CV_CRACK, CV_SEAM = "#8FE3F2", "#D2F1F9", "#134E66"
+TH_SHADE, TH_WALL, TH_TEXT, TH_DIM = "#312E2B", "#3E3A36", "#F3EEE4", "#D6CEC1"
+TH_LINK, TH_SUN = "#F3C98B", "#F7E8C2"
 
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
@@ -2569,6 +2571,15 @@ PAIRS = [
     (CV_DEEP, CV_LINK,  False, "cave: every button"),
     (CV_DEEP, CV_CRACK, False, "cave: a button's hover"),
     (CV_LINK, CV_DEEP,  True,  "cave: the job marker, a mitten dropped on the ice"),
+    (TH_TEXT, TH_SHADE, False, "town hall: every paragraph in the hall's shade, the h1, the headings, the lede, and the street door's name"),
+    (TH_DIM,  TH_SHADE, False, "town hall: the over-line, the trail, the credits and the street door's blurb"),
+    (TH_LINK, TH_SHADE, False, "town hall: every link and the backlink, and the street door's knock"),
+    (TH_TEXT, TH_WALL,  False, "town hall: a door's name and its line on the drum wall"),
+    (TH_DIM,  TH_WALL,  False, "town hall: who can talk behind a door, and NOT OPEN YET"),
+    (TH_LINK, TH_WALL,  False, "town hall: GO IN on an open door"),
+    (TH_SUN,  TH_SHADE, True,  "town hall: the focus ring, the colour of the disc of sun"),
+    (TH_SUN,  TH_WALL,  True,  "town hall: the focus ring on a door, and an open door's frame while it is hovered"),
+    (TH_LINK, TH_SHADE, True,  "town hall: the job marker, a gavel left on the floor"),
     (MUD_TEXT,  MUD_GROUND, False, "mud room: every paragraph, the lede, the house rules and the door's blurb on the street"),
     (MUD_SKY,   MUD_GROUND, False, "mud room: the h1, every heading, every bold run and the door's name"),
     (MUD_DIM,   MUD_GROUND, False, "mud room: the trail, the over-line, the fine print and every label in the guidebook"),
@@ -2821,6 +2832,16 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#5f5a55": "town hall: the grey granite of the floor, the cornice and the plaques over the doors in the "
+               "drawing, and the frame of every door, 1.98 on the hall's shade and 1.65 on the drum wall. It "
+               "carries no word: a door is named in its own words, and a door not open yet says so in words "
+               "as well as in its dashed frame.",
+    "#7e332d": "town hall: the red porphyry rings in the floor of the drawing, 1.54 on the shade and 1.28 on "
+               "the granite. Drawing only; it carries no word.",
+    "#cfe3ee": "town hall: the sky in the hole at the top of the dome, in the drawing and on the street "
+               "door's awning, 10.20 on the shade. It carries no word.",
+    "#25221f": "town hall: the dome's coffers and the dark of the doorways in the drawing, 1.17 on the "
+               "shade. It carries no word.",
     "#c3cecc": "mud room: the water on the Slake -- the creek, the channels and the sky lying in the "
                "mud in the view -- 8.94 on the mud. It carries no word; it is the light the room is "
                "lit by, and every word is set in the room's own inks, measured above.",

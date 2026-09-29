@@ -377,6 +377,10 @@ DRAW = {
     # threshold a marker is held to. The floor line and the sole are --mud-dim
     # and carry nothing. It lies still.
     "mud-welly": """<path d="M3 29 H29" stroke="var(--mud-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 24 V13 Q5 10 8 10 H17 Q19 10 19 13 V17 H25 Q28 17 28 21 V24 Z" fill="var(--mud-welly)" stroke="var(--mud-welly)" stroke-width="1.4" stroke-linejoin="round"/><path d="M4.5 26 H28.5" stroke="var(--mud-dim)" stroke-width="2.4" stroke-linecap="round"/><path d="M8 13.5 H16" stroke="var(--mud-ground)" stroke-width="1.4" stroke-linecap="round"/>""",
+    # A gavel, left on the floor of the Town Hall's rotunda: a head and a
+    # handle, in the warm gold the room uses for every link, on the hall's
+    # shade. The floor line is --th-granite and carries nothing.
+    "th-gavel": """<path d="M3 29.5 H29" stroke="var(--th-granite)" stroke-width="1.6" stroke-linecap="round"/><path d="M6 27 L18 15" stroke="var(--th-link)" stroke-width="2.6" stroke-linecap="round"/><path d="M13.5 8.5 L20.5 1.5 L28.5 9.5 L21.5 16.5 Z" fill="none" stroke="var(--th-link)" stroke-width="2.2" stroke-linejoin="round"/><path d="M17 12 L25 4" stroke="var(--th-link)" stroke-width="1.6"/>""",
     # A mitten, dropped on the ice in the Cave: a thumb and a cuff, in the pale
     # aqua the room uses for every link, 8.24 on the deep ice. The floor line
     # is --cv-seam and carries nothing.

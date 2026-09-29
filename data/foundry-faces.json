@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-09-28",
+ "_checked": "2026-09-29",
  "faces": {
   "albert-sans": {
    "family": "Albert Sans",
@@ -1015,6 +1015,23 @@
     }
    ]
   },
+  "forum": {
+   "family": "Forum",
+   "category": "Display",
+   "designer": "Denis Masharov",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/forum",
+   "copyright": "Copyright (c) 2011, Denis Masharov <denis.masharov@gmail.com>. This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+   "repository": "https://github.com/librefonts/forum",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "forum-400.woff2",
+     "sha": "678331fb318a613e"
+    }
+   ]
+  },
   "fraunces": {
    "family": "Fraunces",
    "category": "Serif",
@@ -1052,6 +1069,29 @@
      "style": "normal",
      "file": "fredoka-400.woff2",
      "sha": "27d49d7c8362279b"
+    }
+   ]
+  },
+  "gelasio": {
+   "family": "Gelasio",
+   "category": "Serif",
+   "designer": "Eben Sorkin",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/gelasio",
+   "copyright": "Copyright 2022 The Gelasio Project Authors (https://github.com/SorkinType/Gelasio)",
+   "repository": "https://github.com/SorkinType/Gelasio",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "gelasio-400.woff2",
+     "sha": "f4a2c06ef7364ed4"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "gelasio-400.woff2",
+     "sha": "f4a2c06ef7364ed4"
     }
    ]
   },

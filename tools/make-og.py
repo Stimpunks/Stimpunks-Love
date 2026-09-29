@@ -725,6 +725,15 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--cvroom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
 .og--cvroom .og-scene svg {{ display: block; width: 1200px; height: 300px; }}
 
+/* the town hall — THE ROTUNDA, LIFTED OFF THE ROOM: the drum wall with its
+   doors, the floor's rings, and the one disc of sun lying on them. */
+.og--townhall {{ width: 100%; padding: 40px 60px 0; gap: 8px; justify-content: flex-start; }}
+.og--townhall .th-over {{ margin: 0 !important; font-size: 19px; letter-spacing: .08em; text-transform: uppercase; color: #D6CEC1; }}
+.og--townhall h1 {{ font-size: 92px; margin: 0 !important; }}
+.og--townhall .og-lede {{ font-family: 'Gelasio', serif; color: #F3EEE4; max-width: 1060px; font-size: 25px; margin: 4px 0 0 !important; }}
+.og--townhall .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--townhall .og-scene svg {{ display: block; width: 1200px; height: 300px; }}
+
 /* the mud room — THE VIEW FROM THE BACK STEP, LIFTED OFF THE ROOM: the sky, the
    far shore, the causeway posts going out to the beacon, and the sky lying in
    the mud, under the room's own name. Nothing on it moves, which is the
@@ -2719,6 +2728,23 @@ def card_cvroom(p):
     )
 
 
+def card_townhall(p):
+    return (
+        "",
+        f'<div class="og og--townhall" data-fit="card">'
+        f'<p class="th-over">Stimpunks Foundation &middot; a shopfront on the street</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-scene">{p["th_scene"]}</div>'
+        f'</div>',
+        f"A dark warm stone card. A small line in pale capitals reading Stimpunks Foundation, "
+        f"a shopfront on the street, then “{p['h1text']}” in carved Roman capitals, and under it: "
+        f"{p['desc_plain']} Along the foot, the inside of a round hall: a drum wall in shade with "
+        f"dark arched doorways, each with a plaque over it, a floor of red and grey stone "
+        f"rings, and one bright disc of sun lying on the floor.",
+    )
+
+
 def card_mud(p):
     return (
         "",
@@ -3617,6 +3643,7 @@ CARDS = {
     "whroom":       card_whroom,
     "cfroom":       card_cfroom,
     "cvroom":       card_cvroom,
+    "townhall":     card_townhall,
     "mud":          card_mud,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
@@ -3928,6 +3955,11 @@ def main():
     if not cv:
         raise SystemExit("REFUSING: cavendish-cave.html has lost its ice, and its card is built out of it.")
     lifted["cv_scene"] = cv.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 56 1200 300"', 1)
+    th = re.search(r'<div class="th-head__art">\s*(?:<!--.*?-->\s*)?(<svg.*?</svg>)',
+                   (ROOT / "town-hall.html").read_text(), re.S)
+    if not th:
+        raise SystemExit("REFUSING: town-hall.html has lost its rotunda, and its card is built out of it.")
+    lifted["th_scene"] = th.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 176 1200 300"', 1)
     # THE MUD ROOM'S CARD CARRIES THE ROOM'S OWN VIEW AND OVER-LINE, cropped by its
     # viewBox to the horizon and the mud, so the card cannot disagree with the room.
     mud_src = (ROOT / "the-mud-room.html").read_text()

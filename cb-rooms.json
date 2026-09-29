@@ -182,6 +182,11 @@
    "path": "/community-center.html"
   },
   {
+   "tag": "town-hall",
+   "name": "Town Hall",
+   "path": "/town-hall.html"
+  },
+  {
    "tag": "dopamine-dress-up-den",
    "name": "Dopamine Dress-Up Den",
    "path": "/dopamine-dress-up-den.html"

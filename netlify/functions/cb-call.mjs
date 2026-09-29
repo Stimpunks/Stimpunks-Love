@@ -2,7 +2,7 @@
    on and gets back the address to frame, carrying a token for that handle and
    that room only; a guest with no pass can ask for one of the public calls
    only, under a name they typed. Nothing about the call is kept here. */
-import { readPass, roomTag, publicCall, cleanHandle, callsReady, callToken, callSrc, json, body, sameSite } from '../cb/lib.mjs';
+import { readPass, roomTag, roomAllows, publicCall, cleanHandle, callsReady, callToken, callSrc, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
@@ -19,6 +19,7 @@ export default async (req) => {
     if (!name) return json(400, { error: 'Type the name you want to appear under, up to 24 characters.' });
     who = { role: 'guest', handle: name };
   }
+  if (!roomAllows(who, room)) return json(403, { error: 'This room\'s call is for the base.' });
   let token = null;
   try { token = callToken(who, room); } catch (e) { token = null; }
   if (!token) return json(503, { error: 'Calls are switched on but the signing key cannot be read. Tell the base.' });

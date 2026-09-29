@@ -45,7 +45,7 @@ STEPS=(
   make-arrivals make-garden make-zibaldone make-rabbit-hole make-checkpoint
   make-dead-tired make-laughingstock make-picture-house make-samefood
   make-collection make-vital make-community make-dressup make-mural
-  make-coworking make-live-room make-broadside make-doom-scoop make-library make-dance-punks
+  make-coworking make-town-hall make-live-room make-broadside make-doom-scoop make-library make-dance-punks
   make-small-hours make-repeater make-nothing-for-sale make-covenstead
   make-lagoon make-looming make-sithen make-stay-frosty make-stay-breezy make-mycelium make-big-steep make-glow make-rave make-cooldown make-mud make-foundry
   # Things that read the rooms, after the rooms.

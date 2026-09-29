@@ -23,7 +23,7 @@ import { updateChalk, readChalk, updatePebbles, readPebbles, cleanLink, PEBBLE_R
   hostBeacon, stopBeacon, readBeacons, sweepBeacons, beaconRoom, cleanAt, BEACON_FRESH,
   updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
-  PUBLIC_CALLS, publicCall, callSettings } from './lib.mjs';
+  PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, roomAllows, shapeBeacons } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
 function memoryStore({ etagOnRead }) {
@@ -410,4 +410,31 @@ test('the settings webhook puts a lobby on the public calls and only them', () =
   assert.deepEqual(callSettings(`${JAAS_APP}/stimpunks-the-den`), { lobbyEnabled: false });
   assert.deepEqual(callSettings(`somebody-else/stimpunks-${PUBLIC_CALLS[0]}`), { lobbyEnabled: false }, 'another App ID');
   for (const bad of [undefined, '', 'nonsense', `${JAAS_APP}/${PUBLIC_CALLS[0]}`]) assert.deepEqual(callSettings(bad), { lobbyEnabled: false });
+});
+
+/* ── The Town Hall's private rooms ── */
+
+test('a private room is the base\'s: its call, its hosting, and its beacon in everybody else\'s answer', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const base = { role: 'base', handle: 'Base' };
+  const guest = { role: 'guest', handle: 'Visitor' };
+  assert.ok(MOD_ROOMS.length > 0);
+  for (const room of MOD_ROOMS) {
+    assert.equal(roomAllows(ada, room), false, 'a CB pass is not enough');
+    assert.equal(roomAllows(guest, room), false);
+    assert.equal(roomAllows(null, room), false);
+    assert.equal(roomAllows(base, room), true);
+    assert.equal(publicCall(room), null, 'no private room is a public call');
+    assert.equal(callToken(ada, room, Date.now(), key), null);
+    assert.equal(callToken(guest, room, Date.now(), key), null);
+    assert.equal(open(callToken(base, room, Date.now(), key)).body.room, 'stimpunks-' + room);
+    assert.equal((await hostBeacon(ada, room, 'Film', 1, true, s)).closed, true);
+  }
+  assert.equal(roomAllows(ada, null), true, 'World is everybody\'s');
+  assert.equal(roomAllows(ada, 'the-den'), true);
+  await hostBeacon(base, MOD_ROOMS[0], 'Minutes', 1, true, s);
+  await hostBeacon(ada, 'the-den', 'Film', 1, true, s);
+  const all = await readBeacons(s);
+  assert.deepEqual(shapeBeacons(all, ada).map((b) => b.room), ['the-den'], 'nobody else hears the private room is hosting');
+  assert.deepEqual(shapeBeacons(all, base).map((b) => b.room).sort(), [MOD_ROOMS[0], 'the-den'].sort());
 });

@@ -3,7 +3,7 @@
    World channel, or a room's when it names one. The answer
    carries every host's beacon on the street, and the time here, so the radio
    can find the one for its own room without telling us which room that is. */
-import { readPass, readTuned, readBeacons, roomTag, shape, shapeBeacons, callsReady, json } from '../cb/lib.mjs';
+import { readPass, readTuned, readBeacons, roomTag, roomAllows, shape, shapeBeacons, callsReady, json } from '../cb/lib.mjs';
 
 export default async (req) => {
   const who = readPass(req);
@@ -12,8 +12,9 @@ export default async (req) => {
   const asked = new URL(req.url).searchParams.get('room');
   const room = asked === null ? null : roomTag(asked);
   if (asked !== null && !room) return json(400, { error: 'That is not a room on the street.' });
+  if (!roomAllows(who, room)) return json(403, { error: 'This room\'s channel is for the base.' });
   const [ch, beacons] = await Promise.all([readTuned(room), readBeacons()]);
-  return json(200, { day: ch.day, room: room || null, messages: shape(ch.messages), beacons: shapeBeacons(beacons), now: Date.now(), calls: callsReady() });
+  return json(200, { day: ch.day, room: room || null, messages: shape(ch.messages), beacons: shapeBeacons(beacons, who), now: Date.now(), calls: callsReady() });
 };
 
 export const config = {

@@ -1247,6 +1247,23 @@
     "--cv-glow",
     "--cv-crack"
    ]
+  },
+  "town-hall.html": {
+   "kind": "orbit",
+   "trap": "ring",
+   "radius": 0.62,
+   "c": [
+    -0.1011,
+    0.9563
+   ],
+   "orbit": 0.012,
+   "ground": "--th-shade",
+   "inks": [
+    "--th-granite",
+    "--th-porphyry",
+    "--th-link",
+    "--th-sun"
+   ]
   }
  }
 }

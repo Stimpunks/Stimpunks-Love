@@ -391,6 +391,19 @@ export function roomTag(r) {
 export function readRoomTalk(room, s = store()) { return readLog(ROOM_TALK + room, s); }
 export function updateRoomTalk(room, change, s = store()) { return updateLog(ROOM_TALK + room, change, s); }
 
+/* THE TOWN HALL'S PRIVATE ROOMS ARE THE BASE'S, AND THIS IS THE ONE LIST.
+   Ryan, 2026-09-29: anybody may walk into these rooms and read them, and their
+   channel, their call and any film hosted in them are for people signed on
+   with the moderators' password. A page that only hid the radio would be a
+   lock painted on a door, so every function that touches a room asks here:
+   listening, transmitting, hosting, the beacons everybody hears, and the call.
+   tools/make-town-hall.py reads this array and refuses a page that disagrees,
+   so a room cannot be private on the page and open on the server. When roles
+   arrive, this is where a room names the role it needs. */
+export const MOD_ROOMS = ['town-hall-directors', 'town-hall-board', 'town-hall-moderators'];
+export function modRoom(tag) { return MOD_ROOMS.includes(tag) ? tag : null; }
+export function roomAllows(who, tag) { return !modRoom(tag) || !!(who && who.role === 'base'); }
+
 /* The channel a request names: a room's, or World's when it names none. */
 export function readTuned(room, s = store()) { return room ? readRoomTalk(room, s) : readChannel(s); }
 export function updateTuned(room, change, s = store()) { return room ? updateRoomTalk(room, change, s) : updateChannel(change, s); }
@@ -464,6 +477,8 @@ export function callToken(who, tag, now = Date.now(), key = jaasKey()) {
   // A guest (role 'guest') is somebody with no CB pass in a public call: the
   // same token as a participant's, and never the base's.
   if (who.role === 'guest' && !publicCall(tag)) return null;
+  // A private room's call is the base's, whatever else asks for it.
+  if (!roomAllows(who, tag)) return null;
   const base = who.role === 'base';
   const t = Math.floor(now / 1000);
   const header = { alg: 'RS256', typ: 'JWT', kid: key.kid };
@@ -557,6 +572,7 @@ async function updateBeacons(change, s, now) {
    else's live beacon there is theirs until they stop or go quiet, and only the
    base station can take a room over. The same handle may keep its own. */
 export async function hostBeacon(who, room, film, at, playing, s = store(), now = Date.now()) {
+  if (!roomAllows(who, room)) return { closed: true };
   let held = null;
   const beacons = await updateBeacons((list) => {
     held = null;
@@ -585,8 +601,11 @@ export async function sweepBeacons(s = store(), now = Date.now()) {
   return true;
 }
 
-export function shapeBeacons(list) {
-  return list.map((b) => ({ room: b.room, handle: b.handle, base: !!b.base, film: b.film, at: b.at, playing: !!b.playing, t: b.t }));
+/* What a radio may hear of the beacons: everything, except a private room's
+   to anybody who could not go in there. A film hosted in the board room is
+   itself a thing about the board room. */
+export function shapeBeacons(list, who = null) {
+  return list.filter((b) => !who || roomAllows(who, b.room)).map((b) => ({ room: b.room, handle: b.handle, base: !!b.base, film: b.film, at: b.at, playing: !!b.playing, t: b.t }));
 }
 
 /* ── Passes ────────────────────────────────────────────────────────────── */
