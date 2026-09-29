@@ -25,7 +25,8 @@ import { updateChalk, readChalk, updatePebbles, readPebbles, cleanLink, PEBBLE_R
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
   PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons,
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
-  imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX } from './lib.mjs';
+  imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
+  cleanMessage, MESSAGE_MAX, cleanText } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
 function memoryStore({ etagOnRead }) {
@@ -564,4 +565,15 @@ test('a picture goes when its message goes, and an unsent one within the hour', 
   const left = s.keys().filter((k) => k.startsWith('img/')).map((k) => k.slice(4)).sort();
   assert.deepEqual(left, [held, pushed, unsentNew].sort(), 'held stays, a fresh upload waits, an old unsent one goes');
   assert.deepEqual(shape([{ id: 'b', handle: 'Ada', t: now, img: held, alt: 'A cat' }])[0], { id: 'b', handle: 'Ada', text: '', t: now, base: false, img: held, alt: 'A cat' });
+});
+
+test('a CB message keeps its lines and is refused past its length', () => {
+  assert.equal(cleanMessage('- one\r\n- two\n\n\n\nthree  '), '- one\n- two\n\nthree', 'lines kept, at most one blank line, no trailing spaces');
+  assert.equal(cleanMessage('```\n\tcode\n```'), '```\n    code\n```', 'a tab becomes spaces');
+  assert.equal(cleanMessage('a\u0007b\u202ec'), 'a b c', 'control and direction characters go');
+  assert.equal(cleanMessage('\n\n  \n'), null, 'nothing but space is nothing');
+  assert.equal(cleanMessage('x'.repeat(MESSAGE_MAX)).length, MESSAGE_MAX);
+  assert.equal(cleanMessage('x'.repeat(MESSAGE_MAX + 1)), null);
+  assert.equal(cleanText('a\nb'), 'a b', 'the Slake and the boards stay one line');
+  assert.equal(cleanMessage('<b>not html</b>'), '<b>not html</b>', 'kept as words; the radio never renders it as markup');
 });

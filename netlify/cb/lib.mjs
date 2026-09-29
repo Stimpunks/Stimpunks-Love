@@ -81,7 +81,8 @@ import { getStore } from '@netlify/blobs';
 
 export const KEEP = 10;             // messages on the channel at once
 export const HANDLE_MAX = 24;       // characters
-export const TEXT_MAX = 280;        // characters
+export const TEXT_MAX = 280;        // characters of a line on the Slake, the chalkboard or a bowl
+export const MESSAGE_MAX = 2000;    // characters of a message on the CB's channels (Ryan, 2026-09-29)
 export const ZONE = 'America/Denver';
 const KEY = 'channel';
 
@@ -857,6 +858,22 @@ export function cleanHandle(s) {
 export function cleanText(s) {
   const t = tidy(s);
   return t && [...t].length <= TEXT_MAX ? t : null;
+}
+
+/* A message on the CB's channels keeps its lines, because it may be a list or
+   a paragraph or a block of code: line breaks stay (at most one blank line in
+   a row), tabs become spaces, every other control character goes, and each
+   line loses the spaces at its end. The radio draws its Markdown from these
+   lines; nothing in a message is ever HTML. */
+export function cleanMessage(s) {
+  const t = String(s == null ? '' : s)
+    .replace(/\r\n?/g, '\n')
+    .replace(/\t/g, '    ')
+    .replace(/[\u0000-\u0009\u000b-\u001f\u007f-\u009f\u200b-\u200f\u202a-\u202e\u2066-\u2069]/g, ' ')
+    .split('\n').map((line) => line.replace(/[ \u00a0]+$/, '')).join('\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/^\n+|\n+$/g, '');
+  return t.trim() && [...t].length <= MESSAGE_MAX ? t : null;
 }
 
 /* ── Answers ───────────────────────────────────────────────────────────── */

@@ -71,6 +71,7 @@
   'use strict';
 
   var KEY = 'love-cb';
+  var MESSAGE_MAX = 2000;  // characters, as netlify/cb/lib.mjs takes them
   var EVERY = 4000;       // ms between listens while open and in front
   var BEAT = 30000;       // ms a host's beacon goes unsent at most, while nothing changes
   var FILM_MAX = 120;     // characters of a film's title on a beacon, as the server takes it
@@ -160,6 +161,104 @@
      rather than escaped, so nothing but a path can reach an href. */
   var STREET = /(?:https?:\/\/)?(?:www\.)?stimpunks\.world(\/[A-Za-z0-9\-._~\/#?=&%+]*)?/gi;
   var TRAIL = /[.,;:!?)\]'"]+$/;
+
+  /* BASIC MARKDOWN, Ryan's ask, 2026-09-29, and it is drawn as elements, never
+     as HTML: a message is split into lines and every piece becomes a node built
+     here, with the words as text, so nothing anybody types can become markup.
+     Paragraphs and line breaks; > a quote; - or * or 1. a list; ``` a block of
+     code; **bold**, *italic* or _italic_, ~~struck~~ and `code` inline.
+     NOT links: a [text](address) stays as it was typed, because the only links
+     on the channel are this street's own addresses and #rooms (streetLinks),
+     and widening that is Ryan's call, not a Markdown feature.
+     TWO THINGS ARE KEPT WHOLE and never parsed for emphasis: a street address
+     (underscores in a path are not italics) and a place in a film with what it
+     names (@1:25 in “the film” at #the-room), because a title with an asterisk
+     in it would otherwise break the button that jumps to it. */
+  var MD_ITEM = /^\s*([-*•]|\d{1,3}[.)])\s+(.*)$/;
+  var MD_QUOTE = /^\s*>\s?(.*)$/;
+  var MD_FENCE = /^\s*```/;
+  var MD_EMPH = '\\*\\*(?=\\S)([^*\\n]*?\\S)\\*\\*|~~(?=\\S)([^~\\n]*?\\S)~~|(^|[^\\w*])\\*(?=\\S)([^*\\n]*?\\S)\\*(?![\\w*])|(^|[^\\w])_(?=\\S)([^_\\n]*?\\S)_(?!\\w)';
+
+  function md(box, text) {
+    var lines = String(text || '').split('\n'), i = 0, para = null, q, it;
+    while (i < lines.length) {
+      var line = lines[i];
+      if (MD_FENCE.test(line)) {
+        var code = [];
+        for (i++; i < lines.length && !/^\s*```\s*$/.test(lines[i]); i++) code.push(lines[i]);
+        i++;
+        var pre = el('pre', 'cb-md-pre');
+        pre.appendChild(el('code', null, code.join('\n')));
+        box.appendChild(pre);
+        para = null;
+        continue;
+      }
+      if (!line.trim()) { para = null; i++; continue; }
+      if (MD_QUOTE.test(line)) {
+        var bq = el('blockquote', 'cb-md-quote'), inner = [];
+        while (i < lines.length && (q = MD_QUOTE.exec(lines[i]))) { inner.push(q[1]); i++; }
+        md(bq, inner.join('\n'));
+        box.appendChild(bq);
+        para = null;
+        continue;
+      }
+      if ((it = MD_ITEM.exec(line))) {
+        var ordered = /\d/.test(it[1]), list = el(ordered ? 'ol' : 'ul', 'cb-md-list');
+        if (ordered && parseInt(it[1], 10) !== 1) list.start = parseInt(it[1], 10);
+        while (i < lines.length && (it = MD_ITEM.exec(lines[i])) && /\d/.test(it[1]) === ordered) {
+          var item = el('li');
+          inline(item, it[2]);
+          list.appendChild(item);
+          i++;
+        }
+        box.appendChild(list);
+        para = null;
+        continue;
+      }
+      if (!para) { para = el('p', 'cb-md-p'); box.appendChild(para); }
+      else para.appendChild(el('br'));
+      inline(para, line);
+      i++;
+    }
+    return box;
+  }
+
+  // `code` first: nothing inside a code span is anything but its words.
+  function inline(parent, text) {
+    var parts = text.split(/(`[^`\n]+`)/);
+    for (var i = 0; i < parts.length; i++) {
+      if (!parts[i]) continue;
+      if (i % 2) parent.appendChild(el('code', 'cb-md-code', parts[i].slice(1, -1)));
+      else emphasis(parent, parts[i]);
+    }
+  }
+
+  function kept(text) {
+    var out = [], m, re = new RegExp(STREET.source, 'gi'), st = new RegExp(STAMP.source, 'g');
+    while ((m = re.exec(text))) out.push([m.index, m.index + m[0].length]);
+    while ((m = st.exec(text))) {
+      var end = m.index + m[0].length, n = text.slice(end).match(NAMED);
+      out.push([m.index, end + (n ? n[0].length : 0)]);
+    }
+    return out;
+  }
+
+  function emphasis(parent, text) {
+    var keep = kept(text), re = new RegExp(MD_EMPH, 'g'), at = 0, m;
+    while ((m = re.exec(text))) {
+      var lead = m[3] != null ? m[3] : m[5] != null ? m[5] : '';
+      var s = m.index + lead.length, e = m.index + m[0].length;
+      var hit = keep.some(function (k) { return s < k[1] && e > k[0]; });
+      if (hit) { re.lastIndex = m.index + 1; continue; }
+      if (s > at) streetLinks(parent, text.slice(at, s));
+      var tag = m[1] != null ? 'strong' : m[2] != null ? 's' : 'em';
+      var w = el(tag);
+      emphasis(w, m[1] != null ? m[1] : m[2] != null ? m[2] : m[4] != null ? m[4] : m[6]);
+      parent.appendChild(w);
+      at = e;
+    }
+    if (at < text.length) streetLinks(parent, text.slice(at));
+  }
 
   function streetLinks(parent, text) {
     var at = 0, m;
@@ -432,6 +531,28 @@
     tpp.appendChild(this.tpNone);
     box.appendChild(tpp);
 
+    /* THE SIZE, three of them, Ryan's ask, 2026-09-29: Small is the bar and the
+       newest message and still listens, Normal is the radio as it was, and
+       Large is wide and tall, for long messages and pictures. One button on the
+       bar opens them, because the bar is full and a fourth button wraps it. */
+    var szp = this.sizePanel = el('div', 'cb-size-panel');
+    szp.id = 'cb-size-panel';
+    szp.hidden = true;
+    szp.setAttribute('role', 'group');
+    szp.setAttribute('aria-label', 'Radio size');
+    this.sizeChoices = {};
+    ['small', 'normal', 'large'].forEach(function (k) {
+      var b = el('button', 'cb-btn cb-size-choice', k.charAt(0).toUpperCase() + k.slice(1));
+      b.type = 'button';
+      b.addEventListener('click', function () { me.setSize(k); me.setSizePanel(false); me.sizeBtn.focus(); });
+      me.sizeChoices[k] = b;
+      szp.appendChild(b);
+    });
+    szp.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { e.preventDefault(); me.setSizePanel(false); me.sizeBtn.focus(); }
+    });
+    box.appendChild(szp);
+
     // Everything below the bar is the set, and folding it switches it off.
     var set = this.set = el('div', 'cb-set');
     set.id = 'cb-set';
@@ -481,10 +602,14 @@
     var form = this.form = el('form', 'cb-tx');
     var lab = el('label', 'cb-lab', 'Your message');
     lab.htmlFor = 'cb-say';
-    var say = this.say = el('input', 'cb-say');
+    /* A TEXTAREA, so a message can be a list, a paragraph or a block of code.
+       It grows as you type, up to about eight lines, and can be dragged taller.
+       Enter sends and Shift and Enter makes a new line, the way chat does. */
+    var say = this.say = el('textarea', 'cb-say cb-say--msg');
     say.id = 'cb-say';
-    say.type = 'text';
-    say.maxLength = 280;
+    say.rows = 2;
+    say.maxLength = MESSAGE_MAX;
+    say.setAttribute('aria-describedby', 'cb-say-hint');
     say.autocomplete = 'off';
     say.setAttribute('enterkeyhint', 'send');
     /* THE COMPLETION LIST, the ARIA combobox pattern. Typing # and a letter
@@ -520,8 +645,7 @@
     picFile.tabIndex = -1;
     picBtn.addEventListener('click', function () { picFile.click(); });
     picFile.addEventListener('change', function () { me.pickPicture(picFile.files && picFile.files[0]); });
-    var row = el('div', 'cb-row');
-    row.appendChild(say);
+    var row = el('div', 'cb-row cb-send-row');
     row.appendChild(picBtn);
     row.appendChild(send);
     var ready = this.picReady = el('div', 'cb-pic-ready');
@@ -544,8 +668,12 @@
     // In the form, hidden: a file input outside the document is one some
     // browsers will not open a picker for.
     form.appendChild(picFile);
+    var hint = el('p', 'cb-hint', 'Enter sends, Shift and Enter makes a new line. Markdown works: **bold**, *italic*, `code`, > quotes, - lists.');
+    hint.id = 'cb-say-hint';
     form.appendChild(lab);
     form.appendChild(pick);
+    form.appendChild(say);
+    form.appendChild(hint);
     form.appendChild(row);
     form.appendChild(ready);
     set.appendChild(form);
@@ -605,7 +733,7 @@
     box.appendChild(set);
 
     fold.addEventListener('click', function () { me.setFolded(!me.state.folded); });
-    size.addEventListener('click', function () { me.setSmall(!me.state.small); });
+    size.addEventListener('click', function () { me.setSizePanel(me.sizePanel.hidden); });
     tp.addEventListener('click', function () { me.setTeleport(tpp.hidden); });
     find.addEventListener('input', function () { me.tpRender(); });
     find.addEventListener('keydown', function (e) { me.tpKey(e); });
@@ -635,7 +763,12 @@
     say.addEventListener('keyup', function (e) {
       if (/^(ArrowLeft|ArrowRight|Home|End)$/.test(e.key)) me.complete();
     });
-    say.addEventListener('keydown', function (e) { me.pickKey(e); });
+    say.addEventListener('keydown', function (e) {
+      me.pickKey(e);
+      if (e.defaultPrevented || e.isComposing) return;
+      if (e.key === 'Enter' && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) { e.preventDefault(); me.transmit(); }
+    });
+    say.addEventListener('input', function () { me.grow(); });
     say.addEventListener('blur', function () { me.close(); });
     this.mover = new window.loveCall.Mover(box, bar, move, state, 'right', 'cb-radio--held', function () { save(me.state); });
 
@@ -671,7 +804,7 @@
     this.bandShown();
     this.setAloud(this.aloud(), true);
     this.setSpeak(!!this.state.speak, true);
-    this.setSmall(!!state.small, true);
+    this.setSize(state.size || (state.small ? 'small' : 'normal'), true);
     this.setFolded(!!state.folded, true);
     this.place();
   }
@@ -813,6 +946,10 @@
     var words = li.querySelector('.cb-text').cloneNode(true);
     var drawn = words.querySelectorAll('[aria-hidden="true"]');
     for (var i = 0; i < drawn.length; i++) drawn[i].remove();
+    // A pause between the Markdown's paragraphs, lines and list items, which
+    // textContent would otherwise run together into one word.
+    var parts = words.querySelectorAll('p, li, pre, br');
+    for (i = 0; i < parts.length; i++) parts[i].after('. ');
     var pic = li.querySelector('.cb-picture-open');
     var told = pic ? ' ' + pic.getAttribute('aria-label').replace(/^Open the picture larger\. /, 'A picture: ') : '';
     (this.air = this.air || []).push(li.querySelector('.cb-handle').textContent + '. ' + words.textContent + told);
@@ -868,16 +1005,28 @@
      here as anywhere on the radio. To answer, make it full size again: a box
      to type in is most of what the radio's height is. The radio is anchored by
      its bottom right corner, so it shrinks towards wherever it was put. */
-  Radio.prototype.setSmall = function (small, quiet) {
-    this.state.small = small;
+  Radio.prototype.setSize = function (size, quiet) {
+    if (size !== 'small' && size !== 'large') size = 'normal';
+    var small = size === 'small';
+    this.state.size = size;
+    this.state.small = small;   // kept, so a radio saved before sizes still opens small
     this.box.classList.toggle('cb-radio--small', small);
-    this.sizeBtn.setAttribute('aria-pressed', String(small));
-    this.sizeBtn.textContent = 'Small';
-    this.sizeBtn.setAttribute('aria-label', small ? 'Small: showing only the newest message' : 'Small: show only the newest message');
+    this.box.classList.toggle('cb-radio--large', size === 'large');
+    this.sizeBtn.textContent = 'Size';
+    this.sizeBtn.setAttribute('aria-label', 'Size: ' + size + (small ? ', showing only the newest message' : ''));
+    for (var k in this.sizeChoices) this.sizeChoices[k].setAttribute('aria-pressed', String(k === size));
     if (small) { this.close(); this.tell(''); }
     if (!quiet) save(this.state);
     this.place();
     if (!small) this.log.scrollTop = this.log.scrollHeight;
+  };
+
+  Radio.prototype.setSizePanel = function (open) {
+    this.sizePanel.hidden = !open;
+    this.sizeBtn.setAttribute('aria-expanded', String(open));
+    this.sizeBtn.setAttribute('aria-controls', 'cb-size-panel');
+    if (open && this.sizeChoices[this.state.size || 'normal']) this.sizeChoices[this.state.size || 'normal'].focus();
+    this.place();
   };
 
   Radio.prototype.setFolded = function (folded, quiet) {
@@ -885,6 +1034,7 @@
     this.box.classList.toggle('cb-radio--folded', folded);
     this.set.hidden = folded;
     this.sizeBtn.hidden = folded;
+    if (folded) this.setSizePanel(false);
     this.tpBtn.hidden = folded;
     if (folded && !this.tpPanel.hidden) this.setTeleport(false);
     this.foldBtn.setAttribute('aria-expanded', String(!folded));
@@ -966,7 +1116,8 @@
     for (i = 0; i < messages.length; i++) want[messages[i].id] = true;
     // Gone from the channel: pushed off by an eleventh, taken off by the base,
     // or midnight.
-    var lis = this.log.querySelectorAll('li');
+    // The log's own children only: a message's Markdown list has li in it too.
+    var lis = this.log.querySelectorAll(':scope > li');
     for (i = 0; i < lis.length; i++) {
       if (!want[lis[i].dataset.id]) {
         delete this.seen[lis[i].dataset.id];
@@ -993,22 +1144,25 @@
       when.dateTime = new Date(m.t).toISOString();
       head.appendChild(when);
       li.appendChild(head);
-      var said = el('p', 'cb-text');
+      var said = el('div', 'cb-text');
       said.cbRaw = m.text;
-      li.appendChild(streetLinks(said, m.text));
+      li.appendChild(md(said, m.text));
       if (m.img) li.appendChild(this.picture_(m));
       added++;
+      /* Drawn on the message's own name-and-time line by cb.css, but kept
+         AFTER the words in the markup: the log is a live region, and a new
+         message is announced in markup order, so "Copy" or "Take off" first
+         would be read in front of every message. */
+      var acts = el('div', 'cb-acts');
+      if (m.text) acts.appendChild(this.copyBtn(m));
       if (this.state.base) {
-        /* Drawn on the message's own name-and-time line by cb.css, but kept
-           AFTER the words in the markup: the log is a live region, and a new
-           message is announced in markup order, so "Take off" first would be
-           read in front of every message the base hears. */
         var off = el('button', 'cb-btn cb-take', 'Take off');
         off.type = 'button';
         off.setAttribute('aria-label', 'Take ' + m.handle + '’s message at ' + clock(m.t) + ' off the air');
         (function (id) { off.addEventListener('click', function () { me.moderate({ remove: id }); }); })(m.id);
-        li.appendChild(off);
+        acts.appendChild(off);
       }
+      if (acts.children.length) li.appendChild(acts);
       this.log.appendChild(li);
       if (news && !(mine && m.handle === this.state.handle)) this.speak(li);
     }
@@ -1016,6 +1170,26 @@
     this.quiet.hidden = messages.length > 0;
     this.log.hidden = messages.length === 0;
     if (mine || (added && atEnd)) this.log.scrollTop = this.log.scrollHeight;
+  };
+
+  /* COPY, on every message with words in it: the words as they were typed,
+     Markdown and all, onto your own clipboard. The answer is on the button and
+     on the radio's own line under the log, so it is seen where the hand is. */
+  Radio.prototype.copyBtn = function (m) {
+    var me = this, b = el('button', 'cb-btn cb-copy', 'Copy');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Copy ' + m.handle + '’s message at ' + clock(m.t));
+    b.addEventListener('click', function () {
+      var done = function () {
+        b.textContent = 'Copied';
+        me.tell('Copied ' + m.handle + '’s message.');
+        setTimeout(function () { b.textContent = 'Copy'; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(m.text).then(done, function () { me.tell('Your browser would not let the radio copy that.'); });
+      } else me.tell('Your browser would not let the radio copy that.');
+    });
+    return b;
   };
 
   /* A picture in the log. It has no public address, so it is fetched with the
@@ -1141,7 +1315,7 @@
     for (var i = 0; i < ps.length; i++) {
       if (typeof ps[i].cbRaw !== 'string') continue;
       ps[i].textContent = '';
-      streetLinks(ps[i], ps[i].cbRaw);
+      md(ps[i], ps[i].cbRaw);
     }
   };
 
@@ -1296,6 +1470,7 @@
     var next = v.slice(0, t.start) + put + after;
     if (next.length > this.say.maxLength) { this.tell('That room would not fit in the message.'); this.close(); return; }
     this.say.value = next;
+    this.grow();
     var c = t.start + put.length;
     this.say.setSelectionRange(c, c);
     this.close();
@@ -1325,6 +1500,14 @@
     this.picReady.hidden = true;
   };
 
+  // The message box grows with what is in it, to about eight lines.
+  Radio.prototype.grow = function () {
+    var t = this.say;
+    t.style.height = 'auto';
+    var line = parseFloat(getComputedStyle(t).lineHeight) || 20;
+    t.style.height = Math.min(t.scrollHeight + 4, line * 8 + 16) + 'px';
+  };
+
   Radio.prototype.transmit = function () {
     var me = this, text = this.say.value.trim(), picture = this.picture;
     this.close();
@@ -1342,6 +1525,7 @@
       if (r.status === 401) return me.lost();
       if (r.status === 200) {
         me.say.value = '';
+        me.grow();
         if (picture) me.dropPicture();
         me.tell('');
         if (room === me.tunedRoom()) me.show(r.body.messages || [], true);
@@ -1430,6 +1614,7 @@
     if (film.length > space) film = film.slice(0, space - 1).trim() + '\u2026';
     var put = lead + head + film + tail + trail;
     this.say.value = before + put + after;
+    this.grow();
     c = before.length + put.length;
     this.say.focus();
     this.say.setSelectionRange(c, c);

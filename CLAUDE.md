@@ -2714,6 +2714,18 @@ scrolls under a reader**: it used to jump to the bottom on every listen, so scro
 four seconds later. It follows the newest message only when something new arrived and the log was
 already at the bottom, or when you transmitted.
 
+**A MESSAGE IS 2,000 CHARACTERS AND BASIC MARKDOWN, DRAWN AS ELEMENTS AND NEVER AS HTML.** Ryan,
+2026-09-29. `MESSAGE_MAX` and `cleanMessage` in `lib.mjs` keep a message's lines (the Slake, the
+chalkboard and the bowls keep `TEXT_MAX`'s 280 and one line). `md()` in `cb.js` builds every piece
+with `el()` and `textContent`, so nothing typed becomes markup. **Links are still only
+`streetLinks`'**: a Markdown link stays as typed. `kept()` keeps a street address and a stamp with
+what it names out of the emphasis pass, because an underscore in a path or an asterisk in a film's
+title would otherwise break the link or the jump. **A message now has `li` inside it**, and the
+pass that drops messages gone from the channel read those as messages and emptied every list; it
+asks for `:scope > li`. Anything else walking the log must ask the same way. Copy writes the words
+as typed and sends nothing. Size (Small, Normal, Large) is one button on the bar, because the bar
+is full.
+
 **THE TELEPORTER IS WHERE "CH 19" WAS, AND IT SENDS NOTHING.** Ryan, 2026-09-26: the channel number
 was decoration, so the bar's readout became a button that opens a filterable list of every room on
 the street, out of the same `/cb-rooms.json` as the #tags, and goes there. Going is ordinary

@@ -44,7 +44,7 @@
   display: flex; flex-direction: column;
 }
 .cb-bar { flex: none; }
-.cb-tp-panel { flex: none; }
+.cb-tp-panel, .cb-size-panel { flex: none; }
 .cb-set { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
 /* EVERY ROW KEEPS ITS OWN HEIGHT, and the set scrolls instead. Once the radio
    was capped at the window's height the set had a height shorter than what is
@@ -83,6 +83,15 @@
 .cb-tp:hover, .cb-tp[aria-expanded="true"] { border-color: var(--cb-amber); }
 .cb-tp-panel { padding: 10px 12px 0; display: grid; gap: 6px; }
 .cb-tp-panel .cb-lab { margin: 0; }
+/* SIZE: three buttons under the bar, the one you are on filled, which is the
+   Follow button's pair and so a pair check-contrast.py already measures. */
+.cb-size-panel { padding: 10px 12px 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.cb-size-choice[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
+/* LARGE: wider and taller, for long messages and pictures. Never wider than
+   the window, like every size. */
+.cb-radio--large { width: min(640px, calc(100vw - 16px)); }
+.cb-radio--large .cb-log { max-height: min(62vh, 720px); }
+.cb-radio--large .cb-picture-img { max-height: 360px; }
 .cb-tp-find { width: 100%; }
 .cb-tp-list { max-height: min(40vh, 260px); margin: 0; }
 
@@ -137,14 +146,32 @@
 /* The base's Take off sits at the end of the name-and-time line rather than on
    a row of its own under every message, which doubled the log's height. Still
    a real target: 32px tall, over WCAG's 24. */
-.cb-msg > .cb-take {
+.cb-msg > .cb-acts {
   grid-column: 2; grid-row: 1; align-self: center;
-  min-height: 32px; min-width: 0; padding: 2px 8px; font-size: 12px;
+  display: flex; gap: 6px;
 }
+.cb-acts > .cb-btn { min-height: 32px; min-width: 0; padding: 2px 8px; font-size: 12px; }
+.cb-copy { color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2); }
 .cb-head { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
 .cb-handle { font-weight: 700; }
 .cb-time { margin-left: auto; font-size: 13px; color: var(--cb-amber-2); }
-.cb-text { overflow-wrap: anywhere; }
+.cb-text { overflow-wrap: anywhere; display: grid; gap: 6px; min-width: 0; }
+/* BASIC MARKDOWN, every piece in the log's own amber on the readout's black,
+   so it brings no pair check-contrast.py has not measured: weight, slope and a
+   rule do the work, never a colour. Code keeps its lines and scrolls sideways
+   inside its own box rather than widening the radio. */
+.cb-text > *, .cb-md-quote > * { margin: 0; }
+.cb-md-list { padding-left: 1.4em; }
+ul.cb-md-list { list-style: disc; }
+ol.cb-md-list { list-style: decimal; }
+.cb-md-quote { margin: 0; padding: 0 0 0 10px; border-left: 3px solid var(--cb-amber-2); display: grid; gap: 6px; }
+.cb-md-code, .cb-md-pre {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: .92em;
+  border: 1px solid var(--cb-amber-2); border-radius: 3px;
+}
+.cb-md-code { padding: 0 3px; }
+.cb-md-pre { padding: 6px 8px; overflow-x: auto; white-space: pre; overflow-wrap: normal; max-width: 100%; }
+.cb-text strong { font-weight: 700; }
 .cb-msg .cb-tag { margin-left: 0; }
 /* Hosts, in the readout under the log. Amber on the readout's black, as the
    log is, and the Catch up button is the Take-off-the-air button's pair. */
@@ -235,6 +262,11 @@
 .cb-opt[aria-selected="true"] { color: var(--cb-lcd); background: var(--cb-amber); }
 .cb-opt[aria-selected="true"] .cb-opt__tag { color: var(--cb-lcd); }
 .cb-said { font-size: 13px; }
+/* THE MESSAGE BOX is a textarea: it grows as you type (cb.js) to about eight
+   lines, and can be dragged taller than that, never wider than the radio. */
+.cb-say--msg { display: block; width: 100%; resize: vertical; max-height: 60vh; overflow-y: auto; }
+.cb-send-row { justify-content: flex-end; margin-top: 8px; }
+.cb-hint { margin: 4px 0 0; font-size: 12px; color: var(--cb-steel); }
 .cb-said:empty { display: none; }
 .cb-tools { display: flex; flex-wrap: wrap; gap: 8px; }
 .cb-norms { font-size: 13px; }
@@ -244,15 +276,12 @@
    and the newest is clamped to a few lines so a long one cannot grow the radio
    back over whatever it was made small to get out of the way of. */
 .cb-radio--small .cb-who, .cb-radio--small .cb-band, .cb-radio--small .cb-tx,
-.cb-radio--small .cb-tools, .cb-radio--small .cb-norms, .cb-radio--small .cb-take { display: none; }
+.cb-radio--small .cb-tools, .cb-radio--small .cb-norms, .cb-radio--small .cb-acts { display: none; }
 .cb-radio--small .cb-set { padding: 8px; }
 .cb-radio--small .cb-lcd { padding: 6px 9px; }
 .cb-radio--small .cb-log { max-height: none; overflow: hidden; }
 .cb-radio--small .cb-log > li:not(:last-child) { display: none; }
-.cb-radio--small .cb-text {
-  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3;
-  overflow: hidden;
-}
+.cb-radio--small .cb-text { max-height: 4.4em; overflow: hidden; }
 
 /* A ROOM'S CALL: a window of its own at the foot of the page, bottom left
    where the radio is bottom right, one step under it so the radio can always

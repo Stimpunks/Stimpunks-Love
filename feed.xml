@@ -9,94 +9,101 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Tue, 29 Sep 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Longer messages on the CB</title>
+      <link>https://stimpunks.world/changelog.html#2026-09-29-cb-long-messages</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-cb-long-messages</guid>
+      <pubDate>Tue, 29 Sep 2026 12:00:00 GMT</pubDate>
+      <description>A CB message can run to 2,000 characters and keep its lines. The message box is a box of several lines now, which grows as you type and can be dragged taller: Enter sends, and Shift and Enter starts a new line. A little Markdown works: bold, italic, code, a block of code, a quote and a list. It is drawn by the radio as ordinary text, never as markup, and links are still only rooms on the street. Copy on every message puts its words, as they were typed, on your own clipboard. Size on the bar makes the radio Small, Normal or Large. Large is wider and taller, for long messages and pictures.</description>
+    </item>
+    <item>
       <title>A picture on the CB opens larger</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-cb-lightbox</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-cb-lightbox</guid>
-      <pubDate>Tue, 29 Sep 2026 12:00:00 GMT</pubDate>
+      <pubDate>Tue, 29 Sep 2026 11:59:00 GMT</pubDate>
       <description>Press a picture on the CB to see it as large as the window allows, with its description and a Download button; Escape or Close puts you back on the picture. Every picture also has a small Download link under it. A picture can no longer push the radio wider than its window, which was cutting off Transmit in Safari, and the Picture and Transmit buttons keep their full labels in Firefox.</description>
     </item>
     <item>
       <title>Pictures on the CB</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-cb-pictures</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-cb-pictures</guid>
-      <pubDate>Tue, 29 Sep 2026 11:59:00 GMT</pubDate>
+      <pubDate>Tue, 29 Sep 2026 11:58:00 GMT</pubDate>
       <description>A message on the CB can carry a picture now: press Picture beside Transmit, pick a screenshot or a photo, and say what is in it if you like. The radio redraws it in your own browser before it goes, which takes off where it was taken and anything else a camera writes into a file. A picture goes when its message goes: pushed off by an eleventh, taken off by the base, or at midnight, and one that was never sent within the hour. It has no public address, and a picture sent in a private room is only for the people that room is for. The privacy page says the rest.</description>
     </item>
     <item>
       <title>Sharing files in a call</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-call-files</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-call-files</guid>
-      <pubDate>Tue, 29 Sep 2026 11:58:00 GMT</pubDate>
+      <pubDate>Tue, 29 Sep 2026 11:57:00 GMT</pubDate>
       <description>Everybody in a room’s call can share a file now, a screenshot or a photo, from the call’s own Share file button, which used to be greyed out. The file goes to 8x8, who run the calls, and never to us; the privacy page says what that means. The CB’s channel stays words only.</description>
     </item>
     <item>
       <title>Executive Session, off the Town Hall</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-executive-session</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-executive-session</guid>
-      <pubDate>Tue, 29 Sep 2026 11:57:00 GMT</pubDate>
+      <pubDate>Tue, 29 Sep 2026 11:56:00 GMT</pubDate>
       <description>A new door off the Town Hall opens onto Executive Session: the board without staff, in a dark room lit only by the EXIT sign over its shut door, with what an executive session is, from BoardSource’s guide. Its radio and call are for the board role and nothing else. It is the one room the administrator key does not open, because an executive session is the board meeting without staff. Anybody can walk in and read it; the server keeps the rest.</description>
     </item>
     <item>
       <title>Directors join the Board room</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-board-directors</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-board-directors</guid>
-      <pubDate>Tue, 29 Sep 2026 11:56:00 GMT</pubDate>
+      <pubDate>Tue, 29 Sep 2026 11:55:00 GMT</pubDate>
       <description>The Board room now takes moderators with the director role as well as the board role, because directors join board meetings. Its radio, its call and anything hosted in it follow, and the server checks, every time.</description>
     </item>
     <item>
       <title>Moderators have their own handles and roles</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-mod-roles</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-mod-roles</guid>
-      <pubDate>Tue, 29 Sep 2026 11:55:00 GMT</pubDate>
+      <pubDate>Tue, 29 Sep 2026 11:54:00 GMT</pubDate>
       <description>The moderators’ password now only works for a handle on the moderators’ list, and the community password refuses any handle on it, so nobody else can sign on as a moderator. The list is kept in the site’s settings and not published. The Town Hall’s rooms follow the roles on it. The Moderators’ room is for any moderator, the Board room for moderators with the board role, the Directors’ room for moderators with the director role, and administrators can go into all of them. The server checks, every time.</description>
     </item>
     <item>
       <title>The Moderators’ room, and every door off the Town Hall is open</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-moderators</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-moderators</guid>
-      <pubDate>Tue, 29 Sep 2026 11:54:00 GMT</pubDate>
+      <pubDate>Tue, 29 Sep 2026 11:53:00 GMT</pubDate>
       <description>The last door off the Town Hall opens onto the Moderators’ room: a room for Stimpunks Moderators to meet, above the street at night, lit only by the shopfronts’ own colours on its ceiling. It says what the base looks after and where to report a concern. Anybody can walk in; the radio and the call in there are for the base, and the server keeps it that way.</description>
     </item>
     <item>
       <title>Today’s board meeting, in the Board room</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-board-agenda</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-board-agenda</guid>
-      <pubDate>Tue, 29 Sep 2026 11:53:00 GMT</pubDate>
+      <pubDate>Tue, 29 Sep 2026 11:52:00 GMT</pubDate>
       <description>The Board room carries the outline of today’s board meeting: the decisions required, the order of business with its timings, and how to take part from somewhere else. The papers behind it go to the board.</description>
     </item>
     <item>
       <title>The Board room, off the Town Hall</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-board</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-board</guid>
-      <pubDate>Tue, 29 Sep 2026 11:52:00 GMT</pubDate>
+      <pubDate>Tue, 29 Sep 2026 11:51:00 GMT</pubDate>
       <description>A door off the Town Hall opens onto the Board room: a room for Stimpunks Board Members to meet, at one long table with the same small lamp at every seat. It lists the board as our Board &amp; Governance page does, and carries the Governance &amp; Ethics section of our Accountability &amp; Transparency page, word for word. Anybody can walk in; the radio and the call in there are for the base, and the server keeps it that way.</description>
     </item>
     <item>
       <title>The Directors’ room, off the Town Hall</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-directors</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-directors</guid>
-      <pubDate>Tue, 29 Sep 2026 11:51:00 GMT</pubDate>
+      <pubDate>Tue, 29 Sep 2026 11:50:00 GMT</pubDate>
       <description>A door off the Town Hall opens onto the Directors’ room: a room for Stimpunks Directors to meet, lit only through the frosted pane in its door. It lists the directors as our About page does, each linked to their own section there. Anybody can walk in; the radio and the call in there are for the base, and the server keeps it that way.</description>
     </item>
     <item>
       <title>The Fishbowl, off the Town Hall</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-fishbowl</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-fishbowl</guid>
-      <pubDate>Tue, 29 Sep 2026 11:50:00 GMT</pubDate>
+      <pubDate>Tue, 29 Sep 2026 11:49:00 GMT</pubDate>
       <description>The first door off the Town Hall opens onto the Fishbowl: a room for community fishbowl meetings for anyone with CB access. A few people talk in the middle, everybody else listens round the outside, and one seat in the middle is always kept empty for whoever wants to step in. It is a glass bowl of water on a sunny sill, lit by the sun bent through the water into bright lines on the gravel, with a ring of stones inside that always has one gap in it. The call is for people signed on to the CB, and anybody can look round.</description>
     </item>
     <item>
       <title>The Town Hall</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-town-hall</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-town-hall</guid>
-      <pubDate>Tue, 29 Sep 2026 11:49:00 GMT</pubDate>
+      <pubDate>Tue, 29 Sep 2026 11:48:00 GMT</pubDate>
       <description>A new shopfront on the street: the Town Hall, a round hall under a dome that is open to the sky, where the sun lies on the floor as one disc. Doors round its wall go to the Fishbowl, for community fishbowl meetings on the CB, and to rooms for our directors, our board and our moderators. The rooms behind the doors open one at a time. Those three rooms are the base’s. Anybody can walk into them; their channel, their call and any film hosted in them are handed to people signed on with the moderators’ password and to nobody else, by the server rather than only by the page, and the radio waits outside for everybody else.</description>
     </item>
     <item>
       <title>The meeting hall, at the Community Center</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-meeting-hall</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-29-meeting-hall</guid>
-      <pubDate>Tue, 29 Sep 2026 11:48:00 GMT</pubDate>
+      <pubDate>Tue, 29 Sep 2026 11:47:00 GMT</pubDate>
       <description>The Community Center now starts with the meeting hall: our community’s group chat, which is moving from Discord to Stoat. It says what Stoat is, how to get an invite through the join form on stimpunks.org, what the channels are, and how the hall and the CB differ: the hall keeps things and has proper sign-in, and the CB forgets everything at midnight. The hall is a link, not part of this page. Stoat’s app does not let other sites frame it, and nothing on the street sends anything to Stoat.</description>
     </item>
     <item>

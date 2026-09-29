@@ -3,7 +3,7 @@
    picture with it. A message may be words, a picture sent first to
    /cb/image, or both. */
 import { randomUUID } from 'node:crypto';
-import { readPass, updateTuned, roomTag, roomAllows, cleanText, cleanAlt, shape, json, body, sameSite, TEXT_MAX,
+import { readPass, updateTuned, roomTag, roomAllows, cleanMessage, cleanAlt, shape, json, body, sameSite, MESSAGE_MAX,
   imageId, getImage, dropImages, droppedImages } from '../cb/lib.mjs';
 
 export default async (req) => {
@@ -24,8 +24,8 @@ export default async (req) => {
       return json(400, { error: 'That picture is not ready to send. Pick it again.' });
     }
   }
-  const text = b.text == null || b.text === '' ? '' : cleanText(b.text);
-  if (text === null || (!text && !img)) return json(400, { error: `A message is between one and ${TEXT_MAX} characters, or a picture.` });
+  const text = b.text == null || b.text === '' ? '' : cleanMessage(b.text);
+  if (text === null || (!text && !img)) return json(400, { error: `A message is between one and ${MESSAGE_MAX} characters, or a picture.` });
   const msg = { id: randomUUID(), handle: who.handle, text, t: Date.now(), base: who.role === 'base' };
   if (img) { msg.img = img; msg.alt = cleanAlt(b.alt); }
   try {
