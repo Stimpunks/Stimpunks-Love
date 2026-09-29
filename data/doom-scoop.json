@@ -106,210 +106,74 @@
    ]
   }
  ],
- "set": "2026-09-28T11:16Z",
+ "set": "2026-09-29T11:22Z",
  "covered": {
   "meidastouch": [
    [
     "2026-09-25T11:00:39Z",
-    "2026-09-28T11:16:58Z"
+    "2026-09-29T11:22:25Z"
    ]
   ],
   "closer-look": [
    [
     "2026-07-17T01:00:31Z",
-    "2026-09-28T11:16:58Z"
+    "2026-09-29T11:22:25Z"
    ]
   ],
   "late-night-monologues": [
    [
     "2026-07-15T01:00:12Z",
-    "2026-09-28T11:16:58Z"
+    "2026-09-29T11:22:25Z"
    ]
   ],
   "kimmel": [
    [
     "2026-09-18T06:00:06Z",
-    "2026-09-28T11:16:58Z"
+    "2026-09-29T11:22:25Z"
    ]
   ],
   "jason-salmon": [
    [
     "2026-08-24T15:00:06Z",
-    "2026-09-28T11:16:58Z"
+    "2026-09-29T11:22:25Z"
    ]
   ],
   "texas-paul": [
    [
     "2026-09-17T21:37:08Z",
-    "2026-09-28T11:16:58Z"
+    "2026-09-29T11:22:25Z"
    ]
   ],
   "tennessee-brando": [
    [
     "2026-09-17T16:07:51Z",
-    "2026-09-28T11:16:58Z"
+    "2026-09-29T11:22:25Z"
    ]
   ],
   "lawyer-oyer": [
    [
     "2026-09-01T01:12:06Z",
-    "2026-09-28T11:16:58Z"
+    "2026-09-29T11:22:25Z"
    ]
   ],
   "hawk": [
    [
     "2026-09-25T01:00:17Z",
     "2026-09-28T11:16:58Z"
+   ],
+   [
+    "2026-09-28T21:00:30Z",
+    "2026-09-29T11:22:25Z"
    ]
   ],
   "daily-show": [
    [
     "2026-09-18T11:35:00Z",
-    "2026-09-28T11:16:58Z"
+    "2026-09-29T11:22:25Z"
    ]
   ]
  },
  "scoops": [
-  {
-   "id": "Asbx4cSbJjM",
-   "source": "texas-paul",
-   "title": "NSFW, ICE are lazy trash that interfere with legal immigration to fill their invented quotas.",
-   "published": "2026-09-21T13:29:21Z",
-   "edition": "2026-09-22",
-   "state": "screen",
-   "runs": 168,
-   "channel": "Texas Paul"
-  },
-  {
-   "id": "CJKuapnHegA",
-   "source": "tennessee-brando",
-   "title": "These Lauren Boebert Allegations Are WILD",
-   "published": "2026-09-21T15:00:18Z",
-   "edition": "2026-09-22",
-   "state": "screen",
-   "runs": 636,
-   "channel": "Tennessee Brando"
-  },
-  {
-   "id": "aB5-ogw1V7c",
-   "source": "jason-salmon",
-   "title": "That's a calling card for Gen Xers #shorts #genx #crowdwork",
-   "published": "2026-09-21T15:00:38Z",
-   "edition": "2026-09-22",
-   "state": "screen",
-   "runs": 116,
-   "channel": "Jason Salmon"
-  },
-  {
-   "id": "s6sX0Vp9bfU",
-   "source": "texas-paul",
-   "title": "You chastised me for condemning all MAGA, Republicans & conservatives.  Let's talk about it.",
-   "published": "2026-09-21T17:34:04Z",
-   "edition": "2026-09-22",
-   "state": "screen",
-   "runs": 124,
-   "channel": "Texas Paul"
-  },
-  {
-   "id": "0gYUpb5Zcq0",
-   "source": "tennessee-brando",
-   "title": "MTG Is FINALLY Learning What She Voted For",
-   "published": "2026-09-21T21:00:11Z",
-   "edition": "2026-09-22",
-   "state": "screen",
-   "runs": 658,
-   "channel": "Tennessee Brando"
-  },
-  {
-   "id": "TfoJdCr1X_g",
-   "source": "lawyer-oyer",
-   "title": "Trump’s illegal assault on the press",
-   "published": "2026-09-21T23:14:21Z",
-   "edition": "2026-09-22",
-   "state": "screen",
-   "runs": 165,
-   "channel": "Lawyer Oyer"
-  },
-  {
-   "id": "Y3e0Kvyqv90",
-   "source": "closer-look",
-   "title": "Trump's Media Ban Backfires, Arch Gets Drones & Snipers & Seth Recaps a Crazy Summer: A Closer Look",
-   "published": "2026-09-22T01:00:38Z",
-   "edition": "2026-09-22",
-   "state": "screen",
-   "runs": 1287,
-   "channel": "Late Night with Seth Meyers"
-  },
-  {
-   "id": "RvK8jkSTN9Q",
-   "source": "daily-show",
-   "title": "Trump's WH Press Ban Riles Even Fox News & D.C. Arch to Double as Military Complex? | The Daily Show",
-   "published": "2026-09-22T02:26:03Z",
-   "edition": "2026-09-22",
-   "state": "screen",
-   "runs": 1433,
-   "channel": "The Daily Show"
-  },
-  {
-   "id": "k6WLJ5co3PE",
-   "source": "daily-show",
-   "title": "White House Bans Media Outlets & MAGA Embraces AI While Demonizing Immigrants | The Daily Show",
-   "published": "2026-09-22T03:08:39Z",
-   "edition": "2026-09-22",
-   "state": "screen",
-   "runs": 1157,
-   "channel": "The Daily Show"
-  },
-  {
-   "id": "ctuvImgGpvE",
-   "source": "daily-show",
-   "title": "Ari Emanuel on Channeling Rage and Ego Into Hollywood Success | The Daily Show",
-   "published": "2026-09-22T03:30:26Z",
-   "edition": "2026-09-22",
-   "state": "screen",
-   "runs": 1310,
-   "channel": "The Daily Show"
-  },
-  {
-   "id": "eMHKNCwe_QI",
-   "source": "kimmel",
-   "title": "Trump Bans News Outlets from the White House, Has a Thing for Mamdani & Is Melania A.I.?",
-   "published": "2026-09-22T03:45:35Z",
-   "edition": "2026-09-22",
-   "state": "screen",
-   "runs": 893,
-   "channel": "Jimmy Kimmel Live"
-  },
-  {
-   "id": "l4HyAorKfv8",
-   "source": "kimmel",
-   "title": "Woody Harrelson on Emmys Bathroom with Jimmy & Matthew McConaughey & Matthew Being His Brother",
-   "published": "2026-09-22T06:00:21Z",
-   "edition": "2026-09-22",
-   "state": "screen",
-   "runs": 894,
-   "channel": "Jimmy Kimmel Live"
-  },
-  {
-   "id": "I0tQ2UFlwlQ",
-   "source": "kimmel",
-   "title": "Sam Richardson on Loving the Detroit Lions, Batting Practice with the Tigers & Matchbox: the Movie",
-   "published": "2026-09-22T06:00:33Z",
-   "edition": "2026-09-22",
-   "state": "screen",
-   "runs": 459,
-   "channel": "Jimmy Kimmel Live"
-  },
-  {
-   "id": "8o9tAS8kPxg",
-   "source": "late-night-monologues",
-   "title": "Trump Tells Voters to Pretend He's Running",
-   "published": "2026-09-22T09:00:11Z",
-   "edition": "2026-09-22",
-   "state": "screen",
-   "runs": 1500,
-   "channel": "Late Night with Seth Meyers"
-  },
   {
    "id": "Jppbf_M9E8k",
    "source": "texas-paul",
@@ -813,7 +677,7 @@
   {
    "id": "tBthmdiilgs",
    "source": "tennessee-brando",
-   "title": "Why Is NOBODY Talking About How STRAGE This Was",
+   "title": "Why Is NOBODY Talking About How STRANGE This Was",
    "published": "2026-09-25T15:00:10Z",
    "edition": "2026-09-26",
    "state": "screen",
@@ -1604,7 +1468,433 @@
    "state": "screen",
    "runs": 1207,
    "channel": "MeidasTouch"
+  },
+  {
+   "id": "NEBAw_TCmXg",
+   "source": "meidastouch",
+   "title": "🚨Iran JUST DID IT…19 SHIPS?!!",
+   "published": "2026-09-28T12:30:11Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 1391,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "dsMxp6Cw5Yc",
+   "source": "texas-paul",
+   "title": "Elect Gina Hinojosa and the Dallas Cowboys will win the Super Bowl again!",
+   "published": "2026-09-28T12:56:51Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 26,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "RRek4Jl9kRc",
+   "source": "meidastouch",
+   "title": "🚨All HELL BREAKS LOOSE as Zelensky WARNS…",
+   "published": "2026-09-28T14:00:33Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 1091,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "0rxaaL36KM8",
+   "source": "jason-salmon",
+   "title": "To having zero memories #shots #parenting #skits",
+   "published": "2026-09-28T15:00:35Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 49,
+   "channel": "Jason Salmon"
+  },
+  {
+   "id": "DSCjIhjm-Dw",
+   "source": "meidastouch",
+   "title": "🚨Trump’s HEALTH CRASHES and ALARMS DOCTOR….",
+   "published": "2026-09-28T15:30:32Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 1166,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "TOR7XAkZNts",
+   "source": "meidastouch",
+   "title": "🚨 Trump’s MONDAY JUST GOT VERY UGLY…",
+   "published": "2026-09-28T17:00:18Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 953,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "Kwj4_ibVKnA",
+   "source": "tennessee-brando",
+   "title": "The TRUTH About Trump’s Trans Panic",
+   "published": "2026-09-28T18:00:29Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 4126,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "ZNgSM8V3N64",
+   "source": "meidastouch",
+   "title": "🚨 Trump’s FBI in FULL COLLAPSE…",
+   "published": "2026-09-28T18:38:43Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 1427,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "Yp7w8zSXr9E",
+   "source": "meidastouch",
+   "title": "🚨 Trump SURFACES and It GETS UGLY…",
+   "published": "2026-09-28T20:23:50Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 937,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "RNvWTSTXoSU",
+   "source": "hawk",
+   "title": "Tim Tebow’s circumcisions",
+   "published": "2026-09-28T21:00:30Z",
+   "edition": "2026-09-29",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 112,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "hHBYXZgxbqY",
+   "source": "hawk",
+   "title": "Hey Cornell",
+   "published": "2026-09-28T22:00:09Z",
+   "edition": "2026-09-29",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 66,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "mi9DhDpemu8",
+   "source": "meidastouch",
+   "title": "🚨Fox just AIRED Trump's WORST NIGHTMARE…",
+   "published": "2026-09-28T22:00:37Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 668,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "sjq15_wB3Hk",
+   "source": "hawk",
+   "title": "This is a bad day",
+   "published": "2026-09-28T23:00:25Z",
+   "edition": "2026-09-29",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 75,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "r1MHCbwN4f4",
+   "source": "texas-paul",
+   "title": "Trump is going to ban the export of diesel.  Here's why that is a nightmare for you.",
+   "published": "2026-09-28T23:40:27Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 162,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "X0bDzyQISVg",
+   "source": "hawk",
+   "title": "It’s all men",
+   "published": "2026-09-29T00:00:31Z",
+   "edition": "2026-09-29",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 88,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "P_WXhPeYzhk",
+   "source": "tennessee-brando",
+   "title": "MTG Finally Admits THIS About MAGA",
+   "published": "2026-09-29T01:00:23Z",
+   "edition": "2026-09-29",
+   "state": "door",
+   "why": "age-gated",
+   "runs": 638,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "7mfBj_qpamY",
+   "source": "meidastouch",
+   "title": "🚨 WHOA: Trump Official Just GOT TIED to Iran’s Money TRAIL…",
+   "published": "2026-09-29T01:00:31Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 1046,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "rq8ioSev6Gs",
+   "source": "closer-look",
+   "title": "Trump Rejects Iran Deal as GOP Turns on Him, MTG Says MAGA Is Dead, Xi Tours Ballroom: A Closer Look",
+   "published": "2026-09-29T01:00:32Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 773,
+   "channel": "Late Night with Seth Meyers"
+  },
+  {
+   "id": "4fPgp1LjnnE",
+   "source": "hawk",
+   "title": "SHARKNADO",
+   "published": "2026-09-29T01:00:36Z",
+   "edition": "2026-09-29",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 61,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "s2WGo47xP7w",
+   "source": "daily-show",
+   "title": "Trump-Xi Summit Produces Pandas, Tuberville Warns of Furries & Meta Launches Muse | The Daily Show",
+   "published": "2026-09-29T01:00:37Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 2833,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "iBI96i2es2w",
+   "source": "hawk",
+   "title": "Thete we’re 57 men in the group chat",
+   "published": "2026-09-29T02:00:14Z",
+   "edition": "2026-09-29",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 68,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "1WHLbdPEBjc",
+   "source": "meidastouch",
+   "title": "🚨Trump JUST LOST 7 MORE…",
+   "published": "2026-09-29T02:30:09Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 807,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "-AmpDC4Welo",
+   "source": "hawk",
+   "title": "57 men",
+   "published": "2026-09-29T03:00:18Z",
+   "edition": "2026-09-29",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 77,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "f31fBMgYfWY",
+   "source": "daily-show",
+   "title": "Will Republicans Divorce Trump Over Xi Embrace? Probably Not | The Daily Show",
+   "published": "2026-09-29T03:01:22Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 1380,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "LysJH31-MpE",
+   "source": "daily-show",
+   "title": "Evan Gershkovich - Why Imprisoning a Journalist Is a Bad Idea | The Daily Show",
+   "published": "2026-09-29T03:30:00Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 1625,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "BztVV-Io2AI",
+   "source": "kimmel",
+   "title": "Jimmy Kimmel Throws Matt Damon Out, Trump Throws Lavish State Dinner & Jon Hamm Throws a Pothole Fit",
+   "published": "2026-09-29T03:45:35Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 928,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "3ZcO6GhNosM",
+   "source": "hawk",
+   "title": "Donald Trump loves women",
+   "published": "2026-09-29T04:00:38Z",
+   "edition": "2026-09-29",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 16,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "TIj02_rLrJo",
+   "source": "meidastouch",
+   "title": "🚨Trump Just REVEALED It ALL…",
+   "published": "2026-09-29T04:00:38Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 632,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "0__cDGxkTKE",
+   "source": "hawk",
+   "title": "Freudian slip",
+   "published": "2026-09-29T05:00:20Z",
+   "edition": "2026-09-29",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 25,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "VpRRgNj35QQ",
+   "source": "meidastouch",
+   "title": "Ex-GOP Strategist Says Trump Just BROKE the Party...",
+   "published": "2026-09-29T05:30:14Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 962,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "H-gSeCDuslU",
+   "source": "kimmel",
+   "title": "Molly Ringwald Helps Jimmy Kimmel Process His Trauma - Sponsored by Pfizer",
+   "published": "2026-09-29T06:00:02Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 105,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "1liG0P61DPc",
+   "source": "kimmel",
+   "title": "TV On The Radio – Wolf Like Me",
+   "published": "2026-09-29T06:00:07Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 257,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "9dSLJHS2Uns",
+   "source": "kimmel",
+   "title": "Mayor Zohran Mamdani on His Relationship with Trump, People in Sewers & New Public Restrooms",
+   "published": "2026-09-29T06:00:21Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 746,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "UgsPmTFfchY",
+   "source": "hawk",
+   "title": "Theyte proud of it",
+   "published": "2026-09-29T06:00:30Z",
+   "edition": "2026-09-29",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 64,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "PWd48Rt-k_4",
+   "source": "kimmel",
+   "title": "Pete Davidson on Getting Two Concussions, Buying Staten Island Ferry & Getting Buff for New Movie",
+   "published": "2026-09-29T06:00:35Z",
+   "edition": "2026-09-29",
+   "state": "screen",
+   "runs": 741,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "16De70UZadQ",
+   "source": "hawk",
+   "title": "Fraternities are rape factories",
+   "published": "2026-09-29T07:00:18Z",
+   "edition": "2026-09-29",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 61,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "TlVYfTinNFg",
+   "source": "hawk",
+   "title": "cut ‘em off",
+   "published": "2026-09-29T08:00:32Z",
+   "edition": "2026-09-29",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 87,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "l5YJXVCQ2kA",
+   "source": "hawk",
+   "title": "This is completely bonkers",
+   "published": "2026-09-29T09:00:34Z",
+   "edition": "2026-09-29",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 71,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "Fr5RRXJLUWc",
+   "source": "hawk",
+   "title": "Where y’all at?",
+   "published": "2026-09-29T10:00:29Z",
+   "edition": "2026-09-29",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 86,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "3TdVk61NCJE",
+   "source": "hawk",
+   "title": "The real super predators",
+   "published": "2026-09-29T11:00:14Z",
+   "edition": "2026-09-30",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 91,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "ZRq9o2kOmjM",
+   "source": "meidastouch",
+   "title": "🚨Trump LOSES IT as IT FINALLY HAPPENS…",
+   "published": "2026-09-29T11:00:16Z",
+   "edition": "2026-09-30",
+   "state": "screen",
+   "runs": 1079,
+   "channel": "MeidasTouch"
   }
  ],
- "newest": "2026-09-28"
+ "newest": "2026-09-29"
 }
