@@ -576,6 +576,12 @@ WH_INK, WH_DIM, WH_WATER, WH_RUST, WH_DUNE = "#2A2016", "#5E4E39", "#17565F", "#
 CF_NIGHT, CF_LOG, CF_TEXT, CF_DIM = "#121110", "#231D19", "#F2E6D8", "#B5A797"
 CF_FIRE, CF_EMBER, CF_FLAME, CF_LIT = "#F4A45C", "#E26A36", "#FFD88E", "#4A3222"
 
+# The Cave (§76). TWO GROUNDS: the ice where it is thick, where most words are,
+# and a ledge in it, which is every card and the call's panel. The glow where
+# the ice thins is behind the drawing only, and no word stands on it.
+CV_DEEP, CV_SHELF, CV_TEXT, CV_DIM = "#0C3B4E", "#082F40", "#EAF7FA", "#A6D0DD"
+CV_LINK, CV_CRACK, CV_SEAM = "#8FE3F2", "#D2F1F9", "#134E66"
+
 # Black Leather Lagoon (§35). TWO GROUNDS: the water, and a lobby card out in
 # it. THERE IS NO THIRD GROUND FOR THE SCREEN, and that is worth saying: the
 # screen is the light source in this room, not a surface anything is set on --
@@ -2551,6 +2557,18 @@ PAIRS = [
     (CF_NIGHT, CF_FIRE,  False, "campfire: every button"),
     (CF_NIGHT, CF_FLAME, False, "campfire: a button's hover"),
     (CF_FIRE,  CF_NIGHT, True,  "campfire: the job marker, a toasting stick against a log"),
+    # ── The Cave (§76) ───────────────────────────────────────────────────────
+    (CV_TEXT, CV_DEEP,  False, "cave: every paragraph on the ice, the headings, the lede, the norms and the now-showing line"),
+    (CV_DIM,  CV_DEEP,  False, "cave: the over-line, the trail and the credits"),
+    (CV_LINK, CV_DEEP,  False, "cave: every link on the ice and the backlink"),
+    (CV_TEXT, CV_SHELF, False, "cave: a cave's name and note on its card, the call panel's words, and the words on every play plate"),
+    (CV_DIM,  CV_SHELF, False, "cave: a cave's channel on its card, and the call's fine print"),
+    (CV_LINK, CV_SHELF, False, "cave: a link on a card or in the call panel, and PRESS PLAY on every plate"),
+    (CV_TEXT, CV_SEAM,  False, "cave: a play plate's words while it is hovered"),
+    (CV_LINK, CV_SEAM,  False, "cave: PRESS PLAY while its plate is hovered"),
+    (CV_DEEP, CV_LINK,  False, "cave: every button"),
+    (CV_DEEP, CV_CRACK, False, "cave: a button's hover"),
+    (CV_LINK, CV_DEEP,  True,  "cave: the job marker, a mitten dropped on the ice"),
     (MUD_TEXT,  MUD_GROUND, False, "mud room: every paragraph, the lede, the house rules and the door's blurb on the street"),
     (MUD_SKY,   MUD_GROUND, False, "mud room: the h1, every heading, every bold run and the door's name"),
     (MUD_DIM,   MUD_GROUND, False, "mud room: the trail, the over-line, the fine print and every label in the guidebook"),
@@ -2822,6 +2840,8 @@ ORNAMENT = {
                "1.52 on the hangar and 1.34 on a deck. It carries no word.",
     "#ffffff": "rave: the strobe's flash, laid over the hangar picture only after two presses. "
                "Nothing is ever written on a flash, and make-rave.py refuses it with any colour in it.",
+    "#2a89a8": "cave: the ice where it thins, and the edge of every play plate, 2.99 on the deep ice; drawn, and no word stands on it",
+    "#5dbbd6": "cave: the ice where it glows, the melt's scallops and the melt on the floor, 5.45 on the deep ice; drawn, and no word stands on it",
     "#3a2c22": "campfire: the logs' bark, 1.40 on the night, and the job marker's log and floor line; they carry nothing",
     "#57504b": "campfire: the stones round the fire and the smoke, 2.38 on the night; drawn, and carry no word",
     "#2c7f8a": "watering hole: the rim of the pool, 3.75 on the sand; drawn, and carries no word",

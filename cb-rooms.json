@@ -237,6 +237,11 @@
    "path": "/cavendish-campfire.html"
   },
   {
+   "tag": "cavendish-cave",
+   "name": "The Cave",
+   "path": "/cavendish-cave.html"
+  },
+  {
    "tag": "live-room",
    "name": "The Live Room",
    "path": "/live-room.html"

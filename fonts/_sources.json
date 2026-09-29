@@ -1961,5 +1961,33 @@
    "src": "https://fonts.gstatic.com/s/lato/v25/S6u9w4BMUTPHh6UVSwiPGQ3q5d0.woff2",
    "note": "The Campfire (§75): a fire's name on the rack, and the buttons."
   }
+ ],
+ "encode-sans-expanded": [
+  {
+   "file": "encode-sans-expanded-600.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 16936,
+   "src": "https://fonts.gstatic.com/s/encodesansexpanded/v15/c4mw1mF4GcnstG_Jh1QH6ac4hNLeNyeYUpL6DRNPVo0wPFXC.woff2",
+   "note": "The Cave (§76), upstairs at Cavendish Coworking: the room's name and headings, wide and cold like a name cut into ice. Never a sentence."
+  }
+ ],
+ "nunito-sans": [
+  {
+   "file": "nunito-sans-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 30948,
+   "src": "https://fonts.gstatic.com/s/nunitosans/v19/pe0TMImSLYBIv1o4X1M8ce2xCx3yop4tQpF_MeTm0lfGWVpNn64CL7U8upHZIbMV51Q42ptCp7t1R-tQKr51.woff2",
+   "note": "The Cave (§76): every sentence and every card on the rack."
+  },
+  {
+   "file": "nunito-sans-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 30948,
+   "src": "https://fonts.gstatic.com/s/nunitosans/v19/pe0TMImSLYBIv1o4X1M8ce2xCx3yop4tQpF_MeTm0lfGWVpNn64CL7U8upHZIbMV51Q42ptCp7t1R-tQKr51.woff2",
+   "note": "The Cave (§76): a cave's name on the rack, and the buttons."
+  }
  ]
 }

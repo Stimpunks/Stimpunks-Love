@@ -912,6 +912,23 @@
     }
    ]
   },
+  "encode-sans-expanded": {
+   "family": "Encode Sans Expanded",
+   "category": "Sans Serif",
+   "designer": "Impallari Type, Andres Torresi, Jacques Le Bailly",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/encodesansexpanded",
+   "copyright": "Copyright 2012 The Encode Project Authors (impallari@gmail.com), with Reserved Font Name \"Encode Sans\".",
+   "repository": "https://github.com/impallari/Encode-Sans",
+   "variants": [
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "encode-sans-expanded-600.woff2",
+     "sha": "dedb264d175eeb37"
+    }
+   ]
+  },
   "epilogue": {
    "family": "Epilogue",
    "category": "Sans Serif",
@@ -1808,6 +1825,29 @@
      "style": "normal",
      "file": "nunito-400.woff2",
      "sha": "20fc9b6fc618e7c3"
+    }
+   ]
+  },
+  "nunito-sans": {
+   "family": "Nunito Sans",
+   "category": "Sans Serif",
+   "designer": "Vernon Adams, Jacques Le Bailly, Manvel Shmavonyan, Alexei Vanyashin",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/nunitosans",
+   "copyright": "Copyright 2016 The Nunito Sans Project Authors (https://github.com/Fonthausen/NunitoSans)",
+   "repository": "https://github.com/googlefonts/NunitoSans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "nunito-sans-400.woff2",
+     "sha": "39184f4d011106f5"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "nunito-sans-700.woff2",
+     "sha": "39184f4d011106f5"
     }
    ]
   },

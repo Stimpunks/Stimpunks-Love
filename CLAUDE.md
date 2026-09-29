@@ -606,19 +606,20 @@ delegates to an origin `ORIGINS` does not frame, or gives the three to anything 
 second iframe in `cb.js`. The window is not the radio, so folding the radio leaves the call up;
 leaving the page hangs up. Every call arrives muted on Jitsi's pre-join screen. That screen asks
 the browser for the devices so it can show a preview, and that is 8x8's, not a fault. **EVERY CAVENDISH DOOR OPENS A ROOM OF ITS OWN, AND `make-coworking.py` WRITES THEM.** Ryan,
-2026-09-28: Proton goes, one door at a time. A door or suite with a `page` in `data/coworking.json`
-is a room, and the tool writes its generated parts, meaning its words, light list or norms, call
+2026-09-28: Proton goes, and every door and suite in `data/coworking.json` has a `page`, which is a
+room, and the tool writes its generated parts, meaning its words, light list or norms, call
 panel and credits, from the same data the door is built from. Each room dresses those parts in its
 own §-section under its own `prefix`, the job marker's rule: shared markup shape, no shared look.
 `callroom.js` finds a call panel by its `data-call*` attributes and decides between signed on,
 guest and CB-only. The tool reads which rooms are public from `PUBLIC_CALLS` in `lib.mjs`, and
-refuses a door with a room and a Proton link, a room with no way back through its door, and a
+refuses a door with no room, any Proton link, a room with no way back through its door, and a
 call panel naming another room. **The Events Room (§71) is a lighthouse's watch room lit by one
 column from the hatch, the Operations Room (§72) is a plant room under one caged lamp whose
 cage stripes everything, the Editorial Room (§73) is a light table in a dark studio, the proofs
 lit from beneath and the only light there is, the Watering Hole (§74) is a pan in the Namib at
-noon, every shadow straight under its thing, and the Campfire (§75) is a fire in a clearing at night,
-the one room lit from its own centre, every shadow pointing away**; each one's collisions are in its section. A room's generated list
+noon, every shadow straight under its thing, the Campfire (§75) is a fire in a clearing at night,
+the one room lit from its own centre, every shadow pointing away, and the Cave (§76) is a tunnel in
+glacier ice, lit by nothing in it, the daylight coming through the ice itself as blue**; each one's collisions are in its section. A room's generated list
 items take the word in `item`, so the markup says light or entry and not a shared name. **A
 suite's rack is built from its `rack` entry**: cams by id out of `data/jungle.json`, never
 restated, refused if dark, link-only or given a runtime, and videos with their own measured
@@ -3008,21 +3009,19 @@ are the near-black greens; the Mopery is the other old-letters room and is stone
 Community Library has the sky in its windows. **If a door is ever drawn open, or the wall goes
 near-black, it has lost its argument.** Caslon for display and text, because it is his century's.
 
-**THE CALL IS BEHIND THE DOOR, AND THAT WAS MEASURED.** Proton Meet's `frame-ancestors` names only
-Proton's own apps, and our Permissions-Policy gives no page the camera or microphone, so a framed call
-is a blank box. Do not add meet.proton.me to `ORIGINS`. **Each link carries the room's `#pwd-` on purpose**: the
-meetings are open, the password is what takes somebody straight to the name box, and a browser never
-sends a fragment to a server. `tools/make-coworking.py` refuses a door without one. **Every line on a
+**THE CALL IS IN THE ROOM BEHIND THE DOOR, AND PROTON HAS GONE.** Until 2026-09-28 each door was a
+Proton Meet link; Proton cannot be framed (its `frame-ancestors` names only Proton's own apps), so the
+call was off site. Each door opens a room of ours now, with a JaaS call in a window on the page, and
+`make-coworking.py` refuses Proton on the page and on any room behind it. **Every line on a
 door is our events page's, word for word**, re-read from the mirror on every build, in that page's
 order; when the events page changes, re-copy the line, never loosen the check. It also refuses the
 events page's own closing line (*open to Stimpunks Discord community members*), which was true until
 this room and is the friendly edit that will arrive. **The Events door opens the room our recurring
 events meet in**, confirmed by Ryan; the events page still says the meetings are for Discord members
-and is left that way on purpose while the Proton setup is experimental. **The Hang Suites upstairs are
+and is left that way on purpose while the calls are experimental. **The Hang Suites upstairs are
 Ryan's words** (Cave, Campfire, Watering Hole, each with its norms), not the events page's, so they are
 not re-read against it; the tool refuses a suite with hours (that is a meeting), one with no norms, and
-the section without David Thornburg's name, because caves, campfires and watering holes are his. **A door's name is
-read off Proton's guest page, never guessed**: open the link as far as the name box and no further.
+the section without David Thornburg's name, because caves, campfires and watering holes are his.
 `coworking.js` reads the visitor's clock and time zone to write the same hour underneath, and the tool
 refuses it if it ever stores, sends or listens; the Central line is what a page with no script shows.
 
@@ -3090,18 +3089,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §77 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §78 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§77 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§78 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §77 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §78 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

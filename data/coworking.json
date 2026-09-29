@@ -1,5 +1,5 @@
 {
- "_source": "Cavendish Coworking's doors. Ryan's brief, 2026-09-25: our Editorial and Operations meetings are open to the world as part of our commitment to transparency, they have been held in our Discord, and many people refuse to use Discord, so a shopfront on the street with doors that open the Proton Meet rooms. The Events room was added the same afternoon. EVERY TAGLINE, DESCRIPTION AND TIME IS WORD FOR WORD OFF OUR OWN EVENTS PAGE, https://stimpunks.org/events/, read in the Knowledge System mirror and against the live page on 2026-09-25; tools/make-coworking.py re-reads the mirror and refuses a line that is no longer on it. The door links are Ryan's, pasted in the brief. Each was opened on 2026-09-25 as far as Proton Meet's guest page and no further: it answered at meet.proton.me/guest/join/, asked for a name and no account, offered to go in without microphone or camera, and named the room exactly as `proton_name` says. Nobody joined a meeting to check. The doors are in the events page's own order, events before meetings, which is not ours to re-sort.",
+ "_source": "Cavendish Coworking's doors. Ryan's brief, 2026-09-25: our Editorial and Operations meetings are open to the world as part of our commitment to transparency, they have been held in our Discord, and many people refuse to use Discord, so a shopfront on the street with a door onto each of our calls. Until 2026-09-28 each door opened a Proton Meet room; since then each opens a room of its own, with its call in it (see _rooms). The Events room was added the same afternoon. EVERY TAGLINE, DESCRIPTION AND TIME IS WORD FOR WORD OFF OUR OWN EVENTS PAGE, https://stimpunks.org/events/, read in the Knowledge System mirror and against the live page on 2026-09-25; tools/make-coworking.py re-reads the mirror and refuses a line that is no longer on it. The door links are Ryan's, pasted in the brief. The doors are in the events page's own order, events before meetings, which is not ours to re-sort.",
  "measured": "2026-09-25",
  "tz": "America/Chicago",
  "tz_said": "Central",
@@ -107,14 +107,12 @@
    "item": "proof"
   }
  ],
- "_suites": "The Hang Suites are Ryan's, written in his brief of 2026-09-25 and copied here as he gave them, with three changes: both lurking norms said 'camera and video off' and Ryan corrected them to 'camera and mic off' the same day; the Watering Hole's list of norms was headed 'Campfire Norms' in the brief, a slip, and is headed with its own room's name; and the opening line said how many rooms there are, which check-counts.py refuses, so it says 'rooms'. Each link was opened on 2026-09-25 as far as Proton Meet's guest page and no further, and named the room exactly as `proton_name` says. They are named for Cavendish Space's caves, campfires and watering holes, which are David Thornburg's, and make-coworking.py refuses the section if the room stops naming him. A suite has no times on purpose: they are drop-in rooms, and a suite with hours is a meeting and belongs with the doors.",
+ "_suites": "The Hang Suites are Ryan's, written in his brief of 2026-09-25 and copied here as he gave them, with three changes: both lurking norms said 'camera and video off' and Ryan corrected them to 'camera and mic off' the same day; the Watering Hole's list of norms was headed 'Campfire Norms' in the brief, a slip, and is headed with its own room's name; and the opening line said how many rooms there are, which check-counts.py refuses, so it says 'rooms'. Until 2026-09-28 each suite opened a Proton Meet room; each opens a room of its own now. They are named for Cavendish Space's caves, campfires and watering holes, which are David Thornburg's, and make-coworking.py refuses the section if the room stops naming him. A suite has no times on purpose: they are drop-in rooms, and a suite with hours is a meeting and belongs with the doors.",
  "suites_intro": "Wanna just hang out or work on something together? We have rooms for that.",
  "suites": [
   {
    "id": "cave",
    "name": "Cave",
-   "proton_name": "Cave",
-   "url": "https://meet.proton.me/join/id-5TYSJEARVW#pwd-2BoCwop5LZsM",
    "said": "The Cave / Quiet Room is for quiet co-presence, ambient togetherness, and low-demand connection.",
    "norms_title": "Cave / Quiet Room Norms",
    "norms": [
@@ -127,6 +125,144 @@
    "further": {
     "text": "Parallel Presence",
     "href": "https://stimpunks.org/experiences/parallel-presence/"
+   },
+   "page": "cavendish-cave.html",
+   "room": "The Cave",
+   "prefix": "cv",
+   "item": "cave",
+   "rack": {
+    "_why": "Ryan's brief, 2026-09-28: the Cave gets a selection of cave videos, to be curated. Claude shortlisted, and Ryan chose every one on the shortlist but the two described as eerie or spooky, with the Mount Cucco cave on the screen when you arrive. Each was checked on its own watch page on the day: public, playable in an embed, not age-restricted, not live, and its runtime. Nobody here has watched them all the way through. Their titles are their channels'; the notes are ours and say only what the titles, descriptions and chapters say is in them.",
+    "screen": "the ice wall",
+    "rack_title": "The caves",
+    "off": "The Mount Cucco cave is off it until you put it back.",
+    "videos": [
+     {
+      "id": "Ov_KY50gCzk",
+      "title": "Water Dripping Sound in Mystical Cave on Mount Cucco ~ Umbria ASMR",
+      "channel": "Geography of Peace",
+      "channel_id": "UCqxAzw5vmf4UfTVk9g8VsOQ",
+      "runtime": "58:59",
+      "note": "Water dripping in Saint Agnes cave on Mount Cucco, in Umbria, past a frozen entrance and stalagmites of ice.",
+      "measured": "2026-09-28"
+     },
+     {
+      "id": "taTKzFjcnpM",
+      "title": "Cave sounds - Bats in the cenote",
+      "channel": "George Vlad",
+      "channel_id": "UCxJKK6qu0r5lHCAZcYktGqA",
+      "runtime": "1:28:04",
+      "note": "A field recording in a cenote in the Yucatán: drops into clear water, the cave's echo, and bats, who are not quiet about it.",
+      "measured": "2026-09-28"
+     },
+     {
+      "id": "UtHe2bvyv9g",
+      "title": "Ice Cave in 4K UHD - 1 Hour Relaxing View inside a Glacier in Alaska with Natural Water Sounds",
+      "channel": "Epic Scenery Videos",
+      "channel_id": "UCu5YiBhCrDYSDECvwmK_jjA",
+      "runtime": "1:01:11",
+      "note": "Inside a glacier in Alaska: blue ice, and water running through it.",
+      "measured": "2026-09-28"
+     },
+     {
+      "id": "l5HHn5pOpnY",
+      "title": "South African Sea Cave Ambience | Ocean wave sounds | 4K SOUNDSCAPE",
+      "channel": "Ambient Vagabond",
+      "channel_id": "UCq6fOm5gX3-ki18nMVxX-zQ",
+      "runtime": "1:10:02",
+      "note": "The back of a sea cave in South Africa on a rough day, recorded with no loops or effects. The waves are loud.",
+      "measured": "2026-09-28"
+     },
+     {
+      "id": "JeaY0yjbV-U",
+      "title": "Stalagmite and Stalactites Galore! Mexico's Cenote Dreamgate | 35 min Underwater ASMR",
+      "channel": "SCUBA ASMR",
+      "channel_id": "UCypATVVbemMMSuDZdaVYTdQ",
+      "runtime": "35:24",
+      "note": "A dive through Cenote Dreamgate in Mexico, in among the stalactites, with a stretch of it in the dark.",
+      "measured": "2026-09-28"
+     },
+     {
+      "id": "gDn7CVW5G-Q",
+      "title": "ASMR Sound 2021 - Xagħra Ta' Ninu's Cave - The Dropping Water From Stalactites to Stalagmites.",
+      "channel": "Rayden Mizzi Media Productions",
+      "channel_id": "UC7HSuErxtu-GbT41xbicAJQ",
+      "runtime": "33:10",
+      "note": "Water dropping from stalactites in Ta' Ninu's cave on Gozo, after heavy rain, in the camera's own sound.",
+      "measured": "2026-09-28"
+     },
+     {
+      "id": "eaQ9oC58ZqA",
+      "title": "Ocean wave sounds - Waves in a sea cave, Scotland",
+      "channel": "George Vlad",
+      "channel_id": "UCxJKK6qu0r5lHCAZcYktGqA",
+      "runtime": "1:00:40",
+      "note": "Atlantic waves in a collapsed sea cave on Islay, changing as the tide turns.",
+      "measured": "2026-09-28"
+     },
+     {
+      "id": "UYZvkdsX2ow",
+      "title": "1 Hour 4K Ice Cave - Calm View inside a Frozen Glacier in Alaska with Natural Water Sounds",
+      "channel": "Epic Scenery Videos",
+      "channel_id": "UCu5YiBhCrDYSDECvwmK_jjA",
+      "runtime": "1:03:47",
+      "note": "A second hour inside a glacier in Alaska: still ice, and water running.",
+      "measured": "2026-09-28"
+     },
+     {
+      "id": "1YyOUlB8DE8",
+      "title": "[自然音と4K映像]  伊豆の龍宮窟と海と洞窟とリラックス/Japan Relaxing Nature Ocean Waves & Cave Sounds in Izu “Ryugukutsu\"",
+      "channel": "Nature Good Mode",
+      "channel_id": "UC4KdP7BuLdVHVsPX7DBdISg",
+      "runtime": "29:50",
+      "note": "Ryugukutsu, a sea cave in Izu with a hole in its roof open to the sky, and the sea coming in under it.",
+      "measured": "2026-09-28"
+     },
+     {
+      "id": "isCnlmRxjjA",
+      "title": "[4K] Nippara Limestone Cave Morning Walk in Okutama, Tokyo | Japan [No Commentary]",
+      "channel": "ASMR Japan Walks",
+      "channel_id": "UCorBezfedwV5eBO0l3xZEPg",
+      "runtime": "38:16",
+      "note": "A morning walk into Nippara limestone cave near Tokyo, and out along the valley again, with no talking and no music.",
+      "measured": "2026-09-28"
+     },
+     {
+      "id": "1SEkjBqTSZQ",
+      "title": "Phraya Nakhon Cave 4K | Deep Cave Sounds & Nature Ambience (No Commentary)",
+      "channel": "CONTEXT CINEMA",
+      "channel_id": "UC2ahGF1Cmtu9RvxcGs963Og",
+      "runtime": "16:32",
+      "note": "Phraya Nakhon cave in Thailand, where sunlight falls in through the roof onto a pavilion.",
+      "measured": "2026-09-28"
+     },
+     {
+      "id": "l9Q21-3Ji5E",
+      "title": "Exploring a River Through a Giant Underground Cave: Lod Cave | Walking Tour [4K]",
+      "channel": "15 Minutes Walking Tour",
+      "channel_id": "UCCUuJxImbaeVslwRGR5sVTQ",
+      "runtime": "15:57",
+      "note": "A bamboo raft on the river that runs through Lod Cave in Thailand, with other visitors now and then.",
+      "measured": "2026-09-28"
+     },
+     {
+      "id": "MtENTc8z-Gc",
+      "title": "40,000 Year Old Cave - No Talking - Cave Ambience and Sounds",
+      "channel": "ASMR Garden",
+      "channel_id": "UC6wnsxzmPiSFCgxl3Y9bpgQ",
+      "runtime": "14:30",
+      "note": "A walk through Mushpot Cave, a lava tube in Lava Beds National Monument.",
+      "measured": "2026-09-28"
+     },
+     {
+      "id": "MBCNkWAKkMk",
+      "title": "Thurston Lava Tube Walk ASMR | Volcanoes National Park Hawaii | 4K No Talking",
+      "channel": "Gus Sin Rumbo",
+      "channel_id": "UCatzahu980kW8Ci5DRbtWdA",
+      "runtime": "9:44",
+      "note": "A walk through Thurston Lava Tube in Hawaii: footsteps, drips and the echo.",
+      "measured": "2026-09-28"
+     }
+    ]
    }
   },
   {
@@ -260,5 +396,5 @@
   "title": "A Note on Communication Access",
   "said": "We support multiple modes of participation including text chat, audio, and video — whatever works for your communication needs on a given day. You do not need to speak to belong here."
  },
- "_rooms": "Ryan's brief, 2026-09-28: Proton goes, and every door opens onto a room of its own with a call in it, through 8x8's Jitsi as a Service. A door with a `page` opens that room; `room` is the room's own name, `prefix` the class prefix its section of love.css dresses the generated parts in. Events, Operations and Editorial are public calls (PUBLIC_CALLS in netlify/cb/lib.mjs, which make-coworking.py reads); the suites are for people signed on to the CB. A door with no `page` yet still opens its Proton room, until its room is built."
+ "_rooms": "Ryan's brief, 2026-09-28: Proton goes, and every door opens onto a room of its own with a call in it, through 8x8's Jitsi as a Service. A door with a `page` opens that room; `room` is the room's own name, `prefix` the class prefix its section of love.css dresses the generated parts in. Events, Operations and Editorial are public calls (PUBLIC_CALLS in netlify/cb/lib.mjs, which make-coworking.py reads); the suites are for people signed on to the CB. Every door has its room now, and make-coworking.py refuses one that does not."
 }

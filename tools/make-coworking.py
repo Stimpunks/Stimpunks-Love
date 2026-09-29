@@ -29,25 +29,22 @@ parts from the same data the door is built from (its words, its light list or
 norms, its call panel, its credits), so the door and the room behind it cannot
 say two different things. Each room dresses those parts in its own section of
 love.css, under its own class prefix; only the markup's shape is shared, the
-job marker's rule. A door with no `page` yet still opens its Proton room.
+job marker's rule. Every door has a `page`, and a door without one is refused:
+until 2026-09-28 each opened a Proton Meet room, and that fallback is gone.
 Events, Operations and Editorial are PUBLIC calls and the suites are the CB's,
 and which is which is read out of PUBLIC_CALLS in netlify/cb/lib.mjs, never
 restated here: a room that said it was open while the server refused its
 guests would be a door that looks like it worked.
 
 IT ALSO REFUSES:
-  · a door whose link is not a Proton Meet join link WITH its password. These
-    meetings are open, so the password is not a secret; without it the door
-    opens onto a locked room, which is a door that looks like it worked;
-  · a door with no measured `proton_name`, the name Proton's own guest page
-    gave the room when somebody opened it, because a door labelled Editorial
-    that opens the Operations call is the jukebox's guessed mapping again;
+  · a door with no room behind it, or a room that does not exist, or whose
+    call the server would refuse its guests (or hand to anybody, for a suite);
   · a slot with no time said in words, or no days, or a start that is not a
     clock time -- the page works out the visitor's own hour from these, and the
     words are what a page with no script shows;
-  · Proton Meet framed anywhere on the page. The call is behind the door
-    because Proton's frame-ancestors only lets Proton's own apps frame it
-    (measured 2026-09-25), and a frame dressed as a room would be a blank box;
+  · Proton Meet anywhere on this page or on a room behind a door. It was the
+    call behind every door until 2026-09-28, and a stale link to it is the
+    friendly edit that will arrive from somebody reading an old copy;
   · the events page's own closing line, that the meetings are open to Discord
     members and the Discord is where to get the links. It was true until this
     room existed, and it is the friendly edit that will arrive: somebody copying
@@ -79,7 +76,6 @@ SCRIPT = ROOT / "coworking.js"
 MIRROR = Path.home() / "Documents/Claude/Projects/Stimpunks Knowledge System/site/stimpunks.org"
 EVENTS = MIRROR / "pages/events.md"
 
-DOOR = re.compile(r"^https://meet\.proton\.me/join/id-[A-Za-z0-9]+#pwd-[A-Za-z0-9]+$")
 LIB = ROOT / "netlify/cb/lib.mjs"
 _pub = re.search(r"export const PUBLIC_CALLS = \[(.*?)\];", LIB.read_text(), re.S)
 if not _pub:
@@ -94,7 +90,6 @@ DAYNAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "S
 MEMBERS = re.compile(
     r"open to (?:the )?(?:Stimpunks )?Discord (?:community )?members|members[- ]only|"
     r"Join the Discord to get (?:the )?(?:meeting )?links", re.I)
-FRAME = re.compile(r"<iframe[^>]*proton|data-embed-src=\"[^\"]*proton", re.I)
 SENDS = re.compile(
     r"localStorage|sessionStorage|indexedDB|document\.cookie|\bfetch\s*\(|XMLHttpRequest|"
     r"sendBeacon|WebSocket|EventSource|getUserMedia|navigator\.geolocation")
@@ -139,32 +134,24 @@ def swap(src, marker, block):
 
 
 def room_check(d, where, public):
-    """A door opens a room of its own (`page`), or, until that room is built,
-    its Proton room (`url` with its password, and the `proton_name` read off
-    Proton's guest page). Never both."""
-    if d.get("page"):
-        if d.get("url") or d.get("proton_name"):
-            refuse(f"{where}: it has a room of its own AND a Proton link. Proton has gone from "
-                   "a door once its room is built; take the url and proton_name out.")
-        for f in ("room", "prefix", "item"):
-            if not str(d.get(f, "")).strip():
-                refuse(f"{where}: a door with a page needs its `{f}`.")
-        tag = d["page"][:-5] if d["page"].endswith(".html") else ""
-        if not (ROOT / d["page"]).exists():
-            refuse(f"{where}: {d['page']} does not exist.")
-        if public and tag not in PUBLIC:
-            refuse(f"{where}: {tag} is a meeting that is open to the world, and it is not in "
-                   "PUBLIC_CALLS in netlify/cb/lib.mjs, so its guests would be refused a call.")
-        if not public and tag in PUBLIC:
-            refuse(f"{where}: {tag} is a hang suite, for people signed on to the CB, and "
-                   "PUBLIC_CALLS in netlify/cb/lib.mjs would give anybody a call there.")
-        return
-    if not DOOR.match(d.get("url", "")):
-        refuse(f"{where}: {d.get('url')!r} is not a Proton Meet join link carrying its "
-               "#pwd- password. Without the password the door opens onto a locked room.")
-    if not d.get("proton_name"):
-        refuse(f"{where}: no proton_name. Open the link as far as Proton's guest page and "
-               "write down the name it gives the room; a door must not be labelled by guess.")
+    """A door opens a room of its own (`page`), and nothing else."""
+    if not d.get("page"):
+        refuse(f"{where}: no `page`. Every door opens onto a room of its own; build the room "
+               "before the door, rather than pointing the door somewhere else.")
+    if d.get("url") or d.get("proton_name"):
+        refuse(f"{where}: a `url` or `proton_name`. Proton has gone from these doors; take them out.")
+    for f in ("room", "prefix", "item"):
+        if not str(d.get(f, "")).strip():
+            refuse(f"{where}: a door with a page needs its `{f}`.")
+    tag = d["page"][:-5] if d["page"].endswith(".html") else ""
+    if not (ROOT / d["page"]).exists():
+        refuse(f"{where}: {d['page']} does not exist.")
+    if public and tag not in PUBLIC:
+        refuse(f"{where}: {tag} is a meeting that is open to the world, and it is not in "
+               "PUBLIC_CALLS in netlify/cb/lib.mjs, so its guests would be refused a call.")
+    if not public and tag in PUBLIC:
+        refuse(f"{where}: {tag} is a hang suite, for people signed on to the CB, and "
+               "PUBLIC_CALLS in netlify/cb/lib.mjs would give anybody a call there.")
 
 
 data = json.loads(DATA.read_text())
@@ -252,11 +239,8 @@ def slot(s):
 
 
 def opening(d, name):
-    if d.get("page"):
-        return [f'        <a class="cw-open" href="{e(d["page"])}">Go through the {name} door<span aria-hidden="true"> &rarr;</span></a>',
-                f'        <p class="cw-open__off">Into {e(d["room"])}: what goes on in there, and its call.</p>']
-    return [f'        <a class="cw-open" href="{e(d["url"])}">Open the {name} door<span aria-hidden="true"> &rarr;</span></a>',
-            f'        <p class="cw-open__off">Off site: Proton Meet&rsquo;s guest page for the room named {e(d["proton_name"])}. Nothing reaches Proton until you open it.</p>']
+    return [f'        <a class="cw-open" href="{e(d["page"])}">Go through the {name} door<span aria-hidden="true"> &rarr;</span></a>',
+            f'        <p class="cw-open__off">Into {e(d["room"])}: what goes on in there, and its call.</p>']
 
 
 def door(d):
@@ -326,15 +310,15 @@ credits = (
     f'each room&rsquo;s own line, what it is for, and every day and time, read off '
     f'<a href="{e(data["page"])}">stimpunks.org/events</a> on {e(data["measured"])}. '
     f'<code>tools/make-coworking.py</code> reads that page again every time it builds the doors '
-    f'and refuses a line that has gone from it, a door without its room&rsquo;s password, a door '
-    f'in a different order from the page, and the call framed inside this one. The hour on your '
+    f'and refuses a line that has gone from it, a door with no room behind it, and a door '
+    f'in a different order from the page. The hour on your '
     f'own clock underneath is worked out in your browser and is ours.</p>')
 src = swap(src, "cw-credits", credits)
 
 # Reading back what was written, so the sweeps see the published page.
 bare = re.sub(r"<!--.*?-->", " ", src, flags=re.S)
-if FRAME.search(bare):
-    refuse("Proton Meet is framed on the page. It is a door, not a window.")
+if PROTON.search(bare):
+    refuse("Proton Meet is on the page. Every door opens onto a room of ours now.")
 m = MEMBERS.search(norm(bare))
 if m:
     refuse(f"the page says {m.group(0)!r}. These meetings are open to the world now; that "

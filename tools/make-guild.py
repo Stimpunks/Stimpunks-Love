@@ -377,6 +377,10 @@ DRAW = {
     # threshold a marker is held to. The floor line and the sole are --mud-dim
     # and carry nothing. It lies still.
     "mud-welly": """<path d="M3 29 H29" stroke="var(--mud-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 24 V13 Q5 10 8 10 H17 Q19 10 19 13 V17 H25 Q28 17 28 21 V24 Z" fill="var(--mud-welly)" stroke="var(--mud-welly)" stroke-width="1.4" stroke-linejoin="round"/><path d="M4.5 26 H28.5" stroke="var(--mud-dim)" stroke-width="2.4" stroke-linecap="round"/><path d="M8 13.5 H16" stroke="var(--mud-ground)" stroke-width="1.4" stroke-linecap="round"/>""",
+    # A mitten, dropped on the ice in the Cave: a thumb and a cuff, in the pale
+    # aqua the room uses for every link, 8.24 on the deep ice. The floor line
+    # is --cv-seam and carries nothing.
+    "cv-icicle": """<path d="M3 29.5 H29" stroke="var(--cv-seam)" stroke-width="1.6" stroke-linecap="round"/><path d="M10 26 V12 Q10 6 16 6 Q22 6 22 12 V26 Z" fill="none" stroke="var(--cv-link)" stroke-width="2.2" stroke-linejoin="round"/><path d="M10 16 Q5 15 5.5 19.5 Q6 23 10 22" fill="none" stroke="var(--cv-link)" stroke-width="2.2" stroke-linecap="round"/><path d="M9 22.5 H23" stroke="var(--cv-link)" stroke-width="3" stroke-linecap="round"/>""",
     # A toasting stick, left leaning against a log at the Campfire: a green
     # stick with its forked end, in the fire's orange the room uses for every
     # link, 9.26 on the night. The log and the floor line are --cf-bark and

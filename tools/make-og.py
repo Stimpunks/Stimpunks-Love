@@ -716,6 +716,15 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--cfroom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
 .og--cfroom .og-scene svg {{ display: block; width: 1200px; height: 300px; }}
 
+/* the cave — INSIDE THE ICE, LIFTED OFF THE ROOM: the glow where the ice thins,
+   its layers and scallops, the one crack, the icicles and the still melt. */
+.og--cvroom {{ width: 100%; padding: 40px 60px 0; gap: 8px; justify-content: flex-start; }}
+.og--cvroom .cv-over {{ margin: 0 !important; font-size: 19px; letter-spacing: .06em; text-transform: uppercase; color: #A6D0DD; }}
+.og--cvroom h1 {{ font-size: 88px; margin: 0 !important; }}
+.og--cvroom .og-lede {{ font-family: 'Nunito Sans', sans-serif; color: #EAF7FA; max-width: 1060px; font-size: 25px; margin: 4px 0 0 !important; }}
+.og--cvroom .og-scene {{ margin: auto -60px 0 !important; line-height: 0; }}
+.og--cvroom .og-scene svg {{ display: block; width: 1200px; height: 300px; }}
+
 /* the mud room — THE VIEW FROM THE BACK STEP, LIFTED OFF THE ROOM: the sky, the
    far shore, the causeway posts going out to the beacon, and the sky lying in
    the mud, under the room's own name. Nothing on it moves, which is the
@@ -2693,6 +2702,23 @@ def card_cfroom(p):
     )
 
 
+def card_cvroom(p):
+    return (
+        "",
+        f'<div class="og og--cvroom" data-fit="card">'
+        f'<p class="cv-over">Behind the Cave door at Cavendish Coworking</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<div class="og-scene">{p["cv_scene"]}</div>'
+        f'</div>',
+        f"A deep blue card. A small line in pale blue capitals reading behind the Cave door at "
+        f"Cavendish Coworking, then “{p['h1text']}” in wide pale letters, and under it: "
+        f"{p['desc_plain']} Along the foot, a tunnel inside a glacier: an arch of deep blue ice, "
+        f"its far wall glowing pale blue where the ice is thin, bands of layered ice, scallops cut "
+        f"by the melt, one white crack, and icicles hanging along the arch.",
+    )
+
+
 def card_mud(p):
     return (
         "",
@@ -3590,6 +3616,7 @@ CARDS = {
     "edroom":       card_edroom,
     "whroom":       card_whroom,
     "cfroom":       card_cfroom,
+    "cvroom":       card_cvroom,
     "mud":          card_mud,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
@@ -3896,6 +3923,11 @@ def main():
     if not cf:
         raise SystemExit("REFUSING: cavendish-campfire.html has lost its clearing, and its card is built out of it.")
     lifted["cf_scene"] = cf.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 150 1200 300"', 1)
+    cv = re.search(r'<div class="cv-head__art">\s*(?:<!--.*?-->\s*)?(<svg.*?</svg>)',
+                   (ROOT / "cavendish-cave.html").read_text(), re.S)
+    if not cv:
+        raise SystemExit("REFUSING: cavendish-cave.html has lost its ice, and its card is built out of it.")
+    lifted["cv_scene"] = cv.group(1).replace('viewBox="0 0 1200 480"', 'viewBox="0 56 1200 300"', 1)
     # THE MUD ROOM'S CARD CARRIES THE ROOM'S OWN VIEW AND OVER-LINE, cropped by its
     # viewBox to the horizon and the mud, so the card cannot disagree with the room.
     mud_src = (ROOT / "the-mud-room.html").read_text()

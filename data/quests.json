@@ -2442,6 +2442,42 @@
     ]
    },
    "learned": "A campfire is a place where everybody faces in and nobody is at the head of it."
+  },
+  {
+   "id": "cv-icicle",
+   "page": "cavendish-cave.html",
+   "room": "The Cave",
+   "title": "What is not done in here",
+   "posted": "Behind the Cave door at Cavendish Coworking there is a quiet room inside the ice, lit through its own walls. Go in, read how things go in there, and find out what kind of chat the room does without.",
+   "rank": 2,
+   "takes": "a minute, and no talking",
+   "target": "a mitten, dropped on the ice",
+   "code": "MITTEN",
+   "hints": [
+    "Go into Cavendish Coworking on the street and through the Cave door, upstairs with the Hang Suites.",
+    "Read the norms under How it goes here.",
+    "The mitten is at the foot of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "What kind of chat does the Cave do without?",
+    "accept": [
+     "spoken",
+     "spoken chat",
+     "talking",
+     "speaking",
+     "voice",
+     "voice chat",
+     "speech"
+    ],
+    "answer": "Spoken chat",
+    "why": "Spoken chat: the Cave is the quiet room, for quiet co-presence and ambient togetherness. Minimal text chat, nobody @ed, a hi to the room is fine, and video is optional.",
+    "hints": [
+     "It is the first of the room's norms.",
+     "The opposite of text chat.",
+     "What you would do with your voice."
+    ]
+   },
+   "learned": "A quiet room is not an empty one. Being there with other people and saying nothing is the whole of it."
   }
  ],
  "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."

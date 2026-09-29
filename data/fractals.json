@@ -1235,6 +1235,18 @@
     "--cf-fire",
     "--cf-flame"
    ]
+  },
+  "cavendish-cave.html": {
+   "kind": "ifs",
+   "figure": "crystal",
+   "sway": 0.02,
+   "ground": "--cv-deep",
+   "inks": [
+    "--cv-seam",
+    "--cv-thin",
+    "--cv-glow",
+    "--cv-crack"
+   ]
   }
  }
 }

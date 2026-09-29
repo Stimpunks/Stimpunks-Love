@@ -1079,6 +1079,20 @@
       "sections": [
         75
       ]
+    },
+    "encode-sans-expanded": {
+      "where": "The Cave",
+      "page": "cavendish-cave.html",
+      "sections": [
+        76
+      ]
+    },
+    "nunito-sans": {
+      "where": "The Cave",
+      "page": "cavendish-cave.html",
+      "sections": [
+        76
+      ]
     }
   }
 }
