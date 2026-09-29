@@ -43,6 +43,11 @@
        It is shown only when the channel says calls are switched on, the
        camera and microphone start off, and leaving the page hangs up. See
        setCall.
+     · FOLLOW THE HOST IS EACH VIEWER'S OWN SWITCH. It keeps the film on your
+       page in step with the host's, at your own volume, and it is the only
+       thing here that plays, pauses or moves a film without a press on the
+       film, because you pressed Follow. Your own pause ends it. It sends
+       nothing: it reads the beacon every radio already hears. See followTick.
      · HOSTING A FILM IS A BEACON, AND IT GOES OUT ONLY FROM INSIDE listen().
        Host this film tells the channel where the film on your page has got
        to, when it plays, pauses or jumps and every half minute besides, and
@@ -69,6 +74,8 @@
   var EVERY = 4000;       // ms between listens while open and in front
   var BEAT = 30000;       // ms a host's beacon goes unsent at most, while nothing changes
   var FILM_MAX = 120;     // characters of a film's title on a beacon, as the server takes it
+  var DRIFT = 3;          // seconds a follower may drift from the host before it is moved
+  var SETTLE = 3000;      // ms a follower's player is given to obey before it is judged
   var STEP = 24;          // px per arrow press when moving by keyboard
   var HOME = 16;          // px from its corner that a radio or a call starts at
   var EDGE = 8;           // px the radio keeps from the edge of the window
@@ -536,9 +543,14 @@
     bw.addEventListener('click', function () { me.setBand('world'); });
     br.addEventListener('click', function () { me.setBand('room'); });
     beacons.addEventListener('click', function (e) {
+      // Follow first: it wears .cb-catch too, for the look, and asking for
+      // .cb-catch first made pressing Follow a Catch up.
+      var f = e.target.closest('.cb-follow');
+      if (f) { me.setFollow(!me.following, f.dataset.room); return; }
       var c = e.target.closest('.cb-catch');
       if (c) me.catchUp(c.dataset.room);
     });
+    this.following = null;
     log.addEventListener('click', function (e) {
       var b = e.target.closest('.cb-jump');
       if (b) me.jump(+b.dataset.at, b.dataset.film || '', b.dataset.room || '');
@@ -806,6 +818,8 @@
     // Folded sends nothing, so a beacon cannot say it has stopped: it goes
     // quiet, and every radio stops showing it within seventy-five seconds.
     if (folded && this.hosting) { this.hosting = null; this.hostShown(); }
+    // Folded, the radio hears no beacons, so it cannot follow one either.
+    if (folded && this.following) this.following = null;
     if (!quiet) save(this.state);
     this.place();
     this.tune();
@@ -1446,7 +1460,78 @@
   Radio.prototype.showBeacons = function (list, now) {
     this.beacons = Array.isArray(list) ? list : [];
     if (typeof now === 'number') this.skew = now - Date.now();
+    this.followTick();
     this.drawBeacons();
+  };
+
+  /* FOLLOW THE HOST. Ryan, 2026-09-28: Jitsi's shared video keeps a call in
+     step but gives nobody but the host a volume, and Catch up keeps everybody
+     their own player but only moves it when pressed. Follow is both: the film
+     on your page keeps pace with the host's, and its volume, captions and
+     everything else stay yours. It is off until you press it, it is never
+     remembered, and it is offered only in the room the host is in.
+
+     On every beacon the radio hears (each listen, every few seconds): when the
+     host starts playing, your film plays; when the host pauses, yours pauses;
+     and when you are more than DRIFT seconds from where the host is, you are
+     moved there. **Your own pause, or your own play while the host is paused,
+     is you going your own way, and it ends following**, which is the whole of
+     taking a break. A change that the radio itself asked for is given SETTLE
+     to happen before it is judged, so the player catching up is not mistaken
+     for you. Nothing is sent: it reads what every radio already hears. */
+  Radio.prototype.setFollow = function (on, room, said) {
+    if (!on) {
+      this.following = null;
+      this.drawBeacons();
+      this.tell(said || 'You have stopped following.');
+      return;
+    }
+    var b = this.beaconIn(room);
+    if (!b) { this.tell('That host has stopped.'); return; }
+    this.following = { room: room, fresh: true, hostWas: null, sent: 0, waiting: false };
+    this.tell('Following ' + b.handle + ': your film keeps pace with theirs, at your own volume. Pause, or press Follow again, to go your own way.');
+    this.followTick();
+    this.drawBeacons();
+  };
+
+  Radio.prototype.beaconIn = function (room) {
+    for (var i = 0; i < this.beacons.length; i++) if (this.beacons[i].room === room) return this.beacons[i];
+    return null;
+  };
+
+  Radio.prototype.followTick = function () {
+    var f = this.following;
+    if (!f) return;
+    var b = this.beaconIn(f.room);
+    if (!b || f.room !== hereTag()) { this.setFollow(false, null, 'The host has stopped, so you have stopped following.'); return; }
+    var e = window.loveEmbed, w = e && e.where ? e.where() : null;
+    if (!w || !sameFilm(b.film, w.film)) {
+      if (!f.waiting) this.tell('Following ' + b.handle + ': press play on \u201c' + b.film + '\u201d and it will keep pace from there.');
+      f.waiting = true;
+      f.fresh = true;
+      return;
+    }
+    if (f.waiting) { f.waiting = false; this.tell('Following ' + b.handle + ' in \u201c' + b.film + '\u201d.'); }
+    var now = Date.now(), settling = now - f.sent < SETTLE;
+    var at = this.placeOf(b), turned = f.fresh || f.hostWas !== b.playing;
+    f.hostWas = b.playing;
+    f.fresh = false;
+    if (turned) {
+      // The host has just played or paused, or you have just started
+      // following: yours does the same, from the host's place.
+      e.seek(at);
+      if (b.playing) e.play(); else e.pause();
+      f.sent = now;
+      return;
+    }
+    if (settling) return;
+    if (w.playing !== b.playing) {
+      this.setFollow(false, null, w.playing
+        ? 'You played on while ' + b.handle + ' is paused, so you have stopped following. Press Follow to pick up again.'
+        : 'You paused, so you have stopped following. Press Follow to pick up again.');
+      return;
+    }
+    if (Math.abs(w.time - at) > DRIFT) { e.seek(at); f.sent = now; }
   };
 
   // Where a host has got to by now: a playing film has gone on since it was heard.
@@ -1480,6 +1565,8 @@
     for (i = 0; i < list.length; i++) {
       var b = list[i], li = ul.children[i], at = place(this.placeOf(b));
       li.querySelector('.cb-beacon-at').textContent = at + (b.playing ? ', playing' : ', paused');
+      var fo = li.querySelector('.cb-follow');
+      if (fo) fo.setAttribute('aria-pressed', String(!!(this.following && this.following.room === b.room)));
       var a = li.querySelector('a.cb-room');
       if (a) a.href = byTag[b.room].path + '#spot=' + Math.floor(this.placeOf(b)) + '&film=' + encodeURIComponent(b.film);
     }
@@ -1517,6 +1604,12 @@
       c.dataset.room = b.room;
       c.setAttribute('aria-label', 'Catch up with ' + b.handle + ' in ' + b.film);
       li.appendChild(c);
+      var fo = el('button', 'cb-btn cb-catch cb-follow', 'Follow');
+      fo.type = 'button';
+      fo.dataset.room = b.room;
+      fo.setAttribute('aria-label', 'Follow ' + b.handle + ' in ' + b.film + ', at your own volume');
+      fo.setAttribute('aria-pressed', 'false');
+      li.appendChild(fo);
     }
     return li;
   };

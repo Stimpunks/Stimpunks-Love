@@ -149,6 +149,10 @@
 .cb-beacon { overflow-wrap: anywhere; }
 .cb-beacon .cb-tag { margin: 0 0 0 6px; }
 .cb-catch { margin-left: 8px; }
+/* Follow is a switch that moves your film, so ON has to be unmistakable, not
+   one amber border for another: filled, the teleporter's selected room's pair,
+   which check-contrast.py already measures. */
+.cb-follow[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
 .cb-catch { justify-self: start; min-height: 44px; }
 .cb-take, .cb-catch {
   color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2);

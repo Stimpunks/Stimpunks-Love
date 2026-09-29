@@ -165,6 +165,20 @@
     return { film: name(p), duration: p.duration || null, past: false };
   }
 
+  /* PLAY AND PAUSE, for the CB's Follow the host, which is the one thing that
+     may start or stop a film without a press on it, and only because the
+     viewer switched Follow on themselves (Ryan's call, 2026-09-28). The same
+     messages the IFrame Player API sends, spoken from here. Each returns the
+     film it acted on, or null when this page has no started film. */
+  function command(func) {
+    var p = active();
+    if (!p) return null;
+    p.el.contentWindow.postMessage(JSON.stringify({ event: 'command', func: func, args: [], id: 1, channel: 'widget' }), YT);
+    return { film: name(p) };
+  }
+  function play() { return command('playVideo'); }
+  function pause() { return command('pauseVideo'); }
+
   function frameUrl(src, title) {
     if (!src || !ORIGINS.some(function (o) { return src.indexOf(o) === 0; })) return null;
     var yt = src.indexOf(YT + '/') === 0;
@@ -245,7 +259,7 @@
     return el;
   }
 
-  window.loveEmbed = { frame: frame, frameUrl: frameUrl, audio: audio, where: where, seek: seek, withStart: withStart };
+  window.loveEmbed = { frame: frame, frameUrl: frameUrl, audio: audio, where: where, seek: seek, play: play, pause: pause, withStart: withStart };
 
   function swap(btn) {
     /* Named player, not `frame`: `var frame` here would be hoisted over the

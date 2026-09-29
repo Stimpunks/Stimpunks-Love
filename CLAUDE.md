@@ -617,9 +617,14 @@ into spaces**, and Node refuses a PEM like that (`ERR_OSSL_UNSUPPORTED`). The fu
 the radio could only say the call could not be opened. `tidyPem` rebuilds any pasted key from its
 armour and base64, and a key that still cannot be read switches calls off rather than leaving a
 button that fails. Check a key's *shape* with `netlify env:get` piped into a script that prints
-counts, never the key. **The friendly edit is auto-follow, a host whose
-jumps move everybody.** That is forced sync, and the watch-togethers rely on people pausing
-when they need to. It is Ryan's call and nobody else's.
+counts, never the key. **Follow the host exists, and it is each viewer's
+switch** (Ryan, 2026-09-28, after Jitsi's shared video turned out to give only the host a
+volume). `followTick` in `cb.js` plays, pauses and moves the reader's own film to the host's,
+from beacons the radio already hears, and **the reader's own pause or play ends it**. That is
+what keeps breaks possible. Do not make it start by itself, remember it, or let a host switch it
+on for anybody. A host whose jumps move everybody who did not ask is forced sync, and still
+Ryan's call. The Follow button wears `.cb-catch` for its look, so the click handler asks for
+`.cb-follow` first; asked the other way round, Follow was a Catch up.
 
 **EVERY OBJECT IN THAT SCENE IS CARRIED BY ITS OUTLINE.** The bright chairs each measured under 2.3
 against the rug — a chair you cannot pick out of the carpet, which is the Jungle Room's canopy
