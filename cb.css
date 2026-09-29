@@ -183,7 +183,24 @@
    check-contrast.py already measures. */
 .cb-msg > .cb-picture { grid-column: 1 / -1; grid-row: 3; margin: 4px 0 0; min-width: 0; max-width: 100%; }
 .cb-picture-img { display: block; width: auto; max-width: 100%; max-height: 180px; height: auto; border: 1px solid var(--cb-amber-2); border-radius: 3px; background: var(--cb-lcd); }
-.cb-picture-alt, .cb-picture-gone { margin: 4px 0 0; font-size: 13px; color: var(--cb-amber-2); overflow-wrap: anywhere; }
+.cb-picture-open { display: block; max-width: 100%; padding: 0; margin: 0; border: 0; background: none; cursor: zoom-in; border-radius: 3px; }
+.cb-picture-under { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; margin: 4px 0 0; font-size: 13px; }
+.cb-picture-alt, .cb-picture-gone { margin: 0; font-size: 13px; color: var(--cb-amber-2); overflow-wrap: anywhere; min-width: 0; }
+.cb-picture-dl { color: var(--cb-amber); }
+/* THE LIGHTBOX, over the page in the browser's top layer: the radio's own case
+   and amber, the picture as large as the window allows, nothing moving. */
+.cb-lightbox {
+  max-width: min(96vw, 1640px); max-height: 94vh; padding: 12px; box-sizing: border-box;
+  background: var(--cb-case); color: var(--cb-amber);
+  border: 2px solid var(--cb-steel-2); border-radius: 10px;
+  font: 15px/1.4 'Atkinson Hyperlegible', system-ui, sans-serif;
+}
+.cb-lightbox::backdrop { background: rgba(0, 0, 0, .82); }
+.cb-lightbox :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.cb-lightbox-img { display: block; max-width: 100%; max-height: calc(94vh - 120px); width: auto; height: auto; margin: 0 auto; background: var(--cb-lcd); }
+.cb-lightbox-cap { margin: 8px 0 0; color: var(--cb-amber-2); overflow-wrap: anywhere; }
+.cb-lightbox-bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; margin: 10px 0 0; }
+.cb-lightbox-dl { display: inline-flex; align-items: center; text-decoration: none; }
 .cb-radio--small .cb-picture-img { max-height: 90px; }
 .cb-pic-ready { display: grid; gap: 6px; margin: 8px 0 0; }
 .cb-pic-line { margin: 0; font-size: 13px; }
@@ -191,6 +208,10 @@
 
 .cb-lab { display: block; font-size: 13px; margin-bottom: 4px; }
 .cb-row { display: flex; gap: 8px; }
+/* The buttons keep their own width and the text box gives way. Firefox lets a
+   flex item shrink below its label, so with Picture beside Transmit both were
+   squeezed and their words ran into the right edge. */
+.cb-row > .cb-btn { flex: none; }
 .cb-say {
   flex: 1 1 auto; min-width: 0; min-height: 44px; padding: 6px 10px;
   font: 15px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif;

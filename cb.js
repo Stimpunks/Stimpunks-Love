@@ -108,6 +108,14 @@
     });
   }
 
+  // A kept picture's file name: who sent it and when, so a folder of them sorts.
+  function pictureName(m) {
+    var d = new Date(m.t), two = function (n) { return (n < 10 ? '0' : '') + n; };
+    var who = String(m.handle).replace(/[^A-Za-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '') || 'cb';
+    return 'cb-' + who + '-' + d.getFullYear() + '-' + two(d.getMonth() + 1) + '-' + two(d.getDate()) +
+      '-' + two(d.getHours()) + two(d.getMinutes()) + '.jpg';
+  }
+
   function sendPicture(blob, room, pass) {
     return fetch('/cb/image' + (room ? '?room=' + encodeURIComponent(room) : ''), {
       method: 'POST', body: blob, credentials: 'omit', cache: 'no-store',
@@ -805,8 +813,8 @@
     var words = li.querySelector('.cb-text').cloneNode(true);
     var drawn = words.querySelectorAll('[aria-hidden="true"]');
     for (var i = 0; i < drawn.length; i++) drawn[i].remove();
-    var pic = li.querySelector('img[data-pic]');
-    var told = pic ? ' A picture: ' + pic.alt : '';
+    var pic = li.querySelector('.cb-picture-open');
+    var told = pic ? ' ' + pic.getAttribute('aria-label').replace(/^Open the picture larger\. /, 'A picture: ') : '';
     (this.air = this.air || []).push(li.querySelector('.cb-handle').textContent + '. ' + words.textContent + told);
     if (!this.onAir) this.transmitNext();
   };
@@ -963,7 +971,12 @@
       if (!want[lis[i].dataset.id]) {
         delete this.seen[lis[i].dataset.id];
         var gone = lis[i].querySelector('img[data-pic]');
-        if (gone && this.pics && this.pics[gone.dataset.pic]) { URL.revokeObjectURL(this.pics[gone.dataset.pic]); delete this.pics[gone.dataset.pic]; }
+        if (gone && this.pics && this.pics[gone.dataset.pic]) {
+          // A picture open in the lightbox closes when its message goes.
+          if (this.lbox && this.lboxId === gone.dataset.pic && this.lbox.open) this.lbox.close();
+          URL.revokeObjectURL(this.pics[gone.dataset.pic]);
+          delete this.pics[gone.dataset.pic];
+        }
         lis[i].remove();
       }
     }
@@ -1013,21 +1026,94 @@
     img.alt = m.alt || (m.handle + ' sent a picture, with no description.');
     img.dataset.pic = m.img;
     img.decoding = 'async';
-    fig.appendChild(img);
-    // The description is shown for eyes and said once, as the alt text: the
-    // caption is aria-hidden so a screen reader does not hear it twice.
-    if (m.alt) { var cap = el('p', 'cb-picture-alt', m.alt); cap.setAttribute('aria-hidden', 'true'); fig.appendChild(cap); }
+    /* THE PICTURE IS A BUTTON THAT OPENS IT LARGE, and under it is a way to
+       keep it. Both use the copy already in memory, so neither fetches
+       anything; the file you keep is the redrawn one, with nothing of the
+       camera's in it. */
+    var open = el('button', 'cb-picture-open');
+    open.type = 'button';
+    open.setAttribute('aria-label', 'Open the picture larger. ' + img.alt);
+    img.alt = '';
+    open.appendChild(img);
+    open.addEventListener('click', function () { me.lightbox(m, open); });
+    fig.appendChild(open);
+    var under = el('p', 'cb-picture-under');
+    // The description is shown for eyes and said once, in the button's name:
+    // the line is aria-hidden so a screen reader does not hear it twice.
+    if (m.alt) { var cap = el('span', 'cb-picture-alt', m.alt); cap.setAttribute('aria-hidden', 'true'); under.appendChild(cap); }
+    var keep = el('a', 'cb-picture-dl', 'Download');
+    keep.setAttribute('aria-label', 'Download ' + m.handle + '’s picture');
+    keep.hidden = true;
+    under.appendChild(keep);
+    fig.appendChild(under);
     this.pics = this.pics || {};
-    if (this.pics[m.img]) { img.src = this.pics[m.img]; return fig; }
+    function ready(url) {
+      img.src = url;
+      keep.href = url;
+      keep.download = pictureName(m);
+      keep.hidden = false;
+    }
+    if (this.pics[m.img]) { ready(this.pics[m.img]); return fig; }
     fetch('/cb/image?id=' + encodeURIComponent(m.img), {
       headers: { 'authorization': 'Bearer ' + this.state.pass }, credentials: 'omit', cache: 'no-store',
     }).then(function (r) { return r.ok ? r.blob() : null; }).then(function (b) {
-      if (!b) { fig.replaceChild(el('p', 'cb-picture-gone', 'That picture has gone with its message.'), img); return; }
+      if (!b) { fig.replaceChild(el('p', 'cb-picture-gone', 'That picture has gone with its message.'), open); keep.remove(); return; }
       var url = URL.createObjectURL(b);
       me.pics[m.img] = url;
-      img.src = url;
-    }).catch(function () { fig.replaceChild(el('p', 'cb-picture-gone', 'No signal: the picture did not come through.'), img); });
+      ready(url);
+    }).catch(function () { fig.replaceChild(el('p', 'cb-picture-gone', 'No signal: the picture did not come through.'), open); keep.remove(); });
     return fig;
+  };
+
+  /* THE LIGHTBOX: a picture from the channel, as large as the window allows,
+     with its description, a way to keep it, and a way out. A <dialog> opened
+     modally, so it sits over the page, keeps the keyboard inside it, and closes
+     on Escape; Close, or a press outside the picture, closes it too, and the
+     keyboard goes back to the picture it was opened from. Nothing in it moves
+     at any setting. */
+  Radio.prototype.lightbox = function (m, from) {
+    var me = this, url = this.pics && this.pics[m.img];
+    if (!url) return;
+    var d = this.lbox;
+    if (!d) {
+      d = this.lbox = el('dialog', 'cb-lightbox');
+      var big = this.lboxImg = el('img', 'cb-lightbox-img');
+      var cap = this.lboxCap = el('p', 'cb-lightbox-cap');
+      var bar = el('div', 'cb-lightbox-bar');
+      var dl = this.lboxDl = el('a', 'cb-btn cb-lightbox-dl', 'Download');
+      var shut = this.lboxShut = el('button', 'cb-btn cb-lightbox-close', 'Close');
+      shut.type = 'button';
+      shut.addEventListener('click', function () { d.close(); });
+      d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
+      d.addEventListener('close', function () {
+        var back = me.lboxFrom;
+        me.lboxFrom = null; me.lboxId = null;
+        if (back && back.isConnected) back.focus();
+      });
+      bar.appendChild(dl);
+      bar.appendChild(shut);
+      d.appendChild(big);
+      d.appendChild(cap);
+      d.appendChild(bar);
+      this.host.shadowRoot.appendChild(d);
+    }
+    var said = m.alt || (m.handle + ' sent a picture, with no description.');
+    d.setAttribute('aria-label', m.handle + '’s picture');
+    this.lboxImg.src = url;
+    this.lboxImg.alt = said;
+    this.lboxCap.textContent = m.alt ? m.alt : '';
+    this.lboxCap.hidden = !m.alt;
+    if (m.alt) this.lboxCap.setAttribute('aria-hidden', 'true');
+    this.lboxDl.href = url;
+    this.lboxDl.download = pictureName(m);
+    this.lboxFrom = from;
+    this.lboxId = m.img;
+    // The dialog gives the keyboard back to whatever had it when it opened,
+    // and Safari does not focus a button on a click, so the picture takes it
+    // first: closing always comes back to the picture.
+    if (from && from.focus) from.focus({ preventScroll: true });
+    if (!d.open) d.showModal();
+    this.lboxShut.focus();
   };
 
   /* The room list, fetched from this site once, and only while the radio is
