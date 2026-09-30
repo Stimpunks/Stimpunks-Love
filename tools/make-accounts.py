@@ -19,6 +19,12 @@ one without any test noticing:
     appear in what claiming writes.
   · YOU CAN LEAVE. Profile offers Delete my account, with a second press, and
     the desk asks once more before it deletes or resets.
+  · CLAIMED IS THE SERVER'S WORD. Ryan's call, 2026-09-30: a claimed username
+    is marked on the channel like BASE. The mark means something only because
+    the sender cannot set it, so cb-transmit takes it from who.account (what
+    readPass found behind the pass) and never from the request body, and
+    shape() never lets a message wear it beside BASE. The friendly edit is a
+    "verified" checkbox somebody ticks for themselves.
   · privacy.html has the section the Profile and the desk point at, and says
     there is no email.
 
@@ -31,6 +37,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 LIB = ROOT / "netlify" / "cb" / "lib.mjs"
 ADMIN = ROOT / "netlify" / "functions" / "cb-account-admin.mjs"
+TRANSMIT = ROOT / "netlify" / "functions" / "cb-transmit.mjs"
 CB = ROOT / "cb.js"
 DESK = ROOT / "desk.js"
 PRIVACY = ROOT / "privacy.html"
@@ -66,9 +73,17 @@ def main():
     actions = sorted(set(re.findall(r"b\.action === '(\w+)'", admin)))
     if actions != ["delete", "find", "reset"]:
         problems.append(f"{ADMIN.name}: the desk does {actions}; it finds one username, resets it or deletes it.")
+    tx = re.sub(r"//[^\n]*", " ", re.sub(r"/\*.*?\*/", " ", TRANSMIT.read_text(), flags=re.S))
+    marks = [x.strip() for x in re.findall(r"claimed:\s*([^,}\n]+)", tx)]
+    if marks != ["!!who.account"]:
+        problems.append(f"{TRANSMIT.name}: a message's CLAIMED comes from {marks or 'nowhere'}; it is "
+                        "!!who.account, read off the pass, and nothing the sender sends.")
+    if not re.search(r"claimed:\s*!!m\.claimed && !m\.base", lib):
+        problems.append(f"{LIB.name}: shape() no longer keeps CLAIMED off a BASE message, or drops it.")
     cb = CB.read_text()
     for want, why in (("'Delete my account'", "Delete my account"), ("'Yes, delete my account'", "the second press before deleting"),
-                      ("'Claim ' + h", "the offer to claim"), ("it will not be shown again", "saying the recovery code is shown once")):
+                      ("'Claim ' + h", "the offer to claim"), ("it will not be shown again", "saying the recovery code is shown once"),
+                      ("'CLAIMED'", "the CLAIMED mark on the channel")):
         if want not in cb:
             problems.append(f"{CB.name}: Profile has lost {why}.")
     desk = DESK.read_text()

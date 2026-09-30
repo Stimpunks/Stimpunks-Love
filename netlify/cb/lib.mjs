@@ -1922,7 +1922,7 @@ export function json(status, body, extra = {}) {
 
 export function shape(messages) {
   return messages.map((m) => {
-    const out = { id: m.id, handle: m.handle, text: m.text || '', t: m.t, base: !!m.base };
+    const out = { id: m.id, handle: m.handle, text: m.text || '', t: m.t, base: !!m.base, claimed: !!m.claimed && !m.base };
     if (m.img) { out.img = m.img; out.alt = m.alt || ''; }
     return out;
   });

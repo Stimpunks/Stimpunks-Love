@@ -176,6 +176,13 @@ ol.cb-md-list { list-style: decimal; }
 .cb-md-pre { padding: 6px 8px; overflow-x: auto; white-space: pre; overflow-wrap: normal; max-width: 100%; }
 .cb-text strong { font-weight: 700; }
 .cb-msg .cb-tag { margin-left: 0; }
+/* CLAIMED is outlined where BASE is filled, so the two are told apart by
+   shape as well as by word: one says a moderator, the other only that this
+   username signs on with its owner's own password. */
+.cb-tag--claimed {
+  color: var(--cb-amber); background: transparent;
+  box-shadow: inset 0 0 0 1px var(--cb-amber);
+}
 /* Hosts, in the readout under the log. Amber on the readout's black, as the
    log is, and the Catch up button is the Take-off-the-air button's pair. */
 .cb-beacons {

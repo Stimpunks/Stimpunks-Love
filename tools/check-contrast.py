@@ -2884,6 +2884,9 @@ PAIRS = [
     (CB_AMBER,  CB_CASE,  False, "cb: the link to the house norms, and the focus ring on the case"),
     (CB_AMBER,  CB_BAR,   False, "cb: the focus ring on the bar's buttons"),
     (CB_LCD,    CB_AMBER, False, "cb: BASE, the moderators' mark, dark on an amber tag"),
+    (CB_AMBER,  CB_LCD,   False, "cb: CLAIMED on a message, amber and outlined on the readout, so it "
+                                 "is never mistaken for BASE's filled tag"),
+    (CB_AMBER,  CB_CASE,  False, "cb: CLAIMED beside your own handle on the case"),
     (FX_TEXT, FX_CASE, False, "fractal window: every button's words, on the case"),
     (FX_TEXT, FX_BAR,  False, "fractal window: its name on the bar"),
     (FX_DIM,  FX_CASE, False, "fractal window: the words saying what the picture is, the Speed label, "

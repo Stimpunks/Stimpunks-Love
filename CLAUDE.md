@@ -2925,7 +2925,10 @@ claimed, a version and a lock (five wrong passwords, fifteen minutes), filed und
 hash of the folded name. Deleting it deletes its pets. Moderators' handles cannot be claimed; they keep
 the MOD password and `CB_MODS`. `tools/make-accounts.py` refuses a console call anywhere in `netlify/`,
 anything listing `acct/`, a desk action beyond find, reset and delete, an account field beyond those,
-the word email in claiming, and Profile losing Delete my account or its second press. The friendly
+the word email in claiming, and Profile losing Delete my account or its second press. **A claimed username is marked CLAIMED on the channel, like BASE** (Ryan, the same evening):
+`cb-transmit` sets it from `who.account` and never from the request, `shape()` keeps it off a BASE
+message, and the tag is outlined where BASE is filled; `make-accounts.py` refuses any other source for
+it. The friendly
 edit is **a table of users for the admins**; it would be a register of our community that the privacy
 page says does not exist. **Page scripts read the pass once when they load**, so a room left open while
 somebody claims says *the password has changed* on its next press, and a reload fixes it.

@@ -524,6 +524,11 @@
     return otherwise;
   }
 
+  /* A claimed username's pass is the only cb2.acct pass there is, so the pass
+     itself says whether this radio is on as one. It only decides the mark on
+     your own "On the channel as" line; the mark on a message is the server's. */
+  function claimedPass(pass) { return /^cb2\.acct\./.test(pass || ''); }
+
   function clock(t) {
     var d = new Date(t);
     return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
@@ -637,6 +642,8 @@
     who.appendChild(document.createTextNode('On the channel as '));
     who.appendChild(el('b', null, state.handle));
     if (state.base) who.appendChild(el('span', 'cb-tag', 'BASE'));
+    this.whoTag = who.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
+    this.whoTag.hidden = !claimedPass(state.pass);
     set.appendChild(who);
 
     /* THE BAND SWITCH: World, or this room's own channel. Two buttons, one
@@ -1303,6 +1310,7 @@
       var head = el('p', 'cb-head');
       head.appendChild(el('b', 'cb-handle', m.handle));
       if (m.base) head.appendChild(el('span', 'cb-tag', 'BASE'));
+      else if (m.claimed) head.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
       var when = el('time', 'cb-time', clock(m.t));
       when.dateTime = new Date(m.t).toISOString();
       head.appendChild(when);
@@ -1589,6 +1597,7 @@
     this.state.pass = pass;
     this.state.claimed = !!claimed;
     save(this.state);
+    if (this.whoTag) this.whoTag.hidden = !claimedPass(pass);
   };
 
   Radio.prototype.drawAccount = function (a) {

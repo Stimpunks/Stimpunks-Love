@@ -979,7 +979,20 @@ test('a picture goes when its message goes, and an unsent one within the hour', 
   await sweepImages(s, now);
   const left = s.keys().filter((k) => k.startsWith('img/')).map((k) => k.slice(4)).sort();
   assert.deepEqual(left, [held, pushed, unsentNew].sort(), 'held stays, a fresh upload waits, an old unsent one goes');
-  assert.deepEqual(shape([{ id: 'b', handle: 'Ada', t: now, img: held, alt: 'A cat' }])[0], { id: 'b', handle: 'Ada', text: '', t: now, base: false, img: held, alt: 'A cat' });
+  assert.deepEqual(shape([{ id: 'b', handle: 'Ada', t: now, img: held, alt: 'A cat' }])[0], { id: 'b', handle: 'Ada', text: '', t: now, base: false, claimed: false, img: held, alt: 'A cat' });
+});
+
+test('a claimed username is marked on the channel, and only by the server', () => {
+  const [plain, claimed, base, both] = shape([
+    { id: 'a', handle: 'Ada', text: 'hi', t: 1 },
+    { id: 'b', handle: 'Bo', text: 'hi', t: 2, claimed: true },
+    { id: 'c', handle: 'Cy', text: 'hi', t: 3, base: true },
+    { id: 'd', handle: 'Di', text: 'hi', t: 4, base: true, claimed: true },
+  ]);
+  assert.equal(plain.claimed, false, 'an unclaimed handle carries no mark');
+  assert.equal(claimed.claimed, true, 'a claimed one carries CLAIMED');
+  assert.equal(base.claimed, false);
+  assert.equal(both.claimed, false, 'BASE is the only mark a moderator wears');
 });
 
 test('a CB message keeps its lines and is refused past its length', () => {

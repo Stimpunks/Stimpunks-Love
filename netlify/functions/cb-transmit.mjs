@@ -26,7 +26,10 @@ export default async (req) => {
   }
   const text = b.text == null || b.text === '' ? '' : cleanMessage(b.text);
   if (text === null || (!text && !img)) return json(400, { error: `A message is between one and ${MESSAGE_MAX} characters, or a picture.` });
-  const msg = { id: randomUUID(), handle: who.handle, text, t: Date.now(), base: who.role === 'base' };
+  // CLAIMED is read off the pass, like BASE, and never off the request: a
+  // message says it came from a claimed username only because readPass found
+  // that username's own account behind the pass that sent it.
+  const msg = { id: randomUUID(), handle: who.handle, text, t: Date.now(), base: who.role === 'base', claimed: !!who.account };
   if (img) { msg.img = img; msg.alt = cleanAlt(b.alt); }
   try {
     let seen = [];
