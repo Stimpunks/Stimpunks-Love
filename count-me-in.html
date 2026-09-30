@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Count Me In &mdash; Stimpunks.World</title>
+<meta name="description" content="Through a fire door, the stairwell of a public building, going up and never stopping, and everybody climbs it together, a number to a step. Signed on to the CB, put the next number or ride the chairlift up one; nobody takes two in a row, a wrong number sends the stair back to one and names nobody, and the stair remembers the highest step it has reached. After the counting game in our Discord's Collaborative Nonsense channels.">
+<link rel="canonical" href="https://stimpunks.world/count-me-in.html">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#C9E6C4">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.World">
+<meta property="og:title" content="Count Me In &mdash; Stimpunks.World">
+<meta property="og:description" content="A stair everybody climbs together, a number to a step, with a chairlift beside it so anybody can take the next one. A wrong number goes back to one, and nobody is named.">
+<meta property="og:url" content="https://stimpunks.world/count-me-in.html">
+<meta property="og:image" content="https://stimpunks.world/og/count-me-in.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A pale green card, the colour of a painted stairwell wall. Small dark capitals reading A step each, all of us, all the way up, then “Count Me In” in large dark green stencilled letters, then Put the next number, or take the lift. Under it: A stair everybody climbs together, a number to a step, with a chairlift beside it so anybody can take the next one. A wrong number goes back to one, and nobody is named. On the right, a flight of concrete stairs seen from the side, rising left to right with a white edge on every step, a dark green painted lower wall following it up, a lamp on the wall above the landing, and a stairlift: a rail running up beside the steps, and at the top, on the landing, its dark green chair with a white seat and a footrest.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World &mdash; what changed on the street">
+<link rel="preload" href="fonts/allerta-stencil-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/hind-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<!-- structured-data:begin -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/count-me-in.html#webpage","url":"https://stimpunks.world/count-me-in.html","name":"Count Me In — Stimpunks.World","description":"Through a fire door, the stairwell of a public building, going up and never stopping, and everybody climbs it together, a number to a step. Signed on to the CB, put the next number or ride the chairlift up one; nobody takes two in a row, a wrong number sends the stair back to one and names nobody, and the stair remembers the highest step it has reached. After the counting game in our Discord's Collaborative Nonsense channels.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<!-- structured-data:end -->
+</head>
+<body class="stair" id="top">
+<a class="skip" href="#main">Skip to the stair</a>
+
+<main id="main" class="wrap" style="padding-bottom:54px;">
+
+  <div class="cmi-topline">
+    <a class="backlink" href="index.html">&larr; back to the street</a>
+    <p class="cmi-trail">on the street &middot; through the fire door &middot; a lamp on every landing, all the way up</p>
+  </div>
+
+  <header class="cmi-head">
+    <p class="cmi-over">A step each, all of us, all the way up</p>
+    <h1>Count Me In</h1>
+    <p class="cmi-sub">Put the next number, or take the lift</p>
+  </header>
+
+  <!-- THE LANDING. The number is the step the stair is on, stencilled on the
+       wall; the flight beside it is drawn, with the lift's chair on its rail at
+       the top, which is where it always is: at the landing we are on. -->
+  <div class="cmi-landing">
+    <p class="cmi-number" id="cmi-number"><span class="cmi-number__label" id="cmi-step-label">We are on step</span><span id="cmi-step">&hellip;</span></p>
+    <svg class="cmi-flight" viewBox="0 0 480 320" aria-hidden="true" focusable="false"><rect width="480" height="320" fill="var(--cmi-wall)"/><path d="M0 279 L346 134 L480 134 V320 H0 Z" fill="var(--cmi-dado)"/><path d="M0 279 L346 134 L480 134" stroke="var(--cmi-line)" stroke-width="4" fill="none"/><rect x="372" y="44" width="50" height="28" rx="14" fill="var(--cmi-nosing)" stroke="var(--cmi-dado)" stroke-width="2"/><rect x="378" y="49" width="38" height="18" rx="9" fill="var(--cmi-lamp)"/><polygon points="10,310 10,290 52,290 52,270 94,270 94,250 136,250 136,230 178,230 178,210 220,210 220,190 262,190 262,170 304,170 304,150 470,150 470,320 10,320" fill="var(--cmi-tread)"/><path d="M10 290 h38" stroke="var(--cmi-nosing)" stroke-width="4"/><path d="M52 270 h38" stroke="var(--cmi-nosing)" stroke-width="4"/><path d="M94 250 h38" stroke="var(--cmi-nosing)" stroke-width="4"/><path d="M136 230 h38" stroke="var(--cmi-nosing)" stroke-width="4"/><path d="M178 210 h38" stroke="var(--cmi-nosing)" stroke-width="4"/><path d="M220 190 h38" stroke="var(--cmi-nosing)" stroke-width="4"/><path d="M262 170 h38" stroke="var(--cmi-nosing)" stroke-width="4"/><path d="M304 150 h38" stroke="var(--cmi-nosing)" stroke-width="4"/><path d="M346 150 H470" stroke="var(--cmi-nosing)" stroke-width="4"/><path d="M20 245 L340 110 L452 110" stroke="var(--cmi-dado)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/><g><rect x="386" y="52" width="9" height="48" rx="2" fill="var(--cmi-dado)"/><rect x="386" y="96" width="44" height="10" rx="2" fill="var(--cmi-dado)"/><rect x="391" y="89" width="37" height="7" rx="2" fill="var(--cmi-nosing)" stroke="var(--cmi-dado)" stroke-width="1.5"/><rect x="378" y="99" width="14" height="16" rx="3" fill="var(--cmi-dado)"/><rect x="421" y="104" width="7" height="26" fill="var(--cmi-dado)"/><rect x="414" y="128" width="26" height="6" rx="1" fill="var(--cmi-dado)"/><rect x="388" y="70" width="30" height="5" rx="2" fill="var(--cmi-dado)"/></g></svg>
+  </div>
+  <p class="cmi-where" id="cmi-where">Reading the stair needs scripts.</p>
+
+  <div class="cmi-ways" id="cmi-ways" hidden>
+    <form class="cmi-way" id="cmi-step-form">
+      <h2 class="cmi-way__h" id="cmi-by-number">By the stairs</h2>
+      <p id="cmi-by-number-about">Put the next number, in figures.</p>
+      <span class="cmi-way__row">
+        <label class="sr" for="cmi-n">The next number</label>
+        <input class="cmi-way__in" id="cmi-n" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="7" autocomplete="off" aria-describedby="cmi-by-number-about">
+        <button type="submit" class="cmi-btn">Take the step</button>
+      </span>
+    </form>
+    <div class="cmi-way">
+      <h2 class="cmi-way__h" id="cmi-by-lift">By the lift</h2>
+      <p id="cmi-by-lift-about">It takes you up one step, with no number to get wrong, and it counts exactly the same. Nothing says which way anybody came up.</p>
+      <span class="cmi-way__row"><button type="button" class="cmi-btn" id="cmi-lift" aria-describedby="cmi-by-lift-about">Ride the lift up one</button></span>
+    </div>
+  </div>
+  <p class="cmi-said" id="cmi-said" role="status"></p>
+  <p class="cmi-signon" id="cmi-signon" hidden>Climbing takes a CB handle and the community password: <a href="community-center.html">sign on at the Community Center</a>, then come back. Reading the stair takes nothing.</p>
+
+  <p class="cmi-lede">This is the stairwell of a public building, and it goes up and never stops. <strong>Everybody climbs it together, a number to a step</strong>: whoever comes through the door puts the next number, and then somebody else puts the one after. <strong>There is a chairlift on the wall</strong>, so anybody can take the next step without the number, and a step by the lift is a step. It is after the counting game in our Discord&rsquo;s Collaborative Nonsense channels.</p>
+
+  <section class="cmi-part" aria-labelledby="cmi-how-h">
+    <h2 id="cmi-how-h">How the stair works</h2>
+    <ul class="cmi-rules">
+      <li><strong>One step at a time, and never two in a row.</strong> Once you have taken a step, by number or by lift, the next one is somebody else&rsquo;s. After theirs you can go again.</li>
+      <li><strong>A number that skips ahead sends the stair back to one.</strong> That is the game, and anybody&rsquo;s number can slip, so the stair never says whose it was: it says where it had got to, and starts again. A number at or below the step we are on is somebody whose page was behind, and it sends nobody anywhere.</li>
+      <li><strong>The lift never sends anybody back.</strong> It asks the stair for the next step and takes it. It is there so that nobody has to do sums, type, or trust their eyes on a number to join in, and <a href="https://stimpunks.org/">we are a Disabled people&rsquo;s organisation</a>, so the stair was never going to have one way up.</li>
+      <li><strong>The stair remembers the highest step it has reached</strong>, and that belongs to nobody. It is not anybody&rsquo;s score and nobody&rsquo;s fault when a climb goes back to one; it is how high we have been.</li>
+      <li><strong>Nobody is counted.</strong> The stair keeps the step it is on, the highest it has reached, where it last went back to one, and a scrambled mark of whoever took the last step so they cannot take the next, which the next step replaces. Nothing says who took any step or how many anybody took. <a href="privacy.html#the-stair">What the stair keeps</a>.</li>
+      <li><strong>Nothing moves</strong>, at any setting. The chair is drawn at the landing we are on.</li>
+    </ul>
+  </section>
+
+  <section class="cmi-part" aria-labelledby="cmi-name-h">
+    <h2 id="cmi-name-h">The game</h2>
+    <p>The game is our community&rsquo;s own, from the Collaborative Nonsense channels in our Discord, where a number goes up one message at a time. The stairwell, the lift and the lamp are drawn for this room. It is set in Allerta Stencil, by Matt McInerney, and Hind, by the Indian Type Foundry, and credited in <a href="liner-notes.html#count-me-in">the liner notes</a>.</p>
+  </section>
+
+<!-- quest:stair-lift:begin -->
+  <details class="quest" data-quest="stair-lift" data-code="STAIRLIFT" data-accept="justone|one|oneatatime|onestep|onlyone">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3 29 H29" stroke="var(--cmi-ink)" stroke-width="1.6" stroke-linecap="round"/><rect x="9" y="6" width="14" height="19" rx="3" fill="var(--cmi-dado)"/><circle cx="16" cy="13" r="3.6" fill="var(--cmi-nosing)"/><path d="M13 20 H19" stroke="var(--cmi-nosing)" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; the stairlift&#x27;s call button, a small box on the wall at the foot of the stairs</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> How far does the lift take you?</p>
+      <p class="quest__ask"><b>Before the code:</b> How many steps does one ride on the lift take you up?</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="stair-lift-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="stair-lift-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is in the box that says By the lift.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>It is the same as one number.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>A single step.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>One</b>. The lift takes you up one step, the same as putting the next number, and it counts exactly the same. It never sends the stair back to one.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">STAIRLIFT</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=STAIRLIFT">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>The lift takes you up one step, the same as putting the next number, and it counts exactly the same. It never sends the stair back to one.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">STAIRLIFT</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=STAIRLIFT">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:stair-lift:end -->
+
+  <div style="max-width:400px;margin-top:34px;">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- signoff:begin -->
+<footer class="signoff">
+  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> &middot; <a href="map.html#at-count-me-in">Where am I?</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="mission.html">Mission</a> &middot; <a href="design.html">How it’s made</a> &middot; <a href="your-room.html">Your Room</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="feed.xml">Feed</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+  <p class="signoff__fx" hidden><button type="button" class="signoff__fx-btn" data-fx="{&quot;kind&quot;:&quot;ifs&quot;,&quot;figure&quot;:&quot;spiral&quot;,&quot;sway&quot;:0.06,&quot;ground&quot;:&quot;--cmi-wall&quot;,&quot;inks&quot;:[&quot;--cmi-dado&quot;,&quot;--cmi-link&quot;,&quot;--cmi-line&quot;,&quot;--cmi-ink&quot;]}" aria-describedby="signoff-fx-about">Switch on the fractal window</button> <span id="signoff-fx-about">A slow fractal in this room’s own colours, drawn in your browser in a window of its own. It is not synced to any music, it never flashes at any speed, and it runs until you switch it off or leave the room.</span></p>
+</footer>
+<!-- signoff:end -->
+
+<script src="love.js" defer></script>
+<script src="stair.js" defer></script>
+<script src="quest.js" defer></script>
+</body>
+</html>

@@ -1168,6 +1168,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--fridge .og-handle {{ position: absolute; right: 44px; top: 70px; bottom: 70px; width: 14px;
   background: var(--fos-chrome); border: 2px solid var(--fos-edge); border-radius: 7px; }}
 
+/* count me in — THE LANDING, straight on: the header, and the flight with the lift
+   on its rail lifted off the page whole. The card shows no step number, because
+   the stair's number changes with every step and a card is a picture that would
+   go on showing an old one; the wall carries the name instead. */
+.og--stair {{ width: 100%; flex-direction: row; align-items: center; gap: 44px; padding: 0 60px; }}
+.og--stair .og-words {{ flex: 0 0 540px; margin: 0 !important; }}
+.og--stair .cmi-head {{ margin: 0 !important; }}
+.og--stair .cmi-head p {{ margin: 0 !important; font-size: 19px; }}
+.og--stair h1 {{ font-size: 88px; margin: 12px 0 12px !important; }}
+.og--stair .og-lede {{ font-family: 'Hind', sans-serif; color: var(--cmi-ink);
+  font-size: 27px; line-height: 1.35; margin: 24px 0 0 !important; }}
+.og--stair .cmi-art {{ flex: 1 1 auto; }}
+
 /* now playing — THE SHEET ON ITS DRUM, and the only card on the street printed in
    two inks with nothing in black. The column's painted iron runs down both sides
    and off the foot of the card, which is where the pavement is; the header, the
@@ -3627,6 +3640,35 @@ def card_fridge(p):
     )
 
 
+def card_stair(p):
+    # THE HEADER AND THE FLIGHT ARE LIFTED WHOLE, lift and all, so the card
+    # cannot draw a stair without its lift. No step number: it would be stale by
+    # the next step.
+    head = re.search(r'(<header class="cmi-head">.*?</header>)', p["src"], re.S)
+    flight = re.search(r'(<svg class="cmi-flight".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="cmi-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="cmi-sub">(.*?)</p>', p["src"], re.S)
+    if not (head and flight and over and sub):
+        raise SystemExit(
+            "REFUSING: count-me-in.html has lost its header or the flight with the lift\n"
+            "on it, and the card is those two. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--stair" data-fit="card">'
+        f'<div class="og-words">{head.group(1)}<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="cmi-art">{flight.group(1)}</div>'
+        f'</div>',
+        f"A pale green card, the colour of a painted stairwell wall. Small dark capitals reading "
+        f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large dark green stencilled "
+        f"letters, then {plain(sub.group(1))}. Under it: {p['desc_plain']} On the right, a flight of "
+        f"concrete stairs seen from the side, rising left to right with a white edge on every "
+        f"step, a dark green painted lower wall following it up, a lamp on the wall above the "
+        f"landing, and a stairlift: a rail running up beside the steps, and at the top, on the "
+        f"landing, its dark green chair with a white seat and a footrest.",
+    )
+
+
 def card_nowplaying(p):
     # THE HEADER IS LIFTED WHOLE -- over-line, h1, sub-line and the two screens'
     # ornament -- and the lede is the page's og:description, so the card cannot
@@ -3908,6 +3950,7 @@ CARDS = {
     "plural-mural": card_mural,
     "pando":        card_pando,
     "fridge":       card_fridge,
+    "stair":        card_stair,
     "cavendish":    card_cavendish,
     "live-room":    card_live,
     "doom-scoop":   card_scoop,

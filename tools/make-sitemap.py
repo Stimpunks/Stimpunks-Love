@@ -61,6 +61,7 @@ ORDER = ["index.html",
          "the-mud-room.html",
          "pando-calrissian.html",
          "fridge-of-sighs.html",
+         "count-me-in.html",
          "neurohome.html",  # Isha Snow's, brought in by tools/import-room.py
          "your-room.html",
          # Street furniture rather than a door, and listed like everything else:

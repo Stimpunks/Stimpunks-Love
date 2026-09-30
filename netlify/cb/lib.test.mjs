@@ -17,7 +17,7 @@
    write that was told it worked and is not there is not. */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { putWord, readFridge, fileFridge, readDrawer, drawers, fridgeMark, strikeSentence, cleanWord, monthOf, FRIDGE_DOOR, FRIDGE_WORDS,
+import { climb, readStair, cleanStep, putWord, readFridge, fileFridge, readDrawer, drawers, fridgeMark, strikeSentence, cleanWord, monthOf, FRIDGE_DOOR, FRIDGE_WORDS,
   updateChalk, readChalk, updateFence, readFence, waterTree, readTree, PANDO_SOAK, updatePebbles, readPebbles, cleanLink, PEBBLE_ROOMS,
   updateChannel, readChannel, updateTalk, readTalk, beHere, leaveSlake, seenAt, sweepSlake,
   MUD_PLACES, MUD_FRESH, KEEP, today,
@@ -213,6 +213,66 @@ test('filing moves the oldest into their month\'s drawer, once, and loses nothin
 test('a word is one word', () => {
   for (const ok of ['hello', "don't", 'well-known', 'sighs.', '\u201cWhy', 'caf\u00e9', 'ok?!']) assert.ok(cleanWord(ok), ok);
   for (const no of ['two words', '<b>', '!!!', '', 'x'.repeat(25), 'a<script>']) assert.equal(cleanWord(no), null, no);
+});
+
+// THE STAIR'S INVARIANT: fifteen people who all see the same step and all put
+// the next number are all right, so exactly one takes it and nobody sends the
+// stair back to one; and fifteen riding the lift at once all get up, one step
+// each, in some order.
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`Count Me In, fifteen people putting the same next number, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => climb(1, `m${i}`, s)));
+    for (const f of told.filter((r) => r.status === 'rejected')) assert.equal(f.reason.message, 'busy');
+    const got = told.filter((r) => r.status === 'fulfilled').map((r) => r.value);
+    assert.equal(got.filter((r) => r.took).length, 1, 'more or fewer than one took step one');
+    assert.equal(got.filter((r) => r.why === 'wrong').length, 0, 'a number somebody beat you to sent the stair back');
+    assert.equal((await readStair(s)).step, 1);
+  });
+  test(`Count Me In, fifteen people riding the lift at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => climb('lift', `m${i}`, s)));
+    for (const f of told.filter((r) => r.status === 'rejected')) assert.equal(f.reason.message, 'busy');
+    const up = told.filter((r) => r.status === 'fulfilled' && r.value.took).length;
+    assert.equal((await readStair(s)).step, up, 'a ride told it went up is not on the stair, or one nobody was told about is');
+    if (etagOnRead) assert.equal(up, 15);
+  });
+}
+
+test('a wrong number sends the stair back to one, keeps the highest step, and names nobody', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  for (let i = 1; i <= 5; i++) assert.equal((await climb(i, `p${i % 2}`, s)).took, true);
+  const r = await climb(9, 'p0', s, 777);
+  assert.equal(r.why, 'wrong');
+  assert.equal(r.wanted, 6);
+  const st = await readStair(s);
+  assert.deepEqual(st, { step: 0, best: 5, fell: { at: 5, t: 777 } });
+  assert.deepEqual(Object.keys(await s.get('stair')).sort(), ['best', 'fell', 'last', 'step']);
+  assert.equal((await climb('lift', 'p1', s)).step, 1);
+  assert.equal((await readStair(s)).best, 5, 'the highest step went down');
+});
+
+test('a number behind the stair is somebody behind, not somebody wrong', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  for (let i = 1; i <= 4; i++) await climb(i, `p${i % 2}`, s);
+  assert.equal((await climb(2, 'late', s)).why, 'beaten');
+  assert.equal((await readStair(s)).step, 4, 'a page that was behind sent the stair back');
+  assert.equal((await climb(6, 'late', s)).why, 'wrong', 'skipping ahead is still a wrong number');
+});
+
+test('nobody takes two steps in a row, by number or by lift', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.equal((await climb('lift', 'ada', s)).took, true);
+  assert.equal((await climb(2, 'ada', s)).why, 'yours');
+  assert.equal((await climb('lift', 'ada', s)).why, 'yours');
+  assert.equal((await readStair(s)).step, 1);
+  assert.equal((await climb(2, 'bex', s)).took, true);
+});
+
+test('a step is a whole number in figures', () => {
+  for (const ok of ['1', '12', ' 7 ', '9999999']) assert.ok(cleanStep(ok), ok);
+  for (const no of ['0', '-1', '1.5', 'twelve', '10000000', '', '1e3', '12a']) assert.equal(cleanStep(no), null, no);
 });
 
 test('the ground soaks for a minute for everybody, and the count only goes up', async () => {

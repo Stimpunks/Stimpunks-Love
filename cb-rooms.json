@@ -302,6 +302,11 @@
    "path": "/fridge-of-sighs.html"
   },
   {
+   "tag": "count-me-in",
+   "name": "Count Me In",
+   "path": "/count-me-in.html"
+  },
+  {
    "tag": "neurohome",
    "name": "NeuroHome",
    "path": "/neurohome.html"

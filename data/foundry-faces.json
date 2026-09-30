@@ -83,6 +83,23 @@
     }
    ]
   },
+  "allerta-stencil": {
+   "family": "Allerta Stencil",
+   "category": "Sans Serif",
+   "designer": "Matt McInerney",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/allertastencil",
+   "copyright": "Copyright (c) 2009, Matt McInerney <matt@pixelspread.com> with Reserved Font Name Allerta.",
+   "repository": "https://github.com/librefonts/allerta",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "allerta-stencil-400.woff2",
+     "sha": "4d845b8bda167b47"
+    }
+   ]
+  },
   "andika": {
    "family": "Andika",
    "category": "Sans Serif",
@@ -1280,6 +1297,29 @@
      "style": "normal",
      "file": "hanken-grotesk-400.woff2",
      "sha": "1f21c6eaa0000f33"
+    }
+   ]
+  },
+  "hind": {
+   "family": "Hind",
+   "category": "Sans Serif",
+   "designer": "Indian Type Foundry",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/hind",
+   "copyright": "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+   "repository": "https://github.com/itfoundry/hind",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "hind-400.woff2",
+     "sha": "fefb6f5586faf951"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "hind-700.woff2",
+     "sha": "d9a06a15e256b890"
     }
    ]
   },

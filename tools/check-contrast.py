@@ -2746,6 +2746,23 @@ PAIRS = [
     ("#FBF8EF", "#4A0F2E", False, "fridge: a button under the pointer"),
     ("#0F2322", "#4FB3AA", False, "fridge: the job marker, a blank magnet at the foot of the door"),
 
+    # ── Count Me In (§86) ────────────────────────────────────────────────────
+    # A public building's stairwell: eau de nil over a dark gloss dado. Every
+    # word stands on the pale wall; the step numbers, the headings and the lift
+    # are the dado's paint, and so is every button, because the lift is the
+    # stair's own.
+    ("#18231B", "#C9E6C4", False, "stair: every word -- the lede, the rules, where the stair has got "
+                                  "to, what you are told after a step -- and the blurb on the street door"),
+    ("#3C4F41", "#C9E6C4", False, "stair: the trail"),
+    ("#6B1D3C", "#C9E6C4", False, "stair: every link, the backlink and the knock on the street door"),
+    ("#20483A", "#C9E6C4", False, "stair: the step number stencilled on the wall, the h1, every h2, "
+                                  "the edges of the two ways up, the name on the street door, and the "
+                                  "job marker, the lift's call button"),
+    ("#F4F6EF", "#20483A", False, "stair: the words on both buttons, the step's and the lift's"),
+    ("#F4F6EF", "#6B1D3C", False, "stair: a button under the pointer"),
+    ("#F4F6EF", "#3C4F41", False, "stair: a button while the step is being taken"),
+    ("#18231B", "#F4F6EF", False, "stair: the number you type in the box"),
+
     # ── Now Playing (§53) ────────────────────────────────────────────────────
     (NP_BOTH,   NP_STOCK,  False, "now playing: every word on the sheet -- the h1, the over- and "
                                   "sub-lines, the lede, every room's name, where it is, our line "
@@ -3074,6 +3091,12 @@ ORNAMENT = {
                "It carries no word; the sentence under the grove says it is there.",
     "#2e2c33": "pando: the dark scars on the bark, 11.25 on the lit bark and 3.17 on the bark "
                "in shade. They carry no word.",
+    "#6e8c72": "stair: the painted line between the pale wall and the dado, 2.76 on both. It "
+               "carries no word.",
+    "#8e948a": "stair: the bare concrete of the treads, 2.31 on the wall and 3.30 on the dado, "
+               "with a white nosing on every one at 2.85. It carries no word.",
+    "#fff3c8": "stair: the bulkhead lamp on the landing, 1.21 on the wall and drawn inside its "
+               "white case. It carries no word.",
     "#23605a": "fridge: a magnet's edge and shadow, 2.89 on the enamel and 6.84 on the magnet, "
                "and the seam under the freezer door. It carries no word; it is what lifts a "
                "white magnet (2.37 on the enamel) off the door, the way it does on a real one.",

@@ -2213,5 +2213,33 @@
    "src": "https://fonts.gstatic.com/s/noticiatext/v16/VuJpdNDF2Yv9qppOePKYRP1-3R5NuGvQjjLkeQ.woff2",
    "note": "The bold of the above, a separate static file: the name's magnets, the headings and every strong phrase."
   }
+ ],
+ "allerta-stencil": [
+  {
+   "file": "allerta-stencil-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 7832,
+   "src": "https://fonts.gstatic.com/s/allertastencil/v24/HTx0L209KT-LmIE9N7OR6eiycOe1_Db29XP-vA.woff2",
+   "note": "Count Me In (§86), the step numbers painted on the stairwell's walls, the room's name and every heading, and nothing at reading size. Matt McInerney's Allerta, drawn for signs read from a distance, in its stencil cut, because a stairwell's level numbers are sprayed through a stencil. One weight, one static file."
+  }
+ ],
+ "hind": [
+  {
+   "file": "hind-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 8632,
+   "src": "https://fonts.gstatic.com/s/hind/v18/5aU69_a8oxmIdGl4BDGwgDI.woff2",
+   "note": "Count Me In (§86), every word that is read: how the stair works, the lift, what it keeps. A plain sans with a real bold, which Allerta has not got. Static files, one per weight. No italic shipped, so the room sets nothing italic."
+  },
+  {
+   "file": "hind-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 8368,
+   "src": "https://fonts.gstatic.com/s/hind/v18/5aU19_a8oxmIfNJdERySjRhc9V0.woff2",
+   "note": "The bold of the above, a separate static file: the buttons and every strong phrase."
+  }
  ]
 }

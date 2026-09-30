@@ -1396,6 +1396,18 @@
         "--fos-sheen",
         "--fos-edge"
       ]
+    },
+    "count-me-in.html": {
+      "kind": "ifs",
+      "figure": "spiral",
+      "sway": 0.06,
+      "ground": "--cmi-wall",
+      "inks": [
+        "--cmi-dado",
+        "--cmi-link",
+        "--cmi-line",
+        "--cmi-ink"
+      ]
     }
   }
 }

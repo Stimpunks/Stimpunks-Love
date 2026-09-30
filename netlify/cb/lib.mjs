@@ -27,7 +27,7 @@
        the pavement is read by whoever walks past, and privacy.html says so
        above the box you write in. Nothing else about it differs from the
        channel: no address, no log, no copy.
-     · PANDO CALRISSIAN'S TREE IS THE ONE THING KEPT FOR EVER, AND IT IS A
+     · PANDO CALRISSIAN'S TREE IS KEPT FOR EVER, AND IT IS A
        NUMBER. Ryan's call, 2026-09-30: a community tree that grows as it is
        watered, whose count never expires. It counts water and never who
        poured it -- the blob is a number and a time, with no handle in it --
@@ -36,6 +36,10 @@
        Ryan's calls, 2026-09-30: one word each, never two in a row, finished
        sentences kept for good. What makes "never two in a row" possible is one
        scrambled mark of whoever put up the last word, replaced by the next.
+     · COUNT ME IN IS A STAIR COUNTED TOGETHER, WITH A LIFT BESIDE IT. Ryan's
+       calls, 2026-09-30: a wrong number sends it back to one and names nobody,
+       it keeps the highest step it has reached, and the chairlift takes
+       anybody up a step without a number to get wrong.
      · THE SLAKE, OUT THE BACK OF THE MUD ROOM, IS THE CB TOO. Ryan's calls,
        2026-09-27: you are seen by your handle only if you choose to be, on each
        visit, and each place on it has a channel of its own under the radio's
@@ -297,7 +301,7 @@ export function shapeChalk(notes) {
 
 /* ── Pando Calrissian's tree ──────────────────────────────────────────────── */
 
-/* THE ONE NUMBER THE CB KEEPS FOR EVER, AND IT IS THE TREE'S. Ryan's calls,
+/* A NUMBER THE CB KEEPS FOR EVER, AND IT IS THE TREE'S. Ryan's calls,
    2026-09-30, after the grow-a-tree game in our Discord's Collaborative
    Nonsense channels: a community tree that grows as it is watered, a count of
    waterings that never expires, only a CB pass waters, and the ground soaks
@@ -528,6 +532,74 @@ export async function strikeSentence(id, s = store()) {
 /* What a page is shown: words and sentences, and never the mark. */
 export function shapeLine(words) { return words.slice(); }
 export function shapeSentences(list) { return list.map((n) => ({ id: n.id, text: n.text, t: n.t })); }
+
+/* ── Count Me In ─────────────────────────────────────────────────────────── */
+
+/* A STAIR EVERYBODY CLIMBS TOGETHER, A NUMBER TO A STEP. Ryan's calls,
+   2026-09-30, after the counting game in our Discord's Collaborative Nonsense
+   channels: a CB pass puts the next number; nobody climbs two steps in a row;
+   a wrong number sends the stair back to one and NAMES NOBODY; and the stair
+   keeps the highest step it has ever reached, which belongs to nobody either.
+
+   THE LIFT IS A WAY UP THAT CANNOT GO WRONG, AND IT COUNTS THE SAME. Ryan, the
+   same day: "add a chairlift to the stairs so everyone can join". Riding it
+   asks the server for the next step rather than sending a number, so it needs
+   no arithmetic and no typing, and it can never send anybody back to one.
+   Nothing records which way anybody came up. The one-at-a-time rule holds for
+   it too, because that is the game's and not the stair's.
+
+   A NUMBER SOMEBODY ELSE GOT TO FIRST IS NOT A WRONG NUMBER. Two people who
+   both see step 11 and both put 12 are both right; the second is told they
+   were beaten to it and the stair stays where it is. The same goes for any
+   number at or below the step we are on, because that is somebody whose page
+   is behind, not somebody who got it wrong. Only a number that skips ahead of
+   the next step sends the stair back to one.
+
+   The only trace of a person is the fridge's: a scrambled mark of whoever took
+   the last step, replaced by the next, never in any answer. */
+export const STAIR_MAX = 9999999;               // the highest number the box takes
+const STAIR = 'stair';
+
+export function cleanStep(s) {
+  const t = String(s == null ? '' : s).trim();
+  if (!/^\d{1,7}$/.test(t)) return null;
+  const n = Number(t);
+  return n >= 1 && n <= STAIR_MAX ? n : null;
+}
+
+export async function readStair(s = store()) {
+  const d = await s.get(STAIR, { type: 'json' });
+  return { step: (d && d.step) || 0, best: (d && d.best) || 0, fell: (d && d.fell) || null };
+}
+
+/* Put `n` on the stair for `mark`, or ride the lift when `n` is 'lift'. The
+   answer is { took: true, step, best } or { took: false, why } with why one of
+   'yours' (you took the last step), 'beaten' (somebody took that step first) or
+   'wrong' (the stair has gone back to one; `wanted` says what it wanted). */
+export async function climb(n, mark, s = store(), now = Date.now()) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, STAIR);
+    const was = cur.exists && cur.data ? cur.data : {};
+    const step = was.step || 0, best = was.best || 0, fell = was.fell || null;
+    if (was.last && was.last === mark) return { took: false, why: 'yours', step, best, fell };
+    const want = step + 1;
+    const got = n === 'lift' ? want : n;
+    if (got <= step) return { took: false, why: 'beaten', step, best, fell };
+    let body, answer;
+    if (got === want) {
+      body = { step: want, best: Math.max(best, want), last: mark, fell };
+      answer = { took: true, step: body.step, best: body.best, fell };
+    } else {
+      body = { step: 0, best, last: mark, fell: { at: step, t: now } };
+      answer = { took: false, why: 'wrong', wanted: want, step: 0, best, fell: body.fell };
+    }
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(STAIR, body, opts);
+    if (res.modified) return answer;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
 
 /* ── The Slake ───────────────────────────────────────────────────────────── */
 

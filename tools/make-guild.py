@@ -390,6 +390,11 @@ DRAW = {
     # yet: the tile's edge and its word are --fos-ink, 6.51 on the enamel, over
     # the body threshold a marker is held to. The tile's face is --fos-tile,
     # which is 2.37 on the door alone, so the edge carries it, as on the door.
+    # The stairlift's call button, a small box on the wall at the foot of the
+    # stairs. The box is --cmi-dado, 5.89 on the pale wall, over the body
+    # threshold a marker is held to; the button on it is --cmi-nosing, and the
+    # floor line under it --cmi-ink.
+    "stair-lift": """<path d="M3 29 H29" stroke="var(--cmi-ink)" stroke-width="1.6" stroke-linecap="round"/><rect x="9" y="6" width="14" height="19" rx="3" fill="var(--cmi-dado)"/><circle cx="16" cy="13" r="3.6" fill="var(--cmi-nosing)"/><path d="M13 20 H19" stroke="var(--cmi-nosing)" stroke-width="1.6" stroke-linecap="round"/>""",
     "fridge-magnet": """<path d="M3 29 H29" stroke="var(--fos-ink)" stroke-width="1.6" stroke-linecap="round"/><rect x="6" y="15" width="20" height="10" fill="var(--fos-tile)" stroke="var(--fos-ink)" stroke-width="1.6"/><path d="M10 20 H15 M17 20 H22" stroke="var(--fos-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M8 26 H27" stroke="var(--fos-edge)" stroke-width="1.4" stroke-linecap="round"/>""",
     "pando-leaf": """<path d="M3 29 H29" stroke="var(--pdo-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M16 5 Q25 9 25 17 Q25 24 16 25 Q7 24 7 17 Q7 9 16 5 Z" fill="var(--pdo-gold)"/><path d="M16 7.5 V23" stroke="var(--pdo-shade)" stroke-width="1.3" stroke-linecap="round"/><path d="M16 25 L17 28.5" stroke="var(--pdo-gold)" stroke-width="2" stroke-linecap="round"/>""",
     "mud-welly": """<path d="M3 29 H29" stroke="var(--mud-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 24 V13 Q5 10 8 10 H17 Q19 10 19 13 V17 H25 Q28 17 28 21 V24 Z" fill="var(--mud-welly)" stroke="var(--mud-welly)" stroke-width="1.4" stroke-linejoin="round"/><path d="M4.5 26 H28.5" stroke="var(--mud-dim)" stroke-width="2.4" stroke-linecap="round"/><path d="M8 13.5 H16" stroke="var(--mud-ground)" stroke-width="1.4" stroke-linecap="round"/>""",

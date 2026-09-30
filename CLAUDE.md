@@ -2860,7 +2860,7 @@ purpose and caught a lost write in all four cases. In the Faery Yurt the bowl is
 repository has put into Helen's room, and the first she asked for. The fractal window's switch is the fourth,
 and the second she asked for.
 
-**PANDO CALRISSIAN KEEPS THE ONE COUNT ON THE STREET, AND IT COUNTS WATER, NEVER WATERERS.** Ryan,
+**PANDO CALRISSIAN'S COUNT IS THE TREE'S, AND IT COUNTS WATER, NEVER WATERERS.** Ryan,
 2026-09-30, after the grow-a-tree game in our Discord's Collaborative Nonsense channels: a community
 tree on the street (§84) that grows as it is watered, with a count that never expires. **That reversed
 the Mission's "nothing is counted"**, and Ryan chose to narrow it rather than drop the number: the
@@ -2880,6 +2880,20 @@ already set**, the pink band above the earth's shadow catching the tops; its col
 It moved off the Directors' room's ground before it opened: same hex to the digit. **Catch-a-cat is
 the next of those games and is not this shape**: it keeps who caught what and how many, which is a
 per-person tally, the one thing the narrowed aim still refuses. It needs its own decision.
+
+**COUNT ME IN HAS A CHAIRLIFT, AND THE LIFT IS THE SAME SIZE AS THE STAIR.** Ryan, 2026-09-30, the
+counting game (§86): a number to a step, never two in a row, a wrong number back to one and **nobody
+named**, and the highest step kept, which is the first record on the street to beat and belongs to
+nobody (Ryan's call, a reversal of part of the narrowed aim; the Mission names it). Then, the same
+afternoon: *"Add a chairlift to the stairs so everyone can join."* **The lift asks the stair for the
+next step instead of sending a number** (`climb('lift', …)`), so it needs no sums or typing and can never
+send anybody back, and it counts exactly the same. `tools/make-stair.py` refuses the lift's button
+wearing any class but the step's, the lift sending a number, the lift not being one of the two ways
+up, and the vocabulary of blame, because **every counting bot announces who ruined it** and that is
+the friendly edit here. **A number at or below the step is somebody behind, not somebody wrong**, so
+a stale page costs nobody anything; only a number that skips ahead sends the stair back. The mark is
+the fridge's (`fridgeMark`). Eau de nil over a dark gloss dado, because the pale greys were the
+Doomscroll's, the Rabbit Hole's and the Mopery's; its collisions are in §86.
 
 **THE FRIDGE OF SIGHS KEEPS SENTENCES FOR GOOD, AND THAT IS ONLY SIMPLE BECAUSE NO WORD IS ANYBODY'S.**
 Ryan, 2026-09-30, the sentence builder from the same Discord channels (§85): a CB pass puts up one
@@ -3217,18 +3231,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §87 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §88 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§87 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§88 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §87 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §88 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the
