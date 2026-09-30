@@ -505,6 +505,17 @@
         "--chalk"
       ]
     },
+    "mission.html": {
+      "kind": "ifs",
+      "figure": "tree",
+      "sway": 0.04,
+      "ground": "--ink-2",
+      "inks": [
+        "--pink",
+        "--cyan",
+        "--chalk"
+      ]
+    },
     "design.html": {
       "kind": "ifs",
       "figure": "crystal",

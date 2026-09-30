@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Tue, 29 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 30 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>A mission and a manifesto for the street</title>
+      <link>https://stimpunks.world/changelog.html#2026-09-30-mission-manifesto</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-09-30-mission-manifesto</guid>
+      <pubDate>Wed, 30 Sep 2026 12:00:00 GMT</pubDate>
+      <description>What the street is for is the street’s mission. It opens with Ryan’s own words on being told we live in our own worlds, and Anaïs Nin on making one. The rest is laid out the way Star Stuff’s and Queering Earth’s are: every aim names the page where it is already being kept, and the failure that would show we had stopped. It also says plainly what the street is not: it is not mutual aid, which the foundation does. It is pinned to the edge of the map with the other paperwork, and every page’s sign-off links to it. The manifesto is Ribald Songing, sheet No. 2 at the Broadsheet Broadside. It argues the lines over the front door one at a time, and it is printed both sides and CC0 like the press’s other sheets. Its two inks are the wordmark’s own pink and cyan, darkened until they print. Corrected on sheet No. 1: it said every play button says how long the thing runs. Playlists and live cameras cannot say that; their buttons say they run until you stop them. The sheet says both now. Changed: mission.html, data/broadside.json, broadsheet-broadside.html, data/fractals.json, data/map.json, tools/signoff.py, tools/make-sitemap.py, tools/make-guild.py, and every page’s sign-off.</description>
+    </item>
     <item>
       <title>Norah’s tray at Samefood Cafe</title>
       <link>https://stimpunks.world/changelog.html#2026-09-29-samefood-norah</link>

@@ -108,7 +108,12 @@ CREDITS = ROOT / "liner-notes.html"
 #                    AI included. It is a disclosure, read for the privacy
 #                    page's reason, and a job sending somebody through it would
 #                    make an account owed to every visitor into a quest.
-EXEMPT = {"changelog.html", "adventurers-guild.html", "404.html", "privacy.html", "design.html"}
+#   mission.html     says what the street is for, and names the page keeping
+#                    each aim so a reader can hold us to it. It is read for
+#                    design.html's reason: a job through it would make the page
+#                    the rest of the street is checked against into a stop.
+EXEMPT = {"changelog.html", "adventurers-guild.html", "404.html", "privacy.html", "design.html",
+          "mission.html"}
 
 # THE DIFFICULTY CLASS IS HOW FAR YOU WALK. It is enumerated here rather than
 # typed per job so that no job can invent a rank, and defined by geography so

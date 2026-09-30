@@ -31,7 +31,7 @@
           },
           {
             "name": "Nothing plays until you press",
-            "text": "No sound, no video, and nothing loaded from a video or music service until you press play. Every play button says how long the thing runs before you press it."
+            "text": "No sound, no video, and nothing loaded from a video or music service until you press play. Every play button says, before you press it, how long the thing runs, or that it runs until you stop it."
           }
         ],
         "motto": {
@@ -76,6 +76,80 @@
         ],
         "foot_left": "Stimpunks.World &middot; The Broadsheet Broadside",
         "foot_right": "No. 1 &middot; Side B"
+      }
+    },
+    {
+      "id": "no-2",
+      "number": 2,
+      "name": "Ribald Songing, the manifesto of Stimpunks.World",
+      "moment": "Somebody has walked the street and asks what it believes, or a room needs something on the wall saying what it stands for.",
+      "made": "2026-09-29",
+      "spots": ["#B3135F", "#006A85"],
+      "spots_why": "The wordmark&rsquo;s own offset shadows, the pink and the cyan behind the white capitals over the front door, darkened until they print, because this sheet argues the lines set under that wordmark. 6.61 and 6.18 on white.",
+      "licence": "CC0 1.0",
+      "licence_href": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "a": {
+        "side": "Side A &middot; to pin up",
+        "title": "Ribald <em>Songing</em>",
+        "standfirst": "The manifesto of Stimpunks.World. The lines over the street&rsquo;s front door rhyme, and this sheet argues them one at a time. A Disabled people&rsquo;s organisation wrote it, and it is loud on purpose.",
+        "claim": "Loud on purpose. <em>Yours to turn down.</em>",
+        "claim_sub": "The masthead, argued &middot; <a href=\"https://stimpunks.world/\">stimpunks.world</a>",
+        "panels": [
+          {
+            "name": "Queer without fear",
+            "text": "The street is named after Danny the Street, a genderqueer road who rearranges what is on them to suit whoever arrives. A street that changes shape for you leaves nothing to shrink into. Nobody can promise no risk. We can promise the fear is not the house&rsquo;s."
+          },
+          {
+            "name": "Interdependent and here",
+            "text": "Nothing here was made alone, so every room names the hands in it: Helen Edgar&rsquo;s yurt, the Esmx that Kaya Oldaker drew, Adriel Jeremiah Wool&rsquo;s waves. Independence is the story and interdependence is the fact. <em>Here</em> means now, as we are, not once somebody has fixed us."
+          },
+          {
+            "name": "Divergent and proud",
+            "text": "Every other site we run keeps one careful look. Here no two rooms are alike, even where they argue with the room next door. The pride is not in spite of the rooms not matching. The rooms not matching is the claim."
+          }
+        ],
+        "motto": {
+          "text": "Queer without fear. Interdependent and here. Divergent and proud. Living out loud. Plucky pluralism, for human organisms. Becoming and belonging, with ribald songing.",
+          "whose": "Over the front door of the street"
+        },
+        "quote": null,
+        "foot_left": "Stimpunks.World &middot; a Stimpunks Foundation street",
+        "foot_right": "Turn over &rarr;"
+      },
+      "b": {
+        "side": "Side B &middot; to hand over",
+        "title": "Living <em>out loud</em>, and the rest of it",
+        "standfirst": "The rest of the masthead, and what it commits us to. Every line here is a promise somebody can check against the street.",
+        "cols": [
+          {
+            "head": "Living out loud",
+            "items": [
+              "<strong>The glitter is real, and so is the dial.</strong> Every page carries Gentle, Regular and MAX GLITTER. Gentle takes away the wobble, never the words.",
+              "<strong>Access is the premise, not the brake.</strong> A loud site that shut out the people it is for would be the thing we exist to name, so how loud it gets belongs to whoever holds the dial.",
+              "<strong>Nothing plays until somebody presses.</strong> Every play button says, before the press, how long the thing runs, or that it runs until somebody stops it."
+            ]
+          },
+          {
+            "head": "Plucky pluralism, for human organisms",
+            "items": [
+              "<strong>Many worlds at once</strong>, and a body in every one of them: stretch, flap, eat, drink, pee, and a fan blowing on you in a cool room.",
+              "<strong>Organisms, not output.</strong> Nothing on the street is counted, ranked or scored, and nothing measures how much of it anybody got through.",
+              "<strong>Rest is owed, not earned.</strong> The street has rooms for it, and none of them says what rest is <em>for</em>."
+            ]
+          }
+        ],
+        "principle": {
+          "head": "Becoming and belonging, with ribald songing",
+          "text": "Belonging comes first and is never in question. Becoming comes after and is never finished, which is why nobody here counts the rooms: the street keeps growing. <em>Ribald</em> means the rooms may be bawdy, rude and funny. <em>Songing</em> means music everywhere, with the writers named on every cut and nobody&rsquo;s words used without their say."
+        },
+        "quote": null,
+        "sources": [
+          "What this is not: neutral, finished, a design system, or a claim to speak for every Disabled or neurodivergent person. If the rooms stop matching these words, the sheet is what is wrong.",
+          "What the street is for: <a href=\"https://stimpunks.world/mission.html\">stimpunks.world/mission.html</a> &middot; the Stimpunks Foundation&rsquo;s mission: <a href=\"https://stimpunks.org/mission/\">stimpunks.org/mission/</a>",
+          "Danny the Street is DC Comics&rsquo;, created in 1990 by Grant Morrison and Richard Case for <em>Doom Patrol</em>: <a href=\"https://stimpunks.world/danny-the-street.html\">stimpunks.world/danny-the-street.html</a>"
+        ],
+        "foot_left": "Stimpunks.World &middot; The Broadsheet Broadside",
+        "foot_right": "No. 2 &middot; Side B"
       }
     }
   ]

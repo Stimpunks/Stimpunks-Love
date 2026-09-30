@@ -49,6 +49,7 @@ import fractals
 
 LINKS = [
     ("liner-notes.html", "Liner notes"),
+    ("mission.html", "Mission"),
     ("design.html", "How it’s made"),
     ("your-room.html", "Your Room"),
     ("changelog.html", "Changelog"),

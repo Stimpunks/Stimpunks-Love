@@ -422,6 +422,11 @@
    "path": "/liner-notes.html"
   },
   {
+   "tag": "mission",
+   "name": "What the street is for",
+   "path": "/mission.html"
+  },
+  {
    "tag": "design",
    "name": "How this site is made",
    "path": "/design.html"

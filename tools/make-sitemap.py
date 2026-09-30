@@ -90,6 +90,10 @@ ORDER = ["index.html",
          "glow-go-gee-gaws.html", "stay-frosty.html",
          "stay-breezy.html",
          "liner-notes.html",
+         # What the street is for: the mission, each aim with the page that
+         # keeps it. Paperwork rather than a room, so it stands with the credits;
+         # the manifesto it points at is a sheet in the Broadsheet Broadside.
+         "mission.html",
          # How the site is made, and who and what makes it, AI included. A
          # page with a job rather than a room, so it stands with the credits.
          "design.html",
@@ -226,6 +230,8 @@ lines += [
     "https://stimpunks.world/foundry.html records them; the songs keep their own copyright.",
     "- Nothing musical is hosted here. The jukebox is press-to-play facades that link out.",
     "- Full credits: https://stimpunks.world/liner-notes.html",
+    "- What the street is for (the mission): https://stimpunks.world/mission.html",
+    "- The manifesto, Ribald Songing, as a printable broadside: https://stimpunks.world/broadsheet-broadside.html#no-2",
     "- How the site is made, and how we use AI: https://stimpunks.world/design.html",
     "",
     "## For agents",
