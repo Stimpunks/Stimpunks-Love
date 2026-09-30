@@ -888,6 +888,7 @@ export async function readPets(pk, s = store()) {
 export async function forgetPets(pk, s = store()) {
   await finishAllAdoptions(s);
   await s.delete(petsBlob(pk));
+  await s.delete(shownBlob(pk));
   return true;
 }
 
@@ -942,6 +943,78 @@ export function shapeAnimal(a) {
   return out;
 }
 export const shapeCat = shapeAnimal;
+
+/* ── Showing off your pets ─────────────────────────────────────────────────
+
+   Ryan's brief, 2026-09-30: stickers of your pets to send to the channel, and
+   clicking somebody's handle on the channel to see their pets, if they have
+   made them public.
+
+   A STICKER IS A COPY OF WHAT A PET LOOKS LIKE AND IS CALLED, taken when it is
+   sent, and it is part of its message: it goes when the message goes, at
+   midnight at the latest. It is only ever one of the sender's own pets, found
+   by the server under the sender's pet key, never described by the request.
+   It carries the kind, the coat, the markings and the name, which is all a
+   sticker needs to be drawn, and nothing that points back at the pet record
+   or the forever list: no id, no dates.
+
+   YOUR PETS ARE PUBLIC ONLY WHEN YOU SAY SO, AND ONLY ON A CLAIMED USERNAME.
+   An unclaimed handle is anybody's who signs on with it, so it cannot choose
+   to be shown on anybody's behalf. The switch is one blob, shown/<pet key>,
+   holding when it was switched on, deleted by switching it off, by Forget Me
+   and by deleting the account. "Public" means people signed on to the CB: the
+   lookup needs a pass, like the channel the handle was clicked on. The answer
+   for a handle that is not shown is the same whether it is unclaimed, claimed
+   and not shown, or not a handle at all. Showing your pets lets people match
+   them to the list of everybody adopted, and the privacy page says so: that
+   is the person's choice to make, and the list itself still says nothing. */
+const shownBlob = (k) => `shown/${k}`;
+
+export async function setShown(handle, on, s = store(), now = Date.now()) {
+  const k = shownBlob(petKey(handle));
+  if (!on) { await s.delete(k); return false; }
+  // Switched on is switched on: a second press, or two at once, change nothing.
+  const cur = await versioned(s, k);
+  if (!cur.exists) await s.setJSON(k, { since: now }, { onlyIfNew: true });
+  return true;
+}
+
+export async function isShown(handle, s = store()) {
+  if (!(await readAccount(handle, s))) return false;
+  const d = await s.get(shownBlob(petKey(handle)), { type: 'json' });
+  return !!(d && typeof d.since === 'number');
+}
+
+/* Somebody's pets, as a person on the CB is shown them: { handle, pets } when
+   they are public, and null otherwise, whatever the reason. The pets are drawn
+   and named, and say what they are; they do not say when they were adopted. */
+export async function shownPets(handle, s = store()) {
+  if (!(await isShown(handle, s))) return null;
+  const acct = await readAccount(handle, s);
+  const pets = await readPets(petKey(handle), s);
+  return { handle: acct.handle, pets: pets.map((a) => {
+    const out = shapeAnimal(a);
+    delete out.at; delete out.t;
+    return out;
+  }) };
+}
+
+/* A sticker of one of your own pets, or null if `id` is not one of them. */
+export async function stickerOf(handle, id, s = store()) {
+  if (typeof id !== 'string' || !/^[cd][0-9a-z]{1,12}$/.test(id)) return null;
+  const pet = (await readPets(petKey(handle), s)).find((a) => a.id === id);
+  if (!pet) return null;
+  return { kind: animalKind(pet.kind) || 'cat', coat: pet.coat, mark: pet.mark, name: pet.name || '' };
+}
+
+export function shapeSticker(st) {
+  const kind = animalKind(st && st.kind);
+  if (!kind) return null;
+  const [coats, marks] = KINDS[kind].looks;
+  if (!coats.some((c) => c[0] === st.coat) || !marks.some((m) => m[0] === st.mark)) return null;
+  return { kind, coat: st.coat, mark: st.mark, name: typeof st.name === 'string' ? st.name : '',
+    words: { coat: says(coats, st.coat), mark: says(marks, st.mark) } };
+}
 
 /* ── The Slake ───────────────────────────────────────────────────────────── */
 
@@ -2022,6 +2095,8 @@ export function shape(messages) {
   return messages.map((m) => {
     const out = { id: m.id, handle: m.handle, text: m.text || '', t: m.t, base: !!m.base, claimed: !!m.claimed && !m.base };
     if (m.img) { out.img = m.img; out.alt = m.alt || ''; }
+    const st = m.sticker && shapeSticker(m.sticker);
+    if (st) out.sticker = st;
     return out;
   });
 }

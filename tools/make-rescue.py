@@ -30,6 +30,12 @@ WHAT IT REFUSES:
     described as itself.
   · A SCRIPT THAT KEEPS ANYTHING BUT love-rescues, OR CALLS ANYTHING BUT THE
     SHELTERS, and privacy.html not naming love-rescues and Forget Me.
+  · SHOWING OFF, ONLY ON PURPOSE (Ryan's brief, 2026-09-30: stickers of your
+    pets on the channel, and pressing a handle to see somebody's pets if they
+    have a public profile). A sticker is exactly kind, coat, marks and name,
+    found among the sender's own pets and nothing pointing back at the pet or
+    the list; a pet shown to somebody carries no dates; only a claimed
+    username can switch showing on, and isShown asks for its account too.
   · THE VOCABULARY OF A TALLY OR A RACE BETWEEN PEOPLE, with make-guild.py's
     negation window so the rooms can say they have none.
 
@@ -123,6 +129,17 @@ def main():
         for j in re.finditer(r"json\((.*?)\);\n", code, re.S):
             if re.search(r"\b(?:due|last|mark|to|pk)\s*:|\.(?:due|handle)\b|petKey\(", j.group(1)):
                 problems.append(f"{path.name}: an answer carries when the next animal is due, or who somebody is.")
+    st = fn(lib, "stickerOf")
+    if "return { kind: animalKind(pet.kind) || 'cat', coat: pet.coat, mark: pet.mark, name: pet.name || '' };" not in st \
+            or "readPets(petKey(handle), s)" not in st:
+        problems.append(f"{LIB.name}: stickerOf is no longer one of the sender's own pets as kind, coat, marks and name.")
+    if "readAccount(handle, s)" not in fn(lib, "isShown"):
+        problems.append(f"{LIB.name}: isShown no longer needs a claimed username. An unclaimed handle is anybody's.")
+    if "delete out.at; delete out.t;" not in fn(lib, "shownPets"):
+        problems.append(f"{LIB.name}: shownPets tells people when somebody's pets came in or were adopted.")
+    pets_fn = code_of(ROOT / "netlify" / "functions" / "cb-pets.mjs")
+    if not re.search(r"typeof b\.show === 'boolean'\) \{\s*if \(!who\.account\) return json\(403", pets_fn):
+        problems.append("cb-pets.mjs: showing your pets no longer needs a claimed username.")
     if not (ROOT / "netlify" / "functions" / "cb-pets.mjs").exists():
         problems.append("cb-pets.mjs is gone, and Forget Me with it.")
 

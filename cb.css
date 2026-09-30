@@ -157,6 +157,13 @@
 .cb-copy { color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2); }
 .cb-head { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
 .cb-handle { font-weight: 700; }
+/* A handle on the channel is a button that shows that person's pets, if they
+   have made them public. It keeps the handle's look, amber on the readout, and
+   takes a dotted underline so it reads as something to press. */
+button.cb-handle {
+  font: inherit; font-weight: 700; color: inherit; background: none; border: 0; padding: 0; margin: 0;
+  cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px;
+}
 .cb-time { margin-left: auto; font-size: 13px; color: var(--cb-amber-2); }
 .cb-text { overflow-wrap: anywhere; display: grid; gap: 6px; min-width: 0; }
 /* BASIC MARKDOWN, every piece in the log's own amber on the readout's black,
@@ -225,6 +232,25 @@ ol.cb-md-list { list-style: decimal; }
    off the screen; the whole picture is there to open. Its description, when
    there is one, is under it in the log's own amber, which is a pair
    check-contrast.py already measures. */
+.cb-msg > .cb-sticker { grid-column: 1 / -1; grid-row: 3; margin: 4px 0 0; }
+/* A STICKER: the pet on its own room's ground, drawn by animals.js, with its
+   words under it in the log's amber, so nothing new is measured here. */
+.cb-sticker__art { display: block; width: 120px; height: auto; border-radius: 4px; }
+.cb-sticker figcaption { margin: 3px 0 0; font-size: 13px; line-height: 1.4; }
+.cb-peek { margin: 8px 0 0; padding: 8px 0 0; border-top: 1px solid var(--cb-amber-2); }
+.cb-peek__h { margin: 0 0 6px; font-weight: 700; }
+.cb-peek .cb-pets__list { margin: 0 0 8px; }
+.cb-stickers { margin: 8px 0 0; }
+.cb-stickers p { margin: 0 0 6px; font-size: 14px; line-height: 1.45; }
+.cb-stickers__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.cb-stickers__pick {
+  display: grid; justify-items: center; gap: 4px; padding: 6px; min-width: 96px;
+  font: inherit; font-size: 13px; color: var(--cb-steel); background: var(--cb-case);
+  border: 2px solid var(--cb-steel-2); border-radius: 6px; cursor: pointer;
+}
+.cb-stickers__art { display: block; width: 80px; height: auto; }
+.cb-pets__show { margin: 10px 0 0; }
+.cb-pets__show p { margin: 6px 0 0; font-size: 13px; line-height: 1.45; }
 .cb-msg > .cb-picture { grid-column: 1 / -1; grid-row: 3; margin: 4px 0 0; min-width: 0; max-width: 100%; }
 .cb-picture-img { display: block; width: auto; max-width: 100%; max-height: 180px; height: auto; border: 1px solid var(--cb-amber-2); border-radius: 3px; background: var(--cb-lcd); }
 .cb-picture-open { display: block; max-width: 100%; padding: 0; margin: 0; border: 0; background: none; cursor: zoom-in; border-radius: 3px; }

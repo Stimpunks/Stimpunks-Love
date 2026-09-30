@@ -1,10 +1,11 @@
 /* The CB: keying up. One message onto the channel the radio is tuned to, the
    World's or a room's; the eleventh pushes the oldest off, and takes its
    picture with it. A message may be words, a picture sent first to
-   /cb/image, or both. */
+   /cb/image, or both; or a sticker of one of the sender's own pets, with
+   words or without. */
 import { randomUUID } from 'node:crypto';
 import { readPass, updateTuned, roomTag, roomAllows, cleanMessage, cleanAlt, shape, json, body, sameSite, MESSAGE_MAX,
-  imageId, getImage, dropImages, droppedImages } from '../cb/lib.mjs';
+  imageId, getImage, dropImages, droppedImages, stickerOf } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
@@ -24,13 +25,22 @@ export default async (req) => {
       return json(400, { error: 'That picture is not ready to send. Pick it again.' });
     }
   }
+  // A sticker is one of this handle's own pets, found here, never described
+  // by the request.
+  let sticker = null;
+  if (b.sticker != null) {
+    if (img) return json(400, { error: 'A message is a picture or a sticker, not both.' });
+    sticker = await stickerOf(who.handle, b.sticker);
+    if (!sticker) return json(400, { error: 'That is not one of your pets.' });
+  }
   const text = b.text == null || b.text === '' ? '' : cleanMessage(b.text);
-  if (text === null || (!text && !img)) return json(400, { error: `A message is between one and ${MESSAGE_MAX} characters, or a picture.` });
+  if (text === null || (!text && !img && !sticker)) return json(400, { error: `A message is between one and ${MESSAGE_MAX} characters, or a picture, or a sticker.` });
   // CLAIMED is read off the pass, like BASE, and never off the request: a
   // message says it came from a claimed username only because readPass found
   // that username's own account behind the pass that sent it.
   const msg = { id: randomUUID(), handle: who.handle, text, t: Date.now(), base: who.role === 'base', claimed: !!who.account };
   if (img) { msg.img = img; msg.alt = cleanAlt(b.alt); }
+  if (sticker) msg.sticker = sticker;
   try {
     let seen = [];
     const messages = await updateTuned(room, (list) => {

@@ -29,7 +29,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
   PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons,
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
-  renamePet, shapeAnimal, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
+  renamePet, shapeAnimal, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
@@ -414,6 +414,44 @@ test('a pet is renamed in its person\'s pets and on the forever list, keeping th
   assert.equal((await readPets('pkY', s))[0].name, '');
   assert.equal(shapeAnimal((await readAdopted('dog', m, s))[0]).first, undefined, 'the name it came in under outlived taking the names off');
 });
+
+test('your pets are shown only when a claimed username says so, and a sticker is only ever your own pet', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const w = (await readShelter('cat', s, 5)).waiting;
+  await rescueAnimal('cat', w.id, 'Mo', s, 5, () => 1);
+  await adoptAnimal('cat', w.id, petKey('Ada'), s, 7);
+  // Unclaimed: nothing is shown, even with the switch somehow on.
+  await setShown('Ada', true, s, 8);
+  assert.equal(await shownPets('Ada', s), null, 'an unclaimed handle showed its pets');
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  const shown = await shownPets('ada', s);
+  assert.equal(shown.handle, 'Ada'); assert.equal(shown.pets[0].name, 'Mo');
+  assert.equal(shown.pets[0].at, undefined, 'the public view says when they were adopted');
+  assert.equal(shown.pets[0].t, undefined);
+  await setShown('Ada', true, s, 10);
+  assert.equal(await isShown('Ada', s), true, 'a second switch-on switched it off');
+  await setShown('Ada', false, s);
+  assert.equal(await shownPets('Ada', s), null, 'switched off and still shown');
+  assert.equal(await shownPets('Nobody', s), null);
+  // Stickers: your own pet, by the server's lookup, with nothing pointing back.
+  assert.equal(await stickerOf('Bex', w.id, s), null, 'a sticker of somebody else\'s pet');
+  const w2 = (await readShelter('cat', s, 20)).waiting;
+  await rescueAnimal('cat', w2.id, 'Pip', s, 20, () => 1);
+  await adoptAnimal('cat', w2.id, petKey('Bex'), s, 21);
+  assert.equal(await stickerOf('Ada', w2.id, s), null, 'Ada sent a sticker of Bex\'s cat');
+  assert.equal((await stickerOf('Bex', w2.id, s)).name, 'Pip');
+  assert.equal(await stickerOf('Ada', 'not-an-id', s), null);
+  const st = await stickerOf('Ada', w.id, s);
+  assert.deepEqual(Object.keys(st).sort(), ['coat', 'kind', 'mark', 'name']);
+  const drawn = shape([{ id: 'm', handle: 'Ada', text: '', t: 1, sticker: st }])[0].sticker;
+  assert.equal(drawn.name, 'Mo'); assert.ok(drawn.words.coat);
+  assert.equal(shapeSticker({ kind: 'cat', coat: 'plaid', mark: 'socks', name: 'x' }), null, 'a coat nobody can draw');
+  // Deleting the account takes the switch with it, so a reclaimed name is not shown.
+  await setShown('Ada', true, s, 11);
+  await deleteAccount('Ada', s);
+  await claimAccount('Ada', 'somebody else here', s, 12, null);
+  assert.equal(await shownPets('Ada', s), null, 'the switch outlived the account it belonged to');
+}));
 
 test('dogs are not cats', () => {
   assert.notEqual(animalAt('dog', 1).id, animalAt('cat', 1).id);

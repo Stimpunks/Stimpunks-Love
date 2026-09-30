@@ -691,6 +691,15 @@
     // Nothing is claimed about the channel until it has been heard.
     this.quiet = el('p', 'cb-quiet', 'Tuning in\u2026');
     lcd.appendChild(this.quiet);
+    /* SOMEBODY'S PETS, Ryan's brief, 2026-09-30: press a handle on the channel
+       to see their pets, if they have made them public. On the readout, under
+       the message you pressed from, and nothing is fetched until the press. */
+    var peek = this.peekBox = el('div', 'cb-peek');
+    peek.id = 'cb-peek';
+    peek.hidden = true;
+    peek.setAttribute('role', 'group');
+    lcd.appendChild(peek);
+    peek.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); me.unpeek(); } });
     /* HOSTS: every beacon on the street, this room's with a Catch up button and
        the others with a link to their room that carries the host's spot. Not a
        live region: it is redrawn on every listen, and something read out every
@@ -757,8 +766,19 @@
     picFile.tabIndex = -1;
     picBtn.addEventListener('click', function () { picFile.click(); });
     picFile.addEventListener('change', function () { me.pickPicture(picFile.files && picFile.files[0]); });
+    var stickBtn = this.stickBtn = el('button', 'cb-btn cb-stick', 'Sticker');
+    stickBtn.type = 'button';
+    stickBtn.setAttribute('aria-label', 'Send a sticker of one of your pets');
+    stickBtn.setAttribute('aria-expanded', 'false');
+    stickBtn.setAttribute('aria-controls', 'cb-stickers');
+    stickBtn.addEventListener('click', function () { me.setStickers(me.stickBox.hidden); });
+    var stickBox = this.stickBox = el('div', 'cb-stickers');
+    stickBox.id = 'cb-stickers';
+    stickBox.hidden = true;
+    stickBox.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); me.setStickers(false); stickBtn.focus(); } });
     var row = el('div', 'cb-row cb-send-row');
     row.appendChild(picBtn);
+    row.appendChild(stickBtn);
     row.appendChild(send);
     var ready = this.picReady = el('div', 'cb-pic-ready');
     ready.hidden = true;
@@ -787,6 +807,7 @@
     form.appendChild(say);
     form.appendChild(hint);
     form.appendChild(row);
+    form.appendChild(stickBox);
     form.appendChild(ready);
     set.appendChild(form);
 
@@ -867,6 +888,9 @@
     this.petsList = el('ul', 'cb-pets__list');
     this.petsList.hidden = true;
     pets.appendChild(this.petsList);
+    // Whether people on the CB can see them, by pressing your handle.
+    this.showBox = el('div', 'cb-pets__show');
+    pets.appendChild(this.showBox);
     var where = this.petsWhere = el('p', 'cb-pets__where');
     pets.appendChild(where);
     var forgetBtn = this.forgetBtn = el('button', 'cb-btn cb-forget', 'Forget me');
@@ -874,7 +898,7 @@
     pets.appendChild(forgetBtn);
     var sure = this.forgetSure = el('div', 'cb-forget-sure');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your pets. They stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your pets and whether they are shown. They stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
     var yes = el('button', 'cb-btn cb-forget-yes', 'Yes, forget me');
     yes.type = 'button';
     var no = el('button', 'cb-btn', 'Keep my pets');
@@ -1118,6 +1142,8 @@
     for (i = 0; i < parts.length; i++) parts[i].after('. ');
     var pic = li.querySelector('.cb-picture-open');
     var told = pic ? ' ' + pic.getAttribute('aria-label').replace(/^Open the picture larger\. /, 'A picture: ') : '';
+    var st = li.querySelector('.cb-sticker figcaption');
+    if (st) told += ' A sticker: ' + st.textContent + '.';
     (this.air = this.air || []).push(li.querySelector('.cb-handle').textContent + '. ' + words.textContent + told);
     if (!this.onAir) this.transmitNext();
   };
@@ -1308,7 +1334,11 @@
       var li = el('li', 'cb-msg' + (m.base ? ' cb-msg--base' : ''));
       li.dataset.id = m.id;
       var head = el('p', 'cb-head');
-      head.appendChild(el('b', 'cb-handle', m.handle));
+      var who = el('button', 'cb-handle', m.handle);
+      who.type = 'button';
+      who.setAttribute('aria-controls', 'cb-peek');
+      (function (h, b) { b.addEventListener('click', function () { me.peek(h, b); }); })(m.handle, who);
+      head.appendChild(who);
       if (m.base) head.appendChild(el('span', 'cb-tag', 'BASE'));
       else if (m.claimed) head.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
       var when = el('time', 'cb-time', clock(m.t));
@@ -1319,6 +1349,7 @@
       said.cbRaw = m.text;
       li.appendChild(md(said, m.text));
       if (m.img) li.appendChild(this.picture_(m));
+      if (m.sticker) li.appendChild(sticker(m.sticker));
       added++;
       /* Drawn on the message's own name-and-time line by cb.css, but kept
          AFTER the words in the markup: the log is a live region, and a new
@@ -1546,6 +1577,136 @@
   }
 
   /* ── The Profile ─────────────────────────────────────────────────────── */
+  /* A pet in a few words, for a sticker's caption and somebody's pets: its
+     name, what it is and its markings, never where it was found or when. */
+  function petWords(a) {
+    var w = a.words || {};
+    return (a.name ? a.name + ', a ' : 'A ') + w.coat + ' ' + (a.kind === 'dog' ? 'dog' : 'cat') + ' ' + w.mark;
+  }
+
+  /* A STICKER on a message: the pet drawn by animals.js, loaded on the first
+     one, with its words under it for everybody, so nobody needs the drawing. */
+  function sticker(st) {
+    var fig = el('figure', 'cb-sticker');
+    fig.appendChild(el('figcaption', null, petWords(st)));
+    withAnimals(function () { fig.insertBefore(window.loveAnimals.draw(st, 'cb-sticker__art'), fig.firstChild); });
+    return fig;
+  }
+
+  Radio.prototype.peek = function (handle, from) {
+    var me = this, box = this.peekBox;
+    this.peekFrom = from;
+    box.textContent = '';
+    box.hidden = false;
+    box.setAttribute('aria-label', handle + '\u2019s pets');
+    var h = el('p', 'cb-peek__h', handle + '\u2019s pets');
+    h.tabIndex = -1;
+    box.appendChild(h);
+    var said = el('p', 'cb-quiet', 'Looking\u2026');
+    box.appendChild(said);
+    var list = el('ul', 'cb-pets__list');
+    list.hidden = true;
+    box.appendChild(list);
+    var close = el('button', 'cb-btn cb-peek__close', 'Close');
+    close.type = 'button';
+    close.addEventListener('click', function () { me.unpeek(); });
+    box.appendChild(close);
+    h.focus();
+    box.scrollIntoView({ block: 'nearest' });
+    withAnimals(function () {
+      call('/cb/pets/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
+        if (r.status === 401) return me.lost();
+        if (r.status !== 200) { said.textContent = 'Their pets could not be fetched just now.'; return; }
+        if (!r.body.shown) {
+          said.textContent = handle === me.state.handle
+            ? 'You have not made your pets public. Profile, on this radio, is where you switch that on.'
+            : handle + ' has not made their pets public.';
+          return;
+        }
+        if (!r.body.pets.length) { said.textContent = r.body.handle + ' has no pets yet.'; return; }
+        said.hidden = true;
+        list.hidden = false;
+        r.body.pets.slice().reverse().forEach(function (a) {
+          var li = el('li', 'cb-pet');
+          li.appendChild(window.loveAnimals.draw(a, 'cb-pet__art'));
+          var words = el('div', 'cb-pet__words');
+          words.appendChild(el('p', 'cb-pet__name', a.name || 'Not named yet'));
+          words.appendChild(el('p', 'cb-pet__about', petWords(Object.assign({}, a, { name: '' })) + '.'));
+          li.appendChild(words);
+          list.appendChild(li);
+        });
+      }, function () { said.textContent = 'Their pets could not be fetched just now.'; });
+    });
+  };
+
+  Radio.prototype.unpeek = function () {
+    this.peekBox.hidden = true;
+    this.peekBox.textContent = '';
+    var from = this.peekFrom;
+    this.peekFrom = null;
+    if (from && from.isConnected) from.focus();
+  };
+
+  /* THE STICKER PICKER: your pets, each a button that sends a sticker of them
+     to the channel you are tuned to, straight away. Whatever is in the box
+     stays there. */
+  Radio.prototype.setStickers = function (open) {
+    var me = this, box = this.stickBox;
+    box.hidden = !open;
+    this.stickBtn.setAttribute('aria-expanded', String(!!open));
+    if (!open) { box.textContent = ''; return; }
+    box.textContent = '';
+    var said = el('p', 'cb-quiet', 'Fetching your pets\u2026');
+    said.setAttribute('role', 'status');
+    box.appendChild(said);
+    withAnimals(function () {
+      call('/cb/pets', null, me.state.pass).then(function (r) {
+        if (r.status === 401) return me.lost();
+        if (r.status !== 200 || !r.body.pets) { said.textContent = 'Your pets could not be fetched just now.'; return; }
+        if (!r.body.pets.length) {
+          said.textContent = 'No pets yet. Adopt one at ';
+          var c = el('a', null, 'Rescue A Cat'); c.href = '/rescue-a-cat.html';
+          var d = el('a', null, 'Rescue A Dog'); d.href = '/rescue-a-dog.html';
+          said.appendChild(c); said.appendChild(document.createTextNode(' or ')); said.appendChild(d); said.appendChild(document.createTextNode('.'));
+          return;
+        }
+        said.textContent = 'Press a pet to send a sticker of them.';
+        var ul = el('ul', 'cb-stickers__list');
+        r.body.pets.slice().reverse().forEach(function (a) {
+          var li = el('li');
+          var b = el('button', 'cb-stickers__pick');
+          b.type = 'button';
+          b.appendChild(window.loveAnimals.draw(a, 'cb-stickers__art'));
+          b.appendChild(el('span', null, 'Send ' + (a.name || 'a sticker of this ' + (a.kind === 'dog' ? 'dog' : 'cat'))));
+          b.addEventListener('click', function () { me.sendSticker(a.id); });
+          li.appendChild(b);
+          ul.appendChild(li);
+        });
+        box.appendChild(ul);
+        var first = ul.querySelector('button');
+        if (first) first.focus();
+      }, function () { said.textContent = 'Your pets could not be fetched just now.'; });
+    });
+  };
+
+  Radio.prototype.sendSticker = function (id) {
+    var me = this, room = this.tunedRoom(), b = { sticker: id };
+    if (room) b.room = room;
+    this.tell('Sending the sticker\u2026');
+    call('/cb/transmit', { body: b }, this.state.pass).then(function (r) {
+      if (r.status === 401) return me.lost();
+      if (r.status === 200) {
+        me.setStickers(false);
+        me.tell('');
+        me.stickBtn.focus();
+        if (room === me.tunedRoom()) me.show(r.body.messages || [], true);
+        return;
+      }
+      if (r.status === 429) { me.tell('Easy on the mic: too many in a minute. Try again shortly.'); return; }
+      me.tell(why(r, 'That did not go out. Try again.'));
+    }).catch(function () { me.tell('No signal. That did not go out.'); });
+  };
+
   function withAnimals(then) {
     if (window.loveAnimals) { then(); return; }
     var s = document.createElement('script');
@@ -1729,11 +1890,41 @@
     me.petsState.textContent = 'Looking for your pets\u2026';
     withAnimals(function () {
       call('/cb/pets', null, me.state.pass).then(function (r) {
-        if (r.status === 200 && r.body.pets) { me.drawPets(r.body.pets); return; }
+        if (r.status === 200 && r.body.pets) { me.drawPets(r.body.pets); me.drawShow(r.body); return; }
         me.petsState.textContent = r.status === 401
           ? 'The password has changed since you signed on. Sign on again at the Community Center.'
           : 'Your pets could not be fetched just now.';
       }, function () { me.petsState.textContent = 'Your pets could not be fetched just now.'; });
+    });
+  };
+
+  /* SHOWING YOUR PETS, off until you switch it on, and only on a claimed
+     username, because an unclaimed handle is anybody's who signs on with it. */
+  Radio.prototype.drawShow = function (b, focus) {
+    var me = this, box = this.showBox;
+    box.textContent = '';
+    if (!b.claimed) {
+      box.appendChild(el('p', 'cb-quiet', 'Claim your username above and you can let people on the CB see your pets, by pressing your handle on the channel.'));
+      return;
+    }
+    var on = !!b.shown;
+    var t = el('button', 'cb-btn cb-pets-show', 'Show my pets on the CB: ' + (on ? 'on' : 'off'));
+    t.type = 'button';
+    t.setAttribute('aria-pressed', String(on));
+    box.appendChild(t);
+    box.appendChild(el('p', 'cb-quiet', on
+      ? 'Anybody signed on to the CB can press your handle on the channel and see your pets: what they look like and what they are called. That also lets them find your pets on the list of everybody adopted.'
+      : 'Off: pressing your handle on the channel says you have not made your pets public. Switch it on to let people on the CB see them.'));
+    var said = el('p', 'cb-quiet', ''); said.setAttribute('role', 'status');
+    box.appendChild(said);
+    if (focus) t.focus();
+    t.addEventListener('click', function () {
+      t.disabled = true;
+      call('/cb/pets', { body: { show: !on } }, me.state.pass).then(function (r) {
+        t.disabled = false;
+        if (r.status === 200 && typeof r.body.shown === 'boolean') { me.drawShow({ claimed: true, shown: r.body.shown }, true); return; }
+        said.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.';
+      }, function () { t.disabled = false; said.textContent = 'The street could not be reached just now. Nothing changed.'; });
     });
   };
 
@@ -1809,7 +2000,7 @@
     me.petsState.textContent = 'Forgetting\u2026';
     call('/cb/pets', { body: { forget: true } }, me.state.pass).then(function (r) {
       me.forgetSure.hidden = true; me.forgetBtn.hidden = false;
-      if (r.status === 200 && r.body.forgotten) { me.drawPets([]); me.petsState.textContent = 'Forgotten. The street keeps nothing under this handle now.'; me.forgetBtn.focus(); return; }
+      if (r.status === 200 && r.body.forgotten) { me.drawPets([]); me.drawShow({ claimed: /^cb2\./.test(me.state.pass), shown: false }); me.petsState.textContent = 'Forgotten. The street keeps nothing under this handle now.'; me.forgetBtn.focus(); return; }
       me.petsState.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing was forgotten.';
     }, function () {
       me.forgetSure.hidden = true; me.forgetBtn.hidden = false;
