@@ -1195,6 +1195,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--cats .og-lede {{ font-family: 'PT Sans', sans-serif; color: var(--rac-text);
   font-size: 27px; line-height: 1.4; margin: 26px 0 0 !important; max-width: 560px; }}
 
+/* rescue a dog — THE PARK AFTER SNOW: the header lifted whole, with the bench, its
+   blue shadow and the prints leading to the dog under it. No dog off the kennels:
+   their names were given by the people who rescued them. */
+.og--dogs {{ width: 100%; flex-direction: column; align-items: flex-start; justify-content: center; padding: 0 70px; }}
+.og--dogs .rad-head {{ margin: 0 !important; width: 100%; display: grid;
+  grid-template-columns: 560px 1fr; column-gap: 40px; align-items: center; }}
+.og--dogs .rad-head > p, .og--dogs .rad-head > h1 {{ grid-column: 1; }}
+.og--dogs .rad-head p:not(.og-lede) {{ margin: 0 !important; font-size: 19px; }}
+.og--dogs h1 {{ font-size: 84px; margin: 12px 0 12px !important; }}
+.og--dogs .rad-sign {{ grid-column: 2; grid-row: 1 / span 4; margin: 0 !important; max-width: none; }}
+.og--dogs .og-lede {{ font-family: 'Open Sans', sans-serif; color: var(--rad-ink);
+  font-size: 26px; line-height: 1.4; margin: 24px 0 0 !important; max-width: 560px; }}
+
 /* now playing — THE SHEET ON ITS DRUM, and the only card on the street printed in
    two inks with nothing in black. The column's painted iron runs down both sides
    and off the foot of the card, which is where the pavement is; the header, the
@@ -3707,6 +3720,30 @@ def card_cats(p):
     )
 
 
+def card_dogs(p):
+    # THE HEADER IS LIFTED WHOLE, drawing and all, so the card cannot show a
+    # different park; the lede goes under it on the snow.
+    head = re.search(r'<header class="rad-head">(.*?)</header>', p["src"], re.S)
+    over = re.search(r'<p class="rad-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="rad-sub">(.*?)</p>', p["src"], re.S)
+    if not (head and over and sub and 'class="rad-sign"' in head.group(1)):
+        raise SystemExit(
+            "REFUSING: rescue-a-dog.html has lost its header or the drawing in it, and\n"
+            "the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--dogs" data-fit="card"><header class="rad-head">{head.group(1)}'
+        f'<p class="og-lede">{p["desc"]}</p></header></div>',
+        f"A card as white as snow with a pale blue-grey sky along the top and a low pale sun in it. "
+        f"Small grey capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in a "
+        f"heavy, round, dark letter, then {plain(sub.group(1))}. Under it: {p['desc_plain']} On the "
+        f"right, a park bench in the snow with a long blue shadow falling away from the sun, a line of "
+        f"blue paw prints leading across the snow to it, and a golden dog sitting beside the bench "
+        f"with a floppy ear, a red collar and its tail up.",
+    )
+
+
 def card_nowplaying(p):
     # THE HEADER IS LIFTED WHOLE -- over-line, h1, sub-line and the two screens'
     # ornament -- and the lede is the page's og:description, so the card cannot
@@ -3990,6 +4027,7 @@ CARDS = {
     "fridge":       card_fridge,
     "stair":        card_stair,
     "cats":         card_cats,
+    "dogs":         card_dogs,
     "cavendish":    card_cavendish,
     "live-room":    card_live,
     "doom-scoop":   card_scoop,

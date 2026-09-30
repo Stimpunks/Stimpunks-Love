@@ -398,6 +398,10 @@ DRAW = {
     # the dark, and so is the kerb line, over the body threshold a marker is held
     # to; the lens is the torch's own pool colour and the light it throws is
     # eyeshine, which is the only colour in the room.
+    # A dog's red lead, dropped in the snow by a gate. The lead is --rad-link,
+    # 6.28 on the snow, and the snow line and the clip --rad-ink, over the body
+    # threshold a marker is held to; the prints beside it are --rad-track.
+    "dogs-lead": """<path d="M3 29 H29" stroke="var(--rad-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M6 24 Q10 8 18 12 Q26 16 22 24" fill="none" stroke="var(--rad-link)" stroke-width="2.6" stroke-linecap="round"/><circle cx="22" cy="25.5" r="2.2" fill="none" stroke="var(--rad-ink)" stroke-width="1.6"/><ellipse cx="27" cy="19" rx="1.8" ry="1.3" fill="var(--rad-track)"/><ellipse cx="25.5" cy="15" rx="1.8" ry="1.3" fill="var(--rad-track)"/>""",
     "cats-torch": """<path d="M3 29 H29" stroke="var(--rac-dim)" stroke-width="1.6" stroke-linecap="round"/><rect x="5" y="19" width="15" height="7" rx="2" fill="var(--rac-dim)"/><path d="M20 18 L25 16 V29 L20 27 Z" fill="var(--rac-dim)"/><ellipse cx="25" cy="22.5" rx="1.6" ry="6" fill="var(--rac-beam)"/><circle cx="12" cy="10" r="1.8" fill="var(--rac-eye)"/><circle cx="17" cy="10" r="1.8" fill="var(--rac-eye)"/>""",
     "stair-lift": """<path d="M3 29 H29" stroke="var(--cmi-ink)" stroke-width="1.6" stroke-linecap="round"/><rect x="9" y="6" width="14" height="19" rx="3" fill="var(--cmi-dado)"/><circle cx="16" cy="13" r="3.6" fill="var(--cmi-nosing)"/><path d="M13 20 H19" stroke="var(--cmi-nosing)" stroke-width="1.6" stroke-linecap="round"/>""",
     "fridge-magnet": """<path d="M3 29 H29" stroke="var(--fos-ink)" stroke-width="1.6" stroke-linecap="round"/><rect x="6" y="15" width="20" height="10" fill="var(--fos-tile)" stroke="var(--fos-ink)" stroke-width="1.6"/><path d="M10 20 H15 M17 20 H22" stroke="var(--fos-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M8 26 H27" stroke="var(--fos-edge)" stroke-width="1.4" stroke-linecap="round"/>""",

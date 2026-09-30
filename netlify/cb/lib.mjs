@@ -605,39 +605,53 @@ export async function climb(n, mark, s = store(), now = Date.now()) {
   throw new Error('busy');
 }
 
-/* ── Rescue A Cat ────────────────────────────────────────────────────────── */
+/* ── The shelters: Rescue A Cat and Rescue A Dog ─────────────────────────── */
 
-/* CATS TURN UP AT RANDOM, OUT ON THE STREET, AND THE FIRST CB PASS TO PRESS
+/* ANIMALS TURN UP AT RANDOM OUT ON THE STREET, AND THE FIRST CB PASS TO PRESS
    RESCUES ONE. Ryan's calls, 2026-09-30, after the catch-a-cat game in our
-   Discord's Collaborative Nonsense channels, renamed: cats are rescued, not
-   caught; whoever carries a cat in names it; the shelter shows every cat and
-   never who rescued it; and "cats you rescued" is kept in the rescuer's own
-   browser and nowhere else, the way the Guild keeps the jobs you handed in.
+   Discord's Collaborative Nonsense channels, renamed: animals are rescued, not
+   caught; whoever rescues one names it; the shelter shows every animal and
+   never who rescued it; and "animals you rescued" is kept in the rescuer's own
+   browser. Then, the same evening: adoption, a Pets tray in the CB, a list of
+   everybody ever adopted, and dogs as well as cats.
 
-   NOTHING HERE KNOWS WHO RESCUED ANY CAT. The blob is when the next cat is
-   due and the shelter's cats, each its looks, where it was found, its name and
-   when it came in. A rescue sends a pass, which is checked and forgotten.
+   A SHELTER KNOWS ITS ANIMALS AND NOT THEIR RESCUERS. Each kind is one blob:
+   when the next animal is due, the shelter's animals (looks, where it was
+   found, name, when it came in), and any adoption still being filed. A rescue
+   sends a pass, which is checked and forgotten.
 
-   A CAT IS WAITING WHENEVER THE CLOCK HAS PASSED `due`, and it is worked out
-   rather than stored: its looks come from a hash of `due`, so every page sees
-   the same cat and nothing has to be written when it turns up. Rescuing it
-   writes it into the shelter and sets the next `due` a random gap later,
-   which is kept on the server and never sent, so nobody can know when the
-   next one is coming. The first cat is waiting from the start.
+   AN ANIMAL IS WAITING WHENEVER THE CLOCK HAS PASSED `due`, worked out rather
+   than stored: its looks come from 32 bits of a hash of `due` per look, so
+   every page sees the same animal and no look is even slightly rarer than
+   another (a byte made four coats a twentieth less likely). Rescuing it sets
+   the next `due` a random gap later, kept here and never sent, so nobody can
+   know when the next is coming. The first animal is waiting from the start.
 
-   EVERY CAT IS DIFFERENT AND NONE IS RARER. The looks are drawn evenly from
-   lists with no weights and no grades, because a rarity table would make some
-   cats prizes and the rest disappointments, which is the otter cabinet's
-   refusal to rank the otters, arriving at a shelter.
+   AN ANIMAL STAYS IN THE SHELTER UNTIL SOMEBODY ADOPTS IT. Ryan's call. When
+   the shelter is full, the next animal waits outside until somebody adopts.
 
-   A CAT STAYS IN THE SHELTER FOR A WEEK AND THEN GOES TO A HOME. That is
-   Claude's call, for Ryan to change: it is how a rescue ends, and it keeps
-   the shelter to the chalkboard's week. The rescuer's own list keeps it. */
-export const CAT_NAME_MAX = 24;
-export const CAT_WEEK = 7 * 24 * 60 * 60 * 1000;
-export const CAT_GAP = 25 * 60 * 1000;           // the average wait between one rescue and the next cat
-const CAT_GAP_MIN = 4 * 60 * 1000, CAT_GAP_MAX = 3 * 60 * 60 * 1000;
-const CATS = 'cats';
+   ADOPTING IS THE ONE PLACE THE STREET KEEPS SOMETHING UNDER A PERSON, and it
+   is Ryan's call, made knowing that: your pets, so they follow you to any
+   device you sign on with and sit in your CB's Pets tray. They are filed under
+   a scrambled form of the folded handle (`petKey`), never the handle itself,
+   and never under the community password, which would lose everybody's pets
+   the day it changed. A handle is not an account: anybody who signs on with
+   the same handle sees the same pets, and the tray says so. FORGET ME deletes
+   the record; the animals stay on the forever list, which never says who
+   adopted anybody.
+
+   ADOPTION FILES IN THREE PLACES AND LOSES NOTHING. The shelter's conditional
+   write decides who adopts (one person, once) and moves the animal into the
+   shelter's own `leaving` list with the pet key it is going to; then it is
+   copied into that person's pets and into the month's forever list, each
+   skipping an id already there; then it leaves `leaving`. A stop anywhere in
+   between is finished by the next adoption or the hourly sweep, and nothing
+   is ever in neither place. */
+export const ANIMAL_NAME_MAX = 24;
+export const CAT_NAME_MAX = ANIMAL_NAME_MAX;
+export const SHELTER_KEEP = 30;                   // animals in one shelter at once
+export const ANIMAL_GAP = 25 * 60 * 1000;         // the average wait between one rescue and the next animal
+const ANIMAL_GAP_MIN = 4 * 60 * 1000, ANIMAL_GAP_MAX = 3 * 60 * 60 * 1000;
 
 export const CAT_COATS = [
   ['black', 'black all over'], ['ginger', 'ginger'], ['grey', 'grey'], ['white', 'white'],
@@ -647,95 +661,249 @@ export const CAT_COATS = [
 export const CAT_MARKS = [
   ['socks', 'with white socks'], ['bib', 'with a white bib'], ['kink', 'with a kink in the tail'],
   ['tip', 'with one ear tipped'], ['three', 'with three legs and no opinion about it'], ['oneeye', 'with one eye'],
-  ['long', 'with long, tangled fur'], ['plain', 'and nothing else about it you would notice'],
+  ['long', 'with long, tangled fur'], ['plain', 'and nothing else about them you would notice'],
 ];
 export const CAT_PLACES = [
   ['car', 'under a parked car'], ['drain', 'halfway up a drainpipe'], ['box', 'in a soggy cardboard box'],
   ['bins', 'behind the bins'], ['sill', 'on a windowsill that is not theirs'], ['stoop', 'under the stoop'],
-  ['tree', 'up a tree it cannot get down'], ['shed', 'on a shed roof'], ['kerb', 'in the rain by the kerb'],
+  ['tree', 'up a tree they cannot get down'], ['shed', 'on a shed roof'], ['kerb', 'in the rain by the kerb'],
   ['hedge', 'in the hedge'],
 ];
 export const CAT_MOODS = [
-  ['purr', 'purred the whole way in'], ['hiss', 'hissed, then purred'], ['alone', 'wants to be left alone, which is allowed'],
-  ['lap', 'went straight for a lap'], ['watch', 'watches everything from the top of the cupboard'],
-  ['food', 'is only interested in food'], ['sleep', 'fell asleep before the door shut'],
+  ['purr', 'purred the whole way in'], ['hiss', 'hissed, then purred'], ['alone', 'want to be left alone, which is allowed'],
+  ['lap', 'went straight for a lap'], ['watch', 'watch everything from the top of the cupboard'],
+  ['food', 'are only interested in food'], ['sleep', 'fell asleep before the door shut'],
 ];
+export const DOG_COATS = [
+  ['black', 'black'], ['brown', 'chocolate brown'], ['golden', 'golden'], ['white', 'white'],
+  ['cream', 'cream'], ['grey', 'grey'], ['brindle', 'brindle'], ['blacktan', 'black and tan'],
+  ['merle', 'merle'], ['spotted', 'white with black spots'], ['piebald', 'white and brown'], ['tricolour', 'tricolour'],
+];
+export const DOG_MARKS = [
+  ['socks', 'with white socks'], ['blaze', 'with a white blaze down the face'], ['pointy', 'with ears that stand straight up'],
+  ['patch', 'with a patch round one eye'], ['three', 'with three legs and no opinion about it'], ['oneeye', 'with one eye'],
+  ['curly', 'with a curly coat'], ['plain', 'and nothing else about them you would notice'],
+];
+export const DOG_PLACES = [
+  ['busstop', 'under the bus shelter, out of the snow'], ['pond', 'by the frozen pond'],
+  ['shop', 'tied up outside the shop, and nobody came back'], ['doorway', 'curled up in a doorway'],
+  ['bench', 'under a park bench'], ['hill', 'at the bottom of the sledging hill'],
+  ['tracks', 'following somebody else’s footprints home'], ['bins', 'by the bins, in the snow'],
+  ['stoop', 'on the stoop, waiting'], ['gate', 'at a gate that will not open'],
+];
+export const DOG_MOODS = [
+  ['wag', 'wagged the whole way in'], ['lean', 'lean on everybody'], ['stick', 'brought back a stick nobody threw'],
+  ['alone', 'want to be left alone, which is allowed'], ['radiator', 'went straight for the radiator'],
+  ['food', 'are only interested in food'], ['sleep', 'fell asleep before the door shut'],
+];
+
+export const KINDS = {
+  cat: { key: 'cats', prefix: 'c', looks: [CAT_COATS, CAT_MARKS, CAT_PLACES, CAT_MOODS] },
+  dog: { key: 'dogs', prefix: 'd', looks: [DOG_COATS, DOG_MARKS, DOG_PLACES, DOG_MOODS] },
+};
+export function animalKind(k) { return Object.prototype.hasOwnProperty.call(KINDS, k) ? k : null; }
 
 function pick(list, n) { return list[n % list.length]; }
 
-/* The cat waiting at `due`: its looks from a hash of `due`, the same for every
-   page, and its id from `due` too, so a rescue names the cat it meant. */
-export function catAt(due) {
-  const h = createHash('sha256').update(`cat|${due}`).digest();
-  // 32 bits for each, not a byte: 256 does not divide by twelve, and a byte
-  // made four coats a twentieth less likely than the rest, in a room that says
-  // no cat is rarer than another.
-  const [coat, mark, place, mood] = [pick(CAT_COATS, h.readUInt32BE(0)), pick(CAT_MARKS, h.readUInt32BE(4)),
-    pick(CAT_PLACES, h.readUInt32BE(8)), pick(CAT_MOODS, h.readUInt32BE(12))];
-  return { id: `c${Number(due).toString(36)}`, coat: coat[0], mark: mark[0], place: place[0], mood: mood[0] };
+/* The animal waiting at `due`: its looks from a hash of the kind and `due`,
+   the same for every page, and its id from `due` too, so a rescue names the
+   animal it meant. */
+export function animalAt(kind, due) {
+  const K = KINDS[kind];
+  const h = createHash('sha256').update(`${kind === 'cat' ? 'cat' : kind}|${due}`).digest();
+  const [coat, mark, place, mood] = K.looks.map((list, i) => pick(list, h.readUInt32BE(i * 4)));
+  return { id: `${K.prefix}${Number(due).toString(36)}`, kind, coat: coat[0], mark: mark[0], place: place[0], mood: mood[0] };
 }
+export function catAt(due) { return animalAt('cat', due); }
 
-export function catGap(u = Math.random()) {
-  const g = -Math.log(1 - u) * CAT_GAP;
-  return Math.round(Math.min(CAT_GAP_MAX, Math.max(CAT_GAP_MIN, g)));
+export function animalGap(u = Math.random()) {
+  const g = -Math.log(1 - u) * ANIMAL_GAP;
+  return Math.round(Math.min(ANIMAL_GAP_MAX, Math.max(ANIMAL_GAP_MIN, g)));
 }
+export const catGap = animalGap;
 
-export function cleanCatName(s) {
+export function cleanAnimalName(s) {
   const t = tidy(s);
   if (!t) return '';
-  return [...t].length <= CAT_NAME_MAX ? t : null;
+  return [...t].length <= ANIMAL_NAME_MAX ? t : null;
 }
+export const cleanCatName = cleanAnimalName;
 
-function inShelter(list, now) { return (list || []).filter((c) => c && typeof c.t === 'number' && now - c.t < CAT_WEEK); }
+/* Your pets are filed under this, never under your handle. A plain hash, not
+   one keyed by the community password, because changing the password would
+   otherwise lose everybody's pets. It is not a secret: it is only there so the
+   store does not list handles. */
+export function petKey(handle) {
+  return createHash('sha256').update(`stimpunks-pets|${foldHandle(handle)}`).digest('base64url').slice(0, 32);
+}
+const petsBlob = (k) => `pets/${k}`;
+const adoptedBlob = (kind, month) => `adopted-${kind}-${month}`;
 
-export async function readCats(s = store(), now = Date.now()) {
-  const d = await s.get(CATS, { type: 'json' });
+export async function readShelter(kind, s = store(), now = Date.now()) {
+  const d = await s.get(KINDS[kind].key, { type: 'json' });
   const due = (d && typeof d.due === 'number') ? d.due : 0;
-  return { waiting: now >= due ? catAt(due) : null, shelter: inShelter(d && d.shelter, now) };
+  const shelter = (d && d.shelter) || [];
+  return { waiting: now >= due ? animalAt(kind, due) : null, shelter, full: shelter.length >= SHELTER_KEEP };
 }
+export function readCats(s = store(), now = Date.now()) { return readShelter('cat', s, now); }
 
-/* Rescue the cat `id`. { rescued: true, cat } for the first press on that cat;
-   { rescued: false } when it is already safe or was never out there. */
-export async function rescueCat(id, name, s = store(), now = Date.now(), gap = catGap) {
+/* Rescue the animal `id`. { rescued: true, animal } for the first press on it;
+   { rescued: false, why } when it is already safe ('safe') or the shelter is
+   full and it has to wait outside ('full'). */
+export async function rescueAnimal(kind, id, name, s = store(), now = Date.now(), gap = animalGap) {
+  const key = KINDS[kind].key;
   for (let attempt = 0; attempt < 12; attempt++) {
-    const cur = await versioned(s, CATS);
+    const cur = await versioned(s, key);
     const was = cur.exists && cur.data ? cur.data : {};
     const due = typeof was.due === 'number' ? was.due : 0;
-    const shelter = inShelter(was.shelter, now);
-    if (now < due || catAt(due).id !== id) return { rescued: false, shelter };
-    const cat = { ...catAt(due), name, t: now };
-    const body = { due: now + gap(), shelter: [...shelter, cat] };
+    const shelter = was.shelter || [];
+    if (now < due || animalAt(kind, due).id !== id) return { rescued: false, why: 'safe', shelter };
+    if (shelter.length >= SHELTER_KEEP) return { rescued: false, why: 'full', shelter };
+    const animal = { ...animalAt(kind, due), name, t: now };
+    const body = { due: now + gap(), shelter: [...shelter, animal], leaving: was.leaving || [] };
     const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
-    const res = await s.setJSON(CATS, body, opts);
-    if (res.modified) return { rescued: true, cat, shelter: body.shelter };
+    const res = await s.setJSON(key, body, opts);
+    if (res.modified) return { rescued: true, animal, cat: animal, shelter: body.shelter };
     await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
   }
   throw new Error('busy');
 }
+export function rescueCat(id, name, s = store(), now = Date.now(), gap = animalGap) {
+  return rescueAnimal('cat', id, name, s, now, gap);
+}
 
-/* The base station taking a name off a cat. The cat stays. */
-export async function unnameCat(id, s = store(), now = Date.now()) {
+/* A list in a blob, changed with the conditional write. Used for a person's
+   pets and for each month's forever list. */
+async function updateList(key, field, change, s) {
   for (let attempt = 0; attempt < 12; attempt++) {
-    const cur = await versioned(s, CATS);
-    if (!cur.exists) return [];
-    const was = cur.data || {};
-    const shelter = inShelter(was.shelter, now).map((c) => (c.id === id ? { ...c, name: '' } : c));
-    const res = await s.setJSON(CATS, { due: was.due || 0, shelter }, { onlyIfMatch: cur.etag });
-    if (res.modified) return shelter;
+    const cur = await versioned(s, key);
+    const list = ((cur.exists && cur.data && cur.data[field]) || []).slice();
+    const next = change(list);
+    if (next === null) return list;
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(key, { [field]: next }, opts);
+    if (res.modified) return next;
     await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
   }
   throw new Error('busy');
 }
 
-/* What a page is shown about a cat: its looks, its name and when it came in. */
+const addOnce = (item) => (list) => (list.some((x) => x.id === item.id) ? null : [...list, item]);
+
+/* Adopt the animal `id` into the pets of `pk`. { adopted: true, animal } for
+   the one person who gets it; { adopted: false } when it is not in the shelter
+   (somebody else adopted it first). */
+export async function adoptAnimal(kind, id, pk, s = store(), now = Date.now()) {
+  const key = KINDS[kind].key;
+  let animal = null;
+  for (let attempt = 0; attempt < 12 && !animal; attempt++) {
+    const cur = await versioned(s, key);
+    if (!cur.exists) return { adopted: false, shelter: [] };
+    const was = cur.data || {};
+    const shelter = was.shelter || [];
+    const found = shelter.find((a) => a.id === id);
+    if (!found) return { adopted: false, shelter };
+    const going = { ...found, at: now };
+    const body = { due: was.due || 0, shelter: shelter.filter((a) => a.id !== id),
+      leaving: [...(was.leaving || []), { animal: going, to: pk }] };
+    const res = await s.setJSON(key, body, { onlyIfMatch: cur.etag });
+    if (res.modified) { animal = going; break; }
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  if (!animal) throw new Error('busy');
+  await finishAdoptions(kind, s);
+  return { adopted: true, animal, shelter: (await readShelter(kind, s, now)).shelter };
+}
+
+/* Copy every adoption still leaving into its person's pets and its month's
+   forever list, then take it out of `leaving`: copy first, remove after. */
+export async function finishAdoptions(kind, s = store()) {
+  const key = KINDS[kind].key;
+  const d = await s.get(key, { type: 'json' });
+  const leaving = (d && d.leaving) || [];
+  if (!leaving.length) return 0;
+  for (const { animal, to } of leaving) {
+    await updateList(petsBlob(to), 'pets', addOnce(animal), s);
+    await updateList(adoptedBlob(kind, today(new Date(animal.at)).slice(0, 7)), 'animals', addOnce(animal), s);
+  }
+  const done = new Set(leaving.map((l) => l.animal.id));
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, key);
+    if (!cur.exists) return 0;
+    const was = cur.data || {};
+    const body = { due: was.due || 0, shelter: was.shelter || [], leaving: (was.leaving || []).filter((l) => !done.has(l.animal.id)) };
+    const res = await s.setJSON(key, body, { onlyIfMatch: cur.etag });
+    if (res.modified) return done.size;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+export async function finishAllAdoptions(s = store()) {
+  let n = 0;
+  for (const kind of Object.keys(KINDS)) n += await finishAdoptions(kind, s);
+  return n;
+}
+
+export async function readPets(pk, s = store()) {
+  const d = await s.get(petsBlob(pk), { type: 'json' });
+  return (d && d.pets) || [];
+}
+
+/* FORGET ME: finish anything of this person's still being filed, then delete
+   their record. The animals stay on the forever list, which never knew them. */
+export async function forgetPets(pk, s = store()) {
+  await finishAllAdoptions(s);
+  await s.delete(petsBlob(pk));
+  return true;
+}
+
+export async function readAdopted(kind, month, s = store()) {
+  const d = await s.get(adoptedBlob(kind, month), { type: 'json' });
+  return (d && d.animals) || [];
+}
+export async function adoptedMonths(kind, s = store()) {
+  const pre = `adopted-${kind}-`;
+  const got = await s.list({ prefix: pre });
+  return got.blobs.map((b) => b.key.slice(pre.length)).filter((m) => /^\d{4}-\d{2}$/.test(m)).sort();
+}
+
+/* The base station taking a name off an animal wherever it is: the shelter,
+   the forever list, and anybody's pets. The animal stays. */
+export async function unnameAnimal(kind, id, s = store()) {
+  const key = KINDS[kind].key;
+  const clear = (list) => (list.some((a) => a.id === id && a.name) ? list.map((a) => (a.id === id ? { ...a, name: '' } : a)) : null);
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, key);
+    if (!cur.exists) break;
+    const was = cur.data || {};
+    const shelter = was.shelter || [];
+    if (!shelter.some((a) => a.id === id)) break;
+    const body = { due: was.due || 0, shelter: clear(shelter) || shelter, leaving: was.leaving || [] };
+    const res = await s.setJSON(key, body, { onlyIfMatch: cur.etag });
+    if (res.modified) break;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  await finishAdoptions(kind, s);
+  for (const m of await adoptedMonths(kind, s)) await updateList(adoptedBlob(kind, m), 'animals', clear, s);
+  const pets = await s.list({ prefix: 'pets/' });
+  for (const b of pets.blobs) await updateList(b.key, 'pets', clear, s);
+  return (await readShelter(kind, s)).shelter;
+}
+export function unnameCat(id, s = store()) { return unnameAnimal('cat', id, s); }
+
+/* What a page is shown about an animal: its kind, its looks in keys and words,
+   its name, and when it came in or was adopted. Never a pet key. */
 const says = (list, key) => (list.find((x) => x[0] === key) || [key, key])[1];
-export function shapeCat(c) {
-  const out = { id: c.id, coat: c.coat, mark: c.mark, place: c.place, mood: c.mood,
-    words: { coat: says(CAT_COATS, c.coat), mark: says(CAT_MARKS, c.mark), place: says(CAT_PLACES, c.place),
-      mood: says(CAT_MOODS, c.mood) } };
-  if (typeof c.t === 'number') { out.name = c.name || ''; out.t = c.t; }
+export function shapeAnimal(a) {
+  const kind = animalKind(a.kind) || 'cat';
+  const [coats, marks, places, moods] = KINDS[kind].looks;
+  const out = { id: a.id, kind, coat: a.coat, mark: a.mark, place: a.place, mood: a.mood,
+    words: { coat: says(coats, a.coat), mark: says(marks, a.mark), place: says(places, a.place), mood: says(moods, a.mood) } };
+  if (typeof a.t === 'number') { out.name = a.name || ''; out.t = a.t; }
+  if (typeof a.at === 'number') out.at = a.at;
   return out;
 }
+export const shapeCat = shapeAnimal;
 
 /* ── The Slake ───────────────────────────────────────────────────────────── */
 

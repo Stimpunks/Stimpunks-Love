@@ -7,7 +7,7 @@
    are swept on the same hour (the tree's own count never is),
    and so is the Slake: stale presence, and every place's talk from yesterday.
    So are the rooms' Be seen here records and the calls' lists of who is in them. */
-import { sweep, sweepRoomTalk, sweepChalk, sweepPebbles, sweepFence, fileFridge, sweepSlake, sweepBeacons, sweepImages, sweepSeen, sweepCalls } from '../cb/lib.mjs';
+import { sweep, sweepRoomTalk, sweepChalk, sweepPebbles, sweepFence, fileFridge, finishAllAdoptions, sweepSlake, sweepBeacons, sweepImages, sweepSeen, sweepCalls } from '../cb/lib.mjs';
 
 export default async () => {
   await sweep();
@@ -16,6 +16,7 @@ export default async () => {
   await sweepPebbles(); // and the pebble bowls, the same
   await sweepFence();   // and Pando Calrissian's fence, the same; the tree's count is never swept
   await fileFridge();   // and the Fridge of Sighs: anything left past the door goes into its drawer, never away
+  await finishAllAdoptions(); // and any adoption stopped halfway: into its person's pets and the forever list
   await sweepSlake();   // and the Slake: nobody left standing, nothing said yesterday
   await sweepBeacons(); // and every host's beacon nobody has heard from
   await sweepImages();  // and every picture no live message holds, after the channels

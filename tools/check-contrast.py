@@ -2780,6 +2780,22 @@ PAIRS = [
     ("#050818", "#EFE9DB", False, "cats: a button under the pointer, and the name you type"),
     ("#050818", "#A9B0B9", False, "cats: the button while a rescue is on its way"),
 
+    # ── Rescue A Dog (§88) ───────────────────────────────────────────────────
+    # The park the morning after snow. Every word is on the snow or on the
+    # kennels' paper; the red is a collar, every link and every button.
+    ("#1B2233", "#E4EEFA", False, "dogs: every word -- the lede, where the dog is, the rules, what you "
+                                  "are told -- the h1, every h2, and the street door's name and blurb"),
+    ("#3E4C62", "#E4EEFA", False, "dogs: the trail and the lines over and under the h1"),
+    ("#A3261B", "#E4EEFA", False, "dogs: every link, the backlink, the knock on the street door, and the "
+                                  "job marker, a red lead in the snow"),
+    ("#1B2233", "#F7FAFE", False, "dogs: each dog's name and what they are like, on their card, and the "
+                                  "name you type"),
+    ("#3E4C62", "#F7FAFE", False, "dogs: when each dog came in or was adopted"),
+    ("#A3261B", "#F7FAFE", False, "dogs: the focus ring on a card's button"),
+    ("#E4EEFA", "#A3261B", False, "dogs: every button's words"),
+    ("#E4EEFA", "#1B2233", False, "dogs: a button under the pointer, and a month's button while it is open"),
+    ("#E4EEFA", "#3E4C62", False, "dogs: a button while it is on its way"),
+
     # ── Now Playing (§53) ────────────────────────────────────────────────────
     (NP_BOTH,   NP_STOCK,  False, "now playing: every word on the sheet -- the h1, the over- and "
                                   "sub-lines, the lede, every room's name, where it is, our line "
@@ -3108,6 +3124,23 @@ ORNAMENT = {
                "It carries no word; the sentence under the grove says it is there.",
     "#2e2c33": "pando: the dark scars on the bark, 11.25 on the lit bark and 3.17 on the bark "
                "in shade. They carry no word.",
+    "#9db5d6": "dogs: a shadow on snow, blue because it is lit only by the sky, 1.79 on the "
+               "snow. It carries no word.",
+    "#7f96b6": "dogs: the paw prints, the snow's edge and every card's border, 2.58 on the snow. "
+               "They carry no word.",
+    "#c9d6e6": "dogs: the winter sky, 1.26 against the snow, which is brighter than it. It carries "
+               "no word.",
+    "#f6edd3": "dogs: the low sun, 1.26 on the sky. It carries no word.",
+    "#3b2b1f": "dogs: the stripes on a brindle coat, 1.73 on chocolate brown. They carry no word.",
+    "#1f1d22": "dogs: a black coat, 14.25 on the snow. It carries no word.",
+    "#6e4a2e": "dogs: a chocolate brown coat, 6.68 on the snow. It carries no word.",
+    "#d6a548": "dogs: a golden coat, 1.92 on the snow and outlined in the dark ink. It carries no word.",
+    "#f9f7f1": "dogs: a white coat, 1.09 on the snow, which is why every dog is outlined. It carries "
+               "no word.",
+    "#e8d6ae": "dogs: a cream coat, 1.22 on the snow, outlined. It carries no word.",
+    "#8e959e": "dogs: a grey coat, 2.58 on the snow, outlined. It carries no word.",
+    "#b9824a": "dogs: tan points on a black-and-tan or tricolour coat, 2.82 on the snow. They carry "
+               "no word.",
     "#efe4c0": "cats: the torch's pool that every cat is drawn in, 15.68 on the dark and 13.51 on "
                "the shelter's floor. No word is set on it; every cat on it is outlined in the dark's "
                "own colour, because a white cat is 1.16 against it.",

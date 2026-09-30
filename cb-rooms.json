@@ -312,6 +312,11 @@
    "path": "/rescue-a-cat.html"
   },
   {
+   "tag": "rescue-a-dog",
+   "name": "Rescue A Dog",
+   "path": "/rescue-a-dog.html"
+  },
+  {
    "tag": "neurohome",
    "name": "NeuroHome",
    "path": "/neurohome.html"

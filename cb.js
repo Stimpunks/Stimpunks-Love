@@ -32,6 +32,8 @@
        word. See hashRooms, and the completion list under the message box.
      · IT NEVER SCROLLS UNDER SOMEBODY WHO IS READING. See show.
      · THE TELEPORTER GOES TO A ROOM AND SENDS NOTHING. See setTeleport.
+     · THE PETS TRAY IS THE ONE THING KEPT UNDER A PERSON, and Forget Me is in
+       it. See the tools row, and setPets.
      · WORLD OR THIS ROOM. The radio hears one channel at a time: World, the
        channel it always had, or the room it is on, each with the same rules.
        Tuned to a room it says which room every time it listens, and tuned to
@@ -817,11 +819,63 @@
       clear.addEventListener('click', function () { me.moderate({ clear: true }); });
       tools.appendChild(clear);
     }
+    /* THE PETS TRAY. Ryan, 2026-09-30: a cat or a dog adopted from Rescue A
+       Cat or Rescue A Dog lives here, in a tray that pops up from the radio.
+       Pets are the one thing the street keeps under a person, filed under a
+       scrambled form of the handle so they follow you to any device you sign
+       on with; a handle is not an account, and the tray says so. FORGET ME is
+       here, beside what it forgets, and asks once more before it deletes. The
+       tray is read when it is opened and never polled, and it lives in the
+       tools row rather than on the bar, because the bar is full. */
+    var petsBtn = this.petsBtn = el('button', 'cb-btn cb-pets-btn', 'Pets');
+    petsBtn.type = 'button';
+    petsBtn.setAttribute('aria-expanded', 'false');
+    petsBtn.setAttribute('aria-controls', 'cb-pets');
+    tools.appendChild(petsBtn);
     var off = el('button', 'cb-btn cb-off', 'Sign off');
     off.type = 'button';
     off.addEventListener('click', function () { signOff(); });
     tools.appendChild(off);
     set.appendChild(tools);
+
+    var pets = this.petsPanel = el('div', 'cb-pets');
+    pets.id = 'cb-pets';
+    pets.hidden = true;
+    pets.setAttribute('role', 'group');
+    pets.setAttribute('aria-label', 'Your pets');
+    pets.appendChild(el('p', 'cb-pets__h', 'Your pets'));
+    this.petsState = el('p', 'cb-quiet', '');
+    pets.appendChild(this.petsState);
+    this.petsList = el('ul', 'cb-pets__list');
+    this.petsList.hidden = true;
+    pets.appendChild(this.petsList);
+    var where = el('p', 'cb-pets__where');
+    where.appendChild(document.createTextNode('Adopt one at '));
+    var ca = el('a', null, 'Rescue A Cat'); ca.href = '/rescue-a-cat.html';
+    var da = el('a', null, 'Rescue A Dog'); da.href = '/rescue-a-dog.html';
+    where.appendChild(ca); where.appendChild(document.createTextNode(' or ')); where.appendChild(da);
+    where.appendChild(document.createTextNode('. Your pets are kept under the handle '));
+    where.appendChild(el('b', null, state.handle));
+    where.appendChild(document.createTextNode(', scrambled, so they follow you to any device you sign on with. A handle is not an account: anybody who signs on with it sees them too.'));
+    pets.appendChild(where);
+    var forgetBtn = this.forgetBtn = el('button', 'cb-btn cb-forget', 'Forget me');
+    forgetBtn.type = 'button';
+    pets.appendChild(forgetBtn);
+    var sure = this.forgetSure = el('div', 'cb-forget-sure');
+    sure.hidden = true;
+    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your pets. They stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+    var yes = el('button', 'cb-btn cb-forget-yes', 'Yes, forget me');
+    yes.type = 'button';
+    var no = el('button', 'cb-btn', 'Keep my pets');
+    no.type = 'button';
+    sure.appendChild(yes); sure.appendChild(no);
+    pets.appendChild(sure);
+    set.appendChild(pets);
+    petsBtn.addEventListener('click', function () { me.setPets(pets.hidden); });
+    forgetBtn.addEventListener('click', function () { sure.hidden = false; forgetBtn.hidden = true; no.focus(); });
+    no.addEventListener('click', function () { sure.hidden = true; forgetBtn.hidden = false; forgetBtn.focus(); });
+    yes.addEventListener('click', function () { me.forgetMe(); });
+    window.addEventListener('love-pets', function () { if (!pets.hidden) me.loadPets(); });
 
     var norms = el('p', 'cb-norms');
     var a = el('a', null, 'House norms at the Community Center');
@@ -1138,6 +1192,7 @@
     if (folded) this.setSizePanel(false);
     this.tpBtn.hidden = folded;
     if (folded && !this.tpPanel.hidden) this.setTeleport(false);
+    if (folded && !this.petsPanel.hidden) this.setPets(false);
     this.foldBtn.setAttribute('aria-expanded', String(!folded));
     this.foldBtn.textContent = folded ? 'Switch on' : 'Fold away';
     if (folded) this.hush();
@@ -1477,6 +1532,75 @@
     var p = location.pathname.replace(/\/index(?:\.html)?$/, '/');
     return p === '/' ? '/' : p.replace(/\.html$/, '') + '.html';
   }
+
+  /* ── The Pets tray ─────────────────────────────────────────────────────── */
+  function withAnimals(then) {
+    if (window.loveAnimals) { then(); return; }
+    var s = document.createElement('script');
+    s.src = '/animals.js';
+    s.addEventListener('load', function () { if (window.loveAnimals) then(); });
+    document.head.appendChild(s);
+  }
+
+  Radio.prototype.setPets = function (open) {
+    this.petsPanel.hidden = !open;
+    this.petsBtn.setAttribute('aria-expanded', String(!!open));
+    if (open) this.loadPets();
+    else { this.forgetSure.hidden = true; this.forgetBtn.hidden = false; }
+  };
+
+  Radio.prototype.loadPets = function () {
+    var me = this;
+    me.petsState.hidden = false;
+    me.petsState.textContent = 'Looking for your pets\u2026';
+    withAnimals(function () {
+      call('/cb/pets', null, me.state.pass).then(function (r) {
+        if (r.status === 200 && r.body.pets) { me.drawPets(r.body.pets); return; }
+        me.petsState.textContent = r.status === 401
+          ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+          : 'Your pets could not be fetched just now.';
+      }, function () { me.petsState.textContent = 'Your pets could not be fetched just now.'; });
+    });
+  };
+
+  Radio.prototype.drawPets = function (list) {
+    var ul = this.petsList;
+    ul.textContent = '';
+    if (!list.length) {
+      ul.hidden = true;
+      this.petsState.hidden = false;
+      this.petsState.textContent = 'No pets yet.';
+      return;
+    }
+    this.petsState.hidden = true;
+    ul.hidden = false;
+    list.slice().reverse().forEach(function (a) {
+      var li = el('li', 'cb-pet');
+      li.appendChild(window.loveAnimals.draw(a, 'cb-pet__art'));
+      var words = el('div', 'cb-pet__words');
+      words.appendChild(el('p', 'cb-pet__name', a.name || 'Not named yet'));
+      words.appendChild(el('p', 'cb-pet__about', window.loveAnimals.about(a)));
+      var d = '';
+      try { d = new Date(a.at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }); } catch (e) {}
+      words.appendChild(el('p', 'cb-quiet', 'Adopted ' + d));
+      li.appendChild(words);
+      ul.appendChild(li);
+    });
+  };
+
+  Radio.prototype.forgetMe = function () {
+    var me = this;
+    me.petsState.hidden = false;
+    me.petsState.textContent = 'Forgetting\u2026';
+    call('/cb/pets', { body: { forget: true } }, me.state.pass).then(function (r) {
+      me.forgetSure.hidden = true; me.forgetBtn.hidden = false;
+      if (r.status === 200 && r.body.forgotten) { me.drawPets([]); me.petsState.textContent = 'Forgotten. The street keeps nothing under this handle now.'; me.forgetBtn.focus(); return; }
+      me.petsState.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing was forgotten.';
+    }, function () {
+      me.forgetSure.hidden = true; me.forgetBtn.hidden = false;
+      me.petsState.textContent = 'The street could not be reached just now. Nothing was forgotten.';
+    });
+  };
 
   Radio.prototype.setTeleport = function (open) {
     this.tpPanel.hidden = !open;

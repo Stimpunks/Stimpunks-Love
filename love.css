@@ -1056,6 +1056,19 @@
 @font-face { font-family: 'PT Sans'; src: url('fonts/pt-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'PT Sans'; src: url('fonts/pt-sans-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Rescue A Dog (§88). A BIG ROUND LETTER AND AN OPEN ONE. Paytone One, Vernon
+   Adams's, sets the room's name, every heading and every dog's name, and
+   nothing at reading size: heavy, round and friendly, the shape of a dog coming
+   at you across the snow. It is NOT Rescue A Cat's Fuzzy Bubbles next door,
+   which is soft at the edge like fur seen by torchlight; this one is solid and
+   daylit. Open Sans, Steve Matteson's, carries every word that is read. It
+   ships as a variable font, so one file is declared at 400 and 700 against the
+   weight axis, Radio Canada's call. No italic is shipped, so the room sets
+   nothing italic. Both read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Paytone One'; src: url('fonts/paytone-one-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Open Sans'; src: url('fonts/open-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Open Sans'; src: url('fonts/open-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -2598,6 +2611,23 @@
   --rac-coat-white: #F7F4EC;  --rac-coat-cream: #E6CD9C;   --rac-coat-tabby: #8C6B48;
   --rac-coat-greytabby: #7D8189;  --rac-coat-blue: #9CA1AB;
 
+  /* Rescue A Dog (§88). A PARK THE MORNING AFTER SNOW, THE SUN LOW AND BRIGHT.
+     --rad-snow is the snow, the ground every word stands on, and brighter than
+     the sky; --rad-card the shelter's paper under each dog. --rad-ink is every
+     word, --rad-dim the fine print, --rad-link a red collar, every link and the
+     ground of every button. The rest carry no word: --rad-shade is a shadow on
+     snow, which is blue because it is lit only by the sky; --rad-track the paw
+     prints and every edge; --rad-sky the sky; --rad-sun the low sun;
+     --rad-stripe the stripes on a brindle coat; and the coats. Every dog is
+     outlined in --rad-ink, because a white dog vanishes in snow. */
+  --rad-snow:  #E4EEFA;  --rad-card:  #F7FAFE;  --rad-ink:   #1B2233;
+  --rad-dim:   #3E4C62;  --rad-link:  #A3261B;  --rad-shade: #9DB5D6;
+  --rad-track: #7F96B6;  --rad-sky:   #C9D6E6;  --rad-sun:   #F6EDD3;
+  --rad-stripe: #3B2B1F;
+  --rad-coat-black: #1F1D22;  --rad-coat-brown: #6E4A2E;  --rad-coat-golden: #D6A548;
+  --rad-coat-white: #F9F7F1;  --rad-coat-cream: #E8D6AE;  --rad-coat-grey:   #8E959E;
+  --rad-coat-tan:   #B9824A;
+
   /* import:neurohome:root:begin */
   /* Isha Snow's room, NeuroHome -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -3456,6 +3486,19 @@ div.facade--audio { border: 0; background: none; }
 .door--cats .door__name  { font-family: 'Fuzzy Bubbles', var(--sans); font-weight: 700; color: var(--rac-eye); font-size: 27px; font-synthesis: none; }
 .door--cats .door__blurb { font-family: 'PT Sans', var(--sans); color: var(--rac-text); font-size: 14px; font-synthesis: none; }
 .door--cats .door__knock { font-family: 'PT Sans', var(--sans); font-weight: 700; font-size: 13px; color: var(--rac-eye); font-synthesis: none; }
+/* RESCUE A DOG'S DOOR IS THE PARK AFTER SNOW: white ground, a line of blue paw
+   prints across it, and a red collar for a knob. */
+.door--dogs { background: var(--rad-snow); border-color: var(--rad-ink); }
+.door--dogs .door__awning {
+  background-color: var(--rad-snow);
+  background-image: radial-gradient(circle at 12px 22px, var(--rad-track) 0 3px, transparent 3.5px),
+    radial-gradient(circle at 20px 14px, var(--rad-track) 0 3px, transparent 3.5px);
+  background-size: 34px 36px;
+  border-bottom-color: var(--rad-link);
+}
+.door--dogs .door__name  { font-family: 'Paytone One', var(--sans); color: var(--rad-ink); font-size: 27px; font-synthesis: none; }
+.door--dogs .door__blurb { font-family: 'Open Sans', var(--sans); color: var(--rad-ink); font-size: 13.5px; font-synthesis: none; }
+.door--dogs .door__knock { font-family: 'Open Sans', var(--sans); font-weight: 700; font-size: 13px; color: var(--rad-link); font-synthesis: none; }
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
 .door--empty .door__name  { font-family: 'Bungee', var(--sans); color: var(--chalk); font-size: 23px; }
@@ -14476,7 +14519,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §89
+   class on it is `bb-`, its sizes are in points and millimetres, and §90
    prints it and nothing else. */
 
 .room-broadside {
@@ -14537,7 +14580,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §89 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §90 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -17540,8 +17583,9 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
    Discord's Collaborative Nonsense channels, renamed: cats turn up at random,
    the first person signed on to press brings one in and names it, the shelter
    shows every cat and never who rescued it, and your own list stays in your own
-   browser. cats.js looks, rescues and draws; tools/make-cats.py holds the
-   promises.
+   browser. shelter.js looks, rescues and adopts, animals.js draws, and
+   tools/make-rescue.py holds the promises. Adoption into the CB's Pets tray
+   and the list of everybody ever adopted came the same evening, with dogs.
 
    THE LIGHT IS YOUR OWN, SENT BACK. The torch is in your hand, and the only
    thing that shines in the dark is a cat's eyes, which return the beam
@@ -17594,7 +17638,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 
 /* A cat in the torch's pool. The pool is a drawing's ground; no word is set
    on it. */
-.rac-cat { display: block; width: 100%; max-width: 220px; height: auto; }
+.rac-cat, .rac-animal { display: block; width: 100%; max-width: 220px; height: auto; }
 .rac-sign { display: block; width: 100%; max-width: 560px; height: auto; margin: 18px 0 0; }
 .rac-out { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 16px 26px; align-items: center; margin: 22px 0 0; }
 .rac-out__words { font-size: 18px; line-height: 1.55; max-width: 60ch; }
@@ -17620,7 +17664,10 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 /* The shelter and your own list: a card for each cat, on the shelter's floor. */
 .rac-shelter { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
 .rac-card { padding: 14px; background: var(--rac-panel); }
-.rac-card .rac-cat { max-width: 100%; }
+.rac-card .rac-animal { max-width: 100%; }
+.rac-card .rac-btn { margin-top: 10px; }
+.rac-months { display: flex; flex-wrap: wrap; gap: 8px 10px; margin: 12px 0 0; }
+.rac-months .rac-btn[aria-pressed="true"] { background: var(--rac-text); }
 .rac-card__name { margin: 10px 0 0; font-family: 'Fuzzy Bubbles', var(--sans); font-weight: 700; font-size: 22px; line-height: 1.2; color: var(--rac-eye); overflow-wrap: anywhere; }
 .rac-card__about { margin: 6px 0 0; font-size: 15px; line-height: 1.5; }
 .rac-card__when { margin: 6px 0 0; font-size: 14px; color: var(--rac-dim); }
@@ -17634,7 +17681,106 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .rac-out { grid-template-columns: 1fr; }
 }
 
-/* §88 ── Small screens ───────────────────────────────────────────────────────
+/* §88 ── ROOM: Rescue A Dog (a shopfront on the street) ────────────────────────
+   The park the morning after snow, and somewhere in it a dog that needs
+   bringing in. Ryan's brief, 2026-09-30, beside Rescue A Cat, with adoption for
+   both: dogs turn up at random, the first person signed on to press brings one
+   in and names them, anybody can adopt one into the Pets tray on their CB, and
+   the list of everybody ever adopted never says who adopted them. It shares
+   the cat shelter's mechanism (shelter.js, animals.js) and none of its clothes.
+
+   THE LIGHT IS A LOW WINTER SUN ON SNOW, AND THE SHADOWS ARE BLUE. The ground is
+   brighter than the sky, because snow throws the sun back up, and every shadow
+   on it is blue because a shadow on snow is lit only by the sky. You find a dog
+   by following their prints across it. No other room here has shadows that are
+   a colour, or a ground brighter than its sky.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · RESCUE A CAT is next door and does the same thing, which is the reason it
+       must not look it. That is a street at night, the dark the ground and the
+       only light your own torch sent back; this is the whole morning at once,
+       bright, and the dark is only in the shadows. No torch, no eyeshine, no
+       night anywhere in §88.
+     · THE SOLARPUNK HERMITAGE is the other low sun with shadows falling away
+       sideways. There the light lands on warm plaster and the shadows are warm;
+       here the ground is cold and white and the shadows are blue. If a shadow
+       in §88 ever warms, this has become the hermitage in winter.
+     · THE 404 is the other pale, cold, outdoor page, and it is fog: lit from
+       everywhere, nothing casting anything. Here everything casts a hard blue
+       shadow.
+     · STAY FROSTY is the other cold room, and it is a dark cave.
+
+   NOTHING MOVES. A dog wagging is the obvious animation, and the dial would have
+   to take it away; the tail is drawn up, which is wagging enough. */
+
+.dogs {
+  background: var(--rad-snow); color: var(--rad-ink);
+  font-family: 'Open Sans', var(--sans); font-synthesis: none;
+}
+.dogs a { color: var(--rad-link); }
+.dogs :focus-visible { outline-color: var(--rad-ink); }
+.dogs .backlink { font-family: 'Open Sans', var(--sans); font-weight: 700; font-size: 15px; letter-spacing: .02em; color: var(--rad-link); }
+.rad-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.rad-trail { margin: 0; font-size: 15px; color: var(--rad-dim); }
+
+.rad-head { margin: 28px 0 0; }
+.rad-over, .rad-sub { margin: 0; font-size: 18px; line-height: 1.4; color: var(--rad-dim); }
+.rad-over { font-weight: 700; letter-spacing: .06em; text-transform: uppercase; font-size: 14px; }
+.dogs h1 {
+  margin: 8px 0 6px; font-family: 'Paytone One', var(--sans); font-weight: 400;
+  font-size: clamp(46px, 8vw, 86px); line-height: 1; color: var(--rad-ink);
+}
+.dogs h2 {
+  margin: 0 0 8px; font-family: 'Paytone One', var(--sans); font-weight: 400;
+  font-size: 29px; line-height: 1.15; color: var(--rad-ink);
+}
+.rad-sign { display: block; width: 100%; max-width: 580px; height: auto; margin: 18px 0 0; }
+.rad-part { margin: 44px 0 0; }
+.rad-part > p, .rad-lede { font-size: 17px; line-height: 1.6; max-width: 66ch; }
+.rad-lede { margin: 26px 0 0; font-size: 18px; }
+
+.rad-animal { display: block; width: 100%; max-width: 220px; height: auto; }
+.rad-out { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 16px 26px; align-items: center; margin: 22px 0 0; }
+.rad-out__words { font-size: 18px; line-height: 1.55; max-width: 60ch; }
+.rad-out__words p { margin: 0 0 10px; }
+.rad-rescue { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 12px 0 0; }
+.rad-rescue__lab { flex: 1 1 100%; font-weight: 700; font-size: 16px; }
+.rad-rescue__name {
+  font: 400 18px/1.3 'Open Sans', var(--sans); width: 14em; max-width: 100%; padding: 8px 10px;
+  background: var(--rad-card); color: var(--rad-ink); border: 2px solid var(--rad-ink); border-radius: 0;
+}
+.rad-btn {
+  font-family: 'Open Sans', var(--sans); font-weight: 700; font-size: 17px; line-height: 1.3;
+  padding: 10px 18px; min-height: 44px; border: 0; border-radius: 6px; cursor: pointer;
+  background: var(--rad-link); color: var(--rad-snow); font-synthesis: none;
+}
+.rad-btn:hover { background: var(--rad-ink); }
+.rad-btn:focus-visible { outline-offset: 3px; }
+.rad-btn[disabled] { cursor: default; background: var(--rad-dim); }
+.rad-btn--small { font-size: 14px; padding: 6px 12px; min-height: 0; }
+.rad-months { display: flex; flex-wrap: wrap; gap: 8px 10px; margin: 12px 0 0; }
+.rad-months .rad-btn[aria-pressed="true"] { background: var(--rad-ink); }
+.rad-said { margin: 12px 0 0; min-height: 1.6em; font-size: 17px; line-height: 1.55; max-width: 66ch; }
+.rad-signon { margin: 14px 0 0; font-size: 16px; line-height: 1.55; max-width: 66ch; }
+
+.rad-shelter { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+.rad-card { padding: 14px; background: var(--rad-card); border: 2px solid var(--rad-track); border-radius: 8px; }
+.rad-card .rad-animal { max-width: 100%; }
+.rad-card .rad-btn { margin-top: 10px; }
+.rad-card__name { margin: 10px 0 0; font-family: 'Paytone One', var(--sans); font-size: 22px; line-height: 1.2; color: var(--rad-ink); overflow-wrap: anywhere; }
+.rad-card__about { margin: 6px 0 0; font-size: 15px; line-height: 1.5; }
+.rad-card__when { margin: 6px 0 0; font-size: 14px; color: var(--rad-dim); }
+.rad-state { margin: 12px 0 0; font-size: 17px; line-height: 1.5; }
+
+.rad-rules { margin: 12px 0 0; padding-left: 22px; max-width: 68ch; font-size: 16px; line-height: 1.6; }
+.rad-rules li { margin: 0 0 10px; }
+.dogs .quest { margin-top: 40px; }
+
+@media (max-width: 620px) {
+  .rad-out { grid-template-columns: 1fr; }
+}
+
+/* §89 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -17741,7 +17887,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §88 says every
+   shipped with no rule here at all — which on a street whose §89 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -17865,7 +18011,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §89 ── Print ───────────────────────────────────────────────────────────────
+/* §90 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

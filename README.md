@@ -165,7 +165,8 @@ data/pebbles.json     Each hosted room's basket of things to take, filled by its
 pando.js              Pando Calrissian's tree and its fence: draws the grove from the count, waters with a CB pass
 fridge.js             The Fridge of Sighs: reads the door and the drawer, puts up one word with a CB pass
 stair.js              Count Me In: reads the stair, takes a step by number or by the lift with a CB pass
-cats.js               Rescue A Cat: looks for a cat, rescues it with a CB pass, draws the shelter, keeps your cats in love-cats
+shelter.js            Rescue A Cat and Rescue A Dog: looks, rescues and adopts with a CB pass; keeps the ones you rescued in love-rescues
+animals.js            Every cat and dog, drawn: the shelters and the CB's Pets tray both draw from here
 netlify/functions/    The CB's functions: sign on, listen, transmit, moderate, the hourly sweep, and the
                       chalkboard's read, write and rub-out, Pando Calrissian's tree and its fence, the Fridge of Sighs' door, Count Me In's stair, Rescue A Cat's shelter,
                       and the Slake's: be seen at a place, say something there, leave, and the base station's
@@ -272,7 +273,7 @@ python3 tools/make-vital.py        # Vital Plant Living's shelf, builder, board,
 python3 tools/make-community.py    # The Community Center's service board; refuses a slot whose room has stopped saying what it repeats
 python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, and the credits; refuses a size, a gendered rail, or no all-black colourway
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
-python3 tools/make-cats.py         # Rescue A Cat: refuses a shelter that knows who rescued a cat, a rare cat, a look with no drawing, and anything stored but love-cats
+python3 tools/make-rescue.py       # Both shelters and the Pets tray: refuses a shelter or forever list that knows who, a rare animal, a look with no drawing, pets under a raw handle, and a tray without Forget Me
 python3 tools/make-stair.py        # Count Me In: refuses a stair that names who sent it back, a lift smaller than the stair or one that sends a number, and a script that stores anything
 python3 tools/make-fridge.py       # The Fridge of Sighs' numbers, read from the CB's lib; refuses a fridge that says whose a word was, a tally, or a script that stores anything
 python3 tools/make-pando.py        # Pando Calrissian's numbers, read from the CB's lib; refuses a tree that keeps who watered, a tally or a goal, and a sentence saying nothing is counted
@@ -688,11 +689,15 @@ else to clear. Nothing on the channel survives midnight, Colorado time, whatever
 and Ryan's call on 2026-09-25 that anybody can read it and a note stays seven days. A pass is
 needed to write. `privacy.html` has its own section on it, and every read asks search engines
 not to keep it.
-**Three things on the CB are kept for good, and none of them holds anything about who** (Ryan,
+**Four things on the CB are kept for good, and none of them holds anything about who** (Ryan,
 2026-09-30): Pando Calrissian's tree, which is a number and the time of its last watering; the Fridge
-of Sighs' finished sentences, with no names in them; and Count Me In's stair, which is the step it is
-on and the highest it has reached. The fridge and the stair each keep one scrambled mark of whoever
-went last, replaced by the next. The tree's fence runs on the chalkboard's rules.
+of Sighs' finished sentences, with no names in them; Count Me In's stair, which is the step it is on
+and the highest it has reached; and the list of every cat and dog ever adopted, which never says who
+adopted them. The fridge and the stair each keep one scrambled mark of whoever went last, replaced by
+the next. The tree's fence runs on the chalkboard's rules.
+**Your pets are the one thing kept under a person**: every cat and dog you adopt, filed under a plain
+hash of your folded handle so they follow you to any device, until you press Forget Me in the Pets
+tray on your radio. A handle is not an account, and the tray says so.
 
 ## Attribution
 

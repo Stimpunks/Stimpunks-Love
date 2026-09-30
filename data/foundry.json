@@ -1233,6 +1233,20 @@
       "sections": [
         87
       ]
+    },
+    "paytone-one": {
+      "where": "Rescue A Dog",
+      "page": "rescue-a-dog.html",
+      "sections": [
+        88
+      ]
+    },
+    "open-sans": {
+      "where": "Rescue A Dog",
+      "page": "rescue-a-dog.html",
+      "sections": [
+        88
+      ]
     }
   }
 }

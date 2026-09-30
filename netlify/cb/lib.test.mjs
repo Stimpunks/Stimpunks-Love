@@ -17,7 +17,9 @@
    write that was told it worked and is not there is not. */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_WEEK, CAT_COATS, CAT_MARKS, CAT_PLACES, CAT_MOODS,
+import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS, CAT_PLACES, CAT_MOODS,
+  rescueAnimal, readShelter, animalAt, adoptAnimal, finishAdoptions, readPets, forgetPets, readAdopted, adoptedMonths,
+  petKey, unnameAnimal, SHELTER_KEEP, KINDS, DOG_COATS, DOG_MARKS,
   climb, readStair, cleanStep, putWord, readFridge, fileFridge, readDrawer, drawers, fridgeMark, strikeSentence, cleanWord, monthOf, FRIDGE_DOOR, FRIDGE_WORDS,
   updateChalk, readChalk, updateFence, readFence, waterTree, readTree, PANDO_SOAK, updatePebbles, readPebbles, cleanLink, PEBBLE_ROOMS,
   updateChannel, readChannel, updateTalk, readTalk, beHere, leaveSlake, seenAt, sweepSlake,
@@ -305,15 +307,87 @@ test('a cat is the same cat on every page, and the next one is not out yet', asy
   assert.equal((await rescueCat(first.id, '', s, 100 + 60000)).rescued, false, 'an old cat was rescued twice');
 });
 
-test('the shelter keeps looks, a name and a time, never a rescuer, and each cat for a week', async () => {
+test('the shelter keeps looks, a name and a time, never a rescuer, and holds animals until adopted', async () => {
   const s = memoryStore({ etagOnRead: true });
   const c = (await readCats(s, 10)).waiting;
   await rescueCat(c.id, 'Biscuit', s, 10, () => 1);
   const kept = await s.get('cats');
-  assert.deepEqual(Object.keys(kept).sort(), ['due', 'shelter']);
-  assert.deepEqual(Object.keys(kept.shelter[0]).sort(), ['coat', 'id', 'mark', 'mood', 'name', 'place', 't']);
-  assert.equal((await readCats(s, 10 + CAT_WEEK - 1)).shelter.length, 1);
-  assert.equal((await readCats(s, 10 + CAT_WEEK)).shelter.length, 0, 'a cat stayed past its week');
+  assert.deepEqual(Object.keys(kept).sort(), ['due', 'leaving', 'shelter']);
+  assert.deepEqual(Object.keys(kept.shelter[0]).sort(), ['coat', 'id', 'kind', 'mark', 'mood', 'name', 'place', 't']);
+  assert.equal((await readCats(s, 10 + 365 * 86400e3)).shelter.length, 1, 'an animal left the shelter without being adopted');
+  let t = 20;
+  while ((await readShelter('cat', s, t)).shelter.length < SHELTER_KEEP) {
+    const w = (await readShelter('cat', s, t)).waiting;
+    await rescueAnimal('cat', w.id, '', s, t, () => 1); t += 2;
+  }
+  const w = (await readShelter('cat', s, t)).waiting;
+  assert.equal((await rescueAnimal('cat', w.id, '', s, t, () => 1)).why, 'full', 'a full shelter took another');
+});
+
+// ADOPTION'S INVARIANT: fifteen people pressing Adopt on one animal at once
+// give it to exactly one, who has it once, and it is on the forever list once.
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`adoption, fifteen people for one animal, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const w = (await readShelter('dog', s, 5)).waiting;
+    await rescueAnimal('dog', w.id, 'Pip', s, 5, () => 1);
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => adoptAnimal('dog', w.id, `pk${i}`, s, 9)));
+    for (const f of told.filter((r) => r.status === 'rejected')) assert.equal(f.reason.message, 'busy');
+    const won = told.map((r, i) => (r.status === 'fulfilled' && r.value.adopted ? i : null)).filter((i) => i !== null);
+    assert.equal(won.length, 1, 'more or fewer than one person adopted the dog');
+    for (let i = 0; i < 15; i++) assert.equal((await readPets(`pk${i}`, s)).length, i === won[0] ? 1 : 0);
+    const months = await adoptedMonths('dog', s);
+    assert.equal(months.length, 1);
+    assert.equal((await readAdopted('dog', months[0], s)).length, 1, 'the dog is on the forever list twice, or not at all');
+    assert.equal((await readShelter('dog', s, 9)).shelter.length, 0);
+  });
+}
+
+test('an adoption stopped halfway is finished once, and Forget Me leaves the animal adopted', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const w = (await readShelter('cat', s, 5)).waiting;
+  await rescueAnimal('cat', w.id, 'Mo', s, 5, () => 1);
+  // Half an adoption: the shelter has moved it to leaving, and nothing else happened.
+  const cur = await s.getWithMetadata('cats');
+  const going = { ...cur.data.shelter[0], at: 9 };
+  await s.setJSON('cats', { due: cur.data.due, shelter: [], leaving: [{ animal: going, to: 'pkA' }] }, { onlyIfMatch: cur.etag });
+  await finishAdoptions('cat', s);
+  // And stopped again later: copied into the pets and the forever list, and
+  // never cleared from leaving. Finishing again must not copy it twice.
+  const again = await s.getWithMetadata('cats');
+  await s.setJSON('cats', { ...again.data, leaving: [{ animal: going, to: 'pkA' }] }, { onlyIfMatch: again.etag });
+  await finishAdoptions('cat', s);
+  assert.equal((await readPets('pkA', s)).length, 1, 'a pet was copied twice');
+  const m = (await adoptedMonths('cat', s))[0];
+  assert.equal((await readAdopted('cat', m, s)).length, 1);
+  assert.deepEqual((await s.get('cats')).leaving, []);
+  await forgetPets('pkA', s);
+  assert.equal((await readPets('pkA', s)).length, 0, 'Forget Me left the pets');
+  assert.equal((await readAdopted('cat', m, s)).length, 1, 'Forget Me took the animal off the forever list');
+  assert.ok(!JSON.stringify(await readAdopted('cat', m, s)).includes('pkA'), 'the forever list knows who adopted');
+});
+
+test('pets are filed under a scrambled handle, the same however it is typed, and not the handle', () => {
+  assert.equal(petKey(' ADA '), petKey('ada'));
+  assert.notEqual(petKey('Ada'), petKey('Bex'));
+  assert.ok(!petKey('Ada').toLowerCase().includes('ada'));
+});
+
+test('the base station takes a name off everywhere it is', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const w = (await readShelter('cat', s, 5)).waiting;
+  await rescueAnimal('cat', w.id, 'Rude', s, 5, () => 1);
+  await adoptAnimal('cat', w.id, 'pkZ', s, 7);
+  await unnameAnimal('cat', w.id, s);
+  assert.equal((await readPets('pkZ', s))[0].name, '');
+  const m = (await adoptedMonths('cat', s))[0];
+  assert.equal((await readAdopted('cat', m, s))[0].name, '');
+});
+
+test('dogs are not cats', () => {
+  assert.notEqual(animalAt('dog', 1).id, animalAt('cat', 1).id);
+  assert.ok(DOG_COATS.length && DOG_MARKS.length && KINDS.dog.looks.length === 4);
 });
 
 test('every look is as likely as any other, and the gap is random within its bounds', () => {

@@ -1425,6 +1425,18 @@
         "--rac-coat-ginger",
         "--rac-dim"
       ]
+    },
+    "rescue-a-dog.html": {
+      "kind": "ifs",
+      "figure": "crystal",
+      "sway": 0.05,
+      "ground": "--rad-snow",
+      "inks": [
+        "--rad-ink",
+        "--rad-link",
+        "--rad-track",
+        "--rad-coat-golden"
+      ]
     }
   }
 }

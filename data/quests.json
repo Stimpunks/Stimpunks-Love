@@ -2618,32 +2618,69 @@
    "id": "cats-torch",
    "page": "rescue-a-cat.html",
    "room": "Rescue A Cat",
-   "title": "How long does a rescued cat stay in the shelter?",
-   "posted": "At the end of the street where the lights are out, cats turn up that need bringing in, and the shelter takes every one of them. Go and find out how long a cat stays there.",
+   "title": "Where does an adopted cat go?",
+   "posted": "At the end of the street where the lights are out, cats turn up that need bringing in, and anybody signed on can adopt one from the shelter. Go and find out where an adopted cat goes.",
    "rank": 1,
    "takes": "about as long as it takes to find the torch",
    "target": "a torch somebody left on the kerb, still on, with two eyes shining back from the dark beyond it",
    "code": "WHISKERS",
-   "learned": "A cat stays in the shelter for a week, then goes to a home, which is how a rescue ends. The shelter never says who rescued it; the cats you rescued are kept in your own browser, and nowhere else.",
+   "learned": "An adopted cat goes into the Pets tray on your CB radio, which follows you to any device you sign on with, and onto the list of everybody ever adopted, which never says who adopted anybody. Forget Me in the tray deletes your pets and leaves the cats on that list.",
    "hints": [
     "On the street itself, in the row of shopfronts: the dark one with two eyes on its awning.",
-    "In the rules about how rescuing works.",
+    "In the rules about how rescuing and adopting work.",
     "On the kerb, where somebody put the torch down."
    ],
    "ask": {
-    "question": "How long does a rescued cat stay in the shelter before it goes to a home?",
+    "question": "When you adopt a cat, where on your CB radio do they go?",
     "accept": [
-     "aweek",
-     "week",
-     "oneweek",
-     "sevendays"
+     "thepetstray",
+     "petstray",
+     "pets",
+     "thepets",
+     "tray",
+     "thetray"
     ],
-    "answer": "A week",
-    "why": "A cat stays in the shelter for seven days and then goes to a home. Your own browser remembers the cats you rescued after that, and nothing else does.",
+    "answer": "The Pets tray",
+    "why": "An adopted cat goes into the Pets tray on your CB radio. The list of everybody adopted keeps them too, for good, and never says who adopted them.",
     "hints": [
-     "It is in the rules about how rescuing works.",
-     "It is the same as the chalkboard's.",
-     "Seven days."
+     "It is in the rules about how rescuing and adopting work.",
+     "It is a tray on the radio.",
+     "It is named after what they are now."
+    ]
+   }
+  },
+  {
+   "id": "dogs-lead",
+   "page": "rescue-a-dog.html",
+   "room": "Rescue A Dog",
+   "title": "What does Forget Me forget?",
+   "posted": "There is a park on the street the morning after snow, where dogs turn up who need bringing in, and anybody signed on can adopt one into the Pets tray on their CB. The tray has a Forget Me in it. Go and find out what it forgets.",
+   "rank": 1,
+   "takes": "about as long as it takes to follow a line of prints",
+   "target": "a dog's red lead, dropped in the snow by a gate, with prints going off from it",
+   "code": "SNOWDRIFT",
+   "learned": "Forget Me deletes everything the street keeps under your handle, which is your pets, and the animals stay on the list of everybody adopted, where nothing ever connected them to you. A handle is not an account, so anybody who signs on with yours sees the same pets.",
+   "hints": [
+    "On the street itself, in the row of shopfronts: the white one with paw prints across its awning.",
+    "In the rules about how rescuing and adopting work.",
+    "In the snow by the gate, where somebody let go of the lead."
+   ],
+   "ask": {
+    "question": "Forget Me in the Pets tray deletes what the street keeps under your handle. What is that?",
+    "accept": [
+     "pets",
+     "mypets",
+     "yourpets",
+     "thepets",
+     "mypet",
+     "thepet"
+    ],
+    "answer": "Your pets",
+    "why": "Your pets are the one thing the street keeps under a person. Forget Me deletes them, and the animals stay on the list of everybody adopted, which never knew who adopted them.",
+    "hints": [
+     "It is in the rules about adopting.",
+     "It is the one thing kept under a person.",
+     "They live in a tray on your radio."
     ]
    }
   },

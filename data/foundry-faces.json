@@ -2177,6 +2177,29 @@
     }
    ]
   },
+  "open-sans": {
+   "family": "Open Sans",
+   "category": "Sans Serif",
+   "designer": "Steve Matteson",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/opensans",
+   "copyright": "Copyright 2020 The Open Sans Project Authors (https://github.com/googlefonts/opensans)",
+   "repository": "https://github.com/googlefonts/opensans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "open-sans-400.woff2",
+     "sha": "441af0def989ebfd"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "open-sans-400.woff2",
+     "sha": "441af0def989ebfd"
+    }
+   ]
+  },
   "outfit": {
    "family": "Outfit",
    "category": "Sans Serif",
@@ -2254,6 +2277,23 @@
      "style": "normal",
      "file": "patrick-hand-400.woff2",
      "sha": "42156e008dd5fc30"
+    }
+   ]
+  },
+  "paytone-one": {
+   "family": "Paytone One",
+   "category": "Sans Serif",
+   "designer": "Vernon Adams",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/paytoneone",
+   "copyright": "Copyright 2011 The Paytone Project Authors (https://github.com/googlefonts/paytoneFont)",
+   "repository": "https://github.com/googlefonts/paytoneFont",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "paytone-one-400.woff2",
+     "sha": "5e3f268d609db366"
     }
    ]
   },
