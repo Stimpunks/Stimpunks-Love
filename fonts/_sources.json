@@ -2241,5 +2241,33 @@
    "src": "https://fonts.gstatic.com/s/hind/v18/5aU19_a8oxmIfNJdERySjRhc9V0.woff2",
    "note": "The bold of the above, a separate static file: the buttons and every strong phrase."
   }
+ ],
+ "fuzzy-bubbles": [
+  {
+   "file": "fuzzy-bubbles-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 18460,
+   "src": "https://fonts.gstatic.com/s/fuzzybubbles/v9/6qLbKZMbrgv9pwtjPEVNV0F2Ds_WcxQKZ2E2tn8.woff2",
+   "note": "Rescue A Cat (§87), the room's name, every heading and every cat's name, and nothing at reading size. Robert Leuschke's rounded letter with a soft, uneven edge, the nearest thing to fur a typeface has. One weight, one static file."
+  }
+ ],
+ "pt-sans": [
+  {
+   "file": "pt-sans-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 11464,
+   "src": "https://fonts.gstatic.com/s/ptsans/v18/jizaRExUiTo99u79D0KExcOPIDU.woff2",
+   "note": "Rescue A Cat (§87), every word that is read: where the cat is, how rescuing works, what the shelter keeps. ParaType's public-type sans, drawn to be plain and read by anybody. Static files, one per weight. No italic shipped, so the room sets nothing italic."
+  },
+  {
+   "file": "pt-sans-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 11624,
+   "src": "https://fonts.gstatic.com/s/ptsans/v18/jizfRExUiTo99u79B_mh0O6tLR8a8zI.woff2",
+   "note": "The bold of the above, a separate static file: the buttons and every strong phrase."
+  }
  ]
 }

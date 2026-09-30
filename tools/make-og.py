@@ -1181,6 +1181,20 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
   font-size: 27px; line-height: 1.35; margin: 24px 0 0 !important; }}
 .og--stair .cmi-art {{ flex: 1 1 auto; }}
 
+/* rescue a cat — THE DARK, and the header lifted whole: the name, and the drawing
+   of two eyes shining back from under a parked car in the torch's pool. No cat
+   off the shelter: those are named by the people who rescued them, and a name
+   somebody gave a cat for a week is not ours to put in a timeline. */
+.og--cats {{ width: 100%; flex-direction: column; align-items: flex-start; justify-content: center; padding: 0 70px; }}
+.og--cats .rac-head {{ margin: 0 !important; width: 100%; display: grid;
+  grid-template-columns: 560px 1fr; column-gap: 40px; align-items: center; }}
+.og--cats .rac-head > p, .og--cats .rac-head > h1 {{ grid-column: 1; }}
+.og--cats .rac-head p:not(.og-lede) {{ margin: 0 !important; font-size: 19px; }}
+.og--cats h1 {{ font-size: 84px; margin: 12px 0 12px !important; }}
+.og--cats .rac-sign {{ grid-column: 2; grid-row: 1 / span 4; margin: 0 !important; max-width: none; }}
+.og--cats .og-lede {{ font-family: 'PT Sans', sans-serif; color: var(--rac-text);
+  font-size: 27px; line-height: 1.4; margin: 26px 0 0 !important; max-width: 560px; }}
+
 /* now playing — THE SHEET ON ITS DRUM, and the only card on the street printed in
    two inks with nothing in black. The column's painted iron runs down both sides
    and off the foot of the card, which is where the pavement is; the header, the
@@ -3669,6 +3683,30 @@ def card_stair(p):
     )
 
 
+def card_cats(p):
+    # THE HEADER IS LIFTED WHOLE, drawing and all, so the card cannot show a
+    # different street; the lede goes under it on the dark.
+    head = re.search(r'<header class="rac-head">(.*?)</header>', p["src"], re.S)
+    over = re.search(r'<p class="rac-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="rac-sub">(.*?)</p>', p["src"], re.S)
+    if not (head and over and sub and 'class="rac-sign"' in head.group(1)):
+        raise SystemExit(
+            "REFUSING: rescue-a-cat.html has lost its header or the drawing in it, and\n"
+            "the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--cats" data-fit="card"><header class="rac-head">{head.group(1)}'
+        f'<p class="og-lede">{p["desc"]}</p></header></div>',
+        f"A card the dark of a street with the lights out. Small grey capitals reading "
+        f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in a round, soft-edged, "
+        f"yellow-green letter, the colour of eyes in torchlight, then {plain(sub.group(1))}. Under "
+        f"it: {p['desc_plain']} On the right, a parked car in the dark, and a torch's beam coming "
+        f"in from the left to a pale pool on the ground, and in the dark gap under the car, between "
+        f"its wheels, two yellow-green eyes with slit pupils shining back.",
+    )
+
+
 def card_nowplaying(p):
     # THE HEADER IS LIFTED WHOLE -- over-line, h1, sub-line and the two screens'
     # ornament -- and the lede is the page's og:description, so the card cannot
@@ -3951,6 +3989,7 @@ CARDS = {
     "pando":        card_pando,
     "fridge":       card_fridge,
     "stair":        card_stair,
+    "cats":         card_cats,
     "cavendish":    card_cavendish,
     "live-room":    card_live,
     "doom-scoop":   card_scoop,

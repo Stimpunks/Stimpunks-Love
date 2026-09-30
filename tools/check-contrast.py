@@ -2763,6 +2763,23 @@ PAIRS = [
     ("#F4F6EF", "#3C4F41", False, "stair: a button while the step is being taken"),
     ("#18231B", "#F4F6EF", False, "stair: the number you type in the box"),
 
+    # ── Rescue A Cat (§87) ───────────────────────────────────────────────────
+    # A street with the lights out. Every word is on the dark or on the shelter's
+    # floor; the only colour is eyeshine, which is every link, heading and
+    # button. No word is ever on the torch's pool.
+    ("#EFE9DB", "#050818", False, "cats: every word -- the lede, where the cat is, the rules, what you "
+                                  "are told after a rescue -- and the blurb on the street door"),
+    ("#A9B0B9", "#050818", False, "cats: the trail, the lines over and under the h1, and the job "
+                                  "marker, a torch left on the kerb"),
+    ("#CFE35B", "#050818", False, "cats: the h1, every h2, every link, the backlink, the focus ring, "
+                                  "the name and the knock on the street door"),
+    ("#EFE9DB", "#121A34", False, "cats: what each cat is like and where it was found, on its card"),
+    ("#A9B0B9", "#121A34", False, "cats: when each cat came in"),
+    ("#CFE35B", "#121A34", False, "cats: each cat's name on its card, and the focus ring there"),
+    ("#050818", "#CFE35B", False, "cats: every button's words"),
+    ("#050818", "#EFE9DB", False, "cats: a button under the pointer, and the name you type"),
+    ("#050818", "#A9B0B9", False, "cats: the button while a rescue is on its way"),
+
     # ── Now Playing (§53) ────────────────────────────────────────────────────
     (NP_BOTH,   NP_STOCK,  False, "now playing: every word on the sheet -- the h1, the over- and "
                                   "sub-lines, the lede, every room's name, where it is, our line "
@@ -3091,6 +3108,21 @@ ORNAMENT = {
                "It carries no word; the sentence under the grove says it is there.",
     "#2e2c33": "pando: the dark scars on the bark, 11.25 on the lit bark and 3.17 on the bark "
                "in shade. They carry no word.",
+    "#efe4c0": "cats: the torch's pool that every cat is drawn in, 15.68 on the dark and 13.51 on "
+               "the shelter's floor. No word is set on it; every cat on it is outlined in the dark's "
+               "own colour, because a white cat is 1.16 against it.",
+    "#6f6a5a": "cats: the edge of the torch's pool, where it fades, 3.68 on the dark. It carries no word.",
+    "#3b3027": "cats: the stripes on a tabby and the patches' edges, 2.63 on brown tabby and 4.28 on "
+               "ginger. They carry no word.",
+    "#1b1a1e": "cats: a black coat, 13.63 on the torch's pool. It carries no word.",
+    "#cf843a": "cats: a ginger coat, 2.36 on the pool and outlined in the dark. It carries no word.",
+    "#8f949c": "cats: a grey coat, 2.40 on the pool and outlined. It carries no word.",
+    "#f7f4ec": "cats: a white coat, 1.16 on the pool, which is why every cat is outlined. It carries "
+               "no word.",
+    "#e6cd9c": "cats: a cream coat, 1.22 on the pool, outlined. It carries no word.",
+    "#8c6b48": "cats: a brown tabby coat, 3.83 on the pool. It carries no word.",
+    "#7d8189": "cats: a grey tabby coat, 3.08 on the pool. It carries no word.",
+    "#9ca1ab": "cats: a blue-cream coat, 2.04 on the pool, outlined. It carries no word.",
     "#6e8c72": "stair: the painted line between the pale wall and the dado, 2.76 on both. It "
                "carries no word.",
     "#8e948a": "stair: the bare concrete of the treads, 2.31 on the wall and 3.30 on the dado, "

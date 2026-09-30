@@ -307,6 +307,11 @@
    "path": "/count-me-in.html"
   },
   {
+   "tag": "rescue-a-cat",
+   "name": "Rescue A Cat",
+   "path": "/rescue-a-cat.html"
+  },
+  {
    "tag": "neurohome",
    "name": "NeuroHome",
    "path": "/neurohome.html"

@@ -1045,6 +1045,17 @@
 @font-face { font-family: 'Hind'; src: url('fonts/hind-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Hind'; src: url('fonts/hind-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Rescue A Cat (§87). A FURRY LETTER AND A PLAIN ONE. Fuzzy Bubbles, Robert
+   Leuschke's, sets the room's name, every heading and every cat's name, and
+   nothing at reading size: a round letter with a soft, uneven edge, the nearest
+   a typeface gets to fur. PT Sans, ParaType's public-type sans, carries every
+   word that is read. Static files, one per weight. No italic is shipped, so the
+   room sets nothing italic. Both read off their own records; see
+   fonts/_sources.json. */
+@font-face { font-family: 'Fuzzy Bubbles'; src: url('fonts/fuzzy-bubbles-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'PT Sans'; src: url('fonts/pt-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'PT Sans'; src: url('fonts/pt-sans-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -2571,6 +2582,22 @@
   --cmi-dim:   #3C4F41;  --cmi-link:  #6B1D3C;  --cmi-nosing: #F4F6EF;
   --cmi-line:  #6E8C72;  --cmi-tread: #8E948A;  --cmi-lamp:   #FFF3C8;
 
+  /* Rescue A Cat (§87). A STREET WITH THE LIGHTS OUT, SEARCHED BY TORCH.
+     --rac-night is the dark, the ground every word stands on; --rac-panel the
+     shelter's floor under each cat's card. --rac-text is every word, --rac-dim
+     the fine print. --rac-eye is eyeshine, the only colour in the dark, and so
+     every link, the name, every heading and the ground of every button.
+     --rac-beam is the torch's pool that every cat is seen in, --rac-fall the
+     edge where it fades. The coats carry no word: --rac-coat-black and the
+     rest, and --rac-stripe the stripes and patches. Every cat is outlined in
+     --rac-night, because a white or cream cat vanishes in torchlight. */
+  --rac-night: #050818;  --rac-panel: #121A34;  --rac-text: #EFE9DB;
+  --rac-dim:   #A9B0B9;  --rac-eye:   #CFE35B;  --rac-beam: #EFE4C0;
+  --rac-fall:  #6F6A5A;  --rac-stripe: #3B3027;
+  --rac-coat-black: #1B1A1E;  --rac-coat-ginger: #CF843A;  --rac-coat-grey: #8F949C;
+  --rac-coat-white: #F7F4EC;  --rac-coat-cream: #E6CD9C;   --rac-coat-tabby: #8C6B48;
+  --rac-coat-greytabby: #7D8189;  --rac-coat-blue: #9CA1AB;
+
   /* import:neurohome:root:begin */
   /* Isha Snow's room, NeuroHome -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -3417,6 +3444,18 @@ div.facade--audio { border: 0; background: none; }
 .door--stair .door__name  { font-family: 'Allerta Stencil', var(--sans); color: var(--cmi-dado); font-size: 27px; font-synthesis: none; }
 .door--stair .door__blurb { font-family: 'Hind', var(--sans); color: var(--cmi-ink); font-size: 14px; font-synthesis: none; }
 .door--stair .door__knock { font-family: 'Hind', var(--sans); font-weight: 700; font-size: 13px; color: var(--cmi-link); font-synthesis: none; }
+/* RESCUE A CAT'S DOOR IS THE DARK WITH A TORCH ON IT, and two eyes in the pool. */
+.door--cats { background: var(--rac-night); border-color: var(--rac-eye); }
+.door--cats .door__awning {
+  background-color: var(--rac-night);
+  background-image: radial-gradient(circle at 26px 18px, var(--rac-eye) 0 3px, transparent 3.5px),
+    radial-gradient(circle at 38px 18px, var(--rac-eye) 0 3px, transparent 3.5px),
+    radial-gradient(ellipse 60px 26px at 32px 18px, rgba(239, 228, 192, .28) 0 70%, transparent 100%);
+  border-bottom-color: var(--rac-eye);
+}
+.door--cats .door__name  { font-family: 'Fuzzy Bubbles', var(--sans); font-weight: 700; color: var(--rac-eye); font-size: 27px; font-synthesis: none; }
+.door--cats .door__blurb { font-family: 'PT Sans', var(--sans); color: var(--rac-text); font-size: 14px; font-synthesis: none; }
+.door--cats .door__knock { font-family: 'PT Sans', var(--sans); font-weight: 700; font-size: 13px; color: var(--rac-eye); font-synthesis: none; }
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
 .door--empty .door__name  { font-family: 'Bungee', var(--sans); color: var(--chalk); font-size: 23px; }
@@ -14437,7 +14476,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §88
+   class on it is `bb-`, its sizes are in points and millimetres, and §89
    prints it and nothing else. */
 
 .room-broadside {
@@ -14498,7 +14537,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §88 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §89 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -17495,7 +17534,107 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .cmi-landing { grid-template-columns: 1fr; }
 }
 
-/* §87 ── Small screens ───────────────────────────────────────────────────────
+/* §87 ── ROOM: Rescue A Cat (a shopfront on the street) ───────────────────────
+   A street with the lights out, a torch, and somewhere in the dark a cat that
+   needs bringing in. Ryan's brief, 2026-09-30, after the catch-a-cat game in our
+   Discord's Collaborative Nonsense channels, renamed: cats turn up at random,
+   the first person signed on to press brings one in and names it, the shelter
+   shows every cat and never who rescued it, and your own list stays in your own
+   browser. cats.js looks, rescues and draws; tools/make-cats.py holds the
+   promises.
+
+   THE LIGHT IS YOUR OWN, SENT BACK. The torch is in your hand, and the only
+   thing that shines in the dark is a cat's eyes, which return the beam
+   straight at you. So the page is the dark, every cat is seen in the torch's
+   pool, and the only colour anywhere is eyeshine. No other room here is lit by
+   light coming back to the person who sent it.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · STAY FROSTY is lit by reflections too, and it is the one to watch: the
+       rail's light caught in a thousand beads of damp, cool and wet and
+       everywhere. Here there are two points at a time, paired, green-gold, and
+       they are looking at you.
+     · THE OUTSKIRTS is lit by a beam too: headlights, level and low, a bright
+       face on every sign. This beam is small and round and handheld, and what
+       it finds is alive.
+     · THE SMALL HOURS is the other thing at night with a warm place to go
+       into; that is a lit diner seen from a dark car park. Here nothing is lit
+       at all but what the torch is on.
+     · The shelter is not drawn as a room. A warm cosy shelter would be the
+       yurt, the burrow and the checkpoint over again; the cats are seen the way
+       they were found, one torch pool each.
+
+   NO CAT IS RARER THAN ANOTHER, AND NONE MOVES. The looks are drawn evenly, and
+   nothing tilts, blinks or twitches at any setting. */
+
+.cats {
+  background: var(--rac-night); color: var(--rac-text);
+  font-family: 'PT Sans', var(--sans); font-synthesis: none;
+}
+.cats a { color: var(--rac-eye); }
+.cats :focus-visible { outline-color: var(--rac-eye); }
+.cats .backlink { font-family: 'PT Sans', var(--sans); font-weight: 700; font-size: 15px; letter-spacing: .02em; color: var(--rac-eye); }
+.rac-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.rac-trail { margin: 0; font-size: 15px; color: var(--rac-dim); }
+
+.rac-head { margin: 28px 0 0; }
+.rac-over, .rac-sub { margin: 0; font-size: 18px; line-height: 1.4; color: var(--rac-dim); }
+.rac-over { font-weight: 700; letter-spacing: .06em; text-transform: uppercase; font-size: 14px; }
+.cats h1 {
+  margin: 8px 0 6px; font-family: 'Fuzzy Bubbles', var(--sans); font-weight: 700;
+  font-size: clamp(46px, 8vw, 86px); line-height: 1; color: var(--rac-eye);
+}
+.cats h2 {
+  margin: 0 0 8px; font-family: 'Fuzzy Bubbles', var(--sans); font-weight: 700;
+  font-size: 30px; line-height: 1.15; color: var(--rac-eye);
+}
+.rac-part { margin: 44px 0 0; }
+.rac-part > p, .rac-lede { font-size: 17px; line-height: 1.6; max-width: 66ch; }
+.rac-lede { margin: 26px 0 0; font-size: 18px; }
+
+/* A cat in the torch's pool. The pool is a drawing's ground; no word is set
+   on it. */
+.rac-cat { display: block; width: 100%; max-width: 220px; height: auto; }
+.rac-sign { display: block; width: 100%; max-width: 560px; height: auto; margin: 18px 0 0; }
+.rac-out { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 16px 26px; align-items: center; margin: 22px 0 0; }
+.rac-out__words { font-size: 18px; line-height: 1.55; max-width: 60ch; }
+.rac-out__words p { margin: 0 0 10px; }
+.rac-rescue { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 12px 0 0; }
+.rac-rescue__lab { flex: 1 1 100%; font-weight: 700; font-size: 16px; }
+.rac-rescue__name {
+  font: 400 18px/1.3 'PT Sans', var(--sans); width: 14em; max-width: 100%; padding: 8px 10px;
+  background: var(--rac-text); color: var(--rac-night); border: 2px solid var(--rac-eye); border-radius: 0;
+}
+.rac-btn {
+  font-family: 'PT Sans', var(--sans); font-weight: 700; font-size: 17px; line-height: 1.3;
+  padding: 10px 18px; min-height: 44px; border: 0; border-radius: 22px; cursor: pointer;
+  background: var(--rac-eye); color: var(--rac-night); font-synthesis: none;
+}
+.rac-btn:hover { background: var(--rac-text); }
+.rac-btn:focus-visible { outline-offset: 3px; }
+.rac-btn[disabled] { cursor: default; background: var(--rac-dim); }
+.rac-btn--small { font-size: 14px; padding: 6px 12px; min-height: 0; }
+.rac-said { margin: 12px 0 0; min-height: 1.6em; font-size: 17px; line-height: 1.55; max-width: 66ch; }
+.rac-signon { margin: 14px 0 0; font-size: 16px; line-height: 1.55; max-width: 66ch; }
+
+/* The shelter and your own list: a card for each cat, on the shelter's floor. */
+.rac-shelter { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+.rac-card { padding: 14px; background: var(--rac-panel); }
+.rac-card .rac-cat { max-width: 100%; }
+.rac-card__name { margin: 10px 0 0; font-family: 'Fuzzy Bubbles', var(--sans); font-weight: 700; font-size: 22px; line-height: 1.2; color: var(--rac-eye); overflow-wrap: anywhere; }
+.rac-card__about { margin: 6px 0 0; font-size: 15px; line-height: 1.5; }
+.rac-card__when { margin: 6px 0 0; font-size: 14px; color: var(--rac-dim); }
+.rac-state { margin: 12px 0 0; font-size: 17px; line-height: 1.5; }
+
+.rac-rules { margin: 12px 0 0; padding-left: 22px; max-width: 68ch; font-size: 16px; line-height: 1.6; }
+.rac-rules li { margin: 0 0 10px; }
+.cats .quest { margin-top: 40px; }
+
+@media (max-width: 620px) {
+  .rac-out { grid-template-columns: 1fr; }
+}
+
+/* §88 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -17602,7 +17741,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §87 says every
+   shipped with no rule here at all — which on a street whose §88 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -17726,7 +17865,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §88 ── Print ───────────────────────────────────────────────────────────────
+/* §89 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

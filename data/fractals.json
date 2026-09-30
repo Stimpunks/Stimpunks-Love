@@ -1408,6 +1408,23 @@
         "--cmi-line",
         "--cmi-ink"
       ]
+    },
+    "rescue-a-cat.html": {
+      "kind": "orbit",
+      "trap": "point",
+      "radius": 0.3,
+      "c": [
+        -0.12,
+        0.75
+      ],
+      "orbit": 0.015,
+      "ground": "--rac-night",
+      "inks": [
+        "--rac-eye",
+        "--rac-beam",
+        "--rac-coat-ginger",
+        "--rac-dim"
+      ]
     }
   }
 }

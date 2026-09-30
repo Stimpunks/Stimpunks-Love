@@ -1163,6 +1163,23 @@
     }
    ]
   },
+  "fuzzy-bubbles": {
+   "family": "Fuzzy Bubbles",
+   "category": "Handwriting",
+   "designer": "Robert Leuschke",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/fuzzybubbles",
+   "copyright": "Copyright 2005 The Fuzzy Bubbles Project Authors (https://github.com/googlefonts/fuzzy-bubbles)",
+   "repository": "https://github.com/googlefonts/fuzzy-bubbles",
+   "variants": [
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "fuzzy-bubbles-700.woff2",
+     "sha": "1507665328cb2690"
+    }
+   ]
+  },
   "gelasio": {
    "family": "Gelasio",
    "category": "Serif",
@@ -2357,6 +2374,29 @@
      "style": "normal",
      "file": "press-start-2p-400.woff2",
      "sha": "42144b97bd2942ea"
+    }
+   ]
+  },
+  "pt-sans": {
+   "family": "PT Sans",
+   "category": "Sans Serif",
+   "designer": "ParaType",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/ptsans",
+   "copyright": "Copyright © 2009 ParaType Ltd (yakupov@paratype.com). All rights reserved.",
+   "repository": "",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "pt-sans-400.woff2",
+     "sha": "5f81586551e5053b"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "pt-sans-700.woff2",
+     "sha": "38d3aa3b6c9ccdc9"
     }
    ]
   },

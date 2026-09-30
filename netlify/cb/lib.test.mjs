@@ -17,7 +17,8 @@
    write that was told it worked and is not there is not. */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { climb, readStair, cleanStep, putWord, readFridge, fileFridge, readDrawer, drawers, fridgeMark, strikeSentence, cleanWord, monthOf, FRIDGE_DOOR, FRIDGE_WORDS,
+import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_WEEK, CAT_COATS, CAT_MARKS, CAT_PLACES, CAT_MOODS,
+  climb, readStair, cleanStep, putWord, readFridge, fileFridge, readDrawer, drawers, fridgeMark, strikeSentence, cleanWord, monthOf, FRIDGE_DOOR, FRIDGE_WORDS,
   updateChalk, readChalk, updateFence, readFence, waterTree, readTree, PANDO_SOAK, updatePebbles, readPebbles, cleanLink, PEBBLE_ROOMS,
   updateChannel, readChannel, updateTalk, readTalk, beHere, leaveSlake, seenAt, sweepSlake,
   MUD_PLACES, MUD_FRESH, KEEP, today,
@@ -273,6 +274,63 @@ test('nobody takes two steps in a row, by number or by lift', async () => {
 test('a step is a whole number in figures', () => {
   for (const ok of ['1', '12', ' 7 ', '9999999']) assert.ok(cleanStep(ok), ok);
   for (const no of ['0', '-1', '1.5', 'twelve', '10000000', '', '1e3', '12a']) assert.equal(cleanStep(no), null, no);
+});
+
+// THE SHELTER'S INVARIANT: however many press at once, one cat is rescued
+// once, into the shelter, and everybody else is told it is already safe.
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`Rescue A Cat, fifteen people pressing for one cat, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const { waiting } = await readCats(s, 1000);
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => rescueCat(waiting.id, `Name${i}`, s, 1000)));
+    for (const f of told.filter((r) => r.status === 'rejected')) assert.equal(f.reason.message, 'busy');
+    const got = told.filter((r) => r.status === 'fulfilled').map((r) => r.value);
+    assert.equal(got.filter((r) => r.rescued).length, 1, 'more or fewer than one person rescued the cat');
+    const { shelter } = await readCats(s, 1000);
+    assert.equal(shelter.length, 1, 'the cat is in the shelter twice, or not at all');
+  });
+}
+
+test('a cat is the same cat on every page, and the next one is not out yet', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.deepEqual(catAt(12345), catAt(12345));
+  const first = (await readCats(s, 50)).waiting;
+  assert.ok(first, 'there is no cat waiting when the shelter opens');
+  const r = await rescueCat(first.id, 'Mo', s, 100, () => 60000);
+  assert.equal(r.rescued, true);
+  assert.equal((await readCats(s, 100 + 59999)).waiting, null);
+  const next = (await readCats(s, 100 + 60000)).waiting;
+  assert.ok(next);
+  assert.equal((await rescueCat(first.id, '', s, 100 + 60000)).rescued, false, 'an old cat was rescued twice');
+});
+
+test('the shelter keeps looks, a name and a time, never a rescuer, and each cat for a week', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const c = (await readCats(s, 10)).waiting;
+  await rescueCat(c.id, 'Biscuit', s, 10, () => 1);
+  const kept = await s.get('cats');
+  assert.deepEqual(Object.keys(kept).sort(), ['due', 'shelter']);
+  assert.deepEqual(Object.keys(kept.shelter[0]).sort(), ['coat', 'id', 'mark', 'mood', 'name', 'place', 't']);
+  assert.equal((await readCats(s, 10 + CAT_WEEK - 1)).shelter.length, 1);
+  assert.equal((await readCats(s, 10 + CAT_WEEK)).shelter.length, 0, 'a cat stayed past its week');
+});
+
+test('every look is as likely as any other, and the gap is random within its bounds', () => {
+  const seen = { coat: new Map(), mark: new Map() };
+  for (let i = 0; i < 6000; i++) {
+    const c = catAt(i * 7919);
+    seen.coat.set(c.coat, (seen.coat.get(c.coat) || 0) + 1);
+    seen.mark.set(c.mark, (seen.mark.get(c.mark) || 0) + 1);
+  }
+  assert.equal(seen.coat.size, CAT_COATS.length);
+  assert.equal(seen.mark.size, CAT_MARKS.length);
+  for (const [k, n] of seen.coat) assert.ok(n > 6000 / CAT_COATS.length * 0.7, `${k} is rarer than the others`);
+  for (const u of [0, 0.5, 0.999999]) { const g = catGap(u); assert.ok(g >= 4 * 60000 && g <= 3 * 3600000); }
+  assert.ok(CAT_PLACES.length && CAT_MOODS.length);
+  assert.equal(cleanCatName('  Sir Pounce  '), 'Sir Pounce');
+  assert.equal(cleanCatName('x'.repeat(25)), null);
+  assert.equal(cleanCatName(''), '');
 });
 
 test('the ground soaks for a minute for everybody, and the count only goes up', async () => {

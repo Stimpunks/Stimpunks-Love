@@ -2877,9 +2877,22 @@ grove is drawn in `pando.js` from the count alone**, a sucker per watering from 
 sees the same grove, and nothing in it moves at any setting. The share card lifts the header's drawing
 and never the live grove, which would go on showing an old number. **The light is a sun that has
 already set**, the pink band above the earth's shadow catching the tops; its collisions are in §84.
-It moved off the Directors' room's ground before it opened: same hex to the digit. **Catch-a-cat is
-the next of those games and is not this shape**: it keeps who caught what and how many, which is a
-per-person tally, the one thing the narrowed aim still refuses. It needs its own decision.
+It moved off the Directors' room's ground before it opened: same hex to the digit. **Catch-a-cat was
+not this shape**, because it keeps who caught what and how many; it became Rescue A Cat, below, where
+the only per-person list is in the rescuer's own browser.
+
+**RESCUE A CAT KNOWS ITS CATS AND NOT THEIR RESCUERS.** Ryan, 2026-09-30, catch-a-cat renamed (§87):
+cats turn up at random, the first pass to press brings one in and names it, the shelter shows every
+cat for a week and never who rescued it, and **your own cats are kept in your own browser only**
+(`love-cats`, listed in privacy.html), which is how a collection exists without a tally anybody else
+can see. **The next cat's time is kept on the server and never sent**, so no page can camp it, and
+the waiting cat is worked out from that time (`catAt(due)`), not stored. **No cat is rarer**: every
+look is one flat entry and is read from 32 bits of the hash, because a byte made four coats a
+twentieth less likely. `tools/make-cats.py` refuses a weight, a look `cats.js` cannot draw, the
+shelter knowing a rescuer, `due` in an answer, and any storage but `love-cats`. The friendly edits
+are the Discord game's own: whose cat it is, a board of rescuers, a legendary cat. **Every cat is
+outlined in the dark's own colour**, because a white cat is 1.16 against the torch's pool. Lit by
+eyeshine, light sent back to the person who sent it; its collisions are in §87.
 
 **COUNT ME IN HAS A CHAIRLIFT, AND THE LIFT IS THE SAME SIZE AS THE STAIR.** Ryan, 2026-09-30, the
 counting game (§86): a number to a step, never two in a row, a wrong number back to one and **nobody
@@ -3231,18 +3244,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §88 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §89 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§88 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§89 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §88 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §89 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

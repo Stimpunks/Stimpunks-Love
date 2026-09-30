@@ -165,8 +165,9 @@ data/pebbles.json     Each hosted room's basket of things to take, filled by its
 pando.js              Pando Calrissian's tree and its fence: draws the grove from the count, waters with a CB pass
 fridge.js             The Fridge of Sighs: reads the door and the drawer, puts up one word with a CB pass
 stair.js              Count Me In: reads the stair, takes a step by number or by the lift with a CB pass
+cats.js               Rescue A Cat: looks for a cat, rescues it with a CB pass, draws the shelter, keeps your cats in love-cats
 netlify/functions/    The CB's functions: sign on, listen, transmit, moderate, the hourly sweep, and the
-                      chalkboard's read, write and rub-out, Pando Calrissian's tree and its fence, the Fridge of Sighs' door, Count Me In's stair,
+                      chalkboard's read, write and rub-out, Pando Calrissian's tree and its fence, the Fridge of Sighs' door, Count Me In's stair, Rescue A Cat's shelter,
                       and the Slake's: be seen at a place, say something there, leave, and the base station's
 netlify/cb/lib.mjs    What they share, and every promise the privacy page makes about the channel and the board
 package.json          Only there for the CB: the one library its functions need. Not a build step
@@ -271,6 +272,7 @@ python3 tools/make-vital.py        # Vital Plant Living's shelf, builder, board,
 python3 tools/make-community.py    # The Community Center's service board; refuses a slot whose room has stopped saying what it repeats
 python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, and the credits; refuses a size, a gendered rail, or no all-black colourway
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
+python3 tools/make-cats.py         # Rescue A Cat: refuses a shelter that knows who rescued a cat, a rare cat, a look with no drawing, and anything stored but love-cats
 python3 tools/make-stair.py        # Count Me In: refuses a stair that names who sent it back, a lift smaller than the stair or one that sends a number, and a script that stores anything
 python3 tools/make-fridge.py       # The Fridge of Sighs' numbers, read from the CB's lib; refuses a fridge that says whose a word was, a tally, or a script that stores anything
 python3 tools/make-pando.py        # Pando Calrissian's numbers, read from the CB's lib; refuses a tree that keeps who watered, a tally or a goal, and a sentence saying nothing is counted

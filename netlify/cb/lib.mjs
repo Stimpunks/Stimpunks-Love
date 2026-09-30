@@ -40,6 +40,10 @@
        calls, 2026-09-30: a wrong number sends it back to one and names nobody,
        it keeps the highest step it has reached, and the chairlift takes
        anybody up a step without a number to get wrong.
+     · RESCUE A CAT KNOWS NO RESCUER. Ryan's calls, 2026-09-30: cats turn up
+       at random, the first pass to press rescues one and names it, and the
+       shelter shows every cat for a week and never who brought it in. A
+       rescuer's own list is kept in their browser, never here.
      · THE SLAKE, OUT THE BACK OF THE MUD ROOM, IS THE CB TOO. Ryan's calls,
        2026-09-27: you are seen by your handle only if you choose to be, on each
        visit, and each place on it has a channel of its own under the radio's
@@ -599,6 +603,138 @@ export async function climb(n, mark, s = store(), now = Date.now()) {
     await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
   }
   throw new Error('busy');
+}
+
+/* ── Rescue A Cat ────────────────────────────────────────────────────────── */
+
+/* CATS TURN UP AT RANDOM, OUT ON THE STREET, AND THE FIRST CB PASS TO PRESS
+   RESCUES ONE. Ryan's calls, 2026-09-30, after the catch-a-cat game in our
+   Discord's Collaborative Nonsense channels, renamed: cats are rescued, not
+   caught; whoever carries a cat in names it; the shelter shows every cat and
+   never who rescued it; and "cats you rescued" is kept in the rescuer's own
+   browser and nowhere else, the way the Guild keeps the jobs you handed in.
+
+   NOTHING HERE KNOWS WHO RESCUED ANY CAT. The blob is when the next cat is
+   due and the shelter's cats, each its looks, where it was found, its name and
+   when it came in. A rescue sends a pass, which is checked and forgotten.
+
+   A CAT IS WAITING WHENEVER THE CLOCK HAS PASSED `due`, and it is worked out
+   rather than stored: its looks come from a hash of `due`, so every page sees
+   the same cat and nothing has to be written when it turns up. Rescuing it
+   writes it into the shelter and sets the next `due` a random gap later,
+   which is kept on the server and never sent, so nobody can know when the
+   next one is coming. The first cat is waiting from the start.
+
+   EVERY CAT IS DIFFERENT AND NONE IS RARER. The looks are drawn evenly from
+   lists with no weights and no grades, because a rarity table would make some
+   cats prizes and the rest disappointments, which is the otter cabinet's
+   refusal to rank the otters, arriving at a shelter.
+
+   A CAT STAYS IN THE SHELTER FOR A WEEK AND THEN GOES TO A HOME. That is
+   Claude's call, for Ryan to change: it is how a rescue ends, and it keeps
+   the shelter to the chalkboard's week. The rescuer's own list keeps it. */
+export const CAT_NAME_MAX = 24;
+export const CAT_WEEK = 7 * 24 * 60 * 60 * 1000;
+export const CAT_GAP = 25 * 60 * 1000;           // the average wait between one rescue and the next cat
+const CAT_GAP_MIN = 4 * 60 * 1000, CAT_GAP_MAX = 3 * 60 * 60 * 1000;
+const CATS = 'cats';
+
+export const CAT_COATS = [
+  ['black', 'black all over'], ['ginger', 'ginger'], ['grey', 'grey'], ['white', 'white'],
+  ['cream', 'cream'], ['tabby', 'brown tabby'], ['greytabby', 'grey tabby'], ['tortie', 'tortoiseshell'],
+  ['calico', 'calico'], ['tuxedo', 'black and white'], ['gingerwhite', 'ginger and white'], ['bluecream', 'blue-cream'],
+];
+export const CAT_MARKS = [
+  ['socks', 'with white socks'], ['bib', 'with a white bib'], ['kink', 'with a kink in the tail'],
+  ['tip', 'with one ear tipped'], ['three', 'with three legs and no opinion about it'], ['oneeye', 'with one eye'],
+  ['long', 'with long, tangled fur'], ['plain', 'and nothing else about it you would notice'],
+];
+export const CAT_PLACES = [
+  ['car', 'under a parked car'], ['drain', 'halfway up a drainpipe'], ['box', 'in a soggy cardboard box'],
+  ['bins', 'behind the bins'], ['sill', 'on a windowsill that is not theirs'], ['stoop', 'under the stoop'],
+  ['tree', 'up a tree it cannot get down'], ['shed', 'on a shed roof'], ['kerb', 'in the rain by the kerb'],
+  ['hedge', 'in the hedge'],
+];
+export const CAT_MOODS = [
+  ['purr', 'purred the whole way in'], ['hiss', 'hissed, then purred'], ['alone', 'wants to be left alone, which is allowed'],
+  ['lap', 'went straight for a lap'], ['watch', 'watches everything from the top of the cupboard'],
+  ['food', 'is only interested in food'], ['sleep', 'fell asleep before the door shut'],
+];
+
+function pick(list, n) { return list[n % list.length]; }
+
+/* The cat waiting at `due`: its looks from a hash of `due`, the same for every
+   page, and its id from `due` too, so a rescue names the cat it meant. */
+export function catAt(due) {
+  const h = createHash('sha256').update(`cat|${due}`).digest();
+  // 32 bits for each, not a byte: 256 does not divide by twelve, and a byte
+  // made four coats a twentieth less likely than the rest, in a room that says
+  // no cat is rarer than another.
+  const [coat, mark, place, mood] = [pick(CAT_COATS, h.readUInt32BE(0)), pick(CAT_MARKS, h.readUInt32BE(4)),
+    pick(CAT_PLACES, h.readUInt32BE(8)), pick(CAT_MOODS, h.readUInt32BE(12))];
+  return { id: `c${Number(due).toString(36)}`, coat: coat[0], mark: mark[0], place: place[0], mood: mood[0] };
+}
+
+export function catGap(u = Math.random()) {
+  const g = -Math.log(1 - u) * CAT_GAP;
+  return Math.round(Math.min(CAT_GAP_MAX, Math.max(CAT_GAP_MIN, g)));
+}
+
+export function cleanCatName(s) {
+  const t = tidy(s);
+  if (!t) return '';
+  return [...t].length <= CAT_NAME_MAX ? t : null;
+}
+
+function inShelter(list, now) { return (list || []).filter((c) => c && typeof c.t === 'number' && now - c.t < CAT_WEEK); }
+
+export async function readCats(s = store(), now = Date.now()) {
+  const d = await s.get(CATS, { type: 'json' });
+  const due = (d && typeof d.due === 'number') ? d.due : 0;
+  return { waiting: now >= due ? catAt(due) : null, shelter: inShelter(d && d.shelter, now) };
+}
+
+/* Rescue the cat `id`. { rescued: true, cat } for the first press on that cat;
+   { rescued: false } when it is already safe or was never out there. */
+export async function rescueCat(id, name, s = store(), now = Date.now(), gap = catGap) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, CATS);
+    const was = cur.exists && cur.data ? cur.data : {};
+    const due = typeof was.due === 'number' ? was.due : 0;
+    const shelter = inShelter(was.shelter, now);
+    if (now < due || catAt(due).id !== id) return { rescued: false, shelter };
+    const cat = { ...catAt(due), name, t: now };
+    const body = { due: now + gap(), shelter: [...shelter, cat] };
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(CATS, body, opts);
+    if (res.modified) return { rescued: true, cat, shelter: body.shelter };
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* The base station taking a name off a cat. The cat stays. */
+export async function unnameCat(id, s = store(), now = Date.now()) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, CATS);
+    if (!cur.exists) return [];
+    const was = cur.data || {};
+    const shelter = inShelter(was.shelter, now).map((c) => (c.id === id ? { ...c, name: '' } : c));
+    const res = await s.setJSON(CATS, { due: was.due || 0, shelter }, { onlyIfMatch: cur.etag });
+    if (res.modified) return shelter;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* What a page is shown about a cat: its looks, its name and when it came in. */
+const says = (list, key) => (list.find((x) => x[0] === key) || [key, key])[1];
+export function shapeCat(c) {
+  const out = { id: c.id, coat: c.coat, mark: c.mark, place: c.place, mood: c.mood,
+    words: { coat: says(CAT_COATS, c.coat), mark: says(CAT_MARKS, c.mark), place: says(CAT_PLACES, c.place),
+      mood: says(CAT_MOODS, c.mood) } };
+  if (typeof c.t === 'number') { out.name = c.name || ''; out.t = c.t; }
+  return out;
 }
 
 /* ── The Slake ───────────────────────────────────────────────────────────── */

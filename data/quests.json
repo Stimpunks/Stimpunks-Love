@@ -2615,6 +2615,39 @@
    }
   },
   {
+   "id": "cats-torch",
+   "page": "rescue-a-cat.html",
+   "room": "Rescue A Cat",
+   "title": "How long does a rescued cat stay in the shelter?",
+   "posted": "At the end of the street where the lights are out, cats turn up that need bringing in, and the shelter takes every one of them. Go and find out how long a cat stays there.",
+   "rank": 1,
+   "takes": "about as long as it takes to find the torch",
+   "target": "a torch somebody left on the kerb, still on, with two eyes shining back from the dark beyond it",
+   "code": "WHISKERS",
+   "learned": "A cat stays in the shelter for a week, then goes to a home, which is how a rescue ends. The shelter never says who rescued it; the cats you rescued are kept in your own browser, and nowhere else.",
+   "hints": [
+    "On the street itself, in the row of shopfronts: the dark one with two eyes on its awning.",
+    "In the rules about how rescuing works.",
+    "On the kerb, where somebody put the torch down."
+   ],
+   "ask": {
+    "question": "How long does a rescued cat stay in the shelter before it goes to a home?",
+    "accept": [
+     "aweek",
+     "week",
+     "oneweek",
+     "sevendays"
+    ],
+    "answer": "A week",
+    "why": "A cat stays in the shelter for seven days and then goes to a home. Your own browser remembers the cats you rescued after that, and nothing else does.",
+    "hints": [
+     "It is in the rules about how rescuing works.",
+     "It is the same as the chalkboard's.",
+     "Seven days."
+    ]
+   }
+  },
+  {
    "id": "wr-mantle",
    "page": "cavendish-events.html",
    "room": "The Events Room",
