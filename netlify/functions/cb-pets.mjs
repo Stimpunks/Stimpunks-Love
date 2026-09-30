@@ -6,7 +6,7 @@
    keeps under that handle, which is the pets and nothing else, and the animals
    stay on the forever list, which never knew who adopted them. A handle is not
    an account, so whoever signs on with it has these pets; the tray says so. */
-import { readPass, readPets, forgetPets, renamePet, setShown, isShown, petKey, shapeAnimal, cleanAnimalName, ANIMAL_NAME_MAX, json, body, sameSite } from '../cb/lib.mjs';
+import { ANIMAL_ID, readPass, readPets, forgetPets, renamePet, setShown, isShown, petKey, shapeAnimal, cleanAnimalName, ANIMAL_NAME_MAX, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This tray only answers stimpunks.world.' });
@@ -23,7 +23,7 @@ export default async (req) => {
       return json(200, { shown });
     }
     if (typeof b.rename === 'string') {
-      if (!/^[cd][0-9a-z]{1,12}$/.test(b.rename)) return json(400, { error: 'Which pet?' });
+      if (!ANIMAL_ID.test(b.rename)) return json(400, { error: 'Which pet?' });
       const name = cleanAnimalName(b.name);
       if (!name) return json(400, { error: `A name is between one and ${ANIMAL_NAME_MAX} characters.` });
       try {

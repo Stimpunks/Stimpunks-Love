@@ -2297,5 +2297,33 @@
    "src": "https://fonts.gstatic.com/s/opensans/v44/memvYaGs126MiZpBA-UvWbX2vVnXBbObj2OVTS-mu0SC55I.woff2",
    "note": "Byte-identical to the 400 above; see that note."
   }
+ ],
+ "carter-one": [
+  {
+   "file": "carter-one-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 26856,
+   "src": "https://fonts.gstatic.com/s/carterone/v18/q5uCsoe5IOB2-pXv9UcNExN8hK5SAMo.woff2",
+   "note": "Rescue Small Animals (§89), the h1, every heading, each animal's name and the street door's name. A short, chunky, friendly display face, never a sentence."
+  }
+ ],
+ "balsamiq-sans": [
+  {
+   "file": "balsamiq-sans-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 24868,
+   "src": "https://fonts.gstatic.com/s/balsamiqsans/v15/P5sEzZiAbNrN8SB3lQQX7Pncwd4XIKVODzo.woff2",
+   "note": "Rescue Small Animals (§89), every word that is read. A plain hand-drawn sans with open, distinct letters, like a label written on a carrier. No italic downloaded: the room sets none."
+  },
+  {
+   "file": "balsamiq-sans-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 21872,
+   "src": "https://fonts.gstatic.com/s/balsamiqsans/v15/P5sZzZiAbNrN8SB3lQQX7PncyWUyNYhsAhDGVQM.woff2",
+   "note": "Its bold, a file of its own."
+  }
  ]
 }

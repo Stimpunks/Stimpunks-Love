@@ -386,6 +386,29 @@
     }
    ]
   },
+  "balsamiq-sans": {
+   "family": "Balsamiq Sans",
+   "category": "Display",
+   "designer": "Michael Angeles",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/balsamiqsans",
+   "copyright": "Copyright 2011 The Balsamiq Sans Project Authors (https://github.com/balsamiq/balsamiqsans)",
+   "repository": "https://github.com/balsamiq/balsamiqsans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "balsamiq-sans-400.woff2",
+     "sha": "b56e29d52f7eedc8"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "balsamiq-sans-700.woff2",
+     "sha": "b059cf0c22a2c8b5"
+    }
+   ]
+  },
   "barlow": {
    "family": "Barlow",
    "category": "Sans Serif",
@@ -651,6 +674,23 @@
      "style": "italic",
      "file": "cardo-400-italic.woff2",
      "sha": "bc802f41dcc8a736"
+    }
+   ]
+  },
+  "carter-one": {
+   "family": "Carter One",
+   "category": "Display",
+   "designer": "Vernon Adams",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/carterone",
+   "copyright": "Copyright (c) 2011, Vernon Adams (vern@newtypography.co.uk) with Reserved Font Name 'Carter One'. All rights reserved.",
+   "repository": "https://github.com/googlefonts/carterone",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "carter-one-400.woff2",
+     "sha": "242decbcf88e915c"
     }
    ]
   },

@@ -2796,6 +2796,24 @@ PAIRS = [
     ("#E4EEFA", "#1B2233", False, "dogs: a button under the pointer, and a month's button while it is open"),
     ("#E4EEFA", "#3E4C62", False, "dogs: a button while it is on its way"),
 
+    # ── Rescue Small Animals (§89) ───────────────────────────────────────────
+    # Under the floorboards. Every word between the cards is pale on the dust;
+    # every word on a card is dark ink on a strip of daylight.
+    ("#E6E2D6", "#1C2024", False, "smalls: every word on the dust -- the lede, where the animal is, the "
+                                  "rules, what you are told -- the h1, every h2, and the street door's "
+                                  "name and blurb"),
+    ("#AEAB9F", "#1C2024", False, "smalls: the trail, the lines over and under the h1, and the floor line "
+                                  "under the job marker"),
+    ("#F0B83C", "#1C2024", False, "smalls: every link, the backlink, the knock on the street door, and the "
+                                  "focus ring on the dust"),
+    ("#1A1D21", "#EDE6D3", False, "smalls: each animal's name and what they are like, on their card, the "
+                                  "name you type, and the focus ring on a card"),
+    ("#474B51", "#EDE6D3", False, "smalls: when each animal came in or was adopted"),
+    ("#1A1D21", "#F0B83C", False, "smalls: every button's words"),
+    ("#1A1D21", "#E6E2D6", False, "smalls: a button under the pointer, and a month's button while it is open"),
+    ("#EDE6D3", "#1A1D21", False, "smalls: a card's button under the pointer"),
+    ("#1A1D21", "#AEAB9F", False, "smalls: a button while it is on its way"),
+
     # ── Now Playing (§53) ────────────────────────────────────────────────────
     (NP_BOTH,   NP_STOCK,  False, "now playing: every word on the sheet -- the h1, the over- and "
                                   "sub-lines, the lede, every room's name, where it is, our line "
@@ -3136,6 +3154,23 @@ ORNAMENT = {
     "#f6edd3": "dogs: the low sun, 1.26 on the sky. It carries no word.",
     "#3b2b1f": "dogs: the stripes on a brindle coat, 1.73 on chocolate brown. They carry no word.",
     "#1f1d22": "dogs: a black coat, 14.25 on the snow. It carries no word.",
+    "#2c3238": "smalls: the floorboards overhead, 1.26 on the dust, and the awning of the street door. Drawing only.",
+    "#fff7de": "smalls: the brightest line of daylight where a crack is, 12.10 on the boards. It carries no word.",
+    "#e3a5a0": "smalls: ears, tails and feet, 1.66 on the daylight and outlined in the dark ink. It carries no word.",
+    "#faf7f0": "smalls: a white coat, 1.16 on the daylight and carried by its dark outline. It carries no word.",
+    "#26262b": "smalls: a black coat, 12.09 on the daylight behind it. It carries no word.",
+    "#7b5335": "smalls: a brown coat, 5.39 on the daylight. It carries no word.",
+    "#8e9195": "smalls: a grey coat, 2.54 on the daylight and outlined in the dark ink. It carries no word.",
+    "#eadbba": "smalls: a cream coat, 1.10 on the daylight and carried by its dark outline. It carries no word.",
+    "#d39a46": "smalls: a golden coat, 1.99 on the daylight and outlined in the dark ink. It carries no word.",
+    "#c8a26b": "smalls: a sandy coat, 1.91 on the daylight and outlined in the dark ink. It carries no word.",
+    "#cd7337": "smalls: a ginger patch, 2.76 on the daylight, on a white guinea pig outlined in the dark ink. It carries no word.",
+    "#d4c0a0": "smalls: a beige coat, 1.42 on the daylight and carried by its dark outline. It carries no word.",
+    "#563f32": "smalls: a sable coat, 7.83 on the daylight. It carries no word.",
+    "#a76f49": "smalls: a cinnamon coat, 3.36 on the daylight. It carries no word.",
+    "#d7c8b0": "smalls: a pale hedgehog's spines, 1.32 on the daylight and carried by the dark outline. It carries no word.",
+    "#42382f": "smalls: a dark coat, 9.17 on the daylight. It carries no word.",
+    "#ccaf8b": "smalls: a hedgehog's face, 1.67 on the daylight and outlined in the dark ink. It carries no word.",
     "#6e4a2e": "dogs: a chocolate brown coat, 6.68 on the snow. It carries no word.",
     "#d6a548": "dogs: a golden coat, 1.92 on the snow and outlined in the dark ink. It carries no word.",
     "#f9f7f1": "dogs: a white coat, 1.09 on the snow, which is why every dog is outlined. It carries "

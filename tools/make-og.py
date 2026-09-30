@@ -1208,6 +1208,20 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--dogs .og-lede {{ font-family: 'Open Sans', sans-serif; color: var(--rad-ink);
   font-size: 26px; line-height: 1.4; margin: 24px 0 0 !important; max-width: 560px; }}
 
+/* rescue small animals — UNDER THE FLOORBOARDS: the header lifted whole, the dark
+   boards with daylight through the cracks, the strips of it on the dust, and a
+   mouse standing in one. No animal off the hutches: their names were given by
+   the people who rescued them. */
+.og--smalls {{ width: 100%; flex-direction: column; align-items: flex-start; justify-content: center; padding: 0 64px; }}
+.og--smalls .rsa-head {{ margin: 0 !important; width: 100%; display: grid;
+  grid-template-columns: 560px 1fr; column-gap: 40px; align-items: center; }}
+.og--smalls .rsa-head > p, .og--smalls .rsa-head > h1 {{ grid-column: 1; }}
+.og--smalls .rsa-head p:not(.og-lede) {{ margin: 0 !important; font-size: 18px; }}
+.og--smalls h1 {{ font-size: 72px; margin: 12px 0 12px !important; }}
+.og--smalls .rsa-sign {{ grid-column: 2; grid-row: 1 / span 4; margin: 0 !important; max-width: none; }}
+.og--smalls .og-lede {{ font-family: 'Balsamiq Sans', sans-serif; color: var(--rsa-text);
+  font-size: 25px; line-height: 1.4; margin: 22px 0 0 !important; max-width: 560px; }}
+
 /* now playing — THE SHEET ON ITS DRUM, and the only card on the street printed in
    two inks with nothing in black. The column's painted iron runs down both sides
    and off the foot of the card, which is where the pavement is; the header, the
@@ -3720,6 +3734,29 @@ def card_cats(p):
     )
 
 
+def card_smalls(p):
+    # THE HEADER IS LIFTED WHOLE, drawing and all, so the card cannot show a
+    # different floor; the lede goes under it on the dust.
+    head = re.search(r'<header class="rsa-head">(.*?)</header>', p["src"], re.S)
+    over = re.search(r'<p class="rsa-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="rsa-sub">(.*?)</p>', p["src"], re.S)
+    if not (head and over and sub and 'class="rsa-sign"' in head.group(1)):
+        raise SystemExit(
+            "REFUSING: rescue-small-animals.html has lost its header or the drawing in it,\n"
+            "and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--smalls" data-fit="card"><header class="rsa-head">{head.group(1)}'
+        f'<p class="og-lede">{p["desc"]}</p></header></div>',
+        f"A dark card, the dark under a wooden floor. Small pale capitals reading {plain(over.group(1))}, "
+        f"then \u201c{p['h1text']}\u201d in a chunky, friendly pale letter, then {plain(sub.group(1))}. "
+        f"Under it: {p['desc_plain']} On the right, the underside of the floorboards along the top with "
+        f"thin bright lines of daylight showing between them, long pale strips of that light lying on the "
+        f"dusty ground below, and a small brown mouse with pink ears standing in one of the strips.",
+    )
+
+
 def card_dogs(p):
     # THE HEADER IS LIFTED WHOLE, drawing and all, so the card cannot show a
     # different park; the lede goes under it on the snow.
@@ -4028,6 +4065,7 @@ CARDS = {
     "stair":        card_stair,
     "cats":         card_cats,
     "dogs":         card_dogs,
+    "smalls":       card_smalls,
     "cavendish":    card_cavendish,
     "live-room":    card_live,
     "doom-scoop":   card_scoop,

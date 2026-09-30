@@ -1,5 +1,5 @@
 /* =============================================================================
-   A shelter, Rescue A Cat's or Rescue A Dog's: what is out there, the rescue,
+   A shelter, Rescue A Cat's, Rescue A Dog's or Rescue Small Animals': what is out there, the rescue,
    the shelter, adopting, the ones you rescued, and everybody ever adopted.
    Ryan's briefs, 2026-09-30. The page says which kind it is and which room's
    clothes to wear (data-shelter and data-prefix on <main>); the drawings are
@@ -38,6 +38,8 @@
            there: 'There is a cat ', unreached: 'The street could not be searched just now.', it: 'cat', full: 'The shelter is full, so this one waits outside until somebody adopts.' },
     dog: { looking: 'Following the tracks…', none: 'No dog out there right now. Dogs turn up at random, so look in again later.',
            there: 'There is a dog ', unreached: 'The park could not be searched just now.', it: 'dog', full: 'The kennels are full, so this one waits outside until somebody adopts.' },
+    small: { looking: 'Looking along the cracks in the floor…', none: 'Nobody down there right now. Small animals turn up at random, so look in again later.',
+           there: 'There is somebody small ', unreached: 'The floor could not be looked under just now.', it: 'animal', full: 'The hutches are full, so this one waits outside until somebody adopts.' },
   }[KIND];
   if (!SAY) return;
 
@@ -99,7 +101,7 @@
     li.appendChild(p(P + '-card__when', how === 'mine' ? 'You brought them in ' + when(a.t)
       : how === 'adopted' ? 'Adopted ' + when(a.at) + (a.first ? ', and came in as ' + a.first : '') : 'Came in ' + when(a.t)));
     if (how === 'shelter' && me) {
-      var adopt = button('Adopt ' + (a.name || 'this ' + SAY.it));
+      var adopt = button('Adopt ' + (a.name || 'this ' + A.noun(a)));
       adopt.addEventListener('click', function () {
         adopt.disabled = true;
         say('Signing the papers…');
@@ -159,7 +161,7 @@
     outState.hidden = true; drawn.hidden = false; words.hidden = false;
     drawn.appendChild(A.draw(a, P + '-animal'));
     words.appendChild(p('', SAY.there + a.words.place + '.'));
-    words.appendChild(p('', 'A ' + a.words.coat + ' ' + SAY.it + ' ' + a.words.mark + '.'));
+    words.appendChild(p('', 'A ' + a.words.coat + ' ' + A.noun(a) + ' ' + a.words.mark + '.'));
     if (full) words.appendChild(p('', SAY.full));
     if (rescueBox && me) rescueBox.hidden = !!full;
   }

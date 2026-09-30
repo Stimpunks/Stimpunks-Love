@@ -29,7 +29,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
   PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons,
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
-  renamePet, shapeAnimal, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
+  renamePet, shapeAnimal, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
@@ -452,6 +452,36 @@ test('your pets are shown only when a claimed username says so, and a sticker is
   await claimAccount('Ada', 'somebody else here', s, 12, null);
   assert.equal(await shownPets('Ada', s), null, 'the switch outlived the account it belonged to');
 }));
+
+test('small animals: every species as likely as any other, only in coats it comes in, and a word for each', async () => {
+  const species = new Map(), coats = new Map();
+  for (let i = 0; i < 9000; i++) {
+    const a = animalAt('small', i * 7919);
+    assert.ok(ANIMAL_ID.test(a.id) && a.id.startsWith('s'));
+    coats.set(a.coat, (coats.get(a.coat) || 0) + 1);
+    const sp = a.coat.split('-')[0];
+    species.set(sp, (species.get(sp) || 0) + 1);
+  }
+  assert.equal(coats.size, SMALL_COATS.length);
+  assert.equal(species.size, SMALL_SPECIES.length);
+  for (const [k, n] of species) assert.ok(n > 9000 / SMALL_SPECIES.length * 0.8, `${k} is rarer than the others`);
+  // Three coats a species, so the species are level.
+  for (const [sp] of SMALL_SPECIES) assert.equal(SMALL_COATS.filter((c) => c[0].startsWith(sp + '-')).length, 3, sp);
+  // "a" goes in front of every coat word.
+  for (const [, w] of SMALL_COATS) assert.ok(!/^[aeiou]/i.test(w), `"a ${w}"`);
+  assert.equal(animalNoun('small', 'guineapig-black'), 'guinea pig');
+  assert.equal(animalNoun('dog', 'golden'), 'dog');
+  // Rescue, adopt and a sticker all take one.
+  const s = memoryStore({ etagOnRead: true });
+  const w = (await readShelter('small', s, 5)).waiting;
+  await rescueAnimal('small', w.id, 'Pip', s, 5, () => 1);
+  await adoptAnimal('small', w.id, petKey('Ada'), s, 7);
+  const pet = (await readPets(petKey('Ada'), s))[0];
+  assert.equal(shapeAnimal(pet).words.noun, SMALL_SPECIES.find((x) => x[0] === pet.coat.split('-')[0])[1]);
+  const st = shape([{ id: 'm', handle: 'Ada', text: '', t: 1, sticker: await stickerOf('Ada', w.id, s) }])[0].sticker;
+  assert.equal(st.name, 'Pip'); assert.ok(st.words.noun);
+  assert.equal((await readAdopted('small', (await adoptedMonths('small', s))[0], s)).length, 1);
+});
 
 test('dogs are not cats', () => {
   assert.notEqual(animalAt('dog', 1).id, animalAt('cat', 1).id);

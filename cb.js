@@ -852,7 +852,7 @@
        things in it. YOUR USERNAME: claim it with a password of your own, so
        nobody else can sign on as it, and once claimed change the password or
        delete the account; there is no email, so claiming hands you a recovery
-       code, once. YOUR PETS: the cats and dogs you adopted, which are the one
+       code, once. YOUR PETS: the animals you adopted, which are the one
        thing the street keeps under a person, and Forget Me for them. Every
        destructive press asks once more. The tray is read when it is opened and
        never polled. */
@@ -1581,7 +1581,7 @@
      name, what it is and its markings, never where it was found or when. */
   function petWords(a) {
     var w = a.words || {};
-    return (a.name ? a.name + ', a ' : 'A ') + w.coat + ' ' + (a.kind === 'dog' ? 'dog' : 'cat') + ' ' + w.mark;
+    return (a.name ? a.name + ', a ' : 'A ') + w.coat + ' ' + (w.noun || (a.kind === 'dog' ? 'dog' : 'cat')) + ' ' + w.mark;
   }
 
   /* A STICKER on a message: the pet drawn by animals.js, loaded on the first
@@ -1677,7 +1677,7 @@
           var b = el('button', 'cb-stickers__pick');
           b.type = 'button';
           b.appendChild(window.loveAnimals.draw(a, 'cb-stickers__art'));
-          b.appendChild(el('span', null, 'Send ' + (a.name || 'a sticker of this ' + (a.kind === 'dog' ? 'dog' : 'cat'))));
+          b.appendChild(el('span', null, 'Send ' + (a.name || 'a sticker of this ' + ((a.words && a.words.noun) || (a.kind === 'dog' ? 'dog' : 'cat')))));
           b.addEventListener('click', function () { me.sendSticker(a.id); });
           li.appendChild(b);
           ul.appendChild(li);

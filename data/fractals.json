@@ -1437,6 +1437,18 @@
         "--rad-track",
         "--rad-coat-golden"
       ]
+    },
+    "rescue-small-animals.html": {
+      "kind": "ifs",
+      "figure": "triangle",
+      "sway": 0.04,
+      "ground": "--rsa-dust",
+      "inks": [
+        "--rsa-lit",
+        "--rsa-link",
+        "--rsa-crack",
+        "--rsa-coat-ginger"
+      ]
     }
   }
 }

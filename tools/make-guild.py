@@ -401,6 +401,11 @@ DRAW = {
     # A dog's red lead, dropped in the snow by a gate. The lead is --rad-link,
     # 6.28 on the snow, and the snow line and the clip --rad-ink, over the body
     # threshold a marker is held to; the prints beside it are --rad-track.
+    # A wisp of hay caught in a strip of daylight on the dust, under a crack in
+    # the boards. The strip is --rsa-lit, 13.16 against the dust it lies on, the
+    # hay --rsa-link inside it, and the floor line --rsa-dim at 7.12, both over
+    # the body threshold a marker is held to.
+    "smalls-hay": """<path d="M3 29 H29" stroke="var(--rsa-dim)" stroke-width="1.6" stroke-linecap="round"/><polygon points="11,3 15,3 23,27 13,27" fill="var(--rsa-lit)"/><path d="M12 22 Q17 18 22 21 M13 25 Q18 20 24 24 M14 19 Q18 17 21 18" fill="none" stroke="var(--rsa-ink)" stroke-width="1.8" stroke-linecap="round"/><path d="M12 22 Q17 18 22 21 M13 25 Q18 20 24 24" fill="none" stroke="var(--rsa-link)" stroke-width="1" stroke-linecap="round"/>""",
     "dogs-lead": """<path d="M3 29 H29" stroke="var(--rad-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M6 24 Q10 8 18 12 Q26 16 22 24" fill="none" stroke="var(--rad-link)" stroke-width="2.6" stroke-linecap="round"/><circle cx="22" cy="25.5" r="2.2" fill="none" stroke="var(--rad-ink)" stroke-width="1.6"/><ellipse cx="27" cy="19" rx="1.8" ry="1.3" fill="var(--rad-track)"/><ellipse cx="25.5" cy="15" rx="1.8" ry="1.3" fill="var(--rad-track)"/>""",
     "cats-torch": """<path d="M3 29 H29" stroke="var(--rac-dim)" stroke-width="1.6" stroke-linecap="round"/><rect x="5" y="19" width="15" height="7" rx="2" fill="var(--rac-dim)"/><path d="M20 18 L25 16 V29 L20 27 Z" fill="var(--rac-dim)"/><ellipse cx="25" cy="22.5" rx="1.6" ry="6" fill="var(--rac-beam)"/><circle cx="12" cy="10" r="1.8" fill="var(--rac-eye)"/><circle cx="17" cy="10" r="1.8" fill="var(--rac-eye)"/>""",
     "stair-lift": """<path d="M3 29 H29" stroke="var(--cmi-ink)" stroke-width="1.6" stroke-linecap="round"/><rect x="9" y="6" width="14" height="19" rx="3" fill="var(--cmi-dado)"/><circle cx="16" cy="13" r="3.6" fill="var(--cmi-nosing)"/><path d="M13 20 H19" stroke="var(--cmi-nosing)" stroke-width="1.6" stroke-linecap="round"/>""",

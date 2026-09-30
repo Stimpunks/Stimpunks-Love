@@ -2683,6 +2683,40 @@
    }
   },
   {
+   "id": "smalls-hay",
+   "page": "rescue-small-animals.html",
+   "room": "Rescue Small Animals",
+   "title": "What goes on the channel, drawn?",
+   "posted": "There is a crawlspace under a shop on the street where small animals turn up in the strips of daylight between the boards, and anybody signed on can adopt one into Profile on their CB radio. Once you have, there is a way to show them off on the channel. Go and find out what it is called.",
+   "rank": 1,
+   "takes": "about as long as it takes your eyes to get used to the dark",
+   "target": "a wisp of hay caught in a strip of daylight on the dust, under a crack in the boards",
+   "code": "FLOORBOARD",
+   "learned": "Sticker, beside Picture on the radio, sends a drawing of one of your own pets, with their name, to the channel you are tuned to. The server finds the pet among your own, so a sticker is only ever yours, and it goes at midnight with the rest of the channel.",
+   "hints": [
+    "On the street itself, in the row of shopfronts: the dark one with daylight showing through the boards of its awning.",
+    "In the rules about how rescuing and adopting work, where it says you can show them off.",
+    "On the dust, in a strip of light, where somebody small has been."
+   ],
+   "ask": {
+    "question": "Beside Picture on the CB radio, which button sends a drawing of one of your pets?",
+    "accept": [
+     "sticker",
+     "stickers",
+     "asticker",
+     "thesticker",
+     "petsticker"
+    ],
+    "answer": "Sticker",
+    "why": "Sticker sends a drawing of one of your own pets, with their name, to the channel. The server finds the pet among your own, so nobody can send a sticker of somebody else's.",
+    "hints": [
+     "It is in the rules, where it says you can show them off.",
+     "It is on the radio, in the row with Picture and Transmit.",
+     "It is what you might put on a lunchbox."
+    ]
+   }
+  },
+  {
    "id": "wr-mantle",
    "page": "cavendish-events.html",
    "room": "The Events Room",

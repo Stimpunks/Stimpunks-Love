@@ -704,10 +704,64 @@ export const DOG_MOODS = [
   ['food', 'are only interested in food'], ['sleep', 'fell asleep before the door shut'],
 ];
 
+/* SMALL ANIMALS, Ryan's brief, 2026-09-30: rabbits, rats, mice, hamsters,
+   gerbils, guinea pigs, chinchillas, ferrets and hedgehogs, in one shelter.
+   Birds and reptiles may come later. THE SPECIES IS IN THE COAT, three coats
+   each, so every species is exactly as likely as every other and no animal is
+   rarer, and a coat can only be one that species actually comes in: there is
+   no ginger hedgehog. The coat's words are the colour, and the species is its
+   noun. Every coat word starts with a consonant, because the page writes
+   "a" in front of it. */
+export const SMALL_SPECIES = [
+  ['rabbit', 'rabbit'], ['rat', 'rat'], ['mouse', 'mouse'], ['hamster', 'hamster'], ['gerbil', 'gerbil'],
+  ['guineapig', 'guinea pig'], ['chinchilla', 'chinchilla'], ['ferret', 'ferret'], ['hedgehog', 'hedgehog'],
+];
+export const SMALL_COATS = [
+  ['rabbit-brown', 'brown'], ['rabbit-white', 'white'], ['rabbit-dutch', 'black and white'],
+  ['rat-hooded', 'hooded'], ['rat-brown', 'brown'], ['rat-grey', 'grey'],
+  ['mouse-white', 'white'], ['mouse-brown', 'brown'], ['mouse-black', 'black'],
+  ['hamster-golden', 'golden'], ['hamster-cream', 'cream'], ['hamster-grey', 'grey'],
+  ['gerbil-sandy', 'sandy'], ['gerbil-white', 'white'], ['gerbil-black', 'black'],
+  ['guineapig-gingerwhite', 'ginger and white'], ['guineapig-black', 'black'], ['guineapig-brownwhite', 'brown and white'],
+  ['chinchilla-grey', 'grey'], ['chinchilla-beige', 'beige'], ['chinchilla-black', 'black'],
+  ['ferret-sable', 'sable'], ['ferret-white', 'white'], ['ferret-cinnamon', 'cinnamon'],
+  ['hedgehog-brown', 'brown'], ['hedgehog-pale', 'pale'], ['hedgehog-dark', 'dark'],
+];
+export const SMALL_MARKS = [
+  ['plain', 'and nothing else about them you would notice'], ['three', 'with three legs and no opinion about it'],
+  ['oneeye', 'with one eye'], ['patch', 'with a patch round one eye'], ['nick', 'with a nick out of one ear'],
+  ['whiskers', 'with whiskers going every which way'], ['round', 'who is mostly round'],
+];
+export const SMALL_PLACES = [
+  ['boards', 'under the floorboards'], ['shed', 'under the shed'], ['boot', 'in a boot by the back door'],
+  ['pot', 'in an upturned flowerpot'], ['stairs', 'under the stairs'], ['shoebox', 'in a shoebox with the lid off'],
+  ['skirting', 'behind the skirting board'], ['hay', 'in a bale of hay'], ['drawer', 'in the sock drawer'],
+  ['grass', 'in the long grass by the fence'],
+];
+export const SMALL_MOODS = [
+  ['nibble', 'nibbled everything on the way in'], ['still', 'kept very still, which is allowed'],
+  ['zoom', 'went round the carrier twice'], ['food', 'are only interested in food'],
+  ['sleep', 'fell asleep before the door shut'], ['burrow', 'burrowed straight into the bedding'],
+  ['wash', 'washed their face the whole way in'],
+];
+
 export const KINDS = {
   cat: { key: 'cats', prefix: 'c', looks: [CAT_COATS, CAT_MARKS, CAT_PLACES, CAT_MOODS] },
   dog: { key: 'dogs', prefix: 'd', looks: [DOG_COATS, DOG_MARKS, DOG_PLACES, DOG_MOODS] },
+  small: { key: 'smalls', prefix: 's', looks: [SMALL_COATS, SMALL_MARKS, SMALL_PLACES, SMALL_MOODS] },
 };
+
+/* What an animal is, in a word: cat, dog, or a small animal's species, read
+   off its coat. */
+export function animalNoun(kind, coat) {
+  if (kind === 'small') {
+    const sp = String(coat || '').split('-')[0];
+    return (SMALL_SPECIES.find((x) => x[0] === sp) || [sp, 'small animal'])[1];
+  }
+  return kind === 'dog' ? 'dog' : 'cat';
+}
+/* An animal's id says which shelter it came through. */
+export const ANIMAL_ID = /^[cds][0-9a-z]{1,12}$/;
 export function animalKind(k) { return Object.prototype.hasOwnProperty.call(KINDS, k) ? k : null; }
 
 function pick(list, n) { return list[n % list.length]; }
@@ -936,7 +990,8 @@ export function shapeAnimal(a) {
   const kind = animalKind(a.kind) || 'cat';
   const [coats, marks, places, moods] = KINDS[kind].looks;
   const out = { id: a.id, kind, coat: a.coat, mark: a.mark, place: a.place, mood: a.mood,
-    words: { coat: says(coats, a.coat), mark: says(marks, a.mark), place: says(places, a.place), mood: says(moods, a.mood) } };
+    words: { coat: says(coats, a.coat), mark: says(marks, a.mark), place: says(places, a.place), mood: says(moods, a.mood),
+      noun: animalNoun(kind, a.coat) } };
   if (typeof a.t === 'number') { out.name = a.name || ''; out.t = a.t; }
   if (typeof a.first === 'string' && a.first && a.first !== out.name) out.first = a.first;
   if (typeof a.at === 'number') out.at = a.at;
@@ -1001,7 +1056,7 @@ export async function shownPets(handle, s = store()) {
 
 /* A sticker of one of your own pets, or null if `id` is not one of them. */
 export async function stickerOf(handle, id, s = store()) {
-  if (typeof id !== 'string' || !/^[cd][0-9a-z]{1,12}$/.test(id)) return null;
+  if (typeof id !== 'string' || !ANIMAL_ID.test(id)) return null;
   const pet = (await readPets(petKey(handle), s)).find((a) => a.id === id);
   if (!pet) return null;
   return { kind: animalKind(pet.kind) || 'cat', coat: pet.coat, mark: pet.mark, name: pet.name || '' };
@@ -1013,7 +1068,7 @@ export function shapeSticker(st) {
   const [coats, marks] = KINDS[kind].looks;
   if (!coats.some((c) => c[0] === st.coat) || !marks.some((m) => m[0] === st.mark)) return null;
   return { kind, coat: st.coat, mark: st.mark, name: typeof st.name === 'string' ? st.name : '',
-    words: { coat: says(coats, st.coat), mark: says(marks, st.mark) } };
+    words: { coat: says(coats, st.coat), mark: says(marks, st.mark), noun: animalNoun(kind, st.coat) } };
 }
 
 /* ── The Slake ───────────────────────────────────────────────────────────── */

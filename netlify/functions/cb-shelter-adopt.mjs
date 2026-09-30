@@ -4,7 +4,7 @@
    their handle so they follow them to any device. Ryan's call, 2026-09-30:
    this is the one thing the street keeps under a person, and Forget Me in the
    Profile deletes it. */
-import { readPass, animalKind, adoptAnimal, petKey, shapeAnimal, json, body, sameSite } from '../cb/lib.mjs';
+import { ANIMAL_ID, readPass, animalKind, adoptAnimal, petKey, shapeAnimal, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This shelter only answers stimpunks.world.' });
@@ -13,7 +13,7 @@ export default async (req) => {
   const b = (await body(req)) || {};
   const kind = animalKind(b.kind);
   if (!kind) return json(404, { error: 'There is no shelter for that.' });
-  if (typeof b.id !== 'string' || !/^[cd][0-9a-z]{1,12}$/.test(b.id)) return json(400, { error: 'Which animal?' });
+  if (typeof b.id !== 'string' || !ANIMAL_ID.test(b.id)) return json(400, { error: 'Which animal?' });
   try {
     const r = await adoptAnimal(kind, b.id, petKey(who.handle));
     const shelter = r.shelter.map(shapeAnimal);

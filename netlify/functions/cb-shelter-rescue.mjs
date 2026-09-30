@@ -2,7 +2,7 @@
    an animal brings it in; anybody a moment later is told it is already safe.
    The pass is checked and forgotten: the shelter keeps the animal and the name
    its rescuer gave it, not who they were. */
-import { readPass, animalKind, rescueAnimal, cleanAnimalName, shapeAnimal, json, body, sameSite, ANIMAL_NAME_MAX } from '../cb/lib.mjs';
+import { ANIMAL_ID, readPass, animalKind, rescueAnimal, cleanAnimalName, shapeAnimal, json, body, sameSite, ANIMAL_NAME_MAX } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This shelter only answers stimpunks.world.' });
@@ -10,7 +10,7 @@ export default async (req) => {
   const b = (await body(req)) || {};
   const kind = animalKind(b.kind);
   if (!kind) return json(404, { error: 'There is no shelter for that.' });
-  if (typeof b.id !== 'string' || !/^[cd][0-9a-z]{1,12}$/.test(b.id)) return json(400, { error: 'Which animal?' });
+  if (typeof b.id !== 'string' || !ANIMAL_ID.test(b.id)) return json(400, { error: 'Which animal?' });
   const name = cleanAnimalName(b.name);
   if (name === null) return json(400, { error: `A name is up to ${ANIMAL_NAME_MAX} characters.` });
   try {

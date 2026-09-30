@@ -46,7 +46,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-PAGES = {"cat": ROOT / "rescue-a-cat.html", "dog": ROOT / "rescue-a-dog.html"}
+PAGES = {"cat": ROOT / "rescue-a-cat.html", "dog": ROOT / "rescue-a-dog.html",
+         "small": ROOT / "rescue-small-animals.html"}
 SHELTER = ROOT / "shelter.js"
 ANIMALS = ROOT / "animals.js"
 CB = ROOT / "cb.js"
@@ -91,7 +92,10 @@ def keys(lib, name):
         raise SystemExit(f"REFUSING: {LIB.name} has no {name}.")
     if re.search(r"weight|\bw:|rar", m.group(1), re.I):
         problems.append(f"{LIB.name}: {name} carries a weight or a rarity. Every look is one flat entry.")
-    return re.findall(r"\['([a-z]+)',", m.group(1))
+    # A small animal's coat names its species, rabbit-brown, so a key may carry
+    # one hyphen. The first reading of this took [a-z]+ and read no small coat
+    # at all, which passed every drawing check without making one.
+    return re.findall(r"\['([a-z]+(?:-[a-z]+)?)',", m.group(1))
 
 
 def fn(src, name):
@@ -101,8 +105,8 @@ def fn(src, name):
 
 def main():
     lib = LIB.read_text()
-    looks = {k: (keys(lib, f"{k.upper()}_COATS"), keys(lib, f"{k.upper()}_MARKS")) for k in ("cat", "dog")}
-    for k in ("CAT_PLACES", "CAT_MOODS", "DOG_PLACES", "DOG_MOODS"):
+    looks = {k: (keys(lib, f"{k.upper()}_COATS"), keys(lib, f"{k.upper()}_MARKS")) for k in ("cat", "dog", "small")}
+    for k in ("CAT_PLACES", "CAT_MOODS", "DOG_PLACES", "DOG_MOODS", "SMALL_PLACES", "SMALL_MOODS", "SMALL_SPECIES"):
         keys(lib, k)
 
     r = fn(lib, "rescueAnimal")
@@ -145,9 +149,12 @@ def main():
 
     draws = code_of(ANIMALS)
     for kind, (coats, marks) in looks.items():
+        if len(coats) < 2 or len(marks) < 2:
+            problems.append(f"{LIB.name}: read {len(coats)} {kind} coats and {len(marks)} markings, which is this "
+                            "tool misreading the list rather than a shelter with nothing in it.")
         cm = re.search(rf"var {kind.upper()}_COATS = \{{(.*?)\n  \}};", draws, re.S)
         mm = re.search(rf"var {kind.upper()}_MARKS = \{{(.*?)\}};", draws)
-        drawn = set(re.findall(r"^\s+([a-z]+):\s+\{ base:", cm.group(1), re.M)) if cm else set()
+        drawn = set(re.findall(r"^\s+'?([a-z]+(?:-[a-z]+)?)'?:\s+\{ base:", cm.group(1), re.M)) if cm else set()
         marked = set(re.findall(r"([a-z]+):", mm.group(1))) if mm else set()
         for k in coats:
             if k not in drawn:
@@ -202,7 +209,7 @@ def main():
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1
-    print("rescue: every coat and marking of both kinds drawn, none rarer, the shelters and the forever list "
+    print("rescue: every coat and marking of every kind drawn, none rarer, the shelters and the forever list "
           "know nobody, your pets are filed under a scrambled handle and Forget Me deletes them.")
     return 0
 

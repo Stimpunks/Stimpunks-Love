@@ -1066,6 +1066,9 @@
    weight axis, Radio Canada's call. No italic is shipped, so the room sets
    nothing italic. Both read off their own records; see fonts/_sources.json. */
 @font-face { font-family: 'Paytone One'; src: url('fonts/paytone-one-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Carter One'; src: url('fonts/carter-one-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Balsamiq Sans'; src: url('fonts/balsamiq-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Balsamiq Sans'; src: url('fonts/balsamiq-sans-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Open Sans'; src: url('fonts/open-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Open Sans'; src: url('fonts/open-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
@@ -2627,6 +2630,25 @@
   --rad-coat-black: #1F1D22;  --rad-coat-brown: #6E4A2E;  --rad-coat-golden: #D6A548;
   --rad-coat-white: #F9F7F1;  --rad-coat-cream: #E8D6AE;  --rad-coat-grey:   #8E959E;
   --rad-coat-tan:   #B9824A;
+  /* RESCUE SMALL ANIMALS (§89). Under the floorboards of a shop, where the only
+     light is daylight coming down through the cracks between the boards.
+     --rsa-dust is the dark under the boards, the ground every word on the page
+     stands on; --rsa-lit is a strip of daylight where it lands, the ground of
+     every animal's card and drawing. --rsa-text is every word on the dust,
+     --rsa-dim the fine print there, --rsa-link every link and button, a crack's
+     gold; --rsa-ink every word in the light and every outline, --rsa-ink2 the
+     fine print there. The rest carry no word: --rsa-board the boards overhead,
+     --rsa-crack the brightest line where a crack is, --rsa-skin ears, tails and
+     feet, and the coats. A dark animal is carried by the light behind it, a pale
+     one by its dark outline. */
+  --rsa-dust:  #1C2024;  --rsa-board: #2C3238;  --rsa-lit:   #EDE6D3;  --rsa-crack: #FFF7DE;
+  --rsa-text:  #E6E2D6;  --rsa-dim:   #AEAB9F;  --rsa-ink:   #1A1D21;  --rsa-ink2:  #474B51;
+  --rsa-link:  #F0B83C;  --rsa-skin:  #E3A5A0;
+  --rsa-coat-white: #FAF7F0;  --rsa-coat-black: #26262B;  --rsa-coat-brown: #7B5335;
+  --rsa-coat-grey:  #8E9195;  --rsa-coat-cream: #EADBBA;  --rsa-coat-golden: #D39A46;
+  --rsa-coat-sandy: #C8A26B;  --rsa-coat-ginger: #CD7337; --rsa-coat-beige: #D4C0A0;
+  --rsa-coat-sable: #563F32;  --rsa-coat-cinnamon: #A76F49; --rsa-coat-pale: #D7C8B0;
+  --rsa-coat-dark:  #42382F;  --rsa-coat-face: #CCAF8B;
 
   /* import:neurohome:root:begin */
   /* Isha Snow's room, NeuroHome -- brought in by tools/import-room.py.
@@ -3499,6 +3521,17 @@ div.facade--audio { border: 0; background: none; }
 .door--dogs .door__name  { font-family: 'Paytone One', var(--sans); color: var(--rad-ink); font-size: 27px; font-synthesis: none; }
 .door--dogs .door__blurb { font-family: 'Open Sans', var(--sans); color: var(--rad-ink); font-size: 13.5px; font-synthesis: none; }
 .door--dogs .door__knock { font-family: 'Open Sans', var(--sans); font-weight: 700; font-size: 13px; color: var(--rad-link); font-synthesis: none; }
+/* RESCUE SMALL ANIMALS' DOOR IS THE UNDERSIDE OF THE FLOOR: dark boards across
+   the awning with daylight showing through the cracks between them. */
+.door--smalls { background: var(--rsa-dust); border-color: var(--rsa-link); }
+.door--smalls .door__awning {
+  background-color: var(--rsa-board);
+  background-image: repeating-linear-gradient(90deg, transparent 0 22px, var(--rsa-crack) 22px 24px);
+  border-bottom-color: var(--rsa-link);
+}
+.door--smalls .door__name  { font-family: 'Carter One', var(--sans); color: var(--rsa-text); font-size: 26px; font-synthesis: none; }
+.door--smalls .door__blurb { font-family: 'Balsamiq Sans', var(--sans); color: var(--rsa-text); font-size: 14px; font-synthesis: none; }
+.door--smalls .door__knock { font-family: 'Balsamiq Sans', var(--sans); font-weight: 700; font-size: 13px; color: var(--rsa-link); font-synthesis: none; }
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
 .door--empty .door__name  { font-family: 'Bungee', var(--sans); color: var(--chalk); font-size: 23px; }
@@ -14526,7 +14559,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §90
+   class on it is `bb-`, its sizes are in points and millimetres, and §91
    prints it and nothing else. */
 
 .room-broadside {
@@ -14587,7 +14620,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §90 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §91 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -17794,7 +17827,111 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .rad-out { grid-template-columns: 1fr; }
 }
 
-/* §89 ── Small screens ───────────────────────────────────────────────────────
+/* §89 ── ROOM: Rescue Small Animals (a shopfront on the street) ─────────────────
+   Under the floorboards of a shop, and somewhere down there a rabbit, a rat, a
+   mouse, a hamster, a gerbil, a guinea pig, a chinchilla, a ferret or a hedgehog
+   that needs bringing in. Ryan's brief, 2026-09-30, after the cat and dog
+   shelters: one shelter for all nine, with birds and reptiles perhaps later. It
+   shares their mechanism (shelter.js, animals.js) and none of their clothes.
+
+   THE LIGHT IS DAYLIGHT THROUGH THE CRACKS BETWEEN THE BOARDS, AND IT ONLY
+   SHOWS WHERE IT LANDS. Overhead the boards are dark; between them are thin
+   straight lines of day, and below, the light lies on the dust as long pale
+   strips. An animal is seen standing in a strip, which is why every card and
+   every drawing is on --rsa-lit and every word between them is on the dust.
+   The light is parallel, from above, in lines, and it is not seen in the air.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · RESCUE A CAT does the same thing in the dark, and its light is YOURS, a
+       torch you aim, one round pool. Here nobody holds the light: it is the
+       day's, it comes down in many straight lines, and you cannot move it.
+     · DEAD TIRED SOCIETY is the other dark room with a hard shape of light on
+       the floor: ONE wedge from a corridor, and every word stays out of it.
+       Here the light comes from overhead in many strips, and the animals are
+       only ever seen in them.
+     · THE COMMUNITY CENTER is the other room striped by light, and it is pale,
+       lit all over, the bars diagonal and soft on a wall. This is dark, the
+       strips straight down and hard, and they land on the ground.
+     · THE LATIBULUM and THE RABBIT HOLE are the other places under the
+       ground; one is brown and lamplit, the other a shaft daylit from one end.
+       There is no brown in §89's clothes, only in the animals, and no lamp.
+     · STAY FROSTY is the other cool dark room, lit by reflections in points;
+       these are lines.
+
+   NOTHING MOVES, at any setting: a twitching nose is the obvious animation,
+   and the dial would have to take it away. */
+
+.smalls {
+  background: var(--rsa-dust); color: var(--rsa-text);
+  font-family: 'Balsamiq Sans', var(--sans); font-synthesis: none;
+}
+.smalls a { color: var(--rsa-link); }
+.smalls :focus-visible { outline-color: var(--rsa-link); }
+.smalls .backlink { font-family: 'Balsamiq Sans', var(--sans); font-weight: 700; font-size: 15px; color: var(--rsa-link); }
+.rsa-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.rsa-trail { margin: 0; font-size: 15px; color: var(--rsa-dim); }
+
+.rsa-head { margin: 28px 0 0; }
+.rsa-over, .rsa-sub { margin: 0; font-size: 18px; line-height: 1.4; color: var(--rsa-dim); }
+.rsa-over { font-weight: 700; letter-spacing: .06em; text-transform: uppercase; font-size: 14px; }
+.smalls h1 {
+  margin: 8px 0 6px; font-family: 'Carter One', var(--sans); font-weight: 400;
+  font-size: clamp(42px, 7.5vw, 80px); line-height: 1.02; color: var(--rsa-text);
+}
+.smalls h2 {
+  margin: 0 0 8px; font-family: 'Carter One', var(--sans); font-weight: 400;
+  font-size: 28px; line-height: 1.15; color: var(--rsa-text);
+}
+.rsa-sign { display: block; width: 100%; max-width: 600px; height: auto; margin: 18px 0 0; }
+.rsa-part { margin: 44px 0 0; }
+.rsa-part > p, .rsa-lede { font-size: 17px; line-height: 1.6; max-width: 66ch; }
+.rsa-lede { margin: 26px 0 0; font-size: 18px; }
+
+.rsa-animal { display: block; width: 100%; max-width: 220px; height: auto; }
+.rsa-out { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 16px 26px; align-items: center; margin: 22px 0 0; }
+.rsa-out__words { font-size: 18px; line-height: 1.55; max-width: 60ch; }
+.rsa-out__words p { margin: 0 0 10px; }
+.rsa-rescue { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 12px 0 0; }
+.rsa-rescue__lab { flex: 1 1 100%; font-weight: 700; font-size: 16px; }
+.rsa-rescue__name {
+  font: 400 18px/1.3 'Balsamiq Sans', var(--sans); width: 14em; max-width: 100%; padding: 8px 10px;
+  background: var(--rsa-lit); color: var(--rsa-ink); border: 2px solid var(--rsa-link); border-radius: 4px;
+}
+.rsa-btn {
+  font-family: 'Balsamiq Sans', var(--sans); font-weight: 700; font-size: 17px; line-height: 1.3;
+  padding: 10px 18px; min-height: 44px; border: 0; border-radius: 4px; cursor: pointer;
+  background: var(--rsa-link); color: var(--rsa-ink); font-synthesis: none;
+}
+.rsa-btn:hover { background: var(--rsa-text); }
+.rsa-btn:focus-visible { outline-offset: 3px; }
+.rsa-btn[disabled] { cursor: default; background: var(--rsa-dim); }
+.rsa-btn--small { font-size: 14px; padding: 6px 12px; min-height: 0; }
+.rsa-months { display: flex; flex-wrap: wrap; gap: 8px 10px; margin: 12px 0 0; }
+.rsa-months .rsa-btn[aria-pressed="true"] { background: var(--rsa-text); }
+.rsa-said { margin: 12px 0 0; min-height: 1.6em; font-size: 17px; line-height: 1.55; max-width: 66ch; }
+.rsa-signon { margin: 14px 0 0; font-size: 16px; line-height: 1.55; max-width: 66ch; }
+
+/* A card is a strip of daylight, and everything on it is dark ink. */
+.rsa-shelter { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+.rsa-card { padding: 14px; background: var(--rsa-lit); color: var(--rsa-ink); border-top: 3px solid var(--rsa-crack); }
+.rsa-card :focus-visible { outline-color: var(--rsa-ink); }
+.rsa-card .rsa-animal { max-width: 100%; }
+.rsa-card .rsa-btn { margin-top: 10px; }
+.rsa-card .rsa-btn:hover { background: var(--rsa-ink); color: var(--rsa-lit); }
+.rsa-card__name { margin: 10px 0 0; font-family: 'Carter One', var(--sans); font-size: 22px; line-height: 1.2; color: var(--rsa-ink); overflow-wrap: anywhere; }
+.rsa-card__about { margin: 6px 0 0; font-size: 15px; line-height: 1.5; }
+.rsa-card__when { margin: 6px 0 0; font-size: 14px; color: var(--rsa-ink2); }
+.rsa-state { margin: 12px 0 0; font-size: 17px; line-height: 1.5; }
+
+.rsa-rules { margin: 12px 0 0; padding-left: 22px; max-width: 68ch; font-size: 16px; line-height: 1.6; }
+.rsa-rules li { margin: 0 0 10px; }
+.smalls .quest { margin-top: 40px; }
+
+@media (max-width: 620px) {
+  .rsa-out { grid-template-columns: 1fr; }
+}
+
+/* §90 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -17901,7 +18038,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §89 says every
+   shipped with no rule here at all — which on a street whose §90 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -18025,7 +18162,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §90 ── Print ───────────────────────────────────────────────────────────────
+/* §91 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
