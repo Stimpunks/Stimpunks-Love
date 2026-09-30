@@ -425,7 +425,11 @@ long the thing runs before you press it* — true until the chancel, whose whole
 cannot say. **Nothing caught it, because it is a claim about one room living in another room's
 copy**, and no generator owns that. **When a room's promise changes, look for the rooms that
 describe it**: a subroom is written about by its parent, the campgrounds by its pitches, and none of
-those sentences are in the tool that changed.
+those sentences are in the tool that changed. **`mission.html` is the densest page of these**, and
+no tool reads it: every aim names the room that keeps it and what that room promises, so a room
+that changes its promise checks the Mission too. Broadside No. 2, the manifesto, makes the same
+kind of claims about the whole street, and it proved the point the day it was written: sheet No. 1
+had been saying every play button gives a runtime, which playlists and live cams cannot.
 
 **EVERY FRAMED ORIGIN IS WRITTEN IN ONE PLACE: `love-embed.js`'s `ORIGINS` array.** The browser
 gets it because `make-csp.py` reads that array and builds `frame-src` from it; the build refuses a
