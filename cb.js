@@ -1822,9 +1822,12 @@
      line ships hidden and is the room's to dress; this only writes its words.
      Not a live region, for the radio's reason. */
   Radio.prototype.panelShown = function (tag, a) {
-    var lines = document.querySelectorAll('[data-call] [data-call-who]');
+    var lines = Array.prototype.slice.call(document.querySelectorAll('[data-call] [data-call-who]'));
+    // And the call window's own line, above 8x8's Join button.
+    var inWindow = tag && window.loveCall && window.loveCall.whoLine ? window.loveCall.whoLine(tag) : null;
+    if (inWindow) lines.push(inWindow);
     for (var i = 0; i < lines.length; i++) {
-      var p = lines[i], mine = tag && p.closest('[data-call]').getAttribute('data-call') === tag;
+      var p = lines[i], mine = p === inWindow || (tag && p.closest('[data-call]').getAttribute('data-call') === tag);
       p.hidden = true;
       if (!mine || (a && a.refused)) continue;
       p.hidden = false;
@@ -1890,6 +1893,8 @@
     var on = !!(window.loveCall && window.loveCall.isOpen());
     this.callBtn.hidden = !(on || (this.calls && hereRoom()));
     this.callBtn.setAttribute('aria-pressed', String(on));
+    // A window that has just opened gets its who-is-in-the-call line at once.
+    if (this.present) this.presenceShown();
   };
 
   Radio.prototype.setCall = function (on) {

@@ -164,7 +164,15 @@
     bar.appendChild(leave);
     size('regular');
     box.appendChild(bar);
-    box.appendChild(el('p', 'cb-call-note', 'Leaving this page hangs up. Nothing about the call is kept on stimpunks.world.'));
+    box.appendChild(el('p', 'cb-call-note', 'Leaving this page hangs up. While you are in the call, stimpunks.world keeps your name in it, until you leave.'));
+    /* WHO IS IN THE CALL, just above 8x8's own Join button, which is where
+       somebody is looking when they decide (Ryan, 2026-09-29). call.js never
+       asks for it: cb.js fills it from the answer the radio already gets, under
+       the radio's rule, so a guest with no radio never sees it and it stays
+       hidden. Not a live region: it is redrawn every few seconds. */
+    var who = el('p', 'cb-call-note cb-call-who');
+    who.hidden = true;
+    box.appendChild(who);
     var screen = el('div', 'cb-call-screen');
     screen.appendChild(frame);
     box.appendChild(screen);
@@ -178,7 +186,7 @@
     if (watch) watch.observe(box);
     put();
     leave.focus();
-    return { host: host, off: function () { window.removeEventListener('resize', put); if (watch) watch.disconnect(); } };
+    return { host: host, room: here.tag, who: who, off: function () { window.removeEventListener('resize', put); if (watch) watch.disconnect(); } };
   }
 
   var current = null;
@@ -225,5 +233,8 @@
       .catch(function () { return { ok: false, said: 'No signal. The call could not be opened.' }; });
   }
 
-  window.loveCall = { Mover: Mover, open: open, leave: leave, isOpen: function () { return !!current; } };
+  // The who-is-in-the-call line of the window open for this room, if one is.
+  function whoLine(tag) { return current && current.room === tag ? current.who : null; }
+
+  window.loveCall = { Mover: Mover, open: open, leave: leave, isOpen: function () { return !!current; }, whoLine: whoLine };
 })();
