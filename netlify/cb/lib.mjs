@@ -378,6 +378,191 @@ export async function sweepSlake(s = store(), now = Date.now()) {
   return any;
 }
 
+/* ── Being seen in a room ──────────────────────────────────────────── */
+
+/* BE SEEN HERE: the Slake's rule, for every room on the street. Ryan,
+   2026-09-29, after people asked who else was about, and who was in a call
+   before they joined it. It is the same switch both ways, as it is on the
+   Slake: a radio that is seen in a room is told who else is seen there, and a
+   radio that is not seen is told nothing. It is off until somebody presses it,
+   and Ryan's call the same day is that a browser remembers it once pressed.
+
+   It is the Slake's record in another drawer: presence in the key, one empty
+   blob per visit, replaced as the visit moves, shown to nobody ROOM_FRESH after
+   its last check, and HANDLES ONLY, in alphabetical order, with no number:
+   nobody is first for having come first, and the page has no count to print.
+   A room the base keeps (MOD_ROOMS) shows its people only to passes that room
+   lets in, by roomAllows(), like its channel. */
+export const ROOM_FRESH = 30 * 1000;       // shown to nobody this long after its last check
+const ROOM_GONE = 2 * 60 * 1000;           // anybody's check deletes a record this stale
+const SEEN = 'room-here/';
+
+function seenKey(tag, visit, t, role, handle) {
+  return `${SEEN}${tag}/${visit}.${t}.${role}.${b64(handle)}`;
+}
+function parseSeen(key) {
+  const m = /^room-here\/([a-z0-9-]+)\/([A-Za-z0-9_-]+)\.(\d+)\.(mobile|base)\.([A-Za-z0-9_-]+)$/.exec(key);
+  if (!m) return null;
+  let handle;
+  try { handle = Buffer.from(m[5], 'base64url').toString('utf8'); } catch (e) { return null; }
+  return { key, tag: m[1], visit: m[2], t: Number(m[3]), base: m[4] === 'base', handle };
+}
+async function everySeen(s) {
+  return ((await s.list({ prefix: SEEN })).blobs || []).map((b) => parseSeen(b.key)).filter(Boolean);
+}
+function seenIn(all, tag, visit, now) {
+  const seen = new Map();
+  for (const r of all) {
+    if (r.tag !== tag || r.visit === visit || now - r.t >= ROOM_FRESH) continue;
+    if (!seen.has(r.handle)) seen.set(r.handle, { handle: r.handle, base: r.base });
+  }
+  return [...seen.values()].sort((a, b) => a.handle.localeCompare(b.handle));
+}
+
+/* Be seen in a room, which is also what lets you see who else is. The visit's
+   earlier record goes, wherever it was, so which rooms somebody has been in is
+   never a trail. */
+export async function beSeen(who, tag, visit, s = store(), now = Date.now()) {
+  const all = await everySeen(s);
+  const key = seenKey(tag, visit, now, who.role, who.handle);
+  await s.set(key, '');
+  for (const r of all) {
+    if (r.key !== key && (r.visit === visit || now - r.t >= ROOM_GONE)) await s.delete(r.key);
+  }
+  return seenIn(all, tag, visit, now);
+}
+
+/* Stop being seen: every record for this visit, now. */
+export async function unseen(visit, s = store()) {
+  for (const r of await everySeen(s)) if (r.visit === visit) await s.delete(r.key);
+}
+
+export async function sweepSeen(s = store(), now = Date.now()) {
+  let any = false;
+  for (const r of await everySeen(s)) if (now - r.t >= ROOM_FRESH) { await s.delete(r.key); any = true; }
+  return any;
+}
+
+/* ── Who is in a room's call ─────────────────────────────────────────── */
+
+/* EVERYBODY IN A CALL, FROM 8x8. Ryan's call, 2026-09-29: who is in a room's
+   call is told by JaaS's participant webhook, so it is everybody in it, guests
+   included, and not only people who pressed Be seen here. It is shown only to a
+   radio that is seen in that room (the one switch, both ways) and that the
+   room lets in, and it is names only, alphabetical, with no number.
+
+   What 8x8 sends is checked before anything is believed: X-Jaas-Signature is an
+   HMAC-SHA256 of "<t>.<body>", base64, keyed by the endpoint's whole secret as
+   the console shows it (whsec_ and all; 8x8's own worked example is in
+   lib.test.mjs), and it is refused five minutes either side of now.
+
+   WHAT IS KEPT is one empty blob per person in a call, the name and the time
+   in its key and nothing else: no email, no id we could look anybody up by, the
+   participant's id only as a hash. It goes when they leave, when the room
+   closes, or at the hourly sweep once it is older than a token can be. A
+   leaving that arrives before its joining (8x8 retries) leaves a mark for an
+   hour, so the late joining is not believed. */
+const IN_CALL = 'call-in/';
+const CALL_LEFT = 'call-left/';
+const callStale = () => (CALL_HOURS + 1) * 3600 * 1000;   // CALL_HOURS is further down
+const LEFT_KEEP = 60 * 60 * 1000;
+export const CALL_NAME_MAX = 60;
+export const HOOK_SKEW = 5 * 60;           // seconds either side of now a signature is believed
+
+export function jaasSigned(header, raw, secret, now = Date.now()) {
+  if (!secret || typeof header !== 'string' || typeof raw !== 'string') return false;
+  let t = null; const sigs = [];
+  for (const part of header.split(',')) {
+    const i = part.indexOf('=');
+    if (i < 1) continue;
+    const k = part.slice(0, i).trim(), v = part.slice(i + 1).trim();
+    if (k === 't') t = v; else if (k === 'v1') sigs.push(v);
+  }
+  if (!t || !/^\d{9,11}$/.test(t) || !sigs.length) return false;
+  if (Math.abs(now / 1000 - Number(t)) > HOOK_SKEW) return false;
+  const want = Buffer.from(createHmac('sha256', secret).update(`${t}.${raw}`, 'utf8').digest('base64'));
+  return sigs.some((v) => { const got = Buffer.from(v); return got.length === want.length && timingSafeEqual(got, want); });
+}
+
+/* The room an 8x8 event is about, or null: our App ID, one of our rooms. */
+export function callEventRoom(fqn) {
+  const m = /^([^/]+)\/stimpunks-([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(String(fqn || ''));
+  return m && m[1] === JAAS_APP ? roomTag(m[2]) : null;
+}
+const pidOf = (d) => {
+  const id = d && (d.participantId || d.participantJid || d.id);
+  return id ? createHash('sha256').update(`stimpunks-call-pid\0${id}`).digest('base64url').slice(0, 22) : null;
+};
+function parseInCall(key) {
+  const m = /^call-in\/([a-z0-9-]+)\/([A-Za-z0-9_-]+)\.(\d+)\.(m|p)\.([A-Za-z0-9_-]*)$/.exec(key);
+  if (!m) return null;
+  let name;
+  try { name = Buffer.from(m[5], 'base64url').toString('utf8'); } catch (e) { return null; }
+  return { key, tag: m[1], pid: m[2], t: Number(m[3]), base: m[4] === 'm', name };
+}
+function parseLeft(key) {
+  const m = /^call-left\/([a-z0-9-]+)\/([A-Za-z0-9_-]+)\.(\d+)$/.exec(key);
+  return m ? { key, tag: m[1], pid: m[2], t: Number(m[3]) } : null;
+}
+async function listed(s, prefix, parse) {
+  return ((await s.list({ prefix })).blobs || []).map((b) => parse(b.key)).filter(Boolean);
+}
+function callName(v) {
+  const t = tidy(v);
+  return t ? [...t].slice(0, CALL_NAME_MAX).join('') : 'somebody';
+}
+
+/* One event from 8x8. Returns what it did, for the log-free test. */
+export async function callEvent(ev, s = store(), now = Date.now()) {
+  const tag = ev && callEventRoom(ev.fqn);
+  if (!tag) return 'not ours';
+  const at = Number.isFinite(Number(ev.timestamp)) && Number(ev.timestamp) > 0 ? Number(ev.timestamp) : now;
+  const here = await listed(s, `${IN_CALL}${tag}/`, parseInCall);
+  const d = ev.data || {};
+  switch (ev.eventType) {
+    case 'PARTICIPANT_JOINED': {
+      const pid = pidOf(d);
+      if (!pid) return 'no one';
+      const left = await listed(s, `${CALL_LEFT}${tag}/`, parseLeft);
+      if (left.some((l) => l.pid === pid && l.t >= at)) return 'already left';
+      for (const r of here) if (r.pid === pid) await s.delete(r.key);
+      const mod = d.moderator === true || d.moderator === 'true';
+      await s.set(`${IN_CALL}${tag}/${pid}.${at}.${mod ? 'm' : 'p'}.${b64(callName(d.name))}`, '');
+      return 'joined';
+    }
+    case 'PARTICIPANT_LEFT': {
+      const pid = pidOf(d);
+      if (!pid) return 'no one';
+      for (const r of here) if (r.pid === pid && r.t <= at) await s.delete(r.key);
+      await s.set(`${CALL_LEFT}${tag}/${pid}.${at}`, '');
+      return 'left';
+    }
+    case 'ROOM_CREATED':
+    case 'ROOM_DESTROYED':
+      for (const r of here) if (r.t <= at) await s.delete(r.key);
+      return 'emptied';
+    default:
+      return 'ignored';
+  }
+}
+
+/* Who is in a room's call: names, each once, alphabetical, no number. */
+export async function inCall(tag, s = store(), now = Date.now()) {
+  const seen = new Map();
+  for (const r of await listed(s, `${IN_CALL}${tag}/`, parseInCall)) {
+    if (now - r.t >= callStale()) continue;
+    if (!seen.has(r.name)) seen.set(r.name, { name: r.name, base: r.base });
+  }
+  return [...seen.values()].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export async function sweepCalls(s = store(), now = Date.now()) {
+  let any = false;
+  for (const r of await listed(s, IN_CALL, parseInCall)) if (now - r.t >= callStale()) { await s.delete(r.key); any = true; }
+  for (const r of await listed(s, CALL_LEFT, parseLeft)) if (now - r.t >= LEFT_KEEP) { await s.delete(r.key); any = true; }
+  return any;
+}
+
 /* ── Pictures on the channel ─────────────────────────────────────────── */
 
 /* A PICTURE IS PART OF ITS MESSAGE AND GOES WHEN THE MESSAGE GOES. Ryan,

@@ -375,7 +375,7 @@ def room_call(p, d, tag, public):
     if public:
         lines = [
             f'    <div class="{p}-call" data-call="{tag}" data-call-name="{room}" data-call-public>',
-            f'      <p>This call is open to anybody. Type the name you want to be called, and knock: you wait in the lobby until a moderator lets you in. Everybody who is not a moderator knocks, signed on to the CB or not, and the moderators are the base station, who are in here at the times on the list above. Between those times there may be nobody to open the door.</p>',
+            f'      <p>This call is open to anybody. Type the name you want to be called, and knock: you wait in the lobby until a moderator lets you in. Everybody who is not a moderator knocks, signed on to the CB or not, and the moderators are the base station, who are in here at the times on the list above. Between those times there may be nobody to open the door. Once you are in, the name you typed is shown to people signed on to the CB who have chosen to be seen in this room, as somebody in its call, until you leave.</p>',
             f'      <form class="{p}-call__knock" data-call-guest hidden>',
             f'        <label for="{p}-call-name">The name you want to be called in the call</label>',
             f'        <div class="{p}-call__row"><input id="{p}-call-name" name="name" maxlength="24" autocomplete="nickname" spellcheck="false"><button type="submit">Knock on the door</button></div>',

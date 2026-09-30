@@ -629,6 +629,23 @@ restated, refused if dark, link-only or given a runtime, and videos with their o
 runtime. `check-jukebox.py` checks the videos and leaves the cams to the Jungle Room. Every room behind one house must be its
 own world, and the next one to be tempted to match its neighbour is the one to stop.
 
+**BE SEEN HERE IS THE SLAKE'S SWITCH IN EVERY ROOM, AND WHO IS IN A CALL COMES FROM 8x8.** Ryan,
+2026-09-29, after requests for presence, especially before joining a call. `beSeen` / `unseen` in
+`lib.mjs` are the Slake's record in another drawer (`room-here/<tag>/<visit>.<time>.<role>.<handle>`),
+asked by `/cb/here` from inside `listen()` and nowhere else, and **it is one switch both ways**: a
+radio that is not seen is told nothing. **Handles only, alphabetical, and no number** (Ryan's call:
+the no-headcount rule holds). **Remembered in `love-cb` as `seen`** once pressed, which reverses the
+Slake's never-remembered rule for rooms only, Ryan's call. **Who is in a room's call is JaaS's
+participant webhook** (`/cb/call-events`, `callEvent`), so it is everybody in it, guests included,
+Ryan's call over showing only the people who chose to be seen; it is shown only to a radio seen in
+that room, and `roomAllows()` guards both halves in the base's rooms. The webhook needs
+`CB_JAAS_EVENTS_SECRET` (the endpoint's secret as the console shows it, `whsec_` and all) and
+refuses everything without a good `X-Jaas-Signature`; `jaasSigned` is tested against 8x8's own
+worked example. It keeps a name, a moderator flag, a time and a hashed id per person and **never the
+email 8x8 sends**. **The call line only appears once the server says 8x8 is telling it
+(`callHeard`)**, so an empty list is never a guess. The public calls' notice says a guest's name is
+shown, because it is generated in `make-coworking.py`.
+
 **A call's window and the `Mover` live in `call.js`, not `cb.js`**, because a public room's guest
 must never download the radio. `cb.js` loads `call.js` before it builds the radio. `call.js` reads
 the `love-cb` pass and never writes it. `/cb/call` signs a guest token, never a moderator, only for

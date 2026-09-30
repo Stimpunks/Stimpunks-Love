@@ -71,6 +71,12 @@
   'use strict';
 
   var KEY = 'love-cb';
+  // This page's visit, for Be seen here: made up now, shown to nobody, gone with the page.
+  var VISIT = (function () {
+    var b = new Uint8Array(18);
+    crypto.getRandomValues(b);
+    return btoa(String.fromCharCode.apply(null, b)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  })();
   var MESSAGE_MAX = 2000;  // characters, as netlify/cb/lib.mjs takes them
   var EVERY = 4000;       // ms between listens while open and in front
   var BEAT = 30000;       // ms a host's beacon goes unsent at most, while nothing changes
@@ -144,20 +150,20 @@
       body: opts.body ? JSON.stringify(opts.body) : undefined,
       credentials: 'omit',
       cache: 'no-store',
+      keepalive: !!opts.keepalive,
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
     });
   }
 
-  /* A LINK TO ANOTHER ROOM IS CLICKABLE AND A LINK ANYWHERE ELSE IS NOT. Ryan
+  /* A LINK TO ANOTHER ROOM IS A PATH ON THIS STREET. Ryan
      asked, 2026-09-25, so that somebody can drop a room on the channel for
      somebody else to join them in. Only this street's own addresses become
      links -- stimpunks.world/..., with or without https:// and www. -- and they
      open as a path on whatever host is serving the page, so they work the same
-     on the dev server. Everything else somebody types stays plain words you can
-     copy: the channel is a stranger's words reaching the page, and a clickable
-     link to anywhere is the one way it could send somebody off the street
-     without their noticing where. The path is checked character by character
+     on the dev server. An address anywhere else is AWAY's, below, and says it
+     is leaving, because the channel is a stranger's words reaching the page.
+     The path is checked character by character
      rather than escaped, so nothing but a path can reach an href. */
   var STREET = /(?:https?:\/\/)?(?:www\.)?stimpunks\.world(\/[A-Za-z0-9\-._~\/#?=&%+]*)?/gi;
   var TRAIL = /[.,;:!?)\]'"]+$/;
@@ -645,6 +651,27 @@
     band.appendChild(br);
     set.appendChild(band);
 
+    /* BE SEEN HERE, the Slake's switch in every room. Ryan, 2026-09-29. One
+       switch both ways: seen, the radio is told who else is seen in this room
+       and who is in its call; not seen, it asks and is told nothing. Handles
+       only, alphabetical, with no number. Remembered in this browser once
+       pressed (Ryan's call the same day), and it sends nothing while folded or
+       in a tab behind another, because listen() is the only thing that asks.
+       Not a live region: it is redrawn on every listen, and somebody arriving
+       is not an alert. */
+    var present = this.present = el('div', 'cb-present');
+    var seenBtn = this.seenBtn = el('button', 'cb-btn cb-seen', 'Be seen here');
+    seenBtn.type = 'button';
+    seenBtn.setAttribute('aria-pressed', 'false');
+    this.seenNow = el('p', 'cb-seen-now');
+    this.inCallNow = el('p', 'cb-seen-now cb-in-call');
+    this.inCallNow.hidden = true;
+    present.appendChild(seenBtn);
+    present.appendChild(this.seenNow);
+    present.appendChild(this.inCallNow);
+    present.hidden = true;
+    set.appendChild(present);
+
     var lcd = el('div', 'cb-lcd');
     // Which channel this is, at every size, because small shows only the readout.
     this.bandNow = el('p', 'cb-band-now');
@@ -810,6 +837,8 @@
     hostBtn.addEventListener('click', function () { me.setHosting(!me.hosting); });
     callBtn.addEventListener('click', function () { me.setCall(!window.loveCall.isOpen()); });
     bw.addEventListener('click', function () { me.setBand('world'); });
+    seenBtn.addEventListener('click', function () { me.setSeen(!me.state.seen); });
+    window.addEventListener('pagehide', function () { me.leaveSeen(); });
     br.addEventListener('click', function () { me.setBand('room'); });
     beacons.addEventListener('click', function (e) {
       // Follow first: it wears .cb-catch too, for the look, and asking for
@@ -1125,6 +1154,7 @@
     // Whatever was said while it was off is on the screen when it comes back,
     // and is not read out: nothing is saved up for when you come back.
     if (!on) this.heard = false;
+    if (!on) this.leaveSeen();
     clearTimeout(this.timer);
     this.timer = null;
     if (on) this.listen();
@@ -1146,6 +1176,7 @@
     this.spotBtn.hidden = !w;
     this.hostBtn.hidden = !w && !this.hosting;
     this.hostTick(w);
+    this.hereTick();
     var room = this.tunedRoom();
     call('/cb/channel' + (room ? '?room=' + room : ''), null, this.state.pass).then(function (r) {
       if (r.status === 401) return me.lost();
@@ -1730,6 +1761,86 @@
     this.roomBtn.setAttribute('aria-label', 'This room: ' + name);
     this.bandNow.textContent = room ? 'Tuned to ' + name : 'Tuned to World';
     this.log.setAttribute('aria-label', (room ? name + '\u2019s channel' : 'The World channel') + ', latest ten messages');
+    this.presenceShown();
+  };
+
+  // The room a page is, for being seen in: only once the street's list says so.
+  function presentRoom() {
+    var here = rooms && hereRoom();
+    return here && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(here.tag) ? here.tag : null;
+  }
+
+  Radio.prototype.setSeen = function (on) {
+    this.state.seen = !!on;
+    save(this.state);
+    this.seenFrom = null;
+    this.seenAnswer = null;
+    if (!on) this.leaveSeen();
+    this.presenceShown();
+    if (on) this.hereTick();
+    this.tell(on ? 'You can be seen here now, by your handle, by anybody else seen here.' : 'Nobody sees you here now, and you see nobody.');
+  };
+
+  /* Asked on each listen, and nowhere else. One request at a time. */
+  Radio.prototype.hereTick = function () {
+    var me = this, tag = presentRoom();
+    if (!this.state.seen || !tag) { this.leaveSeen(); return; }
+    if (this.hereBusy) return;
+    this.hereBusy = true;
+    call('/cb/here', { body: { room: tag, visit: VISIT } }, this.state.pass).then(function (r) {
+      if (r.status === 401) return me.lost();
+      if (!me.state.seen) return;
+      if (r.status === 200) { me.seenAs = tag; me.seenAnswer = r.body; me.seenFrom = tag; }
+      else if (r.status === 403) { me.seenAnswer = { refused: true }; me.seenFrom = tag; }
+      me.presenceShown();
+    }).catch(function () { /* the next listen asks again */ })
+      .then(function () { me.hereBusy = false; });
+  };
+
+  // Not seen any more: tell the server now, rather than let it wait thirty seconds.
+  Radio.prototype.leaveSeen = function () {
+    if (!this.seenAs) return;
+    this.seenAs = null;
+    this.seenAnswer = null;
+    call('/cb/here/leave', { body: { visit: VISIT }, keepalive: true }, this.state.pass).catch(function () {});
+  };
+
+  function whoList(p, people, key) {
+    p.textContent = '';
+    people.forEach(function (x, i) {
+      if (i) p.appendChild(document.createTextNode(', '));
+      p.appendChild(el('b', null, x[key]));
+      if (x.base) p.appendChild(el('span', 'cb-tag', 'BASE'));
+    });
+  }
+
+  Radio.prototype.presenceShown = function () {
+    var tag = presentRoom();
+    this.present.hidden = !tag;
+    if (!tag) return;
+    var on = !!this.state.seen, a = this.seenFrom === tag ? this.seenAnswer : null;
+    this.seenBtn.setAttribute('aria-pressed', String(on));
+    this.inCallNow.hidden = true;
+    if (!on) { this.seenNow.textContent = 'Switch it on to see who else here has, and who is in this room\u2019s call.'; return; }
+    // It never claims what it has not heard.
+    if (!a) { this.seenNow.textContent = 'Looking\u2026'; return; }
+    if (a.refused) { this.seenNow.textContent = 'Being seen here is for the people this room is for.'; return; }
+    var others = a.others || [];
+    if (others.length) {
+      this.seenNow.textContent = '';
+      this.seenNow.appendChild(document.createTextNode('Also seen here: '));
+      var span = el('span'); whoList(span, others, 'handle'); this.seenNow.appendChild(span);
+    } else this.seenNow.textContent = 'Nobody else here is seen.';
+    // Only once 8x8 is telling us, so an empty list is never a guess.
+    if (a.callHeard) {
+      var inc = a.call || [];
+      this.inCallNow.hidden = false;
+      if (inc.length) {
+        this.inCallNow.textContent = '';
+        this.inCallNow.appendChild(document.createTextNode('In this room\u2019s call: '));
+        var c = el('span'); whoList(c, inc, 'name'); this.inCallNow.appendChild(c);
+      } else this.inCallNow.textContent = 'Nobody is in this room\u2019s call.';
+    }
   };
 
   Radio.prototype.quietText = function () {

@@ -190,6 +190,13 @@ ol.cb-md-list { list-style: decimal; }
    one amber border for another: filled, the teleporter's selected room's pair,
    which check-contrast.py already measures. */
 .cb-follow[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
+/* BE SEEN HERE: a switch, filled when on, the Follow button's pair. Who else is
+   seen, and who is in the call, in the radio's own steel on its case, the
+   pair the name line above it already uses. */
+.cb-present { display: grid; gap: 4px; justify-items: start; }
+.cb-seen[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
+.cb-seen-now { font-size: 14px; overflow-wrap: anywhere; }
+.cb-seen-now .cb-tag { margin-left: 4px; }
 .cb-catch { justify-self: start; min-height: 44px; }
 .cb-take, .cb-catch {
   color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2);
@@ -279,7 +286,7 @@ ol.cb-md-list { list-style: decimal; }
    and the newest is clamped to a few lines so a long one cannot grow the radio
    back over whatever it was made small to get out of the way of. */
 .cb-radio--small .cb-who, .cb-radio--small .cb-band, .cb-radio--small .cb-tx,
-.cb-radio--small .cb-tools, .cb-radio--small .cb-norms, .cb-radio--small .cb-acts { display: none; }
+.cb-radio--small .cb-tools, .cb-radio--small .cb-norms, .cb-radio--small .cb-acts, .cb-radio--small .cb-present { display: none; }
 .cb-radio--small .cb-set { padding: 8px; }
 .cb-radio--small .cb-lcd { padding: 6px 9px; }
 .cb-radio--small .cb-log { max-height: none; overflow: hidden; }

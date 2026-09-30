@@ -26,7 +26,8 @@ import { updateChalk, readChalk, updatePebbles, readPebbles, cleanLink, PEBBLE_R
   PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons,
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
-  cleanMessage, MESSAGE_MAX, cleanText } from './lib.mjs';
+  cleanMessage, MESSAGE_MAX, cleanText,
+  beSeen, unseen, sweepSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, sweepCalls } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
 function memoryStore({ etagOnRead }) {
@@ -49,12 +50,13 @@ function memoryStore({ etagOnRead }) {
       await tick();
       return { blobs: [...blobs].filter(([k]) => k.startsWith(prefix)).map(([key, b]) => ({ key, etag: b.etag })) };
     },
-    // THE ONLY UNCONDITIONAL WRITES ALLOWED are a presence record on the Slake
-    // and a picture on the channel, because each of those keys belongs to one
-    // visit or one upload and nobody else writes it. Anything else fails.
+    // THE ONLY UNCONDITIONAL WRITES ALLOWED are a presence record (on the
+    // Slake, in a room, or in a call) and a picture on the channel, because each
+    // of those keys belongs to one visit, one person in a call or one upload and
+    // nobody else writes it. Anything else fails.
     async set(key, value, opts = {}) {
       await tick();
-      if (!key.startsWith('mud-here/') && !key.startsWith('img/')) throw new Error('an unconditional write outside presence: ' + key);
+      if (!/^(mud-here|room-here|call-in|call-left|img)\//.test(key)) throw new Error('an unconditional write outside presence: ' + key);
       blobs.set(key, { value, etag: `e${++n}`, metadata: opts.metadata });
       return { modified: true };
     },
@@ -576,4 +578,84 @@ test('a CB message keeps its lines and is refused past its length', () => {
   assert.equal(cleanMessage('x'.repeat(MESSAGE_MAX + 1)), null);
   assert.equal(cleanText('a\nb'), 'a b', 'the Slake and the boards stay one line');
   assert.equal(cleanMessage('<b>not html</b>'), '<b>not html</b>', 'kept as words; the radio never renders it as markup');
+});
+
+/* ── Be seen here, in a room, and who is in its call ──────────────────── */
+
+test('two people seen in one room see each other; a room is not the Slake', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  await beSeen(ada, 'the-den', V('a'), s, now);
+  assert.deepEqual(await beSeen(bex, 'the-den', V('b'), s, now + 1), [{ handle: 'Ada', base: false }]);
+  assert.deepEqual(await beSeen({ role: 'base', handle: 'Cy' }, 'the-mopery', V('c'), s, now + 2), []);
+  assert.deepEqual(await beHere(ada, 'hide', V('d'), s, now + 3), [], 'the Slake does not see the rooms');
+});
+
+test('a visit is seen in one room at a time, goes at once, and the sweep takes the stale', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  await beSeen(ada, 'the-den', V('a'), s, now);
+  await beSeen(ada, 'the-mopery', V('a'), s, now + 1);
+  const mine = s.keys().filter((k) => k.includes(V('a')));
+  assert.equal(mine.length, 1);
+  assert.ok(mine[0].startsWith('room-here/the-mopery/'));
+  assert.deepEqual(await beSeen(bex, 'the-mopery', V('b'), s, now + ROOM_FRESH + 1), [], 'shown after its thirty seconds');
+  await beSeen(ada, 'the-den', V('a'), s, now + 2);
+  await unseen(V('a'), s);
+  assert.deepEqual(await beSeen(bex, 'the-den', V('b'), s, now + 3), []);
+  await sweepSeen(s, now + 10 * ROOM_FRESH);
+  assert.equal(s.keys().filter((k) => k.startsWith('room-here/')).length, 0);
+});
+
+test("8x8's own worked example signs, and anything else does not", () => {
+  const raw = '{"eventType":"PARTICIPANT_JOINED","sessionId":"9a441d60-ceaf-4eba-b0a8-a7d940a76e1b","timestamp":1632490058278,"fqn":"vpaas-magic-cookie-96f0941768964ab380ed0fbada7a502f/sampleappromanticshiftsstripas","idempotencyKey":"9e9e7420-562d-4659-8e22-44b9b22aaa49","customerId":"96f0941768964ab380ed0fbada7a502f","appId":"vpaas-magic-cookie-96f0941768964ab380ed0fbada7a502f","data":{"avatar":"","name":"Test User","id":"auth0|5f903d7a77f3b4006eb8e67d","participantJid":"fc1ea14a-9bca-4218-a563-8c627e803d56@8x8.vc","moderator":true,"email":"test.user@company.com"}}';
+  const secret = 'whsec_9635df66714a4cf088ee9d0979dd3bf6';
+  const head = 't=1632490060,v1=xlzqEojlh4qb21sQpXYsWgyK8x9HVpz+RQldsv18rV0=';
+  const then = 1632490060 * 1000;
+  assert.equal(jaasSigned(head, raw, secret, then), true);
+  assert.equal(jaasSigned(head, raw, secret, then + 10 * 60 * 1000), false, 'ten minutes late');
+  assert.equal(jaasSigned(head, raw + ' ', secret, then), false, 'a body that changed');
+  assert.equal(jaasSigned(head, raw, secret.slice(6), then), false, 'the secret without its whsec_');
+  assert.equal(jaasSigned('t=1632490060,v0=xlzqEojlh4qb21sQpXYsWgyK8x9HVpz+RQldsv18rV0=', raw, secret, then), false, 'only v1 counts');
+  assert.equal(jaasSigned(null, raw, secret, then), false);
+  assert.equal(jaasSigned(head, raw, '', then), false, 'no secret, nothing believed');
+});
+
+test('an 8x8 event is only about one of our rooms', () => {
+  assert.equal(callEventRoom(`${JAAS_APP}/stimpunks-the-den`), 'the-den');
+  assert.equal(callEventRoom('vpaas-magic-cookie-other/stimpunks-the-den'), null);
+  assert.equal(callEventRoom(`${JAAS_APP}/somebody-else`), null);
+  assert.equal(callEventRoom(`${JAAS_APP}/stimpunks-../x`), null);
+});
+
+const ev = (type, name, id, at, extra = {}) => ({ eventType: type, fqn: `${JAAS_APP}/stimpunks-the-den`, timestamp: at,
+  data: { name, participantId: id, email: 'never@kept.example', ...extra } });
+
+test('who is in a call: names once, alphabetical, no email, gone on leaving and on closing', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  await callEvent(ev('PARTICIPANT_JOINED', 'Sam', 'p1', now), s, now);
+  await callEvent(ev('PARTICIPANT_JOINED', 'Ada', 'p2', now + 1, { moderator: 'true' }), s, now);
+  await callEvent(ev('PARTICIPANT_JOINED', 'Sam', 'p3', now + 2), s, now);
+  assert.deepEqual(await inCall('the-den', s, now + 3), [{ name: 'Ada', base: true }, { name: 'Sam', base: false }]);
+  assert.ok(!s.keys().some((k) => /never|kept|p1|p2/.test(k)), 'no email and no raw id in any key');
+  await callEvent(ev('PARTICIPANT_LEFT', 'Ada', 'p2', now + 4), s, now);
+  assert.deepEqual((await inCall('the-den', s, now + 5)).map((p) => p.name), ['Sam']);
+  assert.deepEqual(await inCall('the-mopery', s, now + 5), [], 'another room\'s call is its own');
+  await callEvent({ eventType: 'ROOM_DESTROYED', fqn: `${JAAS_APP}/stimpunks-the-den`, timestamp: now + 6, data: {} }, s, now);
+  assert.deepEqual(await inCall('the-den', s, now + 7), []);
+});
+
+test('a leaving that arrives before its joining wins, and the sweep takes what 8x8 never closed', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  await callEvent(ev('PARTICIPANT_LEFT', 'Bex', 'p9', now + 10), s, now);
+  assert.equal(await callEvent(ev('PARTICIPANT_JOINED', 'Bex', 'p9', now), s, now), 'already left');
+  assert.deepEqual(await inCall('the-den', s, now + 11), []);
+  await callEvent(ev('PARTICIPANT_JOINED', 'Cy', 'p8', now), s, now);
+  const later = now + (CALL_HOURS + 2) * 3600 * 1000;
+  assert.deepEqual(await inCall('the-den', s, later), [], 'older than a token can be');
+  await sweepCalls(s, later);
+  assert.equal(s.keys().filter((k) => k.startsWith('call-in/') || k.startsWith('call-left/')).length, 0);
+  assert.equal(await callEvent({ eventType: 'PARTICIPANT_JOINED', fqn: 'elsewhere/stimpunks-x', data: { participantId: 'q' } }, s, now), 'not ours');
 });
