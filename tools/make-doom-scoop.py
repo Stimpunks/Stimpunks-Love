@@ -45,6 +45,8 @@ WHAT IT REFUSES, and why each one is here rather than left to care:
     that there are none. The headlines are NOT swept: they are the channels'
     words, quoted as written, and "BREAKS" in a headline is not this room
     breaking anything.
+  · A PAGE THAT DOES NOT LOAD rack.js AND love-embed.js. Every tub has a screen
+    of its own, rack.js's pattern, and every video in it can go up there.
   · MISSING MARKERS, and no `set` time.
 """
 import html
@@ -197,11 +199,12 @@ def check(d):
     return srcs
 
 
-def scoop_li(s, shape):
+def scoop_li(s, shape, screen):
     t = utc(s["published"])
     runs = s.get("runs")
     when = f'{esc(hour(t))}' + (f' &middot; {clock(runs)}' if runs else "")
-    head = (f'            <li class="ds-scoop ds-scoop--{shape}">\n'
+    card = " data-rack-card" if s["state"] == "screen" else ""
+    head = (f'            <li class="ds-scoop ds-scoop--{shape}"{card}>\n'
             f'              <p class="ds-scoop__title">{esc(s["title"])}</p>\n'
             f'              <p class="ds-scoop__when">{when}</p>\n')
     if s["state"] == "screen":
@@ -209,7 +212,16 @@ def scoop_li(s, shape):
                 f'data-embed-title="{attr(s["title"])}, on YouTube via {attr(s["channel"])}">\n'
                 f'                Play &mdash; {esc(spoken(runs))}\n'
                 f'                <span class="facade__play">&#9654; PRESS PLAY</span>\n'
-                f'              </button>\n')
+                f'              </button>\n'
+                # The second press: the same video on the morning's own screen.
+                # Hidden until rack.js is here to unhide it.
+                f'              <button type="button" class="ds-scoop__big" hidden data-rack-to="{screen[0]}" '
+                f'data-rack-name="{attr(screen[1])}" '
+                f'data-rack-src="https://www.youtube-nocookie.com/embed/{attr(s["id"])}?autoplay=1&amp;rel=0" '
+                f'data-rack-title="{attr(s["title"])}, on YouTube via {attr(s["channel"])}, on {attr(screen[1])}" '
+                f'data-rack-film="{attr(s["title"])}" data-rack-runtime="{clock(runs)}"'
+                + (' data-rack-shape="tall"' if shape == "tall" else "") +
+                f'>Put it on {esc(screen[1])} &mdash; {esc(spoken(runs))}</button>\n')
     else:
         how = f" &mdash; {esc(spoken(runs))}" if runs else ""
         body = (f'              <a class="ds-door" href="https://www.youtube.com/watch?v={attr(s["id"])}">'
@@ -235,6 +247,20 @@ def tub(d, edition, age, rows):
            f'<span class="ds-tub__span">the morning edition: {WORDS[CUT]} on {before} morning to {WORDS[CUT]} on '
            f'{day.strftime("%A")}</span></summary>',
            '    <div class="ds-tub__in">']
+    # THE MORNING'S OWN SCREEN, rack.js's pattern (Ryan's call, 2026-09-28; this
+    # room 2026-09-29): any video in the tub plays where it hangs, or goes up
+    # here, bigger. A morning is not a list anybody can put on whole, so the
+    # screen has nothing of its own on it: it ships hidden, rack.js unhides it,
+    # and a tub with nothing that plays in here gets no screen at all.
+    screen = (f"ds-{edition}", f"{day.strftime('%A')}\u2019s screen")
+    if any(r["state"] == "screen" for r in rows):
+        out += [f'      <div class="ds-screen" data-rack-screen="{screen[0]}" tabindex="-1" hidden>',
+                f'        <p class="ds-screen__idle"><span><b>{esc(screen[1])}.</b> Nothing is on it. Any video in '
+                'this tub can go up here with the button under it, and nothing loads until you press one.</span></p>',
+                '      </div>',
+                f'      <p class="ds-screen__now" data-rack-now="{screen[0]}" tabindex="-1" hidden></p>',
+                f'      <p class="ds-screen__back" hidden><button type="button" class="ds-back" '
+                f'data-rack-back="{screen[0]}">Take it off {esc(screen[1])}</button></p>']
     quiet, unread = [], []
     for g in d["groups"]:
         feeds = [s for s in g["sources"] if s.get("feed")]
@@ -253,7 +279,7 @@ def tub(d, edition, age, rows):
                 f'          <h4 class="ds-src__name"><a href="{attr(src["url"])}">{esc(src["name"])}</a></h4>\n'
                 + gap +
                 f'          <ol class="ds-scoops ds-scoops--{src["shape"]}">\n'
-                + "\n".join(scoop_li(r, src["shape"]) for r in mine) + "\n"
+                + "\n".join(scoop_li(r, src["shape"], screen) for r in mine) + "\n"
                 '          </ol>\n'
                 '        </section>')
         if blocks:
@@ -331,6 +357,10 @@ def main():
         for p in problems:
             print("  - " + p)
         return 1
+    for js in ("love-embed.js", "rack.js"):
+        if f'<script src="{js}" defer></script>' not in src:
+            problems.append(f"{PAGE.name} does not load {js}, so the screens and their buttons "
+                            "would never appear, or would press and do nothing.")
     src = swap(src, "ds-set", set_line(d))
     src = swap(src, "ds-counter", counter(d))
     src = swap(src, "ds-cabinet", cabinet(d))

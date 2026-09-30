@@ -3213,7 +3213,14 @@ or not out yet is `pending` and asked again, anything else not OK is `gone` and 
 id, a title, a channel, a time and a length**, and the tool refuses a description, a thumbnail or any
 count of views, likes or subscribers: The Feed's refused summary and the pebbling cabinet's refused tally
 in one rule. **The headlines are quoted as written**, capitals, emoji and all, and the sweep for ranking
-words skips them, because they are the channels' words. Do not tidy a headline.
+words skips them, because they are the channels' words. Do not tidy a headline. **Every tub has
+a screen of its own** (Ryan, 2026-09-29), `rack.js`'s pattern: any screen scoop in the tub plays
+where it hangs or goes up there. A morning is not a list anybody can put on whole, so the screen
+has **nothing of its own on it**: it ships `hidden` with `tabindex="-1"`, `rack.js` unhides it and
+puts the keyboard back on it when a video comes off, and a tub with no screen scoops gets none. A
+short goes up upright because its button carries `data-rack-shape="tall"`, which the screen wears
+while it is on. The tubs behind the newest still ship shut, which is this room's lid and older than
+the rack rule; the markup inside them is the same as the open one's, so the checkers measure it.
 
 **A FEED CARRIES FIFTEEN AND SOME CHANNELS POST MORE THAN THAT IN A DAY.** `covered` records, per source,
 the stretches the feeds were read all the way through, and a tub whose window a source's coverage does not

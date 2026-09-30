@@ -41,7 +41,17 @@
                             and data-rack-name (the screen's name)
      [data-rack-card]       a card, round its own plate and its second button
    A screen may carry data-rack-off, a sentence saying what the screen has
-   given up while a card's film is on it. */
+   given up while a card's film is on it.
+
+   A SCREEN MAY HAVE NOTHING OF ITS OWN ON IT (The Doom Scoop, 2026-09-29: a
+   morning is not a list anybody can put on whole). Such a screen ships hidden,
+   because without this script it is a panel saying to put something up with a
+   button that never appears, and this unhides it. It carries tabindex="-1", so
+   taking a film off puts the keyboard back on the screen rather than nowhere.
+
+   A card's second button may carry data-rack-shape (tall, for a short), and the
+   screen wears it while that film is up, so the room can play it upright rather
+   than as a small picture between two black bars. */
 (function () {
   var screens = {};
 
@@ -61,6 +71,7 @@
   Array.prototype.forEach.call(document.querySelectorAll('[data-rack-to]'), function (btn) {
     if (screens[btn.getAttribute('data-rack-to')]) btn.hidden = false;
   });
+  Object.keys(screens).forEach(function (id) { screens[id].glass.hidden = false; });
 
   // 100 -> "1:40", 3723 -> "1:02:03"
   function clock(s) {
@@ -84,6 +95,9 @@
     shell.appendChild(player);
     s.glass.innerHTML = '';
     s.glass.appendChild(shell);
+    var shape = btn.getAttribute('data-rack-shape');
+    if (shape) s.glass.setAttribute('data-rack-shape', shape);
+    else s.glass.removeAttribute('data-rack-shape');
     if (s.now) {
       s.now.textContent = 'Now showing on ' + btn.getAttribute('data-rack-name') + ': ' +
         btn.getAttribute('data-rack-film') + ', ' + btn.getAttribute('data-rack-runtime') +
@@ -98,9 +112,10 @@
     var s = screens[btn.getAttribute('data-rack-back')];
     if (!s) return;
     s.glass.innerHTML = s.plate;
+    s.glass.removeAttribute('data-rack-shape');
     if (s.now) { s.now.hidden = true; s.now.textContent = ''; }
     if (s.back) s.back.parentNode.hidden = true;
-    var plate = s.glass.querySelector('button');
+    var plate = s.glass.querySelector('button') || (s.glass.hasAttribute('tabindex') ? s.glass : null);
     if (plate) plate.focus();
   }
 
