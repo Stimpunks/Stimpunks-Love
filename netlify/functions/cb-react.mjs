@@ -13,14 +13,15 @@ export default async (req) => {
   if (b.room != null && !room) return json(400, { error: 'That is not a room on the street.' });
   if (!roomAllows(who, room)) return json(403, { error: 'This room\'s channel is for the moderators it is for.' });
   if (typeof b.id !== 'string' || b.id.length > 64) return json(400, { error: 'Which message?' });
-  if (!reactionOf(b.emoji)) return json(400, { error: 'That is not one of the reactions.' });
+  if (!reactionOf(b.emoji)) return json(400, { error: 'A reaction is one emoji, and only an emoji.' });
   try {
     let found = true;
     const messages = await updateTuned(room, (list) => {
       const next = toggleReaction(list, b.id, b.emoji, who.handle);
-      if (!next) { found = false; return null; }
+      if (!next) { found = !!list.find((m) => m.id === b.id) && 'full'; return null; }
       return next;
     });
+    if (found === 'full') return json(409, { error: 'That message has as many different reactions as it can hold. Press one that is already there.', messages: shape(messages) });
     if (!found) return json(404, { error: 'That message has gone off the air.', messages: shape(messages) });
     return json(200, { messages: shape(messages) });
   } catch (e) {

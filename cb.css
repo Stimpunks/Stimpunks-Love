@@ -245,6 +245,10 @@ ol.cb-md-list { list-style: decimal; }
 .cb-rx__pick { font-size: 17px; min-width: 36px; justify-content: center; }
 .cb-rx__one[aria-pressed="true"], .cb-rx__pick[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
 .cb-rx__who { overflow-wrap: anywhere; }
+.cb-rx__other { flex: 1 1 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 4px 0 0; }
+.cb-rx__olab { flex: 1 1 100%; font-size: 13px; }
+.cb-rx-pick .cb-rx__in { width: 6em; flex: none; font-size: 18px; padding: 3px 8px; }
+.cb-rx__go { font-size: 13px; }
 .cb-msg > .cb-sticker { grid-column: 1 / -1; grid-row: 3; margin: 4px 0 0; }
 /* A STICKER: the pet on its own room's ground, drawn by animals.js, with its
    words under it in the log's amber, so nothing new is measured here. */

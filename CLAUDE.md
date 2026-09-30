@@ -2798,7 +2798,10 @@ set (`REACTIONS` in `lib.mjs`, copied in `cb.js`: change both), pressed again to
 radio draws the names. **The friendly edit is a number beside the heart**, and it is the headcount the
 street refuses. The line under a message is `aria-live="off"` inside the log, so a reaction landing is
 not announced as a message, and it is redrawn only when it changes, keeping the keyboard where it was.
-The chalkboard's "no reactions" is the board's rule and still holds.
+**Any other emoji is allowed and only an emoji** (Ryan, the same evening): a page cannot open the system
+emoji picker, so the picker types into a box, and `reactionOf` takes exactly one grapheme made only of
+emoji parts with a pictograph, flag or keycap in it; `REACT_KINDS` caps different reactions per
+message. The chalkboard's "no reactions" is the board's rule and still holds.
 
 **A MESSAGE IS 2,000 CHARACTERS AND BASIC MARKDOWN, DRAWN AS ELEMENTS AND NEVER AS HTML.** Ryan,
 2026-09-29. `MESSAGE_MAX` and `cleanMessage` in `lib.mjs` keep a message's lines (the Slake, the

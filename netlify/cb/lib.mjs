@@ -2157,14 +2157,33 @@ export function json(status, body, extra = {}) {
    order, and never how many: that is the street's no-headcount rule, the same
    one "Be seen here" keeps, and a number beside a heart is exactly the
    friendly edit it refuses. shape() sends the handles and no count; the radio
-   draws the handles. The set is fixed so nothing typed becomes a reaction.
-   Each carries a name, for the button's label and for anybody not seeing the
-   picture. */
+   draws the handles. The set is the quick row, each with a name for the
+   button's label; Ryan added our community's usual ten the same evening.
+
+   ANY OTHER EMOJI IS ALLOWED, AND ONLY AN EMOJI. A page cannot open the
+   system's emoji picker, so the radio has a box the picker can type into, and
+   what arrives here must be exactly one grapheme made of nothing but emoji
+   parts (pictographs, skin tones, the joiner, variation selectors, tags,
+   regional indicators, keycaps), with at least one pictograph, flag or keycap
+   in it. So a word, two emoji or markup is refused, and 🏳️‍🌈 is not. A message
+   holds at most REACT_KINDS different reactions. */
 export const REACTIONS = [
   ['\u2764\uFE0F', 'heart'], ['\u{1F44D}', 'thumbs up'], ['\u{1F602}', 'laughing'], ['\u{1F389}', 'party'],
   ['\u{1F440}', 'eyes'], ['\u2728', 'sparkles'], ['\u{1F427}', 'a penguin, for a pebble'],
+  ['\u{1F436}', 'dog'], ['\u{1F431}', 'cat'], ['\u{1F9A6}', 'otter'], ['\u{1F308}', 'rainbow'],
+  ['\u{1F984}', 'unicorn'], ['\u{1F918}', 'sign of the horns'], ['\u{1F994}', 'hedgehog'],
+  ['\u{1F917}', 'hugging face'], ['\u{1FAC2}', 'people hugging'], ['\u{1F622}', 'crying face'],
 ];
-export function reactionOf(e) { return REACTIONS.some((x) => x[0] === e) ? e : null; }
+export const REACT_KINDS = 24;
+const EMOJI_PARTS = /^[\p{Extended_Pictographic}\p{Emoji_Modifier}\p{Regional_Indicator}\u200D\uFE0F\u20E3#*0-9\u{E0020}-\u{E007F}]+$/u;
+const EMOJI_CORE = /\p{Extended_Pictographic}|\p{Regional_Indicator}|\u20E3/u;
+const GRAPHEMES = new Intl.Segmenter('en', { granularity: 'grapheme' });
+export function reactionOf(e) {
+  if (typeof e !== 'string' || !e || e.length > 32) return null;
+  if (REACTIONS.some((x) => x[0] === e)) return e;
+  if (!EMOJI_PARTS.test(e) || !EMOJI_CORE.test(e)) return null;
+  return [...GRAPHEMES.segment(e)].length === 1 ? e : null;
+}
 
 /* Press `emoji` on message `id` as `handle`: on if it was off, off if it was
    on. Answers the next list, or null when there is no such message. */
@@ -2173,6 +2192,7 @@ export function toggleReaction(list, id, emoji, handle) {
   if (i < 0 || !reactionOf(emoji)) return null;
   const m = { ...list[i] };
   const rx = { ...(m.reactions || {}) };
+  if (!rx[emoji] && Object.keys(rx).length >= REACT_KINDS) return null;
   const who = (rx[emoji] || []).slice();
   const at = who.findIndex((h) => foldHandle(h) === foldHandle(handle));
   if (at >= 0) who.splice(at, 1); else who.push(handle);
@@ -2183,11 +2203,18 @@ export function toggleReaction(list, id, emoji, handle) {
   return next;
 }
 
+/* The quick row's reactions first, in its order, then any others in the order
+   they were first pressed. Another emoji has no name of ours: its label is
+   the emoji, which screen readers speak. */
 function shapeReactions(rx) {
   if (!rx || typeof rx !== 'object') return null;
   const out = [];
-  for (const [e, name] of REACTIONS) {
+  const known = new Set(REACTIONS.map((x) => x[0]));
+  const order = [...REACTIONS.map((x) => x[0]), ...Object.keys(rx).filter((e) => !known.has(e))];
+  for (const e of order) {
+    if (!reactionOf(e)) continue;
     const who = Array.isArray(rx[e]) ? [...new Set(rx[e])].sort((a, b) => a.localeCompare(b)) : [];
+    const name = (REACTIONS.find((x) => x[0] === e) || [e, e])[1];
     if (who.length) out.push({ emoji: e, name, who });
   }
   return out.length ? out : null;

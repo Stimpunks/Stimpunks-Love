@@ -1724,7 +1724,15 @@
   var REACTIONS = [
     ['\u2764\uFE0F', 'heart'], ['\u{1F44D}', 'thumbs up'], ['\u{1F602}', 'laughing'], ['\u{1F389}', 'party'],
     ['\u{1F440}', 'eyes'], ['\u2728', 'sparkles'], ['\u{1F427}', 'a penguin, for a pebble'],
+    ['\u{1F436}', 'dog'], ['\u{1F431}', 'cat'], ['\u{1F9A6}', 'otter'], ['\u{1F308}', 'rainbow'],
+    ['\u{1F984}', 'unicorn'], ['\u{1F918}', 'sign of the horns'], ['\u{1F994}', 'hedgehog'],
+    ['\u{1F917}', 'hugging face'], ['\u{1FAC2}', 'people hugging'], ['\u{1F622}', 'crying face'],
   ];
+  /* How to reach the system's own emoji picker, which a page cannot open: it
+     types into the box under the quick row like any other keyboard. */
+  var PICKER = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)
+    ? (/iPhone|iPad/.test(navigator.userAgent) ? 'the emoji key on your keyboard' : 'Control, Command and Space')
+    : /Win/.test(navigator.platform || '') ? 'the Windows key and full stop' : /Android/.test(navigator.userAgent) ? 'the emoji key on your keyboard' : 'your system\u2019s emoji picker';
   function fold(h) { return String(h || '').normalize('NFKC').toLowerCase().replace(/\s+/g, ' ').trim(); }
   function names(list) {
     if (list.length < 2) return list.join('');
@@ -1797,6 +1805,27 @@
         });
         pick.appendChild(p);
       });
+      /* ANY OTHER EMOJI: a box the system picker can type into. One emoji,
+         checked again by the server, and nothing else. */
+      var other = el('span', 'cb-rx__other');
+      var oid = 'cb-rx-other-' + m.id;
+      var olab = el('label', 'cb-rx__olab', 'Or any emoji, with ' + PICKER + ':');
+      olab.htmlFor = oid;
+      var oin = el('input', 'cb-say cb-rx__in');
+      oin.id = oid; oin.type = 'text'; oin.maxLength = 16; oin.autocomplete = 'off'; oin.spellcheck = false;
+      oin.setAttribute('enterkeyhint', 'send');
+      var ogo = el('button', 'cb-rx__pick cb-rx__go', 'React');
+      ogo.type = 'button';
+      function sendOther() {
+        var v = oin.value.trim();
+        if (!v) { oin.focus(); return; }
+        pick.remove(); b.setAttribute('aria-expanded', 'false'); b.focus();
+        me.react(m.id, v);
+      }
+      ogo.addEventListener('click', sendOther);
+      oin.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); sendOther(); } });
+      other.appendChild(olab); other.appendChild(oin); other.appendChild(ogo);
+      pick.appendChild(other);
       pick.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') { e.preventDefault(); pick.remove(); b.setAttribute('aria-expanded', 'false'); b.focus(); }
       });

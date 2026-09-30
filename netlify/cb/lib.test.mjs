@@ -202,6 +202,25 @@ test('a reaction is pressed and pressed again, names who and never says how many
   list = toggleReaction(list, 'm1', heart, 'Ada');
   assert.equal(shape(list)[0].reactions, undefined);
   assert.equal(list[0].reactions, undefined, 'an empty reactions object left on the message');
+  // Any one emoji, and only one emoji: skin tones, flags, joined sequences and
+  // keycaps are one each; words, markup, two emoji and bare digits are not.
+  for (const e of ['\u{1F419}', '\u{1F44D}\u{1F3FD}', '\u{1F1EC}\u{1F1E7}', '\u{1F3F3}\uFE0F\u200D\u{1F308}', '1\uFE0F\u20E3', '\u{1FAC2}'])
+    assert.equal(reactionOf(e), e, `refused ${JSON.stringify(e)}`);
+  for (const e of ['hi', '\u{1F600}\u{1F600}', '<b>', '#', '9', '', ' \u{1F419}', '\u{1F419}x'])
+    assert.equal(reactionOf(e), null, `took ${JSON.stringify(e)}`);
+  let other = toggleReaction([{ id: 'o', handle: 'Ada', text: 'x', t: 1 }], 'o', '\u{1F419}', 'Bo');
+  other = toggleReaction(other, 'o', heart, 'Cy');
+  const shown = shape(other)[0].reactions;
+  assert.deepEqual(shown.map((x) => x.emoji), [heart, '\u{1F419}'], 'the quick row does not come first');
+  assert.equal(shown[1].name, '\u{1F419}', 'another emoji is named as itself');
+  // A message holds so many different reactions and no more; one already there can still be pressed.
+  let full = [{ id: 'f', handle: 'Ada', text: 'x', t: 1 }];
+  const many = ['\u{1F34E}', '\u{1F34F}', '\u{1F350}', '\u{1F351}', '\u{1F352}', '\u{1F353}', '\u{1F354}', '\u{1F355}', '\u{1F356}', '\u{1F357}',
+    '\u{1F358}', '\u{1F359}', '\u{1F35A}', '\u{1F35B}', '\u{1F35C}', '\u{1F35D}', '\u{1F35E}', '\u{1F35F}', '\u{1F360}', '\u{1F361}',
+    '\u{1F362}', '\u{1F363}', '\u{1F364}', '\u{1F365}'];
+  for (const e of many) full = toggleReaction(full, 'f', e, 'Bo');
+  assert.equal(toggleReaction(full, 'f', '\u{1F366}', 'Bo'), null, 'a message took one reaction too many');
+  assert.ok(toggleReaction(full, 'f', many[0], 'Cy'), 'a reaction already there could not be pressed');
   // Only the set, and only a message that is there.
   assert.equal(reactionOf('<script>'), null);
   assert.equal(toggleReaction(list, 'm1', 'nope', 'Ada'), null);
