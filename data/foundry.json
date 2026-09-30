@@ -1184,6 +1184,20 @@
       "sections": [
         2
       ]
+    },
+    "averia-serif-libre": {
+      "where": "Pando Calrissian",
+      "page": "pando-calrissian.html",
+      "sections": [
+        84
+      ]
+    },
+    "averia-sans-libre": {
+      "where": "Pando Calrissian",
+      "page": "pando-calrissian.html",
+      "sections": [
+        84
+      ]
     }
   }
 }

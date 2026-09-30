@@ -2514,6 +2514,39 @@
    "learned": "A world can wait for you. Nothing on the Slake changes until you ask it to."
   },
   {
+   "id": "pando-leaf",
+   "page": "pando-calrissian.html",
+   "room": "Pando Calrissian",
+   "title": "How often will the tree take water?",
+   "posted": "There is a tree on a hillside behind the shopfronts that is everybody's, and it grows as we water it. Go up the hill and find out how often the ground will take another watering.",
+   "rank": 1,
+   "takes": "about as long as it takes a watering to soak in",
+   "target": "a gold aspen leaf, fallen at the foot of the fence round the new growth",
+   "code": "QUAKE",
+   "learned": "The ground soaks for a minute after every watering, from anybody, before it takes more. It is the whole tree's wait and not anybody's, so nobody is timed, and the tree keeps how many times it has been watered and never who watered it.",
+   "hints": [
+    "On the street itself, in the row of shopfronts: the gap with a hillside of aspen in it.",
+    "Under the grove, where the room says how the tree grows.",
+    "At the foot of the fence, where the leaves come down."
+   ],
+   "ask": {
+    "question": "After every watering the ground soaks for a while before it will take more. How long?",
+    "accept": [
+     "aminute",
+     "minute",
+     "oneminute",
+     "sixtyseconds"
+    ],
+    "answer": "A minute",
+    "why": "The ground soaks for a minute after anybody's watering. It is the whole tree's wait rather than yours, which is how the tree can wait without keeping a record of who watered it.",
+    "hints": [
+     "It is in the rules about how the tree grows.",
+     "It is the same wait for everybody.",
+     "It is sixty seconds."
+    ]
+   }
+  },
+  {
    "id": "wr-mantle",
    "page": "cavendish-events.html",
    "room": "The Events Room",

@@ -17,7 +17,7 @@
    write that was told it worked and is not there is not. */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { updateChalk, readChalk, updatePebbles, readPebbles, cleanLink, PEBBLE_ROOMS,
+import { updateChalk, readChalk, updateFence, readFence, waterTree, readTree, PANDO_SOAK, updatePebbles, readPebbles, cleanLink, PEBBLE_ROOMS,
   updateChannel, readChannel, updateTalk, readTalk, beHere, leaveSlake, seenAt, sweepSlake,
   MUD_PLACES, MUD_FRESH, KEEP, today,
   hostBeacon, stopBeacon, readBeacons, sweepBeacons, beaconRoom, cleanAt, BEACON_FRESH,
@@ -107,6 +107,53 @@ for (const etagOnRead of [true, false]) {
     if (etagOnRead) assert.equal(worked.length, 15);
   });
 }
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+
+  test(`Pando Calrissian's fence, fifteen at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const { worked, missing, failed } = await fifteen(updateFence, readFence, s);
+    assert.deepEqual(missing, [], 'a note that was told it went up is not on the fence');
+    for (const f of failed) assert.equal(f.reason.message, 'busy');
+    if (etagOnRead) assert.equal(worked.length, 15);
+  });
+
+  // THE TREE'S INVARIANT IS A NUMBER: every watering told it poured is in the
+  // count, and nothing else is. Raced with the soak switched off, because with
+  // the real soak fourteen of fifteen are told the ground is wet, which is the
+  // rule working and would hide a lost write. OFF, NOT ZERO: its first run used
+  // zero, and a waterer whose clock was read a moment before somebody else's
+  // write saw the ground wet by a millisecond and was rightly told to wait.
+  test(`Pando Calrissian's tree, fifteen waterings at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const told = await Promise.allSettled(Array.from({ length: 15 }, () => waterTree(s, Date.now(), -Infinity)));
+    const poured = told.filter((r) => r.status === 'fulfilled' && r.value.poured).length;
+    for (const f of told.filter((r) => r.status === 'rejected')) assert.equal(f.reason.message, 'busy');
+    assert.equal((await readTree(s)).water, poured, 'a watering told it poured is not in the count, or one nobody was told about is');
+    if (etagOnRead) assert.equal(poured, 15);
+  });
+}
+
+test('the ground soaks for a minute for everybody, and the count only goes up', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const t = 1_000_000;
+  assert.equal((await readTree(s)).water, 0);
+  assert.equal((await waterTree(s, t)).poured, true);
+  const wet = await waterTree(s, t + 1000);
+  assert.equal(wet.poured, false);
+  assert.equal(wet.soaks, PANDO_SOAK - 1000);
+  assert.equal((await readTree(s)).water, 1);
+  assert.equal((await waterTree(s, t + PANDO_SOAK)).poured, true);
+  assert.equal((await readTree(s)).water, 2);
+});
+
+test('the tree keeps a number and a time, and nothing about who watered it', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.equal((await waterTree(s, 1_000_000)).poured, true);
+  const kept = await s.get('pando');
+  assert.deepEqual(Object.keys(kept).sort(), ['water', 'wet']);
+});
 
 for (const etagOnRead of [true, false]) {
   const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';

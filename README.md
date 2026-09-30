@@ -162,8 +162,9 @@ cb.css                The radio's own sheet, inside its shadow root. No room can
 cb-rooms.json         The rooms the CB knows by #tag, in walking order. Written by make-sitemap.py
 pebbles.js            The pebble bowl by a hosted room's door: reads what was left, leaves one with a CB pass
 data/pebbles.json     Each hosted room's basket of things to take, filled by its host and nobody else
+pando.js              Pando Calrissian's tree and its fence: draws the grove from the count, waters with a CB pass
 netlify/functions/    The CB's functions: sign on, listen, transmit, moderate, the hourly sweep, and the
-                      chalkboard's read, write and rub-out
+                      chalkboard's read, write and rub-out, Pando Calrissian's tree and its fence,
                       and the Slake's: be seen at a place, say something there, leave, and the base station's
 netlify/cb/lib.mjs    What they share, and every promise the privacy page makes about the channel and the board
 package.json          Only there for the CB: the one library its functions need. Not a build step
@@ -268,6 +269,7 @@ python3 tools/make-vital.py        # Vital Plant Living's shelf, builder, board,
 python3 tools/make-community.py    # The Community Center's service board; refuses a slot whose room has stopped saying what it repeats
 python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, and the credits; refuses a size, a gendered rail, or no all-black colourway
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
+python3 tools/make-pando.py        # Pando Calrissian's numbers, read from the CB's lib; refuses a tree that keeps who watered, a tally or a goal, and a sentence saying nothing is counted
 python3 tools/make-coworking.py    # Cavendish Coworking's doors, from our events page's own words; refuses a line the page has dropped, a door with no password, or a frame
 python3 tools/make-live-room.py     # The Live Room's desk, a channel strip per session, and the credits; refuses a set played outside, or a studio with nothing on it
 python3 tools/make-doom-scoop.py    # The Doom Scoop's cabinet, a tub per morning for a week, and the credits; refuses a scoop kept past a week, a description or a count, or a screen with no runtime
@@ -680,6 +682,9 @@ else to clear. Nothing on the channel survives midnight, Colorado time, whatever
 and Ryan's call on 2026-09-25 that anybody can read it and a note stays seven days. A pass is
 needed to write. `privacy.html` has its own section on it, and every read asks search engines
 not to keep it.
+**Pando Calrissian's tree is the one thing the CB keeps for good**, and it is a number: how many
+times the tree has been watered, and when last, with nothing about who (Ryan, 2026-09-30). Its fence
+runs on the chalkboard's rules.
 
 ## Attribution
 

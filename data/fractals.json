@@ -1369,6 +1369,18 @@
         "--nh-shade",
         "--nh-paper"
       ]
+    },
+    "pando-calrissian.html": {
+      "kind": "ifs",
+      "figure": "tree",
+      "sway": 0.1,
+      "ground": "--pdo-shade",
+      "inks": [
+        "--pdo-bark",
+        "--pdo-glow",
+        "--pdo-gold",
+        "--pdo-belt"
+      ]
     }
   }
 }

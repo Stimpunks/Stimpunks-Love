@@ -27,6 +27,11 @@
        the pavement is read by whoever walks past, and privacy.html says so
        above the box you write in. Nothing else about it differs from the
        channel: no address, no log, no copy.
+     · PANDO CALRISSIAN'S TREE IS THE ONE THING KEPT FOR EVER, AND IT IS A
+       NUMBER. Ryan's call, 2026-09-30: a community tree that grows as it is
+       watered, whose count never expires. It counts water and never who
+       poured it -- the blob is a number and a time, with no handle in it --
+       and the notes on its fence are the chalkboard's, a week and gone.
      · THE SLAKE, OUT THE BACK OF THE MUD ROOM, IS THE CB TOO. Ryan's calls,
        2026-09-27: you are seen by your handle only if you choose to be, on each
        visit, and each place on it has a channel of its own under the radio's
@@ -284,6 +289,64 @@ export function shapePebbles(list) {
 
 export function shapeChalk(notes) {
   return notes.map((n) => ({ id: n.id, handle: n.handle, text: n.text, t: n.t, base: !!n.base }));
+}
+
+/* ── Pando Calrissian's tree ──────────────────────────────────────────────── */
+
+/* THE ONE NUMBER THE CB KEEPS FOR EVER, AND IT IS THE TREE'S. Ryan's calls,
+   2026-09-30, after the grow-a-tree game in our Discord's Collaborative
+   Nonsense channels: a community tree that grows as it is watered, a count of
+   waterings that never expires, only a CB pass waters, and the ground soaks
+   for a minute after any watering before it takes more, from anybody.
+
+   It counts WATER AND NEVER WATERERS. The blob holds the number and the time
+   of the last watering, and nothing else: no handle, no pass, no list of who,
+   so there is nothing here that could become a per-person total, a leaderboard
+   or a streak, and the tree cannot tell anybody who has been looking after it.
+   A name goes on the fence if somebody writes one there, which is a note, on
+   the chalkboard's rules, and gone in a week.
+
+   THE SOAK IS WHOLE-TREE AND NOT PER-PERSON on purpose. A per-person wait
+   would need a record of who watered when, which is the list this refuses. The
+   soak also means one person with a script cannot make the number mean
+   anything but a minute at a time. */
+export const PANDO_SOAK = 60 * 1000;              // the ground takes one watering a minute
+export const PANDO_KEEP = 30;                     // notes on the fence at once
+export const PANDO_MAX = 200;                     // characters of a note
+const PANDO = 'pando';
+const PANDO_NOTES = 'pando-notes';
+
+export async function readTree(s = store()) {
+  const data = await s.get(PANDO, { type: 'json' });
+  return { water: (data && Number.isInteger(data.water)) ? data.water : 0, wet: (data && data.wet) || 0 };
+}
+
+/* Water it once, unless the ground is still soaking from the last one. The
+   answer says which: { tree, poured: true } or { tree, poured: false, soaks }
+   with the milliseconds left. updateChannel's conditional write, so two
+   waterings in the same instant cannot both land on the same number. */
+export async function waterTree(s = store(), now = Date.now(), soak = PANDO_SOAK) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, PANDO);
+    const was = cur.exists && cur.data ? cur.data : {};
+    const water = Number.isInteger(was.water) ? was.water : 0;
+    const wet = typeof was.wet === 'number' ? was.wet : 0;
+    if (now - wet < soak) return { tree: { water, wet }, poured: false, soaks: soak - (now - wet) };
+    const body = { water: water + 1, wet: now };
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(PANDO, body, opts);
+    if (res.modified) return { tree: body, poured: true };
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+export function readFence(s = store()) { return readNotes(PANDO_NOTES, s); }
+export function updateFence(change, s = store()) { return updateNotes(PANDO_NOTES, PANDO_KEEP, change, s); }
+export function sweepFence(s = store()) { return sweepNotes(PANDO_NOTES, PANDO_KEEP, s); }
+export function cleanFence(s) {
+  const t = tidy(s);
+  return t && [...t].length <= PANDO_MAX ? t : null;
 }
 
 /* ── The Slake ───────────────────────────────────────────────────────────── */

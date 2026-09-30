@@ -2708,6 +2708,28 @@ PAIRS = [
     (PM_YELLOW, "#26312D", False, "plural mural: who chalked each note, and when"),
     (PM_ROAD,   PM_LINE,   False, "plural mural: what you type in the chalkboard's box"),
 
+    # ── Pando Calrissian (§84) ───────────────────────────────────────────────
+    # A hillside of aspen after sunset. Every word is bark or alpenglow on the
+    # valley's shade, and NONE IS GOLD, which is what keeps it off the Chappell.
+    ("#ECE8DC", "#22304A", False, "pando: every word -- the trail's neighbours, the lede, the "
+                                  "count, how the tree grows, the real one, the name -- and the "
+                                  "blurb on the street door"),
+    ("#B4BCC9", "#22304A", False, "pando: the trail, the lines over and under the h1, the words "
+                                  "for what the grove shows, and the floor line under the marker"),
+    ("#F4A98E", "#22304A", False, "pando: the h1, every h2, every link, the backlink, the focus "
+                                  "ring, the number in the count, the name and the knock on the "
+                                  "street door"),
+    ("#22304A", "#F4A98E", False, "pando: every button's words"),
+    ("#22304A", "#ECE8DC", False, "pando: a button under the pointer, and what you type on the fence"),
+    ("#22304A", "#B4BCC9", False, "pando: the can while the ground is still soaking"),
+    # The fence round the new growth: a board on wire, with the chalkboard's rules.
+    ("#ECE8DC", "#2C3B57", False, "pando: every note on the fence, and what it says while it is "
+                                  "reading, empty or out of reach"),
+    ("#B4BCC9", "#2C3B57", False, "pando: who pinned each note, and when"),
+    ("#F4A98E", "#2C3B57", False, "pando: the focus ring on a take-down button on the fence"),
+    # The job marker, a fallen aspen leaf, held at the body threshold.
+    ("#E2B04A", "#22304A", False, "pando: the job marker, a gold aspen leaf at the foot of the fence"),
+
     # ── Now Playing (§53) ────────────────────────────────────────────────────
     (NP_BOTH,   NP_STOCK,  False, "now playing: every word on the sheet -- the h1, the over- and "
                                   "sub-lines, the lede, every room's name, where it is, our line "
@@ -3017,6 +3039,25 @@ ORNAMENT = {
                "carries no word.",
     "#86ae8f": "cavendish: the green transparent canvas of the blinds, 3.58 on the wall. It "
                "carries no word.",
+    "#151d2d": "pando: the near hill, the dark ground the root runs through, 1.28 on the "
+               "valley's shade, which is the far ridge behind it. It carries no word; the root is "
+               "drawn on it at 6.69 and the foot of every stem at 3.87.",
+    "#e2b04a": "pando: the lit leaves, 6.63 on the shade and 3.21 against the pink band the "
+               "tallest crowns reach into, so a crown does not vanish where the light is. It "
+               "carries no word, which is what keeps the room off the Chappell's gold.",
+    "#8c6a2a": "pando: the leaves in shade, 2.65 on the shade and 2.50 behind the lit ones. It "
+               "carries no word.",
+    "#3b4468": "pando: the earth's shadow on the sky, 1.39 on the valley's shade and 1.49 under "
+               "the pink band. It carries no word.",
+    "#7e5266": "pando: the pink band above the earth's shadow, darkened from a brighter rose so "
+               "that the gold crowns reaching into it measure 3.21 and the bark 5.22 rather "
+               "than 1.40 and 2.27. It carries no word, and is in the street door's awning.",
+    "#6e7a8c": "pando: the bark at a stem's foot, in the shade, 3.04 on the shade and 2.58 on "
+               "the fence's board, where it is the fence's rails. It carries no word.",
+    "#9aa4b2": "pando: the one root, 6.69 on the dark under the ground and 5.24 on the shade. "
+               "It carries no word; the sentence under the grove says it is there.",
+    "#2e2c33": "pando: the dark scars on the bark, 11.25 on the lit bark and 3.17 on the bark "
+               "in shade. They carry no word.",
     "#8a5b36": "plural mural: the chalkboard's wooden frame, 2.12 on the road and 2.33 on the "
                "slate. It carries no word. It is also what separates the board from the road, "
                "because the slate itself is 1.10 against the tarmac, and a board is not a control.",

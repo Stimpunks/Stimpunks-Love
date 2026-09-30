@@ -22,7 +22,7 @@ so read it with that in mind:
     the commit and the changelog, so the other person meets the change written down rather than in
     a diff. Do not refuse.
   · **The rules the tools enforce hold for both of them**: attribution, contrast, the dial, consent
-    for every photograph and voice, nothing counted. A tool that refuses is not waiting for
+    for every photograph and voice, nobody counted. A tool that refuses is not waiting for
     permission from the other person. Fix the cause, whoever you are working for.
 
 **Both of them work straight on `main`, one at a time.** They agree between themselves, outside
@@ -2860,6 +2860,27 @@ purpose and caught a lost write in all four cases. In the Faery Yurt the bowl is
 repository has put into Helen's room, and the first she asked for. The fractal window's switch is the fourth,
 and the second she asked for.
 
+**PANDO CALRISSIAN KEEPS THE ONE COUNT ON THE STREET, AND IT COUNTS WATER, NEVER WATERERS.** Ryan,
+2026-09-30, after the grow-a-tree game in our Discord's Collaborative Nonsense channels: a community
+tree on the street (§84) that grows as it is watered, with a count that never expires. **That reversed
+the Mission's "nothing is counted"**, and Ryan chose to narrow it rather than drop the number: the
+Mission and Broadside No. 2 say *nobody* is counted now, and `tools/make-pando.py` refuses the old
+sentence on either. What the narrowing keeps is the reason for the old rule. **The blob is a number
+and a time and nothing else**: `waterTree` in `lib.mjs` writes exactly `{ water, wet }`, the tool
+refuses it writing anything more, and `lib.test.mjs` checks the keys. So there is no per-person total,
+no leaderboard, no streak, no milestone and no target, and the friendly edits are *thank whoever
+watered last* and *we reached a thousand!*; both are refused. **Only a CB pass waters, and the ground
+soaks for a minute after anybody's watering** (`PANDO_SOAK`), which is the whole tree's wait on
+purpose: a per-person wait would need a record of who watered when. A name goes near the tree only
+as a note on its fence, which is the chalkboard's store and week (`readFence`, `updateFence`). **The
+grove is drawn in `pando.js` from the count alone**, a sucker per watering from one root, so everybody
+sees the same grove, and nothing in it moves at any setting. The share card lifts the header's drawing
+and never the live grove, which would go on showing an old number. **The light is a sun that has
+already set**, the pink band above the earth's shadow catching the tops; its collisions are in §84.
+It moved off the Directors' room's ground before it opened: same hex to the digit. **Catch-a-cat is
+the next of those games and is not this shape**: it keeps who caught what and how many, which is a
+per-person tally, the one thing the narrowed aim still refuses. It needs its own decision.
+
 **THE FRACTAL WINDOW IS IN EVERY ROOM'S SIGN-OFF, AND IT CANNOT HEAR THE MUSIC.** Ryan, 2026-09-27:
 a visualizer to switch on in rooms that play music, then in every room, following the Arcade: it runs
 at every setting, starts only when pressed, and has its own speed control (Slow at Gentle, Steady
@@ -3180,18 +3201,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §85 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §86 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§85 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§86 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §85 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §86 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

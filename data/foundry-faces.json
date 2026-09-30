@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-09-29",
+ "_checked": "2026-09-30",
  "faces": {
   "abril-fatface": {
    "family": "Abril Fatface",
@@ -269,6 +269,46 @@
      "style": "italic",
      "file": "atkinson-hyperlegible-next-400-italic.woff2",
      "sha": "55246a59197759ec"
+    }
+   ]
+  },
+  "averia-sans-libre": {
+   "family": "Averia Sans Libre",
+   "category": "Display",
+   "designer": "Dan Sayers",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/averiasanslibre",
+   "copyright": "Copyright (c) 2011, Dan Sayers (i@iotic.com), with Reserved Font Name 'Averia' and 'Averia Libre'.",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "averia-sans-libre-400.woff2",
+     "sha": "e1927aacd345c699"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "averia-sans-libre-700.woff2",
+     "sha": "c4fb2ed852bccad1"
+    }
+   ]
+  },
+  "averia-serif-libre": {
+   "family": "Averia Serif Libre",
+   "category": "Display",
+   "designer": "Dan Sayers",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/averiaseriflibre",
+   "copyright": "Copyright (c) 2011, Dan Sayers (i@iotic.com), with Reserved Font Name 'Averia' and 'Averia Libre'.",
+   "repository": "https://github.com/librefonts/averiaseriflibre",
+   "variants": [
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "averia-serif-libre-700.woff2",
+     "sha": "09b93f0433a8b93f"
     }
    ]
   },

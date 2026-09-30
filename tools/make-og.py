@@ -1138,6 +1138,21 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--mural .pm-wall {{ flex: 1 1 auto; margin: 0 !important; padding: 56px 22px 22px; }}
 .og--mural .pm-stage {{ margin: 0 !important; }}
 
+/* pando calrissian — THE HILLSIDE AFTER SUNSET, with the room's own drawing of
+   the one root and its stems lifted off the page whole. It shows no count and no
+   grove drawn from one: the live grove is drawn in the browser from the number,
+   and a card is a picture that would go on showing yesterday's. Every word is
+   bark or alpenglow on the valley's shade, and none is gold. */
+.og--pando {{ width: 100%; flex-direction: row; align-items: center; gap: 44px; padding: 0 60px; }}
+.og--pando .og-words {{ flex: 0 0 520px; margin: 0 !important; }}
+.og--pando .pdo-head {{ display: block; margin: 0 !important; }}
+.og--pando .pdo-head p {{ margin: 0 !important; font-size: 18px; }}
+.og--pando h1 {{ font-size: 82px; margin: 12px 0 12px !important; }}
+.og--pando .og-lede {{ font-family: 'Averia Sans Libre', sans-serif; color: var(--pdo-bark);
+  font-size: 26px; line-height: 1.4; margin: 24px 0 0 !important; }}
+.og--pando .pdo-art {{ flex: 1 1 auto; }}
+.og--pando .pdo-sign {{ width: 100%; }}
+
 /* now playing — THE SHEET ON ITS DRUM, and the only card on the street printed in
    two inks with nothing in black. The column's painted iron runs down both sides
    and off the foot of the card, which is where the pavement is; the header, the
@@ -3541,6 +3556,37 @@ def card_mural(p):
     )
 
 
+def card_pando(p):
+    # THE WORDS AND THE DRAWING ARE LIFTED WHOLE from the page's header, so the
+    # card cannot show a tree the room has not drawn. The live grove is left
+    # off on purpose: it is drawn from a number that keeps rising, and a card is
+    # the one surface that would keep showing an old one.
+    words = re.search(r'<header class="pdo-head">\s*(<div>.*?</div>)', p["src"], re.S)
+    sign = re.search(r'(<svg class="pdo-sign".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="pdo-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="pdo-sub">(.*?)</p>', p["src"], re.S)
+    if not (words and sign and over and sub):
+        raise SystemExit(
+            "REFUSING: pando-calrissian.html has lost its header or the drawing in it,\n"
+            "and the card is those two. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--pando" data-fit="card">'
+        f'<div class="og-words"><div class="pdo-head">{words.group(1)}</div>'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="pdo-art">{sign.group(1)}</div>'
+        f'</div>',
+        f"A dusk-blue card. Small pale capitals reading {plain(over.group(1))}, then "
+        f"\u201c{p['h1text']}\u201d in a soft, rounded serif in pale alpenglow pink, then "
+        f"{plain(sub.group(1))}. Under it: {p['desc_plain']} On the right, a hillside after "
+        f"sunset, a band of pink in the sky above the blue of the earth's shadow, and seven "
+        f"white aspen stems of different heights standing on it, each with dark marks on its "
+        f"bark and a crown of gold leaves, lit at the top and in shade at the foot. Under the "
+        f"ground one pale line runs from the foot of every stem to the next: the one root.",
+    )
+
+
 def card_nowplaying(p):
     # THE HEADER IS LIFTED WHOLE -- over-line, h1, sub-line and the two screens'
     # ornament -- and the lede is the page's og:description, so the card cannot
@@ -3820,6 +3866,7 @@ CARDS = {
     "community":    card_community,
     "now-playing":  card_nowplaying,
     "plural-mural": card_mural,
+    "pando":        card_pando,
     "cavendish":    card_cavendish,
     "live-room":    card_live,
     "doom-scoop":   card_scoop,

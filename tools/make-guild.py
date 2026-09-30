@@ -381,6 +381,12 @@ DRAW = {
     # with a heel and a sole, in --mud-welly, 10.13 on the mud, over the body
     # threshold a marker is held to. The floor line and the sole are --mud-dim
     # and carry nothing. It lies still.
+    # A gold aspen leaf, fallen at the foot of the fence round the new growth on
+    # Pando Calrissian's hill: round, with a point, on a flat stalk, which is
+    # the flattened stem that makes an aspen leaf quake. --pdo-gold is 6.63 on
+    # the valley's shade, the floor line --pdo-dim 6.91, both over the body
+    # threshold a marker is held to; the midrib is the shade itself.
+    "pando-leaf": """<path d="M3 29 H29" stroke="var(--pdo-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M16 5 Q25 9 25 17 Q25 24 16 25 Q7 24 7 17 Q7 9 16 5 Z" fill="var(--pdo-gold)"/><path d="M16 7.5 V23" stroke="var(--pdo-shade)" stroke-width="1.3" stroke-linecap="round"/><path d="M16 25 L17 28.5" stroke="var(--pdo-gold)" stroke-width="2" stroke-linecap="round"/>""",
     "mud-welly": """<path d="M3 29 H29" stroke="var(--mud-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 24 V13 Q5 10 8 10 H17 Q19 10 19 13 V17 H25 Q28 17 28 21 V24 Z" fill="var(--mud-welly)" stroke="var(--mud-welly)" stroke-width="1.4" stroke-linejoin="round"/><path d="M4.5 26 H28.5" stroke="var(--mud-dim)" stroke-width="2.4" stroke-linecap="round"/><path d="M8 13.5 H16" stroke="var(--mud-ground)" stroke-width="1.4" stroke-linecap="round"/>""",
     # A folded note, left on a chair in Executive Session: a sheet folded in
     # half with a line of writing showing, in the green the room reads its

@@ -1008,6 +1008,20 @@
    hosted, and this is the one the street did not have. */
 @font-face { font-family: 'IBM Plex Mono'; src: url('fonts/ibm-plex-mono-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 
+/* Pando Calrissian (§84). ONE FACE MADE OUT OF ALL THE OTHERS, FOR ONE TREE MADE
+   OUT OF ALL OF US. Avería is Dan Sayers's superfamily, drawn by averaging
+   every font on his computer; the Libre families are the average of every font
+   Google Web Fonts carried in November 2011, so their outlines are hundreds of
+   other typefaces at once. That is why this room sets it: Pando is one root
+   under tens of thousands of stems. Averia Serif Libre sets the room's name
+   and every heading and nothing at reading size; Averia Sans Libre carries
+   every word that is read. Static files, one per weight. No italic is shipped,
+   so the room sets nothing italic. Both read off their own records; see
+   fonts/_sources.json. */
+@font-face { font-family: 'Averia Serif Libre'; src: url('fonts/averia-serif-libre-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Averia Sans Libre'; src: url('fonts/averia-sans-libre-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Averia Sans Libre'; src: url('fonts/averia-sans-libre-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -2493,6 +2507,22 @@
   --es-link: #8FE3AA;  --es-exit: #39D16F;   --es-glow: #1E5A36;  --es-frame: #29312C;
   --es-door: #0B0E0C;
 
+  /* Pando Calrissian (§84). AN ASPEN HILLSIDE AFTER SUNSET, LIT BY WHAT IS LEFT
+     OF THE DAY ON THE SKY. --pdo-shade is the valley in shadow, the ground every
+     word stands on; --pdo-board the fence's board the notes are on; --pdo-soil
+     the dark under the root. --pdo-bark is aspen bark and every word;
+     --pdo-dim the fine print; --pdo-glow the alpenglow, every link, the name
+     and every heading, and the ground of every button. The rest carry no word:
+     --pdo-gold and --pdo-gold2 are the leaves lit and in shade, --pdo-sky the
+     earth's shadow on the sky, --pdo-belt the pink band above it, --pdo-foot
+     the bark in the shade at a stem's foot, --pdo-root the one root, and
+     --pdo-eye the dark scars on the bark. */
+  --pdo-shade: #22304A;  --pdo-board: #2C3B57;  --pdo-soil: #151D2D;
+  --pdo-bark:  #ECE8DC;  --pdo-dim:   #B4BCC9;  --pdo-glow: #F4A98E;
+  --pdo-gold:  #E2B04A;  --pdo-gold2: #8C6A2A;  --pdo-sky:  #3B4468;
+  --pdo-belt:  #7E5266;  --pdo-foot:  #6E7A8C;  --pdo-root: #9AA4B2;
+  --pdo-eye:   #2E2C33;
+
   /* import:neurohome:root:begin */
   /* Isha Snow's room, NeuroHome -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -3299,6 +3329,20 @@ div.facade--audio { border: 0; background: none; }
 .door--mud .door__blurb { font-family: 'Castoro', Georgia, serif; color: var(--mud-text); }
 .door--mud .door__knock { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .06em; color: var(--mud-welly); }
 
+/* PANDO CALRISSIAN'S DOOR IS A GAP BETWEEN THE SHOPFRONTS WITH THE HILL IN IT:
+   aspen stems standing up the awning against the sky after sunset, the pink
+   band above the earth's shadow behind them. */
+.door--pando { background: var(--pdo-shade); border-color: var(--pdo-bark); }
+.door--pando .door__awning {
+  background-color: var(--pdo-sky);
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 13px, var(--pdo-bark) 13px 16px, transparent 16px 29px, var(--pdo-bark) 29px 31px, transparent 31px 47px),
+    linear-gradient(180deg, var(--pdo-sky) 0 20%, var(--pdo-belt) 20% 55%, var(--pdo-sky) 55%);
+  border-bottom-color: var(--pdo-glow);
+}
+.door--pando .door__name  { font-family: 'Averia Serif Libre', Georgia, serif; font-weight: 700; color: var(--pdo-glow); font-size: 27px; font-synthesis: none; }
+.door--pando .door__blurb { font-family: 'Averia Sans Libre', var(--sans); color: var(--pdo-bark); font-synthesis: none; }
+.door--pando .door__knock { font-family: 'Averia Sans Libre', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .04em; color: var(--pdo-glow); font-synthesis: none; }
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
 .door--empty .door__name  { font-family: 'Bungee', var(--sans); color: var(--chalk); font-size: 23px; }
@@ -14319,7 +14363,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §85
+   class on it is `bb-`, its sizes are in points and millimetres, and §86
    prints it and nothing else. */
 
 .room-broadside {
@@ -14380,7 +14424,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §85 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §86 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -17005,7 +17049,155 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
    1.09 on her meadow floor. It takes her ring, in her colour. */
 .room-neurohome :where(summary, input):focus-visible { outline-color: var(--nh-link); }
 
-/* §84 ── Small screens ───────────────────────────────────────────────────────
+/* §84 ── ROOM: Pando Calrissian (a shopfront on the street) ─────────────────────
+   A hillside of aspen behind a gap between the shopfronts, and one tree on it
+   that is all of us. Ryan's brief, 2026-09-30, after the grow-a-tree game in
+   our Discord's Collaborative Nonsense channels: a community tree that grows
+   as we water it, with a count that never expires and a board beside it. The
+   name is Pando, the aspen clone in Utah that is one root under tens of
+   thousands of stems, and Lando Calrissian, whose name is the only thing taken
+   from Star Wars. pando.js draws the grove from the count; tools/make-pando.py
+   holds the room's promises.
+
+   THE LIGHT IS WHAT IS LEFT OF THE DAY, ON THE SKY. The sun is down. Looking
+   away from where it set, the earth's own shadow lies along the horizon as a
+   band of blue, the sky above it is pink, and whatever stands highest catches
+   that pink while everything below is in the valley's shade. So every stem is
+   lit at its crown and cold at its foot, and the root, which is the tree, is
+   in the dark. The more the grove is watered, the higher it reaches into what
+   light there is. No other room here is lit by a sun that has already set.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · SWAYING SWEETGRASS is the other thing lit by a sun you cannot see well,
+       and it is the one to watch. There the sun is low and BEHIND the meadow,
+       so light comes THROUGH every blade and the greens go gold. Here the sun
+       has gone: nothing is backlit, nothing glows from inside, and the light
+       lands only on the tops. If a leaf in here is ever drawn with light coming
+       through it, this has become the meadow in October.
+     · THE CAMPGROUNDS is the other hillside after dark, and it is lit by
+       nothing: an open field, evenly dim, cold spruce and lichen, everything the
+       same brightness top to bottom. This room is a GRADIENT from lit crown to
+       dark root, and it is not green.
+     · THE CHAPPELL is gold on a dark blue ground, and so are these leaves. So
+       NO WORD IN §84 IS EVER GOLD: the gold is the leaves and nothing else, the
+       type is bark and alpenglow, and the ground is the grey-blue of a valley
+       in shadow rather than votive indigo. If a heading here ever goes gold, it has joined the chapel.
+     · THE GARDEN shows what is under its soil too, bed by bed, in daylight,
+       with green above the line and pale below it. Here there is one root and
+       it is the subject, drawn as a single pale thread in the dark under the
+       whole hillside, and nothing is cut away to show it.
+     · THE DIRECTORS' ROOM had this ground first, to the digit, and a panel one
+       digit off the fence's board; both moved before the room opened. A
+       frosted pane's soft light and a hillside at dusk are not one room.
+     · THE REPEATER is lit by the sky too, warm skyglow off cloud, with
+       everything a silhouette against it. Nothing here is a silhouette: the
+       bark is the palest thing in the room.
+
+   IT IS THE ONE ROOM THAT COUNTS SOMETHING, AND WHAT IT COUNTS IS WATER. Ryan's
+   call, 2026-09-30, and a reversal of the street's "nothing counted" aim,
+   narrowed rather than dropped: the tree keeps how many times it has been
+   watered, and never who watered it. So the number stands alone on the page
+   with nobody's name beside it, and nothing in §84 draws a bar, a ring or a
+   target, because there is nothing the tree is growing towards.
+
+   NOTHING IN THE GROVE MOVES AT ANY SETTING. Aspen quake in the slightest air,
+   which is the tree's other name; here they are still, because a hillside of
+   trembling leaves is a whole page in motion. The dial has nothing to take
+   away, so there is no keyframe, no transition and no transform in §84. */
+
+.pando {
+  background: var(--pdo-shade); color: var(--pdo-bark);
+  font-family: 'Averia Sans Libre', var(--sans); font-synthesis: none;
+}
+.pando a { color: var(--pdo-glow); }
+.pando :focus-visible { outline-color: var(--pdo-glow); }
+.pando .backlink {
+  font-family: 'Averia Sans Libre', var(--sans); font-weight: 700; font-size: 15px;
+  letter-spacing: .04em; text-transform: none; color: var(--pdo-glow);
+}
+.pdo-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.pdo-trail { margin: 0; font-size: 14px; color: var(--pdo-dim); }
+
+.pdo-head {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 380px); gap: 18px 34px;
+  align-items: end; margin: 30px 0 0;
+}
+.pdo-over, .pdo-sub { margin: 0; font-size: 17px; line-height: 1.4; color: var(--pdo-dim); }
+.pdo-over { font-weight: 700; letter-spacing: .06em; text-transform: uppercase; font-size: 14px; }
+.pando h1 {
+  margin: 8px 0 8px; font-family: 'Averia Serif Libre', Georgia, serif; font-weight: 700;
+  font-size: clamp(44px, 8vw, 86px); line-height: 1; color: var(--pdo-glow);
+}
+.pdo-sign { display: block; width: 100%; height: auto; }
+
+.pando h2 {
+  margin: 0 0 8px; font-family: 'Averia Serif Libre', Georgia, serif; font-weight: 700;
+  font-size: 29px; line-height: 1.15; color: var(--pdo-glow);
+}
+.pdo-part { margin: 44px 0 0; }
+.pdo-part > p, .pdo-lede { font-size: 17px; line-height: 1.6; max-width: 66ch; }
+.pdo-lede { margin: 28px 0 0; font-size: 18px; }
+
+/* The grove: the drawing pando.js makes out of the count, the words for what it
+   shows, the count itself and the can. The drawing is aria-hidden; the
+   sentence under it is what it shows. */
+.pdo-grove-wrap { margin: 30px 0 0; }
+.pdo-grove { display: block; width: 100%; height: auto; background: var(--pdo-soil); }
+.pdo-grove-says { margin: 12px 0 0; font-size: 16px; line-height: 1.55; max-width: 72ch; color: var(--pdo-dim); }
+.pdo-count { margin: 18px 0 0; font-size: 20px; line-height: 1.45; max-width: 60ch; }
+.pdo-count b { font-family: 'Averia Serif Libre', Georgia, serif; font-size: 34px; color: var(--pdo-glow); }
+.pdo-can { margin: 14px 0 0; }
+.pdo-btn {
+  font-family: 'Averia Sans Libre', var(--sans); font-weight: 700; font-size: 17px; line-height: 1.3;
+  padding: 11px 20px; border: 0; border-radius: 22px; cursor: pointer;
+  background: var(--pdo-glow); color: var(--pdo-shade); font-synthesis: none;
+}
+.pdo-btn:hover { background: var(--pdo-bark); }
+.pdo-btn:focus-visible { outline-offset: 3px; }
+.pdo-btn[disabled] { cursor: default; background: var(--pdo-dim); }
+.pdo-btn--small { font-size: 14px; padding: 6px 13px; margin-top: 8px; }
+.pdo-said { margin: 10px 0 0; min-height: 1.55em; font-size: 16px; line-height: 1.55; max-width: 66ch; }
+.pdo-signon { margin: 14px 0 0; font-size: 16px; line-height: 1.55; max-width: 66ch; }
+
+.pdo-rules { margin: 12px 0 0; padding-left: 22px; max-width: 68ch; font-size: 16px; line-height: 1.6; }
+.pdo-rules li { margin: 0 0 10px; }
+
+/* The fence round the new growth. The real one keeps deer and elk off the
+   suckers; this one holds notes, on the chalkboard's rules. A board on wire,
+   the notes set plainly in the room's own face because they are other people's
+   words. Newest at the top, nothing tilted, nothing moving. */
+.pdo-fence {
+  margin: 14px 0 0; max-width: 780px; padding: 18px 20px;
+  background: var(--pdo-board); color: var(--pdo-bark);
+  border-top: 6px double var(--pdo-foot); border-bottom: 6px double var(--pdo-foot);
+}
+.pdo-fence__state { margin: 0; font-size: 16px; line-height: 1.5; }
+.pdo-notes { list-style: none; margin: 0; padding: 0; }
+.pdo-note { padding: 12px 0; border-top: 1px solid var(--pdo-foot); }
+.pdo-note:first-child { border-top: 0; padding-top: 0; }
+.pdo-note:last-child { padding-bottom: 0; }
+.pdo-note__text { margin: 0; font-size: 17px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+.pdo-note__by { margin: 4px 0 0; font-size: 14px; color: var(--pdo-dim); overflow-wrap: anywhere; }
+.pdo-note--base .pdo-note__by { font-weight: 700; }
+.pdo-write { margin: 16px 0 0; max-width: 780px; }
+.pdo-write__lab { display: block; font-weight: 700; font-size: 16px; }
+.pdo-write__public { margin: 6px 0 8px; font-size: 15px; line-height: 1.5; }
+.pdo-write__text {
+  display: block; width: 100%; box-sizing: border-box; resize: vertical;
+  font: 400 17px/1.5 'Averia Sans Libre', var(--sans);
+  background: var(--pdo-bark); color: var(--pdo-shade);
+  border: 3px solid var(--pdo-bark); border-radius: 3px; padding: 10px 12px;
+}
+.pdo-write__row { display: block; margin: 10px 0 0; }
+.pando .quest { margin-top: 40px; }
+
+@media (max-width: 720px) {
+  .pdo-head { grid-template-columns: 1fr; }
+  .pdo-sign { max-width: 380px; }
+  .pdo-count b { font-size: 28px; }
+}
+
+/* §85 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -17112,7 +17304,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §84 says every
+   shipped with no rule here at all — which on a street whose §85 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -17236,7 +17428,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §85 ── Print ───────────────────────────────────────────────────────────────
+/* §86 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
