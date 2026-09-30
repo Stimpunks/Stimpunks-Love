@@ -280,7 +280,7 @@
    "prefix": "cf",
    "item": "fire",
    "rack": {
-    "_why": "Ryan's brief, 2026-09-28: the Campfire gets the selection from the fire pit at Swaying Sweetgrass. The screen is that fire pit's own playlist, read out of data/sweetgrass.json by key; the cards are fires from it, each measured on its own watch page on the day: public, playable in an embed, not age-restricted, and its runtime. Their titles are the channel's and sell them for sleep and focus; the notes are ours and say only what is in them.",
+    "_why": "Ryan's brief, 2026-09-28: the Campfire gets the selection from the fire pit at Swaying Sweetgrass. The screen is that fire pit's own playlist, read out of data/sweetgrass.json by key; the cards are fires from it, and since 2026-09-29 they live with the fire pit too, read out of data/sweetgrass.json by key under hearth.fires, because the fire pit took the rack the same way and one list must not be kept in two files. Their titles are the channel's and sell them for sleep and focus; the notes are ours and say only what is in them.",
     "screen": "the fire",
     "rack_title": "The fires, from the fire pit at Swaying Sweetgrass",
     "off": "The whole playlist is off it until you put it back.",
@@ -288,70 +288,10 @@
      "data/sweetgrass.json",
      "hearth"
     ],
-    "videos": [
-     {
-      "id": "MeXUPQNyLrE",
-      "title": "4K Spring Campfire in Norwegian Forest | Real Fire & Birdsong for Relaxation & Focus (No Music)",
-      "channel": "Norwegian Fireplace and Campfire",
-      "channel_id": "UCgzbXVZe1lUTrKLH8CW01oA",
-      "runtime": "1:01:58",
-      "note": "Spring in a Norwegian forest: one fire, and birdsong somewhere off. It is the one the fire pit at Swaying Sweetgrass opens on.",
-      "measured": "2026-09-28"
-     },
-     {
-      "id": "3Ogt0LDwhlU",
-      "title": "Fireplace 4K No Loop. Real Fire Sound, natural campfire by the forest cove. Filmed in Norway",
-      "channel": "Norwegian Fireplace and Campfire",
-      "channel_id": "UCgzbXVZe1lUTrKLH8CW01oA",
-      "runtime": "35:36",
-      "note": "A fire at the edge of the forest by a cove, in Norway, and the sound of it and nothing else.",
-      "measured": "2026-09-28"
-     },
-     {
-      "id": "_Lm9w9tUpYE",
-      "title": "4K Fireplace - Real Campfire in Forest Shelter | Crackling Fire & Wind Sounds - No Loop",
-      "channel": "Norwegian Fireplace and Campfire",
-      "channel_id": "UCgzbXVZe1lUTrKLH8CW01oA",
-      "runtime": "1:53:23",
-      "note": "A fire in a forest shelter, with the wind going round the outside of it.",
-      "measured": "2026-09-28"
-     },
-     {
-      "id": "Fm2ACOk_rv0",
-      "title": "Cozy Autumn Campfire TV - Harvest Ambience with Crackling Fire in the Forest - 4K Real Fire, No Loop",
-      "channel": "Norwegian Fireplace and Campfire",
-      "channel_id": "UCgzbXVZe1lUTrKLH8CW01oA",
-      "runtime": "1:02:30",
-      "note": "Autumn in the forest, and a fire crackling in it.",
-      "measured": "2026-09-28"
-     },
-     {
-      "id": "olzlFQ6PYtM",
-      "title": "4K REAL DARK FOREST FIRE (No Loops) | 1 Hour Uncut Night Ambience for TV Sleep",
-      "channel": "Norwegian Fireplace and Campfire",
-      "channel_id": "UCgzbXVZe1lUTrKLH8CW01oA",
-      "runtime": "1:03:40",
-      "note": "A fire in a forest at night, with nothing else in the picture but the dark.",
-      "measured": "2026-09-28"
-     },
-     {
-      "id": "j4bjtoePJnw",
-      "title": "Forest Campfire 4K HDR 60FPS - Real Fireplace for Smart TV - Gentle Rain - No Loop",
-      "channel": "Norwegian Fireplace and Campfire",
-      "channel_id": "UCgzbXVZe1lUTrKLH8CW01oA",
-      "runtime": "1:17:36",
-      "note": "A campfire in the forest, in gentle rain.",
-      "measured": "2026-09-28"
-     },
-     {
-      "id": "s2iEF2s2GSQ",
-      "title": "Winter Forest Campfire for Sleep | 4K60 Real Fire | No Loop",
-      "channel": "Norwegian Fireplace and Campfire",
-      "channel_id": "UCgzbXVZe1lUTrKLH8CW01oA",
-      "runtime": "1:32:09",
-      "note": "Winter in a Nordic forest, before the snow has come, and a fire.",
-      "measured": "2026-09-28"
-     }
+    "videos_from": [
+     "data/sweetgrass.json",
+     "hearth",
+     "fires"
     ]
    }
   },

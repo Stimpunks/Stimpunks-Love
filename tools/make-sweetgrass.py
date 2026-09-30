@@ -48,6 +48,11 @@ has, which is the reason this file is worth reading before editing the room.
     FOR. Those videos are sold for sleep and focus, and this room says out loud
     that it does not treat a meadow as a treatment.
 
+  · AND THE FIRES IN THE PLAYLIST ARE A RACK UNDER IT, rack.js's pattern. Each
+    is one recording, so each needs a runtime; each is on the playlist's
+    channel; and the notes are swept like the fire's. The Campfire at Cavendish
+    Coworking reads this list by key, so a fire changed here changes there.
+
   · THE BRAID IS THREE BUNDLES OF SEVEN AND THE TOOL COUNTS THEM. Seven behind,
     seven laws, seven ahead, twenty-one in the braid. That is somebody's
     teaching rather than a layout, and a bundle that lost a strand to an edit
@@ -213,6 +218,34 @@ def check(d):
             bad.append("the fire does not say which video its playlist opens on, with that "
                        "video's id, title and runtime. Position 1 decides whether the whole "
                        "list embeds at all, and check-jukebox.py asks YouTube about it.")
+        # THE FIRES IN THE PLAYLIST, a rack under the fire (rack.js's pattern).
+        # Every one is a recording, so the runtime rule turns back over: each
+        # needs one. They are the channel's, like the list, and our notes on
+        # them say what is in the picture and nothing about what it is for.
+        fires = h.get("fires") or []
+        if not fires:
+            bad.append("the fire has no rack of fires under it. The Campfire at Cavendish Coworking "
+                       "reads its fires from here, and would have nothing on it.")
+        seen_f = set()
+        for f in fires:
+            ft = f.get("title") or "<untitled>"
+            if not YT.match(f.get("id") or ""):
+                bad.append(f"the fire {ft!r} has {f.get('id')!r}, which is not a YouTube id.")
+            if f.get("id") in seen_f:
+                bad.append(f"the fire {ft!r} is in the rack twice.")
+            seen_f.add(f.get("id"))
+            if not CLOCK.match((f.get("length") or "").strip()) or not (f.get("spoken") or "").strip():
+                bad.append(f"the fire {ft!r} has no runtime. It is one recording, and every "
+                           "recording here says how long before the press.")
+            if (f.get("channel") or "") != (h.get("channel") or ""):
+                bad.append(f"the fire {ft!r} is on {f.get('channel')!r} and not the playlist's channel.")
+            for field in ("title", "note", "measured"):
+                if not (f.get(field) or "").strip():
+                    bad.append(f"the fire {ft!r} has no {field}.")
+            mf = FOR.search(f.get("note") or "")
+            if mf:
+                bad.append(f"the note on the fire {ft!r} says {mf.group(0)!r}. Say what is in the "
+                           "picture, not what the fire is for.")
         m = FOR.search(h.get("note") or "")
         if m:
             bad.append(f"the fire's note says {m.group(0)!r}. The channel sells these fires for "
@@ -289,18 +322,56 @@ def hearth_block(h):
     # is not made flame-lit by the back door (see §25). The plate is the width
     # of the clearing rather than one sit in the grid, because this is the fire
     # and the others are told round it.
+    #
+    # AND THE PLATE IS A SCREEN WITH A RACK UNDER IT, rack.js's pattern (Ryan's
+    # call, 2026-09-28; the fire pit 2026-09-29): the fires in the playlist, each
+    # playing where it stands or going up on the fire in place of the whole list,
+    # and the way back puts the plate back without lighting it. The Campfire at
+    # Cavendish Coworking reads the same fires from here. The rack is a <details>
+    # that ships open, because a shut rack is text the render checkers cannot see.
+    frame = h["frame"] + ("&" if "?" in h["frame"] else "?") + "autoplay=1"
+    cards = []
+    for f in h["fires"]:
+        src = f'https://www.youtube-nocookie.com/embed/{f["id"]}?autoplay=1&rel=0'
+        cards.append(
+            f'          <li class="swg-sit" data-rack-card>\n'
+            f'            <h3>{esc(f["title"])}</h3>\n'
+            f'            <p class="swg-by">{esc(f["channel"])} &middot; {esc(f["length"])}</p>\n'
+            f'            <p>{esc(f["note"])}</p>\n'
+            f'            <button type="button" class="facade" data-embed-id="{esc(f["id"])}"\n'
+            f'                    data-embed-title="{html.escape(f["title"], quote=True)}">'
+            f'Play &middot; {esc(f["spoken"])}</button>\n'
+            f'            <button type="button" class="swg-up" hidden data-rack-to="fire" data-rack-name="the fire" '
+            f'data-rack-src="{html.escape(src, quote=True)}" '
+            f'data-rack-title="{html.escape(f["title"], quote=True)}, {html.escape(f["channel"], quote=True)}, on the fire" '
+            f'data-rack-film="{html.escape(f["title"], quote=True)}" data-rack-runtime="{esc(f["length"])}">'
+            f'Put it on the fire &middot; {esc(f["spoken"])}</button>\n'
+            f'          </li>')
     return (
         f'      <div class="swg-plot swg-hearth">\n'
         f'        <h3>The fire</h3>\n'
         f'        <p class="swg-by">{esc(h["channel"])} &middot; a playlist, so no runtime</p>\n'
         f'        <p>{esc(h["note"])}</p>\n'
-        f'        <button type="button" class="facade" data-embed-src="{html.escape(h["frame"], quote=True)}"\n'
-        f'                data-embed-title="{html.escape(h["title"], quote=True)}, on YouTube">'
+        f'        <div class="swg-glass" data-rack-screen="fire" '
+        f'data-rack-off="The whole playlist is off until you put it back.">\n'
+        f'          <button type="button" class="facade" data-embed-src="{html.escape(frame, quote=True)}"\n'
+        f'                  data-embed-title="{html.escape(h["title"], quote=True)}, on YouTube">'
         f'Light the fire &middot; runs until you stop it</button>\n'
+        f'        </div>\n'
+        f'        <p class="swg-now" data-rack-now="fire" tabindex="-1" hidden></p>\n'
+        f'        <p class="swg-back" hidden><button type="button" class="swg-up" data-rack-back="fire">'
+        f'Take it off and put the whole playlist back</button></p>\n'
         f'        <p class="swg-cap">No runtime on this one, and every other press in the clearing '
         f'has one: a playlist is a list its channel keeps adding to, and a total here would '
         f'be wrong the next time it changed. It is <a href="{esc(h["playlist"])}">'
         f'{esc(h["title"])}</a>, on YouTube, read on {esc(h["read"])}, and it starts at the top.</p>\n'
+        f'        <details class="swg-fires" open>\n'
+        f'          <summary>The fires in the playlist</summary>\n'
+        f'          <p class="swg-cap">Some of the fires in it, each with how long it runs. Each one burns '
+        f'where it stands, or goes up on the fire in place of the whole playlist. Their titles are the '
+        f'channel&rsquo;s; the notes are ours.</p>\n'
+        f'        <ul class="swg-sits">\n' + "\n".join(cards) + '\n        </ul>\n'
+        f'        </details>\n'
         f'      </div>')
 
 
@@ -426,6 +497,12 @@ def main():
             print("  - " + b)
         return 1
 
+    page = ROOM.read_text()
+    for js in ("love-embed.js", "rack.js"):
+        if f'<script src="{js}" defer></script>' not in page:
+            print(f"REFUSING to build Swaying Sweetgrass: {ROOM.name} does not load {js}, so the "
+                  "fire's rack would press and do nothing.")
+            return 1
     swap(ROOM, "sweetgrass-hearth", hearth_block(d["hearth"]), "    ")
     swap(ROOM, "sweetgrass-fire", screens(d["fire"], "swg-sit"), "    ")
     swap(ROOM, "sweetgrass-readings", doors(d["readings"]), "    ")
@@ -441,7 +518,7 @@ def main():
          f'      <tr><td>{esc(h["title"])}</td><td>{esc(h["channel"])}</td>'
          f'<td>no runtime</td><td>a playlist, a screen</td>'
          f'<td><a href="{esc(h["playlist"])}">watch</a></td></tr>', "      ")
-    swap(NOTES, "sweetgrass-fire-credits", rows(d["fire"], "a screen"), "      ")
+    swap(NOTES, "sweetgrass-fire-credits", rows(d["fire"] + h["fires"], "a screen"), "      ")
     swap(NOTES, "sweetgrass-readings-credits",
          reading_rows(d["readings"], d["_readings_channel"]), "      ")
     swap(NOTES, "sweetgrass-guide-credits", rows(d["teachings"], "a screen"), "      ")

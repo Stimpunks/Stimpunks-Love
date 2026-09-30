@@ -626,7 +626,8 @@ glacier ice, lit by nothing in it, the daylight coming through the ice itself as
 items take the word in `item`, so the markup says light or entry and not a shared name. **A
 suite's rack is built from its `rack` entry**: cams by id out of `data/jungle.json`, never
 restated, refused if dark, link-only or given a runtime, and videos with their own measured
-runtime. `check-jukebox.py` checks the videos and leaves the cams to the Jungle Room. Every room behind one house must be its
+runtime, or read by key from the room that owns them (`videos_from`, as the Campfire reads the fire
+pit's fires). `check-jukebox.py` checks the videos and leaves the cams to the Jungle Room. Every room behind one house must be its
 own world, and the next one to be tempted to match its neighbour is the one to stop.
 
 **BE SEEN HERE IS THE SLAKE'S SWITCH IN EVERY ROOM, AND WHO IS IN A CALL COMES FROM 8x8.** Ryan,
@@ -823,7 +824,13 @@ runtime (`make-sweetgrass.py` holds make-club.py's pair: required on every recor
 the list, and it refuses a list that does not say what it `opens` on). **The plate is soil and
 seed and shows no poster**, so the fire's orange only ever appears inside a frame somebody pressed
 for. A poster, or a plate in a flame colour, would make this a flame-lit room by the back door.
-The channel sells those videos for sleep and focus; the tool refuses that vocabulary in our note.
+The channel sells those videos for sleep and focus; the tool refuses that vocabulary in our note. **The fires in
+that playlist are a rack under the plate** (2026-09-29, `rack.js`'s pattern): each burns where it
+stands or goes up on the fire, each carries a runtime, and our notes on them are swept like the
+fire's. They live in `hearth.fires` in `data/sweetgrass.json` and **the Campfire at Cavendish
+Coworking reads them from there** (`videos_from`), because it says it takes its fires from this pit.
+The plate rule is `.swg-glass button.facade`; aimed at the whole hearth it would make every card's
+Play a 16:9 plate.
 
 **IT IS ALSO THE FOURTH GREEN THING, and the Jungle Room is the one to watch.** That room is
 night-green UNDER A ROOF: light falls down and lands in patches, and nothing stands alone because

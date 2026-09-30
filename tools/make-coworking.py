@@ -430,7 +430,22 @@ def rack_items(d):
             if c.get("runtime") or c.get("length"):
                 refuse(f"{where}: {cid!r} carries a runtime, and a live camera has none to give.")
             items.append({"id": cid, "title": c["title"], "channel": c["channel"], "note": c.get("note", ""), "runs": LIVE})
-    for v in r.get("videos", []):
+    videos = r.get("videos", [])
+    if r.get("videos_from"):
+        # Another room's list, read by key, when that room owns the selection: the
+        # Campfire's fires are the fire pit's at Swaying Sweetgrass, which keeps
+        # them as `length`. Never both a list here and one read from there.
+        if videos:
+            refuse(f"{where}: it has videos of its own and reads them from {r['videos_from'][0]} too.")
+        path, *keys = r["videos_from"]
+        src = json.loads((ROOT / path).read_text())
+        for k in keys:
+            src = (src or {}).get(k)
+        if not isinstance(src, list):
+            refuse(f"{where}: {path} has no list under {' > '.join(keys)}.")
+            src = []
+        videos = [{**v, "runtime": v.get("runtime") or v.get("length", "")} for v in src]
+    for v in videos:
         w = f"{where}, {v.get('title')!r}"
         if not VID.match(v.get("id", "")):
             refuse(f"{w}: {v.get('id')!r} is not a YouTube id.")

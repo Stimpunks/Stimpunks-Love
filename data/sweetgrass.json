@@ -19,6 +19,7 @@
     "cited_title": "Nature"
   },
   "_hearth": "THE FIRE ITSELF, and the one thing in the clearing that is not a voice. Ryan's brief, 2026-09-28: the pit had talks round it and no fire in it. It is a whole playlist from Norwegian Fireplace and Campfire, put on and left burning, so it follows make-club.py's pair of rules: every recording at the fire and in the field guide needs a runtime, and this refuses one, because a list the channel keeps adding to has no length and today's total would be wrong next week. It says it runs until you stop it. It is not a Kimmerer recording and not on the readings' channel, and make-sweetgrass.py refuses it on either. READ ON 2026-09-28 with yt-dlp --flat-playlist and one watch-page fetch of its position 1: the list's position 1 is 'opens' below, public, playable, playableInEmbed true, no age gate, on the same channel as the list. Position 1 is recorded because it decides whether the whole list embeds at all (Queercore's lesson on Pink Pony Club). The playlist's own embedding was checked by pressing play inside a frame on the dev server, not by reading the poster (Vital Plant Living's lesson). ITS TITLES AND DESCRIPTION SELL THE FIRES FOR SLEEP, RELAXATION AND FOCUS and none of that is copied: the title is quoted as written, because it is the channel's, and our note says what is in the picture and what you hear. make-sweetgrass.py refuses the vocabulary of what a fire is for in our note, for the reason the room's own last section gives: it does not treat a meadow as a treatment. AND THE FLAME ON THE PLATE IS STILL THE ROOM'S OWN TWO GOLDS. The plate shows no poster and takes no colour of its own; the real fire's orange arrives only inside a frame somebody pressed for, so the page is not made flame-lit by the back door.",
+  "_hearth_fires": "THE FIRES IN THE PLAYLIST, a rack under the fire, rack.js's pattern (Ryan's call, 2026-09-28; this room 2026-09-29). The selection was the Campfire's at Cavendish Coworking, made 2026-09-28 from this very playlist, and it moved here the day the fire pit took the rack, because the Campfire says it takes its fires from the fire pit: the fire pit owns them and make-coworking.py reads them from here by key, so the two rooms cannot say two different things about one fire. Each was measured on its own watch page on 2026-09-28: public, playable in an embed, not age-restricted, and its runtime. Their titles are the channel's and sell them for sleep and focus; the notes are ours, say only what is in the picture, and make-sweetgrass.py sweeps them for the vocabulary of what a fire is for. The notes are written so they read true in both rooms.",
   "hearth": {
     "title": "Forest Campfires 4K - Real Fire, Wind & Bird Calls | No Loop, No Music",
     "channel": "Norwegian Fireplace and Campfire",
@@ -31,7 +32,79 @@
       "title": "4K Spring Campfire in Norwegian Forest | Real Fire & Birdsong for Relaxation & Focus (No Music)",
       "length": "1:01:58"
     },
-    "note": "Campfires filmed in the forest, one fire to a video: the crackle, the wind in the trees, and birds somewhere off. No voice and no music, and the channel says none of it is looped. The only thing in this clearing that is not a story."
+    "note": "Campfires filmed in the forest, one fire to a video: the crackle, the wind in the trees, and birds somewhere off. No voice and no music, and the channel says none of it is looped. The only thing in this clearing that is not a story.",
+    "fires": [
+      {
+        "id": "MeXUPQNyLrE",
+        "title": "4K Spring Campfire in Norwegian Forest | Real Fire & Birdsong for Relaxation & Focus (No Music)",
+        "channel": "Norwegian Fireplace and Campfire",
+        "channel_id": "UCgzbXVZe1lUTrKLH8CW01oA",
+        "length": "1:01:58",
+        "spoken": "1 hr 2 min",
+        "note": "Spring in a Norwegian forest: one fire, and birdsong somewhere off. It is the one the playlist opens on, so it is the fire you get when you light the whole list.",
+        "measured": "2026-09-28"
+      },
+      {
+        "id": "3Ogt0LDwhlU",
+        "title": "Fireplace 4K No Loop. Real Fire Sound, natural campfire by the forest cove. Filmed in Norway",
+        "channel": "Norwegian Fireplace and Campfire",
+        "channel_id": "UCgzbXVZe1lUTrKLH8CW01oA",
+        "length": "35:36",
+        "spoken": "36 min",
+        "note": "A fire at the edge of the forest by a cove, in Norway, and the sound of it and nothing else.",
+        "measured": "2026-09-28"
+      },
+      {
+        "id": "_Lm9w9tUpYE",
+        "title": "4K Fireplace - Real Campfire in Forest Shelter | Crackling Fire & Wind Sounds - No Loop",
+        "channel": "Norwegian Fireplace and Campfire",
+        "channel_id": "UCgzbXVZe1lUTrKLH8CW01oA",
+        "length": "1:53:23",
+        "spoken": "1 hr 53 min",
+        "note": "A fire in a forest shelter, with the wind going round the outside of it.",
+        "measured": "2026-09-28"
+      },
+      {
+        "id": "Fm2ACOk_rv0",
+        "title": "Cozy Autumn Campfire TV - Harvest Ambience with Crackling Fire in the Forest - 4K Real Fire, No Loop",
+        "channel": "Norwegian Fireplace and Campfire",
+        "channel_id": "UCgzbXVZe1lUTrKLH8CW01oA",
+        "length": "1:02:30",
+        "spoken": "1 hr 2 min",
+        "note": "Autumn in the forest, and a fire crackling in it.",
+        "measured": "2026-09-28"
+      },
+      {
+        "id": "olzlFQ6PYtM",
+        "title": "4K REAL DARK FOREST FIRE (No Loops) | 1 Hour Uncut Night Ambience for TV Sleep",
+        "channel": "Norwegian Fireplace and Campfire",
+        "channel_id": "UCgzbXVZe1lUTrKLH8CW01oA",
+        "length": "1:03:40",
+        "spoken": "1 hr 4 min",
+        "note": "A fire in a forest at night, with nothing else in the picture but the dark.",
+        "measured": "2026-09-28"
+      },
+      {
+        "id": "j4bjtoePJnw",
+        "title": "Forest Campfire 4K HDR 60FPS - Real Fireplace for Smart TV - Gentle Rain - No Loop",
+        "channel": "Norwegian Fireplace and Campfire",
+        "channel_id": "UCgzbXVZe1lUTrKLH8CW01oA",
+        "length": "1:17:36",
+        "spoken": "1 hr 18 min",
+        "note": "A campfire in the forest, in gentle rain.",
+        "measured": "2026-09-28"
+      },
+      {
+        "id": "s2iEF2s2GSQ",
+        "title": "Winter Forest Campfire for Sleep | 4K60 Real Fire | No Loop",
+        "channel": "Norwegian Fireplace and Campfire",
+        "channel_id": "UCgzbXVZe1lUTrKLH8CW01oA",
+        "length": "1:32:09",
+        "spoken": "1 hr 32 min",
+        "note": "Winter in a Nordic forest, before the snow has come, and a fire.",
+        "measured": "2026-09-28"
+      }
+    ]
   },
   "fire": [
     {

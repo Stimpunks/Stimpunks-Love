@@ -7836,16 +7836,40 @@ html[data-intensity="max"]     .meadow .swg-flit { animation: swg-drift 11s ease
    which is the thing §25's fire pit is painted in two golds to avoid. The
    pressed shell is `.meadow div.facade` above and needs nothing here. */
 .swg-hearth { margin-inline: calc((100% - min(1136px, 100vw - 44px)) / 2); }
-.meadow .swg-hearth button.facade {
+.meadow .swg-glass button.facade {
   display: grid; place-items: center; aspect-ratio: 16 / 9; width: 100%;
   margin: 16px 0 0; padding: 0 18px; background: var(--soil);
   border: 2px solid var(--stem); color: var(--seed); text-align: center;
   font-family: 'Eczar', Georgia, serif; font-weight: 600;
   font-size: clamp(19px, 2.6vw, 26px); letter-spacing: .3px;
 }
-.meadow .swg-hearth button.facade:hover { background: var(--soil); color: var(--straw);
+.meadow .swg-glass button.facade:hover { background: var(--soil); color: var(--straw);
   border-color: var(--sedge); }
 .swg-hearth .swg-cap { margin: 12px 0 0; }
+
+/* THE FIRES IN THE PLAYLIST, a rack under the fire: rack.js's pattern (Ryan's
+   call, 2026-09-28). The behaviour is shared and the look is the meadow's: the
+   cards are the sits round the pit, standing on the same ground line, and the
+   second press grows out of the ground like the first one does, with a rising
+   arrow in front of it because it sends the fire UP onto the plate rather than
+   burning where it stands. It is in straw where the first is in seed. No flame
+   colour anywhere in it, for the reason above. */
+.meadow .swg-glass div.facade { margin-top: 16px; }
+.swg-now { margin: 12px 0 0; font-weight: 700; color: var(--straw); }
+.swg-hearth .swg-back { margin: 8px 0 0; }
+.meadow .swg-up {
+  align-self: flex-start; margin: 8px 0 0; padding: 7px 0 0; min-height: 44px; cursor: pointer;
+  background: transparent; border: 0; border-top: 1px solid var(--stem); border-radius: 0;
+  color: var(--straw); text-align: left;
+  font-family: 'Alegreya Sans', var(--sans); font-size: 15.5px; font-weight: 500; letter-spacing: .4px;
+}
+.meadow .swg-up::before { content: "\2191\00a0" / ""; }
+.meadow .swg-up:hover { color: var(--seed); border-top-color: var(--sedge); }
+.swg-fires { margin: 26px 0 0; }
+.swg-fires > summary { cursor: pointer; font-family: 'Eczar', Georgia, serif; font-weight: 600;
+  font-size: 21px; color: var(--straw); }
+.swg-fires > summary::marker { color: var(--seed); }
+.swg-fires .swg-sits { margin-top: 18px; }
 
 /* ── The chapter readings, which are doors and not screens ────────────────
    Deliberately unlike everything else on the page: no press, no runtime badge
