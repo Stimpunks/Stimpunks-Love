@@ -101,12 +101,37 @@
             <input class="ctr-in" id="cb-handle" name="handle" type="text" maxlength="24" required autocomplete="nickname" spellcheck="false">
           </div>
           <div>
-            <label class="ctr-lab" for="cb-password">The community password</label>
+            <label class="ctr-lab" for="cb-password">The community password, or your own if you have claimed your username</label>
             <input class="ctr-in" id="cb-password" name="password" type="password" required autocomplete="current-password">
           </div>
           <button class="ctr-go" type="submit">Sign on</button>
           <p class="ctr-said" id="cb-signon-said" role="status"></p>
         </form>
+
+        <details class="ctr-recover" id="cb-recover-box" hidden>
+          <summary>Forgotten the password for a username you claimed?</summary>
+          <form class="ctr-form" id="cb-recover">
+            <p class="ctr-fine">Use the recovery code you were given when you claimed it, or a reset code from a moderator, and choose a new password. There is no email, so these codes are the only way back in.</p>
+            <div>
+              <label class="ctr-lab" for="cb-recover-handle">Your username</label>
+              <input class="ctr-in" id="cb-recover-handle" name="handle" type="text" maxlength="24" required autocomplete="username" spellcheck="false">
+            </div>
+            <div>
+              <label class="ctr-lab" for="cb-recover-code">The recovery code, or a moderator&rsquo;s reset code</label>
+              <input class="ctr-in" id="cb-recover-code" name="code" type="text" required autocomplete="off" spellcheck="false">
+            </div>
+            <div>
+              <label class="ctr-lab" for="cb-recover-pw">A new password</label>
+              <input class="ctr-in" id="cb-recover-pw" name="password" type="password" required autocomplete="new-password">
+            </div>
+            <div>
+              <label class="ctr-lab" for="cb-recover-pw2">The same again</label>
+              <input class="ctr-in" id="cb-recover-pw2" name="again" type="password" required autocomplete="new-password">
+            </div>
+            <button class="ctr-go" type="submit">Set it and sign on</button>
+            <p class="ctr-said" id="cb-recover-said" role="status"></p>
+          </form>
+        </details>
 
         <div class="ctr-on" id="cb-on" hidden>
           <p>You are on the channel as <b id="cb-on-as"></b>.</p>
@@ -116,7 +141,7 @@
 
         <noscript><p><strong>The CB needs JavaScript</strong>: the radio is a script and so is signing on. Everything else in this room reads without it.</p></noscript>
 
-        <p class="ctr-fine">Signing on keeps your handle, a pass and where you put the radio in your own browser. What the channel keeps, for how long, and what it never keeps are all on <a href="privacy.html">the privacy page</a>.</p>
+        <p class="ctr-fine">Once you are on, <b>Profile</b> on the radio lets you claim your username with a password of your own, so nobody else can sign on as it. Signing on keeps your handle, a pass and where you put the radio in your own browser. What the channel keeps, for how long, and what it never keeps are all on <a href="privacy.html">the privacy page</a>.</p>
       </div>
 
       <!-- THE BASE STATION ON THE DESK. Ours, in the room's own inks, and it is
@@ -165,7 +190,7 @@
     <h2 id="cb-norms-h">House norms</h2>
     <ol class="ctr-list">
       <li><strong>Our covenant is the floor.</strong> Everything in <a href="https://stimpunks.org/covenant/">the Stimpunks Covenant</a> applies on the channel, as it does in every Stimpunks space.</li>
-      <li><strong>A handle is not proof of anybody.</strong> Nothing checks them, so do not borrow somebody else&rsquo;s, and do not take anybody&rsquo;s as proof of who they are. The one mark that is checked is <b>BASE</b>: only our moderators can send it, each under their own handle off the moderators&rsquo; list, which nobody else can sign on as.</li>
+      <li><strong>A handle is not proof of anybody.</strong> An unclaimed handle is whatever somebody typed, so do not borrow somebody else&rsquo;s. A <strong>claimed</strong> username only signs on with its owner&rsquo;s own password, so claim yours from <b>Profile</b> on the radio and nobody else can use it; but the channel does not show which handles are claimed, so do not take any handle on its own as proof of who somebody is. The one mark on the channel that is checked is <b>BASE</b>: only our moderators can send it, each under their own handle off the moderators&rsquo; list, which nobody else can sign on as.</li>
       <li><strong>World, or this room.</strong> The radio hears one channel at a time. <b>World</b> is the one the whole street shares. <b>This room</b> is the room you are standing in, heard by whoever else is tuned to it there, and walking into another room tuned that way hears that room&rsquo;s channel instead. Every channel keeps the same rules: ten messages, gone at midnight.</li>
       <li><strong>Every room has a call.</strong> <b>Join this room&rsquo;s call</b> opens voice and video for the room you are in, for people signed on to the CB. The rooms off <a href="town-hall.html">the Town Hall</a> for our directors, board and moderators are the base&rsquo;s: anybody can walk in, and their channel and call are for the base alone. Camera and microphone start off, and camera off and microphone off is a fine way to be in a call. The base station moderates, and is the only one who can record a call or turn on transcription; before doing either, say so in the call, and a recording or transcript is shared only if everybody in it has said yes, the same as a screenshot of the channel. Anybody can share a YouTube video in the call for everybody to watch together; whoever shares it plays and pauses it for everybody, and while it plays with its sound on, Jitsi mutes your microphone, so unmute to talk over it. For watching at your own pace instead, use the room&rsquo;s own players and the CB&rsquo;s spots. Anybody in a call can share a screenshot or a photo there with <b>Share file</b>; it goes to 8x8, not to us, so share nothing with somebody else in it unless they have said yes, the same as a screenshot of the channel.</li>
       <li><strong>It is a room, not a private line.</strong> Everybody with the community password can read the channel. Say what you would say in a room with people in it.</li>

@@ -12,7 +12,7 @@ export default async (req) => {
   if (!room) return json(400, { error: 'That is not a room on the street.' });
   // Signed on to the CB: your handle, anywhere. Not signed on: a public call
   // only, as a guest, under the name you typed, which is not kept.
-  let who = readPass(req);
+  let who = await readPass(req);
   if (!who) {
     if (!publicCall(room)) return json(401, { error: 'signed off' });
     const name = cleanHandle(b && b.name);

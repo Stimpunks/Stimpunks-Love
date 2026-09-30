@@ -98,6 +98,20 @@
     </ul>
   </section>
 
+  <section class="md-part" aria-labelledby="md-desk-h">
+    <h2 id="md-desk-h">The desk: usernames</h2>
+    <p>Anybody on the CB can claim their username with a password of their own, from <b>Profile</b> on their radio. There is no email, so when somebody has lost both their password and their recovery code, a moderator can give them a way back in from here. <strong>There is no list of everybody&rsquo;s username</strong>: look up the one you were asked about, by name.</p>
+    <p><strong>Before a reset, make sure who you are talking to</strong>, on Stoat or in a call, the way you would before giving anybody a key. A reset code is good for a day, signs the username off everywhere, and is shown to you once: pass it on privately. Deleting a username deletes its password and its pets, and anybody can claim the name afterwards.</p>
+    <div class="md-call md-desk" id="md-desk" hidden>
+      <p><label class="md-desk__lab" for="md-desk-name">A username</label>
+      <input class="md-desk__in" id="md-desk-name" type="text" maxlength="24" autocomplete="off" spellcheck="false">
+      <button type="button" id="md-desk-find">Look it up</button></p>
+      <div id="md-desk-found"></div>
+      <p class="md-call__said" id="md-desk-said" role="status"></p>
+    </div>
+    <p class="md-call__fine" id="md-desk-off">The desk opens for a moderator signed on with the moderators&rsquo; password, and the server refuses everybody else whatever this page shows.</p>
+  </section>
+
   <section class="md-part" aria-labelledby="md-call-h">
     <h2 id="md-call-h">Talking</h2>
 <!-- md-call:begin -->
@@ -172,6 +186,7 @@
 
 <script src="love.js" defer></script>
 <script src="callroom.js" defer></script>
+<script src="desk.js" defer></script>
 <script src="quest.js" defer></script>
 </body>
 </html>

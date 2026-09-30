@@ -5,7 +5,7 @@ import { readPass, hostBeacon, stopBeacon, shapeBeacons, beaconRoom, cleanFilm, 
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
-  const who = readPass(req);
+  const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   const b = await body(req);
   const room = beaconRoom(b && b.room);

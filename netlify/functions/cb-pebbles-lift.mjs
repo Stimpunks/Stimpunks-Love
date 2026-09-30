@@ -5,7 +5,7 @@ import { readPass, pebbleRoom, updatePebbles, shapePebbles, json, body, sameSite
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This bowl only answers stimpunks.world.' });
-  const who = readPass(req);
+  const who = await readPass(req);
   if (!who || who.role !== 'base') return json(403, { error: 'Only the base station can do that.' });
   const b = (await body(req)) || {};
   const room = pebbleRoom(b.room);

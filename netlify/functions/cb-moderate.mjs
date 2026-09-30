@@ -5,7 +5,7 @@ import { readPass, updateTuned, roomTag, shape, json, body, sameSite, dropImages
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
-  const who = readPass(req);
+  const who = await readPass(req);
   if (!who || who.role !== 'base') return json(403, { error: 'Only the base station can do that.' });
   const b = (await body(req)) || {};
   const room = b.room == null ? null : roomTag(b.room);

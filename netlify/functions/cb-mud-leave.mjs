@@ -5,7 +5,7 @@ import { readPass, mudVisit, leaveSlake, json, body, sameSite } from '../cb/lib.
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'The Slake only answers stimpunks.world.' });
-  const who = readPass(req);
+  const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   const b = (await body(req)) || {};
   const visit = mudVisit(b.visit);

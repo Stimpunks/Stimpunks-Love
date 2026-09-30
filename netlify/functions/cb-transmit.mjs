@@ -8,7 +8,7 @@ import { readPass, updateTuned, roomTag, roomAllows, cleanMessage, cleanAlt, sha
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
-  const who = readPass(req);
+  const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   const b = await body(req);
   if (!b) return json(400, { error: 'There was nothing in that.' });

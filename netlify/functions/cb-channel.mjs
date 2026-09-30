@@ -6,7 +6,7 @@
 import { readPass, readTuned, readBeacons, roomTag, roomAllows, rolesOf, shape, shapeBeacons, callsReady, json } from '../cb/lib.mjs';
 
 export default async (req) => {
-  const who = readPass(req);
+  const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   // ?room=<tag> only while the radio is tuned to a room; World sends nothing.
   const asked = new URL(req.url).searchParams.get('room');

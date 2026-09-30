@@ -166,7 +166,8 @@ pando.js              Pando Calrissian's tree and its fence: draws the grove fro
 fridge.js             The Fridge of Sighs: reads the door and the drawer, puts up one word with a CB pass
 stair.js              Count Me In: reads the stair, takes a step by number or by the lift with a CB pass
 shelter.js            Rescue A Cat and Rescue A Dog: looks, rescues and adopts with a CB pass; keeps the ones you rescued in love-rescues
-animals.js            Every cat and dog, drawn: the shelters and the CB's Pets tray both draw from here
+animals.js            Every cat and dog, drawn: the shelters and the CB's Profile both draw from here
+desk.js               The moderators' desk in the Moderators' room: look up one username, reset it or delete it
 netlify/functions/    The CB's functions: sign on, listen, transmit, moderate, the hourly sweep, and the
                       chalkboard's read, write and rub-out, Pando Calrissian's tree and its fence, the Fridge of Sighs' door, Count Me In's stair, Rescue A Cat's shelter,
                       and the Slake's: be seen at a place, say something there, leave, and the base station's
@@ -273,6 +274,7 @@ python3 tools/make-vital.py        # Vital Plant Living's shelf, builder, board,
 python3 tools/make-community.py    # The Community Center's service board; refuses a slot whose room has stopped saying what it repeats
 python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, and the credits; refuses a size, a gendered rail, or no all-black colourway
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
+python3 tools/make-accounts.py     # The CB's accounts: refuses a console call in netlify/, a list of accounts, an email field, a desk that does more than find, reset and delete, and a Profile without Delete my account
 python3 tools/make-rescue.py       # Both shelters and the Pets tray: refuses a shelter or forever list that knows who, a rare animal, a look with no drawing, pets under a raw handle, and a tray without Forget Me
 python3 tools/make-stair.py        # Count Me In: refuses a stair that names who sent it back, a lift smaller than the stair or one that sends a number, and a script that stores anything
 python3 tools/make-fridge.py       # The Fridge of Sighs' numbers, read from the CB's lib; refuses a fridge that says whose a word was, a tally, or a script that stores anything
@@ -696,8 +698,11 @@ and the highest it has reached; and the list of every cat and dog ever adopted, 
 adopted them. The fridge and the stair each keep one scrambled mark of whoever went last, replaced by
 the next. The tree's fence runs on the chalkboard's rules.
 **Your pets are the one thing kept under a person**: every cat and dog you adopt, filed under a plain
-hash of your folded handle so they follow you to any device, until you press Forget Me in the Pets
-tray on your radio. A handle is not an account, and the tray says so.
+hash of your folded handle so they follow you to any device, until you press Forget Me in Profile
+on your radio. An unclaimed handle is not an account, and Profile says so; claim it there with a
+password of your own and only that password reaches them. **That username is the only account on
+the street**: no email, and moderators can find one by name, reset it or delete it, but never list
+them.
 
 ## Attribution
 

@@ -16,7 +16,7 @@
    ones I rescued clears it. An older love-cats list is folded into it and
    removed. That is the only thing this file stores; privacy.html lists it.
    Your ADOPTED animals are kept on the server, under a scrambled form of your
-   handle, and they are the radio's Pets tray, where Forget Me is.
+   handle, and they are the radio's Profile, where Forget Me is.
 
    Every name goes in with textContent. Nothing is rarer and nothing moves.
    ============================================================================= */
@@ -107,7 +107,7 @@
           if (r.status === 200 && r.body.adopted) {
             drawShelter(r.body.shelter || []);
             readAdopted();
-            say((a.name || 'They') + (a.name ? ' is' : ' are') + ' yours now, and in the Pets tray on your CB radio.');
+            say((a.name || 'They') + (a.name ? ' is' : ' are') + ' yours now, and in Profile on your CB radio.');
             try { window.dispatchEvent(new CustomEvent('love-pets')); } catch (e) {}
           } else {
             adopt.disabled = false;

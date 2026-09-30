@@ -156,7 +156,7 @@
     handle.required = true;
     handle.autocomplete = 'nickname';
     handle.spellcheck = false;
-    var pl = el('label', 'cb-lab', 'The community password');
+    var pl = el('label', 'cb-lab', 'The community password, or your own if you have claimed your username');
     pl.htmlFor = 'cb-guest-password';
     var password = el('input', 'cb-say cb-guest-in');
     password.id = 'cb-guest-password';

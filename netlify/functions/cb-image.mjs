@@ -7,7 +7,7 @@
 import { readPass, roomTag, roomAllows, putImage, getImage, imageId, json, sameSite, IMG_MAX } from '../cb/lib.mjs';
 
 export default async (req) => {
-  const who = readPass(req);
+  const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   const url = new URL(req.url);
   if (req.method === 'GET') {

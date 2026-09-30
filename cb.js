@@ -819,15 +819,16 @@
       clear.addEventListener('click', function () { me.moderate({ clear: true }); });
       tools.appendChild(clear);
     }
-    /* THE PETS TRAY. Ryan, 2026-09-30: a cat or a dog adopted from Rescue A
-       Cat or Rescue A Dog lives here, in a tray that pops up from the radio.
-       Pets are the one thing the street keeps under a person, filed under a
-       scrambled form of the handle so they follow you to any device you sign
-       on with; a handle is not an account, and the tray says so. FORGET ME is
-       here, beside what it forgets, and asks once more before it deletes. The
-       tray is read when it is opened and never polled, and it lives in the
-       tools row rather than on the bar, because the bar is full. */
-    var petsBtn = this.petsBtn = el('button', 'cb-btn cb-pets-btn', 'Pets');
+    /* PROFILE. Ryan, 2026-09-30: one button in the tools row, beside Sign off,
+       because the bar is full, and a tray that pops up from the radio with two
+       things in it. YOUR USERNAME: claim it with a password of your own, so
+       nobody else can sign on as it, and once claimed change the password or
+       delete the account; there is no email, so claiming hands you a recovery
+       code, once. YOUR PETS: the cats and dogs you adopted, which are the one
+       thing the street keeps under a person, and Forget Me for them. Every
+       destructive press asks once more. The tray is read when it is opened and
+       never polled. */
+    var petsBtn = this.petsBtn = el('button', 'cb-btn cb-pets-btn', 'Profile');
     petsBtn.type = 'button';
     petsBtn.setAttribute('aria-expanded', 'false');
     petsBtn.setAttribute('aria-controls', 'cb-pets');
@@ -842,21 +843,24 @@
     pets.id = 'cb-pets';
     pets.hidden = true;
     pets.setAttribute('role', 'group');
-    pets.setAttribute('aria-label', 'Your pets');
+    pets.setAttribute('aria-label', 'Your profile');
+
+    // Your username.
+    pets.appendChild(el('p', 'cb-pets__h', 'Your username'));
+    var acct = this.acctBox = el('div', 'cb-acct');
+    pets.appendChild(acct);
+    this.acctSaid = el('p', 'cb-said cb-acct__said');
+    this.acctSaid.setAttribute('role', 'status');
+    pets.appendChild(this.acctSaid);
+
+    // Your pets.
     pets.appendChild(el('p', 'cb-pets__h', 'Your pets'));
     this.petsState = el('p', 'cb-quiet', '');
     pets.appendChild(this.petsState);
     this.petsList = el('ul', 'cb-pets__list');
     this.petsList.hidden = true;
     pets.appendChild(this.petsList);
-    var where = el('p', 'cb-pets__where');
-    where.appendChild(document.createTextNode('Adopt one at '));
-    var ca = el('a', null, 'Rescue A Cat'); ca.href = '/rescue-a-cat.html';
-    var da = el('a', null, 'Rescue A Dog'); da.href = '/rescue-a-dog.html';
-    where.appendChild(ca); where.appendChild(document.createTextNode(' or ')); where.appendChild(da);
-    where.appendChild(document.createTextNode('. Your pets are kept under the handle '));
-    where.appendChild(el('b', null, state.handle));
-    where.appendChild(document.createTextNode(', scrambled, so they follow you to any device you sign on with. A handle is not an account: anybody who signs on with it sees them too.'));
+    var where = this.petsWhere = el('p', 'cb-pets__where');
     pets.appendChild(where);
     var forgetBtn = this.forgetBtn = el('button', 'cb-btn cb-forget', 'Forget me');
     forgetBtn.type = 'button';
@@ -1533,7 +1537,7 @@
     return p === '/' ? '/' : p.replace(/\.html$/, '') + '.html';
   }
 
-  /* ── The Pets tray ─────────────────────────────────────────────────────── */
+  /* ── The Profile ─────────────────────────────────────────────────────── */
   function withAnimals(then) {
     if (window.loveAnimals) { then(); return; }
     var s = document.createElement('script');
@@ -1545,8 +1549,158 @@
   Radio.prototype.setPets = function (open) {
     this.petsPanel.hidden = !open;
     this.petsBtn.setAttribute('aria-expanded', String(!!open));
-    if (open) this.loadPets();
+    if (open) { this.loadAccount(); this.loadPets(); }
     else { this.forgetSure.hidden = true; this.forgetBtn.hidden = false; }
+  };
+
+  /* ── Your username ─────────────────────────────────────────────────────── */
+  function field(label, id, type) {
+    var wrap = el('p', 'cb-acct__field');
+    var lab = el('label', 'cb-lab', label);
+    lab.htmlFor = id;
+    var input = el('input', 'cb-say');
+    input.id = id; input.type = type || 'password';
+    input.autocomplete = type === 'password' || !type ? 'new-password' : 'off';
+    wrap.appendChild(lab); wrap.appendChild(input);
+    return { wrap: wrap, input: input };
+  }
+
+  Radio.prototype.loadAccount = function () {
+    var me = this;
+    me.acctBox.textContent = '';
+    me.acctBox.appendChild(el('p', 'cb-quiet', 'Looking up your username\u2026'));
+    call('/cb/account', null, me.state.pass).then(function (r) {
+      if (r.status === 200) { me.drawAccount(r.body); return; }
+      me.acctBox.textContent = '';
+      me.acctBox.appendChild(el('p', 'cb-quiet', r.status === 401
+        ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+        : 'Your username could not be looked up just now.'));
+    }, function () {
+      me.acctBox.textContent = '';
+      me.acctBox.appendChild(el('p', 'cb-quiet', 'Your username could not be looked up just now.'));
+    });
+  };
+
+  Radio.prototype.acctSay = function (t) { this.acctSaid.textContent = t; };
+
+  /* Take a new pass: after claiming, changing the password or recovering, the
+     old one no longer works anywhere, this device included. */
+  Radio.prototype.takePass = function (pass, claimed) {
+    this.state.pass = pass;
+    this.state.claimed = !!claimed;
+    save(this.state);
+  };
+
+  Radio.prototype.drawAccount = function (a) {
+    var me = this, box = me.acctBox, h = me.state.handle;
+    box.textContent = '';
+    me.drawWhere(!!a.claimed);
+    if (a.base) {
+      box.appendChild(el('p', null, 'You are on with the moderators\u2019 password, and moderators\u2019 handles are kept on the moderators\u2019 list rather than claimed.'));
+      return;
+    }
+    if (!a.claimed) {
+      box.appendChild(el('p', null, 'Anybody with the community password can sign on as ' + h + ' today. Claim it and it is yours: from then on it signs on with a password of your own, and the community password stops working for it.'));
+      box.appendChild(el('p', 'cb-quiet', 'There is no email. When you claim, you get a recovery code, once, which is the way back in if you forget your password; a moderator can also give you a reset code.'));
+      var pw = field('A password of your own', 'cb-acct-pw'), again = field('The same again', 'cb-acct-pw2');
+      box.appendChild(pw.wrap); box.appendChild(again.wrap);
+      var claim = el('button', 'cb-btn cb-acct-claim', 'Claim ' + h);
+      claim.type = 'button';
+      box.appendChild(claim);
+      claim.addEventListener('click', function () {
+        if (pw.input.value !== again.input.value) { me.acctSay('The two passwords are not the same.'); pw.input.focus(); return; }
+        claim.disabled = true;
+        me.acctSay('Claiming\u2026');
+        call('/cb/account', { body: { action: 'claim', password: pw.input.value } }, me.state.pass).then(function (r) {
+          claim.disabled = false;
+          if (r.status === 200 && r.body.pass) {
+            me.takePass(r.body.pass, true);
+            me.showRecovery(r.body.recovery, 'Claimed. ' + h + ' is yours, and signs on with your own password now.');
+            return;
+          }
+          me.acctSay((r.body && r.body.error) || 'That did not work just now. Nothing was claimed.');
+        }, function () { claim.disabled = false; me.acctSay('The desk could not be reached just now. Nothing was claimed.'); });
+      });
+      return;
+    }
+    var since = '';
+    try { since = new Date(a.since).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) {}
+    box.appendChild(el('p', null, 'Your username is ' + a.handle + ', claimed on ' + since + '. Only your own password signs on as it.'));
+    var change = el('button', 'cb-btn', 'Change my password');
+    change.type = 'button';
+    var del = el('button', 'cb-btn', 'Delete my account');
+    del.type = 'button';
+    var row = el('p', 'cb-acct__row'); row.appendChild(change); row.appendChild(del);
+    box.appendChild(row);
+    var form = el('div', 'cb-acct__form'); form.hidden = true;
+    box.appendChild(form);
+    change.addEventListener('click', function () {
+      form.textContent = ''; form.hidden = false;
+      var old = field('Your password now', 'cb-acct-old', 'password'), pw = field('A new password', 'cb-acct-new'), again = field('The same again', 'cb-acct-new2');
+      old.input.autocomplete = 'current-password';
+      form.appendChild(old.wrap); form.appendChild(pw.wrap); form.appendChild(again.wrap);
+      var go = el('button', 'cb-btn', 'Change it'); go.type = 'button';
+      form.appendChild(go);
+      old.input.focus();
+      go.addEventListener('click', function () {
+        if (pw.input.value !== again.input.value) { me.acctSay('The two new passwords are not the same.'); pw.input.focus(); return; }
+        go.disabled = true;
+        call('/cb/account', { body: { action: 'password', old: old.input.value, password: pw.input.value } }, me.state.pass).then(function (r) {
+          go.disabled = false;
+          if (r.status === 200 && r.body.pass) { me.takePass(r.body.pass, true); form.hidden = true; me.acctSay('Changed. Every other device signed on as you has been signed off.'); change.focus(); return; }
+          me.acctSay((r.body && r.body.error) || 'That did not work just now. Nothing was changed.');
+        }, function () { go.disabled = false; me.acctSay('The desk could not be reached just now. Nothing was changed.'); });
+      });
+    });
+    del.addEventListener('click', function () {
+      form.textContent = ''; form.hidden = false;
+      form.appendChild(el('p', null, 'This deletes your username, its password and your pets, and anybody can take the name afterwards. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+      var pw = field('Your password, to be sure it is you', 'cb-acct-del', 'password');
+      pw.input.autocomplete = 'current-password';
+      form.appendChild(pw.wrap);
+      var yes = el('button', 'cb-btn', 'Yes, delete my account'); yes.type = 'button';
+      var keep = el('button', 'cb-btn', 'Keep it'); keep.type = 'button';
+      form.appendChild(yes); form.appendChild(keep);
+      keep.focus();
+      keep.addEventListener('click', function () { form.hidden = true; del.focus(); });
+      yes.addEventListener('click', function () {
+        yes.disabled = true;
+        call('/cb/account', { body: { action: 'delete', password: pw.input.value } }, me.state.pass).then(function (r) {
+          yes.disabled = false;
+          if (r.status === 200 && r.body.deleted) { signOff(); return; }
+          me.acctSay((r.body && r.body.error) || 'That did not work just now. Nothing was deleted.');
+        }, function () { yes.disabled = false; me.acctSay('The desk could not be reached just now. Nothing was deleted.'); });
+      });
+    });
+  };
+
+  /* A recovery code is shown once, and the tray says so rather than letting it
+     look like something that can be fetched again. */
+  Radio.prototype.showRecovery = function (code, lead) {
+    var me = this, box = me.acctBox;
+    box.textContent = '';
+    me.drawWhere(true);
+    box.appendChild(el('p', null, lead));
+    box.appendChild(el('p', null, 'Your recovery code is below. It is the way back in if you forget your password, and it will not be shown again: write it down, or keep it where you keep passwords.'));
+    var c = el('p', 'cb-acct__code', code);
+    box.appendChild(c);
+    var done = el('button', 'cb-btn', 'I have kept it'); done.type = 'button';
+    box.appendChild(done);
+    done.focus();
+    done.addEventListener('click', function () { me.loadAccount(); });
+    me.acctSay('');
+  };
+
+  Radio.prototype.drawWhere = function (claimed) {
+    var w = this.petsWhere;
+    w.textContent = '';
+    w.appendChild(document.createTextNode('Adopt one at '));
+    var ca = el('a', null, 'Rescue A Cat'); ca.href = '/rescue-a-cat.html';
+    var da = el('a', null, 'Rescue A Dog'); da.href = '/rescue-a-dog.html';
+    w.appendChild(ca); w.appendChild(document.createTextNode(' or ')); w.appendChild(da);
+    w.appendChild(document.createTextNode(claimed
+      ? '. Your pets are kept under your username, scrambled, so they follow you to any device you sign on with, and only your password reaches them.'
+      : '. Your pets are kept under the handle ' + this.state.handle + ', scrambled, so they follow you to any device you sign on with. A handle is not an account: anybody who signs on with it sees them too, until you claim it above.'));
   };
 
   Radio.prototype.loadPets = function () {
@@ -2391,6 +2545,8 @@
     var s = load();
     form.hidden = !!s;
     on.hidden = !s;
+    var rec = document.getElementById('cb-recover-box');
+    if (rec) rec.hidden = !!s;
     if (s) document.getElementById('cb-on-as').textContent = s.handle;
   }
 
@@ -2425,7 +2581,41 @@
     });
     var off = document.getElementById('cb-signoff');
     if (off) off.addEventListener('click', signOff);
+    wireRecover();
     counter();
+  }
+
+  /* GETTING BACK INTO A CLAIMED USERNAME. The recovery code from claiming, or
+     a moderator's reset code, and a new password; the answer is a pass and a
+     NEW recovery code, shown here once. */
+  function wireRecover() {
+    var box = document.getElementById('cb-recover-box');
+    var form = document.getElementById('cb-recover');
+    if (!box || !form) return;
+    var said = document.getElementById('cb-recover-said');
+    var btn = form.querySelector('button[type="submit"]');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (form.elements.password.value !== form.elements.again.value) { said.textContent = 'The two passwords are not the same.'; return; }
+      said.textContent = 'Checking\u2026';
+      btn.disabled = true;
+      call('/cb/account/recover', { body: { handle: form.elements.handle.value, code: form.elements.code.value, password: form.elements.password.value } }).then(function (r) {
+        btn.disabled = false;
+        if (r.status === 200 && r.body.pass) {
+          form.elements.password.value = ''; form.elements.again.value = ''; form.elements.code.value = '';
+          save({ handle: r.body.handle, pass: r.body.pass, base: false, roles: [], claimed: true, folded: false, aloud: true });
+          said.textContent = '';
+          var p1 = document.createElement('p'); p1.textContent = 'You are back in, with your new password. Here is your NEW recovery code. The old one no longer works, and this one will not be shown again:';
+          var p2 = document.createElement('p'); p2.className = 'ctr-code'; p2.textContent = r.body.recovery;
+          form.replaceWith(p1); p1.after(p2);
+          counter();
+          tuneIn();
+          return;
+        }
+        if (r.status === 429) { said.textContent = 'Too many tries from here in a minute. Wait a moment and try again.'; return; }
+        said.textContent = why(r, 'That did not work. Try again.');
+      }).catch(function () { btn.disabled = false; said.textContent = 'No signal: the counter could not be reached.'; });
+    });
   }
 
   /* ARRIVING BY A SPOT. The room's name in a spot links here with

@@ -6,7 +6,7 @@ import { readPass, animalKind, rescueAnimal, cleanAnimalName, shapeAnimal, json,
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This shelter only answers stimpunks.world.' });
-  if (!readPass(req)) return json(401, { error: 'signed off' });
+  if (!(await readPass(req))) return json(401, { error: 'signed off' });
   const b = (await body(req)) || {};
   const kind = animalKind(b.kind);
   if (!kind) return json(404, { error: 'There is no shelter for that.' });

@@ -41,6 +41,17 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-09-30-accounts">2026-09-30 &mdash; Claim your username, with a password of your own</h2>
+  <ul>
+    <li><strong>You can claim your username on the CB.</strong> Signed on, press <b>Profile</b> on the radio and claim the handle you are on as, with a password of your own. From then on it signs on with that password and nothing else, and <strong>the community password stops working for it</strong>, so nobody else can sign on as you. It is optional: an unclaimed handle works exactly as before. Ryan&rsquo;s brief.</li>
+    <li><strong>There is no email.</strong> When you claim, you are shown a <strong>recovery code, once</strong>, which is the way back in if you forget your password; a moderator can also give you a reset code, after making sure it is you. Either is used under <em>Forgotten the password</em> at <a href="community-center.html">the Community Center</a>.</li>
+    <li><strong>Profile has your pets in it too</strong>, where the Pets tray was, with Forget Me. Once your username is claimed, only your password reaches them. It also changes your password, which signs off every other device, and <strong>deletes your account</strong>, which deletes the username, its password and your pets.</li>
+    <li><strong>Moderators have a desk in <a href="town-hall-moderators.html">the Moderators&rsquo; room</a></strong>: look up one username by typing it, give it a reset code, or delete it. There is no list of everybody&rsquo;s username, for moderators or anybody else.</li>
+    <li><strong>What the street keeps</strong> is the username, a salted scrypt hash of its password and of its recovery code, when it was claimed, and a count of wrong passwords (five lock it for fifteen minutes). <a href="privacy.html#accounts">The privacy page</a> says so, and it changed first; its short version no longer says there are no accounts.</li>
+    <li>Every function on the CB now checks a pass against the store as well as its signature, so a password change, a reset or a deletion signs every device off at once. Tested: the community password refused for a claimed username, the lock, every way of signing devices off, deletion taking the pets, and fifteen people claiming one username at once.</li>
+    <li>Changed: <code>netlify/cb/lib.mjs</code>, <code>netlify/cb/lib.test.mjs</code>, every CB function (the pass is checked against the store now), three new ones for your account, recovering it and the moderators&rsquo; desk, <code>cb.js</code>, <code>cb.css</code>, <code>desk.js</code>, <code>guest.js</code>, <code>community-center.html</code>, <code>town-hall-moderators.html</code>, <code>privacy.html</code>, the shelters, <code>tools/make-accounts.py</code> and <code>tools/make-rescue.py</code>.</li>
+  </ul>
+
   <h2 id="2026-09-30-adoption-and-dogs">2026-09-30 &mdash; Adopt a cat or a dog, and a Pets tray on the CB</h2>
   <ul>
     <li><strong>You can adopt.</strong> Signed on to the CB, press <em>Adopt</em> on a cat at <a href="rescue-a-cat.html">Rescue A Cat</a>, or a dog at the new <a href="rescue-a-dog.html">Rescue A Dog</a>, and they are yours: <strong>they live in a Pets tray that pops up from your CB radio</strong>, on any device you sign on with. Ryan&rsquo;s brief.</li>

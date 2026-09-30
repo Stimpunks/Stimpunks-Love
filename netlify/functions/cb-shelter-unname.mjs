@@ -4,7 +4,7 @@ import { readPass, animalKind, unnameAnimal, shapeAnimal, json, body, sameSite }
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This shelter only answers stimpunks.world.' });
-  const who = readPass(req);
+  const who = await readPass(req);
   if (!who || who.role !== 'base') return json(403, { error: 'Only the base station can do that.' });
   const b = (await body(req)) || {};
   const kind = animalKind(b.kind);

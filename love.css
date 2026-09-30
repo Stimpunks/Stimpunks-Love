@@ -13312,6 +13312,13 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
 .ctr-go[disabled] { cursor: default; opacity: .7; }
 .community .ctr-said { margin: 0; font-size: 15px; }
 .ctr-said:empty { display: none; }
+/* Getting back into a claimed username: a disclosure under the sign-on form,
+   in the desk's own clothes, and the new recovery code set so it can be copied
+   exactly. */
+.ctr-recover { margin: 14px 0 0; }
+.ctr-recover > summary { cursor: pointer; font-weight: 700; }
+.ctr-recover .ctr-form { margin-top: 10px; }
+.ctr-code { font-family: ui-monospace, Menlo, monospace; font-size: 20px; letter-spacing: .08em; user-select: all; overflow-wrap: anywhere; }
 .ctr-on { margin: 16px 0 0; display: grid; gap: 10px; justify-items: start; }
 .ctr-on > p { margin: 0; }
 .community .ctr-fine { margin: 14px 0 0; font-size: 15px; color: var(--ctr-ink-2); }
@@ -16953,6 +16960,13 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 .md-call button:hover { background: var(--md-text); border-color: var(--md-text); }
 .md-call__said { font-weight: 700; }
+.md-desk__lab { display: block; font-weight: 700; margin: 0 0 6px; }
+.md-desk__in {
+  font: 400 17px/1.3 'Inter', 'Helvetica Neue', Arial, sans-serif; padding: 8px 10px; margin: 0 10px 8px 0;
+  color: var(--md-text); background: var(--md-dark); border: 2px solid var(--md-link); border-radius: 4px;
+}
+.md-desk__code { font-family: ui-monospace, Menlo, monospace; font-size: 22px; letter-spacing: .08em; user-select: all; }
+.md-desk button { margin: 0 10px 8px 0; }
 .mdroom .md-call__fine { font-size: 15.5px; color: var(--md-dim); margin-bottom: 0; }
 .mdroom .md-credits p { font-size: 15.5px; color: var(--md-dim); }
 
@@ -17584,7 +17598,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
    the first person signed on to press brings one in and names it, the shelter
    shows every cat and never who rescued it, and your own list stays in your own
    browser. shelter.js looks, rescues and adopts, animals.js draws, and
-   tools/make-rescue.py holds the promises. Adoption into the CB's Pets tray
+   tools/make-rescue.py holds the promises. Adoption into Profile on the CB
    and the list of everybody ever adopted came the same evening, with dogs.
 
    THE LIGHT IS YOUR OWN, SENT BACK. The torch is in your hand, and the only
@@ -17685,7 +17699,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
    The park the morning after snow, and somewhere in it a dog that needs
    bringing in. Ryan's brief, 2026-09-30, beside Rescue A Cat, with adoption for
    both: dogs turn up at random, the first person signed on to press brings one
-   in and names them, anybody can adopt one into the Pets tray on their CB, and
+   in and names them, anybody can adopt one into Profile on their CB, and
    the list of everybody ever adopted never says who adopted them. It shares
    the cat shelter's mechanism (shelter.js, animals.js) and none of its clothes.
 

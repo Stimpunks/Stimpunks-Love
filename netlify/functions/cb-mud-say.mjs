@@ -7,7 +7,7 @@ import { readPass, mudPlace, mudVisit, seenAt, updateTalk, cleanText, shape, jso
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'The Slake only answers stimpunks.world.' });
-  const who = readPass(req);
+  const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   const b = (await body(req)) || {};
   const place = mudPlace(b.place);

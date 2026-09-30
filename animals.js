@@ -1,6 +1,6 @@
 /* =============================================================================
    The animals, drawn: every cat and dog on the street, in the shelters and in
-   the CB's Pets tray. One file, so an animal cannot be drawn one way in the
+   the CB's Profile. One file, so an animal cannot be drawn one way in the
    shelter it was rescued into and another in the tray of whoever adopted it.
 
    AN ANIMAL IS DRAWN FROM ITS KIND, ITS COAT AND ITS MARKINGS, and nothing

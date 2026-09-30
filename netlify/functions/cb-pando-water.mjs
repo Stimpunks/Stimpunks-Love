@@ -7,7 +7,7 @@ import { readPass, waterTree, json, sameSite, PANDO_SOAK } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This tree only answers stimpunks.world.' });
-  if (!readPass(req)) return json(401, { error: 'signed off' });
+  if (!(await readPass(req))) return json(401, { error: 'signed off' });
   try {
     const r = await waterTree();
     return json(200, { water: r.tree.water, wet: r.tree.wet, poured: r.poured, soaks: r.soaks || 0, soak: PANDO_SOAK, now: Date.now() });

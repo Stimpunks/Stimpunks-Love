@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Hold Rescue A Cat, Rescue A Dog and the CB's Pets tray to what they say.
+"""Hold Rescue A Cat, Rescue A Dog and the CB's Profile to what they say.
 
 Ryan's calls, 2026-09-30, after the catch-a-cat game in our Discord's
 Collaborative Nonsense channels, renamed: animals turn up at random, the first
 CB pass to press rescues one and names it, the shelter shows every animal and
 never who rescued it, and "the ones you rescued" is kept in the rescuer's own
-browser. Then, the same evening: adoption into a Pets tray on the CB, a list of
+browser. Then, the same evening: adoption into a Profile on the CB, a list of
 everybody ever adopted kept for good, dogs as well as cats, and Forget Me.
 
 THE DISCORD GAME IS A COLLECTION WITH A LEADERBOARD AND THIS IS NEITHER, and
@@ -156,10 +156,12 @@ def main():
 
     cb = CB.read_text()
     for want, why in (("'Forget me'", "a Forget me button"), ("'Yes, forget me'", "a second press before it forgets"),
-                      ("A handle is not an account", "the sentence saying a handle is not an account"),
-                      ("call('/cb/pets', { body: { forget: true } }", "a Forget Me that asks the server to forget")):
+                      ("A handle is not an account", "the sentence saying an unclaimed handle is not an account"),
+                      ("call('/cb/pets', { body: { forget: true } }", "a Forget Me that asks the server to forget"),
+                      ("'Yes, delete my account'", "a second press before an account is deleted"),
+                      ("it will not be shown again", "the sentence saying a recovery code is shown once")):
         if want not in cb:
-            problems.append(f"{CB.name}: the Pets tray has lost {why}.")
+            problems.append(f"{CB.name}: Profile has lost {why}.")
 
     for kind, page in PAGES.items():
         src = page.read_text()

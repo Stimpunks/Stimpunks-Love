@@ -9,7 +9,7 @@ import { readPass, cleanStep, climb, fridgeMark, json, body, sameSite, STAIR_MAX
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This stair only answers stimpunks.world.' });
-  const who = readPass(req);
+  const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   const b = (await body(req)) || {};
   const n = b.lift === true ? 'lift' : cleanStep(b.n);

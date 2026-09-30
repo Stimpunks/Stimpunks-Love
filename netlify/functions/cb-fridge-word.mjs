@@ -9,7 +9,7 @@ import { readPass, cleanWord, putWord, fridgeMark, fileFridge, readFridge, shape
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This fridge only answers stimpunks.world.' });
-  const who = readPass(req);
+  const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   const b = (await body(req)) || {};
   const word = cleanWord(b.word);

@@ -4,7 +4,7 @@ import { readPass, mudPlace, updateTalk, shape, json, body, sameSite } from '../
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'The Slake only answers stimpunks.world.' });
-  const who = readPass(req);
+  const who = await readPass(req);
   if (!who || who.role !== 'base') return json(403, { error: 'Only the base station can do that.' });
   const b = (await body(req)) || {};
   const place = mudPlace(b.place);

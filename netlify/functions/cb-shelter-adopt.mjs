@@ -3,12 +3,12 @@
    adopted it), and into the adopter's pets, filed under a scrambled form of
    their handle so they follow them to any device. Ryan's call, 2026-09-30:
    this is the one thing the street keeps under a person, and Forget Me in the
-   Pets tray deletes it. */
+   Profile deletes it. */
 import { readPass, animalKind, adoptAnimal, petKey, shapeAnimal, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This shelter only answers stimpunks.world.' });
-  const who = readPass(req);
+  const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   const b = (await body(req)) || {};
   const kind = animalKind(b.kind);

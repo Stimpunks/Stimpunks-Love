@@ -6,7 +6,7 @@ import { readPass, mudVisit, unseen, json, body, sameSite } from '../cb/lib.mjs'
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'The CB only answers stimpunks.world.' });
-  const who = readPass(req);
+  const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   const b = (await body(req)) || {};
   const visit = mudVisit(b.visit);

@@ -7,7 +7,7 @@ import { readPass, updateFence, cleanFence, shapeChalk, json, body, sameSite, PA
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This fence only answers stimpunks.world.' });
-  const who = readPass(req);
+  const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   const b = await body(req);
   const text = cleanFence(b && b.text);

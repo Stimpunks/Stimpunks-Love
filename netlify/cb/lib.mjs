@@ -88,12 +88,18 @@
        settings webhook before each meeting, and for those three we answer
        with the lobby on, so a guest knocks and waits for a moderator, which
        keeps strangers and bots out of the room and off our monthly-user bill.
+     · A USERNAME CAN BE CLAIMED, AND THAT IS THE ONLY ACCOUNT. Ryan's calls,
+       2026-09-30: from Profile on the radio, with a password of your own and
+       no email; a recovery code shown once; moderators can reset or delete
+       one, by name, and there is no list of everybody. A claimed username
+       signs on with its own password and the community password stops
+       working for it. See the accounts section below.
      · A PASS IS CHECKED AND NOT KEPT. It is an HMAC of the handle keyed by the
        current password, so changing the password in Netlify's environment and
        redeploying signs everybody off at once, and there is no list of passes
        anywhere to go stale or leak.
    ============================================================================= */
-import { createHmac, createHash, createSign, createPrivateKey, timingSafeEqual, randomUUID } from 'node:crypto';
+import { createHmac, createHash, createSign, createPrivateKey, timingSafeEqual, randomUUID, randomBytes, scryptSync } from 'node:crypto';
 import { getStore } from '@netlify/blobs';
 
 export const KEEP = 10;             // messages on the channel at once
@@ -612,7 +618,7 @@ export async function climb(n, mark, s = store(), now = Date.now()) {
    Discord's Collaborative Nonsense channels, renamed: animals are rescued, not
    caught; whoever rescues one names it; the shelter shows every animal and
    never who rescued it; and "animals you rescued" is kept in the rescuer's own
-   browser. Then, the same evening: adoption, a Pets tray in the CB, a list of
+   browser. Then, the same evening: adoption, a Profile in the CB, a list of
    everybody ever adopted, and dogs as well as cats.
 
    A SHELTER KNOWS ITS ANIMALS AND NOT THEIR RESCUERS. Each kind is one blob:
@@ -632,7 +638,7 @@ export async function climb(n, mark, s = store(), now = Date.now()) {
 
    ADOPTING IS THE ONE PLACE THE STREET KEEPS SOMETHING UNDER A PERSON, and it
    is Ryan's call, made knowing that: your pets, so they follow you to any
-   device you sign on with and sit in your CB's Pets tray. They are filed under
+   device you sign on with and sit in your CB's Profile. They are filed under
    a scrambled form of the folded handle (`petKey`), never the handle itself,
    and never under the community password, which would lose everybody's pets
    the day it changed. A handle is not an account: anybody who signs on with
@@ -1599,13 +1605,26 @@ export function readMods(raw = process.env.CB_MODS) {
 /* Signing on. The moderators' password is only for a handle on the list, and
    the community password is refused for any handle on it. The answer is a role
    and the roles, or a sentence saying why not. */
-export function signOn(handle, password, mods = readMods()) {
+export async function signOn(handle, password, mods = readMods(), s = store(), now = Date.now()) {
   const mod = secretFor('base');
   if (mod && same(password, mod)) {
     if (!mods) return { error: 'Moderator sign-on is switched off until its list of handles can be read. Tell Ryan or Helen.' };
     const m = mods.get(foldHandle(handle));
     if (!m) return { error: 'That handle is not on the moderators\' list.' };
     return { role: 'base', handle: m.handle, roles: m.roles };
+  }
+  // A CLAIMED USERNAME SIGNS ON WITH ITS OWN PASSWORD AND NOTHING ELSE. The
+  // community password is refused for it, the way it is refused for a
+  // moderator's handle, so nobody can sign on as somebody who has claimed.
+  const acct = await readAccount(handle, s);
+  if (acct) {
+    const all0 = secretFor('mobile');
+    if (all0 && same(password, all0)) {
+      return { error: 'That username has been claimed. Sign on with its own password, or pick another handle.' };
+    }
+    const r = await checkPassword(handle, password, s, now);
+    if (r.error) return r;
+    return { role: 'mobile', handle: acct.handle, roles: new Set(), account: r.v };
   }
   const all = secretFor('mobile');
   if (all && same(password, all)) {
@@ -1623,9 +1642,29 @@ export function issuePass(role, handle) {
 
 /* A pass is checked against the list every time, both ways: a base pass is only
    good while its handle is on the list, with the roles it has now; a community
-   pass is refused once its handle belongs to a moderator. */
-export function readPass(req, mods = readMods()) {
+   pass is refused once its handle belongs to a moderator, and once it has been
+   claimed. A claimed username's pass (cb2) carries the account's version, and
+   is refused the moment the version moves: a password change, a reset or a
+   deletion signs every device off at once. Both kinds are signed with the
+   community password, so changing it still signs everybody off. */
+export async function readPass(req, mods = readMods(), s = store()) {
   const h = req.headers.get('authorization') || '';
+  const a = /^Bearer cb2\.acct\.([A-Za-z0-9_-]+)\.(\d{1,9})\.([A-Za-z0-9_-]+)$/.exec(h);
+  if (a) {
+    const secret = secretFor('mobile');
+    if (!secret) return null;
+    let handle;
+    try { handle = Buffer.from(a[1], 'base64url').toString('utf8'); } catch (e) { return null; }
+    if (cleanHandle(handle) !== handle) return null;
+    const v = Number(a[2]);
+    const want = createHmac('sha256', secret).update(`cb2|acct|${handle}|${v}`).digest();
+    const got = Buffer.from(a[3], 'base64url');
+    if (got.length !== want.length || !timingSafeEqual(got, want)) return null;
+    if (mods && mods.has(foldHandle(handle))) return null;
+    const acct = await readAccount(handle, s);
+    if (!acct || acct.v !== v) return null;
+    return { role: 'mobile', handle: acct.handle, roles: new Set(), account: true };
+  }
   const m = /^Bearer (cb1)\.(mobile|base)\.([A-Za-z0-9_-]+)\.([A-Za-z0-9_-]+)$/.exec(h);
   if (!m) return null;
   const role = m[2];
@@ -1640,8 +1679,190 @@ export function readPass(req, mods = readMods()) {
   const on = mods && mods.get(foldHandle(handle));
   if (role === 'base') return on ? { role, handle, roles: on.roles } : null;
   if (on) return null;
+  if (await readAccount(handle, s)) return null;
   return { role, handle, roles: new Set() };
 }
+
+export function issueAccountPass(handle, v) {
+  const sig = createHmac('sha256', secretFor('mobile')).update(`cb2|acct|${handle}|${v}`).digest();
+  return `cb2.acct.${b64(handle)}.${v}.${b64(sig)}`;
+}
+
+/* ── Accounts: a username you claim, with a password of your own ───────── */
+
+/* Ryan's calls, 2026-09-30: a Profile on the CB where you can claim your
+   username and set your own password; no email; a recovery code shown once
+   when you claim; moderators can reset a password or delete an account, in
+   the Moderators' room. Claiming is optional and only possible while signed
+   on with the community password, so there is no public sign-up.
+
+   WHAT AN ACCOUNT IS: the username as claimed, a scrypt hash of its password
+   and of its recovery code (each with its own salt), when it was claimed, a
+   version, and a count of wrong passwords with the time it is locked until.
+   No email, no other name, nothing about what anybody does. It is filed under
+   acctKey, a plain hash of the folded username, so the store does not list
+   usernames and there is nothing here to browse: a moderator finds an account
+   by typing its name.
+
+   A WRONG PASSWORD FIVE TIMES LOCKS IT FOR FIFTEEN MINUTES, on top of
+   Netlify's limit per address. A moderator's reset gives a one-time code good
+   for a day, which the person uses exactly as a recovery code; it bumps the
+   version, so whoever was signed on as them is signed off. Deleting an account
+   deletes its pets with it. */
+export const ACCT_PW_MIN = 8;
+export const ACCT_PW_MAX = 200;
+export const ACCT_TRIES = 5;
+export const ACCT_LOCK = 15 * 60 * 1000;
+export const ACCT_RESET_FOR = 24 * 60 * 60 * 1000;
+const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+
+export function acctKey(handle) {
+  return createHash('sha256').update(`stimpunks-acct|${foldHandle(handle)}`).digest('base64url').slice(0, 32);
+}
+const acctBlob = (handle) => `acct/${acctKey(handle)}`;
+
+function salt() { return randomBytes(16).toString('base64url'); }
+function scrypt(secret, sl) {
+  return scryptSync(String(secret).normalize('NFC'), sl, 32, { N: 16384, r: 8, p: 1 }).toString('base64url');
+}
+function matches(secret, sl, hash) {
+  if (!sl || !hash) return false;
+  const a = Buffer.from(scrypt(secret, sl)), b = Buffer.from(hash);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
+
+export function makeCode(bytes = randomBytes(16)) {
+  let out = '';
+  for (let i = 0; i < 16; i++) out += CODE_ALPHABET[bytes[i] % CODE_ALPHABET.length];
+  return out.match(/.{4}/g).join('-');
+}
+export function cleanCode(s) {
+  return String(s == null ? '' : s).toUpperCase().replace(/[^A-Z0-9]/g, '');
+}
+
+export function cleanPassword(p) {
+  const t = typeof p === 'string' ? p : '';
+  const n = [...t].length;
+  return n >= ACCT_PW_MIN && n <= ACCT_PW_MAX ? t : null;
+}
+
+export async function readAccount(handle, s = store()) {
+  const d = await s.get(acctBlob(handle), { type: 'json' });
+  return d && typeof d.hash === 'string' ? d : null;
+}
+
+/* Change an account with the conditional write. `change` gets the record and
+   returns the next one, or null to leave it. */
+async function updateAccount(handle, change, s) {
+  const key = acctBlob(handle);
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, key);
+    if (!cur.exists || !cur.data) return null;
+    const next = change({ ...cur.data });
+    if (next === null) return cur.data;
+    const res = await s.setJSON(key, next, { onlyIfMatch: cur.etag });
+    if (res.modified) return next;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* Claim `handle` with `password`. The first claim wins; a handle on the
+   moderators' list cannot be claimed. Answers { v, recovery } with the code
+   to be shown once, or { error }. */
+export async function claimAccount(handle, password, s = store(), now = Date.now(), mods = readMods()) {
+  if (mods && mods.has(foldHandle(handle))) return { error: 'Moderators sign on with the moderators\' password, so their handles cannot be claimed.' };
+  const pw = cleanPassword(password);
+  if (!pw) return { error: `A password is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters. A few words you will remember is fine.` };
+  const recovery = makeCode();
+  const ps = salt(), rs = salt();
+  const body = { handle, hash: scrypt(pw, ps), salt: ps, rhash: scrypt(cleanCode(recovery), rs), rsalt: rs,
+    since: now, v: 1, fails: 0, lockUntil: 0 };
+  const res = await s.setJSON(acctBlob(handle), body, { onlyIfNew: true });
+  if (!res.modified) return { error: 'That username has already been claimed.' };
+  return { v: 1, recovery, handle };
+}
+
+/* Check a password, counting the wrong ones. { v } when right, { error } when
+   wrong or locked. */
+export async function checkPassword(handle, password, s = store(), now = Date.now()) {
+  const acct = await readAccount(handle, s);
+  if (!acct) return { error: 'That username has not been claimed.' };
+  if (acct.lockUntil > now) return { error: 'That username is locked for a few minutes after too many wrong passwords. Try again soon, or ask a moderator.', locked: true };
+  if (matches(password, acct.salt, acct.hash)) {
+    if (acct.fails) await updateAccount(handle, (a) => ({ ...a, fails: 0 }), s);
+    return { v: acct.v };
+  }
+  const after = await updateAccount(handle, (a) => {
+    const fails = (a.lockUntil > now ? 0 : a.fails || 0) + 1;
+    return fails >= ACCT_TRIES ? { ...a, fails: 0, lockUntil: now + ACCT_LOCK } : { ...a, fails };
+  }, s);
+  return after && after.lockUntil > now
+    ? { error: 'That is not its password, and that was the last try for now: it is locked for fifteen minutes.', locked: true }
+    : { error: 'That is not its password.' };
+}
+
+export async function changePassword(handle, old, password, s = store(), now = Date.now()) {
+  const ok = await checkPassword(handle, old, s, now);
+  if (ok.error) return ok;
+  const pw = cleanPassword(password);
+  if (!pw) return { error: `A password is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters.` };
+  const ps = salt();
+  const next = await updateAccount(handle, (a) => ({ ...a, hash: scrypt(pw, ps), salt: ps, v: a.v + 1, fails: 0, lockUntil: 0 }), s);
+  return next ? { v: next.v } : { error: 'That username has not been claimed.' };
+}
+
+/* Set a new password with the recovery code, or with a moderator's reset code
+   while it lasts. Either way a new recovery code is made and shown once, and
+   the version moves. A wrong code counts as a wrong password. */
+export async function recoverAccount(handle, code, password, s = store(), now = Date.now()) {
+  const acct = await readAccount(handle, s);
+  if (!acct) return { error: 'That username has not been claimed.' };
+  if (acct.lockUntil > now) return { error: 'That username is locked for a few minutes after too many wrong tries. Try again soon, or ask a moderator.', locked: true };
+  const c = cleanCode(code);
+  const byReset = acct.reset && acct.reset.until > now && matches(c, acct.reset.salt, acct.reset.hash);
+  const byCode = matches(c, acct.rsalt, acct.rhash);
+  if (!byReset && !byCode) {
+    const after = await updateAccount(handle, (a) => {
+      const fails = (a.lockUntil > now ? 0 : a.fails || 0) + 1;
+      return fails >= ACCT_TRIES ? { ...a, fails: 0, lockUntil: now + ACCT_LOCK } : { ...a, fails };
+    }, s);
+    return after && after.lockUntil > now ? { error: 'That is not its code, and it is locked for fifteen minutes now.', locked: true } : { error: 'That is not its recovery code, or a reset code a moderator gave you.' };
+  }
+  const pw = cleanPassword(password);
+  if (!pw) return { error: `A password is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters.` };
+  const recovery = makeCode();
+  const ps = salt(), rs = salt();
+  const next = await updateAccount(handle, (a) => {
+    const n = { ...a, hash: scrypt(pw, ps), salt: ps, rhash: scrypt(cleanCode(recovery), rs), rsalt: rs, v: a.v + 1, fails: 0, lockUntil: 0 };
+    delete n.reset;
+    return n;
+  }, s);
+  return next ? { v: next.v, recovery, handle: next.handle } : { error: 'That username has not been claimed.' };
+}
+
+/* A moderator's reset: a one-time code good for a day, and everybody signed
+   on as that username is signed off. The code is shown to the moderator once
+   and kept here only as a hash. */
+export async function resetAccount(handle, s = store(), now = Date.now()) {
+  const code = makeCode();
+  const rs = salt();
+  const next = await updateAccount(handle, (a) => ({ ...a, v: a.v + 1, reset: { hash: scrypt(cleanCode(code), rs), salt: rs, until: now + ACCT_RESET_FOR }, fails: 0, lockUntil: 0 }), s);
+  return next ? { code, until: now + ACCT_RESET_FOR } : { error: 'That username has not been claimed.' };
+}
+
+/* Delete an account and its pets. The username is free again. */
+export async function deleteAccount(handle, s = store()) {
+  const acct = await readAccount(handle, s);
+  if (!acct) return { error: 'That username has not been claimed.' };
+  await forgetPets(petKey(handle), s);
+  await s.delete(acctBlob(handle));
+  return { deleted: true };
+}
+
+/* What a person, or a moderator looking them up, is told about an account:
+   whether it is claimed, as what, and since when. Never a hash. */
+export function shapeAccount(a) { return a ? { claimed: true, handle: a.handle, since: a.since } : { claimed: false }; }
 
 /* What a radio is told about its own pass: which of the rooms that need a role
    it may go into, so the page can keep quiet in the others. */

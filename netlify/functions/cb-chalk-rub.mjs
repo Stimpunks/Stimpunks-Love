@@ -5,7 +5,7 @@ import { readPass, updateChalk, shapeChalk, json, body, sameSite } from '../cb/l
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This board only answers stimpunks.world.' });
-  const who = readPass(req);
+  const who = await readPass(req);
   if (!who || who.role !== 'base') return json(403, { error: 'Only the base station can do that.' });
   const b = (await body(req)) || {};
   if (typeof b.remove !== 'string') return json(400, { error: 'Which note?' });

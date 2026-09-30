@@ -29,6 +29,8 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
   PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons,
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
+  issueAccountPass, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
+  readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
   cleanVideo, beSeen, unseen, sweepSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, sweepCalls } from './lib.mjs';
@@ -792,21 +794,22 @@ test('the mods\' list: moderator implied, handles folded, and anything odd means
   assert.deepEqual(ROLES.slice().sort(), ['administrator', 'board', 'director', 'moderator']);
 });
 
-test('sign-on: the MOD password only for a listed handle, the community one never for a listed handle', () => {
+test('sign-on: the MOD password only for a listed handle, the community one never for a listed handle', async () => {
+  const S = memoryStore({ etagOnRead: true });
   const was = [process.env.CB_PASSWORD, process.env.CB_MOD_PASSWORD];
   process.env.CB_PASSWORD = 'community-pw'; process.env.CB_MOD_PASSWORD = 'moderators-pw';
   try {
     const mods = readMods('{"Ryan":["administrator"],"Helen":["director"]}');
-    const r = signOn('ryan', 'moderators-pw', mods);
+    const r = (await signOn('ryan', 'moderators-pw', mods, S));
     assert.equal(r.role, 'base'); assert.equal(r.handle, 'Ryan', 'the list\'s spelling of the handle');
     assert.ok(r.roles.has('administrator') && r.roles.has('moderator'));
-    assert.ok(signOn('Somebody', 'moderators-pw', mods).error, 'not on the list');
-    assert.ok(signOn('Ryan ', 'community-pw', mods).error, 'a moderator\'s handle is reserved');
-    assert.ok(signOn('HELEN', 'community-pw', mods).error);
-    assert.equal(signOn('Ada', 'community-pw', mods).role, 'mobile');
-    assert.ok(signOn('Ryan', 'moderators-pw', null).error, 'no readable list, no MOD sign-on');
-    assert.equal(signOn('Ada', 'community-pw', null).role, 'mobile', 'the community CB goes on');
-    assert.ok(signOn('Ada', 'wrong', mods).error);
+    assert.ok((await signOn('Somebody', 'moderators-pw', mods, S)).error, 'not on the list');
+    assert.ok((await signOn('Ryan ', 'community-pw', mods, S)).error, 'a moderator\'s handle is reserved');
+    assert.ok((await signOn('HELEN', 'community-pw', mods, S)).error);
+    assert.equal((await signOn('Ada', 'community-pw', mods, S)).role, 'mobile');
+    assert.ok((await signOn('Ryan', 'moderators-pw', null, S)).error, 'no readable list, no MOD sign-on');
+    assert.equal((await signOn('Ada', 'community-pw', null, S)).role, 'mobile', 'the community CB goes on');
+    assert.ok((await signOn('Ada', 'wrong', mods, S)).error);
     assert.deepEqual(rolesOf(r), ['administrator', 'moderator']);
   } finally {
     for (const [k, v] of [['CB_PASSWORD', was[0]], ['CB_MOD_PASSWORD', was[1]]]) {
@@ -815,25 +818,116 @@ test('sign-on: the MOD password only for a listed handle, the community one neve
   }
 });
 
-test('a pass is read against the list every time: roles follow it, and a removal or a reservation takes effect at once', () => {
+test('a pass is read against the list every time: roles follow it, and a removal or a reservation takes effect at once', async () => {
+  const S = memoryStore({ etagOnRead: true });
   const was = [process.env.CB_PASSWORD, process.env.CB_MOD_PASSWORD];
   process.env.CB_PASSWORD = 'community-pw'; process.env.CB_MOD_PASSWORD = 'moderators-pw';
   const req = (pass) => ({ headers: { get: (k) => (k === 'authorization' ? 'Bearer ' + pass : null) } });
   try {
     const basePass = issuePass('base', 'Helen'), comPass = issuePass('mobile', 'Ada');
     const before = readMods('{"Helen":["director"]}'), after = readMods('{"Helen":["director","board"]}');
-    assert.deepEqual(rolesOf(readPass(req(basePass), before)), ['director', 'moderator']);
-    assert.deepEqual(rolesOf(readPass(req(basePass), after)), ['board', 'director', 'moderator'], 'a new role, no new pass');
-    assert.equal(readPass(req(basePass), readMods('{"Ryan":["administrator"]}')), null, 'taken off the list');
-    assert.equal(readPass(req(basePass), null), null, 'no readable list, no base pass');
-    assert.equal(readPass(req(comPass), before).role, 'mobile');
-    assert.equal(readPass(req(comPass), readMods('{"Ada":[]}')), null, 'a community pass for a handle now reserved');
-    assert.equal(readPass(req(comPass), null).role, 'mobile');
+    assert.deepEqual(rolesOf((await readPass(req(basePass), before, S))), ['director', 'moderator']);
+    assert.deepEqual(rolesOf((await readPass(req(basePass), after, S))), ['board', 'director', 'moderator'], 'a new role, no new pass');
+    assert.equal((await readPass(req(basePass), readMods('{"Ryan":["administrator"]}'), S)), null, 'taken off the list');
+    assert.equal((await readPass(req(basePass), null, S)), null, 'no readable list, no base pass');
+    assert.equal((await readPass(req(comPass), before, S)).role, 'mobile');
+    assert.equal((await readPass(req(comPass), readMods('{"Ada":[]}'), S)), null, 'a community pass for a handle now reserved');
+    assert.equal((await readPass(req(comPass), null, S)).role, 'mobile');
   } finally {
     for (const [k, v] of [['CB_PASSWORD', was[0]], ['CB_MOD_PASSWORD', was[1]]]) {
       if (v === undefined) delete process.env[k]; else process.env[k] = v;
     }
   }
+});
+
+// ACCOUNTS. A claimed username signs on with its own password and nothing
+// else, a change or a reset signs every device off, and deleting it deletes
+// its pets.
+async function withPasswords(fn) {
+  const was = [process.env.CB_PASSWORD, process.env.CB_MOD_PASSWORD];
+  process.env.CB_PASSWORD = 'community-pw'; process.env.CB_MOD_PASSWORD = 'moderators-pw';
+  try { await fn(); } finally {
+    for (const [k, v] of [['CB_PASSWORD', was[0]], ['CB_MOD_PASSWORD', was[1]]]) {
+      if (v === undefined) delete process.env[k]; else process.env[k] = v;
+    }
+  }
+}
+const reqWith = (pass) => ({ headers: { get: (k) => (k === 'authorization' ? 'Bearer ' + pass : null) } });
+
+test('a claimed username signs on with its own password, and the community password stops working for it', () => withPasswords(async () => {
+  const S = memoryStore({ etagOnRead: true });
+  const oldPass = issuePass('mobile', 'Ada');
+  assert.equal((await readPass(reqWith(oldPass), null, S)).role, 'mobile');
+  const c = await claimAccount('Ada', 'a long enough phrase', S, 1000, null);
+  assert.equal(c.v, 1); assert.match(c.recovery, /^[A-Z2-9]{4}(-[A-Z2-9]{4}){3}$/);
+  assert.equal(await readPass(reqWith(oldPass), null, S), null, 'a community pass for a claimed username still works');
+  assert.ok((await signOn('ada', 'community-pw', null, S)).error, 'the community password signed on as a claimed username');
+  const r = await signOn('ADA', 'a long enough phrase', null, S);
+  assert.equal(r.handle, 'Ada'); assert.equal(r.account, 1);
+  const who = await readPass(reqWith(issueAccountPass('Ada', 1)), null, S);
+  assert.equal(who.handle, 'Ada'); assert.equal(who.role, 'mobile'); assert.equal(who.account, true);
+  assert.ok((await claimAccount('ada', 'another phrase here', S, 1000, null)).error, 'claimed twice');
+}));
+
+test('fifteen people claiming one username at once: one does', async () => {
+  const S = memoryStore({ etagOnRead: true });
+  const got = await Promise.all(Array.from({ length: 15 }, (_, i) => claimAccount('Bex', `password number ${i}`, S, 5, null)));
+  assert.equal(got.filter((r) => !r.error).length, 1);
+});
+
+test('five wrong passwords lock it for a while, and the right one does not get in until then', () => withPasswords(async () => {
+  const S = memoryStore({ etagOnRead: true });
+  await claimAccount('Cal', 'correct horse battery', S, 0, null);
+  for (let i = 0; i < ACCT_TRIES; i++) assert.ok((await checkPassword('Cal', 'wrong guess', S, 100 + i)).error);
+  const locked = await checkPassword('Cal', 'correct horse battery', S, 200);
+  assert.ok(locked.locked, 'the right password got in while locked');
+  assert.equal((await checkPassword('Cal', 'correct horse battery', S, 200 + ACCT_LOCK)).v, 1);
+}));
+
+test('changing the password, recovering or a moderator\'s reset signs every device off', () => withPasswords(async () => {
+  const S = memoryStore({ etagOnRead: true });
+  const c = await claimAccount('Dee', 'first password here', S, 0, null);
+  const p1 = issueAccountPass('Dee', 1);
+  const ch = await changePassword('Dee', 'first password here', 'second password here', S, 10);
+  assert.equal(ch.v, 2);
+  assert.equal(await readPass(reqWith(p1), null, S), null, 'an old device stayed signed on after a change');
+  assert.ok((await changePassword('Dee', 'first password here', 'x'.repeat(9), S, 20)).error, 'the old password still works');
+  const rec = await recoverAccount('Dee', c.recovery.toLowerCase(), 'third password here', S, 30);
+  assert.equal(rec.v, 3); assert.notEqual(rec.recovery, c.recovery);
+  assert.ok((await recoverAccount('Dee', c.recovery, 'fourth password', S, 40)).error, 'a recovery code worked twice');
+  const reset = await resetAccount('Dee', S, 50);
+  assert.equal(await readPass(reqWith(issueAccountPass('Dee', 3)), null, S), null, 'a reset left somebody signed on');
+  assert.ok((await recoverAccount('Dee', reset.code, 'after the reset', S, 50 + ACCT_RESET_FOR)).error, 'a reset code worked after its day');
+  const reset2 = await resetAccount('Dee', S, 60);
+  const back = await recoverAccount('Dee', reset2.code, 'after the reset', S, 70);
+  assert.ok(back.v > 4);
+  assert.equal((await signOn('Dee', 'after the reset', null, S)).account, back.v);
+}));
+
+test('deleting an account deletes its pets and frees the username; the store never holds a password or a handle as its key', () => withPasswords(async () => {
+  const S = memoryStore({ etagOnRead: true });
+  await claimAccount('Eve', 'eve has a phrase', S, 0, null);
+  const w = (await readShelter('cat', S, 5)).waiting;
+  await rescueAnimal('cat', w.id, 'Tig', S, 5, () => 1);
+  await adoptAnimal('cat', w.id, petKey('Eve'), S, 6);
+  assert.equal((await readPets(petKey('Eve'), S)).length, 1);
+  const raw = JSON.stringify(await S.get(`acct/${acctKey('Eve')}`));
+  assert.ok(!raw.includes('eve has a phrase'), 'a password in the store');
+  assert.ok(!acctKey('Eve').toLowerCase().includes('eve'));
+  assert.deepEqual(Object.keys(JSON.parse(raw)).sort(), ['fails', 'handle', 'hash', 'lockUntil', 'rhash', 'rsalt', 'salt', 'since', 'v']);
+  assert.equal((await deleteAccount('Eve', S)).deleted, true);
+  assert.equal(await readAccount('Eve', S), null);
+  assert.equal((await readPets(petKey('Eve'), S)).length, 0, 'the pets outlived the account');
+  assert.equal(await readPass(reqWith(issueAccountPass('Eve', 1)), null, S), null);
+  assert.equal((await signOn('Eve', 'community-pw', null, S)).role, 'mobile', 'the username is not free again');
+  const m = (await adoptedMonths('cat', S))[0];
+  assert.equal((await readAdopted('cat', m, S)).length, 1, 'deleting an account took an animal off the forever list');
+}));
+
+test('a moderator\'s handle cannot be claimed', async () => {
+  const S = memoryStore({ etagOnRead: true });
+  assert.ok((await claimAccount('Helen', 'helen has a phrase', S, 0, readMods('{"Helen":["director"]}'))).error);
+  assert.equal(cleanCode(' abcd-efgh '), 'ABCDEFGH');
 });
 
 test('executive session is the board role and nothing else: the administrator key does not open it', () => {

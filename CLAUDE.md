@@ -2911,8 +2911,26 @@ It moved off the Directors' room's ground before it opened: same hex to the digi
 not this shape**, because it keeps who caught what and how many; it became Rescue A Cat, below, where
 the only per-person list is in the rescuer's own browser.
 
-**THE SHELTERS KNOW THEIR ANIMALS AND NOT THEIR PEOPLE, AND YOUR PETS ARE THE ONE THING KEPT UNDER
-YOU.** Ryan, 2026-09-30: catch-a-cat renamed Rescue A Cat (§87), then adoption, a Pets tray in the CB,
+**A USERNAME CAN BE CLAIMED, AND `readPass` IS ASYNC BECAUSE OF IT.** Ryan, 2026-09-30: Profile on the
+radio claims the handle you are on as, with a password of your own; no email; a recovery code shown
+once; the moderators reset or delete one by name from a desk in the Moderators' room (`desk.js`,
+`/cb/account/admin`), and **there is no list of everybody**, for moderators or anybody. A claimed
+username signs on with its own password and **the community password is refused for it**, the
+`CB_MODS` mechanism; its pass is `cb2.acct.<handle>.<v>.<sig>`, signed with the community password (so
+rotating it still signs everybody off) and **refused once the account's version moves**, which is how
+a password change, a reset or a deletion signs every device off. So **every pass is checked against the
+store**, and `readPass` and `signOn` are async: every CB function awaits them now, and a new one must.
+An account is the username, a salted scrypt hash of the password and of the recovery code, when it was
+claimed, a version and a lock (five wrong passwords, fifteen minutes), filed under `acctKey`, a plain
+hash of the folded name. Deleting it deletes its pets. Moderators' handles cannot be claimed; they keep
+the MOD password and `CB_MODS`. `tools/make-accounts.py` refuses a console call anywhere in `netlify/`,
+anything listing `acct/`, a desk action beyond find, reset and delete, an account field beyond those,
+the word email in claiming, and Profile losing Delete my account or its second press. The friendly
+edit is **a table of users for the admins**; it would be a register of our community that the privacy
+page says does not exist. **Page scripts read the pass once when they load**, so a room left open while
+somebody claims says *the password has changed* on its next press, and a reload fixes it.
+
+**THE SHELTERS KNOW THEIR ANIMALS AND NOT THEIR PEOPLE, AND YOUR PETS ARE KEPT UNDER YOU.** Ryan, 2026-09-30: catch-a-cat renamed Rescue A Cat (§87), then adoption, a Pets tray in the CB,
 a list of everybody ever adopted kept for good, and Rescue A Dog (§88), all the same evening. Animals
 turn up at random, the first pass to press brings one in and names them, and **nothing records who
 rescued**: the ones you rescued are in your own browser (`love-rescues`, which replaced a day-old
@@ -2920,8 +2938,8 @@ rescued**: the ones you rescued are in your own browser (`love-rescues`, which r
 reversing Claude's one-week rule); a full shelter leaves the next one outside. **Adopting is the one
 place the street keeps something under a person**, and Ryan said he was fine with it: pets are filed
 under `petKey`, a plain hash of the folded handle, **never keyed by the community password**, which
-would lose everybody's pets the day it changed. **A handle is not an account**, so anybody who signs
-on with yours sees your pets, and the tray says so. **Forget Me is in the Pets tray, asks twice, and
+would lose everybody's pets the day it changed. **An unclaimed handle is not an account**, so anybody who signs
+on with it sees its pets, and the tray says so; once claimed, only its password reaches them. **Forget Me is in Profile, asks twice, and
 deletes the record**; the animals stay on the forever list, which never knew who adopted them.
 **Adoption files in three places and loses nothing**: the shelter's conditional write picks the one
 adopter and moves the animal to `leaving` with its pet key; `finishAdoptions` copies it into the pets
