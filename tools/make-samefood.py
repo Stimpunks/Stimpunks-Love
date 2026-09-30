@@ -161,11 +161,11 @@ VOCAB = [
 
 INK = {k: f"var(--sf-{k})" for k in
        ("plate", "pop", "pesto", "apple", "nut", "coffee", "cheese", "ketchup",
-        "noodle", "onion", "nugget", "crimp", "bread")}
+        "noodle", "onion", "nugget", "crimp", "bread", "rice", "broccoli")}
 
 # THE RED INKS, which matter only to somebody who has asked about red things.
 RED = {"apple", "ketchup"}
-ON_PLATE = set(INK) - {"noodle", "onion", "nugget", "crimp", "bread"}
+ON_PLATE = set(INK) - {"noodle", "onion", "nugget", "crimp", "bread", "rice", "broccoli"}
 IN_BOWL = set(INK) - {"plate", "coffee"}
 
 # THE ASKS THIS TOOL KNOWS HOW TO CHECK. A regular's asks are their own way of
@@ -624,13 +624,14 @@ def svg_shape(sh, stroke, extra=""):
                 f'stroke-width="5" stroke-linecap="round"{extra}/>')
     if "circle" in sh:
         cx, cy, r = sh["circle"]
-        if sh["fill"] in ("pop", "crimp") and stroke != "shade":
+        if sh["fill"] in ("pop", "crimp", "broccoli") and stroke != "shade":
             # A KERNEL IS A PUFF DRAWN INSIDE ITS OWN CIRCLE: six bumps whose
             # every control point sits on the circle and every anchor inside
             # it, so the box the walker checked is still the box of the ink.
             # A CRIMPED EDGE -- a sealed round sandwich from above -- is the same
-            # construction with many small bumps and anchors nearer the rim.
-            k_n, depth = (6, .78) if sh["fill"] == "pop" else (18, .93)
+            # construction with many small bumps and anchors nearer the rim, and
+            # a FLORET of broccoli is seven bumps, between the two.
+            k_n, depth = {"pop": (6, .78), "crimp": (18, .93), "broccoli": (7, .82)}[sh["fill"]]
             step = 360 / k_n
             pts = []
             for k in range(k_n):

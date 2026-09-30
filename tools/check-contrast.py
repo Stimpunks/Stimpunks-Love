@@ -3224,6 +3224,11 @@ ORNAMENT = {
     "#e6bc77": "samefood: the bread of Chelsea's strawberry Uncrustable in the drawing, its "
                "crimped edge and its sealed middle, 1.54 on the bowl's well, carried by its "
                "--sf-ink-2 outline. Drawing only.",
+    "#f1dd9e": "samefood: the rice in Norah's bowl of Knorr Chicken Broccoli Rice in the "
+               "drawing, 1.17 on the bowl's well, carried by its --sf-ink-2 outline at 5.97. "
+               "Drawing only.",
+    "#4e7f32": "samefood: the broccoli florets in Norah's rice in the drawing, 3.54 on the rice "
+               "and 4.13 on the bowl's well, with their outline. Drawing only.",
     "#6b4430": "samefood: the coffee in the mug in the drawing, 8.07 on the mug's plate-coloured "
                "rim. Drawing only.",
     "#2a2721": "nothing for sale: the lit middle of the ring in the drawing, and the hairlines "
