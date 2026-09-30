@@ -851,6 +851,33 @@ export async function finishAllAdoptions(s = store()) {
   return n;
 }
 
+/* RENAMING A PET. Ryan's call, 2026-09-30: once adopted, a pet takes whatever
+   name its person gives it, as often as they like. The name changes in their
+   pets and on the forever list, which shows it with the name the animal came
+   in under (`first`, kept once, the rescuer's), so the rescuer's naming is not
+   written over and nothing on the list says who renamed anybody. An animal
+   still in the shelter is nobody's to rename. { pet } or { error }. */
+export async function renamePet(pk, id, name, s = store()) {
+  await finishAllAdoptions(s);
+  const pet = (await readPets(pk, s)).find((a) => a.id === id);
+  if (!pet) return { error: 'That animal is not one of your pets.' };
+  const rename = (list) => {
+    const i = list.findIndex((a) => a.id === id);
+    if (i < 0 || list[i].name === name) return null;
+    const was = list[i];
+    const next = list.slice();
+    next[i] = { ...was, name, first: typeof was.first === 'string' ? was.first : (was.name || '') };
+    return next;
+  };
+  // The person's own pets first, then the forever list: a stop between the two
+  // leaves the list on the old name until the same rename is pressed again,
+  // which finishes it.
+  const pets = await updateList(petsBlob(pk), 'pets', rename, s);
+  const kind = animalKind(pet.kind) || 'cat';
+  await updateList(adoptedBlob(kind, today(new Date(pet.at)).slice(0, 7)), 'animals', rename, s);
+  return { pet: pets.find((a) => a.id === id) };
+}
+
 export async function readPets(pk, s = store()) {
   const d = await s.get(petsBlob(pk), { type: 'json' });
   return (d && d.pets) || [];
@@ -878,7 +905,10 @@ export async function adoptedMonths(kind, s = store()) {
    the forever list, and anybody's pets. The animal stays. */
 export async function unnameAnimal(kind, id, s = store()) {
   const key = KINDS[kind].key;
-  const clear = (list) => (list.some((a) => a.id === id && a.name) ? list.map((a) => (a.id === id ? { ...a, name: '' } : a)) : null);
+  // A renamed animal's first name goes too: taking a name off means every name
+  // on it, the rescuer's and the adopter's.
+  const clear = (list) => (list.some((a) => a.id === id && (a.name || a.first))
+    ? list.map((a) => (a.id === id ? (a.first !== undefined ? { ...a, name: '', first: '' } : { ...a, name: '' }) : a)) : null);
   for (let attempt = 0; attempt < 12; attempt++) {
     const cur = await versioned(s, key);
     if (!cur.exists) break;
@@ -907,6 +937,7 @@ export function shapeAnimal(a) {
   const out = { id: a.id, kind, coat: a.coat, mark: a.mark, place: a.place, mood: a.mood,
     words: { coat: says(coats, a.coat), mark: says(marks, a.mark), place: says(places, a.place), mood: says(moods, a.mood) } };
   if (typeof a.t === 'number') { out.name = a.name || ''; out.t = a.t; }
+  if (typeof a.first === 'string' && a.first && a.first !== out.name) out.first = a.first;
   if (typeof a.at === 'number') out.at = a.at;
   return out;
 }

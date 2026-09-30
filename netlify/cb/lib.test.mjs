@@ -29,7 +29,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
   PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons,
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
-  issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
+  renamePet, shapeAnimal, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
@@ -385,6 +385,34 @@ test('the base station takes a name off everywhere it is', async () => {
   assert.equal((await readPets('pkZ', s))[0].name, '');
   const m = (await adoptedMonths('cat', s))[0];
   assert.equal((await readAdopted('cat', m, s))[0].name, '');
+});
+
+test('a pet is renamed in its person\'s pets and on the forever list, keeping the name it came in under', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const w = (await readShelter('dog', s, 5)).waiting;
+  await rescueAnimal('dog', w.id, 'Sprackles', s, 5, () => 1);
+  assert.ok((await renamePet('pkY', w.id, 'Mo', s)).error, 'a dog still in the shelter was renamed');
+  await adoptAnimal('dog', w.id, 'pkY', s, 7);
+  assert.ok((await renamePet('pkX', w.id, 'Mo', s)).error, 'somebody else renamed my dog');
+  const r = await renamePet('pkY', w.id, 'Mo', s);
+  assert.equal(r.pet.name, 'Mo'); assert.equal(r.pet.first, 'Sprackles');
+  await renamePet('pkY', w.id, 'Mo Mo', s);
+  const pet = (await readPets('pkY', s))[0];
+  assert.equal(pet.name, 'Mo Mo'); assert.equal(pet.first, 'Sprackles', 'a second rename wrote over the name it came in under');
+  const m = (await adoptedMonths('dog', s))[0];
+  const listed = (await readAdopted('dog', m, s))[0];
+  assert.equal(listed.name, 'Mo Mo'); assert.equal(listed.first, 'Sprackles');
+  assert.equal(shapeAnimal(listed).first, 'Sprackles');
+  assert.ok(!JSON.stringify(await readAdopted('dog', m, s)).includes('pkY'), 'the forever list knows who renamed');
+  // Stopped between the two writes: the list is behind, and pressing it again finishes it.
+  const cur = await s.getWithMetadata(`adopted-dog-${m}`);
+  await s.setJSON(`adopted-dog-${m}`, { animals: [{ ...listed, name: 'Mo' }] }, { onlyIfMatch: cur.etag });
+  await renamePet('pkY', w.id, 'Mo Mo', s);
+  assert.equal((await readAdopted('dog', m, s))[0].name, 'Mo Mo', 'pressing the same rename again did not finish it');
+  // The base taking the name off takes every name off, the first one too.
+  await unnameAnimal('dog', w.id, s);
+  assert.equal((await readPets('pkY', s))[0].name, '');
+  assert.equal(shapeAnimal((await readAdopted('dog', m, s))[0]).first, undefined, 'the name it came in under outlived taking the names off');
 });
 
 test('dogs are not cats', () => {

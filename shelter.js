@@ -97,7 +97,7 @@
     li.appendChild(p(P + '-card__name', a.name || 'Not named yet'));
     li.appendChild(p(P + '-card__about', A.about(a)));
     li.appendChild(p(P + '-card__when', how === 'mine' ? 'You brought them in ' + when(a.t)
-      : how === 'adopted' ? 'Adopted ' + when(a.at) : 'Came in ' + when(a.t)));
+      : how === 'adopted' ? 'Adopted ' + when(a.at) + (a.first ? ', and came in as ' + a.first : '') : 'Came in ' + when(a.t)));
     if (how === 'shelter' && me) {
       var adopt = button('Adopt ' + (a.name || 'this ' + SAY.it));
       adopt.addEventListener('click', function () {
@@ -118,7 +118,7 @@
       });
       li.appendChild(adopt);
     }
-    if (base && how !== 'mine' && a.name) {
+    if (base && how !== 'mine' && (a.name || a.first)) {
       var un = button('Take this name off', P + '-btn--small');
       un.addEventListener('click', function () {
         un.disabled = true;
@@ -131,6 +131,9 @@
     }
     into.appendChild(li);
   }
+
+  // Somebody renamed a pet from Profile on this page: the forever list shows it.
+  window.addEventListener('love-renamed', function () { readAdopted(); });
 
   function drawShelter(animals) {
     list.textContent = '';

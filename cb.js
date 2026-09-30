@@ -1737,8 +1737,8 @@
     });
   };
 
-  Radio.prototype.drawPets = function (list) {
-    var ul = this.petsList;
+  Radio.prototype.drawPets = function (list, told) {
+    var me = this, ul = this.petsList;
     ul.textContent = '';
     if (!list.length) {
       ul.hidden = true;
@@ -1756,11 +1756,52 @@
       words.appendChild(el('p', 'cb-pet__about', window.loveAnimals.about(a)));
       var d = '';
       try { d = new Date(a.at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }); } catch (e) {}
-      words.appendChild(el('p', 'cb-quiet', 'Adopted ' + d));
+      words.appendChild(el('p', 'cb-quiet', 'Adopted ' + d + (a.first ? ', and came in as ' + a.first : '')));
+      /* RENAMING, Ryan's call, 2026-09-30: once adopted, a pet is called what
+         its person calls them, and the forever list shows the new name beside
+         the one they came in under. */
+      var rn = el('button', 'cb-btn cb-pet__rename', a.name ? 'Rename ' + a.name : 'Name them');
+      rn.type = 'button';
+      words.appendChild(rn);
+      var form = el('div', 'cb-acct__form'); form.hidden = true;
+      words.appendChild(form);
+      rn.addEventListener('click', function () {
+        form.textContent = ''; form.hidden = false; rn.hidden = true;
+        var f = field('A new name', 'cb-pet-name-' + a.id, 'text');
+        f.input.maxLength = 24; f.input.autocomplete = 'off'; f.input.value = a.name || '';
+        form.appendChild(f.wrap);
+        var go = el('button', 'cb-btn', a.name ? 'Rename' : 'Name them'); go.type = 'button';
+        var keep = el('button', 'cb-btn', a.name ? 'Keep ' + a.name : 'Not now'); keep.type = 'button';
+        form.appendChild(go); form.appendChild(keep);
+        var said = el('p', 'cb-quiet', ''); said.setAttribute('role', 'status');
+        form.appendChild(said);
+        f.input.focus(); f.input.select();
+        keep.addEventListener('click', function () { form.hidden = true; rn.hidden = false; rn.focus(); });
+        function send() {
+          var name = f.input.value.trim();
+          if (!name) { said.textContent = 'A name is at least one character.'; f.input.focus(); return; }
+          go.disabled = true;
+          call('/cb/pets', { body: { rename: a.id, name: name } }, me.state.pass).then(function (r) {
+            go.disabled = false;
+            if (r.status === 200 && r.body.pets) {
+              me.drawPets(r.body.pets, { id: a.id, said: (a.name ? a.name + ' is ' : 'They are ') + name + ' now, here and on the list of everybody adopted.' });
+              try { window.dispatchEvent(new CustomEvent('love-renamed')); } catch (e) {}
+              return;
+            }
+            said.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing was renamed.';
+          }, function () { go.disabled = false; said.textContent = 'The street could not be reached just now. Nothing was renamed.'; });
+        }
+        go.addEventListener('click', send);
+        f.input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); send(); } });
+      });
+      // The answer to a rename goes on that pet's own card, where the hand is.
+      if (told && told.id === a.id) { words.appendChild(el('p', 'cb-quiet', told.said)); told.button = rn; }
       li.appendChild(words);
       ul.appendChild(li);
     });
+    if (told && told.button) told.button.focus();
   };
+
 
   Radio.prototype.forgetMe = function () {
     var me = this;

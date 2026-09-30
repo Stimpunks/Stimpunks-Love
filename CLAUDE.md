@@ -2950,7 +2950,9 @@ reversing Claude's one-week rule); a full shelter leaves the next one outside. *
 place the street keeps something under a person**, and Ryan said he was fine with it: pets are filed
 under `petKey`, a plain hash of the folded handle, **never keyed by the community password**, which
 would lose everybody's pets the day it changed. **An unclaimed handle is not an account**, so anybody who signs
-on with it sees its pets, and the tray says so; once claimed, only its password reaches them. **Forget Me is in Profile, asks twice, and
+on with it sees its pets, and the tray says so; once claimed, only its password reaches them. **A pet can be renamed once adopted** (Ryan, 2026-09-30, `renamePet`): in the person's pets and
+on the forever list, which keeps the name it came in under as `first`, set once, so the rescuer's
+naming is never written over; unnaming clears both. **Forget Me is in Profile, asks twice, and
 deletes the record**; the animals stay on the forever list, which never knew who adopted them.
 **Adoption files in three places and loses nothing**: the shelter's conditional write picks the one
 adopter and moves the animal to `leaving` with its pet key; `finishAdoptions` copies it into the pets
