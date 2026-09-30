@@ -104,11 +104,27 @@ self-hosted faces, the consent record behind the photograph — and changed **ex
 colour**, because her smallest grey failed WCAG on every ground it sat on. That change is
 written up beside `--tallow-3` in §2, in `check-contrast.py`, in the changelog and in the liner
 notes, because "we altered a contributor's design" is a thing that has to be visible in four
-places rather than implied in a diff. Do not change a second thing without asking her.
+places rather than implied in a diff. Do not change a second thing of her design without asking her.
+The street's conventions are not her design, and since 2026-09-30 they arrive without asking: see the
+next paragraph but one.
 **Maintenance is the one standing exception, and it is narrow:** Helen approved any needed
 maintenance on 2026-09-23 — fixes that change nothing a visitor can see, like the width and height
 now on her two photographs. It is not licence to redesign. Anything that changes how her room looks
 or reads is still hers to decide, and maintenance done there goes in the changelog like the rest.
+
+**THE STREET'S CONVENTIONS REACH EVERYBODY'S OWN SPACE, AND THAT IS PART OF BEING A CITIZEN HERE.**
+Ryan's call, 2026-09-30, after Helen said yes to the guest CB in the Faery Yurt and said she does not
+need to approve future additions. Every personal space on the street (the Faery Yurt, a room brought
+in by `tools/import-room.py`, anybody's room from Your Room) takes the world's conventions as they
+develop, without asking first: the dial, the sign-off, the job marker, the radio and the guest bar,
+the fractal switch, a pebble bowl, whatever comes next. **Somebody who does not like a convention
+brings it to the Town Hall**, where conventions are talked over from time to time, and a convention
+can change there; it is not refused room by room. **What this does not cover is the room itself**:
+its palette, faces, drawings and words stay its owner's, and a convention wears either its own
+clothes (the radio, the guest bar) or the room's own ink (the job marker, the sign-off), never a new
+look laid over the room. Each arrival still goes in the changelog. `your-room.html` says so to anybody
+asking for a room. **In an imported room, a convention is added by the street's own tools or outside the
+`import:<slug>` markers**, so a re-import keeps it.
 
 **A ROOM WITH A GAME IN IT IS THE NEWEST VERSION OF THE SAME ARGUMENT.** The Arcade (§15) is
 grape carpet, a cabinet of hard blocks, a screen that is a different black from the
@@ -1140,7 +1156,7 @@ believing it.
 drawn in her own declared colours and it is the **second** thing this repository has put into her
 room on its own initiative, after the one colour. It is in the credits rather than only in a diff
 for the same reason that colour is in four places, and **Helen has the final say on whether it
-stays.** Do not add a third thing without asking her.
+stays.** Street conventions no longer need asking (2026-09-30, above); anything else of hers still does.
 
 **THE BED IS BUILT AND IT HAS TWO DOORS, WHICH IS A FIRST HERE.** The Healing Checkpoint (§31) is
 room 429, the guild's guest room, and it is **also a shopfront on the street**. That is the whole
@@ -2726,9 +2742,12 @@ desk is. **It knows nothing about the channel and must not**: no count of who is
 is said, or it is a window into the channel for people who are not on it. It keeps only
 `love-cb-guest = "open"` while its panel is left open, and the list of rooms is fetched only when the
 teleporter opens. `love.js` loads it exactly where the radio would come, so `data-cb="off"` pages
-and frames get neither. **The Faery Yurt says `data-cb-guest="off"` until Helen says yes**, the fractal
-window's precedent; a member's radio still comes there, and removing the attribute is the whole change. **Its teleporter is a copy of the radio's**, because the radio's is in
-`cb.js`: change one, change both. `love.js` injects it only when a pass is
+and frames get neither. **The Faery Yurt shipped with `data-cb-guest="off"` and Helen said yes the next
+day** (2026-09-30), which is where the conventions rule above came from; `data-cb-guest="off"` still
+works in `love.js` for a room that has a reason of its own, like `data-cb="off"`. **Its teleporter is a copy of the radio's**, because the radio's is in
+`cb.js`: change one, change both. **It signs on in place** (Ryan, 2026-09-30): the front desk's form and
+its `love-cb` shape, then `window.loveRadio()` from `love.js`, so the radio arrives under every rule
+`love.js` applies to a page and nothing is decided in `guest.js`. `love.js` injects it only when a pass is
 already in `localStorage`, never inside a frame (the Hermitage's laptop frames this site), and never
 on a page whose `<body>` says `data-cb="off"` or `data-cb="here"`. **The Healing Checkpoint is `off`,
 Ryan's call**, because it promises it writes nothing down about you, and `make-checkpoint.py` refuses

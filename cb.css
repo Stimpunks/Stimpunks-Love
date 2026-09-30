@@ -273,6 +273,8 @@ ol.cb-md-list { list-style: decimal; }
 .cb-opt[aria-selected="true"] .cb-opt__tag { color: var(--cb-lcd); }
 /* The radio's answer to a press, under the readout. A rule down its side in the
    log's amber, so a sentence that appears there is noticed. */
+/* The guest bar's sign-on: the front desk's two boxes, the width of the panel. */
+.cb-guest-in { display: block; width: 100%; margin-bottom: 8px; }
 .cb-said { font-size: 14px; padding-left: 8px; border-left: 3px solid var(--cb-amber); }
 /* THE MESSAGE BOX is a textarea: it grows as you type (cb.js) to about eight
    lines, and can be dragged taller than that, never wider than the radio. */

@@ -131,20 +131,87 @@
     var p2 = el('p');
     p2.appendChild(document.createTextNode('It takes a handle of your choosing and the community password, which is shared inside our community: ask for it in '));
     p2.appendChild(link('/community-center.html#meeting-hall', 'the meeting hall'));
-    p2.appendChild(document.createTextNode(', our group chat on Stoat, which the Community Center says how to join. Then sign on at '));
+    p2.appendChild(document.createTextNode(', our group chat on Stoat, which the Community Center says how to join. Then sign on here, or at '));
     p2.appendChild(link('/community-center.html#cb-signon-desk', 'the front desk'));
-    p2.appendChild(document.createTextNode('.'));
+    p2.appendChild(document.createTextNode(', where the house norms are.'));
     var p3 = el('p');
     p3.appendChild(el('b', null, 'Signed on before? '));
-    p3.appendChild(document.createTextNode('Signing off, or a new browser, takes the radio away. Sign on again at '));
-    p3.appendChild(link('/community-center.html#cb-signon-desk', 'the front desk'));
-    p3.appendChild(document.createTextNode(' and it is back on every page.'));
+    p3.appendChild(document.createTextNode('Signing off, or a new browser, takes the radio away. Sign on again here and it is back on every page.'));
+
+    /* SIGN ON FROM HERE, for somebody who already knows the password (Ryan,
+       2026-09-30). The front desk's own form, sending exactly what the desk
+       sends, to the same /cb/signon, only when pressed; what comes back is kept
+       in love-cb the way the desk keeps it, and then love.js brings the radio,
+       with every rule it applies to a page. The moderators' password works
+       here too, because the server decides which one it is. */
+    var form = el('form', 'cb-tx cb-guest-signon');
+    form.setAttribute('aria-label', 'Sign on to the CB');
+    var hl = el('label', 'cb-lab', 'Your handle');
+    hl.htmlFor = 'cb-guest-handle';
+    var handle = el('input', 'cb-say cb-guest-in');
+    handle.id = 'cb-guest-handle';
+    handle.name = 'handle';
+    handle.type = 'text';
+    handle.maxLength = 24;
+    handle.required = true;
+    handle.autocomplete = 'nickname';
+    handle.spellcheck = false;
+    var pl = el('label', 'cb-lab', 'The community password');
+    pl.htmlFor = 'cb-guest-password';
+    var password = el('input', 'cb-say cb-guest-in');
+    password.id = 'cb-guest-password';
+    password.name = 'password';
+    password.type = 'password';
+    password.required = true;
+    password.autocomplete = 'current-password';
+    var go = el('button', 'cb-btn', 'Sign on');
+    go.type = 'submit';
+    var row = el('div', 'cb-row cb-send-row');
+    row.appendChild(go);
+    var said = el('p', 'cb-said');
+    said.setAttribute('role', 'status');
+    form.appendChild(hl); form.appendChild(handle);
+    form.appendChild(pl); form.appendChild(password);
+    form.appendChild(row); form.appendChild(said);
     var p4 = el('p', 'cb-norms');
     p4.appendChild(link('/community-center.html#cb-norms', 'The house norms'));
     p4.appendChild(document.createTextNode(' and '));
     p4.appendChild(link('/privacy.html#cb', 'what the CB keeps'));
     p4.appendChild(document.createTextNode('. Until you sign on, this bar sends nothing and knows nothing about the channel.'));
-    set.appendChild(p1); set.appendChild(p2); set.appendChild(p3); set.appendChild(p4);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      said.textContent = 'Checking\u2026';
+      go.disabled = true;
+      fetch('/cb/signon', {
+        method: 'POST', credentials: 'omit', cache: 'no-store',
+        headers: { 'accept': 'application/json', 'content-type': 'application/json' },
+        body: JSON.stringify({ handle: handle.value, password: password.value }),
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
+      }).then(function (r) {
+        go.disabled = false;
+        if (r.status === 200 && r.body.pass) {
+          password.value = '';
+          try {
+            localStorage.setItem('love-cb', JSON.stringify({ handle: r.body.handle, pass: r.body.pass, base: !!r.body.base, roles: r.body.roles || [], folded: false, aloud: true }));
+          } catch (x) { said.textContent = 'This browser will not keep the pass, so the radio cannot stay on. A private window does that.'; return; }
+          keep(false);
+          host.remove();
+          if (window.loveRadio) window.loveRadio();
+          return;
+        }
+        if (r.status === 429) { said.textContent = 'Too many tries from here in a minute. Wait a moment and try again.'; return; }
+        if (r.body && typeof r.body.error === 'string' && r.body.error) { said.textContent = r.body.error; return; }
+        said.textContent = r.status === 404 || r.status === 405
+          ? 'The CB is not running on this server. It only answers on stimpunks.world itself.'
+          : 'That did not work. Try again.';
+      }).catch(function () {
+        go.disabled = false;
+        said.textContent = 'No signal: the CB could not be reached.';
+      });
+    });
+    set.appendChild(p1); set.appendChild(p2); set.appendChild(p3); set.appendChild(form); set.appendChild(p4);
     box.appendChild(set);
 
     root.appendChild(box);

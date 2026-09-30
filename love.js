@@ -1180,6 +1180,9 @@
     tag.defer = true;
     document.head.appendChild(tag);
   }
+  // The guest CB signs somebody on in place, then asks for the radio this way,
+  // so every rule above still decides whether this page gets one.
+  window.loveRadio = cb;
 
   /* ── The fractal window ────────────────────────────────────────────────
      The switch is in every page's sign-off, written by tools/fractals.py with
