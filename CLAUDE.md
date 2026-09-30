@@ -2881,6 +2881,22 @@ It moved off the Directors' room's ground before it opened: same hex to the digi
 the next of those games and is not this shape**: it keeps who caught what and how many, which is a
 per-person tally, the one thing the narrowed aim still refuses. It needs its own decision.
 
+**THE FRIDGE OF SIGHS KEEPS SENTENCES FOR GOOD, AND THAT IS ONLY SIMPLE BECAUSE NO WORD IS ANYBODY'S.**
+Ryan, 2026-09-30, the sentence builder from the same Discord channels (§85): a CB pass puts up one
+word, nobody puts up two in a row, a stop finishes the sentence, and finished sentences are kept for
+good. **A sentence with a handle on every word would be a list of names kept forever**; one with none
+is the community's. So `putWord` is given a mark and never a handle, a finished sentence is exactly
+`{ id, text, t }`, and **the mark is the one trace of a person**: an HMAC of the folded handle keyed by
+the community password (`fridgeMark`), for the last word only, replaced by the next, never in any
+answer. `tools/make-fridge.py` refuses each of those changing, a function answer carrying `last`, and
+`fridge.js` knowing what a handle is. The friendly edits are *show who said each word, like Discord*
+and *thank whoever finished it*. **The door files into the drawer copy-first**: `fileFridge` appends
+to the month's drawer skipping ids already there, then takes those ids off the door, so a stop
+between the two leaves a sentence in both for a moment and never in neither; `lib.test.mjs` stops one
+halfway on purpose. **It was going to be a composing stick and is not**, because the Foundry sets
+words in type; and **it is turquoise because Vital Plant Living's wall is turmeric**, the other
+kitchen. Its light is the window behind you, reflected in the enamel; its collisions are in §85.
+
 **THE FRACTAL WINDOW IS IN EVERY ROOM'S SIGN-OFF, AND IT CANNOT HEAR THE MUSIC.** Ryan, 2026-09-27:
 a visualizer to switch on in rooms that play music, then in every room, following the Arcade: it runs
 at every setting, starts only when pressed, and has its own speed control (Slow at Gentle, Steady
@@ -3201,18 +3217,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §86 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §87 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§86 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§87 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §86 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §87 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

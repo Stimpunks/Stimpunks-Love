@@ -2005,6 +2005,29 @@
     }
    ]
   },
+  "noticia-text": {
+   "family": "Noticia Text",
+   "category": "Serif",
+   "designer": "JM Solé",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/noticiatext",
+   "copyright": "Copyright (c) 2011 JM Sole (info@jmsole.cl), with Reserved Font Name \"Noticia Text\".",
+   "repository": "https://github.com/jmsole/noticiatext",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "noticia-text-400.woff2",
+     "sha": "db18648d1577fca7"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "noticia-text-700.woff2",
+     "sha": "5bf76ecccc582b81"
+    }
+   ]
+  },
   "nunito": {
    "family": "Nunito",
    "category": "Sans Serif",

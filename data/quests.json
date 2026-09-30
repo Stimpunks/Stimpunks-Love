@@ -2547,6 +2547,40 @@
    }
   },
   {
+   "id": "fridge-magnet",
+   "page": "fridge-of-sighs.html",
+   "room": "The Fridge of Sighs",
+   "title": "How many words in a row can one person put up?",
+   "posted": "There is a kitchen on the street with a fridge door covered in word magnets, and a sentence on it that everybody is writing together. Go and read the door, and find out how many words anybody can put up in a row.",
+   "rank": 1,
+   "takes": "about as long as it takes somebody else to put up the next word",
+   "target": "a word magnet that has slid to the foot of the fridge door, with nothing on it yet",
+   "code": "MAGNET",
+   "learned": "One word each, and never two in a row: once you have put one up, the next is somebody else's. The fridge keeps a scrambled mark of whoever put up the last word, only so it can keep that rule, and the next word replaces it; nothing says whose any word was.",
+   "hints": [
+    "On the street itself, in the row of shopfronts: the one with a chrome handle down its awning.",
+    "In the rules about how the door works.",
+    "At the foot of the door, where a magnet ends up when it slides."
+   ],
+   "ask": {
+    "question": "Once you have put up a word, how many more can you put up before somebody else puts up one?",
+    "accept": [
+     "none",
+     "nothing",
+     "zero",
+     "noneatall",
+     "notany"
+    ],
+    "answer": "None",
+    "why": "Nobody puts up two words in a row, so after your word the next one is somebody else's. After theirs you can go again.",
+    "hints": [
+     "It is the first rule about how the door works.",
+     "The next word is always somebody else's.",
+     "Not a single one."
+    ]
+   }
+  },
+  {
    "id": "wr-mantle",
    "page": "cavendish-events.html",
    "room": "The Events Room",

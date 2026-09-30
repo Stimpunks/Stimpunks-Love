@@ -1381,6 +1381,21 @@
         "--pdo-gold",
         "--pdo-belt"
       ]
+    },
+    "fridge-of-sighs.html": {
+      "kind": "julia",
+      "c": [
+        -0.8,
+        0.156
+      ],
+      "orbit": 0.02,
+      "ground": "--fos-door",
+      "inks": [
+        "--fos-tile",
+        "--fos-ink",
+        "--fos-sheen",
+        "--fos-edge"
+      ]
     }
   }
 }

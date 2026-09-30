@@ -1153,6 +1153,21 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--pando .pdo-art {{ flex: 1 1 auto; }}
 .og--pando .pdo-sign {{ width: 100%; }}
 
+/* the fridge of sighs — THE FREEZER DOOR, straight on: the header lifted whole, the
+   name as magnets, on the enamel with the window lying down it. It shows no
+   sentence off the door: those are the community's, they change, and none of
+   them is ours to put in somebody else's timeline. */
+.og--fridge {{ width: 100%; flex-direction: column; align-items: flex-start; justify-content: center;
+  padding: 0 70px; }}
+.og--fridge .fos-head {{ margin: 0 !important; padding: 0 0 30px; width: 100%; }}
+.og--fridge .fos-head p {{ margin: 0 !important; font-size: 20px; }}
+.og--fridge .fos-name {{ margin: 22px 0 22px !important; }}
+.og--fridge .fos-name .fos-tile {{ font-size: 76px; }}
+.og--fridge .og-lede {{ font-family: 'Noticia Text', serif; color: var(--fos-ink);
+  font-size: 27px; line-height: 1.4; margin: 28px 0 0 !important; max-width: 1000px; }}
+.og--fridge .og-handle {{ position: absolute; right: 44px; top: 70px; bottom: 70px; width: 14px;
+  background: var(--fos-chrome); border: 2px solid var(--fos-edge); border-radius: 7px; }}
+
 /* now playing — THE SHEET ON ITS DRUM, and the only card on the street printed in
    two inks with nothing in black. The column's painted iron runs down both sides
    and off the foot of the card, which is where the pavement is; the header, the
@@ -3587,6 +3602,31 @@ def card_pando(p):
     )
 
 
+def card_fridge(p):
+    # THE HEADER IS LIFTED WHOLE, the name's magnets and all, so the card cannot
+    # spell the name differently from the door. The body is the page's own, so
+    # the window's reflection is the page's gradient and not a copy of it.
+    head = re.search(r'(<header class="fos-head">.*?</header>)', p["src"], re.S)
+    over = re.search(r'<p class="fos-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="fos-sub">(.*?)</p>', p["src"], re.S)
+    if not (head and over and sub):
+        raise SystemExit(
+            "REFUSING: fridge-of-sighs.html has lost its header, and the card is the\n"
+            "header. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--fridge" data-fit="card">{head.group(1)}'
+        f'<p class="og-lede">{p["desc"]}</p><span class="og-handle"></span></div>',
+        f"A turquoise card like the door of an old fridge, a paler band of window light lying "
+        f"down it and a chrome handle down the right-hand edge. Small dark capitals reading "
+        f"{plain(over.group(1))}, then the name, \u201c{p['h1text']}\u201d, as four white word "
+        f"magnets, one word to each, sitting a little unevenly, then {plain(sub.group(1))}. A "
+        f"dark seam runs across under them, where the freezer door meets the fridge. Under it: "
+        f"{p['desc_plain']}",
+    )
+
+
 def card_nowplaying(p):
     # THE HEADER IS LIFTED WHOLE -- over-line, h1, sub-line and the two screens'
     # ornament -- and the lede is the page's og:description, so the card cannot
@@ -3867,6 +3907,7 @@ CARDS = {
     "now-playing":  card_nowplaying,
     "plural-mural": card_mural,
     "pando":        card_pando,
+    "fridge":       card_fridge,
     "cavendish":    card_cavendish,
     "live-room":    card_live,
     "doom-scoop":   card_scoop,

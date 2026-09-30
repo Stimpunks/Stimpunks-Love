@@ -2195,5 +2195,23 @@
    "src": "https://fonts.gstatic.com/s/averiasanslibre/v20/ga6SaxZG_G5OvCf_rt7FH3B6BHLMEd31N5cXL5LXLXD8.woff2",
    "note": "The bold of the above, a separate static file: the count, the buttons and every strong phrase."
   }
+ ],
+ "noticia-text": [
+  {
+   "file": "noticia-text-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 12584,
+   "src": "https://fonts.gstatic.com/s/noticiatext/v16/VuJ2dNDF2Yv9qppOePKYRP12ZjtYlUndpA.woff2",
+   "note": "The Fridge of Sighs (§85), every word in the room: the word on every magnet, the room's name set as magnets, and everything read round them. A sturdy news serif that holds up small, which is what a word on a magnet has to do. Static files, one per weight. No italic shipped, so the room sets nothing italic."
+  },
+  {
+   "file": "noticia-text-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 12464,
+   "src": "https://fonts.gstatic.com/s/noticiatext/v16/VuJpdNDF2Yv9qppOePKYRP1-3R5NuGvQjjLkeQ.woff2",
+   "note": "The bold of the above, a separate static file: the name's magnets, the headings and every strong phrase."
+  }
  ]
 }

@@ -2730,6 +2730,22 @@ PAIRS = [
     # The job marker, a fallen aspen leaf, held at the body threshold.
     ("#E2B04A", "#22304A", False, "pando: the job marker, a gold aspen leaf at the foot of the fence"),
 
+    # ── The Fridge of Sighs (§85) ────────────────────────────────────────────
+    # A turquoise fridge door with the window behind you lying down it. Every
+    # word on the door is dark ink on the enamel; on the window's reflection it
+    # only gets better. Every magnet is dark type on white.
+    ("#0F2322", "#4FB3AA", False, "fridge: every word on the door -- the lede, the headings, the "
+                                  "rules, the name and the credit -- the focus ring, and the street door"),
+    ("#0F2322", "#86CEC6", False, "fridge: the same words where the window's reflection lies under them"),
+    ("#16403C", "#4FB3AA", False, "fridge: the trail, and when each sentence was finished"),
+    ("#4A0F2E", "#4FB3AA", False, "fridge: every link, the backlink and the knock on the street door"),
+    ("#4A0F2E", "#86CEC6", False, "fridge: a link on the window's reflection"),
+    ("#161616", "#FBF8EF", False, "fridge: the word on every magnet, the name's magnets, and what you "
+                                  "type on the blank one"),
+    ("#FBF8EF", "#0F2322", False, "fridge: every button's words"),
+    ("#FBF8EF", "#4A0F2E", False, "fridge: a button under the pointer"),
+    ("#0F2322", "#4FB3AA", False, "fridge: the job marker, a blank magnet at the foot of the door"),
+
     # ── Now Playing (§53) ────────────────────────────────────────────────────
     (NP_BOTH,   NP_STOCK,  False, "now playing: every word on the sheet -- the h1, the over- and "
                                   "sub-lines, the lede, every room's name, where it is, our line "
@@ -3058,6 +3074,11 @@ ORNAMENT = {
                "It carries no word; the sentence under the grove says it is there.",
     "#2e2c33": "pando: the dark scars on the bark, 11.25 on the lit bark and 3.17 on the bark "
                "in shade. They carry no word.",
+    "#23605a": "fridge: a magnet's edge and shadow, 2.89 on the enamel and 6.84 on the magnet, "
+               "and the seam under the freezer door. It carries no word; it is what lifts a "
+               "white magnet (2.37 on the enamel) off the door, the way it does on a real one.",
+    "#dce3e2": "fridge: the chrome handles, 1.93 on the enamel, with the magnet's edge colour "
+               "round them on the share card. They carry no word.",
     "#8a5b36": "plural mural: the chalkboard's wooden frame, 2.12 on the road and 2.33 on the "
                "slate. It carries no word. It is also what separates the board from the road, "
                "because the slate itself is 1.10 against the tarmac, and a board is not a control.",

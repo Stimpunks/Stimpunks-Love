@@ -1198,6 +1198,13 @@
       "sections": [
         84
       ]
+    },
+    "noticia-text": {
+      "where": "The Fridge of Sighs",
+      "page": "fridge-of-sighs.html",
+      "sections": [
+        85
+      ]
     }
   }
 }

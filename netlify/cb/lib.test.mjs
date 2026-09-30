@@ -17,7 +17,8 @@
    write that was told it worked and is not there is not. */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { updateChalk, readChalk, updateFence, readFence, waterTree, readTree, PANDO_SOAK, updatePebbles, readPebbles, cleanLink, PEBBLE_ROOMS,
+import { putWord, readFridge, fileFridge, readDrawer, drawers, fridgeMark, strikeSentence, cleanWord, monthOf, FRIDGE_DOOR, FRIDGE_WORDS,
+  updateChalk, readChalk, updateFence, readFence, waterTree, readTree, PANDO_SOAK, updatePebbles, readPebbles, cleanLink, PEBBLE_ROOMS,
   updateChannel, readChannel, updateTalk, readTalk, beHere, leaveSlake, seenAt, sweepSlake,
   MUD_PLACES, MUD_FRESH, KEEP, today,
   hostBeacon, stopBeacon, readBeacons, sweepBeacons, beaconRoom, cleanAt, BEACON_FRESH,
@@ -134,6 +135,85 @@ for (const etagOnRead of [true, false]) {
     if (etagOnRead) assert.equal(poured, 15);
   });
 }
+
+// THE FRIDGE'S INVARIANT: every word told it went up is on the line or in the
+// sentence it finished, and every finished sentence is on the door or in a
+// drawer, exactly once.
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`the Fridge of Sighs, fifteen words at once from fifteen people, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => putWord(`w${i}`, `m${i}`, s)));
+    const put = told.map((r, i) => (r.status === 'fulfilled' && r.value.put ? `w${i}` : null)).filter(Boolean);
+    for (const f of told.filter((r) => r.status === 'rejected')) assert.equal(f.reason.message, 'busy');
+    const { words } = await readFridge(s);
+    const missing = put.filter((w) => !words.includes(w));
+    assert.deepEqual(missing, [], 'a word that was told it went up is not on the line');
+    assert.equal(words.length, put.length, 'a word nobody was told about is on the line');
+  });
+}
+
+test('nobody puts up two words in a row, and anybody else can', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.equal((await putWord('The', 'ada', s)).put, true);
+  const again = await putWord('fridge', 'ada', s);
+  assert.equal(again.put, false);
+  assert.equal(again.why, 'yours');
+  assert.equal((await putWord('hums.', 'bex', s)).put, true);
+  assert.equal((await putWord('Again', 'ada', s)).put, true);
+});
+
+test('a word ending in a stop finishes the sentence, and so does the longest line', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await putWord('Sighs', 'a', s);
+  const r = await putWord('everywhere!', 'b', s);
+  assert.equal(r.finished.text, 'Sighs everywhere!');
+  assert.deepEqual((await readFridge(s)).words, []);
+  for (let i = 0; i < FRIDGE_WORDS; i++) await putWord('and', `p${i % 2}`, s);
+  const { words, door } = await readFridge(s);
+  assert.deepEqual(words, []);
+  assert.equal(door.at(-1).text.split(' ').length, FRIDGE_WORDS);
+});
+
+test('the fridge keeps words and sentences and one mark, and never a handle', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await putWord('hello.', fridgeMark('Ada', 'k'), s);
+  const kept = await s.get('fridge');
+  assert.deepEqual(Object.keys(kept).sort(), ['door', 'last', 'words']);
+  assert.ok(!JSON.stringify(kept).toLowerCase().includes('ada'));
+  assert.deepEqual(Object.keys(kept.door[0]).sort(), ['id', 't', 'text']);
+  assert.equal(fridgeMark(' ADA ', 'k'), fridgeMark('ada', 'k'), 'one person is one mark however they type their handle');
+  assert.notEqual(fridgeMark('Ada', 'k'), fridgeMark('Ada', 'another password'));
+});
+
+test('filing moves the oldest into their month\'s drawer, once, and loses nothing', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const t0 = Date.UTC(2026, 8, 15, 18);
+  for (let i = 0; i < FRIDGE_DOOR + 5; i++) await putWord(`s${i}.`, `m${i}`, s, t0 + i * 1000);
+  await fileFridge(s);
+  // Half a filing: the copy is in the drawer and the door was never cleared.
+  // Put the filed ones back on the door, as a filing stopped after its first
+  // step would leave them, and file again.
+  const filed = await readDrawer(monthOf(t0), s);
+  const cur = await s.getWithMetadata('fridge');
+  await s.setJSON('fridge', { ...cur.data, door: [...filed, ...cur.data.door] }, { onlyIfMatch: cur.etag });
+  await fileFridge(s);
+  const { door } = await readFridge(s);
+  assert.equal(door.length, FRIDGE_DOOR);
+  const month = monthOf(t0);
+  assert.deepEqual(await drawers(s), [month]);
+  const drawn = await readDrawer(month, s);
+  assert.equal(drawn.length, 5, 'a sentence was filed twice, or not at all');
+  const all = new Set([...drawn, ...door].map((n) => n.text));
+  assert.equal(all.size, FRIDGE_DOOR + 5);
+  assert.equal(await strikeSentence(drawn[0].id, s), true);
+  assert.equal((await readDrawer(month, s)).length, 4);
+});
+
+test('a word is one word', () => {
+  for (const ok of ['hello', "don't", 'well-known', 'sighs.', '\u201cWhy', 'caf\u00e9', 'ok?!']) assert.ok(cleanWord(ok), ok);
+  for (const no of ['two words', '<b>', '!!!', '', 'x'.repeat(25), 'a<script>']) assert.equal(cleanWord(no), null, no);
+});
 
 test('the ground soaks for a minute for everybody, and the count only goes up', async () => {
   const s = memoryStore({ etagOnRead: true });

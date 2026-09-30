@@ -32,6 +32,10 @@
        watered, whose count never expires. It counts water and never who
        poured it -- the blob is a number and a time, with no handle in it --
        and the notes on its fence are the chalkboard's, a week and gone.
+     · THE FRIDGE OF SIGHS KEEPS SENTENCES FOR GOOD, AND NO NAME IN THEM.
+       Ryan's calls, 2026-09-30: one word each, never two in a row, finished
+       sentences kept for good. What makes "never two in a row" possible is one
+       scrambled mark of whoever put up the last word, replaced by the next.
      · THE SLAKE, OUT THE BACK OF THE MUD ROOM, IS THE CB TOO. Ryan's calls,
        2026-09-27: you are seen by your handle only if you choose to be, on each
        visit, and each place on it has a channel of its own under the radio's
@@ -348,6 +352,182 @@ export function cleanFence(s) {
   const t = tidy(s);
   return t && [...t].length <= PANDO_MAX ? t : null;
 }
+
+/* ── The Fridge of Sighs ─────────────────────────────────────────────────── */
+
+/* A SENTENCE BUILT ONE WORD AT A TIME BY WHOEVER COMES INTO THE KITCHEN. Ryan's
+   calls, 2026-09-30, after the sentence builder in our Discord's
+   Collaborative Nonsense channels: a CB pass puts up one word; nobody puts up
+   two in a row; a word ending in . ! ? or … finishes the sentence; finished
+   sentences are kept for good; and NO WORD CARRIES A NAME.
+
+   THE ONLY TRACE OF A PERSON IS WHO PUT UP THE LAST WORD, SCRAMBLED, AND IT IS
+   REPLACED BY THE NEXT WORD. "Not twice in a row" cannot be kept without it.
+   It is an HMAC of the folded handle keyed by the community password, so it
+   cannot be looked up from a handle without the password, it is never sent to
+   any page, and a finished sentence holds none of it. Nothing records who put
+   up any word but the last.
+
+   THE DOOR AND THE DRAWER. One blob, `fridge`, holds the line being built, the
+   last word's mark, and the newest finished sentences, so a finishing word and
+   the sentence it finishes are one conditional write and cannot come apart.
+   Past FRIDGE_DOOR on the door, the oldest are filed into a drawer by the month
+   they were finished (`fridge-drawer-YYYY-MM`): copied in first, skipping any
+   id already there, and only then taken off the door, so a filing that stops
+   halfway loses nothing and doubles nothing, and the next word tries again. */
+export const FRIDGE_WORD_MAX = 24;                // characters in one word
+export const FRIDGE_WORDS = 40;                   // a line this long is finished as it stands
+export const FRIDGE_DOOR = 40;                    // finished sentences on the door before filing
+const FRIDGE = 'fridge';
+const drawerKey = (month) => `fridge-drawer-${month}`;
+const ENDS = /[.!?…]["”')]*$/;
+
+/* One word, as a magnet can hold it: letters and numbers in any script, joined
+   by an apostrophe or a hyphen, with an opening quote or bracket before it and
+   up to three marks after it. No spaces, no markup, nothing else. */
+const WORD = /^["“'(]?[\p{L}\p{M}\p{N}]+(?:['’\-][\p{L}\p{M}\p{N}]+)*[,;:.!?…"”')]{0,3}$/u;
+export function cleanWord(s) {
+  const t = String(s == null ? '' : s).normalize('NFC').trim();
+  return t && [...t].length <= FRIDGE_WORD_MAX && WORD.test(t) ? t : null;
+}
+
+export function fridgeMark(handle, key = secretFor('mobile') || 'no-password-set') {
+  return createHmac('sha256', key).update(`fridge|${foldHandle(handle)}`).digest('base64url').slice(0, 22);
+}
+
+export function monthOf(t) { return today(new Date(t)).slice(0, 7); }
+
+export async function readFridge(s = store()) {
+  const data = await s.get(FRIDGE, { type: 'json' });
+  return { words: (data && data.words) || [], door: (data && data.door) || [] };
+}
+
+/* Put up one word for `mark`. Answers { put: true, finished, words, door } or
+   { put: false, why: 'yours' } when the last word was this person's. */
+export async function putWord(word, mark, s = store(), now = Date.now()) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, FRIDGE);
+    const was = cur.exists && cur.data ? cur.data : {};
+    const words = (was.words || []).slice();
+    const door = (was.door || []).slice();
+    if (was.last && was.last === mark) return { put: false, why: 'yours', words, door };
+    words.push(word);
+    let finished = null;
+    if (ENDS.test(word) || words.length >= FRIDGE_WORDS) {
+      finished = { id: randomUUID(), text: words.join(' '), t: now };
+      door.push(finished);
+      words.length = 0;
+    }
+    const body = { words, last: mark, door };
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(FRIDGE, body, opts);
+    if (res.modified) return { put: true, finished, words, door };
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* A drawer: the sentences finished in one month, filed off the door. */
+export async function readDrawer(month, s = store()) {
+  const data = await s.get(drawerKey(month), { type: 'json' });
+  return (data && data.sentences) || [];
+}
+
+export async function drawers(s = store()) {
+  const got = await s.list({ prefix: 'fridge-drawer-' });
+  return got.blobs.map((b) => b.key.slice('fridge-drawer-'.length)).filter((m) => /^\d{4}-\d{2}$/.test(m)).sort();
+}
+
+async function updateDrawer(month, change, s) {
+  const key = drawerKey(month);
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, key);
+    const list = ((cur.exists && cur.data && cur.data.sentences) || []).slice();
+    const next = change(list);
+    if (next === null) return list;
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(key, { sentences: next }, opts);
+    if (res.modified) return next;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* File everything past FRIDGE_DOOR into the drawers: copy first, then take off
+   the door by id, so a stop in between leaves a sentence in both places for a
+   moment and never in neither. */
+export async function fileFridge(s = store()) {
+  const { door } = await readFridge(s);
+  const over = door.slice(0, Math.max(0, door.length - FRIDGE_DOOR));
+  if (!over.length) return 0;
+  const byMonth = new Map();
+  for (const n of over) {
+    const m = monthOf(n.t);
+    if (!byMonth.has(m)) byMonth.set(m, []);
+    byMonth.get(m).push(n);
+  }
+  for (const [m, list] of byMonth) {
+    await updateDrawer(m, (have) => {
+      const ids = new Set(have.map((n) => n.id));
+      const add = list.filter((n) => !ids.has(n.id));
+      return add.length ? [...have, ...add] : null;
+    }, s);
+  }
+  const gone = new Set(over.map((n) => n.id));
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, FRIDGE);
+    if (!cur.exists) return 0;
+    const was = cur.data || {};
+    const body = { words: was.words || [], last: was.last || null, door: (was.door || []).filter((n) => !gone.has(n.id)) };
+    const res = await s.setJSON(FRIDGE, body, { onlyIfMatch: cur.etag });
+    if (res.modified) return gone.size;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* The base station taking a word off the line, or a finished sentence off the
+   door or out of a drawer. The mark is left as it is. */
+export async function strikeWord(index, s = store()) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, FRIDGE);
+    if (!cur.exists) return { words: [], door: [] };
+    const was = cur.data || {};
+    const words = (was.words || []).filter((_, i) => i !== index);
+    const body = { words, last: was.last || null, door: was.door || [] };
+    const res = await s.setJSON(FRIDGE, body, { onlyIfMatch: cur.etag });
+    if (res.modified) return { words, door: body.door };
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+export async function strikeSentence(id, s = store()) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, FRIDGE);
+    if (!cur.exists) break;
+    const was = cur.data || {};
+    if (!(was.door || []).some((n) => n.id === id)) break;
+    const body = { words: was.words || [], last: was.last || null, door: was.door.filter((n) => n.id !== id) };
+    const res = await s.setJSON(FRIDGE, body, { onlyIfMatch: cur.etag });
+    if (res.modified) return true;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  for (const m of await drawers(s)) {
+    let hit = false;
+    await updateDrawer(m, (have) => {
+      if (!have.some((n) => n.id === id)) return null;
+      hit = true;
+      return have.filter((n) => n.id !== id);
+    }, s);
+    if (hit) return true;
+  }
+  return false;
+}
+
+/* What a page is shown: words and sentences, and never the mark. */
+export function shapeLine(words) { return words.slice(); }
+export function shapeSentences(list) { return list.map((n) => ({ id: n.id, text: n.text, t: n.t })); }
 
 /* ── The Slake ───────────────────────────────────────────────────────────── */
 
