@@ -14,7 +14,7 @@ export default async (req) => {
     if (b.off) return json(200, { beacons: shapeBeacons(await stopBeacon(who, room), who), now: Date.now() });
     const film = cleanFilm(b.film), at = cleanAt(b.at);
     if (!film || at === null) return json(400, { error: 'A beacon needs the film and a place in it.' });
-    const r = await hostBeacon(who, room, film, at, !!b.playing);
+    const r = await hostBeacon(who, room, film, at, !!b.playing, undefined, undefined, b.video);
     if (r.closed) return json(403, { error: 'Hosting in this room is for the moderators it is for.' });
     if (r.held) return json(409, { error: `${r.held} is already hosting this room. Ask them, or the base, if you want to take over.` });
     return json(200, { beacons: shapeBeacons(r.beacons, who), now: Date.now() });

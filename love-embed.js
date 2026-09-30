@@ -111,6 +111,9 @@
       if (typeof info.duration === 'number' && info.duration > 0) p.duration = info.duration;
       if (info.videoData) {
         if (info.videoData.title) p.film = info.videoData.title;
+        // Which video, so the CB can find this film's own play button by id
+        // rather than by a title several films on a rack may share.
+        if (/^[A-Za-z0-9_-]{11}$/.test(info.videoData.video_id || '')) p.id = info.videoData.video_id;
         p.live = !!info.videoData.isLive;
       }
       if (typeof info.playerState === 'number') {
@@ -148,12 +151,18 @@
   }
 
   function name(p) { return p.film || p.el.title || 'the film'; }
+  // The player's own word first; a single video's address says it too.
+  function idOf(p) {
+    if (p.id) return p.id;
+    var m = /\/embed\/([A-Za-z0-9_-]{11})(?:\?|$)/.exec(p.el.src || '');
+    return m && !/[?&]list=/.test(p.el.src) ? m[1] : null;
+  }
 
   function where() {
     var p = active();
     // Buffering counts as playing: it is on its way, and a host's beacon
     // flickering to paused on every buffer would be noise on everybody's radio.
-    return p ? { time: p.time, duration: p.duration || null, film: name(p), playing: p.state === 1 || p.state === 3 } : null;
+    return p ? { time: p.time, duration: p.duration || null, film: name(p), id: idOf(p), playing: p.state === 1 || p.state === 3 } : null;
   }
 
   function seek(seconds) {

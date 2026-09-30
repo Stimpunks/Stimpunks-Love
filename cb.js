@@ -694,6 +694,14 @@
     this.skew = 0;
     set.appendChild(lcd);
 
+    /* THE RADIO'S ANSWER, directly under the readout, where the log, the hosts'
+       Catch up and Follow and every @time are: an answer somebody has to scroll
+       past the message box to find is one they do not see (Ryan, 2026-09-29,
+       after people thought Follow was broken). It used to sit under the box. */
+    this.said = el('p', 'cb-said');
+    this.said.setAttribute('role', 'status');
+    set.appendChild(this.said);
+
     var form = this.form = el('form', 'cb-tx');
     var lab = el('label', 'cb-lab', 'Your message');
     lab.htmlFor = 'cb-say';
@@ -772,10 +780,6 @@
     form.appendChild(row);
     form.appendChild(ready);
     set.appendChild(form);
-
-    this.said = el('p', 'cb-said');
-    this.said.setAttribute('role', 'status');
-    set.appendChild(this.said);
 
     var tools = el('div', 'cb-tools');
     /* ADD MY SPOT, shown only while a film on this page has been started. It
@@ -1649,7 +1653,7 @@
   /* The answer is on the radio, under the log, at every size: in small it is
      the one line shown besides the newest message, because a jump that did
      nothing and said nothing would look broken (the Playhouse's lesson). */
-  Radio.prototype.jump = function (secs, film, room) {
+  Radio.prototype.jump = function (secs, film, room, video) {
     var e = window.loveEmbed, w = e && e.where ? e.where() : null;
     var at = place(secs), called = film ? '\u201c' + film + '\u201d' : 'the film';
     if (room && hereTag() !== room) {
@@ -1657,12 +1661,15 @@
       this.tell(at + ' is in ' + called + ' at ' + there + ', and you are in another room, so nothing moved. The room\u2019s name in that message takes you there.');
       return;
     }
-    if (!w) {
-      this.tell('No film has been started on this page, so there is nothing to move. Press play on ' + called + ' first, then ' + at + ' will take it there.');
-      return;
-    }
-    if (film && !sameFilm(film, w.film)) {
-      this.tell(at + ' is in ' + called + ', and the film playing here is \u201c' + w.film + '\u201d, so nothing moved. Press play on ' + called + ' first.');
+    if (!w || (film && !sameFilm(film, w.film))) {
+      var got = film && readyFilm(film, video, secs);
+      if (got) {
+        this.tell(called + ' is ready at ' + at + ': its play button has the keyboard. Press it, or Enter, and it starts there.' + readyNote(got));
+        return;
+      }
+      this.tell(!w
+        ? 'No film has been started on this page, so there is nothing to move. Press play on ' + called + ' first, then ' + at + ' will take it there.'
+        : at + ' is in ' + called + ', and the film playing here is \u201c' + w.film + '\u201d, so nothing moved. ' + called + ' has no play button of its own on this page.');
       return;
     }
     var r = e.seek(secs);
@@ -1959,7 +1966,7 @@
         Math.abs(w.time - guess) < 3 && now - last.when < BEAT) return;
     var film = Array.from(w.film);
     film = film.length > FILM_MAX ? film.slice(0, FILM_MAX - 1).join('') + '\u2026' : w.film;
-    this.sendBeacon({ room: h.room, film: film, at: Math.max(0, w.time), playing: !!w.playing },
+    this.sendBeacon({ room: h.room, film: film, video: w.id || null, at: Math.max(0, w.time), playing: !!w.playing },
                     { film: w.film, at: w.time, playing: !!w.playing, when: now });
   };
 
@@ -2034,7 +2041,12 @@
     if (!b || f.room !== hereTag()) { this.setFollow(false, null, 'The host has stopped, so you have stopped following.'); return; }
     var e = window.loveEmbed, w = e && e.where ? e.where() : null;
     if (!w || !sameFilm(b.film, w.film)) {
-      if (!f.waiting) this.tell('Following ' + b.handle + ': press play on \u201c' + b.film + '\u201d and it will keep pace from there.');
+      if (!f.waiting) {
+        var ready = readyFilm(b.film, b.video, this.placeOf(b));
+        this.tell(ready
+          ? 'Following ' + b.handle + ': \u201c' + b.film + '\u201d is ready, and its play button has the keyboard. Press it, or Enter, and it keeps pace from there.' + readyNote(ready)
+          : 'Following ' + b.handle + ': press play on \u201c' + b.film + '\u201d and it will keep pace from there. It has no play button of its own on this page, so it may be in a playlist here.');
+      }
       f.waiting = true;
       f.fresh = true;
       return;
@@ -2146,7 +2158,7 @@
   Radio.prototype.catchUp = function (room) {
     for (var i = 0; i < this.beacons.length; i++) {
       var b = this.beacons[i];
-      if (b.room === room) { this.jump(Math.floor(this.placeOf(b)), b.film, b.room); return; }
+      if (b.room === room) { this.jump(Math.floor(this.placeOf(b)), b.film, b.room, b.video); return; }
     }
     this.tell('That host has stopped.');
   };
@@ -2304,30 +2316,87 @@
     return String(t || '').toLowerCase().replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"').replace(/\s+/g, ' ').trim();
   }
 
+  /* GET A FILM READY: find its own play button on this page, open whatever
+     rack it is folded into, have it start at secs when pressed, bring it into
+     view and put the keyboard on it. It presses nothing. Arriving by a spot,
+     a pressed @time, Catch up and Follow all come here (Ryan, 2026-09-29:
+     people pressed Follow, missed the sentence under the message box, and then
+     hunted a rack of similarly named films for the right one). A video id, when
+     a host's beacon carries one, finds the button exactly; otherwise the title
+     is matched from its start, because a button here names the film and then
+     its channel. Only a single video's button can start at a place, so a film
+     that is only in a playlist is not found. */
+  function filmButton(film, video) {
+    var btns = document.querySelectorAll('button.facade'), i, b, src;
+    function single(b) {
+      src = b.dataset.embedSrc || '';
+      return !/[?&]list=/.test(src) && (b.dataset.embedId || /^https:\/\/www\.youtube-nocookie\.com\/embed\/[A-Za-z0-9_-]{11}(\?|$)/.test(src));
+    }
+    function idOf(b) {
+      if (b.dataset.embedId) return b.dataset.embedId;
+      var m = /\/embed\/([A-Za-z0-9_-]{11})/.exec(b.dataset.embedSrc || '');
+      return m ? m[1] : null;
+    }
+    if (video) for (i = 0; i < btns.length; i++) if (single(btns[i]) && idOf(btns[i]) === video) return btns[i];
+    var want = norm(film), cut = want.slice(-1) === '\u2026';
+    if (cut) want = want.slice(0, -1).trim();
+    for (i = 0; want && i < btns.length; i++) {
+      b = btns[i];
+      if (!single(b)) continue;
+      var t = norm(b.dataset.embedTitle);
+      if (t.indexOf(want) === 0 && (cut || t.length === want.length || /^[\s,:(\-\u2013\u2014|]/.test(t.charAt(want.length)))) return b;
+    }
+    return null;
+  }
+
+  function readyFilm(film, video, secs) {
+    var hit = filmButton(film, video);
+    if (!hit) return null;
+    var old = document.querySelectorAll('button.facade[data-cb-ready]');
+    for (var o = 0; o < old.length; o++) old[o].removeAttribute('data-cb-ready');
+    if (secs != null) hit.dataset.embedStart = String(Math.max(0, Math.floor(secs)));
+    for (var d = hit.closest('details'); d; d = d.parentElement && d.parentElement.closest('details')) d.open = true;
+    // Seen as well as focused: the page goes to it (at once, the dial's rule
+    // against smooth scrolling), and it wears a ring even after a mouse press,
+    // which is the case a browser's own focus ring leaves out.
+    hit.scrollIntoView({ block: 'center' });
+    hit.setAttribute('data-cb-ready', '');
+    hit.addEventListener('blur', function off() { hit.removeAttribute('data-cb-ready'); hit.removeEventListener('blur', off); });
+    try { hit.focus({ preventScroll: true, focusVisible: true }); } catch (e) { hit.focus(); }
+    /* A film under the radio has been got ready out of sight, which is the
+       fault this exists to fix, so the radio goes Small for now and says so.
+       Small still listens; Size puts it back, and nothing is saved. */
+    var shrank = false;
+    if (radio && radio.state.size !== 'small' && !radio.state.folded) {
+      var a = hit.getBoundingClientRect(), r = radio.box.getBoundingClientRect();
+      if (a.left < r.right && a.right > r.left && a.top < r.bottom && a.bottom > r.top) { radio.setSize('small', true); shrank = true; }
+    }
+    // Still under it, on a narrow window: lift the film to just above the radio,
+    // once the radio's answer is written, because the answer makes it taller.
+    setTimeout(function () {
+      if (!radio || radio.state.folded) return;
+      radio.place();
+      var f = hit.getBoundingClientRect(), q = radio.box.getBoundingClientRect(), dy = f.bottom - q.top + 12;
+      if (f.left < q.right && f.right > q.left && f.top < q.bottom && f.bottom > q.top && f.top - dy >= 8) window.scrollBy(0, dy);
+    }, 0);
+    return { button: hit, shrank: shrank };
+  }
+  function readyNote(got) {
+    return got && got.shrank ? ' The radio went small so you can see it; Size puts it back.' : '';
+  }
+
   function arrive() {
     var m = location.hash.match(/^#spot=(\d{1,6})(?:&film=([^&]*))?$/);
     if (!m || !radio) return;
     var secs = +m[1], film = '';
     try { film = decodeURIComponent(m[2] || ''); } catch (e) { return; }
-    var want = norm(film), cut = want.slice(-1) === '\u2026';
-    if (cut) want = want.slice(0, -1).trim();
     var at = place(secs), called = film ? '\u201c' + film + '\u201d' : 'the film';
-    var btns = document.querySelectorAll('button.facade'), hit = null;
-    for (var i = 0; want && !hit && i < btns.length; i++) {
-      var b = btns[i], src = b.dataset.embedSrc || '';
-      var single = b.dataset.embedId || /^https:\/\/www\.youtube-nocookie\.com\/embed\/[A-Za-z0-9_-]{11}(\?|$)/.test(src);
-      if (!single || /[?&]list=/.test(src)) continue;
-      var t = norm(b.dataset.embedTitle);
-      if (t.indexOf(want) === 0 && (cut || t.length === want.length || /^[\s,:(\-\u2013\u2014|]/.test(t.charAt(want.length)))) hit = b;
-    }
-    if (!hit) {
+    var got = readyFilm(film, null, secs);
+    if (!got) {
       radio.tell(called + ' has no play button of its own on this page, so it could not be set to start at ' + at + '. Press play on it, then press @' + at + ' on the channel.');
       return;
     }
-    hit.dataset.embedStart = String(secs);
-    for (var d = hit.closest('details'); d; d = d.parentElement && d.parentElement.closest('details')) d.open = true;
-    hit.focus();
-    radio.tell('You came for ' + at + ' in ' + called + '. Its play button has the keyboard: press it and it starts there.');
+    radio.tell('You came for ' + at + ' in ' + called + '. Its play button has the keyboard: press it, or Enter, and it starts there.' + readyNote(got));
   }
 
   function start() {

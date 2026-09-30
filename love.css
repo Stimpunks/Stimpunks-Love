@@ -2780,6 +2780,15 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
   color: var(--yellow);
 }
 .facade iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 9px; }
+/* A FILM THE CB HAS GOT READY (cb.js's readyFilm, for Follow, Catch up, an @time
+   and a spot) has the keyboard, and has to look it. A browser shows no focus
+   ring after a mouse press on the radio, so this draws one then and only then:
+   :not(:focus-visible), so a room's own ring is the one shown whenever the
+   browser shows it at all. It does not ask for :focus, because a window
+   without focus has none to give and the film should still be marked. cb.js
+   takes the mark off when the keyboard moves on. No colour of its own:
+   currentColor, the button's own ink, set by every room against its ground. */
+button.facade[data-cb-ready]:not(:focus-visible) { outline: 3px solid; outline-offset: 3px; }
 /* AN AUDIO FACADE IS A STRIP, NOT A SCREEN. love-embed.js builds an <audio> in a
    shell carrying this class, because the button's own classes evaporate on the
    press. Layout only: no colour, no face, no ground, so it arrives in the room's

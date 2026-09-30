@@ -271,7 +271,9 @@ ol.cb-md-list { list-style: decimal; }
 .cb-opt__tag { font-size: 13px; color: var(--cb-amber-2); overflow-wrap: anywhere; text-align: right; }
 .cb-opt[aria-selected="true"] { color: var(--cb-lcd); background: var(--cb-amber); }
 .cb-opt[aria-selected="true"] .cb-opt__tag { color: var(--cb-lcd); }
-.cb-said { font-size: 13px; }
+/* The radio's answer to a press, under the readout. A rule down its side in the
+   log's amber, so a sentence that appears there is noticed. */
+.cb-said { font-size: 14px; padding-left: 8px; border-left: 3px solid var(--cb-amber); }
 /* THE MESSAGE BOX is a textarea: it grows as you type (cb.js) to about eight
    lines, and can be dragged taller than that, never wider than the radio. */
 .cb-say--msg { display: block; width: 100%; resize: vertical; max-height: 60vh; overflow-y: auto; }

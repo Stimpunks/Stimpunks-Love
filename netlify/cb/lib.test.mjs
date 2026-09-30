@@ -27,7 +27,7 @@ import { updateChalk, readChalk, updatePebbles, readPebbles, cleanLink, PEBBLE_R
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
-  beSeen, unseen, sweepSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, sweepCalls } from './lib.mjs';
+  cleanVideo, beSeen, unseen, sweepSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, sweepCalls } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
 function memoryStore({ etagOnRead }) {
@@ -658,4 +658,15 @@ test('a leaving that arrives before its joining wins, and the sweep takes what 8
   await sweepCalls(s, later);
   assert.equal(s.keys().filter((k) => k.startsWith('call-in/') || k.startsWith('call-left/')).length, 0);
   assert.equal(await callEvent({ eventType: 'PARTICIPANT_JOINED', fqn: 'elsewhere/stimpunks-x', data: { participantId: 'q' } }, s, now), 'not ours');
+});
+
+test('a beacon carries the video by its id, and nothing that is not one', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  const r = await hostBeacon(ada, 'the-den', 'Winter Forest Campfire', 90, true, s, now, 'dQw4w9WgXcQ');
+  assert.equal(shapeBeacons(r.beacons)[0].video, 'dQw4w9WgXcQ');
+  const t = await hostBeacon(ada, 'the-den', 'Winter Forest Campfire', 95, true, s, now + 1, 'javascript:x');
+  assert.equal(shapeBeacons(t.beacons)[0].video, null);
+  assert.equal(cleanVideo('dQw4w9WgXcQ'), 'dQw4w9WgXcQ');
+  assert.equal(cleanVideo('too-short'), null);
 });

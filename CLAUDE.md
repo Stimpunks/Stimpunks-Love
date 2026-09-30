@@ -564,7 +564,14 @@ from several rooms. `cb.js` reads what each stamp names off the whole message be
 `streetLinks` splits it round addresses and #tags, so `isStamp` must stay the one test both
 passes share. **The room's link carries the spot as `#spot=2052&film=…`**, which is a fragment
 and never reaches any server. On arrival `arrive()` in `cb.js` finds that film's own play button
-by title prefix. Our facades name the film and then its channel. It sets `data-embed-start`,
+by title prefix. **So do Follow, Catch up and a pressed @time now, through one `readyFilm()`** (Ryan,
+2026-09-29, after people pressed Follow, missed the sentence and hunted a rack of lookalike titles):
+it opens the rack, sets the start, scrolls the button into view, puts the keyboard on it and marks it
+(`data-cb-ready`, a `currentColor` ring in §4 only where the browser shows no `:focus-visible`), and
+if the radio covers it, makes the radio Small for now and lifts the film clear. **A host's beacon
+carries the video's id** (`where().id`, `cleanVideo` in `lib.mjs`), which finds the button exactly;
+a stamp in a message still matches by title. The radio's answer line sits under the readout now,
+not under the message box. Our facades name the film and then its channel. It sets `data-embed-start`,
 opens any `<details>` round it, focuses it, and says so on the radio, and **it presses nothing**.
 `withStart()` in `love-embed.js` turns that into YouTube's `start=`, so the building stays in that
 file, **on a single video only**: `start=` on a playlist lands that far into whichever film comes

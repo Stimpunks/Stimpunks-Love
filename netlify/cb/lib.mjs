@@ -877,7 +877,11 @@ async function updateBeacons(change, s, now) {
 /* Host a room's film, or say where it has got to. One host per room: somebody
    else's live beacon there is theirs until they stop or go quiet, and only the
    base station can take a room over. The same handle may keep its own. */
-export async function hostBeacon(who, room, film, at, playing, s = store(), now = Date.now()) {
+/* A beacon may say which video, by its YouTube id, so a radio can find that
+   film's own play button exactly; a rack can hold several films with nearly
+   the same title. An id names a public video and nobody. */
+export function cleanVideo(v) { return typeof v === 'string' && /^[A-Za-z0-9_-]{11}$/.test(v) ? v : null; }
+export async function hostBeacon(who, room, film, at, playing, s = store(), now = Date.now(), video = null) {
   if (!roomAllows(who, room)) return { closed: true };
   let held = null;
   const beacons = await updateBeacons((list) => {
@@ -885,7 +889,7 @@ export async function hostBeacon(who, room, film, at, playing, s = store(), now 
     const there = list.find((b) => b.room === room);
     if (there && there.handle !== who.handle && who.role !== 'base') { held = there.handle; return null; }
     return list.filter((b) => b.room !== room)
-      .concat({ room, handle: who.handle, base: who.role === 'base', film, at, playing: !!playing, t: now });
+      .concat({ room, handle: who.handle, base: who.role === 'base', film, video: cleanVideo(video), at, playing: !!playing, t: now });
   }, s, now);
   return held ? { held } : { beacons };
 }
@@ -911,7 +915,7 @@ export async function sweepBeacons(s = store(), now = Date.now()) {
    to anybody who could not go in there. A film hosted in the board room is
    itself a thing about the board room. */
 export function shapeBeacons(list, who = null) {
-  return list.filter((b) => !who || roomAllows(who, b.room)).map((b) => ({ room: b.room, handle: b.handle, base: !!b.base, film: b.film, at: b.at, playing: !!b.playing, t: b.t }));
+  return list.filter((b) => !who || roomAllows(who, b.room)).map((b) => ({ room: b.room, handle: b.handle, base: !!b.base, film: b.film, video: b.video || null, at: b.at, playing: !!b.playing, t: b.t }));
 }
 
 /* ── Passes ────────────────────────────────────────────────────────────── */
