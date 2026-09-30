@@ -1153,7 +1153,19 @@
     try { if (window.top !== window.self) return; } catch (e) { return; }
     var s = null;
     try { s = localStorage.getItem('love-cb'); } catch (e) { return; }
-    if (!s || s.indexOf('"pass"') < 0) return;
+    /* NOT SIGNED ON: the guest CB, guest.js, which is the radio's bar with the
+       teleporter and the way onto the CB, folded until pressed (Ryan,
+       2026-09-30). It is not cb.js and sends nothing to the channel. */
+    if (!s || s.indexOf('"pass"') < 0) {
+      // data-cb-guest="off": the Faery Yurt, until Helen says yes, the fractal
+      // window's precedent. A member's radio still comes there as it always has.
+      if (b.getAttribute('data-cb-guest') === 'off') return;
+      var g = document.createElement('script');
+      g.src = '/guest.js';
+      g.defer = true;
+      document.head.appendChild(g);
+      return;
+    }
     if (b.getAttribute('data-cb') === 'mods') {
       try {
         // data-cb-role is a space-separated list; any one of them is enough.

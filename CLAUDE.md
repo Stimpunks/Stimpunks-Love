@@ -2717,7 +2717,18 @@ anywhere. `connect-src` is `'self'` and must not go further: a realtime service 
 third party every signed-on visitor talked to on every page. Both passwords live in Netlify's
 environment, never in the repo.
 
-**NOBODY WHO HAS NOT SIGNED ON EVER DOWNLOADS `cb.js`.** `love.js` injects it only when a pass is
+**NOBODY WHO HAS NOT SIGNED ON EVER DOWNLOADS `cb.js`, AND THEY GET `guest.js` INSTEAD.** Ryan,
+2026-09-30: a guest CB for everybody not signed on, to bring people into the community and remind a
+member who signed off where to turn the radio back on. It is the radio's bar in the radio's clothes
+(its own shadow root, `cb.css`), **folded until pressed**, with the teleporter and a panel saying
+what the CB is, that the community password is asked for in the meeting hall, and where the front
+desk is. **It knows nothing about the channel and must not**: no count of who is on, no hint of what
+is said, or it is a window into the channel for people who are not on it. It keeps only
+`love-cb-guest = "open"` while its panel is left open, and the list of rooms is fetched only when the
+teleporter opens. `love.js` loads it exactly where the radio would come, so `data-cb="off"` pages
+and frames get neither. **The Faery Yurt says `data-cb-guest="off"` until Helen says yes**, the fractal
+window's precedent; a member's radio still comes there, and removing the attribute is the whole change. **Its teleporter is a copy of the radio's**, because the radio's is in
+`cb.js`: change one, change both. `love.js` injects it only when a pass is
 already in `localStorage`, never inside a frame (the Hermitage's laptop frames this site), and never
 on a page whose `<body>` says `data-cb="off"` or `data-cb="here"`. **The Healing Checkpoint is `off`,
 Ryan's call**, because it promises it writes nothing down about you, and `make-checkpoint.py` refuses
