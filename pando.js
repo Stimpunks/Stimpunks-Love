@@ -183,7 +183,7 @@
   }
 
   var me = pass();
-  var base = !!(me && (me.base || /^cb1\.base\./.test(me.pass)));
+  var base = !!(me && (me.base || /^cb[12]\.base\./.test(me.pass)));
   var can = document.getElementById('pdo-can');
   var water = document.getElementById('pdo-water');
   var said = document.getElementById('pdo-said');

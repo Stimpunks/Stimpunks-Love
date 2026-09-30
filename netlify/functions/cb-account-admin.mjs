@@ -4,7 +4,7 @@
    asked about by typing its name. The reset code is shown to the moderator
    once, to pass on privately after they have made sure who they are talking
    to, and is kept here only as a hash. */
-import { readPass, cleanHandle, readAccount, resetAccount, deleteAccount, shapeAccount, json, body, sameSite } from '../cb/lib.mjs';
+import { readPass, cleanHandle, readAccount, resetAccount, deleteAccount, shapeAccount, isMod, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This desk only answers stimpunks.world.' });
@@ -14,7 +14,12 @@ export default async (req) => {
   const handle = cleanHandle(b.handle);
   if (!handle) return json(400, { error: 'Which username?' });
   try {
-    if (b.action === 'find') return json(200, shapeAccount(await readAccount(handle)));
+    if (b.action === 'find') return json(200, { ...shapeAccount(await readAccount(handle)), mod: isMod(handle) });
+    // NOT A MODERATOR'S. A reset code for a moderator's username would let one
+    // moderator sign on as another, with the other's roles: the Board room,
+    // Executive Session. A moderator gets back in with their own recovery code,
+    // or by being taken off the list for a moment (see lib.mjs).
+    if (isMod(handle)) return json(403, { error: 'That username is a moderator’s. The desk does not reset or delete a moderator’s username: they use their own recovery code, or ask Ryan or Helen.' });
     if (b.action === 'reset') {
       const r = await resetAccount(handle);
       if (r.error) return json(404, { error: r.error });

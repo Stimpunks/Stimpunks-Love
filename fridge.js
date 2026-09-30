@@ -71,7 +71,7 @@
   }
 
   var me = pass();
-  var base = !!(me && (me.base || /^cb1\.base\./.test(me.pass)));
+  var base = !!(me && (me.base || /^cb[12]\.base\./.test(me.pass)));
   var said = document.getElementById('fos-said');
   function say(t) { if (said) said.textContent = t; }
 

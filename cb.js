@@ -1604,16 +1604,21 @@
     var me = this, box = me.acctBox, h = me.state.handle;
     box.textContent = '';
     me.drawWhere(!!a.claimed);
-    if (a.base) {
-      box.appendChild(el('p', null, 'You are on with the moderators\u2019 password, and moderators\u2019 handles are kept on the moderators\u2019 list rather than claimed.'));
-      return;
-    }
+    /* A MODERATOR MOVES ONTO A PASSWORD OF THEIR OWN here, the same claim as
+       anybody's (Ryan's call, 2026-09-30). Their roles stay on the moderators'
+       list; the account only holds the password. */
+    var base = !!a.base;
     if (!a.claimed) {
-      box.appendChild(el('p', null, 'Anybody with the community password can sign on as ' + h + ' today. Claim it and it is yours: from then on it signs on with a password of your own, and the community password stops working for it.'));
-      box.appendChild(el('p', 'cb-quiet', 'There is no email. When you claim, you get a recovery code, once, which is the way back in if you forget your password; a moderator can also give you a reset code.'));
+      if (base) {
+        box.appendChild(el('p', null, 'You are on with the moderators\u2019 password, which every moderator knows, so any of them can sign on as ' + h + ' today. Move onto a password of your own and only you can: your roles stay where they are, on the moderators\u2019 list, and the moderators\u2019 password stops working for ' + h + '.'));
+        box.appendChild(el('p', 'cb-quiet', 'There is no email. You get a recovery code, once, which is the way back in if you forget your password. The moderators\u2019 desk does not reset a moderator\u2019s username, so keep the code; failing that, Ryan or Helen can move you back.'));
+      } else {
+        box.appendChild(el('p', null, 'Anybody with the community password can sign on as ' + h + ' today. Claim it and it is yours: from then on it signs on with a password of your own, and the community password stops working for it.'));
+        box.appendChild(el('p', 'cb-quiet', 'There is no email. When you claim, you get a recovery code, once, which is the way back in if you forget your password; a moderator can also give you a reset code.'));
+      }
       var pw = field('A password of your own', 'cb-acct-pw'), again = field('The same again', 'cb-acct-pw2');
       box.appendChild(pw.wrap); box.appendChild(again.wrap);
-      var claim = el('button', 'cb-btn cb-acct-claim', 'Claim ' + h);
+      var claim = el('button', 'cb-btn cb-acct-claim', base ? 'Move onto my own password' : 'Claim ' + h);
       claim.type = 'button';
       box.appendChild(claim);
       claim.addEventListener('click', function () {
@@ -1624,7 +1629,9 @@
           claim.disabled = false;
           if (r.status === 200 && r.body.pass) {
             me.takePass(r.body.pass, true);
-            me.showRecovery(r.body.recovery, 'Claimed. ' + h + ' is yours, and signs on with your own password now.');
+            me.showRecovery(r.body.recovery, base
+              ? 'Done. You sign on as ' + h + ' with your own password now, still as the base, and the moderators\u2019 password no longer works for ' + h + '.'
+              : 'Claimed. ' + h + ' is yours, and signs on with your own password now.');
             return;
           }
           me.acctSay((r.body && r.body.error) || 'That did not work just now. Nothing was claimed.');
@@ -1634,7 +1641,9 @@
     }
     var since = '';
     try { since = new Date(a.since).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) {}
-    box.appendChild(el('p', null, 'Your username is ' + a.handle + ', claimed on ' + since + '. Only your own password signs on as it.'));
+    box.appendChild(el('p', null, base
+      ? 'You sign on as ' + a.handle + ' with your own password, since ' + since + '. Your roles still come from the moderators\u2019 list, and only your password signs on as you.'
+      : 'Your username is ' + a.handle + ', claimed on ' + since + '. Only your own password signs on as it.'));
     var change = el('button', 'cb-btn', 'Change my password');
     change.type = 'button';
     var del = el('button', 'cb-btn', 'Delete my account');
@@ -1663,7 +1672,9 @@
     });
     del.addEventListener('click', function () {
       form.textContent = ''; form.hidden = false;
-      form.appendChild(el('p', null, 'This deletes your username, its password and your pets, and anybody can take the name afterwards. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+      form.appendChild(el('p', null, base
+        ? 'This deletes your own password and your pets, and puts ' + a.handle + ' back on the moderators\u2019 password, which any moderator can sign on with. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'
+        : 'This deletes your username, its password and your pets, and anybody can take the name afterwards. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
       var pw = field('Your password, to be sure it is you', 'cb-acct-del', 'password');
       pw.input.autocomplete = 'current-password';
       form.appendChild(pw.wrap);
@@ -2612,7 +2623,7 @@
         btn.disabled = false;
         if (r.status === 200 && r.body.pass) {
           form.elements.password.value = ''; form.elements.again.value = ''; form.elements.code.value = '';
-          save({ handle: r.body.handle, pass: r.body.pass, base: false, roles: [], claimed: true, folded: false, aloud: true });
+          save({ handle: r.body.handle, pass: r.body.pass, base: !!r.body.base, roles: r.body.roles || [], claimed: true, folded: false, aloud: true });
           said.textContent = '';
           var p1 = document.createElement('p'); p1.textContent = 'You are back in, with your new password. Here is your NEW recovery code. The old one no longer works, and this one will not be shown again:';
           var p2 = document.createElement('p'); p2.className = 'ctr-code'; p2.textContent = r.body.recovery;

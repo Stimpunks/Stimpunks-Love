@@ -20,7 +20,7 @@
   if (!desk) return;
   var me = null;
   try { me = JSON.parse(localStorage.getItem('love-cb') || 'null'); } catch (e) {}
-  if (!me || !me.pass || !(me.base || /^cb1\.base\./.test(me.pass))) return;
+  if (!me || !me.pass || !(me.base || /^cb[12]\.base\./.test(me.pass))) return;
   desk.hidden = false;
   if (off) off.hidden = true;
 
@@ -62,9 +62,18 @@
 
   function show(handle, a) {
     found.textContent = '';
-    if (!a.claimed) { found.appendChild(el('p', handle + ' has not been claimed. Anybody with the community password can sign on as it.')); return; }
+    if (!a.claimed) {
+      found.appendChild(el('p', a.mod
+        ? handle + ' is a moderator\u2019s handle, still on the moderators\u2019 password.'
+        : handle + ' has not been claimed. Anybody with the community password can sign on as it.'));
+      return;
+    }
     var since = '';
     try { since = new Date(a.since).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) {}
+    if (a.mod) {
+      found.appendChild(el('p', a.handle + ' is a moderator\u2019s username, on their own password since ' + since + '. The desk does not reset or delete a moderator\u2019s username, because a reset code would let one moderator sign on as another, roles and all. They use their own recovery code, or Ryan or Helen moves them back.'));
+      return;
+    }
     found.appendChild(el('p', a.handle + ' is claimed, since ' + since + '.'));
     var reset = button('Give ' + a.handle + ' a reset code'), del = button('Delete ' + a.handle);
     var row = el('p'); row.appendChild(reset); row.appendChild(del);

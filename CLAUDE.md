@@ -2922,8 +2922,16 @@ a password change, a reset or a deletion signs every device off. So **every pass
 store**, and `readPass` and `signOn` are async: every CB function awaits them now, and a new one must.
 An account is the username, a salted scrypt hash of the password and of the recovery code, when it was
 claimed, a version and a lock (five wrong passwords, fifteen minutes), filed under `acctKey`, a plain
-hash of the folded name. Deleting it deletes its pets. Moderators' handles cannot be claimed; they keep
-the MOD password and `CB_MODS`. `tools/make-accounts.py` refuses a console call anywhere in `netlify/`,
+hash of the folded name. Deleting it deletes its pets. **A moderator can move onto a password of their own** (Ryan, the
+same evening, starting with himself): signed on with the MOD password, Profile claims the handle, the
+MOD password is then refused for it, and its pass is `cb2.base`, signed with the MOD password. **The
+account holds no role**: roles are still read off `CB_MODS` on every request, so taking somebody off
+the list leaves an ordinary claimed username, and an unreadable list gives nobody the base.
+`accountAnswer()` is the one place that decides which pass a claimed username gets. **The desk will
+not reset or delete a moderator's username** (`isMod`), because a reset code would let one moderator
+sign on as another with the other's roles, Executive Session included; a moderator with neither
+password nor recovery code is taken off the list for a moment, reset as an ordinary username, and put
+back. No shared password can be taken as a personal one (`ownPassword`). `tools/make-accounts.py` refuses a console call anywhere in `netlify/`,
 anything listing `acct/`, a desk action beyond find, reset and delete, an account field beyond those,
 the word email in claiming, and Profile losing Delete my account or its second press. **A claimed username is marked CLAIMED on the channel, like BASE** (Ryan, the same evening):
 `cb-transmit` sets it from `who.account` and never from the request, `shape()` keeps it off a BASE

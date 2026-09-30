@@ -29,7 +29,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
   PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons,
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
-  issueAccountPass, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
+  issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
@@ -924,11 +924,69 @@ test('deleting an account deletes its pets and frees the username; the store nev
   assert.equal((await readAdopted('cat', m, S)).length, 1, 'deleting an account took an animal off the forever list');
 }));
 
-test('a moderator\'s handle cannot be claimed', async () => {
+test('a moderator\'s handle is claimed only by the moderator, from a base pass', async () => {
   const S = memoryStore({ etagOnRead: true });
-  assert.ok((await claimAccount('Helen', 'helen has a phrase', S, 0, readMods('{"Helen":["director"]}'))).error);
+  assert.ok((await claimAccount('Juniper', 'juniper has a phrase', S, 0, readMods('{"Juniper":["director"]}'))).error,
+    'somebody on the community password claimed a moderator\'s handle');
   assert.equal(cleanCode(' abcd-efgh '), 'ABCDEFGH');
 });
+
+// MODERATORS ON THEIR OWN PASSWORDS. The names and roles here are made up:
+// who holds which role is not ours to publish, in a test or anywhere.
+test('a moderator moves onto their own password: it gives the base with the list\'s roles, and the shared one stops', () => withPasswords(async () => {
+  const S = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Juniper":["board"],"Quill":[]}');
+  const shared = await signOn('juniper', 'moderators-pw', mods, S);
+  assert.equal(shared.role, 'base');
+  const oldBase = issuePass('base', shared.handle);
+  assert.equal((await readPass(reqWith(oldBase), mods, S)).role, 'base');
+  assert.ok((await claimAccount('Juniper', 'moderators-pw', S, 0, mods, true)).error, 'the shared password taken as a personal one');
+  assert.ok((await claimAccount('Juniper', 'community-pw', S, 0, mods, true)).error, 'the community password taken as a personal one');
+  const c = await claimAccount('Juniper', 'juniper has a phrase', S, 0, mods, true);
+  assert.equal(c.v, 1);
+  assert.equal(await readPass(reqWith(oldBase), mods, S), null, 'the shared password\'s pass outlived the move');
+  assert.ok((await signOn('Juniper', 'moderators-pw', mods, S)).error, 'the shared password still signs on as a moderator who moved');
+  assert.ok((await signOn('Juniper', 'community-pw', mods, S)).error);
+  const own = await signOn('JUNIPER', 'juniper has a phrase', mods, S);
+  assert.equal(own.role, 'base'); assert.equal(own.handle, 'Juniper'); assert.equal(own.account, 1);
+  assert.deepEqual(rolesOf(own), ['board', 'moderator']);
+  const mine = issueAccountPass('Juniper', 1, 'base');
+  assert.match(mine, /^cb2\.base\./);
+  const who = await readPass(reqWith(mine), mods, S);
+  assert.equal(who.role, 'base'); assert.equal(who.account, true); assert.deepEqual(rolesOf(who), ['board', 'moderator']);
+  assert.equal(await readPass(reqWith(issueAccountPass('Juniper', 1)), mods, S), null, 'an ordinary pass for a moderator\'s username');
+  // A base pass is signed with the moderators' password: a community-signed
+  // forgery with the base label is refused.
+  const forged = mine.replace(/\.[A-Za-z0-9_-]+$/, '.' + issueAccountPass('Juniper', 1).split('.').pop());
+  assert.equal(await readPass(reqWith(forged), mods, S), null, 'a cb2.base pass signed with the community password');
+  // Quill is still on the shared password, and nothing about Juniper moved them.
+  assert.equal((await signOn('Quill', 'moderators-pw', mods, S)).role, 'base');
+  // A change of password signs the moderator off everywhere, as anybody's does.
+  const ch = await changePassword('Juniper', 'juniper has a phrase', 'a newer phrase too', S, 0);
+  assert.equal(ch.v, 2);
+  assert.equal(await readPass(reqWith(mine), mods, S), null);
+  assert.equal((await readPass(reqWith(issueAccountPass('Juniper', 2, 'base')), mods, S)).role, 'base');
+  // Off the list, the same account is an ordinary claimed username with the same
+  // password, and the base pass is refused.
+  const off = readMods('{"Quill":[]}');
+  assert.equal(await readPass(reqWith(issueAccountPass('Juniper', 2, 'base')), off, S), null, 'a base pass outlived being taken off the list');
+  const plain = await signOn('Juniper', 'a newer phrase too', off, S);
+  assert.equal(plain.role, 'mobile'); assert.equal(plain.account, 2);
+  // An unreadable list gives nobody the base, a moderator on their own password included.
+  assert.equal(await readPass(reqWith(issueAccountPass('Juniper', 2, 'base')), null, S), null);
+  // Deleting it puts the handle back on the shared password.
+  await deleteAccount('Juniper', S);
+  assert.equal((await signOn('Juniper', 'moderators-pw', mods, S)).role, 'base');
+}));
+
+test('the desk leaves a moderator\'s username alone, and the answer after a claim says base', () => withPasswords(async () => {
+  const mods = readMods('{"Juniper":["board"]}');
+  assert.equal(isMod('JUNIPER ', mods), true); assert.equal(isMod('Ada', mods), false); assert.equal(isMod('Juniper', null), false);
+  const a = accountAnswer('juniper', 3, mods);
+  assert.equal(a.base, true); assert.equal(a.handle, 'Juniper'); assert.deepEqual(a.roles, ['board', 'moderator']); assert.match(a.pass, /^cb2\.base\./);
+  const b = accountAnswer('Ada', 3, mods);
+  assert.equal(b.base, false); assert.match(b.pass, /^cb2\.acct\./);
+}));
 
 test('executive session is the board role and nothing else: the administrator key does not open it', () => {
   const adminOnly = { role: 'base', handle: 'Helen', roles: new Set(['moderator', 'administrator', 'director']) };

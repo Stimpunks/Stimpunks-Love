@@ -41,6 +41,15 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-09-30-moderators-own-passwords">2026-09-30 &mdash; Moderators can move onto passwords of their own</h2>
+  <ul>
+    <li><strong>A moderator can sign on with a password of their own now</strong>, instead of the moderators&rsquo; password every moderator knows. Signed on as the base, <b>Profile</b> on the radio offers <b>Move onto my own password</b>; from then on the shared password no longer signs on as that moderator, so nobody else can be them. Ryan&rsquo;s call, starting with himself; it is each moderator&rsquo;s choice.</li>
+    <li><strong>Roles stay on the moderators&rsquo; list</strong>, read on every request as before. The account is the same record as anybody&rsquo;s and holds no role, so taking somebody off the list leaves them an ordinary claimed username, and a list that cannot be read still gives nobody the base.</li>
+    <li><strong>The moderators&rsquo; desk does not reset or delete a moderator&rsquo;s username</strong>, because a reset code would let one moderator sign on as another, with the other&rsquo;s roles. A moderator keeps their recovery code; failing that, Ryan or Helen moves them back.</li>
+    <li>No password of your own can be the community password or the moderators&rsquo; one, for anybody claiming. <a href="privacy.html#accounts">The privacy page</a> and <a href="town-hall-moderators.html">the Moderators&rsquo; room</a> say all of this.</li>
+    <li>Changed: <code>netlify/cb/lib.mjs</code> and its tests, the sign-on, account, recovery and desk functions, <code>cb.js</code>, <code>desk.js</code>, the scripts that read the base mark off a pass, <code>tools/make-accounts.py</code>, <code>privacy.html</code>, <code>town-hall-moderators.html</code>.</li>
+  </ul>
+
   <h2 id="2026-09-30-claimed-mark">2026-09-30 &mdash; CLAIMED on the channel, beside BASE</h2>
   <ul>
     <li><strong>A message from a claimed username is marked CLAIMED</strong>, the way a moderator&rsquo;s is marked BASE. Ryan&rsquo;s call, after claiming his own. The mark comes from the pass that sent the message, read by the server, and never from anything the sender sends, so nobody can wear it without the username&rsquo;s own password. Your own line on the radio says it too, from the moment you claim.</li>

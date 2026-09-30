@@ -88,7 +88,8 @@
        settings webhook before each meeting, and for those three we answer
        with the lobby on, so a guest knocks and waits for a moderator, which
        keeps strangers and bots out of the room and off our monthly-user bill.
-     · A USERNAME CAN BE CLAIMED, AND THAT IS THE ONLY ACCOUNT. Ryan's calls,
+     · A USERNAME CAN BE CLAIMED, AND THAT IS THE ONLY ACCOUNT; A MODERATOR
+       CAN CLAIM THEIRS TOO, AND KEEPS THEIR ROLES FROM THE LIST. Ryan's calls,
        2026-09-30: from Profile on the radio, with a password of your own and
        no email; a recovery code shown once; moderators can reset or delete
        one, by name, and there is no list of everybody. A claimed username
@@ -1611,6 +1612,11 @@ export async function signOn(handle, password, mods = readMods(), s = store(), n
     if (!mods) return { error: 'Moderator sign-on is switched off until its list of handles can be read. Tell Ryan or Helen.' };
     const m = mods.get(foldHandle(handle));
     if (!m) return { error: 'That handle is not on the moderators\' list.' };
+    // A MODERATOR WHO HAS MOVED ONTO THEIR OWN PASSWORD is refused the shared
+    // one, exactly as a claimed username is refused the community password:
+    // every moderator knows the moderators' password, so while it worked for
+    // this handle any of them could sign on as it.
+    if (await readAccount(m.handle, s)) return { error: 'That moderator signs on with their own password now, not the moderators\' one.' };
     return { role: 'base', handle: m.handle, roles: m.roles };
   }
   // A CLAIMED USERNAME SIGNS ON WITH ITS OWN PASSWORD AND NOTHING ELSE. The
@@ -1624,6 +1630,11 @@ export async function signOn(handle, password, mods = readMods(), s = store(), n
     }
     const r = await checkPassword(handle, password, s, now);
     if (r.error) return r;
+    // Its roles still come from the moderators' list, read now, never from the
+    // account: taking somebody off the list leaves them an ordinary claimed
+    // username with the same password.
+    const on = mods && mods.get(foldHandle(handle));
+    if (on) return { role: 'base', handle: on.handle, roles: on.roles, account: r.v };
     return { role: 'mobile', handle: acct.handle, roles: new Set(), account: r.v };
   }
   const all = secretFor('mobile');
@@ -1649,20 +1660,25 @@ export function issuePass(role, handle) {
    community password, so changing it still signs everybody off. */
 export async function readPass(req, mods = readMods(), s = store()) {
   const h = req.headers.get('authorization') || '';
-  const a = /^Bearer cb2\.acct\.([A-Za-z0-9_-]+)\.(\d{1,9})\.([A-Za-z0-9_-]+)$/.exec(h);
+  const a = /^Bearer cb2\.(acct|base)\.([A-Za-z0-9_-]+)\.(\d{1,9})\.([A-Za-z0-9_-]+)$/.exec(h);
   if (a) {
-    const secret = secretFor('mobile');
+    const kind = a[1];
+    const secret = secretFor(kind === 'base' ? 'base' : 'mobile');
     if (!secret) return null;
     let handle;
-    try { handle = Buffer.from(a[1], 'base64url').toString('utf8'); } catch (e) { return null; }
+    try { handle = Buffer.from(a[2], 'base64url').toString('utf8'); } catch (e) { return null; }
     if (cleanHandle(handle) !== handle) return null;
-    const v = Number(a[2]);
-    const want = createHmac('sha256', secret).update(`cb2|acct|${handle}|${v}`).digest();
-    const got = Buffer.from(a[3], 'base64url');
+    const v = Number(a[3]);
+    const want = createHmac('sha256', secret).update(`cb2|${kind}|${handle}|${v}`).digest();
+    const got = Buffer.from(a[4], 'base64url');
     if (got.length !== want.length || !timingSafeEqual(got, want)) return null;
-    if (mods && mods.has(foldHandle(handle))) return null;
+    const on = mods && mods.get(foldHandle(handle));
+    // A moderator's own pass is good only while they are on the list, and an
+    // ordinary claimed pass is refused once its username is on it.
+    if (kind === 'base' ? !on : on) return null;
     const acct = await readAccount(handle, s);
     if (!acct || acct.v !== v) return null;
+    if (kind === 'base') return { role: 'base', handle: on.handle, roles: on.roles, account: true };
     return { role: 'mobile', handle: acct.handle, roles: new Set(), account: true };
   }
   const m = /^Bearer (cb1)\.(mobile|base)\.([A-Za-z0-9_-]+)\.([A-Za-z0-9_-]+)$/.exec(h);
@@ -1677,15 +1693,41 @@ export async function readPass(req, mods = readMods(), s = store()) {
   const got = Buffer.from(m[4], 'base64url');
   if (got.length !== want.length || !timingSafeEqual(got, want)) return null;
   const on = mods && mods.get(foldHandle(handle));
-  if (role === 'base') return on ? { role, handle, roles: on.roles } : null;
+  if (role === 'base') {
+    // The shared password's pass stops the moment a moderator moves onto their
+    // own, the way a community pass stops when its username is claimed.
+    if (!on || await readAccount(handle, s)) return null;
+    return { role, handle, roles: on.roles };
+  }
   if (on) return null;
   if (await readAccount(handle, s)) return null;
   return { role, handle, roles: new Set() };
 }
 
-export function issueAccountPass(handle, v) {
-  const sig = createHmac('sha256', secretFor('mobile')).update(`cb2|acct|${handle}|${v}`).digest();
-  return `cb2.acct.${b64(handle)}.${v}.${b64(sig)}`;
+/* A claimed username's pass. A moderator's is cb2.base, signed with the
+   moderators' password so that changing it still signs every moderator off;
+   everybody else's is cb2.acct, signed with the community password. */
+export function issueAccountPass(handle, v, role = 'mobile') {
+  const kind = role === 'base' ? 'base' : 'acct';
+  const sig = createHmac('sha256', secretFor(role === 'base' ? 'base' : 'mobile')).update(`cb2|${kind}|${handle}|${v}`).digest();
+  return `cb2.${kind}.${b64(handle)}.${v}.${b64(sig)}`;
+}
+
+/* The pass and what the radio is told, for a claimed username that has just
+   signed on, claimed, changed its password or recovered: a moderator's if the
+   username is on the list now, an ordinary one otherwise. */
+export function accountAnswer(handle, v, mods = readMods()) {
+  const on = mods && mods.get(foldHandle(handle));
+  if (on) return { pass: issueAccountPass(on.handle, v, 'base'), handle: on.handle, base: true, roles: [...on.roles].sort(), claimed: true };
+  return { pass: issueAccountPass(handle, v), handle, base: false, roles: [], claimed: true };
+}
+
+/* Whether a handle is a moderator's. The desk will not reset or delete one:
+   a reset code for a moderator's username would let one moderator sign on as
+   another, with the other's roles, which is the reason for moving moderators
+   onto passwords of their own in the first place. */
+export function isMod(handle, mods = readMods()) {
+  return !!(mods && mods.has(foldHandle(handle)));
 }
 
 /* ── Accounts: a username you claim, with a password of your own ───────── */
@@ -1695,6 +1737,18 @@ export function issueAccountPass(handle, v) {
    when you claim; moderators can reset a password or delete an account, in
    the Moderators' room. Claiming is optional and only possible while signed
    on with the community password, so there is no public sign-up.
+
+   MODERATORS CAN MOVE ONTO PASSWORDS OF THEIR OWN. Ryan's call, the same
+   evening, starting with himself. A moderator signed on with the moderators'
+   password claims their handle from Profile exactly as anybody else does; from
+   then on that handle signs on with its own password, the shared one is
+   refused for it, and its pass is cb2.base. The account is the same record as
+   anybody's and holds no role: the roles are read off CB_MODS on every request,
+   as they always were, so taking somebody off the list leaves them an ordinary
+   claimed username. The desk will not reset or delete a moderator's username
+   (isMod); a moderator who has lost both password and recovery code is taken
+   off the list for a moment by whoever holds the Netlify keys, reset at the
+   desk as an ordinary username, and put back.
 
    WHAT AN ACCOUNT IS: the username as claimed, a scrypt hash of its password
    and of its recovery code (each with its own salt), when it was claimed, a
@@ -1746,6 +1800,19 @@ export function cleanPassword(p) {
   return n >= ACCT_PW_MIN && n <= ACCT_PW_MAX ? t : null;
 }
 
+/* A password of your own is not one of the shared ones: the shared ones are
+   checked first when anybody signs on, so it could never be used, and it
+   would be known to everybody who holds it. */
+function ownPassword(p) {
+  const t = cleanPassword(p);
+  if (!t) return null;
+  for (const role of ['mobile', 'base']) {
+    const shared = secretFor(role);
+    if (shared && same(t, shared)) return null;
+  }
+  return t;
+}
+
 export async function readAccount(handle, s = store()) {
   const d = await s.get(acctBlob(handle), { type: 'json' });
   return d && typeof d.hash === 'string' ? d : null;
@@ -1770,10 +1837,10 @@ async function updateAccount(handle, change, s) {
 /* Claim `handle` with `password`. The first claim wins; a handle on the
    moderators' list cannot be claimed. Answers { v, recovery } with the code
    to be shown once, or { error }. */
-export async function claimAccount(handle, password, s = store(), now = Date.now(), mods = readMods()) {
-  if (mods && mods.has(foldHandle(handle))) return { error: 'Moderators sign on with the moderators\' password, so their handles cannot be claimed.' };
-  const pw = cleanPassword(password);
-  if (!pw) return { error: `A password is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters. A few words you will remember is fine.` };
+export async function claimAccount(handle, password, s = store(), now = Date.now(), mods = readMods(), asBase = false) {
+  if (!asBase && mods && mods.has(foldHandle(handle))) return { error: 'That handle is a moderator\'s, and only they can move it onto a password of their own.' };
+  const pw = ownPassword(password);
+  if (!pw) return { error: `A password is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters, and not the community or the moderators' password. A few words you will remember is fine.` };
   const recovery = makeCode();
   const ps = salt(), rs = salt();
   const body = { handle, hash: scrypt(pw, ps), salt: ps, rhash: scrypt(cleanCode(recovery), rs), rsalt: rs,
@@ -1805,8 +1872,8 @@ export async function checkPassword(handle, password, s = store(), now = Date.no
 export async function changePassword(handle, old, password, s = store(), now = Date.now()) {
   const ok = await checkPassword(handle, old, s, now);
   if (ok.error) return ok;
-  const pw = cleanPassword(password);
-  if (!pw) return { error: `A password is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters.` };
+  const pw = ownPassword(password);
+  if (!pw) return { error: `A password is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters, and not one of the shared ones.` };
   const ps = salt();
   const next = await updateAccount(handle, (a) => ({ ...a, hash: scrypt(pw, ps), salt: ps, v: a.v + 1, fails: 0, lockUntil: 0 }), s);
   return next ? { v: next.v } : { error: 'That username has not been claimed.' };
@@ -1829,8 +1896,8 @@ export async function recoverAccount(handle, code, password, s = store(), now = 
     }, s);
     return after && after.lockUntil > now ? { error: 'That is not its code, and it is locked for fifteen minutes now.', locked: true } : { error: 'That is not its recovery code, or a reset code a moderator gave you.' };
   }
-  const pw = cleanPassword(password);
-  if (!pw) return { error: `A password is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters.` };
+  const pw = ownPassword(password);
+  if (!pw) return { error: `A password is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters, and not one of the shared ones.` };
   const recovery = makeCode();
   const ps = salt(), rs = salt();
   const next = await updateAccount(handle, (a) => {

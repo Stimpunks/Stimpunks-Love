@@ -70,7 +70,7 @@
   function say(t) { if (said) said.textContent = t; }
 
   var me = pass();
-  var base = !!(me && (me.base || /^cb1\.base\./.test(me.pass)));
+  var base = !!(me && (me.base || /^cb[12]\.base\./.test(me.pass)));
 
   function draw(pebbles) {
     left.textContent = '';

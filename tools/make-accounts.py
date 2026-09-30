@@ -25,6 +25,8 @@ one without any test noticing:
     readPass found behind the pass) and never from the request body, and
     shape() never lets a message wear it beside BASE. The friendly edit is a
     "verified" checkbox somebody ticks for themselves.
+  · THE DESK LEAVES A MODERATOR'S USERNAME ALONE. A reset code for one would
+    let one moderator become another, with the other's roles.
   · privacy.html has the section the Profile and the desk point at, and says
     there is no email.
 
@@ -80,6 +82,11 @@ def main():
                         "!!who.account, read off the pass, and nothing the sender sends.")
     if not re.search(r"claimed:\s*!!m\.claimed && !m\.base", lib):
         problems.append(f"{LIB.name}: shape() no longer keeps CLAIMED off a BASE message, or drops it.")
+    guard = admin.find("if (isMod(handle)) return json(403")
+    first = min([i for i in (admin.find("action === 'reset'"), admin.find("action === 'delete'")) if i >= 0] or [-1])
+    if guard < 0 or first < 0 or guard > first:
+        problems.append(f"{ADMIN.name}: the desk can reach a moderator's username. It must refuse isMod(handle) "
+                        "before it resets or deletes anything, or one moderator can sign on as another, roles and all.")
     cb = CB.read_text()
     for want, why in (("'Delete my account'", "Delete my account"), ("'Yes, delete my account'", "the second press before deleting"),
                       ("'Claim ' + h", "the offer to claim"), ("it will not be shown again", "saying the recovery code is shown once"),

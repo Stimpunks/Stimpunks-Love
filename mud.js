@@ -480,7 +480,7 @@
     try { var v = JSON.parse(localStorage.getItem('love-cb') || 'null'); return v && v.pass ? v : null; }
     catch (e) { return null; }
   }());
-  var base = !!(me && (me.base || /^cb1\.base\./.test(me.pass)));
+  var base = !!(me && (me.base || /^cb[12]\.base\./.test(me.pass)));
   var seenOn = false, visit = null, timer = null, others = [], heard = {}, metAt = null;
 
   function newVisit() {

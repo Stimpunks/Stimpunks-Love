@@ -50,7 +50,7 @@
   }
 
   var me = pass();
-  var base = !!(me && (me.base || /^cb1\.base\./.test(me.pass)));
+  var base = !!(me && (me.base || /^cb[12]\.base\./.test(me.pass)));
 
   function draw(notes) {
     board.textContent = '';
