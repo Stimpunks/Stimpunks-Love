@@ -232,6 +232,19 @@ ol.cb-md-list { list-style: decimal; }
    off the screen; the whole picture is there to open. Its description, when
    there is one, is under it in the log's own amber, which is a pair
    check-contrast.py already measures. */
+/* REACTIONS: in the log's own amber on the readout, so nothing new is
+   measured. Yours is filled, BASE's pair the other way round, and pressed
+   shows in aria-pressed as well as the fill. No number anywhere. */
+.cb-msg > .cb-rx { grid-column: 1 / -1; grid-row: 4; display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 0; }
+.cb-msg > .cb-rx-pick { grid-column: 1 / -1; grid-row: 5; display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; }
+.cb-rx__one, .cb-rx__pick {
+  font: inherit; font-size: 13px; line-height: 1.3; color: var(--cb-amber); background: var(--cb-lcd);
+  border: 1px solid var(--cb-amber-2); border-radius: 999px; padding: 2px 9px; min-height: 28px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 5px; max-width: 100%;
+}
+.cb-rx__pick { font-size: 17px; min-width: 36px; justify-content: center; }
+.cb-rx__one[aria-pressed="true"], .cb-rx__pick[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
+.cb-rx__who { overflow-wrap: anywhere; }
 .cb-msg > .cb-sticker { grid-column: 1 / -1; grid-row: 3; margin: 4px 0 0; }
 /* A STICKER: the pet on its own room's ground, drawn by animals.js, with its
    words under it in the log's amber, so nothing new is measured here. */

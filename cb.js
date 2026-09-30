@@ -1329,7 +1329,12 @@
     }
     for (i = 0; i < messages.length; i++) {
       var m = messages[i];
-      if (this.seen[m.id]) continue;
+      if (this.seen[m.id]) {
+        // Already on the log: only its reactions can have changed.
+        var was = this.msgLi(m.id);
+        if (was) this.drawReactions(was, m);
+        continue;
+      }
       this.seen[m.id] = true;
       var li = el('li', 'cb-msg' + (m.base ? ' cb-msg--base' : ''));
       li.dataset.id = m.id;
@@ -1350,6 +1355,13 @@
       li.appendChild(md(said, m.text));
       if (m.img) li.appendChild(this.picture_(m));
       if (m.sticker) li.appendChild(sticker(m.sticker));
+      /* REACTIONS: who pressed what, by handle and never how many. Not read out
+         as they change: the log is a live region, and a reaction landing is
+         not a message, so this line is its own region with politeness off. */
+      var rx = el('div', 'cb-rx');
+      rx.setAttribute('aria-live', 'off');
+      li.appendChild(rx);
+      this.drawReactions(li, m);
       added++;
       /* Drawn on the message's own name-and-time line by cb.css, but kept
          AFTER the words in the markup: the log is a live region, and a new
@@ -1357,6 +1369,7 @@
          would be read in front of every message. */
       var acts = el('div', 'cb-acts');
       if (m.text) acts.appendChild(this.copyBtn(m));
+      acts.appendChild(this.reactBtn(m, li));
       if (this.state.base) {
         var off = el('button', 'cb-btn cb-take', 'Take off');
         off.type = 'button';
@@ -1705,6 +1718,105 @@
       if (r.status === 429) { me.tell('Easy on the mic: too many in a minute. Try again shortly.'); return; }
       me.tell(why(r, 'That did not go out. Try again.'));
     }).catch(function () { me.tell('No signal. That did not go out.'); });
+  };
+
+  /* ── Reactions ─────────────────────────────────────────────────────────── */
+  var REACTIONS = [
+    ['\u2764\uFE0F', 'heart'], ['\u{1F44D}', 'thumbs up'], ['\u{1F602}', 'laughing'], ['\u{1F389}', 'party'],
+    ['\u{1F440}', 'eyes'], ['\u2728', 'sparkles'], ['\u{1F427}', 'a penguin, for a pebble'],
+  ];
+  function fold(h) { return String(h || '').normalize('NFKC').toLowerCase().replace(/\s+/g, ' ').trim(); }
+  function names(list) {
+    if (list.length < 2) return list.join('');
+    return list.slice(0, -1).join(', ') + ' and ' + list[list.length - 1];
+  }
+
+  Radio.prototype.msgLi = function (id) {
+    var lis = this.log.querySelectorAll(':scope > li');
+    for (var i = 0; i < lis.length; i++) if (lis[i].dataset.id === id) return lis[i];
+    return null;
+  };
+
+  /* The line under a message: one button per reaction on it, the reaction
+     and the handles that pressed it, alphabetical. Pressing one adds yours or
+     takes it back. Drawn again only when it has changed, and the keyboard
+     stays on the reaction it was on. */
+  Radio.prototype.drawReactions = function (li, m) {
+    var me = this, rx = li.querySelector(':scope > .cb-rx');
+    if (!rx) return;
+    var list = m.reactions || [];
+    var key = JSON.stringify(list);
+    if (rx.dataset.key === key) return;
+    rx.dataset.key = key;
+    var focused = rx.contains(document.activeElement) || (rx.getRootNode().activeElement && rx.contains(rx.getRootNode().activeElement));
+    var on = focused && (rx.getRootNode().activeElement || document.activeElement).dataset.emoji;
+    rx.textContent = '';
+    rx.hidden = !list.length;
+    var mine = fold(this.state.handle);
+    list.forEach(function (x) {
+      var yours = x.who.some(function (h) { return fold(h) === mine; });
+      var b = el('button', 'cb-rx__one');
+      b.type = 'button';
+      b.dataset.emoji = x.emoji;
+      b.setAttribute('aria-pressed', String(yours));
+      b.setAttribute('aria-label', x.name + ', from ' + names(x.who) + (yours ? '. Press to take yours back.' : '. Press to add yours.'));
+      var e = el('span', 'cb-rx__emoji', x.emoji); e.setAttribute('aria-hidden', 'true');
+      b.appendChild(e);
+      b.appendChild(el('span', 'cb-rx__who', names(x.who)));
+      b.addEventListener('click', function () { me.react(m.id, x.emoji); });
+      rx.appendChild(b);
+    });
+    if (on) { var again = rx.querySelector('[data-emoji="' + on + '"]'); if (again) again.focus(); }
+  };
+
+  /* React, on the message's own line: opens the set under the message. */
+  Radio.prototype.reactBtn = function (m, li) {
+    var me = this;
+    var b = el('button', 'cb-btn cb-react', 'React');
+    b.type = 'button';
+    b.setAttribute('aria-expanded', 'false');
+    b.setAttribute('aria-label', 'React to ' + m.handle + '\u2019s message at ' + clock(m.t));
+    b.addEventListener('click', function () {
+      var open = li.querySelector(':scope > .cb-rx-pick');
+      if (open) { open.remove(); b.setAttribute('aria-expanded', 'false'); return; }
+      var pick = el('div', 'cb-rx-pick');
+      pick.setAttribute('role', 'group');
+      pick.setAttribute('aria-label', 'Reactions');
+      var mine = fold(me.state.handle);
+      var here = {};
+      var cur = li.querySelectorAll(':scope > .cb-rx [data-emoji]');
+      for (var i = 0; i < cur.length; i++) here[cur[i].dataset.emoji] = cur[i].getAttribute('aria-pressed') === 'true';
+      REACTIONS.forEach(function (x) {
+        var p = el('button', 'cb-rx__pick', x[0]);
+        p.type = 'button';
+        p.setAttribute('aria-label', x[1]);
+        p.setAttribute('aria-pressed', String(!!here[x[0]]));
+        p.addEventListener('click', function () {
+          pick.remove(); b.setAttribute('aria-expanded', 'false'); b.focus();
+          me.react(m.id, x[0]);
+        });
+        pick.appendChild(p);
+      });
+      pick.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { e.preventDefault(); pick.remove(); b.setAttribute('aria-expanded', 'false'); b.focus(); }
+      });
+      li.appendChild(pick);
+      b.setAttribute('aria-expanded', 'true');
+      pick.querySelector('button').focus();
+    });
+    return b;
+  };
+
+  Radio.prototype.react = function (id, emoji) {
+    var me = this, room = this.tunedRoom(), b = { id: id, emoji: emoji };
+    if (room) b.room = room;
+    call('/cb/react', { body: b }, this.state.pass).then(function (r) {
+      if (r.status === 401) return me.lost();
+      if (r.body && r.body.messages && room === me.tunedRoom()) me.show(r.body.messages);
+      if (r.status === 200) return;
+      if (r.status === 429) { me.tell('Easy on the reactions: too many in a minute. Try again shortly.'); return; }
+      me.tell(why(r, 'That reaction did not go out. Try again.'));
+    }).catch(function () { me.tell('No signal. That reaction did not go out.'); });
   };
 
   function withAnimals(then) {

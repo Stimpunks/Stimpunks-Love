@@ -2146,12 +2146,61 @@ export function json(status, body, extra = {}) {
   });
 }
 
+/* ── Reactions ────────────────────────────────────────────────────────────
+
+   Ryan's brief, 2026-09-30: reactions on CB messages. A reaction is one of a
+   fixed set, pressed on a message, and pressed again to take it back. It is
+   part of its message: it goes when the message goes, at midnight at the
+   latest, and taking a message off the air takes its reactions with it.
+
+   NOBODY IS COUNTED. A reaction shows WHO reacted, by handle, in alphabetical
+   order, and never how many: that is the street's no-headcount rule, the same
+   one "Be seen here" keeps, and a number beside a heart is exactly the
+   friendly edit it refuses. shape() sends the handles and no count; the radio
+   draws the handles. The set is fixed so nothing typed becomes a reaction.
+   Each carries a name, for the button's label and for anybody not seeing the
+   picture. */
+export const REACTIONS = [
+  ['\u2764\uFE0F', 'heart'], ['\u{1F44D}', 'thumbs up'], ['\u{1F602}', 'laughing'], ['\u{1F389}', 'party'],
+  ['\u{1F440}', 'eyes'], ['\u2728', 'sparkles'], ['\u{1F427}', 'a penguin, for a pebble'],
+];
+export function reactionOf(e) { return REACTIONS.some((x) => x[0] === e) ? e : null; }
+
+/* Press `emoji` on message `id` as `handle`: on if it was off, off if it was
+   on. Answers the next list, or null when there is no such message. */
+export function toggleReaction(list, id, emoji, handle) {
+  const i = list.findIndex((m) => m.id === id);
+  if (i < 0 || !reactionOf(emoji)) return null;
+  const m = { ...list[i] };
+  const rx = { ...(m.reactions || {}) };
+  const who = (rx[emoji] || []).slice();
+  const at = who.findIndex((h) => foldHandle(h) === foldHandle(handle));
+  if (at >= 0) who.splice(at, 1); else who.push(handle);
+  if (who.length) rx[emoji] = who; else delete rx[emoji];
+  if (Object.keys(rx).length) m.reactions = rx; else delete m.reactions;
+  const next = list.slice();
+  next[i] = m;
+  return next;
+}
+
+function shapeReactions(rx) {
+  if (!rx || typeof rx !== 'object') return null;
+  const out = [];
+  for (const [e, name] of REACTIONS) {
+    const who = Array.isArray(rx[e]) ? [...new Set(rx[e])].sort((a, b) => a.localeCompare(b)) : [];
+    if (who.length) out.push({ emoji: e, name, who });
+  }
+  return out.length ? out : null;
+}
+
 export function shape(messages) {
   return messages.map((m) => {
     const out = { id: m.id, handle: m.handle, text: m.text || '', t: m.t, base: !!m.base, claimed: !!m.claimed && !m.base };
     if (m.img) { out.img = m.img; out.alt = m.alt || ''; }
     const st = m.sticker && shapeSticker(m.sticker);
     if (st) out.sticker = st;
+    const rx = shapeReactions(m.reactions);
+    if (rx) out.reactions = rx;
     return out;
   });
 }

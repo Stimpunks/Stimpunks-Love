@@ -29,7 +29,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
   PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons,
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
-  renamePet, shapeAnimal, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
+  renamePet, shapeAnimal, REACTIONS, reactionOf, toggleReaction, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
@@ -157,6 +157,56 @@ for (const etagOnRead of [true, false]) {
     assert.equal(words.length, put.length, 'a word nobody was told about is on the line');
   });
 }
+
+for (const etagOnRead of [true, false]) {
+  test(`fifteen people reacting to one message at once, ${etagOnRead ? 'with' : 'without'} an etag on reads: none told it worked is missing`, async () => {
+    const s = memoryStore({ etagOnRead });
+    await updateChannel((list) => [...list, { id: 'm1', handle: 'Ada', text: 'hello', t: 1 }], s);
+    const heart = REACTIONS[0][0];
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) =>
+      updateChannel((list) => toggleReaction(list, 'm1', heart, `p${i}`), s)));
+    const worked = told.map((r, i) => (r.status === 'fulfilled' ? `p${i}` : null)).filter(Boolean);
+    for (const f of told.filter((r) => r.status === 'rejected')) assert.equal(f.reason.message, 'busy');
+    const [m] = shape((await readChannel(s)).messages);
+    const who = (m.reactions || []).find((x) => x.emoji === heart)?.who || [];
+    assert.deepEqual(worked.filter((h) => !who.includes(h)), [], 'a reaction that was told it worked is missing');
+    assert.equal(who.length, worked.length, 'a reaction nobody was told about is there');
+  });
+}
+
+test('the radio offers exactly the reactions the server takes', async () => {
+  const { readFileSync } = await import('node:fs');
+  const src = readFileSync(new URL('../../cb.js', import.meta.url), 'utf8');
+  const block = /var REACTIONS = \[([\s\S]*?)\];/.exec(src);
+  assert.ok(block, 'cb.js has no REACTIONS list');
+  const offered = [...block[1].matchAll(/\['((?:\\u\{?[0-9A-Fa-f]+\}?)+)', '([^']+)'\]/g)]
+    .map((m) => [JSON.parse('"' + m[1].replace(/\\u\{([0-9A-Fa-f]+)\}/g, (_, h) => String.fromCodePoint(parseInt(h, 16)).split('').map((c) => '\\u' + c.charCodeAt(0).toString(16).padStart(4, '0')).join('')) + '"'), m[2]]);
+  assert.deepEqual(offered, REACTIONS, 'the radio and the server disagree about the reactions');
+});
+
+test('a reaction is pressed and pressed again, names who and never says how many', () => {
+  const heart = REACTIONS[0][0], eyes = REACTIONS.find((x) => x[1] === 'eyes')[0];
+  let list = [{ id: 'm1', handle: 'Ada', text: 'hi', t: 1 }, { id: 'm2', handle: 'Bo', text: 'yo', t: 2 }];
+  list = toggleReaction(list, 'm1', heart, 'Zed');
+  list = toggleReaction(list, 'm1', heart, 'Ada');
+  list = toggleReaction(list, 'm1', eyes, 'Bo');
+  const [one, two] = shape(list);
+  assert.deepEqual(one.reactions.map((x) => x.emoji), [heart, eyes], 'reactions out of the set\'s order');
+  assert.deepEqual(one.reactions[0].who, ['Ada', 'Zed'], 'names not in alphabetical order');
+  for (const x of one.reactions) assert.deepEqual(Object.keys(x).sort(), ['emoji', 'name', 'who'], 'a reaction carries a count or more');
+  assert.equal(two.reactions, undefined);
+  // Pressed again, in any case of the handle, it comes off; the last one off takes the reaction with it.
+  list = toggleReaction(list, 'm1', heart, 'ZED');
+  list = toggleReaction(list, 'm1', eyes, 'bo');
+  assert.deepEqual(shape(list)[0].reactions.map((x) => x.who), [['Ada']]);
+  list = toggleReaction(list, 'm1', heart, 'Ada');
+  assert.equal(shape(list)[0].reactions, undefined);
+  assert.equal(list[0].reactions, undefined, 'an empty reactions object left on the message');
+  // Only the set, and only a message that is there.
+  assert.equal(reactionOf('<script>'), null);
+  assert.equal(toggleReaction(list, 'm1', 'nope', 'Ada'), null);
+  assert.equal(toggleReaction(list, 'gone', heart, 'Ada'), null);
+});
 
 test('nobody puts up two words in a row, and anybody else can', async () => {
   const s = memoryStore({ etagOnRead: true });

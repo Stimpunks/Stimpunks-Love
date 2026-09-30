@@ -2791,6 +2791,15 @@ scrolls under a reader**: it used to jump to the bottom on every listen, so scro
 four seconds later. It follows the newest message only when something new arrived and the log was
 already at the bottom, or when you transmitted.
 
+**A REACTION NAMES WHO AND NEVER SAYS HOW MANY.** Ryan, 2026-09-30: React on a message opens a fixed
+set (`REACTIONS` in `lib.mjs`, copied in `cb.js`: change both), pressed again to take yours back
+(`toggleReaction`, `/cb/react`, the channel's conditional write, raced fifteen at once in
+`lib.test.mjs`). `shape()` sends each reaction as `{ emoji, name, who }`, handles alphabetical, and the
+radio draws the names. **The friendly edit is a number beside the heart**, and it is the headcount the
+street refuses. The line under a message is `aria-live="off"` inside the log, so a reaction landing is
+not announced as a message, and it is redrawn only when it changes, keeping the keyboard where it was.
+The chalkboard's "no reactions" is the board's rule and still holds.
+
 **A MESSAGE IS 2,000 CHARACTERS AND BASIC MARKDOWN, DRAWN AS ELEMENTS AND NEVER AS HTML.** Ryan,
 2026-09-29. `MESSAGE_MAX` and `cleanMessage` in `lib.mjs` keep a message's lines (the Slake, the
 chalkboard and the bowls keep `TEXT_MAX`'s 280 and one line). `md()` in `cb.js` builds every piece
