@@ -295,18 +295,20 @@ def panel(r):
             f'      <p>The channel and the call in here are for {who_for(r["for"])}{" and nobody else, not even an administrator" if r.get("strict") else "" if r["for"] == ["moderator"] else ", and for administrators"}: moderators sign on at the Community Center with the moderators&rsquo; password, under a handle on the moderators&rsquo; list. Anybody can come in and look around, and the radio waits outside the door for everybody else.</p>',
             f'      <p class="{p}-call__cb" data-call-cb hidden>This browser is not signed on as a moderator this room is for, so the call in here is not yours to join. Moderators sign on at <a href="community-center.html#cb-signon-desk">the front desk</a>.</p>',
             f'      <p class="{p}-call__member" data-call-join hidden><button type="button">Join the call as <b data-call-handle></b></button></p>',
+            f'      <p class="{p}-call__who" data-call-who hidden></p>',
             f'      <p class="{p}-call__said" role="status" data-call-said></p>',
             '      <noscript><p>Joining the call needs JavaScript: it opens in a window of its own on this page.</p></noscript>',
-            f'      <p class="{p}-call__fine">The call is run by 8x8&rsquo;s Jitsi as a Service, and the server hands a pass into it to the moderators this room is for and nobody else. Camera and microphone start off, and we keep nothing about a call. <a href="privacy.html#calls">What goes where.</a></p>',
+            f'      <p class="{p}-call__fine">The call is run by 8x8&rsquo;s Jitsi as a Service, and the server hands a pass into it to the moderators this room is for and nobody else. Camera and microphone start off, and while somebody is in the call we keep their name in it, until they leave. <a href="privacy.html#calls">What goes where.</a></p>',
             '    </div>'])
     return "\n".join([
         f'    <div class="{p}-call" data-call="{tag}" data-call-name="{name}">',
         '      <p>The call in here is for people signed on to the CB. Anybody can come in and look around; to talk, and to be in the circle, you need the CB, and <a href="community-center.html#meeting-hall">the Community Center</a> says how to get on it.</p>',
         f'      <p class="{p}-call__cb" data-call-cb hidden>You are not signed on to the CB in this browser. <a href="community-center.html">Sign on at the Community Center</a>, then come back and the way in is here.</p>',
         f'      <p class="{p}-call__member" data-call-join hidden><button type="button">Join the call as <b data-call-handle></b></button></p>',
+        f'      <p class="{p}-call__who" data-call-who hidden></p>',
         f'      <p class="{p}-call__said" role="status" data-call-said></p>',
         '      <noscript><p>Joining the call needs JavaScript: it opens in a window of its own on this page.</p></noscript>',
-        f'      <p class="{p}-call__fine">The call is run by 8x8&rsquo;s Jitsi as a Service. Your camera and microphone start off, the name you are called by goes to 8x8 inside your pass into the call, and we keep nothing about a call. <a href="privacy.html#calls">What goes where.</a></p>',
+        f'      <p class="{p}-call__fine">The call is run by 8x8&rsquo;s Jitsi as a Service. Your camera and microphone start off, the name you are called by goes to 8x8 inside your pass into the call, and while somebody is in the call we keep their name in it, until they leave. <a href="privacy.html#calls">What goes where.</a></p>',
         '    </div>'])
 
 

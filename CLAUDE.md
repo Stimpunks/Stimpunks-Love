@@ -645,7 +645,9 @@ refuses everything without a good `X-Jaas-Signature`; `jaasSigned` is tested aga
 worked example. It keeps a name, a moderator flag, a time and a hashed id per person and **never the
 email 8x8 sends**. **The call line only appears once the server says 8x8 is telling it
 (`callHeard`)**, so an empty list is never a guess. The public calls' notice says a guest's name is
-shown, because it is generated in `make-coworking.py`.
+shown, because it is generated in `make-coworking.py`. **The room's own call panel says who is in the call
+too**, in a `[data-call-who]` line both generators write, hidden until `cb.js` fills it from the same
+answer under the same rule; the room dresses it, and a guest with no radio never sees it.
 
 **A call's window and the `Mover` live in `call.js`, not `cb.js`**, because a public room's guest
 must never download the radio. `cb.js` loads `call.js` before it builds the radio. `call.js` reads

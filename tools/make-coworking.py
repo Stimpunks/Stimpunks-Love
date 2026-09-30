@@ -389,6 +389,7 @@ def room_call(p, d, tag, public):
         ]
     lines += [
         f'      <p class="{p}-call__member" data-call-join hidden><button type="button">Join the call as <b data-call-handle></b></button></p>',
+        f'      <p class="{p}-call__who" data-call-who hidden></p>',
         f'      <p class="{p}-call__said" role="status" data-call-said></p>',
         f'      <noscript><p>Joining the call needs JavaScript: it opens in a window of its own on this page.</p></noscript>',
     ]
@@ -396,7 +397,7 @@ def room_call(p, d, tag, public):
     if note:
         lines.append(f'      <p><strong>{e(note["title"])}.</strong> {e(note["said"])}</p>')
     lines += [
-        f'      <p class="{p}-call__fine">The call is run by 8x8&rsquo;s Jitsi as a Service. Your camera and microphone start off, the name you are called by goes to 8x8 inside your pass into the call, and we keep nothing about a call. <a href="privacy.html#calls">What goes where.</a></p>',
+        f'      <p class="{p}-call__fine">The call is run by 8x8&rsquo;s Jitsi as a Service. Your camera and microphone start off, the name you are called by goes to 8x8 inside your pass into the call, and while somebody is in the call we keep their name in it, until they leave. <a href="privacy.html#calls">What goes where.</a></p>',
         f'    </div>',
     ]
     return "\n".join(lines)

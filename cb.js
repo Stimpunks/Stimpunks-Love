@@ -1145,6 +1145,7 @@
     if (!quiet) save(this.state);
     this.place();
     this.tune();
+    if (this.present) this.presenceShown();
   };
 
   /* Listening happens here and nowhere else, so this is the one function that
@@ -1802,6 +1803,7 @@
     if (!this.seenAs) return;
     this.seenAs = null;
     this.seenAnswer = null;
+    this.presenceShown();
     call('/cb/here/leave', { body: { visit: VISIT }, keepalive: true }, this.state.pass).catch(function () {});
   };
 
@@ -1814,9 +1816,38 @@
     });
   }
 
+  /* The room's own call panel says who is in the call too, on the page where
+     the Join button is (Ryan, 2026-09-29), from the same answer and under the
+     same rule: only to somebody seen in the room. The panel's [data-call-who]
+     line ships hidden and is the room's to dress; this only writes its words.
+     Not a live region, for the radio's reason. */
+  Radio.prototype.panelShown = function (tag, a) {
+    var lines = document.querySelectorAll('[data-call] [data-call-who]');
+    for (var i = 0; i < lines.length; i++) {
+      var p = lines[i], mine = tag && p.closest('[data-call]').getAttribute('data-call') === tag;
+      p.hidden = true;
+      if (!mine || (a && a.refused)) continue;
+      p.hidden = false;
+      if (!this.state.seen) p.textContent = 'Switch on Be seen here on the radio to see who is in the call.';
+      else if (this.state.folded) p.textContent = 'Open the radio to see who is in the call: folded away, it asks nothing.';
+      else if (!a) p.textContent = 'Looking to see who is in the call\u2026';
+      else if (!a.callHeard) p.hidden = true;
+      else if (!(a.call || []).length) p.textContent = 'Nobody is in the call now.';
+      else {
+        p.textContent = 'In the call now: ';
+        a.call.forEach(function (x, j) {
+          if (j) p.appendChild(document.createTextNode(', '));
+          p.appendChild(el('b', null, x.name));
+          if (x.base) p.appendChild(document.createTextNode(' (base)'));
+        });
+      }
+    }
+  };
+
   Radio.prototype.presenceShown = function () {
     var tag = presentRoom();
     this.present.hidden = !tag;
+    this.panelShown(tag, tag && this.seenFrom === tag ? this.seenAnswer : null);
     if (!tag) return;
     var on = !!this.state.seen, a = this.seenFrom === tag ? this.seenAnswer : null;
     this.seenBtn.setAttribute('aria-pressed', String(on));
