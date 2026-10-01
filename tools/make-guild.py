@@ -405,6 +405,10 @@ DRAW = {
     # the boards. The strip is --rsa-lit, 13.16 against the dust it lies on, the
     # hay --rsa-link inside it, and the floor line --rsa-dim at 7.12, both over
     # the body threshold a marker is held to.
+    # A brass tack that fell out of a plate, lying on the pavement under the
+    # board, point up. The head is --btb-link, 8.15 on the green wall, and the
+    # floor line --btb-dim at 6.97, both over the body threshold.
+    "brass-tack": """<path d="M3 29 H29" stroke="var(--btb-dim)" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="16" cy="24" rx="9" ry="3.4" fill="var(--btb-link)"/><path d="M16 21 V7" stroke="var(--btb-link)" stroke-width="2.4" stroke-linecap="round"/><path d="M16 21 V7" stroke="var(--btb-ink)" stroke-width="0.8" stroke-linecap="round"/>""",
     "smalls-hay": """<path d="M3 29 H29" stroke="var(--rsa-dim)" stroke-width="1.6" stroke-linecap="round"/><polygon points="11,3 15,3 23,27 13,27" fill="var(--rsa-lit)"/><path d="M12 22 Q17 18 22 21 M13 25 Q18 20 24 24 M14 19 Q18 17 21 18" fill="none" stroke="var(--rsa-ink)" stroke-width="1.8" stroke-linecap="round"/><path d="M12 22 Q17 18 22 21 M13 25 Q18 20 24 24" fill="none" stroke="var(--rsa-link)" stroke-width="1" stroke-linecap="round"/>""",
     "dogs-lead": """<path d="M3 29 H29" stroke="var(--rad-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M6 24 Q10 8 18 12 Q26 16 22 24" fill="none" stroke="var(--rad-link)" stroke-width="2.6" stroke-linecap="round"/><circle cx="22" cy="25.5" r="2.2" fill="none" stroke="var(--rad-ink)" stroke-width="1.6"/><ellipse cx="27" cy="19" rx="1.8" ry="1.3" fill="var(--rad-track)"/><ellipse cx="25.5" cy="15" rx="1.8" ry="1.3" fill="var(--rad-track)"/>""",
     "cats-torch": """<path d="M3 29 H29" stroke="var(--rac-dim)" stroke-width="1.6" stroke-linecap="round"/><rect x="5" y="19" width="15" height="7" rx="2" fill="var(--rac-dim)"/><path d="M20 18 L25 16 V29 L20 27 Z" fill="var(--rac-dim)"/><ellipse cx="25" cy="22.5" rx="1.6" ry="6" fill="var(--rac-beam)"/><circle cx="12" cy="10" r="1.8" fill="var(--rac-eye)"/><circle cx="17" cy="10" r="1.8" fill="var(--rac-eye)"/>""",

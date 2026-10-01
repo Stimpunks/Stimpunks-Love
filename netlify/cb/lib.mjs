@@ -2094,6 +2094,392 @@ export function shapeAccount(a) { return a ? { claimed: true, handle: a.handle, 
    it may go into, so the page can keep quiet in the others. */
 export function rolesOf(who) { return who && who.roles ? [...who.roles].sort() : []; }
 
+/* ── The Brass Tacks Board ──────────────────────────────────────────────────
+
+   Ryan's brief, 2026-09-30: a board for things meant to persist -- news,
+   notices, events, celebrations, posts -- that anybody can read and only a
+   moderator can post on, with their username on the post for everybody to
+   see. Ryan's calls the same evening: the author edits, any moderator takes a
+   post down, the board has a feed of its own, and a post may carry a picture.
+
+   ONE BLOB HOLDS EVERY POST (`brass`, newest first), written with the boards'
+   conditional write, because a board of notices is dozens or hundreds of
+   posts and not millions; if it ever needs search across thousands, that is
+   Netlify's Postgres, not this. A post is kept until a moderator takes it
+   down. There is no other copy and no archive.
+
+   MARKDOWN IS READ HERE, ONCE, INTO A PLAIN STRUCTURE (`parseBrass`), never
+   into HTML. The board's page builds that structure into elements with
+   textContent, and the feed builds it into escaped HTML, so there is one
+   reader and nothing a moderator types can become markup or script. A link
+   goes only to http, https, mailto, or a path or anchor on this site; any
+   other address stays as the words typed.
+
+   A PICTURE IS THE CB'S PIPELINE WITH A PUBLIC ADDRESS. It is redrawn in the
+   moderator's browser, refused here if it still carries camera data, needs a
+   description, and is served to anybody from /cb/brass/image, because a board
+   anybody reads cannot hide its pictures behind a pass. It lives under its own
+   prefix, so the channel's sweep never reaches it, and goes when its post
+   goes; an upload no post holds is swept after a day. The moderator says, on
+   the form, that everybody recognisable in it has said yes. */
+export const BRASS_TITLE_MAX = 120;
+export const BRASS_BODY_MAX = 20000;
+export const BRASS_ALT_MAX = 600;
+const BRASS = 'brass';
+const BRASS_IMG = 'brass-img/';
+const BRASS_IMG_UNSENT = 24 * 60 * 60 * 1000;
+
+export function cleanBrassTitle(v) { const t = tidy(v); return t && [...t].length <= BRASS_TITLE_MAX ? t : null; }
+export function cleanBrassAlt(v) { const t = tidy(v); return t && [...t].length <= BRASS_ALT_MAX ? t : null; }
+export function cleanBrassBody(v) {
+  const t = String(v == null ? '' : v)
+    .replace(/\r\n?/g, '\n')
+    .replace(/\t/g, '    ')
+    .replace(/[\u0000-\u0009\u000b-\u001f\u007f-\u009f​-‏‪-‮⁦-⁩]/g, ' ')
+    .split('\n').map((line) => line.replace(/[  ]+$/, '')).join('\n')
+    .replace(/\n{4,}/g, '\n\n\n')
+    .replace(/^\n+|\n+$/g, '');
+  return t.trim() && [...t].length <= BRASS_BODY_MAX ? t : null;
+}
+
+/* Where a link may go, or null. Only these, and the words stay words otherwise. */
+export function brassHref(u) {
+  const v = String(u || '').trim();
+  if (!v || v.length > 2000 || /[\s<>"]/.test(v)) return null;
+  if (/^(https?:\/\/|mailto:)/i.test(v)) {
+    try { const x = new URL(v); return /^(https?:|mailto:)$/.test(x.protocol) && !x.username && !x.password ? x.href : null; }
+    catch (e) { return null; }
+  }
+  if (/^[a-z][a-z0-9+.-]*:/i.test(v)) return null;          // javascript:, data:, anything with a scheme
+  if (/^\/\//.test(v)) return null;                          // protocol-relative: somewhere else in disguise
+  return v;                                                   // /a-room.html, #a-post, a-room.html
+}
+
+/* Inline Markdown into nodes: text, b, i, s, code, a, br. */
+function brassInline(src, depth = 0) {
+  const out = [];
+  let buf = '';
+  const flush = () => { if (buf) { out.push({ t: 'text', v: buf }); buf = ''; } };
+  const push = (n) => { flush(); out.push(n); };
+  let i = 0;
+  while (i < src.length) {
+    const c = src[i];
+    if (c === '\\' && i + 1 < src.length && /[\\`*_{}\[\]()#+\-.!~|>]/.test(src[i + 1])) { buf += src[i + 1]; i += 2; continue; }
+    if (c === '\n') { push({ t: 'br' }); i++; continue; }
+    if (c === '`') {
+      const run = /^`+/.exec(src.slice(i))[0];
+      const end = src.indexOf(run, i + run.length);
+      if (end > 0) { push({ t: 'code', v: src.slice(i + run.length, end).replace(/^ (.*) $/s, '$1') }); i = end + run.length; continue; }
+      buf += run; i += run.length; continue;
+    }
+    if (c === '!' && src[i + 1] === '[') { buf += '!'; i++; continue; }  // no pictures from elsewhere: the link stays
+    if (c === '[' && depth < 4) {
+      const close = matchBracket(src, i);
+      if (close > 0 && src[close + 1] === '(') {
+        const pe = src.indexOf(')', close + 2);
+        if (pe > 0) {
+          const target = src.slice(close + 2, pe).trim().replace(/\s+"[^"]*"$/, '');
+          const href = brassHref(target.replace(/^<(.*)>$/, '$1'));
+          if (href) { push({ t: 'a', href, c: brassInline(src.slice(i + 1, close), depth + 1) }); i = pe + 1; continue; }
+        }
+      }
+    }
+    if (c === '<') {
+      const m = /^<((?:https?:\/\/|mailto:)[^\s<>]+)>/i.exec(src.slice(i));
+      const href = m && brassHref(m[1]);
+      if (href) { push({ t: 'a', href, c: [{ t: 'text', v: m[1] }] }); i += m[0].length; continue; }
+    }
+    if ((c === 'h' || c === 'H') && /^https?:\/\//i.test(src.slice(i)) && !/[\w/]$/.test(buf)) {
+      let m = /^https?:\/\/[^\s<>]+/i.exec(src.slice(i))[0];
+      m = m.replace(/[.,;:!?'")\]]+$/, '');
+      const href = brassHref(m);
+      if (href) { push({ t: 'a', href, c: [{ t: 'text', v: m }] }); i += m.length; continue; }
+    }
+    if ((c === '*' || c === '_' || c === '~') && depth < 6) {
+      const two = src.slice(i, i + 2);
+      const kind = two === '**' || two === '__' ? 'b' : two === '~~' ? 's' : c !== '~' ? 'i' : null;
+      const delim = kind === 'i' ? c : kind ? two : null;
+      const intraword = c === '_' && /\w/.test(src[i - 1] || '');
+      if (delim && !intraword && src[i + delim.length] && !/\s/.test(src[i + delim.length])) {
+        let j = src.indexOf(delim, i + delim.length + 1);
+        while (j > 0 && (/\s/.test(src[j - 1]) || (kind === 'i' && src[j + 1] === c) || (c === '_' && /\w/.test(src[j + delim.length] || '')))) j = src.indexOf(delim, j + 1);
+        if (j > 0) { push({ t: kind, c: brassInline(src.slice(i + delim.length, j), depth + 1) }); i = j + delim.length; continue; }
+      }
+    }
+    buf += c; i++;
+  }
+  flush();
+  return out;
+}
+
+function matchBracket(src, i) {
+  let d = 0;
+  for (let k = i; k < src.length; k++) {
+    if (src[k] === '\\') { k++; continue; }
+    if (src[k] === '[') d++;
+    else if (src[k] === ']') { d--; if (d === 0) return k; }
+  }
+  return -1;
+}
+
+const LIST_ITEM = /^( {0,3})([-*+]|\d{1,9}[.)])( +)(.*)$/;
+function isBlockStart(line) {
+  return /^ {0,3}(#{1,6})(\s|$)/.test(line) || /^ {0,3}(```|~~~)/.test(line) || /^ {0,3}>/.test(line)
+    || LIST_ITEM.test(line) || /^ {0,3}([-*_])( *\1){2,} *$/.test(line);
+}
+function tableCells(line) {
+  return line.trim().replace(/^\|/, '').replace(/\|$/, '').split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, '|'));
+}
+
+/* Block Markdown into nodes: h, p, ul, ol, quote, code, hr, table. */
+function brassBlocks(lines, depth = 0) {
+  const out = [];
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    if (!line.trim()) { i++; continue; }
+    let m;
+    if ((m = /^ {0,3}(```|~~~)\s*([\w+#.-]*)\s*$/.exec(line))) {
+      const fence = m[1], body = [];
+      i++;
+      while (i < lines.length && !new RegExp('^ {0,3}' + fence.replace(/[`~]/g, '\\$&') + '\\s*$').test(lines[i])) body.push(lines[i++]);
+      i++;
+      out.push({ t: 'code', lang: m[2] || '', v: body.join('\n') });
+      continue;
+    }
+    if ((m = /^ {0,3}(#{1,6})\s+(.*?)\s*#*\s*$/.exec(line)) || (m = /^ {0,3}(#{1,6})$/.exec(line))) {
+      out.push({ t: 'h', level: m[1].length, c: brassInline(m[2] || '', 0) });
+      i++; continue;
+    }
+    if (/^ {0,3}([-*_])( *\1){2,} *$/.test(line)) { out.push({ t: 'hr' }); i++; continue; }
+    if (/^ {0,3}>/.test(line)) {
+      const body = [];
+      while (i < lines.length && (/^ {0,3}>/.test(lines[i]) || (lines[i].trim() && !isBlockStart(lines[i]) && body.length && body[body.length - 1].trim()))) {
+        body.push(lines[i].replace(/^ {0,3}> ?/, ''));
+        i++;
+      }
+      out.push({ t: 'quote', c: depth < 8 ? brassBlocks(body, depth + 1) : [{ t: 'p', c: brassInline(body.join('\n')) }] });
+      continue;
+    }
+    if (line.includes('|') && i + 1 < lines.length && /^\s*\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?\s*$/.test(lines[i + 1]) && lines[i + 1].includes('-')) {
+      const head = tableCells(line);
+      const align = tableCells(lines[i + 1]).map((c) => (/^:-+:$/.test(c) ? 'center' : /-+:$/.test(c) ? 'right' : /^:-+/.test(c) ? 'left' : ''));
+      i += 2;
+      const rows = [];
+      while (i < lines.length && lines[i].trim() && lines[i].includes('|')) rows.push(tableCells(lines[i++]));
+      out.push({ t: 'table', align: head.map((_, k) => align[k] || ''),
+        head: head.map((c) => brassInline(c)), rows: rows.map((r) => head.map((_, k) => brassInline(r[k] || ''))) });
+      continue;
+    }
+    if ((m = LIST_ITEM.exec(line))) {
+      const ordered = /\d/.test(m[2]);
+      const items = [];
+      const start = ordered ? parseInt(m[2], 10) : 1;
+      while (i < lines.length) {
+        const it = LIST_ITEM.exec(lines[i]);
+        if (!it || /\d/.test(it[2]) !== ordered) break;
+        const indent = it[1].length + it[2].length + it[3].length;
+        const body = [it[4]];
+        i++;
+        while (i < lines.length) {
+          const next = lines[i];
+          if (!next.trim()) {
+            if (i + 1 < lines.length && /^\s+/.test(lines[i + 1]) && (lines[i + 1].length - lines[i + 1].trimStart().length) >= Math.min(indent, 2)) { body.push(''); i++; continue; }
+            break;
+          }
+          const lead = next.length - next.trimStart().length;
+          if (lead >= Math.min(indent, 2)) { body.push(next.slice(Math.min(lead, indent))); i++; continue; }
+          if (LIST_ITEM.test(next) || isBlockStart(next)) break;
+          body.push(next); i++;                                   // a lazy continuation line
+        }
+        items.push(depth < 8 ? brassBlocks(body, depth + 1) : [{ t: 'p', c: brassInline(body.join('\n')) }]);
+        while (i < lines.length && !lines[i].trim() && i + 1 < lines.length && LIST_ITEM.test(lines[i + 1])) i++;
+      }
+      out.push(ordered ? { t: 'ol', start, items } : { t: 'ul', items });
+      continue;
+    }
+    const para = [];
+    while (i < lines.length && lines[i].trim() && !(para.length && isBlockStart(lines[i]))) para.push(lines[i++].trim());
+    out.push({ t: 'p', c: brassInline(para.join('\n')) });
+  }
+  return out;
+}
+
+export function parseBrass(body) {
+  return brassBlocks(String(body || '').split('\n'));
+}
+
+/* The feed's HTML, built from the same nodes and escaping every word. */
+const escHtml = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+export function brassHtml(nodes, base = 'https://stimpunks.world/') {
+  const inl = (ns) => ns.map((n) => {
+    if (n.t === 'text') return escHtml(n.v);
+    if (n.t === 'br') return '<br>';
+    if (n.t === 'code') return `<code>${escHtml(n.v)}</code>`;
+    if (n.t === 'a') {
+      let href = n.href;
+      try { href = new URL(href, base).href; } catch (e) { return inl(n.c); }
+      return `<a href="${escHtml(href)}">${inl(n.c)}</a>`;
+    }
+    const tag = { b: 'strong', i: 'em', s: 'del' }[n.t];
+    return tag ? `<${tag}>${inl(n.c)}</${tag}>` : '';
+  }).join('');
+  const blk = (bs) => bs.map((b) => {
+    if (b.t === 'p') return `<p>${inl(b.c)}</p>`;
+    if (b.t === 'h') { const l = Math.min(6, b.level + 1); return `<h${l}>${inl(b.c)}</h${l}>`; }
+    if (b.t === 'hr') return '<hr>';
+    if (b.t === 'code') return `<pre><code>${escHtml(b.v)}</code></pre>`;
+    if (b.t === 'quote') return `<blockquote>${blk(b.c)}</blockquote>`;
+    if (b.t === 'ul') return `<ul>${b.items.map((it) => `<li>${blk(it)}</li>`).join('')}</ul>`;
+    if (b.t === 'ol') return `<ol${b.start !== 1 ? ` start="${Number(b.start)}"` : ''}>${b.items.map((it) => `<li>${blk(it)}</li>`).join('')}</ol>`;
+    if (b.t === 'table') {
+      const cell = (tag, c, k) => `<${tag}${b.align[k] ? ` style="text-align:${b.align[k]}"` : ''}>${inl(c)}</${tag}>`;
+      return `<table><thead><tr>${b.head.map((c, k) => cell('th', c, k)).join('')}</tr></thead><tbody>${b.rows.map((r) => `<tr>${r.map((c, k) => cell('td', c, k)).join('')}</tr>`).join('')}</tbody></table>`;
+    }
+    return '';
+  }).join('\n');
+  return blk(nodes);
+}
+
+/* The posts, newest first. */
+export async function readBrass(s = store()) {
+  const d = await s.get(BRASS, { type: 'json' });
+  return (d && Array.isArray(d.posts)) ? d.posts : [];
+}
+
+export function shapeBrass(p) {
+  const out = { id: p.id, title: p.title, body: p.body, ast: parseBrass(p.body), handle: p.handle, t: p.t };
+  if (typeof p.edited === 'number') out.edited = p.edited;
+  if (p.img) { out.img = p.img; out.alt = p.alt || ''; }
+  return out;
+}
+
+/* A moderator posting. { post } or { error }. */
+export async function addBrass(who, fields, s = store(), now = Date.now()) {
+  if (!who || who.role !== 'base') return { error: 'Only a moderator can post on the board.' };
+  const ok = await brassFields(fields, s);
+  if (ok.error) return ok;
+  const post = { id: randomUUID(), title: ok.title, body: ok.body, handle: who.handle, t: now };
+  if (ok.img) { post.img = ok.img; post.alt = ok.alt; }
+  await updateList(BRASS, 'posts', (list) => [post, ...list], s);
+  return { post };
+}
+
+/* The moderator who posted it, editing it. The picture can be kept, changed
+   or taken off; one that is no longer on the post is deleted. */
+export async function editBrass(who, id, fields, s = store(), now = Date.now()) {
+  if (!who || who.role !== 'base') return { error: 'Only a moderator can edit a post.' };
+  const ok = await brassFields(fields, s);
+  if (ok.error) return ok;
+  let why = null, dropped = null, done = null;
+  await updateList(BRASS, 'posts', (list) => {
+    why = null; dropped = null; done = null;
+    const k = list.findIndex((p) => p.id === id);
+    if (k < 0) { why = 'That post has been taken down.'; return null; }
+    if (foldHandle(list[k].handle) !== foldHandle(who.handle)) { why = 'Only the moderator who posted it can edit it.'; return null; }
+    const next = { ...list[k], title: ok.title, body: ok.body, edited: now };
+    delete next.img; delete next.alt;
+    if (ok.img) { next.img = ok.img; next.alt = ok.alt; }
+    if (list[k].img && list[k].img !== next.img) dropped = list[k].img;
+    done = next;
+    const copy = list.slice(); copy[k] = next; return copy;
+  }, s);
+  if (why) return { error: why };
+  if (dropped) await s.delete(BRASS_IMG + dropped);
+  return { post: done };
+}
+
+/* Any moderator taking a post down, and its picture with it. */
+export async function removeBrass(who, id, s = store()) {
+  if (!who || who.role !== 'base') return { error: 'Only a moderator can take a post down.' };
+  let gone = null;
+  await updateList(BRASS, 'posts', (list) => {
+    gone = list.find((p) => p.id === id) || null;
+    return gone ? list.filter((p) => p.id !== id) : null;
+  }, s);
+  if (!gone) return { error: 'That post has already been taken down.' };
+  if (gone.img) await s.delete(BRASS_IMG + gone.img);
+  return { removed: true };
+}
+
+async function brassFields(f, s) {
+  const title = cleanBrassTitle(f && f.title);
+  if (!title) return { error: `A title is between one and ${BRASS_TITLE_MAX} characters.` };
+  const body = cleanBrassBody(f && f.body);
+  if (!body) return { error: `A post is between one and ${BRASS_BODY_MAX} characters.` };
+  if (f.img == null || f.img === '') return { title, body };
+  const img = imageId(f.img);
+  if (!img || !(await getBrassImage(img, s))) return { error: 'That picture is not ready. Pick it again.' };
+  const alt = cleanBrassAlt(f.alt);
+  if (!alt) return { error: 'Say what is in the picture: a picture on the board needs a description.' };
+  if (f.yes !== true) return { error: 'Say that everybody recognisable in the picture has said yes to it being on the board.' };
+  return { title, body, img, alt };
+}
+
+export async function putBrassImage(who, bytes, s = store(), now = Date.now()) {
+  if (!who || who.role !== 'base') return { error: 'Only a moderator can put a picture on the board.' };
+  if (!bytes || !bytes.length) return { error: 'There was no picture in that.' };
+  if (bytes.length > IMG_MAX) return { error: 'That picture is too big, even after the browser made it smaller.' };
+  const kind = imageKind(bytes);
+  if (!kind) return { error: 'That is not a picture the board can show.' };
+  if (carriesMetadata(bytes, kind)) return { error: 'That picture still carries its camera data. Pick it again on the board, which takes that off.' };
+  const id = randomUUID();
+  await s.set(BRASS_IMG + id, bytes, { metadata: { t: now, type: kind } });
+  return { id };
+}
+
+export async function getBrassImage(id, s = store()) {
+  if (!imageId(id)) return null;
+  const got = await s.getWithMetadata(BRASS_IMG + id, { type: 'arrayBuffer' });
+  if (!got || !got.metadata) return null;
+  return { data: got.data, meta: got.metadata };
+}
+
+/* Daily: every board picture no post holds, once a day has passed since it
+   was put up. */
+export async function sweepBrassImages(s = store(), now = Date.now()) {
+  const held = new Set((await readBrass(s)).map((p) => p.img).filter(Boolean));
+  for (const b of (await s.list({ prefix: BRASS_IMG })).blobs || []) {
+    const id = b.key.slice(BRASS_IMG.length);
+    if (held.has(id)) continue;
+    const got = await s.getWithMetadata(b.key, { type: 'arrayBuffer' });
+    const t = got && got.metadata && got.metadata.t;
+    if (typeof t === 'number' && now - t < BRASS_IMG_UNSENT) continue;
+    await s.delete(b.key);
+  }
+}
+
+/* The board's own feed: every post, newest first, as RSS 2.0, with the post's
+   own HTML in it, escaped, and its picture with its description. */
+export function brassFeed(posts, base = 'https://stimpunks.world/') {
+  const page = base + 'brass-tacks-board.html';
+  const items = posts.slice(0, 50).map((p) => {
+    let html = brassHtml(parseBrass(p.body), base);
+    if (p.img) html = `<p><img src="${escHtml(base + 'cb/brass/image?id=' + p.img)}" alt="${escHtml(p.alt || '')}"></p>` + html;
+    html += `<p>Posted by ${escHtml(p.handle)} on the Brass Tacks Board.</p>`;
+    return `  <item>
+    <title>${escHtml(p.title)}</title>
+    <link>${escHtml(page + '#post-' + p.id)}</link>
+    <guid isPermaLink="false">stimpunks-world-brass-${escHtml(p.id)}</guid>
+    <pubDate>${new Date(p.t).toUTCString()}</pubDate>
+    <dc:creator>${escHtml(p.handle)}</dc:creator>
+    <description>${escHtml(html)}</description>
+  </item>`;
+  }).join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>The Brass Tacks Board &#8212; Stimpunks.World</title>
+  <link>${escHtml(page)}</link>
+  <atom:link href="${escHtml(base + 'brass-tacks.xml')}" rel="self" type="application/rss+xml"/>
+  <description>News, notices, events and celebrations, posted by our moderators.</description>
+  <language>en</language>
+${items}
+</channel>
+</rss>
+`;
+}
+
 /* ── What people type ──────────────────────────────────────────────────── */
 
 /* Control characters out, runs of space folded, the ends trimmed. Nothing is

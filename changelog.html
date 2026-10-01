@@ -41,6 +41,15 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-09-30-brass-tacks-board">2026-09-30 &mdash; The Brass Tacks Board</h2>
+  <ul>
+    <li><strong>New on the pavement, beside the Pebble Board: <a href="brass-tacks-board.html">the Brass Tacks Board</a></strong>, for things meant to last. News, notices, events, celebrations and posts, each on a brass plate tacked to a wall of old copper gone green, kept until it is taken down. Anybody can read it, and it has <a href="/brass-tacks.xml">a feed of its own</a>. Ryan&rsquo;s brief.</li>
+    <li><strong>Only our moderators post on it, and every post carries the username of the moderator who put it up</strong>, public on purpose. The author can edit it, and the post says it was edited and when; any moderator can take any post down. Ryan&rsquo;s calls.</li>
+    <li><strong>A post is Markdown</strong>, as fully as we could do it safely: headings, bold, italic, strikethrough, code and code blocks, lists inside lists, quotes, tables, rules and links. The server reads it once into a plain structure, and the board and the feed build that, so nothing typed into a post can become code on the page. A link goes to the web, an email address or somewhere on the street, and a link off the street shows where it goes.</li>
+    <li><strong>A post can carry a picture</strong>, redrawn in the moderator&rsquo;s browser first by the radio&rsquo;s own redraw, which takes off everything a camera writes into a file; it needs a description, and the moderator says everybody recognisable in it has said yes. <a href="privacy.html#brass-tacks">The privacy page</a> says what the board keeps.</li>
+    <li><strong>No new database.</strong> It is Netlify Blobs, like the rest of the CB, with the boards&rsquo; conditional write, tested with fifteen moderators posting at once. It is set in Bellefair and Merriweather, both new to the street. Changed: <code>netlify/cb/lib.mjs</code> and its tests, three new functions, <code>brass.js</code>, <code>cb.js</code> (it shares its redraw now), <code>love.css</code> (the board is §90, and Small screens and Print are §91 and §92), the map, and a new <code>tools/make-brass.py</code>.</li>
+  </ul>
+
   <h2 id="2026-09-30-any-emoji">2026-09-30 &mdash; More reactions, and any emoji at all</h2>
   <ul>
     <li><strong>Our usual ten are in the quick row now</strong>: dog, cat, otter, rainbow, unicorn, sign of the horns, hedgehog, hugging face, people hugging and crying face. Ryan&rsquo;s list.</li>

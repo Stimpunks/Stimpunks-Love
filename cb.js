@@ -117,6 +117,12 @@
     });
   }
 
+  /* THE ONE REDRAW. The Brass Tacks Board takes a moderator's picture through
+     this same function rather than a copy of it, because two copies of what
+     strips a camera's GPS is one copy that gets fixed and one that does not.
+     Only a signed-on page has the radio, and only a signed-on moderator posts. */
+  window.loveRedraw = redraw;
+
   // A kept picture's file name: who sent it and when, so a folder of them sorts.
   function pictureName(m) {
     var d = new Date(m.t), two = function (n) { return (n < 10 ? '0' : '') + n; };

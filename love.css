@@ -1066,6 +1066,10 @@
    weight axis, Radio Canada's call. No italic is shipped, so the room sets
    nothing italic. Both read off their own records; see fonts/_sources.json. */
 @font-face { font-family: 'Paytone One'; src: url('fonts/paytone-one-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Bellefair'; src: url('fonts/bellefair-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Merriweather'; src: url('fonts/merriweather-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Merriweather'; src: url('fonts/merriweather-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Merriweather'; src: url('fonts/merriweather-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 @font-face { font-family: 'Carter One'; src: url('fonts/carter-one-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Balsamiq Sans'; src: url('fonts/balsamiq-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Balsamiq Sans'; src: url('fonts/balsamiq-sans-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
@@ -2649,6 +2653,21 @@
   --rsa-coat-sandy: #C8A26B;  --rsa-coat-ginger: #CD7337; --rsa-coat-beige: #D4C0A0;
   --rsa-coat-sable: #563F32;  --rsa-coat-cinnamon: #A76F49; --rsa-coat-pale: #D7C8B0;
   --rsa-coat-dark:  #42382F;  --rsa-coat-face: #CCAF8B;
+  /* THE BRASS TACKS BOARD (§90). A wall of old copper gone green, and every post
+     a polished brass plate tacked to it. --btb-wall is the verdigris, the ground
+     every word between the plates stands on; --btb-brass a plate, the ground of
+     every post. --btb-text is every word on the wall, --btb-dim the fine print
+     there, --btb-link every link on the wall and the ground of every button;
+     --btb-ink every engraved word on a plate, --btb-ink2 the fine print there,
+     --btb-plink every link on a plate, --btb-code the ground of code on a
+     plate. The rest carry no word: --btb-patina and --btb-patina2 the streaks
+     in the green, --btb-shine the hard bright line along a plate's top edge,
+     --btb-brass2 its lower edge, --btb-tack a tack's head. */
+  --btb-wall:  #173733;  --btb-patina: #2D665C;  --btb-patina2: #5E9F8E;
+  --btb-text:  #E4EFE8;  --btb-dim:    #A8C5BB;  --btb-link:    #F3C86E;
+  --btb-brass: #D6B163;  --btb-brass2: #A9873D;  --btb-shine:   #FCEDB8;
+  --btb-ink:   #21180A;  --btb-ink2:   #4C3913;  --btb-plink:   #6A260B;
+  --btb-code:  #C8A253;  --btb-tack:   #EBC66B;
 
   /* import:neurohome:root:begin */
   /* Isha Snow's room, NeuroHome -- brought in by tools/import-room.py.
@@ -3622,6 +3641,31 @@ div.facade--audio { border: 0; background: none; }
   letter-spacing: 1px; color: var(--pink);
 }
 .postercol__why { display: block; margin-top: 7px; font-size: 14.5px; max-width: 62ch; color: var(--chalk); }
+
+/* The Brass Tacks Board beside the Pebble Board, and not a second board: the
+   board is a CASE under glass on two legs, holding what people brought each
+   other, edition by edition; this is a PLATE bolted flat to the wall with a tack
+   in each corner, holding what has to stay put. Square corners, no glass, no
+   legs, no roof. A street object in the street's clothes like the others: the
+   street's Bungee, and the street's orange, which no other furniture wears.
+   What is on the board itself is the board's own brass and green, and none of
+   that comes out here. */
+.brasstacks { display: block; margin: 22px 0 0; text-decoration: none; }
+.brasstacks__plate {
+  display: block; position: relative; background: var(--ink-2); color: var(--chalk);
+  border: 3px solid var(--orange); border-radius: 2px; padding: 14px 26px 15px;
+  background-image:
+    radial-gradient(circle at 10px 10px, var(--orange) 0 3px, transparent 3.5px),
+    radial-gradient(circle at calc(100% - 10px) 10px, var(--orange) 0 3px, transparent 3.5px),
+    radial-gradient(circle at 10px calc(100% - 10px), var(--orange) 0 3px, transparent 3.5px),
+    radial-gradient(circle at calc(100% - 10px) calc(100% - 10px), var(--orange) 0 3px, transparent 3.5px);
+}
+.brasstacks:hover .brasstacks__plate { background-color: var(--ink); }
+.brasstacks__what {
+  display: block; font-family: 'Bungee', var(--sans); font-size: 17px;
+  letter-spacing: 1px; color: var(--orange);
+}
+.brasstacks__why { display: block; margin-top: 7px; font-size: 14.5px; max-width: 62ch; color: var(--chalk); }
 
 .signpost { display: flex; align-items: stretch; margin: 26px 0 0; text-decoration: none; }
 .signpost__post { flex: 0 0 14px; background: var(--ink-3); border-radius: 3px 3px 0 0; }
@@ -12747,7 +12791,7 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
 /* A BUILDING. The face carries the name; the top and the side are clipped out
    of rectangles, never skewed; the shadow falls down and to the left, away from
    a lamp off the upper right of the table. */
-.mm-shop, .mm-back, .mm-table, .mm-notice, .mm-poster {
+.mm-shop, .mm-back, .mm-table, .mm-notice, .mm-brass, .mm-poster {
   position: relative; display: block; min-width: 0; max-width: 100%;
   background: var(--mm-face); color: var(--mm-ink); text-decoration: none;
   border: 1.5px solid var(--mm-pencil);
@@ -12768,10 +12812,10 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
   clip-path: polygon(0 var(--mm-d), 100% 0, 100% calc(100% - var(--mm-d)), 0 100%);
 }
 .mm-shop > .mm-name, .mm-back > .mm-name { position: relative; }
-.mm-shop:hover, .mm-back:hover, .mm-table:hover, .mm-notice:hover, .mm-poster:hover,
-.mm-shop:focus-visible, .mm-back:focus-visible, .mm-notice:focus-visible, .mm-poster:focus-visible {
+.mm-shop:hover, .mm-back:hover, .mm-table:hover, .mm-notice:hover, .mm-brass:hover, .mm-poster:hover,
+.mm-shop:focus-visible, .mm-back:focus-visible, .mm-notice:focus-visible, .mm-brass:focus-visible, .mm-poster:focus-visible {
   box-shadow: -12px 14px 0 rgba(34, 48, 43, .34); }
-.mm-shop:hover .mm-name, .mm-back:hover .mm-name, .mm-notice:hover .mm-name, .mm-poster:hover .mm-name,
+.mm-shop:hover .mm-name, .mm-back:hover .mm-name, .mm-notice:hover .mm-name, .mm-brass:hover .mm-name, .mm-poster:hover .mm-name,
 .mm-tent:hover .mm-name, .mm-sign:hover .mm-name, .mm-tag:hover .mm-name, .mm-gate:hover .mm-name,
 .mm-edge__name:hover .mm-name, .mm-roadname__a:hover .mm-name { text-decoration: underline; text-underline-offset: 3px; }
 
@@ -12803,6 +12847,9 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
 .mm-notice { width: 10rem; padding: 9px 10px 10px; margin-bottom: 18px; box-shadow: -6px 7px 0 rgba(34, 48, 43, .24); }
 .mm-notice::after { content: ""; position: absolute; left: 22%; right: 22%; bottom: -19px; height: 18px;
   border-left: 2px solid var(--mm-pencil); border-right: 2px solid var(--mm-pencil); }
+/* The Brass Tacks Board: a flat plate of card pinned to the wall, square, with
+   no legs and no roof, beside the case on legs. Same white card as everything. */
+.mm-brass { width: 9rem; padding: 9px 10px 10px; margin-bottom: 10px; border-radius: 1px; box-shadow: -6px 7px 0 rgba(34, 48, 43, .24); }
 /* The poster column: a drum of card rolled round, with a round cap, standing
    straight on the pavement with no legs. Same white card as everything else. */
 .mm-poster { width: 7.5rem; padding: 14px 10px 12px; margin-top: 8px; text-align: center;
@@ -12925,7 +12972,7 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
   .mm-lots { --mm-lane: 34px; row-gap: 22px; }
   .mm-lot--w { padding-right: 8px; }
   .mm-lot--e { padding-left: 2px; }
-  .mm-shop, .mm-gate, .mm-table, .mm-notice, .mm-lifthead { width: 100%; }
+  .mm-shop, .mm-gate, .mm-table, .mm-notice, .mm-brass, .mm-lifthead { width: 100%; }
   .mm-shop { --mm-d: 8px; padding: 10px 9px 12px; }
   .mm-back { --mm-d: 6px; width: 100%; padding: 7px 8px 9px; }
   .mm-lot--w .mm-behind { margin-right: 0; margin-left: 12px; }
@@ -14559,7 +14606,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §91
+   class on it is `bb-`, its sizes are in points and millimetres, and §92
    prints it and nothing else. */
 
 .room-broadside {
@@ -14620,7 +14667,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §91 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §92 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -17931,7 +17978,136 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .rsa-out { grid-template-columns: 1fr; }
 }
 
-/* §90 ── Small screens ───────────────────────────────────────────────────────
+/* §90 ── STREET FURNITURE: The Brass Tacks Board (beside the Pebble Board) ─────
+   For things meant to persist: news, notices, events, celebrations, posts.
+   Ryan's brief, 2026-09-30. Anybody reads it; a moderator posts, with their
+   username on the post; the author edits; any moderator takes a post down; a
+   post may carry a picture; the board has a feed of its own.
+
+   THE WALL IS OLD COPPER GONE GREEN AND EVERY POST IS A POLISHED BRASS PLATE.
+   The light is what the metal does with it: the verdigris is matte and
+   reflects nothing, so the wall stays dark, and each plate throws back one
+   hard bright line along its top edge, its lower edge in shade, so the plates
+   stand off the wall. Every word between the plates is pale on the green;
+   every word on a plate is engraved, dark on the brass.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · THE PEBBLE BOARD is its neighbour and the other board, and it is a
+       painted timber CASE under glass on legs, lamplit cork at night, with
+       paper pinned in it that changes every edition. This has no glass, no
+       paper, no cork and no lamp: metal fixed to metal, there for good.
+     · NOW PLAYING is the poster pasted round a drum; it is paper and two
+       overprinted inks. Nothing here is paper.
+     · THE FRIDGE OF SIGHS is the other glossy surface with a light in it, and
+       its whole door is pale enamel holding one soft reflection of a window.
+       Here the ground is dark and matte and only the metal shines, in lines.
+     · CAVENDISH COWORKING is the street's other green wall, Georgian paint in
+       daylight through blinds; this is metal, darker, with no daylight on it.
+     · THE FOUNDRY is the other metal room, grey iron under a north light, and
+       its subject is the type. Here the subject is the plates.
+
+   NOTHING MOVES, and nothing glints by itself: a shine sliding across a plate
+   is the obvious animation, and the dial would have to take it away. */
+
+.brasstacks-room {
+  background: var(--btb-wall); color: var(--btb-text);
+  font-family: 'Merriweather', var(--serif, Georgia, serif); font-synthesis: none;
+}
+.brasstacks-room a { color: var(--btb-link); }
+.brasstacks-room :focus-visible { outline-color: var(--btb-link); }
+.brasstacks-room .backlink { font-family: 'Merriweather', serif; font-weight: 700; font-size: 15px; color: var(--btb-link); }
+.btb-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.btb-trail { margin: 0; font-size: 14px; color: var(--btb-dim); }
+.btb-head { margin: 28px 0 0; }
+.btb-over, .btb-sub { margin: 0; font-size: 17px; line-height: 1.5; color: var(--btb-dim); }
+.btb-over { font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 13px; }
+.brasstacks-room h1 {
+  margin: 8px 0 6px; font-family: 'Bellefair', serif; font-weight: 400;
+  font-size: clamp(44px, 8vw, 84px); line-height: 1; color: var(--btb-text);
+}
+.brasstacks-room h2 { margin: 0 0 8px; font-family: 'Bellefair', serif; font-weight: 400; font-size: 32px; line-height: 1.15; color: var(--btb-text); }
+.btb-sign { display: block; width: 100%; max-width: 600px; height: auto; margin: 18px 0 0; }
+.btb-part { margin: 40px 0 0; }
+.btb-part > p, .btb-lede { font-size: 16.5px; line-height: 1.7; max-width: 66ch; }
+.btb-lede { margin: 26px 0 0; }
+.btb-said { margin: 18px 0 0; min-height: 1.6em; font-size: 16px; line-height: 1.55; max-width: 66ch; }
+.btb-state { margin: 10px 0 0; font-size: 16px; line-height: 1.55; }
+.btb-rules { margin: 10px 0 0; padding-left: 22px; max-width: 68ch; font-size: 15.5px; line-height: 1.65; }
+.btb-rules li { margin: 0 0 10px; }
+.btb-btn {
+  font-family: 'Merriweather', serif; font-weight: 700; font-size: 15px; line-height: 1.3;
+  padding: 10px 18px; min-height: 44px; border: 0; border-radius: 3px; cursor: pointer;
+  background: var(--btb-link); color: var(--btb-ink); font-synthesis: none;
+}
+.btb-btn:hover { background: var(--btb-text); }
+.btb-btn[disabled] { cursor: default; background: var(--btb-dim); }
+.btb-btn--small { font-size: 13px; padding: 6px 12px; min-height: 0; }
+
+/* A PLATE: brass, a hard shine along the top edge, its foot in shade, a tack in
+   each corner, and every word on it engraved dark. */
+.btb-posts { display: grid; gap: 26px; margin: 14px 0 0; }
+.btb-plate {
+  position: relative; max-width: 74ch; padding: 30px 34px 26px;
+  background: var(--btb-brass); color: var(--btb-ink); border-radius: 3px;
+  border-top: 3px solid var(--btb-shine); border-bottom: 3px solid var(--btb-brass2);
+  box-shadow: 4px 6px 0 rgba(8, 22, 20, .55);
+}
+.btb-plate a { color: var(--btb-plink); }
+.btb-plate :focus-visible { outline-color: var(--btb-ink); }
+.btb-tack { position: absolute; width: 10px; height: 10px; border-radius: 50%; background: var(--btb-tack); box-shadow: 0 0 0 2px var(--btb-brass2); }
+.btb-tack--tl { top: 10px; left: 10px; } .btb-tack--tr { top: 10px; right: 10px; }
+.btb-tack--bl { bottom: 10px; left: 10px; } .btb-tack--br { bottom: 10px; right: 10px; }
+.brasstacks-room .btb-plate__title { margin: 0; font-size: 30px; color: var(--btb-ink); overflow-wrap: anywhere; }
+.btb-plate__by { margin: 6px 0 0; font-size: 13.5px; color: var(--btb-ink2); }
+.btb-plate__pic { margin: 16px 0 0; }
+.btb-plate__pic img { display: block; max-width: 100%; height: auto; border: 2px solid var(--btb-brass2); }
+.btb-plate__body { margin: 14px 0 0; font-size: 16px; line-height: 1.7; overflow-wrap: anywhere; }
+.btb-plate__body > :first-child { margin-top: 0; }
+.btb-plate__body p, .btb-plate__body ul, .btb-plate__body ol, .btb-plate__body blockquote, .btb-plate__body pre, .btb-plate__body .btb-table { margin: 0 0 12px; }
+.btb-plate__body :where(h3, h4, h5, h6) { margin: 18px 0 6px; font-family: 'Bellefair', serif; font-weight: 400; color: var(--btb-ink); line-height: 1.2; }
+.btb-plate__body h3 { font-size: 24px; } .btb-plate__body h4 { font-size: 20px; } .btb-plate__body :where(h5, h6) { font-size: 18px; }
+.btb-plate__body blockquote { padding: 2px 0 2px 14px; border-left: 3px solid var(--btb-ink2); }
+.btb-plate__body code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .92em; background: var(--btb-code); padding: 0 4px; border-radius: 2px; }
+.btb-plate__body pre { overflow-x: auto; padding: 10px 12px; background: var(--btb-code); border-radius: 2px; }
+.btb-plate__body pre code { padding: 0; background: none; }
+.btb-plate__body hr { border: 0; border-top: 2px solid var(--btb-brass2); margin: 18px 0; }
+.btb-table { overflow-x: auto; }
+.btb-plate__body table { border-collapse: collapse; font-size: 15px; }
+.btb-plate__body :where(th, td) { border: 1px solid var(--btb-brass2); padding: 4px 10px; vertical-align: top; }
+.btb-host { font-size: 12.5px; color: var(--btb-ink2); }
+.btb-plate__tools { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; }
+.btb-plate .btb-btn { background: var(--btb-ink); color: var(--btb-brass); }
+.btb-plate .btb-btn:hover { background: var(--btb-ink2); }
+.btb-sure { flex: 1 1 100%; }
+.btb-sure p { margin: 0 0 8px; font-size: 14px; }
+.btb-sure .btb-btn { margin: 0 8px 6px 0; }
+
+/* Writing: on the wall in a moderator's own post, or a plate being edited. */
+.btb-form { margin: 16px 0 0; display: grid; gap: 10px; max-width: 66ch; }
+.btb-field { margin: 0; display: grid; gap: 4px; }
+.btb-field label { font-weight: 700; font-size: 15px; }
+.btb-hint { font-size: 13px; line-height: 1.5; color: var(--btb-dim); }
+.btb-plate .btb-hint { color: var(--btb-ink2); }
+.btb-in {
+  font: 400 15px/1.5 'Merriweather', serif; padding: 8px 10px; width: 100%; box-sizing: border-box;
+  background: var(--btb-text); color: var(--btb-ink); border: 2px solid var(--btb-link); border-radius: 2px;
+}
+.btb-plate .btb-in { border-color: var(--btb-ink); }
+.btb-in--body { min-height: 14em; resize: vertical; }
+.btb-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.btb-pic { display: grid; gap: 8px; }
+.btb-pic__line, .btb-check { margin: 0; font-size: 14px; line-height: 1.5; }
+.btb-pic__thumb { display: block; max-width: 220px; height: auto; border: 2px solid var(--btb-link); }
+.btb-preview { margin: 8px 0 0; padding: 22px 26px; background: var(--btb-brass); color: var(--btb-ink); border-top: 3px solid var(--btb-shine); }
+.btb-preview__label { margin: 0 0 8px; font-size: 13px; color: var(--btb-ink2); font-weight: 700; }
+.btb-preview a { color: var(--btb-plink); }
+.brasstacks-room .quest { margin-top: 40px; }
+
+@media (max-width: 620px) {
+  .btb-plate { padding: 28px 20px 22px; }
+}
+
+/* §91 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -18038,7 +18214,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §90 says every
+   shipped with no rule here at all — which on a street whose §91 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -18162,7 +18338,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §91 ── Print ───────────────────────────────────────────────────────────────
+/* §92 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

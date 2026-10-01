@@ -1261,6 +1261,20 @@
       "sections": [
         89
       ]
+    },
+    "bellefair": {
+      "where": "The Brass Tacks Board",
+      "page": "brass-tacks-board.html",
+      "sections": [
+        90
+      ]
+    },
+    "merriweather": {
+      "where": "The Brass Tacks Board",
+      "page": "brass-tacks-board.html",
+      "sections": [
+        90
+      ]
     }
   }
 }

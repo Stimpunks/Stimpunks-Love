@@ -1208,6 +1208,18 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--dogs .og-lede {{ font-family: 'Open Sans', sans-serif; color: var(--rad-ink);
   font-size: 26px; line-height: 1.4; margin: 24px 0 0 !important; max-width: 560px; }}
 
+/* the brass tacks board — THE COPPER WALL: the header lifted whole, brass plates
+   tacked to green, and no post off the board, whose words are the moderators'. */
+.og--brasstacks-room {{ width: 100%; flex-direction: column; align-items: flex-start; justify-content: center; padding: 0 64px; }}
+.og--brasstacks-room .btb-head {{ margin: 0 !important; width: 100%; display: grid;
+  grid-template-columns: 560px 1fr; column-gap: 40px; align-items: center; }}
+.og--brasstacks-room .btb-head > p, .og--brasstacks-room .btb-head > h1 {{ grid-column: 1; }}
+.og--brasstacks-room .btb-head p:not(.og-lede) {{ margin: 0 !important; font-size: 18px; }}
+.og--brasstacks-room h1 {{ font-size: 76px; margin: 12px 0 12px !important; }}
+.og--brasstacks-room .btb-sign {{ grid-column: 2; grid-row: 1 / span 4; margin: 0 !important; max-width: none; }}
+.og--brasstacks-room .og-lede {{ font-family: 'Merriweather', serif; color: var(--btb-text);
+  font-size: 23px; line-height: 1.45; margin: 22px 0 0 !important; max-width: 560px; }}
+
 /* rescue small animals — UNDER THE FLOORBOARDS: the header lifted whole, the dark
    boards with daylight through the cracks, the strips of it on the dust, and a
    mouse standing in one. No animal off the hutches: their names were given by
@@ -3734,6 +3746,29 @@ def card_cats(p):
     )
 
 
+def card_brasstacks(p):
+    # THE HEADER IS LIFTED WHOLE, so the card cannot show a different wall; no
+    # post is on it, because the posts are the moderators' and change.
+    head = re.search(r'<header class="btb-head">(.*?)</header>', p["src"], re.S)
+    over = re.search(r'<p class="btb-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="btb-sub">(.*?)</p>', p["src"], re.S)
+    if not (head and over and sub and 'class="btb-sign"' in head.group(1)):
+        raise SystemExit(
+            "REFUSING: brass-tacks-board.html has lost its header or the drawing in it,\n"
+            "and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--brasstacks-room" data-fit="card"><header class="btb-head">{head.group(1)}'
+        f'<p class="og-lede">{p["desc"]}</p></header></div>',
+        f"A dark green card, the colour of old copper gone to verdigris. Small pale capitals reading "
+        f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in a tall, fine, engraved-looking letter, "
+        f"then {plain(sub.group(1))}. Under it: {p['desc_plain']} On the right, four polished brass plates "
+        f"tacked to the green wall, each with a bright line along its top edge, a brass tack in each "
+        f"corner and lines of dark engraving standing in for words.",
+    )
+
+
 def card_smalls(p):
     # THE HEADER IS LIFTED WHOLE, drawing and all, so the card cannot show a
     # different floor; the lede goes under it on the dust.
@@ -4066,6 +4101,7 @@ CARDS = {
     "cats":         card_cats,
     "dogs":         card_dogs,
     "smalls":       card_smalls,
+    "brasstacks-room": card_brasstacks,
     "cavendish":    card_cavendish,
     "live-room":    card_live,
     "doom-scoop":   card_scoop,

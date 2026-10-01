@@ -2325,5 +2325,41 @@
    "src": "https://fonts.gstatic.com/s/balsamiqsans/v15/P5sZzZiAbNrN8SB3lQQX7PncyWUyNYhsAhDGVQM.woff2",
    "note": "Its bold, a file of its own."
   }
+ ],
+ "bellefair": [
+  {
+   "file": "bellefair-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 10944,
+   "src": "https://fonts.gstatic.com/s/bellefair/v15/kJExBuYY6AAuhiXUxG1N-Po3huR_DQ.woff2",
+   "note": "The Brass Tacks Board (§90), the h1, every post's title and every heading: a high-contrast face cut like an engraved plate. Never a sentence."
+  }
+ ],
+ "merriweather": [
+  {
+   "file": "merriweather-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 51864,
+   "src": "https://fonts.gstatic.com/s/merriweather/v33/u-4B0qyriQwlOrhSvowK_l5-eTxCVx0ZbwLvKH2Gk9hLmp0v5yA-xXPqCzLvPee1XYk_XSf-FmTCUG33AvH4ZL_Ean0.woff2",
+   "note": "Its italic, a second alphabet, for a post's *emphasis*."
+  },
+  {
+   "file": "merriweather-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 97608,
+   "src": "https://fonts.gstatic.com/s/merriweather/v33/u-4e0qyriQwlOrhSvowK_l5UcA6zuSYEqOzpPe3HOZJ5eX1WtLaQwmYiSeqqJ-mXq1Gi.woff2",
+   "note": "The Brass Tacks Board (§90), every word of every post and of the board around them. A serif drawn for reading on screens, sturdy enough to read off a brass plate. It ships as a variable font, so Google serves the same file for 400 and 700; it is downloaded once and declared twice against the weight axis, Radio Canada's call."
+  },
+  {
+   "file": "merriweather-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 97608,
+   "src": "https://fonts.gstatic.com/s/merriweather/v33/u-4e0qyriQwlOrhSvowK_l5UcA6zuSYEqOzpPe3HOZJ5eX1WtLaQwmYiSeqqJ-mXq1Gi.woff2",
+   "note": "Byte-identical to the 400 above; see that note."
+  }
  ]
 }

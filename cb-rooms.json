@@ -337,6 +337,11 @@
    "path": "/pebble-board.html"
   },
   {
+   "tag": "brass-tacks-board",
+   "name": "The Brass Tacks Board",
+   "path": "/brass-tacks-board.html"
+  },
+  {
    "tag": "now-playing",
    "name": "Now Playing",
    "path": "/now-playing.html"

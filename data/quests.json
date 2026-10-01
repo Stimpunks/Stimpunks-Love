@@ -2717,6 +2717,41 @@
    }
   },
   {
+   "id": "brass-tack",
+   "page": "brass-tacks-board.html",
+   "room": "The Brass Tacks Board",
+   "title": "Whose name is on a post?",
+   "posted": "Beside the Pebble Board on the pavement there is a wall of old copper with brass plates tacked to it: news, notices and celebrations meant to last. Every plate says who put it up. Go and find out who can.",
+   "rank": 1,
+   "takes": "about as long as it takes to read one plate",
+   "target": "a brass tack that fell out of a plate, lying point up on the pavement under the board",
+   "code": "VERDIGRIS",
+   "learned": "Only our moderators post on the Brass Tacks Board, and every post carries the username of the moderator who put it up, so you always know who to ask. The author can edit it and any moderator can take it down.",
+   "hints": [
+    "On the pavement, beside the Pebble Board: the plate with a tack in each corner.",
+    "In how the board works.",
+    "On the pavement under the board, where a tack fell."
+   ],
+   "ask": {
+    "question": "Who can post on the Brass Tacks Board?",
+    "accept": [
+     "moderators",
+     "moderator",
+     "themoderators",
+     "amoderator",
+     "mods",
+     "mod"
+    ],
+    "answer": "The moderators",
+    "why": "Only a moderator can post, and their username is on the post for everybody to see.",
+    "hints": [
+     "It is in how the board works.",
+     "It is the people with BASE beside their name on the CB.",
+     "They look after the CB."
+    ]
+   }
+  },
+  {
    "id": "wr-mantle",
    "page": "cavendish-events.html",
    "room": "The Events Room",

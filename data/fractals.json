@@ -1449,6 +1449,18 @@
         "--rsa-crack",
         "--rsa-coat-ginger"
       ]
+    },
+    "brass-tacks-board.html": {
+      "kind": "newton",
+      "degree": 4,
+      "relax": 0.3,
+      "ground": "--btb-wall",
+      "inks": [
+        "--btb-brass",
+        "--btb-shine",
+        "--btb-patina2",
+        "--btb-link"
+      ]
     }
   }
 }

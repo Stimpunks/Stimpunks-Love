@@ -7,7 +7,7 @@
    are swept on the same hour (the tree's own count never is),
    and so is the Slake: stale presence, and every place's talk from yesterday.
    So are the rooms' Be seen here records and the calls' lists of who is in them. */
-import { sweep, sweepRoomTalk, sweepChalk, sweepPebbles, sweepFence, fileFridge, finishAllAdoptions, sweepSlake, sweepBeacons, sweepImages, sweepSeen, sweepCalls } from '../cb/lib.mjs';
+import { sweep, sweepRoomTalk, sweepChalk, sweepPebbles, sweepFence, fileFridge, finishAllAdoptions, sweepSlake, sweepBeacons, sweepImages, sweepSeen, sweepCalls, sweepBrassImages } from '../cb/lib.mjs';
 
 export default async () => {
   await sweep();
@@ -20,6 +20,7 @@ export default async () => {
   await sweepSlake();   // and the Slake: nobody left standing, nothing said yesterday
   await sweepBeacons(); // and every host's beacon nobody has heard from
   await sweepImages();  // and every picture no live message holds, after the channels
+  await sweepBrassImages();  // and every board picture no post holds, a day after it was put up
   await sweepSeen();    // and anybody still marked as seen in a room who has gone quiet
   await sweepCalls();   // and anybody 8x8 never said had left a call, once no token could still hold
 };

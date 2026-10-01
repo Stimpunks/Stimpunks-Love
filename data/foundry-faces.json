@@ -455,6 +455,23 @@
     }
    ]
   },
+  "bellefair": {
+   "family": "Bellefair",
+   "category": "Serif",
+   "designer": "Nick Shinn, Liron Lavi Turkenic",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/bellefair",
+   "copyright": "Copyright 2015 The Bellefair Project Authors (https://github.com/shinntype/bellefair)",
+   "repository": "https://github.com/shinntype/bellefair",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "bellefair-400.woff2",
+     "sha": "2a5c6d67522a0fa2"
+    }
+   ]
+  },
   "bevan": {
    "family": "Bevan",
    "category": "Serif",
@@ -2025,6 +2042,35 @@
      "style": "normal",
      "file": "marcellus-sc-400.woff2",
      "sha": "c7cd5bc57764efc9"
+    }
+   ]
+  },
+  "merriweather": {
+   "family": "Merriweather",
+   "category": "Serif",
+   "designer": "Sorkin Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/merriweather",
+   "copyright": "Copyright 2024 The Merriweather Project Authors (https://github.com/EbenSorkin/Merriweather4) with Reserved Font Name \"Merriweather\".",
+   "repository": "https://github.com/EbenSorkin/Merriweather4",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "merriweather-400-italic.woff2",
+     "sha": "cf59331e7719702f"
+    },
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "merriweather-400.woff2",
+     "sha": "af1be39e2ff60ede"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "merriweather-400.woff2",
+     "sha": "af1be39e2ff60ede"
     }
    ]
   },

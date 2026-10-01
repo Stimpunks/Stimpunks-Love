@@ -2796,6 +2796,28 @@ PAIRS = [
     ("#E4EEFA", "#1B2233", False, "dogs: a button under the pointer, and a month's button while it is open"),
     ("#E4EEFA", "#3E4C62", False, "dogs: a button while it is on its way"),
 
+    # ── The Brass Tacks Board (§90) ──────────────────────────────────────────
+    # Pale words on the verdigris wall, engraved dark words on every brass plate.
+    ("#E4EFE8", "#173733", False, "brass tacks: every word on the wall -- the lede, the rules, what you are "
+                                  "told -- the h1, every h2, the form's labels, and the job marker's floor"),
+    ("#A8C5BB", "#173733", False, "brass tacks: the trail, the lines over and under the h1, and the form's hints"),
+    ("#F3C86E", "#173733", False, "brass tacks: every link on the wall, the backlink, the focus ring on the wall, "
+                                  "and the job marker, a tack fallen on the pavement"),
+    ("#21180A", "#F3C86E", False, "brass tacks: every button's words on the wall"),
+    ("#21180A", "#E4EFE8", False, "brass tacks: a button under the pointer, and what is typed in the form"),
+    ("#21180A", "#A8C5BB", False, "brass tacks: a button while it is on its way"),
+    ("#21180A", "#D6B163", False, "brass tacks: every word engraved on a plate -- its title, its words, its "
+                                  "headings, its tables -- and the focus ring on a plate"),
+    ("#4C3913", "#D6B163", False, "brass tacks: who posted it and when, a link's address after it, and the "
+                                  "preview's label"),
+    ("#6A260B", "#D6B163", False, "brass tacks: every link on a plate"),
+    ("#21180A", "#C8A253", False, "brass tacks: code on a plate"),
+    ("#D6B163", "#21180A", False, "brass tacks: a plate's own buttons, brass on the engraving's dark"),
+    ("#D6B163", "#4C3913", False, "brass tacks: a plate's button under the pointer"),
+    # The plate on the street, in the street's orange, which no other furniture wears.
+    ("#FF8A00", "#241d33", False, "street: THE BRASS TACKS BOARD on its plate on the pavement"),
+    ("#FF8A00", "#15121f", False, "street: THE BRASS TACKS BOARD, under the pointer"),
+
     # ── Rescue Small Animals (§89) ───────────────────────────────────────────
     # Under the floorboards. Every word between the cards is pale on the dust;
     # every word on a card is dark ink on a strip of daylight.
@@ -3154,6 +3176,11 @@ ORNAMENT = {
     "#f6edd3": "dogs: the low sun, 1.26 on the sky. It carries no word.",
     "#3b2b1f": "dogs: the stripes on a brindle coat, 1.73 on chocolate brown. They carry no word.",
     "#1f1d22": "dogs: a black coat, 14.25 on the snow. It carries no word.",
+    "#2d665c": "brass tacks: a streak of patina in the green, 1.94 on the wall. Drawing only.",
+    "#5e9f8e": "brass tacks: a paler streak of patina, 4.19 on the wall. Drawing only.",
+    "#a9873d": "brass tacks: a plate's lower edge in shade and a tack's rim, 1.66 on the brass. It carries no word.",
+    "#fcedb8": "brass tacks: the hard bright line along a plate's top edge, 1.74 on the brass. It carries no word.",
+    "#ebc66b": "brass tacks: a tack's head, 1.24 on the brass and ringed in the plate's shade. It carries no word.",
     "#2c3238": "smalls: the floorboards overhead, 1.26 on the dust, and the awning of the street door. Drawing only.",
     "#fff7de": "smalls: the brightest line of daylight where a crack is, 12.10 on the boards. It carries no word.",
     "#e3a5a0": "smalls: ears, tails and feet, 1.66 on the daylight and outlined in the dark ink. It carries no word.",

@@ -29,7 +29,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
   PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons,
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
-  renamePet, shapeAnimal, REACTIONS, reactionOf, toggleReaction, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
+  renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages, REACTIONS, reactionOf, toggleReaction, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
@@ -62,7 +62,8 @@ function memoryStore({ etagOnRead }) {
     // nobody else writes it. Anything else fails.
     async set(key, value, opts = {}) {
       await tick();
-      if (!/^(mud-here|room-here|call-in|call-left|img)\//.test(key)) throw new Error('an unconditional write outside presence: ' + key);
+      // A picture's key is a fresh random id, so writing it can race nothing.
+      if (!/^(mud-here|room-here|call-in|call-left|img|brass-img)\//.test(key)) throw new Error('an unconditional write outside presence: ' + key);
       blobs.set(key, { value, etag: `e${++n}`, metadata: opts.metadata });
       return { modified: true };
     },
@@ -226,6 +227,94 @@ test('a reaction is pressed and pressed again, names who and never says how many
   assert.equal(toggleReaction(list, 'm1', 'nope', 'Ada'), null);
   assert.equal(toggleReaction(list, 'gone', heart, 'Ada'), null);
 });
+
+// THE BRASS TACKS BOARD.
+const MOD = { role: 'base', handle: 'Juniper', roles: new Set(['moderator']) };
+const MOD2 = { role: 'base', handle: 'Quill', roles: new Set(['moderator']) };
+const ANY = { role: 'mobile', handle: 'Ada', roles: new Set() };
+
+test('the board: only a moderator posts, the author edits, any moderator takes a post down', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.ok((await addBrass(ANY, { title: 'Hi', body: 'x' }, s)).error, 'somebody who is not a moderator posted');
+  const { post } = await addBrass(MOD, { title: 'Gathering on Sunday', body: 'Come **along**.' }, s, 10);
+  assert.equal(post.handle, 'Juniper');
+  const shown = shapeBrass((await readBrass(s))[0]);
+  assert.equal(shown.title, 'Gathering on Sunday'); assert.equal(shown.handle, 'Juniper');
+  assert.equal(shown.ast[0].c[1].t, 'b');
+  assert.ok((await editBrass(MOD2, post.id, { title: 'Mine now', body: 'y' }, s)).error, 'a moderator edited somebody else\'s post');
+  const ed = await editBrass(MOD, post.id, { title: 'Gathering on Sunday, 3pm', body: 'Come along.' }, s, 20);
+  assert.equal(ed.post.edited, 20);
+  assert.ok((await removeBrass(ANY, post.id, s)).error);
+  assert.equal((await removeBrass(MOD2, post.id, s)).removed, true, 'another moderator could not take it down');
+  assert.deepEqual(await readBrass(s), []);
+  assert.ok((await addBrass(MOD, { title: '', body: 'x' }, s)).error, 'a post with no title');
+  assert.ok((await addBrass(MOD, { title: 't', body: '   ' }, s)).error, 'a post with nothing in it');
+});
+
+test('the board: a picture is redrawn, described, said yes to, and goes with its post', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.ok((await putBrassImage(ANY, jpeg(), s)).error, 'somebody who is not a moderator put a picture up');
+  const withExif = Buffer.concat([Buffer.from([0xff, 0xd8, 0xff, 0xe1, 0x00, 0x10]), Buffer.from('Exif\u0000\u0000'), Buffer.alloc(64)]);
+  assert.ok((await putBrassImage(MOD, new Uint8Array(withExif), s)).error, 'a picture still carrying camera data went up');
+  const { id } = await putBrassImage(MOD, jpeg(), s, 0);
+  assert.ok((await addBrass(MOD, { title: 't', body: 'b', img: id }, s)).error, 'a picture with no description');
+  assert.ok((await addBrass(MOD, { title: 't', body: 'b', img: id, alt: 'A cake' }, s)).error, 'a picture nobody said yes to');
+  const { post } = await addBrass(MOD, { title: 't', body: 'b', img: id, alt: 'A cake', yes: true }, s);
+  assert.equal(shapeBrass((await readBrass(s))[0]).alt, 'A cake');
+  const { id: id2 } = await putBrassImage(MOD, jpeg(), s, 0);
+  await editBrass(MOD, post.id, { title: 't', body: 'b', img: id2, alt: 'A bigger cake', yes: true }, s);
+  assert.equal(await getBrassImage(id, s), null, 'the old picture outlived the edit that replaced it');
+  await removeBrass(MOD2, post.id, s);
+  assert.equal(await getBrassImage(id2, s), null, 'the picture outlived its post');
+  const { id: stray } = await putBrassImage(MOD, jpeg(), s, 0);
+  await sweepBrassImages(s, 1000);
+  assert.ok(await getBrassImage(stray, s), 'an upload was swept before its day was up');
+  await sweepBrassImages(s, 2 * 24 * 60 * 60 * 1000);
+  assert.equal(await getBrassImage(stray, s), null, 'an upload no post holds was never swept');
+});
+
+test('the board reads Markdown into nodes, never HTML, and links only where links may go', () => {
+  const nodes = parseBrass('Hi <script>alert(1)</script> [x](javascript:alert(1)) [y](//evil.example) [z](data:text/html,1) <img src=x onerror=alert(1)>');
+  const flat = JSON.stringify(nodes);
+  assert.ok(!flat.includes('"t":"a"'), 'a link was made from an address that may not be one');
+  const html = brassHtml(nodes);
+  assert.ok(!/<script|<img/i.test(html), 'markup typed into a post reached the feed as markup');
+  assert.ok(html.includes('&lt;script&gt;') && html.includes('&lt;img'), 'what was typed did not reach the feed as words');
+  // A picture from somewhere else is never fetched: it is a link to it, with a "!" in front.
+  const pic = parseBrass('![a cake](https://elsewhere.example/p.png)')[0].c;
+  assert.deepEqual(pic.map((n) => n.t), ['text', 'a']);
+  assert.ok(!brassHtml(parseBrass('![a cake](https://elsewhere.example/p.png)')).includes('<img'));
+  assert.equal(brassHref('https://stimpunks.org/x/'), 'https://stimpunks.org/x/');
+  assert.equal(brassHref('/the-den.html'), '/the-den.html');
+  assert.equal(brassHref('#post-1'), '#post-1');
+  assert.equal(brassHref('mailto:hello@example.org'), 'mailto:hello@example.org');
+  for (const bad of ['javascript:alert(1)', 'JavaScript:x', 'data:x', '//evil.example', 'https://a:b@evil.example', 'vbscript:x'])
+    assert.equal(brassHref(bad), null, bad);
+  const all = parseBrass('# H\n\n- a\n- b\n\n1. c\n\n> q\n\n```\ncode <b>\n```\n\n---\n\n| a | b |\n|---|---|\n| 1 | 2 |');
+  assert.deepEqual(all.map((n) => n.t), ['h', 'ul', 'ol', 'quote', 'code', 'hr', 'table']);
+  assert.ok(brassHtml(all).includes('code &lt;b&gt;'));
+});
+
+test('the board\'s feed escapes every word and names the moderator', () => {
+  const xml = brassFeed([{ id: 'p1', title: 'Tea & <cake>', body: '**Sunday** [the den](/the-den.html)', handle: 'Juniper', t: 0 }]);
+  assert.ok(xml.includes('<title>Tea &amp; &lt;cake&gt;</title>'));
+  assert.ok(xml.includes('&lt;strong&gt;Sunday&lt;/strong&gt;'));
+  assert.ok(xml.includes('https://stimpunks.world/the-den.html'), 'a path on the street was not made absolute in the feed');
+  assert.ok(xml.includes('<dc:creator>Juniper</dc:creator>'));
+});
+
+for (const etagOnRead of [true, false]) {
+  test(`fifteen moderators posting at once, ${etagOnRead ? 'with' : 'without'} an etag on reads: no post told it went up is missing`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) =>
+      addBrass({ role: 'base', handle: `m${i}`, roles: new Set() }, { title: `t${i}`, body: 'b' }, s)));
+    const up = told.filter((r) => r.status === 'fulfilled' && r.value.post).map((r) => r.value.post.id);
+    for (const f of told.filter((r) => r.status === 'rejected')) assert.equal(f.reason.message, 'busy');
+    const ids = (await readBrass(s)).map((p) => p.id);
+    assert.deepEqual(up.filter((id) => !ids.includes(id)), [], 'a post told it went up is missing');
+    assert.equal(ids.length, up.length);
+  });
+}
 
 test('nobody puts up two words in a row, and anybody else can', async () => {
   const s = memoryStore({ etagOnRead: true });

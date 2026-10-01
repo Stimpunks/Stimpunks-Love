@@ -96,7 +96,7 @@ def furniture():
     rather than where they sit, so moving one on the page does not lose it."""
     src = (ROOT / "index.html").read_text()
     out = {}
-    for cls in ("noticeboard", "postercol", "gardengate", "signpost", "roadout", "liftdown"):
+    for cls in ("noticeboard", "brasstacks", "postercol", "gardengate", "signpost", "roadout", "liftdown"):
         m = re.search(rf'<a class="{cls}" href="([^"]+)"', src)
         if not m:
             raise SystemExit(f"REFUSING: index.html has lost its {cls}, and the model stands one where it goes.")
@@ -273,6 +273,7 @@ rows.append(f'<li class="mm-lot mm-lot--e mm-lot--furniture">'
             f'<span class="mm-table" id="at-map" aria-current="page">'
             f'<span class="mm-name">The Map</span><span class="mm-note">this table</span></span>'
             f'{link(furn["noticeboard"], "mm-notice")}'
+            f'{link(furn["brasstacks"], "mm-brass")}'
             f'{link(furn["postercol"], "mm-poster")}</li>')
 half = (len(street) + 1) // 2
 side = "w"

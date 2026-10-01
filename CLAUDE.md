@@ -2870,6 +2870,20 @@ pages carry `data-cb-role` and `data-call-mods`, each a space-separated list of 
 only the last ones `/cb/channel` told it, for the page to keep quiet by. **Never log `CB_MODS`**, and
 never put a real role list in a test or a doc: who holds which role is not ours to publish.
 
+**THE BRASS TACKS BOARD IS THE CB'S TOO, AND IT IS WHAT THE CB DOES NOT FORGET.** Ryan, 2026-09-30:
+posts meant to persist, read by anybody, posted only by a moderator with their username public on the
+post; the author edits, any moderator takes a post down (`addBrass`, `editBrass`, `removeBrass`); a feed
+of its own (`brass-feed.mjs`, `/brass-tacks.xml`); pictures allowed. **Markdown is read once, on the
+server (`parseBrass`), into nodes**, and `brass.js` builds them with `textContent` while `brassHtml`
+builds the feed's escaped HTML: one reader, no HTML from anything typed, and `tools/make-brass.py`
+refuses `innerHTML` and its relatives in `brass.js`. The friendly edit is a Markdown library and
+`innerHTML`, which is a script on a page everybody reads the day a moderator's pass is stolen. **A
+picture goes through the radio's one redraw** (`window.loveRedraw`, cb.js), needs a description and the
+moderator's yes for everybody recognisable in it, lives under `brass-img/` so the channel's sweep never
+touches it, and is public, because the board is. It is street furniture beside the Pebble Board, a plate
+in the street's orange, and its own world is a verdigris wall of brass plates (§90). Plural Mural's
+chalkboard is the community's and forgets in a week; this is the moderators' and keeps.
+
 **PLURAL MURAL'S CHALKBOARD IS THE CB'S, AND IT IS THE ONE PUBLIC THING THE CB HOLDS.** Helen Edgar's
 idea, after the board at her floatation tank place. Ryan's call, 2026-09-25: **anybody reads it, only a CB
 pass writes on it, and a note stays seven days**, thirty at most. Those two differences from the channel
@@ -3344,18 +3358,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §91 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §92 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§91 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§92 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §91 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §92 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

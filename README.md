@@ -112,6 +112,7 @@ community-center.html A painted block hall, blinds half open. The meeting hall (
 dopamine-dress-up-den.html  Helen's idea: a boutique for dopamine dressing. Mix an outfit on a valet stand; nobody's body is drawn
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 now-playing.html      A poster column beside the Pebble Board. What every room puts on first, read off the rooms
+brass-tacks-board.html The Brass Tacks Board, beside the Pebble Board: posts meant to persist, by our moderators, with their usernames on them. Markdown read on the server into nodes; a feed at /brass-tacks.xml (brass.js)
 plural-mural.html     An end wall that repaints itself, because the street is Danny's. By itself at MAX only; propose one in words
 cavendish-coworking.html Henry Cavendish's house: a shut, unlocked door onto each of our calls, each opening a room of its own
 cavendish-events.html Behind the Events door: a lighthouse's watch room, our events as its light list, and a call anybody can knock on
@@ -275,6 +276,7 @@ python3 tools/make-community.py    # The Community Center's service board; refus
 python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, and the credits; refuses a size, a gendered rail, or no all-black colourway
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
 python3 tools/make-accounts.py     # The CB's accounts: refuses a console call in netlify/, a list of accounts, an email field, a desk that does more than find, reset and delete, and a Profile without Delete my account
+python3 tools/make-brass.py        # The Brass Tacks Board: refuses innerHTML in brass.js, a post by anybody but a moderator, an edit by anybody but the author, a picture with no description or yes, and a board with no feed
 python3 tools/make-rescue.py       # Both shelters and the Pets tray: refuses a shelter or forever list that knows who, a rare animal, a look with no drawing, pets under a raw handle, and a tray without Forget Me
 python3 tools/make-stair.py        # Count Me In: refuses a stair that names who sent it back, a lift smaller than the stair or one that sends a number, and a script that stores anything
 python3 tools/make-fridge.py       # The Fridge of Sighs' numbers, read from the CB's lib; refuses a fridge that says whose a word was, a tally, or a script that stores anything
