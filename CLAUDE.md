@@ -2850,7 +2850,15 @@ search is in `cb.js`, `guest.js` and `finder.js` character for character**, and
 the search box on the front page and the Map, and only there** (Helen asked for a search bar at the
 top; Ryan's call, 2026-10-01): a bar on every page would be furniture laid over every world, and the
 teleporter already searches from every page. Each page dresses it in its own section (`finder` in
-§5, `mm-find` in §49); the script finds its parts by `data-finder*` and sets no colour. The #tag completion still uses
+§5, `mm-find` in §49); the script finds its parts by `data-finder*` and sets no colour. **It also searches
+every page's words** (Ryan, 2026-10-01, "add site search"), out of `search-index.json`, which
+`tools/make-search-index.py` writes off each page's `<main>` after `make-sitemap.py`. **Not Pagefind**:
+its WebAssembly needs `'wasm-unsafe-eval'` in `script-src`, its index churns in every morning commit,
+and both machines would need it. **A `<blockquote>` is filed apart and shown by its credit, never its
+words**, because a snippet is a trimming machine and this site keeps attribution to stop that. The
+regions the morning timers rewrite are in `DAILY` in that tool: **a new timer that rewrites part of a
+page adds its markers there**, or the index is stale by breakfast. The Small Hours' lyric is left out
+and the tool checks the words, not just the class. The #tag completion still uses
 `roomsFor`, which only matches from the start of a name, on purpose: `#den` should not offer The
 Garden.
 

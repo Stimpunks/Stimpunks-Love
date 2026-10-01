@@ -49,12 +49,16 @@
     <p class="mm-over">On the pavement, by the front door</p>
     <h1>The Map</h1>
     <p class="mm-sub">The whole street as a model in white card, standing on a cutting mat, and never finished.</p>
-    <form class="mm-find" role="search" aria-label="Find a room" data-finder hidden>
-      <label class="mm-find__lab" for="finder-q">Find a room on the model</label>
+    <form class="mm-find" role="search" aria-label="Search the street" data-finder hidden>
+      <label class="mm-find__lab" for="finder-q">Find a room, or a word on the street</label>
       <input class="mm-find__q" id="finder-q" type="search" autocomplete="off" spellcheck="false" aria-describedby="finder-how finder-said" data-finder-q>
-      <p class="mm-find__how" id="finder-how">Part of a name, or a word for what you are after: fire, books, cats.</p>
+      <p class="mm-find__how" id="finder-how">Part of a room&rsquo;s name, or any word written on the street: fire, Thoreau, cats. What you type stays in your browser.</p>
       <p class="mm-find__said" id="finder-said" role="status" data-finder-said></p>
-      <ul class="mm-find__out" data-finder-out hidden></ul>
+      <p class="mm-find__group" id="finder-rooms-h" data-finder-rooms-h hidden>Rooms</p>
+      <ul class="mm-find__out" aria-labelledby="finder-rooms-h" data-finder-out hidden></ul>
+      <p class="mm-find__group" id="finder-words-h" data-finder-words-h hidden>On the pages</p>
+      <ul class="mm-find__out" aria-labelledby="finder-words-h" data-finder-words hidden></ul>
+      <button class="mm-find__more" type="button" data-finder-more hidden>More from the pages</button>
     </form>
   </header>
 

@@ -49,7 +49,7 @@ STEPS=(
   make-small-hours make-repeater make-nothing-for-sale make-covenstead
   make-lagoon make-looming make-sithen make-stay-frosty make-stay-breezy make-mycelium make-big-steep make-glow make-rave make-cooldown make-mud make-foundry
   # Things that read the rooms, after the rooms.
-  make-now-playing make-map make-signoff make-structured make-sitemap
+  make-now-playing make-map make-signoff make-structured make-sitemap make-search-index
   make-feed make-csp make-agent-files make-og make-icons make-security
   # The checkers, against what was just written.
   check-contrast check-headings check-counts check-ids check-classes
