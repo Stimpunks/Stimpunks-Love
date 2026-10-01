@@ -226,6 +226,11 @@ LISTS = [
     # Mycelium Munchies: Derek Sarno's mushroom cooking videos, on his own
     # channel, the most recent in his playlist when it was read.
     ("mycelium munchies", "data/mycelium.json", "mycelium-munchies.html"),
+    # Vital Plant Living's telly: the last month from plant-based cooks Ryan
+    # chose, refilled every morning by tools/pull-vital-rack.py, which asks
+    # each new video's watch page once. Nobody chose these video by video,
+    # the Doom Scoop's shape, so a second asking here is worth having.
+    ("vital plant living's telly", "data/vital-rack.json", "vital-plant-living.html"),
     # Big Steep: three long cellar ambience videos on their makers' own
     # channels, the kind of upload that goes private without ceremony.
     ("big steep", "data/big-steep.json", "big-steep-fermentables.html"),
@@ -269,6 +274,12 @@ def tracks_in(data):
         return [dict(s_, artist=s_.get("channel") or s_["source"],
                      state="link" if s_.get("state") == "door" else None)
                 for s_ in data["scoops"] if s_.get("state") in ("screen", "door")]
+    # VITAL PLANT LIVING'S TELLY has the Doom Scoop's shape under a key of its
+    # own, and is tested before 'tracks' for the order-of-branches reason.
+    if "telly" in data:
+        return [dict(v, artist=v.get("channel") or v["source"],
+                     state="link" if v.get("state") == "door" else None)
+                for v in data["telly"] if v.get("state") in ("screen", "door")]
     if "tracks" in data:
         return data["tracks"]
     # MYCELIUM MUNCHIES keeps Derek Sarno's rack beside its mushrooms and dishes,

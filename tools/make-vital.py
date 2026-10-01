@@ -60,6 +60,30 @@ IT REFUSES, RATHER THAN TRUSTS:
 
   - AN ID WITH TWO OWNERS on the builder's controls, before check-ids.py has to.
 
+THE TELLY, out of data/vital-rack.json (Ryan's brief, 2026-10-01): the last
+month of videos, shorts included, from plant-based cooks he chose, refilled
+every morning by tools/pull-vital-rack.py on the timer in tools/daily-vital.sh,
+which runs this with --rack so that only the telly is rewritten. It is rack.js's
+pattern and the Doom Scoop's in a kitchen: the telly has nothing of its own on
+it, so it ships hidden, and every video plays where it hangs or goes up there.
+It refuses, for that room's reasons:
+
+  - A VIDEO OLDER THAN THE MONTH. The brief was the last month, rotating the
+    older ones out; a row still in the file after that is an archive arriving
+    because a puller did not prune.
+  - A ROW CARRYING ANYTHING BUT AN ID, A TITLE, A CHANNEL, A TIME, A LENGTH AND
+    WHICH FEED CARRIED IT: no description, no thumbnail, no count of views or
+    likes. "Nothing is counted" is a house rule here.
+  - A SCREEN WITH NO RUNTIME, A DOOR WITH NO REASON, AN ID THAT IS NOT A
+    YOUTUBE ID OR IS ON THE TELLY TWICE, A COOK NOT IN THE LIST.
+  - A PAGE THAT DOES NOT LOAD rack.js AND love-embed.js, which is how Mycelium
+    Munchies' rack first shipped: perfect markup, buttons that did nothing.
+
+THE TITLES ARE THE COOKS' AND ARE NOT SWEPT. A video called something about
+protein or about bodies is somebody else's words, quoted as written; the house
+rule that nobody in here tells you what a bowl does for your body is ours, and
+our sentences round the telly are swept like every other sentence of ours.
+
 It writes nothing if anything is refused. Run it after editing the data file,
 then make-og.py, because the share card lifts the shelf off the page.
 """
@@ -68,10 +92,13 @@ import json
 import re
 import sys
 import unicodedata
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data/vital.json"
+RACK = ROOT / "data/vital-rack.json"
 PAGE = ROOT / "vital-plant-living.html"
 NOTES = ROOT / "liner-notes.html"
 CSS = ROOT / "love.css"
@@ -572,6 +599,204 @@ def liner(d):
     return "\n".join(rows)
 
 
+# ── The telly ────────────────────────────────────────────────────────────────
+# rack.js's pattern (Ryan's call, 2026-09-28) with the Doom Scoop's empty
+# screen: a month of somebody else's videos is not a list anybody can put on
+# whole, so the telly has nothing of its own on it, ships hidden, and is
+# unhidden by rack.js. The look is §50's own: every card is a panel with an ink
+# outline like every panel here, touching nothing in particular, because a rack
+# is not a bowl. A short goes up upright, because its second button carries
+# data-rack-shape="tall" and the telly wears it while it is on.
+
+HERE = ZoneInfo("America/Denver")
+MONTH = 30           # days kept; tools/pull-vital-rack.py holds the same number
+CHANNEL = re.compile(r"^UC[A-Za-z0-9_-]{22}$")
+TELLY_KEYS = {"id", "source", "form", "title", "published", "state", "why", "runs", "channel"}
+TELLY_STATES = {"screen", "door", "pending", "gone"}
+DOOR_WHY = {"no embedding": "Its channel has switched off showing it on other sites, so it plays on YouTube and not in here.",
+            "age-gated": "YouTube shows it only to signed-in adults, so it plays there and not in here."}
+SCREEN = ("vpl", "the telly")
+
+
+def utc(s):
+    return datetime.fromisoformat(s.replace("Z", "+00:00")).astimezone(timezone.utc)
+
+
+def clock(n):
+    h, rest = divmod(int(n), 3600)
+    m, sec = divmod(rest, 60)
+    return f"{h}:{m:02d}:{sec:02d}" if h else f"{m}:{sec:02d}"
+
+
+def spoken(n):
+    n = int(n)
+    if n < 60:
+        return f"{n} second{'s' if n != 1 else ''}"
+    h, m = divmod(round(n / 60), 60)
+    if h:
+        return f"{h} hr {m} min" if m else f"{h} hr"
+    return f"{m} min"
+
+
+def day(dt):
+    t = dt.astimezone(HERE)
+    return f"{t.strftime('%A')} {t.day} {t.strftime('%B')}"
+
+
+def set_time(r):
+    return datetime.strptime(r["set"], "%Y-%m-%dT%H:%MZ").replace(tzinfo=timezone.utc)
+
+
+def check_rack(r):
+    srcs = {}
+    for s in r.get("sources") or []:
+        for f in ("slug", "name", "url", "channel_id"):
+            if not (s.get(f) or "").strip():
+                refuse(f"a cook on the telly has no {f}: {s}")
+        if not (s.get("url") or "").startswith("https://www.youtube.com/@"):
+            refuse(f"{s.get('name')!r}'s address is not a YouTube channel's own page.")
+        if not CHANNEL.match(s.get("channel_id") or ""):
+            refuse(f"{s.get('name')!r} has {s.get('channel_id')!r}, which is not a channel id.")
+        if s.get("slug") in srcs:
+            refuse(f"the cook {s['slug']!r} is listed twice.")
+        srcs[s.get("slug")] = s
+    if not srcs:
+        refuse("data/vital-rack.json lists no cooks, so the telly would be a heading over nothing.")
+    if not r.get("set"):
+        refuse("data/vital-rack.json has no `set` time. Run tools/pull-vital-rack.py; the room "
+               "prints when the telly was filled.")
+        return
+    oldest = set_time(r) - timedelta(days=MONTH, minutes=1)
+    seen = set()
+    for v in r.get("telly") or []:
+        t = (v.get("title") or "")[:40] or v.get("id")
+        extra = set(v) - TELLY_KEYS
+        if extra:
+            refuse(f"the telly's {t!r} carries {sorted(extra)}. A video is an id, a title, a channel, "
+                   "a time and a length; nothing is read to you and nothing is counted.")
+        if not YT.match(v.get("id") or ""):
+            refuse(f"the telly's {t!r} has {v.get('id')!r}, which is not a YouTube id.")
+        if v.get("source") not in srcs:
+            refuse(f"the telly's {t!r} is from {v.get('source')!r}, which is not one of the cooks.")
+        if v.get("form") not in ("long", "short"):
+            refuse(f"the telly's {t!r} does not say whether it is long-form or a short.")
+        if v.get("state") not in TELLY_STATES:
+            refuse(f"the telly's {t!r} is in the state {v.get('state')!r}, which this does not know.")
+        if not v.get("published") or utc(v["published"]) < oldest:
+            refuse(f"the telly's {t!r} was published {v.get('published')}, more than a month before "
+                   "the telly was filled. The older ones go off the end; this is not an archive.")
+        if v.get("state") in ("screen", "door"):
+            if v["id"] in seen:
+                refuse(f"{v['id']} is on the telly twice.")
+            seen.add(v["id"])
+            if not (v.get("title") or "").strip():
+                refuse(f"{v['id']} on the telly has no title.")
+            if not (v.get("channel") or "").strip():
+                refuse(f"the telly's {t!r} does not say whose channel it is on.")
+        if v.get("state") == "screen" and not (isinstance(v.get("runs"), int) and v["runs"] > 0):
+            refuse(f"the telly's {t!r} is a screen with no runtime. Every press in here says how "
+                   "long before the press.")
+        if v.get("state") == "door" and v.get("why") not in DOOR_WHY:
+            refuse(f"the telly's {t!r} is a door with no reason this knows ({v.get('why')!r}), and a "
+                   "door that does not say why looks like a broken screen.")
+
+
+def covered(spans, a, b):
+    return any(utc(x) <= a and utc(y) >= b for x, y in spans)
+
+
+def vid_li(v):
+    tall = v["form"] == "short"
+    runs = v.get("runs")
+    when = esc(day(utc(v["published"]))) + (f" &middot; {clock(runs)}" if runs else "")
+    head = (f'          <li class="vpl-vid{" vpl-vid--short" if tall else ""}"'
+            f'{" data-rack-card" if v["state"] == "screen" else ""}>\n'
+            f'            <p class="vpl-vid__title">{esc(v["title"])}</p>\n'
+            f'            <p class="vpl-vid__when">{when}</p>\n')
+    full = f'{attr(v["title"])}, on YouTube via {attr(v["channel"])}'
+    if v["state"] == "screen":
+        body = (f'            <button type="button" class="facade" data-embed-id="{v["id"]}" '
+                f'data-embed-title="{full}">\n'
+                f'              Play &mdash; {esc(spoken(runs))}\n'
+                f'              <span class="facade__play">&#9654; PRESS PLAY</span>\n'
+                f'            </button>\n'
+                f'            <button type="button" class="vpl-vid__big" hidden data-rack-to="{SCREEN[0]}" '
+                f'data-rack-name="{SCREEN[1]}" '
+                f'data-rack-src="https://www.youtube-nocookie.com/embed/{v["id"]}?autoplay=1&amp;rel=0" '
+                f'data-rack-title="{full}, on {SCREEN[1]}" '
+                f'data-rack-film="{attr(v["title"])}" data-rack-runtime="{clock(runs)}"'
+                + (' data-rack-shape="tall"' if tall else "") +
+                f'>Put it on {SCREEN[1]} &mdash; {esc(spoken(runs))}</button>\n')
+    else:
+        how = f" &mdash; {esc(spoken(runs))}" if runs else ""
+        body = (f'            <a class="vpl-vid__door" href="https://www.youtube.com/watch?v={v["id"]}">'
+                f'Watch on YouTube{how} &rarr;</a>\n'
+                f'            <p class="vpl-vid__why">{esc(DOOR_WHY[v["why"]])}</p>\n')
+    return head + body + '          </li>'
+
+
+def listify(names):
+    names = [esc(n) for n in names]
+    return names[0] if len(names) == 1 else ", ".join(names[:-1]) + " and " + names[-1]
+
+
+def telly(r):
+    when = set_time(r)
+    start = when - timedelta(days=MONTH)
+    t = when.astimezone(HERE)
+    at = f"{t.strftime('%I').lstrip('0')}:{t.strftime('%M')} {t.strftime('%p').lower()}"
+    live = [v for v in r["telly"] if v["state"] in ("screen", "door")]
+    out = [f'    <p class="vpl-telly__set">The telly was last filled at <b>{at} on {esc(day(when))}</b>, '
+           f'Mountain time, with what each cook put up since {esc(day(start))}.</p>']
+    if any(v["state"] == "screen" for v in live):
+        out += [f'    <div class="vpl-telly" data-rack-screen="{SCREEN[0]}" tabindex="-1" hidden>',
+                f'      <p class="vpl-telly__idle"><span><b>The telly.</b> Nothing is on it. Any video below can '
+                'go up here with the button under it, and nothing loads until you press one.</span></p>',
+                '    </div>',
+                f'    <p class="vpl-telly__now" data-rack-now="{SCREEN[0]}" tabindex="-1" hidden></p>',
+                f'    <p class="vpl-telly__back" hidden><button type="button" class="vpl-back" '
+                f'data-rack-back="{SCREEN[0]}">Take it off the telly</button></p>']
+    out += ['    <details class="vpl-racked" open>',
+            '      <summary>A month of their videos, newest first under each cook</summary>']
+    quiet = []
+    for s in r["sources"]:
+        mine = sorted((v for v in live if v["source"] == s["slug"]),
+                      key=lambda v: (v["published"], v["id"]), reverse=True)
+        cov = r.get("covered", {}).get(s["slug"], {})
+        gaps = [f for f in ("long", "short") if not covered(cov.get(f, []), start, when)]
+        if not mine and not gaps:
+            quiet.append(s["name"])
+            continue
+        block = [f'      <section class="vpl-cook" aria-label="{attr(s["name"])}">',
+                 f'        <h3 class="vpl-cook__name"><a href="{attr(s["url"])}">{esc(s["name"])}</a></h3>']
+        if gaps:
+            what = {"long": "videos", "short": "shorts"}
+            block.append(f'        <p class="vpl-cook__gap">Its {" and ".join(what[f] for f in gaps)} feed did not '
+                         'reach back a whole month the last time it was read, so some of its month may be '
+                         'missing here. It fills in as the mornings go by.</p>')
+        if not mine:
+            block.append('        <p class="vpl-cook__none">Nothing from this cook in what the feeds reached.</p>')
+        for form in ("long", "short"):
+            rows = [v for v in mine if v["form"] == form]
+            if rows:
+                block.append(f'        <ul class="vpl-vids{" vpl-vids--short" if form == "short" else ""}" '
+                             f'aria-label="{attr(s["name"])}, {"shorts" if form == "short" else "videos"}">')
+                block += [vid_li(v) for v in rows]
+                block.append('        </ul>')
+        block.append('      </section>')
+        out += block
+    if quiet:
+        out.append(f'      <p class="vpl-telly__quiet">Nothing from {listify(quiet)} this month.</p>')
+    out.append('    </details>')
+    return "\n".join(out)
+
+
+def telly_liner(r):
+    return "\n".join(f'      <tr><td><a href="{attr(s["url"])}">{esc(s["name"])}</a></td>'
+                     f'<td>its videos and its shorts, the last month of each</td></tr>'
+                     for s in r["sources"])
+
+
 # ── The checks ───────────────────────────────────────────────────────────────
 
 def check(d):
@@ -701,6 +926,9 @@ def sweep_page():
     src = PAGE.read_text()
     body = src[src.index("<main"):src.index("</main>")]
     body = re.sub(r"<!-- vpl:stereo:begin -->.*?<!-- vpl:stereo:end -->", " ", body, flags=re.S)
+    # THE TELLY'S TITLES ARE THE COOKS', quoted as written. The generated block
+    # is cut out; the sentences of ours round it are not.
+    body = re.sub(r"<!-- vpl:rack:begin -->.*?<!-- vpl:rack:end -->", " ", body, flags=re.S)
     body = re.sub(r"<!-- vpl:name:begin -->.*?<!-- vpl:name:end -->", " ", body, flags=re.S)
     body = re.sub(r"<blockquote.*?</blockquote>", " ", body, flags=re.S)
     body = re.sub(r"<!--.*?-->", " ", body, flags=re.S)
@@ -713,7 +941,31 @@ def sweep_page():
         refuse(f"ids with two owners on the page: {', '.join(dup)}")
 
 
+def scripts():
+    src = PAGE.read_text()
+    for js in ("love-embed.js", "rack.js"):
+        if f'<script src="{js}" defer></script>' not in src:
+            refuse(f"{PAGE.name} has a telly and does not load {js}, so its buttons would press and "
+                   "do nothing, which is how Mycelium Munchies' rack first shipped.")
+
+
 def main():
+    r = json.loads(RACK.read_text())
+    check_rack(r)
+    scripts()
+    if "--rack" in sys.argv[1:]:
+        # THE MORNING TIMER'S PATH: the telly and nothing else, so a session's
+        # edit to the rest of the page or to the liner notes is never touched by
+        # a machine refilling the rack.
+        if problems:
+            print("REFUSING:\n  " + "\n  ".join(problems))
+            sys.exit(1)
+        swap(PAGE, "vpl:rack", telly(r), "")
+        live = [v for v in r["telly"] if v["state"] in ("screen", "door")]
+        print(f"vital plant living: the telly, filled {r['set']}, "
+              f"{sum(v['state'] == 'screen' for v in live)} screens and "
+              f"{sum(v['state'] == 'door' for v in live)} doors")
+        return
     d = json.loads(DATA.read_text())
     check(d)
     if problems:
@@ -725,13 +977,15 @@ def main():
     swap(PAGE, "vpl:board", combos(d), "")
     swap(PAGE, "vpl:counter", counter(d), "")
     swap(PAGE, "vpl:stereo", stereo(d), "")
+    swap(PAGE, "vpl:rack", telly(r), "")
     swap(PAGE, "vpl:cap", cap(), "")
     swap(NOTES, "vital-credits", liner(d), "      ")
+    swap(NOTES, "vital-telly-credits", telly_liner(r), "      ")
     sweep_page()
     if problems:
         print("REFUSING (the page as written):\n  " + "\n  ".join(problems))
         sys.exit(1)
-    print("vital plant living: shelf, builder, board, counter and stereo written")
+    print("vital plant living: shelf, builder, board, counter, stereo and telly written")
 
 
 if __name__ == "__main__":

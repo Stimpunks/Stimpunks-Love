@@ -2672,6 +2672,20 @@ controls "drawn some way other than an outline" and could say nothing about any 
 the box now, and turns pale on a ticked, dark pill. **When a tool can only see one thing, do not ask it to
 take your word for another** — arcade.js's call, arriving at a focus ring.
 
+**THE KITCHEN'S TELLY IS THE DOOM SCOOP'S MACHINE WITH A MONTH IN IT.** Ryan, 2026-10-01: the last
+month of videos and shorts from plant-based cooks he listed, refilled daily, older ones rotated out.
+`tools/pull-vital-rack.py` reads each cook's `UULF` and `UUSH` feeds (derived from `channel_id` in
+`data/vital-rack.json`, read off the channel's own page) and asks each new video's watch page once;
+`make-vital.py --rack` redraws only the telly, so the timer never touches the rest of the page or the
+liner notes; `tools/daily-vital.sh` is the third script on the morning task, committing two paths as
+`daily vital telly refill`. **The cooks are Ryan's and the videos are nobody's choice**, and the room
+says nobody here watched them first. `make-vital.py` refuses a row older than the month, a row
+carrying a description or a count, a screen with no runtime and a door with no reason. **The titles
+are the cooks' and are not swept**, which matters more here than anywhere: cooking titles say high
+protein and what a dish does for you, beside a house rule of ours that says nobody in here does. The
+friendly edit is to sweep them, or to drop the videos whose titles say it; the sentence beside the
+telly is the answer instead. It sits after the stereo so Now Playing's line for the room stays put.
+
 **THE MAP IS THE ONE PAGE THAT SHOWS EVERY OTHER PAGE, AND NOTHING ON IT IS PAINTED.** `map.html`
 (§49) is the whole street as a model in white card on a cutting mat: shopfronts on both sides of a
 pencilled road, rooms behind rooms standing behind them, the garden's gate halfway down, the

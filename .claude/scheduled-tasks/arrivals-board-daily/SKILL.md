@@ -1,18 +1,19 @@
 ---
 name: arrivals-board-daily
-description: Daily re-set of The Feed's arrivals board and The Doom Scoop's cabinet on stimpunks.world — re-reads the feeds, redraws both rooms, commits each room's own paths and pushes
+description: Daily re-set of The Feed's arrivals board, The Doom Scoop's cabinet and Vital Plant Living's telly on stimpunks.world — re-reads the feeds, redraws each room, commits each room's own paths and pushes
 ---
 
 Re-set the arrivals board in The Feed on stimpunks.world, so the room is this morning's rather than last week's.
 
 Project root: /Users/ryan/Documents/GitHub/Stimpunks-Love (the repository kept the Stimpunks-Love name when the site moved to stimpunks.world on 2026-09-23; the path is correct)
 
-RUN EXACTLY THESE TWO, in this order, and nothing else:
+RUN EXACTLY THESE THREE, in this order, and nothing else:
 
     bash /Users/ryan/Documents/GitHub/Stimpunks-Love/tools/daily-arrivals.sh
     bash /Users/ryan/Documents/GitHub/Stimpunks-Love/tools/daily-scoop.sh
+    bash /Users/ryan/Documents/GitHub/Stimpunks-Love/tools/daily-vital.sh
 
-Run the second whatever the first returned. They are separate scripts on purpose: a sibling site's feed failing must not leave The Doom Scoop unfilled, and a news channel failing must not leave The Feed's board unset. Everything below about daily-arrivals.sh is true of daily-scoop.sh as well, with its own paths (data/doom-scoop.json, the-doom-scoop.html and now-playing.html), its own fixed commit subject ("daily doom scoop edition") and its own refusals: it reads YouTube's own feeds for the sources Ryan chose and each new video's watch page, and takes a few minutes. Do not hand-edit data/doom-scoop.json, drop a source that failed, or add one.
+Run each one whatever the one before it returned. They are separate scripts on purpose: a sibling site's feed failing must not leave The Doom Scoop unfilled, a news channel failing must not leave The Feed's board unset, and a cook's channel failing must not leave either of them behind. Everything below about daily-arrivals.sh is true of the other two as well, each with its own paths, its own fixed commit subject and its own refusals. daily-scoop.sh owns data/doom-scoop.json, the-doom-scoop.html and now-playing.html and commits as "daily doom scoop edition"; daily-vital.sh owns data/vital-rack.json and vital-plant-living.html and commits as "daily vital telly refill". Both read YouTube's own feeds for the channels Ryan chose and each new video's watch page, and take a few minutes. Do not hand-edit data/doom-scoop.json or data/vital-rack.json, drop a source or a cook that failed, or add one.
 
 It takes under a minute. Do not run the steps by hand, do not run `pull-arrivals.py` or `make-arrivals.py` yourself, and do not commit or push anything yourself — the script exists because the order matters, because each stage gates the next, and because it commits exactly two paths and a headless run that improvises will one day commit something nobody read.
 
