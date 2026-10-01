@@ -9,31 +9,38 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Thu, 01 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>“Music” finds the music rooms</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-01-music-finds</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-01-music-finds</guid>
+      <pubDate>Thu, 01 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Searching for “music” found nothing, because none of the music rooms’ own descriptions used the word: they said songs, records and concerts. Each of those descriptions says music now, in a few words and nothing else changed: Pink Pony Club, The Chappell, Club Chronic, The Den, Black Leather Lagoon, Looming Rocks, The Live Room, Dance, Punks, The Small Hours, the Rebellion Rave Room and Now Playing. The share cards are drawn from a different line and have not changed.</description>
+    </item>
+    <item>
       <title>Finding a room by what it is about</title>
       <link>https://stimpunks.world/changelog.html#2026-10-01-teleporter-finds</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-01-teleporter-finds</guid>
-      <pubDate>Thu, 01 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Thu, 01 Oct 2026 11:59:00 GMT</pubDate>
       <description>A search box near the top of the street and of the Map, for Helen Edgar, who asked for a search bar at the top. It is on those two pages and nowhere else, Ryan’s call, because the teleporter already searches from every page and a bar across the top of every room would lay the street’s furniture over all of them. What it finds are ordinary links, and Enter goes to the first. Typing “fire” in the teleporter finds The Campfire now, as Helen Edgar asked. It looks inside the words of a room’s name as well as at their starts, so a part of a word is enough. It also searches each room’s own description, the summary at the top of its page, so a keyword finds the rooms it is about. A room found that way shows the words it was found in. Rooms found by their name come first, then rooms found by their description, each group in walking order. Every word you type has to be found, and a plural also finds the singular. The box, the radio and the guest bar all search this way, and a new check makes sure they never find different rooms. Nothing about a search is sent anywhere.</description>
     </item>
     <item>
       <title>Share cards that stay put between two Macs</title>
       <link>https://stimpunks.world/changelog.html#2026-10-01-share-cards-two-macs</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-01-share-cards-two-macs</guid>
-      <pubDate>Thu, 01 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Thu, 01 Oct 2026 11:58:00 GMT</pubDate>
       <description>The share cards stopped trading places between Ryan’s Mac and Helen Edgar’s. The same Chrome on two versions of macOS draws the soft edges of letters a little differently, so each run of the checks rewrote every card on the street with a near-identical copy. Helen’s Claude found it, and measured it. The tool that makes the cards now records what each one is made from: its words, every style on it, and every typeface and picture it uses. When none of that has changed, the card already committed stays. A changed word, colour, face or image still makes a new card. We tried comparing the pictures pixel by pixel first, and that could not tell a Mac’s edges from a small contrast fix, so it was not kept.</description>
     </item>
     <item>
       <title>New words under the Faery Yurt’s name</title>
       <link>https://stimpunks.world/changelog.html#2026-10-01-yurt-tagline</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-01-yurt-tagline</guid>
-      <pubDate>Thu, 01 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Thu, 01 Oct 2026 11:57:00 GMT</pubDate>
       <description>The Faery Yurt’s tagline is new, in Helen Edgar’s own words: lots of books, music, faerys, candle light and weird thoughts and happenings.</description>
     </item>
     <item>
       <title>The Brass Tacks Board on The Feed</title>
       <link>https://stimpunks.world/changelog.html#2026-10-01-brass-tacks-on-the-feed</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-01-brass-tacks-on-the-feed</guid>
-      <pubDate>Thu, 01 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Thu, 01 Oct 2026 11:56:00 GMT</pubDate>
       <description>The Feed has a board for the Brass Tacks Board now, right after this street’s own, which is the one place in stimpunks.org’s order it can go without re-sorting anybody else. Ryan’s ask. It is a second feed of this street, not a site of its own, so the hall says “one wire per feed” now, and the Garden, which plants one bed for every site we publish, leaves it out. It may be empty. A board with every post taken down is a board, not a broken feed, so it shows one blank flap saying so, and the morning’s board is still set. Its titles are a moderator’s own words, so a “&lt;” typed in one does not stop the board being set either. Changed: data/arrivals.json, tools/pull-arrivals.py, tools/make-arrivals.py, tools/make-garden.py, tools/make-og.py, the-feed.html.</description>
     </item>
     <item>
