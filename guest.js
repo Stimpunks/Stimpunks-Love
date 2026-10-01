@@ -24,7 +24,7 @@
    IT WEARS THE RADIO'S CLOTHES, in its own shadow root with cb.css, the dial's
    precedent: one piece of furniture, the same in every room. The teleporter
    here is a copy of the radio's, because the radio's is in cb.js; keep the two
-   behaving alike (what they offer is roomsFor's match, in walking order).
+   behaving alike (what they offer is findRooms', the same function in both).
    Nothing on it moves or lights up at any setting.
    ============================================================================= */
 (function () {
@@ -49,18 +49,61 @@
     var p = location.pathname.replace(/\/index(?:\.html)?$/, '/');
     return p === '/' ? '/' : p.replace(/\.html$/, '') + '.html';
   }
-  // The radio's own match: tag or any word of the name, from its start, in walking order.
-  function roomsFor(q) {
-    var out = [], flat = q.replace(/-/g, '');
-    for (var i = 0; i < rooms.length; i++) {
-      var r = rooms[i], words = r.name.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
-      var hit = r.tag.indexOf(q) === 0 || words.join('').indexOf(flat) === 0;
-      for (var w = 0; !hit && w < words.length; w++) hit = words[w].indexOf(flat) === 0;
-      if (hit) out.push(r);
-    }
-    return out;
-  }
 
+  /* WHAT THE TELEPORTER FINDS. Helen Edgar's asks, 2026-10-01: "fire" should
+     find The Campfire, and a keyword should find the rooms it is about. So a
+     room is found three ways, and every word typed has to be found in it:
+     a name that starts with what you typed (the #tag completion's rule),
+     then a name with it inside a word (fire, Campfire), then the room's own
+     description, `about` in cb-rooms.json, which make-sitemap.py copies off
+     the page's <meta name="description"> so nobody keeps a keyword list.
+     Each group is in walking order and nothing is ranked within it. Small
+     words (the, of, a) are looked for in names only, and a word shorter than
+     three letters is not looked for inside names or in descriptions, so one
+     letter does not offer the whole street. A room found by its description
+     says the words it was found in. THIS IS ALSO IN guest.js AND finder.js,
+     AND ALL THREE MUST STAY THE SAME; tools/check-teleport.py refuses them apart. */
+  var TP_SMALL = /^(?:a|an|and|as|at|by|for|from|in|into|is|it|its|of|on|or|the|to|with)$/;
+  function tpFold(s) { return String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
+  function tpWords(s) { return tpFold(s).split(/[^a-z0-9]+/).filter(Boolean); }
+  // dogs finds dog: a plural is looked for as its singular, which also finds the plural.
+  function tpRoot(t) { return t.length > 3 && /[^s]s$/.test(t) ? t.slice(0, -1) : t; }
+  function tpBegins(words, t) { for (var i = 0; i < words.length; i++) if (words[i].indexOf(t) === 0) return true; return false; }
+  function tpHas(words, t) { for (var i = 0; i < words.length; i++) if (words[i].indexOf(t) >= 0) return true; return false; }
+  function tpAll(terms, test) { for (var i = 0; i < terms.length; i++) if (!test(terms[i])) return false; return true; }
+  // A few words either side of the first one that matched, as written on the page.
+  function tpWhy(about, t) {
+    var bits = about.split(/\s+/);
+    for (var i = 0; i < bits.length; i++) {
+      if (!tpBegins(tpWords(bits[i]), t)) continue;
+      var from = Math.max(0, i - 3), to = Math.min(bits.length, i + 5);
+      return (from ? '…' : '') + bits.slice(from, to).join(' ').replace(/[,;:.]$/, '') + (to < bits.length ? '…' : '');
+    }
+    return '';
+  }
+  function findRooms(text) {
+    var typed = tpWords(String(text).replace(/^\s*#/, ''));
+    var terms = typed.map(tpRoot);
+    var begins = [], inside = [], about = [];
+    if (!terms.length) { for (var a = 0; a < rooms.length; a++) begins.push({ room: rooms[a], why: '' }); return begins; }
+    var flat = terms.join(''), tag = typed.join('-');
+    var keys = terms.filter(function (t) { return !TP_SMALL.test(t); });
+    var long = tpAll(terms, function (t) { return t.length >= 3 || TP_SMALL.test(t); });
+    var wide = keys.length > 0 && tpAll(keys, function (t) { return t.length >= 3; });
+    for (var i = 0; i < rooms.length; i++) {
+      var r = rooms[i], name = tpWords(r.name);
+      if (r.tag.indexOf(tag) === 0 || name.join('').indexOf(flat) === 0 ||
+          tpAll(terms, function (t) { return tpBegins(name, t); })) { begins.push({ room: r, why: '' }); continue; }
+      if (long && tpAll(terms, function (t) { return tpHas(name, t); })) { inside.push({ room: r, why: '' }); continue; }
+      if (!wide || typeof r.about !== 'string') continue;
+      var said = tpWords(r.about);
+      if (!tpAll(keys, function (t) { return tpBegins(said, t) || tpHas(name, t); })) continue;
+      var shown = '';
+      for (var k = 0; !shown && k < keys.length; k++) if (!tpHas(name, keys[k])) shown = tpWhy(r.about, keys[k]);
+      about.push({ room: r, why: shown });
+    }
+    return begins.concat(inside, about);
+  }
   function build() {
     var host = el('div', 'cb-host');
     var root = host.attachShadow({ mode: 'open' });
@@ -245,20 +288,21 @@
         none.hidden = false; list.hidden = true; mark(-1);
         return;
       }
-      var q = find.value.toLowerCase().trim().replace(/^#/, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-      var here = herePath();
-      offer = roomsFor(q);
+      var found = findRooms(find.value), here = herePath();
+      offer = found.map(function (f) { return f.room; });
       for (var i = 0; i < offer.length; i++) {
         var li = el('li', 'cb-opt');
         li.id = 'cb-guest-tp-' + offer[i].tag;
         li.setAttribute('role', 'option');
-        li.appendChild(el('span', 'cb-opt__name', offer[i].name));
+        var nm = el('span', 'cb-opt__name', offer[i].name);
+        if (found[i].why) nm.appendChild(el('span', 'cb-opt__why', found[i].why));
+        li.appendChild(nm);
         li.appendChild(el('span', 'cb-opt__tag', offer[i].path === here ? 'you are here' : '#' + offer[i].tag));
         li.addEventListener('mousedown', function (e) { e.preventDefault(); });
         (function (room) { li.addEventListener('click', function () { go(room); }); })(offer[i]);
         list.appendChild(li);
       }
-      none.textContent = 'No room by that name.';
+      none.textContent = 'No room by that name, or about that.';
       none.hidden = offer.length > 0;
       list.hidden = offer.length === 0;
       active = offer.length ? 0 : -1;

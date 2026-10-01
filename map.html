@@ -49,6 +49,13 @@
     <p class="mm-over">On the pavement, by the front door</p>
     <h1>The Map</h1>
     <p class="mm-sub">The whole street as a model in white card, standing on a cutting mat, and never finished.</p>
+    <form class="mm-find" role="search" aria-label="Find a room" data-finder hidden>
+      <label class="mm-find__lab" for="finder-q">Find a room on the model</label>
+      <input class="mm-find__q" id="finder-q" type="search" autocomplete="off" spellcheck="false" aria-describedby="finder-how finder-said" data-finder-q>
+      <p class="mm-find__how" id="finder-how">Part of a name, or a word for what you are after: fire, books, cats.</p>
+      <p class="mm-find__said" id="finder-said" role="status" data-finder-said></p>
+      <ul class="mm-find__out" data-finder-out hidden></ul>
+    </form>
   </header>
 
   <section class="mm-how" aria-labelledby="mm-how-h">
@@ -213,5 +220,6 @@
 
 <script src="love.js" defer></script>
 <script src="quest.js" defer></script>
+<script src="finder.js" defer></script>
 </body>
 </html>

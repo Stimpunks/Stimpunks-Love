@@ -267,13 +267,19 @@ for p in pages:
     if name == title and p["file"] != "index.html":
         raise SystemExit(f"REFUSING: {p['file']}'s title does not end in the site's name, so the "
                          "CB cannot tell the room's name from it.")
+    # `about` is the page's own description, so the teleporter can find a room
+    # by what it is about as well as by its name (Helen Edgar's ask, 2026-10-01:
+    # "fire" should find The Campfire). Read off the page, never typed, for the
+    # reason the sitemap is: a keyword list kept by hand is wrong the first time
+    # a room changes what it is for.
     rooms.append({"tag": slug, "name": name,
-                  "path": "/" if p["file"] == "index.html" else "/" + p["file"]})
+                  "path": "/" if p["file"] == "index.html" else "/" + p["file"],
+                  "about": html.unescape(p["desc"])})
 if len({r["tag"] for r in rooms}) != len(rooms):
     raise SystemExit("REFUSING: two pages give the CB the same #tag.")
 (ROOT / "cb-rooms.json").write_text(json.dumps(
     {"_what": "The rooms the CB knows by #tag, in walking order. Written by "
-              "tools/make-sitemap.py from each page's own title. Do not hand-edit.",
+              "tools/make-sitemap.py from each page's own title and description. Do not hand-edit.",
      "rooms": rooms}, indent=1, ensure_ascii=False) + "\n")
 print(f"sitemap.xml: {len(pages)} urls, lastmod from git ({min(dates.values())} to "
       f"{max(dates.values())}) · llms.txt: {len(pages)} pages")

@@ -2824,6 +2824,22 @@ fits CB, Teleport, Move, Size and Fold away with twelve pixels to spare after th
 padding was trimmed. A sixth thing on it wraps the row, which the bar allows on a phone and should
 not need anywhere else.
 
+**IT SEARCHES NAMES AND DESCRIPTIONS, AND NOBODY KEEPS A KEYWORD LIST.** Helen Edgar's asks,
+2026-10-01: "fire" finds The Campfire (inside a word of a name), and a keyword finds the rooms it
+is about. `findRooms` looks in each room's `about`, which `make-sitemap.py` copies off the page's
+own `<meta name="description">`. **A word no description uses finds nothing** ("music" does not, on
+the day it shipped); the fix is the room's description saying what the room is, never a hand-kept
+thesaurus or keyword list, which was tried and measured: "play" caught every playlist and "call"
+caught "called". Rooms found by name come first, then by description, each in walking order. **The
+search is in `cb.js`, `guest.js` and `finder.js` character for character**, and
+`tools/check-teleport.py` refuses them apart and runs Helen's asks against the list. **`finder.js` is
+the search box on the front page and the Map, and only there** (Helen asked for a search bar at the
+top; Ryan's call, 2026-10-01): a bar on every page would be furniture laid over every world, and the
+teleporter already searches from every page. Each page dresses it in its own section (`finder` in
+§5, `mm-find` in §49); the script finds its parts by `data-finder*` and sets no colour. The #tag completion still uses
+`roomsFor`, which only matches from the start of a name, on purpose: `#den` should not offer The
+Garden.
+
 **SMALL IS STILL ON, AND FOLDED IS OFF.** Ryan, 2026-09-25, watching a film at the Hermitage's
 campfire with the radio over the screen: small is the bar and the newest message, clamped, listening
 exactly as full size does. It is the same log with the older messages hidden, so the live region

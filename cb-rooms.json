@@ -1,480 +1,575 @@
 {
- "_what": "The rooms the CB knows by #tag, in walking order. Written by tools/make-sitemap.py from each page's own title. Do not hand-edit.",
+ "_what": "The rooms the CB knows by #tag, in walking order. Written by tools/make-sitemap.py from each page's own title and description. Do not hand-edit.",
  "rooms": [
   {
    "tag": "street",
    "name": "The Street",
-   "path": "/"
+   "path": "/",
+   "about": "Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site."
   },
   {
    "tag": "map",
    "name": "The Map",
-   "path": "/map.html"
+   "path": "/map.html",
+   "about": "The whole street as a model in white card on a cutting mat: every shopfront where it stands, the rooms behind rooms, the garden through its gate, the campgrounds past the treeline at one end, the road out past the last streetlight at the other, and the caverns underneath. Pick anything up to go there. Built from the street itself, so it grows when the street does."
   },
   {
    "tag": "danny-the-street",
    "name": "Danny the Street",
-   "path": "/danny-the-street.html"
+   "path": "/danny-the-street.html",
+   "about": "Where this street got its name. Danny the Street is a sentient street in DC Comics' Doom Patrol, created in 1990 by Grant Morrison and Richard Case, named after the drag performer Danny La Rue, hunted by an agency devoted to normalcy, and played on television as genderqueer. What Danny has been since, and which parts of Danny this site took."
   },
   {
    "tag": "pink-pony-club",
    "name": "Pink Pony Club",
-   "path": "/pink-pony-club.html"
+   "path": "/pink-pony-club.html",
+   "about": "The dancefloor. Ten songs our own pages already credit, in one jukebox. Nothing plays until you press play — no autoplay, and nothing reaches YouTube before you ask for it."
   },
   {
    "tag": "the-chappell",
    "name": "The Chappell",
-   "path": "/the-chappell.html"
+   "path": "/the-chappell.html",
+   "about": "A subroom off Pink Pony Club: thirteen Chappell Roan videos in a rhinestone chapel, and the whole playlist at the east end. Every label that plays one thing says how long before you press it, and nothing reaches YouTube until you do."
   },
   {
    "tag": "club-chronic",
    "name": "Club Chronic",
-   "path": "/club-chronic.html"
+   "path": "/club-chronic.html",
+   "about": "Freaks to the front. A punk club on the street: the story of scenes that built their own doors, every playlist we keep, and a rack of records along the back wall. Nothing plays until you press play, and nothing in here strobes."
   },
   {
    "tag": "zine-table",
    "name": "The Zine Table",
-   "path": "/zine-table.html"
+   "path": "/zine-table.html",
+   "about": "Xerox, staples, ransom note. The room where we get angry in ten point type — and the room that explains which two things stay careful even here."
   },
   {
    "tag": "zine-issue-2",
    "name": "The Zine Table, Issue #2: One Root, Two Rainbows",
-   "path": "/zine-issue-2.html"
+   "path": "/zine-issue-2.html",
+   "about": "Seven lessons on neurodiversity and gender, photocopied down to one sheet. Distilled from our own library, with the course linked and the song left unprinted."
   },
   {
    "tag": "hear-queer-here",
    "name": "Hear Queer Here",
-   "path": "/hear-queer-here.html"
+   "path": "/hear-queer-here.html",
+   "about": "Quantum queering: reading queerness and the physics of indeterminacy through each other. Nothing is fixed, bounded, or settled in advance of its relations."
   },
   {
    "tag": "enids-room",
    "name": "Enid's Room",
-   "path": "/enids-room.html"
+   "path": "/enids-room.html",
+   "about": "Colorful goth. Black walls, technicolour everything else, and somewhere to sit when the glee runs out. The room for the one who doesn't match the house."
   },
   {
    "tag": "polaroids",
    "name": "The Polaroid Wall",
-   "path": "/polaroids.html"
+   "path": "/polaroids.html",
+   "about": "How a photo gets onto Enid's wall, what we ask for, what we promise, and how it comes down again. The wall is empty on purpose until somebody sends one."
   },
   {
    "tag": "playhouse",
    "name": "The Playhouse",
-   "path": "/playhouse.html"
+   "path": "/playhouse.html",
+   "about": "Everything is a button and every button yells. The glossary wearing a costume — and every toy is a real control that Tab reaches and a screen reader names."
   },
   {
    "tag": "arcade",
    "name": "The Arcade",
-   "path": "/arcade.html"
+   "path": "/arcade.html",
+   "about": "A grape carpet, a marquee, and cabinets standing on it. Walk up to one. Nothing in here has a timer, a score, a way to lose or a sound, and nothing in any of them is trying to beat you."
   },
   {
    "tag": "quill-drift",
    "name": "Quill Drift",
-   "path": "/quill-drift.html"
+   "path": "/quill-drift.html",
+   "about": "A cabinet in the Arcade. Esmx the Porkypine walks a dark field and the loose quills drifting across it join their mane on contact. No timer, no lives, no score, nothing to defeat, and nothing you can throw."
   },
   {
    "tag": "otterly-adorbs",
    "name": "Otterly Adorbs",
-   "path": "/otterly-adorbs.html"
+   "path": "/otterly-adorbs.html",
+   "about": "A cabinet in the Arcade. You steer an otter round a kelp bay: twirls, somersaults, dives, floating on your back, and fish at feeding time. Floating fills nothing up, on purpose. No timer, no lives, no score, nothing to defeat."
   },
   {
    "tag": "penguin-pebbling",
    "name": "Penguin Pebbling",
-   "path": "/penguin-pebbling.html"
+   "path": "/penguin-pebbling.html",
+   "about": "A cabinet in the Arcade. A shore, some pebbles, and neighbours with nests. Carry something over and give it to somebody. Nothing is counted, nothing is owed back, and there is no wrong thing to give anybody."
   },
   {
    "tag": "latibulum",
    "name": "The Latibulum",
-   "path": "/latibulum.html"
+   "path": "/latibulum.html",
+   "about": "A burrow of belonging for burnouts. Under the hill: a round door, a lamp, a wireless playing ocean waves, a television showing seated tai chi, and a shelf of things to do with a bodymind. Nothing counted, nothing loud, nothing plays until you press play."
   },
   {
    "tag": "jungle-room",
    "name": "The Jungle Room",
-   "path": "/jungle-room.html"
+   "path": "/jungle-room.html",
+   "about": "A viewing room under a closed canopy. The nature live cams our own Watering Hole Hangs page puts on in the background — waterholes, otters, reefs, forests, butterflies, nests and whoever walks past — in that page's own groups and order. Nothing plays until you press play, and nothing here says how long it runs, because none of it ends."
   },
   {
    "tag": "the-den",
    "name": "The Den",
-   "path": "/the-den.html"
+   "path": "/the-den.html",
+   "about": "Behind the Jungle Room, the other Jungle Room: Elvis Presley's den at Graceland — green shag, carved wood, a fieldstone waterfall — which in 1976 was turned into a recording studio. Sixteen songs cut in that carpet across two sessions, in the order they were recorded, and every one of them says how long it runs before you press it."
   },
   {
    "tag": "the-mopery",
    "name": "The Mopery",
-   "path": "/the-mopery.html"
+   "path": "/the-mopery.html",
+   "about": "A dark academia library, reading room and parlour. Shelves of books that open to a note and a way to borrow them, one screen playing versions of Paint It Black, and a reading nook where The Raven can be set in any face on the street. Nothing plays until you press play."
   },
   {
    "tag": "oracle-deck",
    "name": "The Oracle Deck",
-   "path": "/oracle-deck.html"
+   "path": "/oracle-deck.html",
+   "about": "Thirteen public domain engravings from the Metropolitan Museum's open collection, each with a question on the back. It asks and does not answer: no fortunes, no reversals, nothing about what is going to happen to you. The whole deck is on the page."
   },
   {
    "tag": "the-doomscroll",
    "name": "The Doomscroll",
-   "path": "/the-doomscroll.html"
+   "path": "/the-doomscroll.html",
+   "about": "Public domain poems of doom and gloom, laid out as a feed of bad news, newest first by the date each was first published — on an actual scroll. Every poem is entire, every text names the printing it came from, and every author has been dead more than seventy years."
   },
   {
    "tag": "adventurers-guild",
    "name": "The Adventurer’s Guild",
-   "path": "/adventurers-guild.html"
+   "path": "/adventurers-guild.html",
+   "about": "A job board in a manila room, on a street where nothing else is tidy. Each job sends you to a marker standing in one of the rooms; the marker gives you a code, and the code comes back here. Nothing is scored, nothing expires, every job carries hints and a give-me-the-answer way out, and the fanfare does whatever the dial says."
   },
   {
    "tag": "the-feed",
    "name": "The Feed",
-   "path": "/the-feed.html"
+   "path": "/the-feed.html",
+   "about": "A split-flap arrivals board in a dark concourse, one wire per feed, carrying the latest from stimpunks.org, every one of its sibling sites and this street’s Brass Tacks Board off their own RSS feeds. A title, a date and where it goes — never the words themselves. The board says the minute it was set, because a board is not the railway."
   },
   {
    "tag": "zibaldone",
    "name": "The Zibaldone",
-   "path": "/zibaldone.html"
+   "path": "/zibaldone.html",
+   "about": "A commonplace book left open on a desk. Quotations copied out by hand for whatever state you are in, every one of them naming the printing it came from and how it was checked. Short quotations only, no song lyrics, and nothing here is ranked."
   },
   {
    "tag": "rabbit-hole",
    "name": "The Rabbit Hole",
-   "path": "/rabbit-hole.html"
+   "path": "/rabbit-hole.html",
+   "about": "You meant to look up one thing. A shaft you fall down on purpose: rabbit holing as monotropic attention rather than a failure of discipline, seven recordings off our own glossary entry, six 1865 wood engravings, and a trail out. Nothing plays until you press play."
   },
   {
    "tag": "healing-checkpoint",
    "name": "The Healing Checkpoint",
-   "path": "/healing-checkpoint.html"
+   "path": "/healing-checkpoint.html",
+   "about": "Room 429. A save room off the street with a spring in the floor and a bed nobody is charging you for: an appreciation of rest built out of our own Rest entry, the healing checkpoint as a place that asks nothing, and a Retry-After slip you can send somebody. Nothing here is counted and nothing is stored."
   },
   {
    "tag": "foundry",
    "name": "The Foundry",
-   "path": "/foundry.html"
+   "path": "/foundry.html",
+   "about": "A type foundry on the street: a grey iron workshop where you can set your own words, or words out of The Playhouse, The Mopery and The Zibaldone, in any typeface this site holds. Size, leading, tracking, measure, weight, a real italic or a machine slant, four measured inks, and a proof you can print with the designer's name on it."
   },
   {
    "tag": "covenstead",
    "name": "Covenstead",
-   "path": "/covenstead.html"
+   "path": "/covenstead.html",
+   "about": "A kitchen on the street in the afternoon, with the good china out and none of it matching. Counsel that stayed counsel, a law the tradition itself argues about, and the practice of watching your own first thoughts. Nobody is initiated."
   },
   {
    "tag": "dead-tired-society",
    "name": "Dead Tired Society",
-   "path": "/dead-tired-society.html"
+   "path": "/dead-tired-society.html",
+   "about": "Peer support by and for people in burnout, and for the ones on the far side of it. A borrowed room after hours with the big lights off and the door left ajar. Masking, minority stress, epistemic injustice and the rest, hung up on pegs by the door. No advice nobody asked for, nothing counted, and nobody has to sit in the light."
   },
   {
    "tag": "laughingstock",
    "name": "Laughingstock",
-   "path": "/laughingstock.html"
+   "path": "/laughingstock.html",
+   "about": "A comedy club on the street, down a ramp rather than a flight of stairs. Disabled comics on their own terms, in their own voice, controlling the frame: Josh Blue, Tina Friml and the rest of our Disabled Comedy playlist, with the writing from our Campfire Learn Together on why being disabled can be pretty funny. Nobody here is called brave, and bombing is allowed."
   },
   {
    "tag": "lightbulb-picture-house",
    "name": "The Lightbulb Picture House",
-   "path": "/lightbulb-picture-house.html"
+   "path": "/lightbulb-picture-house.html",
+   "about": "A picture house on the street where every screening is a relaxed screening: the house lights stay up, the captions are on, and you can move, stim, sit on the floor or leave. Films about autism, ADHD and neurodiversity, most of them made by the people they are about, and everything we have watched together at Campfire Learn Together, and racks of cards saying how long each film runs and what is in it before you press play."
   },
   {
    "tag": "samefood-cafe",
    "name": "Samefood Cafe",
-   "path": "/samefood-cafe.html"
+   "path": "/samefood-cafe.html",
+   "about": "A café on the street for samefoods and safe foods, and for understanding food aversion rather than correcting it. The kitchen knows its regulars, keeps what each of them has, and is ready when their samefoods change with the seasons; nothing on your plate touches unless you want it to, Matthew Broberg-Moffitt’s Color Taste Texture is on the counter, and our community’s own samefoods are on trays of their own."
   },
   {
    "tag": "collection-collection",
    "name": "The Collection Collection",
-   "path": "/collection-collection.html"
+   "path": "/collection-collection.html",
+   "about": "A dark gallery on the street full of our people’s collections, each in a cabinet of its own under a lamp of its own, and no two lamps alike: pens, paper and ink, perfume, leather swatches and stamping tools, house plants, books and rocks. Nothing is counted, priced or ranked, and the house describes every photograph so that nobody has to before they send one."
   },
   {
    "tag": "vital-plant-living",
    "name": "Vital Plant Living",
-   "path": "/vital-plant-living.html"
+   "path": "/vital-plant-living.html",
+   "about": "A plant-based kitchen on the street. Build your own bowl or wrap out of a real pantry, the list Ryan cooks from at home, or start from one of the named combos on the board, each standing on a flavour base from somewhere in the world; copy what you build and take it shopping. Everything in here is drawn cut through the middle, so everything in the bowl touches, and the stereo plays songs about food."
   },
   {
    "tag": "community-center",
    "name": "Community Center",
-   "path": "/community-center.html"
+   "path": "/community-center.html",
+   "about": "A shopfront on the street with the blinds half open, and where you get on: the meeting hall, which is our group chat on Stoat and how to get an invite, the front desk where you sign on to the CB with a handle and the community password, its house norms and our covenant, and the community service board, with a slot for every room that takes something in from our community."
   },
   {
    "tag": "town-hall",
    "name": "Town Hall",
-   "path": "/town-hall.html"
+   "path": "/town-hall.html",
+   "about": "A shopfront on the street: a round hall under a dome with a hole in the top, where the sun lands as one disc on the floor. Doors off it to the Fishbowl, for community fishbowl meetings on the CB, and to rooms for our directors, our board and our moderators, which anybody may walk into and whose radio and call are for the base."
   },
   {
    "tag": "town-hall-fishbowl",
    "name": "The Fishbowl",
-   "path": "/town-hall-fishbowl.html"
+   "path": "/town-hall-fishbowl.html",
+   "about": "Through a door off the Town Hall: a glass fishbowl on a sunny sill, with a small ring of stones in it, one gap kept open, and a wider ring round the outside. A room for community fishbowl meetings on the CB, and how one goes."
   },
   {
    "tag": "town-hall-directors",
    "name": "Directors",
-   "path": "/town-hall-directors.html"
+   "path": "/town-hall-directors.html",
+   "about": "Through a door off the Town Hall: the room where Stimpunks' directors meet, lit only through the frosted pane in its door, with their name on the glass backwards from inside. Anybody can walk in; its radio and call are for the base."
   },
   {
    "tag": "town-hall-board",
    "name": "Board",
-   "path": "/town-hall-board.html"
+   "path": "/town-hall-board.html",
+   "about": "Through a door off the Town Hall: the room where Stimpunks' board meets, at one long table with the same small lamp at every seat. Anybody can walk in and read who is on the board; its radio and call are for the base."
   },
   {
    "tag": "town-hall-moderators",
    "name": "Moderators",
-   "path": "/town-hall-moderators.html"
+   "path": "/town-hall-moderators.html",
+   "about": "Through a door off the Town Hall: the room where Stimpunks' moderators meet, above the street at night, lit only by the shopfronts' own colours thrown up through its window onto the ceiling. Anybody can walk in; its radio and call are for the base."
   },
   {
    "tag": "town-hall-executive-session",
    "name": "Executive Session",
-   "path": "/town-hall-executive-session.html"
+   "path": "/town-hall-executive-session.html",
+   "about": "Through a door off the Town Hall: the board without staff, in a dark room lit only by the EXIT sign over its shut door. Anybody can walk in and read what an executive session is; its radio and call are for the board role alone."
   },
   {
    "tag": "dopamine-dress-up-den",
    "name": "Dopamine Dress-Up Den",
-   "path": "/dopamine-dress-up-den.html"
+   "path": "/dopamine-dress-up-den.html",
+   "about": "A boutique on the street for dopamine dressing, Helen Edgar's idea. Put an outfit together on a valet stand out of rails of Thai fisherman pants, haori, button-downs, beanies, cardigans, flowing dresses, capes, sequins and a feather boa, in any print and any colours. Nothing has to go with anything, nothing comes in a size, and black is a colour too."
   },
   {
    "tag": "plural-mural",
    "name": "Plural Mural",
-   "path": "/plural-mural.html"
+   "path": "/plural-mural.html",
+   "about": "An end wall on the street with a mural on it, and then another. The street is Danny's, and Danny repaints: at MAX GLITTER the wall dissolves into the next mural every three minutes and you can hold the one you like; at every setting you can put any of them up yourself. The murals are the house's, and anybody can propose one in words."
   },
   {
    "tag": "community-library",
    "name": "Community Library",
-   "path": "/community-library.html"
+   "path": "/community-library.html",
+   "about": "A public library on the street, with its windows set high over the shelves and the sky in every one of them. Free to all, and nothing requires a card: a celebration of the public library, our collections on the front desk, and a gap in the stacks at the back that is longer on the inside than it is on the outside."
   },
   {
    "tag": "l-space",
    "name": "L-Space",
-   "path": "/l-space.html"
+   "path": "/l-space.html",
+   "about": "Behind the Community Library, between the shelves: the space every library shares, bent by the weight of what is in them. Nothing in it is straight and nothing in it is lit, and the only way through is a ball of string. Terry Pratchett's idea, the anti-library, books of the edges, and a thread to follow to the end."
   },
   {
    "tag": "oook",
    "name": "Oook",
-   "path": "/oook.html"
+   "path": "/oook.html",
+   "about": "At the far end of L-space, a room in the Librarian's own colours: a homage to Terry Pratchett's Discworld and to the Librarian of Unseen University, who was changed by an accident, refused to be changed back, and kept his job because he was the only one who knew where all the books were. We find him relatable."
   },
   {
    "tag": "cavendish-coworking",
    "name": "Cavendish Coworking",
-   "path": "/cavendish-coworking.html"
+   "path": "/cavendish-coworking.html",
+   "about": "Henry Cavendish’s house in Bedford Square, where he kept his library and opened it to anybody doing research, with a shut door onto each of our calls: the Operations and Editorial meetings that run Stimpunks, open to the world, the room our events meet in, and the Hang Suites upstairs, a cave, a campfire and a watering hole for just hanging out. Every door says what is behind it and when, none is locked, and each opens a room of its own with a call in it. No Discord, no account, and nothing reaches the call until you join it."
   },
   {
    "tag": "cavendish-events",
    "name": "The Events Room",
-   "path": "/cavendish-events.html"
+   "path": "/cavendish-events.html",
+   "about": "Behind the Events door at Cavendish Coworking: a lighthouse keeper's watch room, with our recurring events as its light list and a call anybody can knock on."
   },
   {
    "tag": "cavendish-operations",
    "name": "The Operations Room",
-   "path": "/cavendish-operations.html"
+   "path": "/cavendish-operations.html",
+   "about": "Behind the Operations door at Cavendish Coworking: a building's plant room, every pipe painted the colour of what it carries, where the weekly task scrub is written on the log and the call is open to anybody who knocks."
   },
   {
    "tag": "cavendish-editorial",
    "name": "The Editorial Room",
-   "path": "/cavendish-editorial.html"
+   "path": "/cavendish-editorial.html",
+   "about": "Behind the Editorial door at Cavendish Coworking: a designer’s light table in a dark studio, where words and design are checked before they go out into the world, and a call anybody can knock on."
   },
   {
    "tag": "cavendish-watering-hole",
    "name": "The Watering Hole",
-   "path": "/cavendish-watering-hole.html"
+   "path": "/cavendish-watering-hole.html",
+   "about": "Behind the Watering Hole door at Cavendish Coworking: a pan of water in the desert at noon, for come-and-go chat with no agenda, with the Jungle Room's desert, otter and jelly cams on a rack and a call for people signed on to the CB."
   },
   {
    "tag": "cavendish-campfire",
    "name": "The Campfire",
-   "path": "/cavendish-campfire.html"
+   "path": "/cavendish-campfire.html",
+   "about": "Behind the Campfire door at Cavendish Coworking: a fire in a clearing at night with a ring of logs round it, for small groups working or watching together, with the fires from Swaying Sweetgrass on a rack and a call for people signed on to the CB."
   },
   {
    "tag": "cavendish-cave",
    "name": "The Cave",
-   "path": "/cavendish-cave.html"
+   "path": "/cavendish-cave.html",
+   "about": "Behind the Cave door at Cavendish Coworking: inside a glacier, lit through its own walls, the quiet room for being together without talking, with real cave videos on a rack and a call for people signed on to the CB."
   },
   {
    "tag": "live-room",
    "name": "The Live Room",
-   "path": "/live-room.html"
+   "path": "/live-room.html",
+   "about": "A recording studio on the street, seen from the control room: sessions played in a studio rather than at a gig, starting with Austin City Limits, KEXP and KCRW, with other studios to follow. No crowd to stand in, the volume in your hand, and every session saying how long it runs before you press it."
   },
   {
    "tag": "broadsheet-broadside",
    "name": "The Broadsheet Broadside",
-   "path": "/broadsheet-broadside.html"
+   "path": "/broadsheet-broadside.html",
+   "about": "A broadsheet press on the street, in the side of a ship: manifestos and mementos served across your bow. Single sheets printed both sides, ink on white, sized to come out of any printer uncropped, the way the Stimpunks broadsides are. No. 1 is an introduction to Stimpunks.World, and No. 2 is its manifesto."
   },
   {
    "tag": "the-doom-scoop",
    "name": "The Doom Scoop",
-   "path": "/the-doom-scoop.html"
+   "path": "/the-doom-scoop.html",
+   "about": "Daily news, usually bad. An ice cream parlour on the street after closing, with a tub in the lit cabinet for every morning of the last week: the independent news, the late-night shows and the YouTubers Ryan keeps an eye on, every video pressed to play and saying how long it runs first. A week, and then it is gone."
   },
   {
    "tag": "the-mud-room",
    "name": "The MUD Room",
-   "path": "/the-mud-room.html"
+   "path": "/the-mud-room.html",
+   "about": "A multi-user dungeon with nobody to fight. Out the back door of a boot room on the street is the Slake, a tidal estuary made of words and drawn as a map: a marsh, a mill, a hut full of things people found in the mud, and an island you can walk to while the tide is out. Explore it by typing or by pressing, and the people out there tell you what they are doing and what our glossary calls it. Nothing is counted, and the tide turns when you wait for it."
   },
   {
    "tag": "pando-calrissian",
    "name": "Pando Calrissian",
-   "path": "/pando-calrissian.html"
+   "path": "/pando-calrissian.html",
+   "about": "One aspen on a hillside behind the shopfronts, which is all of us: signed on to the CB, you water it, and every watering sends up another stem from the one root. The tree keeps how many times it has been watered and never who watered it, and a fence round the new growth holds notes for a week. Named for Pando, the aspen in Utah that is one tree, and for Lando Calrissian."
   },
   {
    "tag": "fridge-of-sighs",
    "name": "The Fridge of Sighs",
-   "path": "/fridge-of-sighs.html"
+   "path": "/fridge-of-sighs.html",
+   "about": "A kitchen, and the door of its fridge, covered in word magnets. Signed on to the CB, you put up one word, somebody else puts up the next, and a word ending in a full stop finishes the sentence. Finished sentences stay on the door and then in the drawer for good, and no word says who put it up. After the sentence builder in our Discord's Collaborative Nonsense channels."
   },
   {
    "tag": "count-me-in",
    "name": "Count Me In",
-   "path": "/count-me-in.html"
+   "path": "/count-me-in.html",
+   "about": "Through a fire door, the stairwell of a public building, going up and never stopping, and everybody climbs it together, a number to a step. Signed on to the CB, put the next number or ride the chairlift up one; nobody takes two in a row, a wrong number sends the stair back to one and names nobody, and the stair remembers the highest step it has reached. After the counting game in our Discord's Collaborative Nonsense channels."
   },
   {
    "tag": "rescue-a-cat",
    "name": "Rescue A Cat",
-   "path": "/rescue-a-cat.html"
+   "path": "/rescue-a-cat.html",
+   "about": "A street with the lights out, a torch, and now and then a cat that needs bringing in: under a parked car, up a drainpipe, in a soggy box. Signed on to the CB, the first to press rescues it and names it, and anybody can adopt one into Profile on their CB radio. The shelter and the list of everybody ever adopted never say who rescued or adopted anybody. After the catch-a-cat game in our Discord's Collaborative Nonsense channels."
   },
   {
    "tag": "rescue-a-dog",
    "name": "Rescue A Dog",
-   "path": "/rescue-a-dog.html"
+   "path": "/rescue-a-dog.html",
+   "about": "The park the morning after snow, and now and then a dog that needs bringing in: under the bus shelter, by the frozen pond, tied up outside the shop. Follow the prints. Signed on to the CB, the first to press rescues them and names them, and anybody can adopt one into Profile on their CB radio. The kennels and the list of everybody ever adopted never say who rescued or adopted anybody."
   },
   {
    "tag": "rescue-small-animals",
    "name": "Rescue Small Animals",
-   "path": "/rescue-small-animals.html"
+   "path": "/rescue-small-animals.html",
+   "about": "Under the floorboards of a shop, where the only light is daylight through the cracks, and now and then a rabbit, a rat, a mouse, a hamster, a gerbil, a guinea pig, a chinchilla, a ferret or a hedgehog that needs bringing in. Signed on to the CB, the first to press rescues them and names them, and anybody can adopt one into Profile on their CB radio. The hutches and the list of everybody ever adopted never say who rescued or adopted anybody."
   },
   {
    "tag": "neurohome",
    "name": "NeuroHome",
-   "path": "/neurohome.html"
+   "path": "/neurohome.html",
+   "about": "Isha Snow's tiny home by the river: daylight through the firs, candles, a full bookshelf, a radio on the desk, a creativity corner and a bee yard out front."
   },
   {
    "tag": "your-room",
    "name": "Your Room",
-   "path": "/your-room.html"
+   "path": "/your-room.html",
+   "about": "An empty storefront on the street, with the keys in the door. One person from the community gets a page here, their own stylesheet, and their name on it."
   },
   {
    "tag": "pebble-board",
    "name": "The Pebble Board",
-   "path": "/pebble-board.html"
+   "path": "/pebble-board.html",
+   "about": "A community noticeboard on the street. Our people bring each other songs, art, jokes, recipes and things worth keeping, and one edition at a time gets pinned up here. Nothing plays until you press play."
   },
   {
    "tag": "brass-tacks-board",
    "name": "The Brass Tacks Board",
-   "path": "/brass-tacks-board.html"
+   "path": "/brass-tacks-board.html",
+   "about": "A board for things meant to last on the street: news, notices, events, celebrations and posts, each a brass plate tacked to a wall of old green copper. Anybody can read it, and it has a feed of its own. Our moderators post on it, with their username on every post."
   },
   {
    "tag": "now-playing",
    "name": "Now Playing",
-   "path": "/now-playing.html"
+   "path": "/now-playing.html",
+   "about": "A screenprinted bill pasted on the poster column on the pavement, beside the Pebble Board: every room on this street with something in it to press and play, what is on there, and what each one puts on first. Read off the rooms themselves. Nothing on the poster plays."
   },
   {
    "tag": "the-garden",
    "name": "The Garden",
-   "path": "/the-garden.html"
+   "path": "/the-garden.html",
+   "about": "Through the gate in the wall: the knowledge garden, with one bed for every site we publish. What a knowledge garden is, how this one is tended, how to start one of your own, and the Garden Spider, whose best answer is an entrance."
   },
   {
    "tag": "campgrounds",
    "name": "The Campgrounds",
-   "path": "/campgrounds.html"
+   "path": "/campgrounds.html",
+   "about": "Where the street runs out. A field past the treeline with numbered pitches on it, for the ones who would rather live on the edge of town. Nothing out here moves, at any setting."
   },
   {
    "tag": "faery-yurt",
    "name": "Faery Yurt",
-   "path": "/faery-yurt.html"
+   "path": "/faery-yurt.html",
+   "about": "Helen's candlelit yurt in the campgrounds, pitched at the edge of the woods. Old books, fairy lights, a regulation nook, three animals with opinions, and a window that opens onto somewhere else entirely."
   },
   {
    "tag": "swaying-sweetgrass",
    "name": "Swaying Sweetgrass",
-   "path": "/swaying-sweetgrass.html"
+   "path": "/swaying-sweetgrass.html",
+   "about": "Pitch 02 in the campgrounds. A meadow of sweetgrass left alone, with one natural-surface path a wheelchair can use running into a clearing with a fire pit in it. The story at the fire is Robin Wall Kimmerer in her own voice."
   },
   {
    "tag": "solarpunk-hermitage",
    "name": "The Solarpunk Hermitage",
-   "path": "/solarpunk-hermitage.html"
+   "path": "/solarpunk-hermitage.html",
+   "about": "Pitch 03 in the campgrounds. A wood cabin on wheels bristling with solar panels, and the first room on this street lit by daylight. A cave to read in, a campfire to watch from, a watering hole to make things at."
   },
   {
    "tag": "the-outskirts",
    "name": "The Outskirts",
-   "path": "/the-outskirts.html"
+   "path": "/the-outskirts.html",
+   "about": "It's always dark in The Outskirts. The road past the last streetlight, where the mystical and the eldritch keep their own hours: hand-painted signs standing in the weeds, and only as much of them as the headlights reach."
   },
   {
    "tag": "black-leather-lagoon",
    "name": "Black Leather Lagoon",
-   "path": "/black-leather-lagoon.html"
+   "path": "/black-leather-lagoon.html",
+   "about": "It's always Halloween at the Lagoon. A drive-in screen standing in black water at the edge of town, an appreciation of The Cramps, our Halloween playlist and a rack of their records on posts. Nothing plays until you press play, and nothing here flickers."
   },
   {
    "tag": "sithen",
    "name": "Sithen",
-   "path": "/sithen.html"
+   "path": "/sithen.html",
+   "about": "A fairy fort seen from the outside, under a full moon. The rules nobody will say out loud, the ring that a whole country declines to plough, and a door this room does not open."
   },
   {
    "tag": "looming-rocks",
    "name": "Looming Rocks Amphitheatre",
-   "path": "/looming-rocks.html"
+   "path": "/looming-rocks.html",
+   "about": "An open-air stage at the foot of enormous rock faces, after dark, with the lichen fluorescing under UV floods run off the day's sun. Whole concerts on the rocks, and nothing is fetched until you press something."
   },
   {
    "tag": "dance-punks",
    "name": "Dance, Punks",
-   "path": "/dance-punks.html"
+   "path": "/dance-punks.html",
+   "about": "Turning 04 off The Outskirts: a silent disco on an old airstrip, lit by nothing but the headsets. Three channels in one crate of our dance-punk playlist, a headset each, and the volume in your own hand. Nothing strobes, and nothing plays until you put the headset on."
   },
   {
    "tag": "small-hours",
    "name": "The Small Hours",
-   "path": "/small-hours.html"
+   "path": "/small-hours.html",
+   "about": "Turning 05 off The Outskirts: an all-night diner for bodies that keep other hours, seen lit from the dark car park. Crip time, a clock with no hands, breakfast whenever it is for you, crayons and a paper placemat to colour in, and nobody asking why you are up. On the jukebox, Josephmooon’s two albums, and Up All Night, a Stimpunk’s song about Autistic insomnia. It does not close, and it gives no sleep advice."
   },
   {
    "tag": "repeater",
    "name": "The Repeater",
-   "path": "/repeater.html"
+   "path": "/repeater.html",
+   "about": "Turning 06 off The Outskirts: a radio mast on the ridge at the far end of the road, standing against the glow of everything else on it. Shared-signal space, a log that confirms every kind of contact and counts none, and a line you can leave open that goes nowhere and sends nothing."
   },
   {
    "tag": "nothing-for-sale",
    "name": "Nothing For Sale",
-   "path": "/nothing-for-sale.html"
+   "path": "/nothing-for-sale.html",
+   "about": "Turning 07 off The Outskirts: a free market in a lay-by, lit by a ring of cars that pulled up nose-in and left their headlights on. Mutual aid rather than charity, tables of free things of ours, no proof of need, and nothing counted."
   },
   {
    "tag": "rebellion-rave-room",
    "name": "Rebellion Rave Room",
-   "path": "/rebellion-rave-room.html"
+   "path": "/rebellion-rave-room.html",
+   "about": "Turning 08 off The Outskirts: an old aircraft hangar by the airstrip, taken over by the sensory seekers in our community. The one room on this street with a strobe in it, and it is off until you switch it on and say yes. Festival films on the big screen, and nothing is fetched until you press something."
   },
   {
    "tag": "cooldown-room",
    "name": "The Cooldown Room",
-   "path": "/cooldown-room.html"
+   "path": "/cooldown-room.html",
+   "about": "Next to the ante-chamber at the Rebellion Rave Room: a small, soft room to come down in, with couches everywhere, cold water, and a vending machine of snacks made by locals where everything is free."
   },
   {
    "tag": "arlesglad-caverns",
    "name": "Arlesglad Caverns",
-   "path": "/arlesglad-caverns.html"
+   "path": "/arlesglad-caverns.html",
+   "about": "Under the street, by lift or stair: a natural cavern where the weather settles the deeper you go, lit only by the handrail, for everything that needs things to stay the same."
   },
   {
    "tag": "big-steep-fermentables",
    "name": "Big Steep Fermentables",
-   "path": "/big-steep-fermentables.html"
+   "path": "/big-steep-fermentables.html",
+   "about": "Level B1 of Arlesglad Caverns: a brewery and cellar for wine, beer and kombucha, lit from behind its own glass. Try our house styles. Every pour says how strong it is before you take it, and every style comes alcohol-free, first."
   },
   {
    "tag": "mycelium-munchies",
    "name": "Mycelium Munchies",
-   "path": "/mycelium-munchies.html"
+   "path": "/mycelium-munchies.html",
+   "about": "Level B2 of Arlesglad Caverns: a mushroom farm with a restaurant at the end of the growing rooms. All kinds of mushrooms, served all kinds of ways, every one of them grown on the shelves you walk past to get to the pass."
   },
   {
    "tag": "glow-go-gee-gaws",
    "name": "Glow Go Gee Gaws",
-   "path": "/glow-go-gee-gaws.html"
+   "path": "/glow-go-gee-gaws.html",
+   "about": "Level B3 of Arlesglad Caverns: glow-in-the-dark toys and trinkets in every colour glow comes in. Hold one up to the rail, take it away, and watch it give back the light it kept."
   },
   {
    "tag": "stay-frosty",
    "name": "Stay Frosty",
-   "path": "/stay-frosty.html"
+   "path": "/stay-frosty.html",
+   "about": "Level B5 of Arlesglad Caverns, the bottom: a quiet place to chill, literally, at the one temperature that never moves. Nothing to press, nothing moves, nothing makes a sound, and nothing in here is for anything."
   },
   {
    "tag": "stay-breezy",
    "name": "Stay Breezy",
-   "path": "/stay-breezy.html"
+   "path": "/stay-breezy.html",
+   "about": "Behind Stay Frosty at the bottom of Arlesglad Caverns: a hall full of fans, for anybody who loves moving air and the noise it makes. Switch on as many as you like, or take a room of your own with its own ceiling fan and a table to perch one on."
   },
   {
    "tag": "liner-notes",
    "name": "Liner Notes",
-   "path": "/liner-notes.html"
+   "path": "/liner-notes.html",
+   "about": "Who made this noise. Every song, typeface, quotation and borrowed name on this street, credited to the person it belongs to."
   },
   {
    "tag": "mission",
    "name": "What the street is for",
-   "path": "/mission.html"
+   "path": "/mission.html",
+   "about": "The mission of Stimpunks.World: belonging before anything else, no two rooms alike, loudness the visitor holds, nothing from anybody else until you press, contrast that is measured, rest that is owed, nobody counted, faces and voices that stay their owners', and credits and corrections in the open. Each aim names the page that keeps it and the failure that would show we had stopped."
   },
   {
    "tag": "design",
    "name": "How this site is made",
-   "path": "/design.html"
+   "path": "/design.html",
+   "about": "How Stimpunks.World is made: no design system on purpose, a small shared base, a dial for loudness, contrast that is measured, nothing that plays until you press it, loud credits, and who builds it, including how we use AI."
   },
   {
    "tag": "privacy",
    "name": "Privacy",
-   "path": "/privacy.html"
+   "path": "/privacy.html",
+   "about": "What this site knows about you, which is very little, and all of it: no cookies, a few things kept in your own browser, a CB that keeps one day of chat and nothing longer, a chalkboard anybody can read that keeps a week, nothing from anyone else until you press play, and our host's ordinary logs."
   },
   {
    "tag": "changelog",
    "name": "Changelog",
-   "path": "/changelog.html"
+   "path": "/changelog.html",
+   "about": "What changed on the street, and when. Every Stimpunks site publishes one of these."
   }
  ]
 }

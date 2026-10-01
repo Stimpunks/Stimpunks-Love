@@ -319,8 +319,12 @@ ol.cb-md-list { list-style: decimal; }
   color: var(--cb-amber);
 }
 .cb-opt__tag { font-size: 13px; color: var(--cb-amber-2); overflow-wrap: anywhere; text-align: right; }
+/* Where a room found by its description was found: the page's own words, on a
+   line of their own under the name, in the tag's pair so nothing is unmeasured. */
+.cb-opt__why { display: block; margin-top: 2px; font-size: 13px; color: var(--cb-amber-2); }
 .cb-opt[aria-selected="true"] { color: var(--cb-lcd); background: var(--cb-amber); }
-.cb-opt[aria-selected="true"] .cb-opt__tag { color: var(--cb-lcd); }
+.cb-opt[aria-selected="true"] .cb-opt__tag,
+.cb-opt[aria-selected="true"] .cb-opt__why { color: var(--cb-lcd); }
 /* The radio's answer to a press, under the readout. A rule down its side in the
    log's amber, so a sentence that appears there is noticed. */
 /* The guest bar's sign-on: the front desk's two boxes, the width of the panel. */
