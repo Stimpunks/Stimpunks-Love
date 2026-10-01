@@ -9,10 +9,17 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Thu, 01 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>New words under the Faery Yurt’s name</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-01-yurt-tagline</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-01-yurt-tagline</guid>
+      <pubDate>Thu, 01 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The Faery Yurt’s tagline is new, in Helen Edgar’s own words: lots of books, music, faerys, candle light and weird thoughts and happenings.</description>
+    </item>
+    <item>
       <title>The Brass Tacks Board on The Feed</title>
       <link>https://stimpunks.world/changelog.html#2026-10-01-brass-tacks-on-the-feed</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-01-brass-tacks-on-the-feed</guid>
-      <pubDate>Thu, 01 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Thu, 01 Oct 2026 11:59:00 GMT</pubDate>
       <description>The Feed has a board for the Brass Tacks Board now, right after this street’s own, which is the one place in stimpunks.org’s order it can go without re-sorting anybody else. Ryan’s ask. It is a second feed of this street, not a site of its own, so the hall says “one wire per feed” now, and the Garden, which plants one bed for every site we publish, leaves it out. It may be empty. A board with every post taken down is a board, not a broken feed, so it shows one blank flap saying so, and the morning’s board is still set. Its titles are a moderator’s own words, so a “&lt;” typed in one does not stop the board being set either. Changed: data/arrivals.json, tools/pull-arrivals.py, tools/make-arrivals.py, tools/make-garden.py, tools/make-og.py, the-feed.html.</description>
     </item>
     <item>
