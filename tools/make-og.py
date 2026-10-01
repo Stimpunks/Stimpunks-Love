@@ -46,6 +46,7 @@ Text baked into an image is text nobody can hear, on a site that exists to say
 so. The alt describes the card and quotes the words drawn on it, because both
 halves are what a sighted reader gets from the unfurl.
 """
+import hashlib
 import html
 import json
 import os
@@ -1757,6 +1758,130 @@ document.fonts.ready.then(function () {{
   document.head.appendChild(m);
 }});
 """
+
+# ── Same card, different Mac ─────────────────────────────────────────────────
+# TWO PEOPLE COMMIT HERE AND THEIR MACS DO NOT DRAW TEXT IDENTICALLY. Chrome
+# 154.0.8037.93 on macOS 27.0 and on macOS 26.5.1 drew every card differently on
+# the soft edges of letters -- 0.07% to 0.41% of pixels, measured on Helen
+# Edgar's Mac, 2026-10-01 -- and each Mac drew its own version the same way
+# every time. So whoever ran check-all.sh last rewrote every card on the street
+# and the next run rewrote them back, which is the Sweetgrass lean above
+# arriving through the operating system.
+#
+# THE PICTURE CANNOT SETTLE IT, AND THAT WAS MEASURED. A pixel rule was built
+# first and tried against renders: anti-aliasing moves a thin stroke's core by
+# about ten levels, and recolouring that stroke's ink moves it by twenty-odd,
+# so any tolerance loose enough for the first swallows the second. That second
+# one is exactly the change this repo makes -- a grey darkened a few levels to
+# clear contrast -- and a card that kept the old grey would no longer match its
+# room, which is the one thing this tool exists to prevent.
+#
+# SO IT ASKS WHAT DECIDES THE PICTURE INSTEAD. PRINT_JS records the card's
+# markup and every computed style of every element and pseudo-element, and
+# names every font family and file the card asks for; made_from() hashes those
+# files. If all of that is what made the committed card, and the committed card
+# is still the file data/og-prints.json recorded, the only thing that can
+# differ is how this Mac rasterises it, and the committed card is put back.
+# Anything else -- a word, a colour, a face, an image, one stroke of an SVG --
+# is a new card. Tested 2026-10-01 with every picture nudged as another Mac
+# would draw it: a colour moved three levels, one word and one byte of an image
+# were each redrawn, and every other card was kept. A picture that does not
+# match its recorded hash (a merge that took one side of og/ and the other
+# side of the prints) is redrawn too.
+# Stylesheets are not hashed, because what they decide is already in the
+# computed styles, and hashing love.css would redraw every card on every edit.
+# The repository's own path is written as / so two Macs' prints can agree.
+# A different Chrome lists different properties, so the two Macs agree only
+# while they run the same Chrome; until then, cards are redrawn as before.
+PRINT_JS = r"""
+window.addEventListener('load', function () { document.fonts.ready.then(async function () {
+  var root = new URL('..', location.href).href, here = new URL('.', location.href).href;
+  function local(s) { return s.split(here).join('<card>/').split(root).join('/'); }
+  var parts = [], files = new Set(), families = new Set();
+  function grab(s) {
+    (s.match(/url\("[^"]+"\)/g) || []).forEach(function (u) {
+      u = u.slice(5, -2);
+      if (u.indexOf(root) === 0) files.add(local(u));
+    });
+  }
+  function quiet(el) { return el.tagName === 'SCRIPT' || /^og-/.test(el.id || ''); }
+  var copy = document.documentElement.cloneNode(true);
+  copy.querySelectorAll('script, [id^="og-"]').forEach(function (el) { el.remove(); });
+  parts.push(copy.outerHTML);
+  var els = [document.documentElement].concat(Array.from(document.querySelectorAll('*')));
+  els.forEach(function (el) {
+    if (quiet(el)) return;
+    // Nothing in SVG generates a pseudo-element, and asking six times over for
+    // every shape made one card take ten seconds.
+    var svg = el.namespaceURI === 'http://www.w3.org/2000/svg';
+    (svg ? [null] : [null, '::before', '::after', '::marker', '::first-letter', '::first-line'])
+    .forEach(function (ps) {
+      var cs = getComputedStyle(el, ps), v = [];
+      // Not the custom properties: every one in :root is inherited by every
+      // element, so one colour changed anywhere in section 2 redrew every card
+      // on the street. What they decide is already here, resolved, in the
+      // real properties -- color: var(--tallow) arrives as the colour itself.
+      for (var i = 0; i < cs.length; i++)
+        if (cs[i].indexOf('--') !== 0) v.push(cs[i] + ':' + cs.getPropertyValue(cs[i]));
+      var t = (ps || '') + '{' + v.sort().join(';') + '}';
+      parts.push(t); grab(t);
+      cs.getPropertyValue('font-family').split(',').forEach(function (f) {
+        f = f.trim().replace(/^["']|["']$/g, '');
+        if (f) families.add(f);
+      });
+    });
+    ['currentSrc', 'src'].forEach(function (k) {
+      if (typeof el[k] === 'string' && el[k].indexOf(root) === 0) files.add(local(el[k]));
+    });
+    var h = el.getAttribute('href') || el.getAttribute('xlink:href');
+    if (h && el.namespaceURI === 'http://www.w3.org/2000/svg') {
+      h = new URL(h, location.href).href;
+      if (h.indexOf(root) === 0) files.add(local(h.split('#')[0]));
+    }
+  });
+  var bytes = new TextEncoder().encode(local(parts.join('\n')));
+  var digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)))
+    .map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+  // Families asked for, not faces loaded: Space Grotesk's 700 shares a file
+  // with its 400 and only sometimes counts as loaded by now, so a print built
+  // on load state moved between runs with nothing changed.
+  var m = document.createElement('meta');
+  m.id = 'og-print';
+  m.setAttribute('content', JSON.stringify({ digest: digest,
+    families: Array.from(families).sort(), files: Array.from(files).sort() }));
+  document.head.appendChild(m);
+}); });
+"""
+PRINTS = ROOT / "data/og-prints.json"
+
+
+def font_files():
+    """family -> every file love.css declares for any face of it."""
+    faces = {}
+    for block in re.findall(r"@font-face\s*\{([^}]*)\}", (ROOT / "love.css").read_text()):
+        def desc(name, default):
+            m = re.search(rf"{name}\s*:\s*([^;]+)", block)
+            return re.sub(r"\s+", " ", m.group(1).strip().strip("'\"")) if m else default
+        srcs = re.findall(r"url\(['\"]?([^'\")]+)['\"]?\)", desc("src", ""))
+        faces.setdefault(desc("font-family", ""), set()).update(srcs)
+    return faces
+
+
+def made_from(raw, faces):
+    """One hash of everything that decides what a card looks like."""
+    got = json.loads(html.unescape(raw))
+    h = hashlib.sha256(got["digest"].encode())
+    # A family love.css does not declare is a generic or a system face: its
+    # name is already in the digest, and it has no file here to hash.
+    for fam in got["families"]:
+        for src in sorted(faces.get(fam, ())):
+            h.update(f"\nface {fam} {src} ".encode())
+            h.update(hashlib.sha256((ROOT / src).read_bytes()).digest())
+    for f in got["files"]:
+        path = ROOT / f.lstrip("/")
+        h.update(f"\nfile {f} ".encode())
+        h.update(hashlib.sha256(path.read_bytes()).digest() if path.is_file() else b"missing")
+    return h.hexdigest()
 
 
 # ── The cards ────────────────────────────────────────────────────────────────
@@ -4607,6 +4732,9 @@ def main():
 
     OUT.mkdir(exist_ok=True)
     built, failed = [], []
+    faces = font_files()
+    prints = json.loads(PRINTS.read_text()) if PRINTS.exists() else {}
+    fresh, kept = {}, []
 
     with tempfile.TemporaryDirectory(dir=ROOT) as tmp:
         tmpdir = Path(tmp)
@@ -4620,21 +4748,32 @@ def main():
                 '<link rel="stylesheet" href="../love.css">\n'
                 '<link rel="stylesheet" href="card.css">\n'
                 f"</head>\n<body class=\"{p['body']}\">\n{ambient}\n{card}\n"
-                f"<script>{FIT_JS}</script>\n</body>\n</html>\n"
+                f"<script>{FIT_JS}</script>\n<script>{PRINT_JS}</script>\n</body>\n</html>\n"
             )
             html_path = tmpdir / f"{p['stem']}.html"
             html_path.write_text(doc)
             png = OUT / f"{p['stem']}.png"
+            # Out of the way first, so a picture left from an earlier run can
+            # never pass for one Chrome has just made.
+            before = png.read_bytes() if png.exists() else None
+            png.unlink(missing_ok=True)
 
-            proc = subprocess.run(
-                [browser, "--headless=new", "--disable-gpu", "--no-sandbox",
-                 "--hide-scrollbars", "--force-device-scale-factor=1",
-                 "--force-color-profile=srgb",
-                 f"--window-size={W},{H}",
-                 "--virtual-time-budget=5000",
-                 f"--screenshot={png}", "--dump-dom", html_path.as_uri()],
-                check=True, capture_output=True, timeout=180,
-            )
+            try:
+                proc = subprocess.run(
+                    [browser, "--headless=new", "--disable-gpu", "--no-sandbox",
+                     "--hide-scrollbars", "--force-device-scale-factor=1",
+                     "--force-color-profile=srgb",
+                     f"--window-size={W},{H}",
+                     "--virtual-time-budget=5000",
+                     f"--screenshot={png}", "--dump-dom", html_path.as_uri()],
+                    check=True, capture_output=True, timeout=180,
+                )
+            except BaseException:
+                # A Chrome that hangs or crashes must not cost the card it was
+                # replacing: the committed picture goes back before stopping.
+                if before is not None:
+                    png.write_bytes(before)
+                raise
             fit = field(proc.stdout.decode("utf-8", "replace"),
                         r'<meta id="og-fit" content="([^"]*)"')
             if not png.exists():
@@ -4652,10 +4791,27 @@ def main():
                     "The measurement is the only reason to trust the picture; a card\n"
                     "that skipped it is a card nobody checked."
                 )
+            got = field(proc.stdout.decode("utf-8", "replace"),
+                        r'<meta id="og-print" content="([^"]*)"')
+            if not got:
+                raise SystemExit(
+                    f"REFUSING: {p['file']}'s card did not report what it was made from,\n"
+                    "so there is no telling a new card from the old one drawn by another Mac."
+                )
+            made = made_from(got, faces)
+            note = ""
+            was = prints.get(p["stem"], {})
+            if (before is not None and before != raw and was.get("made_from") == made
+                    and was.get("png") == hashlib.sha256(before).hexdigest()):
+                png.write_bytes(before)
+                raw = before
+                kept.append(p["stem"])
+                note = "kept: same card, this Mac draws its edges differently"
+            fresh[p["stem"]] = {"made_from": made, "png": hashlib.sha256(raw).hexdigest()}
             ok = fit == "ok"
             (failed if not ok else built).append((p, alt, fit))
             print(f"{'ok  ' if ok else 'FAIL'} {p['room']:<13} {png.name:<22} "
-                  f"{len(raw)//1024:>4} KB  {'' if ok else fit}")
+                  f"{len(raw)//1024:>4} KB  {note if ok else fit}")
 
     if failed:
         print(
@@ -4665,6 +4821,8 @@ def main():
             "else's timeline, where it reads as our bug."
         )
         sys.exit(1)
+
+    PRINTS.write_text(json.dumps(dict(sorted(fresh.items())), indent=1) + "\n")
 
     # ── Write the tags back into the pages ───────────────────────────────────
     # Alt first, then the image: the tool has no way to emit one without the
@@ -4692,6 +4850,9 @@ def main():
     rooms = len({p["room"] for p, _, _ in built})
     print(f"\n{len(built)} cards at {W}x{H}, {rooms} rooms, "
           f"{len(built)} pages tagged with an image and its alt text.")
+    if kept:
+        print(f"{len(kept)} kept as committed: made from exactly what made them, and only\n"
+              "drawn differently by this Mac. Anything that changes a card is a new card.")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,382 @@
+{
+ "adventurers-guild": {
+  "made_from": "4604669fdf1036117423d25de7498386b66f4852396dc91078bfebb1d8fbc89a",
+  "png": "4732d58457b048eee3ee04306cb6ea58e8f8fea67c7251ef958ac533b3eaa5d8"
+ },
+ "arcade": {
+  "made_from": "bca884cece89c1010468625713e0ed88063a16d54202024073ec20f8741fc68c",
+  "png": "988e2d73dd4061cc7ff51ebeadc7aec4678675748d5efa0a7ab657941f10bd6f"
+ },
+ "arlesglad-caverns": {
+  "made_from": "463d80994ee45f483228e1a164ca23a21b85b5941727b778310334278c993681",
+  "png": "ff822355abd29900df44a78566ee075e72a41691f2e39adba4d78f0977c01513"
+ },
+ "big-steep-fermentables": {
+  "made_from": "d442e9d7b28f70b7e2c1a8e5b95ebf76fbf282e8de35966be1819e08736bc750",
+  "png": "2e46b36d98e3653890fd4a38af374045a209a02325ebf7382c6f0dca1956095f"
+ },
+ "black-leather-lagoon": {
+  "made_from": "1e6f0856eeb1cc7849d8ab073a69bfbf8f61e5e0f22e274fb3d4aee3a811b952",
+  "png": "63e5ebd8cba9c14f574f08c439dc1f3875d720f23908f2127ca88442065e309e"
+ },
+ "brass-tacks-board": {
+  "made_from": "230bc8b771091708fd3b758b902958c7d1ed8a93bd315758e4b7f5a371dfa8fa",
+  "png": "ff7974eb5c1f99cce2a00db078b42e35551452548cb863320a5ca00f35e087c2"
+ },
+ "broadsheet-broadside": {
+  "made_from": "2c099d672fe1458d07fdd2cae98c950cae933f97f3a22e8f84abe3e4f7f8e4ae",
+  "png": "bae2b8c741dfdc0f044014f03f3175d29e7e6e3f6c68f09c0b3b07d6e6c08bee"
+ },
+ "campgrounds": {
+  "made_from": "82a3ecbed4d5b17aa1f796b1b04940e4262af32641654a9abd11947aefb166b2",
+  "png": "4ed42a8805993f4ece227f9755b1ff856acc8ba5e9beb64d02018b6cf4caed30"
+ },
+ "cavendish-campfire": {
+  "made_from": "26bbaafaddd87eb755982f02e31bf111a40bbcfc8959069b088cc1ce867b97aa",
+  "png": "a03459cce7a2b8668fa1db070e863ca3938bc25b9a2dbd2fd5eff555f6e291db"
+ },
+ "cavendish-cave": {
+  "made_from": "c64a61af8b603522313050f40e3415022ca510fa49ad1773c3c053b655d602b4",
+  "png": "886d2575198bab167b26b80e3eb1c9aa38e8f2c4515a00064b924092f30b0093"
+ },
+ "cavendish-coworking": {
+  "made_from": "32eade580076de1b83b1de489603a6fa704c46c8bf2b4dbf0adffa95b2703a01",
+  "png": "e6246a1593391303e5a3552b87ad981619d74a0bc4283caa1590a7154f3f73b1"
+ },
+ "cavendish-editorial": {
+  "made_from": "14c4d84b8e32b39f6873e8fe22bc0ef515ec554cbed4b513eb31a9277fa7ffa1",
+  "png": "2088a40113fec67557128ea47ee57f6f1330f6237d3e88798dec2c783a002241"
+ },
+ "cavendish-events": {
+  "made_from": "2da6192c32270dce635723a3eb28b7ec147710933fcc419d93390f43a533065d",
+  "png": "85ee47ea86c4e0a7707ecc63e580038da7fb5b8743a5c2b44f4b71a8afe6bcd1"
+ },
+ "cavendish-operations": {
+  "made_from": "ab4ca04729e6168c77db60805b3a3d59187ecfb85bcbbc7ed6f20b798e3c2182",
+  "png": "8f74193859201a0e84db8f64feef10acfcc101c168cdf19ed3b5c74af7573b0d"
+ },
+ "cavendish-watering-hole": {
+  "made_from": "bc61e35d1ca6c5fb60d62770f48c4ebda652616b565bc4be14b4a5620b701271",
+  "png": "7a0eb05cf33f6ec54c62baa13c0a4b7ff7bc251373f8fa2095eafd8e010db698"
+ },
+ "changelog": {
+  "made_from": "fdad17b4754a9057bfae4bcae2a6e68b6f94b6717e256f8812dbbefb36d7326c",
+  "png": "8940fca222fab75cc30dba7d973c31c71ee8416bec4f012c7592ad52cdbd83a1"
+ },
+ "club-chronic": {
+  "made_from": "d899ca252ec76279eeb94a0e4f29f931f223064ffb86d6aaa8e7b8d295faf31b",
+  "png": "c9503cf00356fcef8736be835653f1cc99c12b609f698f7f27f5c6e6f03190a6"
+ },
+ "collection-collection": {
+  "made_from": "fef14607fc0efe4de934480b1184486a203d3a075dbae55f185126f2a95c8fc9",
+  "png": "bc2d0226194715f8a31b5ff22efe898a5479ffc96f43840e51a45aaba1507cc0"
+ },
+ "community-center": {
+  "made_from": "836ce38db29a1c7444415425c8931c900f9c555af62a44750416f9f8bbf6f444",
+  "png": "2aad1865efeb4ecc9cc2cfbffc21e02a121ae749095d7cd0d6bc2d3d1878e4e1"
+ },
+ "community-library": {
+  "made_from": "e5ff2301a9eba098c0469ec6e260788386e0776435424205b5ead39584359a63",
+  "png": "3861093424505d034129b50f5f929851358c5af5f6f998d0427bd57bf5e663f5"
+ },
+ "cooldown-room": {
+  "made_from": "074c3c7d7d47747d8cbfa680cf53fc40a4c5c58ceb2cf40ce6550bc9f90972f1",
+  "png": "c1f30b5c49806bdcec7c599fd236c8924b60e4ca620dfa8bf83755e0bd414723"
+ },
+ "count-me-in": {
+  "made_from": "be9856351630b6f4ebcc805a6c875079805fc24545ab7aa77da5640c074d088e",
+  "png": "193c7d9e77c63a72fec156bfa5033f880d6bd43137a11db127bab32e2a0f0cba"
+ },
+ "covenstead": {
+  "made_from": "754b11a97298f666f37be848aaa8e04bf5d8f6182214949a08647be9c5a77edd",
+  "png": "185955392cc8af338553e8e8b4723dee8665b121b10fa9e7c1a49cdb9acc3f63"
+ },
+ "dance-punks": {
+  "made_from": "1fe10043a6789bd47c8d22550808379cba5e7392eee5243bf84f3963597a59b0",
+  "png": "c42cb684238528cf8f52d44971255d79cd78fb672e95841bc86cb0399ed2b683"
+ },
+ "danny-the-street": {
+  "made_from": "d6939c502f898b218017f6b5d2de9bbc2d8e811b208068ffcf1009735c030300",
+  "png": "f3467df0faefa7c257cc531b0463dceb4be7396fba61894787196c0bbaacc9ed"
+ },
+ "dead-tired-society": {
+  "made_from": "335a0651cde4e2e3ef706df58ba98881a496f1d913b28773b431a0a39a17c0b5",
+  "png": "d2e1d5d011aa2bea0a97b2b09cfeba9007b5be93f0dec2c500d5ff54370660f9"
+ },
+ "design": {
+  "made_from": "a3050f8ad0e2b0ea2ad5dafcbcbf591f807b378c31a03864c293ec4f27f891c7",
+  "png": "f782cbeca79705cdd2fa2dd4184b79a7047b63f6e3e08056786e3d7ec7f0f2df"
+ },
+ "dopamine-dress-up-den": {
+  "made_from": "89242e82834f3caa8f55aa638c10453c5ff1d1547d8d331667fb53dd1182b0b9",
+  "png": "da38c21c5223fce250651254720067fc099dbcb800d9c5cf2da1c97ad69c7722"
+ },
+ "enids-room": {
+  "made_from": "1ffbbac6364e1a9183b8da450c3216c9df532ebb3d88ca6743cc307183011313",
+  "png": "04bab6d689a299c9fce0bbae26938efc2f7c9142b5fcd99512316c8e462d157d"
+ },
+ "faery-yurt": {
+  "made_from": "a85104ede9258a0a2094897edaf9bf65f4bf4b0f84181a859c9d03f7ca1b8836",
+  "png": "9de9bbddaa0c96084b48407acecfe75980291192c0bc8758befdb9eeb9bba85a"
+ },
+ "foundry": {
+  "made_from": "fa246bcba8fc31f53d2cfac37d5a196d57a51b0972f6e32ba7d727e62655317f",
+  "png": "150a037d2c49bda8a1e9fb9b410238c4395fad1ea9ca3b130c4ea39e5727c4b0"
+ },
+ "fridge-of-sighs": {
+  "made_from": "1927a591c155ac454070770a910a0c82c4ed01e52501cf35adcc324cc55114cb",
+  "png": "d9999953cbbd67a230f84c7f345a77d38e12d39c14626b04e2fd79af6e39a4ed"
+ },
+ "glow-go-gee-gaws": {
+  "made_from": "1c443331c10a8fad28ee442fef639af0c35dc6f390e265b144abc5beb76c0cc2",
+  "png": "590c2f884312789d95c1daf6a9ec62744416a2112686aa9e489864e598748fa3"
+ },
+ "healing-checkpoint": {
+  "made_from": "4f5d68c53a6b7ea2e7683e2da6b9aae3dc66328f911459d22dabc4e2ce800638",
+  "png": "38c28d0cb7a7d4482f044ca0574094993d31b3be2d6dde8001609a86ecf9d2cf"
+ },
+ "hear-queer-here": {
+  "made_from": "84b9fec1b688f08aa71f9b5e053a7975cac0ac301a344b8fd368fa4a7fab8c27",
+  "png": "c84e88db520f053cf1ff54a10293eb9ea958fc61e71d9d61d3f17ec3f9dee137"
+ },
+ "index": {
+  "made_from": "e58aea355b008b97cd448f2e1cab5b02ba97b2761173f8d0b531827c5d8e6cde",
+  "png": "5cba415d9d45ecf08a528540970552f86caf1c0e21eab9f87a199b1f93c9155c"
+ },
+ "jungle-room": {
+  "made_from": "143ac8c77b1171acb48769623788e3e2ee4e94d3bcfe9d9f4d4c31d7069d26bd",
+  "png": "cee9f4bc1cb3e5893b7b401d3318d8997657e91ad3091082a0aea700191471fa"
+ },
+ "l-space": {
+  "made_from": "948c4789c9ee243618d5e91ef5b4e204e8c63ef2af0bfbf7ea67a18ca5fb224c",
+  "png": "9bd4f32f361147b3911370cdde9ab69555c652043ffed9b9639b320662aaefb3"
+ },
+ "latibulum": {
+  "made_from": "7b3d881a83b4b02fc7ddf997d208409693a26aac68c662f8f9bc03c43b03ba31",
+  "png": "4cfff4a3484eb103ea153c4beb9484fe58f2245a1b7a0b62f8b6876ec965196c"
+ },
+ "laughingstock": {
+  "made_from": "04c7b55192592604b63486ac2d09e0e1e4728043f7ef9f3cf6d8395f4c90c6da",
+  "png": "f8eaa0f52cbe301d72e4f0081a048780d8ae7504475dc3020d08ba42377f1a2c"
+ },
+ "lightbulb-picture-house": {
+  "made_from": "839b56b265e566318e1fd5d8e1b85608e1b68fdd97412a233fbe723c2aea2bf3",
+  "png": "30d1b82d88ff9c10890649245b3335e5be0caab7e9ce928eb7bccd215f32561e"
+ },
+ "liner-notes": {
+  "made_from": "c93fc7be4a9cea85322f8d3295ea352d0664f4f7d5abd6a548f1e902b0b66c6c",
+  "png": "115789594aef33ba0c17dff8492d56c48a16577e685b5cfb50c0bcdaeceb5ad8"
+ },
+ "live-room": {
+  "made_from": "ed4fb1d7ef5f5eccf8a8d63bc4bccecb964ee7c80ba9da424ee05b0850b670f6",
+  "png": "2467c96df96894fdb96b6966c17b43ce664f7a0ee8420543f7a38806121f8454"
+ },
+ "looming-rocks": {
+  "made_from": "c145cb230c93f7d27c8a30382a09920826d0731d95640f08cfa3e5c4ad7e2b5d",
+  "png": "756ff7d429b4305f70c250d1c8aead7080b4c91162cc83696d62d3e02a77c551"
+ },
+ "map": {
+  "made_from": "74eb1f983d1e562a283c0aee7db7a14a665266f2eb9aabacfcbade5cd25bd96a",
+  "png": "24761f156935c665f1f22026861449932b71189626ccf02f1a15b97cc5356790"
+ },
+ "mission": {
+  "made_from": "1a4e61744dca873cf900dcf94bbdefcb1c1e04497f0e7df7304e6c7b14ce3c11",
+  "png": "1b102a9f9d4aabbed98565e179c0404023236ab1dd919229a4d3abb526b5fdc8"
+ },
+ "mycelium-munchies": {
+  "made_from": "c83e2e222195e21531b7cef792f7ecfbcfdbf603d519c89903dcb139aaa60eab",
+  "png": "b4f9ac582209ab72e1cfa07832b875ce687dcb2984cd92a7e7b158e7806070f3"
+ },
+ "neurohome": {
+  "made_from": "65e5e07da3d829f01c70aa61a1d8d40143b405afab6489638e4e3d17119751ed",
+  "png": "ba0084a981066c7ebde6b46a7390e77fd7873d64266317357a0c9d3b990c5710"
+ },
+ "nothing-for-sale": {
+  "made_from": "e739331d7333aad4c3b444fdc2a256e39bf6c022cd9f7d785d6b66c4090164e7",
+  "png": "6b4f23f41c8dd92a861c7537405a8b534d6b407a3fe85fffc477e9bf3f2f2f6b"
+ },
+ "now-playing": {
+  "made_from": "9044e45b9805447c17c860998cd68d9d1e0d5bd46e81e38434ea6b47137bab97",
+  "png": "5078ccbf24d4c0586da3c43e439c3954b5ddc4984a98cc637d5b121bf9a9b0dd"
+ },
+ "oook": {
+  "made_from": "4903181f0bf449e5bcb8a18ac51561e6e2659b4c605bcd6a25b001928f3317b2",
+  "png": "dbaf9341b48dfe7a9b31b58905eac1db56be303cc6d9db1e60090ce2accc9354"
+ },
+ "oracle-deck": {
+  "made_from": "26484ce7039612b318345cbeec69c165ff8e345e1513f6643ee21fb65c11ff49",
+  "png": "ce26b8736196780728e559f9b92aa9d43044ca3c9e874bcb690c7f4c2e4d4532"
+ },
+ "otterly-adorbs": {
+  "made_from": "c1280c23b433494ce11017e18a2643a644b902db7f8616e4bf9192db6dbe8eb5",
+  "png": "60df18932799ae101c93299d2835553ba10b2f1c887e027cf19b2b4b9a5f5aaf"
+ },
+ "pando-calrissian": {
+  "made_from": "5fd91a4c9fbbd07179d20d0f9ac6959149808928a0a26d3c63f2829f34d93a4e",
+  "png": "e7851267b21c63b8f67122e24ef1de76cb93f5158f73a10d27d6c70b9589cfed"
+ },
+ "pebble-board": {
+  "made_from": "64091743868b749d2dfd8567485309a941a06776c93c5e97a51075a108783965",
+  "png": "935fc010a7f90c413f1ad770283c8409744db1a36e787e651049251ba072fae7"
+ },
+ "penguin-pebbling": {
+  "made_from": "d8f829d8563da602140d4c4d8d658c0b53e7de01b7f5963f94c85b6ee8f20af8",
+  "png": "e630517a07bb487dfacd4dc64684d31e4e9a360b7675db1a7473390fa695a5c1"
+ },
+ "pink-pony-club": {
+  "made_from": "c8c59faedf3af3f8c227c373af0aa63747895206696c97b0f25d70f3f85138fa",
+  "png": "feea68ae48693ed0ef25d4c00cbdaec5c3d6bb7b4032baf57ff0617460246820"
+ },
+ "playhouse": {
+  "made_from": "016c9816dc66ab7da3370b04e4efa855e620bf2777df03489d43db5f675ebb7d",
+  "png": "16db532122dcfd63af025af891b236f1c261af44769a208485c2d3c304b3e356"
+ },
+ "plural-mural": {
+  "made_from": "4eb5c44a1fe3c0c2fd125411400b4a64e4bc4ea5c433366e3f41bb5dbc3fe917",
+  "png": "2921275ce36a92f4eec56022f9f7f2bd73176917d3a593f5daf68f28462a3017"
+ },
+ "polaroids": {
+  "made_from": "fd432e166c3a2678ca7722676cc2780b9e8d1a2dd1b7a17ed70eb8018af442ea",
+  "png": "db6ecbcf318509b5480e7ffac18c34c307784a9bfe7033b680cd759283303088"
+ },
+ "privacy": {
+  "made_from": "03d834c77e22c46b5a9dda8e919cbde4724c6316edc70a2925d12312fb01eae3",
+  "png": "5cd6af64f2a42801d4cf9a7570b15525af45100f6cd0917beed018e6eb2f4ca8"
+ },
+ "quill-drift": {
+  "made_from": "4ba052a0161c9df58dadcdf94e8815ac48eaa51fa50a170b13649fe02ef6973d",
+  "png": "e6bac0367d330861d6634779a660c9c334fb60c7ff5d93a018b8ead5718f2595"
+ },
+ "rabbit-hole": {
+  "made_from": "57c4efae570537ac6d35cf990d5843c60afab53a5b6530990e6961bb4881a723",
+  "png": "8f629b7e7dad2e0e7efda0300f6a5075b37fcd6e2595284e1a7debf07c08deb3"
+ },
+ "rebellion-rave-room": {
+  "made_from": "1076365fe8d723fffb992bc1ca78457a971a49c839fd9b42830868d95edf5f3d",
+  "png": "62ef5faec3bce0a40826d3013ed287162caeb883ad82a330a607760c13662056"
+ },
+ "repeater": {
+  "made_from": "483067b8fcb60ebc66bdc220603171280c4df25f741cb0c66fee0317588c9a74",
+  "png": "3498ab79e1bec6a8c39dc9e70d5473c9c7264add1a86ad3dc570c2b6286e2095"
+ },
+ "rescue-a-cat": {
+  "made_from": "140eabd4a82fa2b82d38192029448eb72d9895014b5ef492a0e62cd384c49eb9",
+  "png": "254fd185a5a4232cff8201f9fe050d7e6670bd504cbd7e9f8e72f2482cc72ba4"
+ },
+ "rescue-a-dog": {
+  "made_from": "175504614d99012545aa924b2bdba3568046c355959e7af8326106d1facd86d4",
+  "png": "47b24d2119d78c69ae7090ac13567260ec17af8cb213f6a57e46ade94ea178f9"
+ },
+ "rescue-small-animals": {
+  "made_from": "6779922bc4c0b6424593e7245f648f1c3e61f6c60e7932f54023cef0bcad9e4e",
+  "png": "1478bb2058c115044008f7c9c172141828316ce717c92634a1bd3a36f716197d"
+ },
+ "samefood-cafe": {
+  "made_from": "f98f9b5301d91b4d88203f3cdd0a12bf8983156238d8d3eb74dbb61c5bb6b22e",
+  "png": "224f124df842c4af66548ac2d880d409f7f33e0f0169d11abb796bedf644a52c"
+ },
+ "sithen": {
+  "made_from": "30acfada3407b7a24a4ad73ca96b89f6a8697827acb61009ae478a314126af1c",
+  "png": "8546c4f21d034d31118f615d68722123090ea722f8f8999cbb740c403eefaba7"
+ },
+ "small-hours": {
+  "made_from": "0e961ecf5da562f01051633d25e706a6d1298a0da25eecf6b6fc4332e2360bde",
+  "png": "7fdf458e25a94902563a34603ad5a04a6cf6e149db8c06c60f411c2938471701"
+ },
+ "solarpunk-hermitage": {
+  "made_from": "f1e9249954a4abafe1855582bb61283a9ab462f17640a50be72e197914817e16",
+  "png": "d7e787782bb34ad9bb45f9adcbba98e296f82f21383ecbfe49dfc1e107424fd0"
+ },
+ "stay-breezy": {
+  "made_from": "010c93fdc2d6105d70e1d9d7777c78e388fd5f53ca713d9df3d7aaeb8bc1d878",
+  "png": "74db8eea44ae5485a7dabb7d55ea6a0e932c3024afc1998a6c768b1104efd001"
+ },
+ "stay-frosty": {
+  "made_from": "67eff69f1611aad47a18eb15ff444a17a5338c317a9876d8cc85218df2ec43e7",
+  "png": "ede17bf74352298b0c0dd1b28ba08dd5c4accbc7a2aa4a6c358d2919e0c05c2d"
+ },
+ "swaying-sweetgrass": {
+  "made_from": "6f4fcd406fa7a931b051825808bc30997abc7d59b9dea4ce4d63ddd9e991a0f9",
+  "png": "667cc9ce36568cd76058ce185899ed69840af13ccb6dcdff08c80ff73aeebf7e"
+ },
+ "the-chappell": {
+  "made_from": "0ffde69c58e32c16fe9a5839e1487b72fbe40814db1d9e1809d6c2cc4465d123",
+  "png": "8c6e4b4d3734ea912ff6ea44d81374fa00caae03eb225f14219d3a7fdffa4761"
+ },
+ "the-den": {
+  "made_from": "34e7f27cadb5f73495d9970dd0042fcd8ee700525172fa52183d5d59015929ec",
+  "png": "6185d02ccc400945fdb6519148cbac5b45909bfaface91311814d9130e41e00a"
+ },
+ "the-doom-scoop": {
+  "made_from": "32f77eb4eadf3c3d988554a03c5317a75ddab46a1c15d980baa3aa8b78ccd3a3",
+  "png": "e1e57f29255add8af52d2dc5ffd6146a15b761b6280c8ee8b70f07bc16eb26da"
+ },
+ "the-doomscroll": {
+  "made_from": "7af1991c9ef7515e7beead6fa61d70685ed2e364c2e43c4dd0cbc7b130c7a29a",
+  "png": "39615b2900a452f40a9927960675cba3f7c4834d5e0cf99b4c1324babbc44f36"
+ },
+ "the-feed": {
+  "made_from": "b7b413018323cc1413b34e75c237b7646d5ee96336b784f26ffb52381d92e882",
+  "png": "fa2e736aeb1879d6776e59b83eebfb349a13f5dd15530dd062b945d562e98d36"
+ },
+ "the-garden": {
+  "made_from": "b82ff8b812f33382781403b01977815d2da7e0385af72c831ebaff5757c2035d",
+  "png": "536e3d718c1b5602156b3f24fe8e41bac467b8ba49e600cfd3f488a8074423c6"
+ },
+ "the-mopery": {
+  "made_from": "432211824a00e8b8bce017099aeadc4b509a82f356c08d30afe40fb9191720f2",
+  "png": "cb4d1ffd36500ad635fbc124683955b819465fd7583cb60d7b84c025c45593d4"
+ },
+ "the-mud-room": {
+  "made_from": "c0fa234b63f63b75cfcc16c86135a479d244286d114adfa56a8c6d0c0cced607",
+  "png": "b012b025839c53db9b798cdd0354bbb25e927bc331af8101dbf3c9dd77b161bc"
+ },
+ "the-outskirts": {
+  "made_from": "e9eef89d5eaade2e839fa66fb962f1ccad314a8d2fedc2a55936000aebee7eb6",
+  "png": "1c3d39389579048949dd7ce870835db49fea8db2cb287ee28e0570743cdd1935"
+ },
+ "town-hall": {
+  "made_from": "8b7f2fbc5c2f99cf16b5857523b5cf781118ca2931ca511f743a376e438736db",
+  "png": "3f58ba5b49d826ad4d60e3e9ad8c4425e73d189b4ab918d87e37c0dad3eb961f"
+ },
+ "town-hall-board": {
+  "made_from": "d737d2d2b14aaf182e3786190bb420fba9d79fa57cedd908d59d6adfe44c9774",
+  "png": "2b6dda2eb11b0483ea01af8b6c97211f7748c9e33875a5850339e5d6c3c2ad06"
+ },
+ "town-hall-directors": {
+  "made_from": "74c10630d78a7d23c53021cb0cbf256cd63805f28ba43b7c650b423337d9cd9d",
+  "png": "23375bf6a4905c0a7f2c9fc9bf79f9a7e08e7f7f00c51a6870d334a54cec897c"
+ },
+ "town-hall-executive-session": {
+  "made_from": "919aeac7b5c7b2bc107b56144efcff5ef544146c9b16679a267f8cfed8833846",
+  "png": "e087c4a5db7558c71f25f275fdc2e2ff61cdca7e5c7413157ca59eb8212f3317"
+ },
+ "town-hall-fishbowl": {
+  "made_from": "3224fecd8893a74521668ae238cf20ad0a861c73748f67b87df32d688bbfee5f",
+  "png": "8c86b8f6519e1392490964b14f775626a31da71441060c112f52ef7209eaf00d"
+ },
+ "town-hall-moderators": {
+  "made_from": "7f6284e77c6d2f3dfba8b0f3b14fbb4455c4b4a34d851370b5591a59deb34cb0",
+  "png": "b886d9a4786776c4f7a332a849129f731e404583018895c8d0ec091ab956bac9"
+ },
+ "vital-plant-living": {
+  "made_from": "9ef6689baa20c7eacda48d937ec1e4ce5de0dd4c329cfdb1431eed372a211e04",
+  "png": "45765284fd4d9fe399bcce44f821ee7fbd3d19b52dc9d3c5077d5584531f8c89"
+ },
+ "your-room": {
+  "made_from": "baebaf9e9b2112a2e363139a792fdaa8ca95ba4fd9239143c848df0874ca422c",
+  "png": "f4abc77b8b031bbc38163b1018478dfa965011c3b7862ab983dad37c81e5d70a"
+ },
+ "zibaldone": {
+  "made_from": "19aa06cd5f99911a51f66c49ea15f1518234a58fb9af1e00f9f054e2adecf804",
+  "png": "108a32a2cd9353f5c09f3efa499a62b56ba519e6bed43df7aebf244f16557a01"
+ },
+ "zine-issue-2": {
+  "made_from": "35c928c98571232861cc2a2f6b4a84e70f95bb16f2efd1bd5dd5293d480ba152",
+  "png": "b2e0fcbb28eed4ac9b9e6271c69507a46405213598ba7e465521c1604d96ee8d"
+ },
+ "zine-table": {
+  "made_from": "5be0c8569d1b3e45468ee84f97d6b3b852f6e09e478c4e4f74a9eb7efa358181",
+  "png": "b3bbc759c389e3ae445c6645abdd67233d933e588cab4fc4770280d00b4ae550"
+ }
+}

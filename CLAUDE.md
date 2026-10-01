@@ -40,8 +40,8 @@ first. So:
   3. **Commit and push when you stop.** Work left uncommitted blocks the other person's turn, and
      it blocks the morning's arrivals task, which refuses to run over anybody's edits.
   4. **Never hand-merge a generated file.** If a pull conflicts in `feed.xml`, `sitemap.xml`,
-     `llms.txt`, `cb-rooms.json`, a share card in `og/`, or anything between `:begin` and `:end`
-     markers, take either side, finish the merge in the sources, and run `tools/check-all.sh` to
+     `llms.txt`, `cb-rooms.json`, a share card in `og/`, `data/og-prints.json`, or anything between
+     `:begin` and `:end` markers, take either side, finish the merge in the sources, and run `tools/check-all.sh` to
      regenerate them.
   5. **A new changelog entry goes at the top, with its own id**, even when the other person already
      wrote one that day. A feed reader never shows an edited entry again.
@@ -3924,6 +3924,18 @@ Pink Pony Club's cream headline is 3.01:1 on flat hot pink and **2.64 over its o
 glow**, which is a live failure of the room's own claim. The card leaves the glow off until
 that is decided; see the note at the foot of `check-contrast.py`. **Do not resolve it by
 deleting the note.**
+
+**TWO MACS DRAW THE SAME CARD DIFFERENTLY, SO `make-og.py` KEEPS THE COMMITTED ONE WHEN NOTHING
+THAT DECIDES IT HAS CHANGED.** Same Chrome on macOS 27.0 and on Helen's 26.5.1 differed on the soft
+edges of letters on every card, so each person's run rewrote the whole street. A pixel tolerance was
+built first and measured: anti-aliasing moves a thin stroke's core about ten levels, and a contrast fix
+to that stroke's ink moves it twenty-odd, so any tolerance that passes the first swallows the second.
+**So the card's print is what decides it**: its markup, every computed style except custom properties,
+and the bytes of every font family and file it asks for, recorded in `data/og-prints.json` with the
+picture's own hash. Same print and the same picture on disk keeps the committed card; anything else is
+redrawn. **Do not put custom properties back in the print** (every one in `:root` reaches every card, so
+one colour edit redrew the street), **and do not replace it with a pixel tolerance.** The two Macs only
+agree while they run the same Chrome.
 
 `make-feed.py` stops if a changelog `<h2>` has no id, because that id is the feed item's permalink
 and a feed whose guids move republishes every old entry into somebody's reader as if it were new.
