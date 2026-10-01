@@ -2880,7 +2880,9 @@ refuses `innerHTML` and its relatives in `brass.js`. The friendly edit is a Mark
 `innerHTML`, which is a script on a page everybody reads the day a moderator's pass is stolen. **A
 picture goes through the radio's one redraw** (`window.loveRedraw`, cb.js), needs a description and the
 moderator's yes for everybody recognisable in it, lives under `brass-img/` so the channel's sweep never
-touches it, and is public, because the board is. It is street furniture beside the Pebble Board, a plate
+touches it, and is public, because the board is. **It is on The Feed as a second wire of this street** (`of: love` in `data/arrivals.json`), which the
+Garden skips because it plants one bed per site; it may be empty (`empty_ok`) and its titles are typed
+(`typed_titles`), so neither an empty board nor a `<` in a title stops the morning's board. It is street furniture beside the Pebble Board, a plate
 in the street's orange, and its own world is a verdigris wall of brass plates (§90). Plural Mural's
 chalkboard is the community's and forgets in a week; this is the moderators' and keeps.
 

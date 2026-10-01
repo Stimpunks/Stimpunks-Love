@@ -2509,7 +2509,7 @@ def card_feed(p):
     # authoritative-looking in the meantime. So the machine on the card is
     # lettered with what is permanently true of it.
     rows = [
-        ("One wire", "per site, off their own feeds"),
+        ("One wire", "per feed, off our own RSS"),
         ("A title", "a date, and where it goes"),
         ("Never", "the words themselves"),
         ("Set at", "a time, and it says which"),

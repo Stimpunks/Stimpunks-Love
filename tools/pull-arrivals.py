@@ -132,7 +132,7 @@ def parse(xml, wire):
         when = (item.findtext("pubDate") or "").strip()
         if not title:
             die(f"{wire['feed']} has an item with no title.")
-        if TAG.search(title) or ENTITY.search(title):
+        if not wire.get("typed_titles") and (TAG.search(title) or ENTITY.search(title)):
             die(
                 f"{wire['feed']}: this title still has markup in it and would reach "
                 f"the page as literal characters:\n  {title}"
@@ -164,7 +164,7 @@ def parse(xml, wire):
             "date": dt.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         })
 
-    if not out:
+    if not out and not wire.get("empty_ok"):
         die(f"{wire['feed']} answered 200 with no items in it.")
     # SORTED HERE rather than trusted: the Doomscroll's rule. A feed is supposed
     # to be newest-first, and a generator per wire is a chance per wire for one not to be.

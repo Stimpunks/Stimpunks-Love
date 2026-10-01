@@ -171,7 +171,8 @@ def indicator(w):
         f'<a href="{e(w["home"])}">{e(w["site"])}</a></h3>\n'
         f'      <p class="indicator__what">{e(w["note"])}</p>\n'
         f'    </div>\n'
-        f'    <ol class="flaps">\n' + "\n".join(rows) + "\n    </ol>\n"
+        + (f'    <ol class="flaps">\n' + "\n".join(rows) + "\n    </ol>\n" if rows else
+           f'    <p class="flaps flaps--empty">Nothing is pinned up on it just now.</p>\n')
         + second +
         f'    <p class="enamel">'
         f'<span class="enamel__feed">Wire: {e(w["feed_name"])} &mdash; '
@@ -194,8 +195,10 @@ def main():
         for k in ("id", "site", "host", "home", "feed", "feed_name", "note", "read"):
             if not w.get(k):
                 die(f"wire {w.get('id') or w!r} is missing {k}.")
-        if not w.get("items"):
+        if not w.get("items") and not w.get("empty_ok"):
             die(f"wire {w['id']} has no rows on it. Run tools/pull-arrivals.py.")
+        if w.get("of") and not any(x["id"] == w["of"] and x["host"] == w["host"] for x in wires):
+            die(f"wire {w['id']} says it is a second feed of {w['of']!r}, which is not a wire on the same host.")
         if w.get("second") and not w.get("second_name"):
             die(f"wire {w['id']} names a second feed without saying what it is.")
         for it in w["items"]:
@@ -227,7 +230,10 @@ def main():
     # make-jungle.py's first version generated a number and left the tail
     # plural, which is a hand-typed count in a disguise.
     full = max(len(w["items"]) for w in wires)
-    short = [w for w in wires if len(w["items"]) < full]
+    # A board with nothing on it is said in its own words, never as a count of
+    # rows it does not have.
+    empty = [w for w in wires if not w["items"]]
+    short = [w for w in wires if 0 < len(w["items"]) < full]
     total = sum(len(w["items"]) for w in wires)
 
     shape = (
@@ -248,6 +254,10 @@ def main():
         )
     else:
         shape += f" Every one of them is showing {word(full)}, which is as many as a board here holds."
+    if empty:
+        who = listify([w.get('prose') or w['site'] for w in empty])
+        shape += (f" {who[:1].upper()}{who[1:]} "
+                  f"{'has' if len(empty) == 1 else 'have'} nothing on {'it' if len(empty) == 1 else 'them'} just now.")
 
     src = PAGE.read_text()
 

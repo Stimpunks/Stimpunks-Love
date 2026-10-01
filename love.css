@@ -8663,6 +8663,14 @@ html[data-intensity="max"] .guild-spark { animation: gu-rise 2.1s ease-out forwa
   text-decoration-color: var(--fd-girder); text-underline-offset: 4px;
 }
 .flap__dest a:hover { color: var(--fd-amber); text-decoration-color: var(--fd-amber); }
+/* A board with nothing on it: one blank flap, saying so in the lamp's own
+   letter, so an empty board looks like a board that is empty rather than a
+   board that is broken. Only the Brass Tacks Board's wire may be empty. */
+.flaps--empty {
+  display: block; background: var(--fd-flap); border-radius: 2px; padding: 11px 14px 12px;
+  box-shadow: 0 2px 0 rgba(4,7,10,.9);
+  font-family: 'Space Mono', ui-monospace, monospace; font-weight: 700; font-size: 14.5px; color: var(--fd-lamp);
+}
 /* THE LOWER LEAF OF THE FLAP, and the lit fold along the top of it. It sits at
    the FOOT of the row and crosses no letter, and getting here took two goes at
    the same mistake.

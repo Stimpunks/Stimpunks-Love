@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Wed, 30 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 01 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The Brass Tacks Board on The Feed</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-01-brass-tacks-on-the-feed</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-01-brass-tacks-on-the-feed</guid>
+      <pubDate>Thu, 01 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The Feed has a board for the Brass Tacks Board now, right after this street’s own, which is the one place in stimpunks.org’s order it can go without re-sorting anybody else. Ryan’s ask. It is a second feed of this street, not a site of its own, so the hall says “one wire per feed” now, and the Garden, which plants one bed for every site we publish, leaves it out. It may be empty. A board with every post taken down is a board, not a broken feed, so it shows one blank flap saying so, and the morning’s board is still set. Its titles are a moderator’s own words, so a “&lt;” typed in one does not stop the board being set either. Changed: data/arrivals.json, tools/pull-arrivals.py, tools/make-arrivals.py, tools/make-garden.py, tools/make-og.py, the-feed.html.</description>
+    </item>
     <item>
       <title>The Brass Tacks Board</title>
       <link>https://stimpunks.world/changelog.html#2026-09-30-brass-tacks-board</link>

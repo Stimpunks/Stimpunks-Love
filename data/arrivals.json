@@ -1,11 +1,11 @@
 {
   "_source": "Which feed belongs to which site was read off each sibling repository's own feed.xml -- the <atom:link rel=\"self\"> each generator writes -- rather than guessed from the domain. Two of them publish more than one feed, so the choice of WHICH feed a wire carries is a curation decision and it is recorded here per wire, named on the page, and linked. Nothing on this board was typed from memory.",
-  "_order": "The running order is stimpunks.org's own, off its published feeds page: the blog first, then Star Stuff, Queering.Earth, Cavendish Space, Penguin Pebbling, The Why Sheet Press, this street, and the Map of Monotropic Experiences. That page is the one place our sites are collected by somebody deciding, and re-sorting it here -- alphabetically, or by which wire had something newest -- would be this room quietly overruling a decision made somewhere else. The Jungle Room keeps its cams in the events page's own groups for the same reason.",
+  "_order": "The running order is stimpunks.org's own, off its published feeds page: the blog first, then Star Stuff, Queering.Earth, Cavendish Space, Penguin Pebbling, The Why Sheet Press, this street, then this street's Brass Tacks Board, and the Map of Monotropic Experiences. That page is the one place our sites are collected by somebody deciding, and re-sorting it here -- alphabetically, or by which wire had something newest -- would be this room quietly overruling a decision made somewhere else. The Jungle Room keeps its cams in the events page's own groups for the same reason.",
   "_itself": "THIS STREET IS ON ITS OWN BOARD, on purpose. A board that listed every sibling and left itself off would be claiming to be the station rather than a platform in it. stimpunks.world's changelog feed is read over the network exactly like the rest, which means the board can be wrong about this site too, and is set at the same minute.",
   "_no_body": "A row carries a title, a date and where it goes. Never a summary, never an excerpt, never the item's content. A departures board gives you a name and a time; it does not read you the contents of the train. That is the room's argument and it is also what keeps this page from republishing everybody else's writing onto one surface. make-arrivals.py refuses a row with a summary field on it, because the friendly edit -- the rows look bare, paste the excerpts back in -- is a real one and it will arrive.",
   "_no_ranking": "No wire is ranked and no site's activity is totalled. There is no busiest, no quietest, no this-week count and nothing that says which of our sites has been getting on with it. A board that showed that would turn publishing into a race between our own people, most of whom are Disabled and several of whom are one person -- the pebbling cabinet's refusal of a tally, arriving between sites rather than inside a game.",
   "_snapshot": "The board is set when the site is built and not when somebody looks at it. None of these hosts sends an Access-Control-Allow-Origin header, so a browser cannot read these feeds from the page, and the ways round that are a proxy we do not run or a third-party reader we would be handing our visitors to. So every wire records the minute it was read, the hall says when the board was set, and every feed is linked so the live thing is one press away. The board is not the railway.",
-  "set": "2026-09-30T11:16Z",
+  "set": "2026-10-01T00:52Z",
   "wires": [
     {
       "id": "stimpunks",
@@ -15,7 +15,7 @@
       "feed": "https://stimpunks.org/feed/",
       "feed_name": "the blog",
       "note": "The big site, and the one all the others were built to take weight off. Weekly changelogs, weekly reflections, and the notices for Campfire and Infodumplings.",
-      "read": "2026-09-30T11:16Z",
+      "read": "2026-10-01T00:52Z",
       "items": [
         {
           "title": "Weekly Reflection for Week 38 2026",
@@ -59,7 +59,7 @@
       "second": "https://starstuff.earth/changelog.xml",
       "second_name": "the changelog",
       "note": "Zines, field guides, broadsides and working papers, each one arriving with the line it leads with. This wire is the pieces themselves; the reasoning is a second feed beside it.",
-      "read": "2026-09-30T11:16Z",
+      "read": "2026-10-01T00:52Z",
       "items": [
         {
           "title": "Edition Five",
@@ -103,7 +103,7 @@
       "second": "https://queering.earth/register.xml",
       "second_name": "the accession register",
       "note": "A cabinet of sheets, built in a week with Helen Edgar. This wire is what has been mounted; the register's own accessions, corrections included, are a second feed beside it.",
-      "read": "2026-09-30T11:16Z",
+      "read": "2026-10-01T00:52Z",
       "items": [
         {
           "title": "Metaphoray",
@@ -145,7 +145,7 @@
       "feed": "https://cavendish.space/feed.xml",
       "feed_name": "the changelog",
       "note": "The Cavendish Cards deck and the site that holds it. One row per dated entry, which is why some of these rows are named after a day rather than a thing.",
-      "read": "2026-09-30T11:16Z",
+      "read": "2026-10-01T00:52Z",
       "items": [
         {
           "title": "2026-09-20 — Site",
@@ -187,7 +187,7 @@
       "feed": "https://penguinpebbling.app/feed.xml",
       "feed_name": "the changelog",
       "note": "Helen Edgar and Ryan Boren's card game about bringing somebody a small thing for no reason. The Arcade has a cabinet built on the same practice and deliberately none of that deck.",
-      "read": "2026-09-30T11:16Z",
+      "read": "2026-10-01T00:52Z",
       "items": [
         {
           "title": "20 September 2026",
@@ -214,7 +214,7 @@
       "feed": "https://whysheet.press/feed.xml",
       "feed_name": "the press",
       "note": "One-page arguments made to be printed and carried into a room where somebody is about to be talked over. New sheets, revisions, and changes to how they print.",
-      "read": "2026-09-30T11:16Z",
+      "read": "2026-10-01T00:52Z",
       "items": [
         {
           "title": "The Demand Avoidance broadside",
@@ -256,39 +256,60 @@
       "feed": "https://stimpunks.world/feed.xml",
       "feed_name": "what changed on the street",
       "note": "This street. Its own changelog, read over the network like every other wire rather than lifted out of the file next door, so this board can be wrong about this site too.",
-      "read": "2026-09-30T11:16Z",
+      "read": "2026-10-01T00:52Z",
       "items": [
         {
-          "title": "A mission and a manifesto for the street",
-          "url": "https://stimpunks.world/changelog.html#2026-09-30-mission-manifesto",
+          "title": "The Brass Tacks Board",
+          "url": "https://stimpunks.world/changelog.html#2026-09-30-brass-tacks-board",
           "date": "2026-09-30T12:00:00Z"
         },
         {
-          "title": "Norah’s tray at Samefood Cafe",
-          "url": "https://stimpunks.world/changelog.html#2026-09-29-samefood-norah",
-          "date": "2026-09-29T12:00:00Z"
+          "title": "More reactions, and any emoji at all",
+          "url": "https://stimpunks.world/changelog.html#2026-09-30-any-emoji",
+          "date": "2026-09-30T11:59:00Z"
         },
         {
-          "title": "NeuroHome, the first room somebody built for themselves",
-          "url": "https://stimpunks.world/changelog.html#2026-09-29-neurohome",
-          "date": "2026-09-29T11:59:00Z"
+          "title": "Reactions on the CB",
+          "url": "https://stimpunks.world/changelog.html#2026-09-30-reactions",
+          "date": "2026-09-30T11:58:00Z"
         },
         {
-          "title": "The fires in the pit at Swaying Sweetgrass",
-          "url": "https://stimpunks.world/changelog.html#2026-09-29-sweetgrass-fires",
-          "date": "2026-09-29T11:58:00Z"
+          "title": "Rescue Small Animals",
+          "url": "https://stimpunks.world/changelog.html#2026-09-30-rescue-small-animals",
+          "date": "2026-09-30T11:57:00Z"
         },
         {
-          "title": "A screen in every tub at The Doom Scoop",
-          "url": "https://stimpunks.world/changelog.html#2026-09-29-doom-scoop-screens",
-          "date": "2026-09-29T11:57:00Z"
+          "title": "Pet stickers, and pressing a handle to see somebody’s pets",
+          "url": "https://stimpunks.world/changelog.html#2026-09-30-show-off-pets",
+          "date": "2026-09-30T11:56:00Z"
         },
         {
-          "title": "Club Chronic’s records go up on the stage",
-          "url": "https://stimpunks.world/changelog.html#2026-09-29-club-rack",
-          "date": "2026-09-29T11:56:00Z"
+          "title": "Rename your pets",
+          "url": "https://stimpunks.world/changelog.html#2026-09-30-rename-pets",
+          "date": "2026-09-30T11:55:00Z"
         }
       ]
+    },
+    {
+      "id": "brass",
+      "of": "love",
+      "empty_ok": true,
+      "typed_titles": true,
+      "site": "The Brass Tacks Board",
+      "host": "stimpunks.world",
+      "home": "https://stimpunks.world/brass-tacks-board.html",
+      "feed": "https://stimpunks.world/brass-tacks.xml",
+      "feed_name": "the board's posts",
+      "note": "This street's board for what has to stay put: news, notices, events and celebrations, posted by our moderators with their names on them. A second feed of this street, not a site of its own, read over the network like every other wire.",
+      "read": "2026-10-01T00:52Z",
+      "items": [
+        {
+          "title": "Open Source Communication All the Way",
+          "url": "https://stimpunks.world/brass-tacks-board.html#post-87e50537-8cb3-4186-b411-1df98912d533",
+          "date": "2026-10-01T00:44:17Z"
+        }
+      ],
+      "prose": "the Brass Tacks Board"
     },
     {
       "id": "monotropic",
@@ -298,7 +319,7 @@
       "feed": "https://monotropicmap.org/feed.xml",
       "feed_name": "the changelog",
       "note": "A map you can walk and a second tool for drawing your own. Built with Helen Edgar, who reviewed it twice before it went up.",
-      "read": "2026-09-30T11:16Z",
+      "read": "2026-10-01T00:52Z",
       "items": [
         {
           "title": "Mapping Monotropism in Education",
@@ -329,5 +350,6 @@
       "prose": "the Map of Monotropic Experiences"
     }
   ],
-  "_prose": "A wire may carry a `prose` name as well as its nameboard one, for the sentences make-arrivals.py writes. The Map of Monotropic Experiences takes an article in a sentence and does not take one on a sign, and a generated sentence that reads like a generated sentence is the thing generating it was supposed to avoid."
+  "_prose": "A wire may carry a `prose` name as well as its nameboard one, for the sentences make-arrivals.py writes. The Map of Monotropic Experiences takes an article in a sentence and does not take one on a sign, and a generated sentence that reads like a generated sentence is the thing generating it was supposed to avoid.",
+  "_second_feed": "THE BRASS TACKS BOARD IS A SECOND WIRE FROM THIS STREET, Ryan's call, 2026-09-30, and it stands right after the street's own, which is the one place in stimpunks.org's order it can go without re-sorting anybody else. It says `of: love`, so the Garden, which plants one bed per SITE, leaves it out: the board is a feed of this street and not a site we publish. It may be EMPTY (`empty_ok`), because a board with every post taken down is a board, not a broken feed, and it must not stop the morning's board being set. Its titles are TYPED (`typed_titles`): they are a moderator's own words, escaped by our feed, so a < in one is what was typed and not markup left in somebody else's feed."
 }

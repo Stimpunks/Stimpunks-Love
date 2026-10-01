@@ -610,7 +610,9 @@ beds = raw["beds"]
 plots = raw.get("neighbours", {})
 problems = []
 
-order = [w["id"] for w in wires]
+# One bed per SITE: a wire that is a second feed of a site already on the
+# roster (`of`, the Brass Tacks Board's) is not a site we publish.
+order = [w["id"] for w in wires if not w.get("of")]
 missing = [i for i in order if i not in beds]
 stray = [i for i in beds if i not in order]
 if missing:
