@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-10-01T11:25Z",
+ "set": "2026-10-02T11:22Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ]
   },
@@ -218,13 +218,13 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-10-01T11:25:33Z"
+     "2026-10-02T11:22:33Z"
     ]
    ]
   }
@@ -571,6 +571,16 @@
    "channel": "VeganProteins"
   },
   {
+   "id": "IHzjJ9c__go",
+   "source": "veganproteins",
+   "form": "long",
+   "title": "You're Training Hard… So Why Aren't You Growing?",
+   "published": "2026-10-01T15:45:14Z",
+   "state": "screen",
+   "runs": 1784,
+   "channel": "VeganProteins"
+  },
+  {
    "id": "Mz2oWd0e-so",
    "source": "pb-with-j",
    "form": "long",
@@ -644,7 +654,7 @@
    "id": "3dpIAegoG0U",
    "source": "pb-with-j",
    "form": "long",
-   "title": "Finally, Plant-Based Soups My Whole Family Will Eat",
+   "title": "4 Plant-Based Soups That Actually Passed the Family Taste Test",
    "published": "2026-09-30T15:00:09Z",
    "state": "screen",
    "runs": 1063,
@@ -801,14 +811,14 @@
    "channel": "PB with J"
   },
   {
-   "id": "bCHursgjMZQ",
-   "source": "carleigh-bodrug",
+   "id": "Ofe6xtjU340",
+   "source": "pb-with-j",
    "form": "short",
-   "title": "🌈 pasta sauce for every color of the rainbow! #recipe",
-   "published": "2026-09-01T18:57:06Z",
+   "title": "Easy Edamame Pesto Pasta: Quick & Healthy Recipe #shorts",
+   "published": "2026-10-01T12:47:29Z",
    "state": "screen",
-   "runs": 13,
-   "channel": "Carleigh Bodrug"
+   "runs": 45,
+   "channel": "PB with J"
   },
   {
    "id": "dmnLd4F2ero",
@@ -968,6 +978,16 @@
    "published": "2026-09-17T16:00:11Z",
    "state": "screen",
    "runs": 113,
+   "channel": "Yeung Man Cooking"
+  },
+  {
+   "id": "W6VlmsqsqIk",
+   "source": "yeung-man-cooking",
+   "form": "short",
+   "title": "This takes Literally 5mins to make! #recipes #food #yeungmancooking",
+   "published": "2026-10-01T16:00:17Z",
+   "state": "screen",
+   "runs": 106,
    "channel": "Yeung Man Cooking"
   },
   {
