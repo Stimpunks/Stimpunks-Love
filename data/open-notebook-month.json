@@ -1,6 +1,6 @@
 {
  "_about": "THE MONTHLY LOG IN THE OPEN NOTEBOOK, Ryan's brief, 2026-10-03: a rack with the last month's worth of journaling channels he listed, in his order. It is Vital Plant Living's telly in a notebook, and the reasons are that room's: the channels are his and the videos are not chosen one by one, so the room says nobody here watched them first. tools/pull-notebook-month.py reads each channel's own two feeds (UULF, its long-form uploads, and UUSH, its shorts) and asks each new video's watch page once, the morning it arrives; tools/make-open-notebook.py --month draws the log from this file; tools/daily-notebook.sh runs both on the morning timer and commits only this file and the-open-notebook.html. This file is the timer's: hand-edit `sources` on purpose and nothing else.",
- "_sources": "Each channel id was read off the channel's own page on 2026-10-03 (its externalId), never typed from memory. `name` is the channel's own name as YouTube gives it, with a typographic apostrophe and its own capitals, heart and bars; `url` is the channel's front page without the tab Ryan's link happened to be on, which for Bullet Journal was its shorts, for three others the featured tab and for four their videos. Both feeds are read for every channel whatever tab the link was on: the brief was the last month's worth of each channel. A new channel is a new entry here with its id read the same way; the puller derives both feeds from the id.",
+ "_sources": "Each channel id was read off the channel's own page on 2026-10-03 (its externalId), the last two the same evening, at Ryan's ask, never typed from memory. `name` is the channel's own name as YouTube gives it, with a typographic apostrophe and its own capitals, heart and bars; `url` is the channel's front page without the tab Ryan's link happened to be on, which for Bullet Journal was its shorts, for three others the featured tab and for four their videos. Both feeds are read for every channel whatever tab the link was on: the brief was the last month's worth of each channel. A new channel is a new entry here with its id read the same way; the puller derives both feeds from the id.",
  "_window": "A MONTH IS THIRTY DAYS, counted back from the minute the log was filled. A video published before that goes off the end on the next fill; make-open-notebook.py refuses a file still holding one, because a log that keeps everything is an archive, and the brief was the last month.",
  "_log": "A VIDEO IS AN ID, A TITLE, A CHANNEL, A TIME AND A LENGTH, the Doom Scoop's rule: no description, no thumbnail, no count of views, likes or subscribers, and make-open-notebook.py refuses a row carrying any of them. `form` is long or short, by which of the channel's two feeds carried it; a short plays upright. `state` is what its watch page said: screen (plays here), door (plays on YouTube only: embedding off, or age-gated), pending (live, or not out yet, asked again tomorrow) or gone (not drawn). TITLES ARE QUOTED AS WRITTEN, capitals, emoji and all, and the room's sweeps skip them: they are the channels' words, and a title about productivity or about getting your life together is theirs to write, beside a house rule of ours that says this notebook is a companion and not a performance.",
  "_covered": "What the feeds have been read all the way through, per channel and per feed. A YouTube feed carries the latest fifteen, and a busy channel puts up more than that in a month; a channel whose coverage does not reach back to the start of the month says so on the page. Generated, never typed.",
@@ -142,9 +142,21 @@
    "name": "JetPens",
    "url": "https://www.youtube.com/@JetPens",
    "channel_id": "UCVbn813ctsoChuTT4LuLqrA"
+  },
+  {
+   "slug": "lori-ann-tata",
+   "name": "Lori Ann Tata",
+   "url": "https://www.youtube.com/@lorianntata",
+   "channel_id": "UCgYXUtSKHktmTC_FWfKI38A"
+  },
+  {
+   "slug": "mark-your-pages",
+   "name": "Mark Your Pages",
+   "url": "https://www.youtube.com/@markyourpages",
+   "channel_id": "UCXZWPgDGUZiEOBA0yz8UqFg"
   }
  ],
- "set": "2026-10-03T19:21Z",
+ "set": "2026-10-03T22:28Z",
  "log": [
   {
    "id": "u71O7N3zUA8",
@@ -583,7 +595,7 @@
    "id": "BtLJhMHKoeU",
    "source": "seaweed-kisses",
    "form": "long",
-   "title": "Hobonichi Weeks: The Pros vs Cons",
+   "title": "Why I Love (and Hate) HOBONICHI Weeks...",
    "published": "2026-09-26T00:32:31Z",
    "state": "door",
    "why": "no embedding",
@@ -1400,6 +1412,136 @@
    "state": "screen",
    "runs": 27,
    "channel": "JetPens"
+  },
+  {
+   "id": "rDiQJdyzivk",
+   "source": "lori-ann-tata",
+   "form": "long",
+   "title": "My Collection Needs a RESET! Help Me Get Organized for Fall",
+   "published": "2026-09-08T02:27:28Z",
+   "state": "screen",
+   "runs": 3753,
+   "channel": "Lori Ann Tata"
+  },
+  {
+   "id": "JfgDbp9vh6M",
+   "source": "lori-ann-tata",
+   "form": "long",
+   "title": "My HUGE Pen Sale!! Why I'm letting go!",
+   "published": "2026-09-14T23:00:08Z",
+   "state": "screen",
+   "runs": 2205,
+   "channel": "Lori Ann Tata"
+  },
+  {
+   "id": "YkXEfvhZi_M",
+   "source": "lori-ann-tata",
+   "form": "long",
+   "title": "I Can't Stop Thinking About This Journal Idea!",
+   "published": "2026-09-23T19:13:42Z",
+   "state": "screen",
+   "runs": 1728,
+   "channel": "Lori Ann Tata"
+  },
+  {
+   "id": "f3MQ_lljLRA",
+   "source": "lori-ann-tata",
+   "form": "short",
+   "title": "I finally bought myself a bottle of Pilot Iroshizuku Yama-Budo.",
+   "published": "2026-09-07T01:11:07Z",
+   "state": "screen",
+   "runs": 35,
+   "channel": "Lori Ann Tata"
+  },
+  {
+   "id": "n8N_JQzdDCE",
+   "source": "lori-ann-tata",
+   "form": "short",
+   "title": "A Budget Friendly Fountain Pen for the Cherry Blossom Lovers!",
+   "published": "2026-09-15T22:29:21Z",
+   "state": "screen",
+   "runs": 40,
+   "channel": "Lori Ann Tata"
+  },
+  {
+   "id": "mIutFc6b3f4",
+   "source": "mark-your-pages",
+   "form": "long",
+   "title": "7 Planner Habits I Wish I'd Stopped Sooner",
+   "published": "2026-09-05T13:30:15Z",
+   "state": "screen",
+   "runs": 884,
+   "channel": "Mark Your Pages"
+  },
+  {
+   "id": "YoP4A-87isU",
+   "source": "mark-your-pages",
+   "form": "long",
+   "title": "I Didn't Expect This From Archer & Olive's New Subscription Box",
+   "published": "2026-09-12T13:28:56Z",
+   "state": "screen",
+   "runs": 1177,
+   "channel": "Mark Your Pages"
+  },
+  {
+   "id": "XhFKJ0nzoK0",
+   "source": "mark-your-pages",
+   "form": "long",
+   "title": "I Was NOT Expecting This in Archer & Olive’s Halloween Box",
+   "published": "2026-09-24T14:00:34Z",
+   "state": "screen",
+   "runs": 945,
+   "channel": "Mark Your Pages"
+  },
+  {
+   "id": "4fwyc5Z-irQ",
+   "source": "mark-your-pages",
+   "form": "long",
+   "title": "Planner Guilt Is Real. Here’s What’s Actually Causing It.",
+   "published": "2026-09-26T13:00:33Z",
+   "state": "screen",
+   "runs": 744,
+   "channel": "Mark Your Pages"
+  },
+  {
+   "id": "p4pwbO0JGlA",
+   "source": "mark-your-pages",
+   "form": "long",
+   "title": "I Tried Quarterly Planning. Here’s What I’m Changing for Q4",
+   "published": "2026-09-30T19:00:17Z",
+   "state": "screen",
+   "runs": 971,
+   "channel": "Mark Your Pages"
+  },
+  {
+   "id": "nadCvLRIB4k",
+   "source": "mark-your-pages",
+   "form": "short",
+   "title": "My favorite items from the @ArcherandOlive Halloween Collection",
+   "published": "2026-09-09T18:00:25Z",
+   "state": "screen",
+   "runs": 39,
+   "channel": "Mark Your Pages"
+  },
+  {
+   "id": "Vh6D8tSrMTE",
+   "source": "mark-your-pages",
+   "form": "short",
+   "title": "Filling my new Monteverde USA Mondrian MP1 Fountain Pen",
+   "published": "2026-09-14T15:24:56Z",
+   "state": "screen",
+   "runs": 73,
+   "channel": "Mark Your Pages"
+  },
+  {
+   "id": "rYGMUxP3FfA",
+   "source": "mark-your-pages",
+   "form": "short",
+   "title": "It’s such a good feeling when you complete the biggest to do tasks of the week. 🎉",
+   "published": "2026-09-19T18:58:06Z",
+   "state": "screen",
+   "runs": 6,
+   "channel": "Mark Your Pages"
   }
  ],
  "covered": {
@@ -1407,13 +1549,13 @@
    "long": [
     [
      "2026-02-25T12:01:38Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2026-05-23T13:01:11Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1421,13 +1563,13 @@
    "long": [
     [
      "2026-03-31T18:00:00Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2025-11-26T18:00:24Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1435,13 +1577,13 @@
    "long": [
     [
      "2025-04-23T20:59:59Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1449,13 +1591,13 @@
    "long": [
     [
      "2026-05-09T13:15:14Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2026-08-11T18:31:31Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1463,13 +1605,13 @@
    "long": [
     [
      "2025-12-23T01:30:17Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2026-07-06T18:30:31Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1477,13 +1619,13 @@
    "long": [
     [
      "2026-06-21T15:00:05Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1491,13 +1633,13 @@
    "long": [
     [
      "2026-01-13T17:46:02Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2025-07-05T01:57:47Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1505,13 +1647,13 @@
    "long": [
     [
      "2026-05-13T15:00:36Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2025-05-23T15:01:39Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1519,13 +1661,13 @@
    "long": [
     [
      "2025-12-16T18:34:18Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2025-12-28T22:47:07Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1533,13 +1675,13 @@
    "long": [
     [
      "2026-05-23T23:39:19Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2026-07-08T13:11:24Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1547,13 +1689,13 @@
    "long": [
     [
      "2026-06-26T15:00:10Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2025-06-03T14:46:05Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1561,13 +1703,13 @@
    "long": [
     [
      "2026-09-10T20:18:43Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2026-07-13T04:01:07Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1575,13 +1717,13 @@
    "long": [
     [
      "2026-05-30T11:30:33Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1589,13 +1731,13 @@
    "long": [
     [
      "2026-08-10T13:30:06Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2025-08-19T14:37:02Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1603,13 +1745,13 @@
    "long": [
     [
      "2026-03-30T13:14:26Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2023-12-04T02:58:57Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1617,13 +1759,13 @@
    "long": [
     [
      "2026-01-22T17:31:11Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2025-07-21T17:45:47Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1631,13 +1773,13 @@
    "long": [
     [
      "2026-02-19T00:28:45Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1645,13 +1787,13 @@
    "long": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2024-09-07T00:14:00Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1659,13 +1801,13 @@
    "long": [
     [
      "2025-08-02T00:06:33Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1673,13 +1815,13 @@
    "long": [
     [
      "2026-07-15T03:00:21Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1687,13 +1829,13 @@
    "long": [
     [
      "2026-03-03T07:32:57Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2026-04-30T04:08:40Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1701,13 +1843,13 @@
    "long": [
     [
      "2026-08-12T19:29:13Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T14:30:53Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ]
   },
@@ -1715,13 +1857,41 @@
    "long": [
     [
      "2026-06-04T23:00:22Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T15:00:22Z",
-     "2026-10-03T19:21:15Z"
+     "2026-10-03T22:28:36Z"
+    ]
+   ]
+  },
+  "lori-ann-tata": {
+   "long": [
+    [
+     "2026-06-19T13:16:14Z",
+     "2026-10-03T22:28:36Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-03T22:28:36Z",
+     "2026-10-03T22:28:36Z"
+    ]
+   ]
+  },
+  "mark-your-pages": {
+   "long": [
+    [
+     "2026-07-03T14:00:00Z",
+     "2026-10-03T22:28:36Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-07-21T22:16:43Z",
+     "2026-10-03T22:28:36Z"
     ]
    ]
   }
