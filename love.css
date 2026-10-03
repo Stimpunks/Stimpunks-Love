@@ -11605,8 +11605,27 @@ html[data-intensity="max"] .dts-dust circle:nth-child(5) { animation-duration: 1
 .ls-stageplate__note { margin: 0 0 14px; }
 .laughingstock .ls-stageplate__credit { margin: 10px 0 0; font-size: 14px; color: var(--ls-dim); }
 
+/* THE STAGE IS THE BILL'S SCREEN (rack.js, Ryan's ask, 2026-10-03). Any set can
+   go up on it in place of the whole night, and the line under it says what is up
+   there and how long it runs. Nothing new is lit for it: the line is the house's
+   cream on the house, and the two buttons are the plate's own deep ground with
+   the plate's own hairline, so no pair arrives that nobody measured. Nothing of
+   ours goes in the light to say what is on, which is the room's one rule. */
+.laughingstock .ls-screen__now { margin: 12px 0 0; font-weight: 700; color: var(--ls-cream); }
+.laughingstock .ls-screen__back { margin: 8px 0 0; }
+.ls-back, .ls-set__up {
+  min-height: 44px; padding: 8px 14px; cursor: pointer; text-align: left;
+  font: 700 15px/1.3 'Bricolage Grotesque', system-ui, sans-serif; color: var(--ls-cream);
+  background: var(--ls-deep); border: 2px solid var(--ls-edge); border-radius: 6px;
+}
+.ls-back:hover, .ls-set__up:hover { border-color: var(--ls-neon); }
+
 /* THE BILL. In the playlist's own order, and nothing on it bigger than anything
-   else: nobody headlines. The comic's name is in lights on every set. */
+   else: nobody headlines. The comic's name is in lights on every set. It folds
+   away and ships open, because a shut bill is text the render checkers cannot
+   measure; the summary is set like the line over the sign, in the house. */
+.ls-fold { margin: 22px 0 0; }
+.ls-fold > summary { cursor: pointer; font-weight: 700; font-size: 14px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--ls-cream); }
 .ls-bill { list-style: none; margin: 22px 0 18px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 34px 26px; }
 .ls-set { display: flex; flex-direction: column; gap: 8px; }
 .ls-set__title { margin: 0; font-weight: 700; font-size: 20px; line-height: 1.25; color: var(--ls-cream); }

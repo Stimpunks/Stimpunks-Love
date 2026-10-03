@@ -1,11 +1,13 @@
 {
-  "_what": "Laughingstock, a comedy club on the street. The stage is our own Disabled Comedy playlist, put on whole; the bill beside it is every set on that playlist, one press each; the acts are the two comics our Campfire Learn Together watched, with their own lines standing in the spotlight. tools/make-laughingstock.py builds all three and the credits in liner-notes.html from this file. Do not hand-edit between the markers.",
-  "_source": "The bill was read off the playlist page's own data (ytInitialData) on 2026-09-23: nine entries, a header reading nine videos, and nothing hidden. Titles, channels and runtimes are YouTube's and not typed from memory. Every id was then checked on its own watch page the same day -- playabilityStatus OK, playableInEmbed true, and none of them LOGIN_REQUIRED, which is the age gate that caught one of Black Leather Lagoon's songs. The playlist's first entry is Yoa7MUa-AL0, which plays: the Queercore deck on the dancefloor failed to embed because of what sat at the top of its list, and this is the check that would have caught it.",
+  "_what": "Laughingstock, a comedy club on the street. The stage is our own Disabled Comedy playlist, put on whole; the bill under it is every set on that playlist, each of which plays where it hangs or goes up on the stage in place of the whole night (rack.js's pattern, Ryan's ask, 2026-10-03); the acts are the two comics our Campfire Learn Together watched, with their own lines standing in the spotlight. tools/make-laughingstock.py builds all of it and the credits in liner-notes.html from this file. Do not hand-edit between the markers.",
+  "_source": "The bill was first read off the playlist page's own data (ytInitialData) on 2026-09-23, and read again on 2026-10-03 with yt-dlp --flat-playlist, when the header and the list agreed and nothing was hidden. That second reading found four AJ Wilkerson specials Ryan had added since, which are on the bill now, and the sets in Ryan's brief of 2026-10-03. Titles, channels and runtimes are YouTube's and not typed from memory. Every runtime is the playlist's own figure for that set, which is what the player reports; the watch page's lengthSeconds can read a second shorter, because it is rounded down. A set not yet on the playlist takes its runtime off its watch page until it is. Every id was checked on that page the day it went on -- playabilityStatus OK, playableInEmbed true, and none of them LOGIN_REQUIRED, which is the age gate that caught one of Black Leather Lagoon's songs. The playlist's first entry is Yoa7MUa-AL0, which plays: the Queercore deck on the dancefloor failed to embed because of what sat at the top of its list, and this is the check that would have caught it. INBRED MAGIC's description tells a story about a friend, Jake, doing an improvised set, so who performs it was read off the auto-captions on 2026-10-03 rather than assumed: Jake introduces the set and AJ Wilkerson performs it and signs off by name.",
   "_titles": "The title on each set is the set's own name, trimmed of the comic's name and of words like FULL SPECIAL, because the comic is credited separately on every row and the channel's packaging is not the set. title_verbatim is exactly what YouTube shows, kept so nobody has to go and look. Where a title carries a word this room would never use in its own voice, it is still the title: it is the comic's or the channel's, and make-laughingstock.py does not sweep titles for that reason.",
-  "_order": "The playlist's own order, which is Stimpunks' and is not re-sorted here. There is no headliner: a comedy bill runs opener to closer as a matter of trade, and a room whose whole argument is that disabled comics should be judged on their work has no business ranking seven of them by where they stand in the running order.",
-  "_drift": "The bill is a MIRROR of the playlist and it drifts by design. A set added to the playlist is on the stage the next time somebody puts the whole night on, and is not on the bill until somebody reads the playlist again and adds a row here. The room says so under the bill, with the date this file was read, rather than implying the two are the same list. If a row goes dead, check-jukebox.py is what notices.",
+  "_order": "The playlist's own order, which is Stimpunks' and is not re-sorted here. There is no headliner: a comedy bill runs opener to closer as a matter of trade, and a room whose whole argument is that disabled comics should be judged on their work has no business ranking any of them by where they stand in the running order.",
+  "_drift": "The bill is a MIRROR of the playlist and it drifts by design. A set added to the playlist is on the stage the next time somebody puts the whole night on, and is not on the bill until somebody reads the playlist again and adds a row here. The room says so under the bill, with the date this file was read, rather than implying the two are the same list. It can drift the other way too: a set marked \"playlist\": false is on the bill and not yet on the playlist, and the room names it under the bill, because putting the whole night on will not reach it. Stuart Laws' two sets came in Ryan's brief of 2026-10-03 and were not on the playlist when it was read that day; they sit where the brief put them, and the flag comes off when the playlist has them. If a row goes dead, check-jukebox.py is what notices.",
+  "_who": "Where a note says how a comic is Disabled, that is Ryan's brief of 2026-10-03 for Joe Wells, Fern Brady, Tim Renkow, Stuart Laws, Pierre Novellie, Hannah Gadsby, Lara Ricote and Rosie Jones, and AJ Wilkerson's own descriptions (Captain Autism) for AJ Wilkerson. Tim Renkow's very dark humour and Hannah Gadsby's material on gender are Ryan's notes, put where somebody reads them before the press. The notes write round pronouns rather than guess at any.",
+  "_left_off": "Fern Brady on referring to autism as a 'superpower' (a Last Leg short, 4I4TYOvYyYs, on Channel 4 Entertainment) was in Ryan's brief of 2026-10-03 and is not on the bill: its watch page answered UNPLAYABLE, and yt-dlp said the uploader has not made it available in this country. A Channel 4 clip blocked outside the UK would be a button that plays for some visitors and shows a refusal to the rest, and it is not on the playlist either. Fern Brady's full special is on the bill.",
   "_lines": "Every line under an act is quoted from our own Campfire Learn Together write-up, https://stimpunks.org/2026/05/02/campfire-learn-together-being-disabled-can-be-pretty-funny/, checked word for word against the Knowledge System mirror's copy of that post on 2026-09-23, and credited to the comic whose line it is. THE WRITE-UP DOES NOT SAY WHICH SET EACH LINE COMES FROM AND THIS FILE DOES NOT GUESS. A line credited to the wrong special would be the jukebox's guessed mapping arriving at a comedy club. Where a line is somebody else speaking inside the comic's bit -- the friend at the restaurant -- the context says so.",
-  "_checked": "2026-09-23",
+  "_checked": "2026-10-03",
   "playlist": {
     "list": "PLUGzxgyttDkE",
     "title": "Disabled Comedy",
@@ -17,7 +19,9 @@
       "id": "Yoa7MUa-AL0",
       "title": "Being Disabled Can Be Pretty Funny",
       "title_verbatim": "Being Disabled Can Be Pretty Funny | Josh Blue Full Special",
-      "comics": ["Josh Blue"],
+      "comics": [
+        "Josh Blue"
+      ],
       "channel": "Dry Bar Comedy",
       "runtime": "24:39",
       "note": "The special our Campfire Learn Together watched first, and the title that Campfire took for itself."
@@ -26,7 +30,9 @@
       "id": "LbaK754C4Kk",
       "title": "I’m Like the Bisexuality of Ability",
       "title_verbatim": "“I’m Like the Bisexuality of Ability” - Tina Friml - Stand-Up Featuring",
-      "comics": ["Tina Friml"],
+      "comics": [
+        "Tina Friml"
+      ],
       "channel": "Comedy Central Stand-Up",
       "runtime": "11:09",
       "note": "The other half of that Campfire."
@@ -35,24 +41,31 @@
       "id": "hyOawy9gYbA",
       "title": "Freak Accident",
       "title_verbatim": "Josh Blue | Freak Accident (Full Comedy Special)",
-      "comics": ["Josh Blue"],
+      "comics": [
+        "Josh Blue"
+      ],
       "channel": "800 Pound Gorilla Media",
       "runtime": "1:11:00",
-      "note": "A full hour, and the longest set on the bill."
+      "note": "A full special, a little over the hour."
     },
     {
       "id": "k82dywiOjFE",
       "title": "I Have a Disorder",
       "title_verbatim": "I HAVE A DISORDER | Full Standup Comedy Special | AJ Wilkerson",
-      "comics": ["AJ Wilkerson"],
+      "comics": [
+        "AJ Wilkerson"
+      ],
       "channel": "AJ Wilkerson Comedy",
-      "runtime": "39:14"
+      "runtime": "39:14",
+      "note": "AJ Wilkerson is Autistic, and goes by Captain Autism."
     },
     {
       "id": "vmSTWMBw6mU",
       "title": "The Disabled List",
       "title_verbatim": "Josh Blue's UNFILTERED Stand-Up Comedy: The Disabled List | Full Episode",
-      "comics": ["Josh Blue"],
+      "comics": [
+        "Josh Blue"
+      ],
       "channel": "Popcorn",
       "runtime": "25:49"
     },
@@ -60,7 +73,9 @@
       "id": "U8Rzd3AJUSY",
       "title": "Tourette’s Is Sort of the Abstract Art of Disabilities",
       "title_verbatim": "“Tourette’s Is Sort of The Abstract Art of Disabilities” - Benny Feldman - Stand-Up Featuring",
-      "comics": ["Benny Feldman"],
+      "comics": [
+        "Benny Feldman"
+      ],
       "channel": "Comedy Central Stand-Up",
       "runtime": "5:35"
     },
@@ -68,7 +83,9 @@
       "id": "RpTjATNrQ-w",
       "title": "Disabled John Wick",
       "title_verbatim": "Disabled John Wick | Steve Way | Stand Up Comedy",
-      "comics": ["Steve Way"],
+      "comics": [
+        "Steve Way"
+      ],
       "channel": "Don’t Tell Comedy",
       "runtime": "10:09"
     },
@@ -76,7 +93,10 @@
       "id": "lnZ812_lbHw",
       "title": "Handicap Crowd Work",
       "title_verbatim": "HANDICAP CROWD WORK | FT. AHREN BELISLE & FIONA CAULEY",
-      "comics": ["Ahren Belisle", "Fiona Cauley"],
+      "comics": [
+        "Ahren Belisle",
+        "Fiona Cauley"
+      ],
       "channel": "Ahren Belisle Comedy",
       "runtime": "14:21"
     },
@@ -84,9 +104,209 @@
       "id": "tJbY_u_j_l4",
       "title": "Navigating the Airport with a Disability",
       "title_verbatim": "Fiona Cauley Stand-Up: Navigating the Airport with a Disability, Is There an Elevator to Heaven?",
-      "comics": ["Fiona Cauley"],
+      "comics": [
+        "Fiona Cauley"
+      ],
       "channel": "The Tonight Show Starring Jimmy Fallon",
       "runtime": "6:15"
+    },
+    {
+      "id": "FaHtoaQk1a4",
+      "title": "Doctor’s Note",
+      "title_verbatim": "AJ Wilkerson - Doctor's Note (2025 FULL SPECIAL)",
+      "comics": [
+        "AJ Wilkerson"
+      ],
+      "channel": "AJ Wilkerson Comedy",
+      "runtime": "1:07:13"
+    },
+    {
+      "id": "Apjvr9rXxx4",
+      "title": "Captain Autism",
+      "title_verbatim": "AJ Wilkerson - Captain Autism (FULL COMEDY SPECIAL)",
+      "comics": [
+        "AJ Wilkerson"
+      ],
+      "channel": "AJ Wilkerson Comedy",
+      "runtime": "1:03:48"
+    },
+    {
+      "id": "IIJZiqcMb_Q",
+      "title": "Inbred Magic",
+      "title_verbatim": "INBRED MAGIC | Full Comedy Special Improvised | AJ Wilkerson",
+      "comics": [
+        "AJ Wilkerson"
+      ],
+      "channel": "AJ Wilkerson Comedy",
+      "runtime": "42:51",
+      "note": "Filmed at a brewery in Michigan."
+    },
+    {
+      "id": "qBkQjKSBXOM",
+      "title": "Side Quest",
+      "title_verbatim": "SIDE QUEST | Full Standup Comedy Special | AJ Wilkerson",
+      "comics": [
+        "AJ Wilkerson"
+      ],
+      "channel": "AJ Wilkerson Comedy",
+      "runtime": "37:10",
+      "note": "A half hour, put together from three shows."
+    },
+    {
+      "id": "1Jvx_umysik",
+      "title": "A Vision for an Autistic Future",
+      "title_verbatim": "Joe Wells Has A Vision For An Autistic Future | Stand Up Comedy | Dave",
+      "comics": [
+        "Joe Wells"
+      ],
+      "channel": "U&Laughs",
+      "runtime": "6:13",
+      "note": "Joe Wells is Autistic. This one is from Rosie Jones’ Disability Comedy Extravaganza, on Dave."
+    },
+    {
+      "id": "JCcH2jZVFtk",
+      "title": "I Am Autistic",
+      "title_verbatim": "Joe Wells - I Am Autistic - Full Show",
+      "comics": [
+        "Joe Wells"
+      ],
+      "channel": "Joe Wells",
+      "runtime": "59:32",
+      "note": "Filmed by Go Faster Stripe."
+    },
+    {
+      "id": "ghOQ4H7HrrA",
+      "title": "King of the Autistics",
+      "title_verbatim": "Joe Wells - King Of The Autistics - Full Standup Show",
+      "comics": [
+        "Joe Wells"
+      ],
+      "channel": "Joe Wells",
+      "runtime": "57:09",
+      "note": "Self-produced, and put up for free."
+    },
+    {
+      "id": "wYTpazrqHwM",
+      "title": "Power & Chaos",
+      "title_verbatim": "Fern Brady | Power & Chaos (Full Comedy Special)",
+      "comics": [
+        "Fern Brady"
+      ],
+      "channel": "800 Pound Gorilla Comedy Exports",
+      "runtime": "55:58",
+      "note": "Fern Brady is Autistic. Filmed in Glasgow."
+    },
+    {
+      "id": "foLXgMrheN4",
+      "title": "How Not to Talk to a Disabled Person",
+      "title_verbatim": "Tim Reknow - How Not To Talk To A Disabled Person | What I Wish I'd Said",
+      "comics": [
+        "Tim Renkow"
+      ],
+      "channel": "Comedy Central Asia",
+      "runtime": "2:56",
+      "note": "Tim Renkow has cerebral palsy. Very dark humour. From What I Wish I’d Said, where a comic replays a moment and says the thing that did not get said at the time."
+    },
+    {
+      "id": "75dzIhLjR7M",
+      "title": "Being intimate when you are a disabled person",
+      "title_verbatim": "Being intimate when you are a disabled person | Tim Renko on Live at the Apollo - BBC",
+      "comics": [
+        "Tim Renkow"
+      ],
+      "channel": "BBC",
+      "runtime": "2:29",
+      "note": "Very dark humour. From Live at the Apollo."
+    },
+    {
+      "id": "-RwIJFLtKOY",
+      "title": "Three-Way",
+      "title_verbatim": "THREE-WAY Stuart Laws FULL COMEDY SPECIAL",
+      "comics": [
+        "Stuart Laws"
+      ],
+      "channel": "Stuart Laws",
+      "runtime": "31:48",
+      "note": "Stuart Laws is Autistic. Cut between three nights, in Machynlleth, Manchester and Bristol, so the same jokes land differently in each room.",
+      "playlist": false
+    },
+    {
+      "id": "EeOYMIEXu44",
+      "title": "Is That Guy Still Going?",
+      "title_verbatim": "Stuart Laws | Is That Guy Still Going? (Full Comedy Special)",
+      "comics": [
+        "Stuart Laws"
+      ],
+      "channel": "800 Pound Gorilla Media",
+      "runtime": "1:00:32",
+      "note": "Filmed in London, directed by Nish Kumar.",
+      "playlist": false
+    },
+    {
+      "id": "LiM8PwMzENg",
+      "title": "Why Can’t I Just Enjoy Things",
+      "title_verbatim": "Pierre Novellie | Why Can't I Just Enjoy Things (Full Comedy Special)",
+      "comics": [
+        "Pierre Novellie"
+      ],
+      "channel": "800 Pound Gorilla Media",
+      "runtime": "1:05:27",
+      "note": "Pierre Novellie is Autistic."
+    },
+    {
+      "id": "5lXbpgU9OWk",
+      "title": "How Hannah Gadsby’s High-Functioning Autism Works",
+      "title_verbatim": "How Hannah Gadsby's High-Functioning Autism Works | Netflix Is A Joke",
+      "comics": [
+        "Hannah Gadsby"
+      ],
+      "channel": "Netflix Is A Joke",
+      "runtime": "6:25",
+      "note": "Hannah Gadsby is Autistic, and a lot of Gadsby’s work is about gender too. A clip from Douglas, on Netflix."
+    },
+    {
+      "id": "87qLWFZManA",
+      "title": "Three ideas. Three contradictions. Or not.",
+      "title_verbatim": "Three ideas. Three contradictions. Or not. | Hannah Gadsby",
+      "comics": [
+        "Hannah Gadsby"
+      ],
+      "channel": "TED",
+      "runtime": "18:34",
+      "note": "A TED talk rather than a set, given by a comic on their own terms, which is not the same thing as a set being turned into one."
+    },
+    {
+      "id": "KY8Zug1zN0E",
+      "title": "GRL/LATNX/DEF",
+      "title_verbatim": "Lara Ricote | GRL/LATNX/DEF (Full Comedy Special)",
+      "comics": [
+        "Lara Ricote"
+      ],
+      "channel": "Lara Ricote",
+      "runtime": "58:08",
+      "note": "Lara Ricote is deaf. In the description, in Lara Ricote’s own words: “It starts kinda bad but it gets better as it goes along.”"
+    },
+    {
+      "id": "53nRcfosYR0",
+      "title": "The disabled elephant in the room",
+      "title_verbatim": "Rosie Jones addresses the disabled elephant in the room | Live At The Apollo - BBC",
+      "comics": [
+        "Rosie Jones"
+      ],
+      "channel": "BBC",
+      "runtime": "2:20",
+      "note": "Rosie Jones has cerebral palsy. From Live at the Apollo."
+    },
+    {
+      "id": "RUQjk3-q2V8",
+      "title": "Triple Threat",
+      "title_verbatim": "Rosie Jones | Triple Threat (Full Comedy Special)",
+      "comics": [
+        "Rosie Jones"
+      ],
+      "channel": "800 Pound Gorilla Comedy Exports",
+      "runtime": "1:11:27",
+      "note": "Rosie Jones’ first full special, filmed at the Theatre Royal in Brighton."
     }
   ],
   "acts": [

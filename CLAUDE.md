@@ -2229,14 +2229,20 @@ Josh Blue's Botox bit as fact** (developed for cerebral palsy, then redirected t
 room's context line for it deliberately does not, and the post is stimpunks.org's to correct, not
 this repo's.
 
-**THE BILL IS A MIRROR OF THE PLAYLIST AND SAYS SO.** It was read off the playlist page on 2026-09-23,
-in that playlist's order, and a set added to the playlist is on the stage the next time somebody
+**THE BILL IS A MIRROR OF THE PLAYLIST AND SAYS SO.** It is read off the playlist page (last on
+2026-10-03, with `yt-dlp --flat-playlist -J`), in that playlist's order, and a set added to the
+playlist is on the stage the next time somebody
 puts the whole night on and not on the bill until somebody reads the playlist again. The room prints
 the date under the bill. `make-laughingstock.py` holds `make-club.py`'s pair &mdash; a runtime required
 on every set and refused on the playlist &mdash; and the playlist id is one of YouTube's new short
 ones (`PLUGzxgyttDkE`, thirteen characters), which **was verified to embed and to play by pressing
 play inside the frame**, not by reading the poster. The playlist's first entry is on the bill,
-which is the one row that decides whether the whole night embeds at all.
+which is the one row that decides whether the whole night embeds at all. **Since 2026-10-03 the bill is
+a rack and the whole night is its screen** (rack.js, Ryan's ask). It can also run AHEAD of the playlist:
+a set marked `"playlist": false` is on the bill and not in the whole night, and the line under the bill
+naming it is generated from that flag. When the playlist has the set, take the flag off; do not leave
+the bill claiming a gap that has closed. **A note never says longest, shortest or newest**, and the tool
+refuses it: Freak Accident's "the longest set on the bill" went false the day a longer one went on.
 
 **THE LIGHTBULB PICTURE HOUSE KEEPS ITS HOUSE LIGHTS UP, AND NOTHING IN IT IS BLUE.** §42 is a
 picture house where every screening is a relaxed screening: lit ALL OVER by bare bulbs in brass

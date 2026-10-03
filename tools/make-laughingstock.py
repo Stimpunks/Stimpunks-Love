@@ -7,6 +7,14 @@ playlist put on whole; the bill is every set on it, one press each; the acts are
 the two comics our Campfire Learn Together watched, with their own lines set in
 the spotlight. The credits go to liner-notes.html.
 
+THE BILL IS A RACK AND THE STAGE IS ITS SCREEN, rack.js's pattern, at Ryan's ask
+on 2026-10-03: every set plays where it hangs, or goes up on the stage in place
+of the whole night, and taking it off puts the whole night's plate back without
+playing it. The behaviour is rack.js's and the look is §41's, so every class
+here is the room's own and rack.js finds the parts by their data-rack-*
+attributes. The bill is a <details> that SHIPS OPEN, because a shut rack is text
+check-contrast-live.py and check-focus.py cannot measure.
+
 WHAT IT REFUSES, and the first two are the room:
 
   - THE VOCABULARY OF INSPIRATION, IN OUR OWN VOICE. Brave, courageous,
@@ -39,9 +47,21 @@ WHAT IT REFUSES, and the first two are the room:
     or the best, and there is no top ten and no applause meter. A comedy bill
     runs opener to closer as a matter of trade, and a room whose whole argument
     is that disabled comics should be judged on their actual work has no
-    business ordering seven of them by status. The pebbling cabinet's refusal of
+    business ordering any of them by status. The pebbling cabinet's refusal of
     a tally, arriving at a club. The bill is in the playlist's own order, which
     is ours and is not re-sorted.
+
+  - A SUPERLATIVE ABOUT THE BILL in a note: the longest, the shortest, the
+    newest. Freak Accident's note said "the longest set on the bill" and was
+    false the day Rosie Jones' Triple Threat went on, twenty-seven seconds longer.
+    Nothing ranked it; the bill grew. make-live-room.py refuses the same thing
+    for the same reason.
+
+  - A SET MARKED OFF THE PLAYLIST WITHOUT THE ROOM SAYING SO. A set can reach
+    the bill before it reaches the playlist ("playlist": false), and then
+    putting the whole night on does not reach it. The sentence under the bill
+    naming those sets is generated from the same flag, so it cannot be left
+    behind when the flag comes off.
 
   - A SET WITH NO RUNTIME, and A PLAYLIST THAT HAS ONE. make-club.py's pair, in
     one file, for its reason: a set has a length and a list we keep adding to
@@ -112,6 +132,9 @@ INSPIRATION = (r"inspir(?:ing|ingly|ational(?:ly)?)\b|(?:an|such an|a real|so mu
 RANKING = (r"headlin\w+|opener\b|opening act|closing act|funniest|(?:the )?best (?:set|comic|comedian|special)s?\b|"
            r"top (?:\d+|ten|five)\b|ranked|ranking|rated|ratings?\b|stars? out of|\d+\s*/\s*10\b|"
            r"applause meter|laughs? per minute|scores?\b|scored|leaderboards?")
+
+# A SUPERLATIVE ABOUT THE BILL, which goes false the day the bill grows.
+STALE = re.compile(r"\b(?:longest|shortest|newest|oldest|latest|most recent)\b", re.I)
 
 INSP_RE = re.compile(rf"\b(?:{INSPIRATION})", re.I)
 INSP_OK = re.compile(rf"\b{NEGATION}\b[^.]{{0,70}}?\b(?:{INSPIRATION})", re.I)
@@ -210,6 +233,12 @@ for i, s in enumerate(sets, 1):
             no_entity(v, f"{where} {field}")
     if s.get("note"):
         sweep(s["note"], f"{where} (note)")
+        for m in STALE.finditer(re.sub(r"“[^”]*”", " ", s["note"])):
+            problems.append(f"{where} (note): {m.group(0)!r} -- a superlative about the bill goes "
+                            "false the day the bill grows, and nothing would notice.")
+    if "playlist" in s and s["playlist"] is not False:
+        problems.append(f"{where}: \"playlist\" is only ever false, for a set on the bill and not "
+                        "yet on the playlist. A set on the playlist carries no flag.")
 
 page_src = ROOM.read_text()
 seen_act = set()
@@ -271,9 +300,13 @@ def attr(s):
     return html.escape(str(s), quote=True)
 
 
-def names(comics):
-    comics = [esc(c) for c in comics]
+def plain_names(comics):
+    comics = [str(c) for c in comics]
     return comics[0] if len(comics) == 1 else ", ".join(comics[:-1]) + " and " + comics[-1]
+
+
+def names(comics):
+    return esc(plain_names(comics))
 
 
 # THE LINES IN THE LIGHT. The comic's line and their name stand in the spot; our
@@ -298,42 +331,68 @@ swap(ROOM, "laughingstock:lines-credit",
      f'belongs to the comic who said it, and is {WORDS} words or fewer. The write-up does not '
      f'say which set each one comes from, and neither do we. The line under each is ours.</p>', "")
 
-# THE STAGE. The whole playlist, in its own order, with no runtime.
+# THE STAGE. The whole playlist, in its own order, with no runtime -- and the
+# screen every set on the bill can go up on. Its plate is what rack.js puts back.
+SCREEN = "the stage"
 swap(ROOM, "laughingstock:stage",
      f'    <div class="ls-stageplate">\n'
      f'      <p class="ls-stageplate__note">{esc(pl["note"])}</p>\n'
-     f'      <button type="button" class="facade" data-embed-src="{attr(stage_src)}" '
+     f'      <div class="ls-screen" data-rack-screen="stage" '
+     f'data-rack-off="The whole night is off until you put it back.">\n'
+     f'        <button type="button" class="facade" data-embed-src="{attr(stage_src)}&amp;autoplay=1" '
      f'data-embed-title="{attr(pl["title"])} on YouTube">\n'
-     f'        Put the whole night on &mdash; runs until you stop it\n'
-     f'        <span class="facade__play">&#9654; PRESS PLAY</span>\n'
-     f'      </button>\n'
+     f'          Put the whole night on &mdash; runs until you stop it\n'
+     f'          <span class="facade__play">&#9654; PRESS PLAY</span>\n'
+     f'        </button>\n'
+     f'      </div>\n'
+     f'      <p class="ls-screen__now" data-rack-now="stage" tabindex="-1" hidden></p>\n'
+     f'      <p class="ls-screen__back" hidden><button type="button" class="ls-back" '
+     f'data-rack-back="stage">Take it off and put the whole night back</button></p>\n'
      f'      <p class="ls-stageplate__credit"><a href="https://www.youtube.com/playlist?list='
      f'{attr(pl["list"])}">{esc(pl["title"])}</a>, on YouTube, from our own channel.</p>\n'
      f'    </div>', "")
 
 # THE BILL. One press per set, in the playlist's order, the comic named on every
-# one and the runtime said before the press.
+# one and the runtime said before either press: here, or up on the stage.
 rows = []
 for s in sets:
-    note = f'\n        <p class="ls-set__note">{esc(s["note"])}</p>' if s.get("note") else ""
+    note = f'\n          <p class="ls-set__note">{esc(s["note"])}</p>' if s.get("note") else ""
     who = names(s["comics"])
     rows.append(
-        f'      <li class="ls-set">\n'
-        f'        <h3 class="ls-set__title">{esc(s["title"])}</h3>\n'
-        f'        <p class="ls-set__who">{who}</p>{note}\n'
-        f'        <button type="button" class="facade" data-embed-id="{attr(s["id"])}" '
+        f'        <li class="ls-set" data-rack-card>\n'
+        f'          <h3 class="ls-set__title">{esc(s["title"])}</h3>\n'
+        f'          <p class="ls-set__who">{who}</p>{note}\n'
+        f'          <button type="button" class="facade" data-embed-id="{attr(s["id"])}" '
         f'data-embed-title="{attr(", ".join(s["comics"]))} &mdash; {attr(s["title"])}">\n'
-        f'          Play &mdash; {esc(s["runtime"])}\n'
-        f'          <span class="facade__play">&#9654; PRESS PLAY</span>\n'
-        f'        </button>\n'
-        f'        <p class="ls-set__credit">{esc(s["runtime"])} &middot; on YouTube, via '
+        f'            Play it here &mdash; {esc(s["runtime"])}\n'
+        f'            <span class="facade__play">&#9654; PRESS PLAY</span>\n'
+        f'          </button>\n'
+        f'          <button type="button" class="ls-set__up" hidden data-rack-to="stage" '
+        f'data-rack-name="{SCREEN}" '
+        f'data-rack-src="https://www.youtube-nocookie.com/embed/{attr(s["id"])}?autoplay=1&amp;rel=0" '
+        f'data-rack-title="{attr(", ".join(s["comics"]))} &mdash; {attr(s["title"])}, on {SCREEN}" '
+        f'data-rack-film="{attr(plain_names(s["comics"]))}, {attr(s["title"])}" '
+        f'data-rack-runtime="{attr(s["runtime"])}">Put it on {SCREEN} &mdash; {esc(s["runtime"])}</button>\n'
+        f'          <p class="ls-set__credit">{esc(s["runtime"])} &middot; on YouTube, via '
         f'{esc(s["channel"])}</p>\n'
-        f'      </li>')
+        f'        </li>')
+
+# A set on the bill and not yet on the playlist is named, because putting the
+# whole night on will not reach it.
+ahead = [s for s in sets if s.get("playlist") is False]
+ahead_line = ""
+if ahead:
+    ahead_line = (" Not on the playlist yet, so putting the whole night on will not reach them: " +
+                  "; ".join(f'<i>{esc(s["title"])}</i>, {names(s["comics"])}' for s in ahead) +
+                  ". They play from the bill like every other set.")
 swap(ROOM, "laughingstock:bill",
-     '    <ul class="ls-bill">\n' + "\n".join(rows) + '\n    </ul>\n'
-     f'    <p class="ls-from">Chalked up off the playlist on {esc(d["_checked"])}, in the '
+     '    <details class="ls-fold" open>\n'
+     '      <summary class="ls-fold__sum">Every set on the bill</summary>\n'
+     '      <ul class="ls-bill">\n' + "\n".join(rows) + '\n      </ul>\n'
+     f'      <p class="ls-from">Chalked up off the playlist on {esc(d["_checked"])}, in the '
      f'playlist&rsquo;s own order. The playlist is ours and we keep adding to it, so the whole '
-     f'night may have more on it by now than the bill does.</p>', "")
+     f'night may have more on it by now than the bill does.{ahead_line}</p>\n'
+     '    </details>', "")
 
 credit_rows = []
 for s in sets:

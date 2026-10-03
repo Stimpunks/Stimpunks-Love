@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Thu, 01 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 03 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>More comics at Laughingstock, and The Daily Tism on the bar</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-03-laughingstock-bill</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-03-laughingstock-bill</guid>
+      <pubDate>Sat, 03 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Laughingstock’s bill has new comics on it, at Ryan’s ask: Joe Wells, Fern Brady, Tim Renkow, Stuart Laws, Pierre Novellie, Hannah Gadsby, Lara Ricote and Rosie Jones, plus the AJ Wilkerson specials that had gone onto our playlist since the bill was last read. Every set says how long it runs before you press it, and every one was checked that day to see that it plays and can be shown here. Tim Renkow’s sets say they are very dark humour before you press them. The bill works like the racks in the newer rooms now. Every set plays where it hangs or goes up on the stage in place of the whole night, and taking it off puts the whole night back without starting it. The bill folds away. Nothing loads from YouTube until you press. Stuart Laws’ two sets are on the bill and not on the playlist yet, so putting the whole night on does not reach them, and the room says so under the bill. A Fern Brady clip from The Last Leg is not on the bill at all: it does not play outside the UK. Fern Brady’s full special is on the bill. The Daily Tism is on the bar: a satirical news site about being Autistic, and its audio sitcom, It’s a Superpower?? Not stand-up, and in the room anyway. Both are links; nothing of theirs plays here. Freak Accident’s note no longer calls it the longest set on the bill, which stopped being true the day Rosie Jones’ special went on. The room’s tool now refuses a note that says longest, shortest or newest. Credits are in the liner notes.</description>
+    </item>
     <item>
       <title>A telly in the kitchen</title>
       <link>https://stimpunks.world/changelog.html#2026-10-01-vital-telly</link>
