@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-10-02T11:22Z",
+ "set": "2026-10-03T11:22Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ]
   },
@@ -218,13 +218,13 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-10-02T11:22:33Z"
+     "2026-10-03T11:22:19Z"
     ]
    ]
   }
@@ -331,6 +331,16 @@
    "channel": "Andrew Bernard | The Nard Dog Cooks"
   },
   {
+   "id": "QK6J7lN3MRY",
+   "source": "nard-dog-cooks",
+   "form": "short",
+   "title": "Soup done the right way! 🤤 Cheesy Black Bean Enchilada Soup",
+   "published": "2026-10-02T19:23:40Z",
+   "state": "screen",
+   "runs": 26,
+   "channel": "Andrew Bernard | The Nard Dog Cooks"
+  },
+  {
    "id": "hA-ZNweFJI8",
    "source": "sarahs-vegan-kitchen",
    "form": "long",
@@ -338,16 +348,6 @@
    "published": "2026-09-27T16:10:06Z",
    "state": "screen",
    "runs": 1012,
-   "channel": "Sarah's Vegan Kitchen"
-  },
-  {
-   "id": "MPKODPESV94",
-   "source": "sarahs-vegan-kitchen",
-   "form": "short",
-   "title": "Sesame Tofu made at home for less 🥡",
-   "published": "2026-09-02T16:26:08Z",
-   "state": "screen",
-   "runs": 62,
    "channel": "Sarah's Vegan Kitchen"
   },
   {
@@ -428,6 +428,16 @@
    "published": "2026-09-30T23:28:43Z",
    "state": "screen",
    "runs": 18,
+   "channel": "Sarah's Vegan Kitchen"
+  },
+  {
+   "id": "2f2odMNlxVw",
+   "source": "sarahs-vegan-kitchen",
+   "form": "short",
+   "title": "I Am Chickpea Noodle Soup 🫘",
+   "published": "2026-10-02T21:39:50Z",
+   "state": "screen",
+   "runs": 35,
    "channel": "Sarah's Vegan Kitchen"
   },
   {
@@ -581,16 +591,6 @@
    "channel": "VeganProteins"
   },
   {
-   "id": "Mz2oWd0e-so",
-   "source": "pb-with-j",
-   "form": "long",
-   "title": "I Made 5 Recipes from Oh She Glows Salads. Here’s Our Verdict",
-   "published": "2026-09-02T15:00:06Z",
-   "state": "screen",
-   "runs": 2171,
-   "channel": "PB with J"
-  },
-  {
    "id": "xgNfTFBqogY",
    "source": "pb-with-j",
    "form": "long",
@@ -659,6 +659,15 @@
    "state": "screen",
    "runs": 1063,
    "channel": "PB with J"
+  },
+  {
+   "id": "mFmIzfxT3JQ",
+   "source": "pb-with-j",
+   "form": "long",
+   "title": "What $60.83 Actually Buys at a Farmers’ Market + 4 Meals We Made",
+   "published": "2026-10-02T03:18:08Z",
+   "state": "pending",
+   "why": "live, or not out yet"
   },
   {
    "id": "3bfNED1O-Fo",
@@ -818,6 +827,16 @@
    "published": "2026-10-01T12:47:29Z",
    "state": "screen",
    "runs": 45,
+   "channel": "PB with J"
+  },
+  {
+   "id": "8dZYWpe_VkQ",
+   "source": "pb-with-j",
+   "form": "short",
+   "title": "Easiest Dump & Bake Pot Pie Recipe Revealed! #shorts",
+   "published": "2026-10-02T13:19:16Z",
+   "state": "screen",
+   "runs": 46,
    "channel": "PB with J"
   },
   {
