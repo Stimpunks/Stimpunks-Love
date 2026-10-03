@@ -2836,6 +2836,39 @@ PAIRS = [
     ("#EDE6D3", "#1A1D21", False, "smalls: a card's button under the pointer"),
     ("#1A1D21", "#AEAB9F", False, "smalls: a button while it is on its way"),
 
+    # ── The Open Notebook (§91) ──────────────────────────────────────────────
+    # A dot-grid page that has lain open under a window all day. Every word is
+    # fineliner on the paper or on an index card taped to it; links are a
+    # fountain pen's blue; the laptop is the ground of every play button. The
+    # dot grid is a layer behind the words (see ORNAMENT), so every word here is
+    # measured against the flat paper by check-contrast-live.py as well.
+    ("#1F2128", "#FBFAF5", False, "notebook: every word -- Ryan's piece, the lede, the questions, "
+                                  "the h1 and every heading in Doto, the house rules -- and the "
+                                  "name and blurb on the street door, and the job marker, a roll "
+                                  "of washi tape, by its outline"),
+    ("#1F2128", "#FEFEFC", False, "notebook: every word on an index card -- a video's title, the "
+                                  "index, the three parts of L★S, both buttons that move a film"),
+    ("#4E525C", "#FBFAF5", False, "notebook: the trail, the byline over the piece, when the log was "
+                                  "filled, a channel's note that its feed fell short"),
+    ("#4E525C", "#FEFEFC", False, "notebook: the line under a video's title, what the piece called "
+                                  "a retitled one, why a door is a door, the index's note"),
+    ("#2443A0", "#FBFAF5", False, "notebook: every link, the backlink, the knock on the street door, "
+                                  "and the focus ring"),
+    ("#2443A0", "#FEFEFC", False, "notebook: a link on a card -- Watch on YouTube on a door, the "
+                                  "index's links"),
+    ("#FBFAF5", "#23262E", False, "notebook: the words on every play button and on the laptop "
+                                  "while nothing is on it"),
+    ("#F2DE9B", "#23262E", False, "notebook: PRESS PLAY on every button, and The laptop. on the "
+                                  "empty screen"),
+    ("#FBFAF5", "#2443A0", False, "notebook: a play button's words under the pointer"),
+    ("#F2DE9B", "#2443A0", False, "notebook: PRESS PLAY under the pointer"),
+    ("#1F2128", "#BED5EB", False, "notebook: a button that moves a film, under the pointer"),
+    ("#1F2128", "#F2DE9B", False, "notebook: the line in the margin of Ryan's piece saying a list "
+                                  "of videos was migrated to the collection, on its strip of tape"),
+    ("#2443A0", "#F2DE9B", False, "notebook: the link to a shelf on that same strip of tape"),
+    ("#4E525C", "#D4CEBF", False, "notebook: the hours written under the drawing of the day, on the "
+                                  "page in shade"),
+
     # ── Now Playing (§53) ────────────────────────────────────────────────────
     (NP_BOTH,   NP_STOCK,  False, "now playing: every word on the sheet -- the h1, the over- and "
                                   "sub-lines, the lede, every room's name, where it is, our line "
@@ -3227,6 +3260,23 @@ ORNAMENT = {
                "with a white nosing on every one at 2.85. It carries no word.",
     "#fff3c8": "stair: the bulkhead lamp on the landing, 1.21 on the wall and drawn inside its "
                "white case. It carries no word.",
+    "#c9cbc4": "notebook: the dot grid, 1.57 on the paper. A layer behind the words, drawn on the "
+               "body's ::before so check-contrast-live.py measures every word against the flat paper; "
+               "a dot carries no word.",
+    "#b9d3b3": "notebook: sage washi tape across the top of a card, and a ribbon marker in the "
+               "drawing, 1.54 on the paper. It carries no word.",
+    "#f1c6c0": "notebook: blush washi tape across a card, and the other ribbon marker, 1.48 on the "
+               "paper. It carries no word.",
+    "#e2ebf8": "notebook: the window's patch at dawn in the drawing of the day, 1.31 on the page in "
+               "shade and 1.15 on the paper. Light, drawn; no word stands on it.",
+    "#fbf1cf": "notebook: the window's patch in the morning, 1.39 on the page in shade. Light, drawn; "
+               "no word stands on it.",
+    "#fffdf5": "notebook: the window's patch at noon, 1.54 on the page in shade. Light, drawn; no "
+               "word stands on it.",
+    "#fce2b8": "notebook: the window's patch in the afternoon, 1.25 on the page in shade. Light, "
+               "drawn; no word stands on it.",
+    "#f8d5c8": "notebook: the window's patch at dusk, 1.15 on the page in shade. Light, drawn; no "
+               "word stands on it.",
     "#23605a": "fridge: a magnet's edge and shadow, 2.89 on the enamel and 6.84 on the magnet, "
                "and the seam under the freezer door. It carries no word; it is what lifts a "
                "white magnet (2.37 on the enamel) off the door, the way it does on a real one.",

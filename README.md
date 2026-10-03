@@ -110,6 +110,7 @@ town-hall-directors.html Off the Town Hall: lit only through the frosted pane in
 town-hall-fishbowl.html Off the Town Hall: a glass fishbowl on a sunny sill, lit by the sun bent through the water. Community fishbowl meetings on the CB
 community-center.html A painted block hall, blinds half open. The meeting hall (our group chat on Stoat, and how to get in), house norms and the front desk for the CB
 dopamine-dress-up-den.html  Helen's idea: a boutique for dopamine dressing. Mix an outfit on a valet stand; nobody's body is drawn
+the-open-notebook.html  A notebook open under a window since first light, every hour's sun on the page. Ryan's piece on bullet, junk and interstitial journaling in full, the Infodumplings questions, its videos and a month of journaling channels on the laptop; nowhere to write, on purpose
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 now-playing.html      A poster column beside the Pebble Board. What every room puts on first, read off the rooms
 brass-tacks-board.html The Brass Tacks Board, beside the Pebble Board: posts meant to persist, by our moderators, with their usernames on them. Markdown read on the server into nodes; a feed at /brass-tacks.xml (brass.js)
@@ -272,6 +273,7 @@ python3 tools/make-picture-house.py # The Lightbulb Picture House's screens and 
 python3 tools/make-samefood.py     # Samefood Cafe's table, menu, counter and trays, and the credits; refuses anything that touches
 python3 tools/make-collection.py   # The Collection Collection's gallery, cabinets and credits; refuses metadata, a filter, or two lamps alike
 python3 tools/make-vital.py        # Vital Plant Living's shelf, builder, board, counter and stereo; refuses a combo off the pantry, or Ital on the menu
+python3 tools/make-open-notebook.py # The Open Notebook's drawing, questions, laptop and racks; refuses a YouTube link left in Ryan's piece, a question our write-up no longer has, anywhere to type, and a month older than a month
 python3 tools/make-community.py    # The Community Center's service board; refuses a slot whose room has stopped saying what it repeats
 python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, and the credits; refuses a size, a gendered rail, or no all-black colourway
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
@@ -353,6 +355,8 @@ network — a checker that fails on a train either blocks a deploy or teaches ev
 python3 tools/check-jukebox.py     # presses nothing; asks YouTube whether every facade still plays
 python3 tools/pull-arrivals.py     # reads the sibling sites' RSS feeds into data/arrivals.json
 python3 tools/pull-doom-scoop.py   # reads The Doom Scoop's sources' YouTube feeds, and each new video's watch page, into data/doom-scoop.json
+python3 tools/pull-vital-rack.py   # the same for the cooks on Vital Plant Living's telly, into data/vital-rack.json
+python3 tools/pull-notebook-month.py # the same for the journaling channels in The Open Notebook's monthly log, into data/open-notebook-month.json
 python3 tools/pull-foundry.py      # reads every typeface's own record into data/foundry-faces.json
 python3 tools/pull-club.py         # mirrors Club Chronic's playlist ids into data/club.json
 python3 tools/pull-club.py --check # reports drift between that mirror and the live playlist
@@ -371,6 +375,10 @@ pulls, fills the cabinet, re-prints Now Playing, gates, and commits **only** `da
 `the-doom-scoop.html` and `now-playing.html`, under the fixed subject `daily doom scoop edition`. Two
 scripts rather than one so that a news feed failing cannot leave The Feed's board unset, or the other
 way round.
+`tools/daily-vital.sh` and `tools/daily-notebook.sh` are two more twins on the same task, for Vital
+Plant Living's telly and The Open Notebook's monthly log, committing only their own data file and page
+under `daily vital telly refill` and `daily open notebook refill`, both of which the Knowledge System's
+`update-logs` skips by name.
 
 **`tools/check-all.sh` runs every one of them, in the order that works, and stops at the first
 refusal**; it is the command to run before every commit, and on a clean tree it changes nothing.

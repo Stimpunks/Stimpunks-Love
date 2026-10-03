@@ -231,6 +231,14 @@ LISTS = [
     # each new video's watch page once. Nobody chose these video by video,
     # the Doom Scoop's shape, so a second asking here is worth having.
     ("vital plant living's telly", "data/vital-rack.json", "vital-plant-living.html"),
+    # The Open Notebook's collection: the videos Ryan's piece links, in its
+    # order, measured once on 2026-10-03. Added in the commit that opened the room.
+    ("the open notebook", "data/open-notebook.json", "the-open-notebook.html"),
+    # The Open Notebook's monthly log: the last month from journaling channels
+    # Ryan chose, refilled every morning by tools/pull-notebook-month.py, which
+    # asks each new video's watch page once. Nobody chose these video by video,
+    # the telly's shape, so a second asking here is worth having.
+    ("the open notebook's log", "data/open-notebook-month.json", "the-open-notebook.html"),
     # Big Steep: three long cellar ambience videos on their makers' own
     # channels, the kind of upload that goes private without ceremony.
     ("big steep", "data/big-steep.json", "big-steep-fermentables.html"),
@@ -280,10 +288,17 @@ def tracks_in(data):
         return [dict(v, artist=v.get("channel") or v["source"],
                      state="link" if v.get("state") == "door" else None)
                 for v in data["telly"] if v.get("state") in ("screen", "door")]
+    # THE OPEN NOTEBOOK'S MONTHLY LOG is the telly's shape under a key of its
+    # own, tested before 'tracks' for the same reason.
+    if "log" in data:
+        return [dict(v, artist=v.get("channel") or v["source"],
+                     state="link" if v.get("state") == "door" else None)
+                for v in data["log"] if v.get("state") in ("screen", "door")]
     if "tracks" in data:
         return data["tracks"]
     # MYCELIUM MUNCHIES keeps Derek Sarno's rack beside its mushrooms and dishes,
-    # which are food rather than videos, under a key of its own.
+    # which are food rather than videos, under a key of its own. The Open
+    # Notebook's collection uses the same key beside its questions.
     if "videos" in data:
         return [dict(v, artist=v.get("channel")) for v in data["videos"]]
     # BIG STEEP keeps its cellar videos beside its house styles, which are

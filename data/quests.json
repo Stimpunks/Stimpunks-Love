@@ -2717,6 +2717,40 @@
    }
   },
   {
+   "id": "onb-washi",
+   "page": "the-open-notebook.html",
+   "room": "The Open Notebook",
+   "title": "What does the M stand for?",
+   "posted": "There is a notebook lying open on a desk on the street, and the piece beside it explains a quick way of writing a day down. Sit down at it and find out what the M in NAME stands for.",
+   "rank": 1,
+   "takes": "a few minutes of reading",
+   "target": "a roll of washi tape, set down on the floor under the desk",
+   "code": "WASHITAPE",
+   "learned": "A bullet journal keeps a mark for how you felt, an equal sign, right beside the marks for what you did, what happened and what you noticed. Notes, Actions, Moods and Events, and none of them counts for more than the others.",
+   "hints": [
+    "On the street itself, in the row of shopfronts: the page of dot-grid paper with washi tape across its awning.",
+    "Where the piece explains rapid logging.",
+    "On the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "In a bullet journal, NAME stands for four kinds of thing you can write down. What does the M stand for?",
+    "accept": [
+     "moods",
+     "mood",
+     "themoods",
+     "feelings",
+     "feeling"
+    ],
+    "answer": "Moods",
+    "why": "Moods: NAME is Notes, Actions, Moods and Events, and a mood gets an equal sign.",
+    "hints": [
+     "It is in the part of the piece called Bullet Journaling, in the list of symbols.",
+     "It comes after Notes and Actions, and before Events.",
+     "How you are feeling."
+    ]
+   }
+  },
+  {
    "id": "brass-tack",
    "page": "brass-tacks-board.html",
    "room": "The Brass Tacks Board",

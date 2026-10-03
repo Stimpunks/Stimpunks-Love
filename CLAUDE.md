@@ -2692,6 +2692,45 @@ protein and what a dish does for you, beside a house rule of ours that says nobo
 friendly edit is to sweep them, or to drop the videos whose titles say it; the sentence beside the
 telly is the answer instead. It sits after the stereo so Now Playing's line for the room stays put.
 
+**THE OPEN NOTEBOOK IS RYAN'S PIECE IN FULL, AND THE PIECE IS HIS VOICE, NOT OURS.** §91, Ryan's brief,
+2026-10-03: a journaling shopfront led by his own *Bullet Journaling + Junk Journaling + Interstitial
+Journaling*, which he gave to the street in full (his copyright, under the site's licence). It is set by
+hand between `onb:piece` markers, word for word as Notion served it, with one change the page says out
+loud: each list of YouTube videos became a taped line in the margin, in the bullet journal's own mark for
+migrated (›), pointing at its shelf in the collection. `make-open-notebook.py` refuses a YouTube address
+left in the piece, a migrated line with no shelf, and a byline without his name and the original's
+address, and **does not sweep the piece for our refusals**: Helen's rule that somebody's writing is never
+folded into our "we" holds for Ryan too. **The questions are our Infodumplings write-up's, word for
+word**, re-read out of the mirror's copy of that post on every build (the Town Hall's rule: re-copy,
+never loosen). **There is nowhere to answer them, on purpose**: the tool refuses a form, an input, a
+textarea, a select or anything editable outside the job marker, and any script but `love.js`,
+`love-embed.js`, `rack.js` and `quest.js`. The friendly edit to a journaling room is a habit tracker, or a
+box that remembers what you wrote, and then the notebook is ours instead of yours.
+
+**ITS LIGHT IS EVERY HOUR AT ONCE.** The notebook has lain open under a window since first light, so the
+window's patch from every hour lies on the page together, dawn blue from the left to dusk rose from the
+right, each with its time: interstitial journaling's log of the actual shape of the day, as a light. It
+is drawn and never moves. **The Zibaldone is the collision**: bound leaves with a gutter, one lamp at desk
+height, other people's words; this is one page with no fold, a dot grid, and your own shorthand. If a
+gutter or a lamp ever appears in §91 it has become the Zibaldone with tape on it, and it is this room that
+moves. Covenstead is one window at one moment; this is the same window all day. **The dot grid is the
+body's `::before`, never its background**, because `check-contrast-live.py` declines text on a background
+image, and a page of unmeasured text is a page of unmeasured text. Doto, Óliver Lalan's, sets headings
+only, in its rounded black: letters made of the page's own dots. Its square cut is a pixel face, and
+pixels are the Arcade's.
+
+**THE MONTHLY LOG IS THE KITCHEN'S TELLY WITH JOURNALING CHANNELS ON IT.** `pull-notebook-month.py` is
+`pull-vital-rack.py`'s reading, kept in step by hand; `make-open-notebook.py --month` redraws only the
+log; `tools/daily-notebook.sh` is the fourth script on the morning task, committing two paths as `daily
+open notebook refill`, which update-logs' AUTOMATED pattern names. **It parts from the cooks' puller in one
+place**: some journaling channels are all shorts, so an empty or missing list of either kind is an empty
+shelf, and only a channel with nothing in either is refused. The titles are the channels' and are not
+swept; some of them sell journaling as productivity, beside a sentence of ours saying the companion line
+is the piece's. **One empty laptop serves both racks**, the collection and the log. **A coverage test
+against a time kept to the minute needs a minute of slack**: without it the first fill said every short
+feed fell a few seconds short of the month. `make-vital.py`'s copy has none and showed the same notes on
+its first morning; they heal by the second.
+
 **THE MAP IS THE ONE PAGE THAT SHOWS EVERY OTHER PAGE, AND NOTHING ON IT IS PAINTED.** `map.html`
 (§49) is the whole street as a model in white card on a cutting mat: shopfronts on both sides of a
 pencilled road, rooms behind rooms standing behind them, the garden's gate halfway down, the
@@ -3404,18 +3443,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §92 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §93 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§92 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§93 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §92 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §93 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

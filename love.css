@@ -1076,6 +1076,23 @@
 @font-face { font-family: 'Open Sans'; src: url('fonts/open-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Open Sans'; src: url('fonts/open-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* The Open Notebook (§91). A LETTER MADE OF THE PAGE'S OWN DOTS AND A PLAIN ONE.
+   Doto, Óliver Lalan's dot-matrix face, sets the room's name and every heading,
+   and nothing at reading size: in its rounded black every letter is built out
+   of round dots on a grid, which is what bullet journal headings are drawn as
+   on dot-grid paper. Its square cut would have been a pixel face, and pixels
+   are the Arcade's. Rosario, Omnibus-Type's, carries every word that is read,
+   Ryan's piece included. Doto is one static file, the rounded black instance;
+   Rosario ships as a variable font, so one file is declared at 400 and 700
+   against the weight axis, Radio Canada's call, and its italic is a file of
+   its own, because the piece sets two phrases in italic and a slant the
+   browser invents is a lie about somebody's typeface. Read off their own
+   records; see fonts/_sources.json. */
+@font-face { font-family: 'Doto'; src: url('fonts/doto-900.woff2') format('woff2'); font-weight: 900; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Rosario'; src: url('fonts/rosario-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Rosario'; src: url('fonts/rosario-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Rosario'; src: url('fonts/rosario-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -2669,6 +2686,24 @@
   --btb-ink:   #21180A;  --btb-ink2:   #4C3913;  --btb-plink:   #6A260B;
   --btb-code:  #C8A253;  --btb-tack:   #EBC66B;
 
+  /* The Open Notebook (§91). A DOT-GRID PAGE THAT HAS LAIN OPEN UNDER A WINDOW
+     SINCE FIRST LIGHT. --onb-page is the paper, the ground every word stands
+     on; --onb-card an index card taped onto it, a shade whiter. --onb-ink is
+     every word, the fineliner; --onb-dim the fine print; --onb-pen every link
+     and the focus ring, a fountain pen's blue. --onb-laptop is the screen
+     beside the notebook and the ground of every button. The rest carry no word:
+     --onb-dot is the grid, --onb-shade the page in the drawing where no sun is
+     falling, the four --onb-washi- tapes hold things in and mark the ribbons,
+     and --onb-dawn, --onb-morning, --onb-noon, --onb-afternoon and --onb-dusk
+     are the window's patch at each hour, in the drawing only. */
+  --onb-page:  #FBFAF5;  --onb-card:  #FEFEFC;  --onb-ink:   #1F2128;
+  --onb-dim:   #4E525C;  --onb-pen:   #2443A0;  --onb-laptop: #23262E;
+  --onb-dot:   #C9CBC4;  --onb-shade: #D4CEBF;
+  --onb-washi-sage: #B9D3B3;  --onb-washi-blush: #F1C6C0;
+  --onb-washi-butter: #F2DE9B;  --onb-washi-sky: #BED5EB;
+  --onb-dawn:  #E2EBF8;  --onb-morning: #FBF1CF;  --onb-noon: #FFFDF5;
+  --onb-afternoon: #FCE2B8;  --onb-dusk: #F8D5C8;
+
   /* import:neurohome:root:begin */
   /* Isha Snow's room, NeuroHome -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -3551,6 +3586,18 @@ div.facade--audio { border: 0; background: none; }
 .door--smalls .door__name  { font-family: 'Carter One', var(--sans); color: var(--rsa-text); font-size: 26px; font-synthesis: none; }
 .door--smalls .door__blurb { font-family: 'Balsamiq Sans', var(--sans); color: var(--rsa-text); font-size: 14px; font-synthesis: none; }
 .door--smalls .door__knock { font-family: 'Balsamiq Sans', var(--sans); font-weight: 700; font-size: 13px; color: var(--rsa-link); font-synthesis: none; }
+/* THE OPEN NOTEBOOK'S DOOR IS A PAGE OF IT: dot-grid paper, and three strips
+   of washi tape across the awning, cut straight at the ends, with nothing
+   rotated. */
+.door--notebook { background-color: var(--onb-page); border-color: var(--onb-ink); }
+.door--notebook .door__awning {
+  background-color: var(--onb-page);
+  background-image: linear-gradient(90deg, var(--onb-washi-sage) 0 30%, transparent 30% 35%, var(--onb-washi-blush) 35% 64%, transparent 64% 69%, var(--onb-washi-sky) 69% 100%);
+  border-bottom-color: var(--onb-ink);
+}
+.door--notebook .door__name  { font-family: 'Doto', var(--sans); font-weight: 900; color: var(--onb-ink); font-size: 25px; line-height: 1.1; font-synthesis: none; }
+.door--notebook .door__blurb { font-family: 'Rosario', var(--sans); color: var(--onb-ink); font-size: 14px; font-synthesis: none; }
+.door--notebook .door__knock { font-family: 'Rosario', var(--sans); font-weight: 700; font-size: 13px; color: var(--onb-pen); font-synthesis: none; }
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
 .door--empty .door__name  { font-family: 'Bungee', var(--sans); color: var(--chalk); font-size: 23px; }
@@ -14744,7 +14791,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §92
+   class on it is `bb-`, its sizes are in points and millimetres, and §93
    prints it and nothing else. */
 
 .room-broadside {
@@ -14805,7 +14852,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §92 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §93 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -18245,7 +18292,222 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .btb-plate { padding: 28px 20px 22px; }
 }
 
-/* §91 ── Small screens ───────────────────────────────────────────────────────
+/* §91 ── ROOM: The Open Notebook (a shopfront on the street) ────────────────────
+   A desk under a window with a notebook lying open on it, and a laptop beside
+   it. Ryan's brief, 2026-10-03: a shopfront for journaling, led by his own
+   piece on keeping a bullet journal, a junk journal and an interstitial journal
+   in one notebook, in full; the questions from our write-up of the Infodumplings
+   where he shared it; the videos the piece points at as a rack; and the last
+   month from journaling channels he chose. tools/make-open-notebook.py writes
+   the drawing, the questions, the laptop and both racks, and holds the promises.
+
+   THE LIGHT IS EVERY HOUR AT ONCE. The notebook has lain open under the window
+   since first light, so the window's patch of sun has crossed the page at every
+   hour, and the page has kept all of them: the long blue patch thrown in from
+   the left at dawn, the square nearly white one at noon, the long rose one from
+   the right at dusk, each with its time written under it. That is interstitial
+   journaling's argument as a light -- a log of the actual shape of the day --
+   and it is drawn, not lived: nothing travels across the page at any setting.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF. This street has a great deal of
+   paper, and a journal is the paper room most likely to fold into another:
+     · THE ZIBALDONE IS THE ONE TO WATCH. It is also a notebook somebody writes
+       in by hand. It is BOUND LEAVES, a spread with a gutter and a fold, lit by
+       one lamp at desk height on the left, filled with OTHER PEOPLE'S words in
+       iron-gall and rubric. This is ONE PAGE with no fold anywhere, a dot grid
+       under it, every hour's daylight on it, and the words are your own day in
+       your own shorthand. If a gutter or a lamp ever appears in §91, the two
+       rooms have become one, and it is this one that moves.
+     · THE ZINE TABLE is the other cut-and-stuck paper, and junk journaling is
+       collage. The zine is a black-and-white photocopy, cut and scattered at
+       angles. Here nothing is cut, nothing is turned, and the colour is the
+       tape, laid straight.
+     · COVENSTEAD is lit by one window too, into one warm patch on limewash, in
+       the middle of one afternoon. This is the same window at every hour, which
+       is the whole difference: that room is a moment and this is a day.
+     · THE GUILD is the other orderly pale room. It is made of ruled lines and
+       lit from nowhere. A dot grid is points, not rules, and this page has a
+       window beside it.
+     · THE MAP is a grid too, a cutting mat's ruled squares under white card.
+       Dots, not squares, and nothing stands up on this page.
+
+   THE DOT GRID IS A LAYER BEHIND THE WORDS, NOT THE BODY'S BACKGROUND, on
+   purpose: check-contrast-live.py declines any text standing on a background
+   image, and a whole room of unmeasured text is a whole room of unmeasured
+   text. So the body is flat paper, every word is measured against it, and the
+   dots are drawn underneath, at 1.54, which is ornament.
+
+   NOTHING IS ROTATED. Washi tape is laid straight across, with its ends cut by
+   clip-path, so check-gentle.py has no tilt to take a room's word for. */
+
+.notebook {
+  position: relative; background: var(--onb-page); color: var(--onb-ink);
+  font-family: 'Rosario', var(--sans); font-synthesis: none;
+}
+.notebook::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background-image: radial-gradient(circle at center, var(--onb-dot) 1.2px, transparent 1.6px);
+  background-size: 20px 20px; background-position: 0 0;
+}
+.notebook a { color: var(--onb-pen); text-underline-offset: .16em; }
+.notebook :focus-visible { outline-color: var(--onb-pen); }
+.notebook .backlink { font-family: 'Rosario', var(--sans); font-weight: 700; font-size: 15px; letter-spacing: .02em; color: var(--onb-pen); }
+.onb-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.onb-trail { margin: 0; font-size: 15px; color: var(--onb-dim); }
+
+.onb-head { margin: 30px 0 0; }
+.onb-over, .onb-sub { margin: 0; font-size: 18px; line-height: 1.4; }
+.onb-over { font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 14px; }
+.notebook h1 {
+  margin: 10px 0 8px; font-family: 'Doto', var(--sans); font-weight: 900;
+  font-size: clamp(40px, 8.4vw, 92px); line-height: 1; letter-spacing: -.01em; color: var(--onb-ink);
+}
+.notebook h2 {
+  margin: 0 0 10px; font-family: 'Doto', var(--sans); font-weight: 900;
+  font-size: clamp(26px, 4.2vw, 36px); line-height: 1.1; color: var(--onb-ink);
+}
+.notebook h3 {
+  margin: 30px 0 8px; font-family: 'Doto', var(--sans); font-weight: 900;
+  font-size: 25px; line-height: 1.15; color: var(--onb-ink);
+}
+.notebook h4 { margin: 22px 0 6px; font-family: 'Rosario', var(--sans); font-weight: 700; font-size: 18px; line-height: 1.3; }
+
+/* The day on the page: the drawing, and the hours written under it. */
+.onb-day { display: block; width: 100%; height: auto; margin: 26px 0 0; }
+.onb-day__hour { font: 700 17px 'Rosario', var(--sans); fill: var(--onb-dim); }
+.onb-lede { margin: 24px 0 0; font-size: 19px; line-height: 1.6; max-width: 66ch; }
+
+.onb-part { margin: 54px 0 0; }
+.onb-part > p { font-size: 17px; line-height: 1.6; max-width: 68ch; }
+
+/* The index, at the front, as a bullet journal keeps it. */
+.onb-index { margin: 40px 0 0; max-width: 68ch; padding: 20px 24px 18px; background: var(--onb-card); border: 2px solid var(--onb-ink); border-radius: 4px; }
+.onb-index__note { margin: 0 0 10px; font-size: 15px; color: var(--onb-dim); }
+.onb-index__list { margin: 0; padding-left: 1.4em; font-size: 17px; line-height: 1.55; }
+.onb-index__list ol { margin: 4px 0 6px; padding-left: 1.3em; list-style: none; }
+.onb-index__list ol li::before { content: "\2022\00a0\00a0"; color: var(--onb-ink); }
+
+/* The piece. Ryan's, so it reads as a long page of writing and nothing else. */
+.onb-piece { margin: 54px 0 0; max-width: 68ch; }
+.onb-byline { margin: 0 0 18px; padding: 10px 0 0; font-size: 15px; line-height: 1.55; color: var(--onb-dim); border-top: 2px solid var(--onb-ink); }
+.onb-byline strong { color: var(--onb-ink); }
+.onb-piece p, .onb-piece li { font-size: 18px; line-height: 1.65; }
+.onb-piece p { margin: 0 0 14px; }
+.onb-piece ul { margin: 0 0 16px; padding-left: 1.4em; }
+.onb-piece li { margin: 0 0 6px; }
+.onb-piece li::marker { color: var(--onb-ink); }
+.onb-rule { height: 4px; margin: 34px 0 0; border: 0; background-image: radial-gradient(circle at center, var(--onb-ink) 1.6px, transparent 2px); background-size: 20px 4px; }
+/* OUR LINE IN HIS PIECE, in the bullet journal's own mark for migrated (›) and
+   on a strip of tape, so it reads as something stuck in afterwards rather than
+   as his sentence. */
+.onb-piece .onb-moved {
+  display: flex; gap: 10px; align-items: baseline; margin: 0 0 14px; padding: 8px 14px;
+  font-size: 16px; line-height: 1.5; background: var(--onb-washi-butter);
+  clip-path: polygon(0 4%, 2% 0, 98% 6%, 100% 0, 99% 96%, 100% 100%, 2% 94%, 0 100%);
+}
+.onb-moved__mark { font-family: 'Doto', var(--sans); font-weight: 900; font-size: 22px; line-height: 1; }
+
+/* The questions: each one a note, in the bullet journal's dash. */
+.onb-q { margin: 6px 0 12px; padding: 0 0 0 1.4em; max-width: 68ch; list-style: none; }
+.onb-q li { margin: 0 0 10px; font-size: 17px; line-height: 1.6; position: relative; }
+.onb-q li::before { content: "\2013"; position: absolute; left: -1.2em; font-weight: 700; }
+.onb-q__part { margin-top: 34px; }
+.notebook .onb-part p + .onb-q__part { margin-top: 34px; }
+.onb-ls { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 14px; margin: 12px 0 0; max-width: 820px; }
+.onb-ls__row { padding: 14px 16px; background: var(--onb-card); border: 2px solid var(--onb-ink); border-radius: 4px; }
+.onb-ls dt { font-weight: 700; font-size: 18px; }
+.onb-ls dd { margin: 4px 0 0; font-size: 16px; line-height: 1.5; color: var(--onb-dim); }
+.onb-ls__mark { display: block; font-family: 'Doto', var(--sans); font-weight: 900; font-size: 44px; line-height: 1; margin-bottom: 4px; }
+
+/* The laptop: a screen with nothing of its own on it, which rack.js unhides,
+   with the edge of its keyboard under it. */
+.onb-laptop {
+  position: relative; margin: 20px 14px 34px; max-width: 792px; padding: 12px;
+  background: var(--onb-laptop); border-radius: 16px 16px 6px 6px;
+}
+.onb-laptop::after {
+  content: ""; position: absolute; left: -14px; right: -14px; bottom: -16px; height: 12px;
+  background: var(--onb-laptop); border-radius: 0 0 14px 14px;
+}
+.notebook .onb-laptop__idle {
+  margin: 0; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+  padding: 18px 22px; text-align: center; color: var(--onb-page); font-size: 17px; line-height: 1.5;
+}
+.onb-laptop__idle span { max-width: 44ch; }
+.notebook .onb-laptop__idle b { color: var(--onb-washi-butter); }
+.notebook .onb-laptop .facade { border: 0; border-radius: 6px; }
+.notebook .onb-laptop .facade iframe { border-radius: 6px; }
+.onb-laptop[data-rack-shape="tall"] .facade { aspect-ratio: 9 / 16; width: min(100%, 340px); margin-inline: auto; }
+.notebook .onb-laptop__now { margin: 6px 0 0; max-width: 820px; font-weight: 700; font-size: 16px; }
+.notebook .onb-laptop__back { margin: 8px 0 0; }
+.onb-back, .onb-card__up {
+  min-height: 44px; padding: 8px 14px; cursor: pointer; text-align: left;
+  font: 700 15px/1.3 'Rosario', var(--sans); color: var(--onb-ink);
+  background: var(--onb-card); border: 2px solid var(--onb-ink); border-radius: 4px; font-synthesis: none;
+}
+.onb-back:hover, .onb-card__up:hover { background: var(--onb-washi-sky); }
+
+/* The racks: every card an index card with a strip of tape across its top,
+   the tape's colour going round the four rolls. */
+.onb-racked { margin: 18px 0 0; }
+.onb-racked > summary { cursor: pointer; font-weight: 700; font-size: 15px; letter-spacing: .1em; text-transform: uppercase; }
+.onb-shelf { margin: 26px 0 0; }
+.notebook .onb-shelf__name, .notebook .onb-chan__name { margin: 0; }
+.notebook .onb-shelf__back { margin: 4px 0 0; font-size: 15px; }
+.onb-chan { margin: 34px 0 0; }
+.notebook .onb-chan__name a { color: var(--onb-ink); text-decoration-color: var(--onb-pen); }
+.notebook .onb-chan__gap, .notebook .onb-chan__none, .notebook .onb-log__quiet { margin: 6px 0 0; max-width: 72ch; font-size: 15px; color: var(--onb-dim); }
+.notebook .onb-log__quiet { margin-top: 30px; }
+.notebook .onb-log__set { margin: 14px 0 0; max-width: 72ch; font-size: 15px; color: var(--onb-dim); }
+.onb-cards { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 24px 22px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); }
+.onb-cards--short { grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr)); }
+.onb-card {
+  position: relative; display: flex; flex-direction: column; gap: 8px; min-width: 0;
+  padding: 22px 16px 16px; background: var(--onb-card); border: 2px solid var(--onb-ink); border-radius: 4px;
+}
+.onb-card::before {
+  content: ""; position: absolute; top: -9px; left: 24%; width: 52%; height: 20px;
+  background: var(--onb-washi-sage); opacity: .92;
+  clip-path: polygon(0 8%, 4% 0, 9% 10%, 14% 0, 86% 0, 91% 10%, 96% 0, 100% 8%, 100% 92%, 96% 100%, 91% 90%, 86% 100%, 14% 100%, 9% 90%, 4% 100%, 0 92%);
+}
+.onb-cards > .onb-card:nth-child(4n+2)::before { background: var(--onb-washi-blush); }
+.onb-cards > .onb-card:nth-child(4n+3)::before { background: var(--onb-washi-butter); }
+.onb-cards > .onb-card:nth-child(4n+4)::before { background: var(--onb-washi-sky); }
+.notebook .onb-card__title { margin: 0; font-weight: 700; font-size: 16px; line-height: 1.35; overflow-wrap: anywhere; }
+.notebook .onb-card__by, .notebook .onb-card__was, .notebook .onb-card__why { margin: 0; font-size: 14px; line-height: 1.45; color: var(--onb-dim); }
+/* A pressed card keeps its look because it is styled from the card and never
+   from the button, which love-embed.js drops on the press: the Sweetgrass lesson. */
+.notebook .onb-card .facade {
+  margin-top: auto; padding: 12px 14px; border: 0; border-radius: 4px;
+  background: var(--onb-laptop); color: var(--onb-page);
+  font: 700 17px/1.3 'Rosario', var(--sans);
+}
+.notebook .onb-card .facade:hover { background: var(--onb-pen); }
+.notebook .onb-card .facade__play { inset: auto auto 12px 14px; font: 700 13px/1 'Rosario', var(--sans); letter-spacing: .08em; color: var(--onb-washi-butter); }
+.notebook .onb-card .facade iframe { border-radius: 4px; }
+.notebook .onb-card--short .facade { aspect-ratio: 9 / 16; }
+.notebook .onb-card__door { margin-top: auto; font-weight: 700; }
+
+.onb-keeps { margin: 8px 0 0; padding: 0 0 0 1.3em; max-width: 68ch; font-size: 17px; line-height: 1.6; }
+.onb-keeps li { margin: 0 0 12px; }
+.notebook .quest { margin-top: 48px; }
+
+/* On a phone the drawing keeps its hours, the cards go one or two across, and
+   nothing is hidden to save room. Written last in the section, after every rule
+   it overrides. */
+@media (max-width: 560px) {
+  /* The drawing is scaled to a third on a phone, and its hours with it, so they
+     are set larger inside it: 40 of its units come out at about 14px. */
+  .onb-day__hour { font-size: 40px; }
+  .onb-lede { font-size: 18px; }
+  .onb-piece p, .onb-piece li { font-size: 17px; }
+  .onb-index { padding: 16px 16px 14px; }
+  .onb-cards--short { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 14px; }
+  .onb-card { padding: 20px 12px 12px; }
+  .onb-laptop { padding: 8px; }
+}
+
+/* §92 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -18352,7 +18614,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §91 says every
+   shipped with no rule here at all — which on a street whose §92 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -18476,7 +18738,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §92 ── Print ───────────────────────────────────────────────────────────────
+/* §93 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

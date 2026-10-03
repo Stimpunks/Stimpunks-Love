@@ -1,0 +1,228 @@
+{
+ "_about": "THE OPEN NOTEBOOK, Ryan's brief, 2026-10-03: a shopfront for journaling, led by his own piece, Bullet Journaling + Junk Journaling + Interstitial Journaling, in full, followed by the reflection questions from our write-up of the Infodumplings where he shared it, then the videos the piece points at as a rack, then a month of the journaling channels he chose (data/open-notebook-month.json). tools/make-open-notebook.py builds the drawing, the questions, the collection and the liner notes' credits out of this file, and the monthly log out of the other.",
+ "piece": {
+  "_what": "The piece is Ryan's. He wrote it for the Stimpunks Operations blog in Notion, where it is dated 23 April 2026, the day he shared it at Infodumplings, and gave it to this street in full on 2026-10-03, saying the copyright is his and he agrees to the site's licence (CC BY-SA 4.0). It is set in the page by hand, between the onb:piece markers, word for word as Notion served it on 2026-10-03, with one change that the page says out loud: where the piece lists YouTube videos under each practice, the list became a pointer to that practice's shelf in the collection, because the brief was to pull those videos into a rack. Its other links (the TinkeringProd article and the cognitive offloading paper) stay where they are. make-open-notebook.py does not sweep the piece for our refusals: it is Ryan's voice, credited to him, not ours.",
+  "title": "Bullet Journaling + Junk Journaling + Interstitial Journaling",
+  "by": "Ryan Boren",
+  "dated": "2026-04-23",
+  "url": "https://stimpunks.notion.site/Bullet-Journaling-Junk-Journaling-Interstitial-Journaling-34b857154e5380a28d5cfd2b65d3e9d7",
+  "given": "2026-10-03"
+ },
+ "_groups": "The practices, in the piece's order. `anchor` is the piece's own heading for that part, which the shelf's pointer in the piece links to and back from.",
+ "groups": [
+  {
+   "key": "bujo",
+   "name": "Bullet Journaling",
+   "anchor": "onb-bujo"
+  },
+  {
+   "key": "junk",
+   "name": "Junk Journaling",
+   "anchor": "onb-junk"
+  },
+  {
+   "key": "interstitial",
+   "name": "Interstitial Journaling",
+   "anchor": "onb-interstitial"
+  }
+ ],
+ "_videos": "THE COLLECTION: every YouTube video the piece links, in the piece's order, under the practice that links it. Each id was read off the piece's own link; title, channel, runtime, whether it plays and whether it can be framed here were read off the video's own watch page on 2026-10-03, and every one answered OK and playableInEmbed true. `title` is the video's title as YouTube gives it now, quoted as written. `as_linked` is the piece's own words for a link, kept where the channel has since retitled the video, so the card can say what the piece called it. `form` is short where the piece linked the video as a short. `piece_t` is a start point that the piece's link carried (&t=…): the collection starts every video at the top, because a link copied out of a player carries wherever the player had got to, and a button that said one runtime and started six minutes in would be the broken thing. Ryan's to reverse.",
+ "videos": [
+  {
+   "group": "bujo",
+   "id": "DdjrG5O7grg",
+   "title": "BULLET JOURNAL BASICS for BEGINNERS (in 60 Seconds)",
+   "channel": "Bullet Journal",
+   "runs": 58,
+   "form": "short"
+  },
+  {
+   "group": "bujo",
+   "id": "52vmLR7JFmY",
+   "title": "Every Bullet Journal Symbol Explained (in 60 seconds)",
+   "channel": "Bullet Journal",
+   "runs": 59,
+   "form": "short"
+  },
+  {
+   "group": "bujo",
+   "id": "T_Op4hrLSc4",
+   "title": "Bullet Journal in 5 Minutes a Day (for busy people)",
+   "channel": "Bullet Journal",
+   "runs": 256,
+   "form": "long"
+  },
+  {
+   "group": "bujo",
+   "id": "fm15cmYU0IM",
+   "title": "How to Bullet Journal",
+   "channel": "Bullet Journal",
+   "runs": 251,
+   "form": "long"
+  },
+  {
+   "group": "bujo",
+   "id": "GB5qeNF9U-o",
+   "title": "How to Bullet Journal in 2026 (Every New Technique)",
+   "channel": "Bullet Journal",
+   "runs": 556,
+   "form": "long"
+  },
+  {
+   "group": "bujo",
+   "id": "rXbsyeadDJM",
+   "title": "The Power of Minimalist Bullet Journaling (how to start)",
+   "channel": "Bullet Journal",
+   "runs": 503,
+   "form": "long",
+   "piece_t": 323
+  },
+  {
+   "group": "bujo",
+   "id": "thV-HHPS6zU",
+   "title": "How to Bullet Journal: Daily vs. Weekly vs. Monthly",
+   "channel": "Bullet Journal",
+   "runs": 371,
+   "form": "long"
+  },
+  {
+   "group": "junk",
+   "id": "F2dnTVi-7og",
+   "title": "🧸 how to junk journal (I wrote a book on it!)📘",
+   "channel": "Martina’s World",
+   "runs": 918,
+   "form": "long",
+   "piece_t": 412
+  },
+  {
+   "group": "junk",
+   "id": "jArqrpFRYcg",
+   "title": "10 things I wish I knew as a junk journal BEGINNER + make a simple junk journal",
+   "channel": "Margarete Miller",
+   "runs": 1710,
+   "form": "long"
+  },
+  {
+   "group": "junk",
+   "id": "K10DLMHzFfE",
+   "title": "how to start junk journaling in 2025 - my fave supplies and inspo! ✿",
+   "channel": "kerry ♡ journaling gal",
+   "runs": 608,
+   "form": "long",
+   "piece_t": 306
+  },
+  {
+   "group": "interstitial",
+   "id": "UFidZJhxz84",
+   "title": "The BEST Productivity Method Ever for ADHD | Interstitial Journaling",
+   "channel": "Novie by the Sea",
+   "runs": 539,
+   "form": "long"
+  },
+  {
+   "group": "interstitial",
+   "id": "FUr4hQ8ibxk",
+   "title": "A Practical Walkthrough & Answering Your Questions About Interstitial Journaling",
+   "channel": "Novie by the Sea",
+   "runs": 584,
+   "form": "long"
+  },
+  {
+   "group": "interstitial",
+   "id": "AQcPtIMuOqw",
+   "title": "3 Simple Methods to Use Sticky Notes for ADHD Productivity & Focus",
+   "channel": "Novie by the Sea",
+   "runs": 622,
+   "form": "long",
+   "as_linked": "Stop Using Apps for ADHD Focus. Try This Instead."
+  },
+  {
+   "group": "interstitial",
+   "id": "RYOnq73XSbo",
+   "title": "Best ADHD Productivity Method | Interstitial Journaling #adhd #adhdproductivity #adhdtips",
+   "channel": "Novie by the Sea",
+   "runs": 33,
+   "form": "short"
+  },
+  {
+   "group": "interstitial",
+   "id": "OO1IX_U6NLU",
+   "title": "Kill your Distractions with Interstitial Journaling",
+   "channel": "Josh Redd - Notion Pro",
+   "runs": 1503,
+   "form": "long"
+  }
+ ],
+ "_questions": "THE QUESTIONS, word for word from our write-up of that evening on stimpunks.org, under its own headings and in its order: https://stimpunks.org/2026/04/25/infodumplings-interstitial-journaling-and-star-stuff/ . make-open-notebook.py re-reads every one out of the Knowledge System mirror's copy of that post on every build and refuses a question it cannot find there, the Town Hall's rule about a page somebody else keeps: when the post changes, re-copy the question, never loosen the check. On a machine without the mirror it says it could not check and carries on. They are questions for somebody's own paper: the room has nowhere to type an answer, on purpose.",
+ "questions": {
+  "post": "https://stimpunks.org/2026/04/25/infodumplings-interstitial-journaling-and-star-stuff/",
+  "event": "https://stimpunks.org/events/infodumplings/",
+  "star_stuff": "https://stimpunks.org/star-stuff/",
+  "journaling": [
+   {
+    "name": "Opening",
+    "items": [
+     "What does your current relationship with journaling look like? Is it something you do, something you’ve tried and abandoned, or something that’s always felt out of reach?",
+     "Ryan describes keeping a notebook open next to him as a “regulatory artifact and as working memory.” Do you have something that plays that role for you — analog or digital?"
+    ]
+   },
+   {
+    "name": "Bullet Journaling",
+    "items": [
+     "The NAME system (Notes, Actions, Moods, Events) and rapid logging are designed to reduce friction. What gets in the way of capturing things for you — too much to write, decision fatigue, forgetting the system, something else?",
+     "Migration asks: “Is this actually worth migrating, or am I just hoarding tasks?” What would it feel like to give yourself permission to drop a task rather than carry it forward?",
+     "Bullet journaling is described as compatible with neurodivergent ways of thinking because it externalizes working memory. Where in your life do you notice the cost of keeping things in your head instead of somewhere external?"
+    ]
+   },
+   {
+    "name": "Junk Journaling",
+    "items": [
+     "Junk journaling’s ethos is anti-perfectionist — because the materials are “junk,” there’s nothing precious to protect. Is there a creative practice in your life where the stakes feel low enough to just make something? What makes it feel safe?",
+     "The post describes junk journaling as “a natural accompaniment to listening, thinking, or decompressing.” What do your hands need to be doing when your mind is processing something difficult or drifting?",
+     "What ephemera or “junk” do you already accumulate that might want to go somewhere?"
+    ]
+   },
+   {
+    "name": "Interstitial Journaling",
+    "items": [
+     "The transition between tasks is described as a moment of “mental residue” — the previous context bleeding into the next thing. Where do you notice this happening in your day?",
+     "Interstitial journaling is a form of cognitive offloading: moving things from working memory onto the page so your mind can let them go. What are you currently carrying in your head that you haven’t written down?",
+     "When a distracting thought arises mid-task, the practice offers a third option between acting on it and suppressing it: write it down and return to it at the next transition. How does that land for you?"
+    ]
+   },
+   {
+    "name": "The Mix",
+    "items": [
+     "The three practices together are described as addressing “the organizational brain, the expressive body, and the transitioning self.” Which of those feels most unmet for you right now?",
+     "Ryan says this is “journaling as tool, as companion, and as practice rather than as performance.” What would journaling as performance look like — and what would it take to step away from that?",
+     "What’s one small experiment you might try this week?"
+    ]
+   }
+  ],
+  "star_intro": "The star stuff framing does a lot of work because it positions the writer as ancient, cosmic, made of real matter.",
+  "star_prompts": [
+   "“You are made of exploded stars. What are you made of, emotionally, today?”",
+   "“What in you feels elemental right now — fire, water, pressure, light?”",
+   "“Name something you’re carrying that’s older than you.”",
+   "“What part of you is still forming?”",
+   "“Where did you come from, and where are you going?”"
+  ],
+  "star_structure": [
+   {
+    "mark": "L",
+    "name": "Look back",
+    "what": "what just happened / how you got here"
+   },
+   {
+    "mark": "★",
+    "name": "The still point",
+    "what": "what’s true right now, underneath everything"
+   },
+   {
+    "mark": "S",
+    "name": "Set forward",
+    "what": "what you’re moving toward"
+   }
+  ]
+ }
+}

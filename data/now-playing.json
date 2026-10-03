@@ -221,6 +221,15 @@
    ]
   },
   {
+   "page": "the-open-notebook.html",
+   "what": "A desk under a window with a notebook lying open on it: Ryan's piece on bullet, junk and interstitial journaling, and the videos it points at, on the laptop beside it.",
+   "holds": [
+    "The collection",
+    "The laptop beside it"
+   ],
+   "after": "<h2 id=\"onb-collection-h\">"
+  },
+  {
    "page": "neurohome.html",
    "what": "Isha Snow's tiny home by the Columbia River, where the creativity corner holds her own podcast episodes and her talk show.",
    "holds": [

@@ -1169,6 +1169,16 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--fridge .og-handle {{ position: absolute; right: 44px; top: 70px; bottom: 70px; width: 14px;
   background: var(--fos-chrome); border: 2px solid var(--fos-edge); border-radius: 7px; }}
 
+/* the open notebook — THE DAY ON THE PAGE, across the top of the card, and the
+   name in letters made of the page's own dots under it. The dot grid behind it
+   is the room's own, because the card is rendered on the room's body class. */
+.og--notebook {{ gap: 14px; padding: 34px 60px 30px; justify-content: flex-start; }}
+.og--notebook .onb-day {{ width: 1080px; height: auto; margin: 0 !important; }}
+.og--notebook .onb-over {{ font-size: 17px; margin: 6px 0 0 !important; }}
+.og--notebook h1 {{ font-size: 66px; margin: 0 !important; }}
+.og--notebook .og-lede {{ font-family: 'Rosario', sans-serif; color: var(--onb-ink); font-size: 24px;
+  line-height: 1.35; max-width: 1080px; }}
+
 /* count me in — THE LANDING, straight on: the header, and the flight with the lift
    on its rail lifted off the page whole. The card shows no step number, because
    the stair's number changes with every step and a card is a picture that would
@@ -3818,6 +3828,33 @@ def card_fridge(p):
     )
 
 
+def card_notebook(p):
+    # THE DRAWING AND THE NAME ARE LIFTED WHOLE, so the card cannot show a day
+    # the page does not, and the lede is the page's og:description.
+    day = re.search(r'(<svg class="onb-day".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="onb-over">(.*?)</p>', p["src"], re.S)
+    if not (day and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: the-open-notebook.html has lost the drawing of the day or its\n"
+            "header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--notebook" data-fit="card">'
+        f'{day.group(1)}<p class="onb-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>',
+        f"A card the colour of dot-grid notebook paper, with a faint grid of dots all over it. Across "
+        f"the top, the top of a notebook page in shade, with the patch of light from a window lying on it "
+        f"at five times of day at once: a long pale blue patch leaning in from the left marked 6:40, a "
+        f"pale yellow one marked 9:15, a square white one marked 12:05, an amber one marked 15:30 and a "
+        f"long rose one leaning in from the right marked 18:20, each split into four panes by the "
+        f"window's frame, and two ribbon bookmarks, green and pink, hanging down at the right. Under it, "
+        f"small capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large black "
+        f"letters made of round dots, then: {p['desc_plain']}",
+    )
+
+
 def card_stair(p):
     # THE HEADER AND THE FLIGHT ARE LIFTED WHOLE, lift and all, so the card
     # cannot draw a stair without its lift. No step number: it would be stale by
@@ -4223,6 +4260,7 @@ CARDS = {
     "pando":        card_pando,
     "fridge":       card_fridge,
     "stair":        card_stair,
+    "notebook":     card_notebook,
     "cats":         card_cats,
     "dogs":         card_dogs,
     "smalls":       card_smalls,

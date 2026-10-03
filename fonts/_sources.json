@@ -2361,5 +2361,41 @@
    "src": "https://fonts.gstatic.com/s/merriweather/v33/u-4e0qyriQwlOrhSvowK_l5UcA6zuSYEqOzpPe3HOZJ5eX1WtLaQwmYiSeqqJ-mXq1Gi.woff2",
    "note": "Byte-identical to the 400 above; see that note."
   }
+ ],
+ "doto": [
+  {
+   "file": "doto-900.woff2",
+   "weight": "900",
+   "style": "normal",
+   "bytes": 3968,
+   "src": "https://fonts.gstatic.com/s/doto/v3/t5tJIRMbNJ6TQG7Il_EKPqP9zTkn6KGNcuvLMt1JIphFkeWuyE-TnLx5gssJ.woff2",
+   "note": "The Open Notebook (§91), the room's name and every heading, and nothing at reading size. Óliver Lalan's dot-matrix face, in the instance Google serves for ROND 100 at weight 900: every letter built of round dots on a grid, which is how headings are drawn on dot-grid paper. Its square cut is a pixel face, and pixels are the Arcade's. One static file, the rounded black; the variable axes are pinned in it rather than set in CSS."
+  }
+ ],
+ "rosario": [
+  {
+   "file": "rosario-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 34756,
+   "src": "https://fonts.gstatic.com/s/rosario/v35/xfux0WDhWW_fOEoY2FP9zSzAtL8.woff2",
+   "note": "The Open Notebook (§91), every word that is read, Ryan's piece included. Omnibus-Type's humanist sans, with a writing hand somewhere in it, for a page somebody writes on. It ships as a variable font, so Google serves the same file for 400 and 700; it is downloaded once and declared twice against the weight axis, Radio Canada's call."
+  },
+  {
+   "file": "rosario-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 34756,
+   "src": "https://fonts.gstatic.com/s/rosario/v35/xfux0WDhWW_fOEoY2FP9zSzAtL8.woff2",
+   "note": "Byte-identical to the 400 above; see that note."
+  },
+  {
+   "file": "rosario-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 16188,
+   "src": "https://fonts.gstatic.com/s/rosario/v35/xfug0WDhWW_fOEoY2Fbnww42bCJhNLrQSo9wTeUPPwcGj07Ftw.woff2",
+   "note": "Its italic, a second alphabet, for the two phrases the piece sets in italic and the Star Stuff prompts."
+  }
  ]
 }

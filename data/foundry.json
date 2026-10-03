@@ -1275,6 +1275,20 @@
       "sections": [
         90
       ]
+    },
+    "doto": {
+      "where": "The Open Notebook",
+      "page": "the-open-notebook.html",
+      "sections": [
+        91
+      ]
+    },
+    "rosario": {
+      "where": "The Open Notebook",
+      "page": "the-open-notebook.html",
+      "sections": [
+        91
+      ]
     }
   }
 }

@@ -1,0 +1,1729 @@
+{
+ "_about": "THE MONTHLY LOG IN THE OPEN NOTEBOOK, Ryan's brief, 2026-10-03: a rack with the last month's worth of journaling channels he listed, in his order. It is Vital Plant Living's telly in a notebook, and the reasons are that room's: the channels are his and the videos are not chosen one by one, so the room says nobody here watched them first. tools/pull-notebook-month.py reads each channel's own two feeds (UULF, its long-form uploads, and UUSH, its shorts) and asks each new video's watch page once, the morning it arrives; tools/make-open-notebook.py --month draws the log from this file; tools/daily-notebook.sh runs both on the morning timer and commits only this file and the-open-notebook.html. This file is the timer's: hand-edit `sources` on purpose and nothing else.",
+ "_sources": "Each channel id was read off the channel's own page on 2026-10-03 (its externalId), never typed from memory. `name` is the channel's own name as YouTube gives it, with a typographic apostrophe and its own capitals, heart and bars; `url` is the channel's front page without the tab Ryan's link happened to be on, which for Bullet Journal was its shorts, for three others the featured tab and for four their videos. Both feeds are read for every channel whatever tab the link was on: the brief was the last month's worth of each channel. A new channel is a new entry here with its id read the same way; the puller derives both feeds from the id.",
+ "_window": "A MONTH IS THIRTY DAYS, counted back from the minute the log was filled. A video published before that goes off the end on the next fill; make-open-notebook.py refuses a file still holding one, because a log that keeps everything is an archive, and the brief was the last month.",
+ "_log": "A VIDEO IS AN ID, A TITLE, A CHANNEL, A TIME AND A LENGTH, the Doom Scoop's rule: no description, no thumbnail, no count of views, likes or subscribers, and make-open-notebook.py refuses a row carrying any of them. `form` is long or short, by which of the channel's two feeds carried it; a short plays upright. `state` is what its watch page said: screen (plays here), door (plays on YouTube only: embedding off, or age-gated), pending (live, or not out yet, asked again tomorrow) or gone (not drawn). TITLES ARE QUOTED AS WRITTEN, capitals, emoji and all, and the room's sweeps skip them: they are the channels' words, and a title about productivity or about getting your life together is theirs to write, beside a house rule of ours that says this notebook is a companion and not a performance.",
+ "_covered": "What the feeds have been read all the way through, per channel and per feed. A YouTube feed carries the latest fifteen, and a busy channel puts up more than that in a month; a channel whose coverage does not reach back to the start of the month says so on the page. Generated, never typed.",
+ "sources": [
+  {
+   "slug": "bullet-journal",
+   "name": "Bullet Journal",
+   "url": "https://www.youtube.com/@bulletjournal",
+   "channel_id": "UCt3B6rUXb__X2eMyY7jzgIg"
+  },
+  {
+   "slug": "novie-by-the-sea",
+   "name": "Novie by the Sea",
+   "url": "https://www.youtube.com/@novie-bythesea",
+   "channel_id": "UCiEO4Qz4HX4Oj7rXIs9X0bQ"
+  },
+  {
+   "slug": "martinas-world",
+   "name": "Martina’s World",
+   "url": "https://www.youtube.com/@martina_calvi",
+   "channel_id": "UC0l6q4bTsBU9rzaa32iCfZw"
+  },
+  {
+   "slug": "margarete-miller",
+   "name": "Margarete Miller",
+   "url": "https://www.youtube.com/@MargareteMiller",
+   "channel_id": "UC6JtZTTfKrzxKjlFnP2HEyg"
+  },
+  {
+   "slug": "journalwithker",
+   "name": "kerry ♡ journaling gal",
+   "url": "https://www.youtube.com/@journalwithker",
+   "channel_id": "UCboBVoR_wXgGrfQDaIIA0Hg"
+  },
+  {
+   "slug": "coffee-monsterz",
+   "name": "TheCoffeeMonsterzCO",
+   "url": "https://www.youtube.com/@TheCoffeeMonsterzCo",
+   "channel_id": "UCQDOtGP0sASm4xuOqhnpZNA"
+  },
+  {
+   "slug": "amanda-close",
+   "name": "Amanda Close",
+   "url": "https://www.youtube.com/@Wohlarts",
+   "channel_id": "UC8VKKRM90OPdWwTKkjH5zoQ"
+  },
+  {
+   "slug": "rachelle-in-theory",
+   "name": "Rachelle in theory",
+   "url": "https://www.youtube.com/@RachelleinTheory",
+   "channel_id": "UC1OLfEQ-DeCFBSUIyPgVqmw"
+  },
+  {
+   "slug": "parknotes",
+   "name": "ParkNotes",
+   "url": "https://www.youtube.com/@ParkerNotes",
+   "channel_id": "UCt1ES-_FMXQfM3JeO_FrOXw"
+  },
+  {
+   "slug": "seaweed-kisses",
+   "name": "Seaweed Kisses",
+   "url": "https://www.youtube.com/@SeaweedKisses",
+   "channel_id": "UC8zTmmWT9MKGsn2QalxnodQ"
+  },
+  {
+   "slug": "julia-here",
+   "name": "julia here.",
+   "url": "https://www.youtube.com/@julia-here",
+   "channel_id": "UC6sg_GJdDAuf736P6_AGcrg"
+  },
+  {
+   "slug": "bookish-mandy",
+   "name": "Bookish Artist | Mandy",
+   "url": "https://www.youtube.com/@BookishMandy",
+   "channel_id": "UC2U9AKiePVlL6x_bDzu7Ajg"
+  },
+  {
+   "slug": "little-coco-studio",
+   "name": "Little Coco Studio",
+   "url": "https://www.youtube.com/@LittleCocoStudio",
+   "channel_id": "UCbwONGPpiFJ1hPRVgbhXAlw"
+  },
+  {
+   "slug": "jenna-hong",
+   "name": "Jenna Hong",
+   "url": "https://www.youtube.com/@JennaHong",
+   "channel_id": "UC4_PQN1WX3jIoUjnweIN8Ng"
+  },
+  {
+   "slug": "jam-and-butter",
+   "name": "jam and butter",
+   "url": "https://www.youtube.com/@jamandbutter",
+   "channel_id": "UC8huyn68BMGJKE3cBzwWfjQ"
+  },
+  {
+   "slug": "apple-cheeks",
+   "name": "Apple Cheeks",
+   "url": "https://www.youtube.com/@apple.cheeks",
+   "channel_id": "UCQ9XXjX0eNReH28Ass8E-hw"
+  },
+  {
+   "slug": "darrell-fitch",
+   "name": "Darrell Fitch",
+   "url": "https://www.youtube.com/@DFitchArt",
+   "channel_id": "UC0aZ0KzDg5tz9oq4G_CkXBg"
+  },
+  {
+   "slug": "sam-mas",
+   "name": "Sam Mas",
+   "url": "https://www.youtube.com/@sam_mas_writing",
+   "channel_id": "UCHMc75CaAwyWvpZVwwVO3jw"
+  },
+  {
+   "slug": "perry-daniels",
+   "name": "Perry Daniels",
+   "url": "https://www.youtube.com/@theperrydaniels",
+   "channel_id": "UCNdpdXEV_Rt94Ff_FWgNrvA"
+  },
+  {
+   "slug": "pixiedust-press",
+   "name": "Tess | Pixiedust Press",
+   "url": "https://www.youtube.com/@PixiedustPress",
+   "channel_id": "UCwzpF9GjFjldvBoM2JeL-3Q"
+  },
+  {
+   "slug": "jobs-journal",
+   "name": "Job’s Journal",
+   "url": "https://www.youtube.com/@JobsJournal",
+   "channel_id": "UChujPGz_WcUDRlx4tL-3A6g"
+  },
+  {
+   "slug": "yoseka",
+   "name": "Yoseka Stationery",
+   "url": "https://www.youtube.com/@Yoseka",
+   "channel_id": "UCZbflQw2wXm9N0m8jYe1i0Q"
+  },
+  {
+   "slug": "jetpens",
+   "name": "JetPens",
+   "url": "https://www.youtube.com/@JetPens",
+   "channel_id": "UCVbn813ctsoChuTT4LuLqrA"
+  }
+ ],
+ "set": "2026-10-03T19:21Z",
+ "log": [
+  {
+   "id": "u71O7N3zUA8",
+   "source": "bullet-journal",
+   "form": "long",
+   "title": "The New Standard Items to Survive the AI-Era",
+   "published": "2026-09-18T14:00:26Z",
+   "state": "screen",
+   "runs": 853,
+   "channel": "Bullet Journal"
+  },
+  {
+   "id": "suuhxydi6Kk",
+   "source": "bullet-journal",
+   "form": "long",
+   "title": "Your Photos Are Dying On Your Phone. Try This Instead",
+   "published": "2026-10-02T11:00:21Z",
+   "state": "screen",
+   "runs": 575,
+   "channel": "Bullet Journal"
+  },
+  {
+   "id": "3eyEuP8dVpQ",
+   "source": "bullet-journal",
+   "form": "short",
+   "title": "3 Secrets To Consistent Journaling (after 10 years)",
+   "published": "2026-09-04T14:00:34Z",
+   "state": "screen",
+   "runs": 50,
+   "channel": "Bullet Journal"
+  },
+  {
+   "id": "rbZZclyXsPk",
+   "source": "bullet-journal",
+   "form": "short",
+   "title": "My 1 Notebook System to Stop Infinite Scrolling",
+   "published": "2026-09-09T14:00:32Z",
+   "state": "screen",
+   "runs": 40,
+   "channel": "Bullet Journal"
+  },
+  {
+   "id": "3LFinw2wIq4",
+   "source": "bullet-journal",
+   "form": "short",
+   "title": "Advanced Journaling Technique (Threading)",
+   "published": "2026-09-11T14:00:20Z",
+   "state": "screen",
+   "runs": 53,
+   "channel": "Bullet Journal"
+  },
+  {
+   "id": "LvjZsTB8RpM",
+   "source": "bullet-journal",
+   "form": "short",
+   "title": "What To Write in Your Bullet Journal",
+   "published": "2026-09-14T14:00:15Z",
+   "state": "screen",
+   "runs": 39,
+   "channel": "Bullet Journal"
+  },
+  {
+   "id": "ELvvvBtkRCg",
+   "source": "bullet-journal",
+   "form": "short",
+   "title": "This Pocket Notebook Didn’t Exist, So I Made It",
+   "published": "2026-09-21T13:00:03Z",
+   "state": "screen",
+   "runs": 35,
+   "channel": "Bullet Journal"
+  },
+  {
+   "id": "krHlodGA_0w",
+   "source": "bullet-journal",
+   "form": "short",
+   "title": "When's The Last Time You Journaled?",
+   "published": "2026-09-25T13:00:03Z",
+   "state": "screen",
+   "runs": 36,
+   "channel": "Bullet Journal"
+  },
+  {
+   "id": "0AVfMRCt97Y",
+   "source": "bullet-journal",
+   "form": "short",
+   "title": "How To Start Bullet Journaling (in 60 seconds)",
+   "published": "2026-09-30T11:00:03Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "Bullet Journal"
+  },
+  {
+   "id": "ZmkzfFVDRLM",
+   "source": "novie-by-the-sea",
+   "form": "long",
+   "title": "Building a Planning System My ADHD Brain Won't Rebel Against",
+   "published": "2026-09-16T18:00:26Z",
+   "state": "screen",
+   "runs": 620,
+   "channel": "Novie by the Sea"
+  },
+  {
+   "id": "NPXWa5dCcfE",
+   "source": "novie-by-the-sea",
+   "form": "long",
+   "title": "The Fun System That Makes ADHD Brains WANT to Work",
+   "published": "2026-09-23T18:00:26Z",
+   "state": "screen",
+   "runs": 322,
+   "channel": "Novie by the Sea"
+  },
+  {
+   "id": "aVgiwShBypY",
+   "source": "martinas-world",
+   "form": "long",
+   "title": "I journaled every day for 60 days using a simple method ❤️",
+   "published": "2026-09-10T02:44:36Z",
+   "state": "screen",
+   "runs": 302,
+   "channel": "Martina's World"
+  },
+  {
+   "id": "KVi_-7QlMxQ",
+   "source": "martinas-world",
+   "form": "long",
+   "title": "a solo artist day to cure my creative block",
+   "published": "2026-09-27T03:59:05Z",
+   "state": "screen",
+   "runs": 319,
+   "channel": "Martina's World"
+  },
+  {
+   "id": "QpjKymX8_ZA",
+   "source": "margarete-miller",
+   "form": "long",
+   "title": "Why I'm Afraid to Use My Best Supplies",
+   "published": "2026-09-12T10:00:29Z",
+   "state": "screen",
+   "runs": 1477,
+   "channel": "Margarete Miller"
+  },
+  {
+   "id": "0RUKmV3TNr4",
+   "source": "margarete-miller",
+   "form": "long",
+   "title": "The Blank Page Isn't the Problem",
+   "published": "2026-10-03T11:15:22Z",
+   "state": "screen",
+   "runs": 939,
+   "channel": "Margarete Miller"
+  },
+  {
+   "id": "RW3FslpGAeU",
+   "source": "margarete-miller",
+   "form": "short",
+   "title": "How to Fold a Paper Bag into a Journal ✂️ (No Sewing! No Binding!)",
+   "published": "2026-09-04T16:00:28Z",
+   "state": "screen",
+   "runs": 167,
+   "channel": "Margarete Miller"
+  },
+  {
+   "id": "JKhPiQfT9G4",
+   "source": "margarete-miller",
+   "form": "short",
+   "title": "Before you give up on #artjournaling , WATCH THIS!",
+   "published": "2026-09-09T16:00:34Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "Margarete Miller"
+  },
+  {
+   "id": "8ll21MoEx_Q",
+   "source": "margarete-miller",
+   "form": "short",
+   "title": "⬇️ Full video below ⬇️ When #perfectionism gets in the way of #creating",
+   "published": "2026-09-11T16:00:31Z",
+   "state": "screen",
+   "runs": 49,
+   "channel": "Margarete Miller"
+  },
+  {
+   "id": "OO7eOd3B8BY",
+   "source": "margarete-miller",
+   "form": "short",
+   "title": "Advice for Perfectionists ⬇️ Scared to Start?",
+   "published": "2026-09-15T16:00:13Z",
+   "state": "screen",
+   "runs": 56,
+   "channel": "Margarete Miller"
+  },
+  {
+   "id": "wFATiYoym1k",
+   "source": "margarete-miller",
+   "form": "short",
+   "title": "Too Many Art Supplies? This Might Be Why You’re Stuck!",
+   "published": "2026-09-18T16:00:11Z",
+   "state": "screen",
+   "runs": 56,
+   "channel": "Margarete Miller"
+  },
+  {
+   "id": "ZJBqyxHrIK0",
+   "source": "margarete-miller",
+   "form": "short",
+   "title": "All Aboard! 🚂 Bon Voyage 2026 — FREE Live Collage Party",
+   "published": "2026-09-22T16:00:08Z",
+   "state": "screen",
+   "runs": 22,
+   "channel": "Margarete Miller"
+  },
+  {
+   "id": "JEwUICdeTE8",
+   "source": "margarete-miller",
+   "form": "short",
+   "title": "How to Make a #zine with Copy Paper ✂️",
+   "published": "2026-09-24T16:00:34Z",
+   "state": "screen",
+   "runs": 112,
+   "channel": "Margarete Miller"
+  },
+  {
+   "id": "5ETxcAFMJxk",
+   "source": "margarete-miller",
+   "form": "short",
+   "title": "⬇️The link is in the description! Your’re invited to the vintage&collage club!",
+   "published": "2026-09-30T16:00:07Z",
+   "state": "screen",
+   "runs": 96,
+   "channel": "Margarete Miller"
+  },
+  {
+   "id": "0s8KIX6diBQ",
+   "source": "margarete-miller",
+   "form": "short",
+   "title": "How to Make a Junk Journal from a Candy Box 🎃",
+   "published": "2026-10-02T16:00:25Z",
+   "state": "screen",
+   "runs": 31,
+   "channel": "Margarete Miller"
+  },
+  {
+   "id": "CSbflAE7w6g",
+   "source": "journalwithker",
+   "form": "short",
+   "title": "journal with me: BTS arirang tour 💜",
+   "published": "2026-09-23T01:49:21Z",
+   "state": "screen",
+   "runs": 29,
+   "channel": "kerry ♡ journaling gal"
+  },
+  {
+   "id": "GKBnmLuV-VU",
+   "source": "journalwithker",
+   "form": "short",
+   "title": "unboxing my new twsbi eco fountain pen ✒️",
+   "published": "2026-09-23T19:43:15Z",
+   "state": "screen",
+   "runs": 24,
+   "channel": "kerry ♡ journaling gal"
+  },
+  {
+   "id": "vjX3fWhRjA4",
+   "source": "journalwithker",
+   "form": "short",
+   "title": "I just found the perfect crafting box at Daiso for less than $10! #crafting",
+   "published": "2026-09-28T18:02:12Z",
+   "state": "screen",
+   "runs": 18,
+   "channel": "kerry ♡ journaling gal"
+  },
+  {
+   "id": "ZqPs7B9YROk",
+   "source": "journalwithker",
+   "form": "short",
+   "title": "filling up the pilot kakuno with fountain pen ink! 🖋️",
+   "published": "2026-09-30T16:14:21Z",
+   "state": "screen",
+   "runs": 44,
+   "channel": "kerry ♡ journaling gal"
+  },
+  {
+   "id": "pNnCnjkFAac",
+   "source": "journalwithker",
+   "form": "short",
+   "title": "journal with me: october moodboard 🎃🍂 #journalwithme #journal #journaling",
+   "published": "2026-10-01T23:39:06Z",
+   "state": "screen",
+   "runs": 26,
+   "channel": "kerry ♡ journaling gal"
+  },
+  {
+   "id": "sxuuXe-BizI",
+   "source": "coffee-monsterz",
+   "form": "long",
+   "title": "August 2026 Planner Update | Currently Inked Journal, Hobonichi, Reading, Commonplace Journal",
+   "published": "2026-09-06T15:00:37Z",
+   "state": "screen",
+   "runs": 2087,
+   "channel": "TheCoffeeMonsterzCO"
+  },
+  {
+   "id": "94It-sBwBtA",
+   "source": "coffee-monsterz",
+   "form": "long",
+   "title": "Weekly Plan With Me: Deadlines & Pretty Purple Washi 🌇 Hobonichi Cousin",
+   "published": "2026-09-13T15:00:30Z",
+   "state": "screen",
+   "runs": 736,
+   "channel": "TheCoffeeMonsterzCO"
+  },
+  {
+   "id": "FWqz0Lq_YvE",
+   "source": "coffee-monsterz",
+   "form": "long",
+   "title": "A Day In My Journals | Hobonichi Cousin & Weeks",
+   "published": "2026-09-20T15:00:19Z",
+   "state": "screen",
+   "runs": 823,
+   "channel": "TheCoffeeMonsterzCO"
+  },
+  {
+   "id": "3hc06Bv50x4",
+   "source": "coffee-monsterz",
+   "form": "long",
+   "title": "Quiet Journaling Session No.6 | No Talking & No Music",
+   "published": "2026-09-27T15:00:21Z",
+   "state": "screen",
+   "runs": 1083,
+   "channel": "TheCoffeeMonsterzCO"
+  },
+  {
+   "id": "gDTxhI2HjMg",
+   "source": "amanda-close",
+   "form": "long",
+   "title": "Keep a Travel Journal Without Getting on A Plane",
+   "published": "2026-09-24T20:52:56Z",
+   "state": "screen",
+   "runs": 1014,
+   "channel": "Amanda Close"
+  },
+  {
+   "id": "9B1_1vou06c",
+   "source": "rachelle-in-theory",
+   "form": "long",
+   "title": "The Technique That Makes Planning Fun — Not Just Productive",
+   "published": "2026-09-15T15:00:02Z",
+   "state": "screen",
+   "runs": 1635,
+   "channel": "Rachelle in theory"
+  },
+  {
+   "id": "thew4LntEl0",
+   "source": "rachelle-in-theory",
+   "form": "long",
+   "title": "There’s 1 thing you need to stay on track. It’s this.",
+   "published": "2026-09-20T15:00:25Z",
+   "state": "screen",
+   "runs": 1017,
+   "channel": "Rachelle in theory"
+  },
+  {
+   "id": "jDx2dLd9BLo",
+   "source": "rachelle-in-theory",
+   "form": "long",
+   "title": "The time tracking method that ended my procrastination",
+   "published": "2026-09-27T16:15:48Z",
+   "state": "screen",
+   "runs": 1601,
+   "channel": "Rachelle in theory"
+  },
+  {
+   "id": "hB5gpLJpf5Q",
+   "source": "rachelle-in-theory",
+   "form": "short",
+   "title": "How I Protect Myself Online",
+   "published": "2026-09-30T20:01:44Z",
+   "state": "screen",
+   "runs": 74,
+   "channel": "Rachelle in theory"
+  },
+  {
+   "id": "FURCP44SqSs",
+   "source": "parknotes",
+   "form": "long",
+   "title": "How to Study Like a (Philosophy) PhD Student",
+   "published": "2026-09-30T18:42:34Z",
+   "state": "screen",
+   "runs": 1751,
+   "channel": "ParkNotes"
+  },
+  {
+   "id": "08Qe6kRCgBY",
+   "source": "seaweed-kisses",
+   "form": "long",
+   "title": "I’m Skipping Hobonichi 2027 for This Instead…",
+   "published": "2026-09-04T23:28:34Z",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 2770,
+   "channel": "Seaweed Kisses"
+  },
+  {
+   "id": "e0kx50DFqT8",
+   "source": "seaweed-kisses",
+   "form": "long",
+   "title": "Pen Talk: New Favorite Pens, Exclusive Inks, a Pilot Problem",
+   "published": "2026-09-07T00:37:50Z",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 3251,
+   "channel": "Seaweed Kisses"
+  },
+  {
+   "id": "6bjbDhU6aG8",
+   "source": "seaweed-kisses",
+   "form": "long",
+   "title": "You MUST See This Amazing Pen Shop! | BestPen Seoul",
+   "published": "2026-09-13T00:09:35Z",
+   "state": "screen",
+   "runs": 2362,
+   "channel": "Seaweed Kisses"
+  },
+  {
+   "id": "H-O8G6A4Px0",
+   "source": "seaweed-kisses",
+   "form": "long",
+   "title": "Skip the Pilot E95S! Get This $3 Pen Instead! | Jinhao 59 review",
+   "published": "2026-09-17T14:15:00Z",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 2533,
+   "channel": "Seaweed Kisses"
+  },
+  {
+   "id": "BtLJhMHKoeU",
+   "source": "seaweed-kisses",
+   "form": "long",
+   "title": "Hobonichi Weeks: The Pros vs Cons",
+   "published": "2026-09-26T00:32:31Z",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 2143,
+   "channel": "Seaweed Kisses"
+  },
+  {
+   "id": "OQUvdgUiyOM",
+   "source": "seaweed-kisses",
+   "form": "long",
+   "title": "5 Things I Write In My Pocket Notebook Every Day",
+   "published": "2026-10-01T14:30:00Z",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 2057,
+   "channel": "Seaweed Kisses"
+  },
+  {
+   "id": "UHbr4vmDFOU",
+   "source": "seaweed-kisses",
+   "form": "short",
+   "title": "POV: a chunky journal flip-through",
+   "published": "2026-09-10T21:06:35Z",
+   "state": "screen",
+   "runs": 90,
+   "channel": "Seaweed Kisses"
+  },
+  {
+   "id": "i2AAbM07ttg",
+   "source": "seaweed-kisses",
+   "form": "short",
+   "title": "Hobonichi Weeks hack- securely adding charms to the bookmark ribbons",
+   "published": "2026-10-01T21:33:14Z",
+   "state": "screen",
+   "runs": 94,
+   "channel": "Seaweed Kisses"
+  },
+  {
+   "id": "R6RT9jaklAk",
+   "source": "julia-here",
+   "form": "long",
+   "title": "Old, New, + Romantic Fountain Pens for September’s Currently Inked",
+   "published": "2026-09-04T15:00:23Z",
+   "state": "screen",
+   "runs": 1973,
+   "channel": "julia here."
+  },
+  {
+   "id": "Mcl631g6IVk",
+   "source": "julia-here",
+   "form": "long",
+   "title": "Travel Journal Insert Flip-through · Ireland + Netherlands",
+   "published": "2026-09-11T15:00:02Z",
+   "state": "screen",
+   "runs": 649,
+   "channel": "julia here."
+  },
+  {
+   "id": "cUj_K0CEdAw",
+   "source": "julia-here",
+   "form": "long",
+   "title": "Anddd… I Broke My Favorite Fountain Pen · A Mid-Month Currently Inked Update",
+   "published": "2026-09-18T15:00:29Z",
+   "state": "screen",
+   "runs": 1311,
+   "channel": "julia here."
+  },
+  {
+   "id": "pdyufJE8bus",
+   "source": "julia-here",
+   "form": "long",
+   "title": "Sit + Stare at Ink Swatches with Me 😌 · Cozy Fountain Pen Ink Swatch Party",
+   "published": "2026-09-25T15:00:16Z",
+   "state": "screen",
+   "runs": 585,
+   "channel": "julia here."
+  },
+  {
+   "id": "Qg3hJTssgKQ",
+   "source": "julia-here",
+   "form": "long",
+   "title": "10 Fountain Pen Inks I’m LOVING Right Now!",
+   "published": "2026-10-02T15:00:24Z",
+   "state": "screen",
+   "runs": 1140,
+   "channel": "julia here."
+  },
+  {
+   "id": "lERJ7G9RutM",
+   "source": "bookish-mandy",
+   "form": "long",
+   "title": "Ink Swatch With Me | My Pennonia, Vinta, and Dominant Industry ink bottle collections",
+   "published": "2026-09-10T20:18:43Z",
+   "state": "screen",
+   "runs": 4776,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "1bH-rsrz-UM",
+   "source": "bookish-mandy",
+   "form": "long",
+   "title": "All my Pink Benu Pens! | Comparing the colors and models to my New Cocktail Hour Pink Lady",
+   "published": "2026-09-11T16:02:45Z",
+   "state": "screen",
+   "runs": 2612,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "iG5_EKXzHx0",
+   "source": "bookish-mandy",
+   "form": "long",
+   "title": "One Saturday Morning Ep. 25 | Coffee Stationery Chat | Mostly organizing and loving journaling",
+   "published": "2026-09-12T15:27:19Z",
+   "state": "screen",
+   "runs": 4320,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "VmEOChY-4hs",
+   "source": "bookish-mandy",
+   "form": "long",
+   "title": "Swatching the new series of Inks HANDMADE by @heartsfailing",
+   "published": "2026-09-14T23:26:17Z",
+   "state": "screen",
+   "runs": 1562,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "nfwidG5RGIM",
+   "source": "bookish-mandy",
+   "form": "long",
+   "title": "Ink Diaries Ep. 3 | Playing with Notebook Therapy Stamps and Featuring the new Schon Little Dipper!",
+   "published": "2026-09-15T19:28:17Z",
+   "state": "screen",
+   "runs": 4685,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "72Q7roZJY6g",
+   "source": "bookish-mandy",
+   "form": "long",
+   "title": "Draw with Me | Real-time Chatty Doodling Stream of Conscious Fountain Pen Art Time",
+   "published": "2026-09-18T03:17:12Z",
+   "state": "screen",
+   "runs": 5897,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "ZJSReKzgIbw",
+   "source": "bookish-mandy",
+   "form": "long",
+   "title": "My Current Favorite Rainbow Ink Palette | Video Response to @inksplat",
+   "published": "2026-09-21T19:12:29Z",
+   "state": "screen",
+   "runs": 2804,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "Wyp-xtPTIqc",
+   "source": "bookish-mandy",
+   "form": "long",
+   "title": "PLAYING WITH WASHI TAPE | Art Journal with me as I am rediscovering my creativity",
+   "published": "2026-09-23T23:26:46Z",
+   "state": "screen",
+   "runs": 4725,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "XoiHbY4XtQQ",
+   "source": "bookish-mandy",
+   "form": "long",
+   "title": "Covens of Midnight Ep. 5 | Solo Journal RPG Playthrough | Days Four and Five",
+   "published": "2026-09-26T00:23:31Z",
+   "state": "screen",
+   "runs": 2998,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "8NmOi9lOtro",
+   "source": "bookish-mandy",
+   "form": "long",
+   "title": "The Secret History by Donna Tartt is DREADFUL | updating my Hobonichi Weeks Reading Journal",
+   "published": "2026-09-28T14:48:30Z",
+   "state": "screen",
+   "runs": 2855,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "FR2XjxAQEq8",
+   "source": "bookish-mandy",
+   "form": "long",
+   "title": "September 2026 Currently Inked Review | What worked on this super successful month!",
+   "published": "2026-09-29T18:18:49Z",
+   "state": "screen",
+   "runs": 5130,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "CBu3ILUZF80",
+   "source": "bookish-mandy",
+   "form": "long",
+   "title": "October 2026 Currently Inked No. 1 Hobonichi Solo Journal RPG Color Scheme",
+   "published": "2026-09-30T20:35:03Z",
+   "state": "screen",
+   "runs": 3265,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "Y13OjsGD5IM",
+   "source": "bookish-mandy",
+   "form": "long",
+   "title": "October 2026 Currently Inked | Wearingeul, Tono & Lims, Diamine, Lennon Tool Bar",
+   "published": "2026-10-01T18:26:48Z",
+   "state": "screen",
+   "runs": 3671,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "Rz2uskO9CV0",
+   "source": "bookish-mandy",
+   "form": "long",
+   "title": "Retro Stripes and Finding Inspiration in Everyday Life | Draw with Me Guide on my process",
+   "published": "2026-10-02T13:45:37Z",
+   "state": "screen",
+   "runs": 2026,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "b-U_kTS4Z6Y",
+   "source": "bookish-mandy",
+   "form": "long",
+   "title": "Sailor Ink Studio - The New Colors + How to Order them from Office Japan | Swatch with Me",
+   "published": "2026-10-03T13:11:26Z",
+   "state": "screen",
+   "runs": 2509,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "cKAxUnO_BOg",
+   "source": "bookish-mandy",
+   "form": "short",
+   "title": "Dragon Dowser is a shorter solo rpg, but we made it a duo. #solorpg #solojournalrpg #rpglife",
+   "published": "2026-09-06T23:38:08Z",
+   "state": "screen",
+   "runs": 51,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "zDCXMn7hcJk",
+   "source": "bookish-mandy",
+   "form": "short",
+   "title": "September 11, 2026",
+   "published": "2026-09-11T22:48:03Z",
+   "state": "screen",
+   "runs": 44,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "S9-jomXEVbk",
+   "source": "bookish-mandy",
+   "form": "short",
+   "title": "I am obsessed with my Little Dipper from Schon Dsgn. #fountainpenink #dipnib",
+   "published": "2026-09-17T22:17:23Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "03LTQBu2zNU",
+   "source": "bookish-mandy",
+   "form": "short",
+   "title": "A Pen Menu. Help me decide! #currentlyinked #fountainpen",
+   "published": "2026-09-22T17:34:30Z",
+   "state": "screen",
+   "runs": 40,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "XEDlf5GzSQ8",
+   "source": "bookish-mandy",
+   "form": "short",
+   "title": "Thank you, @BENUpen for making my autumn even better with this pen. 🍁",
+   "published": "2026-10-02T17:15:03Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
+   "id": "lAFk5ZeeVrQ",
+   "source": "little-coco-studio",
+   "form": "long",
+   "title": "My travel journals after 2 weeks away ✈️ + the stationery I brought home",
+   "published": "2026-09-05T11:30:01Z",
+   "state": "screen",
+   "runs": 2795,
+   "channel": "Little Coco Studio"
+  },
+  {
+   "id": "B62cLGaIOLY",
+   "source": "little-coco-studio",
+   "form": "long",
+   "title": "☕️ A morning in my notebooks | journaling, planning & catching up",
+   "published": "2026-09-12T11:30:11Z",
+   "state": "screen",
+   "runs": 2218,
+   "channel": "Little Coco Studio"
+  },
+  {
+   "id": "gFa30B9zdgY",
+   "source": "little-coco-studio",
+   "form": "long",
+   "title": "everything we got from hobonichi 2027 ✨ with @xoxolorae 🥹",
+   "published": "2026-09-26T12:14:50Z",
+   "state": "screen",
+   "runs": 2770,
+   "channel": "Little Coco Studio"
+  },
+  {
+   "id": "TGGd9qaxMz8",
+   "source": "little-coco-studio",
+   "form": "long",
+   "title": "a fall stationery reset 🍂 shopping my stash: fountain pen inks, washi tape + stickers",
+   "published": "2026-10-03T11:30:38Z",
+   "state": "screen",
+   "runs": 2777,
+   "channel": "Little Coco Studio"
+  },
+  {
+   "id": "7OQgV2xAfcY",
+   "source": "jenna-hong",
+   "form": "long",
+   "title": "days settling into my new city & home, my first time hosting girls night 🏡",
+   "published": "2026-09-04T13:30:06Z",
+   "state": "screen",
+   "runs": 1351,
+   "channel": "Jenna Hong"
+  },
+  {
+   "id": "qEhscVPCnOY",
+   "source": "jenna-hong",
+   "form": "long",
+   "title": "here's what a weekend in utah is really like, floor mirror hunt",
+   "published": "2026-09-08T13:30:06Z",
+   "state": "screen",
+   "runs": 1713,
+   "channel": "Jenna Hong"
+  },
+  {
+   "id": "50a6GrDq_Us",
+   "source": "jenna-hong",
+   "form": "long",
+   "title": "a normal & routine 9-5 day in utah feat. my insta360 luna ultra & NEW luna pro!",
+   "published": "2026-09-10T13:00:06Z",
+   "state": "screen",
+   "runs": 957,
+   "channel": "Jenna Hong"
+  },
+  {
+   "id": "RplT_z928uk",
+   "source": "jenna-hong",
+   "form": "long",
+   "title": "the best sunday reset i could give myself in slc, utah 🌄",
+   "published": "2026-09-14T13:30:06Z",
+   "state": "screen",
+   "runs": 1430,
+   "channel": "Jenna Hong"
+  },
+  {
+   "id": "lFNBkBnmRpI",
+   "source": "jenna-hong",
+   "form": "long",
+   "title": "possibly my fav house update yet since moving across the country! 🪞",
+   "published": "2026-09-17T16:00:22Z",
+   "state": "screen",
+   "runs": 1158,
+   "channel": "Jenna Hong"
+  },
+  {
+   "id": "n66Sun4Aet8",
+   "source": "jenna-hong",
+   "form": "long",
+   "title": "new home updates & checking off a bucket list hike living in my new state 🌄",
+   "published": "2026-09-24T13:30:06Z",
+   "state": "screen",
+   "runs": 1393,
+   "channel": "Jenna Hong"
+  },
+  {
+   "id": "LO0qqPv1S2M",
+   "source": "jenna-hong",
+   "form": "long",
+   "title": "getting through a 9-5 unmotivated week working remote in utah",
+   "published": "2026-09-28T14:00:11Z",
+   "state": "screen",
+   "runs": 2255,
+   "channel": "Jenna Hong"
+  },
+  {
+   "id": "DXjRR2Gdasg",
+   "source": "jenna-hong",
+   "form": "long",
+   "title": "HAPPY OCTOBER 🍁 let's plan our adult lives together & have a good month",
+   "published": "2026-10-01T16:00:10Z",
+   "state": "screen",
+   "runs": 2271,
+   "channel": "Jenna Hong"
+  },
+  {
+   "id": "EGZzhae7RLs",
+   "source": "jenna-hong",
+   "form": "short",
+   "title": "hiking angels landing timestamped at Zion national park during sunrise #hikingvlog",
+   "published": "2026-09-06T17:46:13Z",
+   "state": "screen",
+   "runs": 62,
+   "channel": "Jenna Hong"
+  },
+  {
+   "id": "Uc00MiApENc",
+   "source": "jenna-hong",
+   "form": "short",
+   "title": "first time trying a Utah dirty soda 🥤 lets ry swig, half fail without the classic cup 😝",
+   "published": "2026-09-12T17:38:03Z",
+   "state": "screen",
+   "runs": 83,
+   "channel": "Jenna Hong"
+  },
+  {
+   "id": "S_rHIdzyJfI",
+   "source": "jam-and-butter",
+   "form": "long",
+   "title": "my *realistic* desk setup 🌱 let’s organise all my stationery (again)",
+   "published": "2026-09-18T13:04:03Z",
+   "state": "screen",
+   "runs": 718,
+   "channel": "jam and butter"
+  },
+  {
+   "id": "zwCORrSf8jQ",
+   "source": "jam-and-butter",
+   "form": "long",
+   "title": "October 2026 Bullet Journal Setup | Bujo Spread Ideas 🍂 my perfect fall theme",
+   "published": "2026-09-28T13:03:14Z",
+   "state": "screen",
+   "runs": 931,
+   "channel": "jam and butter"
+  },
+  {
+   "id": "JMYd5he8mfw",
+   "source": "apple-cheeks",
+   "form": "long",
+   "title": "hosting a junk journal workshop, my 29th bday party & revealing secret projects ͙͘͡★ Artist Diaries",
+   "published": "2026-09-30T16:00:22Z",
+   "state": "screen",
+   "runs": 1526,
+   "channel": "Apple Cheeks"
+  },
+  {
+   "id": "-0JnEDmtvFA",
+   "source": "apple-cheeks",
+   "form": "short",
+   "title": "I’m super excited to be coming together with the  ⁨@LEGO Group to highlight @furrylittlepeach !",
+   "published": "2026-10-01T16:12:47Z",
+   "state": "screen",
+   "runs": 69,
+   "channel": "Apple Cheeks"
+  },
+  {
+   "id": "NUn_nXyAL3g",
+   "source": "darrell-fitch",
+   "form": "long",
+   "title": "My Travel Journal Always Comes Home Empty - The Fix",
+   "published": "2026-09-04T13:00:03Z",
+   "state": "screen",
+   "runs": 1297,
+   "channel": "Darrell Fitch"
+  },
+  {
+   "id": "3fkYUtja7KI",
+   "source": "darrell-fitch",
+   "form": "long",
+   "title": "DIY Pocket Notebooks - Our First Try",
+   "published": "2026-09-12T23:08:40Z",
+   "state": "screen",
+   "runs": 625,
+   "channel": "Darrell Fitch"
+  },
+  {
+   "id": "sEoQ7EfNNuU",
+   "source": "darrell-fitch",
+   "form": "long",
+   "title": "Messy Beats Blank (Travel Journal Flip-Through)",
+   "published": "2026-09-20T00:29:39Z",
+   "state": "screen",
+   "runs": 1421,
+   "channel": "Darrell Fitch"
+  },
+  {
+   "id": "8ibPxV5tJdw",
+   "source": "darrell-fitch",
+   "form": "long",
+   "title": "The Questions I Get Asked the Most (Art & Journaling)",
+   "published": "2026-09-27T02:18:54Z",
+   "state": "screen",
+   "runs": 965,
+   "channel": "Darrell Fitch"
+  },
+  {
+   "id": "4bDEbbiouEo",
+   "source": "sam-mas",
+   "form": "long",
+   "title": "Why You Never Finish What You Start",
+   "published": "2026-09-29T23:52:01Z",
+   "state": "screen",
+   "runs": 641,
+   "channel": "Sam Mas"
+  },
+  {
+   "id": "zYn8PBWR2lg",
+   "source": "perry-daniels",
+   "form": "long",
+   "title": "Stop Buying Field Notes.",
+   "published": "2026-09-05T16:00:39Z",
+   "state": "screen",
+   "runs": 717,
+   "channel": "Perry Daniels"
+  },
+  {
+   "id": "KUsCHnuD7GI",
+   "source": "perry-daniels",
+   "form": "long",
+   "title": "Everything else failed. The LaserPecker LP5 gets one shot",
+   "published": "2026-09-19T16:00:10Z",
+   "state": "screen",
+   "runs": 932,
+   "channel": "Perry Daniels"
+  },
+  {
+   "id": "OS1NRfurKyc",
+   "source": "pixiedust-press",
+   "form": "long",
+   "title": "I Packed Away Most of My Stationery… Here’s What I Actually Miss ✨",
+   "published": "2026-09-05T02:29:07Z",
+   "state": "screen",
+   "runs": 1351,
+   "channel": "Tess | Pixiedust Press"
+  },
+  {
+   "id": "6hIzKR_9T9g",
+   "source": "pixiedust-press",
+   "form": "long",
+   "title": "Can I Create 3 Completely Different Journal Aesthetics With the SAME Supplies? ✨",
+   "published": "2026-09-09T02:11:35Z",
+   "state": "screen",
+   "runs": 2710,
+   "channel": "Tess | Pixiedust Press"
+  },
+  {
+   "id": "LX4a3Kr47g0",
+   "source": "pixiedust-press",
+   "form": "long",
+   "title": "I Got Carried Away at Toronto Stationery Stores… ✨ Exclusive Inks & More",
+   "published": "2026-09-12T22:31:39Z",
+   "state": "screen",
+   "runs": 2825,
+   "channel": "Tess | Pixiedust Press"
+  },
+  {
+   "id": "BIyW6Nh7ReY",
+   "source": "pixiedust-press",
+   "form": "long",
+   "title": "I Couldn’t Wait for Fall… 🍂✨ | September Currently Inked",
+   "published": "2026-09-16T22:00:14Z",
+   "state": "screen",
+   "runs": 1783,
+   "channel": "Tess | Pixiedust Press"
+  },
+  {
+   "id": "Bluo5dXWFlc",
+   "source": "jobs-journal",
+   "form": "long",
+   "title": "SF Pen Show Vlog ✒️ Workshop Teacher POV",
+   "published": "2026-09-29T02:39:12Z",
+   "state": "screen",
+   "runs": 1615,
+   "channel": "Job's Journal"
+  },
+  {
+   "id": "ygW0nMRNuis",
+   "source": "jobs-journal",
+   "form": "short",
+   "title": "Burn out sucks but I’m trying to do things that bring me joy ♥️ #burnout #creativity #theartistsway",
+   "published": "2026-09-19T21:55:24Z",
+   "state": "screen",
+   "runs": 48,
+   "channel": "Job's Journal"
+  },
+  {
+   "id": "YGIM1EAdAUk",
+   "source": "jobs-journal",
+   "form": "short",
+   "title": "Drillog dip pen first impressions #dippen #glasspen #fountainpen #fountainpenink 🖋️",
+   "published": "2026-09-21T02:46:47Z",
+   "state": "screen",
+   "runs": 63,
+   "channel": "Job's Journal"
+  },
+  {
+   "id": "9yi-mCq4yZo",
+   "source": "yoseka",
+   "form": "long",
+   "title": "Using a TRAVELER'S Passport Notebook to document your trip with Dana Ate Oatmeal!",
+   "published": "2026-09-08T15:43:28Z",
+   "state": "screen",
+   "runs": 1108,
+   "channel": "Yoseka Stationery"
+  },
+  {
+   "id": "RBoE6dtnBEU",
+   "source": "yoseka",
+   "form": "long",
+   "title": "10 Years of Stationery Panel Hosted By Pen Addict & Myke with Aura Estelle, Esterbrook & Jenni Bick",
+   "published": "2026-09-11T03:28:03Z",
+   "state": "screen",
+   "runs": 3348,
+   "channel": "Yoseka Stationery"
+  },
+  {
+   "id": "YbHonSUeZhg",
+   "source": "yoseka",
+   "form": "long",
+   "title": "TRAVELER'S 20th Anniversary Caravan Tour! Plus More Upcoming Events & New Stationery!",
+   "published": "2026-09-14T18:50:12Z",
+   "state": "screen",
+   "runs": 1338,
+   "channel": "Yoseka Stationery"
+  },
+  {
+   "id": "-DAF06_hlKc",
+   "source": "yoseka",
+   "form": "long",
+   "title": "How Judy from Tokubetsumemori avoids planner burnout as a busy business owner!",
+   "published": "2026-09-15T16:26:02Z",
+   "state": "screen",
+   "runs": 966,
+   "channel": "Yoseka Stationery"
+  },
+  {
+   "id": "F0Yp7gCSYoQ",
+   "source": "yoseka",
+   "form": "long",
+   "title": "Stamping the TRAVELER'S Stamp Caravan, 2026 Pelikan Hub, OURS 2027 Planner & More",
+   "published": "2026-09-22T01:26:33Z",
+   "state": "screen",
+   "runs": 1487,
+   "channel": "Yoseka Stationery"
+  },
+  {
+   "id": "RpjidOfLI_4",
+   "source": "yoseka",
+   "form": "long",
+   "title": "How Atsuhiko Iijima (Creator of TRAVELER'S) Uses his TRAVELER'S Notebook",
+   "published": "2026-09-26T16:17:06Z",
+   "state": "screen",
+   "runs": 1260,
+   "channel": "Yoseka Stationery"
+  },
+  {
+   "id": "Rz5qSscOAYY",
+   "source": "yoseka",
+   "form": "long",
+   "title": "Sanrio Rubber Bands, 2027 Hobonichi One Piece Update, Journaling Prompts & More Stationery News!",
+   "published": "2026-09-28T19:55:42Z",
+   "state": "screen",
+   "runs": 2190,
+   "channel": "Yoseka Stationery"
+  },
+  {
+   "id": "qPl40s2VtO0",
+   "source": "yoseka",
+   "form": "long",
+   "title": "Interview With TRAVELER'S Creator Atsuhiko Iijima - heart of TRAVELER'S, this year's theme, and more",
+   "published": "2026-09-30T13:44:24Z",
+   "state": "screen",
+   "runs": 740,
+   "channel": "Yoseka Stationery"
+  },
+  {
+   "id": "jtX3yijSJZ0",
+   "source": "yoseka",
+   "form": "short",
+   "title": "If you're still figuring out what planner you want for 2027, ask yourself these 5 questions!",
+   "published": "2026-09-09T15:37:38Z",
+   "state": "screen",
+   "runs": 53,
+   "channel": "Yoseka Stationery"
+  },
+  {
+   "id": "l650ypttVjQ",
+   "source": "yoseka",
+   "form": "short",
+   "title": "Make a refill with us at the TRAVELER'S 20th Anniversary Caravan DIY Workshop!",
+   "published": "2026-09-12T21:56:12Z",
+   "state": "screen",
+   "runs": 59,
+   "channel": "Yoseka Stationery"
+  },
+  {
+   "id": "yDBS__-Tf18",
+   "source": "jetpens",
+   "form": "long",
+   "title": "2026 Tokyo Stationery Week Awards Winners! ✨🏆",
+   "published": "2026-09-17T23:00:37Z",
+   "state": "screen",
+   "runs": 365,
+   "channel": "JetPens"
+  },
+  {
+   "id": "i_omsydxPTY",
+   "source": "jetpens",
+   "form": "long",
+   "title": "Everything You Need to Know About the KOKUYO Jibun Techo! 📔✨",
+   "published": "2026-09-24T23:00:27Z",
+   "state": "screen",
+   "runs": 317,
+   "channel": "JetPens"
+  },
+  {
+   "id": "Q2OkGLS-50Q",
+   "source": "jetpens",
+   "form": "long",
+   "title": "Best New Stationery of SEPTEMBER 2026 at JetPens | New Moomin Gel Pens & Sanrio Erasers! ✨❤️",
+   "published": "2026-09-30T23:00:33Z",
+   "state": "screen",
+   "runs": 334,
+   "channel": "JetPens"
+  },
+  {
+   "id": "tHh6sV0A7j0",
+   "source": "jetpens",
+   "form": "short",
+   "title": "This Store Only Sells TAPE!?",
+   "published": "2026-09-04T15:00:25Z",
+   "state": "screen",
+   "runs": 37,
+   "channel": "JetPens"
+  },
+  {
+   "id": "DhPQeA6yRRw",
+   "source": "jetpens",
+   "form": "short",
+   "title": "How to Fill a Fountain Pen 🖋️",
+   "published": "2026-09-08T15:00:07Z",
+   "state": "screen",
+   "runs": 32,
+   "channel": "JetPens"
+  },
+  {
+   "id": "HoWy8nTusyo",
+   "source": "jetpens",
+   "form": "short",
+   "title": "How Japanese GLASS Pens are Made 🔥",
+   "published": "2026-09-15T15:00:25Z",
+   "state": "screen",
+   "runs": 31,
+   "channel": "JetPens"
+  },
+  {
+   "id": "17J1WqziAVM",
+   "source": "jetpens",
+   "form": "short",
+   "title": "Stationery Essentials for Gratitude Journaling 🥰✨",
+   "published": "2026-09-18T17:56:08Z",
+   "state": "screen",
+   "runs": 56,
+   "channel": "JetPens"
+  },
+  {
+   "id": "QxsYz_piqj0",
+   "source": "jetpens",
+   "form": "short",
+   "title": "Japanese Stationery That Just Makes SENSE 🙂‍↕️🤫",
+   "published": "2026-09-22T15:00:06Z",
+   "state": "screen",
+   "runs": 56,
+   "channel": "JetPens"
+  },
+  {
+   "id": "s6ui88aNI6w",
+   "source": "jetpens",
+   "form": "short",
+   "title": "Japanese Mechanical Pencils Do TOO Much! 🫩🔥",
+   "published": "2026-09-25T15:00:00Z",
+   "state": "screen",
+   "runs": 52,
+   "channel": "JetPens"
+  },
+  {
+   "id": "nPAQiNH2MZQ",
+   "source": "jetpens",
+   "form": "short",
+   "title": "The BEST Stationery of September 2026 ✨🥰",
+   "published": "2026-09-29T16:52:19Z",
+   "state": "screen",
+   "runs": 50,
+   "channel": "JetPens"
+  },
+  {
+   "id": "7PRlffzI8CM",
+   "source": "jetpens",
+   "form": "short",
+   "title": "Why Did NO ONE Make This Pen SOONER?! 🤫🤯",
+   "published": "2026-10-02T15:00:18Z",
+   "state": "screen",
+   "runs": 27,
+   "channel": "JetPens"
+  }
+ ],
+ "covered": {
+  "bullet-journal": {
+   "long": [
+    [
+     "2026-02-25T12:01:38Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-05-23T13:01:11Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "novie-by-the-sea": {
+   "long": [
+    [
+     "2026-03-31T18:00:00Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2025-11-26T18:00:24Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "martinas-world": {
+   "long": [
+    [
+     "2025-04-23T20:59:59Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-03T19:21:15Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "margarete-miller": {
+   "long": [
+    [
+     "2026-05-09T13:15:14Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-08-11T18:31:31Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "journalwithker": {
+   "long": [
+    [
+     "2025-12-23T01:30:17Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-07-06T18:30:31Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "coffee-monsterz": {
+   "long": [
+    [
+     "2026-06-21T15:00:05Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-03T19:21:15Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "amanda-close": {
+   "long": [
+    [
+     "2026-01-13T17:46:02Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2025-07-05T01:57:47Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "rachelle-in-theory": {
+   "long": [
+    [
+     "2026-05-13T15:00:36Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2025-05-23T15:01:39Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "parknotes": {
+   "long": [
+    [
+     "2025-12-16T18:34:18Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2025-12-28T22:47:07Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "seaweed-kisses": {
+   "long": [
+    [
+     "2026-05-23T23:39:19Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-07-08T13:11:24Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "julia-here": {
+   "long": [
+    [
+     "2026-06-26T15:00:10Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2025-06-03T14:46:05Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "bookish-mandy": {
+   "long": [
+    [
+     "2026-09-10T20:18:43Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-07-13T04:01:07Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "little-coco-studio": {
+   "long": [
+    [
+     "2026-05-30T11:30:33Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-03T19:21:15Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "jenna-hong": {
+   "long": [
+    [
+     "2026-08-10T13:30:06Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2025-08-19T14:37:02Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "jam-and-butter": {
+   "long": [
+    [
+     "2026-03-30T13:14:26Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2023-12-04T02:58:57Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "apple-cheeks": {
+   "long": [
+    [
+     "2026-01-22T17:31:11Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2025-07-21T17:45:47Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "darrell-fitch": {
+   "long": [
+    [
+     "2026-02-19T00:28:45Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-03T19:21:15Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "sam-mas": {
+   "long": [
+    [
+     "2026-09-03T19:21:15Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2024-09-07T00:14:00Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "perry-daniels": {
+   "long": [
+    [
+     "2025-08-02T00:06:33Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-03T19:21:15Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "pixiedust-press": {
+   "long": [
+    [
+     "2026-07-15T03:00:21Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-03T19:21:15Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "jobs-journal": {
+   "long": [
+    [
+     "2026-03-03T07:32:57Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-04-30T04:08:40Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "yoseka": {
+   "long": [
+    [
+     "2026-08-12T19:29:13Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-07-07T14:30:53Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  },
+  "jetpens": {
+   "long": [
+    [
+     "2026-06-04T23:00:22Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-08-07T15:00:22Z",
+     "2026-10-03T19:21:15Z"
+    ]
+   ]
+  }
+ }
+}

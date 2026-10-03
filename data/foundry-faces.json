@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-09-30",
+ "_checked": "2026-10-03",
  "faces": {
   "abril-fatface": {
    "family": "Abril Fatface",
@@ -994,6 +994,23 @@
      "style": "normal",
      "file": "dm-serif-display-400.woff2",
      "sha": "f273cf2c9ce9bc7d"
+    }
+   ]
+  },
+  "doto": {
+   "family": "Doto",
+   "category": "Sans Serif",
+   "designer": "Óliver Lalan",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/doto",
+   "copyright": "Copyright 2024-2024 The Doto Project Authors (https://github.com/oliverlalan/Doto)",
+   "repository": "https://github.com/oliverlalan/Doto",
+   "variants": [
+    {
+     "weight": "900",
+     "style": "normal",
+     "file": "doto-900.woff2",
+     "sha": "f2adbda10c3e57b1"
     }
    ]
   },
@@ -2712,6 +2729,35 @@
      "style": "normal",
      "file": "rock-salt-400.woff2",
      "sha": "4db33f33d887ad22"
+    }
+   ]
+  },
+  "rosario": {
+   "family": "Rosario",
+   "category": "Sans Serif",
+   "designer": "Omnibus-Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/rosario",
+   "copyright": "Copyright 2019 The Rosario Project Authors (https://github.com/Omnibus-Type/Rosario)",
+   "repository": "https://github.com/Omnibus-Type/Rosario",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "rosario-400.woff2",
+     "sha": "fc61795470b455b0"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "rosario-400.woff2",
+     "sha": "fc61795470b455b0"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "rosario-400-italic.woff2",
+     "sha": "b89e8efaa86b9e90"
     }
    ]
   },

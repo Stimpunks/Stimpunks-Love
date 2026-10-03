@@ -53,7 +53,7 @@ OUT = ROOT / "search-index.json"
 # Marker regions the morning timers rewrite (tools/daily-*.sh). A new timer that
 # rewrites part of a page adds its markers here, or the index goes stale daily.
 DAILY = ["ds-cabinet", "ds-set", "ds-counter", "arrivals:hall", "arrivals:set",
-         "arrivals:shape", "vpl:rack", "np-bill"]
+         "arrivals:shape", "vpl:rack", "onb:month", "np-bill"]
 # Classes whose whole subtree is left out (see the docstring for each reason).
 SKIP_CLASS = {"sh-lyric", "doors", "mm-model", "finder", "mm-find", "quest", "skip"}
 SKIP_TAG = {"script", "style", "svg", "template", "noscript", "button", "select", "input",
