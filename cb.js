@@ -977,6 +977,11 @@
     var a = el('a', null, 'House norms at the Community Center');
     a.href = '/community-center.html#cb-norms';
     norms.appendChild(a);
+    // Every part of the radio, named the way it names itself. guest.js links it too.
+    norms.appendChild(document.createTextNode(' · '));
+    var guide = el('a', null, 'The CB guide');
+    guide.href = '/cb-guide.html';
+    norms.appendChild(guide);
     set.appendChild(norms);
 
     box.appendChild(set);

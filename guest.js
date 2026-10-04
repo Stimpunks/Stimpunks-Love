@@ -217,7 +217,9 @@
     form.appendChild(pl); form.appendChild(password);
     form.appendChild(row); form.appendChild(said);
     var p4 = el('p', 'cb-norms');
-    p4.appendChild(link('/community-center.html#cb-norms', 'The house norms'));
+    p4.appendChild(link('/cb-guide.html', 'The CB guide'));
+    p4.appendChild(document.createTextNode(', '));
+    p4.appendChild(link('/community-center.html#cb-norms', 'the house norms'));
     p4.appendChild(document.createTextNode(' and '));
     p4.appendChild(link('/privacy.html#cb', 'what the CB keeps'));
     p4.appendChild(document.createTextNode('. Until you sign on, this bar sends nothing and knows nothing about the channel.'));

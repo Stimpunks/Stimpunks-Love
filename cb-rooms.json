@@ -590,6 +590,12 @@
    "about": "What this site knows about you, which is very little, and all of it: no cookies, a few things kept in your own browser, a CB that keeps one day of chat and nothing longer, a chalkboard anybody can read that keeps a week, nothing from anyone else until you press play, and our host's ordinary logs."
   },
   {
+   "tag": "cb-guide",
+   "name": "The CB guide",
+   "path": "/cb-guide.html",
+   "about": "The CB, the street’s radio, part by part: the guest bar and signing on, the bar and its sizes, World and room channels, reading and writing messages, reactions, pictures, the teleporter, watching films together, calls, Profile and pets, and what it keeps."
+  },
+  {
    "tag": "changelog",
    "name": "Changelog",
    "path": "/changelog.html",

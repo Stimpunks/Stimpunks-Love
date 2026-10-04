@@ -106,6 +106,7 @@ Every page carries an intensity dial with three settings. It defaults to whateve
 - [How this site is made — Stimpunks.World](https://stimpunks.world/design.html): How Stimpunks.World is made: no design system on purpose, a small shared base, a dial for loudness, contrast that is measured, nothing that plays until you press it, loud credits, and who builds it, including how we use AI.
 - [Architecture — Stimpunks.World](https://stimpunks.world/architecture.html): How Stimpunks.World runs: static files on Netlify, deployed by a push to main; a workshop of generators and checkers; the CB as the only code on a server; the morning timers; and every outside service and when it is reached.
 - [Privacy — Stimpunks.World](https://stimpunks.world/privacy.html): What this site knows about you, which is very little, and all of it: no cookies, a few things kept in your own browser, a CB that keeps one day of chat and nothing longer, a chalkboard anybody can read that keeps a week, nothing from anyone else until you press play, and our host's ordinary logs.
+- [The CB guide — Stimpunks.World](https://stimpunks.world/cb-guide.html): The CB, the street’s radio, part by part: the guest bar and signing on, the bar and its sizes, World and room channels, reading and writing messages, reactions, pictures, the teleporter, watching films together, calls, Profile and pets, and what it keeps.
 - [Changelog — Stimpunks.World](https://stimpunks.world/changelog.html): What changed on the street, and when. Every Stimpunks site publishes one of these.
 
 ## Attribution
@@ -118,6 +119,7 @@ Every page carries an intensity dial with three settings. It defaults to whateve
 - The manifesto, Ribald Songing, as a printable broadside: https://stimpunks.world/broadsheet-broadside.html#no-2
 - How the site is made, and how we use AI: https://stimpunks.world/design.html
 - How the site runs, its code and its hosting: https://stimpunks.world/architecture.html
+- The CB, the street's radio, part by part: https://stimpunks.world/cb-guide.html
 
 ## For agents
 

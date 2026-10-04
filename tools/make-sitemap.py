@@ -115,6 +115,9 @@ ORDER = ["index.html",
          # What the site keeps about the people who visit it. With the other
          # pages that hold lists rather than rooms, because that is what it is.
          "privacy.html",
+         # How to use the CB, part by part, beside what it keeps. A manual
+         # rather than a room, so it stands with the paperwork too.
+         "cb-guide.html",
          "changelog.html"]
 
 def field(src, pat):
@@ -249,6 +252,7 @@ lines += [
     "- The manifesto, Ribald Songing, as a printable broadside: https://stimpunks.world/broadsheet-broadside.html#no-2",
     "- How the site is made, and how we use AI: https://stimpunks.world/design.html",
     "- How the site runs, its code and its hosting: https://stimpunks.world/architecture.html",
+    "- The CB, the street's radio, part by part: https://stimpunks.world/cb-guide.html",
     "",
     "## For agents",
     "",

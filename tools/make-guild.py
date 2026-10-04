@@ -116,8 +116,11 @@ CREDITS = ROOT / "liner-notes.html"
 #                    contacts. It is design.html's other half and read for the
 #                    same reason: a reference somebody checks us against, not
 #                    a stop on a walking tour.
+#   cb-guide.html    is the radio's manual, read with the radio open to find out
+#                    what a button does. A job through it would turn help into
+#                    homework, for the privacy page's reason.
 EXEMPT = {"changelog.html", "adventurers-guild.html", "404.html", "privacy.html", "design.html",
-          "mission.html", "architecture.html"}
+          "mission.html", "architecture.html", "cb-guide.html"}
 
 # THE DIFFICULTY CLASS IS HOW FAR YOU WALK. It is enumerated here rather than
 # typed per job so that no job can invent a rank, and defined by geography so

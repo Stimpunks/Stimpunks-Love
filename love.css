@@ -4621,10 +4621,11 @@ html[data-intensity="max"] .burst--confetti span { animation: pb-confetti 1.5s e
 .room-plain .arch-zone { border: 2px dashed var(--ink-3); border-radius: 16px; padding: 12px 14px 14px; }
 .room-plain .arch-zone__name { margin: 0 0 10px; font-family: 'Bungee', var(--sans); font-size: 13px; letter-spacing: .5px; color: var(--chalk); }
 .room-plain .arch-link { margin: 0 0 0 26px; padding: 10px 0 10px 16px; border-left: 2px solid var(--ink-3); font-size: 14.5px; line-height: 1.5; color: var(--chalk); }
-/* Its tables are full of file names, and a file name has nowhere to break, so on a
-   phone they pushed the page sideways. Breaking anywhere costs a hyphen-less
-   split in a long name; scrolling the whole page sideways costs reading it. */
-.room-plain .arch-table th, .room-plain .arch-table td { overflow-wrap: anywhere; }
+/* A table full of file names or button labels, which have nowhere to break, so on
+   a phone they pushed the page sideways. Architecture and the CB guide wear it.
+   Breaking anywhere costs a hyphen-less split in a long name; scrolling the whole
+   page sideways costs reading it. */
+.room-plain .plain-table th, .room-plain .plain-table td { overflow-wrap: anywhere; }
 
 
 /* §12 ── SUBROOM: The Chappell (off Pink Pony Club) ──────────────────────────

@@ -539,6 +539,20 @@
         "--chalk"
       ]
     },
+    "cb-guide.html": {
+      "kind": "julia",
+      "c": [
+        -0.8,
+        0.156
+      ],
+      "orbit": 0.015,
+      "ground": "--ink",
+      "inks": [
+        "--yellow",
+        "--pink",
+        "--cyan"
+      ]
+    },
     "live-room.html": {
       "kind": "newton",
       "degree": 3,
