@@ -2971,6 +2971,25 @@ PAIRS = [
                                   "Vegetarian on a menu item"),
     ("#FFF7EE", "#1F4E55", False, "purrs: a button under the pointer"),
 
+    # ── Brew and Stew (§95) ───────────────────────────────────────────────
+    # A woodland tea room lit by its own wood. Every word stands on a flat
+    # ground: the heather dark, a card on the board, or the foxfire of a button.
+    ("#EFE8DA", "#361628", False, "brewstew: every word on the heather -- the lede, the board's own words, "
+                                  "the house rules, what the tea room keeps, the credits, what is on your "
+                                  "table, and a quiet button"),
+    ("#EFE8DA", "#4A1F3D", False, "brewstew: every word on a card -- what is in a tea, a soup, a loaf or an "
+                                  "arrangement, its allergens and its caffeine, a film's title, and a quiet "
+                                  "button"),
+    ("#BDF2DA", "#361628", False, "brewstew: the h1, every h2 and h3 in Macondo, every link, the backlink, "
+                                  "the focus ring, and the job marker, a wooden spoon"),
+    ("#BDF2DA", "#4A1F3D", False, "brewstew: a name on a card, and the rack's summary"),
+    ("#BDF2DA", "#220E1B", False, "brewstew: The looking-glass, in the empty glass"),
+    ("#EFE8DA", "#220E1B", False, "brewstew: the words in the empty looking-glass"),
+    ("#CDBBC6", "#361628", False, "brewstew: the trail and the over-line"),
+    ("#CDBBC6", "#4A1F3D", False, "brewstew: a note on a card, and the line under a film's title"),
+    ("#361628", "#BDF2DA", False, "brewstew: every button's words, on the foxfire"),
+    ("#361628", "#EFE8DA", False, "brewstew: a button under the pointer"),
+
     # ── Now Playing (§53) ────────────────────────────────────────────────────
     (NP_BOTH,   NP_STOCK,  False, "now playing: every word on the sheet -- the h1, the over- and "
                                   "sub-lines, the lede, every room's name, where it is, our line "
@@ -3422,6 +3441,34 @@ ORNAMENT = {
                "no word.",
     "#d2483a": "purrs: tomato and roast pepper in a sandwich, 4.19 on the plate. It carries no word.",
     "#b07a44": "purrs: peanut butter and pickle in a sandwich, 3.46 on the plate. It carries no word.",
+    "#220e1b": "brewstew: the floor and the night wood outside the window, 1.14 on the heather. It carries no word.",
+    "#4e2640": "brewstew: the logs, the beam, the edge of a card and the frame of the looking-glass, 1.29 on the heather. Outlined in the iron. It carries no word.",
+    "#160911": "brewstew: the shut stove and every outline in the drawings, 1.55 on the logs. It carries no word.",
+    "#a9c9bc": "brewstew: the stoneware glaze of every pot, beaker, bowl and jar, 9.04 on the heather and 1.04 on the table. It carries no word.",
+    "#e6dece": "brewstew: the window frame, the shelves, a mushroom's stem and a spoon, 12.06 on the heather. It carries no word.",
+    "#d8c3a6": "brewstew: the cut face of a log, a table and a bread board, 9.43 on the heather. It carries no word.",
+    "#a98c70": "brewstew: the rings in a slice of log, 1.84 on its face. It carries no word.",
+    "#7fa36a": "brewstew: the moss, a fern frond, and herbs on a soup, 5.64 on the heather. It carries no word.",
+    "#dcebe6": "brewstew: a jam jar and a bottle by the door, 13.11 on the heather. It carries no word.",
+    "#d9d7e3": "brewstew: an old tin and an honesty pod, 11.35 on the heather. It carries no word.",
+    "#e8c66a": "brewstew: chamomile, elderflower and ginger in a beaker, a focaccia's crust and the oil for the bread, 1.08 on the glaze. It carries no word.",
+    "#c8d57e": "brewstew: peppermint, lemon balm and fennel in a beaker, 1.13 on the glaze. It carries no word.",
+    "#b3384a": "brewstew: rosehip and hibiscus in a beaker and beetroot in a bowl, 3.29 on the glaze. It carries no word.",
+    "#c46a32": "brewstew: rooibos and spiced apple in a beaker, 2.16 on the glaze. It carries no word.",
+    "#e6a2a8": "brewstew: rose tea, a little pot by the door and the rug, 1.17 on the glaze and 8.81 on the floor. It carries no word.",
+    "#a08670": "brewstew: mushroom soup, and the buckwheat loaf's crumb, 1.92 on the glaze. It carries no word.",
+    "#e39b3e": "brewstew: roast squash in a bowl, 1.30 on the glaze. It carries no word.",
+    "#e2dcaf": "brewstew: leek and potato in a bowl, 1.28 on the glaze. It carries no word.",
+    "#8ebf5b": "brewstew: pea and mint in a bowl, 1.21 on the glaze. It carries no word.",
+    "#d2663a": "brewstew: red lentil and white bean stew in a bowl, 2.06 on the glaze. It carries no word.",
+    "#a8744a": "brewstew: the root stew, and the walnut loaf's crumb, 2.24 on the glaze. It carries no word.",
+    "#f0e6cc": "brewstew: a swirl of oat cream on a soup, and bunny tails by the door, 1.44 on the glaze. It carries no word.",
+    "#be874f": "brewstew: a loaf's crust, 1.81 on the board. It carries no word.",
+    "#f1e0c0": "brewstew: a loaf's crumb and a dumpling, 1.32 on the board. It carries no word.",
+    "#7c5337": "brewstew: rye's crust and a pine cone, 3.90 on the board. It carries no word.",
+    "#a08acd": "brewstew: lavender and thistle by the door and in the herbs on the beam, 5.38 on the heather. It carries no word.",
+    "#d9c68c": "brewstew: oat grass, catkins and the herbs' string, 9.53 on the heather. It carries no word.",
+    "#c885b8": "brewstew: heather and statice by the door, a stool's cushion and the rug's edge, 5.76 on the heather. It carries no word.",
     "#c9cbc4": "notebook: the dot grid, 1.57 on the paper. A layer behind the words, drawn on the "
                "body's ::before so check-contrast-live.py measures every word against the flat paper; "
                "a dot carries no word.",

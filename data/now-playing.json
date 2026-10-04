@@ -143,6 +143,15 @@
    ]
   },
   {
+   "page": "brew-and-stew.html",
+   "what": "A woodland tea room at pitch 04, lit by its own wood, with other people's woodland tea rooms in the looking-glass by the window.",
+   "holds": [
+    "The looking-glass",
+    "other people’s woodland tea rooms"
+   ],
+   "after": "<h2 id=\"bns-glass-h\">"
+  },
+  {
    "page": "black-leather-lagoon.html",
    "what": "A drive-in screen standing in black water where it is always Halloween: our Halloween playlist on the screen and The Cramps on posts in the water. Nothing out there flickers.",
    "holds": [

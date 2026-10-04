@@ -1215,6 +1215,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--purrs .og-lede {{ font-family: 'Gabarito', sans-serif; color: var(--pkp-ink); font-size: 25px;
   line-height: 1.35; margin: 0; }}
 
+/* brew and stew — THE CABIN beside the name, lifted off the page whole: the
+   logs with the foxfire in their joints, the shut stove, the shelves of jars,
+   the window onto the night wood and the tables cut from logs. Nobody lit it,
+   and the card does not light it either. */
+.og--brewstew {{ flex-direction: row; align-items: center; gap: 34px; padding: 40px 50px; }}
+.og--brewstew .og-words {{ flex: 0 0 380px; }}
+.og--brewstew .og-room {{ flex: 0 0 690px; border: 3px solid var(--bns-log); border-radius: 16px; overflow: hidden; }}
+.og--brewstew .og-room svg {{ display: block; width: 100%; height: auto; }}
+.og--brewstew .bns-over {{ font-size: 16px; margin: 0 0 6px !important; }}
+.og--brewstew h1 {{ font-size: 78px; line-height: .98; margin: 0 0 14px !important; }}
+.og--brewstew .og-lede {{ font-family: 'Livvic', sans-serif; color: var(--bns-text); font-size: 25px;
+  line-height: 1.35; margin: 0; }}
+
 /* count me in — THE LANDING, straight on: the header, and the flight with the lift
    on its rail lifted off the page whole. The card shows no step number, because
    the stair's number changes with every step and a card is a picture that would
@@ -3978,6 +3991,33 @@ def card_purrs(p):
     )
 
 
+def card_brewstew(p):
+    # THE CABIN AND THE NAME ARE LIFTED WHOLE, so the card cannot show a tea room
+    # the page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="bns-room__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="bns-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: brew-and-stew.html has lost the drawing of the cabin or its\n"
+            "header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--brewstew" data-fit="card">'
+        f'<div class="og-words"><p class="bns-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-room">{draw.group(1)}</div>'
+        f'</div>',
+        f"A dark heather card. On the right, the inside of a log cabin at night: rows of logs with a pale mint "
+        f"glow in the joints between them, herbs drying from the beam, a window onto dark fir trees, a shut "
+        f"black iron stove with a kettle and a stew pot on it and a little steam, shelves of jars of tea, a "
+        f"shelf of small arrangements by a plank door, two tables cut from slices of log on stumps, one with a "
+        f"teapot and one with a bowl, and small glowing mint mushrooms at the foot of the walls; no flame "
+        f"anywhere. On the left, small capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in "
+        f"large mint storybook letters, then: {p['desc_plain']}",
+    )
+
+
 def card_stair(p):
     # THE HEADER AND THE FLIGHT ARE LIFTED WHOLE, lift and all, so the card
     # cannot draw a stair without its lift. No step number: it would be stale by
@@ -4387,6 +4427,7 @@ CARDS = {
     "glasshouse":   card_glasshouse,
     "cookin":       card_cookin,
     "purrs":        card_purrs,
+    "brewstew":     card_brewstew,
     "cats":         card_cats,
     "dogs":         card_dogs,
     "smalls":       card_smalls,

@@ -798,6 +798,45 @@
    "learned": "It is the only room on this street lit by morning. Every other world here is a dark ground with light applied to it; a cabin that runs on the sun and reads as midnight would be an argument against itself."
   },
   {
+   "id": "bns-spoon",
+   "page": "brew-and-stew.html",
+   "room": "Brew and Stew",
+   "title": "Who lit the woodland tea room?",
+   "posted": "There is a tea room in a cabin on the Campgrounds, at the edge of the trees, and there is no flame in it anywhere. Go and sit in it, and come back with what gives it its light.",
+   "rank": 3,
+   "takes": "three minutes, and a pot of tea if you want one",
+   "target": "a wooden spoon, dropped by the stove",
+   "code": "FOXFIRE",
+   "learned": "Nobody lit it: the light grows in the cabin's own wood, a pale glow in the joints between the logs, in the moss and in the little mushrooms at the foot of the walls, and the stove is shut iron, giving the room its warmth and none of its light.",
+   "hints": [
+    "It is not on the street. Go out past the treeline to the campgrounds first.",
+    "Pitch 04 on the board, the cabin with its window dark.",
+    "On the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "Nobody lit this tea room. What gives it its light?",
+    "accept": [
+     "wood",
+     "the wood",
+     "its wood",
+     "its own wood",
+     "logs",
+     "the logs",
+     "foxfire",
+     "mushrooms",
+     "the mushrooms",
+     "moss"
+    ],
+    "answer": "Its own wood",
+    "why": "Its own wood: the light grows in the joints between the logs, in the moss and in the little mushrooms, and the stove is shut, so it gives warmth and no light.",
+    "hints": [
+     "It is in the first paragraph under the name.",
+     "Not the stove: the stove is shut.",
+     "Look at the joints between the logs."
+    ]
+   }
+  },
+  {
    "id": "liner-colophon",
    "page": "liner-notes.html",
    "room": "The Liner Notes",

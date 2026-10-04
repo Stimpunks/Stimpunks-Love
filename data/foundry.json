@@ -1331,6 +1331,20 @@
       "sections": [
         94
       ]
+    },
+    "macondo": {
+      "where": "Brew and Stew",
+      "page": "brew-and-stew.html",
+      "sections": [
+        95
+      ]
+    },
+    "livvic": {
+      "where": "Brew and Stew",
+      "page": "brew-and-stew.html",
+      "sections": [
+        95
+      ]
     }
   }
 }

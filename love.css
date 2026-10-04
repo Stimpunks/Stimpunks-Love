@@ -1134,6 +1134,18 @@
 @font-face { font-family: 'Gabarito'; src: url('fonts/gabarito-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Gabarito'; src: url('fonts/gabarito-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Brew and Stew (§95). A STORYBOOK HEADING AND A PLAIN SANS. Macondo, by John
+   Vargas Beltrán, sets the tea room's name and every heading and nothing at
+   reading size: one weight, one file. Livvic, by LV= and Jacques Le Bailly,
+   carries every word that is read; it ships as static files, a regular and a
+   bold. No italic for either, and nothing in the room asks for one. Not the
+   Faery Yurt's high-contrast italic serifs, on purpose: a cabin's sign is cut
+   with a knife, and a yurt's is written with a pen. Read off their own
+   records; see fonts/_sources.json. */
+@font-face { font-family: 'Macondo'; src: url('fonts/macondo-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Livvic'; src: url('fonts/livvic-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Livvic'; src: url('fonts/livvic-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -2826,6 +2838,34 @@
   --pkp-leaf:  #6FA84E;  --pkp-yolk:  #F0CF55;  --pkp-salmon: #EE8F73;
   --pkp-pink:  #E9A39A;  --pkp-curry: #E3A53D;  --pkp-cream: #EFE2C4;
   --pkp-tomato: #D2483A; --pkp-peanut: #B07A44;
+
+  /* Brew and Stew (§95). A CABIN LIT BY ITS OWN WOOD. --bns-night is the room in
+     that light, the ground every word stands on; --bns-panel a card on the
+     board. --bns-text is every word, --bns-dim the fine print. --bns-glow is the
+     foxfire, the one light in the room: every heading, every link, the focus
+     ring and the ground of every button. The rest carry no word: --bns-deep the
+     floor and the night wood outside, --bns-log the logs and the beam, --bns-iron
+     the shut stove and every outline, --bns-stone the stoneware glaze of every
+     pot, beaker and bowl, --bns-birch the window frame, the shelves and a spoon,
+     --bns-slice the cut face of a log and a board, --bns-ring its rings,
+     --bns-moss the moss, --bns-glass a jar or a bottle, --bns-silver a tin and
+     an honesty pod. What is in a pot, a bowl or on a board: --bns-gold,
+     --bns-mintea, --bns-ruby, --bns-amber, --bns-rose, --bns-mush, --bns-squash,
+     --bns-leek, --bns-pea, --bns-lentil, --bns-stew, --bns-cream, --bns-crust,
+     --bns-crumb, --bns-rye; and in a jar by the door: --bns-lavender,
+     --bns-straw, --bns-heather. */
+  --bns-night: #361628;  --bns-panel: #4A1F3D;  --bns-text:  #EFE8DA;
+  --bns-dim:   #CDBBC6;  --bns-glow:  #BDF2DA;
+  --bns-deep:  #220E1B;  --bns-log:   #4E2640;  --bns-iron:  #160911;
+  --bns-stone: #A9C9BC;  --bns-birch: #E6DECE;  --bns-slice: #D8C3A6;
+  --bns-ring:  #A98C70;  --bns-moss:  #7FA36A;  --bns-glass: #DCEBE6;
+  --bns-silver: #D9D7E3; --bns-gold:  #E8C66A;  --bns-mintea: #C8D57E;
+  --bns-ruby:  #B3384A;  --bns-amber: #C46A32;  --bns-rose:  #E6A2A8;
+  --bns-mush:  #A08670;  --bns-squash: #E39B3E; --bns-leek:  #E2DCAF;
+  --bns-pea:   #8EBF5B;  --bns-lentil: #D2663A; --bns-stew:  #A8744A;
+  --bns-cream: #F0E6CC;  --bns-crust: #BE874F;  --bns-crumb: #F1E0C0;
+  --bns-rye:   #7C5337;  --bns-lavender: #A08ACD; --bns-straw: #D9C68C;
+  --bns-heather: #C885B8;
 
   /* import:neurohome:root:begin */
   /* Isha Snow's room, NeuroHome -- brought in by tools/import-room.py.
@@ -14985,7 +15025,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §96
+   class on it is `bb-`, its sizes are in points and millimetres, and §97
    prints it and nothing else. */
 
 .room-broadside {
@@ -15046,7 +15086,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §96 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §97 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -19414,7 +19454,143 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .pkp-card__pic { max-width: 180px; }
 }
 
-/* §95 ── Small screens ───────────────────────────────────────────────────────
+/* §95 ── ROOM: Brew and Stew (pitch 04 on the Campgrounds) ────────────────────
+   A woodland tea room in a cabin at the edge of the trees. Ryan's brief,
+   2026-10-04: herbal teas, plant-based soups and breads, flowers, grasses and
+   twigs to take to your table, a fantasy woodland cottage, cosy and mystical,
+   and the look at your table from Pekoe and Purrs, which is table.js's now.
+   tools/make-brew-and-stew.py draws the cabin and writes the board.
+
+   THE LIGHT GROWS IN THE WOOD. Nobody lit this cabin. The light is foxfire: a
+   pale cool glow in the joints between the logs, in the moss on the sill and
+   in the caps of the little mushrooms at the foot of the walls, enough to read
+   by and never enough to throw a shadow, which is why nothing in the drawing
+   has one. It lights nothing round it. The stove is shut iron: it gives the
+   room its warmth and none of its light. No other room on the street is lit
+   by something alive that nobody switched on.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · THE FAERY YURT is pitched on the same field, and it is the one this room
+       must never become: the candlelit fae room, warm brown canvas, a flame you
+       could hold, lights strung across the top, cream on dark in high-contrast
+       italic serifs. Here there is no flame anywhere, the light is cool and
+       comes out of the walls, the dark is heather rather than brown, and the
+       faces are a knife-cut sign and a plain sans. A candle on a table or a
+       string of lights along the beam would make it the yurt with soup, and
+       make-brew-and-stew.py refuses both in the room's voice.
+     · THE LATIBULUM is the other cosy wooden refuge: a burrow under a hill,
+       dark on lit plaster, earth brown, a round door and one low lamp. This is
+       above ground, a plank door, pale on dark, and no lamp.
+     · SWAYING SWEETGRASS is the pitch next door and its ground is dark olive
+       soil; this ground is heather. Its light comes through the grass from a
+       sun behind it; this one comes out of the wood.
+     · GLOW GO GEE GAWS is lit by toys that are charged and give the light back
+       until they have none, in every colour. Foxfire is never charged, never
+       runs out, and is one colour.
+     · LOOMING ROCKS is lit by lichen fluorescing under violet floods: it needs
+       a lamp. This needs nothing.
+     · THE JUNGLE ROOM is lit from above where the leaves let the light through.
+       Nothing here is lit from above.
+     · THE CAMPGROUNDS outside is lit by nothing. You come in off a dark field
+       into a room that is lit by itself.
+
+   NOTHING MOVES, at any setting, and the tool refuses a keyframe here: the
+   steam over the pots is drawn, and a field that keeps still has a tea room
+   on it that keeps still too. */
+
+.brewstew {
+  background: var(--bns-night); color: var(--bns-text);
+  font-family: 'Livvic', var(--sans); font-synthesis: none;
+}
+.brewstew a { color: var(--bns-glow); }
+.brewstew a:hover { color: var(--bns-text); }
+.brewstew :focus-visible { outline-color: var(--bns-glow); }
+.brewstew :where(p, li) { font-size: 17px; line-height: 1.65; }
+.brewstew .backlink { font-family: 'Livvic', var(--sans); font-weight: 700; font-size: 15px; letter-spacing: .01em; color: var(--bns-glow); }
+.bns-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.bns-trail { margin: 0; font-size: 15px; color: var(--bns-dim); }
+
+.bns-head { margin: 28px 0 0; }
+.bns-over { margin: 0; font-weight: 700; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: var(--bns-dim); }
+.brewstew h1 {
+  margin: 6px 0 6px; font-family: 'Macondo', var(--sans); font-weight: 400;
+  font-size: clamp(50px, 9.5vw, 96px); line-height: 1; color: var(--bns-glow);
+}
+.bns-sub { margin: 0; font-size: 21px; line-height: 1.4; max-width: 40ch; }
+.brewstew h2 {
+  margin: 0 0 10px; font-family: 'Macondo', var(--sans); font-weight: 400;
+  font-size: 36px; line-height: 1.15; color: var(--bns-glow);
+}
+.brewstew h3 {
+  margin: 26px 0 8px; font-family: 'Macondo', var(--sans); font-weight: 400;
+  font-size: 27px; line-height: 1.2; color: var(--bns-glow);
+}
+.bns-lede { margin: 24px 0 0; font-size: 19px; line-height: 1.65; max-width: 66ch; }
+.bns-part { margin: 46px 0 0; }
+.bns-part > p { max-width: 68ch; }
+
+/* THE CABIN, and your table: a drawing each, one shown at a time. */
+.bns-room, .bns-table { border: 3px solid var(--bns-log); border-radius: 18px; overflow: hidden; background: var(--bns-deep); }
+.bns-room__draw, .bns-table__draw { display: block; width: 100%; height: auto; }
+.bns-controls { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; margin: 14px 0 0; }
+.bns-words { margin: 12px 0 0; padding: 10px 14px; max-width: 68ch; background: var(--bns-panel); border: 2px solid var(--bns-log); border-radius: 12px; }
+
+.bns-btn {
+  font: 700 17px/1.3 'Livvic', var(--sans); padding: 9px 18px; min-height: 44px; cursor: pointer;
+  border: 2px solid var(--bns-glow); border-radius: 10px; background: var(--bns-glow); color: var(--bns-night);
+}
+.bns-btn:hover { background: var(--bns-text); border-color: var(--bns-text); }
+.bns-btn:focus-visible { outline: 3px solid var(--bns-glow); outline-offset: 3px; }
+.bns-btn--quiet { background: var(--bns-panel); color: var(--bns-text); }
+.bns-btn--quiet:hover { background: var(--bns-night); border-color: var(--bns-glow); }
+
+/* An answer, said where the hand is. aria-hidden; the live region says it once. */
+.bns-said {
+  display: block; margin: 8px 0 0; padding: 7px 12px; font-size: 16px; line-height: 1.45;
+  background: var(--bns-night); color: var(--bns-text); border: 2px solid var(--bns-glow); border-radius: 10px;
+}
+
+/* THE BOARD and the shelf by the door: a card to each thing, with its drawing,
+   the same drawing that goes on your table. */
+.bns-board { margin: 8px 0 0; }
+.bns-board__lede { max-width: 68ch; margin: 0 0 12px; }
+.bns-items { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+.bns-item { padding: 12px 16px 14px; background: var(--bns-panel); border: 2px solid var(--bns-log); border-radius: 14px; }
+.bns-item__draw { display: block; width: 120px; height: auto; margin: 0 0 4px; }
+.bns-items--arr .bns-item__draw { width: 110px; }
+.brewstew .bns-item__name { margin: 0 0 6px; font-size: 23px; }
+.bns-item p { margin: 0 0 6px; font-size: 16px; line-height: 1.5; }
+.bns-item__has, .bns-item__caf { font-weight: 700; }
+.bns-item__note { color: var(--bns-dim); }
+.bns-item__go { margin: 10px 0 0; }
+
+/* THE LOOKING-GLASS, with nothing of its own in it, and its rack: rack.js's
+   pattern in the cabin's clothes. The glass is a round-cornered frame of the
+   same logs as the walls. */
+.bns-glass { margin: 16px 0 0; max-width: 820px; border-radius: 22px; }
+.brewstew .bns-glass__idle {
+  margin: 0; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+  padding: 18px 22px; text-align: center; border-radius: 22px; border: 8px solid var(--bns-log);
+  background: var(--bns-deep); color: var(--bns-text); font-size: 17px; line-height: 1.5;
+}
+.brewstew .bns-glass__idle span { max-width: 44ch; }
+.brewstew .bns-glass__idle b { color: var(--bns-glow); }
+.brewstew .bns-glass__now { margin: 10px 0 0; max-width: 820px; font-weight: 700; font-size: 16px; }
+.brewstew .bns-glass__back { margin: 8px 0 0; }
+.bns-rack { margin: 22px 0 0; }
+.bns-rack__sum { cursor: pointer; font: 400 25px/1.25 'Macondo', var(--sans); color: var(--bns-glow); }
+.bns-vids { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.bns-vid { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px 14px; background: var(--bns-panel); border: 2px solid var(--bns-log); border-radius: 14px; }
+.brewstew .bns-vid__title { margin: 0; font: 700 17px/1.35 'Livvic', var(--sans); color: var(--bns-text); overflow-wrap: anywhere; }
+.brewstew .bns-vid__by { margin: 0; font-size: 15px; color: var(--bns-dim); }
+.bns-vid .facade { margin-top: auto; }
+.brewstew .bns-vid__big { font-size: 15px; min-height: 40px; text-align: left; }
+
+.bns-rules, .bns-keeps { margin: 8px 0 0; padding-left: 22px; max-width: 68ch; }
+.bns-rules li, .bns-keeps li { margin: 0 0 8px; }
+.brewstew .quest { margin-top: 40px; }
+
+/* §96 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -19521,7 +19697,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §95 says every
+   shipped with no rule here at all — which on a street whose §96 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -19645,7 +19821,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §96 ── Print ───────────────────────────────────────────────────────────────
+/* §97 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

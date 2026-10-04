@@ -1,0 +1,525 @@
+{
+ "_what": "Brew and Stew, a woodland tea room in a cabin on the Campgrounds, pitch 04. Ryan Boren's brief, 2026-10-04: herbal teas and plant-based soups in a cottage or cabin in the woods, on the Campgrounds; a menu of herbal teas, vegan soups and vegan breads; flower, grass and twig arrangements to take to your table; a fantasy woodland cottage, cosy and mystical; the look at your table from Pekoe and Purrs; and a rack of the videos he listed. tools/make-brew-and-stew.py builds the room, the view down at your table, the menu, the arrangements, the rack and the credits out of this file. Your table is table.js's, the same behaviour as Pekoe and Purrs' in this room's own clothes.",
+ "_menu": "EVERYTHING ON THE BOARD IS VEGAN, and the tool refuses anything that is not, checked with Hey, Good Cookin's own engine: its allergens(), animals() and check_dish(), imported, so the two kitchens cannot disagree about a word. Honey is refused with them, which is why every tea comes with maple syrup on the side. Every tea is a tisane, never the tea plant, and its caffeine line is worked out by Pekoe and Purrs' engine from what is in it; the tool refuses a tea with any caffeine. NOTHING HERE IS A REMEDY: herbal tea is sold everywhere as a cure for something, and the tool refuses that vocabulary in the room's voice, with the negation window. NOTHING HERE WAS FORAGED: a tea room in a wood is exactly where a menu starts telling people what they can pick, and the tool refuses that vocabulary too, Mycelium Munchies' rule, narrowed because this room's address really is in the woods. A `look` is the colour of what is in the cup, the bowl or on the board, never the stoneware.",
+ "menu": [
+  {
+   "key": "teas",
+   "title": "Herbal teas",
+   "lede": "Every tea is a pot for one, poured into a stoneware beaker, and every one is a tisane: flowers, leaves, roots, seeds or fruit, and none of the tea plant, so there is no caffeine in any of them. Maple syrup on the side, for anybody who sweetens.",
+   "items": [
+    {
+     "key": "chamomile-lavender",
+     "name": "Chamomile and lavender",
+     "diet": "vegan",
+     "vessel": "pot",
+     "what": "dried chamomile flowers and a pinch of culinary lavender",
+     "look": {
+      "drink": "--bns-gold"
+     }
+    },
+    {
+     "key": "peppermint",
+     "name": "Peppermint",
+     "diet": "vegan",
+     "vessel": "pot",
+     "what": "dried peppermint leaves",
+     "look": {
+      "drink": "--bns-mintea"
+     }
+    },
+    {
+     "key": "lemon-balm",
+     "name": "Lemon balm and verbena",
+     "diet": "vegan",
+     "vessel": "pot",
+     "what": "dried lemon balm and lemon verbena leaves",
+     "look": {
+      "drink": "--bns-mintea"
+     }
+    },
+    {
+     "key": "rosehip-hibiscus",
+     "name": "Rosehip and hibiscus",
+     "diet": "vegan",
+     "vessel": "pot",
+     "what": "dried rosehips and hibiscus flowers",
+     "look": {
+      "drink": "--bns-ruby"
+     }
+    },
+    {
+     "key": "elderflower-apple",
+     "name": "Elderflower and apple",
+     "diet": "vegan",
+     "vessel": "pot",
+     "what": "dried elderflowers and dried apple",
+     "look": {
+      "drink": "--bns-gold"
+     }
+    },
+    {
+     "key": "ginger-lemon",
+     "name": "Ginger and lemon",
+     "diet": "vegan",
+     "vessel": "pot",
+     "what": "fresh ginger, sliced, and lemon peel",
+     "look": {
+      "drink": "--bns-gold"
+     }
+    },
+    {
+     "key": "fennel-spearmint",
+     "name": "Fennel and spearmint",
+     "diet": "vegan",
+     "vessel": "pot",
+     "what": "fennel seeds and dried spearmint",
+     "look": {
+      "drink": "--bns-mintea"
+     }
+    },
+    {
+     "key": "rooibos-vanilla",
+     "name": "Rooibos and vanilla",
+     "diet": "vegan",
+     "vessel": "pot",
+     "what": "rooibos and a split vanilla pod",
+     "look": {
+      "drink": "--bns-amber"
+     }
+    },
+    {
+     "key": "rose-cardamom",
+     "name": "Rose and cardamom",
+     "diet": "vegan",
+     "vessel": "pot",
+     "what": "dried rose petals and green cardamom pods",
+     "look": {
+      "drink": "--bns-rose"
+     }
+    },
+    {
+     "key": "spiced-apple",
+     "name": "Spiced apple",
+     "diet": "vegan",
+     "vessel": "pot",
+     "what": "dried apple, cinnamon, cloves and orange peel",
+     "look": {
+      "drink": "--bns-amber"
+     }
+    }
+   ]
+  },
+  {
+   "key": "soups",
+   "title": "Soups and stews",
+   "lede": "A bowl, a wooden spoon, and the pot it came out of still on the stove. The mushrooms were grown on a farm, like every mushroom that goes in a pot here.",
+   "items": [
+    {
+     "key": "mushroom-thyme",
+     "name": "Mushroom and thyme",
+     "diet": "vegan",
+     "vessel": "bowl",
+     "what": "chestnut mushrooms, onion, garlic, thyme, oat cream, vegetable stock",
+     "look": {
+      "soup": "--bns-mush",
+      "top": "--bns-cream"
+     }
+    },
+    {
+     "key": "squash-sage",
+     "name": "Roast squash and sage",
+     "diet": "vegan",
+     "vessel": "bowl",
+     "what": "butternut squash, onion, sage, olive oil, vegetable stock, toasted pumpkin seeds",
+     "look": {
+      "soup": "--bns-squash",
+      "top": "--bns-moss"
+     }
+    },
+    {
+     "key": "leek-potato",
+     "name": "Leek and potato",
+     "diet": "vegan",
+     "vessel": "bowl",
+     "what": "leeks, potatoes, oat cream, vegetable stock, chives",
+     "look": {
+      "soup": "--bns-leek",
+      "top": "--bns-moss"
+     }
+    },
+    {
+     "key": "pea-mint",
+     "name": "Garden pea and mint",
+     "diet": "vegan",
+     "vessel": "bowl",
+     "what": "peas, mint, spring onion, vegetable stock",
+     "look": {
+      "soup": "--bns-pea",
+      "top": "--bns-cream"
+     }
+    },
+    {
+     "key": "lentil-paprika",
+     "name": "Red lentil and smoked paprika",
+     "diet": "vegan",
+     "vessel": "bowl",
+     "what": "red lentils, carrot, tomato, smoked paprika, cumin, vegetable stock",
+     "look": {
+      "soup": "--bns-lentil",
+      "top": "--bns-cream"
+     }
+    },
+    {
+     "key": "beetroot-dill",
+     "name": "Beetroot and dill",
+     "diet": "vegan",
+     "vessel": "bowl",
+     "what": "beetroot, red cabbage, potato, dill, vegetable stock, a swirl of oat cream",
+     "look": {
+      "soup": "--bns-ruby",
+      "top": "--bns-cream"
+     }
+    },
+    {
+     "key": "root-stew",
+     "name": "Root stew with dumplings",
+     "diet": "vegan",
+     "vessel": "bowl",
+     "what": "carrots, parsnips, swede, celeriac, pearl barley, thyme, vegetable stock, and herb dumplings of wheat flour, olive oil and parsley",
+     "look": {
+      "soup": "--bns-stew",
+      "top": "--bns-crumb"
+     }
+    },
+    {
+     "key": "bean-rosemary",
+     "name": "White bean and rosemary stew",
+     "diet": "vegan",
+     "vessel": "bowl",
+     "what": "cannellini beans, tomato, rosemary, garlic, kale, olive oil, vegetable stock",
+     "look": {
+      "soup": "--bns-lentil",
+      "top": "--bns-moss"
+     }
+    }
+   ]
+  },
+  {
+   "key": "breads",
+   "title": "Breads",
+   "lede": "Baked in the morning, cut thick, on a board, with olive oil and flaky salt. The buckwheat loaf has no wheat in it and is baked in the same oven as the others, so if that matters, say so at the stove and somebody will tell you what has been near what.",
+   "items": [
+    {
+     "key": "soda-bread",
+     "name": "Soda bread",
+     "diet": "vegan",
+     "vessel": "board",
+     "what": "wholemeal flour, plain flour, oat milk soured with lemon juice, bicarbonate of soda, salt",
+     "look": {
+      "crust": "--bns-crust",
+      "crumb": "--bns-crumb"
+     }
+    },
+    {
+     "key": "rye-caraway",
+     "name": "Rye and caraway",
+     "diet": "vegan",
+     "vessel": "board",
+     "what": "rye flour, wheat flour, caraway seeds, sourdough starter, salt",
+     "look": {
+      "crust": "--bns-rye",
+      "crumb": "--bns-crust"
+     }
+    },
+    {
+     "key": "focaccia",
+     "name": "Rosemary focaccia",
+     "diet": "vegan",
+     "vessel": "board",
+     "what": "wheat flour, olive oil, rosemary, flaky salt, yeast",
+     "look": {
+      "crust": "--bns-gold",
+      "crumb": "--bns-crumb"
+     }
+    },
+    {
+     "key": "seeded-spelt",
+     "name": "Seeded spelt",
+     "diet": "vegan",
+     "vessel": "board",
+     "what": "spelt flour, sunflower seeds, pumpkin seeds, linseed, sesame seeds, yeast, salt",
+     "look": {
+      "crust": "--bns-crust",
+      "crumb": "--bns-crumb"
+     }
+    },
+    {
+     "key": "walnut-date",
+     "name": "Walnut and date loaf",
+     "diet": "vegan",
+     "vessel": "board",
+     "what": "wheat flour, dates, walnuts, black treacle, oat milk, sunflower oil",
+     "look": {
+      "crust": "--bns-rye",
+      "crumb": "--bns-stew"
+     }
+    },
+    {
+     "key": "buckwheat",
+     "name": "Buckwheat and seed loaf",
+     "diet": "vegan",
+     "vessel": "board",
+     "what": "buckwheat flour, psyllium husk, sunflower seeds, pumpkin seeds, salt",
+     "look": {
+      "crust": "--bns-rye",
+      "crumb": "--bns-mush"
+     }
+    }
+   ]
+  }
+ ],
+ "_arrangements": "FLOWERS, GRASSES AND TWIGS TO TAKE TO YOUR TABLE, from the shelf by the door. Every one was grown in the cottage garden or dried from last year's, and nothing in one was picked in the wood, which the tool holds with the foraging vocabulary. Nothing in an arrangement is food, and the room says so. Every plant is named the way a florist would name it, never in Latin: the herbarium's reason, because a name typed from memory reads as a determination. `stems` are what the tool draws: lavender, grass, catkin, pod, puff, frond, twig, heather and thistle, each in a colour of the room's own.",
+ "arrangements": [
+  {
+   "key": "lavender-oats",
+   "name": "Lavender and oat grass",
+   "in": "a stoneware jug",
+   "what": "dried lavender and oat grass",
+   "vessel": "jug",
+   "stems": [
+    [
+     "lavender",
+     "--bns-lavender"
+    ],
+    [
+     "grass",
+     "--bns-straw"
+    ],
+    [
+     "lavender",
+     "--bns-lavender"
+    ],
+    [
+     "grass",
+     "--bns-straw"
+    ],
+    [
+     "lavender",
+     "--bns-lavender"
+    ]
+   ]
+  },
+  {
+   "key": "birch-catkins",
+   "name": "Birch twigs and catkins",
+   "in": "a jam jar",
+   "what": "birch twigs with their catkins on",
+   "vessel": "jar",
+   "stems": [
+    [
+     "twig",
+     "--bns-birch"
+    ],
+    [
+     "catkin",
+     "--bns-straw"
+    ],
+    [
+     "twig",
+     "--bns-birch"
+    ],
+    [
+     "catkin",
+     "--bns-straw"
+    ]
+   ]
+  },
+  {
+   "key": "bunny-tails",
+   "name": "Bunny tails and statice",
+   "in": "a little pot",
+   "what": "bunny tail grass and dried statice",
+   "vessel": "pot",
+   "stems": [
+    [
+     "puff",
+     "--bns-cream"
+    ],
+    [
+     "puff",
+     "--bns-heather"
+    ],
+    [
+     "puff",
+     "--bns-cream"
+    ],
+    [
+     "puff",
+     "--bns-heather"
+    ],
+    [
+     "puff",
+     "--bns-cream"
+    ]
+   ]
+  },
+  {
+   "key": "honesty-willow",
+   "name": "Honesty and willow",
+   "in": "a tall bottle",
+   "what": "honesty seed pods, silver and papery, and a twist of willow",
+   "vessel": "bottle",
+   "stems": [
+    [
+     "pod",
+     "--bns-silver"
+    ],
+    [
+     "twig",
+     "--bns-birch"
+    ],
+    [
+     "pod",
+     "--bns-silver"
+    ]
+   ]
+  },
+  {
+   "key": "fern-moss",
+   "name": "Fern and moss",
+   "in": "a slice of log",
+   "what": "a dried fern frond, a cushion of moss and a pine cone, from the garden's shady corner",
+   "vessel": "slice",
+   "stems": [
+    [
+     "frond",
+     "--bns-moss"
+    ],
+    [
+     "frond",
+     "--bns-moss"
+    ]
+   ]
+  },
+  {
+   "key": "heather-thistle",
+   "name": "Heather and thistle",
+   "in": "an old tin",
+   "what": "dried heather and thistle heads",
+   "vessel": "tin",
+   "stems": [
+    [
+     "heather",
+     "--bns-heather"
+    ],
+    [
+     "thistle",
+     "--bns-lavender"
+    ],
+    [
+     "heather",
+     "--bns-heather"
+    ],
+    [
+     "thistle",
+     "--bns-lavender"
+    ]
+   ]
+  }
+ ],
+ "_videos": "THE LOOKING-GLASS'S RACK. Ryan's pick, 2026-10-04, in the order he gave them: other people's woodland tea rooms and cottages, most of them ASMR. Each id was asked of its own watch page on 2026-10-04 and every one answered OK and playable on other sites; the title, the channel and the runtime are what that page said, the runtime measured off its length and never typed. The titles are the channels' and are quoted as written, and the room's sweeps skip them; one of them says anxiety relief, which is the channel's word and not a claim of this room's. A video is an id, a title, a channel, a runtime and the day it went up, and a held one carries why it is held. check-jukebox.py asks after every one with every other facade on the street.",
+ "videos": [
+  {
+   "id": "SHNtU3MK3W8",
+   "title": "Tea Room of Enchantment | ASMR Fantasy Roleplay (magical, soft spoken)",
+   "channel": "Moonlight Cottage ASMR",
+   "channel_id": "UCftD_LCuDAwlPipnM6Uikqw",
+   "runtime": "28:09",
+   "published": "2025-12-14"
+  },
+  {
+   "id": "xNlo-QwqIH0",
+   "title": "ASMR Afternoon Tea& Nibbles w/ a Harfoot🌿🫖",
+   "channel": "Amy Kay ASMR",
+   "channel_id": "UCCOto-kMfW8FA-nRH54F9Dg",
+   "runtime": "31:25",
+   "published": "2022-09-29"
+  },
+  {
+   "id": "Xf2ybUqXXCc",
+   "title": "Spring Afternoon at The Woodland Tea Room: Cottagecore Baking & Crafts 🌼 Cosy Forest Cottage ASMR",
+   "channel": "Indoora World - The Cottage Library",
+   "channel_id": "UCHzJcsjG93RMPORrjxiA6yQ",
+   "runtime": "52:55",
+   "published": "2024-03-14"
+  },
+  {
+   "id": "mEj1hWaxD10",
+   "title": "Let's Make Tea Blends | ASMR cozy basics (tea brewing & tasting, wood & glass sounds, soft spoken)",
+   "channel": "Moonlight Cottage ASMR",
+   "channel_id": "UCftD_LCuDAwlPipnM6Uikqw",
+   "runtime": "48:40",
+   "published": "2023-03-12"
+  },
+  {
+   "id": "2In6cMLKSL4",
+   "title": "Spring Afternoon at The Woodland Tea Room: Cottagecore Baking & Crafts 🌼 Cosy Forest Cottage ASMR",
+   "channel": "Painted Memories",
+   "channel_id": "UCd_IFxjXYn8jfCYXxmpJ_AQ",
+   "runtime": "52:56",
+   "published": "2026-06-29",
+   "held": "Held, not on the rack, until Ryan says otherwise: it has the same title, word for word, as Indoora World - The Cottage Library's video of 2024-03-14 (Xf2ybUqXXCc, also on this rack) and runs one second longer, and it went up on a different channel, Painted Memories, on 2026-06-29. That is what a re-upload of somebody else's video looks like. Nobody here watched the two side by side, so it is held rather than called a copy."
+  },
+  {
+   "id": "NKNUaVLUtQc",
+   "title": "ASMR Forest Gnome Takes Care of You 🦔💛 (anxiety relief, pampering, whispered, layered sounds)",
+   "channel": "Jocie B ASMR",
+   "channel_id": "UCD_wbYHQeVbx_utWokhFdEw",
+   "runtime": "1:33:30",
+   "published": "2026-03-04"
+  },
+  {
+   "id": "gPp9VX96YzI",
+   "title": "Mrs. Pippetwhistle’s Mossdrop Tea Shop (ASMR)",
+   "channel": "Goodnight Moon",
+   "channel_id": "UClMJgjg2z_IrRm6J9KrhcuQ",
+   "runtime": "38:51",
+   "published": "2018-04-08"
+  },
+  {
+   "id": "A91Rgu13llU",
+   "title": "Afternoon at the Herbologist’s Greenhouse (ASMR)",
+   "channel": "Goodnight Moon",
+   "channel_id": "UClMJgjg2z_IrRm6J9KrhcuQ",
+   "runtime": "1:58:56",
+   "published": "2018-10-21"
+  },
+  {
+   "id": "_YDa79MylPw",
+   "title": "ASMR Woodland Dweller Offers Shelter (No Music)",
+   "channel": "Goodnight Moon",
+   "channel_id": "UClMJgjg2z_IrRm6J9KrhcuQ",
+   "runtime": "24:31",
+   "published": "2020-04-06"
+  },
+  {
+   "id": "f6ScCE880lU",
+   "title": "my cozy woodland life 🐿️🌲 baking focaccia, autumn art & forest walk 🍂",
+   "channel": "inado art",
+   "channel_id": "UCz_F4RMOtQWyp4fYVFumtTA",
+   "runtime": "19:55",
+   "published": "2026-09-28"
+  }
+ ],
+ "sources": {
+  "herbal": {
+   "title": "Herbal tea",
+   "by": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Herbal_tea",
+   "read": "2026-10-04",
+   "for": "That a tisane is not brewed from the tea plant and most carry no caffeine"
+  }
+ },
+ "_table": "How many things your table holds at once: a pot, a bowl, a board and a jar fit on a slice of log, and a fifth thing would be on your knees.",
+ "table_holds": 4
+}

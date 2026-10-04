@@ -2489,5 +2489,33 @@
    "src": "https://fonts.gstatic.com/s/gabarito/v9/QGYtz_0dZAGKJJ4t3HtoW4XGnfBI.woff2",
    "note": "Byte-identical to the 400 above; see that note."
   }
+ ],
+ "macondo": [
+  {
+   "file": "macondo-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 11528,
+   "src": "https://fonts.gstatic.com/s/macondo/v27/RrQQboN9-iB1IXmOe2LE0ZJCZ4c.woff2",
+   "note": "Brew and Stew (§95), the tea room's name and every heading, and nothing at reading size. John Vargas Beltrán's display face, with the feel of a storybook's chapter heading, over a cottage door in the woods. It has one weight, so one static file."
+  }
+ ],
+ "livvic": [
+  {
+   "file": "livvic-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 14880,
+   "src": "https://fonts.gstatic.com/s/livvic/v15/rnCp-x1S2hzjrlfXaOM7mH_OSQ.woff2",
+   "note": "Brew and Stew (§95), every word that is read: the menu, the arrangements, the house rules. LV= and Jacques Le Bailly's sans. Two static files, a regular and a bold."
+  },
+  {
+   "file": "livvic-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 14932,
+   "src": "https://fonts.gstatic.com/s/livvic/v15/rnCq-x1S2hzjrlff08YutV3DY_GtWA.woff2",
+   "note": "The bold of the 400 above, for the names on the menu and what is in each thing."
+  }
  ]
 }

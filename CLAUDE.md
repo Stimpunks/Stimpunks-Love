@@ -927,7 +927,7 @@ for the herbarium's reason. VideoPress is the third origin this street will fram
 *catches*, and both are taken. This one is **carried**: fireflies low in the grass, many small
 lights and no source you could point at. The fire is not drawn lit, because from the treeline the
 grass is taller than the clearing and what you can see from there is what gets drawn — so the sign
-shows the path going in and a thread of smoke. A fourth pitch needs a fourth light; three are gone.
+shows the path going in and a thread of smoke. A fourth pitch needs a fourth light; three are gone. (Brew and Stew, pitch 04, took the fourth: grown, in the logs themselves.)
 
 **THE FIRST COLD ENCLOSED ROOM, AND IT IS THE FIFTH WARM-LOOKING ONE.** The Mopery (§22) is a
 dark academia library with candles the whole way along every top shelf, which makes it another
@@ -2887,6 +2887,25 @@ titles the channels' and not swept, each measured off its watch page and in `che
 light is a window at every height, cut to the size of a cat; its collisions are in §94, and Rescue A Cat,
 the dark room every cat here came from, is the one it must never look like.
 
+**BREW AND STEW IS PITCH 04, AND NOBODY LIT IT.** §95, Ryan's brief, 2026-10-04: a woodland tea room in a
+cabin on the Campgrounds, herbal teas, vegan soups and breads, arrangements to take to your table, cosy
+and mystical, with Pekoe and Purrs' look at your table. **The Faery Yurt is on the same field and owns
+warm candlelight in the woods**, so this cabin is lit by foxfire, the light growing in its own logs, moss
+and mushrooms, cool and shadowless, and **there is no flame in it**: the stove is shut iron, warmth and no
+light. `tools/make-brew-and-stew.py` refuses candles, lanterns, lamps and fairy lights in the room's voice,
+with the negation window; **the friendly edit is a candle on every table**, and it makes this the yurt with
+soup. **Its ground is heather because Sweetgrass next door owns dark olive.** Everything is vegan, checked
+with Hey, Good Cookin's engine, and every tea's caffeine with Pekoe and Purrs' (both imported; the two
+engines gained phrases and tisane words for it). **Nothing is a remedy and nothing was foraged**: herbal tea
+is sold as a cure for everything, and a tea room in a wood is where a menu starts telling people what to
+pick. Mycelium Munchies' foraging list is not imported because it refuses "in the woods", this room's
+address. **The look at your table is `table.js` now**, by data attributes, rack.js's precedent: the second
+room to take a pattern moves it into one file, and `purrs.js` only adds the cat on your lap through
+`loveTable.add`. A video on a rack can be `held`, with a sentence saying why, and `check-jukebox.py` skips
+it: one of Ryan's ten is held because it looks like a re-upload of another on the same rack, and that is
+his to decide. **On the Campgrounds' board this is the fourth light, grown**: in the logs themselves,
+lighting nothing round it. A fifth pitch needs a fifth light.
+
 **THE MAP IS THE ONE PAGE THAT SHOWS EVERY OTHER PAGE, AND NOTHING ON IT IS PAINTED.** `map.html`
 (§49) is the whole street as a model in white card on a cutting mat: shopfronts on both sides of a
 pencilled road, rooms behind rooms standing behind them, the garden's gate halfway down, the
@@ -3599,18 +3618,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §96 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §97 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§96 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§97 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §96 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §97 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

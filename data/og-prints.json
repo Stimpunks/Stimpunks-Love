@@ -27,13 +27,17 @@
   "made_from": "230bc8b771091708fd3b758b902958c7d1ed8a93bd315758e4b7f5a371dfa8fa",
   "png": "ff7974eb5c1f99cce2a00db078b42e35551452548cb863320a5ca00f35e087c2"
  },
+ "brew-and-stew": {
+  "made_from": "1c8a1e5f06b5f3751ca0f2f62dfe06d549225a43e8cdadb7a38d90837c5d870f",
+  "png": "41f47e598fa00cc3ebdd7194d7a70feb5e481351c22fcbcb0630ed989d79fe6f"
+ },
  "broadsheet-broadside": {
   "made_from": "2c099d672fe1458d07fdd2cae98c950cae933f97f3a22e8f84abe3e4f7f8e4ae",
   "png": "bae2b8c741dfdc0f044014f03f3175d29e7e6e3f6c68f09c0b3b07d6e6c08bee"
  },
  "campgrounds": {
-  "made_from": "82a3ecbed4d5b17aa1f796b1b04940e4262af32641654a9abd11947aefb166b2",
-  "png": "4ed42a8805993f4ece227f9755b1ff856acc8ba5e9beb64d02018b6cf4caed30"
+  "made_from": "33be01f1f80554654782fa5ca0ec32298eec6ed95e7b55f76df02953f1cd77dc",
+  "png": "89ffb2861ae9581ebb57f335526821d58b32804866794ad88c137588cea2df21"
  },
  "cavendish-campfire": {
   "made_from": "26bbaafaddd87eb755982f02e31bf111a40bbcfc8959069b088cc1ce867b97aa",

@@ -248,6 +248,7 @@ LISTS = [
     # video's watch page once. The log's shape under the same key.
     ("hey good cookin's rack", "data/hey-good-cookin-month.json", "hey-good-cookin.html"),
     ("pekoe and purrs", "data/pekoe.json", "pekoe-and-purrs.html"),
+    ("brew and stew", "data/brew-and-stew.json", "brew-and-stew.html"),
     # Big Steep: three long cellar ambience videos on their makers' own
     # channels, the kind of upload that goes private without ceremony.
     ("big steep", "data/big-steep.json", "big-steep-fermentables.html"),
@@ -309,7 +310,9 @@ def tracks_in(data):
     # which are food rather than videos, under a key of its own. The Open
     # Notebook's collection uses the same key beside its questions.
     if "videos" in data:
-        return [dict(v, artist=v.get("channel")) for v in data["videos"]]
+        # A video marked held is on no page (Brew and Stew holds one that looks
+        # like a re-upload until Ryan says), so it is not reported.
+        return [dict(v, artist=v.get("channel")) for v in data["videos"] if not v.get("held")]
     # BIG STEEP keeps its cellar videos beside its house styles, which are
     # drinks rather than videos.
     if "ambience" in data:

@@ -2085,6 +2085,29 @@
     }
    ]
   },
+  "livvic": {
+   "family": "Livvic",
+   "category": "Sans Serif",
+   "designer": "LV=, Jacques Le Bailly",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/livvic",
+   "copyright": "Copyright 2019 The Livvic Project Authors (https://github.com/Fonthausen/Livvic)",
+   "repository": "https://github.com/Fonthausen/Livvic",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "livvic-400.woff2",
+     "sha": "4cd122610237cc93"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "livvic-700.woff2",
+     "sha": "ecc4d254740c284d"
+    }
+   ]
+  },
   "lora": {
    "family": "Lora",
    "category": "Serif",
@@ -2105,6 +2128,23 @@
      "style": "italic",
      "file": "lora-400-italic.woff2",
      "sha": "e93da94dec22f905"
+    }
+   ]
+  },
+  "macondo": {
+   "family": "Macondo",
+   "category": "Display",
+   "designer": "John Vargas Beltrán",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/macondo",
+   "copyright": "Copyright (c) 1997 - 2011, John Vargas Beltran. (www.johnvargasbeltran.com|john.vargasbeltran@gmail.com), with Reserved Font Name \"Macondo\"",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "macondo-400.woff2",
+     "sha": "3eb7327f1a6121e1"
     }
    ]
   },

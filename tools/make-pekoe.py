@@ -90,6 +90,7 @@ CSS = ROOT / "love.css"
 LIB = ROOT / "netlify/cb/lib.mjs"
 SCRIPT = ROOT / "purrs.js"
 SHELTER = ROOT / "shelter.js"
+TABLE = ROOT / "table.js"
 ANIMALS = ROOT / "animals.js"
 SECTION = 94          # love.css's section for this room
 
@@ -120,8 +121,11 @@ MONTHS = ["January", "February", "March", "April", "May", "June", "July", "Augus
 CAFFEINE = [
     ("full", r"espresso|coffee|black tea|green tea|white tea|oolong|sencha|matcha"),
     ("cocoa", r"chocolate|cocoa"),
-    ("none", r"chamomile|peppermint|rooibos|hibiscus|oat milk"),
+    ("none", r"chamomile|peppermint|spearmint|rooibos|hibiscus|rosehips?|elderflowers?|lemon balm|"
+             r"lemon verbena|lavender|fennel|ginger|rose petals?|dried apple|oat milk"),
 ]
+# Brew and Stew's herbal teas read this same list (make-brew-and-stew.py), so
+# the two tea rooms work caffeine out the same way.
 DECAF = r"decaf(?:feinated)? (?:espresso|coffee)"
 CAFFEINE_SAYS = {
     "full": "Has caffeine.",
@@ -680,7 +684,7 @@ def room_block(d):
         f'data-x="{n(s["x"])}" data-y="{n(s["y"])}">{esc(s["where"])}</li>' for s in spots)
     moods = json.dumps(d["moods"], separators=(",", ":"))
     return (f'    <div class="pkp-room" id="pkp-room" data-moods="{attr(moods)}" '
-            f'data-left-alone="{attr(" ".join(d["left_alone"]))}" data-table-holds="{d["table_holds"]}" '
+            f'data-left-alone="{attr(" ".join(d["left_alone"]))}" '
             f'data-cat-w="{CAT_W}" data-cat-h="{CAT_H}" data-w="{W}" data-h="{H}">\n'
             f'      {room_svg(d)}\n'
             f'      <div class="pkp-cats" id="pkp-cats"></div>\n'
@@ -701,7 +705,8 @@ ITEM_W, ITEM_H = 210, 158
 
 def lap_svg(d):
     holds = d["table_holds"]
-    out = [f'<svg class="pkp-lap__draw" id="pkp-lap-draw" viewBox="0 0 {W} {H}" aria-hidden="true" focusable="false">',
+    out = [f'<svg class="pkp-lap__draw" id="pkp-lap-draw" viewBox="0 0 {W} {H}" data-table data-table-holds="{holds}" '
+           'aria-hidden="true" focusable="false">',
            f'<rect width="{W}" height="{H}" fill="var(--pkp-floor)"/>']
     for x in range(-200, W + 200, 120):
         out.append(f'<path d="M{x} 0 L{x + 160} {H}" stroke="var(--pkp-ink)" stroke-width="1.2" opacity=".3"/>')
@@ -790,7 +795,7 @@ def plate_of(x, look):
 
 def item_svg(x, section):
     look = x["look"]
-    out = [f'<svg class="pkp-item__draw" data-draw="{attr(x["key"])}" viewBox="0 0 120 90" aria-hidden="true" focusable="false">']
+    out = [f'<svg class="pkp-item__draw" data-table-draw="{attr(x["key"])}" viewBox="0 0 120 90" aria-hidden="true" focusable="false">']
     if section == "sandwiches":
         out.append(plate_of(x, look))
     elif x["vessel"] == "pot":
@@ -830,9 +835,9 @@ def item_card(x, section):
             f'          {item_svg(x, section)}\n'
             f'          <h4 class="pkp-item__name">{esc(x["name"])}</h4>\n'
             f'          {body}\n'
-            f'          <p class="pkp-item__go"><button type="button" class="pkp-btn pkp-order" data-item="{attr(x["key"])}" '
-            f'data-name="{attr(x["name"])}" hidden>Bring it to my table</button> '
-            f'<span class="pkp-said" aria-hidden="true" hidden></span></p>\n'
+            f'          <p class="pkp-item__go"><button type="button" class="pkp-btn" data-table-order="{attr(x["key"])}" '
+            f'data-table-name="{attr(x["name"])}" hidden>Bring it to my table</button> '
+            f'<span class="pkp-said" data-table-said aria-hidden="true" hidden></span></p>\n'
             '        </li>')
 
 
@@ -954,6 +959,16 @@ def check_script():
     sweep(" ".join(re.findall(r"'([^'\\]*(?:\\.[^'\\]*)*)'", js)), SCRIPT.name)
 
 
+def check_table():
+    """table.js is shared with Brew and Stew, and it keeps the café's promise
+    about your table: nothing kept, nothing sent, nothing written as HTML."""
+    js = code_of(TABLE)
+    if re.search(r"localStorage|sessionStorage|indexedDB|document\.cookie|fetch\(|XMLHttpRequest|sendBeacon", js):
+        refuse(f"{TABLE.name} stores or sends something. What is on your table lives in the page.")
+    if "innerHTML" in js or "insertAdjacentHTML" in js or "outerHTML" in js:
+        refuse(f"{TABLE.name} writes HTML.")
+
+
 def check_neighbours():
     sh = SHELTER.read_text()
     if "li.id = 'animal-' + a.id" not in sh or "function arrive()" not in sh:
@@ -969,6 +984,7 @@ def check_page():
     src = PAGE.read_text()
     for want, why in (('src="animals.js"', "it does not load animals.js, which draws the cats"),
                       ('src="purrs.js"', "it does not load purrs.js"),
+                      ('src="table.js"', "it does not load table.js, which puts things on your table"),
                       ('href="rescue-a-cat.html"', "it does not link Rescue A Cat, where the cats are adopted"),
                       ('id="pkp-says"', "it has no live region for what the café says"),
                       ('src="love-embed.js"', "it does not load love-embed.js, so every film on the rack would press "
@@ -994,9 +1010,9 @@ def check_page():
 
 def section_css():
     css = CSS.read_text()
-    m = re.search(rf"/\* §{SECTION} ── ROOM: Pekoe and Purrs.*?(?=/\* §{SECTION + 1} ── )", css, re.S)
+    m = re.search(rf"/\* §{SECTION} ── ROOM: Pekoe and Purrs.*?(?=/\* §\d+ ── )", css, re.S)
     if not m:
-        refuse(f"love.css has no §{SECTION} for Pekoe and Purrs before §{SECTION + 1}.")
+        refuse(f"love.css has no §{SECTION} for Pekoe and Purrs, followed by another section.")
         return
     body = re.sub(r"/\*.*?\*/", " ", m.group(0), flags=re.S)
     if re.search(r"#[0-9a-fA-F]{3,6}\b|rgba?\(", body):
@@ -1025,6 +1041,7 @@ def main():
     swap(PAGE, "pkp:telly", telly_block(d), "    ")
     swap(NOTES, "pekoe-sources", liner_sources(d), "      ")
     check_script()
+    check_table()
     check_neighbours()
     check_page()
     section_css()

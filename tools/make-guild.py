@@ -443,6 +443,11 @@ DRAW = {
     # both over the body threshold a marker is held to; its eye is a detail in
     # --pkp-card.
     "pkp-mouse": """<path d="M3 29 H29" stroke="var(--pkp-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 25 Q6 16 15 16 Q22 16 25 25 Z" fill="var(--pkp-link)" stroke="var(--pkp-ink)" stroke-width="1.4" stroke-linejoin="round"/><circle cx="11" cy="16.5" r="3" fill="var(--pkp-link)" stroke="var(--pkp-ink)" stroke-width="1.2"/><circle cx="8.6" cy="21" r=".9" fill="var(--pkp-card)"/><path d="M25 25 Q29 22 27.5 17 Q26.5 13 29 11" fill="none" stroke="var(--pkp-ink)" stroke-width="1.4" stroke-linecap="round"/>""",
+    # Brew and Stew's wooden spoon, dropped by the stove: its bowl and handle
+    # are --bns-glow, the foxfire, 12.96 on the heather, and its outline and the
+    # floor line are --bns-text, 13.23, both over the body threshold a marker is
+    # held to.
+    "bns-spoon": """<path d="M3 29 H29" stroke="var(--bns-text)" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="9" cy="22" rx="5.5" ry="3.6" fill="var(--bns-glow)" stroke="var(--bns-text)" stroke-width="1.2"/><path d="M13.6 20.6 L28 15" stroke="var(--bns-glow)" stroke-width="2.6" stroke-linecap="round"/>""",
     "stair-lift": """<path d="M3 29 H29" stroke="var(--cmi-ink)" stroke-width="1.6" stroke-linecap="round"/><rect x="9" y="6" width="14" height="19" rx="3" fill="var(--cmi-dado)"/><circle cx="16" cy="13" r="3.6" fill="var(--cmi-nosing)"/><path d="M13 20 H19" stroke="var(--cmi-nosing)" stroke-width="1.6" stroke-linecap="round"/>""",
     "fridge-magnet": """<path d="M3 29 H29" stroke="var(--fos-ink)" stroke-width="1.6" stroke-linecap="round"/><rect x="6" y="15" width="20" height="10" fill="var(--fos-tile)" stroke="var(--fos-ink)" stroke-width="1.6"/><path d="M10 20 H15 M17 20 H22" stroke="var(--fos-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M8 26 H27" stroke="var(--fos-edge)" stroke-width="1.4" stroke-linecap="round"/>""",
     "pando-leaf": """<path d="M3 29 H29" stroke="var(--pdo-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M16 5 Q25 9 25 17 Q25 24 16 25 Q7 24 7 17 Q7 9 16 5 Z" fill="var(--pdo-gold)"/><path d="M16 7.5 V23" stroke="var(--pdo-shade)" stroke-width="1.3" stroke-linecap="round"/><path d="M16 25 L17 28.5" stroke="var(--pdo-gold)" stroke-width="2" stroke-linecap="round"/>""",

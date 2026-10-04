@@ -11,10 +11,10 @@
    at Rescue A Cat, and every cat's card links to its own card there.
 
    THE PICTURE IS THE PAGE'S, written by tools/make-pekoe.py: the room, every
-   perch (the list #pkp-spots, with where it is in words), the toys, the view
-   down at your lap and your table, and every menu item's drawing, which this
-   file copies onto the table. Cats are drawn by animals.js, so a cat here is
-   drawn exactly as it is in the shelter.
+   perch (the list #pkp-spots, with where it is in words), the toys, and the
+   view down at your lap and your table. Your table is table.js's, shared with
+   Brew and Stew; this file only adds the cat on your lap to it. Cats are drawn
+   by animals.js, so a cat here is drawn exactly as it is in the shelter.
 
    WHERE A CAT GOES IS ITS MOOD'S BUSINESS AND NOTHING ELSE'S, the rule
    written on the room as data-moods. A cat's markings are only ever handed to
@@ -43,7 +43,6 @@
 
   var W = +room.getAttribute('data-w'), H = +room.getAttribute('data-h');
   var CW = +room.getAttribute('data-cat-w'), CH = +room.getAttribute('data-cat-h');
-  var HOLDS = +room.getAttribute('data-table-holds') || 4;
   var ALONE = (room.getAttribute('data-left-alone') || '').split(/\s+/);
   var MOODS = {};
   try { MOODS = JSON.parse(room.getAttribute('data-moods') || '{}'); } catch (e) {}
@@ -54,9 +53,7 @@
   var whoH = document.getElementById('pkp-who-h');
   var roomWrap = document.getElementById('pkp-roomwrap');
   var lapView = document.getElementById('pkp-lap');
-  var lookBtn = document.getElementById('pkp-look');
-  var clearBtn = document.getElementById('pkp-clear');
-  var lapSays = document.getElementById('pkp-lapsays');
+  var lookBtn = document.querySelector('[data-table-look]');
   var toysSaid = document.getElementById('pkp-toys-said');
 
   var spots = Array.prototype.map.call(spotList.querySelectorAll('li'), function (li) {
@@ -66,8 +63,6 @@
 
   var cats = [];       // { a, spot, btn }
   var lap = null;      // the cat on your lap
-  var table = [];      // menu item keys on your table
-  var looking = false; // looking down
   var lastRead = 0;
 
   /* ── Saying things ───────────────────────────────────────────────────── */
@@ -308,7 +303,7 @@
     lap = c;
     drawWho(); drawLap();
     speak(Name(c) + ' is on your lap.' + (off ? ' ' + Name(off) + ' hopped down and went ' + off.spot.where + '.' : '') +
-          (looking ? '' : ' Look down to see them.'));
+          (looking() ? '' : ' Look down to see them.'));
   }
   function letDown(c) {
     lap = null;
@@ -317,77 +312,22 @@
     speak(Name(c) + ' hopped down and went ' + (c.spot ? c.spot.where : 'off') + '.');
   }
 
-  /* ── Your table and your lap, looking down ───────────────────────────── */
-  var NS = 'http://www.w3.org/2000/svg';
+  /* ── Your lap, looking down ─────────────────────────────────────────────
+     table.js draws the table and what is on it, and looks down and back up;
+     this adds the cat on your lap to the picture and to the sentence. */
   var lapCat = document.getElementById('pkp-lap-cat');
-  var slots = Array.prototype.slice.call(document.querySelectorAll('#pkp-lap-items [data-slot]'));
-  function nameOfItem(key) {
-    var b = document.querySelector('.pkp-order[data-item="' + key + '"]');
-    return b ? b.getAttribute('data-name') : key;
-  }
-  function place(g, svg) {
-    ['x', 'y', 'width', 'height'].forEach(function (k) {
-      svg.setAttribute(k, g.getAttribute('data-' + (k === 'width' ? 'w' : k === 'height' ? 'h' : k)));
-    });
-    svg.removeAttribute('class');
-    g.appendChild(svg);
-  }
   function lapWords() {
-    var on = table.length ? 'On your table: ' + listOf(table.map(function (k) { return nameOfItem(k); })) + '.'
-      : 'Your table is empty. Ask for something from the menu.';
-    var cat = lap ? ' On your lap, under the blanket: ' + nameOf(lap) + ', asleep.'
-      : ' On your lap: the blanket, and no cat. Pick one up from their card.';
-    return on + cat;
+    return lap ? 'On your lap, under the blanket: ' + nameOf(lap) + ', asleep.'
+      : 'On your lap: the blanket, and no cat. Pick one up from their card.';
   }
-  function drawLap() {
-    slots.forEach(function (g, i) {
-      while (g.firstChild) g.removeChild(g.firstChild);
-      var key = table[i];
-      if (!key) return;
-      var src = document.querySelector('.pkp-item__draw[data-draw="' + key + '"]');
-      if (src) place(g, src.cloneNode(true));
-    });
-    if (lapCat) {
-      while (lapCat.firstChild) lapCat.removeChild(lapCat.firstChild);
-      if (lap) place(lapCat, A.draw(lap.a, 'pkp-lap__cat', { pose: 'curled' }));
-    }
-    if (lapSays) lapSays.textContent = lapWords();
-    if (clearBtn) clearBtn.hidden = !looking || !table.length;
+  function drawLapCat(place) {
+    if (!lapCat) return;
+    while (lapCat.firstChild) lapCat.removeChild(lapCat.firstChild);
+    if (lap) place(lapCat, A.draw(lap.a, 'pkp-lap__cat', { pose: 'curled' }));
   }
-  function look(down) {
-    looking = down;
-    roomWrap.hidden = down;
-    lapView.hidden = !down;
-    lapSays.hidden = !down;
-    lookBtn.textContent = down ? 'Look up at the café' : 'Look down at your lap and your table';
-    drawLap();
-    speak(down ? 'You look down. ' + lapWords() : 'You look up at the café.');
-  }
-  if (lookBtn) {
-    lookBtn.hidden = false;
-    lookBtn.addEventListener('click', function () { look(!looking); });
-  }
-  if (clearBtn) clearBtn.addEventListener('click', function () {
-    table = [];
-    drawLap();
-    speak('Your table is cleared.');
-    lookBtn.focus();
-  });
-
-  Array.prototype.forEach.call(document.querySelectorAll('.pkp-order'), function (b) {
-    var said = b.parentNode.querySelector('.pkp-said');
-    b.hidden = false;
-    b.addEventListener('click', function () {
-      var name = b.getAttribute('data-name');
-      if (table.length >= HOLDS) {
-        sayAt(said, 'Your table is full. Look down and clear it first.');
-        return;
-      }
-      table.push(b.getAttribute('data-item'));
-      drawLap();
-      sayAt(said, name + ' is on your table. Look down to see it.');
-    });
-  });
+  function drawLap() { if (window.loveTable) window.loveTable.redraw(); }
+  function looking() { return !!(window.loveTable && window.loveTable.looking()); }
+  if (window.loveTable) window.loveTable.add({ words: lapWords, draw: drawLapCat });
 
   /* ── Toys ────────────────────────────────────────────────────────────── */
   Array.prototype.forEach.call(document.querySelectorAll('.pkp-toy'), function (b) {

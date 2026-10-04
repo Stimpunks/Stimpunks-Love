@@ -87,6 +87,7 @@ ORDER = ["index.html",
          "the-garden.html",
          "campgrounds.html", "faery-yurt.html", "swaying-sweetgrass.html",
          "solarpunk-hermitage.html",
+         "brew-and-stew.html",
          # The other edge, past the last streetlight at the far end. An area
          # like the campgrounds, listed the same way: the road first, then
          # what is down its turnings.

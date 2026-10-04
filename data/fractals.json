@@ -1538,6 +1538,18 @@
         "--pkp-ink",
         "--pkp-day"
       ]
+    },
+    "brew-and-stew.html": {
+      "kind": "ifs",
+      "figure": "fern",
+      "sway": 0.04,
+      "ground": "--bns-night",
+      "inks": [
+        "--bns-glow",
+        "--bns-moss",
+        "--bns-heather",
+        "--bns-stone"
+      ]
     }
   }
 }

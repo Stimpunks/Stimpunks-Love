@@ -470,6 +470,12 @@
    "about": "Pitch 03 in the campgrounds. A wood cabin on wheels bristling with solar panels, and the first room on this street lit by daylight. A cave to read in, a campfire to watch from, a watering hole to make things at."
   },
   {
+   "tag": "brew-and-stew",
+   "name": "Brew and Stew",
+   "path": "/brew-and-stew.html",
+   "about": "A woodland tea room in a cabin at the edge of the trees, on the Campgrounds at pitch 04, lit by nothing anybody lit: the light grows in its own wood. Herbal teas, vegan soups and stews, and vegan breads, every one saying what is in it; flowers, grasses and twigs to take to your table; look down at your table to see what you asked for; and films of other woodland tea rooms in the looking-glass."
+  },
+  {
    "tag": "the-outskirts",
    "name": "The Outskirts",
    "path": "/the-outskirts.html",
