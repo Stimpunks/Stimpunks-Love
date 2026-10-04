@@ -55,6 +55,11 @@
        to, when it plays, pauses or jumps and every half minute besides, and
        stops the moment the radio is folded; every radio shows each host and a
        way to catch up. See setHosting and drawBeacons.
+     · A MODERATOR CAN SCREEN A VIDEO. Screen a video takes the address of one
+       YouTube video and puts it up on the page's first screen, playing on the
+       moderator's page and nowhere else; hosting it is what lets the room
+       follow, and everybody else's screen gets its play button, unpressed. See
+       screenVideo and plateFor.
      · @34:12 IS A PLACE IN THE FILM, and pressing it moves the film playing
        on YOUR page there, without pressing play. Add my spot writes your own
        place, film and room into the box and sends nothing. A stamp that
@@ -889,6 +894,16 @@
     hostBtn.setAttribute('aria-pressed', 'false');
     tools.appendChild(hostBtn);
     this.hosting = null;
+    /* SCREEN A VIDEO, for the base, on a page with a screen. See screenVideo.
+       A tray opened from the row like Profile, because it is a moderator's
+       occasional tool and the radio is full enough. */
+    var scrBtn = this.screenBtn = el('button', 'cb-btn cb-screen-btn', 'Screen a video');
+    scrBtn.type = 'button';
+    scrBtn.hidden = true;
+    scrBtn.setAttribute('aria-expanded', 'false');
+    scrBtn.setAttribute('aria-controls', 'cb-screen');
+    tools.appendChild(scrBtn);
+    this.screened = null;
     var callBtn = this.callBtn = el('button', 'cb-btn cb-call-btn', 'Join this room\u2019s call');
     callBtn.type = 'button';
     callBtn.hidden = true;
@@ -927,6 +942,31 @@
     off.addEventListener('click', function () { signOff(); });
     tools.appendChild(off);
     set.appendChild(tools);
+
+    var scr = this.screenPanel = el('form', 'cb-screen');
+    scr.id = 'cb-screen';
+    scr.hidden = true;
+    scr.noValidate = true;
+    scr.setAttribute('aria-label', 'Screen a video');
+    var scrLab = this.screenLab = el('label', 'cb-lab', 'A YouTube address');
+    scrLab.htmlFor = 'cb-screen-url';
+    var scrUrl = this.screenUrl = el('input', 'cb-say cb-screen-url');
+    scrUrl.id = 'cb-screen-url';
+    scrUrl.type = 'url';
+    scrUrl.autocomplete = 'off';
+    scrUrl.spellcheck = false;
+    var scrGo = el('button', 'cb-btn', 'Put it up');
+    scrGo.type = 'submit';
+    var scrRow = el('div', 'cb-acct__row');
+    scrRow.appendChild(scrGo);
+    scr.appendChild(scrLab);
+    scr.appendChild(scrUrl);
+    scr.appendChild(scrRow);
+    scr.appendChild(el('p', 'cb-hint', 'One video, not a playlist. It plays on your page at once and is sent nowhere. Host this film, once it plays, is what lets this room follow: their screens get its play button, and it waits for their press.'));
+    var scrSaid = this.screenSaid = el('p', 'cb-said');
+    scrSaid.setAttribute('role', 'status');
+    scr.appendChild(scrSaid);
+    set.appendChild(scr);
 
     var pets = this.petsPanel = el('div', 'cb-pets');
     pets.id = 'cb-pets';
@@ -994,6 +1034,8 @@
     aloud.addEventListener('click', function () { me.setAloud(!me.aloud()); });
     spot.addEventListener('click', function () { me.addSpot(); });
     hostBtn.addEventListener('click', function () { me.setHosting(!me.hosting); });
+    scrBtn.addEventListener('click', function () { me.setScreenPanel(scr.hidden); });
+    scr.addEventListener('submit', function (e) { e.preventDefault(); me.screenVideo(); });
     callBtn.addEventListener('click', function () { me.setCall(!window.loveCall.isOpen()); });
     bw.addEventListener('click', function () { me.setBand('world'); });
     seenBtn.addEventListener('click', function () { me.setSeen(!me.state.seen); });
@@ -1298,6 +1340,7 @@
     this.tpBtn.hidden = folded;
     if (folded && !this.tpPanel.hidden) this.setTeleport(false);
     if (folded && !this.petsPanel.hidden) this.setPets(false);
+    if (folded && !this.screenPanel.hidden) this.setScreenPanel(false);
     this.foldBtn.setAttribute('aria-expanded', String(!folded));
     this.foldBtn.textContent = folded ? 'Switch on' : 'Fold away';
     if (folded) this.hush();
@@ -1340,6 +1383,9 @@
     var w = window.loveEmbed && window.loveEmbed.where ? window.loveEmbed.where() : null;
     this.spotBtn.hidden = !w;
     this.hostBtn.hidden = !w && !this.hosting;
+    this.screenBtn.hidden = !(this.state.base && firstScreen());
+    if (this.screenBtn.hidden && !this.screenPanel.hidden) this.setScreenPanel(false);
+    this.screenNamed(w);
     this.hostTick(w);
     this.hereTick();
     var room = this.tunedRoom();
@@ -2394,7 +2440,7 @@
   /* The answer is on the radio, under the log, at every size: in small it is
      the one line shown besides the newest message, because a jump that did
      nothing and said nothing would look broken (the Playhouse's lesson). */
-  Radio.prototype.jump = function (secs, film, room, video) {
+  Radio.prototype.jump = function (secs, film, room, video, beacon) {
     var e = window.loveEmbed, w = e && e.where ? e.where() : null;
     var at = place(secs), called = film ? '\u201c' + film + '\u201d' : 'the film';
     if (room && hereTag() !== room) {
@@ -2403,7 +2449,7 @@
       return;
     }
     if (!w || (film && !sameFilm(film, w.film))) {
-      var got = film && readyFilm(film, video, secs);
+      var got = film && readyFilm(film, video, secs, beacon);
       if (got) {
         this.tell(called + ' is ready at ' + at + ': its play button has the keyboard. Press it, or Enter, and it starts there.' + readyNote(got));
         return;
@@ -2666,6 +2712,79 @@
     });
   };
 
+  /* SCREEN A VIDEO. Ryan, 2026-10-04: a moderator wants to screen a video in a
+     room without building it into a rack first. They paste the address of one
+     YouTube video and it goes up on this page's first screen, in place of what
+     the screen had, the way a card's second press puts a film up (rack.js's
+     loveRack.put), and the button under the screen puts back what was there.
+     It plays at once, because pasting it and pressing is the moderator asking
+     for it, and nothing goes to the channel: only the video's id is kept from
+     the address, and loveEmbed builds the frame from that, youtube-nocookie
+     and nothing else. Host this film, once it plays, is what lets the room
+     follow, and on everybody else's page it is never the film that goes up,
+     only its play button (plateFor). The base only, because putting something
+     on everybody's screen is a moderator's to do; the server marks whose
+     beacon is the base's, so the plate cannot be asked for by anybody else. */
+  Radio.prototype.setScreenPanel = function (open) {
+    var glass = firstScreen();
+    if (!glass) open = false;
+    this.screenPanel.hidden = !open;
+    this.screenBtn.setAttribute('aria-expanded', String(!!open));
+    if (open) {
+      this.screenLab.textContent = 'A YouTube address, to put up on ' + glass.name;
+      this.screenSaid.textContent = '';
+      this.screenUrl.focus();
+    }
+    this.place();
+  };
+
+  Radio.prototype.screenVideo = function () {
+    var glass = firstScreen(), said = this.screenSaid;
+    if (!this.state.base) return;
+    if (!glass) { said.textContent = 'This page has no screen to put a video on.'; return; }
+    var v = videoOf(this.screenUrl.value);
+    if (!v) {
+      said.textContent = 'That is not the address of one YouTube video. Paste a youtube.com or youtu.be address with the video in it, not a playlist.';
+      this.screenUrl.focus();
+      return;
+    }
+    var player = window.loveEmbed.frame(v.id, 'A video put up from the CB', v.start);
+    if (!player) return;
+    var shell = document.createElement('div');
+    shell.className = 'facade';
+    shell.style.padding = '0';
+    shell.appendChild(player);
+    var line = 'Now showing on ' + glass.name + ': a video ' + this.state.handle + ' put up from the CB' + (v.start ? ', from ' + place(v.start) : '') + '.';
+    var now = window.loveRack.put(glass.id, shell, line);
+    this.screened = { id: v.id, shell: shell, now: now, line: line, name: glass.name, start: v.start, named: false };
+    this.screenUrl.value = '';
+    /* Done, so the tray goes, and the answer is on the radio's own line, which
+       is shown at every size: going Small to clear the screen hides the tray.
+       The keyboard goes where a card's press sends it, the line under the
+       screen, which is also where the eye has to go. */
+    this.setScreenPanel(false);
+    shell.scrollIntoView({ block: 'center' });
+    var shrank = clearOf(shell);
+    this.tell('It is up on ' + glass.name + ' and playing on your page' + (v.start ? ' from ' + place(v.start) : '') +
+      '. Once it plays, Host this film lets everybody in this room follow; their screens get its play button, waiting for their press.' +
+      (shrank ? ' The radio went small so you can see it; Size puts it back.' : ''));
+    if (now) now.focus({ preventScroll: true });
+  };
+
+  /* The line under the screen names the moderator's video once its player
+     has said what it is called, which it does only after it starts. */
+  Radio.prototype.screenNamed = function (w) {
+    var sc = this.screened;
+    if (!sc) return;
+    if (!sc.shell.isConnected) { this.screened = null; return; }
+    if (sc.named || !w || w.id !== sc.id || !w.film || !sc.now) return;
+    sc.named = true;
+    var line = 'Now showing on ' + sc.name + ': \u201c' + w.film + '\u201d' + (w.duration ? ', ' + place(w.duration) : '') +
+      ', put up from the CB by ' + this.state.handle + (sc.start ? ', from ' + place(sc.start) : '') + '.';
+    sc.now.textContent = sc.now.textContent.replace(sc.line, line);
+    sc.line = line;
+  };
+
   /* HOSTING. Ryan, 2026-09-28: somebody watching a film in a room can host it,
      and every radio on the channel then shows where the host has got to, with
      a way to catch up. It is a beacon and not a remote control: nobody's film
@@ -2703,12 +2822,12 @@
     if (!w) { this.setHosting(false, 'Your film is off, so you have stopped hosting.'); return; }
     var now = Date.now(), last = h.sent;
     var guess = last ? last.at + (last.playing ? (now - last.when) / 1000 : 0) : 0;
-    if (last && last.film === w.film && last.playing === w.playing &&
+    if (last && last.film === w.film && last.playing === w.playing && last.length === !!w.duration &&
         Math.abs(w.time - guess) < 3 && now - last.when < BEAT) return;
     var film = Array.from(w.film);
     film = film.length > FILM_MAX ? film.slice(0, FILM_MAX - 1).join('') + '\u2026' : w.film;
-    this.sendBeacon({ room: h.room, film: film, video: w.id || null, at: Math.max(0, w.time), playing: !!w.playing },
-                    { film: w.film, at: w.time, playing: !!w.playing, when: now });
+    this.sendBeacon({ room: h.room, film: film, video: w.id || null, length: w.duration || null, at: Math.max(0, w.time), playing: !!w.playing },
+                    { film: w.film, at: w.time, playing: !!w.playing, length: !!w.duration, when: now });
   };
 
   Radio.prototype.sendBeacon = function (b, sent, done) {
@@ -2736,6 +2855,8 @@
   Radio.prototype.showBeacons = function (list, now) {
     this.beacons = Array.isArray(list) ? list : [];
     if (typeof now === 'number') this.skew = now - Date.now();
+    this.beaconsHeard = true;
+    if (this.arriving) { var a = this.arriving; this.arriving = null; landed(a.secs, a.film); }
     this.followTick();
     this.drawBeacons();
   };
@@ -2783,7 +2904,7 @@
     var e = window.loveEmbed, w = e && e.where ? e.where() : null;
     if (!w || !sameFilm(b.film, w.film)) {
       if (!f.waiting) {
-        var ready = readyFilm(b.film, b.video, this.placeOf(b));
+        var ready = readyFilm(b.film, b.video, this.placeOf(b), b);
         this.tell(ready
           ? 'Following ' + b.handle + ': \u201c' + b.film + '\u201d is ready, and its play button has the keyboard. Press it, or Enter, and it keeps pace from there.' + readyNote(ready)
           : 'Following ' + b.handle + ': press play on \u201c' + b.film + '\u201d and it will keep pace from there. It has no play button of its own on this page, so it may be in a playlist here.');
@@ -2899,7 +3020,7 @@
   Radio.prototype.catchUp = function (room) {
     for (var i = 0; i < this.beacons.length; i++) {
       var b = this.beacons[i];
-      if (b.room === room) { this.jump(Math.floor(this.placeOf(b)), b.film, b.room, b.video); return; }
+      if (b.room === room) { this.jump(Math.floor(this.placeOf(b)), b.film, b.room, b.video, b); return; }
     }
     this.tell('That host has stopped.');
   };
@@ -2969,6 +3090,10 @@
     // load this file for anybody else, and the server refuses them anyway).
     if (!mayHere(s)) return;
     radio = new Radio(s);
+    /* A spot in the address is read once the radio exists. On most pages
+       call.js has to load first, and arrive() used to run from start() while
+       the radio was still null, so a spot's room link did nothing there. */
+    arrive();
   }
 
   /* The roles a pass carries are the server's, read off CB_MODS on every
@@ -3126,8 +3251,70 @@
     return null;
   }
 
-  function readyFilm(film, video, secs) {
-    var hit = filmButton(film, video);
+  /* The page's first screen, if it has one and rack.js is on it. */
+  function firstScreen() {
+    var r = window.loveRack;
+    return r && r.first && window.loveEmbed ? r.first() : null;
+  }
+
+  /* One YouTube video out of whatever address a moderator pastes: watch?v=,
+     youtu.be/, /shorts/, /live/ and /embed/, with or without www., m. or
+     music., or the bare eleven-character id, and t= or start= if it has one.
+     Only the id and the start are kept. A playlist's address with no video in
+     it is refused rather than guessed at, and so is /embed/videoseries, whose
+     last word happens to be eleven characters long. */
+  function videoOf(text) {
+    var s = String(text || '').trim(), u, id = null, m;
+    if (/^[A-Za-z0-9_-]{11}$/.test(s)) return { id: s, start: 0 };
+    try { u = new URL(/^[a-z][a-z0-9+.-]*:/i.test(s) ? s : 'https://' + s); } catch (e) { return null; }
+    if (!/^https?:$/.test(u.protocol) || u.username || u.password) return null;
+    var host = u.hostname.toLowerCase().replace(/^(?:www|m|music)\./, ''), path = u.pathname;
+    if (host === 'youtu.be') id = path.split('/')[1];
+    else if (host === 'youtube.com' || host === 'youtube-nocookie.com') {
+      if (path === '/watch') id = u.searchParams.get('v');
+      else if ((m = /^\/(?:embed|shorts|live|v)\/([^/]+)/.exec(path))) id = m[1];
+    }
+    if (!id || id === 'videoseries' || !/^[A-Za-z0-9_-]{11}$/.test(id)) return null;
+    return { id: id, start: startOf(u.searchParams.get('t') || u.searchParams.get('start')) };
+  }
+  // "90", "90s", "1m30s", "1h2m3s" -> seconds; anything else -> 0.
+  function startOf(t) {
+    if (!t) return 0;
+    if (/^\d+$/.test(t)) return +t;
+    var m = /^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?$/.exec(t);
+    return m && m[0] ? (+m[1] || 0) * 3600 + (+m[2] || 0) * 60 + (+m[3] || 0) : 0;
+  }
+
+  /* A MODERATOR'S VIDEO HAS NO BUTTON ON ANYBODY ELSE'S PAGE, because it was
+     pasted into their radio rather than built into a rack. So for a beacon
+     the server marks as the base's, naming a video nothing on this page
+     plays, the video's play button goes up on this page's first screen,
+     saying how long it runs and who put it there, and readyFilm then finds it
+     like any other button. It presses nothing: nothing reaches YouTube until
+     the follower presses it. Only the base's, because anybody else's beacon
+     names whatever video they say it does, and a stranger's choice does not
+     go up on somebody's screen. Returns the screen's name, or null. */
+  function plateFor(b) {
+    var glass = firstScreen();
+    if (!glass || !b || !b.base || !/^[A-Za-z0-9_-]{11}$/.test(b.video || '')) return null;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'facade';
+    btn.dataset.embedId = b.video;
+    btn.dataset.embedTitle = b.film;
+    btn.appendChild(document.createTextNode('\u201c' + b.film + '\u201d \u2014 ' +
+      (b.length ? 'runs ' + place(b.length) : 'how long it runs was not said') + ', put up from the CB by ' + b.handle));
+    var go = document.createElement('span');
+    go.className = 'facade__play';
+    go.textContent = '\u25B6 PRESS PLAY';
+    btn.appendChild(go);
+    window.loveRack.put(glass.id, btn, 'On ' + glass.name + ' now: \u201c' + b.film + '\u201d, which ' + b.handle + ' is hosting from the CB. It waits for your press.');
+    return glass.name;
+  }
+
+  function readyFilm(film, video, secs, beacon) {
+    var hit = filmButton(film, video), put = null;
+    if (!hit && beacon && (put = plateFor(beacon))) hit = filmButton(beacon.film, beacon.video);
     if (!hit) return null;
     var old = document.querySelectorAll('button.facade[data-cb-ready]');
     for (var o = 0; o < old.length; o++) old[o].removeAttribute('data-cb-ready');
@@ -3140,12 +3327,16 @@
     hit.setAttribute('data-cb-ready', '');
     hit.addEventListener('blur', function off() { hit.removeAttribute('data-cb-ready'); hit.removeEventListener('blur', off); });
     try { hit.focus({ preventScroll: true, focusVisible: true }); } catch (e) { hit.focus(); }
-    /* A film under the radio has been got ready out of sight, which is the
-       fault this exists to fix, so the radio goes Small for now and says so.
-       Small still listens; Size puts it back, and nothing is saved. */
+    return { button: hit, shrank: clearOf(hit), put: put };
+  }
+
+  /* A film under the radio has been got ready out of sight, which is the
+     fault this exists to fix, so the radio goes Small for now and says so.
+     Small still listens; Size puts it back, and nothing is saved. */
+  function clearOf(node) {
     var shrank = false;
     if (radio && radio.state.size !== 'small' && !radio.state.folded) {
-      var a = hit.getBoundingClientRect(), r = radio.box.getBoundingClientRect();
+      var a = node.getBoundingClientRect(), r = radio.box.getBoundingClientRect();
       if (a.left < r.right && a.right > r.left && a.top < r.bottom && a.bottom > r.top) { radio.setSize('small', true); shrank = true; }
     }
     // Still under it, on a narrow window: lift the film to just above the radio,
@@ -3153,13 +3344,15 @@
     setTimeout(function () {
       if (!radio || radio.state.folded) return;
       radio.place();
-      var f = hit.getBoundingClientRect(), q = radio.box.getBoundingClientRect(), dy = f.bottom - q.top + 12;
+      var f = node.getBoundingClientRect(), q = radio.box.getBoundingClientRect(), dy = f.bottom - q.top + 12;
       if (f.left < q.right && f.right > q.left && f.top < q.bottom && f.bottom > q.top && f.top - dy >= 8) window.scrollBy(0, dy);
     }, 0);
-    return { button: hit, shrank: shrank };
+    return shrank;
   }
   function readyNote(got) {
-    return got && got.shrank ? ' The radio went small so you can see it; Size puts it back.' : '';
+    if (!got) return '';
+    return (got.put ? ' It went up on ' + got.put + ', in place of what was there; the button under the screen puts that back.' : '') +
+      (got.shrank ? ' The radio went small so you can see it; Size puts it back.' : '');
   }
 
   function arrive() {
@@ -3167,8 +3360,17 @@
     if (!m || !radio) return;
     var secs = +m[1], film = '';
     try { film = decodeURIComponent(m[2] || ''); } catch (e) { return; }
+    /* Arriving from a host's row in another room: a moderator's pasted video
+       has no button here until that host's beacon has been heard, which is
+       the radio's first listen, so it waits for that rather than giving up. */
+    if (!radio.beaconsHeard && !filmButton(film, null)) { radio.arriving = { secs: secs, film: film }; return; }
+    landed(secs, film);
+  }
+
+  function landed(secs, film) {
+    var b = radio.beaconIn(hereTag()), host = b && film && sameFilm(film, b.film) ? b : null;
     var at = place(secs), called = film ? '\u201c' + film + '\u201d' : 'the film';
-    var got = readyFilm(film, null, secs);
+    var got = readyFilm(film, host && host.video, secs, host);
     if (!got) {
       radio.tell(called + ' has no play button of its own on this page, so it could not be set to start at ' + at + '. Press play on it, then press @' + at + ' on the channel.');
       return;
@@ -3179,7 +3381,6 @@
   function start() {
     wireCounter();
     tuneIn();
-    arrive();
     // Following a spot to the room you are already in changes only the hash.
     window.addEventListener('hashchange', arrive);
   }

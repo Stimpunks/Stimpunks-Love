@@ -833,6 +833,21 @@ test('one host per room: somebody else is refused, the same handle keeps it, the
   assert.deepEqual(here.map((b) => b.handle), ['Base']);
 });
 
+/* A moderator's pasted video has no button on anybody else's page, so a radio
+   puts one up only for a beacon the SERVER says is the base's, and says how
+   long it runs from the beacon. Neither is the request's to claim. */
+test('a beacon\'s base mark comes from the pass, and its length is checked', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const base = { role: 'base', handle: 'Base' };
+  await hostBeacon(ada, 'the-den', 'Film', 1, true, s, Date.now(), 'dQw4w9WgXcQ', 212.4);
+  await hostBeacon(base, 'lightbulb-picture-house', 'Film', 1, true, s, Date.now(), 'not an id', 'long');
+  const all = shapeBeacons(await readBeacons(s));
+  const den = all.find((b) => b.room === 'the-den'), lph = all.find((b) => b.room === 'lightbulb-picture-house');
+  assert.deepEqual([den.base, den.video, den.length], [false, 'dQw4w9WgXcQ', 212.4]);
+  assert.deepEqual([lph.base, lph.video, lph.length], [true, null, null]);
+  for (const b of all) assert.deepEqual(Object.keys(b).sort(), ['at', 'base', 'film', 'handle', 'length', 'playing', 'room', 't', 'video']);
+});
+
 test('only the host or the base stops a beacon', async () => {
   const s = memoryStore({ etagOnRead: true });
   await hostBeacon(ada, 'the-den', 'Film', 1, true, s);

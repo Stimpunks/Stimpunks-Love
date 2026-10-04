@@ -51,12 +51,22 @@
 
    A card's second button may carry data-rack-shape (tall, for a short), and the
    screen wears it while that film is up, so the room can play it upright rather
-   than as a small picture between two black bars. */
+   than as a small picture between two black bars.
+
+   THE CB CAN PUT A VIDEO UP TOO, ON THE PAGE'S FIRST SCREEN. Ryan, 2026-10-04:
+   a moderator pastes a YouTube address into the radio and it goes up here with
+   no card for it, and anybody who presses Follow or Catch up beside them gets
+   its play button on their own first screen, waiting for their press. cb.js
+   makes that button, or asks loveEmbed for the frame, and loveRack.put puts it
+   on the glass the way a card's second press does, with the line under it and
+   the way back, so this file still builds nothing. The first screen is the
+   first in the page, because a room's main screen is the one at its top. */
 (function () {
-  var screens = {};
+  var screens = {}, order = [];
 
   Array.prototype.forEach.call(document.querySelectorAll('[data-rack-screen]'), function (glass) {
     var id = glass.getAttribute('data-rack-screen');
+    order.push(id);
     screens[id] = {
       glass: glass,
       plate: glass.innerHTML,
@@ -79,8 +89,27 @@
     return (h ? h + ':' + (m < 10 ? '0' : '') : '') + m + ':' + (x < 10 ? '0' : '') + x;
   }
 
+  /* Up on a screen, in place of whatever it had: a frame in its shell, or the
+     CB's unpressed plate. The line under the screen says what, and what the
+     screen has given up; the way back is shown. Nothing is focused here,
+     because a card's press and the CB's want the keyboard in different places. */
+  function put(id, node, said) {
+    var s = screens[id];
+    if (!s || !node) return null;
+    s.glass.innerHTML = '';
+    s.glass.appendChild(node);
+    s.glass.removeAttribute('data-rack-shape');
+    s.glass.hidden = false;
+    if (s.now) {
+      s.now.textContent = said + (s.off ? ' ' + s.off : '');
+      s.now.hidden = false;
+    }
+    if (s.back) s.back.parentNode.hidden = false;
+    return s.now;
+  }
+
   function show(btn) {
-    var s = screens[btn.getAttribute('data-rack-to')];
+    var id = btn.getAttribute('data-rack-to'), s = screens[id];
     if (!s) return;
     var card = btn.closest('[data-rack-card]'), own = card && card.querySelector('button.facade');
     var start = parseInt(own && own.getAttribute('data-embed-start'), 10);
@@ -93,20 +122,22 @@
     shell.className = 'facade';
     shell.style.padding = '0';
     shell.appendChild(player);
-    s.glass.innerHTML = '';
-    s.glass.appendChild(shell);
+    put(id, shell, 'Now showing on ' + btn.getAttribute('data-rack-name') + ': ' +
+      btn.getAttribute('data-rack-film') + ', ' + btn.getAttribute('data-rack-runtime') +
+      (start ? ', from ' + clock(start) : '') + '.');
     var shape = btn.getAttribute('data-rack-shape');
     if (shape) s.glass.setAttribute('data-rack-shape', shape);
-    else s.glass.removeAttribute('data-rack-shape');
-    if (s.now) {
-      s.now.textContent = 'Now showing on ' + btn.getAttribute('data-rack-name') + ': ' +
-        btn.getAttribute('data-rack-film') + ', ' + btn.getAttribute('data-rack-runtime') +
-        (start ? ', from ' + clock(start) : '') + '.' + (s.off ? ' ' + s.off : '');
-      s.now.hidden = false;
-    }
-    if (s.back) s.back.parentNode.hidden = false;
     if (s.now) s.now.focus();
   }
+
+  // The page's first screen and what it calls itself, as its cards name it.
+  function first() {
+    var id = order[0];
+    if (!id) return null;
+    var to = document.querySelector('[data-rack-to="' + id + '"]');
+    return { id: id, name: (to && to.getAttribute('data-rack-name')) || 'the screen' };
+  }
+  window.loveRack = { first: first, put: put };
 
   function putBack(btn) {
     var s = screens[btn.getAttribute('data-rack-back')];

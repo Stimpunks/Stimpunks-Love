@@ -363,6 +363,13 @@ ol.cb-md-list { list-style: decimal; }
 .cb-acct__row { display: flex; flex-wrap: wrap; gap: 8px; }
 .cb-acct__form { margin: 8px 0 0; }
 .cb-acct__form .cb-btn { margin: 0 8px 6px 0; }
+/* SCREEN A VIDEO, the base's tray, under the tools in the pets tray's clothes:
+   one address, one button, and the answer. */
+.cb-screen { margin: 10px 0 0; padding: 10px 12px; border: 2px solid var(--cb-steel-2); border-radius: 6px; display: grid; gap: 6px; }
+.cb-screen .cb-lab { margin: 0; }
+.cb-screen .cb-say { width: 100%; }
+.cb-screen .cb-hint { margin: 0; }
+.cb-radio--small .cb-screen { display: none; }
 .cb-acct__code { font-family: ui-monospace, Menlo, monospace; font-size: 20px; letter-spacing: .08em; user-select: all; overflow-wrap: anywhere; }
 .cb-acct__said:empty { display: none; }
 

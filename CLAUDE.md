@@ -613,6 +613,20 @@ server's clock**, so the radio finds its own room's host without saying where it
 four seconds. **The hosts list is not a live region, and it updates rows in place**, because
 redrawing every four seconds threw the keyboard off Catch up.
 
+**A MODERATOR CAN SCREEN A VIDEO WITH NO CARD FOR IT, AND EVERYBODY ELSE GETS ITS PLATE, NEVER THE
+FILM.** Ryan, 2026-10-04, for screening in a room without building a rack first. **Screen a video** on
+the radio shows to the base on a page with a `[data-rack-screen]`; `videoOf` in `cb.js` keeps only the id
+and a `t=`, `loveEmbed.frame` builds the frame, and `loveRack.put` in `rack.js` puts it on the page's
+**first** screen the way a card's second press does, way back included. It sends nothing. Hosting it is the
+ordinary beacon, which now carries `length`. On a follower's page `readyFilm` finds no button for that id
+and `plateFor` puts an unpressed `button.facade` on their first screen saying how long it runs and who put
+it up, so nothing reaches YouTube until they press it. **The plate is only for a beacon whose `base` the
+server set from the pass.** A beacon's `video` is whatever its sender says, so do not widen that to every
+host: it would let anybody signed on put any video on somebody's screen. A room whose main screen is a set
+you tune (the Hermitage's campfire, Looming Rocks, the rave) has no rack screen and so no field. And
+`arrive()` runs from `tuneIn` once the radio exists: run from `start()`, it met a null radio on every page
+where `call.js` had to load first, and a spot's room link did nothing there.
+
 **EVERY ROOM HAS A CHANNEL, AND ONLY THAT ONE TELLS US WHERE ANYBODY IS.** Ryan, 2026-09-28: the
 radio tunes to World (the `channel` blob, as it always was) or to this room (`room-talk-<tag>`, the
 same day log as each place on the Slake). `readTuned` / `updateTuned` in `lib.mjs` pick the blob,
