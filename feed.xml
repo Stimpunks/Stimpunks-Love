@@ -9,31 +9,38 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sun, 04 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Three small things the CB guide turned up</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-04-cb-small-fixes</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-04-cb-small-fixes</guid>
+      <pubDate>Sun, 04 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Move answers when you press it. On the radio and on a call’s window, pressing Move without dragging used to do nothing you could see: the arrow keys were only described to a screen reader, and a click did not even put the keyboard on it. Now a press puts the keyboard on Move, so the arrow keys work straight away, and says in a line how moving works. Dragging is unchanged. The button is called Forget me, and Privacy, the job about it at the Adventurer’s Guild and the README now call it that rather than Forget Me. The same job also lost a doubled word: Profile is on your CB radio, not your CB radio radio. A note in the code still said the Faery Yurt had no guest bar. Helen said yes on 2026-09-30, and the note says so now. Nothing a visitor sees changed.</description>
+    </item>
+    <item>
       <title>The CB guide</title>
       <link>https://stimpunks.world/changelog.html#2026-10-04-cb-guide</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-04-cb-guide</guid>
-      <pubDate>Sun, 04 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Sun, 04 Oct 2026 11:59:00 GMT</pubDate>
       <description>A guide to the CB, the street’s radio, part by part and top to bottom, with every button named the way the radio names it: the guest bar and signing on, the bar and its sizes, World and this room, Be seen here, reading and writing messages, reactions, Markdown, pictures, the row of tools, the teleporter, watching films together, calls, Profile and pets, and what moderators see. It ends with every key in one table and a short account of what the radio sends and keeps. It is linked from How the radio works at the Community Center, from the foot of the radio beside the house norms, and from the guest bar for anybody not signed on yet. The Community Center still said links on the channel were only rooms on the street, which stopped being true on 2026-09-29. It now says what its own house norms already did: a link’s words are always its address.</description>
     </item>
     <item>
       <title>Architecture</title>
       <link>https://stimpunks.world/changelog.html#2026-10-04-architecture</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-04-architecture</guid>
-      <pubDate>Sun, 04 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Sun, 04 Oct 2026 11:58:00 GMT</pubDate>
       <description>A new page describing how the site runs, beside How this site is made: that page is the why and this one is the how. It covers the deploy from a push to main, the stylesheet and scripts, the data files and the generators that write parts of pages from them, every checker and what it refuses, the CB’s server side and what it keeps for how long, the morning timers, and every outside service with when it is contacted. Secrets are named and never shown. Its map of what talks to what is boxes and words rather than a picture, so it reflows on a phone and reads aloud in the order a change travels. It is paperwork rather than a room, so it is pinned to the edge of the map with the others, carries no job marker, and takes the plain pages’ quiet clothes.</description>
     </item>
     <item>
       <title>The security policy catches up with the CB</title>
       <link>https://stimpunks.world/changelog.html#2026-10-04-security-policy</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-04-security-policy</guid>
-      <pubDate>Sun, 04 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Sun, 04 Oct 2026 11:57:00 GMT</pubDate>
       <description>SECURITY.md described the CB as it was on its first day: a handful of functions, one blob and no accounts. It now says what is there: claimed usernames with their own passwords and recovery codes, moderator roles, the private rooms in the Town Hall, pictures on the channel, the Brass Tacks Board and its feed, and 8x8’s calls and webhooks. The list of what is worth reporting grew with it, and so did the list of secrets kept in Netlify’s environment, by name only.</description>
     </item>
     <item>
       <title>Hey, Good Cookin’</title>
       <link>https://stimpunks.world/changelog.html#2026-10-04-hey-good-cookin</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-04-hey-good-cookin</guid>
-      <pubDate>Sun, 04 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Sun, 04 Oct 2026 11:56:00 GMT</pubDate>
       <description>A community kitchen on the street, at Ryan’s ask and in his words: come if you’re hungry for food or for knowledge, no one is turned away, you don’t have to pay and you don’t have to volunteer. Cafeteria-style self-service, sit-down seating, and a communication badge placard on every table: green for open seating, yellow for ask if you know somebody, red for please don’t sit here, each with its shape and its word so colour is never the only sign. It is a hall on a cold day with every pot on, its windows steamed up, and the only sharp light in it is where a drop has run down the glass. An omnivorous menu with plenty of vegan and vegetarian: a hot line for every day of the week, posted whole, with the vegan pan first every day, and stations from the soup kettles to the plain things that never change. Every dish card says what is in it, whether it is vegan or vegetarian or which animal it came from, and which of the FDA’s nine major allergens it has, and gluten, worked out from the ingredients so the two lines cannot disagree. No calorie counts, and nothing about what a dish does for you. The line and every table are built to work from a wheelchair, to the 2010 ADA Standards’ numbers, each linked to its section; the standard asks for one seat in twenty and here it is every seat. Help is offered and never assumed, and anybody who cannot do the line today can sit down and have the board and the plate brought. Cooking classes written in full, each saying how long it takes, what it sounds and smells like, and that it can all be done sitting down, with FoodSafety.gov’s temperatures beside anything that needs them. No sign-up, no register, no grades. A rack of the last month from cooking channels Ryan chose, videos and shorts, which plays where it hangs or on the teaching screen, and refills itself every morning on the same timer as the other racks. The room says plainly that nobody here watched the videos first. Nothing loads from YouTube until you press. Set in Corben, by Vernon Adams, and Parkinsans, by Red Stone, both new to the street. A job marker is on the floor, and every source is in the liner notes.</description>
     </item>
     <item>

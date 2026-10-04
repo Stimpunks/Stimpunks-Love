@@ -412,6 +412,8 @@ ol.cb-md-list { list-style: decimal; }
    real target, 36px tall, over WCAG's 24. */
 .cb-call--small { width: min(300px, calc(100vw - 16px)); }
 .cb-call--small .cb-call-note { display: none; }
+/* Except what Move says when pressed, which is short-lived and is the only answer to the press. */
+.cb-call--small .cb-call-note.cb-call-said { display: block; }
 .cb-call--small .cb-call-bar { gap: 6px; padding: 4px 6px 4px 10px; flex-wrap: nowrap; }
 /* One row: a long room name is cut short rather than wrapped onto a row of
    its own, which took a third of the tile. The window's label says it whole. */

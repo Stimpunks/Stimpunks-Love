@@ -203,14 +203,14 @@ def main():
         problems.append(f"{PRIVACY.name}: no section with id=\"the-shelter\", which the rooms link for what they keep.")
     if "<tr><td><code>love-rescues</code></td>" not in priv:
         problems.append(f"{PRIVACY.name}: love-rescues is not in the table of what your browser keeps.")
-    if "Forget Me" not in priv:
+    if "Forget me" not in priv:
         problems.append(f"{PRIVACY.name}: it does not say how to delete your pets.")
 
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1
     print("rescue: every coat and marking of every kind drawn, none rarer, the shelters and the forever list "
-          "know nobody, your pets are filed under a scrambled handle and Forget Me deletes them.")
+          "know nobody, your pets are filed under a scrambled handle and Forget me deletes them.")
     return 0
 
 

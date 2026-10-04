@@ -1026,7 +1026,9 @@
     });
     say.addEventListener('input', function () { me.grow(); });
     say.addEventListener('blur', function () { me.close(); });
-    this.mover = new window.loveCall.Mover(box, bar, move, state, 'right', 'cb-radio--held', function () { save(me.state); });
+    this.mover = new window.loveCall.Mover(box, bar, move, state, 'right', 'cb-radio--held', function () { save(me.state); }, function () {
+      me.tell('Drag the bar to move the radio, or use the arrow keys while Move has the keyboard. Home puts it back in the corner.');
+    });
 
     document.addEventListener('visibilitychange', function () { me.tune(); });
     window.addEventListener('resize', function () { me.place(); });

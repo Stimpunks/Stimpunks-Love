@@ -37,34 +37,48 @@
      bottom right corner and the call by its bottom left, so `side` says which;
      pos holds the distance from that corner (x across, y up), null meaning the
      corner itself, and save is called when a move ends. A button on the bar
-     other than Move does not start a drag. */
-  function Mover(box, bar, moveBtn, pos, side, held, save) {
+     other than Move does not start a drag.
+
+     MOVE PRESSED WITHOUT A DRAG SAYS HOW IT WORKS. It used to do nothing at
+     all, which reads as broken: the arrow keys were only described to a screen
+     reader, and the drag's preventDefault kept a click from even focusing it.
+     A tap on Move (or Enter or Space on it) now puts the keyboard on Move, so
+     the arrows work at once, and calls `pressed`, which each window answers in
+     its own words and its own place. A click after a real drag does not count. */
+  function Mover(box, bar, moveBtn, pos, side, held, save, pressed) {
     var me = this;
     this.box = box; this.pos = pos; this.side = side; this.save = save || function () {};
+    var how = pressed || function () {};
     moveBtn.addEventListener('keydown', function (e) { me.key(e); });
+    // Enter or Space: a click with no pointer behind it. A pointer's is handled in drop.
+    moveBtn.addEventListener('click', function (e) { if (e.detail === 0) how(); });
     var start = null;
     bar.addEventListener('pointerdown', function (e) {
       if (e.button !== 0 || (e.target.closest('button') && e.target !== moveBtn)) return;
       var p = me.place();
-      start = { px: e.clientX, py: e.clientY, x: p.x, y: p.y, id: e.pointerId };
+      start = { px: e.clientX, py: e.clientY, x: p.x, y: p.y, id: e.pointerId,
+                onMove: e.target === moveBtn, moved: false };
       bar.setPointerCapture(e.pointerId);
       box.classList.add(held);
       e.preventDefault();
     });
     bar.addEventListener('pointermove', function (e) {
       if (!start || e.pointerId !== start.id) return;
-      var dx = e.clientX - start.px;
+      var dx = e.clientX - start.px, dy = e.clientY - start.py;
+      if (Math.abs(dx) + Math.abs(dy) > 3) start.moved = true;
       me.pos.x = me.side === 'right' ? start.x - dx : start.x + dx;
-      me.pos.y = start.y - (e.clientY - start.py);
+      me.pos.y = start.y - dy;
       me.place();
     });
     function drop(e) {
       if (!start || e.pointerId !== start.id) return;
+      var tapped = start.onMove && !start.moved;
       start = null;
       box.classList.remove(held);
       var q = me.place();
       me.pos.x = q.x; me.pos.y = q.y;
       me.save();
+      if (tapped) { moveBtn.focus(); how(); }
     }
     bar.addEventListener('pointerup', drop);
     bar.addEventListener('pointercancel', drop);
@@ -164,6 +178,12 @@
     bar.appendChild(leave);
     size('regular');
     box.appendChild(bar);
+    // What Move says when it is pressed without a drag; it goes again after a while.
+    var moveSaid = el('p', 'cb-call-note cb-call-said');
+    moveSaid.setAttribute('role', 'status');
+    moveSaid.hidden = true;
+    var moveSaidFor = null;
+    box.appendChild(moveSaid);
     box.appendChild(el('p', 'cb-call-note', 'Leaving this page hangs up. While you are in the call, stimpunks.world keeps your name in it, until you leave.'));
     /* WHO IS IN THE CALL, just above 8x8's own Join button, which is where
        somebody is looking when they decide (Ryan, 2026-09-29). call.js never
@@ -178,7 +198,12 @@
     box.appendChild(screen);
     root.appendChild(box);
     document.body.appendChild(host);
-    mover = new Mover(box, bar, move, { x: null, y: null }, 'left', 'cb-call--held');
+    mover = new Mover(box, bar, move, { x: null, y: null }, 'left', 'cb-call--held', null, function () {
+      moveSaid.textContent = 'Drag the bar to move the call, or use the arrow keys while Move has the keyboard. Home puts it back in the corner.';
+      moveSaid.hidden = false;
+      clearTimeout(moveSaidFor);
+      moveSaidFor = setTimeout(function () { moveSaid.hidden = true; }, 8000);
+    });
     function put() { mover.place(); }
     window.addEventListener('resize', put);
     // Small and Large change its size, so it is placed again to keep it on the screen.

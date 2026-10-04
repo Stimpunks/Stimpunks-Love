@@ -283,7 +283,7 @@ python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, 
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
 python3 tools/make-accounts.py     # The CB's accounts: refuses a console call in netlify/, a list of accounts, an email field, a desk that does more than find, reset and delete, and a Profile without Delete my account
 python3 tools/make-brass.py        # The Brass Tacks Board: refuses innerHTML in brass.js, a post by anybody but a moderator, an edit by anybody but the author, a picture with no description or yes, and a board with no feed
-python3 tools/make-rescue.py       # Both shelters and the Pets tray: refuses a shelter or forever list that knows who, a rare animal, a look with no drawing, pets under a raw handle, and a tray without Forget Me
+python3 tools/make-rescue.py       # Both shelters and the Pets tray: refuses a shelter or forever list that knows who, a rare animal, a look with no drawing, pets under a raw handle, and a tray without Forget me
 python3 tools/make-stair.py        # Count Me In: refuses a stair that names who sent it back, a lift smaller than the stair or one that sends a number, and a script that stores anything
 python3 tools/make-fridge.py       # The Fridge of Sighs' numbers, read from the CB's lib; refuses a fridge that says whose a word was, a tally, or a script that stores anything
 python3 tools/make-pando.py        # Pando Calrissian's numbers, read from the CB's lib; refuses a tree that keeps who watered, a tally or a goal, and a sentence saying nothing is counted
@@ -716,7 +716,7 @@ and the highest it has reached; and the list of every cat and dog ever adopted, 
 adopted them. The fridge and the stair each keep one scrambled mark of whoever went last, replaced by
 the next. The tree's fence runs on the chalkboard's rules.
 **Your pets are the one thing kept under a person**: every cat and dog you adopt, filed under a plain
-hash of your folded handle so they follow you to any device, until you press Forget Me in Profile
+hash of your folded handle so they follow you to any device, until you press Forget me in Profile
 on your radio. An unclaimed handle is not an account, and Profile says so; claim it there with a
 password of your own and only that password reaches them. **That username is the only account on
 the street**: no email, and moderators can find one by name, reset it or delete it, but never list

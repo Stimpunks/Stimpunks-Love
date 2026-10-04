@@ -1157,8 +1157,10 @@
        teleporter and the way onto the CB, folded until pressed (Ryan,
        2026-09-30). It is not cb.js and sends nothing to the channel. */
     if (!s || s.indexOf('"pass"') < 0) {
-      // data-cb-guest="off": the Faery Yurt, until Helen says yes, the fractal
-      // window's precedent. A member's radio still comes there as it always has.
+      // data-cb-guest="off" keeps the guest bar out of a room with a reason of its
+      // own; a member's radio still comes there as it always has. No page sets it
+      // today: the Faery Yurt did until Helen said yes, 2026-09-30, and street
+      // conventions now reach every room without asking (CLAUDE.md).
       if (b.getAttribute('data-cb-guest') === 'off') return;
       var g = document.createElement('script');
       g.src = '/guest.js';
