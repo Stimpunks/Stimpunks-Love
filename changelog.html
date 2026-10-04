@@ -41,6 +41,12 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-10-04-architecture">2026-10-04 &mdash; Architecture</h2>
+  <ul>
+    <li><strong><a href="architecture.html">A new page describing how the site runs</a></strong>, beside <a href="design.html">How this site is made</a>: that page is the why and this one is the how. It covers the deploy from a push to <code>main</code>, the stylesheet and scripts, the data files and the generators that write parts of pages from them, every checker and what it refuses, the CB&rsquo;s server side and what it keeps for how long, the morning timers, and every outside service with when it is contacted. Secrets are named and never shown.</li>
+    <li>Its map of what talks to what is boxes and words rather than a picture, so it reflows on a phone and reads aloud in the order a change travels. It is paperwork rather than a room, so it is pinned to the edge of <a href="map.html">the map</a> with the others, carries no job marker, and takes the plain pages&rsquo; quiet clothes.</li>
+  </ul>
+
   <h2 id="2026-10-04-security-policy">2026-10-04 &mdash; The security policy catches up with the CB</h2>
   <ul>
     <li><strong><a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/SECURITY.md">SECURITY.md</a> described the CB as it was on its first day</strong>: a handful of functions, one blob and no accounts. It now says what is there: claimed usernames with their own passwords and recovery codes, moderator roles, the private rooms in the Town Hall, pictures on the channel, the Brass Tacks Board and its feed, and 8x8&rsquo;s calls and webhooks. The list of what is worth reporting grew with it, and so did the list of secrets kept in Netlify&rsquo;s environment, by name only.</li>

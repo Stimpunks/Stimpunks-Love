@@ -578,6 +578,12 @@
    "about": "How Stimpunks.World is made: no design system on purpose, a small shared base, a dial for loudness, contrast that is measured, nothing that plays until you press it, loud credits, and who builds it, including how we use AI."
   },
   {
+   "tag": "architecture",
+   "name": "Architecture",
+   "path": "/architecture.html",
+   "about": "How Stimpunks.World runs: static files on Netlify, deployed by a push to main; a workshop of generators and checkers; the CB as the only code on a server; the morning timers; and every outside service and when it is reached."
+  },
+  {
    "tag": "privacy",
    "name": "Privacy",
    "path": "/privacy.html",

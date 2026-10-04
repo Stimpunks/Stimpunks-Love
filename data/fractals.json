@@ -528,6 +528,17 @@
         "--chalk"
       ]
     },
+    "architecture.html": {
+      "kind": "ifs",
+      "figure": "triangle",
+      "sway": 0.03,
+      "ground": "--ink-2",
+      "inks": [
+        "--cyan",
+        "--green",
+        "--chalk"
+      ]
+    },
     "live-room.html": {
       "kind": "newton",
       "degree": 3,

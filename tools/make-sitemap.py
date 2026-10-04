@@ -108,6 +108,10 @@ ORDER = ["index.html",
          # How the site is made, and who and what makes it, AI included. A
          # page with a job rather than a room, so it stands with the credits.
          "design.html",
+         # How the site runs: the code, the hosting, the timers and every outside
+         # service. design.html is the why and this is the how, so it stands
+         # beside it with the other paperwork.
+         "architecture.html",
          # What the site keeps about the people who visit it. With the other
          # pages that hold lists rather than rooms, because that is what it is.
          "privacy.html",
@@ -244,6 +248,7 @@ lines += [
     "- What the street is for (the mission): https://stimpunks.world/mission.html",
     "- The manifesto, Ribald Songing, as a printable broadside: https://stimpunks.world/broadsheet-broadside.html#no-2",
     "- How the site is made, and how we use AI: https://stimpunks.world/design.html",
+    "- How the site runs, its code and its hosting: https://stimpunks.world/architecture.html",
     "",
     "## For agents",
     "",

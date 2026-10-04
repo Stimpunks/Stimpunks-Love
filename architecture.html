@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Architecture — Stimpunks.World</title>
+<meta name="description" content="How Stimpunks.World runs: static files on Netlify, deployed by a push to main; a workshop of generators and checkers; the CB as the only code on a server; the morning timers; and every outside service and when it is reached.">
+<link rel="canonical" href="https://stimpunks.world/architecture.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#15121f">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.World">
+<meta property="og:title" content="Architecture — Stimpunks.World">
+<meta property="og:description" content="Static files on Netlify, the CB as the only code on a server, and nothing from outside until you press.">
+<meta property="og:url" content="https://stimpunks.world/architecture.html">
+<meta property="og:image" content="https://stimpunks.world/og/architecture.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A dark indigo card, deliberately quiet. Small cyan capitals reading stimpunks.world above a short pink rule, then “Architecture” in yellow block capitals, and the line: Static files on Netlify, the CB as the only code on a server, and nothing from outside until you press.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World — what changed on the street">
+<link rel="stylesheet" href="love.css">
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<!-- structured-data:begin -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/architecture.html#webpage","url":"https://stimpunks.world/architecture.html","name":"Architecture — Stimpunks.World","description":"How Stimpunks.World runs: static files on Netlify, deployed by a push to main; a workshop of generators and checkers; the CB as the only code on a server; the morning timers; and every outside service and when it is reached.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<!-- structured-data:end -->
+</head>
+<body class="room-plain" id="top">
+<a class="skip" href="#main">Skip to the content</a>
+
+<main id="main" class="wrap" style="padding-bottom:56px;max-width:840px;">
+
+  <a class="backlink" href="index.html">← BACK TO THE STREET</a>
+
+  <h1>Architecture</h1>
+  <p class="lede">Stimpunks.World is a directory of static files that Netlify serves as they are, deployed by a push to <code>main</code>. The CB&rsquo;s functions and one storage area are the only parts that run on a server. This page is the code and the hosting; <a href="design.html">How this site is made</a> is the why. <strong>Last updated 2026-10-04.</strong></p>
+
+  <h2 id="at-a-glance">At a glance</h2>
+  <figure class="arch-map" aria-labelledby="arch-cap">
+    <figcaption id="arch-cap" class="arch-cap">How a change gets from a laptop to a reader, and what talks to what.</figcaption>
+    <div class="arch-row">
+      <div class="arch-box"><p><strong>Ryan&rsquo;s and Helen&rsquo;s machines</strong>Hand-written pages, <code>love.css</code> and scripts. Data files become page regions through <code>tools/make-*.py</code>. <code>tools/check-all.sh</code> runs before every commit.</p></div>
+      <div class="arch-box"><p><strong>Ryan&rsquo;s laptop, 06:10 each morning</strong><code>tools/daily-*.sh</code> read YouTube&rsquo;s feeds and our sibling sites&rsquo; RSS, redraw one room each, and commit only that room&rsquo;s files.</p></div>
+    </div>
+    <p class="arch-link"><span aria-hidden="true">↓ </span>git push</p>
+    <div class="arch-box"><p><strong>GitHub: Stimpunks/Stimpunks-Love, <code>main</code></strong>Every commit here is published. There is no staging and no review.</p></div>
+    <p class="arch-link"><span aria-hidden="true">↓ </span>Netlify deploys it in a minute or two</p>
+    <div class="arch-zone">
+      <p class="arch-zone__name">Netlify &middot; stimpunks.world</p>
+      <div class="arch-row">
+        <div class="arch-box"><p><strong>Static files</strong>Every page, <code>love.css</code> and the scripts. <code>_headers</code> sets the security policy and caching; <code>_redirects</code> sends the old addresses here.</p></div>
+        <div class="arch-box arch-box--key"><p><strong>Functions at <code>/cb/*</code></strong>Signing on, the channels, calls, boards, the shared games and the Slake. One of them sweeps every hour.</p></div>
+        <div class="arch-box"><p><strong>One Blobs store, <code>cb</code></strong>Ten messages a channel, gone at midnight Colorado time. No IP address and no log.</p></div>
+      </div>
+    </div>
+    <p class="arch-link"><span aria-hidden="true">↓ </span>your browser gets pages; the radio, once you sign on, fetches <code>/cb/*</code></p>
+    <div class="arch-zone">
+      <p class="arch-zone__name">Your browser</p>
+      <div class="arch-row">
+        <div class="arch-box"><p><strong>Every page and <code>love.js</code></strong>Nothing from outside loads. The dial is set before first paint. Only <code>localStorage</code> is kept.</p></div>
+        <div class="arch-box"><p><strong>The CB radio, once signed on</strong><code>cb.js</code>, in a shadow root. It asks only while it is open and the tab is in front.</p></div>
+        <div class="arch-box"><p><strong>A press on a play button</strong><code>love-embed.js</code> builds the one frame or player, checked against its list of allowed origins.</p></div>
+      </div>
+    </div>
+    <p class="arch-link"><span aria-hidden="true">↓ </span>only after a press</p>
+    <div class="arch-box"><p><strong>Third parties</strong>youtube-nocookie.com, open.spotify.com, embed.music.apple.com and videopress.com for players; 8x8.vc for calls, the only thing given the camera and microphone; the band&rsquo;s own site for The Small Hours&rsquo; audio.</p></div>
+  </figure>
+
+  <h2 id="hosting">Hosting and deploy</h2>
+  <p>Netlify serves the repository root as it is, and a push to <code>main</code> is a deploy: live in a minute or two, with no staging step and no review. There is no build command, no bundler and no fingerprinting. The HTML in the repository is what you are reading.</p>
+  <ul>
+    <li><strong>Domain.</strong> <code>stimpunks.world</code> since 2026-09-23. <code>stimpunks.love</code> (2026-09-19 to 2026-09-23) and <code>stimpunks-love.netlify.app</code> stay registered and send you here, path for path, with a 301.</li>
+    <li><strong>Functions.</strong> Netlify bundles <code>netlify/functions/*.mjs</code> on deploy and installs the one dependency in <code>package.json</code>, <code>@netlify/blobs</code>. Nothing else is installed or built.</li>
+    <li><strong>Storage.</strong> One Netlify Blobs store named <code>cb</code>, opened with strong consistency. It is the only thing the site keeps on a server.</li>
+    <li><strong>Rate limits.</strong> Each function declares Netlify&rsquo;s own limiter in its config. The limiter counts addresses itself, so no IP address ever reaches our code or our storage.</li>
+  </ul>
+  <table class="arch-table">
+    <thead><tr><th>File</th><th>What it decides</th><th>Edited by</th></tr></thead>
+    <tbody>
+      <tr><td><code>netlify.toml</code></td><td>Publish the root, run no build command, skip asset processing</td><td>hand</td></tr>
+      <tr><td><code>_redirects</code></td><td>The old domains and the netlify.app host to stimpunks.world; <code>/netlify/*</code>, <code>/node_modules/*</code> and <code>package*.json</code> answer 404</td><td>hand</td></tr>
+      <tr><td><code>_headers</code></td><td>Caching per path, the security headers, the <code>Link</code> header, <code>X-Clacks-Overhead</code></td><td>hand, except the policy line</td></tr>
+      <tr><td><code>_headers</code>, the Content-Security-Policy line</td><td><code>frame-src</code>, <code>media-src</code> and the hash of the snippet every page runs before first paint</td><td><code>tools/make-csp.py</code> only</td></tr>
+      <tr><td><code>package.json</code></td><td><code>@netlify/blobs</code>, for the functions</td><td>hand</td></tr>
+      <tr><td><code>.claude/launch.json</code></td><td>The local preview, <code>npx serve . -l 8919</code></td><td>hand</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Caching.</strong> The HTML, <code>love.css</code>, <code>love.js</code> and <code>love-embed.js</code> are checked again on every request (<code>max-age=0, must-revalidate</code>), because nothing is fingerprinted and a stale stylesheet against new markup is an unstyled room. Typefaces, <code>audio/</code>, <code>raven/</code> and <code>oracle/</code> are cached for a year; share cards and icons for a week; <code>feed.xml</code>, <code>sitemap.xml</code> and <code>robots.txt</code> for ten minutes.</p>
+  <p><strong>Security headers.</strong> <code>nosniff</code>, <code>Referrer-Policy: strict-origin-when-cross-origin</code>, HSTS for two years, and <code>X-Frame-Options: SAMEORIGIN</code> with <code>frame-ancestors 'self'</code>, because the laptop in <a href="solarpunk-hermitage.html">the Solarpunk Hermitage</a> frames this site inside itself. <code>connect-src</code> is <code>'self'</code>. <code>Permissions-Policy</code> gives the players&rsquo; features to youtube-nocookie.com, the camera, microphone and screen to 8x8.vc only, and denies everything else.</p>
+  <p><strong>Secrets live in Netlify&rsquo;s environment, never in the repository.</strong> By name only:</p>
+  <table class="arch-table">
+    <thead><tr><th>Variable</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>CB_PASSWORD</code></td><td>The community password. Every pass is an HMAC keyed by it, so changing it and redeploying signs everybody off.</td></tr>
+      <tr><td><code>CB_MOD_PASSWORD</code></td><td>The base station&rsquo;s password, for moderators</td></tr>
+      <tr><td><code>CB_MODS</code></td><td>Which handles hold which roles. Missing or unreadable, it fails closed.</td></tr>
+      <tr><td><code>CB_JAAS_KID</code>, <code>CB_JAAS_KEY</code></td><td>The 8x8 key id and private key that sign call tokens</td></tr>
+      <tr><td><code>CB_JAAS_EVENTS_SECRET</code></td><td>Checks 8x8&rsquo;s webhook saying who is in a call</td></tr>
+      <tr><td><code>CB_JAAS_HOOK_SECRET</code></td><td>An optional check on 8x8&rsquo;s settings webhook</td></tr>
+    </tbody>
+  </table>
+  <p><strong>The local server is not the site.</strong> <code>npx serve</code> sends no headers, so a policy failure only shows on the live host. It drops a query string on its clean-URL redirect, which Netlify does not. It runs no functions, so <code>/cb/*</code> answers 404 there; the CB runs under <code>netlify dev</code> after <code>npm install</code>, or live.</p>
+
+  <h2 id="front-end">The front end</h2>
+  <p>Every page is a hand-written HTML file at the repository root, complete before any script arrives, styled by one shared stylesheet and plain scripts with no framework and no dependencies. There is deliberately no design system: each room is its own visual world, and the code is arranged so that stays true.</p>
+  <p><strong>A page.</strong> Its <code>&lt;body&gt;</code> class names the room, and that class is the hook for the room&rsquo;s section of <code>love.css</code> and for its share card. The <code>&lt;head&gt;</code> carries, in order:</p>
+  <ol>
+    <li>the pre-paint snippet, the same on every page byte for byte, which sets the dial from <code>localStorage</code> or <code>prefers-reduced-motion</code> before first paint; its sha256 is in the security policy;</li>
+    <li>the canonical address, the description and the Open Graph tags, with the share card written by <code>make-og.py</code>;</li>
+    <li>structured data from <code>tools/structured.py</code>, built from the page&rsquo;s own title, description and address;</li>
+    <li><code>love.js</code>, plus whatever scripts that room needs, all deferred.</li>
+  </ol>
+  <p><strong><code>love.css</code> is one file in numbered sections.</strong> &sect;1 is the self-hosted typefaces, with <code>fonts/_sources.json</code> recording where each came from. &sect;2 is ground rules: every colour as a custom property on <code>:root</code>, and a global rule that keeps a hidden thing hidden. &sect;3 is the intensity dial. &sect;4 is shared furniture that is layout and never colour: the back link, the sign-off, the press-to-play plate, the job marker. Then each room, area or piece of street furniture gets a self-contained section, duplicating ideas in its own clothes on purpose. Small screens and print close the file. <code>check-classes.py</code> refuses a class claimed by two rooms, a custom property declared twice, and a section number out of order.</p>
+  <p><strong>The dial.</strong> Gentle, Regular and MAX change motion and sparkle only, never content. &sect;3&rsquo;s reset carries <code>!important</code>, and rooms scope their own tilts with <code>:where()</code> so the reset can win. <code>check-gentle.py</code> measures every page at all three settings.</p>
+  <table class="arch-table">
+    <thead><tr><th>Script</th><th>Loaded</th><th>Job</th></tr></thead>
+    <tbody>
+      <tr><td><code>love.js</code></td><td>every page</td><td>The dial, the Playhouse toys and the superposition panel, and two loaders: the radio and the fractal window</td></tr>
+      <tr><td><code>love-embed.js</code></td><td>pages with something to press</td><td>The only code that builds a frame or an audio player. It holds the lists of origins it will frame and play from, and the call&rsquo;s.</td></tr>
+      <tr><td><code>rack.js</code></td><td>rooms with a rack</td><td>A rack&rsquo;s screen and each card&rsquo;s second button, found by <code>data-rack-*</code> attributes and never by class</td></tr>
+      <tr><td><code>quest.js</code></td><td>every page with a job marker</td><td>The Adventurer&rsquo;s Guild&rsquo;s markers. The markers themselves are <code>&lt;details&gt;</code> and work without it.</td></tr>
+      <tr><td><code>finder.js</code></td><td>the front page and the map only</td><td>Search over room names, descriptions and <code>search-index.json</code></td></tr>
+      <tr><td><code>cb.js</code> and <code>cb.css</code></td><td>only once signed on to the CB</td><td>The radio, in a shadow root so no room&rsquo;s styles reach it</td></tr>
+      <tr><td><code>guest.js</code></td><td>not signed on</td><td>The radio&rsquo;s bar folded shut: the teleporter and the way on. It knows nothing about the channel.</td></tr>
+      <tr><td><code>call.js</code>, <code>callroom.js</code></td><td>on a press</td><td>A room&rsquo;s 8x8 call window, and the mover the radio shares</td></tr>
+      <tr><td><code>fractal.js</code></td><td>on a press</td><td>The sign-off&rsquo;s fractal window, limited so it cannot flash</td></tr>
+      <tr><td>a room&rsquo;s own script</td><td>that room&rsquo;s page only</td><td>Its game, toys or machine: <code>arcade.js</code>, <code>mud.js</code>, <code>stay-breezy.js</code> and the rest</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Press to play.</strong> A play button is a <code>&lt;button class="facade"&gt;</code> that names the thing and how long it runs. Nothing reaches a third party until it is pressed. Then <code>love-embed.js</code> checks the address against its list and swaps the button for a youtube-nocookie.com frame, or another origin on the list. A room styles the pressed state on the container, because the button&rsquo;s classes do not survive the swap.</p>
+  <p><strong>What your browser keeps.</strong> Only <code>localStorage</code>, and only in your browser: <code>love-intensity</code> (the dial), <code>love-cb</code> (your CB pass and handle), <code>love-cb-guest</code> (the guest panel left open), <code>love-quests</code> (the Guild&rsquo;s list), <code>love-rescues</code> (animals you rescued) and <code>love-breezy</code> (Stay Breezy&rsquo;s usual fans). <a href="privacy.html">Privacy</a> says the same. Every read and write is wrapped so a private window still works.</p>
+  <p><strong>Machine-readable files</strong>, all generated: <code>sitemap.xml</code>, <code>llms.txt</code>, <code>feed.xml</code> (from <a href="changelog.html">the changelog</a>), <code>cb-rooms.json</code>, <code>search-index.json</code>, <code>/.well-known/security.txt</code>, <code>/.well-known/api-catalog</code> and the agent skill under <code>/.well-known/agent-skills/</code>.</p>
+
+  <h2 id="generators">Data and generators</h2>
+  <p>The pages are hand-written, but any part of a page that restates a list, a credit or a fact held somewhere else is generated from a JSON file by a Python script, so the two cannot drift. The scripts are local tools in <code>tools/</code>; none of them runs on a server. The usual path is <code>data/&lt;room&gt;.json</code> to <code>tools/make-&lt;room&gt;.py</code> to the room&rsquo;s page, between markers, and usually to <a href="liner-notes.html">the liner notes</a> as credits too.</p>
+  <p><strong>Marker regions.</strong> A generator only ever rewrites text between a pair of comments such as <code>&lt;!-- jukebox:begin --&gt;</code> and <code>&lt;!-- jukebox:end --&gt;</code>. Everything outside the markers is hand-written. Every page has at least the sign-off and the structured data between markers. A room somebody built with their own AI and brought in through <a href="your-room.html">Your Room</a> sits between <code>import:&lt;slug&gt;</code> markers.</p>
+  <p><strong>Generators refuse rather than guess.</strong> Each one checks its data against the promises its room makes before writing: a runtime on every track, a credit on every quotation, a consent record on every photograph, an allowed origin on every player. A refusal stops the build and nothing after it runs.</p>
+  <table class="arch-table">
+    <thead><tr><th>Kind</th><th>Tools</th><th>What they write</th></tr></thead>
+    <tbody>
+      <tr><td>Room builders</td><td><code>make-&lt;room&gt;.py</code>, one per room with data</td><td>That room&rsquo;s marker regions, and usually its credits in the liner notes</td></tr>
+      <tr><td>Readers of the rooms</td><td><code>make-now-playing.py</code>, <code>make-map.py</code>, <code>make-signoff.py</code>, <code>make-structured.py</code></td><td><a href="now-playing.html">Now Playing</a>, <a href="map.html">the map</a>, every sign-off, every page&rsquo;s structured data. They read the published pages, so they run after the builders.</td></tr>
+      <tr><td>Site files</td><td><code>make-sitemap.py</code>, <code>make-search-index.py</code>, <code>make-feed.py</code>, <code>make-agent-files.py</code>, <code>make-security.py</code></td><td><code>sitemap.xml</code>, <code>llms.txt</code>, <code>cb-rooms.json</code>, <code>search-index.json</code>, <code>feed.xml</code>, <code>/.well-known/*</code></td></tr>
+      <tr><td>Headers</td><td><code>make-csp.py</code></td><td>The policy line in <code>_headers</code>, from <code>love-embed.js</code>&rsquo;s origin lists and the pre-paint snippet&rsquo;s hash</td></tr>
+      <tr><td>Images</td><td><code>make-webp.py</code>, <code>make-og.py</code>, <code>make-icons.py</code></td><td>WebP only where it is as faithful (SSIM 0.98 or better) and at least 10% smaller; a share card per page in <code>og/</code>; the favicons</td></tr>
+      <tr><td>Network pulls</td><td><code>pull-arrivals.py</code>, <code>pull-doom-scoop.py</code>, <code>pull-vital-rack.py</code>, <code>pull-notebook-month.py</code>, <code>pull-large-month.py</code>, <code>pull-cookin-month.py</code>, <code>pull-club.py</code>, <code>pull-foundry.py</code></td><td>A data file refreshed from feeds or GitHub. Never run by the build.</td></tr>
+      <tr><td>Intake</td><td><code>intake-collection.py</code>, <code>import-room.py</code></td><td>Metadata stripped from arriving photographs; a room somebody built with their own AI, brought in</td></tr>
+    </tbody>
+  </table>
+  <p><strong>A generated file or region is never edited by hand.</strong> That covers <code>feed.xml</code>, <code>sitemap.xml</code>, <code>llms.txt</code>, <code>cb-rooms.json</code>, <code>search-index.json</code>, everything in <code>og/</code>, <code>data/og-prints.json</code>, the policy line and anything between markers. On a merge conflict in one of them, take either side, fix the source and run the build again.</p>
+  <p><strong>Share cards.</strong> <code>make-og.py</code> drives headless Chrome to photograph a scrap of markup on the page&rsquo;s own body class with <code>love.css</code> attached, and lifts the page&rsquo;s heading word for word. There is a card design per room and no template. It keeps the committed picture when nothing that decides it has changed, because two Macs draw the soft edges of letters differently.</p>
+
+  <h2 id="checks">Checks</h2>
+  <p><code>tools/check-all.sh</code> is the build and the test suite in one. It runs every generator and every checker in the one order that works, stops at the first refusal, and changes nothing on a clean tree. It runs before every commit; Netlify does not run it.</p>
+  <ol>
+    <li><strong>The Node tests.</strong> <code>netlify/cb/lib.test.mjs</code> races writers against each other and fails if any write that was told it worked is missing. <code>tools/fractal.test.mjs</code> counts flashes in what the fractal window paints.</li>
+    <li><strong>Images</strong>, before anything refers to one.</li>
+    <li><strong>The room builders</strong>, each from its own data file.</li>
+    <li><strong>The things that read the rooms</strong>: Now Playing, the map, sign-offs, structured data, the sitemap, the search index, the feed, the policy line, the agent files, share cards, icons and <code>security.txt</code>.</li>
+    <li><strong>The checkers</strong>, against what was just written.</li>
+  </ol>
+  <table class="arch-table">
+    <thead><tr><th>Checker</th><th>Refuses</th><th>Renders in Chrome</th></tr></thead>
+    <tbody>
+      <tr><td><code>check-contrast.py</code></td><td>A text and ground pair under WCAG 1.4.3, and any colour on <code>:root</code> that is neither measured nor exempted with a reason</td><td>no</td></tr>
+      <tr><td><code>check-contrast-live.py</code></td><td>Rendered text against the ground it actually sits on. It declines rather than guesses on a gradient.</td><td>yes</td></tr>
+      <tr><td><code>check-focus.py</code></td><td>A focus ring that cannot be seen against its ground</td><td>yes</td></tr>
+      <tr><td><code>check-gentle.py</code></td><td>Rotation, skew or ambient motion left at Gentle, and content that changes between dial settings</td><td>yes</td></tr>
+      <tr><td><code>check-print.py</code></td><td>A zine page that is not one sheet, a broadside that is not two pages a sheet, an ink not on the allowed list</td><td>yes, to PDF</td></tr>
+      <tr><td><code>check-weights.py</code></td><td>Two of <a href="foundry.html">the Foundry</a>&rsquo;s weights that render the same letters</td><td>yes</td></tr>
+      <tr><td><code>check-headings.py</code></td><td>A skipped heading level, or other than one <code>&lt;h1&gt;</code></td><td>no</td></tr>
+      <tr><td><code>check-ids.py</code></td><td>An id used twice on a page, or a script asking for an id no page has</td><td>no</td></tr>
+      <tr><td><code>check-classes.py</code></td><td>A class claimed by two rooms, a custom property declared twice, a section number out of order</td><td>no</td></tr>
+      <tr><td><code>check-counts.py</code></td><td>A sentence stating how many rooms, pages or typefaces the street has</td><td>no</td></tr>
+      <tr><td><code>check-quests.py</code></td><td>A job code that disagrees between a room and the Guild&rsquo;s board</td><td>no</td></tr>
+      <tr><td><code>check-faces.py</code></td><td>A typeface in <code>fonts/</code> missing from the Foundry or the Mopery&rsquo;s picker</td><td>no</td></tr>
+      <tr><td><code>check-teleport.py</code></td><td>The room search drifting apart between the radio, the guest bar and the finder</td><td>no</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Left out of the build on purpose:</strong> anything that needs the network. <code>check-jukebox.py</code> asks YouTube&rsquo;s watch page whether every play button&rsquo;s video still plays and still embeds, and it is run by hand. A gate that fails on a train is a gate people learn to skip.</p>
+  <p><strong>When a tool refuses, the cause gets fixed.</strong> Loosening a check, or adding an exemption to quiet it, is the one change the repository&rsquo;s rules forbid outright.</p>
+
+  <h2 id="cb">Server side: the CB</h2>
+  <p>The CB, a chat channel patterned after citizens band radio, is the only server-side code on the site: Netlify Functions in <code>netlify/functions/</code> sharing one library, <code>netlify/cb/lib.mjs</code>, and one Netlify Blobs store. Every promise on <a href="privacy.html">Privacy</a> is kept in that library.</p>
+  <p><strong>How it runs.</strong> Each function is a JavaScript module whose config gives its address and a Netlify rate limit. A request carries the pass from the browser, <code>readPass()</code> checks it, and a change is written only if the stored copy has not changed since it was read, so people writing at once never lose a message. One scheduled function, <code>cb-midnight</code>, runs every hour and sweeps whatever has expired. It runs hourly because midnight in Colorado moves between 06:00 and 07:00 UTC.</p>
+  <p><strong>The radio only asks while it is open and in front.</strong> One function in <code>cb.js</code> decides; folded, or in a background tab, the radio sends nothing. Open, it listens every four seconds. Tuned to World it says nothing about where it is; tuned to a room it names that room.</p>
+  <table class="arch-table">
+    <thead><tr><th>Area</th><th>Addresses</th><th>What is kept, and for how long</th></tr></thead>
+    <tbody>
+      <tr><td>Signing on</td><td><code>/cb/signon</code>, <code>/cb/account</code>, <code>/cb/account/recover</code>, <code>/cb/account/admin</code></td><td>A pass is an HMAC keyed by the password, kept only in your browser. A claimed username is a salted scrypt hash, a version and a lock, filed under a hash of the name. No email, and no list of accounts.</td></tr>
+      <tr><td>The channels</td><td><code>/cb/channel</code>, <code>/cb/transmit</code>, <code>/cb/moderate</code>, <code>/cb/react</code>, <code>/cb/image</code></td><td>Ten messages per channel (World, or one per room), gone at midnight Colorado time. Pictures are redrawn in your browser, refused if they still carry metadata, and deleted with their message.</td></tr>
+      <tr><td>Being seen, and watching together</td><td><code>/cb/here</code>, <code>/cb/here/leave</code>, <code>/cb/beacon</code></td><td>One record per visit, shown for 30 seconds after its last check. A host&rsquo;s beacon is replaced, never added to.</td></tr>
+      <tr><td>Calls</td><td><code>/cb/call</code>, <code>/cb/call-events</code>, <code>/cb/call-settings</code></td><td>Nothing about a call. It signs an 8x8 token for one handle and one room, and reads 8x8&rsquo;s webhooks for who is in a call.</td></tr>
+      <tr><td>Boards</td><td><code>/cb/chalk*</code>, <code>/cb/pebbles*</code>, <code>/cb/brass*</code>, <code>/brass-tacks.xml</code></td><td>The chalkboard and the pebble bowls: a week. <a href="brass-tacks-board.html">The Brass Tacks Board</a>: until a moderator takes a post down.</td></tr>
+      <tr><td>Shared games</td><td><code>/cb/pando*</code>, <code>/cb/fridge*</code>, <code>/cb/stair*</code>, <code>/cb/shelter*</code>, <code>/cb/pets*</code>, <code>/cb/adopted</code></td><td>A tree&rsquo;s count, finished sentences and a stair&rsquo;s step, kept with no name in them. Adopted pets, under a hash of the handle, until Forget Me.</td></tr>
+      <tr><td>The Slake</td><td><code>/cb/mud/here</code>, <code>/cb/mud/say</code>, <code>/cb/mud/leave</code>, <code>/cb/mud/moderate</code></td><td>Presence per visit, replaced on moving. Each place&rsquo;s talk is gone at midnight.</td></tr>
+      <tr><td>The sweep</td><td><code>cb-midnight</code>, scheduled</td><td>Deletes what has expired across all of the above</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Never stored:</strong> an IP address (Netlify&rsquo;s limiter counts them and never hands them over), anything a person types in a log line, an email address, or a list of who is on.</p>
+  <p><strong>Roles.</strong> <code>CB_MODS</code> says which handles hold which roles, and it is read on every request. The server decides who may enter each private room in <a href="town-hall.html">the Town Hall</a>, in one function. A page that hides its radio from the wrong person is only keeping quiet; it is not the lock.</p>
+  <p><strong>Calls are 8x8&rsquo;s Jitsi as a Service.</strong> The CB signs a token with <code>CB_JAAS_KEY</code> for one room, and nobody joins without one. Guests get a token, never a moderator&rsquo;s, only for the rooms <a href="cavendish-coworking.html">Cavendish Coworking</a> keeps open to the world. <code>love-embed.js</code> builds the call&rsquo;s frame, and 8x8 is the only origin given the camera, microphone and screen.</p>
+
+  <h2 id="timers">Scheduled jobs</h2>
+  <p>The rooms that show other sites&rsquo; feeds are snapshots refreshed by Ryan&rsquo;s laptop each morning, not live pages. None of those hosts lets a page read its feed from another site, and the alternatives were a proxy we do not run or a third-party reader. Each room prints when it was last set, so a missed morning leaves an honest page rather than a wrong one.</p>
+  <p><strong>The task.</strong> A Claude Code scheduled task, <code>arrivals-board-daily</code>, runs at 06:10 local time on Ryan&rsquo;s machine. Its instructions are tracked in <code>.claude/scheduled-tasks/arrivals-board-daily/SKILL.md</code>, and <code>tools/install-scheduled-task.sh</code> installs that copy and reports drift. The schedule itself lives in the scheduler, not the repository.</p>
+  <p><strong>Each script does the same five things.</strong> It refuses unless the tree is on <code>main</code> and its own files are clean. It pulls, which is the only network step; redraws its room; runs the fast offline checkers as a gate; then commits only its own files under a fixed subject and pushes. A failed push is left for a person. The scripts never rebase or force.</p>
+  <table class="arch-table">
+    <thead><tr><th>Script</th><th>Room</th><th>Commits</th><th>Subject</th></tr></thead>
+    <tbody>
+      <tr><td><code>daily-arrivals.sh</code></td><td><a href="the-feed.html">The Feed</a></td><td><code>data/arrivals.json</code>, <code>the-feed.html</code></td><td>daily arrivals board reset</td></tr>
+      <tr><td><code>daily-scoop.sh</code></td><td><a href="the-doom-scoop.html">The Doom Scoop</a></td><td><code>data/doom-scoop.json</code>, <code>the-doom-scoop.html</code>, <code>now-playing.html</code></td><td>daily doom scoop edition</td></tr>
+      <tr><td><code>daily-vital.sh</code></td><td><a href="vital-plant-living.html">Vital Plant Living</a>&rsquo;s telly</td><td><code>data/vital-rack.json</code>, <code>vital-plant-living.html</code></td><td>daily vital telly refill</td></tr>
+      <tr><td><code>daily-notebook.sh</code></td><td><a href="the-open-notebook.html">The Open Notebook</a></td><td><code>data/open-notebook-month.json</code>, <code>the-open-notebook.html</code></td><td>daily open notebook refill</td></tr>
+      <tr><td><code>daily-large.sh</code></td><td><a href="learning-large.html">Learning Large</a></td><td><code>data/learning-large-month.json</code>, <code>learning-large.html</code>, <code>now-playing.html</code></td><td>daily learning large refill</td></tr>
+      <tr><td><code>daily-cookin.sh</code></td><td><a href="hey-good-cookin.html">Hey, Good Cookin&rsquo;</a></td><td><code>data/hey-good-cookin-month.json</code>, <code>hey-good-cookin.html</code>, <code>now-playing.html</code></td><td>daily good cookin refill</td></tr>
+    </tbody>
+  </table>
+  <p>They run in that order, each whatever the last one returned, so one failing feed leaves the others filled. Every push deploys, so the morning makes a run of deploys. The commit subjects matter: the tool that writes Ryan&rsquo;s weekly changelog skips exactly these.</p>
+  <p><strong>Consequences.</strong> Before editing any of those files in the morning, pull first. If the laptop is asleep, the boards keep yesterday&rsquo;s date. The build never pulls anything; the network tools run by hand are <code>check-jukebox.py</code>, <code>pull-club.py</code> and <code>pull-foundry.py</code>. The only job on Netlify&rsquo;s side is the CB&rsquo;s hourly sweep.</p>
+
+  <h2 id="third-parties">Third parties</h2>
+  <p>A page load contacts nobody but stimpunks.world. The security policy makes that a property of the site rather than a habit: <code>default-src</code>, <code>script-src</code>, <code>font-src</code>, <code>img-src</code> and <code>connect-src</code> are all <code>'self'</code>, so there is no analytics, no CDN and no third-party script to remove. Every outside origin below is reached only after somebody presses something.</p>
+  <table class="arch-table">
+    <thead><tr><th>Origin</th><th>Used for</th><th>Allowed by</th><th>Contacted when</th></tr></thead>
+    <tbody>
+      <tr><td>www.youtube-nocookie.com</td><td>Videos and playlists in every room with a play button, rack or set</td><td><code>frame-src</code>; the player&rsquo;s features in <code>Permissions-Policy</code></td><td>after a press</td></tr>
+      <tr><td>open.spotify.com</td><td><a href="club-chronic.html">Club Chronic</a>&rsquo;s stage</td><td><code>frame-src</code></td><td>after a press</td></tr>
+      <tr><td>embed.music.apple.com</td><td>Club Chronic&rsquo;s Apple Music deck</td><td><code>frame-src</code></td><td>after a press</td></tr>
+      <tr><td>videopress.com</td><td>Ryan&rsquo;s own grass video in <a href="swaying-sweetgrass.html">Swaying Sweetgrass</a></td><td><code>frame-src</code></td><td>after a press</td></tr>
+      <tr><td>8x8.vc</td><td>A room&rsquo;s voice and video call</td><td><code>frame-src</code>; camera, microphone, screen and autoplay in <code>Permissions-Policy</code></td><td>after a press, with a token the CB signed</td></tr>
+      <tr><td>josephmooon.wordpress.com, its uploads folder only</td><td><a href="small-hours.html">The Small Hours</a>&rsquo; jukebox, streamed from the band&rsquo;s own site</td><td><code>media-src</code></td><td>after a press</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Adding an origin is one edit.</strong> It goes in a list in <code>love-embed.js</code>, then <code>make-csp.py</code> runs. The policy line in <code>_headers</code> is never edited by hand: the next run puts it back, and the local server sends no headers, so the mistake only shows on the live site.</p>
+  <p><strong>Playing is not the same permission as embedding.</strong> A service can refuse to be framed (stoat.chat, music.apple.com) or publish no player at all (Qobuz), and a video can have embedding switched off or be age-gated. Those become links shaped like doors, never frames, and <code>check-jukebox.py</code> asks YouTube for every play button whether it may still be embedded.</p>
+  <p><strong>Other outside traffic, none of it from your browser:</strong></p>
+  <ul>
+    <li><strong>Netlify</strong> hosts everything, runs the functions and holds the store.</li>
+    <li><strong>8x8</strong> calls <code>/cb/call-events</code> and <code>/cb/call-settings</code> as webhooks, and both are signature-checked.</li>
+    <li><strong>Ryan&rsquo;s laptop</strong> reads YouTube&rsquo;s channel feeds and watch pages and our sibling sites&rsquo; RSS each morning, and <code>pull-foundry.py</code> reads Google Fonts&rsquo; public repository when it is run.</li>
+  </ul>
+
+  <h2 id="working">Working on it</h2>
+  <p>Ryan Boren and Helen Edgar both commit straight to <code>main</code>, one at a time, each working through their own Claude, and they agree outside the repository whose turn it is. A push is a deploy and nothing reviews it, so the routine is the safeguard:</p>
+  <ol>
+    <li>Pull before touching anything; the morning task will have pushed.</li>
+    <li>Run <code>tools/check-all.sh</code> before every commit. Files it changes are generated files catching up with a source, and they go in with the change that caused them.</li>
+    <li>Commit and push when you stop. Uncommitted work blocks the other person and the morning task, which refuses to run over anybody&rsquo;s edits.</li>
+    <li>Never hand-merge a generated file. Take either side, fix the source and run the build again.</li>
+    <li>A new changelog entry goes at the top with its own id, because the id is the feed item&rsquo;s permanent address.</li>
+  </ol>
+  <table class="arch-table">
+    <thead><tr><th>What a machine needs</th><th>For</th></tr></thead>
+    <tbody>
+      <tr><td>Python 3</td><td>Every generator and checker</td></tr>
+      <tr><td>Google Chrome</td><td>The rendering checks, the print check, icons and share cards, all headless</td></tr>
+      <tr><td>Node</td><td>The local preview, the Node tests, and <code>netlify dev</code> for the CB</td></tr>
+      <tr><td><code>cwebp</code>, <code>ffmpeg</code></td><td>A new JPEG arriving</td></tr>
+      <tr><td><code>ffprobe</code></td><td>A new recording, because runtimes are measured off the file</td></tr>
+      <tr><td>Pillow</td><td><code>intake-collection.py</code></td></tr>
+      <tr><td>The Knowledge System mirror</td><td>Optional, and on Ryan&rsquo;s machine only. Tools that read it say so and carry on without it.</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Where decisions are written.</strong> <code>CLAUDE.md</code> holds the rules sessions get wrong and why. <code>DECISIONS.md</code> lists what is open and what is settled. <a href="changelog.html">The changelog</a> is the public record and feeds <code>feed.xml</code>. <a href="privacy.html">Privacy</a> is the CB&rsquo;s promise to the people on it. <a href="liner-notes.html">The liner notes</a> hold every credit. <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/SECURITY.md"><code>SECURITY.md</code></a> and <code>/.well-known/security.txt</code> say how to report a vulnerability privately.</p>
+  <p><strong>Licence.</strong> Our words, markup and design are <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Photographs, recorded voices, songs and borrowed names keep their own terms, typefaces keep their own OFL or Apache 2.0 licences, and nothing musical is hosted here. The <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/LICENSE">licence file</a> says which is which.</p>
+
+  <h2 id="sources">Sources</h2>
+  <p>Read from <a href="https://github.com/Stimpunks/Stimpunks-Love">the repository</a> on 2026-10-04: <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/README.md">README.md</a>, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/netlify.toml">netlify.toml</a>, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/_headers">_headers</a>, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/_redirects">_redirects</a>, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/package.json">package.json</a>, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/love.js">love.js</a>, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/love-embed.js">love-embed.js</a>, the section headings of <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/love.css">love.css</a>, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/netlify/cb/lib.mjs">netlify/cb/lib.mjs</a> and the config of every file in <a href="https://github.com/Stimpunks/Stimpunks-Love/tree/main/netlify/functions">netlify/functions</a>, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/tools/check-all.sh">tools/check-all.sh</a> and the head of every checker, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/tools/daily-arrivals.sh">tools/daily-arrivals.sh</a>, and <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/.claude/scheduled-tasks/arrivals-board-daily/SKILL.md">the morning task&rsquo;s instructions</a>. When any of those changes in a way this page describes, this page changes with it, and <a href="changelog.html">the changelog</a> says so.</p>
+
+  <div style="max-width:400px;margin-top:34px;">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- signoff:begin -->
+<footer class="signoff">
+  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> &middot; <a href="map.html#at-architecture">Where am I?</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="mission.html">Mission</a> &middot; <a href="design.html">How it’s made</a> &middot; <a href="your-room.html">Your Room</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="feed.xml">Feed</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+  <p class="signoff__fx" hidden><button type="button" class="signoff__fx-btn" data-fx="{&quot;kind&quot;:&quot;ifs&quot;,&quot;figure&quot;:&quot;triangle&quot;,&quot;sway&quot;:0.03,&quot;ground&quot;:&quot;--ink-2&quot;,&quot;inks&quot;:[&quot;--cyan&quot;,&quot;--green&quot;,&quot;--chalk&quot;]}" aria-describedby="signoff-fx-about">Switch on the fractal window</button> <span id="signoff-fx-about">A slow fractal in this room’s own colours, drawn in your browser in a window of its own. It is not synced to any music, it never flashes at any speed, and it runs until you switch it off or leave the room.</span></p>
+</footer>
+<!-- signoff:end -->
+
+<script src="love.js" defer></script>
+</body>
+</html>

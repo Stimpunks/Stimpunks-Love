@@ -112,8 +112,12 @@ CREDITS = ROOT / "liner-notes.html"
 #                    each aim so a reader can hold us to it. It is read for
 #                    design.html's reason: a job through it would make the page
 #                    the rest of the street is checked against into a stop.
+#   architecture.html  says how the site runs, what it keeps and what it
+#                    contacts. It is design.html's other half and read for the
+#                    same reason: a reference somebody checks us against, not
+#                    a stop on a walking tour.
 EXEMPT = {"changelog.html", "adventurers-guild.html", "404.html", "privacy.html", "design.html",
-          "mission.html"}
+          "mission.html", "architecture.html"}
 
 # THE DIFFICULTY CLASS IS HOW FAR YOU WALK. It is enumerated here rather than
 # typed per job so that no job can invent a rank, and defined by geography so

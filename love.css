@@ -4604,6 +4604,28 @@ html[data-intensity="max"] .burst--confetti span { animation: pb-confetti 1.5s e
 .room-plain .yr-prompt__copy:hover { background: #fff; }
 .room-plain .yr-prompt__said { display: inline-block; margin-left: 10px; color: var(--chalk); font-size: 15px; }
 
+/* Architecture's map of what talks to what. It is markup rather than a picture
+   on purpose: an SVG drawn for a desktop column shrinks its words to about five
+   pixels on a phone, and a drawing a screen reader skips needs every box said
+   again underneath. As boxes and text it reflows to one column, reads aloud top
+   to bottom in the order a change travels, and uses only the card's own ground,
+   border and inks, so it brings no pair nobody has measured. The connectors are
+   words on a rule, because an arrow nobody can hear says nothing. */
+.room-plain .arch-map { margin: 18px 0 8px; }
+.room-plain .arch-cap { font-size: 15px; color: var(--chalk); margin: 0 0 12px; }
+.room-plain .arch-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+.room-plain .arch-box { background: var(--ink-2); border: 3px solid var(--ink-3); border-radius: 12px; padding: 12px 14px; }
+.room-plain .arch-box--key { border-color: var(--pink); }
+.room-plain .arch-box p { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--chalk); }
+.room-plain .arch-box strong { display: block; margin-bottom: 4px; font-size: 16px; color: #fff; }
+.room-plain .arch-zone { border: 2px dashed var(--ink-3); border-radius: 16px; padding: 12px 14px 14px; }
+.room-plain .arch-zone__name { margin: 0 0 10px; font-family: 'Bungee', var(--sans); font-size: 13px; letter-spacing: .5px; color: var(--chalk); }
+.room-plain .arch-link { margin: 0 0 0 26px; padding: 10px 0 10px 16px; border-left: 2px solid var(--ink-3); font-size: 14.5px; line-height: 1.5; color: var(--chalk); }
+/* Its tables are full of file names, and a file name has nowhere to break, so on a
+   phone they pushed the page sideways. Breaking anywhere costs a hyphen-less
+   split in a long name; scrolling the whole page sideways costs reading it. */
+.room-plain .arch-table th, .room-plain .arch-table td { overflow-wrap: anywhere; }
+
 
 /* §12 ── SUBROOM: The Chappell (off Pink Pony Club) ──────────────────────────
    RHINESTONE VATICAN. A chapel built by somebody who thinks a chapel should
