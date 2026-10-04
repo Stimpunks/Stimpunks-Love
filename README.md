@@ -112,6 +112,7 @@ community-center.html A painted block hall, blinds half open. The meeting hall (
 dopamine-dress-up-den.html  Helen's idea: a boutique for dopamine dressing. Mix an outfit on a valet stand; nobody's body is drawn
 the-open-notebook.html  A notebook open under a window since first light, every hour's sun on the page. Ryan's piece on bullet, junk and interstitial journaling in full, the Infodumplings questions, its videos and a month of journaling channels on the laptop; nowhere to write, on purpose
 learning-large.html     A glasshouse at night under red and blue grow lamps, where nothing is green. Learning, making and knowledge gardening with AI, from our own AI pages: spiky profiles complementing each other, this street's own sowing log, and a month of AI channels on the bench screen; no chat box, on purpose
+hey-good-cookin.html    A community kitchen with its windows steamed up: nobody turned away, nothing owed, a communication badge placard on every table, an omnivorous menu where every dish card says what is in it, a line and tables built to work from a wheelchair, cooking classes, and a month of cooking channels on the teaching screen
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 now-playing.html      A poster column beside the Pebble Board. What every room puts on first, read off the rooms
 brass-tacks-board.html The Brass Tacks Board, beside the Pebble Board: posts meant to persist, by our moderators, with their usernames on them. Markdown read on the server into nodes; a feed at /brass-tacks.xml (brass.js)
@@ -276,6 +277,7 @@ python3 tools/make-collection.py   # The Collection Collection's gallery, cabine
 python3 tools/make-vital.py        # Vital Plant Living's shelf, builder, board, counter and stereo; refuses a combo off the pantry, or Ital on the menu
 python3 tools/make-open-notebook.py # The Open Notebook's drawing, questions, laptop and racks; refuses a YouTube link left in Ryan's piece, a question our write-up no longer has, anywhere to type, and a month older than a month
 python3 tools/make-learning-large.py # Learning Large's glasshouse, quotations, bench, sowing log and rack; refuses a quotation our page no longer has, a log entry the changelog does not hold, a model given a mind, a chat box, and any green
+python3 tools/make-hey-good-cookin.py # Hey, Good Cookin's hall, placards, line, week, classes and rack; works every dish's allergens out of its ingredients, and refuses a vegan dish with an animal in it, a red placard on a large table, anything owed, a calorie count, and any green, yellow or red but a placard's
 python3 tools/make-community.py    # The Community Center's service board; refuses a slot whose room has stopped saying what it repeats
 python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, and the credits; refuses a size, a gendered rail, or no all-black colourway
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
@@ -360,6 +362,7 @@ python3 tools/pull-doom-scoop.py   # reads The Doom Scoop's sources' YouTube fee
 python3 tools/pull-vital-rack.py   # the same for the cooks on Vital Plant Living's telly, into data/vital-rack.json
 python3 tools/pull-notebook-month.py # the same for the journaling channels in The Open Notebook's monthly log, into data/open-notebook-month.json
 python3 tools/pull-large-month.py  # the same for the AI channels on Learning Large's rack, into data/learning-large-month.json
+python3 tools/pull-cookin-month.py # the same for the cooking channels on Hey, Good Cookin's rack, into data/hey-good-cookin-month.json
 python3 tools/pull-foundry.py      # reads every typeface's own record into data/foundry-faces.json
 python3 tools/pull-club.py         # mirrors Club Chronic's playlist ids into data/club.json
 python3 tools/pull-club.py --check # reports drift between that mirror and the live playlist
@@ -378,12 +381,12 @@ pulls, fills the cabinet, re-prints Now Playing, gates, and commits **only** `da
 `the-doom-scoop.html` and `now-playing.html`, under the fixed subject `daily doom scoop edition`. Two
 scripts rather than one so that a news feed failing cannot leave The Feed's board unset, or the other
 way round.
-`tools/daily-vital.sh`, `tools/daily-notebook.sh` and `tools/daily-large.sh` are three more twins on
-the same task, for Vital Plant Living's telly, The Open Notebook's monthly log and Learning Large's
-rack, committing only their own data file and page (and, for the rack, the Now Playing poster, whose
-line for that room is the rack's first video) under `daily vital telly refill`, `daily open notebook
-refill` and `daily learning large refill`, all of which the Knowledge System's `update-logs` skips by
-name.
+`tools/daily-vital.sh`, `tools/daily-notebook.sh`, `tools/daily-large.sh` and `tools/daily-cookin.sh`
+are four more twins on the same task, for Vital Plant Living's telly, The Open Notebook's monthly log,
+Learning Large's rack and Hey, Good Cookin's rack, committing only their own data file and page (and,
+for the two racks, the Now Playing poster, whose line for each of those rooms is its rack's first
+video) under `daily vital telly refill`, `daily open notebook refill`, `daily learning large refill`
+and `daily good cookin refill`, all of which the Knowledge System's `update-logs` skips by name.
 
 **`tools/check-all.sh` runs every one of them, in the order that works, and stops at the first
 refusal**; it is the command to run before every commit, and on a clean tree it changes nothing.

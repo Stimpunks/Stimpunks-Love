@@ -2793,6 +2793,76 @@ AI industry, and their titles sell models and talk about them as if they were pe
 whose guardrails say neither. The sentence beside the rack says the guardrails are ours. One bench
 screen serves the whole rack.
 
+**HEY, GOOD COOKIN' IS A COMMUNITY KITCHEN, AND NOBODY OWES ANYTHING IN IT.** §93, Ryan's brief,
+2026-10-04: come if you are hungry for food or for knowledge, nobody is turned away, no paying and no
+volunteering, cafeteria-style self-service with sit-down seating and a communication badge placard on
+every table, an omnivorous menu with plenty of vegan and vegetarian, wheelchair access at the line and
+the seating, cooking classes, and a rack of the last month from cooking channels he listed. **His
+welcome, the placards and their three rules are in the room word for word** (`welcome`, `placards` and
+`rules` in `data/hey-good-cookin.json`). `tools/make-hey-good-cookin.py` refuses the vocabulary of
+anything owed (pay it forward, donation, pay what you can, earning a meal), of sorting the people who
+eat (needy, less fortunate, deserving, the homeless) and of asking at the door (proof, ID, sign-in,
+register, referral), with the negation window: Nothing For Sale's rule, in the room that feeds people.
+The friendly edits are a jar by the trays and a volunteer rota on the wall.
+
+**EVERY DISH CARD'S ALLERGEN LINE IS WORKED OUT FROM ITS INGREDIENTS, NEVER TYPED BESIDE THEM.** One list
+of words per allergen, for the FDA's nine (read off fda.gov, 2026-10-04) and gluten, which barley and
+rye carry as well as wheat, with phrases read first so oat milk is not milk and peanut butter is not
+butter. The card says it both ways round (*Contains soy. No gluten.*), because somebody with coeliac
+disease and somebody with an allergy each read for their own word. **It refuses** a vegan dish with
+anything from an animal in it, stock included; a vegetarian dish with meat, fish, gelatin or parmesan,
+which is made with calf rennet; and a meat dish that does not name its animal, or whose animal and
+ingredients disagree, **which caught the smoked-turkey collards cooked in chicken stock on its first
+run**. A sauce is spelled out on the card rather than named, because *barbecue sauce* cannot be checked
+for anchovy. **Do not add an allergens field to the data**: that is the two lines that can disagree.
+
+**PLENTY OF VEGAN, AND THE VEGAN PAN IS FIRST.** More than half the line is vegan or vegetarian, every
+station has a vegan dish, and on the hot line's week the vegan pan is first every day and the same size,
+Big Steep's rule for its alcohol-free pour. No calorie counts, and the tool refuses healthy, guilt-free,
+cheat, superfood and picky in our voice. Nothing is certified halal or kosher and the room says so;
+every animal is named so people can choose.
+
+**THE PLACARDS ARE THE ONLY GREEN, YELLOW AND RED IN THE ROOM.** On a table a colour means a placard, so
+the tool refuses any other green, yellow, orange or red in an `--hgc-` colour or in §93, and the three
+placard colours anywhere but a rule whose selector says placard or a `data-placard` group in the
+drawing. Every placard carries its shape and its word: circle, triangle, square, as on our Interaction
+Badges page (which says Autism Network International first developed the badges) and on Cavendish
+Cards' badge maker, which Ryan's brief links. **The drawing keeps the house rules**: the tool refuses a
+red placard on a large table, and a red placard on a 4-top while a 2-top stands empty, in the hall it
+draws, and refuses a table drawn under the placard station.
+
+**THE LIGHT IS DAYLIGHT THROUGH STEAMED-UP WINDOWS**, soft, and the only sharp light is where a drop has
+run down the glass; the line is heated from underneath, in hot water, so there is no lamp over the food.
+The collisions are in §93 and the ones to watch are the Directors' frosted pane (keep the runs), Samefood
+Cafe (no divided tray anywhere, because a cafeteria tray with compartments is Samefood's plate) and the
+Community Center's bars (the runs are few, of different lengths, and never line up). Nothing moves; the
+friendly edit is steam rising off the drawing at MAX, which is Vital Plant Living's flourish.
+
+**EVERY MEASUREMENT OF THE LINE IS THE 2010 ADA STANDARDS', READ ON THE ACCESS BOARD'S PAGE**, each linked
+to its section. The standard asks for one seat in twenty and the room builds every seat to it, so there
+is no wheelchair table. **The classes say how long, what they are like and that they can be done sitting
+down**, and a class cooking anything from an animal names FoodSafety.gov's temperature for it, which the
+tool works out from the class's own words. FoodSafety.gov and USDA refuse a script, so the chart was read
+in a browser. No sign-up, no register, no grade, no certificate.
+
+**THE NAME PLAYS ON HANK WILLIAMS'S 1951 TITLE AND THE TOOL REFUSES THE WORDS THAT FOLLOW IT**, which are
+a lyric, anywhere on the page and with no negation window. The friendly edit is finishing the joke.
+
+**THE RACK IS LEARNING LARGE'S IN A KITCHEN.** `pull-cookin-month.py` is `pull-large-month.py`'s reading,
+kept in step by hand; `make-hey-good-cookin.py --month` redraws only the rack; `tools/daily-cookin.sh` is
+the sixth script on the morning task, committing `data/hey-good-cookin-month.json`, `hey-good-cookin.html`
+and `now-playing.html` as `daily good cookin refill`, which update-logs' AUTOMATED pattern names from the
+same night. **YouTube's feeds answered 404 for every channel for some hours the night it was built**,
+Learning Large's included, while the channels' own pages answered; the puller refused and wrote nothing,
+which is right, and the morning timers do the same on a morning like that. The titles are the channels'
+and are not swept.
+
+**AND A SCREENSHOT OF A SCROLLED LONG PAGE CAN COME BACK BLANK WHILE THE PAGE IS FINE.** The browser
+pane's capture goes blank after a scroll or two, and headless Chrome's `--screenshot` of a URL with an
+`#anchor` does too, on Learning Large and Vital Plant Living as much as here: a blank capture is not a
+blank page. Check with `read_page` or JavaScript, or render the page headless in one window as tall as
+the page, with no scroll, and crop. This room nearly lost its shadows to a capture fault.
+
 **THE MAP IS THE ONE PAGE THAT SHOWS EVERY OTHER PAGE, AND NOTHING ON IT IS PAINTED.** `map.html`
 (§49) is the whole street as a model in white card on a cutting mat: shopfronts on both sides of a
 pencilled road, rooms behind rooms standing behind them, the garden's gate halfway down, the
@@ -3505,18 +3575,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §94 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §95 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§94 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§95 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §94 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §95 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

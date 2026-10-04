@@ -2784,6 +2784,38 @@
    }
   },
   {
+   "id": "hgc-ladle",
+   "page": "hey-good-cookin.html",
+   "room": "Hey, Good Cookin’",
+   "title": "What shape is on a red placard?",
+   "posted": "There is a community kitchen on the street with its windows steamed up, and a placard on every table saying who would like company. Go in, find the placards, and come back with the shape on the red one, which is there so nobody has to read a colour to know what a table is saying.",
+   "rank": 1,
+   "takes": "a few minutes of reading",
+   "target": "a blue enamel ladle, set down on the floor by the placard station",
+   "code": "LADLE",
+   "learned": "A placard says how open a table is to company without anybody at it having to say so, and it never says it with colour alone: green carries a circle, yellow a triangle and red a square, the shapes our own field guide gives them for events, so a placard reads in grey, in bad light and for anybody who does not see colour the way it was printed.",
+   "hints": [
+    "On the street itself, in the row of shopfronts: the door whose window is steamed up, with clear runs down the glass.",
+    "In the part of the room about seating yourself.",
+    "On the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "What shape is on a red placard?",
+    "accept": [
+     "square",
+     "a square",
+     "squares"
+    ],
+    "answer": "A square",
+    "why": "A square: green carries a circle, yellow a triangle and red a square, so the placard says what it says to somebody who cannot tell the colours apart.",
+    "hints": [
+     "It is in the part of the room called Seat yourself.",
+     "Every placard has a colour, a shape and a word.",
+     "Four equal sides."
+    ]
+   }
+  },
+  {
    "id": "brass-tack",
    "page": "brass-tacks-board.html",
    "room": "The Brass Tacks Board",

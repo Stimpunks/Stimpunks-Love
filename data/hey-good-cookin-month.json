@@ -1,0 +1,2494 @@
+{
+ "_about": "THE RACK IN HEY, GOOD COOKIN', Ryan's brief, 2026-10-04: the last month of videos from cooking channels he listed, in his order. It is Learning Large's rack in a community kitchen, and the reasons are that room's, The Open Notebook's and the kitchen telly's: the channels are his and the videos are not chosen one by one, so the room says nobody here watched them first. tools/pull-cookin-month.py reads each channel's own two feeds (UULF, its long-form uploads, and UUSH, its shorts) and asks each new video's watch page once, the morning it arrives; tools/make-hey-good-cookin.py --month draws the rack from this file; tools/daily-cookin.sh runs both on the morning timer and commits only this file, hey-good-cookin.html and now-playing.html. This file is the timer's: hand-edit `sources` on purpose and nothing else.",
+ "_sources": "Each channel id was read off the channel's own page on 2026-10-04 (its externalId), never typed from memory. `name` is the channel's own name as YouTube gives it, with its own capitals and marks, FOOD☆STAR's star and Bon Appétit's accent kept as YouTube serves them; `url` is the channel's front page without the tab Ryan's link happened to be on, which for Back of House, JapaneseCooking101, Japanese Kitchen Tour, FOOD☆STAR, Japanese Food Craftsman, Insider Food, Fallow and Guga was their videos. Both feeds are read for every channel whatever tab the link was on, Learning Large's call, because the brief was the last month of each channel. A new channel is a new entry here with its id read the same way; the puller derives both feeds from the id.",
+ "_window": "A MONTH IS THIRTY DAYS, counted back from the minute the rack was filled. A video published before that goes off the end on the next fill; make-hey-good-cookin.py refuses a file still holding one, because a rack that keeps everything is an archive, and the brief was the last month.",
+ "_log": "A VIDEO IS AN ID, A TITLE, A CHANNEL, A TIME AND A LENGTH, the Doom Scoop's rule: no description, no thumbnail, no count of views, likes or subscribers, and make-hey-good-cookin.py refuses a row carrying any of them. `form` is long or short, by which of the channel's two feeds carried it; a short plays upright. `state` is what its watch page said: screen (plays here), door (plays on YouTube only: embedding off, or age-gated), pending (live, or not out yet, asked again tomorrow) or gone (not drawn). TITLES ARE QUOTED AS WRITTEN, capitals, emoji and all, and the room's sweeps skip them: they are the channels' words, and a title that calls a dish healthy or guilt-free, or a cook's dinner a cheat meal, is theirs to write, beside the house rules of ours that the room prints.",
+ "_covered": "What the feeds have been read all the way through, per channel and per feed. A YouTube feed carries the latest fifteen, and a busy channel puts up more than that in a month; a channel whose coverage does not reach back to the start of the month says so on the page. Generated, never typed.",
+ "sources": [
+  {
+   "slug": "americas-test-kitchen",
+   "name": "America's Test Kitchen",
+   "url": "https://www.youtube.com/@AmericasTestKitchen",
+   "channel_id": "UCxAS_aK7sS2x_bqnlJHDSHw"
+  },
+  {
+   "slug": "alton-brown",
+   "name": "Alton Brown",
+   "url": "https://www.youtube.com/@AltonBrown",
+   "channel_id": "UCfDNi1aEljAQ17mUrfUjkvg"
+  },
+  {
+   "slug": "binging-with-babish",
+   "name": "Binging with Babish",
+   "url": "https://www.youtube.com/@bingingwithbabish",
+   "channel_id": "UCJHA_jMfCvEnv-3kRjTCQXw"
+  },
+  {
+   "slug": "epicurious",
+   "name": "Epicurious",
+   "url": "https://www.youtube.com/@epicurious",
+   "channel_id": "UCcjhYlL1WRBjKaJsMH_h7Lg"
+  },
+  {
+   "slug": "nyt-cooking",
+   "name": "NYT Cooking",
+   "url": "https://www.youtube.com/@NYTCooking",
+   "channel_id": "UC1rIOwTqDuWkFj87HZYRFOg"
+  },
+  {
+   "slug": "iron-chef-dad",
+   "name": "Iron Chef Dad",
+   "url": "https://www.youtube.com/@ironchefdad",
+   "channel_id": "UCQVwn0HNVFhg52-8ln0WJSw"
+  },
+  {
+   "slug": "andy-cooks",
+   "name": "Andy Cooks",
+   "url": "https://www.youtube.com/@andy_cooks",
+   "channel_id": "UCqNkn5PNeSqbQTAR5RP-L-Q"
+  },
+  {
+   "slug": "back-of-house",
+   "name": "Back of House",
+   "url": "https://www.youtube.com/@andycooksbackofhouse",
+   "channel_id": "UCWZxVtN4iTlvpo2sOJyy1Yg"
+  },
+  {
+   "slug": "the-pasta-queen",
+   "name": "The Pasta Queen",
+   "url": "https://www.youtube.com/@thepastaqueen",
+   "channel_id": "UCChxSeTVekWoYJjowt6BqWA"
+  },
+  {
+   "slug": "japanese-food-noodles",
+   "name": "Japanese Food Noodles",
+   "url": "https://www.youtube.com/@Japanese_Food_Noodles",
+   "channel_id": "UCxnZ8xQrppBhwj-_wuzWfIA"
+  },
+  {
+   "slug": "japanese-cooking-101",
+   "name": "JapaneseCooking101",
+   "url": "https://www.youtube.com/@JapaneseCooking101",
+   "channel_id": "UC1CL9_o8c7sXfiMWJuTLp-Q"
+  },
+  {
+   "slug": "japanese-kitchen-tour",
+   "name": "Japanese Kitchen Tour",
+   "url": "https://www.youtube.com/@japanesekitchentour",
+   "channel_id": "UC5mGuCfv9Nzr1QXt5a19pRw"
+  },
+  {
+   "slug": "food-star",
+   "name": "FOOD☆STAR",
+   "url": "https://www.youtube.com/@food_star",
+   "channel_id": "UCxwXbvlHDz0pU1R_M2eL4vw"
+  },
+  {
+   "slug": "japanese-food-craftsman",
+   "name": "Japanese Food Craftsman",
+   "url": "https://www.youtube.com/@Japanesefoodcraftsman",
+   "channel_id": "UCdfhVbZsOMwRn4A0LO5k0ww"
+  },
+  {
+   "slug": "bon-appetit",
+   "name": "Bon Appétit",
+   "url": "https://www.youtube.com/@bonappetit",
+   "channel_id": "UCbpMy0Fg74eXXkvxJrtEn3w"
+  },
+  {
+   "slug": "insider-food",
+   "name": "Insider Food",
+   "url": "https://www.youtube.com/@InsiderFood",
+   "channel_id": "UCwiTOchWeKjrJZw7S1H__1g"
+  },
+  {
+   "slug": "fallow",
+   "name": "Fallow",
+   "url": "https://www.youtube.com/@FallowChefs",
+   "channel_id": "UCJ901NqoRaXMnIm7aOjLyuA"
+  },
+  {
+   "slug": "guga",
+   "name": "Guga",
+   "url": "https://www.youtube.com/@guga",
+   "channel_id": "UCnB5HTIi44wDBD56KeT2hNA"
+  },
+  {
+   "slug": "mrnigelng",
+   "name": "mrnigelng",
+   "url": "https://www.youtube.com/@mrnigelng",
+   "channel_id": "UCVjlpEjEY9GpksqbEesJnNA"
+  },
+  {
+   "slug": "eater",
+   "name": "Eater",
+   "url": "https://www.youtube.com/@eater",
+   "channel_id": "UCRzPUBhXUZHclB7B5bURFXw"
+  }
+ ],
+ "log": [
+  {
+   "id": "kKbzbF1HAEU",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "We Put an Air Fryer Through 7 Cooking Challenges | Gear Heads",
+   "published": "2026-09-05T15:59:57Z",
+   "state": "screen",
+   "runs": 1063,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "WAfUc4DI68g",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "Use Summer Tomatoes for a Fresh Tomato Galette | ATK Classes",
+   "published": "2026-09-07T15:59:59Z",
+   "state": "screen",
+   "runs": 1110,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "IShm_WCJL-k",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "A Foolproof Rillons Recipe | America's Test Kitchen",
+   "published": "2026-09-09T15:59:49Z",
+   "state": "screen",
+   "runs": 773,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "TzlcPKiV6QA",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "For the Most Tender Meatballs, Start with a Saltine Panade | America's Test Kitchen",
+   "published": "2026-09-11T16:00:00Z",
+   "state": "screen",
+   "runs": 602,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "lM9uXnd0_Sw",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "5 Essential Cooking Skills Every Beginner Should Master | America's Test Kitchen",
+   "published": "2026-09-12T15:59:51Z",
+   "state": "screen",
+   "runs": 3224,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "iX-ygvKYdbs",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "Everything You Need To Know About Tofu | America's Test Kitchen",
+   "published": "2026-09-16T15:59:48Z",
+   "state": "screen",
+   "runs": 230,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "01Y-LiyqPXc",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "A Shanghainese Classic: Scallion Oil Noodles | America's Test Kitchen",
+   "published": "2026-09-18T15:59:55Z",
+   "state": "screen",
+   "runs": 676,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "uvDpOz0bJc8",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "Everything I Learned Cooking Thousands of Omelets in a French Bistro | Techniquely with Lan Lam",
+   "published": "2026-09-19T16:00:05Z",
+   "state": "screen",
+   "runs": 912,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "gLY7ExP0WH0",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "Why This 1800s Southern Pie Recipe Never Fails | America's Test Kitchen",
+   "published": "2026-09-23T15:59:50Z",
+   "state": "screen",
+   "runs": 641,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "Q_HoXw5FV04",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "Do Reusable Silicone Bags Actually Work? (Food Storage Bag Test) | America's Test Kitchen",
+   "published": "2026-09-25T15:59:51Z",
+   "state": "screen",
+   "runs": 144,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "_DCbJPt7EvE",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "For the Best Salads, Use This 3-Step Flavor Formula | Flavor Forward",
+   "published": "2026-09-26T16:00:29Z",
+   "state": "screen",
+   "runs": 481,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "WdBkBw4jdb4",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "Answering the Internet’s Most Asked Chicken Questions | America's Test Kitchen",
+   "published": "2026-09-27T16:00:25Z",
+   "state": "screen",
+   "runs": 804,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "FWXmIpOJEnA",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "Winter Squash Guide: Butternut, Delicata & Honeynut | America's Test Kitchen",
+   "published": "2026-09-30T15:59:50Z",
+   "state": "screen",
+   "runs": 209,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "COLeMGJlIm4",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "For Perfectly Golden Pancakes, Use This | America's Test Kitchen",
+   "published": "2026-10-02T15:59:53Z",
+   "state": "screen",
+   "runs": 126,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "89CNkMRMctA",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "8 Budget Kitchen Tools That Rival High-End Ones | Gear Heads",
+   "published": "2026-10-03T15:59:57Z",
+   "state": "screen",
+   "runs": 1062,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "f1SaUGStJ4Y",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "Should You Wash Raw Chicken?",
+   "published": "2026-09-27T17:30:12Z",
+   "state": "screen",
+   "runs": 49,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "pXPJa4i0IWA",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "What Chicken's Pink Juices Really Means",
+   "published": "2026-09-27T17:59:51Z",
+   "state": "screen",
+   "runs": 42,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "WMTuLDQJHJw",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "The Secret to Easy-to-Peel Hard-Boiled Eggs",
+   "published": "2026-09-27T18:00:30Z",
+   "state": "screen",
+   "runs": 93,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "MNYNnEmI644",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "Why Does Chicken Smell Funny?",
+   "published": "2026-09-27T20:59:46Z",
+   "state": "screen",
+   "runs": 49,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "Dd4CyheDdBA",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "Why Does Chicken Stick to the Pan?",
+   "published": "2026-09-27T22:59:47Z",
+   "state": "screen",
+   "runs": 76,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "hq1sOI8ZW6U",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "What Temperature is Chicken Safely Cooked At?",
+   "published": "2026-09-28T00:59:59Z",
+   "state": "screen",
+   "runs": 70,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "kbQXZt9f1Qw",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "How to Make Your Chicken Breast More Flavorful",
+   "published": "2026-09-28T15:59:46Z",
+   "state": "screen",
+   "runs": 138,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "isb7sJLE4Vc",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "Eat Your Dirty Martini",
+   "published": "2026-09-28T16:29:50Z",
+   "state": "screen",
+   "runs": 63,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "kgIy3yw-duU",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "How to Reheat Chicken Without Drying it Out",
+   "published": "2026-09-28T20:59:51Z",
+   "state": "screen",
+   "runs": 50,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "huQsPY6SolQ",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "What's the Difference Between Chicken Broth, Chicken Stock, and Bone Broth?",
+   "published": "2026-09-29T00:59:56Z",
+   "state": "screen",
+   "runs": 59,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "-dMciUaUCWo",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "Eggs Have a Temper. Here's How to Control It",
+   "published": "2026-09-29T16:29:55Z",
+   "state": "screen",
+   "runs": 63,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "usuUdhLulOA",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "Our Top Knives Cost Less Than $50",
+   "published": "2026-09-30T16:30:00Z",
+   "state": "screen",
+   "runs": 89,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "vRlKIBcIso4",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "Burn Your Bell Peppers for Maximum Flavor",
+   "published": "2026-10-01T16:29:57Z",
+   "state": "screen",
+   "runs": 59,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "c-_z5x1zIT4",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "Best Budget Induction Burner That Actually Works",
+   "published": "2026-10-03T16:00:01Z",
+   "state": "screen",
+   "runs": 67,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "7Xi2p-xnmNY",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "Our Favorite Drip Coffee Machine Under $100",
+   "published": "2026-10-03T19:59:52Z",
+   "state": "screen",
+   "runs": 47,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "CrhIe9uYAK0",
+   "source": "alton-brown",
+   "form": "long",
+   "title": "Alton Brown Cooks Food | Episode 40: Syrup Sanctuary",
+   "published": "2026-09-05T13:00:23Z",
+   "state": "screen",
+   "runs": 1824,
+   "channel": "Alton Brown"
+  },
+  {
+   "id": "urN5Ewbl7FI",
+   "source": "alton-brown",
+   "form": "long",
+   "title": "Alton Brown Cooks Food | Episode 41: Peck of Pickled Porks",
+   "published": "2026-09-12T13:00:09Z",
+   "state": "screen",
+   "runs": 1972,
+   "channel": "Alton Brown"
+  },
+  {
+   "id": "FyXkTO0G21c",
+   "source": "alton-brown",
+   "form": "long",
+   "title": "Alton Brown Cooks Food | Episode 42: The Mayo Memorandum",
+   "published": "2026-09-19T13:00:04Z",
+   "state": "screen",
+   "runs": 2274,
+   "channel": "Alton Brown"
+  },
+  {
+   "id": "jZ7pMhgPky0",
+   "source": "alton-brown",
+   "form": "long",
+   "title": "Alton Brown Cooks Food | Episode 43: Spend Time, Not Money",
+   "published": "2026-09-26T13:00:28Z",
+   "state": "screen",
+   "runs": 2072,
+   "channel": "Alton Brown"
+  },
+  {
+   "id": "oWhnytD3QoA",
+   "source": "binging-with-babish",
+   "form": "long",
+   "title": "10 Levels of Nachos | With Babish",
+   "published": "2026-09-19T13:00:37Z",
+   "state": "screen",
+   "runs": 2459,
+   "channel": "Binging with Babish"
+  },
+  {
+   "id": "gjEK_aqoMmQ",
+   "source": "epicurious",
+   "form": "long",
+   "title": "Nutritionist Ranks Protein Bars from Best to Worst | Flavor Grid | Epicurious",
+   "published": "2026-09-10T16:00:06Z",
+   "state": "screen",
+   "runs": 1706,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "NBs_XXkaeC8",
+   "source": "epicurious",
+   "form": "long",
+   "title": "Pro Chefs Blind Taste Test Every Frozen Fried Rice | The Taste Panel | Epicurious",
+   "published": "2026-09-16T16:00:06Z",
+   "state": "screen",
+   "runs": 1560,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "OiILm2pXmqc",
+   "source": "epicurious",
+   "form": "long",
+   "title": "Why We Stopped Frying Meatballs and Use the Oven | Epicurious 101",
+   "published": "2026-09-17T16:00:09Z",
+   "state": "screen",
+   "runs": 482,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "7Picq_8d8CA",
+   "source": "epicurious",
+   "form": "long",
+   "title": "Butcher Explains Which Ground Beef to Buy | Ultimate Buying Guide | Epicurious",
+   "published": "2026-09-22T16:01:14Z",
+   "state": "screen",
+   "runs": 1429,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "wbVYrNwCh-4",
+   "source": "epicurious",
+   "form": "long",
+   "title": "8 Levels of Tasters Rate Mac and Cheese (From Kids to Pro Chef) | Epicurious",
+   "published": "2026-09-30T16:00:06Z",
+   "state": "screen",
+   "runs": 1001,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "nLJLf0Sv95M",
+   "source": "epicurious",
+   "form": "short",
+   "title": "How to Shape Pizza Dough Without Tearing It",
+   "published": "2026-09-08T16:00:05Z",
+   "state": "screen",
+   "runs": 82,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "tXBVZcrmJFU",
+   "source": "epicurious",
+   "form": "short",
+   "title": "How to Soften Butter in 10 Minutes",
+   "published": "2026-09-11T16:00:08Z",
+   "state": "screen",
+   "runs": 41,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "YdTBpCUeAnk",
+   "source": "epicurious",
+   "form": "short",
+   "title": "Is Hot Ones Classic Actually Spicy?",
+   "published": "2026-09-15T15:59:03Z",
+   "state": "screen",
+   "runs": 67,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "pSIsVH8xDyQ",
+   "source": "epicurious",
+   "form": "short",
+   "title": "Why You Should Butter Your Sandwich Bread",
+   "published": "2026-09-17T15:59:03Z",
+   "state": "screen",
+   "runs": 33,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "nEk2RyRpxm0",
+   "source": "epicurious",
+   "form": "short",
+   "title": "The Better the Bread, the Better the Meatballs",
+   "published": "2026-09-21T16:00:08Z",
+   "state": "screen",
+   "runs": 53,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "nLesFIiNNKQ",
+   "source": "epicurious",
+   "form": "short",
+   "title": "The Better Way to Cut an Onion",
+   "published": "2026-09-23T16:00:26Z",
+   "state": "screen",
+   "runs": 40,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "97_1ca7g9qU",
+   "source": "epicurious",
+   "form": "short",
+   "title": "Why 80/20 Ground Beef Is the Best Ratio",
+   "published": "2026-09-25T16:00:31Z",
+   "state": "screen",
+   "runs": 72,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "Er8HdRCMpYQ",
+   "source": "epicurious",
+   "form": "short",
+   "title": "How to Thicken a Sauce With Roux",
+   "published": "2026-09-29T16:00:05Z",
+   "state": "screen",
+   "runs": 38,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "e17uYL7SmVU",
+   "source": "epicurious",
+   "form": "short",
+   "title": "Why Your Meatballs Should Be a Little Ugly",
+   "published": "2026-10-01T16:00:13Z",
+   "state": "screen",
+   "runs": 50,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "SIPv3YTKdgI",
+   "source": "epicurious",
+   "form": "short",
+   "title": "This Mac and Cheese Looks Like Dodgy Spray Tan?",
+   "published": "2026-10-02T16:00:05Z",
+   "state": "screen",
+   "runs": 102,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "RRJgjxsp2Ok",
+   "source": "nyt-cooking",
+   "form": "long",
+   "title": "Really Good Pasta Salad That Your Potluck Deserves | Melissa Clark | NYT Cooking",
+   "published": "2026-09-04T17:00:06Z",
+   "state": "screen",
+   "runs": 561,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "I18oh9wFwXU",
+   "source": "nyt-cooking",
+   "form": "long",
+   "title": "Super-Crispy Tofu, No Pressing Required | Nisha Vora | NYT Cooking",
+   "published": "2026-09-08T18:00:20Z",
+   "state": "screen",
+   "runs": 692,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "-NZOwgdmOYk",
+   "source": "nyt-cooking",
+   "form": "long",
+   "title": "Lomo Saltado Tastes Like My Childhood | Adrianna Adarme | NYT Cooking",
+   "published": "2026-09-10T18:15:12Z",
+   "state": "screen",
+   "runs": 495,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "1vejw0bWwac",
+   "source": "nyt-cooking",
+   "form": "long",
+   "title": "We Put 8 Vegetarian Sandwiches Head-to-Head | The Veggie | NYT Cooking",
+   "published": "2026-09-16T16:00:19Z",
+   "state": "screen",
+   "runs": 1509,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "8Q1DKd_2X1U",
+   "source": "nyt-cooking",
+   "form": "long",
+   "title": "Theo James Teaches Kaya Scodelario How to Make His Restaurant’s Pasta | NYT Cooking",
+   "published": "2026-09-18T19:00:33Z",
+   "state": "screen",
+   "runs": 694,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "aTjlDBd9eP8",
+   "source": "nyt-cooking",
+   "form": "long",
+   "title": "Chicken Shawarma Reigns Supreme in Manhattan's East Village | Sandwich City | NYT Cooking",
+   "published": "2026-09-19T14:00:34Z",
+   "state": "screen",
+   "runs": 812,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "VVtvx2HeXrA",
+   "source": "nyt-cooking",
+   "form": "long",
+   "title": "The Art of Jeon (Savory Korean Pancakes) | Eric Kim | NYT Cooking",
+   "published": "2026-09-22T18:00:32Z",
+   "state": "screen",
+   "runs": 911,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "-FxrjVea0EY",
+   "source": "nyt-cooking",
+   "form": "long",
+   "title": "Lili Reinhart and Tom Bateman: The Pizza Interview | NYT Cooking",
+   "published": "2026-09-23T19:00:14Z",
+   "state": "screen",
+   "runs": 994,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "1Y8rXuLPC4E",
+   "source": "nyt-cooking",
+   "form": "long",
+   "title": "NYC’s Newest BBQ Joint: Opening Day at Bark Barbecue | NYT Cooking",
+   "published": "2026-09-26T14:00:11Z",
+   "state": "screen",
+   "runs": 1164,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "wN1qltsJU-I",
+   "source": "nyt-cooking",
+   "form": "long",
+   "title": "‘I Eat This More Than Once a Week’ (Pepper Steak Stir-Fry With Lemon) | Andy Baraghani | NYT Cooking",
+   "published": "2026-09-30T18:00:22Z",
+   "state": "screen",
+   "runs": 515,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "7Ps1iMOKZ6g",
+   "source": "nyt-cooking",
+   "form": "long",
+   "title": "These Sticky Buns Are Not for the Faint of Heart | Bake Time | NYT Cooking",
+   "published": "2026-10-02T18:00:22Z",
+   "state": "screen",
+   "runs": 1215,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "Xr6XiQm-KP4",
+   "source": "nyt-cooking",
+   "form": "long",
+   "title": "How to Catch and Cook Fresh Clams With Melissa Clark | NYT Cooking",
+   "published": "2026-10-03T14:00:19Z",
+   "state": "screen",
+   "runs": 784,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "auc7IBwCzMo",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "The Quest to Find the Ultimate Veggie Sandwich #sandwich #smackdown #vegetarian #cookbook",
+   "published": "2026-09-17T15:09:17Z",
+   "state": "screen",
+   "runs": 45,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "vxPfQZ7-OAc",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "Theo James and Kaya Scodelario, co-stars of #TheGentlemen, stopped by our kitchen studio #pasta",
+   "published": "2026-09-22T18:39:15Z",
+   "state": "screen",
+   "runs": 21,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "QfAVoql1jOE",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "Here's Theo and Kaya feeding the World's Most Famous Sourdough Starter. And each other?",
+   "published": "2026-09-22T18:46:09Z",
+   "state": "screen",
+   "runs": 25,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "k2Vvq_pEc90",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "Just 30 seconds of chaos in the kitchen with Theo James and Kaya Scodelario",
+   "published": "2026-09-22T20:30:23Z",
+   "state": "screen",
+   "runs": 29,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "vZoZkrCAA1Y",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "Joe’s Pizza hive, rise! Theo James and Kaya Scodelario showed us the last food photos they took",
+   "published": "2026-09-22T23:00:22Z",
+   "state": "screen",
+   "runs": 19,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "52GdLg-JCPc",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "#LiliReinhart and #TomBateman feeding the World’s Most Famous Sourdough Starter #romcom #bread",
+   "published": "2026-09-24T13:30:47Z",
+   "state": "screen",
+   "runs": 22,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "qxkn4rHhDaE",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "\"The Love Hypothesis\" co-stars show us the last food photos on their phones #lilireinhart #romcom",
+   "published": "2026-09-24T13:45:15Z",
+   "state": "screen",
+   "runs": 31,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "tsik9jN45aM",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "Co-stars of the new #romcom “The Love Hypothesis,” take on the #PizzaInterview",
+   "published": "2026-09-24T14:00:32Z",
+   "state": "screen",
+   "runs": 23,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "uCYXdULfWAY",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "Bell pepper: 1. Lili Reinhart: 0. #PizzaInterview #romcom #lilireinhart",
+   "published": "2026-09-24T14:30:29Z",
+   "state": "screen",
+   "runs": 38,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "0ILk-TfcGrs",
+   "source": "iron-chef-dad",
+   "form": "long",
+   "title": "I Tested My Iron Chef Dad With Cheap vs Expensive Food",
+   "published": "2026-09-26T15:46:15Z",
+   "state": "screen",
+   "runs": 690,
+   "channel": "Iron Chef Dad"
+  },
+  {
+   "id": "jQzaZ-fiUzs",
+   "source": "iron-chef-dad",
+   "form": "short",
+   "title": "cheap vs expensive 🍊",
+   "published": "2026-09-24T19:58:07Z",
+   "state": "screen",
+   "runs": 69,
+   "channel": "Iron Chef Dad"
+  },
+  {
+   "id": "X0aOH5I8u2Q",
+   "source": "iron-chef-dad",
+   "form": "short",
+   "title": "Iron Chef Dad Recreates Panda Express 🐼",
+   "published": "2026-09-29T17:12:54Z",
+   "state": "screen",
+   "runs": 123,
+   "channel": "Iron Chef Dad"
+  },
+  {
+   "id": "B-RKKrPIrfQ",
+   "source": "andy-cooks",
+   "form": "long",
+   "title": "I Made The Internets 10 Favourite Sandwiches And Rated Them",
+   "published": "2026-09-10T09:04:38Z",
+   "state": "screen",
+   "runs": 1322,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "qcWPVd_2Irs",
+   "source": "andy-cooks",
+   "form": "long",
+   "title": "What It Takes to Feed an NFL Team",
+   "published": "2026-09-17T07:00:29Z",
+   "state": "screen",
+   "runs": 1485,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "m2zB9QBki1k",
+   "source": "andy-cooks",
+   "form": "long",
+   "title": "Restaurant Hacks I Still Use To Make Home Cooking Simple",
+   "published": "2026-09-24T07:00:02Z",
+   "state": "screen",
+   "runs": 1542,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "MNcu0JX_EMI",
+   "source": "andy-cooks",
+   "form": "long",
+   "title": "5 Steak Sauces Every Cook Should Know",
+   "published": "2026-10-01T07:00:09Z",
+   "state": "screen",
+   "runs": 1527,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "2SJ_oTkxv8M",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Render fat slowly 🦆",
+   "published": "2026-09-08T11:00:39Z",
+   "state": "screen",
+   "runs": 21,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "owkPlNCv3fY",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Simple prawn and chickpea curry. 🍛",
+   "published": "2026-09-09T07:00:07Z",
+   "state": "screen",
+   "runs": 86,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "88t1ngOkit4",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Why choose when you can have both! 🥩",
+   "published": "2026-09-12T11:00:18Z",
+   "state": "screen",
+   "runs": 54,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "lz-FkyXl5SE",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Kimchi and cheese omelette 🍳",
+   "published": "2026-09-14T08:00:22Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "yDm-y0zuf9w",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "I had to try @ChrisYoungCooks rice sooker STP recipe.",
+   "published": "2026-09-16T11:00:15Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "YHibpMz7OUY",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "I spent 5 days with last year's Super Bowl winners the Seattle Seahawks full video now live.",
+   "published": "2026-09-17T13:54:26Z",
+   "state": "screen",
+   "runs": 19,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "-XkSatyC25E",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Parmesan rind ￼for the win ￼🪤",
+   "published": "2026-09-18T11:29:12Z",
+   "state": "screen",
+   "runs": 24,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "W0bruOpqk3M",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Steak Quesadilla 🥩 🌮",
+   "published": "2026-09-19T11:00:14Z",
+   "state": "screen",
+   "runs": 58,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "jjVvDsoo-r8",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Beef Jerky might just be the goat of golf snacks ⛳️",
+   "published": "2026-09-21T13:00:05Z",
+   "state": "screen",
+   "runs": 45,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "dtwyn_zhwvg",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Is the horizontal cut on a diced onion really necessary? 🧅￼",
+   "published": "2026-09-25T13:00:02Z",
+   "state": "screen",
+   "runs": 58,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "Y1RlT8RjH4M",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Parāoa Parai - Fry Bread",
+   "published": "2026-09-28T08:00:36Z",
+   "state": "screen",
+   "runs": 57,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "4rsPL1yj1gI",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Everyone overcooks pork Here is how I cook a juicy pork scotch steak with @GetSomePorkOnYourFork",
+   "published": "2026-09-29T08:45:02Z",
+   "state": "screen",
+   "runs": 63,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "mvTyY-NL4xY",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "The Boil Up Bro!",
+   "published": "2026-09-30T07:00:29Z",
+   "state": "screen",
+   "runs": 44,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "zjgWVFdMeBk",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Can I taste homemade?",
+   "published": "2026-10-02T07:44:17Z",
+   "state": "screen",
+   "runs": 78,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "PZWdXvoN7Os",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Skirt Steak for the win 🥩 🥇",
+   "published": "2026-10-03T11:20:21Z",
+   "state": "screen",
+   "runs": 59,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "m9sIGLsHZeA",
+   "source": "back-of-house",
+   "form": "long",
+   "title": "Which Bacon Method Is Best?",
+   "published": "2026-09-06T07:00:33Z",
+   "state": "screen",
+   "runs": 1006,
+   "channel": "Back of House"
+  },
+  {
+   "id": "U6-SKLv5QLM",
+   "source": "back-of-house",
+   "form": "long",
+   "title": "How I Make Chicken Pie",
+   "published": "2026-09-13T07:00:28Z",
+   "state": "screen",
+   "runs": 1603,
+   "channel": "Back of House"
+  },
+  {
+   "id": "wwYBvBvoiI8",
+   "source": "back-of-house",
+   "form": "long",
+   "title": "How I Make Steak Quesadillas",
+   "published": "2026-09-20T07:00:32Z",
+   "state": "screen",
+   "runs": 858,
+   "channel": "Back of House"
+  },
+  {
+   "id": "IkGkEftotfM",
+   "source": "back-of-house",
+   "form": "long",
+   "title": "Ultimate Comfort Dinner",
+   "published": "2026-09-27T07:00:13Z",
+   "state": "screen",
+   "runs": 849,
+   "channel": "Back of House"
+  },
+  {
+   "id": "Ngrx3pU_fqk",
+   "source": "back-of-house",
+   "form": "long",
+   "title": "My Sticky Toffee Pudding",
+   "published": "2026-10-04T06:00:29Z",
+   "state": "screen",
+   "runs": 938,
+   "channel": "Back of House"
+  },
+  {
+   "id": "CVx9sjFtrM8",
+   "source": "the-pasta-queen",
+   "form": "long",
+   "title": "I Bet You Didn't Know That...",
+   "published": "2026-09-25T19:00:09Z",
+   "state": "screen",
+   "runs": 729,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "dGWYmodqB8g",
+   "source": "the-pasta-queen",
+   "form": "long",
+   "title": "I Went Antique Shopping... and Found GHOSTS",
+   "published": "2026-10-02T18:51:30Z",
+   "state": "screen",
+   "runs": 765,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "lsDCk6tDF68",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "Rome for Tourists🇺🇸 vs Rome for Locals🇮🇹",
+   "published": "2026-09-04T18:07:30Z",
+   "state": "screen",
+   "runs": 88,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "rBQ7-KdMJUE",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "Chocolate Tiramisu with NO EGGS",
+   "published": "2026-09-06T19:17:43Z",
+   "state": "screen",
+   "runs": 90,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "o_ZhbHwcoeo",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "The REAL Tagliatelle Bolognese❤️",
+   "published": "2026-09-08T18:50:26Z",
+   "state": "screen",
+   "runs": 87,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "SlvHcIiwNFA",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "The Best Places in ROME | Get my Rome Guide (Link in my bio)",
+   "published": "2026-09-09T19:06:04Z",
+   "state": "screen",
+   "runs": 65,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "H7PLDDgdLqk",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "ITALIAN Appetizer🇮🇹❤️",
+   "published": "2026-09-11T20:04:05Z",
+   "state": "screen",
+   "runs": 67,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "w2TdOVwy0jc",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "EGG-FREE Cherry Tiramisu🍒",
+   "published": "2026-09-14T18:11:08Z",
+   "state": "screen",
+   "runs": 87,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "BVdqr7AeuXc",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "The REAL ITALIAN Pasta Bake❤️",
+   "published": "2026-09-15T18:47:22Z",
+   "state": "screen",
+   "runs": 90,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "iRJYMegfCfE",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "Just Gorgeous Fumé CAESAR SALAD",
+   "published": "2026-09-17T17:34:28Z",
+   "state": "screen",
+   "runs": 77,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "xlN67nYnTtw",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "ITALIAN APPLE CAKE 🍎",
+   "published": "2026-09-18T18:51:00Z",
+   "state": "screen",
+   "runs": 72,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "Rl6e0felioo",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "Making ITALIAN Fall Pasta with my Daughter🍁",
+   "published": "2026-09-23T19:19:17Z",
+   "state": "screen",
+   "runs": 86,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "K4ZzxM_GzhE",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "The REAL ITALIAN Pistachio Cake💚",
+   "published": "2026-09-24T19:22:30Z",
+   "state": "screen",
+   "runs": 90,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "8m0HtgoU2_U",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "White Meatball Spaghetti With My Daughter",
+   "published": "2026-09-28T11:33:47Z",
+   "state": "screen",
+   "runs": 90,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "nWijXgJTZ8M",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "ITALIAN LENTIL PASTA",
+   "published": "2026-09-28T18:50:30Z",
+   "state": "screen",
+   "runs": 89,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "6owwOvIOlpI",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "ITALIAN Lemon Cake💛🍋| Recipe Link in Bio",
+   "published": "2026-09-29T19:02:20Z",
+   "state": "screen",
+   "runs": 90,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "CQPgUU6twnQ",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Over 1kg of Ramen for $6! A Truck Stop Diner Built for Long-Haul Drivers",
+   "published": "2026-09-25T22:00:24Z",
+   "state": "screen",
+   "runs": 2198,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "IrLaBiuK8qE",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Why 200 Bettors Rush to the Only Diner in a Japanese Bike-Racing Arena?",
+   "published": "2026-09-26T22:00:14Z",
+   "state": "screen",
+   "runs": 2761,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "ACBa33-OzNs",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Sold Out by Noon! Osaka's $6 Fried Rice Is Piled Too High to Finish",
+   "published": "2026-09-27T22:00:31Z",
+   "state": "screen",
+   "runs": 1607,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "rIjIt5CQxKI",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "How a 27-Year-Old Woman Sells 80 Onigiri from a 220-Pound Cart in Osaka",
+   "published": "2026-09-28T00:00:12Z",
+   "state": "screen",
+   "runs": 4195,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "cGJO28gQW3Y",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "How Does a 16-Seat Osaka Diner Fry 1,800 Karaage in a Single Day?",
+   "published": "2026-09-28T02:00:36Z",
+   "state": "screen",
+   "runs": 860,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "mUlDnpG_cG0",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Why This 86-Year-Old Grandma Works 19 Hours a Day Selling 35-Cent Bread",
+   "published": "2026-09-28T22:00:23Z",
+   "state": "screen",
+   "runs": 2305,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "Pu_xXXaapkw",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Japan’s Octopus Food! How Tiny Shop Serves 500g Takoyaki to Hungry Regulars",
+   "published": "2026-09-29T22:00:38Z",
+   "state": "screen",
+   "runs": 2090,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "EzipIfl6l5g",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Why Workers Rush to This Japanese Diner for Huge Meals at Insanely Low Prices",
+   "published": "2026-09-30T02:00:27Z",
+   "state": "screen",
+   "runs": 2118,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "0NWTFmFX1Zs",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Why 73 y/o Grandma’s Comes 2AM Tiny $3 Bento Shop? | Japanese Student Lunch",
+   "published": "2026-09-30T22:00:04Z",
+   "state": "screen",
+   "runs": 4570,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "1DENhZ-f57A",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "How This Tiny Japanese Shop Serves a Hormone Rice Bowl Every 15 Seconds",
+   "published": "2026-10-01T00:00:03Z",
+   "state": "screen",
+   "runs": 1628,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "8oYUhrge7cE",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "How Japan's Fastest Udon Shop Serves 1,000 Bowls in 0 Seconds",
+   "published": "2026-10-01T02:00:17Z",
+   "state": "screen",
+   "runs": 1752,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "wGRCx5o5N7Y",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Why Night-Shift Workers Rush to This ¥500 Yakitori Stand at 9AM in Osaka",
+   "published": "2026-10-01T22:00:22Z",
+   "state": "screen",
+   "runs": 1464,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "3F38KDO8Nms",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Why People Line Up for This Garage Udon Shop Hidden in Japan’s Rice Fields",
+   "published": "2026-10-02T22:00:22Z",
+   "state": "screen",
+   "runs": 3033,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "YDGDt3Ycj1Q",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Why 250 People a Day Rush to This Hidden Mountain Udon Shop for $5 Fried Chicken Meals",
+   "published": "2026-10-03T22:00:09Z",
+   "state": "screen",
+   "runs": 2650,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "7N30ncfII5Y",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Served in 5 Sec!!! Japan’s $2 Morning Noodle Shop for Hungry Workers!",
+   "published": "2026-10-04T02:00:35Z",
+   "state": "screen",
+   "runs": 1583,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "PMPjAQdwmeI",
+   "source": "japanese-cooking-101",
+   "form": "long",
+   "title": "Mentaiko Toast Recipe - Japanese Cooking 101",
+   "published": "2026-09-05T00:22:00Z",
+   "state": "screen",
+   "runs": 75,
+   "channel": "JapaneseCooking101"
+  },
+  {
+   "id": "gvVAwc7xozg",
+   "source": "japanese-cooking-101",
+   "form": "long",
+   "title": "Kushiage Recipe - Japanese Cooking 101",
+   "published": "2026-09-19T17:55:05Z",
+   "state": "screen",
+   "runs": 102,
+   "channel": "JapaneseCooking101"
+  },
+  {
+   "id": "wz9jvH7zJbk",
+   "source": "japanese-cooking-101",
+   "form": "long",
+   "title": "Shio Koji Salmon Recipe - Japanese Cooking 101",
+   "published": "2026-10-02T22:17:08Z",
+   "state": "screen",
+   "runs": 67,
+   "channel": "JapaneseCooking101"
+  },
+  {
+   "id": "3L0Pgh4Io3Q",
+   "source": "japanese-kitchen-tour",
+   "form": "long",
+   "title": "A Day in the Life of Japan's Tiny Beachside Burger Shop ─ Run by a Former Ramen Master and His Wife",
+   "published": "2026-09-17T09:09:43Z",
+   "state": "screen",
+   "runs": 1238,
+   "channel": "Japanese Kitchen Tour"
+  },
+  {
+   "id": "1s1ldc5_hVg",
+   "source": "japanese-food-craftsman",
+   "form": "long",
+   "title": "Noodle Master's TECHNIQUE Behind Japan's THINNEST 0.5mm Somen",
+   "published": "2026-09-04T09:50:26Z",
+   "state": "screen",
+   "runs": 1523,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "_46af3TjzCk",
+   "source": "japanese-food-craftsman",
+   "form": "long",
+   "title": "Why 15,000 People Visit This Japanese Beachfront Restaurant Every Summer",
+   "published": "2026-09-06T09:50:30Z",
+   "state": "screen",
+   "runs": 1682,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "o-hAQba5_os",
+   "source": "japanese-food-craftsman",
+   "form": "long",
+   "title": "She Spent ¥30 MILLION And Raised Everyone's Salary Except Her Own",
+   "published": "2026-09-09T09:50:22Z",
+   "state": "screen",
+   "runs": 1050,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "SUGkwmBjulY",
+   "source": "japanese-food-craftsman",
+   "form": "long",
+   "title": "78Yr Old Master Makes ¥15 MILLION In Handmade Knives A Year [EXTENDED]",
+   "published": "2026-09-11T09:30:34Z",
+   "state": "screen",
+   "runs": 2773,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "BHIqnrGH71E",
+   "source": "japanese-food-craftsman",
+   "form": "long",
+   "title": "Japan's Most Laid-Back Burger Shop Is on a Remote Island in Nagasaki",
+   "published": "2026-09-13T09:50:31Z",
+   "state": "screen",
+   "runs": 1225,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "UVWSFVhEY-A",
+   "source": "japanese-food-craftsman",
+   "form": "long",
+   "title": "Thriving in Just 1 Year! Japanese Deli Serving 20 Handmade Dishes and Daily Bento",
+   "published": "2026-09-16T09:50:08Z",
+   "state": "screen",
+   "runs": 1661,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "O3GWMBktYOk",
+   "source": "japanese-food-craftsman",
+   "form": "long",
+   "title": "Homemade Dishes Served Only on Sunday! At this Hidden Hiroshima Shop",
+   "published": "2026-09-23T09:50:34Z",
+   "state": "screen",
+   "runs": 1324,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "uDwCGbd9BX0",
+   "source": "japanese-food-craftsman",
+   "form": "long",
+   "title": "The Mesmerizing Machines of the Only Bamboo Chopstick Maker in Japan",
+   "published": "2026-09-25T09:50:14Z",
+   "state": "screen",
+   "runs": 1652,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "VI8zREsp4VE",
+   "source": "japanese-food-craftsman",
+   "form": "long",
+   "title": "The LARGEST Bowl of Soup in Japan! Serves 30,000 People in One Day!",
+   "published": "2026-10-01T10:35:00Z",
+   "state": "screen",
+   "runs": 2616,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "XCC77LYn-98",
+   "source": "japanese-food-craftsman",
+   "form": "short",
+   "title": "1本10万円‼︎高級和包丁の秘密",
+   "published": "2026-09-07T09:00:13Z",
+   "state": "screen",
+   "runs": 43,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "EcJ6naklB60",
+   "source": "japanese-food-craftsman",
+   "form": "short",
+   "title": "プロが惚れた研師。16歳から32年磨き続けた技",
+   "published": "2026-09-10T09:00:04Z",
+   "state": "screen",
+   "runs": 55,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "3qjbJcrU-wE",
+   "source": "japanese-food-craftsman",
+   "form": "short",
+   "title": "230年和包丁を作り続けてきた10代続く鍛冶屋に密着",
+   "published": "2026-09-11T09:00:02Z",
+   "state": "screen",
+   "runs": 53,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "_iroEaXh5bI",
+   "source": "japanese-food-craftsman",
+   "form": "short",
+   "title": "1本の包丁作りに2年!?日本最強職人集団",
+   "published": "2026-09-12T09:00:05Z",
+   "state": "screen",
+   "runs": 48,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "RGD2lerMQuM",
+   "source": "japanese-food-craftsman",
+   "form": "short",
+   "title": "400年以上作り続けてきた土佐包丁の切れ味が凄かった。",
+   "published": "2026-09-13T09:00:37Z",
+   "state": "screen",
+   "runs": 56,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "xctqdTsQDOI",
+   "source": "japanese-food-craftsman",
+   "form": "short",
+   "title": "６０年間包丁を作り続けてきた日本の鍛冶屋職人がすごい。",
+   "published": "2026-09-14T09:00:04Z",
+   "state": "screen",
+   "runs": 55,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "IS0iP1TImGQ",
+   "source": "japanese-food-craftsman",
+   "form": "short",
+   "title": "日本唯一の和包丁技術を持つ最年少伝統工芸士",
+   "published": "2026-09-15T09:00:12Z",
+   "state": "screen",
+   "runs": 53,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "RxD37owLlzg",
+   "source": "japanese-food-craftsman",
+   "form": "short",
+   "title": "日本初のダイヤモンドに次ぐ硬さの包丁！異次元の切れ味",
+   "published": "2026-09-16T09:00:14Z",
+   "state": "screen",
+   "runs": 57,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "jBHOdk4YoZQ",
+   "source": "japanese-food-craftsman",
+   "form": "short",
+   "title": "創業65年、廃業寸前を27歳が救う！",
+   "published": "2026-09-17T09:00:27Z",
+   "state": "screen",
+   "runs": 42,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "qErv-wlk7Ao",
+   "source": "japanese-food-craftsman",
+   "form": "short",
+   "title": "70年間1日1000本の和包丁を作り続ける鉄人すーぱーおじいちゃん！",
+   "published": "2026-09-18T09:00:17Z",
+   "state": "screen",
+   "runs": 26,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "vcHZymQ8wso",
+   "source": "bon-appetit",
+   "form": "long",
+   "title": "Our 3 Favorite Sheet Pan Recipes | Made in House | Bon Appétit",
+   "published": "2026-09-08T16:00:06Z",
+   "state": "screen",
+   "runs": 1105,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "ECyqrLRmC70",
+   "source": "bon-appetit",
+   "form": "long",
+   "title": "A Day at One of NYC's Oldest Italian Restaurants | On The Line | Bon Appétit",
+   "published": "2026-09-10T16:00:02Z",
+   "state": "screen",
+   "runs": 748,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "DmPmaF9aONo",
+   "source": "bon-appetit",
+   "form": "long",
+   "title": "This is Philadelphia’s Most Underrated Sandwich | Made to Order | Bon Appétit",
+   "published": "2026-09-15T16:00:09Z",
+   "state": "screen",
+   "runs": 775,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "BIN2fo9nfaE",
+   "source": "bon-appetit",
+   "form": "long",
+   "title": "How America’s Best Pork Chop is Made at NYC's #1 Restaurant | Made to Order | Bon Appétit",
+   "published": "2026-09-17T16:00:13Z",
+   "state": "screen",
+   "runs": 488,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "YJpgGtF3egI",
+   "source": "bon-appetit",
+   "form": "long",
+   "title": "A Day With the Grill Master at NYC’s Best New Steakhouse | On The Line | Bon Appétit",
+   "published": "2026-09-24T16:00:05Z",
+   "state": "screen",
+   "runs": 867,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "yGspBtxrwyQ",
+   "source": "bon-appetit",
+   "form": "long",
+   "title": "The Man Behind Philadelphia’s Most Viral Fried Fish Sandwich | Behind the Hype | Bon Appétit",
+   "published": "2026-09-29T16:00:13Z",
+   "state": "screen",
+   "runs": 1163,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "kfaM1u1rcWk",
+   "source": "bon-appetit",
+   "form": "long",
+   "title": "A Day Making England’s Oldest Afternoon Tea | On The Line | Bon Appétit",
+   "published": "2026-09-30T16:00:17Z",
+   "state": "screen",
+   "runs": 1201,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "XJT0tA2Xfck",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "These Potatoes are Buttermaxxing",
+   "published": "2026-09-08T15:59:02Z",
+   "state": "screen",
+   "runs": 67,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "2QOztTk8C0Q",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "Soy Sauce Makes Everything Better, Even Roast Pork",
+   "published": "2026-09-21T16:00:04Z",
+   "state": "screen",
+   "runs": 33,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "DpB6I3NoU5I",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "This Restaurant Ghosted Us 34 Years Ago 😅",
+   "published": "2026-09-23T16:00:03Z",
+   "state": "screen",
+   "runs": 33,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "vLEVlJYsCak",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "Ingredient Shopping with a Michelin Star Chef",
+   "published": "2026-09-25T16:00:23Z",
+   "state": "screen",
+   "runs": 91,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "-3Q6PVX6yWU",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "This Eggs Tastes 100 Years Old",
+   "published": "2026-10-01T16:00:03Z",
+   "state": "screen",
+   "runs": 62,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "sZV5swkWnqk",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "How a Pastry Chef Rolls a Perfect Cake",
+   "published": "2026-10-02T16:00:08Z",
+   "state": "screen",
+   "runs": 34,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "J-lEHpqcOO8",
+   "source": "insider-food",
+   "form": "long",
+   "title": "Inside America’s New #1 Restaurant | Full Service",
+   "published": "2026-09-20T13:00:39Z",
+   "state": "screen",
+   "runs": 885,
+   "channel": "Insider Food"
+  },
+  {
+   "id": "SdEEtEeZgX8",
+   "source": "fallow",
+   "form": "long",
+   "title": "We Butchered & Tasted a 200kg Tuna With a Sushi Master",
+   "published": "2026-09-10T18:43:06Z",
+   "state": "screen",
+   "runs": 1106,
+   "channel": "Fallow"
+  },
+  {
+   "id": "x4ecsmjZo-w",
+   "source": "fallow",
+   "form": "long",
+   "title": "Probably the Best Chicken Dish in the World",
+   "published": "2026-09-16T17:00:12Z",
+   "state": "screen",
+   "runs": 975,
+   "channel": "Fallow"
+  },
+  {
+   "id": "nNO50oMLYHk",
+   "source": "fallow",
+   "form": "long",
+   "title": "Probably the Best Side Dish in the World",
+   "published": "2026-09-23T17:04:02Z",
+   "state": "screen",
+   "runs": 684,
+   "channel": "Fallow"
+  },
+  {
+   "id": "u42FTExGFUs",
+   "source": "fallow",
+   "form": "long",
+   "title": "You're Probably Using Salt Wrong",
+   "published": "2026-09-30T17:00:04Z",
+   "state": "screen",
+   "runs": 794,
+   "channel": "Fallow"
+  },
+  {
+   "id": "HNpuBxpc5Cg",
+   "source": "fallow",
+   "form": "short",
+   "title": "#AD The One Thing Everyone Needs in the Kitchen",
+   "published": "2026-09-11T14:40:23Z",
+   "state": "screen",
+   "runs": 28,
+   "channel": "Fallow"
+  },
+  {
+   "id": "FmGWLPlvSfA",
+   "source": "fallow",
+   "form": "short",
+   "title": "Get Crispy Fish Skin Every Time",
+   "published": "2026-09-12T16:43:42Z",
+   "state": "screen",
+   "runs": 41,
+   "channel": "Fallow"
+  },
+  {
+   "id": "HvjiGvvAGLc",
+   "source": "fallow",
+   "form": "short",
+   "title": "Do This To Level Up Your Pasta Sauce",
+   "published": "2026-09-13T19:18:06Z",
+   "state": "screen",
+   "runs": 52,
+   "channel": "Fallow"
+  },
+  {
+   "id": "4Hz-dt1ha3A",
+   "source": "fallow",
+   "form": "short",
+   "title": "Caramelise Onions Fast",
+   "published": "2026-09-14T16:16:54Z",
+   "state": "screen",
+   "runs": 51,
+   "channel": "Fallow"
+  },
+  {
+   "id": "JD7o9hueGEk",
+   "source": "fallow",
+   "form": "short",
+   "title": "How a Sushi Master Makes Sushi",
+   "published": "2026-09-15T20:22:46Z",
+   "state": "screen",
+   "runs": 75,
+   "channel": "Fallow"
+  },
+  {
+   "id": "uJKxP_yia-Q",
+   "source": "fallow",
+   "form": "short",
+   "title": "Best Pork Belly You'll Ever Make",
+   "published": "2026-09-17T19:05:23Z",
+   "state": "screen",
+   "runs": 76,
+   "channel": "Fallow"
+  },
+  {
+   "id": "TfeBKaLaCew",
+   "source": "fallow",
+   "form": "short",
+   "title": "Only Way to Make Prime Rib",
+   "published": "2026-09-18T20:57:31Z",
+   "state": "screen",
+   "runs": 114,
+   "channel": "Fallow"
+  },
+  {
+   "id": "H3tqYeM87Vc",
+   "source": "fallow",
+   "form": "short",
+   "title": "One of the Greatest Potato Dishes Ever",
+   "published": "2026-09-21T20:35:48Z",
+   "state": "screen",
+   "runs": 68,
+   "channel": "Fallow"
+  },
+  {
+   "id": "7DRzTO0D0wA",
+   "source": "fallow",
+   "form": "short",
+   "title": "Probably the Best Chicken Dish in the World",
+   "published": "2026-09-22T19:07:38Z",
+   "state": "screen",
+   "runs": 120,
+   "channel": "Fallow"
+  },
+  {
+   "id": "Ji72TthpJ-Q",
+   "source": "fallow",
+   "form": "short",
+   "title": "The Ultimate Cartouche",
+   "published": "2026-09-23T14:56:08Z",
+   "state": "screen",
+   "runs": 62,
+   "channel": "Fallow"
+  },
+  {
+   "id": "WjYsBw4jlxg",
+   "source": "fallow",
+   "form": "short",
+   "title": "This Technique Will Level Up Your Fish",
+   "published": "2026-09-25T16:25:08Z",
+   "state": "screen",
+   "runs": 73,
+   "channel": "Fallow"
+  },
+  {
+   "id": "i-p-WX0iRe0",
+   "source": "fallow",
+   "form": "short",
+   "title": "Probably the Best Side Dish in the World",
+   "published": "2026-09-26T18:42:11Z",
+   "state": "screen",
+   "runs": 110,
+   "channel": "Fallow"
+  },
+  {
+   "id": "vut-WnKdS-Y",
+   "source": "fallow",
+   "form": "short",
+   "title": "Crispy Shrimp Tempura",
+   "published": "2026-09-27T16:04:36Z",
+   "state": "screen",
+   "runs": 49,
+   "channel": "Fallow"
+  },
+  {
+   "id": "bd083GdM2KE",
+   "source": "fallow",
+   "form": "short",
+   "title": "One of the Best Meals I’ve Ever Had",
+   "published": "2026-10-01T16:49:09Z",
+   "state": "screen",
+   "runs": 67,
+   "channel": "Fallow"
+  },
+  {
+   "id": "FRbx3zLchGw",
+   "source": "fallow",
+   "form": "short",
+   "title": "This Might Be Our Best Potato Dish Yet",
+   "published": "2026-10-02T16:02:15Z",
+   "state": "screen",
+   "runs": 58,
+   "channel": "Fallow"
+  },
+  {
+   "id": "llhKY0o50hM",
+   "source": "guga",
+   "form": "long",
+   "title": "I Finally Tried GERMAN Food... I Get It Now!",
+   "published": "2026-09-04T17:15:30Z",
+   "state": "screen",
+   "runs": 786,
+   "channel": "Guga"
+  },
+  {
+   "id": "VvHA7rZu5j4",
+   "source": "guga",
+   "form": "long",
+   "title": "I Tried a Restaurant Built for Someone Who’ll NEVER Eat There!",
+   "published": "2026-09-11T16:15:11Z",
+   "state": "screen",
+   "runs": 1015,
+   "channel": "Guga"
+  },
+  {
+   "id": "PgFjH1Qf12w",
+   "source": "guga",
+   "form": "long",
+   "title": "Can You Still Find a GOOD Cheap Steak in America?",
+   "published": "2026-09-18T15:15:09Z",
+   "state": "screen",
+   "runs": 1271,
+   "channel": "Guga"
+  },
+  {
+   "id": "yflmSoaq5WU",
+   "source": "guga",
+   "form": "long",
+   "title": "I Tried Every Grocery Store Steak!",
+   "published": "2026-09-25T16:15:00Z",
+   "state": "screen",
+   "runs": 1518,
+   "channel": "Guga"
+  },
+  {
+   "id": "DHCt988eDco",
+   "source": "guga",
+   "form": "long",
+   "title": "I Finally Learned What REAL Mexican Food Is!",
+   "published": "2026-10-02T15:15:17Z",
+   "state": "screen",
+   "runs": 975,
+   "channel": "Guga"
+  },
+  {
+   "id": "I3W9x3V1qNQ",
+   "source": "guga",
+   "form": "short",
+   "title": "I tried the Pyramid Burger!",
+   "published": "2026-09-28T16:40:29Z",
+   "state": "screen",
+   "runs": 61,
+   "channel": "Guga"
+  },
+  {
+   "id": "JhHQcHzDPww",
+   "source": "mrnigelng",
+   "form": "long",
+   "title": "I Found The Worst Instant Ramen Video On The Internet",
+   "published": "2026-09-06T14:00:02Z",
+   "state": "screen",
+   "runs": 815,
+   "channel": "mrnigelng"
+  },
+  {
+   "id": "8i_TFTyLzqo",
+   "source": "mrnigelng",
+   "form": "long",
+   "title": "Uncle Roger Hate Sushi Pizza (Kitchen Nightmares)",
+   "published": "2026-09-22T14:00:11Z",
+   "state": "screen",
+   "runs": 1376,
+   "channel": "mrnigelng"
+  },
+  {
+   "id": "WIKowMK_-fI",
+   "source": "mrnigelng",
+   "form": "short",
+   "title": "Chili Crisp is Boring",
+   "published": "2026-09-12T01:50:25Z",
+   "state": "screen",
+   "runs": 71,
+   "channel": "mrnigelng"
+  },
+  {
+   "id": "SIeIUpdqfqE",
+   "source": "mrnigelng",
+   "form": "short",
+   "title": "book tour announcement with unimpressed baby",
+   "published": "2026-09-17T00:18:59Z",
+   "state": "screen",
+   "runs": 40,
+   "channel": "mrnigelng"
+  },
+  {
+   "id": "8nhK0gmMGSg",
+   "source": "mrnigelng",
+   "form": "short",
+   "title": "Pad Thai for Uncle Status @jettila",
+   "published": "2026-09-17T19:52:46Z",
+   "state": "screen",
+   "runs": 144,
+   "channel": "mrnigelng"
+  },
+  {
+   "id": "G-wL2Qq8ST4",
+   "source": "mrnigelng",
+   "form": "short",
+   "title": "peanut butter in instant noodles???",
+   "published": "2026-09-19T21:02:44Z",
+   "state": "screen",
+   "runs": 40,
+   "channel": "mrnigelng"
+  },
+  {
+   "id": "0F3aRYlZuow",
+   "source": "mrnigelng",
+   "form": "short",
+   "title": "Cooking To Impress My Asian Mom",
+   "published": "2026-09-28T13:00:03Z",
+   "state": "screen",
+   "runs": 140,
+   "channel": "mrnigelng"
+  },
+  {
+   "id": "Mse_qrQ1LHM",
+   "source": "eater",
+   "form": "long",
+   "title": "The Pakistani Chopped Cheese That Has NYC Obsessed — Most-Ordered",
+   "published": "2026-09-09T13:00:16Z",
+   "state": "screen",
+   "runs": 679,
+   "channel": "Eater"
+  },
+  {
+   "id": "fqI2FOun0RI",
+   "source": "eater",
+   "form": "long",
+   "title": "The McDonald's-Inspired Breakfast Sandwich That Took Over Philly — Most-Ordered",
+   "published": "2026-09-16T14:00:02Z",
+   "state": "screen",
+   "runs": 834,
+   "channel": "Eater"
+  },
+  {
+   "id": "QzOmSGgUOiM",
+   "source": "eater",
+   "form": "long",
+   "title": "The Chef Behind NYC's No. 1 Restaurant Breaks Down His Three Defining Dishes — Dishing With Dan",
+   "published": "2026-09-21T14:00:04Z",
+   "state": "screen",
+   "runs": 1092,
+   "channel": "Eater"
+  },
+  {
+   "id": "VROXawcSGME",
+   "source": "eater",
+   "form": "long",
+   "title": "How Brooklyn’s Hottest Pizzaiolo Eats on His Day Off — Chef’s Day Off",
+   "published": "2026-09-28T14:00:05Z",
+   "state": "screen",
+   "runs": 889,
+   "channel": "Eater"
+  },
+  {
+   "id": "Sk827pJNWdY",
+   "source": "eater",
+   "form": "short",
+   "title": "Why this short rib sandwich takes 3 days to make #shorts #recipe #eater",
+   "published": "2026-09-06T13:00:26Z",
+   "state": "screen",
+   "runs": 45,
+   "channel": "Eater"
+  },
+  {
+   "id": "7sBo-mUKizk",
+   "source": "eater",
+   "form": "short",
+   "title": "Is this the best twist on classic chopped cheese sandwich? #shorts",
+   "published": "2026-09-12T13:00:19Z",
+   "state": "screen",
+   "runs": 83,
+   "channel": "Eater"
+  },
+  {
+   "id": "JrtiFgEg0fQ",
+   "source": "eater",
+   "form": "short",
+   "title": "Why Gregory Gourdet loves the Biryani at NYC's Dhamaka #nyc #eater",
+   "published": "2026-09-15T14:00:34Z",
+   "state": "screen",
+   "runs": 79,
+   "channel": "Eater"
+  },
+  {
+   "id": "OTACo6ymTfw",
+   "source": "eater",
+   "form": "short",
+   "title": "This Mcdonald's inspired \"MidGriddle\" is taking over Philadelphia #food",
+   "published": "2026-09-19T14:00:35Z",
+   "state": "screen",
+   "runs": 99,
+   "channel": "Eater"
+  },
+  {
+   "id": "jMPE4YE8fqw",
+   "source": "eater",
+   "form": "short",
+   "title": "How to make the spice mix for Nishaan's Pakistani chopped cheese",
+   "published": "2026-09-25T14:00:32Z",
+   "state": "screen",
+   "runs": 106,
+   "channel": "Eater"
+  },
+  {
+   "id": "X_vPwie7hUk",
+   "source": "eater",
+   "form": "short",
+   "title": "Is this pastrami, egg, and cheese Philly's best breakfast sandwich?",
+   "published": "2026-10-03T14:00:34Z",
+   "state": "screen",
+   "runs": 102,
+   "channel": "Eater"
+  }
+ ],
+ "covered": {
+  "americas-test-kitchen": {
+   "long": [
+    [
+     "2026-09-05T15:59:57Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-27T17:30:12Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "alton-brown": {
+   "long": [
+    [
+     "2026-06-20T13:00:19Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-04T07:02:17Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "binging-with-babish": {
+   "long": [
+    [
+     "2026-03-07T14:00:27Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-06-29T20:30:33Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "epicurious": {
+   "long": [
+    [
+     "2026-07-01T16:00:18Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-08-20T16:00:17Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "nyt-cooking": {
+   "long": [
+    [
+     "2026-08-28T18:00:15Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-08-26T20:25:43Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "iron-chef-dad": {
+   "long": [
+    [
+     "2025-09-27T15:00:50Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-04-01T16:50:32Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "andy-cooks": {
+   "long": [
+    [
+     "2026-06-25T07:00:11Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-08T11:00:39Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "back-of-house": {
+   "long": [
+    [
+     "2026-06-28T07:00:20Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-04T07:02:17Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "the-pasta-queen": {
+   "long": [
+    [
+     "2026-04-08T16:01:42Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-03T18:44:36Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "japanese-food-noodles": {
+   "long": [
+    [
+     "2026-09-25T22:00:24Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-04T07:02:17Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "japanese-cooking-101": {
+   "long": [
+    [
+     "2026-03-06T21:24:39Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-02-23T23:44:24Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "japanese-kitchen-tour": {
+   "long": [
+    [
+     "2026-02-07T08:37:09Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-04T07:02:17Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "food-star": {
+   "long": [
+    [
+     "2025-12-12T09:00:14Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2024-05-17T09:00:00Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "japanese-food-craftsman": {
+   "long": [
+    [
+     "2026-08-20T09:50:19Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-08-03T10:23:40Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "bon-appetit": {
+   "long": [
+    [
+     "2026-08-13T16:00:07Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-08-07T16:00:13Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "insider-food": {
+   "long": [
+    [
+     "2025-11-16T14:01:23Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-07-07T16:01:39Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "fallow": {
+   "long": [
+    [
+     "2026-06-23T17:00:11Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-11T14:40:23Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "guga": {
+   "long": [
+    [
+     "2026-06-26T14:15:21Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-03-10T15:05:00Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "mrnigelng": {
+   "long": [
+    [
+     "2026-02-01T14:00:17Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-05-25T06:24:14Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  },
+  "eater": {
+   "long": [
+    [
+     "2026-07-13T14:00:05Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-08-12T13:00:14Z",
+     "2026-10-04T07:02:17Z"
+    ]
+   ]
+  }
+ },
+ "set": "2026-10-04T07:02Z"
+}

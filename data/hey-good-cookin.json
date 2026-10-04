@@ -1,0 +1,757 @@
+{
+ "_about": "HEY, GOOD COOKIN', A COMMUNITY KITCHEN. Ryan Boren's brief, 2026-10-04: a community kitchen where nobody is turned away, hungry for food or for knowledge; you do not have to pay and you do not have to volunteer; cafeteria-style self-service with sit-down restaurant-style seating, and the communication badge placards on every table; an omnivorous cafeteria menu with plenty of vegan and vegetarian options; wheelchair access at the service line and the seating; some cooking classes; and a rack of the last month from cooking channels he listed (that is data/hey-good-cookin-month.json, the timer's file). tools/make-hey-good-cookin.py writes everything here into the room and holds the promises; see its docstring for every refusal.",
+ "_welcome": "RYAN'S WORDS, WORD FOR WORD, from his brief: the welcome, what each placard means, and the three placard rules. The one change is that 'Green placard =' and its kin became the name on each placard, with the words after the equals sign as what the placard says. [communication badge placards] marks the words his brief linked to Cavendish Cards' badge maker. They are the house's voice and are swept with the rest of it, because they are what the kitchen says to everybody who walks in.",
+ "welcome": [
+  "Come to the community kitchen if you’re hungry. Come if you’re curious about cooking. Whether hungry for food or hungry for knowledge, no one is turned away at our kitchen.",
+  "Here, you are fed with no strings attached. You don’t have to pay. You don’t have to volunteer. You can just come and eat and be. Cafeteria style self-service, with sit-down restaurant-style seating so you can sit alone, together with friends, or together with strangers who might become friends. Seat yourself. Just look for the [communication badge placards] at each table."
+ ],
+ "badges_url": "https://cavendish.space/badges",
+ "_placards": "Each placard carries its colour, a shape and a word, because colour is never the only channel here: the shapes are the ones on our own Interaction Badges page and on Cavendish Cards' badge maker, a circle on green, a triangle on yellow, a square on red. `ink` is the placard's colour in love.css; those three are the only green, yellow and red in the room, which the tool enforces.",
+ "placards": [
+  {
+   "key": "go",
+   "colour": "Green",
+   "shape": "circle",
+   "ink": "--hgc-go",
+   "says": "open community seating where strangers are welcome, you don’t have to ask, just sit wherever there’s a space"
+  },
+  {
+   "key": "ask",
+   "colour": "Yellow",
+   "shape": "triangle",
+   "ink": "--hgc-ask",
+   "says": "if you know one of the folks already seated, you can ask to join"
+  },
+  {
+   "key": "alone",
+   "colour": "Red",
+   "shape": "square",
+   "ink": "--hgc-alone",
+   "says": "please don’t sit here, I want to be alone"
+  }
+ ],
+ "rules": [
+  "If a table doesn’t have a placard, pick one up at the station at the front, and sit it on the table.",
+  "If you’re last to leave a table, return the placard to the placard station.",
+  "Please don’t red placard a large table. They are for 2-top and 4-top tables. Fill the 2-top tables first."
+ ],
+ "_hall": "THE TABLES IN THE DRAWING, left to right from the end of the line to the placard station, and the placard on each (null: nobody is at it, so it has none). The drawing keeps the house rules too: the tool refuses a red placard on a large table, and a red placard on a 4-top while any 2-top stands empty. A table seats `seats`; one place at every table has no chair in it.",
+ "hall": [
+  {
+   "seats": 2,
+   "placard": "alone"
+  },
+  {
+   "seats": 2,
+   "placard": "ask"
+  },
+  {
+   "seats": 8,
+   "placard": "go"
+  },
+  {
+   "seats": 4,
+   "placard": "go"
+  },
+  {
+   "seats": 4,
+   "placard": null
+  },
+  {
+   "seats": 2,
+   "placard": null
+  }
+ ],
+ "_shelf": "THE SHELF AT THE START OF THE LINE: what anybody might need to eat, at seated reach, and nobody asks why you are taking one.",
+ "shelf": [
+  "Trays, plates, bowls and cutlery, at the height of a seat as well as a standing hand.",
+  "Cutlery with fat handles, and cutlery with weight in it.",
+  "Plates with a raised edge to push food up against.",
+  "Cups with lids, and bendy straws, paper and plastic.",
+  "A tray with a lip all round, to carry across your knees."
+ ],
+ "_dishes": "EVERY DISH SAYS WHAT IS IN IT, the runtime rule for a kitchen. `diet` is vegan, vegetarian, meat or fish; a meat dish names its `animal`. The allergens are NOT written here: the tool works them out of `what`, from the FDA's nine and gluten, so the line on the card cannot forget what the ingredients say. The tool also refuses a vegan dish with anything from an animal in `what`, a vegetarian dish with meat, fish, stock made from either, gelatin or parmesan in it (parmesan is made with rennet from calves), and a meat or fish dish whose `what` has none. `note` is a sentence about how it is served.",
+ "stations": [
+  {
+   "key": "soup",
+   "name": "The soup kettles",
+   "dishes": [
+    {
+     "name": "Tomato soup",
+     "diet": "vegan",
+     "what": "tomatoes, onion, garlic, olive oil, vegetable stock, salt"
+    },
+    {
+     "name": "Split pea soup",
+     "diet": "vegan",
+     "what": "split peas, carrot, onion, celery, vegetable stock, bay leaf, salt"
+    },
+    {
+     "name": "Chicken noodle soup",
+     "diet": "meat",
+     "what": "chicken, chicken stock, egg noodles, carrot, celery, onion, parsley",
+     "animal": "chicken"
+    }
+   ]
+  },
+  {
+   "key": "plain",
+   "name": "The plain things, every day",
+   "note": "Everything here is cooked the same way every day, without a sauce, and each in a dish of its own until you put it together. Butter and olive oil are beside it in their own little dishes, never on it.",
+   "dishes": [
+    {
+     "name": "Plain white rice",
+     "diet": "vegan",
+     "what": "white rice, water"
+    },
+    {
+     "name": "Plain pasta",
+     "diet": "vegan",
+     "what": "pasta, water"
+    },
+    {
+     "name": "Boiled potatoes",
+     "diet": "vegan",
+     "what": "potatoes, water, salt"
+    },
+    {
+     "name": "Plain roast chicken",
+     "diet": "meat",
+     "what": "chicken, salt",
+     "animal": "chicken"
+    },
+    {
+     "name": "Plain baked tofu",
+     "diet": "vegan",
+     "what": "firm tofu, sunflower oil, salt"
+    },
+    {
+     "name": "Toast",
+     "diet": "vegan",
+     "what": "sliced bread (wheat flour, water, yeast, salt, sunflower oil)"
+    }
+   ]
+  },
+  {
+   "key": "sides",
+   "name": "Sides",
+   "dishes": [
+    {
+     "name": "Roast carrots",
+     "diet": "vegan",
+     "what": "carrots, olive oil, thyme, salt"
+    },
+    {
+     "name": "Garlic green beans",
+     "diet": "vegan",
+     "what": "green beans, garlic, olive oil, salt"
+    },
+    {
+     "name": "Black beans",
+     "diet": "vegan",
+     "what": "black beans, onion, garlic, cumin, sunflower oil, salt"
+    },
+    {
+     "name": "Collard greens",
+     "diet": "vegan",
+     "what": "collard greens, onion, garlic, vegetable stock, cider vinegar, chilli flakes"
+    },
+    {
+     "name": "Collard greens with smoked turkey",
+     "diet": "meat",
+     "what": "collard greens, smoked turkey, onion, garlic, chicken stock, cider vinegar",
+     "animal": "turkey and chicken"
+    },
+    {
+     "name": "Mashed potatoes",
+     "diet": "vegetarian",
+     "what": "potatoes, butter, milk, salt"
+    },
+    {
+     "name": "Macaroni and cheese",
+     "diet": "vegetarian",
+     "what": "macaroni, cheddar, milk, butter, wheat flour, mustard powder"
+    }
+   ]
+  },
+  {
+   "key": "salad",
+   "name": "The salad bar",
+   "dishes": [
+    {
+     "name": "Leaves and vegetables",
+     "diet": "vegan",
+     "what": "lettuce, spinach, cucumber, tomatoes, grated carrot, sweetcorn"
+    },
+    {
+     "name": "Chickpeas and sunflower seeds",
+     "diet": "vegan",
+     "what": "chickpeas, sunflower seeds"
+    },
+    {
+     "name": "Croutons",
+     "diet": "vegan",
+     "what": "bread, olive oil, salt"
+    },
+    {
+     "name": "Oil and vinegar",
+     "diet": "vegan",
+     "what": "olive oil, red wine vinegar"
+    },
+    {
+     "name": "Lemon tahini dressing",
+     "diet": "vegan",
+     "what": "tahini, lemon, garlic, water, salt"
+    },
+    {
+     "name": "Grated cheddar",
+     "diet": "vegetarian",
+     "what": "cheddar"
+    },
+    {
+     "name": "Hard-boiled eggs",
+     "diet": "vegetarian",
+     "what": "eggs"
+    },
+    {
+     "name": "Ranch dressing",
+     "diet": "vegetarian",
+     "what": "buttermilk, mayonnaise, sour cream, garlic, dill, chives"
+    }
+   ]
+  },
+  {
+   "key": "bread",
+   "name": "Bread",
+   "dishes": [
+    {
+     "name": "Sliced bread",
+     "diet": "vegan",
+     "what": "wheat flour, water, yeast, salt, sunflower oil"
+    },
+    {
+     "name": "Rice bread",
+     "diet": "vegan",
+     "what": "rice flour, tapioca starch, water, yeast, sunflower oil, salt",
+     "note": "Toasted in a toaster nothing else goes in."
+    },
+    {
+     "name": "Cornbread",
+     "diet": "vegetarian",
+     "what": "cornmeal, wheat flour, milk, eggs, butter, sugar, baking powder"
+    }
+   ]
+  },
+  {
+   "key": "breakfast",
+   "name": "Breakfast, all day",
+   "dishes": [
+    {
+     "name": "Oatmeal",
+     "diet": "vegan",
+     "what": "oats, water, salt",
+     "note": "Brown sugar, raisins and oat milk are beside it. Oats are not wheat, barley or rye, so it is not marked gluten; but most oats are grown and milled near wheat, so oats kept away from it are in their own tin, labelled."
+    },
+    {
+     "name": "Peanut butter and jelly",
+     "diet": "vegan",
+     "what": "sliced bread, peanut butter, grape jelly (grapes, sugar, pectin)"
+    },
+    {
+     "name": "Tofu scramble",
+     "diet": "vegan",
+     "what": "firm tofu, onion, turmeric, black salt, sunflower oil"
+    },
+    {
+     "name": "Scrambled eggs",
+     "diet": "vegetarian",
+     "what": "eggs, butter, salt"
+    }
+   ]
+  },
+  {
+   "key": "sweet",
+   "name": "Something sweet",
+   "dishes": [
+    {
+     "name": "Fruit",
+     "diet": "vegan",
+     "what": "apples, bananas, oranges, grapes, whatever else is in season"
+    },
+    {
+     "name": "Apple crumble",
+     "diet": "vegan",
+     "what": "apples, oats, wheat flour, brown sugar, sunflower oil, cinnamon"
+    },
+    {
+     "name": "Chocolate chip cookies",
+     "diet": "vegetarian",
+     "what": "wheat flour, butter, sugar, eggs, chocolate chips (cocoa, sugar, milk, soy lecithin), vanilla, baking soda"
+    },
+    {
+     "name": "Rice pudding",
+     "diet": "vegetarian",
+     "what": "rice, milk, sugar, cinnamon, vanilla"
+    }
+   ]
+  },
+  {
+   "key": "drink",
+   "name": "To drink",
+   "dishes": [
+    {
+     "name": "Water",
+     "diet": "vegan",
+     "what": "water",
+     "note": "Always, from a tap at seated height as well as standing."
+    },
+    {
+     "name": "Coffee",
+     "diet": "vegan",
+     "what": "coffee"
+    },
+    {
+     "name": "Tea",
+     "diet": "vegan",
+     "what": "black tea, or herbal tea"
+    },
+    {
+     "name": "Oat milk",
+     "diet": "vegan",
+     "what": "oat milk"
+    },
+    {
+     "name": "Soy milk",
+     "diet": "vegan",
+     "what": "soy milk"
+    },
+    {
+     "name": "Apple juice",
+     "diet": "vegan",
+     "what": "apple juice"
+    },
+    {
+     "name": "Milk",
+     "diet": "vegetarian",
+     "what": "cow’s milk"
+    }
+   ]
+  }
+ ],
+ "_week": "THE HOT LINE'S WEEK. Three pans a day, the same three pans every week, posted here whole so anybody can choose before they come. THE VEGAN PAN IS FIRST EVERY DAY AND THE SAME SIZE AS THE OTHERS, Big Steep's rule for its alcohol-free pour: nobody vegan reaches past meat to get to dinner, and the vegan dish is not the side. The tool refuses a day whose first pan is not vegan.",
+ "week": [
+  {
+   "day": "Monday",
+   "pans": [
+    {
+     "name": "Red lentil dal with rice",
+     "diet": "vegan",
+     "what": "red lentils, onion, garlic, ginger, tomatoes, turmeric, cumin, sunflower oil, rice"
+    },
+    {
+     "name": "Baked cod with lemon and parsley",
+     "diet": "fish",
+     "what": "cod, lemon, butter, parsley, salt"
+    },
+    {
+     "name": "Meatloaf with gravy",
+     "diet": "meat",
+     "what": "ground beef, breadcrumbs, egg, onion, ketchup, beef stock, wheat flour",
+     "animal": "beef"
+    }
+   ]
+  },
+  {
+   "day": "Tuesday",
+   "pans": [
+    {
+     "name": "Black bean tacos",
+     "diet": "vegan",
+     "what": "black beans, corn tortillas, onion, peppers, cumin, tomato salsa, lime"
+    },
+    {
+     "name": "Cheese enchiladas",
+     "diet": "vegetarian",
+     "what": "corn tortillas, cheddar, onion, chile sauce (dried chiles, garlic, onion, oregano)"
+    },
+    {
+     "name": "Chicken tacos",
+     "diet": "meat",
+     "what": "chicken, corn tortillas, tomatoes, chipotle chiles, onion, lime",
+     "animal": "chicken"
+    }
+   ]
+  },
+  {
+   "day": "Wednesday",
+   "pans": [
+    {
+     "name": "Spaghetti marinara",
+     "diet": "vegan",
+     "what": "spaghetti, tomatoes, garlic, olive oil, basil, salt"
+    },
+    {
+     "name": "Baked ziti",
+     "diet": "vegetarian",
+     "what": "ziti, tomato sauce, ricotta, mozzarella"
+    },
+    {
+     "name": "Spaghetti and meatballs",
+     "diet": "meat",
+     "what": "spaghetti, ground beef, ground pork, breadcrumbs, egg, parmesan, tomatoes, garlic",
+     "animal": "beef and pork"
+    }
+   ]
+  },
+  {
+   "day": "Thursday",
+   "pans": [
+    {
+     "name": "Chickpea and cauliflower curry with rice",
+     "diet": "vegan",
+     "what": "chickpeas, cauliflower, potatoes, tomatoes, onion, garlic, ginger, curry spices, sunflower oil, rice"
+    },
+    {
+     "name": "Egg fried rice",
+     "diet": "vegetarian",
+     "what": "rice, eggs, peas, carrot, spring onion, soy sauce, sesame oil"
+    },
+    {
+     "name": "Roast turkey with gravy",
+     "diet": "meat",
+     "what": "turkey, turkey stock, wheat flour, onion, sage",
+     "animal": "turkey"
+    }
+   ]
+  },
+  {
+   "day": "Friday",
+   "pans": [
+    {
+     "name": "Three-bean chili",
+     "diet": "vegan",
+     "what": "kidney beans, black beans, pinto beans, tomatoes, onion, peppers, garlic, chili powder, cumin"
+    },
+    {
+     "name": "Salmon with dill and potatoes",
+     "diet": "fish",
+     "what": "salmon, potatoes, dill, olive oil, lemon"
+    },
+    {
+     "name": "Beef chili",
+     "diet": "meat",
+     "what": "ground beef, kidney beans, tomatoes, onion, peppers, garlic, chili powder, cumin",
+     "animal": "beef"
+    }
+   ]
+  },
+  {
+   "day": "Saturday",
+   "pans": [
+    {
+     "name": "Mushroom and barley stew",
+     "diet": "vegan",
+     "what": "mushrooms, pearl barley, carrots, onion, celery, thyme, vegetable stock"
+    },
+    {
+     "name": "Spinach and feta pie",
+     "diet": "vegetarian",
+     "what": "spinach, feta, eggs, filo pastry, olive oil, dill"
+    },
+    {
+     "name": "Pulled pork sandwiches",
+     "diet": "meat",
+     "what": "pork shoulder, buns, barbecue sauce (tomatoes, cider vinegar, molasses, brown sugar, paprika), coleslaw (cabbage, carrot, mayonnaise)",
+     "animal": "pork"
+    }
+   ]
+  },
+  {
+   "day": "Sunday",
+   "pans": [
+    {
+     "name": "Roast vegetables and chickpeas with lemon tahini",
+     "diet": "vegan",
+     "what": "potatoes, carrots, peppers, onion, chickpeas, olive oil, tahini, lemon, garlic"
+    },
+    {
+     "name": "Vegetable lasagne",
+     "diet": "vegetarian",
+     "what": "dried lasagne sheets, ricotta, mozzarella, spinach, courgettes, tomato sauce"
+    },
+    {
+     "name": "Roast chicken with gravy",
+     "diet": "meat",
+     "what": "chicken, chicken stock, wheat flour, onion, thyme",
+     "animal": "chicken"
+    }
+   ]
+  }
+ ],
+ "_access": "WHAT THE LINE AND THE FLOOR ARE BUILT TO, and where each number comes from: the 2010 ADA Standards for Accessible Design as the U.S. Access Board publishes them, read on 2026-10-04. Each entry names every section it draws on, each linked to that section on the Board's page. The street's rule about figures applies: every number here was read there, never typed from memory. `say` is the sentence the room prints.",
+ "access": [
+  {
+   "say": "The tray slide runs the whole length of the line, with its top between 28 and 34 inches (710 and 865 mm) off the floor, so a tray slides along at the height of a seat.",
+   "sections": [
+    "904"
+   ]
+  },
+  {
+   "say": "Every pan, shelf and dispenser on the line is in reach from a seat: nothing higher than 48 inches (1220 mm) and nothing lower than 15 inches (380 mm). The standard asks this of at least half of each kind of self-service shelf. Here it is all of them.",
+   "sections": [
+    "308",
+    "227"
+   ]
+  },
+  {
+   "say": "Every table top is between 28 and 34 inches (710 and 865 mm) high, with clear space under it up to 27 inches (685 mm) and at least 30 inches (760 mm) wide, for knees and a wheelchair.",
+   "sections": [
+    "902",
+    "306"
+   ]
+  },
+  {
+   "say": "Every aisle is at least 36 inches (915 mm) wide.",
+   "sections": [
+    "403"
+   ]
+  },
+  {
+   "say": "There is room to turn a wheelchair right round, a circle 60 inches (1525 mm) across, at both ends of the line and by the placard station.",
+   "sections": [
+    "304"
+   ]
+  },
+  {
+   "say": "The standard asks for at least one seat in twenty at a dining surface to be built this way. Here it is every seat, so there is no wheelchair table, and nobody has to sit wherever the wheelchair seat happens to be.",
+   "sections": [
+    "226"
+   ]
+  }
+ ],
+ "ada": {
+  "title": "2010 ADA Standards for Accessible Design",
+  "url": "https://www.access-board.gov/ada/",
+  "by": "the U.S. Access Board",
+  "read": "2026-10-04",
+  "sections": {
+   "226": "226 Dining Surfaces and Work Surfaces",
+   "227": "227 Sales and Service",
+   "304": "304 Turning Space",
+   "306": "306 Knee and Toe Clearance",
+   "308": "308 Reach Ranges",
+   "403": "403 Walking Surfaces",
+   "902": "902 Dining Surfaces and Work Surfaces",
+   "904": "904 Check-Out Aisles and Sales and Service Counters"
+  }
+ },
+ "_temps": "SAFE MINIMUM INTERNAL TEMPERATURES, off FoodSafety.gov's chart (date last reviewed 21 November 2024), read on 2026-10-04 in a browser, because that site refuses a script. The kitchen cooks to these, and a class that cooks anything from an animal is refused unless it names the line here that covers it. `for` is what the tool looks for in a class's ingredients to know which line applies.",
+ "temps": [
+  {
+   "key": "poultry",
+   "food": "Chicken, turkey and other poultry, all of it",
+   "f": 165,
+   "c": 74,
+   "for": [
+    "chicken",
+    "turkey"
+   ]
+  },
+  {
+   "key": "ground",
+   "food": "Ground meat and sausage",
+   "f": 160,
+   "c": 71,
+   "for": [
+    "ground beef",
+    "ground pork",
+    "sausage"
+   ]
+  },
+  {
+   "key": "cuts",
+   "food": "Beef, pork, lamb and veal steaks, roasts and chops",
+   "f": 145,
+   "c": 63,
+   "rest": "3 minutes",
+   "for": [
+    "steak",
+    "roast beef",
+    "pork chop",
+    "lamb"
+   ]
+  },
+  {
+   "key": "fish",
+   "food": "Fish",
+   "f": 145,
+   "c": 63,
+   "or": "or cook until the flesh is no longer translucent and separates easily with a fork",
+   "for": [
+    "fish",
+    "salmon",
+    "cod"
+   ]
+  },
+  {
+   "key": "eggs",
+   "food": "Eggs",
+   "or": "cook until the yolk and the white are firm",
+   "for": [
+    "egg",
+    "eggs"
+   ]
+  },
+  {
+   "key": "egg-dishes",
+   "food": "Egg dishes, such as a frittata or a quiche",
+   "f": 160,
+   "c": 71,
+   "for": [
+    "frittata",
+    "quiche"
+   ]
+  },
+  {
+   "key": "leftovers",
+   "food": "Leftovers, of any kind",
+   "f": 165,
+   "c": 74,
+   "for": []
+  }
+ ],
+ "foodsafety": {
+  "title": "Cook to a Safe Minimum Internal Temperature",
+  "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+  "by": "FoodSafety.gov",
+  "reviewed": "2024-11-21",
+  "read": "2026-10-04"
+ },
+ "fda": {
+  "title": "Food Allergies",
+  "url": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/food-allergies",
+  "by": "the U.S. Food and Drug Administration",
+  "read": "2026-10-04",
+  "says": "The major food allergens are milk, eggs, fish, Crustacean shellfish, tree nuts, peanuts, wheat, soybeans, and sesame."
+ },
+ "_classes": "THE TEACHING KITCHEN'S CLASSES, written for this room. Every class says how long it takes before you start, hands-on and in all, the runtime rule for a recipe; what it sounds, smells and feels like, the Picture House's content line for a kitchen; and that it can be done sitting down. A class with anything from an animal in it names the temperature line that covers it (`safe`). Nothing is graded, nobody takes a register, and nothing at the end is a certificate. `steps` are in order; `swap` is the other way to make it, and is itself checked for temperatures.",
+ "classes": [
+  {
+   "key": "knife",
+   "title": "Hold a knife, or don’t",
+   "makes": "An onion, a carrot and a pepper cut small, which is how most things start",
+   "hands": "15 to 20 minutes",
+   "total": "15 to 20 minutes",
+   "senses": "The knife on the board, a steady knock. Cut onion stings the eyes and nose for a few minutes; goggles hang on a hook by the counter, and nobody says a word about them.",
+   "needs": "A cutting board on a damp cloth, and a sharp knife: a blunt one needs more force, and force is what makes a knife slip. Or kitchen scissors, or a chopper you press down on.",
+   "ingredients": "An onion, a carrot, a pepper.",
+   "steps": [
+    "Put the board on a damp cloth so it stays where you put it.",
+    "Cut the onion in half from the root to the tip and peel off the papery skin. Lay each half flat side down: anything lying on a flat side cannot roll.",
+    "Curl the fingertips of the hand holding it under, knuckles forward, so the flat of the blade rests against your knuckles and your fingertips are behind them. That is the claw.",
+    "Cut by pushing the knife forward and down, and move the claw back a little after every cut.",
+    "For something round, like a carrot, cut a thin slice off one side first, so it lies flat. Then do the same.",
+    "If a knife is not for you today, kitchen scissors cut spring onions, herbs and peppers well, and a chopper you press down on does an onion in seconds. Frozen chopped onion and bags of cut vegetables count as cooking. Nobody checks."
+   ],
+   "swap": null
+  },
+  {
+   "key": "rice-beans",
+   "title": "A pot of rice, and a pot of beans",
+   "makes": "Plain rice for four, and black beans from a tin or from dry",
+   "hands": "10 minutes",
+   "total": "rice in 30 minutes; beans from dry take a night’s soak and 1 to 2 hours more",
+   "senses": "A quiet one. A lid that rattles means the heat is too high, which is the pot telling you to turn it down.",
+   "needs": "A pot with a lid that fits, a sieve, and a fork.",
+   "ingredients": "1 cup of long-grain white rice, 1½ cups of water, salt. A tin of black beans, or a cup of dried ones. Oil, garlic, cumin.",
+   "steps": [
+    "Rinse the rice in a sieve under the tap until the water runs nearly clear.",
+    "Put it in the pot with the water and a pinch of salt, and bring it to the boil.",
+    "Turn the heat to its lowest, put the lid on, and leave it for 15 minutes without lifting the lid.",
+    "Take it off the heat and leave it covered for 10 minutes more, then loosen it with a fork. Brown rice wants more water and about twice as long; its bag says how much.",
+    "Beans from a tin: drain and rinse them, and warm them in a pot with a splash of water, a little oil, salt, a crushed clove of garlic and a pinch of cumin.",
+    "Beans from dry: soak them overnight in plenty of water, drain them, cover them with fresh water by a couple of inches, and simmer them until they are soft all the way through, which takes 1 to 2 hours depending on the bean. Salt them near the end."
+   ],
+   "swap": null
+  },
+  {
+   "key": "soup",
+   "title": "Soup out of what is there",
+   "makes": "A big pot of vegetable soup, about six bowls",
+   "hands": "20 minutes",
+   "total": "50 minutes",
+   "senses": "Onions in oil hiss, then go quiet and sweet-smelling. The blender at the end is loud for about a minute; skip it and the soup is a chunky one, which is also soup.",
+   "needs": "A big pot, a wooden spoon, and a stick blender if you want it smooth.",
+   "ingredients": "2 tablespoons of oil, an onion, 2 carrots, 2 sticks of celery, 2 cloves of garlic, 2 potatoes, a tin of chopped tomatoes, 4 cups (1 litre) of vegetable stock, salt and pepper, and whatever else is in the drawer.",
+   "steps": [
+    "Chop the onion, carrots and celery small, and cook them in the oil over a medium heat with a pinch of salt for 8 to 10 minutes, stirring now and then, until they are soft but not brown.",
+    "Add the garlic, chopped, and cook it for a minute.",
+    "Add the potatoes in small cubes, the tomatoes and the stock. Bring it to the boil, then turn it down and simmer it for 20 to 25 minutes, until a piece of potato is soft when you poke it.",
+    "Taste it. A soup tastes flat until it has enough salt: add a little, stir, taste, and add again.",
+    "Blend it, or don’t.",
+    "Soup keeps in the fridge for a few days. Reheat it until it is steaming hot all the way through."
+   ],
+   "safe": [
+    "leftovers",
+    "poultry"
+   ],
+   "swap": "With chicken: stir in cooked chicken at the end and heat the soup until it is steaming hot all the way through, to 165°F (74°C)."
+  },
+  {
+   "key": "one-tray",
+   "title": "One tray, one oven, and a chair",
+   "makes": "Roast vegetables with chickpeas, or with chicken thighs, for two to four",
+   "hands": "15 minutes",
+   "total": "45 minutes",
+   "senses": "The oven ticks as it heats, and the tray spits a little. It smells of roasting from about twenty minutes in. Oven gloves that cover the forearm hang on the hook by the oven.",
+   "needs": "A big baking tray, oven gloves, and a food thermometer for the chicken.",
+   "ingredients": "4 potatoes or sweet potatoes, 3 carrots, 2 peppers, an onion, a tin of chickpeas, 3 tablespoons of oil, salt, pepper, and paprika or cumin.",
+   "steps": [
+    "Heat the oven to 425°F (220°C).",
+    "Cut the vegetables into pieces about the same size as each other, so they are done at the same time.",
+    "Toss them on the tray with the oil, salt and spice, and spread them out in one layer. Piled up, they steam instead of browning.",
+    "Roast them for 20 minutes.",
+    "Drain the chickpeas, pat them dry, and scatter them over. Turn everything over with a spatula, and roast it for 15 to 20 minutes more, until the edges are brown and the potatoes are soft.",
+    "Most of this is waiting, and all the waiting can be done sitting down."
+   ],
+   "swap": "With chicken: leave out the chickpeas and lay 4 chicken thighs on the vegetables from the start, skin side up. They are done when a thermometer in the thickest part says 165°F (74°C), which is FoodSafety.gov’s number for chicken.",
+   "safe": [
+    "poultry"
+   ]
+  },
+  {
+   "key": "eggs",
+   "title": "Eggs, and a scramble without them",
+   "makes": "Scrambled eggs, or a tofu scramble, for one or two",
+   "hands": "10 minutes",
+   "total": "10 minutes",
+   "senses": "A quiet one. The butter or the oil sizzles softly; if it spits, the pan is too hot.",
+   "needs": "A non-stick pan and a flat spatula.",
+   "ingredients": "3 eggs, a knob of butter or a spoon of oil, salt. Or a block of firm tofu, half an onion, a pinch of turmeric, salt and pepper, and black salt if you have it.",
+   "steps": [
+    "Beat the eggs in a bowl with a pinch of salt.",
+    "Melt the butter in the pan over a low to medium heat, and pour the eggs in.",
+    "Push them slowly from the edges into the middle with the spatula, and keep going until there is no runny egg left: FoodSafety.gov says to cook eggs until the yolk and the white are firm.",
+    "For the scramble without eggs: soften the chopped onion in the oil, crumble the tofu in with your hands, and add the turmeric, which is for colour, and salt and pepper.",
+    "Cook it for 5 to 8 minutes, stirring, until it is hot and catching a little at the edges. A pinch of black salt at the end makes it smell of eggs, if that is what you want."
+   ],
+   "safe": [
+    "eggs"
+   ],
+   "swap": null
+  }
+ ],
+ "_name": "THE NAME plays on the title of Hank Williams's 1951 song Hey, Good Lookin', written and recorded by him, read off Wikipedia's article on 2026-10-04. Nothing else of the song is in the room, and the tool refuses the words that come next in it, because those are a lyric.",
+ "song": {
+  "title": "Hey, Good Lookin’",
+  "by": "Hank Williams",
+  "year": 1951,
+  "url": "https://en.wikipedia.org/wiki/Hey,_Good_Lookin%27_(song)"
+ },
+ "_badges": "THE PLACARDS ARE INTERACTION BADGES ON A TABLE. Our own pages say colour communication badges were first developed by Autism Network International (our Interaction Badges page quotes the Autistic Self Advocacy Network saying so), and give the shapes. Ryan's brief links Cavendish Cards' badge maker, the Stimpunks sibling site that prints them.",
+ "badges": {
+  "field_guide": "https://stimpunks.org/fieldguide/events/access/interaction-badges/",
+  "field_guide_title": "Interaction Badges",
+  "first": "Autism Network International"
+ }
+}

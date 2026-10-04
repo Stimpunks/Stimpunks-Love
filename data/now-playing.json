@@ -239,6 +239,15 @@
    "after": "<h2 id=\"ll-rack-h\">"
   },
   {
+   "page": "hey-good-cookin.html",
+   "what": "A community kitchen with its windows steamed up, where nobody is turned away, with the last month from cooking channels on the teaching screen.",
+   "holds": [
+    "The rack",
+    "The teaching screen"
+   ],
+   "after": "<h2 id=\"hgc-rack-h\">"
+  },
+  {
    "page": "neurohome.html",
    "what": "Isha Snow's tiny home by the Columbia River, where the creativity corner holds her own podcast episodes and her talk show.",
    "holds": [

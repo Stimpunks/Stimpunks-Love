@@ -1485,6 +1485,18 @@
         "--ll-red",
         "--ll-blue"
       ]
+    },
+    "hey-good-cookin.html": {
+      "kind": "ifs",
+      "figure": "spiral",
+      "sway": 0.05,
+      "ground": "--hgc-wall",
+      "inks": [
+        "--hgc-enamel",
+        "--hgc-link",
+        "--hgc-ink",
+        "--hgc-frame"
+      ]
     }
   }
 }

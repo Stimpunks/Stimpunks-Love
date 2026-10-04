@@ -2433,5 +2433,33 @@
    "src": "https://fonts.gstatic.com/s/firasans/v18/va9C4kDNxMZdWfMOD5VvkrjJYTLVdlTO.woff2",
    "note": "Its italic, a second alphabet, for the titles of the works the room quotes from."
   }
+ ],
+ "corben": [
+  {
+   "file": "corben-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 23528,
+   "src": "https://fonts.gstatic.com/s/corben/v23/LYjAdGzzklQtCMpFHCZQqnoqft3XWA.woff2",
+   "note": "Hey, Good Cookin' (§93), the room's name and every heading, and nothing at reading size. Vernon Adams's display face, which its own description calls simple and web friendly, with ample curves and ligatures and a touch of classic display lettering: a warm, round name over a community kitchen's door. Only the bold is used, so only the bold is kept; one static file."
+  }
+ ],
+ "parkinsans": [
+  {
+   "file": "parkinsans-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 28296,
+   "src": "https://fonts.gstatic.com/s/parkinsans/v3/-W_7XJXvQyPb1QfpBpRrfkQLfr8nfiI.woff2",
+   "note": "Hey, Good Cookin' (§93), every word that is read: Ryan's welcome, every dish card, every class. Red Stone's sans. It ships as a variable font, so Google serves the same file for 400 and 700; it is downloaded once and declared twice against the weight axis, Radio Canada's call. It has no italic, and nothing in the room asks for one but a song title, which is left upright rather than invented."
+  },
+  {
+   "file": "parkinsans-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 28296,
+   "src": "https://fonts.gstatic.com/s/parkinsans/v3/-W_7XJXvQyPb1QfpBpRrfkQLfr8nfiI.woff2",
+   "note": "Byte-identical to the 400 above; see that note."
+  }
  ]
 }

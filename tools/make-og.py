@@ -1189,6 +1189,17 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--glasshouse .og-lede {{ font-family: 'Fira Sans', sans-serif; color: var(--ll-text); font-size: 24px;
   line-height: 1.35; max-width: 1080px; }}
 
+/* hey, good cookin' — THE HALL with its windows steamed up across the top of
+   the card, lifted off the page whole, and the name under it in the kettle's
+   enamel. The wall is the room's own, because the card is rendered on the
+   room's body class. */
+.og--cookin {{ gap: 12px; padding: 30px 60px 30px; justify-content: flex-start; }}
+.og--cookin .hgc-hall {{ width: 1020px; height: auto; margin: 0 !important; }}
+.og--cookin .hgc-over {{ font-size: 16px; margin: 4px 0 0 !important; }}
+.og--cookin h1 {{ font-size: 64px; margin: 0 !important; }}
+.og--cookin .og-lede {{ font-family: 'Parkinsans', sans-serif; color: var(--hgc-ink); font-size: 24px;
+  line-height: 1.35; max-width: 1080px; }}
+
 /* count me in — THE LANDING, straight on: the header, and the flight with the lift
    on its rail lifted off the page whole. The card shows no step number, because
    the stair's number changes with every step and a card is a picture that would
@@ -3892,6 +3903,35 @@ def card_glasshouse(p):
     )
 
 
+def card_cookin(p):
+    # THE DRAWING AND THE NAME ARE LIFTED WHOLE, so the card cannot show a hall
+    # the page does not, nor a placard on a table the page's rules forbid, and
+    # the lede is the page's og:description.
+    hall = re.search(r'(<svg class="hgc-hall".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="hgc-over">(.*?)</p>', p["src"], re.S)
+    if not (hall and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: hey-good-cookin.html has lost the drawing of the hall or its\n"
+            "header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--cookin" data-fit="card">'
+        f'{hall.group(1)}<p class="hgc-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>',
+        f"A pale warm-white card. Across the top, the inside of a hall: a long row of tall windows fogged "
+        f"white with steam, each with a few thin clear runs down the glass where drops have slid, and pale "
+        f"blue sky showing through the runs. On the left, a steel serving line with domed lids, a blue "
+        f"enamel soup kettle with white flecks, and white steam rising from them up into the windows. On "
+        f"the right, a row of white tables on steel legs, each with chairs and one place with no chair, "
+        f"and on some of the tables a small folded placard: a red one with a white square, a yellow one "
+        f"with a dark triangle, green ones with a white circle. At the far right, a stand with a stack of "
+        f"spare placards in all three colours. Under it, small capitals reading {plain(over.group(1))}, "
+        f"then \u201c{p['h1text']}\u201d in large rounded blue letters, then: {p['desc_plain']}",
+    )
+
+
 def card_stair(p):
     # THE HEADER AND THE FLIGHT ARE LIFTED WHOLE, lift and all, so the card
     # cannot draw a stair without its lift. No step number: it would be stale by
@@ -4299,6 +4339,7 @@ CARDS = {
     "stair":        card_stair,
     "notebook":     card_notebook,
     "glasshouse":   card_glasshouse,
+    "cookin":       card_cookin,
     "cats":         card_cats,
     "dogs":         card_dogs,
     "smalls":       card_smalls,

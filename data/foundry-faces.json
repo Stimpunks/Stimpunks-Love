@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-10-03",
+ "_checked": "2026-10-04",
  "faces": {
   "abril-fatface": {
    "family": "Abril Fatface",
@@ -862,6 +862,23 @@
      "style": "normal",
      "file": "commissioner-400.woff2",
      "sha": "737ec8f28006b815"
+    }
+   ]
+  },
+  "corben": {
+   "family": "Corben",
+   "category": "Display",
+   "designer": "Vernon Adams",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/corben",
+   "copyright": "Copyright (c) 2010, 2011 by vernon adams (vern@newtypography.co.uk) with Reserved Font Name 'Corben'.",
+   "repository": "https://github.com/librefonts/corben",
+   "variants": [
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "corben-700.woff2",
+     "sha": "b22c76d5a704f701"
     }
    ]
   },
@@ -2392,6 +2409,29 @@
      "style": "normal",
      "file": "oxanium-600.woff2",
      "sha": "c12aca99f01910a5"
+    }
+   ]
+  },
+  "parkinsans": {
+   "family": "Parkinsans",
+   "category": "Sans Serif",
+   "designer": "Red Stone",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/parkinsans",
+   "copyright": "Copyright 2024 The Parkinsans Project Authors (https://github.com/redstonedesign/parkinsans)",
+   "repository": "https://github.com/redstonedesign/parkinsans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "parkinsans-400.woff2",
+     "sha": "3016687c2d2a0326"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "parkinsans-400.woff2",
+     "sha": "3016687c2d2a0326"
     }
    ]
   },

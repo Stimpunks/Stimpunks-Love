@@ -1108,6 +1108,19 @@
 @font-face { font-family: 'Fira Sans'; src: url('fonts/fira-sans-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Fira Sans'; src: url('fonts/fira-sans-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 
+/* Hey, Good Cookin' (§93). A WARM ROUND SERIF FOR THE NAME AND A PLAIN SANS FOR
+   THE CARDS. Corben, Vernon Adams's display face, all ample curves, sets the
+   room's name and every heading at its bold, and nothing at reading size: one
+   static file. Parkinsans, by Red Stone, carries every word that is read, the
+   dish cards and the classes included; it ships as a variable font, so one
+   file is declared at 400 and 700 against the weight axis, Radio Canada's
+   call. It has no italic, so nothing in the room is set in italic but a song
+   title, which the browser is not asked to invent (font-synthesis: none sets
+   it upright). Read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Corben'; src: url('fonts/corben-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Parkinsans'; src: url('fonts/parkinsans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Parkinsans'; src: url('fonts/parkinsans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -2741,6 +2754,29 @@
   --ll-leaf:   #0C050D;  --ll-red:    #FF4A5E;  --ll-blue:  #5A63FF;
   --ll-label:  #F4D8F2;  --ll-label-link: #7B1A72;  --ll-label-dim: #5A2A57;
 
+  /* Hey, Good Cookin' (§93). A HALL ON A COLD DAY WITH EVERY POT ON, the
+     windows fogged by the line's steam. --hgc-wall is the hall in that soft
+     light, the ground every word stands on; --hgc-card is card stock, the
+     ground of every dish card, class and the index, and the steam in the
+     drawing. --hgc-ink is every word, --hgc-dim the fine print, --hgc-link
+     every link and the focus ring. --hgc-enamel is the speckled blue enamel of
+     the soup kettle: the ground of every play button and the vegan mark, and
+     the room's name; --hgc-enamel-deep the same under the pointer. --hgc-screen
+     is the teaching screen while nothing is on it. THE THREE PLACARDS are
+     --hgc-go, --hgc-ask and --hgc-alone, and they are the only green, yellow
+     and red in the room: make-hey-good-cookin.py refuses any other here or in
+     §93, and refuses these three anywhere but a placard. The rest carry no
+     word: --hgc-fog the fogged glass and the fold of a card, --hgc-day the day
+     seen through a clear run, --hgc-steel the line and the sills, --hgc-frame
+     the window frames, the table legs, the chairs and every card's edge,
+     --hgc-fleck the flecks in the enamel, --hgc-floor the floor. */
+  --hgc-wall:  #EEEBE6;  --hgc-card:  #FFFFFF;  --hgc-ink:   #16223B;
+  --hgc-dim:   #4A5266;  --hgc-link:  #1C4AA6;  --hgc-enamel: #23489E;
+  --hgc-enamel-deep: #15306F;  --hgc-screen: #0E1424;
+  --hgc-go:    #1E7B3B;  --hgc-ask:   #E8B92A;  --hgc-alone: #C33A33;
+  --hgc-fog:   #DDE4E7;  --hgc-day:   #8DB8E0;  --hgc-steel: #B8BDC3;
+  --hgc-frame: #6E757E;  --hgc-fleck: #F4F6FA;  --hgc-floor: #DCD6CB;
+
   /* import:neurohome:root:begin */
   /* Isha Snow's room, NeuroHome -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -3649,6 +3685,23 @@ div.facade--audio { border: 0; background: none; }
 .door--large .door__name  { font-family: 'Recursive', var(--sans); font-weight: 800; color: var(--ll-rim); font-size: 27px; line-height: 1.05; font-synthesis: none; }
 .door--large .door__blurb { font-family: 'Fira Sans', var(--sans); color: var(--ll-text); font-size: 14px; font-synthesis: none; }
 .door--large .door__knock { font-family: 'Fira Sans', var(--sans); font-weight: 700; font-size: 13px; color: var(--ll-link); font-synthesis: none; }
+/* HEY, GOOD COOKIN'S DOOR IS ITS WINDOW FROM THE STREET: the awning is the
+   fogged glass, with clear runs of different lengths down to the sill where
+   drops have slid, so they never line up into the Community Center's bars. */
+.door--cookin { background-color: var(--hgc-wall); border-color: var(--hgc-frame); }
+.door--cookin .door__awning {
+  background-color: var(--hgc-fog);
+  background-image: linear-gradient(var(--hgc-day), var(--hgc-day)), linear-gradient(var(--hgc-day), var(--hgc-day)),
+    linear-gradient(var(--hgc-day), var(--hgc-day)), linear-gradient(var(--hgc-day), var(--hgc-day)),
+    linear-gradient(var(--hgc-day), var(--hgc-day));
+  background-size: 3px 72%, 3px 38%, 3px 100%, 3px 55%, 3px 30%;
+  background-position: 13% 100%, 31% 100%, 52% 100%, 74% 100%, 90% 100%;
+  background-repeat: no-repeat;
+  border-bottom-color: var(--hgc-frame);
+}
+.door--cookin .door__name  { font-family: 'Corben', var(--sans); font-weight: 700; color: var(--hgc-enamel); font-size: 26px; line-height: 1.1; font-synthesis: none; }
+.door--cookin .door__blurb { font-family: 'Parkinsans', var(--sans); color: var(--hgc-ink); font-size: 14px; font-synthesis: none; }
+.door--cookin .door__knock { font-family: 'Parkinsans', var(--sans); font-weight: 700; font-size: 13px; color: var(--hgc-link); font-synthesis: none; }
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
 .door--empty .door__name  { font-family: 'Bungee', var(--sans); color: var(--chalk); font-size: 23px; }
@@ -14842,7 +14895,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §94
+   class on it is `bb-`, its sizes are in points and millimetres, and §95
    prints it and nothing else. */
 
 .room-broadside {
@@ -14903,7 +14956,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §94 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §95 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -18816,7 +18869,269 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .ll-spectrum__axis, .ll-spectrum__key { font-size: 22px; }
 }
 
-/* §93 ── Small screens ───────────────────────────────────────────────────────
+/* §93 ── ROOM: Hey, Good Cookin' (a shopfront on the street) ───────────────────
+   A community kitchen. Ryan's brief, 2026-10-04: nobody is turned away,
+   hungry for food or for knowledge; you do not have to pay and you do not
+   have to volunteer; cafeteria-style self-service with sit-down seating and a
+   communication badge placard on every table; an omnivorous menu with plenty
+   of vegan and vegetarian; wheelchair access at the line and the seating;
+   cooking classes; and a rack of the last month from cooking channels he
+   listed. tools/make-hey-good-cookin.py writes the drawing, his words, the
+   placards, every dish card, the week, the line from a chair, the classes, the
+   temperatures, the teaching screen and the rack, and holds the promises.
+
+   THE LIGHT IS DAYLIGHT THROUGH STEAMED-UP WINDOWS. The pots are on and it is
+   cold out, so the steam off the line has fogged the glass from end to end:
+   the daylight comes in soft along that whole wall and lands on nothing in
+   particular, and the ONLY sharp light in the room is where a drop has run
+   down the glass and cleared a line you can see the day through. The kitchen
+   makes its own light: the fog is the cooking's. And there is no lamp over the
+   food, because the line is heated from underneath, in hot water, which is
+   where the steam comes from. Every shadow in here is soft.
+
+   THE PLACARDS ARE THE ONLY GREEN, YELLOW AND RED IN THE ROOM. On a table a
+   colour means a placard, so nothing else may wear one, and the tool refuses
+   a green, yellow, orange or red anywhere in this section that is not one of
+   the three, and the three anywhere but a rule about a placard. The room's
+   own colour is enamel blue, the speckled enamel of the soup kettle. And
+   colour is never alone: every placard carries its shape and its word.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · THE DIRECTORS' ROOM is lit through a frosted pane: soft, edgeless, the
+       name backwards on the glass, one small door. Frost is in the glass; this
+       fog is the room's own steam, the whole wall of it, and it has clear runs
+       in it. If the runs ever go, this has become the Directors' door the size
+       of a hall, and it is this room that moves.
+     · SAMEFOOD CAFE is the other place that serves a menu: a PLAN from
+       directly above, under an even overhead light, where nothing on a plate
+       touches and every plate is the same plate. This is seen at eye level
+       from inside the hall, the light comes from one wall, and there is NO
+       DIVIDED TRAY anywhere in this room, because a cafeteria tray with
+       compartments is Samefood's plate. The room sends anybody who needs their
+       food apart there, by name.
+     · VITAL PLANT LIVING is the other kitchen: a SECTION with no light in it,
+       turmeric, plant-based, and you build your own bowl. This kitchen is
+       omnivorous, composes its dishes, and is pale and blue.
+     · MYCELIUM MUNCHIES serves across a pass under HEAT LAMPS, red, from above,
+       in the dark. Here nothing over the food is lit; the heat is under it.
+     · THE SMALL HOURS is a diner seen from the car park at night, through one
+       lit window. This is inside, by day, and you cannot see out at all except
+       through the runs.
+     · THE COMMUNITY CENTER is the other civic hall by day, lit in hard
+       parallel BARS through a blind on powder-blue block. Here the light is
+       soft, the runs are few and of different lengths and never line up, and
+       the wall is a warm white. If the runs ever line up into bars, it has
+       become the Community Center with a steam table.
+     · THE 404 is fog too, outdoors, lit from every side, with no distance.
+       This fog is only on the glass; inside, the light comes from one wall.
+     · NOTHING FOR SALE is the other place where nothing costs anything: a
+       lay-by at night, in a ring of headlights. It shares this room's refusal
+       of anything owed, and nothing of its look.
+     · THE WARM BROWN ROOMS. There is no wood in here: the tables are white
+       tops on steel legs. The warmth is the room's temperature, not its light.
+
+   NOTHING MOVES, AT ANY SETTING. The obvious friendly edit is steam rising
+   off the drawing at MAX, which is Vital Plant Living's flourish; the steam in
+   here stays where it was drawn. NOBODY IS DRAWN, and no food is: it is under
+   the lids.
+
+   EVERY WORD STANDS ON A FLAT GROUND: the wall, card stock, the enamel of a
+   button or a placard, or the dark of the empty screen. The fog and the day are
+   only in the drawing and the door. */
+
+.cookin {
+  background: var(--hgc-wall); color: var(--hgc-ink);
+  font-family: 'Parkinsans', var(--sans); font-synthesis: none;
+}
+.cookin a { color: var(--hgc-link); text-underline-offset: .16em; }
+.cookin :focus-visible { outline-color: var(--hgc-link); }
+.cookin .backlink { font-family: 'Parkinsans', var(--sans); font-weight: 700; font-size: 15px; letter-spacing: .02em; color: var(--hgc-link); }
+.hgc-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.hgc-trail { margin: 0; font-size: 15px; color: var(--hgc-dim); }
+
+.hgc-head { margin: 30px 0 0; }
+.hgc-over { margin: 0; font-weight: 700; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: var(--hgc-dim); }
+.cookin h1 {
+  margin: 10px 0 10px; font-family: 'Corben', var(--sans); font-weight: 700;
+  font-size: clamp(42px, 8.6vw, 98px); line-height: 1.02; color: var(--hgc-enamel);
+}
+.hgc-sub { margin: 0; max-width: 40ch; font-size: 21px; line-height: 1.4; }
+.cookin h2 {
+  margin: 0 0 12px; font-family: 'Corben', var(--sans); font-weight: 700;
+  font-size: clamp(27px, 4.4vw, 38px); line-height: 1.12; color: var(--hgc-ink);
+}
+.cookin h3 { margin: 36px 0 8px; font-family: 'Corben', var(--sans); font-weight: 700; font-size: 24px; line-height: 1.2; color: var(--hgc-ink); }
+.cookin h4 { margin: 0 0 8px; font-weight: 700; font-size: 17px; line-height: 1.3; letter-spacing: .06em; text-transform: uppercase; }
+
+/* The hall, drawn. */
+.hgc-hall { display: block; width: 100%; height: auto; margin: 26px 0 0; }
+.hgc-lede { margin: 26px 0 0; max-width: 66ch; font-size: 19px; line-height: 1.6; }
+
+/* A TRAY SLIDE OVER EVERY PART: the steel rail the trays run along, above the
+   heading and never behind it. */
+.hgc-part { margin: 60px 0 0; }
+.hgc-part > h2::before {
+  content: ""; display: block; width: min(100%, 440px); height: 10px; margin: 0 0 20px;
+  border-radius: 5px; background: var(--hgc-steel); border-bottom: 3px solid var(--hgc-frame);
+}
+.hgc-part > p { max-width: 68ch; font-size: 17px; line-height: 1.65; }
+.hgc-welcome > p { font-size: 19px; line-height: 1.6; }
+.cookin .hgc-said { margin-top: 4px; font-size: 15px; color: var(--hgc-dim); }
+
+/* CARD STOCK, which everything that tells you something is printed on: the
+   index, a dish, a class, a video. A fold along the top, where a tent card
+   bends, and a soft shadow, because nothing in here casts a hard one. */
+.hgc-index, .hgc-dish, .hgc-class, .hgc-card, .hgc-temps {
+  background: var(--hgc-card); border: 2px solid var(--hgc-frame); border-radius: 6px;
+  box-shadow: 0 5px 12px -6px rgba(22, 34, 59, .28);
+}
+.hgc-index { margin: 44px 0 0; max-width: 68ch; padding: 18px 24px 14px; border-top: 8px solid var(--hgc-fog); }
+.hgc-index h2 { font-size: 22px; margin-bottom: 8px; }
+.hgc-index__list { margin: 0; padding-left: 1.4em; font-size: 17px; line-height: 1.6; }
+
+/* THE PLACARDS: three tent cards in their own colours, each with its shape
+   and its word. */
+.hgc-placards { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); max-width: 980px; }
+.hgc-placard { position: relative; padding: 26px 20px 18px; border-radius: 8px; border: 2px solid var(--hgc-ink); box-shadow: 0 5px 12px -6px rgba(22, 34, 59, .35); }
+.hgc-placard::before { content: ""; position: absolute; left: 0; right: 0; top: 10px; border-top: 2px solid var(--hgc-ink); opacity: .35; }
+.hgc-placard--go { background: var(--hgc-go); color: var(--hgc-card); }
+.hgc-placard--ask { background: var(--hgc-ask); color: var(--hgc-ink); }
+.hgc-placard--alone { background: var(--hgc-alone); color: var(--hgc-card); }
+.hgc-placard__mark { display: block; width: 40px; height: 40px; fill: currentColor; }
+.cookin .hgc-placard__colour { margin: 10px 0 6px; font: 700 26px/1.1 'Corben', var(--sans); }
+.hgc-placard__shape { font: 700 15px/1 'Parkinsans', var(--sans); letter-spacing: .06em; text-transform: uppercase; }
+.cookin .hgc-placard__says { margin: 0; font-size: 18px; line-height: 1.45; }
+
+.hgc-rules { margin: 12px 0 0; padding: 0; list-style: none; counter-reset: hgc-rule; max-width: 68ch; }
+.hgc-rules li { counter-increment: hgc-rule; position: relative; margin: 0 0 12px; padding: 4px 0 4px 50px; font-size: 18px; line-height: 1.45; }
+.hgc-rules li::before {
+  content: counter(hgc-rule); position: absolute; left: 0; top: 0; width: 36px; height: 36px;
+  display: grid; place-items: center; font: 700 18px/1 'Corben', var(--sans);
+  color: var(--hgc-card); background: var(--hgc-enamel); border-radius: 50%;
+}
+
+.hgc-shelf { margin: 8px 0 0; padding: 0 0 0 1.3em; max-width: 68ch; font-size: 17px; line-height: 1.6; }
+.hgc-shelf li { margin: 0 0 6px; }
+
+/* THE DISH CARDS, on the line and on the week's board. */
+.hgc-week { display: grid; gap: 30px 22px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); margin: 18px 0 0; }
+.cookin .hgc-day__name { margin: 0 0 10px; font: 700 21px/1.2 'Corben', var(--sans); letter-spacing: 0; text-transform: none; }
+.hgc-station { margin: 40px 0 0; }
+.cookin .hgc-station__note { margin: 0 0 4px; max-width: 68ch; font-size: 16px; line-height: 1.55; color: var(--hgc-dim); }
+.hgc-dishes { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); }
+.hgc-dishes--pans { grid-template-columns: 1fr; gap: 12px; margin-top: 0; }
+.hgc-dish { padding: 16px 16px 14px; border-top: 8px solid var(--hgc-fog); }
+.cookin .hgc-dish__name { margin: 0; font-weight: 700; font-size: 17.5px; line-height: 1.3; }
+.cookin .hgc-dish__marks { margin: 8px 0 0; }
+.cookin .hgc-dish__what { margin: 8px 0 0; font-size: 15.5px; line-height: 1.5; }
+.cookin .hgc-dish__has { margin: 8px 0 0; font-size: 14.5px; line-height: 1.45; font-weight: 700; color: var(--hgc-dim); }
+.cookin .hgc-dish__note { margin: 8px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--hgc-dim); }
+/* A MARK IS A WORD IN A SHAPE, never a colour on its own: vegan is the word on
+   solid enamel, vegetarian the word in an enamel outline, and an animal the
+   word underlined. */
+.hgc-mark { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 13.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.hgc-mark--vegan { background: var(--hgc-enamel); color: var(--hgc-card); border: 2px solid var(--hgc-enamel); }
+.hgc-mark--veg { color: var(--hgc-enamel); border: 2px solid var(--hgc-enamel); }
+.hgc-mark--animal { padding-inline: 0; border-radius: 0; color: var(--hgc-ink); border-bottom: 3px solid var(--hgc-frame); }
+.cookin .hgc-none-of { margin: 30px 0 0; max-width: 68ch; font-size: 17px; font-weight: 700; }
+
+/* The line from a chair. */
+.hgc-access { margin: 12px 0 0; padding: 0 0 0 1.3em; max-width: 68ch; font-size: 17px; line-height: 1.6; }
+.hgc-access li { margin: 0 0 12px; }
+.cookin .hgc-access__src { font-size: 14px; font-weight: 700; white-space: nowrap; }
+
+/* THE CLASSES: recipe cards. */
+.hgc-class { margin: 26px 0 0; max-width: 780px; padding: 20px 24px 18px; border-top: 8px solid var(--hgc-fog); }
+.cookin .hgc-class h3 { margin: 0 0 6px; }
+.cookin .hgc-class__makes { margin: 0; font-size: 17px; line-height: 1.5; color: var(--hgc-dim); }
+.hgc-class__facts { margin: 14px 0 0; display: grid; gap: 10px 22px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); }
+/* The two times sit side by side; sitting down and what it is like are
+   sentences, and get the whole width. */
+.hgc-class__facts > div:nth-child(n + 3) { grid-column: 1 / -1; }
+.hgc-class__facts dt { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--hgc-dim); }
+.hgc-class__facts dd { margin: 2px 0 0; font-size: 16px; line-height: 1.45; }
+.cookin .hgc-class__needs { margin: 14px 0 0; font-size: 16.5px; line-height: 1.55; }
+.hgc-class__steps { margin: 14px 0 0; padding: 0; list-style: none; counter-reset: hgc-step; }
+.hgc-class__steps li { counter-increment: hgc-step; position: relative; margin: 0 0 10px; padding: 3px 0 3px 42px; font-size: 16.5px; line-height: 1.55; }
+.hgc-class__steps li::before {
+  content: counter(hgc-step); position: absolute; left: 0; top: 1px; width: 30px; height: 30px;
+  display: grid; place-items: center; font: 700 15px/1 'Parkinsans', var(--sans);
+  color: var(--hgc-card); background: var(--hgc-enamel); border-radius: 50%;
+}
+.cookin .hgc-class__swap, .cookin .hgc-class__safe { margin: 12px 0 0; font-size: 16px; line-height: 1.55; }
+.hgc-temps { margin: 30px 0 0; max-width: 780px; width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; }
+.hgc-temps caption { caption-side: top; text-align: left; padding: 0 0 10px; font-weight: 700; font-size: 16px; }
+.hgc-temps th, .hgc-temps td { padding: 10px 14px; text-align: left; vertical-align: top; font-size: 15.5px; line-height: 1.45; border-bottom: 1px solid var(--hgc-steel); }
+.hgc-temps thead th { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--hgc-dim); }
+.hgc-temps tbody th { font-weight: 700; }
+.hgc-temps tr:last-child > * { border-bottom: 0; }
+
+/* THE TEACHING SCREEN: hung on the wall beside the mirror, in a steel bezel,
+   with nothing of its own on it, which rack.js unhides. */
+.hgc-screen { margin: 20px 0 26px; max-width: 792px; padding: 12px; background: var(--hgc-steel); border: 3px solid var(--hgc-frame); border-radius: 10px; }
+.cookin .hgc-screen__idle {
+  margin: 0; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+  padding: 18px 22px; text-align: center; background: var(--hgc-screen); color: var(--hgc-card); font-size: 17px; line-height: 1.5; border-radius: 4px;
+}
+.hgc-screen__idle span { max-width: 44ch; }
+.cookin .hgc-screen .facade { border: 0; border-radius: 4px; }
+.cookin .hgc-screen .facade iframe { border-radius: 4px; }
+.hgc-screen[data-rack-shape="tall"] .facade { aspect-ratio: 9 / 16; width: min(100%, 340px); margin-inline: auto; }
+.cookin .hgc-screen__now { margin: 6px 0 0; max-width: 820px; font-weight: 700; font-size: 16px; }
+.cookin .hgc-screen__back { margin: 8px 0 0; }
+.hgc-back, .hgc-card__up {
+  min-height: 44px; padding: 8px 14px; cursor: pointer; text-align: left;
+  font: 700 15px/1.3 'Parkinsans', var(--sans); color: var(--hgc-ink);
+  background: var(--hgc-card); border: 2px solid var(--hgc-enamel); border-radius: 6px; font-synthesis: none;
+}
+.hgc-back:hover, .hgc-card__up:hover { background: var(--hgc-enamel); color: var(--hgc-card); }
+
+/* THE RACK: every video a card, the play button a slab of the kettle's enamel. */
+.hgc-racked { margin: 18px 0 0; }
+.hgc-racked > summary { cursor: pointer; font-weight: 700; font-size: 15px; letter-spacing: .1em; text-transform: uppercase; }
+.hgc-chan { margin: 38px 0 0; }
+.cookin .hgc-chan__name { margin: 0; }
+.cookin .hgc-chan__name a { color: var(--hgc-ink); text-decoration-color: var(--hgc-enamel); }
+.cookin .hgc-chan__gap, .cookin .hgc-chan__none, .cookin .hgc-rack__quiet { margin: 6px 0 0; max-width: 72ch; font-size: 15px; color: var(--hgc-dim); }
+.cookin .hgc-rack__quiet { margin-top: 30px; }
+.cookin .hgc-rack__set { margin: 14px 0 0; max-width: 72ch; font-size: 15px; color: var(--hgc-dim); }
+.hgc-cards { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 22px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); }
+.hgc-cards--short { grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr)); }
+.hgc-card { display: flex; flex-direction: column; gap: 8px; min-width: 0; padding: 16px 16px 14px; border-top: 8px solid var(--hgc-fog); }
+.cookin .hgc-card__title { margin: 0; font-weight: 700; font-size: 16px; line-height: 1.35; overflow-wrap: anywhere; }
+.cookin .hgc-card__by, .cookin .hgc-card__why { margin: 0; font-size: 14px; line-height: 1.45; color: var(--hgc-dim); }
+/* A pressed card keeps its look because it is styled from the card and never
+   from the button, which love-embed.js drops on the press: the Sweetgrass lesson. */
+.cookin .hgc-card .facade {
+  margin-top: auto; padding: 12px 14px; border: 0; border-radius: 6px;
+  background: var(--hgc-enamel); color: var(--hgc-card);
+  font: 700 17px/1.3 'Parkinsans', var(--sans);
+}
+.cookin .hgc-card .facade:hover { background: var(--hgc-enamel-deep); }
+.cookin .hgc-card .facade__play { inset: auto auto 12px 14px; font: 700 13px/1 'Parkinsans', var(--sans); letter-spacing: .08em; color: var(--hgc-card); }
+.cookin .hgc-card .facade iframe { border-radius: 6px; }
+.cookin .hgc-card--short .facade { aspect-ratio: 9 / 16; }
+.cookin .hgc-card__door { margin-top: auto; font-weight: 700; }
+
+.hgc-keeps { margin: 8px 0 0; padding: 0 0 0 1.3em; max-width: 68ch; font-size: 17px; line-height: 1.6; }
+.hgc-keeps li { margin: 0 0 12px; }
+.cookin .quest { margin-top: 48px; }
+
+/* On a phone the hall keeps its windows and its tables, the cards go one
+   across, and nothing is hidden to save room. Written last in the section,
+   after every rule it overrides. */
+@media (max-width: 560px) {
+  .hgc-lede, .hgc-welcome > p { font-size: 18px; }
+  .hgc-sub { font-size: 19px; }
+  .hgc-index { padding: 16px 16px 12px; }
+  .hgc-class { padding: 16px 16px 14px; }
+  .hgc-cards--short { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 14px; }
+  .hgc-card { padding: 14px 12px 12px; }
+  .hgc-screen { padding: 8px; }
+  .hgc-temps th, .hgc-temps td { padding: 9px 10px; }
+}
+
+/* §94 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -18923,7 +19238,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §93 says every
+   shipped with no rule here at all — which on a street whose §94 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -19047,7 +19362,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §94 ── Print ───────────────────────────────────────────────────────────────
+/* §95 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

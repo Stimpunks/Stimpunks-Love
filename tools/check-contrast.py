@@ -2908,6 +2908,41 @@ PAIRS = [
     ("#5A2A57", "#F4D8F2", False, "learning large: a plant label's date and the small capitals over "
                                   "each part of it"),
 
+    # ── Hey, Good Cookin' (§93) ──────────────────────────────────────────────
+    # A community kitchen on a cold day, the windows fogged by the line's steam.
+    # Every word stands on a flat ground: the wall, card stock, the kettle's
+    # enamel, a placard, or the dark of the empty teaching screen. The fog and
+    # the day through the runs are only in the drawing and the door.
+    ("#16223B", "#EEEBE6", False, "cookin: every word on the wall -- the lede, Ryan's welcome, every "
+                                  "h2 and h3 in Corben, the rules, the shelf, the line from a chair, "
+                                  "the house rules, the credits -- the blurb on the street door, and "
+                                  "the job marker, a ladle, by its outline and its handle"),
+    ("#16223B", "#FFFFFF", False, "cookin: every word on card stock -- a dish's name and what is in "
+                                  "it, a class from its title to its last step, the temperatures, the "
+                                  "index, a video's title, and an animal's mark on a dish"),
+    ("#4A5266", "#EEEBE6", False, "cookin: the trail, the over-line, the line under Ryan's welcome, a "
+                                  "station's note, when the rack was filled, and a channel's note that "
+                                  "its feed fell short"),
+    ("#4A5266", "#FFFFFF", False, "cookin: on card stock, which allergens a dish has, a dish's note, "
+                                  "what a class makes, the small capitals over a class's facts and the "
+                                  "temperatures, the line under a video's title, and why a door is a door"),
+    ("#1C4AA6", "#EEEBE6", False, "cookin: every link on the wall, the backlink, the knock on the "
+                                  "street door, and the focus ring"),
+    ("#1C4AA6", "#FFFFFF", False, "cookin: a link on card stock -- the index, the temperatures' "
+                                  "source, Watch on YouTube on a door"),
+    ("#23489E", "#EEEBE6", False, "cookin: the h1, in Corben, the name on the street door, and the "
+                                  "job marker, a ladle, by its bowl"),
+    ("#23489E", "#FFFFFF", False, "cookin: Vegetarian, the word in an enamel outline on a dish card, "
+                                  "and the outline of the button that moves a film"),
+    ("#FFFFFF", "#23489E", False, "cookin: the words on every play button, PRESS PLAY included, "
+                                  "Vegan on a dish card, the number on each rule and each step, and the "
+                                  "button that moves a film under the pointer"),
+    ("#FFFFFF", "#15306F", False, "cookin: a play button under the pointer"),
+    ("#FFFFFF", "#0E1424", False, "cookin: the words on the teaching screen while nothing is on it"),
+    ("#FFFFFF", "#1E7B3B", False, "cookin: every word on the green placard, and its white circle"),
+    ("#16223B", "#E8B92A", False, "cookin: every word on the yellow placard, and its dark triangle"),
+    ("#FFFFFF", "#C33A33", False, "cookin: every word on the red placard, and its white square"),
+
     # ── Now Playing (§53) ────────────────────────────────────────────────────
     (NP_BOTH,   NP_STOCK,  False, "now playing: every word on the sheet -- the h1, the over- and "
                                   "sub-lines, the lede, every room's name, where it is, our line "
@@ -3307,6 +3342,17 @@ ORNAMENT = {
                "night and 5.10 on a tray. It carries no word.",
     "#5a63ff": "learning large: the blue diodes in the lamp and the blue side of every shadow, 4.20 on "
                "the night and 3.72 on a tray. It carries no word.",
+    "#dde4e7": "cookin: the fogged glass in the drawing and on the door, and the fold along the top of "
+               "every card, 1.08 on the wall and 1.29 on card stock. It carries no word.",
+    "#8db8e0": "cookin: the day seen through a clear run down the glass, in the drawing and on the door, "
+               "1.62 on the fogged glass and 1.75 on the wall. It carries no word.",
+    "#b8bdc3": "cookin: the steel of the line, the sills, the tray slide over every heading and the "
+               "teaching screen's bezel, 1.59 on the wall and 1.89 on card stock. It carries no word.",
+    "#6e757e": "cookin: the window frames, the table legs, the chairs, the placard station and every "
+               "card's edge, 3.92 on the wall and 4.66 on card stock. It carries no word.",
+    "#f4f6fa": "cookin: the white flecks in the soup kettle's enamel, drawn on --hgc-enamel. It carries "
+               "no word.",
+    "#dcd6cb": "cookin: the floor in the drawing, 1.22 on the wall. It carries no word.",
     "#c9cbc4": "notebook: the dot grid, 1.57 on the paper. A layer behind the words, drawn on the "
                "body's ::before so check-contrast-live.py measures every word against the flat paper; "
                "a dot carries no word.",
