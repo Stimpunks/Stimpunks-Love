@@ -1,20 +1,21 @@
 ---
 name: arrivals-board-daily
-description: Daily re-set of The Feed's arrivals board, The Doom Scoop's cabinet, Vital Plant Living's telly and The Open Notebook's monthly log on stimpunks.world — re-reads the feeds, redraws each room, commits each room's own paths and pushes
+description: Daily re-set of The Feed's arrivals board, The Doom Scoop's cabinet, Vital Plant Living's telly, The Open Notebook's monthly log and Learning Large's rack on stimpunks.world — re-reads the feeds, redraws each room, commits each room's own paths and pushes
 ---
 
 Re-set the arrivals board in The Feed on stimpunks.world, so the room is this morning's rather than last week's.
 
 Project root: /Users/ryan/Documents/GitHub/Stimpunks-Love (the repository kept the Stimpunks-Love name when the site moved to stimpunks.world on 2026-09-23; the path is correct)
 
-RUN EXACTLY THESE FOUR, in this order, and nothing else:
+RUN EXACTLY THESE FIVE, in this order, and nothing else:
 
     bash /Users/ryan/Documents/GitHub/Stimpunks-Love/tools/daily-arrivals.sh
     bash /Users/ryan/Documents/GitHub/Stimpunks-Love/tools/daily-scoop.sh
     bash /Users/ryan/Documents/GitHub/Stimpunks-Love/tools/daily-vital.sh
     bash /Users/ryan/Documents/GitHub/Stimpunks-Love/tools/daily-notebook.sh
+    bash /Users/ryan/Documents/GitHub/Stimpunks-Love/tools/daily-large.sh
 
-Run each one whatever the one before it returned. They are separate scripts on purpose: a sibling site's feed failing must not leave The Doom Scoop unfilled, a news channel failing must not leave The Feed's board unset, and a cook's or a journaling channel's failing must not leave any of the others behind. Everything below about daily-arrivals.sh is true of the other three as well, each with its own paths, its own fixed commit subject and its own refusals. daily-scoop.sh owns data/doom-scoop.json, the-doom-scoop.html and now-playing.html and commits as "daily doom scoop edition"; daily-vital.sh owns data/vital-rack.json and vital-plant-living.html and commits as "daily vital telly refill"; daily-notebook.sh owns data/open-notebook-month.json and the-open-notebook.html and commits as "daily open notebook refill". All three read YouTube's own feeds for the channels Ryan chose and each new video's watch page, and take a few minutes. Do not hand-edit data/doom-scoop.json, data/vital-rack.json or data/open-notebook-month.json, drop a source, a cook or a channel that failed, or add one.
+Run each one whatever the one before it returned. They are separate scripts on purpose: a sibling site's feed failing must not leave The Doom Scoop unfilled, a news channel failing must not leave The Feed's board unset, and a cook's, a journaling channel's or an AI channel's failing must not leave any of the others behind. Everything below about daily-arrivals.sh is true of the other four as well, each with its own paths, its own fixed commit subject and its own refusals. daily-scoop.sh owns data/doom-scoop.json, the-doom-scoop.html and now-playing.html and commits as "daily doom scoop edition"; daily-vital.sh owns data/vital-rack.json and vital-plant-living.html and commits as "daily vital telly refill"; daily-notebook.sh owns data/open-notebook-month.json and the-open-notebook.html and commits as "daily open notebook refill"; daily-large.sh owns data/learning-large-month.json, learning-large.html and now-playing.html and commits as "daily learning large refill" (it reprints the poster column after the scoop's timer has, because the rack's first video is the poster's line for that room). All four read YouTube's own feeds for the channels Ryan chose and each new video's watch page, and take a few minutes. Do not hand-edit data/doom-scoop.json, data/vital-rack.json, data/open-notebook-month.json or data/learning-large-month.json, drop a source, a cook or a channel that failed, or add one.
 
 It takes under a minute. Do not run the steps by hand, do not run `pull-arrivals.py` or `make-arrivals.py` yourself, and do not commit or push anything yourself — the script exists because the order matters, because each stage gates the next, and because it commits exactly two paths and a headless run that improvises will one day commit something nobody read.
 

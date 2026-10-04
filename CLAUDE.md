@@ -2731,6 +2731,68 @@ against a time kept to the minute needs a minute of slack**: without it the firs
 feed fell a few seconds short of the month. `make-vital.py`'s copy has none and showed the same notes on
 its first morning; they heal by the second.
 
+**LEARNING LARGE IS A GLASSHOUSE AT NIGHT, AND NOTHING IN IT IS GREEN.** §92, Ryan's brief, 2026-10-03:
+learning, making and knowledge gardening with generative AI, the weight on our spiky profiles and how
+they complement each other, material pulled from our AI hub (stimpunks.org/ai/ and the pages it maps),
+and a rack of the latest month from AI channels he listed. **His tagline is the sub-line and is
+credited as his.** The lamps are the old red and blue grow lamps: two narrow spikes of colour, built to
+give a leaf the two colours it takes in, so the light itself is a spiky profile matched to a leaf's,
+and under it a leaf has no green to give back. **`make-learning-large.py` refuses a green hue** in the
+`--ll-` colours or anywhere in §92, the Picture House's palette check for a reason of physics rather
+than politics. The friendly edit is "make the seedlings green, they are plants". Where the red and
+the blue land together the light is magenta, and a shadow comes out red on one side and blue on the
+other: **that split is only ever in a shadow, never on a letter**, because misregistered type is Now
+Playing's. The roof glass is a mirror at night and the room says what that is worth knowing about any
+tool that talks back. Its collisions are in §92; Mycelium Munchies is the one to watch, and if the
+magenta ever loses its blue it has become that room's heat lamps.
+
+**EVERY QUOTATION IS WORDS ON ONE OF OUR PAGES, CHECKED AGAINST THE MIRROR WORD FOR WORD**, the Town
+Hall's rule: when our page changes, re-copy the quotation, never loosen the check. Somebody else's
+words on our page carry the work they come from and say they were read on our page rather than in the
+original, the Community Library's rule, because nobody read the originals for this room. The cap is
+in the data file (Covenstead's reason, not the Zibaldone's). The practices are our Competency Networks
+page's and the propagation bench is our AI Collaboration page's Knowledge System diagram, both word for
+word and in order; which part of the glasshouse each step happens in is ours, and the middle stage is
+the only one lit, because that page puts AI in the middle of the process. **The order check finds each
+step after the one before it**: "conversations" turns up in that page's prose before the diagram, and
+the first draft, comparing positions found anywhere, refused a correct diagram. **A model's peaks and
+troughs are our pages' and never a claim of ours**: every line names the page that says it, and a line
+with no page is refused.
+
+**THE ROOM REFUSES A MODEL GIVEN A MIND, AND THE SALES PITCH.** Our sentences are swept, with the
+negation window, for a model that thinks, knows, understands, feels, wants or cares, for an AI friend,
+teammate or employee, and for superpower, magic, revolutionary, game-changer, 10x and their kin;
+superpower twice over, because it is also the word the autism-as-superpower framing uses on Autistic
+people. Our AI Collaboration page names anthropomorphisation as one of its two biggest guardrails, and
+**the friendly edit in an AI room is a warm sentence about the model understanding you.** Nothing is
+drawn as the machine and nobody is drawn at all: no robot, no brain, no face, no sparkle, and the tool
+refuses the sparkles, robot and brain emoji anywhere outside the rack. **THERE IS NO CHAT BOX, AND THE
+TOOL MAKES SURE**: How this site is made says nothing a visitor does here is sent to an AI, and an AI
+room is the one most likely to grow one. It refuses a form, an input, a textarea, a select or anything
+editable outside the job marker, any script but `love.js`, `love-embed.js`, `rack.js` and `quest.js`,
+and any `fetch`, XHR, EventSource or WebSocket on the page.
+
+**THE SOWING LOG IS THIS STREET'S OWN, OUT OF ITS CHANGELOG.** Every entry names a changelog id and
+`holds` words that entry has, and is refused if either has gone; it is fixed in
+`data/learning-large.json`, never by editing the changelog. It says most of what came up wrong was
+Claude's, because How this site is made says Claude does most of the building, and it quotes that
+page's line about checkers and people, checked against `design.html` on every build. It is a record of
+how things get caught, not of whose fault they were, and the tally sweep holds that line. A new
+episode worth adding goes in with its id and its words.
+
+**THE RACK IS THE NOTEBOOK'S LOG IN A GLASSHOUSE.** `pull-large-month.py` is `pull-notebook-month.py`'s
+reading, kept in step by hand; `make-learning-large.py --month` redraws only the rack;
+`tools/daily-large.sh` is the fifth script on the morning task, committing
+`data/learning-large-month.json`, `learning-large.html` **and `now-playing.html`** as `daily learning
+large refill`, which update-logs' AUTOMATED pattern names from the same evening. **It owns the poster
+because the room has nothing to press but the rack**, so the poster's line for it is the rack's first
+video, which moves whenever the first channel in Ryan's list puts something up: the Doom Scoop's
+arrangement, with the scoop's timer reprinting the poster first and this one after. **The titles are
+the channels' and are not swept**, which matters more here than anywhere: these are channels about the
+AI industry, and their titles sell models and talk about them as if they were people, beside a room
+whose guardrails say neither. The sentence beside the rack says the guardrails are ours. One bench
+screen serves the whole rack.
+
 **THE MAP IS THE ONE PAGE THAT SHOWS EVERY OTHER PAGE, AND NOTHING ON IT IS PAINTED.** `map.html`
 (§49) is the whole street as a model in white card on a cutting mat: shopfronts on both sides of a
 pencilled road, rooms behind rooms standing behind them, the garden's gate halfway down, the
@@ -3443,18 +3505,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §93 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §94 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§93 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§94 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §93 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §94 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

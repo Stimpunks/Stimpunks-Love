@@ -1,0 +1,2104 @@
+{
+ "_about": "THE RACK IN LEARNING LARGE, Ryan's brief, 2026-10-03: the latest month of videos from AI channels he listed, in his order. It is The Open Notebook's monthly log in a glasshouse, and the reasons are that room's and the kitchen telly's: the channels are his and the videos are not chosen one by one, so the room says nobody here watched them first. tools/pull-large-month.py reads each channel's own two feeds (UULF, its long-form uploads, and UUSH, its shorts) and asks each new video's watch page once, the morning it arrives; tools/make-learning-large.py --month draws the rack from this file; tools/daily-large.sh runs both on the morning timer and commits only this file and learning-large.html. This file is the timer's: hand-edit `sources` on purpose and nothing else.",
+ "_sources": "Each channel id was read off the channel's own page on 2026-10-03 (its externalId), never typed from memory. `name` is the channel's own name as YouTube gives it, with its own capitals and bars, and Theo's one-dot leader in t3․gg kept as YouTube serves it; `url` is the channel's front page without the tab Ryan's link happened to be on, which for Tina Huang was her videos. Both feeds are read for every channel whatever tab the link was on, because the brief was the latest month of each channel. A new channel is a new entry here with its id read the same way; the puller derives both feeds from the id.",
+ "_window": "A MONTH IS THIRTY DAYS, counted back from the minute the rack was filled. A video published before that goes off the end on the next fill; make-learning-large.py refuses a file still holding one, because a rack that keeps everything is an archive, and the brief was the latest month.",
+ "_log": "A VIDEO IS AN ID, A TITLE, A CHANNEL, A TIME AND A LENGTH, the Doom Scoop's rule: no description, no thumbnail, no count of views, likes or subscribers, and make-learning-large.py refuses a row carrying any of them. `form` is long or short, by which of the channel's two feeds carried it; a short plays upright. `state` is what its watch page said: screen (plays here), door (plays on YouTube only: embedding off, or age-gated), pending (live, or not out yet, asked again tomorrow) or gone (not drawn). TITLES ARE QUOTED AS WRITTEN, capitals, emoji and all, and the room's sweeps skip them: they are the channels' words, and a title that calls a model a genius or an employee, or sells it as a way to get rich, is theirs to write, beside the guardrails of ours that the room prints.",
+ "_covered": "What the feeds have been read all the way through, per channel and per feed. A YouTube feed carries the latest fifteen, and a busy channel puts up more than that in a month; a channel whose coverage does not reach back to the start of the month says so on the page. Generated, never typed.",
+ "sources": [
+  {
+   "slug": "tina-huang",
+   "name": "Tina Huang",
+   "url": "https://www.youtube.com/@TinaHuang1",
+   "channel_id": "UC2UXDak6o7rBm23k3Vv5dww"
+  },
+  {
+   "slug": "ai-labs",
+   "name": "AI LABS",
+   "url": "https://www.youtube.com/@AILABS-393",
+   "channel_id": "UCelfWQr9sXVMTvBzviPGlFw"
+  },
+  {
+   "slug": "matt-wolfe",
+   "name": "Matt Wolfe",
+   "url": "https://www.youtube.com/@mreflow",
+   "channel_id": "UChpleBmo18P08aKCIgti38g"
+  },
+  {
+   "slug": "nate-b-jones",
+   "name": "AI News & Strategy Daily | Nate B Jones",
+   "url": "https://www.youtube.com/@NateBJones",
+   "channel_id": "UC0C-17n9iuUQPylguM1d-lQ"
+  },
+  {
+   "slug": "less-bitter",
+   "name": "Less Bitter",
+   "url": "https://www.youtube.com/@lessbitter",
+   "channel_id": "UCvjBQ_VzhInndfu2L12mCXA"
+  },
+  {
+   "slug": "theo",
+   "name": "Theo - t3․gg",
+   "url": "https://www.youtube.com/@t3dotgg",
+   "channel_id": "UCbRP3c757lWg9M-U7TyEkXA"
+  },
+  {
+   "slug": "paul-j-lipsky",
+   "name": "Paul J Lipsky",
+   "url": "https://www.youtube.com/@PaulJLipsky",
+   "channel_id": "UCmeU2DYiVy80wMBGZzEWnbw"
+  },
+  {
+   "slug": "austin-marchese",
+   "name": "Austin Marchese",
+   "url": "https://www.youtube.com/@austin.marchese",
+   "channel_id": "UCFeFVytEkT8kaqPCJZGFswg"
+  },
+  {
+   "slug": "riley-brown",
+   "name": "Riley Brown",
+   "url": "https://www.youtube.com/@rileybrownai",
+   "channel_id": "UCMcoud_ZW7cfxeIugBflSBw"
+  },
+  {
+   "slug": "nate-herk",
+   "name": "Nate Herk | AI Automation",
+   "url": "https://www.youtube.com/@nateherk",
+   "channel_id": "UC2ojq-nuP8ceeHqiroeKhBA"
+  },
+  {
+   "slug": "chase-ai",
+   "name": "Chase AI",
+   "url": "https://www.youtube.com/@Chase-H-AI",
+   "channel_id": "UCoy6cTJ7Tg0dqS-DI-_REsA"
+  },
+  {
+   "slug": "greg-isenberg",
+   "name": "Greg Isenberg",
+   "url": "https://www.youtube.com/@GregIsenberg",
+   "channel_id": "UCPjNBjflYl0-HQtUvOx0Ibw"
+  }
+ ],
+ "set": "2026-10-03T23:55Z",
+ "log": [
+  {
+   "id": "4Hvkv_I8QDE",
+   "source": "tina-huang",
+   "form": "long",
+   "title": "Obsidian in 24 Minutes",
+   "published": "2026-09-17T12:26:56Z",
+   "state": "screen",
+   "runs": 1477,
+   "channel": "Tina Huang"
+  },
+  {
+   "id": "rPGJhrunbxo",
+   "source": "tina-huang",
+   "form": "long",
+   "title": "Every Size Local AI In 24 Minutes",
+   "published": "2026-09-28T14:10:55Z",
+   "state": "screen",
+   "runs": 1462,
+   "channel": "Tina Huang"
+  },
+  {
+   "id": "OT4fNfo64dU",
+   "source": "tina-huang",
+   "form": "short",
+   "title": "My Pomodoro App",
+   "published": "2026-09-04T15:00:35Z",
+   "state": "screen",
+   "runs": 52,
+   "channel": "Tina Huang"
+  },
+  {
+   "id": "w8vKuoW58qY",
+   "source": "tina-huang",
+   "form": "short",
+   "title": "Replacing Salesforce",
+   "published": "2026-09-15T18:02:36Z",
+   "state": "screen",
+   "runs": 45,
+   "channel": "Tina Huang"
+  },
+  {
+   "id": "GOSYouMEYmE",
+   "source": "tina-huang",
+   "form": "short",
+   "title": "3am Coding",
+   "published": "2026-09-25T01:24:28Z",
+   "state": "screen",
+   "runs": 58,
+   "channel": "Tina Huang"
+  },
+  {
+   "id": "DcHKTtQlVNQ",
+   "source": "tina-huang",
+   "form": "short",
+   "title": "AI Lifebot",
+   "published": "2026-09-29T15:00:24Z",
+   "state": "screen",
+   "runs": 57,
+   "channel": "Tina Huang"
+  },
+  {
+   "id": "7au4tWVG8a0",
+   "source": "ai-labs",
+   "form": "long",
+   "title": "You Are Using Fable 5.1 Wrong (Do This Instead)",
+   "published": "2026-09-05T19:02:41Z",
+   "state": "screen",
+   "runs": 718,
+   "channel": "AI LABS"
+  },
+  {
+   "id": "cyIWQHYoUg8",
+   "source": "ai-labs",
+   "form": "long",
+   "title": "Github Top Trending Tool Just Fixed The AI Agent’s Biggest Problem",
+   "published": "2026-09-08T16:02:32Z",
+   "state": "screen",
+   "runs": 768,
+   "channel": "AI LABS"
+  },
+  {
+   "id": "BwNNcob3-A0",
+   "source": "ai-labs",
+   "form": "long",
+   "title": "The GPT 6 Astra Vs Claude Fable 5.1 Debate Is Finally Over",
+   "published": "2026-09-11T15:00:09Z",
+   "state": "screen",
+   "runs": 909,
+   "channel": "AI LABS"
+  },
+  {
+   "id": "Ua0APTMVcb8",
+   "source": "ai-labs",
+   "form": "long",
+   "title": "Insane GitHub Repos That 10x Your Codex And Claude Code Setup",
+   "published": "2026-09-14T15:53:58Z",
+   "state": "screen",
+   "runs": 759,
+   "channel": "AI LABS"
+  },
+  {
+   "id": "p565AqELA8M",
+   "source": "ai-labs",
+   "form": "long",
+   "title": "Claude Code + GPT 6 Astra Just Killed AI Video Editing",
+   "published": "2026-09-16T16:12:24Z",
+   "state": "screen",
+   "runs": 679,
+   "channel": "AI LABS"
+  },
+  {
+   "id": "Ow_z94c3wKk",
+   "source": "ai-labs",
+   "form": "long",
+   "title": "Github #1 Trending Skill's Author Just Fixed Claude's Design Problem",
+   "published": "2026-09-18T15:16:36Z",
+   "state": "screen",
+   "runs": 755,
+   "channel": "AI LABS"
+  },
+  {
+   "id": "CHHEjuNBxoQ",
+   "source": "ai-labs",
+   "form": "long",
+   "title": "This New Open Source Tool Just Fixed Your Claude Code Workflow",
+   "published": "2026-09-22T15:00:26Z",
+   "state": "screen",
+   "runs": 745,
+   "channel": "AI LABS"
+  },
+  {
+   "id": "bBMp5tLxShQ",
+   "source": "ai-labs",
+   "form": "long",
+   "title": "Shopify Just Released The Greatest AI Coding Workflow Ever",
+   "published": "2026-09-24T15:41:09Z",
+   "state": "screen",
+   "runs": 891,
+   "channel": "AI LABS"
+  },
+  {
+   "id": "2nc_QMuNp18",
+   "source": "ai-labs",
+   "form": "long",
+   "title": "Insane Jev Use Cases You Need To Use Right Now",
+   "published": "2026-09-28T15:00:26Z",
+   "state": "screen",
+   "runs": 757,
+   "channel": "AI LABS"
+  },
+  {
+   "id": "DP7mgLUKN_U",
+   "source": "ai-labs",
+   "form": "long",
+   "title": "How To Use Claude Code To Build Amazing Sites With Opus 5.5",
+   "published": "2026-09-30T15:00:28Z",
+   "state": "screen",
+   "runs": 1526,
+   "channel": "AI LABS"
+  },
+  {
+   "id": "qLfSDQ5NGh0",
+   "source": "ai-labs",
+   "form": "long",
+   "title": "He Finally 10x Claude Code With This Method",
+   "published": "2026-10-02T15:00:25Z",
+   "state": "screen",
+   "runs": 771,
+   "channel": "AI LABS"
+  },
+  {
+   "id": "GfPZm9yucQo",
+   "source": "matt-wolfe",
+   "form": "long",
+   "title": "AI News: The Most Insane Week So Far This Year!",
+   "published": "2026-09-04T15:00:34Z",
+   "state": "screen",
+   "runs": 1855,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "-KcHn0QcSb0",
+   "source": "matt-wolfe",
+   "form": "long",
+   "title": "I Built A Tool To Detect AI Video (You Can Have It)",
+   "published": "2026-09-09T22:18:17Z",
+   "state": "screen",
+   "runs": 1210,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "JwTCjarfJYw",
+   "source": "matt-wolfe",
+   "form": "long",
+   "title": "AI News: The AI World is REALLY Scared Right Now",
+   "published": "2026-09-11T15:00:00Z",
+   "state": "screen",
+   "runs": 2144,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "S2VJU5DQqlU",
+   "source": "matt-wolfe",
+   "form": "long",
+   "title": "He Built The Ultimate Spy Tool (Free and Open-Source)",
+   "published": "2026-09-16T20:57:15Z",
+   "state": "screen",
+   "runs": 1308,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "Kof2VcHTjrk",
+   "source": "matt-wolfe",
+   "form": "long",
+   "title": "AI News: The AI Slowdown: What You Need to Know",
+   "published": "2026-09-18T15:12:55Z",
+   "state": "screen",
+   "runs": 1634,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "0t-eWrGFZyA",
+   "source": "matt-wolfe",
+   "form": "long",
+   "title": "Claude Opus 5.5 Didn’t Need to Go This Hard",
+   "published": "2026-09-22T22:30:04Z",
+   "state": "screen",
+   "runs": 1097,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "aDpIra7NFuE",
+   "source": "matt-wolfe",
+   "form": "long",
+   "title": "AI News: Opus 5.5, GPT-6 Sol, Jev, Muse and More!",
+   "published": "2026-09-26T02:37:49Z",
+   "state": "screen",
+   "runs": 2077,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "dDgncbBAA0c",
+   "source": "matt-wolfe",
+   "form": "long",
+   "title": "AI News: Dots, GPT-6.1 Sol, Sonnet 5.5, Gemini 4, and everything you need to know",
+   "published": "2026-10-02T15:00:16Z",
+   "state": "screen",
+   "runs": 1822,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "tqUEnRj0NbM",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "This AI Turns Insane Ideas Into 3D Objects",
+   "published": "2026-09-07T16:06:22Z",
+   "state": "screen",
+   "runs": 49,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "LJ2YeWQ_uJE",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "3 Big ChatGPT Updates You Need to Know",
+   "published": "2026-09-08T15:55:26Z",
+   "state": "screen",
+   "runs": 55,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "iSXeiUXiln8",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "This AI Makes Any Photo 3D",
+   "published": "2026-09-09T12:26:29Z",
+   "state": "screen",
+   "runs": 63,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "mku_K8pCLx4",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "Did AI Doom Us All?",
+   "published": "2026-09-14T16:15:59Z",
+   "state": "screen",
+   "runs": 82,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "FxcYK5WOk1c",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "I Was Shocked How Easy This Agent Was To Use",
+   "published": "2026-09-15T12:26:35Z",
+   "state": "screen",
+   "runs": 62,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "nF45_dhsmWY",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "Minecraft + ChatGPT (Holy Crap!)",
+   "published": "2026-09-16T14:32:01Z",
+   "state": "screen",
+   "runs": 44,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "rcUTZysF9s4",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "This Robot Looks DEMONIC... On Purpose?",
+   "published": "2026-09-21T12:43:38Z",
+   "state": "screen",
+   "runs": 67,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "nsA_HeY3idE",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "I hate it when they do this!",
+   "published": "2026-09-23T16:41:20Z",
+   "state": "screen",
+   "runs": 51,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "SUtGm-nr4Hk",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "5 ChatGPT Prompts To Try Right Now!",
+   "published": "2026-09-24T21:27:54Z",
+   "state": "screen",
+   "runs": 88,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "hx42whM7NsY",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "This AI Model Is INSANELY Fast & Cheap",
+   "published": "2026-09-28T17:07:47Z",
+   "state": "screen",
+   "runs": 72,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "c7twMUavy5Q",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "AI Made a Game I’d ACTUALLY Play",
+   "published": "2026-09-30T12:15:21Z",
+   "state": "screen",
+   "runs": 64,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "n5bZHETCiJA",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "The Race to Done: Fable 5.1 vs GPT-6 Astra. Who Wins?",
+   "published": "2026-09-10T14:00:12Z",
+   "state": "screen",
+   "runs": 980,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "zDPuEPDXCpU",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "Is Omarchy The Last Desktop You'll Ever Need?",
+   "published": "2026-09-11T14:00:33Z",
+   "state": "screen",
+   "runs": 1078,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "XIt87tJHm-g",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "Sam Altman and Apple's New CEO are Fighting Over One Thing. It's Not What You Think.",
+   "published": "2026-09-14T14:00:32Z",
+   "state": "screen",
+   "runs": 1766,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "duv4A1gDZOY",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "Intelligence is Everywhere: Why the AI 'Race' is Already Over",
+   "published": "2026-09-14T23:39:52Z",
+   "state": "screen",
+   "runs": 2904,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "YTG0rdHPTDE",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "AI Is About To Spend Your Money. I Went To Stripe To Ask Who Stops It.",
+   "published": "2026-09-17T14:00:22Z",
+   "state": "screen",
+   "runs": 1848,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "eLpRDIvOMEw",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "You can be ambitious without the huge token bill. Here's how.",
+   "published": "2026-09-20T17:00:25Z",
+   "state": "screen",
+   "runs": 1857,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "tYugqJ9YytQ",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "Why Developers Are Losing Their Minds Over AI That Can't Write",
+   "published": "2026-09-21T14:00:39Z",
+   "state": "screen",
+   "runs": 1981,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "TR8RDUzQaMo",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "I Stopped Knowing What My Computer Was Doing. Then I Asked OpenAI Why.",
+   "published": "2026-09-22T14:00:21Z",
+   "state": "screen",
+   "runs": 2548,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "ry9J1i3krIY",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "When Will AI Make Me Scrambled Eggs? I Went To NVIDIA To Find Out.",
+   "published": "2026-09-24T14:00:11Z",
+   "state": "screen",
+   "runs": 2787,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "Risal7sjYms",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "How To Use ChatGPT Work: The Complete Beginner's Guide (2026)",
+   "published": "2026-09-25T15:30:23Z",
+   "state": "screen",
+   "runs": 4074,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "2IAYFgAqX6g",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "The AI Bottleneck: Why Your Team Isn't Shipping. Here's the Fix.",
+   "published": "2026-09-27T16:00:11Z",
+   "state": "screen",
+   "runs": 1977,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "gbbPBr3OraQ",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "I Gave Meta's Muse The Most Boring Job I Had. It Found $5,350 A Year.",
+   "published": "2026-09-29T14:00:22Z",
+   "state": "screen",
+   "runs": 1876,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "osZZjdMZVvA",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "Opus 5.5 vs The Rest: Is this the new industry standard?",
+   "published": "2026-09-30T14:47:46Z",
+   "state": "screen",
+   "runs": 1473,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "avN5R3OhxYs",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "Microsoft Compared OpenClaw To A Virus. Now It's Bringing It To Your Employer As Autopilot.",
+   "published": "2026-10-02T14:00:40Z",
+   "state": "screen",
+   "runs": 1586,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "lnB4Zckx_34",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "Should You Pay $100 A Month For OpenAI's Dots When Meta's Muse Has A Free Version?",
+   "published": "2026-10-03T15:00:25Z",
+   "state": "screen",
+   "runs": 2311,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "L5Ua3SLAmb0",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "I ran an experiment: Fable vs Astra #AI #Fable5 #GPT6 #Astra",
+   "published": "2026-09-12T03:00:11Z",
+   "state": "screen",
+   "runs": 29,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "FV8HAq39yxs",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "We're spoiled for riches #AI #Fable5 #GPT6 #Astra #AItools",
+   "published": "2026-09-13T03:00:05Z",
+   "state": "screen",
+   "runs": 30,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "wXAif5oyzio",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "The hidden costs of a bad AI assistant #siri #apple #applenews",
+   "published": "2026-09-16T03:00:06Z",
+   "state": "screen",
+   "runs": 58,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "0TzNu627VzY",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "What is Omarchy?  #OS #AI #agents",
+   "published": "2026-09-17T03:00:30Z",
+   "state": "screen",
+   "runs": 34,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "jopulPr2upk",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "Jensen Huang's mic-drop answer on AI safety #dreamforce #aisafety #meta #zuckerberg #nvidia",
+   "published": "2026-09-18T03:00:02Z",
+   "state": "screen",
+   "runs": 83,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "HBz9O5e7FiE",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "The AI labs still have to earn our trust ... #AI #agents #OpenAI #productivity #futureofwork",
+   "published": "2026-09-21T03:00:05Z",
+   "state": "screen",
+   "runs": 47,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "AgzVxj_ztiA",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "Is Instinct worth it? #AI #aiagents #Instinct #automation #iMessage",
+   "published": "2026-09-22T03:00:08Z",
+   "state": "screen",
+   "runs": 97,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "ntFJj-W7Otg",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "As you can see ... I had a great time at Dreamforce #AI #Dreamforce #Salesforce #agents",
+   "published": "2026-09-23T03:00:27Z",
+   "state": "screen",
+   "runs": 122,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "8B6KuqZuHng",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "Why world models matter #nvidia #ai #physicalai #robots",
+   "published": "2026-09-25T03:00:28Z",
+   "state": "screen",
+   "runs": 35,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "V2LM98zJlko",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "Is your AI smart? Use this simple trick to find out #AI #ChatGPT #taxes #money #personalfinance",
+   "published": "2026-09-26T03:00:29Z",
+   "state": "screen",
+   "runs": 104,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "Vbo2zV9fC_g",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "A $20 million broker fee vs. one ChatGPT prompt #AI #ChatGPT #Revolut #business #tech",
+   "published": "2026-09-27T03:00:27Z",
+   "state": "screen",
+   "runs": 99,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "j8Wi8ovhoGY",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "Everybody's talking about Jev. Here's what it is #jev #ai",
+   "published": "2026-09-28T03:00:33Z",
+   "state": "screen",
+   "runs": 121,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "otMlZycCBZ4",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "Meta's Muse can get your money back #AI #meta #muse #agent",
+   "published": "2026-10-01T03:00:22Z",
+   "state": "screen",
+   "runs": 89,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "TTSMh_CslnU",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "Opus 5.5 is impressive and cost-efficient #taskefficient #opus5.5 #claude",
+   "published": "2026-10-02T03:00:14Z",
+   "state": "screen",
+   "runs": 97,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "pvXmMntEIPY",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "Anthropic's $500 billion data center bet #ai",
+   "published": "2026-10-03T03:00:18Z",
+   "state": "screen",
+   "runs": 123,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "zcM0lR3r5Do",
+   "source": "less-bitter",
+   "form": "long",
+   "title": "This is not ready",
+   "published": "2026-09-04T18:26:33Z",
+   "state": "screen",
+   "runs": 445,
+   "channel": "Less Bitter"
+  },
+  {
+   "id": "aSGHPm7pu_Q",
+   "source": "less-bitter",
+   "form": "long",
+   "title": "Okay what am I missing",
+   "published": "2026-09-16T19:22:39Z",
+   "state": "screen",
+   "runs": 535,
+   "channel": "Less Bitter"
+  },
+  {
+   "id": "5Owg7p-61lY",
+   "source": "less-bitter",
+   "form": "long",
+   "title": "It's impossible for Jev to be good",
+   "published": "2026-09-21T19:08:05Z",
+   "state": "screen",
+   "runs": 322,
+   "channel": "Less Bitter"
+  },
+  {
+   "id": "jDG7L5HuBnk",
+   "source": "less-bitter",
+   "form": "long",
+   "title": "I talked to 50 people building with AI. It’s a mess.",
+   "published": "2026-09-23T18:58:46Z",
+   "state": "screen",
+   "runs": 1755,
+   "channel": "Less Bitter"
+  },
+  {
+   "id": "dyEpDobnkmA",
+   "source": "less-bitter",
+   "form": "long",
+   "title": "Opus 5.5 is disturbing",
+   "published": "2026-09-26T17:11:25Z",
+   "state": "screen",
+   "runs": 963,
+   "channel": "Less Bitter"
+  },
+  {
+   "id": "2zLuYU_Ub_0",
+   "source": "less-bitter",
+   "form": "long",
+   "title": "They fixed AI man",
+   "published": "2026-10-02T18:05:00Z",
+   "state": "screen",
+   "runs": 1165,
+   "channel": "Less Bitter"
+  },
+  {
+   "id": "4B4R2T4w7Kg",
+   "source": "theo",
+   "form": "long",
+   "title": "This is really bad…",
+   "published": "2026-09-09T16:00:20Z",
+   "state": "screen",
+   "runs": 1593,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "P7bxbDSnZRM",
+   "source": "theo",
+   "form": "long",
+   "title": "Fable Vs Astra Debate Is Over",
+   "published": "2026-09-11T02:49:32Z",
+   "state": "screen",
+   "runs": 4611,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "DlNTmbARUTA",
+   "source": "theo",
+   "form": "long",
+   "title": "I think they mean it this time",
+   "published": "2026-09-13T06:43:59Z",
+   "state": "screen",
+   "runs": 2088,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "oPZLPUtmROo",
+   "source": "theo",
+   "form": "long",
+   "title": "Did AI Kill React Native?",
+   "published": "2026-09-14T13:01:43Z",
+   "state": "screen",
+   "runs": 3773,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "NvVbCqDgfCs",
+   "source": "theo",
+   "form": "long",
+   "title": "How I Code Without Typing",
+   "published": "2026-09-16T00:13:12Z",
+   "state": "screen",
+   "runs": 2301,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "iBrAWpjXNxs",
+   "source": "theo",
+   "form": "long",
+   "title": "Please stop using stupid models",
+   "published": "2026-09-18T00:58:48Z",
+   "state": "screen",
+   "runs": 1629,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "F3YXg7AaKWE",
+   "source": "theo",
+   "form": "long",
+   "title": "Jev is incredible",
+   "published": "2026-09-21T00:28:21Z",
+   "state": "screen",
+   "runs": 1829,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "-XWSJM-Ue-o",
+   "source": "theo",
+   "form": "long",
+   "title": "So I was using Fable wrong...",
+   "published": "2026-09-22T10:42:31Z",
+   "state": "screen",
+   "runs": 2492,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "jLgpzgpsWPc",
+   "source": "theo",
+   "form": "long",
+   "title": "Elon promised this one would be good...",
+   "published": "2026-09-22T20:15:01Z",
+   "state": "screen",
+   "runs": 1673,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "jgGyX7MPPVg",
+   "source": "theo",
+   "form": "long",
+   "title": "My new favorite model.",
+   "published": "2026-09-23T17:03:05Z",
+   "state": "screen",
+   "runs": 2414,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "ejjBbaq9RmY",
+   "source": "theo",
+   "form": "long",
+   "title": "Getting the most out of Opus 5.5",
+   "published": "2026-09-25T00:11:51Z",
+   "state": "screen",
+   "runs": 1721,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "IBcBKgYUghU",
+   "source": "theo",
+   "form": "long",
+   "title": "So much for \"Pacing\" the Frontier",
+   "published": "2026-09-27T07:46:18Z",
+   "state": "screen",
+   "runs": 1649,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "8WbW_n95wc4",
+   "source": "theo",
+   "form": "long",
+   "title": "OpenAI should be scared of this one",
+   "published": "2026-09-29T07:31:15Z",
+   "state": "screen",
+   "runs": 1906,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "vu8X3YroB-w",
+   "source": "theo",
+   "form": "long",
+   "title": "OpenAI fights back",
+   "published": "2026-09-29T17:44:20Z",
+   "state": "screen",
+   "runs": 1858,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "D8PikZ1KhUo",
+   "source": "theo",
+   "form": "long",
+   "title": "If you have a Claude sub, watch this",
+   "published": "2026-10-02T01:58:48Z",
+   "state": "screen",
+   "runs": 3996,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "HYSRZycu-sw",
+   "source": "theo",
+   "form": "short",
+   "title": "Astra Is A Next-Gen Model",
+   "published": "2026-09-12T00:00:23Z",
+   "state": "screen",
+   "runs": 22,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "HIayLIpZF34",
+   "source": "theo",
+   "form": "short",
+   "title": "I Can't Believe Sam, Dario, and Elon Agree",
+   "published": "2026-09-18T23:20:40Z",
+   "state": "screen",
+   "runs": 22,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "YG0zcYHJe1I",
+   "source": "theo",
+   "form": "short",
+   "title": "The Danger of AI Isn't an Off-Switch",
+   "published": "2026-09-19T14:00:17Z",
+   "state": "screen",
+   "runs": 24,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "_jmN7JFOEGA",
+   "source": "theo",
+   "form": "short",
+   "title": "AI Model \"Black Boxes\" Are Dangerous",
+   "published": "2026-09-21T16:00:05Z",
+   "state": "screen",
+   "runs": 23,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "eVkg_U_beZo",
+   "source": "theo",
+   "form": "short",
+   "title": "Elon Lied About Grok 4.7",
+   "published": "2026-09-24T16:00:02Z",
+   "state": "screen",
+   "runs": 31,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "grB2CXh7rPo",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "I Tested GPT-6 Astra vs Fable 5.1 With Real Work (Here's What Matters)",
+   "published": "2026-09-07T13:00:19Z",
+   "state": "screen",
+   "runs": 1515,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "Q7SiipUCjro",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "ChatGPT Images 2.5 Is Here (And It’s A LOT Of Fun)",
+   "published": "2026-09-08T20:41:50Z",
+   "state": "screen",
+   "runs": 553,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "60a0nHFefn4",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "How To Create Cinematic Websites Using GPT-6 Astra",
+   "published": "2026-09-09T13:00:22Z",
+   "state": "screen",
+   "runs": 861,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "Ckl7jX8vKzs",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "AI News: New ChatGPT And Gemini Images; The Incredible Meta Muse; AI Wearables and More",
+   "published": "2026-09-11T13:00:07Z",
+   "state": "screen",
+   "runs": 1599,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "sQwp9GrkGi4",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "GPT-6 Astra + ChatGPT Work Changes Everything",
+   "published": "2026-09-14T13:00:21Z",
+   "state": "screen",
+   "runs": 1125,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "kXfHQbyMjkc",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "7 Mind Blowing Use Cases for Grok Bot",
+   "published": "2026-09-16T13:00:00Z",
+   "state": "screen",
+   "runs": 1070,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "SsHZaH2ml_U",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "So Much AI News: New ChatGPT Tools, NotebookLM Updates, Big Claude Changes, Grok Bot Live, + More!",
+   "published": "2026-09-18T13:00:31Z",
+   "state": "screen",
+   "runs": 1396,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "cnpbeFSYMG4",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "There's a Cheaper Way To Use Higgsfield (no subscription)",
+   "published": "2026-09-21T15:36:39Z",
+   "state": "screen",
+   "runs": 509,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "xY5E1AY4hJA",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "Opus 5.5 Is Here - Claude Is So Back!",
+   "published": "2026-09-22T17:25:58Z",
+   "state": "screen",
+   "runs": 339,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "lPNgeaF2Nk4",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "GPT-6 Sol Is Here (50% Cheaper!)",
+   "published": "2026-09-22T19:01:53Z",
+   "state": "screen",
+   "runs": 297,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "Q6uuvZmb0t8",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "Big AI News: Opus 5.5 vs GPT-6 Sol, NotebookLM Updates, Muse Charm & More!",
+   "published": "2026-09-25T13:00:31Z",
+   "state": "screen",
+   "runs": 1575,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "lC_-9TD3TfA",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "Meta Muse Is Incredible - 5 Features You Need To Try",
+   "published": "2026-09-27T13:00:22Z",
+   "state": "screen",
+   "runs": 1069,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "AW3Uku__BBE",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "Opus 5.5 Is The Best Video Editor I've Ever Used",
+   "published": "2026-09-28T13:00:35Z",
+   "state": "screen",
+   "runs": 758,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "dkNYOlIK7ZI",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "Give Me 12 Minutes, I’ll Make You a Gemini Notebook Pro",
+   "published": "2026-10-01T13:00:40Z",
+   "state": "screen",
+   "runs": 720,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "MS5VMqyuwjU",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "Weekly AI Recap: ChatGPT Dots, Gemini 4 Argon, 6.1 Sol, Sonnet 5.5, & A Whole Lot More",
+   "published": "2026-10-02T13:00:39Z",
+   "state": "screen",
+   "runs": 1743,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "ktY1b2-OKRA",
+   "source": "austin-marchese",
+   "form": "long",
+   "title": "⁠6 EASY Steps to Automate 99% of Your Work With Claude",
+   "published": "2026-09-07T13:45:00Z",
+   "state": "screen",
+   "runs": 1353,
+   "channel": "Austin Marchese"
+  },
+  {
+   "id": "7DJk83sc5xg",
+   "source": "austin-marchese",
+   "form": "long",
+   "title": "The Art of Becoming Self-Educated with Claude",
+   "published": "2026-09-10T18:00:38Z",
+   "state": "screen",
+   "runs": 1124,
+   "channel": "Austin Marchese"
+  },
+  {
+   "id": "kCUZqM8-Z-4",
+   "source": "austin-marchese",
+   "form": "long",
+   "title": "The REAL Reason The Creator of Claude Code Told You To Delete Everything",
+   "published": "2026-09-15T18:00:27Z",
+   "state": "screen",
+   "runs": 919,
+   "channel": "Austin Marchese"
+  },
+  {
+   "id": "g6tmqwTULk8",
+   "source": "austin-marchese",
+   "form": "long",
+   "title": "How to Rebuild Your Claude Setup From Scratch (80/20 Rule)",
+   "published": "2026-09-22T16:00:24Z",
+   "state": "screen",
+   "runs": 1271,
+   "channel": "Austin Marchese"
+  },
+  {
+   "id": "douQXfdYGmA",
+   "source": "austin-marchese",
+   "form": "long",
+   "title": "I Tested Grok Bot vs Claude on 12 Daily Use Cases",
+   "published": "2026-09-26T17:00:07Z",
+   "state": "screen",
+   "runs": 1371,
+   "channel": "Austin Marchese"
+  },
+  {
+   "id": "QsU0f-547rQ",
+   "source": "austin-marchese",
+   "form": "long",
+   "title": "Matt Pocock's EXACT System To 10x Your Claude Skills",
+   "published": "2026-09-29T14:30:02Z",
+   "state": "screen",
+   "runs": 927,
+   "channel": "Austin Marchese"
+  },
+  {
+   "id": "hsbr0IoFZJ8",
+   "source": "austin-marchese",
+   "form": "long",
+   "title": "The BEST & WORST Advice to Build 10x Faster with Claude",
+   "published": "2026-10-03T13:45:22Z",
+   "state": "screen",
+   "runs": 1052,
+   "channel": "Austin Marchese"
+  },
+  {
+   "id": "ubzhh4kMCLo",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "8 ChatGPT Agents That Do My Work for Me (Steal These)",
+   "published": "2026-09-04T16:54:09Z",
+   "state": "screen",
+   "runs": 1207,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "Ju41cQSe7hY",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "I Spent 100 Hours Using GPT-6 Astra (This Feels Like AGI)",
+   "published": "2026-09-07T20:55:32Z",
+   "state": "screen",
+   "runs": 1439,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "3cYTWLdHgAE",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "Build Anything With Claude (That’s Actually Good)",
+   "published": "2026-09-09T19:48:49Z",
+   "state": "screen",
+   "runs": 1502,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "ifz8NGHuHtY",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "28 Insane Things Astra Can Do (2 Hour Course)",
+   "published": "2026-09-14T13:00:30Z",
+   "state": "screen",
+   "runs": 6887,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "O8pzzIP1RyM",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "Astra Built Me an Entire Product Launch (UGC, Ads, and Website)",
+   "published": "2026-09-16T20:37:56Z",
+   "state": "screen",
+   "runs": 783,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "o1CogAtWdBk",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "JEV: How It Works and What You Can Build",
+   "published": "2026-09-18T15:45:55Z",
+   "state": "screen",
+   "runs": 1218,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "NDTbUObZTlM",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "NEW Claude Projects Changes Everything",
+   "published": "2026-09-21T17:57:08Z",
+   "state": "screen",
+   "runs": 1446,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "_NRuT_d1PZE",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "Claude Opus 5.5 Is Insane… But Muse is EVEN Bigger",
+   "published": "2026-09-25T17:00:16Z",
+   "state": "screen",
+   "runs": 1521,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "959RFRspIIc",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "Opus 5.5 Is JUST the Beginning. Everything Is About to Change.",
+   "published": "2026-09-27T23:15:08Z",
+   "state": "screen",
+   "runs": 1347,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "A8ptWsvM3cw",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "How to Set Up Your Windows PC for AI (Full Guide)",
+   "published": "2026-09-29T15:02:53Z",
+   "state": "screen",
+   "runs": 1225,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "t0ZwER9Y99c",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "The iPhone Duo Needs Apps (AI Can Build Them)",
+   "published": "2026-10-02T01:43:15Z",
+   "state": "screen",
+   "runs": 1383,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "kmo9Mk_gIUk",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "ChatGPT Dots Is Insane... But Gemini’s NEW Argon Is EVEN Bigger",
+   "published": "2026-10-02T17:53:34Z",
+   "state": "screen",
+   "runs": 1474,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "fSilBzYdHUw",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "ChatGPT Just Changed A LOT (Here’s Everything New)",
+   "published": "2026-10-03T16:03:29Z",
+   "state": "screen",
+   "runs": 1900,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "yqMBDSZbmOg",
+   "source": "riley-brown",
+   "form": "short",
+   "title": "ChatGPT was a chatbot.  Now it has its own computer.",
+   "published": "2026-09-04T17:42:19Z",
+   "state": "screen",
+   "runs": 67,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "PoP1L296Du8",
+   "source": "riley-brown",
+   "form": "short",
+   "title": "We have a vibe coding problem",
+   "published": "2026-09-24T19:39:21Z",
+   "state": "screen",
+   "runs": 116,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "IEYzYopNGVQ",
+   "source": "riley-brown",
+   "form": "short",
+   "title": "Can Claude build a cross-platform AI app?",
+   "published": "2026-10-02T23:46:57Z",
+   "state": "screen",
+   "runs": 139,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "9KOtMsZ9I28",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "How to Build Codex Skills Better than 99% of People",
+   "published": "2026-09-19T12:57:24Z",
+   "state": "screen",
+   "runs": 1624,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "ymgH8jS6Wb8",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "I Tested Jev on 12 Real Use Cases. My Honest Thoughts.",
+   "published": "2026-09-19T17:25:09Z",
+   "state": "screen",
+   "runs": 968,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "X-pbJWKmwi0",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "Build & Sell with Codex (5+ Hour Course)",
+   "published": "2026-09-21T12:31:48Z",
+   "state": "screen",
+   "runs": 18639,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "eF3yeJuifoQ",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "I Tested Opus 5.5 vs. GPT-6 Sol on 10 Real Use Cases",
+   "published": "2026-09-23T04:15:57Z",
+   "state": "screen",
+   "runs": 2061,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "GmLcJVzkxPA",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "I Tested Opus 5.5 vs. GPT-6 Astra on 12 Real Use Cases",
+   "published": "2026-09-23T23:33:40Z",
+   "state": "screen",
+   "runs": 2574,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "QCkHIyEPIYo",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "I Had Opus 5.5 Build me the Same App at Every Effort Level",
+   "published": "2026-09-24T20:35:45Z",
+   "state": "screen",
+   "runs": 1598,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "7jHXoPGnA4c",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "Opus 5.5 Just Changed Video Editing Forever (free skills)",
+   "published": "2026-09-25T23:54:59Z",
+   "state": "screen",
+   "runs": 1162,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "Ktnwygcnd8U",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "No, Seriously. Claude Code is Starting To Get Dangerous",
+   "published": "2026-09-27T20:38:25Z",
+   "state": "screen",
+   "runs": 822,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "eg_1NXDcoPk",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "I Gave GPT 6 Astra $10,000 to Trade Stocks...And This Happened",
+   "published": "2026-09-28T12:37:15Z",
+   "state": "screen",
+   "runs": 1079,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "7eo-11K2e3c",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "I Tested Sonnet 5.5 vs Opus 5.5. What You Need to Know.",
+   "published": "2026-09-29T00:14:17Z",
+   "state": "screen",
+   "runs": 1548,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "BvvfZKKz4Yo",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "I Tested OpenAI's Dots vs. Meta's Muse. What You Need to Know.",
+   "published": "2026-09-30T18:24:50Z",
+   "state": "screen",
+   "runs": 990,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "pY5_Ux_YJjo",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "I Tested Codex's $500/mo Ultrafast. What You Need to Know.",
+   "published": "2026-10-01T17:33:07Z",
+   "state": "screen",
+   "runs": 543,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "l8ywUsEJ2XQ",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "How to Actually Build & Sell Software with AI as a Non-Techie",
+   "published": "2026-10-02T18:43:22Z",
+   "state": "screen",
+   "runs": 4173,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "9hetShMMp2s",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "Claude Code Mods Are Game Changers. Set Up These 5 NOW.",
+   "published": "2026-10-02T21:59:19Z",
+   "state": "screen",
+   "runs": 679,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "DFlELTiSPk8",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "Every Codex Concept Explained for Non-Coders",
+   "published": "2026-10-03T15:53:20Z",
+   "state": "screen",
+   "runs": 2073,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "21QbJo6s0xA",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "I Gave an AI Engineer Access to My Whole Business",
+   "published": "2026-09-04T15:00:02Z",
+   "state": "screen",
+   "runs": 34,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "iW-yLZjbFjo",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Claude Can Now Plan Your Whole Day by Location",
+   "published": "2026-09-10T15:00:20Z",
+   "state": "screen",
+   "runs": 45,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "TIYCa6hOx1Q",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Run Your Entire Cold Outreach From One Tool",
+   "published": "2026-09-18T13:45:31Z",
+   "state": "screen",
+   "runs": 57,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "xcxbOcc36dM",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "This New AI Makes Decisions for 18 Cents",
+   "published": "2026-09-21T17:01:21Z",
+   "state": "screen",
+   "runs": 57,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "iafsAWrB8GQ",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Claude Can Now Run Your Entire Email Platform",
+   "published": "2026-09-29T19:00:14Z",
+   "state": "screen",
+   "runs": 46,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "amPNRy6EMmM",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "I Tested Opus 5.5 vs Sonnet 5.5",
+   "published": "2026-10-02T15:15:01Z",
+   "state": "screen",
+   "runs": 69,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "NWd86IwfnrU",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "I Tested Codex's NEW $500/mo Ultrafast mode",
+   "published": "2026-10-02T15:18:56Z",
+   "state": "screen",
+   "runs": 95,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "26rQLqoxBHA",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Claude Code Mods Are Game Changers. This One Saves Me Money.",
+   "published": "2026-10-03T03:43:11Z",
+   "state": "screen",
+   "runs": 81,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "XK6S1hbYv7I",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "This New Astra Web Design Workflow Is INSANE",
+   "published": "2026-09-09T16:50:27Z",
+   "state": "screen",
+   "runs": 1197,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "5EhrMJ9HIfU",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "You're Using GPT 6 Astra Wrong (Here's How to Fix It)",
+   "published": "2026-09-10T16:27:11Z",
+   "state": "screen",
+   "runs": 1067,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "C8dWdic-oK4",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "GPT-6 Astra Just Unlocked Motion Design + After Effects",
+   "published": "2026-09-14T17:53:21Z",
+   "state": "screen",
+   "runs": 516,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "RhGiG-yZP-c",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "GPT 6 Astra + Blender = INSANE 3D Websites",
+   "published": "2026-09-15T21:35:44Z",
+   "state": "screen",
+   "runs": 640,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "VqlRRn3cZx8",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "Higgsfield Just Killed Higgsfield",
+   "published": "2026-09-17T05:00:29Z",
+   "state": "screen",
+   "runs": 413,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "2Gu21Y4hgd8",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "Union Alpha Is INSANE",
+   "published": "2026-09-17T20:03:02Z",
+   "state": "screen",
+   "runs": 723,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "ijPsFZ1EHlI",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "Opus 5.5 Crushes Fable & Astra",
+   "published": "2026-09-22T17:15:10Z",
+   "state": "screen",
+   "runs": 385,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "U_sjnF3jvCo",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "GPT 6 Sol & Luna Are Here (And 50% CHEAPER!)",
+   "published": "2026-09-22T19:05:34Z",
+   "state": "screen",
+   "runs": 355,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "EOdXR6lU5ZA",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "This NEW Jev + Claude OS Just Changed Every AI Workflow",
+   "published": "2026-09-25T00:47:11Z",
+   "state": "screen",
+   "runs": 1336,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "aBPAmYi1FfU",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "Sonnet 5.5 Just Beat Opus At Coding (At Half The Cost...)",
+   "published": "2026-09-28T19:44:15Z",
+   "state": "screen",
+   "runs": 334,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "UREYH2PX6sI",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "I Tested Sonnet 5.5 vs Opus 5.5 vs GPT 6 Astra (No Hype)",
+   "published": "2026-09-29T06:31:45Z",
+   "state": "screen",
+   "runs": 1108,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "D2L22EbGa7s",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "I Got Early Access To ChatGPT Dots: Here's Everything You Need To Know",
+   "published": "2026-09-29T22:19:34Z",
+   "state": "screen",
+   "runs": 1086,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "pVAxEpP79v0",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "The Sol 6.1 Benchmarks Are STUPID, So I Tested It vs Sonnet 5.5",
+   "published": "2026-09-30T05:33:44Z",
+   "state": "screen",
+   "runs": 924,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "1M-z8O29ML8",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "You're Using Jev + Claude Wrong",
+   "published": "2026-10-02T07:04:53Z",
+   "state": "screen",
+   "runs": 1122,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "Rn4nmFRPe0s",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "Claude Mods Is The Biggest Claude Code Upgrade Since Skills",
+   "published": "2026-10-02T10:43:31Z",
+   "state": "screen",
+   "runs": 551,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "Jtssr9HkSpI",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "GPT 6 Astra + Blender Is The New Web Design Meta",
+   "published": "2026-09-15T23:45:17Z",
+   "state": "screen",
+   "runs": 70,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "wugozhTLlKM",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "GPT 6 Astra Is Actually INSANE",
+   "published": "2026-09-21T19:03:56Z",
+   "state": "screen",
+   "runs": 63,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "tW738kiZLgA",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "Jev + Claude OS Is An INSANE Combo",
+   "published": "2026-09-25T08:30:39Z",
+   "state": "screen",
+   "runs": 61,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "-_S3KD0ZIfI",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "GPT 6 Astra Turned Me Into A Blender Expert (Ive Never Used Blender)",
+   "published": "2026-09-25T22:04:00Z",
+   "state": "screen",
+   "runs": 54,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "WK--kz63hlQ",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "Sonnet 5.5 just beat Opus in Coding (at half the cost)",
+   "published": "2026-09-28T19:15:31Z",
+   "state": "screen",
+   "runs": 59,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "C0JN0-sNPXQ",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "OpenAI Just Gave Astra Its Own Virtual Computer With Dots",
+   "published": "2026-09-29T18:10:03Z",
+   "state": "screen",
+   "runs": 72,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "UtFo1ZNC2ns",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "I'm Obsessed With Local AI. Here's Why",
+   "published": "2026-09-08T16:30:21Z",
+   "state": "screen",
+   "runs": 2326,
+   "channel": "Greg Isenberg"
+  },
+  {
+   "id": "nglqTHwuZ-8",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "GPT-6 Astra: How I’d Make Money With It",
+   "published": "2026-09-10T18:11:19Z",
+   "state": "screen",
+   "runs": 1372,
+   "channel": "Greg Isenberg"
+  },
+  {
+   "id": "_LCeJZFIsd4",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "Building a Software Factory that actually works (Full Course)",
+   "published": "2026-09-14T17:30:17Z",
+   "state": "screen",
+   "runs": 1889,
+   "channel": "Greg Isenberg"
+  },
+  {
+   "id": "mUAsaprJ66s",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "Instinct AI is For Real. What You Need to Know.",
+   "published": "2026-09-15T18:25:04Z",
+   "state": "screen",
+   "runs": 1650,
+   "channel": "Greg Isenberg"
+  },
+  {
+   "id": "4mTLpuQpB80",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "Jev is HERE. How to use it",
+   "published": "2026-09-18T18:35:33Z",
+   "state": "screen",
+   "runs": 1704,
+   "channel": "Greg Isenberg"
+  },
+  {
+   "id": "YuOSyRj3sXg",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "$30M Writer: Never write AI slop again",
+   "published": "2026-09-21T19:30:18Z",
+   "state": "screen",
+   "runs": 4174,
+   "channel": "Greg Isenberg"
+  },
+  {
+   "id": "e7s7jRgHWsg",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "Take Upwork jobs, let AI do them (Astra etc). It's absurd.",
+   "published": "2026-09-23T18:27:51Z",
+   "state": "screen",
+   "runs": 2885,
+   "channel": "Greg Isenberg"
+  },
+  {
+   "id": "84q4WA3kA8Q",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "Meta Muse AI Connectors: The App Store for AI?",
+   "published": "2026-09-24T18:45:00Z",
+   "state": "screen",
+   "runs": 1575,
+   "channel": "Greg Isenberg"
+  },
+  {
+   "id": "ZT4mpjx0JnE",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "$5T opportunity: AI Roll Ups",
+   "published": "2026-09-28T18:15:04Z",
+   "state": "screen",
+   "runs": 1789,
+   "channel": "Greg Isenberg"
+  },
+  {
+   "id": "Y_RevX5yMq8",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "OpenAI DevDay: Dots, Agents & $100B Opportunities",
+   "published": "2026-09-29T21:25:07Z",
+   "state": "screen",
+   "runs": 1136,
+   "channel": "Greg Isenberg"
+  },
+  {
+   "id": "1a5HxU52vCQ",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "Masterclass: How FDEs make $1M/yr deploying AI agents",
+   "published": "2026-10-01T20:30:04Z",
+   "state": "screen",
+   "runs": 3239,
+   "channel": "Greg Isenberg"
+  }
+ ],
+ "covered": {
+  "tina-huang": {
+   "long": [
+    [
+     "2026-03-24T16:30:17Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-07-15T15:05:22Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ]
+  },
+  "ai-labs": {
+   "long": [
+    [
+     "2026-08-28T15:00:37Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-03T23:55:25Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ]
+  },
+  "matt-wolfe": {
+   "long": [
+    [
+     "2026-08-13T01:53:16Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-08-26T13:22:25Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ]
+  },
+  "nate-b-jones": {
+   "long": [
+    [
+     "2026-09-10T14:00:12Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-12T03:00:11Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ]
+  },
+  "less-bitter": {
+   "long": [
+    [
+     "2026-08-24T13:00:39Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-03T23:55:25Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ]
+  },
+  "theo": {
+   "long": [
+    [
+     "2026-09-09T16:00:20Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-08-06T15:03:46Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ]
+  },
+  "paul-j-lipsky": {
+   "long": [
+    [
+     "2026-09-07T13:00:19Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ],
+   "short": [
+    [
+     "2023-01-19T16:00:17Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ]
+  },
+  "austin-marchese": {
+   "long": [
+    [
+     "2026-07-29T13:45:37Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-01-21T16:15:13Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ]
+  },
+  "riley-brown": {
+   "long": [
+    [
+     "2026-08-26T20:02:16Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-01-05T04:52:36Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ]
+  },
+  "nate-herk": {
+   "long": [
+    [
+     "2026-09-19T12:57:24Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-07-11T17:00:36Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ]
+  },
+  "chase-ai": {
+   "long": [
+    [
+     "2026-09-09T16:50:27Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-08-20T20:30:11Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ]
+  },
+  "greg-isenberg": {
+   "long": [
+    [
+     "2026-08-21T20:10:35Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-01-02T18:35:48Z",
+     "2026-10-03T23:55:25Z"
+    ]
+   ]
+  }
+ }
+}

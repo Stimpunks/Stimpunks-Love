@@ -1179,6 +1179,16 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--notebook .og-lede {{ font-family: 'Rosario', sans-serif; color: var(--onb-ink); font-size: 24px;
   line-height: 1.35; max-width: 1080px; }}
 
+/* learning large — THE GLASSHOUSE AT NIGHT across the top of the card, lifted
+   off the page whole, and the name painted under it. The night is the room's
+   own, because the card is rendered on the room's body class. */
+.og--glasshouse {{ gap: 12px; padding: 30px 60px 30px; justify-content: flex-start; }}
+.og--glasshouse .ll-glasshouse {{ width: 1080px; height: auto; margin: 0 !important; }}
+.og--glasshouse .ll-over {{ font-size: 16px; margin: 4px 0 0 !important; }}
+.og--glasshouse h1 {{ font-size: 70px; margin: 0 !important; }}
+.og--glasshouse .og-lede {{ font-family: 'Fira Sans', sans-serif; color: var(--ll-text); font-size: 24px;
+  line-height: 1.35; max-width: 1080px; }}
+
 /* count me in — THE LANDING, straight on: the header, and the flight with the lift
    on its rail lifted off the page whole. The card shows no step number, because
    the stair's number changes with every step and a card is a picture that would
@@ -3855,6 +3865,33 @@ def card_notebook(p):
     )
 
 
+def card_glasshouse(p):
+    # THE DRAWING AND THE NAME ARE LIFTED WHOLE, so the card cannot show a
+    # glasshouse the page does not, and the lede is the page's og:description.
+    gh = re.search(r'(<svg class="ll-glasshouse".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="ll-over">(.*?)</p>', p["src"], re.S)
+    if not (gh and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: learning-large.html has lost the drawing of the glasshouse or its\n"
+            "header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--glasshouse" data-fit="card">'
+        f'{gh.group(1)}<p class="ll-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>',
+        f"A card the dark plum of a glasshouse at night. Across the top, the inside of the glasshouse: "
+        f"a row of dark roof panes, each showing a pink streak where the glass reflects the lamp instead "
+        f"of the sky, then a long grow lamp hanging on two chains with a row of tiny red and blue lights "
+        f"along it, and its magenta light falling on a shelf of three seed trays. The seedlings in the "
+        f"trays come up at all different heights, each a dark silhouette with two small leaves edged in "
+        f"pink, and every tray throws a red shadow on one side and a blue one on the other. Nothing in "
+        f"it is green. Under it, small capitals reading {plain(over.group(1))}, then "
+        f"\u201c{p['h1text']}\u201d in large pink letters like a painted sign, then: {p['desc_plain']}",
+    )
+
+
 def card_stair(p):
     # THE HEADER AND THE FLIGHT ARE LIFTED WHOLE, lift and all, so the card
     # cannot draw a stair without its lift. No step number: it would be stale by
@@ -4261,6 +4298,7 @@ CARDS = {
     "fridge":       card_fridge,
     "stair":        card_stair,
     "notebook":     card_notebook,
+    "glasshouse":   card_glasshouse,
     "cats":         card_cats,
     "dogs":         card_dogs,
     "smalls":       card_smalls,

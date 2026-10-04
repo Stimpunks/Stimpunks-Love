@@ -1093,6 +1093,21 @@
 @font-face { font-family: 'Rosario'; src: url('fonts/rosario-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Rosario'; src: url('fonts/rosario-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 
+/* Learning Large (§92). A SIGN PAINTED ON THE GLASSHOUSE DOOR AND A FACE DRAWN
+   FOR CHEAP PHONES. Recursive, Arrow Type's face for interfaces and code, sets
+   the room's name and every heading in its casual cut at a heavy weight, which
+   its own description says came out of single-stroke signpainting: so the name
+   reads as a sign somebody painted, and nothing at reading size is set in it.
+   It is one static file, the instance Google serves with the axes pinned,
+   Doto's call. Fira Sans, Carrois Apostrophe's face for Mozilla's Firefox OS,
+   built to stay legible on handsets of every screen quality, carries every
+   word that is read; it is drawn weight by weight, so its 400, its 700 and its
+   italic are three files. Read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Recursive'; src: url('fonts/recursive-800.woff2') format('woff2'); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Fira Sans'; src: url('fonts/fira-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Fira Sans'; src: url('fonts/fira-sans-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Fira Sans'; src: url('fonts/fira-sans-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -2704,6 +2719,28 @@
   --onb-dawn:  #E2EBF8;  --onb-morning: #FBF1CF;  --onb-noon: #FFFDF5;
   --onb-afternoon: #FCE2B8;  --onb-dusk: #F8D5C8;
 
+  /* Learning Large (§92). A GLASSHOUSE AT NIGHT UNDER RED AND BLUE GROW LAMPS,
+     and nothing in it is green, because the lamps give a leaf red and blue and
+     a leaf has no green to give back under them; make-learning-large.py
+     refuses a green here. --ll-night is the dark under the benches, the ground
+     every word stands on; --ll-tray a seed tray or a card, the ground of every
+     panel. --ll-text is every word, --ll-dim the fine print, --ll-link every
+     link and the focus ring, --ll-rim the edge the lamp lights and the room's
+     name. --ll-lamp is where the red and the blue land together: the light in
+     the drawing, the ground of every play button and of the one step on the
+     propagation bench that happens under the lamp. --ll-label is a white
+     plastic plant label lit by the lamp, the ground of every entry in the
+     sowing log, with --ll-label-link its links and --ll-label-dim its fine
+     print, every other word on it in --ll-night. The rest carry no word:
+     --ll-glass the roof, --ll-bar the lamp's housing, the glazing bars and the
+     shelf, --ll-leaf a leaf with nothing to give back and the screen, and
+     --ll-red and --ll-blue the diodes and the two shadows every tray throws. */
+  --ll-night:  #1C0A1D;  --ll-tray:   #2F1232;  --ll-glass: #251028;
+  --ll-text:   #F8EAF6;  --ll-dim:    #D2B4D0;  --ll-link:  #FFA8F0;
+  --ll-rim:    #F7A0FF;  --ll-lamp:   #DE4FEA;  --ll-bar:   #3E2A42;
+  --ll-leaf:   #0C050D;  --ll-red:    #FF4A5E;  --ll-blue:  #5A63FF;
+  --ll-label:  #F4D8F2;  --ll-label-link: #7B1A72;  --ll-label-dim: #5A2A57;
+
   /* import:neurohome:root:begin */
   /* Isha Snow's room, NeuroHome -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -3598,6 +3635,20 @@ div.facade--audio { border: 0; background: none; }
 .door--notebook .door__name  { font-family: 'Doto', var(--sans); font-weight: 900; color: var(--onb-ink); font-size: 25px; line-height: 1.1; font-synthesis: none; }
 .door--notebook .door__blurb { font-family: 'Rosario', var(--sans); color: var(--onb-ink); font-size: 14px; font-synthesis: none; }
 .door--notebook .door__knock { font-family: 'Rosario', var(--sans); font-weight: 700; font-size: 13px; color: var(--onb-pen); font-synthesis: none; }
+/* LEARNING LARGE'S DOOR IS THE GLASSHOUSE AT NIGHT FROM THE STREET: the
+   lamp's housing across the awning with its red and blue diodes in a row, and
+   its light falling into the door below, which is the only lit thing on it. */
+.door--large { background-color: var(--ll-night); border-color: var(--ll-rim); }
+.door--large .door__awning {
+  background-color: var(--ll-bar);
+  background-image: radial-gradient(circle at 5px 50%, var(--ll-red) 0 2.4px, transparent 3px),
+    radial-gradient(circle at 15px 50%, var(--ll-blue) 0 2.4px, transparent 3px);
+  background-size: 20px 100%;
+  border-bottom-color: var(--ll-lamp);
+}
+.door--large .door__name  { font-family: 'Recursive', var(--sans); font-weight: 800; color: var(--ll-rim); font-size: 27px; line-height: 1.05; font-synthesis: none; }
+.door--large .door__blurb { font-family: 'Fira Sans', var(--sans); color: var(--ll-text); font-size: 14px; font-synthesis: none; }
+.door--large .door__knock { font-family: 'Fira Sans', var(--sans); font-weight: 700; font-size: 13px; color: var(--ll-link); font-synthesis: none; }
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
 .door--empty .door__name  { font-family: 'Bungee', var(--sans); color: var(--chalk); font-size: 23px; }
@@ -14791,7 +14842,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §93
+   class on it is `bb-`, its sizes are in points and millimetres, and §94
    prints it and nothing else. */
 
 .room-broadside {
@@ -14852,7 +14903,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §93 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §94 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -18507,7 +18558,265 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .onb-laptop { padding: 8px; }
 }
 
-/* §92 ── Small screens ───────────────────────────────────────────────────────
+/* §92 ── ROOM: Learning Large (a shopfront on the street) ───────────────────────
+   A glasshouse at night with every grow lamp on. Ryan's brief, 2026-10-03: a
+   room about learning, making and knowledge gardening with generative AI, with
+   the emphasis on our spiky profiles and how they can complement each other,
+   pulling its material from our AI hub, and a rack of the latest month from AI
+   channels he listed. tools/make-learning-large.py writes the drawings, every
+   quotation, the propagation bench, the sowing log, the bench screen and the
+   rack, and holds the promises.
+
+   THE LIGHT IS A SPIKY ONE. The lamps are the old red and blue kind: two narrow
+   spikes of colour and almost nothing between, built to give a leaf the two
+   colours it takes in. Where the red and the blue land together the light is
+   magenta; where a thing blocks one diode and not its neighbour, its shadow
+   comes out red on one side and blue on the other. And under that light a leaf
+   has no green to give back, so NOTHING IN THIS ROOM IS GREEN. That is the
+   physics rather than a palette choice, and make-learning-large.py refuses a
+   green in :root's --ll- colours or anywhere in this section. The friendly
+   edit is "make the seedlings green, they are plants". Under this light they
+   are not.
+
+   THE ROOF IS A MIRROR. A lit room behind glass at night turns the glass into
+   a mirror, so the roof shows the lamps back instead of the sky. The room says
+   what that is worth knowing about any tool that talks back.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · MYCELIUM MUNCHIES IS THE ONE TO WATCH. It is the other room where things
+       are grown indoors under electric lamps. Its lamps are HEAT lamps, red
+       and nothing else, over a pass where food is served; these are LIGHT for
+       growing, red AND blue, over seed trays nobody eats from. If the magenta
+       in here ever loses its blue, it has become Mycelium Munchies' pass with
+       seedlings on it, and it is this room that moves.
+     · THE GARDEN is the room these seedlings are planted out into, through the
+       gate in the wall. It is outdoors at midday, sun down through leaves, and
+       everything in it is tinted green. This is indoors, at night, under a
+       roof that shows nothing of the sky, and nothing is green. The room links
+       the Garden rather than borrowing anything of it.
+     · THE JUNGLE ROOM is the other night room with plants and a roof. Its roof
+       is LEAVES and its darkness is green. This roof is GLASS and its darkness
+       is plum, and every plant in here is a seedling in a tray, not a canopy.
+     · NOW PLAYING has a red and a blue too, two inks overprinting on paper, and
+       its fringe is misregistration on display type. Ink goes darker where it
+       overlaps; light goes brighter. And the colour-split here is only ever in
+       a SHADOW, never on a letter.
+     · THE ARCADE'S CARPET is a grape near-black. This ground is redder, the
+       dark of a room lit magenta, and there is no screen in here that is the
+       subject: the bench screen is a tool on a bench, empty until you press.
+     · PANDO's pink is a sky after sunset, soft and outdoors. This is a lamp,
+       hard and electric, with two colours in it you can see apart at the edges.
+
+   NOTHING MOVES, AT ANY SETTING. A grow lamp that flickered would be a broken
+   one, and Club Chronic's rule holds: no pulse, no flicker, no breathing glow.
+   NOBODY IS DRAWN, and no machine is given a face: nothing here is a robot, a
+   brain or a sparkle, which the tool refuses as emoji on the page too.
+
+   EVERY WORD STANDS ON A FLAT GROUND: the night, a tray, a lit plant label or a
+   lit play button. The glow is in the drawing and under the lamp bars, never
+   behind a sentence, so check-contrast-live.py measures what a reader sees. */
+
+.glasshouse {
+  background: var(--ll-night); color: var(--ll-text);
+  font-family: 'Fira Sans', var(--sans); font-synthesis: none;
+}
+.glasshouse a { color: var(--ll-link); text-underline-offset: .16em; }
+.glasshouse :focus-visible { outline-color: var(--ll-link); }
+.glasshouse .backlink { font-family: 'Fira Sans', var(--sans); font-weight: 700; font-size: 15px; letter-spacing: .02em; color: var(--ll-link); }
+.ll-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.ll-trail { margin: 0; font-size: 15px; color: var(--ll-dim); }
+
+.ll-head { margin: 30px 0 0; }
+.ll-over { margin: 0; font-weight: 700; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: var(--ll-dim); }
+.glasshouse h1 {
+  margin: 10px 0 10px; font-family: 'Recursive', var(--sans); font-weight: 800;
+  font-size: clamp(46px, 9.4vw, 108px); line-height: .98; letter-spacing: -.01em; color: var(--ll-rim);
+}
+.ll-sub { margin: 0; max-width: 40ch; font-size: 21px; line-height: 1.4; }
+.glasshouse h2 {
+  margin: 0 0 12px; font-family: 'Recursive', var(--sans); font-weight: 800;
+  font-size: clamp(27px, 4.4vw, 38px); line-height: 1.1; color: var(--ll-text);
+}
+.glasshouse h3 { margin: 34px 0 8px; font-family: 'Recursive', var(--sans); font-weight: 800; font-size: 24px; line-height: 1.2; color: var(--ll-text); }
+.glasshouse h4 { margin: 0 0 8px; font-family: 'Fira Sans', var(--sans); font-weight: 700; font-size: 17px; line-height: 1.3; letter-spacing: .06em; text-transform: uppercase; }
+
+/* The glasshouse, drawn. */
+.ll-glasshouse { display: block; width: 100%; height: auto; margin: 26px 0 0; }
+.ll-lede { margin: 26px 0 0; max-width: 66ch; font-size: 19px; line-height: 1.6; }
+
+/* A LAMP BAR OVER EVERY PART: the housing, its red and blue diodes in a row,
+   and a little of its light falling below it, which is above the heading and
+   never behind it. */
+.ll-part { margin: 60px 0 0; }
+.ll-part > h2::before {
+  content: ""; display: block; width: min(100%, 440px); height: 9px; margin: 0 0 20px;
+  border-radius: 3px; background-color: var(--ll-bar);
+  background-image: radial-gradient(circle at 4px 50%, var(--ll-red) 0 2px, transparent 2.6px),
+    radial-gradient(circle at 12px 50%, var(--ll-blue) 0 2px, transparent 2.6px);
+  background-size: 16px 100%;
+  box-shadow: 0 7px 14px -9px var(--ll-lamp);
+}
+.ll-part > p, .ll-part > figure > figcaption { max-width: 68ch; }
+.ll-part > p { font-size: 17px; line-height: 1.65; }
+
+/* The index. */
+.ll-index { margin: 44px 0 0; max-width: 68ch; padding: 20px 24px 16px; background: var(--ll-tray); border-top: 2px solid var(--ll-rim); border-radius: 6px; }
+.ll-index h2 { font-size: 22px; margin-bottom: 8px; }
+.ll-index__list { margin: 0; padding-left: 1.4em; font-size: 17px; line-height: 1.6; }
+
+/* A QUOTATION IS A TRAY CELL, lit along its top edge, throwing the room's two
+   shadows: the dark one where both diodes are blocked, red along one side and
+   blue along the other where only one is. */
+.ll-quote {
+  margin: 20px 0 24px; max-width: 64ch; padding: 16px 22px 14px;
+  background: var(--ll-tray); border-top: 2px solid var(--ll-rim); border-radius: 4px;
+  box-shadow: 0 6px 0 var(--ll-leaf), -4px 6px 0 var(--ll-red), 4px 6px 0 var(--ll-blue);
+}
+.ll-quote blockquote { margin: 0; }
+.ll-quote blockquote p { margin: 0; font-size: 20px; line-height: 1.5; }
+.ll-quote figcaption { margin: 10px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--ll-dim); }
+.ll-cite { margin: 8px 0 0; max-width: 68ch; font-size: 14.5px; line-height: 1.5; color: var(--ll-dim); }
+
+/* A model's peaks and troughs: two trays side by side, a peak marked as a peak
+   and a trough as a trough. */
+.ll-profiles { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); margin: 16px 0 0; max-width: 980px; }
+.ll-profile { padding: 18px 20px 16px; background: var(--ll-tray); border-top: 2px solid var(--ll-rim); border-radius: 4px; }
+.ll-profile__list { margin: 0; padding: 0; list-style: none; }
+.ll-profile__list li { position: relative; margin: 0 0 12px; padding-left: 26px; font-size: 16.5px; line-height: 1.5; }
+.ll-profile__list li::before {
+  content: ""; position: absolute; left: 2px; top: .38em; width: 14px; height: 11px; background: var(--ll-rim);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.ll-profile--troughs .ll-profile__list li::before { clip-path: polygon(0 0, 100% 0, 50% 100%); }
+.ll-profile__src { font-size: 14px; color: var(--ll-dim); }
+
+/* The two spectra. */
+.ll-figure { margin: 34px 0 0; }
+.ll-spectrum { display: block; width: 100%; max-width: 640px; height: auto; }
+.ll-spectrum__axis { font: 700 17px 'Fira Sans', var(--sans); fill: var(--ll-dim); }
+.ll-spectrum__key { font: 400 16px 'Fira Sans', var(--sans); fill: var(--ll-text); }
+.ll-figure figcaption { margin: 12px 0 0; font-size: 15px; line-height: 1.55; color: var(--ll-dim); }
+
+/* The practices, numbered like cells in a tray. */
+.ll-practices { margin: 14px 0 0; padding: 0; list-style: none; counter-reset: ll-practice; max-width: 68ch; }
+.ll-practices li { counter-increment: ll-practice; position: relative; margin: 0 0 10px; padding: 4px 0 4px 48px; font-size: 18px; line-height: 1.45; }
+.ll-practices li::before {
+  content: counter(ll-practice); position: absolute; left: 0; top: 0; width: 34px; height: 34px;
+  display: grid; place-items: center; font: 800 18px/1 'Recursive', var(--sans);
+  color: var(--ll-night); background: var(--ll-rim); border-radius: 4px;
+}
+
+/* THE PROPAGATION BENCH. Three stages along a bench, the middle one the only
+   one under the lamp and the only one lit, which is our page's sentence about
+   where AI is in the process, as a picture. The steps are counted along the
+   whole bench, because they are one process in one order. */
+.ll-bench { margin: 18px 0 0; padding: 0; list-style: none; counter-reset: ll-step; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); max-width: 980px; }
+.ll-bench__stage { padding: 16px 18px 12px; background: var(--ll-tray); border-top: 2px solid var(--ll-rim); border-radius: 4px; }
+.ll-bench__stage--lamp { background: var(--ll-lamp); color: var(--ll-night); border-top-color: var(--ll-night); }
+.glasshouse .ll-bench__where { margin: 0 0 10px; font-weight: 700; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; }
+.ll-bench__steps { margin: 0; padding: 0; list-style: none; }
+.ll-bench__steps li { counter-increment: ll-step; margin: 0 0 8px; font-size: 17px; line-height: 1.4; }
+.ll-bench__steps li::before { content: counter(ll-step) ". "; font-family: 'Recursive', var(--sans); font-weight: 800; }
+
+/* THE SOWING LOG. Every entry a white plastic plant label, lit pink by the
+   lamp, pushed into the soil point first: dark words on it, and the point cut
+   with a clip-path rather than drawn at an angle. */
+.ll-log { margin: 22px 0 0; padding: 0; list-style: none; display: grid; gap: 22px 20px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); max-width: 1020px; }
+.ll-log__row {
+  padding: 16px 18px 34px; background: var(--ll-label); color: var(--ll-night); border-radius: 6px 6px 0 0;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), 50% 100%, 0 calc(100% - 20px));
+}
+.glasshouse .ll-log__row a { color: var(--ll-label-link); }
+.glasshouse .ll-log__row :focus-visible { outline-color: var(--ll-night); }
+.glasshouse .ll-log__label { margin: 0 0 10px; }
+.ll-log__date { display: block; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ll-label-dim); }
+.ll-log__title { display: block; font: 800 21px/1.2 'Recursive', var(--sans); }
+.ll-log__parts { margin: 0; }
+.ll-log__parts div { margin: 0 0 8px; }
+.ll-log__parts dt { font-size: 12.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ll-label-dim); }
+.ll-log__parts dd { margin: 2px 0 0; font-size: 15.5px; line-height: 1.5; }
+.glasshouse .ll-log__go { margin: 10px 0 0; font-size: 14.5px; font-weight: 700; }
+
+/* THE BENCH SCREEN: a screen propped on the potting bench, with nothing of its
+   own on it, which rack.js unhides; its stand is the bench's own colour. */
+.ll-screen {
+  position: relative; margin: 20px 0 30px; max-width: 792px; padding: 12px;
+  background: var(--ll-bar); border-radius: 10px;
+}
+.ll-screen::after {
+  content: ""; position: absolute; left: 42%; right: 42%; bottom: -14px; height: 14px;
+  background: var(--ll-bar); border-radius: 0 0 4px 4px;
+}
+.glasshouse .ll-screen__idle {
+  margin: 0; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+  padding: 18px 22px; text-align: center; background: var(--ll-leaf); color: var(--ll-text); font-size: 17px; line-height: 1.5; border-radius: 4px;
+}
+.ll-screen__idle span { max-width: 44ch; }
+.glasshouse .ll-screen__idle b { color: var(--ll-rim); }
+.glasshouse .ll-screen .facade { border: 0; border-radius: 4px; }
+.glasshouse .ll-screen .facade iframe { border-radius: 4px; }
+.ll-screen[data-rack-shape="tall"] .facade { aspect-ratio: 9 / 16; width: min(100%, 340px); margin-inline: auto; }
+.glasshouse .ll-screen__now { margin: 6px 0 0; max-width: 820px; font-weight: 700; font-size: 16px; }
+.glasshouse .ll-screen__back { margin: 8px 0 0; }
+.ll-back, .ll-card__up {
+  min-height: 44px; padding: 8px 14px; cursor: pointer; text-align: left;
+  font: 700 15px/1.3 'Fira Sans', var(--sans); color: var(--ll-text);
+  background: var(--ll-tray); border: 2px solid var(--ll-rim); border-radius: 4px; font-synthesis: none;
+}
+.ll-back:hover, .ll-card__up:hover { background: var(--ll-rim); color: var(--ll-night); }
+
+/* THE RACK: every card a cell in a seed tray, lit along its top edge and
+   throwing the room's two shadows. */
+.ll-racked { margin: 18px 0 0; }
+.ll-racked > summary { cursor: pointer; font-weight: 700; font-size: 15px; letter-spacing: .1em; text-transform: uppercase; }
+.ll-chan { margin: 38px 0 0; }
+.glasshouse .ll-chan__name { margin: 0; }
+.glasshouse .ll-chan__name a { color: var(--ll-text); text-decoration-color: var(--ll-rim); }
+.glasshouse .ll-chan__gap, .glasshouse .ll-chan__none, .glasshouse .ll-rack__quiet { margin: 6px 0 0; max-width: 72ch; font-size: 15px; color: var(--ll-dim); }
+.glasshouse .ll-rack__quiet { margin-top: 30px; }
+.glasshouse .ll-rack__set { margin: 14px 0 0; max-width: 72ch; font-size: 15px; color: var(--ll-dim); }
+.ll-cards { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 26px 22px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); }
+.ll-cards--short { grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr)); }
+.ll-card {
+  display: flex; flex-direction: column; gap: 8px; min-width: 0; padding: 16px 16px 14px;
+  background: var(--ll-tray); border-top: 2px solid var(--ll-rim); border-radius: 4px;
+  box-shadow: 0 6px 0 var(--ll-leaf), -4px 6px 0 var(--ll-red), 4px 6px 0 var(--ll-blue);
+}
+.glasshouse .ll-card__title { margin: 0; font-weight: 700; font-size: 16px; line-height: 1.35; overflow-wrap: anywhere; }
+.glasshouse .ll-card__by, .glasshouse .ll-card__why { margin: 0; font-size: 14px; line-height: 1.45; color: var(--ll-dim); }
+/* A pressed card keeps its look because it is styled from the card and never
+   from the button, which love-embed.js drops on the press: the Sweetgrass lesson. */
+.glasshouse .ll-card .facade {
+  margin-top: auto; padding: 12px 14px; border: 0; border-radius: 4px;
+  background: var(--ll-lamp); color: var(--ll-night);
+  font: 700 17px/1.3 'Fira Sans', var(--sans);
+}
+.glasshouse .ll-card .facade:hover { background: var(--ll-rim); }
+.glasshouse .ll-card .facade__play { inset: auto auto 12px 14px; font: 700 13px/1 'Fira Sans', var(--sans); letter-spacing: .08em; color: var(--ll-night); }
+.glasshouse .ll-card .facade iframe { border-radius: 4px; }
+.glasshouse .ll-card--short .facade { aspect-ratio: 9 / 16; }
+.glasshouse .ll-card__door { margin-top: auto; font-weight: 700; }
+
+.ll-keeps { margin: 8px 0 0; padding: 0 0 0 1.3em; max-width: 68ch; font-size: 17px; line-height: 1.6; }
+.ll-keeps li { margin: 0 0 12px; }
+.glasshouse .quest { margin-top: 48px; }
+
+/* On a phone the glasshouse keeps its roof and its seedlings, the trays and
+   the labels go one across, and nothing is hidden to save room. Written last
+   in the section, after every rule it overrides. */
+@media (max-width: 560px) {
+  .ll-lede { font-size: 18px; }
+  .ll-sub { font-size: 19px; }
+  .ll-quote { padding: 14px 16px 12px; }
+  .ll-quote blockquote p { font-size: 18px; }
+  .ll-index { padding: 16px 16px 12px; }
+  .ll-cards--short { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 14px; }
+  .ll-card { padding: 14px 12px 12px; }
+  .ll-screen { padding: 8px; }
+  .ll-spectrum__axis, .ll-spectrum__key { font-size: 22px; }
+}
+
+/* §93 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -18614,7 +18923,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §92 says every
+   shipped with no rule here at all — which on a street whose §93 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -18738,7 +19047,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §93 ── Print ───────────────────────────────────────────────────────────────
+/* §94 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

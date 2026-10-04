@@ -392,6 +392,12 @@
    "about": "A journaling shop on the street: a desk under a window with a notebook lying open on it since first light, every hour’s sun across the page at once. Ryan Boren’s piece on keeping a bullet journal, a junk journal and an interstitial journal all in one notebook, in full; the questions our community asked of it at Infodumplings; the videos the piece points at; and a monthly log of the last month from journaling, stationery and notebook channels on YouTube, refilled every morning."
   },
   {
+   "tag": "learning-large",
+   "name": "Learning Large",
+   "path": "/learning-large.html",
+   "about": "A room about learning, making and knowledge gardening with generative AI: a glasshouse at night under red and blue grow lamps, where nothing looks green. Models are spiky, and so are we, and this room is about how those profiles can complement each other, in our own AI pages’ words: competency networks, harm reduction, making rather than being made into data, and a garden that belongs to the people who tend it. With this street’s own log of what came up wrong and who noticed, and a rack of the latest month from AI channels on YouTube, refilled every morning."
+  },
+  {
    "tag": "neurohome",
    "name": "NeuroHome",
    "path": "/neurohome.html",

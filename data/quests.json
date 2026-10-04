@@ -2751,6 +2751,39 @@
    }
   },
   {
+   "id": "ll-dibber",
+   "page": "learning-large.html",
+   "room": "Learning Large",
+   "title": "What does MADTech produce?",
+   "posted": "There is a glasshouse on the street with its grow lamps on all night, and a room in it about learning and making with AI. Step in out of the dark and find out what our page says one kind of technology produces, where the other kind produces data.",
+   "rank": 1,
+   "takes": "a few minutes of reading",
+   "target": "a dibber, set down on the floor under the potting bench",
+   "code": "DIBBER",
+   "learned": "Where a tool is used on somebody, what comes out is data about them; where somebody uses a tool to make something, what comes out is the thing they made, and they keep it. Our page puts the difference in five words, after Trevor Aleo, and then asks whether the human is the maker or the subject.",
+   "hints": [
+    "On the street itself, in the row of shopfronts: the door with a row of red and blue lights across its awning.",
+    "In the part of the room about making.",
+    "On the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "Where EdTech produces data, what does MADTech produce?",
+    "accept": [
+     "artifacts",
+     "artifact",
+     "artefacts",
+     "artefact"
+    ],
+    "answer": "Artifacts",
+    "why": "Artifacts: EdTech produces data, MADTech produces artifacts. One is used on a learner and keeps the record; the other is a tool the learner makes things with, and the things are theirs.",
+    "hints": [
+     "It is in the part of this room called Making.",
+     "Our page puts it in five words, after Trevor Aleo.",
+     "The things somebody made."
+    ]
+   }
+  },
+  {
    "id": "brass-tack",
    "page": "brass-tacks-board.html",
    "room": "The Brass Tacks Board",

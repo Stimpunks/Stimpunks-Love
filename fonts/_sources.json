@@ -2397,5 +2397,41 @@
    "src": "https://fonts.gstatic.com/s/rosario/v35/xfug0WDhWW_fOEoY2Fbnww42bCJhNLrQSo9wTeUPPwcGj07Ftw.woff2",
    "note": "Its italic, a second alphabet, for the two phrases the piece sets in italic and the Star Stuff prompts."
   }
+ ],
+ "recursive": [
+  {
+   "file": "recursive-800.woff2",
+   "weight": "800",
+   "style": "normal",
+   "bytes": 24840,
+   "src": "https://fonts.gstatic.com/s/recursive/v44/8vJN7wMr0mhh-RQChyHEH06TlXhq_gukbQr6Mk1QuAIcyEwG_X-dpEfaE5YaERmK-CImKsvxvU-MXGX2fSqasNfUvz2xbXfn1uEQadAClH17tQ1BCYCK6v8.woff2",
+   "note": "Learning Large (§92), the room's name and every heading, and nothing at reading size. Arrow Type's face for interfaces and code, which its own description says draws on single-stroke casual brush writing from signpainting; this is the instance Google serves for its Casual axis at 1, Linear-to-cursive at 0.5, Mono at 0, upright, at weight 800: the casual cut, so the name reads as a sign somebody painted on the glasshouse door. One static file; the variable axes are pinned in it rather than set in CSS, Doto's call."
+  }
+ ],
+ "fira-sans": [
+  {
+   "file": "fira-sans-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 17464,
+   "src": "https://fonts.gstatic.com/s/firasans/v18/va9E4kDNxMZdWfMOD5Vvl4jLazX3dA.woff2",
+   "note": "Learning Large (§92), every word that is read. Carrois's face for Mozilla's Firefox OS, built to stay legible on handsets of every screen quality, as its own description says: a face drawn for cheap phones on the open web, carrying a room about tools that are only as good as who holds them. A static family: 400, 700 and an italic, three files."
+  },
+  {
+   "file": "fira-sans-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 17744,
+   "src": "https://fonts.gstatic.com/s/firasans/v18/va9B4kDNxMZdWfMOD5VnLK3eRhf6Xl7Glw.woff2",
+   "note": "Its bold, a file of its own: Fira Sans is drawn weight by weight, not on an axis."
+  },
+  {
+   "file": "fira-sans-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 18296,
+   "src": "https://fonts.gstatic.com/s/firasans/v18/va9C4kDNxMZdWfMOD5VvkrjJYTLVdlTO.woff2",
+   "note": "Its italic, a second alphabet, for the titles of the works the room quotes from."
+  }
  ]
 }

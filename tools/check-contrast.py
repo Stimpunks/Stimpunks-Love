@@ -2869,6 +2869,45 @@ PAIRS = [
     ("#4E525C", "#D4CEBF", False, "notebook: the hours written under the drawing of the day, on the "
                                   "page in shade"),
 
+    # ── Learning Large (§92) ─────────────────────────────────────────────────
+    # A glasshouse at night under red and blue grow lamps. Every word stands on
+    # a flat ground: the night, a seed tray, the bench screen, a lit play button
+    # or a white plant label lit pink. The glow is in the drawing and under the
+    # lamp bars, never behind a sentence, and nothing here is green (the room's
+    # tool refuses one).
+    ("#F8EAF6", "#1C0A1D", False, "learning large: every word on the night -- the lede, every h2 "
+                                  "and h3 in Recursive, the house rules, the credits -- and the "
+                                  "blurb on the street door"),
+    ("#F8EAF6", "#2F1232", False, "learning large: every word in a tray -- a quotation, the index, "
+                                  "a model's peaks and troughs, a stage of the propagation bench, a "
+                                  "video's title, the button that moves a film, and the key on the "
+                                  "drawing of the two spectra"),
+    ("#D2B4D0", "#1C0A1D", False, "learning large: the trail, the over-line, when the rack was "
+                                  "filled, a channel's note that its feed fell short, and the "
+                                  "caption under the two spectra"),
+    ("#D2B4D0", "#2F1232", False, "learning large: who said a quotation, the page behind a peak or "
+                                  "a trough, the line under a video's title, why a door is a door, "
+                                  "and blue, green and red under the two spectra"),
+    ("#FFA8F0", "#1C0A1D", False, "learning large: every link on the night, the backlink, the knock "
+                                  "on the street door, and the focus ring"),
+    ("#FFA8F0", "#2F1232", False, "learning large: a link in a tray -- a quotation's credit, the "
+                                  "index, Watch on YouTube on a door"),
+    ("#F7A0FF", "#1C0A1D", False, "learning large: the h1, in Recursive, and the name on the street "
+                                  "door, and the job marker, a dibber, by its outline"),
+    ("#F8EAF6", "#0C050D", False, "learning large: the words on the bench screen while nothing is "
+                                  "on it"),
+    ("#F7A0FF", "#0C050D", False, "learning large: The bench screen. on the empty screen"),
+    ("#1C0A1D", "#DE4FEA", False, "learning large: the words on every play button, PRESS PLAY "
+                                  "included, and every word in the one stage of the propagation "
+                                  "bench that happens under the lamp"),
+    ("#1C0A1D", "#F7A0FF", False, "learning large: a play button and a button that moves a film, "
+                                  "under the pointer, and the number on each practice"),
+    ("#1C0A1D", "#F4D8F2", False, "learning large: every word on a plant label in the sowing log"),
+    ("#7B1A72", "#F4D8F2", False, "learning large: the link on a plant label, The day it was "
+                                  "written up"),
+    ("#5A2A57", "#F4D8F2", False, "learning large: a plant label's date and the small capitals over "
+                                  "each part of it"),
+
     # ── Now Playing (§53) ────────────────────────────────────────────────────
     (NP_BOTH,   NP_STOCK,  False, "now playing: every word on the sheet -- the h1, the over- and "
                                   "sub-lines, the lede, every room's name, where it is, our line "
@@ -3260,6 +3299,14 @@ ORNAMENT = {
                "with a white nosing on every one at 2.85. It carries no word.",
     "#fff3c8": "stair: the bulkhead lamp on the landing, 1.21 on the wall and drawn inside its "
                "white case. It carries no word.",
+    "#251028": "learning large: the roof glass in the drawing of the glasshouse, 1.07 on the night. "
+               "It carries no word; what shows in it is the lamp's reflection.",
+    "#3e2a42": "learning large: the lamp's housing, the glazing bars, the shelf and the bench screen's "
+               "bezel, 1.45 on the night and 1.29 on a tray. It carries no word.",
+    "#ff4a5e": "learning large: the red diodes in the lamp and the red side of every shadow, 5.76 on the "
+               "night and 5.10 on a tray. It carries no word.",
+    "#5a63ff": "learning large: the blue diodes in the lamp and the blue side of every shadow, 4.20 on "
+               "the night and 3.72 on a tray. It carries no word.",
     "#c9cbc4": "notebook: the dot grid, 1.57 on the paper. A layer behind the words, drawn on the "
                "body's ::before so check-contrast-live.py measures every word against the flat paper; "
                "a dot carries no word.",

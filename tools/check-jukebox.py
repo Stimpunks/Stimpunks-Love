@@ -239,6 +239,10 @@ LISTS = [
     # asks each new video's watch page once. Nobody chose these video by video,
     # the telly's shape, so a second asking here is worth having.
     ("the open notebook's log", "data/open-notebook-month.json", "the-open-notebook.html"),
+    # Learning Large's rack: the latest month from AI channels Ryan chose,
+    # refilled every morning by tools/pull-large-month.py, which asks each new
+    # video's watch page once. The log's shape under the same key.
+    ("learning large's rack", "data/learning-large-month.json", "learning-large.html"),
     # Big Steep: three long cellar ambience videos on their makers' own
     # channels, the kind of upload that goes private without ceremony.
     ("big steep", "data/big-steep.json", "big-steep-fermentables.html"),

@@ -1473,6 +1473,18 @@
         "--onb-ink",
         "--onb-washi-blush"
       ]
+    },
+    "learning-large.html": {
+      "kind": "ifs",
+      "figure": "fern",
+      "sway": 0.06,
+      "ground": "--ll-night",
+      "inks": [
+        "--ll-rim",
+        "--ll-lamp",
+        "--ll-red",
+        "--ll-blue"
+      ]
     }
   }
 }

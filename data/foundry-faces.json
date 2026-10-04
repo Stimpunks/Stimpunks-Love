@@ -1180,6 +1180,35 @@
     }
    ]
   },
+  "fira-sans": {
+   "family": "Fira Sans",
+   "category": "Sans Serif",
+   "designer": "Carrois Apostrophe",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/firasans",
+   "copyright": "Digitized data copyright 2012-2016, The Mozilla Foundation and Telefonica S.A.",
+   "repository": "https://github.com/googlefonts/FiraGFVersion",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "fira-sans-400.woff2",
+     "sha": "7b8f0fbf813f59df"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "fira-sans-700.woff2",
+     "sha": "811e73619cc29097"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "fira-sans-400-italic.woff2",
+     "sha": "f49e39ea0fb8c2a3"
+    }
+   ]
+  },
   "forum": {
    "family": "Forum",
    "category": "Display",
@@ -2649,6 +2678,23 @@
      "style": "normal",
      "file": "readex-pro-600.woff2",
      "sha": "87022255400cd42a"
+    }
+   ]
+  },
+  "recursive": {
+   "family": "Recursive",
+   "category": "Sans Serif",
+   "designer": "Arrow Type, Stephen Nixon",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/recursive",
+   "copyright": "Copyright 2019 The Recursive Project Authors (github.com/arrowtype/recursive)",
+   "repository": "https://github.com/arrowtype/recursive",
+   "variants": [
+    {
+     "weight": "800",
+     "style": "normal",
+     "file": "recursive-800.woff2",
+     "sha": "070c667198c0fb1e"
     }
    ]
   },
