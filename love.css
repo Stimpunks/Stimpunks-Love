@@ -1121,6 +1121,19 @@
 @font-face { font-family: 'Parkinsans'; src: url('fonts/parkinsans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Parkinsans'; src: url('fonts/parkinsans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Pekoe and Purrs (§94). A BUBBLE FOR THE SIGN AND A FRIENDLY SANS FOR THE
+   MENU. Cherry Bomb One, by Satsuyako, round as a cat asleep, sets the café's
+   name and every heading and nothing at reading size: it has one weight, so
+   one static file. Gabarito, by Naipe Foundry (Leandro Assis, Álvaro
+   Franca and Felipe Casaprima), carries every word that is read,
+   the menu, every cat's card and the house rules; it ships as a variable font,
+   so one file is declared at 400 and 700 against the weight axis, Radio
+   Canada's call. Neither has an italic, and nothing in the room asks for one.
+   Read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Cherry Bomb One'; src: url('fonts/cherry-bomb-one-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Gabarito'; src: url('fonts/gabarito-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Gabarito'; src: url('fonts/gabarito-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -2777,6 +2790,43 @@
   --hgc-fog:   #DDE4E7;  --hgc-day:   #8DB8E0;  --hgc-steel: #B8BDC3;
   --hgc-frame: #6E757E;  --hgc-fleck: #F4F6FA;  --hgc-floor: #DCD6CB;
 
+  /* Pekoe and Purrs (§94). A CAT CAFÉ WITH A WINDOW AT EVERY HEIGHT. --pkp-wall
+     is the coral wall, the ground every word stands on; --pkp-card is the
+     paper of every menu card, the cat's card and the window frames. --pkp-ink
+     is every word and every outline in the drawing, cats' and furniture's
+     alike, and the focus ring; --pkp-dim the fine print; --pkp-link every
+     link. --pkp-mug is the house glaze, teal, the one colour of every cup, mug
+     and pot in the café and the ground of every button; --pkp-mug-deep the
+     same under the pointer. The rest carry no word and are all outlined in
+     the ink: --pkp-day the square of day each window lays on the wall,
+     --pkp-sky the glass, --pkp-glass the clear bridge and the cold brew's
+     glass, --pkp-birch the shelves, ledges and tables, --pkp-sisal the cat
+     tree's rope, the basket and the box, --pkp-knit the café's knitted
+     blanket, the hammock and the tree's carpet, --pkp-floor the floor,
+     --pkp-shade the inside of a cubby and the hatch. What is in a mug or on a
+     plate: --pkp-coffee, --pkp-crema, --pkp-foam, --pkp-cocoa, --pkp-pekoe
+     (black tea and rooibos), --pkp-green, --pkp-matcha, --pkp-gold (white tea,
+     oolong and the tisanes), --pkp-ruby (hibiscus, beetroot, and a crinkle
+     ball and the feather in the room); and the sandwiches' --pkp-bread,
+     --pkp-crust (brown bread, and the edge of your table), --pkp-rye,
+     --pkp-leaf, --pkp-yolk,
+     --pkp-salmon, --pkp-pink, --pkp-curry, --pkp-cream, --pkp-tomato and
+     --pkp-peanut. The cats wear Rescue A Cat's own coats, --rac-coat-*, drawn
+     by animals.js, because they are those cats. */
+  --pkp-wall:  #F2A891;  --pkp-card:  #FFF7EE;  --pkp-ink:   #24182A;
+  --pkp-dim:   #5A3B45;  --pkp-link:  #5F1532;  --pkp-mug:   #2C6A73;
+  --pkp-mug-deep: #1F4E55;
+  --pkp-day:   #FBD3C3;  --pkp-sky:   #CBE7F4;  --pkp-glass: #E4F2F8;
+  --pkp-birch: #F7E4C4;  --pkp-sisal: #DDB57E;  --pkp-knit:  #E5B347;
+  --pkp-floor: #D98C74;  --pkp-shade: #E08A73;
+  --pkp-coffee: #5B3A27; --pkp-crema: #C99A6B;  --pkp-foam:  #F6E7D2;
+  --pkp-cocoa: #6A3424;  --pkp-pekoe: #C2611E;  --pkp-green: #B5B155;
+  --pkp-matcha: #7BA24C; --pkp-gold:  #E2B94B;  --pkp-ruby:  #A2313F;
+  --pkp-bread: #F5E6C8;  --pkp-crust: #C8955E;  --pkp-rye:   #8B5E3C;
+  --pkp-leaf:  #6FA84E;  --pkp-yolk:  #F0CF55;  --pkp-salmon: #EE8F73;
+  --pkp-pink:  #E9A39A;  --pkp-curry: #E3A53D;  --pkp-cream: #EFE2C4;
+  --pkp-tomato: #D2483A; --pkp-peanut: #B07A44;
+
   /* import:neurohome:root:begin */
   /* Isha Snow's room, NeuroHome -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -3702,6 +3752,23 @@ div.facade--audio { border: 0; background: none; }
 .door--cookin .door__name  { font-family: 'Corben', var(--sans); font-weight: 700; color: var(--hgc-enamel); font-size: 26px; line-height: 1.1; font-synthesis: none; }
 .door--cookin .door__blurb { font-family: 'Parkinsans', var(--sans); color: var(--hgc-ink); font-size: 14px; font-synthesis: none; }
 .door--cookin .door__knock { font-family: 'Parkinsans', var(--sans); font-weight: 700; font-size: 13px; color: var(--hgc-link); font-synthesis: none; }
+.door--purrs { background-color: var(--pkp-wall); border-color: var(--pkp-ink); }
+.door--purrs .door__awning {
+  background-color: var(--pkp-card);
+  background-image: linear-gradient(var(--pkp-sky), var(--pkp-sky)), radial-gradient(circle, var(--pkp-sky) 0 4px, transparent 4.6px),
+    linear-gradient(var(--pkp-sky), var(--pkp-sky)), radial-gradient(circle, var(--pkp-sky) 0 4px, transparent 4.6px),
+    linear-gradient(var(--pkp-sky), var(--pkp-sky));
+  background-size: 9px 9px, 10px 10px, 9px 9px, 10px 10px, 9px 9px;
+  background-position: 10% 85%, 28% 20%, 51% 60%, 72% 15%, 90% 90%;
+  background-repeat: no-repeat;
+  border-bottom-color: var(--pkp-ink);
+}
+.door--purrs .door__name  { font-family: 'Cherry Bomb One', var(--sans); font-weight: 400; color: var(--pkp-ink); font-size: 27px; line-height: 1.05; font-synthesis: none; }
+.door--purrs .door__blurb { font-family: 'Gabarito', var(--sans); color: var(--pkp-ink); font-size: 14px; font-synthesis: none; }
+.door--purrs .door__knock { font-family: 'Gabarito', var(--sans); font-weight: 700; font-size: 13px; color: var(--pkp-link); font-synthesis: none; }
+/* PEKOE AND PURRS' DOOR IS ITS WALL: small windows at different heights, some
+   square and some round, never in a row, because no two of them are cut for
+   the same cat. */
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
 .door--empty .door__name  { font-family: 'Bungee', var(--sans); color: var(--chalk); font-size: 23px; }
@@ -14918,7 +14985,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §95
+   class on it is `bb-`, its sizes are in points and millimetres, and §96
    prints it and nothing else. */
 
 .room-broadside {
@@ -14979,7 +15046,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §95 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §96 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -19154,7 +19221,200 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .hgc-temps th, .hgc-temps td { padding: 9px 10px; }
 }
 
-/* §94 ── Small screens ───────────────────────────────────────────────────────
+/* §94 ── ROOM: Pekoe and Purrs (a shopfront on the street) ───────────────────
+   A cat café. Ryan's brief, 2026-10-04: coffee, tea, tea sandwiches, and cats
+   from the rescue waiting for adoption, roaming among toys, lofts and wall
+   playgrounds; press a cat to meet them, pick one up and put them on your lap,
+   and look down at your lap and your table. tools/make-pekoe.py draws the room
+   and writes the menu; purrs.js reads the cats off Rescue A Cat's own list
+   every time the room opens and draws them with animals.js.
+
+   THE LIGHT IS A WINDOW AT EVERY HEIGHT, EACH CUT TO THE SIZE OF A CAT. One at
+   the floor for watching feet go by, round ones high up, a square one in the
+   middle of the wall, an arch, one under the eaves: every cat has a window of
+   its own to look out of, and every window lays a small square of day on the
+   wall down and to the right of it, because the sun is up and to the left. The
+   light in the room is all of those squares at once, and no other room on the
+   street is lit by a scatter of small windows at every height. The squares
+   are drawn from the windows by the tool and never placed by hand.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · RESCUE A CAT is where every cat in here came from, and the room this
+       one must never look like: the dark, a torch, every cat seen only in its
+       pool and mostly by its eyes. Here it is day, the room is lit all over,
+       and every cat is seen whole on a pale wall. If this room ever goes dark
+       it has become the shelter with tables in it.
+     · COVENSTEAD is the other room that pours tea in daylight, and the one to
+       watch: one window, one warm patch on pink limewash, and the mismatched
+       china that is its whole subject. Here there are many small windows and
+       many small squares on a coral wall, and every cup, mug and pot is the
+       same teal mug, because the regulars knock things off tables. If the cups
+       ever stop matching, it has become Covenstead with cats.
+     · THE COMMUNITY LIBRARY is lit by windows you can see out of too, set high
+       over the shelving with the sky in every one. These are small, at every
+       height down to the floor, and cut for the cats, not for reading by.
+     · SAMEFOOD CAFE is the street's other café, and the view down at your lap
+       is where this room could fall into it: that is a plan straight down from
+       above, nothing touching anything. This is your own view from your seat,
+       the table running away from you, the cat on the blanket, the cup by the
+       plate.
+     · THE PLAYHOUSE has toys too, saturated primary blue under bunting. These
+       toys are a cat's, and nobody learns anything from them.
+
+   EVERYTHING IS OUTLINED IN THE INK, cats and furniture alike, because the
+   cats come outlined in the shelter's dark and a room drawn in another hand
+   would put them in front of it like stickers. The knitted things and the
+   sisal measure barely 1 against the wall and are carried by their outlines,
+   the way the shelter's white cats are.
+
+   NOTHING TILTS, and nothing moves by itself below MAX GLITTER: a cat's hop is
+   a fade on its opacity, and at Gentle §3 takes the fade away and leaves a
+   jump. make-pekoe.py refuses a rotation, a skew or a literal colour here. */
+
+.purrs {
+  background: var(--pkp-wall); color: var(--pkp-ink);
+  font-family: 'Gabarito', var(--sans); font-synthesis: none;
+}
+.purrs a { color: var(--pkp-link); }
+.purrs :focus-visible { outline-color: var(--pkp-ink); }
+.purrs :where(p, li) { font-size: 17px; line-height: 1.6; }
+.purrs .backlink { font-family: 'Gabarito', var(--sans); font-weight: 700; font-size: 15px; letter-spacing: .01em; color: var(--pkp-link); }
+.pkp-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.pkp-trail { margin: 0; font-size: 15px; color: var(--pkp-dim); }
+
+.pkp-head { margin: 28px 0 0; }
+.pkp-over { margin: 0; font-weight: 700; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; color: var(--pkp-dim); }
+.purrs h1 {
+  margin: 6px 0 4px; font-family: 'Cherry Bomb One', var(--sans); font-weight: 400;
+  font-size: clamp(48px, 9vw, 92px); line-height: 1; color: var(--pkp-ink);
+}
+.pkp-sub { margin: 0; font-size: 21px; line-height: 1.4; max-width: 38ch; }
+.purrs h2 {
+  margin: 0 0 10px; font-family: 'Cherry Bomb One', var(--sans); font-weight: 400;
+  font-size: 34px; line-height: 1.15; color: var(--pkp-ink);
+}
+.purrs h3 {
+  margin: 26px 0 8px; font-family: 'Cherry Bomb One', var(--sans); font-weight: 400;
+  font-size: 25px; line-height: 1.2; color: var(--pkp-ink);
+}
+.pkp-lede { margin: 24px 0 0; font-size: 19px; line-height: 1.6; max-width: 66ch; }
+.pkp-part { margin: 46px 0 0; }
+.pkp-part > p { max-width: 68ch; }
+.pkp-state { margin: 0 0 14px; max-width: 68ch; }
+
+/* THE ROOM. The drawing, the cats on it as buttons, and in front of them the
+   near side of the box, the basket, the hammock and the cubbies, which takes
+   no pointer. Nothing here makes its own stacking context but the room, so a
+   cat with the keyboard on it can come in front of the box it is sitting in. */
+.pkp-roomwrap { overflow-x: auto; border: 3px solid var(--pkp-ink); border-radius: 18px; background: var(--pkp-wall); }
+.pkp-room { position: relative; isolation: isolate; min-width: 760px; }
+.pkp-room__draw { display: block; width: 100%; height: auto; }
+.pkp-cats { position: absolute; inset: 0; }
+.pkp-room__front { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+.pkp-cat {
+  position: absolute; z-index: 1; width: 7%; aspect-ratio: 200 / 170; padding: 0; margin: 0;
+  border: 0; border-radius: 12px; background: none; cursor: pointer; transition: opacity .34s ease;
+}
+.pkp-cat:focus-visible { z-index: 3; outline: 3px solid var(--pkp-ink); outline-offset: 3px; }
+.pkp-cat--away { opacity: 0; }
+.pkp-cat__draw { display: block; width: 100%; height: 100%; }
+.pkp-spots { display: none; }
+
+.pkp-lap { border: 3px solid var(--pkp-ink); border-radius: 18px; overflow: hidden; background: var(--pkp-floor); }
+.pkp-lap__draw { display: block; width: 100%; height: auto; }
+.pkp-lapsays { margin: 12px 0 0; padding: 10px 14px; max-width: 68ch; background: var(--pkp-card); border: 2px solid var(--pkp-ink); border-radius: 12px; }
+
+.pkp-controls, .pkp-toys { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; margin: 14px 0 0; }
+.pkp-controls:empty { display: none; }
+.pkp-btn {
+  font: 700 17px/1.3 'Gabarito', var(--sans); padding: 9px 18px; min-height: 44px; cursor: pointer;
+  border: 2px solid var(--pkp-ink); border-radius: 22px; background: var(--pkp-mug); color: var(--pkp-card);
+}
+.pkp-btn:hover { background: var(--pkp-mug-deep); }
+.pkp-btn:focus-visible { outline: 3px solid var(--pkp-ink); outline-offset: 3px; }
+.pkp-btn--quiet { background: var(--pkp-card); color: var(--pkp-ink); }
+.pkp-btn--quiet:hover { background: var(--pkp-day); }
+
+/* An answer, where the hand is: on the toys, under a menu item, on the card.
+   aria-hidden, because the live region says it once. */
+.pkp-said {
+  display: block; flex: 1 1 100%; margin: 8px 0 0; padding: 7px 12px; font-size: 16px; line-height: 1.45;
+  background: var(--pkp-card); color: var(--pkp-ink); border: 2px solid var(--pkp-ink); border-radius: 12px;
+}
+
+/* A cat's card: the shelter's words about them, on the café's paper. */
+.pkp-card {
+  display: grid; grid-template-columns: minmax(0, 200px) minmax(0, 1fr); gap: 8px 24px; align-items: start;
+  margin: 18px 0 0; padding: 18px 20px; background: var(--pkp-card); border: 3px solid var(--pkp-ink); border-radius: 18px;
+}
+.pkp-card__draw { display: block; width: 100%; height: auto; }
+.purrs .pkp-card__name { margin: 4px 0 6px; overflow-wrap: anywhere; }
+.pkp-card__words p { margin: 0 0 8px; }
+.pkp-card__now { font-weight: 700; }
+.pkp-card__came { color: var(--pkp-dim); }
+
+.pkp-who { margin: 6px 0 0; padding-left: 22px; max-width: 68ch; }
+.pkp-who li { margin: 0 0 6px; }
+/* A cat's name in the list: a button that reads as the name, underlined like
+   a link, because it opens the cat's card the way pressing the cat does. */
+.pkp-who__cat {
+  font: 700 17px/1.4 'Gabarito', var(--sans); padding: 2px 0; margin: 0; border: 0; background: none;
+  color: var(--pkp-link); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; min-height: 24px;
+}
+.pkp-who__cat:hover { color: var(--pkp-ink); }
+/* Said only where the room is wider than the screen. */
+.pkp-wide { display: none; margin: 0 0 10px; font-size: 15px; color: var(--pkp-dim); max-width: 60ch; }
+@media (max-width: 800px) { .pkp-wide { display: block; } }
+
+/* THE MENU, on paper, one card to an item, with its drawing: the same
+   drawing that goes on your table. */
+.pkp-board { margin: 8px 0 0; }
+.pkp-board__lede { max-width: 68ch; margin: 0 0 12px; }
+.pkp-items { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+.pkp-item { padding: 12px 16px 14px; background: var(--pkp-card); border: 2px solid var(--pkp-ink); border-radius: 14px; }
+.pkp-item__draw { display: block; width: 120px; height: auto; margin: 0 0 4px; }
+.purrs .pkp-item__name { margin: 0 0 6px; font-size: 22px; }
+.pkp-item p { margin: 0 0 6px; font-size: 16px; line-height: 1.5; }
+.pkp-item__has, .pkp-item__caf { font-weight: 700; }
+.pkp-item__ask, .pkp-item__note { color: var(--pkp-dim); }
+.pkp-item__go { margin: 10px 0 0; }
+.pkp-mark {
+  display: inline-block; padding: 1px 10px; font-size: 14px; font-weight: 700; letter-spacing: .02em;
+  border: 2px solid var(--pkp-ink); border-radius: 999px; background: var(--pkp-card); color: var(--pkp-ink);
+}
+.pkp-mark--vegan, .pkp-mark--vegetarian { background: var(--pkp-mug); color: var(--pkp-card); }
+
+/* THE TELLY, with nothing of its own on it, and its rack: rack.js's pattern,
+   in the café's clothes. The telly is the house glaze, because it is the one
+   thing in the room bought to match the mugs. */
+.pkp-screen { margin: 16px 0 0; max-width: 820px; border-radius: 14px; }
+.purrs .pkp-screen__idle {
+  margin: 0; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+  padding: 18px 22px; text-align: center; border-radius: 14px; border: 3px solid var(--pkp-ink);
+  background: var(--pkp-mug); color: var(--pkp-card); font-size: 17px; line-height: 1.5;
+}
+.purrs .pkp-screen__idle span { max-width: 44ch; }
+.purrs .pkp-screen__now { margin: 10px 0 0; max-width: 820px; font-weight: 700; font-size: 16px; }
+.purrs .pkp-screen__back { margin: 8px 0 0; }
+.pkp-rack { margin: 22px 0 0; }
+.pkp-rack__sum { cursor: pointer; font: 400 24px/1.25 'Cherry Bomb One', var(--sans); color: var(--pkp-ink); }
+.pkp-vids { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.pkp-vid { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px 14px; background: var(--pkp-card); border: 2px solid var(--pkp-ink); border-radius: 14px; }
+.purrs .pkp-vid__title { margin: 0; font: 700 17px/1.35 'Gabarito', var(--sans); overflow-wrap: anywhere; }
+.purrs .pkp-vid__by { margin: 0; font-size: 15px; color: var(--pkp-dim); }
+.pkp-vid .facade { margin-top: auto; }
+.purrs .pkp-vid__big { font-size: 15px; min-height: 40px; text-align: left; }
+
+.pkp-rules, .pkp-keeps { margin: 8px 0 0; padding-left: 22px; max-width: 68ch; }
+.pkp-rules li, .pkp-keeps li { margin: 0 0 8px; }
+.purrs .quest { margin-top: 40px; }
+
+@media (max-width: 620px) {
+  .pkp-card { grid-template-columns: 1fr; }
+  .pkp-card__pic { max-width: 180px; }
+}
+
+/* §95 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -19261,7 +19521,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §94 says every
+   shipped with no rule here at all — which on a street whose §95 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -19385,7 +19645,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §95 ── Print ───────────────────────────────────────────────────────────────
+/* §96 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

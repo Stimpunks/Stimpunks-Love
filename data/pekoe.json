@@ -1,0 +1,164 @@
+{
+  "_what": "Pekoe and Purrs, the cat café on the street. Ryan Boren's brief, 2026-10-04: coffee, tea, tea sandwiches, and cats from the cat rescue waiting for adoption; a coffee, tea and tea sandwich menu with vegan and vegetarian options; cats from the shelter roaming the café among toys, lofts and wall playgrounds; click a cat for its name and adoption information, with a link to the rescue; the cats move around the café periodically; pick one up and put it in your lap; look down at your lap and table to see the cat in your lap and your drinks and food on the table. tools/make-pekoe.py builds the room, the menu and the credits out of this file. THE CATS ARE NOT IN THIS FILE: purrs.js reads them off the shelter's own public list (GET /cb/shelter?kind=cat) every time the room opens, so the café can never show a cat the shelter does not have, nor miss one it does.",
+
+  "_menu": "Every item says what is in it before you ask for it. The allergen line and the diet are checked against the ingredients by the same engine Hey, Good Cookin' uses (make-hey-good-cookin.py's allergens(), animals() and check_dish()), so the two kitchens cannot disagree about a word. Every drink's caffeine line is worked out from what is in it and never typed: the runtime rule at a café counter. A drink whose ingredients name no bean, leaf, flower or chocolate is refused rather than called caffeine-free by default. The house milk is oat; `ask` is a swap somebody can ask for and is said on the card, not counted in the allergen line, which is what the item is as it comes. A drink's `look` is the colour of what is in the mug, never the mug: every mug in the café is the same mug.",
+  "menu": [
+    {
+      "key": "coffee",
+      "title": "Coffee",
+      "lede": "Every coffee comes in the house mug, and every milk in it is oat unless you ask for another.",
+      "items": [
+        {"key": "espresso", "name": "Espresso", "diet": "vegan", "vessel": "cup", "what": "a double shot of espresso", "look": {"drink": "--pkp-coffee", "top": "--pkp-crema"}},
+        {"key": "americano", "name": "Americano", "diet": "vegan", "vessel": "mug", "what": "a double shot of espresso, topped up with hot water", "look": {"drink": "--pkp-coffee"}},
+        {"key": "flat-white", "name": "Flat white", "diet": "vegan", "vessel": "mug", "what": "a double shot of espresso and a little steamed oat milk", "ask": "Soy milk or dairy milk, if you ask.", "look": {"drink": "--pkp-crema", "top": "--pkp-foam"}},
+        {"key": "cappuccino", "name": "Cappuccino", "diet": "vegan", "vessel": "mug", "what": "a shot of espresso, steamed oat milk, a thick cap of foam, and cocoa dusted on top", "ask": "Soy milk or dairy milk, if you ask.", "look": {"drink": "--pkp-foam", "top": "--pkp-coffee", "dust": true}},
+        {"key": "latte", "name": "Latte", "diet": "vegan", "vessel": "mug", "what": "a shot of espresso and plenty of steamed oat milk, with a cat drawn in the foam", "ask": "Soy milk or dairy milk, if you ask.", "look": {"drink": "--pkp-crema", "top": "--pkp-foam", "art": "cat"}},
+        {"key": "mocha", "name": "Mocha", "diet": "vegan", "vessel": "mug", "what": "a shot of espresso and dairy-free dark chocolate, melted into steamed oat milk", "ask": "Soy milk or dairy milk, if you ask.", "look": {"drink": "--pkp-coffee", "top": "--pkp-crema"}},
+        {"key": "decaf-latte", "name": "Decaf latte", "diet": "vegan", "vessel": "mug", "what": "a shot of decaf espresso and plenty of steamed oat milk", "ask": "Any coffee on this board can be made decaf, if you ask.", "look": {"drink": "--pkp-crema", "top": "--pkp-foam"}},
+        {"key": "cold-brew", "name": "Cold brew", "diet": "vegan", "vessel": "glass", "what": "coffee steeped cold overnight, poured over ice", "look": {"drink": "--pkp-coffee"}}
+      ]
+    },
+    {
+      "key": "not-coffee",
+      "title": "Not coffee",
+      "lede": "For anybody who wants a warm mug and no coffee in it.",
+      "items": [
+        {"key": "hot-chocolate", "name": "Hot chocolate", "diet": "vegan", "vessel": "mug", "what": "dairy-free dark chocolate, melted into steamed oat milk", "ask": "Soy milk or dairy milk, if you ask.", "look": {"drink": "--pkp-cocoa"}},
+        {"key": "cinnamon-milk", "name": "Cinnamon oat milk", "diet": "vegan", "vessel": "mug", "what": "steamed oat milk with cinnamon and a spoon of maple syrup", "look": {"drink": "--pkp-foam", "dust": true}}
+      ]
+    },
+    {
+      "key": "tea",
+      "title": "Tea",
+      "lede": "Every tea comes as a pot for one and the house mug to pour it into. Milk on the side for anybody who takes it, oat unless you ask.",
+      "items": [
+        {"key": "orange-pekoe", "name": "Orange pekoe", "diet": "vegan", "vessel": "pot", "what": "orange pekoe black tea, whole leaves", "note": "The house tea, and the café is named for it. It is not orange-flavoured: orange pekoe is a grade of black tea in the tea trade, whole leaves of a certain size, and nobody is quite sure where either word comes from.", "look": {"drink": "--pkp-pekoe"}},
+        {"key": "assam", "name": "Assam", "diet": "vegan", "vessel": "pot", "what": "Assam black tea, strong and malty", "look": {"drink": "--pkp-pekoe"}},
+        {"key": "earl-grey", "name": "Earl Grey", "diet": "vegan", "vessel": "pot", "what": "black tea scented with oil of bergamot, a citrus fruit", "look": {"drink": "--pkp-pekoe"}},
+        {"key": "masala-chai", "name": "Masala chai", "diet": "vegan", "vessel": "pot", "what": "black tea simmered in oat milk with ginger, cardamom, cinnamon, cloves and black pepper", "ask": "Sweetened with sugar, if you ask.", "look": {"drink": "--pkp-crema"}},
+        {"key": "sencha", "name": "Sencha", "diet": "vegan", "vessel": "pot", "what": "sencha green tea, steamed leaves", "look": {"drink": "--pkp-green"}},
+        {"key": "jasmine", "name": "Jasmine", "diet": "vegan", "vessel": "pot", "what": "green tea scented with jasmine flowers", "look": {"drink": "--pkp-green"}},
+        {"key": "matcha-latte", "name": "Matcha latte", "diet": "vegan", "vessel": "mug", "what": "stone-ground green tea, whisked into steamed oat milk", "ask": "Soy milk or dairy milk, if you ask.", "look": {"drink": "--pkp-matcha", "top": "--pkp-foam"}},
+        {"key": "white-peony", "name": "White peony", "diet": "vegan", "vessel": "pot", "what": "white tea, the bud and the first leaves", "look": {"drink": "--pkp-gold"}},
+        {"key": "oolong", "name": "Oolong", "diet": "vegan", "vessel": "pot", "what": "oolong tea, leaves rolled into little balls that open in the pot", "look": {"drink": "--pkp-gold"}},
+        {"key": "chamomile", "name": "Chamomile", "diet": "vegan", "vessel": "pot", "what": "dried chamomile flowers", "look": {"drink": "--pkp-gold"}},
+        {"key": "peppermint", "name": "Peppermint", "diet": "vegan", "vessel": "pot", "what": "dried peppermint leaves", "look": {"drink": "--pkp-gold"}},
+        {"key": "rooibos", "name": "Rooibos", "diet": "vegan", "vessel": "pot", "what": "rooibos, a red bush from South Africa", "look": {"drink": "--pkp-pekoe"}},
+        {"key": "hibiscus", "name": "Hibiscus", "diet": "vegan", "vessel": "pot", "what": "dried hibiscus flowers, deep red and sharp", "look": {"drink": "--pkp-ruby"}}
+      ]
+    },
+    {
+      "key": "sandwiches",
+      "title": "Tea sandwiches",
+      "lede": "Three fingers of sandwich on a plate, crusts off. Any of them can be made on gluten-free bread if you ask; it is made in the same kitchen as the wheat bread, so if that matters, say so at the hatch and somebody will tell you what has been near what.",
+      "items": [
+        {"key": "cucumber", "name": "Cucumber and mint", "diet": "vegan", "what": "cucumber sliced thin, fresh mint, olive oil spread, white bread", "look": {"bread": "--pkp-bread", "filling": ["--pkp-leaf", "--pkp-cream"]}},
+        {"key": "chickpea", "name": "Coronation chickpea", "diet": "vegan", "what": "chickpeas, eggless mayonnaise, mild curry powder, mango chutney, sultanas, coriander, brown bread", "look": {"bread": "--pkp-crust", "filling": ["--pkp-curry", "--pkp-leaf"]}},
+        {"key": "hummus", "name": "Hummus, roast pepper and rocket", "diet": "vegan", "what": "hummus, roasted red pepper, rocket, brown bread", "look": {"bread": "--pkp-crust", "filling": ["--pkp-cream", "--pkp-tomato", "--pkp-leaf"]}},
+        {"key": "beetroot", "name": "Beetroot and walnut", "diet": "vegan", "what": "roasted beetroot, walnuts, cashew cream cheese, dill, rye bread", "look": {"bread": "--pkp-rye", "filling": ["--pkp-ruby", "--pkp-cream"]}},
+        {"key": "tomato", "name": "Tomato and basil", "diet": "vegan", "what": "tomato, fresh basil, olive oil spread, sea salt, white bread", "look": {"bread": "--pkp-bread", "filling": ["--pkp-tomato", "--pkp-leaf"]}},
+        {"key": "peanut", "name": "Peanut butter and banana", "diet": "vegan", "what": "peanut butter, banana, brown bread", "look": {"bread": "--pkp-crust", "filling": ["--pkp-peanut", "--pkp-yolk"]}},
+        {"key": "egg-cress", "name": "Egg and cress", "diet": "vegetarian", "what": "eggs, mayonnaise, cress, butter, white bread", "look": {"bread": "--pkp-bread", "filling": ["--pkp-yolk", "--pkp-leaf"]}},
+        {"key": "cheese-pickle", "name": "Cheese and pickle", "diet": "vegetarian", "what": "mature cheddar, sweet brown pickle, butter, brown bread", "note": "Every cheese in a vegetarian sandwich here is made with a rennet that came from no animal.", "look": {"bread": "--pkp-crust", "filling": ["--pkp-curry", "--pkp-peanut"]}},
+        {"key": "salmon", "name": "Smoked salmon and cream cheese", "diet": "fish", "what": "smoked salmon, cream cheese, dill, lemon, rye bread", "look": {"bread": "--pkp-rye", "filling": ["--pkp-salmon", "--pkp-cream"]}},
+        {"key": "ham", "name": "Ham and mustard", "diet": "meat", "animal": "pork", "what": "ham, English mustard, butter, white bread", "look": {"bread": "--pkp-bread", "filling": ["--pkp-pink", "--pkp-yolk"]}},
+        {"key": "chicken", "name": "Chicken and tarragon", "diet": "meat", "animal": "chicken", "what": "roast chicken, mayonnaise, tarragon, white bread", "look": {"bread": "--pkp-bread", "filling": ["--pkp-cream", "--pkp-leaf"]}}
+      ]
+    }
+  ],
+
+  "sources": {
+    "grading": {"title": "Tea leaf grading", "by": "Wikipedia", "url": "https://en.wikipedia.org/wiki/Tea_leaf_grading", "read": "2026-10-04", "for": "What orange pekoe is: a grade of black tea, whole leaves of a certain size, with the origin of both words uncertain, and not orange-flavoured"},
+    "caffeine": {"title": "Spilling the Beans: How Much Caffeine is Too Much?", "by": "the U.S. Food and Drug Administration", "url": "https://www.fda.gov/consumers/consumer-updates/spilling-beans-how-much-caffeine-too-much", "read": "2026-10-04", "for": "That decaf is never quite caffeine-free, and that chocolate carries caffeine"},
+    "herbal": {"title": "Herbal tea", "by": "Wikipedia", "url": "https://en.wikipedia.org/wiki/Herbal_tea", "read": "2026-10-04", "for": "That a tisane is not brewed from the tea plant and most carry no caffeine"}
+  },
+
+  "_videos": "THE TELLY'S RACK. Ryan's pick, 2026-10-04, in the order he gave them: films from other cat cafés, most of them in Japan. Each id was asked of its own watch page on 2026-10-04, and every one answered OK and playable on other sites; the title, the channel and the runtime are what that page said, the runtime measured off its length and never typed. The titles are the channels' and are quoted as written, capitals, emoji and all, and the room's sweeps skip them. A video is an id, a title, a channel, a runtime and the day it went up: no description and no count of views or likes, which make-pekoe.py refuses. check-jukebox.py asks after every one of them with every other facade on the street.",
+  "videos": [
+    {"id": "12APiyc6nR0", "title": "[4k] 1 hour | Relaxing In A Japanese Cat Cafe", "channel": "JAPO Landscape", "channel_id": "UC2oGbW-zWIcwse2swzeybGw", "runtime": "1:01:25", "published": "2021-10-03"},
+    {"id": "wbQztZx64F8", "title": "So Cute!!! Visiting a large Japanese cat cafe in Nagoya 🐈 🥤 CAT CAFE MOCHA", "channel": "Experience JAPAN", "channel_id": "UCM0fFACS2gXFvEddnKJ7QpQ", "runtime": "28:20", "published": "2023-06-18"},
+    {"id": "o42W6ycmZTg", "title": "Visiting a Clean and Spacious Cat Cafe in Japan | CAT CAFE MOCHA 🐈", "channel": "Experience JAPAN", "channel_id": "UCM0fFACS2gXFvEddnKJ7QpQ", "runtime": "31:04", "published": "2026-06-21"},
+    {"id": "uzlUSJu4XvM", "title": "Inside Brooklyn Cat Café: 40 Cats, 1 Mission", "channel": "Girls and Their Cats", "channel_id": "UC79_UWQ_N92TezF6mE2caHw", "runtime": "21:41", "published": "2025-10-03"},
+    {"id": "-dy3b1vc024", "title": "Japan’s Cat Café “Nekobu” | Enjoy Desserts Surrounded by Cats!🐈🧁", "channel": "Japan Animal Travels", "channel_id": "UClvAMefbqDLwHDOF40Vjm_Q", "runtime": "23:00", "published": "2026-01-23"},
+    {"id": "TUxhSregQ_k", "title": "Impossibly Clean!! Largest Cat Cafe in Shinjuku, Tokyo 🐈💞 CAT CAFE MOCHA", "channel": "Experience JAPAN", "channel_id": "UCM0fFACS2gXFvEddnKJ7QpQ", "runtime": "12:19", "published": "2022-09-22"},
+    {"id": "jycYyJs4qBI", "title": "Spending All Day at Japan’s Largest Cat Cafes on Halloween🎃🐈", "channel": "Japan Animal Travels", "channel_id": "UClvAMefbqDLwHDOF40Vjm_Q", "runtime": "40:12", "published": "2025-10-31"},
+    {"id": "NzCBBSrnrcg", "title": "Japan's Capybara & Cat Cafe🐈 The only place in the world!!", "channel": "Japan Animal Travels", "channel_id": "UClvAMefbqDLwHDOF40Vjm_Q", "runtime": "18:17", "published": "2024-06-15"},
+    {"id": "Qu_5KX1nqH4", "title": "Nostalgic Stay at Japan’s Beautiful Cat Onsen Ryokan!🐈♨︎", "channel": "Japan Animal Travels", "channel_id": "UClvAMefbqDLwHDOF40Vjm_Q", "runtime": "30:21", "published": "2025-12-12"},
+    {"id": "9O2Vombtoiw", "title": "Visiting Japan's Cat Cafe🐈 | Cat Cafe MOCHA Shibuya Center Street", "channel": "It's Time to Travel🇯🇵 / 旅する時間", "channel_id": "UCQDKpfTS6haXS6BAHebR8Hw", "runtime": "11:13", "published": "2022-03-08"},
+    {"id": "yy78piywFIw", "title": "Weekend at a Cat Café! 🐈 | Neko Cafe MOCHA SHIBUYA| Tokyo Experience Channel", "channel": "Tokyo Experience Channel", "channel_id": "UCUUK_fu3u72Gsw8Hira3hcA", "runtime": "50:37", "published": "2024-09-09"}
+  ],
+
+  "_table": "How many things your table holds at once. Small round café tables, and a cat on your lap who would like some of the room.",
+  "table_holds": 4,
+
+  "_windows": "THE LIGHT. A window at every height, each cut to the size of a cat, so every perch has a window of its own to look out of and each one lays a small square of day on the wall beside it. x and y are the window's centre in the drawing (1200 by 660), w and h its size. `shape` is square, round or arch. The squares of day fall down and to the right of every window, because the sun is up and to the left of the building, and they are drawn by the tool from the window, never placed by hand.",
+  "windows": [
+    {"key": "porthole", "shape": "round", "x": 110, "y": 118, "w": 84, "h": 84},
+    {"key": "low", "shape": "square", "x": 240, "y": 548, "w": 96, "h": 52},
+    {"key": "middle", "shape": "square", "x": 420, "y": 290, "w": 80, "h": 80},
+    {"key": "arch", "shape": "arch", "x": 720, "y": 282, "w": 72, "h": 96},
+    {"key": "little", "shape": "round", "x": 832, "y": 232, "w": 56, "h": 56},
+    {"key": "eaves", "shape": "round", "x": 1110, "y": 86, "w": 56, "h": 56}
+  ],
+
+  "_spots": "Every place a cat can be in the room. x and y are where the cat's feet go, in the drawing's 1200 by 660. `kind` says what the perch is, and the tool draws it: shelf, sill, bridge, hammock, ledge, chair, floor, basket, box, tree or cubby. `level` is high, middle or floor. `where` is what the room says out loud about a cat there. There must be more perches than the shelter can ever hold, so a cat always has somewhere to go, and the tool reads SHELTER_KEEP out of netlify/cb/lib.mjs to make sure. No two cats' places may overlap.",
+  "spots": [
+    {"key": "step-1", "kind": "shelf", "level": "middle", "x": 100, "y": 514, "where": "on the bottom step of the shelves"},
+    {"key": "step-2", "kind": "shelf", "level": "middle", "x": 228, "y": 452, "where": "on the second step of the shelves"},
+    {"key": "step-3", "kind": "shelf", "level": "middle", "x": 100, "y": 382, "where": "halfway up the shelves"},
+    {"key": "step-4", "kind": "shelf", "level": "high", "x": 228, "y": 312, "where": "high on the shelves"},
+    {"key": "step-5", "kind": "shelf", "level": "high", "x": 100, "y": 242, "where": "near the top of the shelves"},
+    {"key": "step-6", "kind": "shelf", "level": "high", "x": 228, "y": 172, "where": "on the top step of the shelves"},
+    {"key": "porthole", "kind": "sill", "level": "high", "x": 110, "y": 160, "where": "in the round window at the top"},
+    {"key": "basket", "kind": "basket", "level": "floor", "x": 100, "y": 590, "where": "in the basket under the shelves"},
+    {"key": "low-window", "kind": "floor", "level": "floor", "x": 240, "y": 590, "where": "on the floor by the low window, watching feet go by"},
+    {"key": "bridge-1", "kind": "bridge", "level": "high", "x": 400, "y": 150, "where": "on the glass bridge across the ceiling"},
+    {"key": "bridge-2", "kind": "bridge", "level": "high", "x": 530, "y": 150, "where": "on the glass bridge, near the left end"},
+    {"key": "bridge-3", "kind": "bridge", "level": "high", "x": 660, "y": 150, "where": "in the middle of the glass bridge"},
+    {"key": "bridge-4", "kind": "bridge", "level": "high", "x": 790, "y": 150, "where": "on the glass bridge, near the right end"},
+    {"key": "middle-window", "kind": "sill", "level": "middle", "x": 420, "y": 330, "where": "in the square window in the middle of the wall"},
+    {"key": "hammock", "kind": "hammock", "level": "middle", "x": 572, "y": 300, "where": "in the hammock under the bridge"},
+    {"key": "arch-window", "kind": "sill", "level": "middle", "x": 720, "y": 330, "where": "in the arched window"},
+    {"key": "little-window", "kind": "sill", "level": "high", "x": 832, "y": 260, "where": "in the little round window"},
+    {"key": "ledge-1", "kind": "ledge", "level": "middle", "x": 400, "y": 452, "where": "on the long ledge, by the window end"},
+    {"key": "ledge-2", "kind": "ledge", "level": "middle", "x": 530, "y": 452, "where": "on the long ledge, over the first table"},
+    {"key": "ledge-3", "kind": "ledge", "level": "middle", "x": 660, "y": 452, "where": "on the long ledge, over the second table"},
+    {"key": "ledge-4", "kind": "ledge", "level": "middle", "x": 790, "y": 452, "where": "on the long ledge, by the cat tree"},
+    {"key": "chair-1", "kind": "chair", "level": "floor", "x": 384, "y": 546, "where": "on a chair at the first table"},
+    {"key": "chair-2", "kind": "chair", "level": "floor", "x": 556, "y": 546, "where": "on the other chair at the first table"},
+    {"key": "chair-3", "kind": "chair", "level": "floor", "x": 644, "y": 546, "where": "on a chair at the second table"},
+    {"key": "chair-4", "kind": "chair", "level": "floor", "x": 816, "y": 546, "where": "on the other chair at the second table"},
+    {"key": "under-1", "kind": "floor", "level": "floor", "x": 470, "y": 590, "where": "under the first table"},
+        {"key": "under-2", "kind": "floor", "level": "floor", "x": 730, "y": 590, "where": "under the second table"},
+        {"key": "tree-1", "kind": "tree", "level": "middle", "x": 924, "y": 482, "where": "on the lowest platform of the cat tree"},
+    {"key": "tree-2", "kind": "tree", "level": "middle", "x": 1004, "y": 372, "where": "halfway up the cat tree"},
+    {"key": "tree-3", "kind": "tree", "level": "high", "x": 924, "y": 262, "where": "high up the cat tree"},
+    {"key": "tree-top", "kind": "tree", "level": "high", "x": 980, "y": 150, "where": "on top of the cat tree"},
+    {"key": "cubby-1", "kind": "cubby", "level": "high", "x": 1112, "y": 238, "where": "in the high cubby"},
+    {"key": "cubby-2", "kind": "cubby", "level": "middle", "x": 1112, "y": 340, "where": "in the low cubby"},
+    {"key": "eaves", "kind": "sill", "level": "high", "x": 1110, "y": 114, "where": "in the window under the eaves"},
+    {"key": "hatch", "kind": "floor", "level": "floor", "x": 1052, "y": 590, "where": "on the floor by the hatch, hopefully"},
+    {"key": "box", "kind": "box", "level": "floor", "x": 1150, "y": 590, "where": "in the cardboard box in the far corner"}
+  ],
+
+  "_moods": "Where a cat goes is decided by its mood and by nothing else: the mood the shelter wrote down when it came in (CAT_MOODS in netlify/cb/lib.mjs, read by the tool, which refuses a mood with no entry here). `kinds` and `levels` narrow the perches it likes; an empty rule likes anywhere. When none it likes is free it goes wherever is free. A cat's markings are never consulted: a cat with three legs climbs to the top of the tree like anybody else, which is what 'no opinion about it' means. `toys` false is a cat a toy does not move.",
+  "moods": {
+    "purr":  {"toys": true},
+    "hiss":  {"levels": ["high", "middle"], "toys": true},
+    "alone": {"kinds": ["cubby", "box", "sill"], "toys": false},
+    "lap":   {"kinds": ["chair", "floor", "basket"], "toys": true},
+    "watch": {"levels": ["high"], "toys": true},
+    "food":  {"kinds": ["floor", "chair"], "toys": true},
+    "sleep": {"kinds": ["hammock", "basket", "box", "cubby", "sill"], "toys": false}
+  },
+
+  "_left_alone": "A cat whose mood is in this list is never picked up: its card says so, with no button. The shelter wrote down that it wants to be left alone, which is allowed, and the café keeps to that. The tool refuses this list without 'alone' in it.",
+  "left_alone": ["alone"],
+
+  "_toys": "The toys you can wave, roll or put down. Each sends any cat whose mood likes the toy's perches, and who is not asleep or wanting to be left alone, after it. Nothing is counted.",
+  "toys": [
+    {"key": "wand", "label": "Wave the feather wand", "went": "went up after the feather", "kinds": [], "levels": ["high"], "most": 3},
+    {"key": "ball", "label": "Roll the crinkle ball", "went": "went after the ball", "kinds": ["floor", "chair", "basket"], "levels": [], "most": 3},
+    {"key": "box", "label": "Put down an empty box", "went": "got into the box", "kinds": ["box"], "levels": [], "most": 1}
+  ]
+}

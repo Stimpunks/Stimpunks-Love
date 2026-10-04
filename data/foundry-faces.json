@@ -785,6 +785,23 @@
     }
    ]
   },
+  "cherry-bomb-one": {
+   "family": "Cherry Bomb One",
+   "category": "Display",
+   "designer": "Satsuyako",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/cherrybombone",
+   "copyright": "Copyright 2019 The Cherry Bomb Project Authors (https://github.com/satsuyako/CherryBomb)",
+   "repository": "https://github.com/satsuyako/CherryBomb",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "cherry-bomb-one-400.woff2",
+     "sha": "59f829d64663e606"
+    }
+   ]
+  },
   "chivo": {
    "family": "Chivo",
    "category": "Sans Serif",
@@ -1297,6 +1314,29 @@
      "style": "normal",
      "file": "fuzzy-bubbles-700.woff2",
      "sha": "1507665328cb2690"
+    }
+   ]
+  },
+  "gabarito": {
+   "family": "Gabarito",
+   "category": "Display",
+   "designer": "Naipe Foundry, Leandro Assis, Álvaro Franca, Felipe Casaprima",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/gabarito",
+   "copyright": "Copyright 2023 The Gabarito Project Authors (https://github.com/naipefoundry/gabarito)",
+   "repository": "https://github.com/naipefoundry/gabarito",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "gabarito-400.woff2",
+     "sha": "3f5e6ec227ca614c"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "gabarito-400.woff2",
+     "sha": "3f5e6ec227ca614c"
     }
    ]
   },

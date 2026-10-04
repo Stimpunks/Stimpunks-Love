@@ -2943,6 +2943,34 @@ PAIRS = [
     ("#16223B", "#E8B92A", False, "cookin: every word on the yellow placard, and its dark triangle"),
     ("#FFFFFF", "#C33A33", False, "cookin: every word on the red placard, and its white square"),
 
+    # ── Pekoe and Purrs (§94) ─────────────────────────────────────────────
+    # A cat café with a window at every height. Every word stands on a flat
+    # ground: the coral wall, the café's paper, or the teal of a button. The
+    # squares of day, the glass and every knitted, sisal or edible thing are
+    # only in the drawings and on the door.
+    ("#24182A", "#F2A891", False, "purrs: every word on the wall -- the lede, every h2 and h3 in "
+                                  "Cherry Bomb One, the h1, the cats, the menu's own words, the house "
+                                  "rules, what the café keeps, the credits, who is in today -- the name "
+                                  "and the blurb on the street door, the focus ring, and the job "
+                                  "marker, a felt mouse, by its outline and its tail"),
+    ("#24182A", "#FFF7EE", False, "purrs: every word on the café's paper -- a menu item's name, what is "
+                                  "in it, its allergens and its caffeine, a cat's card from its name to "
+                                  "where it is now, what is on your table and your lap, every answer "
+                                  "said where the hand is, the quiet buttons, and an animal's mark"),
+    ("#24182A", "#FBD3C3", False, "purrs: a quiet button under the pointer, on the square of day"),
+    ("#5A3B45", "#F2A891", False, "purrs: the trail, the over-line and the line for a phone saying the "
+                                  "café is wider than the screen"),
+    ("#5A3B45", "#FFF7EE", False, "purrs: on paper, what you can ask for instead, a note under an item, "
+                                  "and when a cat came in to the shelter"),
+    ("#5F1532", "#F2A891", False, "purrs: every link on the wall, the backlink, the knock on the street "
+                                  "door, each cat's name in who is in today, and the job marker by its "
+                                  "felt"),
+    ("#5F1532", "#FFF7EE", False, "purrs: a link on paper -- Adopt them at Rescue A Cat, on a cat's card"),
+    ("#FFF7EE", "#2C6A73", False, "purrs: every button's words, in the house glaze -- look down, the "
+                                  "toys, bring it to my table, put them on your lap -- and Vegan and "
+                                  "Vegetarian on a menu item"),
+    ("#FFF7EE", "#1F4E55", False, "purrs: a button under the pointer"),
+
     # ── Now Playing (§53) ────────────────────────────────────────────────────
     (NP_BOTH,   NP_STOCK,  False, "now playing: every word on the sheet -- the h1, the over- and "
                                   "sub-lines, the lede, every room's name, where it is, our line "
@@ -3353,6 +3381,47 @@ ORNAMENT = {
     "#f4f6fa": "cookin: the white flecks in the soup kettle's enamel, drawn on --hgc-enamel. It carries "
                "no word.",
     "#dcd6cb": "cookin: the floor in the drawing, 1.22 on the wall. It carries no word.",
+    "#cbe7f4": "purrs: the glass in every window, 1.51 on the wall and 1.22 on the frame, drawn in the "
+               "ink. It carries no word.",
+    "#e4f2f8": "purrs: the clear glass bridge across the ceiling and the cold brew's glass, 1.70 on the "
+               "wall, drawn in the ink. It carries no word.",
+    "#f7e4c4": "purrs: the shelves, the ledge, the sills and the tables, 1.56 on the wall, every one "
+               "outlined in the ink. It carries no word.",
+    "#ddb57e": "purrs: the cat tree's sisal, the basket and the cardboard box, 1.02 on the wall and "
+               "carried by the ink outline at 8.87, the way the shelter's white cats are. It carries no "
+               "word.",
+    "#e5b347": "purrs: the knitted blanket on your lap, the hammock and the tree's carpet, 1.01 on the "
+               "wall and 1.37 on the floor, carried by the ink outline at 8.77. It carries no word.",
+    "#d98c74": "purrs: the floor, in the room and under your table, 1.36 on the wall. It carries no word.",
+    "#e08a73": "purrs: the inside of a cubby, the basket and the hatch, 1.34 on the wall, outlined in "
+               "the ink. It carries no word.",
+    "#5b3a27": "purrs: coffee in a mug, 1.64 on the teal glaze and 5.19 on the wall. It carries no word.",
+    "#c99a6b": "purrs: crema, a flat white, chai, and the cat drawn in a latte's foam, 2.43 on the "
+               "glaze. It carries no word.",
+    "#f6e7d2": "purrs: steamed oat milk's foam, 5.06 on the glaze. It carries no word.",
+    "#6a3424": "purrs: hot chocolate, and the cocoa dusted on a cappuccino, 1.60 on the glaze. It carries "
+               "no word.",
+    "#c2611e": "purrs: black tea and rooibos in the mug, 1.47 on the glaze. It carries no word.",
+    "#b5b155": "purrs: green tea in the mug, 2.75 on the glaze. It carries no word.",
+    "#7ba24c": "purrs: a matcha latte, 2.08 on the glaze. It carries no word.",
+    "#e2b94b": "purrs: white tea, oolong and the tisanes in the mug, 3.30 on the glaze. It carries no word.",
+    "#a2313f": "purrs: hibiscus in the mug, beetroot in a sandwich, and a crinkle ball and a feather in "
+               "the room, 6.49 on a plate and 3.54 on the wall. It carries no word.",
+    "#f5e6c8": "purrs: white bread, 1.16 on the plate, every slice outlined in the ink. It carries no word.",
+    "#c8955e": "purrs: brown bread, and the edge of your table seen from your seat, 2.50 on the plate. It "
+               "carries no word.",
+    "#8b5e3c": "purrs: rye bread, 5.26 on the plate. It carries no word.",
+    "#6fa84e": "purrs: cucumber, mint, cress, rocket and the herbs in a sandwich, 2.68 on the plate. It "
+               "carries no word.",
+    "#f0cf55": "purrs: egg, banana and mustard in a sandwich, 1.44 on the plate. It carries no word.",
+    "#ee8f73": "purrs: smoked salmon in a sandwich, 2.25 on the plate. It carries no word.",
+    "#e9a39a": "purrs: ham in a sandwich, 1.95 on the plate. It carries no word.",
+    "#e3a53d": "purrs: coronation chickpea and cheddar in a sandwich, 2.04 on the plate. It carries no "
+               "word.",
+    "#efe2c4": "purrs: cream cheese, hummus and mayonnaise in a sandwich, 1.21 on the plate. It carries "
+               "no word.",
+    "#d2483a": "purrs: tomato and roast pepper in a sandwich, 4.19 on the plate. It carries no word.",
+    "#b07a44": "purrs: peanut butter and pickle in a sandwich, 3.46 on the plate. It carries no word.",
     "#c9cbc4": "notebook: the dot grid, 1.57 on the paper. A layer behind the words, drawn on the "
                "body's ::before so check-contrast-live.py measures every word against the flat paper; "
                "a dot carries no word.",

@@ -43,13 +43,17 @@
   var CAT_MARKS = { socks: 1, bib: 1, kink: 1, tip: 1, three: 1, oneeye: 1, long: 1, plain: 1 };
   function cc(k) { return 'var(--rac-coat-' + k + ')'; }
 
-  function drawCat(c, cls) {
+  /* `bare` leaves out the torch's pool, for a room with a ground of its own:
+     Pekoe and Purrs, the cat café, where the shelter's cats are seen in
+     daylight rather than in the dark they were found in. The cat itself, its
+     coat, markings and outline, is drawn exactly as it is here. */
+  function drawCat(c, cls, bare) {
     var look = CAT_COATS[c.coat] || CAT_COATS.grey;
     var mark = CAT_MARKS[c.mark] ? c.mark : 'plain';
     var fill = cc(look.base);
     var line = { stroke: 'var(--rac-night)', 'stroke-width': '2.5', 'stroke-linejoin': 'round' };
     var svg = el('svg', { 'class': cls || 'rac-cat', viewBox: '0 0 200 170', 'aria-hidden': 'true', focusable: 'false' });
-    add(svg, 'ellipse', { cx: 100, cy: 94, rx: 97, ry: 74, fill: 'var(--rac-beam)', stroke: 'var(--rac-fall)', 'stroke-width': 3 });
+    if (!bare) add(svg, 'ellipse', { cx: 100, cy: 94, rx: 97, ry: 74, fill: 'var(--rac-beam)', stroke: 'var(--rac-fall)', 'stroke-width': 3 });
     var tail = mark === 'kink' ? 'M136 136 Q168 128 160 104 L170 92' : 'M136 136 Q172 128 158 92';
     add(svg, 'path', { d: tail, fill: 'none', stroke: 'var(--rac-night)', 'stroke-width': 14, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
     add(svg, 'path', { d: tail, fill: 'none', stroke: fill, 'stroke-width': 9, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
@@ -87,6 +91,54 @@
       }
     });
     add(svg, 'polygon', { points: '96,78 104,78 100,83', fill: 'var(--rac-night)' });
+    return svg;
+  }
+
+  /* A cat curled up asleep, seen from above: on somebody's lap at Pekoe and
+     Purrs. The same coat, the same markings and the same outline as the cat
+     sitting up, so the cat on your lap is the cat you picked up. The eyes are
+     shut, a missing eye is a short straight lid rather than a closed one, the
+     legs are tucked under, and a cat with three legs shows one front paw. */
+  function drawCurled(c, cls) {
+    var look = CAT_COATS[c.coat] || CAT_COATS.grey;
+    var mark = CAT_MARKS[c.mark] ? c.mark : 'plain';
+    var fill = cc(look.base);
+    var line = { stroke: 'var(--rac-night)', 'stroke-width': '2.5', 'stroke-linejoin': 'round' };
+    var svg = el('svg', { 'class': cls || 'rac-cat', viewBox: '0 0 200 170', 'aria-hidden': 'true', focusable: 'false' });
+    if (mark === 'long') add(svg, 'ellipse', { cx: 110, cy: 90, rx: 82, ry: 66, fill: fill, stroke: 'var(--rac-night)', 'stroke-width': 2.5, 'stroke-dasharray': '4 3' });
+    add(svg, 'ellipse', Object.assign({ cx: 110, cy: 90, rx: 74, ry: 58, fill: fill }, line));
+    if (look.patches) {
+      add(svg, 'ellipse', { cx: 132, cy: 66, rx: 24, ry: 17, fill: cc(look.patches[0]) });
+      add(svg, 'ellipse', { cx: 150, cy: 110, rx: 19, ry: 13, fill: cc(look.patches[1]) });
+    }
+    if (look.stripes) {
+      ['M118 38 Q130 58 118 80', 'M144 42 Q156 64 144 88', 'M166 58 Q176 80 166 104'].forEach(function (d) {
+        add(svg, 'path', { d: d, fill: 'none', stroke: 'var(--rac-stripe)', 'stroke-width': 5, 'stroke-linecap': 'round' });
+      });
+    }
+    if (look.belly || look.bib || mark === 'bib') add(svg, 'ellipse', { cx: 84, cy: 112, rx: look.belly ? 24 : 17, ry: look.belly ? 18 : 13, fill: cc('white') });
+    var tail = mark === 'kink' ? 'M180 104 Q182 150 122 152 Q84 153 64 138 L56 126' : 'M180 104 Q182 150 122 152 Q84 153 60 136';
+    add(svg, 'path', { d: tail, fill: 'none', stroke: 'var(--rac-night)', 'stroke-width': 19, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
+    add(svg, 'path', { d: tail, fill: 'none', stroke: fill, 'stroke-width': 14, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
+    (mark === 'three' ? [86] : [84, 100]).forEach(function (x) {
+      var white = look.socks || mark === 'socks';
+      add(svg, 'ellipse', Object.assign({ cx: x, cy: 128, rx: 8, ry: 6, fill: white ? cc('white') : fill }, line));
+    });
+    add(svg, 'circle', Object.assign({ cx: 64, cy: 92, r: 32, fill: fill }, line));
+    var left = mark === 'tip' ? '36,74 38,56 46,50 58,64' : '36,74 40,48 58,64';
+    [left, '66,60 80,40 90,64'].forEach(function (pts) { add(svg, 'polygon', Object.assign({ points: pts, fill: fill }, line)); });
+    add(svg, 'circle', { cx: 64, cy: 92, r: 30.75, fill: fill });
+    if (look.patches) add(svg, 'ellipse', { cx: 78, cy: 80, rx: 10, ry: 8, fill: cc(look.patches[0]) });
+    if (look.stripes) {
+      ['M56 66 L58 75', 'M64 64 L64 73', 'M72 66 L70 75'].forEach(function (d) {
+        add(svg, 'path', { d: d, stroke: 'var(--rac-stripe)', 'stroke-width': 3.5, 'stroke-linecap': 'round' });
+      });
+    }
+    [[52, true], [76, mark !== 'oneeye']].forEach(function (e) {
+      if (e[1]) add(svg, 'path', { d: 'M' + (e[0] - 6) + ' 92 Q' + e[0] + ' 98 ' + (e[0] + 6) + ' 92', fill: 'none', stroke: 'var(--rac-night)', 'stroke-width': 2.4, 'stroke-linecap': 'round' });
+      else add(svg, 'path', { d: 'M' + (e[0] - 5) + ' 94 H' + (e[0] + 5), stroke: 'var(--rac-night)', 'stroke-width': 2, 'stroke-linecap': 'round' });
+    });
+    add(svg, 'polygon', { points: '60,102 68,102 64,107', fill: 'var(--rac-night)' });
     return svg;
   }
 
@@ -350,9 +402,14 @@
     return svg;
   }
 
-  function draw(a, cls) {
+  /* `opts` is only ever asked for by the café, and only for cats: `bare`
+     leaves out the ground a cat was found on, and `pose: 'curled'` draws it
+     asleep on a lap. Dogs and small animals are drawn as they always are. */
+  function draw(a, cls, opts) {
     if (a && a.kind === 'small') return drawSmall(a, cls);
-    return a && a.kind === 'dog' ? drawDog(a, cls) : drawCat(a, cls);
+    if (a && a.kind === 'dog') return drawDog(a, cls);
+    opts = opts || {};
+    return opts.pose === 'curled' ? drawCurled(a, cls) : drawCat(a, cls, !!opts.bare);
   }
 
   /* What an animal is, in a word: the server's, or the kind's. */

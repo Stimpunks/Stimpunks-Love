@@ -2816,6 +2816,39 @@
    }
   },
   {
+   "id": "pkp-mouse",
+   "page": "pekoe-and-purrs.html",
+   "room": "Pekoe and Purrs",
+   "title": "What is orange pekoe a grade of?",
+   "posted": "There is a cat café on the street with a window at every height, named partly for its house tea. Go in, find the tea on the menu, and come back with what orange pekoe actually is, which is not what the word orange makes most people think.",
+   "rank": 1,
+   "takes": "a few minutes, and a cat if you want one",
+   "target": "a felt mouse on a string, batted under the second table",
+   "code": "PEKOE",
+   "learned": "Orange pekoe is not orange-flavoured: it is a grade of black tea in the tea trade, whole leaves of a certain size, and nobody is quite sure where either word comes from.",
+   "hints": [
+    "On the street itself, in the row of shopfronts: the door with small windows at different heights, never in a row.",
+    "On the menu, under Tea: the house tea, which the café is named for.",
+    "On the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "Orange pekoe is not orange-flavoured. What is it a grade of?",
+    "accept": [
+     "black tea",
+     "a black tea",
+     "tea",
+     "black"
+    ],
+    "answer": "Black tea",
+    "why": "Black tea: orange pekoe is a grade of it in the tea trade, whole leaves of a certain size, and the orange has nothing to do with the fruit.",
+    "hints": [
+     "It is on the menu, under Tea.",
+     "Read the note under the house tea.",
+     "Two words: a colour, and what is in the pot."
+    ]
+   }
+  },
+  {
    "id": "brass-tack",
    "page": "brass-tacks-board.html",
    "room": "The Brass Tacks Board",

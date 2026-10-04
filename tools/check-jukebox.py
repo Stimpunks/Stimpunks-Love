@@ -247,6 +247,7 @@ LISTS = [
     # refilled every morning by tools/pull-cookin-month.py, which asks each new
     # video's watch page once. The log's shape under the same key.
     ("hey good cookin's rack", "data/hey-good-cookin-month.json", "hey-good-cookin.html"),
+    ("pekoe and purrs", "data/pekoe.json", "pekoe-and-purrs.html"),
     # Big Steep: three long cellar ambience videos on their makers' own
     # channels, the kind of upload that goes private without ceremony.
     ("big steep", "data/big-steep.json", "big-steep-fermentables.html"),

@@ -1317,6 +1317,20 @@
       "sections": [
         93
       ]
+    },
+    "cherry-bomb-one": {
+      "where": "Pekoe and Purrs",
+      "page": "pekoe-and-purrs.html",
+      "sections": [
+        94
+      ]
+    },
+    "gabarito": {
+      "where": "Pekoe and Purrs",
+      "page": "pekoe-and-purrs.html",
+      "sections": [
+        94
+      ]
     }
   }
 }

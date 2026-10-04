@@ -1200,6 +1200,21 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--cookin .og-lede {{ font-family: 'Parkinsans', sans-serif; color: var(--hgc-ink); font-size: 24px;
   line-height: 1.35; max-width: 1080px; }}
 
+/* pekoe and purrs — THE CAFÉ beside the name, lifted off the page whole: the
+   room with a window at every height, and the near side of the box, the basket,
+   the hammock and the cubbies over it. NO CATS: which cats are in the café
+   changes whenever somebody is adopted, and a card is a picture that would go
+   on showing a cat who has gone home. */
+.og--purrs {{ flex-direction: row; align-items: center; gap: 34px; padding: 40px 50px; }}
+.og--purrs .og-words {{ flex: 0 0 390px; }}
+.og--purrs .og-room {{ position: relative; flex: 0 0 680px; border: 3px solid var(--pkp-ink); border-radius: 16px; overflow: hidden; }}
+.og--purrs .og-room svg {{ display: block; width: 100%; height: auto; }}
+.og--purrs .og-room .pkp-room__front {{ position: absolute; inset: 0; height: 100%; }}
+.og--purrs .pkp-over {{ font-size: 16px; margin: 0 0 6px !important; }}
+.og--purrs h1 {{ font-size: 70px; line-height: .98; margin: 0 0 14px !important; }}
+.og--purrs .og-lede {{ font-family: 'Gabarito', sans-serif; color: var(--pkp-ink); font-size: 25px;
+  line-height: 1.35; margin: 0; }}
+
 /* count me in — THE LANDING, straight on: the header, and the flight with the lift
    on its rail lifted off the page whole. The card shows no step number, because
    the stair's number changes with every step and a card is a picture that would
@@ -3932,6 +3947,37 @@ def card_cookin(p):
     )
 
 
+def card_purrs(p):
+    # THE ROOM AND THE NAME ARE LIFTED WHOLE, so the card cannot show a café the
+    # page does not, and the lede is the page's og:description. The perches are
+    # empty on purpose: the cats are the shelter's, read when the room opens,
+    # and a card is a picture that would go on showing somebody adopted.
+    draw = re.search(r'(<svg class="pkp-room__draw".*?</svg>)', p["src"], re.S)
+    front = re.search(r'(<svg class="pkp-room__front".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="pkp-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and front and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: pekoe-and-purrs.html has lost the drawing of the café or its\n"
+            "header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--purrs" data-fit="card">'
+        f'<div class="og-words"><p class="pkp-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-room">{draw.group(1)}{front.group(1)}</div>'
+        f'</div>',
+        f"A coral card. On the right, the inside of a café drawn in dark outline: small windows at every "
+        f"height, round, square and arched, each with a sill and a pale square of day on the wall below it; "
+        f"cream shelves stepping up the left wall; a clear glass bridge across the ceiling with a mustard "
+        f"hammock slung under it; a long ledge; two small tables with teal mugs and teapots on them and teal "
+        f"chairs; a sisal cat tree with mustard platforms; two open cubbies; a hatch to the kitchen with a "
+        f"teapot on its ledge; a basket and a cardboard box on the floor; and every perch empty. On the "
+        f"left, small capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large round "
+        f"dark letters, then: {p['desc_plain']}",
+    )
+
+
 def card_stair(p):
     # THE HEADER AND THE FLIGHT ARE LIFTED WHOLE, lift and all, so the card
     # cannot draw a stair without its lift. No step number: it would be stale by
@@ -4340,6 +4386,7 @@ CARDS = {
     "notebook":     card_notebook,
     "glasshouse":   card_glasshouse,
     "cookin":       card_cookin,
+    "purrs":        card_purrs,
     "cats":         card_cats,
     "dogs":         card_dogs,
     "smalls":       card_smalls,

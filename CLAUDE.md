@@ -2863,6 +2863,30 @@ pane's capture goes blank after a scroll or two, and headless Chrome's `--screen
 blank page. Check with `read_page` or JavaScript, or render the page headless in one window as tall as
 the page, with no scroll, and crop. This room nearly lost its shadows to a capture fault.
 
+**PEKOE AND PURRS IS A CAT CAFÉ, AND ITS CATS ARE THE SHELTER'S, READ WHEN THE ROOM OPENS.** §94, Ryan's
+brief, 2026-10-04: coffee, tea and tea sandwiches, and cats from the rescue waiting for adoption, roaming,
+to press, to pick up for your lap, and to see there when you look down at your lap and your table.
+`purrs.js` makes one fetch, the public `GET /cb/shelter?kind=cat` the shelter pages make, and
+`tools/make-pekoe.py` refuses it a second, a POST, storage, a CB pass, `innerHTML` or a transform. **The
+café keeps no list of cats of its own**: the friendly edit is a few house cats so the room is never empty,
+and that is a cat the shelter does not have. Adopting stays at Rescue A Cat; each cat's card links to
+`rescue-a-cat.html#animal-<id>`, which `shelter.js` writes and lands on, and the tool checks it still does.
+Cats are drawn by `animals.js`, which now draws a cat `bare` (no torch pool) and `curled` asleep on a lap:
+one file, so a cat is the same cat in the shelter, the café and its adopter's Profile. **Where a cat sits is
+its shelter mood's business** (`moods` in `data/pekoe.json`, keyed on CAT_MOODS read out of `lib.mjs`),
+**never its markings**: a cat with three legs gets to the top of the tree, and the tool refuses
+`purrs.js` reading `.mark` at all. **A cat whose mood is in `left_alone` is never picked up**, and the tool
+refuses the list without "alone". More perches than SHELTER_KEEP plus three, none overlapping. **They
+wander by themselves at MAX GLITTER only**, silently; toys move them at every setting, with words on the
+toy, Plural Mural's rule. **Every mug is the same teal mug**, which is what keeps it off Covenstead's
+mismatched china, and the tool refuses a drink giving its vessel a colour. The menu reads **Hey, Good
+Cookin's allergen engine** by importing it (two phrases, eggless mayonnaise and cashew cream cheese, were
+added there), and every drink's caffeine is **worked out from its ingredients**, refused if nothing in it
+says. **The telly has nothing of its own on it**; its rack is Ryan's pick of films from other cat cafés,
+titles the channels' and not swept, each measured off its watch page and in `check-jukebox.py`. The
+light is a window at every height, cut to the size of a cat; its collisions are in §94, and Rescue A Cat,
+the dark room every cat here came from, is the one it must never look like.
+
 **THE MAP IS THE ONE PAGE THAT SHOWS EVERY OTHER PAGE, AND NOTHING ON IT IS PAINTED.** `map.html`
 (§49) is the whole street as a model in white card on a cutting mat: shopfronts on both sides of a
 pencilled road, rooms behind rooms standing behind them, the garden's gate halfway down, the
@@ -3575,18 +3599,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §95 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §96 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§95 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§96 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §95 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §96 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

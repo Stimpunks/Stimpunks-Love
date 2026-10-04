@@ -95,6 +95,11 @@
   function card(a, into, how) {
     var li = document.createElement('li');
     li.className = P + '-card';
+    // An animal in the shelter has an address on this page, #animal-<id>, so
+    // Pekoe and Purrs, the cat café, can send somebody straight to the cat
+    // whose card they were reading there. Only the shelter's own list carries
+    // it, so the address names one card.
+    if (how === 'shelter') { li.id = 'animal-' + a.id; li.tabIndex = -1; }
     li.appendChild(A.draw(a, P + '-animal'));
     li.appendChild(p(P + '-card__name', a.name || 'Not named yet'));
     li.appendChild(p(P + '-card__about', A.about(a)));
@@ -166,9 +171,23 @@
     if (rescueBox && me) rescueBox.hidden = !!full;
   }
 
+  /* Arriving from the café at #animal-<id>: the card is drawn after the page
+     has loaded, so the browser cannot have scrolled to it. Once, on the first
+     look: the keyboard goes to the card, or the page says the animal has gone. */
+  var arrived = false;
+  function arrive() {
+    if (arrived) return;
+    arrived = true;
+    var m = /^#animal-([cds][0-9a-z]{1,12})$/.exec(location.hash);
+    if (!m) return;
+    var li = document.getElementById('animal-' + m[1]);
+    if (li) { li.scrollIntoView({ block: 'start' }); li.focus({ preventScroll: true }); }
+    else say('That ' + SAY.it + ' is not in the shelter any more. They may have gone home.');
+  }
+
   function look() {
     return call('/cb/shelter?kind=' + KIND).then(function (r) {
-      if (r.status === 200 && r.body.shelter) { full = !!r.body.full; drawOut(r.body.waiting); drawShelter(r.body.shelter); return; }
+      if (r.status === 200 && r.body.shelter) { full = !!r.body.full; drawOut(r.body.waiting); drawShelter(r.body.shelter); arrive(); return; }
       outState.textContent = SAY.unreached;
       listState.textContent = 'The shelter could not be reached just now.';
     }, function () {

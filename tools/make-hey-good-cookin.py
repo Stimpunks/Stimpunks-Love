@@ -144,6 +144,10 @@ PHRASES = [
     (r"soy sauce", "soy wheat"), (r"soy lecithin", "soy"), (r"black salt", "salt"),
     (r"buttermilk", "milk"), (r"sour cream", "milk"), (r"rice flour", "rice"),
     (r"sesame oil", "sesame"), (r"sweet potato(?:es)?", "tuber"), (r"eggplants?", "aubergine"),
+    # Pekoe and Purrs' tea sandwiches read this same engine (make-pekoe.py), so
+    # the two kitchens cannot disagree about what is in a word. An eggless
+    # mayonnaise has no egg in it, and a cashew cream cheese is cashews.
+    (r"eggless mayonnaise", "eggless dressing"), (r"cashew cream cheese", "cashews"),
 ]
 ALLERGENS = [
     ("milk", r"butter|milk|cream|cheese|cheddar|mozzarella|ricotta|feta|parmesan|yogh?urt|ghee|whey|paneer|custard"),

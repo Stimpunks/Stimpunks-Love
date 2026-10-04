@@ -2461,5 +2461,33 @@
    "src": "https://fonts.gstatic.com/s/parkinsans/v3/-W_7XJXvQyPb1QfpBpRrfkQLfr8nfiI.woff2",
    "note": "Byte-identical to the 400 above; see that note."
   }
+ ],
+ "cherry-bomb-one": [
+  {
+   "file": "cherry-bomb-one-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 16208,
+   "src": "https://fonts.gstatic.com/s/cherrybombone/v11/y83DW4od1h6KlV3c6JJhRhGOdhr6C9BEwVT7-g.woff2",
+   "note": "Pekoe and Purrs (§94), the café's name and every heading, and nothing at reading size. Satsuyako's display face, round and soft at every corner, on a sign over a door with cats behind it. It has one weight, so one static file."
+  }
+ ],
+ "gabarito": [
+  {
+   "file": "gabarito-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 34320,
+   "src": "https://fonts.gstatic.com/s/gabarito/v9/QGYtz_0dZAGKJJ4t3HtoW4XGnfBI.woff2",
+   "note": "Pekoe and Purrs (§94), every word that is read: the menu, every cat's card, the house rules. Naipe Foundry's sans. It ships as a variable font, so Google serves the same file for 400 and 700; it is downloaded once and declared twice against the weight axis, Radio Canada's call. It has no italic, and nothing in the room asks for one."
+  },
+  {
+   "file": "gabarito-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 34320,
+   "src": "https://fonts.gstatic.com/s/gabarito/v9/QGYtz_0dZAGKJJ4t3HtoW4XGnfBI.woff2",
+   "note": "Byte-identical to the 400 above; see that note."
+  }
  ]
 }
