@@ -1146,6 +1146,51 @@
 @font-face { font-family: 'Livvic'; src: url('fonts/livvic-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Livvic'; src: url('fonts/livvic-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* The Run (§96). A ROUND SIGN AND A PLAIN SANS. Lilita One, by Juan Montoreano,
+   sets the Run's name and every heading and nothing at reading size: one
+   weight, one file. Mukta, by Ek Type, carries every word that is read, a
+   regular and a bold. The sign on a dog park gate is painted round and fat so
+   it can be read from across the field; the words on the porch are plain.
+   Read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Lilita One'; src: url('fonts/lilita-one-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Mukta'; src: url('fonts/mukta-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Mukta'; src: url('fonts/mukta-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+/* Truckin' Food Court (§97). SIGNWRITING AND A GROTESK. Sansita, by Omnibus-Type,
+   is the lettering on the side of every truck and the court's name, at its
+   extra-bold, and never a sentence. Familjen Grotesk, by Familjen STHLM AB,
+   carries every word that is read, including đồ chua and chả lụa on the bánh mì
+   board: Google's own files split the Latin and Vietnamese letters into two
+   subsets, so this one was cut from the family's variable font with both in it
+   and is declared at 400 and 700 against its weight axis. Read off their own
+   records; see fonts/_sources.json. */
+@font-face { font-family: 'Sansita'; src: url('fonts/sansita-800.woff2') format('woff2'); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Familjen Grotesk'; src: url('fonts/familjen-grotesk-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Familjen Grotesk'; src: url('fonts/familjen-grotesk-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+/* The Green (§98). AN INSCRIBED ROMAN AND A CALLIGRAPHIC TEXT FACE. Della
+   Respira, by Nathan Willis, sets the Green's name and every heading and the
+   name on every bed; Alegreya, by Juan Pablo del Peral of HT Fonts, carries every word that
+   is read, with its own italic for the names of books and a bold. Not the
+   Garden's Faustina: that garden sets no display face at all, and a green with
+   a name carved over its gate is a different claim. Read off their own records;
+   see fonts/_sources.json. */
+@font-face { font-family: 'Della Respira'; src: url('fonts/della-respira-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Alegreya'; src: url('fonts/alegreya-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Alegreya'; src: url('fonts/alegreya-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Alegreya'; src: url('fonts/alegreya-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+/* The Pile (§99). WET PAINT AND A MARKER. Rubik Wet Paint, by NaN and Luke
+   Prowse, sets the Pile's name and nothing else on the page, because dripping
+   letters are an access failure the moment they carry a sentence: the
+   Doomscroll's blackletter rule, in the room most likely to talk itself out of
+   it. Shantell Sans, by Shantell Martin with Arrow Type and Anya Danilova,
+   carries every word, a regular and a bold: drawn from an artist's own marker
+   hand and made to be read. Read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Rubik Wet Paint'; src: url('fonts/rubik-wet-paint-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Shantell Sans'; src: url('fonts/shantell-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Shantell Sans'; src: url('fonts/shantell-sans-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -2867,6 +2912,132 @@
   --bns-rye:   #7C5337;  --bns-lavender: #A08ACD; --bns-straw: #D9C68C;
   --bns-heather: #C885B8;
 
+  /* The Run (§96). A DOG PARK IN A DOG'S COLOURS: every one of these is a
+     blue, a yellow or a grey, because dogs see in blues and yellows, and
+     tools/make-the-run.py reads them to make sure. --run-grass is the field as
+     a dog sees it, the ground every word stands on; --run-paper a card. --run-ink
+     is every word and every outline in the drawing, --run-dim the fine print,
+     --run-link every link and the ground of every button, --run-deep a button
+     under the pointer. The rest carry no word, and are all outlined in the ink:
+     --run-sky, --run-cloud, --run-shadow a cloud's shadow on the grass and
+     --run-shade a tree's, which are the grass's own yellow darker and never
+     blue, because blue shadows are Rescue A Dog's, on snow; --run-leaf and
+     --run-leaf-2 the trees, --run-bark their trunks, --run-fence the fence and
+     the gates, --run-wall the clubhouse wall in the porch roof's shade,
+     --run-board the porch boards and the swing, --run-roof the porch roof and
+     the door, --run-chair the rocking chairs, --run-cushion and --run-cushion-2
+     the plush beds, --run-water, --run-steel the trough, --run-screen the dog
+     telly, and --run-ball the blue ball. The dogs wear Rescue A Dog's own
+     coats, --rad-coat-*, drawn by animals.js, because they are those dogs. */
+  --run-grass: #CDBF83;  --run-paper: #FBF7E8;  --run-ink:   #1C2640;
+  --run-dim:   #3D4762;  --run-link:  #1F3E99;  --run-deep:  #142B6E;
+  --run-sky:   #C6D8F0;  --run-cloud: #F6F3E8;  --run-shadow: #B3A672;
+  --run-shade: #958C5C;  --run-leaf:  #6E6A45;  --run-leaf-2: #8A845A;
+  --run-bark:  #4D4835;  --run-fence: #6B6551;  --run-wall:  #B7A675;
+  --run-board: #DCC891;  --run-roof:  #3E4A63;  --run-chair: #5C6E9E;
+  --run-cushion: #E8C65A; --run-cushion-2: #6A84C9; --run-water: #86A9DA;
+  --run-steel: #9A9C9F;  --run-screen: #2A3552; --run-ball:  #2F5BD6;
+
+  /* Truckin' Food Court (§97). FIVE AWNINGS ON A SUNLIT LOT. --tks-lot is the
+     concrete in the sun, the ground every word stands on; --tks-paper a truck's
+     board and every card. --tks-ink is every word and every outline in the
+     drawing, --tks-dim the fine print, --tks-link every link and the ground of
+     every button, --tks-deep a button under the pointer. The awnings, two to a
+     truck: --tks-marigold, --tks-jade, --tks-vermilion, --tks-sky and
+     --tks-plum, each striped with --tks-canvas; the light under an awning is
+     its own stripes, and carries no word. The rest carry no word either, and
+     are all outlined in the ink: --tks-day the sky, --tks-fence the back
+     fence, --tks-white the trucks, --tks-kitchen the inside of a hatch,
+     --tks-steel a counter and a hub, --tks-plank the porch's tables and posts,
+     --tks-roof the porch roof's edge, --tks-sun the stripe of sun that gets
+     under it onto your table, --tks-kraft a paper boat and a treat bag,
+     --tks-bowl a ramen bowl, --tks-noodle the noodles, --tks-cup a clear cup,
+     --tks-pearl a tapioca pearl, --tks-straw a straw, and --tks-trees the trees of
+     the lots next door, over the fence. Every other --tks-
+     colour is what is in a taco, a bánh mì, a bowl, a bag or a cup. */
+  --tks-lot:   #EFE9DC;  --tks-paper: #FFFDF7;  --tks-ink:   #1F1B17;
+  --tks-dim:   #4F4740;  --tks-link:  #8C2F12;  --tks-deep:  #5E1D08;
+  --tks-marigold: #F2A93B; --tks-jade: #2F9E80; --tks-vermilion: #E2502F;
+  --tks-sky:   #4FA3DD;  --tks-plum:  #8D4C91;  --tks-canvas: #FBF5E4;
+  --tks-day:   #D9ECF7;  --tks-fence: #8F8577;  --tks-white: #FAF8F2;
+  --tks-kitchen: #3B3631; --tks-steel: #A7ABAE; --tks-plank: #C99A62;
+  --tks-roof:  #3A3F45;  --tks-sun:   #FFF1B8;  --tks-kraft: #C9A271;
+  --tks-bowl:  #F1E9DA;  --tks-noodle: #F2D27A; --tks-cup:   #E9F3F8;
+  --tks-pearl: #3A2416;  --tks-straw: #D94C3D;  --tks-trees: #6E9A5A;
+  --tks-corn:  #E9C46A;  --tks-mushroom: #B8926A; --tks-pineapple: #F5D547;
+  --tks-herb:  #5DA84A;  --tks-bean:  #3B2A24;  --tks-potato: #DDBB6F;
+  --tks-onion: #C46EA3;  --tks-pastor: #C8502C; --tks-carnitas: #B5763C;
+  --tks-salsa-verde: #7BAA3F; --tks-tinga: #C4542E; --tks-lettuce: #9CCB62;
+  --tks-cream: #F5EEDD;  --tks-batter: #E2B15B; --tks-cabbage: #CFE5A8;
+  --tks-birria-shell: #C1462B; --tks-birria: #8C3A22; --tks-cheese: #F1D470;
+  --tks-crust: #D9A35E;  --tks-tofu:  #EFD9A4;  --tks-pickle: #F09B4A;
+  --tks-pork-roll: #EBB9A6; --tks-grilled: #9E5A33; --tks-chicken: #E4C08A;
+  --tks-yolk:  #F6C431;  --tks-tomato-sauce: #C9412E; --tks-miso: #D9A65A;
+  --tks-corn-kernel: #F4D03F; --tks-clear: #E8D9A8; --tks-bokchoy: #6FAF55;
+  --tks-bamboo: #E5D19B; --tks-nori:  #2D3A2C;  --tks-goma:  #D8B98A;
+  --tks-chilli-oil: #C93C20; --tks-shoyu: #8A5A2B; --tks-tonkotsu: #F0E3C8;
+  --tks-chashu: #B97A55; --tks-red-miso: #B5612B; --tks-butter: #F7E27E;
+  --tks-pumpkin: #E58A2E; --tks-sweet-potato: #D9712E; --tks-banana: #F2DB6B;
+  --tks-jerky: #8C4E2A;  --tks-liver: #6B3022;  --tks-salmon: #EE8A6A;
+  --tks-water: #CFE8F5;  --tks-tea:   #A8561E;  --tks-lemonade: #F7EDA0;
+  --tks-jamaica: #9E1F3D; --tks-sandia: #EF6A73; --tks-milk-tea: #C99E74;
+  --tks-jasmine: #E7DCA8; --tks-mango: #F4A93A; --tks-coconut: #F3F0E6;
+  --tks-lime:  #CBE38A;
+
+  /* The Green (§98). JUST AFTER THE RAIN, WITH NO SUN. --grn-lawn is the wet
+     grass, the ground every word stands on, a saturated mid green and the
+     brightest thing on the street that is green; --grn-paper a card, the plan
+     and the trailhead sign. --grn-ink is every word and every outline in the
+     drawing, --grn-dim the fine print, --grn-link every link, the ring on the
+     plan and the ground of every button, --grn-deep a button under the
+     pointer. --grn-sheen is the pale sky caught along the top edge of
+     everything wet, every card's top edge on the page included; it carries no
+     word. The rest carry no word either, and are all outlined in the ink:
+     --grn-sky, --grn-wood and --grn-wood-2 the trees near and far, --grn-pond
+     and --grn-pond-sky the water and the sky lying in it, --grn-board the wet
+     boardwalk, --grn-timber the beds, the posts and the rail, --grn-roof the
+     porch roof, --grn-leaf, --grn-sage, --grn-fern, --grn-reed and --grn-cane
+     what grows, --grn-lavender, --grn-cone, --grn-gold, --grn-aster and
+     --grn-tomato what flowers and fruits. No colour here is named for a shadow
+     or the sun, and make-the-green.py refuses one that is. */
+  --grn-lawn:  #8FBF6A;  --grn-paper: #F1F5EE;  --grn-ink:   #0C1A10;
+  --grn-dim:   #1F3322;  --grn-link:  #0B2C5A;  --grn-deep:  #061A38;
+  --grn-sheen: #FFFFFF;  --grn-sky:   #DDE6E6;  --grn-wood:  #24502E;
+  --grn-wood-2: #3A6B46; --grn-pond:  #2E5866;  --grn-pond-sky: #A9C3C8;
+  --grn-board: #5A4632;  --grn-timber: #6B5238; --grn-roof:  #2F3A35;
+  --grn-leaf:  #3F8A3A;  --grn-sage:  #8CA88A;  --grn-fern:  #2E7A3C;
+  --grn-reed:  #6E8A3A;  --grn-cane:  #B89A62;  --grn-lavender: #7A62B8;
+  --grn-cone:  #B0508E;  --grn-gold:  #E8B92E;  --grn-aster: #8C7AD8;
+  --grn-tomato: #D2402E;
+
+  /* The Pile (§99). TEMPERA ON PLYWOOD, IN THE SUN. --pil-sand is the lot, the
+     ground every word stands on; --pil-paper a card. --pil-ink is every word
+     and every outline in the drawing, --pil-dim the fine print, --pil-link
+     every link and the ground of every button, --pil-deep a button under the
+     pointer. The paints, chalky and matte as tempera dries, carry no word:
+     --pil-red, --pil-yellow, --pil-blue, --pil-green, --pil-orange,
+     --pil-purple and --pil-pink. Nor does anything else, all outlined in the
+     ink: --pil-sky, --pil-sand-2 a heap of it and the den's floor, --pil-ring
+     the rings of light the bubble wrap throws on the sand, --pil-wrap the
+     bubble wrap, --pil-tape duct tape, --pil-ply plywood, --pil-pallet a
+     pallet, --pil-wood a chair's wood and a handle, --pil-piano the old piano
+     and the telly's case, --pil-keys its keys, --pil-tin a paint pot and a
+     blade, --pil-steel the slide, --pil-rope, --pil-cloth fabric, --pil-bark,
+     --pil-cut a stump's top, --pil-leaf the tree, and --pil-screen the telly's
+     glass. No colour here is named for a light: the light on the Pile has no
+     colour in it, and make-the-pile.py refuses one that is. */
+  --pil-sand:  #EEDDB5;  --pil-paper: #FFFBF2;  --pil-ink:   #1D1A20;
+  --pil-dim:   #4A4450;  --pil-link:  #3B2A8C;  --pil-deep:  #241763;
+  --pil-red:   #E0634F;  --pil-yellow: #F2C94C; --pil-blue:  #4F84CC;
+  --pil-green: #64AE6C;  --pil-orange: #F08C42; --pil-purple: #9370C4;
+  --pil-pink:  #EE93B5;  --pil-sky:   #CFE3F2;  --pil-sand-2: #E2C98F;
+  --pil-ring:  #FFFDF4;  --pil-wrap:  #E8F1F4;  --pil-tape:  #B8BCC0;
+  --pil-ply:   #E5C99A;  --pil-pallet: #C9A26B; --pil-wood:  #A47A4C;
+  --pil-piano: #5A3A2A;  --pil-keys:  #F6F1E4;  --pil-tin:   #A9ADB2;
+  --pil-steel: #C3C7CB;  --pil-rope:  #C8A877;  --pil-cloth: #EE93B5;
+  --pil-bark:  #6B4E36;  --pil-cut:   #E2C9A0;  --pil-leaf:  #5E9A54;
+  --pil-screen: #2C3A44;
+
   /* import:neurohome:root:begin */
   /* Isha Snow's room, NeuroHome -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -4025,6 +4196,49 @@ div.facade--audio { border: 0; background: none; }
 .gardengate__why {
   display: block; margin: 8px auto 0; font-size: 14.5px; max-width: 58ch;
   color: var(--gd-loam-2);
+}
+
+/* WHERE THE BUILDINGS STOP, and another thing on this street that is not a
+   door: a FENCE along the pavement with a gate in it for every lot, side by
+   side, onto lots of open ground that are next door to each other -- the Run, the
+   Truck Stop, the Green and the Pile. None of them is a premises, so none of
+   them is a shopfront, for the garden gate's reason. The fence is the street's
+   (its posts and rails in the street's ink, its words in the street's Bungee),
+   and each gate opens on its own lot: the Run's khaki and slate, the Truck
+   Stop's concrete with an awning's stripe along the top, the Green's wet lawn
+   with the sky along its top edge, the Pile's sand with a strip of duct tape.
+   The words in a gate stand on that lot's own ground, in that lot's own ink,
+   and the rails run only between the gates, where nothing is written. */
+.openground { margin: 26px 0 0; }
+.openground__what { margin: 0; font-family: 'Bungee', var(--sans); font-size: 17px; letter-spacing: 1px; color: var(--chalk); }
+.openground__why { margin: 6px 0 12px; font-size: 14.5px; max-width: 62ch; color: var(--chalk); }
+.openground__gates {
+  list-style: none; margin: 0; padding: 0 6px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 14px;
+  background:
+    linear-gradient(to bottom, transparent 30%, var(--ink-3) 30% calc(30% + 5px), transparent calc(30% + 5px)),
+    linear-gradient(to bottom, transparent 72%, var(--ink-3) 72% calc(72% + 5px), transparent calc(72% + 5px));
+}
+.lotgate {
+  display: block; height: 100%; padding: 14px 14px 14px; text-decoration: none;
+  border: 5px solid var(--ink-3); border-bottom: 0; border-radius: 4px 4px 0 0;
+}
+.lotgate__name { display: block; font-family: 'Bungee', var(--sans); font-size: 15px; letter-spacing: .5px; }
+.lotgate__why { display: block; margin-top: 6px; font-size: 14px; line-height: 1.45; }
+.lotgate--run { background: var(--run-grass); color: var(--run-ink); }
+.lotgate--run .lotgate__name { color: var(--run-link); }
+.lotgate--run:hover { background: var(--run-board); }
+.lotgate--truck { background: var(--tks-lot); color: var(--tks-ink); border-top: 12px solid var(--tks-marigold); }
+.lotgate--truck .lotgate__name { color: var(--tks-link); }
+.lotgate--truck:hover { background: var(--tks-paper); }
+.lotgate--green { background: var(--grn-lawn); color: var(--grn-ink); border-top: 9px solid var(--grn-sheen); }
+.lotgate--green .lotgate__name { color: var(--grn-link); }
+.lotgate--green:hover { background: var(--grn-paper); }
+.lotgate--pile { background: var(--pil-sand); color: var(--pil-ink); border-top: 12px solid var(--pil-tape); }
+.lotgate--pile .lotgate__name { color: var(--pil-link); }
+.lotgate--pile:hover { background: var(--pil-paper); }
+@media (max-width: 760px) {
+  .openground__gates { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; background: none; padding: 0; }
+  .lotgate { border-bottom: 5px solid var(--ink-3); border-radius: 4px; }
 }
 
 /* THE MAP, ON A TABLE BY THE FRONT DOOR. Street furniture, and like the gate a
@@ -13236,6 +13450,16 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
   box-shadow: -7px 8px 0 rgba(34, 48, 43, .2); }
 .mm-gate:focus-visible { outline: 3px solid var(--mm-ink); outline-offset: 3px; }
 
+/* AN OPEN LOT, where the buildings stop: a flat piece of card lying on the
+   board with its fence pencilled round it, and no shadow, because nothing on
+   it stands up. One after another down the same side of the road, next door to
+   each other. */
+.mm-plot { display: block; width: 15rem; max-width: 100%; padding: 12px 13px 13px; text-decoration: none;
+  color: var(--mm-ink); background: var(--mm-face); border: 2px dashed var(--mm-pencil); border-radius: 2px; }
+.mm-plot:hover { background: var(--mm-top); }
+.mm-plot:focus-visible { outline: 3px solid var(--mm-ink); outline-offset: 3px; }
+.mm-lot--open { padding-top: 6px; }
+
 /* ROOMS BEHIND ROOMS stand further off the road than the room you go through,
    down a pencilled passage from it. Below and outward rather than beside, so a
    room with several behind it reads the same on a phone as on a desk. */
@@ -13343,7 +13567,7 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
   .mm-lots { --mm-lane: 34px; row-gap: 22px; }
   .mm-lot--w { padding-right: 8px; }
   .mm-lot--e { padding-left: 2px; }
-  .mm-shop, .mm-gate, .mm-table, .mm-notice, .mm-brass, .mm-lifthead { width: 100%; }
+  .mm-shop, .mm-gate, .mm-plot, .mm-table, .mm-notice, .mm-brass, .mm-lifthead { width: 100%; }
   .mm-shop { --mm-d: 8px; padding: 10px 9px 12px; }
   .mm-back { --mm-d: 6px; width: 100%; padding: 7px 8px 9px; }
   .mm-lot--w .mm-behind { margin-right: 0; margin-left: 12px; }
@@ -15027,7 +15251,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §97
+   class on it is `bb-`, its sizes are in points and millimetres, and §101
    prints it and nothing else. */
 
 .room-broadside {
@@ -15088,7 +15312,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §97 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §101 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -19592,7 +19816,589 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .bns-rules li, .bns-keeps li { margin: 0 0 8px; }
 .brewstew .quest { margin-top: 40px; }
 
-/* §96 ── Small screens ───────────────────────────────────────────────────────
+/* §96 ── ROOM: The Run (the first lot through the fence, where the buildings stop)
+   A dog park. Ryan's brief, 2026-10-05: an outdoor dog park on the street with
+   a covered porch, swings, rocking chairs and plush dog beds, a row of trees
+   for shade and peeing on, an open grassy area for fetch, and the dogs from
+   the rescue shelter out for a run, met the way the cats are met at Pekoe and
+   Purrs. tools/make-the-run.py draws the field; roam.js, shared with the café,
+   reads the dogs off Rescue A Dog's own list every time the Run opens.
+
+   IT IS PAINTED IN A DOG'S COLOURS, AND THAT IS THE ROOM. Dogs have two kinds of
+   cone where most people have three, so they see in blues and yellows and
+   cannot tell red from green, and every --run- colour is a blue, a yellow or a
+   grey: the grass is the khaki a dog sees it as, the sky is blue, the boards
+   are straw, the roof is slate. make-the-run.py reads every one of them, and
+   refuses a literal colour in this section. If a red or a green ever appears
+   here, the Run is being seen through our eyes instead of a dog's. The dogs
+   themselves are drawn in their own coats, because they are the shelter's
+   dogs, and the ball is blue, because a dog can find a blue ball on grass.
+
+   THE LIGHT IS A BRIGHT DAY WITH CLOUDS GOING OVER, and each cloud's shadow lies
+   on the grass under it, soft at the edge, with the trees throwing a darker
+   pool each. No other room on the street is lit by a sun that comes and goes.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · RESCUE A DOG is where every dog in here came from, and the room this one
+       must never look like: the park the morning after snow, a low winter sun,
+       a ground brighter than its sky and every shadow blue. Here it is summer,
+       the sun is high, the ground is grass and darker than the sky, and the
+       shadows are the grass's own yellow. If a shadow on the Run ever goes
+       blue, it has become the shelter with the snow melted.
+     · THE GREEN is two lots along and is the other green space with a porch,
+       and it is the one to watch: everything there is wet and green after the
+       rain, and nothing casts a shadow. Here nothing is green at all.
+     · THE GARDEN is the other daylit open ground, and its light comes through
+       leaves overhead, so its pale is green and its shadows small and hard. A
+       dog sees no green, and the Run has no leaves over it.
+     · PEKOE AND PURRS does the same thing with cats, indoors, under a window at
+       every height on a coral wall. That is a café; this is a field.
+     · SWAYING SWEETGRASS is the other open grass, lit from behind by a low sun
+       through every blade. Here the sun is up and nothing is lit through
+       anything.
+
+   EVERYTHING IS OUTLINED IN THE INK, the furniture and the trees as the dogs are
+   outlined in the shelter's dark, so the dogs stand in the same hand as the
+   porch rather than in front of it like stickers. The beds and the boards
+   measure about 1 against each other and are carried by their outlines.
+   NOTHING TILTS, and nothing moves by itself below MAX GLITTER: a dog's move is
+   a fade on its opacity, and at Gentle §3 takes the fade away and leaves a jump.
+   make-the-run.py refuses a rotation, a skew or a literal colour here. */
+
+.dogrun {
+  background: var(--run-grass); color: var(--run-ink);
+  font-family: 'Mukta', var(--sans); font-synthesis: none;
+}
+.dogrun a { color: var(--run-link); }
+.dogrun a:hover { color: var(--run-deep); }
+.dogrun :focus-visible { outline-color: var(--run-ink); }
+.dogrun :where(p, li) { font-size: 18px; line-height: 1.6; }
+.dogrun .backlink { font-family: 'Mukta', var(--sans); font-weight: 700; font-size: 16px; letter-spacing: .01em; color: var(--run-link); }
+.run-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.run-trail { margin: 0; font-size: 15px; color: var(--run-dim); }
+
+.run-head { margin: 28px 0 0; }
+.run-over { margin: 0; font-weight: 700; font-size: 15px; letter-spacing: .1em; text-transform: uppercase; color: var(--run-dim); }
+.dogrun h1 {
+  margin: 4px 0 6px; font-family: 'Lilita One', var(--sans); font-weight: 400;
+  font-size: clamp(56px, 11vw, 110px); line-height: .95; letter-spacing: .01em; color: var(--run-ink);
+}
+.run-sub { margin: 0; font-size: 21px; line-height: 1.4; max-width: 40ch; }
+.dogrun h2 {
+  margin: 0 0 10px; font-family: 'Lilita One', var(--sans); font-weight: 400;
+  font-size: 34px; line-height: 1.1; color: var(--run-ink);
+}
+.dogrun h3 {
+  margin: 24px 0 8px; font-family: 'Lilita One', var(--sans); font-weight: 400;
+  font-size: 24px; line-height: 1.2; color: var(--run-ink);
+}
+.run-lede { margin: 24px 0 0; font-size: 20px; line-height: 1.6; max-width: 66ch; }
+.run-part { margin: 48px 0 0; }
+.run-part > p { max-width: 68ch; }
+.run-state { margin: 0 0 14px; max-width: 68ch; }
+
+/* THE FIELD. The drawing, the dogs on it as buttons, and in front of them the
+   near rim of each bed and the swing's seat, which takes no pointer. Nothing
+   here makes its own stacking context but the field, so a dog with the
+   keyboard on it can come in front of the bed it is lying in. */
+.run-view { overflow-x: auto; border: 3px solid var(--run-ink); border-radius: 10px; background: var(--run-sky); }
+.run-field { position: relative; isolation: isolate; min-width: 780px; }
+.run-field__draw { display: block; width: 100%; height: auto; }
+.run-dogs { position: absolute; inset: 0; }
+.run-field__front { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+.run-dog {
+  position: absolute; z-index: 1; width: 7%; aspect-ratio: 200 / 170; padding: 0; margin: 0;
+  border: 0; border-radius: 10px; background: none; cursor: pointer; transition: opacity .34s ease;
+}
+.run-dog:focus-visible { z-index: 3; outline: 3px solid var(--run-ink); outline-offset: 3px; }
+.run-dog--away { opacity: 0; }
+.run-dog__draw { display: block; width: 100%; height: 100%; }
+.run-spots { display: none; }
+.run-wide { display: none; margin: 0 0 10px; font-size: 15px; color: var(--run-dim); max-width: 60ch; }
+@media (max-width: 820px) { .run-wide { display: block; } }
+
+/* A BUTTON IS A DOG TAG: the blue the Run's links are, square at the top where
+   it hangs and round at the foot. */
+.run-toys { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; margin: 14px 0 0; }
+.run-btn {
+  font: 700 17px/1.3 'Mukta', var(--sans); padding: 9px 18px 8px; min-height: 44px; cursor: pointer;
+  border: 2px solid var(--run-ink); border-radius: 4px 4px 18px 18px; background: var(--run-link); color: var(--run-paper);
+}
+.run-btn:hover { background: var(--run-deep); }
+.run-btn:focus-visible { outline: 3px solid var(--run-ink); outline-offset: 3px; }
+.run-btn--quiet { background: var(--run-paper); color: var(--run-ink); }
+.run-btn--quiet:hover { background: var(--run-cloud); color: var(--run-deep); }
+/* An answer, where the hand is: under the toys, on the card. aria-hidden,
+   because the live region says it once. */
+.run-said {
+  display: block; flex: 1 1 100%; margin: 8px 0 0; padding: 7px 12px; font-size: 16px; line-height: 1.45;
+  background: var(--run-paper); color: var(--run-ink); border: 2px solid var(--run-ink); border-radius: 8px;
+}
+
+/* A dog's card: the shelter's words about them, on the Run's paper. */
+.run-card {
+  display: grid; grid-template-columns: minmax(0, 200px) minmax(0, 1fr); gap: 8px 24px; align-items: start;
+  margin: 18px 0 0; padding: 18px 20px; background: var(--run-paper); border: 3px solid var(--run-ink); border-radius: 10px;
+}
+.run-card__draw { display: block; width: 100%; height: auto; }
+.dogrun .run-card__name { margin: 4px 0 6px; overflow-wrap: anywhere; }
+.run-card__words p { margin: 0 0 8px; }
+.run-card__now { font-weight: 700; }
+.run-card__came { color: var(--run-dim); }
+.run-who { margin: 6px 0 0; padding-left: 22px; max-width: 68ch; }
+.run-who li { margin: 0 0 6px; }
+/* A dog's name in the list: a button that reads as the name, underlined like a
+   link, because it opens the dog's card the way pressing the dog does. */
+.run-who__dog {
+  font: 700 18px/1.4 'Mukta', var(--sans); padding: 2px 0; margin: 0; border: 0; background: none;
+  color: var(--run-link); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; min-height: 24px;
+}
+.run-who__dog:hover { color: var(--run-deep); }
+
+/* THE TREAT TIN: the treat truck's bags, on paper, each saying it is for dogs. */
+.run-tin { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.run-tin__bag { padding: 12px 16px 14px; background: var(--run-paper); border: 2px solid var(--run-ink); border-radius: 10px; }
+.dogrun .run-tin__name { margin: 0 0 4px; font-size: 22px; }
+.run-tin__bag p { margin: 0 0 6px; font-size: 16px; line-height: 1.5; }
+.run-tin__mark { font-weight: 700; }
+.run-tin__has, .run-tin__note { color: var(--run-dim); }
+
+/* THE DOG TELLY, with nothing of its own on it, and its rack: rack.js's
+   pattern, in the Run's clothes. The telly is the porch roof's slate. */
+.run-screen { margin: 16px 0 0; max-width: 820px; border-radius: 10px; }
+.dogrun .run-screen__idle {
+  margin: 0; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+  padding: 18px 22px; text-align: center; border-radius: 10px; border: 3px solid var(--run-ink);
+  background: var(--run-roof); color: var(--run-paper); font-size: 17px; line-height: 1.5;
+}
+.dogrun .run-screen__idle span { max-width: 44ch; }
+.dogrun .run-screen__now { margin: 10px 0 0; max-width: 820px; font-weight: 700; font-size: 16px; }
+.dogrun .run-screen__back { margin: 8px 0 0; }
+.run-rack { margin: 22px 0 0; }
+.run-rack__sum { cursor: pointer; font: 400 24px/1.25 'Lilita One', var(--sans); color: var(--run-ink); }
+.run-vids { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.run-vid { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px 14px; background: var(--run-paper); border: 2px solid var(--run-ink); border-radius: 10px; }
+.dogrun .run-vid__title { margin: 0; font: 700 17px/1.35 'Mukta', var(--sans); overflow-wrap: anywhere; }
+.dogrun .run-vid__by { margin: 0; font-size: 15px; color: var(--run-dim); }
+.run-vid .facade { margin-top: auto; }
+.dogrun .run-vid__big { font-size: 15px; min-height: 40px; text-align: left; }
+
+.run-rules, .run-keeps { margin: 8px 0 0; padding-left: 22px; max-width: 68ch; }
+.run-rules li, .run-keeps li { margin: 0 0 8px; }
+.dogrun .quest { margin-top: 40px; }
+@media (max-width: 620px) {
+  .run-card { grid-template-columns: 1fr; }
+  .run-card__pic { max-width: 180px; }
+}
+
+/* §97 ── ROOM: Truckin' Food Court (the second lot, between the Run and the Green)
+   An outdoor food court, which everybody calls the Truck Stop. Ryan's brief,
+   2026-10-05: food trucks that each serve one thing several ways -- tacos,
+   bánh mì, ramen and dog treats -- a drinks truck, and a covered porch of
+   tables, between the Run and the Green and serving both.
+   tools/make-truckin-food-court.py draws the court and writes every board;
+   table.js, shared with the café and the tea room, puts what you ask for on
+   your table.
+
+   THE LIGHT COMES THROUGH THE AWNINGS. Every truck has its awning out over its
+   hatch, two colours in stripes, and the sun through the canvas lays those
+   stripes on the counter and on the ground in front. Everywhere between the
+   trucks the lot is plain sun on pale concrete, so ALL THE COLOUR AT THE TRUCK
+   STOP IS UNDER AN AWNING, and every truck's board carries its own awning's
+   stripes along the top. Words never stand on the stripes: the board is paper.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · THE COMMUNITY CENTER is the other room whose light comes in stripes, and
+       it is the one to watch: sun through a venetian blind, white bars and
+       shade on powder-blue block, indoors. Here every stripe of light is a
+       colour, there is no dark between them, and it is outdoors. If the
+       awnings' light ever goes white, it has become the Community Center with
+       wheels on.
+     · CAVENDISH COWORKING's light comes through canvas too, the green lining of
+       its blinds, the whole room one colour. Here the canvas is five colours
+       in five places, and the lot between them is uncoloured.
+     · HEY, GOOD COOKIN' is the other place that feeds people for nothing, a
+       hall with its windows steamed up and the line heated from underneath.
+       This is outdoors, dry and in the sun, and nobody queues along a line.
+     · THE SMALL HOURS is a lit hatch of sorts at night, a diner seen from the
+       car park. The Truck Stop is the middle of the day.
+     · THE RUN is next door and is drawn in a dog's two colours. The Truck Stop
+       has every colour, which is the difference you notice walking through the
+       gate.
+
+   NOTHING TILTS AND NOTHING MOVES, at any setting: the trucks are parked.
+   make-truckin-food-court.py refuses a rotation, a skew or a literal colour
+   here. */
+
+.truckstop {
+  background: var(--tks-lot); color: var(--tks-ink);
+  font-family: 'Familjen Grotesk', var(--sans); font-synthesis: none;
+}
+.truckstop a { color: var(--tks-link); }
+.truckstop a:hover { color: var(--tks-deep); }
+.truckstop :focus-visible { outline-color: var(--tks-ink); }
+.truckstop :where(p, li) { font-size: 17px; line-height: 1.6; }
+.truckstop .backlink { font-family: 'Familjen Grotesk', var(--sans); font-weight: 700; font-size: 15px; color: var(--tks-link); }
+.tks-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.tks-trail { margin: 0; font-size: 15px; color: var(--tks-dim); }
+
+.tks-head { margin: 28px 0 0; }
+.tks-over { margin: 0; font-weight: 700; font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: var(--tks-dim); }
+.truckstop h1 {
+  margin: 4px 0 6px; font-family: 'Sansita', var(--sans); font-weight: 800; font-style: normal;
+  font-size: clamp(46px, 9vw, 96px); line-height: .98; color: var(--tks-ink);
+}
+.tks-sub { margin: 0; font-size: 21px; line-height: 1.4; max-width: 42ch; }
+.truckstop h2 {
+  margin: 0 0 10px; font-family: 'Sansita', var(--sans); font-weight: 800;
+  font-size: 34px; line-height: 1.1; color: var(--tks-ink);
+}
+.truckstop h3 { margin: 0; font-family: 'Sansita', var(--sans); font-weight: 800; font-size: 28px; line-height: 1.15; color: var(--tks-ink); }
+.truckstop h4 { margin: 0 0 6px; font-family: 'Familjen Grotesk', var(--sans); font-weight: 700; font-size: 20px; line-height: 1.25; }
+.tks-lede { margin: 24px 0 0; font-size: 19px; line-height: 1.6; max-width: 66ch; }
+.tks-part { margin: 48px 0 0; }
+.tks-part > p { max-width: 68ch; }
+
+/* THE COURT, and the view down at your table, which takes its place. */
+.tks-view { border: 3px solid var(--tks-ink); border-radius: 6px; overflow: hidden; background: var(--tks-lot); }
+.tks-courtwrap { overflow-x: auto; }
+.tks-court__draw { display: block; width: 100%; min-width: 760px; height: auto; }
+.tks-table__draw { display: block; width: 100%; height: auto; }
+.tks-wide { display: none; margin: 0 0 10px; font-size: 15px; color: var(--tks-dim); max-width: 60ch; }
+@media (max-width: 800px) { .tks-wide { display: block; } }
+.tks-controls { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; margin: 14px 0 0; }
+.tks-tablesays { margin: 12px 0 0; padding: 10px 14px; max-width: 68ch; background: var(--tks-paper); border: 2px solid var(--tks-ink); border-radius: 6px; }
+
+/* A BUTTON IS A HATCH: square, flat on top, the court's rust. */
+.tks-btn {
+  font: 700 17px/1.3 'Familjen Grotesk', var(--sans); padding: 9px 18px; min-height: 44px; cursor: pointer;
+  border: 2px solid var(--tks-ink); border-radius: 2px; background: var(--tks-link); color: var(--tks-paper);
+}
+.tks-btn:hover { background: var(--tks-deep); }
+.tks-btn:focus-visible { outline: 3px solid var(--tks-ink); outline-offset: 3px; }
+.tks-btn--quiet { background: var(--tks-paper); color: var(--tks-ink); }
+.tks-btn--quiet:hover { background: var(--tks-lot); color: var(--tks-deep); }
+.tks-said {
+  display: block; margin: 8px 0 0; padding: 7px 12px; font-size: 16px; line-height: 1.45;
+  background: var(--tks-paper); color: var(--tks-ink); border: 2px solid var(--tks-ink); border-radius: 4px;
+}
+
+/* A TRUCK'S BOARD, on paper, with its own awning's stripes along the top. The
+   stripes are two of the room's colours, passed in as --tks-a and --tks-b by
+   the generator; they carry no word, and nothing stands on them. */
+.tks-truck { margin: 30px 0 0; padding: 0 0 18px; background: var(--tks-paper); border: 3px solid var(--tks-ink); border-radius: 6px; overflow: hidden; }
+.tks-awning {
+  height: 26px; border-bottom: 3px solid var(--tks-ink);
+  background: repeating-linear-gradient(90deg, var(--tks-a) 0 28px, var(--tks-b) 28px 56px);
+}
+.tks-truck__name { padding: 14px 20px 0; }
+.tks-truck > p { margin: 8px 20px 0; max-width: 70ch; }
+.tks-truck__about { color: var(--tks-dim); font-size: 16px; }
+.tks-items { list-style: none; margin: 16px 20px 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.tks-item { padding: 12px 14px 14px; background: var(--tks-paper); border: 2px solid var(--tks-ink); border-radius: 4px; }
+.tks-item__draw { display: block; width: 120px; height: auto; margin: 0 0 4px; }
+.tks-item p { margin: 0 0 6px; font-size: 16px; line-height: 1.5; }
+.tks-item__has, .tks-item__caf { font-weight: 700; }
+.tks-item__ask, .tks-item__note { color: var(--tks-dim); }
+.tks-item__go { margin: 10px 0 0; }
+.tks-mark {
+  display: inline-block; padding: 1px 10px; margin-right: 6px; font-size: 14px; font-weight: 700;
+  border: 2px solid var(--tks-ink); border-radius: 2px; background: var(--tks-paper); color: var(--tks-ink);
+}
+.tks-mark--vegan, .tks-mark--veg { background: var(--tks-ink); color: var(--tks-paper); }
+
+/* THE SCREEN ON THE COOLER, with nothing of its own on it, and its rack:
+   rack.js's pattern, in the court's clothes. The screen is the Cooler's plum. */
+.tks-screen { margin: 16px 0 0; max-width: 820px; border-radius: 4px; }
+.truckstop .tks-screen__idle {
+  margin: 0; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+  padding: 18px 22px; text-align: center; border-radius: 4px; border: 3px solid var(--tks-ink);
+  background: var(--tks-kitchen); color: var(--tks-paper); font-size: 17px; line-height: 1.5;
+}
+.truckstop .tks-screen__idle span { max-width: 44ch; }
+.truckstop .tks-screen__now { margin: 10px 0 0; max-width: 820px; font-weight: 700; font-size: 16px; }
+.truckstop .tks-screen__back { margin: 8px 0 0; }
+.tks-rack { margin: 22px 0 0; }
+.tks-rack__sum { cursor: pointer; font: 800 24px/1.25 'Sansita', var(--sans); color: var(--tks-ink); }
+.truckstop .tks-rack__shelf { margin: 22px 0 0; font-size: 24px; }
+.tks-vids { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.tks-vid { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px 14px; background: var(--tks-paper); border: 2px solid var(--tks-ink); border-radius: 4px; }
+.truckstop .tks-vid__title { margin: 0; font: 700 17px/1.35 'Familjen Grotesk', var(--sans); overflow-wrap: anywhere; }
+.truckstop .tks-vid__by { margin: 0; font-size: 15px; color: var(--tks-dim); }
+.tks-vid .facade { margin-top: auto; }
+.truckstop .tks-vid__big { font-size: 15px; min-height: 40px; text-align: left; }
+/* A film that cannot be shown here is a door to YouTube, shaped like one:
+   dashed, no picture's shape, because a link dressed as a screen promises the
+   one thing it cannot do. */
+.tks-door {
+  display: block; margin-top: auto; padding: 12px 14px; font-weight: 700; font-size: 16px; line-height: 1.4;
+  border: 2px dashed var(--tks-ink); border-radius: 2px; color: var(--tks-link); background: var(--tks-paper);
+}
+.tks-door__why { display: block; margin-top: 4px; font-weight: 400; font-size: 15px; color: var(--tks-dim); }
+
+.tks-rules, .tks-keeps { margin: 8px 0 0; padding-left: 22px; max-width: 68ch; }
+.tks-rules li, .tks-keeps li { margin: 0 0 8px; }
+.truckstop .quest { margin-top: 40px; }
+
+/* §98 ── ROOM: The Green (the third lot, between the Truck Stop and the Pile) ──
+   A community green space. Ryan's brief, 2026-10-05: heavily wooded, with a
+   covered porch, a wooden accessible trail going round in a meandering circle
+   lined with beds of plants, flowers and vegetables you can eat, and a pond in
+   the centre. tools/make-the-green.py draws the view from the porch and the
+   plan of the trail and writes every stop; green.js walks you round it.
+
+   IT HAS JUST STOPPED RAINING, AND THAT IS THE LIGHT. There is no sun, so
+   NOTHING CASTS A SHADOW, on the page or in the drawing, and everything wet
+   holds a line of the pale sky along its top edge. On the page that line is
+   the top edge of every card, in --grn-sheen, and there is no box-shadow,
+   text-shadow or drop shadow anywhere in this section: make-the-green.py
+   refuses one. Everything is saturated, because wet things are, and darker.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · THE GARDEN is the one to watch: the other green with beds in it, and it
+       is midday there, the sun overhead coming down through leaves, so its
+       pale is green and its shadows are small and hard and directly under
+       things. Here there is no sun and there are no shadows, and the beds are
+       plants rather than sites. If the sun ever comes out on the Green, it has
+       become the Garden with a pond in it.
+     · THE JUNGLE ROOM is the other wet green, and it is night under a roof,
+       light falling in patches through leaves, every word cream on near-black.
+       The Green is day, open over the pond, dark words on a lit lawn.
+     · SWAYING SWEETGRASS is lit from behind by a low sun through every blade.
+       The Green has no sun to be lit by.
+     · THE MUD ROOM'S SLAKE is the other overcast, the sky lying in the mud, all
+       olive greys and the longest view on the street. The Green is close, wet
+       and green, and the sky lies only in the pond.
+     · THE 404 is fog, lit from everywhere with no distance in it. After rain the
+       air is the clearest it gets, and everything has an edge.
+     · THE RUN is two lots along and has no green in it at all.
+
+   NOTHING MOVES, at any setting: the rings on the pond and the drops on the
+   roof's edge are drawn as they lie. make-the-green.py refuses a rotation, a
+   skew, a shadow or a literal colour here. */
+
+.greenspace {
+  background: var(--grn-lawn); color: var(--grn-ink);
+  font-family: 'Alegreya', Georgia, serif; font-synthesis: none;
+}
+.greenspace a { color: var(--grn-link); }
+.greenspace a:hover { color: var(--grn-deep); }
+.greenspace :focus-visible { outline-color: var(--grn-ink); }
+.greenspace :where(p, li, dd) { font-size: 19px; line-height: 1.55; }
+.greenspace .backlink { font-family: 'Alegreya', Georgia, serif; font-weight: 700; font-size: 17px; color: var(--grn-link); }
+.grn-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.grn-trail { margin: 0; font-size: 16px; color: var(--grn-dim); }
+
+.grn-head { margin: 28px 0 0; }
+.grn-over { margin: 0; font-family: 'Della Respira', Georgia, serif; font-size: 17px; letter-spacing: .14em; text-transform: uppercase; color: var(--grn-dim); }
+.greenspace h1 {
+  margin: 6px 0 6px; font-family: 'Della Respira', Georgia, serif; font-weight: 400;
+  font-size: clamp(56px, 11vw, 112px); line-height: .95; letter-spacing: .02em; color: var(--grn-ink);
+}
+.grn-sub { margin: 0; font-size: 23px; line-height: 1.35; max-width: 40ch; font-style: italic; }
+.greenspace h2 {
+  margin: 0 0 10px; font-family: 'Della Respira', Georgia, serif; font-weight: 400;
+  font-size: 36px; line-height: 1.1; letter-spacing: .01em; color: var(--grn-ink);
+}
+.greenspace h3 { margin: 0 0 6px; font-family: 'Della Respira', Georgia, serif; font-weight: 400; font-size: 25px; line-height: 1.2; }
+.grn-lede { margin: 24px 0 0; font-size: 21px; line-height: 1.55; max-width: 64ch; }
+.grn-part { margin: 48px 0 0; }
+.grn-part > p { max-width: 66ch; }
+
+/* EVERY CARD HOLDS THE SKY ALONG ITS TOP EDGE, because it is wet: a pale line
+   and no shadow. */
+.grn-card, .grn-stop, .grn-vid, .grn-sign__list, .grn-quote, .grn-walk__now, .grn-plan__draw {
+  border: 2px solid var(--grn-ink); border-top: 4px solid var(--grn-sheen);
+}
+
+.grn-view { border: 3px solid var(--grn-ink); border-radius: 8px; overflow: hidden; background: var(--grn-sky); }
+.grn-view__draw { display: block; width: 100%; height: auto; }
+
+/* THE WALK: the plan and the buttons beside the list of stops, the stop you are
+   at marked in the list. */
+.grn-walk { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 18px 26px; align-items: start; margin: 16px 0 0; }
+.grn-plan { position: sticky; top: 12px; }
+.grn-plan__draw { display: block; width: 100%; height: auto; border-radius: 10px; background: var(--grn-paper); }
+.grn-walk__go { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0 0; }
+.grn-walk__now { margin: 12px 0 0; padding: 10px 14px; background: var(--grn-paper); border-radius: 8px; font-size: 17px; line-height: 1.5; }
+.grn-stops { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.grn-stop { padding: 12px 16px 14px; background: var(--grn-paper); border-radius: 8px; }
+.grn-stop p { margin: 0 0 6px; font-size: 17px; line-height: 1.5; }
+.grn-stop__plants, .grn-stop__notice { color: var(--grn-dim); }
+.grn-stop[aria-current="step"] { border-left: 10px solid var(--grn-link); }
+
+/* A BUTTON IS A WET BOARD: square ends, and the sky along its top. */
+.grn-btn {
+  font: 700 18px/1.3 'Alegreya', Georgia, serif; padding: 8px 18px; min-height: 44px; cursor: pointer;
+  border: 2px solid var(--grn-ink); border-top: 4px solid var(--grn-sheen); border-radius: 3px;
+  background: var(--grn-link); color: var(--grn-paper);
+}
+.grn-btn:hover { background: var(--grn-deep); }
+.grn-btn:focus-visible { outline: 3px solid var(--grn-ink); outline-offset: 3px; }
+.grn-btn--quiet { background: var(--grn-paper); color: var(--grn-ink); }
+.grn-btn--quiet:hover { background: var(--grn-sky); color: var(--grn-deep); }
+
+/* THE TRAILHEAD SIGN, on a post by the steps: every figure ABA 1017.10 asks for. */
+.grn-sign__list { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 22px; max-width: 760px; margin: 14px 0 0; padding: 16px 20px; background: var(--grn-paper); border-radius: 6px; }
+.grn-sign__list dt { font-family: 'Della Respira', Georgia, serif; font-size: 19px; }
+.grn-sign__list dd { margin: 0; }
+
+.grn-quote { max-width: 60ch; margin: 14px 0 16px; padding: 14px 20px 12px; background: var(--grn-paper); border-radius: 6px; }
+.grn-quote blockquote { margin: 0; }
+.grn-quote blockquote p { margin: 0; font-size: 22px; line-height: 1.45; font-style: italic; }
+.grn-quote figcaption { margin: 8px 0 0; font-size: 16px; color: var(--grn-dim); }
+
+/* THE SCREEN UNDER THE PORCH ROOF, with nothing of its own on it, and its
+   rack: rack.js's pattern, in the Green's clothes. */
+.grn-screen { margin: 16px 0 0; max-width: 820px; border-radius: 6px; }
+.greenspace .grn-screen__idle {
+  margin: 0; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+  padding: 18px 22px; text-align: center; border-radius: 6px; border: 3px solid var(--grn-ink); border-top: 5px solid var(--grn-sheen);
+  background: var(--grn-roof); color: var(--grn-paper); font-size: 18px; line-height: 1.5;
+}
+.greenspace .grn-screen__idle span { max-width: 44ch; }
+.greenspace .grn-screen__now { margin: 10px 0 0; max-width: 820px; font-weight: 700; font-size: 17px; }
+.greenspace .grn-screen__back { margin: 8px 0 0; }
+.grn-rack { margin: 22px 0 0; }
+.grn-rack__sum { cursor: pointer; font: 400 25px/1.25 'Della Respira', Georgia, serif; color: var(--grn-ink); }
+.grn-vids { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.grn-vid { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px 14px; background: var(--grn-paper); border-radius: 6px; }
+.greenspace .grn-vid__title { margin: 0; font: 700 18px/1.35 'Alegreya', Georgia, serif; overflow-wrap: anywhere; }
+.greenspace .grn-vid__by { margin: 0; font-size: 16px; color: var(--grn-dim); }
+.grn-vid .facade { margin-top: auto; }
+.greenspace .grn-vid__big { font-size: 16px; min-height: 40px; text-align: left; }
+
+.grn-rules, .grn-keeps { margin: 8px 0 0; padding-left: 22px; max-width: 66ch; }
+.grn-rules li, .grn-keeps li { margin: 0 0 8px; }
+.greenspace .quest { margin-top: 40px; }
+@media (max-width: 760px) {
+  .grn-walk { grid-template-columns: 1fr; }
+  .grn-plan { position: static; }
+  .grn-sign__list { grid-template-columns: 1fr; }
+}
+
+/* §99 ── ROOM: The Pile (the last lot through the fence, past the Green) ───────
+   A junk playground. Ryan's brief, 2026-10-05: an adventure playground of duct
+   tape, fabric, bubble wrap, sand, old wooden furniture, tempera paint,
+   plywood, pallets, pianos, buckets, shovels, ropes, tree stumps and old
+   playground equipment, under our Play page's heading, Play Is Learning.
+   tools/make-the-pile.py draws the Pile and every part on it; pile.js lets you
+   make something out of them.
+
+   THE LIGHT HAS NO COLOUR IN IT, AND ALL THE COLOUR IS PAINT. The den in the
+   middle is roofed with bubble wrap, and every bubble throws a ring of light on
+   the sand under it; everywhere else the Pile is in plain sun. Tempera dries
+   chalky and matte, so every colour here is a little pale and a little dusty,
+   splashed on plywood and pallets, never a glossy primary.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · THE PLAYHOUSE is the street's other room of play, and it is the one to
+       watch: indoors, saturated primary blue under bunting, a checkerboard
+       floor, and every toy a finished toy that does one thing when pressed.
+       Here nothing is finished, nothing is a toy until somebody says so, and
+       every colour is chalk on raw wood. If the paint on the Pile ever goes
+       glossy, or bunting goes up, it has become the Playhouse with the roof off.
+     · THE ARCADE has the other machines to play with, and they are cabinets
+       behind glass with a game in each. Nothing on the Pile has a game in it.
+     · THE ZINE TABLE is the other room made of whatever was to hand, and that
+       is paper, photocopied and cut. This is wood and rope and sand.
+     · THE GREEN is next door and wet; the Pile is dry, and in the sun.
+
+   EVERY PIECE OF JUNK IS OUTLINED IN THE INK, and nothing is tilted: a pallet
+   leaning on a stump is drawn leaning, inside its own drawing, and nothing in
+   this section is rotated or skewed, because check-gentle.py reads a tilt out
+   of the computed matrix. RUBIK WET PAINT SETS THE NAME AND NOTHING ELSE, and
+   make-the-pile.py refuses it on any rule but the h1. Nothing moves by itself
+   at any setting. */
+
+.junkpile {
+  background: var(--pil-sand); color: var(--pil-ink);
+  font-family: 'Shantell Sans', var(--sans); font-synthesis: none;
+}
+.junkpile a { color: var(--pil-link); }
+.junkpile a:hover { color: var(--pil-deep); }
+.junkpile :focus-visible { outline-color: var(--pil-ink); }
+.junkpile :where(p, li) { font-size: 17.5px; line-height: 1.6; }
+.junkpile .backlink { font-family: 'Shantell Sans', var(--sans); font-weight: 700; font-size: 16px; color: var(--pil-link); }
+.pil-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.pil-trail { margin: 0; font-size: 15px; color: var(--pil-dim); }
+
+.pil-head { margin: 28px 0 0; }
+.pil-over { margin: 0; font-weight: 700; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--pil-dim); }
+.junkpile h1 {
+  margin: 4px 0 8px; font-family: 'Rubik Wet Paint', var(--sans); font-weight: 400;
+  font-size: clamp(60px, 12vw, 120px); line-height: 1; color: var(--pil-link);
+}
+.pil-sub { margin: 0; font-size: 20px; line-height: 1.45; max-width: 52ch; }
+.junkpile h2 { margin: 0 0 10px; font-family: 'Shantell Sans', var(--sans); font-weight: 700; font-size: 32px; line-height: 1.15; color: var(--pil-ink); }
+.junkpile h3 { margin: 0 0 6px; font-family: 'Shantell Sans', var(--sans); font-weight: 700; font-size: 21px; line-height: 1.25; }
+.pil-lede { margin: 24px 0 0; font-size: 19.5px; line-height: 1.6; max-width: 66ch; }
+.pil-part { margin: 48px 0 0; }
+.pil-part > p { max-width: 68ch; }
+
+.pil-view { border: 3px solid var(--pil-ink); border-radius: 6px; overflow: hidden; background: var(--pil-sky); }
+.pil-pile__draw { display: block; width: 100%; height: auto; }
+
+.pil-make { margin: 16px 0 0; padding: 16px 18px; background: var(--pil-paper); border: 3px solid var(--pil-ink); border-radius: 6px; border-top: 10px solid var(--pil-tape); }
+.pil-make__row { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; margin: 0 0 10px; }
+.pil-make__lab { font-weight: 700; }
+.pil-make__pick { font: 400 17px/1.3 'Shantell Sans', var(--sans); min-height: 44px; padding: 6px 10px; color: var(--pil-ink); background: var(--pil-paper); border: 2px solid var(--pil-ink); border-radius: 4px; }
+.pil-make__said { margin: 0 0 10px; padding: 8px 12px; background: var(--pil-sand); border: 2px solid var(--pil-ink); border-radius: 4px; }
+.pil-build { border: 2px solid var(--pil-ink); border-radius: 4px; overflow: hidden; }
+.pil-build__draw { display: block; width: 100%; height: auto; }
+.pil-make__words { margin: 10px 0 0; font-weight: 700; }
+
+/* A BUTTON IS A BLOCK OF PAINTED WOOD: square, thick-edged, the Pile's purple. */
+.pil-btn {
+  font: 700 17px/1.3 'Shantell Sans', var(--sans); padding: 8px 16px; min-height: 44px; cursor: pointer;
+  border: 3px solid var(--pil-ink); border-radius: 3px; background: var(--pil-link); color: var(--pil-paper);
+}
+.pil-btn:hover { background: var(--pil-deep); }
+.pil-btn:focus-visible { outline: 3px solid var(--pil-ink); outline-offset: 3px; }
+.pil-btn--quiet { background: var(--pil-paper); color: var(--pil-ink); }
+.pil-btn--quiet:hover { background: var(--pil-sand); color: var(--pil-deep); }
+
+/* A CARD IS A PIECE OF PLYWOOD TAPED UP: paper, an ink edge, and a strip of
+   duct tape across the top, straight, because nothing on the Pile is tilted. */
+.pil-things { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.pil-thing { padding: 12px 14px 14px; background: var(--pil-paper); border: 2px solid var(--pil-ink); border-top: 8px solid var(--pil-tape); border-radius: 4px; }
+.pil-thing__draw { display: block; width: 120px; height: auto; margin: 0 0 4px; }
+.pil-thing p { margin: 0 0 6px; font-size: 16px; line-height: 1.5; }
+.pil-thing__been { color: var(--pil-dim); }
+
+.pil-quote { max-width: 60ch; margin: 12px 0 16px; padding: 14px 18px 12px; background: var(--pil-paper); border: 2px solid var(--pil-ink); border-top: 8px solid var(--pil-tape); border-radius: 4px; }
+.pil-quote blockquote { margin: 0; }
+.pil-quote blockquote p { margin: 0; font-size: 21px; line-height: 1.45; font-weight: 700; }
+.pil-quote figcaption { margin: 8px 0 0; font-size: 15.5px; color: var(--pil-dim); }
+.pil-history, .pil-reading { margin: 10px 0 0; padding-left: 22px; max-width: 70ch; }
+.pil-history li, .pil-reading li { margin: 0 0 10px; }
+.pil-history__src { font-size: 15.5px; color: var(--pil-dim); }
+
+/* THE OLD TELLY ON THE PILE, with nothing of its own on it, and its rack:
+   rack.js's pattern, in the Pile's clothes. */
+.pil-screen { margin: 16px 0 0; max-width: 820px; border-radius: 6px; }
+.junkpile .pil-screen__idle {
+  margin: 0; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+  padding: 18px 22px; text-align: center; border-radius: 14px; border: 8px solid var(--pil-piano);
+  background: var(--pil-screen); color: var(--pil-paper); font-size: 17px; line-height: 1.5;
+}
+.junkpile .pil-screen__idle span { max-width: 44ch; }
+.junkpile .pil-screen__now { margin: 10px 0 0; max-width: 820px; font-weight: 700; font-size: 16px; }
+.junkpile .pil-screen__back { margin: 8px 0 0; }
+.pil-rack { margin: 22px 0 0; }
+.pil-rack__sum { cursor: pointer; font: 700 23px/1.25 'Shantell Sans', var(--sans); color: var(--pil-ink); }
+.pil-vids { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.pil-vid { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px 14px; background: var(--pil-paper); border: 2px solid var(--pil-ink); border-top: 8px solid var(--pil-tape); border-radius: 4px; }
+.junkpile .pil-vid__title { margin: 0; font: 700 17px/1.35 'Shantell Sans', var(--sans); overflow-wrap: anywhere; }
+.junkpile .pil-vid__by { margin: 0; font-size: 15px; color: var(--pil-dim); }
+.pil-vid .facade { margin-top: auto; }
+.junkpile .pil-vid__big { font-size: 15px; min-height: 40px; text-align: left; }
+
+.pil-rules, .pil-keeps { margin: 8px 0 0; padding-left: 22px; max-width: 68ch; }
+.pil-rules li, .pil-keeps li { margin: 0 0 8px; }
+.junkpile .quest { margin-top: 40px; }
+
+/* §100 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -19699,7 +20505,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §96 says every
+   shipped with no rule here at all — which on a street whose §100 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -19823,7 +20629,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §97 ── Print ───────────────────────────────────────────────────────────────
+/* §101 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

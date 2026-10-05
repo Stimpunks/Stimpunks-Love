@@ -160,15 +160,23 @@
   var DOG_MARKS = { socks: 1, blaze: 1, pointy: 1, patch: 1, three: 1, oneeye: 1, curly: 1, plain: 1 };
   function dc(k) { return 'var(--rad-coat-' + k + ')'; }
 
-  function drawDog(d, cls) {
+  /* `bare` leaves out the snow and the blue shadow on it, for a room with a
+     ground of its own: The Run, the dog park, where the shelter's dogs come out
+     in summer. A shadow on snow is blue because only the sky lights it, and
+     that blue is Rescue A Dog's; on the Run's grass there is no snow to throw
+     it. The dog itself, its coat, markings and outline, is drawn exactly as it
+     is here. */
+  function drawDog(d, cls, bare) {
     var look = DOG_COATS[d.coat] || DOG_COATS.golden;
     var mark = DOG_MARKS[d.mark] ? d.mark : 'plain';
     var fill = dc(look.base);
     var line = { stroke: 'var(--rad-ink)', 'stroke-width': '2.5', 'stroke-linejoin': 'round' };
     var svg = el('svg', { 'class': cls || 'rad-dog', viewBox: '0 0 200 170', 'aria-hidden': 'true', focusable: 'false' });
-    add(svg, 'rect', { x: 2, y: 2, width: 196, height: 166, rx: 18, fill: 'var(--rad-snow)', stroke: 'var(--rad-track)', 'stroke-width': 2 });
-    // The shadow falls away to the right, and it is blue: lit only by the sky.
-    add(svg, 'ellipse', { cx: 128, cy: 156, rx: 62, ry: 9, fill: 'var(--rad-shade)' });
+    if (!bare) {
+      add(svg, 'rect', { x: 2, y: 2, width: 196, height: 166, rx: 18, fill: 'var(--rad-snow)', stroke: 'var(--rad-track)', 'stroke-width': 2 });
+      // The shadow falls away to the right, and it is blue: lit only by the sky.
+      add(svg, 'ellipse', { cx: 128, cy: 156, rx: 62, ry: 9, fill: 'var(--rad-shade)' });
+    }
     add(svg, 'path', { d: 'M138 132 Q170 116 162 88', fill: 'none', stroke: 'var(--rad-ink)', 'stroke-width': 13, 'stroke-linecap': 'round' });
     add(svg, 'path', { d: 'M138 132 Q170 116 162 88', fill: 'none', stroke: fill, 'stroke-width': 8, 'stroke-linecap': 'round' });
     if (mark === 'curly') add(svg, 'ellipse', { cx: 100, cy: 118, rx: 47, ry: 40, fill: fill, stroke: 'var(--rad-ink)', 'stroke-width': 2.5, 'stroke-dasharray': '3 3' });
@@ -402,13 +410,14 @@
     return svg;
   }
 
-  /* `opts` is only ever asked for by the café, and only for cats: `bare`
-     leaves out the ground a cat was found on, and `pose: 'curled'` draws it
-     asleep on a lap. Dogs and small animals are drawn as they always are. */
+  /* `opts` is only ever asked for by the rooms the shelters' animals visit:
+     `bare` leaves out the ground a cat or a dog was found on, for Pekoe and
+     Purrs and The Run, and `pose: 'curled'` draws a cat asleep on a lap. Small
+     animals are drawn as they always are. */
   function draw(a, cls, opts) {
-    if (a && a.kind === 'small') return drawSmall(a, cls);
-    if (a && a.kind === 'dog') return drawDog(a, cls);
     opts = opts || {};
+    if (a && a.kind === 'small') return drawSmall(a, cls);
+    if (a && a.kind === 'dog') return drawDog(a, cls, !!opts.bare);
     return opts.pose === 'curled' ? drawCurled(a, cls) : drawCat(a, cls, !!opts.bare);
   }
 

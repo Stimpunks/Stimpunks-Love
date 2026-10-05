@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-10-04",
+ "_checked": "2026-10-05",
  "faces": {
   "abril-fatface": {
    "family": "Abril Fatface",
@@ -40,6 +40,35 @@
      "style": "normal",
      "file": "albert-sans-400.woff2",
      "sha": "acf304385d0648fd"
+    }
+   ]
+  },
+  "alegreya": {
+   "family": "Alegreya",
+   "category": "Serif",
+   "designer": "Juan Pablo del Peral, HT Fonts",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/alegreya",
+   "copyright": "Copyright 2011 The Alegreya Project Authors (https://github.com/huertatipografica/Alegreya)",
+   "repository": "https://github.com/huertatipografica/Alegreya",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "alegreya-400.woff2",
+     "sha": "6543b5abb83c027e"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "alegreya-400-italic.woff2",
+     "sha": "2dd266b19ecf7611"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "alegreya-700.woff2",
+     "sha": "2d315cb798f048fc"
     }
    ]
   },
@@ -985,6 +1014,23 @@
     }
    ]
   },
+  "della-respira": {
+   "family": "Della Respira",
+   "category": "Serif",
+   "designer": "Nathan Willis",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/dellarespira",
+   "copyright": "Copyright (c) 2011-2012, Nathan Willis (nwillis@glyphography.com), with Reserved Font Names \"Della Respira\"",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "della-respira-400.woff2",
+     "sha": "c3b4d43c6f0096a5"
+    }
+   ]
+  },
   "dm-sans": {
    "family": "DM Sans",
    "category": "Sans Serif",
@@ -1165,6 +1211,29 @@
      "style": "normal",
      "file": "exo-2-700.woff2",
      "sha": "3dad6838887f694f"
+    }
+   ]
+  },
+  "familjen-grotesk": {
+   "family": "Familjen Grotesk",
+   "category": "Sans Serif",
+   "designer": "Familjen STHLM AB",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/familjengrotesk",
+   "copyright": "Copyright 2021 The Familjen Grotesk Project Authors (https://github.com/Familjen-Sthlm/Familjen-Grotesk)",
+   "repository": "https://github.com/Familjen-Sthlm/Familjen-Grotesk",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "familjen-grotesk-400.woff2",
+     "sha": "a78744c97b68406f"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "familjen-grotesk-400.woff2",
+     "sha": "a78744c97b68406f"
     }
    ]
   },
@@ -2045,6 +2114,23 @@
     }
    ]
   },
+  "lilita-one": {
+   "family": "Lilita One",
+   "category": "Display",
+   "designer": "Juan Montoreano",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/lilitaone",
+   "copyright": "Copyright (c) 2011 Juan Montoreano (juan@remolacha.biz), with Reserved Font Names \"Lilita One\"",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "lilita-one-400.woff2",
+     "sha": "8d6cd0f298738a92"
+    }
+   ]
+  },
   "limelight": {
    "family": "Limelight",
    "category": "Display",
@@ -2248,6 +2334,29 @@
      "style": "normal",
      "file": "monoton-400.woff2",
      "sha": "b7967c18b0fd51c8"
+    }
+   ]
+  },
+  "mukta": {
+   "family": "Mukta",
+   "category": "Sans Serif",
+   "designer": "Ek Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/mukta",
+   "copyright": "Copyright (c) 2014, Girish Dalvi, Ek Type. All rights reserved.",
+   "repository": "https://github.com/EkType/Mukta",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "mukta-400.woff2",
+     "sha": "585cf3b69625c652"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "mukta-700.woff2",
+     "sha": "76ce968da88b9011"
     }
    ]
   },
@@ -2950,6 +3059,23 @@
     }
    ]
   },
+  "rubik-wet-paint": {
+   "family": "Rubik Wet Paint",
+   "category": "Display",
+   "designer": "NaN, Luke Prowse",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/rubikwetpaint",
+   "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://github.com/NaN-xyz/Rubik-Filtered)",
+   "repository": "https://github.com/NaN-xyz/Rubik-Filtered",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "rubik-wet-paint-400.woff2",
+     "sha": "c205cd928e65c3b4"
+    }
+   ]
+  },
   "rye": {
    "family": "Rye",
    "category": "Display",
@@ -2990,6 +3116,23 @@
     }
    ]
   },
+  "sansita": {
+   "family": "Sansita",
+   "category": "Sans Serif",
+   "designer": "Omnibus-Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/sansita",
+   "copyright": "Copyright 2016 The Sansita Project Authors (omnibus.type@gmail.com)",
+   "repository": "https://github.com/Omnibus-Type/Sansita",
+   "variants": [
+    {
+     "weight": "800",
+     "style": "normal",
+     "file": "sansita-800.woff2",
+     "sha": "829a6bb3e652c5e2"
+    }
+   ]
+  },
   "schibsted-grotesk": {
    "family": "Schibsted Grotesk",
    "category": "Sans Serif",
@@ -3010,6 +3153,29 @@
      "style": "normal",
      "file": "schibsted-grotesk-400.woff2",
      "sha": "e3b56e90510a84ac"
+    }
+   ]
+  },
+  "shantell-sans": {
+   "family": "Shantell Sans",
+   "category": "Display",
+   "designer": "Shantell Martin, Arrow Type, Anya Danilova",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/shantellsans",
+   "copyright": "Copyright 2022 The Shantell Sans Project Authors (https://github.com/arrowtype/shantell-sans)",
+   "repository": "https://github.com/arrowtype/shantell-sans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "shantell-sans-400.woff2",
+     "sha": "bf1f9c3d68c8d7ad"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "shantell-sans-700.woff2",
+     "sha": "c2c1c4c9f2eebec7"
     }
    ]
   },

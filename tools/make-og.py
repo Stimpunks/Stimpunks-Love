@@ -1228,6 +1228,51 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--brewstew .og-lede {{ font-family: 'Livvic', sans-serif; color: var(--bns-text); font-size: 25px;
   line-height: 1.35; margin: 0; }}
 
+/* the run — THE FIELD beside the name, lifted off the page whole, in a dog's
+   colours: the porch, the trees, the clouds' shadows on the grass and the
+   blue ball. NO DOGS: which dogs are out changes whenever somebody is
+   adopted, and a card is a picture that would go on showing a dog who has
+   gone home. */
+.og--dogrun {{ flex-direction: row; align-items: center; gap: 34px; padding: 40px 50px; }}
+.og--dogrun .og-words {{ flex: 0 0 380px; }}
+.og--dogrun .og-room {{ position: relative; flex: 0 0 690px; border: 3px solid var(--run-ink); border-radius: 10px; overflow: hidden; }}
+.og--dogrun .og-room svg {{ display: block; width: 100%; height: auto; }}
+.og--dogrun .og-room .run-field__front {{ position: absolute; inset: 0; height: 100%; }}
+.og--dogrun .run-over {{ font-size: 16px; margin: 0 0 6px !important; }}
+.og--dogrun h1 {{ font-size: 92px; line-height: .95; margin: 0 0 14px !important; }}
+.og--dogrun .og-lede {{ font-family: 'Mukta', sans-serif; color: var(--run-ink); font-size: 26px; line-height: 1.35; margin: 0; }}
+
+/* truckin' food court — THE COURT beside the name, lifted off the page whole:
+   the five trucks with their awnings out and the stripes of light under each,
+   from a table under the porch roof. */
+.og--truckstop {{ flex-direction: column; align-items: flex-start; gap: 10px; padding: 30px 56px; }}
+.og--truckstop .og-court {{ width: 1088px; border: 3px solid var(--tks-ink); border-radius: 6px; overflow: hidden; }}
+.og--truckstop .og-court svg {{ display: block; width: 100%; height: auto; }}
+.og--truckstop .tks-over {{ font-size: 15px; margin: 4px 0 0 !important; }}
+.og--truckstop h1 {{ font-size: 60px; line-height: 1; margin: 0 !important; }}
+.og--truckstop .og-lede {{ font-family: 'Familjen Grotesk', sans-serif; color: var(--tks-ink); font-size: 22px; line-height: 1.3; margin: 0; max-width: 1080px; }}
+
+/* the green — THE VIEW FROM THE PORCH beside the name, lifted off the page
+   whole, still dripping, and nothing in it casting a shadow. */
+.og--greenspace {{ flex-direction: row; align-items: center; gap: 34px; padding: 40px 50px; }}
+.og--greenspace .og-words {{ flex: 0 0 370px; }}
+.og--greenspace .og-room {{ flex: 0 0 700px; border: 3px solid var(--grn-ink); border-top: 5px solid var(--grn-sheen); border-radius: 8px; overflow: hidden; }}
+.og--greenspace .og-room svg {{ display: block; width: 100%; height: auto; }}
+.og--greenspace .grn-over {{ font-size: 16px; margin: 0 0 6px !important; }}
+.og--greenspace h1 {{ font-size: 92px; line-height: .95; margin: 0 0 14px !important; }}
+.og--greenspace .og-lede {{ font-family: 'Alegreya', serif; color: var(--grn-ink); font-size: 27px; line-height: 1.32; margin: 0; }}
+
+/* the pile — THE PILE beside the name, lifted off the page whole: the heap,
+   the den roofed in bubble wrap with its rings of light, and paint on
+   everything. The dripping face sets the name and nothing else, here too. */
+.og--junkpile {{ flex-direction: row; align-items: center; gap: 30px; padding: 40px 46px; }}
+.og--junkpile .og-words {{ flex: 0 0 380px; }}
+.og--junkpile .og-room {{ flex: 0 0 700px; border: 3px solid var(--pil-ink); border-top: 12px solid var(--pil-tape); border-radius: 6px; overflow: hidden; }}
+.og--junkpile .og-room svg {{ display: block; width: 100%; height: auto; }}
+.og--junkpile .pil-over {{ font-size: 16px; margin: 0 0 6px !important; }}
+.og--junkpile h1 {{ font-size: 104px; line-height: .95; margin: 0 0 14px !important; }}
+.og--junkpile .og-lede {{ font-family: 'Shantell Sans', sans-serif; color: var(--pil-ink); font-size: 24px; line-height: 1.38; margin: 0; }}
+
 /* count me in — THE LANDING, straight on: the header, and the flight with the lift
    on its rail lifted off the page whole. The card shows no step number, because
    the stair's number changes with every step and a card is a picture that would
@@ -3991,6 +4036,126 @@ def card_purrs(p):
     )
 
 
+def whole_svg(src, cls):
+    """An <svg> lifted whole, the drawings inside it included. The Truck Stop's
+    court and the Pile set each part down as an <svg> of its own inside the
+    picture, so a lift that stops at the first </svg> takes one truck, or a tree
+    and a heap, and calls it the room."""
+    start = src.find(f'<svg class="{cls}"')
+    if start < 0:
+        return None
+    depth, i = 0, start
+    for m in re.finditer(r"<svg\b|</svg>", src[start:]):
+        depth += 1 if m.group(0) != "</svg>" else -1
+        if depth == 0:
+            return src[start:start + m.end()]
+    return None
+
+
+def card_dogrun(p):
+    # THE FIELD AND THE NAME ARE LIFTED WHOLE, so the card cannot show a Run the
+    # page does not, and it shows no dog: the dogs are the shelter's.
+    draw = re.search(r'(<svg class="run-field__draw".*?</svg>)', p["src"], re.S)
+    front = re.search(r'(<svg class="run-field__front".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="run-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and front and over and p["h1"]):
+        raise SystemExit("REFUSING: the-run.html has lost the drawing of the field or its\n"
+                         "header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--dogrun" data-fit="card">'
+        f'<div class="og-words"><p class="run-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-room">{draw.group(1)}{front.group(1)}</div>'
+        f'</div>',
+        f"A khaki card, every colour on it a blue, a yellow or a grey. On the right, a dog park in those "
+        f"colours: a covered porch along a clubhouse wall with a swing on chains, two blue rocking chairs and "
+        f"plush beds, a little television hung low on the wall, steps and a ramp down to the grass; a field of "
+        f"yellowish grass with soft darker cloud shadows lying on it and a pale blue sky with white clouds; a row "
+        f"of olive trees along the back fence, each with its pool of shade; a water trough; a double gate in the "
+        f"right-hand fence; and a blue ball in the grass; and no dogs. On the left, small capitals reading "
+        f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large round navy letters, then: {p['desc_plain']}",
+    )
+
+
+def card_truckstop(p):
+    # THE COURT AND THE NAME ARE LIFTED WHOLE, so the card cannot show a Truck
+    # Stop the page does not.
+    draw = whole_svg(p["src"], "tks-court__draw")
+    over = re.search(r'<p class="tks-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit("REFUSING: truckin-food-court.html has lost the drawing of the court or its\n"
+                         "header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    # The card shows the court from the porch roof down to the light on the
+    # ground, which is the trucks and their awnings, and leaves the tables off.
+    court = draw.replace('viewBox="0 0 1200 600"', 'viewBox="0 0 1200 440"', 1)
+    return (
+        "",
+        f'<div class="og og--truckstop" data-fit="card">'
+        f'<div class="og-court">{court}</div><p class="tks-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>',
+        f"A pale concrete-coloured card. Across the top, five white food trucks in a row on a sunlit lot, seen from "
+        f"under a porch roof whose edge runs along the top, each truck with its hatch open, something it makes set "
+        f"out on its counter, and a striped awning out over it in two colours -- marigold, jade, vermilion, sky "
+        f"blue and plum, each with cream -- and the stripes of coloured light lying on the counter and the ground "
+        f"in front, and trees over the fence at either end. Under it, small capitals "
+        f"reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in heavy signwriter's letters, then: "
+        f"{p['desc_plain']}",
+    )
+
+
+def card_greenspace(p):
+    # THE VIEW AND THE NAME ARE LIFTED WHOLE, and the view casts no shadow.
+    draw = re.search(r'(<svg class="grn-view__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="grn-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit("REFUSING: the-green.html has lost the view from the porch or its\n"
+                         "header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--greenspace" data-fit="card">'
+        f'<div class="og-words"><p class="grn-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-room">{draw.group(1)}</div>'
+        f'</div>',
+        f"A wet green card. On the right, the view from a covered porch just after rain: the roof's edge across the "
+        f"top with drops hanging from it, dark green trees all round with a line of white along the top of each, a "
+        f"pond in the middle with the pale sky lying in it and rain rings, a wooden boardwalk curving round the pond "
+        f"behind and in front, raised beds of herbs, vegetables, flowers and ferns along it, a little bridge and a "
+        f"rain garden of rushes, and nothing anywhere casting a shadow. On the left, small capitals reading "
+        f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large inscribed capitals, then: {p['desc_plain']}",
+    )
+
+
+def card_junkpile(p):
+    # THE PILE AND THE NAME ARE LIFTED WHOLE.
+    draw = whole_svg(p["src"], "pil-pile__draw")
+    over = re.search(r'<p class="pil-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit("REFUSING: the-pile.html has lost the drawing of the Pile or its\n"
+                         "header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--junkpile" data-fit="card">'
+        f'<div class="og-words"><p class="pil-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-room">{draw}</div>'
+        f'</div>',
+        f"A sandy card with a strip of grey duct tape across the picture's top. On the right, a junk playground: a "
+        f"big tree with a rope swing, a den of two pallets roofed in bubble wrap with a pink curtain for a door and "
+        f"rings of light on the sand inside, a heap of sand piled with leaning pallets, plywood and chairs, a flag "
+        f"at the top, an old upright piano at its foot, a metal slide down its side, splats of tempera paint on "
+        f"everything, and in front a heap of sand, buckets, a shovel, paint pots, a coil of rope, tree stumps and "
+        f"an old television on a stump. On the left, small capitals reading {plain(over.group(1))}, then "
+        f"\u201c{p['h1text']}\u201d in big purple letters that drip like wet paint, then: {p['desc_plain']}",
+    )
+
+
 def card_brewstew(p):
     # THE CABIN AND THE NAME ARE LIFTED WHOLE, so the card cannot show a tea room
     # the page does not, and the lede is the page's og:description.
@@ -4428,6 +4593,10 @@ CARDS = {
     "cookin":       card_cookin,
     "purrs":        card_purrs,
     "brewstew":     card_brewstew,
+    "dogrun":       card_dogrun,
+    "truckstop":    card_truckstop,
+    "greenspace":   card_greenspace,
+    "junkpile":     card_junkpile,
     "cats":         card_cats,
     "dogs":         card_dogs,
     "smalls":       card_smalls,

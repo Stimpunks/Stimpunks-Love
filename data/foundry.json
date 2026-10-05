@@ -1345,6 +1345,62 @@
       "sections": [
         95
       ]
+    },
+    "lilita-one": {
+      "where": "The Run",
+      "page": "the-run.html",
+      "sections": [
+        96
+      ]
+    },
+    "mukta": {
+      "where": "The Run",
+      "page": "the-run.html",
+      "sections": [
+        96
+      ]
+    },
+    "sansita": {
+      "where": "Truckin' Food Court",
+      "page": "truckin-food-court.html",
+      "sections": [
+        97
+      ]
+    },
+    "familjen-grotesk": {
+      "where": "Truckin' Food Court",
+      "page": "truckin-food-court.html",
+      "sections": [
+        97
+      ]
+    },
+    "della-respira": {
+      "where": "The Green",
+      "page": "the-green.html",
+      "sections": [
+        98
+      ]
+    },
+    "alegreya": {
+      "where": "The Green",
+      "page": "the-green.html",
+      "sections": [
+        98
+      ]
+    },
+    "rubik-wet-paint": {
+      "where": "The Pile",
+      "page": "the-pile.html",
+      "sections": [
+        99
+      ]
+    },
+    "shantell-sans": {
+      "where": "The Pile",
+      "page": "the-pile.html",
+      "sections": [
+        99
+      ]
     }
   }
 }

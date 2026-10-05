@@ -347,6 +347,10 @@
   "made_from": "b82ff8b812f33382781403b01977815d2da7e0385af72c831ebaff5757c2035d",
   "png": "536e3d718c1b5602156b3f24fe8e41bac467b8ba49e600cfd3f488a8074423c6"
  },
+ "the-green": {
+  "made_from": "9f5a7366afe8bff272fcbea6364dabf24b28446a48013d0bf1e152ece9c9521b",
+  "png": "666f6448e80e158c39689b6717b29776e7254cee46019dbf100542a1302a2e06"
+ },
  "the-mopery": {
   "made_from": "432211824a00e8b8bce017099aeadc4b509a82f356c08d30afe40fb9191720f2",
   "png": "cb4d1ffd36500ad635fbc124683955b819465fd7583cb60d7b84c025c45593d4"
@@ -362,6 +366,14 @@
  "the-outskirts": {
   "made_from": "e9eef89d5eaade2e839fa66fb962f1ccad314a8d2fedc2a55936000aebee7eb6",
   "png": "1c3d39389579048949dd7ce870835db49fea8db2cb287ee28e0570743cdd1935"
+ },
+ "the-pile": {
+  "made_from": "3699b992d63462ba36c8f26d1229e26dce9a30431a16c234158d5d77012fb8f8",
+  "png": "31f448f6f5a71e1e206967dcf16852be0b50edce6329ac91569dc6b3512f617a"
+ },
+ "the-run": {
+  "made_from": "6749aa6b818474faf4d8509f77885b31799989399c7afe319fa56ed09ba3cb5c",
+  "png": "689a7364cbb1b264553c5c6099d2828bbecd48d20a4468b8c0634e0b52553416"
  },
  "town-hall": {
   "made_from": "8b7f2fbc5c2f99cf16b5857523b5cf781118ca2931ca511f743a376e438736db",
@@ -386,6 +398,10 @@
  "town-hall-moderators": {
   "made_from": "7f6284e77c6d2f3dfba8b0f3b14fbb4455c4b4a34d851370b5591a59deb34cb0",
   "png": "b886d9a4786776c4f7a332a849129f731e404583018895c8d0ec091ab956bac9"
+ },
+ "truckin-food-court": {
+  "made_from": "8fd6dffce6ef3503922e75abd729dab926c508e02c4b4cb2e06c6e228f5970ae",
+  "png": "fde8bd616a6944fcdb8d9b407db096c5581f63d92609e7abe1847e700e506892"
  },
  "vital-plant-living": {
   "made_from": "9ef6689baa20c7eacda48d937ec1e4ce5de0dd4c329cfdb1431eed372a211e04",

@@ -2517,5 +2517,125 @@
    "src": "https://fonts.gstatic.com/s/livvic/v15/rnCq-x1S2hzjrlff08YutV3DY_GtWA.woff2",
    "note": "The bold of the 400 above, for the names on the menu and what is in each thing."
   }
+ ],
+ "lilita-one": [
+  {
+   "file": "lilita-one-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 10676,
+   "src": "https://fonts.gstatic.com/s/lilitaone/v17/i7dPIFZ9Zz-WBtRtedDbYEF8RXi4EwQ.woff2",
+   "note": "The Run (§96), the Run's name and every heading, and nothing at reading size. Juan Montoreano's round display face, the sign on a dog park gate."
+  }
+ ],
+ "mukta": [
+  {
+   "file": "mukta-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 13500,
+   "src": "https://fonts.gstatic.com/s/mukta/v17/iJWKBXyXfDDVXbnBrXyw023e.woff2",
+   "note": "The Run (§96), every word that is read: the field's places, every dog's card, the treat tin, the house rules. Ek Type's sans."
+  },
+  {
+   "file": "mukta-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 14052,
+   "src": "https://fonts.gstatic.com/s/mukta/v17/iJWHBXyXfDDVXbF6iGmd8WD07oB-.woff2",
+   "note": "The bold of the 400 above, for the dogs' names and what the Run says out loud."
+  }
+ ],
+ "sansita": [
+  {
+   "file": "sansita-800.woff2",
+   "weight": "800",
+   "style": "normal",
+   "bytes": 11772,
+   "src": "https://fonts.gstatic.com/s/sansita/v12/QldLNTRRphEb_-V7JLmXWX5-w4dsz_k.woff2",
+   "note": "Truckin' Food Court (§97), the court's name, every heading and every truck's name, at its extra-bold, and never a sentence. Omnibus-Type's signwriting face."
+  }
+ ],
+ "della-respira": [
+  {
+   "file": "della-respira-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 16292,
+   "src": "https://fonts.gstatic.com/s/dellarespira/v24/RLp5K5v44KaueWI6iEJQBiGPdf4YuoMtXHs.woff2",
+   "note": "The Green (§98), the Green's name, every heading, every stop's name and the trailhead sign's labels. Nathan Willis's inscribed roman."
+  }
+ ],
+ "alegreya": [
+  {
+   "file": "alegreya-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 22888,
+   "src": "https://fonts.gstatic.com/s/alegreya/v41/4UacrEBBsBhlBjvfkQjt71kZfyBzPgNG9hU4-6qjkySFrt19.woff2",
+   "note": "The Green (§98), every word that is read: every stop on the trail, the quotations, the house rules. Juan Pablo del Peral's text face, from HT Fonts."
+  },
+  {
+   "file": "alegreya-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 23236,
+   "src": "https://fonts.gstatic.com/s/alegreya/v41/4UaSrEBBsBhlBjvfkSLk3abBFkvpkARTPlbgv5qhmSWnqsV8_9Q.woff2",
+   "note": "Alegreya's own italic, for the names of books and the Green's sub-line, so the browser never invents one."
+  },
+  {
+   "file": "alegreya-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 24388,
+   "src": "https://fonts.gstatic.com/s/alegreya/v41/4UacrEBBsBhlBjvfkQjt71kZfyBzPgNGERI4-6qjkySFrt19.woff2",
+   "note": "The bold of the 400 above, for what each stop is and the buttons."
+  }
+ ],
+ "rubik-wet-paint": [
+  {
+   "file": "rubik-wet-paint-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 76284,
+   "src": "https://fonts.gstatic.com/s/rubikwetpaint/v2/HTx0L20uMDGHgdULcpTF3Oe4d_-1_Db29XP-vA.woff2",
+   "note": "The Pile (§99), the Pile's name and nothing else, because dripping letters are an access failure the moment they carry a sentence. By NaN and Luke Prowse."
+  }
+ ],
+ "shantell-sans": [
+  {
+   "file": "shantell-sans-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 47464,
+   "src": "https://fonts.gstatic.com/s/shantellsans/v13/FeUaS0pCoLIo-lcdY7kjvNoQqWVWB0qWpl29ajppTuUTu_kJKmHesPOL-maYi4xZeHCNQ09eBlmv2QcUzJ39-rAISYR8S1ixwv0TijRMagQ.woff2",
+   "note": "The Pile (§99), every other word: the parts, what you made, the history, the house rules. Shantell Martin's marker hand, made to be read, with Arrow Type and Anya Danilova."
+  },
+  {
+   "file": "shantell-sans-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 47380,
+   "src": "https://fonts.gstatic.com/s/shantellsans/v13/FeUaS0pCoLIo-lcdY7kjvNoQqWVWB0qWpl29ajppTuUTu_kJKmHesPOL-maYi4xZeHCNQ09eBlmv2QcUzJ39-rAISYSbTFixwv0TijRMagQ.woff2",
+   "note": "The bold of the 400 above, for every heading on the Pile and the buttons."
+  }
+ ],
+ "familjen-grotesk": [
+  {
+   "file": "familjen-grotesk-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 22212,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/familjengrotesk/FamiljenGrotesk%5Bwght%5D.ttf",
+   "note": "Truckin' Food Court (§97), every word that is read, including đồ chua and chả lụa on the bánh mì board. The variable font from the family's own directory in google/fonts, weight axis kept, cut down here with fontTools to the Latin and Vietnamese letters and saved as WOFF2: Google's own files split those two into separate subsets, and the Truck Stop's bánh mì board needs đồ chua and chả lụa in the same face as everything else. Declared at 400 and 700 against this one file."
+  },
+  {
+   "file": "familjen-grotesk-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 22212,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/familjengrotesk/FamiljenGrotesk%5Bwght%5D.ttf",
+   "note": "Byte-identical to the 400 above, declared again against its weight axis; see that note."
+  }
  ]
 }

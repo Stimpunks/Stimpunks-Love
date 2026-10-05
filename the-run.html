@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Run &mdash; Stimpunks.World</title>
+<meta name="description" content="A dog park on the street, painted in the colours a dog can see: an open field for fetch, a row of trees for shade, and a covered porch with swings, rocking chairs and plush dog beds. Every dog from the shelter at Rescue A Dog comes out here for a run: press one to meet them, throw the blue ball, shake the treat tin, or ask one to come and sit with you, and watch television made for dogs on the dog telly.">
+<link rel="canonical" href="https://stimpunks.world/the-run.html">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#CDBF83">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.World">
+<meta property="og:title" content="The Run &mdash; Stimpunks.World">
+<meta property="og:description" content="A dog park in a dog&rsquo;s colours, with a porch to sit on, and every dog from the shelter out for a run.">
+<meta property="og:url" content="https://stimpunks.world/the-run.html">
+<meta property="og:image" content="https://stimpunks.world/og/the-run.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A khaki card, every colour on it a blue, a yellow or a grey. On the right, a dog park in those colours: a covered porch along a clubhouse wall with a swing on chains, two blue rocking chairs and plush beds, a little television hung low on the wall, steps and a ramp down to the grass; a field of yellowish grass with soft darker cloud shadows lying on it and a pale blue sky with white clouds; a row of olive trees along the back fence, each with its pool of shade; a water trough; a double gate in the right-hand fence; and a blue ball in the grass; and no dogs. On the left, small capitals reading A dog park, then “The Run” in large round navy letters, then: A dog park in a dog’s colours, with a porch to sit on, and every dog from the shelter out for a run.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World &mdash; what changed on the street">
+<link rel="preload" href="fonts/lilita-one-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/mukta-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<!-- structured-data:begin -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/the-run.html#webpage","url":"https://stimpunks.world/the-run.html","name":"The Run — Stimpunks.World","description":"A dog park on the street, painted in the colours a dog can see: an open field for fetch, a row of trees for shade, and a covered porch with swings, rocking chairs and plush dog beds. Every dog from the shelter at Rescue A Dog comes out here for a run: press one to meet them, throw the blue ball, shake the treat tin, or ask one to come and sit with you, and watch television made for dogs on the dog telly.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<!-- structured-data:end -->
+</head>
+<body class="dogrun" id="top">
+<a class="skip" href="#main">Skip to the Run</a>
+
+<main id="main" class="wrap" style="padding-bottom:54px;">
+
+  <div class="run-topline">
+    <a class="backlink" href="index.html">&larr; back to the street</a>
+    <p class="run-trail">on the street &middot; the open ground where the buildings stop &middot; the first lot through the fence</p>
+  </div>
+
+  <header class="run-head">
+    <p class="run-over">A dog park</p>
+    <h1>The Run</h1>
+    <p class="run-sub">An open field, a row of trees, a porch to sit on, and every dog from the shelter out for a run.</p>
+  </header>
+
+  <p class="run-lede">A field of grass with a row of trees along the back of it, a fence all round, and a covered porch on the near side with two swings, two rocking chairs and plush beds on the boards. It is a bright day with clouds going over, and each cloud&rsquo;s shadow lies on the grass under it. <strong>The Run is painted in the colours a dog can see</strong>, which are blues and yellows and greys: there is no red here and no green, the grass is the yellow a dog sees it as, and the ball is blue.</p>
+
+  <section class="run-part run-out" aria-labelledby="run-field-h">
+    <h2 id="run-field-h">Out on the Run</h2>
+    <p class="run-state" id="run-state" data-roam-state>The dogs are at <a href="rescue-a-dog.html">Rescue A Dog</a>, the shelter on the street. The Run reads who is there each time it opens, and needs scripts to do it.</p>
+
+    <!-- THE FIELD, from the far end of the porch: the clubhouse wall and the
+         porch in the roof's shade, the swing, the two rocking chairs and the
+         beds, the steps and the ramp, the field with the clouds' shadows lying
+         on it, the trough, the row of trees along the back fence and the double
+         gate through to the Truck Stop. Drawn by tools/make-the-run.py. The dogs
+         are put where they go by roam.js, from the shelter's own list. -->
+    <p class="run-wide">The Run is wider than a phone: scroll the picture sideways to see all of it, or meet everybody from the list under it.</p>
+    <div class="run-view" role="region" aria-label="The Run, with the dogs out on it" tabindex="0">
+<!-- run:field:begin -->
+    <div class="run-field" id="run-field" data-roam data-kind="dog" data-shelter="rescue-a-dog.html" data-moods="{&quot;wag&quot;:{&quot;kinds&quot;:[&quot;grass&quot;,&quot;sun&quot;,&quot;step&quot;],&quot;toys&quot;:true},&quot;lean&quot;:{&quot;kinds&quot;:[&quot;step&quot;,&quot;deck&quot;,&quot;bed&quot;,&quot;swing&quot;],&quot;levels&quot;:[&quot;porch&quot;],&quot;toys&quot;:true},&quot;stick&quot;:{&quot;kinds&quot;:[&quot;grass&quot;,&quot;shade&quot;,&quot;cool&quot;],&quot;toys&quot;:true},&quot;alone&quot;:{&quot;kinds&quot;:[&quot;shade&quot;,&quot;gate&quot;,&quot;cool&quot;],&quot;toys&quot;:false},&quot;radiator&quot;:{&quot;kinds&quot;:[&quot;sun&quot;,&quot;deck&quot;],&quot;toys&quot;:true},&quot;food&quot;:{&quot;kinds&quot;:[&quot;step&quot;,&quot;trough&quot;,&quot;gate&quot;],&quot;toys&quot;:true},&quot;sleep&quot;:{&quot;kinds&quot;:[&quot;bed&quot;,&quot;shade&quot;,&quot;swing&quot;,&quot;cool&quot;],&quot;toys&quot;:false}}" data-left-alone="alone" data-animal-w="84" data-animal-h="71" data-w="1200" data-h="660">
+      <svg class="run-field__draw" viewBox="0 0 1200 660" aria-hidden="true" focusable="false"><rect width="1200" height="262" fill="var(--run-sky)"/><ellipse cx="654" cy="76" rx="40.8" ry="27.2" fill="var(--run-cloud)"/><ellipse cx="688" cy="62" rx="48" ry="32" fill="var(--run-cloud)"/><ellipse cx="728" cy="68" rx="40.8" ry="27.2" fill="var(--run-cloud)"/><ellipse cx="758" cy="80" rx="28.8" ry="19.2" fill="var(--run-cloud)"/><ellipse cx="630" cy="84" rx="26.4" ry="17.6" fill="var(--run-cloud)"/><ellipse cx="934" cy="126" rx="40.8" ry="27.2" fill="var(--run-cloud)"/><ellipse cx="968" cy="112" rx="48" ry="32" fill="var(--run-cloud)"/><ellipse cx="1008" cy="118" rx="40.8" ry="27.2" fill="var(--run-cloud)"/><ellipse cx="1038" cy="130" rx="28.8" ry="19.2" fill="var(--run-cloud)"/><ellipse cx="910" cy="134" rx="26.4" ry="17.6" fill="var(--run-cloud)"/><ellipse cx="284" cy="60" rx="40.8" ry="27.2" fill="var(--run-cloud)"/><ellipse cx="318" cy="46" rx="48" ry="32" fill="var(--run-cloud)"/><ellipse cx="358" cy="52" rx="40.8" ry="27.2" fill="var(--run-cloud)"/><ellipse cx="388" cy="64" rx="28.8" ry="19.2" fill="var(--run-cloud)"/><ellipse cx="260" cy="68" rx="26.4" ry="17.6" fill="var(--run-cloud)"/><rect y="250" width="1200" height="410" fill="var(--run-grass)"/><path d="M452 268 H1200" stroke="var(--run-fence)" stroke-width="3"/><path d="M470 244 V272" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M516 244 V272" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M562 244 V272" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M608 244 V272" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M654 244 V272" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M700 244 V272" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M746 244 V272" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M792 244 V272" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M838 244 V272" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M884 244 V272" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M930 244 V272" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M976 244 V272" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M1022 244 V272" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M1068 244 V272" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M1114 244 V272" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M1160 244 V272" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><ellipse cx="720" cy="402" rx="170" ry="42" fill="var(--run-shadow)" opacity=".5"/><ellipse cx="720" cy="402" rx="152" ry="34" fill="var(--run-shadow)"/><ellipse cx="962" cy="570" rx="146" ry="38" fill="var(--run-shadow)" opacity=".5"/><ellipse cx="962" cy="570" rx="128" ry="30" fill="var(--run-shadow)"/><ellipse cx="330" cy="652" rx="178" ry="30" fill="var(--run-shadow)" opacity=".5"/><ellipse cx="330" cy="652" rx="160" ry="22" fill="var(--run-shadow)"/><ellipse cx="566" cy="326" rx="72" ry="17" fill="var(--run-shade)"/><ellipse cx="696" cy="326" rx="72" ry="17" fill="var(--run-shade)"/><ellipse cx="826" cy="326" rx="72" ry="17" fill="var(--run-shade)"/><ellipse cx="956" cy="326" rx="72" ry="17" fill="var(--run-shade)"/><ellipse cx="1086" cy="326" rx="72" ry="17" fill="var(--run-shade)"/><rect x="551" y="196" width="18" height="128" rx="4" fill="var(--run-bark)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M558 250 l-26 -30 M563 232 l24 -26" stroke="var(--run-bark)" stroke-width="7" stroke-linecap="round"/><circle cx="522" cy="150" r="46.5" fill="var(--run-ink)"/><circle cx="594" cy="146" r="48.5" fill="var(--run-ink)"/><circle cx="560" cy="112" r="54.5" fill="var(--run-ink)"/><circle cx="552" cy="176" r="42.5" fill="var(--run-ink)"/><circle cx="582" cy="178" r="38.5" fill="var(--run-ink)"/><circle cx="522" cy="150" r="44" fill="var(--run-leaf)"/><circle cx="594" cy="146" r="46" fill="var(--run-leaf)"/><circle cx="560" cy="112" r="52" fill="var(--run-leaf)"/><circle cx="552" cy="176" r="40" fill="var(--run-leaf)"/><circle cx="582" cy="178" r="36" fill="var(--run-leaf)"/><path d="M514 146 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M576 116 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M594 152 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M544 178 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M566 92 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><rect x="681" y="196" width="18" height="128" rx="4" fill="var(--run-bark)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M688 250 l-26 -30 M693 232 l24 -26" stroke="var(--run-bark)" stroke-width="7" stroke-linecap="round"/><circle cx="652" cy="150" r="46.5" fill="var(--run-ink)"/><circle cx="724" cy="146" r="48.5" fill="var(--run-ink)"/><circle cx="690" cy="112" r="54.5" fill="var(--run-ink)"/><circle cx="682" cy="176" r="42.5" fill="var(--run-ink)"/><circle cx="712" cy="178" r="38.5" fill="var(--run-ink)"/><circle cx="652" cy="150" r="44" fill="var(--run-leaf)"/><circle cx="724" cy="146" r="46" fill="var(--run-leaf)"/><circle cx="690" cy="112" r="52" fill="var(--run-leaf)"/><circle cx="682" cy="176" r="40" fill="var(--run-leaf)"/><circle cx="712" cy="178" r="36" fill="var(--run-leaf)"/><path d="M644 146 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M706 116 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M724 152 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M674 178 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M696 92 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><rect x="811" y="196" width="18" height="128" rx="4" fill="var(--run-bark)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M818 250 l-26 -30 M823 232 l24 -26" stroke="var(--run-bark)" stroke-width="7" stroke-linecap="round"/><circle cx="782" cy="150" r="46.5" fill="var(--run-ink)"/><circle cx="854" cy="146" r="48.5" fill="var(--run-ink)"/><circle cx="820" cy="112" r="54.5" fill="var(--run-ink)"/><circle cx="812" cy="176" r="42.5" fill="var(--run-ink)"/><circle cx="842" cy="178" r="38.5" fill="var(--run-ink)"/><circle cx="782" cy="150" r="44" fill="var(--run-leaf)"/><circle cx="854" cy="146" r="46" fill="var(--run-leaf)"/><circle cx="820" cy="112" r="52" fill="var(--run-leaf)"/><circle cx="812" cy="176" r="40" fill="var(--run-leaf)"/><circle cx="842" cy="178" r="36" fill="var(--run-leaf)"/><path d="M774 146 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M836 116 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M854 152 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M804 178 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M826 92 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><rect x="941" y="196" width="18" height="128" rx="4" fill="var(--run-bark)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M948 250 l-26 -30 M953 232 l24 -26" stroke="var(--run-bark)" stroke-width="7" stroke-linecap="round"/><circle cx="912" cy="150" r="46.5" fill="var(--run-ink)"/><circle cx="984" cy="146" r="48.5" fill="var(--run-ink)"/><circle cx="950" cy="112" r="54.5" fill="var(--run-ink)"/><circle cx="942" cy="176" r="42.5" fill="var(--run-ink)"/><circle cx="972" cy="178" r="38.5" fill="var(--run-ink)"/><circle cx="912" cy="150" r="44" fill="var(--run-leaf)"/><circle cx="984" cy="146" r="46" fill="var(--run-leaf)"/><circle cx="950" cy="112" r="52" fill="var(--run-leaf)"/><circle cx="942" cy="176" r="40" fill="var(--run-leaf)"/><circle cx="972" cy="178" r="36" fill="var(--run-leaf)"/><path d="M904 146 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M966 116 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M984 152 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M934 178 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M956 92 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><rect x="1071" y="196" width="18" height="128" rx="4" fill="var(--run-bark)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M1078 250 l-26 -30 M1083 232 l24 -26" stroke="var(--run-bark)" stroke-width="7" stroke-linecap="round"/><circle cx="1042" cy="150" r="46.5" fill="var(--run-ink)"/><circle cx="1114" cy="146" r="48.5" fill="var(--run-ink)"/><circle cx="1080" cy="112" r="54.5" fill="var(--run-ink)"/><circle cx="1072" cy="176" r="42.5" fill="var(--run-ink)"/><circle cx="1102" cy="178" r="38.5" fill="var(--run-ink)"/><circle cx="1042" cy="150" r="44" fill="var(--run-leaf)"/><circle cx="1114" cy="146" r="46" fill="var(--run-leaf)"/><circle cx="1080" cy="112" r="52" fill="var(--run-leaf)"/><circle cx="1072" cy="176" r="40" fill="var(--run-leaf)"/><circle cx="1102" cy="178" r="36" fill="var(--run-leaf)"/><path d="M1034 146 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M1096 116 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M1114 152 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M1064 178 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M1086 92 q9 -9 18 0" fill="none" stroke="var(--run-leaf-2)" stroke-width="3" stroke-linecap="round"/><path d="M1190 268 V660" stroke="var(--run-fence)" stroke-width="3"/><path d="M1190 290 h-8" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M1190 334 h-8" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M1190 378 h-8" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M1190 422 h-8" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M1190 466 h-8" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M1190 510 h-8" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M1190 554 h-8" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M1190 598 h-8" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><path d="M1190 642 h-8" stroke="var(--run-fence)" stroke-width="5" stroke-linecap="round"/><rect x="1176" y="362" width="22" height="70" rx="3" fill="none" stroke="var(--run-fence)" stroke-width="4"/><path d="M1176 385 H1198 M1176 408 H1198" stroke="var(--run-fence)" stroke-width="2.5"/><rect x="1176" y="452" width="22" height="70" rx="3" fill="none" stroke="var(--run-fence)" stroke-width="4"/><path d="M1176 475 H1198 M1176 498 H1198" stroke="var(--run-fence)" stroke-width="2.5"/><rect x="656" y="456" width="96" height="34" rx="4" fill="var(--run-steel)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><rect x="662" y="458" width="84" height="8" rx="2" fill="var(--run-water)"/><rect x="-4" y="168" width="456" height="424" fill="var(--run-wall)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M0 196 H450" stroke="var(--run-ink)" stroke-width="1.2" opacity=".28"/><path d="M0 224 H450" stroke="var(--run-ink)" stroke-width="1.2" opacity=".28"/><path d="M0 252 H450" stroke="var(--run-ink)" stroke-width="1.2" opacity=".28"/><path d="M0 280 H450" stroke="var(--run-ink)" stroke-width="1.2" opacity=".28"/><path d="M0 308 H450" stroke="var(--run-ink)" stroke-width="1.2" opacity=".28"/><path d="M0 336 H450" stroke="var(--run-ink)" stroke-width="1.2" opacity=".28"/><path d="M0 364 H450" stroke="var(--run-ink)" stroke-width="1.2" opacity=".28"/><path d="M0 392 H450" stroke="var(--run-ink)" stroke-width="1.2" opacity=".28"/><path d="M0 420 H450" stroke="var(--run-ink)" stroke-width="1.2" opacity=".28"/><path d="M0 448 H450" stroke="var(--run-ink)" stroke-width="1.2" opacity=".28"/><path d="M0 476 H450" stroke="var(--run-ink)" stroke-width="1.2" opacity=".28"/><path d="M0 504 H450" stroke="var(--run-ink)" stroke-width="1.2" opacity=".28"/><path d="M0 532 H450" stroke="var(--run-ink)" stroke-width="1.2" opacity=".28"/><path d="M0 560 H450" stroke="var(--run-ink)" stroke-width="1.2" opacity=".28"/><path d="M0 588 H450" stroke="var(--run-ink)" stroke-width="1.2" opacity=".28"/><rect x="352" y="250" width="78" height="342" rx="3" fill="var(--run-roof)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><circle cx="420" cy="430" r="4" fill="var(--run-board)"/><rect x="248" y="222" width="80" height="62" rx="3" fill="var(--run-sky)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M288 222 V284 M248 253 H328" stroke="var(--run-board)" stroke-width="5"/><rect x="256" y="330" width="64" height="46" rx="5" fill="var(--run-roof)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><rect x="263" y="336" width="50" height="34" rx="2" fill="var(--run-screen)"/><path d="M282 376 V392 M268 392 H298" stroke="var(--run-ink)" stroke-width="3" stroke-linecap="round"/><rect x="-4" y="592" width="478" height="20" fill="var(--run-board)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M30 592 V612" stroke="var(--run-ink)" stroke-width="1.2" opacity=".4"/><path d="M74 592 V612" stroke="var(--run-ink)" stroke-width="1.2" opacity=".4"/><path d="M118 592 V612" stroke="var(--run-ink)" stroke-width="1.2" opacity=".4"/><path d="M162 592 V612" stroke="var(--run-ink)" stroke-width="1.2" opacity=".4"/><path d="M206 592 V612" stroke="var(--run-ink)" stroke-width="1.2" opacity=".4"/><path d="M250 592 V612" stroke="var(--run-ink)" stroke-width="1.2" opacity=".4"/><path d="M294 592 V612" stroke="var(--run-ink)" stroke-width="1.2" opacity=".4"/><path d="M338 592 V612" stroke="var(--run-ink)" stroke-width="1.2" opacity=".4"/><path d="M382 592 V612" stroke="var(--run-ink)" stroke-width="1.2" opacity=".4"/><path d="M426 592 V612" stroke="var(--run-ink)" stroke-width="1.2" opacity=".4"/><rect x="464" y="596" width="78" height="16" fill="var(--run-board)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><rect x="498" y="612" width="74" height="16" fill="var(--run-board)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><rect x="532" y="628" width="70" height="16" fill="var(--run-board)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M-4 612 H118 L200 666 H-4 Z" fill="var(--run-board)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M20 612 L46 666 M62 612 L100 666 M100 612 L150 666" stroke="var(--run-ink)" stroke-width="1.2" opacity=".4"/><rect x="5" y="168" width="14" height="424" fill="var(--run-board)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><rect x="225" y="168" width="14" height="424" fill="var(--run-board)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><rect x="439" y="168" width="14" height="424" fill="var(--run-board)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><rect x="-4" y="168" width="456" height="34" fill="var(--run-shade)" opacity=".55"/><path d="M-10 168 H476 L460 140 H-10 Z" fill="var(--run-roof)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M-10 168 H476" stroke="var(--run-board)" stroke-width="3"/><path d="M92 170 V430 M208 170 V430" stroke="var(--run-ink)" stroke-width="2.5" stroke-dasharray="6 4"/><rect x="80" y="430" width="140" height="40" rx="4" fill="var(--run-board)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M100 436 V466 M124 436 V466 M150 436 V466 M176 436 V466 M200 436 V466" stroke="var(--run-ink)" stroke-width="1.2" opacity=".45"/><path d="M206 590 Q236 604 266 590" fill="none" stroke="var(--run-ink)" stroke-width="5" stroke-linecap="round"/><path d="M214 548 L212 592 M258 548 L260 592" stroke="var(--run-ink)" stroke-width="4"/><rect x="206" y="540" width="60" height="10" rx="3" fill="var(--run-chair)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M210 540 L206 478 H266 L262 540" fill="none" stroke="var(--run-chair)" stroke-width="7" stroke-linejoin="round"/><rect x="210" y="484" width="52" height="50" rx="6" fill="var(--run-cushion)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M326 590 Q356 604 386 590" fill="none" stroke="var(--run-ink)" stroke-width="5" stroke-linecap="round"/><path d="M334 548 L332 592 M378 548 L380 592" stroke="var(--run-ink)" stroke-width="4"/><rect x="326" y="540" width="60" height="10" rx="3" fill="var(--run-chair)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M330 540 L326 478 H386 L382 540" fill="none" stroke="var(--run-chair)" stroke-width="7" stroke-linejoin="round"/><ellipse cx="76" cy="580" rx="50" ry="14" fill="var(--run-cushion)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="300" cy="580" rx="50" ry="14" fill="var(--run-cushion-2)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="392" cy="580" rx="50" ry="14" fill="var(--run-cushion)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="132" cy="588" rx="13" ry="5" fill="var(--run-water)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><circle cx="868" cy="628" r="9" fill="var(--run-ball)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M861 624 q7 6 14 0" fill="none" stroke="var(--run-cloud)" stroke-width="1.6"/></svg>
+      <div class="run-dogs" id="run-dogs" data-roam-box></div>
+      <svg class="run-field__front" viewBox="0 0 1200 660" aria-hidden="true" focusable="false"><path d="M26 580 Q28 596 76 596 Q124 596 126 580 Q76 590 26 580 Z" fill="var(--run-cushion)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M250 580 Q252 596 300 596 Q348 596 350 580 Q300 590 250 580 Z" fill="var(--run-cushion-2)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M342 580 Q344 596 392 596 Q440 596 442 580 Q392 590 342 580 Z" fill="var(--run-cushion)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/><rect x="80" y="466" width="140" height="10" rx="3" fill="var(--run-board)" stroke="var(--run-ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <ul class="run-spots" id="run-spots" data-roam-spots data-kept="beside" hidden>
+        <li data-spot="tree-1" data-kind="shade" data-level="trees" data-x="560" data-y="322">in the shade of the first tree</li>
+        <li data-spot="tree-2" data-kind="shade" data-level="trees" data-x="690" data-y="322">in the shade of the second tree</li>
+        <li data-spot="tree-3" data-kind="shade" data-level="trees" data-x="820" data-y="322">in the shade of the big tree in the middle of the row</li>
+        <li data-spot="tree-4" data-kind="shade" data-level="trees" data-x="950" data-y="322">in the shade of the fourth tree</li>
+        <li data-spot="tree-5" data-kind="shade" data-level="trees" data-x="1080" data-y="322">in the shade of the tree at the far end of the row</li>
+        <li data-spot="far-left" data-kind="grass" data-level="field" data-x="540" data-y="400">out on the grass below the first tree</li>
+        <li data-spot="cloud-1" data-kind="cool" data-level="field" data-x="660" data-y="400">in the shadow of a cloud, near the trees</li>
+        <li data-spot="cloud-2" data-kind="cool" data-level="field" data-x="780" data-y="400">in the shadow of the same cloud, further along</li>
+        <li data-spot="far-mid" data-kind="sun" data-level="field" data-x="900" data-y="400">in a patch of sun under the trees</li>
+        <li data-spot="far-right" data-kind="sun" data-level="field" data-x="1020" data-y="400">in the sun at the far end of the field</li>
+        <li data-spot="gate-in" data-kind="gate" data-level="field" data-x="1144" data-y="410">by the gate through to the Truck Stop, nose to the bars</li>
+        <li data-spot="swing" data-kind="swing" data-level="porch" data-x="150" data-y="474">up on the porch swing</li>
+        <li data-spot="near-step" data-kind="grass" data-level="field" data-x="524" data-y="488">on the grass beside the porch steps</li>
+        <li data-spot="trough-near" data-kind="trough" data-level="field" data-x="620" data-y="492">at the water trough</li>
+        <li data-spot="trough-far" data-kind="trough" data-level="field" data-x="790" data-y="492">at the far end of the water trough</li>
+        <li data-spot="mid-1" data-kind="grass" data-level="field" data-x="900" data-y="488">out in the middle of the field</li>
+        <li data-spot="mid-2" data-kind="grass" data-level="field" data-x="1020" data-y="488">on the open grass, halfway down the field</li>
+        <li data-spot="gate-out" data-kind="gate" data-level="field" data-x="1144" data-y="500">between the two gates, where nobody gets out</li>
+        <li data-spot="bed-swing" data-kind="bed" data-level="porch" data-x="76" data-y="592">on the plush bed under the swing</li>
+        <li data-spot="boards" data-kind="deck" data-level="porch" data-x="188" data-y="592">flat out on the porch boards in the shade</li>
+        <li data-spot="beside" data-kind="bed" data-level="porch" data-x="300" data-y="592">on the plush bed beside your rocking chair</li>
+        <li data-spot="bed-end" data-kind="bed" data-level="porch" data-x="392" data-y="592">on the plush bed at the end of the porch</li>
+        <li data-spot="low-left" data-kind="sun" data-level="field" data-x="600" data-y="566">flat out in the sun by the porch</li>
+        <li data-spot="low-1" data-kind="grass" data-level="field" data-x="690" data-y="568">on the grass in front of the trough</li>
+        <li data-spot="low-2" data-kind="grass" data-level="field" data-x="780" data-y="568">where the ball usually lands</li>
+        <li data-spot="cloud-3" data-kind="cool" data-level="field" data-x="900" data-y="568">in the shadow of a cloud, near the gate</li>
+        <li data-spot="cloud-4" data-kind="cool" data-level="field" data-x="1020" data-y="568">in the cool of the same cloud's shadow</li>
+        <li data-spot="corner" data-kind="grass" data-level="field" data-x="1144" data-y="590">in the corner by the fence</li>
+        <li data-spot="step-top" data-kind="step" data-level="porch" data-x="480" data-y="612">on the top step of the porch</li>
+        <li data-spot="step-foot" data-kind="step" data-level="porch" data-x="580" data-y="652">at the foot of the porch steps</li>
+        <li data-spot="front-1" data-kind="grass" data-level="field" data-x="700" data-y="652">right in front of you on the grass</li>
+        <li data-spot="front-2" data-kind="sun" data-level="field" data-x="820" data-y="652">rolling in the sun in front of the porch</li>
+        <li data-spot="front-3" data-kind="grass" data-level="field" data-x="940" data-y="652">on the near grass, watching the ball</li>
+        <li data-spot="front-4" data-kind="grass" data-level="field" data-x="1060" data-y="652">on the near grass by the far fence</li>
+      </ul>
+    </div>
+    <!-- run:field:end -->
+    </div>
+
+    <div class="run-toys">
+<!-- run:toys:begin -->
+      <button type="button" class="run-btn run-toy" data-roam-toy data-toy="ball" data-kinds="grass sun cool" data-levels="field" data-most="3" data-went="went after the ball" hidden>Throw the blue ball</button>
+      <button type="button" class="run-btn run-toy" data-roam-toy data-toy="tin" data-kinds="step deck" data-levels="porch" data-most="3" data-went="came up onto the porch, hopefully" hidden>Shake the treat tin</button>
+      <button type="button" class="run-btn run-toy" data-roam-toy data-toy="trough" data-kinds="trough" data-levels="" data-most="2" data-went="went for a drink" hidden>Fill the water trough</button>
+      <!-- run:toys:end -->
+      <p class="run-said run-said--toys" id="run-toys-said" data-roam-toys-said aria-hidden="true" hidden></p>
+    </div>
+
+    <section class="run-card" id="run-card" data-roam-card aria-labelledby="run-card-name" hidden>
+      <div class="run-card__pic" data-roam-card-pic></div>
+      <div class="run-card__words">
+        <h3 class="run-card__name" id="run-card-name" data-roam-card-name tabindex="-1">A dog</h3>
+        <p class="run-card__about" data-roam-card-about></p>
+        <p class="run-card__now" data-roam-card-now></p>
+        <p class="run-card__came" data-roam-card-came></p>
+        <p class="run-card__hold"><button type="button" class="run-btn" data-roam-card-hold hidden>Ask them to come and sit with you</button><span data-roam-card-alone hidden></span></p>
+        <p class="run-card__adopt"><a data-roam-card-adopt href="rescue-a-dog.html">Adopt them at Rescue A Dog &rarr;</a> Adopting happens at the shelter, by anybody signed on to the CB, and the Run is never told who.</p>
+        <p class="run-card__out"><button type="button" class="run-btn run-btn--quiet" data-roam-card-close>Back to the field</button></p>
+      </div>
+    </section>
+
+    <p class="sr" id="run-says" data-roam-says aria-live="polite"></p>
+
+    <h3 class="run-who__h" id="run-who-h" data-roam-who-h hidden>Who is out today</h3>
+    <ul class="run-who" id="run-who" data-roam-who aria-labelledby="run-who-h" hidden></ul>
+  </section>
+
+  <section class="run-part" aria-labelledby="run-dogs-h">
+    <h2 id="run-dogs-h">The dogs</h2>
+    <p><strong>Every dog on the Run came from <a href="rescue-a-dog.html">Rescue A Dog</a></strong>, the shelter on the street, and every one of them is waiting for a home. The Run keeps no list of its own: each time it opens it reads the shelter&rsquo;s, so a dog adopted this morning has already gone home, and a dog brought in an hour ago is already out on the grass.</p>
+    <p>Where a dog goes is the shelter&rsquo;s word for its mood, and nothing else. A dog who wagged the whole way in is out on the grass waiting for the ball; a dog who leans on everybody is on the porch, near the chairs; a dog who went straight for the radiator is flat out in a patch of sun; a dog who fell asleep before the door shut is on a bed, or in the shade. <strong>A dog with three legs gets to the far end of the field like anybody else.</strong> And a dog who wants to be left alone is left alone: nobody calls that dog over, and there is no button for it.</p>
+    <p>Press a dog to meet them: their name, what they are like, where they were found and when they came in, all in the shelter&rsquo;s own words. <strong>Adopting happens at the shelter.</strong> Every dog&rsquo;s card has a link to that dog&rsquo;s own card there, where anybody signed on to the CB can adopt them, and the Run is not told who adopted whom.</p>
+    <p><strong>Nobody gives a command on the Run.</strong> Nobody is told to sit, nobody is trained, and nobody is a good boy or a bad dog. A dog who brings the ball back is playing, and a dog who does not is also playing.</p>
+  </section>
+
+  <section class="run-part" aria-labelledby="run-colours-h">
+    <h2 id="run-colours-h">In a dog&rsquo;s colours</h2>
+    <p>Most people have three kinds of cone in the eye. <strong>Dogs have two</strong>, which is what Jay Neitz, Timothy Geist and Gerald Jacobs found in 1989, and it means a dog sees in blues and yellows and greys. In 2017 Marcello Siniscalchi and his colleagues tested dogs themselves rather than their eyes, and the dogs could not tell red from green. Stanley Coren&rsquo;s account of what that looks like is that green, yellow and orange all come out yellowish, blue and violet come out blue, blue-green comes out grey, and red comes out a very dark brownish grey.</p>
+    <p>So <strong>everything the Run paints itself is a blue, a yellow or a grey</strong>, and the tool that builds the room reads every one of its colours to make sure. The grass is the yellow a dog sees it as. The sky is blue, which is one of the colours a dog has. The porch roof is slate and the boards are straw. The shadows are not blue: they are the grass&rsquo;s own yellow, darker, because this is summer grass under clouds going over and not snow.</p>
+    <p><strong>The dogs are the one thing on the Run not drawn in a dog&rsquo;s colours.</strong> A dog here is the same dog it is at the shelter and in the Profile of whoever adopts them, drawn by the same file in its own coat, chocolate and golden and brindle and all.</p>
+    <p><strong>The ball is blue</strong>, because on green grass a dog can find a blue ball and loses a red one. That is Marcello Siniscalchi&rsquo;s own advice, given to Live Science when the 2017 paper came out, rather than something the paper tested, and we would rather say which it is.</p>
+    <p>And the commonest colour blindness in people is red-green, the same pair a dog cannot tell apart, so on the Run nobody who has it is missing anything the room has put there.</p>
+  </section>
+
+  <section class="run-part" aria-labelledby="run-tin-h">
+    <h2 id="run-tin-h">The treat tin</h2>
+    <p>The tin on the porch is filled from <strong>the treat truck at <a href="truckin-food-court.html">the Truck Stop</a> next door</strong>, out of the same list, so the two lots cannot disagree about what a dog is given. Shaking it brings the dogs who are only interested in food up onto the porch, hopefully.</p>
+    <p><strong>Nothing in the tin is on the ASPCA&rsquo;s list of people foods to keep from pets</strong>, and the tool that builds the Run reads every bag against that list: no chocolate, coffee or caffeine, no xylitol, no grapes or raisins, no onion, garlic or chives, no milk, no nuts, no avocado, no citrus, no salt to speak of, no yeast dough or alcohol, and nothing raw.</p>
+<!-- run:tin:begin -->
+    <ul class="run-tin">
+      <li class="run-tin__bag">
+        <h3 class="run-tin__name">Pumpkin and oat biscuits</h3>
+        <p class="run-tin__mark">Vegan &middot; for dogs</p>
+        <p class="run-tin__what"><span class="sr">In it: </span>pumpkin, oat flour and plain peanut butter, baked hard</p>
+        <p class="run-tin__has">For anybody handling it: contains peanuts. No gluten.</p>
+        <p class="run-tin__note">The peanut butter is peanuts and nothing else.</p>
+      </li>
+      <li class="run-tin__bag">
+        <h3 class="run-tin__name">Sweet potato chews</h3>
+        <p class="run-tin__mark">Vegan &middot; for dogs</p>
+        <p class="run-tin__what"><span class="sr">In it: </span>sweet potato, sliced and dried slowly</p>
+        <p class="run-tin__has">For anybody handling it: none of the nine, and no gluten.</p>
+      </li>
+      <li class="run-tin__bag">
+        <h3 class="run-tin__name">Banana and peanut butter licks</h3>
+        <p class="run-tin__mark">Vegan &middot; for dogs</p>
+        <p class="run-tin__what"><span class="sr">In it: </span>banana and plain peanut butter, blended with water and frozen in a paper cup</p>
+        <p class="run-tin__has">For anybody handling it: contains peanuts. No gluten.</p>
+        <p class="run-tin__note">The peanut butter is peanuts and nothing else.</p>
+      </li>
+      <li class="run-tin__bag">
+        <h3 class="run-tin__name">Chicken jerky</h3>
+        <p class="run-tin__mark">Chicken &middot; for dogs</p>
+        <p class="run-tin__what"><span class="sr">In it: </span>chicken breast, cooked and dried, and nothing else</p>
+        <p class="run-tin__has">For anybody handling it: none of the nine, and no gluten.</p>
+      </li>
+      <li class="run-tin__bag">
+        <h3 class="run-tin__name">Beef liver bites</h3>
+        <p class="run-tin__mark">Beef &middot; for dogs</p>
+        <p class="run-tin__what"><span class="sr">In it: </span>beef liver, baked dry and cut small</p>
+        <p class="run-tin__has">For anybody handling it: none of the nine, and no gluten.</p>
+      </li>
+      <li class="run-tin__bag">
+        <h3 class="run-tin__name">Salmon and sweet potato bites</h3>
+        <p class="run-tin__mark">Fish &middot; for dogs</p>
+        <p class="run-tin__what"><span class="sr">In it: </span>cooked salmon, sweet potato and oat flour, baked</p>
+        <p class="run-tin__has">For anybody handling it: contains fish. No gluten.</p>
+      </li>
+    </ul>
+    <!-- run:tin:end -->
+  </section>
+
+  <section class="run-part" aria-labelledby="run-porch-h">
+    <h2 id="run-porch-h">The porch</h2>
+    <p>A covered porch along the clubhouse wall, out of the sun and out of the rain, with <strong>two swings and two rocking chairs</strong> on it and plush beds on the boards for whoever wants one. The one beside your rocking chair is kept for the dog you ask to come and sit with you; ask from a dog&rsquo;s card. There is a water bowl on the boards and a trough out in the field.</p>
+    <p><strong>The ramp is as wide as the steps</strong>, at the other end of the porch, and goes to the same grass.</p>
+  </section>
+
+  <section class="run-part" aria-labelledby="run-telly-h">
+    <h2 id="run-telly-h">The dog telly</h2>
+    <p>A small television on the clubhouse wall, hung low, at about a dog&rsquo;s eye level. <strong>It has nothing of its own on it.</strong> The rack holds Ryan&rsquo;s pick of television made for dogs: dogs at daycare, dogs at play, a walk through the woods filmed from a dog&rsquo;s height, and one channel that is live all day. A person is welcome to watch too.</p>
+    <p>Every film says how long it runs before you press it, and the live one says it runs until you close it. <strong>The titles are the channels&rsquo; own</strong>, quoted as they wrote them, and some of them say what a film will do for a dog; that is theirs to say, and nothing of ours on this page says it.</p>
+<!-- run:telly:begin -->
+    <div class="run-screen" data-rack-screen="run" tabindex="-1" hidden>
+      <p class="run-screen__idle"><span><b>The dog telly.</b> Nothing is on it. Any film on the rack can go up here with the button under it, and nothing loads until you press one.</span></p>
+    </div>
+    <p class="run-screen__now" data-rack-now="run" tabindex="-1" hidden></p>
+    <p class="run-screen__back" hidden><button type="button" class="run-btn run-btn--quiet" data-rack-back="run">Take it off the dog telly</button></p>
+    <details class="run-rack" open>
+      <summary class="run-rack__sum">The rack: television made for dogs</summary>
+      <ul class="run-vids">
+        <li class="run-vid" data-rack-card>
+          <h3 class="run-vid__title">Entertaining Doggy Daycare TV - Ultimate Dog Video for Dogs To Watch - Dog Sounds Barking Squeak Toy</h3>
+          <p class="run-vid__by">Farm Dog TV &middot; 29 January 2025 &middot; 5:57:27</p>
+          <button type="button" class="facade" data-embed-id="fP40ZgOiT2Q" data-embed-title="Farm Dog TV &mdash; Entertaining Doggy Daycare TV - Ultimate Dog Video for Dogs To Watch - Dog Sounds Barking Squeak Toy">
+            Watch it here &mdash; 5:57:27
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="run-btn run-btn--quiet run-vid__big" hidden data-rack-to="run" data-rack-name="the dog telly" data-rack-src="https://www.youtube-nocookie.com/embed/fP40ZgOiT2Q?autoplay=1&amp;rel=0" data-rack-title="Farm Dog TV &mdash; Entertaining Doggy Daycare TV - Ultimate Dog Video for Dogs To Watch - Dog Sounds Barking Squeak Toy, on the dog telly" data-rack-film="Entertaining Doggy Daycare TV - Ultimate Dog Video for Dogs To Watch - Dog Sounds Barking Squeak Toy" data-rack-runtime="5:57:27">Put it on the dog telly &mdash; 5:57:27</button>
+        </li>
+        <li class="run-vid" data-rack-card>
+          <h3 class="run-vid__title">🔴 Dog TV 🐶 All-Day Anti-Anxiety &amp; Boredom Busting Videos for Dogs 🐶Calming Music to Help Dogs Sleep</h3>
+          <p class="run-vid__by">Dog TV King &middot; 25 March 2026 &middot; live, and runs until you close it</p>
+          <button type="button" class="facade" data-embed-id="NUutX-ZeEro" data-embed-title="Dog TV King &mdash; 🔴 Dog TV 🐶 All-Day Anti-Anxiety &amp; Boredom Busting Videos for Dogs 🐶Calming Music to Help Dogs Sleep">
+            Watch it here &mdash; live, runs until you close it
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="run-btn run-btn--quiet run-vid__big" hidden data-rack-to="run" data-rack-name="the dog telly" data-rack-src="https://www.youtube-nocookie.com/embed/NUutX-ZeEro?autoplay=1&amp;rel=0" data-rack-title="Dog TV King &mdash; 🔴 Dog TV 🐶 All-Day Anti-Anxiety &amp; Boredom Busting Videos for Dogs 🐶Calming Music to Help Dogs Sleep, on the dog telly" data-rack-film="🔴 Dog TV 🐶 All-Day Anti-Anxiety &amp; Boredom Busting Videos for Dogs 🐶Calming Music to Help Dogs Sleep" data-rack-runtime="live, runs until you close it">Put it on the dog telly &mdash; live, runs until you close it</button>
+        </li>
+        <li class="run-vid" data-rack-card>
+          <h3 class="run-vid__title">[NO ADS] Dog TV for Dogs to Watch 🐕 Virtual Dog Walk with Nature Sounds 🌲 Videos for Dogs</h3>
+          <p class="run-vid__by">Harmony Hounds - Relaxing Music for Dogs &middot; 25 April 2024 &middot; 10:00:00</p>
+          <button type="button" class="facade" data-embed-id="kv3ML8ckmj8" data-embed-title="Harmony Hounds - Relaxing Music for Dogs &mdash; [NO ADS] Dog TV for Dogs to Watch 🐕 Virtual Dog Walk with Nature Sounds 🌲 Videos for Dogs">
+            Watch it here &mdash; 10:00:00
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="run-btn run-btn--quiet run-vid__big" hidden data-rack-to="run" data-rack-name="the dog telly" data-rack-src="https://www.youtube-nocookie.com/embed/kv3ML8ckmj8?autoplay=1&amp;rel=0" data-rack-title="Harmony Hounds - Relaxing Music for Dogs &mdash; [NO ADS] Dog TV for Dogs to Watch 🐕 Virtual Dog Walk with Nature Sounds 🌲 Videos for Dogs, on the dog telly" data-rack-film="[NO ADS] Dog TV for Dogs to Watch 🐕 Virtual Dog Walk with Nature Sounds 🌲 Videos for Dogs" data-rack-runtime="10:00:00">Put it on the dog telly &mdash; 10:00:00</button>
+        </li>
+        <li class="run-vid" data-rack-card>
+          <h3 class="run-vid__title">🐕‍🦺💜 Daycare for your dog!  Dogs can't resist this Video! 🐕‍🦺🐕🌦🌲</h3>
+          <p class="run-vid__by">Tv for dogs, brought to you by Doggy Woods Retreat &middot; 8 April 2025 &middot; 5:01:31</p>
+          <button type="button" class="facade" data-embed-id="sVf1oF4uQsY" data-embed-title="Tv for dogs, brought to you by Doggy Woods Retreat &mdash; 🐕‍🦺💜 Daycare for your dog!  Dogs can&#x27;t resist this Video! 🐕‍🦺🐕🌦🌲">
+            Watch it here &mdash; 5:01:31
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="run-btn run-btn--quiet run-vid__big" hidden data-rack-to="run" data-rack-name="the dog telly" data-rack-src="https://www.youtube-nocookie.com/embed/sVf1oF4uQsY?autoplay=1&amp;rel=0" data-rack-title="Tv for dogs, brought to you by Doggy Woods Retreat &mdash; 🐕‍🦺💜 Daycare for your dog!  Dogs can&#x27;t resist this Video! 🐕‍🦺🐕🌦🌲, on the dog telly" data-rack-film="🐕‍🦺💜 Daycare for your dog!  Dogs can&#x27;t resist this Video! 🐕‍🦺🐕🌦🌲" data-rack-runtime="5:01:31">Put it on the dog telly &mdash; 5:01:31</button>
+        </li>
+        <li class="run-vid" data-rack-card>
+          <h3 class="run-vid__title">Dogs Playing for 7 Hours</h3>
+          <p class="run-vid__by">Dog PlayGroup Stories &middot; 7 October 2024 &middot; 7:35:49</p>
+          <button type="button" class="facade" data-embed-id="4-XPlXE1Q2o" data-embed-title="Dog PlayGroup Stories &mdash; Dogs Playing for 7 Hours">
+            Watch it here &mdash; 7:35:49
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="run-btn run-btn--quiet run-vid__big" hidden data-rack-to="run" data-rack-name="the dog telly" data-rack-src="https://www.youtube-nocookie.com/embed/4-XPlXE1Q2o?autoplay=1&amp;rel=0" data-rack-title="Dog PlayGroup Stories &mdash; Dogs Playing for 7 Hours, on the dog telly" data-rack-film="Dogs Playing for 7 Hours" data-rack-runtime="7:35:49">Put it on the dog telly &mdash; 7:35:49</button>
+        </li>
+        <li class="run-vid" data-rack-card>
+          <h3 class="run-vid__title">Take a 12 hour pack walk with your dog through the forest at Doggy Woods Retreat!  Filmed for dogs!</h3>
+          <p class="run-vid__by">Tv for dogs, brought to you by Doggy Woods Retreat &middot; 24 September 2025 &middot; 11:43:25</p>
+          <button type="button" class="facade" data-embed-id="bPAozKuCT1A" data-embed-title="Tv for dogs, brought to you by Doggy Woods Retreat &mdash; Take a 12 hour pack walk with your dog through the forest at Doggy Woods Retreat!  Filmed for dogs!">
+            Watch it here &mdash; 11:43:25
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="run-btn run-btn--quiet run-vid__big" hidden data-rack-to="run" data-rack-name="the dog telly" data-rack-src="https://www.youtube-nocookie.com/embed/bPAozKuCT1A?autoplay=1&amp;rel=0" data-rack-title="Tv for dogs, brought to you by Doggy Woods Retreat &mdash; Take a 12 hour pack walk with your dog through the forest at Doggy Woods Retreat!  Filmed for dogs!, on the dog telly" data-rack-film="Take a 12 hour pack walk with your dog through the forest at Doggy Woods Retreat!  Filmed for dogs!" data-rack-runtime="11:43:25">Put it on the dog telly &mdash; 11:43:25</button>
+        </li>
+        <li class="run-vid" data-rack-card>
+          <h3 class="run-vid__title">Dog Daycare TV: Entertainment for Dogs 🐶 Videos For Dogs to Watch to Prevent Boredom &amp; Anti Anxiety</h3>
+          <p class="run-vid__by">Farm Dog TV &middot; 5 July 2024 &middot; 12:00:00</p>
+          <button type="button" class="facade" data-embed-id="ze869tziyg4" data-embed-title="Farm Dog TV &mdash; Dog Daycare TV: Entertainment for Dogs 🐶 Videos For Dogs to Watch to Prevent Boredom &amp; Anti Anxiety">
+            Watch it here &mdash; 12:00:00
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="run-btn run-btn--quiet run-vid__big" hidden data-rack-to="run" data-rack-name="the dog telly" data-rack-src="https://www.youtube-nocookie.com/embed/ze869tziyg4?autoplay=1&amp;rel=0" data-rack-title="Farm Dog TV &mdash; Dog Daycare TV: Entertainment for Dogs 🐶 Videos For Dogs to Watch to Prevent Boredom &amp; Anti Anxiety, on the dog telly" data-rack-film="Dog Daycare TV: Entertainment for Dogs 🐶 Videos For Dogs to Watch to Prevent Boredom &amp; Anti Anxiety" data-rack-runtime="12:00:00">Put it on the dog telly &mdash; 12:00:00</button>
+        </li>
+        <li class="run-vid" data-rack-card>
+          <h3 class="run-vid__title">🐕‍🦺🐕🌧🌲 Daycare for your dog 🐕‍🦺🐕🌧🌲  Keep your dog busy while you are away or while you hang out</h3>
+          <p class="run-vid__by">Tv for dogs, brought to you by Doggy Woods Retreat &middot; 14 January 2025 &middot; 12:00:00</p>
+          <button type="button" class="facade" data-embed-id="E7YfWAubnm0" data-embed-title="Tv for dogs, brought to you by Doggy Woods Retreat &mdash; 🐕‍🦺🐕🌧🌲 Daycare for your dog 🐕‍🦺🐕🌧🌲  Keep your dog busy while you are away or while you hang out">
+            Watch it here &mdash; 12:00:00
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="run-btn run-btn--quiet run-vid__big" hidden data-rack-to="run" data-rack-name="the dog telly" data-rack-src="https://www.youtube-nocookie.com/embed/E7YfWAubnm0?autoplay=1&amp;rel=0" data-rack-title="Tv for dogs, brought to you by Doggy Woods Retreat &mdash; 🐕‍🦺🐕🌧🌲 Daycare for your dog 🐕‍🦺🐕🌧🌲  Keep your dog busy while you are away or while you hang out, on the dog telly" data-rack-film="🐕‍🦺🐕🌧🌲 Daycare for your dog 🐕‍🦺🐕🌧🌲  Keep your dog busy while you are away or while you hang out" data-rack-runtime="12:00:00">Put it on the dog telly &mdash; 12:00:00</button>
+        </li>
+      </ul>
+    </details>
+    <!-- run:telly:end -->
+  </section>
+
+  <section class="run-part" aria-labelledby="run-next-h">
+    <h2 id="run-next-h">Next door</h2>
+    <p>The Run is the first of the lots side by side where the buildings stop. Through the double gate on the far side of the field, one gate shut behind you before the next one opens, is <a href="truckin-food-court.html">the Truck Stop</a>, where the trucks are, and the treat truck among them. Past that are <a href="the-green.html">the Green</a> and <a href="the-pile.html">the Pile</a>.</p>
+  </section>
+
+  <section class="run-part" aria-labelledby="run-rules-h">
+    <h2 id="run-rules-h">House rules</h2>
+    <ul class="run-rules">
+      <li><strong>Shut one gate before you open the other.</strong> That is what the pen between them is for.</li>
+      <li><strong>Nobody gives a command</strong>, and nobody is trained, on the Run.</li>
+      <li><strong>Leave a dog who wants to be left alone</strong> to the shade.</li>
+      <li><strong>Every treat is from the tin</strong>, and the tin is from the treat truck, and nothing from your own pocket.</li>
+      <li><strong>Nobody is counted</strong>: not the dogs, not the throws, and not you.</li>
+    </ul>
+  </section>
+
+  <section class="run-part" aria-labelledby="run-keeps-h">
+    <h2 id="run-keeps-h">What the Run keeps</h2>
+    <ul class="run-keeps">
+      <li><strong>Nothing about you.</strong> Who sat with you and which dogs you met live in this page and nowhere else, and are gone when you leave it. The Run&rsquo;s own scripts store nothing in your browser and send nothing anywhere; the one thing they ask for is the shelter&rsquo;s list. A film on the dog telly loads from YouTube only when you press it.</li>
+      <li><strong>Nothing about the dogs</strong> that the shelter did not write down, and nothing about who adopts them.</li>
+      <li><strong>Nothing plays until you press play</strong>, and every film says how long it runs first.</li>
+    </ul>
+  </section>
+
+  <section class="run-part" aria-labelledby="run-credits-h">
+    <h2 id="run-credits-h">Whose it is</h2>
+    <p>The brief is Ryan Boren&rsquo;s, of 2026-10-05, and so is the name. The dogs are <a href="rescue-a-dog.html">Rescue A Dog</a>&rsquo;s, drawn by the same file that draws them there. What a dog sees was read in Neitz, Geist and Jacobs&rsquo; paper, in Siniscalchi and his colleagues&rsquo;, and in Stanley Coren&rsquo;s account of them; the blue ball is Siniscalchi&rsquo;s, to Live Science; the list of foods to keep from a dog is the ASPCA&rsquo;s. The films on the rack are their channels&rsquo;, and Ryan&rsquo;s pick. The type is <strong>Lilita One</strong>, by Juan Montoreano, and <strong>Mukta</strong>, by Ek Type, both under the SIL Open Font Licence. Every source is in <a href="liner-notes.html#the-run">the liner notes</a>.</p>
+  </section>
+
+<!-- quest:run-ball:begin -->
+  <details class="quest" data-quest="run-ball" data-code="FETCH" data-accept="ablueball|blue|blueball|itisblue|itsblue">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3 29 H29" stroke="var(--run-ink)" stroke-width="1.6" stroke-linecap="round"/><circle cx="16" cy="21" r="7.5" fill="var(--run-link)" stroke="var(--run-ink)" stroke-width="1.4"/><path d="M9.6 18 Q16 23 22.4 18" fill="none" stroke="var(--run-paper)" stroke-width="1.4" stroke-linecap="round"/><path d="M12 27 l1.4 -2 M19 27.4 l-1 -2.2" stroke="var(--run-ink)" stroke-width="1"/></svg>
+      <span class="quest__label">Job marker &mdash; a chewed blue ball, by the porch steps</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> Why is the ball blue?</p>
+      <p class="quest__ask"><b>Before the code:</b> What colour is the ball on the Run?</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="run-ball-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="run-ball-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is in the first paragraph under the name.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>Dogs see in two colours.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>The other one is yellow.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Blue</b>. Blue: dogs see in blues and yellows, so on green grass a dog can find a blue ball and loses a red one, and the Run is painted in a dog&#x27;s colours.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">FETCH</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=FETCH">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>Blue: dogs see in blues and yellows, so on green grass a dog can find a blue ball and loses a red one, and the Run is painted in a dog&#x27;s colours.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">FETCH</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=FETCH">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:run-ball:end -->
+
+  <div style="max-width:400px;margin-top:34px;">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so &mdash; and on the Run, the dogs only wander off by themselves at MAX GLITTER.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- signoff:begin -->
+<footer class="signoff">
+  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> &middot; <a href="map.html#at-the-run">Where am I?</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="mission.html">Mission</a> &middot; <a href="design.html">How it’s made</a> &middot; <a href="your-room.html">Your Room</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="feed.xml">Feed</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+  <p class="signoff__fx" hidden><button type="button" class="signoff__fx-btn" data-fx="{&quot;kind&quot;:&quot;julia&quot;,&quot;c&quot;:[-0.391,-0.587],&quot;orbit&quot;:0.02,&quot;bands&quot;:0.05,&quot;ground&quot;:&quot;--run-grass&quot;,&quot;inks&quot;:[&quot;--run-link&quot;,&quot;--run-ink&quot;,&quot;--run-sky&quot;,&quot;--run-cushion&quot;]}" aria-describedby="signoff-fx-about">Switch on the fractal window</button> <span id="signoff-fx-about">A slow fractal in this room’s own colours, drawn in your browser in a window of its own. It is not synced to any music, it never flashes at any speed, and it runs until you switch it off or leave the room.</span></p>
+</footer>
+<!-- signoff:end -->
+
+<script src="love.js" defer></script>
+<script src="love-embed.js" defer></script>
+<script src="rack.js" defer></script>
+<script src="animals.js" defer></script>
+<script src="roam.js" defer></script>
+<script src="run.js" defer></script>
+<script src="quest.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,488 @@
+{
+ "_what": "The Run, a dog park on the street, built by tools/make-the-run.py: the field and every place a dog can be in it, the porch, the toys, the treat tin and the dog telly's rack. Ryan Boren's brief, 2026-10-05: an outdoor dog park on the street with a covered porch, swings, rocking chairs and plush dog beds; a row of trees for shade and peeing on; an open grassy area for playing fetch; and the dogs from the rescue shelter out for exercise, met the way the cats are met at Pekoe and Purrs. The dogs are Rescue A Dog's and this file never names one: roam.js reads the shelter's own list every time the room opens.",
+ "_spots": "Every place a dog can be, with where it is in words, because the picture is aria-hidden and a dog somewhere nobody can be told about is not there for everybody. x and y are the dog's feet, on the 1200 by 660 drawing. A kind says what sort of place it is and a level says which part of the Run, and the moods below choose by those and nothing else. 'beside' is kept for the dog you ask to come and sit with you, so no other dog is ever put there.",
+ "kept": "beside",
+ "spots": [
+  {
+   "key": "swing",
+   "kind": "swing",
+   "level": "porch",
+   "x": 150,
+   "y": 474,
+   "where": "up on the porch swing"
+  },
+  {
+   "key": "bed-swing",
+   "kind": "bed",
+   "level": "porch",
+   "x": 76,
+   "y": 592,
+   "where": "on the plush bed under the swing"
+  },
+  {
+   "key": "boards",
+   "kind": "deck",
+   "level": "porch",
+   "x": 188,
+   "y": 592,
+   "where": "flat out on the porch boards in the shade"
+  },
+  {
+   "key": "beside",
+   "kind": "bed",
+   "level": "porch",
+   "x": 300,
+   "y": 592,
+   "where": "on the plush bed beside your rocking chair"
+  },
+  {
+   "key": "bed-end",
+   "kind": "bed",
+   "level": "porch",
+   "x": 392,
+   "y": 592,
+   "where": "on the plush bed at the end of the porch"
+  },
+  {
+   "key": "step-top",
+   "kind": "step",
+   "level": "porch",
+   "x": 480,
+   "y": 612,
+   "where": "on the top step of the porch"
+  },
+  {
+   "key": "step-foot",
+   "kind": "step",
+   "level": "porch",
+   "x": 580,
+   "y": 652,
+   "where": "at the foot of the porch steps"
+  },
+  {
+   "key": "tree-1",
+   "kind": "shade",
+   "level": "trees",
+   "x": 560,
+   "y": 322,
+   "where": "in the shade of the first tree"
+  },
+  {
+   "key": "tree-2",
+   "kind": "shade",
+   "level": "trees",
+   "x": 690,
+   "y": 322,
+   "where": "in the shade of the second tree"
+  },
+  {
+   "key": "tree-3",
+   "kind": "shade",
+   "level": "trees",
+   "x": 820,
+   "y": 322,
+   "where": "in the shade of the big tree in the middle of the row"
+  },
+  {
+   "key": "tree-4",
+   "kind": "shade",
+   "level": "trees",
+   "x": 950,
+   "y": 322,
+   "where": "in the shade of the fourth tree"
+  },
+  {
+   "key": "tree-5",
+   "kind": "shade",
+   "level": "trees",
+   "x": 1080,
+   "y": 322,
+   "where": "in the shade of the tree at the far end of the row"
+  },
+  {
+   "key": "far-left",
+   "kind": "grass",
+   "level": "field",
+   "x": 540,
+   "y": 400,
+   "where": "out on the grass below the first tree"
+  },
+  {
+   "key": "cloud-1",
+   "kind": "cool",
+   "level": "field",
+   "x": 660,
+   "y": 400,
+   "where": "in the shadow of a cloud, near the trees"
+  },
+  {
+   "key": "cloud-2",
+   "kind": "cool",
+   "level": "field",
+   "x": 780,
+   "y": 400,
+   "where": "in the shadow of the same cloud, further along"
+  },
+  {
+   "key": "far-mid",
+   "kind": "sun",
+   "level": "field",
+   "x": 900,
+   "y": 400,
+   "where": "in a patch of sun under the trees"
+  },
+  {
+   "key": "far-right",
+   "kind": "sun",
+   "level": "field",
+   "x": 1020,
+   "y": 400,
+   "where": "in the sun at the far end of the field"
+  },
+  {
+   "key": "gate-in",
+   "kind": "gate",
+   "level": "field",
+   "x": 1144,
+   "y": 410,
+   "where": "by the gate through to the Truck Stop, nose to the bars"
+  },
+  {
+   "key": "near-step",
+   "kind": "grass",
+   "level": "field",
+   "x": 524,
+   "y": 488,
+   "where": "on the grass beside the porch steps"
+  },
+  {
+   "key": "trough-near",
+   "kind": "trough",
+   "level": "field",
+   "x": 620,
+   "y": 492,
+   "where": "at the water trough"
+  },
+  {
+   "key": "trough-far",
+   "kind": "trough",
+   "level": "field",
+   "x": 790,
+   "y": 492,
+   "where": "at the far end of the water trough"
+  },
+  {
+   "key": "mid-1",
+   "kind": "grass",
+   "level": "field",
+   "x": 900,
+   "y": 488,
+   "where": "out in the middle of the field"
+  },
+  {
+   "key": "mid-2",
+   "kind": "grass",
+   "level": "field",
+   "x": 1020,
+   "y": 488,
+   "where": "on the open grass, halfway down the field"
+  },
+  {
+   "key": "gate-out",
+   "kind": "gate",
+   "level": "field",
+   "x": 1144,
+   "y": 500,
+   "where": "between the two gates, where nobody gets out"
+  },
+  {
+   "key": "low-left",
+   "kind": "sun",
+   "level": "field",
+   "x": 600,
+   "y": 566,
+   "where": "flat out in the sun by the porch"
+  },
+  {
+   "key": "low-1",
+   "kind": "grass",
+   "level": "field",
+   "x": 690,
+   "y": 568,
+   "where": "on the grass in front of the trough"
+  },
+  {
+   "key": "low-2",
+   "kind": "grass",
+   "level": "field",
+   "x": 780,
+   "y": 568,
+   "where": "where the ball usually lands"
+  },
+  {
+   "key": "cloud-3",
+   "kind": "cool",
+   "level": "field",
+   "x": 900,
+   "y": 568,
+   "where": "in the shadow of a cloud, near the gate"
+  },
+  {
+   "key": "cloud-4",
+   "kind": "cool",
+   "level": "field",
+   "x": 1020,
+   "y": 568,
+   "where": "in the cool of the same cloud's shadow"
+  },
+  {
+   "key": "corner",
+   "kind": "grass",
+   "level": "field",
+   "x": 1144,
+   "y": 590,
+   "where": "in the corner by the fence"
+  },
+  {
+   "key": "front-1",
+   "kind": "grass",
+   "level": "field",
+   "x": 700,
+   "y": 652,
+   "where": "right in front of you on the grass"
+  },
+  {
+   "key": "front-2",
+   "kind": "sun",
+   "level": "field",
+   "x": 820,
+   "y": 652,
+   "where": "rolling in the sun in front of the porch"
+  },
+  {
+   "key": "front-3",
+   "kind": "grass",
+   "level": "field",
+   "x": 940,
+   "y": 652,
+   "where": "on the near grass, watching the ball"
+  },
+  {
+   "key": "front-4",
+   "kind": "grass",
+   "level": "field",
+   "x": 1060,
+   "y": 652,
+   "where": "on the near grass by the far fence"
+  }
+ ],
+ "moods": {
+  "wag": {
+   "kinds": [
+    "grass",
+    "sun",
+    "step"
+   ],
+   "toys": true
+  },
+  "lean": {
+   "kinds": [
+    "step",
+    "deck",
+    "bed",
+    "swing"
+   ],
+   "levels": [
+    "porch"
+   ],
+   "toys": true
+  },
+  "stick": {
+   "kinds": [
+    "grass",
+    "shade",
+    "cool"
+   ],
+   "toys": true
+  },
+  "alone": {
+   "kinds": [
+    "shade",
+    "gate",
+    "cool"
+   ],
+   "toys": false
+  },
+  "radiator": {
+   "kinds": [
+    "sun",
+    "deck"
+   ],
+   "toys": true
+  },
+  "food": {
+   "kinds": [
+    "step",
+    "trough",
+    "gate"
+   ],
+   "toys": true
+  },
+  "sleep": {
+   "kinds": [
+    "bed",
+    "shade",
+    "swing",
+    "cool"
+   ],
+   "toys": false
+  }
+ },
+ "left_alone": [
+  "alone"
+ ],
+ "toys": [
+  {
+   "key": "ball",
+   "label": "Throw the blue ball",
+   "kinds": [
+    "grass",
+    "sun",
+    "cool"
+   ],
+   "levels": [
+    "field"
+   ],
+   "most": 3,
+   "went": "went after the ball"
+  },
+  {
+   "key": "tin",
+   "label": "Shake the treat tin",
+   "kinds": [
+    "step",
+    "deck"
+   ],
+   "levels": [
+    "porch"
+   ],
+   "most": 3,
+   "went": "came up onto the porch, hopefully"
+  },
+  {
+   "key": "trough",
+   "label": "Fill the water trough",
+   "kinds": [
+    "trough"
+   ],
+   "levels": [],
+   "most": 2,
+   "went": "went for a drink"
+  }
+ ],
+ "_videos": "Ryan's pick of television made for dogs, of 2026-10-05, in his order, for the dog telly on the porch. Every one was asked of its own watch page on 2026-10-05: all OK and embeddable, and the runtime is that page's own lengthSeconds. Dog TV King's is a live stream, so it has no runtime and says it runs until you close it, the Jungle Room's rule for a live camera; make-the-run.py refuses a runtime on it and refuses a video without one. The titles are the channels' own and are not swept: what they say a film does for a dog is theirs to say, and nothing of ours on the page says it.",
+ "videos": [
+  {
+   "id": "fP40ZgOiT2Q",
+   "title": "Entertaining Doggy Daycare TV - Ultimate Dog Video for Dogs To Watch - Dog Sounds Barking Squeak Toy",
+   "channel": "Farm Dog TV",
+   "channel_id": "UCtOBhse5Ah5UcJ1XZwuUQGw",
+   "runtime": "5:57:27",
+   "published": "2025-01-29"
+  },
+  {
+   "id": "NUutX-ZeEro",
+   "title": "🔴 Dog TV 🐶 All-Day Anti-Anxiety & Boredom Busting Videos for Dogs 🐶Calming Music to Help Dogs Sleep",
+   "channel": "Dog TV King",
+   "channel_id": "UCFpMQpbqx2CVYpH-BFk5Q2A",
+   "live": true,
+   "published": "2026-03-25"
+  },
+  {
+   "id": "kv3ML8ckmj8",
+   "title": "[NO ADS] Dog TV for Dogs to Watch 🐕 Virtual Dog Walk with Nature Sounds 🌲 Videos for Dogs",
+   "channel": "Harmony Hounds - Relaxing Music for Dogs",
+   "channel_id": "UCNOqDHMt0vLcnaQOhqDpWXw",
+   "runtime": "10:00:00",
+   "published": "2024-04-25"
+  },
+  {
+   "id": "sVf1oF4uQsY",
+   "title": "🐕‍🦺💜 Daycare for your dog!  Dogs can't resist this Video! 🐕‍🦺🐕🌦🌲",
+   "channel": "Tv for dogs, brought to you by Doggy Woods Retreat",
+   "channel_id": "UCYwDsHiV2NClULcVRuoRuoQ",
+   "runtime": "5:01:31",
+   "published": "2025-04-08"
+  },
+  {
+   "id": "4-XPlXE1Q2o",
+   "title": "Dogs Playing for 7 Hours",
+   "channel": "Dog PlayGroup Stories",
+   "channel_id": "UCvn5y0zlNXW94D1cuelZzWQ",
+   "runtime": "7:35:49",
+   "published": "2024-10-07"
+  },
+  {
+   "id": "bPAozKuCT1A",
+   "title": "Take a 12 hour pack walk with your dog through the forest at Doggy Woods Retreat!  Filmed for dogs!",
+   "channel": "Tv for dogs, brought to you by Doggy Woods Retreat",
+   "channel_id": "UCYwDsHiV2NClULcVRuoRuoQ",
+   "runtime": "11:43:25",
+   "published": "2025-09-24"
+  },
+  {
+   "id": "ze869tziyg4",
+   "title": "Dog Daycare TV: Entertainment for Dogs 🐶 Videos For Dogs to Watch to Prevent Boredom & Anti Anxiety",
+   "channel": "Farm Dog TV",
+   "channel_id": "UCtOBhse5Ah5UcJ1XZwuUQGw",
+   "runtime": "12:00:00",
+   "published": "2024-07-05"
+  },
+  {
+   "id": "E7YfWAubnm0",
+   "title": "🐕‍🦺🐕🌧🌲 Daycare for your dog 🐕‍🦺🐕🌧🌲  Keep your dog busy while you are away or while you hang out",
+   "channel": "Tv for dogs, brought to you by Doggy Woods Retreat",
+   "channel_id": "UCYwDsHiV2NClULcVRuoRuoQ",
+   "runtime": "12:00:00",
+   "published": "2025-01-14"
+  }
+ ],
+ "_sources": "Everything the room says about what a dog sees was read on these pages on 2026-10-05, and the liner notes are written from this list. The blue ball is the researcher's own advice, given to the press, and not a finding of the paper: the room says so.",
+ "sources": {
+  "dichromat": {
+   "title": "Color vision in the dog",
+   "by": "Jay Neitz, Timothy Geist and Gerald H. Jacobs, Visual Neuroscience 3(2):119–125, 1989",
+   "url": "https://doi.org/10.1017/s0952523800004430",
+   "read": "2026-10-05",
+   "for": "Dogs have two kinds of cone in the eye where most people have three, so they see in blues and yellows"
+  },
+  "redgreen": {
+   "title": "Are dogs red–green colour blind?",
+   "by": "Marcello Siniscalchi, Serenella d’Ingeo, Serena Fornelli and Angelo Quaranta, Royal Society Open Science 4(11):170869, 2017",
+   "url": "https://doi.org/10.1098/rsos.170869",
+   "read": "2026-10-05",
+   "for": "That a dog cannot tell red from green, tested with dogs rather than with their eyes"
+  },
+  "seeing": {
+   "title": "Can Dogs See Colors?",
+   "by": "Stanley Coren, Psychology Today, 20 October 2008",
+   "url": "https://www.psychologytoday.com/us/blog/canine-corner/200810/can-dogs-see-colors",
+   "read": "2026-10-05",
+   "for": "What the colours come out as: green, yellow and orange all yellowish, blue and violet blue, blue-green grey, red a very dark brownish grey"
+  },
+  "ball": {
+   "title": "Doggone: Your Best Friend Is Red-Green Colorblind",
+   "by": "Laura Geggel, Live Science, 8 November 2017",
+   "url": "https://www.livescience.com/60879-dogs-red-green-colorblind.html",
+   "read": "2026-10-05",
+   "for": "The blue ball: Marcello Siniscalchi, the study’s lead researcher, telling the press to throw a blue ball rather than a red one on green grass"
+  },
+  "poisons": {
+   "title": "People Foods to Avoid Feeding Your Pets",
+   "by": "ASPCA Poison Control",
+   "url": "https://www.aspca.org/pet-care/animal-poison-control/people-foods-avoid-feeding-your-pets",
+   "read": "2026-10-05",
+   "for": "What is never in the treat tin, and never on the treat truck at the Truck Stop next door"
+  }
+ }
+}

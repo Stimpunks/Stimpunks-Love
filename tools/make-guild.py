@@ -448,6 +448,24 @@ DRAW = {
     # floor line are --bns-text, 13.23, both over the body threshold a marker is
     # held to.
     "bns-spoon": """<path d="M3 29 H29" stroke="var(--bns-text)" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="9" cy="22" rx="5.5" ry="3.6" fill="var(--bns-glow)" stroke="var(--bns-text)" stroke-width="1.2"/><path d="M13.6 20.6 L28 15" stroke="var(--bns-glow)" stroke-width="2.6" stroke-linecap="round"/>""",
+    # The Run's blue ball, chewed, by the porch steps: its body is --run-link,
+    # the Run's own blue, 5.15 on the grass, because the brighter ball blue is
+    # 3.17 there and a marker is held to the body threshold; its outline and
+    # the floor line are --run-ink, 8.12. The seam is --run-paper.
+    "run-ball": """<path d="M3 29 H29" stroke="var(--run-ink)" stroke-width="1.6" stroke-linecap="round"/><circle cx="16" cy="21" r="7.5" fill="var(--run-link)" stroke="var(--run-ink)" stroke-width="1.4"/><path d="M9.6 18 Q16 23 22.4 18" fill="none" stroke="var(--run-paper)" stroke-width="1.4" stroke-linecap="round"/><path d="M12 27 l1.4 -2 M19 27.4 l-1 -2.2" stroke="var(--run-ink)" stroke-width="1"/>""",
+    # The Truck Stop's empty paper boat, left on the porch: its body is
+    # --tks-link, 7.6 on the lot, and its outline and the floor line are
+    # --tks-ink, over the body threshold a marker is held to. A smear of salsa
+    # is --tks-marigold, a detail.
+    "tks-boat": """<path d="M3 29 H29" stroke="var(--tks-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 17 L8 25 H24 L27 17 Z" fill="var(--tks-link)" stroke="var(--tks-ink)" stroke-width="1.4" stroke-linejoin="round"/><path d="M11 19 Q16 17 21 19" fill="none" stroke="var(--tks-marigold)" stroke-width="1.6" stroke-linecap="round"/>""",
+    # The Green's wet leaf, stuck to the boardwalk: the leaf is --grn-ink,
+    # 8.39 on the lawn, and the line of sky along its top edge is --grn-sheen,
+    # because it is wet. The floor line is the ink.
+    "grn-leaf": """<path d="M3 29 H29" stroke="var(--grn-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M6 25 Q8 13 24 11 Q24 23 9 26 Z" fill="var(--grn-ink)"/><path d="M8 24 Q15 17 22 13" fill="none" stroke="var(--grn-sheen)" stroke-width="1.2" stroke-linecap="round"/><path d="M9 14 Q14 11.6 21 11.4" fill="none" stroke="var(--grn-sheen)" stroke-width="1.2" stroke-linecap="round"/>""",
+    # The Pile's roll of duct tape, half used: the roll is --pil-link, 8.8 on
+    # the sand, its hole the sand itself, the torn end --pil-tape, and the
+    # outline and the floor line --pil-ink.
+    "pil-tape": """<path d="M3 29 H29" stroke="var(--pil-ink)" stroke-width="1.6" stroke-linecap="round"/><circle cx="14" cy="20" r="7.5" fill="var(--pil-link)" stroke="var(--pil-ink)" stroke-width="1.4"/><circle cx="14" cy="20" r="3" fill="var(--pil-sand)" stroke="var(--pil-ink)" stroke-width="1"/><path d="M20 24 L28 27 L27 29 L19 26.4 Z" fill="var(--pil-tape)" stroke="var(--pil-ink)" stroke-width="1"/>""",
     "stair-lift": """<path d="M3 29 H29" stroke="var(--cmi-ink)" stroke-width="1.6" stroke-linecap="round"/><rect x="9" y="6" width="14" height="19" rx="3" fill="var(--cmi-dado)"/><circle cx="16" cy="13" r="3.6" fill="var(--cmi-nosing)"/><path d="M13 20 H19" stroke="var(--cmi-nosing)" stroke-width="1.6" stroke-linecap="round"/>""",
     "fridge-magnet": """<path d="M3 29 H29" stroke="var(--fos-ink)" stroke-width="1.6" stroke-linecap="round"/><rect x="6" y="15" width="20" height="10" fill="var(--fos-tile)" stroke="var(--fos-ink)" stroke-width="1.6"/><path d="M10 20 H15 M17 20 H22" stroke="var(--fos-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M8 26 H27" stroke="var(--fos-edge)" stroke-width="1.4" stroke-linecap="round"/>""",
     "pando-leaf": """<path d="M3 29 H29" stroke="var(--pdo-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M16 5 Q25 9 25 17 Q25 24 16 25 Q7 24 7 17 Q7 9 16 5 Z" fill="var(--pdo-gold)"/><path d="M16 7.5 V23" stroke="var(--pdo-shade)" stroke-width="1.3" stroke-linecap="round"/><path d="M16 25 L17 28.5" stroke="var(--pdo-gold)" stroke-width="2" stroke-linecap="round"/>""",

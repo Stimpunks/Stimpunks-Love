@@ -683,13 +683,13 @@ def room_block(d):
         f'        <li data-spot="{attr(s["key"])}" data-kind="{s["kind"]}" data-level="{s["level"]}" '
         f'data-x="{n(s["x"])}" data-y="{n(s["y"])}">{esc(s["where"])}</li>' for s in spots)
     moods = json.dumps(d["moods"], separators=(",", ":"))
-    return (f'    <div class="pkp-room" id="pkp-room" data-moods="{attr(moods)}" '
-            f'data-left-alone="{attr(" ".join(d["left_alone"]))}" '
-            f'data-cat-w="{CAT_W}" data-cat-h="{CAT_H}" data-w="{W}" data-h="{H}">\n'
+    return (f'    <div class="pkp-room" id="pkp-room" data-roam data-kind="cat" data-shelter="rescue-a-cat.html" '
+            f'data-moods="{attr(moods)}" data-left-alone="{attr(" ".join(d["left_alone"]))}" '
+            f'data-animal-w="{CAT_W}" data-animal-h="{CAT_H}" data-w="{W}" data-h="{H}">\n'
             f'      {room_svg(d)}\n'
-            f'      <div class="pkp-cats" id="pkp-cats"></div>\n'
+            f'      <div class="pkp-cats" id="pkp-cats" data-roam-box></div>\n'
             f'      {front_svg(d)}\n'
-            f'      <ul class="pkp-spots" id="pkp-spots" hidden>\n{lis}\n      </ul>\n'
+            f'      <ul class="pkp-spots" id="pkp-spots" data-roam-spots hidden>\n{lis}\n      </ul>\n'
             f'    </div>')
 
 
@@ -856,7 +856,7 @@ def menu_block(d):
 
 def toys_block(d):
     return "\n".join(
-        f'      <button type="button" class="pkp-btn pkp-toy" data-toy="{attr(t["key"])}" '
+        f'      <button type="button" class="pkp-btn pkp-toy" data-roam-toy data-toy="{attr(t["key"])}" '
         f'data-kinds="{attr(" ".join(t.get("kinds", [])))}" data-levels="{attr(" ".join(t.get("levels", [])))}" '
         f'data-most="{t["most"]}" data-went="{attr(t["went"])}" hidden>{esc(t["label"])}</button>'
         for t in d["toys"])
@@ -927,35 +927,71 @@ def code_of(path):
     return re.sub(r"(?m)^\s*//[^\n]*", " ", c)
 
 
+ROAM = ROOT / "roam.js"
+TALK = re.compile(r"method\s*:|POST|authorization|love-cb|\bhandle\b|\.pass\b", re.I)
+WIRE = re.compile(r"XMLHttpRequest|sendBeacon|WebSocket|EventSource")
+KEEPS = re.compile(r"localStorage|sessionStorage|indexedDB|document\.cookie")
+WRITES_HTML = ("innerHTML", "insertAdjacentHTML", "outerHTML")
+
+
+def check_roam(say=None):
+    """roam.js, shared with The Run since 2026-10-05: the one file that reads a
+    shelter's list and puts its animals on perches. make-the-run.py calls this
+    too, so the two rooms hold the file to one set of promises."""
+    say = say or refuse
+    if not ROAM.exists():
+        say(f"{ROAM.name} is missing, and every shelter animal in every room with it.")
+        return
+    js = code_of(ROAM)
+    if KEEPS.search(js):
+        say(f"{ROAM.name} keeps something in your browser. Nothing is kept: not who was with you, not "
+            "which animals you met.")
+    if js.count("fetch(") != 1:
+        say(f"{ROAM.name} must make exactly one fetch: the shelter's list.")
+    if "fetch('/cb/shelter?kind=' + KIND" not in js:
+        say(f"{ROAM.name} no longer fetches the shelter's own list, /cb/shelter?kind= and the room's kind.")
+    m = re.search(r"var KINDS = \{([^}]*)\}", js)
+    if not m or set(re.findall(r"(\w+)\s*:", m.group(1))) - {"cat", "dog"}:
+        say(f"{ROAM.name} will read a shelter it was never meant to: its KINDS must be cat and dog only.")
+    if TALK.search(js):
+        say(f"{ROAM.name} sends something or knows about a CB pass. Adopting is the shelter's; a room only "
+            "points at it.")
+    if WIRE.search(js):
+        say(f"{ROAM.name} talks to a server some other way than the one fetch.")
+    if re.search(r"\.mark\b", js):
+        say(f"{ROAM.name} reads an animal's markings. Where an animal goes is its mood's business; a marking "
+            "is only ever handed to animals.js to draw.")
+    if "'#animal-'" not in js:
+        say(f"{ROAM.name} no longer links each animal to its own card at its shelter.")
+    if any(w in js for w in WRITES_HTML):
+        say(f"{ROAM.name} writes HTML. An animal's name is somebody else's words and goes in as text.")
+    if re.search(r"\btransform\b", js):
+        say(f"{ROAM.name} moves something with a transform. Animals move with left and top, arcade.js's "
+            "call, so check-gentle.py can see everything that moves.")
+
+
 def check_script():
+    check_roam()
     if not SCRIPT.exists():
-        refuse(f"{SCRIPT.name} is missing, and the cats with it.")
+        refuse(f"{SCRIPT.name} is missing, and the cats' words with it.")
         return
     js = code_of(SCRIPT)
-    if re.search(r"localStorage|sessionStorage|indexedDB|document\.cookie", js):
+    if KEEPS.search(js):
         refuse(f"{SCRIPT.name} keeps something in your browser. The café keeps nothing: not your lap, not "
                "your table, not which cats you met.")
-    if js.count("fetch(") != 1:
-        refuse(f"{SCRIPT.name} must make exactly one fetch: the shelter's list.")
-    urls = re.findall(r"fetch\(\s*'([^']*)'", js)
-    if urls != ["/cb/shelter?kind=cat"]:
-        refuse(f"{SCRIPT.name} fetches {urls}. The café reads Rescue A Cat's list and nothing else.")
-    if re.search(r"method\s*:|POST|authorization|love-cb|\bhandle\b|\.pass\b", js, re.I):
-        refuse(f"{SCRIPT.name} sends something or knows about a CB pass. Adopting is the shelter's; the café "
-               "only points at it.")
-    if re.search(r"XMLHttpRequest|sendBeacon|WebSocket|EventSource", js):
-        refuse(f"{SCRIPT.name} talks to a server some other way than the one fetch.")
-    for m in re.finditer(r"\.mark\b", js):
+    if "fetch(" in js or WIRE.search(js) or TALK.search(js):
+        refuse(f"{SCRIPT.name} asks for something. The café's one request is roam.js's, to the shelter's list.")
+    if "window.loveRoam(" not in js:
+        refuse(f"{SCRIPT.name} no longer hands the cats to roam.js.")
+    if re.search(r"\.mark\b", js):
         refuse(f"{SCRIPT.name} reads a cat's markings. Where a cat goes is its mood's business; a marking "
                "is only ever handed to animals.js to draw.")
-        break
-    if "rescue-a-cat.html#animal-" not in js:
-        refuse(f"{SCRIPT.name} no longer links each cat to its own card at Rescue A Cat.")
-    if "innerHTML" in js or "insertAdjacentHTML" in js or "outerHTML" in js:
+    if "rescue-a-cat.html" not in js:
+        refuse(f"{SCRIPT.name} no longer names Rescue A Cat, where the cats are adopted.")
+    if any(w in js for w in WRITES_HTML):
         refuse(f"{SCRIPT.name} writes HTML. A cat's name is somebody else's words and goes in as text.")
     if re.search(r"\btransform\b", js):
-        refuse(f"{SCRIPT.name} moves something with a transform. Cats move with left and top, arcade.js's "
-               "call, so check-gentle.py can see everything that moves.")
+        refuse(f"{SCRIPT.name} moves something with a transform.")
     sweep(" ".join(re.findall(r"'([^'\\]*(?:\\.[^'\\]*)*)'", js)), SCRIPT.name)
 
 
@@ -983,7 +1019,10 @@ def check_neighbours():
 def check_page():
     src = PAGE.read_text()
     for want, why in (('src="animals.js"', "it does not load animals.js, which draws the cats"),
+                      ('src="roam.js"', "it does not load roam.js, which puts the cats on their perches"),
                       ('src="purrs.js"', "it does not load purrs.js"),
+                      ('data-roam data-kind="cat" data-shelter="rescue-a-cat.html"',
+                       "its room no longer tells roam.js these are Rescue A Cat's cats"),
                       ('src="table.js"', "it does not load table.js, which puts things on your table"),
                       ('href="rescue-a-cat.html"', "it does not link Rescue A Cat, where the cats are adopted"),
                       ('id="pkp-says"', "it has no live region for what the café says"),

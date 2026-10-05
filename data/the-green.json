@@ -1,0 +1,339 @@
+{
+ "_what": "The Green, a community green space on the street, built by tools/make-the-green.py: the view from the porch, the trail round the pond and every stop on it, the trailhead sign, the beds, and the screen under the porch roof with its rack. Ryan Boren's brief, 2026-10-05: next to the Truck Stop, a community green space with a covered porch, heavily wooded, with a wooden, accessible trail that goes in a meandering circle lined with beds of plants, flowers and vegetables you can eat, and a pond in the centre.",
+ "_light": "It has just stopped raining. There is no sun, so nothing on the Green casts a shadow, and everything wet holds a line of the pale sky along its top edge: every leaf, every board, every rail. make-the-green.py refuses a shadow in the drawing and the vocabulary of sunshine in the room's voice.",
+ "trail": {
+  "_what": "The boardwalk is built to the U.S. Access Board's standards for trails in outdoor developed areas, section 1017 of the Architectural Barriers Act standards, read 2026-10-05. The sign at the trailhead gives every figure 1017.10 asks a trailhead sign for, and make-the-green.py refuses a figure outside the standard.",
+  "length": "1,100 feet, one loop, back to the porch",
+  "surface": "boards laid across the way you walk, with gaps no wider than half an inch, and a strip of grit on every board, because they are wet",
+  "tread_typical_in": 60,
+  "tread_min_in": 60,
+  "running_typical": "1:48",
+  "running_max": "1:20",
+  "cross_typical": "1:60",
+  "cross_max": "1:48",
+  "openings_in": 0.5,
+  "rest": "a resting place at every stop, 60 inches long, beside the boards, with a bench that has a back and arms and room for a wheelchair beside it"
+ },
+ "_stops": "Every stop on the loop, in the order you come to them from the porch. Each says what is there and what you might notice, in words, because the plan of the trail is aria-hidden; x and y are the stop's place on that plan, 600 by 400. Every plant is named by its common name only, the herbarium's rule: a Latin name typed from memory reads as a determination when it was a guess.",
+ "stops": [
+  {
+   "key": "porch",
+   "name": "The porch",
+   "x": 300,
+   "y": 352,
+   "rest": true,
+   "words": "Where the trail starts and ends, under a roof, with the rain still running off its edge in a line of drops. The trailhead sign is on the post by the steps, and the steps have a ramp beside them as wide as they are.",
+   "notice": "The drip off the gutter, and the smell of the wet boards."
+  },
+  {
+   "key": "herbs",
+   "name": "The herb bed",
+   "x": 150,
+   "y": 300,
+   "bed": true,
+   "rest": true,
+   "plants": [
+    "rosemary",
+    "thyme",
+    "sage",
+    "lavender",
+    "chives",
+    "mint, in a pot of its own, because mint runs"
+   ],
+   "words": "A raised bed at the first turn of the boardwalk, its rim at the height of a seat, planted with things that smell when you touch them.",
+   "notice": "Brush the rosemary and your hand smells of it for an hour. The lavender is heavy with water and bent over the rim."
+  },
+  {
+   "key": "vegetables",
+   "name": "The vegetable beds",
+   "x": 90,
+   "y": 200,
+   "bed": true,
+   "rest": true,
+   "picking": true,
+   "plants": [
+    "tomatoes",
+    "runner beans up canes",
+    "courgettes",
+    "kale",
+    "chard",
+    "peppers",
+    "lettuce",
+    "strawberries along the edge"
+   ],
+   "words": "Three long raised beds along the boardwalk, every one 27 inches high, the height the University of Minnesota's extension service gives as comfortable for gardening from a wheelchair. Everything in them was planted to be eaten, and anybody may pick what is ripe.",
+   "notice": "Wet tomato leaves, which smell green, and beads of water standing on the kale."
+  },
+  {
+   "key": "pond",
+   "name": "The pond's edge",
+   "x": 210,
+   "y": 110,
+   "rest": true,
+   "words": "A wide landing over the water, with a rail along the edge at the height of somebody sitting. The last of the rain is still putting rings on the pond, and there are lily pads at this end.",
+   "notice": "Frogs, now that it has stopped. The rings spreading and crossing each other."
+  },
+  {
+   "key": "bridge",
+   "name": "The bridge",
+   "x": 380,
+   "y": 56,
+   "rest": false,
+   "words": "Where the boardwalk crosses the pond's outflow, a little stream that runs into the trees. The bridge rises one inch in every twenty on each side, the steepest the trail ever gets.",
+   "notice": "Water going over stones, louder than usual after the rain."
+  },
+  {
+   "key": "rain-garden",
+   "name": "The rain garden",
+   "x": 520,
+   "y": 120,
+   "bed": true,
+   "rest": true,
+   "plants": [
+    "rushes",
+    "sedges",
+    "irises",
+    "marsh marigolds",
+    "ferns at the shady end"
+   ],
+   "words": "A shallow dip below the boardwalk where the water off the boards and the porch roof runs to, planted with things that like their feet wet. It is full now, and will be dry again by tomorrow.",
+   "notice": "Standing water with the sky in it, and the rushes bent over by the rain and straightening."
+  },
+  {
+   "key": "pollinators",
+   "name": "The pollinator bed",
+   "x": 560,
+   "y": 240,
+   "bed": true,
+   "rest": true,
+   "plants": [
+    "coneflowers",
+    "bee balm",
+    "black-eyed Susans",
+    "asters",
+    "goldenrod",
+    "milkweed"
+   ],
+   "words": "A long bed on the far side of the pond, planted for bees and butterflies. Nothing is flying yet: they wait for it to dry.",
+   "notice": "The coneflowers' heads full of water, and the bee balm bowed over under the rain it is still holding."
+  },
+  {
+   "key": "ferns",
+   "name": "The fern bed",
+   "x": 480,
+   "y": 330,
+   "bed": true,
+   "rest": true,
+   "plants": [
+    "ferns",
+    "hostas",
+    "moss",
+    "wild ginger",
+    "foamflower"
+   ],
+   "words": "Where the boardwalk goes back in under the trees, a bed of things that grow in shade, and the softest things on the Green to touch.",
+   "notice": "Every leaf over you still dripping. The moss is cold and soaked through."
+  },
+  {
+   "key": "bench",
+   "name": "The bench in the wood",
+   "x": 400,
+   "y": 372,
+   "rest": true,
+   "words": "A bench with a back and arms, on a resting place beside the boards, with room beside it for a wheelchair. You can see the porch from here, and the pond through the trees.",
+   "notice": "The quiet, which is mostly the drip."
+  }
+ ],
+ "_quotes": "Two quotations, both read on our own Nature page and checked against the Knowledge System mirror's copy of it word for word on every build when the mirror is there, and credited to the book they come from as read on that page: nobody read the books for this room. The Town Hall's rule: when our page changes, re-copy the quotation, never loosen the check.",
+ "quotes": [
+  {
+   "key": "porch",
+   "words": "A covered porch – allowing learning to stay outdoors in any weather – was essential.",
+   "who": "Ira David Socol, Pam Moran and Chad Ratliff",
+   "work": "Timeless Learning",
+   "year": 2018,
+   "about": "writing about William Alcott's schools in the 1830s",
+   "page": "https://stimpunks.org/glossary/nature/",
+   "page_title": "Nature"
+  },
+  {
+   "key": "petrichor",
+   "words": "petrichor, the delicious earthy scent after rainfall, when oil from plants is released into the air.",
+   "who": "Lucy Jones",
+   "work": "Losing Eden",
+   "year": 2020,
+   "page": "https://stimpunks.org/glossary/nature/",
+   "page_title": "Nature"
+  }
+ ],
+ "_videos": "Ryan's pick, of 2026-10-05, in his order, for the screen under the porch roof: cities and towns making room for green. Every one was asked of its own watch page on 2026-10-05, all OK and embeddable, the runtime that page's own lengthSeconds. The titles are the channels' own and are not swept: some of them list the benefits of a green space, and what green space does for anybody is theirs to say.",
+ "videos": [
+  {
+   "id": "Jw1b_SviPyU",
+   "title": "How Singapore’s Urban Design Makes Way for Wildlife | WILD HOPE",
+   "channel": "Nature on PBS",
+   "channel_id": "UCcBp_9YPyma4c3HTadmRJ3Q",
+   "runtime": "14:26",
+   "published": "2025-12-01"
+  },
+  {
+   "id": "0rDIwRG_RM8",
+   "title": "The Green City: Understanding our Green Spaces",
+   "channel": "Luke Blazejewski",
+   "channel_id": "UC_GeG-WTzh9KxpnOlvjyO0g",
+   "runtime": "7:42",
+   "published": "2021-10-27"
+  },
+  {
+   "id": "o86Ut6kAEMQ",
+   "title": "The Urban Green",
+   "channel": "WWF International",
+   "channel_id": "UC5MDIy3yhWDrx0MyDo4QmYg",
+   "runtime": "27:10",
+   "published": "2016-03-16"
+  },
+  {
+   "id": "ViJIJh-BNq8",
+   "title": "Creating Sustainable Cities",
+   "channel": "Going Green",
+   "channel_id": "UCNsvLV955XWEgKUfkDVbtpg",
+   "runtime": "7:06",
+   "published": "2022-02-04"
+  },
+  {
+   "id": "1SpI5VNG_DI",
+   "title": "The Value of Small Urban Green Spaces",
+   "channel": "Texas Parks and Wildlife",
+   "channel_id": "UCwdtpZyZGJoHXnT4Rm2xEgQ",
+   "runtime": "3:19",
+   "published": "2022-04-14"
+  },
+  {
+   "id": "_LinyH9UMoY",
+   "title": "URBAN GREEN SPACES AND THEIR BENEFITS",
+   "channel": "Bakht Academy",
+   "channel_id": "UCq_6eXCNtdvryof105RxekQ",
+   "runtime": "8:54",
+   "published": "2024-12-06"
+  },
+  {
+   "id": "zarll9bx6FI",
+   "title": "What happens if you cut down all of a city's trees? - Stefan Al",
+   "channel": "TED-Ed",
+   "channel_id": "UCsooa4yRKGN_zEE8iknghZA",
+   "runtime": "5:26",
+   "published": "2020-04-24"
+  },
+  {
+   "id": "7Af6lb4rBQw",
+   "title": "How Singapore Is Trying to Build a Climate-Proof City | Momentum",
+   "channel": "Bloomberg Originals",
+   "channel_id": "UCUMZ7gohGI9HcU9VNsr2FJQ",
+   "runtime": "24:02",
+   "published": "2024-11-14"
+  },
+  {
+   "id": "vkyuUfzoMBo",
+   "title": "How Singapore is Becoming an Edible Garden City",
+   "channel": "Andrew Millison",
+   "channel_id": "UCgb_TbreMgfDdLKkr4yYJHw",
+   "runtime": "14:37",
+   "published": "2026-07-17"
+  },
+  {
+   "id": "ddmuALsSEfQ",
+   "title": "We Built a Wildlife Corridor Through a City",
+   "channel": "Planet Wild",
+   "channel_id": "UC6QFT2c2MJxID-vxHDeX9XQ",
+   "runtime": "11:33",
+   "published": "2026-09-15"
+  },
+  {
+   "id": "9wQr0azaC70",
+   "title": "Los Angeles Is Ripping the Concrete Out of Its Own River — What's Coming Back Is Unreal",
+   "channel": "Apex Arena",
+   "channel_id": "UC-Tsr1zsg1AQDEnN3panTFw",
+   "runtime": "29:08",
+   "published": "2026-09-17"
+  },
+  {
+   "id": "SNf_rwzyIEo",
+   "title": "How to Heal the Land with Trees",
+   "channel": "Andrew Millison",
+   "channel_id": "UCgb_TbreMgfDdLKkr4yYJHw",
+   "runtime": "10:59",
+   "published": "2026-09-19"
+  },
+  {
+   "id": "ok8ALnkaWyc",
+   "title": "Amazing Permaculture Garden in the City Grows an Abundance of Food!",
+   "channel": "Happen Films",
+   "channel_id": "UCw8neN02mV6o4ue9IJOJIRA",
+   "runtime": "11:53",
+   "published": "2025-02-27"
+  },
+  {
+   "id": "LUABUetUayM",
+   "title": "THE MINI FOREST - Rewilding using the Miyawaki Method",
+   "channel": "David Hartman",
+   "channel_id": "UCmHBGKXjsoRYHqvrtUoitEQ",
+   "runtime": "20:09",
+   "published": "2025-05-21"
+  },
+  {
+   "id": "Q8Mo83UC-Ls",
+   "title": "Green Cities EXPLAINED In 7 Minutes",
+   "channel": "Clear Creek Solutions",
+   "channel_id": "UCE5koXm1UEzsfkuHzDSKSOw",
+   "runtime": "6:52",
+   "published": "2024-08-06"
+  },
+  {
+   "id": "fsWr0LfM_uQ",
+   "title": "What Is the Most Sustainable City in the World?",
+   "channel": "Going Green",
+   "channel_id": "UCNsvLV955XWEgKUfkDVbtpg",
+   "runtime": "7:49",
+   "published": "2020-05-09"
+  },
+  {
+   "id": "nf-Yy3EuZi0",
+   "title": "How China is designing flood-resistant cities",
+   "channel": "Vox",
+   "channel_id": "UCLXo7UDZvByw2ixzpQCufnA",
+   "runtime": "6:49",
+   "published": "2023-10-26"
+  }
+ ],
+ "_sources": "Everything the Green says about its trail, its beds and the rain was read on these pages on 2026-10-05.",
+ "sources": {
+  "trails": {
+   "title": "Architectural Barriers Act Accessibility Standards, 1017 Trails",
+   "by": "the U.S. Access Board",
+   "url": "https://www.access-board.gov/aba/#aba-1017",
+   "read": "2026-10-05",
+   "for": "The boardwalk's surface, width, slopes, openings and resting places, and what the trailhead sign says"
+  },
+  "beds": {
+   "title": "Raised bed gardens",
+   "by": "University of Minnesota Extension",
+   "url": "https://extension.umn.edu/garden-and-home/yard-and-garden/gardening-in-minnesota/raised-bed-gardens",
+   "read": "2026-10-05",
+   "for": "The vegetable beds at 27 inches, which it gives as comfortable for wheelchair users"
+  },
+  "petrichor": {
+   "title": "Petrichor",
+   "by": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Petrichor",
+   "read": "2026-10-05",
+   "for": "The word, coined by Isabel Joy Bear and Richard Thomas in Nature in 1964, from the Greek for stone and for the fluid in the veins of the gods"
+  },
+  "nature": {
+   "title": "Nature",
+   "by": "our own glossary",
+   "url": "https://stimpunks.org/glossary/nature/",
+   "read": "2026-10-05",
+   "for": "Both quotations, the covered porch from Timeless Learning and petrichor from Losing Eden"
+  }
+ }
+}

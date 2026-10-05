@@ -1550,6 +1550,73 @@
         "--bns-heather",
         "--bns-stone"
       ]
+    },
+    "the-run.html": {
+      "kind": "julia",
+      "c": [
+        -0.391,
+        -0.587
+      ],
+      "orbit": 0.02,
+      "bands": 0.05,
+      "ground": "--run-grass",
+      "inks": [
+        "--run-link",
+        "--run-ink",
+        "--run-sky",
+        "--run-cushion"
+      ]
+    },
+    "truckin-food-court.html": {
+      "kind": "orbit",
+      "trap": "point",
+      "radius": 0.45,
+      "c": [
+        0.37,
+        0.1
+      ],
+      "orbit": 0.02,
+      "ground": "--tks-lot",
+      "inks": [
+        "--tks-vermilion",
+        "--tks-jade",
+        "--tks-marigold",
+        "--tks-plum",
+        "--tks-sky"
+      ]
+    },
+    "the-green.html": {
+      "kind": "orbit",
+      "trap": "ring",
+      "radius": 0.7,
+      "c": [
+        -0.75,
+        0.2
+      ],
+      "orbit": 0.015,
+      "ground": "--grn-lawn",
+      "inks": [
+        "--grn-wood",
+        "--grn-ink",
+        "--grn-sheen",
+        "--grn-pond"
+      ]
+    },
+    "the-pile.html": {
+      "kind": "ember",
+      "c": [
+        -0.3,
+        0.6
+      ],
+      "orbit": 0.025,
+      "ground": "--pil-sand",
+      "inks": [
+        "--pil-red",
+        "--pil-blue",
+        "--pil-yellow",
+        "--pil-green",
+        "--pil-purple"
+      ]
     }
   }
 }

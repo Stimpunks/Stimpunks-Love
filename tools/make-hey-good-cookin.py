@@ -151,6 +151,9 @@ PHRASES = [
     # buckwheat flour has no wheat in it, whatever the word flour says.
     (r"eggless mayonnaise", "eggless dressing"), (r"cashew cream cheese", "cashews"),
     (r"oat cream", "oats"), (r"buckwheat flour", "buckwheat"),
+    # The Truck Stop's dog treats and its bánh mì board (make-truckin-food-court.py)
+    # read this engine too: oat flour is oats, whatever the word flour says.
+    (r"oat flour", "oats"),
 ]
 ALLERGENS = [
     ("milk", r"butter|milk|cream|cheese|cheddar|mozzarella|ricotta|feta|parmesan|yogh?urt|ghee|whey|paneer|custard"),
@@ -161,7 +164,7 @@ ALLERGENS = [
     ("peanuts", r"peanuts?"),
     ("wheat", r"wheat|flour|bread|breadcrumbs|buns?|toast|pasta|spaghetti|macaroni|ziti|lasagne|noodles|"
               r"couscous|bulgur|farro|seitan|panko|croutons|filo|pastry|tortillas?|pita|naan|crackers?|"
-              r"cakes?|cookies?|biscuits?|udon|ramen"),
+              r"cakes?|cookies?|biscuits?|udon|ramen|baguettes?"),
     ("soy", r"soy|soya|soybeans?|tofu|tempeh|edamame|miso|tamari"),
     ("sesame", r"sesame|tahini|hummus"),
 ]

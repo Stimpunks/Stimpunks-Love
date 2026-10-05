@@ -85,6 +85,10 @@ ORDER = ["index.html",
          # links off this street, so the garden is a page of ours listing sites
          # that are not.
          "the-garden.html",
+         # The open ground where the buildings stop: the lots side by side,
+         # behind a fence with a gate into each, in the order they stand --
+         # the Run, the Truck Stop between it and the Green, then the Pile.
+         "the-run.html", "truckin-food-court.html", "the-green.html", "the-pile.html",
          "campgrounds.html", "faery-yurt.html", "swaying-sweetgrass.html",
          "solarpunk-hermitage.html",
          "brew-and-stew.html",

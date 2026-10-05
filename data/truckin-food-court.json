@@ -1,0 +1,793 @@
+{
+ "_what": "Truckin' Food Court, which everybody calls the Truck Stop: an outdoor food court on the street between the Run and the Green, a covered porch of tables in the middle and the trucks round it. Ryan Boren's brief, 2026-10-05: food trucks that each serve one thing several ways -- tacos, bánh mì, ramen and dog treats -- and a drinks truck with iced water, iced tea, lemonade, hibiscus tea, boba tea, flavoured ice, oral rehydration solutions and other things to drink when it is hot. Built by tools/make-truckin-food-court.py, which checks every item with Hey, Good Cookin's allergen engine and every drink's caffeine with Pekoe and Purrs', and every dog treat against the ASPCA's list of people foods to keep from pets.",
+ "_free": "Nothing here has a price, and the tool refuses one: our Third Places entry asks for a place that provides community without being required to buy stuff, and Pekoe and Purrs' board already has no prices on it. The trucks hand things out.",
+ "_trucks": "In the order they stand round the porch, left to right. Each truck's awning is two of the room's colours in stripes, and the light under it is those stripes: see §97. A truck's items lead with a vegan one, the same size as the rest, Big Steep's rule for its alcohol-free pour.",
+ "trucks": [
+  {
+   "key": "tacos",
+   "name": "Tacos",
+   "sign": "TACOS",
+   "awning": [
+    "--tks-marigold",
+    "--tks-canvas"
+   ],
+   "lede": "Every taco is on two corn tortillas warmed on the plancha, with lime and both salsas on the side: a red one of tomato and chile de árbol, and a green one of tomatillo, serrano chilli and coriander.",
+   "about": "A taco is a Mexican dish: a small tortilla, corn or wheat, folded round a filling, in the words of Wikipedia's article on it.",
+   "items": [
+    {
+     "key": "hongos",
+     "name": "Mushroom al pastor",
+     "diet": "vegan",
+     "what": "oyster mushrooms marinated in achiote, guajillo chilli and pineapple juice, grilled, with pineapple, white onion and coriander, on two corn tortillas",
+     "look": {
+      "shell": "--tks-corn",
+      "fill": [
+       "--tks-mushroom",
+       "--tks-pineapple",
+       "--tks-herb"
+      ]
+     }
+    },
+    {
+     "key": "papa",
+     "name": "Potato and black bean",
+     "diet": "vegan",
+     "what": "crisp potato, black beans refried in olive oil, pickled red onion and green salsa, on two corn tortillas",
+     "look": {
+      "shell": "--tks-corn",
+      "fill": [
+       "--tks-bean",
+       "--tks-potato",
+       "--tks-onion"
+      ]
+     }
+    },
+    {
+     "key": "pastor",
+     "name": "Al pastor",
+     "diet": "meat",
+     "animal": "pork",
+     "what": "pork shoulder marinated in achiote, guajillo chilli and pineapple juice, cooked on an upright spit and shaved, with pineapple, white onion and coriander, on two corn tortillas",
+     "note": "Cooked on an upright spit, the way shawarma is: Wikipedia's taco article traces al pastor to Mexico's Lebanese immigrants.",
+     "look": {
+      "shell": "--tks-corn",
+      "fill": [
+       "--tks-pastor",
+       "--tks-pineapple",
+       "--tks-herb"
+      ]
+     }
+    },
+    {
+     "key": "carnitas",
+     "name": "Carnitas",
+     "diet": "meat",
+     "animal": "pork",
+     "what": "pork shoulder braised and crisped in lard, green salsa, white onion and coriander, on two corn tortillas",
+     "look": {
+      "shell": "--tks-corn",
+      "fill": [
+       "--tks-carnitas",
+       "--tks-salsa-verde",
+       "--tks-herb"
+      ]
+     }
+    },
+    {
+     "key": "tinga",
+     "name": "Chicken tinga",
+     "diet": "meat",
+     "animal": "chicken",
+     "what": "chicken stewed with chipotle chilli and tomato, shredded lettuce and sour cream, on two corn tortillas",
+     "look": {
+      "shell": "--tks-corn",
+      "fill": [
+       "--tks-tinga",
+       "--tks-lettuce",
+       "--tks-cream"
+      ]
+     }
+    },
+    {
+     "key": "pescado",
+     "name": "Fish, the Baja way",
+     "diet": "fish",
+     "what": "cod in a batter of wheat flour and sparkling water, fried, with shredded cabbage, pico de gallo and lime mayonnaise, on two corn tortillas",
+     "note": "Fish tacos come from Baja California, Wikipedia's taco article says.",
+     "look": {
+      "shell": "--tks-corn",
+      "fill": [
+       "--tks-batter",
+       "--tks-cabbage",
+       "--tks-cream"
+      ]
+     }
+    },
+    {
+     "key": "quesabirria",
+     "name": "Quesabirria",
+     "diet": "meat",
+     "animal": "beef",
+     "what": "beef stewed with guajillo and ancho chillies, folded with melted Oaxaca cheese and crisped on the plancha, with a cup of the broth for dipping, on two corn tortillas",
+     "note": "Birria comes from Jalisco, where it is often goat; quesabirria, with the cheese and the broth to dip it in, from Tijuana. Wikipedia's articles on them say so. This one is beef.",
+     "look": {
+      "shell": "--tks-birria-shell",
+      "fill": [
+       "--tks-birria",
+       "--tks-cheese",
+       "--tks-onion"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "key": "banh-mi",
+   "name": "Bánh mì",
+   "sign": "BÁNH MÌ",
+   "awning": [
+    "--tks-jade",
+    "--tks-canvas"
+   ],
+   "lede": "Every bánh mì is a Vietnamese baguette, thin in the crust and light in the middle, with đồ chua, the pickled carrot and daikon, and cucumber, coriander and fresh chilli in it as well as what it is named for.",
+   "about": "The baguette came to Vietnam under French rule from the 1860s, and the sandwich became what it is in Saigon in the 1950s, Wikipedia's article on it says. The bread may be made with rice flour as well as wheat.",
+   "items": [
+    {
+     "key": "chay",
+     "name": "Bánh mì chay",
+     "diet": "vegan",
+     "what": "lemongrass tofu, mushroom pâté, eggless mayonnaise and soy sauce, with đồ chua, cucumber, coriander and chilli, in a baguette",
+     "note": "Chay is vegetarian. This one is vegan all the way down, the mayonnaise included.",
+     "look": {
+      "bread": "--tks-crust",
+      "fill": [
+       "--tks-tofu",
+       "--tks-pickle",
+       "--tks-herb"
+      ]
+     }
+    },
+    {
+     "key": "nam",
+     "name": "Bánh mì nấm",
+     "diet": "vegan",
+     "what": "oyster mushrooms grilled with lemongrass and soy sauce, eggless mayonnaise, đồ chua, cucumber, coriander and chilli, in a baguette",
+     "note": "Nấm is mushroom.",
+     "look": {
+      "bread": "--tks-crust",
+      "fill": [
+       "--tks-mushroom",
+       "--tks-pickle",
+       "--tks-herb"
+      ]
+     }
+    },
+    {
+     "key": "dac-biet",
+     "name": "Bánh mì đặc biệt",
+     "diet": "meat",
+     "animal": "pork",
+     "what": "pork liver pâté, chả lụa pork roll, sliced roast pork, mayonnaise and soy sauce, with đồ chua, cucumber, coriander and chilli, in a baguette",
+     "note": "Đặc biệt is the special, with a bit of everything from the pork side of the board.",
+     "look": {
+      "bread": "--tks-crust",
+      "fill": [
+       "--tks-pork-roll",
+       "--tks-pickle",
+       "--tks-herb"
+      ]
+     }
+    },
+    {
+     "key": "thit-nuong",
+     "name": "Bánh mì thịt nướng",
+     "diet": "meat",
+     "animal": "pork",
+     "what": "pork grilled with lemongrass and fish sauce, mayonnaise, đồ chua, cucumber, coriander and chilli, in a baguette",
+     "note": "Thịt nướng is grilled meat.",
+     "look": {
+      "bread": "--tks-crust",
+      "fill": [
+       "--tks-grilled",
+       "--tks-pickle",
+       "--tks-herb"
+      ]
+     }
+    },
+    {
+     "key": "ga",
+     "name": "Bánh mì gà",
+     "diet": "meat",
+     "animal": "chicken",
+     "what": "chicken grilled with lemongrass, mayonnaise, đồ chua, cucumber, coriander and chilli, in a baguette",
+     "note": "Gà is chicken.",
+     "look": {
+      "bread": "--tks-crust",
+      "fill": [
+       "--tks-chicken",
+       "--tks-pickle",
+       "--tks-herb"
+      ]
+     }
+    },
+    {
+     "key": "trung",
+     "name": "Bánh mì trứng",
+     "diet": "vegetarian",
+     "what": "two fried eggs, soy sauce and mayonnaise, with đồ chua, cucumber, coriander and chilli, in a baguette",
+     "note": "Trứng is egg.",
+     "look": {
+      "bread": "--tks-crust",
+      "fill": [
+       "--tks-yolk",
+       "--tks-pickle",
+       "--tks-herb"
+      ]
+     }
+    },
+    {
+     "key": "xiu-mai",
+     "name": "Bánh mì xíu mại",
+     "diet": "meat",
+     "animal": "pork",
+     "what": "pork meatballs simmered in tomato sauce, with đồ chua, cucumber, coriander and chilli, in a baguette",
+     "note": "Xíu mại is a meatball sandwich, Wikipedia says, and these are pork.",
+     "look": {
+      "bread": "--tks-crust",
+      "fill": [
+       "--tks-tomato-sauce",
+       "--tks-pickle",
+       "--tks-herb"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "key": "ramen",
+   "name": "Ramen",
+   "sign": "RAMEN",
+   "awning": [
+    "--tks-vermilion",
+    "--tks-canvas"
+   ],
+   "lede": "Every bowl is wheat noodles made with kansui, the alkaline water that makes them springy and a little yellow, in a broth flavoured with its tare.",
+   "about": "Wikipedia calls ramen a Japanese-Chinese fusion noodle dish, made with Chinese-style alkaline wheat noodles. Tare is the sauce that flavours the broth: shio, salt, is the oldest of the four kinds, and miso ramen comes from Sapporo.",
+   "items": [
+    {
+     "key": "kombu-miso",
+     "name": "Miso, on kombu",
+     "diet": "vegan",
+     "what": "ramen noodles of wheat, water and kansui, in a broth of kombu and dried shiitake with white miso tare, with fried tofu, sweetcorn, bean sprouts, spring onion and toasted sesame",
+     "look": {
+      "broth": "--tks-miso",
+      "top": [
+       "--tks-tofu",
+       "--tks-corn-kernel",
+       "--tks-herb"
+      ]
+     }
+    },
+    {
+     "key": "yasai-shio",
+     "name": "Vegetable shio",
+     "diet": "vegan",
+     "what": "ramen noodles of wheat, water and kansui, in a clear broth of kombu and vegetables with salt tare, with bok choy, bamboo shoots, nori and spring onion",
+     "look": {
+      "broth": "--tks-clear",
+      "top": [
+       "--tks-bokchoy",
+       "--tks-bamboo",
+       "--tks-nori"
+      ]
+     }
+    },
+    {
+     "key": "goma",
+     "name": "Spicy sesame",
+     "diet": "vegan",
+     "what": "ramen noodles of wheat, water and kansui, in a broth of soy milk and kombu with sesame paste and chilli oil, with minced shiitake and bok choy",
+     "look": {
+      "broth": "--tks-goma",
+      "top": [
+       "--tks-mushroom",
+       "--tks-bokchoy",
+       "--tks-chilli-oil"
+      ]
+     }
+    },
+    {
+     "key": "shoyu",
+     "name": "Shōyu",
+     "diet": "meat",
+     "animal": "chicken",
+     "what": "ramen noodles of wheat, water and kansui, in chicken broth with soy sauce tare, with roast chicken, bamboo shoots, nori and spring onion",
+     "look": {
+      "broth": "--tks-shoyu",
+      "top": [
+       "--tks-chicken",
+       "--tks-bamboo",
+       "--tks-nori"
+      ]
+     }
+    },
+    {
+     "key": "tonkotsu",
+     "name": "Tonkotsu",
+     "diet": "meat",
+     "animal": "pork",
+     "what": "ramen noodles of wheat, water and kansui, in pork bone broth simmered for hours, with chashu pork belly, a soft-boiled egg, wood ear mushroom, nori and spring onion",
+     "note": "Tonkotsu is pork bone, and the broth is the cloudy kind that takes all day.",
+     "look": {
+      "broth": "--tks-tonkotsu",
+      "top": [
+       "--tks-chashu",
+       "--tks-yolk",
+       "--tks-nori"
+      ]
+     }
+    },
+    {
+     "key": "sapporo",
+     "name": "Sapporo miso",
+     "diet": "meat",
+     "animal": "chicken and pork",
+     "what": "ramen noodles of wheat, water and kansui, in chicken broth with red miso tare, with minced pork, sweetcorn, a pat of butter, bean sprouts and spring onion",
+     "look": {
+      "broth": "--tks-red-miso",
+      "top": [
+       "--tks-corn-kernel",
+       "--tks-butter",
+       "--tks-herb"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "key": "treats",
+   "name": "Treats",
+   "sign": "TREATS",
+   "for": "dogs",
+   "awning": [
+    "--tks-sky",
+    "--tks-canvas"
+   ],
+   "lede": "Everything on this truck is for a dog, and it says so on every bag. Take one across to the Run next door, where the dogs from the shelter are out, or to a dog of your own.",
+   "about": "Nothing on this truck is on the ASPCA's list of people foods to keep from pets: no chocolate, coffee or caffeine, no xylitol, no grapes or raisins, no onion, garlic or chives, no milk, no nuts, no avocado, no citrus, no salt to speak of, no yeast dough or alcohol, and nothing raw. The tool that builds this board checks every bag against that list.",
+   "items": [
+    {
+     "key": "pumpkin-oat",
+     "name": "Pumpkin and oat biscuits",
+     "diet": "vegan",
+     "what": "pumpkin, oat flour and plain peanut butter, baked hard",
+     "note": "The peanut butter is peanuts and nothing else.",
+     "look": {
+      "treat": "--tks-pumpkin"
+     }
+    },
+    {
+     "key": "sweet-potato",
+     "name": "Sweet potato chews",
+     "diet": "vegan",
+     "what": "sweet potato, sliced and dried slowly",
+     "look": {
+      "treat": "--tks-sweet-potato"
+     }
+    },
+    {
+     "key": "banana-licks",
+     "name": "Banana and peanut butter licks",
+     "diet": "vegan",
+     "what": "banana and plain peanut butter, blended with water and frozen in a paper cup",
+     "note": "The peanut butter is peanuts and nothing else.",
+     "look": {
+      "treat": "--tks-banana"
+     }
+    },
+    {
+     "key": "chicken-jerky",
+     "name": "Chicken jerky",
+     "diet": "meat",
+     "animal": "chicken",
+     "what": "chicken breast, cooked and dried, and nothing else",
+     "look": {
+      "treat": "--tks-jerky"
+     }
+    },
+    {
+     "key": "liver-bites",
+     "name": "Beef liver bites",
+     "diet": "meat",
+     "animal": "beef",
+     "what": "beef liver, baked dry and cut small",
+     "look": {
+      "treat": "--tks-liver"
+     }
+    },
+    {
+     "key": "salmon-bites",
+     "name": "Salmon and sweet potato bites",
+     "diet": "fish",
+     "what": "cooked salmon, sweet potato and oat flour, baked",
+     "look": {
+      "treat": "--tks-salmon"
+     }
+    }
+   ]
+  },
+  {
+   "key": "cooler",
+   "name": "The Cooler",
+   "sign": "THE COOLER",
+   "awning": [
+    "--tks-plum",
+    "--tks-canvas"
+   ],
+   "lede": "Everything cold to drink, and plenty of ice. Every cup says what is in it and how much caffeine.",
+   "about": "Agua fresca is fruit, flowers, seeds or grains blended with sugar and water, Wikipedia's article on it says, and jamaica, made with hibiscus, is one of the commonest. Shaved ice is a raspado in Mexico, kakigōri in Japan and shave ice in Hawaii.",
+   "items": [
+    {
+     "key": "water",
+     "name": "Iced water",
+     "diet": "vegan",
+     "what": "filtered water, over ice",
+     "ask": "Sparkling, if you ask.",
+     "look": {
+      "drink": "--tks-water",
+      "ice": true
+     }
+    },
+    {
+     "key": "iced-tea",
+     "name": "Iced tea",
+     "diet": "vegan",
+     "what": "black tea brewed strong and poured over ice, with a wedge of lemon",
+     "ask": "Sweet, if you ask.",
+     "look": {
+      "drink": "--tks-tea",
+      "ice": true
+     }
+    },
+    {
+     "key": "lemonade",
+     "name": "Lemonade",
+     "diet": "vegan",
+     "what": "lemon juice, sugar and water, over ice",
+     "look": {
+      "drink": "--tks-lemonade",
+      "ice": true
+     }
+    },
+    {
+     "key": "jamaica",
+     "name": "Agua de jamaica",
+     "diet": "vegan",
+     "what": "hibiscus flowers steeped and chilled, sweetened with sugar, over ice",
+     "note": "Hibiscus tea is made from the calyces of the roselle flower.",
+     "look": {
+      "drink": "--tks-jamaica",
+      "ice": true
+     }
+    },
+    {
+     "key": "sandia",
+     "name": "Agua fresca de sandía",
+     "diet": "vegan",
+     "what": "watermelon blended with water and lime juice, over ice",
+     "look": {
+      "drink": "--tks-sandia",
+      "ice": true
+     }
+    },
+    {
+     "key": "boba",
+     "name": "Brown sugar milk tea, with boba",
+     "diet": "vegan",
+     "what": "black tea, oat milk, brown sugar syrup and tapioca pearls, over ice",
+     "ask": "Dairy milk, if you ask.",
+     "note": "Bubble tea comes from Taiwan, in the 1980s, Wikipedia says, and the pearls are tapioca, which is cassava.",
+     "look": {
+      "drink": "--tks-milk-tea",
+      "pearls": true,
+      "ice": true
+     }
+    },
+    {
+     "key": "jasmine-boba",
+     "name": "Jasmine milk tea, with boba",
+     "diet": "vegan",
+     "what": "jasmine green tea, oat milk, cane sugar syrup and tapioca pearls, over ice",
+     "ask": "Dairy milk, if you ask.",
+     "look": {
+      "drink": "--tks-jasmine",
+      "pearls": true,
+      "ice": true
+     }
+    },
+    {
+     "key": "raspado",
+     "name": "Raspado",
+     "diet": "vegan",
+     "what": "ice shaved fine, with mango syrup, chamoy and a pinch of chilli and lime salt",
+     "note": "Chamoy is a sauce of pickled fruit and chilli.",
+     "look": {
+      "drink": "--tks-mango",
+      "shaved": true
+     }
+    },
+    {
+     "key": "ors",
+     "name": "Oral rehydration solution",
+     "diet": "vegan",
+     "what": "water with sodium chloride, glucose, potassium chloride and trisodium citrate, in the World Health Organization's amounts",
+     "note": "The WHO's recipe, per litre of water: 2.6 g of sodium chloride, 13.5 g of glucose, 1.5 g of potassium chloride and 2.9 g of trisodium citrate. Plain, or with a splash of orange. Nobody at the hatch asks why you want it.",
+     "look": {
+      "drink": "--tks-water",
+      "ice": false
+     }
+    },
+    {
+     "key": "coconut",
+     "name": "Coconut water",
+     "diet": "vegan",
+     "what": "the water from inside young coconuts, chilled",
+     "look": {
+      "drink": "--tks-coconut",
+      "ice": true
+     }
+    },
+    {
+     "key": "salted-lime",
+     "name": "Salted lime soda",
+     "diet": "vegan",
+     "what": "preserved salted limes, sugar and sparkling water, over ice",
+     "look": {
+      "drink": "--tks-lime",
+      "ice": true
+     }
+    }
+   ]
+  }
+ ],
+ "table_holds": 4,
+ "_rack": "Ryan's pick, of 2026-10-05, in his three shelves and his order, for the screen on the side of the Cooler. Every one was asked of its own watch page on 2026-10-05: all OK, the runtime that page's own lengthSeconds. NHK WORLD-JAPAN's RAMEN JAPAN plays and has embedding switched off, so it is a door to YouTube rather than a screen, and says why. Two of Ryan's links started part of the way in, and those carry the start, which the button says before the press. The titles are the channels' own and are not swept: the best taco in the world, a Michelin star and the most hyped bánh mì are theirs to say.",
+ "rack": [
+  {
+   "key": "banh-mi",
+   "title": "Bánh mì",
+   "videos": [
+    {
+     "id": "k4HA1ejw_hA",
+     "title": "How To Make Banh Mi with Andrea Nguyen",
+     "channel": "Munchies",
+     "channel_id": "UCaLfMkkHhSA_LaCta0BzyhQ",
+     "runtime": "11:09",
+     "published": "2019-06-30",
+     "start": 33
+    },
+    {
+     "id": "mC91hqY_ppw",
+     "title": "How To Make Authentic Banh Mì",
+     "channel": "Nick's Kitchen",
+     "channel_id": "UC2HNqPgeKtVr2gZmLeeIk3g",
+     "runtime": "6:02",
+     "published": "2026-09-25"
+    },
+    {
+     "id": "FW8RBp_XR6A",
+     "title": "A Day Making NYC’s Most Hyped Bánh Mì | On The Line | Bon Appétit",
+     "channel": "Bon Appétit",
+     "channel_id": "UCbpMy0Fg74eXXkvxJrtEn3w",
+     "runtime": "16:35",
+     "published": "2025-11-26"
+    },
+    {
+     "id": "wqLIIakNHbY",
+     "title": "How Vietnam’s Banh Mi Sandwich Changes from the North to South — Regions",
+     "channel": "Eater",
+     "channel_id": "UCRzPUBhXUZHclB7B5bURFXw",
+     "runtime": "7:46",
+     "published": "2019-11-15"
+    }
+   ]
+  },
+  {
+   "key": "tacos",
+   "title": "Tacos",
+   "videos": [
+    {
+     "id": "990CmzkhEq4",
+     "title": "I Tried The Best Taco In The World",
+     "channel": "Joshua Weissman",
+     "channel_id": "UChBEbMKI1eCcejTtmI32UEw",
+     "runtime": "30:38",
+     "published": "2024-06-09"
+    },
+    {
+     "id": "VfMkRjsQZQc",
+     "title": "Legendary Tacos & Chilaquiles From The Back Of A Liquor Store? - Ventura Taco Tour",
+     "channel": "Munchies",
+     "channel_id": "UCaLfMkkHhSA_LaCta0BzyhQ",
+     "runtime": "12:49",
+     "published": "2026-07-09"
+    },
+    {
+     "id": "BpCWS3xU7eo",
+     "title": "NYC’s Most Exciting Taqueria Uses an Entire Pig in Their Tacos | On The Line | Bon Appétit",
+     "channel": "Bon Appétit",
+     "channel_id": "UCbpMy0Fg74eXXkvxJrtEn3w",
+     "runtime": "12:51",
+     "published": "2025-02-18"
+    },
+    {
+     "id": "260VI8DOUYw",
+     "title": "The Best Tacos In LA | Best Of The Best",
+     "channel": "Insider Food",
+     "channel_id": "UCwiTOchWeKjrJZw7S1H__1g",
+     "runtime": "17:12",
+     "published": "2019-07-27"
+    },
+    {
+     "id": "WSHOKNOeWNA",
+     "title": "Trying the World's FIRST MICHELIN STAR TACOS in Mexico City at El Califa de León",
+     "channel": "Mike Chen Clips & BEST Eats",
+     "channel_id": "UCHh0C-Pda0HpyjbXi1ILi9Q",
+     "runtime": "21:31",
+     "published": "2026-05-14"
+    },
+    {
+     "id": "HpAANW4WzsI",
+     "title": "How To Make Quesa Birria Tacos (Authentic)",
+     "channel": "Nick's Kitchen",
+     "channel_id": "UC2HNqPgeKtVr2gZmLeeIk3g",
+     "runtime": "10:01",
+     "published": "2025-06-13"
+    }
+   ]
+  },
+  {
+   "key": "ramen",
+   "title": "Ramen",
+   "videos": [
+    {
+     "id": "KltwsZf7TdM",
+     "title": "KANAGAWA, Part 1 - RAMEN JAPAN",
+     "channel": "NHK WORLD-JAPAN",
+     "channel_id": "UCSPEjw8F2nQDtmUKPFNF7_A",
+     "runtime": "15:06",
+     "published": "2026-09-18",
+     "state": "door",
+     "why": "Asked of its own watch page on 2026-10-05: it plays, and playableInEmbed is false, so its channel has switched off showing it on other sites."
+    },
+    {
+     "id": "onmFUKILp1M",
+     "title": "Behind the Counter at the Most Popular Japanese Countryside Ramen Shop",
+     "channel": "Paolo fromTOKYO",
+     "channel_id": "UCixD9UbKvDxzGNiPC_fgHyA",
+     "runtime": "15:09",
+     "published": "2026-05-15"
+    },
+    {
+     "id": "eDSwdEDKYds",
+     "title": "I Made The Easiest Ramen Ever",
+     "channel": "Joshua Weissman",
+     "channel_id": "UChBEbMKI1eCcejTtmI32UEw",
+     "runtime": "10:56",
+     "published": "2023-11-08"
+    },
+    {
+     "id": "gJNZxxmcIQI",
+     "title": "How This Street Ramen Stall Sells 50 Bowls in Just One Hour｜Japanese ramen on the street\"",
+     "channel": "Japanese Food Noodles",
+     "channel_id": "UCxnZ8xQrppBhwj-_wuzWfIA",
+     "runtime": "1:16:54",
+     "published": "2025-03-14"
+    },
+    {
+     "id": "Dsrkrab09-I",
+     "title": "PERFECT Ramen Noodle in Japan｜Ichiran Ramen 🍜",
+     "channel": "Experience JAPAN",
+     "channel_id": "UCM0fFACS2gXFvEddnKJ7QpQ",
+     "runtime": "18:24",
+     "published": "2025-06-13"
+    },
+    {
+     "id": "XT-8jceBidE",
+     "title": "Japan's MOST INTENSE Ramen! 40 Hours Eating ONLY JAPANESE RAMEN in Tokyo Japan",
+     "channel": "Strictly Dumpling",
+     "channel_id": "UCXOKEdfOFxsHO_-Su3K8SHg",
+     "runtime": "38:40",
+     "published": "2026-06-26"
+    }
+   ]
+  }
+ ],
+ "_sources": "Everything the court says about where a dish comes from and what is in a drink was read on these pages on 2026-10-05, and the liner notes are written from this list.",
+ "sources": {
+  "third": {
+   "title": "Third Places",
+   "by": "our own glossary",
+   "url": "https://stimpunks.org/glossary/third-places/",
+   "read": "2026-10-05",
+   "for": "Why nothing at the Truck Stop has a price: a place that provides community without being required to buy stuff"
+  },
+  "taco": {
+   "title": "Taco",
+   "by": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Taco",
+   "read": "2026-10-05",
+   "for": "What a taco is; al pastor and Mexico's Lebanese immigrants; fish tacos from Baja California"
+  },
+  "birria": {
+   "title": "Quesabirria",
+   "by": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Quesabirria",
+   "read": "2026-10-05",
+   "for": "Quesabirria from Tijuana, and birria from Jalisco, often goat"
+  },
+  "banh-mi": {
+   "title": "Bánh mì",
+   "by": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/B%C3%A1nh_m%C3%AC",
+   "read": "2026-10-05",
+   "for": "The baguette under French rule from the 1860s, the sandwich in Saigon in the 1950s, the rice flour, đồ chua, and xíu mại"
+  },
+  "ramen": {
+   "title": "Ramen",
+   "by": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Ramen",
+   "read": "2026-10-05",
+   "for": "A Japanese-Chinese fusion noodle dish of Chinese-style alkaline wheat noodles; kansui; tare; shio the oldest, miso from Sapporo; tonkotsu, pork bone"
+  },
+  "ors": {
+   "title": "Oral Rehydration Salts: Production of the new ORS",
+   "by": "the World Health Organization, WHO/FCH/CAH/06.1, 2006, Table 1",
+   "url": "https://www.who.int/publications/i/item/WHO-FCH-CAH-06.1",
+   "read": "2026-10-05",
+   "for": "The oral rehydration solution, to the gram per litre"
+  },
+  "boba": {
+   "title": "Bubble tea",
+   "by": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Bubble_tea",
+   "read": "2026-10-05",
+   "for": "Bubble tea from Taiwan in the 1980s, and tapioca pearls from cassava"
+  },
+  "hibiscus": {
+   "title": "Hibiscus tea",
+   "by": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Hibiscus_tea",
+   "read": "2026-10-05",
+   "for": "Agua de jamaica, from the calyces of the roselle flower"
+  },
+  "shaved": {
+   "title": "Shaved ice",
+   "by": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Shaved_ice",
+   "read": "2026-10-05",
+   "for": "A raspado in Mexico, kakigōri in Japan and shave ice in Hawaii"
+  },
+  "agua": {
+   "title": "Agua fresca",
+   "by": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Agua_fresca",
+   "read": "2026-10-05",
+   "for": "Fruit, flowers, seeds or grains blended with sugar and water"
+  },
+  "counter": {
+   "title": "2010 ADA Standards for Accessible Design, 904.4.1 and 902.3",
+   "by": "the U.S. Access Board",
+   "url": "https://www.access-board.gov/ada/#ada-904",
+   "read": "2026-10-05",
+   "for": "The low counter on every truck, 36 inches high at most and 36 inches long at least, and the porch's tables between 28 and 34 inches high"
+  },
+  "truckin": {
+   "title": "Truckin'",
+   "by": "Wikipedia, on the Grateful Dead's song (American Beauty, 1970, words by Robert Hunter) and on Robert Crumb's Keep On Truckin' (Zap Comix #1, 1968)",
+   "url": "https://en.wikipedia.org/wiki/Truckin%27",
+   "read": "2026-10-05",
+   "for": "Where the word in the name has been"
+  }
+ }
+}

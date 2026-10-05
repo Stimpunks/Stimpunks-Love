@@ -2929,6 +2929,72 @@ it: one of Ryan's ten is held because it looks like a re-upload of another on th
 his to decide. **On the Campgrounds' board this is the fourth light, grown**: in the logs themselves,
 lighting nothing round it. A fifth pitch needs a fifth light.
 
+**WHERE THE BUILDINGS STOP THERE IS OPEN GROUND, AND NONE OF IT IS A SHOPFRONT.** Ryan's brief, 2026-10-05,
+"Outdoors on the Street": the Run, the Truck Stop, the Green and the Pile, side by side and next door to each
+other. On the front page they are a fence with a gate into each (`.openground`, `.lotgate--*` in §5), not doors
+in the row, for the Garden gate's reason: none of them is a premises. `make-map.py` reads the gates off the fence
+and lays the lots flat down one side of the road (`mm-plot`), because a lot has nothing standing on it and they
+are next door to each other; `make-now-playing.py` knows them as the open ground. Every page links its
+neighbours through a gate. **No sentence counts them**: a fifth lot is a gate on the fence and a line in
+`make-sitemap.py`'s ORDER, and nothing else should need to change. Each is its own world and the collisions are
+in its section; the three porches are drawn three ways on purpose, because the obvious edit is one porch.
+
+**THE RUN (§96) IS PAINTED IN A DOG'S COLOURS, AND THE TOOL READS EVERY ONE.** Dogs have two kinds of cone (Neitz,
+Geist and Jacobs, 1989), so every `--run-` colour must be a blue, a yellow or a grey, and `make-the-run.py` refuses
+any other hue and any literal colour in §96. **The shadows are the grass's own yellow, never blue**: blue shadows
+on snow are Rescue A Dog's, and that room is where these dogs came from and the one the Run must never look like.
+**The dogs keep their coats**, because a dog is the same dog in the shelter, here and in its adopter's Profile
+(`animals.js` draws a dog `bare` now, without the snow). **The ball is blue** on Siniscalchi's advice to the press,
+which the room says is advice and not a finding. **Nobody gives a command**: the friendly edit to a dog park is
+sit, stay and good boy, and a room about compliance is the one this organisation refuses; the vocabulary is
+refused with the negation window. The dog telly's titles sell calm and anti-anxiety in the channels' words and
+are not swept; the room's own sentences are. One channel is live, so it has no runtime, the Jungle Room's rule.
+
+**`roam.js` IS THE CAFÉ'S CATS AND THE RUN'S DOGS, AND IT IS THE THIRD SHARED PATTERN.** When a pattern is
+taken up a second time it moves into one file (rack.js, table.js), so the shelter list, the perches by mood, the card, the toys,
+the one animal with you and wandering at MAX moved out of `purrs.js`. **Each room passes its own words to
+`window.loveRoam({...})`** and keeps its own look; `purrs.js` keeps only the lap, `run.js` only the bed beside your
+chair (a kept perch, so nobody else is put there). `make-pekoe.py`'s `check_roam()` holds the file to its
+promises and `make-the-run.py` calls it too: one fetch, to `/cb/shelter?kind=` a kind that is cat or dog, nothing
+stored, nothing sent, markings never read. Checked in the browser with the live shelter list stubbed in.
+
+**THE RUN'S TREAT TIN IS THE TRUCK STOP'S TREAT TRUCK, AND THE ASPCA'S LIST LIVES IN THE DOGS' ROOM.**
+`poisoned()` in `make-the-run.py` reads a treat's ingredients for every heading on the ASPCA's page of people foods
+to keep from pets, and `make-truckin-food-court.py` imports it. The page does not mention peanut butter or
+xylitol together, so nothing here says it does: every treat's peanut butter is "plain", and the tool asks for that
+word.
+
+**TRUCKIN' FOOD COURT (§97) HAS NO PRICES, AND THE LIGHT COMES THROUGH THE AWNINGS.** Our Third Places entry asks
+for a place that provides community without being required to buy stuff, so the tool refuses a price, a currency
+sign and anything owed (Hey, Good Cookin's list, imported). Every truck leads with a vegan item. **Every item's
+allergens are the community kitchen's engine**, which learned that a baguette is wheat (three bánh mì were being
+told they had no gluten) and that oat flour is oats; caffeine is Pekoe and Purrs' words, and a cold drink is only
+caffeine-free when every part of it is on a short plain list. **The oral rehydration solution is the WHO's, to the
+gram**, and the tool refuses a card off Table 1's four figures; nobody at the hatch asks why. The name borrows a
+word from Robert Crumb and the Grateful Dead, credited, and the song's famous line is refused with no negation
+window. Familjen Grotesk was cut here to Latin and Vietnamese in one file, because Google splits them and the
+bánh mì board needs đồ chua in the same face. The guild's marker asks what anything costs, so the sweep skips the
+marker. **Community Center is the collision to watch**: its stripes are white sun through a blind.
+
+**THE GREEN (§98) IS JUST AFTER THE RAIN, AND NOTHING ON IT CASTS A SHADOW.** No sun, so no shadow anywhere, on
+the page or in the drawing, and `make-the-green.py` refuses `box-shadow`, a colour named for shade or the sun, and
+sunshine in our voice; every card holds the sky along its top edge instead (`--grn-sheen`). **The Garden is the
+collision**: it is midday there through leaves. **The boardwalk is built to ABA 1017**, read on the Access Board's
+page, and the trailhead sign gives every figure 1017.10 asks for; the tool refuses one outside the standard.
+Nothing on the trail is counted (no steps, no laps, a stop's name and never a number out of a total), nothing is
+for anybody's mental health, nothing is named in Latin (the herbarium's shape test) and nothing is foraged. Both
+quotations are our Nature page's, re-read against the mirror on every build.
+
+**THE PILE (§99) IS A JUNK PLAYGROUND, AND NOTHING ON IT IS FOR ANYTHING.** Our Play page says play is learning
+and the room quotes it, but it never sells play by an outcome (skills, development, readiness), because the
+Playwork Principles say play is freely chosen, personally directed and intrinsically motivated; it refuses a
+score, an instruction and a verdict on risk. **The light has no colour, and all the colour is tempera**; the den
+is roofed in bubble wrap and every bubble throws a ring on the sand. **Every part on Ryan's list has its own
+drawing** in `make-the-pile.py`, refused if missing, and `pile.js` puts a copy of it on what you made, painted
+through `--paint`. Rubik Wet Paint sets the name and nothing else. **The Playhouse is the collision**: glossy
+primaries and bunting indoors. Wikipedia's two articles disagree on the year of Emdrup, 1940 or 1943, and the room
+says so rather than choosing. The child NPR quoted on our Play page is not named here.
+
 **THE MAP IS THE ONE PAGE THAT SHOWS EVERY OTHER PAGE, AND NOTHING ON IT IS PAINTED.** `map.html`
 (§49) is the whole street as a model in white card on a cutting mat: shopfronts on both sides of a
 pencilled road, rooms behind rooms standing behind them, the garden's gate halfway down, the
@@ -3641,18 +3707,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §97 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §101 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§97 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§101 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §97 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §101 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

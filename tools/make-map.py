@@ -104,6 +104,20 @@ def furniture():
     return out
 
 
+def lots():
+    """The open ground where the buildings stop: the gates in the fence on the
+    front page, in the order they stand, side by side."""
+    src = (ROOT / "index.html").read_text()
+    fence = re.search(r'<div class="openground">(.*?)</div>', src, re.S)
+    if not fence:
+        raise SystemExit("REFUSING: index.html has lost the fence along the open ground, and the model "
+                         "stands the lots behind it where it goes.")
+    found = re.findall(r'<a class="lotgate lotgate--[a-z-]+" href="([^"]+)"', fence.group(1))
+    if not found:
+        raise SystemExit("REFUSING: the fence on index.html has no gates in it.")
+    return found
+
+
 def signs(page, kind):
     """Pitches off the campground's board, turnings off the road's signs: the
     number on the sign, the name on it, where it goes, and its state."""
@@ -132,6 +146,7 @@ names, pinned = data.get("names", {}), data["pinned"]
 order = walking_order()
 street = doors()
 furn = furniture()
+ground = lots()
 pitches = signs("campgrounds.html", "pitch")
 turnings = signs("the-outskirts.html", "turning")
 levels = signs("arlesglad-caverns.html", "cav-stop")
@@ -154,6 +169,8 @@ for d in street:
     place(d, "a shopfront")
 for cls, page in furn.items():
     place(page, cls)
+for g in ground:
+    place(g, "the open ground")
 for p in pitches:
     if p["href"]:
         place(p["href"], p["no"])
@@ -283,6 +300,20 @@ for i, d in enumerate(street):
         side = "e" if side == "w" else "w"
     rows.append(lot(d, side))
     side = "e" if side == "w" else "w"
+
+
+# THE OPEN GROUND, where the buildings stop: the lots side by side on one side
+# of the road after the last shopfront, each a flat piece of card with its
+# fence pencilled round it, because there is no building on any of them, and
+# lying flat is what a lot does on a model. They stand down one side so they
+# are next door to each other, which is the brief: the Run, the Truck Stop
+# between it and the Green, and the Pile.
+open_side = side
+for i, g in enumerate(ground):
+    note = "where the buildings stop, through the gate" if i == 0 else "open ground, next door"
+    rows.append(f'<li class="mm-lot mm-lot--{open_side} mm-lot--open">'
+                f'<a class="mm-plot" href="{g}" id="at-{slug(g)}"><span class="mm-name">{name(g)}</span>'
+                f'<span class="mm-note">{note}</span></a></li>')
 
 
 def numbered(text):

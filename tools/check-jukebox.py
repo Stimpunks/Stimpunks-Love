@@ -249,6 +249,14 @@ LISTS = [
     ("hey good cookin's rack", "data/hey-good-cookin-month.json", "hey-good-cookin.html"),
     ("pekoe and purrs", "data/pekoe.json", "pekoe-and-purrs.html"),
     ("brew and stew", "data/brew-and-stew.json", "brew-and-stew.html"),
+    # The four lots where the buildings stop, each with a rack of Ryan's pick:
+    # television made for dogs on the Run (one of them a live stream, which
+    # answers OK while it is live), tacos, bánh mì and ramen at the Truck Stop,
+    # green cities on the Green, and adventure playgrounds on the Pile.
+    ("the run", "data/the-run.json", "the-run.html"),
+    ("truckin' food court", "data/truckin-food-court.json", "truckin-food-court.html"),
+    ("the green", "data/the-green.json", "the-green.html"),
+    ("the pile", "data/the-pile.json", "the-pile.html"),
     # Big Steep: three long cellar ambience videos on their makers' own
     # channels, the kind of upload that goes private without ceremony.
     ("big steep", "data/big-steep.json", "big-steep-fermentables.html"),
@@ -288,6 +296,14 @@ def tracks_in(data):
     # is the artist here, because a report naming the source's label beside a
     # DEAD would send somebody to the wrong channel. Pending and gone scoops are
     # not on the page, and a door is expected to refuse the frame.
+    # TRUCKIN' FOOD COURT files its films on three shelves under 'rack', beside
+    # its trucks, which are food rather than videos; keyed on 'trucks' because
+    # that is the one thing no other file has. A film its channel will not let
+    # other sites show is published as a door and is expected to refuse the frame.
+    if "trucks" in data:
+        return [dict(v, artist=v.get("channel"),
+                     state="link" if v.get("state") == "door" else None)
+                for g in data["rack"] for v in g["videos"]]
     if "scoops" in data:
         return [dict(s_, artist=s_.get("channel") or s_["source"],
                      state="link" if s_.get("state") == "door" else None)

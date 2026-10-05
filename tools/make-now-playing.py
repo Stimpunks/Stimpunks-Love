@@ -158,6 +158,8 @@ def where(page, behind):
         return "on the pavement, right beside this column"
     if re.search(r'<a class="door door--[^"]+" href="%s"' % re.escape(page), idx):
         return "a shopfront on the street"
+    if re.search(r'<a class="lotgate lotgate--[^"]+" href="%s"' % re.escape(page), idx):
+        return "on the open ground where the buildings stop, through the fence"
     return None
 
 

@@ -1,0 +1,464 @@
+{
+ "_what": "The Pile, a junk playground on the street, built by tools/make-the-pile.py: the Pile itself, the parts you can make something out of, where junk playgrounds come from, the old telly on the Pile and its rack. Ryan Boren's brief, 2026-10-05: a junk or adventure playground of duct tape, fabric, bubble wrap, sand, old wooden furniture, tempera paint, plywood pieces, pallets, pianos, buckets, shovels, ropes, tree stumps and old playground equipment, with our Play page's heading Play Is Learning, and six pages to read.",
+ "_light": "The den in the middle of the Pile is roofed with bubble wrap, and every bubble throws a ring of light on the sand under it. Nothing else on the Pile is lit by anything but the sun, and the light has no colour in it: all the colour on the Pile is paint.",
+ "_parts": "Ryan's list, every one of them, in his order. Each says what it is like and some of the things it has been, and none of them is for anything in particular: what a part is on the Pile is whatever whoever is playing says it is. The tool holds one drawing per part and refuses a part it cannot draw. Tempera is written as tempera: the brief's word was tempura, which is a batter.",
+ "parts": [
+  {
+   "key": "tape",
+   "name": "Duct tape",
+   "feel": "silver, sticky, tears along its threads when you pull it sideways",
+   "becomes": [
+    "what holds it together",
+    "a hinge",
+    "a handle"
+   ],
+   "one": "a roll of duct tape"
+  },
+  {
+   "key": "fabric",
+   "name": "Fabric",
+   "feel": "old sheets, curtains and a parachute with a hole in it",
+   "becomes": [
+    "a flag",
+    "a door",
+    "a roof",
+    "a hammock"
+   ],
+   "paint": true,
+   "one": "an old sheet"
+  },
+  {
+   "key": "bubble",
+   "name": "Bubble wrap",
+   "feel": "a roll of it, every bubble still unpopped",
+   "becomes": [
+    "a roof that lets the light in",
+    "a window",
+    "something to pop"
+   ],
+   "one": "a sheet of bubble wrap"
+  },
+  {
+   "key": "sand",
+   "name": "Sand",
+   "feel": "a pile of it, damp underneath and dry on top",
+   "becomes": [
+    "a castle",
+    "a road",
+    "a moat",
+    "a mountain"
+   ],
+   "one": "a heap of sand"
+  },
+  {
+   "key": "chair",
+   "name": "Old wooden furniture",
+   "feel": "a kitchen chair with one short leg, a drawer with no chest, a door off its hinges",
+   "becomes": [
+    "a throne",
+    "a lookout",
+    "a step up"
+   ],
+   "paint": true,
+   "one": "an old chair"
+  },
+  {
+   "key": "paint",
+   "name": "Tempera paint",
+   "feel": "in pots, chalky when it dries, and it washes off hands",
+   "becomes": [
+    "a colour on whatever you made",
+    "a handprint",
+    "a sign"
+   ],
+   "paint": true,
+   "one": "a pot of tempera"
+  },
+  {
+   "key": "plywood",
+   "name": "Plywood pieces",
+   "feel": "offcuts, splintery at the edges, some with paint on already",
+   "becomes": [
+    "a wall",
+    "a ramp",
+    "a roof",
+    "a sign"
+   ],
+   "paint": true,
+   "one": "a piece of plywood"
+  },
+  {
+   "key": "pallet",
+   "name": "Pallets",
+   "feel": "heavy, slatted, and the gaps are good for climbing",
+   "becomes": [
+    "a wall",
+    "a floor",
+    "a raft",
+    "a ladder"
+   ],
+   "paint": true,
+   "one": "a pallet"
+  },
+  {
+   "key": "piano",
+   "name": "Pianos",
+   "feel": "an old upright, out of tune, with three keys that stick",
+   "becomes": [
+    "a piano",
+    "a stage",
+    "a wall"
+   ],
+   "paint": true,
+   "one": "the old piano"
+  },
+  {
+   "key": "bucket",
+   "name": "Buckets",
+   "feel": "plastic, some with handles and some without",
+   "becomes": [
+    "a drum",
+    "a stilt",
+    "a moat's water",
+    "a hat"
+   ],
+   "paint": true,
+   "one": "a bucket"
+  },
+  {
+   "key": "shovel",
+   "name": "Shovels",
+   "feel": "short ones and long ones, and a trowel nobody can find",
+   "becomes": [
+    "a moat, dug",
+    "a lever",
+    "a bridge over a ditch"
+   ],
+   "one": "a shovel"
+  },
+  {
+   "key": "rope",
+   "name": "Ropes",
+   "feel": "thick and rough, and some thin and smooth, tied in knots nobody can undo",
+   "becomes": [
+    "a swing",
+    "a bridge",
+    "a pulley",
+    "a fence"
+   ],
+   "one": "a rope"
+  },
+  {
+   "key": "stump",
+   "name": "Tree stumps",
+   "feel": "round, heavy, and warm on top in the sun",
+   "becomes": [
+    "a seat",
+    "a stepping stone",
+    "a table"
+   ],
+   "one": "a tree stump"
+  },
+  {
+   "key": "slide",
+   "name": "Old playground equipment",
+   "feel": "a metal slide off a playground that closed, and half a roundabout",
+   "becomes": [
+    "a slide",
+    "a ramp",
+    "a roof",
+    "a bridge"
+   ],
+   "paint": true,
+   "one": "the old slide"
+  }
+ ],
+ "paints": [
+  {
+   "key": "red",
+   "name": "red",
+   "colour": "--pil-red"
+  },
+  {
+   "key": "yellow",
+   "name": "yellow",
+   "colour": "--pil-yellow"
+  },
+  {
+   "key": "blue",
+   "name": "blue",
+   "colour": "--pil-blue"
+  },
+  {
+   "key": "green",
+   "name": "green",
+   "colour": "--pil-green"
+  },
+  {
+   "key": "orange",
+   "name": "orange",
+   "colour": "--pil-orange"
+  },
+  {
+   "key": "purple",
+   "name": "purple",
+   "colour": "--pil-purple"
+  },
+  {
+   "key": "pink",
+   "name": "pink",
+   "colour": "--pil-pink"
+  }
+ ],
+ "holds": 6,
+ "_history": "Every fact here was read on its own page on 2026-10-05. Where two of Wikipedia's articles disagree, the room says so rather than choosing.",
+ "history": [
+  {
+   "key": "idea",
+   "say": "The idea is a Danish landscape architect's, Carl Theodor Sørensen's, who wrote in 1931 about a junk playground where children could make their own world out of what was lying about.",
+   "source": "adventure"
+  },
+  {
+   "key": "emdrup",
+   "say": "The first was set up in Emdrup, in Denmark, during the German occupation. Wikipedia's article on adventure playgrounds says 1943, and its article on Sørensen says 1940; we have not read anything that settles it.",
+   "source": "adventure"
+  },
+  {
+   "key": "britain",
+   "say": "Lady Allen of Hurtwood, a landscape architect, brought the idea to Britain after the war, to the bomb sites, in a book of 1946 called Why Not Use Our Bomb Sites Like This? There the name changed from junk playground to adventure playground, to make it easier for councils to say yes to.",
+   "source": "adventure"
+  },
+  {
+   "key": "playwork",
+   "say": "They are staffed by playworkers, and playwork, in Wikipedia's words, is the work of creating and maintaining spaces for children to play.",
+   "source": "playwork"
+  },
+  {
+   "key": "berkeley",
+   "say": "The one at the Berkeley Marina opened in 1979 and is still there.",
+   "source": "berkeley"
+  },
+  {
+   "key": "land",
+   "say": "The Land, at Plas Madoc in Wales, seven miles south of Wrexham, has been open since 2011, and Erin Davis made a film about it, The Land, in 2015.",
+   "source": "land"
+  },
+  {
+   "key": "yard",
+   "say": "The Yard, on Governors Island, is New York's only adventure playground, and grown-ups stay outside the main area so the children can play their own way.",
+   "source": "yard"
+  },
+  {
+   "key": "loose",
+   "say": "The idea under all of them has a name, the theory of loose parts, from the artist Simon Nicholson in 1971.",
+   "source": "nicholson"
+  }
+ ],
+ "_quotes": "Our own Play page's words are checked against the Knowledge System mirror's copy of it word for word on every build when the mirror is there, the Town Hall's rule. The other two are read on the pages named. The cap is forty words, raised from the Zibaldone's thirty on purpose: Simon Nicholson's sentence, the one the theory of loose parts is quoted by, runs to thirty-one, and cutting it would be pedantry dressed as rigour, Covenstead's reason.",
+ "cap": 40,
+ "quotes": [
+  {
+   "key": "covington",
+   "words": "Make room for play. Play is learning.",
+   "who": "Nick Covington",
+   "where": "in a video quoted on our own Play page",
+   "page": "https://stimpunks.org/glossary/play/#h-play-is-learning",
+   "page_title": "Play",
+   "ours": true
+  },
+  {
+   "key": "anji",
+   "words": "True play is deep and uninterrupted engagement in the activity of one’s own choice.",
+   "who": "AnjiPlay",
+   "where": "in its True Play statement, quoted on our own Play page",
+   "page": "https://stimpunks.org/glossary/play/#h-play-is-learning",
+   "page_title": "Play",
+   "ours": true
+  },
+  {
+   "key": "kids",
+   "words": "It’s not adults doing work; it’s kids doing work!",
+   "who": "a nine-year-old who had built a fort at the Adventure Playground in Berkeley",
+   "where": "to Eric Westervelt of NPR in 2015, quoted on our own Play page",
+   "page": "https://stimpunks.org/glossary/play/",
+   "page_title": "Play",
+   "ours": true
+  },
+  {
+   "key": "nicholson",
+   "words": "In any environment, both the degree of inventiveness and creativity, and the possibility of discovery, are directly proportional to the number and kind of variables in it.",
+   "who": "Simon Nicholson",
+   "where": "in How NOT to Cheat Children: The Theory of Loose Parts, Landscape Architecture 62, 1971, as Wikipedia's article on him gives it",
+   "page": "https://en.wikipedia.org/wiki/Simon_Nicholson",
+   "page_title": "Simon Nicholson",
+   "ours": false
+  },
+  {
+   "key": "playwork",
+   "words": "Play is a process that is freely chosen, personally directed and intrinsically motivated.",
+   "who": "the Playwork Principles Scrutiny Group, Cardiff, 2005",
+   "where": "the second of the Playwork Principles, as Play Wales publishes them",
+   "page": "https://play.wales/playwork/the-playwork-principles/",
+   "page_title": "The Playwork Principles",
+   "ours": false
+  }
+ ],
+ "_reading": "Ryan's six pages to read, in his order, with the titles he gave them.",
+ "reading": [
+  {
+   "title": "Adventure Playgrounds",
+   "site": "Explore Visit Play",
+   "url": "https://www.explorevisitplay.com/stories/adventure-playgrounds"
+  },
+  {
+   "title": "Adventure playground",
+   "site": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Adventure_playground"
+  },
+  {
+   "title": "What Is a Junk Playground?",
+   "site": "PS Family",
+   "url": "https://www.popsugar.com/family/what-is-junk-playground-47143310"
+  },
+  {
+   "title": "Experimental Playgrounds",
+   "site": "mssv",
+   "url": "https://mssv.net/2025/01/26/experimental-playgrounds/"
+  },
+  {
+   "title": "Unconventional Playgrounds: Built from Junk, Shaped by Concrete, Freed by Play",
+   "site": "ArchDaily",
+   "url": "https://www.archdaily.com/1033445/unconventional-playgrounds-built-from-junk-shaped-by-concrete-freed-by-play"
+  },
+  {
+   "title": "play:groundNYC",
+   "site": "play:groundNYC",
+   "url": "https://www.play-ground.nyc/"
+  }
+ ],
+ "_videos": "Ryan's pick, of 2026-10-05, in his order, for the old telly on the Pile: adventure playgrounds in Wales, New York, Berkeley, Irvine, Maryland and Huntington Beach. Every one was asked of its own watch page on 2026-10-05, all OK and embeddable, the runtime that page's own lengthSeconds. Ryan's link to NBC News's started forty seconds in, and so does its button, which says so before the press.",
+ "videos": [
+  {
+   "id": "vHKrH51ygok",
+   "title": "\"The Land\": A Movie and Discussion about Adventure Play, Part 1",
+   "channel": "Boston Children's Museum",
+   "channel_id": "UCXZMsYS_FXCQT4RNPixPGkA",
+   "runtime": "19:25",
+   "published": "2016-10-05"
+  },
+  {
+   "id": "dZxjZfpK8Qo",
+   "title": "Inside NYC's Riskiest Playground Where Parents Aren't Allowed Inside | NBC News",
+   "channel": "NBC News",
+   "channel_id": "UCeY0bbntWzzVIaj2z3QigXg",
+   "runtime": "2:40",
+   "published": "2018-06-26",
+   "start": 40
+  },
+  {
+   "id": "mZ4AtzgsBDA",
+   "title": "Adventure Playground in Berkeley Marina",
+   "channel": "Pocketman Lives!",
+   "channel_id": "UCkaQ58MSURMU-Kox3QrpbvQ",
+   "runtime": "1:21",
+   "published": "2018-03-12"
+  },
+  {
+   "id": "xfqjFkioFnk",
+   "title": "Adventure Playground in Irvine, CA - Orange County Park with Lego Blocks",
+   "channel": "VentureFull",
+   "channel_id": "UC9FNoryfyLmq_6yToK3Eydg",
+   "runtime": "2:04",
+   "published": "2023-11-14"
+  },
+  {
+   "id": "4_PkItsnccw",
+   "title": "A Forest Playground Like No Other – Sandy Spring Adventure Park in Maryland",
+   "channel": "WETA PBS",
+   "channel_id": "UCE1-vZE15MgRM9qlNIab1pA",
+   "runtime": "2:11",
+   "published": "2025-09-26"
+  },
+  {
+   "id": "nBIfgMOMllI",
+   "title": "Adventure Playground in Huntington Beach with Kids - Mud Park with Pond, Rope Bridge, & Mud Slide",
+   "channel": "VentureFull",
+   "channel_id": "UC9FNoryfyLmq_6yToK3Eydg",
+   "runtime": "2:19",
+   "published": "2024-07-03"
+  },
+  {
+   "id": "OB4jDYguRXs",
+   "title": "Amazing Mad Max-like Adventure Playground in Berkeley",
+   "channel": "Ernst Dante",
+   "channel_id": "UCEsNUfYdFLCnVXzP6loCzng",
+   "runtime": "6:35",
+   "published": "2019-01-26"
+  }
+ ],
+ "sources": {
+  "play": {
+   "title": "Play",
+   "by": "our own glossary",
+   "url": "https://stimpunks.org/glossary/play/#h-play-is-learning",
+   "read": "2026-10-05",
+   "for": "Play Is Learning, and three of the five quotations"
+  },
+  "adventure": {
+   "title": "Adventure playground",
+   "by": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Adventure_playground",
+   "read": "2026-10-05",
+   "for": "Sørensen's idea, Emdrup during the occupation, Lady Allen of Hurtwood and the bomb sites, and the change of name"
+  },
+  "sorensen": {
+   "title": "Carl Theodor Sørensen",
+   "by": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Carl_Theodor_S%C3%B8rensen",
+   "read": "2026-10-05",
+   "for": "The other year it gives for Emdrup, 1940"
+  },
+  "playwork": {
+   "title": "Playwork",
+   "by": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Playwork",
+   "read": "2026-10-05",
+   "for": "What a playworker's work is"
+  },
+  "berkeley": {
+   "title": "Adventure Playground",
+   "by": "the City of Berkeley",
+   "url": "https://berkeleyca.gov/community-recreation/parks-recreation/facilities/adventure-playground",
+   "read": "2026-10-05",
+   "for": "The Adventure Playground at the Berkeley Marina, open since 1979"
+  },
+  "land": {
+   "title": "The Land (adventure playground)",
+   "by": "Wikipedia, and Erin Davis's page for her film The Land (2015)",
+   "url": "https://en.wikipedia.org/wiki/The_Land_(adventure_playground)",
+   "read": "2026-10-05",
+   "for": "The Land at Plas Madoc, open since 2011, and the film"
+  },
+  "yard": {
+   "title": "The Yard",
+   "by": "play:groundNYC",
+   "url": "https://www.play-ground.nyc/the-yard",
+   "read": "2026-10-05",
+   "for": "New York's only adventure playground, on Governors Island, and why adults stay outside"
+  },
+  "nicholson": {
+   "title": "Simon Nicholson",
+   "by": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Simon_Nicholson",
+   "read": "2026-10-05",
+   "for": "The theory of loose parts, 1971, and its sentence"
+  },
+  "principles": {
+   "title": "The Playwork Principles",
+   "by": "Play Wales, for the Playwork Principles Scrutiny Group",
+   "url": "https://play.wales/playwork/the-playwork-principles/",
+   "read": "2026-10-05",
+   "for": "Play as freely chosen, personally directed and intrinsically motivated"
+  }
+ }
+}
