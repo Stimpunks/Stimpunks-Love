@@ -78,7 +78,7 @@
    "channel_id": "UCPjNBjflYl0-HQtUvOx0Ibw"
   }
  ],
- "set": "2026-10-04T11:21Z",
+ "set": "2026-10-05T11:48Z",
  "log": [
   {
    "id": "4Hvkv_I8QDE",
@@ -98,16 +98,6 @@
    "published": "2026-09-28T14:10:55Z",
    "state": "screen",
    "runs": 1462,
-   "channel": "Tina Huang"
-  },
-  {
-   "id": "OT4fNfo64dU",
-   "source": "tina-huang",
-   "form": "short",
-   "title": "My Pomodoro App",
-   "published": "2026-09-04T15:00:35Z",
-   "state": "screen",
-   "runs": 52,
    "channel": "Tina Huang"
   },
   {
@@ -249,16 +239,6 @@
    "state": "screen",
    "runs": 771,
    "channel": "AI LABS"
-  },
-  {
-   "id": "GfPZm9yucQo",
-   "source": "matt-wolfe",
-   "form": "long",
-   "title": "AI News: The Most Insane Week So Far This Year!",
-   "published": "2026-09-04T15:00:34Z",
-   "state": "screen",
-   "runs": 1855,
-   "channel": "Matt Wolfe"
   },
   {
    "id": "-KcHn0QcSb0",
@@ -591,6 +571,16 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
+   "id": "0j8wy4jUlsw",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "The end of the app era: What comes next?",
+   "published": "2026-10-04T16:00:26Z",
+   "state": "screen",
+   "runs": 2181,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
    "id": "L5Ua3SLAmb0",
    "source": "nate-b-jones",
    "form": "short",
@@ -741,16 +731,6 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "zcM0lR3r5Do",
-   "source": "less-bitter",
-   "form": "long",
-   "title": "This is not ready",
-   "published": "2026-09-04T18:26:33Z",
-   "state": "screen",
-   "runs": 445,
-   "channel": "Less Bitter"
-  },
-  {
    "id": "aSGHPm7pu_Q",
    "source": "less-bitter",
    "form": "long",
@@ -794,7 +774,7 @@
    "id": "2zLuYU_Ub_0",
    "source": "less-bitter",
    "form": "long",
-   "title": "They fixed AI man",
+   "title": "Claude Ultracode is super intelligence.",
    "published": "2026-10-02T18:05:00Z",
    "state": "screen",
    "runs": 1165,
@@ -948,6 +928,16 @@
    "published": "2026-10-02T01:58:48Z",
    "state": "screen",
    "runs": 3996,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "FsDUOUV9Vs8",
+   "source": "theo",
+   "form": "long",
+   "title": "How Anthropic made Claude 3x faster",
+   "published": "2026-10-05T05:35:48Z",
+   "state": "screen",
+   "runs": 4229,
    "channel": "Theo - t3․gg"
   },
   {
@@ -1151,6 +1141,16 @@
    "channel": "Paul J Lipsky"
   },
   {
+   "id": "9RYDaLnB6ec",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "ChatGPT Dots Finally Clicked When I Learned This",
+   "published": "2026-10-04T13:00:37Z",
+   "state": "screen",
+   "runs": 754,
+   "channel": "Paul J Lipsky"
+  },
+  {
    "id": "ktY1b2-OKRA",
    "source": "austin-marchese",
    "form": "long",
@@ -1214,21 +1214,11 @@
    "id": "hsbr0IoFZJ8",
    "source": "austin-marchese",
    "form": "long",
-   "title": "The BEST & WORST Advice to Build 10x Faster with Claude",
+   "title": "The BEST & WORST Claude hacks to Build 10x faster",
    "published": "2026-10-03T13:45:22Z",
    "state": "screen",
    "runs": 1052,
    "channel": "Austin Marchese"
-  },
-  {
-   "id": "ubzhh4kMCLo",
-   "source": "riley-brown",
-   "form": "long",
-   "title": "8 ChatGPT Agents That Do My Work for Me (Steal These)",
-   "published": "2026-09-04T16:54:09Z",
-   "state": "screen",
-   "runs": 1207,
-   "channel": "Riley Brown"
   },
   {
    "id": "Ju41cQSe7hY",
@@ -1344,20 +1334,10 @@
    "id": "fSilBzYdHUw",
    "source": "riley-brown",
    "form": "long",
-   "title": "ChatGPT Just Changed EVERYTHING (Here’s What’s New)",
+   "title": "ChatGPT Just Changed A LOT (Here’s What’s New)",
    "published": "2026-10-03T16:03:29Z",
    "state": "screen",
    "runs": 1900,
-   "channel": "Riley Brown"
-  },
-  {
-   "id": "yqMBDSZbmOg",
-   "source": "riley-brown",
-   "form": "short",
-   "title": "ChatGPT was a chatbot.  Now it has its own computer.",
-   "published": "2026-09-04T17:42:19Z",
-   "state": "screen",
-   "runs": 67,
    "channel": "Riley Brown"
   },
   {
@@ -1528,16 +1508,6 @@
    "published": "2026-10-03T15:53:20Z",
    "state": "screen",
    "runs": 2073,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
-   "id": "21QbJo6s0xA",
-   "source": "nate-herk",
-   "form": "short",
-   "title": "I Gave an AI Engineer Access to My Whole Business",
-   "published": "2026-09-04T15:00:02Z",
-   "state": "screen",
-   "runs": 34,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -1936,13 +1906,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ]
   },
@@ -1950,13 +1920,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ]
   },
@@ -1964,13 +1934,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ]
   },
@@ -1978,13 +1948,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ]
   },
@@ -1992,13 +1962,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ]
   },
@@ -2006,13 +1976,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ]
   },
@@ -2020,13 +1990,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ]
   },
@@ -2034,13 +2004,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ]
   },
@@ -2048,13 +2018,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ]
   },
@@ -2062,13 +2032,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ]
   },
@@ -2076,13 +2046,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ]
   },
@@ -2090,13 +2060,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-04T11:21:23Z"
+     "2026-10-05T11:48:48Z"
     ]
    ]
   }
