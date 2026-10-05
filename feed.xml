@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Sun, 04 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 05 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Screen a video on the Hermitage’s television</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-05-screen-on-the-set</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-05-screen-on-the-set</guid>
+      <pubDate>Mon, 05 Oct 2026 12:00:00 GMT</pubDate>
+      <description>A moderator’s Screen a video works on the Solarpunk Hermitage’s campfire television now, as it does on a rack’s screen. It plays on the set at once for the moderator who pressed it, and the remote tunes back to the listing. Catch up and Follow beside them tune it on your set and leave the set off, on the same panel every channel uses, saying who is hosting it and how long it runs; nothing plays until you press play, which is the set’s rule. If the video is one of the listing’s own channels, that channel is what gets tuned.</description>
+    </item>
     <item>
       <title>Screen a video, from the CB</title>
       <link>https://stimpunks.world/changelog.html#2026-10-04-screen-a-video</link>

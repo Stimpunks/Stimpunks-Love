@@ -3161,8 +3161,10 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
    browser shows it at all. It does not ask for :focus, because a window
    without focus has none to give and the film should still be marked. cb.js
    takes the mark off when the keyboard moves on. No colour of its own:
-   currentColor, the button's own ink, set by every room against its ground. */
-button.facade[data-cb-ready]:not(:focus-visible) { outline: 3px solid; outline-offset: 3px; }
+   currentColor, the button's own ink, set by every room against its ground.
+   Any button, because the Hermitage's set gets a film ready on its own play
+   button rather than a facade. */
+button[data-cb-ready]:not(:focus-visible) { outline: 3px solid; outline-offset: 3px; }
 /* AN AUDIO FACADE IS A STRIP, NOT A SCREEN. love-embed.js builds an <audio> in a
    shell carrying this class, because the button's own classes evaporate on the
    press. Layout only: no colour, no face, no ground, so it arrives in the room's

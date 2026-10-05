@@ -622,8 +622,12 @@ ordinary beacon, which now carries `length`. On a follower's page `readyFilm` fi
 and `plateFor` puts an unpressed `button.facade` on their first screen saying how long it runs and who put
 it up, so nothing reaches YouTube until they press it. **The plate is only for a beacon whose `base` the
 server set from the pass.** A beacon's `video` is whatever its sender says, so do not widen that to every
-host: it would let anybody signed on put any video on somebody's screen. A room whose main screen is a set
-you tune (the Hermitage's campfire, Looming Rocks, the rave) has no rack screen and so no field. And
+host: it would let anybody signed on put any video on somebody's screen. **The Hermitage's set takes one
+too** (2026-10-05), through `loveSet` in `hermitage.js`, on its own panel and by its own rule: a moderator's
+video plays because they pressed, a follower's set goes off with the video tuned (the listing's own channel,
+if it is one) and its own play button has the keyboard, and the remote is the way back. `firstScreen` in
+`cb.js` puts a rack's screen and the set behind one face (`play`, `ready`, `back`). Looming Rocks and the
+rave have no field: `looming.js` is not `hermitage.js` on purpose, so each would need its own. And
 `arrive()` runs from `tuneIn` once the radio exists: run from `start()`, it met a null radio on every page
 where `call.js` had to load first, and a spot's room link did nothing there.
 

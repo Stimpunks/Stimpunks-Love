@@ -135,7 +135,7 @@
     var id = order[0];
     if (!id) return null;
     var to = document.querySelector('[data-rack-to="' + id + '"]');
-    return { id: id, name: (to && to.getAttribute('data-rack-name')) || 'the screen' };
+    return { id: id, glass: screens[id].glass, name: (to && to.getAttribute('data-rack-name')) || 'the screen' };
   }
   window.loveRack = { first: first, put: put };
 

@@ -78,6 +78,15 @@
    order like everything else and the screen shows a door when you reach it,
    because silently stepping over it would hide a fact about somebody else's
    permissions that the room states out loud everywhere else.
+
+   THE CB CAN PUT A VIDEO ON THE SET (Ryan, 2026-10-05), the way it puts one on
+   a rack's screen. A moderator's Screen a video plays here at once, because
+   they pressed; the set is then on, and the remote tunes back to the listing.
+   A follower's Catch up or Follow never plays: the set goes off with that
+   video tuned, on the panel every channel uses, naming who is hosting it and
+   how long it runs, and the set's own play button has the keyboard. If the
+   video is one of the listing's channels, that channel is what gets tuned.
+   cb.js reaches this through window.loveSet, and loveEmbed builds the frame.
    -------------------------------------------------------------------------- */
 (function () {
   'use strict';
@@ -110,6 +119,7 @@
 
   var at = 0;        // which channel is tuned
   var on = false;    // whether anything has been pressed
+  var cb = null;     // a video the CB put on the set, which is in no listing
 
   function wrap(i) { return (i % channels.length + channels.length) % channels.length; }
 
@@ -125,8 +135,11 @@
   function say(text) { statusEl.textContent = text; }
 
   function mark() {
-    channels.forEach(function (c, i) { c.el.classList.toggle('ch--on', i === at); });
+    channels.forEach(function (c, i) { c.el.classList.toggle('ch--on', !cb && i === at); });
   }
+
+  // A CB video's title, with whose it is: a listing channel's is just its title.
+  function named(ch) { return ch.cb ? '\u201c' + ch.title + '\u201d, ' + ch.cb : ch.title; }
 
   /* WHAT THE PANEL SAYS IS DERIVED FROM THE TUNED CHANNEL AND NOTHING ELSE.
      It used to be written only on the path that does not play, so retuning
@@ -135,14 +148,14 @@
      naming a different programme. A panel that is only correct on one of the
      two paths through this code is a panel that will be found wrong. */
   function render(ch) {
-    nowEl.textContent = ch.title;
+    nowEl.textContent = named(ch);
     if (ch.how === 'link') {
       runsEl.textContent = ch.runs + ' \u00b7 this one will not play here';
       playBtn.hidden = true;
       door.hidden = false;
       door.href = 'https://www.youtube.com/watch?v=' + ch.id;
     } else {
-      runsEl.textContent = 'Runs ' + ch.runs;
+      runsEl.textContent = ch.runs ? 'Runs ' + ch.runs : 'How long it runs was not said';
       playBtn.hidden = false;
       door.hidden = true;
     }
@@ -159,24 +172,32 @@
     clearFrame();
     render(ch);
     offPanel.hidden = false;
+    var runs = ch.spoken || 'how long it runs was not said';
     say(ch.how === 'link'
-      ? 'Tuned to ' + ch.title + ', ' + ch.spoken + '. This one cannot be played here; a link out is on the screen.'
-      : 'Tuned to ' + ch.title + ', ' + ch.spoken + '. The set is off.');
+      ? 'Tuned to ' + named(ch) + ', ' + runs + '. This one cannot be played here; a link out is on the screen.'
+      : 'Tuned to ' + named(ch) + ', ' + runs + '. The set is off.');
   }
 
+  /* A place to start from, which only the CB's Catch up and Follow leave on
+     the play button (as data-embed-start, readyFilm's word for it on every
+     play button). It is used once, and any retune throws it away. */
   function playNow(ch) {
     render(ch);
     if (ch.how === 'link') { showPanel(ch); return; }
-    var player = window.loveEmbed && window.loveEmbed.frame(ch.id, ch.title);
+    var start = parseInt(playBtn.dataset.embedStart, 10) || 0;
+    delete playBtn.dataset.embedStart;
+    var player = window.loveEmbed && window.loveEmbed.frame(ch.id, ch.title, start);
     if (!player) { showPanel(ch); return; }
     clearFrame();
     offPanel.hidden = true;
     screen.appendChild(player);
     on = true;
-    say('Now playing ' + ch.title + ', ' + ch.spoken + '.');
+    say('Now playing ' + named(ch) + ', ' + (ch.spoken || 'how long it runs was not said') + '.');
   }
 
   function tune(i, focusScreen) {
+    cb = null;
+    delete playBtn.dataset.embedStart;
     at = wrap(i);
     var ch = channels[at];
     if (on) { playNow(ch); } else { showPanel(ch); }
@@ -194,7 +215,7 @@
   door.hidden = true;
   playBtn.insertAdjacentElement('afterend', door);
 
-  playBtn.addEventListener('click', function () { playNow(channels[at]); });
+  playBtn.addEventListener('click', function () { playNow(cb || channels[at]); });
   prevBtn.addEventListener('click', function () { tune(at - 1, false); });
   nextBtn.addEventListener('click', function () { tune(at + 1, false); });
 
@@ -205,6 +226,62 @@
     on = true;                 // choosing from the listing IS pressing play
     tune(i, true);
   });
+
+  // 612 -> "10:12" and "10 min", the listing's two ways of saying a runtime.
+  function runsOf(secs) {
+    var t = Math.round(secs), h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60, x = t % 60;
+    var two = function (n) { return (n < 10 ? '0' : '') + n; };
+    var mins = Math.round(t / 60), hh = Math.floor(mins / 60), mm = mins % 60;
+    return {
+      runs: h ? h + ':' + two(m) + ':' + two(x) : m + ':' + two(x),
+      spoken: hh ? hh + ' hr' + (mm ? ' ' + mm + ' min' : '') : Math.max(1, mins) + ' min'
+    };
+  }
+
+  function find(id) {
+    for (var i = 0; i < channels.length; i++) if (channels[i].id === id) return i;
+    return -1;
+  }
+
+  /* A moderator's Screen a video: it plays, because they pressed. */
+  function play(id, start, said) {
+    var title = 'A video put up from the CB';
+    var player = window.loveEmbed && window.loveEmbed.frame(id, title, start);
+    if (!player) return null;
+    cb = { id: id, title: title, how: 'screen', cb: 'from the CB' };
+    delete playBtn.dataset.embedStart;
+    clearFrame();
+    offPanel.hidden = true;
+    screen.appendChild(player);
+    on = true;
+    mark();
+    label();
+    say(said);
+    return { node: player, now: null };
+  }
+
+  /* A follower's Catch up or Follow: the set goes off with the video tuned,
+     and the play button it hands back is pressed by nobody but them. */
+  function ready(spec) {
+    var i = find(spec.id);
+    delete playBtn.dataset.embedStart;
+    if (i >= 0 && channels[i].how === 'link') return null;
+    on = false;
+    if (i >= 0) {
+      cb = null;
+      at = i;
+      showPanel(channels[i]);
+    } else {
+      var r = spec.length ? runsOf(spec.length) : {};
+      cb = { id: spec.id, title: spec.film, runs: r.runs, spoken: r.spoken, how: 'screen', cb: 'hosted by ' + spec.by + ' on the CB' };
+      showPanel(cb);
+    }
+    mark();
+    label();
+    return playBtn;
+  }
+
+  window.loveSet = { glass: screen, name: 'the television', back: 'the remote tunes back to the listing', play: play, ready: ready };
 
   showPanel(channels[0]);
   mark();

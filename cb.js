@@ -2717,6 +2717,8 @@
      YouTube video and it goes up on this page's first screen, in place of what
      the screen had, the way a card's second press puts a film up (rack.js's
      loveRack.put), and the button under the screen puts back what was there.
+     The Hermitage's set takes one too (2026-10-05), and its remote is the way
+     back. See firstScreen.
      It plays at once, because pasting it and pressing is the moderator asking
      for it, and nothing goes to the channel: only the video's id is kept from
      the address, and loveEmbed builds the frame from that, youtube-nocookie
@@ -2748,14 +2750,10 @@
       this.screenUrl.focus();
       return;
     }
-    var player = window.loveEmbed.frame(v.id, 'A video put up from the CB', v.start);
-    if (!player) return;
-    var shell = document.createElement('div');
-    shell.className = 'facade';
-    shell.style.padding = '0';
-    shell.appendChild(player);
     var line = 'Now showing on ' + glass.name + ': a video ' + this.state.handle + ' put up from the CB' + (v.start ? ', from ' + place(v.start) : '') + '.';
-    var now = window.loveRack.put(glass.id, shell, line);
+    var up = glass.play(v.id, v.start, line);
+    if (!up) return;
+    var shell = up.node, now = up.now;
     this.screened = { id: v.id, shell: shell, now: now, line: line, name: glass.name, start: v.start, named: false };
     this.screenUrl.value = '';
     /* Done, so the tray goes, and the answer is on the radio's own line, which
@@ -2768,7 +2766,7 @@
     this.tell('It is up on ' + glass.name + ' and playing on your page' + (v.start ? ' from ' + place(v.start) : '') +
       '. Once it plays, Host this film lets everybody in this room follow; their screens get its play button, waiting for their press.' +
       (shrank ? ' The radio went small so you can see it; Size puts it back.' : ''));
-    if (now) now.focus({ preventScroll: true });
+    (now || shell).focus({ preventScroll: true });
   };
 
   /* The line under the screen names the moderator's video once its player
@@ -3251,10 +3249,32 @@
     return null;
   }
 
-  /* The page's first screen, if it has one and rack.js is on it. */
+  /* THE PAGE'S FIRST SCREEN, whichever kind it is, behind one face: a rack's
+     screen (rack.js's loveRack) or the Hermitage's set (hermitage.js's
+     loveSet), whichever comes first in the page. play() puts a moderator's
+     video up playing and gives back its frame and the line naming it, if the
+     screen has one; ready() puts up a host's video for a follower, unpressed,
+     and gives back the button they will press. back says how to put back
+     what the screen had. A set does both in its own way, on its own panel. */
   function firstScreen() {
-    var r = window.loveRack;
-    return r && r.first && window.loveEmbed ? r.first() : null;
+    if (!window.loveEmbed) return null;
+    var r = window.loveRack, f = r && r.first && r.first(), set = window.loveSet, rack = null;
+    if (f) rack = {
+      name: f.name, glass: f.glass, back: 'the button under the screen puts that back',
+      play: function (id, start, said) {
+        var p = window.loveEmbed.frame(id, 'A video put up from the CB', start);
+        if (!p) return null;
+        var shell = document.createElement('div');
+        shell.className = 'facade';
+        shell.style.padding = '0';
+        shell.appendChild(p);
+        return { node: shell, now: r.put(f.id, shell, said) };
+      },
+      ready: function (b) { return rackPlate(f, b); }
+    };
+    // A rack's screen that comes after the set in the page loses to it.
+    if (rack && set && set.glass && (set.glass.compareDocumentPosition(rack.glass) & Node.DOCUMENT_POSITION_FOLLOWING)) return set;
+    return rack || set || null;
   }
 
   /* One YouTube video out of whatever address a moderator pastes: watch?v=,
@@ -3293,30 +3313,38 @@
      like any other button. It presses nothing: nothing reaches YouTube until
      the follower presses it. Only the base's, because anybody else's beacon
      names whatever video they say it does, and a stranger's choice does not
-     go up on somebody's screen. Returns the screen's name, or null. */
+     go up on somebody's screen. On a rack's screen it is a plate in the
+     rack's place; the Hermitage's set tunes it on its own panel instead.
+     Returns the button to press, the screen's name and the way back, or null. */
   function plateFor(b) {
     var glass = firstScreen();
     if (!glass || !b || !b.base || !/^[A-Za-z0-9_-]{11}$/.test(b.video || '')) return null;
+    var button = glass.ready({ id: b.video, film: b.film, length: b.length, by: b.handle });
+    return button ? { button: button, name: glass.name, back: glass.back } : null;
+  }
+
+  // spec is what firstScreen's ready() is handed: { id, film, length, by }.
+  function rackPlate(f, spec) {
     var btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'facade';
-    btn.dataset.embedId = b.video;
-    btn.dataset.embedTitle = b.film;
-    btn.appendChild(document.createTextNode('\u201c' + b.film + '\u201d \u2014 ' +
-      (b.length ? 'runs ' + place(b.length) : 'how long it runs was not said') + ', put up from the CB by ' + b.handle));
+    btn.dataset.embedId = spec.id;
+    btn.dataset.embedTitle = spec.film;
+    btn.appendChild(document.createTextNode('\u201c' + spec.film + '\u201d \u2014 ' +
+      (spec.length ? 'runs ' + place(spec.length) : 'how long it runs was not said') + ', hosted on the CB by ' + spec.by));
     var go = document.createElement('span');
     go.className = 'facade__play';
     go.textContent = '\u25B6 PRESS PLAY';
     btn.appendChild(go);
-    window.loveRack.put(glass.id, btn, 'On ' + glass.name + ' now: \u201c' + b.film + '\u201d, which ' + b.handle + ' is hosting from the CB. It waits for your press.');
-    return glass.name;
+    window.loveRack.put(f.id, btn, 'On ' + f.name + ' now: \u201c' + spec.film + '\u201d, which ' + spec.by + ' is hosting from the CB. It waits for your press.');
+    return btn;
   }
 
   function readyFilm(film, video, secs, beacon) {
     var hit = filmButton(film, video), put = null;
-    if (!hit && beacon && (put = plateFor(beacon))) hit = filmButton(beacon.film, beacon.video);
+    if (!hit && beacon && (put = plateFor(beacon))) hit = put.button;
     if (!hit) return null;
-    var old = document.querySelectorAll('button.facade[data-cb-ready]');
+    var old = document.querySelectorAll('[data-cb-ready]');
     for (var o = 0; o < old.length; o++) old[o].removeAttribute('data-cb-ready');
     if (secs != null) hit.dataset.embedStart = String(Math.max(0, Math.floor(secs)));
     for (var d = hit.closest('details'); d; d = d.parentElement && d.parentElement.closest('details')) d.open = true;
@@ -3351,7 +3379,7 @@
   }
   function readyNote(got) {
     if (!got) return '';
-    return (got.put ? ' It went up on ' + got.put + ', in place of what was there; the button under the screen puts that back.' : '') +
+    return (got.put ? ' It went up on ' + got.put.name + ', in place of what was there; ' + got.put.back + '.' : '') +
       (got.shrank ? ' The radio went small so you can see it; Size puts it back.' : '');
   }
 
