@@ -622,12 +622,17 @@ ordinary beacon, which now carries `length`. On a follower's page `readyFilm` fi
 and `plateFor` puts an unpressed `button.facade` on their first screen saying how long it runs and who put
 it up, so nothing reaches YouTube until they press it. **The plate is only for a beacon whose `base` the
 server set from the pass.** A beacon's `video` is whatever its sender says, so do not widen that to every
-host: it would let anybody signed on put any video on somebody's screen. **The Hermitage's set takes one
-too** (2026-10-05), through `loveSet` in `hermitage.js`, on its own panel and by its own rule: a moderator's
-video plays because they pressed, a follower's set goes off with the video tuned (the listing's own channel,
-if it is one) and its own play button has the keyboard, and the remote is the way back. `firstScreen` in
-`cb.js` puts a rack's screen and the set behind one face (`play`, `ready`, `back`). Looming Rocks and the
-rave have no field: `looming.js` is not `hermitage.js` on purpose, so each would need its own. And
+host: it would let anybody signed on put any video on somebody's screen. **A set you tune takes one
+too** (2026-10-05): the Hermitage's television, Looming Rocks' stage and the rave's big screen each write
+`window.loveSet` in their own file and their own words (`hermitage.js`, `looming.js`, `rave.js`), because
+those files are separate on purpose; keep them that way rather than sharing one. On every set a moderator's
+video plays because they pressed, a follower's set goes dark with the video tuned on its own panel and its
+own play button has the keyboard, and the set's controls are the way back. The Hermitage and Looming Rocks
+tune their own channel or act when the video is one of theirs. **The rave always cues it alone**, because a
+mix cannot start at a place in its first video (`withStart` refuses a list) and a follower must start where
+the host is; its cue says the video may flash, and the warning above that screen says a CB video may flash
+too, keeping the clause `make-rave.py` reads. `firstScreen` in `cb.js` puts a rack's screen and a set
+behind one face (`play`, `ready`, `back`). And
 `arrive()` runs from `tuneIn` once the radio exists: run from `start()`, it met a null radio on every page
 where `call.js` had to load first, and a spot's room link did nothing there.
 

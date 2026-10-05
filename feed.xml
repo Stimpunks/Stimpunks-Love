@@ -9,10 +9,17 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Mon, 05 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Screen a video at Looming Rocks and the Rebellion Rave Room</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-05-screen-on-the-stage</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-05-screen-on-the-stage</guid>
+      <pubDate>Mon, 05 Oct 2026 12:00:00 GMT</pubDate>
+      <description>A moderator’s Screen a video now works on Looming Rocks’ stage and on the Rebellion Rave Room’s big screen, as it does on the Hermitage’s television. It plays for the moderator who pressed it, and the desk goes back to the bill or the channel list. Catch up and Follow beside them put it on your stage or screen and leave it dark, on the panel every act or channel uses, saying who is hosting it and how long it runs; nothing plays until you press play. At Looming Rocks a video that is on the bill puts that act on the desk. At the rave it is always cued on its own, so it can start where the host is, and it says it may flash. The warning above the rave’s big screen now says a video a moderator puts up from the CB may flash too. Nothing here touches the rig, which still starts only when you ask it to.</description>
+    </item>
+    <item>
       <title>Screen a video on the Hermitage’s television</title>
       <link>https://stimpunks.world/changelog.html#2026-10-05-screen-on-the-set</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-05-screen-on-the-set</guid>
-      <pubDate>Mon, 05 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Mon, 05 Oct 2026 11:59:00 GMT</pubDate>
       <description>A moderator’s Screen a video works on the Solarpunk Hermitage’s campfire television now, as it does on a rack’s screen. It plays on the set at once for the moderator who pressed it, and the remote tunes back to the listing. Catch up and Follow beside them tune it on your set and leave the set off, on the same panel every channel uses, saying who is hosting it and how long it runs; nothing plays until you press play, which is the set’s rule. If the video is one of the listing’s own channels, that channel is what gets tuned.</description>
     </item>
     <item>

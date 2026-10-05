@@ -2717,8 +2717,9 @@
      YouTube video and it goes up on this page's first screen, in place of what
      the screen had, the way a card's second press puts a film up (rack.js's
      loveRack.put), and the button under the screen puts back what was there.
-     The Hermitage's set takes one too (2026-10-05), and its remote is the way
-     back. See firstScreen.
+     A set you tune takes one too (2026-10-05: the Hermitage's television,
+     Looming Rocks' stage, the rave's big screen), and its own controls are the
+     way back. See firstScreen.
      It plays at once, because pasting it and pressing is the moderator asking
      for it, and nothing goes to the channel: only the video's id is kept from
      the address, and loveEmbed builds the frame from that, youtube-nocookie
@@ -3250,8 +3251,9 @@
   }
 
   /* THE PAGE'S FIRST SCREEN, whichever kind it is, behind one face: a rack's
-     screen (rack.js's loveRack) or the Hermitage's set (hermitage.js's
-     loveSet), whichever comes first in the page. play() puts a moderator's
+     screen (rack.js's loveRack) or a set you tune (window.loveSet, which
+     hermitage.js, looming.js and rave.js each write in their own words),
+     whichever comes first in the page. play() puts a moderator's
      video up playing and gives back its frame and the line naming it, if the
      screen has one; ready() puts up a host's video for a follower, unpressed,
      and gives back the button they will press. back says how to put back
@@ -3314,7 +3316,7 @@
      the follower presses it. Only the base's, because anybody else's beacon
      names whatever video they say it does, and a stranger's choice does not
      go up on somebody's screen. On a rack's screen it is a plate in the
-     rack's place; the Hermitage's set tunes it on its own panel instead.
+     rack's place; a set you tune puts it on its own panel instead.
      Returns the button to press, the screen's name and the way back, or null. */
   function plateFor(b) {
     var glass = firstScreen();

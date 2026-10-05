@@ -41,6 +41,17 @@
    something is on, tuning changes the picture. love-embed.js still builds
    every frame. It is its own file, not looming.js with the names changed,
    for the reason that file gives.
+
+   THE CB CAN PUT A VIDEO ON THE BIG SCREEN (Ryan, 2026-10-05), as it can on
+   the Hermitage's set and Looming Rocks' stage. A moderator's Screen a video
+   plays at once, because they pressed. A follower's Catch up or Follow never
+   plays: the screen goes dark with that video on it, naming who is hosting it
+   and how long it runs, and the play button has the keyboard. It is always
+   cued on its own, even when it opens one of the mixes, because a mix cannot
+   start at a place in its first video (loveEmbed.withStart refuses a list),
+   and a follower has to start where the host is. Like every film here it may
+   flash, and it says so on the screen. cb.js reaches this through
+   window.loveSet. It switches nothing on the rig.
    ============================================================================= */
 (function () {
   'use strict';
@@ -231,6 +242,7 @@
   if (!chans.length) return;
 
   var at = 0, on = false;
+  var cb = null;     // a video the CB put on the screen, which is on no list
   function wrap(i) { return (i % chans.length + chans.length) % chans.length; }
 
   /* The src is built from the data and handed to love-embed.js, which checks
@@ -248,34 +260,45 @@
     whatEl.textContent = 'Next: ' + n.title + ' · ' + n.label;
   }
   function tell(text) { sayEl.textContent = text; }
-  function mark() { chans.forEach(function (c, i) { c.el.classList.toggle('rr-chan--on', i === at); }); }
-  function render(c) { nowEl.textContent = c.title; runsEl.textContent = c.label; }
+  function mark() { chans.forEach(function (c, i) { c.el.classList.toggle('rr-chan--on', !cb && i === at); }); }
+  // A CB video's title, with whose it is: a channel's is just its title.
+  function named(c) { return c.cb ? '\u201c' + c.title + '\u201d, ' + c.cb : c.title; }
+  function render(c) { nowEl.textContent = named(c); runsEl.textContent = c.label; }
   function clearFrame() { var f = screen.querySelector('iframe'); if (f) f.remove(); }
 
   function showPanel(c) {
     clearFrame();
     render(c);
     offPanel.hidden = false;
-    tell('On the screen: ' + c.title + ', ' + c.label + '. The screen is dark.');
+    tell('On the screen: ' + named(c) + ', ' + c.label + '. The screen is dark.');
   }
+  /* A place to start from, which only the CB's Catch up and Follow leave on
+     the play button (data-embed-start, readyFilm's word for it). Only a CB
+     video can use it, it is used once, and any move of the desk throws it away. */
   function playNow(c) {
     render(c);
-    var player = window.loveEmbed && window.loveEmbed.frameUrl(src(c), c.title);
+    var start = parseInt(playBtn.dataset.embedStart, 10) || 0;
+    delete playBtn.dataset.embedStart;
+    var player = window.loveEmbed && (c.cb
+      ? window.loveEmbed.frame(c.id, c.title, start)
+      : window.loveEmbed.frameUrl(src(c), c.title));
     if (!player) { showPanel(c); return; }
     clearFrame();
     offPanel.hidden = true;
     screen.appendChild(player);
     on = true;
-    tell('Now playing ' + c.title + ', ' + c.label + '.');
+    tell('Now playing ' + named(c) + ', ' + c.label + '.');
   }
   function tune(i, go) {
+    cb = null;
+    delete playBtn.dataset.embedStart;
     at = wrap(i);
     if (on) playNow(chans[at]); else showPanel(chans[at]);
     mark(); label();
     if (go) screen.scrollIntoView({ block: 'center' });
   }
 
-  playBtn.addEventListener('click', function () { playNow(chans[at]); });
+  playBtn.addEventListener('click', function () { playNow(cb || chans[at]); });
   prevBtn.addEventListener('click', function () { tune(at - 1, false); });
   nextBtn.addEventListener('click', function () { tune(at + 1, false); });
   document.addEventListener('click', function (e) {
@@ -284,6 +307,43 @@
     on = true;                 // choosing off the list IS pressing play
     tune(parseInt(b.dataset.ch, 10) - 1, true);
   });
+
+  // 612 -> "10:12", the way every runtime here is written.
+  function runsOf(secs) {
+    var t = Math.round(secs), h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60, x = t % 60;
+    var two = function (n) { return (n < 10 ? '0' : '') + n; };
+    return h ? h + ':' + two(m) + ':' + two(x) : m + ':' + two(x);
+  }
+
+  /* A moderator's Screen a video: it plays, because they pressed. */
+  function play(id, start, said) {
+    var title = 'A video put up from the CB';
+    var player = window.loveEmbed && window.loveEmbed.frame(id, title, start);
+    if (!player) return null;
+    cb = { id: id, title: title, cb: 'from the CB', label: 'it may flash, like every film here' };
+    delete playBtn.dataset.embedStart;
+    clearFrame();
+    offPanel.hidden = true;
+    screen.appendChild(player);
+    on = true;
+    mark(); label();
+    tell(said);
+    return { node: player, now: null };
+  }
+
+  /* A follower's Catch up or Follow: the screen goes dark with the video on
+     it, and the play button it hands back is pressed by nobody but them. */
+  function ready(spec) {
+    delete playBtn.dataset.embedStart;
+    on = false;
+    cb = { id: spec.id, title: spec.film, cb: 'hosted by ' + spec.by + ' on the CB',
+           label: (spec.length ? 'Runs ' + runsOf(spec.length) : 'How long it runs was not said') + ' · it may flash, like every film here' };
+    showPanel(cb);
+    mark(); label();
+    return playBtn;
+  }
+
+  window.loveSet = { glass: screen, name: 'the big screen', back: 'the desk goes back to the channel list', play: play, ready: ready };
 
   showPanel(chans[0]);
   mark();
