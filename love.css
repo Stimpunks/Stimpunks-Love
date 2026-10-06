@@ -20534,7 +20534,9 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
    THIRTEEN OF EVERYTHING AND NO TWO ALIKE, and the tool refuses two the same
    and refuses a row. Every word stands on a flat ground: the wood, a card, or
    a button. NOTHING MOVES, at any setting, the fans included, and the tool
-   refuses a keyframe here: turning blades are Stay Breezy's. */
+   refuses a keyframe here: turning blades are Stay Breezy's. The player
+   piano's roll stands still in its window; the rolls play as a strip of
+   audio when pressed, and nothing here is a screen. */
 
 .pint {
   background: var(--aqp-wood); color: var(--aqp-text);
@@ -20645,6 +20647,27 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .aqp-pour .aqp-item__draw { width: 96px; }
 .pint .aqp-pour__label { font-weight: 700; margin: 0 0 4px; }
 .pint .aqp-pour__how { color: var(--aqp-dim); }
+
+/* THE PIANO'S SHELF: a card to each roll, its spool and paper drawn, and the
+   press that plays it. A roll is a strip, not a screen: love-embed.js hands
+   back a bare .facade--audio shell, so the button is dressed here and the
+   player that replaces it is the browser's own, the width of the card. */
+.aqp-rolls { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.aqp-roll { display: flex; flex-direction: column; padding: 12px 16px 14px; background: var(--aqp-plank); border: 2px solid var(--aqp-col); border-radius: 6px; }
+.aqp-roll__draw { display: block; width: 120px; height: auto; margin: 0 0 4px; }
+.pint .aqp-roll__title { margin: 0 0 6px; font-size: 25px; }
+.aqp-roll p { margin: 0 0 6px; font-size: 16px; line-height: 1.5; }
+.pint .aqp-roll__by { font-weight: 700; }
+.pint .aqp-roll__heard, .pint .aqp-roll__src { color: var(--aqp-dim); }
+.pint .aqp-roll .facade--audio { margin: auto 0 0; }
+.pint .aqp-roll button.facade--audio {
+  align-self: flex-start; width: auto; margin-top: 8px; padding: 9px 18px; min-height: 44px; cursor: pointer;
+  border: 2px solid var(--aqp-sea); border-radius: 6px; background: var(--aqp-sea); color: var(--aqp-deep);
+  font: 700 17px/1.3 'Brygada 1918', Georgia, serif;
+}
+.pint .aqp-roll button.facade--audio:hover { background: var(--aqp-text); border-color: var(--aqp-text); }
+.pint .aqp-roll button.facade--audio:focus-visible { outline: 3px solid var(--aqp-sea); outline-offset: 3px; }
+.pint .aqp-roll div.facade--audio { align-self: stretch; margin-top: 8px; }
 
 /* THE WORDS THE ROOM OWES: Jim Butcher's, and our Third Places page's, each
    with whose they are and where it was read. */

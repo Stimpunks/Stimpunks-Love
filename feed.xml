@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Mon, 05 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 06 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Rolls on the player piano at A Quiet Pint</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-06-piano-rolls</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-06-piano-rolls</guid>
+      <pubDate>Tue, 06 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The pub’s player piano has a shelf of rolls now, at Ryan’s ask: rags and popular songs from the 1900s to the 1920s, and three rolls played for the Welte-Mignon reproducing piano. Two were played onto the paper by the composers themselves: Scott Joplin, in 1916, and Alexander Scriabin, in 1910. A roll plays as a strip of sound, not on a screen, so the pub still has no screen anywhere. It plays only when you press it, one roll at a time, and every roll says how long it runs before you press. Each is a recording of a real roll on Wikimedia Commons, public domain there, and nothing is fetched from Commons until you press. Nothing musical is hosted here. Every composer on the shelf died more than seventy years ago, so the music is free everywhere and not only in the United States. Several rolls were left off for that, and several files that turned out to be notation software playing sheet music rather than rolls. Every roll names its composers with their years, what roll it is, how the recording was made where its Commons page says so, and that page. Every runtime was measured off the file. The privacy page lists Wikimedia Commons among the services a press loads.</description>
+    </item>
     <item>
       <title>A Quiet Pint: a pub under the street, made like McAnally’s</title>
       <link>https://stimpunks.world/changelog.html#2026-10-05-a-quiet-pint</link>

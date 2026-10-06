@@ -241,9 +241,16 @@
 
      Josephmooon's own site, where the band keeps both albums. The Small Hours'
      jukebox plays them from there, because Stimpunks helped produce them and
-     the band's own shelf is where they belong. */
+     the band's own shelf is where they belong.
+
+     Wikimedia Commons' MP3 transcodes, and nothing else on that host. A Quiet
+     Pint's player piano plays its rolls from there (2026-10-06): recordings of
+     old piano rolls, each public domain on its own Commons page, streamed as
+     the MP3 Commons makes of every audio file so Safari plays them too. The
+     pub has no screen, and an <audio> strip is not one. */
   var AUDIO_ORIGINS = [
-    'https://josephmooon.wordpress.com/wp-content/uploads/'
+    'https://josephmooon.wordpress.com/wp-content/uploads/',
+    'https://upload.wikimedia.org/wikipedia/commons/transcoded/'
   ];
 
   /* ONE RECORDING AT A TIME. A jukebox that let two songs play over each other

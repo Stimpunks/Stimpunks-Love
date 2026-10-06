@@ -1128,5 +1128,152 @@
       "read": "2026-10-05",
       "for": "That the term third place is Ray Oldenburg's, from The Great Good Place (1989). Wikipedia lists seven characteristics from the book's 2023 edition with Karen Christensen, not the eight our page quotes, so the eight are credited to the video our page quotes them from and were not checked against either edition of the book."
     }
-  }
+  },
+  "rolls": [
+    {
+      "key": "maple",
+      "title": "Maple Leaf Rag",
+      "written": 1899,
+      "by": [
+        {
+          "name": "Scott Joplin",
+          "born": 1868,
+          "died": 1917
+        }
+      ],
+      "roll": "Scott Joplin’s own roll, cut in 1916",
+      "heard": "Scanned and turned into a MIDI file by a Commons user who goes by PlayerRoll, and played back on a software piano, with a little echo, by one who goes by Major Bloodnok.",
+      "file": "File:Maple leaf rag - played by Scott Joplin 1916 V2.ogg",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/d/db/Maple_leaf_rag_-_played_by_Scott_Joplin_1916_V2.ogg/Maple_leaf_rag_-_played_by_Scott_Joplin_1916_V2.ogg.mp3",
+      "runtime": "2:10",
+      "licence": "Public domain (PD-US, PD-US-record-expired, PD-old)"
+    },
+    {
+      "key": "pleasant",
+      "title": "Pleasant Moments",
+      "written": 1909,
+      "by": [
+        {
+          "name": "Scott Joplin",
+          "born": 1868,
+          "died": 1917
+        }
+      ],
+      "roll": "Scott Joplin’s own roll, cut in April 1916, and thought lost until 2006",
+      "heard": "Found and scanned by PlayerRoll, and recorded on a grand piano.",
+      "file": "File:Pleasant Moments Piano Roll.ogg",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/9/9a/Pleasant_Moments_Piano_Roll.ogg/Pleasant_Moments_Piano_Roll.ogg.mp3",
+      "runtime": "2:56",
+      "licence": "Public domain (PD-US)"
+    },
+    {
+      "key": "climax",
+      "title": "That Ticklin’ Rag, and Climax Rag",
+      "written": 1914,
+      "by": [
+        {
+          "name": "Mike Bernard",
+          "born": 1875,
+          "died": 1936
+        },
+        {
+          "name": "James Scott",
+          "born": 1885,
+          "died": 1938
+        }
+      ],
+      "roll": "QRS roll 9889: Mike Bernard’s rag of 1910, and then James Scott’s of 1914, from 2:22",
+      "heard": "Played on a 1919 Pease player piano, for Piano Roll Melody Hour.",
+      "file": "File:That Ticklin Rag & Climax Rag.opus",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/0/06/That_Ticklin_Rag_%26_Climax_Rag.opus/That_Ticklin_Rag_%26_Climax_Rag.opus.mp3",
+      "runtime": "4:25",
+      "licence": "Public domain (PD/1923)"
+    },
+    {
+      "key": "cloud",
+      "title": "Cloud Kisser Rag",
+      "written": 1911,
+      "by": [
+        {
+          "name": "Charles L. Johnson",
+          "born": 1876,
+          "died": 1950
+        }
+      ],
+      "roll": "Written by Charles L. Johnson as Raymond Birch; a recut of the 88-note U.S. roll 64818B",
+      "heard": "Played on an Ampico Lexington.",
+      "file": "File:Cloud Kisser Rag (Birch) Ampico Lexington 88n.opus",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/f/fc/Cloud_Kisser_Rag_%28Birch%29_Ampico_Lexington_88n.opus/Cloud_Kisser_Rag_%28Birch%29_Ampico_Lexington_88n.opus.mp3",
+      "runtime": "3:12",
+      "licence": "Public domain (PD/1923)"
+    },
+    {
+      "key": "sundown",
+      "title": "At Sundown",
+      "written": 1927,
+      "by": [
+        {
+          "name": "Walter Donaldson",
+          "born": 1893,
+          "died": 1947
+        }
+      ],
+      "roll": "Jewel roll 4947, played onto the roll by Earl Brooks",
+      "heard": "Played on the uploader’s own 1914 Autopiano.",
+      "file": "File:At Sundown - Piano Roll.opus",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/d/d4/At_Sundown_-_Piano_Roll.opus/At_Sundown_-_Piano_Roll.opus.mp3",
+      "runtime": "3:20",
+      "licence": "Public domain (PD/1923)"
+    },
+    {
+      "key": "mazurka",
+      "title": "Mazurka, Op. 40 No. 2",
+      "by": [
+        {
+          "name": "Alexander Scriabin",
+          "born": 1872,
+          "died": 1915
+        }
+      ],
+      "roll": "Alexander Scriabin’s own roll, played for Welte-Mignon in Moscow in January 1910",
+      "file": "File:Skrjabin op 40 2.ogg",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/8/84/Skrjabin_op_40_2.ogg/Skrjabin_op_40_2.ogg.mp3",
+      "runtime": "0:49",
+      "licence": "Public domain (PD-old)"
+    },
+    {
+      "key": "hungarian",
+      "title": "Hungarian Dance No. 5",
+      "by": [
+        {
+          "name": "Johannes Brahms",
+          "born": 1833,
+          "died": 1897
+        }
+      ],
+      "roll": "Played by the conductor Arthur Nikisch for Welte-Mignon on 9 February 1906",
+      "heard": "Recorded from the roll by a Commons user who goes by Gerhard51.",
+      "file": "File:Brahms nikisch hd5.ogg",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/0/0a/Brahms_nikisch_hd5.ogg/Brahms_nikisch_hd5.ogg.mp3",
+      "runtime": "2:55",
+      "licence": "Public domain (PD-old)"
+    },
+    {
+      "key": "intermezzo",
+      "title": "Intermezzo in C major, Op. 119 No. 3",
+      "by": [
+        {
+          "name": "Johannes Brahms",
+          "born": 1833,
+          "died": 1897
+        }
+      ],
+      "roll": "Played by Ossip Gabrilowitsch for Welte-Mignon on 4 July 1905",
+      "file": "File:Gabrilobrahms119 4.ogg",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/3/3e/Gabrilobrahms119_4.ogg/Gabrilobrahms119_4.ogg.mp3",
+      "runtime": "1:31",
+      "licence": "Public domain (PD-old)"
+    }
+  ],
+  "_rolls": "THE PLAYER PIANO'S ROLLS. Each is a recording of a real piano roll, on its own page on Wikimedia Commons, where it is public domain, and the pub streams the MP3 Commons makes of it: nothing musical is hosted here, and nothing is fetched until somebody presses a roll. A roll is a strip, not a screen, so the pub's homage holds: nothing behind the bar has a screen. Every roll was chosen on 2026-10-06 from Commons' own descriptions, which say which roll it is and what it was played on; files that turned out to be notation software playing sheet music rather than a roll were left off. Every composer died more than seventy years ago, checked on Wikipedia against this year, so the music is public domain everywhere and not only in the United States, the Doomscroll's bar; that left off several rolls of songs whose writers died too recently, and one whose lyricist's dates could not be found. Every runtime was measured off the MP3 with ffprobe. How each recording was made is said only where its Commons page says it, and left out where it does not."
 }

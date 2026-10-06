@@ -61,6 +61,19 @@ anything to sit down, which is our Third Places page's own line.
 THE KITCHENS' ENGINES. Hey, Good Cookin's allergens and dish checks, and Pekoe
 and Purrs' and the Truck Stop's caffeine, are imported, never restated.
 
+THE PLAYER PIANO PLAYS ROLLS, AND A ROLL IS A STRIP, NOT A SCREEN. Ryan,
+2026-10-06: rolls on the piano. Each is a recording of a real piano roll on its
+own page on Wikimedia Commons, public domain there, streamed as the MP3 Commons
+makes of it through love-embed.js's audio builder, so nothing musical is hosted
+here and nothing is fetched until somebody presses a roll. This tool reads
+AUDIO_ORIGINS out of love-embed.js and refuses a roll from anywhere else, a roll
+with no runtime, a roll that does not name its composers with their years, and a
+composer who died seventy years ago or less, counted against this year: the
+music has to be public domain everywhere, the Doomscroll's bar, not only in the
+United States. Notation software playing sheet music is not a roll; the data
+file says which files were left off for that. What the pub still refuses is a
+screen: a frame, a video, a YouTube facade, a rack.
+
 BUTCHER'S WORDS ARE QUOTED, NEVER RETOLD. Every quotation names its book, its
 year and its pages and links the book's Open Library record; a quotation is held
 to the cap in the data file and all of them together to a total, the Zibaldone's
@@ -89,6 +102,7 @@ CSS = ROOT / "love.css"
 TABLE = ROOT / "table.js"
 SCRIPT = ROOT / "pint.js"
 STREET = ROOT / "index.html"
+EMBED = ROOT / "love-embed.js"
 MIRROR = Path.home() / "Documents/Claude/Projects/Stimpunks Knowledge System/site/stimpunks.org"
 SECTION = 100         # love.css's section for this room
 THIRTEEN = 13         # Jim Butcher's, from the books
@@ -880,6 +894,62 @@ def check_columns(d):
                 refuse(f"the column {c.get('key')!r} has no {f}.")
 
 
+ROLL_KEYS = {"key", "title", "written", "by", "roll", "heard", "file", "src", "runtime", "licence"}
+RUNTIME = re.compile(r"^(?:\d+:[0-5]\d|\d+:[0-5]\d:[0-5]\d)$")
+
+
+def audio_origins():
+    block = re.search(r"var AUDIO_ORIGINS = \[(.*?)\];", EMBED.read_text(), re.S)
+    return re.findall(r"'(https://[^']+)'", block.group(1)) if block else []
+
+
+def check_rolls(d):
+    """Every roll on the piano: a real roll's recording, from an origin
+    love-embed.js will play, saying how long it runs and whose music it is."""
+    from datetime import date
+    origins = audio_origins()
+    if not origins:
+        refuse("love-embed.js has no AUDIO_ORIGINS, so no roll could be checked.")
+    rolls = d.get("rolls") or []
+    if not rolls:
+        refuse("the piano has no rolls on its shelf.")
+    keys = set()
+    for r in rolls:
+        where = f"{DATA.name}, roll {r.get('key')!r}"
+        if set(r) - ROLL_KEYS:
+            refuse(f"{where} carries {sorted(set(r) - ROLL_KEYS)}, which nothing reads.")
+        if r.get("key") in keys or not re.fullmatch(r"[a-z]+", r.get("key") or ""):
+            refuse(f"{where} has no plain key of its own.")
+        keys.add(r.get("key"))
+        for f in ("title", "roll", "file", "src", "licence"):
+            if not (r.get(f) or "").strip():
+                refuse(f"{where} has no {f}.")
+        if not any((r.get("src") or "").startswith(o) for o in origins):
+            refuse(f"{where}: {r.get('src')} is not from an origin in love-embed.js's AUDIO_ORIGINS, which "
+                   "would refuse it quietly, and the button would never play.")
+        if not (r.get("src") or "").endswith(".mp3"):
+            refuse(f"{where} is not Commons' MP3, which every browser plays.")
+        if not (r.get("file") or "").startswith("File:"):
+            refuse(f"{where} does not name its file on Commons, where its licence is.")
+        if not RUNTIME.match(r.get("runtime") or ""):
+            refuse(f"{where} has no runtime. Every press-to-play control here says how long before the press.")
+        if not str(r.get("licence") or "").startswith("Public domain"):
+            refuse(f"{where} is not public domain on Commons.")
+        by = r.get("by") or []
+        if not by:
+            refuse(f"{where} names no composer.")
+        for c in by:
+            if not (c.get("name") and isinstance(c.get("born"), int) and isinstance(c.get("died"), int)):
+                refuse(f"{where}: a composer without a name or both years.")
+            elif c["died"] + 70 >= date.today().year:
+                refuse(f"{where}: {c['name']} died in {c['died']}, seventy years ago or less, so the music is not "
+                       "public domain everywhere. The Doomscroll's bar, counted against this year.")
+        if r.get("written") is not None and not isinstance(r.get("written"), int):
+            refuse(f"{where}: the year it was written is not a year.")
+    if len({r.get("src") for r in rolls}) != len(rolls):
+        refuse("two rolls on the shelf are the same recording.")
+
+
 # ── The room, from a seat at the south end ───────────────────────────────────
 # One-point perspective, from a seat: the eye is 50 inches up, which is where
 # most people in a pub are, sitting down. Everything is drawn from the plan, so
@@ -1009,8 +1079,14 @@ def piano_svg(d):
     out = [face([(x1, 0, 0), (x1, y1, 0), (x1, y1, h), (x1, 0, h)], "--aqp-piano2", LINE),
            face([(x0, y1, 0), (x1, y1, 0), (x1, y1, h), (x0, y1, h)], "--aqp-piano", LINE),
            face([(x0 + 3, y1, 27), (x1 - 3, y1, 27), (x1 - 3, y1, 30), (x0 + 3, y1, 30)], "--aqp-froth"),
-           # The window the roll turns behind, with no roll in it.
-           face([(x0 + 13, y1, 35), (x1 - 13, y1, 35), (x1 - 13, y1, 46), (x0 + 13, y1, 46)], "--aqp-line")]
+           # The window the roll turns behind, with a roll in it: paper with
+           # rows of holes, still, because nothing in the pub moves.
+           face([(x0 + 13, y1, 35), (x1 - 13, y1, 35), (x1 - 13, y1, 46), (x0 + 13, y1, 46)], "--aqp-line"),
+           face([(x0 + 15, y1, 36), (x1 - 15, y1, 36), (x1 - 15, y1, 45), (x0 + 15, y1, 45)], "--aqp-plate")]
+    for k in range(9):
+        hx = x0 + 17 + k * (x1 - x0 - 34) / 8
+        hz = 37.5 + (k * 5 % 7)
+        out.append(face([(hx, y1, hz), (hx + 1.2, y1, hz), (hx + 1.2, y1, hz + 1.4), (hx, y1, hz + 1.4)], "--aqp-line"))
     for k in range(1, 14):
         xx = x0 + 3 + k * (x1 - x0 - 6) / 14
         out.append(line3((xx, y1, 27), (xx, y1, 30), "--aqp-line", .6))
@@ -1661,6 +1737,58 @@ def menu_block(d):
     return "\n".join(out)
 
 
+# ── The piano's rolls ────────────────────────────────────────────────────────
+
+def roll_svg(r, i):
+    """A roll on its spool, with its paper hanging down, and the holes in it.
+    The holes are a picture of holes, not the music: no two rolls are drawn
+    alike, and nothing here claims to be a transcription."""
+    seed = sum(ord(ch) for ch in r["key"])
+    out = ['<svg class="aqp-roll__draw" viewBox="0 0 120 90" aria-hidden="true" focusable="false">',
+           '<path d="M24 34 H96 V84 L90 80 L84 84 L78 80 L72 84 L66 80 L60 84 L54 80 L48 84 L42 80 L36 84 L30 80 L24 84 Z" '
+           'fill="var(--aqp-plate)" stroke="var(--aqp-line)" stroke-width="1.2" stroke-linejoin="round"/>']
+    for row in range(6):
+        for col in range(12):
+            if (seed + row * 7 + col * (3 + i)) % 5 < 2:
+                x, y = 28 + col * 5.6, 42 + row * 6.2
+                ln = 2 + (seed + col + row) % 3 * 1.6
+                out.append(f'<rect x="{n(x)}" y="{n(y)}" width="2.2" height="{n(ln)}" rx="1" fill="var(--aqp-line)"/>')
+    out.append('<rect x="18" y="20" width="84" height="16" rx="8" fill="var(--aqp-plate)" stroke="var(--aqp-line)" '
+               'stroke-width="1.2"/>')
+    out.append('<path d="M24 22 V34 M30 22 V34" stroke="var(--aqp-crumb)" stroke-width="1.4"/>')
+    out.append('<rect x="8" y="22" width="12" height="12" rx="3" fill="var(--aqp-col)" stroke="var(--aqp-line)" stroke-width="1.2"/>')
+    out.append('<rect x="100" y="22" width="12" height="12" rx="3" fill="var(--aqp-col)" stroke="var(--aqp-line)" stroke-width="1.2"/>')
+    out.append('<rect x="48" y="52" width="24" height="12" rx="2" fill="var(--aqp-sea)"/>')
+    out.append('</svg>')
+    return "".join(out)
+
+
+def by_words(r):
+    return " and ".join(f'{c["name"]} ({c["born"]}–{c["died"]})' for c in r["by"])
+
+
+def rolls_block(d):
+    out = ['    <ul class="aqp-rolls">']
+    for i, r in enumerate(d["rolls"]):
+        title = r["title"] + (f' ({r["written"]})' if r.get("written") else "")
+        name = f'{r["title"]}, by {" and ".join(c["name"] for c in r["by"])}, on the pub’s player piano'
+        lines = [f'<p class="aqp-roll__by">By {esc(by_words(r))}.</p>',
+                 f'<p class="aqp-roll__what">{esc(r["roll"])}.</p>']
+        if r.get("heard"):
+            lines.append(f'<p class="aqp-roll__heard">{esc(r["heard"])}</p>')
+        lines.append(f'<p class="aqp-roll__src"><a href="https://commons.wikimedia.org/wiki/{attr(r["file"].replace(" ", "_"))}">'
+                     f'Its page on Wikimedia Commons</a>: {esc(r["licence"])}.</p>')
+        out.append(f'      <li class="aqp-roll" id="aqp-roll-{r["key"]}">\n'
+                   f'        {roll_svg(r, i)}\n'
+                   f'        <h3 class="aqp-roll__title">{esc(title)}</h3>\n'
+                   f'        ' + "\n        ".join(lines) + '\n'
+                   f'        <button type="button" class="facade facade--audio aqp-play" data-audio-src="{attr(r["src"])}" '
+                   f'data-embed-title="{attr(name)}">Press to play &middot; {esc(r["runtime"])}</button>\n'
+                   '      </li>')
+    out.append('    </ul>')
+    return "\n".join(out)
+
+
 # ── The tables in words, and the plan ────────────────────────────────────────
 
 SHAPE_WORDS = {"round": "Round", "square": "Square", "long": "Long"}
@@ -1850,6 +1978,12 @@ def liner_sources(d):
                  f'Our own <a href="{attr(tp["page"])}">Third Places</a> page, quoting '
                  f'<a href="{attr(tp["source_url"])}">{esc(tp["source"])}</a>; checked against the Knowledge System’s '
                  'copy of our page on every build'))
+    links = [f'<a href="https://commons.wikimedia.org/wiki/{attr(r["file"].replace(" ", "_"))}">{esc(r["title"])}</a>'
+             for r in d["rolls"]]
+    rows.append(("The rolls on the player piano",
+                 "Recordings of piano rolls on Wikimedia Commons, each public domain on its own page, chosen on "
+                 "2026-10-06 and streamed from there, never hosted here: " + ", ".join(links[:-1]) + " and " + links[-1]
+                 + ". Every composer’s years were read on Wikipedia, and every runtime measured off the file"))
     rows.append(("Allergens and caffeine on every card",
                  'Worked out by the same engines as <a href="hey-good-cookin.html">Hey, Good Cookin’</a>, '
                  '<a href="pekoe-and-purrs.html">Pekoe and Purrs</a> and <a href="truckin-food-court.html">the Truck '
@@ -1875,9 +2009,20 @@ def check_page(d):
                       ('data-tell-bring', "the choice of fetching or having it brought is gone")):
         if want not in src:
             refuse(f"{PAGE.name}: {why}.")
-    for m in re.finditer(r"<iframe|<video|<audio|class=\"facade|data-embed-|data-rack-", src):
-        refuse(f"{PAGE.name}: {m.group(0)!r}. Nothing behind the bar has a screen and nothing plays: that is the "
-               "homage. The friendly edit is a telly over the bar with a rack of pub films.")
+    for m in re.finditer(r"<iframe|<video|data-embed-id|data-embed-src|data-rack-", src):
+        refuse(f"{PAGE.name}: {m.group(0)!r}. Nothing behind the bar has a screen: that is the homage. The "
+               "friendly edit is a telly over the bar with a rack of pub films. The piano's rolls are a strip, "
+               "played by love-embed.js's audio builder.")
+    origins = audio_origins()
+    for m in re.finditer(r'class="facade[^"]*"[^>]*>', src):
+        tag = m.group(0)
+        if "facade--audio" not in tag:
+            refuse(f"{PAGE.name}: a facade that is not a strip of audio. Nothing here has a screen.")
+        a = re.search(r'data-audio-src="([^"]+)"', tag)
+        if not a or not any(html.unescape(a.group(1)).startswith(o) for o in origins):
+            refuse(f"{PAGE.name}: a roll whose recording is not from an origin in AUDIO_ORIGINS.")
+    if 'class="facade' in src and 'src="love-embed.js"' not in src:
+        refuse(f"{PAGE.name} has rolls and does not load love-embed.js, so every roll would press and play nothing.")
     for q in d["quotes"]:
         if f"<!-- aqp:quote:{q['key']}:begin -->" not in src:
             refuse(f"{PAGE.name} has no place for the quotation {q['key']!r}.")
@@ -1942,7 +2087,12 @@ def main():
     check_menu(d)
     check_words(d)
     check_columns(d)
-    for k in ("_what", "_light", "_thirteen"):
+    check_rolls(d)
+    for r in d.get("rolls") or []:
+        words = " ".join(str(r.get(f, "")) for f in ("title", "roll", "heard"))
+        sweep(words, f"{DATA.name}, roll {r.get('key')!r}")
+        sweep(words, f"{DATA.name}, roll {r.get('key')!r}", [(WORLD, "Jim Butcher's invented world on a roll.")])
+    for k in ("_what", "_light", "_thirteen", "_rolls"):
         sweep(d.get(k, ""), f"{DATA.name} {k}")
     for group in ("pints", "glasses", "stove_food"):
         for x in d.get(group) or []:
@@ -1967,6 +2117,7 @@ def main():
     swap(PAGE, "aqp:parts", parts_block(d))
     swap(PAGE, "aqp:columns", columns_block(d, fx), "    ")
     swap(PAGE, "aqp:menu", menu_block(d), "    ")
+    swap(PAGE, "aqp:rolls", rolls_block(d), "    ")
     for q in d["quotes"]:
         swap(PAGE, f"aqp:quote:{q['key']}", quote_block(q, d), "    ")
     swap(PAGE, "aqp:third", third_block(d), "    ")

@@ -3028,8 +3028,15 @@ lit warm, which is what keeps the browns muted and the room off The Den. The col
 the room which one anybody has. Big Steep's words for pressure and health are read out of `make-big-steep.py` with
 `ast`, because that tool runs as a script and cannot be imported. **Its `rounds?` was narrowed to the round somebody
 buys**, after it refused the pub's round tables; narrowed, not excepted. **Nothing behind the bar has a screen**, and
-the tool refuses a facade, a frame or audio on the page; the friendly edit is a telly over the bar with a rack of pub
-films. The piano has no rolls yet, and how it would play is open in `DECISIONS.md`. **`table.js` gained an optional
+the tool refuses a frame, a video, a YouTube facade or a rack; the friendly edit is a telly over the bar with a rack of
+pub films. **The player piano's rolls are a strip, not a screen** (Ryan, 2026-10-06): recordings of real piano rolls on
+Wikimedia Commons, each public domain on its own page, played through `love-embed.js`'s audio builder from the
+MP3 Commons makes of every file, so Safari plays them, nothing musical is hosted here, and nothing is fetched until a
+roll is pressed. Commons' transcode path is in `AUDIO_ORIGINS`, which the tool reads. **Every composer died more
+than seventy years ago, counted against the current year**, the Doomscroll's bar, so a roll of a 1920s song whose
+writer died in the 1960s is refused even though it is public domain in the United States. **A file is not a roll
+because Commons says "piano roll" near it**: several are notation software playing sheet music, and the data file
+says they were left off. How each recording was made is said only where its Commons page says it. **`table.js` gained an optional
 `data-table-tell`**, the sentence an order says, which `pint.js` sets for fetching or having it brought; the other
 rooms never set it. **The pub's sweep anchors its negation window** to the word it excuses: written the old way,
 *nobody lights a lamp.* excused *A lamp is lit on every table.* in the next sentence. The other rooms' sweeps are still

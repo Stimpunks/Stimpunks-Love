@@ -265,6 +265,15 @@
    ],
    "after": "<h2 id=\"pkp-telly-h\">"
   },
+  {
+   "page": "a-quiet-pint.html",
+   "what": "A pub under the street with no screens and a player piano, and a shelf of old rolls, some of them played onto the paper by the people who wrote the music.",
+   "holds": [
+    "The piano",
+    "own roll"
+   ],
+   "after": "<h2 id=\"aqp-piano-h\">"
+  },
  {
   "page": "the-run.html",
   "what": "A dog park in a dog's colours, every dog from the shelter out for a run, and television made for dogs on the dog telly on the porch.",
