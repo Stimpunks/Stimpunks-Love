@@ -2637,5 +2637,41 @@
    "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/familjengrotesk/FamiljenGrotesk%5Bwght%5D.ttf",
    "note": "Byte-identical to the 400 above, declared again against its weight axis; see that note."
   }
+ ],
+ "amarante": [
+  {
+   "file": "amarante-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 14448,
+   "src": "https://fonts.gstatic.com/s/amarante/v30/xMQXuF1KTa6EvGx9bp-wAXvimy-a.woff2",
+   "note": "A Quiet Pint (§100), the pub's name and every heading, and nothing at reading size: a sign over a cellar door, in a room where no two things match. It has one weight, so one static file."
+  }
+ ],
+ "brygada-1918": [
+  {
+   "file": "brygada-1918-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 23384,
+   "src": "https://fonts.gstatic.com/s/brygada1918/v27/pe0pMI6eKpdGqlF5LANrM--qBP5vWVYgVw.woff2",
+   "note": "A Quiet Pint (§100), every word that is read: the board, the tables in words, the house rules. It ships as a variable font, so Google serves the same file for 400 and 700; it is downloaded once and declared twice against the weight axis, Radio Canada's call."
+  },
+  {
+   "file": "brygada-1918-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 23384,
+   "src": "https://fonts.gstatic.com/s/brygada1918/v27/pe0pMI6eKpdGqlF5LANrM--qBP5vWVYgVw.woff2",
+   "note": "Byte-identical to the 400 above; see that note."
+  },
+  {
+   "file": "brygada-1918-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 14020,
+   "src": "https://fonts.gstatic.com/s/brygada1918/v27/pe06MI6eKpdGqlF5LANrM--qAeRhe6D4yip43qfcERwsuLuzs78KL-V8.woff2",
+   "note": "Brygada 1918's own italic, for the names of books in the room, so the browser never invents one."
+  }
  ]
 }

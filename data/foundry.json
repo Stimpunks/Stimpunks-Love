@@ -1401,6 +1401,20 @@
       "sections": [
         99
       ]
+    },
+    "amarante": {
+      "where": "A Quiet Pint",
+      "page": "a-quiet-pint.html",
+      "sections": [
+        100
+      ]
+    },
+    "brygada-1918": {
+      "where": "A Quiet Pint",
+      "page": "a-quiet-pint.html",
+      "sections": [
+        100
+      ]
     }
   }
 }

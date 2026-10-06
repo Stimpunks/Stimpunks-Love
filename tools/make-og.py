@@ -1228,6 +1228,22 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--brewstew .og-lede {{ font-family: 'Livvic', sans-serif; color: var(--bns-text); font-size: 25px;
   line-height: 1.35; margin: 0; }}
 
+/* a quiet pint — THE PUB under the name, lifted off the page whole: the room
+   from a seat at the south end, the windows at the top of the street wall,
+   the mirrors and the patches of light they pass on, the carved columns, the
+   tables at their own heights. A panorama, because the room is long and low,
+   so the card stacks the drawing over the words, and its frame stops above the
+   empty floor at the drawing's foot. Nobody lit it, and the card does not
+   light it either. */
+.og--pint {{ gap: 10px; padding: 30px 50px 30px; justify-content: flex-start; }}
+.og--pint .og-room {{ width: 1100px; height: 380px; border: 3px solid var(--aqp-col); border-radius: 6px; overflow: hidden; }}
+.og--pint .og-room svg {{ display: block; width: 100%; height: auto; }}
+.og--pint .og-words {{ display: flex; align-items: baseline; gap: 28px; }}
+.og--pint .aqp-over {{ font-size: 16px; margin: 0 !important; }}
+.og--pint h1 {{ font-size: 66px; line-height: 1; margin: 0 !important; white-space: nowrap; }}
+.og--pint .og-lede {{ font-family: 'Brygada 1918', Georgia, serif; color: var(--aqp-text); font-size: 23px;
+  line-height: 1.35; margin: 0; max-width: 1100px; }}
+
 /* the run — THE FIELD beside the name, lifted off the page whole, in a dog's
    colours: the porch, the trees, the clouds' shadows on the grass and the
    blue ball. NO DOGS: which dogs are out changes whenever somebody is
@@ -4156,6 +4172,33 @@ def card_junkpile(p):
     )
 
 
+def card_pint(p):
+    # THE PUB AND THE NAME ARE LIFTED WHOLE, so the card cannot show a pub the
+    # page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="aqp-room__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="aqp-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: a-quiet-pint.html has lost the drawing of the pub or its\n"
+            "header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--pint" data-fit="card">'
+        f'<div class="og-room">{draw.group(1)}</div>'
+        f'<div class="og-words">{p["h1"]}<p class="aqp-over">{over.group(1)}</p></div>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>',
+        f"A dark brown card. Across the top, a long low pub seen from a seat at one end: a panelled ceiling with dark "
+        f"beams and ceiling fans between them, a row of small windows of different widths along the top of the far "
+        f"wall with the pale street in them, old sea-green mirrors on the walls each with a streak of light in it, a "
+        f"bar with stools along the left, carved wooden columns of different thicknesses standing about the floor, "
+        f"tables at many heights with chairs and stools, and pale patches of light lying on the floor and on some "
+        f"table tops; no lamp and no flame anywhere. Below it, \u201c{p['h1text']}\u201d in large sea-green letters "
+        f"and small capitals reading {plain(over.group(1))}, then: {p['desc_plain']}",
+    )
+
+
 def card_brewstew(p):
     # THE CABIN AND THE NAME ARE LIFTED WHOLE, so the card cannot show a tea room
     # the page does not, and the lede is the page's og:description.
@@ -4593,6 +4636,7 @@ CARDS = {
     "cookin":       card_cookin,
     "purrs":        card_purrs,
     "brewstew":     card_brewstew,
+    "pint":         card_pint,
     "dogrun":       card_dogrun,
     "truckstop":    card_truckstop,
     "greenspace":   card_greenspace,

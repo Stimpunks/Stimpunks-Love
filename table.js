@@ -5,6 +5,7 @@
    Pekoe and Purrs came first (2026-10-04, inside purrs.js), and Brew and Stew
    asked for the same thing the same day, so the behaviour moved into this one
    file, the way rack.js did when a second room took the Picture House's rack.
+   A Quiet Pint is the third room to use it (2026-10-05).
    THE BEHAVIOUR IS SHARED AND THE LOOK IS NOT: every room draws its own table,
    its own things to put on it and its own buttons, in its own section of
    love.css, and this file only finds the parts by their data- attributes.
@@ -25,7 +26,11 @@
      [data-table]            the drawing of the table, with data-table-holds
        [data-slot]           a place on it, with data-x, data-y, data-w, data-h
      [data-table-order=KEY]  a button that brings KEY to the table, with
-                             data-table-name; ships hidden, this unhides it
+                             data-table-name; ships hidden, this unhides it.
+                             It may carry data-table-tell, a sentence said
+                             instead of the usual one, with {name} in it; A
+                             Quiet Pint sets it to say how the order reached
+                             you, and the other rooms never do
      [data-table-draw=KEY]   KEY's own drawing, copied onto the table
      [data-table-said]       the answer beside an order button (aria-hidden)
      [data-table-look]       the button that looks down and back up, with
@@ -142,7 +147,9 @@
       }
       table.push(b.getAttribute('data-table-order'));
       draw();
-      sayAt(answer, name + ' is on your table. Look down to see it.');
+      var tell = b.getAttribute('data-table-tell');
+      sayAt(answer, tell ? tell.split('{name}').join(name.charAt(0).toUpperCase() + name.slice(1))
+        : name + ' is on your table. Look down to see it.');
     });
   });
 

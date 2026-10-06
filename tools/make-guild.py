@@ -466,6 +466,11 @@ DRAW = {
     # the sand, its hole the sand itself, the torn end --pil-tape, and the
     # outline and the floor line --pil-ink.
     "pil-tape": """<path d="M3 29 H29" stroke="var(--pil-ink)" stroke-width="1.6" stroke-linecap="round"/><circle cx="14" cy="20" r="7.5" fill="var(--pil-link)" stroke="var(--pil-ink)" stroke-width="1.4"/><circle cx="14" cy="20" r="3" fill="var(--pil-sand)" stroke="var(--pil-ink)" stroke-width="1"/><path d="M20 24 L28 27 L27 29 L19 26.4 Z" fill="var(--pil-tape)" stroke="var(--pil-ink)" stroke-width="1"/>""",
+    # A Quiet Pint's beer mat, dropped on the floor: the mat is --aqp-sea, 8.34
+    # on the wood, with its edge in --aqp-mat and a ring printed on it in the
+    # wood; the floor line is --aqp-dim, 7.43. Both over the body threshold a
+    # marker is held to.
+    "aqp-mat": """<path d="M3 29 H29" stroke="var(--aqp-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 21 V23.4 Q16 30.4 27 23.4 V21" fill="var(--aqp-mat)"/><ellipse cx="16" cy="21" rx="11" ry="5" fill="var(--aqp-sea)"/><ellipse cx="16" cy="21" rx="7" ry="3" fill="none" stroke="var(--aqp-wood)" stroke-width="1.3"/>""",
     "stair-lift": """<path d="M3 29 H29" stroke="var(--cmi-ink)" stroke-width="1.6" stroke-linecap="round"/><rect x="9" y="6" width="14" height="19" rx="3" fill="var(--cmi-dado)"/><circle cx="16" cy="13" r="3.6" fill="var(--cmi-nosing)"/><path d="M13 20 H19" stroke="var(--cmi-nosing)" stroke-width="1.6" stroke-linecap="round"/>""",
     "fridge-magnet": """<path d="M3 29 H29" stroke="var(--fos-ink)" stroke-width="1.6" stroke-linecap="round"/><rect x="6" y="15" width="20" height="10" fill="var(--fos-tile)" stroke="var(--fos-ink)" stroke-width="1.6"/><path d="M10 20 H15 M17 20 H22" stroke="var(--fos-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M8 26 H27" stroke="var(--fos-edge)" stroke-width="1.4" stroke-linecap="round"/>""",
     "pando-leaf": """<path d="M3 29 H29" stroke="var(--pdo-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M16 5 Q25 9 25 17 Q25 24 16 25 Q7 24 7 17 Q7 9 16 5 Z" fill="var(--pdo-gold)"/><path d="M16 7.5 V23" stroke="var(--pdo-shade)" stroke-width="1.3" stroke-linecap="round"/><path d="M16 25 L17 28.5" stroke="var(--pdo-gold)" stroke-width="2" stroke-linecap="round"/>""",

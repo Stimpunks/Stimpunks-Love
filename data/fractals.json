@@ -1539,6 +1539,22 @@
         "--pkp-day"
       ]
     },
+    "a-quiet-pint.html": {
+      "kind": "orbit",
+      "trap": "ring",
+      "c": [
+        -0.39,
+        0.59
+      ],
+      "orbit": 0.018,
+      "ground": "--aqp-wood",
+      "inks": [
+        "--aqp-light",
+        "--aqp-sea",
+        "--aqp-ale",
+        "--aqp-carve"
+      ]
+    },
     "brew-and-stew.html": {
       "kind": "ifs",
       "figure": "fern",

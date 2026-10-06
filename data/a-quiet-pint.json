@@ -1,0 +1,1132 @@
+{
+  "_what": "A Quiet Pint, a pub under the street, in homage to McAnally's in Jim Butcher's Dresden Files. Ryan Boren's brief, 2026-10-05: a new room on the street, made like McAnally's Pub, with the passages from Storm Front, Proven Guilty, Small Favor and Cold Days that describe it. tools/make-a-quiet-pint.py builds the room, the plan, your table, the board and the credits from this file and refuses what it says it refuses.",
+  "_light": "The only light in the pub is the street's. It comes in at the top of the walls through the windows, which are at the level of the pavement, and most of it reaches the tables by way of the mirrors, each hung at its own height and tipped its own way, so it lands in patches, none the same shape and none in a row, a little dimmer and a little green, which is what old mirror glass gives back. Nothing in here is lit warm: the stove is shut, and nobody lights a lamp. If the browns ever go amber, this has become The Den.",
+  "_thirteen": "Thirteen stools, tables, windows, mirrors, columns and ceiling fans are Jim Butcher's numbers, from the books, and the tool counts them: a count that belongs to somebody else is a fact to protect, Swaying Sweetgrass's rule about its bundles. No two of any of them are alike and none of them stand in a row, because the books call the pub a study in deliberate asymmetry; the tool refuses two the same and refuses a row.",
+  "_inches": "Every measurement in this file is in inches, because the standard the floor is built to is written in inches. The plan's origin is the north-west corner of the room: x runs east along the street wall, y runs south away from it, and z is height above the floor.",
+  "_source_of_the_brief": "Ryan's brief linked the Dresden Files fan wiki's page for McAnally's. Nothing here is drawn from it: a fan wiki is a description of somebody's invented world written by other people, which is Sithen's reason for not using one. The room is built from the passages of the books Ryan quoted, read off his own Kindle copies, and every quotation names its book.",
+  "room": {
+    "w": 720,
+    "d": 480,
+    "ceiling": 92,
+    "beam_bottom": 82,
+    "below_street": 60,
+    "eye": 50,
+    "window_sill": 62,
+    "window_top": 84
+  },
+  "door": {
+    "x0": 600,
+    "x1": 640,
+    "top": 80,
+    "clear": [
+      582,
+      0,
+      658,
+      60
+    ]
+  },
+  "steps": {
+    "width": 60,
+    "risers": 9,
+    "tread": 11
+  },
+  "ramp": {
+    "width": 60,
+    "runs": [
+      {
+        "rise": 30,
+        "run": 360
+      },
+      {
+        "rise": 30,
+        "run": 360
+      }
+    ],
+    "landing": 60,
+    "handrails": "both sides"
+  },
+  "beams": [
+    24,
+    94,
+    167,
+    228,
+    304,
+    366,
+    438
+  ],
+  "fans": [
+    {
+      "x": 230,
+      "y": 59,
+      "span": 44,
+      "turn": 12
+    },
+    {
+      "x": 470,
+      "y": 59,
+      "span": 38,
+      "turn": 47
+    },
+    {
+      "x": 350,
+      "y": 130,
+      "span": 50,
+      "turn": 31
+    },
+    {
+      "x": 590,
+      "y": 130,
+      "span": 34,
+      "turn": 74
+    },
+    {
+      "x": 270,
+      "y": 197,
+      "span": 40,
+      "turn": 58
+    },
+    {
+      "x": 520,
+      "y": 198,
+      "span": 46,
+      "turn": 5
+    },
+    {
+      "x": 200,
+      "y": 266,
+      "span": 52,
+      "turn": 39
+    },
+    {
+      "x": 410,
+      "y": 266,
+      "span": 36,
+      "turn": 66
+    },
+    {
+      "x": 660,
+      "y": 266,
+      "span": 31,
+      "turn": 21
+    },
+    {
+      "x": 300,
+      "y": 335,
+      "span": 48,
+      "turn": 83
+    },
+    {
+      "x": 600,
+      "y": 335,
+      "span": 42,
+      "turn": 52
+    },
+    {
+      "x": 250,
+      "y": 402,
+      "span": 30,
+      "turn": 9
+    },
+    {
+      "x": 540,
+      "y": 402,
+      "span": 37,
+      "turn": 70
+    }
+  ],
+  "windows": [
+    {
+      "x": 10,
+      "w": 22
+    },
+    {
+      "x": 56,
+      "w": 31
+    },
+    {
+      "x": 118,
+      "w": 16
+    },
+    {
+      "x": 153,
+      "w": 36
+    },
+    {
+      "x": 216,
+      "w": 19
+    },
+    {
+      "x": 270,
+      "w": 27
+    },
+    {
+      "x": 319,
+      "w": 14
+    },
+    {
+      "x": 362,
+      "w": 38
+    },
+    {
+      "x": 438,
+      "w": 24
+    },
+    {
+      "x": 488,
+      "w": 33
+    },
+    {
+      "x": 554,
+      "w": 18
+    },
+    {
+      "x": 652,
+      "w": 29
+    },
+    {
+      "x": 690,
+      "w": 26
+    }
+  ],
+  "mirrors": [
+    {
+      "wall": "west",
+      "at": 70,
+      "z": 64,
+      "w": 30,
+      "h": 26,
+      "lands": {
+        "table": 1
+      }
+    },
+    {
+      "wall": "west",
+      "at": 150,
+      "z": 60,
+      "w": 22,
+      "h": 34,
+      "lands": {
+        "floor": [
+          196,
+          236
+        ]
+      }
+    },
+    {
+      "wall": "west",
+      "at": 236,
+      "z": 66,
+      "w": 38,
+      "h": 20,
+      "lands": {
+        "table": 4
+      }
+    },
+    {
+      "wall": "west",
+      "at": 330,
+      "z": 62,
+      "w": 26,
+      "h": 31,
+      "lands": {
+        "table": 8
+      }
+    },
+    {
+      "wall": "west",
+      "at": 410,
+      "z": 58,
+      "w": 18,
+      "h": 18,
+      "lands": {
+        "floor": [
+          178,
+          392
+        ]
+      }
+    },
+    {
+      "wall": "north",
+      "at": 180,
+      "z": 44,
+      "w": 20,
+      "h": 28,
+      "lands": {
+        "floor": [
+          290,
+          240
+        ]
+      }
+    },
+    {
+      "wall": "north",
+      "at": 342,
+      "z": 46,
+      "w": 24,
+      "h": 22,
+      "lands": {
+        "floor": [
+          372,
+          112
+        ]
+      }
+    },
+    {
+      "wall": "north",
+      "at": 436,
+      "z": 46,
+      "w": 17,
+      "h": 26,
+      "lands": {
+        "table": 13
+      }
+    },
+    {
+      "wall": "east",
+      "at": 60,
+      "z": 52,
+      "w": 28,
+      "h": 36,
+      "lands": {
+        "floor": [
+          622,
+          84
+        ]
+      }
+    },
+    {
+      "wall": "east",
+      "at": 132,
+      "z": 56,
+      "w": 21,
+      "h": 25,
+      "lands": {
+        "table": 3
+      }
+    },
+    {
+      "wall": "east",
+      "at": 318,
+      "z": 50,
+      "w": 34,
+      "h": 23,
+      "lands": {
+        "table": 5
+      }
+    },
+    {
+      "wall": "east",
+      "at": 392,
+      "z": 54,
+      "w": 23,
+      "h": 38,
+      "lands": {
+        "table": 11
+      }
+    },
+    {
+      "wall": "east",
+      "at": 452,
+      "z": 46,
+      "w": 32,
+      "h": 24,
+      "lands": {
+        "table": 9
+      }
+    }
+  ],
+  "bar": {
+    "front": [
+      [
+        118,
+        40
+      ],
+      [
+        138,
+        104
+      ],
+      [
+        110,
+        170
+      ],
+      [
+        130,
+        236
+      ],
+      [
+        104,
+        290
+      ],
+      [
+        126,
+        364
+      ],
+      [
+        110,
+        444
+      ]
+    ],
+    "depth": 26,
+    "heights": [
+      42,
+      42,
+      42,
+      34,
+      42,
+      42
+    ],
+    "stools": [
+      10,
+      31,
+      53,
+      76,
+      100,
+      125,
+      151,
+      178,
+      280,
+      308,
+      337,
+      367,
+      398
+    ]
+  },
+  "stove": {
+    "x0": 684,
+    "x1": 716,
+    "y0": 220,
+    "y1": 256,
+    "h": 32,
+    "flue": [
+      700,
+      238
+    ]
+  },
+  "piano": {
+    "x0": 236,
+    "x1": 294,
+    "y0": 0,
+    "y1": 25,
+    "h": 50,
+    "bench": [
+      246,
+      25,
+      284,
+      39
+    ]
+  },
+  "columns": [
+    {
+      "key": "bremen",
+      "x": 296,
+      "y": 128,
+      "d": 14,
+      "tale": "The Bremen Town Musicians",
+      "carved": "a donkey, a dog, a cat and a rooster, standing on each other's backs",
+      "bands": [
+        [
+          8,
+          16,
+          "rope"
+        ],
+        [
+          38,
+          50,
+          "figures"
+        ],
+        [
+          72,
+          78,
+          "rings"
+        ]
+      ]
+    },
+    {
+      "key": "soup",
+      "x": 586,
+      "y": 120,
+      "d": 11,
+      "tale": "Stone Soup",
+      "carved": "a pot over a fire, with hands round it, each holding something to put in",
+      "bands": [
+        [
+          12,
+          20,
+          "beads"
+        ],
+        [
+          44,
+          56,
+          "figures"
+        ]
+      ]
+    },
+    {
+      "key": "turnip",
+      "x": 400,
+      "y": 40,
+      "d": 17,
+      "tale": "The Enormous Turnip",
+      "carved": "a turnip as big as a barrel, and a line of everybody pulling at it, down to a mouse",
+      "bands": [
+        [
+          6,
+          12,
+          "chevrons"
+        ],
+        [
+          30,
+          44,
+          "figures"
+        ],
+        [
+          64,
+          70,
+          "leaves"
+        ],
+        [
+          80,
+          86,
+          "rings"
+        ]
+      ]
+    },
+    {
+      "key": "bears",
+      "x": 628,
+      "y": 248,
+      "d": 21,
+      "tale": "Goldilocks and the Three Bears",
+      "carved": "three chairs, three bowls and three beds, no two of them the same size",
+      "bands": [
+        [
+          18,
+          30,
+          "figures"
+        ],
+        [
+          58,
+          64,
+          "scallops"
+        ]
+      ]
+    },
+    {
+      "key": "pea",
+      "x": 512,
+      "y": 228,
+      "d": 19,
+      "tale": "The Princess and the Pea",
+      "carved": "a stack of mattresses all the way up the column, and one pea under the bottom of them",
+      "bands": [
+        [
+          4,
+          10,
+          "beads"
+        ],
+        [
+          14,
+          66,
+          "stack"
+        ],
+        [
+          76,
+          82,
+          "rope"
+        ]
+      ]
+    },
+    {
+      "key": "mice",
+      "x": 454,
+      "y": 258,
+      "d": 10,
+      "tale": "The Town Mouse and the Country Mouse",
+      "carved": "two mice at a table, one of them putting on a coat to go home where it is quiet",
+      "bands": [
+        [
+          22,
+          34,
+          "figures"
+        ],
+        [
+          70,
+          76,
+          "chevrons"
+        ]
+      ]
+    },
+    {
+      "key": "goats",
+      "x": 444,
+      "y": 430,
+      "d": 15,
+      "tale": "The Three Billy Goats Gruff",
+      "carved": "three goats crossing a bridge, and something under it",
+      "bands": [
+        [
+          10,
+          18,
+          "scallops"
+        ],
+        [
+          36,
+          48,
+          "figures"
+        ],
+        [
+          60,
+          66,
+          "rope"
+        ]
+      ]
+    },
+    {
+      "key": "elves",
+      "x": 186,
+      "y": 462,
+      "d": 13,
+      "tale": "The Elves and the Shoemaker",
+      "carved": "a workbench at night, and small shoes finished on it by morning",
+      "bands": [
+        [
+          16,
+          28,
+          "figures"
+        ],
+        [
+          50,
+          56,
+          "beads"
+        ],
+        [
+          74,
+          80,
+          "leaves"
+        ]
+      ]
+    },
+    {
+      "key": "goose",
+      "x": 700,
+      "y": 52,
+      "d": 9,
+      "tale": "The Golden Goose",
+      "carved": "a goose, and a line of people stuck to it and to each other",
+      "bands": [
+        [
+          26,
+          40,
+          "figures"
+        ]
+      ]
+    },
+    {
+      "key": "beanstalk",
+      "x": 360,
+      "y": 96,
+      "d": 16,
+      "tale": "Jack and the Beanstalk",
+      "carved": "a beanstalk, climbing the whole of the column to the ceiling",
+      "bands": [
+        [
+          2,
+          88,
+          "vine"
+        ]
+      ]
+    },
+    {
+      "key": "tower",
+      "x": 412,
+      "y": 270,
+      "d": 20,
+      "tale": "Rapunzel",
+      "carved": "a tower, which is the column itself, with a window at the top and hair let down from it",
+      "bands": [
+        [
+          70,
+          84,
+          "window"
+        ],
+        [
+          8,
+          70,
+          "braid"
+        ]
+      ]
+    },
+    {
+      "key": "shoes",
+      "x": 196,
+      "y": 24,
+      "d": 12,
+      "tale": "The Twelve Dancing Princesses",
+      "carved": "a row of shoes, every pair worn through",
+      "bands": [
+        [
+          6,
+          14,
+          "figures"
+        ],
+        [
+          46,
+          52,
+          "scallops"
+        ],
+        [
+          68,
+          74,
+          "beads"
+        ]
+      ]
+    },
+    {
+      "key": "fisher",
+      "x": 306,
+      "y": 288,
+      "d": 18,
+      "tale": "The Fisherman and His Wife",
+      "carved": "a fish in a rough sea, and a hut on the shore",
+      "bands": [
+        [
+          12,
+          24,
+          "waves"
+        ],
+        [
+          40,
+          52,
+          "figures"
+        ],
+        [
+          78,
+          84,
+          "waves"
+        ]
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "n": 1,
+      "shape": "round",
+      "w": 30,
+      "h": 42,
+      "top": 1.5,
+      "base": "pedestal",
+      "seats": 2,
+      "seating": "stools",
+      "x": 238,
+      "y": 160
+    },
+    {
+      "n": 2,
+      "shape": "long",
+      "w": 72,
+      "d": 30,
+      "h": 29,
+      "top": 1.5,
+      "base": "pedestal",
+      "seats": 6,
+      "seating": "settle",
+      "against": "north",
+      "x": 520,
+      "y": 33
+    },
+    {
+      "n": 3,
+      "shape": "round",
+      "w": 24,
+      "h": 31,
+      "top": 1.5,
+      "base": "pedestal",
+      "seats": 2,
+      "seating": "chairs",
+      "x": 566,
+      "y": 204
+    },
+    {
+      "n": 4,
+      "shape": "square",
+      "w": 36,
+      "h": 33,
+      "top": 1.5,
+      "base": "pedestal",
+      "seats": 4,
+      "seating": "chairs",
+      "x": 338,
+      "y": 192
+    },
+    {
+      "n": 5,
+      "shape": "round",
+      "w": 48,
+      "h": 30,
+      "top": 1.5,
+      "base": "pedestal",
+      "seats": 6,
+      "seating": "chairs",
+      "x": 512,
+      "y": 330
+    },
+    {
+      "n": 6,
+      "shape": "square",
+      "w": 30,
+      "h": 16,
+      "top": 2,
+      "base": "legs",
+      "seats": 2,
+      "seating": "armchairs",
+      "against": "east",
+      "x": 691,
+      "y": 132
+    },
+    {
+      "n": 7,
+      "shape": "square",
+      "w": 28,
+      "h": 24,
+      "top": 2,
+      "base": "legs",
+      "seats": 3,
+      "seating": "settle",
+      "against": "east",
+      "x": 680,
+      "y": 340
+    },
+    {
+      "n": 8,
+      "shape": "round",
+      "w": 36,
+      "h": 38,
+      "top": 1.5,
+      "base": "pedestal",
+      "seats": 3,
+      "seating": "stools",
+      "x": 252,
+      "y": 318
+    },
+    {
+      "n": 9,
+      "shape": "long",
+      "w": 60,
+      "d": 30,
+      "h": 34,
+      "top": 1.5,
+      "base": "pedestal",
+      "seats": 4,
+      "seating": "chairs",
+      "x": 360,
+      "y": 352
+    },
+    {
+      "n": 10,
+      "shape": "square",
+      "w": 24,
+      "h": 18,
+      "top": 2,
+      "base": "legs",
+      "seats": 2,
+      "seating": "armchairs",
+      "x": 228,
+      "y": 436
+    },
+    {
+      "n": 11,
+      "shape": "round",
+      "w": 42,
+      "h": 32,
+      "top": 1.5,
+      "base": "pedestal",
+      "seats": 5,
+      "seating": "chairs",
+      "x": 548,
+      "y": 426
+    },
+    {
+      "n": 12,
+      "shape": "long",
+      "w": 36,
+      "d": 24,
+      "h": 20,
+      "top": 2,
+      "base": "legs",
+      "seats": 3,
+      "seating": "sofa",
+      "against": "south",
+      "x": 372,
+      "y": 444
+    },
+    {
+      "n": 13,
+      "shape": "round",
+      "w": 28,
+      "h": 28,
+      "top": 2,
+      "base": "legs",
+      "seats": 3,
+      "seating": "chairs",
+      "x": 476,
+      "y": 150
+    }
+  ],
+  "table_holds": 4,
+  "pints": [
+    {
+      "key": "ale",
+      "name": "The house ale",
+      "diet": "vegan",
+      "what": "water, malted barley, hops and yeast",
+      "note": "Brewed here and served at cellar temperature, cool and not cold, the way Mac serves his in Proven Guilty and Small Favor. Nothing is used to clear it, so it is vegan, and a little hazy.",
+      "look": {
+        "drink": "--aqp-ale",
+        "head": "--aqp-froth"
+      },
+      "pours": [
+        {
+          "key": "free",
+          "label": "Alcohol-free",
+          "abv": 0.05,
+          "strength": "Alcohol-free: 0.05% or less",
+          "how": "Brewed in full and the alcohol taken out afterwards, so a faint trace can stay."
+        },
+        {
+          "key": "full",
+          "label": "4.2%",
+          "abv": 4.2,
+          "strength": "4.2% alcohol by volume",
+          "how": "As it comes out of the cellar."
+        }
+      ]
+    },
+    {
+      "key": "dark",
+      "name": "The house dark",
+      "diet": "vegan",
+      "what": "water, malted barley, roasted barley, hops and yeast",
+      "note": "Brewed here, nearly black, with a tan head, and served at cellar temperature like the ale. Nothing is used to clear it.",
+      "look": {
+        "drink": "--aqp-stout",
+        "head": "--aqp-froth"
+      },
+      "pours": [
+        {
+          "key": "free",
+          "label": "Alcohol-free",
+          "abv": 0.05,
+          "strength": "Alcohol-free: 0.05% or less",
+          "how": "Brewed in full and the alcohol taken out afterwards, so a faint trace can stay."
+        },
+        {
+          "key": "full",
+          "label": "5%",
+          "abv": 5.0,
+          "strength": "5% alcohol by volume",
+          "how": "As it comes out of the cellar."
+        }
+      ]
+    },
+    {
+      "key": "cider",
+      "name": "Cider",
+      "diet": "vegan",
+      "what": "pressed apples and yeast",
+      "note": "Cold, or at cellar temperature if you would rather.",
+      "look": {
+        "drink": "--aqp-cider",
+        "head": "--aqp-froth"
+      },
+      "pours": [
+        {
+          "key": "free",
+          "label": "Alcohol-free",
+          "abv": 0.05,
+          "strength": "Alcohol-free: 0.05% or less",
+          "how": "Fermented in full and the alcohol taken out afterwards, so a faint trace can stay."
+        },
+        {
+          "key": "full",
+          "label": "4.5%",
+          "abv": 4.5,
+          "strength": "4.5% alcohol by volume",
+          "how": "As it comes out of the cellar."
+        }
+      ]
+    }
+  ],
+  "glasses": [
+    {
+      "key": "lemonade",
+      "name": "Lemonade, with lemonade ice",
+      "diet": "vegan",
+      "what": "lemon juice, water and cane sugar",
+      "note": "The ice cubes are frozen lemonade, so it stays cold and never goes watery. The idea is Mac's, in Proven Guilty.",
+      "vessel": "tall"
+    },
+    {
+      "key": "tea",
+      "name": "A pot of tea",
+      "diet": "vegan",
+      "what": "black tea and water, with oat milk on the side",
+      "note": "Strong, in a pot for one, in the pub's sea-green glaze.",
+      "vessel": "pot"
+    },
+    {
+      "key": "water",
+      "name": "A jug of water",
+      "diet": "vegan",
+      "what": "water",
+      "note": "A jug and a glass, cold, and nobody has to order anything else to have one.",
+      "vessel": "jug"
+    }
+  ],
+  "stove_food": [
+    {
+      "key": "mushroom",
+      "name": "The mushroom sandwich",
+      "diet": "vegan",
+      "what": "a portobello mushroom grilled on the stove, on a crusty wheat bread roll, with onions softened on the stove and mustard",
+      "note": "The same roll, on the same plate, as the steak sandwich. The mushroom was grown on a farm, like every mushroom on this street.",
+      "look": {
+        "filling": "--aqp-mush"
+      }
+    },
+    {
+      "key": "steak",
+      "name": "The steak sandwich",
+      "diet": "meat",
+      "animal": "beef",
+      "what": "beef steak grilled on the stove and sliced, on a crusty wheat bread roll, with onions softened on the stove and mustard",
+      "note": "Say how you like it done.",
+      "look": {
+        "filling": "--aqp-steak"
+      }
+    },
+    {
+      "key": "chips",
+      "name": "Chips",
+      "diet": "vegan",
+      "what": "potatoes cut thick and fried in sunflower oil, with salt",
+      "note": "Fried in a pan of their own on the stove, and nothing else goes in that pan.",
+      "look": {
+        "chip": "--aqp-chip"
+      }
+    }
+  ],
+  "quotes": [
+    {
+      "key": "screens",
+      "book": "storm-front",
+      "pages": "47–48",
+      "for": "nothing in the pub to go haywire",
+      "words": "There aren’t any video games at McAnally’s. There are no televisions or expensive computer trivia games. There isn’t even a jukebox. Mac keeps a player piano instead. It’s less likely to go haywire around us."
+    },
+    {
+      "key": "steps",
+      "book": "storm-front",
+      "pages": "47–48",
+      "for": "the steps and the fans, which this pub does differently",
+      "words": "When you walk in, you take several steps down into a room with a deadly combination of a low clearance and ceiling fans."
+    },
+    {
+      "key": "fetch",
+      "book": "storm-front",
+      "pages": "47–48",
+      "for": "fetching your order, which this pub does differently",
+      "words": "And you can damn well walk your own self over to the bar to pick up your order when it’s ready, according to Mac."
+    },
+    {
+      "key": "den",
+      "book": "storm-front",
+      "pages": "47–48",
+      "for": "what it is like to walk in",
+      "words": "The first time I entered McAnally’s, I felt like a wolf returning to an old, favorite den."
+    },
+    {
+      "key": "sign",
+      "book": "proven-guilty",
+      "pages": "127",
+      "for": "the sign at the door",
+      "words": "There’s a sign Mac’s got hanging up at the door that reads ACCORDED NEUTRAL GROUND."
+    },
+    {
+      "key": "asymmetry",
+      "book": "cold-days",
+      "pages": "207–208",
+      "for": "why nothing in the pub matches",
+      "words": "It’s a study in deliberate asymmetry."
+    },
+    {
+      "key": "scatter",
+      "book": "cold-days",
+      "pages": "207–208",
+      "for": "why nothing in the pub matches",
+      "words": "All that imbalance is intended to scatter the random outbursts of magical energy that cause problems for practitioners."
+    }
+  ],
+  "quote_cap": 40,
+  "quote_total": 160,
+  "_quote_cap": "Butcher's words are quoted to say what this room owes the books and where it parts from them, never to retell them. Forty words to a quotation fits his sentence about the machines and refuses a scene; a hundred and sixty in all is the drift guard, the Zibaldone's reason: nobody decides to republish a book, they add one good line at a time. Raise either number on purpose, here, with the reason written down, and never to fit one passage.",
+  "books": {
+    "storm-front": {
+      "title": "Storm Front",
+      "series": "The Dresden Files, Book 1",
+      "year": 2000,
+      "ol": "OL5685119W"
+    },
+    "proven-guilty": {
+      "title": "Proven Guilty",
+      "series": "The Dresden Files, Book 8",
+      "year": 2006,
+      "ol": "OL5685118W"
+    },
+    "small-favor": {
+      "title": "Small Favor",
+      "series": "The Dresden Files, Book 10",
+      "year": 2008,
+      "ol": "OL11967339W"
+    },
+    "cold-days": {
+      "title": "Cold Days",
+      "series": "The Dresden Files, Book 14",
+      "year": 2012,
+      "ol": "OL17383102W"
+    }
+  },
+  "_books": "Each Open Library work id was resolved on 2026-10-05 by searching Open Library for the title and Jim Butcher, then asking the work record itself, which names his author record (OL5152266A) on all four. None of them was typed from memory. The page numbers are Ryan Boren's Kindle edition's, as he quoted them, and the words were read off his quotation, not checked against a printed copy.",
+  "third_places": {
+    "page": "https://stimpunks.org/glossary/third-places/",
+    "mirror": "glossary/third-places.md",
+    "source": "What Our Cities Are Missing",
+    "source_url": "https://www.youtube.com/watch?v=MD_CMrCpBMc",
+    "list": [
+      "neutral ground",
+      "leveling place",
+      "conversation space",
+      "open & accessible",
+      "regulars",
+      "low profile",
+      "playful mood",
+      "home away from home"
+    ],
+    "radical": "Radical third places would not only be accessible in terms of location and opening hours, but also in terms of creating basic accommodations for the spectrum of abilities of its participants.",
+    "buy": "a place that provides community without being required to buy stuff"
+  },
+  "sources": {
+    "ada": {
+      "title": "2010 ADA Standards for Accessible Design",
+      "url": "https://www.access-board.gov/ada/",
+      "by": "the U.S. Access Board",
+      "read": "2026-10-05"
+    },
+    "oldenburg": {
+      "title": "Third place",
+      "url": "https://en.wikipedia.org/wiki/Third_place",
+      "by": "Wikipedia",
+      "read": "2026-10-05",
+      "for": "That the term third place is Ray Oldenburg's, from The Great Good Place (1989). Wikipedia lists seven characteristics from the book's 2023 edition with Karen Christensen, not the eight our page quotes, so the eight are credited to the video our page quotes them from and were not checked against either edition of the book."
+    }
+  }
+}

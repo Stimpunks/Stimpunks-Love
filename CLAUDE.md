@@ -2995,6 +2995,46 @@ through `--paint`. Rubik Wet Paint sets the name and nothing else. **The Playhou
 primaries and bunting indoors. Wikipedia's two articles disagree on the year of Emdrup, 1940 or 1943, and the room
 says so rather than choosing. The child NPR quoted on our Play page is not named here.
 
+**A QUIET PINT (§100) IS MADE LIKE McANALLY'S, AND THE ARCHITECTURE IS TAKEN WHILE THE WORLD IS NOT.** Ryan's
+brief, 2026-10-05: a pub on the street in homage to the Dresden Files, with the passages from the books that
+describe it. The room keeps what the books build (thirteen of everything, windows at the pavement, mirrors, carved
+columns, a low ceiling with fans, a player piano and no screens, a shut wood stove, ale never cold, lemonade with
+lemonade ice) and takes nothing of the invented world: no wizard drinks here, nothing is magic, and Mac is quoted but
+never drawn or written into the room. `tools/make-a-quiet-pint.py` sweeps the house's own voice for that world
+outside the section that quotes Butcher and the credits, Sithen's rule about living authors. **The brief linked the
+fan wiki and nothing is drawn from it**, for Sithen's reason. **Butcher is quoted, never retold**: each quotation
+names its book and pages and links its Open Library record, under a cap and a total in the data file. The words were
+read off Ryan's Kindle copies and the page says so; they were not checked against print.
+
+**THE THIRTEENS ARE BUTCHER'S AND THE TOOL COUNTS THEM**, Swaying Sweetgrass's rule for a count that belongs to
+somebody else; `check-counts.py` does not mind, because tables are not rooms. **No two of anything are alike and none
+stand in a row**, which the tool refuses, because the books call the pub *a study in deliberate asymmetry*. The
+friendly edit is to tidy it. **And asymmetry is not obstruction**: the tool walks the plan on a four-inch grid from
+the door and refuses any table with no way to it 36 inches wide (403.5.1), a bar with no low stretch (904.4.1), a
+ramp narrower than the steps or steeper than 1:12 (405), and beams under 80 inches (307.4). **The pub parts from the
+books in three places and says so on the page**: a ramp beside the steps, the fans up between the beams, and your
+order fetched or brought, whichever you say, nobody asking why. Those are access barriers in a room otherwise built
+round the people in it, which is the room's whole reading of McAnally's: a radical third place, in our own Third
+Places page's words, which are checked against the mirror on every build.
+
+**THE DRAWING IS THE PLAN SEEN FROM A SEAT.** The pub is a one-point perspective projection of the same data the plan
+and the table cards are written from, so moving a table moves it in the picture, on the plan and in the words, and a
+table's facts (back to a wall, out of sight of the door, by the stove, in a patch of light) are worked out from the
+plan rather than typed. What stands at the south end is behind the seat and is clipped from the view, not from the
+plan. **The light is the street's, passed round by mirrors**: every mirror says where its light lands, and nothing is
+lit warm, which is what keeps the browns muted and the room off The Den. The collisions are in §100.
+
+**EVERY PINT IS ALCOHOL-FREE FIRST, IN THE SAME GLASS**: both pours are one drawing, so nobody can tell from across
+the room which one anybody has. Big Steep's words for pressure and health are read out of `make-big-steep.py` with
+`ast`, because that tool runs as a script and cannot be imported. **Its `rounds?` was narrowed to the round somebody
+buys**, after it refused the pub's round tables; narrowed, not excepted. **Nothing behind the bar has a screen**, and
+the tool refuses a facade, a frame or audio on the page; the friendly edit is a telly over the bar with a rack of pub
+films. The piano has no rolls yet, and how it would play is open in `DECISIONS.md`. **`table.js` gained an optional
+`data-table-tell`**, the sentence an order says, which `pint.js` sets for fetching or having it brought; the other
+rooms never set it. **The pub's sweep anchors its negation window** to the word it excuses: written the old way,
+*nobody lights a lamp.* excused *A lamp is lit on every table.* in the next sentence. The other rooms' sweeps are still
+the old way.
+
 **THE MAP IS THE ONE PAGE THAT SHOWS EVERY OTHER PAGE, AND NOTHING ON IT IS PAINTED.** `map.html`
 (§49) is the whole street as a model in white card on a cutting mat: shopfronts on both sides of a
 pencilled road, rooms behind rooms standing behind them, the garden's gate halfway down, the
@@ -3707,18 +3747,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §101 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §102 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§101 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§102 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §101 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §102 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

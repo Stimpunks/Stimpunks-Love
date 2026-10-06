@@ -410,6 +410,12 @@
    "about": "A cat café on the street, with a window at every height cut to the size of a cat. Coffee, tea and tea sandwiches, with plenty that is vegan and vegetarian and every item saying what is in it and how much caffeine, and every cat from the shelter at Rescue A Cat, waiting to be adopted. Press a cat to meet them, pick one up and put them on your lap, look down at your lap and your table, and watch films from other cat cafés on the telly."
   },
   {
+   "tag": "a-quiet-pint",
+   "name": "A Quiet Pint",
+   "path": "/a-quiet-pint.html",
+   "about": "A pub a few steps down from the street, made like McAnally’s in Jim Butcher’s Dresden Files: thirteen tables of thirteen heights, thirteen carved columns, a player piano and no screens, lit only by the street through windows at the pavement and passed round the room by old mirrors. Every pint comes alcohol-free first, in the same glass; a ramp beside the steps as wide as they are; and a plan of the floor to find the table that fits you."
+  },
+  {
    "tag": "neurohome",
    "name": "NeuroHome",
    "path": "/neurohome.html",

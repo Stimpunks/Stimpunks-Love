@@ -49,7 +49,13 @@ KINDS = {"beer", "wine", "kombucha"}
 GLOWS = {"amber", "straw", "garnet", "stout", "haze", "hibiscus"}
 FREE = 0.05
 
-PRESSURE = (r"drink up|one more|another round|next round|rounds?|bottoms up|down (?:it|in one)|chug\w*|"
+# "rounds?" ON ITS OWN refused A Quiet Pint on that room's first run, 2026-10-05:
+# half its tables are round, and its tool walks "round every column". Narrowed to
+# the round somebody buys, not excepted, which is check-counts.py's first-run
+# lesson again; A Quiet Pint reads this list out of this file.
+PRESSURE = (r"drink up|one more|another round|next round|"
+            r"(?:buy|buys|bought|buying|stand|stands|stood|standing|get|gets|getting|whose|my|your) "
+            r"(?:a |the |this |next )?rounds?\b|rounds? of (?:drinks|pints|shots)|bottoms up|down (?:it|in one)|chug\w*|"
             r"shots?\b|pre-?drink\w*|drinking games?|lightweight|don't be boring|"
             r"get(?:ting)? drunk|drunk|wasted|hammered|smashed|plastered|tipsy|buzzed|"
             r"mocktails?|virgin|just a soft drink|only a soft drink|designated driver")

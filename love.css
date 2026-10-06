@@ -1191,6 +1191,19 @@
 @font-face { font-family: 'Shantell Sans'; src: url('fonts/shantell-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Shantell Sans'; src: url('fonts/shantell-sans-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* A Quiet Pint (§100). A SIGN OVER A CELLAR DOOR AND A QUIET TEXT FACE. Amarante
+   sets the pub's name and every heading and nothing at reading size: one
+   weight, one file, letters that each stand their own way, in a room where
+   nothing matches. Brygada 1918 carries every word that is read. It ships as a
+   variable font, so Google serves one file for 400 and 700 and it is declared
+   twice against the weight axis, Radio Canada's call, with its own italic for
+   the names of books, so the browser never invents one. Read off their own
+   records; see fonts/_sources.json. */
+@font-face { font-family: 'Amarante'; src: url('fonts/amarante-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Brygada 1918'; src: url('fonts/brygada-1918-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Brygada 1918'; src: url('fonts/brygada-1918-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Brygada 1918'; src: url('fonts/brygada-1918-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -3038,6 +3051,53 @@
   --pil-bark:  #6B4E36;  --pil-cut:   #E2C9A0;  --pil-leaf:  #5E9A54;
   --pil-screen: #2C3A44;
 
+  /* A Quiet Pint (§100). MUTED EARTH BROWNS AND SEA GREENS, UNDER THE STREET'S
+     LIGHT: the books' own words for McAnally's colours, and the reason they are
+     muted is the light, which is grey daylight off a pavement passed round by
+     old mirrors, so nothing in the room is lit warm. --aqp-wood is the
+     panelling, the ground every word stands on; --aqp-plank a card; --aqp-deep
+     a button's words and the panel your table's words sit on. --aqp-text is
+     every word, --aqp-dim the fine print, --aqp-sea every heading, every link,
+     the focus ring and the ground of every button: the sea green of the old
+     mirror glass and the leather, and the only colour in the room that is not
+     a brown. The rest carry no word: --aqp-floor, --aqp-top a table and
+     --aqp-edge its edge, --aqp-wall and --aqp-wall2 the panelled walls,
+     --aqp-ceil the ceiling, --aqp-seam the joints in the panelling and the
+     boards, --aqp-line every outline, --aqp-col a column, a frame and a chair,
+     --aqp-col2 the shadow side and every cut, --aqp-carve a carved band,
+     --aqp-beam and --aqp-beam2 the beams, --aqp-fan the fans' blades,
+     --aqp-iron and --aqp-iron2 the shut stove, --aqp-piano and --aqp-piano2
+     the piano, --aqp-door the door, --aqp-barfront and --aqp-bartop the bar,
+     --aqp-glass a mirror and a bottle, --aqp-sheen the window's light lying in
+     the glass, --aqp-light a patch of the street's light where a mirror lands
+     it, --aqp-street what is in a window, --aqp-kerb the pavement at the
+     bottom of it, --aqp-leather and --aqp-leather2 the sea-green leather,
+     --aqp-rim a glass, the foot rail and the ramp's handrails, --aqp-mat a
+     beer mat, --aqp-out the areaway outside, --aqp-ramp the ramp, --aqp-grain
+     the grain of your table. What is in a glass or on a plate: --aqp-ale,
+     --aqp-stout, --aqp-froth, --aqp-cider, --aqp-lemon, --aqp-cube,
+     --aqp-glaze, --aqp-water, --aqp-plate, --aqp-bread, --aqp-crumb,
+     --aqp-mush, --aqp-steak, --aqp-onion and --aqp-chip. The ale is the one
+     warm colour in the room, and it is a drink, not a light. */
+  --aqp-wood:  #2B2621;  --aqp-plank: #3A332C;  --aqp-deep:  #1F1B18;
+  --aqp-text:  #E6E2D8;  --aqp-dim:   #BDB6A8;  --aqp-sea:   #93CDBB;
+  --aqp-floor: #342D27;  --aqp-top:   #54493E;  --aqp-edge:  #2A241F;
+  --aqp-wall:  #463D35;  --aqp-wall2: #3C342D;  --aqp-ceil:  #26211D;
+  --aqp-seam:  #221E1A;  --aqp-line:  #141110;  --aqp-col:   #6A5C4E;
+  --aqp-col2:  #4D4136;  --aqp-carve: #8C7B67;  --aqp-beam:  #1C1815;
+  --aqp-beam2: #2A2420;  --aqp-fan:   #75695A;  --aqp-iron:  #151413;
+  --aqp-iron2: #24221F;  --aqp-piano: #2A1F1A;  --aqp-piano2: #3A2B23;
+  --aqp-door:  #332821;  --aqp-barfront: #3D3129; --aqp-bartop: #2C221C;
+  --aqp-glass: #23403B;  --aqp-sheen: #4F7A71;  --aqp-light: #CFDCD4;
+  --aqp-street: #DADBD5; --aqp-kerb:  #8F918B;  --aqp-leather: #3E5A53;
+  --aqp-leather2: #314A44; --aqp-rim: #A9B7B1;  --aqp-mat:   #2F5C55;
+  --aqp-out:   #3A3732;  --aqp-ramp:  #463C33;  --aqp-grain: #3D342C;
+  --aqp-ale:   #C08A45;  --aqp-stout: #2A1A12;  --aqp-froth: #EFE6D2;
+  --aqp-cider: #D8B65A;  --aqp-lemon: #ECE4AE;  --aqp-cube:  #F6F1D4;
+  --aqp-glaze: #5E8F86;  --aqp-water: #B9D1CB;  --aqp-plate: #E4DED0;
+  --aqp-bread: #C79C66;  --aqp-crumb: #E8D3A8;  --aqp-mush:  #6E5648;
+  --aqp-steak: #7B4433;  --aqp-onion: #E3D7A8;  --aqp-chip:  #E2C27A;
+
   /* import:neurohome:root:begin */
   /* Isha Snow's room, NeuroHome -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -3982,6 +4042,30 @@ div.facade--audio { border: 0; background: none; }
 /* PEKOE AND PURRS' DOOR IS ITS WALL: small windows at different heights, some
    square and some round, never in a row, because no two of them are cut for
    the same cat. */
+/* A QUIET PINT'S DOOR IS ITS WINDOWS, SEEN FROM THE PAVEMENT: the pub is under
+   the street, so from the street its windows are at your feet, a row of small
+   lit panes along the foot of the awning, thirteen of them, no two the same
+   width and none evenly spaced. */
+.door--pint { background-color: var(--aqp-wood); border-color: var(--aqp-col); }
+.door--pint .door__awning {
+  background-color: var(--aqp-beam);
+  background-image: linear-gradient(var(--aqp-street), var(--aqp-street)), linear-gradient(var(--aqp-street), var(--aqp-street)),
+    linear-gradient(var(--aqp-street), var(--aqp-street)), linear-gradient(var(--aqp-street), var(--aqp-street)),
+    linear-gradient(var(--aqp-street), var(--aqp-street)), linear-gradient(var(--aqp-street), var(--aqp-street)),
+    linear-gradient(var(--aqp-street), var(--aqp-street)), linear-gradient(var(--aqp-street), var(--aqp-street)),
+    linear-gradient(var(--aqp-street), var(--aqp-street)), linear-gradient(var(--aqp-street), var(--aqp-street)),
+    linear-gradient(var(--aqp-street), var(--aqp-street)), linear-gradient(var(--aqp-street), var(--aqp-street)),
+    linear-gradient(var(--aqp-street), var(--aqp-street));
+  background-size: 9px 12px, 13px 12px, 7px 12px, 15px 12px, 8px 12px, 11px 12px, 6px 12px,
+    16px 12px, 10px 12px, 14px 12px, 8px 12px, 12px 12px, 11px 12px;
+  background-position: 1% 88%, 6.8% 88%, 15.8% 88%, 21.7% 88%, 32.6% 88%, 39.3% 88%, 47.2% 88%,
+    53.7% 88%, 64.1% 88%, 72.2% 88%, 80.4% 88%, 88.2% 88%, 97.3% 88%;
+  background-repeat: no-repeat;
+  border-bottom-color: var(--aqp-col);
+}
+.door--pint .door__name  { font-family: 'Amarante', var(--sans); font-weight: 400; color: var(--aqp-sea); font-size: 28px; line-height: 1.05; font-synthesis: none; }
+.door--pint .door__blurb { font-family: 'Brygada 1918', var(--sans); color: var(--aqp-text); font-size: 14px; font-synthesis: none; }
+.door--pint .door__knock { font-family: 'Brygada 1918', var(--sans); font-weight: 700; font-size: 13px; color: var(--aqp-sea); font-synthesis: none; }
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
 .door--empty .door__name  { font-family: 'Bungee', var(--sans); color: var(--chalk); font-size: 23px; }
@@ -15251,7 +15335,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §101
+   class on it is `bb-`, its sizes are in points and millimetres, and §102
    prints it and nothing else. */
 
 .room-broadside {
@@ -15312,7 +15396,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §101 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §102 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -20398,7 +20482,194 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .pil-rules li, .pil-keeps li { margin: 0 0 8px; }
 .junkpile .quest { margin-top: 40px; }
 
-/* §100 ── Small screens ───────────────────────────────────────────────────────
+/* §100 ── ROOM: A Quiet Pint (a shopfront on the street) ───────────────────────
+   A pub a few steps down from the street, made like McAnally's in Jim Butcher's
+   Dresden Files. Ryan's brief, 2026-10-05. tools/make-a-quiet-pint.py draws the
+   pub, the plan and your table from data/a-quiet-pint.json, all from the one
+   plan, and writes the board.
+
+   THE LIGHT IS THE STREET'S, PASSED ROUND BY THE MIRRORS. Grey daylight comes
+   in at the top of the walls, through thirteen small windows at the level of
+   the pavement, and most of what reaches a table has been in a mirror first:
+   thirteen old mirrors, each its own size, at its own height, tipped its own
+   way, so the light lands in patches, none the same shape and none in a row,
+   a little dimmer and a little green. Nothing in the room is lit warm. The
+   stove is shut, nobody lights a lamp, and the tool refuses one in the room's
+   voice. That is why the browns are MUTED, which is the books' word for them:
+   brown wood under grey light goes dull and earthy, and under a flame it goes
+   amber. No other room on the street is lit by light that has turned a corner
+   in a mirror.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · THE DEN is the one to watch: panelled, brown, carved wood, a room of
+       records under a house. It is lamplit at knee height with no daylight
+       anywhere, and its green is a bright shag carpet you stand on. Here there
+       is no lamp, the only light is daylight at the top of the walls, and the
+       green is old mirror glass and old leather, muted like everything else.
+       If the browns in here ever go amber, this has become The Den with a bar.
+     · THE LATIBULUM is dark on lit plaster, earth brown, one low lamp, no sky.
+       Here every word is pale on dark wood, and the street is in the windows.
+     · THE FAERY YURT is cream on dark by candlelight under canvas. No flame
+       here, and no canvas: a cellar with the street over its head.
+     · LAUGHINGSTOCK is the other cellar: red brick, a follow spot from behind
+       you, one pool of light on a stage. Here there is no brick, no stage and
+       no spot, and the light is scattered on purpose.
+     · BIG STEEP FERMENTABLES is the other room that pours: glass and steel on
+       bare rock, lit through the drinks from behind the racks, and it refuses
+       wood. This is wood all the way round and nothing is lit from behind.
+     · CAVENDISH COWORKING is green and daylit too: green walls, the wood only
+       in the doors, daylight through green canvas blinds at street level.
+       Here the walls are wood, the green is only in the glass and the leather,
+       and the daylight comes down from the pavement.
+     · THE COMMUNITY LIBRARY has its windows high too, with the sky in every
+       one and the room lit all over. These windows have the pavement in them,
+       and the room is lit only where a mirror sends the light.
+     · STAY BREEZY is the room of fans: pale, warm, a lamp under every fan and
+       the blades turning. Here the fans are dark, up between the beams, with
+       no lamp anywhere near them, and they never turn at any setting.
+     · THE LIVE ROOM is the light that arrives doubled, through studio glass.
+       The mirrors here never show a second copy of anything: they hold dim
+       glass and one streak of the window's light.
+
+   THIRTEEN OF EVERYTHING AND NO TWO ALIKE, and the tool refuses two the same
+   and refuses a row. Every word stands on a flat ground: the wood, a card, or
+   a button. NOTHING MOVES, at any setting, the fans included, and the tool
+   refuses a keyframe here: turning blades are Stay Breezy's. */
+
+.pint {
+  background: var(--aqp-wood); color: var(--aqp-text);
+  font-family: 'Brygada 1918', Georgia, serif; font-synthesis: none;
+}
+.pint a { color: var(--aqp-sea); }
+.pint a:hover { color: var(--aqp-text); }
+.pint :focus-visible { outline-color: var(--aqp-sea); }
+.pint :where(p, li) { font-size: 18px; line-height: 1.62; }
+.pint .backlink { font-family: 'Brygada 1918', Georgia, serif; font-weight: 700; font-size: 15px; color: var(--aqp-sea); }
+.aqp-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.aqp-trail { margin: 0; font-size: 15px; color: var(--aqp-dim); }
+
+.aqp-head { margin: 30px 0 0; }
+.aqp-over { margin: 0; font-weight: 700; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: var(--aqp-dim); }
+.pint h1 {
+  margin: 6px 0 8px; font-family: 'Amarante', Georgia, serif; font-weight: 400;
+  font-size: clamp(50px, 10vw, 100px); line-height: 1; color: var(--aqp-sea);
+}
+.aqp-sub { margin: 0; font-size: 21px; line-height: 1.4; max-width: 42ch; }
+.pint h2 {
+  margin: 0 0 10px; font-family: 'Amarante', Georgia, serif; font-weight: 400;
+  font-size: 38px; line-height: 1.15; color: var(--aqp-sea);
+}
+.pint h3 {
+  margin: 28px 0 8px; font-family: 'Amarante', Georgia, serif; font-weight: 400;
+  font-size: 27px; line-height: 1.2; color: var(--aqp-sea);
+}
+.aqp-lede { margin: 22px 0 0; font-size: 19px; line-height: 1.65; max-width: 66ch; }
+.aqp-part { margin: 48px 0 0; }
+.aqp-part > p { max-width: 68ch; }
+
+/* THE PUB, and your table: a drawing each, one shown at a time, in a frame of
+   the same wood as the columns. */
+.aqp-room, .aqp-table { border: 3px solid var(--aqp-col); border-radius: 6px; overflow: hidden; background: var(--aqp-ceil); }
+.aqp-room__draw, .aqp-table__draw { display: block; width: 100%; height: auto; }
+.aqp-controls { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; margin: 14px 0 0; }
+.aqp-words { margin: 12px 0 0; padding: 10px 14px; max-width: 68ch; background: var(--aqp-deep); border: 2px solid var(--aqp-col); border-radius: 6px; }
+
+.aqp-btn {
+  font: 700 17px/1.3 'Brygada 1918', Georgia, serif; padding: 9px 18px; min-height: 44px; cursor: pointer;
+  border: 2px solid var(--aqp-sea); border-radius: 6px; background: var(--aqp-sea); color: var(--aqp-deep);
+}
+.aqp-btn:hover { background: var(--aqp-text); border-color: var(--aqp-text); }
+.aqp-btn:focus-visible { outline: 3px solid var(--aqp-sea); outline-offset: 3px; }
+.aqp-btn--quiet { background: var(--aqp-plank); color: var(--aqp-text); }
+.aqp-btn--quiet:hover { background: var(--aqp-deep); border-color: var(--aqp-sea); }
+
+/* An answer, said where the hand is. aria-hidden; the live region says it once. */
+.aqp-said {
+  display: block; margin: 8px 0 0; padding: 7px 12px; font-size: 16px; line-height: 1.45;
+  background: var(--aqp-deep); color: var(--aqp-text); border: 2px solid var(--aqp-sea); border-radius: 6px;
+}
+
+/* THE PLAN BY THE DOOR. Its words are the list beside it; the plan is the
+   picture, and a table you might want is ringed in sea green on it. */
+.aqp-ways { max-width: 68ch; }
+.aqp-plan { margin: 18px 0 0; max-width: 820px; border: 3px solid var(--aqp-col); border-radius: 6px; overflow: hidden; background: var(--aqp-floor); color: var(--aqp-text); }
+.aqp-plan__draw { display: block; width: 100%; height: auto; }
+.aqp-plan__top { fill: var(--aqp-top); stroke: var(--aqp-line); stroke-width: 1.4; }
+.aqp-plan__n { font: 700 15px 'Brygada 1918', Georgia, serif; }
+[data-pint-match="yes"] .aqp-plan__top { stroke: var(--aqp-sea); stroke-width: 5; }
+[data-pint-here="yes"] .aqp-plan__top { fill: var(--aqp-glass); stroke: var(--aqp-sea); stroke-width: 5; }
+
+.aqp-want { margin: 18px 0 0; padding: 12px 16px 14px; max-width: 820px; border: 2px solid var(--aqp-col); border-radius: 6px; background: var(--aqp-plank); }
+.aqp-want legend { padding: 0 6px; font-weight: 700; font-size: 17px; }
+.aqp-want__list { list-style: none; margin: 4px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 4px 18px; }
+.aqp-want__opt { display: flex; gap: 10px; align-items: flex-start; min-height: 32px; font-size: 17px; line-height: 1.4; cursor: pointer; }
+.aqp-want__opt input { width: 20px; height: 20px; margin: 3px 0 0; accent-color: var(--aqp-sea); flex: none; }
+.aqp-want__opt input:focus-visible { outline: 3px solid var(--aqp-sea); outline-offset: 2px; }
+.aqp-found {
+  margin: 10px 0 0; padding: 7px 12px; font-size: 16px; line-height: 1.45;
+  background: var(--aqp-deep); color: var(--aqp-text); border: 2px solid var(--aqp-sea); border-radius: 6px;
+}
+
+.aqp-tables { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.aqp-tab { padding: 12px 16px 14px; background: var(--aqp-plank); border: 2px solid var(--aqp-col); border-radius: 6px; }
+.pint .aqp-tab__name { margin: 0 0 4px; font-size: 25px; }
+.aqp-tab p { margin: 0 0 8px; font-size: 16px; line-height: 1.5; }
+.aqp-tab__go { margin: 4px 0 0; }
+
+.aqp-cols { margin: 10px 0 0; padding-left: 22px; max-width: 68ch; }
+.aqp-col { margin: 0 0 6px; }
+.aqp-col__tale { color: var(--aqp-sea); }
+
+/* AT THE BAR: how your order reaches you, and the board. */
+.aqp-how { margin: 16px 0 0; padding: 10px 16px 12px; max-width: 820px; border: 2px solid var(--aqp-col); border-radius: 6px; background: var(--aqp-plank); }
+.aqp-how legend { padding: 0 6px; font-weight: 700; font-size: 17px; }
+.aqp-how__opts { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 2px 0 6px; }
+.aqp-how__opt { display: flex; gap: 10px; align-items: center; min-height: 36px; font-size: 17px; cursor: pointer; }
+.aqp-how__opt input { width: 20px; height: 20px; margin: 0; accent-color: var(--aqp-sea); flex: none; }
+.aqp-how__opt input:focus-visible { outline: 3px solid var(--aqp-sea); outline-offset: 2px; }
+.pint .aqp-how__note { margin: 0; font-size: 16px; color: var(--aqp-dim); }
+
+.aqp-board { margin: 8px 0 0; }
+.aqp-board__lede { max-width: 68ch; margin: 0 0 12px; }
+.aqp-items { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+.aqp-item { padding: 12px 16px 14px; background: var(--aqp-plank); border: 2px solid var(--aqp-col); border-radius: 6px; }
+.aqp-item--pint { grid-column: span 2; }
+.aqp-item__draw { display: block; width: 120px; height: auto; margin: 0 0 4px; }
+.pint .aqp-item__name { margin: 0 0 6px; font-size: 24px; }
+.aqp-item p { margin: 0 0 6px; font-size: 16px; line-height: 1.5; }
+.aqp-item__has { font-weight: 700; }
+.pint .aqp-item__note { color: var(--aqp-dim); }
+.aqp-item__go { margin: 10px 0 0; }
+.aqp-pours { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 4px 0 10px; }
+.aqp-pour { padding: 8px 10px 10px; border: 2px solid var(--aqp-col); border-radius: 6px; background: var(--aqp-wood); }
+.aqp-pour .aqp-item__draw { width: 96px; }
+.pint .aqp-pour__label { font-weight: 700; margin: 0 0 4px; }
+.pint .aqp-pour__how { color: var(--aqp-dim); }
+
+/* THE WORDS THE ROOM OWES: Jim Butcher's, and our Third Places page's, each
+   with whose they are and where it was read. */
+.aqp-quote { margin: 16px 0 18px; max-width: 64ch; padding: 0 0 0 18px; border-left: 4px solid var(--aqp-col); }
+.aqp-quote blockquote { margin: 0; }
+.aqp-quote blockquote p { margin: 0; font-size: 20px; line-height: 1.55; }
+.pint .aqp-quote figcaption { margin: 6px 0 0; font-size: 15px; line-height: 1.5; color: var(--aqp-dim); }
+.aqp-third { margin: 0; padding-left: 26px; columns: 2 220px; font-size: 19px; }
+.aqp-third li { margin: 0 0 2px; }
+
+.aqp-rules, .aqp-keeps { margin: 8px 0 0; padding-left: 22px; max-width: 68ch; }
+.aqp-rules li, .aqp-keeps li { margin: 0 0 8px; }
+.pint .quest { margin-top: 40px; }
+
+/* A phone: a pint's two pours stand side by side whatever the width, because
+   seeing them the same size is the point, so its card takes the whole row. */
+@media (max-width: 560px) {
+  .aqp-item--pint { grid-column: auto; }
+  .aqp-pours { gap: 8px; }
+  .aqp-pour { padding: 6px 8px 8px; }
+  .aqp-pour .aqp-item__draw { width: 76px; }
+  .pint h2 { font-size: 32px; }
+}
+
+/* §101 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -20505,7 +20776,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §100 says every
+   shipped with no rule here at all — which on a street whose §101 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -20629,7 +20900,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §101 ── Print ───────────────────────────────────────────────────────────────
+/* §102 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

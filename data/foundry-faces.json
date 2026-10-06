@@ -129,6 +129,23 @@
     }
    ]
   },
+  "amarante": {
+   "family": "Amarante",
+   "category": "Display",
+   "designer": "Karolina Lach",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/amarante",
+   "copyright": "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com eben@eyebytes.com) with Reserved Font Name \"Amarante\".",
+   "repository": "https://github.com/googlefonts/amarante",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "amarante-400.woff2",
+     "sha": "151f72e6af8a41fe"
+    }
+   ]
+  },
   "andika": {
    "family": "Andika",
    "category": "Sans Serif",
@@ -623,6 +640,35 @@
      "style": "normal",
      "file": "bricolage-grotesque-400.woff2",
      "sha": "4fd48b2c1ab27220"
+    }
+   ]
+  },
+  "brygada-1918": {
+   "family": "Brygada 1918",
+   "category": "Serif",
+   "designer": "Capitalics, Mateusz Machalski, Borys Kosmynka, Ania Wieluńska, Przemysław Hoffer",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/brygada1918",
+   "copyright": "Copyright 2020 The Brygada 1918 Project Authors (https://github.com/kosmynkab/Brygada-1918)",
+   "repository": "https://github.com/kosmynkab/Brygada-1918",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "brygada-1918-400.woff2",
+     "sha": "9aab52684123a274"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "brygada-1918-400.woff2",
+     "sha": "9aab52684123a274"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "brygada-1918-400-italic.woff2",
+     "sha": "91911c88f87ac1ac"
     }
    ]
   },

@@ -2888,6 +2888,43 @@
    }
   },
   {
+   "id": "aqp-mat",
+   "room": "A Quiet Pint",
+   "page": "a-quiet-pint.html",
+   "rank": 1,
+   "title": "What passes the street’s light round the pub?",
+   "posted": "There is a pub a few steps down under the street, and nobody lights a lamp in it. Go down, find a table, and come back with what most of its light comes off before it lands on one.",
+   "takes": "a few minutes, and a pint if you want one",
+   "target": "a beer mat, dropped on the floor",
+   "hints": [
+    "On the street itself, in the row of shopfronts: the door with a row of small windows along the foot of its awning.",
+    "In the first paragraph under the pub’s name.",
+    "On the floor of the room, before the sign-off."
+   ],
+   "code": "SILVERING",
+   "learned": "The pub is lit only by the street, through small windows at the top of its walls, and most of that light reaches the tables by way of old mirrors, each hung at its own height and tipped its own way, so it lands in patches, none alike, a little dimmer and a little green.",
+   "ask": {
+    "question": "Nobody lights a lamp in this pub. What does most of the street’s light come off before it reaches a table?",
+    "answer": "The mirrors",
+    "accept": [
+     "mirrors",
+     "the mirrors",
+     "mirror",
+     "a mirror",
+     "old mirrors",
+     "the old mirrors",
+     "mirror glass",
+     "the mirror glass"
+    ],
+    "hints": [
+     "It is in the first paragraph under the name.",
+     "Not a lamp: nobody lights one.",
+     "Something on the walls, hung at its own height."
+    ],
+    "why": "The mirrors: old ones, each hung at its own height and tipped its own way, so the light lands in patches, none alike, a little dimmer and a little green."
+   }
+  },
+  {
    "id": "brass-tack",
    "page": "brass-tacks-board.html",
    "room": "The Brass Tacks Board",

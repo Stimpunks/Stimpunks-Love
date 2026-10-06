@@ -3042,6 +3042,32 @@ PAIRS = [
     ("#1D1A20", "#EEDDB5", False, "the pile: what you said, in the box under the boxes"),
     ("#FFFBF2", "#2C3A44", False, "the pile: the words on the old telly while nothing is on it"),
 
+    # ── A Quiet Pint (§100) ──────────────────────────────────────────────────
+    # A pub under the street, lit only by the street's light passed round by
+    # mirrors. Every word stands on a flat ground: the panelled wood, a card,
+    # the dark panel an answer is said on, or a button.
+    ("#E6E2D8", "#2B2621", False, "pint: every word on the wood -- the lede, the house rules, what the pub "
+                                  "keeps, the credits, a quotation, the columns, and the street door's blurb"),
+    ("#E6E2D8", "#3A332C", False, "pint: every word on a card -- a table in words, a thing on the board, what "
+                                  "is in it, its allergens and caffeine, the boxes to tick, and a quiet button"),
+    ("#E6E2D8", "#1F1B18", False, "pint: an answer said where the hand is, what is on your table, and a quiet "
+                                  "button under the pointer"),
+    ("#BDB6A8", "#2B2621", False, "pint: the trail, the over-line, a quotation's credit, and the floor line of "
+                                  "the job marker"),
+    ("#BDB6A8", "#3A332C", False, "pint: a note on a card, how a pour is made, and the line under the choice "
+                                  "of fetching or having it brought"),
+    ("#93CDBB", "#2B2621", False, "pint: the h1, every h2 and h3 in Amarante, every link, the backlink, a "
+                                  "column's tale, the focus ring, the job marker's beer mat, and the pub's name "
+                                  "and knock on the street door"),
+    ("#93CDBB", "#3A332C", False, "pint: a table's name on its card, and a link on a card"),
+    ("#1F1B18", "#93CDBB", False, "pint: every button's words, on the sea green"),
+    ("#1F1B18", "#E6E2D8", False, "pint: a button under the pointer"),
+    ("#E6E2D8", "#54493E", False, "pint: a table's number on the plan, on its top"),
+    ("#E6E2D8", "#342D27", False, "pint: a table's number on the plan, as the page measures it, on the plan's "
+                                  "floor"),
+    ("#E6E2D8", "#23403B", False, "pint: the number of the table you are sitting at, on the plan, on the "
+                                  "mirror-glass green it is filled with"),
+
     # ── Now Playing (§53) ────────────────────────────────────────────────────
     (NP_BOTH,   NP_STOCK,  False, "now playing: every word on the sheet -- the h1, the over- and "
                                   "sub-lines, the lede, every room's name, where it is, our line "
@@ -3355,6 +3381,51 @@ VIA_COMPOSITE = {
     "#6b4e36": "the pile: --pil-bark, 5.65 on the sand, a colour in the drawing that carries no word.",
     "#e2c9a0": "the pile: --pil-cut, 1.19 on the sand, a colour in the drawing that carries no word.",
     "#5e9a54": "the pile: --pil-leaf, 2.51 on the sand, a colour in the drawing that carries no word.",
+    "#2a241f": "a quiet pint: --aqp-edge, the edge of a table's top and of your table, 1.13 on the floor. Drawing only, outlined in the line.",
+    "#463d35": "a quiet pint: --aqp-wall, the panelled far wall, 1.28 on the floor beside it. A ground in the drawing that carries no word.",
+    "#3c342d": "a quiet pint: --aqp-wall2, the panelled side walls, 1.15 on the far wall. Drawing only.",
+    "#26211d": "a quiet pint: --aqp-ceil, the ceiling and the drawing's frame, 1.18 on the floor. Drawing only.",
+    "#221e1a": "a quiet pint: --aqp-seam, the joints in the panelling and between the boards, 1.22 on the floor. Lines in a drawing, no word.",
+    "#141110": "a quiet pint: --aqp-line, every outline in the drawings, 2.15 on a table's top and 1.39 on the floor. It separates things that are close in value on purpose: the browns are muted because nothing is lit warm.",
+    "#6a5c4e": "a quiet pint: --aqp-col, a column, a frame, a chair and a stool, 2.10 on the floor and 2.32 on the wood. No word and no control.",
+    "#4d4136": "a quiet pint: --aqp-col2, the shadow side of a column and every cut in a carving, 1.37 on the floor. Drawing only.",
+    "#8c7b67": "a quiet pint: --aqp-carve, a carved band on a column and its base and top, 3.32 on the floor. Drawing only.",
+    "#1c1815": "a quiet pint: --aqp-beam, the face of a beam and the back bar, 1.30 on the floor. Drawing only.",
+    "#2a2420": "a quiet pint: --aqp-beam2, the underside of a beam, 1.04 on the ceiling it runs along; its face in --aqp-beam and the line carry it.",
+    "#75695a": "a quiet pint: --aqp-fan, a ceiling fan's blades, 2.98 on the ceiling. They never turn. Drawing only.",
+    "#151413": "a quiet pint: --aqp-iron, the shut stove, its flue and a fan's hub, 1.36 on the floor. Drawing only.",
+    "#24221f": "a quiet pint: --aqp-iron2, the stove's top and its shut door, 1.15 on the ceiling; outlined in the line.",
+    "#2a1f1a": "a quiet pint: --aqp-piano, the piano's face, 1.51 on the far wall behind it; outlined in the line.",
+    "#3a2b23": "a quiet pint: --aqp-piano2, the piano's side and its bench, 1.28 on the far wall; outlined in the line.",
+    "#332821": "a quiet pint: --aqp-door, the door in the far wall, 1.35 on the wall, framed in --aqp-col.",
+    "#3d3129": "a quiet pint: --aqp-barfront, the front of the bar, 1.08 on the floor; outlined in the line.",
+    "#2c221c": "a quiet pint: --aqp-bartop, the top of the bar, 1.15 on the floor; outlined in the line.",
+    "#4f7a71": "a quiet pint: --aqp-sheen, the window's light lying in a mirror's glass, and a bottle, 2.20 on the far wall. Drawing only.",
+    "#cfdcd4": "a quiet pint: --aqp-light, a patch of the street's light where a mirror lands it, laid at a third to a half opacity on the floor, a table's top and your table. It is light, not a thing, and carries no word.",
+    "#dadbd5": "a quiet pint: --aqp-street, what is in a window, a window's mark on the plan and the street door's lit panes, 7.62 on the far wall. Drawing only.",
+    "#8f918b": "a quiet pint: --aqp-kerb, the pavement at the foot of a window, 3.33 on the far wall. Drawing only.",
+    "#3e5a53": "a quiet pint: --aqp-leather, the old sea-green leather of an armchair, a sofa and a stool's seat, 1.80 on the floor; outlined in the line.",
+    "#314a44": "a quiet pint: --aqp-leather2, the back of an armchair and a sofa, 1.41 on the floor; outlined in the line.",
+    "#a9b7b1": "a quiet pint: --aqp-rim, a glass's outline, the bar's foot rail and the ramp's handrails on the plan, 5.97 on a card. It carries every glass on the board, which is why it is held this far apart.",
+    "#2f5c55": "a quiet pint: --aqp-mat, a beer mat under a glass and on your table, and the job marker's edge, 1.65 on a card. Detail under a glass the rim already carries.",
+    "#3a3732": "a quiet pint: --aqp-out, the areaway outside the door on the plan, 1.14 on the plan's floor. Drawing only.",
+    "#463c33": "a quiet pint: --aqp-ramp, the ramp's runs on the plan, 1.26 on the floor, between the handrails that carry them.",
+    "#3d342c": "a quiet pint: --aqp-grain, the grain of your table, 1.39 on its top. Drawing only.",
+    "#c08a45": "a quiet pint: --aqp-ale, the house ale in a pint glass, 4.12 on a card. The one warm colour in the room, and it is a drink, not a light.",
+    "#2a1a12": "a quiet pint: --aqp-stout, the house dark, and the tea in a cup, 1.35 on a card, under its head and inside the rim.",
+    "#efe6d2": "a quiet pint: --aqp-froth, the head on a pint and the piano's keys, 10.01 on a card. Drawing only.",
+    "#d8b65a": "a quiet pint: --aqp-cider, a cider and the lemon on the lemonade, 6.37 on a card. Drawing only.",
+    "#ece4ae": "a quiet pint: --aqp-lemon, the lemonade, 9.63 on a card. Drawing only.",
+    "#f6f1d4": "a quiet pint: --aqp-cube, the lemonade's ice, frozen lemonade, on the lemonade. Drawing only.",
+    "#5e8f86": "a quiet pint: --aqp-glaze, the sea-green glaze of the teapot, the cup and the chips' bowl, 3.40 on a card; outlined in the line.",
+    "#b9d1cb": "a quiet pint: --aqp-water, the water in a jug and a glass, 7.72 on a card. Drawing only.",
+    "#e4ded0": "a quiet pint: --aqp-plate, a plate, 9.27 on a card. Drawing only.",
+    "#c79c66": "a quiet pint: --aqp-bread, a roll, 4.96 on a card. Drawing only.",
+    "#e8d3a8": "a quiet pint: --aqp-crumb, the flour on a roll, on the roll. Drawing only.",
+    "#6e5648": "a quiet pint: --aqp-mush, a grilled mushroom in a roll, between the bread. Drawing only.",
+    "#7b4433": "a quiet pint: --aqp-steak, a steak in a roll, between the bread. Drawing only.",
+    "#e3d7a8": "a quiet pint: --aqp-onion, the onions in a roll, on the filling. Drawing only.",
+    "#e2c27a": "a quiet pint: --aqp-chip, a chip, 7.24 on a card, outlined in the line.",
 }
 
 ORNAMENT = {
