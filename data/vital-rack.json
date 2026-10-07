@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-10-06T11:19Z",
+ "set": "2026-10-07T11:54Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ]
   },
@@ -218,13 +218,13 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-10-06T11:19:26Z"
+     "2026-10-07T11:54:49Z"
     ]
    ]
   }
@@ -269,16 +269,6 @@
    "state": "screen",
    "runs": 1394,
    "channel": "Rainbow Plant Life"
-  },
-  {
-   "id": "JvgYnCB7WlA",
-   "source": "nard-dog-cooks",
-   "form": "long",
-   "title": "The ONLY Baked Beans Recipe You'll Want!",
-   "published": "2026-09-06T13:00:38Z",
-   "state": "screen",
-   "runs": 519,
-   "channel": "Andrew Bernard | The Nard Dog Cooks"
   },
   {
    "id": "DzPgVLWWGy4",
@@ -358,16 +348,6 @@
    "published": "2026-09-27T16:10:06Z",
    "state": "screen",
    "runs": 1012,
-   "channel": "Sarah's Vegan Kitchen"
-  },
-  {
-   "id": "ZT-fX9r_ZhA",
-   "source": "sarahs-vegan-kitchen",
-   "form": "short",
-   "title": "The perfect tofu dish for the end of summer 🔥",
-   "published": "2026-09-06T15:58:59Z",
-   "state": "screen",
-   "runs": 23,
    "channel": "Sarah's Vegan Kitchen"
   },
   {
@@ -541,6 +521,16 @@
    "channel": "Ahmad Noori"
   },
   {
+   "id": "xjJhRzMm6io",
+   "source": "ahmad-noori",
+   "form": "short",
+   "title": "One Pot Coconut Curry Noodles — Cooks in 15 Minutes #easyrecipes #dinner",
+   "published": "2026-10-06T15:00:39Z",
+   "state": "screen",
+   "runs": 14,
+   "channel": "Ahmad Noori"
+  },
+  {
    "id": "5p3XjT925hE",
    "source": "so-vegan",
    "form": "short",
@@ -659,6 +649,15 @@
    "state": "screen",
    "runs": 1489,
    "channel": "PB with J"
+  },
+  {
+   "id": "AHFS-AsNeRA",
+   "source": "pb-with-j",
+   "form": "long",
+   "title": "Don't Throw Out Grainy Apples. Do This Instead.",
+   "published": "2026-10-05T01:40:21Z",
+   "state": "pending",
+   "why": "live, or not out yet"
   },
   {
    "id": "3bfNED1O-Fo",
@@ -848,6 +847,16 @@
    "published": "2026-10-05T13:19:18Z",
    "state": "screen",
    "runs": 45,
+   "channel": "PB with J"
+  },
+  {
+   "id": "f-e0GfoRSXw",
+   "source": "pb-with-j",
+   "form": "short",
+   "title": "Easy 20-Minute Tacos: Busy Weeknight Meal Hack #shorts",
+   "published": "2026-10-06T12:44:20Z",
+   "state": "screen",
+   "runs": 36,
    "channel": "PB with J"
   },
   {
