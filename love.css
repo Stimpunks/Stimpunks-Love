@@ -20401,6 +20401,12 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .greenspace .grn-vid__by { margin: 0; font-size: 16px; color: var(--grn-dim); }
 .grn-vid .facade { margin-top: auto; }
 .greenspace .grn-vid__big { font-size: 16px; min-height: 40px; text-align: left; }
+/* THE SECOND RACK, the newest from YouTube's search, refilled every morning:
+   the same cards, plus the search that found each one. */
+.greenspace .grn-latest__set { margin: 30px 0 0; font-size: 17px; }
+.greenspace .grn-latest__how { margin: 8px 0 0; font-size: 17px; }
+.greenspace .grn-vid__found { margin: 0; font-size: 16px; font-style: italic; color: var(--grn-dim); }
+.greenspace .grn-latest__quiet { margin: 14px 0 0; max-width: 66ch; font-size: 17px; color: var(--grn-dim); }
 
 .grn-rules, .grn-keeps { margin: 8px 0 0; padding-left: 22px; max-width: 66ch; }
 .grn-rules li, .grn-keeps li { margin: 0 0 8px; }

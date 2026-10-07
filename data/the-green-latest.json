@@ -1,0 +1,709 @@
+{
+ "_what": "The second rack under the porch roof on the Green: the newest videos YouTube's search finds for cities and towns making room for green, refilled every morning by tools/pull-green-latest.py on the morning timer (tools/daily-green.sh) and drawn by tools/make-the-green.py --latest. Ryan Boren's brief, 2026-10-07: a rack for the latest videos from a YouTube search for cities and towns making room for green; green spaces, green building techniques, urban forests, urban farms and edibles, solarpunk, renewable energy. Nobody here watches these first, and the room says so.",
+ "_searches": "One search per thing on Ryan's list, in his order. q is what is typed into YouTube's search, filtered to videos put up this week; has is the words a result's own title must carry, any one of them, before it is even asked about, because a search's results are full of things that only mention the words somewhere. The words were chosen on 2026-10-07 by reading what each search turned up: a bare search for edibles is mostly food, so that one asks for food forests and edible gardens; a bare search for renewable energy is mostly investors, so that one asks about communities. Change a search here, in Ryan's words where they will do.",
+ "searches": [
+  {
+   "key": "green-spaces",
+   "topic": "green spaces",
+   "q": "urban green space",
+   "has": [
+    "green space",
+    "greenspace"
+   ]
+  },
+  {
+   "key": "green-building",
+   "topic": "green building techniques",
+   "q": "green building",
+   "has": [
+    "green building"
+   ]
+  },
+  {
+   "key": "urban-forests",
+   "topic": "urban forests",
+   "q": "urban forest",
+   "has": [
+    "urban forest"
+   ]
+  },
+  {
+   "key": "urban-farms",
+   "topic": "urban farms",
+   "q": "urban farm",
+   "has": [
+    "urban farm",
+    "urban agriculture"
+   ]
+  },
+  {
+   "key": "edibles",
+   "topic": "edibles",
+   "q": "urban food forest",
+   "has": [
+    "food forest",
+    "edible garden",
+    "edible landscape",
+    "edible landscaping"
+   ]
+  },
+  {
+   "key": "solarpunk",
+   "topic": "solarpunk",
+   "q": "solarpunk",
+   "has": [
+    "solarpunk",
+    "solar punk"
+   ]
+  },
+  {
+   "key": "renewable-energy",
+   "topic": "renewable energy",
+   "q": "renewable energy community",
+   "has": [
+    "renewable",
+    "community solar",
+    "community energy"
+   ]
+  }
+ ],
+ "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
+ "set": "2026-10-07T15:18Z",
+ "latest": [
+  {
+   "id": "Os-W2LUzRXw",
+   "title": "Morning Birds in the City Urban Forest Ambience  No Talking, No Music",
+   "channel": "CityFlow ASMR",
+   "published": "2026-10-07T14:52:19Z",
+   "runs": 4308,
+   "search": "urban-forests"
+  },
+  {
+   "id": "zg-IXMx6Uk0",
+   "title": "Why you should pick the Green Building",
+   "channel": "Sidney McGrath",
+   "published": "2026-10-07T11:05:24Z",
+   "runs": 131,
+   "search": "green-building"
+  },
+  {
+   "id": "dQa0-bmiW8Q",
+   "title": "Analyst Chandu Srinivas About 18 Urban Forests Launched in AP! | Deputy CM Pawan Kalyan | Nagababu",
+   "channel": "SumanTV Digital News",
+   "published": "2026-10-07T09:11:46Z",
+   "runs": 359,
+   "search": "urban-forests"
+  },
+  {
+   "id": "6ACfeVhM394",
+   "title": "Vancouver Urban Food Forest Foundation (VUFFF)",
+   "channel": "Boxing Beaver Media",
+   "published": "2026-10-06T20:35:31Z",
+   "runs": 404,
+   "search": "edibles"
+  },
+  {
+   "id": "yXYsZvh1J9k",
+   "title": "Rooted in Hilltop: Community Green Space, Urban Agriculture, and Tree Equity in Tacoma",
+   "channel": "WSU Ravenholt Urban Forest Health Lab",
+   "published": "2026-10-06T18:57:00Z",
+   "runs": 1461,
+   "search": "green-spaces"
+  },
+  {
+   "id": "uhukm95y3aE",
+   "title": "Connecting Canopies Official Trailer | Connecticut Urban Forestry Stories",
+   "channel": "The Nature Conservancy in Connecticut",
+   "published": "2026-10-06T15:52:01Z",
+   "runs": 48,
+   "search": "urban-forests"
+  },
+  {
+   "id": "88dqVRN46xQ",
+   "title": "Urban farm in West End has larger purpose in community",
+   "channel": "KSDK News",
+   "published": "2026-10-06T10:59:08Z",
+   "runs": 130,
+   "search": "urban-farms"
+  },
+  {
+   "id": "J0UJw8DX2qc",
+   "title": "Follow Food Forest Mystery Apple in Index Guild",
+   "channel": "Zach Loeks",
+   "published": "2026-10-06T01:37:04Z",
+   "runs": 105,
+   "search": "edibles"
+  },
+  {
+   "id": "go6VOq0W7HI",
+   "title": "🐶 11 Hours of Urban Forest Sounds for Dogs 🌿 Wind, Birdsong & Gentle Sleep Music",
+   "channel": "멍마들",
+   "published": "2026-10-05T21:15:21Z",
+   "runs": 38744,
+   "search": "urban-forests"
+  },
+  {
+   "id": "JN-rLXjQyTo",
+   "title": "What to harvest at the Hugelkulture Mound in the Urban food forest",
+   "channel": "Food Forest Permaculture",
+   "published": "2026-10-05T17:50:50Z",
+   "runs": 990,
+   "search": "edibles"
+  },
+  {
+   "id": "TS8PFZW5YOI",
+   "title": "Brownsville park uses 500-gallon rain barrels to water green spaces",
+   "channel": "KRGV",
+   "published": "2026-10-05T16:13:35Z",
+   "runs": 89,
+   "search": "green-spaces"
+  },
+  {
+   "id": "MX7jDGLx9-A",
+   "title": "QGM Intelligent Block Production Line | Turning Waste into Green Building Materials",
+   "channel": "QGM Quangong Machinery",
+   "published": "2026-10-03T12:00:29Z",
+   "runs": 18,
+   "search": "green-building"
+  },
+  {
+   "id": "wKDlD7MjpO4",
+   "title": "Renewable Energy: Recycling, Rooftops, and Tight Spaces | Kilowatt: A Podcast about Electric...",
+   "channel": "Bodie",
+   "published": "2026-10-03T08:32:00Z",
+   "runs": 1789,
+   "search": "renewable-energy"
+  },
+  {
+   "id": "r2hsu1diojM",
+   "title": "California Green Building Standards Code (CALGreen) - Onye Dike",
+   "channel": "Net Zero Compare",
+   "published": "2026-10-03T00:02:08Z",
+   "runs": 124,
+   "search": "green-building"
+  },
+  {
+   "id": "cI0_bPQ2P6I",
+   "title": "Onward | Turbine (day/night) Green Building Wall Glitch",
+   "channel": "Jackson Woodard",
+   "published": "2026-10-02T23:02:19Z",
+   "runs": 111,
+   "search": "green-building"
+  },
+  {
+   "id": "FLgZJW06KnM",
+   "title": "The Future of Renewable Energy Community Engagement (Hint, it's Using AI)",
+   "channel": "Flypower",
+   "published": "2026-10-02T20:52:17Z",
+   "runs": 765,
+   "search": "renewable-energy"
+  },
+  {
+   "id": "niXpeCWYWVw",
+   "title": "Mayor Mamdani makes green space announcement",
+   "channel": "Eyewitness News ABC7NY",
+   "published": "2026-10-02T02:53:41Z",
+   "runs": 2880,
+   "search": "green-spaces"
+  },
+  {
+   "id": "Itt4azyJ3sQ",
+   "title": "Green Space With Heavy Monsoon  l  calm in Jungle",
+   "channel": "ViPa",
+   "published": "2026-10-01T17:10:09Z",
+   "runs": 729,
+   "search": "green-spaces"
+  },
+  {
+   "id": "3GzoRCZpQvc",
+   "title": "Heart of England Community Energy: Turning Renewable Generation into Local Benefit",
+   "channel": "Evolve Energy",
+   "published": "2026-10-01T08:01:31Z",
+   "runs": 88,
+   "search": "renewable-energy"
+  },
+  {
+   "id": "fIIS0vzF8Sc",
+   "title": "Last Light - A Solar Punk short",
+   "channel": "JW",
+   "published": "2026-09-30T20:25:41Z",
+   "runs": 66,
+   "search": "solarpunk"
+  }
+ ],
+ "_seen": "Every result that carried its search's words, as its watch page answered the morning it first turned up, kept for a week so nobody's page is asked twice. state is screen, door, gone, pending (asked again if it turns up again) or left, with why. Nothing is kept but what the rack needs: no description, no thumbnail, no count of views.",
+ "seen": [
+  {
+   "id": "GZyYRJAZjtY",
+   "search": "green-spaces",
+   "title": "Berlin's Green Spaces: What I Saw While Walking Through",
+   "channel": "SEEING GREEN",
+   "published": "2026-09-30T16:21:02Z",
+   "runs": 1657,
+   "state": "screen"
+  },
+  {
+   "id": "uFDMcThIVmA",
+   "search": "green-spaces",
+   "title": "What the Public Garden Holds: Why Green Spaces are the Ultimate Gateway to Nature",
+   "channel": "Rue Mapp",
+   "published": "2026-09-30T16:30:01Z",
+   "runs": 483,
+   "state": "screen"
+  },
+  {
+   "id": "VvC-CRTijZA",
+   "search": "green-spaces",
+   "title": "Nicole's Gardening Green Spaces",
+   "channel": "Nicole Smith",
+   "published": "2026-10-01T04:11:44Z",
+   "runs": 8,
+   "state": "screen"
+  },
+  {
+   "id": "jqtmudxLp-4",
+   "search": "green-spaces",
+   "title": "Mayor Mamdani Holds Press Conference to Make Green Space Announcement",
+   "channel": "NYC Mayor's Office",
+   "published": "2026-10-01T15:49:54Z",
+   "runs": 2574,
+   "state": "screen"
+  },
+  {
+   "id": "Itt4azyJ3sQ",
+   "search": "green-spaces",
+   "title": "Green Space With Heavy Monsoon  l  calm in Jungle",
+   "channel": "ViPa",
+   "published": "2026-10-01T17:10:09Z",
+   "runs": 729,
+   "state": "screen"
+  },
+  {
+   "id": "niXpeCWYWVw",
+   "search": "green-spaces",
+   "title": "Mayor Mamdani makes green space announcement",
+   "channel": "Eyewitness News ABC7NY",
+   "published": "2026-10-02T02:53:41Z",
+   "runs": 2880,
+   "state": "screen"
+  },
+  {
+   "id": "TS8PFZW5YOI",
+   "search": "green-spaces",
+   "title": "Brownsville park uses 500-gallon rain barrels to water green spaces",
+   "channel": "KRGV",
+   "published": "2026-10-05T16:13:35Z",
+   "runs": 89,
+   "state": "screen"
+  },
+  {
+   "id": "yXYsZvh1J9k",
+   "search": "green-spaces",
+   "title": "Rooted in Hilltop: Community Green Space, Urban Agriculture, and Tree Equity in Tacoma",
+   "channel": "WSU Ravenholt Urban Forest Health Lab",
+   "published": "2026-10-06T18:57:00Z",
+   "runs": 1461,
+   "state": "screen"
+  },
+  {
+   "id": "ud0xPCm133k",
+   "search": "green-building",
+   "title": "How Green Building Design Cuts Energy and Water Waste",
+   "channel": "How Everyday Systems Work",
+   "published": "2026-10-02T03:03:21Z",
+   "runs": 522,
+   "state": "screen"
+  },
+  {
+   "id": "pjoNQNHrfO4",
+   "search": "green-building",
+   "title": "Kenya Green Building Society launches repository for green projects",
+   "channel": "Citizen TV Kenya",
+   "published": "2026-10-02T19:02:14Z",
+   "runs": 129,
+   "state": "screen"
+  },
+  {
+   "id": "LzwoYbOoLiE",
+   "search": "green-building",
+   "title": "Evidence-based metrics to validate green building investments",
+   "channel": "KBC Business",
+   "published": "2026-10-02T22:50:07Z",
+   "runs": 175,
+   "state": "screen"
+  },
+  {
+   "id": "cI0_bPQ2P6I",
+   "search": "green-building",
+   "title": "Onward | Turbine (day/night) Green Building Wall Glitch",
+   "channel": "Jackson Woodard",
+   "published": "2026-10-02T23:02:19Z",
+   "runs": 111,
+   "state": "screen"
+  },
+  {
+   "id": "r2hsu1diojM",
+   "search": "green-building",
+   "title": "California Green Building Standards Code (CALGreen) - Onye Dike",
+   "channel": "Net Zero Compare",
+   "published": "2026-10-03T00:02:08Z",
+   "runs": 124,
+   "state": "screen"
+  },
+  {
+   "id": "MX7jDGLx9-A",
+   "search": "green-building",
+   "title": "QGM Intelligent Block Production Line | Turning Waste into Green Building Materials",
+   "channel": "QGM Quangong Machinery",
+   "published": "2026-10-03T12:00:29Z",
+   "runs": 18,
+   "state": "screen"
+  },
+  {
+   "id": "zg-IXMx6Uk0",
+   "search": "green-building",
+   "title": "Why you should pick the Green Building",
+   "channel": "Sidney McGrath",
+   "published": "2026-10-07T11:05:24Z",
+   "runs": 131,
+   "state": "screen"
+  },
+  {
+   "id": "jr5-MtqTWzc",
+   "search": "urban-forests",
+   "title": "Indianapolis' newest nature preserve features an old-growth urban forest",
+   "channel": "IndyStar",
+   "published": "2026-10-01T11:00:11Z",
+   "runs": 101,
+   "state": "screen"
+  },
+  {
+   "id": "amk5-eyZglk",
+   "search": "urban-forests",
+   "title": "Keya Homes The Urban Forest - Project Walkthrough",
+   "channel": "MANSIO",
+   "published": "2026-10-03T12:14:02Z",
+   "runs": 205,
+   "state": "screen"
+  },
+  {
+   "id": "IY2kXCaEYbU",
+   "search": "urban-forests",
+   "title": "Paris's Urban Forests: A Promise Kept or an Illusion?",
+   "channel": "Utopies Urbaines",
+   "published": "2026-10-04T16:00:33Z",
+   "runs": 650,
+   "state": "screen"
+  },
+  {
+   "id": "nvmHTqwtDf8",
+   "search": "urban-forests",
+   "title": "Taman Brightspot at Cipete Urban Forest (July 2026)",
+   "channel": "Down to Upthere",
+   "published": "2026-10-05T10:00:21Z",
+   "runs": 132,
+   "state": "screen"
+  },
+  {
+   "id": "5dP4P4tVhzk",
+   "search": "urban-forests",
+   "title": "EFI Biocities Webinar #2 – Urban forests for climate change adaptation",
+   "channel": "European Forest Institute",
+   "published": "2026-10-05T16:41:58Z",
+   "runs": 5996,
+   "state": "screen"
+  },
+  {
+   "id": "go6VOq0W7HI",
+   "search": "urban-forests",
+   "title": "🐶 11 Hours of Urban Forest Sounds for Dogs 🌿 Wind, Birdsong & Gentle Sleep Music",
+   "channel": "멍마들",
+   "published": "2026-10-05T21:15:21Z",
+   "runs": 38744,
+   "state": "screen"
+  },
+  {
+   "id": "uhukm95y3aE",
+   "search": "urban-forests",
+   "title": "Connecting Canopies Official Trailer | Connecticut Urban Forestry Stories",
+   "channel": "The Nature Conservancy in Connecticut",
+   "published": "2026-10-06T15:52:01Z",
+   "runs": 48,
+   "state": "screen"
+  },
+  {
+   "id": "tGZ-k4fEtRs",
+   "search": "urban-forests",
+   "title": "Green Spaces, Mental Health & Community Well-Being: Exploring The Need for Urban Forestry in Kent",
+   "channel": "WSU Ravenholt Urban Forest Health Lab",
+   "published": "2026-10-06T18:38:12Z",
+   "runs": 677,
+   "state": "screen"
+  },
+  {
+   "id": "dQa0-bmiW8Q",
+   "search": "urban-forests",
+   "title": "Analyst Chandu Srinivas About 18 Urban Forests Launched in AP! | Deputy CM Pawan Kalyan | Nagababu",
+   "channel": "SumanTV Digital News",
+   "published": "2026-10-07T09:11:46Z",
+   "runs": 359,
+   "state": "screen"
+  },
+  {
+   "id": "Os-W2LUzRXw",
+   "search": "urban-forests",
+   "title": "Morning Birds in the City Urban Forest Ambience  No Talking, No Music",
+   "channel": "CityFlow ASMR",
+   "published": "2026-10-07T14:52:19Z",
+   "runs": 4308,
+   "state": "screen"
+  },
+  {
+   "id": "5PT_GNcvEnw",
+   "search": "urban-farms",
+   "title": "Inside Elm Street Gardens: Urban Farming Revives Sparta, GA with Shiitake Warehouse",
+   "channel": "Sprout - Gardening Channel",
+   "published": "2026-10-02T16:00:34Z",
+   "runs": 1487,
+   "state": "door",
+   "why": "no embedding"
+  },
+  {
+   "id": "88dqVRN46xQ",
+   "search": "urban-farms",
+   "title": "Urban farm in West End has larger purpose in community",
+   "channel": "KSDK News",
+   "published": "2026-10-06T10:59:08Z",
+   "runs": 130,
+   "state": "screen"
+  },
+  {
+   "id": "2Ljlm7ycoc0",
+   "search": "edibles",
+   "title": "The Food Forest Movement's European Expansion",
+   "channel": "World Origins",
+   "published": "2026-10-05T15:03:43Z",
+   "runs": 283,
+   "state": "screen"
+  },
+  {
+   "id": "JN-rLXjQyTo",
+   "search": "edibles",
+   "title": "What to harvest at the Hugelkulture Mound in the Urban food forest",
+   "channel": "Food Forest Permaculture",
+   "published": "2026-10-05T17:50:50Z",
+   "runs": 990,
+   "state": "screen"
+  },
+  {
+   "id": "J0UJw8DX2qc",
+   "search": "edibles",
+   "title": "Follow Food Forest Mystery Apple in Index Guild",
+   "channel": "Zach Loeks",
+   "published": "2026-10-06T01:37:04Z",
+   "runs": 105,
+   "state": "screen"
+  },
+  {
+   "id": "6ACfeVhM394",
+   "search": "edibles",
+   "title": "Vancouver Urban Food Forest Foundation (VUFFF)",
+   "channel": "Boxing Beaver Media",
+   "published": "2026-10-06T20:35:31Z",
+   "runs": 404,
+   "state": "screen"
+  },
+  {
+   "id": "yrk4hDPuAPg",
+   "search": "solarpunk",
+   "title": "SOLARPUNK Ambient Livestream",
+   "state": "pending",
+   "why": "live, or not out yet"
+  },
+  {
+   "id": "fIIS0vzF8Sc",
+   "search": "solarpunk",
+   "title": "Last Light - A Solar Punk short",
+   "channel": "JW",
+   "published": "2026-09-30T20:25:41Z",
+   "runs": 66,
+   "state": "screen"
+  },
+  {
+   "id": "OKAOegCTol8",
+   "search": "solarpunk",
+   "title": "SolarPunk - Lets Play - Are we getting the 100% tonight? - 41",
+   "channel": "Praggers Gaming",
+   "published": "2026-10-01T10:15:19Z",
+   "runs": 2163,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "T0egJMNB1BM",
+   "search": "solarpunk",
+   "title": "Two Brain Cells Discover Solar? | Solarpunk",
+   "channel": "Brain Cells",
+   "published": "2026-10-01T16:13:55Z",
+   "runs": 4227,
+   "state": "door",
+   "why": "no embedding"
+  },
+  {
+   "id": "HvB9IJ7WPB8",
+   "search": "solarpunk",
+   "title": "I Fully Upgraded My Airship! | Solarpunk",
+   "channel": "Kouldbayne",
+   "published": "2026-10-01T19:00:31Z",
+   "runs": 2218,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "pEUjob0n7TY",
+   "search": "solarpunk",
+   "title": "More Solar? Yes. | Solarpunk",
+   "channel": "Brain Cells",
+   "published": "2026-10-02T15:32:01Z",
+   "runs": 2562,
+   "state": "door",
+   "why": "no embedding"
+  },
+  {
+   "id": "SNYKEBrfeVE",
+   "search": "solarpunk",
+   "title": "Onwards and Upwards! | Solarpunk",
+   "channel": "Brain Cells",
+   "published": "2026-10-03T22:00:05Z",
+   "runs": 9300,
+   "state": "door",
+   "why": "no embedding"
+  },
+  {
+   "id": "zw1pjbxdfFI",
+   "search": "solarpunk",
+   "title": "Exploring The Ice Biome IN SOLARPUNK🥶",
+   "channel": "Gamer Sayax",
+   "published": "2026-10-04T04:30:36Z",
+   "runs": 1031,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "gkeBakW8Zho",
+   "search": "solarpunk",
+   "title": "Solar Punk Updated New Solar and Storage and More",
+   "channel": "meatwagon22",
+   "published": "2026-10-04T20:15:34Z",
+   "runs": 3215,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "RvF2dhB9OS0",
+   "search": "solarpunk",
+   "title": "【Solarpunk】浮遊島で深夜チル農場 #リモメロ定期【リモーネ先生 / 狂蘭メロコ】",
+   "channel": "Meloco Kyoran【NIJISANJI EN】",
+   "published": "2026-10-04T22:11:43Z",
+   "runs": 34878,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "_VLaTQ5OegQ",
+   "search": "solarpunk",
+   "title": "more, More Resources!| Solarpunk",
+   "channel": "Brain Cells",
+   "published": "2026-10-05T14:14:26Z",
+   "runs": 6990,
+   "state": "door",
+   "why": "no embedding"
+  },
+  {
+   "id": "Zjg-ZiYsd3M",
+   "search": "solarpunk",
+   "title": "MAJOR Updates In This COZY Crafting Survival — Solarpunk [01]",
+   "channel": "FloppySword",
+   "published": "2026-10-06T16:26:12Z",
+   "runs": 3812,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "tXTFmvs8yJw",
+   "search": "solarpunk",
+   "title": "I 100%'d Solarpunk! | Ep. 8",
+   "channel": "Checkers13",
+   "published": "2026-10-06T19:00:14Z",
+   "runs": 950,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "KHSdSUq9DDY",
+   "search": "solarpunk",
+   "title": "I Love This Game | Solarpunk",
+   "channel": "Tristen Topia",
+   "published": "2026-10-06T22:50:02Z",
+   "runs": 1918,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "xlh1307cMGM",
+   "search": "solarpunk",
+   "title": "Solarpunk",
+   "channel": "Spire Z77",
+   "published": "2026-10-07T06:44:48Z",
+   "runs": 4625,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "f-Vn34rUXwk",
+   "search": "solarpunk",
+   "title": "Solarpunk | More Ores, More Power, Unlocking New Recipes | PT. 17 LIVE",
+   "channel": "Gamer's Deluxe__YT",
+   "published": "2026-10-07T14:30:32Z",
+   "runs": 5199,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "mkGyF-2cCKg",
+   "search": "renewable-energy",
+   "title": "Renewable Energy Cooperative",
+   "channel": "U.S. Co-ops",
+   "published": "2026-09-30T18:48:26Z",
+   "runs": 802,
+   "state": "screen"
+  },
+  {
+   "id": "3GzoRCZpQvc",
+   "search": "renewable-energy",
+   "title": "Heart of England Community Energy: Turning Renewable Generation into Local Benefit",
+   "channel": "Evolve Energy",
+   "published": "2026-10-01T08:01:31Z",
+   "runs": 88,
+   "state": "screen"
+  },
+  {
+   "id": "FLgZJW06KnM",
+   "search": "renewable-energy",
+   "title": "The Future of Renewable Energy Community Engagement (Hint, it's Using AI)",
+   "channel": "Flypower",
+   "published": "2026-10-02T20:52:17Z",
+   "runs": 765,
+   "state": "screen"
+  },
+  {
+   "id": "wKDlD7MjpO4",
+   "search": "renewable-energy",
+   "title": "Renewable Energy: Recycling, Rooftops, and Tight Spaces | Kilowatt: A Podcast about Electric...",
+   "channel": "Bodie",
+   "published": "2026-10-03T08:32:00Z",
+   "runs": 1789,
+   "state": "screen"
+  }
+ ]
+}

@@ -256,6 +256,11 @@ LISTS = [
     ("the run", "data/the-run.json", "the-run.html"),
     ("truckin' food court", "data/truckin-food-court.json", "truckin-food-court.html"),
     ("the green", "data/the-green.json", "the-green.html"),
+    # The Green's second rack: the newest from YouTube's search, refilled every
+    # morning by tools/pull-green-latest.py, which asks each new result's watch
+    # page once. Nobody chose these at all, not even the channel, so a second
+    # asking here is worth more than anywhere.
+    ("the green's search rack", "data/the-green-latest.json", "the-green.html"),
     ("the pile", "data/the-pile.json", "the-pile.html"),
     # Big Steep: three long cellar ambience videos on their makers' own
     # channels, the kind of upload that goes private without ceremony.
@@ -321,6 +326,11 @@ def tracks_in(data):
                 for v in data["telly"] if v.get("state") in ("screen", "door")]
     # THE OPEN NOTEBOOK'S MONTHLY LOG is the telly's shape under a key of its
     # own, tested before 'tracks' for the same reason.
+    # THE GREEN'S SEARCH RACK keeps what it looked at under 'seen' and what is on
+    # the page under 'latest', and only the second is checked: a result left off
+    # is not a facade anybody can press. Every row on it is a screen.
+    if "latest" in data and "seen" in data:
+        return [dict(v, artist=v.get("channel")) for v in data["latest"]]
     if "log" in data:
         return [dict(v, artist=v.get("channel") or v["source"],
                      state="link" if v.get("state") == "door" else None)

@@ -148,7 +148,7 @@
       <tr><td>Site files</td><td><code>make-sitemap.py</code>, <code>make-search-index.py</code>, <code>make-feed.py</code>, <code>make-agent-files.py</code>, <code>make-security.py</code></td><td><code>sitemap.xml</code>, <code>llms.txt</code>, <code>cb-rooms.json</code>, <code>search-index.json</code>, <code>feed.xml</code>, <code>/.well-known/*</code></td></tr>
       <tr><td>Headers</td><td><code>make-csp.py</code></td><td>The policy line in <code>_headers</code>, from <code>love-embed.js</code>&rsquo;s origin lists and the pre-paint snippet&rsquo;s hash</td></tr>
       <tr><td>Images</td><td><code>make-webp.py</code>, <code>make-og.py</code>, <code>make-icons.py</code></td><td>WebP only where it is as faithful (SSIM 0.98 or better) and at least 10% smaller; a share card per page in <code>og/</code>; the favicons</td></tr>
-      <tr><td>Network pulls</td><td><code>pull-arrivals.py</code>, <code>pull-doom-scoop.py</code>, <code>pull-vital-rack.py</code>, <code>pull-notebook-month.py</code>, <code>pull-large-month.py</code>, <code>pull-cookin-month.py</code>, <code>pull-club.py</code>, <code>pull-foundry.py</code></td><td>A data file refreshed from feeds or GitHub. Never run by the build.</td></tr>
+      <tr><td>Network pulls</td><td><code>pull-arrivals.py</code>, <code>pull-doom-scoop.py</code>, <code>pull-vital-rack.py</code>, <code>pull-notebook-month.py</code>, <code>pull-large-month.py</code>, <code>pull-cookin-month.py</code>, <code>pull-green-latest.py</code>, <code>pull-club.py</code>, <code>pull-foundry.py</code></td><td>A data file refreshed from feeds or GitHub. Never run by the build.</td></tr>
       <tr><td>Intake</td><td><code>intake-collection.py</code>, <code>import-room.py</code></td><td>Metadata stripped from arriving photographs; a room somebody built with their own AI, brought in</td></tr>
     </tbody>
   </table>
@@ -219,6 +219,7 @@
       <tr><td><code>daily-notebook.sh</code></td><td><a href="the-open-notebook.html">The Open Notebook</a></td><td><code>data/open-notebook-month.json</code>, <code>the-open-notebook.html</code></td><td>daily open notebook refill</td></tr>
       <tr><td><code>daily-large.sh</code></td><td><a href="learning-large.html">Learning Large</a></td><td><code>data/learning-large-month.json</code>, <code>learning-large.html</code>, <code>now-playing.html</code></td><td>daily learning large refill</td></tr>
       <tr><td><code>daily-cookin.sh</code></td><td><a href="hey-good-cookin.html">Hey, Good Cookin&rsquo;</a></td><td><code>data/hey-good-cookin-month.json</code>, <code>hey-good-cookin.html</code>, <code>now-playing.html</code></td><td>daily good cookin refill</td></tr>
+      <tr><td><code>daily-green.sh</code></td><td><a href="the-green.html">The Green</a>&rsquo;s search rack</td><td><code>data/the-green-latest.json</code>, <code>the-green.html</code></td><td>daily green refill</td></tr>
     </tbody>
   </table>
   <p>They run in that order, each whatever the last one returned, so one failing feed leaves the others filled. Every push deploys, so the morning makes a run of deploys. The commit subjects matter: the tool that writes Ryan&rsquo;s weekly changelog skips exactly these.</p>

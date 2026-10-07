@@ -45,6 +45,17 @@ name. The vegetable beds were planted to be eaten and anybody may pick from
 them; the room never says anything else growing anywhere is safe to eat, and
 refuses the vocabulary of foraging.
 
+THE SECOND RACK IS A SEARCH, AND NOBODY HERE CHOSE WHAT IS ON IT. Ryan's brief,
+2026-10-07: the latest videos from a YouTube search for cities and towns making
+room for green. tools/pull-green-latest.py asks the search every morning on the
+timer in tools/daily-green.sh, and this runs with --latest so that only that
+rack is redrawn. It refuses a row older than the week, a row carrying anything
+but an id, a title, a channel, a time, a length and the search that found it, a
+title that does not say what its search asked for, two of one channel or one
+title, a row its own channel filed under a game or music, and a rack over
+Ryan's number. The titles are the channels' and are not swept; the rack says
+nobody here watched them first.
+
 THE QUOTATIONS ARE OURS, AND CHECKED. Both were read on our own Nature page and
 are checked against the Knowledge System mirror's copy of it word for word on
 every build when the mirror is there, the Town Hall's rule.
@@ -57,11 +68,14 @@ import json
 import math
 import re
 import sys
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent.parent
 TOOLS = ROOT / "tools"
 DATA = ROOT / "data/the-green.json"
+LATEST = ROOT / "data/the-green-latest.json"
 PAGE = ROOT / "the-green.html"
 NOTES = ROOT / "liner-notes.html"
 CSS = ROOT / "love.css"
@@ -79,6 +93,11 @@ STOP_KEYS = {"key", "name", "x", "y", "rest", "bed", "picking", "plants", "words
 SCREEN = ("grn", "the screen under the porch roof")
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August",
           "September", "October", "November", "December"]
+HERE = ZoneInfo("America/Denver")
+LATEST_KEYS = {"id", "title", "channel", "published", "runs", "search"}
+SEEN_KEYS = {"id", "search", "title", "channel", "published", "runs", "state", "why"}
+SEEN_STATES = {"screen", "door", "gone", "pending", "left"}
+SEARCH_KEYS = {"key", "topic", "q", "has"}
 # Common names that LOOK like a genus and an epithet: added on purpose, one at
 # a time, never by guessing at endings (the herbarium's lesson).
 PLAIN = {"Swiss chard"}
@@ -99,6 +118,12 @@ def tool(name):
 
 hgc = tool("make-hey-good-cookin")
 pekoe = tool("make-pekoe")
+# THE SECOND RACK'S RULES ARE THE PULLER'S, READ RATHER THAN RESTATED: the week,
+# Ryan's number, what is left off and how a title is read are written once, in
+# tools/pull-green-latest.py, so the tool that chooses and the tool that refuses
+# cannot disagree. Importing it touches no network; only its main() does.
+pull = tool("pull-green-latest")
+WEEK, RACK, LEFT_OFF = pull.WEEK, pull.RACK, pull.LEFT_OFF
 
 
 def esc(s):
@@ -486,14 +511,14 @@ def day(iso):
 def rack_block(d):
     sid, sname = SCREEN
     out = [f'    <div class="grn-screen" data-rack-screen="{sid}" tabindex="-1" hidden>',
-           '      <p class="grn-screen__idle"><span><b>The screen under the porch roof.</b> Nothing is on it. Any film on '
-           'the rack can go up here with the button under it, and nothing loads until you press one.</span></p>',
+           '      <p class="grn-screen__idle"><span><b>The screen under the porch roof.</b> Nothing is on it. Any video on '
+           'either rack can go up here with the button under it, and nothing loads until you press one.</span></p>',
            '    </div>',
            f'    <p class="grn-screen__now" data-rack-now="{sid}" tabindex="-1" hidden></p>',
            f'    <p class="grn-screen__back" hidden><button type="button" class="grn-btn grn-btn--quiet" '
            f'data-rack-back="{sid}">Take it off the screen</button></p>',
            '    <details class="grn-rack" open>',
-           '      <summary class="grn-rack__sum">The rack: cities and towns making room for green</summary>',
+           '      <summary class="grn-rack__sum">Ryan&rsquo;s pick: cities and towns making room for green</summary>',
            '      <ul class="grn-vids">']
     for v in d["videos"]:
         t, c, r = esc(v["title"]), esc(v["channel"]), v["runtime"]
@@ -513,7 +538,160 @@ def rack_block(d):
     return "\n".join(out)
 
 
-def liner_sources(d):
+# ── The second rack: the newest from the search ──────────────────────────────
+
+def utc(s):
+    return datetime.fromisoformat(s.replace("Z", "+00:00")).astimezone(timezone.utc)
+
+
+def clock(n):
+    h, rest = divmod(int(n), 3600)
+    m, sec = divmod(rest, 60)
+    return f"{h}:{m:02d}:{sec:02d}" if h else f"{m}:{sec:02d}"
+
+
+def weekday(dt):
+    t = dt.astimezone(HERE)
+    return f"{t.strftime('%A')} {t.day} {t.strftime('%B')}"
+
+
+def set_time(r):
+    return datetime.strptime(r["set"], "%Y-%m-%dT%H:%MZ").replace(tzinfo=timezone.utc)
+
+
+def check_latest(r):
+    keys = {}
+    for s in r.get("searches") or []:
+        where = f"{LATEST.name}, search {s.get('key')!r}"
+        if set(s) != SEARCH_KEYS:
+            refuse(f"{where} has {sorted(set(s))}; a search is a key, a topic, what is typed and the words "
+                   "its titles must carry, and nothing else.")
+        if s.get("key") in keys:
+            refuse(f"two searches are keyed {s.get('key')!r}.")
+        keys[s.get("key")] = s
+        if not (s.get("q") or "").strip() or not (s.get("topic") or "").strip():
+            refuse(f"{where} has no words to search for, or no topic.")
+        if not s.get("has") or not all(isinstance(h, str) and h.strip() for h in s["has"]):
+            refuse(f"{where} has no words a title must carry. Without them the rack is whatever the search "
+                   "happened to say, and a search's results are full of things that only mention the words.")
+    if not keys:
+        refuse(f"{LATEST.name} has no searches, so the second rack would be a heading over nothing.")
+    if not r.get("set"):
+        refuse(f"{LATEST.name} has no `set` time. Run tools/pull-green-latest.py; the room prints when the "
+               "rack was filled.")
+        return
+    oldest = set_time(r) - timedelta(days=WEEK, minutes=1)
+    seen = {}
+    for v in r.get("seen") or []:
+        t = (v.get("title") or "")[:40] or v.get("id")
+        if set(v) - SEEN_KEYS:
+            refuse(f"{LATEST.name}: the result {t!r} carries {sorted(set(v) - SEEN_KEYS)}. Nothing is kept but "
+                   "what the rack needs: no description, no thumbnail, no count of views.")
+        if v.get("state") not in SEEN_STATES:
+            refuse(f"{LATEST.name}: the result {t!r} is in the state {v.get('state')!r}, which this does not know.")
+        if v.get("state") in ("door", "gone", "left", "pending") and not v.get("why"):
+            refuse(f"{LATEST.name}: the result {t!r} is {v.get('state')} with no reason why.")
+        if v.get("search") not in keys:
+            refuse(f"{LATEST.name}: the result {t!r} was found by {v.get('search')!r}, which is not a search.")
+        if v.get("published") and utc(v["published"]) < oldest:
+            refuse(f"{LATEST.name}: the result {t!r} went up {v['published']}, more than a week before the rack "
+                   "was filled. The older ones go; this is not an archive.")
+        seen[v.get("id")] = v
+    rack = r.get("latest") or []
+    if len(rack) > RACK:
+        refuse(f"the second rack holds more than Ryan's number ({len(rack)} against {RACK}).")
+    ids, titles, chans = set(), set(), set()
+    for v in rack:
+        t = (v.get("title") or "")[:40] or v.get("id")
+        where = f"the second rack's {t!r}"
+        if set(v) != LATEST_KEYS:
+            refuse(f"{where} carries {sorted(set(v) ^ LATEST_KEYS)} beside or instead of an id, a title, a "
+                   "channel, a time, a length and the search that found it.")
+            continue
+        if not YT.match(v["id"]):
+            refuse(f"{where} has {v['id']!r}, which is not a YouTube id.")
+        s = keys.get(v["search"])
+        if not s:
+            refuse(f"{where} was found by {v['search']!r}, which is not a search.")
+        elif not pull.carries(v["title"], s["has"]):
+            refuse(f"{where}: its title does not say what the search for {s['q']!r} asked for "
+                   f"({', '.join(s['has'])}).")
+        if not (isinstance(v["runs"], int) and v["runs"] > 0):
+            refuse(f"{where} has no runtime. Every button here says how long before the press.")
+        if not (v.get("channel") or "").strip():
+            refuse(f"{where} does not say whose channel it is on.")
+        if utc(v["published"]) < oldest:
+            refuse(f"{where} went up {v['published']}, more than a week before the rack was filled.")
+        for got, key, what in ((ids, v["id"], "is on the rack twice"),
+                               (titles, pull.words(v["title"]), "has the same title as another on the rack"),
+                               (chans, v["channel"].casefold(), "is the second from its channel")):
+            if key in got:
+                refuse(f"{where} {what}. One from each channel, and no title twice.")
+            got.add(key)
+        w = seen.get(v["id"])
+        if not w or w.get("state") != "screen":
+            refuse(f"{where} is not a result whose watch page said it plays here"
+                   + (f" ({w.get('state')}: {w.get('why')})" if w else "") + ".")
+
+
+def number_word(n):
+    return {10: "ten", 12: "twelve", 15: "fifteen", 20: "twenty", 24: "twenty-four", 30: "thirty"}.get(n, str(n))
+
+
+def quoted(searches, last="and"):
+    q = [f"&ldquo;{esc(s['q'])}&rdquo;" for s in searches]
+    return q[0] if len(q) == 1 else ", ".join(q[:-1]) + f" {last} " + q[-1]
+
+
+def latest_block(r):
+    sid, sname = SCREEN
+    when = set_time(r)
+    t = when.astimezone(HERE)
+    at = f"{t.strftime('%I').lstrip('0')}:{t.strftime('%M')} {t.strftime('%p').lower()}"
+    keys = {s["key"]: s for s in r["searches"]}
+    out = [f'    <p class="grn-latest__set">The second rack was last filled at <b>{at} on {esc(weekday(when))}</b>, '
+           f'Mountain time, with what YouTube&rsquo;s search found put up since '
+           f'{esc(weekday(when - timedelta(days=WEEK)))}.</p>',
+           f'    <p class="grn-latest__how">Every morning the Green asks the search for videos put up that week '
+           f'about {quoted(r["searches"])}. A video goes on this rack only if its own title says what was asked '
+           'for, it plays here, and its channel did not file it as a game or as music; one from each channel, and '
+           'no title twice. Each search takes a turn, newest first, until the rack holds '
+           f'{number_word(RACK)}. <strong>Nobody here watched these first.</strong> The titles are the '
+           'channels&rsquo; own, and by next week every one of them has gone.</p>',
+           '    <details class="grn-rack" open>',
+           '      <summary class="grn-rack__sum">The newest: what the search found this week</summary>']
+    rack = sorted(r["latest"], key=lambda v: (v["published"], v["id"]), reverse=True)
+    if rack:
+        out.append('      <ul class="grn-vids">')
+    for v in rack:
+        ti, ch, rt = esc(v["title"]), esc(v["channel"]), clock(v["runs"])
+        full = f'{attr(v["channel"])} &mdash; {attr(v["title"])}'
+        out += ['        <li class="grn-vid" data-rack-card>',
+                f'          <h3 class="grn-vid__title">{ti}</h3>',
+                f'          <p class="grn-vid__by">{ch} &middot; {esc(weekday(utc(v["published"])))} &middot; {rt}</p>',
+                f'          <p class="grn-vid__found">Found searching for &ldquo;{esc(keys[v["search"]]["q"])}&rdquo;</p>',
+                f'          <button type="button" class="facade" data-embed-id="{v["id"]}" data-embed-title="{full}">',
+                f'            Watch it here &mdash; {rt}',
+                '            <span class="facade__play">&#9654; PRESS PLAY</span>',
+                '          </button>',
+                f'          <button type="button" class="grn-btn grn-btn--quiet grn-vid__big" hidden data-rack-to="{sid}" '
+                f'data-rack-name="{sname}" data-rack-src="https://www.youtube-nocookie.com/embed/{v["id"]}?autoplay=1&amp;rel=0" '
+                f'data-rack-title="{full}, on {sname}" data-rack-film="{attr(v["title"])}" '
+                f'data-rack-runtime="{rt}">Put it on {sname} &mdash; {rt}</button>',
+                '        </li>']
+    if rack:
+        out.append('      </ul>')
+    else:
+        out.append('      <p class="grn-latest__quiet">Nothing turned up this week that the rack would take.</p>')
+    quiet = [s for s in r["searches"] if not any(v["search"] == s["key"] for v in rack)]
+    if rack and quiet:
+        out.append(f'      <p class="grn-latest__quiet">Nothing on the rack this morning from the search for '
+                   f'{quoted(quiet, "or")}.</p>')
+    out.append('    </details>')
+    return "\n".join(out)
+
+
+def liner_sources(d, r):
     rows = [(v["for"], f'<a href="{attr(v["url"])}">{esc(v["title"])}</a>, {esc(v["by"])}, read {esc(v["read"])}')
             for v in d["sources"].values()]
     chans = []
@@ -521,10 +699,16 @@ def liner_sources(d):
         link = f'<a href="https://www.youtube.com/channel/{v["channel_id"]}">{esc(v["channel"])}</a>'
         if link not in chans:
             chans.append(link)
-    rows.append(("The films on the rack",
+    rows.append(("The films on the first rack",
                  "Ryan Boren’s pick, of 2026-10-05, in his order, each on its own channel on YouTube: "
                  + ", ".join(chans[:-1]) + " and " + chans[-1]
                  + ". None of them is affiliated with Stimpunks, and nothing of theirs is hosted here"))
+    rows.append(("The videos on the second rack",
+                 "Whatever YouTube&rsquo;s search finds each morning for videos put up that week about "
+                 + "; ".join(f"{quoted([s])}, whose titles say {' or '.join(f'&ldquo;{esc(h)}&rdquo;' for h in s['has'])}"
+                             for s in r["searches"])
+                 + ". Ryan Boren&rsquo;s brief, of 2026-10-07, and his topics. Nobody here chooses or watches them "
+                 "first, none of their channels is affiliated with Stimpunks, and nothing of theirs is hosted here"))
     return "\n".join(f'      <tr><td>{esc(w)}</td><td>{src}</td></tr>' for w, src in rows)
 
 
@@ -588,6 +772,22 @@ def section_css():
 
 
 def main():
+    r = json.loads(LATEST.read_text())
+    check_latest(r)
+    if "--latest" in sys.argv[1:]:
+        # THE MORNING TIMER'S PATH: the second rack and nothing else, so a
+        # session's edit to the rest of the page or to the liner notes is never
+        # touched by a machine refilling the rack.
+        if problems:
+            print("REFUSING:\n  " + "\n  ".join(dict.fromkeys(problems)))
+            sys.exit(1)
+        swap(PAGE, "grn:latest", latest_block(r), "    ")
+        check_page()
+        if problems:
+            print("REFUSING (the page as written):\n  " + "\n  ".join(dict.fromkeys(problems)))
+            sys.exit(1)
+        print(f"the green: the second rack, filled {r['set']}, from the search")
+        return
     d = json.loads(DATA.read_text())
     check_data(d)
     check_quotes(d)
@@ -607,7 +807,8 @@ def main():
     for q in d["quotes"]:
         swap(PAGE, f"grn:quote-{q['key']}", quote_block(q), "    ")
     swap(PAGE, "grn:rack", rack_block(d), "    ")
-    swap(NOTES, "green-sources", liner_sources(d), "      ")
+    swap(PAGE, "grn:latest", latest_block(r), "    ")
+    swap(NOTES, "green-sources", liner_sources(d, r), "      ")
     check_script()
     check_page()
     section_css()
@@ -615,7 +816,7 @@ def main():
         print("REFUSING (the page as written):\n  " + "\n  ".join(dict.fromkeys(problems)))
         sys.exit(1)
     print("the green: the view from the porch, the trail and every stop on it, the trailhead sign, the quotations, "
-          "the screen's rack and the credits written; it has just stopped raining, and nothing casts a shadow")
+          "the screen's two racks and the credits written; it has just stopped raining, and nothing casts a shadow")
 
 
 if __name__ == "__main__":

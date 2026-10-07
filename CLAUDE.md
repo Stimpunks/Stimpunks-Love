@@ -3066,6 +3066,23 @@ Nothing on the trail is counted (no steps, no laps, a stop's name and never a nu
 for anybody's mental health, nothing is named in Latin (the herbarium's shape test) and nothing is foraged. Both
 quotations are our Nature page's, re-read against the mirror on every build.
 
+**THE GREEN'S SECOND RACK IS A SEARCH, AND NOBODY CHOSE EVEN THE CHANNELS.** Ryan, 2026-10-07: the latest videos
+from a YouTube search for cities and towns making room for green, daily. Every other daily rack reads channels
+somebody picked; `tools/pull-green-latest.py` reads YouTube's results page (its `ytInitialData`), one search per
+topic in `data/the-green-latest.json`. **YouTube no longer sorts a search by upload date**: the old `sp=CAI%3D`
+answers in relevance order, measured the same day, so each search asks for *this week* (`CAISBAgDEAE%3D`) and
+newest is worked out from each watch page's `publishDate`, never from "3 days ago". **The rules are the
+puller's and `make-the-green.py` imports them** (`WEEK`, `RACK`, `LEFT_OFF`, `carries`), so the tool that chooses
+and the tool that refuses cannot disagree: a title must carry its search's `has` words, the video must play here,
+nothing its channel filed under Gaming or Music (this week's solarpunk was a video game), one per channel, no
+title twice, and each search takes a turn. **The friendly edits are dropping the title gate because a good video
+missed it, and calling the rack curated**; the first makes the rack whatever a search mentions, the second is a
+claim nobody made. `make-the-green.py --latest` redraws only `grn:latest`; `tools/daily-green.sh` is the seventh
+script on the morning task, committing two paths as `daily green refill`, and does **not** own `now-playing.html`
+because the poster's line is Ryan's pick, which comes first on the page. The titles are the channels' and are not
+swept. **If the results page stops carrying `ytInitialData`, the puller refuses and yesterday's rack stands**;
+teach it the new page by hand, never on a timer.
+
 **THE PILE (§99) IS A JUNK PLAYGROUND, AND NOTHING ON IT IS FOR ANYTHING.** Our Play page says play is learning
 and the room quotes it, but it never sells play by an outcome (skills, development, readiness), because the
 Playwork Principles say play is freely chosen, personally directed and intrinsically motivated; it refuses a

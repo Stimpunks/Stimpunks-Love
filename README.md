@@ -379,6 +379,7 @@ python3 tools/pull-vital-rack.py   # the same for the cooks on Vital Plant Livin
 python3 tools/pull-notebook-month.py # the same for the journaling channels in The Open Notebook's monthly log, into data/open-notebook-month.json
 python3 tools/pull-large-month.py  # the same for the AI channels on Learning Large's rack, into data/learning-large-month.json
 python3 tools/pull-cookin-month.py # the same for the cooking channels on Hey, Good Cookin's rack, into data/hey-good-cookin-month.json
+python3 tools/pull-green-latest.py # asks YouTube's search for this week's videos on each of the Green's topics, and each new result's watch page, into data/the-green-latest.json
 python3 tools/pull-foundry.py      # reads every typeface's own record into data/foundry-faces.json
 python3 tools/pull-club.py         # mirrors Club Chronic's playlist ids into data/club.json
 python3 tools/pull-club.py --check # reports drift between that mirror and the live playlist
@@ -397,12 +398,13 @@ pulls, fills the cabinet, re-prints Now Playing, gates, and commits **only** `da
 `the-doom-scoop.html` and `now-playing.html`, under the fixed subject `daily doom scoop edition`. Two
 scripts rather than one so that a news feed failing cannot leave The Feed's board unset, or the other
 way round.
-`tools/daily-vital.sh`, `tools/daily-notebook.sh`, `tools/daily-large.sh` and `tools/daily-cookin.sh`
-are four more twins on the same task, for Vital Plant Living's telly, The Open Notebook's monthly log,
-Learning Large's rack and Hey, Good Cookin's rack, committing only their own data file and page (and,
-for the two racks, the Now Playing poster, whose line for each of those rooms is its rack's first
-video) under `daily vital telly refill`, `daily open notebook refill`, `daily learning large refill`
-and `daily good cookin refill`, all of which the Knowledge System's `update-logs` skips by name.
+`tools/daily-vital.sh`, `tools/daily-notebook.sh`, `tools/daily-large.sh`, `tools/daily-cookin.sh`
+and `tools/daily-green.sh` are five more twins on the same task, for Vital Plant Living's telly, The
+Open Notebook's monthly log, Learning Large's rack, Hey, Good Cookin's rack and the Green's search
+rack, committing only their own data file and page (and, for Learning Large and Hey, Good Cookin', the
+Now Playing poster, whose line for each of those rooms is its rack's first video) under `daily vital
+telly refill`, `daily open notebook refill`, `daily learning large refill`, `daily good cookin refill`
+and `daily green refill`, all of which the Knowledge System's `update-logs` skips by name.
 
 **`tools/check-all.sh` runs every one of them, in the order that works, and stops at the first
 refusal**; it is the command to run before every commit, and on a clean tree it changes nothing.
