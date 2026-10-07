@@ -78,8 +78,10 @@ What that shape rules out, and what it does not:
   it is how the CB shows a picture it fetched with the pass, and how a call's
   shared file is saved. **The call is the only thing given the camera, the
   microphone or a shared screen**: `Permissions-Policy` delegates the three to
-  `8x8.vc` and to nothing else, this site included, and `tools/make-csp.py`
-  refuses the header otherwise. A call needs a token our `/cb/call` signs for one
+  `8x8.vc` and to nothing else. They carry `self` too, because a browser hands a
+  frame only what its page has, and without it Chrome switched all three off
+  inside every call; no script of ours asks for any of them, and
+  `tools/make-csp.py` refuses the header otherwise and any script that asks. A call needs a token our `/cb/call` signs for one
   signed-on handle and one room, or a guest token, never a moderator's, for one
   of the rooms whose calls are public.
 - **No secrets in the repository.** Everything the CB needs lives in Netlify's

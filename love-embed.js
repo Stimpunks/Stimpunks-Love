@@ -67,8 +67,10 @@
        the CB signed for one handle and one room; nobody who has not signed on
        can reach it. 8x8 sends no X-Frame-Options and no frame-ancestors
        (measured), and _headers' Permissions-Policy delegates camera,
-       microphone and display-capture to this origin and no other. CALL, below,
-       is the one allow list with those three in it. */
+       microphone and display-capture to this origin and no other, through
+       self, because a browser hands a frame only what its page has (without
+       self every call ran deaf and blind in Chrome until 2026-10-07). CALL,
+       below, is the one allow list with those three in it. */
     'https://8x8.vc/'
   ];
 

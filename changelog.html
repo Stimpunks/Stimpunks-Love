@@ -41,6 +41,13 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-10-07-call-devices">2026-10-07 &mdash; Calls can use your camera and microphone in Chrome</h2>
+  <ul>
+    <li><strong>In Chrome, a room&rsquo;s call could not switch on its camera, its microphone or a shared screen</strong>, and said you had refused them although nothing had ever asked you. That was this site&rsquo;s fault, not 8x8&rsquo;s and not yours: our security header gave those three to the call and deliberately not to our own pages, and a browser will only hand a frame what the page round it already has. So Chrome switched them off inside the call before it could ask.</li>
+    <li><strong>The header now gives them to our pages as well, so that the call can have them</strong>, and Chrome asks you the first time a call wants them. Because the call sits inside our page, Chrome&rsquo;s question names stimpunks.world. This reverses the rule written down when calls arrived, that the page itself gets none of the three. That rule could not work.</li>
+    <li><strong>Our pages still never ask for any of the three themselves.</strong> The header used to keep that promise, and now the tool that writes the header does: it reads every script this site serves and refuses one that asks for a camera, a microphone or a screen. The <a href="privacy.html">privacy page</a>&rsquo;s sentence about it stays true, and <a href="architecture.html">Architecture</a> now says how.</li>
+  </ul>
+
   <h2 id="2026-10-07-whos-online">2026-10-07 &mdash; Who&rsquo;s online, on the radio</h2>
   <ul>
     <li><strong>A <b>Who&rsquo;s online</b> button sits beside World and This room on the CB radio.</strong> It lists everybody who has switched on Be seen here, in alphabetical order, with the room each of them is in; a room&rsquo;s name takes you there. Ryan asked for it because people want to know who is around and are having a hard time connecting. Anybody signed on can open it.</li>

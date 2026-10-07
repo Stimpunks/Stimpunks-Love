@@ -137,8 +137,18 @@ new = re.sub(r"(# >>> csp.*?\n)  Content-Security-Policy: [^\n]*",
 # It delegates a device to an origin by name, so an origin in it that
 # love-embed.js does not frame is a permission for nothing, and the camera, the
 # microphone and a shared screen go to the call origin (CALL in love-embed.js)
-# and to nothing else, this site included: no page of ours asks for them, and
-# the fractal window, the Repeater and Stay Breezy all say so out loud.
+# through self and to nothing else.
+#
+# SELF IS REQUIRED, AND LEAVING IT OUT IS WHAT BROKE EVERY CALL. This used to
+# refuse self here, so the page could not ask for any of the three. But a
+# browser hands a frame only what its page already has: with camera=("8x8")
+# alone, Chrome switched the camera, the microphone and the screen off inside
+# the call, and Jitsi said the user had denied them, with no prompt ever shown.
+# Measured 2026-10-07 in headless Chrome, two local origins, the live header:
+# getUserMedia in the frame failed NotAllowedError; with self it got both
+# tracks. The dev server serves no headers, so it only ever failed live.
+# So the promise that no page of ours asks moved out of the header and into
+# the check after this one, which reads every script we serve.
 pp = re.search(r"^  Permissions-Policy: ([^\n]*)", new, re.M)
 if not pp:
     print("REFUSING: _headers has no Permissions-Policy line to check.")
@@ -155,10 +165,26 @@ call = cm.group(1).rstrip("/") if cm else None
 for feat in ("camera", "microphone", "display-capture"):
     m = re.search(r"(?:^|, )" + feat + r"=\(([^)]*)\)", pp.group(1))
     given = m.group(1).split() if m else []
-    if not m or any(g != f'"{call}"' for g in given):
+    if sorted(given) != sorted(["self", f'"{call}"']):
         print(f"REFUSING: {feat} in the Permissions-Policy is given to {given or 'nothing named'}.")
-        print(f"It goes to the call origin ({call}) and to nothing else, 'self' included.")
+        print(f"It goes to self and the call origin ({call}) and to nothing else: without")
+        print("self, Chrome switches it off inside the call, and with anything more it is not the call's.")
         sys.exit(2)
+# AND NO SCRIPT OF OURS ASKS FOR ONE, which the header cannot say now that it
+# carries self. Every script this site serves is read, the room tools' own
+# refusals (the Repeater, Stay Breezy, Cavendish) notwithstanding, because a
+# script nobody's tool watches is where it would arrive. The call asks from
+# inside 8x8's frame, which is 8x8's code and not in this repository.
+SKIP = {"tools", "netlify", "node_modules", ".netlify", ".git"}
+asks = re.compile(r"getUserMedia|getDisplayMedia")
+askers = sorted(str(p.relative_to(ROOT)) for p in ROOT.rglob("*.js")
+                if p.relative_to(ROOT).parts[0] not in SKIP and asks.search(p.read_text(errors="replace")))
+if askers:
+    print("REFUSING: a script of ours asks for the camera, the microphone or the screen:")
+    for a in askers: print("  " + a)
+    print("Only the call, inside 8x8's frame, may ask. The Permissions-Policy gives self")
+    print("those three only so the frame can have them.")
+    sys.exit(2)
 hdr.write_text(new)
 print(f"csp: sha256-{digest}  ({len(pages)} pages, 1 snippet)\n     frame-src 'self' blob: " + origins + "  (read from love-embed.js)"
       + "\n     media-src 'self' " + media + "  (read from love-embed.js)")

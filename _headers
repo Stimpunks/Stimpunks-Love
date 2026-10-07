@@ -57,12 +57,17 @@
   # exist only so a jukebox facade's player works once a reader has pressed it.
   # The 8x8.vc ones are a room's call, framed from the CB after a press, and
   # they are the only camera, microphone and display-capture on the site
-  # (Ryan's call, 2026-09-28): the page itself gets none of the three. Each goes
-  # to a named origin, never to *, and tools/make-csp.py refuses this line if it
-  # names an origin love-embed.js does not frame, or gives the camera, the
-  # microphone or the screen to anything but the call. Everything else is denied
-  # because denying it costs a reader nothing.
-  Permissions-Policy: accelerometer=("https://www.youtube-nocookie.com"), autoplay=("https://www.youtube-nocookie.com" "https://8x8.vc"), encrypted-media=("https://www.youtube-nocookie.com"), picture-in-picture=("https://www.youtube-nocookie.com"), fullscreen=(self "https://www.youtube-nocookie.com" "https://8x8.vc"), browsing-topics=(), camera=("https://8x8.vc"), display-capture=("https://8x8.vc"), geolocation=(), gyroscope=(), hid=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=("https://8x8.vc"), midi=(), payment=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), usb=(), web-share=(), window-management=(), xr-spatial-tracking=()
+  # (Ryan's call, 2026-09-28). Those three carry self as well, and must: a
+  # browser hands a frame only what its page already has, so without self Chrome
+  # switched all three off inside the call and every call ran with no camera, no
+  # microphone and no screen (measured 2026-10-07: NotAllowedError, no prompt).
+  # self is the door the call's devices go through, not a permission any page of
+  # ours uses. Each goes to a named origin, never to *, and tools/make-csp.py
+  # refuses this line if it names an origin love-embed.js does not frame, or
+  # gives the camera, the microphone or the screen to anything but self and the
+  # call, and refuses any script of ours that asks for one. Everything else is
+  # denied because denying it costs a reader nothing.
+  Permissions-Policy: accelerometer=("https://www.youtube-nocookie.com"), autoplay=("https://www.youtube-nocookie.com" "https://8x8.vc"), encrypted-media=("https://www.youtube-nocookie.com"), picture-in-picture=("https://www.youtube-nocookie.com"), fullscreen=(self "https://www.youtube-nocookie.com" "https://8x8.vc"), browsing-topics=(), camera=(self "https://8x8.vc"), display-capture=(self "https://8x8.vc"), geolocation=(), gyroscope=(), hid=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(self "https://8x8.vc"), midi=(), payment=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), usb=(), web-share=(), window-management=(), xr-spatial-tracking=()
 
   Strict-Transport-Security: max-age=63072000; includeSubDomains
 

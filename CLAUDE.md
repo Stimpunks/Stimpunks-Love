@@ -695,9 +695,17 @@ only. JaaS lets nobody join without an RS256 token signed with our private key
 (`CB_JAAS_KID`, `CB_JAAS_KEY` in Netlify), and `callToken` in `lib.mjs` signs one for one handle
 and one room (`stimpunks-<tag>`, never `*`). **It is the only thing on the site given the
 camera, the microphone or a shared screen.** `Permissions-Policy` in `_headers` names `8x8.vc`
-for those three and nothing else, `self` included. `make-csp.py` refuses the header if it
-delegates to an origin `ORIGINS` does not frame, or gives the three to anything but `CALL` in
-`love-embed.js`, which is also the one allow list carrying them. **The frame is built by
+for those three, **and `self`, which it must**: a browser hands a frame only what its page
+already has, so the first version, which left `self` out on purpose, ran every call in Chrome
+with no camera, no microphone and no screen (Jitsi's "user denied permission", no prompt ever
+shown; measured 2026-10-07, fixed the same day). `self` is the door, not a permission any page of
+ours uses. `make-csp.py` refuses the header if it delegates to an origin `ORIGINS` does not
+frame, or gives the three to anything but `self` and `CALL` in `love-embed.js`, which is also
+the one allow list carrying them, **and refuses any script we serve that calls `getUserMedia` or
+`getDisplayMedia`**, which is where the promise that no page of ours asks lives now. **A
+permission the frame needs has to be on the page first**: the other features in that header
+without `self` (autoplay, encrypted-media, picture-in-picture, accelerometer) are off inside
+every frame too, measured the same day, and YouTube plays after one press regardless. **The frame is built by
 `love-embed.js`, which `cb.js` loads on the first press if the page lacks it**: do not build a
 second iframe in `cb.js`. The window is not the radio, so folding the radio leaves the call up;
 leaving the page hangs up. Every call arrives muted on Jitsi's pre-join screen. That screen asks
@@ -3504,8 +3512,9 @@ at every setting, starts only when pressed, and has its own speed control (Slow 
 otherwise). **It is not synced to anything and cannot be**: a page may not read audio out of another
 site's frame, and the band's host behind The Small Hours sends no `Access-Control-Allow-Origin`
 (measured). The switch and the window both say so. Do not "finish" it with the IFrame Player API
-(YouTube's own script, a `script-src` loosening) or with screen or microphone capture (the
-Permissions-Policy denies both, and the Repeater refuses the microphone).
+(YouTube's own script, a `script-src` loosening) or with screen or microphone capture
+(`make-csp.py` refuses any script of ours that asks for either, and the Repeater refuses the
+microphone).
 
   · **the limit is the feature.** `fractal.js` lets no pixel change relative luminance faster than
     `RATE_L` or linear (R − G − B) faster than `RATE_E` per second, whatever the fractal wants, so a
