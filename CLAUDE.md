@@ -259,6 +259,49 @@ is an ordinary focusable link with real text, in the tab order, at full size, an
 mouse user can find is not a secret, it is an exclusion.** Subtle means visually quiet. It never
 means `display: none`, a one-pixel target, or anything a screen reader cannot reach.
 
+**THE OTHER KIND OF EASTER EGG IS A ROOM YOU HAVE TO KNOW THE ADDRESS OF, AND IT IS UNLISTED, NOT
+HIDDEN.** Ryan, 2026-10-07: rooms "not listed in the changelog, the feeds, the sitemap, the
+teleporter, or anywhere. You have to know the URL to get to them." That reverses `make-sitemap.py`'s
+refusal of a page outside its walking order, for **a page that says so on its own `<body>` with
+`data-unlisted`** and for nothing else; every other page is still refused. **There is no list of
+them, on purpose**: this site publishes its whole root, so a list in `data/` would be one public
+file naming them all. Every tool asks the page through `tools/unlisted.py`: the sitemap, `llms.txt`
+and `cb-rooms.json` (so the teleporter, the #tags and the search) leave it out, the guild gives it
+no marker, Now Playing no line, the sign-off's Where am I? opens the map with no flag, and `cb.js`
+gives it the World channel only: no This room, no Be seen here, no hosting and no room tag, **even
+before its list of rooms has arrived or after that list fails**, which was the gap. The rest is
+`tools/check-unlisted.py`, which reads everything a visitor, crawler or agent follows (every listed
+page, the changelog, the sitemap, `llms.txt`, `cb-rooms.json`, the search index, the feed, robots,
+the manifest, `.well-known/`, every stylesheet and script) and refuses an unlisted page's address or
+name in any of it, and refuses one without noindex. **So `love.css`'s comments never name one**,
+and its sections say UNLISTED instead. **No changelog entry, and a commit message that names no
+room**, because the `update-logs` rotation can summarise commit messages in public. What it keeps:
+a share card each (a shared link still unfurls), the dial, the sign-off, the fractal window, and
+**the Den's rule**: an address is the same for everybody who is told it, so everything inside works
+by keyboard and screen reader. **What it is not: secret.** The repository is public, the site links
+to it and serves its own source, so `data/`, `tools/` and this file name them. A door with no path
+to it, not a lock. Its server-side half is open: the CB's server still takes any well-shaped room
+tag, so only our own client keeps an unlisted room off the channel.
+
+**THE FIRST ONE IS A CABIN BEHIND A DOOR MARKED E, AND THE WORD IS THE ADDRESS.** `the-secret-cabin.html`
+is the door; the password takes you to a second unlisted page whose filename is the word (Ryan's
+call), so **the door holds only the word's SHA-256** (`e-door.js`), builds the address from what was
+typed, and `make-secret-cabin.py` refuses the word anywhere on the door. It is a ritual, not a lock,
+and the guild's codes are the precedent: do not harden it. **The words are printed as given and the
+cabin names nobody as their author** (Ryan's call), the brief's included. **Outside is light shaped
+by a letter**: grey woods, a shut door, and the inside's light getting out through the E, round the
+door, and thrown on the leaves. **Inside is out of focus**: every light a soft disc, as from under a
+blanket, which is what holds it off the Faery Yurt and every other warm room (§102 lists them).
+**The candles flicker, and there are a lot of them** (Ryan: "We want flicker. And lots of
+candles."), which this street usually refuses: here it is held under the flash line instead. A
+flame dims by a tenth of itself at most, wobbles no faster than two and a half times a second and
+never in step, and the tool reads that out of `candles.js` and works it out against WCAG's line.
+They flicker at MAX by themselves and at any setting after Let the candles flicker, the Arcade's
+rule; **making them flicker at Regular unasked would change what Regular means**, which is Ryan's
+call and not this room's. The whole of its paragraph is drawn, wine, weed, snacks and all, and the
+drawing carries no word. Its record player plays whole albums off Cigarettes After Sex's own
+channel, each runtime the tracks added up, and `check-jukebox.py` checks every song.
+
 **AND THE WRITERS ARE NAMED ON EVERY CUT, because Presley wrote none of those songs.** A room
 where the performer's name is the entire draw is exactly where crediting only the voice would
 pass unnoticed, which is the thing this site keeps attribution for. Every id there was resolved
@@ -3775,18 +3818,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §102 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §104 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§102 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§104 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §102 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §104 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

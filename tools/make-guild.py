@@ -122,6 +122,14 @@ CREDITS = ROOT / "liner-notes.html"
 EXEMPT = {"changelog.html", "adventurers-guild.html", "404.html", "privacy.html", "design.html",
           "mission.html", "architecture.html", "cb-guide.html"}
 
+# A ROOM YOU HAVE TO KNOW THE ADDRESS OF CARRIES NO MARKER, AND IS REFUSED ONE.
+# Ryan's call, 2026-10-07 (tools/unlisted.py). The board prints every job beside
+# the room it sends you to, so a marker in an unlisted room would put that room
+# on a public page in the guild's own hand. Read off the page, not listed here,
+# because this file is served as well.
+import unlisted
+EXEMPT |= set(unlisted.pages(ROOT))
+
 # THE DIFFICULTY CLASS IS HOW FAR YOU WALK. It is enumerated here rather than
 # typed per job so that no job can invent a rank, and defined by geography so
 # that it says nothing whatever about the person doing it. A board on a

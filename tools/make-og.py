@@ -1244,6 +1244,32 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--pint .og-lede {{ font-family: 'Brygada 1918', Georgia, serif; color: var(--aqp-text); font-size: 23px;
   line-height: 1.35; margin: 0; max-width: 1100px; }}
 
+/* the door marked E — THE DOOR beside the name, lifted off the page whole: the
+   grey woods, the shut door with the light round its edges and under it, and
+   the E it throws on the leaves. A room you have to know the address of, so
+   this card shows only what anybody standing outside would see. */
+.og--wooddoor {{ flex-direction: row; align-items: center; gap: 30px; padding: 40px 46px; }}
+.og--wooddoor .og-words {{ flex: 0 0 440px; }}
+.og--wooddoor .og-room {{ flex: 0 0 640px; }}
+.og--wooddoor .og-room svg {{ display: block; width: 100%; height: auto; }}
+.og--wooddoor .wd-over {{ font-size: 17px; margin: 0 0 8px !important; }}
+.og--wooddoor h1 {{ font-size: 58px; line-height: 1.04; margin: 0 0 16px !important; }}
+.og--wooddoor .og-lede {{ font-family: 'Hanken Grotesk', sans-serif; color: var(--wd-text); font-size: 24px;
+  line-height: 1.4; margin: 0; }}
+
+/* behind the door marked E — THE LIGHTS across the top, lifted off the page
+   whole, out of focus the way they are from under a blanket, and the name and
+   the first line under them. No record: what is on the turntable is whoever
+   is in there's business. */
+.og--snug {{ gap: 0; padding: 0 0 34px; justify-content: flex-start; }}
+.og--snug .og-glow {{ width: {W}px; height: 270px; overflow: hidden; }}
+.og--snug .og-glow svg {{ display: block; width: 100%; height: 100%; }}
+.og--snug .og-words {{ padding: 4px 70px 0; text-align: center; }}
+.og--snug .snug-over {{ font-size: 18px; margin: 0 0 8px !important; }}
+.og--snug h1 {{ font-size: 70px; line-height: 1.08; margin: 0 0 14px !important; }}
+.og--snug .og-lede {{ font-family: 'Figtree', sans-serif; color: var(--snug-text); font-size: 30px;
+  line-height: 1.4; margin: 0 auto; max-width: 900px; }}
+
 /* the run — THE FIELD beside the name, lifted off the page whole, in a dog's
    colours: the porch, the trees, the clouds' shadows on the grass and the
    blue ball. NO DOGS: which dogs are out changes whenever somebody is
@@ -4226,6 +4252,57 @@ def card_brewstew(p):
     )
 
 
+def card_wooddoor(p):
+    # THE DOOR AND THE NAME ARE LIFTED WHOLE, so the card cannot show a door the
+    # page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="wd-scene__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="wd-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: the door marked E has lost its drawing or its header, and the\n"
+            "card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--wooddoor" data-fit="card">'
+        f'<div class="og-words"><p class="wd-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-room">{draw.group(1)}</div>'
+        f'</div>',
+        f"A near-black card. On the right, woods at night in greys with no colour, the dark wall of a log "
+        f"cabin, and a shut plank door with iron straps. The only light is warm and comes from inside: "
+        f"through a capital E cut in the door, in a thin line round the door's edges and under it, and as an "
+        f"E thrown on the leaves in front of it. On the left, small carved capitals reading "
+        f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in carved pale capitals with the E in the "
+        f"warm light, then: {p['desc_plain']}",
+    )
+
+
+def card_snug(p):
+    # THE LIGHTS AND THE NAME ARE LIFTED WHOLE, and the lede is the page's
+    # og:description. Not the record player: what is playing is nobody's
+    # business on a card.
+    glow = re.search(r'(<svg class="snug-glow__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="snug-over">(.*?)</p>', p["src"], re.S)
+    if not (glow and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: the room behind the door marked E has lost its lights or its\n"
+            "header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--snug" data-fit="card">'
+        f'<div class="og-glow">{glow.group(1)}</div>'
+        f'<div class="og-words"><p class="snug-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'</div>',
+        f"A near-black card with a rose tint. Across the top, warm lights seen out of focus, as soft "
+        f"overlapping discs of amber, rose and gold: two strings of faery lights sagging across, and in front "
+        f"of them a long row of lit cream candles of every height. Under them, small round letters reading {plain(over.group(1))}, then "
+        f"\u201c{p['h1text']}\u201d in large round rose letters with the E in amber, then: {p['desc_plain']}",
+    )
+
+
 def card_stair(p):
     # THE HEADER AND THE FLIGHT ARE LIFTED WHOLE, lift and all, so the card
     # cannot draw a stair without its lift. No step number: it would be stale by
@@ -4636,6 +4713,10 @@ CARDS = {
     "cookin":       card_cookin,
     "purrs":        card_purrs,
     "brewstew":     card_brewstew,
+    # A room you have to know the address of, and the room behind its door
+    # (tools/unlisted.py). Each its own card, for every room's reason.
+    "wooddoor":     card_wooddoor,
+    "snug":         card_snug,
     "pint":         card_pint,
     "dogrun":       card_dogrun,
     "truckstop":    card_truckstop,

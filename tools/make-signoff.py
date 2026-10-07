@@ -24,6 +24,7 @@ from pathlib import Path
 
 import fractals
 import signoff
+import unlisted
 
 ROOT = Path(__file__).resolve().parent.parent
 FRONT = "index.html"
@@ -68,7 +69,8 @@ def main():
                          lambda _: FX_BEGIN + fractals.switch(FRONT, recipes) + FX_END,
                          src, count=1, flags=re.S)
         else:
-            block = signoff.block(absolute=(p.name == "404.html"), page=p.name, recipes=recipes)
+            block = signoff.block(absolute=(p.name == "404.html"), page=p.name, recipes=recipes,
+                                  offmap=unlisted.is_unlisted(src))
             if signoff.BEGIN in src:
                 src = re.sub(re.escape(signoff.BEGIN) + r".*?" + re.escape(signoff.END),
                              lambda _: block, src, count=1, flags=re.S)

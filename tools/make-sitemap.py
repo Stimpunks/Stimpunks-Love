@@ -74,7 +74,9 @@ ORDER = ["index.html",
          "your-room.html",
          # Street furniture rather than a door, and listed like everything else:
          # a page nobody can find from the sitemap is unpublished with extra
-         # steps. Back issues join this list as they rotate off the board.
+         # steps (the one exception is a page that says so on its own body,
+         # below NO_ADDRESS). Back issues join this list as they rotate off the
+         # board.
          "pebble-board.html",
          # The Brass Tacks Board beside it: the street's posts that persist.
          "brass-tacks-board.html",
@@ -155,7 +157,21 @@ if missing:
 # every page is in the order or this refuses -- still holds for everything else.
 NO_ADDRESS = {"404.html"}
 
-stray = sorted({p.name for p in ROOT.glob("*.html")} - set(ORDER) - NO_ADDRESS)
+# ROOMS YOU HAVE TO KNOW THE ADDRESS OF. Ryan's call, 2026-10-07: a page whose
+# own <body> carries data-unlisted is left out of all three files this writes,
+# which keeps it off the teleporter and the search too, because both read
+# cb-rooms.json. It is read off the page rather than listed here, because this
+# file is served too. A page cannot be both: in the walking order and unlisted
+# is a contradiction, and this refuses it rather than deciding which was meant.
+# See tools/unlisted.py, and tools/check-unlisted.py for what holds the rest.
+import unlisted
+UNLISTED = set(unlisted.pages(ROOT))
+both = sorted(UNLISTED & set(ORDER))
+if both:
+    raise SystemExit(f"REFUSING: {', '.join(both)} is in ORDER and its <body> says data-unlisted. "
+                     "A room is on the street's lists or it is not; take one of the two away.")
+
+stray = sorted({p.name for p in ROOT.glob("*.html")} - set(ORDER) - NO_ADDRESS - UNLISTED)
 if stray:
     raise SystemExit(f"REFUSING: {', '.join(stray)} exist(s) but is not in ORDER — add it, do not skip it.")
 

@@ -199,6 +199,10 @@
   "made_from": "c145cb230c93f7d27c8a30382a09920826d0731d95640f08cfa3e5c4ad7e2b5d",
   "png": "756ff7d429b4305f70c250d1c8aead7080b4c91162cc83696d62d3e02a77c551"
  },
+ "lydtyss": {
+  "made_from": "8c779b802c23150ef1cd81832dbdd29e24ec165fffe6c9c22b900669d8cd36a8",
+  "png": "3747eee3313e9dc3af328ef7cb63206231ce8b6ea70e65a0f3588b8297d35fd5"
+ },
  "map": {
   "made_from": "74eb1f983d1e562a283c0aee7db7a14a665266f2eb9aabacfcbade5cd25bd96a",
   "png": "24761f156935c665f1f22026861449932b71189626ccf02f1a15b97cc5356790"
@@ -378,6 +382,10 @@
  "the-run": {
   "made_from": "6749aa6b818474faf4d8509f77885b31799989399c7afe319fa56ed09ba3cb5c",
   "png": "689a7364cbb1b264553c5c6099d2828bbecd48d20a4468b8c0634e0b52553416"
+ },
+ "the-secret-cabin": {
+  "made_from": "afa58c0eb5f9cdeb658be86a2db6770d84e555c6bcfde05b9dacf07fff4c891e",
+  "png": "a5bfe92c5df2942d73076fb7588a4a6b3582467377f3f31b9c73d73fb071b9a9"
  },
  "town-hall": {
   "made_from": "8b7f2fbc5c2f99cf16b5857523b5cf781118ca2931ca511f743a376e438736db",

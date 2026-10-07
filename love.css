@@ -3098,6 +3098,56 @@
   --aqp-bread: #C79C66;  --aqp-crumb: #E8D3A8;  --aqp-mush:  #6E5648;
   --aqp-steak: #7B4433;  --aqp-onion: #E3D7A8;  --aqp-chip:  #E2C27A;
 
+  /* The door marked E (§101). Nothing out there is lit, so every value in the
+     woods is a grey with no colour in it: --wd-night is the ground every word
+     stands on, --wd-text every word, --wd-dim the fine print, and --wd-glow the
+     one light, the inside's, coming through the E, round the door, onto the
+     leaves, and on every link and button. --wd-field is the box the word is
+     said into. The rest carry no word: --wd-far and --wd-tree the trunks,
+     --wd-roof and --wd-wall the cabin, --wd-seam a joint in the logs or the
+     planks, --wd-frame the door's frame, --wd-door the door, --wd-iron its
+     straps and ring, --wd-ground and --wd-leaf the floor of the woods, --wd-step
+     the stone at the threshold. */
+  --wd-night:  #101115;  --wd-text:   #E7E5E2;  --wd-dim:    #ABA8A4;
+  --wd-glow:   #F6BC8E;  --wd-field:  #1A1B21;
+  --wd-far:    #16181D;  --wd-tree:   #1D1F25;  --wd-roof:   #15161A;
+  --wd-wall:   #1B1C20;  --wd-seam:   #0B0C0F;  --wd-frame:  #262326;
+  --wd-door:   #2E2724;  --wd-iron:   #07080A;  --wd-ground: #13141A;
+  --wd-leaf:   #22232A;  --wd-step:   #202128;
+
+  /* Behind the door marked E (§102). Seen from under a blanket, so every light
+     is out of focus. --snug-dark is the room, --snug-blanket a blanket every
+     section lies on, and --snug-glass the turntable's glass before a record is
+     on it. --snug-text is every word, --snug-dim the fine print, --snug-rose
+     every heading, --snug-amber every link, button and the bold initials of the
+     ritual. The lights carry no word: --snug-amber, --snug-rose and --snug-gold
+     as soft discs. Nor does the record player: --snug-plinth its body,
+     --snug-rim the candlelight along its edge, --snug-platter, --snug-vinyl,
+     --snug-groove and --snug-label the record, --snug-arm the tonearm and the
+     knobs. The sleeves are black and white and out of focus: --snug-sleeve-a,
+     -b and -c, with --snug-sleeve-hi the blur of light in each. */
+  --snug-dark:  #1B1317;  --snug-blanket: #2A1C22; --snug-glass: #0F0B0D;
+  --snug-text:  #F8E6E4;  --snug-dim:   #D2B8B4;  --snug-rose:  #F0A0AE;
+  --snug-amber: #F4B466;  --snug-gold:  #F8D594;
+  --snug-plinth: #3A2730; --snug-rim:   #B9707F;  --snug-platter: #2B2A2E;
+  --snug-vinyl: #0D0A0C;  --snug-groove: #262126; --snug-label: #EAD3CF;
+  --snug-arm:   #8F8A8D;  --snug-sleeve-a: #6E6A6B; --snug-sleeve-b: #9A9596;
+  --snug-sleeve-c: #4A4648; --snug-sleeve-hi: #D9D4D2;
+  /* And the cabin itself, none of which carries a word either: --snug-wax and
+     --snug-wax2 a candle and its shaded side, --snug-ember the red of the fire,
+     --snug-floor the floor, --snug-stone and --snug-stone2 the hearth,
+     --snug-log the logs in it, --snug-table the mantel, the crate and the low
+     table, --snug-knit, --snug-wool and --snug-fleece the blankets,
+     --snug-bottle, --snug-glassline and --snug-wine the wine, --snug-bud the
+     weed and a strawberry's leaves, and --snug-grape, --snug-berry and
+     --snug-choc some of the snacks. */
+  --snug-wax:   #F1E3D3;  --snug-wax2:  #CDB6A4;  --snug-ember: #E8774E;
+  --snug-floor: #241920;  --snug-stone: #4A3B42;  --snug-stone2: #3B2E35;
+  --snug-log:   #4A3036;  --snug-table: #3E2C34;  --snug-knit:  #C79A62;
+  --snug-wool:  #B97F8D;  --snug-fleece: #E8D8CE; --snug-bottle: #233128;
+  --snug-glassline: #C9BDC4; --snug-wine: #8C2541; --snug-bud: #86A866;
+  --snug-grape: #A673A9;  --snug-berry: #D4475D;  --snug-choc: #5A3329;
+
   /* import:neurohome:root:begin */
   /* Isha Snow's room, NeuroHome -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -15335,7 +15385,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §102
+   class on it is `bb-`, its sizes are in points and millimetres, and §104
    prints it and nothing else. */
 
 .room-broadside {
@@ -15396,7 +15446,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §102 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §104 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -20692,7 +20742,250 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .pint h2 { font-size: 32px; }
 }
 
-/* §101 ── Small screens ───────────────────────────────────────────────────────
+/* §101 ── UNLISTED: the door marked E (beyond the usual paths, in the woods) ──
+   A room you have to know the address of (tools/unlisted.py): nothing on the
+   street links here and no list names it. This comment does not say where it
+   is either, on purpose, because this file reaches every visitor on every page;
+   tools/check-unlisted.py reads it for exactly that. The door and the room
+   behind it are drawn and held by a tool of their own, which says the rest.
+
+   NOTHING OUT HERE IS LIT. The woods at night are grey on grey with no colour
+   in them, because that is what night does to colour, and the one light is the
+   inside's, getting out: through the E cut in the door, round its edges, under
+   it, and through the E onto the leaves in front of you, the way a stencil in
+   front of a lamp throws its shape. LIGHT SHAPED BY A LETTER is this room's,
+   and nothing else on the street has it.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · THE CAMPGROUNDS is the other dark field near woods, and it is cold blue
+       spruce under a sky, lit by nothing, with signs routed into posts. There
+       is no blue and no green here and no sky in the drawing: the woods close
+       over, and the cold is grey.
+     · BREW AND STEW is the other cabin in the woods, and it is lit by its own
+       logs, heather and mint, with nothing outside it. This is the outside of
+       a cabin with every light shut in, and the warmth is something you can
+       only see the edges of.
+     · DEAD TIRED SOCIETY is light through a gap in a door too: a corridor's
+       strip lights lying on a floor as one hard wedge, indoors, with everybody
+       in the shade. Here the light comes towards you, outdoors, and it has the
+       shape of a letter.
+     · THE SMALL HOURS is a lit room seen from outside in the dark, through a
+       plate window you can see straight into. Here you cannot see in at all:
+       there is no window, only what gets out round a shut door.
+     · THE OUTSKIRTS is a road at night lit by headlights from one side. There
+       is no road here and no beam: you are off the usual paths.
+   If a window ever appears in the cabin wall, or the woods take a colour, it
+   has become one of those.
+
+   CINZEL SETS THE NAME, because it is carved capitals and its lowercase is
+   small capitals, so the E in the middle of the name stands a size taller than
+   the letters round it, as it does on the door. Hanken Grotesk carries every
+   sentence. Both are on the street already. Nothing moves, at any setting. */
+
+.wooddoor {
+  background: var(--wd-night); color: var(--wd-text);
+  font-family: 'Hanken Grotesk', var(--sans); font-synthesis: none;
+}
+.wooddoor a { color: var(--wd-glow); }
+.wooddoor a:hover { color: var(--wd-text); }
+.wooddoor :focus-visible { outline-color: var(--wd-glow); }
+.wooddoor :where(p, li) { font-size: 18px; line-height: 1.65; }
+.wooddoor .backlink { font-family: 'Hanken Grotesk', var(--sans); font-weight: 700; font-size: 15px; color: var(--wd-glow); }
+.wd-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.wd-trail { margin: 0; font-size: 15px; color: var(--wd-dim); }
+
+.wd-head { margin: 36px 0 0; text-align: center; }
+.wd-over { margin: 0; font-family: 'Cinzel', serif; font-size: 16px; letter-spacing: .16em; color: var(--wd-dim); }
+.wooddoor h1 {
+  margin: 10px 0 14px; font-family: 'Cinzel', serif; font-weight: 400;
+  font-size: clamp(40px, 8vw, 84px); line-height: 1.05; letter-spacing: .04em; color: var(--wd-text);
+}
+.wd-e { color: var(--wd-glow); }
+.wooddoor .wd-lede { margin: 0 auto; max-width: 34ch; font-size: 21px; line-height: 1.5; }
+
+.wd-scene { margin: 30px auto 0; max-width: 880px; }
+.wd-scene svg { display: block; width: 100%; height: auto; }
+
+.wd-words { max-width: 62ch; margin: 30px auto 0; }
+.wooddoor .wd-sign { margin: 0; font-size: 20px; line-height: 1.6; }
+.wooddoor h2 {
+  margin: 0 0 10px; font-family: 'Cinzel', serif; font-weight: 700;
+  font-size: 26px; letter-spacing: .06em; color: var(--wd-text);
+}
+.wd-knock, .wd-before, .wd-whose { margin: 40px 0 0; }
+.wd-form { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: stretch; margin: 16px 0 0; }
+.wd-label { flex: 1 0 100%; font-weight: 700; font-size: 16px; }
+.wd-word {
+  flex: 1 1 12ch; max-width: 24ch; min-height: 48px; padding: 8px 14px;
+  font: 400 21px/1.2 'Cinzel', serif; letter-spacing: .18em; color: var(--wd-text);
+  background: var(--wd-field); border: 2px solid var(--wd-dim); border-radius: 6px;
+}
+.wd-open {
+  min-height: 48px; padding: 8px 18px; cursor: pointer;
+  font: 700 17px/1.2 'Hanken Grotesk', var(--sans); color: var(--wd-night);
+  background: var(--wd-glow); border: 2px solid var(--wd-glow); border-radius: 6px;
+}
+.wd-open:hover { background: var(--wd-text); border-color: var(--wd-text); }
+.wooddoor .wd-said { flex: 1 0 100%; margin: 2px 0 0; min-height: 1.65em; }
+.wooddoor .wd-by-hand { margin: 14px 0 0; }
+.wd-before ul { margin: 0; padding-left: 1.2em; }
+.wd-before li { margin: 0 0 10px; }
+.wooddoor .wd-whose p { font-size: 16px; color: var(--wd-dim); }
+
+/* §102 ── UNLISTED: behind the door marked E ──────────────────────────────────
+   A room you have to know the address of, and its address is the word: say it
+   to the door in §101 and you are here. Nothing on the street links here, and
+   this comment does not say where it is.
+
+   SEEN FROM UNDER A BLANKET, EVERYTHING A LITTLE OUT OF FOCUS. Every light in
+   the cabin is a soft disc with a brighter rim rather than a point: the faery
+   lights along the walls, the candles low down and close, all of them bigger
+   and softer than they are, the way lights look when you are lying down and
+   not looking at anything. Only what is near is sharp: the words, and the
+   record player. Every section lies on a blanket whose edge has no line, only
+   a fall-off. THE ONLY THING ON THIS STREET THAT IS OUT OF FOCUS is this room's
+   whole idea, which is a lens and not a lamp, so it holds however many warm
+   rooms there are.
+
+   THE COLLISIONS, AND THERE ARE A LOT OF WARM ROOMS:
+     · THE FAERY YURT is the one to watch: candlelight, strung lights, the fae,
+       in the woods. It is Helen Edgar's and it is brown canvas lit by flames
+       you could point at, its lights strung sharp across the top, cream on dark
+       in high-contrast italic serifs. Here nothing is sharp but the words, the
+       dark is rose rather than brown, and the type is round and plain. A string
+       of crisp points across the top of this page would make it the yurt with
+       a record player, and it is this room that moves.
+     · THE LATIBULUM, THE DEN and THE MOPERY are the other lamplit refuges: a
+       burrow with words dark on lit plaster, a brown panelled studio, a cold
+       stone library where a candle lights a foot of a large room. Nothing in
+       here is brown, nothing is stone, and no word sits on a lit wall.
+     · THE DEN IS ALSO THE STREET'S OTHER ROOM OF RECORDS, Graceland's studio,
+       a track list set dark on green shag. These records are whole albums on a
+       turntable, and the rack is three sleeves, black and white.
+     · BREW AND STEW is a cabin in the woods with a heather ground and no flame,
+       lit by its own logs. Its dark is purple and bright; this dark is nearly
+       black, and the light is out of focus rather than out of the walls.
+     · THE HEALING CHECKPOINT is the street's other room for rest, lit from under
+       water. There is no water here and nothing glows from below.
+     · PINK PONY CLUB is flat hot pink. The pink here is only ever in a light.
+
+   THE CANDLES FLICKER, AND THERE ARE A LOT OF THEM. Ryan, 2026-10-07: "We want
+   flicker. And lots of candles." A row along the foot of the lights, a mantel
+   crowded with them over the fire, more on the floor and the table. Every
+   flame flickers by itself at MAX, where the dial keeps ambient motion, and at
+   any setting once somebody presses Let the candles flicker: the Arcade's rule,
+   a control the visitor holds. candles.js drives it, not CSS, because §3 takes
+   CSS animation away at Gentle and the press has to work there too. A FLICKER
+   IS NOT A FLASH, and the difference is held in numbers: a flame dims by a
+   tenth of itself at most, changes no faster than two and a half times a
+   second, and never in step with another, which keeps the change well under
+   the tenth of white WCAG counts as a flash; make-secret-cabin.py works that
+   out and refuses past it. Club Chronic's rule is about a strobe, and this is
+   held under the line it draws. The faery lights hold still, and at MAX drift a
+   few pixels with a translate, because rotation and skew are what
+   check-gentle.py reads; a flame moves by scale for the same reason.
+
+   COMFORTAA SETS THE NAME AND THE HEADINGS, round and plain, and Figtree every
+   sentence. Both are on the street already. */
+
+.snug {
+  background: var(--snug-dark); color: var(--snug-text);
+  font-family: 'Figtree', var(--sans); font-synthesis: none;
+}
+.snug a { color: var(--snug-amber); }
+.snug a:hover { color: var(--snug-text); }
+.snug :focus-visible { outline-color: var(--snug-amber); }
+.snug :where(p, li) { font-size: 18px; line-height: 1.7; }
+.snug .backlink { font-family: 'Figtree', var(--sans); font-weight: 700; font-size: 15px; color: var(--snug-amber); }
+.snug-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.snug-trail { margin: 0; font-size: 15px; color: var(--snug-dim); }
+
+.snug-glow { margin: 18px 0 0; border-radius: 40px; overflow: hidden; }
+.snug-glow svg { display: block; width: 100%; height: auto; min-height: 150px; max-height: 300px; }
+:root[data-intensity="max"] .snug-drift--a { animation: snug-drift 23s ease-in-out infinite alternate; }
+:root[data-intensity="max"] .snug-drift--b { animation: snug-drift 37s ease-in-out infinite alternate-reverse; }
+@keyframes snug-drift { from { transform: translate(0, 0); } to { transform: translate(6px, -5px); } }
+
+.snug-head { margin: 22px 0 0; text-align: center; }
+.snug-over { margin: 0; font-family: 'Comfortaa', var(--sans); font-weight: 700; font-size: 15px; letter-spacing: .12em; color: var(--snug-dim); }
+.snug h1 {
+  margin: 10px 0 12px; font-family: 'Comfortaa', var(--sans); font-weight: 700;
+  font-size: clamp(36px, 7vw, 72px); line-height: 1.1; color: var(--snug-rose);
+}
+.snug-e { color: var(--snug-amber); }
+.snug .snug-lede { margin: 0 auto; max-width: 30ch; font-size: 23px; line-height: 1.45; }
+.snug .snug-light { margin: 18px 0 0; }
+.snug-candles[aria-pressed="true"] { background: var(--snug-amber); color: var(--snug-dark); }
+.snug-scene { margin: 24px 0 0; border-radius: 22px; overflow: hidden; }
+.snug-scene svg { display: block; width: 100%; height: auto; }
+
+.snug-blanket {
+  margin: 48px 0 0; padding: 26px 30px; border-radius: 34px;
+  background: var(--snug-blanket); box-shadow: 0 0 30px 14px var(--snug-blanket);
+}
+.snug-blanket > :last-child { margin-bottom: 0; }
+.snug h2 {
+  margin: 0 0 12px; font-family: 'Comfortaa', var(--sans); font-weight: 700;
+  font-size: 26px; line-height: 1.25; color: var(--snug-rose);
+}
+.snug .snug-room p, .snug .snug-embrace p { margin: 0; font-size: 20px; line-height: 1.75; }
+
+.snug-deck { margin: 22px 0 0; }
+.snug-deck svg { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; }
+.snug-glass { max-width: 820px; margin: 22px auto 0; border-radius: 14px; }
+.snug .snug-glass__idle {
+  margin: 0; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+  padding: 18px 22px; text-align: center; border-radius: 14px;
+  background: var(--snug-glass); color: var(--snug-text); font-size: 17px; line-height: 1.55;
+}
+.snug-glass__idle span { max-width: 40ch; }
+.snug-glass__idle b { color: var(--snug-amber); }
+.snug-glass .facade { border-color: var(--snug-plinth); background: var(--snug-glass); }
+.snug .snug-glass__now { margin: 12px auto 0; max-width: 820px; font-weight: 700; font-size: 16px; }
+.snug .snug-glass__back { margin: 8px auto 0; max-width: 820px; }
+
+.snug-rack {
+  list-style: none; margin: 30px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 30px;
+}
+.snug-record { display: grid; gap: 14px; align-content: start; }
+.snug-sleeve { width: 100%; max-width: 260px; aspect-ratio: 1; border-radius: 3px; background-color: var(--snug-sleeve-a); }
+.snug-sleeve--a { background-image: radial-gradient(circle at 36% 40%, var(--snug-sleeve-hi) 0, var(--snug-sleeve-a) 52%); }
+.snug-sleeve--b { background-color: var(--snug-sleeve-b); background-image: radial-gradient(ellipse 70% 40% at 60% 62%, var(--snug-sleeve-hi) 0, var(--snug-sleeve-b) 70%); }
+.snug-sleeve--c { background-color: var(--snug-sleeve-c); background-image: radial-gradient(circle at 70% 30%, var(--snug-sleeve-b) 0, var(--snug-sleeve-c) 42%); }
+.snug-record h3 { margin: 0; font-family: 'Comfortaa', var(--sans); font-weight: 700; font-size: 22px; color: var(--snug-text); }
+.snug .snug-record__by, .snug .snug-record__runs { margin: 4px 0 0; font-size: 16px; line-height: 1.5; color: var(--snug-dim); }
+.snug .snug-record__out { margin: 0; font-size: 16px; }
+.snug-put {
+  min-height: 44px; padding: 8px 16px; cursor: pointer; text-align: left;
+  font: 700 15px/1.3 'Figtree', var(--sans); color: var(--snug-amber);
+  background: transparent; border: 2px solid var(--snug-amber); border-radius: 999px;
+}
+.snug-put:hover { background: var(--snug-amber); color: var(--snug-dark); }
+.snug-back summary { cursor: pointer; font-weight: 700; font-size: 16px; color: var(--snug-amber); }
+.snug-back ol { margin: 8px 0 0; padding-left: 1.5em; }
+.snug .snug-back li { font-size: 15px; line-height: 1.6; }
+.snug-t { color: var(--snug-dim); font-variant-numeric: tabular-nums; }
+
+.snug-ritual { margin: 56px auto 0; max-width: 40ch; text-align: center; }
+.snug .snug-poem { margin: 0; font-family: 'Comfortaa', var(--sans); font-weight: 700; font-size: 19px; line-height: 2; }
+.snug-poem__line { display: block; }
+.snug-poem b { color: var(--snug-amber); }
+.snug .snug-sign { margin: 18px 0 0; font-family: 'Comfortaa', var(--sans); font-weight: 700; font-size: 26px; letter-spacing: .14em; color: var(--snug-rose); }
+
+.snug-house ul { margin: 0; padding-left: 1.2em; }
+.snug-house li { margin: 0 0 10px; }
+.snug-whose { margin: 48px 0 0; }
+.snug .snug-whose p { font-size: 16px; color: var(--snug-dim); }
+
+/* A phone: a blanket keeps its fall-off and loses some padding, and the rack
+   goes to one record to a row. Last in the section, for the stimpad's reason. */
+@media (max-width: 560px) {
+  .snug-blanket { padding: 20px 18px; border-radius: 24px; box-shadow: 0 0 18px 8px var(--snug-blanket); }
+  .snug-glow { border-radius: 24px; }
+}
+
+/* §103 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -20799,7 +21092,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §101 says every
+   shipped with no rule here at all — which on a street whose §103 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -20923,7 +21216,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §102 ── Print ───────────────────────────────────────────────────────────────
+/* §104 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

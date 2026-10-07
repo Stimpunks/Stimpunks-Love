@@ -3068,6 +3068,39 @@ PAIRS = [
     ("#E6E2D8", "#23403B", False, "pint: the number of the table you are sitting at, on the plan, on the "
                                   "mirror-glass green it is filled with"),
 
+    # ── The door marked E (§101) ────────────────────────────────────────────
+    # Unlisted (tools/unlisted.py). The woods are grey on grey and every word
+    # stands on the night, the box the word is said into, or a button.
+    ("#E7E5E2", "#101115", False, "the door: every word on the night -- the name, the lede, what the E holds, "
+                                  "the password's heading and line, what to know before going in, and the "
+                                  "answer the door gives"),
+    ("#ABA8A4", "#101115", False, "the door: the trail, the over-line, whose it is, and the edge of the box "
+                                  "the word is said into"),
+    ("#F6BC8E", "#101115", False, "the door: the E in the name, every link, the backlink and the focus ring"),
+    ("#E7E5E2", "#1A1B21", False, "the door: the word as it is typed into the box"),
+    ("#101115", "#F6BC8E", False, "the door: the button's words, on the light"),
+    ("#101115", "#E7E5E2", False, "the door: the button under the pointer"),
+
+    # ── Behind the door marked E (§102) ─────────────────────────────────────
+    # Unlisted. Every word stands on the room, on a blanket, on the turntable's
+    # empty glass, or on a button under the pointer; no word is ever on a light.
+    ("#F8E6E4", "#1B1317", False, "the cabin: every word on the room -- the lede and the ritual"),
+    ("#F8E6E4", "#2A1C22", False, "the cabin: every word on a blanket -- the room, the record player, the "
+                                  "albums' names, the back of a sleeve, what the cabin is for, and while you "
+                                  "are here"),
+    ("#D2B8B4", "#1B1317", False, "the cabin: the trail, the over-line and whose it is"),
+    ("#D2B8B4", "#2A1C22", False, "the cabin: a record's year, label and how long it runs, and each song's time"),
+    ("#F4B466", "#1B1317", False, "the cabin: the E in the name, the ritual's initials, every link, the "
+                                  "backlink and the focus ring"),
+    ("#F4B466", "#2A1C22", False, "the cabin: every button's words and edge, the back of a sleeve, a link on "
+                                  "a blanket, and the line saying what is on the turntable"),
+    ("#F0A0AE", "#1B1317", True,  "the cabin: the name, the ritual's heading and sign, and whose it is, "
+                                  "26px and up"),
+    ("#F0A0AE", "#2A1C22", True,  "the cabin: every heading on a blanket, 26px"),
+    ("#1B1317", "#F4B466", False, "the cabin: a button under the pointer"),
+    ("#F8E6E4", "#0F0B0D", False, "the cabin: the turntable's empty glass"),
+    ("#F4B466", "#0F0B0D", False, "the cabin: the bold on the turntable's empty glass"),
+
     # ── Now Playing (§53) ────────────────────────────────────────────────────
     (NP_BOTH,   NP_STOCK,  False, "now playing: every word on the sheet -- the h1, the over- and "
                                   "sub-lines, the lede, every room's name, where it is, our line "
@@ -4201,6 +4234,47 @@ ORNAMENT = {
     "#6e7a80": "foundry: the north light itself, which is a wash rather than a surface. "
                "1.52 against the floor at its strongest stop. It carries no text; what it "
                "composites the floor INTO is FO_LIT, and that is held as a ground above.",
+    "#16181d": "the door marked E: the far trunks, 1.06 on the night. The woods are grey on grey on purpose, because nothing out there is lit. It carries no word.",
+    "#1d1f25": "the door marked E: the near trunks, 1.15 on the night. It carries no word.",
+    "#15161a": "the door marked E: the cabin's roof against the dark, 1.04 on the night. It carries no word.",
+    "#1b1c20": "the door marked E: the cabin's log wall, 1.11 on the night. It carries no word.",
+    "#0b0c0f": "the door marked E: a joint between the logs or the planks, 1.15 on the wall. It carries no word.",
+    "#262326": "the door marked E: the door's frame, 1.10 on the wall. It carries no word.",
+    "#2e2724": "the door marked E: the door, 1.16 on the wall. A shut door at night is dark; what draws its shape is the light round its edges, --wd-glow at 11.23 on the night. It carries no word.",
+    "#07080a": "the door marked E: the door's iron straps and ring, 1.37 on the door. It carries no word.",
+    "#13141a": "the door marked E: the floor of the woods, 1.03 on the night. It carries no word.",
+    "#22232a": "the door marked E: a leaf on the floor of the woods, 1.17 on the ground. It carries no word.",
+    "#202128": "the door marked E: the stone at the threshold, 1.15 on the ground. It carries no word.",
+    "#f8d594": "behind the door marked E: a light's gold, only ever as a soft disc out of focus, 12.96 on the room at full strength and drawn at a quarter to four fifths of that. It carries no word.",
+    "#3a2730": "behind the door marked E: the record player's body, 1.17 on the blanket. What sets it off the blanket is the candlelight along its edge, --snug-rim, below. It carries no word.",
+    "#b9707f": "behind the door marked E: the candlelight along the record player's edge, 3.76 on its body and 4.42 on the blanket. It carries no word.",
+    "#2b2a2e": "behind the door marked E: the turntable's platter, 1.03 on the body. It carries no word.",
+    "#0d0a0c": "behind the door marked E: the record, 1.38 on the platter. It carries no word.",
+    "#262126": "behind the door marked E: a groove in the record, 1.25 on the record. It carries no word.",
+    "#ead3cf": "behind the door marked E: the record's label, 13.81 on the record. It carries no word.",
+    "#8f8a8d": "behind the door marked E: the tonearm and the knobs, 4.09 on the body. It carries no word.",
+    "#6e6a6b": "behind the door marked E: a sleeve's grey, 3.06 on the blanket. The sleeves are black and white and out of focus, and carry no word.",
+    "#9a9596": "behind the door marked E: a lighter sleeve's grey, 5.52 on the blanket. It carries no word.",
+    "#4a4648": "behind the door marked E: the darkest sleeve's grey, 1.76 on the blanket, with a lighter grey blurred into it so it stands off the blanket. It carries no word.",
+    "#d9d4d2": "behind the door marked E: the blur of light in a sleeve, 3.63 on the sleeve's grey. It carries no word.",
+    "#f1e3d3": "behind the door marked E: a candle's wax, 14.47 on the room and 10.32 on the mantel. Every candle is lit, and none carries a word.",
+    "#cdb6a4": "behind the door marked E: a candle's shaded side and the pool at its top, 1.54 on the wax. It carries no word.",
+    "#e8774e": "behind the door marked E: the red at the foot of the fire and of its outer tongues, 6.74 on the dark of the hearth. It flickers with the fire, by a tenth at most, and carries no word.",
+    "#241920": "behind the door marked E: the floor of the cabin, 1.07 on the wall. It carries no word.",
+    "#4a3b42": "behind the door marked E: the hearth's stones, 1.73 on the wall. It carries no word.",
+    "#3b2e35": "behind the door marked E: the mortar between the hearth's stones, the crate's slats, 1.23 on the stones. It carries no word.",
+    "#4a3036": "behind the door marked E: the logs in the fire, 1.66 on the dark of the hearth. It carries no word.",
+    "#3e2c34": "behind the door marked E: the mantel, the crate and the low table, 1.40 on the wall and 1.31 on the floor; each has the candlelight along its top edge, --snug-rim. It carries no word.",
+    "#c79a62": "behind the door marked E: the knitted blanket, 5.44 on the rug. It carries no word.",
+    "#b97f8d": "behind the door marked E: the wool blanket and the cushion, 4.29 on the rug and 1.27 on the knitted one. It carries no word.",
+    "#e8d8ce": "behind the door marked E: the fleece blanket, a bottle's label and the popcorn, 10.01 on the rug. It carries no word.",
+    "#233128": "behind the door marked E: a bottle of wine, 1.34 on the wall, which is why every bottle is drawn round in --snug-glassline. It carries no word.",
+    "#c9bdc4": "behind the door marked E: the edge of a bottle, a glass and the jar, 10.03 on the wall. It carries no word.",
+    "#8c2541": "behind the door marked E: the wine in the glass, 2.13 on the wall. It carries no word.",
+    "#86a866": "behind the door marked E: the weed in the jar and a strawberry's leaves, 6.78 on the wall. It carries no word.",
+    "#a673a9": "behind the door marked E: the grapes, 3.73 on the rug they sit on, a bunch you know by its shape. It carries no word.",
+    "#d4475d": "behind the door marked E: the strawberries, 3.03 on the plate. It carries no word.",
+    "#5a3329": "behind the door marked E: the chocolate and the chips in a cookie, 7.59 on the plate. It carries no word.",
     "#2a3a31": "campgrounds: the board's frame and the post each pitch hangs off, 1.48 "
                "on the field. That field is deliberately the dimmest ground on the "
                "street and its type carries all of it -- bone at 14.7, moss at 7.3. The "

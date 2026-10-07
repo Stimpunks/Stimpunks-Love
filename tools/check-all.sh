@@ -47,14 +47,14 @@ STEPS=(
   make-collection make-vital make-open-notebook make-learning-large make-hey-good-cookin make-pekoe make-a-quiet-pint make-brew-and-stew make-the-run make-truckin-food-court make-the-green make-the-pile make-community make-dressup make-mural make-pando make-fridge make-stair make-rescue make-accounts make-brass
   make-coworking make-town-hall make-live-room make-broadside make-doom-scoop make-library make-dance-punks
   make-small-hours make-repeater make-nothing-for-sale make-covenstead
-  make-lagoon make-looming make-sithen make-stay-frosty make-stay-breezy make-mycelium make-big-steep make-glow make-rave make-cooldown make-mud make-foundry
+  make-lagoon make-looming make-sithen make-stay-frosty make-stay-breezy make-mycelium make-big-steep make-glow make-rave make-cooldown make-mud make-secret-cabin make-foundry
   # Things that read the rooms, after the rooms.
   make-now-playing make-map make-signoff make-structured make-sitemap make-search-index
   make-feed make-csp make-agent-files make-og make-icons make-security
   # The checkers, against what was just written.
   check-contrast check-headings check-counts check-ids check-classes
   check-quests check-faces check-print check-gentle check-contrast-live
-  check-focus check-weights check-teleport
+  check-focus check-weights check-teleport check-unlisted
 )
 
 # The CB's one invariant, first, because it needs nothing but Node: no write

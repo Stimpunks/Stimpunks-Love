@@ -291,6 +291,7 @@ python3 tools/make-the-run.py      # The Run's field, places, porch, toys, treat
 python3 tools/make-truckin-food-court.py # The Truck Stop's court, boards, table and rack; refuses a price, a truck not led by a vegan item, a dog treat the ASPCA would refuse, a drink whose caffeine it cannot work out, an oral rehydration solution off the WHO's figures, a ranking, and the song's lyric
 python3 tools/make-the-green.py    # The Green's view, trail, trailhead sign and rack; refuses a shadow, sunshine, a trail figure outside ABA 1017, a count of steps, a Latin name, foraging, and a quotation our Nature page no longer has
 python3 tools/make-the-pile.py     # The Pile's drawing, parts, history, quotations and rack; refuses a part with no drawing, play sold by its outcome, a score, an instruction, a verdict on risk, and the dripping face anywhere but the name
+python3 tools/make-secret-cabin.py # the cabin behind the door marked E, a room you have to know the address of: draws the door and the lights, writes the rack and the door's word; refuses either page without data-unlisted or noindex, the inside's address anywhere on the door, an album off another channel, a field that is not a track, and a runtime that is not the tracks added up
 python3 tools/make-brew-and-stew.py # Brew and Stew's cabin, table, board, arrangements and looking-glass; refuses anything not vegan, a tea with caffeine, a remedy, anything foraged, a flame, a price, and a held video with no reason
 python3 tools/make-community.py    # The Community Center's service board; refuses a slot whose room has stopped saying what it repeats
 python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, and the credits; refuses a size, a gendered rail, or no all-black colourway
@@ -339,6 +340,7 @@ python3 tools/check-classes.py     # refuses a class two rooms claim, or a page 
 python3 tools/check-quests.py      # refuses a code a room and the board disagree about
 python3 tools/check-faces.py       # refuses a typeface either room about type has lost
 python3 tools/check-weights.py     # refuses a weight on the Foundry's bench that renders the same as another, or one love.css does not declare
+python3 tools/check-unlisted.py    # refuses a page marked data-unlisted without noindex, or its address or name in anything a visitor, crawler or agent follows
 ```
 
 `make-mopery.py` refuses a book with no way to borrow it, a cut that does not name Jagger and

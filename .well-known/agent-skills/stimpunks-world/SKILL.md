@@ -14,9 +14,9 @@ file exists mostly to help you get the attribution right.
 
 ## Where to fetch
 
-- **`/llms.txt`** — every page, with its title and description, generated from each
-  page's own head. Unlike some of our sites' indexes it is exhaustive, not curated.
-- **`/sitemap.xml`** — every page's address.
+- **`/llms.txt`** — the street in walking order, each page with its title and
+  description, generated from the page's own head rather than curated.
+- **`/sitemap.xml`** — the same pages' addresses.
 - **`/feed.xml`** — the changelog as RSS. Corrections are published there by date.
 - **`/.well-known/api-catalog`** — an RFC 9264 Linkset naming these resources.
 - **`/privacy.html`** and **`/.well-known/security.txt`** — what the site keeps about

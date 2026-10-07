@@ -31,7 +31,9 @@ that id, so the map opens scrolled to where you were with a flag on it saying
 so. That is :target and nothing else: no script, no referrer, nothing stored,
 and a page that is not on the model is a refusal in make-map.py before it can be
 a dead fragment here. 404.html has no address of its own, so its link is to the
-model without one.
+model without one. Neither does a room you have to know the address of
+(tools/unlisted.py): it has no place on the model, on purpose, so its link opens
+the model with no flag on it, which is the true answer.
 
 THE FRACTAL WINDOW'S SWITCH RIDES HERE TOO, on a line of its own under the
 links, because the sign-off is the one place that is the same place on every
@@ -59,24 +61,25 @@ LINKS = [
 BEGIN, END = "<!-- signoff:begin -->", "<!-- signoff:end -->"
 
 
-def where(page=None, absolute=False):
-    """The Where am I? link for one page: the model, opened at that page."""
+def where(page=None, absolute=False, offmap=False):
+    """The Where am I? link for one page: the model, opened at that page, or
+    at no place on it for a page that has none (`offmap`)."""
     pre = "/" if absolute else ""
-    frag = f"#at-{page[:-5]}" if page and not absolute else ""
+    frag = f"#at-{page[:-5]}" if page and not absolute and not offmap else ""
     return f'<a href="{pre}map.html{frag}">Where am I?</a>'
 
 
-def links(absolute=False, page=None):
+def links(absolute=False, page=None, offmap=False):
     """The shared links as one run of HTML. `absolute` for 404.html, which is
     served at whatever address somebody mistyped, so its paths start with a
     slash; `page` is the file the line is going into, for Where am I?"""
     pre = "/" if absolute else ""
     return " &middot; ".join(
-        [where(page, absolute)] +
+        [where(page, absolute, offmap)] +
         [f'<a href="{pre}{href}">{html.escape(text)}</a>' for href, text in LINKS])
 
 
-def block(absolute=False, page=None, recipes=None):
+def block(absolute=False, page=None, recipes=None, offmap=False):
     """The whole sign-off, between its markers. A <footer> directly in <body>,
     so it is the page's contentinfo landmark and a screen reader can jump to it."""
     fx = fractals.switch(page, recipes) if page else ""
@@ -84,7 +87,7 @@ def block(absolute=False, page=None, recipes=None):
         f"{BEGIN}\n"
         '<footer class="signoff">\n'
         f'  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a>'
-        f" &middot; {links(absolute, page)} &middot; "
+        f" &middot; {links(absolute, page, offmap)} &middot; "
         'A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>\n'
         + (f"  {fx}\n" if fx else "") +
         "</footer>\n"

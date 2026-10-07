@@ -1633,6 +1633,38 @@
         "--pil-green",
         "--pil-purple"
       ]
+    },
+    "the-secret-cabin.html": {
+      "kind": "orbit",
+      "trap": "cross",
+      "c": [
+        -0.8,
+        0.156
+      ],
+      "orbit": 0.012,
+      "ground": "--wd-night",
+      "inks": [
+        "--wd-glow",
+        "--wd-text",
+        "--wd-dim"
+      ]
+    },
+    "lydtyss.html": {
+      "kind": "julia",
+      "c": [
+        -0.7269,
+        0.1889
+      ],
+      "orbit": 0.01,
+      "bands": 0.3,
+      "fade": 8,
+      "ground": "--snug-dark",
+      "inks": [
+        "--snug-rose",
+        "--snug-amber",
+        "--snug-gold",
+        "--snug-text"
+      ]
     }
   }
 }

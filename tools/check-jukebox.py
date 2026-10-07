@@ -260,6 +260,11 @@ LISTS = [
     # Big Steep: three long cellar ambience videos on their makers' own
     # channels, the kind of upload that goes private without ceremony.
     ("big steep", "data/big-steep.json", "big-steep-fermentables.html"),
+    # The cabin behind the door marked E, a room you have to know the address
+    # of (tools/unlisted.py). Unlisted is not unwatched: its records rot like
+    # anybody's, and a whole album is checked song by song, because an album
+    # played as a list fails if the song at the top of it has died.
+    ("the cabin", "data/secret-cabin.json", "lydtyss.html"),
 ]
 
 
@@ -322,6 +327,11 @@ def tracks_in(data):
                 for v in data["log"] if v.get("state") in ("screen", "door")]
     if "tracks" in data:
         return data["tracks"]
+    # THE CABIN'S RECORD PLAYER plays whole albums, so its file keeps each
+    # album's songs under it, and every one of them is checked.
+    if "albums" in data:
+        return [dict(t, artist=data["artist"], channel=data["channel"])
+                for a in data["albums"] for t in a["tracks"]]
     # MYCELIUM MUNCHIES keeps Derek Sarno's rack beside its mushrooms and dishes,
     # which are food rather than videos, under a key of its own. The Open
     # Notebook's collection uses the same key beside its questions.

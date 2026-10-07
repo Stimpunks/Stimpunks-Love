@@ -62,6 +62,8 @@ import json
 import re
 from pathlib import Path
 
+import unlisted
+
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data/now-playing.json"
 PAGE = ROOT / "now-playing.html"
@@ -218,7 +220,12 @@ for p in sorted(ROOT.glob("*.html")):
     if p.name == HERE:
         continue
     text = p.read_text()
-    if PLAYABLE.search(text):
+    # A ROOM YOU HAVE TO KNOW THE ADDRESS OF IS NOT A VENUE (tools/unlisted.py).
+    # The poster is a public page of what is on in every room, so a line here
+    # would be the address on a wall. It is skipped by its own mark rather than
+    # put in `left_off`, because the data file is served and would name it.
+    # The facade check below still holds for it.
+    if PLAYABLE.search(text) and not unlisted.is_unlisted(text):
         found.add(p.name)
     # A FACADE ON A PAGE THAT DOES NOT LOAD love-embed.js IS A BUTTON THAT NEVER
     # BECOMES A VIDEO, and nothing else on this street would say so: the markup
