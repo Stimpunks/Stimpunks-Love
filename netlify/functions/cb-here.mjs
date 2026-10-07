@@ -2,9 +2,8 @@
    asks this on its own listen, and only while somebody signed on has pressed
    Be seen here, the radio is open and the tab is in front. One call does both
    halves, because they are one act: being seen is what lets you see. A room
-   the base keeps answers only the passes it lets in. `find` asks to be
-   findable by name as well (findSeen in lib.mjs), and is only honoured for a
-   claimed username; `findable` in the answer says whether it was. */
+   the base keeps answers only the passes it lets in. Being seen also puts you
+   on Who's online, for anybody signed on (whoSeen in lib.mjs). */
 import { readPass, roomTag, roomAllows, mudVisit, beSeen, inCall, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
@@ -16,11 +15,10 @@ export default async (req) => {
   const visit = mudVisit(b.visit);
   if (!room || !visit) return json(400, { error: 'That is not a room on the street.' });
   if (!roomAllows(who, room)) return json(403, { error: 'That room is for the people it is for.' });
-  const find = b.find === true && who.account === true;
-  const others = await beSeen(who, room, visit, undefined, undefined, find);
+  const others = await beSeen(who, room, visit);
   const call = await inCall(room);
   // callHeard: whether 8x8 is telling us at all, so an empty call is never a guess.
-  return json(200, { room, others, call, callHeard: !!process.env.CB_JAAS_EVENTS_SECRET, findable: find });
+  return json(200, { room, others, call, callHeard: !!process.env.CB_JAAS_EVENTS_SECRET });
 };
 
 export const config = {

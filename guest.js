@@ -290,10 +290,10 @@
         none.hidden = false; list.hidden = true; mark(-1);
         return;
       }
-      // An @ looks for a person, which is the radio's, for a claimed username.
+      // An @ looks for a person, which is the radio's: Who's online is for people signed on.
       if (/^\s*@/.test(find.value)) {
         offer = [];
-        none.textContent = 'Finding somebody by name is on the radio, signed on with a claimed username. Sign on first.';
+        none.textContent = 'Finding somebody by name, and seeing who\u2019s online, is on the radio. Sign on first.';
         none.hidden = false; list.hidden = true; mark(-1);
         return;
       }

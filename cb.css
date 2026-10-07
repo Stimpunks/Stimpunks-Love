@@ -211,6 +211,19 @@ ol.cb-md-list { list-style: decimal; }
 .cb-seen[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
 .cb-seen-now { font-size: 14px; overflow-wrap: anywhere; }
 .cb-seen-now .cb-tag { margin-left: 4px; }
+/* WHO'S ONLINE: beside World and This room, not in their group, because it is
+   not a channel; the teleporter's open edge when its panel is out. The list is
+   the seen lines' steel on the case, and it scrolls rather than pushing the
+   message box off a short screen. */
+.cb-band-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: start; }
+.cb-online-btn:hover, .cb-online-btn[aria-expanded="true"] { border-color: var(--cb-amber); }
+.cb-online { display: grid; gap: 4px; }
+.cb-online-about { font-size: 13px; }
+.cb-online-list {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 4px;
+  max-height: 12em; overflow-y: auto; font-size: 14px; overflow-wrap: anywhere;
+}
+.cb-online-list .cb-tag { margin-left: 4px; }
 .cb-catch { justify-self: start; min-height: 44px; }
 .cb-take, .cb-catch {
   color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2);
@@ -325,6 +338,11 @@ ol.cb-md-list { list-style: decimal; }
 .cb-opt[aria-selected="true"] { color: var(--cb-lcd); background: var(--cb-amber); }
 .cb-opt[aria-selected="true"] .cb-opt__tag,
 .cb-opt[aria-selected="true"] .cb-opt__why { color: var(--cb-lcd); }
+/* A person in the teleporter carries BASE or CLAIMED, and on the picked row's
+   amber the two swap their inks: BASE filled in the readout's black, CLAIMED
+   outlined in it, so neither is amber on amber. */
+.cb-opt[aria-selected="true"] .cb-tag { color: var(--cb-amber); background: var(--cb-lcd); box-shadow: none; }
+.cb-opt[aria-selected="true"] .cb-tag--claimed { color: var(--cb-lcd); background: transparent; box-shadow: inset 0 0 0 1px var(--cb-lcd); }
 /* The radio's answer to a press, under the readout. A rule down its side in the
    log's amber, so a sentence that appears there is noticed. */
 /* The guest bar's sign-on: the front desk's two boxes, the width of the panel. */
@@ -377,7 +395,7 @@ ol.cb-md-list { list-style: decimal; }
    with the older messages hidden, so the live region still reads what arrives,
    and the newest is clamped to a few lines so a long one cannot grow the radio
    back over whatever it was made small to get out of the way of. */
-.cb-radio--small .cb-who, .cb-radio--small .cb-band, .cb-radio--small .cb-tx,
+.cb-radio--small .cb-who, .cb-radio--small .cb-band-row, .cb-radio--small .cb-online, .cb-radio--small .cb-tx,
 .cb-radio--small .cb-tools, .cb-radio--small .cb-norms, .cb-radio--small .cb-acts, .cb-radio--small .cb-present { display: none; }
 .cb-radio--small .cb-set { padding: 8px; }
 .cb-radio--small .cb-lcd { padding: 6px 9px; }

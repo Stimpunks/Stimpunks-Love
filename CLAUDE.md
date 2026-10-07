@@ -683,8 +683,8 @@ own world, and the next one to be tempted to match its neighbour is the one to s
 **BE SEEN HERE IS THE SLAKE'S SWITCH IN EVERY ROOM, AND WHO IS IN A CALL COMES FROM 8x8.** Ryan,
 2026-09-29, after requests for presence, especially before joining a call. `beSeen` / `unseen` in
 `lib.mjs` are the Slake's record in another drawer (`room-here/<tag>/<visit>.<time>.<role>.<handle>`),
-asked by `/cb/here` from inside `listen()` and nowhere else, and **it is one switch both ways**: a
-radio that is not seen is told nothing. **Handles only, alphabetical, and no number** (Ryan's call:
+asked by `/cb/here` from inside `listen()` and nowhere else, and **it was one switch both ways**: a
+radio that is not seen was told nothing, until Who's online (below). **Handles only, alphabetical, and no number** (Ryan's call:
 the no-headcount rule holds). **Remembered in `love-cb` as `seen`** once pressed, which reverses the
 Slake's never-remembered rule for rooms only, Ryan's call. **Who is in a room's call is JaaS's
 participant webhook** (`/cb/call-events`, `callEvent`), so it is everybody in it, guests included,
@@ -701,18 +701,25 @@ answer under the same rule; the room dresses it, and a guest with no radio never
 above 8x8's Join button, which we cannot write into: `call.js` builds it hidden and exposes it as
 `loveCall.whoLine(tag)`, and never asks for the list itself.
 
-**FINDING SOMEBODY BY NAME IS A SECOND SWITCH, AND BE SEEN HERE WAS NOT WIDENED.** Helen Edgar's ask,
-2026-10-07; Ryan's rules the same day. `@handle` and Enter in the radio's Teleport asks `/cb/find`
-(`findSeen` in `lib.mjs`) and goes to the room. **Be seen here promised the people in the same room and
-nobody else**, so being found from anywhere is **Let people find me**, remembered in `love-cb` as
-`findable`, and it rides on the seen record as a `.find` mark in its key: nothing new is stored.
-`beSeen` drops the mark for any pass that is not a claimed username's (`who.account`), because an
-unclaimed handle is anybody's and @Helen would bring people to whoever signed on as Helen. **Only
-somebody findable can find**, checked on the server against the asker's own visit. **One whole handle,
-folded, never a partial match and never a completion list**: the friendly edit is names offered as you
-type, and that is the list of who is on. **The answer is rooms or nothing, never why**, a room the
-asker may not enter is left out, and nothing records who looked for whom. The @ handling sits outside
-the search block `check-teleport.py` keeps identical; the guest bar and the finder only say where @ works.
+**WHO'S ONLINE IS BE SEEN HERE, STREET-WIDE, AND IT REVERSED TWO RULES ON PURPOSE.** Ryan,
+2026-10-07: "Folks are wanting to know who's around and are having a hard time connecting right now."
+A **Who's online** button beside World and This room lists everybody seen in a room, with their rooms,
+for **anybody signed on, seen or not** (`whoSeen` in `lib.mjs`, `/cb/online`). That reverses the rule
+above that a radio not seen is told nothing, and the CB's refusal of a list of who is on; both were
+Ryan's calls, and so is this one, chosen over listing only people who opted in. **It also widened what
+Be seen here means for everybody who had already pressed it**, which is why the privacy page says so
+in as many words and the switch's own line says it puts you on the list. What it keeps: **only people
+who pressed Be seen here**; **names alphabetical and no number** (that rule was not reversed);
+**CLAIMED from the pass**, as a `.acct` mark in the seen record's key, because an unclaimed handle is
+anybody's; a room the asker may not enter left out, and somebody seen only there on nobody else's
+list; nothing stored for it and nothing recording who looked. It is asked only from `listen()` while
+its panel is open, and the panel is not a live region and keeps the keyboard on its link. **@ in the
+Teleport matches parts of handles from the same list**, client-side, so the letters are never sent;
+that handling sits outside the search block `check-teleport.py` keeps identical. **Let people find
+me lived for one afternoon** (a claimed-only, symmetric, whole-name search) and was taken out when
+this arrived: two switches meaning nearly the same thing is worse than one. A `.find` key from that
+afternoon still parses as claimed, so a leftover is swept. **The Slake keeps its own rule**: its
+switch only ever said "out here", and nothing on it joins this list.
 
 **A call's window and the `Mover` live in `call.js`, not `cb.js`**, because a public room's guest
 must never download the radio. `cb.js` loads `call.js` before it builds the radio. `call.js` reads
@@ -2523,7 +2530,8 @@ on the CB built the same day. What was settled and what is open is in `DECISIONS
     **Others are never on the map**, the answer has no count in it, names come alphabetically, and the
     tide stays each player's own. Each place's talk is the channel's own `updateLog`, ten and gone at
     midnight. **The friendly edits are a who's-online list, a headcount, and everybody's footprints on
-    the map**: each is the list of who is out there that the room refuses. `mud.js` may read `love-cb`
+    the map**: each is the list of who is out there that the room refuses. The street's radio has a
+    Who's online now (Ryan, 2026-10-07); the Slake does not, and nobody on it appears there. `mud.js` may read `love-cb`
     and never write it, and send to `/cb/mud/` through one `call()`; the tool reads the file for
     exactly that. **The concurrency test races TEN for a log, not fifteen**: a channel keeps ten, and
     its first run reported the five it had pushed off as lost writes.

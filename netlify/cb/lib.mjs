@@ -1182,15 +1182,19 @@ export const ROOM_FRESH = 30 * 1000;       // shown to nobody this long after it
 const ROOM_GONE = 2 * 60 * 1000;           // anybody's check deletes a record this stale
 const SEEN = 'room-here/';
 
-function seenKey(tag, visit, t, role, handle, find) {
-  return `${SEEN}${tag}/${visit}.${t}.${role}${find ? '.find' : ''}.${b64(handle)}`;
+/* `.acct` in a key marks a claimed username, set from the pass and never from
+   the request, so a list can say CLAIMED the way the channel does. A `.find`
+   key is the same mark under the name it had on its first day (2026-10-07),
+   read so that one left over is still swept. */
+function seenKey(tag, visit, t, role, handle, claimed) {
+  return `${SEEN}${tag}/${visit}.${t}.${role}${claimed ? '.acct' : ''}.${b64(handle)}`;
 }
 function parseSeen(key) {
-  const m = /^room-here\/([a-z0-9-]+)\/([A-Za-z0-9_-]+)\.(\d+)\.(mobile|base)(\.find)?\.([A-Za-z0-9_-]+)$/.exec(key);
+  const m = /^room-here\/([a-z0-9-]+)\/([A-Za-z0-9_-]+)\.(\d+)\.(mobile|base)(\.(?:acct|find))?\.([A-Za-z0-9_-]+)$/.exec(key);
   if (!m) return null;
   let handle;
   try { handle = Buffer.from(m[6], 'base64url').toString('utf8'); } catch (e) { return null; }
-  return { key, tag: m[1], visit: m[2], t: Number(m[3]), base: m[4] === 'base', find: !!m[5], handle };
+  return { key, tag: m[1], visit: m[2], t: Number(m[3]), base: m[4] === 'base', claimed: !!m[5], handle };
 }
 async function everySeen(s) {
   return ((await s.list({ prefix: SEEN })).blobs || []).map((b) => parseSeen(b.key)).filter(Boolean);
@@ -1199,18 +1203,17 @@ function seenIn(all, tag, visit, now) {
   const seen = new Map();
   for (const r of all) {
     if (r.tag !== tag || r.visit === visit || now - r.t >= ROOM_FRESH) continue;
-    if (!seen.has(r.handle)) seen.set(r.handle, { handle: r.handle, base: r.base });
+    if (!seen.has(r.handle)) seen.set(r.handle, { handle: r.handle, base: r.base, claimed: r.claimed });
   }
   return [...seen.values()].sort((a, b) => a.handle.localeCompare(b.handle));
 }
 
 /* Be seen in a room, which is also what lets you see who else is. The visit's
    earlier record goes, wherever it was, so which rooms somebody has been in is
-   never a trail. `find` marks the record findable by name (findSeen, below),
-   and only a claimed username's record ever carries it. */
-export async function beSeen(who, tag, visit, s = store(), now = Date.now(), find = false) {
+   never a trail. */
+export async function beSeen(who, tag, visit, s = store(), now = Date.now()) {
   const all = await everySeen(s);
-  const key = seenKey(tag, visit, now, who.role, who.handle, find && who.account === true);
+  const key = seenKey(tag, visit, now, who.role, who.handle, who.account === true);
   await s.set(key, '');
   for (const r of all) {
     if (r.key !== key && (r.visit === visit || now - r.t >= ROOM_GONE)) await s.delete(r.key);
@@ -1229,52 +1232,36 @@ export async function sweepSeen(s = store(), now = Date.now()) {
   return any;
 }
 
-/* FIND SOMEBODY BY NAME. Helen Edgar's ask, 2026-10-07: "@ person name" to
-   find where people are; Ryan's calls the same day, each a rule here:
+/* WHO'S ONLINE. Ryan, 2026-10-07: "Folks are wanting to know who's around and
+   are having a hard time connecting right now." Everybody seen in a room, with
+   the rooms they are in, for anybody signed on, seen or not. That reverses two
+   things written down here before: Be seen here used to show you only to the
+   people seen in the same room, and a who's-online list was the edit this CB
+   refused. Both were Ryan's calls and this is too; the privacy page says what
+   Be seen here means now, and the Slake keeps its own rule, because its switch
+   only ever said "out here".
 
-   · NOBODY IS FINDABLE UNTIL THEY SAY SO. Be seen here shows you only to the
-     people seen in the same room, and that is what everybody who pressed it
-     agreed to. Being found from anywhere on the street is a second switch,
-     Let people find me, and it rides on the record being seen already keeps:
-     nothing new is stored, and it goes when that record goes.
-   · ONLY A CLAIMED USERNAME. An unclaimed handle is anybody's who signs on
-     with it, so somebody could sign on as Helen and have @Helen bring people
-     to them. beSeen() drops the flag for any pass that is not an account's.
-   · NOBODY FINDS WHO CANNOT BE FOUND. The asker's own visit must be seen and
-     findable now, by the same claimed name: the one switch, both ways, that
-     Be seen here and the Slake already keep. Checked here, never only on the
-     page.
-   · ONE EXACT NAME, AND NEVER A LIST. The name is matched folded (case,
-     spaces, NFKC) and whole, so typing part of one finds nothing and nothing
-     ever offers names to pick from: that would be the list of who is on.
-   · THE ANSWER IS ROOMS OR NOTHING. A room the asker may not enter is left
-     out, and "not found" never says whether the name exists, is claimed, is
-     switched off or is somewhere private. No time, no count, and nothing
-     records who looked for whom.
-
-   It answers { self: true } when the name is the asker's own, { rooms } with
-   every room that name is findable in (two tabs can be two rooms), or
-   { refused } with a sentence. */
-export async function findSeen(who, visit, name, s = store(), now = Date.now()) {
-  if (who.account !== true) {
-    return { refused: 'Finding somebody by name is for claimed usernames. Claim yours in Profile.' };
+   What it still keeps: only somebody who pressed Be seen here is on it; names
+   in alphabetical order, so nobody is first for arriving first, and no number;
+   CLAIMED beside a claimed username, because an unclaimed handle is anybody's
+   who signs on with it; a room the asker may not enter is left out, and
+   somebody seen only there is not on the asker's list at all; and nothing is
+   stored for it, or records who looked. The same handle in two rooms (two
+   tabs) is one row with both rooms; the same unclaimed handle on two people
+   cannot be told apart, which is why the mark matters. */
+export async function whoSeen(who, s = store(), now = Date.now()) {
+  const people = new Map();
+  for (const r of await everySeen(s)) {
+    if (now - r.t >= ROOM_FRESH || !roomAllows(who, r.tag)) continue;
+    const k = `${r.claimed ? 'c' : 'u'}|${r.handle}`;
+    let p = people.get(k);
+    if (!p) people.set(k, p = { handle: r.handle, base: false, claimed: r.claimed, rooms: [] });
+    if (r.base) p.base = true;
+    if (!p.rooms.includes(r.tag)) p.rooms.push(r.tag);
   }
-  const want = foldHandle(cleanHandle(name) || '');
-  if (!want) return { refused: 'That is not a handle anybody could have.' };
-  const me = foldHandle(who.handle);
-  const all = (await everySeen(s)).filter((r) => now - r.t < ROOM_FRESH);
-  const mine = all.some((r) => r.visit === visit && r.find && foldHandle(r.handle) === me);
-  if (!mine) {
-    return { refused: 'Only somebody who can be found can find. Switch on Be seen here and Let people find me first.' };
-  }
-  if (want === me) return { self: true };
-  const rooms = new Set();
-  for (const r of all) {
-    if (!r.find || foldHandle(r.handle) !== want) continue;
-    if (!roomAllows(who, r.tag)) continue;
-    rooms.add(r.tag);
-  }
-  return { rooms: [...rooms].sort() };
+  return [...people.values()]
+    .map((p) => ({ ...p, rooms: p.rooms.sort() }))
+    .sort((a, b) => a.handle.localeCompare(b.handle) || Number(b.claimed) - Number(a.claimed));
 }
 
 /* ── Who is in a room's call ─────────────────────────────────────────── */

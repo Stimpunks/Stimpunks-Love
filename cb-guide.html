@@ -46,7 +46,7 @@
       <li><strong>Open is on, folded is off.</strong> Open, with the tab in front of you, the radio listens every four seconds. Folded, or behind another tab, it sends nothing.</li>
       <li><strong>Ten messages a channel, gone at midnight</strong>, Colorado time. An eleventh pushes the oldest off.</li>
       <li><strong>No alerts.</strong> No chime, no badge, no unread count, and the tab&rsquo;s title never changes.</li>
-      <li><strong>Names, never numbers.</strong> A reaction says who pressed it, and Be seen here says who is there. Nothing shows a count.</li>
+      <li><strong>Names, never numbers.</strong> A reaction says who pressed it, and Who&rsquo;s online says who is around and where. Nothing shows a count.</li>
       <li><strong>Nothing on it moves</strong>, at any setting of the dial, and it is the same radio in every room.</li>
     </ul>
   </section>
@@ -95,25 +95,25 @@
   <p>The radio is never wider or taller than your window. If it would cover a film&rsquo;s play button when you are getting that film ready, it goes Small for the moment and says so; <b>Size</b> puts it back.</p>
 
   <h2 id="tuning">Tuning: World or this room</h2>
-  <p>Under the bar, a line says <b>On the channel as</b> and your handle. Then two buttons choose what you hear:</p>
+  <p>Under the bar, a line says <b>On the channel as</b> and your handle. Then two buttons choose what you hear, and a third shows who is around:</p>
   <table class="plain-table">
     <thead><tr><th>Control</th><th>What it does</th></tr></thead>
     <tbody>
       <tr><td><b>World</b></td><td>The channel the whole street shares. A new radio starts here, and tuned to World the radio never says which room you are in.</td></tr>
       <tr><td><b>This room</b></td><td>The channel of the room you are standing in. Walk into another room and you hear that room&rsquo;s channel instead. Pages that are not rooms do not have one.</td></tr>
+      <tr id="online"><td><b>Who&rsquo;s online</b></td><td>Not a channel. It opens a list of everybody who has switched on <a href="#seen">Be seen here</a>, in alphabetical order, with BASE or CLAIMED beside a name the way the channel marks it, and the room each is in; a room&rsquo;s name takes you there. Your own line says <b>(you)</b>, and a line under the list says whether you are on it. While it is open it is redrawn every few seconds, quietly, and it never shows a number.</td></tr>
     </tbody>
   </table>
   <p>A line above the messages says <b>Tuned to World</b> or <b>Tuned to</b> the room&rsquo;s name. Every channel keeps the same rules: ten messages, gone at midnight. A quiet one says <b>Nobody has said anything today.</b></p>
 
   <h2 id="seen">Be seen here</h2>
-  <p>In a room, <b>Be seen here</b> shows you, by your handle, to anybody else signed on who has switched it on in that room, and shows them to you. <strong>It is one switch both ways</strong>: while it is off, nobody sees you and you see nobody.</p>
+  <p>In a room, <b>Be seen here</b> puts you, by your handle, on <a href="#online">Who&rsquo;s online</a> for anybody signed on, with the room you are in, and shows you and anybody else who has switched it on in the same room to each other. While it is off you are on nobody&rsquo;s list; you can still open Who&rsquo;s online, but not see who else is in this room or in its call.</p>
   <ul>
     <li><b>Also seen here:</b> lists the others, alphabetically, by handle. <b>Nobody else here is seen.</b> means just that.</li>
     <li><b>In this room&rsquo;s call:</b> lists everybody in the room&rsquo;s call, so you can see who is there before you join.</li>
     <li>Names only, and never a count. The lines update quietly, without announcing themselves.</li>
     <li>Your browser remembers the switch. Folding the radio, leaving the page or putting the tab behind another takes you out of sight.</li>
   </ul>
-  <p id="found">Under it, with a claimed username, is <b>Let people find me</b>. While you are seen, it lets anybody else who has switched it on type <b>@</b> and your whole handle into <a href="#teleport">the teleporter</a> and go to the room you are in. <strong>It is one switch both ways too</strong>: while it is off, nobody can look you up and you cannot look anybody up. They are told the room and nothing else, nobody is told who looked, and your browser remembers the switch. Without a claimed username the line says to claim one in Profile.</p>
 
   <h2 id="reading">Reading messages</h2>
   <p>Each message starts with a line: the sender&rsquo;s handle, a mark if it has one, and the time it was sent, by your clock. Then come its words, a picture or sticker if it has one, and its reactions.</p>
@@ -205,7 +205,7 @@
     <li><strong>Type to narrow it.</strong> It finds rooms whose names start with what you typed, then rooms with it inside a word of their name, so <i>fire</i> finds The Campfire, then rooms whose own description uses the word, with a few of those words shown.</li>
     <li><kbd>&uarr;</kbd> and <kbd>&darr;</kbd> move through the list, <kbd>Enter</kbd> goes to the room highlighted, and <kbd>Escape</kbd> puts the box away.</li>
     <li><strong>Going is ordinary navigation.</strong> Nothing is sent to the channel, and nobody learns where you went.</li>
-    <li><strong>An @ looks for a person.</strong> Type <b>@</b> and somebody&rsquo;s whole handle and press <kbd>Enter</kbd>. If they have <a href="#found">Let people find me</a> on and are seen in a room, it takes you there; if they are in two rooms, it lists both. Otherwise it says <b>Nobody by that whole handle can be found right now.</b> and never why. Part of a handle finds nobody, nothing is offered as you type, and it only works while you can be found yourself.</li>
+    <li><strong>An @ looks for a person.</strong> Type <b>@</b> and the list becomes the people on <a href="#online">Who&rsquo;s online</a>, one line for each room they are in; type some of a handle to narrow it, and <kbd>Enter</kbd> goes to the room highlighted. Handles that start with what you typed come first. You are left out of it, and the letters you type are not sent anywhere.</li>
   </ul>
   <p>To search the words on every page rather than the rooms&rsquo; names, use the search box on <a href="index.html">the front page</a> or <a href="map.html">the map</a>.</p>
 
@@ -272,7 +272,7 @@
   </table>
 
   <h2 id="keeps">What it sends and keeps</h2>
-  <p>In short: the radio asks this site, and nothing else, for the channel while it is open and in front of you. The channel keeps ten messages, until midnight. No IP address is stored, nothing anybody types is logged, and there is no list of who is on. Your browser keeps your handle, your pass and where you put the radio. <a href="privacy.html#cb">Privacy</a> has the whole of it, and <a href="architecture.html#cb">Architecture</a> says how it is built.</p>
+  <p>In short: the radio asks this site, and nothing else, for the channel while it is open and in front of you. The channel keeps ten messages, until midnight. No IP address is stored, nothing anybody types is logged, and the only list of who is on is Who&rsquo;s online, made from Be seen here and gone thirty seconds after somebody stops being seen. Your browser keeps your handle, your pass and where you put the radio. <a href="privacy.html#cb">Privacy</a> has the whole of it, and <a href="architecture.html#cb">Architecture</a> says how it is built.</p>
 
   <div style="max-width:400px;margin-top:34px;">
     <div class="dial">

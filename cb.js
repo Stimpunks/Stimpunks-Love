@@ -594,9 +594,6 @@
      itself says whether this radio is on as one. It only decides the mark on
      your own "On the channel as" line; the mark on a message is the server's. */
   function claimedPass(pass) { return /^cb2\.acct\./.test(pass || ''); }
-  // Any pass with a password of its own behind it: a claimed username's, or a
-  // moderator's who has moved onto their own. Only these can be found by name.
-  function ownPass(pass) { return /^cb2\.(?:acct|base)\./.test(pass || ''); }
 
   function clock(t) {
     var d = new Date(t);
@@ -612,6 +609,9 @@
     this.state = state;
     this.seen = {};
     this.timer = null;
+    // Let people find me lived for an afternoon (2026-10-07) and Who's online
+    // replaced it; a browser that remembered it forgets it here.
+    if ('findable' in state) { delete state.findable; save(state); }
 
     var box = this.box = el('section', 'cb-radio');
     box.setAttribute('aria-label', 'CB radio');
@@ -675,14 +675,10 @@
     this.tpNone.hidden = true;
     this.tpOffer = [];
     this.tpActive = -1;
-    // What a look for somebody found, said where the hand is.
-    this.tpSaid = el('p', 'cb-said');
-    this.tpSaid.setAttribute('role', 'status');
     tpp.appendChild(tlab);
     tpp.appendChild(find);
     tpp.appendChild(tlist);
     tpp.appendChild(this.tpNone);
-    tpp.appendChild(this.tpSaid);
     box.appendChild(tpp);
 
     /* THE SIZE, three of them, Ryan's ask, 2026-09-29: Small is the bar and the
@@ -731,7 +727,35 @@
     br.type = 'button';
     band.appendChild(bw);
     band.appendChild(br);
-    set.appendChild(band);
+    /* WHO'S ONLINE, beside World and This room. Ryan, 2026-10-07: "Folks are
+       wanting to know who's around and are having a hard time connecting right
+       now." Everybody seen in a room, with the rooms they are in, for anybody
+       signed on. It reverses the rule that a radio not seen is told nothing,
+       and the CB's refusal of a list of who is on; both were Ryan's calls, and
+       so is this. It is not a channel, so it sits beside the group rather than
+       in it. Names in alphabetical order, CLAIMED and BASE as on the channel,
+       no number, and not a live region: it is redrawn on each listen while it
+       is open, and only then, because listen() is the only thing that asks. */
+    var bandRow = el('div', 'cb-band-row');
+    bandRow.appendChild(band);
+    var ob = this.onlineBtn = el('button', 'cb-btn cb-online-btn', 'Who\u2019s online');
+    ob.type = 'button';
+    ob.setAttribute('aria-expanded', 'false');
+    ob.setAttribute('aria-controls', 'cb-online');
+    bandRow.appendChild(ob);
+    set.appendChild(bandRow);
+    var online = this.online = el('div', 'cb-online');
+    online.id = 'cb-online';
+    online.hidden = true;
+    online.appendChild(el('p', 'cb-online-about', 'Everybody who has switched on Be seen here, and the room they are in. A room\u2019s name takes you there.'));
+    this.onlineList = el('ul', 'cb-online-list');
+    this.onlineList.setAttribute('aria-label', 'Who\u2019s online');
+    online.appendChild(this.onlineList);
+    this.onlineNone = el('p', 'cb-seen-now');
+    online.appendChild(this.onlineNone);
+    this.onlineMe = el('p', 'cb-seen-now');
+    online.appendChild(this.onlineMe);
+    set.appendChild(online);
 
     /* BE SEEN HERE, the Slake's switch in every room. Ryan, 2026-09-29. One
        switch both ways: seen, the radio is told who else is seen in this room
@@ -751,20 +775,6 @@
     present.appendChild(seenBtn);
     present.appendChild(this.seenNow);
     present.appendChild(this.inCallNow);
-    /* LET PEOPLE FIND ME. Helen Edgar's ask, 2026-10-07, "@ person name" to
-       find where people are, and Ryan's rules the same day: a second switch,
-       because Be seen here only ever promised the people in the same room;
-       only on a claimed username, because an unclaimed handle is anybody's;
-       remembered in this browser, like Be seen here; and only somebody
-       findable can find. It rides on being seen, so it does nothing while Be
-       seen here is off, and the server keeps nothing more for it. Teleport
-       with an @ is where you look. See findSeen in netlify/cb/lib.mjs. */
-    var findBtn = this.findBtn = el('button', 'cb-btn cb-seen cb-find-me', 'Let people find me');
-    findBtn.type = 'button';
-    findBtn.setAttribute('aria-pressed', 'false');
-    this.findNow = el('p', 'cb-seen-now');
-    present.appendChild(findBtn);
-    present.appendChild(this.findNow);
     present.hidden = true;
     set.appendChild(present);
 
@@ -1060,7 +1070,7 @@
     callBtn.addEventListener('click', function () { me.setCall(!window.loveCall.isOpen()); });
     bw.addEventListener('click', function () { me.setBand('world'); });
     seenBtn.addEventListener('click', function () { me.setSeen(!me.state.seen); });
-    findBtn.addEventListener('click', function () { me.setFindable(!me.state.findable); });
+    ob.addEventListener('click', function () { me.setOnline(online.hidden); });
     window.addEventListener('pagehide', function () { me.leaveSeen(); });
     br.addEventListener('click', function () { me.setBand('room'); });
     beacons.addEventListener('click', function (e) {
@@ -1410,6 +1420,7 @@
     this.screenNamed(w);
     this.hostTick(w);
     this.hereTick();
+    if (!this.online.hidden) this.onlineTick();
     var room = this.tunedRoom();
     call('/cb/channel' + (room ? '?room=' + room : ''), null, this.state.pass).then(function (r) {
       if (r.status === 401) return me.lost();
@@ -1652,11 +1663,13 @@
       .then(function (d) {
         if (d) { takeRooms(d.rooms); me.rerender(); me.complete(); me.bandShown(); }
         if (!me.tpPanel.hidden) me.tpRender();
+        if (!me.online.hidden) me.onlineShown();
       })
       .catch(function () {
         // #tags stay words, which is what they are, and the teleporter says so.
         rooms = rooms || [];
         if (!me.tpPanel.hidden) me.tpRender(true);
+        if (!me.online.hidden) me.onlineShown();
       });
   };
 
@@ -2288,7 +2301,6 @@
   Radio.prototype.setTeleport = function (open) {
     this.tpPanel.hidden = !open;
     this.tpBtn.setAttribute('aria-expanded', String(open));
-    this.tpSaid.textContent = '';
     if (open) {
       this.tpFind.value = '';
       this.loadRooms();
@@ -2305,8 +2317,8 @@
   Radio.prototype.tpRender = function (failed) {
     var list = this.tpList, none = this.tpNone;
     list.textContent = '';
-    this.tpSaid.textContent = '';
-    if (personTyped(this.tpFind.value) !== null) { this.tpPerson(); return; }
+    list.setAttribute('aria-label', 'Rooms on the street');
+    if (personTyped(this.tpFind.value) !== null) { this.tpPeople(); return; }
     if (!rooms || failed || !rooms.length) {
       this.tpOffer = [];
       none.textContent = rooms && !failed ? 'No rooms to go to.' : (failed ? 'The list of rooms cannot be reached just now.' : 'Finding the rooms\u2026');
@@ -2340,87 +2352,141 @@
     if (e.isComposing) return;
     var n = this.tpOffer.length;
     if (e.key === 'Escape') { e.preventDefault(); this.setTeleport(false); this.tpBtn.focus(); return; }
-    if (e.key === 'Enter' && !n && personTyped(this.tpFind.value) !== null) { e.preventDefault(); this.lookFor(personTyped(this.tpFind.value)); return; }
     if (!n) return;
     if (e.key === 'ArrowDown') { e.preventDefault(); this.tpActive = (this.tpActive + 1) % n; markIn(this.tpList, this.tpFind, this.tpActive); }
     else if (e.key === 'ArrowUp') { e.preventDefault(); this.tpActive = (this.tpActive - 1 + n) % n; markIn(this.tpList, this.tpFind, this.tpActive); }
     else if (e.key === 'Enter') { e.preventDefault(); this.go(this.tpOffer[this.tpActive]); }
   };
 
-  /* @ IN THE TELEPORTER LOOKS FOR A PERSON. Helen Edgar's ask, 2026-10-07,
-     Ryan's rules (findSeen in lib.mjs keeps every one): a whole name, typed,
-     and Enter. Nothing is offered as you type, because a list of names to pick
-     from would be the list of who is on; nothing is sent until Enter; and the
-     answer is a room or nothing, never why not. Found in one room, the
-     teleporter goes there, which is the ask: type @Ryan and jump. */
-  function personTyped(v) {
-    var m = /^\s*@\s*(.*)$/.exec(String(v));
-    return m ? m[1].replace(/\s+/g, ' ').trim() : null;
+  /* WHO'S ONLINE, the panel. Asked when it opens and on each listen while it
+     is open; the teleporter's @ asks too. */
+  Radio.prototype.setOnline = function (open) {
+    this.online.hidden = !open;
+    this.onlineBtn.setAttribute('aria-expanded', String(open));
+    if (open) { this.onlineKey = null; this.loadRooms(); this.onlineShown(); this.onlineTick(); }
+    this.place();
+  };
+
+  Radio.prototype.onlineTick = function (forTp) {
+    var me = this;
+    if (forTp) this.tpWants = true;
+    if (this.onlineBusy) return;
+    this.onlineBusy = true;
+    call('/cb/online', null, this.state.pass).then(function (r) {
+      if (r.status === 401) return me.lost();
+      if (r.status === 200 && Array.isArray(r.body.people)) { me.people = r.body.people; me.peopleAt = Date.now(); me.peopleFailed = false; }
+      else me.peopleFailed = true;
+    }, function () { me.peopleFailed = true; })
+      .then(function () {
+        me.onlineBusy = false;
+        if (!me.online.hidden) me.onlineShown();
+        if (me.tpWants && !me.tpPanel.hidden && personTyped(me.tpFind.value) !== null) me.tpRender();
+        me.tpWants = false;
+      });
+  };
+
+  // A person's rooms that are rooms on the street, in walking order.
+  function roomsOf(p) {
+    var out = [];
+    for (var i = 0; rooms && i < rooms.length; i++) if (p.rooms.indexOf(rooms[i].tag) >= 0) out.push(rooms[i]);
+    return out;
   }
 
-  // Why this radio cannot look for anybody yet, or '' when it can.
-  Radio.prototype.findBlock = function () {
-    if (!ownPass(this.state.pass)) return 'Finding somebody by name is for claimed usernames. Claim yours in Profile first.';
-    if (!this.state.seen || !this.state.findable) return 'Only somebody who can be found can find. Switch on Be seen here and Let people find me on the radio first.';
-    if (!presentRoom()) return 'Finding somebody works from a room on the street.';
-    return '';
-  };
+  function personLine(li, p, mine) {
+    li.appendChild(el('b', null, p.handle));
+    if (p.base) li.appendChild(el('span', 'cb-tag', 'BASE'));
+    else if (p.claimed) li.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
+    if (mine) li.appendChild(document.createTextNode(' (you)'));
+  }
 
-  Radio.prototype.tpPerson = function () {
-    var list = this.tpList, none = this.tpNone, name = personTyped(this.tpFind.value);
-    list.hidden = true;
-    this.tpOffer = [];
-    this.tpActive = -1;
-    markIn(list, this.tpFind, -1);
-    none.hidden = false;
-    none.textContent = this.findBlock() ||
-      (name ? 'Enter looks for ' + name + ', by their whole handle.' : 'Type somebody\u2019s whole handle after the @, then press Enter.');
-  };
-
-  Radio.prototype.lookFor = function (name) {
-    var me = this, block = this.findBlock();
-    if (block || !name || this.looking) { if (block) { this.tpNone.hidden = true; this.tpSaid.textContent = block; } return; }
-    // The street has to have heard the switch, or it will say you cannot be found.
-    var a = this.seenFrom === presentRoom() ? this.seenAnswer : null;
-    if (!a || !a.findable) { this.tpSaid.textContent = 'Not findable yet: give the radio a moment, then press Enter again.'; return; }
-    if (!rooms) { this.tpSaid.textContent = 'The list of rooms cannot be reached just now.'; return; }
-    this.looking = true;
-    this.tpSaid.textContent = 'Looking for ' + name + '\u2026';
-    call('/cb/find', { body: { visit: VISIT, name: name } }, this.state.pass).then(function (r) {
-      if (r.status === 401) return me.lost();
-      if (r.status === 200 && r.body.self) { me.tpSaid.textContent = 'That is you.'; return; }
-      if (r.status === 200 && Array.isArray(r.body.rooms)) { me.foundIn(name, r.body.rooms); return; }
-      me.tpSaid.textContent = why(r, 'Nobody could be looked for just now.');
-    }, function () { me.tpSaid.textContent = 'The street could not be reached just now.'; })
-      .then(function () { me.looking = false; });
-  };
-
-  // The rooms a name was found in, in the street's walking order.
-  Radio.prototype.foundIn = function (name, tags) {
-    var here = herePath(), found = (rooms || []).filter(function (r) { return tags.indexOf(r.tag) >= 0; });
-    if (!found.length) { this.tpSaid.textContent = 'Nobody by that whole handle can be found right now.'; return; }
-    for (var i = 0; i < found.length; i++) {
-      if (found[i].path === here) { this.tpSaid.textContent = name + ' is here, in this room.'; return; }
+  /* Redrawn only when what it says changes, and the keyboard is put back on
+     the same room's link, so a listen every four seconds does not throw
+     somebody off the link they were about to press. */
+  Radio.prototype.onlineShown = function () {
+    var ul = this.onlineList, none = this.onlineNone, me = this, here = herePath();
+    this.onlineMe.textContent = this.state.seen
+      ? 'You are on it while Be seen here is on, in a room, with the radio open.'
+      : 'You are not on it: switch on Be seen here, in a room, to be.';
+    if (!this.people || rooms === null) {
+      ul.hidden = true;
+      none.hidden = false;
+      none.textContent = this.peopleFailed ? 'Who’s online cannot be reached just now. Still trying.' : 'Looking…';
+      return;
     }
-    if (found.length === 1) { this.tpSaid.textContent = name + ' is in ' + found[0].name + '. Going there.'; this.go(found[0]); return; }
-    // Two tabs can be two rooms: offer them, like rooms, and let them pick.
-    var list = this.tpList, offer = this.tpOffer = found;
-    list.textContent = '';
-    for (i = 0; i < offer.length; i++) {
-      var li = el('li', 'cb-opt');
-      li.id = 'cb-tp-' + offer[i].tag;
-      li.setAttribute('role', 'option');
-      li.appendChild(el('span', 'cb-opt__name', offer[i].name));
-      li.appendChild(el('span', 'cb-opt__tag', '#' + offer[i].tag));
-      li.addEventListener('mousedown', function (e) { e.preventDefault(); });
-      (function (room, me) { li.addEventListener('click', function () { me.go(room); }); })(offer[i], this);
-      list.appendChild(li);
+    var shown = this.people.filter(function (p) { return roomsOf(p).length; });
+    var key = JSON.stringify([shown, here, this.state.handle]);
+    none.hidden = shown.length > 0;
+    none.textContent = 'Nobody is seen in a room right now.';
+    ul.hidden = !shown.length;
+    if (key === this.onlineKey) return;
+    this.onlineKey = key;
+    var focused = ul.getRootNode().activeElement, again = focused && ul.contains(focused) && focused.dataset ? focused.dataset.at : null;
+    ul.textContent = '';
+    shown.forEach(function (p) {
+      var li = el('li', 'cb-online-row');
+      personLine(li, p, p.handle === me.state.handle);
+      li.appendChild(document.createTextNode(' in '));
+      roomsOf(p).forEach(function (r, i) {
+        if (i) li.appendChild(document.createTextNode(', '));
+        if (r.path === here) { li.appendChild(el('span', null, r.name + ' (this room)')); return; }
+        var a = el('a', 'cb-online-room', r.name);
+        a.href = r.path;
+        a.dataset.at = p.handle + '|' + r.tag;
+        li.appendChild(a);
+        if (a.dataset.at === again) setTimeout(function () { a.focus(); }, 0);
+      });
+      ul.appendChild(li);
+    });
+  };
+
+  /* @ IN THE TELEPORTER: a person rather than a room. Helen Edgar's ask and
+     Ryan's, 2026-10-07: type @ and some of a handle, and the list is the
+     people on Who's online whose handles have that in them, one line for each
+     room they are in; Enter goes there. Handles that start with what you typed
+     come first, then the rest, each alphabetical. Yourself is left out. */
+  function personTyped(v) {
+    var m = /^\s*@(.*)$/.exec(String(v));
+    return m ? m[1] : null;
+  }
+  function nameFold(s) { return tpFold(s).replace(/\s+/g, ' ').trim(); }
+
+  Radio.prototype.tpPeople = function () {
+    var list = this.tpList, none = this.tpNone, me = this, here = herePath();
+    var typed = nameFold(personTyped(this.tpFind.value) || '');
+    list.setAttribute('aria-label', 'People seen in rooms');
+    if (!this.peopleAt || Date.now() - this.peopleAt > EVERY) this.onlineTick(true);
+    var starts = [], inside = [];
+    (this.people || []).forEach(function (p) {
+      if (p.handle === me.state.handle) return;
+      var f = nameFold(p.handle), at = f.indexOf(typed);
+      if (at === 0) starts.push(p); else if (at > 0) inside.push(p);
+    });
+    var offer = this.tpOffer = [], i = 0;
+    starts.concat(inside).forEach(function (p) {
+      roomsOf(p).forEach(function (r) {
+        var li = el('li', 'cb-opt');
+        li.id = 'cb-tp-p-' + (i++);
+        li.setAttribute('role', 'option');
+        var nm = el('span', 'cb-opt__name');
+        personLine(nm, p, false);
+        nm.appendChild(el('span', 'cb-opt__why', 'in ' + r.name));
+        li.appendChild(nm);
+        li.appendChild(el('span', 'cb-opt__tag', r.path === here ? 'this room' : '#' + r.tag));
+        li.addEventListener('mousedown', function (e) { e.preventDefault(); });
+        li.addEventListener('click', function () { me.go(r); });
+        list.appendChild(li);
+        offer.push(r);
+      });
+    });
+    if (!this.people || rooms === null) {
+      none.textContent = this.peopleFailed ? 'Who’s online cannot be reached just now.' : 'Looking for who’s online…';
+    } else {
+      none.textContent = typed ? 'Nobody seen in a room has a handle with that in it.' : 'Nobody else is seen in a room right now.';
     }
-    list.hidden = false;
-    this.tpNone.hidden = true;
-    this.tpActive = 0;
-    markIn(list, this.tpFind, 0);
-    this.tpSaid.textContent = name + ' can be found in more than one room. Pick one.';
+    none.hidden = offer.length > 0;
+    list.hidden = offer.length === 0;
+    this.tpActive = offer.length ? 0 : -1;
+    markIn(list, this.tpFind, this.tpActive);
   };
 
   // Going is ordinary navigation: nothing is sent, and the panel is closed so a
@@ -2675,33 +2741,7 @@
     if (!on) this.leaveSeen();
     this.presenceShown();
     if (on) this.hereTick();
-    this.tell(on ? 'You can be seen here now, by your handle, by anybody else seen here.' : 'Nobody sees you here now, and you see nobody.');
-  };
-
-  Radio.prototype.findingOn = function () { return !!(this.state.findable && ownPass(this.state.pass)); };
-
-  Radio.prototype.setFindable = function (on) {
-    this.state.findable = !!on;
-    save(this.state);
-    this.presenceShown();
-    if (this.state.seen) this.hereTick();
-    this.tell(on
-      ? (this.state.seen ? 'People who can be found can find you now, by your whole handle, and you can find them.' : 'Findable once you are seen: switch on Be seen here too.')
-      : 'Nobody can look you up by name now, and you cannot look anybody up.');
-  };
-
-  // What the switch says, under it. It never claims the street has heard it.
-  Radio.prototype.findShown = function (a) {
-    var own = ownPass(this.state.pass), on = !!this.state.findable;
-    this.findBtn.hidden = !own;
-    this.findBtn.setAttribute('aria-pressed', String(on && own));
-    var p = this.findNow;
-    if (!own) p.textContent = 'Claim your username in Profile and you can let people find you by name, and find them.';
-    else if (!on) p.textContent = 'Off: nobody can look you up by name, and you cannot look anybody up.';
-    else if (!this.state.seen) p.textContent = 'On, and it works while you are seen: switch on Be seen here too.';
-    else if (!a || a.refused) p.textContent = '';
-    else if (!a.findable) p.textContent = 'Not findable yet\u2026';
-    else p.textContent = 'Anybody else findable can type @' + this.state.handle + ' in Teleport and come to the room you are in. Only the room, and nobody is told who looked.';
+    this.tell(on ? 'You are seen now: on Who\u2019s online, by anybody on the CB, with the room you are in, and here by anybody else seen here.' : 'You are not seen now, here or on Who\u2019s online.');
   };
 
   /* Asked on each listen, and nowhere else. One request at a time. */
@@ -2710,7 +2750,7 @@
     if (!this.state.seen || !tag) { this.leaveSeen(); return; }
     if (this.hereBusy) return;
     this.hereBusy = true;
-    call('/cb/here', { body: { room: tag, visit: VISIT, find: this.findingOn() } }, this.state.pass).then(function (r) {
+    call('/cb/here', { body: { room: tag, visit: VISIT } }, this.state.pass).then(function (r) {
       if (r.status === 401) return me.lost();
       if (!me.state.seen) return;
       if (r.status === 200) { me.seenAs = tag; me.seenAnswer = r.body; me.seenFrom = tag; }
@@ -2735,6 +2775,7 @@
       if (i) p.appendChild(document.createTextNode(', '));
       p.appendChild(el('b', null, x[key]));
       if (x.base) p.appendChild(el('span', 'cb-tag', 'BASE'));
+      else if (x.claimed) p.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
     });
   }
 
@@ -2776,9 +2817,8 @@
     if (!tag) return;
     var on = !!this.state.seen, a = this.seenFrom === tag ? this.seenAnswer : null;
     this.seenBtn.setAttribute('aria-pressed', String(on));
-    this.findShown(a);
     this.inCallNow.hidden = true;
-    if (!on) { this.seenNow.textContent = 'Switch it on to see who else here has, and who is in this room\u2019s call.'; return; }
+    if (!on) { this.seenNow.textContent = 'Switch it on to be on Who\u2019s online with the room you are in, and to see who else here has, and who is in this room\u2019s call.'; return; }
     // It never claims what it has not heard.
     if (!a) { this.seenNow.textContent = 'Looking\u2026'; return; }
     if (a.refused) { this.seenNow.textContent = 'Being seen here is for the people this room is for.'; return; }

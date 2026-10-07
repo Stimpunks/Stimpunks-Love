@@ -255,7 +255,7 @@
       var empty = !q.value.trim();
       if (empty) { said.textContent = ''; out.hidden = wout.hidden = roomsH.hidden = wordsH.hidden = true; return; }
       // An @ looks for a person, which is the CB radio's Teleport, not this box.
-      if (/^\s*@/.test(q.value)) { said.textContent = 'Finding somebody by name is on the CB radio\u2019s Teleport, signed on with a claimed username.'; out.hidden = wout.hidden = roomsH.hidden = wordsH.hidden = true; return; }
+      if (/^\s*@/.test(q.value)) { said.textContent = 'Finding somebody by name is on the CB radio, signed on: its Teleport, and Who\u2019s online.'; out.hidden = wout.hidden = roomsH.hidden = wordsH.hidden = true; return; }
       if (!rooms) { said.textContent = 'Finding the rooms…'; out.hidden = wout.hidden = roomsH.hidden = wordsH.hidden = true; return; }
       var hit = findRooms(q.value), here = herePath();
       for (var i = 0; i < hit.length; i++) {
