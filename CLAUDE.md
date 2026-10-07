@@ -272,6 +272,10 @@ no marker, Now Playing no line, and the sign-off's Where am I? opens the map wit
 gave it World only: "This room needs in room chat more than any other"). `cb.js` makes the page a
 room by its own word (`quietHere()`, which needs no list and so cannot wait on one or fail with it),
 opens the radio on This room there, and writes no #tag into a spot, because a #tag is the address.
+**And a quiet room can also be locked**: the cabin's CB is the administrators' (Ryan, the same day),
+so both its pages are in `MOD_ROOMS` with the administrator role, say `data-cb="mods"
+data-cb-role="administrator"`, and `make-secret-cabin.py` refuses them if the pages and the server
+disagree; `make-town-hall.py` leaves a name in `MOD_ROOMS` that is a quiet room to that tool.
 **The server keeps it in**: `QUIET_ROOMS` in `netlify/cb/lib.mjs` sends a host's beacon there only
 to radios tuned to that room's channel (`shapeBeacons`' `tuned`, which `/cb/channel` and
 `/cb/beacon` pass) and never lists the room on Who's online; Be seen here and the call already

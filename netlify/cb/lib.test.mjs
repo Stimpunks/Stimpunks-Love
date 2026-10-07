@@ -1021,7 +1021,9 @@ const rooms = Object.keys(MOD_ROOMS);
 test('each private room takes its own role, an administrator takes them all, and nobody else takes any', async () => {
   assert.ok(rooms.length > 0);
   const want = { 'town-hall-directors': ['Ryan', 'Chelsea'], 'town-hall-board': ['Ryan', 'Chelsea', 'Becky'],
-    'town-hall-moderators': ['Ryan', 'Chelsea', 'Becky', 'Sam'], 'town-hall-executive-session': ['Ryan', 'Becky'] };
+    'town-hall-moderators': ['Ryan', 'Chelsea', 'Becky', 'Sam'], 'town-hall-executive-session': ['Ryan', 'Becky'],
+    // The cabin behind the door marked E: administrators, and no other role.
+    'the-secret-cabin': ['Ryan'], 'lydtyss': ['Ryan'] };
   for (const room of rooms) {
     const who = [admin, director, boardie, plainMod].filter((w) => roomAllows(w, room)).map((w) => w.handle);
     assert.deepEqual(who, want[room], room);
@@ -1048,6 +1050,18 @@ test('a private room\'s hosting and beacons follow the same roles', async () => 
   assert.deepEqual(shapeBeacons(all, ada).map((b) => b.room), ['the-den'], 'the street does not hear the directors are hosting');
   assert.deepEqual(shapeBeacons(all, boardie).map((b) => b.room), ['the-den'], 'nor does a board member who is not a director');
   assert.deepEqual(shapeBeacons(all, admin).map((b) => b.room).sort(), ['the-den', 'town-hall-directors']);
+});
+
+test('the cabin is the administrators\' on the CB, and stays quiet even to them outside it', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  for (const who of [ada, plainMod, director, boardie]) {
+    assert.equal((await hostBeacon(who, 'lydtyss', 'A record', 1, true, s)).closed, true, `${who.handle} cannot host there`);
+  }
+  await hostBeacon(admin, 'lydtyss', 'A record', 1, true, s);
+  const all = await readBeacons(s);
+  assert.deepEqual(shapeBeacons(all, admin, 'lydtyss').map((b) => b.room), ['lydtyss'], 'an administrator tuned in there hears it');
+  assert.deepEqual(shapeBeacons(all, admin).map((b) => b.room), [], 'and not from anywhere else: the room still keeps to itself');
+  assert.deepEqual(shapeBeacons(all, plainMod, 'lydtyss').map((b) => b.room), [], 'a moderator who is not an administrator hears nothing of it');
 });
 
 test('the mods\' list: moderator implied, handles folded, and anything odd means no list at all', () => {
@@ -1401,10 +1415,13 @@ test('a room that keeps to itself is heard only inside it, and is never on who\'
   const quiet = QUIET_ROOMS[0];
   const s = memoryStore({ etagOnRead: true });
   const now = Date.now();
-  await hostBeacon(ada, quiet, 'Film', 1, true, s, now);
+  // Hosted by an administrator, because the cabin is theirs on the CB (MOD_ROOMS),
+  // and heard by one: what is tested here is where it is heard, not who may.
+  const keyholder = { role: 'base', handle: 'Ryan', roles: new Set(['moderator', 'administrator']) };
+  await hostBeacon(keyholder, quiet, 'Film', 1, true, s, now);
   await hostBeacon(bex, 'the-den', 'Film', 1, true, s, now);
   const list = await readBeacons(s, now + 1);
-  const rooms = (tuned) => shapeBeacons(list, bex, tuned).map((b) => b.room).sort();
+  const rooms = (tuned) => shapeBeacons(list, keyholder, tuned).map((b) => b.room).sort();
   assert.deepEqual(rooms(null), ['the-den'], 'a radio tuned to World does not hear the quiet room\'s host');
   assert.deepEqual(rooms('the-den'), ['the-den'], 'nor does a radio tuned to another room');
   assert.deepEqual(rooms(quiet), [quiet, 'the-den'].sort(), 'a radio tuned to the quiet room hears its host');

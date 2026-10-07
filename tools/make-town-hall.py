@@ -98,6 +98,11 @@ about = MIRROR_ABOUT.read_text() if MIRROR_ABOUT.exists() else None
 MODS = rolemap("MOD_ROOMS")
 STRICT = array("STRICT_ROOMS")
 PUBLIC = array("PUBLIC_CALLS")
+# A room that keeps to itself (QUIET_ROOMS) may be locked too, and is not this
+# tool's: the cabin behind the door marked E is held to MOD_ROOMS by
+# tools/make-secret-cabin.py, which refuses its pages if they disagree. Every
+# other name in MOD_ROOMS still has to be a room here.
+QUIET = array("QUIET_ROOMS")
 data = json.loads(DATA.read_text())
 rooms = data["rooms"]
 
@@ -131,7 +136,7 @@ for r in rooms:
     if tag in PUBLIC:
         refuse(f"{where}: {tag} is in PUBLIC_CALLS, and no Town Hall room takes guests with no pass.")
 for tag in MODS:
-    if not any(r["tag"] == tag for r in rooms):
+    if not any(r["tag"] == tag for r in rooms) and tag not in QUIET:
         refuse(f"MOD_ROOMS names {tag}, and data/town-hall.json has no room with that page.")
 
 

@@ -626,16 +626,29 @@ def main():
         refuse(f"{DOORJS.name} needs exactly one pair of door:word markers.")
 
     # ── what both pages promise ───────────────────────────────────────────────
+    lib = (ROOT / "netlify/cb/lib.mjs").read_text()
+    mods = re.search(r"export const MOD_ROOMS = \{(.*?)\};", lib, re.S)
+    MOD = {t: re.findall(r"'([a-z]+)'", r) for t, r in
+           re.findall(r"'([a-z0-9-]+)':\s*\[([^\]]*)\]", mods.group(1))} if mods else {}
     for name, src in ((door_name, door), (inside_name, inside)):
         if not unlisted.is_unlisted(src):
             refuse(f"{name} has no data-unlisted on its <body>, so every list on the street would "
                    "take it.")
         if not unlisted.NOINDEX.search(src):
             refuse(f"{name} has no noindex.")
-        if 'data-cb="off"' in src:
-            refuse(f"{name} switches the radio off. Ryan's call is that it comes in with all the "
-                   "usual amenities, kept quiet: this room's channel, Be seen here, its call and "
-                   "hosting, told only to radios in here (QUIET_ROOMS in netlify/cb/lib.mjs).")
+        # THE CB IN HERE IS THE ADMINISTRATORS'. Ryan, 2026-10-07: "Restrict the CB in
+        # the cabin to admins." The server's lock is MOD_ROOMS in netlify/cb/lib.mjs, and
+        # the page's part is to keep quiet: love.js brings no radio to a pass without
+        # the role. Both have to say the same thing, the Town Hall's rule.
+        body = re.search(r"<body\b[^>]*>", src).group(0)
+        if 'data-cb="mods"' not in body or 'data-cb-role="administrator"' not in body or \
+                "data-cb-strict" in body:
+            refuse(f'{name}\'s <body> does not say data-cb="mods" data-cb-role="administrator", so '
+                   "the radio would come in for people the server will not let in.")
+        stem = name.removesuffix(".html")
+        if MOD.get(stem) != ["administrator"]:
+            refuse(f"MOD_ROOMS in netlify/cb/lib.mjs gives {stem} {MOD.get(stem)!r}, and the cabin's CB "
+                   "is for administrators and nobody else.")
     sitemap = (ROOT / "tools/make-sitemap.py").read_text()
     order = sitemap.split("ORDER = [", 1)[1].split("]\n", 1)[0]
     for name in (door_name, inside_name):

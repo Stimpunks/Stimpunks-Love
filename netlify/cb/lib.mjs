@@ -1528,6 +1528,14 @@ export const MOD_ROOMS = {
   'town-hall-board': ['board', 'director'],
   'town-hall-moderators': ['moderator'],
   'town-hall-executive-session': ['board'],
+  /* A room that keeps to itself (QUIET_ROOMS, below) can be locked as well, and
+     the cabin behind the door marked E is: Ryan, 2026-10-07, "Restrict the CB in
+     the cabin to admins." Its door and its inside take the administrator role
+     and nothing else, so its channel, its call, Be seen here and its hosts are
+     the administrators' and nobody else's. tools/make-secret-cabin.py holds the
+     pages to this, as tools/make-town-hall.py holds the Town Hall's. */
+  'the-secret-cabin': ['administrator'],
+  'lydtyss': ['administrator'],
 };
 /* A ROOM THE ADMINISTRATOR KEY DOES NOT OPEN. Ryan, 2026-09-29: Executive
    Session is for those with the board role only. An executive session is the
