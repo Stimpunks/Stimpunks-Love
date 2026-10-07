@@ -9,31 +9,38 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Wed, 07 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>A lift in the lighthouse</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-07-events-lift</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-07-events-lift</guid>
+      <pubDate>Wed, 07 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The Events Room had a ladder up to its call and no other way up. It says there is a lift now, from the Events door all the way up to the lantern, stopping at the watch room on the way, and that nobody asks which one you took. The heading over the call names the lift first, and the job on the Adventurer’s Guild’s board for that room says it takes the lift or the ladder. The lift is in the words and not yet in the drawing, which still shows the ladder going up into the light.</description>
+    </item>
+    <item>
       <title>A second rack on the Green: the newest from the search</title>
       <link>https://stimpunks.world/changelog.html#2026-10-07-green-search</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-07-green-search</guid>
-      <pubDate>Wed, 07 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Wed, 07 Oct 2026 11:59:00 GMT</pubDate>
       <description>The Green’s screen under the porch roof has a second rack, under Ryan’s pick: the newest videos YouTube’s search finds about cities and towns making room for green. There is one search for each of Ryan’s topics: green spaces, green building, urban forests, urban farms, edibles, solarpunk and renewable energy. Anything on it can go up on the same screen. It is refilled every morning by a new script on the same timer as the other racks. The room says when it was last filled. Nothing older than a week stays on it. Nobody here chooses or watches these first, and the room says so. A video goes on only if its own title says what was searched for, it plays here, and its channel did not file it as a game or as music. That last rule is because most of what YouTube finds for solarpunk this week is people playing a video game called Solarpunk. There is one video from each channel and no title twice, and each search takes a turn, so no one search fills the rack. YouTube’s search no longer sorts by newest, so the rack asks for videos put up this week and works out which are newest from each video’s own page.</description>
     </item>
     <item>
       <title>Calls can use your camera and microphone in Chrome</title>
       <link>https://stimpunks.world/changelog.html#2026-10-07-call-devices</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-07-call-devices</guid>
-      <pubDate>Wed, 07 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Wed, 07 Oct 2026 11:58:00 GMT</pubDate>
       <description>In Chrome, a room’s call could not switch on its camera, its microphone or a shared screen, and said you had refused them although nothing had ever asked you. That was this site’s fault, not 8x8’s and not yours: our security header gave those three to the call and deliberately not to our own pages, and a browser will only hand a frame what the page round it already has. So Chrome switched them off inside the call before it could ask. The header now gives them to our pages as well, so that the call can have them, and Chrome asks you the first time a call wants them. Because the call sits inside our page, Chrome’s question names stimpunks.world. This reverses the rule written down when calls arrived, that the page itself gets none of the three. That rule could not work. Our pages still never ask for any of the three themselves. The header used to keep that promise, and now the tool that writes the header does: it reads every script this site serves and refuses one that asks for a camera, a microphone or a screen. The privacy page’s sentence about it stays true, and Architecture now says how.</description>
     </item>
     <item>
       <title>Who’s online, on the radio</title>
       <link>https://stimpunks.world/changelog.html#2026-10-07-whos-online</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-07-whos-online</guid>
-      <pubDate>Wed, 07 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Wed, 07 Oct 2026 11:57:00 GMT</pubDate>
       <description>A Who’s online button sits beside World and This room on the CB radio. It lists everybody who has switched on Be seen here, in alphabetical order, with the room each of them is in; a room’s name takes you there. Ryan asked for it because people want to know who is around and are having a hard time connecting. Anybody signed on can open it. This changes what Be seen here means. It used to show you only to people seen in the same room. Now it also puts your handle and your room on Who’s online for everybody on the CB. If you switched it on before today, it does more than it did when you pressed it, and switching it off takes you off the list at once. The privacy page says so. @ in Teleport finds people by part of their handle now, from the same list, and goes to their room. What you type after the @ stays in your browser. The Let people find me switch from earlier today is gone, because Who’s online does what it did. CLAIMED sits beside a claimed username on Who’s online and in the room’s seen line, the way it does on the channel, so somebody signed on under a name that is not theirs cannot pass for its owner. Names come in alphabetical order, nobody is counted, rooms kept for the people they are for are not named to anybody else, and nothing records who looked.</description>
     </item>
     <item>
       <title>Find somebody by name with an @ in the teleporter</title>
       <link>https://stimpunks.world/changelog.html#2026-10-07-find-by-name</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-07-find-by-name</guid>
-      <pubDate>Wed, 07 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Wed, 07 Oct 2026 11:56:00 GMT</pubDate>
       <description>Type @ and somebody’s handle into the radio’s Teleport, press Enter, and it takes you to the room they are in. Helen Edgar asked for a way to find where people are, and Ryan suggested the teleporter. Nobody can be found until they choose to be. Be seen here only ever showed you to people in the same room, and that is what everybody who pressed it agreed to, so being found from anywhere is a second switch under it, Let people find me. It is off until you press it, your browser remembers it, and it only works while you are seen. Only a claimed username can be found, because an unclaimed handle is anybody’s who signs on with it, and somebody could sign on with your name and have people sent to them. Only somebody who can be found can look: the same one switch, both ways, that Be seen here and the Slake keep, and the street checks it, not only the radio. One whole handle, and never a list. Part of a handle finds nobody, and nothing offers names as you type, because a list of names to pick from would be a list of who is on. The answer is the room and nothing else; anybody who cannot be found, for any reason, is “nobody by that whole handle can be found right now”, and a room kept for the people it is for is never named to anybody else. Nothing records who looked for whom. The privacy page has a new section, Being found by name, and the CB guide and the Community Center describe the switch. The guest bar and the front page’s search say where an @ works.</description>
     </item>
     <item>

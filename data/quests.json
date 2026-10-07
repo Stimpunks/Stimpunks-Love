@@ -2966,7 +2966,7 @@
    "title": "The light's character",
    "posted": "Behind the Events door at Cavendish Coworking there is a lighthouse keeper's watch room, with our recurring events for its light list. Go up and read the list, and find out when the first light on it shows.",
    "rank": 2,
-   "takes": "a minute, and a ladder",
+   "takes": "a minute, and the lift or the ladder",
    "target": "a spare lamp mantle, left by the chart table",
    "code": "LIGHTLIST",
    "hints": [
