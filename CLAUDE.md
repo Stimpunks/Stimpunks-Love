@@ -267,9 +267,18 @@ refusal of a page outside its walking order, for **a page that says so on its ow
 them, on purpose**: this site publishes its whole root, so a list in `data/` would be one public
 file naming them all. Every tool asks the page through `tools/unlisted.py`: the sitemap, `llms.txt`
 and `cb-rooms.json` (so the teleporter, the #tags and the search) leave it out, the guild gives it
-no marker, Now Playing no line, the sign-off's Where am I? opens the map with no flag, and `cb.js`
-gives it the World channel only: no This room, no Be seen here, no hosting and no room tag, **even
-before its list of rooms has arrived or after that list fails**, which was the gap. The rest is
+no marker, Now Playing no line, and the sign-off's Where am I? opens the map with no flag.
+**It keeps all the usual amenities, kept quiet** (Ryan, the same day, reversing a first build that
+gave it World only: "This room needs in room chat more than any other"). `cb.js` makes the page a
+room by its own word (`quietHere()`, which needs no list and so cannot wait on one or fail with it),
+opens the radio on This room there, and writes no #tag into a spot, because a #tag is the address.
+**The server keeps it in**: `QUIET_ROOMS` in `netlify/cb/lib.mjs` sends a host's beacon there only
+to radios tuned to that room's channel (`shapeBeacons`' `tuned`, which `/cb/channel` and
+`/cb/beacon` pass) and never lists the room on Who's online; Be seen here and the call already
+answer only a radio seen there. `check-unlisted.py` refuses `QUIET_ROOMS` unless it is exactly the
+pages that say `data-unlisted`, and `lib.test.mjs` was broken on purpose both ways. **The friendly
+edit is to put the quiet room on Who's online "so people can find each other"**; that is the
+listing the room exists not to have. The rest is
 `tools/check-unlisted.py`, which reads everything a visitor, crawler or agent follows (every listed
 page, the changelog, the sitemap, `llms.txt`, `cb-rooms.json`, the search index, the feed, robots,
 the manifest, `.well-known/`, every stylesheet and script) and refuses an unlisted page's address or
@@ -280,8 +289,8 @@ a share card each (a shared link still unfurls), the dial, the sign-off, the fra
 **the Den's rule**: an address is the same for everybody who is told it, so everything inside works
 by keyboard and screen reader. **What it is not: secret.** The repository is public, the site links
 to it and serves its own source, so `data/`, `tools/` and this file name them. A door with no path
-to it, not a lock. Its server-side half is open: the CB's server still takes any well-shaped room
-tag, so only our own client keeps an unlisted room off the channel.
+to it, not a lock. A room's channel is any radio's that names it, and naming it is knowing the
+address, which is the way in.
 
 **THE FIRST ONE IS A CABIN BEHIND A DOOR MARKED E, AND THE WORD IS THE ADDRESS.** `the-secret-cabin.html`
 is the door; the password takes you to a second unlisted page whose filename is the word (Ryan's

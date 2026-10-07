@@ -1,6 +1,7 @@
 /* Who's online: everybody seen in a room, with the rooms they are in. Ryan,
    2026-10-07. For anybody signed on, seen or not; names only, alphabetical,
-   no number, and a room the asker may not enter left out. The rules are in
+   no number, a room the asker may not enter left out, and a room that keeps to
+   itself (QUIET_ROOMS) never on it. The rules are in
    whoSeen() in lib.mjs. The radio asks while its Who's online panel is open,
    and its teleporter asks when an @ is typed; nothing records who asked. */
 import { readPass, whoSeen, json, sameSite } from '../cb/lib.mjs';

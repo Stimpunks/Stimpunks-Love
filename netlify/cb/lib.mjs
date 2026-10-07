@@ -1252,7 +1252,8 @@ export async function sweepSeen(s = store(), now = Date.now()) {
 export async function whoSeen(who, s = store(), now = Date.now()) {
   const people = new Map();
   for (const r of await everySeen(s)) {
-    if (now - r.t >= ROOM_FRESH || !roomAllows(who, r.tag)) continue;
+    // A room that keeps to itself is never on it: who is there is the room's.
+    if (now - r.t >= ROOM_FRESH || !roomAllows(who, r.tag) || quietRoom(r.tag)) continue;
     const k = `${r.claimed ? 'c' : 'u'}|${r.handle}`;
     let p = people.get(k);
     if (!p) people.set(k, p = { handle: r.handle, base: false, claimed: r.claimed, rooms: [] });
@@ -1490,6 +1491,20 @@ const ROOM_TALK = 'room-talk-';
 export function roomTag(r) {
   return typeof r === 'string' && r.length <= 80 && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(r) ? r : null;
 }
+
+/* ROOMS THAT KEEP TO THEMSELVES. Ryan, 2026-10-07: the street can carry rooms
+   you have to know the address of, listed nowhere (tools/unlisted.py), and in
+   them "all the usual amenities, just kept quiet": the room's own channel, Be
+   seen here, its call, and hosting a film, "in room only, nothing announced
+   outside". So what goes on in one is told only inside it: a film hosted there
+   reaches only the radios tuned to its channel (shapeBeacons), and nobody seen
+   there is on Who's online (whoSeen). Be seen here and the call already answer
+   only a radio seen in the room. Its channel is any radio's that names it, and
+   naming it means knowing the address, which is the way in.
+   tools/check-unlisted.py refuses this list unless it is exactly the pages that
+   say data-unlisted, so a room cannot be quiet on the page and loud here. */
+export const QUIET_ROOMS = ['the-secret-cabin', 'lydtyss'];
+export function quietRoom(tag) { return QUIET_ROOMS.includes(tag) ? tag : null; }
 
 export function readRoomTalk(room, s = store()) { return readLog(ROOM_TALK + room, s); }
 export function updateRoomTalk(room, change, s = store()) { return updateLog(ROOM_TALK + room, change, s); }
@@ -1738,9 +1753,11 @@ export async function sweepBeacons(s = store(), now = Date.now()) {
 
 /* What a radio may hear of the beacons: everything, except a private room's
    to anybody who could not go in there. A film hosted in the board room is
-   itself a thing about the board room. */
-export function shapeBeacons(list, who = null) {
-  return list.filter((b) => !who || roomAllows(who, b.room)).map((b) => ({ room: b.room, handle: b.handle, base: !!b.base, film: b.film, video: b.video || null, length: b.length || null, at: b.at, playing: !!b.playing, t: b.t }));
+   itself a thing about the board room. And a room that keeps to itself
+   (QUIET_ROOMS) is heard only by a radio tuned to that room's channel, which is
+   `tuned`: the room a listen names, or the room a host is hosting. */
+export function shapeBeacons(list, who = null, tuned = null) {
+  return list.filter((b) => (!who || roomAllows(who, b.room)) && (!quietRoom(b.room) || b.room === tuned)).map((b) => ({ room: b.room, handle: b.handle, base: !!b.base, film: b.film, video: b.video || null, length: b.length || null, at: b.at, playing: !!b.playing, t: b.t }));
 }
 
 /* ── Passes ────────────────────────────────────────────────────────────── */

@@ -491,9 +491,17 @@ def main():
         film = f"{a['title']}, by {data['artist']}"
         src = f"https://www.youtube-nocookie.com/embed/videoseries?list={a['list']}&amp;autoplay=1&amp;rel=0"
         songs = (WORDS[n - 1] if n <= len(WORDS) else str(n)).capitalize()
+        # EVERY SONG HAS ITS OWN PLAY BUTTON on the back of its sleeve, a single
+        # video with its runtime, because a song in an album list has no button
+        # of its own, and Follow and Catch up find a host's film by its button
+        # (filmButton in cb.js). Without these, somebody following a host who has
+        # a record on is told what to do instead of having the song got ready.
         tracks = "\n".join(
             f'          <li><span class="snug-song">{esc(t["title"])}</span> '
-            f'<span class="snug-t">{clock(t["seconds"])}</span></li>' for t in a["tracks"])
+            f'<span class="snug-t">{clock(t["seconds"])}</span>\n'
+            f'            <button type="button" class="facade" data-embed-id="{t["id"]}" '
+            f'data-embed-title="{esc(t["title"])}, by {esc(data["artist"])}">Play this song &mdash; '
+            f'{mins(t["seconds"])}</button></li>' for t in a["tracks"])
         cards.append(
             f'    <li class="snug-record" data-rack-card>\n'
             f'      <div class="snug-sleeve snug-sleeve--{a["sleeve"]}" aria-hidden="true"></div>\n'
@@ -506,7 +514,7 @@ def main():
             f'data-rack-name="the turntable" data-rack-src="{src}" '
             f'data-rack-title="{esc(film)}, on YouTube, on the turntable" data-rack-film="{esc(film)}" '
             f'data-rack-runtime="{mins(s)}">Put it on the turntable &mdash; {mins(s)}</button>\n'
-            f'        <details class="snug-back">\n'
+            f'        <details class="snug-back" open>\n'
             f'          <summary>The back of the sleeve</summary>\n'
             f'          <ol>\n{tracks}\n          </ol>\n'
             f'        </details>\n'
@@ -547,8 +555,9 @@ def main():
         if not unlisted.NOINDEX.search(src):
             refuse(f"{name} has no noindex.")
         if 'data-cb="off"' in src:
-            refuse(f"{name} switches the radio off. Ryan's call is that it comes in on the World "
-                   "channel only; cb.js keeps it off every room feature on an unlisted page.")
+            refuse(f"{name} switches the radio off. Ryan's call is that it comes in with all the "
+                   "usual amenities, kept quiet: this room's channel, Be seen here, its call and "
+                   "hosting, told only to radios in here (QUIET_ROOMS in netlify/cb/lib.mjs).")
     sitemap = (ROOT / "tools/make-sitemap.py").read_text()
     order = sitemap.split("ORDER = [", 1)[1].split("]\n", 1)[0]
     for name in (door_name, inside_name):

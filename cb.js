@@ -1406,7 +1406,7 @@
     /* Tuned to a room, the first listen waits for the street's list, so that
        a page that is no room (the 404 answers any address) never sends its
        address to us as if it were one: it hears World instead. */
-    if (this.state.band === 'room' && rooms === null) {
+    if (this.state.band === 'room' && rooms === null && !offList()) {
       this.roomsReady.then(function () {
         if (radio === me && !me.state.folded && document.visibilityState === 'visible') me.tune();
       });
@@ -1414,7 +1414,7 @@
     }
     var w = window.loveEmbed && window.loveEmbed.where ? window.loveEmbed.where() : null;
     this.spotBtn.hidden = !w;
-    this.hostBtn.hidden = offList() || (!w && !this.hosting);
+    this.hostBtn.hidden = !w && !this.hosting;
     this.screenBtn.hidden = !(this.state.base && firstScreen());
     if (this.screenBtn.hidden && !this.screenPanel.hidden) this.setScreenPanel(false);
     this.screenNamed(w);
@@ -1732,17 +1732,26 @@
     markIn(this.pick, this.say, n);
   };
 
-  /* A ROOM YOU HAVE TO KNOW THE ADDRESS OF IS NEVER A ROOM TO THE RADIO.
-     Ryan, 2026-10-07: easter egg rooms, listed nowhere, which the radio comes
-     into on the World channel only. Such a page says so on its own <body>
-     (data-unlisted), and is left out of the street's list of rooms, so most of
-     this already held. What it did not hold is the moment before that list
-     arrives, or after it fails to: the tag fell back to the page's filename,
-     and This room, a beacon or a spot could have named the room to everybody
-     on the channel. So the page's own mark is asked first, and the answer does
-     not wait for anything. */
+  /* A ROOM YOU HAVE TO KNOW THE ADDRESS OF KEEPS TO ITSELF. Ryan, 2026-10-07:
+     easter egg rooms, listed nowhere, with "all the usual amenities, just kept
+     quiet". Such a page says so on its own <body> (data-unlisted) and is not in
+     the street's list of rooms, so it is a room by its own word: quietHere()
+     below, which needs no list and so cannot wait on one or fall through when
+     it fails. It has This room, and the radio opens on it there; Be seen here
+     and its call; and hosting, which the server tells only to radios tuned to
+     this room (QUIET_ROOMS in netlify/cb/lib.mjs), and which never puts the
+     room's name in a message: a spot written here carries no #tag, because a
+     #tag is the address, and the address is how you get in. Who's online
+     never lists it. */
   function offList() {
     return !!(document.body && document.body.hasAttribute('data-unlisted'));
+  }
+
+  // The room an unlisted page is, out of its own address and its own title.
+  function quietHere() {
+    var tag = herePath().replace(/^\//, '').replace(/\.html$/, '');
+    var name = document.title.replace(/\s+\u2014\s+Stimpunks\.World$/, '');
+    return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(tag) ? { tag: tag, name: name, path: herePath(), quiet: true } : null;
   }
 
   // Where this page is, as the room list writes it, so the list can say so.
@@ -2658,14 +2667,13 @@
 
   // This room's tag. It is the room's filename, so without the list it can still be told.
   function hereTag() {
-    if (offList()) return '';
     var here = hereRoom();
     return here ? here.tag : herePath().replace(/^\//, '').replace(/\.html$/, '') || 'street';
   }
 
   // The room this page is, out of the street's own list, or null.
   function hereRoom() {
-    if (offList()) return null;
+    if (offList()) return quietHere();
     var p = herePath();
     for (var i = 0; rooms && i < rooms.length; i++) if (rooms[i].path === p) return rooms[i];
     return null;
@@ -2684,7 +2692,7 @@
     var here = hereRoom();
     var lead = (before && !/\s$/.test(before)) ? ' ' : '';
     var trail = (!after || !/^\s/.test(after)) ? ' ' : '';
-    var head = '@' + place(w.time) + ' in \u201c', tail = '\u201d' + (here ? ' at #' + here.tag : '');
+    var head = '@' + place(w.time) + ' in \u201c', tail = '\u201d' + (here && !here.quiet ? ' at #' + here.tag : '');
     var film = w.film.replace(/[\u201c\u201d]/g, '"').replace(/\s+/g, ' ').trim();
     var space = this.say.maxLength - before.length - after.length - lead.length - trail.length - head.length - tail.length;
     if (space < 8) { this.tell('Your message is too full for your spot. Make some room and try again.'); return; }
@@ -2707,7 +2715,10 @@
      World. Retuning starts the log afresh, and what is already on the other
      channel is not read out as news. */
   Radio.prototype.tunedRoom = function () {
-    if (this.state.band !== 'room') return null;
+    // In a room that keeps to itself the radio opens on its channel, and a
+    // press of World or This room there is the visitor's and is kept as usual.
+    var band = offList() && !this.bandPressed ? 'room' : this.state.band;
+    if (band !== 'room') return null;
     if (rooms && rooms.length && !hereRoom()) return null;
     var tag = hereTag();
     return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(tag) ? tag : null;
@@ -2715,6 +2726,7 @@
 
   Radio.prototype.setBand = function (band) {
     var was = this.tunedRoom();
+    this.bandPressed = true;
     this.state.band = band === 'room' ? 'room' : 'world';
     save(this.state);
     this.bandShown();
@@ -2732,7 +2744,7 @@
   Radio.prototype.bandShown = function () {
     var room = this.tunedRoom(), here = hereRoom();
     var name = here ? here.name : 'this room';
-    this.roomBtn.hidden = offList() || !!(rooms && rooms.length && !here);
+    this.roomBtn.hidden = !!(rooms && rooms.length && !here);
     this.worldBtn.setAttribute('aria-pressed', String(!room));
     this.roomBtn.setAttribute('aria-pressed', String(!!room));
     this.roomBtn.textContent = 'This room';
@@ -2833,7 +2845,12 @@
     var on = !!this.state.seen, a = this.seenFrom === tag ? this.seenAnswer : null;
     this.seenBtn.setAttribute('aria-pressed', String(on));
     this.inCallNow.hidden = true;
-    if (!on) { this.seenNow.textContent = 'Switch it on to be on Who\u2019s online with the room you are in, and to see who else here has, and who is in this room\u2019s call.'; return; }
+    if (!on) {
+      this.seenNow.textContent = offList()
+        ? 'Switch it on to see who else here has, and who is in this room\u2019s call. This room keeps to itself: being seen here shows you only to people seen here, and never on Who\u2019s online.'
+        : 'Switch it on to be on Who\u2019s online with the room you are in, and to see who else here has, and who is in this room\u2019s call.';
+      return;
+    }
     // It never claims what it has not heard.
     if (!a) { this.seenNow.textContent = 'Looking\u2026'; return; }
     if (a.refused) { this.seenNow.textContent = 'Being seen here is for the people this room is for.'; return; }
@@ -2987,10 +3004,11 @@
       return;
     }
     if (!w) { this.tell('Start a film on this page first, then you can host it.'); return; }
-    if (offList() || (rooms && rooms.length && !hereRoom())) { this.tell('This page is not a room on the street, so it cannot be hosted.'); return; }
+    if (rooms && rooms.length && !hereRoom()) { this.tell('This page is not a room on the street, so it cannot be hosted.'); return; }
     this.hosting = { room: hereTag(), sent: null, busy: false };
     this.hostShown();
-    this.tell('You are hosting \u201c' + w.film + '\u201d. Everybody on the channel can see where you are in it, and in which room. Putting this tab behind another pauses it; folding the radio away or leaving the page stops it.');
+    if (offList()) this.tell('You are hosting \u201c' + w.film + '\u201d in this room only. Radios tuned to this room\u2019s channel can see where you are in it, and nobody outside this room is told. Putting this tab behind another pauses it; folding the radio away or leaving the page stops it.');
+    else this.tell('You are hosting \u201c' + w.film + '\u201d. Everybody on the channel can see where you are in it, and in which room. Putting this tab behind another pauses it; folding the radio away or leaving the page stops it.');
     this.hostTick(w);
   };
 

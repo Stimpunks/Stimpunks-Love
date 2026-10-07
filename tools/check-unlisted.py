@@ -31,6 +31,13 @@ IT ALSO REFUSES an unlisted page without <meta name="robots" content="noindex">,
 because a crawler that has been handed the address by somebody should still not
 put it in a search engine's results, which are a listing too.
 
+AND THE SERVER HAS TO AGREE. Ryan, 2026-10-07: an unlisted room keeps all the
+usual amenities, kept quiet, so the CB tells what goes on in one only to radios
+in it, by QUIET_ROOMS in netlify/cb/lib.mjs. That list has to be exactly the
+pages that say data-unlisted: a page missing from it would have its host
+announced to the whole street, and a stale entry is a room the server keeps a
+secret for that is not there. make-town-hall.py's rule about MOD_ROOMS, here.
+
 Break it on purpose before believing it: a link from a listed page, the name in
 a paragraph, the address in love.css's comments.
 """
@@ -91,6 +98,20 @@ def main():
                 problems.append(f"{where} names {stem}, which is a room you have to know the address of.")
             if name and name in flats[f]:
                 problems.append(f"{where} says “{name}”, the name of {egg}, which is unlisted.")
+
+    lib = (ROOT / "netlify/cb/lib.mjs").read_text()
+    m = re.search(r"export const QUIET_ROOMS = \[([^\]]*)\];", lib)
+    quiet = set(re.findall(r"'([a-z0-9-]+)'", m.group(1))) if m else None
+    stems = {e[:-len(".html")] for e in eggs}
+    if quiet is None:
+        problems.append("netlify/cb/lib.mjs has no QUIET_ROOMS, so the CB would tell the whole street "
+                        "what goes on in an unlisted room.")
+    else:
+        for t in sorted(stems - quiet):
+            problems.append(f"{t}.html is unlisted and not in QUIET_ROOMS in netlify/cb/lib.mjs, so a film "
+                            "hosted there would be announced to everybody on the CB.")
+        for t in sorted(quiet - stems):
+            problems.append(f"QUIET_ROOMS names {t}, and no page by that name says it is unlisted.")
 
     if problems:
         raise SystemExit("REFUSING:\n  " + "\n  ".join(problems) +

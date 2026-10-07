@@ -20966,6 +20966,18 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .snug-back ol { margin: 8px 0 0; padding-left: 1.5em; }
 .snug .snug-back li { font-size: 15px; line-height: 1.6; }
 .snug-t { color: var(--snug-dim); font-variant-numeric: tabular-nums; }
+/* A song's own play button is a pill on the back of its sleeve. The BUTTON opts
+   out of §4's 16:9 plate; the shell it becomes on the press keeps it, and is
+   dressed from the container, because a class on the button does not survive
+   the press (Swaying Sweetgrass's 0x0 players). */
+.snug-back li { margin: 0 0 8px; }
+.snug-back button.facade {
+  display: block; width: auto; aspect-ratio: auto; min-height: 36px; margin: 4px 0 0; padding: 4px 12px;
+  font: 700 14px/1.3 'Figtree', var(--sans); color: var(--snug-amber);
+  background: transparent; border: 2px solid var(--snug-amber); border-radius: 999px;
+}
+.snug-back button.facade:hover { background: var(--snug-amber); color: var(--snug-dark); }
+.snug-back div.facade { margin: 6px 0 0; border-color: var(--snug-plinth); background: var(--snug-glass); }
 
 .snug-ritual { margin: 56px auto 0; max-width: 40ch; text-align: center; }
 .snug .snug-poem { margin: 0; font-family: 'Comfortaa', var(--sans); font-weight: 700; font-size: 19px; line-height: 2; }

@@ -27,7 +27,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   hostBeacon, stopBeacon, readBeacons, sweepBeacons, beaconRoom, cleanAt, BEACON_FRESH,
   updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
-  PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons,
+  PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons, QUIET_ROOMS, quietRoom,
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
   renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages, REACTIONS, reactionOf, toggleReaction, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
@@ -1390,6 +1390,31 @@ test("who's online leaves out a room the asker may not enter, and the claimed ma
   assert.deepEqual((await whoSeen(board, s, now + 1)).map((p) => [p.handle, p.rooms]),
     [['Cy', ['the-den', 'town-hall-board']], ['Dee', ['town-hall-board']]]);
   assert.equal((await whoSeen(board, s, now + 1))[1].claimed, false, 'the MOD password is not a claimed username');
+});
+
+/* A room that keeps to itself: Ryan, 2026-10-07, "in room only, nothing
+   announced outside". Broken on purpose first: without the tuned filter the
+   World listen heard the cabin's host, and without the quiet check Who's
+   online listed the cabin. */
+test('a room that keeps to itself is heard only inside it, and is never on who\'s online', async () => {
+  assert.ok(QUIET_ROOMS.length && QUIET_ROOMS.every((t) => quietRoom(t) === t), 'every quiet room is one');
+  const quiet = QUIET_ROOMS[0];
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  await hostBeacon(ada, quiet, 'Film', 1, true, s, now);
+  await hostBeacon(bex, 'the-den', 'Film', 1, true, s, now);
+  const list = await readBeacons(s, now + 1);
+  const rooms = (tuned) => shapeBeacons(list, bex, tuned).map((b) => b.room).sort();
+  assert.deepEqual(rooms(null), ['the-den'], 'a radio tuned to World does not hear the quiet room\'s host');
+  assert.deepEqual(rooms('the-den'), ['the-den'], 'nor does a radio tuned to another room');
+  assert.deepEqual(rooms(quiet), [quiet, 'the-den'].sort(), 'a radio tuned to the quiet room hears its host');
+  await beSeen(claimed('Ryan'), quiet, V('r'), s, now);
+  await beSeen(claimed('Ryan'), 'the-den', V('q'), s, now);
+  await beSeen(bex, quiet, V('b'), s, now);
+  assert.deepEqual((await whoSeen(ada, s, now + 1)).map((p) => [p.handle, p.rooms]), [['Ryan', ['the-den']]],
+    'the quiet room is named to nobody, and somebody seen only there is on nobody\'s list');
+  assert.deepEqual((await whoSeen(claimed('Ryan'), s, now + 1)).map((p) => [p.handle, p.rooms]), [['Ryan', ['the-den']]],
+    'not even to somebody seen in it: who is there is the room\'s own Be seen here');
 });
 
 test('a claimed record parses, and so do an old one with no mark and one from the first day', async () => {
