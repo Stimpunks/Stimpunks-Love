@@ -330,8 +330,7 @@ def tracks_in(data):
     # THE CABIN'S RECORD PLAYER plays whole albums, so its file keeps each
     # album's songs under it, and every one of them is checked.
     if "albums" in data:
-        return [dict(t, artist=data["artist"], channel=data["channel"])
-                for a in data["albums"] for t in a["tracks"]]
+        return [dict(t, artist=a["artist"]) for a in data["albums"] for t in a["tracks"]]
     # MYCELIUM MUNCHIES keeps Derek Sarno's rack beside its mushrooms and dishes,
     # which are food rather than videos, under a key of its own. The Open
     # Notebook's collection uses the same key beside its questions.

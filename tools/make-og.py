@@ -4271,8 +4271,8 @@ def card_wooddoor(p):
         f'</div>',
         f"A near-black card. On the right, woods at night in greys with no colour, the dark wall of a log "
         f"cabin, and a shut plank door with iron straps. The only light is warm and comes from inside: "
-        f"through a capital E cut in the door, in a thin line round the door's edges and under it, and as an "
-        f"E thrown on the leaves in front of it. On the left, small carved capitals reading "
+        f"through a flowing calligraphy capital E cut in the door, in a thin line round the door's edges and "
+        f"under it, and as the same E thrown upside down on the leaves in front of it. On the left, small carved capitals reading "
         f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in carved pale capitals with the E in the "
         f"warm light, then: {p['desc_plain']}",
     )

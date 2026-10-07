@@ -20953,6 +20953,9 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .snug-sleeve--a { background-image: radial-gradient(circle at 36% 40%, var(--snug-sleeve-hi) 0, var(--snug-sleeve-a) 52%); }
 .snug-sleeve--b { background-color: var(--snug-sleeve-b); background-image: radial-gradient(ellipse 70% 40% at 60% 62%, var(--snug-sleeve-hi) 0, var(--snug-sleeve-b) 70%); }
 .snug-sleeve--c { background-color: var(--snug-sleeve-c); background-image: radial-gradient(circle at 70% 30%, var(--snug-sleeve-b) 0, var(--snug-sleeve-c) 42%); }
+.snug-sleeve--d { background-color: var(--snug-sleeve-b); background-image: radial-gradient(ellipse 30% 60% at 30% 50%, var(--snug-sleeve-hi) 0, var(--snug-sleeve-b) 80%); }
+.snug-sleeve--e { background-color: var(--snug-sleeve-a); background-image: radial-gradient(circle at 50% 78%, var(--snug-sleeve-hi) 0, var(--snug-sleeve-a) 38%); }
+.snug-sleeve--f { background-color: var(--snug-sleeve-c); background-image: radial-gradient(ellipse 80% 14% at 50% 50%, var(--snug-sleeve-hi) 0, var(--snug-sleeve-c) 90%); }
 .snug-record h3 { margin: 0; font-family: 'Comfortaa', var(--sans); font-weight: 700; font-size: 22px; color: var(--snug-text); }
 .snug .snug-record__by, .snug .snug-record__runs { margin: 4px 0 0; font-size: 16px; line-height: 1.5; color: var(--snug-dim); }
 .snug .snug-record__out { margin: 0; font-size: 16px; }
@@ -20966,6 +20969,8 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .snug-back ol { margin: 8px 0 0; padding-left: 1.5em; }
 .snug .snug-back li { font-size: 15px; line-height: 1.6; }
 .snug-t { color: var(--snug-dim); font-variant-numeric: tabular-nums; }
+.snug .snug-plays { display: block; font-size: 14px; line-height: 1.45; color: var(--snug-dim); }
+.snug .snug-record__note { margin: 4px 0 0; font-size: 15px; line-height: 1.5; color: var(--snug-dim); }
 /* A song's own play button is a pill on the back of its sleeve. The BUTTON opts
    out of §4's 16:9 plate; the shell it becomes on the press keeps it, and is
    dressed from the container, because a class on the button does not survive

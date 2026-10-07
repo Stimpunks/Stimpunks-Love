@@ -57,8 +57,16 @@ DOORJS = ROOT / "e-door.js"
 FACES = ROOT / "data/foundry-faces.json"
 LIST = re.compile(r"OLAK5uy_[A-Za-z0-9_-]{33}")
 VIDEO = re.compile(r"[A-Za-z0-9_-]{11}")
-ALBUM_KEYS = {"title", "released", "label", "musicbrainz", "list", "sleeve", "tracks"}
-TRACK_KEYS = {"id", "title", "seconds"}
+ALBUM_KEYS = {"title", "released", "label", "musicbrainz", "list", "sleeve", "artist", "channel",
+              "channel_id", "note", "tracks"}
+TRACK_KEYS = {"id", "title", "seconds", "record", "channel"}
+SLEEVES = ("a", "b", "c", "d", "e", "f")
+# HOW FAR WHAT PLAYS MAY BE FROM THE RECORD BEFORE THE SLEEVE HAS TO SAY SO. A
+# master, a remaster and a reissue differ by a few seconds of silence at either
+# end, and that is the same recording; past this, it is a cut, an edit or a film,
+# and the back of the sleeve says which. Measured, 2026-10-07: every song that was
+# the record came within four seconds of it, and Us and Them's 2023 remaster eight.
+DRIFT = 8
 WORDS = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
          "eleven", "twelve", "thirteen", "fourteen", "fifteen"]
 
@@ -99,16 +107,31 @@ def put(src, name, body, page):
                   lambda _: f"{begin}\n{body}\n{end}", src, count=1, flags=re.S)
 
 
-# ── The E, in unit coordinates: three arms on a stem, the same top and bottom ─
-E = [(0, 0), (1, 0), (1, .2), (.3, .2), (.3, .4), (.84, .4), (.84, .6), (.3, .6),
-     (.3, .8), (1, .8), (1, 1), (0, 1)]
+# ── The E: a calligraphy capital, Helen Edgar's ask ─────────────────────────
+# Its outline is in the data file, as the face drew it (see `e` there). These
+# draw it through any mapping from the unit square of its box, u across and v
+# down, so the one E is cut in the door and thrown on the leaves alike.
+def outline(e, fn):
+    x0, y0, x1, y1 = e["bounds"]
+    out, nums, cmd = [], [], None
+    def flush():
+        for i in range(0, len(nums), 2):
+            u, v = (nums[i] - x0) / (x1 - x0), (y1 - nums[i + 1]) / (y1 - y0)
+            x, y = fn(u, v)
+            out.append(f"{x:.1f} {y:.1f}")
+    for tok in re.findall(r"[MLQCZ]|-?\d+(?:\.\d+)?", e["outline"]):
+        if tok in "MLQCZ":
+            if cmd:
+                flush()
+            nums, cmd = [], tok
+            out.append(tok)
+        else:
+            nums.append(float(tok))
+    flush()
+    return " ".join(out)
 
 
-def pts(ps):
-    return " ".join(f"{x:.1f},{y:.1f}" for x, y in ps)
-
-
-def door_scene():
+def door_scene(e):
     """The woods at night and the door. NOTHING IS LIT BUT WHAT COMES THROUGH
     THE E: the cut letter, the line under the door, and the E laid on the leaves
     in front of it, foreshortened, the way a stencil in front of a lamp throws
@@ -136,7 +159,7 @@ def door_scene():
     for y in (136, 296):
         out.append(f'<rect x="330" y="{y}" width="92" height="9" rx="2" fill="var(--wd-iron)"/>')
         out.append(f'<circle cx="338" cy="{y + 4.5}" r="2.4" fill="var(--wd-seam)"/>')
-    out.append('<circle cx="452" cy="232" r="9" stroke="var(--wd-iron)" stroke-width="4"/>')
+    out.append('<circle cx="461" cy="236" r="8" stroke="var(--wd-iron)" stroke-width="4"/>')
     # the ground, the leaves and the step
     out.append('<rect x="0" y="330" width="800" height="90" fill="var(--wd-ground)"/>')
     for _ in range(140):
@@ -153,18 +176,22 @@ def door_scene():
     out.append('<path d="M329 330 V109 H471 V330" stroke="var(--wd-glow)" stroke-width="1.6" opacity=".55"/>')
     out.append('<rect x="332" y="327.5" width="136" height="2.5" fill="var(--wd-glow)"/>')
     out.append('<ellipse cx="400" cy="342" rx="96" ry="5" fill="var(--wd-glow)" opacity=".22"/>')
-    on_door = [(372 + u * 56, 160 + v * 84) for u, v in E]
-    out.append(f'<polygon points="{pts(on_door)}" stroke="var(--wd-glow)" stroke-width="20" '
+    x0, y0, x1, y1 = e["bounds"]
+    tall = 104
+    wide = tall * (x1 - x0) / (y1 - y0)
+    on_door = outline(e, lambda u, v: (400 + (u - .5) * wide, 152 + v * tall))
+    out.append(f'<path d="{on_door}" stroke="var(--wd-glow)" stroke-width="20" '
                'stroke-linejoin="round" opacity=".07"/>')
-    out.append(f'<polygon points="{pts(on_door)}" stroke="var(--wd-glow)" stroke-width="8" '
+    out.append(f'<path d="{on_door}" stroke="var(--wd-glow)" stroke-width="8" '
                'stroke-linejoin="round" opacity=".16"/>')
-    out.append(f'<polygon points="{pts(on_door)}" fill="var(--wd-glow)"/>')
-    # thrown: the top of the E lands nearest you, and an E is the same either way up
+    out.append(f'<path d="{on_door}" fill="var(--wd-glow)"/>')
+    # Thrown: the light comes from inside and above, so the top of the E lands
+    # nearest you and the E lies on the leaves upside down, as a cut-out throws it.
     def thrown(u, v):
         y = 410 - v * 58
         w = 132 - v * 66
         return 400 + (u - .5) * w, y
-    out.append(f'<polygon points="{pts([thrown(u, v) for u, v in E])}" fill="var(--wd-glow)" opacity=".3"/>')
+    out.append(f'<path d="{outline(e, thrown)}" fill="var(--wd-glow)" opacity=".3"/>')
     out.append("</g></svg>")
     return "".join(out)
 
@@ -331,8 +358,10 @@ def cabin():
     o.append('<ellipse cx="416" cy="276" rx="25" ry="6" fill="var(--snug-vinyl)"/>')
     o.append('<ellipse cx="416" cy="276" rx="7" ry="2" fill="var(--snug-label)"/>')
     o.append('<path d="M456 270 L432 278" stroke="var(--snug-arm)" stroke-width="2.5" stroke-linecap="round"/>')
-    for x, tone in ((476, "--snug-sleeve-c"), (484, "--snug-sleeve-a"), (492, "--snug-sleeve-b")):
-        o.append(f'<rect x="{x}" y="306" width="38" height="50" fill="var({tone})"/>')
+    for x, tone in ((474, "--snug-sleeve-c"), (480, "--snug-sleeve-a"), (486, "--snug-sleeve-b"),
+                    (492, "--snug-sleeve-c"), (498, "--snug-sleeve-a"), (504, "--snug-sleeve-b")):
+        o.append(f'<rect x="{x}" y="306" width="38" height="50" fill="var({tone})" '
+                 'stroke="var(--snug-dark)" stroke-width=".8"/>')
     # the blankets, heaped to curl up in, and a cushion
     o.append(fluffy(566, 380, 106, 76, 15, "--snug-knit", r))
     o.append(fluffy(626, 388, 90, 56, 13, "--snug-wool", r))
@@ -446,6 +475,8 @@ def main():
     data = json.loads(DATA.read_text())
     faces = json.loads(FACES.read_text())["faces"]
     door_name, inside_name = data["door"], data["inside"]
+    if set(data) - {"_what", "_source", "door", "inside", "words_by", "_words_by", "measured", "albums", "e"}:
+        refuse(f"{DATA.name} carries a key this tool does not know, which would do nothing silently.")
     door_p, inside_p = ROOT / door_name, ROOT / inside_name
     word = inside_name.removesuffix(".html")
     if not re.fullmatch(r"[a-z]+", word):
@@ -453,9 +484,6 @@ def main():
                "alone, so it would never get there.")
 
     # ── the albums ────────────────────────────────────────────────────────────
-    if data.get("channel_id") != "UCqNxhPZoLJ81i5QaK4nqn8A" or data.get("artist") != "Cigarettes After Sex":
-        refuse("the rack is Cigarettes After Sex's records off the band's own channel, and the file "
-               "names another artist or channel.")
     if data.get("words_by") not in ("anonymous",) and not str(data.get("words_by", "")).strip():
         refuse("whose words the cabin prints is empty. Name them, or say anonymous on purpose.")
     rack, secs = [], {}
@@ -471,15 +499,28 @@ def main():
                 or not re.fullmatch(r"[0-9a-f-]{36}", a.get("musicbrainz", "")):
             refuse(f"{where} has no release date, label or MusicBrainz record. The year on a record "
                    "is the record's, read off MusicBrainz, never the upload's.")
-        if a.get("sleeve") not in ("a", "b", "c"):
+        if a.get("sleeve") not in SLEEVES:
             refuse(f"{where} has no sleeve this room draws.")
+        if not (a.get("artist") and a.get("channel") and re.fullmatch(r"UC[A-Za-z0-9_-]{22}", a.get("channel_id", ""))):
+            refuse(f"{where} does not name its artist and the artist's own channel it was read off. A record "
+                   "on this rack plays from the people who made it, not from somebody's copy.")
         if not a.get("tracks"):
             refuse(f"{where} has no tracks, so there is nothing to add up into a runtime.")
             continue
         for t in a["tracks"]:
-            if set(t) != TRACK_KEYS or not VIDEO.fullmatch(t["id"]) or not (
-                    isinstance(t["seconds"], int) and 30 <= t["seconds"] <= 1800):
-                refuse(f"{where}: a track is not an id, a title and a length in seconds: {t!r}")
+            if set(t) - {"plays"} != TRACK_KEYS or not VIDEO.fullmatch(t["id"]) or not all(
+                    isinstance(t[k], int) and 30 <= t[k] <= 1800 for k in ("seconds", "record")):
+                refuse(f"{where}: a track is not an id, a title, what plays and the record's length in "
+                       f"seconds, and the channel it plays from: {t!r}")
+                continue
+            # A RUNTIME IS ONLY HONEST IF YOU KNOW WHAT IT IS THE RUNTIME OF. The Live
+            # Room's lesson, met here: YouTube's own album lists put an artist's
+            # music video in where there is one, and Money played as an edit two
+            # minutes short of the record. A song more than DRIFT seconds off the
+            # record says what plays instead, on the back of its sleeve.
+            if abs(t["seconds"] - t["record"]) > DRIFT and not t.get("plays"):
+                refuse(f"{where}: {t['title']} plays {clock(t['seconds'])} and runs {clock(t['record'])} on "
+                       "the record. Say on the sleeve what plays instead, in `plays`.")
         secs[a["title"]] = sum(t["seconds"] for t in a["tracks"] if isinstance(t.get("seconds"), int))
         rack.append(a)
     if problems:
@@ -488,7 +529,8 @@ def main():
     cards = []
     for a in rack:
         s, n = secs[a["title"]], len(a["tracks"])
-        film = f"{a['title']}, by {data['artist']}"
+        film = f"{a['title']}, by {a['artist']}"
+        rec = sum(t["record"] for t in a["tracks"])
         src = f"https://www.youtube-nocookie.com/embed/videoseries?list={a['list']}&amp;autoplay=1&amp;rel=0"
         songs = (WORDS[n - 1] if n <= len(WORDS) else str(n)).capitalize()
         # EVERY SONG HAS ITS OWN PLAY BUTTON on the back of its sleeve, a single
@@ -498,18 +540,23 @@ def main():
         # a record on is told what to do instead of having the song got ready.
         tracks = "\n".join(
             f'          <li><span class="snug-song">{esc(t["title"])}</span> '
-            f'<span class="snug-t">{clock(t["seconds"])}</span>\n'
-            f'            <button type="button" class="facade" data-embed-id="{t["id"]}" '
-            f'data-embed-title="{esc(t["title"])}, by {esc(data["artist"])}">Play this song &mdash; '
+            f'<span class="snug-t">{clock(t["seconds"])}</span>'
+            + (f'\n            <span class="snug-plays">Here: {esc(t["plays"])}.</span>' if t.get("plays") else "")
+            + f'\n            <button type="button" class="facade" data-embed-id="{t["id"]}" '
+            f'data-embed-title="{esc(t["title"])}, by {esc(a["artist"])}">Play this song &mdash; '
             f'{mins(t["seconds"])}</button></li>' for t in a["tracks"])
+        runs = f"{songs} songs, {mins(s)} all told"
+        if abs(s - rec) > 15:
+            runs += f" as they play here; the record runs {mins(rec)}"
+        note = f'\n        <p class="snug-record__note">{esc(a["note"])}</p>' if a.get("note") else ""
         cards.append(
             f'    <li class="snug-record" data-rack-card>\n'
             f'      <div class="snug-sleeve snug-sleeve--{a["sleeve"]}" aria-hidden="true"></div>\n'
             f'      <div class="snug-record__words">\n'
             f'        <h3>{esc(a["title"])}</h3>\n'
-            f'        <p class="snug-record__by">{esc(data["artist"])} &middot; {a["released"][:4]} '
+            f'        <p class="snug-record__by">{esc(a["artist"])} &middot; {a["released"][:4]} '
             f'&middot; {esc(a["label"])}</p>\n'
-            f'        <p class="snug-record__runs">{songs} songs, {mins(s)} all told.</p>\n'
+            f'        <p class="snug-record__runs">{runs}.</p>{note}\n'
             f'        <button type="button" class="snug-put" hidden data-rack-to="snug-turntable" '
             f'data-rack-name="the turntable" data-rack-src="{src}" '
             f'data-rack-title="{esc(film)}, on YouTube, on the turntable" data-rack-film="{esc(film)}" '
@@ -524,15 +571,46 @@ def main():
             f'    </li>')
     rack_html = '  <ul class="snug-rack">\n' + "\n".join(cards) + "\n  </ul>"
 
+    # The records named, by artist in the rack's order, and their labels, so the
+    # sentence about the rack and the credit cannot fall behind it.
+    groups = []
+    for a in rack:
+        if groups and groups[-1][0] == a["artist"]:
+            groups[-1][1].append(a)
+        else:
+            groups.append((a["artist"], [a]))
+    def and_list(xs):
+        return xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " and " + xs[-1]
+    named = [and_list([f"<em>{esc(a['title'])}</em>" for a in al]) + f" by {esc(art)}" for art, al in groups]
+    rackline = ("    The rack beside it holds " + (", ".join(named[:-1]) + ", and " + named[-1] if len(named) > 1
+                else named[0]) + ".")
+    labels = []
+    for art, al in groups:
+        ls = sorted({a["label"] for a in al})
+        poss = esc(art) + ("\u2019" if art.endswith("s") else "\u2019s")
+        labels.append(f"{poss} on {and_list([esc(x) for x in ls])}")
+    records = ("    The records are their artists\u2019: " + and_list(labels) + ", and they play from the "
+               "artists\u2019 own channels on YouTube.")
+
     # ── the pages ─────────────────────────────────────────────────────────────
     door = door_p.read_text()
-    door = put(door, "scene", door_scene(), door_name)
-    door = put(door, "type", "    " + type_credit(faces, "cinzel", "hanken-grotesk"), door_name)
+    e = data.get("e") or {}
+    if not all(e.get(k) for k in ("face", "designer", "licence", "source", "bounds", "outline")):
+        refuse("the E on the door has no outline, or no face, designer, licence or source to credit. A "
+               "letter drawn from somebody's typeface is credited like the typeface.")
+        raise SystemExit("REFUSING:\n  " + "\n  ".join(problems))
+    door = put(door, "scene", door_scene(e), door_name)
+    door = put(door, "type", "    " + type_credit(faces, "cinzel", "hanken-grotesk") +
+               f" The E cut in the door is {esc(e['face'])}\u2019s capital, drawn by {esc(e['designer'])}, "
+               f"under the {esc(e['licence'])}: <a href=\"{esc(e['source'])}\">the face</a> is not loaded "
+               "here, only that one letter, taken as an outline and cut.", door_name)
     inside = inside_p.read_text()
     inside = put(inside, "glow", bokeh(), inside_name)
     inside = put(inside, "scene", cabin(), inside_name)
     inside = put(inside, "deck", turntable(), inside_name)
     inside = put(inside, "rack", rack_html, inside_name)
+    inside = put(inside, "rackline", rackline, inside_name)
+    inside = put(inside, "records", records, inside_name)
     inside = put(inside, "type", "    " + type_credit(faces, "comfortaa", "figtree"), inside_name)
     if data["words_by"] == "anonymous" and "names nobody" not in inside:
         refuse(f"{inside_name} does not say that it names nobody as the author of its words, and the "
