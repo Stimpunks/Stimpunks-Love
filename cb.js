@@ -594,6 +594,9 @@
      itself says whether this radio is on as one. It only decides the mark on
      your own "On the channel as" line; the mark on a message is the server's. */
   function claimedPass(pass) { return /^cb2\.acct\./.test(pass || ''); }
+  // Any pass with a password of its own behind it: a claimed username's, or a
+  // moderator's who has moved onto their own. Only these can be found by name.
+  function ownPass(pass) { return /^cb2\.(?:acct|base)\./.test(pass || ''); }
 
   function clock(t) {
     var d = new Date(t);
@@ -653,7 +656,7 @@
     var tpp = this.tpPanel = el('div', 'cb-tp-panel');
     tpp.id = 'cb-tp-panel';
     tpp.hidden = true;
-    var tlab = el('label', 'cb-lab', 'Teleport to a room');
+    var tlab = el('label', 'cb-lab', 'Teleport to a room, or to @somebody');
     tlab.htmlFor = 'cb-tp-find';
     var find = this.tpFind = el('input', 'cb-say cb-tp-find');
     find.id = 'cb-tp-find';
@@ -672,10 +675,14 @@
     this.tpNone.hidden = true;
     this.tpOffer = [];
     this.tpActive = -1;
+    // What a look for somebody found, said where the hand is.
+    this.tpSaid = el('p', 'cb-said');
+    this.tpSaid.setAttribute('role', 'status');
     tpp.appendChild(tlab);
     tpp.appendChild(find);
     tpp.appendChild(tlist);
     tpp.appendChild(this.tpNone);
+    tpp.appendChild(this.tpSaid);
     box.appendChild(tpp);
 
     /* THE SIZE, three of them, Ryan's ask, 2026-09-29: Small is the bar and the
@@ -744,6 +751,20 @@
     present.appendChild(seenBtn);
     present.appendChild(this.seenNow);
     present.appendChild(this.inCallNow);
+    /* LET PEOPLE FIND ME. Helen Edgar's ask, 2026-10-07, "@ person name" to
+       find where people are, and Ryan's rules the same day: a second switch,
+       because Be seen here only ever promised the people in the same room;
+       only on a claimed username, because an unclaimed handle is anybody's;
+       remembered in this browser, like Be seen here; and only somebody
+       findable can find. It rides on being seen, so it does nothing while Be
+       seen here is off, and the server keeps nothing more for it. Teleport
+       with an @ is where you look. See findSeen in netlify/cb/lib.mjs. */
+    var findBtn = this.findBtn = el('button', 'cb-btn cb-seen cb-find-me', 'Let people find me');
+    findBtn.type = 'button';
+    findBtn.setAttribute('aria-pressed', 'false');
+    this.findNow = el('p', 'cb-seen-now');
+    present.appendChild(findBtn);
+    present.appendChild(this.findNow);
     present.hidden = true;
     set.appendChild(present);
 
@@ -1039,6 +1060,7 @@
     callBtn.addEventListener('click', function () { me.setCall(!window.loveCall.isOpen()); });
     bw.addEventListener('click', function () { me.setBand('world'); });
     seenBtn.addEventListener('click', function () { me.setSeen(!me.state.seen); });
+    findBtn.addEventListener('click', function () { me.setFindable(!me.state.findable); });
     window.addEventListener('pagehide', function () { me.leaveSeen(); });
     br.addEventListener('click', function () { me.setBand('room'); });
     beacons.addEventListener('click', function (e) {
@@ -2266,6 +2288,7 @@
   Radio.prototype.setTeleport = function (open) {
     this.tpPanel.hidden = !open;
     this.tpBtn.setAttribute('aria-expanded', String(open));
+    this.tpSaid.textContent = '';
     if (open) {
       this.tpFind.value = '';
       this.loadRooms();
@@ -2282,6 +2305,8 @@
   Radio.prototype.tpRender = function (failed) {
     var list = this.tpList, none = this.tpNone;
     list.textContent = '';
+    this.tpSaid.textContent = '';
+    if (personTyped(this.tpFind.value) !== null) { this.tpPerson(); return; }
     if (!rooms || failed || !rooms.length) {
       this.tpOffer = [];
       none.textContent = rooms && !failed ? 'No rooms to go to.' : (failed ? 'The list of rooms cannot be reached just now.' : 'Finding the rooms\u2026');
@@ -2315,10 +2340,87 @@
     if (e.isComposing) return;
     var n = this.tpOffer.length;
     if (e.key === 'Escape') { e.preventDefault(); this.setTeleport(false); this.tpBtn.focus(); return; }
+    if (e.key === 'Enter' && !n && personTyped(this.tpFind.value) !== null) { e.preventDefault(); this.lookFor(personTyped(this.tpFind.value)); return; }
     if (!n) return;
     if (e.key === 'ArrowDown') { e.preventDefault(); this.tpActive = (this.tpActive + 1) % n; markIn(this.tpList, this.tpFind, this.tpActive); }
     else if (e.key === 'ArrowUp') { e.preventDefault(); this.tpActive = (this.tpActive - 1 + n) % n; markIn(this.tpList, this.tpFind, this.tpActive); }
     else if (e.key === 'Enter') { e.preventDefault(); this.go(this.tpOffer[this.tpActive]); }
+  };
+
+  /* @ IN THE TELEPORTER LOOKS FOR A PERSON. Helen Edgar's ask, 2026-10-07,
+     Ryan's rules (findSeen in lib.mjs keeps every one): a whole name, typed,
+     and Enter. Nothing is offered as you type, because a list of names to pick
+     from would be the list of who is on; nothing is sent until Enter; and the
+     answer is a room or nothing, never why not. Found in one room, the
+     teleporter goes there, which is the ask: type @Ryan and jump. */
+  function personTyped(v) {
+    var m = /^\s*@\s*(.*)$/.exec(String(v));
+    return m ? m[1].replace(/\s+/g, ' ').trim() : null;
+  }
+
+  // Why this radio cannot look for anybody yet, or '' when it can.
+  Radio.prototype.findBlock = function () {
+    if (!ownPass(this.state.pass)) return 'Finding somebody by name is for claimed usernames. Claim yours in Profile first.';
+    if (!this.state.seen || !this.state.findable) return 'Only somebody who can be found can find. Switch on Be seen here and Let people find me on the radio first.';
+    if (!presentRoom()) return 'Finding somebody works from a room on the street.';
+    return '';
+  };
+
+  Radio.prototype.tpPerson = function () {
+    var list = this.tpList, none = this.tpNone, name = personTyped(this.tpFind.value);
+    list.hidden = true;
+    this.tpOffer = [];
+    this.tpActive = -1;
+    markIn(list, this.tpFind, -1);
+    none.hidden = false;
+    none.textContent = this.findBlock() ||
+      (name ? 'Enter looks for ' + name + ', by their whole handle.' : 'Type somebody\u2019s whole handle after the @, then press Enter.');
+  };
+
+  Radio.prototype.lookFor = function (name) {
+    var me = this, block = this.findBlock();
+    if (block || !name || this.looking) { if (block) { this.tpNone.hidden = true; this.tpSaid.textContent = block; } return; }
+    // The street has to have heard the switch, or it will say you cannot be found.
+    var a = this.seenFrom === presentRoom() ? this.seenAnswer : null;
+    if (!a || !a.findable) { this.tpSaid.textContent = 'Not findable yet: give the radio a moment, then press Enter again.'; return; }
+    if (!rooms) { this.tpSaid.textContent = 'The list of rooms cannot be reached just now.'; return; }
+    this.looking = true;
+    this.tpSaid.textContent = 'Looking for ' + name + '\u2026';
+    call('/cb/find', { body: { visit: VISIT, name: name } }, this.state.pass).then(function (r) {
+      if (r.status === 401) return me.lost();
+      if (r.status === 200 && r.body.self) { me.tpSaid.textContent = 'That is you.'; return; }
+      if (r.status === 200 && Array.isArray(r.body.rooms)) { me.foundIn(name, r.body.rooms); return; }
+      me.tpSaid.textContent = why(r, 'Nobody could be looked for just now.');
+    }, function () { me.tpSaid.textContent = 'The street could not be reached just now.'; })
+      .then(function () { me.looking = false; });
+  };
+
+  // The rooms a name was found in, in the street's walking order.
+  Radio.prototype.foundIn = function (name, tags) {
+    var here = herePath(), found = (rooms || []).filter(function (r) { return tags.indexOf(r.tag) >= 0; });
+    if (!found.length) { this.tpSaid.textContent = 'Nobody by that whole handle can be found right now.'; return; }
+    for (var i = 0; i < found.length; i++) {
+      if (found[i].path === here) { this.tpSaid.textContent = name + ' is here, in this room.'; return; }
+    }
+    if (found.length === 1) { this.tpSaid.textContent = name + ' is in ' + found[0].name + '. Going there.'; this.go(found[0]); return; }
+    // Two tabs can be two rooms: offer them, like rooms, and let them pick.
+    var list = this.tpList, offer = this.tpOffer = found;
+    list.textContent = '';
+    for (i = 0; i < offer.length; i++) {
+      var li = el('li', 'cb-opt');
+      li.id = 'cb-tp-' + offer[i].tag;
+      li.setAttribute('role', 'option');
+      li.appendChild(el('span', 'cb-opt__name', offer[i].name));
+      li.appendChild(el('span', 'cb-opt__tag', '#' + offer[i].tag));
+      li.addEventListener('mousedown', function (e) { e.preventDefault(); });
+      (function (room, me) { li.addEventListener('click', function () { me.go(room); }); })(offer[i], this);
+      list.appendChild(li);
+    }
+    list.hidden = false;
+    this.tpNone.hidden = true;
+    this.tpActive = 0;
+    markIn(list, this.tpFind, 0);
+    this.tpSaid.textContent = name + ' can be found in more than one room. Pick one.';
   };
 
   // Going is ordinary navigation: nothing is sent, and the panel is closed so a
@@ -2576,13 +2678,39 @@
     this.tell(on ? 'You can be seen here now, by your handle, by anybody else seen here.' : 'Nobody sees you here now, and you see nobody.');
   };
 
+  Radio.prototype.findingOn = function () { return !!(this.state.findable && ownPass(this.state.pass)); };
+
+  Radio.prototype.setFindable = function (on) {
+    this.state.findable = !!on;
+    save(this.state);
+    this.presenceShown();
+    if (this.state.seen) this.hereTick();
+    this.tell(on
+      ? (this.state.seen ? 'People who can be found can find you now, by your whole handle, and you can find them.' : 'Findable once you are seen: switch on Be seen here too.')
+      : 'Nobody can look you up by name now, and you cannot look anybody up.');
+  };
+
+  // What the switch says, under it. It never claims the street has heard it.
+  Radio.prototype.findShown = function (a) {
+    var own = ownPass(this.state.pass), on = !!this.state.findable;
+    this.findBtn.hidden = !own;
+    this.findBtn.setAttribute('aria-pressed', String(on && own));
+    var p = this.findNow;
+    if (!own) p.textContent = 'Claim your username in Profile and you can let people find you by name, and find them.';
+    else if (!on) p.textContent = 'Off: nobody can look you up by name, and you cannot look anybody up.';
+    else if (!this.state.seen) p.textContent = 'On, and it works while you are seen: switch on Be seen here too.';
+    else if (!a || a.refused) p.textContent = '';
+    else if (!a.findable) p.textContent = 'Not findable yet\u2026';
+    else p.textContent = 'Anybody else findable can type @' + this.state.handle + ' in Teleport and come to the room you are in. Only the room, and nobody is told who looked.';
+  };
+
   /* Asked on each listen, and nowhere else. One request at a time. */
   Radio.prototype.hereTick = function () {
     var me = this, tag = presentRoom();
     if (!this.state.seen || !tag) { this.leaveSeen(); return; }
     if (this.hereBusy) return;
     this.hereBusy = true;
-    call('/cb/here', { body: { room: tag, visit: VISIT } }, this.state.pass).then(function (r) {
+    call('/cb/here', { body: { room: tag, visit: VISIT, find: this.findingOn() } }, this.state.pass).then(function (r) {
       if (r.status === 401) return me.lost();
       if (!me.state.seen) return;
       if (r.status === 200) { me.seenAs = tag; me.seenAnswer = r.body; me.seenFrom = tag; }
@@ -2648,6 +2776,7 @@
     if (!tag) return;
     var on = !!this.state.seen, a = this.seenFrom === tag ? this.seenAnswer : null;
     this.seenBtn.setAttribute('aria-pressed', String(on));
+    this.findShown(a);
     this.inCallNow.hidden = true;
     if (!on) { this.seenNow.textContent = 'Switch it on to see who else here has, and who is in this room\u2019s call.'; return; }
     // It never claims what it has not heard.

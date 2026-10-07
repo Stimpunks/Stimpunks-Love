@@ -290,6 +290,13 @@
         none.hidden = false; list.hidden = true; mark(-1);
         return;
       }
+      // An @ looks for a person, which is the radio's, for a claimed username.
+      if (/^\s*@/.test(find.value)) {
+        offer = [];
+        none.textContent = 'Finding somebody by name is on the radio, signed on with a claimed username. Sign on first.';
+        none.hidden = false; list.hidden = true; mark(-1);
+        return;
+      }
       var found = findRooms(find.value), here = herePath();
       offer = found.map(function (f) { return f.room; });
       for (var i = 0; i < offer.length; i++) {

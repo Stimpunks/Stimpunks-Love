@@ -113,6 +113,7 @@
     <li>Names only, and never a count. The lines update quietly, without announcing themselves.</li>
     <li>Your browser remembers the switch. Folding the radio, leaving the page or putting the tab behind another takes you out of sight.</li>
   </ul>
+  <p id="found">Under it, with a claimed username, is <b>Let people find me</b>. While you are seen, it lets anybody else who has switched it on type <b>@</b> and your whole handle into <a href="#teleport">the teleporter</a> and go to the room you are in. <strong>It is one switch both ways too</strong>: while it is off, nobody can look you up and you cannot look anybody up. They are told the room and nothing else, nobody is told who looked, and your browser remembers the switch. Without a claimed username the line says to claim one in Profile.</p>
 
   <h2 id="reading">Reading messages</h2>
   <p>Each message starts with a line: the sender&rsquo;s handle, a mark if it has one, and the time it was sent, by your clock. Then come its words, a picture or sticker if it has one, and its reactions.</p>
@@ -199,11 +200,12 @@
   <p>With both <b>New messages to a screen reader</b> and <b>Speak new messages aloud</b> on, a screen reader user hears everything twice. At the foot of the radio are links to the house norms and to this guide.</p>
 
   <h2 id="teleport">The teleporter</h2>
-  <p><b>Teleport</b> opens a box labelled <b>Teleport to a room</b> and a list of every room on the street, in walking order. The room you are in says <b>you are here</b>; the others show their #tag.</p>
+  <p><b>Teleport</b> opens a box labelled <b>Teleport to a room, or to @somebody</b> and a list of every room on the street, in walking order. The room you are in says <b>you are here</b>; the others show their #tag.</p>
   <ul>
     <li><strong>Type to narrow it.</strong> It finds rooms whose names start with what you typed, then rooms with it inside a word of their name, so <i>fire</i> finds The Campfire, then rooms whose own description uses the word, with a few of those words shown.</li>
     <li><kbd>&uarr;</kbd> and <kbd>&darr;</kbd> move through the list, <kbd>Enter</kbd> goes to the room highlighted, and <kbd>Escape</kbd> puts the box away.</li>
     <li><strong>Going is ordinary navigation.</strong> Nothing is sent to the channel, and nobody learns where you went.</li>
+    <li><strong>An @ looks for a person.</strong> Type <b>@</b> and somebody&rsquo;s whole handle and press <kbd>Enter</kbd>. If they have <a href="#found">Let people find me</a> on and are seen in a room, it takes you there; if they are in two rooms, it lists both. Otherwise it says <b>Nobody by that whole handle can be found right now.</b> and never why. Part of a handle finds nobody, nothing is offered as you type, and it only works while you can be found yourself.</li>
   </ul>
   <p>To search the words on every page rather than the rooms&rsquo; names, use the search box on <a href="index.html">the front page</a> or <a href="map.html">the map</a>.</p>
 

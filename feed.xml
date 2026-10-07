@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Tue, 06 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 07 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Find somebody by name with an @ in the teleporter</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-07-find-by-name</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-07-find-by-name</guid>
+      <pubDate>Wed, 07 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Type @ and somebody’s handle into the radio’s Teleport, press Enter, and it takes you to the room they are in. Helen Edgar asked for a way to find where people are, and Ryan suggested the teleporter. Nobody can be found until they choose to be. Be seen here only ever showed you to people in the same room, and that is what everybody who pressed it agreed to, so being found from anywhere is a second switch under it, Let people find me. It is off until you press it, your browser remembers it, and it only works while you are seen. Only a claimed username can be found, because an unclaimed handle is anybody’s who signs on with it, and somebody could sign on with your name and have people sent to them. Only somebody who can be found can look: the same one switch, both ways, that Be seen here and the Slake keep, and the street checks it, not only the radio. One whole handle, and never a list. Part of a handle finds nobody, and nothing offers names as you type, because a list of names to pick from would be a list of who is on. The answer is the room and nothing else; anybody who cannot be found, for any reason, is “nobody by that whole handle can be found right now”, and a room kept for the people it is for is never named to anybody else. Nothing records who looked for whom. The privacy page has a new section, Being found by name, and the CB guide and the Community Center describe the switch. The guest bar and the front page’s search say where an @ works.</description>
+    </item>
     <item>
       <title>Rolls on the player piano at A Quiet Pint</title>
       <link>https://stimpunks.world/changelog.html#2026-10-06-piano-rolls</link>

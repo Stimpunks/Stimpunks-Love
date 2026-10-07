@@ -33,7 +33,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
-  cleanVideo, beSeen, unseen, sweepSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, sweepCalls } from './lib.mjs';
+  cleanVideo, beSeen, unseen, sweepSeen, findSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, sweepCalls } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
 function memoryStore({ etagOnRead }) {
@@ -1356,6 +1356,55 @@ test('a visit is seen in one room at a time, goes at once, and the sweep takes t
   await beSeen(ada, 'the-den', V('a'), s, now + 2);
   await unseen(V('a'), s);
   assert.deepEqual(await beSeen(bex, 'the-den', V('b'), s, now + 3), []);
+  await sweepSeen(s, now + 10 * ROOM_FRESH);
+  assert.equal(s.keys().filter((k) => k.startsWith('room-here/')).length, 0);
+});
+
+/* Find somebody by name: Helen Edgar's ask, Ryan's rules, 2026-10-07. */
+const claimed = (h) => ({ role: 'mobile', handle: h, roles: new Set(), account: true });
+
+test('only a claimed username, seen and findable, can find, and only one who is too', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  const helen = claimed('Helen'), ryan = claimed('Ryan');
+  await beSeen(ryan, 'the-den', V('r'), s, now, true);
+  assert.ok((await findSeen(ada, V('a'), 'Ryan', s, now)).refused, 'an unclaimed handle cannot ask');
+  await beSeen(helen, 'the-mopery', V('h'), s, now);
+  assert.ok((await findSeen(helen, V('h'), 'Ryan', s, now)).refused, 'seen but not findable cannot ask');
+  await beSeen(helen, 'the-mopery', V('h'), s, now + 1, true);
+  assert.deepEqual(await findSeen(helen, V('h'), 'Ryan', s, now + 2), { rooms: ['the-den'] });
+  assert.deepEqual(await findSeen(helen, V('h'), '  ryan ', s, now + 2), { rooms: ['the-den'] }, 'folded and whole');
+  assert.deepEqual(await findSeen(helen, V('h'), 'Rya', s, now + 2), { rooms: [] }, 'part of a name finds nothing');
+  assert.deepEqual(await findSeen(helen, V('h'), 'helen', s, now + 2), { self: true });
+  assert.ok((await findSeen(ryan, V('x'), 'Helen', s, now + 2)).refused, 'another visit of the same name is not this one');
+});
+
+test('somebody not findable, unclaimed, stale or somewhere private is simply not found', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  const helen = claimed('Helen');
+  await beSeen(helen, 'the-mopery', V('h'), s, now, true);
+  await beSeen(claimed('Ryan'), 'the-den', V('r'), s, now);
+  assert.deepEqual(await findSeen(helen, V('h'), 'Ryan', s, now + 1), { rooms: [] }, 'seen but not findable');
+  await beSeen(bex, 'the-den', V('b'), s, now, true);
+  assert.equal(s.keys().filter((k) => k.includes(V('b')) && k.includes('.find.')).length, 0, 'the flag is dropped for an unclaimed pass');
+  assert.deepEqual(await findSeen(helen, V('h'), 'Bex', s, now + 1), { rooms: [] });
+  const board = { role: 'base', handle: 'Cy', roles: new Set(['moderator', 'board']), account: true };
+  await beSeen(board, 'town-hall-board', V('c'), s, now, true);
+  assert.deepEqual(await findSeen(helen, V('h'), 'Cy', s, now + 1), { rooms: [] }, 'a room the asker may not enter is left out');
+  await beSeen(board, 'town-hall-board', V('d'), s, now + 2, true);
+  assert.deepEqual(await findSeen(board, V('d'), 'Helen', s, now + 3), { rooms: ['the-mopery'] });
+  await beSeen(helen, 'the-mopery', V('h'), s, now + ROOM_FRESH + 10, true);
+  assert.deepEqual(await findSeen(helen, V('h'), 'Cy', s, now + ROOM_FRESH + 10), { rooms: [] }, 'shown after its thirty seconds');
+  await unseen(V('h'), s);
+  assert.ok((await findSeen(helen, V('h'), 'Cy', s, now + ROOM_FRESH + 11)).refused, 'not seen any more, cannot ask');
+});
+
+test('a findable record parses, and an old one without the flag still does', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  await s.set(`room-here/the-den/${V('o')}.${now}.mobile.${Buffer.from('Old').toString('base64url')}`, '');
+  assert.deepEqual(await beSeen(ada, 'the-den', V('a'), s, now + 1), [{ handle: 'Old', base: false }]);
   await sweepSeen(s, now + 10 * ROOM_FRESH);
   assert.equal(s.keys().filter((k) => k.startsWith('room-here/')).length, 0);
 });

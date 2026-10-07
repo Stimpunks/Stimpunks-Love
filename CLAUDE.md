@@ -701,6 +701,19 @@ answer under the same rule; the room dresses it, and a guest with no radio never
 above 8x8's Join button, which we cannot write into: `call.js` builds it hidden and exposes it as
 `loveCall.whoLine(tag)`, and never asks for the list itself.
 
+**FINDING SOMEBODY BY NAME IS A SECOND SWITCH, AND BE SEEN HERE WAS NOT WIDENED.** Helen Edgar's ask,
+2026-10-07; Ryan's rules the same day. `@handle` and Enter in the radio's Teleport asks `/cb/find`
+(`findSeen` in `lib.mjs`) and goes to the room. **Be seen here promised the people in the same room and
+nobody else**, so being found from anywhere is **Let people find me**, remembered in `love-cb` as
+`findable`, and it rides on the seen record as a `.find` mark in its key: nothing new is stored.
+`beSeen` drops the mark for any pass that is not a claimed username's (`who.account`), because an
+unclaimed handle is anybody's and @Helen would bring people to whoever signed on as Helen. **Only
+somebody findable can find**, checked on the server against the asker's own visit. **One whole handle,
+folded, never a partial match and never a completion list**: the friendly edit is names offered as you
+type, and that is the list of who is on. **The answer is rooms or nothing, never why**, a room the
+asker may not enter is left out, and nothing records who looked for whom. The @ handling sits outside
+the search block `check-teleport.py` keeps identical; the guest bar and the finder only say where @ works.
+
 **A call's window and the `Mover` live in `call.js`, not `cb.js`**, because a public room's guest
 must never download the radio. `cb.js` loads `call.js` before it builds the radio. `call.js` reads
 the `love-cb` pass and never writes it. `/cb/call` signs a guest token, never a moderator, only for
