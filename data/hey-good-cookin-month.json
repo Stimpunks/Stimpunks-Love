@@ -1,6 +1,6 @@
 {
  "_about": "THE RACK IN HEY, GOOD COOKIN', Ryan's brief, 2026-10-04: the last month of videos from cooking channels he listed, in his order. It is Learning Large's rack in a community kitchen, and the reasons are that room's, The Open Notebook's and the kitchen telly's: the channels are his and the videos are not chosen one by one, so the room says nobody here watched them first. tools/pull-cookin-month.py reads each channel's own two feeds (UULF, its long-form uploads, and UUSH, its shorts) and asks each new video's watch page once, the morning it arrives; tools/make-hey-good-cookin.py --month draws the rack from this file; tools/daily-cookin.sh runs both on the morning timer and commits only this file, hey-good-cookin.html and now-playing.html. This file is the timer's: hand-edit `sources` on purpose and nothing else.",
- "_sources": "Each channel id was read off the channel's own page on 2026-10-04 (its externalId), never typed from memory. `name` is the channel's own name as YouTube gives it, with its own capitals and marks, FOOD☆STAR's star and Bon Appétit's accent kept as YouTube serves them; `url` is the channel's front page without the tab Ryan's link happened to be on, which for Back of House, JapaneseCooking101, Japanese Kitchen Tour, FOOD☆STAR, Japanese Food Craftsman, Insider Food, Fallow and Guga was their videos. Both feeds are read for every channel whatever tab the link was on, Learning Large's call, because the brief was the last month of each channel. A new channel is a new entry here with its id read the same way; the puller derives both feeds from the id.",
+ "_sources": "Each channel id was read off the channel's own page (its externalId), never typed from memory: on 2026-10-04 for the first twenty, and on 2026-10-07 for Munchies, Joshua Weissman and Strictly Dumpling, which Ryan added that day (the same message named Japanese Food Noodles, already on the rack). `name` is the channel's own name as YouTube gives it, with its own capitals and marks, FOOD☆STAR's star and Bon Appétit's accent kept as YouTube serves them; `url` is the channel's front page without the tab Ryan's link happened to be on, which for Back of House, JapaneseCooking101, Japanese Kitchen Tour, FOOD☆STAR, Japanese Food Craftsman, Insider Food, Fallow and Guga was their videos. Both feeds are read for every channel whatever tab the link was on, Learning Large's call, because the brief was the last month of each channel. A new channel is a new entry here with its id read the same way; the puller derives both feeds from the id.",
  "_window": "A MONTH IS THIRTY DAYS, counted back from the minute the rack was filled. A video published before that goes off the end on the next fill; make-hey-good-cookin.py refuses a file still holding one, because a rack that keeps everything is an archive, and the brief was the last month.",
  "_log": "A VIDEO IS AN ID, A TITLE, A CHANNEL, A TIME AND A LENGTH, the Doom Scoop's rule: no description, no thumbnail, no count of views, likes or subscribers, and make-hey-good-cookin.py refuses a row carrying any of them. `form` is long or short, by which of the channel's two feeds carried it; a short plays upright. `state` is what its watch page said: screen (plays here), door (plays on YouTube only: embedding off, or age-gated), pending (live, or not out yet, asked again tomorrow) or gone (not drawn). TITLES ARE QUOTED AS WRITTEN, capitals, emoji and all, and the room's sweeps skip them: they are the channels' words, and a title that calls a dish healthy or guilt-free, or a cook's dinner a cheat meal, is theirs to write, beside the house rules of ours that the room prints.",
  "_covered": "What the feeds have been read all the way through, per channel and per feed. A YouTube feed carries the latest fifteen, and a busy channel puts up more than that in a month; a channel whose coverage does not reach back to the start of the month says so on the page. Generated, never typed.",
@@ -124,6 +124,24 @@
    "name": "Eater",
    "url": "https://www.youtube.com/@eater",
    "channel_id": "UCRzPUBhXUZHclB7B5bURFXw"
+  },
+  {
+   "slug": "munchies",
+   "name": "Munchies",
+   "url": "https://www.youtube.com/@Munchies",
+   "channel_id": "UCaLfMkkHhSA_LaCta0BzyhQ"
+  },
+  {
+   "slug": "joshua-weissman",
+   "name": "Joshua Weissman",
+   "url": "https://www.youtube.com/@JoshuaWeissman",
+   "channel_id": "UChBEbMKI1eCcejTtmI32UEw"
+  },
+  {
+   "slug": "strictly-dumpling",
+   "name": "Strictly Dumpling",
+   "url": "https://www.youtube.com/@strictlydumpling",
+   "channel_id": "UCXOKEdfOFxsHO_-Su3K8SHg"
   }
  ],
  "log": [

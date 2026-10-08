@@ -933,6 +933,18 @@ def month(r):
     for s in r["sources"]:
         mine = sorted((v for v in live if v["source"] == s["slug"]),
                       key=lambda v: (v["published"], v["id"]), reverse=True)
+        if s["slug"] not in r.get("covered", {}):
+            # A CHANNEL ADDED SINCE THE LAST FILL has never been read, so the
+            # gap line below ("the last time it was read") would describe a
+            # reading that never happened. The puller writes a channel's
+            # coverage and its videos together, so one without the other is
+            # this state and no other.
+            out += [f'      <section class="hgc-chan" aria-label="{attr(s["name"])}">',
+                    f'        <h3 class="hgc-chan__name"><a href="{attr(s["url"])}">{esc(s["name"])}</a></h3>',
+                    '        <p class="hgc-chan__none">This channel was added after the rack was last filled. '
+                    'Its month arrives with the next fill.</p>',
+                    '      </section>']
+            continue
         cov = r.get("covered", {}).get(s["slug"], {})
         # A MINUTE OF SLACK, The Open Notebook's: `set` is kept to the minute
         # and the puller's coverage to the second.
