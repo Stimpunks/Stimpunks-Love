@@ -16907,7 +16907,9 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
 
    NOTHING MOVES AT ANY SETTING. A real light turns, and this one is drawn
    standing still: the room is about a thing you can count on, and the list is
-   read in the column, not chased round the wall. */
+   read in the column, not chased round the wall. The screen on the wall
+   (2026-10-08) plays only what somebody presses, which is why the room says
+   nothing moves BY ITSELF. */
 
 .watchroom {
   background: var(--wr-stone); color: var(--wr-text);
@@ -16970,6 +16972,39 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
 .wr-call__fine { font-size: 16px; color: var(--wr-dim); margin-bottom: 0 !important; }
 
 .wr-credits { font-size: 16px; color: var(--wr-dim); }
+
+/* THE SCREEN ON THE WALL, and the rack under it (2026-10-08, Ryan's ask: a
+   shared screen). It is not lit: the column is the only light in the room and
+   it stays on the chart table, so the screen hangs on the whitewash where some
+   of the light reaches, in the call's own ground, and gives off nothing until
+   somebody presses it. The cards are whitewash too, with their plates set into
+   the dark stone. No new colour: every pair here is one the call already holds. */
+.watchroom .facade {
+  color: var(--wr-text); background: var(--wr-lime); border-color: var(--wr-dim); border-radius: 3px;
+  font-family: 'IBM Plex Sans Condensed', 'Arial Narrow', sans-serif;
+}
+.watchroom .facade:hover { background: var(--wr-stone); }
+.watchroom .facade__play { color: var(--wr-brass); font-family: 'IBM Plex Sans Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: .06em; }
+.wr-screen { margin: 14px 0 0; }
+.wr-screen .facade { font-size: 22px; padding: 22px 24px; }
+.wr-screen__now { margin: 10px 0 0; font-weight: 600; }
+.wr-screen__back { margin: 8px 0 0; }
+.wr-back, .wr-card__big {
+  min-height: 48px; padding: 8px 18px; cursor: pointer; text-align: left;
+  font: 600 18px/1.25 'IBM Plex Sans Condensed', 'Arial Narrow', sans-serif;
+  color: var(--wr-ink); background: var(--wr-brass); border: 2px solid var(--wr-brass); border-radius: 3px;
+}
+.wr-back:hover, .wr-card__big:hover { background: var(--wr-text); border-color: var(--wr-text); }
+.wr-rack { margin: 22px 0 0; }
+.wr-rack > summary { cursor: pointer; font-family: 'Old Standard TT', Georgia, serif; font-size: 23px; }
+.wr-cards { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.wr-card { display: grid; gap: 8px; align-content: start; padding: 16px; background: var(--wr-lime); border-radius: 3px; }
+.wr-card p { margin: 0; }
+.watchroom .wr-card__title { margin: 0; font-family: 'IBM Plex Sans Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 18px; line-height: 1.3; }
+.watchroom .wr-card__who { font-size: 15px; color: var(--wr-dim); }
+.watchroom .wr-card__note { font-size: 16px; line-height: 1.5; }
+.wr-card .facade { background: var(--wr-stone); font-size: 17px; }
+.wr-card .facade:hover { background: var(--wr-lime); }
 
 @media (max-width: 760px) {
   .wr-list { padding: 4px 16px; }

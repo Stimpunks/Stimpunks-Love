@@ -60,7 +60,51 @@
    "page": "cavendish-events.html",
    "room": "The Events Room",
    "prefix": "wr",
-   "item": "light"
+   "item": "light",
+   "rack": {
+    "_why": "Ryan's brief, 2026-10-08: a shared screen in the Events Room, with these on a rack, in the order he gave them, the first on the screen when you arrive. Each was checked on its own watch page on the day: public, playable in an embed, not age-restricted, not live, and its runtime. Their titles are their channels'; the notes are ours and say only what the titles and descriptions say is in them. The screen is the page's first, so a moderator's Screen a video goes up on it too.",
+    "screen": "the screen on the wall",
+    "rack_title": "On the rack: Schitt’s Creek",
+    "off": "The ten scenes from CBC are off it until you put them back.",
+    "videos": [
+     {
+      "id": "VeBwlywDPX0",
+      "title": "Schitt's Creek Top 10 Funniest Scenes",
+      "channel": "CBC",
+      "channel_id": "UC5ujvySyX2svDmsle_--dpA",
+      "runtime": "10:51",
+      "note": "Ten scenes from the show, chosen by CBC and put up for its tenth anniversary.",
+      "measured": "2026-10-08"
+     },
+     {
+      "id": "LF40i8ENHxA",
+      "title": "Alexis & David's Friendship Timeline - Schitt's Creek",
+      "channel": "Schitt's Creek",
+      "channel_id": "UCVmFdp0CSRyvSCAsQjwkRuA",
+      "runtime": "32:09",
+      "note": "Alexis and David, from estranged siblings to friends, cut together in the order it happened.",
+      "measured": "2026-10-08"
+     },
+     {
+      "id": "1FuxB-lk1dI",
+      "title": "Schitt's Creek Funniest Scenes According to Fans",
+      "channel": "CBC",
+      "channel_id": "UC5ujvySyX2svDmsle_--dpA",
+      "runtime": "12:28",
+      "note": "Scenes chosen by fans this time, after CBC asked under its own ten which ones it had missed.",
+      "measured": "2026-10-08"
+     },
+     {
+      "id": "uwosR3ThqDU",
+      "title": "The Rise of Rose Apothecary (Timeline) - Schitt’s Creek",
+      "channel": "Schitt's Creek",
+      "channel_id": "UCVmFdp0CSRyvSCAsQjwkRuA",
+      "runtime": "47:04",
+      "note": "David turns the town’s general store into Rose Apothecary, with help from Patrick and Alexis, cut together in the order it happened.",
+      "measured": "2026-10-08"
+     }
+    ]
+   }
   },
   {
    "id": "operations",

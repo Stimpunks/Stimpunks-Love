@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Wed, 07 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 08 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>A screen on the wall of the watch room</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-08-events-screen</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-08-events-screen</guid>
+      <pubDate>Thu, 08 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The Events Room has a shared screen now, asked for by Ryan, with Schitt’s Creek on a rack under it: CBC’s ten scenes, Alexis and David’s timeline, the scenes the fans chose, and the rise of Rose Apothecary, in the order he gave them. Each says how long it runs before you press it, plays in its own card or goes up on the screen, and was checked on its own watch page first. It is the room’s first screen, so it is where the CB puts things. Somebody on the CB can host what is on theirs and others can follow, and a moderator’s Screen a video goes up on it, waiting for each follower’s own press. The screen is not lit. The lamp’s column is still the only light in the room and stays on the chart table, so the screen hangs on the whitewash and gives off nothing until somebody presses it. The room’s line that nothing in it moves now says nothing moves by itself, because the screen plays what somebody presses. A room behind a Cavendish door can carry a rack now, not only a Hang Suite, built from the same rules, and the check that every video on the street still plays reads the doors’ racks too.</description>
+    </item>
     <item>
       <title>More channels on the teaching screen</title>
       <link>https://stimpunks.world/changelog.html#2026-10-07-cookin-channels</link>

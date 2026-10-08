@@ -189,9 +189,10 @@ LISTS = [
     # as playlists, for the reason above; every film on every one is checked as a
     # film, including Screen Two's, which has no rack but is named in the room.
     ("the picture house", "data/picture-house.json", "lightbulb-picture-house.html"),
-    # Cavendish Coworking's Hang Suites: the videos on their racks. Their cams
-    # are the Jungle Room's and are checked with that room.
-    ("the hang suites", "data/coworking.json", "cavendish-coworking.html"),
+    # Cavendish Coworking's rooms: the videos on their racks, the Hang Suites'
+    # and the Events Room's. The suites' cams are the Jungle Room's and are
+    # checked with that room.
+    ("cavendish coworking", "data/coworking.json", "cavendish-coworking.html"),
     # Dance, Punks, off The Outskirts. The crate is a playlist and is not checked
     # as one, for the reason above; what IS checked is the song each channel
     # opens on, because a channel is a starting video and a dead one is a
@@ -511,11 +512,12 @@ def tracks_in(data):
         return [dict(c["opens"], title=f'channel {c["n"]}, opening on {c["opens"]["title"]}')
                 for c in data["channels"]]
     if "doors" in data and "suites" in data:
-        # Cavendish Coworking's Hang Suites. Their cams are read out of the
+        # Cavendish Coworking's rooms. The Hang Suites' cams are read out of the
         # Jungle Room's data and are checked there, so only a rack's OWN videos
-        # are checked here; the doors carry no video at all.
+        # are checked here, in a suite or behind a door: the Events Room has
+        # had a rack since 2026-10-08.
         return [dict(v, artist=v.get("channel"))
-                for x in data["suites"] for v in (x.get("rack") or {}).get("videos", [])]
+                for x in data["doors"] + data["suites"] for v in (x.get("rack") or {}).get("videos", [])]
     if "cuts" in data:
         # The Mopery's parlour screen: ONE SONG, several times over, so what
         # every other list calls the artist is the performer here and the song

@@ -36,6 +36,14 @@ and which is which is read out of PUBLIC_CALLS in netlify/cb/lib.mjs, never
 restated here: a room that said it was open while the server refused its
 guests would be a door that looks like it worked.
 
+A ROOM BEHIND A DOOR OR A SUITE MAY HAVE A RACK: a screen with videos under
+it, each with its measured runtime, built for rack.js. The suites took them on
+2026-09-28 and the Events Room on 2026-10-08, as a shared screen for watching
+together, and the rules are the same in both: an id that is a YouTube id, a
+runtime on every video and none on a playlist, the channel and a note of ours on
+every card, love-embed.js and rack.js on the page, and cams read out of the
+Jungle Room by id rather than restated.
+
 IT ALSO REFUSES:
   · a door with no room behind it, or a room that does not exist, or whose
     call the server would refuse its guests (or hand to anybody, for a suite);
@@ -411,11 +419,11 @@ LIVE = "live, runs until you close it"
 
 
 def rack_items(d):
-    """A suite's rack, as a list of {id, title, channel, note, runs}. Cams come out of
+    """A room's rack, as a list of {id, title, channel, note, runs}. Cams come out of
     the Jungle Room's own data by id, never restated, so the two rooms cannot say two
     different things about one camera; videos carry their own measured runtime."""
     r = d.get("rack") or {}
-    where = f"suite {d['id']!r}'s rack"
+    where = f"{d['room']}'s rack"
     items = []
     if r.get("cams_from"):
         src = json.loads((ROOT / r["cams_from"]).read_text())
@@ -474,13 +482,13 @@ def rack_block(p, d, items):
         src = json.loads((ROOT / path).read_text()).get(key) or {}
         m = re.search(r"[?&]list=([A-Za-z0-9_-]+)", src.get("playlist", ""))
         if not m:
-            refuse(f"suite {d['id']!r}: {path} has no playlist under {key!r}.")
+            refuse(f"{d['room']}: {path} has no playlist under {key!r}.")
         lst = {"id": m.group(1) if m else "", "title": src.get("title", "")}
     if lst:
         if not LIST.match(lst.get("id", "")):
-            refuse(f"suite {d['id']!r}: the playlist {lst.get('id')!r} is not a playlist id.")
+            refuse(f"{d['room']}: the playlist {lst.get('id')!r} is not a playlist id.")
         if lst.get("runtime"):
-            refuse(f"suite {d['id']!r}: the playlist has a runtime. A list somebody keeps adding to has none.")
+            refuse(f"{d['room']}: the playlist has a runtime. A list somebody keeps adding to has none.")
         plate_src, plate_title = f"{EMBED}videoseries?list={lst['id']}&autoplay=1", f"{lst['title']}, on YouTube"
         plate_label, back_label = f"Put on the whole playlist &mdash; runs until you stop it", "Put the whole playlist back on the screen"
     else:
@@ -543,13 +551,16 @@ def write_room(d, public):
             [f'    <p class="{p}-norms__title">{e(d["norms_title"])}</p>', f'    <ul class="{p}-norms">']
             + [f'      <li>{e(n)}</li>' for n in d["norms"]] + ['    </ul>']
             + ([f'    <p>Read more: <a href="{e(d["further"]["href"])}">{e(d["further"]["text"])}</a>.</p>'] if d.get("further") else [])))
-        if d.get("rack"):
-            items = rack_items(d)
-            if items:
-                s = swapin(s, page, f"{p}-rack", rack_block(p, d, items))
-            for js in ("love-embed.js", "rack.js"):
-                if f'<script src="{js}" defer></script>' not in s:
-                    refuse(f"{d['page']}: it has a rack and does not load {js}.")
+    # A rack is a room's, door or suite: the Events Room took one on 2026-10-08,
+    # a shared screen for watching together, and it is built exactly as a
+    # suite's is, from the same rules.
+    if d.get("rack"):
+        items = rack_items(d)
+        if items:
+            s = swapin(s, page, f"{p}-rack", rack_block(p, d, items))
+        for js in ("love-embed.js", "rack.js"):
+            if f'<script src="{js}" defer></script>' not in s:
+                refuse(f"{d['page']}: it has a rack and does not load {js}.")
     s = swapin(s, page, f"{p}-call", room_call(p, d, tag, public))
     s = swapin(s, page, f"{p}-credits", (
         f'    <p>Every line about when is our events page&rsquo;s, word for word, read off '
