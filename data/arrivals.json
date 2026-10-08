@@ -5,7 +5,7 @@
   "_no_body": "A row carries a title, a date and where it goes. Never a summary, never an excerpt, never the item's content. A departures board gives you a name and a time; it does not read you the contents of the train. That is the room's argument and it is also what keeps this page from republishing everybody else's writing onto one surface. make-arrivals.py refuses a row with a summary field on it, because the friendly edit -- the rows look bare, paste the excerpts back in -- is a real one and it will arrive.",
   "_no_ranking": "No wire is ranked and no site's activity is totalled. There is no busiest, no quietest, no this-week count and nothing that says which of our sites has been getting on with it. A board that showed that would turn publishing into a race between our own people, most of whom are Disabled and several of whom are one person -- the pebbling cabinet's refusal of a tally, arriving between sites rather than inside a game.",
   "_snapshot": "The board is set when the site is built and not when somebody looks at it. None of these hosts sends an Access-Control-Allow-Origin header, so a browser cannot read these feeds from the page, and the ways round that are a proxy we do not run or a third-party reader we would be handing our visitors to. So every wire records the minute it was read, the hall says when the board was set, and every feed is linked so the live thing is one press away. The board is not the railway.",
-  "set": "2026-10-07T11:52Z",
+  "set": "2026-10-08T11:16Z",
   "wires": [
     {
       "id": "stimpunks",
@@ -15,8 +15,13 @@
       "feed": "https://stimpunks.org/feed/",
       "feed_name": "the blog",
       "note": "The big site, and the one all the others were built to take weight off. Weekly changelogs, weekly reflections, and the notices for Campfire and Infodumplings.",
-      "read": "2026-10-07T11:52Z",
+      "read": "2026-10-08T11:16Z",
       "items": [
+        {
+          "title": "Stimpunks.org Changelog for Week 40 2026: From the Proposal to the Vote, From the Headcount to the Handle",
+          "url": "https://stimpunks.org/2026/10/07/stimpunks-org-changelog-for-week-40-2026-from-the-proposal-to-the-vote-from-the-headcount-to-the-handle/",
+          "date": "2026-10-07T20:03:44Z"
+        },
         {
           "title": "Weekly Reflection for Week 39 2026",
           "url": "https://stimpunks.org/2026/10/04/weekly-reflection-for-week-39-2026/",
@@ -41,11 +46,6 @@
           "title": "Weekly Reflection for Week 37 2026",
           "url": "https://stimpunks.org/2026/09/20/weekly-reflection-for-week-37-2026/",
           "date": "2026-09-20T05:50:41Z"
-        },
-        {
-          "title": "Stimpunks.org Changelog for Week 37 2026: From the Gate to the Instrument, From the Byline to the Label",
-          "url": "https://stimpunks.org/2026/09/16/stimpunks-org-changelog-for-week-37-2026-from-the-gate-to-the-instrument-from-the-byline-to-the-label/",
-          "date": "2026-09-16T10:32:19Z"
         }
       ]
     },
@@ -59,7 +59,7 @@
       "second": "https://starstuff.earth/changelog.xml",
       "second_name": "the changelog",
       "note": "Zines, field guides, broadsides and working papers, each one arriving with the line it leads with. This wire is the pieces themselves; the reasoning is a second feed beside it.",
-      "read": "2026-10-07T11:52Z",
+      "read": "2026-10-08T11:16Z",
       "items": [
         {
           "title": "Edition Six",
@@ -103,7 +103,7 @@
       "second": "https://queering.earth/register.xml",
       "second_name": "the accession register",
       "note": "A cabinet of sheets, built in a week with Helen Edgar. This wire is what has been mounted; the register's own accessions, corrections included, are a second feed beside it.",
-      "read": "2026-10-07T11:52Z",
+      "read": "2026-10-08T11:16Z",
       "items": [
         {
           "title": "Metaphoray",
@@ -145,7 +145,7 @@
       "feed": "https://cavendish.space/feed.xml",
       "feed_name": "the changelog",
       "note": "The Cavendish Cards deck and the site that holds it. One row per dated entry, which is why some of these rows are named after a day rather than a thing.",
-      "read": "2026-10-07T11:52Z",
+      "read": "2026-10-08T11:16Z",
       "items": [
         {
           "title": "2026-09-20 — Site",
@@ -187,7 +187,7 @@
       "feed": "https://penguinpebbling.app/feed.xml",
       "feed_name": "the changelog",
       "note": "Helen Edgar and Ryan Boren's card game about bringing somebody a small thing for no reason. The Arcade has a cabinet built on the same practice and deliberately none of that deck.",
-      "read": "2026-10-07T11:52Z",
+      "read": "2026-10-08T11:16Z",
       "items": [
         {
           "title": "20 September 2026",
@@ -214,7 +214,7 @@
       "feed": "https://whysheet.press/feed.xml",
       "feed_name": "the press",
       "note": "One-page arguments made to be printed and carried into a room where somebody is about to be talked over. New sheets, revisions, and changes to how they print.",
-      "read": "2026-10-07T11:52Z",
+      "read": "2026-10-08T11:16Z",
       "items": [
         {
           "title": "The Demand Avoidance broadside",
@@ -256,37 +256,37 @@
       "feed": "https://stimpunks.world/feed.xml",
       "feed_name": "what changed on the street",
       "note": "This street. Its own changelog, read over the network like every other wire rather than lifted out of the file next door, so this board can be wrong about this site too.",
-      "read": "2026-10-07T11:52Z",
+      "read": "2026-10-08T11:16Z",
       "items": [
+        {
+          "title": "More channels on the teaching screen",
+          "url": "https://stimpunks.world/changelog.html#2026-10-07-cookin-channels",
+          "date": "2026-10-07T12:00:00Z"
+        },
+        {
+          "title": "A lift in the lighthouse",
+          "url": "https://stimpunks.world/changelog.html#2026-10-07-events-lift",
+          "date": "2026-10-07T11:59:00Z"
+        },
+        {
+          "title": "A second rack on the Green: the newest from the search",
+          "url": "https://stimpunks.world/changelog.html#2026-10-07-green-search",
+          "date": "2026-10-07T11:58:00Z"
+        },
         {
           "title": "Calls can use your camera and microphone in Chrome",
           "url": "https://stimpunks.world/changelog.html#2026-10-07-call-devices",
-          "date": "2026-10-07T12:00:00Z"
+          "date": "2026-10-07T11:57:00Z"
         },
         {
           "title": "Who’s online, on the radio",
           "url": "https://stimpunks.world/changelog.html#2026-10-07-whos-online",
-          "date": "2026-10-07T11:59:00Z"
+          "date": "2026-10-07T11:56:00Z"
         },
         {
           "title": "Find somebody by name with an @ in the teleporter",
           "url": "https://stimpunks.world/changelog.html#2026-10-07-find-by-name",
-          "date": "2026-10-07T11:58:00Z"
-        },
-        {
-          "title": "Rolls on the player piano at A Quiet Pint",
-          "url": "https://stimpunks.world/changelog.html#2026-10-06-piano-rolls",
-          "date": "2026-10-06T12:00:00Z"
-        },
-        {
-          "title": "A Quiet Pint: a pub under the street, made like McAnally’s",
-          "url": "https://stimpunks.world/changelog.html#2026-10-05-a-quiet-pint",
-          "date": "2026-10-05T12:00:00Z"
-        },
-        {
-          "title": "Four lots where the buildings stop: the Run, the Truck Stop, the Green and the Pile",
-          "url": "https://stimpunks.world/changelog.html#2026-10-05-outdoors-on-the-street",
-          "date": "2026-10-05T11:59:00Z"
+          "date": "2026-10-07T11:55:00Z"
         }
       ]
     },
@@ -301,7 +301,7 @@
       "feed": "https://stimpunks.world/brass-tacks.xml",
       "feed_name": "the board's posts",
       "note": "This street's board for what has to stay put: news, notices, events and celebrations, posted by our moderators with their names on them. A second feed of this street, not a site of its own, read over the network like every other wire.",
-      "read": "2026-10-07T11:52Z",
+      "read": "2026-10-08T11:16Z",
       "items": [
         {
           "title": "Open Source Communication All the Way",
@@ -319,7 +319,7 @@
       "feed": "https://monotropicmap.org/feed.xml",
       "feed_name": "the changelog",
       "note": "A map you can walk and a second tool for drawing your own. Built with Helen Edgar, who reviewed it twice before it went up.",
-      "read": "2026-10-07T11:52Z",
+      "read": "2026-10-08T11:16Z",
       "items": [
         {
           "title": "Mapping Monotropism in Education",
