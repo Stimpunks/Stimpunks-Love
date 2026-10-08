@@ -146,16 +146,6 @@
  ],
  "log": [
   {
-   "id": "WAfUc4DI68g",
-   "source": "americas-test-kitchen",
-   "form": "long",
-   "title": "Use Summer Tomatoes for a Fresh Tomato Galette | ATK Classes",
-   "published": "2026-09-07T15:59:59Z",
-   "state": "screen",
-   "runs": 1110,
-   "channel": "America's Test Kitchen"
-  },
-  {
    "id": "IShm_WCJL-k",
    "source": "americas-test-kitchen",
    "form": "long",
@@ -303,6 +293,16 @@
    "published": "2026-10-06T06:59:50Z",
    "state": "screen",
    "runs": 287,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "ns98FRArgGg",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "Which Egg Substitute Is Actually Worth Buying? | America's Test Kitchen",
+   "published": "2026-10-07T12:59:52Z",
+   "state": "screen",
+   "runs": 261,
    "channel": "America's Test Kitchen"
   },
   {
@@ -496,6 +496,36 @@
    "channel": "America's Test Kitchen"
   },
   {
+   "id": "4FTLlZvIvuo",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "These Are the Best Kitchen Tool Deals for Amazon Prime Big Deal Days",
+   "published": "2026-10-07T13:43:17Z",
+   "state": "screen",
+   "runs": 79,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "b-ZMI6eplzA",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "Kitchen Tools to Avoid Buying During Amazon Prime Big Deal Days",
+   "published": "2026-10-07T15:00:32Z",
+   "state": "screen",
+   "runs": 88,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "4oVW0EUmf4w",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "The Breadcrumb You Choose Matters",
+   "published": "2026-10-07T16:29:52Z",
+   "state": "screen",
+   "runs": 58,
+   "channel": "America's Test Kitchen"
+  },
+  {
    "id": "urN5Ewbl7FI",
    "source": "alton-brown",
    "form": "long",
@@ -583,6 +613,16 @@
    "published": "2026-09-30T16:00:06Z",
    "state": "screen",
    "runs": 1001,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "XrtCft77RBU",
+   "source": "epicurious",
+   "form": "long",
+   "title": "15 Meal Prepping Hacks Every Home Cook Should Know | Epicurious 101",
+   "published": "2026-10-07T16:00:15Z",
+   "state": "screen",
+   "runs": 619,
    "channel": "Epicurious"
   },
   {
@@ -976,13 +1016,13 @@
    "channel": "Andy Cooks"
   },
   {
-   "id": "2SJ_oTkxv8M",
+   "id": "LZV8885Pn2w",
    "source": "andy-cooks",
-   "form": "short",
-   "title": "Render fat slowly 🦆",
-   "published": "2026-09-08T11:00:39Z",
+   "form": "long",
+   "title": "5 Cheap Dinners for Busy Weeknights",
+   "published": "2026-10-08T06:00:08Z",
    "state": "screen",
-   "runs": 21,
+   "runs": 1341,
    "channel": "Andy Cooks"
   },
   {
@@ -1366,6 +1406,16 @@
    "channel": "The Pasta Queen"
   },
   {
+   "id": "puNV0-ybzXg",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "Nonna’s Spaghetti Meatball❤️🇮🇹",
+   "published": "2026-10-07T18:14:58Z",
+   "state": "screen",
+   "runs": 88,
+   "channel": "The Pasta Queen"
+  },
+  {
    "id": "CQPgUU6twnQ",
    "source": "japanese-food-noodles",
    "form": "long",
@@ -1573,6 +1623,36 @@
    "published": "2026-10-06T22:00:30Z",
    "state": "screen",
    "runs": 2169,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "Sv-7ijC3ukY",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Inside Japan's Disaster Relief: Cooking a Different Meal EVERY DAY",
+   "published": "2026-10-07T22:00:14Z",
+   "state": "screen",
+   "runs": 1369,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "pbaVEVfM36Y",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Why Night Shift Workers Rush to This 4:50AM Ramen Shop for Huge Ramen and Rice",
+   "published": "2026-10-08T00:00:36Z",
+   "state": "screen",
+   "runs": 1796,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "4mjQCEX1a1o",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Why Hungry Workers Rush to 6AM Open Tiny Udon Noodle Shop?",
+   "published": "2026-10-08T02:00:31Z",
+   "state": "screen",
+   "runs": 1453,
    "channel": "Japanese Food Noodles"
   },
   {
@@ -1946,6 +2026,16 @@
    "channel": "Bon Appétit"
   },
   {
+   "id": "mG4TD0_5Jpo",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "Philly Didn’t Always Want Broccoli Rabe",
+   "published": "2026-10-07T16:00:07Z",
+   "state": "screen",
+   "runs": 52,
+   "channel": "Bon Appétit"
+  },
+  {
    "id": "J-lEHpqcOO8",
    "source": "insider-food",
    "form": "long",
@@ -1993,6 +2083,16 @@
    "published": "2026-09-30T17:00:04Z",
    "state": "screen",
    "runs": 794,
+   "channel": "Fallow"
+  },
+  {
+   "id": "mp4Il5rC7AQ",
+   "source": "fallow",
+   "form": "long",
+   "title": "We Cooked Michelin Roast Chickens to Find the Ultimate one",
+   "published": "2026-10-07T18:00:03Z",
+   "state": "screen",
+   "runs": 1637,
    "channel": "Fallow"
   },
   {
@@ -2163,6 +2263,16 @@
    "published": "2026-10-05T17:19:39Z",
    "state": "screen",
    "runs": 29,
+   "channel": "Fallow"
+  },
+  {
+   "id": "2kudPleDN4A",
+   "source": "fallow",
+   "form": "short",
+   "title": "The Best Way to Cook an Onion",
+   "published": "2026-10-07T12:16:23Z",
+   "state": "screen",
+   "runs": 34,
    "channel": "Fallow"
   },
   {
@@ -2384,6 +2494,206 @@
    "state": "screen",
    "runs": 102,
    "channel": "Eater"
+  },
+  {
+   "id": "dowA0DtW92Q",
+   "source": "eater",
+   "form": "short",
+   "title": "Why this is the ultimate thin crust pizza #pizza #food #recipe",
+   "published": "2026-10-07T14:00:06Z",
+   "state": "screen",
+   "runs": 83,
+   "channel": "Eater"
+  },
+  {
+   "id": "9rhYfalTRF8",
+   "source": "munchies",
+   "form": "long",
+   "title": "Irish Oysters, Perfect Guinness Pours, and Soda Bread! MUNCHIES Guide to Belfast",
+   "published": "2026-09-09T15:00:14Z",
+   "state": "screen",
+   "runs": 1038,
+   "channel": "Munchies"
+  },
+  {
+   "id": "Jvjl90Xm50o",
+   "source": "munchies",
+   "form": "long",
+   "title": "The Best White Wine You've Never Heard Of: Albariño | The Wine Show",
+   "published": "2026-09-23T15:00:04Z",
+   "state": "screen",
+   "runs": 1025,
+   "channel": "Munchies"
+  },
+  {
+   "id": "rvmJYzAfj74",
+   "source": "munchies",
+   "form": "long",
+   "title": "English Breakfast, Guinness Pours, and Monkfish Ravioli | MUNCHIES Guide to Manchester",
+   "published": "2026-09-30T15:00:10Z",
+   "state": "screen",
+   "runs": 1106,
+   "channel": "Munchies"
+  },
+  {
+   "id": "Vz0c_wGgos0",
+   "source": "munchies",
+   "form": "long",
+   "title": "Hot Chicken And Heavy Pours In Nashville | Chef's Night Out",
+   "published": "2026-10-07T15:00:23Z",
+   "state": "screen",
+   "runs": 1041,
+   "channel": "Munchies"
+  },
+  {
+   "id": "Agay3gG6O_E",
+   "source": "munchies",
+   "form": "short",
+   "title": "The Best White Wine You've NEVER Heard Of! #wine #whitewine",
+   "published": "2026-09-21T19:00:14Z",
+   "state": "screen",
+   "runs": 19,
+   "channel": "Munchies"
+  },
+  {
+   "id": "kVfGNAMmBak",
+   "source": "munchies",
+   "form": "short",
+   "title": "Crab Brain Sushi And Albariño Wine = PERFECTION! #wine #wineshow",
+   "published": "2026-09-21T22:24:02Z",
+   "state": "screen",
+   "runs": 32,
+   "channel": "Munchies"
+  },
+  {
+   "id": "Fye5U5VtgzM",
+   "source": "joshua-weissman",
+   "form": "long",
+   "title": "I Tried Fast Food That No Longer Exists",
+   "published": "2026-09-20T14:30:11Z",
+   "state": "screen",
+   "runs": 1972,
+   "channel": "Joshua Weissman"
+  },
+  {
+   "id": "QDleZC5l_rk",
+   "source": "joshua-weissman",
+   "form": "long",
+   "title": "I Asked Famous Youtubers To Cook in Their Homes",
+   "published": "2026-10-04T14:30:26Z",
+   "state": "screen",
+   "runs": 1492,
+   "channel": "Joshua Weissman"
+  },
+  {
+   "id": "JhXjEITKYyQ",
+   "source": "strictly-dumpling",
+   "form": "long",
+   "title": "Chicago's Top 10 Best CHEAP EATS |🔥 My Favorite Spots!",
+   "published": "2026-09-09T17:14:19Z",
+   "state": "screen",
+   "runs": 1992,
+   "channel": "Strictly Dumpling"
+  },
+  {
+   "id": "QGmyzlbHV9I",
+   "source": "strictly-dumpling",
+   "form": "long",
+   "title": "Texas's BEST Brunch Buffet! All You Can Eat TEX-MEX Brunch Buffet in Dallas",
+   "published": "2026-09-11T20:32:00Z",
+   "state": "screen",
+   "runs": 1506,
+   "channel": "Strictly Dumpling"
+  },
+  {
+   "id": "ubMTbH9q4oU",
+   "source": "strictly-dumpling",
+   "form": "long",
+   "title": "H-Mart KING CRAB Feast! 50 HOURS Eating at America's LARGEST H-Mart 🦀",
+   "published": "2026-09-15T18:00:05Z",
+   "state": "screen",
+   "runs": 2527,
+   "channel": "Strictly Dumpling"
+  },
+  {
+   "id": "Nx37nwb_Fww",
+   "source": "strictly-dumpling",
+   "form": "long",
+   "title": "My FAVORITE 15 CHEAP EATS in Greater Seattle! 🍜🍔",
+   "published": "2026-09-21T02:00:07Z",
+   "state": "screen",
+   "runs": 3307,
+   "channel": "Strictly Dumpling"
+  },
+  {
+   "id": "KZp9xDvHER4",
+   "source": "strictly-dumpling",
+   "form": "long",
+   "title": "I Found an All You Can Eat NOODLE BREAKFAST in Chinatown New York 🍜",
+   "published": "2026-09-23T19:50:19Z",
+   "state": "screen",
+   "runs": 1286,
+   "channel": "Strictly Dumpling"
+  },
+  {
+   "id": "MgkBd2P0JCA",
+   "source": "strictly-dumpling",
+   "form": "long",
+   "title": "I Found an All-You-Can-Eat COLOMBIAN BBQ Buffet in Queens New York! 🔥",
+   "published": "2026-09-27T16:30:15Z",
+   "state": "screen",
+   "runs": 1120,
+   "channel": "Strictly Dumpling"
+  },
+  {
+   "id": "9lXcT8bh2Zg",
+   "source": "strictly-dumpling",
+   "form": "long",
+   "title": "Trying Florida’s GREATEST All You Can Eat COUNTRY BUFFET! 🍗",
+   "published": "2026-10-03T21:00:19Z",
+   "state": "screen",
+   "runs": 1467,
+   "channel": "Strictly Dumpling"
+  },
+  {
+   "id": "d1AGJHOppxo",
+   "source": "strictly-dumpling",
+   "form": "long",
+   "title": "FILIPINO BILAO! Eating Florida's BIGGEST Tray of Filipino Food",
+   "published": "2026-10-06T20:37:59Z",
+   "state": "screen",
+   "runs": 1680,
+   "channel": "Strictly Dumpling"
+  },
+  {
+   "id": "jRocAOuYGSA",
+   "source": "strictly-dumpling",
+   "form": "short",
+   "title": "World's BIGGEST Soufflé at Las Vegas's GREATEST Italian Brunch Buffet #lasvegas #brunchbuffet",
+   "published": "2026-09-10T20:45:19Z",
+   "state": "screen",
+   "runs": 36,
+   "channel": "Strictly Dumpling"
+  },
+  {
+   "id": "KSkqVdz1Z2g",
+   "source": "strictly-dumpling",
+   "form": "short",
+   "title": "The NEWEST Lobster Buffet on the Las Vegas Strip #shorts #lasvegas",
+   "published": "2026-09-13T17:44:25Z",
+   "state": "screen",
+   "runs": 62,
+   "channel": "Strictly Dumpling"
+  },
+  {
+   "id": "5uxrzq0aQ_o",
+   "source": "strictly-dumpling",
+   "form": "short",
+   "title": "This is America's BEST Night Market & EVERY DISH Is ONLY $6! 🤯 #shorts",
+   "published": "2026-09-28T23:00:10Z",
+   "state": "screen",
+   "runs": 168,
+   "channel": "Strictly Dumpling"
   }
  ],
  "covered": {
@@ -2391,13 +2701,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2405,13 +2715,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2419,13 +2729,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2433,13 +2743,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2447,13 +2757,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2461,13 +2771,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2475,13 +2785,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2489,13 +2799,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2503,13 +2813,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2517,13 +2827,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2531,13 +2841,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2545,13 +2855,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2559,13 +2869,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2573,13 +2883,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2587,13 +2897,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2601,13 +2911,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2615,13 +2925,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2629,13 +2939,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2643,13 +2953,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ]
   },
@@ -2657,16 +2967,58 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-10-07T11:59:11Z"
+     "2026-10-08T11:22:27Z"
+    ]
+   ]
+  },
+  "munchies": {
+   "long": [
+    [
+     "2026-06-24T15:00:35Z",
+     "2026-10-08T11:22:27Z"
+    ]
+   ],
+   "short": [
+    [
+     "2025-09-18T21:45:00Z",
+     "2026-10-08T11:22:27Z"
+    ]
+   ]
+  },
+  "joshua-weissman": {
+   "long": [
+    [
+     "2026-03-22T14:30:31Z",
+     "2026-10-08T11:22:27Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-04-17T14:30:18Z",
+     "2026-10-08T11:22:27Z"
+    ]
+   ]
+  },
+  "strictly-dumpling": {
+   "long": [
+    [
+     "2026-08-08T17:03:29Z",
+     "2026-10-08T11:22:27Z"
+    ]
+   ],
+   "short": [
+    [
+     "2025-10-15T20:26:40Z",
+     "2026-10-08T11:22:27Z"
     ]
    ]
   }
  },
- "set": "2026-10-07T11:59Z"
+ "set": "2026-10-08T11:22Z"
 }
