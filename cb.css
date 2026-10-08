@@ -146,9 +146,10 @@
 .cb-msg { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 8px; row-gap: 2px; }
 .cb-msg > .cb-head { grid-column: 1; grid-row: 1; }
 .cb-msg > .cb-text { grid-column: 1 / -1; grid-row: 2; }
-/* The base's Take off sits at the end of the name-and-time line rather than on
-   a row of its own under every message, which doubled the log's height. Still
-   a real target: 32px tall, over WCAG's 24. */
+/* Copy, React and Take off (the base's on every message, everybody's on their
+   own) sit at the end of the name-and-time line rather than on a row of their
+   own under every message, which doubled the log's height. Still real
+   targets: 32px tall, over WCAG's 24. */
 .cb-msg > .cb-acts {
   grid-column: 2; grid-row: 1; align-self: center;
   display: flex; gap: 6px;

@@ -2597,6 +2597,33 @@ export function json(status, body, extra = {}) {
   });
 }
 
+/* ── Taking a message off ─────────────────────────────────────────────────
+
+   Ryan, 2026-10-08: anybody can take their own message off the air, with the
+   same Take off the base station has on every message. This is the one place
+   that decides whose a message is, and the answer is the handle on it, folded
+   the way every handle here is: no record of who sent what is kept for this,
+   and none is needed. Two marks narrow it, so that a name nobody holds any more
+   cannot reach back to what was said under it:
+
+   · a message marked CLAIMED comes off only for a pass that is that claimed
+     username's own. A username deleted at noon and signed on as by somebody
+     else with the community password cannot take off what its owner said
+     that morning.
+   · a message from the base comes off only for the base.
+
+   An unclaimed handle is whatever somebody typed, so anybody signed on as it
+   can take off what was said under it, the same as they could have said it.
+   The base can take off any message. Clearing a whole channel is the base's
+   alone, and is decided in cb-moderate, not here. */
+export function canTakeOff(who, m) {
+  if (!who || !m) return false;
+  if (who.role === 'base') return true;
+  if (m.base) return false;
+  if (foldHandle(m.handle) !== foldHandle(who.handle)) return false;
+  return !m.claimed || !!who.account;
+}
+
 /* ── Reactions ────────────────────────────────────────────────────────────
 
    Ryan's brief, 2026-09-30: reactions on CB messages. A reaction is one of a

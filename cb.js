@@ -1517,11 +1517,18 @@
       var acts = el('div', 'cb-acts');
       if (m.text) acts.appendChild(this.copyBtn(m));
       acts.appendChild(this.reactBtn(m, li));
-      if (this.state.base) {
+      /* TAKE OFF is on every message for the base, and on your own for
+         everybody (Ryan, 2026-10-08). Which are yours is canTakeOff's rule in
+         lib.mjs, asked again by the server: this only decides where the button
+         is drawn. */
+      var yours = this.mine(m);
+      if (this.state.base || yours) {
         var off = el('button', 'cb-btn cb-take', 'Take off');
         off.type = 'button';
-        off.setAttribute('aria-label', 'Take ' + m.handle + '’s message at ' + clock(m.t) + ' off the air');
-        (function (id) { off.addEventListener('click', function () { me.moderate({ remove: id }); }); })(m.id);
+        off.setAttribute('aria-label', yours
+          ? 'Take your message at ' + clock(m.t) + ' off the air'
+          : 'Take ' + m.handle + '’s message at ' + clock(m.t) + ' off the air');
+        (function (id, own) { off.addEventListener('click', function () { me.moderate({ remove: id }, own); }); })(m.id, yours);
         acts.appendChild(off);
       }
       if (acts.children.length) li.appendChild(acts);
@@ -2617,13 +2624,31 @@
     }).catch(function () { me.tell('No signal. That did not go out.'); });
   };
 
-  Radio.prototype.moderate = function (what) {
+  /* Yours, as canTakeOff in lib.mjs reads it: your handle, folded, and if the
+     message is CLAIMED, a claimed pass. A BASE message is only ever the base's. */
+  Radio.prototype.mine = function (m) {
+    if (m.base || fold(m.handle) !== fold(this.state.handle)) return false;
+    return !m.claimed || claimedPass(this.state.pass);
+  };
+
+  Radio.prototype.moderate = function (what, own) {
     var me = this;
     var room = this.tunedRoom();
     if (room) what.room = room;
     call('/cb/moderate', { body: what }, this.state.pass).then(function (r) {
-      if (r.status === 200 && room === me.tunedRoom()) { me.show(r.body.messages || []); me.tell(what.clear ? 'Channel cleared.' : 'Taken off the air.'); }
-      else me.tell(why(r, 'That did not work.'));
+      if (r.status === 401) return me.lost();
+      var here = room === me.tunedRoom();
+      if (r.status === 200 && here) {
+        me.show(r.body.messages || []);
+        me.tell(what.clear ? 'Channel cleared.' : own ? 'Your message is off the air.' : 'Taken off the air.');
+        /* The button that had the keyboard went with its message, so the
+           keyboard goes to the message box rather than to nowhere. */
+        if (!what.clear && me.say.offsetParent) me.say.focus();
+        return;
+      }
+      // Already gone, or not yours after all: the answer carries the channel.
+      if (here && r.body && r.body.messages) me.show(r.body.messages);
+      me.tell(why(r, 'That did not work.'));
     }).catch(function () { me.tell('No signal.'); });
   };
 

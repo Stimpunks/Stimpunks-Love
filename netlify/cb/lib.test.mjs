@@ -29,7 +29,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
   PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons, QUIET_ROOMS, quietRoom,
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
-  renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages, REACTIONS, reactionOf, toggleReaction, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
+  renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages, REACTIONS, reactionOf, toggleReaction, canTakeOff, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
@@ -226,6 +226,29 @@ test('a reaction is pressed and pressed again, names who and never says how many
   assert.equal(reactionOf('<script>'), null);
   assert.equal(toggleReaction(list, 'm1', 'nope', 'Ada'), null);
   assert.equal(toggleReaction(list, 'gone', heart, 'Ada'), null);
+});
+
+test('anybody takes off their own message, a claimed one only with its password, and the base any', () => {
+  const ada = { id: 'a', handle: 'Ada', text: 'hi', t: 1 };
+  const adaClaimed = { id: 'c', handle: 'Ada', text: 'hi', t: 2, claimed: true };
+  const fromBase = { id: 'b', handle: 'Juniper', text: 'hi', t: 3, base: true, claimed: true };
+  const asAda = { role: 'mobile', handle: 'Ada', roles: new Set() };
+  const asAdaClaimed = { role: 'mobile', handle: 'Ada', roles: new Set(), account: true };
+  const base = { role: 'base', handle: 'Juniper', roles: new Set(['moderator']) };
+  assert.equal(canTakeOff(asAda, ada), true, 'a sender could not take off their own message');
+  assert.equal(canTakeOff({ ...asAda, handle: ' ADA ' }, ada), true, 'the handle was not folded');
+  assert.equal(canTakeOff({ ...asAda, handle: 'Bo' }, ada), false, 'somebody took off another person\'s message');
+  // CLAIMED says the message came from whoever holds that username's password,
+  // so only that password takes it off; a deleted username taken up again with
+  // the community password cannot reach back to what its owner said.
+  assert.equal(canTakeOff(asAda, adaClaimed), false, 'a CLAIMED message came off for the community password');
+  assert.equal(canTakeOff(asAdaClaimed, adaClaimed), true, 'a claimed username could not take off its own message');
+  assert.equal(canTakeOff(asAdaClaimed, ada), true, 'claiming a username lost what was said under it before');
+  // A message from the base comes off only for the base, which takes off anything.
+  assert.equal(canTakeOff({ role: 'mobile', handle: 'Juniper', roles: new Set(), account: true }, fromBase), false, 'a BASE message came off for somebody not the base');
+  for (const m of [ada, adaClaimed, fromBase]) assert.equal(canTakeOff(base, m), true, 'the base could not take a message off');
+  assert.equal(canTakeOff(null, ada), false);
+  assert.equal(canTakeOff(asAda, null), false);
 });
 
 // THE BRASS TACKS BOARD.

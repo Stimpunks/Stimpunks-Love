@@ -3275,6 +3275,14 @@ emoji picker, so the picker types into a box, and `reactionOf` takes exactly one
 emoji parts with a pictograph, flag or keycap in it; `REACT_KINDS` caps different reactions per
 message. The chalkboard's "no reactions" is the board's rule and still holds.
 
+**TAKE OFF IS ON YOUR OWN MESSAGES TOO, AND `canTakeOff` IN `lib.mjs` IS THE ONE PLACE THAT DECIDES.**
+Ryan, 2026-10-08. `/cb/moderate` takes a message off for the base, or for whoever sent it: the handle on
+the message, folded, with no record of who sent what kept for it. **A CLAIMED message comes off only for a
+claimed pass and a BASE message only for the base**, so a deleted username signed on as again with the
+community password cannot reach back to the morning. Clear stays the base's, and the function asks
+`roomAllows` now, which it never did. `Radio.prototype.mine` in `cb.js` copies the rule only to draw the
+button; change both. Nothing marks where a message was, as with the base's: it goes as if midnight came.
+
 **A MESSAGE IS 2,000 CHARACTERS AND BASIC MARKDOWN, DRAWN AS ELEMENTS AND NEVER AS HTML.** Ryan,
 2026-09-29. `MESSAGE_MAX` and `cleanMessage` in `lib.mjs` keep a message's lines (the Slake, the
 chalkboard and the bowls keep `TEXT_MAX`'s 280 and one line). `md()` in `cb.js` builds every piece
