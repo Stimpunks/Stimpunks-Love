@@ -78,7 +78,7 @@
    "channel_id": "UCPjNBjflYl0-HQtUvOx0Ibw"
   }
  ],
- "set": "2026-10-08T11:21Z",
+ "set": "2026-10-09T11:56Z",
  "log": [
   {
    "id": "4Hvkv_I8QDE",
@@ -139,16 +139,6 @@
    "state": "screen",
    "runs": 45,
    "channel": "Tina Huang"
-  },
-  {
-   "id": "cyIWQHYoUg8",
-   "source": "ai-labs",
-   "form": "long",
-   "title": "Github Top Trending Tool Just Fixed The AI Agent’s Biggest Problem",
-   "published": "2026-09-08T16:02:32Z",
-   "state": "screen",
-   "runs": 768,
-   "channel": "AI LABS"
   },
   {
    "id": "BwNNcob3-A0",
@@ -331,16 +321,6 @@
    "channel": "Matt Wolfe"
   },
   {
-   "id": "LJ2YeWQ_uJE",
-   "source": "matt-wolfe",
-   "form": "short",
-   "title": "3 Big ChatGPT Updates You Need to Know",
-   "published": "2026-09-08T15:55:26Z",
-   "state": "screen",
-   "runs": 55,
-   "channel": "Matt Wolfe"
-  },
-  {
    "id": "iSXeiUXiln8",
    "source": "matt-wolfe",
    "form": "short",
@@ -428,6 +408,16 @@
    "published": "2026-09-30T12:15:21Z",
    "state": "screen",
    "runs": 64,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "grOilk8aCS0",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "AI Design Hack Saves HOURS",
+   "published": "2026-10-08T15:13:52Z",
+   "state": "screen",
+   "runs": 57,
    "channel": "Matt Wolfe"
   },
   {
@@ -598,6 +588,16 @@
    "published": "2026-10-07T14:00:32Z",
    "state": "screen",
    "runs": 956,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "wep2EQ9Y_Tc",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "Google Has More Data Than Almost Anyone. So Why Is It Bidding $10 Million On Old Emails?",
+   "published": "2026-10-08T20:00:36Z",
+   "state": "screen",
+   "runs": 1494,
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
@@ -1011,6 +1011,16 @@
    "channel": "Theo - t3․gg"
   },
   {
+   "id": "38_6C0dkKmU",
+   "source": "theo",
+   "form": "long",
+   "title": "finally a good small model",
+   "published": "2026-10-09T02:20:47Z",
+   "state": "screen",
+   "runs": 2470,
+   "channel": "Theo - t3․gg"
+  },
+  {
    "id": "HYSRZycu-sw",
    "source": "theo",
    "form": "short",
@@ -1069,16 +1079,6 @@
    "state": "screen",
    "runs": 29,
    "channel": "Theo - t3․gg"
-  },
-  {
-   "id": "Q7SiipUCjro",
-   "source": "paul-j-lipsky",
-   "form": "long",
-   "title": "ChatGPT Images 2.5 Is Here (And It’s A LOT Of Fun)",
-   "published": "2026-09-08T20:41:50Z",
-   "state": "screen",
-   "runs": 553,
-   "channel": "Paul J Lipsky"
   },
   {
    "id": "60a0nHFefn4",
@@ -1611,6 +1611,26 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
+   "id": "oz2CwrPV2Rg",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "Anthropic Engineers Just 10x'd Everyone's Claude Code",
+   "published": "2026-10-08T20:48:59Z",
+   "state": "screen",
+   "runs": 742,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "MgvwZaDPCs4",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "Grok Bot Just Got 2 Massive Upgrades. Do These Things Now.",
+   "published": "2026-10-09T02:02:31Z",
+   "state": "screen",
+   "runs": 551,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
    "id": "iW-yLZjbFjo",
    "source": "nate-herk",
    "form": "short",
@@ -1678,6 +1698,36 @@
    "published": "2026-10-03T03:43:11Z",
    "state": "screen",
    "runs": 81,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "w4R4l1xtfGU",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Your Popup Can Now Optimize Itself for Every Visitor",
+   "published": "2026-10-09T00:00:20Z",
+   "state": "screen",
+   "runs": 77,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "kebGZLyrvZg",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Grok Bot uses my Claude Code subscription. Here's how.",
+   "published": "2026-10-09T02:03:27Z",
+   "state": "screen",
+   "runs": 53,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "f_WsOXdGm4w",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Grok Bot now runs on Opus 5.5",
+   "published": "2026-10-09T02:21:31Z",
+   "state": "screen",
+   "runs": 61,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -1851,6 +1901,16 @@
    "channel": "Chase AI"
   },
   {
+   "id": "JJMChiMYW_g",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "The Haiku 5.5 Benchmarks are INSANE, So I Tested It Versus Luna",
+   "published": "2026-10-08T23:43:24Z",
+   "state": "screen",
+   "runs": 1095,
+   "channel": "Chase AI"
+  },
+  {
    "id": "Jtssr9HkSpI",
    "source": "chase-ai",
    "form": "short",
@@ -1909,16 +1969,6 @@
    "state": "screen",
    "runs": 72,
    "channel": "Chase AI"
-  },
-  {
-   "id": "UtFo1ZNC2ns",
-   "source": "greg-isenberg",
-   "form": "long",
-   "title": "I'm Obsessed With Local AI. Here's Why",
-   "published": "2026-09-08T16:30:21Z",
-   "state": "screen",
-   "runs": 2326,
-   "channel": "Greg Isenberg"
   },
   {
    "id": "nglqTHwuZ-8",
@@ -2029,6 +2079,16 @@
    "state": "screen",
    "runs": 1517,
    "channel": "Greg Isenberg"
+  },
+  {
+   "id": "rkK8ZyzYyEA",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "8 GitHub Repos To Go Viral and Make Money",
+   "published": "2026-10-08T18:30:11Z",
+   "state": "screen",
+   "runs": 1469,
+   "channel": "Greg Isenberg"
   }
  ],
  "covered": {
@@ -2036,13 +2096,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ]
   },
@@ -2050,13 +2110,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ]
   },
@@ -2064,13 +2124,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ]
   },
@@ -2078,13 +2138,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ]
   },
@@ -2092,13 +2152,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ]
   },
@@ -2106,13 +2166,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ]
   },
@@ -2120,13 +2180,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ]
   },
@@ -2134,13 +2194,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ]
   },
@@ -2148,13 +2208,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ]
   },
@@ -2162,13 +2222,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ]
   },
@@ -2176,13 +2236,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ]
   },
@@ -2190,13 +2250,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-08T11:21:21Z"
+     "2026-10-09T11:56:43Z"
     ]
    ]
   }
