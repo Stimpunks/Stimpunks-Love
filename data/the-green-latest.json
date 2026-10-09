@@ -68,8 +68,56 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-10-08T11:24Z",
+ "set": "2026-10-09T11:59Z",
  "latest": [
+  {
+   "id": "VyMRdbfvhas",
+   "title": "From Victims to Victors: Stories of Future Renewable Energy Engineer (FREE) Students",
+   "channel": "People of Asia for Climate Solutions",
+   "published": "2026-10-09T09:09:34Z",
+   "runs": 1224,
+   "search": "renewable-energy"
+  },
+  {
+   "id": "AiL2eI0_bqk",
+   "title": "Green Building | Introduction Class | Day 01 | UKPSC-JE & AE Exam 2026-27🔥🎯 #ukpscae#ukpscje",
+   "channel": "FUTURE SECURE INSTITUTE FOR JE & AE",
+   "published": "2026-10-09T05:27:09Z",
+   "runs": 3940,
+   "search": "green-building"
+  },
+  {
+   "id": "6NmfhMtw64A",
+   "title": "Pumpkin picking returns to DePaul Urban Farm in downtown Vienna",
+   "channel": "FOX 5 Washington DC",
+   "published": "2026-10-08T21:44:39Z",
+   "runs": 165,
+   "search": "urban-farms"
+  },
+  {
+   "id": "UAdPYXSP3gg",
+   "title": "5 Why Single Renewable Energy Sources Fail—and What Replaces Th",
+   "channel": "Energy, Resources & Sustainable Systems",
+   "published": "2026-10-08T18:30:11Z",
+   "runs": 497,
+   "search": "renewable-energy"
+  },
+  {
+   "id": "JweNuBr_NyM",
+   "title": "Ophelia's Blue Vine Farm -Urban Farming",
+   "channel": "Ophelia's Blue Vine Farm– #1 Urban Farm in America",
+   "published": "2026-10-08T17:19:36Z",
+   "runs": 3056,
+   "search": "urban-farms"
+  },
+  {
+   "id": "2MRT6SOJwKQ",
+   "title": "The New American Remodel® 2027 #TNAR2027: Built to National Green Building Standards",
+   "channel": "NAHB International Builders' Show",
+   "published": "2026-10-08T12:25:20Z",
+   "runs": 118,
+   "search": "green-building"
+  },
   {
    "id": "pF8d7LU-EyU",
    "title": "New England Renewable Energy Zone Environmental Impact Statement opens soon",
@@ -95,11 +143,11 @@
    "search": "edibles"
   },
   {
-   "id": "1lxhTIvMMGo",
-   "title": "SGBA World Green Building Week Webinar",
-   "channel": "Dr. Mohammed Al Surf د. محمد الصرف",
-   "published": "2026-10-07T15:39:49Z",
-   "runs": 5552,
+   "id": "RMC1MHMHLf4",
+   "title": "GREEN BUILDING 350",
+   "channel": "Zariah unknown",
+   "published": "2026-10-07T15:46:20Z",
+   "runs": 165,
    "search": "green-building"
   },
   {
@@ -109,22 +157,6 @@
    "published": "2026-10-07T14:52:19Z",
    "runs": 4308,
    "search": "urban-forests"
-  },
-  {
-   "id": "zg-IXMx6Uk0",
-   "title": "Why you should pick the Green Building",
-   "channel": "Sidney McGrath",
-   "published": "2026-10-07T11:05:24Z",
-   "runs": 131,
-   "search": "green-building"
-  },
-  {
-   "id": "9jvPJPV6zJQ",
-   "title": "Dance, Tejano Flavors & Houston's Urban Farm: Culture, Community + Fun",
-   "channel": "FOX Soul",
-   "published": "2026-10-07T09:53:57Z",
-   "runs": 4312,
-   "search": "urban-farms"
   },
   {
    "id": "dQa0-bmiW8Q",
@@ -159,14 +191,6 @@
    "search": "urban-forests"
   },
   {
-   "id": "88dqVRN46xQ",
-   "title": "Urban farm in West End has larger purpose in community",
-   "channel": "KSDK News",
-   "published": "2026-10-06T10:59:08Z",
-   "runs": 130,
-   "search": "urban-farms"
-  },
-  {
    "id": "J0UJw8DX2qc",
    "title": "Follow Food Forest Mystery Apple in Index Guild",
    "channel": "Zach Loeks",
@@ -191,84 +215,24 @@
    "search": "green-spaces"
   },
   {
-   "id": "MAXgB8LhTzg",
-   "title": "From permits to public trust: advancing renewables in Europe",
-   "channel": "EU Energy",
-   "published": "2026-10-05T10:38:57Z",
-   "runs": 108,
-   "search": "renewable-energy"
-  },
-  {
-   "id": "WfxnIWdc_oo",
-   "title": "Chania — Day 2: 8.2/ From green spaces to active cities: the STANDOUT project",
-   "channel": "All Crete Blue Green",
-   "published": "2026-10-03T16:57:10Z",
-   "runs": 854,
+   "id": "ebnTQnwXdXw",
+   "title": "Hartlepool in Autumn 🍂 | Exploring the Town’s Beautiful Green Spaces",
+   "channel": "MoochingMonkey",
+   "published": "2026-10-05T16:00:05Z",
+   "runs": 5505,
    "search": "green-spaces"
   },
   {
-   "id": "MX7jDGLx9-A",
-   "title": "QGM Intelligent Block Production Line | Turning Waste into Green Building Materials",
-   "channel": "QGM Quangong Machinery",
-   "published": "2026-10-03T12:00:29Z",
-   "runs": 18,
-   "search": "green-building"
-  },
-  {
-   "id": "wKDlD7MjpO4",
-   "title": "Renewable Energy: Recycling, Rooftops, and Tight Spaces | Kilowatt: A Podcast about Electric...",
-   "channel": "Bodie",
-   "published": "2026-10-03T08:32:00Z",
-   "runs": 1789,
-   "search": "renewable-energy"
-  },
-  {
-   "id": "r2hsu1diojM",
-   "title": "California Green Building Standards Code (CALGreen) - Onye Dike",
-   "channel": "Net Zero Compare",
-   "published": "2026-10-03T00:02:08Z",
-   "runs": 124,
-   "search": "green-building"
+   "id": "OaQblQAGCSU",
+   "title": "The Future is Coming - Solarpunk vibes #PickleSando",
+   "channel": "PickleSando",
+   "published": "2026-10-03T02:25:03Z",
+   "runs": 8,
+   "search": "solarpunk"
   }
  ],
  "_seen": "Every result that carried its search's words, as its watch page answered the morning it first turned up, kept for a week so nobody's page is asked twice. state is screen, door, gone, pending (asked again if it turns up again) or left, with why. Nothing is kept but what the rack needs: no description, no thumbnail, no count of views.",
  "seen": [
-  {
-   "id": "jqtmudxLp-4",
-   "search": "green-spaces",
-   "title": "Mayor Mamdani Holds Press Conference to Make Green Space Announcement",
-   "channel": "NYC Mayor's Office",
-   "published": "2026-10-01T15:49:54Z",
-   "runs": 2574,
-   "state": "screen"
-  },
-  {
-   "id": "Itt4azyJ3sQ",
-   "search": "green-spaces",
-   "title": "Green Space With Heavy Monsoon  l  calm in Jungle",
-   "channel": "ViPa",
-   "published": "2026-10-01T17:10:09Z",
-   "runs": 729,
-   "state": "screen"
-  },
-  {
-   "id": "niXpeCWYWVw",
-   "search": "green-spaces",
-   "title": "Mayor Mamdani makes green space announcement",
-   "channel": "Eyewitness News ABC7NY",
-   "published": "2026-10-02T02:53:41Z",
-   "runs": 2880,
-   "state": "screen"
-  },
-  {
-   "id": "fuJXitK291k",
-   "search": "green-spaces",
-   "title": "Exploring Frankfurt’s Nature 🌿 | Beautiful Parks, Green Spaces & City Views | Frankfurt, Germany",
-   "channel": "IGA IKIDAGE MU KINYARWANDA",
-   "published": "2026-10-02T09:19:14Z",
-   "runs": 4264,
-   "state": "screen"
-  },
   {
    "id": "OrYJglJrD-4",
    "search": "green-spaces",
@@ -285,6 +249,15 @@
    "channel": "All Crete Blue Green",
    "published": "2026-10-03T16:57:10Z",
    "runs": 854,
+   "state": "screen"
+  },
+  {
+   "id": "ebnTQnwXdXw",
+   "search": "green-spaces",
+   "title": "Hartlepool in Autumn 🍂 | Exploring the Town’s Beautiful Green Spaces",
+   "channel": "MoochingMonkey",
+   "published": "2026-10-05T16:00:05Z",
+   "runs": 5505,
    "state": "screen"
   },
   {
@@ -315,13 +288,11 @@
    "state": "screen"
   },
   {
-   "id": "ud0xPCm133k",
+   "id": "3UE3r8yv14I",
    "search": "green-building",
-   "title": "How Green Building Design Cuts Energy and Water Waste",
-   "channel": "How Everyday Systems Work",
-   "published": "2026-10-02T03:03:21Z",
-   "runs": 522,
-   "state": "screen"
+   "title": "Green Building | Day 02 | UKPSC-JE & AE Exam 2026-27🔥🎯#ukpscae#ukpscje",
+   "state": "pending",
+   "why": "live, or not out yet"
   },
   {
    "id": "pjoNQNHrfO4",
@@ -397,6 +368,33 @@
    "state": "screen"
   },
   {
+   "id": "RMC1MHMHLf4",
+   "search": "green-building",
+   "title": "GREEN BUILDING 350",
+   "channel": "Zariah unknown",
+   "published": "2026-10-07T15:46:20Z",
+   "runs": 165,
+   "state": "screen"
+  },
+  {
+   "id": "2MRT6SOJwKQ",
+   "search": "green-building",
+   "title": "The New American Remodel® 2027 #TNAR2027: Built to National Green Building Standards",
+   "channel": "NAHB International Builders' Show",
+   "published": "2026-10-08T12:25:20Z",
+   "runs": 118,
+   "state": "screen"
+  },
+  {
+   "id": "AiL2eI0_bqk",
+   "search": "green-building",
+   "title": "Green Building | Introduction Class | Day 01 | UKPSC-JE & AE Exam 2026-27🔥🎯 #ukpscae#ukpscje",
+   "channel": "FUTURE SECURE INSTITUTE FOR JE & AE",
+   "published": "2026-10-09T05:27:09Z",
+   "runs": 3940,
+   "state": "screen"
+  },
+  {
    "id": "amk5-eyZglk",
    "search": "urban-forests",
    "title": "Keya Homes The Urban Forest - Project Walkthrough",
@@ -412,6 +410,15 @@
    "channel": "Utopies Urbaines",
    "published": "2026-10-04T16:00:33Z",
    "runs": 650,
+   "state": "screen"
+  },
+  {
+   "id": "uM51ll_SV4w",
+   "search": "urban-forests",
+   "title": "Experience the charm of urban forest ecology at Guangyanggu in Beijing",
+   "channel": "Study Beijing",
+   "published": "2026-10-05T01:51:03Z",
+   "runs": 34,
    "state": "screen"
   },
   {
@@ -487,24 +494,6 @@
    "state": "screen"
   },
   {
-   "id": "l6H_cJR_SIA",
-   "search": "urban-farms",
-   "title": "Maryland:  Baltimore vacant lots bloom into urban farms",
-   "channel": "WRAL",
-   "published": "2026-10-01T16:27:49Z",
-   "runs": 156,
-   "state": "screen"
-  },
-  {
-   "id": "xnD2WTm-owQ",
-   "search": "urban-farms",
-   "title": "The Imarisha Kilimo: Climate-Resilient Urban Farming | Nairobi International Trade Fair",
-   "channel": "Beacon Of Hope Africa",
-   "published": "2026-10-02T09:17:27Z",
-   "runs": 204,
-   "state": "screen"
-  },
-  {
    "id": "5PT_GNcvEnw",
    "search": "urban-farms",
    "title": "Inside Elm Street Gardens: Urban Farming Revives Sparta, GA with Shiitake Warehouse",
@@ -569,6 +558,24 @@
    "state": "screen"
   },
   {
+   "id": "JweNuBr_NyM",
+   "search": "urban-farms",
+   "title": "Ophelia's Blue Vine Farm -Urban Farming",
+   "channel": "Ophelia's Blue Vine Farm– #1 Urban Farm in America",
+   "published": "2026-10-08T17:19:36Z",
+   "runs": 3056,
+   "state": "screen"
+  },
+  {
+   "id": "6NmfhMtw64A",
+   "search": "urban-farms",
+   "title": "Pumpkin picking returns to DePaul Urban Farm in downtown Vienna",
+   "channel": "FOX 5 Washington DC",
+   "published": "2026-10-08T21:44:39Z",
+   "runs": 165,
+   "state": "screen"
+  },
+  {
    "id": "2Ljlm7ycoc0",
    "search": "edibles",
    "title": "The Food Forest Movement's European Expansion",
@@ -614,34 +621,11 @@
    "state": "screen"
   },
   {
-   "id": "T0egJMNB1BM",
+   "id": "6COWCThkKe4",
    "search": "solarpunk",
-   "title": "Two Brain Cells Discover Solar? | Solarpunk",
-   "channel": "Brain Cells",
-   "published": "2026-10-01T16:13:55Z",
-   "runs": 4227,
-   "state": "door",
-   "why": "no embedding"
-  },
-  {
-   "id": "SWz_FnYNnNg",
-   "search": "solarpunk",
-   "title": "PORTOLANO #003 Solarpunk | So Much Potential... But",
-   "channel": "Ammiraglio Gaming",
-   "published": "2026-10-01T18:30:37Z",
-   "runs": 442,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "HvB9IJ7WPB8",
-   "search": "solarpunk",
-   "title": "I Finally MAXED OUT My Airship! | Solarpunk",
-   "channel": "Kouldbayne",
-   "published": "2026-10-01T19:00:31Z",
-   "runs": 2218,
-   "state": "left",
-   "why": "filed under Gaming"
+   "title": "SOLARPUNK Ambient Livestream",
+   "state": "pending",
+   "why": "live, or not out yet"
   },
   {
    "id": "pEUjob0n7TY",
@@ -664,6 +648,25 @@
    "why": "filed under Gaming"
   },
   {
+   "id": "OaQblQAGCSU",
+   "search": "solarpunk",
+   "title": "The Future is Coming - Solarpunk vibes #PickleSando",
+   "channel": "PickleSando",
+   "published": "2026-10-03T02:25:03Z",
+   "runs": 8,
+   "state": "screen"
+  },
+  {
+   "id": "2cl4a8u7SUM",
+   "search": "solarpunk",
+   "title": "FE2CM - Solarpunk Vila [4.7 - Insane]",
+   "channel": "XStarBlocky",
+   "published": "2026-10-03T12:46:56Z",
+   "runs": 108,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
    "id": "SNYKEBrfeVE",
    "search": "solarpunk",
    "title": "Onwards and Upwards! | Solarpunk",
@@ -680,6 +683,16 @@
    "channel": "Gamer Sayax",
    "published": "2026-10-04T04:30:36Z",
    "runs": 1031,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "qYQH4Hv1kco",
+   "search": "solarpunk",
+   "title": "Solarpunk #53 Picking up the lost cargo",
+   "channel": "Phantasiėns",
+   "published": "2026-10-04T12:00:10Z",
+   "runs": 1780,
    "state": "left",
    "why": "filed under Gaming"
   },
@@ -764,6 +777,16 @@
    "why": "filed under Gaming"
   },
   {
+   "id": "gyoGhN0DQog",
+   "search": "solarpunk",
+   "title": "Master Bedroom | Part 63 | Solarpunk",
+   "channel": "True Blue",
+   "published": "2026-10-07T10:32:16Z",
+   "runs": 3881,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
    "id": "f-Vn34rUXwk",
    "search": "solarpunk",
    "title": "Solarpunk | More Ores, More Power, Unlocking New Recipes | PT. 17 LIVE",
@@ -804,6 +827,36 @@
    "why": "filed under Gaming"
   },
   {
+   "id": "gHMbDHl_mu0",
+   "search": "solarpunk",
+   "title": "Our Solarpunk Journey Ends Here… | Solarpunk",
+   "channel": "Kouldbayne",
+   "published": "2026-10-08T14:00:23Z",
+   "runs": 2628,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "Er-8CKvboec",
+   "search": "solarpunk",
+   "title": "The Trade Bot Wants WHAT? | Solarpunk #04",
+   "channel": "MGAceman",
+   "published": "2026-10-08T18:26:49Z",
+   "runs": 2410,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "7SHnh64mu_0",
+   "search": "solarpunk",
+   "title": "Swanky Bathroom | Part 64 | Solarpunk",
+   "channel": "True Blue",
+   "published": "2026-10-09T11:25:14Z",
+   "runs": 3722,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
    "id": "FLgZJW06KnM",
    "search": "renewable-energy",
    "title": "The Future of Renewable Energy Community Engagement (Hint, it's Using AI)",
@@ -837,6 +890,34 @@
    "channel": "EnergyCo",
    "published": "2026-10-08T03:26:47Z",
    "runs": 67,
+   "state": "screen"
+  },
+  {
+   "id": "tpRRxb6b-Tg",
+   "search": "renewable-energy",
+   "title": "Why Satisfactory Doesn't Have Renewable Energy",
+   "channel": "Satisfactory News",
+   "published": "2026-10-08T16:00:08Z",
+   "runs": 510,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "UAdPYXSP3gg",
+   "search": "renewable-energy",
+   "title": "5 Why Single Renewable Energy Sources Fail—and What Replaces Th",
+   "channel": "Energy, Resources & Sustainable Systems",
+   "published": "2026-10-08T18:30:11Z",
+   "runs": 497,
+   "state": "screen"
+  },
+  {
+   "id": "VyMRdbfvhas",
+   "search": "renewable-energy",
+   "title": "From Victims to Victors: Stories of Future Renewable Energy Engineer (FREE) Students",
+   "channel": "People of Asia for Climate Solutions",
+   "published": "2026-10-09T09:09:34Z",
+   "runs": 1224,
    "state": "screen"
   }
  ]
