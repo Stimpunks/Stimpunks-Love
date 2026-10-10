@@ -146,16 +146,6 @@
  ],
  "log": [
   {
-   "id": "IShm_WCJL-k",
-   "source": "americas-test-kitchen",
-   "form": "long",
-   "title": "A Foolproof Rillons Recipe | America's Test Kitchen",
-   "published": "2026-09-09T15:59:49Z",
-   "state": "screen",
-   "runs": 773,
-   "channel": "America's Test Kitchen"
-  },
-  {
    "id": "TzlcPKiV6QA",
    "source": "americas-test-kitchen",
    "form": "long",
@@ -736,6 +726,16 @@
    "channel": "Epicurious"
   },
   {
+   "id": "Xz-uwGDjrjI",
+   "source": "epicurious",
+   "form": "short",
+   "title": "Meal Prep These Egg Bites for Breakfast All Week",
+   "published": "2026-10-09T16:00:07Z",
+   "state": "screen",
+   "runs": 51,
+   "channel": "Epicurious"
+  },
+  {
    "id": "-NZOwgdmOYk",
    "source": "nyt-cooking",
    "form": "long",
@@ -976,16 +976,6 @@
    "channel": "Iron Chef Dad"
   },
   {
-   "id": "B-RKKrPIrfQ",
-   "source": "andy-cooks",
-   "form": "long",
-   "title": "I Made The Internets 10 Favourite Sandwiches And Rated Them",
-   "published": "2026-09-10T09:04:38Z",
-   "state": "screen",
-   "runs": 1322,
-   "channel": "Andy Cooks"
-  },
-  {
    "id": "qcWPVd_2Irs",
    "source": "andy-cooks",
    "form": "long",
@@ -1196,6 +1186,16 @@
    "channel": "Andy Cooks"
   },
   {
+   "id": "aC9aaFv5NlE",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Arnold Palmer Rice Bubble Slice ⛳️",
+   "published": "2026-10-09T23:00:17Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "Andy Cooks"
+  },
+  {
    "id": "U6-SKLv5QLM",
    "source": "back-of-house",
    "form": "long",
@@ -1253,16 +1253,6 @@
    "published": "2026-10-02T18:51:30Z",
    "state": "screen",
    "runs": 765,
-   "channel": "The Pasta Queen"
-  },
-  {
-   "id": "SlvHcIiwNFA",
-   "source": "the-pasta-queen",
-   "form": "short",
-   "title": "The Best Places in ROME | Get my Rome Guide (Link in my bio)",
-   "published": "2026-09-09T19:06:04Z",
-   "state": "screen",
-   "runs": 65,
    "channel": "The Pasta Queen"
   },
   {
@@ -1656,6 +1646,16 @@
    "channel": "Japanese Food Noodles"
   },
   {
+   "id": "ceMr0X8XtVg",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Why This 22-Year-Old College Student Works at a Kyoto Chinese Diner at 2 AM",
+   "published": "2026-10-09T22:00:26Z",
+   "state": "screen",
+   "runs": 872,
+   "channel": "Japanese Food Noodles"
+  },
+  {
    "id": "gvVAwc7xozg",
    "source": "japanese-cooking-101",
    "form": "long",
@@ -1773,16 +1773,6 @@
    "published": "2026-10-09T09:50:27Z",
    "state": "screen",
    "runs": 1432,
-   "channel": "Japanese Food Craftsman"
-  },
-  {
-   "id": "EcJ6naklB60",
-   "source": "japanese-food-craftsman",
-   "form": "short",
-   "title": "プロが惚れた研師。16歳から32年磨き続けた技",
-   "published": "2026-09-10T09:00:04Z",
-   "state": "screen",
-   "runs": 55,
    "channel": "Japanese Food Craftsman"
   },
   {
@@ -2033,6 +2023,16 @@
    "published": "2026-10-08T15:30:03Z",
    "state": "screen",
    "runs": 30,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "giEcZhP5PcQ",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "Making 24 Roast Pork Buns in Just 60 Seconds",
+   "published": "2026-10-09T16:00:03Z",
+   "state": "screen",
+   "runs": 48,
    "channel": "Bon Appétit"
   },
   {
@@ -2326,6 +2326,16 @@
    "channel": "Guga"
   },
   {
+   "id": "zeuPkJrxMzo",
+   "source": "guga",
+   "form": "long",
+   "title": "This Chef Puts MY Steak to SHAME!",
+   "published": "2026-10-09T15:15:31Z",
+   "state": "screen",
+   "runs": 1136,
+   "channel": "Guga"
+  },
+  {
    "id": "I3W9x3V1qNQ",
    "source": "guga",
    "form": "short",
@@ -2404,16 +2414,6 @@
    "state": "screen",
    "runs": 145,
    "channel": "mrnigelng"
-  },
-  {
-   "id": "Mse_qrQ1LHM",
-   "source": "eater",
-   "form": "long",
-   "title": "The Pakistani Chopped Cheese That Has NYC Obsessed — Most-Ordered",
-   "published": "2026-09-09T13:00:16Z",
-   "state": "screen",
-   "runs": 679,
-   "channel": "Eater"
   },
   {
    "id": "fqI2FOun0RI",
@@ -2516,16 +2516,6 @@
    "channel": "Eater"
   },
   {
-   "id": "9rhYfalTRF8",
-   "source": "munchies",
-   "form": "long",
-   "title": "Irish Oysters, Perfect Guinness Pours, and Soda Bread! MUNCHIES Guide to Belfast",
-   "published": "2026-09-09T15:00:14Z",
-   "state": "screen",
-   "runs": 1038,
-   "channel": "Munchies"
-  },
-  {
    "id": "Jvjl90Xm50o",
    "source": "munchies",
    "form": "long",
@@ -2594,16 +2584,6 @@
    "state": "screen",
    "runs": 1492,
    "channel": "Joshua Weissman"
-  },
-  {
-   "id": "JhXjEITKYyQ",
-   "source": "strictly-dumpling",
-   "form": "long",
-   "title": "Chicago's Top 10 Best CHEAP EATS |🔥 My Favorite Spots!",
-   "published": "2026-09-09T17:14:19Z",
-   "state": "screen",
-   "runs": 1992,
-   "channel": "Strictly Dumpling"
   },
   {
    "id": "QGmyzlbHV9I",
@@ -2711,13 +2691,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2725,13 +2705,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2739,13 +2719,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2753,13 +2733,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2767,13 +2747,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2781,13 +2761,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2795,13 +2775,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2809,13 +2789,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2823,13 +2803,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2837,13 +2817,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2851,13 +2831,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2865,13 +2845,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2879,13 +2859,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2893,13 +2873,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2907,13 +2887,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2921,13 +2901,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2935,13 +2915,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2949,13 +2929,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2963,13 +2943,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2977,13 +2957,13 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -2991,13 +2971,13 @@
    "long": [
     [
      "2026-06-24T15:00:35Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2025-09-18T21:45:00Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -3005,13 +2985,13 @@
    "long": [
     [
      "2026-03-22T14:30:31Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2026-04-17T14:30:18Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   },
@@ -3019,16 +2999,16 @@
    "long": [
     [
      "2026-08-08T17:03:29Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ],
    "short": [
     [
      "2025-10-15T20:26:40Z",
-     "2026-10-09T11:57:57Z"
+     "2026-10-10T11:22:34Z"
     ]
    ]
   }
  },
- "set": "2026-10-09T11:57Z"
+ "set": "2026-10-10T11:22Z"
 }
