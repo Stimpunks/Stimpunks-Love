@@ -68,8 +68,64 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-10-09T11:59Z",
+ "set": "2026-10-10T11:24Z",
  "latest": [
+  {
+   "id": "0lYAlCx3SAE",
+   "title": "From wasteland to urban forest: The Siidcul Haridwar Transformation",
+   "channel": "Give Me Trees Trust",
+   "published": "2026-10-10T10:30:03Z",
+   "runs": 439,
+   "search": "urban-forests"
+  },
+  {
+   "id": "3UE3r8yv14I",
+   "title": "Green Building | Day 02 | UKPSC-JE & AE Exam 2026-27🔥🎯#ukpscae#ukpscje",
+   "channel": "FUTURE SECURE INSTITUTE FOR JE & AE",
+   "published": "2026-10-10T05:33:41Z",
+   "runs": 4380,
+   "search": "green-building"
+  },
+  {
+   "id": "FdtO4vyY52M",
+   "title": "Whittier Urban Forest Management Plan | District 4 Workshop | September 17, 2026",
+   "channel": "City of Whittier",
+   "published": "2026-10-10T00:07:36Z",
+   "runs": 4982,
+   "search": "urban-forests"
+  },
+  {
+   "id": "BPRfFl8VJSw",
+   "title": "Can You Grow Mangoes in San Diego? Earle's Food Forest Tour",
+   "channel": "Tropicali Food Forest",
+   "published": "2026-10-09T23:00:35Z",
+   "runs": 2793,
+   "search": "edibles"
+  },
+  {
+   "id": "qztzZPTUWx0",
+   "title": "State awards Springfield $425K to expand urban green spaces",
+   "channel": "WWLP-22News",
+   "published": "2026-10-09T22:21:22Z",
+   "runs": 43,
+   "search": "green-spaces"
+  },
+  {
+   "id": "MZAlucJH-vA",
+   "title": "Syracuse Riparian Food Forest",
+   "channel": "cornellsmallfarms",
+   "published": "2026-10-09T17:40:15Z",
+   "runs": 1594,
+   "search": "edibles"
+  },
+  {
+   "id": "FyxCCBpv4pY",
+   "title": "Blaster Master - Castle - Solarpunk",
+   "channel": "Altered Realms Music",
+   "published": "2026-10-09T16:00:04Z",
+   "runs": 136,
+   "search": "solarpunk"
+  },
   {
    "id": "VyMRdbfvhas",
    "title": "From Victims to Victors: Stories of Future Renewable Energy Engineer (FREE) Students",
@@ -79,12 +135,12 @@
    "search": "renewable-energy"
   },
   {
-   "id": "AiL2eI0_bqk",
-   "title": "Green Building | Introduction Class | Day 01 | UKPSC-JE & AE Exam 2026-27🔥🎯 #ukpscae#ukpscje",
-   "channel": "FUTURE SECURE INSTITUTE FOR JE & AE",
-   "published": "2026-10-09T05:27:09Z",
-   "runs": 3940,
-   "search": "green-building"
+   "id": "PTRCaSBG7ZY",
+   "title": "Speaking with Enfinity Leaders: Building Renewable Energy at Speed | Hans Helmerich",
+   "channel": "Enfinity Global",
+   "published": "2026-10-09T08:20:07Z",
+   "runs": 1483,
+   "search": "renewable-energy"
   },
   {
    "id": "6NmfhMtw64A",
@@ -93,6 +149,14 @@
    "published": "2026-10-08T21:44:39Z",
    "runs": 165,
    "search": "urban-farms"
+  },
+  {
+   "id": "mFIobHsQ4rQ",
+   "title": "Urban Forestry Tree Appeal Hearing 3/23/2023",
+   "channel": "City of Sacramento",
+   "published": "2026-10-08T19:50:24Z",
+   "runs": 4241,
+   "search": "urban-forests"
   },
   {
    "id": "UAdPYXSP3gg",
@@ -119,12 +183,12 @@
    "search": "green-building"
   },
   {
-   "id": "pF8d7LU-EyU",
-   "title": "New England Renewable Energy Zone Environmental Impact Statement opens soon",
-   "channel": "EnergyCo",
-   "published": "2026-10-08T03:26:47Z",
-   "runs": 67,
-   "search": "renewable-energy"
+   "id": "XCwBBf_XNj4",
+   "title": "Grit meets Greenspace I Alphabet City",
+   "channel": "EXPLORE Walking Tours",
+   "published": "2026-10-08T01:00:32Z",
+   "runs": 1594,
+   "search": "green-spaces"
   },
   {
    "id": "wwLZYGz-7SY",
@@ -151,30 +215,6 @@
    "search": "green-building"
   },
   {
-   "id": "Os-W2LUzRXw",
-   "title": "Morning Birds in the City Urban Forest Ambience  No Talking, No Music",
-   "channel": "CityFlow ASMR",
-   "published": "2026-10-07T14:52:19Z",
-   "runs": 4308,
-   "search": "urban-forests"
-  },
-  {
-   "id": "dQa0-bmiW8Q",
-   "title": "Analyst Chandu Srinivas About 18 Urban Forests Launched in AP! | Deputy CM Pawan Kalyan | Nagababu",
-   "channel": "SumanTV Digital News",
-   "published": "2026-10-07T09:11:46Z",
-   "runs": 359,
-   "search": "urban-forests"
-  },
-  {
-   "id": "6ACfeVhM394",
-   "title": "Vancouver Urban Food Forest Foundation (VUFFF)",
-   "channel": "Boxing Beaver Media",
-   "published": "2026-10-06T20:35:31Z",
-   "runs": 404,
-   "search": "edibles"
-  },
-  {
    "id": "yXYsZvh1J9k",
    "title": "Rooted in Hilltop: Community Green Space, Urban Agriculture, and Tree Equity in Tacoma",
    "channel": "WSU Ravenholt Urban Forest Health Lab",
@@ -183,65 +223,16 @@
    "search": "green-spaces"
   },
   {
-   "id": "uhukm95y3aE",
-   "title": "Connecting Canopies Official Trailer | Connecticut Urban Forestry Stories",
-   "channel": "The Nature Conservancy in Connecticut",
-   "published": "2026-10-06T15:52:01Z",
-   "runs": 48,
-   "search": "urban-forests"
-  },
-  {
-   "id": "J0UJw8DX2qc",
-   "title": "Follow Food Forest Mystery Apple in Index Guild",
-   "channel": "Zach Loeks",
-   "published": "2026-10-06T01:37:04Z",
-   "runs": 105,
-   "search": "edibles"
-  },
-  {
-   "id": "YwAdSWXYdRo",
-   "title": "Creating Green Spaces That Matter",
-   "channel": "TurfMutt",
-   "published": "2026-10-05T23:30:29Z",
-   "runs": 43,
-   "search": "green-spaces"
-  },
-  {
-   "id": "TS8PFZW5YOI",
-   "title": "Brownsville park uses 500-gallon rain barrels to water green spaces",
-   "channel": "KRGV",
-   "published": "2026-10-05T16:13:35Z",
-   "runs": 89,
-   "search": "green-spaces"
-  },
-  {
-   "id": "ebnTQnwXdXw",
-   "title": "Hartlepool in Autumn 🍂 | Exploring the Town’s Beautiful Green Spaces",
-   "channel": "MoochingMonkey",
-   "published": "2026-10-05T16:00:05Z",
-   "runs": 5505,
-   "search": "green-spaces"
-  },
-  {
-   "id": "OaQblQAGCSU",
-   "title": "The Future is Coming - Solarpunk vibes #PickleSando",
+   "id": "qFkS6Y1twv4",
+   "title": "Solarpunk window world view",
    "channel": "PickleSando",
-   "published": "2026-10-03T02:25:03Z",
-   "runs": 8,
+   "published": "2026-10-03T21:30:47Z",
+   "runs": 35,
    "search": "solarpunk"
   }
  ],
  "_seen": "Every result that carried its search's words, as its watch page answered the morning it first turned up, kept for a week so nobody's page is asked twice. state is screen, door, gone, pending (asked again if it turns up again) or left, with why. Nothing is kept but what the rack needs: no description, no thumbnail, no count of views.",
  "seen": [
-  {
-   "id": "OrYJglJrD-4",
-   "search": "green-spaces",
-   "title": "Portland-area organizations to turn parking area into green space",
-   "channel": "KGW News",
-   "published": "2026-10-03T00:19:15Z",
-   "runs": 49,
-   "state": "screen"
-  },
   {
    "id": "WfxnIWdc_oo",
    "search": "green-spaces",
@@ -288,47 +279,29 @@
    "state": "screen"
   },
   {
-   "id": "3UE3r8yv14I",
+   "id": "XCwBBf_XNj4",
+   "search": "green-spaces",
+   "title": "Grit meets Greenspace I Alphabet City",
+   "channel": "EXPLORE Walking Tours",
+   "published": "2026-10-08T01:00:32Z",
+   "runs": 1594,
+   "state": "screen"
+  },
+  {
+   "id": "qztzZPTUWx0",
+   "search": "green-spaces",
+   "title": "State awards Springfield $425K to expand urban green spaces",
+   "channel": "WWLP-22News",
+   "published": "2026-10-09T22:21:22Z",
+   "runs": 43,
+   "state": "screen"
+  },
+  {
+   "id": "k6bSH3bixLQ",
    "search": "green-building",
-   "title": "Green Building | Day 02 | UKPSC-JE & AE Exam 2026-27🔥🎯#ukpscae#ukpscje",
+   "title": "Green Building | Day 03 | UKPSC-JE & AE Exam 2026-27🔥🎯#ukpscae#ukpscje",
    "state": "pending",
    "why": "live, or not out yet"
-  },
-  {
-   "id": "pjoNQNHrfO4",
-   "search": "green-building",
-   "title": "Kenya Green Building Society launches repository for green projects",
-   "channel": "Citizen TV Kenya",
-   "published": "2026-10-02T19:02:14Z",
-   "runs": 129,
-   "state": "screen"
-  },
-  {
-   "id": "LzwoYbOoLiE",
-   "search": "green-building",
-   "title": "Evidence-based metrics to validate green building investments",
-   "channel": "KBC Business",
-   "published": "2026-10-02T22:50:07Z",
-   "runs": 175,
-   "state": "screen"
-  },
-  {
-   "id": "cI0_bPQ2P6I",
-   "search": "green-building",
-   "title": "Onward | Turbine (day/night) Green Building Wall Glitch",
-   "channel": "Jackson Woodard",
-   "published": "2026-10-02T23:02:19Z",
-   "runs": 111,
-   "state": "screen"
-  },
-  {
-   "id": "r2hsu1diojM",
-   "search": "green-building",
-   "title": "California Green Building Standards Code (CALGreen) - Onye Dike",
-   "channel": "Net Zero Compare",
-   "published": "2026-10-03T00:02:08Z",
-   "runs": 124,
-   "state": "screen"
   },
   {
    "id": "MX7jDGLx9-A",
@@ -348,6 +321,16 @@
    "runs": 5435,
    "state": "left",
    "why": "filed under Music"
+  },
+  {
+   "id": "Jpy_UiOJRrI",
+   "search": "green-building",
+   "title": "Why Green Buildings Are a Lie: The Rise of Living Architecture",
+   "channel": "economy",
+   "published": "2026-10-05T20:30:14Z",
+   "runs": 2676,
+   "state": "door",
+   "why": "no embedding"
   },
   {
    "id": "zg-IXMx6Uk0",
@@ -392,6 +375,15 @@
    "channel": "FUTURE SECURE INSTITUTE FOR JE & AE",
    "published": "2026-10-09T05:27:09Z",
    "runs": 3940,
+   "state": "screen"
+  },
+  {
+   "id": "3UE3r8yv14I",
+   "search": "green-building",
+   "title": "Green Building | Day 02 | UKPSC-JE & AE Exam 2026-27🔥🎯#ukpscae#ukpscje",
+   "channel": "FUTURE SECURE INSTITUTE FOR JE & AE",
+   "published": "2026-10-10T05:33:41Z",
+   "runs": 4380,
    "state": "screen"
   },
   {
@@ -494,14 +486,58 @@
    "state": "screen"
   },
   {
-   "id": "5PT_GNcvEnw",
-   "search": "urban-farms",
-   "title": "Inside Elm Street Gardens: Urban Farming Revives Sparta, GA with Shiitake Warehouse",
-   "channel": "Sprout - Gardening Channel",
-   "published": "2026-10-02T16:00:34Z",
-   "runs": 1487,
-   "state": "door",
-   "why": "no embedding"
+   "id": "mFIobHsQ4rQ",
+   "search": "urban-forests",
+   "title": "Urban Forestry Tree Appeal Hearing 3/23/2023",
+   "channel": "City of Sacramento",
+   "published": "2026-10-08T19:50:24Z",
+   "runs": 4241,
+   "state": "screen"
+  },
+  {
+   "id": "VgpDPTNoGOA",
+   "search": "urban-forests",
+   "title": "Whittier Urban Forest Management Plan | District 3 Workshop | September 30, 2026",
+   "channel": "City of Whittier",
+   "published": "2026-10-09T23:42:14Z",
+   "runs": 4912,
+   "state": "screen"
+  },
+  {
+   "id": "RegYHPXGhos",
+   "search": "urban-forests",
+   "title": "Whittier Urban Forest Management Plan | District 2 Workshop | October 1, 2026",
+   "channel": "City of Whittier",
+   "published": "2026-10-09T23:48:41Z",
+   "runs": 5712,
+   "state": "screen"
+  },
+  {
+   "id": "Zcl2HX-pf7c",
+   "search": "urban-forests",
+   "title": "Whittier Urban Forest Management Plan | District 1 Workshop | September 29, 2026",
+   "channel": "City of Whittier",
+   "published": "2026-10-09T23:56:06Z",
+   "runs": 5332,
+   "state": "screen"
+  },
+  {
+   "id": "FdtO4vyY52M",
+   "search": "urban-forests",
+   "title": "Whittier Urban Forest Management Plan | District 4 Workshop | September 17, 2026",
+   "channel": "City of Whittier",
+   "published": "2026-10-10T00:07:36Z",
+   "runs": 4982,
+   "state": "screen"
+  },
+  {
+   "id": "0lYAlCx3SAE",
+   "search": "urban-forests",
+   "title": "From wasteland to urban forest: The Siidcul Haridwar Transformation",
+   "channel": "Give Me Trees Trust",
+   "published": "2026-10-10T10:30:03Z",
+   "runs": 439,
+   "state": "screen"
   },
   {
    "id": "8lQIAFe7GZ4",
@@ -621,40 +657,29 @@
    "state": "screen"
   },
   {
-   "id": "6COWCThkKe4",
+   "id": "MZAlucJH-vA",
+   "search": "edibles",
+   "title": "Syracuse Riparian Food Forest",
+   "channel": "cornellsmallfarms",
+   "published": "2026-10-09T17:40:15Z",
+   "runs": 1594,
+   "state": "screen"
+  },
+  {
+   "id": "BPRfFl8VJSw",
+   "search": "edibles",
+   "title": "Can You Grow Mangoes in San Diego? Earle's Food Forest Tour",
+   "channel": "Tropicali Food Forest",
+   "published": "2026-10-09T23:00:35Z",
+   "runs": 2793,
+   "state": "screen"
+  },
+  {
+   "id": "gyvKFaBaIJ0",
    "search": "solarpunk",
    "title": "SOLARPUNK Ambient Livestream",
    "state": "pending",
    "why": "live, or not out yet"
-  },
-  {
-   "id": "pEUjob0n7TY",
-   "search": "solarpunk",
-   "title": "More Solar? Yes. | Solarpunk",
-   "channel": "Brain Cells",
-   "published": "2026-10-02T15:32:01Z",
-   "runs": 2562,
-   "state": "door",
-   "why": "no embedding"
-  },
-  {
-   "id": "-AJPZ5FeMJI",
-   "search": "solarpunk",
-   "title": "Solarpunk - Update 1.3 Trailer",
-   "channel": "@sosyal",
-   "published": "2026-10-02T21:00:13Z",
-   "runs": 40,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "OaQblQAGCSU",
-   "search": "solarpunk",
-   "title": "The Future is Coming - Solarpunk vibes #PickleSando",
-   "channel": "PickleSando",
-   "published": "2026-10-03T02:25:03Z",
-   "runs": 8,
-   "state": "screen"
   },
   {
    "id": "2cl4a8u7SUM",
@@ -665,6 +690,15 @@
    "runs": 108,
    "state": "left",
    "why": "filed under Gaming"
+  },
+  {
+   "id": "qFkS6Y1twv4",
+   "search": "solarpunk",
+   "title": "Solarpunk window world view",
+   "channel": "PickleSando",
+   "published": "2026-10-03T21:30:47Z",
+   "runs": 35,
+   "state": "screen"
   },
   {
    "id": "SNYKEBrfeVE",
@@ -693,6 +727,16 @@
    "channel": "Phantasiėns",
    "published": "2026-10-04T12:00:10Z",
    "runs": 1780,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "zMFcokoepyI",
+   "search": "solarpunk",
+   "title": "A NOITE  - SOLARPUNK #12",
+   "channel": "jorge_silvaa",
+   "published": "2026-10-04T13:00:35Z",
+   "runs": 1575,
    "state": "left",
    "why": "filed under Gaming"
   },
@@ -735,6 +779,16 @@
    "runs": 6990,
    "state": "door",
    "why": "no embedding"
+  },
+  {
+   "id": "DpbwkmBH_yw",
+   "search": "solarpunk",
+   "title": "Episode 18 of Solarpunk",
+   "channel": "DaScottishPixie",
+   "published": "2026-10-05T23:00:10Z",
+   "runs": 5465,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
    "id": "Zjg-ZiYsd3M",
@@ -857,22 +911,23 @@
    "why": "filed under Gaming"
   },
   {
-   "id": "FLgZJW06KnM",
-   "search": "renewable-energy",
-   "title": "The Future of Renewable Energy Community Engagement (Hint, it's Using AI)",
-   "channel": "Flypower",
-   "published": "2026-10-02T20:52:17Z",
-   "runs": 765,
+   "id": "FyxCCBpv4pY",
+   "search": "solarpunk",
+   "title": "Blaster Master - Castle - Solarpunk",
+   "channel": "Altered Realms Music",
+   "published": "2026-10-09T16:00:04Z",
+   "runs": 136,
    "state": "screen"
   },
   {
-   "id": "wKDlD7MjpO4",
-   "search": "renewable-energy",
-   "title": "Renewable Energy: Recycling, Rooftops, and Tight Spaces | Kilowatt: A Podcast about Electric...",
-   "channel": "Bodie",
-   "published": "2026-10-03T08:32:00Z",
-   "runs": 1789,
-   "state": "screen"
+   "id": "LuommXAefS0",
+   "search": "solarpunk",
+   "title": "Building a Create Storage Area for my Solarpunk Base - TFG",
+   "channel": "synge",
+   "published": "2026-10-09T19:00:39Z",
+   "runs": 1200,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
    "id": "MAXgB8LhTzg",
@@ -909,6 +964,15 @@
    "channel": "Energy, Resources & Sustainable Systems",
    "published": "2026-10-08T18:30:11Z",
    "runs": 497,
+   "state": "screen"
+  },
+  {
+   "id": "PTRCaSBG7ZY",
+   "search": "renewable-energy",
+   "title": "Speaking with Enfinity Leaders: Building Renewable Energy at Speed | Hans Helmerich",
+   "channel": "Enfinity Global",
+   "published": "2026-10-09T08:20:07Z",
+   "runs": 1483,
    "state": "screen"
   },
   {
