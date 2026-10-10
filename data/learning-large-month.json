@@ -78,7 +78,7 @@
    "channel_id": "UCPjNBjflYl0-HQtUvOx0Ibw"
   }
  ],
- "set": "2026-10-09T11:56Z",
+ "set": "2026-10-10T11:21Z",
  "log": [
   {
    "id": "4Hvkv_I8QDE",
@@ -251,14 +251,14 @@
    "channel": "AI LABS"
   },
   {
-   "id": "-KcHn0QcSb0",
-   "source": "matt-wolfe",
+   "id": "ERNqRK6sMJY",
+   "source": "ai-labs",
    "form": "long",
-   "title": "I Built A Tool To Detect AI Video (You Can Have It)",
-   "published": "2026-09-09T22:18:17Z",
+   "title": "Claude Mods Are Insane... You Need To Try These Right Now",
+   "published": "2026-10-09T15:00:39Z",
    "state": "screen",
-   "runs": 1210,
-   "channel": "Matt Wolfe"
+   "runs": 808,
+   "channel": "AI LABS"
   },
   {
    "id": "JwTCjarfJYw",
@@ -321,13 +321,13 @@
    "channel": "Matt Wolfe"
   },
   {
-   "id": "iSXeiUXiln8",
+   "id": "NUizyuGj-kE",
    "source": "matt-wolfe",
-   "form": "short",
-   "title": "This AI Makes Any Photo 3D",
-   "published": "2026-09-09T12:26:29Z",
+   "form": "long",
+   "title": "AI News: Haiku-5.5, Visual ChatGPT, Grok's New Trick, and more!",
+   "published": "2026-10-09T15:00:01Z",
    "state": "screen",
-   "runs": 63,
+   "runs": 2127,
    "channel": "Matt Wolfe"
   },
   {
@@ -771,6 +771,16 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
+   "id": "ysRarbe6btw",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "AI Benchmarks are dead #AI #benchmarks #Google #Gemini #AInews",
+   "published": "2026-10-10T03:00:24Z",
+   "state": "screen",
+   "runs": 16,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
    "id": "aSGHPm7pu_Q",
    "source": "less-bitter",
    "form": "long",
@@ -829,16 +839,6 @@
    "state": "screen",
    "runs": 510,
    "channel": "Less Bitter"
-  },
-  {
-   "id": "4B4R2T4w7Kg",
-   "source": "theo",
-   "form": "long",
-   "title": "This is really bad…",
-   "published": "2026-09-09T16:00:20Z",
-   "state": "screen",
-   "runs": 1593,
-   "channel": "Theo - t3․gg"
   },
   {
    "id": "P7bxbDSnZRM",
@@ -1021,6 +1021,16 @@
    "channel": "Theo - t3․gg"
   },
   {
+   "id": "ND_kRgU_WlY",
+   "source": "theo",
+   "form": "long",
+   "title": "You can rewrite typescript in rust for $420k",
+   "published": "2026-10-10T10:58:42Z",
+   "state": "screen",
+   "runs": 2860,
+   "channel": "Theo - t3․gg"
+  },
+  {
    "id": "HYSRZycu-sw",
    "source": "theo",
    "form": "short",
@@ -1079,16 +1089,6 @@
    "state": "screen",
    "runs": 29,
    "channel": "Theo - t3․gg"
-  },
-  {
-   "id": "60a0nHFefn4",
-   "source": "paul-j-lipsky",
-   "form": "long",
-   "title": "How To Create Cinematic Websites Using GPT-6 Astra",
-   "published": "2026-09-09T13:00:22Z",
-   "state": "screen",
-   "runs": 861,
-   "channel": "Paul J Lipsky"
   },
   {
    "id": "Ckl7jX8vKzs",
@@ -1241,6 +1241,16 @@
    "channel": "Paul J Lipsky"
   },
   {
+   "id": "S-IQRTRsJjo",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "Weekly AI Recap: GrokBot Just Did the Unthinkable, ChatGPT Looks Completely Different & More!",
+   "published": "2026-10-09T13:00:40Z",
+   "state": "screen",
+   "runs": 1508,
+   "channel": "Paul J Lipsky"
+  },
+  {
    "id": "7DJk83sc5xg",
    "source": "austin-marchese",
    "form": "long",
@@ -1311,14 +1321,14 @@
    "channel": "Austin Marchese"
   },
   {
-   "id": "3cYTWLdHgAE",
-   "source": "riley-brown",
+   "id": "bIYWxYm5cOY",
+   "source": "austin-marchese",
    "form": "long",
-   "title": "Build Anything With Claude (That’s Actually Good)",
-   "published": "2026-09-09T19:48:49Z",
+   "title": "The Smartest People Aren't Prompting Claude. They're Harness Engineering",
+   "published": "2026-10-09T14:45:10Z",
    "state": "screen",
-   "runs": 1502,
-   "channel": "Riley Brown"
+   "runs": 979,
+   "channel": "Austin Marchese"
   },
   {
    "id": "ifz8NGHuHtY",
@@ -1428,6 +1438,16 @@
    "published": "2026-10-05T18:03:39Z",
    "state": "screen",
    "runs": 1268,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "WXhOxfPECnM",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "ChatGPT Dots Is WAY More Powerful Than You Think",
+   "published": "2026-10-09T16:08:49Z",
+   "state": "screen",
+   "runs": 1556,
    "channel": "Riley Brown"
   },
   {
@@ -1731,14 +1751,14 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
-   "id": "XK6S1hbYv7I",
-   "source": "chase-ai",
-   "form": "long",
-   "title": "This New Astra Web Design Workflow Is INSANE",
-   "published": "2026-09-09T16:50:27Z",
+   "id": "A8YuAEUQEos",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Oracle’s New AI Only Thinks When It Has To",
+   "published": "2026-10-09T18:00:05Z",
    "state": "screen",
-   "runs": 1197,
-   "channel": "Chase AI"
+   "runs": 51,
+   "channel": "Nate Herk | AI Automation"
   },
   {
    "id": "5EhrMJ9HIfU",
@@ -1904,7 +1924,7 @@
    "id": "JJMChiMYW_g",
    "source": "chase-ai",
    "form": "long",
-   "title": "The Haiku 5.5 Benchmarks are INSANE, So I Tested It Versus Luna",
+   "title": "We Were Completely Wrong About Haiku (and Luna)",
    "published": "2026-10-08T23:43:24Z",
    "state": "screen",
    "runs": 1095,
@@ -2096,13 +2116,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ]
   },
@@ -2110,13 +2130,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ]
   },
@@ -2124,13 +2144,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ]
   },
@@ -2138,13 +2158,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ]
   },
@@ -2152,13 +2172,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ]
   },
@@ -2166,13 +2186,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ]
   },
@@ -2180,13 +2200,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ]
   },
@@ -2194,13 +2214,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ]
   },
@@ -2208,13 +2228,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ]
   },
@@ -2222,13 +2242,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ]
   },
@@ -2236,13 +2256,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ]
   },
@@ -2250,13 +2270,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-09T11:56:43Z"
+     "2026-10-10T11:21:25Z"
     ]
    ]
   }
