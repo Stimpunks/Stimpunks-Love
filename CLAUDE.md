@@ -312,8 +312,8 @@ never in step, and the tool reads that out of `candles.js` and works it out agai
 They flicker at MAX by themselves and at any setting after Let the candles flicker, the Arcade's
 rule; **making them flicker at Regular unasked would change what Regular means**, which is Ryan's
 call and not this room's. The whole of its paragraph is drawn, wine, weed, snacks and all, and the
-drawing carries no word. Its record player plays whole albums off Cigarettes After Sex's own
-channel, each runtime the tracks added up, and `check-jukebox.py` checks every song.
+drawing carries no word. Its record player plays whole albums off their artists' own
+channels, each runtime the tracks added up, and `check-jukebox.py` checks every song.
 
 **AND THE WRITERS ARE NAMED ON EVERY CUT, because Presley wrote none of those songs.** A room
 where the performer's name is the entire draw is exactly where crediting only the voice would

@@ -60,7 +60,7 @@ VIDEO = re.compile(r"[A-Za-z0-9_-]{11}")
 ALBUM_KEYS = {"title", "released", "label", "musicbrainz", "list", "sleeve", "artist", "channel",
               "channel_id", "note", "tracks"}
 TRACK_KEYS = {"id", "title", "seconds", "record", "channel"}
-SLEEVES = ("a", "b", "c", "d", "e", "f")
+SLEEVES = ("a", "b", "c", "d", "e", "f", "g")
 # HOW FAR WHAT PLAYS MAY BE FROM THE RECORD BEFORE THE SLEEVE HAS TO SAY SO. A
 # master, a remaster and a reissue differ by a few seconds of silence at either
 # end, and that is the same recording; past this, it is a cut, an edit or a film,
@@ -495,7 +495,10 @@ def main():
                    "words are not a field here, and nothing musical is hosted on this street.")
         if not LIST.fullmatch(a.get("list", "")):
             refuse(f"{where}: {a.get('list')!r} is not one of YouTube's album lists.")
-        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", a.get("released", "")) or not a.get("label") \
+        # A DATE AS EXACT AS MUSICBRAINZ GIVES IT, AND NO EXACTER: Time Out's 1959 LP
+        # has a year and no day there, and only the year is printed, so a day typed
+        # in from somewhere else would be a fact nobody here read.
+        if not re.fullmatch(r"\d{4}(-\d{2}(-\d{2})?)?", a.get("released", "")) or not a.get("label") \
                 or not re.fullmatch(r"[0-9a-f-]{36}", a.get("musicbrainz", "")):
             refuse(f"{where} has no release date, label or MusicBrainz record. The year on a record "
                    "is the record's, read off MusicBrainz, never the upload's.")
