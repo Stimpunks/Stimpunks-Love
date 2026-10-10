@@ -7,13 +7,20 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Thu, 08 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
       <title>Take off your own message</title>
       <link>https://stimpunks.world/changelog.html#2026-10-08-cb-take-off</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-08-cb-take-off</guid>
       <pubDate>Thu, 08 Oct 2026 12:00:00 GMT</pubDate>
       <description>Anybody on the CB can take their own message off the air now, asked for by Ryan. Take off, which only the base station had, is on every message you sent, beside Copy and React. It takes the message off for everybody, with its picture and reactions, and it cannot be put back. The base station still has it on every message, and clearing the whole channel is still the base’s alone. Yours means the handle on it, and two marks narrow that. A message marked CLAIMED comes off only for that username’s own password, so a name somebody else signs on as later cannot reach back to what was said under it, and one marked BASE only for the base. The server decides, every time; the radio only decides where to draw the button. A moderator can only take things off a channel they can hear. Taking a message off never asked whether a moderator was let into a private room at the Town Hall; it asks now, like everything else that touches a room’s channel. The keyboard is not dropped when a message goes. The button that had it goes with its message, so it moves to the message box instead of to nowhere. The privacy page, the house norms and the CB guide say so.</description>
+    </item>
+    <item>
+      <title>The start of the book, in her own voice</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-10-sweetgrass-preview</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-10-sweetgrass-preview</guid>
+      <pubDate>Sat, 10 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Swaying Sweetgrass has the start of the audiobook beside the book, found by Ryan: Google Play Books’ preview of Braiding Sweetgrass, read by Robin Wall Kimmerer herself, the preface and Planting Sweetgrass. It says how long it runs before you press it, and the borrow link for the rest is right under it. The check that every video on the street still plays now covers the fires on that room’s fire pit, which the Campfire at Cavendish Coworking reads too. They had been checked nowhere.</description>
     </item>
     <item>
       <title>A screen on the wall of the watch room</title>

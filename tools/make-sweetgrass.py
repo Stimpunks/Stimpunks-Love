@@ -8,34 +8,33 @@ has copied since.
 IT HOLDS THE RUNTIME RULE THE ORDINARY WAY and one refusal no other tool here
 has, which is the reason this file is worth reading before editing the room.
 
-  · A RECORDING AT THE FIRE OR IN THE FIELD GUIDE NEEDS A RUNTIME. Same promise
-    as make-latibulum.py, make-den.py, make-club.py and the Hermitage's
-    campfire: the number is what lets somebody decide before they press. The
-    doors need it too -- more than the screens do, because that press leaves
-    this site and the reader cannot see what they are in for.
+  · A RECORDING AT THE FIRE, IN THE FIELD GUIDE OR BESIDE THE BOOK NEEDS A
+    RUNTIME. Same promise as make-latibulum.py, make-den.py, make-club.py and
+    the Hermitage's campfire: the number is what lets somebody decide before
+    they press.
 
-  · A CHAPTER READING MAY NOT BE A SCREEN. This is the room's own refusal and it
-    exists to keep a decision from being quietly reversed. The 21 readings are
-    an unauthorised recording of a book that is in copyright: Braiding
-    Sweetgrass, Milkweed Editions, 2013, its author living and publishing. Every
-    one of them plays and every one of them embeds, so NOTHING ELSE WOULD HAVE
-    STOPPED THEM going in as screens -- not love-embed.js, which only asks
-    whether an id is well formed, and not check-jukebox.py, which only asks
-    whether a video works. The room's whole argument is the honorable harvest:
-    never take the first, never take more than you need, ask. A page making that
-    argument cannot serve somebody else's entire book off its own surface. So
-    they are doors, they are labelled as what they are, and the borrow link to
-    the real audiobook sits with them.
+  · THE BOOK IS LENT AND PREVIEWED, NEVER SERVED. This is the room's own
+    refusal and it exists to keep a decision from being quietly reversed.
+    Braiding Sweetgrass is in copyright: Milkweed Editions, 2013, its author
+    living and publishing. From 2026-09-21 the room listed an unauthorised
+    chapter-by-chapter reading of it as doors out, because every one of them
+    played and embedded and NOTHING ELSE WOULD HAVE STOPPED THEM going in as
+    screens -- not love-embed.js, which only asks whether an id is well formed,
+    and not check-jukebox.py, which only asks whether a video works. The room's
+    whole argument is the honorable harvest: never take the first, never take
+    more than you need, ask. A page making that argument cannot serve somebody
+    else's entire book off its own surface. YouTube stopped serving those
+    readings by 2026-10-08, and Ryan had them taken off quietly on 2026-10-10,
+    with nothing on the page saying they were there (DECISIONS.md). What sits
+    beside the book now is one press, Google Play Books' own preview of the
+    authorised audiobook, which Kimmerer narrates, with the borrow link beside it.
 
-    The friendly edit this refuses is a real one and it will arrive: the doors
-    look broken next to the screens, somebody flips a 'link' to a 'screen', and
-    the page starts doing the thing it spends a paragraph refusing. Ryan's call,
-    2026-09-21, was both lists -- her voice as the fire, the readings as a door.
-
-  · AND THE TWO LISTS MAY NOT LEAK INTO EACH OTHER. A talk at the fire or a
-    teaching in the field guide whose channel is the readings' channel is
-    refused, because the only thing that ever distinguished those ids was the
-    channel name. They arrived in the same brief looking identical.
+    So this REFUSES A `readings` LIST AND ANYTHING ON _refused_channel, at the
+    fire, in the field guide, beside the book or as the fire itself. The
+    friendly edit is a real one and it will arrive: somebody finds the book read
+    aloud again, somewhere else, and puts it back because the preview stops
+    partway. The channel was also the only thing that ever told those
+    readings apart from the talks: they arrived in one brief looking identical.
 
   · AND THE FIRE ITSELF IS THE ONE THING HERE THAT MAY NOT HAVE A RUNTIME.
     Ryan's brief, 2026-09-28: the pit had talks round it and no fire in it. The
@@ -130,20 +129,28 @@ def swap(page, marker, block, indent=""):
 
 def check(d):
     bad = []
-    fire, reads, teach = d.get("fire") or [], d.get("readings") or [], d.get("teachings") or []
+    fire, teach = d.get("fire") or [], d.get("teachings") or []
+    pv = (d.get("book") or {}).get("preview")
+    preview = [pv] if pv else []
     if not fire:
         bad.append("no recordings at the fire, and the fire pit is what the clearing is for.")
-    if not reads:
-        bad.append("no chapter readings, and the door out to them is a whole section.")
     if not teach:
         bad.append("no teachings, and the field guide is not ours to write without them.")
+    if not preview:
+        bad.append("no preview beside the book. The one recording of the book on the page is "
+                   "the authorised audiobook's preview, with the borrow link beside it.")
 
-    walled = (d.get("_readings_channel") or "").strip()
+    # The rights refusal. See the docstring.
+    if "readings" in d:
+        bad.append("a `readings` list is back. The chapter readings came off on 2026-10-10 and the "
+                   "book is lent and previewed, never served; see this tool's docstring and "
+                   "DECISIONS.md before changing it.")
+    walled = (d.get("_refused_channel") or "").strip()
     if not walled:
-        bad.append("_readings_channel is empty, so the leak check below cannot run at all.")
+        bad.append("_refused_channel is empty, so the refusal below cannot run at all.")
 
     seen = {}
-    for label, rows in (("the fire", fire), ("a reading", reads), ("the field guide", teach)):
+    for label, rows in (("the fire", fire), ("the field guide", teach), ("the preview", preview)):
         for r in rows:
             t = (r.get("title") or "").strip() or "<untitled>"
             i = (r.get("id") or "").strip()
@@ -160,24 +167,12 @@ def check(d):
             if not (r.get("spoken") or "").strip():
                 bad.append(f"{label}: {t!r} has no spoken runtime for the button.")
 
-    # The rights refusal. See the docstring.
-    for r in reads:
-        if r.get("how") != "link":
-            bad.append(
-                f"a reading: {r.get('title')!r} is marked {r.get('how')!r}. Every chapter "
-                "reading is a DOOR. They are an unauthorised recording of a book that is "
-                "in copyright, and a room arguing the honorable harvest cannot serve "
-                "somebody's whole book off its own surface. See this tool's docstring "
-                "before changing it.")
-
-    # And the leak, in the other direction.
-    for label, rows in (("the fire", fire), ("the field guide", teach)):
+    for label, rows in (("the fire", fire), ("the field guide", teach), ("the preview", preview)):
         for r in rows:
             if walled and (r.get("channel") or "").strip() == walled:
                 bad.append(
-                    f"{label}: {r.get('title')!r} is on {walled!r}, which is the chapter "
-                    "readings' channel. Those ids arrived looking exactly like these ones "
-                    "and the channel is the only thing that told them apart.")
+                    f"{label}: {r.get('title')!r} is on {walled!r}, whose unauthorised reading "
+                    "of the book came off this page on 2026-10-10. Nothing from it goes back.")
             if r.get("how") != "screen":
                 bad.append(f"{label}: {r.get('title')!r} is marked {r.get('how')!r}; "
                            "everything at the fire and in the guide is a screen.")
@@ -211,7 +206,7 @@ def check(d):
             if not (h.get(field) or "").strip():
                 bad.append(f"the fire has no {field}.")
         if walled and (h.get("channel") or "").strip() == walled:
-            bad.append(f"the fire is on {walled!r}, which is the chapter readings' channel.")
+            bad.append(f"the fire is on {walled!r}, which this room refuses.")
         o = h.get("opens") or {}
         if not YT.match(o.get("id") or "") or not (o.get("title") or "").strip() \
                 or not CLOCK.match((o.get("length") or "").strip()):
@@ -375,14 +370,18 @@ def hearth_block(h):
         f'      </div>')
 
 
-def doors(rows):
-    out = []
-    for r in rows:
-        out.append(
-            f'      <li class="swg-door">'
-            f'<a href="https://www.youtube.com/watch?v={esc(r["id"])}">{esc(r["title"])}</a>'
-            f'<span class="swg-len">{esc(r["spoken"])}</span></li>')
-    return "\n".join(out)
+def preview_block(r):
+    # ONE PRESS BESIDE THE BOOK, the start of the authorised audiobook in her own
+    # voice. It is a store's preview, and the store's buy link is not repeated:
+    # the way to the rest is the borrow link under it.
+    return (f'      <div class="swg-listen">\n'
+            f'        <h3>{esc(r["title"])}</h3>\n'
+            f'        <p class="swg-by">{esc(r["channel"])} &middot; {esc(r["length"])}</p>\n'
+            f'        <p>{esc(r["note"])}</p>\n'
+            f'        <button type="button" class="facade" data-embed-id="{esc(r["id"])}"\n'
+            f'                data-embed-title="{html.escape(r["title"], quote=True)}">'
+            f'Play &middot; {esc(r["spoken"])}</button>\n'
+            f'      </div>')
 
 
 def braid_block(br):
@@ -469,15 +468,6 @@ def rows(items, kind):
     return "\n".join(out)
 
 
-def reading_rows(items, chan):
-    out = []
-    for r in items:
-        out.append(f'      <tr><td>{esc(r["title"])}</td><td>{esc(chan)}</td>'
-                   f'<td>{esc(r["length"])}</td><td>a door out</td>'
-                   f'<td><a href="https://www.youtube.com/watch?v={esc(r["id"])}">watch</a></td></tr>')
-    return "\n".join(out)
-
-
 def quote_rows(qs):
     out = []
     for q in qs:
@@ -505,7 +495,7 @@ def main():
             return 1
     swap(ROOM, "sweetgrass-hearth", hearth_block(d["hearth"]), "    ")
     swap(ROOM, "sweetgrass-fire", screens(d["fire"], "swg-sit"), "    ")
-    swap(ROOM, "sweetgrass-readings", doors(d["readings"]), "    ")
+    swap(ROOM, "sweetgrass-preview", preview_block(d["book"]["preview"]), "    ")
     swap(ROOM, "sweetgrass-guide", screens(d["teachings"], "swg-teach"), "    ")
     swap(ROOM, "sweetgrass-braid", braid_block(d["braid"]), "    ")
     swap(ROOM, "sweetgrass-grass", grass_block(d["grass"], d["book"]), "    ")
@@ -519,14 +509,13 @@ def main():
          f'<td>no runtime</td><td>a playlist, a screen</td>'
          f'<td><a href="{esc(h["playlist"])}">watch</a></td></tr>', "      ")
     swap(NOTES, "sweetgrass-fire-credits", rows(d["fire"] + h["fires"], "a screen"), "      ")
-    swap(NOTES, "sweetgrass-readings-credits",
-         reading_rows(d["readings"], d["_readings_channel"]), "      ")
+    swap(NOTES, "sweetgrass-preview-credits", rows([d["book"]["preview"]], "a screen"), "      ")
     swap(NOTES, "sweetgrass-guide-credits", rows(d["teachings"], "a screen"), "      ")
     swap(NOTES, "sweetgrass-quote-credits", quote_rows(d["quotes"]), "      ")
 
     print(f"sweetgrass: a playlist of real fires in the pit with no runtime, "
-          f"{len(d['fire'])} recordings at the fire, {len(d['readings'])} chapter "
-          f"readings as doors out, {len(d['teachings'])} teachings in the field guide, "
+          f"{len(d['fire'])} recordings at the fire, the audiobook's preview beside the book, "
+          f"{len(d['teachings'])} teachings in the field guide, "
           f"{len(d['braid']['bundles'])} bundles of seven in the braid, "
           f"{len(d['quotes'])} passages, credits rebuilt.")
     return 0

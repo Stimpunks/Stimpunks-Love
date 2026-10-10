@@ -8821,16 +8821,12 @@ html[data-intensity="max"]     .meadow .swg-flit { animation: swg-drift 11s ease
 .swg-fires > summary::marker { color: var(--seed); }
 .swg-fires .swg-sits { margin-top: 18px; }
 
-/* ── The chapter readings, which are doors and not screens ────────────────
-   Deliberately unlike everything else on the page: no press, no runtime badge
-   in the same shape as the fire's, no box. A list of links that leaves. The
-   room says why in its own copy and make-sweetgrass.py refuses one marked as
-   a screen.                                                                   */
-.swg-doors { list-style: none; margin: 20px 0 0; padding: 0;
-  columns: 2; column-gap: 34px; }
-.swg-door { break-inside: avoid; padding: 7px 0; font-size: 16px;
-  display: flex; gap: 10px; justify-content: space-between; align-items: baseline; }
-.swg-len { flex: 0 0 auto; font-size: 14px; color: var(--sedge); font-variant-numeric: tabular-nums; }
+/* ── Beside the book: the start of the audiobook, in her own voice ─────────
+   One press, standing on the ground like a sit at the fire, with the borrow
+   link's plot under it: the preview is the start, a library is the rest.     */
+.swg-listen { margin: 22px 0 0; padding: 0 0 18px; border-bottom: 2px solid var(--stem); max-width: 62ch; }
+.swg-listen h3 { color: var(--straw); }
+.swg-listen > p:not(.swg-by) { margin: 9px 0 0; color: var(--awn); font-size: 16.5px; }
 
 /* ── The field guide ──────────────────────────────────────────────────────
    Same furniture as the fire, one column, because these are somebody else's
@@ -21137,13 +21133,10 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* Swaying Sweetgrass (§25). The two grids collapse on their own — auto-fit
-   with a 240–270px floor — but the readings are a CSS column count rather than
-   a grid, and two columns of chapter titles on a phone is a stack of two-word
-   lines. The bands scale with the viewport and get shorter as they narrow,
-   which is a meadow seen from further off rather than a fault. */
+   with a 240–270px floor. The bands scale with the viewport and get shorter
+   as they narrow, which is a meadow seen from further off rather than a
+   fault. */
 @media (max-width: 620px) {
-  .swg-doors { columns: 1; }
-  .swg-door { padding: 9px 0; }
   .swg-quote { padding-left: 16px; }
   .swg-plot { padding: 18px 16px; }
   .swg-clip { max-width: 100%; }

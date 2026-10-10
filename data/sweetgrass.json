@@ -1,14 +1,14 @@
 {
   "_what": "Swaying Sweetgrass — pitch 02 in the campgrounds. A meadow left alone, with a path into a clearing and a fire pit in the middle of it. Everything that plays on that page is in this file.",
-  "_sources": "EVERY ID WAS RESOLVED AGAINST YOUTUBE ON 2026-09-21 rather than typed off the link text that arrived — status, playableInEmbed, lengthSeconds, title and ownerChannelName, off one fetch of each watch page. That is the Jungle Room's rule and the reason the two lists below could be told apart at all: the chapter readings arrived looking exactly like the talks, and the channel is the only thing that distinguishes them.",
-  "_rights": "THE FIRE AND THE READINGS ARE TWO LISTS BECAUSE THEY CARRY TWO RIGHTS STATEMENTS, and this is the decision the room is built around. Ryan's brief pointed at a 21-chapter playlist of Braiding Sweetgrass read aloud. It is uploaded by The Anarchist Audio Library and it is an unauthorised reading of a book that is in copyright — Milkweed Editions, 2013, Robin Wall Kimmerer living and publishing. Every chapter plays and every chapter embeds, so nothing would have stopped it going in as a screen. What stops it is that this room's whole argument is the honorable harvest: never take the first, never take more than you need, ask permission. A page making that argument cannot serve somebody else's whole book off its own surface. So the readings are DOORS and not screens — named, linked, and labelled as what they are — and the borrow link to the real audiobook sits beside them. Ryan's call, 2026-09-21, after the provenance was put to him: both, her voice as the fire and the readings as a door. make-sweetgrass.py refuses a reading marked 'screen', which is how that decision survives somebody tidying it later.",
+  "_sources": "EVERY ID WAS RESOLVED AGAINST YOUTUBE ON 2026-09-21 rather than typed off the link text that arrived — status, playableInEmbed, lengthSeconds, title and ownerChannelName, off one fetch of each watch page. That is the Jungle Room's rule and the reason the chapter readings this room used to list could be told apart from the talks at all: they arrived looking exactly alike, and the channel was the only thing that distinguished them.",
+  "_rights": "THE BOOK IS LENT AND PREVIEWED, NEVER SERVED, and this is the decision the room is built around. Braiding Sweetgrass is in copyright: Milkweed Editions, 2013, Robin Wall Kimmerer living and publishing. From 2026-09-21 this room listed an unauthorised chapter-by-chapter reading of it, uploaded by The Anarchist Audio Library, as doors out rather than screens, because a room whose whole argument is the honorable harvest cannot serve somebody else's whole book off its own surface (DECISIONS.md). By 2026-10-08 YouTube answered 'Video unavailable' for every one of them, and on 2026-10-10 Ryan had them taken off quietly, with nothing on the page saying they were there. What is there instead is his find the same day: Google Play Books' own preview of the authorised audiobook, which Kimmerer narrates. make-sweetgrass.py refuses a `readings` list and anything on _refused_channel, because the friendly edit is to find the book read aloud somewhere else and put it back.",
   "_fire": "AUTHORISED RECORDINGS OF KIMMERER IN HER OWN VOICE, which is what the fire pit tells. Her publisher, her university hosts, her conference keynotes, her interviews. Ordered shortest first, so somebody with three minutes and somebody with an hour are both served by the same list without either having to read all of it.",
-  "_runtime": "EVERY SCREEN AND EVERY DOOR CARRIES ITS RUNTIME, and make-sweetgrass.py refuses one without. Same promise as make-latibulum.py, make-den.py, make-club.py and the Hermitage's campfire: the number is what lets somebody decide before they press. A door needs it as much as a screen does — more, because the press leaves this site.",
+  "_runtime": "EVERY RECORDING CARRIES ITS RUNTIME, and make-sweetgrass.py refuses one without. Same promise as make-latibulum.py, make-den.py, make-club.py and the Hermitage's campfire: the number is what lets somebody decide before they press. The one exception is the fire, a playlist, which is refused a runtime for make-club.py's reason.",
   "_teachings": "THE FIELD GUIDE, AND IT IS NOT OURS. Six teachings from Indigenous organisations, institutes and nations, Ryan's selection, plus one Kimmerer Q&A he filed with them. Nothing here is summarised or paraphrased on the page: a sweetgrass teaching belongs to the person giving it and the community it is given in, so the room links the video, names the channel, and says what it is about in one line of our own rather than retelling it.",
   "_braid": "THE 21-STRAND TEACHING IS TRANSCRIBED FROM ONE OF THE VIDEOS ALREADY IN THE FIELD GUIDE — Sweet Grass Teaching, Shawenim Abinoojii Inc., kb0eGlH8usg — and it was matched to that video rather than guessed at: the transcript panel was opened and read, and the words at 0:53 through 2:54 are the ones on the page. THE VIDEO DOES NOT NAME THE ELDER SPEAKING. The description says only 'Made for Shawenim Abinoojii Inc.', there is no name card at the end, and the channel does not say. So the page credits the organisation and the video and states plainly that the speaker is unnamed there, rather than inventing a name or quietly dropping the question — the herbarium's refusal to guess at a binomial, applied to a person. The words are auto-captions, which are a machine's guess at speech: they are lightly punctuated here and the timestamps are kept so anybody can check them against the video.",
   "_quotes": "FOUR PASSAGES FROM BRAIDING SWEETGRASS, all four supplied by Ryan. Three of them are verbatim on our own published pages and were checked against the Knowledge System mirror rather than retyped: the sheaf, the braid of stories and 'becoming indigenous to a place' each appear on glossary/nature, glossary/place-based-education and space/offline. THE FOURTH IS NOT ON ANY PAGE OF OURS and could not be confirmed against the book from here — archive.org's search-inside is unreachable and Google Books rate-limited every attempt on 2026-09-21. It is published on Ryan's word, which is written down here rather than left to look like the others. Star Stuff's zine No. 72 carries a standing caveat on the third one too: a Stimpunks post had attributed it to Barry Lopez, the zine corrected it to Kimmerer, and said it had not yet confirmed it against the book rather than against quotation sites. That caveat is still open and the room says so.",
   "_grass": "RYAN'S OWN VIDEO, and it is not sweetgrass — he said so when he sent it. It is already published by us: stimpunks.org embeds this exact guid on the Nature glossary entry, on Play, and on the Offline space page, which is why it belongs in a room built out of those three pages. Ten seconds of a backlit clump of bunchgrass in seed with a mullein rosette at its foot, limestone and river rock, a wall behind. THE SPECIES IS NOT NAMED, for the herbarium's reason: nobody here determined it, and a plant named on a page reads as a determination. VideoPress is the first non-YouTube, non-Spotify frame on this street and its origin had to be added in three places — _headers, love-embed.js and this room's generator.",
-  "_borrow": "A borrow link is required and a buy link is not — make-hermitage.py's rule, and it matters more here than anywhere: the room is arguing that access to knowledge is mutual aid while sitting next to an unauthorised copy of the book it is arguing from. The Open Library work id was resolved against their search API on 2026-09-21 and the scan it points at answered 200. The WorldCat link is the one our own glossary already cites.",
+  "_borrow": "A borrow link is required and a buy link is not — make-hermitage.py's rule, and it matters more here than anywhere: the room is arguing that access to knowledge is mutual aid and the one recording of the book on the page is a store's preview of the authorised audiobook, so the way to the rest of it has to be a library. The Open Library work id was resolved against their search API on 2026-09-21 and the scan it points at answered 200. The WorldCat link is the one our own glossary already cites.",
   "book": {
     "title": "Braiding Sweetgrass: Indigenous Wisdom, Scientific Knowledge, and the Teachings of Plants",
     "author": "Robin Wall Kimmerer",
@@ -16,9 +16,21 @@
     "borrow": "https://openlibrary.org/works/OL16819897W/Braiding_Sweetgrass?edition=braidingsweetgra0000kimm",
     "worldcat": "https://worldcat.org/title/1143651514",
     "cited": "https://stimpunks.org/glossary/nature/",
-    "cited_title": "Nature"
+    "cited_title": "Nature",
+    "preview": {
+      "id": "xaSKR6g76HA",
+      "title": "Braiding Sweetgrass: Indigenous Wisdom,… by Robin Wall Kimmerer · Audiobook preview",
+      "channel": "Google Play Books",
+      "channel_id": "UChDyzr6fXuIIQAELYjVqh7Q",
+      "length": "1:44:15",
+      "spoken": "1 hr 44 min",
+      "how": "screen",
+      "note": "The start of the audiobook, read by Kimmerer herself: the preface and Planting Sweetgrass, by its own chapter list.",
+      "measured": "2026-10-10",
+      "_why": "Ryan's find, 2026-10-10, the day the chapter readings came off. Checked on its own watch page that day: public, playable in an embed, not age-restricted, not live, 1:44:15. Its description names Kimmerer as author and narrator and lists Intro, the title, Preface, Planting Sweetgrass and Outro. It is a store's preview and its description opens with a link to buy; the room does not repeat that link, and the borrow link stays beside it."
+    }
   },
-  "_hearth": "THE FIRE ITSELF, and the one thing in the clearing that is not a voice. Ryan's brief, 2026-09-28: the pit had talks round it and no fire in it. It is a whole playlist from Norwegian Fireplace and Campfire, put on and left burning, so it follows make-club.py's pair of rules: every recording at the fire and in the field guide needs a runtime, and this refuses one, because a list the channel keeps adding to has no length and today's total would be wrong next week. It says it runs until you stop it. It is not a Kimmerer recording and not on the readings' channel, and make-sweetgrass.py refuses it on either. READ ON 2026-09-28 with yt-dlp --flat-playlist and one watch-page fetch of its position 1: the list's position 1 is 'opens' below, public, playable, playableInEmbed true, no age gate, on the same channel as the list. Position 1 is recorded because it decides whether the whole list embeds at all (Queercore's lesson on Pink Pony Club). The playlist's own embedding was checked by pressing play inside a frame on the dev server, not by reading the poster (Vital Plant Living's lesson). ITS TITLES AND DESCRIPTION SELL THE FIRES FOR SLEEP, RELAXATION AND FOCUS and none of that is copied: the title is quoted as written, because it is the channel's, and our note says what is in the picture and what you hear. make-sweetgrass.py refuses the vocabulary of what a fire is for in our note, for the reason the room's own last section gives: it does not treat a meadow as a treatment. AND THE FLAME ON THE PLATE IS STILL THE ROOM'S OWN TWO GOLDS. The plate shows no poster and takes no colour of its own; the real fire's orange arrives only inside a frame somebody pressed for, so the page is not made flame-lit by the back door.",
+  "_hearth": "THE FIRE ITSELF, and the one thing in the clearing that is not a voice. Ryan's brief, 2026-09-28: the pit had talks round it and no fire in it. It is a whole playlist from Norwegian Fireplace and Campfire, put on and left burning, so it follows make-club.py's pair of rules: every recording at the fire and in the field guide needs a runtime, and this refuses one, because a list the channel keeps adding to has no length and today's total would be wrong next week. It says it runs until you stop it. It is not a Kimmerer recording and not on _refused_channel, and make-sweetgrass.py refuses it on either. READ ON 2026-09-28 with yt-dlp --flat-playlist and one watch-page fetch of its position 1: the list's position 1 is 'opens' below, public, playable, playableInEmbed true, no age gate, on the same channel as the list. Position 1 is recorded because it decides whether the whole list embeds at all (Queercore's lesson on Pink Pony Club). The playlist's own embedding was checked by pressing play inside a frame on the dev server, not by reading the poster (Vital Plant Living's lesson). ITS TITLES AND DESCRIPTION SELL THE FIRES FOR SLEEP, RELAXATION AND FOCUS and none of that is copied: the title is quoted as written, because it is the channel's, and our note says what is in the picture and what you hear. make-sweetgrass.py refuses the vocabulary of what a fire is for in our note, for the reason the room's own last section gives: it does not treat a meadow as a treatment. AND THE FLAME ON THE PLATE IS STILL THE ROOM'S OWN TWO GOLDS. The plate shows no poster and takes no colour of its own; the real fire's orange arrives only inside a frame somebody pressed for, so the page is not made flame-lit by the back door.",
   "_hearth_fires": "THE FIRES IN THE PLAYLIST, a rack under the fire, rack.js's pattern (Ryan's call, 2026-09-28; this room 2026-09-29). The selection was the Campfire's at Cavendish Coworking, made 2026-09-28 from this very playlist, and it moved here the day the fire pit took the rack, because the Campfire says it takes its fires from the fire pit: the fire pit owns them and make-coworking.py reads them from here by key, so the two rooms cannot say two different things about one fire. Each was measured on its own watch page on 2026-09-28: public, playable in an embed, not age-restricted, and its runtime. Their titles are the channel's and sell them for sleep and focus; the notes are ours, say only what is in the picture, and make-sweetgrass.py sweeps them for the vocabulary of what a fire is for. The notes are written so they read true in both rooms.",
   "hearth": {
     "title": "Forest Campfires 4K - Real Fire, Wind & Bird Calls | No Loop, No Music",
@@ -208,158 +220,7 @@
       "note": "The longest sit at this fire. Put it on when the plan is to not have a plan."
     }
   ],
-  "readings": [
-    {
-      "id": "ypLExKx3ic4",
-      "title": "Chapter 2: The Council of Pecans",
-      "length": "26:31",
-      "spoken": "27 min",
-      "how": "link"
-    },
-    {
-      "id": "j2U4zGhudRg",
-      "title": "Chapter 3: The Gift of Strawberries",
-      "length": "25:45",
-      "spoken": "26 min",
-      "how": "link"
-    },
-    {
-      "id": "BNnOAOT4plk",
-      "title": "Chapter 5: Asters and Goldenrod",
-      "length": "20:47",
-      "spoken": "21 min",
-      "how": "link"
-    },
-    {
-      "id": "mEBErBoPuTg",
-      "title": "Chapter 6: Learning the Grammar of Animacy",
-      "length": "30:02",
-      "spoken": "30 min",
-      "how": "link"
-    },
-    {
-      "id": "NNl8cGVVbHs",
-      "title": "Chapter 7: Maple Sugar Moon",
-      "length": "23:39",
-      "spoken": "24 min",
-      "how": "link"
-    },
-    {
-      "id": "zetPoggeCuU",
-      "title": "Chapter 8: Witch Hazel",
-      "length": "22:57",
-      "spoken": "23 min",
-      "how": "link"
-    },
-    {
-      "id": "aQvRkUFeMCs",
-      "title": "Chapter 9: A Mother's Work",
-      "length": "39:20",
-      "spoken": "39 min",
-      "how": "link"
-    },
-    {
-      "id": "aCK5jwjm4ug",
-      "title": "Chapter 14: Wisgaak Gokpenagen / A Black Ash Basket",
-      "length": "40:22",
-      "spoken": "40 min",
-      "how": "link"
-    },
-    {
-      "id": "zEqhgDZTg9U",
-      "title": "Chapter 16: Maple Nation: A Citizenship Guide",
-      "length": "20:13",
-      "spoken": "20 min",
-      "how": "link"
-    },
-    {
-      "id": "jXpP0Vp7EUs",
-      "title": "Chapter 17: The Honorable Harvest (part 1)",
-      "length": "27:42",
-      "spoken": "28 min",
-      "how": "link"
-    },
-    {
-      "id": "b4IXIbsVcD8",
-      "title": "Chapter 17: The Honorable Harvest (part 2)",
-      "length": "41:21",
-      "spoken": "41 min",
-      "how": "link"
-    },
-    {
-      "id": "ZoZqtxfC9R0",
-      "title": "Chapter 18: In the Footsteps of Nanabozho",
-      "length": "28:28",
-      "spoken": "28 min",
-      "how": "link"
-    },
-    {
-      "id": "c4zKIaU5IfA",
-      "title": "Chapter 19: The Sound of Silverbells",
-      "length": "20:09",
-      "spoken": "20 min",
-      "how": "link"
-    },
-    {
-      "id": "dz4nMoFkX0I",
-      "title": "Chapter 20: Sitting in a Circle (part 1)",
-      "length": "31:21",
-      "spoken": "31 min",
-      "how": "link"
-    },
-    {
-      "id": "oIyB73FXa84",
-      "title": "Chapter 20: Sitting in a Circle (part 2)",
-      "length": "25:13",
-      "spoken": "25 min",
-      "how": "link"
-    },
-    {
-      "id": "vZCZFMex-UI",
-      "title": "Chapter 21: Burning Cascade Head",
-      "length": "37:11",
-      "spoken": "37 min",
-      "how": "link"
-    },
-    {
-      "id": "4jCOFiCESnI",
-      "title": "Chapter 22: Putting Down Roots",
-      "length": "41:38",
-      "spoken": "42 min",
-      "how": "link"
-    },
-    {
-      "id": "46VXy6LH644",
-      "title": "Chapter 24: Old-Growth Children",
-      "length": "43:22",
-      "spoken": "43 min",
-      "how": "link"
-    },
-    {
-      "id": "pt0UEP6QF18",
-      "title": "Chapter 27: The Sacred and the Superfund (part 1)",
-      "length": "28:06",
-      "spoken": "28 min",
-      "how": "link"
-    },
-    {
-      "id": "165j6E2dqhs",
-      "title": "Chapter 27: The Sacred and the Superfund (part 2)",
-      "length": "28:37",
-      "spoken": "29 min",
-      "how": "link"
-    },
-    {
-      "id": "bvv5qDkACvs",
-      "title": "Chapter 29: Collateral Damage",
-      "length": "35:33",
-      "spoken": "36 min",
-      "how": "link"
-    }
-  ],
-  "_readings_channel": "The Anarchist Audio Library",
-  "_readings_playlist": "https://www.youtube.com/playlist?list=PLfls6OzMkf8KwDszavfbXJWbB4JnTpttT",
-  "_readings_gaps": "The playlist holds these and no others — chapters 1, 4, 10 through 13, 15, 23, 25, 26, 28 and 30 were never uploaded, and the gaps are left visible in the numbering rather than closed up, because a tidy run of numbers would imply a complete book.",
+  "_refused_channel": "The Anarchist Audio Library",
   "teachings": [
     {
       "id": "kb0eGlH8usg",

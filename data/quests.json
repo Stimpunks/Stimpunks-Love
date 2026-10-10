@@ -737,25 +737,26 @@
    "id": "meadow-firefly",
    "page": "swaying-sweetgrass.html",
    "room": "Swaying Sweetgrass",
-   "title": "The book this room will not serve",
-   "posted": "There is a firefly low in the grass at pitch 02. That room points at a book it will not play for you, and it will want you to know why before it lets the firefly go.",
+   "title": "The book this room lends",
+   "posted": "There is a firefly low in the grass at pitch 02. That room plays the start of a book in its author's own voice and lends you the rest, and it will want you to know how before it lets the firefly go.",
    "rank": 3,
    "takes": "three minutes, and some reading",
    "target": "a firefly",
    "code": "FIREFLY",
    "ask": {
-    "question": "The chapter readings in that room are doors rather than players. What is the book still in? One word.",
+    "question": "Under the book itself, the room has a link for the rest of it. What does that link tell you to do? One word.",
     "accept": [
-     "copyright",
-     "copyrighted",
-     "print"
+     "borrow",
+     "borrowit",
+     "borrowing",
+     "borrowed"
     ],
-    "answer": "Copyright",
-    "why": "Every one of those readings plays and every one embeds, so nothing in the machinery would have stopped them. What stops them is the room's own argument — the honorable harvest — which a page cannot make while serving somebody else's whole book off its own surface. They are doors with a borrow link beside them.",
+    "answer": "Borrow",
+    "why": "Borrow it. The book is in copyright and its author is living and publishing, so the room plays only the start, in her own voice, and the way to the rest is a library copy rather than a shop.",
     "hints": [
-     "The room says it in three words, near the readings.",
-     "It is the reason a library lends a book rather than giving it away.",
-     "The author is living, publishing, and narrated the real audiobook herself."
+     "It is in the room's section about the book itself.",
+     "It is what a library lets you do.",
+     "The link says it, then an arrow."
     ]
    },
    "hints": [

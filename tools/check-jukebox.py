@@ -148,14 +148,12 @@ LISTS = [
     # published page, and a link that dies after an edition rotates off is a
     # dead link on a page nobody is looking at any more, which is worse.
     ("the pebble board", "data/pebble-board.json", "pebble-board.html"),
-    # Swaying Sweetgrass, and it is the only list here with TWO KINDS OF ROT in
-    # it. The fire is institutional channels -- a museum, a university, a
-    # publisher -- which are about the most stable uploads on this street. The
-    # chapter readings are an unauthorised recording of a book that is in
-    # copyright, published as doors out precisely because of that, and they are
-    # the likeliest thing on the whole site to be taken down by somebody with
-    # every right to take it down. When one goes, that is not a broken page to
-    # patch quietly: it is the rights holder acting, and the room should say so.
+    # Swaying Sweetgrass. The fire is institutional channels -- a museum, a
+    # university, a publisher -- which are about the most stable uploads on this
+    # street. It also listed an unauthorised reading of the book as doors out,
+    # and this tool is what found every one of them gone on 2026-10-08; they came
+    # off the page on 2026-10-10. The one recording of the book there now is the
+    # authorised audiobook's preview, on a store's own channel.
     ("swaying sweetgrass", "data/sweetgrass.json", "swaying-sweetgrass.html"),
     # The Rabbit Hole. FOUR OF THESE SEVEN ARE RE-UPLOADS ON INDIVIDUALS'
     # CHANNELS -- a Woodstock set, a television appearance taken off a DVD, a
@@ -391,31 +389,11 @@ def tracks_in(data):
                      state="link" if c.get("how") == "link" else None)
                 for e in data["editions"] for s in e.get("sections", [])
                 for c in s.get("cards", []) if c.get("video")]
-    # Swaying Sweetgrass keeps three lists in one file because they carry three
-    # different rights statements, which is the room's whole argument -- see
-    # data/sweetgrass.json. All three are checked: the readings are marked
-    # 'link' and so are exempt from the embed check, the way the Jungle Room's
-    # link-outs are, but a DEAD one still matters and matters differently.
+    # Swaying Sweetgrass: the talks at the fire, the fires on the fire pit's rack
+    # (which the Campfire at Cavendish Coworking reads by key, so they are checked
+    # here and only here; they were checked nowhere until 2026-10-10), the field
+    # guide, and the audiobook's preview beside the book. Every one is a screen.
     if "fire" in data:
-        # THE READINGS CARRY NO 'channel' OF THEIR OWN AND MUST NOT BE GIVEN
-        # ONE. All twenty-one are on one channel, and that name is stored once
-        # at _readings_channel because it is the WALL make-sweetgrass.py uses to
-        # tell a reading from a talk -- a talk on the readings' channel and a
-        # reading on a talk's are both refused there, and the channel is the
-        # only thing that ever told those ids apart. Twenty-one copies of it
-        # would be twenty-one chances for one row to disagree with the wall and
-        # switch that check off quietly, which is the hand-kept copy this repo
-        # refuses everywhere else.
-        #
-        # SO THE FALLBACK IS RESOLVED HERE, WHERE THE SHAPE IS KNOWN, AND ON
-        # 'channel' RATHER THAN ONLY ON 'artist'. It was on artist alone, so
-        # every run printed the right name in the row and then compared the
-        # drift against None and reported all twenty-one as renamed -- for
-        # months, on a report whose own docstring says that a report which is
-        # always noisy is a report nobody reads. The generic comparison below
-        # stays generic; this function's whole job is knowing what shape a file
-        # is in.
-        walled = data.get("_readings_channel")
         # THE FIRE ITSELF IS A PLAYLIST and this tool asks about one video, so
         # what it asks about is the video the list OPENS on: position 1 decides
         # whether the whole list embeds (Queercore's lesson). The rest of the
@@ -424,11 +402,11 @@ def tracks_in(data):
         hearth = ([dict(h["opens"], artist=h.get("channel"), channel=h.get("channel"),
                         title=f'the fire, opening on {h["opens"]["title"]}')]
                   if h.get("opens") else [])
-        return hearth + [dict(t, artist=t.get("channel") or walled,
-                     channel=t.get("channel") or walled,
+        preview = [(data.get("book") or {}).get("preview")]
+        return hearth + [dict(t, artist=t.get("channel"),
                      state="link" if t.get("how") == "link" else None)
-                for t in (data.get("fire", []) + data.get("readings", [])
-                          + data.get("teachings", []))]
+                for t in (data.get("fire", []) + h.get("fires", [])
+                          + data.get("teachings", []) + [x for x in preview if x])]
     if "racks" in data:
         return [dict(s, artist=s.get("artist") or s.get("channel"))
                 for r in data["racks"] for s in r["songs"]]

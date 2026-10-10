@@ -358,13 +358,13 @@ not a US-public-domain test, it is a **public domain everywhere** test, and it c
 its best opening item: Eliot's *The Hollow Men* is free in America and will not be in much of
 Europe until the 2030s.
 `make-sweetgrass.py` holds the runtime rule the ordinary way and one refusal no other tool here
-has: **a chapter reading may not be a screen.** The twenty-one readings of *Braiding Sweetgrass*
-in that room are an unauthorised recording of a book that is in copyright, and every one of them
-plays and embeds — so nothing else would have stopped them going in beside the fire. The room's
-whole argument is the honorable harvest, and a page making that argument cannot serve somebody
-else's entire book off its own surface, so they are doors with a borrow link beside them. It also
-refuses a talk whose channel is the readings' channel in either direction, because those ids
-arrived looking identical and the channel is all that told them apart; and it **counts the
+has: **the book is lent and previewed, never served.** *Braiding Sweetgrass* is in copyright, and
+the room's whole argument is the honorable harvest, so the one recording of the book on the page
+is the authorised audiobook's preview, read by Kimmerer, with a borrow link beside it. An
+unauthorised chapter-by-chapter reading was listed there as doors out until YouTube stopped
+serving it, and it came off quietly on 2026-10-10. The tool refuses a `readings` list and
+anything on that uploader's channel, because the friendly edit is to find the book read aloud
+somewhere else and put it back; and it **counts the
 braid** — three bundles of exactly seven — because that number is an Elder's teaching rather than
 a layout, which is the opposite of `check-counts.py`'s rule and for the opposite reason.
 

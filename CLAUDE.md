@@ -983,14 +983,17 @@ plays and every one embeds, so nothing in the machinery would have stopped them*
 only asks whether an id is well formed, `check-jukebox.py` only asks whether a video works. The
 thing that stops them is the room's own argument — the honorable harvest, never take the first,
 never take more than you need, ask — which a page cannot make while serving somebody's whole book
-off its own surface. So they are **doors and not screens**, labelled as what they are, with a
+off its own surface. So they were **doors and not screens**, labelled as what they were, with a
 borrow link beside them, and the fire itself is Kimmerer in her own voice on authorised channels.
-Ryan's call, 2026-09-21, once the provenance was put to him: keep both. `make-sweetgrass.py`
-refuses a reading marked `screen`, **because the friendly edit is a real one and it will arrive** —
-the doors look broken next to the presses, somebody flips one word, and the page starts doing the
-thing it spends a paragraph refusing. It also refuses a talk on the readings' channel and a
-reading on a talk's, because those ids arrived looking identical and the channel is all that ever
-told them apart.
+Ryan's call, 2026-09-21, once the provenance was put to him: keep both. **YouTube stopped serving
+every one of them by 2026-10-08, and on 2026-10-10 Ryan had them taken off quietly**: nothing on
+the page says they were there and the changelog does not mention them (DECISIONS.md is the
+record). What sits beside the book now is Google Play Books' preview of the authorised audiobook,
+which Kimmerer narrates, as one press over the borrow link. `make-sweetgrass.py` **refuses a
+`readings` list and anything on the uploader's channel** (`_refused_channel`), because the
+friendly edit is a real one and it will arrive: somebody finds the book read aloud again
+somewhere else and puts it back because the preview stops partway. **Do not put a
+sentence on the page about the readings**; quiet was the call.
 
 **THE 21-STRAND TEACHING IS SOMEBODY'S AND THE VIDEO DOES NOT SAY WHOSE.** Seven generations
 behind, seven sacred laws, seven ahead. It was matched to its source rather than guessed at — the
