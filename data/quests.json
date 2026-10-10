@@ -3209,6 +3209,41 @@
    "learned": "A quiet room that nobody can book is a promise that there will always be somewhere to go."
   },
   {
+   "id": "wbb-carrot",
+   "page": "words-bud-beats.html",
+   "room": "Words, Bud, Beats",
+   "rank": 1,
+   "title": "The only legible lines",
+   "posted": "Kristina Brooke has opened her salon at desert dusk: words, music and bud, a record of the moment on every sleeve. Look along her shelf and find out what the first record's words were scribbled on.",
+   "target": "a carrot, rolled off the shopping list",
+   "takes": "a few minutes of reading",
+   "code": "CARROT",
+   "hints": [
+    "Walk into Words, Bud, Beats from the street: Kristina Brooke's salon at desert dusk.",
+    "Look along the shelf, at the first record and its liner notes.",
+    "The carrot is on the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "What were the words on the first record scribbled on the back of?",
+    "answer": "A receipt",
+    "accept": [
+     "receipt",
+     "a receipt",
+     "receipts",
+     "the back of a receipt",
+     "back of a receipt",
+     "a till receipt"
+    ],
+    "hints": [
+     "It is in the liner notes of Record 1, on the shelf.",
+     "Something a shop hands you when you pay.",
+     "A slip of paper with what you bought printed on it."
+    ],
+    "why": "A receipt: Kristina had been carrying it around for a few days, and the lines on the first record were the only ones on it she could still read."
+   },
+   "learned": "A line worth keeping can turn up anywhere, even on the back of a receipt."
+  },
+  {
    "id": "run-ball",
    "page": "the-run.html",
    "room": "The Run",

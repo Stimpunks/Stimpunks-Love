@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://stimpunks.world/</loc>
-    <lastmod>2026-10-05</lastmod>
+    <lastmod>2026-10-10</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/map.html</loc>
-    <lastmod>2026-10-05</lastmod>
+    <lastmod>2026-10-10</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/danny-the-street.html</loc>
@@ -279,6 +279,10 @@
   <url>
     <loc>https://stimpunks.world/neurohome.html</loc>
     <lastmod>2026-09-30</lastmod>
+  </url>
+  <url>
+    <loc>https://stimpunks.world/words-bud-beats.html</loc>
+    <lastmod>2026-10-10</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/your-room.html</loc>

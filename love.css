@@ -3192,6 +3192,51 @@
   --nh-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
   --nh-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
   /* import:neurohome:root:end */
+
+  /* import:words-bud-beats:root:begin */
+  /* Kristina Brooke's room, Words, Bud, Beats -- brought in by tools/import-room.py.
+     Their colours exactly as their artifact declared them, replaced whole on
+     re-import. Measured in data/rooms/words-bud-beats.json. */
+  --wbb-ground: #24160f;
+  --wbb-ink: #f2e2c6;
+  --wbb-link: #f0b062;
+  --wbb-focus: #a8e0c0;
+  --wbb-wall: #e3a15e;
+  --wbb-wall-ink: #2a170e;
+  --wbb-wall-link: #5a230a;
+  --wbb-wall-focus: #1f3b2c;
+  --wbb-dusk: #33263f;
+  --wbb-cotton: #f3e8d4;
+  --wbb-sleeve-ink: #33231a;
+  --wbb-sleeve-link: #8a3510;
+  --wbb-sleeve-mute: #5e4a3b;
+  --wbb-sleeve-focus: #2f5a3e;
+  --wbb-rail: #5b3a24;
+  --wbb-sign: #3d5a3a;
+  --wbb-sky-high: #3b2a52;
+  --wbb-sky-mid: #c4566a;
+  --wbb-sky-low: #f2a65a;
+  --wbb-sun: #ffd79a;
+  --wbb-mesa: #4a2a3a;
+  --wbb-saguaro: #2c2a2a;
+  --wbb-frame: #6e4a30;
+  --wbb-sill: #8a5d3b;
+  --wbb-clay: #b0603a;
+  --wbb-clay-dark: #7e3f24;
+  --wbb-leaf: #4f6b3c;
+  --wbb-leaf-dark: #34492a;
+  --wbb-succ: #8ea77a;
+  --wbb-glass: #9cb8a6;
+  --wbb-brass: #c9a24a;
+  --wbb-mote: #ffe2b0;
+  --wbb-kraft: #e2c597;
+  --wbb-sage: #cdd8b8;
+  --wbb-rose: #e8c3b0;
+  --wbb-paper: #fffaf0;
+  --wbb-felt: #3e3836;
+  --wbb-vinyl: #141010;
+  --wbb-groove: #2e2523;
+  /* import:words-bud-beats:root:end */
 }
 
 * { box-sizing: border-box; }
@@ -4129,6 +4174,14 @@ div.facade--audio { border: 0; background: none; }
 .door--neurohome .door__blurb { font-family: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif; color: var(--nh-text); }
 .door--neurohome .door__knock { font-family: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif; color: var(--nh-link); }
 /* import:neurohome:door:end */
+/* import:words-bud-beats:door:begin -- Words, Bud, Beats's door, in the room's own colours and faces. A plain
+   awning, written by tools/import-room.py: a starting point for dressing, not a design. */
+.door--words-bud-beats { background: var(--wbb-ground); border-color: var(--wbb-link); }
+.door--words-bud-beats .door__awning { background: var(--wbb-ink); border-bottom-color: var(--wbb-link); }
+.door--words-bud-beats .door__name  { font-family: Gloock, Georgia, serif; color: var(--wbb-ink); }
+.door--words-bud-beats .door__blurb { font-family: Literata, Georgia, serif; color: var(--wbb-ink); }
+.door--words-bud-beats .door__knock { font-family: Literata, Georgia, serif; color: var(--wbb-link); }
+/* import:words-bud-beats:door:end */
 
 /* The signpost at the end of the shopfronts. NOT A DOOR AT ALL, and the grid
    above is why: a door on this street is a storefront you walk into, and the
@@ -15381,7 +15434,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §104
+   class on it is `bb-`, its sizes are in points and millimetres, and §105
    prints it and nothing else. */
 
 .room-broadside {
@@ -15442,7 +15495,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §104 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §105 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -21039,7 +21092,312 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .snug-glow { border-radius: 24px; }
 }
 
-/* §103 ── Small screens ───────────────────────────────────────────────────────
+/* import:words-bud-beats:section:begin */
+/* §103 ── ROOM: Words, Bud, Beats (a shopfront on the street) ─────────────────
+   KRISTINA BROOKE'S ROOM (she/her), AND NOT OURS TO REDESIGN. Built with
+   Claude, an AI model made by Anthropic and brought onto the street by tools/import-room.py from the
+   artifact they sent. Everything between the import markers is theirs and is
+   replaced whole when they send a new version: change the artifact and import
+   it again, never the lines between. Its light, in their words:
+   Low desert dusk through one west window, falling across the far wall and throwing every shadow east. */
+
+.room-words-bud-beats {
+  background-color: var(--wbb-ground);
+  color: var(--wbb-ink);
+  font-family: "Literata", Georgia, serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  margin: 0;
+  overflow-x: hidden;
+}
+.room-words-bud-beats a { color: var(--wbb-link); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+.room-words-bud-beats a:hover { text-decoration-thickness: 3px; }
+.room-words-bud-beats :focus-visible { outline: 3px solid var(--wbb-focus); outline-offset: 3px; border-radius: 2px; }
+
+.room-words-bud-beats main { max-width: 60rem; margin: 0 auto; padding: 0 1rem 3rem; }
+.room-words-bud-beats h1,
+.room-words-bud-beats h2 { font-family: "Gloock", Georgia, serif; font-weight: 400; line-height: 1.1; margin: 0; }
+.room-words-bud-beats h3 { font-family: "Courier Prime", "Courier New", monospace; font-weight: 700; }
+
+/* The window */
+.room-words-bud-beats .wbb-window { margin: 1.5rem auto 0; max-width: 34rem; }
+.room-words-bud-beats .wbb-window svg { display: block; width: 100%; height: auto; }
+.room-words-bud-beats .wbb-f-sky-high { stop-color: var(--wbb-sky-high); }
+.room-words-bud-beats .wbb-f-sky-mid { stop-color: var(--wbb-sky-mid); }
+.room-words-bud-beats .wbb-f-sky-low { stop-color: var(--wbb-sky-low); }
+.room-words-bud-beats .wbb-f-sun { fill: var(--wbb-sun); }
+.room-words-bud-beats .wbb-f-mesa { fill: var(--wbb-mesa); }
+.room-words-bud-beats .wbb-f-saguaro { fill: var(--wbb-saguaro); }
+.room-words-bud-beats .wbb-f-frame { fill: var(--wbb-frame); }
+.room-words-bud-beats .wbb-f-sill { fill: var(--wbb-sill); }
+.room-words-bud-beats .wbb-f-clay { fill: var(--wbb-clay); }
+.room-words-bud-beats .wbb-f-clay-dark { fill: var(--wbb-clay-dark); }
+.room-words-bud-beats .wbb-f-leaf { fill: var(--wbb-leaf); }
+.room-words-bud-beats .wbb-f-leaf-dark { fill: var(--wbb-leaf-dark); }
+.room-words-bud-beats .wbb-s-leaf-dark { stroke: var(--wbb-leaf-dark); fill: none; }
+.room-words-bud-beats .wbb-s-leaf { stroke: var(--wbb-leaf); fill: none; }
+.room-words-bud-beats .wbb-f-succ { fill: var(--wbb-succ); }
+.room-words-bud-beats .wbb-f-glass { fill: var(--wbb-glass); }
+.room-words-bud-beats .wbb-f-brass { fill: var(--wbb-brass); }
+.room-words-bud-beats .wbb-f-mote { fill: var(--wbb-mote); }
+.room-words-bud-beats .wbb-f-wall { fill: var(--wbb-wall); }
+.room-words-bud-beats .wbb-f-ground { fill: var(--wbb-ground); }
+.room-words-bud-beats .wbb-f-rail { fill: var(--wbb-rail); }
+.room-words-bud-beats .wbb-f-cotton { fill: var(--wbb-cotton); }
+
+/* The patch of lit wall: flat amber, slanted like light from a west window */
+.room-words-bud-beats .wbb-lit {
+  background-color: var(--wbb-wall);
+  color: var(--wbb-wall-ink);
+  margin: 0 auto;
+  max-width: calc(35rem + 5.75rem); /* about 70 characters of Literata per line */
+  padding: 2.5rem 3rem 2.75rem 2.75rem;
+  clip-path: polygon(0 0, 100% 4%, 96% 100%, 3% 96%);
+  box-shadow: 14px 10px 0 rgba(0, 0, 0, 0.35);
+}
+.room-words-bud-beats .wbb-lit a { color: var(--wbb-wall-link); }
+.room-words-bud-beats .wbb-lit :focus-visible { outline-color: var(--wbb-wall-focus); }
+.room-words-bud-beats .wbb-lit h1 { font-size: clamp(2.6rem, 11vw, 4.75rem); letter-spacing: -0.01em; text-align: center; text-wrap: balance; }
+.room-words-bud-beats .wbb-lit h1 span { display: inline-block; }
+.room-words-bud-beats .wbb-amp { font-family: "Literata", Georgia, serif; font-style: italic; font-size: 0.6em; padding: 0 0.1em; }
+.room-words-bud-beats .wbb-kept { font-family: "Courier Prime", "Courier New", monospace; font-size: 0.95rem; margin: 0.9rem 0 1.6rem; text-align: center; }
+.room-words-bud-beats .wbb-lit h2.wbb-here { font-family: "Courier Prime", "Courier New", monospace; font-weight: 700; font-size: 1.05rem; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 0.5rem; }
+.room-words-bud-beats .wbb-lead { font-size: 1.2rem; margin: 0 0 0.8rem; }
+.room-words-bud-beats .wbb-lead + p { margin: 0; }
+
+/* The records, in the shadow side of the room */
+.room-words-bud-beats .wbb-shadow {
+  background-color: var(--wbb-dusk);
+  margin: 3rem -1rem 0;
+  padding: 2.5rem 1rem 3rem;
+}
+.room-words-bud-beats .wbb-shadow h2 { font-size: clamp(1.9rem, 7vw, 2.6rem); max-width: 56rem; margin: 0 auto; }
+.room-words-bud-beats .wbb-shadow > p { max-width: 56rem; margin: 0.4rem auto 0; }
+.room-words-bud-beats .wbb-shadow > p.wbb-key { font-family: "Courier Prime", "Courier New", monospace; font-size: 0.95rem; }
+.room-words-bud-beats .wbb-records {
+  list-style: none;
+  margin: 2rem auto 0;
+  padding: 0;
+  max-width: 56rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16.5rem, 1fr));
+  gap: 2.5rem 1.5rem;
+}
+/* each record stands on its own bit of wooden shelf */
+.room-words-bud-beats .wbb-records > li { position: relative; padding: 38% 0 1.1rem; }
+.room-words-bud-beats .wbb-records > li::after {
+  content: "";
+  position: absolute;
+  left: -0.5rem;
+  right: -0.5rem;
+  bottom: 0;
+  height: 0.7rem;
+  border-radius: 3px;
+  background-color: var(--wbb-rail);
+  box-shadow: 6px 5px 0 rgba(0, 0, 0, 0.3);
+}
+/* the disc, slid partway up out of its sleeve */
+.room-words-bud-beats .wbb-disc {
+  position: absolute;
+  top: 0;
+  left: 7%;
+  width: 86%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, var(--wbb-ground) 0 2.2%, var(--wbb-disc-label) 2.4% 31%, transparent 31.5%),
+    repeating-radial-gradient(circle at center, var(--wbb-vinyl) 0 3px, var(--wbb-groove) 3px 4px);
+  box-shadow: 8px 6px 0 rgba(0, 0, 0, 0.35);
+}
+/* a small mark on the label, so the record can be seen to turn */
+.room-words-bud-beats .wbb-disc::after {
+  content: "";
+  position: absolute;
+  top: 26%;
+  left: calc(50% - 0.2rem);
+  width: 0.4rem;
+  height: 14%;
+  border-radius: 0.2rem;
+  background-color: var(--wbb-cotton);
+}
+.room-words-bud-beats .wbb-sleeve {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 1;
+  background-color: var(--wbb-sleeve-ground);
+  color: var(--wbb-sleeve-ink);
+  padding: 1.25rem 1.25rem 1.1rem;
+  box-shadow: 8px 6px 0 rgba(0, 0, 0, 0.32);
+}
+.room-words-bud-beats .wbb-records > li:nth-child(4n+1) { --wbb-sleeve-ground: var(--wbb-cotton); --wbb-disc-label: var(--wbb-clay); }
+.room-words-bud-beats .wbb-records > li:nth-child(4n+2) { --wbb-sleeve-ground: var(--wbb-kraft); --wbb-disc-label: var(--wbb-leaf); }
+.room-words-bud-beats .wbb-records > li:nth-child(4n+3) { --wbb-sleeve-ground: var(--wbb-sage); --wbb-disc-label: var(--wbb-sky-mid); }
+.room-words-bud-beats .wbb-records > li:nth-child(4n+4) { --wbb-sleeve-ground: var(--wbb-rose); --wbb-disc-label: var(--wbb-brass); }
+.room-words-bud-beats .wbb-sleeve a { color: var(--wbb-sleeve-link); }
+.room-words-bud-beats .wbb-sleeve :focus-visible { outline-color: var(--wbb-sleeve-focus); }
+.room-words-bud-beats .wbb-sleeve h3 { font-size: 1.15rem; margin: 0 0 0.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--wbb-sleeve-ink); }
+.room-words-bud-beats .wbb-sleeve dl { margin: 0; }
+.room-words-bud-beats .wbb-sleeve dt {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--wbb-sleeve-mute);
+  margin-top: 0.6rem;
+}
+.room-words-bud-beats .wbb-sleeve dd { margin: 0.1rem 0 0; }
+.room-words-bud-beats .wbb-words { margin: 0.15rem 0 0.5rem; font-size: 1.05rem; }
+.room-words-bud-beats .wbb-words-list { margin: 0 0 0.5rem; padding-left: 1.4rem; }
+.room-words-bud-beats .wbb-liner-label { display: block; font-family: "Courier Prime", "Courier New", monospace; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--wbb-sleeve-mute); }
+.room-words-bud-beats .wbb-liner {
+  border-top: 1px dashed var(--wbb-sleeve-mute);
+  margin: 1rem 0 0;
+  padding-top: 0.6rem;
+  font-size: 0.95rem;
+}
+
+.room-words-bud-beats .wbb-corner { max-width: 40rem; }
+.room-words-bud-beats .wbb-corner svg { display: block; width: 100%; height: auto; }
+.room-words-bud-beats .wbb-f-vinyl { fill: var(--wbb-vinyl); }
+.room-words-bud-beats .wbb-f-sage { fill: var(--wbb-sage); }
+.room-words-bud-beats .wbb-s-brass { stroke: var(--wbb-brass); }
+.room-words-bud-beats .wbb-s-vinyl { stroke: var(--wbb-vinyl); }
+.room-words-bud-beats .wbb-f-felt { fill: var(--wbb-felt); }
+.room-words-bud-beats .wbb-s-felt { stroke: var(--wbb-felt); fill: none; }
+.room-words-bud-beats .wbb-f-shade { fill: rgba(0, 0, 0, 0.3); }
+
+/* Open mic: the sitting corner and the pairing slip */
+.room-words-bud-beats .wbb-mic { margin: 3.5rem auto 0; max-width: 56rem; }
+.room-words-bud-beats .wbb-mic h2 { font-size: clamp(1.9rem, 7vw, 2.6rem); }
+.room-words-bud-beats .wbb-mic .wbb-corner { margin: 1.5rem auto 1.5rem; }
+.room-words-bud-beats .wbb-mic > p { max-width: 38rem; }
+.room-words-bud-beats .wbb-slip {
+  background-color: var(--wbb-cotton);
+  color: var(--wbb-sleeve-ink);
+  max-width: 38rem;
+  padding: 1.4rem 1.5rem 1.2rem;
+  border-left: 6px solid var(--wbb-clay);
+  box-shadow: 8px 6px 0 rgba(0, 0, 0, 0.32);
+}
+.room-words-bud-beats .wbb-slip h3 { margin: 0 0 0.6rem; font-size: 1.15rem; }
+.room-words-bud-beats .wbb-slip ol { margin: 0; padding-left: 1.6rem; }
+.room-words-bud-beats .wbb-slip li { padding: 0.5rem 0 0.9rem; }
+.room-words-bud-beats .wbb-slip-field { display: block; }
+.room-words-bud-beats .wbb-slip-hint,
+.room-words-bud-beats .wbb-slip-count { display: block; }
+.room-words-bud-beats .wbb-slip-count { font-family: "Courier Prime", "Courier New", monospace; font-size: 0.9rem; color: var(--wbb-sleeve-mute); }
+.room-words-bud-beats .wbb-slip-input {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 0.35rem;
+  min-height: 44px;
+  padding: 0.5rem 0.65rem;
+  font: inherit;
+  color: var(--wbb-sleeve-ink);
+  background-color: var(--wbb-paper);
+  border: 2px solid var(--wbb-sleeve-mute);
+  border-radius: 3px;
+}
+.room-words-bud-beats .wbb-slip-input:focus-visible { outline: 3px solid var(--wbb-sleeve-focus); outline-offset: 2px; }
+.room-words-bud-beats .wbb-slip-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-top: 1rem; }
+.room-words-bud-beats .wbb-copy {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--wbb-cotton);
+  background-color: var(--wbb-sleeve-ink);
+  border: 2px solid var(--wbb-sleeve-ink);
+  border-radius: 999px;
+  padding: 0.5rem 1.4rem;
+  min-height: 44px;
+  cursor: pointer;
+}
+.room-words-bud-beats .wbb-copy:hover { background-color: var(--wbb-rail); border-color: var(--wbb-rail); }
+.room-words-bud-beats .wbb-slip-status { font-size: 0.95rem; }
+.room-words-bud-beats .wbb-slip-field { font-family: "Courier Prime", "Courier New", monospace; font-weight: 700; }
+.room-words-bud-beats .wbb-slip-hint { color: var(--wbb-sleeve-mute); font-size: 0.95rem; }
+.room-words-bud-beats .wbb-slip a { color: var(--wbb-sleeve-link); }
+.room-words-bud-beats .wbb-slip :focus-visible { outline-color: var(--wbb-sleeve-focus); }
+.room-words-bud-beats .wbb-slip-foot { margin: 0.9rem 0 0; font-size: 0.9rem; }
+
+/* House notes: a painted sign and the shelf */
+.room-words-bud-beats .wbb-house { margin: 3.5rem auto 0; max-width: 40rem; display: grid; gap: 1.5rem; }
+.room-words-bud-beats .wbb-house > p { margin: 0; }
+.room-words-bud-beats .wbb-house h2 { font-size: clamp(1.6rem, 6vw, 2.1rem); }
+.room-words-bud-beats .wbb-sign {
+  justify-self: start;
+  background-color: var(--wbb-sign);
+  color: var(--wbb-ink);
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 1rem 1.25rem;
+  border: 4px double var(--wbb-ink);
+  max-width: 24rem;
+  margin: 0;
+  box-shadow: 8px 6px 0 rgba(0, 0, 0, 0.32);
+}
+.room-words-bud-beats .wbb-shelf svg { display: block; width: 100%; max-width: 40rem; height: auto; }
+
+/* Credits, on the plain room ground */
+.room-words-bud-beats .wbb-credits { margin: 4rem auto 0; max-width: 56rem; border-top: 2px solid var(--wbb-rail); padding-top: 1.5rem; font-size: 0.95rem; }
+.room-words-bud-beats .wbb-credits h2 { font-size: 1.6rem; margin-bottom: 0.75rem; }
+.room-words-bud-beats .wbb-credits ul { padding-left: 1.1rem; }
+.room-words-bud-beats .wbb-credits li { margin-bottom: 0.4rem; }
+
+/* THE DIAL
+   regular: motion only on hover or keyboard focus
+   max: ambient motion too (slow dust in the light, a fern moving)
+   gentle, or no setting with reduced motion asked for: nothing moves */
+@keyframes wbb-turn { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes wbb-drift { 0% { transform: translate(0, 0); opacity: 0.35; } 50% { transform: translate(14px, -10px); opacity: 0.85; } 100% { transform: translate(28px, 4px); opacity: 0.35; } }
+@keyframes wbb-sway { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(2deg); } }
+
+.room-words-bud-beats .wbb-mote { opacity: 0.6; }
+.room-words-bud-beats .wbb-fern { transform-box: fill-box; transform-origin: 50% 100%; }
+
+:root[data-intensity="regular"] .room-words-bud-beats .wbb-disc,
+:root[data-intensity="max"] .room-words-bud-beats .wbb-disc { transition: top 0.6s ease-out; }
+:root[data-intensity="regular"] .room-words-bud-beats .wbb-records > li:hover .wbb-disc,
+:root[data-intensity="regular"] .room-words-bud-beats .wbb-records > li:focus-within .wbb-disc,
+:root[data-intensity="max"] .room-words-bud-beats .wbb-records > li:hover .wbb-disc,
+:root[data-intensity="max"] .room-words-bud-beats .wbb-records > li:focus-within .wbb-disc { top: -1rem; }
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-intensity]) .room-words-bud-beats .wbb-disc { transition: top 0.6s ease-out; }
+  :root:not([data-intensity]) .room-words-bud-beats .wbb-records > li:hover .wbb-disc,
+  :root:not([data-intensity]) .room-words-bud-beats .wbb-records > li:focus-within .wbb-disc { top: -1rem; }
+}
+:root[data-intensity="max"] .room-words-bud-beats .wbb-mote { animation: wbb-drift 14s ease-in-out infinite alternate; }
+:root[data-intensity="max"] .room-words-bud-beats .wbb-mote:nth-of-type(2n) { animation-duration: 19s; animation-delay: -6s; }
+:root[data-intensity="max"] .room-words-bud-beats .wbb-mote:nth-of-type(3n) { animation-duration: 23s; animation-delay: -11s; }
+:root[data-intensity="max"] .room-words-bud-beats .wbb-fern { animation: wbb-sway 9s ease-in-out infinite; }
+:root[data-intensity="max"] .room-words-bud-beats .wbb-disc { animation: wbb-turn 7s linear infinite; }
+
+:root[data-intensity="gentle"] .room-words-bud-beats *,
+:root[data-intensity="gentle"] .room-words-bud-beats *::before,
+:root[data-intensity="gentle"] .room-words-bud-beats *::after {
+  animation: none !important;
+  transition: none !important;
+}
+:root[data-intensity="gentle"] .room-words-bud-beats .wbb-disc,
+:root[data-intensity="gentle"] .room-words-bud-beats .wbb-mote,
+:root[data-intensity="gentle"] .room-words-bud-beats .wbb-fern { transform: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-intensity]) .room-words-bud-beats *,
+  :root:not([data-intensity]) .room-words-bud-beats *::before,
+  :root:not([data-intensity]) .room-words-bud-beats *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (max-width: 30rem) {
+  .room-words-bud-beats .wbb-lit { padding: 1.75rem 1.5rem 2rem 1.5rem; clip-path: polygon(0 0, 100% 2%, 97% 100%, 2% 98%); }
+}
+/* import:words-bud-beats:section:end */
+
+/* §104 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -21143,7 +21501,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §103 says every
+   shipped with no rule here at all — which on a street whose §104 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -21267,7 +21625,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §104 ── Print ───────────────────────────────────────────────────────────────
+/* §105 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

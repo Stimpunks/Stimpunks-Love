@@ -1,0 +1,224 @@
+{
+  "_what": "A room brought onto the street by tools/import-room.py from an artifact somebody built with their own AI. Everything here is read off that artifact's FOR THE STREET comment or measured from the room as it renders; nothing is typed. check-contrast.py holds the pairs, check-jukebox.py checks the tracks, and re-importing replaces this file whole.",
+  "slug": "words-bud-beats",
+  "page": "words-bud-beats.html",
+  "title": "Words, Bud, Beats",
+  "description": "A salon at desert dusk where Kristina Brooke pairs music with words and cannabis.",
+  "name": "Kristina Brooke",
+  "link": "https://my-mercurial-garden.vercel.app/about-me/",
+  "pronouns": "she/her",
+  "say_it": "Kris-tee-na Brew-uk",
+  "prefix": "wbb",
+  "light": "Low desert dusk through one west window, falling across the far wall and throwing every shadow east.",
+  "typefaces": [
+    "Gloock",
+    "Literata",
+    "Courier Prime"
+  ],
+  "photographs": null,
+  "words": "Kristina Brooke's words: the opening under \"What's here\" (from \"An intimate salon of words\" through \"Talking is never required.\"); the shelf note (\"Each record holds a grouping...\" with its Zibaldone link); all six records (words, dates, songs, strains, liner notes) as she sent them; the House notes allergy sign and Tidal line; the strain key; the door description. Drafted by Claude for her to change: the section headings, the record field labels and \"Liner notes\", the House notes line about press-to-play, the Open mic invitation, the Copy button messages, the pairing slip (adapted from the Stimpunks.World Zibaldone attribution slip, CC BY-SA 4.0), and the credits wording. Claude added the artist for record 3 from its Tidal page. House rule for words: 30 or fewer each, original or quoted, never song lyrics.",
+  "built_with": "Claude, an AI model made by Anthropic",
+  "could_not_do": "Tidal players could not be embedded, because the room allows no iframes and the street plays only single YouTube videos; each song is a plain link that opens on Tidal.",
+  "imported": "2026-10-10",
+  "artifact": "words-bud-beats.html",
+  "artifact_sha256": "91fb49226be30e5284100329102433c310874fa61ab6d11e06e24382a15c4d63",
+  "clothes": {
+    "ground": "--wbb-ground",
+    "text": "--wbb-ink",
+    "heading": "--wbb-ink",
+    "link": "--wbb-link",
+    "heading_face": "Gloock, Georgia, serif",
+    "text_face": "Literata, Georgia, serif"
+  },
+  "fractal_from": "latibulum.html",
+  "tracks": [],
+  "pairs": [
+    {
+      "ink": "#f0b062",
+      "ground": "#24160f",
+      "large": false,
+      "ratio": 9.27,
+      "where": "a.backlink “← back to the street”"
+    },
+    {
+      "ink": "#2a170e",
+      "ground": "#e3a15e",
+      "large": true,
+      "ratio": 7.76,
+      "where": "span “Words,”"
+    },
+    {
+      "ink": "#2a170e",
+      "ground": "#e3a15e",
+      "large": false,
+      "ratio": 7.76,
+      "where": "p.wbb-kept “Kept by (she/her)”"
+    },
+    {
+      "ink": "#5a230a",
+      "ground": "#e3a15e",
+      "large": false,
+      "ratio": 5.67,
+      "where": "a “Kristina Brooke”"
+    },
+    {
+      "ink": "#f2e2c6",
+      "ground": "#24160f",
+      "large": true,
+      "ratio": 13.76,
+      "where": "h2 “House notes”"
+    },
+    {
+      "ink": "#f2e2c6",
+      "ground": "#3d5a3a",
+      "large": false,
+      "ratio": 6.05,
+      "where": "p.wbb-sign “This space is free from all of the nine, and”"
+    },
+    {
+      "ink": "#f2e2c6",
+      "ground": "#24160f",
+      "large": false,
+      "ratio": 13.76,
+      "where": "p “Links to single songs on Tidal will allow yo”"
+    },
+    {
+      "ink": "#f2e2c6",
+      "ground": "#33263f",
+      "large": true,
+      "ratio": 11.05,
+      "where": "h2 “On the shelf”"
+    },
+    {
+      "ink": "#f2e2c6",
+      "ground": "#33263f",
+      "large": false,
+      "ratio": 11.05,
+      "where": "p “Each record holds a grouping of words, music”"
+    },
+    {
+      "ink": "#f0b062",
+      "ground": "#33263f",
+      "large": false,
+      "ratio": 7.45,
+      "where": "a “Zibaldone guidelines too”"
+    },
+    {
+      "ink": "#33231a",
+      "ground": "#f3e8d4",
+      "large": false,
+      "ratio": 12.39,
+      "where": "h3 “Record 1”"
+    },
+    {
+      "ink": "#5e4a3b",
+      "ground": "#f3e8d4",
+      "large": false,
+      "ratio": 6.87,
+      "where": "dt “Words”"
+    },
+    {
+      "ink": "#8a3510",
+      "ground": "#f3e8d4",
+      "large": false,
+      "ratio": 6.66,
+      "where": "a “Tissues by ALT BLK ERA”"
+    },
+    {
+      "ink": "#33231a",
+      "ground": "#e2c597",
+      "large": false,
+      "ratio": 9.07,
+      "where": "h3 “Record 2”"
+    },
+    {
+      "ink": "#5e4a3b",
+      "ground": "#e2c597",
+      "large": false,
+      "ratio": 5.03,
+      "where": "dt “Words”"
+    },
+    {
+      "ink": "#8a3510",
+      "ground": "#e2c597",
+      "large": false,
+      "ratio": 4.88,
+      "where": "a “Grown Ass Woman by Chapel Hart”"
+    },
+    {
+      "ink": "#33231a",
+      "ground": "#cdd8b8",
+      "large": false,
+      "ratio": 10.11,
+      "where": "h3 “Record 3”"
+    },
+    {
+      "ink": "#5e4a3b",
+      "ground": "#cdd8b8",
+      "large": false,
+      "ratio": 5.6,
+      "where": "dt “Words”"
+    },
+    {
+      "ink": "#8a3510",
+      "ground": "#cdd8b8",
+      "large": false,
+      "ratio": 5.43,
+      "where": "a “Last Time (I Seen the Sun) by Alice Smith, M”"
+    },
+    {
+      "ink": "#33231a",
+      "ground": "#e8c3b0",
+      "large": false,
+      "ratio": 9.21,
+      "where": "h3 “Record 4”"
+    },
+    {
+      "ink": "#5e4a3b",
+      "ground": "#e8c3b0",
+      "large": false,
+      "ratio": 5.11,
+      "where": "dt “Words”"
+    },
+    {
+      "ink": "#8a3510",
+      "ground": "#e8c3b0",
+      "large": false,
+      "ratio": 4.95,
+      "where": "a “For the First Time by Darius Rucker”"
+    },
+    {
+      "ink": "#f3e8d4",
+      "ground": "#33231a",
+      "large": false,
+      "ratio": 12.39,
+      "where": "button.wbb-copy “Copy”"
+    }
+  ],
+  "ornament": {
+    "#a8e0c0": "Words, Bud, Beats: --wbb-focus carried no text when tools/import-room.py rendered the room on 2026-10-10; 11.77 against the room's ground. Measured by the import, not chosen by a person.",
+    "#1f3b2c": "Words, Bud, Beats: --wbb-wall-focus carried no text when tools/import-room.py rendered the room on 2026-10-10; 1.44 against the room's ground. Measured by the import, not chosen by a person.",
+    "#2f5a3e": "Words, Bud, Beats: --wbb-sleeve-focus carried no text when tools/import-room.py rendered the room on 2026-10-10; 2.22 against the room's ground. Measured by the import, not chosen by a person.",
+    "#5b3a24": "Words, Bud, Beats: --wbb-rail carried no text when tools/import-room.py rendered the room on 2026-10-10; 1.73 against the room's ground. Measured by the import, not chosen by a person.",
+    "#3b2a52": "Words, Bud, Beats: --wbb-sky-high carried no text when tools/import-room.py rendered the room on 2026-10-10; 1.37 against the room's ground. Measured by the import, not chosen by a person.",
+    "#c4566a": "Words, Bud, Beats: --wbb-sky-mid carried no text when tools/import-room.py rendered the room on 2026-10-10; 4.08 against the room's ground. Measured by the import, not chosen by a person.",
+    "#f2a65a": "Words, Bud, Beats: --wbb-sky-low carried no text when tools/import-room.py rendered the room on 2026-10-10; 8.67 against the room's ground. Measured by the import, not chosen by a person.",
+    "#ffd79a": "Words, Bud, Beats: --wbb-sun carried no text when tools/import-room.py rendered the room on 2026-10-10; 12.90 against the room's ground. Measured by the import, not chosen by a person.",
+    "#4a2a3a": "Words, Bud, Beats: --wbb-mesa carried no text when tools/import-room.py rendered the room on 2026-10-10; 1.41 against the room's ground. Measured by the import, not chosen by a person.",
+    "#2c2a2a": "Words, Bud, Beats: --wbb-saguaro carried no text when tools/import-room.py rendered the room on 2026-10-10; 1.23 against the room's ground. Measured by the import, not chosen by a person.",
+    "#6e4a30": "Words, Bud, Beats: --wbb-frame carried no text when tools/import-room.py rendered the room on 2026-10-10; 2.24 against the room's ground. Measured by the import, not chosen by a person.",
+    "#8a5d3b": "Words, Bud, Beats: --wbb-sill carried no text when tools/import-room.py rendered the room on 2026-10-10; 3.10 against the room's ground. Measured by the import, not chosen by a person.",
+    "#b0603a": "Words, Bud, Beats: --wbb-clay carried no text when tools/import-room.py rendered the room on 2026-10-10; 3.83 against the room's ground. Measured by the import, not chosen by a person.",
+    "#7e3f24": "Words, Bud, Beats: --wbb-clay-dark carried no text when tools/import-room.py rendered the room on 2026-10-10; 2.19 against the room's ground. Measured by the import, not chosen by a person.",
+    "#4f6b3c": "Words, Bud, Beats: --wbb-leaf carried no text when tools/import-room.py rendered the room on 2026-10-10; 2.93 against the room's ground. Measured by the import, not chosen by a person.",
+    "#34492a": "Words, Bud, Beats: --wbb-leaf-dark carried no text when tools/import-room.py rendered the room on 2026-10-10; 1.78 against the room's ground. Measured by the import, not chosen by a person.",
+    "#8ea77a": "Words, Bud, Beats: --wbb-succ carried no text when tools/import-room.py rendered the room on 2026-10-10; 6.65 against the room's ground. Measured by the import, not chosen by a person.",
+    "#9cb8a6": "Words, Bud, Beats: --wbb-glass carried no text when tools/import-room.py rendered the room on 2026-10-10; 8.21 against the room's ground. Measured by the import, not chosen by a person.",
+    "#c9a24a": "Words, Bud, Beats: --wbb-brass carried no text when tools/import-room.py rendered the room on 2026-10-10; 7.31 against the room's ground. Measured by the import, not chosen by a person.",
+    "#ffe2b0": "Words, Bud, Beats: --wbb-mote carried no text when tools/import-room.py rendered the room on 2026-10-10; 14.00 against the room's ground. Measured by the import, not chosen by a person.",
+    "#fffaf0": "Words, Bud, Beats: --wbb-paper carried no text when tools/import-room.py rendered the room on 2026-10-10; 16.87 against the room's ground. Measured by the import, not chosen by a person.",
+    "#3e3836": "Words, Bud, Beats: --wbb-felt carried no text when tools/import-room.py rendered the room on 2026-10-10; 1.52 against the room's ground. Measured by the import, not chosen by a person.",
+    "#141010": "Words, Bud, Beats: --wbb-vinyl carried no text when tools/import-room.py rendered the room on 2026-10-10; 1.08 against the room's ground. Measured by the import, not chosen by a person.",
+    "#2e2523": "Words, Bud, Beats: --wbb-groove carried no text when tools/import-room.py rendered the room on 2026-10-10; 1.17 against the room's ground. Measured by the import, not chosen by a person."
+  }
+}

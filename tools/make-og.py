@@ -1857,6 +1857,20 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--nh .og-lede {{ font-family: 'Atkinson Hyperlegible', sans-serif; font-size: 28px; line-height: 1.4; }}
 .og--nh .nh-card-window {{ flex: 0 0 460px; }}
 .og--nh .nh-card-window .nh-view {{ display: block; width: 100%; height: auto; }}
+/* words-bud-beats — KRISTINA BROOKE'S ROOM, imported from her own artifact, and
+   the card is ours. It carries her west window lifted out of the page, sky,
+   sun, mesa, saguaro and sill, and her kept-by line, so the card cannot
+   disagree with the room. The title sits on her lit wall, the amber patch the
+   window throws, wearing her own .wbb-lit and its slant; around it is her dim
+   room. Her own faces, at card size. */
+.og--wbb {{ flex-direction: row; align-items: center; gap: 40px; padding: 50px 60px; }}
+.og--wbb .wbb-lit {{ flex: 1 1 0; min-width: 0; max-width: none; margin: 0 !important;
+  display: flex; flex-direction: column; gap: 16px; padding: 44px 48px 48px 44px; }}
+.og--wbb .wbb-lit > * {{ margin: 0 !important; }}
+.og--wbb .wbb-lit h1 {{ font-size: 86px; line-height: 1; text-align: left; }}
+.og--wbb .wbb-kept {{ font-size: 21px; text-align: left; }}
+.og--wbb .og-lede {{ font-family: 'Literata', serif; font-size: 28px; line-height: 1.4; }}
+.og--wbb .wbb-window {{ flex: 0 0 440px; margin: 0 !important; max-width: none; }}
 """
 
 # Chrome hands the layout back out of the same run that takes the picture. A
@@ -3253,6 +3267,22 @@ def card_neurohome(p):
         f"window in a wooden frame: tall dark firs on either side, and beyond them the wide grey-blue "
         f"Columbia flecked with sun, a steel truss bridge humping over to a long flat green island with a "
         f"red barn, a small ferry crossing, and a white hall with a bell tower on a hill downriver.",
+    )
+
+
+def card_wbb(p):
+    return (
+        "",
+        f'<div class="og og--wbb" data-fit="card">'
+        f'<div class="wbb-lit">{p["h1"]}<p class="wbb-kept">{p["wbb_kept"]}</p>'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="wbb-window">{p["wbb_window"]}</div>'
+        f'</div>',
+        f"A dim brown card. On a slanted patch of amber light, “{p['h1text']}” in a tall, heavy serif, "
+        f"a line in typewriter letters reading {p['wbb_kept_plain']}, and under it: {p['desc_plain']} To "
+        f"the right, a window at dusk in a wooden frame: a sky going from violet to rose to orange, a low "
+        f"sun on a dark mesa, a saguaro, and on the sill a monstera, a fern and a succulent in clay pots, "
+        f"a stack of books, a glass jar and a small brass bell.",
     )
 
 
@@ -4696,6 +4726,7 @@ CARDS = {
     "mdroom":       card_mdroom,
     "esroom":       card_esroom,
     "room-neurohome": card_neurohome,
+    "room-words-bud-beats": card_wbb,
     "mud":          card_mud,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
@@ -5068,6 +5099,19 @@ def main():
     lifted["nh_window"] = nw.group(1).replace('role="img" aria-labelledby="nh-view-t nh-view-d"', 'aria-hidden="true"', 1)
     lifted["nh_over"] = no.group(1).strip()
     lifted["nh_over_plain"] = html.unescape(re.sub(r"<[^>]+>", "", no.group(1))).strip().lower()
+    # KRISTINA BROOKE'S CARD CARRIES HER WINDOW AND HER KEPT-BY LINE, lifted out of
+    # the page she built rather than redrawn. Her ids are renamed for the card,
+    # and the link round her name is taken off, because a picture cannot be pressed.
+    wbb_src = (ROOT / "words-bud-beats.html").read_text()
+    ww = re.search(r'<div class="wbb-window" aria-hidden="true">\s*(<svg.*?</svg>)', wbb_src, re.S)
+    wk = re.search(r'<p class="wbb-kept">(.*?)</p>', wbb_src, re.S)
+    if not ww or not wk:
+        raise SystemExit("REFUSING: words-bud-beats.html has lost its window or its kept-by line, and its card is built out of both.")
+    lifted["wbb_window"] = (ww.group(1).replace('<svg ', '<svg aria-hidden="true" ', 1)
+                            .replace('id="wbb-sky"', 'id="og-wbb-sky"').replace('url(#wbb-sky)', 'url(#og-wbb-sky)')
+                            .replace('id="wbb-pane"', 'id="og-wbb-pane"').replace('url(#wbb-pane)', 'url(#og-wbb-pane)'))
+    lifted["wbb_kept"] = re.sub(r"</?a\b[^>]*>", "", wk.group(1)).strip()
+    lifted["wbb_kept_plain"] = html.unescape(re.sub(r"<[^>]+>", "", wk.group(1))).strip().lower()
     # THE MUD ROOM'S CARD CARRIES THE ROOM'S OWN VIEW AND OVER-LINE, cropped by its
     # viewBox to the horizon and the mud, so the card cannot disagree with the room.
     mud_src = (ROOT / "the-mud-room.html").read_text()

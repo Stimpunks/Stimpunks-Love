@@ -1170,7 +1170,11 @@ def main():
             else:
                 street = text.index("/* §5 ── ")
                 six_at = re.search(r"\n/\* §6 ── ", text).start()
-                last = [m.end() for m in re.finditer(r"^\.door--[^\n]*\n", text[street:six_at], re.M)][-1]
+                # After the last door rule OR the last imported door's end marker. Matching
+                # only ".door--" lines put Words, Bud, Beats' door inside NeuroHome's
+                # markers, where re-importing NeuroHome would have deleted it.
+                last = [m.end() for m in re.finditer(r"^(?:\.door--[^\n]*|/\* import:[\w-]+:door:end \*/)\n",
+                                                     text[street:six_at], re.M)][-1]
                 text = text[:street + last] + door_css() + "\n" + text[street + last:]
         return text
 
@@ -1254,6 +1258,12 @@ def main():
         if cp:
             refuse(cp, "the room does not decide its own ground, text and link colours.")
         clothes["scheme"] = "dark" if lum(clothes["ground_hex"]) < 0.18 else "light"
+        # The door is the room's ground with the h1's colour on it, but an h1 can
+        # stand on a ground of its own: Words, Bud, Beats sets its title dark on a lit
+        # wall, and the plain door put that dark name on the dark ground at 1.03.
+        # The door takes the text colour when the heading's does not clear there.
+        if ratio(clothes["heading_hex"], clothes["ground_hex"]) < 4.5:
+            clothes["heading"], clothes["heading_hex"] = clothes["text"], clothes["text_hex"]
 
         # The fractal recipe: kept if it still draws in declared colours.
         declared_names = set(css.root)
@@ -1467,11 +1477,15 @@ def main():
         extra.append(H.escape(notes["pronouns"]))
     if notes.get("say it"):
         extra.append("said " + H.escape(notes["say it"]))
+    # The prompt asks for "which AI you are, and who makes you", so the notes
+    # nearly always say AI already, and both rooms imported before this read
+    # "Claude, an AI made by Anthropic, an AI".
+    an_ai = "" if re.search(r"\bAI\b", notes["built with"]) else ", an AI"
     credit = "\n".join([
         f"    <!-- import:{slug}:credit:begin -->",
         f'    <div><dt>{H.escape(title)} &mdash; {H.escape(notes["name"])}</dt><dd><a href="{page_name}">'
         f"{H.escape(title)}</a> is {who}&rsquo;s{(' (' + '; '.join(extra) + ')') if extra else ''}, the design and "
-        f"the words. It was built in conversation with {H.escape(notes['built with'])}, an AI, and brought onto "
+        f"the words. It was built in conversation with {H.escape(notes['built with'])}{an_ai}, and brought onto "
         f"the street on {TODAY}. What they say about the words: &ldquo;{H.escape(notes['words'])}&rdquo; Its "
         f"light, in their words: &ldquo;{H.escape(notes['light'])}&rdquo; Everything it quotes or borrows is "
         "credited at the foot of the room.</dd></div>",

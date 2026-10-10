@@ -1665,6 +1665,21 @@
         "--snug-gold",
         "--snug-text"
       ]
+    },
+    "words-bud-beats.html": {
+      "kind": "julia",
+      "c": [
+        -0.54,
+        0.54
+      ],
+      "orbit": 0.02,
+      "ground": "--wbb-ground",
+      "inks": [
+        "--wbb-ink",
+        "--wbb-link",
+        "--wbb-focus",
+        "--wbb-wall"
+      ]
     }
   }
 }
