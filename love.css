@@ -21052,6 +21052,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .snug-sleeve--e { background-color: var(--snug-sleeve-a); background-image: radial-gradient(circle at 50% 78%, var(--snug-sleeve-hi) 0, var(--snug-sleeve-a) 38%); }
 .snug-sleeve--f { background-color: var(--snug-sleeve-c); background-image: radial-gradient(ellipse 80% 14% at 50% 50%, var(--snug-sleeve-hi) 0, var(--snug-sleeve-c) 90%); }
 .snug-sleeve--g { background-color: var(--snug-sleeve-a); background-image: radial-gradient(circle at 24% 74%, var(--snug-sleeve-hi) 0, transparent 26%), radial-gradient(circle at 74% 28%, var(--snug-sleeve-b) 0, var(--snug-sleeve-a) 34%); }
+.snug-sleeve--h { background-color: var(--snug-sleeve-b); background-image: radial-gradient(ellipse 60% 22% at 34% 26%, var(--snug-sleeve-hi) 0, transparent 70%), radial-gradient(ellipse 50% 30% at 66% 80%, var(--snug-sleeve-c) 0, var(--snug-sleeve-b) 80%); }
 .snug-record h3 { margin: 0; font-family: 'Comfortaa', var(--sans); font-weight: 700; font-size: 22px; color: var(--snug-text); }
 .snug .snug-record__by, .snug .snug-record__runs { margin: 4px 0 0; font-size: 16px; line-height: 1.5; color: var(--snug-dim); }
 .snug .snug-record__out { margin: 0; font-size: 16px; }

@@ -37,6 +37,10 @@ IT REFUSES:
   · an album that is not on the band's own channel, whose list or track ids are
     not ids, with no year, label or MusicBrainz record, or with a field this
     tool does not know: a lyric is not a field, and nothing musical is hosted;
+  · an album `listed` rather than in MusicBrainz that does not say where its
+    year and label were read, or whose sleeve note does not say MusicBrainz
+    lacks it: the one way past MusicBrainz is a compilation it does not have
+    yet, and the card says so (Ryan's call, 2026-10-10);
   · a runtime typed rather than added up: the rack's numbers come from the
     tracks, so there is nowhere to type one;
   · a credit for the words that names nobody without saying so.
@@ -57,10 +61,10 @@ DOORJS = ROOT / "e-door.js"
 FACES = ROOT / "data/foundry-faces.json"
 LIST = re.compile(r"OLAK5uy_[A-Za-z0-9_-]{33}")
 VIDEO = re.compile(r"[A-Za-z0-9_-]{11}")
-ALBUM_KEYS = {"title", "released", "label", "musicbrainz", "list", "sleeve", "artist", "channel",
+ALBUM_KEYS = {"title", "released", "label", "musicbrainz", "listed", "list", "sleeve", "artist", "channel",
               "channel_id", "note", "tracks"}
 TRACK_KEYS = {"id", "title", "seconds", "record", "channel"}
-SLEEVES = ("a", "b", "c", "d", "e", "f", "g")
+SLEEVES = ("a", "b", "c", "d", "e", "f", "g", "h")
 # HOW FAR WHAT PLAYS MAY BE FROM THE RECORD BEFORE THE SLEEVE HAS TO SAY SO. A
 # master, a remaster and a reissue differ by a few seconds of silence at either
 # end, and that is the same recording; past this, it is a cut, an edit or a film,
@@ -498,8 +502,20 @@ def main():
         # A DATE AS EXACT AS MUSICBRAINZ GIVES IT, AND NO EXACTER: Time Out's 1959 LP
         # has a year and no day there, and only the year is printed, so a day typed
         # in from somewhere else would be a fact nobody here read.
+        # A RECORD MUSICBRAINZ DOES NOT HAVE YET is `listed` instead: a compilation
+        # issued straight to the services, whose own listing is the only place its
+        # year and label are written. Ryan's call, 2026-10-10, for Best Of The Chet
+        # Baker Quintet. It is one or the other, `listed` says where it was read,
+        # and the sleeve note says MusicBrainz lacks it, because a year off a label's
+        # listing beside one off MusicBrainz must not look identical.
+        listed = a.get("listed")
+        if ("musicbrainz" in a) == ("listed" in a):
+            refuse(f"{where} needs a MusicBrainz record or, for one MusicBrainz lacks, `listed`: one, not both.")
+        elif listed is not None and (not str(listed).strip() or "MusicBrainz" not in a.get("note", "")):
+            refuse(f"{where} is listed rather than in MusicBrainz, and does not say where its year and label "
+                   "were read, or its sleeve note does not say that MusicBrainz lacks it.")
         if not re.fullmatch(r"\d{4}(-\d{2}(-\d{2})?)?", a.get("released", "")) or not a.get("label") \
-                or not re.fullmatch(r"[0-9a-f-]{36}", a.get("musicbrainz", "")):
+                or (listed is None and not re.fullmatch(r"[0-9a-f-]{36}", a.get("musicbrainz", ""))):
             refuse(f"{where} has no release date, label or MusicBrainz record. The year on a record "
                    "is the record's, read off MusicBrainz, never the upload's.")
         if a.get("sleeve") not in SLEEVES:
@@ -594,6 +610,12 @@ def main():
         labels.append(f"{poss} on {and_list([esc(x) for x in ls])}")
     records = ("    The records are their artists\u2019: " + and_list(labels) + ", and they play from the "
                "artists\u2019 own channels on YouTube.")
+    # Where each record's year, label and track lengths were read, written from
+    # the same albums, so the sentence cannot claim MusicBrainz for one it lacks.
+    off_list = [f"<em>{esc(a['title'])}</em>" for a in rack if a.get("listed")]
+    records += " Each record\u2019s year, label and own track lengths were read off MusicBrainz" + (
+        f", except {and_list(off_list)}\u2019s, which MusicBrainz does not have yet: those are off "
+        "its label\u2019s own listing on YouTube." if off_list else ".")
 
     # ── the pages ─────────────────────────────────────────────────────────────
     door = door_p.read_text()
