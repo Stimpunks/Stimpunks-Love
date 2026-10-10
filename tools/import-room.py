@@ -135,6 +135,12 @@ def read_notes(src, problems):
             if key not in LISTS:
                 problems.append(f"FOR THE STREET: a list item under {key or 'nothing'!r}, which is not a list: {line!r}")
                 continue
+            if NONE.match(line[2:].strip()):
+                # The prompt says "none" wherever there is nothing and prints
+                # every list as "- " lines, so "Media:" then "- none" is its
+                # own shape read literally. Kristina Brooke's room arrived that
+                # way and this read it as a song called none.
+                continue
             notes[key].append(line[2:].strip())
             continue
         m = KEYLINE.match(line)
@@ -466,6 +472,7 @@ class CSS:
     def __init__(self, css, slug, prefix, problems):
         self.css, self.m, self.slug, self.prefix, self.problems = css, mask_css(css), slug, prefix, problems
         self.root = {}            # --name -> value
+        self.local = set()        # custom properties set on the room's own rules
         self.uses, self.faces, self.keyframes, self.edits = set(), set(), [], []
         # :root IS html. The prompt says every selector starts with .room-SLUG
         # "apart from :root", and the dial is an attribute on <html>, so an AI
@@ -484,7 +491,7 @@ class CSS:
             if HEX_RE.fullmatch(v):
                 self.palette.setdefault(six(v), name)
         self._pass(collect=False)
-        for name in sorted(self.uses - set(self.root)):
+        for name in sorted(self.uses - set(self.root) - self.local):
             problems.append(f"CSS: var({name}) is used and never declared on :root. CSS paints nothing "
                             "for an unknown custom property, and nothing says so.")
 
@@ -616,6 +623,18 @@ class CSS:
                 continue
             if collect:
                 continue
+            if prop.startswith("--"):
+                # A custom property set on one of the room's own rules (one
+                # sleeve's ground, aliased to a :root colour) is declared, and
+                # this used to call it unknown, which it is not: CSS paints it.
+                # Its value still goes through colour_edits below, so it cannot
+                # carry a colour the room did not declare. It must carry the
+                # prefix, because a custom property inherits, and an unprefixed
+                # one on <main> would reach the dial and the sign-off.
+                self.local.add(prop)
+                if not prop.startswith(f"--{self.prefix}-"):
+                    self.problems.append(f"CSS: {prop} in {where!r} does not start with --{self.prefix}-. "
+                                         "A custom property inherits into the street's furniture in the room.")
             self.uses.update(re.findall(r"var\((--[\w-]+)", value_clean))
             if prop == "font-family":
                 self.faces.update(families(value_clean))
@@ -950,7 +969,7 @@ def main():
                             f"has data-photo=\"{name}\".")
     for vid in sorted(set(notes_media) - media_ids):
         problems.append(f"Media lists {notes_media[vid]['title']!r} and no button in the room plays it.")
-    for sym in sorted(css.uses - set(css.root)):
+    for sym in sorted(css.uses - set(css.root) - css.local):
         if f"var({sym})" not in " ".join(problems):
             problems.append(f"var({sym}) is used and never declared on :root.")
 
