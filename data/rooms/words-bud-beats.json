@@ -16,12 +16,12 @@
     "Courier Prime"
   ],
   "photographs": null,
-  "words": "Kristina Brooke's words: the opening under \"What's here\" (from \"An intimate salon of words\" through \"Talking is never required.\"); the shelf note (\"Each record holds a grouping...\" with its Zibaldone link); all six records (words, dates, songs, strains, liner notes) as she sent them; the House notes allergy sign and Tidal line; the strain key; the door description. Drafted by Claude for her to change: the section headings, the record field labels and \"Liner notes\", the House notes line about press-to-play, the Open mic invitation, the Copy button messages, the pairing slip (adapted from the Stimpunks.World Zibaldone attribution slip, CC BY-SA 4.0), and the credits wording. Claude added the artist for record 3 from its Tidal page. House rule for words: 30 or fewer each, original or quoted, never song lyrics.",
+  "words": "Kristina Brooke's words: the opening under \"What's here\" (from \"An intimate salon of words\" through \"Talking is never required.\"); the shelf note (\"Each record holds a grouping...\" with its Zibaldone link); all six records (words, dates, songs, strains, liner notes) as she sent them; the House notes allergy sign and Tidal line; the strain key; the door description. Drafted by Claude for her to change: the section headings, the record field labels and \"Liner notes\", the House notes line about press-to-play, the Open mic invitation, the Copy button messages, the pairing slip (adapted from the Stimpunks.World Zibaldone attribution slip, CC BY-SA 4.0), and the credits wording. Claude added the artist for record 3 from its Tidal page. House rule for words: 30 or fewer each, original or quoted, never song lyrics. Added on the street by Stimpunks, for her to change: the play button on each record and the House notes line about it, and the Copy script reads the room's address off the page.",
   "built_with": "Claude, an AI model made by Anthropic",
-  "could_not_do": "Tidal players could not be embedded, because the room allows no iframes and the street plays only single YouTube videos; each song is a plain link that opens on Tidal.",
+  "could_not_do": null,
   "imported": "2026-10-10",
   "artifact": "words-bud-beats.html",
-  "artifact_sha256": "91fb49226be30e5284100329102433c310874fa61ab6d11e06e24382a15c4d63",
+  "artifact_sha256": "a91f6cbc7b6335a2c2b505d1cb082ede9eeb423cbbaec76fc6ffaa46477b9149",
   "clothes": {
     "ground": "--wbb-ground",
     "text": "--wbb-ink",
@@ -31,7 +31,56 @@
     "text_face": "Literata, Georgia, serif"
   },
   "fractal_from": "latibulum.html",
-  "tracks": [],
+  "tracks": [
+    {
+      "id": "515555993",
+      "title": "Tissues",
+      "artist": "ALT BLK ERA",
+      "runtime": "2:08",
+      "link": "https://tidal.com/track/515555993/u",
+      "service": "tidal"
+    },
+    {
+      "id": "192427407",
+      "title": "Grown Ass Woman",
+      "artist": "Chapel Hart and Mickie James",
+      "runtime": "3:34",
+      "link": "https://tidal.com/track/192427407/u",
+      "service": "tidal"
+    },
+    {
+      "id": "430131375",
+      "title": "Last Time (I Seen the Sun)",
+      "artist": "Alice Smith, Miles Caton and Sinners Movie",
+      "runtime": "3:18",
+      "link": "https://tidal.com/track/430131375/u",
+      "service": "tidal"
+    },
+    {
+      "id": "79916028",
+      "title": "For the First Time",
+      "artist": "Darius Rucker",
+      "runtime": "3:17",
+      "link": "https://tidal.com/track/79916028/u",
+      "service": "tidal"
+    },
+    {
+      "id": "35116443",
+      "title": "Optimistic",
+      "artist": "Sounds of Blackness",
+      "runtime": "5:19",
+      "link": "https://tidal.com/track/35116443/u",
+      "service": "tidal"
+    },
+    {
+      "id": "105504532",
+      "title": "Damien",
+      "artist": "DMX",
+      "runtime": "3:42",
+      "link": "https://tidal.com/track/105504532/u",
+      "service": "tidal"
+    }
+  ],
   "pairs": [
     {
       "ink": "#f0b062",
@@ -125,6 +174,13 @@
       "where": "a “Tissues by ALT BLK ERA”"
     },
     {
+      "ink": "#f3e8d4",
+      "ground": "#33231a",
+      "large": false,
+      "ratio": 12.39,
+      "where": "button.facade.wbb-play “▶ Play “Tissues” here, 2:08.”"
+    },
+    {
       "ink": "#33231a",
       "ground": "#e2c597",
       "large": false,
@@ -186,13 +242,6 @@
       "large": false,
       "ratio": 4.95,
       "where": "a “For the First Time by Darius Rucker”"
-    },
-    {
-      "ink": "#f3e8d4",
-      "ground": "#33231a",
-      "large": false,
-      "ratio": 12.39,
-      "where": "button.wbb-copy “Copy”"
     }
   ],
   "ornament": {

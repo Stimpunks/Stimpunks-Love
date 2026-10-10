@@ -3498,6 +3498,11 @@ button[data-cb-ready]:not(:focus-visible) { outline: 3px solid; outline-offset: 
 .facade--audio { aspect-ratio: auto; padding: 0; }
 div.facade--audio { border: 0; background: none; }
 .facade--audio audio { display: block; width: 100%; }
+/* A SQUARE PLAYER IS A SQUARE, NOT A SCREEN: Tidal's square layout, whose
+   button carries data-embed-shape="square". love-embed.js puts this class on
+   the shell for the facade--audio reason. Layout only, the same as that. */
+.facade--square { aspect-ratio: 1; padding: 0; }
+div.facade--square { border: 0; background: none; }
 
 /* THE JOB MARKER. Furniture rather than a room, for the facade's reason: every
    room on the street wears one, so it belongs to §1–§4 where a name is allowed
@@ -21255,6 +21260,28 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   padding-top: 0.6rem;
   font-size: 0.95rem;
 }
+
+.room-words-bud-beats .wbb-player { margin: 0.9rem 0 0; }
+/* the play button, in the Copy button's clothes: --wbb-cotton on --wbb-sleeve-ink 12.39:1, on --wbb-rail when hovered 8.34:1 */
+.room-words-bud-beats .wbb-play {
+  display: block;
+  width: 100%;
+  aspect-ratio: auto;
+  text-align: left;
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: var(--wbb-cotton);
+  background-color: var(--wbb-sleeve-ink);
+  border: 2px solid var(--wbb-sleeve-ink);
+  border-radius: 12px;
+  padding: 0.55rem 0.9rem;
+  min-height: 44px;
+  cursor: pointer;
+}
+.room-words-bud-beats .wbb-play:hover { background-color: var(--wbb-rail); border-color: var(--wbb-rail); }
+.room-words-bud-beats .wbb-play-note { display: block; font-weight: 400; font-size: 0.85rem; }
 
 .room-words-bud-beats .wbb-corner { max-width: 40rem; }
 .room-words-bud-beats .wbb-corner svg { display: block; width: 100%; height: auto; }

@@ -49,8 +49,10 @@ WHAT IT DOES NOT DO, ON PURPOSE, AND WHAT STOPS THE ROOM UNTIL SOMEBODY DOES:
   · THE JOB MARKER. A job and a drawing are somebody's decision. make-guild.py
     refuses the room until it has both, and the quest markers it writes into
     the page are carried over when the room is imported again.
-  · CHECKING THE VIDEOS. That needs the network, so it is check-jukebox.py's,
-    which reads data/rooms/*.json.
+  · CHECKING THE VIDEOS AND THE TRACKS. That needs the network, so it is
+    check-jukebox.py's, which reads data/rooms/*.json. A player is one YouTube
+    video or one TIDAL track; a TIDAL button has to say it plays a preview
+    without a TIDAL account, which is what it does.
   · FONTS THE STREET DOES NOT HOST YET. Adding a face is its own job (the file
     in fonts/, its @font-face in §1, fonts/_sources.json, pull-foundry.py), and
     this refuses a room that sets one rather than loading it from Google.
@@ -115,6 +117,31 @@ KEYLINE = re.compile(r"^([A-Za-z][A-Za-z ]{1,20}):(?:\s+(.*))?$")
 SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 RUNTIME = re.compile(r"^\d{1,2}:\d{2}(?::\d{2})?$")
 YT_ID = re.compile(r"(?:[?&]v=|youtu\.be/|/embed/|/shorts/|/live/)([A-Za-z0-9_-]{11})(?![A-Za-z0-9_-])")
+# One TIDAL track, the address its share button gives (the /u on the end is
+# TIDAL's: that page offers the song on other services). An album or a playlist
+# has no runtime to put on a button, so only a track becomes a player.
+TIDAL_TRACK = re.compile(r"^https://(?:listen\.)?tidal\.com/(?:browse/)?track/(\d{1,12})(?:/u)?/?(?:\?[^\s\"'<>]*)?$")
+
+
+def player_of(link):
+    """The one service and id a link can become a player for, or None."""
+    m = YT_ID.search(link)
+    if m and "list=" not in link:
+        return "youtube", m.group(1)
+    m = TIDAL_TRACK.match(link.strip())
+    if m:
+        return "tidal", m.group(1)
+    return None
+
+
+def player_attrs(service, pid):
+    """What love-embed.js reads off a button to build its frame. TIDAL's square
+    layout, because its strip layout's times run into each other at the width
+    a record sleeve gives it, and its shape, so the shell is a square too."""
+    if service == "tidal":
+        return [("data-embed-src", f"https://embed.tidal.com/tracks/{pid}?layout=gridify"),
+                ("data-embed-shape", "square")]
+    return [("data-embed-id", pid)]
 
 
 def read_notes(src, problems):
@@ -192,16 +219,18 @@ def read_notes(src, problems):
             problems.append(f"FOR THE STREET: media {item!r} is not 'title | who made it | link | runtime'.")
             continue
         title, who, link, runtime = parts
-        m = YT_ID.search(link)
-        if not m or "list=" in link:
-            problems.append(f"FOR THE STREET: media {title!r} is not a single YouTube video ({link}). "
-                            "Only those become players here; link to anything else from the room.")
+        found = player_of(link)
+        if not found:
+            problems.append(f"FOR THE STREET: media {title!r} is not a single YouTube video or a single "
+                            f"TIDAL track ({link}). Only those become players here; link to anything else "
+                            "from the room.")
             continue
         if not RUNTIME.match(runtime):
             problems.append(f"FOR THE STREET: media {title!r} has runtime {runtime!r}; write it like 3:45. "
                             "Every player here says how long it runs before the press.")
             continue
-        media.append({"title": title, "who": who, "link": link, "id": m.group(1), "runtime": runtime})
+        media.append({"title": title, "who": who, "link": link, "service": found[0], "id": found[1],
+                      "key": ":".join(found), "runtime": runtime})
     notes["media"] = media
     notes["photographs"] = [re.split(r"\s+[|\u2014-]\s+", p, 1)[0].strip() for p in notes.get("photographs", [])]
     return notes
@@ -869,7 +898,7 @@ def main():
 
     # The markup: names, colours, handlers, addresses, and the players.
     edits, media_ids, credits_at, photo_spaces = [], set(), None, []
-    notes_media = {m["id"]: m for m in notes["media"]}
+    notes_media = {m["key"]: m for m in notes["media"]}
     for n in main_el.walk():
         if any(n.inside(d) for d in drop) or n.tag in ("script", "style"):
             continue
@@ -910,25 +939,31 @@ def main():
             changed = True
         if "data-media" in n.attrs:
             link = n.attrs["data-media"] or ""
-            m = YT_ID.search(link)
-            if n.tag != "button" or not m or "list=" in link:
+            found = player_of(link)
+            if n.tag != "button" or not found:
                 problems.append(f"<{n.tag} data-media=\"{link}\">: a player is a <button> holding one YouTube "
-                                "video's link.")
+                                "video's link or one TIDAL track's.")
             else:
-                vid = m.group(1)
-                media_ids.add(vid)
-                item = notes_media.get(vid)
+                key = ":".join(found)
+                media_ids.add(key)
+                item = notes_media.get(key)
                 label = text_of(src, n)
                 if not item:
-                    problems.append(f"The button for {vid} is not listed under Media in FOR THE STREET.")
+                    problems.append(f"The button for {found[1]} is not listed under Media in FOR THE STREET.")
                 elif item["runtime"] not in label:
                     problems.append(f"The button for {item['title']!r} does not say how long it runs "
                                     f"({item['runtime']}) before the press: it says {label!r}.")
+                elif found[0] == "tidal" and "preview" not in label.lower():
+                    # Signed out, TIDAL plays a preview, and not one length (a
+                    # minute of one song, thirty seconds of two others, measured
+                    # 2026-10-10), so the button says preview and no number.
+                    problems.append(f"The button for {item['title']!r} does not say that without a TIDAL "
+                                    f"account it plays a preview: it says {label!r}.")
                 else:
                     cls = " ".join(["facade"] + (n.attrs.get("class") or "").split())
                     new = [(k, v) for k, v in new if k.lower() not in ("data-media", "class", "type")]
-                    new = [("type", "button"), ("class", cls), ("data-embed-id", vid),
-                           ("data-embed-title", f"{item['who']} — {item['title']}")] + new
+                    new = ([("type", "button"), ("class", cls)] + player_attrs(*found)
+                           + [("data-embed-title", f"{item['who']} — {item['title']}")] + new)
                     changed = True
         if changed:
             edits.append((n.start, n.open_end, start_tag(n.tag, new, n.selfclose)))
@@ -1372,8 +1407,9 @@ def main():
         "artifact_sha256": hashlib.sha256(src.encode()).hexdigest(),
         "clothes": {k: clothes[k] for k in ("ground", "text", "heading", "link", "heading_face", "text_face")},
         "fractal_from": recipe_from or "kept from the previous import",
-        "tracks": [{"id": m["id"], "title": m["title"], "artist": m["who"], "runtime": m["runtime"],
-                    "link": m["link"]} for m in notes["media"]],
+        "tracks": [dict({"id": m["id"], "title": m["title"], "artist": m["who"], "runtime": m["runtime"],
+                         "link": m["link"]}, **({"service": m["service"]} if m["service"] != "youtube" else {}))
+                   for m in notes["media"]],
         "pairs": pairs,
         "ornament": ornament,
     }
@@ -1510,8 +1546,8 @@ def main():
         "re-import carries them over.",
     ]
     if notes["media"]:
-        todo.append("tools/check-jukebox.py, which needs the network, to ask YouTube whether every track "
-                    "plays and embeds.")
+        todo.append("tools/check-jukebox.py, which needs the network, to ask YouTube and TIDAL whether every "
+                    "track still plays, and TIDAL whether each runs as long as its button says.")
         todo.append("A line about the room on the Now Playing poster, in data/now-playing.json, in our own "
                     "words: make-now-playing.py refuses a room with something to play that is not on the bill.")
     todo += ["Dress the door on the front page if the plain one does not suit the room (§5, between its "

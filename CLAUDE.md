@@ -458,6 +458,23 @@ was perfectly willing to frame**. It reads `love-embed.js` now like `make-csp.py
 `make-sweetgrass.py`. The rule is unchanged and is now true in one more file: **adding a service is
 one edit in that array and a re-run of `make-csp.py`**, and never a hand edit to `_headers`.
 
+**TIDAL IS THE SIXTH FRAMED ORIGIN, AND APPLE'S SPLIT AGAIN.** Ryan, 2026-10-10, for the records in
+Kristina Brooke's Words, Bud, Beats. `tidal.com` sends `frame-ancestors 'self'`; `embed.tidal.com`
+refuses nothing, so the embed host is the one in `ORIGINS`. **Signed out it plays a preview of no
+fixed length**: a minute of one song, thirty seconds of two others (measured), then a Sign up screen.
+So a TIDAL button says *preview* and never a number, the importer refuses one that does not, and Now
+Playing repeats it. It played under the street's real headers, which delegate it neither `autoplay`
+nor `encrypted-media`, so it is two presses, as Spotify and Apple are. Its player loads Datadog in
+one session in ten, which the privacy page says. **The street uses its square layout**
+(`?layout=gridify`), because the strip layout's times run into each other at a record sleeve's
+width, and the button carries `data-embed-shape="square"`, which `love-embed.js` turns into
+`facade--square` on the shell: the rule that a button's classes do not survive the press, solved
+once in §4 rather than in every room. **Only a track becomes a player**, because an album or a
+playlist has no runtime. `check-jukebox.py` asks the embed page, which answers 404 for a track that
+has gone and carries the full length in seconds, and fails a button whose runtime disagrees. **The
+local test that counts sends the real headers**: the dev server sends none, so it was served from
+`_headers` by a scratch server before anything was believed.
+
 **THE CHAPPELL HAS A CHANCEL NOW, AND IT IS WHERE THE RUNTIME RULE MET A ROOM BUILT ON THE OPPOSITE
 PROMISE.** That room's consent banner said *every button says how long the thing is before you press
 it* — the sentence the whole room is organised around, because a twenty-three minute concert sits

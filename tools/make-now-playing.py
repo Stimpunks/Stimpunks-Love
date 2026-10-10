@@ -88,7 +88,11 @@ RUNS = re.compile(r"\b(\d{1,2}:\d{2}(?::\d{2})?|\d+ hr(?: \d+ min)?|\d+ min|\d+ 
 SAYS = [("somewhere random", "starts somewhere random"),
         ("until you stop it", "runs until you stop it"),
         ("no end", "live, and it does not end"),
-        ("captions on", "captions on")]
+        ("captions on", "captions on"),
+        # A TIDAL button says it plays a preview without an account, because
+        # that is what it does; the poster saying only the song's 2:08 would be
+        # the runtime promise broken one sheet away from the room that keeps it.
+        ("without a tidal account", "a preview without a TIDAL account")]
 
 TOP = re.compile(
     r"\b(headlin\w*|top\s+(?:billing|billed|of\s+the\s+bill|act)|best|greatest|"

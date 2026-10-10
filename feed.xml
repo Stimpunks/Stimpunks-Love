@@ -9,10 +9,17 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sat, 10 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Her records play here now</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-10-tidal</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-10-tidal</guid>
+      <pubDate>Sat, 10 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Every record in Words, Bud, Beats has a TIDAL player on its sleeve, which Kristina Brooke asked for when she sent the room. It is press-to-play like everything else here: nothing reaches TIDAL until you press, pressing brings in TIDAL’s own player, and the song starts when you press play there. The links to each song are still there, for anybody who would rather hear it somewhere else. Without a TIDAL account it plays a preview, and every button says so before you press it. The preview is not one length: a minute of one song and thirty seconds of two others, when we tried it, so no button puts a number on it. Each button gives the whole song’s length. TIDAL is on the privacy page with the other services a press can load, including that its player also loads Datadog, which TIDAL uses to watch how the player is working, in about one visit in ten. A room that comes in through Your Room can have TIDAL tracks as players now, and the prompt says how. The check that every video on the street still plays checks every TIDAL track too, and how long it runs.</description>
+    </item>
+    <item>
       <title>Words, Bud, Beats</title>
       <link>https://stimpunks.world/changelog.html#2026-10-10-words-bud-beats</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-10-words-bud-beats</guid>
-      <pubDate>Sat, 10 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Sat, 10 Oct 2026 11:59:00 GMT</pubDate>
       <description>Words, Bud, Beats is Kristina Brooke’s room (she/her): an intimate salon at desert dusk, lit by one west window, with the plants and the knickknacks on the sill. Six records stand on her shelf, each pairing a few of her words with one song and one strain, and the Open mic corner has a slip for a pairing of your own, which you copy and keep; nothing on it is sent or saved. It is the second room to come in through Your Room. She designed it with Claude, following our prompt, and the words, the songs and the strains are hers. Every song is a link to Tidal, which opens off the street, so nothing in the room plays here. One line of hers was changed here, with Ryan’s say-so. The Copy button’s script spelled out the room’s address, and a room’s script on this street may not name an address, so it reads the address off the page instead. The slip still ends with the same address. The import tool learned three things from her room. A list in the notes that says - none means nothing, which is the prompt’s own shape. A colour property set on one of the room’s own rules counts as declared; the tool had been calling it unknown. And a room’s credit in the liner notes no longer says it was built with an AI twice, which NeuroHome’s did too. Ours: her share card, which carries her window lifted from the page, and her job on the Adventurer’s Guild board, with a carrot off the shopping list on her fifth record lying on her floor.</description>
     </item>
     <item>
@@ -26,7 +33,7 @@
       <title>The start of the book, in her own voice</title>
       <link>https://stimpunks.world/changelog.html#2026-10-10-sweetgrass-preview</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-10-sweetgrass-preview</guid>
-      <pubDate>Sat, 10 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Sat, 10 Oct 2026 11:58:00 GMT</pubDate>
       <description>Swaying Sweetgrass has the start of the audiobook beside the book, found by Ryan: Google Play Books’ preview of Braiding Sweetgrass, read by Robin Wall Kimmerer herself, the preface and Planting Sweetgrass. It says how long it runs before you press it, and the borrow link for the rest is right under it. The check that every video on the street still plays now covers the fires on that room’s fire pit, which the Campfire at Cavendish Coworking reads too. They had been checked nowhere.</description>
     </item>
     <item>

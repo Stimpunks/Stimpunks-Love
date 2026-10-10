@@ -61,6 +61,19 @@
        us. The page a person browses is the one that refuses; the embed host is
        the one to frame. */
     'https://embed.music.apple.com/',
+    /* Words, Bud, Beats' records, through TIDAL. SIXTH ORIGIN, AND APPLE'S
+       SPLIT AGAIN: tidal.com sends frame-ancestors 'self', and embed.tidal.com
+       sends nothing that refuses a frame (both measured 2026-10-10). Signed
+       out it plays a PREVIEW, and not one length: a minute of a 2:08 song,
+       thirty seconds of a 3:17 and of a 3:42, then a Sign up / Log in screen,
+       so a Tidal button says preview and never promises a number. It played
+       under the street's real policy, which delegates it neither autoplay nor
+       encrypted-media, so it needs a second press inside its frame, as Spotify
+       and Apple do. Its player also loads Datadog for one session in ten,
+       which privacy.html says. Its square layout (?layout=gridify) is the one
+       the street uses: the strip layout's times run into each other at the
+       width of a record sleeve. */
+    'https://embed.tidal.com/',
     /* A room's call, through 8x8's Jitsi as a Service. FIFTH ORIGIN, AND THE
        FIRST ONE HANDED THE CAMERA AND THE MICROPHONE. Ryan, 2026-09-28. It
        is still only framed after a press, and only from the CB, with a token
@@ -294,7 +307,12 @@
     /* An audio player is a strip, not a screen, so its shell says so: the
        class is set HERE because the button's own classes do not survive the
        press (the Sweetgrass lesson), and §4 gives .facade--audio no 16:9. */
-    shell.className = isAudio ? 'facade facade--audio' : 'facade';
+    /* A player whose own shape is a square (Tidal's square layout) says so on
+       its button as data-embed-shape="square", read here for the same reason:
+       in a 16:9 shell it would sit in a box of empty frame. One word, checked,
+       so a button cannot hand the shell a class nobody styled. */
+    shell.className = isAudio ? 'facade facade--audio'
+      : btn.dataset.embedShape === 'square' ? 'facade facade--square' : 'facade';
     shell.style.padding = '0';
     shell.appendChild(player);
     btn.replaceWith(shell);

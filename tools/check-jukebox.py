@@ -97,6 +97,31 @@ def playability(video_id):
     return (m.group(1) if m else None), (e.group(1) == "true" if e else None)
 
 
+def tidal(track_id):
+    """(status, seconds) off one fetch of TIDAL's embed page for one track.
+
+    The embed page is the frame a press builds, so it is the thing to ask: it
+    answers 404 for a track that has gone (measured with a made-up id), and a
+    track that is there carries its full length in seconds in its markup, which
+    is the runtime its button promises. A press signed out plays a preview of
+    it; that is said on the button and is not a finding."""
+    try:
+        html = get(f"https://embed.tidal.com/tracks/{track_id}")
+    except urllib.error.HTTPError as e:
+        return ("NOT_FOUND" if e.code == 404 else f"HTTP_{e.code}"), None
+    except (urllib.error.URLError, TimeoutError, OSError):
+        return None, None
+    d = re.search(r"duration-time>\s*(\d+)", html)
+    return ("OK", int(d.group(1))) if d else (None, None)
+
+
+def seconds(runtime):
+    n = 0
+    for part in runtime.split(":"):
+        n = n * 60 + int(part)
+    return n
+
+
 def channel_now(video_id):
     q = urllib.parse.urlencode(
         {"url": f"https://www.youtube.com/watch?v={video_id}", "format": "json"})
@@ -537,12 +562,20 @@ def load():
 
 def main():
     tracks = load()
-    dead, unknown, drift, walled = [], [], [], []
+    dead, unknown, drift, walled, long_wrong = [], [], [], [], []
 
     for i, t in enumerate(tracks):
-        status, embeddable = playability(t["id"])
-        time.sleep(PAUSE)
-        chan = channel_now(t["id"])
+        if t.get("service") == "tidal":
+            # TIDAL's embed host frames by design and has no channel to rename,
+            # so the two facts are whether the track is there and how long it is.
+            status, length = tidal(t["id"])
+            embeddable, chan = True, None
+            if status == "OK" and length is not None and length != seconds(t["runtime"]):
+                long_wrong.append((t, length))
+        else:
+            status, embeddable = playability(t["id"])
+            time.sleep(PAUSE)
+            chan = channel_now(t["id"])
         if i < len(tracks) - 1:
             time.sleep(PAUSE)
 
@@ -590,6 +623,14 @@ def main():
         print("  Give it a way out instead of a screen (state 'link' in the Jungle Room's\n"
               "  data), or replace it. Do not leave it as a button that cannot work.")
 
+    if long_wrong:
+        print("\nruns a different length from the one its button says before the press:")
+        for t, length in long_wrong:
+            print(f"  {t['_file']}  {t['artist']} — {t['title']}: says {t['runtime']}, "
+                  f"TIDAL says {length // 60}:{length % 60:02d}")
+        print("  Put the right runtime in the room's artifact, on the button and in its notes, and\n"
+              "  import it again.")
+
     rooms = ", ".join(f"{sum(1 for t in tracks if t['_room'] == r)} in {r}"
                       for r, _, _ in LISTS)
     print(f"\n{len(tracks)} facades checked ({rooms}), {len(dead)} not playable, "
@@ -615,7 +656,7 @@ def main():
             "A dead NATURE CAM is different: the list it came from is our own events\n"
             "page, so mark it dark here and take the replacement up there."
         )
-    sys.exit(1 if (dead or unknown or walled) else 0)
+    sys.exit(1 if (dead or unknown or walled or long_wrong) else 0)
 
 
 if __name__ == "__main__":
