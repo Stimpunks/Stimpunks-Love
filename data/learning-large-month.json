@@ -78,7 +78,7 @@
    "channel_id": "UCPjNBjflYl0-HQtUvOx0Ibw"
   }
  ],
- "set": "2026-10-10T11:21Z",
+ "set": "2026-10-11T11:26Z",
  "log": [
   {
    "id": "4Hvkv_I8QDE",
@@ -419,16 +419,6 @@
    "state": "screen",
    "runs": 57,
    "channel": "Matt Wolfe"
-  },
-  {
-   "id": "n5bZHETCiJA",
-   "source": "nate-b-jones",
-   "form": "long",
-   "title": "The Race to Done: Fable 5.1 vs GPT-6 Astra. Who Wins?",
-   "published": "2026-09-10T14:00:12Z",
-   "state": "screen",
-   "runs": 980,
-   "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
    "id": "zDPuEPDXCpU",
@@ -841,16 +831,6 @@
    "channel": "Less Bitter"
   },
   {
-   "id": "P7bxbDSnZRM",
-   "source": "theo",
-   "form": "long",
-   "title": "Fable Vs Astra Debate Is Over",
-   "published": "2026-09-11T02:49:32Z",
-   "state": "screen",
-   "runs": 4611,
-   "channel": "Theo - t3․gg"
-  },
-  {
    "id": "DlNTmbARUTA",
    "source": "theo",
    "form": "long",
@@ -1251,16 +1231,6 @@
    "channel": "Paul J Lipsky"
   },
   {
-   "id": "7DJk83sc5xg",
-   "source": "austin-marchese",
-   "form": "long",
-   "title": "The Art of Becoming Self-Educated with Claude",
-   "published": "2026-09-10T18:00:38Z",
-   "state": "screen",
-   "runs": 1124,
-   "channel": "Austin Marchese"
-  },
-  {
    "id": "kCUZqM8-Z-4",
    "source": "austin-marchese",
    "form": "long",
@@ -1324,7 +1294,7 @@
    "id": "bIYWxYm5cOY",
    "source": "austin-marchese",
    "form": "long",
-   "title": "The Smartest People Aren't Prompting Claude. They're Harness Engineering",
+   "title": "Stop Prompting Claude. Start Harness Engineering.",
    "published": "2026-10-09T14:45:10Z",
    "state": "screen",
    "runs": 979,
@@ -1448,6 +1418,16 @@
    "published": "2026-10-09T16:08:49Z",
    "state": "screen",
    "runs": 1556,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "UFa8pXW9A3k",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "Claude's New Updates Are Insane… But Grok Bot Is EVEN Bigger",
+   "published": "2026-10-10T20:03:25Z",
+   "state": "screen",
+   "runs": 1250,
    "channel": "Riley Brown"
   },
   {
@@ -1651,16 +1631,6 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
-   "id": "iW-yLZjbFjo",
-   "source": "nate-herk",
-   "form": "short",
-   "title": "Claude Can Now Plan Your Whole Day by Location",
-   "published": "2026-09-10T15:00:20Z",
-   "state": "screen",
-   "runs": 45,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
    "id": "TIYCa6hOx1Q",
    "source": "nate-herk",
    "form": "short",
@@ -1759,16 +1729,6 @@
    "state": "screen",
    "runs": 51,
    "channel": "Nate Herk | AI Automation"
-  },
-  {
-   "id": "5EhrMJ9HIfU",
-   "source": "chase-ai",
-   "form": "long",
-   "title": "You're Using GPT 6 Astra Wrong (Here's How to Fix It)",
-   "published": "2026-09-10T16:27:11Z",
-   "state": "screen",
-   "runs": 1067,
-   "channel": "Chase AI"
   },
   {
    "id": "C8dWdic-oK4",
@@ -1991,14 +1951,24 @@
    "channel": "Chase AI"
   },
   {
-   "id": "nglqTHwuZ-8",
-   "source": "greg-isenberg",
-   "form": "long",
-   "title": "GPT-6 Astra: How I’d Make Money With It",
-   "published": "2026-09-10T18:11:19Z",
+   "id": "WVfAFTSS1lk",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "This Claude OS combines Jev, Opus, Obsidian, + a local voice system",
+   "published": "2026-10-11T01:00:18Z",
    "state": "screen",
-   "runs": 1372,
-   "channel": "Greg Isenberg"
+   "runs": 45,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "uJJjBXuj8Iw",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "Someone Just Cloned Every Adobe Product In Rust (& Open Sourced It)",
+   "published": "2026-10-11T04:00:37Z",
+   "state": "screen",
+   "runs": 43,
+   "channel": "Chase AI"
   },
   {
    "id": "_LCeJZFIsd4",
@@ -2116,13 +2086,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ]
   },
@@ -2130,13 +2100,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ]
   },
@@ -2144,13 +2114,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ]
   },
@@ -2158,13 +2128,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ]
   },
@@ -2172,13 +2142,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ]
   },
@@ -2186,13 +2156,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ]
   },
@@ -2200,13 +2170,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ]
   },
@@ -2214,13 +2184,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ]
   },
@@ -2228,13 +2198,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ]
   },
@@ -2242,13 +2212,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ]
   },
@@ -2256,13 +2226,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ]
   },
@@ -2270,13 +2240,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-10T11:21:25Z"
+     "2026-10-11T11:26:28Z"
     ]
    ]
   }
