@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-10-10T11:18Z",
+ "set": "2026-10-11T11:17Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ]
   },
@@ -218,13 +218,13 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-10-10T11:18:43Z"
+     "2026-10-11T11:17:07Z"
     ]
    ]
   }
@@ -358,6 +358,16 @@
    "published": "2026-09-27T16:10:06Z",
    "state": "screen",
    "runs": 1012,
+   "channel": "Sarah's Vegan Kitchen"
+  },
+  {
+   "id": "EW6iZwz8SR0",
+   "source": "sarahs-vegan-kitchen",
+   "form": "long",
+   "title": "A Cozy Autumn Kitchen 🍁 | Pumpkin Pancakes & Butternut Squash Shells",
+   "published": "2026-10-10T18:07:13Z",
+   "state": "screen",
+   "runs": 1257,
    "channel": "Sarah's Vegan Kitchen"
   },
   {
@@ -541,6 +551,16 @@
    "channel": "Ahmad Noori"
   },
   {
+   "id": "tSzzailcEe4",
+   "source": "ahmad-noori",
+   "form": "short",
+   "title": "The Secret to Creamy Dairy-Free Tomato Soup #veganrecipes #shorts",
+   "published": "2026-10-10T15:00:08Z",
+   "state": "screen",
+   "runs": 24,
+   "channel": "Ahmad Noori"
+  },
+  {
    "id": "5p3XjT925hE",
    "source": "so-vegan",
    "form": "short",
@@ -549,16 +569,6 @@
    "state": "screen",
    "runs": 20,
    "channel": "So Vegan"
-  },
-  {
-   "id": "OPjcUgUAd3s",
-   "source": "veganproteins",
-   "form": "long",
-   "title": "My 6-Day Work Trip Survival Kit (Vegan & Protein-Focused)",
-   "published": "2026-09-10T15:45:15Z",
-   "state": "screen",
-   "runs": 1542,
-   "channel": "VeganProteins"
   },
   {
    "id": "-Mrq4P8JL1g",
@@ -661,15 +671,6 @@
    "channel": "PB with J"
   },
   {
-   "id": "d93bMKLiL_4",
-   "source": "pb-with-j",
-   "form": "long",
-   "title": "3 Healthy Dinners for Nights You Don’t Want to Cook",
-   "published": "2026-10-02T20:10:54Z",
-   "state": "pending",
-   "why": "live, or not out yet"
-  },
-  {
    "id": "mFmIzfxT3JQ",
    "source": "pb-with-j",
    "form": "long",
@@ -690,23 +691,13 @@
    "channel": "PB with J"
   },
   {
-   "id": "dcqVWz2lxKQ",
+   "id": "d93bMKLiL_4",
    "source": "pb-with-j",
-   "form": "short",
-   "title": "PEI Vegan Food Tour: Donuts, Tacos, Pizza & More! #shorts",
-   "published": "2026-09-10T12:49:58Z",
+   "form": "long",
+   "title": "3 Healthy Dinners for Nights You Don’t Want to Cook",
+   "published": "2026-10-10T14:00:06Z",
    "state": "screen",
-   "runs": 33,
-   "channel": "PB with J"
-  },
-  {
-   "id": "7UN3lwmDkxA",
-   "source": "pb-with-j",
-   "form": "short",
-   "title": "Juice vs. Whole Fruits: What's REALLY Healthier? #shorts",
-   "published": "2026-09-11T10:39:35Z",
-   "state": "screen",
-   "runs": 38,
+   "runs": 968,
    "channel": "PB with J"
   },
   {
@@ -890,16 +881,6 @@
    "channel": "PB with J"
   },
   {
-   "id": "E5M8CrOwwE0",
-   "source": "carleigh-bodrug",
-   "form": "short",
-   "title": "one pan curry ramen noodles #recipe",
-   "published": "2026-09-10T16:17:19Z",
-   "state": "screen",
-   "runs": 25,
-   "channel": "Carleigh Bodrug"
-  },
-  {
    "id": "46Riq3TpQ5Y",
    "source": "carleigh-bodrug",
    "form": "short",
@@ -1078,16 +1059,6 @@
    "state": "screen",
    "runs": 111,
    "channel": "Yeung Man Cooking"
-  },
-  {
-   "id": "-TZLA5JOIeI",
-   "source": "merle-oneal",
-   "form": "long",
-   "title": "I Tried the Internet’s Most Viral Tofu Recipes",
-   "published": "2026-09-10T16:35:04Z",
-   "state": "screen",
-   "runs": 1306,
-   "channel": "Merle O'Neal"
   },
   {
    "id": "uPxYWInXZwM",
