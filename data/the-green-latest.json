@@ -68,8 +68,24 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-10-10T11:24Z",
+ "set": "2026-10-11T11:29Z",
  "latest": [
+  {
+   "id": "k6bSH3bixLQ",
+   "title": "Green Building | Day 03 | UKPSC-JE & AE Exam 2026-27🔥🎯#ukpscae#ukpscje",
+   "channel": "FUTURE SECURE INSTITUTE FOR JE & AE",
+   "published": "2026-10-11T02:24:07Z",
+   "runs": 6135,
+   "search": "green-building"
+  },
+  {
+   "id": "3SA2vGvucXg",
+   "title": "Writing tabletop adventure with Canvastry - Solarpunk Session 1",
+   "channel": "Yan",
+   "published": "2026-10-10T16:00:22Z",
+   "runs": 426,
+   "search": "solarpunk"
+  },
   {
    "id": "0lYAlCx3SAE",
    "title": "From wasteland to urban forest: The Siidcul Haridwar Transformation",
@@ -79,20 +95,20 @@
    "search": "urban-forests"
   },
   {
-   "id": "3UE3r8yv14I",
-   "title": "Green Building | Day 02 | UKPSC-JE & AE Exam 2026-27🔥🎯#ukpscae#ukpscje",
-   "channel": "FUTURE SECURE INSTITUTE FOR JE & AE",
-   "published": "2026-10-10T05:33:41Z",
-   "runs": 4380,
-   "search": "green-building"
-  },
-  {
    "id": "FdtO4vyY52M",
    "title": "Whittier Urban Forest Management Plan | District 4 Workshop | September 17, 2026",
    "channel": "City of Whittier",
    "published": "2026-10-10T00:07:36Z",
    "runs": 4982,
    "search": "urban-forests"
+  },
+  {
+   "id": "noHqRhNVeeQ",
+   "title": "Funan Mall Singapore 🇸🇬 | Complete 52 Minute Indoor Walk + Urban Farm & Rooftop Garden",
+   "channel": "Walk with Me Daily",
+   "published": "2026-10-10T00:00:08Z",
+   "runs": 3143,
+   "search": "urban-farms"
   },
   {
    "id": "BPRfFl8VJSw",
@@ -143,6 +159,22 @@
    "search": "renewable-energy"
   },
   {
+   "id": "yRCw0gNY2po",
+   "title": "Legazpi Active Park Walking Tour | Makati City's Vibrant Green Space",
+   "channel": "Paradise Found!",
+   "published": "2026-10-09T04:00:31Z",
+   "runs": 182,
+   "search": "green-spaces"
+  },
+  {
+   "id": "2dZBaYc_rHA",
+   "title": "Urban Farming Helps to Combat Food Insecurity | Chapman News",
+   "channel": "Chapman News",
+   "published": "2026-10-09T00:07:06Z",
+   "runs": 100,
+   "search": "urban-farms"
+  },
+  {
    "id": "6NmfhMtw64A",
    "title": "Pumpkin picking returns to DePaul Urban Farm in downtown Vienna",
    "channel": "FOX 5 Washington DC",
@@ -167,14 +199,6 @@
    "search": "renewable-energy"
   },
   {
-   "id": "JweNuBr_NyM",
-   "title": "Ophelia's Blue Vine Farm -Urban Farming",
-   "channel": "Ophelia's Blue Vine Farm– #1 Urban Farm in America",
-   "published": "2026-10-08T17:19:36Z",
-   "runs": 3056,
-   "search": "urban-farms"
-  },
-  {
    "id": "2MRT6SOJwKQ",
    "title": "The New American Remodel® 2027 #TNAR2027: Built to National Green Building Standards",
    "channel": "NAHB International Builders' Show",
@@ -191,14 +215,6 @@
    "search": "green-spaces"
   },
   {
-   "id": "wwLZYGz-7SY",
-   "title": "Cool Urban Farming in a Tiny Space!",
-   "channel": "Tiny Farm Kenya",
-   "published": "2026-10-07T19:02:06Z",
-   "runs": 280,
-   "search": "urban-farms"
-  },
-  {
    "id": "x5wa62q2szo",
    "title": "How to Grow a Food Forest in Pots | Small Space Gardening",
    "channel": "Small Urban Greens Homestead",
@@ -213,35 +229,10 @@
    "published": "2026-10-07T15:46:20Z",
    "runs": 165,
    "search": "green-building"
-  },
-  {
-   "id": "yXYsZvh1J9k",
-   "title": "Rooted in Hilltop: Community Green Space, Urban Agriculture, and Tree Equity in Tacoma",
-   "channel": "WSU Ravenholt Urban Forest Health Lab",
-   "published": "2026-10-06T18:57:00Z",
-   "runs": 1461,
-   "search": "green-spaces"
-  },
-  {
-   "id": "qFkS6Y1twv4",
-   "title": "Solarpunk window world view",
-   "channel": "PickleSando",
-   "published": "2026-10-03T21:30:47Z",
-   "runs": 35,
-   "search": "solarpunk"
   }
  ],
  "_seen": "Every result that carried its search's words, as its watch page answered the morning it first turned up, kept for a week so nobody's page is asked twice. state is screen, door, gone, pending (asked again if it turns up again) or left, with why. Nothing is kept but what the rack needs: no description, no thumbnail, no count of views.",
  "seen": [
-  {
-   "id": "WfxnIWdc_oo",
-   "search": "green-spaces",
-   "title": "Chania — Day 2: 8.2/ From green spaces to active cities: the STANDOUT project",
-   "channel": "All Crete Blue Green",
-   "published": "2026-10-03T16:57:10Z",
-   "runs": 854,
-   "state": "screen"
-  },
   {
    "id": "ebnTQnwXdXw",
    "search": "green-spaces",
@@ -288,6 +279,15 @@
    "state": "screen"
   },
   {
+   "id": "yRCw0gNY2po",
+   "search": "green-spaces",
+   "title": "Legazpi Active Park Walking Tour | Makati City's Vibrant Green Space",
+   "channel": "Paradise Found!",
+   "published": "2026-10-09T04:00:31Z",
+   "runs": 182,
+   "state": "screen"
+  },
+  {
    "id": "qztzZPTUWx0",
    "search": "green-spaces",
    "title": "State awards Springfield $425K to expand urban green spaces",
@@ -295,32 +295,6 @@
    "published": "2026-10-09T22:21:22Z",
    "runs": 43,
    "state": "screen"
-  },
-  {
-   "id": "k6bSH3bixLQ",
-   "search": "green-building",
-   "title": "Green Building | Day 03 | UKPSC-JE & AE Exam 2026-27🔥🎯#ukpscae#ukpscje",
-   "state": "pending",
-   "why": "live, or not out yet"
-  },
-  {
-   "id": "MX7jDGLx9-A",
-   "search": "green-building",
-   "title": "QGM Intelligent Block Production Line | Turning Waste into Green Building Materials",
-   "channel": "QGM Quangong Machinery",
-   "published": "2026-10-03T12:00:29Z",
-   "runs": 18,
-   "state": "screen"
-  },
-  {
-   "id": "wz2SDaXe0zE",
-   "search": "green-building",
-   "title": "Urban Oasis Chill House | Architecture Workflow & Green Building Focus | 90 Min",
-   "channel": "Loft Chillhouse",
-   "published": "2026-10-03T16:00:13Z",
-   "runs": 5435,
-   "state": "left",
-   "why": "filed under Music"
   },
   {
    "id": "Jpy_UiOJRrI",
@@ -387,12 +361,12 @@
    "state": "screen"
   },
   {
-   "id": "amk5-eyZglk",
-   "search": "urban-forests",
-   "title": "Keya Homes The Urban Forest - Project Walkthrough",
-   "channel": "MANSIO",
-   "published": "2026-10-03T12:14:02Z",
-   "runs": 205,
+   "id": "k6bSH3bixLQ",
+   "search": "green-building",
+   "title": "Green Building | Day 03 | UKPSC-JE & AE Exam 2026-27🔥🎯#ukpscae#ukpscje",
+   "channel": "FUTURE SECURE INSTITUTE FOR JE & AE",
+   "published": "2026-10-11T02:24:07Z",
+   "runs": 6135,
    "state": "screen"
   },
   {
@@ -540,6 +514,15 @@
    "state": "screen"
   },
   {
+   "id": "NqBsyear7mY",
+   "search": "urban-farms",
+   "title": "Transform Your Lawn Into Food! 🍅 Urban Farming Hack",
+   "channel": "Mekonene Nigussu",
+   "published": "2026-10-06T06:22:11Z",
+   "runs": 92,
+   "state": "screen"
+  },
+  {
    "id": "8lQIAFe7GZ4",
    "search": "urban-farms",
    "title": "Turning Park Spaces Into Community Gardens: The \"Urban Farming\" Trend Spreading Across Cities and...",
@@ -612,6 +595,24 @@
    "state": "screen"
   },
   {
+   "id": "2dZBaYc_rHA",
+   "search": "urban-farms",
+   "title": "Urban Farming Helps to Combat Food Insecurity | Chapman News",
+   "channel": "Chapman News",
+   "published": "2026-10-09T00:07:06Z",
+   "runs": 100,
+   "state": "screen"
+  },
+  {
+   "id": "noHqRhNVeeQ",
+   "search": "urban-farms",
+   "title": "Funan Mall Singapore 🇸🇬 | Complete 52 Minute Indoor Walk + Urban Farm & Rooftop Garden",
+   "channel": "Walk with Me Daily",
+   "published": "2026-10-10T00:00:08Z",
+   "runs": 3143,
+   "state": "screen"
+  },
+  {
    "id": "2Ljlm7ycoc0",
    "search": "edibles",
    "title": "The Food Forest Movement's European Expansion",
@@ -673,52 +674,6 @@
    "published": "2026-10-09T23:00:35Z",
    "runs": 2793,
    "state": "screen"
-  },
-  {
-   "id": "gyvKFaBaIJ0",
-   "search": "solarpunk",
-   "title": "SOLARPUNK Ambient Livestream",
-   "state": "pending",
-   "why": "live, or not out yet"
-  },
-  {
-   "id": "2cl4a8u7SUM",
-   "search": "solarpunk",
-   "title": "FE2CM - Solarpunk Vila [4.7 - Insane]",
-   "channel": "XStarBlocky",
-   "published": "2026-10-03T12:46:56Z",
-   "runs": 108,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "qFkS6Y1twv4",
-   "search": "solarpunk",
-   "title": "Solarpunk window world view",
-   "channel": "PickleSando",
-   "published": "2026-10-03T21:30:47Z",
-   "runs": 35,
-   "state": "screen"
-  },
-  {
-   "id": "SNYKEBrfeVE",
-   "search": "solarpunk",
-   "title": "Onwards and Upwards! | Solarpunk",
-   "channel": "Brain Cells",
-   "published": "2026-10-03T22:00:05Z",
-   "runs": 9300,
-   "state": "door",
-   "why": "no embedding"
-  },
-  {
-   "id": "zw1pjbxdfFI",
-   "search": "solarpunk",
-   "title": "Exploring The Ice Biome IN SOLARPUNK🥶",
-   "channel": "Gamer Sayax",
-   "published": "2026-10-04T04:30:36Z",
-   "runs": 1031,
-   "state": "left",
-   "why": "filed under Gaming"
   },
   {
    "id": "qYQH4Hv1kco",
@@ -901,6 +856,16 @@
    "why": "filed under Gaming"
   },
   {
+   "id": "zZM86vUCbvM",
+   "search": "solarpunk",
+   "title": "Handayani • SOLARPUNK",
+   "channel": "Crayon Case - Topic",
+   "published": "2026-10-09T10:03:43Z",
+   "runs": 215,
+   "state": "left",
+   "why": "filed under Music"
+  },
+  {
    "id": "7SHnh64mu_0",
    "search": "solarpunk",
    "title": "Swanky Bathroom | Part 64 | Solarpunk",
@@ -930,6 +895,15 @@
    "why": "filed under Gaming"
   },
   {
+   "id": "3SA2vGvucXg",
+   "search": "solarpunk",
+   "title": "Writing tabletop adventure with Canvastry - Solarpunk Session 1",
+   "channel": "Yan",
+   "published": "2026-10-10T16:00:22Z",
+   "runs": 426,
+   "state": "screen"
+  },
+  {
    "id": "MAXgB8LhTzg",
    "search": "renewable-energy",
    "title": "From permits to public trust: advancing renewables in Europe",
@@ -945,6 +919,15 @@
    "channel": "EnergyCo",
    "published": "2026-10-08T03:26:47Z",
    "runs": 67,
+   "state": "screen"
+  },
+  {
+   "id": "QfoCLBiIwzQ",
+   "search": "renewable-energy",
+   "title": "Community solar on council assets: a new toolkit",
+   "channel": "csebristol",
+   "published": "2026-10-08T08:26:42Z",
+   "runs": 4613,
    "state": "screen"
   },
   {
