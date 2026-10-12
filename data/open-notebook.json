@@ -225,7 +225,7 @@
    }
   ]
  },
- "_stickers": "THE STICKER DRAWER, Ryan's brief, 2026-10-12: sheets of day and month stickers for his notebook, Monday to Sunday and January to December by name, in any typeface on this street, in three sizes, laid out to get as many stickers as will go onto a 4 x 7 inch sheet for Liene's PixCut S1 printer and cutter; the week on one sheet or a day to a sheet, the year on one sheet or a month to a sheet. Every number the drawer draws with is here, and tools/make-open-notebook.py writes it into the page's sentences AND onto the drawer's data- attributes, which notebook-stickers.js reads, so the words and the sheets cannot disagree. THE PRINTER'S FIGURES ARE LIENE'S, read on its help centre on 2026-10-12: sticker paper 4 x 7 in (101.6 x 177.8 mm), printable area 100 x 170 mm, 300 x 300 dpi, files JPEG, PNG or HEIC, and the app only (Liene Photo, on a phone or tablet, over Bluetooth; Windows is marked unsupported). Its FAQ says a PNG with no background 'can be used directly for cutting', that 'printing must include borders, but you can adjust the border size', and that overall cutting, the default, 'will follow your arrangement on the canvas'. So a sheet is a transparent PNG the size of the paper at 300 dpi, each sticker an opaque white label with its word on it, every label at least `inset_mm` inside the printable area and `gap_mm` from the next, which is room for the border the app adds round each cut. CLAUDE'S CALLS, each Ryan's to reverse: the sizes are label heights in squares of a 5 mm dot grid, two, three and four; a label's side padding, top and bottom padding and corner are the fractions in `label` of its height; the word is sized so that the tallest and deepest letters of all nineteen names fit between the top and bottom padding, so every sticker in one face and size is the same height with the word the same size, whichever sheet it is on; the ink is black on a white label; the week and year sheets hold as many whole weeks or years as fit, then as many more days or months as go in the gaps, in their order; a label may be turned on its side where that fits more. OPEN: nobody has run one of these sheets through the machine yet. If overall cutting runs two labels into one cut, the gap is the number to change, here, and nothing else.",
+ "_stickers": "THE STICKER DRAWER, Ryan's brief, 2026-10-12: sheets of day and month stickers for his notebook, Monday to Sunday and January to December by name, in any typeface on this street, in three sizes, laid out to get as many stickers as will go onto a 4 x 7 inch sheet for Liene's PixCut S1 printer and cutter; the week on one sheet or a day to a sheet, the year on one sheet or a month to a sheet. Every number the drawer draws with is here, and tools/make-open-notebook.py writes it into the page's sentences AND onto the drawer's data- attributes, which notebook-stickers.js reads, so the words and the sheets cannot disagree. THE PRINTER'S FIGURES ARE LIENE'S, read on its help centre on 2026-10-12: sticker paper 4 x 7 in (101.6 x 177.8 mm), printable area 100 x 170 mm, 300 x 300 dpi, files JPEG, PNG or HEIC, and the app only (Liene Photo, on a phone or tablet, over Bluetooth; Windows is marked unsupported). Its FAQ says a PNG with no background 'can be used directly for cutting', that 'printing must include borders, but you can adjust the border size', and that overall cutting, the default, 'will follow your arrangement on the canvas'. So a sheet is a transparent PNG the size of the paper at 300 dpi, each sticker an opaque white label with its word on it, every label at least `inset_mm` inside the printable area and `gap_mm` from the next, which is room for the border the app adds round each cut. CLAUDE'S CALLS, each Ryan's to reverse: the sizes are label heights in squares of a 5 mm dot grid, two, three and four; a label's side padding, top and bottom padding and corner are the fractions in `label` of its height; the word is sized so that the tallest and deepest letters of all nineteen names fit between the top and bottom padding, so every sticker in one face and size is the same height with the word the same size, whichever sheet it is on; the ink is black on a white label; the week and year sheets hold as many whole weeks or years as fit, then as many more days or months as go in the gaps, in their order; a label may be turned on its side where that fits more. RYAN PRINTED A COUPLE OF SHEETS ON 2026-10-12 AND ALL WORKED WELL, so overall cutting does cut one image of many shapes into many stickers at this gap and inset. If a sheet ever comes out with two labels as one cut, the gap is the number to change, here, and nothing else.",
  "stickers": {
   "printer": {
    "name": "PixCut S1",
@@ -270,22 +270,118 @@
     "squares": 4
    }
   ],
+  "_sheets": "Every sheet the drawer offers, in the order and under the group it is offered. `list` is which names go on it: days, months, units, dates, weeks, years (this year and next, read off the visitor's own clock so they turn over on 1 January without a rebuild), weather or moon. `mode` is one (one sheet: as many whole sets as fit, then more in the gaps) or each (a sheet per name, as many of it as fit). For a one sheet, `title` heads its caption, `unit` is what one of its stickers is called in 'every day twice', `whole` is what a whole set is called in 'a whole week goes on one sheet at Medium', and `which` names it to a screen reader on its buttons. `under` is the line under its button. `upright` sheets are never turned on their side, because a sideways moon is a different phase and a sideways cloud is a cloud on its side; `round` is the label's corner as a fraction of its height, where it is not the label's own (half is a circle). Ryan's brief of 2026-10-12, the second one: the days of the month 1 to 31, the weeks of the year 1 to 53, the five words, this year and next, the weather and the moon.",
   "sheets": [
    {
     "key": "week",
-    "name": "The week on one sheet"
+    "group": "Days and months",
+    "name": "The week on one sheet",
+    "list": "days",
+    "mode": "one",
+    "title": "The week",
+    "unit": "day",
+    "whole": "week",
+    "which": "the week’s sheet",
+    "under": "Monday to Sunday"
    },
    {
     "key": "days",
-    "name": "A day to a sheet"
+    "group": "Days and months",
+    "name": "A day to a sheet",
+    "list": "days",
+    "mode": "each",
+    "under": "seven sheets"
    },
    {
     "key": "year",
-    "name": "The year on one sheet"
+    "group": "Days and months",
+    "name": "The year on one sheet",
+    "list": "months",
+    "mode": "one",
+    "title": "The year",
+    "unit": "month",
+    "whole": "year",
+    "which": "the year’s sheet",
+    "under": "January to December"
    },
    {
     "key": "months",
-    "name": "A month to a sheet"
+    "group": "Days and months",
+    "name": "A month to a sheet",
+    "list": "months",
+    "mode": "each",
+    "under": "twelve sheets"
+   },
+   {
+    "key": "units",
+    "group": "Words and numbers",
+    "name": "Week, Day, Month, Quarter, Year",
+    "list": "units",
+    "mode": "one",
+    "title": "The five words",
+    "unit": "word",
+    "whole": "set of the five",
+    "which": "the five words’ sheet",
+    "under": "on one sheet"
+   },
+   {
+    "key": "dates",
+    "group": "Words and numbers",
+    "name": "The days of the month",
+    "list": "dates",
+    "mode": "one",
+    "title": "The days of the month",
+    "unit": "date",
+    "whole": "month of dates",
+    "which": "the days of the month sheet",
+    "under": "1 to 31"
+   },
+   {
+    "key": "weeks",
+    "group": "Words and numbers",
+    "name": "The weeks of the year",
+    "list": "weeks",
+    "mode": "one",
+    "title": "The weeks of the year",
+    "unit": "week number",
+    "whole": "year of week numbers",
+    "which": "the weeks of the year sheet",
+    "under": "1 to 53"
+   },
+   {
+    "key": "years",
+    "group": "Words and numbers",
+    "name": "This year and next",
+    "list": "years",
+    "mode": "each",
+    "under": "two sheets"
+   },
+   {
+    "key": "weather",
+    "group": "Pictures",
+    "name": "The weather",
+    "list": "weather",
+    "mode": "one",
+    "title": "The weather",
+    "unit": "picture",
+    "whole": "set of the weather",
+    "which": "the weather sheet",
+    "under": "nine pictures",
+    "upright": true
+   },
+   {
+    "key": "moon",
+    "group": "Pictures",
+    "name": "The moon",
+    "list": "moon",
+    "mode": "one",
+    "title": "The moon",
+    "unit": "phase",
+    "whole": "month of the moon",
+    "which": "the moon sheet",
+    "under": "eight phases",
+    "upright": true,
+    "round": 0.5
    }
   ],
   "days": [
@@ -310,6 +406,94 @@
    "October",
    "November",
    "December"
+  ],
+  "units": [
+   "Week",
+   "Day",
+   "Month",
+   "Quarter",
+   "Year"
+  ],
+  "dates": [
+   1,
+   31
+  ],
+  "weeks": [
+   1,
+   53
+  ],
+  "_pictures": "The pictures are Ryan's list, in his order; their drawings are in tools/make-open-notebook.py, which refuses a picture it has no drawing for and a drawing with no picture here. They are drawn for this drawer and are this site's, under its licence. The moon is drawn as it looks from the northern hemisphere, lit on the right as it waxes, and the page says so.",
+  "weather": [
+   {
+    "key": "cloudy",
+    "name": "Cloudy"
+   },
+   {
+    "key": "partly-sunny",
+    "name": "Partly sunny"
+   },
+   {
+    "key": "rainy",
+    "name": "Rainy"
+   },
+   {
+    "key": "stormy",
+    "name": "Stormy"
+   },
+   {
+    "key": "snowy",
+    "name": "Snowy"
+   },
+   {
+    "key": "windy",
+    "name": "Windy"
+   },
+   {
+    "key": "sunny",
+    "name": "Sunny"
+   },
+   {
+    "key": "tornado",
+    "name": "Tornado"
+   },
+   {
+    "key": "flooding",
+    "name": "Flooding"
+   }
+  ],
+  "moon": [
+   {
+    "key": "new",
+    "name": "New moon"
+   },
+   {
+    "key": "waxing-crescent",
+    "name": "Waxing crescent"
+   },
+   {
+    "key": "first-quarter",
+    "name": "First quarter"
+   },
+   {
+    "key": "waxing-gibbous",
+    "name": "Waxing gibbous"
+   },
+   {
+    "key": "full",
+    "name": "Full moon"
+   },
+   {
+    "key": "waning-gibbous",
+    "name": "Waning gibbous"
+   },
+   {
+    "key": "last-quarter",
+    "name": "Last quarter"
+   },
+   {
+    "key": "waning-crescent",
+    "name": "Waning crescent"
+   }
   ],
   "opens": {
    "face": "doto",

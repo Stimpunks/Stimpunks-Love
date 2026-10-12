@@ -98,6 +98,7 @@ file, then make-og.py, because the share card lifts the drawing off the page.
 """
 import html
 import json
+import math
 import re
 import sys
 from datetime import date, datetime, timedelta, timezone
@@ -557,9 +558,149 @@ def month(r):
 DAY_NAMES = [date(2024, 1, n).strftime("%A") for n in range(1, 8)]
 MONTH_NAMES = [date(2024, n, 1).strftime("%B") for n in range(1, 13)]
 SIZE_KEYS = ["small", "medium", "large"]
-SHEET_KEYS = ["week", "days", "year", "months"]
+LISTS = {"days", "months", "units", "dates", "weeks", "years", "weather", "moon"}
+PICTURE_LISTS = {"weather", "moon"}
+SHEET_FIELDS = {"key", "group", "name", "list", "mode", "under", "title", "unit", "whole", "which",
+                "upright", "round"}
 STICKER_KEYS = {"printer", "paper_in", "printable_mm", "dpi", "inset_mm", "gap_mm", "grid_mm",
-                "label", "sizes", "sheets", "days", "months", "opens"}
+                "label", "sizes", "sheets", "days", "months", "units", "dates", "weeks", "weather",
+                "moon", "opens"}
+INKS = {"line", "solid", "outline", "paper"}
+
+
+# ── The pictures ─────────────────────────────────────────────────────────────
+# Drawn here, on a 100 x 100 square, as SVG paths the drawer turns into Path2D
+# on its canvas, so a picture is the same drawing in the page and on the sheet.
+# Each part says how it is inked: `line` is a stroke, `solid` a fill in ink,
+# `paper` a fill in the sticker's white that hides what is behind it, and
+# `outline` strokes the part twice as thick and then fills it with paper, which
+# leaves only the outside half of the stroke: the outline of the whole shape,
+# however many circles it is made of, and anything behind it hidden. That is
+# how a cloud made of three circles and a box gets one edge.
+
+def n(x):
+    return f"{round(x, 2):g}"
+
+
+def circle(cx, cy, r):
+    return (f"M{n(cx - r)} {n(cy)}a{n(r)} {n(r)} 0 1 0 {n(2 * r)} 0"
+            f"a{n(r)} {n(r)} 0 1 0 {n(-2 * r)} 0Z")
+
+
+def cloud(cx, cy, s):
+    """Three circles on a flat-bottomed box, the bottom at cy + 18s. The box is
+    drawn the same way round as the circles, so filling the whole cloud with
+    the nonzero rule fills where they overlap instead of cutting a hole there."""
+    return (circle(cx - 18 * s, cy + 6 * s, 12 * s) + circle(cx - 2 * s, cy - 6 * s, 17 * s)
+            + circle(cx + 16 * s, cy + 4 * s, 14 * s)
+            + f"M{n(cx - 18 * s)} {n(cy + 4 * s)}V{n(cy + 18 * s)}H{n(cx + 16 * s)}V{n(cy + 4 * s)}Z")
+
+
+def rays(cx, cy, r0, r1, count=8, turn=0.0):
+    out = []
+    for i in range(count):
+        a = 2 * math.pi * i / count + turn
+        out.append(f"M{n(cx + r0 * math.cos(a))} {n(cy + r0 * math.sin(a))}"
+                   f"L{n(cx + r1 * math.cos(a))} {n(cy + r1 * math.sin(a))}")
+    return "".join(out)
+
+
+def flake(cx, cy, r):
+    return "".join(f"M{n(cx - r * math.cos(a))} {n(cy - r * math.sin(a))}"
+                   f"L{n(cx + r * math.cos(a))} {n(cy + r * math.sin(a))}"
+                   for a in (math.pi / 2, math.pi / 6, -math.pi / 6))
+
+
+def wave(y, x0=8, x1=92, step=14, h=6):
+    d = f"M{n(x0)} {n(y)}q{n(step / 2)} {n(-h)} {n(step)} 0"
+    x = x0 + step
+    while x < x1 - 0.01:
+        d += f"t{n(step)} 0"
+        x += step
+    return d
+
+
+def moon(f):
+    """The moon at phase f (0 new, 0.5 full), from the northern hemisphere: lit
+    on the right while it waxes and on the left while it wanes. The shadow is a
+    half disc closed by the terminator, an ellipse r|cos 2(pi)f| wide, which
+    bulges towards the lit side for a crescent and away from it for a gibbous."""
+    disc = circle(50, 50, 40)
+    if f == 0:
+        return [(disc, "solid"), (disc, "line")]
+    if f == 0.5:
+        return [(disc, "line")]
+    k = math.cos(2 * math.pi * f)
+    rx = abs(k) * 40
+    if f < 0.5:
+        d, sweep = "M50 10A40 40 0 0 0 50 90", 0 if k > 0 else 1
+    else:
+        d, sweep = "M50 10A40 40 0 0 1 50 90", 1 if k > 0 else 0
+    d += "L50 10Z" if rx < 0.01 else f"A{n(rx)} 40 0 0 {sweep} 50 10Z"
+    return [(d, "solid"), (disc, "line")]
+
+
+def pictures():
+    sun = circle(50, 50, 15)
+    return {
+        "sunny": [(sun, "line"), (rays(50, 50, 24, 36), "line")],
+        "cloudy": [(cloud(60, 38, 0.85), "outline"), (cloud(44, 54, 1.15), "outline")],
+        "partly-sunny": [(circle(36, 36, 12), "line"), (rays(36, 36, 19, 28), "line"),
+                         (cloud(58, 58, 1.0), "outline")],
+        "rainy": [(cloud(50, 34, 1.15), "outline"),
+                  ("M36 68L30 82M52 68L46 82M68 68L62 82", "line")],
+        "stormy": [(cloud(50, 32, 1.15), "outline"),
+                   ("M54 58L38 78H50L44 94L66 70H54L60 58Z", "solid")],
+        "snowy": [(cloud(50, 32, 1.15), "outline"),
+                  (flake(32, 74, 9) + flake(51, 86, 9) + flake(70, 74, 9), "line")],
+        "windy": [("M12 36H58A10 10 0 1 0 48 26", "line"),
+                  ("M12 52H78A9 9 0 1 0 69 43", "line"),
+                  ("M12 68H56A9 9 0 1 1 47 77", "line")],
+        # A funnel that narrows as it drifts to one side and ends in a tail, so
+        # it reads as wind going round and not as a stack of shrinking lines.
+        "tornado": [("M12 18H86M22 30H82M32 42H78M42 54H76M50 66H72M56 78H68"
+                     "M62 78Q56 86 60 94", "line")],
+        "flooding": [("M28 50L50 28L72 50M34 45V82H66V45", "line"),
+                     (wave(62) + "V96H8Z", "paper"),
+                     (wave(62) + wave(78), "line")],
+        "new": moon(0), "waxing-crescent": moon(1 / 8), "first-quarter": moon(2 / 8),
+        "waxing-gibbous": moon(3 / 8), "full": moon(4 / 8), "waning-gibbous": moon(5 / 8),
+        "last-quarter": moon(6 / 8), "waning-crescent": moon(7 / 8),
+    }
+
+
+def check_pictures(s):
+    draw = pictures()
+    named = [p.get("key") for lst in PICTURE_LISTS for p in s.get(lst) or []]
+    for key in named:
+        if key not in draw:
+            refuse(f"the sticker drawer has a picture {key!r} with no drawing in this tool.")
+    for key, parts in draw.items():
+        if key not in named:
+            refuse(f"this tool draws a picture {key!r} that no list in the data offers.")
+        for d, ink in parts:
+            if ink not in INKS:
+                refuse(f"the picture {key!r} has a part inked {ink!r}; a part is one of {sorted(INKS)}.")
+            if any(not -1 <= float(v) <= 101 for v in re.findall(r"[MLHVZACQTS]\s*(-?[\d.]+)", d)):
+                refuse(f"the picture {key!r} reaches outside its square.")
+    for lst in PICTURE_LISTS:
+        names = [p.get("name") for p in s.get(lst) or []]
+        if not names or len(set(names)) != len(names) or not all(names):
+            refuse(f"the {lst} pictures need a name each, and no two alike.")
+
+
+def art_block(s):
+    """The pictures as an SVG the page carries hidden, which the drawer reads."""
+    draw = pictures()
+    out = ['    <svg class="onb-stk__art" data-stk-art viewBox="0 0 100 100" hidden aria-hidden="true" '
+           'focusable="false">']
+    for lst in sorted(PICTURE_LISTS):
+        for p in s[lst]:
+            out.append(f'      <g data-list="{lst}" data-picture="{p["key"]}" data-name="{attr(p["name"])}">'
+                       + "".join(f'<path d="{d}" data-ink="{ink}"/>' for d, ink in draw[p["key"]])
+                       + '</g>')
+    out.append('    </svg>')
+    return out
 NUMBER = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven",
           8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve"}
 # The drawer keeps nothing and sends nothing, and nothing in it builds markup
@@ -651,11 +792,41 @@ def check_stickers(s):
         refuse("the sizes do not grow from small to large.")
     if tall and pr and tall[-1] + 2 * s.get("inset_mm", 0) > min(pr):
         refuse("the largest sticker is taller than the printable area is wide.")
-    if [z.get("key") for z in s.get("sheets") or []] != SHEET_KEYS:
-        refuse("the sheets are the week on one, a day to each, the year on one and a month to each.")
+    units = s.get("units") or []
+    if not units or not all(re.fullmatch(r"[A-Z][a-z]+", u or "") for u in units):
+        refuse(f"the stickers' units are {units}; each is one capitalised word.")
+    # A month has at most 31 days, and an ISO year at most 53 weeks: these are
+    # facts about calendars, so a range that disagrees is a typo.
+    if s.get("dates") != [1, 31]:
+        refuse(f"the days of the month run {s.get('dates')}, not 1 to 31.")
+    if s.get("weeks") != [1, 53]:
+        refuse(f"the weeks of the year run {s.get('weeks')}, not 1 to 53.")
+    keys = []
+    for sh in s.get("sheets") or []:
+        k = sh.get("key")
+        keys.append(k)
+        extra = set(sh) - SHEET_FIELDS
+        if extra:
+            refuse(f"the sheet {k!r} carries {sorted(extra)}, which the drawer does not know.")
+        if sh.get("list") not in LISTS:
+            refuse(f"the sheet {k!r} is of {sh.get('list')!r}, which is not a list the drawer has.")
+        if sh.get("mode") not in ("one", "each"):
+            refuse(f"the sheet {k!r} is neither one sheet nor a sheet each.")
+        need = ("group", "name", "under") + (("title", "unit", "whole", "which") if sh.get("mode") == "one" else ())
+        for f in need:
+            if not (sh.get(f) or "").strip():
+                refuse(f"the sheet {k!r} has no {f}.")
+        if sh.get("list") in PICTURE_LISTS and not sh.get("upright"):
+            refuse(f"the sheet {k!r} is pictures and is not upright. A picture is never turned on its "
+                   "side: a sideways moon is a different phase.")
+        if "round" in sh and not (isinstance(sh["round"], (int, float)) and 0 < sh["round"] <= 0.5):
+            refuse(f"the sheet {k!r} has a corner of {sh['round']}; a corner is up to half the height.")
+    if len(set(keys)) != len(keys) or not keys:
+        refuse(f"the sheets are {keys}; each needs a key of its own.")
+    check_pictures(s)
     o = s.get("opens") or {}
     faces = {slug for slug, _, _ in sticker_faces()}
-    if o.get("face") not in faces or o.get("size") not in SIZE_KEYS or o.get("sheet") not in SHEET_KEYS:
+    if o.get("face") not in faces or o.get("size") not in SIZE_KEYS or o.get("sheet") not in keys:
         refuse(f"the drawer opens on {o}, which is not a face, a size and a sheet it has.")
     p = s.get("printer") or {}
     for k in ("url", "spec", "faq"):
@@ -678,7 +849,6 @@ def stickers_block(s):
     px = [round(x * dpi) for x in pin]
     p, lab, gap = s["printer"], s["label"], s["gap_mm"]
     sizes = [(z["key"], z["name"], z["squares"], z["squares"] * s["grid_mm"]) for z in s["sizes"]]
-    many = {"days": len(s["days"]), "months": len(s["months"])}
     opens = s["opens"]
     faces = sticker_faces()
     where = json.loads(FOUNDRY.read_text())["faces"]
@@ -695,9 +865,17 @@ def stickers_block(s):
         'and as many of them as will go. Where turning some on their side gets more on, some are turned.</p>',
         f'    <p>A size is how tall a sticker is, in squares of a {g(s["grid_mm"])} mm dot grid: {sized}. Every '
         'sticker in one face and one size is the same height with its word the same size, whichever sheet it '
-        'comes off, so a Monday off the week&rsquo;s sheet matches a Monday off a sheet of Mondays. The '
-        'week&rsquo;s sheet and the year&rsquo;s hold as many whole weeks or years as fit, then as many more days '
-        'or months as will go in the gaps, and every sheet says underneath it what is on it.</p>',
+        'comes off, so a Monday off the week&rsquo;s sheet matches a Monday off a sheet of Mondays, and every '
+        'number is the same width, so a sheet of them reads as a grid. A sheet of a set, like the week, the '
+        'year or the days of the month, holds as many whole sets as fit, then as many more as will go in the '
+        'gaps, and every sheet says underneath it what is on it.</p>',
+        f'    <p>This year and next are read off your own clock, so they turn over on 1 January by themselves. '
+        f'<strong>The pictures are drawn here and not set in a face</strong>, so the face makes no difference '
+        f'to them, and they are never turned on their side. The weather has {NUMBER[len(s["weather"])]} pictures: '
+        f'{listify([w["name"].lower() for w in s["weather"]])}. '
+        f'The moon is its {NUMBER[len(s["moon"])]} phases, {listify([m["name"].lower() for m in s["moon"]])}, '
+        'each on a round sticker, as they look from the northern hemisphere: lit on the right as it waxes and '
+        'on the left as it wanes. South of the equator it is the other way round.</p>',
         f'    <p>To print one, open the saved sheet in the {esc(p["app"])} app: start a canvas, choose Uploads and '
         'pick the sheet, and skip the background removal, because there is no background to remove. The app puts '
         f'a border round everything it cuts, which you can turn down in its cutting mode; the stickers are '
@@ -710,7 +888,8 @@ def stickers_block(s):
         f'data-printable="{g(pr[0])} {g(pr[1])}" data-dpi="{dpi}" data-inset="{g(s["inset_mm"])}" '
         f'data-gap="{g(gap)}" data-pad="{g(lab["pad"])}" data-vpad="{g(lab["vpad"])}" '
         f'data-round="{g(lab["round"])}" data-days="{" ".join(s["days"])}" '
-        f'data-months="{" ".join(s["months"])}" hidden>',
+        f'data-months="{" ".join(s["months"])}" data-units="{" ".join(s["units"])}" '
+        f'data-dates="{s["dates"][0]} {s["dates"][1]}" data-weeks="{s["weeks"][0]} {s["weeks"][1]}" hidden>',
         '      <div class="onb-stk__controls">',
         '        <div>',
         '          <label class="onb-stk__lab" for="onb-stk-face">Face</label>',
@@ -738,19 +917,31 @@ def stickers_block(s):
     out += ['          </p>',
             '        </div>',
             '        <div role="group" aria-labelledby="onb-stk-sheet">',
-            '          <p class="onb-stk__lab" id="onb-stk-sheet">On the sheet</p>',
-            '          <p class="onb-stk__picks">']
-    under = {"week": f'{s["days"][0]} to {s["days"][-1]}',
-             "days": f'{NUMBER[many["days"]]} sheets',
-             "year": f'{s["months"][0]} to {s["months"][-1]}',
-             "months": f'{NUMBER[many["months"]]} sheets'}
+            '          <p class="onb-stk__lab" id="onb-stk-sheet">On the sheet</p>']
+    groups = []
     for sh in s["sheets"]:
-        out.append(f'            <button type="button" class="onb-stk__pick" data-stk-sheet="{sh["key"]}" '
-                   f'aria-pressed="{"true" if sh["key"] == opens["sheet"] else "false"}">{esc(sh["name"])} '
-                   f'<small>{under[sh["key"]]}</small></button>')
+        if sh["group"] not in groups:
+            groups.append(sh["group"])
+    for i, grp in enumerate(groups, 1):
+        out += [f'          <div role="group" aria-labelledby="onb-stk-kind-{i}">',
+                f'            <p class="onb-stk__kind" id="onb-stk-kind-{i}">{esc(grp)}</p>',
+                '            <p class="onb-stk__picks">']
+        for sh in (x for x in s["sheets"] if x["group"] == grp):
+            data = f' data-list="{sh["list"]}" data-mode="{sh["mode"]}"'
+            for f in ("title", "unit", "whole", "which"):
+                if sh.get(f):
+                    data += f' data-{f}="{attr(sh[f])}"'
+            if sh.get("upright"):
+                data += ' data-upright'
+            if "round" in sh:
+                data += f' data-round="{g(sh["round"])}"'
+            out.append(f'              <button type="button" class="onb-stk__pick" data-stk-sheet="{sh["key"]}"'
+                       f'{data} aria-pressed="{"true" if sh["key"] == opens["sheet"] else "false"}">'
+                       f'{esc(sh["name"])} <small>{esc(sh["under"])}</small></button>')
+        out += ['            </p>',
+                '          </div>']
     first = next(r for slug, r, _ in faces if slug == opens["face"])
-    out += ['          </p>',
-            '        </div>',
+    out += ['        </div>',
             '      </div>',
             f'      <p class="onb-stk__credit" data-stk-credit>Set in <b>{esc(first["family"])}</b>, by '
             f'{esc(first["designer"])}, under the <a href="{attr(first["licence_url"])}">'
@@ -759,8 +950,9 @@ def stickers_block(s):
             '      <ul class="onb-stk__sheets" data-stk-sheets aria-label="The sheets, as they will print"></ul>',
             '      <div class="onb-stk__all" data-stk-all-row hidden><button type="button" class="onb-stk__save" '
             'data-stk-all>Save every sheet</button> <button type="button" class="onb-stk__save" '
-            'data-stk-share-all hidden>Share every sheet</button></div>',
-            '    </div>',
+            'data-stk-share-all hidden>Share every sheet</button></div>']
+    out += ["  " + line for line in art_block(s)]
+    out += ['    </div>',
             '    <p class="onb-stk__off" data-stk-off>The drawer draws its sheets in your browser with a '
             'script, and scripts are not running here, so there is nothing to show. Everything it would draw '
             'with is in the sentences above.</p>']

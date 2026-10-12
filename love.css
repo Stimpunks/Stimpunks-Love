@@ -19474,6 +19474,8 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   background: var(--onb-page); border: 2px solid var(--onb-ink); border-radius: 4px; font-synthesis: none;
 }
 .onb-stk__picks { display: flex; flex-wrap: wrap; gap: 8px; }
+.notebook .onb-stk__kind { margin: 12px 0 6px; font-weight: 700; font-size: 15px; }
+.notebook .onb-stk__lab + div .onb-stk__kind { margin-top: 0; }
 .onb-stk__pick {
   min-height: 44px; padding: 8px 14px; cursor: pointer; text-align: left;
   font: 700 15px/1.3 'Rosario', var(--sans); color: var(--onb-ink);

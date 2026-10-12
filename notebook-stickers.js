@@ -40,7 +40,7 @@
   if (!box) return;
   var probe = document.createElement('canvas');
   var pctx = probe.getContext && probe.getContext('2d');
-  if (!pctx || !probe.toBlob || !window.Uint8Array || !window.TextEncoder ||
+  if (!pctx || !probe.toBlob || !window.Uint8Array || !window.TextEncoder || !window.Path2D ||
       !('actualBoundingBoxAscent' in pctx.measureText('M'))) return;
 
   function nums(name) {
@@ -58,7 +58,42 @@
   var ROUND = num('data-round');
   var DAYS = box.getAttribute('data-days').split(' ');
   var MONTHS = box.getAttribute('data-months').split(' ');
-  var ALL = DAYS.concat(MONTHS);
+  var UNITS = box.getAttribute('data-units').split(' ');
+  function range(name) {
+    var r = nums(name), out = [];
+    for (var i = r[0]; i <= r[1]; i++) out.push(String(i));
+    return out;
+  }
+  var DATES = range('data-dates');
+  var WEEKS = range('data-weeks');
+  // This year and next, off the visitor's own clock, so they turn over on
+  // 1 January without anybody rebuilding the page.
+  var YEAR = new Date().getFullYear();
+  var YEARS = [String(YEAR), String(YEAR + 1)];
+  var NUMERALS = WEEKS.concat(DATES.filter(function (d) { return WEEKS.indexOf(d) < 0; }));
+  // Every word, number and year any sheet can carry. The word is sized so the
+  // tallest and deepest marks among all of them fit, which is what makes one
+  // face and size one sticker whichever sheet it comes off.
+  var ALL = DAYS.concat(MONTHS, UNITS, NUMERALS, YEARS);
+  var LISTS = { days: DAYS, months: MONTHS, units: UNITS, dates: DATES, weeks: WEEKS, years: YEARS };
+
+  // THE PICTURES are drawn in tools/make-open-notebook.py and carried in the
+  // page as a hidden SVG: each one a group of paths on a 100 x 100 square, each
+  // path saying how it is inked. They become Path2D here, so the sheet draws
+  // exactly the paths the page holds.
+  var PICS = {}, PIC = {};
+  [].forEach.call(box.querySelectorAll('[data-stk-art] [data-picture]'), function (g) {
+    var lst = g.getAttribute('data-list'), pic = {
+      key: g.getAttribute('data-picture'), name: g.getAttribute('data-name'),
+      parts: [].map.call(g.querySelectorAll('path'), function (el) {
+        return { path: new Path2D(el.getAttribute('d')), ink: el.getAttribute('data-ink') };
+      })
+    };
+    (PICS[lst] = PICS[lst] || []).push(pic);
+    PIC[pic.key] = pic;
+  });
+  var LINE = 6;                            // a picture's line, on its 100 x 100 square
+  var MARGIN = 0.06;                       // a picture's margin, as a fraction of the label
   // Where the stickers may go, in mm from the paper's top left: the printable
   // area, centred on the paper, brought in by the inset on every side.
   var AREA = {
@@ -80,6 +115,9 @@
   var allButton = box.querySelector('[data-stk-all]');
   var shareAllButton = box.querySelector('[data-stk-share-all]');
   var off = document.querySelector('[data-stk-off]');
+  sheetButtons.forEach(function (b) {
+    if (b.getAttribute('data-list') === 'years') b.querySelector('small').textContent = YEARS.join(' and ');
+  });
   var canonical = document.querySelector('link[rel="canonical"]');
 
   function ink(name) {
@@ -108,7 +146,7 @@
       weight: opt.getAttribute('data-weight'),
       size: size.getAttribute('data-stk-size'), sizeName: size.firstChild.textContent.trim(),
       mm: parseFloat(size.getAttribute('data-mm')),
-      kind: pressed(sheetButtons).getAttribute('data-stk-sheet')
+      sheet: pressed(sheetButtons)
     };
   }
 
@@ -144,16 +182,22 @@
   // the height between the top and bottom padding.
   function geometry(m, h) {
     var k = h * (1 - 2 * VPAD) / (m.asc + m.desc);
-    var pad = h * PAD, widths = {};
-    ALL.forEach(function (word) { widths[word] = (m.w[word].l + m.w[word].r) * k + 2 * pad; });
+    var pad = h * PAD, widths = {}, numeral = 0;
+    ALL.forEach(function (word) { widths[word] = Math.max(h, (m.w[word].l + m.w[word].r) * k + 2 * pad); });
+    // Every number from 1 to 53 is as wide as the widest of them, so a sheet of
+    // dates or week numbers reads as a grid and a 7 matches a 27.
+    NUMERALS.forEach(function (d) { numeral = Math.max(numeral, widths[d]); });
+    NUMERALS.forEach(function (d) { widths[d] = numeral; });
     return { h: h, k: k, pad: pad, vpad: h * VPAD, widths: widths, m: m };
   }
 
   // ── Packing ────────────────────────────────────────────────────────────────
 
-  function splits(h) {
+  function splits(h, upright) {
     var W = AREA.w, H = AREA.h, step = h + GAP, out = [], r, c;
     var R = Math.floor((H + GAP) / step), C = Math.floor((W + GAP) / step);
+    // A picture is never turned on its side: a sideways moon is a different phase.
+    if (upright) return [{ first: 'rows', rows: R, rowLen: W, cols: 0, colLen: 0 }];
     for (r = 0; r <= R; r++) {
       out.push({ first: 'rows', rows: r, rowLen: W, cols: C, colLen: H - r * step });
     }
@@ -183,10 +227,16 @@
     return false;
   }
 
+  // Every sticker carries which copy of the set it is (c) as well as its place
+  // in the set (i), so stickers of one width go on in the set's order a set at
+  // a time: a moon sheet reads as the cycle, a sheet of dates as 1 to 31.
+  function copy(it, c) { return { word: it.word, i: it.i, w: it.w, c: c }; }
+  function inOrder(a, b) { return a.c - b.c || a.i - b.i; }
+
   function whole(sp, items, n) {
     var bs = bins(sp), all = [], i;
-    for (i = 0; i < n; i++) all = all.concat(items);
-    all.sort(function (a, b) { return b.w - a.w || a.i - b.i; });
+    for (i = 0; i < n; i++) items.forEach(function (it) { all.push(copy(it, i)); });
+    all.sort(function (a, b) { return b.w - a.w || inOrder(a, b); });
     for (i = 0; i < all.length; i++) if (!put(bs, all[i])) return null;
     return bs;
   }
@@ -197,16 +247,18 @@
   // their order, putting in whatever fits. The arrangement that wins has the
   // most whole sets, then the most different names, then the most stickers,
   // then the fewest on their side.
-  function pack(items, h) {
+  function pack(items, h, upright) {
     var best = null;
-    splits(h).forEach(function (sp) {
+    splits(h, upright).forEach(function (sp) {
       var k = 0, bs = bins(sp), next, added = 0, misses = 0, i = 0, seen = {};
       while (k < 500 && (next = whole(sp, items, k + 1))) { bs = next; k++; }
       items.slice().sort(function (a, b) { return b.w - a.w || a.i - b.i; }).forEach(function (it) {
-        if (put(bs, it)) added++;
+        if (put(bs, copy(it, k))) added++;
       });
       while (misses < items.length && added < 2000) {
-        if (put(bs, items[i % items.length])) { added++; misses = 0; } else misses++;
+        if (put(bs, copy(items[i % items.length], k + 1 + Math.floor(i / items.length)))) {
+          added++; misses = 0;
+        } else misses++;
         i++;
       }
       bs.forEach(function (b) { b.items.forEach(function (it) { seen[it.word] = 1; }); });
@@ -220,21 +272,13 @@
     return { placed: place(best, h), whole: best.k };
   }
 
-  // Bands of the same length can trade places, so they are dealt out in
-  // rounds by the first name on each, Monday's band, Tuesday's, and so on,
-  // then round again: the sheet reads a week at a time rather than in the
-  // order the packing happened to fill it.
+  // Bands of the same length can trade places, so they go down the sheet in
+  // the order of the first sticker on each, a copy of the set at a time: the
+  // sheet reads a week at a time rather than in the order the packing
+  // happened to fill it.
   function rounds(bands) {
-    var by = {}, out = [], keys;
-    bands.forEach(function (b) {
-      var k = Math.min.apply(null, b.items.map(function (it) { return it.i; }));
-      (by[k] = by[k] || []).push(b);
-    });
-    keys = Object.keys(by).map(Number).sort(function (a, b) { return a - b; });
-    while (out.length < bands.length) {
-      keys.forEach(function (k) { if (by[k].length) out.push(by[k].shift()); });
-    }
-    return out;
+    function first(b) { return b.items.slice().sort(inOrder)[0]; }
+    return bands.slice().sort(function (a, b) { return inOrder(first(a), first(b)); });
   }
 
   // Lay each band's stickers out in the names' order, centred along the band,
@@ -245,7 +289,7 @@
     var cols = rounds(best.bins.filter(function (b) { return b.rot && b.items.length; }));
     function lay(b, x, y, len) {
       var at = (len - b.used) / 2;
-      b.items.slice().sort(function (a, c) { return a.i - c.i; }).forEach(function (it) {
+      b.items.slice().sort(inOrder).forEach(function (it) {
         out.push(b.rot ? { word: it.word, x: x, y: y + at, w: it.w, rot: true }
                        : { word: it.word, x: x + at, y: y, w: it.w, rot: false });
         at += it.w + GAP;
@@ -274,36 +318,55 @@
 
   // ── The sheets ─────────────────────────────────────────────────────────────
 
-  function setsFor(kind) {
-    if (kind === 'week') return [{ title: 'The week', file: 'week', words: DAYS, unit: 'day', own: 'week' }];
-    if (kind === 'year') return [{ title: 'The year', file: 'year', words: MONTHS, unit: 'month', own: 'year' }];
-    return (kind === 'days' ? DAYS : MONTHS).map(function (w) {
-      return { title: w, file: w.toLowerCase(), words: [w] };
-    });
+  // A sheet is built from its button: which list goes on it (data-list), and
+  // whether it is one sheet of the whole set or a sheet for each name
+  // (data-mode). Everything a sheet says about itself comes off the button too,
+  // which tools/make-open-notebook.py writes out of data/open-notebook.json.
+  function namesOf(lst) {
+    return LISTS[lst] || (PICS[lst] || []).map(function (pic) { return pic.key; });
+  }
+  function nameOf(word) { return PIC[word] ? PIC[word].name : word; }
+
+  function setsFor(b) {
+    var lst = b.getAttribute('data-list'), words = namesOf(lst);
+    var shape = {
+      pics: !!PICS[lst], upright: b.hasAttribute('data-upright'),
+      round: b.hasAttribute('data-round') ? parseFloat(b.getAttribute('data-round')) : ROUND
+    };
+    function make(o) { for (var k in shape) o[k] = shape[k]; return o; }
+    if (b.getAttribute('data-mode') === 'each') {
+      return words.map(function (w) {
+        return make({ title: nameOf(w), file: w.toLowerCase(), words: [w], which: 'the ' + nameOf(w) + ' sheet' });
+      });
+    }
+    return [make({
+      title: b.getAttribute('data-title'), file: b.getAttribute('data-stk-sheet'), words: words,
+      unit: b.getAttribute('data-unit'), whole: b.getAttribute('data-whole'), which: b.getAttribute('data-which')
+    })];
   }
 
+  // A picture's label is square, a word's as long as the word.
   function items(set, g) {
-    return set.words.map(function (w, i) { return { word: w, i: i, w: g.widths[w] }; });
+    return set.words.map(function (w, i) { return { word: w, i: i, w: set.pics ? g.h : g.widths[w] }; });
   }
 
-  // When a whole week or year will not go on one sheet at this size, the
-  // biggest size that does take one is named under it, smaller ones first
-  // tried from the size just below.
+  // When a whole set will not go on one sheet at this size, the biggest size
+  // that does take one is named under it, tried from the size just below.
   function fitsAt(set, c) {
     var m = measure(c), below = sizeButtons.filter(function (b) {
       return parseFloat(b.getAttribute('data-mm')) < c.mm;
     }).reverse();
     for (var i = 0; i < below.length; i++) {
       var g = geometry(m, parseFloat(below[i].getAttribute('data-mm')));
-      if (pack(items(set, g), g.h).whole) return below[i].firstChild.textContent.trim();
+      if (pack(items(set, g), g.h, set.upright).whole) return below[i].firstChild.textContent.trim();
     }
     return null;
   }
 
   function plan(c) {
     var g = geometry(measure(c), c.mm);
-    return setsFor(c.kind).map(function (set) {
-      var res = pack(items(set, g), g.h), counts = {}, turned = 0;
+    return setsFor(c.sheet).map(function (set) {
+      var res = pack(items(set, g), g.h, set.upright), counts = {}, turned = 0;
       res.placed.forEach(function (p) { counts[p.word] = (counts[p.word] || 0) + 1; if (p.rot) turned++; });
       var sheet = { set: set, c: c, g: g, placed: res.placed, counts: counts, turned: turned };
       if (set.words.length > 1 && !res.whole) sheet.fits = fitsAt(set, c);
@@ -315,18 +378,33 @@
   function and(words) {
     return words.length < 2 ? words.join('') : words.slice(0, -1).join(', ') + ' and ' + words[words.length - 1];
   }
+  // Names out loud: a picture by its name, and a run of numbers as a run, so
+  // a sheet of dates says 1 to 20 rather than reading out twenty numbers.
+  function spoken(words) {
+    var out = [], run = null;
+    words.forEach(function (w) {
+      var v = /^\d+$/.test(w) ? parseInt(w, 10) : null;
+      if (v !== null && run && v === run[1] + 1) { run[1] = v; return; }
+      if (run) out.push(run[0] === run[1] ? String(run[0]) : run[0] + ' to ' + run[1]);
+      run = v === null ? null : [v, v];
+      if (v === null) out.push(PIC[w] ? nameOf(w).toLowerCase() : nameOf(w));
+    });
+    if (run) out.push(run[0] === run[1] ? String(run[0]) : run[0] + ' to ' + run[1]);
+    return out;
+  }
 
   function describe(sheet) {
     var n = sheet.placed.length, set = sheet.set, parts;
-    if (!n) return 'nothing fits at this size in this face; a smaller size will.';
+    var here = set.pics ? 'at this size' : 'at this size in this face';
+    if (!n) return 'nothing fits ' + here + '; a smaller size will.';
     parts = [n + (n === 1 ? ' sticker' : ' stickers')];
     if (set.words.length > 1) {
       var by = {};
       set.words.forEach(function (w) { var k = sheet.counts[w] || 0; (by[k] = by[k] || []).push(w); });
       Object.keys(by).map(Number).sort(function (a, b) { return b - a; }).forEach(function (k) {
-        var ws = by[k];
-        if (!k) parts.push(and(ws) + (ws.length === 1 ? ' does' : ' do') + ' not fit at this size in this face');
-        else if (ws.length === set.words.length) parts.push('every ' + set.unit + ' ' + times(k));
+        var ws = spoken(by[k]), many = ws.length > 1 || / to /.test(ws[0]);
+        if (!k) parts.push(and(ws) + (many ? ' do' : ' does') + ' not fit ' + here);
+        else if (by[k].length === set.words.length) parts.push('every ' + set.unit + ' ' + times(k));
         else parts.push(and(ws) + ' ' + times(k));
       });
     }
@@ -335,8 +413,9 @@
                                     : (NUMBER[sheet.turned] || sheet.turned) + ' of them on their side, to fit more');
     }
     if (set.words.length > 1 && 'fits' in sheet) {
-      parts.push(sheet.fits ? 'a whole ' + set.own + ' goes on one sheet at ' + sheet.fits
-                            : 'a whole ' + set.own + ' does not go on one sheet at any size in this face');
+      parts.push(sheet.fits ? 'a whole ' + set.whole + ' goes on one sheet at ' + sheet.fits
+                            : 'a whole ' + set.whole + ' does not go on one sheet at any size' +
+                              (set.pics ? '' : ' in this face'));
     }
     return parts.join('; ') + '.';
   }
@@ -351,6 +430,32 @@
     ctx.arcTo(x, y + h, x, y, r);
     ctx.arcTo(x, y, x + w, y, r);
     ctx.closePath();
+  }
+
+  // A picture on its square label of side h pixels: its 100 x 100 drawing
+  // scaled into the label less its margin, each path inked as it says.
+  function picture(ctx, pic, h, paper, word) {
+    var m = h * MARGIN, k = (h - 2 * m) / 100;
+    ctx.save();
+    ctx.translate(m, m);
+    ctx.scale(k, k);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    pic.parts.forEach(function (part) {
+      if (part.ink === 'line') {
+        ctx.lineWidth = LINE; ctx.strokeStyle = word; ctx.stroke(part.path);
+      } else if (part.ink === 'solid') {
+        ctx.fillStyle = word; ctx.fill(part.path);
+      } else if (part.ink === 'paper') {
+        ctx.fillStyle = paper; ctx.fill(part.path);
+      } else if (part.ink === 'outline') {
+        // Twice as thick, then filled with paper: the outside half of the
+        // stroke is left, the one edge round however many shapes it is.
+        ctx.lineWidth = 2 * LINE; ctx.strokeStyle = word; ctx.stroke(part.path);
+        ctx.fillStyle = paper; ctx.fill(part.path);
+      }
+    });
+    ctx.restore();
   }
 
   // The preview is the sheet as it comes out of the cutter: white paper, the
@@ -372,7 +477,7 @@
         ctx.translate((AREA.x + p.x) * s, (AREA.y + p.y) * s);
       }
       ctx.beginPath();
-      rounded(ctx, 0, 0, w, h, g.h * ROUND * s);
+      rounded(ctx, 0, 0, w, h, g.h * sheet.set.round * s);
       ctx.fillStyle = paper;
       ctx.fill();
       if (preview) {
@@ -380,11 +485,18 @@
         ctx.strokeStyle = cut;
         ctx.stroke();
       }
-      ctx.fillStyle = word;
-      ctx.font = spec(sheet.c, REF * g.k * s);
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'alphabetic';
-      ctx.fillText(p.word, (g.pad + g.m.w[p.word].l * g.k) * s, (g.vpad + g.m.asc * g.k) * s);
+      if (sheet.set.pics) {
+        picture(ctx, PIC[p.word], h, paper, word);
+      } else {
+        // Centred along the label, which is only ever wider than the word
+        // plus its padding when it is a number sharing the widest number's width.
+        var m = g.m.w[p.word], ink = (m.l + m.r) * g.k;
+        ctx.fillStyle = word;
+        ctx.font = spec(sheet.c, REF * g.k * s);
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'alphabetic';
+        ctx.fillText(p.word, ((p.w - ink) / 2 + m.l * g.k) * s, (g.vpad + g.m.asc * g.k) * s);
+      }
       ctx.restore();
     });
   }
@@ -451,8 +563,10 @@
 
   function inches(mm) { return +(mm / 25.4).toFixed(3); }
 
+  // A picture is in no face, so its file names none.
   function fileName(sheet) {
-    return 'notebook-stickers-' + sheet.set.file + '-' + sheet.c.slug + '-' + sheet.c.size + '.png';
+    return 'notebook-stickers-' + sheet.set.file + (sheet.set.pics ? '' : '-' + sheet.c.slug) + '-' +
+      sheet.c.size + '.png';
   }
 
   // A sheet's file is drawn once and kept for as long as the sheet is on the
@@ -472,11 +586,15 @@
         if (!blob) { reject(new Error('no blob')); return; }
         blob.arrayBuffer().then(function (buf) {
           var what = (sheet.set.unit ? sheet.set.title : sheet.set.title + ' stickers');
+          var paper = inches(PAPER[0]) + ' x ' + inches(PAPER[1]) + ' inch sticker sheet at ' + DPI +
+            ' dpi, for the PixCut S1.';
           var png = stamp(new Uint8Array(buf), [
-            ['Title', what + ', ' + c.sizeName + ', ' + c.family],
-            ['Description', 'Set in ' + c.family + ', by ' + c.opt.getAttribute('data-by') + ', under the ' +
-              c.opt.getAttribute('data-licence') + '. ' + inches(PAPER[0]) + ' x ' + inches(PAPER[1]) +
-              ' inch sticker sheet at ' + DPI + ' dpi, for the PixCut S1.'],
+            ['Title', what + ', ' + c.sizeName + (sheet.set.pics ? '' : ', ' + c.family)],
+            ['Description', (sheet.set.pics
+              ? 'Drawn for The Open Notebook\u2019s sticker drawer, under the Creative Commons ' +
+                'Attribution-ShareAlike 4.0 licence. '
+              : 'Set in ' + c.family + ', by ' + c.opt.getAttribute('data-by') + ', under the ' +
+                c.opt.getAttribute('data-licence') + '. ') + paper],
             ['Source', canonical ? canonical.href : location.href]
           ]);
           resolve(new File([png], name, { type: 'image/png' }));
@@ -573,6 +691,15 @@
 
   function showCredit(c) {
     credit.textContent = '';
+    if (PICS[c.sheet.getAttribute('data-list')]) {
+      var by = el('a', '', 'CC BY-SA 4.0');
+      by.href = 'https://creativecommons.org/licenses/by-sa/4.0/';
+      credit.appendChild(document.createTextNode('These pictures are drawn here, for this drawer, and are this ' +
+        'site\u2019s, under '));
+      credit.appendChild(by);
+      credit.appendChild(document.createTextNode('. They are not set in a face, so the face makes no difference to them.'));
+      return;
+    }
     var a = el('a', '', c.opt.getAttribute('data-licence'));
     a.href = c.opt.getAttribute('data-licence-url');
     credit.appendChild(document.createTextNode('Set in '));
@@ -596,7 +723,7 @@
       var cap = el('p', 'onb-stk__cap');
       cap.appendChild(el('b', '', sheet.set.title));
       cap.appendChild(document.createTextNode(': ' + describe(sheet)));
-      var which = 'the ' + (sheet.set.own ? sheet.set.own + '’s' : sheet.set.title) + ' sheet';
+      var which = sheet.set.which;
       var acts = el('div', 'onb-stk__acts'), btn = button('onb-stk__save', 'Save', which);
       btn.disabled = !sheet.placed.length;
       btn.addEventListener('click', function () {
@@ -645,10 +772,10 @@
       build();
       warm(mine);
       if (announce) {
-        var what = { week: 'the week on one sheet', days: 'a day to a sheet, ' + NUMBER[DAYS.length] + ' sheets',
-                     year: 'the year on one sheet', months: 'a month to a sheet, ' + NUMBER[MONTHS.length] + ' sheets' };
-        say('Drawn in ' + c.family + ' at ' + c.sizeName + ': ' + what[c.kind] +
-            '. What is on each sheet is written under it.');
+        var what = c.sheet.firstChild.textContent.trim() +
+          (sheets.length > 1 ? ', ' + (NUMBER[sheets.length] || sheets.length) + ' sheets' : '');
+        say('Drawn ' + (PICS[c.sheet.getAttribute('data-list')] ? '' : 'in ' + c.family + ' ') + 'at ' +
+            c.sizeName + ': ' + what + '. What is on each sheet is written under it.');
       }
     });
   }

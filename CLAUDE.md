@@ -2848,7 +2848,14 @@ is written twice, into the sentences and onto the drawer's data- attributes the 
 `check-faces.py` reads it in both directions, like the Mopery's and the Foundry's. **Liene's figures were
 read, not remembered** (4 × 7 in paper, 100 × 170 mm printable, 300 dpi, the app phone-only, a PNG with no
 background cut round directly), and a sheet is a transparent PNG the paper's size with a pHYs chunk and the
-face's credit in iTXt. **Nobody has run a sheet through the machine yet**; DECISIONS.md says what is open.
+face's credit in iTXt. **Ryan printed sheets the same day and they worked**, so the gap and inset are right
+for the machine as it is. **The pictures (the weather, the moon) are drawn in the tool**, carried in the page
+as a hidden SVG and turned into Path2D by the script, and the tool refuses a picture with no drawing and a
+drawing with no picture; they are never turned on their side, because a sideways moon is a different phase,
+and the moon is the northern hemisphere's. **The word's size is worked out across every word, number and
+year any sheet carries**, which is what makes one face and size one sticker whichever sheet it comes off; a
+new list with a deeper or taller mark than the rest shrinks every word in that face, so say so when adding
+one.
 A whole year rarely fits at Large, and the sheet says which size it fits at: that is geometry, not a packing
 bug, and the fix is never to shrink the stickers on one sheet, because one face and size is one sticker
 whichever sheet it comes off. **`web-share` is `(self)` in `_headers` for this drawer alone** (Ryan's call,

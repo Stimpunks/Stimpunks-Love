@@ -9,17 +9,24 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Mon, 12 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>More sticker sheets</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-12-sticker-sheets</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-12-sticker-sheets</guid>
+      <pubDate>Mon, 12 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The sticker drawer has more sheets: the days of the month, 1 to 31; the weeks of the year, 1 to 53; the words Week, Day, Month, Quarter and Year; this year’s number and next year’s, read off your own clock so they turn over on 1 January by themselves; the weather; and the moon. The weather and the moon are drawn here: cloudy, partly sunny, rainy, stormy, snowy, windy, sunny, a tornado and flooding, and the moon’s eight phases on round stickers, as they look from the northern hemisphere. Pictures are never turned on their side to fit more, because a sideways moon is a different phase. Every number is the same width, so a sheet of them reads as a grid, and a sheet of a set reads a set at a time: a moon sheet goes round the cycle, and a sheet of dates runs 1 to 31 and starts again. The first sheets went through the printer and cut cleanly, so the spacing stays as it is. One thing changed for sheets already printed: a word’s size is now worked out across every word, number and year the drawer can print, so a Monday and a 12 in one face match. In most faces nothing moved; in a few display faces a day or month comes out a little smaller than it did.</description>
+    </item>
+    <item>
       <title>Sharing a sticker sheet</title>
       <link>https://stimpunks.world/changelog.html#2026-10-12-sticker-share</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-12-sticker-share</guid>
-      <pubDate>Mon, 12 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Mon, 12 Oct 2026 11:59:00 GMT</pubDate>
       <description>The sticker drawer can share a sheet now, wherever your browser can share a file. Share hands it to your device’s own share sheet, where Save Image puts it straight into a phone’s photos, which is where the Liene Photo app picks from. Save still puts it in your downloads. The site’s security headers were loosened by one word to do it: the share sheet was switched off for every page, and is now allowed to this site’s own pages, with the sticker drawer the only script that may open it. It sends nothing to us, and opens only when you press Share.</description>
     </item>
     <item>
       <title>The Open Notebook’s sticker drawer</title>
       <link>https://stimpunks.world/changelog.html#2026-10-12-sticker-drawer</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-12-sticker-drawer</guid>
-      <pubDate>Mon, 12 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Mon, 12 Oct 2026 11:58:00 GMT</pubDate>
       <description>The Open Notebook has a sticker drawer: the days of the week and the months of the year, by name, on sheets for the PixCut S1, Liene’s photo sticker printer and cutter. Any typeface on the street, in three sizes, and the week or the year on one sheet, or a day or a month to a sheet. As many stickers to a sheet as will go. The week’s and the year’s sheets take as many whole weeks or years as fit, then whatever more will go in the gaps, turning some on their side where that fits more, and every sheet says underneath it what is on it. Where a whole year will not fit at Large, the sheet says which size it fits at. A sheet is a PNG the size of the paper at 300 dpi, clear everywhere but the stickers, so the Liene Photo app can cut round each one. It is drawn in your browser and saved to your own device, and carries the face’s designer and licence inside it. A rule of the room was narrowed for it. The Open Notebook refused any list to choose from and any script of its own, so that there would be nowhere to write. The drawer’s face picker is one list, and it has one script; neither takes a word, keeps anything or sends anything, and the room still has nowhere to write.</description>
     </item>
     <item>
