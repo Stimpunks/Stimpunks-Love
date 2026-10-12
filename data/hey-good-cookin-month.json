@@ -146,16 +146,6 @@
  ],
  "log": [
   {
-   "id": "TzlcPKiV6QA",
-   "source": "americas-test-kitchen",
-   "form": "long",
-   "title": "For the Most Tender Meatballs, Start with a Saltine Panade | America's Test Kitchen",
-   "published": "2026-09-11T16:00:00Z",
-   "state": "screen",
-   "runs": 602,
-   "channel": "America's Test Kitchen"
-  },
-  {
    "id": "lM9uXnd0_Sw",
    "source": "americas-test-kitchen",
    "form": "long",
@@ -546,6 +536,36 @@
    "channel": "America's Test Kitchen"
   },
   {
+   "id": "JB8E6XbQioc",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "For Perfect White Rice, Let it Rest",
+   "published": "2026-10-11T11:59:47Z",
+   "state": "screen",
+   "runs": 58,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "klAx54R7Odk",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "Does Rinsed Rice Water Need to Run Clear?",
+   "published": "2026-10-11T14:59:48Z",
+   "state": "screen",
+   "runs": 81,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "opxTubPTgWs",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "How to Make a Perfect Bowl of White Rice Without a Recipe",
+   "published": "2026-10-11T19:59:55Z",
+   "state": "screen",
+   "runs": 59,
+   "channel": "America's Test Kitchen"
+  },
+  {
    "id": "urN5Ewbl7FI",
    "source": "alton-brown",
    "form": "long",
@@ -653,16 +673,6 @@
    "published": "2026-10-07T16:00:15Z",
    "state": "screen",
    "runs": 619,
-   "channel": "Epicurious"
-  },
-  {
-   "id": "tXBVZcrmJFU",
-   "source": "epicurious",
-   "form": "short",
-   "title": "How to Soften Butter in 10 Minutes",
-   "published": "2026-09-11T16:00:08Z",
-   "state": "screen",
-   "runs": 41,
    "channel": "Epicurious"
   },
   {
@@ -1056,16 +1066,6 @@
    "channel": "Andy Cooks"
   },
   {
-   "id": "88t1ngOkit4",
-   "source": "andy-cooks",
-   "form": "short",
-   "title": "Why choose when you can have both! 🥩",
-   "published": "2026-09-12T11:00:18Z",
-   "state": "screen",
-   "runs": 54,
-   "channel": "Andy Cooks"
-  },
-  {
    "id": "lz-FkyXl5SE",
    "source": "andy-cooks",
    "form": "short",
@@ -1236,6 +1236,16 @@
    "channel": "Andy Cooks"
   },
   {
+   "id": "uzUoYgoCkI0",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "What’s the secret to better cooking? 🧑‍🍳",
+   "published": "2026-10-12T10:00:17Z",
+   "state": "screen",
+   "runs": 61,
+   "channel": "Andy Cooks"
+  },
+  {
    "id": "U6-SKLv5QLM",
    "source": "back-of-house",
    "form": "long",
@@ -1306,13 +1316,13 @@
    "channel": "The Pasta Queen"
   },
   {
-   "id": "H7PLDDgdLqk",
+   "id": "MQ2FXzwJD-M",
    "source": "the-pasta-queen",
-   "form": "short",
-   "title": "ITALIAN Appetizer🇮🇹❤️",
-   "published": "2026-09-11T20:04:05Z",
+   "form": "long",
+   "title": "20-Minute Spaghetti Bolognese",
+   "published": "2026-10-11T17:00:10Z",
    "state": "screen",
-   "runs": 67,
+   "runs": 759,
    "channel": "The Pasta Queen"
   },
   {
@@ -1716,6 +1726,26 @@
    "channel": "Japanese Food Noodles"
   },
   {
+   "id": "D5r4LapwbNQ",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "How a 22-Year-Old College Student Cooks Lunch for 50 at a Japanese BBQ Diner",
+   "published": "2026-10-11T22:00:19Z",
+   "state": "screen",
+   "runs": 1662,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "OigG28vCqzc",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "How an 80-Year-Old Asakusa Shop Turns Sashimi-Grade Fish into Premium Tempura Rice Bowls",
+   "published": "2026-10-12T00:00:06Z",
+   "state": "screen",
+   "runs": 1728,
+   "channel": "Japanese Food Noodles"
+  },
+  {
    "id": "gvVAwc7xozg",
    "source": "japanese-cooking-101",
    "form": "long",
@@ -1833,16 +1863,6 @@
    "published": "2026-10-09T09:50:27Z",
    "state": "screen",
    "runs": 1432,
-   "channel": "Japanese Food Craftsman"
-  },
-  {
-   "id": "_iroEaXh5bI",
-   "source": "japanese-food-craftsman",
-   "form": "short",
-   "title": "1本の包丁作りに2年!?日本最強職人集団",
-   "published": "2026-09-12T09:00:05Z",
-   "state": "screen",
-   "runs": 48,
    "channel": "Japanese Food Craftsman"
   },
   {
@@ -2126,16 +2146,6 @@
    "channel": "Fallow"
   },
   {
-   "id": "HNpuBxpc5Cg",
-   "source": "fallow",
-   "form": "short",
-   "title": "#AD The One Thing Everyone Needs in the Kitchen",
-   "published": "2026-09-11T14:40:23Z",
-   "state": "screen",
-   "runs": 28,
-   "channel": "Fallow"
-  },
-  {
    "id": "FmGWLPlvSfA",
    "source": "fallow",
    "form": "short",
@@ -2326,14 +2336,14 @@
    "channel": "Fallow"
   },
   {
-   "id": "VvHA7rZu5j4",
-   "source": "guga",
-   "form": "long",
-   "title": "I Tried a Restaurant Built for Someone Who’ll NEVER Eat There!",
-   "published": "2026-09-11T16:15:11Z",
+   "id": "z5ogfh1IAYQ",
+   "source": "fallow",
+   "form": "short",
+   "title": "Fillet Salmon Like a Chef",
+   "published": "2026-10-11T21:37:19Z",
    "state": "screen",
-   "runs": 1015,
-   "channel": "Guga"
+   "runs": 32,
+   "channel": "Fallow"
   },
   {
    "id": "PgFjH1Qf12w",
@@ -2396,13 +2406,13 @@
    "channel": "mrnigelng"
   },
   {
-   "id": "WIKowMK_-fI",
+   "id": "Ot3fvPPWSGM",
    "source": "mrnigelng",
-   "form": "short",
-   "title": "Chili Crisp is Boring",
-   "published": "2026-09-12T01:50:25Z",
+   "form": "long",
+   "title": "Uncle Roger Review Nick DiGiovanni Korean Fried Chicken",
+   "published": "2026-10-11T14:00:39Z",
    "state": "screen",
-   "runs": 71,
+   "runs": 1108,
    "channel": "mrnigelng"
   },
   {
@@ -2636,16 +2646,6 @@
    "channel": "Joshua Weissman"
   },
   {
-   "id": "QGmyzlbHV9I",
-   "source": "strictly-dumpling",
-   "form": "long",
-   "title": "Texas's BEST Brunch Buffet! All You Can Eat TEX-MEX Brunch Buffet in Dallas",
-   "published": "2026-09-11T20:32:00Z",
-   "state": "screen",
-   "runs": 1506,
-   "channel": "Strictly Dumpling"
-  },
-  {
    "id": "ubMTbH9q4oU",
    "source": "strictly-dumpling",
    "form": "long",
@@ -2706,6 +2706,16 @@
    "channel": "Strictly Dumpling"
   },
   {
+   "id": "48w_vN6YF-w",
+   "source": "strictly-dumpling",
+   "form": "long",
+   "title": "ALL YOU CAN EAT Brazilian + Italian! My Top 5 FAVORITE Texas Buffets 🍖🍝",
+   "published": "2026-10-12T00:00:08Z",
+   "state": "screen",
+   "runs": 3176,
+   "channel": "Strictly Dumpling"
+  },
+  {
    "id": "KSkqVdz1Z2g",
    "source": "strictly-dumpling",
    "form": "short",
@@ -2731,13 +2741,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2745,13 +2755,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2759,13 +2769,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2773,13 +2783,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2787,13 +2797,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2801,13 +2811,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2815,13 +2825,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2829,13 +2839,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2843,13 +2853,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2857,13 +2867,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2871,13 +2881,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2885,13 +2895,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2899,13 +2909,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2913,13 +2923,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2927,13 +2937,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2941,13 +2951,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2955,13 +2965,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2969,13 +2979,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2983,13 +2993,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -2997,13 +3007,13 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -3011,13 +3021,13 @@
    "long": [
     [
      "2026-06-24T15:00:35Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2025-09-18T21:45:00Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -3025,13 +3035,13 @@
    "long": [
     [
      "2026-03-22T14:30:31Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2026-04-17T14:30:18Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   },
@@ -3039,16 +3049,16 @@
    "long": [
     [
      "2026-08-08T17:03:29Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ],
    "short": [
     [
      "2025-10-15T20:26:40Z",
-     "2026-10-11T11:27:29Z"
+     "2026-10-12T11:22:30Z"
     ]
    ]
   }
  },
- "set": "2026-10-11T11:27Z"
+ "set": "2026-10-12T11:22Z"
 }
