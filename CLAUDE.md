@@ -3044,6 +3044,26 @@ neighbours through a gate. **No sentence counts them**: a fifth lot is a gate on
 `make-sitemap.py`'s ORDER, and nothing else should need to change. Each is its own world and the collisions are
 in its section; the three porches are drawn three ways on purpose, because the obvious edit is one porch.
 
+**PAST THE CAMPGROUNDS' WOOD THERE IS LAND, AND IT IS THE FOURTH AREA: NATURE'S CONTRIBUTION (§104).** Ryan's
+brief, 2026-10-11, after Brock, Roehrdanz, Beringer et al., "Balancing land use for conservation, agriculture, and
+renewable energy" (Nature Communications 17, 3623, 2026), which is **CC BY 4.0** and quoted with its credit and the
+licence's link under every quotation. Its places complement and sustain each other and the street, and
+`data/natures-contribution.json` says what each one gives and where it goes; `make-natures-contribution.py` refuses
+an offering that goes nowhere. **The wood stays unmapped**: the campgrounds has always said so, and now says where the
+one track through it comes out; the map draws a pencil line saying "the wood, not drawn" and nothing else. **The guild's
+class III widened rather than growing a IV**, for the reason III was never split: a class that counted how far past an
+edge you went would rank the edges. **Some of the land is left to wildlife outright**, and the page says so out loud,
+because the paper says biodiversity can fare poorly on shared ground; the friendly edit is "share everything, it is
+more efficient", and the paper this land is built on says otherwise. **Cannabis leaves only through licensed
+dispensaries and never through the honesty box**, which nobody watches and so cannot ask an age, and **nothing leaves
+the sanctuary but its manure**: both are refusals in the tool. The light is an afternoon under broken cloud, the
+shadows on the fields are the clouds', and you stand in one at the stile; the collisions are in §104. The fingerpost's
+arms are read by `make-map.py` like the pitches, state and all: an arm with nothing behind it yet is `--raising`, a
+solid sign with no link and words never dimmed. **`tools/natures.py` is the area's shared plumbing and holds no colour,
+class or drawing**: the marker swap, the anchored sweep, and the two rack shapes (picked videos, and a channel list's
+month refilled by `tools/pull-nature-month.py`), each written with the room's own prefix and dressed in its own
+section, because rack.js finds its parts by data- attributes and never by class.
+
 **THE RUN (§96) IS PAINTED IN A DOG'S COLOURS, AND THE TOOL READS EVERY ONE.** Dogs have two kinds of cone (Neitz,
 Geist and Jacobs, 1989), so every `--run-` colour must be a blue, a yellow or a grey, and `make-the-run.py` refuses
 any other hue and any literal colour in §96. **The shadows are the grass's own yellow, never blue**: blue shadows
@@ -3885,18 +3905,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §105 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §113 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§105 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§113 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §105 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §113 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

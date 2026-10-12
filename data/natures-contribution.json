@@ -1,0 +1,329 @@
+{
+ "_source": "Ryan Boren's brief, 2026-10-11: past the campgrounds there is an area reserved for balancing land use for conservation, agriculture and renewable energy, after the Nature Communications paper of that name, whose PDF he left in the Knowledge System's inbox. Its places all complement and sustain each other and the street. Read by tools/make-natures-contribution.py, which writes the fingerpost, the view, the table of what goes where, the quotations and the area's credits from this file and refuses a place, an offering or a quotation that breaks the rules written at the top of that tool.",
+ "_paper": "Read off the PDF itself (s41467-026-69952-6.pdf), checked against the page images on 2026-10-11. Its licence is printed on page 13: Creative Commons Attribution 4.0 International, so it may be quoted with credit and a link to the licence. Every quotation below names its page and its section, and is character for character, superscript reference numbers included.",
+ "paper": {
+  "authors": "Cameryn Brock, Patrick R. Roehrdanz, Tim Beringer and seventeen others, the last of them Lee Hannah",
+  "short": "Brock, Roehrdanz, Beringer et al.",
+  "title": "Balancing land use for conservation, agriculture, and renewable energy",
+  "journal": "Nature Communications",
+  "volume": "17",
+  "article": "3623",
+  "year": 2026,
+  "published": "2026-03-07",
+  "doi": "10.1038/s41467-026-69952-6",
+  "url": "https://www.nature.com/articles/s41467-026-69952-6",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/"
+ },
+ "quote_cap": 45,
+ "_quote_cap": "Words per quotation. Covenstead's reason rather than the Zibaldone's: a handful of named passages the page is about, not a quote bank. The longest one here runs to thirty-five words. Raise it on purpose, with the reason written down, never to fit one passage.",
+ "quotes": [
+  {
+   "key": "without",
+   "said": "Our analysis suggests that if increased demand for food and energy is met without co-locating sectors, it is not possible to meet conservation and development goals.",
+   "page": 7,
+   "section": "Discussion"
+  },
+  {
+   "key": "colocate",
+   "said": "For example, solar and wind power can be co-located with each other (Deshmukh et al.⁷⁴) and with agriculture (Maguire et al.⁷⁵, Ravi et al.⁷⁶, and Miskin et al.⁷⁷), with the opportunity to improve yields (Hernandez et al.⁷⁸).",
+   "page": 7,
+   "section": "Discussion"
+  },
+  {
+   "key": "fare",
+   "said": "The limited literature that is available on biodiversity outcomes in shared-use landscapes suggests that biodiversity can fare poorly (Rehling et al.⁸³ and Phalan et al.⁸⁴).",
+   "page": 7,
+   "section": "Discussion"
+  },
+  {
+   "key": "coordinate",
+   "said": "Our findings underscore the need to conserve critical areas for nature, reduce land demand for food and energy, and intentionally coordinate land use across sectors.",
+   "page": 1,
+   "section": "Abstract"
+  },
+  {
+   "key": "local",
+   "said": "Given these and other constraints when using global data for analyses, we do not recommend using the results from our global analysis directly for local land-use planning.",
+   "page": 8,
+   "section": "Discussion"
+  }
+ ],
+ "_places": "One entry per place on this land, in the order the fingerpost's arms run from the top. `state` is open once the place's page is built and raising until then: a raising arm is a solid sign with no link, the campgrounds' rule, and its words are never dimmed. `land` is whether the place shares its ground with another use or leaves it to wildlife; the area says out loud that it does both, because the paper is careful about what sharing can do. `offers` is what the place gives, in the brief's words, and `to` names where each thing goes: a place on this land by its key, `dairy` for the café at the farm, `honesty` for the honesty box on the street, `the-street` for the street itself, `everyone` for whoever comes, or `the-land` for the ground itself. The tool refuses a `to` it cannot find, and a place whose offers leave out a word of the brief's list.",
+ "places": [
+  {
+   "key": "sanctuary",
+   "page": "all-needs-met.html",
+   "name": "All Needs Met Wildlife Sanctuary",
+   "bearing": "West",
+   "state": "raising",
+   "land": "left to wildlife",
+   "what": "A wildlife preserve for whatever lives here already, and a sanctuary for animals who are disabled or were abandoned. At night the keepers go round with a viewer that sees warmth instead of a torch, so nobody is woken.",
+   "brief_offers": [
+    "connection",
+    "conservation",
+    "education",
+    "manure"
+   ],
+   "offers": [
+    {
+     "what": "connection",
+     "to": [
+      "everyone"
+     ]
+    },
+    {
+     "what": "conservation",
+     "to": [
+      "the-land"
+     ]
+    },
+    {
+     "what": "education",
+     "to": [
+      "everyone"
+     ]
+    },
+    {
+     "what": "manure",
+     "to": [
+      "gentle-help",
+      "wide-spread-chaos"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "gentle-help",
+   "page": "gentle-help.html",
+   "name": "Gentle Help Cannabis Farm",
+   "bearing": "North-west",
+   "state": "raising",
+   "land": "shared with companion plants",
+   "what": "Cannabis grown in hoop houses among the plants that grow well beside it, and a farm that would rather teach you how to be careful than sell you anything. Harm reduction, from our own pages.",
+   "brief_offers": [
+    "cannabis bud",
+    "rosins",
+    "resins",
+    "cordage",
+    "cloth",
+    "companion plants",
+    "herbs",
+    "alfalfa",
+    "education"
+   ],
+   "offers": [
+    {
+     "what": "cannabis bud, rosins and resins",
+     "to": [
+      "licensed"
+     ]
+    },
+    {
+     "what": "cordage and cloth from the stalks",
+     "to": [
+      "honesty"
+     ]
+    },
+    {
+     "what": "companion plants: herbs",
+     "to": [
+      "dairy",
+      "honesty"
+     ]
+    },
+    {
+     "what": "companion plants: alfalfa",
+     "to": [
+      "all-together-now",
+      "sanctuary"
+     ]
+    },
+    {
+     "what": "education",
+     "to": [
+      "everyone"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "brighter-days",
+   "page": "brighter-days.html",
+   "name": "Brighter Days Solar Farm",
+   "bearing": "North",
+   "state": "raising",
+   "land": "shared with crops and sheep",
+   "what": "Solar panels on posts high enough to walk under, with peppers growing in their shade and the farm's sheep grazing between the rows. It powers everything out here and much of the street, though every place out here has panels and a battery of its own as well.",
+   "brief_offers": [
+    "power",
+    "peppers"
+   ],
+   "offers": [
+    {
+     "what": "power",
+     "to": [
+      "sanctuary",
+      "gentle-help",
+      "all-together-now",
+      "wide-spread-chaos",
+      "dairy",
+      "the-street"
+     ]
+    },
+    {
+     "what": "peppers, and the other plants that do well under panels",
+     "to": [
+      "dairy",
+      "honesty"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "all-together-now",
+   "page": "all-together-now.html",
+   "name": "All Together Now Farms",
+   "bearing": "North-east",
+   "state": "raising",
+   "land": "shared between trees, crops and animals",
+   "what": "A mixed farm and its agroforestry: nut trees with crops between them, the Three Sisters, sheep, goats and chickens, and a café in the old dairy where everything edible out here ends up on the menu.",
+   "brief_offers": [
+    "sheep",
+    "goats",
+    "chickens",
+    "eggs",
+    "crops",
+    "wool",
+    "milk",
+    "cheese",
+    "nuts",
+    "seeds",
+    "herbs",
+    "flowers",
+    "manure"
+   ],
+   "offers": [
+    {
+     "what": "sheep, to graze under the panels",
+     "to": [
+      "brighter-days"
+     ]
+    },
+    {
+     "what": "goats and chickens, to clear and turn the ground",
+     "to": [
+      "the-land"
+     ]
+    },
+    {
+     "what": "eggs, milk and cheese",
+     "to": [
+      "dairy",
+      "honesty"
+     ]
+    },
+    {
+     "what": "crops, nuts, seeds and herbs",
+     "to": [
+      "dairy",
+      "honesty"
+     ]
+    },
+    {
+     "what": "wool",
+     "to": [
+      "honesty"
+     ]
+    },
+    {
+     "what": "meat, from the animals raised for it, never from the sanctuary",
+     "to": [
+      "honesty"
+     ]
+    },
+    {
+     "what": "flowers",
+     "to": [
+      "dairy",
+      "honesty"
+     ]
+    },
+    {
+     "what": "manure",
+     "to": [
+      "gentle-help",
+      "wide-spread-chaos"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wide-spread-chaos",
+   "page": "wide-spread-chaos.html",
+   "name": "Wide-Spread Chaos Gardens",
+   "bearing": "East",
+   "state": "raising",
+   "land": "shared between flowers and food",
+   "what": "An ornamental garden and a food garden, sown by throwing the seed and letting whatever suits the ground win. Nothing in rows.",
+   "brief_offers": [
+    "food",
+    "flowers",
+    "seeds",
+    "connection"
+   ],
+   "offers": [
+    {
+     "what": "food",
+     "to": [
+      "dairy",
+      "honesty"
+     ]
+    },
+    {
+     "what": "flowers",
+     "to": [
+      "honesty",
+      "everyone"
+     ]
+    },
+    {
+     "what": "seeds",
+     "to": [
+      "honesty",
+      "everyone"
+     ]
+    },
+    {
+     "what": "connection",
+     "to": [
+      "everyone"
+     ]
+    }
+   ]
+  }
+ ],
+ "_ends": "Where things go that is not a place on the fingerpost. The dairy is the café behind the farm; honesty is the honesty box on the street, the-street is the street itself; licensed is the one way cannabis leaves this land, and it never goes to the honesty box.",
+ "ends": {
+  "dairy": {
+   "name": "the café in the old dairy, at the farm",
+   "page": "the-dairy.html"
+  },
+  "honesty": {
+   "name": "the honesty box on the street, where the farms’ goods are sold",
+   "page": "the-honesty-box.html"
+  },
+  "the-street": {
+   "name": "the street"
+  },
+  "licensed": {
+   "name": "licensed dispensaries only, never the honesty box"
+  },
+  "everyone": {
+   "name": "whoever comes"
+  },
+  "the-land": {
+   "name": "the land itself"
+  }
+ }
+}

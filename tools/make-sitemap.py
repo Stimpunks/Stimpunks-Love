@@ -96,6 +96,10 @@ ORDER = ["index.html",
          "campgrounds.html", "faery-yurt.html", "swaying-sweetgrass.html",
          "solarpunk-hermitage.html",
          "brew-and-stew.html",
+         # Past the campgrounds and through its wood, the land the street
+         # lives on: Nature's Contribution, then its places as they open, in
+         # the order its fingerpost's arms run.
+         "natures-contribution.html",
          # The other edge, past the last streetlight at the far end. An area
          # like the campgrounds, listed the same way: the road first, then
          # what is down its turnings.
@@ -246,7 +250,8 @@ lines = [
     "the street is the system and the rooms refuse to share one. Through a gate in the wall there "
     "is a garden, with one bed for every site we publish and every bed linking out to it. The "
     "street has an edge at each end and they are not the same kind of edge: past the treeline "
-    "there is a campground, for anybody who would rather not be on a street at all, and past the "
+    "there is a campground, for anybody who would rather not be on a street at all, and past its "
+    "wood the land the street lives on, kept for wildlife, food and power at once; past the "
     "last streetlight the other way there is a road out of town, where the mystical and the "
     "after-dark keep premises. Under the street, by lift or stair, there are caverns, for "
     "everything that needs things to stay the same. "

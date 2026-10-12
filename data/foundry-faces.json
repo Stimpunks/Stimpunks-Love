@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-10-05",
+ "_checked": "2026-10-11",
  "faces": {
   "abril-fatface": {
    "family": "Abril Fatface",
@@ -957,6 +957,23 @@
     }
    ]
   },
+  "copse": {
+   "family": "Copse",
+   "category": "Serif",
+   "designer": "Dan Rhatigan",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/copse",
+   "copyright": "\"Copyright (c) 2010, Daniel Rhatigan (sparky@ultrasparky.org) with Reserved Font Name Copse\"",
+   "repository": "https://github.com/googlefonts/copse",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "copse-400.woff2",
+     "sha": "f304b521730e1283"
+    }
+   ]
+  },
   "corben": {
    "family": "Corben",
    "category": "Display",
@@ -1532,6 +1549,29 @@
      "style": "normal",
      "file": "gloria-hallelujah-400.woff2",
      "sha": "6c897a01ee2ee703"
+    }
+   ]
+  },
+  "golos-text": {
+   "family": "Golos Text",
+   "category": "Sans Serif",
+   "designer": "Alexandra Korolkova, Vitaly Kuzmin",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/golostext",
+   "copyright": "Copyright 2019 The Golos Text Project Authors (https://github.com/googlefonts/golos-text)",
+   "repository": "https://github.com/googlefonts/golos-text",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "golos-text-400.woff2",
+     "sha": "442e4ea4b2a8ccd7"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "golos-text-700.woff2",
+     "sha": "d98540086b47dbd9"
     }
    ]
   },

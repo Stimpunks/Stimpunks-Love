@@ -12,8 +12,9 @@ NOTHING ON IT IS PLACED BY HAND, AND THAT IS THE MAINTENANCE PLAN. There are no
 coordinates anywhere in this repository. The shopfronts, their order and which
 side of the road they fall on come off index.html's own row of doors; the
 pitches come off campgrounds.html's board, the turnings off
-the-outskirts.html's signs and the caverns' levels off the lift panel on
-arlesglad-caverns.html, state and all; the garden gate stands halfway down
+the-outskirts.html's signs, the caverns' levels off the lift panel on
+arlesglad-caverns.html and the places past the campgrounds off the fingerpost
+on natures-contribution.html, state and all; the garden gate stands halfway down
 whatever length the street is that day, because §28 says halfway and a fixed
 position would drift out of halfway the first time a room opened. The layout is
 a CSS grid that flows, so a new building pushes the street longer rather than
@@ -150,6 +151,11 @@ ground = lots()
 pitches = signs("campgrounds.html", "pitch")
 turnings = signs("the-outskirts.html", "turning")
 levels = signs("arlesglad-caverns.html", "cav-stop")
+# PAST THE CAMPGROUNDS, through the wood the map does not draw: the land off
+# the fingerpost, one arm per place. The area's own page is reached from the
+# campgrounds and from nowhere else, so it is placed here and not as furniture.
+LAND = "natures-contribution.html"
+arms = signs(LAND, "ncx-arm")
 
 problems = []
 placed = {}
@@ -180,6 +186,13 @@ for t in turnings:
 for lv in levels:
     if lv["href"]:
         place(lv["href"], lv["no"])
+place(LAND, "past the campgrounds, through the wood")
+for a in arms:
+    if a["href"]:
+        place(a["href"], a["no"])
+if f'href="{LAND}"' not in (ROOT / furn["signpost"]).read_text():
+    problems.append(f"{LAND} is drawn past the campgrounds, and {furn['signpost']} has no link to it. "
+                    "The model must not draw a way that is not there.")
 for page, parent in behind.items():
     place(page, f"behind {parent}")
     if parent not in placed and parent not in behind:
@@ -362,6 +375,23 @@ def level(lv):
             f'<span class="mm-name">{html.escape(lv["name"], quote=False)}</span>'
             f'<span class="mm-no">{no} &middot; not open yet</span></span></li>')
 
+def arm(a):
+    """A place past the campgrounds: a field laid flat on the mat, one white
+    card each, with the way it lies from the stile written on it. A room behind
+    one hangs under it, the way a room behind a level hangs under the plate."""
+    no = html.escape(a["no"].title(), quote=False)
+    if a["href"]:
+        kids = children.get(a["href"], [])
+        behind = ""
+        if kids:
+            behind = (f'<span class="sr">, and behind {name(a["href"])}:</span><ul class="mm-behind">'
+                      + "".join(f"<li>{behind_lot(k)}</li>" for k in kids) + "</ul>")
+        return f'<li class="mm-acre">{link(a["href"], "mm-field-card", a["name"], numbered(no))}{behind}</li>'
+    return (f'<li class="mm-acre mm-acre--raising"><span class="mm-field-card">'
+            f'<span class="mm-name">{html.escape(a["name"], quote=False)}</span>'
+            f'<span class="mm-no">{no} &middot; being raised</span></span></li>')
+
+
 trees = "".join(
     f'<circle cx="{x}" cy="{20 + (i % 3) * 5}" r="{11 + (i * 7) % 6}"/>'
     for i, x in enumerate(range(14, 1000, 31)))
@@ -372,6 +402,16 @@ treeline = (f'<svg class="mm-trees" viewBox="0 0 1000 44" preserveAspectRatio="n
 
 block = "\n".join([
     '<div class="mm-model">',
+    # PAST THE FIELD: Nature's Contribution, further off the top of the board
+    # than the campgrounds, with the wood between left undrawn.
+    f'  <section class="mm-land" aria-labelledby="at-{slug(LAND)}">',
+    f'    <h3 class="mm-edge mm-edge--land">{link(LAND, "mm-edge__name")}'
+    f'<span class="mm-edge__where">past the campgrounds and through the wood, further off the board</span></h3>',
+    '    <ul class="mm-acres">',
+    *[f"      {arm(a)}" for a in arms],
+    "    </ul>",
+    '    <p class="mm-wood">the wood, not drawn</p>',
+    "  </section>",
     '  <section class="mm-field" aria-labelledby="at-campgrounds">',
     f'    <h3 class="mm-edge">{link(camp, "mm-edge__name")}'
     f'<span class="mm-edge__where">past the treeline, off the board</span></h3>',

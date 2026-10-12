@@ -1204,6 +1204,16 @@
 @font-face { font-family: 'Brygada 1918'; src: url('fonts/brygada-1918-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Brygada 1918'; src: url('fonts/brygada-1918-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 
+/* Nature's Contribution (§104). A FINGERPOST'S LETTER AND A PLAIN SANS. Copse,
+   Dan Rhatigan's slab, sets the area's name, its headings and the name on every
+   arm of the fingerpost, and nothing at reading size: a country slab with its
+   brackets left soft, the letter a sign at a stile would be cut in. Golos Text,
+   by Alexandra Korolkova and Vitaly Kuzmin, both names read off the family's
+   own record, carries every word that is read. Two static files for Golos, a regular and a bold; Copse has one. */
+@font-face { font-family: 'Copse'; src: url('fonts/copse-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Golos Text'; src: url('fonts/golos-text-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Golos Text'; src: url('fonts/golos-text-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -3237,6 +3247,37 @@
   --wbb-vinyl: #141010;
   --wbb-groove: #2e2523;
   /* import:words-bud-beats:root:end */
+
+  /* Nature's Contribution (§104). AN AFTERNOON UNDER BROKEN CLOUD, AND THE
+     SHADOWS ON THE LAND ARE THE CLOUDS'. --ncx-shade is a hayfield in a cloud's
+     shadow, the ground every word stands on, because you are standing in one
+     at the stile; --ncx-panel a card. --ncx-text is every word, --ncx-dim the
+     fine print, --ncx-sun the land in the sun beyond the shadow's edge: every
+     heading, every link, the focus ring and the ground of every button.
+     --ncx-post is the fingerpost's arms and --ncx-letter their letters, the
+     only dark words on the page. The rest carry no word: the view's sky
+     (--ncx-sky-high, --ncx-sky), its clouds (--ncx-cloud, --ncx-cloud-under)
+     and their shadows (--ncx-cloud-shadow), the ridge, the fields
+     (--ncx-pasture, --ncx-wheat, --ncx-plough, --ncx-meadow), --ncx-hedge,
+     --ncx-water, --ncx-tree, --ncx-trunk, the sanctuary's --ncx-byre, the hoop
+     houses (--ncx-tunnel, --ncx-tunnel-rib), the panels (--ncx-pv and the sun
+     along their tops, --ncx-glint), --ncx-fleece, the farm's --ncx-barn,
+     --ncx-barn-door, --ncx-roof and --ncx-corn, the flowers thrown across the
+     chaos gardens (--ncx-bloom-1 to -4), the wood either side of the stile
+     (--ncx-wood) and the stile itself. */
+  --ncx-shade: #22382B;  --ncx-panel: #2C4637;  --ncx-text:  #EEF0E2;
+  --ncx-dim:   #C3CCB4;  --ncx-sun:   #F3D77A;  --ncx-post:  #F7F6F0;
+  --ncx-letter: #1B1B18; --ncx-sky-high: #9FC2DE; --ncx-sky: #D9E8F1;
+  --ncx-cloud: #FBFBF6;  --ncx-cloud-under: #C9D3DA; --ncx-ridge: #7E98A3;
+  --ncx-pasture: #A6C46A; --ncx-wheat: #DCC56E; --ncx-plough: #B98D5C;
+  --ncx-meadow: #C5D589; --ncx-hedge: #34502F;  --ncx-water: #86B3CC;
+  --ncx-tree:  #4E7A3F;  --ncx-trunk: #3B2E22;  --ncx-byre:  #8E7B66;
+  --ncx-tunnel: #F1EEE3; --ncx-tunnel-rib: #C9C3B2; --ncx-pv: #22365A;
+  --ncx-glint: #FFFDF2;  --ncx-fleece: #F4F0E4; --ncx-barn:  #A9463B;
+  --ncx-barn-door: #6E2A24; --ncx-roof: #4A3A33; --ncx-corn: #C9B04A;
+  --ncx-bloom-1: #E2557A; --ncx-bloom-2: #F2B33D; --ncx-bloom-3: #8C6CD6;
+  --ncx-bloom-4: #3F9FD8; --ncx-cloud-shadow: #0F2418; --ncx-wood: #142319;
+  --ncx-stile: #8B6B47;
 }
 
 * { box-sizing: border-box; }
@@ -13526,6 +13567,29 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
 .mm-trees__tops { fill: var(--mm-face); }
 .mm-trees__sticks { stroke: var(--mm-face); stroke-width: 3; }
 
+/* ── Past the campgrounds: the land, further off the top of the board ───── */
+/* FIELDS LAID FLAT, one white card each, because farmland is flat on a model
+   the way a lot is: nothing stands up on these but what each place builds, and
+   the model does not draw that. The way each lies from the stile is pencilled
+   on its card. Between this and the campgrounds, the wood the campgrounds says
+   is unmapped stays unmapped: a line of pencil saying so, and nothing drawn. */
+.mm-land { padding: 0 0 6px; text-align: center; }
+.mm-edge--land { margin-bottom: 18px; }
+.mm-acres { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px 22px; }
+.mm-acre { display: flex; flex-direction: column; align-items: center; }
+.mm-field-card { display: block; width: 11rem; max-width: 100%; padding: 14px 11px 8px; text-decoration: none;
+  color: var(--mm-ink); background: repeating-linear-gradient(90deg, var(--mm-face) 0 7px, var(--mm-top) 7px 8px) top / 100% 7px no-repeat,
+  var(--mm-face); box-shadow: -6px 7px 0 rgba(12, 36, 28, .45); }
+.mm-field-card .mm-name { color: var(--mm-ink); }
+.mm-field-card .mm-no { color: var(--mm-pencil); }
+.mm-acre--raising .mm-field-card { box-shadow: none; outline: 2px dashed var(--mm-dim); outline-offset: -2px; }
+.mm-field-card:hover .mm-name { text-decoration: underline; text-underline-offset: 3px; }
+.mm-acre .mm-behind { margin-top: 16px; align-items: center; }
+.mm-acre .mm-behind > li::before { left: 50%; }
+.mm-acre .mm-back { position: relative; width: 10rem; max-width: 100%; }
+.mm-wood { margin: 18px 0 26px; font-family: 'Architects Daughter', var(--sans); font-size: 15px; color: var(--mm-dim);
+  border-top: 2px dashed var(--mm-dim); padding-top: 6px; }
+
 /* ── The board, with the street pencilled down the middle of it ─────────── */
 .mm-board { position: relative; padding: 22px clamp(10px, 3vw, 28px) 70px; background: var(--mm-board);
   color: var(--mm-ink); border-radius: 2px; box-shadow: -12px 14px 0 rgba(12, 36, 28, .5); }
@@ -15439,7 +15503,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §105
+   class on it is `bb-`, its sizes are in points and millimetres, and §113
    prints it and nothing else. */
 
 .room-broadside {
@@ -15500,7 +15564,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §105 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §113 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -21426,7 +21490,113 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 /* import:words-bud-beats:section:end */
 
-/* §104 ── Small screens ───────────────────────────────────────────────────────
+/* §104 ── NATURE'S CONTRIBUTION (past the campgrounds, through the wood) ──────
+   Ryan's brief, 2026-10-11: land kept for balancing conservation, agriculture
+   and renewable energy, after Brock, Roehrdanz, Beringer et al. in Nature
+   Communications, 2026, whose places complement and sustain each other and the
+   street. An area, like the campgrounds, the Outskirts and the caverns, with a
+   fingerpost where they have a board, a road's signs and a lift panel.
+
+   THE LIGHT IS AN AFTERNOON UNDER BROKEN CLOUD, AND THE SHADOWS ON THE LAND ARE
+   THE CLOUDS'. Nothing on the ground casts them; they lie across whole fields at
+   once, with edges as soft as the cloud. You are standing in one at the stile,
+   so the page's ground is a hayfield in shade, --ncx-shade, and every word
+   stands in it, while the valley in front of you is in the sun. It is the only
+   light on this street cast by the sky rather than by something in it or under
+   it, and nothing in this section moves at any setting.
+
+   THE COLLISIONS. The campgrounds is the field next door and the one to watch:
+   cold, blue-green, at night, lit by nothing, the sky still on it. This is
+   afternoon and warm, and the green is the green of grass in shade rather than
+   spruce in the dark; if the shade here ever goes blue it has become the
+   campgrounds with a stile. The Garden is midday through leaves, every shadow
+   small and hard and directly under the thing that cast it; these shadows are
+   the size of fields and nothing under them cast them. The Green is just after
+   the rain with no sun at all and no shadow; here the sun is out, beyond the
+   shadow's edge. The Hermitage is a low morning sun on a warm wall with the
+   shadows falling sideways off things; nothing here is lit from the side. And
+   the fingerpost is not the campgrounds' routed posts or the road's painted
+   boards: a cast white arm with black letters, pointed at the end, one per way. */
+.natures {
+  background: var(--ncx-shade); color: var(--ncx-text);
+  font-family: 'Golos Text', var(--sans); font-synthesis: none;
+}
+.natures a { color: var(--ncx-sun); }
+.natures a:hover { color: var(--ncx-text); }
+.natures :focus-visible { outline-color: var(--ncx-sun); }
+.natures .backlink { font-family: 'Golos Text', var(--sans); font-weight: 700; font-size: 15px; letter-spacing: .01em; color: var(--ncx-sun); }
+.ncx-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.ncx-trail { margin: 0; font-size: 15px; color: var(--ncx-dim); }
+.ncx-head { margin: 28px 0 0; }
+.ncx-over { margin: 0; font-weight: 700; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: var(--ncx-dim); }
+.natures h1 {
+  margin: 6px 0 6px; font-family: 'Copse', Georgia, serif; font-weight: 400;
+  font-size: clamp(46px, 9vw, 92px); line-height: 1; color: var(--ncx-sun);
+}
+.ncx-sub { margin: 0; font-size: 21px; line-height: 1.4; max-width: 44ch; }
+.natures h2 {
+  margin: 0 0 10px; font-family: 'Copse', Georgia, serif; font-weight: 400;
+  font-size: 34px; line-height: 1.15; color: var(--ncx-sun);
+}
+.ncx-lede { margin: 24px 0 0; font-size: 19px; line-height: 1.65; max-width: 68ch; }
+.ncx-part { margin-top: 40px; }
+.ncx-part > p { font-size: 17.5px; line-height: 1.65; max-width: 70ch; }
+.ncx-view { margin: 6px 0 0; border-radius: 6px; overflow: hidden; }
+.ncx-view__draw { display: block; width: 100%; height: auto; }
+.ncx-view__words { margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: var(--ncx-dim); max-width: 78ch; }
+
+/* The fingerpost: one white post down the side, an arm per way off it, each a
+   cast board with its letters in black and its end cut to a point. The point is
+   a pseudo-element and not a clip-path, because a clip-path would cut the focus
+   ring off the name on the arm. A raising arm keeps its board and its words at
+   full strength and loses only its link, the campgrounds' rule: its border is
+   dashed. */
+.ncx-arms { list-style: none; margin: 18px 0 0; padding: 0 0 0 30px; position: relative; display: grid; gap: 22px; max-width: 760px; }
+.ncx-arms::before { content: ""; position: absolute; left: 6px; top: -10px; bottom: -14px; width: 12px; border-radius: 3px; background: var(--ncx-post); }
+.ncx-arm__board {
+  position: relative; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px;
+  margin: 0 34px 0 0; padding: 10px 16px 10px 18px; background: var(--ncx-post); color: var(--ncx-letter);
+  border: 2px solid var(--ncx-post); border-right: 0;
+}
+.ncx-arm__board::before {
+  content: ""; position: absolute; left: -26px; top: calc(50% - 4px); width: 26px; height: 8px; background: var(--ncx-post);
+}
+.ncx-arm__board::after {
+  content: ""; position: absolute; top: -2px; bottom: -2px; right: -32px; width: 32px;
+  background: var(--ncx-post); clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.ncx-arm__no { font-weight: 700; font-size: 13px; letter-spacing: .14em; color: var(--ncx-letter); }
+.natures .ncx-arm h3 { margin: 0; font-family: 'Copse', Georgia, serif; font-weight: 400; font-size: 26px; line-height: 1.15; color: var(--ncx-letter); }
+.natures .ncx-arm h3 a { color: var(--ncx-letter); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.natures .ncx-arm h3 a:hover { text-decoration-thickness: 4px; }
+.natures .ncx-arm h3 a:focus-visible { outline-color: var(--ncx-letter); outline-offset: 3px; }
+.ncx-arm--raising .ncx-arm__board { border: 2px dashed var(--ncx-letter); border-right: 0; }
+.ncx-arm__what, .ncx-arm__land, .ncx-arm__note { margin: 10px 0 0; font-size: 16.5px; line-height: 1.6; max-width: 66ch; }
+.ncx-arm__land { color: var(--ncx-dim); font-size: 15px; margin-top: 6px; }
+.ncx-arm__note { color: var(--ncx-dim); font-size: 15px; margin-top: 4px; }
+
+.ncx-quote { margin: 16px 0 18px; padding: 16px 20px; background: var(--ncx-panel); border-left: 4px solid var(--ncx-sun); max-width: 70ch; }
+.ncx-quote p { margin: 0; font-size: 17px; line-height: 1.6; }
+.ncx-quote footer { margin-top: 10px; font-size: 14px; line-height: 1.5; color: var(--ncx-dim); }
+.ncx-quote footer a { color: var(--ncx-sun); }
+
+.ncx-flows { width: 100%; max-width: 900px; border-collapse: collapse; margin-top: 14px; font-size: 15.5px; line-height: 1.5; }
+.ncx-flows th, .ncx-flows td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--ncx-panel); }
+.ncx-flows thead th { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--ncx-dim); border-bottom: 2px solid var(--ncx-sun); }
+.ncx-flows tbody th { font-weight: 700; color: var(--ncx-text); width: 28%; }
+.ncx-rules ul { margin: 0; padding-left: 20px; max-width: 70ch; }
+.ncx-rules li { margin: 0 0 10px; font-size: 16.5px; line-height: 1.6; }
+@media (max-width: 640px) {
+  .ncx-flows, .ncx-flows tbody, .ncx-flows tr, .ncx-flows th, .ncx-flows td { display: block; width: auto; }
+  .ncx-flows thead { display: none; }
+  .ncx-flows tbody th { padding-bottom: 0; border-bottom: 0; }
+  .ncx-flows td { padding-top: 4px; padding-bottom: 4px; border-bottom: 0; }
+  .ncx-flows tr { border-bottom: 1px solid var(--ncx-panel); padding: 6px 0; }
+  .ncx-arm__board { margin-right: 26px; }
+  .ncx-arm__board::after { right: -24px; width: 24px; }
+}
+
+/* §112 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -21530,7 +21700,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §104 says every
+   shipped with no rule here at all — which on a street whose §112 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -21654,7 +21824,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §105 ── Print ───────────────────────────────────────────────────────────────
+/* §113 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

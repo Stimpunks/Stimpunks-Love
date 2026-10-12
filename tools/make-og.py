@@ -1215,6 +1215,18 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--purrs .og-lede {{ font-family: 'Gabarito', sans-serif; color: var(--pkp-ink); font-size: 25px;
   line-height: 1.35; margin: 0; }}
 
+/* nature's contribution — THE VIEW FROM THE STILE, lifted whole, beside the
+   name in the cloud's shadow, because the card is the page's own picture and
+   its own words: the clouds' shadows on the fields and you standing in one. */
+.og--natures {{ flex-direction: row; align-items: center; gap: 34px; padding: 40px 46px; }}
+.og--natures .og-words {{ flex: 0 0 390px; }}
+.og--natures .og-view {{ flex: 0 0 690px; border-radius: 8px; overflow: hidden; }}
+.og--natures .og-view svg {{ display: block; width: 100%; height: auto; }}
+.og--natures .ncx-over {{ font-size: 14px; letter-spacing: .07em; margin: 0 0 8px !important; }}
+.og--natures h1 {{ font-size: 72px; line-height: 1; margin: 0 0 16px !important; }}
+.og--natures .og-lede {{ font-family: 'Golos Text', sans-serif; color: var(--ncx-text); font-size: 24px;
+  line-height: 1.38; margin: 0; }}
+
 /* brew and stew — THE CABIN beside the name, lifted off the page whole: the
    logs with the foxfire in their joints, the shut stove, the shelves of jars,
    the window onto the night wood and the tables cut from logs. Nobody lit it,
@@ -4255,6 +4267,34 @@ def card_pint(p):
     )
 
 
+def card_natures(p):
+    # THE VIEW AND THE NAME ARE LIFTED WHOLE, so the card cannot show a valley
+    # the page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="ncx-view__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="ncx-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: natures-contribution.html has lost the view from the stile or its\n"
+            "header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--natures" data-fit="card">'
+        f'<div class="og-words"><p class="ncx-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-view">{draw.group(1)}</div>'
+        f'</div>',
+        f"A card the deep green of a hayfield in a cloud's shadow. On the right, the view from a stile at "
+        f"the edge of a wood: a pale sky with white clouds coming apart, a blue-grey ridge, and a valley of "
+        f"fields in greens, golds and browns divided by hedges, with a wetland and a low barn, three white "
+        f"hoop houses, rows of dark solar panels with sheep under them, a red barn among rows of trees and "
+        f"corn, and a field speckled with flowers of every colour; soft dark cloud shadows lie across some "
+        f"of the fields, and dark trees stand either side. On the left, small capitals reading "
+        f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large straw-gold slab letters, then: "
+        f"{p['desc_plain']}",
+    )
+
+
 def card_brewstew(p):
     # THE CABIN AND THE NAME ARE LIFTED WHOLE, so the card cannot show a tea room
     # the page does not, and the lede is the page's og:description.
@@ -4744,6 +4784,7 @@ CARDS = {
     "cookin":       card_cookin,
     "purrs":        card_purrs,
     "brewstew":     card_brewstew,
+    "natures":      card_natures,
     # A room you have to know the address of, and the room behind its door
     # (tools/unlisted.py). Each its own card, for every room's reason.
     "wooddoor":     card_wooddoor,

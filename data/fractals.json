@@ -1680,6 +1680,19 @@
         "--wbb-focus",
         "--wbb-wall"
       ]
+    },
+    "natures-contribution.html": {
+      "kind": "ifs",
+      "figure": "tree",
+      "sway": 0.03,
+      "ground": "--ncx-shade",
+      "inks": [
+        "--ncx-sun",
+        "--ncx-pasture",
+        "--ncx-wheat",
+        "--ncx-meadow",
+        "--ncx-post"
+      ]
     }
   }
 }

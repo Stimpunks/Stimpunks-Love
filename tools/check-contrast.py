@@ -2990,6 +2990,18 @@ PAIRS = [
     ("#361628", "#BDF2DA", False, "brewstew: every button's words, on the foxfire"),
     ("#361628", "#EFE8DA", False, "brewstew: a button under the pointer"),
 
+    # ── Nature's Contribution (§104) ──────────────────────────────────────
+    # An afternoon under broken cloud, and you standing in a cloud's shadow at
+    # the stile: every word stands on the shade, on a card, or on the
+    # fingerpost's white arms.
+    ("#EEF0E2", "#22382B", False, "natures: every word in the shade -- the lede, the view in words, what is under every arm, why the land is here, the table of what goes where, and the rules"),
+    ("#EEF0E2", "#2C4637", False, "natures: every word of a quotation from the paper, on its card"),
+    ("#C3CCB4", "#22382B", False, "natures: the trail, the over-line, the view in words, what the land is doing under an arm, the note on an arm being raised, and the table's heads"),
+    ("#C3CCB4", "#2C4637", False, "natures: the credit under a quotation"),
+    ("#F3D77A", "#22382B", False, "natures: the h1, every h2 in Copse, every link, the backlink, the focus ring, the rule under the table's heads, and the job marker, an acorn"),
+    ("#F3D77A", "#2C4637", False, "natures: a link in a quotation's credit, and the edge of every quotation"),
+    ("#1B1B18", "#F7F6F0", False, "natures: the bearing and the name on every arm of the fingerpost, its link and its focus ring"),
+
     # ── The four lots where the buildings stop (§96 to §99) ─────────────────
     # The Run in a dog's colours, the Truck Stop's lot, the Green's wet lawn and
     # the Pile's sand. Every word on all four stands on a flat ground: the lot's
@@ -3462,6 +3474,36 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#9fc2de": "natures: --ncx-sky-high, the top of the sky in the view, 6.74 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#d9e8f1": "natures: --ncx-sky, the sky in the view, 10.05 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#fbfbf6": "natures: --ncx-cloud, the clouds, and a flower in the chaos gardens, 12.13 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#c9d3da": "natures: --ncx-cloud-under, the grey under each cloud, 8.28 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#7e98a3": "natures: --ncx-ridge, the far ridge, 4.14 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#a6c46a": "natures: --ncx-pasture, a sunlit pasture, and the valley floor, 6.43 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#dcc56e": "natures: --ncx-wheat, a field of wheat, 7.34 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#b98d5c": "natures: --ncx-plough, a ploughed field, 4.21 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#c5d589": "natures: --ncx-meadow, a meadow, 7.94 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#34502f": "natures: --ncx-hedge, every hedgerow, the reeds and the panels' posts, 1.40 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#86b3cc": "natures: --ncx-water, the sanctuary's wetland, 5.59 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#4e7a3f": "natures: --ncx-tree, a tree, 2.50 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#3b2e22": "natures: --ncx-trunk, every trunk, and a sheep's face, 1.04 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#8e7b66": "natures: --ncx-byre, the sanctuary's low barn and its ramp, 3.10 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#f1eee3": "natures: --ncx-tunnel, a hoop house, 10.84 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#c9c3b2": "natures: --ncx-tunnel-rib, a hoop house's ribs, 7.15 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#22365a": "natures: --ncx-pv, a solar panel, 1.04 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#fffdf2": "natures: --ncx-glint, the sun along a panel's top edge, 12.34 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#f4f0e4": "natures: --ncx-fleece, a sheep, 11.05 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#a9463b": "natures: --ncx-barn, the farm's red barn, 2.17 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#6e2a24": "natures: --ncx-barn-door, its door, 1.21 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#4a3a33": "natures: --ncx-roof, its roof's edge, 1.17 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#c9b04a": "natures: --ncx-corn, the corn, 5.87 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#e2557a": "natures: --ncx-bloom-1, a flower thrown across the chaos gardens, 3.48 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#f2b33d": "natures: --ncx-bloom-2, a flower thrown across the chaos gardens, 6.77 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#8c6cd6": "natures: --ncx-bloom-3, a flower thrown across the chaos gardens, 3.14 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#3f9fd8": "natures: --ncx-bloom-4, a flower thrown across the chaos gardens, 4.29 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#0f2418": "natures: --ncx-cloud-shadow, the clouds' shadows lying on the fields, at half strength and blurred, 1.30 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#142319": "natures: --ncx-wood, the wood either side of the stile, 1.30 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
+    "#8b6b47": "natures: --ncx-stile, the stile, 2.57 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
     "#39d16f": "executive session: EXIT lettered on the sign in the drawing, 9.23 on the dark room. Drawing "
                "only, aria-hidden; the room's light, and the page says in words what it is.",
     "#1e5a36": "executive session: the sign's green lying over the wall and floor, the chairs' lit edges and "

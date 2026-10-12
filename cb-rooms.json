@@ -11,7 +11,7 @@
    "tag": "map",
    "name": "The Map",
    "path": "/map.html",
-   "about": "The whole street as a model in white card on a cutting mat: every shopfront where it stands, the rooms behind rooms, the garden through its gate, the campgrounds past the treeline at one end, the road out past the last streetlight at the other, and the caverns underneath. Pick anything up to go there. Built from the street itself, so it grows when the street does."
+   "about": "The whole street as a model in white card on a cutting mat: every shopfront where it stands, the rooms behind rooms, the garden through its gate, the campgrounds past the treeline at one end and the land past its wood, the road out past the last streetlight at the other, and the caverns underneath. Pick anything up to go there. Built from the street itself, so it grows when the street does."
   },
   {
    "tag": "danny-the-street",
@@ -510,6 +510,12 @@
    "name": "Brew and Stew",
    "path": "/brew-and-stew.html",
    "about": "A woodland tea room in a cabin at the edge of the trees, on the Campgrounds at pitch 04, lit by nothing anybody lit: the light grows in its own wood. Herbal teas, vegan soups and stews, and vegan breads, every one saying what is in it; flowers, grasses and twigs to take to your table; look down at your table to see what you asked for; and films of other woodland tea rooms in the looking-glass."
+  },
+  {
+   "tag": "natures-contribution",
+   "name": "Nature’s Contribution",
+   "path": "/natures-contribution.html",
+   "about": "Past the campgrounds and through the wood, open land kept for wildlife, for food and for power at once: a wildlife sanctuary, a cannabis farm, a solar farm, a mixed farm with a café in its old dairy, and a chaos garden, each feeding the others and the street. After the Nature Communications paper on balancing land use for conservation, agriculture and renewable energy."
   },
   {
    "tag": "the-outskirts",

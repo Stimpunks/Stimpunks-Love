@@ -2673,5 +2673,33 @@
    "src": "https://fonts.gstatic.com/s/brygada1918/v27/pe06MI6eKpdGqlF5LANrM--qAeRhe6D4yip43qfcERwsuLuzs78KL-V8.woff2",
    "note": "Brygada 1918's own italic, for the names of books in the room, so the browser never invents one."
   }
+ ],
+ "copse": [
+  {
+   "file": "copse-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 19572,
+   "src": "https://fonts.gstatic.com/s/copse/v16/11hPGpDKz1rGb3dkFEmDUq-B.woff2",
+   "note": "Nature's Contribution (§104), the area's name, its headings and the name on every arm of the fingerpost, and nothing at reading size: a country slab with soft brackets, the letter a sign at a stile would be cut in. One weight, one static file."
+  }
+ ],
+ "golos-text": [
+  {
+   "file": "golos-text-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 11912,
+   "src": "https://fonts.gstatic.com/s/golostext/v7/q5uXsoe9Lv5t7Meb31EcOR9UdVTNs822plVRRT5bGL4RWNyw2Io.woff2",
+   "note": "Nature's Contribution (§104), every word that is read. A plain, open sans for a page that stands in a cloud's shadow and needs to be read there. Two static files, a regular and a bold."
+  },
+  {
+   "file": "golos-text-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 12412,
+   "src": "https://fonts.gstatic.com/s/golostext/v7/q5uXsoe9Lv5t7Meb31EcOR9UdVTNs822plW2Qj5bGL4RWNyw2Io.woff2",
+   "note": "The bold of the 400 above, for the bearing on every arm and every strong word."
+  }
  ]
 }

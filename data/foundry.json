@@ -1415,6 +1415,20 @@
       "sections": [
         100
       ]
+    },
+    "copse": {
+      "where": "Nature’s Contribution",
+      "page": "natures-contribution.html",
+      "sections": [
+        104
+      ]
+    },
+    "golos-text": {
+      "where": "Nature’s Contribution",
+      "page": "natures-contribution.html",
+      "sections": [
+        104
+      ]
     }
   }
 }

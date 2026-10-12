@@ -2,7 +2,7 @@
  "_source": "Every job on this board was written for this board. The QUESTIONS are the exception to nothing: each one is answered by a sentence that is already published on the page the marker sits on, and each was read off that page before it was written here rather than remembered. Where a question asks for a person's name it is a name our own page already credits -- Barad, Oldaker, Schaber, Thornburg, Lee and Duffy -- because a quiz that made somebody guess at an attribution would be teaching the opposite of the habit this street kept.",
  "_codes": "One word, A-Z, typed case-insensitively with spaces and punctuation ignored. A word rather than a random string because a word can be said out loud, remembered across a walk to another room, and typed by somebody who finds typing expensive. These are not secrets and the board does not pretend they are: the code is printed in the room's own markup, on a public page, and anybody who wants to read the source can have the lot. The board holds a checksum instead of the plain word purely so that View Source on ONE page is not a spoiler sheet for every room. That is a courtesy, not a lock, and make-guild.py says so where it computes it.",
  "_no_score": "There is no tally here, no percentage, no streak, no rank you climb and nothing that expires. The board stamps a job when you hand its code in and that is the whole of the bookkeeping. This is the pebbling cabinet's refusal arriving in the one room on the street most likely to talk itself out of it -- a job board is EXACTLY the shape of thing that grows a score, and a score beside a Disabled people's walking tour would quietly turn a wander into a workload. make-guild.py refuses the vocabulary.",
- "_class": "The difficulty class is HOW FAR YOU WALK, not how clever you are. I is on the street, II is through a door off a room, III is off the street altogether -- the field past the treeline at one end, the road past the last streetlight at the other, or the caverns underneath. III IS NOT THREE CLASSES AND THERE IS NO IV OR V: the edges are different directions rather than different distances -- one is not even along the street, it is down -- and numbering them would invent an ordering nobody walks. Nothing about the class says anything about the person doing it, which is the whole reason it is defined by geography and enumerated in the tool rather than typed per job.",
+ "_class": "The difficulty class is HOW FAR YOU WALK, not how clever you are. I is on the street, II is through a door off a room, III is off the street altogether -- the field past the treeline at one end and the land past its wood, the road past the last streetlight at the other, or the caverns underneath. III IS NOT THREE CLASSES AND THERE IS NO IV OR V: the edges are different directions rather than different distances -- one is not even along the street, it is down -- and numbering them would invent an ordering nobody walks. The land past the campgrounds' wood is further along the field's own direction, and it is still III: a class that counted how far past an edge you went would rank the edges. Nothing about the class says anything about the person doing it, which is the whole reason it is defined by geography and enumerated in the tool rather than typed per job.",
  "quests": [
   {
    "id": "street-chalk",
@@ -834,6 +834,43 @@
      "It is in the first paragraph under the name.",
      "Not the stove: the stove is shut.",
      "Look at the joints between the logs."
+    ]
+   }
+  },
+  {
+   "id": "ncx-stile",
+   "page": "natures-contribution.html",
+   "room": "Nature’s Contribution",
+   "title": "What is shading the fields?",
+   "posted": "Past the campgrounds and through the wood, a stile opens onto a valley in the afternoon, and there are shadows lying across whole fields with nothing standing in them. Go and stand at the stile, and come back with what is casting them.",
+   "rank": 3,
+   "takes": "five minutes, and the walk through the wood",
+   "target": "an acorn, dropped by the stile",
+   "code": "CUMULUS",
+   "learned": "The clouds: the shadows on the land are the clouds’ own, cast by the sky rather than by anything on the ground, and you are standing in one at the stile, which is why every word on that page stands in the shade while the valley is in the sun.",
+   "hints": [
+    "It is not on the street. Go out past the treeline to the campgrounds, then through the wood.",
+    "The campgrounds says where the track through the wood comes out.",
+    "On the floor of the land's own page, before the sign-off."
+   ],
+   "ask": {
+    "question": "Nothing on the ground is casting the shadows on those fields. What is?",
+    "accept": [
+     "clouds",
+     "the clouds",
+     "cloud",
+     "a cloud",
+     "the cloud",
+     "the sky",
+     "sky",
+     "cloud shadows"
+    ],
+    "answer": "The clouds",
+    "why": "The clouds: their shadows lie across whole fields, softer at the edges than anything with an edge, and you are standing in one at the stile.",
+    "hints": [
+     "It is in the first paragraph under the name.",
+     "Look up from the fields.",
+     "Not a tree, not a barn and not a panel."
     ]
    }
   },
