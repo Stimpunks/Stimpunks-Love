@@ -185,6 +185,28 @@ if askers:
     print("Only the call, inside 8x8's frame, may ask. The Permissions-Policy gives self")
     print("those three only so the frame can have them.")
     sys.exit(2)
+# THE SHARE SHEET IS SELF'S AND ONE SCRIPT'S. Ryan turned web-share on for
+# The Open Notebook's sticker drawer, 2026-10-12, so a sheet can go from a
+# phone's browser into its photos in one press. It is given to self and to
+# nothing framed, and only the scripts named here may call it, so the
+# loosening stays where it was made: a new room that wants a share button is
+# one line here, read by whoever adds it, rather than a quiet second use.
+SHARERS = {"notebook-stickers.js"}
+ws = re.search(r"(?:^|, )web-share=\(([^)]*)\)", pp.group(1))
+if not ws or ws.group(1).split() != ["self"]:
+    print(f"REFUSING: web-share in the Permissions-Policy is ({ws.group(1) if ws else 'missing'}).")
+    print("It is self and nothing else: the sticker drawer's sheets go to the visitor's own")
+    print("share sheet, and no frame of anybody else's is given it.")
+    sys.exit(2)
+shares = re.compile(r"navigator\.(?:share|canShare)\b")
+sharers = sorted(str(p.relative_to(ROOT)) for p in ROOT.rglob("*.js")
+                 if p.relative_to(ROOT).parts[0] not in SKIP and shares.search(p.read_text(errors="replace")))
+if set(sharers) - SHARERS:
+    print("REFUSING: a script of ours opens the share sheet that is not in SHARERS:")
+    for a in sorted(set(sharers) - SHARERS): print("  " + a)
+    print("web-share was turned on for the sticker drawer. Add the script to SHARERS on")
+    print("purpose, with its reason beside it, if another room really needs it.")
+    sys.exit(2)
 hdr.write_text(new)
 print(f"csp: sha256-{digest}  ({len(pages)} pages, 1 snippet)\n     frame-src 'self' blob: " + origins + "  (read from love-embed.js)"
       + "\n     media-src 'self' " + media + "  (read from love-embed.js)")

@@ -77,7 +77,9 @@ textarea or anything editable anywhere outside the job marker, and a select
 anywhere outside the drawer; the scripts are the four and
 notebook-stickers.js, and that file is refused if it stores anything, sends
 anything, or writes markup from a string. A sheet goes to the visitor's own
-device as a download, the Small Hours' placemat's way, and nowhere else.
+device as a download, the Small Hours' placemat's way, or to the device's own
+share sheet where the browser can share a file (web-share, turned on for this
+drawer by Ryan on 2026-10-12, held to this one script by make-csp.py).
 
 OUR OWN SENTENCES ARE SWEPT for the vocabulary of counting and of selling a
 practice as output, with make-vital.py's negation window, so the room can still
@@ -700,8 +702,10 @@ def stickers_block(s):
         'pick the sheet, and skip the background removal, because there is no background to remove. The app puts '
         f'a border round everything it cuts, which you can turn down in its cutting mode; the stickers are '
         f'{g(gap)} mm apart, so if two ever come out as one, turn the border down. Uploads picks from your '
-        'phone&rsquo;s photos, so a sheet saved on a phone, which goes to its downloads, wants saving into your '
-        'photos from there first.</p>',
+        'phone&rsquo;s photos. <strong>Share</strong>, where your browser can share a file, hands a sheet to '
+        'your device&rsquo;s own share sheet, which can put it straight into your photos or send it to your '
+        'phone; <strong>Save</strong> puts it in your downloads, which on a phone wants saving into your '
+        'photos from there.</p>',
         f'    <div class="onb-stk" data-stickers data-paper="{g(pmm[0])} {g(pmm[1])}" '
         f'data-printable="{g(pr[0])} {g(pr[1])}" data-dpi="{dpi}" data-inset="{g(s["inset_mm"])}" '
         f'data-gap="{g(gap)}" data-pad="{g(lab["pad"])}" data-vpad="{g(lab["vpad"])}" '
@@ -753,8 +757,9 @@ def stickers_block(s):
             f'{esc(first["licence"])}</a>.</p>',
             '      <p class="onb-stk__said" data-stk-said role="status"></p>',
             '      <ul class="onb-stk__sheets" data-stk-sheets aria-label="The sheets, as they will print"></ul>',
-            '      <p class="onb-stk__all" data-stk-all-row hidden><button type="button" class="onb-stk__save" '
-            'data-stk-all>Save every sheet</button></p>',
+            '      <div class="onb-stk__all" data-stk-all-row hidden><button type="button" class="onb-stk__save" '
+            'data-stk-all>Save every sheet</button> <button type="button" class="onb-stk__save" '
+            'data-stk-share-all hidden>Share every sheet</button></div>',
             '    </div>',
             '    <p class="onb-stk__off" data-stk-off>The drawer draws its sheets in your browser with a '
             'script, and scripts are not running here, so there is nothing to show. Everything it would draw '

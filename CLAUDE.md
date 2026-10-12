@@ -2851,8 +2851,11 @@ background cut round directly), and a sheet is a transparent PNG the paper's siz
 face's credit in iTXt. **Nobody has run a sheet through the machine yet**; DECISIONS.md says what is open.
 A whole year rarely fits at Large, and the sheet says which size it fits at: that is geometry, not a packing
 bug, and the fix is never to shrink the stickers on one sheet, because one face and size is one sticker
-whichever sheet it comes off. `web-share` is off in `_headers`, so saving is a download; turning it on is a
-security header and Ryan's call.
+whichever sheet it comes off. **`web-share` is `(self)` in `_headers` for this drawer alone** (Ryan's call,
+2026-10-12): Share hands a sheet to the device's own share sheet, where Save Image puts it in a phone's
+photos for the app to pick. `make-csp.py` holds it to self and refuses any script outside `SHARERS` that
+calls `navigator.share`; another room that wants it is one line there, on purpose. Share needs a fresh
+press, so every sheet's file is drawn in the background as soon as its preview is up.
 
 **ITS LIGHT IS EVERY HOUR AT ONCE.** The notebook has lain open under a window since first light, so the
 window's patch from every hour lies on the page together, dawn blue from the left to dusk rose from the

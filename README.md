@@ -233,7 +233,7 @@ data/community.json   The community service board: a slot for every room that ta
 data/broadside.json   The press's sheets, both sides of each, with their two spot inks. No two sheets share a pair
 dance-punks.js        The headset. Tuning is silent while it is off; it asks love-embed.js for the frame
 small-hours.js        The whole-album buttons, and the placemat: colour in, scribble, take it home. Stores and sends nothing
-notebook-stickers.js  The Open Notebook's sticker drawer: packs and draws day and month sheets, saves them as PNGs. Stores and sends nothing
+notebook-stickers.js  The Open Notebook's sticker drawer: packs and draws day and month sheets, saves or shares them as PNGs. Stores nothing and sends nothing to us; the only script allowed the share sheet
 repeater.js           The open line: quiet noise made in the browser. Nothing sent, nothing listened to
 quest.js              The job markers, and the guild's board. Works with scripts off
 zibaldone.js          The attribution slip. Composes a block of text; sends nothing anywhere

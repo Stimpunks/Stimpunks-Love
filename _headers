@@ -65,9 +65,14 @@
   # ours uses. Each goes to a named origin, never to *, and tools/make-csp.py
   # refuses this line if it names an origin love-embed.js does not frame, or
   # gives the camera, the microphone or the screen to anything but self and the
-  # call, and refuses any script of ours that asks for one. Everything else is
-  # denied because denying it costs a reader nothing.
-  Permissions-Policy: accelerometer=("https://www.youtube-nocookie.com"), autoplay=("https://www.youtube-nocookie.com" "https://8x8.vc"), encrypted-media=("https://www.youtube-nocookie.com"), picture-in-picture=("https://www.youtube-nocookie.com"), fullscreen=(self "https://www.youtube-nocookie.com" "https://8x8.vc"), browsing-topics=(), camera=(self "https://8x8.vc"), display-capture=(self "https://8x8.vc"), geolocation=(), gyroscope=(), hid=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(self "https://8x8.vc"), midi=(), payment=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), usb=(), web-share=(), window-management=(), xr-spatial-tracking=()
+  # call, and refuses any script of ours that asks for one. web-share is self
+  # alone (Ryan's call, 2026-10-12), for The Open Notebook's sticker drawer: a
+  # sheet goes to the visitor's own share sheet, and from there into a phone's
+  # photos, where the printer's app picks it up. It sends nothing to us, it only
+  # opens on a press, and make-csp.py holds it to self and refuses any other
+  # script of ours that calls it. Everything else is denied because denying it
+  # costs a reader nothing.
+  Permissions-Policy: accelerometer=("https://www.youtube-nocookie.com"), autoplay=("https://www.youtube-nocookie.com" "https://8x8.vc"), encrypted-media=("https://www.youtube-nocookie.com"), picture-in-picture=("https://www.youtube-nocookie.com"), fullscreen=(self "https://www.youtube-nocookie.com" "https://8x8.vc"), browsing-topics=(), camera=(self "https://8x8.vc"), display-capture=(self "https://8x8.vc"), geolocation=(), gyroscope=(), hid=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(self "https://8x8.vc"), midi=(), payment=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), usb=(), web-share=(self), window-management=(), xr-spatial-tracking=()
 
   Strict-Transport-Security: max-age=63072000; includeSubDomains
 

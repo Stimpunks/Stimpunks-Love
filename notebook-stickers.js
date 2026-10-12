@@ -78,6 +78,7 @@
   var list = box.querySelector('[data-stk-sheets]');
   var allRow = box.querySelector('[data-stk-all-row]');
   var allButton = box.querySelector('[data-stk-all]');
+  var shareAllButton = box.querySelector('[data-stk-share-all]');
   var off = document.querySelector('[data-stk-off]');
   var canonical = document.querySelector('link[rel="canonical"]');
 
@@ -454,33 +455,82 @@
     return 'notebook-stickers-' + sheet.set.file + '-' + sheet.c.slug + '-' + sheet.c.size + '.png';
   }
 
+  // A sheet's file is drawn once and kept for as long as the sheet is on the
+  // page, so Save and Share hand over the same bytes, and Share has its file
+  // ready the moment it is pressed: a browser opens the share sheet only
+  // straight after a press, and a sheet still being drawn could miss that.
+  var files = {};
+  function prepare(sheet) {
+    var name = fileName(sheet);
+    if (files[name]) return files[name];
+    return (files[name] = new Promise(function (resolve, reject) {
+      var c = sheet.c, cv = document.createElement('canvas');
+      cv.width = Math.round(PAPER[0] / 25.4 * DPI);
+      cv.height = Math.round(PAPER[1] / 25.4 * DPI);
+      draw(cv, sheet, false);
+      cv.toBlob(function (blob) {
+        if (!blob) { reject(new Error('no blob')); return; }
+        blob.arrayBuffer().then(function (buf) {
+          var what = (sheet.set.unit ? sheet.set.title : sheet.set.title + ' stickers');
+          var png = stamp(new Uint8Array(buf), [
+            ['Title', what + ', ' + c.sizeName + ', ' + c.family],
+            ['Description', 'Set in ' + c.family + ', by ' + c.opt.getAttribute('data-by') + ', under the ' +
+              c.opt.getAttribute('data-licence') + '. ' + inches(PAPER[0]) + ' x ' + inches(PAPER[1]) +
+              ' inch sticker sheet at ' + DPI + ' dpi, for the PixCut S1.'],
+            ['Source', canonical ? canonical.href : location.href]
+          ]);
+          resolve(new File([png], name, { type: 'image/png' }));
+        }, reject);
+      }, 'image/png');
+    }));
+  }
+
   function save(sheet, done) {
-    var c = sheet.c, cv = document.createElement('canvas');
-    cv.width = Math.round(PAPER[0] / 25.4 * DPI);
-    cv.height = Math.round(PAPER[1] / 25.4 * DPI);
-    draw(cv, sheet, false);
-    cv.toBlob(function (blob) {
-      if (!blob) { done(null); return; }
-      blob.arrayBuffer().then(function (buf) {
-        var what = (sheet.set.unit ? sheet.set.title : sheet.set.title + ' stickers');
-        var png = stamp(new Uint8Array(buf), [
-          ['Title', what + ', ' + c.sizeName + ', ' + c.family],
-          ['Description', 'Set in ' + c.family + ', by ' + c.opt.getAttribute('data-by') + ', under the ' +
-            c.opt.getAttribute('data-licence') + '. ' + inches(PAPER[0]) + ' x ' + inches(PAPER[1]) +
-            ' inch sticker sheet at ' + DPI + ' dpi, for the PixCut S1.'],
-          ['Source', canonical ? canonical.href : location.href]
-        ]);
-        var name = fileName(sheet), url = URL.createObjectURL(new Blob([png], { type: 'image/png' }));
-        var a = document.createElement('a');
-        a.href = url;
-        a.download = name;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        setTimeout(function () { URL.revokeObjectURL(url); }, 10000);
-        done(name);
-      }, function () { done(null); });
-    }, 'image/png');
+    prepare(sheet).then(function (file) {
+      var url = URL.createObjectURL(file), a = document.createElement('a');
+      a.href = url;
+      a.download = file.name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 10000);
+      done(file.name);
+    }, function () { done(null); });
+  }
+
+  // THE SHARE SHEET, where the browser can share files (Ryan turned web-share
+  // on for this drawer, 2026-10-12). It hands the files to the device's own
+  // sheet, where Save Image puts them in a phone's photos, which is where the
+  // printer's app picks from. What happens after that is the visitor's, and
+  // nothing comes back here. make-csp.py refuses any other script that calls it.
+  var SHARE = false;
+  try {
+    SHARE = !!(navigator.share && navigator.canShare && window.File &&
+      navigator.canShare({ files: [new File([new Uint8Array(8)], 'sheet.png', { type: 'image/png' })] }));
+  } catch (e) { SHARE = false; }
+
+  function share(list, btn) {
+    Promise.all(list.map(prepare)).then(function (fs) {
+      return navigator.share({ files: fs });
+    }).then(function () {
+      answer(btn, 'Handed to your share sheet. Where it went from there was your choice, and nothing came back here.');
+    }, function (err) {
+      var why = err && err.name;
+      answer(btn, why === 'AbortError' ? 'Nothing was shared.'
+        : why === 'NotAllowedError' ? 'The sheet was still being drawn when you pressed. It is ready now: press Share again.'
+        : 'Sharing did not work in this browser, sorry. Save still does.');
+    });
+  }
+
+  // Draw every sheet's file in the background once its preview is up, one at a
+  // time, so a Share pressed a moment later finds it ready.
+  function warm(mine) {
+    if (!SHARE) return;
+    var queue = sheets.slice();
+    (function next() {
+      if (mine !== token || !queue.length) return;
+      prepare(queue.shift()).then(function () { setTimeout(next, 0); }, function () { setTimeout(next, 0); });
+    })();
   }
 
   // ── The page ───────────────────────────────────────────────────────────────
@@ -494,17 +544,27 @@
     return e;
   }
 
+  // A button reads Save or Share, and says which sheet only to a screen reader,
+  // so the name it is called by starts with the word on it.
+  function button(cls, verb, which) {
+    var b = el('button', cls, verb);
+    b.type = 'button';
+    b.appendChild(el('span', 'sr', ' ' + which));
+    return b;
+  }
+
   // A press is answered where the hand is, under the button that was pressed,
   // the Playhouse's lesson: the status line is at the top of the drawer and a
   // Save button can be six sheets below it. One answer at a time, and each is
   // aria-hidden, because the status line already says it out loud once.
   function answer(btn, text) {
     [].slice.call(box.querySelectorAll('.onb-stk__done')).forEach(function (p) { p.hidden = true; });
-    var p = btn.parentNode.querySelector('.onb-stk__done');
+    var home = btn.closest('.onb-stk__sheet, .onb-stk__all');
+    var p = home.querySelector('.onb-stk__done');
     if (!p) {
       p = el('p', 'onb-stk__done');
       p.setAttribute('aria-hidden', 'true');
-      btn.parentNode.appendChild(p);
+      home.appendChild(p);
     }
     p.textContent = text;
     p.hidden = false;
@@ -536,8 +596,8 @@
       var cap = el('p', 'onb-stk__cap');
       cap.appendChild(el('b', '', sheet.set.title));
       cap.appendChild(document.createTextNode(': ' + describe(sheet)));
-      var btn = el('button', 'onb-stk__save', 'Save the ' + (sheet.set.own ? sheet.set.own + '’s' : sheet.set.title) + ' sheet');
-      btn.type = 'button';
+      var which = 'the ' + (sheet.set.own ? sheet.set.own + '’s' : sheet.set.title) + ' sheet';
+      var acts = el('div', 'onb-stk__acts'), btn = button('onb-stk__save', 'Save', which);
       btn.disabled = !sheet.placed.length;
       btn.addEventListener('click', function () {
         save(sheet, function (name) {
@@ -545,14 +605,26 @@
                            : 'That did not work in this browser, sorry. The sheet is still here.');
         });
       });
+      acts.appendChild(btn);
+      if (SHARE) {
+        var sh = button('onb-stk__save', 'Share', which);
+        sh.disabled = !sheet.placed.length;
+        sh.addEventListener('click', function () { share([sheet], sh); });
+        acts.appendChild(sh);
+      }
       li.appendChild(paper);
       li.appendChild(cap);
-      li.appendChild(btn);
+      li.appendChild(acts);
       list.appendChild(li);
       draw(cv, sheet, true);
     });
     allRow.hidden = sheets.length < 2;
-    allButton.textContent = 'Save all ' + (NUMBER[sheets.length] || sheets.length) + ' sheets';
+    if (!allRow.hidden) {
+      var all = 'all ' + (NUMBER[sheets.length] || sheets.length) + ' sheets';
+      allButton.textContent = 'Save ' + all;
+      shareAllButton.textContent = 'Share ' + all;
+    }
+    shareAllButton.hidden = !SHARE;
   }
 
   function redraw(announce) {
@@ -567,9 +639,11 @@
         return;
       }
       good = face.selectedIndex;
+      files = {};
       sheets = plan(c);
       showCredit(c);
       build();
+      warm(mine);
       if (announce) {
         var what = { week: 'the week on one sheet', days: 'a day to a sheet, ' + NUMBER[DAYS.length] + ' sheets',
                      year: 'the year on one sheet', months: 'a month to a sheet, ' + NUMBER[MONTHS.length] + ' sheets' };
@@ -608,6 +682,10 @@
         setTimeout(next, 350);
       });
     })();
+  });
+
+  shareAllButton.addEventListener('click', function () {
+    share(sheets.filter(function (s) { return s.placed.length; }), shareAllButton);
   });
 
   if (off) off.hidden = true;

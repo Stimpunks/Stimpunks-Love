@@ -19502,9 +19502,10 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .onb-stk__sheets > li:nth-child(4n+4) .onb-stk__paper::before { background: var(--onb-washi-sky); }
 .onb-stk__paper canvas { display: block; width: 100%; height: auto; background: var(--onb-sticker); border: 2px solid var(--onb-ink); border-radius: 3px; }
 .notebook .onb-stk__cap { margin: 0; font-size: 15px; line-height: 1.45; }
-.notebook .onb-stk__all { margin: 26px 0 0; }
+.onb-stk__acts, .onb-stk__all { display: flex; flex-wrap: wrap; gap: 8px; }
+.onb-stk__all { margin: 26px 0 0; }
 .notebook .onb-stk__done { margin: 0; font-size: 14px; line-height: 1.45; color: var(--onb-dim); overflow-wrap: anywhere; }
-.notebook .onb-stk__all .onb-stk__done { margin-top: 8px; max-width: 72ch; }
+.notebook .onb-stk__all .onb-stk__done { flex: 1 0 100%; max-width: 72ch; }
 .notebook .onb-stk__off { margin: 16px 0 0; max-width: 72ch; font-size: 16px; color: var(--onb-dim); }
 
 .onb-keeps { margin: 8px 0 0; padding: 0 0 0 1.3em; max-width: 68ch; font-size: 17px; line-height: 1.6; }
