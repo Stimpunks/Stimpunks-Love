@@ -11,6 +11,10 @@
   "made_from": "d27b9fe237e2eea3dfd59cb89a96732b2176fdfe699bbbe62a20a57c848bdfdc",
   "png": "5e129a9fe48d5193a454fbc1707d551fa19a77486f978f968c460778b37be038"
  },
+ "all-together-now": {
+  "made_from": "1f27bd7fee4b60ae86a9deedc7bed187f4ccadd77a008c67122f68b20d3acca9",
+  "png": "39b413e34b860d2fe3198a1464356d2e87f1c7179e863271360109251a18fc0e"
+ },
  "arcade": {
   "made_from": "bca884cece89c1010468625713e0ed88063a16d54202024073ec20f8741fc68c",
   "png": "988e2d73dd4061cc7ff51ebeadc7aec4678675748d5efa0a7ab657941f10bd6f"
@@ -351,6 +355,10 @@
   "made_from": "0ffde69c58e32c16fe9a5839e1487b72fbe40814db1d9e1809d6c2cc4465d123",
   "png": "8c6e4b4d3734ea912ff6ea44d81374fa00caae03eb225f14219d3a7fdffa4761"
  },
+ "the-dairy": {
+  "made_from": "63f071bdc6611f3f3f426b17c61f49f2c54ac5bcd1b93e2a9e3f2e1ae4d45038",
+  "png": "8107740e3b8bb4c5075e998e7ab6974899174b080d84bfd80a8499aa6d15e5b2"
+ },
  "the-den": {
   "made_from": "34e7f27cadb5f73495d9970dd0042fcd8ee700525172fa52183d5d59015929ec",
   "png": "6185d02ccc400945fdb6519148cbac5b45909bfaface91311814d9130e41e00a"
@@ -374,6 +382,10 @@
  "the-green": {
   "made_from": "9f5a7366afe8bff272fcbea6364dabf24b28446a48013d0bf1e152ece9c9521b",
   "png": "666f6448e80e158c39689b6717b29776e7254cee46019dbf100542a1302a2e06"
+ },
+ "the-honesty-box": {
+  "made_from": "e9175b2b595edc228825fc8100815b4a77d68fb56d78502b5235dc5dbd231fb1",
+  "png": "f6f8c6ff182a2ccf1fc5adc2da6e6ca6fbc2f0bd00e11e0cfaffa77300474fb4"
  },
  "the-mopery": {
   "made_from": "432211824a00e8b8bce017099aeadc4b509a82f356c08d30afe40fb9191720f2",
@@ -434,6 +446,10 @@
  "vital-plant-living": {
   "made_from": "9ef6689baa20c7eacda48d937ec1e4ce5de0dd4c329cfdb1431eed372a211e04",
   "png": "45765284fd4d9fe399bcce44f821ee7fbd3d19b52dc9d3c5077d5584531f8c89"
+ },
+ "wide-spread-chaos": {
+  "made_from": "f69b25c6f4831b24b9989eb4692e414543d042474faf0921da89a0fb7c632155",
+  "png": "f1ee909315e5a1c10d8f55e6fe266d34493f55a79659fe38a992206bed6b9cb5"
  },
  "words-bud-beats": {
   "made_from": "a7f9cfba33dbb147a16f502e48ed979b65d6db075abcaf53faa94f7c7e60e06e",

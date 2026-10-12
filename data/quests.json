@@ -986,6 +986,156 @@
    }
   },
   {
+   "id": "atn-egg",
+   "page": "all-together-now.html",
+   "room": "All Together Now Farms",
+   "title": "Which practice is not on the farm?",
+   "posted": "Past the campgrounds there is a farm where trees, crops and animals share the same fields. The USDA names five ways of farming with trees, and the farm does four of them. Go and find the one it does not, and why.",
+   "rank": 3,
+   "takes": "five minutes, and the walk through the wood",
+   "target": "a brown egg, laid in the grass by the gate",
+   "code": "SILVOPASTURE",
+   "learned": "Forest farming: growing crops under a woodland's own canopy. The farm has no woodland of its own, because the wood belongs to the campgrounds, and its page says so rather than leaving the practice off to make the farm look complete.",
+   "hints": [
+    "It is not on the street. Go out past the treeline, through the campgrounds' wood, and take the north-east arm of the fingerpost.",
+    "Read the five practices under Agroforestry: one of them is drawn with a dashed edge.",
+    "On the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "The USDA names five agroforestry practices. Which one does All Together Now Farms not do?",
+    "accept": [
+     "forest farming",
+     "forestfarming",
+     "forest farm",
+     "forest-farming"
+    ],
+    "answer": "Forest farming",
+    "why": "Forest farming, growing crops under a woodland's canopy: the farm has no woodland of its own, because the wood belongs to the campgrounds.",
+    "hints": [
+     "It is the last of the five.",
+     "Its card has a dashed edge.",
+     "Two words: a kind of land with trees, and what a farm does."
+    ]
+   }
+  },
+  {
+   "id": "dry-churn",
+   "page": "the-dairy.html",
+   "room": "The Dairy",
+   "title": "What does the machine on the counter do?",
+   "posted": "Behind the mixed farm past the campgrounds, the old dairy is a café now, and a steel machine still stands on its counter. Go in and come back with what it does to every drop of milk before anything leaves the room.",
+   "rank": 3,
+   "takes": "a few minutes, and the walk through the wood and across the farm",
+   "target": "a milk churn, standing by the door",
+   "code": "PASTEURISER",
+   "learned": "It pasteurises the milk: heats it enough to kill the germs that make people ill. The CDC says that is crucial for milk safety and that good practice on a farm cannot guarantee safety without it, and Colorado does not allow raw milk to be sold at retail.",
+   "hints": [
+    "It is not on the street. Go out past the treeline, through the campgrounds' wood, take the north-east arm of the fingerpost, and go through the farm to its old dairy.",
+    "Read the first paragraph under the café's name.",
+    "On the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "The steel machine on the dairy's counter still works. What does it do to every drop of the milk?",
+    "accept": [
+     "pasteurises it",
+     "pasteurizes it",
+     "pasteurise",
+     "pasteurize",
+     "pasteurises",
+     "pasteurizes",
+     "pasteurised",
+     "pasteurized",
+     "pasteurisation",
+     "pasteurization",
+     "pasteurising",
+     "pasteurizing",
+     "pasteurise it",
+     "pasteurize it"
+    ],
+    "answer": "It pasteurises it",
+    "why": "It pasteurises it, heating the milk enough to kill the germs that make people ill: there is no raw milk on the land.",
+    "hints": [
+     "It is in the first paragraph under the name.",
+     "It is named after Louis Pasteur.",
+     "Pasteur..."
+    ]
+   }
+  },
+  {
+   "id": "hbx-coin",
+   "page": "the-honesty-box.html",
+   "room": "The Honesty Box",
+   "title": "What will the box not sell?",
+   "posted": "There is a farm stand on the street with prices on a board, money in a box and nobody watching. One thing grown on the land past the campgrounds is never on it. Go and find out what, and why a box nobody watches cannot sell it.",
+   "rank": 1,
+   "takes": "a few minutes",
+   "target": "a coin, dropped by the box",
+   "code": "TRUST",
+   "learned": "Cannabis: it leaves the land through licensed dispensaries and nowhere else, because you have to be 21 to buy it in Colorado and a box nobody watches cannot ask anybody's age. The hemp rope and cloth are fibre, and they are on the board.",
+   "hints": [
+    "On the street itself, in the row of shopfronts: the door lit by one lamp under its eave.",
+    "Read What is not in the box.",
+    "On the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "One thing grown on the land is never in the honesty box, because nobody is there to ask your age. What is it?",
+    "accept": [
+     "cannabis",
+     "the cannabis",
+     "weed",
+     "marijuana",
+     "pot",
+     "bud",
+     "cannabis flower"
+    ],
+    "answer": "Cannabis",
+    "why": "Cannabis: you have to be 21 to buy it in Colorado, and a box nobody watches cannot ask anybody's age, so it goes to licensed dispensaries only.",
+    "hints": [
+     "It is the first thing under What is not in the box.",
+     "It grows in hoop houses north-west of the stile.",
+     "The farm it comes from is called Gentle Help."
+    ]
+   }
+  },
+  {
+   "id": "wsc-seed",
+   "page": "wide-spread-chaos.html",
+   "room": "Wide-Spread Chaos Gardens",
+   "title": "What is never in the mix?",
+   "posted": "Past the campgrounds there is a garden sown by throwing seed into the wind. Its mix is checked before it is thrown, because some weeds should never be scattered. Go and bring back the name of one of them.",
+   "rank": 3,
+   "takes": "five minutes, and the walk through the wood",
+   "target": "a seed ball, dropped in the grass",
+   "code": "SCATTER",
+   "learned": "Colorado State University Extension names four noxious weeds to keep out of a seed mix: chicory, dame's rocket, oxeye daisy and yellow toadflax. A pretty mix is not always a harmless one, which is why the garden checks before it throws.",
+   "hints": [
+    "It is not on the street. Go out past the treeline, through the campgrounds' wood, and take the east arm of the fingerpost.",
+    "Read the plant labels under What is thrown.",
+    "On the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "Colorado State University Extension names four noxious weeds to keep out of a wildflower mix. Name one.",
+    "accept": [
+     "chicory",
+     "dame's rocket",
+     "dames rocket",
+     "dame’s rocket",
+     "oxeye daisy",
+     "ox-eye daisy",
+     "ox eye daisy",
+     "yellow toadflax",
+     "toadflax"
+    ],
+    "answer": "Chicory, dame's rocket, oxeye daisy or yellow toadflax",
+    "why": "Any of the four: chicory, dame's rocket, oxeye daisy and yellow toadflax are on the label that says never in the mix.",
+    "hints": [
+     "They are on the third label.",
+     "One of them is a daisy.",
+     "One of them is chicory."
+    ]
+   }
+  },
+  {
    "id": "liner-colophon",
    "page": "liner-notes.html",
    "room": "The Liner Notes",

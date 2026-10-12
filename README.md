@@ -300,6 +300,10 @@ python3 tools/make-natures-contribution.py # Nature's Contribution's view, finge
 python3 tools/make-all-needs-met.py # All Needs Met's night round, residents, preserve, gifts and rack (--month: the rack only, for the timer); refuses a colour with a hue, pity or inspiration, a resident for sale, a Latin name, a field guide, and a tally
 python3 tools/make-brighter-days.py # Brighter Days' rows, crops, quotations and rack; refuses a crop with no source, a percentage of shade, jalapeños on less water, a zine quotation not word for word, and free energy
 python3 tools/make-gentle-help.py  # Gentle Help's hoop house, strains, companions, how to be careful and rack; refuses a medical claim, a label for people, a CBN figure, a shop, the law left off, and a quotation not word for word
+python3 tools/make-all-together-now.py # All Together Now's two lights, practices, animals, crops, milk and both racks (--month: Farming While Beige's month only, for the timer); refuses raw milk, the Three Sisters retold, a USDA practice missing or out of order, and a tally
+python3 tools/make-the-dairy.py    # The Dairy's room, menu and pantry; refuses an ingredient the land does not grow, a dish its words break (Hey, Good Cookin's engine), a drink whose caffeine is unsettled (Pekoe and Purrs'), raw milk, a verdict on food, and a script
+python3 tools/make-the-honesty-box.py # The Honesty Box's stand and board; refuses an item with no price, an item its place does not send here, cannabis, anything from the sanctuary, raw milk, meat without its animal, a cold thing on a warm shelf, and the door gone from the street
+python3 tools/make-wide-spread-chaos.py # Wide-Spread Chaos's garden in the wind, mix, gifts and rack; refuses a noxious weed in the mix, a Latin name, a claim of nativeness, a café food the mix lacks, and a tally
 python3 tools/pull-nature-month.py sanctuary|farm # (network) the area's two month racks, off the channels' own feeds; run by the morning timers
 python3 tools/make-brew-and-stew.py # Brew and Stew's cabin, table, board, arrangements and looking-glass; refuses anything not vegan, a tea with caffeine, a remedy, anything foraged, a flame, a price, and a held video with no reason
 python3 tools/make-community.py    # The Community Center's service board; refuses a slot whose room has stopped saying what it repeats
@@ -414,6 +418,9 @@ rack, committing only their own data file and page (and, for Learning Large and 
 Now Playing poster, whose line for each of those rooms is its rack's first video) under `daily vital
 telly refill`, `daily open notebook refill`, `daily learning large refill`, `daily good cookin refill`
 and `daily green refill`, all of which the Knowledge System's `update-logs` skips by name.
+`tools/daily-sanctuary.sh` and `tools/daily-farm.sh` are two more, for the month racks at All Needs
+Met and All Together Now Farms in Nature's Contribution, each committing its own data file, its page
+and `now-playing.html` under `daily sanctuary refill` and `daily farm refill`.
 
 **`tools/check-all.sh` runs every one of them, in the order that works, and stops at the first
 refusal**; it is the command to run before every commit, and on a clean tree it changes nothing.

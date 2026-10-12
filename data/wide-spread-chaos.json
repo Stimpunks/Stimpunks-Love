@@ -1,0 +1,221 @@
+{
+ "_source": "Ryan Boren's brief, 2026-10-11: Wide-Spread Chaos Gardens, in Nature's Contribution: an ornamental and food garden using chaos gardening techniques, offering food, flowers, seeds and connection; Claude to propose videos for the rack. Read by tools/make-wide-spread-chaos.py.",
+ "sources": {
+  "conversation": {
+   "cite": "Deryn Davidson, Colorado State University Extension, “Chaos gardening: Wild beauty or just a mess? A sustainable landscape specialist explains the trend”, The Conversation, 2025-08-19, CC BY-ND 4.0",
+   "short": "Deryn Davidson, The Conversation",
+   "url": "https://theconversation.com/chaos-gardening-wild-beauty-or-just-a-mess-a-sustainable-landscape-specialist-explains-the-trend-261249",
+   "read": "read 2026-10-11"
+  },
+  "csu": {
+   "cite": "J. E. Klett, R. A. Cox, I. Shonle and L. G. Vickerman, “Wildflowers in Colorado”, Colorado State University Extension fact sheet 7.233",
+   "short": "CSU Extension's fact sheet on wildflowers in Colorado",
+   "url": "https://boulder.extension.colostate.edu/wp-content/uploads/sites/7/2020/05/07233.pdf",
+   "read": "read 2026-10-11"
+  },
+  "wsu": {
+   "cite": "Carol Barany, “Chaos gardening”, Washington State University Extension, Yakima County, 2026-06-20",
+   "short": "WSU Extension",
+   "url": "https://extension.wsu.edu/yakima/2026/06/20/chaos-gardening/",
+   "read": "read 2026-10-11"
+  }
+ },
+ "quote_cap": 40,
+ "quotes": [
+  {
+   "key": "what",
+   "source": "conversation",
+   "said": "At its core, chaos gardening is the practice of mixing a wide variety of seeds, often including leftover packets, wildflower mixes, or cut flower favorites, and scattering them over a planting area with minimal planning."
+  },
+  {
+   "key": "not",
+   "source": "conversation",
+   "said": "But chaos gardening isn't the same as ecological restoration, pollinator meadow planting or native prairie establishment."
+  },
+  {
+   "key": "mixes",
+   "source": "conversation",
+   "said": "Some wildflower mixes, especially inexpensive or mass-market ones, claim to be native but actually contain non-native species that can spread beyond your garden and become invasive."
+  }
+ ],
+ "_refused_seed": "The four noxious weeds Colorado State University Extension's fact sheet 7.233 says to avoid in seed mixes. The tool refuses any of them in the mix, because the friendly edit is a pretty daisy and oxeye daisy is one of them.",
+ "refused_seed": [
+  "chicory",
+  "dame's rocket",
+  "oxeye daisy",
+  "yellow toadflax"
+ ],
+ "_mix": "What is thrown, in plain names only, the herbarium's rule. `eat` is a food that goes to the café in the old dairy and the honesty box; the rest flower. The page claims nothing about where any of them is native to: the mix is checked against the state's noxious-weed advice, and that is the claim.",
+ "mix": [
+  {
+   "name": "salad leaves",
+   "eat": true
+  },
+  {
+   "name": "radishes",
+   "eat": true
+  },
+  {
+   "name": "peas",
+   "eat": true
+  },
+  {
+   "name": "nasturtiums",
+   "eat": true
+  },
+  {
+   "name": "kale",
+   "eat": true
+  },
+  {
+   "name": "dill",
+   "eat": true
+  },
+  {
+   "name": "blanket flower"
+  },
+  {
+   "name": "black-eyed Susans"
+  },
+  {
+   "name": "blue flax"
+  },
+  {
+   "name": "Rocky Mountain bee plant"
+  },
+  {
+   "name": "cosmos"
+  },
+  {
+   "name": "zinnias"
+  },
+  {
+   "name": "sunflowers"
+  },
+  {
+   "name": "California poppies"
+  },
+  {
+   "name": "bachelor's buttons"
+  }
+ ],
+ "gives": [
+  {
+   "what": "food",
+   "how": "Salad leaves, radishes, peas, kale and nasturtiums, whatever came up, to the café in the old dairy and the honesty box on the street."
+  },
+  {
+   "what": "flowers",
+   "how": "Bunches of whatever is out, for the honesty box, and for anybody who comes to sit in the middle of it."
+  },
+  {
+   "what": "seeds",
+   "how": "Saved from whatever did best, in packets at the honesty box, and by the handful for anybody who wants to throw some."
+  },
+  {
+   "what": "connection",
+   "how": "A bench in the middle, no paths you have to keep to, and room for anybody who wants to help throw next year's."
+  }
+ ],
+ "videos": [
+  {
+   "id": "V8UFRWWsbcQ",
+   "title": "What is Chaos Gardening? - Chaos Garden Tour",
+   "channel": "The Chaos Gardener - Paint the World with Plants",
+   "channel_id": "UCXXiWAJeUizD5JGeV3Z5eDg",
+   "published": "2021-05-31",
+   "runs": 749,
+   "about": "A chaos gardener on buying untreated seed in bulk and saving your own, then a walk round the garden it made."
+  },
+  {
+   "id": "CFVHyS1YdG4",
+   "title": "What is CHAOS Gardening? (Is It for You?)",
+   "channel": "Gardener Scott",
+   "channel_id": "UCWsI0LmiDyezbnN2JCL4P9w",
+   "published": "2025-08-28",
+   "runs": 782,
+   "about": "Gardener Scott mixing old and new seed and sowing it at random, and what to expect."
+  },
+  {
+   "id": "GNTuxOQbMKk",
+   "title": "You Should See this Epic CHAOS GARDEN 🌻",
+   "channel": "Lohre Farm",
+   "channel_id": "UCWoajahJE2p-FdddfQyMjmg",
+   "published": "2022-09-01",
+   "runs": 690,
+   "about": "A walk through a chaos garden in late summer: corn, peas, squash, kale and dill coming up together."
+  },
+  {
+   "id": "By2FcASPau0",
+   "title": "Chaos Garden Update",
+   "channel": "Seneca Conservation District",
+   "channel_id": "UC3TFiqBM_V0rKGGOWhCnbxw",
+   "published": "2020-08-24",
+   "runs": 138,
+   "about": "A chaos garden outside a conservation district's office, seven weeks after it was sown."
+  },
+  {
+   "id": "n7hevcwIfwk",
+   "title": "A whole wildflower meadow year in two minutes",
+   "channel": "PlantlifeVideo",
+   "channel_id": "UCFRRrWp9DzpPUNbv25xR1cQ",
+   "published": "2019-01-22",
+   "runs": 128,
+   "about": "A year in a wildflower meadow in two minutes, from the conservation charity Plantlife."
+  },
+  {
+   "id": "FqKhCMjKx2I",
+   "title": "How to plant a wildflower meadow | RSPB Nature on Your Doorstep",
+   "channel": "RSPB",
+   "channel_id": "UCl8QdQ9ZaBT65tF1yOmbMBQ",
+   "published": "2023-01-31",
+   "runs": 150,
+   "about": "The RSPB on growing a patch of meadow for insects, birds and small animals."
+  },
+  {
+   "id": "6mefylNihKk",
+   "title": "Polyculture Plant Density",
+   "channel": "RED Gardens",
+   "channel_id": "UCq9U-gJ1LtDCE4W5BhEDFSQ",
+   "published": "2023-03-15",
+   "runs": 947,
+   "about": "How close to sow when you mix plants together, including broadcasting seed and thinning it."
+  },
+  {
+   "id": "5B-xPefoN00",
+   "title": "20+ Self-Seeding Plants That Do All The Work For You",
+   "channel": "The Middle-Sized Garden",
+   "channel_id": "UC9l0mKCZRMJCZ-UFwDgrUjw",
+   "published": "2024-06-08",
+   "runs": 741,
+   "about": "Plants that seed themselves year after year, and a word about the ones that spread too far."
+  },
+  {
+   "id": "F88EnyRYBKU",
+   "title": "How to Make Seed Balls",
+   "channel": "Lady Bird Johnson Wildflower Center",
+   "channel_id": "UCnU6hzJroDQwR-IkBnuM-xg",
+   "published": "2020-04-16",
+   "runs": 201,
+   "about": "Making seed balls to throw, from the Lady Bird Johnson Wildflower Center."
+  },
+  {
+   "id": "oKspDCsvddM",
+   "title": "Growing a Bed of Wildflowers From Seed: 162-day Timelapse",
+   "channel": "The Timelapse Team",
+   "channel_id": "UC15kp99qGym6L0zb_u2MwKw",
+   "published": "2021-09-08",
+   "runs": 310,
+   "about": "Two wildflower mixes from sowing to flowering, 162 days in five minutes."
+  },
+  {
+   "id": "NbbmBOB9JNU",
+   "title": "Food Gone Wild - Self Seeding / Self Sowing Vegetable Garden Volunteers",
+   "channel": "Suburban Stone Age",
+   "channel_id": "UCvx1t0k47tAdYWW0O0GbAyA",
+   "published": "2020-03-29",
+   "runs": 326,
+   "about": "Vegetables that planted themselves in a garden left to its own devices."
+  }
+ ]
+}

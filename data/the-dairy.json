@@ -1,0 +1,273 @@
+{
+ "_source": "Ryan Boren's brief, 2026-10-11: a café at All Together Now Farms with a menu created from all the edible offerings in Nature's Contribution, everything properly pasteurised. The café is in the farm's old dairy. Read by tools/make-the-dairy.py.",
+ "_pantry": "Everything the kitchen cooks with, and the place on the land it comes from. The tool looks for each one in that place's own data file and refuses an ingredient the place does not grow, so the menu cannot claim a crop the land does not have. `from_away` is what the kitchen buys in, said out loud rather than passed off as grown here; `water` is the farm's well's and is not checked.",
+ "pantry": [
+  {
+   "what": "corn",
+   "from": "all-together-now",
+   "look": "corn"
+  },
+  {
+   "what": "beans",
+   "from": "all-together-now",
+   "look": "beans"
+  },
+  {
+   "what": "squash",
+   "from": "all-together-now",
+   "look": "squash"
+  },
+  {
+   "what": "walnuts",
+   "from": "all-together-now",
+   "look": "walnut"
+  },
+  {
+   "what": "hazelnuts",
+   "from": "all-together-now",
+   "look": "hazelnut"
+  },
+  {
+   "what": "sunflower seeds",
+   "from": "all-together-now",
+   "look": "sunflower and squash seeds"
+  },
+  {
+   "what": "squash seeds",
+   "from": "all-together-now",
+   "look": "sunflower and squash seeds"
+  },
+  {
+   "what": "dill",
+   "from": "all-together-now",
+   "look": "Dill"
+  },
+  {
+   "what": "coriander",
+   "from": "all-together-now",
+   "look": "coriander"
+  },
+  {
+   "what": "eggs",
+   "from": "all-together-now",
+   "look": "eggs"
+  },
+  {
+   "what": "goat's milk",
+   "from": "all-together-now",
+   "look": "milk"
+  },
+  {
+   "what": "sheep's milk",
+   "from": "all-together-now",
+   "look": "milk"
+  },
+  {
+   "what": "goat's cheese",
+   "from": "all-together-now",
+   "look": "cheese"
+  },
+  {
+   "what": "sheep's cheese",
+   "from": "all-together-now",
+   "look": "cheese"
+  },
+  {
+   "what": "sheep's yogurt",
+   "from": "all-together-now",
+   "look": "milk"
+  },
+  {
+   "what": "buttermilk",
+   "from": "all-together-now",
+   "look": "milk"
+  },
+  {
+   "what": "lamb",
+   "from": "all-together-now",
+   "look": "meat"
+  },
+  {
+   "what": "goat",
+   "from": "all-together-now",
+   "look": "meat"
+  },
+  {
+   "what": "chicken",
+   "from": "all-together-now",
+   "look": "chickens"
+  },
+  {
+   "what": "chiltepin peppers",
+   "from": "brighter-days",
+   "look": "Chiltepin"
+  },
+  {
+   "what": "jalapeños",
+   "from": "brighter-days",
+   "look": "Jalapeños"
+  },
+  {
+   "what": "cherry tomatoes",
+   "from": "brighter-days",
+   "look": "Cherry tomatoes"
+  },
+  {
+   "what": "basil",
+   "from": "gentle-help",
+   "look": "basil"
+  },
+  {
+   "what": "chamomile",
+   "from": "gentle-help",
+   "look": "chamomile"
+  },
+  {
+   "what": "lavender",
+   "from": "gentle-help",
+   "look": "lavender"
+  },
+  {
+   "what": "sunflower oil",
+   "from": "gentle-help",
+   "look": "sunflowers"
+  },
+  {
+   "what": "salad leaves",
+   "from": "wide-spread-chaos",
+   "look": "salad leaves"
+  },
+  {
+   "what": "radishes",
+   "from": "wide-spread-chaos",
+   "look": "radishes"
+  },
+  {
+   "what": "peas",
+   "from": "wide-spread-chaos",
+   "look": "peas"
+  },
+  {
+   "what": "nasturtiums",
+   "from": "wide-spread-chaos",
+   "look": "nasturtiums"
+  }
+ ],
+ "from_away": [
+  "salt",
+  "baking soda"
+ ],
+ "places": {
+  "all-together-now": {
+   "name": "All Together Now Farms",
+   "page": "all-together-now.html",
+   "data": "data/all-together-now.json"
+  },
+  "brighter-days": {
+   "name": "Brighter Days Solar Farm",
+   "page": "brighter-days.html",
+   "data": "data/brighter-days.json"
+  },
+  "gentle-help": {
+   "name": "Gentle Help Cannabis Farm",
+   "page": "gentle-help.html",
+   "data": "data/gentle-help.json"
+  },
+  "wide-spread-chaos": {
+   "name": "Wide-Spread Chaos Gardens",
+   "page": "wide-spread-chaos.html",
+   "data": "data/wide-spread-chaos.json"
+  }
+ },
+ "_menu": "Every dish says what is in it before you take it, and its allergens are worked out from those words by Hey, Good Cookin's engine (make-hey-good-cookin.py), never typed beside them; every drink's caffeine is worked out by Pekoe and Purrs' (make-pekoe.py). Every milk and cheese in here is pasteurised, which the menu says once and the farm's page says why.",
+ "menu": [
+  {
+   "section": "From the stove",
+   "items": [
+    {
+     "name": "Three Sisters stew",
+     "diet": "vegan",
+     "what": "corn, beans, squash, chiltepin peppers, coriander, salt"
+    },
+    {
+     "name": "Chicken and corn soup",
+     "diet": "meat",
+     "animal": "chicken",
+     "what": "chicken, corn, dill, salt"
+    },
+    {
+     "name": "Lamb with beans and jalapeños",
+     "diet": "meat",
+     "animal": "lamb",
+     "what": "lamb, beans, jalapeños, coriander, salt"
+    },
+    {
+     "name": "Herb omelette",
+     "diet": "vegetarian",
+     "what": "eggs, goat's cheese, dill, basil, salt"
+    }
+   ]
+  },
+  {
+   "section": "From the fields",
+   "items": [
+    {
+     "name": "Cherry tomatoes and basil",
+     "diet": "vegetarian",
+     "what": "cherry tomatoes, basil, sheep's cheese, sunflower oil, salt"
+    },
+    {
+     "name": "Roast squash with hazelnuts",
+     "diet": "vegan",
+     "what": "squash, hazelnuts, sunflower oil, coriander, salt"
+    },
+    {
+     "name": "A plate from the chaos gardens",
+     "diet": "vegan",
+     "what": "salad leaves, radishes, peas, nasturtiums, sunflower seeds, sunflower oil"
+    }
+   ]
+  },
+  {
+   "section": "From the oven and the dairy",
+   "items": [
+    {
+     "name": "Cornbread",
+     "diet": "vegetarian",
+     "what": "corn, eggs, buttermilk, baking soda, salt"
+    },
+    {
+     "name": "Sheep's yogurt with walnuts",
+     "diet": "vegetarian",
+     "what": "sheep's yogurt, walnuts, squash seeds"
+    }
+   ]
+  },
+  {
+   "section": "To drink",
+   "drinks": true,
+   "items": [
+    {
+     "name": "Chamomile tea",
+     "diet": "vegan",
+     "what": "chamomile, water"
+    },
+    {
+     "name": "Lavender tea",
+     "diet": "vegan",
+     "what": "lavender, water"
+    },
+    {
+     "name": "A glass of cold milk",
+     "diet": "vegetarian",
+     "what": "goat's milk"
+    },
+    {
+     "name": "Buttermilk",
+     "diet": "vegetarian",
+     "what": "buttermilk"
+    }
+   ]
+  }
+ ]
+}

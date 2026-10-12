@@ -746,6 +746,23 @@
     }
    ]
   },
+  "calistoga": {
+   "family": "Calistoga",
+   "category": "Display",
+   "designer": "Yvonne Schüttler, Sorkin Type, Eben Sorkin",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/calistoga",
+   "copyright": "Copyright 2019 The Calistoga Project Authors (https://github.com/SorkinType/Calistoga)",
+   "repository": "https://github.com/SorkinType/Calistoga",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "calistoga-400.woff2",
+     "sha": "9fd51271525014e7"
+    }
+   ]
+  },
   "cantarell": {
    "family": "Cantarell",
    "category": "Sans Serif",
@@ -852,6 +869,29 @@
      "style": "italic",
      "file": "castoro-400-italic.woff2",
      "sha": "5081c13640756c77"
+    }
+   ]
+  },
+  "catamaran": {
+   "family": "Catamaran",
+   "category": "Sans Serif",
+   "designer": "Pria Ravichandran",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/catamaran",
+   "copyright": "Copyright 2020 The Catamaran Project Authors (https://github.com/VanillaandCream/Catamaran-Tamil)",
+   "repository": "https://github.com/VanillaandCream/Catamaran-Tamil",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "catamaran-400.woff2",
+     "sha": "c872be02e17e176f"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "catamaran-700.woff2",
+     "sha": "c6b7b49b53c7508b"
     }
    ]
   },
@@ -1621,6 +1661,23 @@
     }
    ]
   },
+  "gluten": {
+   "family": "Gluten",
+   "category": "Display",
+   "designer": "Tyler Finck, ETC",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/gluten",
+   "copyright": "Copyright 2020 The Gluten Project Authors (https://github.com/Etcetera-Type-Co/Gluten)",
+   "repository": "https://github.com/Etcetera-Type-Co/Gluten",
+   "variants": [
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "gluten-700.woff2",
+     "sha": "0bc842c78cdeafd1"
+    }
+   ]
+  },
   "golos-text": {
    "family": "Golos Text",
    "category": "Sans Serif",
@@ -2076,6 +2133,29 @@
      "style": "normal",
      "file": "karla-400.woff2",
      "sha": "690fabf2f17b4a98"
+    }
+   ]
+  },
+  "khula": {
+   "family": "Khula",
+   "category": "Sans Serif",
+   "designer": "Erin McLaughlin",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/khula",
+   "copyright": "Copyright (c) 2014, Erin McLaughlin (hello@erinmclaughlin.com). Digitized data copyright 2010, Google Corporation.",
+   "repository": "https://github.com/erinmclaughlin/Khula",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "khula-400.woff2",
+     "sha": "0a9493174f87e503"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "khula-700.woff2",
+     "sha": "f4b7a18e73824e44"
     }
    ]
   },
@@ -2819,6 +2899,29 @@
     }
    ]
   },
+  "oxygen": {
+   "family": "Oxygen",
+   "category": "Sans Serif",
+   "designer": "Vernon Adams",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/oxygen",
+   "copyright": "Copyright (c) 2012, Vernon Adams (vern@newtypography.co.uk), with Reserved Font Names 'Oxygen'",
+   "repository": "https://github.com/vernnobile/oxygenFont",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "oxygen-400.woff2",
+     "sha": "e0663f59abfc2cab"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "oxygen-700.woff2",
+     "sha": "8bbf11023865df65"
+    }
+   ]
+  },
   "parkinsans": {
    "family": "Parkinsans",
    "category": "Sans Serif",
@@ -2856,6 +2959,23 @@
      "style": "normal",
      "file": "patrick-hand-400.woff2",
      "sha": "42156e008dd5fc30"
+    }
+   ]
+  },
+  "patua-one": {
+   "family": "Patua One",
+   "category": "Display",
+   "designer": "LatinoType",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/patuaone",
+   "copyright": "Copyright (c) 2011 by LatinoType Limitada (info@latinotype.com), with Reserved Font Names \"Patua\" and \"Patua One\"",
+   "repository": "https://github.com/googlefonts/patuaone",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "patua-one-400.woff2",
+     "sha": "1d8f4646c42ec4ed"
     }
    ]
   },
@@ -3016,6 +3136,35 @@
      "style": "normal",
      "file": "pt-sans-700.woff2",
      "sha": "38d3aa3b6c9ccdc9"
+    }
+   ]
+  },
+  "pt-serif": {
+   "family": "PT Serif",
+   "category": "Serif",
+   "designer": "ParaType",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/ptserif",
+   "copyright": "Copyright © 2010 ParaType Ltd (yakupov@paratype.com). All rights reserved.",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "pt-serif-400.woff2",
+     "sha": "202b8aa6108ec44b"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "pt-serif-700.woff2",
+     "sha": "57d3ae6c4b78cc2d"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "pt-serif-400-italic.woff2",
+     "sha": "219a8e6238f7f0b4"
     }
    ]
   },
@@ -3926,6 +4075,23 @@
      "style": "normal",
      "file": "work-sans-600.woff2",
      "sha": "ab8060b270f398e2"
+    }
+   ]
+  },
+  "yanone-kaffeesatz": {
+   "family": "Yanone Kaffeesatz",
+   "category": "Sans Serif",
+   "designer": "Yanone, Cyreal",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/yanonekaffeesatz",
+   "copyright": "Copyright 2010 The Yanone Kaffeesatz Project Authors (https://github.com/yanone/kaffeesatz)",
+   "repository": "https://github.com/yanone/kaffeesatz",
+   "variants": [
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "yanone-kaffeesatz-600.woff2",
+     "sha": "25694479691543c0"
     }
    ]
   },

@@ -170,6 +170,24 @@
    "after": "<h2 id=\"ghc-shed-h\">"
   },
   {
+   "page": "all-together-now.html",
+   "what": "A mixed farm between two lights, with films about growing, grazing and the Three Sisters, and the last month of Farming While Beige, on the screen in the barn.",
+   "holds": [
+    "The screen in the barn",
+    "Farming While Beige"
+   ],
+   "after": "<h2 id=\"atn-barn-h\">"
+  },
+  {
+   "page": "wide-spread-chaos.html",
+   "what": "A garden sown by throwing seed into the wind, with films about chaos gardens, meadows from seed and plants that sow themselves on the screen in the seed shed.",
+   "holds": [
+    "The screen in the seed shed",
+    "plants that sow themselves"
+   ],
+   "after": "<h2 id=\"wsc-shed-h\">"
+  },
+  {
    "page": "brighter-days.html",
    "what": "A solar farm at noon with peppers in the panels' shade, and films about crops, sheep and bees under solar panels on the screen in the battery shed.",
    "holds": [

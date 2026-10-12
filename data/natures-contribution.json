@@ -133,6 +133,12 @@
      ]
     },
     {
+     "what": "companion plants: flowers",
+     "to": [
+      "honesty"
+     ]
+    },
+    {
      "what": "companion plants: alfalfa",
      "to": [
       "all-together-now",
@@ -185,7 +191,7 @@
    "page": "all-together-now.html",
    "name": "All Together Now Farms",
    "bearing": "North-east",
-   "state": "raising",
+   "state": "open",
    "land": "shared between trees, crops and animals",
    "what": "A mixed farm and its agroforestry: nut trees with crops between them, the Three Sisters, sheep, goats and chickens, and a café in the old dairy where everything edible out here ends up on the menu.",
    "brief_offers": [
@@ -239,6 +245,7 @@
     {
      "what": "meat, from the animals raised for it, never from the sanctuary",
      "to": [
+      "dairy",
       "honesty"
      ]
     },
@@ -263,7 +270,7 @@
    "page": "wide-spread-chaos.html",
    "name": "Wide-Spread Chaos Gardens",
    "bearing": "East",
-   "state": "raising",
+   "state": "open",
    "land": "shared between flowers and food",
    "what": "An ornamental garden and a food garden, sown by throwing the seed and letting whatever suits the ground win. Nothing in rows.",
    "brief_offers": [

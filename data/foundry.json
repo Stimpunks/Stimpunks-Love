@@ -1471,6 +1471,62 @@
       "sections": [
         107
       ]
+    },
+    "patua-one": {
+      "where": "All Together Now Farms",
+      "page": "all-together-now.html",
+      "sections": [
+        108
+      ]
+    },
+    "pt-serif": {
+      "where": "All Together Now Farms",
+      "page": "all-together-now.html",
+      "sections": [
+        108
+      ]
+    },
+    "yanone-kaffeesatz": {
+      "where": "The Dairy",
+      "page": "the-dairy.html",
+      "sections": [
+        109
+      ]
+    },
+    "oxygen": {
+      "where": "The Dairy",
+      "page": "the-dairy.html",
+      "sections": [
+        109
+      ]
+    },
+    "calistoga": {
+      "where": "The Honesty Box",
+      "page": "the-honesty-box.html",
+      "sections": [
+        110
+      ]
+    },
+    "khula": {
+      "where": "The Honesty Box",
+      "page": "the-honesty-box.html",
+      "sections": [
+        110
+      ]
+    },
+    "gluten": {
+      "where": "Wide-Spread Chaos Gardens",
+      "page": "wide-spread-chaos.html",
+      "sections": [
+        111
+      ]
+    },
+    "catamaran": {
+      "where": "Wide-Spread Chaos Gardens",
+      "page": "wide-spread-chaos.html",
+      "sections": [
+        111
+      ]
     }
   }
 }

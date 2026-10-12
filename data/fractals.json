@@ -1736,6 +1736,65 @@
         "--ghc-bud-purple",
         "--ghc-pistil"
       ]
+    },
+    "all-together-now.html": {
+      "kind": "phoenix",
+      "c": [
+        0.4,
+        0.12
+      ],
+      "p": -0.42,
+      "orbit": 0.012,
+      "ground": "--atn-press",
+      "inks": [
+        "--atn-sun",
+        "--atn-rim-warm",
+        "--atn-moon",
+        "--atn-rim-cool",
+        "--atn-brook"
+      ]
+    },
+    "the-dairy.html": {
+      "kind": "ifs",
+      "figure": "crystal",
+      "sway": 0.02,
+      "ground": "--dry-tile",
+      "inks": [
+        "--dry-band",
+        "--dry-steel-dark",
+        "--dry-cheese",
+        "--dry-squash",
+        "--dry-band-grout"
+      ]
+    },
+    "the-honesty-box.html": {
+      "kind": "julia",
+      "c": [
+        -0.7269,
+        0.1889
+      ],
+      "orbit": 0.01,
+      "ground": "--hbx-night",
+      "inks": [
+        "--hbx-lamp",
+        "--hbx-marigold",
+        "--hbx-pepper",
+        "--hbx-leaf",
+        "--hbx-corn"
+      ]
+    },
+    "wide-spread-chaos.html": {
+      "kind": "ifs",
+      "figure": "dragon",
+      "sway": 0.18,
+      "ground": "--wsc-sky",
+      "inks": [
+        "--wsc-red",
+        "--wsc-orange",
+        "--wsc-yellow",
+        "--wsc-pink",
+        "--wsc-violet"
+      ]
     }
   }
 }

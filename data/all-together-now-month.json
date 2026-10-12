@@ -1,0 +1,411 @@
+{
+ "_source": "Farming While Beige, the one channel Ryan named for the latest month on All Together Now Farms' rack, 2026-10-11. Its channel id was read off its own page on 2026-10-11. Filled by tools/pull-nature-month.py farm on the morning timer (tools/daily-farm.sh). Do not hand-edit the log.",
+ "_log": "A video is an id, the channel it came from, whether it is long-form or a short, its title as written, when it was published, its state (screen, door, pending or gone), why if it is a door, how long it runs, and its channel's name as YouTube gives it. Nothing else: no description, no thumbnail, no count of any kind.",
+ "sources": [
+  {
+   "slug": "farming-while-beige",
+   "name": "Farming While Beige",
+   "url": "https://www.youtube.com/@blackbirdcoop",
+   "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
+  }
+ ],
+ "set": "2026-10-12T00:26Z",
+ "covered": {
+  "farming-while-beige": {
+   "long": [
+    [
+     "2026-09-12T00:26:42Z",
+     "2026-10-12T00:26:42Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-12T00:26:42Z",
+     "2026-10-12T00:26:42Z"
+    ]
+   ]
+  }
+ },
+ "log": [
+  {
+   "id": "uNlQNSBNKR4",
+   "source": "farming-while-beige",
+   "form": "long",
+   "title": "There is no technical fix for spiritual bankruptcy",
+   "published": "2026-09-23T22:50:22Z",
+   "state": "screen",
+   "runs": 1028,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "-mS7jb_hBrs",
+   "source": "farming-while-beige",
+   "form": "long",
+   "title": "Tour (some of) Blackbird Farms!",
+   "published": "2026-10-01T20:57:32Z",
+   "state": "screen",
+   "runs": 350,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "fcQz65U2qo0",
+   "source": "farming-while-beige",
+   "form": "long",
+   "title": "“Race Treason” and Other Insane Notions",
+   "published": "2026-10-04T20:58:46Z",
+   "state": "screen",
+   "runs": 258,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "6D5jrR_N6mQ",
+   "source": "farming-while-beige",
+   "form": "long",
+   "title": "Online “Community” is Destroying Black Solidarity",
+   "published": "2026-10-06T14:16:26Z",
+   "state": "screen",
+   "runs": 389,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "7WDZpD0_NpQ",
+   "source": "farming-while-beige",
+   "form": "long",
+   "title": "I am not a “Black Thought Leader” 😂",
+   "published": "2026-10-08T22:58:57Z",
+   "state": "screen",
+   "runs": 233,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "6stxdrMB10Q",
+   "source": "farming-while-beige",
+   "form": "long",
+   "title": "Should we eat less red meat?",
+   "published": "2026-10-11T14:52:48Z",
+   "state": "screen",
+   "runs": 180,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "rY6-KD9VU04",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "I ain’t never seen anyone move so quickly to try a MF in the court of public opinion 😂",
+   "published": "2026-09-12T12:48:45Z",
+   "state": "screen",
+   "runs": 42,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "mu_nR3YLkBE",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "@seefoodjackie with the violent wholesomeness",
+   "published": "2026-09-12T13:44:14Z",
+   "state": "screen",
+   "runs": 124,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "MQ9rr3RYSyY",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Either we have due process for everyone, or we have might makes right 🤷🏽‍♂️",
+   "published": "2026-09-13T00:16:30Z",
+   "state": "screen",
+   "runs": 176,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "2OMY-Qmb6Wg",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "A word from @hayyyfarms about corporate farms",
+   "published": "2026-09-13T18:07:40Z",
+   "state": "screen",
+   "runs": 133,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "8u0J4LJGvQw",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "The link we’ve established between money and morality needs to be severed with a guillotine",
+   "published": "2026-09-14T12:21:46Z",
+   "state": "screen",
+   "runs": 80,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "ypsh1QcioC8",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Bro how much more free crap do they need? 😂",
+   "published": "2026-09-14T23:56:11Z",
+   "state": "screen",
+   "runs": 84,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "O8oYlrCkXuc",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "To all the people sending me Jasmine Crockett videos: you are exactly the point I was making.",
+   "published": "2026-09-15T22:19:13Z",
+   "state": "screen",
+   "runs": 158,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "8dijvFPpyRw",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "You would never ever be OK with being considered inherently dangerous.",
+   "published": "2026-09-16T12:34:03Z",
+   "state": "screen",
+   "runs": 116,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "GUlnk409ffo",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Why plant-based meat is failing. Everyone go follow @hydroxide",
+   "published": "2026-09-17T13:09:02Z",
+   "state": "screen",
+   "runs": 179,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "cB-A3ni1_hI",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "The ethics of vegan leather and the way @OffbeatBelts just suddenly stopped talking 😂",
+   "published": "2026-09-18T11:19:56Z",
+   "state": "screen",
+   "runs": 179,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "W6RaJILKmXg",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Buy my danged food (and don’t mind the angle of the sun)",
+   "published": "2026-09-19T13:44:02Z",
+   "state": "screen",
+   "runs": 44,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "34q8cQyiCL8",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Johnsongrass infestation.",
+   "published": "2026-09-19T15:23:54Z",
+   "state": "screen",
+   "runs": 56,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "7sNVzXlOuUM",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "What’s good for the goose 🤷🏽‍♂️",
+   "published": "2026-09-20T14:09:20Z",
+   "state": "screen",
+   "runs": 141,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "zLeXSI3TDXQ",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "The TikTok version of my latest YouTube video… (continued in description)",
+   "published": "2026-09-20T19:38:04Z",
+   "state": "screen",
+   "runs": 62,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "2qF7RtzN6ts",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "I apologize. I want the dirty oil lady back.",
+   "published": "2026-09-21T23:21:47Z",
+   "state": "screen",
+   "runs": 179,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "r6vxYA6OhLI",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "So we’re just making up numbers now 😂",
+   "published": "2026-09-22T13:40:44Z",
+   "state": "screen",
+   "runs": 160,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "lAXld1ama-w",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "We finally got uniforms!",
+   "published": "2026-09-24T15:38:29Z",
+   "state": "screen",
+   "runs": 74,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "SW8Jhoo-k5k",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Millennial dads… this lady knows too much.",
+   "published": "2026-09-25T13:40:12Z",
+   "state": "screen",
+   "runs": 159,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "jbZzhzNKjss",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "The @SadBeige “run to target” series is some of the most unsettling performance art I’ve ever seen.",
+   "published": "2026-09-26T23:19:55Z",
+   "state": "screen",
+   "runs": 118,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "ziqh6u2JTjw",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "How I got kicked out of my own bachelor party.",
+   "published": "2026-09-27T20:28:28Z",
+   "state": "screen",
+   "runs": 170,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "ppHirvzjBYc",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Bruh…",
+   "published": "2026-09-28T18:21:04Z",
+   "state": "screen",
+   "runs": 145,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "1lLMKo3av3Q",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Standing on the shoulders of your ancestors ￼does not make you a giant",
+   "published": "2026-09-29T19:22:21Z",
+   "state": "screen",
+   "runs": 116,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "grMLyFXBXiI",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Capitalism isn’t why I’m successful. It’s why my success is so out of proportion to how hard I work",
+   "published": "2026-09-30T00:03:28Z",
+   "state": "screen",
+   "runs": 100,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "MLym_LgbSeY",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Short-term thinking means stepping over dollars to pick up pennies",
+   "published": "2026-09-30T18:34:41Z",
+   "state": "screen",
+   "runs": 172,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "xi-DOE-ptA8",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Lower prices are not necessarily a conspiracy",
+   "published": "2026-10-01T16:52:22Z",
+   "state": "screen",
+   "runs": 177,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "bm8V8YFDLPg",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Unwashed hands and unseasoned chicken 🤮",
+   "published": "2026-10-02T17:55:51Z",
+   "state": "screen",
+   "runs": 80,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "DiVylwG2JcQ",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Summoned: worker owned cooperatives, unions, and social safety nets",
+   "published": "2026-10-03T16:53:05Z",
+   "state": "screen",
+   "runs": 169,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "F1g1C-KWLYE",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Play stupid games, win stupid prizes.",
+   "published": "2026-10-05T14:28:05Z",
+   "state": "screen",
+   "runs": 108,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "FK2338lgWIA",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "I apologize.",
+   "published": "2026-10-07T01:01:50Z",
+   "state": "screen",
+   "runs": 63,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "ERHdAy70gAE",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Yes, gently tossing day-old chicks is perfectly normal and safe",
+   "published": "2026-10-07T16:26:30Z",
+   "state": "screen",
+   "runs": 142,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "YPTZXs8Feww",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "What “not defending huyite women” means",
+   "published": "2026-10-09T13:17:10Z",
+   "state": "screen",
+   "runs": 115,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "w9IASxtcNlk",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "The best way to profit from a half acre",
+   "published": "2026-10-10T13:42:41Z",
+   "state": "screen",
+   "runs": 112,
+   "channel": "Farming While Beige"
+  }
+ ]
+}

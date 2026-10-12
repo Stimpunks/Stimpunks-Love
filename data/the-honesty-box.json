@@ -1,0 +1,221 @@
+{
+ "_source": "Ryan Boren's brief, 2026-10-11: a shopfront for selling wool goods, meat, milk, eggs, cheese, produce and the rest from All Together Now Farms and its neighbours in Nature's Contribution, everything properly pasteurised with respect for lawful and ethical food safety, no raw milk. His answers the same afternoon: it is a shopfront on the street, and it sells by honesty box, prices on a board, money in a box, nobody watching. Read by tools/make-the-honesty-box.py.",
+ "_prices": "The prices are this story's, in dollars, and the board says they change with the season. Every other kitchen and stall on this street refuses a price; this one requires one on everything, at Ryan's ask, because selling the land's goods to the street is how the land feeds it. The tool refuses an item without a price, and the word free.",
+ "places": {
+  "all-together-now": {
+   "name": "All Together Now Farms",
+   "page": "all-together-now.html"
+  },
+  "brighter-days": {
+   "name": "Brighter Days Solar Farm",
+   "page": "brighter-days.html"
+  },
+  "gentle-help": {
+   "name": "Gentle Help Cannabis Farm",
+   "page": "gentle-help.html"
+  },
+  "wide-spread-chaos": {
+   "name": "Wide-Spread Chaos Gardens",
+   "page": "wide-spread-chaos.html"
+  }
+ },
+ "shelves": [
+  {
+   "shelf": "Wool",
+   "items": [
+    {
+     "name": "A skein of the farm's wool",
+     "price": "14.00",
+     "from": "all-together-now",
+     "kind": "wool"
+    },
+    {
+     "name": "Wool socks",
+     "price": "18.00",
+     "from": "all-together-now",
+     "kind": "wool"
+    },
+    {
+     "name": "A wool hat",
+     "price": "24.00",
+     "from": "all-together-now",
+     "kind": "wool"
+    }
+   ]
+  },
+  {
+   "shelf": "Hemp",
+   "items": [
+    {
+     "name": "Hemp cordage, ten metres",
+     "price": "8.00",
+     "from": "gentle-help",
+     "kind": "cordage"
+    },
+    {
+     "name": "Hemp cloth, a metre",
+     "price": "20.00",
+     "from": "gentle-help",
+     "kind": "cloth"
+    }
+   ]
+  },
+  {
+   "shelf": "In the fridge",
+   "cold": true,
+   "items": [
+    {
+     "name": "Goat's milk, pasteurised, a quart",
+     "price": "6.00",
+     "from": "all-together-now",
+     "kind": "milk"
+    },
+    {
+     "name": "Sheep's cheese, from pasteurised milk, a wedge",
+     "price": "9.00",
+     "from": "all-together-now",
+     "kind": "cheese"
+    },
+    {
+     "name": "Goat's cheese, from pasteurised milk",
+     "price": "8.00",
+     "from": "all-together-now",
+     "kind": "cheese"
+    },
+    {
+     "name": "Sheep's yogurt, from pasteurised milk",
+     "price": "5.00",
+     "from": "all-together-now",
+     "kind": "milk"
+    },
+    {
+     "name": "Eggs, a dozen",
+     "price": "6.00",
+     "from": "all-together-now",
+     "kind": "eggs"
+    }
+   ]
+  },
+  {
+   "shelf": "In the freezer",
+   "cold": true,
+   "items": [
+    {
+     "name": "Lamb chops, a pound",
+     "price": "14.00",
+     "from": "all-together-now",
+     "kind": "meat",
+     "animal": "lamb"
+    },
+    {
+     "name": "Goat, minced, a pound",
+     "price": "10.00",
+     "from": "all-together-now",
+     "kind": "meat",
+     "animal": "goat"
+    },
+    {
+     "name": "A whole chicken",
+     "price": "18.00",
+     "from": "all-together-now",
+     "kind": "meat",
+     "animal": "chicken"
+    }
+   ]
+  },
+  {
+   "shelf": "From the fields",
+   "items": [
+    {
+     "name": "Corn, four ears",
+     "price": "3.00",
+     "from": "all-together-now",
+     "kind": "crops"
+    },
+    {
+     "name": "Beans, a pound",
+     "price": "4.00",
+     "from": "all-together-now",
+     "kind": "crops"
+    },
+    {
+     "name": "A squash",
+     "price": "3.00",
+     "from": "all-together-now",
+     "kind": "crops"
+    },
+    {
+     "name": "Walnuts, a bag",
+     "price": "8.00",
+     "from": "all-together-now",
+     "kind": "nuts"
+    },
+    {
+     "name": "Hazelnuts, a bag",
+     "price": "9.00",
+     "from": "all-together-now",
+     "kind": "nuts"
+    },
+    {
+     "name": "Chiltepin peppers, a cup",
+     "price": "4.00",
+     "from": "brighter-days",
+     "kind": "peppers"
+    },
+    {
+     "name": "Jalapeños, a pound",
+     "price": "4.00",
+     "from": "brighter-days",
+     "kind": "peppers"
+    },
+    {
+     "name": "Cherry tomatoes, a pint",
+     "price": "5.00",
+     "from": "brighter-days",
+     "kind": "other plants"
+    },
+    {
+     "name": "Basil, a bunch",
+     "price": "3.00",
+     "from": "gentle-help",
+     "kind": "herbs"
+    },
+    {
+     "name": "Dill, a bunch",
+     "price": "3.00",
+     "from": "all-together-now",
+     "kind": "herbs"
+    },
+    {
+     "name": "Salad leaves, a bag",
+     "price": "4.00",
+     "from": "wide-spread-chaos",
+     "kind": "food"
+    }
+   ]
+  },
+  {
+   "shelf": "Flowers and seeds",
+   "items": [
+    {
+     "name": "Marigolds, a bunch",
+     "price": "6.00",
+     "from": "gentle-help",
+     "kind": "flowers"
+    },
+    {
+     "name": "Whatever came up in the chaos gardens, a bunch",
+     "price": "10.00",
+     "from": "wide-spread-chaos",
+     "kind": "flowers"
+    },
+    {
+     "name": "A packet of chaos garden seed",
+     "price": "2.00",
+     "from": "wide-spread-chaos",
+     "kind": "seeds"
+    }
+   ]
+  }
+ ]
+}

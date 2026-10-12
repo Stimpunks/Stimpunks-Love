@@ -498,6 +498,25 @@ DRAW = {
     # 7.15 on the skin, and its stem and the floor line are --ghc-ink, 11.09,
     # both over the body threshold a marker is held to.
     "ghc-leaf": """<path d="M3 29 H29" stroke="var(--ghc-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M16 22 L16 27" stroke="var(--ghc-ink)" stroke-width="1.6"/><path d="M16 22 Q14 13 16 4 Q18 13 16 22 Z M16 22 Q10 15 7 8 Q14 13 16 22 Z M16 22 Q22 15 25 8 Q18 13 16 22 Z M16 22 Q8 20 4 15 Q11 17 16 22 Z M16 22 Q24 20 28 15 Q21 17 16 22 Z" fill="var(--ghc-head)"/>""",
+    # All Together Now's brown egg, laid by the gate: the shell is --atn-card
+    # with an --atn-ink outline, 8.88 on the sky and 8.95 and 10.16 on its two
+    # ends, and its speckles and the grass line are --atn-link, 6.33 at the
+    # least, both over the body threshold a marker is held to.
+    "atn-egg": """<path d="M3 29 H29" stroke="var(--atn-link)" stroke-width="1.6" stroke-linecap="round"/><path d="M16 5 C22 5 25 14 25 19 C25 24 21 27 16 27 C11 27 7 24 7 19 C7 14 10 5 16 5 Z" fill="var(--atn-card)" stroke="var(--atn-ink)" stroke-width="1.8"/><circle cx="13" cy="15" r="1.2" fill="var(--atn-link)"/><circle cx="18.5" cy="12" r="1" fill="var(--atn-link)"/><circle cx="19" cy="20" r="1.3" fill="var(--atn-link)"/><circle cx="12.5" cy="21.5" r="0.9" fill="var(--atn-link)"/>""",
+    # The Dairy's milk churn by the door: its outline and the floor line are
+    # --dry-ink, 13.94 on the tile, and its band is --dry-band, 5.74,
+    # both over the body threshold a marker is held to; the steel fill is
+    # ornament inside the outline.
+    "dry-churn": """<path d="M3 29 H29" stroke="var(--dry-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M12 5 H20 V8 L23 11 V26 H9 V11 L12 8 Z" fill="var(--dry-steel)" stroke="var(--dry-ink)" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 17 H23" stroke="var(--dry-band)" stroke-width="2.6"/><path d="M11 5 H21" stroke="var(--dry-ink)" stroke-width="2.2" stroke-linecap="round"/>""",
+    # The Honesty Box's coin, dropped by the box: --hbx-link, 10.49 on the
+    # night, with the kerb line in --hbx-fog, 8.48, both over the body threshold a
+    # marker is held to.
+    "hbx-coin": """<path d="M3 29 H29" stroke="var(--hbx-fog)" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="16" cy="22" rx="11" ry="4.5" fill="var(--hbx-link)"/><circle cx="16" cy="13" r="8.5" fill="var(--hbx-link)"/><circle cx="16" cy="13" r="5.6" fill="none" stroke="var(--hbx-night)" stroke-width="1.3"/>""",
+    # Wide-Spread Chaos's seed ball, dropped in the grass: the ball is
+    # --wsc-dim, 5.97 on the sky, flecked with seed in --wsc-label, and the
+    # grass line is --wsc-ink, 7.81, both over the body threshold a marker
+    # is held to.
+    "wsc-seed": """<path d="M3 29 H29" stroke="var(--wsc-ink)" stroke-width="1.6" stroke-linecap="round"/><circle cx="16" cy="18" r="9" fill="var(--wsc-dim)"/><circle cx="12.5" cy="15" r="1.3" fill="var(--wsc-label)"/><circle cx="18" cy="13.5" r="1.1" fill="var(--wsc-label)"/><circle cx="19.5" cy="20" r="1.4" fill="var(--wsc-label)"/><circle cx="13.5" cy="21.5" r="1" fill="var(--wsc-label)"/><path d="M22 10 l4 -4 M24 12 l5 -2" stroke="var(--wsc-ink)" stroke-width="1.3" stroke-linecap="round"/>""",
     "stair-lift": """<path d="M3 29 H29" stroke="var(--cmi-ink)" stroke-width="1.6" stroke-linecap="round"/><rect x="9" y="6" width="14" height="19" rx="3" fill="var(--cmi-dado)"/><circle cx="16" cy="13" r="3.6" fill="var(--cmi-nosing)"/><path d="M13 20 H19" stroke="var(--cmi-nosing)" stroke-width="1.6" stroke-linecap="round"/>""",
     "fridge-magnet": """<path d="M3 29 H29" stroke="var(--fos-ink)" stroke-width="1.6" stroke-linecap="round"/><rect x="6" y="15" width="20" height="10" fill="var(--fos-tile)" stroke="var(--fos-ink)" stroke-width="1.6"/><path d="M10 20 H15 M17 20 H22" stroke="var(--fos-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M8 26 H27" stroke="var(--fos-edge)" stroke-width="1.4" stroke-linecap="round"/>""",
     "pando-leaf": """<path d="M3 29 H29" stroke="var(--pdo-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M16 5 Q25 9 25 17 Q25 24 16 25 Q7 24 7 17 Q7 9 16 5 Z" fill="var(--pdo-gold)"/><path d="M16 7.5 V23" stroke="var(--pdo-shade)" stroke-width="1.3" stroke-linecap="round"/><path d="M16 25 L17 28.5" stroke="var(--pdo-gold)" stroke-width="2" stroke-linecap="round"/>""",

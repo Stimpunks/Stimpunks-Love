@@ -1,0 +1,267 @@
+{
+ "_source": "Ryan Boren's brief, 2026-10-11: All Together Now Farms, in Nature's Contribution: mixed farming and agroforestry, the Three Sisters; offering sheep, goats, chickens, eggs, crops, wool, milk, cheese, nuts, seeds, herbs, flowers and manure; a café at the farm with a menu made from every edible offering (the-dairy.html); a shopfront selling the wool goods, meat, milk, eggs, cheese and produce, everything pasteurised and lawful, no raw milk (the-honesty-box.html); a rack of proposed videos and the latest month of Farming While Beige (data/all-together-now-month.json). Read by tools/make-all-together-now.py.",
+ "sources": {
+  "animal": {
+   "cite": "E. González-García, J. L. Gourdine, G. Alexandre, H. Archimède and M. Vaarst, “The complex nature of mixed farming systems requires multidimensional actions supported by integrative research and development efforts”, Animal 6(5): 763–777 (2012)",
+   "short": "González-García and others, Animal, 2012",
+   "url": "https://doi.org/10.1017/S1751731111001923",
+   "read": "the PDF, read 2026-10-11; © The Animal Consortium, so it is quoted briefly and credited"
+  },
+  "usda": {
+   "cite": "“Agroforestry Practices”, the USDA National Agroforestry Center",
+   "short": "the USDA National Agroforestry Center",
+   "url": "https://www.fs.usda.gov/nac/practices/index.shtml",
+   "read": "read 2026-10-11; a U.S. government page, in the public domain"
+  },
+  "usda-silvo": {
+   "cite": "“Silvopasture”, the USDA National Agroforestry Center",
+   "short": "the USDA National Agroforestry Center",
+   "url": "https://www.fs.usda.gov/nac/practices/silvopasture.php",
+   "read": "read 2026-10-11; in the public domain"
+  },
+  "onondaga": {
+   "cite": "Dehowähda·dih – Bradley Powless, The Three Sisters, published by the Onondaga Nation",
+   "short": "the Onondaga Nation's The Three Sisters",
+   "url": "https://www.onondaganation.org/wp-content/uploads/2026/02/three_sisters_book.pdf",
+   "read": "read 2026-10-11; told here in our own words and not quoted"
+  },
+  "oneida": {
+   "cite": "“The Legend of the Three Sisters”, Oneida Indian Nation",
+   "short": "the Oneida Indian Nation",
+   "url": "https://www.oneidaindiannation.com/the-legend-of-the-three-sisters",
+   "read": "read 2026-10-11; told here in our own words and not quoted"
+  },
+  "cdc-milk": {
+   "cite": "“Raw Milk”, U.S. Centers for Disease Control and Prevention, in the public domain",
+   "short": "the CDC",
+   "url": "https://www.cdc.gov/food-safety/foods/raw-milk.html",
+   "read": "read 2026-10-11, in a browser, because the CDC refuses scripts"
+  },
+  "colorado-milk": {
+   "cite": "Colorado Revised Statutes 25-5.5-117",
+   "short": "Colorado law",
+   "url": "https://colorado.public.law/statutes/crs_25-5.5-117",
+   "read": "read 2026-10-11"
+  },
+  "blackbird": {
+   "cite": "Blackbird Farms, Westmoreland County, Virginia, whose channel is Farming While Beige",
+   "short": "Blackbird Farms",
+   "url": "https://blackbirdcoop.com/",
+   "read": "its own pages, read 2026-10-11"
+  },
+  "fwb-post": {
+   "cite": "“Infodumplings: Farming While Beige, or How to Feed Everybody While Being Funny as Hell”, Stimpunks, 2026-07-01",
+   "short": "our Infodumplings write-up",
+   "url": "https://stimpunks.org/2026/07/01/infodumplings-farming-while-beige-or-how-to-feed-everybody-while-being-funny-as-hell/",
+   "read": "our own post"
+  }
+ },
+ "quote_cap": 40,
+ "quotes": [
+  {
+   "key": "mfs",
+   "source": "animal",
+   "said": "MFS are defined as farming systems conducted by households or by enterprises where crop cultivation and livestock rearing together form integrated components of a single farming system."
+  },
+  {
+   "key": "start",
+   "source": "animal",
+   "said": "We argue that farmers and other relevant stakeholders should form part of the team from the very start."
+  },
+  {
+   "key": "agroforestry",
+   "source": "usda",
+   "said": "Agroforestry is the intentional combination of agriculture and forestry to create productive and sustainable land use practices."
+  },
+  {
+   "key": "silvo",
+   "source": "usda-silvo",
+   "said": "Silvopasture is the deliberate integration of trees and grazing livestock operations on the same land."
+  },
+  {
+   "key": "pasteurize",
+   "source": "cdc-milk",
+   "said": "Pasteurization is crucial for milk safety, killing harmful germs that can cause illness."
+  },
+  {
+   "key": "guarantee",
+   "source": "cdc-milk",
+   "said": "While good practices on farms can reduce contamination, they cannot guarantee safety from harmful germs."
+  },
+  {
+   "key": "law",
+   "source": "colorado-milk",
+   "said": "Retail sales of raw, unpasteurized milk shall not be allowed."
+  }
+ ],
+ "_practices": "The USDA's five agroforestry practices, in its words and its order, and which of them this farm does. A practice the farm does not do says so, rather than being left off to make the farm look complete.",
+ "practices": [
+  {
+   "name": "windbreaks",
+   "usda": "Linear plantings of trees and shrubs to enhance, protect, and benefit people, livestock, and soil and water conservation.",
+   "here": "A line of trees along the north and west edges, between the farm and the weather."
+  },
+  {
+   "name": "riparian forest buffers",
+   "usda": "Natural or re-established streamside forests made up of tree, shrub, and grass plantings.",
+   "here": "Along the brook, where it runs down to the sanctuary's wetland."
+  },
+  {
+   "name": "alley cropping",
+   "usda": "Agricultural crops grown simultaneously with long-term tree crops.",
+   "here": "Rows of walnut and hazel trees with the crops grown in the alleys between them."
+  },
+  {
+   "name": "silvopasture",
+   "usda": "Combines trees with forage and livestock production.",
+   "here": "The sheep and the goats graze under the nut trees in the shade, and the chickens follow them."
+  },
+  {
+   "name": "forest farming",
+   "usda": "Cultivation of high-value crops under the protection of a managed forest canopy.",
+   "here": "Not here. The farm has no woodland of its own: the wood belongs to the campgrounds, and nobody has drawn a map of it."
+  }
+ ],
+ "_animals": "The animals, what each one does on the farm, and where what comes from them goes. Some of them are raised for meat and the farm says so; none of the sanctuary's residents ever is.",
+ "animals": [
+  {
+   "name": "sheep",
+   "does": "Graze under the nut trees and between the solar farm's rows, which keeps the grass down with nobody mowing.",
+   "gives": "wool, milk, cheese and meat, to the café in the old dairy and the honesty box"
+  },
+  {
+   "name": "goats",
+   "does": "Clear the brush along the windbreak and the brook, and eat things nobody else will.",
+   "gives": "milk, cheese and meat, to the café in the old dairy and the honesty box"
+  },
+  {
+   "name": "chickens",
+   "does": "Follow the sheep round the pasture a few days behind them, scratching through it and eating what they find.",
+   "gives": "eggs, and meat, to the café in the old dairy and the honesty box"
+  }
+ ],
+ "_crops": "The crops, out of the brief's list: crops, nuts, seeds, herbs and flowers.",
+ "crops": [
+  {
+   "name": "corn, beans and squash",
+   "how": "Grown together, the Three Sisters, on mounds in the alleys between the nut trees."
+  },
+  {
+   "name": "walnuts and hazelnuts",
+   "how": "From the trees in the rows."
+  },
+  {
+   "name": "sunflower and squash seeds",
+   "how": "Saved for next year, and the rest roasted for the café."
+  },
+  {
+   "name": "herbs",
+   "how": "Dill and coriander along the alley ends, alongside the cannabis farm's basil."
+  },
+  {
+   "name": "flowers",
+   "how": "Along the field margins, for the bees the solar farm's flowers bring in."
+  }
+ ],
+ "videos": [
+  {
+   "id": "960gLZIXGV8",
+   "title": "Dr. Michael Kotutwa Johnson presents on Hopi Dry Farming: 2000 Years of Resiliency",
+   "channel": "Dry Farming Collaborative",
+   "channel_id": "UC2k5Uv4czyuraR9nQqEFw9Q",
+   "published": "2022-02-03",
+   "runs": 2445,
+   "about": "Michael Kotutwa Johnson, a member of the Hopi Tribe and a researcher with the Native American Agriculture Fund, on Hopi dry farming."
+  },
+  {
+   "id": "VCBJufikcvM",
+   "title": "Living Earth 2023: Zuni Waffle Gardens and Contemporary Practices",
+   "channel": "SmithsonianNMAI",
+   "channel_id": "UC98mlqOY5HGNl5wrWS52F9A",
+   "published": "2023-08-09",
+   "runs": 2223,
+   "about": "Reyna Banteah, of Zuni, on Zuni farming on the Colorado Plateau and its waffle gardens, at the National Museum of the American Indian."
+  },
+  {
+   "id": "KMcCPajKHH4",
+   "title": "Ganondagan’s 3 Sisters Garden Preparation and Planting",
+   "channel": "Ganondagan",
+   "channel_id": "UCoLxS8-0iiqe6yhmcyrGzQg",
+   "published": "2020-06-16",
+   "runs": 126,
+   "about": "Ganondagan's traditional Haudenosaunee Three Sisters garden being prepared and planted, by the people who keep it."
+  },
+  {
+   "id": "kZ4xd5kwIYU",
+   "title": "The Three Sister Plants at the Indigenous Garden",
+   "channel": "University of Toronto Scarborough",
+   "channel_id": "UCUP9ibsT_dIcyxqKB3w7rnA",
+   "published": "2022-06-28",
+   "runs": 179,
+   "about": "Isaac Crosby, an Indigenous mentor at a campus farm, on the sister crops in the Indigenous garden."
+  },
+  {
+   "id": "pFRXY8bV_ug",
+   "title": "When ancient wisdom beats modern industry - Rebecca Webster",
+   "channel": "TED-Ed",
+   "channel_id": "UCsooa4yRKGN_zEE8iknghZA",
+   "published": "2024-02-20",
+   "runs": 345,
+   "about": "Rebecca Webster tells the story of the Three Sisters and what it teaches about growing food, animated."
+  },
+  {
+   "id": "B-yscXAxSMs",
+   "title": "How This Indigenous Farmer Is Solving Food Insecurity",
+   "channel": "PBS Terra",
+   "channel_id": "UCpxYSWgxVt3Pyn1ovXsGQ0g",
+   "published": "2023-06-01",
+   "runs": 972,
+   "about": "Michelle Week, a farmer drawing on her Sinixt knowledge, on seed saving and dry farming near Portland."
+  },
+  {
+   "id": "ZQ2LepfCq9Q",
+   "title": "ʻUlu Agroforestry Series: Multi-Story Cropping – Then & Now",
+   "channel": "Hawai'i 'Ulu Cooperative",
+   "channel_id": "UCmV-2UkIMlenHKAYFmkndEA",
+   "published": "2022-11-09",
+   "runs": 426,
+   "about": "Multi-story cropping under breadfruit, a Hawaiian agroforestry, from Hawai'i 'Ulu Cooperative."
+  },
+  {
+   "id": "TT6HPoC3hqM",
+   "title": "Cows in the Woods: What it Takes to Create a Silvopasture",
+   "channel": "Clean Wisconsin",
+   "channel_id": "UC06rEYmb_MRwa3Q7PnZfunQ",
+   "published": "2023-09-01",
+   "runs": 408,
+   "about": "A grassfed beef farm in Wisconsin turning overgrown land into silvopasture, trees and grazing together."
+  },
+  {
+   "id": "u_gwqGOowUc",
+   "title": "5 Cattle, 17 sheep, 250 chickens on 4 Acres - Multi-species rotational grazing",
+   "channel": "Birchfield Farming",
+   "channel_id": "UCYQmKuwTkkghEoH9IHDHMww",
+   "published": "2021-06-28",
+   "runs": 373,
+   "about": "A family farm moving cattle, sheep and chickens round small paddocks, with rest as the point."
+  },
+  {
+   "id": "UIKgYDJz0vs",
+   "title": "A System for Rotating Sheep and Chickens on Pasture",
+   "channel": "Growing Roots Farm",
+   "channel_id": "UCp8vluF75C453vPtqrXFCbw",
+   "published": "2023-10-22",
+   "runs": 511,
+   "about": "How one small farm moves its sheep and its chickens on pasture."
+  },
+  {
+   "id": "kAaVMGBNfug",
+   "title": "Navajo Churo Sheep Presidium",
+   "channel": "Slow Food USA",
+   "channel_id": "UCGkZWJVK6FGTFHSZVoiQ79Q",
+   "published": "2016-09-12",
+   "runs": 196,
+   "about": "A Slow Food presidium for Navajo-Churro sheep and the Diné herders, spinners and weavers who keep them."
+  }
+ ]
+}

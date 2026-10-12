@@ -280,6 +280,11 @@ LISTS = [
     ("brighter days", "data/brighter-days.json", "brighter-days.html"),
     # Gentle Help: Claude's picks, every one checked for an age gate as well.
     ("gentle help", "data/gentle-help.json", "gentle-help.html"),
+    # All Together Now: Claude's picks, and Farming While Beige's month.
+    ("all together now", "data/all-together-now.json", "all-together-now.html"),
+    ("all together now's month", "data/all-together-now-month.json", "all-together-now.html"),
+    # Wide-Spread Chaos: Claude's picks.
+    ("wide-spread chaos", "data/wide-spread-chaos.json", "wide-spread-chaos.html"),
     # The four lots where the buildings stop, each with a rack of Ryan's pick:
     # television made for dogs on the Run (one of them a live stream, which
     # answers OK while it is live), tacos, bánh mì and ramen at the Truck Stop,

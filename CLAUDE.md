@@ -3104,6 +3104,43 @@ neighbours, is left out. **Read every author's first name off the paper's record
 for Vanessa Johnson for an hour, expanded from an initial. The light comes through the hoop house's own skin, pale and
 even; Learning Large is the same building inside out.
 
+**ALL TOGETHER NOW FARMS (§108) IS LIT BY TWO LIGHTS, AND NO OTHER ROOM IS.** Ryan's brief, 2026-10-11: mixed
+farming, agroforestry, the Three Sisters, sheep, goats and chickens, Farming While Beige's month. The sun is going down
+on one side and the full moon coming up on the other, so everything is warm on its west side and silver on its east;
+the sky runs between them on the body's `::before` over a flat `--atn-sky`, and every ink on it is held against both
+ends. `make-all-together-now.py` refuses **raw milk** in our voice (the CDC and Colorado's statute are quoted on the
+page), **the Three Sisters retold** (the planting is described and credited to the Onondaga Nation's own book and the
+Oneida Indian Nation, and the story is theirs; the tool refuses the story's figures by name and the page without both
+links), and **a USDA practice missing, out of order or unaccounted for**: forest farming is not done, because the
+wood is the campgrounds' and unmapped, and its card says so with a dashed edge rather than being left off. Farming
+While Beige's month is `pull-nature-month.py farm`, on the morning task as `tools/daily-farm.sh`.
+
+**THE DAIRY (§109) IS BEHIND THE FARM, AND ITS MENU CANNOT CLAIM A CROP THE LAND DOES NOT GROW.** Ryan's brief: a café
+whose menu is every edible offering in the area, all pasteurised. Every pantry line names its place and a word,
+`make-the-dairy.py` looks for that word in the place's own data file, and anything bought in (salt, baking soda) is
+listed as bought in. Dishes go through **Hey, Good Cookin's `check_dish`** and drinks through **Pekoe and Purrs'
+caffeine**, imported, not copied: goat's and sheep's milk, cheese and yogurt were taught to both engines (they read as
+goat meat and an unsettled drink before). The light is bounced off white glaze and casts nothing; the green band at
+hand height and the food are the only colours. The area's table of what goes where must agree with the menu: meat goes
+to the dairy as well as the box.
+
+**THE HONESTY BOX (§110) IS THE ONE STALL WITH PRICES, AND IT IS ON THE STREET.** Ryan's two answers: a shopfront in
+the row, selling by honesty box. Every item has a price in dollars and cents (the story's, and the board says they
+change with the season), and `make-the-honesty-box.py` refuses an item its place does not send to the box in
+`data/natures-contribution.json`, so the board and the area's table cannot disagree; **cannabis** of any kind, because a
+box nobody watches cannot ask an age (the page must say 21); anything from **the sanctuary**; **raw milk**; meat that
+does not name its animal; and the door gone from `index.html`. The friendly edits are a free shelf (the tool refuses the
+word) and a raw-milk fridge. Its light is one white lamp under the eave, in full colour, which keeps it off Danny the
+Street's sodium; Nothing For Sale is the other roadside table and has no prices and everybody's headlights.
+
+**WIDE-SPREAD CHAOS GARDENS (§111) IS A WINDY DAY, AND ITS DRAWING IS THROWN.** Ryan's brief: an ornamental and food
+garden by chaos gardening. The drawing is scattered out of a fixed seed in `make-wide-spread-chaos.py` (the same garden
+every build), and everything leans one way by geometry, never a transform. The tool refuses **a noxious weed in the
+mix** (Colorado State University Extension's four: chicory, dame's rocket, oxeye daisy, yellow toadflax), **a claim of
+nativeness** in our voice (The Conversation's article, CC BY-ND, quoted as written, says cheap mixes claim it falsely),
+a Latin name, and a food the café says comes from here that the mix lacks. A clear sky with no cloud is what holds it
+off the land it stands on, whose shadows are the clouds'.
+
 **THE RUN (§96) IS PAINTED IN A DOG'S COLOURS, AND THE TOOL READS EVERY ONE.** Dogs have two kinds of cone (Neitz,
 Geist and Jacobs, 1989), so every `--run-` colour must be a blue, a yellow or a grey, and `make-the-run.py` refuses
 any other hue and any literal colour in §96. **The shadows are the grass's own yellow, never blue**: blue shadows

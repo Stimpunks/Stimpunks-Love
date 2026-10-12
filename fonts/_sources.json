@@ -2801,5 +2801,125 @@
    "src": "https://fonts.gstatic.com/s/cantarell/v18/B50LF7ZDq37KMUvlO015iZJpNKuwL4Ye.woff2",
    "note": "The italic of the 400 above, for the public-health quotations in how to be careful."
   }
+ ],
+ "patua-one": [
+  {
+   "file": "patua-one-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 12928,
+   "src": "https://fonts.gstatic.com/s/patuaone/v22/ZXuke1cDvLCKLDcimxB44_luFgxbuQ.woff2",
+   "note": "All Together Now (§108), the farm's name and every heading, and nothing at reading size: a sturdy slab with soft corners, like a painted farm sign. One static file."
+  }
+ ],
+ "pt-serif": [
+  {
+   "file": "pt-serif-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 13400,
+   "src": "https://fonts.gstatic.com/s/ptserif/v19/EJRVQgYoZZY2vCFuvAFWzr-_dSb_.woff2",
+   "note": "All Together Now (§108), every word that is read, the five practices and the racks included. A regular, a bold and an italic, three static files."
+  },
+  {
+   "file": "pt-serif-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 13540,
+   "src": "https://fonts.gstatic.com/s/ptserif/v19/EJRSQgYoZZY2vCFuvAnt66qSVyvVp8NA.woff2",
+   "note": "The bold of the 400 above."
+  },
+  {
+   "file": "pt-serif-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 14236,
+   "src": "https://fonts.gstatic.com/s/ptserif/v19/EJRTQgYoZZY2vCFuvAFT_r21cgT9rcs.woff2",
+   "note": "The italic of the 400 above, for each practice's USDA definition."
+  }
+ ],
+ "yanone-kaffeesatz": [
+  {
+   "file": "yanone-kaffeesatz-600.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 15244,
+   "src": "https://fonts.gstatic.com/s/yanonekaffeesatz/v34/3y9I6aknfjLm_3lMKjiMgmUUYBs04aUXNxt9gW2LIftoKNKZd2GKKHD0VTtI.woff2",
+   "note": "The Dairy (§109), the café's name, its headings and the menu's sections, and nothing at reading size: a tall, narrow letter like a café's painted menu board. One static file, the instance Google serves at weight 600."
+  }
+ ],
+ "oxygen": [
+  {
+   "file": "oxygen-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 10328,
+   "src": "https://fonts.gstatic.com/s/oxygen/v16/2sDfZG1Wl4LcnbuKjk0mRUe0Aw.woff2",
+   "note": "The Dairy (§109), every word that is read, the menu's cards included: a plain, clean sans for a room that is washed down every day. A regular and a bold, two static files."
+  },
+  {
+   "file": "oxygen-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 10268,
+   "src": "https://fonts.gstatic.com/s/oxygen/v16/2sDcZG1Wl4LcnbuCNWgzaGW5Kb8VZA.woff2",
+   "note": "The bold of the 400 above."
+  }
+ ],
+ "calistoga": [
+  {
+   "file": "calistoga-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 32224,
+   "src": "https://fonts.gstatic.com/s/calistoga/v18/6NUU8F2OJg6MeR7l4e0fs8wB49dJfg.woff2",
+   "note": "The Honesty Box (§110), the stand's name, its headings, the shelves and every price, and nothing at reading size: a fat, friendly letter like a hand-painted farm sign. One static file."
+  }
+ ],
+ "khula": [
+  {
+   "file": "khula-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 6440,
+   "src": "https://fonts.gstatic.com/s/khula/v17/OpNCnoEOns3V7GcOrg7-hCJ1.woff2",
+   "note": "The Honesty Box (§110), every word that is read, the board's items included: an open, plain sans. A regular and a bold, two static files."
+  },
+  {
+   "file": "khula-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 6348,
+   "src": "https://fonts.gstatic.com/s/khula/v17/OpNPnoEOns3V7G-1ixvTpi9fXBXC.woff2",
+   "note": "The bold of the 400 above."
+  }
+ ],
+ "gluten": [
+  {
+   "file": "gluten-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 24336,
+   "src": "https://fonts.gstatic.com/s/gluten/v18/Hhy_U5gk9fW7OUdVIPh2zD_RSqQJ__A15jgJsn-Bhb_yI8W86i1MsHmZdzJgcPs.woff2",
+   "note": "Wide-Spread Chaos (§111), the garden's name, its headings and the plant labels' names, and nothing at reading size: a bouncy, uneven letter with no two strokes quite alike. One static file, the instance Google serves at weight 700."
+  }
+ ],
+ "catamaran": [
+  {
+   "file": "catamaran-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 8908,
+   "src": "https://fonts.gstatic.com/s/catamaran/v28/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7du3mnPy1tig.woff2",
+   "note": "Wide-Spread Chaos (§111), every word that is read, the labels and the rack included: a calm, open sans. A regular and a bold, two static files."
+  },
+  {
+   "file": "catamaran-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 9024,
+   "src": "https://fonts.gstatic.com/s/catamaran/v28/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPJ_a5a7du3mnPy1tig.woff2",
+   "note": "The bold of the 400 above."
+  }
  ]
 }

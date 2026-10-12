@@ -44,7 +44,7 @@ STEPS=(
   make-sweetgrass make-oracle make-doomscroll make-pebble-board make-guild
   make-arrivals make-garden make-zibaldone make-rabbit-hole make-checkpoint
   make-dead-tired make-laughingstock make-picture-house make-samefood
-  make-collection make-vital make-open-notebook make-learning-large make-hey-good-cookin make-pekoe make-a-quiet-pint make-brew-and-stew make-natures-contribution make-all-needs-met make-brighter-days make-gentle-help make-the-run make-truckin-food-court make-the-green make-the-pile make-community make-dressup make-mural make-pando make-fridge make-stair make-rescue make-accounts make-brass
+  make-collection make-vital make-open-notebook make-learning-large make-hey-good-cookin make-pekoe make-a-quiet-pint make-brew-and-stew make-natures-contribution make-all-needs-met make-brighter-days make-gentle-help make-all-together-now make-the-dairy make-the-honesty-box make-wide-spread-chaos make-the-run make-truckin-food-court make-the-green make-the-pile make-community make-dressup make-mural make-pando make-fridge make-stair make-rescue make-accounts make-brass
   make-coworking make-town-hall make-live-room make-broadside make-doom-scoop make-library make-dance-punks
   make-small-hours make-repeater make-nothing-for-sale make-covenstead
   make-lagoon make-looming make-sithen make-stay-frosty make-stay-breezy make-mycelium make-big-steep make-glow make-rave make-cooldown make-mud make-secret-cabin make-foundry

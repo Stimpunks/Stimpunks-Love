@@ -416,6 +416,12 @@
    "about": "A pub a few steps down from the street, made like McAnally’s in Jim Butcher’s Dresden Files: thirteen tables of thirteen heights, thirteen carved columns, a player piano with a shelf of old rolls, and no screens, lit only by the street through windows at the pavement and passed round the room by old mirrors. Every pint comes alcohol-free first, in the same glass; a ramp beside the steps as wide as they are; and a plan of the floor to find the table that fits you."
   },
   {
+   "tag": "the-honesty-box",
+   "name": "The Honesty Box",
+   "path": "/the-honesty-box.html",
+   "about": "A farm stand on the street under its own solar lamp: wool, hemp cordage and cloth, pasteurised milk and cheese, eggs, meat and produce from All Together Now Farms and its neighbours in Nature’s Contribution. Prices on the board, money in the box, and nobody watching. No cannabis, no raw milk, and nothing from the sanctuary."
+  },
+  {
    "tag": "neurohome",
    "name": "NeuroHome",
    "path": "/neurohome.html",
@@ -534,6 +540,24 @@
    "name": "Brighter Days Solar Farm",
    "path": "/brighter-days.html",
    "about": "In Nature’s Contribution, north of the stile: solar panels on posts high enough to walk under, peppers, tomatoes and basil growing in their shade, sheep between the rows, and the power for the land and much of the street. At noon, after Star Stuff’s Two Peppers, with a rack of films about crops, sheep and bees under solar panels."
+  },
+  {
+   "tag": "all-together-now",
+   "name": "All Together Now Farms",
+   "path": "/all-together-now.html",
+   "about": "In Nature’s Contribution, north-east of the stile: a mixed farm where trees, crops and animals share the same fields, lit by the sun going down on one side and the moon coming up on the other. The five agroforestry practices and which it does, the Three Sisters credited to the nations that teach them, sheep, goats and chickens, pasteurised milk and why, a café in the old dairy, and a rack in the barn with Farming While Beige’s month on it."
+  },
+  {
+   "tag": "the-dairy",
+   "name": "The Dairy",
+   "path": "/the-dairy.html",
+   "about": "Behind All Together Now Farms, in Nature’s Contribution: the farm’s old dairy, a café now, white glazed tile to the ceiling and a band of green at hand height. Every dish made from what the land grows, each one saying what is in it, its allergens and where every part of it comes from, and every milk and cheese pasteurised."
+  },
+  {
+   "tag": "wide-spread-chaos",
+   "name": "Wide-Spread Chaos Gardens",
+   "path": "/wide-spread-chaos.html",
+   "about": "In Nature’s Contribution, east of the stile: an ornamental and food garden sown by chaos gardening, a mix of seed thrown on a windy day and left to come up how it likes. What chaos gardening is and is not, what is in the mix and the four weeds never in it, what the garden gives to the café and the street, and a rack of chaos gardens and meadows from seed on the screen in the seed shed."
   },
   {
    "tag": "the-outskirts",

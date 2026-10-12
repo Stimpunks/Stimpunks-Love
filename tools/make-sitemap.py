@@ -70,6 +70,7 @@ ORDER = ["index.html",
          "hey-good-cookin.html",
          "pekoe-and-purrs.html",
          "a-quiet-pint.html",
+         "the-honesty-box.html",
          "neurohome.html",  # Isha Snow's, brought in by tools/import-room.py
          "words-bud-beats.html",  # Kristina Brooke's, brought in by tools/import-room.py
          "your-room.html",
@@ -100,7 +101,8 @@ ORDER = ["index.html",
          # lives on: Nature's Contribution, then its places as they open, in
          # the order its fingerpost's arms run.
          "natures-contribution.html", "all-needs-met.html", "gentle-help.html",
-         "brighter-days.html",
+         "brighter-days.html", "all-together-now.html", "the-dairy.html",
+         "wide-spread-chaos.html",
          # The other edge, past the last streetlight at the far end. An area
          # like the campgrounds, listed the same way: the road first, then
          # what is down its turnings.

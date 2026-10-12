@@ -1215,6 +1215,46 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--purrs .og-lede {{ font-family: 'Gabarito', sans-serif; color: var(--pkp-ink); font-size: 25px;
   line-height: 1.35; margin: 0; }}
 
+/* all together now — THE FARM IN ITS TWO LIGHTS, lifted whole, beside the name on
+   the sky that runs from the sun's colour to the moon's. */
+.og--mixedfarm {{ flex-direction: row; align-items: center; gap: 32px; padding: 40px 46px; }}
+.og--mixedfarm .og-words {{ flex: 0 0 420px; }}
+.og--mixedfarm .og-view {{ flex: 0 0 660px; border-radius: 10px; overflow: hidden; border-left: 5px solid var(--atn-warm); border-right: 5px solid var(--atn-cool); }}
+.og--mixedfarm .og-view svg {{ display: block; width: 100%; height: auto; }}
+.og--mixedfarm .atn-over {{ font-size: 14px; margin: 0 0 10px !important; }}
+.og--mixedfarm h1 {{ font-size: 56px; line-height: 1.04; margin: 0 0 16px !important; }}
+.og--mixedfarm .og-lede {{ font-family: 'PT Serif', sans-serif; color: var(--atn-ink); font-size: 22px; line-height: 1.42; margin: 0; }}
+
+/* the dairy — THE OLD DAIRY FROM ITS DOOR, lifted whole, beside the name on the
+   white glaze. */
+.og--dairy {{ flex-direction: row; align-items: center; gap: 32px; padding: 40px 46px; }}
+.og--dairy .og-words {{ flex: 0 0 420px; }}
+.og--dairy .og-view {{ flex: 0 0 660px; border-radius: 10px; overflow: hidden; border-top: 6px solid var(--dry-band); border-bottom: 6px solid var(--dry-band); border-radius: 0; }}
+.og--dairy .og-view svg {{ display: block; width: 100%; height: auto; }}
+.og--dairy .dry-over {{ font-size: 14px; margin: 0 0 10px !important; }}
+.og--dairy h1 {{ font-size: 56px; line-height: 1.04; margin: 0 0 16px !important; }}
+.og--dairy .og-lede {{ font-family: 'Oxygen', sans-serif; color: var(--dry-ink); font-size: 22px; line-height: 1.42; margin: 0; }}
+
+/* the honesty box — THE STAND UNDER ITS LAMP, lifted whole, beside the name on
+   the dark street. */
+.og--honestybox {{ flex-direction: row; align-items: center; gap: 32px; padding: 40px 46px; }}
+.og--honestybox .og-words {{ flex: 0 0 420px; }}
+.og--honestybox .og-view {{ flex: 0 0 660px; border-radius: 10px; overflow: hidden; }}
+.og--honestybox .og-view svg {{ display: block; width: 100%; height: auto; }}
+.og--honestybox .hbx-over {{ font-size: 14px; margin: 0 0 10px !important; }}
+.og--honestybox h1 {{ font-size: 56px; line-height: 1.04; margin: 0 0 16px !important; }}
+.og--honestybox .og-lede {{ font-family: 'Khula', sans-serif; color: var(--hbx-text); font-size: 22px; line-height: 1.42; margin: 0; }}
+
+/* wide-spread chaos — THE GARDEN IN THE WIND, lifted whole, along the foot of the
+   card under the name on the clear sky. */
+.og--chaosgarden {{ flex-direction: column; justify-content: flex-start; gap: 18px; padding: 34px 46px 0; }}
+.og--chaosgarden .og-words {{ flex: 0 0 auto; max-width: 1000px; }}
+.og--chaosgarden .og-view {{ flex: 1 1 auto; margin: 0 -46px; overflow: hidden; display: flex; align-items: flex-end; }}
+.og--chaosgarden .og-view svg {{ display: block; width: 100%; height: auto; }}
+.og--chaosgarden .wsc-over {{ font-size: 14px; margin: 0 0 10px !important; }}
+.og--chaosgarden h1 {{ font-size: 64px; line-height: 1.04; margin: 0 0 10px !important; }}
+.og--chaosgarden .og-lede {{ font-family: 'Catamaran', sans-serif; color: var(--wsc-ink); font-size: 21px; line-height: 1.42; margin: 0; }}
+
 /* gentle help — THE HOOP HOUSE, lifted whole, beside the name on its glowing
    skin. */
 .og--gentlehelp {{ flex-direction: row; align-items: center; gap: 32px; padding: 40px 46px; }}
@@ -4297,6 +4337,98 @@ def card_pint(p):
     )
 
 
+def card_mixedfarm(p):
+    # THE DRAWING AND THE NAME ARE LIFTED WHOLE, so the card cannot show a room
+    # the page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="atn-view__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="atn-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: all-together-now.html has lost its drawing or its header, and the\n"
+            "card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--mixedfarm" data-fit="card">'
+        f'<div class="og-words"><p class="atn-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-view">{draw.group(1)}</div>'
+        f'</div>',
+        f"A card in the colours of dusk, apricot on the left running to periwinkle on the right. On the right, a farm under two lights: the sun half down on the left horizon and a full moon just up on the right, a line of trees along the back, a brook, a red barn and a small white dairy each with a warm edge on its left wall and a silver one on its right, two rows of round nut trees with mounds of corn, beans and squash between them, sheep, goats and hens under the trees, every one rimmed warm on its left and cool on its right. "
+        f"On the left, small capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in "
+        f"large dark plum slab-serif letters, then: {p['desc_plain']}",
+    )
+
+
+def card_dairy(p):
+    # THE DRAWING AND THE NAME ARE LIFTED WHOLE, so the card cannot show a room
+    # the page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="dry-room__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="dry-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: the-dairy.html has lost its drawing or its header, and the\n"
+            "card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--dairy" data-fit="card">'
+        f'<div class="og-words"><p class="dry-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-view">{draw.group(1)}</div>'
+        f'</div>',
+        f"A white card of small glazed tiles. On the right, the inside of an old dairy: white tile to the ceiling with a band of green tile at hand height, two small high windows, a steel counter with a steel pasteuriser and its round thermometer, two milk churns and a round cheese on it, and two tables, each with a plate of something orange and a glass of milk. Nothing has a shadow. "
+        f"On the left, small capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in "
+        f"tall narrow green letters, then: {p['desc_plain']}",
+    )
+
+
+def card_honestybox(p):
+    # THE DRAWING AND THE NAME ARE LIFTED WHOLE, so the card cannot show a room
+    # the page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="hbx-stand__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="hbx-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: the-honesty-box.html has lost its drawing or its header, and the\n"
+            "card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--honestybox" data-fit="card">'
+        f'<div class="og-words"><p class="hbx-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-view">{draw.group(1)}</div>'
+        f'</div>',
+        f"A dark olive card, a street at night. On the right, a small wooden farm stand at the kerb with a solar panel on its roof and a white lamp under its eave throwing a cone of light over two shelves of corn, squash, peppers, tomatoes, herbs, marigolds, eggs, wool, nuts, rope, cloth and seed packets, a fridge, a freezer and a battery under the counter, a wooden box with a slot and a padlock, and a painted board leaning on the post with lines of red writing. "
+        f"On the left, small capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in "
+        f"large rounded cream letters, then: {p['desc_plain']}",
+    )
+
+
+def card_chaosgarden(p):
+    # THE DRAWING AND THE NAME ARE LIFTED WHOLE, so the card cannot show a room
+    # the page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="wsc-view__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="wsc-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: wide-spread-chaos.html has lost its drawing or its header, and the\n"
+            "card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--chaosgarden" data-fit="card">'
+        f'<div class="og-words"><p class="wsc-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-view">{draw.group(1)}</div>'
+        f'</div>',
+        f"A clear blue card, a cloudless sky. Along the bottom, a garden with no paths and no rows, crowded with flowers of every colour on thin stems that all bend to the right in the wind, with tufts of seed blowing across the sky the same way. "
+        f"On the top, small capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in "
+        f"large bouncy dark navy letters, then: {p['desc_plain']}",
+    )
+
+
 def card_gentlehelp(p):
     # THE HOOP HOUSE AND THE NAME ARE LIFTED WHOLE, so the card cannot show a
     # farm the page does not, and the lede is the page's og:description.
@@ -4897,6 +5029,10 @@ CARDS = {
     "sanctuary":    card_sanctuary,
     "solarfarm":    card_solarfarm,
     "gentlehelp":   card_gentlehelp,
+    "chaosgarden":  card_chaosgarden,
+    "honestybox":   card_honestybox,
+    "dairy":        card_dairy,
+    "mixedfarm":    card_mixedfarm,
     # A room you have to know the address of, and the room behind its door
     # (tools/unlisted.py). Each its own card, for every room's reason.
     "wooddoor":     card_wooddoor,
