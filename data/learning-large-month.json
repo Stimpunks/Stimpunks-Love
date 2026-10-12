@@ -78,7 +78,7 @@
    "channel_id": "UCPjNBjflYl0-HQtUvOx0Ibw"
   }
  ],
- "set": "2026-10-11T11:26Z",
+ "set": "2026-10-12T11:21Z",
  "log": [
   {
    "id": "4Hvkv_I8QDE",
@@ -139,16 +139,6 @@
    "state": "screen",
    "runs": 45,
    "channel": "Tina Huang"
-  },
-  {
-   "id": "BwNNcob3-A0",
-   "source": "ai-labs",
-   "form": "long",
-   "title": "The GPT 6 Astra Vs Claude Fable 5.1 Debate Is Finally Over",
-   "published": "2026-09-11T15:00:09Z",
-   "state": "screen",
-   "runs": 909,
-   "channel": "AI LABS"
   },
   {
    "id": "Ua0APTMVcb8",
@@ -259,16 +249,6 @@
    "state": "screen",
    "runs": 808,
    "channel": "AI LABS"
-  },
-  {
-   "id": "JwTCjarfJYw",
-   "source": "matt-wolfe",
-   "form": "long",
-   "title": "AI News: The AI World is REALLY Scared Right Now",
-   "published": "2026-09-11T15:00:00Z",
-   "state": "screen",
-   "runs": 2144,
-   "channel": "Matt Wolfe"
   },
   {
    "id": "S2VJU5DQqlU",
@@ -419,16 +399,6 @@
    "state": "screen",
    "runs": 57,
    "channel": "Matt Wolfe"
-  },
-  {
-   "id": "zDPuEPDXCpU",
-   "source": "nate-b-jones",
-   "form": "long",
-   "title": "Is Omarchy The Last Desktop You'll Ever Need?",
-   "published": "2026-09-11T14:00:33Z",
-   "state": "screen",
-   "runs": 1078,
-   "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
    "id": "XIt87tJHm-g",
@@ -591,13 +561,13 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "L5Ua3SLAmb0",
+   "id": "huWizSgmRf0",
    "source": "nate-b-jones",
-   "form": "short",
-   "title": "I ran an experiment: Fable vs Astra #AI #Fable5 #GPT6 #Astra",
-   "published": "2026-09-12T03:00:11Z",
+   "form": "long",
+   "title": "The AI Paradox: 5 Human Skills That Are More Valuable Than Ever",
+   "published": "2026-10-11T16:00:12Z",
    "state": "screen",
-   "runs": 29,
+   "runs": 1326,
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
@@ -1011,13 +981,13 @@
    "channel": "Theo - t3․gg"
   },
   {
-   "id": "HYSRZycu-sw",
+   "id": "vRS2leJLAI0",
    "source": "theo",
-   "form": "short",
-   "title": "Astra Is A Next-Gen Model",
-   "published": "2026-09-12T00:00:23Z",
+   "form": "long",
+   "title": "I thought AI was gonna get cheaper?",
+   "published": "2026-10-12T02:39:38Z",
    "state": "screen",
-   "runs": 22,
+   "runs": 1098,
    "channel": "Theo - t3․gg"
   },
   {
@@ -1069,16 +1039,6 @@
    "state": "screen",
    "runs": 29,
    "channel": "Theo - t3․gg"
-  },
-  {
-   "id": "Ckl7jX8vKzs",
-   "source": "paul-j-lipsky",
-   "form": "long",
-   "title": "AI News: New ChatGPT And Gemini Images; The Incredible Meta Muse; AI Wearables and More",
-   "published": "2026-09-11T13:00:07Z",
-   "state": "screen",
-   "runs": 1599,
-   "channel": "Paul J Lipsky"
   },
   {
    "id": "sQwp9GrkGi4",
@@ -1228,6 +1188,16 @@
    "published": "2026-10-09T13:00:40Z",
    "state": "screen",
    "runs": 1508,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "hbPvZvpu9KU",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "The New Claude Motion Is Awesome",
+   "published": "2026-10-11T13:00:38Z",
+   "state": "screen",
+   "runs": 544,
    "channel": "Paul J Lipsky"
   },
   {
@@ -1451,6 +1421,16 @@
    "channel": "Riley Brown"
   },
   {
+   "id": "FAQj3rFdnbs",
+   "source": "riley-brown",
+   "form": "short",
+   "title": "Graduate From Claude... To Claude Code",
+   "published": "2026-10-11T17:43:47Z",
+   "state": "screen",
+   "runs": 116,
+   "channel": "Riley Brown"
+  },
+  {
    "id": "9KOtMsZ9I28",
    "source": "nate-herk",
    "form": "long",
@@ -1628,6 +1608,16 @@
    "published": "2026-10-09T02:02:31Z",
    "state": "screen",
    "runs": 551,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "HhZdNYI4pJs",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "I Tried 100+ Github Repos for Claude. These 6 Are the Best",
+   "published": "2026-10-11T12:30:18Z",
+   "state": "screen",
+   "runs": 636,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -2086,13 +2076,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ]
   },
@@ -2100,13 +2090,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ]
   },
@@ -2114,13 +2104,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ]
   },
@@ -2128,13 +2118,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ]
   },
@@ -2142,13 +2132,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ]
   },
@@ -2156,13 +2146,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ]
   },
@@ -2170,13 +2160,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ]
   },
@@ -2184,13 +2174,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ]
   },
@@ -2198,13 +2188,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ]
   },
@@ -2212,13 +2202,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ]
   },
@@ -2226,13 +2216,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ]
   },
@@ -2240,13 +2230,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-11T11:26:28Z"
+     "2026-10-12T11:21:21Z"
     ]
    ]
   }
