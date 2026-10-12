@@ -68,8 +68,24 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-10-11T11:29Z",
+ "set": "2026-10-12T11:24Z",
  "latest": [
+  {
+   "id": "0Xk1HB-MlBM",
+   "title": "The Time I have here is priceless. #Solarpunk Homestead",
+   "channel": "Alex Jurj SolarPunk",
+   "published": "2026-10-11T17:00:35Z",
+   "runs": 405,
+   "search": "solarpunk"
+  },
+  {
+   "id": "FAit-sbutHw",
+   "title": "Solarpunk Ambient Music 🌿 Relaxing in a Green Future Utopia (4K)",
+   "channel": "Aetheria: Sci-Fi Ambient",
+   "published": "2026-10-11T12:00:37Z",
+   "runs": 1968,
+   "search": "solarpunk"
+  },
   {
    "id": "k6bSH3bixLQ",
    "title": "Green Building | Day 03 | UKPSC-JE & AE Exam 2026-27🔥🎯#ukpscae#ukpscje",
@@ -127,6 +143,14 @@
    "search": "green-spaces"
   },
   {
+   "id": "Xib7ARmTVmQ",
+   "title": "Renewable Energy Opportunities: Josh Moenning, New Power Nebraska",
+   "channel": "Nebraska Chapter Sierra Club",
+   "published": "2026-10-09T19:16:10Z",
+   "runs": 305,
+   "search": "renewable-energy"
+  },
+  {
    "id": "MZAlucJH-vA",
    "title": "Syracuse Riparian Food Forest",
    "channel": "cornellsmallfarms",
@@ -135,27 +159,11 @@
    "search": "edibles"
   },
   {
-   "id": "FyxCCBpv4pY",
-   "title": "Blaster Master - Castle - Solarpunk",
-   "channel": "Altered Realms Music",
-   "published": "2026-10-09T16:00:04Z",
-   "runs": 136,
-   "search": "solarpunk"
-  },
-  {
    "id": "VyMRdbfvhas",
    "title": "From Victims to Victors: Stories of Future Renewable Energy Engineer (FREE) Students",
    "channel": "People of Asia for Climate Solutions",
    "published": "2026-10-09T09:09:34Z",
    "runs": 1224,
-   "search": "renewable-energy"
-  },
-  {
-   "id": "PTRCaSBG7ZY",
-   "title": "Speaking with Enfinity Leaders: Building Renewable Energy at Speed | Hans Helmerich",
-   "channel": "Enfinity Global",
-   "published": "2026-10-09T08:20:07Z",
-   "runs": 1483,
    "search": "renewable-energy"
   },
   {
@@ -189,14 +197,6 @@
    "published": "2026-10-08T19:50:24Z",
    "runs": 4241,
    "search": "urban-forests"
-  },
-  {
-   "id": "UAdPYXSP3gg",
-   "title": "5 Why Single Renewable Energy Sources Fail—and What Replaces Th",
-   "channel": "Energy, Resources & Sustainable Systems",
-   "published": "2026-10-08T18:30:11Z",
-   "runs": 497,
-   "search": "renewable-energy"
   },
   {
    "id": "2MRT6SOJwKQ",
@@ -367,33 +367,6 @@
    "channel": "FUTURE SECURE INSTITUTE FOR JE & AE",
    "published": "2026-10-11T02:24:07Z",
    "runs": 6135,
-   "state": "screen"
-  },
-  {
-   "id": "IY2kXCaEYbU",
-   "search": "urban-forests",
-   "title": "Paris's Urban Forests: A Promise Kept or an Illusion?",
-   "channel": "Utopies Urbaines",
-   "published": "2026-10-04T16:00:33Z",
-   "runs": 650,
-   "state": "screen"
-  },
-  {
-   "id": "uM51ll_SV4w",
-   "search": "urban-forests",
-   "title": "Experience the charm of urban forest ecology at Guangyanggu in Beijing",
-   "channel": "Study Beijing",
-   "published": "2026-10-05T01:51:03Z",
-   "runs": 34,
-   "state": "screen"
-  },
-  {
-   "id": "nvmHTqwtDf8",
-   "search": "urban-forests",
-   "title": "Taman Brightspot at Cipete Urban Forest (July 2026)",
-   "channel": "Down to Upthere",
-   "published": "2026-10-05T10:00:21Z",
-   "runs": 132,
    "state": "screen"
   },
   {
@@ -676,42 +649,19 @@
    "state": "screen"
   },
   {
-   "id": "qYQH4Hv1kco",
+   "id": "cAe1UKqN8yk",
    "search": "solarpunk",
-   "title": "Solarpunk #53 Picking up the lost cargo",
-   "channel": "Phantasiėns",
-   "published": "2026-10-04T12:00:10Z",
-   "runs": 1780,
-   "state": "left",
-   "why": "filed under Gaming"
+   "title": "Solarpunk Ambient LIVESTREAM",
+   "state": "pending",
+   "why": "live, or not out yet"
   },
   {
-   "id": "zMFcokoepyI",
+   "id": "S4vlSHKEAwA",
    "search": "solarpunk",
-   "title": "A NOITE  - SOLARPUNK #12",
-   "channel": "jorge_silvaa",
-   "published": "2026-10-04T13:00:35Z",
-   "runs": 1575,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "gkeBakW8Zho",
-   "search": "solarpunk",
-   "title": "Solar Punk Updated New Solar and Storage and More",
-   "channel": "meatwagon22",
-   "published": "2026-10-04T20:15:34Z",
-   "runs": 3215,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "RvF2dhB9OS0",
-   "search": "solarpunk",
-   "title": "【Solarpunk】浮遊島で深夜チル農場 #リモメロ定期【リモーネ先生 / 狂蘭メロコ】",
-   "channel": "Meloco Kyoran【NIJISANJI EN】",
-   "published": "2026-10-04T22:11:43Z",
-   "runs": 34878,
+   "title": "➡️ NEW UPDATE! | SOLARPUNK - EPISODE 23",
+   "channel": "Pixelrampage",
+   "published": "2026-10-05T13:13:21Z",
+   "runs": 2682,
    "state": "left",
    "why": "filed under Gaming"
   },
@@ -836,6 +786,26 @@
    "why": "filed under Gaming"
   },
   {
+   "id": "-P1FpPxVa_Y",
+   "search": "solarpunk",
+   "title": "【Solarpunk】Steampunk Survivalling!",
+   "channel": "LeeandLieVODS",
+   "published": "2026-10-08T11:00:12Z",
+   "runs": 11347,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "2K8WehD2JWc",
+   "search": "solarpunk",
+   "title": "Solarpunk - Update - Fresh Start (1)",
+   "channel": "Prle",
+   "published": "2026-10-08T11:13:12Z",
+   "runs": 3625,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
    "id": "gHMbDHl_mu0",
    "search": "solarpunk",
    "title": "Our Solarpunk Journey Ends Here… | Solarpunk",
@@ -904,12 +874,69 @@
    "state": "screen"
   },
   {
-   "id": "MAXgB8LhTzg",
+   "id": "VbwJ_fajSfY",
+   "search": "solarpunk",
+   "title": "Welcome To SolarPunk",
+   "channel": "vSuperDuke",
+   "published": "2026-10-11T07:21:57Z",
+   "runs": 2313,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "FAit-sbutHw",
+   "search": "solarpunk",
+   "title": "Solarpunk Ambient Music 🌿 Relaxing in a Green Future Utopia (4K)",
+   "channel": "Aetheria: Sci-Fi Ambient",
+   "published": "2026-10-11T12:00:37Z",
+   "runs": 1968,
+   "state": "screen"
+  },
+  {
+   "id": "_i-LcqcR8-0",
+   "search": "solarpunk",
+   "title": "New And Improved Dining Space | Part 65 | Solarpunk",
+   "channel": "True Blue",
+   "published": "2026-10-11T13:18:40Z",
+   "runs": 4003,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "0Xk1HB-MlBM",
+   "search": "solarpunk",
+   "title": "The Time I have here is priceless. #Solarpunk Homestead",
+   "channel": "Alex Jurj SolarPunk",
+   "published": "2026-10-11T17:00:35Z",
+   "runs": 405,
+   "state": "screen"
+  },
+  {
+   "id": "1D5fDT5v7DE",
+   "search": "solarpunk",
+   "title": "SolarPunk: More Frosty Bits! Episode 18",
+   "channel": "Jade Arcade - Gaming",
+   "published": "2026-10-12T04:00:29Z",
+   "runs": 3163,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "6kcPQL8rF0A",
    "search": "renewable-energy",
-   "title": "From permits to public trust: advancing renewables in Europe",
-   "channel": "EU Energy",
-   "published": "2026-10-05T10:38:57Z",
-   "runs": 108,
+   "title": "Austin Energy - Community Solar Redesign Stakeholder Meeting III - September 30, 2026",
+   "channel": "Austin Energy",
+   "published": "2026-10-06T18:11:17Z",
+   "runs": 4347,
+   "state": "screen"
+  },
+  {
+   "id": "zr_sxrROynM",
+   "search": "renewable-energy",
+   "title": "Renewables Passed Coal. Coal Kept Growing.",
+   "channel": "The Buildout",
+   "published": "2026-10-06T20:08:09Z",
+   "runs": 331,
    "state": "screen"
   },
   {
@@ -928,6 +955,15 @@
    "channel": "csebristol",
    "published": "2026-10-08T08:26:42Z",
    "runs": 4613,
+   "state": "screen"
+  },
+  {
+   "id": "NXmFrC796fQ",
+   "search": "renewable-energy",
+   "title": "PowerLink | Smart Renewable Energy Microgrid | STEM Summer Camp 2026",
+   "channel": "The Visiola Foundation",
+   "published": "2026-10-08T09:27:34Z",
+   "runs": 235,
    "state": "screen"
   },
   {
@@ -950,6 +986,15 @@
    "state": "screen"
   },
   {
+   "id": "9Uo_ItLtpuI",
+   "search": "renewable-energy",
+   "title": "SOCIAREM Webinar | Designing Renewable Energy Communities Around People",
+   "channel": "Sociarem",
+   "published": "2026-10-09T07:37:33Z",
+   "runs": 3604,
+   "state": "screen"
+  },
+  {
    "id": "PTRCaSBG7ZY",
    "search": "renewable-energy",
    "title": "Speaking with Enfinity Leaders: Building Renewable Energy at Speed | Hans Helmerich",
@@ -965,6 +1010,15 @@
    "channel": "People of Asia for Climate Solutions",
    "published": "2026-10-09T09:09:34Z",
    "runs": 1224,
+   "state": "screen"
+  },
+  {
+   "id": "Xib7ARmTVmQ",
+   "search": "renewable-energy",
+   "title": "Renewable Energy Opportunities: Josh Moenning, New Power Nebraska",
+   "channel": "Nebraska Chapter Sierra Club",
+   "published": "2026-10-09T19:16:10Z",
+   "runs": 305,
    "state": "screen"
   }
  ]
