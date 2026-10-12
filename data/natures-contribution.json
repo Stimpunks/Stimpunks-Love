@@ -56,7 +56,7 @@
    "page": "all-needs-met.html",
    "name": "All Needs Met Wildlife Sanctuary",
    "bearing": "West",
-   "state": "raising",
+   "state": "open",
    "land": "left to wildlife",
    "what": "A wildlife preserve for whatever lives here already, and a sanctuary for animals who are disabled or were abandoned. At night the keepers go round with a viewer that sees warmth instead of a torch, so nobody is woken.",
    "brief_offers": [
@@ -98,7 +98,7 @@
    "page": "gentle-help.html",
    "name": "Gentle Help Cannabis Farm",
    "bearing": "North-west",
-   "state": "raising",
+   "state": "open",
    "land": "shared with companion plants",
    "what": "Cannabis grown in hoop houses among the plants that grow well beside it, and a farm that would rather teach you how to be careful than sell you anything. Harm reduction, from our own pages.",
    "brief_offers": [
@@ -152,7 +152,7 @@
    "page": "brighter-days.html",
    "name": "Brighter Days Solar Farm",
    "bearing": "North",
-   "state": "raising",
+   "state": "open",
    "land": "shared with crops and sheep",
    "what": "Solar panels on posts high enough to walk under, with peppers growing in their shade and the farm's sheep grazing between the rows. It powers everything out here and much of the street, though every place out here has panels and a battery of its own as well.",
    "brief_offers": [

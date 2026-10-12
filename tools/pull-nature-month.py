@@ -24,6 +24,10 @@ we do not run or YouTube's own script on every visitor's page before they have
 pressed anything; so the rack is filled by a machine somebody switched on, and
 the room prints the minute it was filled.
 
+IT PARTS FROM THAT TOOL IN ONE PLACE: a feed that answers 404 or 5xx is asked
+again, slowly, before it is believed, because YouTube answered both at random
+the evening this was built, for lists that answered 200 a minute later.
+
 WHAT IT READS, PER CHANNEL: both of the channel's own lists, derived from its
 channel id -- UULF, its long-form uploads, and UUSH, its shorts, because the
 brief was the latest month of each channel. Then, FOR A VIDEO IT HAS NOT SEEN
@@ -73,6 +77,9 @@ DATA = RACKS[WHICH]
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/120 Safari/537.36")
 PAUSE = 1.0          # be a guest on somebody else's server
+TRIES = 4            # asks of a feed that answered 404 or 5xx, before believing it
+RETRY_PAUSE = 6.0    # seconds between them
+LIST_MOST = 80       # ids dated off a list page, at most, on a morning its feed is down
 MONTH = 30           # days kept; tools/natures.py holds the same number
 FEED_HOLDS = 15      # what YouTube's feed carries; fewer means it reached the start
 FEEDS = (("long", "UULF"), ("short", "UUSH"))
@@ -105,18 +112,40 @@ def read_feed(src, form, prefix):
     if not CHANNEL.match(src.get("channel_id") or ""):
         die(f"{src.get('name')!r} has no channel id this can read ({src.get('channel_id')!r}).")
     url = f"https://www.youtube.com/feeds/videos.xml?playlist_id={prefix}{src['channel_id'][2:]}"
+    # YOUTUBE ANSWERS 404 AND 500 INTERMITTENTLY, per request, for lists that
+    # answer 200 a minute later: measured on 2026-10-11, the evening this was
+    # built, when a working rack's own channel answered 404 and then 200. So a
+    # 404 or a 5xx is asked again, a few times and slowly, before a 404 counts as
+    # an empty shelf or a 5xx as a refusal. A real 404 costs a few seconds.
+    for attempt in range(TRIES):
+        try:
+            status, xml = get(url)
+            break
+        except urllib.error.HTTPError as e:
+            if attempt < TRIES - 1 and (e.code == 404 or e.code >= 500):
+                time.sleep(RETRY_PAUSE)
+                continue
+            err = e
+            status, xml = None, None
+            break
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            if attempt < TRIES - 1:
+                time.sleep(RETRY_PAUSE)
+                continue
+            die(f"{src['name']}'s {form} feed did not answer ({e}).\n         {url}")
     try:
-        status, xml = get(url)
+        if status is None:
+            raise err
     except urllib.error.HTTPError as e:
-        # A channel that has never put up a short, or never anything but
-        # shorts, has no list of that kind at all, and YouTube answers 404 for
-        # it. That is an empty shelf, not a fault; main() refuses a channel
+        # A FEED THAT STILL WILL NOT ANSWER IS ASKED THE OTHER WAY: the list's
+        # own page, which says in its own markup what is on it, newest first.
+        # A 404 might be an empty shelf (a channel that has never put up a
+        # short) or YouTube's feeds being down, and the list page tells the two
+        # apart: no ids on it is an empty shelf, and main() refuses a channel
         # whose shelves are both empty.
-        if e.code == 404:
-            return []
+        if e.code == 404 or e.code >= 500:
+            return read_list(src, form, prefix)
         die(f"{src['name']}'s {form} feed answered {e.code}.\n         {url}")
-    except (urllib.error.URLError, TimeoutError, OSError) as e:
-        die(f"{src['name']}'s {form} feed did not answer ({e}).\n         {url}")
     if status != 200:
         die(f"{src['name']}'s {form} feed answered {status}.\n         {url}")
     try:
@@ -137,15 +166,46 @@ def read_feed(src, form, prefix):
     return out
 
 
-def watch(vid):
+class Listed(list):
+    """Ids off a list's own page, newest first, with no dates on them yet:
+    main() dates each one off its watch page and stops at the month's edge."""
+
+
+def read_list(src, form, prefix):
+    url = f"https://www.youtube.com/playlist?list={prefix}{src['channel_id'][2:]}"
+    for attempt in range(TRIES):
+        try:
+            status, page = get(url)
+            break
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            if attempt == TRIES - 1:
+                die(f"{src['name']}'s {form} feed and its list page both failed to answer ({e}).\n         {url}")
+            time.sleep(RETRY_PAUSE)
+    if status != 200:
+        die(f"{src['name']}'s {form} feed and its list page both failed to answer ({status}).\n         {url}")
+    if "ytInitialData" not in page:
+        die(f"{src['name']}'s {form} list page carries no ytInitialData, so this cannot read it. Teach it "
+            f"the new page by hand, never on a timer.\n         {url}")
+    out = Listed()
+    for vid in re.findall(r'"videoId":"([A-Za-z0-9_-]{11})"', page):
+        if vid not in out:
+            out.append(vid)
+    print(f"  ({src['name']}'s {form} feed would not answer; read its list page instead: {len(out)} ids)")
+    return out
+
+
+def watch(vid, with_date=False, page=None):
     """What the video's own page says about it, off one request. None if the
     page did not answer, which makes the video pending rather than refusing.
     pull-large-month.py's reading, kept in step with it by hand: all of the
-    pullers read the same fields off the same page."""
-    try:
-        _, page = get(f"https://www.youtube.com/watch?v={vid}")
-    except (urllib.error.URLError, TimeoutError, OSError):
-        return None
+    pullers read the same fields off the same page. with_date also reads when
+    it was published and its title, for a video found on a list's page rather
+    than in a feed, and is None if the page does not say."""
+    if page is None:
+        try:
+            _, page = get(f"https://www.youtube.com/watch?v={vid}")
+        except (urllib.error.URLError, TimeoutError, OSError):
+            return None
 
     def g(rx):
         m = re.search(rx, page)
@@ -161,6 +221,17 @@ def watch(vid):
         owner = json.loads(f'"{owner}"')
     if status is None:
         return None
+    if with_date:
+        when = g(r'"publishDate":"([^"]+)"')
+        title = g(r'"videoDetails":\{"videoId":"[A-Za-z0-9_-]{11}","title":"((?:[^"\\]|\\.)*)"')
+        if not (when and title):
+            return None
+        base = watch(vid, page=page)
+        if base is None:
+            return None
+        cid = g(r'"videoDetails":\{"videoId":"[A-Za-z0-9_-]{11}","title":"(?:[^"\\]|\\.)*","lengthSeconds":"\d+","keywords":\[.*?\],"channelId":"(UC[A-Za-z0-9_-]{22})"') \
+            or g(r'"externalChannelId":"(UC[A-Za-z0-9_-]{22})"') or g(r'"channelId":"(UC[A-Za-z0-9_-]{22})"')
+        return dict(base, published=iso(datetime.fromisoformat(when)), title=json.loads(f'"{title}"'), cid=cid)
     if upcoming or live_now or status == "LIVE_STREAM_OFFLINE" or (status == "OK" and not int(length or 0)):
         return {"state": "pending", "why": "live, or not out yet"}
     if status == "LOGIN_REQUIRED":
@@ -199,19 +270,63 @@ def main():
             print(f"  read {src['name']}, {form}: {len(read[(src['slug'], form)])} entries")
             time.sleep(PAUSE)
         if not any(read[(src["slug"], f)] for f, _ in FEEDS):
+            # (For a list read off its page, these are ids; dated below.)
             die(f"{src['name']} has nothing in either its videos or its shorts. A channel "
                 "with neither is gone or renamed, which is news for a person.")
 
     asked = 0
+    # A LIST READ OFF ITS PAGE comes with no dates, so each new id is dated off
+    # its own watch page, newest first, until one is older than the month; a
+    # video already in the log keeps the date it has. What is read becomes the
+    # same entries a feed would have given, and the coverage below is worked out
+    # from them the same way.
+    owner_of = {(src["slug"], form): src["channel_id"] for src in sources for form, _ in FEEDS}
+    for key, entries in list(read.items()):
+        if not isinstance(entries, Listed):
+            continue
+        dated, reached = [], False
+        for vid in entries[:LIST_MOST]:
+            old = by_id.get(vid)
+            if old and old.get("state") != "pending" and old.get("published"):
+                e = {"id": vid, "title": old["title"], "published": old["published"]}
+            else:
+                w = watch(vid, with_date=True)
+                asked += 1
+                time.sleep(PAUSE)
+                if w is None:
+                    continue                # asked again next morning
+                if w.get("cid") != owner_of[key]:
+                    continue                # not this channel's: a stray id on the page
+                e = {"id": vid, "title": w["title"], "published": w["published"],
+                     "_w": {k: v for k, v in w.items() if k not in ("cid", "published", "title")}}
+            dated.append(e)
+            if utc(e["published"]) < keep_from:
+                reached = True
+                break
+        if reached or len(dated) == len(entries):
+            # It reached the month's edge, or read the whole list: the month is
+            # all here, as with a feed that held fewer than it can.
+            read[key] = dated
+        else:
+            # Stopped short of the edge: padding to a full feed's length makes
+            # the coverage start at the oldest one read, not at the month's start.
+            read[key] = dated + [{"pad": True}] * max(0, FEED_HOLDS - len(dated))
+
     covered = data.get("covered") or {}
     for src in sources:
         cov = covered.setdefault(src["slug"], {})
         for form, _ in FEEDS:
-            entries = read[(src["slug"], form)]
+            raw = read[(src["slug"], form)]
+            entries = [e for e in raw if not e.get("pad")]
             # WHAT THIS READING PROVES WE HAVE SEEN ALL OF: from the oldest entry
             # it carried up to now -- or from the start of the month, if the feed
             # held fewer than it can, which means it reached the start of the list.
-            start = iso(keep_from) if len(entries) < FEED_HOLDS else min(e["published"] for e in entries)
+            if not entries:
+                start = iso(keep_from)
+            elif len(raw) < FEED_HOLDS or utc(min(e["published"] for e in entries)) < keep_from:
+                start = iso(keep_from)
+            else:
+                start = min(e["published"] for e in entries)
             spans = [list(s) for s in cov.get(form, [])] + [[start, iso(now)]]
             cov[form] = [s for s in merge(spans) if s[1] >= iso(keep_from)]
             for e in entries:
@@ -221,9 +336,12 @@ def main():
                 if old and old.get("state") != "pending":
                     old["title"] = e["title"]      # a channel may retitle; keep theirs
                     continue
-                w = watch(e["id"])
-                asked += 1
-                time.sleep(PAUSE)
+                if "_w" in e:
+                    w = e["_w"]
+                else:
+                    w = watch(e["id"])
+                    asked += 1
+                    time.sleep(PAUSE)
                 row = {"id": e["id"], "source": src["slug"], "form": form,
                        "title": e["title"], "published": e["published"]}
                 if w is None:

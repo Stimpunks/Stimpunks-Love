@@ -1,0 +1,559 @@
+{
+ "_source": "Ryan Boren's brief, 2026-10-11: Gentle Help Cannabis Farm, in Nature's Contribution, cannabis grown with companion plants; kind, gentle, green, flowering, celebrating the plant; popular sativa, indica and hybrid strains with their THC, CBD and CBN percentages and terpenes; offering bud, rosins and resins, cordage and cloth, companion plants such as herbs and alfalfa, and education; using the space to educate on harm reduction, with Chelsea's work at a dispensary, his own neuromuscular disease, and our Addiction and Harm Reduction entries. Read by tools/make-gentle-help.py.",
+ "_strains": "Every figure is Leafly's, off each strain's own page, read 2026-10-11: THC and CBD are the medians of the lab results Leafly has for products sold under that name, and the terpenes are its top three, in its order, from labs it certifies. Leafly publishes no CBN for any strain, so the CBN column says so rather than guessing; and the category is Leafly's word, kept because the brief asked for it and the page says why it predicts so little. Weedmaps answered with a bot check and was not read past; AllBud publishes figures with no source and was not used.",
+ "strains": [
+  {
+   "name": "Green Crack",
+   "slug": "green-crack",
+   "leafly_calls": "Sativa",
+   "thc": 17,
+   "cbd": null,
+   "cbg": 1,
+   "cbn": null,
+   "terpenes": [
+    "myrcene",
+    "caryophyllene",
+    "pinene"
+   ],
+   "url": "https://www.leafly.com/strains/green-crack"
+  },
+  {
+   "name": "Jack Herer",
+   "slug": "jack-herer",
+   "leafly_calls": "Sativa",
+   "thc": 18,
+   "cbd": null,
+   "cbg": 1,
+   "cbn": null,
+   "terpenes": [
+    "terpinolene",
+    "caryophyllene",
+    "pinene"
+   ],
+   "url": "https://www.leafly.com/strains/jack-herer"
+  },
+  {
+   "name": "Durban Poison",
+   "slug": "durban-poison",
+   "leafly_calls": "Sativa",
+   "thc": 19,
+   "cbd": null,
+   "cbg": 1,
+   "cbn": null,
+   "terpenes": [
+    "terpinolene",
+    "myrcene",
+    "ocimene"
+   ],
+   "url": "https://www.leafly.com/strains/durban-poison"
+  },
+  {
+   "name": "Harlequin",
+   "slug": "harlequin",
+   "leafly_calls": "Sativa",
+   "thc": 5,
+   "cbd": 9,
+   "cbg": null,
+   "cbn": null,
+   "terpenes": [
+    "myrcene",
+    "pinene",
+    "caryophyllene"
+   ],
+   "url": "https://www.leafly.com/strains/harlequin"
+  },
+  {
+   "name": "Granddaddy Purple",
+   "slug": "granddaddy-purple",
+   "leafly_calls": "Indica",
+   "thc": 17,
+   "cbd": 0,
+   "cbg": null,
+   "cbn": null,
+   "terpenes": [
+    "myrcene",
+    "pinene",
+    "caryophyllene"
+   ],
+   "url": "https://www.leafly.com/strains/granddaddy-purple"
+  },
+  {
+   "name": "Northern Lights",
+   "slug": "northern-lights",
+   "leafly_calls": "Indica",
+   "thc": 18,
+   "cbd": null,
+   "cbg": 1,
+   "cbn": null,
+   "terpenes": [
+    "myrcene",
+    "caryophyllene",
+    "limonene"
+   ],
+   "url": "https://www.leafly.com/strains/northern-lights"
+  },
+  {
+   "name": "Bubba Kush",
+   "slug": "bubba-kush",
+   "leafly_calls": "Indica",
+   "thc": 17,
+   "cbd": 0,
+   "cbg": null,
+   "cbn": null,
+   "terpenes": [
+    "caryophyllene",
+    "limonene",
+    "myrcene"
+   ],
+   "url": "https://www.leafly.com/strains/bubba-kush"
+  },
+  {
+   "name": "Purple Kush",
+   "slug": "purple-kush",
+   "leafly_calls": "Indica",
+   "thc": 19,
+   "cbd": 0,
+   "cbg": null,
+   "cbn": null,
+   "terpenes": [
+    "myrcene",
+    "pinene",
+    "caryophyllene"
+   ],
+   "url": "https://www.leafly.com/strains/purple-kush"
+  },
+  {
+   "name": "Blue Dream",
+   "slug": "blue-dream",
+   "leafly_calls": "Hybrid",
+   "thc": 21,
+   "cbd": 0,
+   "cbg": null,
+   "cbn": null,
+   "terpenes": [
+    "myrcene",
+    "pinene",
+    "caryophyllene"
+   ],
+   "url": "https://www.leafly.com/strains/blue-dream"
+  },
+  {
+   "name": "OG Kush",
+   "slug": "og-kush",
+   "leafly_calls": "Hybrid",
+   "thc": 25,
+   "cbd": 0,
+   "cbg": null,
+   "cbn": null,
+   "terpenes": [
+    "myrcene",
+    "limonene",
+    "caryophyllene"
+   ],
+   "url": "https://www.leafly.com/strains/og-kush"
+  },
+  {
+   "name": "Wedding Cake",
+   "slug": "wedding-cake",
+   "leafly_calls": "Hybrid",
+   "thc": 24,
+   "cbd": null,
+   "cbg": 1,
+   "cbn": null,
+   "terpenes": [
+    "caryophyllene",
+    "limonene",
+    "myrcene"
+   ],
+   "url": "https://www.leafly.com/strains/wedding-cake"
+  },
+  {
+   "name": "ACDC",
+   "slug": "acdc",
+   "leafly_calls": "Hybrid",
+   "thc": 1,
+   "cbd": 13,
+   "cbg": null,
+   "cbn": null,
+   "terpenes": [
+    "myrcene",
+    "pinene",
+    "caryophyllene"
+   ],
+   "url": "https://www.leafly.com/strains/acdc"
+  }
+ ],
+ "_companions": "What grows between the cannabis, out of a grower's guide: “Best Companion Plants for Growing Marijuana”, by Joshua Mezher, at A Pot for Pot, a shop that sells grow kits, read 2026-10-11. What each plant is said to do is the guide's claim and is written as the guide's, because a university extension service says research mostly does not back companion-planting claims, and the page says that too. The farm grows them because they are good to grow: most of them are food, and all of them flower. The guide's reason for lemon balm, hiding the smell from the neighbours, is not here.",
+ "companions": [
+  {
+   "name": "basil",
+   "claim": "brings in helpful insects and keeps some pests away",
+   "goes": "the café in the old dairy, and the honesty box"
+  },
+  {
+   "name": "dill",
+   "claim": "draws caterpillars away from the cannabis",
+   "goes": "the café in the old dairy, and the honesty box"
+  },
+  {
+   "name": "chamomile",
+   "claim": "protects young plants from pests",
+   "goes": "the café in the old dairy, as tea"
+  },
+  {
+   "name": "coriander",
+   "claim": "keeps aphids and spider mites away",
+   "goes": "the café in the old dairy, and the honesty box"
+  },
+  {
+   "name": "alfalfa",
+   "claim": "feeds the soil",
+   "goes": "the farm's animals and the sanctuary's residents"
+  },
+  {
+   "name": "marigolds",
+   "claim": "keep pests away above ground and below it",
+   "goes": "the honesty box, as flowers"
+  },
+  {
+   "name": "lavender",
+   "claim": "keeps some pests off and brings bees in",
+   "goes": "the honesty box"
+  },
+  {
+   "name": "yarrow",
+   "claim": "brings in ladybirds and hoverflies",
+   "goes": "the honesty box, dried"
+  },
+  {
+   "name": "sunflowers",
+   "claim": "draw insects away and shelter the beds",
+   "goes": "the honesty box, and the birds"
+  }
+ ],
+ "sources": {
+  "guide": {
+   "cite": "Joshua Mezher, “Best Companion Plants for Growing Marijuana”, A Pot for Pot, updated 2024",
+   "url": "https://apotforpot.com/blogs/growing/companion-plants-for-marijuana/",
+   "read": "read 2026-10-11; the shop sells grow kits and the article advertises them"
+  },
+  "lsu": {
+   "cite": "Dan Gill, “Marigolds vs. nematodes”, LSU AgCenter, 2014",
+   "url": "https://apps.lsuagcenter.com/news_archive/2014/may/get-it-growing/Marigolds-vs-nematodes-.htm",
+   "read": "read 2026-10-11"
+  },
+  "leafly": {
+   "cite": "Leafly's strain pages, one per strain",
+   "url": "https://www.leafly.com/strains",
+   "read": "each strain's page read 2026-10-11"
+  },
+  "smith": {
+   "cite": "Christiana J. Smith, Daniela Vergara, Brian Keegan and Nick Jikomes, “The phytochemical diversity of commercial Cannabis in the United States”, PLOS ONE 17(5): e0267498 (2022), CC BY 4.0. One author worked for Leafly, whose data it uses, which the paper says",
+   "url": "https://doi.org/10.1371/journal.pone.0267498",
+   "read": "read 2026-10-11"
+  },
+  "schwabe-2019": {
+   "cite": "Anna L. Schwabe and Mitchell E. McGlaughlin, “Genetic tools weed out misconceptions of strain reliability in Cannabis sativa: implications for a budding industry”, Journal of Cannabis Research 1: 3 (2019), CC BY 4.0",
+   "url": "https://doi.org/10.1186/s42238-019-0001-1",
+   "read": "read 2026-10-11"
+  },
+  "schwabe-2023": {
+   "cite": "Anna L. Schwabe, Vanessa Johnson, Joshua Harrelson and Mitchell E. McGlaughlin, “Uncomfortably high: Testing reveals inflated THC potency on retail Cannabis labels”, PLOS ONE 18(4): e0282396 (2023), CC BY 4.0",
+   "url": "https://doi.org/10.1371/journal.pone.0282396",
+   "read": "read 2026-10-11"
+  },
+  "addiction": {
+   "cite": "Addiction, our own glossary",
+   "url": "https://stimpunks.org/glossary/addiction/",
+   "read": "checked word for word against the Knowledge System mirror's copy on every build",
+   "mirror": "glossary/addiction.md"
+  },
+  "harm-reduction": {
+   "cite": "Harm Reduction, our own glossary, quoting Healing Justice Lineages, edited by Cara Page and Erica Woodland (North Atlantic Books, 2023)",
+   "url": "https://stimpunks.org/glossary/harm-reduction/",
+   "read": "checked word for word against the Knowledge System mirror's copy on every build",
+   "mirror": "glossary/harm-reduction.md"
+  },
+  "co-edibles": {
+   "cite": "“Safety with edibles”, Colorado's official cannabis site",
+   "url": "https://cannabis.colorado.gov/home/responsible-use/safety-with-edibles",
+   "read": "read 2026-10-11"
+  },
+  "co-driving": {
+   "cite": "“Driving and traveling”, Colorado's official cannabis site",
+   "url": "https://cannabis.colorado.gov/home/driving-and-traveling",
+   "read": "read 2026-10-11"
+  },
+  "co-mixing": {
+   "cite": "“Mixing cannabis with other substances”, Colorado's official cannabis site",
+   "url": "https://cannabis.colorado.gov/home/responsible-use/mixing-cannabis-with-other-substances",
+   "read": "read 2026-10-11"
+  },
+  "co-storage": {
+   "cite": "“Safe storage”, Colorado's official cannabis site",
+   "url": "https://cannabis.colorado.gov/home/responsible-use/safe-storage",
+   "read": "read 2026-10-11"
+  },
+  "co-laws": {
+   "cite": "“Laws about cannabis use”, Colorado's official cannabis site",
+   "url": "https://cannabis.colorado.gov/laws-about-cannabis-use",
+   "read": "read 2026-10-11"
+  },
+  "co-concentrates": {
+   "cite": "“Safety with THC concentrates”, Colorado's official cannabis site",
+   "url": "https://cannabis.colorado.gov/responsible-use/safety-with-THC-concentrates",
+   "read": "read 2026-10-11"
+  },
+  "cdc-poisoning": {
+   "cite": "“Cannabis and Poisoning”, U.S. Centers for Disease Control and Prevention, in the public domain",
+   "url": "https://www.cdc.gov/cannabis/health-effects/poisoning.html",
+   "read": "read 2026-10-11, in a browser, because the CDC refuses scripts"
+  },
+  "cdc-driving": {
+   "cite": "“Cannabis and Driving”, U.S. Centers for Disease Control and Prevention, in the public domain",
+   "url": "https://www.cdc.gov/cannabis/health-effects/driving.html",
+   "read": "read 2026-10-11, in a browser"
+  },
+  "cdc-lungs": {
+   "cite": "“Cannabis and Lung Health”, U.S. Centers for Disease Control and Prevention, in the public domain",
+   "url": "https://www.cdc.gov/cannabis/health-effects/lung-health.html",
+   "read": "read 2026-10-11, in a browser"
+  },
+  "cdc-evali": {
+   "cite": "“Outbreak of Lung Injury Associated with the Use of E-Cigarette, or Vaping, Products”, U.S. Centers for Disease Control and Prevention (archived, 2020), in the public domain",
+   "url": "https://archive.cdc.gov/www_cdc_gov/tobacco/basic_information/e-cigarettes/severe-lung-disease.html",
+   "read": "read 2026-10-11"
+  },
+  "nida": {
+   "cite": "“Cannabis (Marijuana)”, U.S. National Institute on Drug Abuse, in the public domain",
+   "url": "https://nida.nih.gov/research-topics/cannabis-marijuana",
+   "read": "read 2026-10-11"
+  }
+ },
+ "quote_cap": 40,
+ "quotes": [
+  {
+   "key": "labels",
+   "source": "smith",
+   "said": "In general, we found that industry labels are poorly or inconsistently aligned with the underlying chemistry."
+  },
+  {
+   "key": "genetic",
+   "source": "schwabe-2019",
+   "said": "We failed to find clear genetic support for commonly referenced Sativa, Indica and Hybrid types as described in online databases."
+  },
+  {
+   "key": "inflated",
+   "source": "schwabe-2023",
+   "said": "Average observed THC potency was 14.98 +/- 2.23%"
+  },
+  {
+   "key": "flood",
+   "source": "addiction",
+   "said": "Many neurodivergent folks have hyper-reactive nervous systems. Anxiety and sensory overwhelm flood the senses. A substance that eases this flood offers relief and escape."
+  },
+  {
+   "key": "honors",
+   "source": "harm-reduction",
+   "said": "Harm reduction recognizes and honors the myriad of ways survivors cope, recover, and heal."
+  }
+ ],
+ "_careful": "The harm-reduction points, each one public health's own, with where it was read. Ours is only the order and the plain words round them; a quotation is the source's own, and a U.S. government page is in the public domain.",
+ "careful": [
+  {
+   "key": "edibles",
+   "head": "Edibles take a while, so start low and go slow",
+   "says": "Colorado sells edibles in servings of 10 milligrams of THC or less. If you do not know how one will affect you, Colorado says to eat less than one serving and wait at least 90 minutes, and up to four hours, before having more.",
+   "quote": "Take from 30 minutes to 2 hours to feel intoxicating effects, so some people may eat too much, which can lead to poisoning and/or serious injury.",
+   "quote_source": "cdc-poisoning",
+   "sources": [
+    "co-edibles",
+    "cdc-poisoning"
+   ]
+  },
+  {
+   "key": "driving",
+   "head": "Not before driving",
+   "says": "Colorado says to wait at least six hours after smoking up to 35 milligrams of THC before driving or riding a bike, and at least eight hours after eating up to 18.",
+   "quote": "If you intend to drive, the safest option is not to use any alcohol or drugs, including cannabis.",
+   "quote_source": "cdc-driving",
+   "sources": [
+    "co-driving",
+    "cdc-driving"
+   ]
+  },
+  {
+   "key": "mixing",
+   "head": "Not with alcohol, and tell whoever prescribes for you",
+   "says": "Colorado says cannabis and alcohol together impair you more than either one alone, and to tell your health care provider if you take prescription medicines, because they can interact.",
+   "sources": [
+    "co-mixing"
+   ]
+  },
+  {
+   "key": "lungs",
+   "head": "Smoke is hard on lungs",
+   "says": "Eating it, or a vaporiser for flower, keeps smoke out of your lungs, though Colorado says the research on vaporising is not settled yet.",
+   "quote": "Smoked cannabis, regardless of how it is smoked, can harm lung tissues and cause scarring and damage to small blood vessels.",
+   "quote_source": "cdc-lungs",
+   "sources": [
+    "cdc-lungs"
+   ]
+  },
+  {
+   "key": "vapes",
+   "head": "Vape carts only from a licensed store",
+   "says": "In 2019 and 2020 an outbreak of lung injuries was traced to vaping products, most of them containing THC and bought from friends, family or dealers rather than stores.",
+   "quote": "Vitamin E acetate is strongly linked to the EVALI outbreak.",
+   "quote_source": "cdc-evali",
+   "sources": [
+    "cdc-evali"
+   ]
+  },
+  {
+   "key": "concentrates",
+   "head": "Concentrates are much stronger",
+   "says": "Colorado says concentrates can be up to 90 per cent THC, and that making them at home with flammable solvents has caused explosions and deaths.",
+   "sources": [
+    "co-concentrates"
+   ]
+  },
+  {
+   "key": "synthetic",
+   "head": "Never synthetic cannabinoids",
+   "says": "They are not cannabis, whatever the packet says.",
+   "quote": "Use of synthetic cannabinoids is associated with severe, potentially life-threatening health effects.",
+   "quote_source": "nida",
+   "sources": [
+    "nida"
+   ]
+  },
+  {
+   "key": "chs",
+   "head": "If you cannot stop being sick",
+   "says": "Some people who use a lot of cannabis for a long time start vomiting and cannot stop.",
+   "quote": "CHS only resolves when a person stops using cannabis completely.",
+   "quote_source": "nida",
+   "sources": [
+    "nida"
+   ]
+  },
+  {
+   "key": "storage",
+   "head": "Locked up, away from children and pets",
+   "says": "Colorado says to keep cannabis in child-resistant packaging, locked, where children cannot see or reach it, and that vets are seeing more pets that have eaten it. Poison Help is 1-800-222-1222, and 911 if it is serious.",
+   "sources": [
+    "co-storage"
+   ]
+  },
+  {
+   "key": "law",
+   "head": "In Colorado",
+   "says": "You have to be 21. Buy only from a licensed store, an ounce at a time; you can have two ounces and give up to two ounces to another adult, never sell it, and never share it with anybody under 21, which is a felony. Not in public, and not on federal land.",
+   "sources": [
+    "co-laws"
+   ]
+  }
+ ],
+ "videos": [
+  {
+   "id": "xOjiKwuWjz0",
+   "title": "Casey O'Neill: Cannabis Companion Cropping - Benefits, Best Practices & Strategies / Ganjier",
+   "channel": "The Ganjier",
+   "channel_id": "UCBbuOqdgn2h523Oz_F_SthQ",
+   "published": "2023-03-31",
+   "runs": 447,
+   "about": "Casey O'Neill, at Happy Day Farms, on growing other crops among the cannabis, and why. It ends with a word for the course the channel runs."
+  },
+  {
+   "id": "XmnH0v0zgZY",
+   "title": "Growing Food with Cannabis | Daniel Stein & Casey O'Neill",
+   "channel": "Regenerative Cannabis Farming",
+   "channel_id": "UCNLEi23pMbtf_IXAMFtp1jA",
+   "published": "2021-02-11",
+   "runs": 782,
+   "about": "Daniel Stein of Briceland Forest Farm and Casey O'Neill of Happy Day Farms on growing food alongside cannabis."
+  },
+  {
+   "id": "ZJC5y-irSrM",
+   "title": "Cannabis Companion & Cover Cropping: Two-Minute Tutorial / Wendy Kornberg / Ganjier",
+   "channel": "The Ganjier",
+   "channel_id": "UCBbuOqdgn2h523Oz_F_SthQ",
+   "published": "2023-06-16",
+   "runs": 164,
+   "about": "Wendy Kornberg, a second-generation grower in Humboldt, on choosing companion crops, and alfalfa spread on the soil."
+  },
+  {
+   "id": "5vKRHHHPmrA",
+   "title": "Polyculture With Cannabis | Nick Mahmood, Green Source Gardens",
+   "channel": "Regenerative Cannabis Farming",
+   "channel_id": "UCNLEi23pMbtf_IXAMFtp1jA",
+   "published": "2021-02-11",
+   "runs": 714,
+   "about": "Nick Mahmood of Green Source Gardens on polyculture with cannabis: many plants in one bed."
+  },
+  {
+   "id": "Td1Kx4DPYNo",
+   "title": "Integrating Animals & Cannabis Farming | Lionpaw Organics",
+   "channel": "Regenerative Cannabis Farming",
+   "channel_id": "UCNLEi23pMbtf_IXAMFtp1jA",
+   "published": "2021-02-11",
+   "runs": 558,
+   "about": "Spencer Hodgson of Lionpaw Organics on bringing animals onto a cannabis farm."
+  },
+  {
+   "id": "Z75hABq49T0",
+   "title": "Diversified Crops and Healthy Farmscapes | Happy Day Farms",
+   "channel": "Regenerative Cannabis Farming",
+   "channel_id": "UCNLEi23pMbtf_IXAMFtp1jA",
+   "published": "2021-02-12",
+   "runs": 834,
+   "about": "Casey O'Neill on growing a diversity of crops with cannabis at Happy Day Farms."
+  },
+  {
+   "id": "Nfr8NWELWbk",
+   "title": "The Basics of Manually Processing Hemp Fiber with Laura Sullivan",
+   "channel": "UVM Extension NW Crops & Soils",
+   "channel_id": "UC7sh59UG2pKqfmPMfaVxpbA",
+   "published": "2024-08-05",
+   "runs": 544,
+   "about": "Laura Sullivan of University of Vermont Extension turning retted hemp stalks into fibre by hand: breaking, scutching and hackling."
+  },
+  {
+   "id": "MYa3-F7fz_I",
+   "title": "Field Retting Hemp Fiber with Laura Sullivan",
+   "channel": "UVM Extension NW Crops & Soils",
+   "channel_id": "UC7sh59UG2pKqfmPMfaVxpbA",
+   "published": "2025-06-10",
+   "runs": 374,
+   "about": "Laura Sullivan on retting hemp in the field, the step before the fibre."
+  },
+  {
+   "id": "trBPDrFvSXQ",
+   "title": "Man Makes Hemp Rope from the Stalks - Denver Indo Expo 2017",
+   "channel": "Jason's Indoor Guide",
+   "channel_id": "UCH17obysruA_4uAVLgEbZUw",
+   "published": "2017-01-29",
+   "runs": 119,
+   "about": "A man at an expo cracking hemp stalks and twisting the fibre into rope by hand."
+  },
+  {
+   "id": "6Tbjhif40gA",
+   "title": "Solventless Extraction Explained - Eric Vlosky",
+   "channel": "Shango Los",
+   "channel_id": "UCPi_kYDTjZgnNaO6nJGhYIQ",
+   "published": "2018-08-28",
+   "runs": 2438,
+   "about": "A talk explaining solventless extraction, rosin and bubble hash, for people new to it. It is a lecture and not a demonstration."
+  },
+  {
+   "id": "o8iowbnZTyU",
+   "title": "Hemp weaving in Lung Tam - Ha Giang, Vietnam",
+   "channel": "MekongQuilts",
+   "channel_id": "UCj8jEvoU5HdlB11QXTa-8MA",
+   "published": "2016-08-22",
+   "runs": 224,
+   "about": "A few of the hand steps from hemp to cloth at a Hmong weaving co-operative in Ha Giang."
+  }
+ ]
+}

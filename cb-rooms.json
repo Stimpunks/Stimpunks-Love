@@ -518,6 +518,24 @@
    "about": "Past the campgrounds and through the wood, open land kept for wildlife, for food and for power at once: a wildlife sanctuary, a cannabis farm, a solar farm, a mixed farm with a café in its old dairy, and a chaos garden, each feeding the others and the street. After the Nature Communications paper on balancing land use for conservation, agriculture and renewable energy."
   },
   {
+   "tag": "all-needs-met",
+   "name": "All Needs Met Wildlife Sanctuary",
+   "path": "/all-needs-met.html",
+   "about": "In Nature’s Contribution, west of the stile: a wildlife preserve left to whatever was there first, and a sanctuary for animals who are disabled or were abandoned, seen on the keepers’ night round by their own warmth, with no torch to wake anybody. The residents, the wild neighbours, what the sanctuary gives, and a month of films from people who look after animals and the wild."
+  },
+  {
+   "tag": "gentle-help",
+   "name": "Gentle Help Cannabis Farm",
+   "path": "/gentle-help.html",
+   "about": "In Nature’s Contribution, north-west of the stile: cannabis in flower in hoop houses that glow through their own skin, grown among basil, dill, alfalfa and marigolds. Popular strains with what the labs say is in them and why the labels say so little, and harm reduction from our own pages and public health’s, for a farm that would rather help you be careful than sell you anything."
+  },
+  {
+   "tag": "brighter-days",
+   "name": "Brighter Days Solar Farm",
+   "path": "/brighter-days.html",
+   "about": "In Nature’s Contribution, north of the stile: solar panels on posts high enough to walk under, peppers, tomatoes and basil growing in their shade, sheep between the rows, and the power for the land and much of the street. At noon, after Star Stuff’s Two Peppers, with a rack of films about crops, sheep and bees under solar panels."
+  },
+  {
    "tag": "the-outskirts",
    "name": "The Outskirts",
    "path": "/the-outskirts.html",

@@ -7,6 +7,10 @@
   "made_from": "4604669fdf1036117423d25de7498386b66f4852396dc91078bfebb1d8fbc89a",
   "png": "4732d58457b048eee3ee04306cb6ea58e8f8fea67c7251ef958ac533b3eaa5d8"
  },
+ "all-needs-met": {
+  "made_from": "d27b9fe237e2eea3dfd59cb89a96732b2176fdfe699bbbe62a20a57c848bdfdc",
+  "png": "5e129a9fe48d5193a454fbc1707d551fa19a77486f978f968c460778b37be038"
+ },
  "arcade": {
   "made_from": "bca884cece89c1010468625713e0ed88063a16d54202024073ec20f8741fc68c",
   "png": "988e2d73dd4061cc7ff51ebeadc7aec4678675748d5efa0a7ab657941f10bd6f"
@@ -34,6 +38,10 @@
  "brew-and-stew": {
   "made_from": "1c8a1e5f06b5f3751ca0f2f62dfe06d549225a43e8cdadb7a38d90837c5d870f",
   "png": "41f47e598fa00cc3ebdd7194d7a70feb5e481351c22fcbcb0630ed989d79fe6f"
+ },
+ "brighter-days": {
+  "made_from": "e2033e6eeaa32d76b810ac28ee1d877a2d2d2c64810b78b47872350c291b58f7",
+  "png": "c366a32534d8a72414d8e0732c566f267b6850a7804e3e150fc4b76c297990aa"
  },
  "broadsheet-broadside": {
   "made_from": "2c099d672fe1458d07fdd2cae98c950cae933f97f3a22e8f84abe3e4f7f8e4ae",
@@ -142,6 +150,10 @@
  "fridge-of-sighs": {
   "made_from": "1927a591c155ac454070770a910a0c82c4ed01e52501cf35adcc324cc55114cb",
   "png": "d9999953cbbd67a230f84c7f345a77d38e12d39c14626b04e2fd79af6e39a4ed"
+ },
+ "gentle-help": {
+  "made_from": "58137fe7f093739052d30aa5c88bb101fa5c68e47e1cbf4af3b88510c59e042a",
+  "png": "52893619f22d0f356b29075270ff27bf0ad69a017b35ce747c580b2a3160b50e"
  },
  "glow-go-gee-gaws": {
   "made_from": "1c443331c10a8fad28ee442fef639af0c35dc6f390e265b144abc5beb76c0cc2",

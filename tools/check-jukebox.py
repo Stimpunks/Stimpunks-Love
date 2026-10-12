@@ -273,6 +273,13 @@ LISTS = [
     ("hey good cookin's rack", "data/hey-good-cookin-month.json", "hey-good-cookin.html"),
     ("pekoe and purrs", "data/pekoe.json", "pekoe-and-purrs.html"),
     ("brew and stew", "data/brew-and-stew.json", "brew-and-stew.html"),
+    # All Needs Met: the latest month of fourteen channels, refilled by
+    # tools/pull-nature-month.py sanctuary on the morning timer.
+    ("all needs met's rack", "data/all-needs-met-month.json", "all-needs-met.html"),
+    # Brighter Days: Claude's picks of agrivoltaics films, each with its runtime.
+    ("brighter days", "data/brighter-days.json", "brighter-days.html"),
+    # Gentle Help: Claude's picks, every one checked for an age gate as well.
+    ("gentle help", "data/gentle-help.json", "gentle-help.html"),
     # The four lots where the buildings stop, each with a rack of Ryan's pick:
     # television made for dogs on the Run (one of them a live stream, which
     # answers OK while it is live), tacos, bánh mì and ramen at the Truck Stop,

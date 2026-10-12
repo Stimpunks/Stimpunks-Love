@@ -3064,6 +3064,46 @@ class or drawing**: the marker swap, the anchored sweep, and the two rack shapes
 month refilled by `tools/pull-nature-month.py`), each written with the room's own prefix and dressed in its own
 section, because rack.js finds its parts by data- attributes and never by class.
 
+**ALL NEEDS MET (§105) HAS NO HUE ANYWHERE, AND THE TOOL CHECKS EVERY COLOUR.** Ryan's brief, 2026-10-11: a wildlife
+preserve and a sanctuary for disabled and abandoned animals. It is seen on the keepers' night round through a viewer
+that sees warmth, because a torch wakes everybody, so every resident is white with their own warmth and the night is
+black, and heat has no colour: `make-all-needs-met.py` refuses any `--anm-` colour or literal in §105 whose red, green
+and blue differ, and links are underlined because nothing else can say link there. **The friendly edit is a
+false-colour palette**, purple to orange, which would make the warmth a decoration and put the room beside Learning
+Large's red and blue lamps. **No crosshair on the viewer**: the instrument a crosshair belongs to is a scope. The
+residents are ours and fictional, each with how they came, how they get about and what they like; the tool refuses
+pity and inspiration (Laughingstock's rule, where it is most likely to be broken kindly), a resident for sale or for
+meat, a Latin name or a field guide among the wild neighbours, and a tally of animals saved. Its rack is a month of
+fourteen channels Ryan listed, refilled by `tools/daily-sanctuary.sh`. **`tools/pull-nature-month.py` falls back to a
+list's own page when its feed will not answer**: YouTube answered 404 and 500 at random, per request, the evening it
+was built, for lists that answered 200 a minute later, so a feed is asked again slowly and then read off its
+playlist page, each new id dated off its own watch page until one is older than the month, and an id whose channel
+is not the list's is skipped. The titles are the channels' and are not swept.
+
+**BRIGHTER DAYS (§106) REFUSES A PERCENTAGE OF SHADE, AND THE JALAPEÑOS ON LESS WATER.** Ryan's brief, 2026-10-11:
+agrivoltaics powering the land and much of the street, after Star Stuff's Two Peppers. Two numbers travel with those
+peppers and both are wrong in the friendly direction: seventy or eighty per cent shade is not in the paper (Barron-Gafford
+et al., Nature Sustainability, 2019; read in its accepted manuscript at OSTI because the journal wants a login), and the
+jalapeños lost 65 per cent less water *through their leaves* on the same watering, which "less water" quietly turns into
+a different finding. `make-brighter-days.py` refuses both, and checks the zine's sentences word for word against the
+local Star-Stuff repository. The light is noon, shared: a hard white line along every panel's top, the shade straight
+under every row, and the page's ground is the panels' deep glass with the cells' grid on the body's `::before`.
+
+**GENTLE HELP (§107) IS A HARM-REDUCTION PAGE, AND ITS TOOL HOLDS THAT IN THREE PLACES.** Ryan's brief, 2026-10-11:
+cannabis with companion plants, strains with THC, CBD and CBN and terpenes, harm reduction from our Addiction and
+Harm Reduction entries, Chelsea's work at a dispensary and his own neuromuscular disease. `make-gentle-help.py` refuses
+**a medical claim in our voice** (Ryan's body's answer is said as his, and our Addiction entry's two unsourced
+sentences, "neuroprotectant" and "safest active ingredient", are not repeated), **a label for people** (addict,
+stoner, junkie), and **a CBN figure**: Leafly publishes none, so the column says "not published" rather than
+guessing, the herbarium's rule in a lab report. The strains' figures are Leafly's lab medians, one page each, and the
+page says beside them that sativa, indica and hybrid track the chemistry poorly (Smith et al., PLOS ONE 2022; Schwabe
+and McGlaughlin 2019) and that Colorado labels read high (Schwabe et al., PLOS ONE 2023), all CC BY and checked word
+for word. **A companion plant's effect is the grower's guide's** (A Pot for Pot sells grow kits), beside LSU's
+"research mostly does not back companion-planting claims"; the guide's reason for lemon balm, hiding the smell from the
+neighbours, is left out. **Read every author's first name off the paper's record**: this room had "Vincent Johnson"
+for Vanessa Johnson for an hour, expanded from an initial. The light comes through the hoop house's own skin, pale and
+even; Learning Large is the same building inside out.
+
 **THE RUN (§96) IS PAINTED IN A DOG'S COLOURS, AND THE TOOL READS EVERY ONE.** Dogs have two kinds of cone (Neitz,
 Geist and Jacobs, 1989), so every `--run-` colour must be a blue, a yellow or a grey, and `make-the-run.py` refuses
 any other hue and any literal colour in §96. **The shadows are the grass's own yellow, never blue**: blue shadows

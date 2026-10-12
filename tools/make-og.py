@@ -1215,6 +1215,36 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--purrs .og-lede {{ font-family: 'Gabarito', sans-serif; color: var(--pkp-ink); font-size: 25px;
   line-height: 1.35; margin: 0; }}
 
+/* gentle help — THE HOOP HOUSE, lifted whole, beside the name on its glowing
+   skin. */
+.og--gentlehelp {{ flex-direction: row; align-items: center; gap: 32px; padding: 40px 46px; }}
+.og--gentlehelp .og-words {{ flex: 0 0 420px; }}
+.og--gentlehelp .og-view {{ flex: 0 0 660px; border-radius: 26px 26px 6px 6px; overflow: hidden; }}
+.og--gentlehelp .og-view svg {{ display: block; width: 100%; height: auto; }}
+.og--gentlehelp .ghc-over {{ font-size: 14px; margin: 0 0 10px !important; }}
+.og--gentlehelp h1 {{ font-size: 54px; line-height: 1.08; margin: 0 0 16px !important; }}
+.og--gentlehelp .og-lede {{ font-family: 'Cantarell', sans-serif; color: var(--ghc-ink); font-size: 22px; line-height: 1.42; margin: 0; }}
+
+/* brighter days — THE ROWS AT NOON, lifted whole, beside the name on the
+   panels' glass. */
+.og--solarfarm {{ flex-direction: row; align-items: center; gap: 32px; padding: 40px 46px; }}
+.og--solarfarm .og-words {{ flex: 0 0 410px; }}
+.og--solarfarm .og-view {{ flex: 0 0 670px; border-radius: 10px; overflow: hidden; border: 3px solid var(--bds-frame); }}
+.og--solarfarm .og-view svg {{ display: block; width: 100%; height: auto; }}
+.og--solarfarm .bds-over {{ font-size: 14px; margin: 0 0 10px !important; }}
+.og--solarfarm h1 {{ font-size: 58px; line-height: 1.02; margin: 0 0 16px !important; }}
+.og--solarfarm .og-lede {{ font-family: 'Montserrat', sans-serif; color: var(--bds-text); font-size: 21px; line-height: 1.42; margin: 0; }}
+
+/* all needs met — THE VIEWER, lifted whole, beside the name, and not one hue on
+   the card either: heat has none. */
+.og--sanctuary {{ flex-direction: row; align-items: center; gap: 34px; padding: 40px 46px; }}
+.og--sanctuary .og-words {{ flex: 0 0 400px; }}
+.og--sanctuary .og-view {{ flex: 0 0 680px; padding: 8px; background: var(--anm-case); border-radius: 12px; }}
+.og--sanctuary .og-view svg {{ display: block; width: 100%; height: auto; border-radius: 6px; }}
+.og--sanctuary .anm-over {{ font-size: 14px; margin: 0 0 10px !important; }}
+.og--sanctuary h1 {{ font-size: 60px; margin: 0 0 16px !important; }}
+.og--sanctuary .og-lede {{ font-family: 'Geist', sans-serif; color: var(--anm-text); font-size: 23px; line-height: 1.4; margin: 0; }}
+
 /* nature's contribution — THE VIEW FROM THE STILE, lifted whole, beside the
    name in the cloud's shadow, because the card is the page's own picture and
    its own words: the clouds' shadows on the fields and you standing in one. */
@@ -4267,6 +4297,85 @@ def card_pint(p):
     )
 
 
+def card_gentlehelp(p):
+    # THE HOOP HOUSE AND THE NAME ARE LIFTED WHOLE, so the card cannot show a
+    # farm the page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="ghc-view__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="ghc-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: gentle-help.html has lost the hoop house or its header, and the\n"
+            "card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--gentlehelp" data-fit="card">'
+        f'<div class="og-words"><p class="ghc-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-view">{draw.group(1)}</div>'
+        f'</div>',
+        f"A pale, warm card, the glow of light through milky plastic. On the right, the inside of a hoop "
+        f"house: pale hoops arching overhead to a bright doorway, cannabis plants in flower on both sides of a "
+        f"path, with big fan leaves of seven narrow leaflets and pale green flowering tops dotted with orange "
+        f"hairs and white frost, two with purple flowers, and basil, yellow dill and orange marigolds along the "
+        f"beds. On the left, small capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in "
+        f"large, soft, round dark green letters, then: {p['desc_plain']}",
+    )
+
+
+def card_solarfarm(p):
+    # THE ROWS AND THE NAME ARE LIFTED WHOLE, so the card cannot show a farm the
+    # page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="bds-view__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="bds-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: brighter-days.html has lost the rows at noon or its header, and\n"
+            "the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--solarfarm" data-fit="card">'
+        f'<div class="og-words"><p class="bds-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-view">{draw.group(1)}</div>'
+        f'</div>',
+        f"A deep blue card, the blue of solar panels with the sky in them. On the right, three rows of dark blue "
+        f"panels on tall posts under a pale blue noon sky with a small white sun overhead, a bright white line of "
+        f"sun along the top of every panel, shade on the soil straight under each row, bushy pepper plants with "
+        f"small red and long green peppers and caged cherry tomatoes and basil growing in the shade, two sheep "
+        f"grazing between the rows, and a small pale battery shed at the end. On the left, small capitals reading "
+        f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large wide yellow letters, then: {p['desc_plain']}",
+    )
+
+
+def card_sanctuary(p):
+    # THE VIEWER AND THE NAME ARE LIFTED WHOLE, so the card cannot show a night
+    # round the page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="anm-view__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="anm-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: all-needs-met.html has lost the viewer's picture or its header,\n"
+            "and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--sanctuary" data-fit="card">'
+        f'<div class="og-words"><p class="anm-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-view">{draw.group(1)}</div>'
+        f'</div>',
+        f"A black card with no colour anywhere on it. On the right, a picture as a viewer that sees warmth "
+        f"shows it at night: a black sky and a black pond with grey reeds, a grey barn with a bright doorway, "
+        f"a wire enclosure with an owl inside, a small hut with a bright window, and animals glowing soft white "
+        f"with their own warmth: a goat on three legs, two hens, a dog lying down, a pig, a sheep, a rabbit with "
+        f"its head on one side, a duck, a heron in the water, a deer at the trees and bats over the pond. On the "
+        f"left, small grey capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large "
+        f"white monospaced letters, then: {p['desc_plain']}",
+    )
+
+
 def card_natures(p):
     # THE VIEW AND THE NAME ARE LIFTED WHOLE, so the card cannot show a valley
     # the page does not, and the lede is the page's og:description.
@@ -4785,6 +4894,9 @@ CARDS = {
     "purrs":        card_purrs,
     "brewstew":     card_brewstew,
     "natures":      card_natures,
+    "sanctuary":    card_sanctuary,
+    "solarfarm":    card_solarfarm,
+    "gentlehelp":   card_gentlehelp,
     # A room you have to know the address of, and the room behind its door
     # (tools/unlisted.py). Each its own card, for every room's reason.
     "wooddoor":     card_wooddoor,

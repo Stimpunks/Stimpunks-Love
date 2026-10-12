@@ -152,6 +152,33 @@
    "after": "<h2 id=\"bns-glass-h\">"
   },
   {
+   "page": "all-needs-met.html",
+   "what": "A wildlife sanctuary seen on the night round by warmth, with a month of films from people who look after animals and the wild on the screen in the keepers' hut.",
+   "holds": [
+    "The screen in the keepers’ hut",
+    "people who look after animals and the wild"
+   ],
+   "after": "<h2 id=\"anm-hut-h\">"
+  },
+  {
+   "page": "gentle-help.html",
+   "what": "A cannabis farm in glowing hoop houses, with films about growing among companion plants, hemp to rope and cloth, and rosin on the screen in the potting shed.",
+   "holds": [
+    "The screen in the potting shed",
+    "hemp stalks into rope and cloth"
+   ],
+   "after": "<h2 id=\"ghc-shed-h\">"
+  },
+  {
+   "page": "brighter-days.html",
+   "what": "A solar farm at noon with peppers in the panels' shade, and films about crops, sheep and bees under solar panels on the screen in the battery shed.",
+   "holds": [
+    "The screen in the battery shed",
+    "crops, sheep and bees under solar panels"
+   ],
+   "after": "<h2 id=\"bds-shed-h\">"
+  },
+  {
    "page": "black-leather-lagoon.html",
    "what": "A drive-in screen standing in black water where it is always Halloween: our Halloween playlist on the screen and The Cramps on posts in the water. Nothing out there flickers.",
    "holds": [
@@ -282,42 +309,42 @@
    ],
    "after": "<h2 id=\"aqp-piano-h\">"
   },
- {
-  "page": "the-run.html",
-  "what": "A dog park in a dog's colours, every dog from the shelter out for a run, and television made for dogs on the dog telly on the porch.",
-  "holds": [
-   "The dog telly",
-   "television made for dogs"
-  ],
-  "after": "<h2 id=\"run-telly-h\">"
- },
- {
-  "page": "truckin-food-court.html",
-  "what": "Five food trucks round a covered porch, nothing with a price on it, and films about tacos, bánh mì and ramen on the screen on the side of the Cooler.",
-  "holds": [
-   "The screen on the Cooler",
-   "bánh mì, tacos and ramen"
-  ],
-  "after": "<h2 id=\"tks-screen-h\">"
- },
- {
-  "page": "the-green.html",
-  "what": "A community green space just after the rain, and films about cities making room for green on the screen under the porch roof.",
-  "holds": [
-   "The screen under the porch roof",
-   "cities and towns making room for green"
-  ],
-  "after": "<h2 id=\"grn-screen-h\">"
- },
- {
-  "page": "the-pile.html",
-  "what": "A junk playground, and adventure playgrounds from Wales to Berkeley on the old telly on the Pile.",
-  "holds": [
-   "The old telly on the Pile",
-   "adventure playgrounds elsewhere"
-  ],
-  "after": "<h2 id=\"pil-telly-h\">"
- },
+  {
+   "page": "the-run.html",
+   "what": "A dog park in a dog's colours, every dog from the shelter out for a run, and television made for dogs on the dog telly on the porch.",
+   "holds": [
+    "The dog telly",
+    "television made for dogs"
+   ],
+   "after": "<h2 id=\"run-telly-h\">"
+  },
+  {
+   "page": "truckin-food-court.html",
+   "what": "Five food trucks round a covered porch, nothing with a price on it, and films about tacos, bánh mì and ramen on the screen on the side of the Cooler.",
+   "holds": [
+    "The screen on the Cooler",
+    "bánh mì, tacos and ramen"
+   ],
+   "after": "<h2 id=\"tks-screen-h\">"
+  },
+  {
+   "page": "the-green.html",
+   "what": "A community green space just after the rain, and films about cities making room for green on the screen under the porch roof.",
+   "holds": [
+    "The screen under the porch roof",
+    "cities and towns making room for green"
+   ],
+   "after": "<h2 id=\"grn-screen-h\">"
+  },
+  {
+   "page": "the-pile.html",
+   "what": "A junk playground, and adventure playgrounds from Wales to Berkeley on the old telly on the Pile.",
+   "holds": [
+    "The old telly on the Pile",
+    "adventure playgrounds elsewhere"
+   ],
+   "after": "<h2 id=\"pil-telly-h\">"
+  },
   {
    "page": "neurohome.html",
    "what": "Isha Snow's tiny home by the Columbia River, where the creativity corner holds her own podcast episodes and her talk show.",

@@ -1,0 +1,88 @@
+{
+ "_source": "Ryan Boren's brief, 2026-10-11: All Needs Met Wildlife Sanctuary, in Nature's Contribution, a wildlife preserve for local wildlife and a sanctuary for disabled and abandoned animals, offering connection, conservation, education and manure, with a rack of the latest month of videos from fourteen channels he listed (data/all-needs-met-month.json). Read by tools/make-all-needs-met.py, which writes the night round, the residents, the preserve, the offerings and the credits from this file. The residents and their stories are ours, and fictional: nobody here is a real animal, and nothing about any of them is a claim about any real sanctuary.",
+ "_residents": "Every resident has a name, what kind of animal they are, how they came here, how they get about, and what they like. The tool refuses one missing any of those, and refuses the vocabulary of pity and of inspiration in all of it: nobody here is brave, suffering, special or an example to anybody. They are goats and hens getting on with it. And nothing here is for sale, for breeding or for meat: the residents live here for good.",
+ "residents": [
+  {
+   "key": "juniper",
+   "name": "Juniper",
+   "kind": "a goat",
+   "came": "from a farm that would not keep a goat with three legs",
+   "gets_about": "on three legs, and she is the first to the hay every morning",
+   "likes": "the bale by the barn door, which nobody else gets"
+  },
+  {
+   "key": "pip",
+   "name": "Pip",
+   "kind": "a hen",
+   "came": "with a crate of hens nobody wanted any more",
+   "gets_about": "without seeing: she knows the run by the wire under her feet and by the other hens' voices",
+   "likes": "the same dust bath in the same corner every afternoon"
+  },
+  {
+   "key": "hollis",
+   "name": "Hollis",
+   "kind": "a dog",
+   "came": "after somebody left him at the side of a road",
+   "gets_about": "without hearing: he watches, and the keepers talk to him with their hands",
+   "likes": "lying where he can see the door"
+  },
+  {
+   "key": "mabel",
+   "name": "Mabel",
+   "kind": "a pig",
+   "came": "from a family who were told she would stay small, and she did not",
+   "gets_about": "wherever she likes, slowly",
+   "likes": "the wallow, and having her back scratched with a broom"
+  },
+  {
+   "key": "otis",
+   "name": "Otis",
+   "kind": "a great horned owl",
+   "came": "with a wing that healed the wrong way after he flew into a fence, so he cannot go back to the wild",
+   "gets_about": "by hopping and climbing, and by gliding from his high perch to the floor of his mews",
+   "likes": "being left alone in the daytime"
+  },
+  {
+   "key": "bramble",
+   "name": "Bramble",
+   "kind": "a sheep",
+   "came": "from a flock that was being split up, with one eye",
+   "gets_about": "keeping the rest of the flock on the side she can see",
+   "likes": "having her chin scratched, and nothing else touched"
+  },
+  {
+   "key": "clover",
+   "name": "Clover",
+   "kind": "a rabbit",
+   "came": "after she was let loose in a park in the spring",
+   "gets_about": "with her head on one side, which is how she has always held it",
+   "likes": "a cardboard box with two doors"
+  },
+  {
+   "key": "duke",
+   "name": "Duke",
+   "kind": "a duck",
+   "came": "from a pond where the others would not let him on the bank",
+   "gets_about": "with a wobble on land, and dead straight on the water",
+   "likes": "the shallow end of the pond, and Pip"
+  }
+ ],
+ "_neighbours": "The preserve's wild neighbours, the ones that were here first and are left alone. Plain names only: the herbarium's rule against a binomial reading as a determination, and nothing here describes how to find or tell any of them apart, because a page that taught you to find an animal would be teaching people to go looking for it.",
+ "neighbours": [
+  {"name": "great blue herons", "when": "standing in the shallows at dawn and dusk"},
+  {"name": "red-winged blackbirds", "when": "on the reeds all spring"},
+  {"name": "chorus frogs", "when": "calling from the wetland after rain"},
+  {"name": "muskrats", "when": "in and out of the bank at night"},
+  {"name": "mule deer", "when": "at the edge of the trees at first light"},
+  {"name": "coyotes", "when": "passing through, and not stopping"},
+  {"name": "little brown bats", "when": "over the water on summer evenings"},
+  {"name": "dragonflies", "when": "over the shallows in the heat of the day"}
+ ],
+ "_offers": "What the brief says the sanctuary gives, in its words, each with what it means here. The tool refuses a word of the brief missing, and the area's tool holds where each one goes.",
+ "offers": [
+  {"what": "connection", "how": "You can come and sit in the yard. Anybody who wants to come to you will, and anybody who does not is not called over."},
+  {"what": "conservation", "how": "The preserve is left to whatever was here first. There is no path through it: you look from the edge of the yard, and the wetland gets on with being a wetland."},
+  {"what": "education", "how": "The keepers will tell you about anybody here, if you ask, and the screen in their hut has a month of films from people who look after animals and the wild all over the world."},
+  {"what": "manure", "how": "Composted behind the barn, and carted to the cannabis farm's beds and the chaos gardens. It is the only thing that ever leaves."}
+ ]
+}

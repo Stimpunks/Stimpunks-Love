@@ -1429,6 +1429,48 @@
       "sections": [
         104
       ]
+    },
+    "martian-mono": {
+      "where": "All Needs Met Wildlife Sanctuary",
+      "page": "all-needs-met.html",
+      "sections": [
+        105
+      ]
+    },
+    "geist": {
+      "where": "All Needs Met Wildlife Sanctuary",
+      "page": "all-needs-met.html",
+      "sections": [
+        105
+      ]
+    },
+    "anybody": {
+      "where": "Brighter Days Solar Farm",
+      "page": "brighter-days.html",
+      "sections": [
+        106
+      ]
+    },
+    "montserrat": {
+      "where": "Brighter Days Solar Farm",
+      "page": "brighter-days.html",
+      "sections": [
+        106
+      ]
+    },
+    "lemonada": {
+      "where": "Gentle Help Cannabis Farm",
+      "page": "gentle-help.html",
+      "sections": [
+        107
+      ]
+    },
+    "cantarell": {
+      "where": "Gentle Help Cannabis Farm",
+      "page": "gentle-help.html",
+      "sections": [
+        107
+      ]
     }
   }
 }

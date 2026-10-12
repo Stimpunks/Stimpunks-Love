@@ -1693,6 +1693,49 @@
         "--ncx-meadow",
         "--ncx-post"
       ]
+    },
+    "all-needs-met.html": {
+      "kind": "julia",
+      "c": [
+        -0.4,
+        0.6
+      ],
+      "orbit": 0.012,
+      "bands": 0.05,
+      "ground": "--anm-night",
+      "inks": [
+        "--anm-ground",
+        "--anm-wall",
+        "--anm-halo",
+        "--anm-door",
+        "--anm-body"
+      ]
+    },
+    "brighter-days.html": {
+      "kind": "newton",
+      "degree": 4,
+      "relax": 0.2,
+      "ground": "--bds-glass",
+      "inks": [
+        "--bds-pv",
+        "--bds-cell",
+        "--bds-sky-high",
+        "--bds-sun",
+        "--bds-glint"
+      ]
+    },
+    "gentle-help.html": {
+      "kind": "ifs",
+      "figure": "fern",
+      "sway": 0.05,
+      "ground": "--ghc-skin",
+      "inks": [
+        "--ghc-leaf",
+        "--ghc-leaf-light",
+        "--ghc-bud",
+        "--ghc-bud-purple",
+        "--ghc-pistil"
+      ]
     }
   }
 }

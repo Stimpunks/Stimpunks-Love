@@ -2701,5 +2701,105 @@
    "src": "https://fonts.gstatic.com/s/golostext/v7/q5uXsoe9Lv5t7Meb31EcOR9UdVTNs822plW2Qj5bGL4RWNyw2Io.woff2",
    "note": "The bold of the 400 above, for the bearing on every arm and every strong word."
   }
+ ],
+ "martian-mono": [
+  {
+   "file": "martian-mono-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 10376,
+   "src": "https://fonts.gstatic.com/s/martianmono/v6/2V08KIcADoYhV6w87xrTKjs4CYElh_VS9YA4TlTnQzaVMIE6j15dYY1qu_6RBb9Gc4F3Rss.woff2",
+   "note": "All Needs Met (§105), the trail, the over-line, the backlink and the viewer's key: the readout of an instrument the keepers carry on the night round. Two static files, a regular and a bold."
+  },
+  {
+   "file": "martian-mono-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 10612,
+   "src": "https://fonts.gstatic.com/s/martianmono/v6/2V08KIcADoYhV6w87xrTKjs4CYElh_VS9YA4TlTnQzaVMIE6j15dYY2NvP6RBb9Gc4F3Rss.woff2",
+   "note": "The bold of the 400 above: the sanctuary's name, every heading and every resident's name."
+  }
+ ],
+ "geist": [
+  {
+   "file": "geist-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 13088,
+   "src": "https://fonts.gstatic.com/s/geist/v5/gyBhhwUxId8gMGYQMKR3pzfaWI_RnOMImpna6VEdtaiL.woff2",
+   "note": "All Needs Met (§105), every word that is read: the residents, the preserve, what the sanctuary gives and the rack. Two static files, a regular and a bold."
+  },
+  {
+   "file": "geist-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 13452,
+   "src": "https://fonts.gstatic.com/s/geist/v5/gyBhhwUxId8gMGYQMKR3pzfaWI_Re-QImpna6VEdtaiL.woff2",
+   "note": "The bold of the 400 above, for a film's title and every strong word."
+  }
+ ],
+ "anybody": [
+  {
+   "file": "anybody-800.woff2",
+   "weight": "800",
+   "style": "normal",
+   "bytes": 12896,
+   "src": "https://fonts.gstatic.com/s/anybody/v13/VuJbdNvK2Ib2ppdWYq311GH32hxIv0sd5grncSUi2F_Wim4JV2f_qc_C3HVfpMnY.woff2",
+   "note": "Brighter Days (§106), the farm's name and every heading, and nothing at reading size: a wide, heavy grotesque, the letter of a sign on the end of a row of panels, read from a long way off at noon. One static file, the instance Google serves at weight 800 and its default width."
+  }
+ ],
+ "montserrat": [
+  {
+   "file": "montserrat-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 16452,
+   "src": "https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw5aXp-p7K4KLg.woff2",
+   "note": "Brighter Days (§106), every word that is read. Two static files, a regular and a bold."
+  },
+  {
+   "file": "montserrat-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 16472,
+   "src": "https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w5aXp-p7K4KLg.woff2",
+   "note": "The bold of the 400 above, for a crop's name and every strong word."
+  }
+ ],
+ "lemonada": [
+  {
+   "file": "lemonada-600.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 15284,
+   "src": "https://fonts.gstatic.com/s/lemonada/v31/0QI-MXFD9oygTWy_R-FFlwV-bgfR7QJGpOxGnv-d_5i5Tx8V.woff2",
+   "note": "Gentle Help (§107), the farm's name and every heading, and nothing at reading size: a soft, round, generous letter for a room that is kind and gentle and in flower. One static file, the instance Google serves at weight 600."
+  }
+ ],
+ "cantarell": [
+  {
+   "file": "cantarell-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 10772,
+   "src": "https://fonts.gstatic.com/s/cantarell/v18/B50NF7ZDq37KMUvlO015jKJrPqySLQ.woff2",
+   "note": "Gentle Help (§107), every word that is read, the strains' table and how to be careful included: a calm, open humanist sans. A regular, a bold and an italic, three static files."
+  },
+  {
+   "file": "cantarell-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 11420,
+   "src": "https://fonts.gstatic.com/s/cantarell/v18/B50IF7ZDq37KMUvlO01xN4d-E46fB4wWgA.woff2",
+   "note": "The bold of the 400 above."
+  },
+  {
+   "file": "cantarell-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 11920,
+   "src": "https://fonts.gstatic.com/s/cantarell/v18/B50LF7ZDq37KMUvlO015iZJpNKuwL4Ye.woff2",
+   "note": "The italic of the 400 above, for the public-health quotations in how to be careful."
+  }
  ]
 }

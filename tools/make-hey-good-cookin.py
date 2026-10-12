@@ -154,6 +154,11 @@ PHRASES = [
     # The Truck Stop's dog treats and its bánh mì board (make-truckin-food-court.py)
     # read this engine too: oat flour is oats, whatever the word flour says.
     (r"oat flour", "oats"),
+    # The café in the old dairy at All Together Now Farms reads this engine too
+    # (make-the-dairy.py), and its milk comes from goats and sheep: goat's milk,
+    # cheese and yogurt are dairy and not goat meat, whatever the word goat says.
+    (r"goat'?s milk", "milk"), (r"goat'?s cheese", "cheese"), (r"goat'?s yogh?urt", "yogurt"),
+    (r"goat milk", "milk"), (r"goat cheese", "cheese"),
 ]
 ALLERGENS = [
     ("milk", r"butter|milk|cream|cheese|cheddar|mozzarella|ricotta|feta|parmesan|yogh?urt|ghee|whey|paneer|custard"),

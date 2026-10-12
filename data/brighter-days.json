@@ -1,0 +1,205 @@
+{
+ "_source": "Ryan Boren's brief, 2026-10-11: Brighter Days Solar Farm, in Nature's Contribution: agrivoltaics that power everything in Nature's Contribution (though every place there has its own solar and battery too) and much of the street, after Star Stuff's Two Peppers (Stimpunks Zine No. 87), offering peppers and other plants suitable to agrivoltaics; Claude to propose solar and agrivoltaics videos for the rack. Read by tools/make-brighter-days.py.",
+ "sources": {
+  "barron-gafford": {
+   "cite": "Greg A. Barron-Gafford, Mitchell A. Pavao-Zuckerman, Rebecca L. Minor and others, “Agrivoltaics provide mutual benefits across the food–energy–water nexus in drylands”, Nature Sustainability 2, 848–855 (2019)",
+   "url": "https://doi.org/10.1038/s41893-019-0364-5",
+   "read": "the accepted manuscript at the U.S. Department of Energy's OSTI (1567040), read 2026-10-11, because the journal's page asks for a login",
+   "read_url": "https://www.osti.gov/biblio/1567040",
+   "short": "Barron-Gafford and others, Nature Sustainability, 2019"
+  },
+  "two-peppers": {
+   "cite": "Two Peppers, Stimpunks Zine No. 87, Stimpunks Foundation × More Realms, 2026-09-04, CC BY-SA 4.0",
+   "url": "https://starstuff.earth/two-peppers-zine.html",
+   "read": "Star Stuff's own page, checked word for word against the local copy of its repository on every build",
+   "local": "~/Documents/GitHub/Star-Stuff/two-peppers-zine.html",
+   "short": "Two Peppers, Stimpunks Zine No. 87"
+  },
+  "walston": {
+   "cite": "Leroy J. Walston, Heidi M. Hartmann, Laura Fox and others, “If you build it, will they come? Insect community responses to habitat establishment at solar energy facilities in Minnesota, USA”, Environmental Research Letters 19, 014053 (2023), CC BY 4.0",
+   "url": "https://doi.org/10.1088/1748-9326/ad0f72",
+   "read": "its abstract, read 2026-10-11 through Crossref, because the journal's page refused a script",
+   "short": "Walston and others, Environmental Research Letters, 2023"
+  },
+  "doe": {
+   "cite": "“Agrivoltaics: Solar and Agriculture Co-Location”, U.S. Department of Energy Solar Energy Technologies Office",
+   "url": "https://www.energy.gov/eere/solar/agrivoltaics-solar-and-agriculture-co-location",
+   "read": "read 2026-10-11; a U.S. government page, in the public domain",
+   "short": "the U.S. Department of Energy"
+  },
+  "electrify": {
+   "cite": "“Electrify Everything: Decarbonization Requires Electrification”, Stimpunks",
+   "url": "https://stimpunks.org/philosophy/electrify-everything-decarbonization-requires-electrification/",
+   "read": "our own page, checked word for word against the Knowledge System mirror's copy on every build",
+   "mirror": "pages/philosophy__electrify-everything-decarbonization-requires-electrification.md",
+   "short": "Electrify Everything, Stimpunks"
+  },
+  "jacks": {
+   "cite": "Jack’s Solar Garden, Boulder County, Colorado",
+   "url": "https://www.jackssolargarden.com/",
+   "read": "its own pages, read 2026-10-11",
+   "short": "Jack’s Solar Garden"
+  }
+ },
+ "quote_cap": 40,
+ "_quote_cap": "Words per quotation, Covenstead's reason: a handful of named passages the room is about. Raise it on purpose, never to fit one passage.",
+ "quotes": [
+  {
+   "key": "place",
+   "source": "two-peppers",
+   "said": "Shade tolerance is not a property of the plant. It is a property of the plant and the place, and it changes when the place does."
+  },
+  {
+   "key": "host",
+   "source": "two-peppers",
+   "said": "The plants take the light the panel does not want. The panel takes the heat the plants do not want. Neither one is the host."
+  },
+  {
+   "key": "ratio",
+   "source": "two-peppers",
+   "said": "There is no unsuitable crop. There is a ratio nobody adjusted."
+  },
+  {
+   "key": "define",
+   "source": "doe",
+   "said": "This practice, also known as agrivoltaics or dual-use solar, involves locating agricultural production, such as crops, livestock, or pollinator habitats, underneath solar panels or between rows of solar panels."
+  },
+  {
+   "key": "bees",
+   "source": "walston",
+   "said": "We found increases over time for all habitat and biodiversity metrics: floral rank, flowering plant species richness, insect group diversity, native bee abundance, and total insect abundance, with the most noticeable temporal increases in native bee abundance."
+  },
+  {
+   "key": "home",
+   "source": "electrify",
+   "said": "In January of 2020, before COVID lockdown, we (a Stimpunks family) signed on a solar plus battery system for our home."
+  }
+ ],
+ "_crops": "What grows under the panels, the brief's peppers and the other plants that do well there. Every crop names the source its sentence about the shade comes from, and the tool refuses one that does not, and any figure for how much shade a panel casts: a percentage of shade is not in the paper the peppers come from, and the zine that read the paper says so.",
+ "crops": [
+  {
+   "key": "chiltepin",
+   "name": "Chiltepin peppers",
+   "shade": "In the field under panels outside Tucson, chiltepin made three times the fruit it made in the open, and took up a third more carbon.",
+   "source": "barron-gafford",
+   "to": "the café in the old dairy, and the honesty box"
+  },
+  {
+   "key": "jalapeno",
+   "name": "Jalapeños",
+   "shade": "Under the same panels, jalapeños made about as much fruit as in the open, with 65 per cent less transpirational water loss. The watering was the same; the plants lost less of it.",
+   "source": "barron-gafford",
+   "to": "the café in the old dairy, and the honesty box"
+  },
+  {
+   "key": "tomato",
+   "name": "Cherry tomatoes",
+   "shade": "Cherry tomatoes made twice the fruit under the panels that they made in the open. In a greenhouse in Michigan, short of light rather than of water, shading cost them fruit instead: what is scarce decides it.",
+   "source": "two-peppers",
+   "to": "the café in the old dairy, and the honesty box"
+  },
+  {
+   "key": "basil",
+   "name": "Basil",
+   "shade": "Basil stops using more light past a point well below full sun, so the light the panel takes is light the basil had no use for.",
+   "source": "two-peppers",
+   "to": "the café in the old dairy"
+  }
+ ],
+ "panels": {
+  "cooler": "The panels over the crops in that field ran about 8.9 degrees Celsius cooler in daylight than panels over bare ground, and the soil under them stayed wetter.",
+  "source": "barron-gafford"
+ },
+ "videos": [
+  {
+   "id": "coFYwf9N9hc",
+   "title": "Agrivoltaics: Solar Farm to Table",
+   "channel": "Biosphere 2",
+   "channel_id": "UCMuD0y0Uz0AFRQMq1C_uWcw",
+   "published": "2021-11-10",
+   "runs": 371,
+   "about": "Greg Barron-Gafford takes his Biosphere 2 agrivoltaics experiment out to Jack's Solar Garden in Colorado, with Sprout City Farms, to study the microclimate under the panels."
+  },
+  {
+   "id": "FGMNFPC-9fk",
+   "title": "Agrivoltaics at Jack's Solar Garden",
+   "channel": "Byron Kominek @ Jack's Solar Garden",
+   "channel_id": "UC1VKj5Nh5WeCcwAeaELnK4g",
+   "published": "2022-10-11",
+   "runs": 248,
+   "about": "Jack's Solar Garden's 2022 season, on the farm's own channel: the people and the work under the panels."
+  },
+  {
+   "id": "wh14fnQcgXc",
+   "title": "A Brief But Spectacular take on agrivoltaics",
+   "channel": "PBS NewsHour",
+   "channel_id": "UC6ZFN9Tx6xh-skXCuRHCDpQ",
+   "published": "2025-07-15",
+   "runs": 182,
+   "about": "Byron Kominek on going back to his family's Colorado farm and growing crops under solar panels where the hay used to be."
+  },
+  {
+   "id": "bhKTaTFKpzQ",
+   "title": "Episode #45: Agrivoltaics Part I, InSPIRE Project",
+   "channel": "Emerging Crops, UW-Madison Extension",
+   "channel_id": "UCS_7w1Q7yBCKRzbZq_8hBhQ",
+   "published": "2025-05-29",
+   "runs": 901,
+   "about": "An interview with James McCall of the National Renewable Energy Laboratory about the InSPIRE project, which studies solar with crops, grazing and pollinator plants."
+  },
+  {
+   "id": "9CY0IpkLNFY",
+   "title": "Pastures and Panels: The Power of Solar Grazing",
+   "channel": "American Solar Grazing Association",
+   "channel_id": "UCse9A5nJ7F2IRXNmre8O3zw",
+   "published": "2025-10-14",
+   "runs": 1072,
+   "about": "Sheep on solar sites, and the family farms that graze them, from the American Solar Grazing Association."
+  },
+  {
+   "id": "Z5HhLpam1DI",
+   "title": "Prairie Yard & Garden: Bee-u-tiful Solar Energy",
+   "channel": "Pioneer PBS",
+   "channel_id": "UCCQZmEgBM-3D2UVDhIzgErw",
+   "published": "2019-04-08",
+   "runs": 1726,
+   "about": "A visit to a solar farm in Minnesota planted with native flowers for bees and other pollinators."
+  },
+  {
+   "id": "MiWXCfzelxw",
+   "title": "Can Solar Panels and Cows Coexist? Cutting-Edge Agrivoltaics Research in Minnesota",
+   "channel": "Minnesota PBS",
+   "channel_id": "UC21NXL5UJsfXPJoM0xuF2Mw",
+   "published": "2024-09-16",
+   "runs": 269,
+   "about": "Dairy cows grazing under solar panels in University of Minnesota research."
+  },
+  {
+   "id": "4lGsFUVJv3Q",
+   "title": "What is community solar? | Maine Explained",
+   "channel": "Maine Public",
+   "channel_id": "UCHQFwC2CE3JTCHVvMLgBGwQ",
+   "published": "2023-09-20",
+   "runs": 339,
+   "about": "What community solar is, and what to ask before signing up, from Maine's public broadcaster."
+  },
+  {
+   "id": "Q8_26tB2QkQ",
+   "title": "Battery Storage - Farm Energy Future Solutions",
+   "channel": "Scotland's Farm Advisory Service",
+   "channel_id": "UCKuK1UOD-A4eBxAue__MR_Q",
+   "published": "2023-03-08",
+   "runs": 446,
+   "about": "A farmer in Fife on adding wind, solar and then a battery to his farm."
+  },
+  {
+   "id": "UIGkpVntWP4",
+   "title": "Agrivoltaics",
+   "channel": "AZPM",
+   "channel_id": "UC5FWCWFWRKg5a8QYsUYFhpg",
+   "published": "2022-05-12",
+   "runs": 416,
+   "about": "University of Arizona researchers growing food in the shade of solar panels in the desert."
+  }
+ ]
+}

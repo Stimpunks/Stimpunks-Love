@@ -99,7 +99,8 @@ ORDER = ["index.html",
          # Past the campgrounds and through its wood, the land the street
          # lives on: Nature's Contribution, then its places as they open, in
          # the order its fingerpost's arms run.
-         "natures-contribution.html",
+         "natures-contribution.html", "all-needs-met.html", "gentle-help.html",
+         "brighter-days.html",
          # The other edge, past the last streetlight at the far end. An area
          # like the campgrounds, listed the same way: the road first, then
          # what is down its turnings.

@@ -155,6 +155,8 @@ def where(page, behind):
         return f"behind {title(behind[page])}"
     if links_to("campgrounds.html", page):
         return "in the campgrounds, past the treeline"
+    if links_to("natures-contribution.html", page):
+        return "in Nature’s Contribution, past the campgrounds and through the wood"
     if links_to("the-outskirts.html", page):
         return "down the road out of town, past the last streetlight"
     if links_to("arlesglad-caverns.html", page):
@@ -305,7 +307,7 @@ for page in order:
     w = where(page, behind)
     if not w:
         problems.append(f"{at}: could not tell where the room is. Nothing links to it from the street, "
-                        "the campgrounds, the Outskirts, the caverns or a room it is behind.")
+                        "the campgrounds, Nature\u2019s Contribution, the Outskirts, the caverns or a room it is behind.")
     lines.append((page, v, first, then, w))
 
 # The page's own words, everything but the bill (whose titles are other people's).

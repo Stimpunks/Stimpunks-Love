@@ -486,6 +486,18 @@ DRAW = {
     # --ncx-sun, 8.88 on the shade, and its cup, its outline and the floor line
     # are --ncx-text, 10.91, both over the body threshold a marker is held to.
     "ncx-stile": """<path d="M3 29 H29" stroke="var(--ncx-text)" stroke-width="1.6" stroke-linecap="round"/><path d="M10 14 Q10 26 16 27 Q22 26 22 14 Z" fill="var(--ncx-sun)" stroke="var(--ncx-text)" stroke-width="1.2" stroke-linejoin="round"/><path d="M8.5 14.5 Q16 7 23.5 14.5 Z" fill="var(--ncx-text)"/><path d="M16 9.5 V6" stroke="var(--ncx-text)" stroke-width="1.6" stroke-linecap="round"/>""",
+    # All Needs Met's feather, dropped by Otis: its vane is --anm-body, 17.6 on
+    # the night, and its shaft and the floor line are --anm-text, 15.16, both
+    # over the body threshold a marker is held to, and neither has a hue.
+    "anm-feather": """<path d="M3 29 H29" stroke="var(--anm-text)" stroke-width="1.6" stroke-linecap="round"/><path d="M8 25 Q10 12 24 6 Q22 18 8 25 Z" fill="var(--anm-body)"/><path d="M6 27 L22 9" stroke="var(--anm-text)" stroke-width="1.4" stroke-linecap="round"/>""",
+    # Brighter Days' chiltepin, dropped between the rows: its fruit is
+    # --bds-sun, 10.40 on the glass, and its stem and the floor line are
+    # --bds-text, 13.31, both over the body threshold a marker is held to.
+    "bds-chiltepin": """<path d="M3 29 H29" stroke="var(--bds-text)" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="15" cy="20" rx="6.5" ry="5" fill="var(--bds-sun)" stroke="var(--bds-text)" stroke-width="1.2"/><path d="M19 16 Q22 11 25 10" stroke="var(--bds-text)" stroke-width="1.8" fill="none" stroke-linecap="round"/>""",
+    # Gentle Help's fan leaf, fallen on the path: its leaflets are --ghc-head,
+    # 7.15 on the skin, and its stem and the floor line are --ghc-ink, 11.09,
+    # both over the body threshold a marker is held to.
+    "ghc-leaf": """<path d="M3 29 H29" stroke="var(--ghc-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M16 22 L16 27" stroke="var(--ghc-ink)" stroke-width="1.6"/><path d="M16 22 Q14 13 16 4 Q18 13 16 22 Z M16 22 Q10 15 7 8 Q14 13 16 22 Z M16 22 Q22 15 25 8 Q18 13 16 22 Z M16 22 Q8 20 4 15 Q11 17 16 22 Z M16 22 Q24 20 28 15 Q21 17 16 22 Z" fill="var(--ghc-head)"/>""",
     "stair-lift": """<path d="M3 29 H29" stroke="var(--cmi-ink)" stroke-width="1.6" stroke-linecap="round"/><rect x="9" y="6" width="14" height="19" rx="3" fill="var(--cmi-dado)"/><circle cx="16" cy="13" r="3.6" fill="var(--cmi-nosing)"/><path d="M13 20 H19" stroke="var(--cmi-nosing)" stroke-width="1.6" stroke-linecap="round"/>""",
     "fridge-magnet": """<path d="M3 29 H29" stroke="var(--fos-ink)" stroke-width="1.6" stroke-linecap="round"/><rect x="6" y="15" width="20" height="10" fill="var(--fos-tile)" stroke="var(--fos-ink)" stroke-width="1.6"/><path d="M10 20 H15 M17 20 H22" stroke="var(--fos-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M8 26 H27" stroke="var(--fos-edge)" stroke-width="1.4" stroke-linecap="round"/>""",
     "pando-leaf": """<path d="M3 29 H29" stroke="var(--pdo-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M16 5 Q25 9 25 17 Q25 24 16 25 Q7 24 7 17 Q7 9 16 5 Z" fill="var(--pdo-gold)"/><path d="M16 7.5 V23" stroke="var(--pdo-shade)" stroke-width="1.3" stroke-linecap="round"/><path d="M16 25 L17 28.5" stroke="var(--pdo-gold)" stroke-width="2" stroke-linecap="round"/>""",

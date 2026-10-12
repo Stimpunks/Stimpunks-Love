@@ -122,7 +122,10 @@ CAFFEINE = [
     ("full", r"espresso|coffee|black tea|green tea|white tea|oolong|sencha|matcha"),
     ("cocoa", r"chocolate|cocoa"),
     ("none", r"chamomile|peppermint|spearmint|rooibos|hibiscus|rosehips?|elderflowers?|lemon balm|"
-             r"lemon verbena|lavender|fennel|ginger|rose petals?|dried apple|oat milk"),
+             r"lemon verbena|lavender|fennel|ginger|rose petals?|dried apple|oat milk|"
+             # The café in the old dairy at All Together Now Farms reads this list
+             # too (make-the-dairy.py), and pours its own goats' and sheep's milk.
+             r"goat'?s milk|sheep'?s milk|buttermilk"),
 ]
 # Brew and Stew's herbal teas read this same list (make-brew-and-stew.py), so
 # the two tea rooms work caffeine out the same way.

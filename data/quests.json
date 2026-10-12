@@ -875,6 +875,117 @@
    }
   },
   {
+   "id": "anm-feather",
+   "page": "all-needs-met.html",
+   "room": "All Needs Met Wildlife Sanctuary",
+   "title": "How do the keepers see in the dark?",
+   "posted": "There is a sanctuary past the campgrounds where the keepers do a round every night and never carry a torch. Go and look through what they carry instead, and come back with what it sees.",
+   "rank": 3,
+   "takes": "five minutes, and the walk through the wood",
+   "target": "a feather Otis dropped, on the floor",
+   "code": "WARMTH",
+   "learned": "Warmth: the keepers' viewer sees heat instead of light, so every resident shows white with their own warmth and nobody is woken by a torch, and nothing in the picture has a colour, because heat has none.",
+   "hints": [
+    "It is not on the street. Go out past the treeline, through the campgrounds' wood, and take the west arm of the fingerpost.",
+    "The sanctuary is by the wetland.",
+    "On the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "The keepers carry no torch on the night round. What does their viewer see instead of light?",
+    "accept": [
+     "warmth",
+     "heat",
+     "body heat",
+     "the heat",
+     "the warmth",
+     "temperature",
+     "infrared",
+     "their warmth",
+     "warmth instead of light"
+    ],
+    "answer": "Warmth",
+    "why": "Warmth: it sees heat instead of light, so every resident is white with their own warmth and nobody is woken.",
+    "hints": [
+     "It is in the first paragraph under the name.",
+     "It is why nothing in the picture has a colour.",
+     "Not light at all."
+    ]
+   }
+  },
+  {
+   "id": "bds-chiltepin",
+   "page": "brighter-days.html",
+   "room": "Brighter Days Solar Farm",
+   "title": "Which pepper liked the shade?",
+   "posted": "Past the campgrounds there is a solar farm with peppers growing under the panels, and two kinds of pepper answered the same shade in two different ways. Go and find out which one made three times the fruit.",
+   "rank": 3,
+   "takes": "five minutes, and the walk through the wood",
+   "target": "a chiltepin pepper, dropped between the rows",
+   "code": "CHILTEPIN",
+   "learned": "The chiltepin: under the panels it made three times the fruit it made in the open, while the jalapeño made about as much as in the open and lost far less water through its leaves. Neither is the failure case, which is the zine's whole point.",
+   "hints": [
+    "It is not on the street. Go out past the treeline, through the campgrounds' wood, and take the north arm of the fingerpost.",
+    "Look under What grows under the panels.",
+    "On the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "Two peppers were grown under the same panels. Which one made three times the fruit it made in the open?",
+    "accept": [
+     "chiltepin",
+     "the chiltepin",
+     "chiltepin pepper",
+     "chiltepins",
+     "the chiltepin pepper"
+    ],
+    "answer": "The chiltepin",
+    "why": "The chiltepin made three times the fruit under the panels; the jalapeño made about the same and lost far less water through its leaves.",
+    "hints": [
+     "It is the small red one.",
+     "Not the jalapeño.",
+     "Its name starts with chil."
+    ]
+   }
+  },
+  {
+   "id": "ghc-leaf",
+   "page": "gentle-help.html",
+   "room": "Gentle Help Cannabis Farm",
+   "title": "What do the three words not tell you?",
+   "posted": "Past the campgrounds there is a cannabis farm in hoop houses, with a table of strains sold as sativa, indica and hybrid. Go and read under the table, and come back with what those three words turn out not to tell you.",
+   "rank": 3,
+   "takes": "five minutes, and the walk through the wood",
+   "target": "a fan leaf, fallen on the path between the beds",
+   "code": "TERPENE",
+   "learned": "What is in the jar: researchers who looked at tens of thousands of lab results, and others who looked at the plants' genes, found the three words line up poorly with the chemistry, and the THC on a label is often higher than a lab finds. Go by how something sits with you, not by its name.",
+   "hints": [
+    "It is not on the street. Go out past the treeline, through the campgrounds' wood, and take the north-west arm of the fingerpost.",
+    "Read the paragraphs under the table of strains.",
+    "On the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "Sativa, indica and hybrid are the words strains are sold by. What do they turn out not to tell you much about?",
+    "accept": [
+     "what is in it",
+     "what's in it",
+     "chemistry",
+     "the chemistry",
+     "what is in the jar",
+     "chemical content",
+     "the chemical content",
+     "its chemistry",
+     "the chemicals",
+     "what's in the jar"
+    ],
+    "answer": "What is in the jar",
+    "why": "What is in the jar: the labels line up poorly with the chemistry, and the THC on a label is often higher than a lab finds.",
+    "hints": [
+     "It is in the paragraph straight after the table.",
+     "Think lab results.",
+     "Chemistry."
+    ]
+   }
+  },
+  {
    "id": "liner-colophon",
    "page": "liner-notes.html",
    "room": "The Liner Notes",

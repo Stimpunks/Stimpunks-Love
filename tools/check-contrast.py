@@ -3002,6 +3002,46 @@ PAIRS = [
     ("#F3D77A", "#2C4637", False, "natures: a link in a quotation's credit, and the edge of every quotation"),
     ("#1B1B18", "#F7F6F0", False, "natures: the bearing and the name on every arm of the fingerpost, its link and its focus ring"),
 
+    # ── All Needs Met (§105) ──────────────────────────────────────────────
+    # The night round, seen by warmth, with no hue anywhere: every word on the
+    # cold night, on a card, in the empty screen or on a white button.
+    ("#E8E8E8", "#131313", False, "sanctuary: every word on the night -- the lede, the view in words, who lives here, the preserve, the house rules and the credits"),
+    ("#E8E8E8", "#1F1F1F", False, "sanctuary: every word on a card -- a resident, what the sanctuary gives, a film on the rack"),
+    ("#E8E8E8", "#060606", False, "sanctuary: the words in the empty screen in the keepers' hut"),
+    ("#B4B4B4", "#131313", False, "sanctuary: the trail, the over-line, the viewer's key, the view in words, a note, when the rack was filled"),
+    ("#B4B4B4", "#1F1F1F", False, "sanctuary: what kind of animal a resident is, and the line under a film's title"),
+    ("#FFFFFF", "#131313", False, "sanctuary: the h1, every h2 in Martian Mono, every link (underlined), the backlink, the focus ring and the job marker"),
+    ("#FFFFFF", "#1F1F1F", False, "sanctuary: a resident's name, a gift's name, a quiet button's words, and a door to YouTube"),
+    ("#131313", "#FFFFFF", False, "sanctuary: every button's words, on the warmest white, and the press-play label"),
+    ("#131313", "#E8E8E8", False, "sanctuary: a button under the pointer"),
+
+    # ── Brighter Days (§106) ──────────────────────────────────────────────
+    # Noon, shared between the panels and the plants: every word on the
+    # panels' deep glass, on a card, in the empty screen or on a sun button.
+    ("#F1F4F8", "#13284A", False, "solarfarm: every word on the glass -- the lede, the rows in words, why the peppers like it, who else is under the panels, the power, the rules and the credits"),
+    ("#F1F4F8", "#1C3762", False, "solarfarm: every word on a card -- a crop, a quotation, a film on the rack"),
+    ("#F1F4F8", "#1A3358", False, "solarfarm: the words in the empty screen in the battery shed"),
+    ("#BCC9DA", "#13284A", False, "solarfarm: the trail, the over-line, the rows in words"),
+    ("#BCC9DA", "#1C3762", False, "solarfarm: where a crop goes, its source line, a quotation's credit, and the line under a film's title"),
+    ("#FFD54A", "#13284A", False, "solarfarm: the h1, every h2 in Anybody, every link, the backlink, the focus ring and the job marker"),
+    ("#FFD54A", "#1C3762", False, "solarfarm: a crop's name, a link on a card, a quiet button's words, the edge of a quotation"),
+    ("#13284A", "#FFD54A", False, "solarfarm: every button's words, on the noon sun, and the press-play label"),
+    ("#13284A", "#F1F4F8", False, "solarfarm: a button under the pointer"),
+
+    # ── Gentle Help (§107) ────────────────────────────────────────────────
+    # The light comes through the hoop house's skin: every word deep green on
+    # the milky glow, on a card, in the empty screen or on a green button.
+    ("#1C3A20", "#F6F1E1", False, "gentlehelp: every word on the skin -- the lede, the house in words, the strains' paragraphs, the companions, why the farm is here, what it gives and the rules"),
+    ("#1C3A20", "#FFFCF2", False, "gentlehelp: every word on a card -- the strains' table, a quotation, how to be careful, a film on the rack"),
+    ("#4E5D49", "#F6F1E1", False, "gentlehelp: the trail, the over-line and the house in words"),
+    ("#4E5D49", "#FFFCF2", False, "gentlehelp: the table's heads, CBG, a quotation's credit, where each piece of advice comes from, and the line under a film's title"),
+    ("#2B5A2A", "#F6F1E1", False, "gentlehelp: the h1, every h2 in Lemonada and the rack's summary"),
+    ("#2B5A2A", "#FFFCF2", False, "gentlehelp: a heading in how to be careful, and a quiet button's words"),
+    ("#6A2C86", "#F6F1E1", False, "gentlehelp: every link, the backlink and the focus ring"),
+    ("#6A2C86", "#FFFCF2", False, "gentlehelp: a link on a card, and a strain's name"),
+    ("#FFFCF2", "#2B5A2A", False, "gentlehelp: every button's words, and the press-play label"),
+    ("#FFFCF2", "#173118", False, "gentlehelp: a button under the pointer, and the words in the empty screen"),
+
     # ── The four lots where the buildings stop (§96 to §99) ─────────────────
     # The Run in a dog's colours, the Truck Stop's lot, the Green's wet lawn and
     # the Pile's sand. Every word on all four stands on a flat ground: the lot's
@@ -3474,6 +3514,53 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#e2d9bf": "gentlehelp: --ghc-rib, a hoop, and the table's rules, 1.25 on the skin. In the hoop house, which is aria-hidden and in words beside it; it carries no word.",
+    "#fffbee": "gentlehelp: --ghc-door, the lit doorway at the far end, 1.09 on the skin. In the hoop house, which is aria-hidden and in words beside it; it carries no word.",
+    "#d9cfb0": "gentlehelp: --ghc-floor, the floor of the beds, 1.38 on the skin. In the hoop house, which is aria-hidden and in words beside it; it carries no word.",
+    "#c9bc97": "gentlehelp: --ghc-path, the path down the middle, 1.67 on the skin. In the hoop house, which is aria-hidden and in words beside it; it carries no word.",
+    "#3e7d3a": "gentlehelp: --ghc-leaf, a fan leaf, 4.43 on the skin. In the hoop house, which is aria-hidden and in words beside it; it carries no word.",
+    "#5c9a47": "gentlehelp: --ghc-leaf-light, a young leaf at the top, 3.01 on the skin. In the hoop house, which is aria-hidden and in words beside it; it carries no word.",
+    "#3a6b33": "gentlehelp: --ghc-stem, a stem, 5.58 on the skin. In the hoop house, which is aria-hidden and in words beside it; it carries no word.",
+    "#a9c46e": "gentlehelp: --ghc-bud, a flower, 1.72 on the skin. In the hoop house, which is aria-hidden and in words beside it; it carries no word.",
+    "#7a4e9e": "gentlehelp: --ghc-bud-purple, a purple flower, 5.45 on the skin. In the hoop house, which is aria-hidden and in words beside it; it carries no word.",
+    "#d97d33": "gentlehelp: --ghc-pistil, the orange hairs on a flower, 2.68 on the skin. In the hoop house, which is aria-hidden and in words beside it; it carries no word.",
+    "#fffefb": "gentlehelp: --ghc-trichome, the frost of resin on a flower, 1.12 on the skin. In the hoop house, which is aria-hidden and in words beside it; it carries no word.",
+    "#e4dbc2": "gentlehelp: --ghc-shadow, the soft shadow under a plant and a card, 1.22 on the skin. In the hoop house, which is aria-hidden and in words beside it; it carries no word.",
+    "#5fa84a": "gentlehelp: --ghc-basil, basil, 2.59 on the skin. In the hoop house, which is aria-hidden and in words beside it; it carries no word.",
+    "#ee9b2c": "gentlehelp: --ghc-marigold, a marigold, 1.99 on the skin. In the hoop house, which is aria-hidden and in words beside it; it carries no word.",
+    "#c9c34a": "gentlehelp: --ghc-dill, dill's yellow heads, 1.63 on the skin. In the hoop house, which is aria-hidden and in words beside it; it carries no word.",
+    "#203e6b": "solarfarm: --bds-cell, the cells' hairline grid in the glass, behind every word, 1.37 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#b4dcf6": "solarfarm: --bds-sky, the sky in the view, 10.15 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#7fbfec": "solarfarm: --bds-sky-high, the top of the sky, 7.39 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#c9d2dc": "solarfarm: --bds-frame, a panel's frame, and the shed's roof, 9.60 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#fffef6": "solarfarm: --bds-glint, the noon sun, and the sun along every panel's top edge, 14.52 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#8b97a3": "solarfarm: --bds-post, a panel's post, and a tomato cage, 4.93 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#a07b53": "solarfarm: --bds-soil, the soil in the sun, 3.81 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#6e573f": "solarfarm: --bds-shade, the soil in a panel's shade, 2.17 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#3f8f3c": "solarfarm: --bds-leaf, a leaf, 3.64 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#2d6b2c": "solarfarm: --bds-leaf-dark, a stem, 2.27 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#e2382e": "solarfarm: --bds-chiltepin, a chiltepin pepper, 3.38 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#2a7a2f": "solarfarm: --bds-jalapeno, a jalapeño, 2.74 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#e8553a": "solarfarm: --bds-tomato, a cherry tomato, 4.05 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#5dae47": "solarfarm: --bds-basil, basil, 5.32 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#f2eee3": "solarfarm: --bds-fleece, a sheep, 12.67 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#3a3330": "solarfarm: --bds-face, a sheep's face and legs, 1.19 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#d8dee4": "solarfarm: --bds-battery, the battery shed, 10.83 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#5e6b78": "solarfarm: --bds-wire, the line to the street, 2.69 on the glass. In the rows at noon, which are aria-hidden and in words beside them, or behind them; it carries no word.",
+    "#0a0a0a": "sanctuary: --anm-case, the viewer's and the screen's housing, 1.07 on the night. In the viewer, which is aria-hidden and in words beside it; it carries no word, and it has no hue.",
+    "#3b3b3b": "sanctuary: --anm-edge, the faint warmth round a card, 1.66 on the night. In the viewer, which is aria-hidden and in words beside it; it carries no word, and it has no hue.",
+    "#060606": "sanctuary: --anm-sky, the sky in the viewer, and the empty screen, 1.09 on the night. In the viewer, which is aria-hidden and in words beside it; it carries no word, and it has no hue.",
+    "#1a1a1a": "sanctuary: --anm-trees, the trees along the back, 1.07 on the night. In the viewer, which is aria-hidden and in words beside it; it carries no word, and it has no hue.",
+    "#242424": "sanctuary: --anm-ground-far, the far ground, 1.20 on the night. In the viewer, which is aria-hidden and in words beside it; it carries no word, and it has no hue.",
+    "#383838": "sanctuary: --anm-ground, the near ground, 1.58 on the night. In the viewer, which is aria-hidden and in words beside it; it carries no word, and it has no hue.",
+    "#0d0d0d": "sanctuary: --anm-water, the wetland, 1.05 on the night. In the viewer, which is aria-hidden and in words beside it; it carries no word, and it has no hue.",
+    "#4c4c4c": "sanctuary: --anm-reed, the reeds, 2.16 on the night. In the viewer, which is aria-hidden and in words beside it; it carries no word, and it has no hue.",
+    "#5a5a5a": "sanctuary: --anm-wall, the barn's and the hut's walls, and Otis's perch, 2.69 on the night. In the viewer, which is aria-hidden and in words beside it; it carries no word, and it has no hue.",
+    "#151515": "sanctuary: --anm-roof, a roof, facing the cold sky, 1.02 on the night. In the viewer, which is aria-hidden and in words beside it; it carries no word, and it has no hue.",
+    "#d6d6d6": "sanctuary: --anm-door, a doorway with somebody warm inside, 12.78 on the night. In the viewer, which is aria-hidden and in words beside it; it carries no word, and it has no hue.",
+    "#9e9e9e": "sanctuary: --anm-halo, the warmth coming off a body, 6.94 on the night. In the viewer, which is aria-hidden and in words beside it; it carries no word, and it has no hue.",
+    "#f7f7f7": "sanctuary: --anm-body, a resident or a wild neighbour, white with their warmth, 17.34 on the night. In the viewer, which is aria-hidden and in words beside it; it carries no word, and it has no hue.",
+    "#2e2e2e": "sanctuary: --anm-wire, the mews' wire, 1.37 on the night. In the viewer, which is aria-hidden and in words beside it; it carries no word, and it has no hue.",
     "#9fc2de": "natures: --ncx-sky-high, the top of the sky in the view, 6.74 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
     "#d9e8f1": "natures: --ncx-sky, the sky in the view, 10.05 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",
     "#fbfbf6": "natures: --ncx-cloud, the clouds, and a flower in the chaos gardens, 12.13 on the shade. In the view from the stile, which is aria-hidden and in words beside it; it carries no word.",

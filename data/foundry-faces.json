@@ -192,6 +192,23 @@
     }
    ]
   },
+  "anybody": {
+   "family": "Anybody",
+   "category": "Sans Serif",
+   "designer": "Tyler Finck",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/anybody",
+   "copyright": "Copyright 2020 The Anybody Project Authors (https://github.com/Etcetera-Type-Co/Anybody)",
+   "repository": "https://github.com/Etcetera-Type-Co/Anybody",
+   "variants": [
+    {
+     "weight": "800",
+     "style": "normal",
+     "file": "anybody-800.woff2",
+     "sha": "1fea265bbb7e5f3f"
+    }
+   ]
+  },
   "architects-daughter": {
    "family": "Architects Daughter",
    "category": "Handwriting",
@@ -726,6 +743,35 @@
      "style": "normal",
      "file": "cabin-400.woff2",
      "sha": "3912b808ba0a5888"
+    }
+   ]
+  },
+  "cantarell": {
+   "family": "Cantarell",
+   "category": "Sans Serif",
+   "designer": "Dave Crossland",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/cantarell",
+   "copyright": "Copyright 2009 The Cantarell Project Authors (https://github.com/davelab6/cantarell)",
+   "repository": "https://github.com/googlefonts/cantarell",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "cantarell-400.woff2",
+     "sha": "445658fcc77bedf2"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "cantarell-700.woff2",
+     "sha": "4d45fb116776ccdc"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "cantarell-400-italic.woff2",
+     "sha": "dd26ffe7c5eca60f"
     }
    ]
   },
@@ -1472,6 +1518,29 @@
     }
    ]
   },
+  "geist": {
+   "family": "Geist",
+   "category": "Sans Serif",
+   "designer": "Andrés Briganti, Mateo Zaragoza, Guillermo Rauch, Evil Rabbit, José Rago, Facundo Santana",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/geist",
+   "copyright": "Copyright 2024 The Geist Project Authors (https://github.com/vercel/geist-font)",
+   "repository": "https://github.com/vercel/geist-font",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "geist-400.woff2",
+     "sha": "ba884770e9f5f0cb"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "geist-700.woff2",
+     "sha": "182da49340e476b3"
+    }
+   ]
+  },
   "gelasio": {
    "family": "Gelasio",
    "category": "Serif",
@@ -2079,6 +2148,23 @@
     }
    ]
   },
+  "lemonada": {
+   "family": "Lemonada",
+   "category": "Display",
+   "designer": "Mohamed Gaber, Eduardo Tunni",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/lemonada",
+   "copyright": "Copyright 2011 The Lemonada Project Authors (https://github.com/Gue3bara/Lemonada)",
+   "repository": "https://github.com/Gue3bara/Lemonada",
+   "variants": [
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "lemonada-600.woff2",
+     "sha": "1da9bdb4899fbc70"
+    }
+   ]
+  },
   "lexend": {
    "family": "Lexend",
    "category": "Sans Serif",
@@ -2360,6 +2446,29 @@
     }
    ]
   },
+  "martian-mono": {
+   "family": "Martian Mono",
+   "category": "Sans Serif",
+   "designer": "Roman Shamin, Evil Martians",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/martianmono",
+   "copyright": "Copyright 2020 The Martian Mono Project Authors (https://github.com/evilmartians/mono)",
+   "repository": "https://github.com/evilmartians/mono",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "martian-mono-400.woff2",
+     "sha": "c512e50d5b890285"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "martian-mono-700.woff2",
+     "sha": "723569a183da9c0b"
+    }
+   ]
+  },
   "merriweather": {
    "family": "Merriweather",
    "category": "Serif",
@@ -2420,6 +2529,29 @@
      "style": "normal",
      "file": "monoton-400.woff2",
      "sha": "b7967c18b0fd51c8"
+    }
+   ]
+  },
+  "montserrat": {
+   "family": "Montserrat",
+   "category": "Sans Serif",
+   "designer": "Julieta Ulanovsky, Sol Matas, Juan Pablo del Peral, Jacques Le Bailly",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/montserrat",
+   "copyright": "Copyright 2011 The Montserrat Project Authors (https://github.com/JulietaUla/Montserrat)",
+   "repository": "https://github.com/JulietaUla/Montserrat",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "montserrat-400.woff2",
+     "sha": "0f079e1dcf6151c2"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "montserrat-700.woff2",
+     "sha": "cbcba0f7387dfa1d"
     }
    ]
   },
