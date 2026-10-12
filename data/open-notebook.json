@@ -224,5 +224,97 @@
     "what": "what you’re moving toward"
    }
   ]
+ },
+ "_stickers": "THE STICKER DRAWER, Ryan's brief, 2026-10-12: sheets of day and month stickers for his notebook, Monday to Sunday and January to December by name, in any typeface on this street, in three sizes, laid out to get as many stickers as will go onto a 4 x 7 inch sheet for Liene's PixCut S1 printer and cutter; the week on one sheet or a day to a sheet, the year on one sheet or a month to a sheet. Every number the drawer draws with is here, and tools/make-open-notebook.py writes it into the page's sentences AND onto the drawer's data- attributes, which notebook-stickers.js reads, so the words and the sheets cannot disagree. THE PRINTER'S FIGURES ARE LIENE'S, read on its help centre on 2026-10-12: sticker paper 4 x 7 in (101.6 x 177.8 mm), printable area 100 x 170 mm, 300 x 300 dpi, files JPEG, PNG or HEIC, and the app only (Liene Photo, on a phone or tablet, over Bluetooth; Windows is marked unsupported). Its FAQ says a PNG with no background 'can be used directly for cutting', that 'printing must include borders, but you can adjust the border size', and that overall cutting, the default, 'will follow your arrangement on the canvas'. So a sheet is a transparent PNG the size of the paper at 300 dpi, each sticker an opaque white label with its word on it, every label at least `inset_mm` inside the printable area and `gap_mm` from the next, which is room for the border the app adds round each cut. CLAUDE'S CALLS, each Ryan's to reverse: the sizes are label heights in squares of a 5 mm dot grid, two, three and four; a label's side padding, top and bottom padding and corner are the fractions in `label` of its height; the word is sized so that the tallest and deepest letters of all nineteen names fit between the top and bottom padding, so every sticker in one face and size is the same height with the word the same size, whichever sheet it is on; the ink is black on a white label; the week and year sheets hold as many whole weeks or years as fit, then as many more days or months as go in the gaps, in their order; a label may be turned on its side where that fits more. OPEN: nobody has run one of these sheets through the machine yet. If overall cutting runs two labels into one cut, the gap is the number to change, here, and nothing else.",
+ "stickers": {
+  "printer": {
+   "name": "PixCut S1",
+   "maker": "Liene",
+   "url": "https://www.liene-life.com/products/pixcut-s1-photo-sticker-printer-and-cutter",
+   "spec": "https://www.liene-life.com/pages/pixcut-help-center",
+   "faq": "https://www.liene-life.com/a/support-faq",
+   "app": "Liene Photo",
+   "read": "2026-10-12"
+  },
+  "paper_in": [
+   4,
+   7
+  ],
+  "printable_mm": [
+   100,
+   170
+  ],
+  "dpi": 300,
+  "inset_mm": 1.5,
+  "gap_mm": 3,
+  "grid_mm": 5,
+  "label": {
+   "pad": 0.25,
+   "vpad": 0.17,
+   "round": 0.3
+  },
+  "sizes": [
+   {
+    "key": "small",
+    "name": "Small",
+    "squares": 2
+   },
+   {
+    "key": "medium",
+    "name": "Medium",
+    "squares": 3
+   },
+   {
+    "key": "large",
+    "name": "Large",
+    "squares": 4
+   }
+  ],
+  "sheets": [
+   {
+    "key": "week",
+    "name": "The week on one sheet"
+   },
+   {
+    "key": "days",
+    "name": "A day to a sheet"
+   },
+   {
+    "key": "year",
+    "name": "The year on one sheet"
+   },
+   {
+    "key": "months",
+    "name": "A month to a sheet"
+   }
+  ],
+  "days": [
+   "Monday",
+   "Tuesday",
+   "Wednesday",
+   "Thursday",
+   "Friday",
+   "Saturday",
+   "Sunday"
+  ],
+  "months": [
+   "January",
+   "February",
+   "March",
+   "April",
+   "May",
+   "June",
+   "July",
+   "August",
+   "September",
+   "October",
+   "November",
+   "December"
+  ],
+  "opens": {
+   "face": "doto",
+   "size": "medium",
+   "sheet": "week"
+  }
  }
 }

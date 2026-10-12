@@ -110,7 +110,7 @@ town-hall-directors.html Off the Town Hall: lit only through the frosted pane in
 town-hall-fishbowl.html Off the Town Hall: a glass fishbowl on a sunny sill, lit by the sun bent through the water. Community fishbowl meetings on the CB
 community-center.html A painted block hall, blinds half open. The meeting hall (our group chat on Stoat, and how to get in), house norms and the front desk for the CB
 dopamine-dress-up-den.html  Helen's idea: a boutique for dopamine dressing. Mix an outfit on a valet stand; nobody's body is drawn
-the-open-notebook.html  A notebook open under a window since first light, every hour's sun on the page. Ryan's piece on bullet, junk and interstitial journaling in full, the Infodumplings questions, its videos and a month of journaling channels on the laptop; nowhere to write, on purpose
+the-open-notebook.html  A notebook open under a window since first light, every hour's sun on the page. Ryan's piece on bullet, junk and interstitial journaling in full, the Infodumplings questions, its videos and a month of journaling channels on the laptop, and a sticker drawer of day and month sheets for a PixCut S1; nowhere to write, on purpose
 learning-large.html     A glasshouse at night under red and blue grow lamps, where nothing is green. Learning, making and knowledge gardening with AI, from our own AI pages: spiky profiles complementing each other, this street's own sowing log, and a month of AI channels on the bench screen; no chat box, on purpose
 hey-good-cookin.html    A community kitchen with its windows steamed up: nobody turned away, nothing owed, a communication badge placard on every table, an omnivorous menu where every dish card says what is in it, a line and tables built to work from a wheelchair, cooking classes, and a month of cooking channels on the teaching screen
 pekoe-and-purrs.html    A cat café with a window at every height, cut to the size of a cat. Coffee, tea and tea sandwiches, every item saying what is in it and how much caffeine; every cat from Rescue A Cat's shelter, read when the room opens, to meet, adopt at the shelter, or put on your lap; look down at your lap and your table; films from other cat cafés on the telly (purrs.js, animals.js)
@@ -233,6 +233,7 @@ data/community.json   The community service board: a slot for every room that ta
 data/broadside.json   The press's sheets, both sides of each, with their two spot inks. No two sheets share a pair
 dance-punks.js        The headset. Tuning is silent while it is off; it asks love-embed.js for the frame
 small-hours.js        The whole-album buttons, and the placemat: colour in, scribble, take it home. Stores and sends nothing
+notebook-stickers.js  The Open Notebook's sticker drawer: packs and draws day and month sheets, saves them as PNGs. Stores and sends nothing
 repeater.js           The open line: quiet noise made in the browser. Nothing sent, nothing listened to
 quest.js              The job markers, and the guild's board. Works with scripts off
 zibaldone.js          The attribution slip. Composes a block of text; sends nothing anywhere
@@ -286,7 +287,7 @@ python3 tools/make-picture-house.py # The Lightbulb Picture House's screens and 
 python3 tools/make-samefood.py     # Samefood Cafe's table, menu, counter and trays, and the credits; refuses anything that touches
 python3 tools/make-collection.py   # The Collection Collection's gallery, cabinets and credits; refuses metadata, a filter, or two lamps alike
 python3 tools/make-vital.py        # Vital Plant Living's shelf, builder, board, counter and stereo; refuses a combo off the pantry, or Ital on the menu
-python3 tools/make-open-notebook.py # The Open Notebook's drawing, questions, laptop and racks; refuses a YouTube link left in Ryan's piece, a question our write-up no longer has, anywhere to type, and a month older than a month
+python3 tools/make-open-notebook.py # The Open Notebook's drawing, questions, laptop, racks and sticker drawer; refuses a YouTube link left in Ryan's piece, a question our write-up no longer has, anywhere to type, a list outside the drawer, a drawer script that keeps or sends anything, and a month older than a month
 python3 tools/make-learning-large.py # Learning Large's glasshouse, quotations, bench, sowing log and rack; refuses a quotation our page no longer has, a log entry the changelog does not hold, a model given a mind, a chat box, and any green
 python3 tools/make-hey-good-cookin.py # Hey, Good Cookin's hall, placards, line, week, classes and rack; works every dish's allergens out of its ingredients, and refuses a vegan dish with an animal in it, a red placard on a large table, anything owed, a calorie count, and any green, yellow or red but a placard's
 python3 tools/make-pekoe.py        # Pekoe and Purrs' room, perches, lap view, toys, menu and telly; refuses fewer perches than the shelter can hold, a cat moved by its markings, a cat who wants to be left alone being picked up, a mug of a different colour, a drink whose caffeine cannot be worked out, a price, and a script that stores or sends anything

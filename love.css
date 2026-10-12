@@ -2872,7 +2872,12 @@
      --onb-dot is the grid, --onb-shade the page in the drawing where no sun is
      falling, the four --onb-washi- tapes hold things in and mark the ribbons,
      and --onb-dawn, --onb-morning, --onb-noon, --onb-afternoon and --onb-dusk
-     are the window's patch at each hour, in the drawing only. */
+     are the window's patch at each hour, in the drawing only. --onb-sticker and
+     --onb-sticker-ink are not the room's but the stickers': the white label and
+     the black word that notebook-stickers.js draws on every sheet, read off here
+     with getComputedStyle because a canvas cannot take a var(). Pure white, so a
+     label prints as the bare sticker paper and not as a tint of it. */
+  --onb-sticker: #FFFFFF;  --onb-sticker-ink: #000000;
   --onb-page:  #FBFAF5;  --onb-card:  #FEFEFC;  --onb-ink:   #1F2128;
   --onb-dim:   #4E525C;  --onb-pen:   #2443A0;  --onb-laptop: #23262E;
   --onb-dot:   #C9CBC4;  --onb-shade: #D4CEBF;
@@ -19402,12 +19407,12 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .onb-laptop[data-rack-shape="tall"] .facade { aspect-ratio: 9 / 16; width: min(100%, 340px); margin-inline: auto; }
 .notebook .onb-laptop__now { margin: 6px 0 0; max-width: 820px; font-weight: 700; font-size: 16px; }
 .notebook .onb-laptop__back { margin: 8px 0 0; }
-.onb-back, .onb-card__up {
+.onb-back, .onb-card__up, .onb-stk__save {
   min-height: 44px; padding: 8px 14px; cursor: pointer; text-align: left;
   font: 700 15px/1.3 'Rosario', var(--sans); color: var(--onb-ink);
   background: var(--onb-card); border: 2px solid var(--onb-ink); border-radius: 4px; font-synthesis: none;
 }
-.onb-back:hover, .onb-card__up:hover { background: var(--onb-washi-sky); }
+.onb-back:hover, .onb-card__up:hover, .onb-stk__save:hover { background: var(--onb-washi-sky); }
 
 /* The racks: every card an index card with a strip of tape across its top,
    the tape's colour going round the four rolls. */
@@ -19450,6 +19455,58 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .notebook .onb-card--short .facade { aspect-ratio: 9 / 16; }
 .notebook .onb-card__door { margin-top: auto; font-weight: 700; }
 
+/* THE STICKER DRAWER. Its controls sit on an index card like everything else
+   the room has pinned up, and every sheet it draws lies on the page with a strip
+   of tape across its top, laid straight, the cards' tapes in the cards' order.
+   A pressed choice wears the bullet journal's filled dot and the others its
+   empty one, so which is chosen is never carried by the tape colour alone. The
+   sheet's white and the word's black are the stickers' own (--onb-sticker), not
+   the room's, and only the canvas draws in them. Nothing in here moves. */
+.onb-stk { margin: 20px 0 0; }
+.onb-stk__controls {
+  display: grid; gap: 18px; max-width: 820px; padding: 18px 20px 20px;
+  background: var(--onb-card); border: 2px solid var(--onb-ink); border-radius: 4px;
+}
+.notebook .onb-stk__lab { display: block; margin: 0 0 8px; font-weight: 700; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; }
+.onb-stk__face {
+  min-height: 44px; width: min(100%, 380px); padding: 6px 10px;
+  font: 400 17px/1.3 'Rosario', var(--sans); color: var(--onb-ink);
+  background: var(--onb-page); border: 2px solid var(--onb-ink); border-radius: 4px; font-synthesis: none;
+}
+.onb-stk__picks { display: flex; flex-wrap: wrap; gap: 8px; }
+.onb-stk__pick {
+  min-height: 44px; padding: 8px 14px; cursor: pointer; text-align: left;
+  font: 700 15px/1.3 'Rosario', var(--sans); color: var(--onb-ink);
+  background: var(--onb-page); border: 2px solid var(--onb-ink); border-radius: 4px; font-synthesis: none;
+}
+.onb-stk__pick::before { content: "\25CB\00a0"; content: "\25CB\00a0" / ""; }
+.onb-stk__pick[aria-pressed="true"] { background: var(--onb-washi-butter); }
+.onb-stk__pick[aria-pressed="true"]::before { content: "\25CF\00a0"; content: "\25CF\00a0" / ""; }
+.onb-stk__pick:hover { background: var(--onb-washi-sky); }
+.onb-stk__pick small { display: block; margin: 2px 0 0 1.25em; font-weight: 400; font-size: 14px; }
+.notebook .onb-stk__credit, .notebook .onb-stk__said { margin: 16px 0 0; max-width: 72ch; font-size: 16px; line-height: 1.5; }
+.onb-stk__sheets {
+  list-style: none; margin: 26px 0 0; padding: 0; max-width: 980px;
+  display: grid; gap: 30px 22px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr));
+}
+.onb-stk__sheets--one { grid-template-columns: minmax(0, 340px); }
+.onb-stk__sheet { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.onb-stk__paper { position: relative; }
+.onb-stk__paper::before {
+  content: ""; position: absolute; top: -9px; left: 30%; width: 40%; height: 18px; z-index: 1;
+  background: var(--onb-washi-sage); opacity: .92;
+  clip-path: polygon(0 8%, 4% 0, 9% 10%, 14% 0, 86% 0, 91% 10%, 96% 0, 100% 8%, 100% 92%, 96% 100%, 91% 90%, 86% 100%, 14% 100%, 9% 90%, 4% 100%, 0 92%);
+}
+.onb-stk__sheets > li:nth-child(4n+2) .onb-stk__paper::before { background: var(--onb-washi-blush); }
+.onb-stk__sheets > li:nth-child(4n+3) .onb-stk__paper::before { background: var(--onb-washi-butter); }
+.onb-stk__sheets > li:nth-child(4n+4) .onb-stk__paper::before { background: var(--onb-washi-sky); }
+.onb-stk__paper canvas { display: block; width: 100%; height: auto; background: var(--onb-sticker); border: 2px solid var(--onb-ink); border-radius: 3px; }
+.notebook .onb-stk__cap { margin: 0; font-size: 15px; line-height: 1.45; }
+.notebook .onb-stk__all { margin: 26px 0 0; }
+.notebook .onb-stk__done { margin: 0; font-size: 14px; line-height: 1.45; color: var(--onb-dim); overflow-wrap: anywhere; }
+.notebook .onb-stk__all .onb-stk__done { margin-top: 8px; max-width: 72ch; }
+.notebook .onb-stk__off { margin: 16px 0 0; max-width: 72ch; font-size: 16px; color: var(--onb-dim); }
+
 .onb-keeps { margin: 8px 0 0; padding: 0 0 0 1.3em; max-width: 68ch; font-size: 17px; line-height: 1.6; }
 .onb-keeps li { margin: 0 0 12px; }
 .notebook .quest { margin-top: 48px; }
@@ -19467,6 +19524,9 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .onb-cards--short { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 14px; }
   .onb-card { padding: 20px 12px 12px; }
   .onb-laptop { padding: 8px; }
+  .onb-stk__controls { padding: 14px 14px 16px; }
+  .onb-stk__sheets { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 14px; }
+  .onb-stk__sheets--one { grid-template-columns: minmax(0, 300px); }
 }
 
 /* §92 ── ROOM: Learning Large (a shopfront on the street) ───────────────────────

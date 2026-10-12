@@ -2845,9 +2845,11 @@ PAIRS = [
     ("#1F2128", "#FBFAF5", False, "notebook: every word -- Ryan's piece, the lede, the questions, "
                                   "the h1 and every heading in Doto, the house rules -- and the "
                                   "name and blurb on the street door, and the job marker, a roll "
-                                  "of washi tape, by its outline"),
+                                  "of washi tape, by its outline; the sticker drawer's face picker, "
+                                  "its choices, its credit and what each sheet says is on it"),
     ("#1F2128", "#FEFEFC", False, "notebook: every word on an index card -- a video's title, the "
-                                  "index, the three parts of L★S, both buttons that move a film"),
+                                  "index, the three parts of L★S, both buttons that move a film, "
+                                  "the sticker drawer's labels and its Save buttons"),
     ("#4E525C", "#FBFAF5", False, "notebook: the trail, the byline over the piece, when the log was "
                                   "filled, a channel's note that its feed fell short"),
     ("#4E525C", "#FEFEFC", False, "notebook: the line under a video's title, what the piece called "
@@ -2862,10 +2864,17 @@ PAIRS = [
                                   "empty screen"),
     ("#FBFAF5", "#2443A0", False, "notebook: a play button's words under the pointer"),
     ("#F2DE9B", "#2443A0", False, "notebook: PRESS PLAY under the pointer"),
-    ("#1F2128", "#BED5EB", False, "notebook: a button that moves a film, under the pointer"),
+    ("#1F2128", "#BED5EB", False, "notebook: a button that moves a film, under the pointer, and "
+                                  "every button in the sticker drawer under the pointer"),
     ("#1F2128", "#F2DE9B", False, "notebook: the line in the margin of Ryan's piece saying a list "
-                                  "of videos was migrated to the collection, on its strip of tape"),
+                                  "of videos was migrated to the collection, on its strip of tape, "
+                                  "and the chosen size and sheet in the sticker drawer, which also "
+                                  "wear the filled dot"),
     ("#2443A0", "#F2DE9B", False, "notebook: the link to a shelf on that same strip of tape"),
+    # The stickers' own two colours, drawn on a canvas and so seen by neither
+    # this list's reader nor the live one: the word on every label, in the
+    # drawer's preview and on every sheet it saves, black on the white label.
+    ("#000000", "#FFFFFF", False, "notebook: every word on a sticker, black on its white label"),
     ("#4E525C", "#D4CEBF", False, "notebook: the hours written under the drawing of the day, on the "
                                   "page in shade"),
 

@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Sun, 11 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 12 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The Open Notebook’s sticker drawer</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-12-sticker-drawer</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-12-sticker-drawer</guid>
+      <pubDate>Mon, 12 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The Open Notebook has a sticker drawer: the days of the week and the months of the year, by name, on sheets for the PixCut S1, Liene’s photo sticker printer and cutter. Any typeface on the street, in three sizes, and the week or the year on one sheet, or a day or a month to a sheet. As many stickers to a sheet as will go. The week’s and the year’s sheets take as many whole weeks or years as fit, then whatever more will go in the gaps, turning some on their side where that fits more, and every sheet says underneath it what is on it. Where a whole year will not fit at Large, the sheet says which size it fits at. A sheet is a PNG the size of the paper at 300 dpi, clear everywhere but the stickers, so the Liene Photo app can cut round each one. It is drawn in your browser and saved to your own device, and carries the face’s designer and licence inside it. A rule of the room was narrowed for it. The Open Notebook refused any list to choose from and any script of its own, so that there would be nowhere to write. The drawer’s face picker is one list, and it has one script; neither takes a word, keeps anything or sends anything, and the room still has nowhere to write.</description>
+    </item>
     <item>
       <title>Wide-Spread Chaos Gardens</title>
       <link>https://stimpunks.world/changelog.html#2026-10-11-wide-spread-chaos</link>

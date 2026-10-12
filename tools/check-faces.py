@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refuse a typeface this site holds that one of the two rooms about type has lost.
+"""Refuse a typeface this site holds that one of the rooms offering every face has lost.
 
 WHY THIS EXISTS, AND IT IS NOT A HYPOTHETICAL. Two rooms on this street claim,
 in their own published copy, to hold EVERY typeface on it: The Mopery's Raven
@@ -17,6 +17,11 @@ in two places and only one of them is obviously required.
 The nook's picker is generated now, from the same record The Foundry's shelves
 are built from. This is the tool that says so out loud when it stops being true.
 
+THE THIRD IS THE OPEN NOTEBOOK'S STICKER DRAWER (2026-10-12), whose own copy
+says a sheet can be set in any typeface on this street. Its face picker is
+written by make-open-notebook.py out of the same record, and read here the same
+way, off the published page.
+
 IT READS THE PUBLISHED HTML AND NEVER THE GENERATORS. A checker that re-derived
 the lists by calling picker_block() and specimen_list() would only be testing
 that Python is deterministic. This exists for every moment AFTER those tools
@@ -26,12 +31,14 @@ the frame-src shape exactly, and check-quests.py's rule.
 WHAT IT ASKS, IN BOTH DIRECTIONS:
   · every family in fonts/_sources.json is on The Foundry's shelves
   · every family in fonts/_sources.json is in The Mopery's picker
-  · neither room offers a family this site does not actually hold, which is the
+  · every family in fonts/_sources.json is in The Open Notebook's sticker drawer
+  · none of them offers a family this site does not actually hold, which is the
     half that catches a deletion -- an option pointing at a face that is gone is
     a control that silently falls back to Georgia and looks like a design choice
 
-IF THIS REFUSES: run tools/pull-foundry.py, then tools/make-foundry.py and
-tools/make-mopery.py. Do not add the option by hand; that is what went wrong.
+IF THIS REFUSES: run tools/pull-foundry.py, then tools/make-foundry.py,
+tools/make-mopery.py and tools/make-open-notebook.py. Do not add the option by
+hand; that is what went wrong.
 """
 import html
 import json
@@ -50,6 +57,8 @@ ROOMS = [
      r'id="raven-font"', r"</select>", r"value=\"'([^']+)',"),
     ("The Foundry's cases", "foundry.html",
      r'class="fo-cases"', r"</main>", r"font-family:'([^']+)'"),
+    ("The Open Notebook's sticker drawer", "the-open-notebook.html",
+     r'data-stk-face>', r"</select>", r'data-family="([^"]+)"'),
 ]
 
 
@@ -92,8 +101,8 @@ def main():
         print("REFUSING:\n  " + "\n  ".join(fail), file=sys.stderr)
         return 1
 
-    print(f"{len(held)} families held, and both rooms that claim to hold every one "
-          f"of them do.")
+    print(f"{len(held)} families held, and every room that claims to hold every one "
+          f"of them does.")
     return 0
 
 

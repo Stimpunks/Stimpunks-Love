@@ -1858,8 +1858,9 @@ holds every typeface on this street and llms.txt says the poem can be set in any
 **eighteen were missing** by the time anybody counted, because adding a file to `fonts/` and
 adding an `<option>` two rooms away are two edits and only one is obviously required. That picker
 is **generated** now from the same record the Foundry's shelves are built from, and
-`check-faces.py` reads **both rooms' published markup** — never the generators — in both
-directions. Do not add an option by hand; that is what went wrong.
+`check-faces.py` reads **every such list's published markup** — never the generators — in both
+directions, The Open Notebook's sticker drawer included since 2026-10-12. Do not add an option by hand;
+that is what went wrong.
 
 **AN ITALIC IS A SECOND ALPHABET AND A SLANT IS THE ROMAN PUSHED OVER, AND THE ROOM SHOWS YOU
 RATHER THAN TELLING YOU.** The italic is offered **only where fonts/ holds an italic file**,
@@ -2831,9 +2832,27 @@ address, and **does not sweep the piece for our refusals**: Helen's rule that so
 folded into our "we" holds for Ryan too. **The questions are our Infodumplings write-up's, word for
 word**, re-read out of the mirror's copy of that post on every build (the Town Hall's rule: re-copy,
 never loosen). **There is nowhere to answer them, on purpose**: the tool refuses a form, an input, a
-textarea, a select or anything editable outside the job marker, and any script but `love.js`,
-`love-embed.js`, `rack.js` and `quest.js`. The friendly edit to a journaling room is a habit tracker, or a
-box that remembers what you wrote, and then the notebook is ours instead of yours.
+textarea or anything editable outside the job marker, a select anywhere but the sticker drawer, and any
+script but `love.js`, `love-embed.js`, `rack.js`, `quest.js` and `notebook-stickers.js`. The friendly edit
+to a journaling room is a habit tracker, or a box that remembers what you wrote, and then the notebook is
+ours instead of yours.
+
+**THE STICKER DRAWER NARROWED THAT RULE, ON RYAN'S ASK, AND ONLY AS FAR AS IT HAD TO.** Ryan's brief,
+2026-10-12: day and month stickers by name for a PixCut S1 (Liene's sticker printer and cutter), any face on
+the street, three sizes, the week or the year on one sheet or one name to a sheet, as many to a sheet as will
+go. It needs a face picker and a script, so the room now has one `<select>` and `notebook-stickers.js`, and
+`make-open-notebook.py` refuses that script if it stores, sends or writes markup from a string. **Neither
+takes a word**, so the room still has nowhere to write. **Every number is in `data/open-notebook.json`** and
+is written twice, into the sentences and onto the drawer's data- attributes the script reads: change
+`gap_mm` there, never in the script. **The face picker is generated from `data/foundry-faces.json`** and
+`check-faces.py` reads it in both directions, like the Mopery's and the Foundry's. **Liene's figures were
+read, not remembered** (4 × 7 in paper, 100 × 170 mm printable, 300 dpi, the app phone-only, a PNG with no
+background cut round directly), and a sheet is a transparent PNG the paper's size with a pHYs chunk and the
+face's credit in iTXt. **Nobody has run a sheet through the machine yet**; DECISIONS.md says what is open.
+A whole year rarely fits at Large, and the sheet says which size it fits at: that is geometry, not a packing
+bug, and the fix is never to shrink the stickers on one sheet, because one face and size is one sticker
+whichever sheet it comes off. `web-share` is off in `_headers`, so saving is a download; turning it on is a
+security header and Ryan's call.
 
 **ITS LIGHT IS EVERY HOUR AT ONCE.** The notebook has lain open under a window since first light, so the
 window's patch from every hour lies on the page together, dawn blue from the left to dusk rose from the
