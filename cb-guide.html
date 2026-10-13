@@ -100,7 +100,7 @@
     <thead><tr><th>Heading</th><th>What is under it</th></tr></thead>
     <tbody>
       <tr><td><b>Where you are</b></td><td>The name of the room you are in, <b>On the channel as</b> and your handle, <a href="#seen">Be seen here</a>, and <a href="#calls">Join this room&rsquo;s call</a>.</td></tr>
-      <tr><td><b>Who&rsquo;s around</b></td><td><a href="#online">Who&rsquo;s online</a> and <a href="#world-call">Join World call</a>.</td></tr>
+      <tr><td><b>Who&rsquo;s around</b></td><td><a href="#online">Who&rsquo;s online</a>, <a href="#world-call">Join World call</a>, and <a href="#pop-out">Show the call window</a> while a call is in a window of its own.</td></tr>
       <tr><td><b>Channel</b></td><td><a href="#tuning">World or this room</a>, the messages, and <a href="#writing">the box to write in</a>.</td></tr>
       <tr><td><b>Watching together</b></td><td><a href="#films">Add my spot, Host this film and Screen a video</a>. The part is only there while one of them is.</td></tr>
       <tr><td><b>Your radio</b></td><td><a href="#tools">The switches for a screen reader and for speaking aloud, Profile and Sign off</a>, and links to the house norms and this guide.</td></tr>
@@ -248,19 +248,31 @@
   <h2 id="calls">Calls</h2>
   <p>Every room has a voice and video call, run by 8x8. <b>Join this room&rsquo;s call</b> on the radio opens it, and some rooms have a panel of their own that says <b>Join the call as</b> and your handle. A few rooms at <a href="cavendish-coworking.html">Cavendish Coworking</a> also let in people who are not signed on: they type <b>The name you want to be called in the call</b> and press <b>Knock on the door</b>.</p>
   <p>To find a call with people in it, open <a href="#online">Who&rsquo;s online</a>: <b>Calls going now</b> names the World call and every room whose call has somebody in it.</p>
-  <p id="world-call"><strong>The World call</strong> is one call for the whole street. <b>Join World call</b>, under <a href="#online">Who&rsquo;s around</a>, opens it from any page with the radio, in the same window as a room&rsquo;s call, and press it again to leave. Anybody signed on can join; a guest cannot. You are in one call at a time, so joining the World call leaves the room&rsquo;s call, and the other way round. Like every call it hangs up when you leave the page, and that includes going to another room, because every room is a page of its own. Nobody is shown who is in it before they join.</p>
+  <p id="world-call"><strong>The World call</strong> is one call for the whole street. <b>Join World call</b>, under <a href="#online">Who&rsquo;s around</a>, opens it from any page with the radio, in the same window as a room&rsquo;s call, and press it again to leave. Anybody signed on can join; a guest cannot. You are in one call at a time, so joining the World call leaves the room&rsquo;s call, and the other way round. Like every call it hangs up when you leave the page, and that includes going to another room, because every room is a page of its own, unless you <a href="#pop-out">pop it out</a> into a window of its own. Nobody is shown who is in it before they join.</p>
   <p>The call opens in a window of its own in the bottom left corner.</p>
   <table class="plain-table">
     <thead><tr><th>Control</th><th>What it does</th></tr></thead>
     <tbody>
       <tr><td><b>CALL</b> and the room&rsquo;s name</td><td>Which call this is.</td></tr>
       <tr><td><b>Move</b></td><td>Drag the bar, or press <b>Move</b> and use the arrow keys; <kbd>Home</kbd> puts it back in its corner.</td></tr>
+      <tr><td><b>Pop out</b></td><td>Moves the call into <a href="#pop-out">a window of its own</a>, which stays open while you go from room to room. Not at Small, where there is no room for it on the bar.</td></tr>
       <tr><td><b>Small</b>, <b>Large</b></td><td>Make the window smaller or larger. Press again to go back to the middle size.</td></tr>
-      <tr><td><b>Leave the call</b></td><td>Hangs up. Leaving the page hangs up too.</td></tr>
+      <tr><td><b>Leave the call</b></td><td>Hangs up. Leaving the page hangs up too, unless the call is in a window of its own.</td></tr>
       <tr><td><b>In the call now:</b></td><td>Who is in the call, if you have <a href="#seen">Be seen here</a> on and the radio open.</td></tr>
     </tbody>
   </table>
   <p>Inside the window is 8x8&rsquo;s own screen. Your browser may ask about your camera and microphone so it can show a preview, but both start off, and nothing goes to the call until you join there. Folding the radio leaves the call running.</p>
+
+  <h3 id="pop-out">A call that follows you: Pop out</h3>
+  <p>Every room is a page of its own, and going to another room closes the page you were on, with its call. To keep a call while you walk about the street, press <b>Pop out</b> on the call&rsquo;s window. The call moves into a browser window of its own and stays there while you go from room to room in the window you came from.</p>
+  <ul>
+    <li><strong>You join again in the new window.</strong> A call cannot be carried from one window to another without starting over, so the new window opens on 8x8&rsquo;s first screen, camera and microphone off, and you press Join there.</li>
+    <li><strong>The radio knows where it is.</strong> On every page, the call&rsquo;s button stays pressed: <b>Join World call</b> for the World call, and <b>Join this room&rsquo;s call</b> when you are back in the room it came from. <b>Show the call window</b>, under Who&rsquo;s around, brings the window to the front. Pressing the call&rsquo;s pressed button hangs up and closes the window.</li>
+    <li><strong>Still one call at a time.</strong> Popping out another call puts it in the same window in place of the first, and joining a call in a page hangs up the one in the window.</li>
+    <li><strong>Leave the call</strong> in the window hangs up and closes it, and so does closing the window.</li>
+    <li>The window has no radio in it, so it does not show who is in a room&rsquo;s call before you join; the radio in the room still does, to anybody seen there.</li>
+    <li>Your browser has to let stimpunks.world open a window. If it will not, the call&rsquo;s window says so and the call stays where it was. <strong>On a phone</strong> the window is another tab, and a phone may stop the camera or microphone of a tab that is not in front.</li>
+  </ul>
 
   <h2 id="profile">Profile</h2>
   <p><b>Profile</b> opens a tray with two parts.</p>

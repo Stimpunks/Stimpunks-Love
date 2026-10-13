@@ -119,8 +119,12 @@ CREDITS = ROOT / "liner-notes.html"
 #   cb-guide.html    is the radio's manual, read with the radio open to find out
 #                    what a button does. A job through it would turn help into
 #                    homework, for the privacy page's reason.
+#   call-window.html  and any other window (tools/windows.py) holds one thing
+#                    somebody popped out of a page, and nothing until then. A
+#                    marker in it would be a job in a room nobody can walk to.
+from windows import WINDOWS
 EXEMPT = {"changelog.html", "adventurers-guild.html", "404.html", "privacy.html", "design.html",
-          "mission.html", "architecture.html", "cb-guide.html"}
+          "mission.html", "architecture.html", "cb-guide.html"} | WINDOWS
 
 # A ROOM YOU HAVE TO KNOW THE ADDRESS OF CARRIES NO MARKER, AND IS REFUSED ONE.
 # Ryan's call, 2026-10-07 (tools/unlisted.py). The board prints every job beside

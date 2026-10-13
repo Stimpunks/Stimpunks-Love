@@ -25,6 +25,7 @@ from pathlib import Path
 import fractals
 import signoff
 import unlisted
+import windows
 
 ROOT = Path(__file__).resolve().parent.parent
 FRONT = "index.html"
@@ -48,7 +49,9 @@ def with_top(src, name):
 def main():
     changed = 0
     recipes = fractals.load()
-    pages = sorted(ROOT.glob("*.html"))
+    # A window carries no sign-off (tools/windows.py): every link in one would
+    # take the window, and the call in it, somewhere else.
+    pages = sorted(p for p in ROOT.glob("*.html") if not windows.is_window(p.name))
     for p in pages:
         src = p.read_text()
         before = src

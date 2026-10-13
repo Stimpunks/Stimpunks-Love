@@ -9,17 +9,24 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Tue, 13 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>A call that follows you: Pop out</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-13-pop-out</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-13-pop-out</guid>
+      <pubDate>Tue, 13 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Pop out, on a call’s window, moves the call into a browser window of its own, which stays open while you go from room to room in the window you came from. It works for the World call and for any room’s call, signed on to the CB. You join again in the new window, because a call cannot be carried from one window to another without starting over. The radio knows where the call is on every page: the call’s own button stays pressed, Show the call window brings the window to the front, and pressing the call’s button again hangs up and closes it. There is still one call at a time. The CB guide has it, and Privacy says what the window sends and keeps, which is nothing new.</description>
+    </item>
+    <item>
       <title>The World call</title>
       <link>https://stimpunks.world/changelog.html#2026-10-13-world-call</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-13-world-call</guid>
-      <pubDate>Tue, 13 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Tue, 13 Oct 2026 11:59:00 GMT</pubDate>
       <description>A call for the whole street: Join World call, under Who’s around on the radio, opens one call that is no room’s, from any page, for anybody signed on to the CB. It opens in the same window as a room’s call, and you are in one call at a time. The CB guide has it. Like every call, it hangs up when you leave the page, and going to another room is leaving the page, because every room is a page of its own. The radio says so when it opens. Who’s online names it in Calls going now while somebody is in it, and nobody is shown who is in it before they join. Privacy says so.</description>
     </item>
     <item>
       <title>The CB in parts, where you are, and calls on Who’s online</title>
       <link>https://stimpunks.world/changelog.html#2026-10-13-cb-parts</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-13-cb-parts</guid>
-      <pubDate>Tue, 13 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Tue, 13 Oct 2026 11:58:00 GMT</pubDate>
       <description>The radio is in parts now, each under a heading: Where you are, Who’s around, Channel, Watching together and Your radio, with room and a groove in the case between them. This came out of people trying the CB: it had grown one button at a time into one long column, and it was hard to tell where one part ended. The headings are real ones, so a screen reader can move between them. Small is unchanged. The CB guide has the parts in order. The radio says which room you are in, at the top, in its largest words, because some people could not tell where they were. Tuned to World, you hear the whole street, and the radio now says where you are standing as well as what you are hearing. A name on Who’s online opens that person’s profile, the same as pressing their handle on the channel: their handle, its mark, and their pets if they show them. Who’s online lists the calls going now: every room whose call has somebody in it, with a link there. It names the room and nothing else, not who or how many. Who is in a call is still shown only in its room, to people seen there. Privacy says so, and a room the base keeps or one that keeps to itself is not named. Join this room’s call is under Where you are now, and Add my spot, Host this film and Screen a video are under Watching together, which is only there while one of them is.</description>
     </item>
     <item>

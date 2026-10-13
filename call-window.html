@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A call — Stimpunks.World</title>
+<meta name="description" content="A call on the CB, popped out into a window of its own, which keeps it while you go from room to room in the window you came from.">
+<!-- THE CALL'S OWN WINDOW. Not a room: a window (tools/windows.py), which
+     Pop out on a call opens and the call is held in, so that it can follow
+     somebody about the street while every room is a page of its own.
+       · NO RADIO AND NO GUEST BAR (data-cb="off"): a second radio listening
+         in a second window is the alert the CB refuses.
+       · NO SIGN-OFF, NO SHARE CARD, NO JOB MARKER, AND ON NO LIST: every link
+         in a sign-off would take the window, and the call in it, somewhere
+         else, and there is nothing here until a call is popped out.
+       · WHICH CALL IS IN THE FRAGMENT, #tag=...&name=..., and so never reaches
+         a server. The call itself is asked for afresh, with this browser's
+         own CB pass, exactly as Join does in a room. Nothing is kept.
+       · EVERY PATH STARTS WITH A SLASH, as on the 404, so the render checkers'
+         probes and any address this is reached at agree. -->
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#121315">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="stylesheet" href="/love.css">
+<link rel="stylesheet" href="/cb.css">
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+</head>
+<body class="cb-callwin" id="top" data-cb="off">
+
+<main id="main" class="cb-callwin__main">
+  <h1 class="cb-callwin__h" data-callwin-name>A call</h1>
+  <p class="cb-callwin__said" data-callwin-said role="status">Opening the call&hellip;</p>
+  <noscript><p class="cb-callwin__said">A call needs JavaScript, and this window has nothing in it without it. Close it to go back to <a href="/">the street</a>.</p></noscript>
+  <p class="cb-callwin__more" data-callwin-more hidden>This window holds a call somebody popped out of a page with the radio's <b>Pop out</b>, so it can stay open while they go from room to room. <a href="/cb-guide.html#pop-out">The CB guide</a> says how.</p>
+</main>
+
+<script src="/love-embed.js"></script>
+<script src="/call.js"></script>
+<script src="/call-window.js"></script>
+</body>
+</html>

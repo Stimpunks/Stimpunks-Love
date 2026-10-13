@@ -15,11 +15,23 @@
    for a public room. The frame is built by love-embed.js, the only thing here
    that builds one, loaded if the page has not already got it. Nothing about a
    call is kept, in this browser or anywhere of ours. Nothing moves.
+
+   A CALL CAN GO INTO A WINDOW OF ITS OWN, AND THAT IS HOW ONE FOLLOWS YOU.
+   Ryan, 2026-10-13, after the World call: every room is a page, and a page
+   that goes takes its call with it. Pop out on a signed-on call's window opens
+   call-window.html in a browser window of its own, which asks for the call
+   afresh and holds it while you go from room to room in the window you came
+   from. The two talk only inside this browser, over a BroadcastChannel: the
+   call's window says which call it holds, the radio on any page asks and
+   shows its button pressed, and pressing it again asks the window to hang up
+   and close. Nothing about it is sent anywhere or kept.
    ============================================================================= */
 (function () {
   'use strict';
   if (window.loveCall) return;
 
+  var WINDOW = '/call-window.html';   // the page a popped-out call is held in
+  var WINDOW_NAME = 'stimpunks-call'; // one such window at a time, found again by this name
   var STEP = 24;          // px per arrow press when moving by keyboard
   var HOME = 16;          // px from its corner that a radio or a call starts at
   var EDGE = 8;           // px a radio or a call keeps from the edge of the window
@@ -125,14 +137,20 @@
     catch (e) { return null; }
   }
 
-  function callWindow(here, frame, leaveIt) {
+  /* how.whole: this is the call's own window, so the call fills it, and
+     there is nothing to move or size (the window itself is moved and sized).
+     how.pop: Pop out, offered to somebody signed on, which answers false if
+     the browser stopped the window opening. */
+  function callWindow(here, frame, leaveIt, how) {
+    how = how || {};
+    var whole = !!how.whole;
     var host = el('div', 'cb-call-host');
     var root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
     sheet.href = '/cb.css';
     root.appendChild(sheet);
-    var box = el('section', 'cb-call');
+    var box = el('section', 'cb-call' + (whole ? ' cb-call--whole' : ''));
     box.setAttribute('aria-label', here.title || 'Call in ' + here.name);
     var bar = el('div', 'cb-call-bar');
     var name = el('p', 'cb-call-name');
@@ -171,20 +189,43 @@
     small.addEventListener('click', function () { size(box.classList.contains('cb-call--small') ? 'regular' : 'small'); });
     big.addEventListener('click', function () { size(box.classList.contains('cb-call--large') ? 'regular' : 'large'); });
     leave.addEventListener('click', function () { leaveIt(); });
-    bar.appendChild(move);
-    bar.appendChild(moveHow);
-    bar.appendChild(small);
-    bar.appendChild(big);
-    bar.appendChild(leave);
-    size('regular');
-    box.appendChild(bar);
-    // What Move says when it is pressed without a drag; it goes again after a while.
+    // What Move or Pop out says when pressed; it goes again after a while.
     var moveSaid = el('p', 'cb-call-note cb-call-said');
     moveSaid.setAttribute('role', 'status');
     moveSaid.hidden = true;
     var moveSaidFor = null;
+    function note(s) {
+      moveSaid.textContent = s;
+      moveSaid.hidden = false;
+      clearTimeout(moveSaidFor);
+      moveSaidFor = setTimeout(function () { moveSaid.hidden = true; }, 8000);
+    }
+    /* POP OUT moves the call into a window of its own, which stays open while
+       you go from room to room in this one. The call here hangs up and the
+       new window asks for it afresh, on 8x8's first screen again, because a
+       frame cannot be carried from one window to another without starting
+       over. Not at Small, where the bar has no room for it. */
+    var pop = null;
+    if (how.pop) {
+      pop = el('button', 'cb-btn cb-call-pop', 'Pop out');
+      pop.type = 'button';
+      var popHow = el('span', 'sr', 'Moves the call into a window of its own, which stays open while you go from room to room. You join again there.');
+      popHow.id = 'cb-call-pop-how';
+      pop.setAttribute('aria-describedby', 'cb-call-pop-how');
+      pop.addEventListener('click', function () {
+        if (!how.pop()) note('Your browser stopped the window opening. Allow pop-ups for stimpunks.world to pop the call out, or stay in it here.');
+      });
+    }
+    if (!whole) { bar.appendChild(move); bar.appendChild(moveHow); }
+    if (pop) { bar.appendChild(pop); bar.appendChild(popHow); }
+    if (!whole) { bar.appendChild(small); bar.appendChild(big); }
+    bar.appendChild(leave);
+    size('regular');
+    box.appendChild(bar);
     box.appendChild(moveSaid);
-    box.appendChild(el('p', 'cb-call-note', 'Leaving this page hangs up. While you are in the call, stimpunks.world keeps your name in it, until you leave.'));
+    box.appendChild(el('p', 'cb-call-note', whole
+      ? 'This window keeps the call while you go from room to room in the one you came from. Closing it hangs up. While you are in the call, stimpunks.world keeps your name in it, until you leave.'
+      : 'Leaving this page hangs up. While you are in the call, stimpunks.world keeps your name in it, until you leave.'));
     /* WHO IS IN THE CALL, just above 8x8's own Join button, which is where
        somebody is looking when they decide (Ryan, 2026-09-29). call.js never
        asks for it: cb.js fills it from the answer the radio already gets, under
@@ -198,11 +239,12 @@
     box.appendChild(screen);
     root.appendChild(box);
     document.body.appendChild(host);
+    if (whole) {
+      leave.focus();
+      return { host: host, room: here.tag, who: who, off: function () {} };
+    }
     mover = new Mover(box, bar, move, { x: null, y: null }, 'left', 'cb-call--held', null, function () {
-      moveSaid.textContent = 'Drag the bar to move the call, or use the arrow keys while Move has the keyboard. Home puts it back in the corner.';
-      moveSaid.hidden = false;
-      clearTimeout(moveSaidFor);
-      moveSaidFor = setTimeout(function () { moveSaid.hidden = true; }, 8000);
+      note('Drag the bar to move the call, or use the arrow keys while Move has the keyboard. Home puts it back in the corner.');
     });
     function put() { mover.place(); }
     window.addEventListener('resize', put);
@@ -216,13 +258,83 @@
 
   var current = null;
 
-  function leave() {
+  /* why: nothing when somebody pressed Leave, 'switch' when another call is
+     taking this one's place, 'away' when it has popped out into its own
+     window. Whatever opened it is told which. */
+  function leave(why) {
     if (!current) return;
     var c = current;
     current = null;
     c.off();
     c.host.remove();
-    if (c.left) c.left();
+    if (isWindow) say();
+    if (c.left) c.left(why);
+  }
+
+  /* ── The call's own window, and the line to it ─────────────────────────
+     isWindow: this page is call-window.html. away: on any other page, the
+     call a window of its own holds, as that window last said ({tag, name,
+     title}), or null. Only inside this browser, and only while both are open. */
+  var line = typeof BroadcastChannel === 'function' ? new BroadcastChannel('love-call') : null;
+  var isWindow = false, holding = null, away = null, listeners = [];
+  function say() {
+    if (!line || !isWindow) return;
+    var r = current ? holding : null;
+    line.postMessage({ window: r ? { tag: r.tag, name: r.name, title: r.title || '' } : null });
+  }
+  function heard(r) {
+    away = r && typeof r.tag === 'string' ? r : null;
+    listeners.forEach(function (fn) { fn(away); });
+  }
+  if (line) line.onmessage = function (e) {
+    var d = e.data || {};
+    if (isWindow) {
+      if (d.ask) say();
+      if (d.leave && current && current.room === d.leave) leave();
+      return;
+    }
+    if ('window' in d) heard(d.window);
+  };
+  // The window's call goes when the window does.
+  window.addEventListener('pagehide', function () { if (isWindow && line) line.postMessage({ window: null }); });
+
+  function popOut(room) {
+    var q = 'tag=' + encodeURIComponent(room.tag) + '&name=' + encodeURIComponent(room.name) +
+      (room.title ? '&title=' + encodeURIComponent(room.title) : '');
+    var w = null;
+    try { w = window.open(WINDOW + '#' + q, WINDOW_NAME, 'popup,width=760,height=680'); } catch (e) { w = null; }
+    if (!w) return false;
+    // Said at once, so the radio shows where the call went; the window says it
+    // again once it is up, and says null if it could not open the call.
+    heard({ tag: room.tag, name: room.name, title: room.title || '' });
+    if (current && current.room === room.tag) leave('away');
+    return true;
+  }
+
+  /* Bring the window to the front. window.open with no address finds a window
+     by its name without loading anything into it; if there is none, the
+     browser makes a blank one, which is closed again at once. */
+  function showAway() {
+    var w = null;
+    try { w = window.open('', WINDOW_NAME); } catch (e) { w = null; }
+    if (!w) return false;
+    var ours = false;
+    try { ours = w.location.pathname === WINDOW; } catch (e) { ours = false; }
+    if (!ours) { try { w.close(); } catch (e) { /* gone */ } heard(null); return false; }
+    try { w.focus(); } catch (e) { /* the browser decides */ }
+    return true;
+  }
+
+  // Ask the window to hang up and close.
+  function leaveAway() {
+    if (line && away) line.postMessage({ leave: away.tag });
+    heard(null);
+  }
+
+  // The radio's way to hear about the window, asked once when it starts.
+  function onAway(fn) {
+    listeners.push(fn);
+    if (line) line.postMessage({ ask: true });
   }
 
   /* Open a room's call. room is {tag, name}, and a call that is no one room's,
@@ -232,6 +344,10 @@
      with {ok, said, status}: said is a sentence for the opener to show. */
   function open(room, opts) {
     opts = opts || {};
+    if (opts.whole) isWindow = true;
+    // One call at a time, here or in a window of its own: joining one in this
+    // page hangs up the one in the window, once this one has opened.
+    var hungUp = false;
     var pass = cbPass(), headers = { 'accept': 'application/json', 'content-type': 'application/json' };
     if (pass) headers.authorization = 'Bearer ' + pass;
     var b = { room: room.tag };
@@ -240,6 +356,8 @@
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (body) { return { status: r.status, body: body }; }); })
       .then(function (r) {
         if (r.status !== 200 || !r.body.src) {
+          // The call's own window says it holds nothing, so no radio shows it held.
+          if (opts.whole) say();
           var said = r.body && typeof r.body.error === 'string' && r.body.error ? r.body.error
             : r.status === 404 ? 'Calls only answer on stimpunks.world itself.'
             : 'The call could not be opened. Try again in a moment.';
@@ -248,15 +366,22 @@
         return new Promise(function (done) {
           withEmbed(function () {
             var frame = window.loveEmbed && window.loveEmbed.frameUrl(r.body.src, room.title || 'The call in ' + room.name);
-            if (!frame) { done({ ok: false, said: 'The call could not be opened on this page.' }); return; }
-            leave();
-            current = callWindow(room, frame, leave);
+            if (!frame) { if (opts.whole) say(); done({ ok: false, said: 'The call could not be opened on this page.' }); return; }
+            if (!opts.whole && away) { leaveAway(); hungUp = true; }
+            leave('switch');
+            current = callWindow(room, frame, leave, {
+              whole: !!opts.whole,
+              // Signed on only: the window asks with the pass, and a guest has none.
+              pop: pass && !opts.whole && line ? function () { return popOut(room); } : null
+            });
             current.left = opts.left;
-            done({ ok: true, said: 'The call is open at the foot of the page. Your browser may ask about your camera and microphone so its first screen can show a preview; both start off, and nothing goes to the call until you join there.' });
+            holding = room;
+            say();
+            done({ ok: true, said: (hungUp ? 'The call in its own window has been hung up. ' : '') + 'The call is open at the foot of the page. Your browser may ask about your camera and microphone so its first screen can show a preview; both start off, and nothing goes to the call until you join there.' });
           });
         });
       })
-      .catch(function () { return { ok: false, said: 'No signal. The call could not be opened.' }; });
+      .catch(function () { if (opts.whole) say(); return { ok: false, said: 'No signal. The call could not be opened.' }; });
   }
 
   // The who-is-in-the-call line of the window open for this room, if one is.
@@ -266,5 +391,6 @@
   // from another: the radio has this room's and the World's.
   function openRoom() { return current ? current.room : null; }
 
-  window.loveCall = { Mover: Mover, open: open, leave: leave, isOpen: function () { return !!current; }, openRoom: openRoom, whoLine: whoLine };
+  window.loveCall = { Mover: Mover, open: open, leave: leave, isOpen: function () { return !!current; }, openRoom: openRoom, whoLine: whoLine,
+    away: function () { return away; }, onAway: onAway, showAway: showAway, leaveAway: leaveAway };
 })();

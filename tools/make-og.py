@@ -60,7 +60,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "og"
-NO_CARD = {"404.html"}
+# And a window (tools/windows.py) has no card either: nobody shares a call
+# window, and a card for an empty one would unfurl a page that shows nothing.
+from windows import WINDOWS
+NO_CARD = {"404.html"} | WINDOWS
 W, H = 1200, 630
 
 CANDIDATES = [

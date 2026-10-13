@@ -128,6 +128,7 @@
       <tr><td><code>cb.js</code> and <code>cb.css</code></td><td>only once signed on to the CB</td><td>The radio, in a shadow root so no room&rsquo;s styles reach it</td></tr>
       <tr><td><code>guest.js</code></td><td>not signed on</td><td>The radio&rsquo;s bar folded shut: the teleporter and the way on. It knows nothing about the channel.</td></tr>
       <tr><td><code>call.js</code>, <code>callroom.js</code></td><td>on a press</td><td>A room&rsquo;s 8x8 call window, and the mover the radio shares</td></tr>
+      <tr><td><code>call-window.js</code></td><td><code>call-window.html</code>, a window of its own</td><td>Holds a call that was popped out, so it can stay open while somebody goes from room to room. It tells the radio on other pages which call it holds over a BroadcastChannel, inside the browser</td></tr>
       <tr><td><code>fractal.js</code></td><td>on a press</td><td>The sign-off&rsquo;s fractal window, limited so it cannot flash</td></tr>
       <tr><td>a room&rsquo;s own script</td><td>that room&rsquo;s page only</td><td>Its game, toys or machine: <code>arcade.js</code>, <code>mud.js</code>, <code>stay-breezy.js</code> and the rest</td></tr>
     </tbody>

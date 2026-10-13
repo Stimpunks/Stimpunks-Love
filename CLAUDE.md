@@ -816,10 +816,23 @@ guest. `WORLD_CALL` in `lib.mjs` is the name (`stimpunks-world` at 8x8), `cb.js`
 `make-sitemap.py` refuses the two if they differ and refuses a page called `world.html`, whose own call
 would be the World's. Its window is `call.js`'s one window (`loveCall.openRoom()` says which call is in it),
 so each radio button asks after its own call. **Nobody is shown who is in it before they join**: there is
-no room to be seen in. **It does not follow you between rooms**: every room is a page, and a page that
-goes takes its call window with it. The friendly edit is to rejoin by itself on the next page, which drops
-you out and back in on every move and opens a call nobody pressed for; keeping one going needs a window
-of its own (`DECISIONS.md`).
+no room to be seen in. **In a page it does not follow you between rooms**: every room is a page, and a page that goes takes its
+call window with it. The friendly edit is to rejoin by itself on the next page, which drops you out and
+back in on every move and opens a call nobody pressed for.
+
+**A CALL FOLLOWS YOU BY GOING INTO A WINDOW OF ITS OWN.** Ryan, 2026-10-13: **Pop out** on a signed-on
+call's window opens `call-window.html` in a browser window, which asks for the call afresh (you join again:
+a frame cannot move between windows) and holds it while you walk the street in the first. **It is a
+window, not a room** (`tools/windows.py`): no sitemap, card, job marker or sign-off, each tool saying why,
+and every other check holds it like a page; never `data-unlisted`, because the radio has to name it.
+`call.js` holds the whole of it: which call is in the fragment, so it never reaches a server, and the
+window and every radio talk over one `BroadcastChannel` (`love-call`) and nothing else: the window says
+which call it holds, a radio asks when it starts, and Leave from a radio asks the window to hang up and
+close. **Still one call at a time**: a second Pop out replaces the first in the same named window, and
+joining a call in a page hangs up the windowed one. **Show the call window** finds it with `window.open('',
+name)`, which loads nothing, and closes the blank window a browser makes when there is none. The window
+has no radio (`data-cb="off"`), so no who-is-in-the-call line. The browser pane in this app opens a pop-up
+in the same tab, so test the two sides in two tabs there, or in a real browser.
 
 **THE RADIO IS IN PARTS, EACH UNDER A REAL HEADING** (Ryan, 2026-10-13, after people could not tell where
 they were): Where you are (the room's name in the largest words on the radio, `hereShown`), Who's around,

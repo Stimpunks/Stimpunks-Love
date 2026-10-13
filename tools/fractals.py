@@ -80,7 +80,10 @@ def declared():
 
 
 def pages():
-    return sorted(p.name for p in ROOT.glob("*.html"))
+    # A window (tools/windows.py) has no sign-off, and the fractal window's
+    # switch lives in the sign-off, so it has no picture to give a recipe to.
+    from windows import is_window
+    return sorted(p.name for p in ROOT.glob("*.html") if not is_window(p.name))
 
 
 def load():

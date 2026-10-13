@@ -477,5 +477,31 @@ ol.cb-md-list { list-style: decimal; }
 }
 .cb-call--small .cb-btn { min-height: 36px; min-width: 36px; padding: 4px 8px; font-size: 12px; }
 .cb-call--large .cb-call-screen { aspect-ratio: auto; }
+/* Pop out is not offered at Small, where the bar has no room for it; the
+   middle size and Large have it. */
+.cb-call--small .cb-call-pop { display: none; }
+/* THE CALL'S OWN WINDOW (call-window.html, call.js's `whole`): the call fills
+   the browser window it was popped out into, with no corner to sit in, nothing
+   to move and nothing to size, because the window itself is moved and sized. */
+.cb-call--whole {
+  inset: 0; width: auto; height: 100%; max-height: none;
+  border: 0; border-radius: 0; box-shadow: none;
+}
+.cb-call--whole .cb-call-bar { border-radius: 0; cursor: default; }
+.cb-call--whole .cb-call-screen { aspect-ratio: auto; border-radius: 0; }
+
+/* AND THE PAGE UNDER IT, which is only seen before the call opens or when
+   there is none to open: the radio's case and its words, the pairs
+   check-contrast.py already holds, in a document rather than a shadow root.
+   Nothing on the street dresses it, because it is the radio's. */
+body.cb-callwin {
+  margin: 0; min-height: 100vh; background: var(--cb-case); color: var(--cb-steel);
+  font: 16px/1.5 'Atkinson Hyperlegible', system-ui, sans-serif;
+}
+.cb-callwin__main { max-width: 40em; padding: 24px 16px; }
+.cb-callwin__h { margin: 0 0 10px; font: 400 20px/1.25 'Bungee', system-ui, sans-serif; letter-spacing: .06em; color: var(--cb-steel); }
+.cb-callwin__said, .cb-callwin__more { margin: 0 0 10px; }
+body.cb-callwin a { color: var(--cb-amber); }
+body.cb-callwin :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
 
 @media print { .cb-radio, .cb-call { display: none; } }

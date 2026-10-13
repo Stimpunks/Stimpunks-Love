@@ -785,9 +785,17 @@
     wcall.type = 'button';
     wcall.hidden = true;
     wcall.setAttribute('aria-pressed', 'false');
+    /* SHOW THE CALL WINDOW, while a call is popped out into a window of its
+       own (call.js, Ryan, 2026-10-13): the window stays open while you go from
+       room to room, and this brings it to the front from whichever room you
+       are in. The call's own button, pressed again, hangs it up. */
+    var showWin = this.showWinBtn = el('button', 'cb-btn cb-show-call', 'Show the call window');
+    showWin.type = 'button';
+    showWin.hidden = true;
     var aroundRow = el('div', 'cb-tools');
     aroundRow.appendChild(ob);
     aroundRow.appendChild(wcall);
+    aroundRow.appendChild(showWin);
     aroundSec.appendChild(aroundRow);
     var online = this.online = el('div', 'cb-online');
     online.id = 'cb-online';
@@ -1130,6 +1138,11 @@
     // room's button joins this room's call rather than leaving the World's.
     callBtn.addEventListener('click', function () { me.setCall(callBtn.getAttribute('aria-pressed') !== 'true'); });
     wcall.addEventListener('click', function () { me.setCall(wcall.getAttribute('aria-pressed') !== 'true', true); });
+    showWin.addEventListener('click', function () {
+      if (!window.loveCall.showAway()) me.tell('The call\u2019s window has closed, so the call has ended.');
+    });
+    // Which call a window of its own holds, as it says over the browser's own line.
+    window.loveCall.onAway(function () { me.callShown(); });
     bw.addEventListener('click', function () { me.setBand('world'); });
     seenBtn.addEventListener('click', function () { me.setSeen(!me.state.seen); });
     ob.addEventListener('click', function () { me.setOnline(online.hidden); });
@@ -3049,8 +3062,13 @@
      the window moves at any setting. */
   Radio.prototype.callShown = function () {
     var open = window.loveCall && window.loveCall.openRoom ? window.loveCall.openRoom() : null;
+    var away = window.loveCall && window.loveCall.away ? window.loveCall.away() : null;
     var here = hereRoom();
-    var on = !!(open && open !== WORLD_CALL), world = open === WORLD_CALL;
+    // A call is this room's if it is open at the foot of this page, or popped
+    // out into its own window from this room or any visit to it.
+    var on = !!(open && open !== WORLD_CALL) || !!(away && here && away.tag === here.tag);
+    var world = open === WORLD_CALL || !!(away && away.tag === WORLD_CALL);
+    this.showWinBtn.hidden = !away;
     this.callBtn.hidden = !(on || (this.calls && here));
     this.callBtn.setAttribute('aria-pressed', String(on));
     this.worldCallBtn.hidden = !(world || this.calls);
@@ -3063,15 +3081,32 @@
      other way round, because loveCall has one window. */
   Radio.prototype.setCall = function (on, world) {
     var me = this, btn = world ? this.worldCallBtn : this.callBtn;
-    if (!on) { window.loveCall.leave(); return; }
+    if (!on) {
+      // In its own window: that window is asked to hang up and close.
+      var away = window.loveCall.away(), open = window.loveCall.openRoom();
+      if (away && (!open || (world ? open !== WORLD_CALL : open === WORLD_CALL))) {
+        window.loveCall.leaveAway();
+        this.tell('You have left the call, and its window has closed.');
+        return;
+      }
+      window.loveCall.leave();
+      return;
+    }
     var here = world ? WORLD : hereRoom();
     if (!here) { this.tell('This page is not a room on the street, so it has no call of its own. Join World call works from here.'); return; }
     this.tell(world ? 'Opening the World call\u2026' : 'Opening the call\u2026');
     window.loveCall.open(here, {
       // The window the keyboard was in has gone, so it comes back to the
       // button that opened it rather than falling to the top of the page.
-      left: function () {
+      left: function (why) {
         me.callShown();
+        if (why === 'switch') return;
+        if (why === 'away') {
+          me.tell('The call is in a window of its own now. Join it again there; it stays open while you go from room to room in this window, and closing it hangs up.');
+          // The keyboard was in the window that has gone.
+          if (!me.state.folded && !me.showWinBtn.hidden) me.showWinBtn.focus();
+          return;
+        }
         me.tell('You have left the call.');
         if (!me.state.folded && !btn.hidden) btn.focus();
       }

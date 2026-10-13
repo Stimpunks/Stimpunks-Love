@@ -179,7 +179,14 @@ if both:
     raise SystemExit(f"REFUSING: {', '.join(both)} is in ORDER and its <body> says data-unlisted. "
                      "A room is on the street's lists or it is not; take one of the two away.")
 
-stray = sorted({p.name for p in ROOT.glob("*.html")} - set(ORDER) - NO_ADDRESS - UNLISTED)
+# A WINDOW IS NOT A PLACE (tools/windows.py): the call window holds a call that
+# was popped out, and nothing until then, so it is on no list a visitor walks.
+from windows import WINDOWS
+both = sorted(WINDOWS & set(ORDER))
+if both:
+    raise SystemExit(f"REFUSING: {', '.join(both)} is in ORDER and tools/windows.py says it is a window. "
+                     "A page is a place on the street or a window, not both.")
+stray = sorted({p.name for p in ROOT.glob("*.html")} - set(ORDER) - NO_ADDRESS - UNLISTED - WINDOWS)
 if stray:
     raise SystemExit(f"REFUSING: {', '.join(stray)} exist(s) but is not in ORDER — add it, do not skip it.")
 
