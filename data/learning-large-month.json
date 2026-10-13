@@ -78,7 +78,7 @@
    "channel_id": "UCPjNBjflYl0-HQtUvOx0Ibw"
   }
  ],
- "set": "2026-10-12T11:21Z",
+ "set": "2026-10-13T11:21Z",
  "log": [
   {
    "id": "4Hvkv_I8QDE",
@@ -571,16 +571,6 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "FV8HAq39yxs",
-   "source": "nate-b-jones",
-   "form": "short",
-   "title": "We're spoiled for riches #AI #Fable5 #GPT6 #Astra #AItools",
-   "published": "2026-09-13T03:00:05Z",
-   "state": "screen",
-   "runs": 30,
-   "channel": "AI News & Strategy Daily | Nate B Jones"
-  },
-  {
    "id": "wXAif5oyzio",
    "source": "nate-b-jones",
    "form": "short",
@@ -801,16 +791,6 @@
    "channel": "Less Bitter"
   },
   {
-   "id": "DlNTmbARUTA",
-   "source": "theo",
-   "form": "long",
-   "title": "I think they mean it this time",
-   "published": "2026-09-13T06:43:59Z",
-   "state": "screen",
-   "runs": 2088,
-   "channel": "Theo - t3․gg"
-  },
-  {
    "id": "oPZLPUtmROo",
    "source": "theo",
    "form": "long",
@@ -991,6 +971,16 @@
    "channel": "Theo - t3․gg"
   },
   {
+   "id": "DbWL6Zs2j_g",
+   "source": "theo",
+   "form": "long",
+   "title": "Meta just caught up with Anthropic",
+   "published": "2026-10-13T11:01:13Z",
+   "state": "screen",
+   "runs": 2282,
+   "channel": "Theo - t3․gg"
+  },
+  {
    "id": "HIayLIpZF34",
    "source": "theo",
    "form": "short",
@@ -1038,6 +1028,16 @@
    "published": "2026-10-07T18:00:29Z",
    "state": "screen",
    "runs": 29,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "XkmZ1nOtuDc",
+   "source": "theo",
+   "form": "short",
+   "title": "P.S. Don't Upgrade For Ultrafast (Yet)",
+   "published": "2026-10-12T18:00:14Z",
+   "state": "screen",
+   "runs": 23,
    "channel": "Theo - t3․gg"
   },
   {
@@ -1198,6 +1198,16 @@
    "published": "2026-10-11T13:00:38Z",
    "state": "screen",
    "runs": 544,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "iXjh7VSSLDE",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "Meta's New Muse Wonder Is Huge!",
+   "published": "2026-10-12T19:17:18Z",
+   "state": "screen",
+   "runs": 480,
    "channel": "Paul J Lipsky"
   },
   {
@@ -1621,6 +1631,16 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
+   "id": "nRXHWckVxoM",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "I Built the Ultimate AI Board of Advisors (free claude skill)",
+   "published": "2026-10-13T02:42:52Z",
+   "state": "screen",
+   "runs": 884,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
    "id": "TIYCa6hOx1Q",
    "source": "nate-herk",
    "form": "short",
@@ -1718,6 +1738,16 @@
    "published": "2026-10-09T18:00:05Z",
    "state": "screen",
    "runs": 51,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "7GTWAXCTy0o",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "I Built the Ultimate AI Board of Advisors",
+   "published": "2026-10-13T02:43:49Z",
+   "state": "screen",
+   "runs": 91,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -2076,13 +2106,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ]
   },
@@ -2090,13 +2120,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ]
   },
@@ -2104,13 +2134,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ]
   },
@@ -2118,13 +2148,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ]
   },
@@ -2132,13 +2162,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ]
   },
@@ -2146,13 +2176,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ]
   },
@@ -2160,13 +2190,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ]
   },
@@ -2174,13 +2204,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ]
   },
@@ -2188,13 +2218,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ]
   },
@@ -2202,13 +2232,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ]
   },
@@ -2216,13 +2246,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ]
   },
@@ -2230,13 +2260,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-12T11:21:21Z"
+     "2026-10-13T11:21:19Z"
     ]
    ]
   }
