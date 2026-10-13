@@ -27,7 +27,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   hostBeacon, stopBeacon, readBeacons, sweepBeacons, beaconRoom, cleanAt, BEACON_FRESH,
   updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
-  PUBLIC_CALLS, publicCall, callSettings, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons, QUIET_ROOMS, quietRoom,
+  PUBLIC_CALLS, publicCall, callSettings, WORLD_CALL, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons, QUIET_ROOMS, quietRoom,
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
   renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages, REACTIONS, reactionOf, toggleReaction, canTakeOff, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
@@ -955,6 +955,22 @@ test('a call token is signed, names one room, and lasts its hours', () => {
   assert.equal(t.body.room, 'stimpunks-the-den', 'one room, never *');
   assert.equal(t.body.exp - t.body.iat, CALL_HOURS * 3600);
   assert.equal(t.body.context.user.name, 'Ada');
+});
+
+/* The World call: Ryan, 2026-10-13. A call like a room's, under one name, for
+   anybody signed on and never for a guest. */
+test('the World call is one call for anybody signed on, and never a guest\'s', async () => {
+  assert.equal(WORLD_CALL, 'world');
+  const t = open(callToken(ada, WORLD_CALL, Date.now(), key));
+  assert.equal(t.ok, true);
+  assert.equal(t.body.room, 'stimpunks-world', 'one room, never *');
+  assert.equal(callToken({ role: 'guest', handle: 'Visitor' }, WORLD_CALL, Date.now(), key), null, 'no guest token for it');
+  assert.equal(callEventRoom(`${JAAS_APP}/stimpunks-world`), WORLD_CALL, '8x8 telling us who is in it is believed');
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  await callEvent({ eventType: 'PARTICIPANT_JOINED', fqn: `${JAAS_APP}/stimpunks-world`, timestamp: now,
+    data: { name: 'Ada', participantId: 'w1' } }, s, now);
+  assert.deepEqual(await callsOn(bex, s, now + 1), [WORLD_CALL], 'Who\'s online names it for anybody signed on');
 });
 
 test('only the base moderates, records or transcribes; nobody streams or dials out', () => {

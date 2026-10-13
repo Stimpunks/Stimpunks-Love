@@ -133,7 +133,7 @@
     sheet.href = '/cb.css';
     root.appendChild(sheet);
     var box = el('section', 'cb-call');
-    box.setAttribute('aria-label', 'Call in ' + here.name);
+    box.setAttribute('aria-label', here.title || 'Call in ' + here.name);
     var bar = el('div', 'cb-call-bar');
     var name = el('p', 'cb-call-name');
     name.appendChild(el('span', 'cb-brand', 'CALL'));
@@ -225,7 +225,8 @@
     if (c.left) c.left();
   }
 
-  /* Open a room's call. room is {tag, name}; opts.guest is the name a guest
+  /* Open a room's call. room is {tag, name}, and a call that is no one room's,
+     the World call, brings its own title as well; opts.guest is the name a guest
      typed, for a public room with no CB pass; opts.left runs after the call
      is left, so whatever opened it can take the keyboard back. It answers
      with {ok, said, status}: said is a sentence for the opener to show. */
@@ -246,7 +247,7 @@
         }
         return new Promise(function (done) {
           withEmbed(function () {
-            var frame = window.loveEmbed && window.loveEmbed.frameUrl(r.body.src, 'The call in ' + room.name);
+            var frame = window.loveEmbed && window.loveEmbed.frameUrl(r.body.src, room.title || 'The call in ' + room.name);
             if (!frame) { done({ ok: false, said: 'The call could not be opened on this page.' }); return; }
             leave();
             current = callWindow(room, frame, leave);
@@ -261,5 +262,9 @@
   // The who-is-in-the-call line of the window open for this room, if one is.
   function whoLine(tag) { return current && current.room === tag ? current.who : null; }
 
-  window.loveCall = { Mover: Mover, open: open, leave: leave, isOpen: function () { return !!current; }, whoLine: whoLine };
+  // Which call is open, by its room's tag, so a button can tell its own call
+  // from another: the radio has this room's and the World's.
+  function openRoom() { return current ? current.room : null; }
+
+  window.loveCall = { Mover: Mover, open: open, leave: leave, isOpen: function () { return !!current; }, openRoom: openRoom, whoLine: whoLine };
 })();

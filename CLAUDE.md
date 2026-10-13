@@ -810,6 +810,17 @@ an empty list is never a guess. **The friendly edit is to put the names in**, so
 in a call before they walk over; who is in a call is still shown only in its room, to radios seen there,
 and widening that is Ryan's call, written in `privacy.html#calls` first. No number either.
 
+**THE WORLD CALL IS A ROOM'S CALL UNDER A NAME NO ROOM MAY HAVE.** Ryan, 2026-10-13: **Join World call**,
+under Who's around, opens one call for the whole street from any page, for anybody signed on and never a
+guest. `WORLD_CALL` in `lib.mjs` is the name (`stimpunks-world` at 8x8), `cb.js` keeps a copy, and
+`make-sitemap.py` refuses the two if they differ and refuses a page called `world.html`, whose own call
+would be the World's. Its window is `call.js`'s one window (`loveCall.openRoom()` says which call is in it),
+so each radio button asks after its own call. **Nobody is shown who is in it before they join**: there is
+no room to be seen in. **It does not follow you between rooms**: every room is a page, and a page that
+goes takes its call window with it. The friendly edit is to rejoin by itself on the next page, which drops
+you out and back in on every move and opens a call nobody pressed for; keeping one going needs a window
+of its own (`DECISIONS.md`).
+
 **THE RADIO IS IN PARTS, EACH UNDER A REAL HEADING** (Ryan, 2026-10-13, after people could not tell where
 they were): Where you are (the room's name in the largest words on the radio, `hereShown`), Who's around,
 Channel, Watching together (only there while something in it is, `filmShown`) and Your radio. `part()` in

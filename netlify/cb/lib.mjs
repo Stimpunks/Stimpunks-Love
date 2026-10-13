@@ -1593,6 +1593,16 @@ export const JAAS_HOST = 'https://8x8.vc/';
 export const CALL_HOURS = 4;               // a token lets you (re)join for this long
 export const callRoom = (tag) => `stimpunks-${tag}`;
 
+/* THE WORLD CALL. Ryan, 2026-10-13: a call for the whole street, joined from
+   any room with Join World call on the radio, as the World channel is heard
+   from any room. It is a call like a room's in every way, under this name,
+   which is why no page may ever be called world.html: make-sitemap.py refuses
+   one, and refuses cb.js's copy of this name if it ever differs. Not public:
+   a guest with no CB pass gets no token for it (publicCall), and nobody is
+   shown who is in it before they join; Who's online names it while somebody
+   is (callsOn). */
+export const WORLD_CALL = 'world';
+
 /* The only calls a guest with no CB pass can get a token for. Each is a page
    on the street, by its filename, and each one's meeting starts with the lobby
    on (callSettings). Add a room here and it is open to the world. */

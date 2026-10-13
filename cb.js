@@ -89,6 +89,11 @@
   var BEAT = 30000;       // ms a host's beacon goes unsent at most, while nothing changes
   var FILM_MAX = 120;     // characters of a film's title on a beacon, as the server takes it
   var DRIFT = 3;          // seconds a follower may drift from the host before it is moved
+  /* THE WORLD CALL's name: WORLD_CALL in netlify/cb/lib.mjs, copied, and
+     make-sitemap.py refuses the two if they differ. One call for the whole
+     street, joined from any room, the way the World channel is heard. */
+  var WORLD_CALL = 'world';
+  var WORLD = { tag: WORLD_CALL, name: 'World', title: 'The World call' };
   var SETTLE = 3000;      // ms a follower's player is given to obey before it is judged
 
   function load() {
@@ -771,7 +776,19 @@
     ob.type = 'button';
     ob.setAttribute('aria-expanded', 'false');
     ob.setAttribute('aria-controls', 'cb-online');
-    aroundSec.appendChild(ob);
+    /* JOIN WORLD CALL, beside it. Ryan, 2026-10-13: a call for the whole
+       street, which anybody signed on can join from any room. It is a room's
+       call in every other way, in the same window, and like every call it
+       hangs up when the page goes, so going to another room leaves it. See
+       setCall. */
+    var wcall = this.worldCallBtn = el('button', 'cb-btn cb-call-btn cb-world-call', 'Join World call');
+    wcall.type = 'button';
+    wcall.hidden = true;
+    wcall.setAttribute('aria-pressed', 'false');
+    var aroundRow = el('div', 'cb-tools');
+    aroundRow.appendChild(ob);
+    aroundRow.appendChild(wcall);
+    aroundSec.appendChild(aroundRow);
     var online = this.online = el('div', 'cb-online');
     online.id = 'cb-online';
     online.hidden = true;
@@ -788,7 +805,7 @@
     var calls = this.callsBox = el('div', 'cb-online-calls');
     calls.hidden = true;
     calls.appendChild(el('h3', 'cb-h3', 'Calls going now'));
-    calls.appendChild(el('p', 'cb-online-about', 'Every room whose call has somebody in it. Who is in a call is shown in its room, to anybody seen there.'));
+    calls.appendChild(el('p', 'cb-online-about', 'The World call and every room\u2019s call, each while somebody is in it. Who is in a room\u2019s call is shown in that room, to anybody seen there.'));
     this.callList = el('ul', 'cb-online-list');
     this.callList.setAttribute('aria-label', 'Calls going now');
     calls.appendChild(this.callList);
@@ -1109,7 +1126,10 @@
     hostBtn.addEventListener('click', function () { me.setHosting(!me.hosting); });
     scrBtn.addEventListener('click', function () { me.setScreenPanel(scr.hidden); });
     scr.addEventListener('submit', function (e) { e.preventDefault(); me.screenVideo(); });
-    callBtn.addEventListener('click', function () { me.setCall(!window.loveCall.isOpen()); });
+    // Each button asks after its own call: with the World call open, this
+    // room's button joins this room's call rather than leaving the World's.
+    callBtn.addEventListener('click', function () { me.setCall(callBtn.getAttribute('aria-pressed') !== 'true'); });
+    wcall.addEventListener('click', function () { me.setCall(wcall.getAttribute('aria-pressed') !== 'true', true); });
     bw.addEventListener('click', function () { me.setBand('world'); });
     seenBtn.addEventListener('click', function () { me.setSeen(!me.state.seen); });
     ob.addEventListener('click', function () { me.setOnline(online.hidden); });
@@ -2510,7 +2530,8 @@
     }
     var shown = this.people.filter(function (p) { return roomsOf(p).length; });
     var calls = (rooms || []).filter(function (r) { return (me.callsNow || []).indexOf(r.tag) >= 0; });
-    var key = JSON.stringify([shown, calls.map(function (r) { return r.tag; }), !!this.callsHeard, here, this.state.handle]);
+    var world = (this.callsNow || []).indexOf(WORLD_CALL) >= 0;
+    var key = JSON.stringify([shown, calls.map(function (r) { return r.tag; }), world, !!this.callsHeard, here, this.state.handle]);
     none.hidden = shown.length > 0;
     none.textContent = 'Nobody is seen in a room right now.';
     ul.hidden = !shown.length;
@@ -2548,9 +2569,12 @@
        telling it, so "nobody" is never a guess. */
     this.callsBox.hidden = !this.callsHeard;
     this.callList.textContent = '';
-    this.callList.hidden = !calls.length;
-    this.callNone.hidden = calls.length > 0;
-    this.callNone.textContent = 'Nobody is in a room\u2019s call right now.';
+    this.callList.hidden = !calls.length && !world;
+    this.callNone.hidden = calls.length > 0 || world;
+    this.callNone.textContent = 'Nobody is in a call right now.';
+    // The World call is no room's, so it has no address to go to: it is joined
+    // from wherever you are, with Join World call just above.
+    if (world) this.callList.appendChild(el('li', 'cb-online-row', 'The World call, which Join World call above takes you into'));
     calls.forEach(function (r) {
       var li = el('li', 'cb-online-row');
       if (r.path === here) { li.appendChild(el('span', null, r.name + ' (this room)')); }
@@ -3024,31 +3048,39 @@
      love-embed.js, loaded here if this page has not already got it. Nothing in
      the window moves at any setting. */
   Radio.prototype.callShown = function () {
-    var on = !!(window.loveCall && window.loveCall.isOpen());
-    this.callBtn.hidden = !(on || (this.calls && hereRoom()));
+    var open = window.loveCall && window.loveCall.openRoom ? window.loveCall.openRoom() : null;
+    var here = hereRoom();
+    var on = !!(open && open !== WORLD_CALL), world = open === WORLD_CALL;
+    this.callBtn.hidden = !(on || (this.calls && here));
     this.callBtn.setAttribute('aria-pressed', String(on));
+    this.worldCallBtn.hidden = !(world || this.calls);
+    this.worldCallBtn.setAttribute('aria-pressed', String(world));
     // A window that has just opened gets its who-is-in-the-call line at once.
     if (this.present) this.presenceShown();
   };
 
-  Radio.prototype.setCall = function (on) {
-    var me = this;
+  /* One call at a time: joining the World call leaves this room's, and the
+     other way round, because loveCall has one window. */
+  Radio.prototype.setCall = function (on, world) {
+    var me = this, btn = world ? this.worldCallBtn : this.callBtn;
     if (!on) { window.loveCall.leave(); return; }
-    var here = hereRoom();
-    if (!here) { this.tell('This page is not a room on the street, so it has no call.'); return; }
-    this.tell('Opening the call\u2026');
+    var here = world ? WORLD : hereRoom();
+    if (!here) { this.tell('This page is not a room on the street, so it has no call of its own. Join World call works from here.'); return; }
+    this.tell(world ? 'Opening the World call\u2026' : 'Opening the call\u2026');
     window.loveCall.open(here, {
       // The window the keyboard was in has gone, so it comes back to the
       // button that opened it rather than falling to the top of the page.
       left: function () {
         me.callShown();
         me.tell('You have left the call.');
-        if (!me.state.folded) me.callBtn.focus();
+        if (!me.state.folded && !btn.hidden) btn.focus();
       }
     }).then(function (r) {
       if (r.status === 401) return me.lost();
       me.callShown();
-      me.tell(r.said);
+      // Said every time, because it is the thing about the World call that
+      // nobody would guess: it is not a room's, and it still ends with the page.
+      me.tell(world && r.ok ? r.said + ' Going to another room hangs up, because every room is a page of its own.' : r.said);
     });
   };
 

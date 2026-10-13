@@ -183,6 +183,24 @@ stray = sorted({p.name for p in ROOT.glob("*.html")} - set(ORDER) - NO_ADDRESS -
 if stray:
     raise SystemExit(f"REFUSING: {', '.join(stray)} exist(s) but is not in ORDER — add it, do not skip it.")
 
+# THE WORLD CALL'S NAME IS NO ROOM'S. Ryan, 2026-10-13: a call for the whole
+# street, under WORLD_CALL in netlify/cb/lib.mjs, and a room's call is named by
+# its filename, so a page with that name would have the World call for its
+# own. cb.js keeps a copy of the name to know which call is open; the two must
+# say the same thing, or the radio's World call button joins one call and
+# shows itself pressed for another.
+import re as _re
+def _world(path, pattern):
+    m = _re.search(pattern, (ROOT / path).read_text())
+    if not m:
+        raise SystemExit(f"REFUSING: {path} no longer says what the World call is called ({pattern}).")
+    return m.group(1)
+WORLD = _world("netlify/cb/lib.mjs", r"export const WORLD_CALL = '([a-z0-9-]+)';")
+if _world("cb.js", r"var WORLD_CALL = '([a-z0-9-]+)';") != WORLD:
+    raise SystemExit("REFUSING: cb.js and netlify/cb/lib.mjs name the World call differently. Change both.")
+if (ROOT / f"{WORLD}.html").exists() or WORLD == "street":
+    raise SystemExit(f"REFUSING: {WORLD}.html would be a room whose call is the World call. Name the page something else.")
+
 # WHICH LICENCES THE TYPEFACES TRAVEL UNDER IS READ, NOT TYPED. This line said
 # every face was SIL Open Font License for as long as llms.txt existed, and four
 # are Apache 2.0 -- which pull-foundry.py found by reading each family's own
