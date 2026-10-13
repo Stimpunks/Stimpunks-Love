@@ -704,8 +704,36 @@
     box.appendChild(szp);
 
     // Everything below the bar is the set, and folding it switches it off.
-    var set = this.set = el('div', 'cb-set');
+    var set = this.set = el('div', 'cb-set cb-set--parts');
     set.id = 'cb-set';
+
+    /* THE SET IS IN PARTS, EACH UNDER A HEADING. Ryan, 2026-10-13, after user
+       testing: the radio had grown one control at a time into one long column
+       with nothing to say where one part ended and the next began, and people
+       could not tell where they were. So it reads top to bottom as where you
+       are, who is around, the channel, watching together, and your radio, with
+       space and a groove in the case between them. The headings are real ones,
+       so a screen reader can move between the parts, and they are lettered on
+       the case in the radio's own clothes. Small shows none of them. */
+    function part(cls, title) {
+      var sec = el('div', 'cb-sec ' + cls);
+      sec.appendChild(el('h2', 'cb-h', title));
+      set.appendChild(sec);
+      return sec;
+    }
+    var hereSec = part('cb-sec--here', 'Where you are');
+    var aroundSec = part('cb-sec--around', 'Who\u2019s around');
+    var chanSec = part('cb-sec--channel', 'Channel');
+    var filmSec = this.filmSec = part('cb-sec--film', 'Watching together');
+    filmSec.hidden = true;
+    var yourSec = part('cb-sec--yours', 'Your radio');
+
+    /* WHERE YOU ARE, in words, at the top. Ryan, 2026-10-13: some people could
+       not tell where they were. "Tuned to World" is the channel and not the
+       place, so the room this page is gets a line of its own, the largest
+       words on the radio. See hereShown. */
+    this.hereName = el('p', 'cb-here-name');
+    hereSec.appendChild(this.hereName);
 
     var who = el('p', 'cb-who');
     who.appendChild(document.createTextNode('On the channel as '));
@@ -713,7 +741,7 @@
     if (state.base) who.appendChild(el('span', 'cb-tag', 'BASE'));
     this.whoTag = who.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
     this.whoTag.hidden = !claimedPass(state.pass);
-    set.appendChild(who);
+    hereSec.appendChild(who);
 
     /* THE BAND SWITCH: World, or this room's own channel. Two buttons, one
        pressed, the dial's pattern. This room is only offered on a page that is
@@ -727,27 +755,28 @@
     br.type = 'button';
     band.appendChild(bw);
     band.appendChild(br);
-    /* WHO'S ONLINE, beside World and This room. Ryan, 2026-10-07: "Folks are
+    chanSec.appendChild(band);
+    /* WHO'S ONLINE, under Who's around. Ryan, 2026-10-07: "Folks are
        wanting to know who's around and are having a hard time connecting right
        now." Everybody seen in a room, with the rooms they are in, for anybody
        signed on. It reverses the rule that a radio not seen is told nothing,
        and the CB's refusal of a list of who is on; both were Ryan's calls, and
-       so is this. It is not a channel, so it sits beside the group rather than
-       in it. Names in alphabetical order, CLAIMED and BASE as on the channel,
-       no number, and not a live region: it is redrawn on each listen while it
-       is open, and only then, because listen() is the only thing that asks. */
-    var bandRow = el('div', 'cb-band-row');
-    bandRow.appendChild(band);
+       so is this. Names in alphabetical order, CLAIMED and BASE as on the
+       channel, no number, and not a live region: it is redrawn on each listen
+       while it is open, and only then, because listen() is the only thing that
+       asks. A name opens that person's profile, as a handle on the channel does
+       (Ryan, 2026-10-13), and under the people is every room whose call has
+       somebody in it: the rooms, never who or how many. See onlineShown. */
     var ob = this.onlineBtn = el('button', 'cb-btn cb-online-btn', 'Who\u2019s online');
     ob.type = 'button';
     ob.setAttribute('aria-expanded', 'false');
     ob.setAttribute('aria-controls', 'cb-online');
-    bandRow.appendChild(ob);
-    set.appendChild(bandRow);
+    aroundSec.appendChild(ob);
     var online = this.online = el('div', 'cb-online');
     online.id = 'cb-online';
     online.hidden = true;
-    online.appendChild(el('p', 'cb-online-about', 'Everybody who has switched on Be seen here, and the room they are in. A room\u2019s name takes you there.'));
+    online.appendChild(el('p', 'cb-online-about', 'Everybody who has switched on Be seen here, and the room they are in. A name opens their profile, and a room\u2019s name takes you there.'));
+    online.appendChild(el('h3', 'cb-h3', 'People'));
     this.onlineList = el('ul', 'cb-online-list');
     this.onlineList.setAttribute('aria-label', 'Who\u2019s online');
     online.appendChild(this.onlineList);
@@ -755,7 +784,18 @@
     online.appendChild(this.onlineNone);
     this.onlineMe = el('p', 'cb-seen-now');
     online.appendChild(this.onlineMe);
-    set.appendChild(online);
+    // Shown only once the server says 8x8 is telling it, so no call is a guess.
+    var calls = this.callsBox = el('div', 'cb-online-calls');
+    calls.hidden = true;
+    calls.appendChild(el('h3', 'cb-h3', 'Calls going now'));
+    calls.appendChild(el('p', 'cb-online-about', 'Every room whose call has somebody in it. Who is in a call is shown in its room, to anybody seen there.'));
+    this.callList = el('ul', 'cb-online-list');
+    this.callList.setAttribute('aria-label', 'Calls going now');
+    calls.appendChild(this.callList);
+    this.callNone = el('p', 'cb-seen-now');
+    calls.appendChild(this.callNone);
+    online.appendChild(calls);
+    aroundSec.appendChild(online);
 
     /* BE SEEN HERE, the Slake's switch in every room. Ryan, 2026-09-29. One
        switch both ways: seen, the radio is told who else is seen in this room
@@ -776,9 +816,9 @@
     present.appendChild(this.seenNow);
     present.appendChild(this.inCallNow);
     present.hidden = true;
-    set.appendChild(present);
+    hereSec.appendChild(present);
 
-    var lcd = el('div', 'cb-lcd');
+    var lcd = this.lcd = el('div', 'cb-lcd');
     // Which channel this is, at every size, because small shows only the readout.
     this.bandNow = el('p', 'cb-band-now');
     lcd.appendChild(this.bandNow);
@@ -807,7 +847,7 @@
     lcd.appendChild(beacons);
     this.beacons = [];
     this.skew = 0;
-    set.appendChild(lcd);
+    chanSec.appendChild(lcd);
 
     /* THE RADIO'S ANSWER, directly under the readout, where the log, the hosts'
        Catch up and Follow and every @time are: an answer somebody has to scroll
@@ -815,7 +855,7 @@
        after people thought Follow was broken). It used to sit under the box. */
     this.said = el('p', 'cb-said');
     this.said.setAttribute('role', 'status');
-    set.appendChild(this.said);
+    chanSec.appendChild(this.said);
 
     var form = this.form = el('form', 'cb-tx');
     var lab = el('label', 'cb-lab', 'Your message');
@@ -906,8 +946,9 @@
     form.appendChild(row);
     form.appendChild(stickBox);
     form.appendChild(ready);
-    set.appendChild(form);
+    chanSec.appendChild(form);
 
+    var film = el('div', 'cb-tools cb-film');
     var tools = el('div', 'cb-tools');
     /* ADD MY SPOT, shown only while a film on this page has been started. It
        reads where your player is and writes "@34:12" into the box, and that
@@ -916,14 +957,14 @@
     var spot = this.spotBtn = el('button', 'cb-btn cb-spot', 'Add my spot');
     spot.type = 'button';
     spot.hidden = true;
-    tools.appendChild(spot);
+    film.appendChild(spot);
     /* HOST THIS FILM, shown with Add my spot. See setHosting. Never
        remembered: a new page starts with nobody hosting. */
     var hostBtn = this.hostBtn = el('button', 'cb-btn cb-hosting', 'Host this film');
     hostBtn.type = 'button';
     hostBtn.hidden = true;
     hostBtn.setAttribute('aria-pressed', 'false');
-    tools.appendChild(hostBtn);
+    film.appendChild(hostBtn);
     this.hosting = null;
     /* SCREEN A VIDEO, for the base, on a page with a screen. See screenVideo.
        A tray opened from the row like Profile, because it is a moderator's
@@ -933,13 +974,14 @@
     scrBtn.hidden = true;
     scrBtn.setAttribute('aria-expanded', 'false');
     scrBtn.setAttribute('aria-controls', 'cb-screen');
-    tools.appendChild(scrBtn);
+    film.appendChild(scrBtn);
+    filmSec.appendChild(film);
     this.screened = null;
     var callBtn = this.callBtn = el('button', 'cb-btn cb-call-btn', 'Join this room\u2019s call');
     callBtn.type = 'button';
     callBtn.hidden = true;
     callBtn.setAttribute('aria-pressed', 'false');
-    tools.appendChild(callBtn);
+    hereSec.appendChild(callBtn);
     this.calls = false;
     var aloud = this.aloudBtn = el('button', 'cb-btn cb-aloud');
     aloud.type = 'button';
@@ -972,7 +1014,7 @@
     off.type = 'button';
     off.addEventListener('click', function () { signOff(); });
     tools.appendChild(off);
-    set.appendChild(tools);
+    yourSec.appendChild(tools);
 
     var scr = this.screenPanel = el('form', 'cb-screen');
     scr.id = 'cb-screen';
@@ -997,7 +1039,7 @@
     var scrSaid = this.screenSaid = el('p', 'cb-said');
     scrSaid.setAttribute('role', 'status');
     scr.appendChild(scrSaid);
-    set.appendChild(scr);
+    filmSec.appendChild(scr);
 
     var pets = this.petsPanel = el('div', 'cb-pets');
     pets.id = 'cb-pets';
@@ -1037,7 +1079,7 @@
     no.type = 'button';
     sure.appendChild(yes); sure.appendChild(no);
     pets.appendChild(sure);
-    set.appendChild(pets);
+    yourSec.appendChild(pets);
     petsBtn.addEventListener('click', function () { me.setPets(pets.hidden); });
     forgetBtn.addEventListener('click', function () { sure.hidden = false; forgetBtn.hidden = true; no.focus(); });
     no.addEventListener('click', function () { sure.hidden = true; forgetBtn.hidden = false; forgetBtn.focus(); });
@@ -1053,7 +1095,7 @@
     var guide = el('a', null, 'The CB guide');
     guide.href = '/cb-guide.html';
     norms.appendChild(guide);
-    set.appendChild(norms);
+    yourSec.appendChild(norms);
 
     box.appendChild(set);
 
@@ -1417,6 +1459,7 @@
     this.hostBtn.hidden = !w && !this.hosting;
     this.screenBtn.hidden = !(this.state.base && firstScreen());
     if (this.screenBtn.hidden && !this.screenPanel.hidden) this.setScreenPanel(false);
+    this.filmShown();
     this.screenNamed(w);
     this.hostTick(w);
     this.hereTick();
@@ -1489,7 +1532,7 @@
       var who = el('button', 'cb-handle', m.handle);
       who.type = 'button';
       who.setAttribute('aria-controls', 'cb-peek');
-      (function (h, b) { b.addEventListener('click', function () { me.peek(h, b); }); })(m.handle, who);
+      (function (h, b, mk) { b.addEventListener('click', function () { me.peek(h, b, mk); }); })(m.handle, who, m);
       head.appendChild(who);
       if (m.base) head.appendChild(el('span', 'cb-tag', 'BASE'));
       else if (m.claimed) head.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
@@ -1784,15 +1827,27 @@
     return fig;
   }
 
-  Radio.prototype.peek = function (handle, from) {
+  /* SOMEBODY'S PROFILE: their handle, the mark the server gave it, and their
+     pets if they have made them public. Opened from a handle on the channel,
+     it is drawn on the readout under the log; from a name on Who's online
+     (Ryan, 2026-10-13), under that list, so it opens where the hand is. */
+  Radio.prototype.peek = function (handle, from, mark) {
     var me = this, box = this.peekBox;
+    var onCase = !!(from && this.online.contains(from));
+    if (onCase && box.parentNode !== this.online) this.online.appendChild(box);
+    if (!onCase && box.parentNode !== this.lcd) this.lcd.insertBefore(box, this.beaconList);
+    box.classList.toggle('cb-peek--case', onCase);
     this.peekFrom = from;
+    this.peekAt = from && from.dataset ? from.dataset.at : null;
     box.textContent = '';
     box.hidden = false;
-    box.setAttribute('aria-label', handle + '\u2019s pets');
-    var h = el('p', 'cb-peek__h', handle + '\u2019s pets');
+    box.setAttribute('aria-label', handle + '\u2019s profile');
+    var h = el('h3', 'cb-peek__h', handle + '\u2019s profile');
     h.tabIndex = -1;
+    if (mark && mark.base) h.appendChild(el('span', 'cb-tag', 'BASE'));
+    else if (mark && mark.claimed) h.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
     box.appendChild(h);
+    box.appendChild(el('p', 'cb-peek__sub', 'Pets'));
     var said = el('p', 'cb-quiet', 'Looking\u2026');
     box.appendChild(said);
     var list = el('ul', 'cb-pets__list');
@@ -1833,8 +1888,15 @@
   Radio.prototype.unpeek = function () {
     this.peekBox.hidden = true;
     this.peekBox.textContent = '';
-    var from = this.peekFrom;
+    var from = this.peekFrom, at = this.peekAt;
     this.peekFrom = null;
+    this.peekAt = null;
+    // Who's online may have been redrawn while it was open: the same name's
+    // new button takes the keyboard back.
+    if (from && !from.isConnected && at) {
+      var again = this.onlineList.querySelectorAll('.cb-handle');
+      for (var i = 0; i < again.length; i++) if (again[i].dataset.at === at) from = again[i];
+    }
     if (from && from.isConnected) from.focus();
   };
 
@@ -2403,7 +2465,11 @@
     this.onlineBusy = true;
     call('/cb/online', null, this.state.pass).then(function (r) {
       if (r.status === 401) return me.lost();
-      if (r.status === 200 && Array.isArray(r.body.people)) { me.people = r.body.people; me.peopleAt = Date.now(); me.peopleFailed = false; }
+      if (r.status === 200 && Array.isArray(r.body.people)) {
+        me.people = r.body.people; me.peopleAt = Date.now(); me.peopleFailed = false;
+        me.callsNow = Array.isArray(r.body.calls) ? r.body.calls : [];
+        me.callsHeard = r.body.callHeard === true;
+      }
       else me.peopleFailed = true;
     }, function () { me.peopleFailed = true; })
       .then(function () {
@@ -2421,8 +2487,8 @@
     return out;
   }
 
-  function personLine(li, p, mine) {
-    li.appendChild(el('b', null, p.handle));
+  function personLine(li, p, mine, profile) {
+    li.appendChild(profile || el('b', null, p.handle));
     if (p.base) li.appendChild(el('span', 'cb-tag', 'BASE'));
     else if (p.claimed) li.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
     if (mine) li.appendChild(document.createTextNode(' (you)'));
@@ -2443,17 +2509,28 @@
       return;
     }
     var shown = this.people.filter(function (p) { return roomsOf(p).length; });
-    var key = JSON.stringify([shown, here, this.state.handle]);
+    var calls = (rooms || []).filter(function (r) { return (me.callsNow || []).indexOf(r.tag) >= 0; });
+    var key = JSON.stringify([shown, calls.map(function (r) { return r.tag; }), !!this.callsHeard, here, this.state.handle]);
     none.hidden = shown.length > 0;
     none.textContent = 'Nobody is seen in a room right now.';
     ul.hidden = !shown.length;
     if (key === this.onlineKey) return;
     this.onlineKey = key;
-    var focused = ul.getRootNode().activeElement, again = focused && ul.contains(focused) && focused.dataset ? focused.dataset.at : null;
+    var focused = this.online.getRootNode().activeElement;
+    var again = focused && this.online.contains(focused) && focused.dataset ? focused.dataset.at : null;
+    function back(b) { if (again && b.dataset.at === again) setTimeout(function () { b.focus(); }, 0); }
     ul.textContent = '';
     shown.forEach(function (p) {
       var li = el('li', 'cb-online-row');
-      personLine(li, p, p.handle === me.state.handle);
+      /* A NAME OPENS THEIR PROFILE, as a handle on the channel does (Ryan,
+         2026-10-13), under the list rather than on the channel's readout. */
+      var who = el('button', 'cb-handle', p.handle);
+      who.type = 'button';
+      who.setAttribute('aria-controls', 'cb-peek');
+      who.dataset.at = p.handle + '|';
+      who.addEventListener('click', function () { me.peek(p.handle, who, p); });
+      back(who);
+      personLine(li, p, p.handle === me.state.handle, who);
       li.appendChild(document.createTextNode(' in '));
       roomsOf(p).forEach(function (r, i) {
         if (i) li.appendChild(document.createTextNode(', '));
@@ -2462,9 +2539,29 @@
         a.href = r.path;
         a.dataset.at = p.handle + '|' + r.tag;
         li.appendChild(a);
-        if (a.dataset.at === again) setTimeout(function () { a.focus(); }, 0);
+        back(a);
       });
       ul.appendChild(li);
+    });
+    /* CALLS GOING NOW: every room whose call has somebody in it, in walking
+       order, the room and nothing else. Only once the server says 8x8 is
+       telling it, so "nobody" is never a guess. */
+    this.callsBox.hidden = !this.callsHeard;
+    this.callList.textContent = '';
+    this.callList.hidden = !calls.length;
+    this.callNone.hidden = calls.length > 0;
+    this.callNone.textContent = 'Nobody is in a room\u2019s call right now.';
+    calls.forEach(function (r) {
+      var li = el('li', 'cb-online-row');
+      if (r.path === here) { li.appendChild(el('span', null, r.name + ' (this room)')); }
+      else {
+        var a = el('a', 'cb-online-room', r.name);
+        a.href = r.path;
+        a.dataset.at = 'call|' + r.tag;
+        li.appendChild(a);
+        back(a);
+      }
+      me.callList.appendChild(li);
     });
   };
 
@@ -2710,7 +2807,7 @@
      list, like the 404, gets no #tag. */
   Radio.prototype.addSpot = function () {
     var w = window.loveEmbed && window.loveEmbed.where && window.loveEmbed.where();
-    if (!w) { this.spotBtn.hidden = true; this.tell('No film has been started on this page.'); return; }
+    if (!w) { this.spotBtn.hidden = true; this.filmShown(); this.tell('No film has been started on this page.'); return; }
     var v = this.say.value;
     var c = this.say.selectionStart == null ? v.length : this.say.selectionStart;
     var before = v.slice(0, c), after = v.slice(c);
@@ -2776,7 +2873,24 @@
     this.roomBtn.setAttribute('aria-label', 'This room: ' + name);
     this.bandNow.textContent = room ? 'Tuned to ' + name : 'Tuned to World';
     this.log.setAttribute('aria-label', (room ? name + '\u2019s channel' : 'The World channel') + ', latest ten messages');
+    this.hereShown();
     this.presenceShown();
+  };
+
+  /* WHERE YOU ARE: the room's name as the street's list writes it. Until the
+     list arrives, the page's own title, which is the name the list copies;
+     once it has arrived, a page that is not on it says so, rather than being
+     given a room's name it does not have. A room that keeps to itself names
+     itself (quietHere), to the person standing in it and nobody else. */
+  function pageName() {
+    return document.title.replace(/\s+\u2014\s+Stimpunks\.World$/, '') || 'This page';
+  }
+
+  Radio.prototype.hereShown = function () {
+    var here = hereRoom();
+    var known = !!(rooms && rooms.length);
+    this.hereName.textContent = here ? here.name : known ? 'A page that is not a room on the street' : pageName();
+    this.hereName.classList.toggle('cb-here-name--off', !here && known);
   };
 
   // The room a page is, for being seen in: only once the street's list says so.
@@ -2959,6 +3073,7 @@
     if (!glass) open = false;
     this.screenPanel.hidden = !open;
     this.screenBtn.setAttribute('aria-expanded', String(!!open));
+    this.filmShown();
     if (open) {
       this.screenLab.textContent = 'A YouTube address, to put up on ' + glass.name;
       this.screenSaid.textContent = '';
@@ -3040,6 +3155,14 @@
   Radio.prototype.hostShown = function () {
     this.hostBtn.setAttribute('aria-pressed', String(!!this.hosting));
     if (this.hosting) this.hostBtn.hidden = false;
+    this.filmShown();
+  };
+
+  /* Watching together has a heading of its own only while there is something
+     under it: a film started on this page, or the base's Screen a video. A
+     heading over nothing is a part of the radio that looks broken. */
+  Radio.prototype.filmShown = function () {
+    this.filmSec.hidden = this.spotBtn.hidden && this.hostBtn.hidden && this.screenBtn.hidden && this.screenPanel.hidden;
   };
 
   Radio.prototype.hostTick = function (w) {

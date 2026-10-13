@@ -1378,6 +1378,24 @@ export async function inCall(tag, s = store(), now = Date.now()) {
   return [...seen.values()].sort((a, b) => a.name.localeCompare(b.name));
 }
 
+/* EVERY CALL WITH SOMEBODY IN IT, for Who's online. Ryan, 2026-10-13, after
+   user testing: people could not find the calls that were going. So Who's
+   online also names every room whose call has anybody in it, for anybody
+   signed on, seen or not. THE ROOM AND NOTHING ELSE: not who is in it, which
+   is still shown only in that room to radios seen there (inCall, above), and
+   not how many, because nothing here is counted. A room the asker may not
+   enter is left out, and a room that keeps to itself is never named, by
+   whoSeen's rules. Tags in alphabetical order; the radio puts them in the
+   street's walking order. Nothing is stored for it, or records who asked. */
+export async function callsOn(who, s = store(), now = Date.now()) {
+  const on = new Set();
+  for (const r of await listed(s, IN_CALL, parseInCall)) {
+    if (now - r.t >= callStale() || !roomAllows(who, r.tag) || quietRoom(r.tag)) continue;
+    on.add(r.tag);
+  }
+  return [...on].sort();
+}
+
 export async function sweepCalls(s = store(), now = Date.now()) {
   let any = false;
   for (const r of await listed(s, IN_CALL, parseInCall)) if (now - r.t >= callStale()) { await s.delete(r.key); any = true; }

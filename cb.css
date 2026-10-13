@@ -112,6 +112,26 @@
 /* The same cap as the log's, one level up: the radio's body is a grid too, and
    an automatic column here grew to a picture's natural width in Safari, which
    pushed Transmit, Take off and Clear the channel off the radio's edge. */
+/* THE PARTS: where you are, who is around, the channel, watching together and
+   your radio (cb.js, Ryan, 2026-10-13, after people could not tell where they
+   were or where one part of the radio ended). Each is lettered on the case in
+   the radio's own Bungee, in the case's second steel, the pair
+   check-contrast.py holds at the body threshold; between one part and the next
+   is room and a groove in the case. The groove is the bar's grey, a seam that
+   carries no words and says nothing a heading does not, so it needs no pair.
+   Every part is a grid of rows that keep their own height, for the set's reason
+   above, and the same capped column. */
+.cb-set--parts { gap: 16px; }
+.cb-sec { display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr); grid-auto-rows: max-content; }
+.cb-sec + .cb-sec { padding-top: 14px; border-top: 2px solid var(--cb-bar); }
+.cb-radio h2, .cb-radio h3 { margin: 0; }
+.cb-h { font: 400 12px/1.2 'Bungee', system-ui, sans-serif; letter-spacing: .1em; color: var(--cb-steel-2); }
+.cb-h3 { margin-top: 4px; font: 700 13px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .02em; color: var(--cb-steel); }
+.cb-sec > .cb-btn { justify-self: start; }
+/* WHERE YOU ARE: the room's name, the largest words on the radio, in the
+   case's own steel. A page that is not a room says so, smaller. */
+.cb-here-name { font-size: 20px; font-weight: 700; line-height: 1.25; color: var(--cb-steel); overflow-wrap: anywhere; }
+.cb-here-name--off { font-size: 16px; }
 .cb-who { font-size: 14px; }
 /* World or this room: two buttons, the pressed one with the amber edge every
    pressed button on the radio has. */
@@ -212,13 +232,13 @@ ol.cb-md-list { list-style: decimal; }
 .cb-seen[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
 .cb-seen-now { font-size: 14px; overflow-wrap: anywhere; }
 .cb-seen-now .cb-tag { margin-left: 4px; }
-/* WHO'S ONLINE: beside World and This room, not in their group, because it is
-   not a channel; the teleporter's open edge when its panel is out. The list is
-   the seen lines' steel on the case, and it scrolls rather than pushing the
-   message box off a short screen. */
-.cb-band-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: start; }
+/* WHO'S ONLINE: under Who's around, the teleporter's open edge when its panel
+   is out. The lists are the seen lines' steel on the case, and each scrolls
+   rather than pushing the message box off a short screen. A name is a button
+   that opens their profile, in the channel handle's dotted underline. */
 .cb-online-btn:hover, .cb-online-btn[aria-expanded="true"] { border-color: var(--cb-amber); }
-.cb-online { display: grid; gap: 4px; }
+.cb-online, .cb-online-calls { display: grid; gap: 4px; }
+.cb-online-calls { margin-top: 6px; }
 .cb-online-about { font-size: 13px; }
 .cb-online-list {
   list-style: none; margin: 0; padding: 0; display: grid; gap: 4px;
@@ -269,7 +289,13 @@ ol.cb-md-list { list-style: decimal; }
 .cb-sticker__art { display: block; width: 120px; height: auto; border-radius: 4px; }
 .cb-sticker figcaption { margin: 3px 0 0; font-size: 13px; line-height: 1.4; }
 .cb-peek { margin: 8px 0 0; padding: 8px 0 0; border-top: 1px solid var(--cb-amber-2); }
-.cb-peek__h { margin: 0 0 6px; font-weight: 700; }
+.cb-peek__h { margin: 0 0 4px; font-size: 15px; font-weight: 700; overflow-wrap: anywhere; }
+.cb-peek__h .cb-tag { margin-left: 6px; }
+.cb-peek__sub { margin: 0 0 6px; font-size: 13px; font-weight: 700; }
+/* A profile opened from Who's online is on the case, not the readout: the
+   case's words and its second steel for the rule. The line saying it is still
+   looking is the quiet amber, a pair check-contrast.py holds on the case. */
+.cb-peek--case { border-top-color: var(--cb-steel-2); }
 .cb-peek .cb-pets__list { margin: 0 0 8px; }
 .cb-stickers { margin: 8px 0 0; }
 .cb-stickers p { margin: 0 0 6px; font-size: 14px; line-height: 1.45; }
@@ -362,7 +388,7 @@ ol.cb-md-list { list-style: decimal; }
    by animals.js in its own room's inks, which inherit into this shadow root:
    a cat in the torch's pool, a dog on the snow. The drawing is a picture on
    its own ground, so nothing of the radio's is set on it. */
-.cb-pets { margin: 10px 0 0; padding: 10px 12px; border: 2px solid var(--cb-steel-2); border-radius: 6px; }
+.cb-pets { margin: 0; padding: 10px 12px; border: 2px solid var(--cb-steel-2); border-radius: 6px; }
 .cb-pets__h { margin: 0 0 6px; font-weight: 700; }
 .cb-pets__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .cb-pet { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 10px; align-items: center; }
@@ -384,7 +410,7 @@ ol.cb-md-list { list-style: decimal; }
 .cb-acct__form .cb-btn { margin: 0 8px 6px 0; }
 /* SCREEN A VIDEO, the base's tray, under the tools in the pets tray's clothes:
    one address, one button, and the answer. */
-.cb-screen { margin: 10px 0 0; padding: 10px 12px; border: 2px solid var(--cb-steel-2); border-radius: 6px; display: grid; gap: 6px; }
+.cb-screen { margin: 0; padding: 10px 12px; border: 2px solid var(--cb-steel-2); border-radius: 6px; display: grid; gap: 6px; }
 .cb-screen .cb-lab { margin: 0; }
 .cb-screen .cb-say { width: 100%; }
 .cb-screen .cb-hint { margin: 0; }
@@ -395,9 +421,11 @@ ol.cb-md-list { list-style: decimal; }
 /* SMALL: the bar and the newest message, and nothing else. It is the same log
    with the older messages hidden, so the live region still reads what arrives,
    and the newest is clamped to a few lines so a long one cannot grow the radio
-   back over whatever it was made small to get out of the way of. */
-.cb-radio--small .cb-who, .cb-radio--small .cb-band-row, .cb-radio--small .cb-online, .cb-radio--small .cb-tx,
-.cb-radio--small .cb-tools, .cb-radio--small .cb-norms, .cb-radio--small .cb-acts, .cb-radio--small .cb-present { display: none; }
+   back over whatever it was made small to get out of the way of. No heading
+   and no part but the channel's readout. */
+.cb-radio--small .cb-sec:not(.cb-sec--channel), .cb-radio--small .cb-h, .cb-radio--small .cb-band,
+.cb-radio--small .cb-tx, .cb-radio--small .cb-acts { display: none; }
+.cb-radio--small .cb-sec--channel { padding-top: 0; border-top: 0; }
 .cb-radio--small .cb-set { padding: 8px; }
 .cb-radio--small .cb-lcd { padding: 6px 9px; }
 .cb-radio--small .cb-log { max-height: none; overflow: hidden; }

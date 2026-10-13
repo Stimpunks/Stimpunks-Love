@@ -33,7 +33,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
-  cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, sweepCalls } from './lib.mjs';
+  cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
 function memoryStore({ etagOnRead }) {
@@ -1519,6 +1519,33 @@ test('a leaving that arrives before its joining wins, and the sweep takes what 8
   await sweepCalls(s, later);
   assert.equal(s.keys().filter((k) => k.startsWith('call-in/') || k.startsWith('call-left/')).length, 0);
   assert.equal(await callEvent({ eventType: 'PARTICIPANT_JOINED', fqn: 'elsewhere/stimpunks-x', data: { participantId: 'q' } }, s, now), 'not ours');
+});
+
+/* Every call with somebody in it, on Who's online: Ryan, 2026-10-13. The
+   room and nothing else, under whoSeen's rules. Broken on purpose first:
+   without roomAllows the board room's call was named to everybody, and
+   without quietRoom the cabin's was. */
+test("who's online names every room whose call has somebody in it, and only the room", async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  const in_ = (tag, name, id, at = now) => callEvent({ eventType: 'PARTICIPANT_JOINED', fqn: `${JAAS_APP}/stimpunks-${tag}`,
+    timestamp: at, data: { name, participantId: id } }, s, now);
+  await in_('the-den', 'Sam', 'c1');
+  await in_('the-den', 'Ada', 'c2');
+  await in_('cavendish-events', 'A guest', 'c3');
+  await in_('town-hall-board', 'Cy', 'c4');
+  await in_(QUIET_ROOMS[0], 'Ryan', 'c5');
+  assert.deepEqual(await callsOn(ada, s, now + 1), ['cavendish-events', 'the-den'],
+    'each room once, alphabetical, no names and no number; the board room and the quiet room left out');
+  const board = { role: 'base', handle: 'Cy', roles: new Set(['moderator', 'board']) };
+  assert.deepEqual(await callsOn(board, s, now + 1), ['cavendish-events', 'the-den', 'town-hall-board'],
+    'the board room is named to the people it is for');
+  const keyholder = { role: 'base', handle: 'Ryan', roles: new Set(['moderator', 'administrator']) };
+  assert.ok(!(await callsOn(keyholder, s, now + 1)).includes(QUIET_ROOMS[0]), 'a quiet room is named to nobody, not even its keyholders');
+  await callEvent({ eventType: 'PARTICIPANT_LEFT', fqn: `${JAAS_APP}/stimpunks-cavendish-events`, timestamp: now + 2,
+    data: { participantId: 'c3' } }, s, now);
+  assert.deepEqual(await callsOn(ada, s, now + 3), ['the-den'], 'a call nobody is left in is not named');
+  assert.deepEqual(await callsOn(ada, s, now + (CALL_HOURS + 2) * 3600 * 1000), [], 'older than a token can be');
 });
 
 test('a beacon carries the video by its id, and nothing that is not one', async () => {

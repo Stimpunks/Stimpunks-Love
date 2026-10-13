@@ -3318,7 +3318,11 @@ PAIRS = [
     (FX_ON,   FX_LIT,  False, "fractal window: the pressed speed's word, dark on lime"),
     (CB_STEEL2, CB_CASE,  False, "cb: every button's border and the case's rim, held to the body "
                                  "threshold because a button you cannot find the edge of is a "
-                                 "button you cannot find"),
+                                 "button you cannot find; and the heading over each part of the "
+                                 "radio, lettered on the case (2026-10-13)"),
+    (CB_AMBER2, CB_CASE,  False, "cb: the quiet lines on the case -- a profile opened from Who's "
+                                 "online while it is still looking, and the pets tray's own; "
+                                 "the tray had used it since it opened with no pair held"),
 
 
 

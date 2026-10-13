@@ -3,14 +3,19 @@
    no number, a room the asker may not enter left out, and a room that keeps to
    itself (QUIET_ROOMS) never on it. The rules are in
    whoSeen() in lib.mjs. The radio asks while its Who's online panel is open,
-   and its teleporter asks when an @ is typed; nothing records who asked. */
-import { readPass, whoSeen, json, sameSite } from '../cb/lib.mjs';
+   and its teleporter asks when an @ is typed; nothing records who asked.
+
+   And every room whose call has somebody in it (Ryan, 2026-10-13): the rooms
+   only, by callsOn()'s rules, which are whoSeen's. callHeard says whether 8x8
+   is telling us at all, so an empty list of calls is never a guess. */
+import { readPass, whoSeen, callsOn, json, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'The CB only answers stimpunks.world.' });
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
-  return json(200, { people: await whoSeen(who) });
+  const heard = !!process.env.CB_JAAS_EVENTS_SECRET;
+  return json(200, { people: await whoSeen(who), calls: heard ? await callsOn(who) : [], callHeard: heard });
 };
 
 export const config = {

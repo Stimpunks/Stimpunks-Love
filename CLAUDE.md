@@ -802,6 +802,22 @@ this arrived: two switches meaning nearly the same thing is worse than one. A `.
 afternoon still parses as claimed, so a leftover is swept. **The Slake keeps its own rule**: its
 switch only ever said "out here", and nothing on it joins this list.
 
+**WHO'S ONLINE ALSO NAMES EVERY ROOM WHOSE CALL HAS SOMEBODY IN IT, AND ONLY THE ROOM.** Ryan,
+2026-10-13, after user testing, with **a name on the list opening that person's profile** (the peek a
+handle on the channel opens, drawn under the list). `callsOn` in `lib.mjs` reads the call records under
+`whoSeen`'s rules (`roomAllows`, never a quiet room) and `/cb/online` sends the tags with `callHeard`, so
+an empty list is never a guess. **The friendly edit is to put the names in**, so people can see who is
+in a call before they walk over; who is in a call is still shown only in its room, to radios seen there,
+and widening that is Ryan's call, written in `privacy.html#calls` first. No number either.
+
+**THE RADIO IS IN PARTS, EACH UNDER A REAL HEADING** (Ryan, 2026-10-13, after people could not tell where
+they were): Where you are (the room's name in the largest words on the radio, `hereShown`), Who's around,
+Channel, Watching together (only there while something in it is, `filmShown`) and Your radio. `part()` in
+`cb.js` makes them, and `cb-guide.html#parts` lists them in order: **a new control goes into the part it
+belongs to, and a new part is a row in that table.** The headings are `h2`s in the shadow root, so a
+screen reader moves between them; Small shows none of them. Do not flatten it back into one column to
+save height.
+
 **A call's window and the `Mover` live in `call.js`, not `cb.js`**, because a public room's guest
 must never download the radio. `cb.js` loads `call.js` before it builds the radio. `call.js` reads
 the `love-cb` pass and never writes it. `/cb/call` signs a guest token, never a moderator, only for

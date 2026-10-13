@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Mon, 12 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 13 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The CB in parts, where you are, and calls on Who’s online</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-13-cb-parts</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-13-cb-parts</guid>
+      <pubDate>Tue, 13 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The radio is in parts now, each under a heading: Where you are, Who’s around, Channel, Watching together and Your radio, with room and a groove in the case between them. This came out of people trying the CB: it had grown one button at a time into one long column, and it was hard to tell where one part ended. The headings are real ones, so a screen reader can move between them. Small is unchanged. The CB guide has the parts in order. The radio says which room you are in, at the top, in its largest words, because some people could not tell where they were. Tuned to World, you hear the whole street, and the radio now says where you are standing as well as what you are hearing. A name on Who’s online opens that person’s profile, the same as pressing their handle on the channel: their handle, its mark, and their pets if they show them. Who’s online lists the calls going now: every room whose call has somebody in it, with a link there. It names the room and nothing else, not who or how many. Who is in a call is still shown only in its room, to people seen there. Privacy says so, and a room the base keeps or one that keeps to itself is not named. Join this room’s call is under Where you are now, and Add my spot, Host this film and Screen a video are under Watching together, which is only there while one of them is.</description>
+    </item>
     <item>
       <title>More sticker sheets</title>
       <link>https://stimpunks.world/changelog.html#2026-10-12-sticker-sheets</link>
