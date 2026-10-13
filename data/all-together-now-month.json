@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-10-12T11:27Z",
+ "set": "2026-10-13T11:27Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-12T11:27:12Z"
+     "2026-10-13T11:27:16Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-12T11:27:12Z"
+     "2026-10-13T11:27:16Z"
     ]
    ]
   }
@@ -85,36 +85,6 @@
    "published": "2026-10-11T14:52:48Z",
    "state": "screen",
    "runs": 180,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "rY6-KD9VU04",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "I ain’t never seen anyone move so quickly to try a MF in the court of public opinion 😂",
-   "published": "2026-09-12T12:48:45Z",
-   "state": "screen",
-   "runs": 42,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "mu_nR3YLkBE",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "@seefoodjackie with the violent wholesomeness",
-   "published": "2026-09-12T13:44:14Z",
-   "state": "screen",
-   "runs": 124,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "MQ9rr3RYSyY",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Either we have due process for everyone, or we have might makes right 🤷🏽‍♂️",
-   "published": "2026-09-13T00:16:30Z",
-   "state": "screen",
-   "runs": 176,
    "channel": "Farming While Beige"
   },
   {
@@ -405,6 +375,36 @@
    "published": "2026-10-10T13:42:41Z",
    "state": "screen",
    "runs": 112,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "ciaPR1KwGz0",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Focus on unleashing productive people, not punishing deadbeats.",
+   "published": "2026-10-12T14:59:51Z",
+   "state": "screen",
+   "runs": 157,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "bkNLujkx_Y8",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Deranged restaurant reviews part 1: Milk & Honey",
+   "published": "2026-10-12T20:01:27Z",
+   "state": "screen",
+   "runs": 46,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "ehag_Lsss3M",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "“You can’t be pro-Black if you can’t  punch a motherless child.”",
+   "published": "2026-10-13T11:16:59Z",
+   "state": "screen",
+   "runs": 13,
    "channel": "Farming While Beige"
   }
  ]
