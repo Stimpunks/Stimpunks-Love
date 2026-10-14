@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Sandbox — Stimpunks.World</title>
+<meta name="description" content="A sandbox at dusk, lit by a laptop left open in the sand: come in curious, try things, break things and give feedback, with no deadlines and nothing to lose.">
+<link rel="canonical" href="https://stimpunks.world/sandbox.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#241c17">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.World">
+<meta property="og:title" content="The Sandbox — Stimpunks.World">
+<meta property="og:description" content="A sandbox at dusk, lit by a laptop left open in the sand: come in curious, try things, break things and give feedback, with no deadlines and nothing to lose.">
+<meta property="og:url" content="https://stimpunks.world/sandbox.html">
+<meta property="og:image" content="https://stimpunks.world/og/sandbox.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A dark brown-black card, the colour of sand in shadow after sundown. On the left, an open laptop glowing pale blue: a window with three round buttons and the words sandbox, safe to break, and in it “The Sandbox” in round letters, then in typewriter letters: A sandbox at dusk, lit by a laptop left open in the sand: come in curious, try things, break things and give feedback, with no deadlines and nothing to lose. Under that, a prompt reading nothing here is permanent, and a cursor. The laptop stands on a dune of sand lit by its screen. To the right, a sandcastle with towers, walls and a flag, a bucket and a spade on one side and a beach ball on the other.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World — what changed on the street">
+<link rel="stylesheet" href="love.css">
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<!-- structured-data:begin -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/sandbox.html#webpage","url":"https://stimpunks.world/sandbox.html","name":"The Sandbox — Stimpunks.World","description":"A sandbox at dusk, lit by a laptop left open in the sand: come in curious, try things, break things and give feedback, with no deadlines and nothing to lose.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<!-- structured-data:end -->
+</head>
+<body class="room-sandbox" id="top">
+<a class="skip" href="#main">Skip to The Sandbox</a>
+
+<!-- Brought onto the street by tools/import-room.py from the artifact Norah sent. Everything between the import markers is theirs and is replaced whole when they send a new version: change the artifact and import it again, never the lines between. The quest markers, the sign-off and everything in <head> are the street's. -->
+<main id="main">
+  <a class="backlink" href="index.html">&larr; back to the street</a>
+<!-- import:sandbox:begin -->
+<div style="max-width:400px;margin:34px 0 0;">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+
+<div class="sb-laptop">
+  <div class="sb-lid">
+    <div class="sb-screen">
+      <div class="sb-titlebar" aria-hidden="true">
+        <span class="sb-dot"></span><span class="sb-dot"></span><span class="sb-dot"></span><span>sandbox — safe to break</span>
+      </div>
+      <div class="sb-screen-body">
+        <h1>The Sandbox</h1>
+        <p>Come in curious. Try things, break things, and tell us what you notice.</p>
+        <p>There are no deadlines here. Nothing you break stays broken, and nobody is waiting for you to finish anything.</p>
+        <p class="sb-prompt">~/sandbox $ nothing here is permanent<span class="sb-caret" aria-hidden="true"></span></p>
+      </div>
+    </div>
+  </div>
+  <div class="sb-deck" aria-hidden="true"></div>
+  <svg class="sb-dune" viewBox="0 0 640 90" aria-hidden="true" focusable="false">
+    <path class="sb-f-deep" d="M0 90 V40 C80 22 160 14 240 16 C330 18 420 10 520 22 C580 30 620 34 640 40 V90 Z"/>
+    <path class="sb-f-sand" d="M40 90 C70 40 170 18 320 18 C470 18 570 40 600 90 Z"/>
+    <ellipse class="sb-f-glow" cx="320" cy="26" rx="230" ry="16" opacity="0.28"/>
+  </svg>
+</div>
+
+<section aria-labelledby="sb-who">
+  <h2 id="sb-who">Come on in</h2>
+  <p>Norah thought up this sandbox, and everyone is welcome in it.</p>
+  <p>Come in curious. Pull up a patch of sand, try things, break things, and share what you notice. We’ll meet you in the middle.</p>
+  <p>Bring whatever <a href="https://www.butyoudontlooksick.com/articles/written-by-christine/the-spoon-theory-written-by-christine-miserandino/">spoons</a> you can spare for ideas and fixes. However many that is, it’s enough.</p>
+</section>
+
+<section aria-labelledby="sb-two">
+  <h2 id="sb-two">Two sandboxes</h2>
+  <p>In software, a sandbox is a fenced-off place to run something you don’t trust yet, so that if it breaks, nothing else breaks with it. The name came from the playground.</p>
+  <blockquote>
+    <p>“The sandbox metaphor derives from the concept of a child's sandbox—a play area where children can build, destroy, and experiment without causing any real-world damage.”</p>
+    <footer>From <a href="https://en.wikipedia.org/wiki/Sandbox_(computer_security)">“Sandbox (computer security)”</a>, Wikipedia</footer>
+  </blockquote>
+</section>
+
+<section aria-labelledby="sb-build">
+  <h2 id="sb-build">Play in the sand</h2>
+  <p>Dig with the spade, tip out a bucket, bounce the ball. Or build a castle and burn it down. Nothing has to turn into anything, nothing is saved, and nothing can be lost.</p>
+  <svg class="sb-castle" viewBox="-80 0 520 220" role="img" aria-labelledby="sb-castle-label" focusable="false">
+    <title id="sb-castle-label">A sandcastle with 3 towers, 2 walls and 1 flag. A bucket and a spade lie on one side and a beach ball on the other.</title>
+    <path class="sb-f-deep" d="M-80 220 V186 C0 172 100 166 180 166 C260 166 360 172 440 186 V220 Z"/>
+    <path class="sb-f-glow" d="M-66 150 L-28 150 L-33 188 L-61 188 Z"/>
+    <rect class="sb-f-ink" x="-70" y="145" width="46" height="6" rx="3"/>
+    <path class="sb-s-ink" d="M-65 148 C-62 124 -32 124 -29 148" fill="none" stroke-width="2.5"/>
+    <path class="sb-s-deep" d="M-10 186 L0 132" stroke-width="5" stroke-linecap="round"/>
+    <path class="sb-f-ember" d="M-8 124 L8 128 L6 134 L-10 130 Z"/>
+    <path class="sb-f-ember" d="M-20 184 L-2 188 L-7 200 L-23 196 Z"/>
+    <g id="sb-ballpos" class="sb-ballpos">
+      <ellipse class="sb-f-deep sb-ballshadow" cx="367" cy="186" rx="22" ry="4"/>
+      <g id="sb-hop" class="sb-hop">
+        <g class="sb-ball">
+          <circle class="sb-f-sandlit" cx="365" cy="162" r="22"/>
+          <path class="sb-f-ember" d="M365 140 C344 147 344 177 365 184 C356 174 356 150 365 140 Z"/>
+          <path class="sb-f-glow" d="M365 140 C386 147 386 177 365 184 C374 174 374 150 365 140 Z"/>
+          <circle class="sb-f-ink" cx="365" cy="142" r="3"/>
+        </g>
+      </g>
+    </g>
+    <g id="sb-pieces">
+      <g class="sb-piece"><rect class="sb-f-sand" x="80" y="106" width="40" height="64"/><rect class="sb-f-sand" x="80" y="98" width="8" height="10"/><rect class="sb-f-sand" x="96" y="98" width="8" height="10"/><rect class="sb-f-sand" x="112" y="98" width="8" height="10"/><rect class="sb-f-glow" x="110" y="106" width="10" height="64" opacity="0.35"/><rect class="sb-f-ink" x="96" y="124" width="8" height="12" rx="4"/></g>
+      <g class="sb-piece"><rect class="sb-f-sand" x="150" y="106" width="40" height="64"/><rect class="sb-f-sand" x="150" y="98" width="8" height="10"/><rect class="sb-f-sand" x="166" y="98" width="8" height="10"/><rect class="sb-f-sand" x="182" y="98" width="8" height="10"/><rect class="sb-f-glow" x="180" y="106" width="10" height="64" opacity="0.35"/><rect class="sb-f-ink" x="166" y="124" width="8" height="12" rx="4"/></g>
+      <g class="sb-piece"><rect class="sb-f-sand" x="220" y="106" width="40" height="64"/><rect class="sb-f-sand" x="220" y="98" width="8" height="10"/><rect class="sb-f-sand" x="236" y="98" width="8" height="10"/><rect class="sb-f-sand" x="252" y="98" width="8" height="10"/><rect class="sb-f-glow" x="250" y="106" width="10" height="64" opacity="0.35"/><rect class="sb-f-ink" x="236" y="124" width="8" height="12" rx="4"/></g>
+      <g class="sb-piece"><rect class="sb-f-deep" x="120" y="138" width="30" height="32"/><rect class="sb-f-deep" x="120" y="132" width="7" height="8"/><rect class="sb-f-deep" x="132" y="132" width="7" height="8"/><rect class="sb-f-deep" x="143" y="132" width="7" height="8"/></g>
+      <g class="sb-piece"><rect class="sb-f-deep" x="190" y="138" width="30" height="32"/><rect class="sb-f-deep" x="190" y="132" width="7" height="8"/><rect class="sb-f-deep" x="202" y="132" width="7" height="8"/><rect class="sb-f-deep" x="213" y="132" width="7" height="8"/></g>
+      <g class="sb-piece"><line class="sb-s-ink" x1="170" y1="98" x2="170" y2="66" stroke-width="2.5"/><path class="sb-f-glow" d="M171 66 L194 73 L171 80 Z"/></g>
+    </g>
+    <g id="sb-play"></g>
+  </svg>
+  <div class="sb-controls" id="sb-controls" hidden>
+    <div class="sb-row" role="group" aria-labelledby="sb-row-play">
+      <p class="sb-rowlabel" id="sb-row-play">Just play</p>
+      <button type="button" class="sb-btn" data-sb-do="dig">Dig with the spade</button>
+      <button type="button" class="sb-btn" data-sb-do="pie">Tip out a bucket</button>
+      <button type="button" class="sb-btn" data-sb-do="ball">Bounce the ball</button>
+    </div>
+    <div class="sb-row" role="group" aria-labelledby="sb-row-build">
+      <p class="sb-rowlabel" id="sb-row-build">Build, if you like</p>
+    <button type="button" class="sb-btn" data-sb-do="tower">Add a tower</button>
+    <button type="button" class="sb-btn" data-sb-do="wall">Add a wall</button>
+    <button type="button" class="sb-btn" data-sb-do="flag">Add a flag</button>
+    <button type="button" class="sb-btn sb-btn-wreck" data-sb-do="wreck">Burn it down</button>
+    <button type="button" class="sb-btn sb-btn-wreck" data-sb-do="smooth">Smooth the sand</button>
+    </div>
+  </div>
+  <p class="sb-status" id="sb-status" aria-live="polite"></p>
+</section>
+
+<section class="sb-box" aria-labelledby="sb-suggest">
+  <div class="sb-lid-top" aria-hidden="true"><span class="sb-slot"></span></div>
+  <div class="sb-box-body">
+    <h2 id="sb-suggest">Suggestion box</h2>
+    <p>Got an idea for the sandbox, or found something that didn’t work? Norah would love to hear it. Half an idea is fine.</p>
+    <p>Some places to start:</p>
+    <ul>
+      <li>Something that confused me was…</li>
+      <li>Something I broke was…</li>
+      <li>Something I’d add is…</li>
+    </ul>
+    <div data-street="suggestions"><!-- street:suggestions:begin -->
+      <div class="sbs-board" id="suggestion-box">
+        <h3 class="sbs-list-h" id="suggest-how-h">How the box works</h3>
+        <ul>
+          <li><strong>Anybody signed on to the CB can drop something in</strong>: a suggestion, a feature request, or a bug report, about this room or anywhere on the street, the CB included. Your handle goes on it, for everybody to see.</li>
+          <li><strong>Anybody can read what is in the box</strong>, signed on or not.</li>
+          <li><strong>Our moderators answer each one</strong>: done, or not doing, and why, with their own username on the reply. An answer can change, and a not yet can become a yes.</li>
+          <li><strong>It stays until it is taken down</strong>, by whoever dropped it in or by any moderator. Nothing in the box is counted, ranked or voted on. <a href="privacy.html#suggestions">What the box keeps</a>.</li>
+          <li><strong>A security problem is not for the box</strong>, where everybody can read it. Report it privately: <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/SECURITY.md">SECURITY.md</a> says how.</li>
+        </ul>
+        <div class="sbs-write" id="suggest-write" hidden>
+          <p class="sbs-signed">Signed on to the CB as <b id="suggest-who"></b>. Your handle goes on whatever you drop in, for everybody to see.</p>
+          <p><button type="button" class="sbs-btn" id="suggest-new">Drop one in</button></p>
+        </div>
+        <p class="sbs-signon" id="suggest-signon" hidden><strong>To drop one in, sign on to the CB</strong>: press <strong>Get on the CB</strong> on the radio in the corner of your screen. The community password is given out in <a href="community-center.html#meeting-hall">the meeting hall</a>. Not on the CB? <a href="https://stimpunks.org/contact/">Write to us</a> instead, or <a href="#sbs-dig">fix it yourself</a>.</p>
+        <p class="sbs-said" id="suggest-said" role="status"></p>
+        <h3 class="sbs-list-h" id="suggest-list-h">In the box</h3>
+        <div class="sbs-filter" id="suggest-filter" role="group" aria-label="What to show" hidden>
+          <button type="button" class="sbs-btn sbs-btn--small" data-show="all" aria-pressed="true">Everything</button>
+          <button type="button" class="sbs-btn sbs-btn--small" data-show="open" aria-pressed="false">Open</button>
+          <button type="button" class="sbs-btn sbs-btn--small" data-show="done" aria-pressed="false">Done</button>
+          <button type="button" class="sbs-btn sbs-btn--small" data-show="denied" aria-pressed="false">Not doing</button>
+        </div>
+        <p class="sbs-state" id="suggest-state">Reading the box needs scripts. Without them, or without the CB, <a href="https://stimpunks.org/contact/">write to us</a> instead.</p>
+        <div class="sbs-items" id="suggest-items" hidden></div>
+      </div>
+<!-- street:suggestions:end --></div>
+  </div>
+</section>
+
+<section data-street="contribute"><!-- street:contribute:begin -->
+  <h2 class="sbs-dig-h" id="sbs-dig">Build the street with us</h2>
+  <p><strong>Every room on this street is a file in one public repository</strong>, and so is every tool that builds and checks them. If you would rather fix a thing than describe it, you can. <strong>Your own copy is a sandbox too</strong>: nothing you break there reaches the street until Ryan Boren or Helen Edgar merge it.</p>
+  <p>Most of the street is built with Claude, Anthropic’s AI, and it can help you too. It reads the street’s rules, in <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/CLAUDE.md">CLAUDE.md</a>, before it changes anything. You do not need to be a programmer. You do need some spoons, a GitHub account, and a computer you can install things on. Take the steps at whatever pace suits you; nobody is waiting.</p>
+  <ol class="sbs-steps">
+    <li class="sbs-step" id="sbs-step-need">
+      <h3>What you need</h3>
+      <p>A Mac, a Linux computer, or Windows with <a href="https://learn.microsoft.com/windows/wsl/install">WSL</a>: the street’s tools are Bash and Python scripts, so on Windows we run them inside Linux. A <a href="https://github.com/signup">GitHub account</a>. And these, which the setup script in a moment checks for you:</p>
+      <ul>
+        <li>Git, and Python 3.</li>
+        <li>Node.js 22 or newer.</li>
+        <li>Google Chrome or Chromium. Every check looks at the pages through it, the way a visitor’s browser does.</li>
+        <li>GitHub’s own <a href="https://cli.github.com/">gh</a>, for making your copy and sending a change back. The GitHub website does both too.</li>
+      </ul>
+      <p>Only for particular jobs, and the script says when: <code>cwebp</code> and <code>ffmpeg</code> for new photographs and recordings, and Pillow for the Collection Collection.</p>
+    </li>
+    <li class="sbs-step" id="sbs-step-copy">
+      <h3>Make your own copy</h3>
+      <p>Your copy is called a fork. With gh, these make it and put it on your computer, with the street’s own copy named <code>upstream</code> so you can keep up with it:</p>
+      <pre class="sbs-cmd" tabindex="0"><code>gh auth login
+gh repo fork Stimpunks/Stimpunks-Love --clone
+cd Stimpunks-Love</code></pre>
+      <p>Without gh: press <strong>Fork</strong> on <a href="https://github.com/Stimpunks/Stimpunks-Love">the repository</a>, then <code>git clone</code> your fork’s address and <code>cd</code> into it.</p>
+    </li>
+    <li class="sbs-step" id="sbs-step-setup">
+      <h3>Check your computer</h3>
+      <pre class="sbs-cmd" tabindex="0"><code>tools/setup.sh</code></pre>
+      <p>It checks for everything above, installs the one library the CB needs with npm, and says in plain words what is missing and how to get it. It installs nothing else and never asks for your password. Run it again whenever you like.</p>
+    </li>
+    <li class="sbs-step" id="sbs-step-claude">
+      <h3>Hook up Claude</h3>
+      <p>Claude Code is Claude working in a folder of code: it reads the files, runs the tools and makes changes, and asks before anything it is not sure of. It needs a Claude Pro, Max, Team or Enterprise plan, or an Anthropic Console account; the free plan does not include it. Install it, then start it in your copy:</p>
+      <pre class="sbs-cmd" tabindex="0"><code>curl -fsSL https://claude.ai/install.sh | bash
+claude</code></pre>
+      <p>Other ways to install it, Windows included, are in <a href="https://code.claude.com/docs/en/setup">Anthropic’s setup guide</a>. Or use the <strong>Code</strong> tab of <a href="https://code.claude.com/docs/en/desktop-quickstart">the Claude desktop app</a> and choose your copy’s folder: it shows you the street as you change it. Either way, Claude reads <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/CLAUDE.md">CLAUDE.md</a> first: the street’s rules, and how a change from your own copy comes in.</p>
+    </li>
+    <li class="sbs-step" id="sbs-step-look">
+      <h3>See the street on your own computer</h3>
+      <pre class="sbs-cmd" tabindex="0"><code>npx -y serve . -l 8919</code></pre>
+      <p>Then open <code>http://localhost:8919</code> in your browser. There is no build step: every page is a file, served as it is.</p>
+      <p><strong>The CB does not run there</strong>, so the radio says it has no signal and the suggestion box says it cannot be read. To try the CB too, see <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/CONTRIBUTING.md#running-the-cb-yourself">Running the CB yourself</a>.</p>
+    </li>
+    <li class="sbs-step" id="sbs-step-branch">
+      <h3>Make your change, on a branch of its own</h3>
+      <pre class="sbs-cmd" tabindex="0"><code>git switch -c a-short-name-for-your-change</code></pre>
+      <p>Then ask Claude for what you want, in your own words. Small is good. <strong>Every room is its own world, on purpose</strong>, and a change that makes two rooms look more alike is probably the wrong change: CLAUDE.md says why, at length. Some things are somebody’s to decide, like Helen’s Faery Yurt or Norah’s sand here. If Claude says a change is somebody else’s call, ask in your pull request rather than making it.</p>
+    </li>
+    <li class="sbs-step" id="sbs-step-check">
+      <h3>Check everything</h3>
+      <pre class="sbs-cmd" tabindex="0"><code>tools/check-all.sh</code></pre>
+      <p>It runs every generator and every checker in the one order that works, and stops at the first refusal. It looks at every page at every setting of the dial, so it takes a while. <strong>When a tool refuses, fix what it says; never loosen the tool.</strong> Files it changes are generated files catching up with your change, and they go in with it.</p>
+      <p>Then add a line at the top of <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/changelog.html">changelog.html</a> saying what you changed, with your name on it if you want it there.</p>
+    </li>
+    <li class="sbs-step" id="sbs-step-send">
+      <h3>Send it back</h3>
+      <p>Look at what you are sending first, then send it:</p>
+      <pre class="sbs-cmd" tabindex="0"><code>git status
+git add -A
+git commit -m "What you changed, in a sentence"
+git push -u origin HEAD
+gh pr create --repo Stimpunks/Stimpunks-Love</code></pre>
+      <p>That opens a pull request: your change, with a note saying what it is and why. Ryan Boren or Helen Edgar reads it, and may ask a question or ask for something to change. <strong>Merging publishes it</strong>: stimpunks.world is rebuilt from the repository within a minute or two.</p>
+      <p><strong>What you send is under the street’s licence</strong>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, like everything here. Photographs and recordings of anybody’s voice are not, and need that person’s own yes on record first, so talk to us before sending one. A security problem goes privately: see <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/SECURITY.md">SECURITY.md</a>.</p>
+    </li>
+    <li class="sbs-step" id="sbs-step-keep">
+      <h3>Keep up with the street</h3>
+      <p>The street changes by itself every morning, when the Feed and the racks refill, so a copy a few days old is behind. This catches yours up:</p>
+      <pre class="sbs-cmd" tabindex="0"><code>git fetch upstream
+git merge upstream/main
+tools/check-all.sh</code></pre>
+      <p><strong>If the merge says a generated file conflicts</strong>, like <code>feed.xml</code>, <code>sitemap.xml</code>, <code>llms.txt</code>, a share card in <code>og/</code>, or anything between <code>:begin</code> and <code>:end</code> markers, do not fix it by hand. Take either side, finish the merge, and run <code>tools/check-all.sh</code>, which writes it again from its sources.</p>
+    </li>
+  </ol>
+  <p class="sbs-fine">The board in the suggestion box and these steps are the street’s, written by Stimpunks with Claude and filled in by <code>tools/make-sandbox.py</code>. Everything else in this room is Norah’s.</p>
+<!-- street:contribute:end --></section>
+
+<section class="sb-credits" aria-labelledby="sb-credits">
+  <h2 id="sb-credits">Who made this noise: credits</h2>
+  <ul>
+    <li>This room was thought up by <strong>Norah</strong>. The idea, who it is for and what it promises are Norah’s own words; Claude reworded them into the opening and “Come on in”.</li>
+    <li>The quotation is from the Wikipedia article <a href="https://en.wikipedia.org/wiki/Sandbox_(computer_security)">“Sandbox (computer security)”</a>, by Wikipedia’s contributors, under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, as it read in October 2026. A Wikipedia article has no single publication year, so none is given.</li>
+    <li>Spoons are from <a href="https://www.butyoudontlooksick.com/articles/written-by-christine/the-spoon-theory-written-by-christine-miserandino/">“The Spoon Theory”</a> by Christine Miserandino, published on But You Don’t Look Sick in 2003.</li>
+    <li>Fredoka, the round type in the sand, was designed by Milena Brandão, with its Hebrew by Ben Nathan of Hafontia, under the SIL Open Font License.</li>
+    <li>IBM Plex Mono, the type on the screen, was designed by Mike Abbink with Bold Monday for IBM, under the SIL Open Font License.</li>
+    <li>Rubik Dirt, the speckled type on the suggestion box, is by NaN and Luke Prowse, generated from Rubik by Hubert &amp; Fischer, Meir Sadan and Cyreal, under the SIL Open Font License.</li>
+    <li>The laptop, the dunes, the beach ball, the bucket and spade, the sandcastle and its embers are SVG and CSS written by Claude. No image generator was used.</li>
+    <li>Built with the help of Claude, an AI model made by Anthropic.</li>
+  </ul>
+</section>
+<!-- import:sandbox:end -->
+<!-- quest:sb-fork:begin -->
+  <details class="quest" data-quest="sb-fork" data-code="SANDPIE" data-accept="afork|aforkofit|fork|forks|myfork|thefork|yourfork">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3 29.5 H29" stroke="var(--sb-sanddeep)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 27 L16.5 15.5" stroke="var(--sb-glow)" stroke-width="2.8" stroke-linecap="round"/><path d="M15.6 14.6 L18.4 9.4 L22.6 13.6 L17.4 16.4 Z" fill="var(--sb-glow)" stroke="var(--sb-glow)" stroke-width="1" stroke-linejoin="round"/><path d="M18.9 9.9 L23.2 5.7 M20 11 L24.2 6.7 M21 12 L25.3 7.8 M22.1 13.1 L26.3 8.9" stroke="var(--sb-glow)" stroke-width="1.2" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a plastic picnic fork, left in the sand</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> Your own copy</p>
+      <p class="quest__ask"><b>Before the code:</b> What is your own copy of the street called, in the steps for building it yourself?</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="sb-fork-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="sb-fork-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is in Make your own copy, under Build the street with us.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>It is also something you eat with.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>Four letters, and it has prongs.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>A fork</b>. A fork: your own copy of the repository, where nothing you break reaches the street until somebody merges it.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SANDPIE</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SANDPIE">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>A fork: your own copy of the repository, where nothing you break reaches the street until somebody merges it.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SANDPIE</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SANDPIE">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:sb-fork:end -->
+</main>
+
+<!-- signoff:begin -->
+<footer class="signoff">
+  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> &middot; <a href="map.html#at-sandbox">Where am I?</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="mission.html">Mission</a> &middot; <a href="design.html">How it’s made</a> &middot; <a href="your-room.html">Your Room</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="feed.xml">Feed</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+  <p class="signoff__fx" hidden><button type="button" class="signoff__fx-btn" data-fx="{&quot;kind&quot;:&quot;orbit&quot;,&quot;power&quot;:3,&quot;trap&quot;:&quot;ring&quot;,&quot;radius&quot;:0.7,&quot;c&quot;:[0.1,0.66],&quot;orbit&quot;:0.02,&quot;ground&quot;:&quot;--sb-dusk&quot;,&quot;inks&quot;:[&quot;--sb-sandlit&quot;,&quot;--sb-glow&quot;,&quot;--sb-screen&quot;,&quot;--sb-ink&quot;]}" aria-describedby="signoff-fx-about">Switch on the fractal window</button> <span id="signoff-fx-about">A slow fractal in this room’s own colours, drawn in your browser in a window of its own. It is not synced to any music, it never flashes at any speed, and it runs until you switch it off or leave the room.</span></p>
+</footer>
+<!-- signoff:end -->
+
+<script src="love.js" defer></script>
+<script src="sandbox.js" defer></script>
+<script src="markdown.js" defer></script>
+<script src="suggest.js" defer></script>
+<script src="quest.js" defer></script>
+</body>
+</html>

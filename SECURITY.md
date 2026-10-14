@@ -31,7 +31,8 @@ long, is on [the privacy page](https://stimpunks.world/privacy.html): the latest
 ten messages on each channel (the World channel, and one per room), deleted at
 midnight Colorado time; pictures sent on a channel, deleted with their message;
 the chalkboard and the pebble bowls, a week; the Brass Tacks Board, until a
-moderator takes a post down; a few shared games that keep a count or finished
+moderator takes a post down; the suggestion box in The Sandbox, until whoever dropped a
+suggestion in or a moderator takes it down; a few shared games that keep a count or finished
 sentences with no names in them; and the pets somebody adopted, filed under a
 hash of their handle. An hourly scheduled function sweeps whatever has expired.
 

@@ -7,9 +7,11 @@ post; the author edits, any moderator takes a post down; a feed of its own;
 pictures allowed. lib.test.mjs tests what the code does. This checks what a
 friendly edit could break without a test noticing:
 
-  · NOTHING A MODERATOR TYPES BECOMES MARKUP. brass.js builds every post with
-    createElement and textContent: no innerHTML, outerHTML, insertAdjacentHTML
-    or document.write anywhere in it. The friendly edit is "just use a Markdown
+  · NOTHING A MODERATOR TYPES BECOMES MARKUP. Every post is built with
+    createElement and textContent, by markdown.js since the suggestion box in
+    The Sandbox needed the same builder: no innerHTML, outerHTML,
+    insertAdjacentHTML or document.write anywhere in brass.js or markdown.js,
+    and the page loads markdown.js first. The friendly edit is "just use a Markdown
     library and innerHTML", and that is a script on a page everybody reads the
     day a moderator's pass is stolen.
   · ONLY A MODERATOR POSTS, ONLY THE AUTHOR EDITS. addBrass, editBrass and
@@ -29,6 +31,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 JS = ROOT / "brass.js"
+MD = ROOT / "markdown.js"
 LIB = ROOT / "netlify" / "cb" / "lib.mjs"
 FN = ROOT / "netlify" / "functions" / "cb-brass.mjs"
 FEED = ROOT / "netlify" / "functions" / "brass-feed.mjs"
@@ -51,9 +54,13 @@ def fn(src, name):
 
 def main():
     js = code_of(JS)
-    for bad in ("innerHTML", "outerHTML", "insertAdjacentHTML", "document.write", "DOMParser", "createContextualFragment"):
-        if bad in js:
-            problems.append(f"{JS.name}: {bad}. Every post is built from nodes with textContent, never as HTML.")
+    for path in (JS, MD):
+        src = code_of(path)
+        for bad in ("innerHTML", "outerHTML", "insertAdjacentHTML", "document.write", "DOMParser", "createContextualFragment"):
+            if bad in src:
+                problems.append(f"{path.name}: {bad}. Every post is built from nodes with textContent, never as HTML.")
+    if "window.loveMarkdown.blocks" not in js:
+        problems.append(f"{JS.name}: it builds a post some way other than markdown.js, the street's one builder.")
     if "localStorage.setItem" in js or "sessionStorage" in js or "indexedDB" in js:
         problems.append(f"{JS.name}: it stores something. It reads love-cb and nothing else.")
     for url in set(re.findall(r"""['"](/[a-z][^'"?#]*)""", js)):
@@ -88,6 +95,9 @@ def main():
         problems.append("brass-feed.mjs: the board has lost its feed at /brass-tacks.xml.")
 
     page = PAGE.read_text()
+    at = [page.find(f'<script src="{s}" defer></script>') for s in ("markdown.js", "brass.js")]
+    if min(at) < 0 or at[0] > at[1]:
+        problems.append(f"{PAGE.name}: it must load markdown.js, then brass.js.")
     if 'href="/brass-tacks.xml"' not in page or 'type="application/rss+xml" title="The Brass Tacks Board' not in page:
         problems.append(f"{PAGE.name}: the page does not link its own feed.")
     if not re.search(r'id="brass-write"[^>]*hidden', page):

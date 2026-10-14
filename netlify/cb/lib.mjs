@@ -2573,6 +2573,122 @@ ${items}
 `;
 }
 
+/* ── The suggestion box ───────────────────────────────────────────────────
+
+   Norah's room, The Sandbox. Ryan's brief, 2026-10-13: in its suggestion box,
+   anybody signed on to the CB can post a suggestion, a feature request or a bug
+   report, and a moderator marks it done or not doing, with a reply. It is the
+   Brass Tacks Board turned round: anybody reads it, anybody signed on writes on
+   it, and the moderators answer.
+
+   ONE BLOB HOLDS EVERY SUGGESTION (`suggestions`, newest first), written with
+   the boards' conditional write, and SUGGEST_KEEP at most: a full box refuses
+   the next one and says so, rather than quietly pushing the oldest out. A
+   suggestion is kept until it is taken down, by whoever posted it (the CB's own
+   rule for a message, canTakeOff) or by any moderator. There is no other copy.
+
+   THE HANDLE IS ON THE SUGGESTION, PUBLIC, and so is the moderator's on the
+   reply, so anybody can see who asked and who answered. The marks beside them
+   come from the pass, as on the channel: BASE for a moderator, CLAIMED for a
+   claimed username, and nobody can set either on a suggestion themselves.
+
+   THE WORDS ARE THE BOARD'S MARKDOWN, read here once into nodes by parseBrass,
+   never into HTML, and built on the page with textContent. No pictures: a bug
+   report with a screenshot is a picture of somebody's screen, and that is a
+   consent question nobody has asked yet. */
+export const SUGGEST_KINDS = ['suggestion', 'feature', 'bug'];
+export const SUGGEST_TITLE_MAX = 120;
+export const SUGGEST_BODY_MAX = 4000;
+export const SUGGEST_REPLY_MAX = 2000;
+export const SUGGEST_KEEP = 300;
+const SUGGEST = 'suggestions';
+
+function cleanSuggestBody(v, max) {
+  const t = cleanBrassBody(v);
+  return t && [...t].length <= max ? t : null;
+}
+
+/* Every suggestion, newest first. */
+export async function readSuggestions(s = store()) {
+  const d = await s.get(SUGGEST, { type: 'json' });
+  return (d && Array.isArray(d.items)) ? d.items : [];
+}
+
+export function shapeSuggestion(p) {
+  const out = { id: p.id, kind: p.kind, title: p.title, body: p.body, ast: parseBrass(p.body),
+    handle: p.handle, t: p.t, status: p.answer ? p.answer.status : 'open' };
+  if (p.base) out.base = true;
+  else if (p.claimed) out.claimed = true;
+  if (p.answer) {
+    out.answer = { status: p.answer.status, body: p.answer.body, ast: parseBrass(p.answer.body),
+      handle: p.answer.handle, t: p.answer.t };
+  }
+  return out;
+}
+
+/* Anybody signed on, dropping one in. { item } or { error }. */
+export async function addSuggestion(who, f, s = store(), now = Date.now()) {
+  if (!who) return { error: 'Sign on to the CB to drop a suggestion in the box.' };
+  const kind = f && SUGGEST_KINDS.includes(f.kind) ? f.kind : null;
+  if (!kind) return { error: 'Say whether it is a suggestion, a feature request or a bug report.' };
+  const title = cleanBrassTitle(f.title);
+  if (!title) return { error: `Give it a title, up to ${SUGGEST_TITLE_MAX} characters.` };
+  const body = cleanSuggestBody(f.body, SUGGEST_BODY_MAX);
+  if (!body) return { error: `Say a bit more about it, up to ${SUGGEST_BODY_MAX} characters.` };
+  const item = { id: randomUUID(), kind, title, body, handle: who.handle, t: now };
+  if (who.role === 'base') item.base = true;
+  else if (who.account) item.claimed = true;
+  let full = false;
+  await updateList(SUGGEST, 'items', (list) => {
+    full = list.length >= SUGGEST_KEEP;
+    return full ? null : [item, ...list];
+  }, s);
+  if (full) return { error: 'The box is full. A moderator has to take some answered ones down before another fits.' };
+  return { item };
+}
+
+/* A moderator answering: done or not doing, with a reply; or open again,
+   which takes the answer off. Answering again replaces the answer. */
+export async function answerSuggestion(who, id, f, s = store(), now = Date.now()) {
+  if (!who || who.role !== 'base') return { error: 'Only a moderator can answer a suggestion.' };
+  const status = f && ['done', 'denied', 'open'].includes(f.status) ? f.status : null;
+  if (!status) return { error: 'Mark it done, not doing, or still open.' };
+  let reply = null;
+  if (status !== 'open') {
+    reply = cleanSuggestBody(f.reply, SUGGEST_REPLY_MAX);
+    if (!reply) return { error: `Say why, in a reply of up to ${SUGGEST_REPLY_MAX} characters: whoever asked will read it.` };
+  }
+  let found = false, done = null;
+  await updateList(SUGGEST, 'items', (list) => {
+    found = false; done = null;
+    const k = list.findIndex((p) => p.id === id);
+    if (k < 0) return null;
+    found = true;
+    const next = { ...list[k] };
+    if (status === 'open') delete next.answer;
+    else next.answer = { status, body: reply, handle: who.handle, t: now };
+    done = next;
+    const copy = list.slice(); copy[k] = next; return copy;
+  }, s);
+  if (!found) return { error: 'That suggestion has been taken down.' };
+  return { item: done };
+}
+
+/* Taking one down: whoever posted it, under canTakeOff's rule, or any moderator. */
+export async function removeSuggestion(who, id, s = store()) {
+  if (!who) return { error: 'Sign on to the CB to take a suggestion down.' };
+  let why = null, gone = false;
+  await updateList(SUGGEST, 'items', (list) => {
+    why = null; gone = false;
+    const p = list.find((x) => x.id === id);
+    if (!p) { why = 'That suggestion has already been taken down.'; return null; }
+    if (!canTakeOff(who, p)) { why = 'Only whoever posted it, or a moderator, can take it down.'; return null; }
+    gone = true;
+    return list.filter((x) => x.id !== id);
+  }, s);
+  return gone ? { removed: true } : { error: why };
+}
+
 /* ── What people type ──────────────────────────────────────────────────── */
 
 /* Control characters out, runs of space folded, the ends trimmed. Nothing is

@@ -1270,6 +1270,12 @@
 @font-face { font-family: 'Catamaran'; src: url('fonts/catamaran-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Catamaran'; src: url('fonts/catamaran-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* The Sandbox, Norah's room. SPECKLED LIKE SAND. Rubik Dirt, by NaN and Luke
+   Prowse, sets the sign on the suggestion box and nothing else, because a
+   speckled face is only legible large; Fredoka and IBM Plex Mono, already here,
+   carry everything else. Read off its own record; see fonts/_sources.json. */
+@font-face { font-family: 'Rubik Dirt'; src: url('fonts/rubik-dirt-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -3484,6 +3490,25 @@
   --wsc-blue: #4F7FD6;  --wsc-violet: #8458B8;  --wsc-white: #FBF7EC;
   --wsc-eye: #3B2A1A;  --wsc-fluff: #F7F9FF;
 
+
+  /* import:sandbox:root:begin */
+  /* Norah's room, The Sandbox -- brought in by tools/import-room.py.
+     Their colours exactly as their artifact declared them, replaced whole on
+     re-import. Measured in data/rooms/sandbox.json. */
+  --sb-dusk: #241c17;
+  --sb-sandlit: #efe1c6;
+  --sb-glow: #a6d4ff;
+  --sb-screen: #dbe9f7;
+  --sb-ink: #13202f;
+  --sb-link: #0b4889;
+  --sb-bar: #b7cde4;
+  --sb-muted: #3c4a5c;
+  --sb-sand: #b8925a;
+  --sb-sanddeep: #7a5a38;
+  --sb-metal: #4a5566;
+  --sb-ember: #ec7a3c;
+  --sb-emberdeep: #a8431f;
+  /* import:sandbox:root:end */
 }
 
 * { box-sizing: border-box; }
@@ -4446,6 +4471,14 @@ div.facade--square { border: 0; background: none; }
 .door--words-bud-beats .door__blurb { font-family: Literata, Georgia, serif; color: var(--wbb-ink); }
 .door--words-bud-beats .door__knock { font-family: Literata, Georgia, serif; color: var(--wbb-link); }
 /* import:words-bud-beats:door:end */
+/* import:sandbox:door:begin -- The Sandbox's door, in the room's own colours and faces. A plain
+   awning, written by tools/import-room.py: a starting point for dressing, not a design. */
+.door--sandbox { background: var(--sb-dusk); border-color: var(--sb-glow); }
+.door--sandbox .door__awning { background: var(--sb-sandlit); border-bottom-color: var(--sb-glow); }
+.door--sandbox .door__name  { font-family: Fredoka, sans-serif; color: var(--sb-sandlit); }
+.door--sandbox .door__blurb { font-family: Fredoka, "Trebuchet MS", sans-serif; color: var(--sb-sandlit); }
+.door--sandbox .door__knock { font-family: Fredoka, "Trebuchet MS", sans-serif; color: var(--sb-glow); }
+/* import:sandbox:door:end */
 
 /* The signpost at the end of the shopfronts. NOT A DOOR AT ALL, and the grid
    above is why: a door on this street is a storefront you walk into, and the
@@ -15723,7 +15756,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §113
+   class on it is `bb-`, its sizes are in points and millimetres, and §114
    prints it and nothing else. */
 
 .room-broadside {
@@ -15784,7 +15817,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §113 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §114 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -22525,7 +22558,325 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .chaosgarden .wsc-vid .facade iframe { border-radius: 4px; }
 .chaosgarden .wsc-vid__door { margin-top: auto; font-weight: 700; }
 
-/* §112 ── Small screens ───────────────────────────────────────────────────────
+/* import:sandbox:section:begin */
+/* §112 ── ROOM: The Sandbox (a shopfront on the street) ───────────────────────
+   NORAH'S ROOM, AND NOT OURS TO REDESIGN. Built with
+   Claude, an AI model made by Anthropic and brought onto the street by tools/import-room.py from the
+   artifact they sent. Everything between the import markers is theirs and is
+   replaced whole when they send a new version: change the artifact and import
+   it again, never the lines between. Its light, in their words:
+   A laptop left open in the sand at dusk, its screen the only light in the playground. */
+
+.room-sandbox {
+  margin: 0;
+  background-color: var(--sb-dusk);
+  color: var(--sb-sandlit);
+  font-family: "Fredoka", "Trebuchet MS", sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+.room-sandbox a { color: var(--sb-glow); text-underline-offset: 0.18em; }
+.room-sandbox a:focus-visible,
+.room-sandbox button:focus-visible { outline: 3px solid var(--sb-glow); outline-offset: 3px; }
+.room-sandbox *, .room-sandbox *::before, .room-sandbox *::after { box-sizing: border-box; }
+
+.room-sandbox main { max-width: 46rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+/* ---------- The laptop ---------- */
+.room-sandbox .sb-laptop { margin: 1.5rem auto 0; max-width: 40rem; }
+.room-sandbox .sb-lid {
+  background-color: var(--sb-ink);
+  border-radius: 1.1rem 1.1rem 0.35rem 0.35rem;
+  padding: 0.85rem;
+  box-shadow: 0 0 6rem 2.5rem rgba(166, 212, 255, 0.22), 0 0 1.5rem 0.25rem rgba(166, 212, 255, 0.3);
+}
+.room-sandbox .sb-screen {
+  background-color: var(--sb-screen);
+  color: var(--sb-ink);
+  border-radius: 0.4rem;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow: hidden;
+}
+.room-sandbox .sb-screen a { color: var(--sb-link); }
+.room-sandbox .sb-screen a:focus-visible { outline-color: var(--sb-link); }
+.room-sandbox .sb-titlebar {
+  background-color: var(--sb-bar);
+  color: var(--sb-ink);
+  font-size: 0.85rem;
+  padding: 0.35rem 0.85rem;
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+.room-sandbox .sb-dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; border: 2px solid var(--sb-ink); flex: none; }
+.room-sandbox .sb-titlebar span:last-child { margin-left: 0.4rem; }
+.room-sandbox .sb-screen-body { padding: 1.25rem 1.25rem 1.5rem; }
+.room-sandbox h1 {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 600;
+  font-size: clamp(2.6rem, 11vw, 4.2rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  margin: 0 0 1rem;
+}
+.room-sandbox .sb-screen-body p { margin: 0 0 1rem; max-width: 34em; }
+.room-sandbox .sb-prompt { color: var(--sb-muted); margin: 0; }
+.room-sandbox .sb-caret {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.1em;
+  vertical-align: -0.2em;
+  background-color: var(--sb-ink);
+  margin-left: 0.15em;
+}
+.room-sandbox .sb-deck {
+  height: 1.1rem;
+  margin: 0 -1.2rem;
+  background-color: var(--sb-metal);
+  clip-path: polygon(0 100%, 3% 0, 97% 0, 100% 100%);
+  border-radius: 0 0 0.6rem 0.6rem;
+}
+.room-sandbox .sb-dune { display: block; width: 100%; height: auto; margin-top: -0.3rem; }
+.room-sandbox .sb-f-sand { fill: var(--sb-sand); }
+.room-sandbox .sb-f-deep { fill: var(--sb-sanddeep); }
+.room-sandbox .sb-f-glow { fill: var(--sb-glow); }
+.room-sandbox .sb-f-ink { fill: var(--sb-ink); }
+.room-sandbox .sb-f-sandlit { fill: var(--sb-sandlit); }
+.room-sandbox .sb-f-ember { fill: var(--sb-ember); }
+.room-sandbox .sb-s-deep { stroke: var(--sb-sanddeep); }
+.room-sandbox .sb-ball, .room-sandbox .sb-ballshadow, .room-sandbox .sb-hop { transform-box: fill-box; transform-origin: 50% 50%; }
+.room-sandbox .sb-s-ink { stroke: var(--sb-ink); }
+
+/* ---------- The sand around it ---------- */
+.room-sandbox h2 {
+  font-weight: 600;
+  font-size: 1.7rem;
+  line-height: 1.15;
+  margin: 3rem 0 0.75rem;
+}
+.room-sandbox section p { max-width: 36em; }
+.room-sandbox blockquote {
+  margin: 1.25rem 0;
+  padding: 1rem 1.25rem;
+  background-color: var(--sb-screen);
+  color: var(--sb-ink);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 1rem;
+  border-radius: 0.4rem;
+  border-left: 0.5rem solid var(--sb-sand);
+}
+.room-sandbox blockquote p { margin: 0 0 0.6rem; }
+.room-sandbox blockquote footer { font-size: 0.9rem; }
+.room-sandbox blockquote a { color: var(--sb-link); }
+.room-sandbox blockquote a:focus-visible { outline-color: var(--sb-link); }
+
+/* ---------- The sandcastle ---------- */
+.room-sandbox .sb-castle { display: block; width: 100%; height: auto; max-width: 40rem; margin: 1rem 0 0.5rem; }
+.room-sandbox .sb-piece { transform-box: fill-box; transform-origin: 50% 100%; }
+.room-sandbox .sb-fallen { transform: scaleY(0.2); }
+.room-sandbox .sb-ember .sb-f-sand { fill: var(--sb-ember); }
+.room-sandbox .sb-ember .sb-f-deep { fill: var(--sb-emberdeep); }
+.room-sandbox .sb-ember .sb-s-ink { stroke: var(--sb-emberdeep); }
+.room-sandbox .sb-controls { margin: 1rem 0; }
+.room-sandbox .sb-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1rem; }
+.room-sandbox .sb-rowlabel { flex-basis: 100%; margin: 0; font-weight: 500; }
+.room-sandbox .sb-btn {
+  font: inherit;
+  font-weight: 500;
+  font-size: 1rem;
+  min-height: 2.75rem;
+  padding: 0.4rem 1rem;
+  border: 0;
+  border-radius: 999px 999px 0.6rem 0.6rem;
+  background-color: var(--sb-sandlit);
+  color: var(--sb-dusk);
+  cursor: pointer;
+}
+.room-sandbox .sb-btn-wreck { border-radius: 0.6rem 0.6rem 999px 999px; }
+.room-sandbox .sb-status { min-height: 1.6em; font-weight: 500; }
+
+/* ---------- The suggestion box ----------
+   A box of sand with a slot in its lid. Text is --sb-dusk on --sb-sandlit 12.97:1; links --sb-link 7.06:1.
+   Rubik Dirt is speckled like sand, so it is only used large, for the sign; everything you read in the box is in Fredoka. */
+.room-sandbox .sb-box { margin-top: 3.5rem; max-width: 34rem; }
+.room-sandbox .sb-lid-top {
+  background-color: var(--sb-sanddeep);
+  border-radius: 0.6rem 0.6rem 0 0;
+  padding: 0.7rem 0;
+  display: flex;
+  justify-content: center;
+}
+.room-sandbox .sb-slot { width: 45%; height: 0.55rem; border-radius: 999px; background-color: var(--sb-dusk); }
+.room-sandbox .sb-box-body {
+  background-color: var(--sb-sandlit);
+  color: var(--sb-dusk);
+  border-radius: 0 0 0.6rem 0.6rem;
+  padding: 1.25rem 1.25rem 1.5rem;
+  border-bottom: 0.5rem solid var(--sb-sand);
+}
+.room-sandbox .sb-box h2 {
+  font-family: "Rubik Dirt", "Fredoka", sans-serif;
+  font-weight: 400;
+  font-size: clamp(2.2rem, 9vw, 3rem);
+  line-height: 1.05;
+  margin: 0 0 0.75rem;
+}
+.room-sandbox .sb-box p { margin: 0 0 0.9rem; }
+.room-sandbox .sb-box ul { margin: 0 0 1.1rem; padding-left: 1.2rem; }
+.room-sandbox .sb-box li { margin-bottom: 0.3rem; }
+.room-sandbox .sb-box a { color: var(--sb-link); font-weight: 600; }
+.room-sandbox .sb-box a:focus-visible { outline-color: var(--sb-link); }
+
+/* ---------- Credits ---------- */
+.room-sandbox .sb-credits { margin-top: 4rem; font-size: 1rem; }
+.room-sandbox .sb-credits ul { padding-left: 1.2rem; }
+.room-sandbox .sb-credits li { margin-bottom: 0.7rem; max-width: 40em; }
+
+/* ---------- The dial ----------
+   Gentle (and no setting with reduced motion asked for): the base above, nothing moves.
+   Regular: motion only on hover or keyboard focus.
+   Max: the screen breathes, the caret fades and the beach ball bounces softly, all slowly; pressing "Bounce the ball" sends it hopping across the sand; a burned castle slumps, glows ember-orange and cools back to sand over six seconds, once. Nothing flashes. */
+.room-sandbox:is([data-intensity="gentle"] *) *,
+.room-sandbox:is([data-intensity="gentle"] *) *::before,
+.room-sandbox:is([data-intensity="gentle"] *) *::after { animation: none !important; transition: none !important; }
+
+.room-sandbox:is([data-intensity="regular"] *, [data-intensity="max"] *) .sb-btn { transition: transform 0.15s ease-out; }
+.room-sandbox:is([data-intensity="regular"] *, [data-intensity="max"] *) .sb-btn:hover,
+.room-sandbox:is([data-intensity="regular"] *, [data-intensity="max"] *) .sb-btn:focus-visible { transform: translateY(-3px); }
+
+.room-sandbox:is([data-intensity="max"] *) .sb-lid { animation: sb-breathe 7s ease-in-out infinite alternate; }
+.room-sandbox:is([data-intensity="max"] *) .sb-caret { animation: sb-fade 4s ease-in-out infinite alternate; }
+.room-sandbox:is([data-intensity="max"] *) .sb-ball { animation: sb-bounce 2.6s infinite; }
+.room-sandbox:is([data-intensity="max"] *) .sb-ballshadow { animation: sb-shadow 2.6s infinite; }
+.room-sandbox:is([data-intensity="max"] *) .sb-ballpos { transition: transform 0.9s ease-in-out; }
+.room-sandbox:is([data-intensity="max"] *) .sb-hopping { animation: sb-hop 0.9s ease-out; }
+.room-sandbox:is([data-intensity="max"] *) .sb-piece { transition: transform 0.9s cubic-bezier(0.55, 0, 0.85, 0.35); }
+.room-sandbox:is([data-intensity="max"] *) .sb-ember .sb-f-sand { animation: sb-cool 6s ease-in 0.9s forwards; }
+.room-sandbox:is([data-intensity="max"] *) .sb-ember .sb-f-deep { animation: sb-cool-deep 6s ease-in 0.9s forwards; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .room-sandbox:not([data-intensity] *) .sb-btn { transition: transform 0.15s ease-out; }
+  .room-sandbox:not([data-intensity] *) .sb-btn:hover,
+  .room-sandbox:not([data-intensity] *) .sb-btn:focus-visible { transform: translateY(-3px); }
+}
+
+@keyframes sb-breathe {
+  from { box-shadow: 0 0 5rem 2rem rgba(166, 212, 255, 0.16), 0 0 1.5rem 0.25rem rgba(166, 212, 255, 0.24); }
+  to { box-shadow: 0 0 7rem 3rem rgba(166, 212, 255, 0.28), 0 0 1.5rem 0.25rem rgba(166, 212, 255, 0.34); }
+}
+@keyframes sb-fade { from { opacity: 1; } to { opacity: 0.35; } }
+/* The beach ball bounces softly in the sand, at MAX only: one slow bounce every 2.6 seconds, no flashing.
+   Its shadow shrinks and fades a little while it is in the air. */
+@keyframes sb-bounce {
+  0%, 100% { transform: translateY(0) scale(1.04, 0.96); animation-timing-function: ease-out; }
+  12% { transform: translateY(0) scale(1, 1); animation-timing-function: ease-out; }
+  50% { transform: translateY(-16px) scale(1, 1); animation-timing-function: ease-in; }
+  88% { transform: translateY(0) scale(1, 1); animation-timing-function: ease-in; }
+}
+/* Pressing "Bounce the ball" at MAX: one hop across the sand and a small second bounce. Elsewhere the ball simply appears in its new spot. */
+@keyframes sb-hop {
+  0%, 70%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-40px); }
+  85% { transform: translateY(-8px); }
+}
+@keyframes sb-shadow {
+  0%, 12%, 88%, 100% { transform: scaleX(1); opacity: 1; }
+  50% { transform: scaleX(0.75); opacity: 0.6; }
+}
+/* One slow change from ember to cool sand, once, never repeated: no flicker. */
+@keyframes sb-cool { from { fill: var(--sb-ember); } to { fill: var(--sb-sand); } }
+@keyframes sb-cool-deep { from { fill: var(--sb-emberdeep); } to { fill: var(--sb-sanddeep); } }
+/* import:sandbox:section:end */
+/* street:sandbox:board:begin */
+/* §112, THE STREET'S PART OF NORAH'S ROOM: the board in her suggestion box and
+   the steps for building the street, which tools/make-sandbox.py writes into the
+   two spaces her artifact left (data-street). Ours, not hers, and outside her
+   import markers so a re-import leaves it alone. IT WEARS THE ROOM'S OWN INK AND
+   NOTHING ELSE: every colour is one of her --sb- colours, and make-sandbox.py
+   refuses any other. Inside the box, the buttons are her bucket shape turned
+   round, dusk on sand, because her sand buttons would vanish on her sand box; a
+   moderator's answer is a little window off her laptop, title bar and all; and
+   every command is her screen. Classes are sbs-, so a name of hers can never
+   meet one of ours. Nothing here moves at any setting. */
+.room-sandbox .sbs-list-h { font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 1.35rem; line-height: 1.2; margin: 1.6rem 0 .6rem; }
+.room-sandbox .sbs-signed, .room-sandbox .sbs-signon { font-weight: 500; }
+.room-sandbox .sbs-board .sbs-said:empty { margin: 0; }
+.room-sandbox .sbs-form .sbs-said { font-weight: 500; }
+.room-sandbox .sbs-btn {
+  font: inherit; font-weight: 500; font-size: 1rem; min-height: 2.75rem; padding: .4rem 1rem;
+  border: 2px solid var(--sb-dusk); border-radius: 999px 999px .6rem .6rem;
+  background-color: var(--sb-dusk); color: var(--sb-sandlit); cursor: pointer;
+}
+.room-sandbox .sbs-btn--small { font-size: .95rem; padding: .3rem .85rem; }
+.room-sandbox .sbs-btn[aria-pressed="true"] { background-color: var(--sb-sandlit); color: var(--sb-dusk); text-decoration: underline; text-underline-offset: .2em; }
+.room-sandbox .sbs-btn:disabled { cursor: progress; }
+.room-sandbox .sbs-board :is(button, input, textarea, a):focus-visible { outline: 3px solid var(--sb-link); outline-offset: 3px; }
+.room-sandbox .sbs-board :is(.sbs-filter, .sbs-row, .sbs-item__tools) { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 1rem; }
+.room-sandbox .sbs-item { border-top: 2px dashed var(--sb-sanddeep); padding-top: 1rem; margin-top: 1rem; }
+.room-sandbox .sbs-board .sbs-item__kind { margin: 0 0 .2rem; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .85rem; letter-spacing: .04em; text-transform: uppercase; }
+.room-sandbox .sbs-board .sbs-item__title { font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 1.2rem; line-height: 1.25; margin: 0 0 .3rem; }
+.room-sandbox .sbs-item__by { font-size: .95rem; }
+.room-sandbox .sbs-mark {
+  display: inline-block; margin-left: .35em; padding: 0 .3em; border: 1.5px solid currentColor; border-radius: .2rem;
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; letter-spacing: .05em; vertical-align: .1em;
+}
+/* Norah's .sb-box p (0,2,1) sets every paragraph in her box; these are ours, so
+   they carry .sbs-board to out-rank it rather than an !important. */
+.room-sandbox .sbs-board :is(.sbs-item__body, .sbs-answer__body) > :last-child { margin-bottom: 0; }
+.room-sandbox .sbs-board li > p { margin: 0 0 .3rem; }
+.room-sandbox .sbs-board code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .92em; background-color: var(--sb-screen); color: var(--sb-ink); padding: 0 .2em; border-radius: .2rem; }
+.room-sandbox .sbs-board pre {
+  margin: 0 0 .9rem; padding: .75rem 1rem; overflow-x: auto; border-radius: .4rem;
+  background-color: var(--sb-screen); color: var(--sb-ink); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .92rem;
+}
+.room-sandbox .sbs-board pre code { padding: 0; }
+.room-sandbox .sbs-host { font-size: .85em; }
+.room-sandbox .sbs-table { overflow-x: auto; margin: 0 0 .9rem; }
+.room-sandbox .sbs-table table { border-collapse: collapse; }
+.room-sandbox .sbs-table :is(th, td) { border: 1px solid var(--sb-sanddeep); padding: .3rem .5rem; text-align: left; }
+.room-sandbox .sbs-answer {
+  margin: .8rem 0 1rem; border-radius: .4rem; overflow: hidden;
+  background-color: var(--sb-screen); color: var(--sb-ink); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .95rem;
+}
+.room-sandbox .sbs-board .sbs-answer__head { margin: 0; padding: .35rem .85rem; background-color: var(--sb-bar); color: var(--sb-ink); font-size: .88rem; }
+.room-sandbox .sbs-answer__body { padding: .7rem .85rem .8rem; }
+.room-sandbox .sbs-answer a { color: var(--sb-link); }
+.room-sandbox .sbs-sure { flex-basis: 100%; padding: .75rem 1rem; border: 2px dashed var(--sb-dusk); border-radius: .4rem; }
+.room-sandbox .sbs-sure .sbs-btn { margin: 0 .5rem .25rem 0; }
+.room-sandbox .sbs-form { margin: .5rem 0 1rem; }
+.room-sandbox .sbs-field label { display: block; font-weight: 600; }
+.room-sandbox .sbs-hint { display: block; font-size: .92rem; margin: .1rem 0 .3rem; }
+.room-sandbox .sbs-in {
+  display: block; width: 100%; margin-top: .25rem; padding: .5rem .6rem; font: inherit;
+  color: var(--sb-dusk); background-color: var(--sb-sandlit); border: 2px solid var(--sb-dusk); border-radius: .4rem;
+}
+.room-sandbox .sbs-in--body { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .95rem; line-height: 1.5; resize: vertical; }
+.room-sandbox .sbs-choices { border: 0; margin: 0 0 .9rem; padding: 0; }
+.room-sandbox .sbs-choices legend { font-weight: 600; padding: 0; margin-bottom: .3rem; }
+.room-sandbox .sbs-choice { display: flex; align-items: center; gap: .45rem; min-height: 2.25rem; }
+.room-sandbox .sbs-choice input { width: 1.15rem; height: 1.15rem; accent-color: var(--sb-dusk); margin: 0; }
+.room-sandbox .sbs-preview { margin-top: .5rem; padding: .75rem 1rem; border: 2px dashed var(--sb-sanddeep); border-radius: .4rem; }
+.room-sandbox .sbs-board .sbs-preview__label { font-size: .9rem; font-weight: 600; }
+/* The steps stand on the dusk itself, with Norah's own links and headings. */
+.room-sandbox .sbs-steps { padding-left: 1.6rem; margin: 1.5rem 0 0; max-width: 40rem; }
+.room-sandbox .sbs-step { margin-bottom: 1.8rem; }
+.room-sandbox .sbs-step::marker { font-weight: 600; }
+.room-sandbox .sbs-step h3 { font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 1.3rem; line-height: 1.2; margin: 0 0 .5rem; }
+.room-sandbox .sbs-step ul { padding-left: 1.2rem; }
+.room-sandbox .sbs-step :is(p, li) code, .room-sandbox .sbs-fine code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .92em; }
+.room-sandbox .sbs-cmd {
+  margin: .75rem 0 1rem; padding: .85rem 1rem; overflow-x: auto; white-space: pre; border-radius: .4rem;
+  background-color: var(--sb-screen); color: var(--sb-ink); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .95rem; line-height: 1.55;
+  box-shadow: 0 0 1.5rem .1rem rgba(166, 212, 255, 0.18);
+}
+.room-sandbox .sbs-cmd:focus-visible { outline: 3px solid var(--sb-glow); outline-offset: 3px; }
+.room-sandbox .sbs-fine { font-size: .95rem; margin-top: 2rem; }
+/* street:sandbox:board:end */
+
+/* §113 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -22629,7 +22980,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §112 says every
+   shipped with no rule here at all — which on a street whose §113 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -22753,7 +23104,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §113 ── Print ───────────────────────────────────────────────────────────────
+/* §114 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

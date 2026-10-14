@@ -127,6 +127,7 @@ brew-and-stew.html      Pitch 04 on the Campgrounds: a woodland tea room in a ca
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 now-playing.html      A poster column beside the Pebble Board. What every room puts on first, read off the rooms
 brass-tacks-board.html The Brass Tacks Board, beside the Pebble Board: posts meant to persist, by our moderators, with their usernames on them. Markdown read on the server into nodes; a feed at /brass-tacks.xml (brass.js)
+sandbox.html          The Sandbox, Norah's room: a laptop left open in the sand at dusk. Its suggestion box is the CB's (suggest.js, markdown.js), and its steps for building the street are CONTRIBUTING.md's, both filled in by tools/make-sandbox.py
 plural-mural.html     An end wall that repaints itself, because the street is Danny's. By itself at MAX only; propose one in words
 cavendish-coworking.html Henry Cavendish's house: a shut, unlocked door onto each of our calls, each opening a room of its own
 cavendish-events.html Behind the Events door: a lighthouse's watch room, our events as its light list, and a call anybody can knock on
@@ -312,6 +313,8 @@ python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, 
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
 python3 tools/make-accounts.py     # The CB's accounts: refuses a console call in netlify/, a list of accounts, an email field, a desk that does more than find, reset and delete, and a Profile without Delete my account
 python3 tools/make-brass.py        # The Brass Tacks Board: refuses innerHTML in brass.js, a post by anybody but a moderator, an edit by anybody but the author, a picture with no description or yes, and a board with no feed
+python3 tools/make-sandbox.py      # The Sandbox's suggestion box and steps for contributors, in the spaces Norah's room left, and CONTRIBUTING.md from the same steps; refuses innerHTML in suggest.js or markdown.js, an answer without a reply, a take-down outside canTakeOff, a colour not hers, and a space gone missing
+tools/setup.sh                     # A contributor's first step: checks Git, Python, Node, Chrome and the rest, installs the CB's one library, runs its tests; installs nothing else
 python3 tools/make-rescue.py       # Both shelters and the Pets tray: refuses a shelter or forever list that knows who, a rare animal, a look with no drawing, pets under a raw handle, and a tray without Forget me
 python3 tools/make-stair.py        # Count Me In: refuses a stair that names who sent it back, a lift smaller than the stair or one that sends a number, and a script that stores anything
 python3 tools/make-fridge.py       # The Fridge of Sighs' numbers, read from the CB's lib; refuses a fridge that says whose a word was, a tally, or a script that stores anything
@@ -729,6 +732,12 @@ Or start it from `.claude/launch.json`, which is tracked here for the same reaso
 every sibling repo. There is no build step; the only thing to install is a Chrome for
 `check-print.py`.
 
+**Building on the street from a fork of your own** starts with `tools/setup.sh`, which checks this
+computer for everything the tools need and installs the CB's one library, and is written out step
+by step in [`CONTRIBUTING.md`](CONTRIBUTING.md) and in [The Sandbox](https://stimpunks.world/sandbox.html#sbs-dig),
+both from the same data: fork, Claude, a branch, `tools/check-all.sh`, a pull request. It also says
+how to run the CB on your own computer, with passwords you make up.
+
 **The CB does not run on that server.** `serve` serves files and nothing else, so `/cb/*`
 answers 404 there and the radio says it has no signal. Everything the CB does is a handful of Netlify
 Functions in `netlify/functions/`, and they run under `netlify dev` (after `npm install`) or on
@@ -744,6 +753,10 @@ else to clear. Nothing on the channel survives midnight, Colorado time, whatever
 and Ryan's call on 2026-09-25 that anybody can read it and a note stays seven days. A pass is
 needed to write. `privacy.html` has its own section on it, and every read asks search engines
 not to keep it.
+**The suggestion box in The Sandbox is public too, and keeps until it is taken down**: anybody signed
+on drops in a suggestion, a feature request or a bug report with their handle on it, anybody reads
+it, and a moderator answers with their own username on the reply. Whoever dropped one in, or any
+moderator, takes it down.
 **Four things on the CB are kept for good, and none of them holds anything about who** (Ryan,
 2026-09-30): Pando Calrissian's tree, which is a number and the time of its last watering; the Fridge
 of Sighs' finished sentences, with no names in them; Count Me In's stair, which is the step it is on

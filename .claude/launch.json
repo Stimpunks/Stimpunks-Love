@@ -6,6 +6,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["-y", "serve", ".", "-l", "8919", "--no-clipboard"],
       "port": 8919
+    },
+    {
+      "name": "cb-local",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "netlify-cli", "dev", "--offline", "--port", "8888"],
+      "port": 8888
     }
   ]
 }

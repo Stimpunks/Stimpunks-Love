@@ -1,0 +1,125 @@
+{
+  "_what": "A room brought onto the street by tools/import-room.py from an artifact somebody built with their own AI. Everything here is read off that artifact's FOR THE STREET comment or measured from the room as it renders; nothing is typed. check-contrast.py holds the pairs, check-jukebox.py checks the tracks, and re-importing replaces this file whole.",
+  "slug": "sandbox",
+  "page": "sandbox.html",
+  "title": "The Sandbox",
+  "description": "A sandbox at dusk, lit by a laptop left open in the sand: come in curious, try things, break things and give feedback, with no deadlines and nothing to lose.",
+  "name": "Norah",
+  "link": null,
+  "pronouns": null,
+  "say_it": null,
+  "prefix": "sb",
+  "light": "A laptop left open in the sand at dusk, its screen the only light in the playground.",
+  "typefaces": [
+    "Fredoka",
+    "IBM Plex Mono",
+    "Rubik Dirt"
+  ],
+  "photographs": null,
+  "words": "The idea of the room, who it is for, and its intent (curiosity, feedback, no deadlines, no fear of breaking anything, no outcome needed, meeting in the middle, spoons) are Norah's own words; Claude reworded them into the opening and \"Come on in\" as drafts for Norah to change. Claude drafted the \"Two sandboxes\" paragraph, the castle instructions, the suggestion box words and the credits. The quoted sentence is from Wikipedia.",
+  "built_with": "Claude, an AI model made by Anthropic",
+  "could_not_do": null,
+  "street_spaces": [
+    "suggestions",
+    "contribute"
+  ],
+  "imported": "2026-10-13",
+  "artifact": "the-sandbox.html",
+  "artifact_sha256": "40c1f6c22e39eecbe841d9ec10553c42f070d484c38c82949fa1086796788167",
+  "clothes": {
+    "ground": "--sb-dusk",
+    "text": "--sb-sandlit",
+    "heading": "--sb-sandlit",
+    "link": "--sb-glow",
+    "heading_face": "Fredoka, sans-serif",
+    "text_face": "Fredoka, \"Trebuchet MS\", sans-serif"
+  },
+  "fractal_from": "zibaldone.html",
+  "tracks": [],
+  "pairs": [
+    {
+      "ink": "#a6d4ff",
+      "ground": "#241c17",
+      "large": false,
+      "ratio": 10.76,
+      "where": "a.backlink “← back to the street”"
+    },
+    {
+      "ink": "#13202f",
+      "ground": "#b7cde4",
+      "large": false,
+      "ratio": 10.09,
+      "where": "span “sandbox — safe to break”"
+    },
+    {
+      "ink": "#13202f",
+      "ground": "#dbe9f7",
+      "large": true,
+      "ratio": 13.34,
+      "where": "h1 “The Sandbox”"
+    },
+    {
+      "ink": "#13202f",
+      "ground": "#dbe9f7",
+      "large": false,
+      "ratio": 13.34,
+      "where": "p “Come in curious. Try things, break things, a”"
+    },
+    {
+      "ink": "#3c4a5c",
+      "ground": "#dbe9f7",
+      "large": false,
+      "ratio": 7.31,
+      "where": "p.sb-prompt “~/sandbox $ nothing here is permanent”"
+    },
+    {
+      "ink": "#efe1c6",
+      "ground": "#241c17",
+      "large": true,
+      "ratio": 12.97,
+      "where": "h2 “Come on in”"
+    },
+    {
+      "ink": "#efe1c6",
+      "ground": "#241c17",
+      "large": false,
+      "ratio": 12.97,
+      "where": "p “Norah thought up this sandbox, and everyone ”"
+    },
+    {
+      "ink": "#0b4889",
+      "ground": "#dbe9f7",
+      "large": false,
+      "ratio": 7.39,
+      "where": "a ““Sandbox (computer security)””"
+    },
+    {
+      "ink": "#241c17",
+      "ground": "#efe1c6",
+      "large": false,
+      "ratio": 12.97,
+      "where": "button.sb-btn “Dig with the spade”"
+    },
+    {
+      "ink": "#241c17",
+      "ground": "#efe1c6",
+      "large": true,
+      "ratio": 12.97,
+      "where": "h2 “Suggestion box”"
+    },
+    {
+      "ink": "#0b4889",
+      "ground": "#efe1c6",
+      "large": false,
+      "ratio": 7.06,
+      "where": "a “What the box keeps”"
+    }
+  ],
+  "ornament": {
+    "#b8925a": "The Sandbox: --sb-sand carried no text when tools/import-room.py rendered the room on 2026-10-13; 5.82 against the room's ground. Measured by the import, not chosen by a person.",
+    "#7a5a38": "The Sandbox: --sb-sanddeep carried no text when tools/import-room.py rendered the room on 2026-10-13; 2.67 against the room's ground. Measured by the import, not chosen by a person.",
+    "#4a5566": "The Sandbox: --sb-metal carried no text when tools/import-room.py rendered the room on 2026-10-13; 2.22 against the room's ground. Measured by the import, not chosen by a person.",
+    "#ec7a3c": "The Sandbox: --sb-ember carried no text when tools/import-room.py rendered the room on 2026-10-13; 5.92 against the room's ground. Measured by the import, not chosen by a person.",
+    "#a8431f": "The Sandbox: --sb-emberdeep carried no text when tools/import-room.py rendered the room on 2026-10-13; 2.78 against the room's ground. Measured by the import, not chosen by a person."
+  }
+}

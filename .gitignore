@@ -28,3 +28,10 @@ rooms/inbox/
 # The import's own probe files, deleted when it finishes; ignored in case it is
 # interrupted mid-render.
 .import-*
+
+# A local CB's made-up passwords (CONTRIBUTING.md, Running the CB yourself).
+# Never committed, though they open nothing but your own computer.
+.env
+# Written by Netlify's own tool when it runs the CB on your computer
+# (CONTRIBUTING.md, Running the CB yourself). Nothing here uses Deno.
+deno.lock

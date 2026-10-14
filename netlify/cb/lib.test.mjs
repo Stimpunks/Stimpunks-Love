@@ -29,7 +29,8 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
   PUBLIC_CALLS, publicCall, callSettings, WORLD_CALL, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons, QUIET_ROOMS, quietRoom,
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
-  renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages, REACTIONS, reactionOf, toggleReaction, canTakeOff, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
+  renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages,
+  readSuggestions, shapeSuggestion, addSuggestion, answerSuggestion, removeSuggestion, SUGGEST_KEEP, SUGGEST_BODY_MAX, REACTIONS, reactionOf, toggleReaction, canTakeOff, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
@@ -336,6 +337,86 @@ for (const etagOnRead of [true, false]) {
     const ids = (await readBrass(s)).map((p) => p.id);
     assert.deepEqual(up.filter((id) => !ids.includes(id)), [], 'a post told it went up is missing');
     assert.equal(ids.length, up.length);
+  });
+}
+
+// THE SUGGESTION BOX, in The Sandbox: the board turned round.
+test('the suggestion box: anybody signed on drops one in, with the marks their pass gives', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.ok((await addSuggestion(null, { kind: 'bug', title: 't', body: 'b' }, s)).error, 'somebody signed off dropped one in');
+  assert.ok((await addSuggestion(ANY, { kind: 'wish', title: 't', body: 'b' }, s)).error, 'a kind that is not one of the three');
+  assert.ok((await addSuggestion(ANY, { kind: 'bug', title: '', body: 'b' }, s)).error, 'one with no title');
+  assert.ok((await addSuggestion(ANY, { kind: 'bug', title: 't', body: '  ' }, s)).error, 'one with nothing in it');
+  assert.ok((await addSuggestion(ANY, { kind: 'bug', title: 't', body: 'x'.repeat(SUGGEST_BODY_MAX + 1) }, s)).error, 'one too long');
+  const { item } = await addSuggestion(ANY, { kind: 'bug', title: 'The castle', body: 'It **burned**.', base: true, claimed: true }, s, 10);
+  await addSuggestion({ ...ANY, handle: 'Bo', account: true }, { kind: 'feature', title: 'A kite', body: 'Please.' }, s, 20);
+  await addSuggestion(MOD, { kind: 'suggestion', title: 'A spade', body: 'A bigger one.' }, s, 30);
+  const shown = (await readSuggestions(s)).map(shapeSuggestion);
+  assert.deepEqual(shown.map((x) => x.title), ['A spade', 'A kite', 'The castle'], 'not newest first');
+  const [spade, kite, castle] = shown;
+  assert.equal(castle.id, item.id); assert.equal(castle.handle, 'Ada'); assert.equal(castle.status, 'open');
+  assert.ok(!castle.base && !castle.claimed, 'a mark was taken from what was sent rather than from the pass');
+  assert.equal(kite.claimed, true); assert.ok(!kite.base);
+  assert.equal(spade.base, true); assert.ok(!spade.claimed, 'BASE and CLAIMED on one suggestion');
+  assert.equal(castle.ast[0].c[1].t, 'b', 'the words were not read into nodes');
+});
+
+test('the suggestion box: only a moderator answers, always with a reply, and can open it again', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const { item } = await addSuggestion(ANY, { kind: 'feature', title: 'A kite', body: 'Please.' }, s);
+  assert.ok((await answerSuggestion(ANY, item.id, { status: 'done', reply: 'Mine' }, s)).error, 'somebody who is not a moderator answered');
+  assert.ok((await answerSuggestion(MOD, item.id, { status: 'denied' }, s)).error, 'not doing it, with no reason given');
+  assert.ok((await answerSuggestion(MOD, item.id, { status: 'done', reply: ' ' }, s)).error, 'done, with an empty reply');
+  assert.ok((await answerSuggestion(MOD, item.id, { status: 'maybe', reply: 'x' }, s)).error, 'a status that is not one of the three');
+  assert.ok((await answerSuggestion(MOD, 'gone', { status: 'done', reply: 'x' }, s)).error, 'an answer to nothing');
+  await answerSuggestion(MOD, item.id, { status: 'denied', reply: 'Not **yet**.' }, s, 50);
+  let shown = shapeSuggestion((await readSuggestions(s))[0]);
+  assert.equal(shown.status, 'denied');
+  assert.deepEqual([shown.answer.handle, shown.answer.t, shown.answer.body], ['Juniper', 50, 'Not **yet**.']);
+  assert.equal(shown.answer.ast[0].c[1].t, 'b');
+  await answerSuggestion(MOD2, item.id, { status: 'done', reply: 'Up now.' }, s, 60);
+  shown = shapeSuggestion((await readSuggestions(s))[0]);
+  assert.deepEqual([shown.status, shown.answer.handle], ['done', 'Quill'], 'answering again did not replace the answer');
+  await answerSuggestion(MOD, item.id, { status: 'open' }, s);
+  shown = shapeSuggestion((await readSuggestions(s))[0]);
+  assert.equal(shown.status, 'open'); assert.equal(shown.answer, undefined, 'opening it again left the old answer on');
+});
+
+test('the suggestion box: whoever posted it takes it down, a claimed one only with its password, and any moderator any', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const asAdaClaimed = { ...ANY, account: true };
+  const { item: plain } = await addSuggestion(ANY, { kind: 'bug', title: 'a', body: 'b' }, s);
+  const { item: claimed } = await addSuggestion(asAdaClaimed, { kind: 'bug', title: 'c', body: 'd' }, s);
+  const { item: other } = await addSuggestion({ ...ANY, handle: 'Bo' }, { kind: 'bug', title: 'e', body: 'f' }, s);
+  assert.ok((await removeSuggestion(null, plain.id, s)).error);
+  assert.ok((await removeSuggestion(ANY, other.id, s)).error, 'somebody took down somebody else\'s suggestion');
+  assert.ok((await removeSuggestion(ANY, claimed.id, s)).error, 'a CLAIMED suggestion came down for the community password');
+  assert.equal((await removeSuggestion({ ...ANY, handle: ' ada ' }, plain.id, s)).removed, true, 'its own poster could not take it down');
+  assert.equal((await removeSuggestion(asAdaClaimed, claimed.id, s)).removed, true);
+  assert.equal((await removeSuggestion(MOD, other.id, s)).removed, true, 'a moderator could not take one down');
+  assert.deepEqual(await readSuggestions(s), []);
+  assert.ok((await removeSuggestion(MOD, other.id, s)).error, 'taken down twice');
+});
+
+test('the suggestion box: a full box refuses the next one and pushes nothing out', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  for (let i = 0; i < SUGGEST_KEEP; i++) await addSuggestion(ANY, { kind: 'bug', title: `t${i}`, body: 'b' }, s, i);
+  const r = await addSuggestion(ANY, { kind: 'bug', title: 'one more', body: 'b' }, s);
+  assert.ok(r.error, 'a full box took another');
+  const kept = await readSuggestions(s);
+  assert.equal(kept.length, SUGGEST_KEEP); assert.equal(kept[kept.length - 1].title, 't0', 'the oldest was pushed out');
+});
+
+for (const etagOnRead of [true, false]) {
+  test(`fifteen people dropping suggestions in at once, ${etagOnRead ? 'with' : 'without'} an etag on reads: none told it went in is missing`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) =>
+      addSuggestion({ role: 'mobile', handle: `p${i}`, roles: new Set() }, { kind: 'suggestion', title: `t${i}`, body: 'b' }, s)));
+    const went = told.filter((r) => r.status === 'fulfilled' && r.value.item).map((r) => r.value.item.id);
+    for (const f of told.filter((r) => r.status === 'rejected')) assert.equal(f.reason.message, 'busy');
+    const ids = (await readSuggestions(s)).map((p) => p.id);
+    assert.deepEqual(went.filter((id) => !ids.includes(id)), [], 'a suggestion told it went in is missing');
+    assert.equal(ids.length, went.length);
   });
 }
 

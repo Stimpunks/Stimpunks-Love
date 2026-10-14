@@ -68,6 +68,18 @@ WHAT IT DOES NOT DO, ON PURPOSE, AND WHAT STOPS THE ROOM UNTIL SOMEBODY DOES:
     one and told us to bring it in without the space, which contradicted the
     prompt; Ryan's call, 2026-09-29.)
 
+SPACES THE STREET FILLS. An element with data-street="a-name" is a space for
+something of the street's, the way data-photo is a space for a photograph: the
+suggestion box's board in Norah's Sandbox was the first. The person decides
+where it goes and what it says without scripts (whatever they put in it is its
+fallback), and the street's own tool, named in STREET_SPACES, writes what goes
+in it between <!-- street:a-name:begin --> markers on every run of
+check-all.sh. A re-import carries what that tool wrote over whole and loads the
+scripts it needs, so importing the same artifact twice still changes nothing.
+The street's CSS for it lives in love.css between /* street:<slug>:...:begin */
+markers in the room's own section, in the room's own colours, and a re-import
+leaves it alone. A name not in STREET_SPACES is refused.
+
 The door it writes is a plain one in the room's own colours and faces, which is
 a starting point and not a design. The fractal recipe borrows the shape of a
 recipe already on the street and draws it in the room's own colours.
@@ -707,6 +719,12 @@ LINER = ROOT / "liner-notes.html"
 FRACTALS = ROOT / "data" / "fractals.json"
 ROOMS = ROOT / "data" / "rooms"
 RESERVED_IDS = {"top", "main", "dial-label", "signoff-fx-about"}
+# The spaces the street fills (data-street), which tool fills each, and the
+# scripts each needs, in the order they load.
+STREET_SPACES = {
+    "suggestions": {"tool": "tools/make-sandbox.py", "scripts": ["markdown.js", "suggest.js"]},
+    "contribute": {"tool": "tools/make-sandbox.py", "scripts": []},
+}
 FORBID = {"img", "picture", "source", "iframe", "frame", "frameset", "object", "embed", "audio",
           "video", "track", "form", "base", "portal", "applet"}
 COLOUR_ATTRS = {"fill", "stroke", "stop-color", "flood-color", "lighting-color", "color", "bgcolor"}
@@ -787,8 +805,10 @@ def main():
                             f"{prefix!r}. Keep the prefix, so the street's names for it stay put.")
 
     love = LOVE.read_text()
-    own_blocks = (r"/\* import:" + re.escape(slug) + r":(\w+):begin\b.*?/\* import:" + re.escape(slug)
-                  + r":\1:end \*/")
+    # The room's own blocks: what this wrote (import:) and what the street wrote
+    # for its spaces (street:), both of which may use the room's prefix.
+    own_blocks = (r"/\* (import|street):" + re.escape(slug) + r":(\w+):begin\b.*?/\* \1:" + re.escape(slug)
+                  + r":\2:end \*/")
     love_others = re.sub(own_blocks, "", love, flags=re.S)
     if re.search(rf"--{prefix}-[\w-]+\s*:", love_others) or re.search(rf"\.{prefix}-[\w-]", love_others) \
             or re.search(rf"@keyframes\s+{prefix}-", love_others):
@@ -897,7 +917,7 @@ def main():
         problems.append(f"No colours are declared on :root as --{prefix}- hex custom properties.")
 
     # The markup: names, colours, handlers, addresses, and the players.
-    edits, media_ids, credits_at, photo_spaces = [], set(), None, []
+    edits, media_ids, credits_at, photo_spaces, street_spaces = [], set(), None, [], []
     notes_media = {m["key"]: m for m in notes["media"]}
     for n in main_el.walk():
         if any(n.inside(d) for d in drop) or n.tag in ("script", "style"):
@@ -920,7 +940,11 @@ def main():
                 for tok in v.split():
                     if not tok.startswith(prefix + "-"):
                         problems.append(f"<{n.tag} class=\"{tok}\">: every class starts with {prefix}-.")
-            if lk == "id" and v in RESERVED_IDS:
+            # id="main" on <main> itself is the street's own id in the street's own
+            # place: the skip link points at it, and this writes it there anyway.
+            # Norah's Sandbox arrived that way and this refused it. Anywhere else,
+            # a reserved id is refused.
+            if lk == "id" and v in RESERVED_IDS and not (n is main_el and v == "main"):
                 problems.append(f"id=\"{v}\" belongs to the street's own furniture on every page. Rename it.")
             if lk == "style" and v:
                 es = colour_edits(v, palette, f"<{n.tag} style>", problems)
@@ -969,6 +993,8 @@ def main():
             edits.append((n.start, n.open_end, start_tag(n.tag, new, n.selfclose)))
         if "data-photo" in n.attrs:
             photo_spaces.append((n, new))
+        if "data-street" in n.attrs:
+            street_spaces.append((n, new))
         if credits_at is None and re.fullmatch(r"h[2-6]", n.tag) and "credit" in text_of(src, n).lower():
             credits_at = n
     # The spaces left for photographs. One whose record and file exist gets its
@@ -998,6 +1024,26 @@ def main():
                f'alt="{H.escape(ph["alt"], quote=True)}" loading="lazy" decoding="async">')
         edits = [e for e in edits if not (n.start <= e[0] < n.end)]
         edits.append((n.start, n.end, start_tag(n.tag, keep, False) + img + f"</{n.tag}>"))
+    # The spaces the street fills: each name known, each once, each able to hold something.
+    street_found = {}
+    for n, attrs in street_spaces:
+        name = (n.attrs.get("data-street") or "").strip()
+        if name not in STREET_SPACES:
+            problems.append(f"<{n.tag} data-street=\"{name}\">: the street fills no space by that name. The "
+                            "spaces it fills are: " + ", ".join(sorted(STREET_SPACES)) + ".")
+        elif name in street_found:
+            problems.append(f"Two elements are data-street=\"{name}\"; the street fills one.")
+        elif n.tag in VOID or n.selfclose or any(n.inside(s) or s.inside(n) for s, _ in street_found.values()):
+            problems.append(f"<{n.tag} data-street=\"{name}\"> cannot hold what the street puts in it. Make it "
+                            "an element of its own, like a <div> or a <section>, not inside another space.")
+        else:
+            street_found[name] = (n, attrs)
+    if again:
+        for name in prior.get("street_spaces", []):
+            if name not in street_found:
+                warnings.append(f"The last version had a space for the street's {name} (data-street=\"{name}\") "
+                                f"and this one does not. {STREET_SPACES.get(name, {}).get('tool', 'Its tool')} "
+                                "will refuse until it is back, or until the street decides it lives elsewhere.")
     for name in notes["photographs"]:
         if name not in spaces:
             warnings.append(f"FOR THE STREET lists a photograph for {name!r} and no element in the room "
@@ -1057,6 +1103,19 @@ def main():
         refuse(problems, f"{args.artifact.name} is not ready to come onto the street.")
 
     # ── Assemble ─────────────────────────────────────────────────────────────
+    old_page = page_path.read_text() if again else ""
+    # Each space the street fills: what the street last wrote there, carried over
+    # whole, or the person's own fallback between the markers until it has.
+    for name, (n, attrs) in street_found.items():
+        kept = between(old_page, f"<!-- street:{name}:begin -->", f"<!-- street:{name}:end -->")
+        if kept:
+            block = old_page[kept[0]:kept[1]]
+        else:
+            inner_edits = [(s - n.open_end, e - n.open_end, r) for s, e, r in edits if n.open_end <= s < n.close_start]
+            block = (f"<!-- street:{name}:begin -->" + apply(src[n.open_end:n.close_start], inner_edits)
+                     + f"<!-- street:{name}:end -->")
+        edits = [e for e in edits if not (n.start <= e[0] < n.end)]
+        edits.append((n.start, n.end, start_tag(n.tag, attrs, False) + block + f"</{n.tag}>"))
     main_edits = [e for e in edits if main_el.open_end <= e[0] < main_el.close_start]
     for d in drop:
         if d.inside(main_el) and d is not main_el:
@@ -1068,7 +1127,6 @@ def main():
     room_css = css.edited().strip("\n")
     facades = bool(notes["media"])
 
-    old_page = page_path.read_text() if again else ""
     quests = "\n".join(re.findall(r"^[ \t]*<!-- quest:[\w-]+:begin -->.*?<!-- quest:[\w-]+:end -->",
                                   old_page, flags=re.S | re.M))
     # What other generators wrote into the head (make-og.py's card tags,
@@ -1137,6 +1195,11 @@ def main():
             head.append('<script src="love-embed.js" defer></script>')
         if js:
             head.append(f'<script src="{slug}.js" defer></script>')
+        for name in street_found:
+            for sc in STREET_SPACES[name]["scripts"]:
+                tag = f'<script src="{sc}" defer></script>'
+                if tag not in head:
+                    head.append(tag)
         head += ['<script src="quest.js" defer></script>', "</body>", "</html>", ""]
         return "\n".join(head)
 
@@ -1403,6 +1466,7 @@ def main():
         "prefix": prefix, "light": notes["light"], "typefaces": notes["typefaces"],
         "photographs": None, "words": notes["words"], "built_with": notes["built with"],
         "could_not_do": notes["could not do"],
+        "street_spaces": list(street_found),
         "imported": TODAY, "artifact": args.artifact.name,
         "artifact_sha256": hashlib.sha256(src.encode()).hexdigest(),
         "clothes": {k: clothes[k] for k in ("ground", "text", "heading", "link", "heading_face", "text_face")},

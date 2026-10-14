@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://stimpunks.world/</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-13</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/map.html</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-13</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/danny-the-street.html</loc>
@@ -78,7 +78,7 @@
   </url>
   <url>
     <loc>https://stimpunks.world/the-mopery.html</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-13</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/oracle-deck.html</loc>
@@ -90,7 +90,7 @@
   </url>
   <url>
     <loc>https://stimpunks.world/adventurers-guild.html</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-13</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/the-feed.html</loc>
@@ -110,7 +110,7 @@
   </url>
   <url>
     <loc>https://stimpunks.world/foundry.html</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-13</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/covenstead.html</loc>
@@ -142,7 +142,7 @@
   </url>
   <url>
     <loc>https://stimpunks.world/community-center.html</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-10-13</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/town-hall.html</loc>
@@ -289,6 +289,10 @@
     <lastmod>2026-10-10</lastmod>
   </url>
   <url>
+    <loc>https://stimpunks.world/sandbox.html</loc>
+    <lastmod>2026-10-13</lastmod>
+  </url>
+  <url>
     <loc>https://stimpunks.world/your-room.html</loc>
     <lastmod>2026-10-10</lastmod>
   </url>
@@ -298,7 +302,7 @@
   </url>
   <url>
     <loc>https://stimpunks.world/brass-tacks-board.html</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-13</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/now-playing.html</loc>
@@ -438,7 +442,7 @@
   </url>
   <url>
     <loc>https://stimpunks.world/liner-notes.html</loc>
-    <lastmod>2026-10-12</lastmod>
+    <lastmod>2026-10-13</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/mission.html</loc>

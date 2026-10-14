@@ -1388,6 +1388,13 @@
         98
       ]
     },
+    "rubik-dirt": {
+      "where": "The Sandbox",
+      "page": "sandbox.html",
+      "sections": [
+        112
+      ]
+    },
     "rubik-wet-paint": {
       "where": "The Pile",
       "page": "the-pile.html",

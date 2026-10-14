@@ -434,6 +434,12 @@
    "about": "A salon at desert dusk where Kristina Brooke pairs music with words and cannabis."
   },
   {
+   "tag": "sandbox",
+   "name": "The Sandbox",
+   "path": "/sandbox.html",
+   "about": "A sandbox at dusk, lit by a laptop left open in the sand: come in curious, try things, break things and give feedback, with no deadlines and nothing to lose."
+  },
+  {
    "tag": "your-room",
    "name": "Your Room",
    "path": "/your-room.html",

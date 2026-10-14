@@ -26,8 +26,7 @@ so read it with that in mind:
     permission from the other person. Fix the cause, whoever you are working for.
 
 **Both of them work straight on `main`, one at a time.** They agree between themselves, outside
-this repository, whose turn it is. Pull requests may come later, once both of them have learned
-them. A push to `main` deploys to stimpunks.world within a minute or two, and nothing reviews it
+this repository, whose turn it is. Everybody else sends pull requests from a fork: see below the list. A push to `main` deploys to stimpunks.world within a minute or two, and nothing reviews it
 first. So:
 
   1. **`git pull` before touching anything**, even when you think nobody else has pushed. Ryan's
@@ -45,6 +44,20 @@ first. So:
      regenerate them.
   5. **A new changelog entry goes at the top, with its own id**, even when the other person already
      wrote one that day. A feed reader never shows an edited entry again.
+
+**ANYBODY ELSE WORKS THROUGH A FORK AND A PULL REQUEST.** Ryan's call, 2026-10-13, with Norah's
+Sandbox, whose steps (and `CONTRIBUTING.md`, written from the same data by `tools/make-sandbox.py`)
+say how: fork, `tools/setup.sh`, Claude, a branch, `tools/check-all.sh`, `gh pr create`. **If the
+git user is neither Ryan nor Helen, you are working for a contributor**: never push to
+`Stimpunks/Stimpunks-Love` or to `main`, work on a branch of their fork, run `tools/check-all.sh`
+before every commit, and send the change as a pull request. Everything in this file binds them as it
+binds Ryan and Helen. The calls it says are somebody's (Helen's yurt, an imported room's owner, a
+decision recorded as Ryan's) are asked in the pull request, never made in it. They have no
+Knowledge System mirror, so a glossary slug is checked on the live site, where a redirect still
+counts as a failure. **Whoever merges a pull request pulls `main` and runs `tools/check-all.sh`
+straight after**, because a merge made on GitHub can leave a generated file behind its sources and
+the merge has already deployed; and a pull request that conflicts in a generated file is finished
+by rule 4, never by hand.
 
 **What a machine needs**: Python 3 and Google Chrome for everything (the render checks, the print
 check, the icons and the share cards all drive Chrome headless), and Node for the preview server in
@@ -4051,18 +4064,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §113 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §114 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§113 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§114 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §113 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §114 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the
@@ -4414,6 +4427,35 @@ the street's rules and writes nothing without `--go`. Four things are not obviou
 
 A room made with an AI is credited as one, in the room and in the liner notes, because
 `design.html` says that is how we treat our own.
+
+**A ROOM CAN LEAVE A SPACE FOR SOMETHING OF THE STREET'S, AND THE SANDBOX LEFT TWO.** Norah's room
+(§112, 2026-10-13) holds `data-street="suggestions"` inside her suggestion box and
+`data-street="contribute"` after it: the import's spaces for things of the street's, the way
+`data-photo` is a space for a photograph. Whatever she put in one is its fallback; the street's tool,
+named in `STREET_SPACES` in `import-room.py`, writes between `<!-- street:<name>:begin -->` markers
+on every run of `check-all.sh`, and a re-import carries that over and loads the space's scripts.
+`tools/make-sandbox.py` fills both from `data/sandbox.json` and writes `CONTRIBUTING.md` from the
+same steps, so the page and the repository cannot tell anybody two different ways in. Its CSS is a
+`/* street:sandbox:board */` block straight after her section, **in her `--sb-` colours and nothing
+else** (the tool refuses any other), with `sbs-` classes so no name of hers can meet one of ours.
+**A space her next version leaves out stops the build**, rather than the box being put somewhere she
+did not choose; the copy of her artifact with the spaces in it is the one to import, and she has to
+keep them. The same import fixed a false positive: `id="main"` on `<main>` itself, which the tool
+writes there anyway, is no longer refused.
+
+**THE SUGGESTION BOX IS THE BRASS TACKS BOARD TURNED ROUND.** Ryan, 2026-10-13: anybody reads it,
+anybody signed on to the CB drops in a suggestion, a feature request or a bug report with their
+handle on it, and a moderator answers, done or not doing, **always with a reply** and their own
+username. `addSuggestion`, `answerSuggestion` and `removeSuggestion` in `lib.mjs`, `/cb/suggestions`;
+the BASE and CLAIMED marks come from the pass, and taking one down is `canTakeOff`, the CB's rule for
+a message. The Markdown is `parseBrass`'s, built on the page by **`markdown.js`, which moved out of
+`brass.js` when the box became its second user** (the rack.js rule), and `make-brass.py` and
+`make-sandbox.py` both refuse innerHTML in it. A full box refuses rather than pushing the oldest
+out. No pictures, because a screenshot of a bug is a picture of somebody's screen; no feed;
+`noindex` on every answer; nothing counted. **The friendly edits are a vote button, a count of what
+is open, and a screenshot upload**, and each needs a decision of Ryan's written into
+`privacy.html#suggestions` first. **A security problem is not for the box**, which says so and points
+at SECURITY.md.
 
 ## What this site is FOR, so you know what you are protecting
 

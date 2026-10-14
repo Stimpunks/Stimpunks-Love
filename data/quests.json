@@ -3542,6 +3542,42 @@
    "learned": "A line worth keeping can turn up anywhere, even on the back of a receipt."
   },
   {
+   "id": "sb-fork",
+   "page": "sandbox.html",
+   "room": "The Sandbox",
+   "rank": 1,
+   "title": "Your own copy",
+   "posted": "Norah has opened a sandbox at dusk, lit by a laptop left in the sand, where nothing you break stays broken. Read past the suggestion box to the steps for building the street yourself, and find out what your own copy of the street is called.",
+   "target": "a plastic picnic fork, left in the sand",
+   "takes": "a few minutes of reading",
+   "code": "SANDPIE",
+   "hints": [
+    "Walk into The Sandbox from the street: Norah's sandbox at dusk, lit by a laptop.",
+    "Read past the suggestion box, to the steps for building the street with us.",
+    "The fork is on the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "What is your own copy of the street called, in the steps for building it yourself?",
+    "answer": "A fork",
+    "accept": [
+     "fork",
+     "a fork",
+     "forks",
+     "your fork",
+     "the fork",
+     "my fork",
+     "a fork of it"
+    ],
+    "hints": [
+     "It is in Make your own copy, under Build the street with us.",
+     "It is also something you eat with.",
+     "Four letters, and it has prongs."
+    ],
+    "why": "A fork: your own copy of the repository, where nothing you break reaches the street until somebody merges it."
+   },
+   "learned": "Your own copy is a sandbox too: nothing you break there stays broken anywhere else."
+  },
+  {
    "id": "run-ball",
    "page": "the-run.html",
    "room": "The Run",

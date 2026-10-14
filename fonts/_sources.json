@@ -2921,5 +2921,15 @@
    "src": "https://fonts.gstatic.com/s/catamaran/v28/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPJ_a5a7du3mnPy1tig.woff2",
    "note": "The bold of the 400 above."
   }
+ ],
+ "rubik-dirt": [
+  {
+   "file": "rubik-dirt-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 309816,
+   "src": "https://fonts.gstatic.com/s/rubikdirt/v2/DtVmJxC7WLEj1uIXEWAdilss6yLUrwA.woff2",
+   "note": "The Sandbox, Norah's room: the sign on the suggestion box and nothing else, because a speckled face is only legible large. By NaN and Luke Prowse."
+  }
  ]
 }

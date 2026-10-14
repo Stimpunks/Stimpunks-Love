@@ -5,9 +5,10 @@
    moderator takes a post down. See netlify/cb/lib.mjs, the Brass Tacks Board.
 
    EVERY POST ARRIVES AS NODES, NOT HTML. The server reads the Markdown once and
-   this file builds what it says with createElement and textContent, so nothing
-   a moderator types becomes markup here. tools/make-brass.py refuses
-   innerHTML, insertAdjacentHTML or outerHTML anywhere in this file.
+   markdown.js builds what it says with createElement and textContent, so
+   nothing a moderator types becomes markup here. It lived in this file until
+   the suggestion box in The Sandbox needed it too. tools/make-brass.py refuses
+   innerHTML, insertAdjacentHTML or outerHTML anywhere in this file or that one.
 
    A PICTURE GOES THROUGH THE RADIO'S OWN REDRAW (window.loveRedraw in cb.js),
    which drops everything a camera writes into a file, before anything is sent.
@@ -56,59 +57,9 @@
     catch (e) { return ''; }
   }
 
-  /* ── The nodes, built ───────────────────────────────────────────────────── */
-  function inline(nodes, into) {
-    nodes.forEach(function (n) {
-      if (n.t === 'text') into.appendChild(document.createTextNode(n.v));
-      else if (n.t === 'br') into.appendChild(el('br'));
-      else if (n.t === 'code') into.appendChild(el('code', null, n.v));
-      else if (n.t === 'b' || n.t === 'i' || n.t === 's') { var w = el({ b: 'strong', i: 'em', s: 'del' }[n.t]); inline(n.c, w); into.appendChild(w); }
-      else if (n.t === 'a') {
-        var a = el('a'); a.href = n.href; inline(n.c, a);
-        try {
-          var u = new URL(n.href, location.href);
-          if (/^https?:$/.test(u.protocol) && u.host !== location.host) {
-            a.rel = 'noopener noreferrer';
-            into.appendChild(a);
-            var host = el('span', 'btb-host', ' ↗ ' + u.host);
-            into.appendChild(host);
-            return;
-          }
-        } catch (e) {}
-        into.appendChild(a);
-      }
-    });
-  }
+  /* ── The nodes, built by markdown.js, the street's one builder for them ── */
   function blocks(nodes, into) {
-    nodes.forEach(function (b) {
-      var e;
-      if (b.t === 'p') { e = el('p'); inline(b.c, e); }
-      else if (b.t === 'h') { e = el('h' + Math.min(6, b.level + 2)); inline(b.c, e); }
-      else if (b.t === 'hr') e = el('hr');
-      else if (b.t === 'code') { e = el('pre'); e.appendChild(el('code', null, b.v)); e.tabIndex = 0; }
-      else if (b.t === 'quote') { e = el('blockquote'); blocks(b.c, e); }
-      else if (b.t === 'ul' || b.t === 'ol') {
-        e = el(b.t);
-        if (b.t === 'ol' && b.start !== 1) e.start = b.start;
-        b.items.forEach(function (it) { var li = el('li'); blocks(it, li); e.appendChild(li); });
-      } else if (b.t === 'table') {
-        var wrap = el('div', 'btb-table'); wrap.tabIndex = 0;
-        e = el('table');
-        var thead = el('thead'), tr = el('tr');
-        b.head.forEach(function (c, k) { var th = el('th'); th.scope = 'col'; if (b.align[k]) th.style.textAlign = b.align[k]; inline(c, th); tr.appendChild(th); });
-        thead.appendChild(tr); e.appendChild(thead);
-        var tb = el('tbody');
-        b.rows.forEach(function (r) {
-          var row = el('tr');
-          r.forEach(function (c, k) { var td = el('td'); if (b.align[k]) td.style.textAlign = b.align[k]; inline(c, td); row.appendChild(td); });
-          tb.appendChild(row);
-        });
-        e.appendChild(tb);
-        wrap.appendChild(e);
-        e = wrap;
-      }
-      if (e) into.appendChild(e);
-    });
+    window.loveMarkdown.blocks(nodes, into, { top: 2, prefix: 'btb' });
   }
 
   /* ── The posts ─────────────────────────────────────────────────────────── */

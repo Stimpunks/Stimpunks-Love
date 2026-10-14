@@ -1956,6 +1956,24 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--wbb .wbb-kept {{ font-size: 21px; text-align: left; }}
 .og--wbb .og-lede {{ font-family: 'Literata', serif; font-size: 28px; line-height: 1.4; }}
 .og--wbb .wbb-window {{ flex: 0 0 440px; margin: 0 !important; max-width: none; }}
+/* sandbox — NORAH'S ROOM, imported from her own artifact, and the card is ours.
+   It carries her laptop's title bar and prompt line, her dune and her
+   sandcastle, lifted out of the page rather than redrawn and built into her own
+   lid and screen with her own classes, so the card cannot disagree with the
+   room: the screen is the only light, glowing out over sand at dusk, and the
+   description sits on it where her welcome does. Her faces, at card size. */
+.og--sb {{ flex-direction: row; align-items: center; gap: 36px; padding: 40px 56px; }}
+.og--sb .sb-laptop {{ flex: 0 0 660px; margin: 0 !important; max-width: none; }}
+.og--sb .sb-lid {{ padding: 14px; }}
+.og--sb .sb-titlebar {{ font-size: 15px; padding: 7px 14px; }}
+.og--sb .sb-dot {{ width: 12px; height: 12px; }}
+.og--sb .sb-screen-body {{ padding: 22px 26px 24px; display: flex; flex-direction: column; gap: 14px; }}
+.og--sb .sb-screen-body > * {{ margin: 0 !important; }}
+.og--sb h1 {{ font-size: 82px; line-height: 1; }}
+.og--sb .og-lede {{ font-size: 25px; line-height: 1.42; max-width: none; }}
+.og--sb .sb-prompt {{ font-size: 19px; }}
+.og--sb .og-sb-castle {{ flex: 1 1 0; min-width: 0; align-self: flex-end; margin-bottom: 6px !important; }}
+.og--sb .og-sb-castle .sb-castle {{ margin: 0; max-width: none; }}
 """
 
 # Chrome hands the layout back out of the same run that takes the picture. A
@@ -3368,6 +3386,25 @@ def card_wbb(p):
         f"the right, a window at dusk in a wooden frame: a sky going from violet to rose to orange, a low "
         f"sun on a dark mesa, a saguaro, and on the sill a monstera, a fern and a succulent in clay pots, "
         f"a stack of books, a glass jar and a small brass bell.",
+    )
+
+
+def card_sandbox(p):
+    return (
+        "",
+        f'<div class="og og--sb" data-fit="card">'
+        f'<div class="sb-laptop"><div class="sb-lid"><div class="sb-screen">{p["sb_titlebar"]}'
+        f'<div class="sb-screen-body">{p["h1"]}<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="sb-prompt">{p["sb_prompt"]}</p></div></div></div>'
+        f'<div class="sb-deck" aria-hidden="true"></div>{p["sb_dune"]}</div>'
+        f'<div class="og-sb-castle">{p["sb_castle"]}</div>'
+        f'</div>',
+        f"A dark brown-black card, the colour of sand in shadow after sundown. On the left, an open laptop "
+        f"glowing pale blue: a window with three round buttons and the words {p['sb_title_plain']}, and in it "
+        f"“{p['h1text']}” in round letters, then in typewriter letters: {p['desc_plain']} Under that, a prompt "
+        f"reading {p['sb_prompt_plain']}, and a cursor. The laptop stands on a dune of sand lit by its screen. "
+        f"To the right, a sandcastle with towers, walls and a flag, a bucket and a spade on one side and a "
+        f"beach ball on the other.",
     )
 
 
@@ -5011,6 +5048,7 @@ CARDS = {
     "esroom":       card_esroom,
     "room-neurohome": card_neurohome,
     "room-words-bud-beats": card_wbb,
+    "room-sandbox": card_sandbox,
     "mud":          card_mud,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
@@ -5404,6 +5442,28 @@ def main():
                             .replace('id="wbb-pane"', 'id="og-wbb-pane"').replace('url(#wbb-pane)', 'url(#og-wbb-pane)'))
     lifted["wbb_kept"] = re.sub(r"</?a\b[^>]*>", "", wk.group(1)).strip()
     lifted["wbb_kept_plain"] = html.unescape(re.sub(r"<[^>]+>", "", wk.group(1))).strip().lower()
+    # NORAH'S CARD CARRIES HER LAPTOP'S TITLE BAR AND PROMPT, HER DUNE AND HER
+    # SANDCASTLE, lifted out of the page she built rather than redrawn. The castle
+    # loses its name and its ids, because on a card it is a picture, not a thing
+    # with a label somebody can press.
+    sb_src = (ROOT / "sandbox.html").read_text()
+    sbt = re.search(r'(<div class="sb-titlebar".*?</div>)', sb_src, re.S)
+    sbp = re.search(r'<p class="sb-prompt">(.*?)</p>', sb_src, re.S)
+    sbd = re.search(r'(<svg class="sb-dune".*?</svg>)', sb_src, re.S)
+    sbc = re.search(r'(<svg class="sb-castle".*?</svg>)', sb_src, re.S)
+    if not (sbt and sbp and sbd and sbc):
+        raise SystemExit("REFUSING: sandbox.html has lost its laptop's title bar, its prompt, its dune or its "
+                         "sandcastle, and its card is built out of all four.")
+    lifted["sb_titlebar"] = sbt.group(1)
+    lifted["sb_title_plain"] = html.unescape(re.sub(r"<[^>]+>", " ", sbt.group(1))).split()
+    lifted["sb_title_plain"] = " ".join(lifted["sb_title_plain"]).replace(" — ", ", ")
+    lifted["sb_prompt"] = sbp.group(1).strip()
+    lifted["sb_dune"] = sbd.group(1)
+    lifted["sb_prompt_plain"] = html.unescape(re.sub(r"<[^>]+>", "", sbp.group(1))).split("$", 1)[-1].strip()
+    castle = re.sub(r"<title\b.*?</title>", "", sbc.group(1), flags=re.S)
+    castle = re.sub(r'\s(?:role|aria-labelledby)="[^"]*"', "", castle)
+    castle = castle.replace("<svg ", '<svg aria-hidden="true" ', 1)
+    lifted["sb_castle"] = re.sub(r'\sid="sb-[\w-]+"', "", castle)
     # THE MUD ROOM'S CARD CARRIES THE ROOM'S OWN VIEW AND OVER-LINE, cropped by its
     # viewBox to the horizon and the mud, so the card cannot disagree with the room.
     mud_src = (ROOT / "the-mud-room.html").read_text()

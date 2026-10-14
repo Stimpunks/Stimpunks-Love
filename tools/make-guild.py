@@ -560,6 +560,11 @@ DRAW = {
     # her ground, its leaves --wbb-succ, 6.65, both over the body threshold a marker
     # is held to. The floor line is --wbb-rail and carries nothing.
     "wbb-carrot": """<path d="M3 29.5 H29" stroke="var(--wbb-rail)" stroke-width="1.6" stroke-linecap="round"/><path d="M21.5 13.5 Q24 16 22.5 18.5 L8 27 Q6 27.8 5.6 26.4 L14.5 12.4 Q17.5 10.6 21.5 13.5 Z" fill="var(--wbb-link)"/><path d="M12 19.5 L14.6 21 M15 15.5 L17.4 17.2 M9.4 23.8 L11.2 24.8" stroke="var(--wbb-ground)" stroke-width="1.3" stroke-linecap="round"/><path d="M20 12.6 Q20 6.5 17 3.8 M21.4 13.2 Q24.6 8 28.6 7 M22.4 14.6 Q27.4 13.4 29 16" fill="none" stroke="var(--wbb-succ)" stroke-width="2" stroke-linecap="round"/>""",
+    # The Sandbox, Norah's room: a plastic picnic fork somebody left in the sand,
+    # lying across the floor, in her screen's own --sb-glow, 10.76 on her dusk,
+    # the same ink her links are in. The floor line is --sb-sanddeep and carries
+    # nothing. The job is what your own copy of the street is called. It lies still.
+    "sb-fork": """<path d="M3 29.5 H29" stroke="var(--sb-sanddeep)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 27 L16.5 15.5" stroke="var(--sb-glow)" stroke-width="2.8" stroke-linecap="round"/><path d="M15.6 14.6 L18.4 9.4 L22.6 13.6 L17.4 16.4 Z" fill="var(--sb-glow)" stroke="var(--sb-glow)" stroke-width="1" stroke-linejoin="round"/><path d="M18.9 9.9 L23.2 5.7 M20 11 L24.2 6.7 M21 12 L25.3 7.8 M22.1 13.1 L26.3 8.9" stroke="var(--sb-glow)" stroke-width="1.2" stroke-linecap="round"/>""",
     "cv-icicle": """<path d="M3 29.5 H29" stroke="var(--cv-seam)" stroke-width="1.6" stroke-linecap="round"/><path d="M10 26 V12 Q10 6 16 6 Q22 6 22 12 V26 Z" fill="none" stroke="var(--cv-link)" stroke-width="2.2" stroke-linejoin="round"/><path d="M10 16 Q5 15 5.5 19.5 Q6 23 10 22" fill="none" stroke="var(--cv-link)" stroke-width="2.2" stroke-linecap="round"/><path d="M9 22.5 H23" stroke="var(--cv-link)" stroke-width="3" stroke-linecap="round"/>""",
     # A toasting stick, left leaning against a log at the Campfire: a green
     # stick with its forked end, in the fire's orange the room uses for every

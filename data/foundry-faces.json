@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-10-11",
+ "_checked": "2026-10-13",
  "faces": {
   "abril-fatface": {
    "family": "Abril Fatface",
@@ -3423,6 +3423,23 @@
      "style": "normal",
      "file": "rubik-400.woff2",
      "sha": "99ec7ccb40cf143f"
+    }
+   ]
+  },
+  "rubik-dirt": {
+   "family": "Rubik Dirt",
+   "category": "Display",
+   "designer": "NaN, Luke Prowse",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/rubikdirt",
+   "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://github.com/NaN-xyz/Rubik-Filtered)",
+   "repository": "https://github.com/NaN-xyz/Rubik-Filtered",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "rubik-dirt-400.woff2",
+     "sha": "3484338c58492b50"
     }
    ]
   },
