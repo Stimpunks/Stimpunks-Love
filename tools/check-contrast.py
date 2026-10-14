@@ -1217,6 +1217,10 @@ PAIRS = [
     (TALLOW,  HEARTH,  False, "yurt: the rack's summary"),
     (TALLOW2, HEARTH,  False, "yurt: the line under the phonograph naming what is on it"),
     (TALLOW3, HEARTH,  False, "yurt: the day the rack was read"),
+    (TIMBER,  TALLOW,  False, "yurt: Nature Notes' handwritten notes and page numbers on the field book's pages"),
+    (CANDLE,  "#4A2E1F", True, "yurt: Nature Notes in gold on the field book's leather cover"),
+    (TALLOW,  "#4A2E1F", False, "yurt: Open the book, on the cover"),
+    (CANDLE,  "#4A2E1F", False, "yurt: Open the book under the pointer or the keyboard"),
 
     # The twelve book spines are six 90deg gradients, so each one is TWO grounds
     # and the lighter end is the one that decides. Helen's fourth spine ran to

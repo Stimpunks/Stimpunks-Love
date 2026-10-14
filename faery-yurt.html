@@ -96,7 +96,18 @@
         <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
       </div>
       <p class="dial__note" aria-live="polite"></p>
-      <p class="dial__fine">Starts wherever your device says. In here MAX lights the fairy lights and turns the record; nothing else in the yurt ever moves.</p>
+      <p class="dial__fine">Starts wherever your device says. In here MAX lights the fairy lights and turns the record; nothing else in the yurt moves unless you ask it to, below.</p>
+    </div>
+    <!-- Join the faeries and Grow a garden, Helen's ask, 2026-10-14: two switches,
+         off until pressed and then at every setting, written by yurt-garden.js.
+         Hidden with no script, because without one they would do nothing. -->
+    <div class="yurt-magic" data-yurt-magic hidden>
+      <div class="yurt-magic__row">
+        <button type="button" class="yurt-magic__btn" data-yurt-magic-faeries aria-pressed="false">Join the faeries</button>
+        <button type="button" class="yurt-magic__btn" data-yurt-magic-garden aria-pressed="false">Grow a garden</button>
+      </div>
+      <p class="yurt-magic__note">Faeries drifting across the page, and ivy and mushrooms growing very slowly round its edges. Each stays still until you press it, whatever the dial says, and pressing again clears it. Nothing flashes, and nothing is remembered: next time both are off.</p>
+      <p class="sr" role="status" aria-live="polite" data-yurt-magic-says></p>
     </div>
   </section>
 
@@ -656,29 +667,39 @@
     <div class="yurt-gallery yurt-gallery--nook" aria-labelledby="yurt-nature-h" role="group">
       <h3 id="yurt-nature-h">Nature Notes</h3>
       <p class="section-intro">Flowers in my hair, boots by the stream, conkers on moss, mushrooms in the leaf litter and a tree turning gold.</p>
-      <!-- Nature Notes as a notebook, Helen's ask, 2026-10-14: one photograph to a
-           page, each shown whole. The pages are a scroll-snap strip, so they
-           swipe with no script; yurt-notebook.js adds the buttons and a sweep
-           across the page as it turns, on the press only, and none at Gentle. -->
+      <!-- Nature Notes as an old field book, Helen's ask, 2026-10-14: shut, a
+           leather cover with the name in gold; open, field-notebook pages, one
+           photograph mounted on each with photo corners and a note under it in
+           Caveat. Every note is Helen's own words, taken from the line above the
+           book, and only where they fit the picture; the other pages are left
+           ruled and blank for her. With no script the book is open and the pages
+           swipe; yurt-notebook.js shuts it, opens it on the press, turns the
+           pages and says each photograph's description. The sweep is on the
+           press only, and none at Gentle. -->
       <div class="yurt-notebook" data-notebook>
-        <div class="yurt-notebook__cover">
-          <ul class="yurt-notebook__pages" tabindex="0" aria-label="Nature Notes, a notebook of Helen&rsquo;s photographs" data-notebook-pages>
-          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-flowers.webp" width="872" height="998" alt="Seen from behind, a woman with long reddish brown hair wears white, yellow and blue wildflowers woven into her ponytail." loading="lazy"></li>
-          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-boots.webp" width="826" height="1120" alt="A pair of burgundy lace-up boots with satin ribbon laces stands on a rock at the edge of a clear, rippling stream." loading="lazy"></li>
-          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-tree.webp" width="818" height="1038" alt="Looking up through a tree full of golden yellow autumn leaves against a pale sky." loading="lazy"></li>
-          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-conkers.webp" width="928" height="986" alt="Three shiny conkers, one large and two small, rest on bright green moss." loading="lazy"></li>
-          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-mushrooms-1.webp" width="1118" height="802" alt="Two pale lilac mushrooms with brown centres grow side by side in dark soil among fallen leaves." loading="lazy"></li>
-          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-mushrooms-2.webp" width="1030" height="852" alt="A small pale lilac mushroom stands in the leaf litter beside a crumpled brown one." loading="lazy"></li>
-          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-mushrooms-3.webp" width="848" height="814" alt="A purple mushroom grows in dark soil under green leaves, with tiny brown mushrooms around it." loading="lazy"></li>
-          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-mushrooms-4.webp" width="1156" height="812" alt="A small lilac mushroom with a cone-shaped cap stands among fallen autumn leaves." loading="lazy"></li>
-          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-mushrooms-5.webp" width="1142" height="828" alt="A tiny white mushroom peeks up through a carpet of bright green moss." loading="lazy"></li>
-          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-mushrooms-6.webp" width="1120" height="836" alt="Small cream-coloured mushrooms cluster on mossy bark." loading="lazy"></li>
-          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-mushrooms-7.webp" width="1240" height="906" alt="Orange-brown mushrooms grow among small green leaves and seed heads on the ground." loading="lazy"></li>
+        <button type="button" class="yurt-notebook__shut" data-notebook-open hidden>
+          <span class="yurt-notebook__title">Nature Notes</span>
+          <span class="yurt-notebook__open">Open the book</span>
+        </button>
+        <div class="yurt-notebook__cover" data-notebook-book>
+          <ul class="yurt-notebook__pages" tabindex="0" aria-label="Nature Notes, a field book of Helen&rsquo;s photographs" data-notebook-pages>
+          <li class="yurt-notebook__page"><figure class="yurt-notebook__mount"><img class="photo" src="photos/yurt-nature-flowers.webp" width="872" height="998" alt="Seen from behind, a woman with long reddish brown hair wears white, yellow and blue wildflowers woven into her ponytail." loading="lazy"></figure><p class="yurt-notebook__note">flowers in my hair</p><span class="yurt-notebook__no" aria-hidden="true">No. 1</span></li>
+          <li class="yurt-notebook__page"><figure class="yurt-notebook__mount"><img class="photo" src="photos/yurt-nature-boots.webp" width="826" height="1120" alt="A pair of burgundy lace-up boots with satin ribbon laces stands on a rock at the edge of a clear, rippling stream." loading="lazy"></figure><p class="yurt-notebook__note">boots by the stream</p><span class="yurt-notebook__no" aria-hidden="true">No. 2</span></li>
+          <li class="yurt-notebook__page"><figure class="yurt-notebook__mount"><img class="photo" src="photos/yurt-nature-tree.webp" width="818" height="1038" alt="Looking up through a tree full of golden yellow autumn leaves against a pale sky." loading="lazy"></figure><p class="yurt-notebook__note">a tree turning gold</p><span class="yurt-notebook__no" aria-hidden="true">No. 3</span></li>
+          <li class="yurt-notebook__page"><figure class="yurt-notebook__mount"><img class="photo" src="photos/yurt-nature-conkers.webp" width="928" height="986" alt="Three shiny conkers, one large and two small, rest on bright green moss." loading="lazy"></figure><p class="yurt-notebook__note">conkers on moss</p><span class="yurt-notebook__no" aria-hidden="true">No. 4</span></li>
+          <li class="yurt-notebook__page"><figure class="yurt-notebook__mount"><img class="photo" src="photos/yurt-nature-mushrooms-1.webp" width="1118" height="802" alt="Two pale lilac mushrooms with brown centres grow side by side in dark soil among fallen leaves." loading="lazy"></figure><p class="yurt-notebook__note">mushrooms in the leaf litter</p><span class="yurt-notebook__no" aria-hidden="true">No. 5</span></li>
+          <li class="yurt-notebook__page"><figure class="yurt-notebook__mount"><img class="photo" src="photos/yurt-nature-mushrooms-2.webp" width="1030" height="852" alt="A small pale lilac mushroom stands in the leaf litter beside a crumpled brown one." loading="lazy"></figure><p class="yurt-notebook__note">mushrooms in the leaf litter</p><span class="yurt-notebook__no" aria-hidden="true">No. 6</span></li>
+          <li class="yurt-notebook__page"><figure class="yurt-notebook__mount"><img class="photo" src="photos/yurt-nature-mushrooms-3.webp" width="848" height="814" alt="A purple mushroom grows in dark soil under green leaves, with tiny brown mushrooms around it." loading="lazy"></figure><p class="yurt-notebook__note yurt-notebook__note--blank" aria-hidden="true"></p><span class="yurt-notebook__no" aria-hidden="true">No. 7</span></li>
+          <li class="yurt-notebook__page"><figure class="yurt-notebook__mount"><img class="photo" src="photos/yurt-nature-mushrooms-4.webp" width="1156" height="812" alt="A small lilac mushroom with a cone-shaped cap stands among fallen autumn leaves." loading="lazy"></figure><p class="yurt-notebook__note">mushrooms in the leaf litter</p><span class="yurt-notebook__no" aria-hidden="true">No. 8</span></li>
+          <li class="yurt-notebook__page"><figure class="yurt-notebook__mount"><img class="photo" src="photos/yurt-nature-mushrooms-5.webp" width="1142" height="828" alt="A tiny white mushroom peeks up through a carpet of bright green moss." loading="lazy"></figure><p class="yurt-notebook__note yurt-notebook__note--blank" aria-hidden="true"></p><span class="yurt-notebook__no" aria-hidden="true">No. 9</span></li>
+          <li class="yurt-notebook__page"><figure class="yurt-notebook__mount"><img class="photo" src="photos/yurt-nature-mushrooms-6.webp" width="1120" height="836" alt="Small cream-coloured mushrooms cluster on mossy bark." loading="lazy"></figure><p class="yurt-notebook__note yurt-notebook__note--blank" aria-hidden="true"></p><span class="yurt-notebook__no" aria-hidden="true">No. 10</span></li>
+          <li class="yurt-notebook__page"><figure class="yurt-notebook__mount"><img class="photo" src="photos/yurt-nature-mushrooms-7.webp" width="1240" height="906" alt="Orange-brown mushrooms grow among small green leaves and seed heads on the ground." loading="lazy"></figure><p class="yurt-notebook__note yurt-notebook__note--blank" aria-hidden="true"></p><span class="yurt-notebook__no" aria-hidden="true">No. 11</span></li>
           </ul>
           <span class="yurt-notebook__sweep" aria-hidden="true" data-notebook-sweep></span>
         </div>
         <div class="yurt-notebook__controls" data-notebook-controls hidden>
           <button type="button" class="yurt-notebook__btn" data-notebook-prev>&larr; Turn back</button>
+          <button type="button" class="yurt-notebook__btn" data-notebook-close>Close the book</button>
           <button type="button" class="yurt-notebook__btn" data-notebook-next>Turn the page &rarr;</button>
         </div>
         <p class="sr" role="status" aria-live="polite" data-notebook-says></p>
@@ -868,5 +889,6 @@
 <script src="quest.js" defer></script>
 <script src="glimmer.js" defer></script>
 <script src="yurt-notebook.js" defer></script>
+<script src="yurt-garden.js" defer></script>
 </body>
 </html>

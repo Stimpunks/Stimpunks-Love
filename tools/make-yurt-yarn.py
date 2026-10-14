@@ -30,9 +30,10 @@ nothing to read in it; it is aria-hidden, and the paragraph beside it is what is
 read.
 
 THE RECORD TURNS AT MAX AND NOWHERE ELSE. The dial's own line in that room says
-MAX "lights the fairy lights and turns the record; nothing else in the yurt ever
-moves", which was true of the little record this replaced and has to stay true
-of this one. So the tool refuses a rule in love.css that animates the disc under
+MAX "lights the fairy lights and turns the record", which was true of the little
+record this replaced and has to stay true of this one. (Since 2026-10-14 it goes
+on to say nothing else moves unless you ask it to: Join the faeries and Grow a
+garden, which move only when pressed.) So the tool refuses a rule in love.css that animates the disc under
 any selector but MAX's, and refuses the page if the dial stops saying so. The
 record is a circle in a group squashed to the angle you see the turntable at,
 and it is the circle that turns, so the label's moon and star go round the

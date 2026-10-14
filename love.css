@@ -5996,16 +5996,26 @@ html[data-intensity="max"] .yurt-phono__disc { animation: yurt-spin 6s linear in
    script, and nothing behind them but a drawing, so there is nothing to consent
    to and nothing to load. The shutters swing at regular and max and snap at
    gentle, because §3 takes transitions away there and a shutter that teleports
-   still shows you the view. */
+   still shows you the view.
+   A CASTLE TURRET'S WINDOW, Helen's ask, 2026-10-14: a round arch set in thick
+   stone blocks laid in courses, and two shutters of oak planks with black iron
+   strap hinges and studs, whose tops follow the arch so that shut they close
+   into one arched door. Every stone, plank and strap is ornament and carries
+   no word; the hint under it is on the tent ground as before. */
 .glimmer { display: flex; flex-direction: column; align-items: center; }
 .glimmer__check { position: absolute; opacity: 0; pointer-events: none; }
 .glimmer__frame {
   position: relative; display: block; width: min(100%, 360px); aspect-ratio: 4 / 5;
-  padding: 14px; cursor: pointer; border-radius: 8px 8px 4px 4px;
-  background-image: linear-gradient(160deg, #4A372B, #241A16 70%);
-  box-shadow: 0 24px 50px -22px rgba(0,0,0,.55), inset 0 0 0 1px rgba(233,200,116,.15);
+  padding: 14px; cursor: pointer; border-radius: 50% 50% 4px 4px / 40% 40% 0 0;
+  background:
+    conic-gradient(from 270deg at 2px 50%, #241D19 0 25%, transparent 0) 0 0 / 54px 52px,
+    conic-gradient(from 270deg at 2px 50%, #241D19 0 25%, transparent 0) 27px 26px / 54px 52px,
+    linear-gradient(180deg, #241D19 0 2px, transparent 2px) 0 0 / 100% 26px,
+    radial-gradient(ellipse at 30% 30%, rgba(242,230,212,.10), transparent 60%) 0 0 / 54px 26px,
+    linear-gradient(160deg, #6A5E55, #3E3631 75%) #4E4540;
+  box-shadow: 0 24px 50px -22px rgba(0,0,0,.6), inset 0 0 0 2px #241D19, inset 0 0 18px rgba(0,0,0,.45);
 }
-.glimmer__sash { position: relative; display: block; width: 100%; height: 100%; border-radius: 3px; overflow: hidden; background: #0C0E14; box-shadow: inset 0 0 0 6px #1A120E, inset 0 0 24px rgba(0,0,0,.6); }
+.glimmer__sash { position: relative; display: block; width: 100%; height: 100%; border-radius: 50% 50% 3px 3px / 40% 40% 0 0; overflow: hidden; background: #0C0E14; box-shadow: inset 0 0 0 6px #2A1E17, inset 0 0 0 7px #120C09, inset 0 0 24px rgba(0,0,0,.6); }
 .glimmer__sash::after {
   content: ""; position: absolute; inset: 0; pointer-events: none;
   background-image:
@@ -6016,14 +6026,19 @@ html[data-intensity="max"] .yurt-phono__disc { animation: yurt-spin 6s linear in
 .glimmer__scene { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
 .glimmer__shutter {
   position: absolute; top: 14px; bottom: 14px; width: calc(50% - 14px); border-radius: 3px;
-  background-image:
-    linear-gradient(90deg, rgba(0,0,0,.25), transparent 8%, transparent 92%, rgba(0,0,0,.25)),
-    linear-gradient(160deg, #4A372B, #2A1E17);
-  box-shadow: inset 0 0 0 1px rgba(233,200,116,.12), 0 10px 20px -10px rgba(0,0,0,.55);
+  background:
+    radial-gradient(circle, #9A8A76 0 1.5px, #15100C 1.6px 3.2px, transparent 3.6px) 6px 21% / 22px 16px repeat-x,
+    radial-gradient(circle, #9A8A76 0 1.5px, #15100C 1.6px 3.2px, transparent 3.6px) 6px 76% / 22px 16px repeat-x,
+    linear-gradient(#1F1813, #2B221B 50%, #15100C) 0 21% / 100% 16px no-repeat,
+    linear-gradient(#1F1813, #2B221B 50%, #15100C) 0 76% / 100% 16px no-repeat,
+    linear-gradient(90deg, rgba(0,0,0,.30), transparent 8%, transparent 92%, rgba(0,0,0,.30)),
+    repeating-linear-gradient(90deg, #2A1E17 0 2px, #5A4332 2px 6px, #4A372B 6px 22px, #3E2E23 22px 26px),
+    linear-gradient(160deg, #5A4332, #2A1E17) #4A372B;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.4), 0 10px 20px -10px rgba(0,0,0,.55);
   transition: transform .7s cubic-bezier(.6,0,.2,1);
 }
-.glimmer__shutter--l { left: 14px; transform-origin: left center; }
-.glimmer__shutter--r { right: 14px; transform-origin: right center; }
+.glimmer__shutter--l { left: 14px; transform-origin: left center; border-top-left-radius: 100% 40%; }
+.glimmer__shutter--r { right: 14px; transform-origin: right center; border-top-right-radius: 100% 40%; }
 .glimmer__check:checked + .glimmer__frame .glimmer__shutter--l { transform: rotateY(-108deg); }
 .glimmer__check:checked + .glimmer__frame .glimmer__shutter--r { transform: rotateY(108deg); }
 
@@ -6045,14 +6060,16 @@ html[data-intensity="max"] .yurt-phono__disc { animation: yurt-spin 6s linear in
 .glimmer__photos {
   display: none; position: absolute; z-index: 2; top: 17px; left: 0; right: 0; margin: 0 auto;
   width: calc(min(100%, 360px) - 28px); aspect-ratio: 4 / 5;
-  border-radius: 3px; overflow: hidden; background: #0C0E14;
+  border-radius: 50% 50% 3px 3px / 40% 40% 0 0; overflow: hidden; background: #0C0E14;
 }
 .glimmer__check:checked ~ .glimmer__photos { display: block; }
 .glimmer__strip {
   display: flex; height: 100%; margin: 0; padding: 0; list-style: none;
   overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin;
 }
-.glimmer__slide { flex: 0 0 100%; height: 100%; scroll-snap-align: center; display: flex; align-items: center; justify-content: center; }
+/* Inside the arch, every photograph is kept clear of the curve so none is cut:
+   at a tenth of the width in from each side the arch is a fifth of the width down. */
+.glimmer__slide { flex: 0 0 100%; height: 100%; box-sizing: border-box; padding: 20% 10% 64px; scroll-snap-align: center; display: flex; align-items: center; justify-content: center; }
 .glimmer__slide img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
 .glimmer__strip:focus-visible { outline: 4px solid var(--candle); outline-offset: -4px; }
 .glimmer__controls { position: absolute; left: 8px; right: 8px; bottom: 8px; display: flex; justify-content: space-between; gap: 6px; }
@@ -6176,30 +6193,113 @@ html[data-intensity="gentle"] .nook .egg__mark { opacity: 1; }
 .yurt-nook-corner { max-width: 320px; margin: 22px auto 0; }
 .yurt-gallery--nook h3 { font-size: 23px; font-style: italic; margin: 0 0 6px; }
 
-/* NATURE NOTES AS A NOTEBOOK, Helen's ask, 2026-10-14: a bound cover in the
-   yurt's own wood, cream pages in her tallow, one photograph to a page shown
-   whole. The sweep is a translate across the page on the press only, and §3
-   takes it away at Gentle, where the page simply changes. */
+/* NATURE NOTES AS AN OLD FIELD BOOK, Helen's asks, 2026-10-14. Shut, it is a
+   leather-bound book: raised bands across the spine, gilt rules, the name in
+   gold Cormorant, brass corners. Open, the same leather frames field-notebook
+   pages of her tallow, faintly ruled, the stack of page edges along the right
+   and the gutter's shadow down the left; each photograph is mounted whole with
+   photo corners round it, never over it and never filtered, and a note under it
+   is in her Caveat, in timber ink (11.13 on the page). Nothing is rotated. The
+   sweep is a translate across the page and the opening a short fade, both on
+   the press only, and §3 and the rules below take both away at Gentle. */
 .yurt-notebook { max-width: 420px; margin: 14px auto 0; }
-.yurt-notebook__cover {
-  position: relative; padding: 12px 12px 12px 22px; border-radius: 6px 10px 10px 6px; overflow: hidden;
-  background-image: linear-gradient(160deg, #4A372B, #2A1E17);
-  box-shadow: 0 18px 34px -16px rgba(0,0,0,.6), inset 6px 0 0 #1A120E, inset 0 0 0 1px rgba(233,200,116,.15);
+.yurt-notebook__shut {
+  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+  width: 100%; aspect-ratio: 4 / 5; margin: 0; padding: 28px 28px 28px 46px; cursor: pointer; box-sizing: border-box;
+  color: var(--tallow); text-align: center;
+  background-color: #4A2E1F;
+  background-image:
+    radial-gradient(ellipse at 30% 20%, rgba(242,182,115,.10), transparent 60%),
+    linear-gradient(90deg, rgba(0,0,0,.45) 0, rgba(0,0,0,0) 26px),
+    linear-gradient(160deg, #5A3826, #3A2418);
+  border: 0; border-radius: 4px 10px 10px 4px;
+  box-shadow:
+    inset 26px 0 0 -18px rgba(0,0,0,.35),
+    inset 0 0 0 10px rgba(0,0,0,0), inset 0 0 0 11px rgba(233,200,116,.55),
+    inset 0 0 0 15px rgba(0,0,0,0), inset 0 0 0 16px rgba(233,200,116,.30),
+    6px 0 0 -1px #E8D9BF, 9px 2px 0 -2px #D8C6A6,
+    0 22px 36px -16px rgba(0,0,0,.75);
 }
+/* The raised bands across the spine, and brass on the two outer corners. */
+.yurt-notebook__shut::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 22px; border-radius: 4px 0 0 4px;
+  background:
+    linear-gradient(180deg, transparent 15%, rgba(233,200,116,.5) 15% 16.5%, #2A170F 16.5% 19%, rgba(233,200,116,.5) 19% 20.5%, transparent 20.5%),
+    linear-gradient(180deg, transparent 79.5%, rgba(233,200,116,.5) 79.5% 81%, #2A170F 81% 83.5%, rgba(233,200,116,.5) 83.5% 85%, transparent 85%),
+    linear-gradient(90deg, #2A170F, #4A2E1F);
+}
+.yurt-notebook__shut::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+  background:
+    linear-gradient(225deg, #C9A267 0 18px, transparent 18px) top right / 34px 34px no-repeat,
+    linear-gradient(315deg, #C9A267 0 18px, transparent 18px) bottom right / 34px 34px no-repeat;
+}
+.yurt-notebook__title {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 600;
+  font-size: clamp(34px, 9vw, 46px); line-height: 1.05; color: var(--candle);
+  padding: 14px 6px; border-top: 1px solid rgba(233,200,116,.6); border-bottom: 1px solid rgba(233,200,116,.6);
+}
+.yurt-notebook__open {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 17px; letter-spacing: .08em;
+  color: var(--tallow); padding: 6px 14px; border: 1px solid rgba(242,230,212,.35); border-radius: 4px;
+}
+.yurt-notebook__shut:hover .yurt-notebook__open,
+.yurt-notebook__shut:focus-visible .yurt-notebook__open { border-color: var(--candle); color: var(--candle); }
+.yurt-notebook__shut:focus-visible { outline: 4px solid var(--candle); outline-offset: 4px; }
+.yurt-notebook__cover {
+  position: relative; padding: 12px 18px 12px 22px; border-radius: 4px 10px 10px 4px; overflow: hidden;
+  background-color: #4A2E1F;
+  background-image: linear-gradient(160deg, #5A3826, #3A2418);
+  box-shadow: 0 22px 36px -16px rgba(0,0,0,.75), inset 6px 0 0 #2A170F, inset 0 0 0 1px rgba(233,200,116,.25);
+}
+.yurt-notebook__cover.is-opening { animation: yurt-book-open .45s ease-out; }
+@keyframes yurt-book-open { from { opacity: 0; } to { opacity: 1; } }
+html[data-intensity="gentle"] .yurt-notebook__cover.is-opening { animation: none; }
 .yurt-notebook__pages {
   display: flex; margin: 0; padding: 0; list-style: none; aspect-ratio: 4 / 5;
   overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
-  background: var(--tallow); border-radius: 2px 6px 6px 2px;
+  border-radius: 2px 6px 6px 2px;
+  box-shadow: 3px 0 0 -1px #E8D9BF, 5px 0 0 -2px #D8C6A6, 7px 0 0 -3px #E8D9BF;
 }
-.yurt-notebook__page { flex: 0 0 100%; scroll-snap-align: center; display: flex; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box; }
-.yurt-notebook__page img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
+.yurt-notebook__page {
+  position: relative; flex: 0 0 100%; scroll-snap-align: center; box-sizing: border-box;
+  display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 10px; padding: 22px 20px 30px 26px;
+  background-color: var(--tallow);
+  background-image:
+    linear-gradient(90deg, rgba(58,42,32,.28) 0, rgba(58,42,32,0) 18px),
+    radial-gradient(circle at 82% 12%, rgba(164,144,123,.18) 0 14px, transparent 15px),
+    radial-gradient(circle at 14% 88%, rgba(164,144,123,.14) 0 10px, transparent 11px),
+    repeating-linear-gradient(180deg, transparent 0 29px, rgba(109,138,86,.22) 29px 30px);
+}
+.yurt-notebook__mount { margin: 0; min-height: 0; display: flex; align-items: center; justify-content: center; }
+.yurt-notebook__mount img {
+  display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; box-sizing: border-box;
+  padding: 7px; background-color: #FBF6EC;
+  background-image:
+    linear-gradient(135deg, #3A2A20 0 13px, transparent 13px),
+    linear-gradient(225deg, #3A2A20 0 13px, transparent 13px),
+    linear-gradient(45deg, #3A2A20 0 13px, transparent 13px),
+    linear-gradient(315deg, #3A2A20 0 13px, transparent 13px);
+  background-position: top left, top right, bottom left, bottom right;
+  background-size: 22px 22px; background-repeat: no-repeat;
+  box-shadow: 0 2px 6px rgba(58,42,32,.35);
+}
+.yurt-notebook__note {
+  margin: 0; min-height: 30px; text-align: center;
+  font-family: 'Caveat', cursive; font-weight: 600; font-size: 24px; line-height: 30px; color: var(--timber);
+}
+.yurt-notebook__no {
+  position: absolute; right: 16px; bottom: 8px;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 600; font-size: 14px; color: var(--timber);
+}
 .yurt-notebook__pages:focus-visible { outline: 4px solid var(--candle); outline-offset: 3px; }
-.yurt-notebook__sweep { position: absolute; top: 12px; bottom: 12px; left: 22px; right: 12px; pointer-events: none; opacity: 0;
+.yurt-notebook__sweep { position: absolute; top: 12px; bottom: 12px; left: 22px; right: 18px; pointer-events: none; opacity: 0;
   background: linear-gradient(90deg, rgba(42,30,23,0), rgba(42,30,23,.35) 45%, rgba(242,230,212,.6) 55%, rgba(42,30,23,0)); }
 .yurt-notebook__sweep.is-turning { animation: yurt-page-turn .55s ease-in-out; }
 @keyframes yurt-page-turn { from { opacity: 1; transform: translateX(100%); } to { opacity: 0; transform: translateX(-100%); } }
 html[data-intensity="gentle"] .yurt-notebook__sweep.is-turning { animation: none; }
-.yurt-notebook__controls { display: flex; justify-content: space-between; gap: 8px; margin: 10px 0 0; }
+.yurt-notebook__controls { display: grid; grid-template-columns: auto auto; justify-content: space-between; gap: 8px; margin: 10px 0 0; }
+.yurt-notebook__controls [data-notebook-close] { grid-column: 1 / -1; justify-self: center; order: 1; }
 .yurt-notebook__btn {
   min-height: 44px; padding: 6px 14px; cursor: pointer;
   background: var(--tent); color: var(--tallow); border: 1px solid rgba(233,200,116,.28); border-radius: 6px;
@@ -6207,6 +6307,29 @@ html[data-intensity="gentle"] .yurt-notebook__sweep.is-turning { animation: none
 }
 .yurt-notebook__btn:hover { border-color: var(--candle); }
 .yurt-notebook__btn:focus-visible { outline: 3px solid var(--candle); outline-offset: 2px; }
+
+/* JOIN THE FAERIES AND GROW A GARDEN, Helen's ask, 2026-10-14: two switches
+   under the dial, in the notebook's button clothes, candle when pressed. The
+   layers they make are fixed over the window, aria-hidden, and let the pointer
+   through; yurt-garden.js moves them, not CSS, so they keep going at Gentle for
+   somebody who pressed, and nothing in them flashes. They do not print. */
+.yurt-magic { margin: 18px auto 0; max-width: 560px; text-align: center; }
+.yurt-magic__row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.yurt-magic__btn {
+  min-height: 44px; padding: 8px 18px; cursor: pointer;
+  background: var(--tent); color: var(--tallow); border: 1px solid rgba(233,200,116,.28); border-radius: 6px;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 18px;
+}
+.yurt-magic__btn:hover { border-color: var(--candle); }
+.yurt-magic__btn[aria-pressed="true"] { color: var(--candle); border-color: var(--candle); }
+.yurt-magic__btn:focus-visible { outline: 3px solid var(--candle); outline-offset: 2px; }
+.yurt-magic__note { margin: 10px 0 0; font-size: 15px; color: var(--tallow-2); }
+.yurt-garden, .yurt-faeries { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+.yurt-garden { z-index: 30; }
+.yurt-faeries { z-index: 31; }
+.yurt-garden svg { display: block; }
+.yurt-faery { position: absolute; left: 0; top: 0; overflow: visible; }
+@media print { .yurt-garden, .yurt-faeries, .yurt-magic { display: none !important; } }
 
 /* Where to find me, and the treeline the yurt is pitched behind. */
 .whereabouts { display: flex; gap: 20px; align-items: center; }
@@ -6245,39 +6368,60 @@ html[data-intensity="gentle"] .yurt-notebook__sweep.is-turning { animation: none
 .room-yurt .pebbles__go:hover, .room-yurt .pebbles__lift:hover { background: var(--candle); border-color: var(--candle); }
 .room-yurt .pebbles__said { color: var(--tallow); }
 
-/* HELEN'S WICKER BASKET, her ask, 2026-09-26: the basket is drawn, and the
-   pebbles sit in it, and a pebble is the whole thing you press. The weave, the
-   rim and the handle are ornament in her own browns and carry no word; every
-   word is on a pebble, and a pebble is her nook's canvas with her tallows on
-   it, pairs already measured. The link is the pebble's title and is stretched
-   over the stone with ::after, so the name a screen reader hears is still the
-   title and the target is the size of the stone. Nothing here moves at any
-   setting: a hover and a focus light the stone's edge in candle and that is
-   all. The class is the yurt's; the Hermitage's basket stays its own list. */
+/* HELEN'S PICNIC HAMPER, her asks, 2026-09-26 and 2026-10-14: a traditional
+   English picnic basket, open. Pale woven willow, a twisted rim, the inside
+   lined with green gingham in her ivy, the lid propped open behind with the
+   same lining and a leather strap across it, and two leather straps with brass
+   buckles down the front. The pebbles sit in the lining. All of it is ornament
+   and carries no word; every word is on a pebble, and a pebble is her nook's
+   canvas with her tallows on it, pairs already measured. The link is the
+   pebble's title and is stretched over the stone with ::after, so the name a
+   screen reader hears is still the title and the target is the size of the
+   stone. Nothing is rotated and nothing moves at any setting: a hover and a
+   focus light the stone's edge in candle and that is all. The class is the
+   yurt's; the Hermitage's basket stays its own list. */
 .room-yurt .yurt-wicker {
-  position: relative; margin: 64px auto 8px; max-width: 640px;
+  position: relative; margin: 110px auto 8px; max-width: 640px; box-sizing: border-box;
   display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 14px;
-  padding: 40px 30px 46px;
-  background-color: var(--timber);
-  /* The weave: upright stakes showing where the weavers pass behind them,
-     one row over and the next row under, and round horizontal weavers lit
-     along their middles. Two ellipses per 44x36 tile make the over-under. */
+  padding: 26px 22px 112px;
+  background-color: #F2E6D4;
   background-image:
-    radial-gradient(ellipse 6px 10px at 11px 9px, rgba(18,11,8,.62) 0 60%, transparent 100%),
-    radial-gradient(ellipse 6px 10px at 33px 27px, rgba(18,11,8,.62) 0 60%, transparent 100%),
-    repeating-linear-gradient(180deg, rgba(0,0,0,.42) 0, rgba(242,182,115,.26) 7px, rgba(242,182,115,.30) 10px, rgba(0,0,0,.42) 18px);
-  background-size: 44px 36px, 44px 36px, auto;
-  border-radius: 16px 16px 46% 46% / 16px 16px 26% 26%;
-  box-shadow:
-    inset 0 10px 0 var(--canvas-2), inset 0 12px 0 rgba(0,0,0,.45),
-    inset 0 -18px 30px -12px rgba(0,0,0,.55),
-    0 22px 34px -18px rgba(0,0,0,.7);
+    linear-gradient(90deg, rgba(109,138,86,.42) 50%, transparent 50%),
+    linear-gradient(180deg, rgba(109,138,86,.42) 50%, transparent 50%);
+  background-size: 26px 26px;
+  border: 14px solid #B88E55;
+  border-image: repeating-linear-gradient(45deg, #D4AE72 0 6px, #A87C45 6px 9px, #C9A267 9px 14px) 14;
+  border-radius: 6px;
+  box-shadow: inset 0 8px 14px -6px rgba(58,42,32,.45), 0 24px 36px -18px rgba(0,0,0,.75);
 }
-/* The handle: a twisted withy arched over the rim, behind the pebbles. */
+/* The lid, propped open behind the rim, showing its lining and a strap. */
 .room-yurt .yurt-wicker::before {
-  content: ""; position: absolute; z-index: 0; left: 18%; right: 18%; top: -52px; height: 70px;
-  border: 9px solid var(--timber); border-bottom: 0; border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  box-shadow: inset 0 3px 0 rgba(242,182,115,.14), 0 -2px 0 rgba(0,0,0,.35);
+  content: ""; position: absolute; z-index: 0; left: -14px; right: -14px; top: -104px; height: 90px;
+  clip-path: polygon(0 0, 100% 0, 96% 100%, 4% 100%);
+  background:
+    linear-gradient(#5A3826, #5A3826) 50% 58% / 64% 12px no-repeat,
+    linear-gradient(#C9A267, #C9A267) 22% 58% / 14px 18px no-repeat,
+    linear-gradient(#C9A267, #C9A267) 78% 58% / 14px 18px no-repeat,
+    repeating-linear-gradient(45deg, #D4AE72 0 6px, #A87C45 6px 9px, #C9A267 9px 14px) top / 100% 12px no-repeat,
+    linear-gradient(#A87C45, #A87C45) bottom / 100% 8px no-repeat,
+    linear-gradient(90deg, rgba(109,138,86,.42) 50%, transparent 50%) 0 0 / 26px 22px,
+    linear-gradient(180deg, rgba(109,138,86,.42) 50%, transparent 50%) 0 0 / 26px 22px,
+    #E8D9BF;
+}
+/* The front of the hamper: willow stakes with the weavers passing over and
+   under them, and two leather straps with brass buckles. */
+.room-yurt .yurt-wicker::after {
+  content: ""; position: absolute; z-index: 0; left: 0; right: 0; bottom: 0; height: 88px;
+  background:
+    linear-gradient(#3A2418, #3A2418) 22% 34% / 12px 10px no-repeat,
+    linear-gradient(#3A2418, #3A2418) 78% 34% / 12px 10px no-repeat,
+    linear-gradient(#C9A267, #C9A267) 22% 32% / 30px 24px no-repeat,
+    linear-gradient(#C9A267, #C9A267) 78% 32% / 30px 24px no-repeat,
+    linear-gradient(90deg, #4A2E1F, #5A3826 50%, #4A2E1F) 22% 0 / 20px 100% no-repeat,
+    linear-gradient(90deg, #4A2E1F, #5A3826 50%, #4A2E1F) 78% 0 / 20px 100% no-repeat,
+    repeating-linear-gradient(90deg, rgba(90,56,30,.42) 0 3px, transparent 3px 20px),
+    repeating-linear-gradient(180deg, #D4AE72 0 5px, #B88E55 5px 7px, #C9A267 7px 11px, #A87C45 11px 12px);
+  box-shadow: inset 0 3px 0 #A87C45, inset 0 6px 8px -4px rgba(0,0,0,.35);
 }
 .room-yurt .yurt-wicker .pebbles__stone {
   position: relative; z-index: 1; flex: 1 1 280px; max-width: 470px;
@@ -6292,7 +6436,9 @@ html[data-intensity="gentle"] .yurt-notebook__sweep.is-turning { animation: none
 .room-yurt .yurt-wicker .pebbles__stone:hover,
 .room-yurt .yurt-wicker .pebbles__stone:focus-within { border-color: var(--candle); }
 @media (max-width: 560px) {
-  .room-yurt .yurt-wicker { padding: 28px 14px 34px; border-radius: 14px 14px 30% 30% / 14px 14px 14% 14%; }
+  .room-yurt .yurt-wicker { margin-top: 84px; padding: 18px 12px 92px; border-width: 10px; }
+  .room-yurt .yurt-wicker::before { left: -10px; right: -10px; top: -80px; height: 70px; }
+  .room-yurt .yurt-wicker::after { height: 72px; }
   .room-yurt .yurt-wicker .pebbles__stone { padding: 16px 18px 18px; border-radius: 28px 34px 30px 36px / 32px 28px 36px 30px; }
 }
 
