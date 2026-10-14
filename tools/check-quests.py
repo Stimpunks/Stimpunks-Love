@@ -66,9 +66,40 @@ def main():
 
     # ── What the board says ──────────────────────────────────────────────
     board = BOARD.read_text()
-    posted = dict(re.findall(r'<li class="job" data-quest="([^"]+)" data-sum="([^"]+)">', board))
+    posted = dict(re.findall(r'<li class="job" data-quest="([^"]+)" data-sum="([^"]+)" id="job-\1">', board))
     if not posted:
-        bad.append("adventurers-guild.html has no jobs posted on it at all.")
+        bad.append("adventurers-guild.html has no jobs posted on it at all, or no job carries "
+                   "the id its badges and the radio's Profile link to.")
+
+    # ── What the badges say ──────────────────────────────────────────────
+    # A badge lists jobs by id and links to each on the board. Read off the
+    # published board: a badge naming a job the board does not post is a badge
+    # nobody can ever have, and a link to a job that is not there goes nowhere.
+    # SPLIT ON EACH BADGE'S OPENING TAG, not matched with one pattern: a badge
+    # holds a list of its own <li>s, and the first draft of this sliced at the
+    # first </li> it met and quietly read half the badges, which was found by
+    # breaking a link on purpose and watching it pass.
+    section = re.search(r"<!-- guild:badges:begin -->(.*?)<!-- guild:badges:end -->", board, re.S)
+    blocks = re.split(r'(?=<li class="badge" )', section.group(1)) if section else []
+    blocks = [b for b in blocks if b.startswith('<li class="badge" ')]
+    if not blocks:
+        bad.append("adventurers-guild.html has no badges between its guild:badges markers.")
+    for block in blocks:
+        m = re.match(r'<li class="badge" id="badge-([^"]+)" data-badge="\1" data-needs="(all|any)" '
+                     r'data-jobs="([^"]*)">', block)
+        if not m:
+            bad.append("a badge on the board does not say its id, what it needs and which jobs, the way "
+                       "make-guild.py writes it.")
+            continue
+        bid, needs, ids = m.group(1), m.group(2), m.group(3).split()
+        for j in ids:
+            if j not in posted:
+                bad.append(f"badge {bid!r} asks for {j!r}, which is not posted on the board.")
+        listed = re.findall(r'<li class="badge__job" data-quest="([^"]+)"><a href="#job-([^"]+)">', block)
+        if [a for a, _ in listed] != ids or any(a != b for a, b in listed):
+            bad.append(f"badge {bid!r} lists different jobs from the ones it asks for, or links them wrongly.")
+        if not ids and needs != "any":
+            bad.append(f"badge {bid!r} asks for every one of no jobs.")
 
     stray = sorted(set(posted) - set(expected))
     gone = sorted(set(expected) - set(posted))

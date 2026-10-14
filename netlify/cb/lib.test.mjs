@@ -36,6 +36,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   cleanMessage, MESSAGE_MAX, cleanText,
   cleanLook, readAvatars, keepAvatar, editAvatar, removeAvatar, wearAvatar, forgetAvatars, withAvatars, avatarSticker, shapeAvatarSticker, AVATAR, AVATAR_KEEP,
   setAvatarsShown, avatarsShown, shownAvatars,
+  QUEST_IDS, questIds, readJobs, keepJobs, forgetJobs, setJobsShown, jobsShown, shownJobs,
   cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
@@ -1774,4 +1775,67 @@ test('a profile shows the avatar worn, first, and the rest only when a claimed u
   await setAvatarsShown('Ada', true, s, 11);
   await deleteAccount('Ada', s);
   assert.equal(await shownAvatars('Ada', s), null, 'a deleted username still has a profile');
+}));
+
+/* ── Jobs kept from the Adventurer's Guild ──────────────────────────────────
+   Which jobs and nothing about when; never more than what is on the board;
+   kept only once keeping has started; shown only on a claimed username that
+   says so; and gone with Forget me's half and with the username. */
+test('a Profile can only hold jobs that are on the board', () => {
+  assert.ok(QUEST_IDS.length >= 15, 'make-guild.py has not written the jobs into lib.mjs');
+  assert.deepEqual(questIds([QUEST_IDS[0], QUEST_IDS[0]]), [QUEST_IDS[0]]);
+  assert.equal(questIds(['no-such-job']), null);
+  assert.equal(questIds(['__proto__']), null);
+  assert.equal(questIds('street-chalk'), null);
+  assert.equal(questIds([{ id: QUEST_IDS[0] }]), null);
+});
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`jobs kept fifteen at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    await keepJobs('pkJ', [], true, s);
+    const ids = QUEST_IDS.slice(0, 15);
+    const told = await Promise.allSettled(ids.map((id) => keepJobs('pkJ', [id], false, s)));
+    const kept = new Set(await readJobs('pkJ', s));
+    told.forEach((r, i) => {
+      if (r.status === 'fulfilled') assert.ok(kept.has(ids[i]), `${ids[i]} was told it was kept and is not there`);
+      else assert.equal(r.reason.message, 'busy');
+    });
+    if (etagOnRead) assert.equal(kept.size, 15);
+  });
+}
+
+test('jobs are kept only once keeping has started, sorted, with nothing about when', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [a, b, c] = QUEST_IDS;
+  assert.equal(await keepJobs('pkK', [a], false, s), null, 'kept without being switched on');
+  assert.equal(await readJobs('pkK', s), null);
+  assert.deepEqual(await keepJobs('pkK', [c, a], true, s), [a, c].sort());
+  assert.deepEqual(await keepJobs('pkK', [b], false, s), [a, b, c].sort());
+  const raw = await s.get('jobs/pkK', { type: 'json' });
+  assert.deepEqual(Object.keys(raw), ['jobs'], 'the record holds something besides which jobs');
+  await forgetJobs('pkK', s);
+  assert.equal(await readJobs('pkK', s), null);
+  assert.equal(await keepJobs('pkK', [a], false, s), null, 'a job kept after keeping was switched off');
+});
+
+test('jobs are shown only on a claimed username that says so, and go with it', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const pk = petKey('Ada');
+  await keepJobs(pk, [QUEST_IDS[0]], true, s);
+  await setJobsShown('Ada', true, s, 1);
+  assert.equal(await shownJobs('Ada', s), null, 'an unclaimed handle showed its jobs');
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  assert.deepEqual(await shownJobs('ada', s), { handle: 'Ada', jobs: [QUEST_IDS[0]] });
+  await setJobsShown('Ada', false, s);
+  assert.equal(await shownJobs('Ada', s), null, 'shown with the switch off');
+  await setJobsShown('Ada', true, s, 2);
+  await forgetJobs(pk, s);
+  assert.equal(await jobsShown('Ada', s), false, 'stopping keeping left the switch on');
+  await keepJobs(pk, [QUEST_IDS[1]], true, s);
+  await setJobsShown('Ada', true, s, 3);
+  await deleteAccount('Ada', s);
+  assert.equal(await readJobs(pk, s), null, 'a deleted username kept its jobs');
+  assert.equal(await s.get(`jobshown/${pk}`, { type: 'json' }), null, 'a deleted username left its switch');
 }));

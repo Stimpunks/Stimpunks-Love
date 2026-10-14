@@ -137,7 +137,7 @@
    "tag": "adventurers-guild",
    "name": "The Adventurer’s Guild",
    "path": "/adventurers-guild.html",
-   "about": "A job board in a manila room, on a street where nothing else is tidy. Each job sends you to a marker standing in one of the rooms; the marker gives you a code, and the code comes back here. Nothing is scored, nothing expires, every job carries hints and a give-me-the-answer way out, and the fanfare does whatever the dial says."
+   "about": "A job board in a manila room, on a street where nothing else is tidy. Each job sends you to a marker standing in one of the rooms; the marker gives you a code, and the code comes back here. Nothing is scored, nothing expires, every job carries hints and a give-me-the-answer way out, jobs that go together make a badge, and the fanfare does whatever the dial says."
   },
   {
    "tag": "the-feed",
@@ -701,7 +701,7 @@
    "tag": "cb-guide",
    "name": "The CB guide",
    "path": "/cb-guide.html",
-   "about": "The CB, the street’s radio, part by part: the guest bar and signing on, the bar and its sizes, World and room channels, reading and writing messages, reactions, pictures, the teleporter, watching films together, calls, Profile, avatars and pets, and what it keeps."
+   "about": "The CB, the street’s radio, part by part: the guest bar and signing on, the bar and its sizes, World and room channels, reading and writing messages, reactions, pictures, the teleporter, watching films together, calls, Profile, avatars, pets and jobs, and what it keeps."
   },
   {
    "tag": "changelog",

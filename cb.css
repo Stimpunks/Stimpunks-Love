@@ -430,6 +430,20 @@ ol.cb-md-list { list-style: decimal; }
    name, at the size of the line it is on. */
 .cb-online-face { display: inline-block; width: 28px; height: 28px; margin: 0 6px 0 0; vertical-align: middle; line-height: 0; }
 .cb-online-face svg { display: block; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--cb-steel-2); }
+/* YOUR JOBS, and somebody's in their profile: the badges they make, then the
+   jobs folded under them. A badge is drawn in the radio's own amber, the way
+   its words are, so nothing new is measured here; it is a set of jobs and not
+   a medal, so it gets no plate, no shine and no number. */
+.cb-badges { list-style: none; margin: 0 0 8px; padding: 0; display: grid; gap: 8px; }
+.cb-badge { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 8px; align-items: start; }
+.cb-badge__art { display: block; width: 36px; height: 36px; color: var(--cb-amber); }
+.cb-badge__name { font-weight: 700; overflow-wrap: anywhere; }
+.cb-badge__for { margin: 2px 0 0; font-size: 13px; line-height: 1.4; }
+.cb-jobs { margin: 0 0 8px; font-size: 14px; }
+.cb-jobs > summary { cursor: pointer; font-weight: 700; padding: 6px 0; }
+.cb-jobs__list { margin: 4px 0 0; padding-left: 18px; line-height: 1.45; }
+.cb-jobs__list li { margin: 0 0 3px; overflow-wrap: anywhere; }
+.cb-jobs__room { font-size: 13px; }
 .cb-forget-sure { margin: 8px 0 0; }
 .cb-forget-sure p { margin: 0 0 8px; font-size: 14px; line-height: 1.45; }
 .cb-forget-sure .cb-btn { margin: 0 8px 6px 0; }

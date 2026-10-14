@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Adventurer&rsquo;s Guild &mdash; Stimpunks.World</title>
-<meta name="description" content="A job board in a manila room, on a street where nothing else is tidy. Each job sends you to a marker standing in one of the rooms; the marker gives you a code, and the code comes back here. Nothing is scored, nothing expires, every job carries hints and a give-me-the-answer way out, and the fanfare does whatever the dial says.">
+<meta name="description" content="A job board in a manila room, on a street where nothing else is tidy. Each job sends you to a marker standing in one of the rooms; the marker gives you a code, and the code comes back here. Nothing is scored, nothing expires, every job carries hints and a give-me-the-answer way out, jobs that go together make a badge, and the fanfare does whatever the dial says.">
 <link rel="canonical" href="https://stimpunks.world/adventurers-guild.html">
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#E8E1CF">
@@ -31,7 +31,7 @@
      stored choice wins over the media query, including a choice to turn it UP. -->
 <script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
 <!-- structured-data:begin -->
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/adventurers-guild.html#webpage","url":"https://stimpunks.world/adventurers-guild.html","name":"The Adventurer’s Guild — Stimpunks.World","description":"A job board in a manila room, on a street where nothing else is tidy. Each job sends you to a marker standing in one of the rooms; the marker gives you a code, and the code comes back here. Nothing is scored, nothing expires, every job carries hints and a give-me-the-answer way out, and the fanfare does whatever the dial says.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/adventurers-guild.html#webpage","url":"https://stimpunks.world/adventurers-guild.html","name":"The Adventurer’s Guild — Stimpunks.World","description":"A job board in a manila room, on a street where nothing else is tidy. Each job sends you to a marker standing in one of the rooms; the marker gives you a code, and the code comes back here. Nothing is scored, nothing expires, every job carries hints and a give-me-the-answer way out, jobs that go together make a badge, and the fanfare does whatever the dial says.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
 <!-- structured-data:end -->
 </head>
 <body class="room-guild" id="top">
@@ -68,14 +68,32 @@
       <button type="button" class="hand__do">Hand it in</button>
     </div>
     <p class="hand__said" role="status"></p>
-    <p class="hand__nostore" hidden>Your browser is not letting this page store anything, so stamps will not survive you leaving. Everything still works; it just will not be here when you come back. Nothing about this is kept anywhere but your own browser in the first place.</p>
+    <p class="hand__nostore" hidden>Your browser is not letting this page store anything, so stamps will not survive you leaving. Everything still works; it just will not be here when you come back. Nothing about this is kept anywhere else unless you switch on keeping your jobs in your Profile on the CB.</p>
     <button type="button" class="hand__forget">Forget every job I have handed in</button>
+    <!-- Signed on to the CB, the jobs can be kept in Profile as well. Ships
+         hidden, and quest.js shows it only to a page that has the radio's pass:
+         it is off until pressed, and nothing reaches the CB from this board
+         until it is on. -->
+    <div class="hand__cb" hidden>
+      <p class="hand__cb-who"></p>
+      <button type="button" class="hand__keep" aria-pressed="false" aria-describedby="hand-keep-why">Keep my jobs in my Profile: off</button>
+      <p class="hand__keep-why" id="hand-keep-why"></p>
+      <div class="hand__keep-sure" hidden>
+        <p>This deletes the jobs kept in your Profile on the CB, and whether they are shown there. The stamps in this browser stay where they are.</p>
+        <button type="button" class="hand__keep-yes">Yes, stop keeping them</button>
+        <button type="button" class="hand__keep-no">Keep them</button>
+      </div>
+      <button type="button" class="hand__bring" hidden>Put this browser&rsquo;s stamps in my Profile too</button>
+      <p class="hand__cb-said" role="status"></p>
+    </div>
   </div>
 
   <h2>House rules</h2>
   <div class="guild-rules">
     <ul>
-      <li><b>Nothing here is scored.</b> No total, no percentage, no streak, no rank you climb, and nothing that expires. The board stamps a job when you hand its code in and that is the entire bookkeeping. One job is a perfectly good number of jobs to do.</li>
+      <li><b>Nothing here is scored.</b> No total, no percentage, no streak, no rank you climb, and nothing that expires. The board stamps a job when you hand its code in, a badge is worked out from the stamps, and that is the entire bookkeeping. One job is a perfectly good number of jobs to do.</li>
+      <li><b>A badge is a set of jobs that go together, and nothing else.</b> It is worked out from the jobs you have handed in, every time, and kept nowhere of its own. No badge is rarer or worth more than another, none is secret, none ever asks for more than it did when it was posted, so none can be taken away, and nothing counts how many you have. <b>It certifies nothing</b>: every code is printed in its room and every question gives its answer away, so a badge says where you have walked, and that is all it says.</li>
+      <li><b>Your stamps stay in your browser unless you ask.</b> Signed on to the CB, you can switch on <b>Keep my jobs in my Profile</b>, by the box above. Then the jobs you hand in are kept there as well, which jobs and nothing about when, they follow you to any device you sign on with, and you can choose to show them, and your badges, to people on the CB. Switching it off deletes them there. <a href="privacy.html#jobs">Privacy</a> has the rest.</li>
       <li><b>The difficulty class is how far you walk.</b> <b>I</b> is on the street, <b>II</b> is through a door off another room, <b>III</b> is off the street altogether &mdash; the field past the treeline at one end and the land past its wood, the road past the last streetlight at the other, or the caverns underneath. It says nothing whatever about the person doing it, which is why it is measured in doors.</li>
       <li><b>Every job has hints, and some have a question.</b> A question is answered by a sentence already published on the page you are standing on &mdash; that is the point of asking. The hints are at the job, the question&rsquo;s own hints are at the marker, and <b>every question has a &ldquo;give me the answer&rdquo; way out</b>. Taking it is a real way through this and not a lesser one.</li>
       <li><b>The fanfare does what the dial says, and the words never change.</b> At <b>Gentle</b> handing a code in says its piece and does nothing else. At <b>Regular</b> it chimes. At <b>MAX GLITTER</b> it chimes properly and throws sparks up the page. You get the same sentences at all three.</li>
@@ -84,12 +102,291 @@
     </ul>
   </div>
 
+  <h2 id="badges">Badges</h2>
+  <p class="guild-note">People asked for badges, so jobs that go together make one: the rooms down the lift, the tables on the street, the toys. Each one lists its jobs, and once you have handed some in it stamps the ones that are done, the way the board does. A badge is yours when its jobs are, and nothing on it counts how many are left.</p>
+  <ul class="guild-badges">
+    <!-- guild:badges:begin -->
+      <li class="badge" id="badge-one-is-plenty" data-badge="one-is-plenty" data-needs="any" data-jobs="">
+        <svg class="badge__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M7 19 C7 13 12 10 17 10 C23 10 26 14 25 19 C24 24 19 25 15 25 C10 25 7 23 7 19 Z" fill="currentColor"/></svg>
+        <div class="badge__words">
+          <h3 class="badge__name">One Is Plenty</h3>
+          <p class="badge__for">Handing in any job at all. The house rules say one is a perfectly good number of jobs to do, and this badge is them saying it again.</p>
+          <p class="badge__any">Any job on the board.</p>
+        </div>
+        <p class="badge__stamp" hidden>Yours</p>
+      </li>
+      <li class="badge" id="badge-down-the-lift" data-badge="down-the-lift" data-needs="all" data-jobs="caverns-rail bigsteep-carboy mycelium-block glow-star">
+        <svg class="badge__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M8 4 H24 V28 H8 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/><path d="M16 9 V22 M11 17 L16 22 L21 17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+        <div class="badge__words">
+          <h3 class="badge__name">Down the Lift</h3>
+          <p class="badge__for">Arlesglad Caverns, by the lift or the stair beside it: the passage under the street, the cellar, the mushroom farm and the shop where everything glows.</p>
+          <details class="badge__jobs">
+            <summary>Its jobs</summary>
+            <ul>
+              <li class="badge__job" data-quest="caverns-rail"><a href="#job-caverns-rail">Under the street</a> <span class="badge__room">&middot; Arlesglad Caverns</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="bigsteep-carboy"><a href="#job-bigsteep-carboy">The cellar at the top of the lift</a> <span class="badge__room">&middot; Big Steep Fermentables</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="mycelium-block"><a href="#job-mycelium-block">The farm under the street</a> <span class="badge__room">&middot; Mycelium Munchies</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="glow-star"><a href="#job-glow-star">The dark shop</a> <span class="badge__room">&middot; Glow Go Gee Gaws</span><b class="badge__tick" hidden>Done</b></li>
+            </ul>
+          </details>
+        </div>
+        <p class="badge__stamp" hidden>Yours</p>
+      </li>
+      <li class="badge" id="badge-past-the-treeline" data-badge="past-the-treeline" data-needs="all" data-jobs="camp-peg yurt-tallow meadow-firefly hermitage-sunflower bns-spoon">
+        <svg class="badge__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 3 L9 13 H13 L7 22 H25 L19 13 H23 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/><path d="M16 22 V29" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+        <div class="badge__words">
+          <h3 class="badge__name">Past the Treeline</h3>
+          <p class="badge__for">Out to the campgrounds: the field, and the yurt, the meadow, the hermitage and the tea room pitched on it.</p>
+          <details class="badge__jobs">
+            <summary>Its jobs</summary>
+            <ul>
+              <li class="badge__job" data-quest="camp-peg"><a href="#job-camp-peg">Out past the treeline</a> <span class="badge__room">&middot; The Campgrounds</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="yurt-tallow"><a href="#job-yurt-tallow">A candle stub on the windowsill</a> <span class="badge__room">&middot; The Faery Yurt</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="meadow-firefly"><a href="#job-meadow-firefly">The book this room lends</a> <span class="badge__room">&middot; Swaying Sweetgrass</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="hermitage-sunflower"><a href="#job-hermitage-sunflower">The fourth learning space</a> <span class="badge__room">&middot; The Solarpunk Hermitage</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="bns-spoon"><a href="#job-bns-spoon">Who lit the woodland tea room?</a> <span class="badge__room">&middot; Brew and Stew</span><b class="badge__tick" hidden>Done</b></li>
+            </ul>
+          </details>
+        </div>
+        <p class="badge__stamp" hidden>Yours</p>
+      </li>
+      <li class="badge" id="badge-the-far-end" data-badge="the-far-end" data-needs="all" data-jobs="outskirts-reflector lagoon-speaker sithen-thorn looming-flood dance-punks-glowstick small-hours-crayon repeater-qsl nothing-for-sale-torch rave-earplug">
+        <svg class="badge__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M5 29 L13 3 M27 29 L19 3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/><path d="M16 26 V22 M16 17 V14 M16 10 V8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+        <div class="badge__words">
+          <h3 class="badge__name">The Far End</h3>
+          <p class="badge__for">Down the road past the last streetlight: the board at the far end, the drive-in, the fort, the amphitheatre, the dance on the airstrip, the diner, the repeater, the free tables and the hangar.</p>
+          <details class="badge__jobs">
+            <summary>Its jobs</summary>
+            <ul>
+              <li class="badge__job" data-quest="outskirts-reflector"><a href="#job-outskirts-reflector">The far end of the street</a> <span class="badge__room">&middot; The Outskirts</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="lagoon-speaker"><a href="#job-lagoon-speaker">What the band did without</a> <span class="badge__room">&middot; Black Leather Lagoon</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="sithen-thorn"><a href="#job-sithen-thorn">The tree nobody will cut</a> <span class="badge__room">&middot; Sithen</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="looming-flood"><a href="#job-looming-flood">What the rocks give back</a> <span class="badge__room">&middot; Looming Rocks Amphitheatre</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="dance-punks-glowstick"><a href="#job-dance-punks-glowstick">Who holds the volume</a> <span class="badge__room">&middot; Dance, Punks</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="small-hours-crayon"><a href="#job-small-hours-crayon">What the clock is missing</a> <span class="badge__room">&middot; The Small Hours</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="repeater-qsl"><a href="#job-repeater-qsl">What a repeater does</a> <span class="badge__room">&middot; The Repeater</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="nothing-for-sale-torch"><a href="#job-nothing-for-sale-torch">Not charity</a> <span class="badge__room">&middot; Nothing For Sale</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="rave-earplug"><a href="#job-rave-earplug">Where the knob stops</a> <span class="badge__room">&middot; Rebellion Rave Room</span><b class="badge__tick" hidden>Done</b></li>
+            </ul>
+          </details>
+        </div>
+        <p class="badge__stamp" hidden>Yours</p>
+      </li>
+      <li class="badge" id="badge-over-the-stile" data-badge="over-the-stile" data-needs="all" data-jobs="ncx-stile anm-feather bds-chiltepin ghc-leaf atn-egg dry-churn wsc-seed hbx-coin">
+        <svg class="badge__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M9 28 V5 M23 28 V5 M9 11 H23 M9 18 H23" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/><path d="M3 23 H13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+        <div class="badge__words">
+          <h3 class="badge__name">Over the Stile</h3>
+          <p class="badge__for">Past the campgrounds’ wood to the land: the stile, the sanctuary, the solar farm, the cannabis farm, the mixed farm, the dairy and the wildflowers, and back to the honesty box on the street where some of it is sold.</p>
+          <details class="badge__jobs">
+            <summary>Its jobs</summary>
+            <ul>
+              <li class="badge__job" data-quest="ncx-stile"><a href="#job-ncx-stile">What is shading the fields?</a> <span class="badge__room">&middot; Nature’s Contribution</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="anm-feather"><a href="#job-anm-feather">How do the keepers see in the dark?</a> <span class="badge__room">&middot; All Needs Met Wildlife Sanctuary</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="bds-chiltepin"><a href="#job-bds-chiltepin">Which pepper liked the shade?</a> <span class="badge__room">&middot; Brighter Days Solar Farm</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="ghc-leaf"><a href="#job-ghc-leaf">What do the three words not tell you?</a> <span class="badge__room">&middot; Gentle Help Cannabis Farm</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="atn-egg"><a href="#job-atn-egg">Which practice is not on the farm?</a> <span class="badge__room">&middot; All Together Now Farms</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="dry-churn"><a href="#job-dry-churn">What does the machine on the counter do?</a> <span class="badge__room">&middot; The Dairy</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="wsc-seed"><a href="#job-wsc-seed">What is never in the mix?</a> <span class="badge__room">&middot; Wide-Spread Chaos Gardens</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="hbx-coin"><a href="#job-hbx-coin">What will the box not sell?</a> <span class="badge__room">&middot; The Honesty Box</span><b class="badge__tick" hidden>Done</b></li>
+            </ul>
+          </details>
+        </div>
+        <p class="badge__stamp" hidden>Yours</p>
+      </li>
+      <li class="badge" id="badge-open-hall" data-badge="open-hall" data-needs="all" data-jobs="th-gavel fb-flake dr-key bd-lamp md-fuse es-note">
+        <svg class="badge__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M4 12 L16 4 L28 12 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/><path d="M7 12 V25 M12.5 12 V25 M19.5 12 V25 M25 12 V25 M3 28 H29" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+        <div class="badge__words">
+          <h3 class="badge__name">Open Hall</h3>
+          <p class="badge__for">Through the Town Hall: the open middle, the Fishbowl, and the rooms our directors, board and moderators meet in, which anybody may walk into.</p>
+          <details class="badge__jobs">
+            <summary>Its jobs</summary>
+            <ul>
+              <li class="badge__job" data-quest="th-gavel"><a href="#job-th-gavel">What the middle of the building is open to</a> <span class="badge__room">&middot; Town Hall</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="fb-flake"><a href="#job-fb-flake">The seat nobody sits in</a> <span class="badge__room">&middot; The Fishbowl</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="dr-key"><a href="#job-dr-key">How the light gets in</a> <span class="badge__room">&middot; Directors</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="bd-lamp"><a href="#job-bd-lamp">Whose lamp is biggest</a> <span class="badge__room">&middot; Board</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="md-fuse"><a href="#job-md-fuse">What lights the room that looks after the street</a> <span class="badge__room">&middot; Moderators</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="es-note"><a href="#job-es-note">The one light left on</a> <span class="badge__room">&middot; Executive Session</span><b class="badge__tick" hidden>Done</b></li>
+            </ul>
+          </details>
+        </div>
+        <p class="badge__stamp" hidden>Yours</p>
+      </li>
+      <li class="badge" id="badge-shut-not-locked" data-badge="shut-not-locked" data-needs="all" data-jobs="cavendish-marker wr-mantle op-tag ed-loupe wh-feather cf-marshmallow cv-icicle">
+        <svg class="badge__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M8 3 H24 V29 H8 Z M12 7 H20 V14 H12 Z M12 18 H20 V25 H12 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/><path d="M20.5 16 H23 V18.5 H20.5 Z" fill="currentColor"/></svg>
+        <div class="badge__words">
+          <h3 class="badge__name">Shut, Not Locked</h3>
+          <p class="badge__for">Cavendish Coworking’s house and the rooms behind its doors: the events room, operations and editorial, and the cave, the campfire and the watering hole upstairs. Every door in that house is shut and none of them is locked.</p>
+          <details class="badge__jobs">
+            <summary>Its jobs</summary>
+            <ul>
+              <li class="badge__job" data-quest="cavendish-marker"><a href="#job-cavendish-marker">Who signed for his own books?</a> <span class="badge__room">&middot; Cavendish Coworking</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="wr-mantle"><a href="#job-wr-mantle">The light&#x27;s character</a> <span class="badge__room">&middot; The Events Room</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="op-tag"><a href="#job-op-tag">How long the round takes</a> <span class="badge__room">&middot; The Operations Room</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="ed-loupe"><a href="#job-ed-loupe">When the proofs are checked</a> <span class="badge__room">&middot; The Editorial Room</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="wh-feather"><a href="#job-wh-feather">Whose cams these are</a> <span class="badge__room">&middot; The Watering Hole</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="cf-marshmallow"><a href="#job-cf-marshmallow">Whose fire this is</a> <span class="badge__room">&middot; The Campfire</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="cv-icicle"><a href="#job-cv-icicle">What is not done in here</a> <span class="badge__room">&middot; The Cave</span><b class="badge__tick" hidden>Done</b></li>
+            </ul>
+          </details>
+        </div>
+        <p class="badge__stamp" hidden>Yours</p>
+      </li>
+      <li class="badge" id="badge-borrowers-ticket" data-badge="borrowers-ticket" data-needs="all" data-jobs="lib-slip lsp-string ook-peel mopery-card">
+        <svg class="badge__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3 8 C8 6 12 6 16 9 C20 6 24 6 29 8 V25 C24 23 20 23 16 26 C12 23 8 23 3 25 Z M16 9 V26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+        <div class="badge__words">
+          <h3 class="badge__name">Borrower’s Ticket</h3>
+          <p class="badge__for">The street’s libraries: the public reading room, L-space behind it, Oook at the far end of the string, and the Mopery after dark.</p>
+          <details class="badge__jobs">
+            <summary>Its jobs</summary>
+            <ul>
+              <li class="badge__job" data-quest="lib-slip"><a href="#job-lib-slip">What are you, at the library?</a> <span class="badge__room">&middot; Community Library</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="lsp-string"><a href="#job-lsp-string">What do you need to find your way through L-space?</a> <span class="badge__room">&middot; L-Space</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="ook-peel"><a href="#job-ook-peel">Why did the Librarian keep his job?</a> <span class="badge__room">&middot; Oook</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="mopery-card"><a href="#job-mopery-card">Borrow, not buy</a> <span class="badge__room">&middot; The Mopery</span><b class="badge__tick" hidden>Done</b></li>
+            </ul>
+          </details>
+        </div>
+        <p class="badge__stamp" hidden>Yours</p>
+      </li>
+      <li class="badge" id="badge-shelter-rounds" data-badge="shelter-rounds" data-needs="all" data-jobs="cats-torch dogs-lead smalls-hay pkp-mouse run-ball">
+        <svg class="badge__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 17 C11 17 9 21 9 23 C9 26 12 27 16 27 C20 27 23 26 23 23 C23 21 21 17 16 17 Z" fill="currentColor"/><path d="M6 13 C6 11 7.5 10 8.5 10 C9.5 10 11 11 11 13 C11 15 9.5 16 8.5 16 C7.5 16 6 15 6 13 Z" fill="currentColor"/><path d="M11 7 C11 5 12.5 4 13.5 4 C14.5 4 16 5 16 7 C16 9 14.5 10 13.5 10 C12.5 10 11 9 11 7 Z" fill="currentColor"/><path d="M16 7 C16 5 17.5 4 18.5 4 C19.5 4 21 5 21 7 C21 9 19.5 10 18.5 10 C17.5 10 16 9 16 7 Z" fill="currentColor"/><path d="M21 13 C21 11 22.5 10 23.5 10 C24.5 10 26 11 26 13 C26 15 24.5 16 23.5 16 C22.5 16 21 15 21 13 Z" fill="currentColor"/></svg>
+        <div class="badge__words">
+          <h3 class="badge__name">Shelter Rounds</h3>
+          <p class="badge__for">The shelters for cats, dogs and small animals, the café where the cats wait for a home, and the run where the dogs do.</p>
+          <details class="badge__jobs">
+            <summary>Its jobs</summary>
+            <ul>
+              <li class="badge__job" data-quest="cats-torch"><a href="#job-cats-torch">Where does an adopted cat go?</a> <span class="badge__room">&middot; Rescue A Cat</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="dogs-lead"><a href="#job-dogs-lead">What does “Forget me” forget?</a> <span class="badge__room">&middot; Rescue A Dog</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="smalls-hay"><a href="#job-smalls-hay">What goes on the channel, drawn?</a> <span class="badge__room">&middot; Rescue Small Animals</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="pkp-mouse"><a href="#job-pkp-mouse">What is orange pekoe a grade of?</a> <span class="badge__room">&middot; Pekoe and Purrs</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="run-ball"><a href="#job-run-ball">Why is the ball blue?</a> <span class="badge__room">&middot; The Run</span><b class="badge__tick" hidden>Done</b></li>
+            </ul>
+          </details>
+        </div>
+        <p class="badge__stamp" hidden>Yours</p>
+      </li>
+      <li class="badge" id="badge-through-the-gates" data-badge="through-the-gates" data-needs="all" data-jobs="run-ball tks-boat grn-leaf pil-tape">
+        <svg class="badge__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M4 28 V7 M28 28 V7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/><path d="M4 11 H28 M4 24 H28 M10 11 V24 M16 11 V24 M22 11 V24 M4 24 L28 11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+        <div class="badge__words">
+          <h3 class="badge__name">Through the Gates</h3>
+          <p class="badge__for">Where the buildings stop: through the gates in the fence to the run, the truck stop, the green and the pile.</p>
+          <details class="badge__jobs">
+            <summary>Its jobs</summary>
+            <ul>
+              <li class="badge__job" data-quest="run-ball"><a href="#job-run-ball">Why is the ball blue?</a> <span class="badge__room">&middot; The Run</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="tks-boat"><a href="#job-tks-boat">What does lunch cost at the Truck Stop?</a> <span class="badge__room">&middot; Truckin&#x27; Food Court</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="grn-leaf"><a href="#job-grn-leaf">What has just stopped on the Green?</a> <span class="badge__room">&middot; The Green</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="pil-tape"><a href="#job-pil-tape">Who decides what a pallet is?</a> <span class="badge__room">&middot; The Pile</span><b class="badge__tick" hidden>Done</b></li>
+            </ul>
+          </details>
+        </div>
+        <p class="badge__stamp" hidden>Yours</p>
+      </li>
+      <li class="badge" id="badge-paper-trail" data-badge="paper-trail" data-needs="all" data-jobs="zine-staple zine2-clip doom-foxing zibaldone-nib broadside-sheet foundry-sort now-playing-brush onb-washi">
+        <svg class="badge__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M7 3 H20 L25 8 V29 H7 Z M20 3 V8 H25" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/><path d="M11 13 H21 M11 18 H21 M11 23 H17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+        <div class="badge__words">
+          <h3 class="badge__name">Paper Trail</h3>
+          <p class="badge__for">The rooms made of paper and type: the zine and its second issue, the scroll, the commonplace book, the broadsides, the foundry, the poster column and the open notebook.</p>
+          <details class="badge__jobs">
+            <summary>Its jobs</summary>
+            <ul>
+              <li class="badge__job" data-quest="zine-staple"><a href="#job-zine-staple">One staple off the table</a> <span class="badge__room">&middot; The Zine Table</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="zine2-clip"><a href="#job-zine2-clip">What issue two is about</a> <span class="badge__room">&middot; Zine #2</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="doom-foxing"><a href="#job-doom-foxing">Public domain everywhere</a> <span class="badge__room">&middot; The Doomscroll</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="zibaldone-nib"><a href="#job-zibaldone-nib">Which printing it was</a> <span class="badge__room">&middot; The Zibaldone</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="broadside-sheet"><a href="#job-broadside-sheet">Whose street is it?</a> <span class="badge__room">&middot; The Broadsheet Broadside</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="foundry-sort"><a href="#job-foundry-sort">The letter that is a hole</a> <span class="badge__room">&middot; The Foundry</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="now-playing-brush"><a href="#job-now-playing-brush">Nobody is bigger than anybody</a> <span class="badge__room">&middot; Now Playing</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="onb-washi"><a href="#job-onb-washi">What does the M stand for?</a> <span class="badge__room">&middot; The Open Notebook</span><b class="badge__tick" hidden>Done</b></li>
+            </ul>
+          </details>
+        </div>
+        <p class="badge__stamp" hidden>Yours</p>
+      </li>
+      <li class="badge" id="badge-needle-drop" data-badge="needle-drop" data-needs="all" data-jobs="pony-sequin chappell-rhinestone club-pin den-spindle live-room-tape">
+        <svg class="badge__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3 17 A12 12 0 1 0 27 17 A12 12 0 1 0 3 17 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/><path d="M12 17 A3 3 0 1 0 18 17 A3 3 0 1 0 12 17 Z" fill="currentColor"/><path d="M29 2 V9 L21 15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+        <div class="badge__words">
+          <h3 class="badge__name">Needle Drop</h3>
+          <p class="badge__for">The rooms on the street with records in them: the dancefloor and the chapel behind it, the punk club, the den off the Jungle Room, and the studio.</p>
+          <details class="badge__jobs">
+            <summary>Its jobs</summary>
+            <ul>
+              <li class="badge__job" data-quest="pony-sequin"><a href="#job-pony-sequin">Whose records are on that dancefloor</a> <span class="badge__room">&middot; Pink Pony Club</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="chappell-rhinestone"><a href="#job-chappell-rhinestone">A rhinestone off the vestments</a> <span class="badge__room">&middot; The Chappell</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="club-pin"><a href="#job-club-pin">Read the door policy</a> <span class="badge__room">&middot; Club Chronic</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="den-spindle"><a href="#job-den-spindle">The George Jones cover in Elvis&#x27;s den</a> <span class="badge__room">&middot; The Den</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="live-room-tape"><a href="#job-live-room-tape">What night was it?</a> <span class="badge__room">&middot; The Live Room</span><b class="badge__tick" hidden>Done</b></li>
+            </ul>
+          </details>
+        </div>
+        <p class="badge__stamp" hidden>Yours</p>
+      </li>
+      <li class="badge" id="badge-pull-up-a-chair" data-badge="pull-up-a-chair" data-needs="all" data-jobs="samefood-divider vital-sprig hgc-ladle aqp-mat pkp-mouse">
+        <svg class="badge__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M10 3 V29 M10 17 H23 V29 M10 17 H23" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+        <div class="badge__words">
+          <h3 class="badge__name">Pull Up a Chair</h3>
+          <p class="badge__for">The tables on the street: the café where nothing touches, the plant kitchen, the community kitchen, the pub and the cat café.</p>
+          <details class="badge__jobs">
+            <summary>Its jobs</summary>
+            <ul>
+              <li class="badge__job" data-quest="samefood-divider"><a href="#job-samefood-divider">Same again</a> <span class="badge__room">&middot; Samefood Cafe</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="vital-sprig"><a href="#job-vital-sprig">Say it plainly</a> <span class="badge__room">&middot; Vital Plant Living</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="hgc-ladle"><a href="#job-hgc-ladle">What shape is on a red placard?</a> <span class="badge__room">&middot; Hey, Good Cookin’</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="aqp-mat"><a href="#job-aqp-mat">What passes the street’s light round the pub?</a> <span class="badge__room">&middot; A Quiet Pint</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="pkp-mouse"><a href="#job-pkp-mouse">What is orange pekoe a grade of?</a> <span class="badge__room">&middot; Pekoe and Purrs</span><b class="badge__tick" hidden>Done</b></li>
+            </ul>
+          </details>
+        </div>
+        <p class="badge__stamp" hidden>Yours</p>
+      </li>
+      <li class="badge" id="badge-free-play" data-badge="free-play" data-needs="all" data-jobs="play-block arcade-token quill-feather otter-clam pebbling-stone">
+        <svg class="badge__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M6 22 H26 V28 H6 Z M16 22 V12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/><path d="M12 9 A4 4 0 1 0 20 9 A4 4 0 1 0 12 9 Z" fill="currentColor"/></svg>
+        <div class="badge__words">
+          <h3 class="badge__name">Free Play</h3>
+          <p class="badge__for">The toys: the Playhouse, and the Arcade and the cabinets in it.</p>
+          <details class="badge__jobs">
+            <summary>Its jobs</summary>
+            <ul>
+              <li class="badge__job" data-quest="play-block"><a href="#job-play-block">A block off the floor</a> <span class="badge__room">&middot; The Playhouse</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="arcade-token"><a href="#job-arcade-token">How loud is the arcade</a> <span class="badge__room">&middot; The Arcade</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="quill-feather"><a href="#job-quill-feather">Who drew the porcupine</a> <span class="badge__room">&middot; Quill Drift</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="otter-clam"><a href="#job-otter-clam">What floating is for</a> <span class="badge__room">&middot; Otterly Adorbs</span><b class="badge__tick" hidden>Done</b></li>
+              <li class="badge__job" data-quest="pebbling-stone"><a href="#job-pebbling-stone">Who named the locution</a> <span class="badge__room">&middot; Penguin Pebbling</span><b class="badge__tick" hidden>Done</b></li>
+            </ul>
+          </details>
+        </div>
+        <p class="badge__stamp" hidden>Yours</p>
+      </li>
+    <!-- guild:badges:end -->
+  </ul>
+  <details class="guild-whence">
+    <summary>Where badges come from, and what we left behind</summary>
+    <ul>
+      <li><a href="https://www.scouting.org/skills/merit-badges/">Scouting America&rsquo;s merit badges</a> are a patch for a list of requirements in one subject. We kept the list, printed in full where you can read it before you start. We left anybody signing it off, because nobody here checks anything.</li>
+      <li><a href="https://openbadges.org/">Open Badges</a> is a format for digital badges that its own site calls verifiable and portable: a badge you can take elsewhere and have checked. We left all of that. These do not leave the street, and there is nothing in them to check.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Achievement_(video_games)">Video game achievements</a> are goals laid over a game, shown on a player&rsquo;s profile; Wikipedia traces them to the iron-on patches Activision posted in 1982 to players who photographed a high score. We kept the fun of hunting them and the profile, if you choose to show them. We left the score they add up to, the rarity and the secret ones.</li>
+    </ul>
+  </details>
+
   <h2 id="board">The jobs</h2>
   <p class="guild-note">In the order they were posted rather than sorted by class, because sorting by difficulty would stack the long walks at the bottom and start looking like a ladder.</p>
+  <!-- Ships hidden: the stamps only exist with scripts on, so the filter does
+       too. It hides rows; it never says how many it hid. -->
+  <div class="guild-filter" hidden>
+    <p class="guild-filter__label" id="guild-filter-label">Show</p>
+    <div class="guild-filter__row" role="group" aria-labelledby="guild-filter-label">
+      <button type="button" class="guild-filter__btn" data-show="all" aria-pressed="true">Every job</button>
+      <button type="button" class="guild-filter__btn" data-show="todo" aria-pressed="false">Not done</button>
+      <button type="button" class="guild-filter__btn" data-show="done" aria-pressed="false">Done</button>
+    </div>
+    <p class="guild-filter__said" role="status"></p>
+  </div>
 
   <ul class="guild-board">
     <!-- guild:jobs:begin -->
-      <li class="job" data-quest="street-chalk" data-sum="ce714b9d">
+      <li class="job" data-quest="street-chalk" data-sum="ce714b9d" id="job-street-chalk">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Read the street before you walk it</h3>
@@ -107,7 +404,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="map-pin" data-sum="3fa8a0c7">
+      <li class="job" data-quest="map-pin" data-sum="3fa8a0c7" id="job-map-pin">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">A pin nobody has used</h3>
@@ -125,7 +422,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="pony-sequin" data-sum="c8f38d30">
+      <li class="job" data-quest="pony-sequin" data-sum="c8f38d30" id="job-pony-sequin">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Whose records are on that dancefloor</h3>
@@ -143,7 +440,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="chappell-rhinestone" data-sum="a70c7d5e">
+      <li class="job" data-quest="chappell-rhinestone" data-sum="a70c7d5e" id="job-chappell-rhinestone">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">A rhinestone off the vestments</h3>
@@ -161,7 +458,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="club-pin" data-sum="5451e4ee">
+      <li class="job" data-quest="club-pin" data-sum="5451e4ee" id="job-club-pin">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Read the door policy</h3>
@@ -179,7 +476,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="zine-staple" data-sum="c80fe7da">
+      <li class="job" data-quest="zine-staple" data-sum="c80fe7da" id="job-zine-staple">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">One staple off the table</h3>
@@ -197,7 +494,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="zine2-clip" data-sum="fa2b2625">
+      <li class="job" data-quest="zine2-clip" data-sum="fa2b2625" id="job-zine2-clip">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">What issue two is about</h3>
@@ -215,7 +512,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="quantum-fringe" data-sum="951bdf94">
+      <li class="job" data-quest="quantum-fringe" data-sum="951bdf94" id="job-quantum-fringe">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Name the physicist</h3>
@@ -233,7 +530,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="enid-sticker" data-sum="ca951574">
+      <li class="job" data-quest="enid-sticker" data-sum="ca951574" id="job-enid-sticker">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">One sticker, peeling</h3>
@@ -251,7 +548,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="polaroids-pin" data-sum="9254ac92">
+      <li class="job" data-quest="polaroids-pin" data-sum="9254ac92" id="job-polaroids-pin">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">What we will not do to a picture of you</h3>
@@ -269,7 +566,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="play-block" data-sum="c58360bf">
+      <li class="job" data-quest="play-block" data-sum="c58360bf" id="job-play-block">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">A block off the floor</h3>
@@ -287,7 +584,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="arcade-token" data-sum="0d8960fe">
+      <li class="job" data-quest="arcade-token" data-sum="0d8960fe" id="job-arcade-token">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">How loud is the arcade</h3>
@@ -305,7 +602,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="quill-feather" data-sum="0d662188">
+      <li class="job" data-quest="quill-feather" data-sum="0d662188" id="job-quill-feather">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">Who drew the porcupine</h3>
@@ -323,7 +620,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="otter-clam" data-sum="2e78fe58">
+      <li class="job" data-quest="otter-clam" data-sum="2e78fe58" id="job-otter-clam">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">What floating is for</h3>
@@ -341,7 +638,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="pebbling-stone" data-sum="c6844e19">
+      <li class="job" data-quest="pebbling-stone" data-sum="c6844e19" id="job-pebbling-stone">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">Who named the locution</h3>
@@ -359,7 +656,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="burrow-door" data-sum="65e4b571">
+      <li class="job" data-quest="burrow-door" data-sum="65e4b571" id="job-burrow-door">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The shelf is not a checklist</h3>
@@ -377,7 +674,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="jungle-leaf" data-sum="a3f59cef">
+      <li class="job" data-quest="jungle-leaf" data-sum="a3f59cef" id="job-jungle-leaf">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The thing a live camera cannot tell you</h3>
@@ -395,7 +692,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="den-spindle" data-sum="d3e3d5ac">
+      <li class="job" data-quest="den-spindle" data-sum="d3e3d5ac" id="job-den-spindle">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">The George Jones cover in Elvis&#x27;s den</h3>
@@ -413,7 +710,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="mopery-card" data-sum="b72f06ee">
+      <li class="job" data-quest="mopery-card" data-sum="b72f06ee" id="job-mopery-card">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Borrow, not buy</h3>
@@ -431,7 +728,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="oracle-lozenge" data-sum="0a72ebd5">
+      <li class="job" data-quest="oracle-lozenge" data-sum="0a72ebd5" id="job-oracle-lozenge">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">A deck that will not answer</h3>
@@ -449,7 +746,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="doom-foxing" data-sum="94c23014">
+      <li class="job" data-quest="doom-foxing" data-sum="94c23014" id="job-doom-foxing">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">Public domain everywhere</h3>
@@ -467,7 +764,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="feed-splitflap" data-sum="0dfef72c">
+      <li class="job" data-quest="feed-splitflap" data-sum="0dfef72c" id="job-feed-splitflap">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What the board is not</h3>
@@ -485,7 +782,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="your-room-keys" data-sum="81326140">
+      <li class="job" data-quest="your-room-keys" data-sum="81326140" id="job-your-room-keys">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The keys are in the door</h3>
@@ -503,7 +800,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="board-clip" data-sum="166160e8">
+      <li class="job" data-quest="board-clip" data-sum="166160e8" id="job-board-clip">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">A clip off the noticeboard</h3>
@@ -521,7 +818,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="camp-peg" data-sum="760f39bc">
+      <li class="job" data-quest="camp-peg" data-sum="760f39bc" id="job-camp-peg">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Out past the treeline</h3>
@@ -539,7 +836,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="yurt-tallow" data-sum="bd7f6f28">
+      <li class="job" data-quest="yurt-tallow" data-sum="bd7f6f28" id="job-yurt-tallow">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">A candle stub on the windowsill</h3>
@@ -557,7 +854,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="meadow-firefly" data-sum="2000446e">
+      <li class="job" data-quest="meadow-firefly" data-sum="2000446e" id="job-meadow-firefly">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The book this room lends</h3>
@@ -575,7 +872,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="hermitage-sunflower" data-sum="a3f61888">
+      <li class="job" data-quest="hermitage-sunflower" data-sum="a3f61888" id="job-hermitage-sunflower">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The fourth learning space</h3>
@@ -593,7 +890,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="bns-spoon" data-sum="2d00580c">
+      <li class="job" data-quest="bns-spoon" data-sum="2d00580c" id="job-bns-spoon">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Who lit the woodland tea room?</h3>
@@ -611,7 +908,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="ncx-stile" data-sum="3ef89541">
+      <li class="job" data-quest="ncx-stile" data-sum="3ef89541" id="job-ncx-stile">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What is shading the fields?</h3>
@@ -629,7 +926,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="anm-feather" data-sum="bfe8b770">
+      <li class="job" data-quest="anm-feather" data-sum="bfe8b770" id="job-anm-feather">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">How do the keepers see in the dark?</h3>
@@ -647,7 +944,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="bds-chiltepin" data-sum="8d00146d">
+      <li class="job" data-quest="bds-chiltepin" data-sum="8d00146d" id="job-bds-chiltepin">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Which pepper liked the shade?</h3>
@@ -665,7 +962,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="ghc-leaf" data-sum="74b45b18">
+      <li class="job" data-quest="ghc-leaf" data-sum="74b45b18" id="job-ghc-leaf">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What do the three words not tell you?</h3>
@@ -683,7 +980,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="atn-egg" data-sum="b147bebe">
+      <li class="job" data-quest="atn-egg" data-sum="b147bebe" id="job-atn-egg">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Which practice is not on the farm?</h3>
@@ -701,7 +998,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="dry-churn" data-sum="244e09bc">
+      <li class="job" data-quest="dry-churn" data-sum="244e09bc" id="job-dry-churn">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What does the machine on the counter do?</h3>
@@ -719,7 +1016,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="hbx-coin" data-sum="0d7b18d1">
+      <li class="job" data-quest="hbx-coin" data-sum="0d7b18d1" id="job-hbx-coin">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What will the box not sell?</h3>
@@ -737,7 +1034,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="wsc-seed" data-sum="f6292ae3">
+      <li class="job" data-quest="wsc-seed" data-sum="f6292ae3" id="job-wsc-seed">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What is never in the mix?</h3>
@@ -755,7 +1052,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="liner-colophon" data-sum="25969213">
+      <li class="job" data-quest="liner-colophon" data-sum="25969213" id="job-liner-colophon">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The two habits that survived</h3>
@@ -773,7 +1070,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="garden-label" data-sum="7e11bca4">
+      <li class="job" data-quest="garden-label" data-sum="7e11bca4" id="job-garden-label">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What a spider&#x27;s best answer is</h3>
@@ -791,7 +1088,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="zibaldone-nib" data-sum="137fa8ab">
+      <li class="job" data-quest="zibaldone-nib" data-sum="137fa8ab" id="job-zibaldone-nib">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Which printing it was</h3>
@@ -809,7 +1106,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="hole-cuts" data-sum="dddc2874">
+      <li class="job" data-quest="hole-cuts" data-sum="dddc2874" id="job-hole-cuts">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The words are not in the hole</h3>
@@ -827,7 +1124,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="checkpoint-pillow" data-sum="858d646a">
+      <li class="job" data-quest="checkpoint-pillow" data-sum="858d646a" id="job-checkpoint-pillow">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What the server says instead of no</h3>
@@ -845,7 +1142,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="foundry-sort" data-sum="3146be31">
+      <li class="job" data-quest="foundry-sort" data-sum="3146be31" id="job-foundry-sort">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The letter that is a hole</h3>
@@ -863,7 +1160,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="danny-drain" data-sum="b90c76aa">
+      <li class="job" data-quest="danny-drain" data-sum="b90c76aa" id="job-danny-drain">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The joke in the street&#x27;s own name</h3>
@@ -881,7 +1178,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="outskirts-reflector" data-sum="230f0e19">
+      <li class="job" data-quest="outskirts-reflector" data-sum="230f0e19" id="job-outskirts-reflector">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The far end of the street</h3>
@@ -899,7 +1196,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="lagoon-speaker" data-sum="d30fbcbe">
+      <li class="job" data-quest="lagoon-speaker" data-sum="d30fbcbe" id="job-lagoon-speaker">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What the band did without</h3>
@@ -917,7 +1214,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="sithen-thorn" data-sum="4c097aad">
+      <li class="job" data-quest="sithen-thorn" data-sum="4c097aad" id="job-sithen-thorn">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The tree nobody will cut</h3>
@@ -935,7 +1232,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="covenstead-kettle" data-sum="b65df362">
+      <li class="job" data-quest="covenstead-kettle" data-sum="b65df362" id="job-covenstead-kettle">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Counsel, not commandment</h3>
@@ -953,7 +1250,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="dead-tired-doorstop" data-sum="763420eb">
+      <li class="job" data-quest="dead-tired-doorstop" data-sum="763420eb" id="job-dead-tired-doorstop">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The desks are for sitting at</h3>
@@ -971,7 +1268,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="laughingstock-setlist" data-sum="e7b84ba5">
+      <li class="job" data-quest="laughingstock-setlist" data-sum="e7b84ba5" id="job-laughingstock-setlist">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Who ordered?</h3>
@@ -989,7 +1286,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="picture-house-earmuffs" data-sum="dd87738c">
+      <li class="job" data-quest="picture-house-earmuffs" data-sum="dd87738c" id="job-picture-house-earmuffs">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Where the attention goes</h3>
@@ -1007,7 +1304,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="samefood-divider" data-sum="b0e412c4">
+      <li class="job" data-quest="samefood-divider" data-sum="b0e412c4" id="job-samefood-divider">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Same again</h3>
@@ -1025,7 +1322,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="collection-tag" data-sum="ba9ebf0d">
+      <li class="job" data-quest="collection-tag" data-sum="ba9ebf0d" id="job-collection-tag">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The question nobody asks</h3>
@@ -1043,7 +1340,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="vital-sprig" data-sum="0dd4579a">
+      <li class="job" data-quest="vital-sprig" data-sum="0dd4579a" id="job-vital-sprig">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Say it plainly</h3>
@@ -1061,7 +1358,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="looming-flood" data-sum="9473fd97">
+      <li class="job" data-quest="looming-flood" data-sum="9473fd97" id="job-looming-flood">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What the rocks give back</h3>
@@ -1079,7 +1376,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="dance-punks-glowstick" data-sum="2b09ddd3">
+      <li class="job" data-quest="dance-punks-glowstick" data-sum="2b09ddd3" id="job-dance-punks-glowstick">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Who holds the volume</h3>
@@ -1097,7 +1394,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="small-hours-crayon" data-sum="66e00778">
+      <li class="job" data-quest="small-hours-crayon" data-sum="66e00778" id="job-small-hours-crayon">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What the clock is missing</h3>
@@ -1115,7 +1412,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="repeater-qsl" data-sum="0da41da6">
+      <li class="job" data-quest="repeater-qsl" data-sum="0da41da6" id="job-repeater-qsl">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What a repeater does</h3>
@@ -1133,7 +1430,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="nothing-for-sale-torch" data-sum="bca337af">
+      <li class="job" data-quest="nothing-for-sale-torch" data-sum="bca337af" id="job-nothing-for-sale-torch">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Not charity</h3>
@@ -1151,7 +1448,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="caverns-rail" data-sum="2ee39a94">
+      <li class="job" data-quest="caverns-rail" data-sum="2ee39a94" id="job-caverns-rail">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Under the street</h3>
@@ -1169,7 +1466,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="glow-star" data-sum="df966912">
+      <li class="job" data-quest="glow-star" data-sum="df966912" id="job-glow-star">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The dark shop</h3>
@@ -1187,7 +1484,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="rave-earplug" data-sum="09a7167d">
+      <li class="job" data-quest="rave-earplug" data-sum="09a7167d" id="job-rave-earplug">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Where the knob stops</h3>
@@ -1205,7 +1502,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="cool-cap" data-sum="d329437b">
+      <li class="job" data-quest="cool-cap" data-sum="d329437b" id="job-cool-cap">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What the machine takes</h3>
@@ -1223,7 +1520,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="bigsteep-carboy" data-sum="ca49c2b3">
+      <li class="job" data-quest="bigsteep-carboy" data-sum="ca49c2b3" id="job-bigsteep-carboy">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The cellar at the top of the lift</h3>
@@ -1241,7 +1538,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="mycelium-block" data-sum="1dbd2eb9">
+      <li class="job" data-quest="mycelium-block" data-sum="1dbd2eb9" id="job-mycelium-block">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The farm under the street</h3>
@@ -1259,7 +1556,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="frosty-thermometer" data-sum="c811ce9b">
+      <li class="job" data-quest="frosty-thermometer" data-sum="c811ce9b" id="job-frosty-thermometer">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The bottom of the caverns</h3>
@@ -1277,7 +1574,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="breezy-ribbon" data-sum="0d98c273">
+      <li class="job" data-quest="breezy-ribbon" data-sum="0d98c273" id="job-breezy-ribbon">
         <p class="job__class"><span class="sr">Difficulty class </span>III<span class="job__where">off the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Behind the quiet room</h3>
@@ -1295,7 +1592,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="community-letter" data-sum="7618acf4">
+      <li class="job" data-quest="community-letter" data-sum="7618acf4" id="job-community-letter">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The door the radio waits outside</h3>
@@ -1313,7 +1610,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="th-gavel" data-sum="ad7346b6">
+      <li class="job" data-quest="th-gavel" data-sum="ad7346b6" id="job-th-gavel">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What the middle of the building is open to</h3>
@@ -1331,7 +1628,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="fb-flake" data-sum="b63e4bd3">
+      <li class="job" data-quest="fb-flake" data-sum="b63e4bd3" id="job-fb-flake">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">The seat nobody sits in</h3>
@@ -1349,7 +1646,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="dr-key" data-sum="3944c4f8">
+      <li class="job" data-quest="dr-key" data-sum="3944c4f8" id="job-dr-key">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">How the light gets in</h3>
@@ -1367,7 +1664,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="bd-lamp" data-sum="45a8baa9">
+      <li class="job" data-quest="bd-lamp" data-sum="45a8baa9" id="job-bd-lamp">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">Whose lamp is biggest</h3>
@@ -1385,7 +1682,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="md-fuse" data-sum="1fa052b0">
+      <li class="job" data-quest="md-fuse" data-sum="1fa052b0" id="job-md-fuse">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">What lights the room that looks after the street</h3>
@@ -1403,7 +1700,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="es-note" data-sum="2591597b">
+      <li class="job" data-quest="es-note" data-sum="2591597b" id="job-es-note">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">The one light left on</h3>
@@ -1421,7 +1718,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="dressup-feather" data-sum="1580556c">
+      <li class="job" data-quest="dressup-feather" data-sum="1580556c" id="job-dressup-feather">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Black is a colour</h3>
@@ -1439,7 +1736,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="booth-strip" data-sum="3d497e73">
+      <li class="job" data-quest="booth-strip" data-sum="3d497e73" id="job-booth-strip">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Only you describe you</h3>
@@ -1457,7 +1754,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="now-playing-brush" data-sum="8a9672b9">
+      <li class="job" data-quest="now-playing-brush" data-sum="8a9672b9" id="job-now-playing-brush">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Nobody is bigger than anybody</h3>
@@ -1475,7 +1772,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="mural-lid" data-sum="0527f070">
+      <li class="job" data-quest="mural-lid" data-sum="0527f070" id="job-mural-lid">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">When does the wall repaint itself?</h3>
@@ -1493,7 +1790,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="lib-slip" data-sum="c6c31533">
+      <li class="job" data-quest="lib-slip" data-sum="c6c31533" id="job-lib-slip">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What are you, at the library?</h3>
@@ -1511,7 +1808,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="lsp-string" data-sum="c816e8b0">
+      <li class="job" data-quest="lsp-string" data-sum="c816e8b0" id="job-lsp-string">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">What do you need to find your way through L-space?</h3>
@@ -1529,7 +1826,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="ook-peel" data-sum="9d1a5246">
+      <li class="job" data-quest="ook-peel" data-sum="9d1a5246" id="job-ook-peel">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">Why did the Librarian keep his job?</h3>
@@ -1547,7 +1844,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="cavendish-marker" data-sum="adb4d7f2">
+      <li class="job" data-quest="cavendish-marker" data-sum="adb4d7f2" id="job-cavendish-marker">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Who signed for his own books?</h3>
@@ -1565,7 +1862,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="live-room-tape" data-sum="1bd5d8bc">
+      <li class="job" data-quest="live-room-tape" data-sum="1bd5d8bc" id="job-live-room-tape">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What night was it?</h3>
@@ -1583,7 +1880,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="broadside-sheet" data-sum="27ab1e50">
+      <li class="job" data-quest="broadside-sheet" data-sum="27ab1e50" id="job-broadside-sheet">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Whose street is it?</h3>
@@ -1601,7 +1898,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="doom-scoop-scoop" data-sum="086c8502">
+      <li class="job" data-quest="doom-scoop-scoop" data-sum="086c8502" id="job-doom-scoop-scoop">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What flavour is Thursday?</h3>
@@ -1619,7 +1916,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="mud-welly" data-sum="09a5050d">
+      <li class="job" data-quest="mud-welly" data-sum="09a5050d" id="job-mud-welly">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What turns the tide</h3>
@@ -1637,7 +1934,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="pando-leaf" data-sum="0d6601ee">
+      <li class="job" data-quest="pando-leaf" data-sum="0d6601ee" id="job-pando-leaf">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">How often will the tree take water?</h3>
@@ -1655,7 +1952,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="fridge-magnet" data-sum="9f9301b1">
+      <li class="job" data-quest="fridge-magnet" data-sum="9f9301b1" id="job-fridge-magnet">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">How many words in a row can one person put up?</h3>
@@ -1673,7 +1970,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="stair-lift" data-sum="6bf77f0f">
+      <li class="job" data-quest="stair-lift" data-sum="6bf77f0f" id="job-stair-lift">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">How far does the lift take you?</h3>
@@ -1691,7 +1988,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="cats-torch" data-sum="b123c92f">
+      <li class="job" data-quest="cats-torch" data-sum="b123c92f" id="job-cats-torch">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Where does an adopted cat go?</h3>
@@ -1709,7 +2006,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="dogs-lead" data-sum="867fb9cd">
+      <li class="job" data-quest="dogs-lead" data-sum="867fb9cd" id="job-dogs-lead">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What does “Forget me” forget?</h3>
@@ -1727,7 +2024,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="smalls-hay" data-sum="efbc39c7">
+      <li class="job" data-quest="smalls-hay" data-sum="efbc39c7" id="job-smalls-hay">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What goes on the channel, drawn?</h3>
@@ -1745,7 +2042,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="onb-washi" data-sum="a63d95c1">
+      <li class="job" data-quest="onb-washi" data-sum="a63d95c1" id="job-onb-washi">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What does the M stand for?</h3>
@@ -1763,7 +2060,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="ll-dibber" data-sum="98b646bf">
+      <li class="job" data-quest="ll-dibber" data-sum="98b646bf" id="job-ll-dibber">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What does MADTech produce?</h3>
@@ -1781,7 +2078,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="hgc-ladle" data-sum="0cef1585">
+      <li class="job" data-quest="hgc-ladle" data-sum="0cef1585" id="job-hgc-ladle">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What shape is on a red placard?</h3>
@@ -1799,7 +2096,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="pkp-mouse" data-sum="0dc61871">
+      <li class="job" data-quest="pkp-mouse" data-sum="0dc61871" id="job-pkp-mouse">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What is orange pekoe a grade of?</h3>
@@ -1817,7 +2114,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="aqp-mat" data-sum="97533052">
+      <li class="job" data-quest="aqp-mat" data-sum="97533052" id="job-aqp-mat">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What passes the street’s light round the pub?</h3>
@@ -1835,7 +2132,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="brass-tack" data-sum="04692406">
+      <li class="job" data-quest="brass-tack" data-sum="04692406" id="job-brass-tack">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Whose name is on a post?</h3>
@@ -1853,7 +2150,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="wr-mantle" data-sum="04761179">
+      <li class="job" data-quest="wr-mantle" data-sum="04761179" id="job-wr-mantle">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">The light&#x27;s character</h3>
@@ -1871,7 +2168,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="op-tag" data-sum="6cfd2e5f">
+      <li class="job" data-quest="op-tag" data-sum="6cfd2e5f" id="job-op-tag">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">How long the round takes</h3>
@@ -1889,7 +2186,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="ed-loupe" data-sum="0cf04306">
+      <li class="job" data-quest="ed-loupe" data-sum="0cf04306" id="job-ed-loupe">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">When the proofs are checked</h3>
@@ -1907,7 +2204,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="wh-feather" data-sum="7f0e39bd">
+      <li class="job" data-quest="wh-feather" data-sum="7f0e39bd" id="job-wh-feather">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">Whose cams these are</h3>
@@ -1925,7 +2222,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="cf-marshmallow" data-sum="6134db78">
+      <li class="job" data-quest="cf-marshmallow" data-sum="6134db78" id="job-cf-marshmallow">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">Whose fire this is</h3>
@@ -1943,7 +2240,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="cv-icicle" data-sum="9f0c7e0a">
+      <li class="job" data-quest="cv-icicle" data-sum="9f0c7e0a" id="job-cv-icicle">
         <p class="job__class"><span class="sr">Difficulty class </span>II<span class="job__where">through a door</span></p>
         <div class="job__body">
           <h3 class="job__title">What is not done in here</h3>
@@ -1961,7 +2258,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="nh-honey" data-sum="860d1349">
+      <li class="job" data-quest="nh-honey" data-sum="860d1349" id="job-nh-honey">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Somewhere nobody can book</h3>
@@ -1979,7 +2276,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="wbb-carrot" data-sum="a3fbf05c">
+      <li class="job" data-quest="wbb-carrot" data-sum="a3fbf05c" id="job-wbb-carrot">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">The only legible lines</h3>
@@ -1997,7 +2294,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="sb-fork" data-sum="f25044e1">
+      <li class="job" data-quest="sb-fork" data-sum="f25044e1" id="job-sb-fork">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Your own copy</h3>
@@ -2015,7 +2312,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="run-ball" data-sum="0c3e96f9">
+      <li class="job" data-quest="run-ball" data-sum="0c3e96f9" id="job-run-ball">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Why is the ball blue?</h3>
@@ -2033,7 +2330,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="tks-boat" data-sum="58ad51f9">
+      <li class="job" data-quest="tks-boat" data-sum="58ad51f9" id="job-tks-boat">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What does lunch cost at the Truck Stop?</h3>
@@ -2051,7 +2348,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="grn-leaf" data-sum="b6722b89">
+      <li class="job" data-quest="grn-leaf" data-sum="b6722b89" id="job-grn-leaf">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">What has just stopped on the Green?</h3>
@@ -2069,7 +2366,7 @@
         </div>
         <p class="job__stamp" hidden aria-hidden="true">DONE</p>
       </li>
-      <li class="job" data-quest="pil-tape" data-sum="7c84b95f">
+      <li class="job" data-quest="pil-tape" data-sum="7c84b95f" id="job-pil-tape">
         <p class="job__class"><span class="sr">Difficulty class </span>I<span class="job__where">on the street</span></p>
         <div class="job__body">
           <h3 class="job__title">Who decides what a pallet is?</h3>
@@ -2100,7 +2397,7 @@
   <div class="guild-desk">
     <div class="guild-desk__half">
       <h2>Who made this noise</h2>
-      <p class="guild-note">The trope is everybody&rsquo;s and belongs to nobody; the rooms it points at are ours. This one sets <b>Rye</b>, a woodtype face for posted bills, and <b>Public Sans</b>, which was drawn for United States government forms &mdash; both under the SIL Open Font License, both credited with everything else in the <a href="liner-notes.html">liner notes</a>. <b>Nothing you do on this board leaves your own browser.</b> The stamps have no account and no server behind them: they are a list of job names in your own local storage, and the button above throws them away.</p>
+      <p class="guild-note">The trope is everybody&rsquo;s and belongs to nobody; the rooms it points at are ours. This one sets <b>Rye</b>, a woodtype face for posted bills, and <b>Public Sans</b>, which was drawn for United States government forms &mdash; both under the SIL Open Font License, both credited with everything else in the <a href="liner-notes.html">liner notes</a>. <b>Nothing you do on this board leaves your own browser unless you ask it to.</b> The stamps are a list of job names in your own local storage, and the button above throws them away. Signed on to the CB with <b>Keep my jobs in my Profile</b> switched on, handing a job in also sends your pass and which job, and nothing else; <a href="privacy.html#jobs">the privacy page</a> says what is kept.</p>
     </div>
     <div class="guild-desk__half">
       <div class="dial">

@@ -1,0 +1,892 @@
+{
+ "_": "Written by tools/make-guild.py out of data/quests.json, for the CB's Profile. Do not edit.",
+ "jobs": [
+  {
+   "id": "street-chalk",
+   "title": "Read the street before you walk it",
+   "room": "The Stoop"
+  },
+  {
+   "id": "map-pin",
+   "title": "A pin nobody has used",
+   "room": "The Map"
+  },
+  {
+   "id": "pony-sequin",
+   "title": "Whose records are on that dancefloor",
+   "room": "Pink Pony Club"
+  },
+  {
+   "id": "chappell-rhinestone",
+   "title": "A rhinestone off the vestments",
+   "room": "The Chappell"
+  },
+  {
+   "id": "club-pin",
+   "title": "Read the door policy",
+   "room": "Club Chronic"
+  },
+  {
+   "id": "zine-staple",
+   "title": "One staple off the table",
+   "room": "The Zine Table"
+  },
+  {
+   "id": "zine2-clip",
+   "title": "What issue two is about",
+   "room": "Zine #2"
+  },
+  {
+   "id": "quantum-fringe",
+   "title": "Name the physicist",
+   "room": "Hear Queer Here"
+  },
+  {
+   "id": "enid-sticker",
+   "title": "One sticker, peeling",
+   "room": "Enid's Room"
+  },
+  {
+   "id": "polaroids-pin",
+   "title": "What we will not do to a picture of you",
+   "room": "The Polaroid Wall"
+  },
+  {
+   "id": "play-block",
+   "title": "A block off the floor",
+   "room": "The Playhouse"
+  },
+  {
+   "id": "arcade-token",
+   "title": "How loud is the arcade",
+   "room": "The Arcade"
+  },
+  {
+   "id": "quill-feather",
+   "title": "Who drew the porcupine",
+   "room": "Quill Drift"
+  },
+  {
+   "id": "otter-clam",
+   "title": "What floating is for",
+   "room": "Otterly Adorbs"
+  },
+  {
+   "id": "pebbling-stone",
+   "title": "Who named the locution",
+   "room": "Penguin Pebbling"
+  },
+  {
+   "id": "burrow-door",
+   "title": "The shelf is not a checklist",
+   "room": "The Latibulum"
+  },
+  {
+   "id": "jungle-leaf",
+   "title": "The thing a live camera cannot tell you",
+   "room": "The Jungle Room"
+  },
+  {
+   "id": "den-spindle",
+   "title": "The George Jones cover in Elvis's den",
+   "room": "The Den"
+  },
+  {
+   "id": "mopery-card",
+   "title": "Borrow, not buy",
+   "room": "The Mopery"
+  },
+  {
+   "id": "oracle-lozenge",
+   "title": "A deck that will not answer",
+   "room": "The Oracle Deck"
+  },
+  {
+   "id": "doom-foxing",
+   "title": "Public domain everywhere",
+   "room": "The Doomscroll"
+  },
+  {
+   "id": "feed-splitflap",
+   "title": "What the board is not",
+   "room": "The Feed"
+  },
+  {
+   "id": "your-room-keys",
+   "title": "The keys are in the door",
+   "room": "Your Room"
+  },
+  {
+   "id": "board-clip",
+   "title": "A clip off the noticeboard",
+   "room": "The Pebble Board"
+  },
+  {
+   "id": "camp-peg",
+   "title": "Out past the treeline",
+   "room": "The Campgrounds"
+  },
+  {
+   "id": "yurt-tallow",
+   "title": "A candle stub on the windowsill",
+   "room": "The Faery Yurt"
+  },
+  {
+   "id": "meadow-firefly",
+   "title": "The book this room lends",
+   "room": "Swaying Sweetgrass"
+  },
+  {
+   "id": "hermitage-sunflower",
+   "title": "The fourth learning space",
+   "room": "The Solarpunk Hermitage"
+  },
+  {
+   "id": "bns-spoon",
+   "title": "Who lit the woodland tea room?",
+   "room": "Brew and Stew"
+  },
+  {
+   "id": "ncx-stile",
+   "title": "What is shading the fields?",
+   "room": "Nature’s Contribution"
+  },
+  {
+   "id": "anm-feather",
+   "title": "How do the keepers see in the dark?",
+   "room": "All Needs Met Wildlife Sanctuary"
+  },
+  {
+   "id": "bds-chiltepin",
+   "title": "Which pepper liked the shade?",
+   "room": "Brighter Days Solar Farm"
+  },
+  {
+   "id": "ghc-leaf",
+   "title": "What do the three words not tell you?",
+   "room": "Gentle Help Cannabis Farm"
+  },
+  {
+   "id": "atn-egg",
+   "title": "Which practice is not on the farm?",
+   "room": "All Together Now Farms"
+  },
+  {
+   "id": "dry-churn",
+   "title": "What does the machine on the counter do?",
+   "room": "The Dairy"
+  },
+  {
+   "id": "hbx-coin",
+   "title": "What will the box not sell?",
+   "room": "The Honesty Box"
+  },
+  {
+   "id": "wsc-seed",
+   "title": "What is never in the mix?",
+   "room": "Wide-Spread Chaos Gardens"
+  },
+  {
+   "id": "liner-colophon",
+   "title": "The two habits that survived",
+   "room": "The Liner Notes"
+  },
+  {
+   "id": "garden-label",
+   "title": "What a spider's best answer is",
+   "room": "The Garden"
+  },
+  {
+   "id": "zibaldone-nib",
+   "title": "Which printing it was",
+   "room": "The Zibaldone"
+  },
+  {
+   "id": "hole-cuts",
+   "title": "The words are not in the hole",
+   "room": "The Rabbit Hole"
+  },
+  {
+   "id": "checkpoint-pillow",
+   "title": "What the server says instead of no",
+   "room": "The Healing Checkpoint"
+  },
+  {
+   "id": "foundry-sort",
+   "title": "The letter that is a hole",
+   "room": "The Foundry"
+  },
+  {
+   "id": "danny-drain",
+   "title": "The joke in the street's own name",
+   "room": "Danny the Street"
+  },
+  {
+   "id": "outskirts-reflector",
+   "title": "The far end of the street",
+   "room": "The Outskirts"
+  },
+  {
+   "id": "lagoon-speaker",
+   "title": "What the band did without",
+   "room": "Black Leather Lagoon"
+  },
+  {
+   "id": "sithen-thorn",
+   "title": "The tree nobody will cut",
+   "room": "Sithen"
+  },
+  {
+   "id": "covenstead-kettle",
+   "title": "Counsel, not commandment",
+   "room": "Covenstead"
+  },
+  {
+   "id": "dead-tired-doorstop",
+   "title": "The desks are for sitting at",
+   "room": "Dead Tired Society"
+  },
+  {
+   "id": "laughingstock-setlist",
+   "title": "Who ordered?",
+   "room": "Laughingstock"
+  },
+  {
+   "id": "picture-house-earmuffs",
+   "title": "Where the attention goes",
+   "room": "The Lightbulb Picture House"
+  },
+  {
+   "id": "samefood-divider",
+   "title": "Same again",
+   "room": "Samefood Cafe"
+  },
+  {
+   "id": "collection-tag",
+   "title": "The question nobody asks",
+   "room": "The Collection Collection"
+  },
+  {
+   "id": "vital-sprig",
+   "title": "Say it plainly",
+   "room": "Vital Plant Living"
+  },
+  {
+   "id": "looming-flood",
+   "title": "What the rocks give back",
+   "room": "Looming Rocks Amphitheatre"
+  },
+  {
+   "id": "dance-punks-glowstick",
+   "title": "Who holds the volume",
+   "room": "Dance, Punks"
+  },
+  {
+   "id": "small-hours-crayon",
+   "title": "What the clock is missing",
+   "room": "The Small Hours"
+  },
+  {
+   "id": "repeater-qsl",
+   "title": "What a repeater does",
+   "room": "The Repeater"
+  },
+  {
+   "id": "nothing-for-sale-torch",
+   "title": "Not charity",
+   "room": "Nothing For Sale"
+  },
+  {
+   "id": "caverns-rail",
+   "title": "Under the street",
+   "room": "Arlesglad Caverns"
+  },
+  {
+   "id": "glow-star",
+   "title": "The dark shop",
+   "room": "Glow Go Gee Gaws"
+  },
+  {
+   "id": "rave-earplug",
+   "title": "Where the knob stops",
+   "room": "Rebellion Rave Room"
+  },
+  {
+   "id": "cool-cap",
+   "title": "What the machine takes",
+   "room": "The Cooldown Room"
+  },
+  {
+   "id": "bigsteep-carboy",
+   "title": "The cellar at the top of the lift",
+   "room": "Big Steep Fermentables"
+  },
+  {
+   "id": "mycelium-block",
+   "title": "The farm under the street",
+   "room": "Mycelium Munchies"
+  },
+  {
+   "id": "frosty-thermometer",
+   "title": "The bottom of the caverns",
+   "room": "Stay Frosty"
+  },
+  {
+   "id": "breezy-ribbon",
+   "title": "Behind the quiet room",
+   "room": "Stay Breezy"
+  },
+  {
+   "id": "community-letter",
+   "title": "The door the radio waits outside",
+   "room": "Community Center"
+  },
+  {
+   "id": "th-gavel",
+   "title": "What the middle of the building is open to",
+   "room": "Town Hall"
+  },
+  {
+   "id": "fb-flake",
+   "title": "The seat nobody sits in",
+   "room": "The Fishbowl"
+  },
+  {
+   "id": "dr-key",
+   "title": "How the light gets in",
+   "room": "Directors"
+  },
+  {
+   "id": "bd-lamp",
+   "title": "Whose lamp is biggest",
+   "room": "Board"
+  },
+  {
+   "id": "md-fuse",
+   "title": "What lights the room that looks after the street",
+   "room": "Moderators"
+  },
+  {
+   "id": "es-note",
+   "title": "The one light left on",
+   "room": "Executive Session"
+  },
+  {
+   "id": "dressup-feather",
+   "title": "Black is a colour",
+   "room": "Dopamine Dress-Up Den"
+  },
+  {
+   "id": "booth-strip",
+   "title": "Only you describe you",
+   "room": "The Bodymind Booth"
+  },
+  {
+   "id": "now-playing-brush",
+   "title": "Nobody is bigger than anybody",
+   "room": "Now Playing"
+  },
+  {
+   "id": "mural-lid",
+   "title": "When does the wall repaint itself?",
+   "room": "Plural Mural"
+  },
+  {
+   "id": "lib-slip",
+   "title": "What are you, at the library?",
+   "room": "Community Library"
+  },
+  {
+   "id": "lsp-string",
+   "title": "What do you need to find your way through L-space?",
+   "room": "L-Space"
+  },
+  {
+   "id": "ook-peel",
+   "title": "Why did the Librarian keep his job?",
+   "room": "Oook"
+  },
+  {
+   "id": "cavendish-marker",
+   "title": "Who signed for his own books?",
+   "room": "Cavendish Coworking"
+  },
+  {
+   "id": "live-room-tape",
+   "title": "What night was it?",
+   "room": "The Live Room"
+  },
+  {
+   "id": "broadside-sheet",
+   "title": "Whose street is it?",
+   "room": "The Broadsheet Broadside"
+  },
+  {
+   "id": "doom-scoop-scoop",
+   "title": "What flavour is Thursday?",
+   "room": "The Doom Scoop"
+  },
+  {
+   "id": "mud-welly",
+   "title": "What turns the tide",
+   "room": "The MUD Room"
+  },
+  {
+   "id": "pando-leaf",
+   "title": "How often will the tree take water?",
+   "room": "Pando Calrissian"
+  },
+  {
+   "id": "fridge-magnet",
+   "title": "How many words in a row can one person put up?",
+   "room": "The Fridge of Sighs"
+  },
+  {
+   "id": "stair-lift",
+   "title": "How far does the lift take you?",
+   "room": "Count Me In"
+  },
+  {
+   "id": "cats-torch",
+   "title": "Where does an adopted cat go?",
+   "room": "Rescue A Cat"
+  },
+  {
+   "id": "dogs-lead",
+   "title": "What does “Forget me” forget?",
+   "room": "Rescue A Dog"
+  },
+  {
+   "id": "smalls-hay",
+   "title": "What goes on the channel, drawn?",
+   "room": "Rescue Small Animals"
+  },
+  {
+   "id": "onb-washi",
+   "title": "What does the M stand for?",
+   "room": "The Open Notebook"
+  },
+  {
+   "id": "ll-dibber",
+   "title": "What does MADTech produce?",
+   "room": "Learning Large"
+  },
+  {
+   "id": "hgc-ladle",
+   "title": "What shape is on a red placard?",
+   "room": "Hey, Good Cookin’"
+  },
+  {
+   "id": "pkp-mouse",
+   "title": "What is orange pekoe a grade of?",
+   "room": "Pekoe and Purrs"
+  },
+  {
+   "id": "aqp-mat",
+   "title": "What passes the street’s light round the pub?",
+   "room": "A Quiet Pint"
+  },
+  {
+   "id": "brass-tack",
+   "title": "Whose name is on a post?",
+   "room": "The Brass Tacks Board"
+  },
+  {
+   "id": "wr-mantle",
+   "title": "The light's character",
+   "room": "The Events Room"
+  },
+  {
+   "id": "op-tag",
+   "title": "How long the round takes",
+   "room": "The Operations Room"
+  },
+  {
+   "id": "ed-loupe",
+   "title": "When the proofs are checked",
+   "room": "The Editorial Room"
+  },
+  {
+   "id": "wh-feather",
+   "title": "Whose cams these are",
+   "room": "The Watering Hole"
+  },
+  {
+   "id": "cf-marshmallow",
+   "title": "Whose fire this is",
+   "room": "The Campfire"
+  },
+  {
+   "id": "cv-icicle",
+   "title": "What is not done in here",
+   "room": "The Cave"
+  },
+  {
+   "id": "nh-honey",
+   "title": "Somewhere nobody can book",
+   "room": "NeuroHome"
+  },
+  {
+   "id": "wbb-carrot",
+   "title": "The only legible lines",
+   "room": "Words, Bud, Beats"
+  },
+  {
+   "id": "sb-fork",
+   "title": "Your own copy",
+   "room": "The Sandbox"
+  },
+  {
+   "id": "run-ball",
+   "title": "Why is the ball blue?",
+   "room": "The Run"
+  },
+  {
+   "id": "tks-boat",
+   "title": "What does lunch cost at the Truck Stop?",
+   "room": "Truckin' Food Court"
+  },
+  {
+   "id": "grn-leaf",
+   "title": "What has just stopped on the Green?",
+   "room": "The Green"
+  },
+  {
+   "id": "pil-tape",
+   "title": "Who decides what a pallet is?",
+   "room": "The Pile"
+  }
+ ],
+ "badges": [
+  {
+   "id": "one-is-plenty",
+   "name": "One Is Plenty",
+   "for": "Handing in any job at all. The house rules say one is a perfectly good number of jobs to do, and this badge is them saying it again.",
+   "needs": "any",
+   "jobs": [],
+   "draw": [
+    [
+     "f",
+     "M7 19 C7 13 12 10 17 10 C23 10 26 14 25 19 C24 24 19 25 15 25 C10 25 7 23 7 19 Z"
+    ]
+   ]
+  },
+  {
+   "id": "down-the-lift",
+   "name": "Down the Lift",
+   "for": "Arlesglad Caverns, by the lift or the stair beside it: the passage under the street, the cellar, the mushroom farm and the shop where everything glows.",
+   "needs": "all",
+   "jobs": [
+    "caverns-rail",
+    "bigsteep-carboy",
+    "mycelium-block",
+    "glow-star"
+   ],
+   "draw": [
+    [
+     "s",
+     "M8 4 H24 V28 H8 Z"
+    ],
+    [
+     "s",
+     "M16 9 V22 M11 17 L16 22 L21 17"
+    ]
+   ]
+  },
+  {
+   "id": "past-the-treeline",
+   "name": "Past the Treeline",
+   "for": "Out to the campgrounds: the field, and the yurt, the meadow, the hermitage and the tea room pitched on it.",
+   "needs": "all",
+   "jobs": [
+    "camp-peg",
+    "yurt-tallow",
+    "meadow-firefly",
+    "hermitage-sunflower",
+    "bns-spoon"
+   ],
+   "draw": [
+    [
+     "s",
+     "M16 3 L9 13 H13 L7 22 H25 L19 13 H23 Z"
+    ],
+    [
+     "s",
+     "M16 22 V29"
+    ]
+   ]
+  },
+  {
+   "id": "the-far-end",
+   "name": "The Far End",
+   "for": "Down the road past the last streetlight: the board at the far end, the drive-in, the fort, the amphitheatre, the dance on the airstrip, the diner, the repeater, the free tables and the hangar.",
+   "needs": "all",
+   "jobs": [
+    "outskirts-reflector",
+    "lagoon-speaker",
+    "sithen-thorn",
+    "looming-flood",
+    "dance-punks-glowstick",
+    "small-hours-crayon",
+    "repeater-qsl",
+    "nothing-for-sale-torch",
+    "rave-earplug"
+   ],
+   "draw": [
+    [
+     "s",
+     "M5 29 L13 3 M27 29 L19 3"
+    ],
+    [
+     "s",
+     "M16 26 V22 M16 17 V14 M16 10 V8"
+    ]
+   ]
+  },
+  {
+   "id": "over-the-stile",
+   "name": "Over the Stile",
+   "for": "Past the campgrounds’ wood to the land: the stile, the sanctuary, the solar farm, the cannabis farm, the mixed farm, the dairy and the wildflowers, and back to the honesty box on the street where some of it is sold.",
+   "needs": "all",
+   "jobs": [
+    "ncx-stile",
+    "anm-feather",
+    "bds-chiltepin",
+    "ghc-leaf",
+    "atn-egg",
+    "dry-churn",
+    "wsc-seed",
+    "hbx-coin"
+   ],
+   "draw": [
+    [
+     "s",
+     "M9 28 V5 M23 28 V5 M9 11 H23 M9 18 H23"
+    ],
+    [
+     "s",
+     "M3 23 H13"
+    ]
+   ]
+  },
+  {
+   "id": "open-hall",
+   "name": "Open Hall",
+   "for": "Through the Town Hall: the open middle, the Fishbowl, and the rooms our directors, board and moderators meet in, which anybody may walk into.",
+   "needs": "all",
+   "jobs": [
+    "th-gavel",
+    "fb-flake",
+    "dr-key",
+    "bd-lamp",
+    "md-fuse",
+    "es-note"
+   ],
+   "draw": [
+    [
+     "s",
+     "M4 12 L16 4 L28 12 Z"
+    ],
+    [
+     "s",
+     "M7 12 V25 M12.5 12 V25 M19.5 12 V25 M25 12 V25 M3 28 H29"
+    ]
+   ]
+  },
+  {
+   "id": "shut-not-locked",
+   "name": "Shut, Not Locked",
+   "for": "Cavendish Coworking’s house and the rooms behind its doors: the events room, operations and editorial, and the cave, the campfire and the watering hole upstairs. Every door in that house is shut and none of them is locked.",
+   "needs": "all",
+   "jobs": [
+    "cavendish-marker",
+    "wr-mantle",
+    "op-tag",
+    "ed-loupe",
+    "wh-feather",
+    "cf-marshmallow",
+    "cv-icicle"
+   ],
+   "draw": [
+    [
+     "s",
+     "M8 3 H24 V29 H8 Z M12 7 H20 V14 H12 Z M12 18 H20 V25 H12 Z"
+    ],
+    [
+     "f",
+     "M20.5 16 H23 V18.5 H20.5 Z"
+    ]
+   ]
+  },
+  {
+   "id": "borrowers-ticket",
+   "name": "Borrower’s Ticket",
+   "for": "The street’s libraries: the public reading room, L-space behind it, Oook at the far end of the string, and the Mopery after dark.",
+   "needs": "all",
+   "jobs": [
+    "lib-slip",
+    "lsp-string",
+    "ook-peel",
+    "mopery-card"
+   ],
+   "draw": [
+    [
+     "s",
+     "M3 8 C8 6 12 6 16 9 C20 6 24 6 29 8 V25 C24 23 20 23 16 26 C12 23 8 23 3 25 Z M16 9 V26"
+    ]
+   ]
+  },
+  {
+   "id": "shelter-rounds",
+   "name": "Shelter Rounds",
+   "for": "The shelters for cats, dogs and small animals, the café where the cats wait for a home, and the run where the dogs do.",
+   "needs": "all",
+   "jobs": [
+    "cats-torch",
+    "dogs-lead",
+    "smalls-hay",
+    "pkp-mouse",
+    "run-ball"
+   ],
+   "draw": [
+    [
+     "f",
+     "M16 17 C11 17 9 21 9 23 C9 26 12 27 16 27 C20 27 23 26 23 23 C23 21 21 17 16 17 Z"
+    ],
+    [
+     "f",
+     "M6 13 C6 11 7.5 10 8.5 10 C9.5 10 11 11 11 13 C11 15 9.5 16 8.5 16 C7.5 16 6 15 6 13 Z"
+    ],
+    [
+     "f",
+     "M11 7 C11 5 12.5 4 13.5 4 C14.5 4 16 5 16 7 C16 9 14.5 10 13.5 10 C12.5 10 11 9 11 7 Z"
+    ],
+    [
+     "f",
+     "M16 7 C16 5 17.5 4 18.5 4 C19.5 4 21 5 21 7 C21 9 19.5 10 18.5 10 C17.5 10 16 9 16 7 Z"
+    ],
+    [
+     "f",
+     "M21 13 C21 11 22.5 10 23.5 10 C24.5 10 26 11 26 13 C26 15 24.5 16 23.5 16 C22.5 16 21 15 21 13 Z"
+    ]
+   ]
+  },
+  {
+   "id": "through-the-gates",
+   "name": "Through the Gates",
+   "for": "Where the buildings stop: through the gates in the fence to the run, the truck stop, the green and the pile.",
+   "needs": "all",
+   "jobs": [
+    "run-ball",
+    "tks-boat",
+    "grn-leaf",
+    "pil-tape"
+   ],
+   "draw": [
+    [
+     "s",
+     "M4 28 V7 M28 28 V7"
+    ],
+    [
+     "s",
+     "M4 11 H28 M4 24 H28 M10 11 V24 M16 11 V24 M22 11 V24 M4 24 L28 11"
+    ]
+   ]
+  },
+  {
+   "id": "paper-trail",
+   "name": "Paper Trail",
+   "for": "The rooms made of paper and type: the zine and its second issue, the scroll, the commonplace book, the broadsides, the foundry, the poster column and the open notebook.",
+   "needs": "all",
+   "jobs": [
+    "zine-staple",
+    "zine2-clip",
+    "doom-foxing",
+    "zibaldone-nib",
+    "broadside-sheet",
+    "foundry-sort",
+    "now-playing-brush",
+    "onb-washi"
+   ],
+   "draw": [
+    [
+     "s",
+     "M7 3 H20 L25 8 V29 H7 Z M20 3 V8 H25"
+    ],
+    [
+     "s",
+     "M11 13 H21 M11 18 H21 M11 23 H17"
+    ]
+   ]
+  },
+  {
+   "id": "needle-drop",
+   "name": "Needle Drop",
+   "for": "The rooms on the street with records in them: the dancefloor and the chapel behind it, the punk club, the den off the Jungle Room, and the studio.",
+   "needs": "all",
+   "jobs": [
+    "pony-sequin",
+    "chappell-rhinestone",
+    "club-pin",
+    "den-spindle",
+    "live-room-tape"
+   ],
+   "draw": [
+    [
+     "s",
+     "M3 17 A12 12 0 1 0 27 17 A12 12 0 1 0 3 17 Z"
+    ],
+    [
+     "f",
+     "M12 17 A3 3 0 1 0 18 17 A3 3 0 1 0 12 17 Z"
+    ],
+    [
+     "s",
+     "M29 2 V9 L21 15"
+    ]
+   ]
+  },
+  {
+   "id": "pull-up-a-chair",
+   "name": "Pull Up a Chair",
+   "for": "The tables on the street: the café where nothing touches, the plant kitchen, the community kitchen, the pub and the cat café.",
+   "needs": "all",
+   "jobs": [
+    "samefood-divider",
+    "vital-sprig",
+    "hgc-ladle",
+    "aqp-mat",
+    "pkp-mouse"
+   ],
+   "draw": [
+    [
+     "s",
+     "M10 3 V29 M10 17 H23 V29 M10 17 H23"
+    ]
+   ]
+  },
+  {
+   "id": "free-play",
+   "name": "Free Play",
+   "for": "The toys: the Playhouse, and the Arcade and the cabinets in it.",
+   "needs": "all",
+   "jobs": [
+    "play-block",
+    "arcade-token",
+    "quill-feather",
+    "otter-clam",
+    "pebbling-stone"
+   ],
+   "draw": [
+    [
+     "s",
+     "M6 22 H26 V28 H6 Z M16 22 V12"
+    ],
+    [
+     "f",
+     "M12 9 A4 4 0 1 0 20 9 A4 4 0 1 0 12 9 Z"
+    ]
+   ]
+  }
+ ]
+}

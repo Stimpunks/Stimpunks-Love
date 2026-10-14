@@ -639,6 +639,128 @@ DRAW = {
 }
 
 
+# ── Badges ───────────────────────────────────────────────────────────────────
+# A BADGE IS A SET OF JOBS THAT GO TOGETHER. Ryan's call, 2026-10-14, after
+# people asked for badges like Scouting America's merit badges, Open Badges and
+# video game achievements, and he did not want to gamify or credentialise too
+# much. It reverses one word of this file: `badges?` and `achievements?` used
+# to be on SCORE_NOUNS for the board as a whole. They still are for a JOB's
+# own words -- a job does not mention badges -- and a badge's words are swept
+# for everything else below.
+#
+# What keeps a badge from becoming the score this board refuses:
+#
+#   · IT IS WORKED OUT, NEVER KEPT. quest.js and the radio work out which
+#     badges somebody has from the jobs they have handed in, every time. No
+#     record anywhere holds a badge, so there is nothing to count, rank or
+#     lose except the jobs themselves.
+#   · NOTHING COUNTS THEM. No number of badges, no number of a badge's jobs
+#     done, no bar that fills. A badge lists its jobs and marks the done ones
+#     the way the board does, with a stamp on each.
+#   · NONE IS RARE, SECRET OR WORTH MORE. Every badge's jobs are printed on the
+#     board, and the board never says how many people have one.
+#   · IT CERTIFIES NOTHING. Every code is printed in its room and every
+#     question gives its answer away, so a badge says where somebody walked.
+#     That is the whole difference from an Open Badge, which is a credential.
+#   · ITS LIST NEVER GROWS. A badge somebody already has would stop being
+#     theirs, which is a badge expiring. Checked below against the committed
+#     data file, so a new room goes into a new badge or into none.
+#   · NO BADGE SENDS ANYBODY TO A ROOM FOR RESTING IN. Rest on this street is
+#     owed rather than earned (the Healing Checkpoint's whole argument), and a
+#     badge is earned. These are the rooms whose own words say they are for
+#     resting in, or for having had enough.
+REST = {
+    "healing-checkpoint.html": "rest is owed, not earned, and nothing up there is written down",
+    "dead-tired-society.html": "peer support for the burnt out, where nothing is homework",
+    "latibulum.html": "a burrow for when you have had enough of being findable",
+    "stay-frosty.html": "a quiet place to chill that is not for anything",
+    "cooldown-room.html": "a room for resting in, behind the hangar",
+}
+
+# The words a badge may not use about itself, with the negation window, so the
+# house rules can still say a badge is none of these. Ranking and rarity, the
+# words achievements are sold with, and the words of a credential.
+BADGE_NOUNS = (r"(?:scores?|scored|points?|xp\b|gamerscore|leaderboards?|streaks?|ranks?|ranked|"
+               r"ranking|levels?(?:\s+up)?|tiers?|rare|rarest|rarity|legendary|epic|unlock(?:s|ed)?|"
+               r"percent(?:age)?s?|progress|completion|complete(?:d|ist)?|"
+               r"certif(?:y|ies|ied|icate)|credentials?|qualif(?:y|ies|ied|ication)|accredit\w*|"
+               r"proficien\w*|mastery|master|expert|skills?|earned|deserve[sd]?)")
+BADGE_WORD = re.compile(rf"\b{BADGE_NOUNS}\b", re.I)
+BADGE_OK = re.compile(rf"\b{NEGATION}\b[^.]{{0,48}}?\b{BADGE_NOUNS}\b", re.I)
+
+# One drawing per badge, in a 32-unit square, made of PATHS AND NOTHING ELSE:
+# ("s", d) is stroked and ("f", d) is filled, in whatever colour it is drawn in.
+# Paths only so the radio can draw the same badge from guild-jobs.json with
+# createElementNS and one attribute, and never from markup. No two alike, which
+# is the markers' rule arriving at the badges.
+BADGE_DRAW = {
+    # A single pebble: one is plenty.
+    "one-is-plenty": [("f", "M7 19 C7 13 12 10 17 10 C23 10 26 14 25 19 C24 24 19 25 15 25 C10 25 7 23 7 19 Z")],
+    # A lift car with the arrow pointing down.
+    "down-the-lift": [("s", "M8 4 H24 V28 H8 Z"), ("s", "M16 9 V22 M11 17 L16 22 L21 17")],
+    # A spruce at the treeline.
+    "past-the-treeline": [("s", "M16 3 L9 13 H13 L7 22 H25 L19 13 H23 Z"), ("s", "M16 22 V29")],
+    # The road out, its centre line going away.
+    "the-far-end": [("s", "M5 29 L13 3 M27 29 L19 3"), ("s", "M16 26 V22 M16 17 V14 M16 10 V8")],
+    # A stile: two posts, two rails and a step.
+    "over-the-stile": [("s", "M9 28 V5 M23 28 V5 M9 11 H23 M9 18 H23"), ("s", "M3 23 H13")],
+    # A hall with a pediment and its columns.
+    "open-hall": [("s", "M4 12 L16 4 L28 12 Z"), ("s", "M7 12 V25 M12.5 12 V25 M19.5 12 V25 M25 12 V25 M3 28 H29")],
+    # A shut door with its panels and its knob.
+    "shut-not-locked": [("s", "M8 3 H24 V29 H8 Z M12 7 H20 V14 H12 Z M12 18 H20 V25 H12 Z"), ("f", "M20.5 16 H23 V18.5 H20.5 Z")],
+    # A book open on its spine.
+    "borrowers-ticket": [("s", "M3 8 C8 6 12 6 16 9 C20 6 24 6 29 8 V25 C24 23 20 23 16 26 C12 23 8 23 3 25 Z M16 9 V26")],
+    # A paw: one pad and four toes.
+    "shelter-rounds": [("f", "M16 17 C11 17 9 21 9 23 C9 26 12 27 16 27 C20 27 23 26 23 23 C23 21 21 17 16 17 Z"),
+                       ("f", "M6 13 C6 11 7.5 10 8.5 10 C9.5 10 11 11 11 13 C11 15 9.5 16 8.5 16 C7.5 16 6 15 6 13 Z"),
+                       ("f", "M11 7 C11 5 12.5 4 13.5 4 C14.5 4 16 5 16 7 C16 9 14.5 10 13.5 10 C12.5 10 11 9 11 7 Z"),
+                       ("f", "M16 7 C16 5 17.5 4 18.5 4 C19.5 4 21 5 21 7 C21 9 19.5 10 18.5 10 C17.5 10 16 9 16 7 Z"),
+                       ("f", "M21 13 C21 11 22.5 10 23.5 10 C24.5 10 26 11 26 13 C26 15 24.5 16 23.5 16 C22.5 16 21 15 21 13 Z")],
+    # A field gate between its posts.
+    "through-the-gates": [("s", "M4 28 V7 M28 28 V7"), ("s", "M4 11 H28 M4 24 H28 M10 11 V24 M16 11 V24 M22 11 V24 M4 24 L28 11")],
+    # A sheet with its corner folded and its lines.
+    "paper-trail": [("s", "M7 3 H20 L25 8 V29 H7 Z M20 3 V8 H25"), ("s", "M11 13 H21 M11 18 H21 M11 23 H17")],
+    # A record with its label and the arm coming in.
+    "needle-drop": [("s", "M3 17 A12 12 0 1 0 27 17 A12 12 0 1 0 3 17 Z"), ("f", "M12 17 A3 3 0 1 0 18 17 A3 3 0 1 0 12 17 Z"),
+                    ("s", "M29 2 V9 L21 15")],
+    # A chair from the side.
+    "pull-up-a-chair": [("s", "M10 3 V29 M10 17 H23 V29 M10 17 H23")],
+    # A joystick on its base.
+    "free-play": [("s", "M6 22 H26 V28 H6 Z M16 22 V12"), ("f", "M12 9 A4 4 0 1 0 20 9 A4 4 0 1 0 12 9 Z")],
+}
+PATH_D = re.compile(r"[MmLlHhVvCcSsQqTtAaZz0-9 .,\-]+")
+
+
+def badge_svg(bid, cls="badge__draw"):
+    parts = []
+    for mode, d in BADGE_DRAW[bid]:
+        if mode == "f":
+            parts.append(f'<path d="{d}" fill="currentColor"/>')
+        else:
+            parts.append(f'<path d="{d}" fill="none" stroke="currentColor" stroke-width="2.2" '
+                         f'stroke-linecap="square" stroke-linejoin="miter"/>')
+    return (f'<svg class="{cls}" viewBox="0 0 32 32" aria-hidden="true" focusable="false">'
+            + "".join(parts) + "</svg>")
+
+
+def committed_badges():
+    """The badges as the last commit had them, or None where there is no git to
+    ask. A badge posted there may lose a job (a room taken down) and never gain
+    one."""
+    import subprocess
+    try:
+        out = subprocess.run(["git", "show", "HEAD:data/quests.json"], cwd=ROOT,
+                             capture_output=True, text=True, timeout=20)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if out.returncode != 0:
+        return None
+    try:
+        return {b["id"]: b for b in json.loads(out.stdout).get("badges", [])}
+    except (ValueError, KeyError, TypeError):
+        return None
+
+
 # ── Reading and refusing ─────────────────────────────────────────────────────
 
 raw = json.loads(DATA.read_text())
@@ -734,6 +856,89 @@ if missing:
         ".\n    Every room on this street carries a marker, so a new room refuses to "
         "ship\n    without one — make-sitemap.py's rule in the form this board needs. "
         "If a\n    page genuinely should not carry one, add it to EXEMPT with the reason.")
+
+# The badges.
+badges = raw.get("badges", [])
+by_id = {q["id"]: q for q in quests}
+seen_badge, seen_set, seen_draw = set(), {}, {}
+for b in badges:
+    bid = b.get("id", "?")
+    where = f"badge {bid!r}"
+    if not re.fullmatch(r"[a-z0-9-]+", str(bid)) or bid in seen_badge:
+        problems.append(f"{where}: id is not a marker-safe name, or is used twice.")
+    seen_badge.add(bid)
+    for field in ("name", "for"):
+        if not str(b.get(field, "")).strip():
+            problems.append(f"{where}: no `{field}`. A badge says what its jobs have in common.")
+    if b.get("needs") not in ("all", "any"):
+        problems.append(f"{where}: needs {b.get('needs')!r}, which is neither all nor any.")
+    jobs = b.get("jobs", [])
+    if len(set(jobs)) != len(jobs):
+        problems.append(f"{where}: a job listed twice.")
+    for j in jobs:
+        if j not in by_id:
+            problems.append(f"{where}: {j!r} is not a job on the board.")
+        elif by_id[j]["page"] in REST:
+            problems.append(
+                f"{where}: {j!r} is in {by_id[j]['page']}, which is {REST[by_id[j]['page']]}. Rest on this "
+                "street is owed rather than earned, and a badge is earned, so no badge sends anybody there.")
+    if b.get("needs") == "all" and len(jobs) < 2:
+        problems.append(f"{where}: a badge for every one of fewer than two jobs is a job, not a badge.")
+    key = (b.get("needs"), tuple(sorted(jobs)))
+    if key in seen_set:
+        problems.append(f"{where}: the same jobs as {seen_set[key]!r}.")
+    seen_set[key] = bid
+    if bid not in BADGE_DRAW:
+        problems.append(f"{where}: no drawing in BADGE_DRAW. No two badges look alike.")
+    else:
+        for mode, d in BADGE_DRAW[bid]:
+            if mode not in ("s", "f") or not PATH_D.fullmatch(d):
+                problems.append(f"{where}: its drawing is not paths alone, which is what lets the radio draw it.")
+        sig = tuple(BADGE_DRAW[bid])
+        if sig in seen_draw:
+            problems.append(f"{where}: draws exactly what {seen_draw[sig]!r} draws.")
+        seen_draw[sig] = bid
+    # Numbers, and the words of a score, a rarity or a credential.
+    for field in ("name", "for"):
+        text = str(b.get(field, ""))
+        if re.search(r"\d", text):
+            problems.append(f"{where}: {field} has a number in it. Nothing about a badge is counted.")
+        for m in BADGE_WORD.finditer(text):
+            window = text[max(0, m.start() - 56):m.end()]
+            if not BADGE_OK.search(window):
+                problems.append(
+                    f"{where}: {field} says {m.group(0)!r}. A badge is jobs that go together: it is not "
+                    "ranked, rare, unlocked or counted, and it certifies nothing.")
+for bid in set(BADGE_DRAW) - seen_badge:
+    problems.append(f"BADGE_DRAW has a drawing for {bid!r}, which is no badge. A stale entry is how two lists drift.")
+
+# A BADGE NEVER ASKS FOR MORE THAN IT DID WHEN IT WAS POSTED. Against the last
+# commit. For `all`, a job taken out is allowed (a room taken down only makes it
+# easier to have) and a job added is refused; for `any`, the other way round,
+# because there every job listed is a way to have it. Either way the refusal is
+# the same: somebody who had the badge would stop having it, which is a badge
+# expiring, and nothing on this board expires.
+def asks_more(old, new):
+    o, n = set(old.get("jobs", [])), set(new.get("jobs", []))
+    if old.get("needs") == "all":
+        return new.get("needs") == "all" and bool(n - o)
+    if new.get("needs") != "any":
+        return True                       # any one of them -> every one of them
+    if not o:
+        return bool(n)                    # any job on the board -> only some
+    return bool(n) and bool(o - n)        # a way to have it taken away
+
+
+was = committed_badges()
+if was is None:
+    print("guild: no git to ask, so whether a posted badge asks for more was not checked this time.")
+else:
+    for b in badges:
+        old = was.get(b.get("id"))
+        if old and asks_more(old, b):
+            problems.append(
+                f"badge {b['id']!r} asks for more than it did when it was posted. Somebody who has it would "
+                "stop having it, which is a badge expiring. Post a new badge instead.")
 
 if problems:
     raise SystemExit("REFUSING:\n  " + "\n  ".join(problems))
@@ -849,7 +1054,9 @@ def job(q):
     """One job posted on the board."""
     numeral, where, _ = RANKS[q["rank"]]
     out = [
-        f'      <li class="job" data-quest="{q["id"]}" data-sum="{checksum(q["code"])}">',
+        # The id is the address a badge's list and the radio's Profile link to,
+        # so a job is somewhere you can be sent rather than a row you scroll for.
+        f'      <li class="job" data-quest="{q["id"]}" data-sum="{checksum(q["code"])}" id="job-{q["id"]}">',
         f'        <p class="job__class"><span class="sr">Difficulty class </span>'
         f'{numeral}<span class="job__where">{e(where)}</span></p>',
         f'        <div class="job__body">',
@@ -889,6 +1096,104 @@ def job(q):
 # sort order. The class is printed on every job and a reader can pick.
 swap(BOARD, "guild:jobs", "\n".join(job(q) for q in quests), "    ")
 
+
+def badge(b):
+    """One badge on the board: its drawing, its name, what its jobs have in
+    common, and the jobs. quest.js stamps it and marks the done ones; with
+    scripts off it is a list of jobs that go together, which is all it is."""
+    jobs = b.get("jobs", [])
+    out = [
+        f'      <li class="badge" id="badge-{b["id"]}" data-badge="{b["id"]}" data-needs="{b["needs"]}" '
+        f'data-jobs="{" ".join(jobs)}">',
+        f'        {badge_svg(b["id"])}',
+        f'        <div class="badge__words">',
+        f'          <h3 class="badge__name">{e(b["name"])}</h3>',
+        f'          <p class="badge__for">{e(b["for"])}</p>',
+    ]
+    if not jobs:
+        out.append(f'          <p class="badge__any">Any job on the board.</p>')
+    else:
+        out += [
+            f'          <details class="badge__jobs">',
+            f'            <summary>{"Any one of these jobs" if b["needs"] == "any" else "Its jobs"}</summary>',
+            f'            <ul>',
+        ]
+        for j in jobs:
+            q = by_id[j]
+            out.append(
+                f'              <li class="badge__job" data-quest="{j}"><a href="#job-{j}">{e(q["title"])}</a>'
+                f' <span class="badge__room">&middot; {e(q["room"])}</span>'
+                f'<b class="badge__tick" hidden>Done</b></li>')
+        out += [f'            </ul>', f'          </details>']
+    out += [
+        f'        </div>',
+        f'        <p class="badge__stamp" hidden>Yours</p>',
+        f'      </li>',
+    ]
+    return "\n".join(out)
+
+
+# In the order they were posted, like the jobs: sorted any other way they would
+# start reading as a ladder.
+swap(BOARD, "guild:badges", "\n".join(badge(b) for b in badges), "    ")
+
+# WHAT THE RADIO NEEDS TO NAME A JOB AND DRAW A BADGE, and nothing else: no
+# code and no checksum, so this file is no more of a spoiler sheet than the
+# board is. cb.js fetches it when Profile or a profile opens, the way it fetches
+# cb-rooms.json, and builds every drawing out of the paths with createElementNS.
+GUILD_JSON = ROOT / "guild-jobs.json"
+GUILD_JSON.write_text(json.dumps({
+    "_": "Written by tools/make-guild.py out of data/quests.json, for the CB's Profile. Do not edit.",
+    "jobs": [{"id": q["id"], "title": q["title"], "room": q["room"]} for q in quests],
+    "badges": [{"id": b["id"], "name": b["name"], "for": b["for"], "needs": b["needs"], "jobs": b.get("jobs", []),
+                "draw": [list(p) for p in BADGE_DRAW[b["id"]]]} for b in badges],
+}, ensure_ascii=False, indent=1) + "\n")
+
+# THE SERVER KNOWS WHICH JOBS EXIST, so a Profile can only ever hold a job that
+# is on the board. Written between markers in lib.mjs, the way make-bodymind.py
+# writes the avatar lists; never hand-edit between them.
+LIB = ROOT / "netlify" / "cb" / "lib.mjs"
+lib = LIB.read_text()
+QB, QE = "/* quest:ids:begin */", "/* quest:ids:end */"
+if QB not in lib or QE not in lib:
+    raise SystemExit(f"REFUSING: {LIB.name} has no quest:ids markers, so the CB cannot know which jobs exist.")
+lib = re.sub(re.escape(QB) + r".*?" + re.escape(QE),
+             lambda m: QB + "\nexport const QUEST_IDS = " + json.dumps([q["id"] for q in quests]) + ";\n" + QE,
+             lib, flags=re.S)
+LIB.write_text(lib)
+
+# WHAT THE BOARD SENDS, AND WHAT THE SERVER KEEPS, read rather than trusted.
+# quest.js runs in every room; only the board ever talks to the CB, and only to
+# /cb/jobs, through one call(), with the pass the radio keeps in love-cb, which
+# it reads and never writes. It keeps one thing of its own, love-quests. And
+# the server keeps which jobs, sorted, and NOTHING ABOUT WHEN: a list of times
+# would be a record of how somebody spends their days.
+qjs = re.sub(r"/\*.*?\*/", " ", (ROOT / "quest.js").read_text(), flags=re.S)
+qjs = re.sub(r"(?m)^\s*//.*$", " ", qjs)
+for m in re.finditer(r"localStorage\.(setItem|getItem|removeItem)\(\s*([^,)]+)", qjs):
+    kind, arg = m.group(1), m.group(2).strip()
+    if arg not in ("KEY", "KEY + '-probe'", "PASS_KEY"):
+        problems.append(f"quest.js {kind}s {arg}. It keeps love-quests and reads love-cb, and nothing else.")
+    if arg == "PASS_KEY" and kind != "getItem":
+        problems.append("quest.js writes love-cb. That is the radio's, and the board only reads it.")
+if "var PASS_KEY = 'love-cb';" not in qjs or "var KEY = 'love-quests';" not in qjs:
+    problems.append("quest.js no longer names love-quests and love-cb as the two things it touches.")
+if re.search(r"sessionStorage|indexedDB|document\.cookie|sendBeacon|WebSocket|EventSource|XMLHttpRequest", qjs):
+    problems.append("quest.js keeps or sends something some other way.")
+if re.search(r"innerHTML|outerHTML|insertAdjacentHTML|document\.write", qjs):
+    problems.append("quest.js writes markup from a string.")
+if qjs.count("fetch(") != 1 or "fetch(JOBS," not in qjs or "var JOBS = '/cb/jobs';" not in qjs:
+    problems.append("quest.js sends somewhere other than /cb/jobs, or not through its one call().")
+kj = re.search(r"export async function keepJobs\(.*?\n\}", lib, re.S)
+if not kj or "s.setJSON(key, { jobs: next }" not in kj.group(0) or re.search(r"\bnow\b|Date|\bt:", kj.group(0)):
+    problems.append("lib.mjs: keepJobs keeps something other than which jobs. It keeps nothing about when.")
+if "await forgetJobs(petKey(handle), s);" not in (re.search(r"export async function deleteAccount\(.*?\n\}", lib, re.S) or [""])[0]:
+    problems.append("lib.mjs: deleting a username no longer deletes the jobs kept under it.")
+if "forgetJobs(pk)" not in (ROOT / "netlify" / "functions" / "cb-pets.mjs").read_text():
+    problems.append("cb-pets.mjs: Forget me no longer forgets the jobs kept in Profile.")
+if problems:
+    raise SystemExit("REFUSING:\n  " + "\n  ".join(problems))
+
 for q in quests:
     swap(ROOT / q["page"], f"quest:{q['id']}", marker(q))
 
@@ -903,6 +1208,16 @@ creds = [
     '    <p>Every question on the board is answered by a sentence already published on the '
     'page its marker stands on, and each was read off that page rather than remembered. '
     'Where a question asks for a name it is a name one of our own pages already credits.</p>',
+    '    <p><b>The guild&rsquo;s badges</b> were asked for by people in our community, and they '
+    'borrow from three places, each named on the board: the merit badges of '
+    '<a href="https://www.scouting.org/skills/merit-badges/">Scouting America</a>, a patch for a list '
+    'of requirements; <a href="https://openbadges.org/">Open Badges</a>, the format for digital badges '
+    'that its own site calls verifiable and portable; and '
+    '<a href="https://en.wikipedia.org/wiki/Achievement_(video_games)">video game achievements</a>, '
+    'which Wikipedia dates, as a system across many games, to the Xbox 360&rsquo;s Gamerscore in 2005, '
+    'and before that to the iron-on patches Activision posted in 1982 to players who photographed a high '
+    'score. What the guild kept of each and what it left is on the board. The drawings are ours, and '
+    'they are built by the same tool as the jobs.</p>',
     '    <p><b>The candle stub on the Faery Yurt&rsquo;s windowsill is ours, not Helen '
     'Edgar&rsquo;s.</b> That room is her design and this repository does not redecorate it; '
     'the only other design change we have made to it unasked is the one colour noted above. On '

@@ -9773,6 +9773,88 @@ html[data-intensity="max"] .guild-spark { animation: gu-rise 2.1s ease-out forwa
 .guild-stair__to { display: block; font-family: 'Rye', var(--sans); font-size: 19px; letter-spacing: .02em; }
 .guild-stair__why { display: block; margin-top: 8px; font-size: 15.5px; line-height: 1.6; max-width: 66ch; color: var(--gu-ink-2); }
 
+/* DONE AND NOT DONE. Three square keys run together like the boxes on a form,
+   and the pressed one is filled in. It ships hidden, because the stamps only
+   exist with scripts on, and it never says how many jobs it hid. */
+.guild-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 4px 0 16px; }
+.guild-filter__label { margin: 0; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; }
+.guild-filter__row { display: flex; flex-wrap: wrap; }
+.guild-filter__btn {
+  min-height: 44px; padding: 6px 16px; cursor: pointer;
+  border: 2px solid var(--gu-ink); background: var(--gu-paper); color: var(--gu-ink);
+  font-family: inherit; font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+}
+.guild-filter__btn + .guild-filter__btn { border-left-width: 0; }
+.guild-filter__btn:hover { color: var(--gu-stamp); }
+.guild-filter__btn[aria-pressed="true"] { background: var(--gu-ink); color: var(--gu-paper); }
+.guild-filter__said { flex: 1 1 100%; margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--gu-ink-2); }
+.guild-filter__said:empty { display: none; }
+
+/* THE BADGES, a ruled grid of cells on the sheet, filled in by the clerk the
+   way everything else in here is. A badge that is not yours has its drawing in
+   a DASHED box, the Outskirts' sign with no road behind it: still at full ink,
+   because a badge you cannot read is not a quieter badge. One that is yours is
+   pressed in the stamp's vermilion inside the stamp's double rule. No shine, no
+   ribbon, no medal and no number: it is a set of jobs, filed. */
+.guild-badges {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+  border-top: 2px solid var(--gu-ink); border-left: 1px solid var(--gu-rule);
+}
+.badge {
+  display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 0 14px; align-items: start;
+  padding: 16px 16px 14px; border-right: 1px solid var(--gu-rule); border-bottom: 1px solid var(--gu-rule);
+}
+.badge__draw { display: block; width: 58px; height: 58px; padding: 7px; color: var(--gu-ink-2); border: 2px dashed var(--gu-ink-2); }
+.badge--yours .badge__draw { color: var(--gu-stamp); border: 4px double var(--gu-stamp); padding: 5px; }
+.badge__words { min-width: 0; }
+.room-guild .badge__name { font-family: 'Rye', var(--sans); font-weight: 400; font-size: 19px; line-height: 1.16; margin: 0; padding: 0; border: 0; }
+.badge__for { margin: 7px 0 0; font-size: 14.5px; line-height: 1.55; }
+.badge__any { margin: 8px 0 0; font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--gu-ink-2); }
+.badge__jobs > summary {
+  cursor: pointer; min-height: 44px; display: flex; align-items: center;
+  font-size: 12.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gu-file);
+}
+.badge__jobs ul { margin: 0 0 4px; padding-left: 18px; }
+.badge__job { margin: 0 0 6px; font-size: 14.5px; line-height: 1.45; }
+.badge__room { font-size: 13px; color: var(--gu-ink-2); }
+.badge__tick {
+  display: inline-block; margin-left: 8px; padding: 0 5px; font-size: 11px; line-height: 1.5;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--gu-stamp); border: 3px double var(--gu-stamp);
+}
+.badge__stamp {
+  grid-column: 1 / -1; justify-self: end; margin: 10px 0 0; padding: 4px 10px;
+  font-weight: 700; font-size: 13px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gu-stamp); border: 3px double var(--gu-stamp);
+}
+.guild-whence { margin: 14px 0 0; border: 1px solid var(--gu-rule); padding: 0 18px; }
+.guild-whence > summary {
+  cursor: pointer; min-height: 44px; display: flex; align-items: center;
+  font-size: 12.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gu-file);
+}
+.guild-whence ul { margin: 0 0 14px; padding-left: 20px; }
+.guild-whence li { margin: 0 0 8px; font-size: 15px; line-height: 1.55; max-width: 64ch; }
+
+/* KEEPING THEM IN YOUR PROFILE, under the hand-in box and only for a page
+   signed on to the CB. Another row of the same form: square keys, the ink
+   filled in when the switch is on. */
+.hand__cb { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--gu-rule); }
+.hand__cb-who { margin: 0 0 10px; font-size: 15px; }
+.hand__keep, .hand__bring, .hand__keep-yes, .hand__keep-no {
+  min-height: 44px; padding: 6px 14px; cursor: pointer;
+  border: 2px solid var(--gu-ink); background: var(--gu-paper); color: var(--gu-ink);
+  font-family: inherit; font-size: 13px; font-weight: 700; letter-spacing: .06em;
+}
+.hand__keep[aria-pressed="true"] { background: var(--gu-ink); color: var(--gu-paper); }
+.hand__keep:hover, .hand__bring:hover, .hand__keep-yes:hover, .hand__keep-no:hover { border-color: var(--gu-stamp); }
+.hand__keep-why { margin: 10px 0 0; font-size: 14.5px; line-height: 1.55; max-width: 64ch; }
+.hand__keep-sure { margin-top: 10px; }
+.hand__keep-sure p { margin: 0 0 8px; font-size: 14.5px; line-height: 1.55; max-width: 64ch; }
+.hand__keep-sure button { margin: 0 8px 6px 0; }
+.hand__bring { margin-top: 10px; }
+.hand__cb-said { margin: 10px 0 0; font-size: 14.5px; line-height: 1.55; max-width: 64ch; }
+.hand__cb-said:empty { display: none; }
+
 /* §27 ── ROOM: The Feed ──────────────────────────────────────────────────────
    AN ARRIVALS BOARD IN A DARK CONCOURSE, AND THE ONLY MACHINE ON THIS STREET.
 

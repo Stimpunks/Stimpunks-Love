@@ -1108,12 +1108,29 @@
     pets.appendChild(this.showBox);
     var where = this.petsWhere = el('p', 'cb-pets__where');
     pets.appendChild(where);
+
+    /* YOUR JOBS (Ryan, 2026-10-14): the jobs kept from the Adventurer's Guild,
+       once its board's Keep my jobs in my Profile is on, and the badges they
+       make, worked out here from the jobs and kept nowhere. Read when the tray
+       opens, never polled. */
+    pets.appendChild(el('p', 'cb-pets__h', 'Your jobs'));
+    this.jobsState = el('p', 'cb-quiet', '');
+    pets.appendChild(this.jobsState);
+    this.jobsBox = el('div', 'cb-jobs-box');
+    this.jobsBox.hidden = true;
+    pets.appendChild(this.jobsBox);
+    // Whether people on the CB see them in your profile.
+    this.jobsShow = el('div', 'cb-pets__show');
+    pets.appendChild(this.jobsShow);
+    this.jobsWhere = el('p', 'cb-pets__where');
+    pets.appendChild(this.jobsWhere);
+
     var forgetBtn = this.forgetBtn = el('button', 'cb-btn cb-forget', 'Forget me');
     forgetBtn.type = 'button';
     pets.appendChild(forgetBtn);
     var sure = this.forgetSure = el('div', 'cb-forget-sure');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your pets and whether they are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your pets, the jobs kept from the Adventurer\u2019s Guild, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
     var yes = el('button', 'cb-btn cb-forget-yes', 'Yes, forget me');
     yes.type = 'button';
     var no = el('button', 'cb-btn', 'Keep them');
@@ -1960,6 +1977,33 @@
     var list = el('ul', 'cb-pets__list');
     list.hidden = true;
     box.appendChild(list);
+    /* THEIR JOBS AND BADGES (Ryan, 2026-10-14), only if they have chosen to
+       show them, which needs a claimed username. The badges are worked out
+       here from the jobs; nobody keeps a badge, and nothing counts them. */
+    box.appendChild(el('p', 'cb-peek__sub', 'Jobs and badges'));
+    var jSaid = el('p', 'cb-quiet', 'Looking\u2026');
+    box.appendChild(jSaid);
+    var jBox = el('div', 'cb-jobs-box');
+    jBox.hidden = true;
+    box.appendChild(jBox);
+    var mineJ = String(handle).toLowerCase() === String(this.state.handle || '').toLowerCase();
+    withGuild(function (guild) {
+      call('/cb/jobs/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
+        if (peekN !== me.peekN) return;
+        if (r.status === 401) return me.lost();
+        if (r.status !== 200 || !r.body || !guild) { jSaid.textContent = 'Their jobs could not be fetched just now.'; return; }
+        if (!r.body.shown) {
+          jSaid.textContent = mineJ
+            ? 'You have not made your jobs public. Profile, on this radio, is where you switch that on.'
+            : handle + ' has not made their jobs public.';
+          return;
+        }
+        if (!r.body.jobs.length) { jSaid.textContent = r.body.handle + ' has no jobs kept.'; return; }
+        jSaid.hidden = true;
+        jBox.hidden = false;
+        jobsInto(jBox, guild, r.body.jobs, mineJ ? 'The jobs you have handed in' : 'The jobs ' + r.body.handle + ' has handed in');
+      }, function () { jSaid.textContent = 'Their jobs could not be fetched just now.'; });
+    });
     var close = el('button', 'cb-btn cb-peek__close', 'Close');
     close.type = 'button';
     close.addEventListener('click', function () { me.unpeek(); });
@@ -2276,6 +2320,98 @@
     document.head.appendChild(s);
   }
 
+  /* THE GUILD'S LIST: every job's title and room, and every badge's name, what
+     its jobs have in common, which jobs, and its drawing as paths. Written by
+     tools/make-guild.py into /guild-jobs.json, fetched once, the first time a
+     Profile or a profile has jobs to name, the way cb-rooms.json is. */
+  var GUILD = null, guildWait = null;
+  function withGuild(then) {
+    if (GUILD) { then(GUILD); return; }
+    if (!guildWait) {
+      guildWait = call('/guild-jobs.json').then(function (r) {
+        if (r.status === 200 && r.body && Array.isArray(r.body.jobs) && Array.isArray(r.body.badges)) GUILD = r.body;
+        guildWait = null;
+        return GUILD;
+      }, function () { guildWait = null; return null; });
+    }
+    guildWait.then(function (g) { then(g); });
+  }
+
+  /* A badge's drawing, built path by path from the list: never from markup,
+     and only out of the letters and numbers a path is made of. */
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  function badgeArt(b, cls) {
+    var svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 32 32');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    svg.setAttribute('class', cls);
+    (b.draw || []).forEach(function (p) {
+      if (!p || typeof p[1] !== 'string' || !/^[MmLlHhVvCcSsQqTtAaZz0-9 .,\-]+$/.test(p[1])) return;
+      var path = document.createElementNS(SVGNS, 'path');
+      path.setAttribute('d', p[1]);
+      if (p[0] === 'f') path.setAttribute('fill', 'currentColor');
+      else {
+        path.setAttribute('fill', 'none');
+        path.setAttribute('stroke', 'currentColor');
+        path.setAttribute('stroke-width', '2.2');
+        path.setAttribute('stroke-linecap', 'square');
+      }
+      svg.appendChild(path);
+    });
+    return svg;
+  }
+
+  /* Which badges a list of jobs makes, asked of the jobs every time, in the
+     order the board posts them. Never counted. */
+  function badgesFor(guild, done) {
+    var all = guild.jobs.map(function (j) { return j.id; });
+    return guild.badges.filter(function (b) {
+      var want = b.jobs || [];
+      if (b.needs === 'any') {
+        return (want.length ? want : all).some(function (id) { return done.indexOf(id) >= 0; });
+      }
+      return want.length > 0 && want.every(function (id) { return done.indexOf(id) >= 0; });
+    });
+  }
+
+  /* Somebody's badges and jobs, in Profile or in a profile: the badges drawn
+     and named with what their jobs have in common, then the jobs themselves,
+     folded, each a link to its place on the board. */
+  function jobsInto(box, guild, done, whose) {
+    box.textContent = '';
+    var bs = badgesFor(guild, done);
+    if (bs.length) {
+      var ul = el('ul', 'cb-badges');
+      bs.forEach(function (b) {
+        var li = el('li', 'cb-badge');
+        li.appendChild(badgeArt(b, 'cb-badge__art'));
+        var words = el('div', 'cb-badge__words');
+        var a = el('a', 'cb-badge__name', b.name);
+        a.href = '/adventurers-guild.html#badge-' + b.id;
+        words.appendChild(a);
+        words.appendChild(el('p', 'cb-badge__for', b['for']));
+        li.appendChild(words);
+        ul.appendChild(li);
+      });
+      box.appendChild(ul);
+    }
+    var det = el('details', 'cb-jobs');
+    det.appendChild(el('summary', null, whose));
+    var list = el('ul', 'cb-jobs__list');
+    guild.jobs.forEach(function (j) {
+      if (done.indexOf(j.id) < 0) return;
+      var li = el('li');
+      var a = el('a', null, j.title);
+      a.href = '/adventurers-guild.html#job-' + j.id;
+      li.appendChild(a);
+      li.appendChild(el('span', 'cb-jobs__room', ' \u00b7 ' + j.room));
+      list.appendChild(li);
+    });
+    det.appendChild(list);
+    box.appendChild(det);
+  }
+
   /* avatar.js, loaded on the first avatar the radio has to draw. */
   function withAvatar(then) {
     if (window.loveAvatar) { then(); return; }
@@ -2471,7 +2607,7 @@
   Radio.prototype.setPets = function (open) {
     this.petsPanel.hidden = !open;
     this.petsBtn.setAttribute('aria-expanded', String(!!open));
-    if (open) { this.loadAccount(); this.loadAvatars(); this.loadPets(); }
+    if (open) { this.loadAccount(); this.loadAvatars(); this.loadPets(); this.loadJobs(); }
     else { this.forgetSure.hidden = true; this.forgetBtn.hidden = false; }
   };
 
@@ -2747,13 +2883,80 @@
   };
 
 
+  /* ── Your jobs ─────────────────────────────────────────────────────────── */
+  Radio.prototype.loadJobs = function () {
+    var me = this;
+    me.jobsState.hidden = false;
+    me.jobsState.textContent = 'Looking for your jobs\u2026';
+    withGuild(function (guild) {
+      call('/cb/jobs', null, me.state.pass).then(function (r) {
+        if (r.status === 200 && r.body && guild) { me.drawJobs(r.body, guild); return; }
+        me.jobsState.textContent = r.status === 401
+          ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+          : 'Your jobs could not be fetched just now.';
+      }, function () { me.jobsState.textContent = 'Your jobs could not be fetched just now.'; });
+    });
+  };
+
+  Radio.prototype.drawJobs = function (b, guild, focus) {
+    var me = this, box = this.jobsBox, show = this.jobsShow, w = this.jobsWhere;
+    box.textContent = ''; show.textContent = ''; w.textContent = '';
+    box.hidden = true;
+    this.jobsState.hidden = false;
+    if (!b.keeping) {
+      this.jobsState.textContent = 'Your Profile is not keeping your jobs. The ';
+      var g = el('a', null, 'Adventurer\u2019s Guild'); g.href = '/adventurers-guild.html';
+      this.jobsState.appendChild(g);
+      this.jobsState.appendChild(document.createTextNode('\u2019s board can: Keep my jobs in my Profile is beside the box where codes are handed in, and it starts off.'));
+      return;
+    }
+    if (!b.jobs.length) {
+      this.jobsState.textContent = 'Your Profile is keeping your jobs, and has none so far. Codes are handed in at the ';
+      var g2 = el('a', null, 'Adventurer\u2019s Guild'); g2.href = '/adventurers-guild.html';
+      this.jobsState.appendChild(g2);
+      this.jobsState.appendChild(document.createTextNode('.'));
+    } else if (guild) {
+      this.jobsState.hidden = true;
+      box.hidden = false;
+      jobsInto(box, guild, b.jobs, 'The jobs you have handed in');
+    }
+    var claimed = !!b.claimed;
+    if (!claimed) {
+      show.appendChild(el('p', 'cb-quiet', 'Claim your username above and you can let people on the CB see your jobs and their badges in your profile.'));
+    } else {
+      var on = !!b.shown;
+      var t = el('button', 'cb-btn cb-pets-show', 'Show my jobs on the CB: ' + (on ? 'on' : 'off'));
+      t.type = 'button';
+      t.setAttribute('aria-pressed', String(on));
+      show.appendChild(t);
+      show.appendChild(el('p', 'cb-quiet', on
+        ? 'Anybody signed on to the CB who opens your profile, from your handle on the channel or your name on Who\u2019s online, sees your jobs and the badges they make. Not when you did any of them, which is not kept.'
+        : 'Off: your profile says you have not made your jobs public. Switch it on to show them, and their badges, there.'));
+      var said = el('p', 'cb-quiet', ''); said.setAttribute('role', 'status');
+      show.appendChild(said);
+      if (focus) t.focus();
+      t.addEventListener('click', function () {
+        t.disabled = true;
+        call('/cb/jobs', { body: { show: !on } }, me.state.pass).then(function (r) {
+          t.disabled = false;
+          if (r.status === 200 && typeof r.body.shown === 'boolean') { me.drawJobs({ keeping: true, jobs: b.jobs, claimed: true, shown: r.body.shown }, guild, true); return; }
+          said.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.';
+        }, function () { t.disabled = false; said.textContent = 'The street could not be reached just now. Nothing changed.'; });
+      });
+    }
+    w.textContent = (claimed
+      ? 'Your jobs are kept under your username, scrambled: which jobs, and nothing about when. '
+      : 'Your jobs are kept under the handle ' + this.state.handle + ', scrambled: which jobs, and nothing about when. A handle is not an account: anybody who signs on with it sees them too, until you claim it above. ') +
+      'A badge is worked out from them and kept nowhere. Switching keeping off, on the Guild\u2019s board, deletes them, and so does Forget me.';
+  };
+
   Radio.prototype.forgetMe = function () {
     var me = this;
     me.petsState.hidden = false;
     me.petsState.textContent = 'Forgetting\u2026';
     call('/cb/pets', { body: { forget: true } }, me.state.pass).then(function (r) {
       me.forgetSure.hidden = true; me.forgetBtn.hidden = false;
-      if (r.status === 200 && r.body.forgotten) { me.drawPets([]); me.drawShow({ claimed: /^cb2\./.test(me.state.pass), shown: false }); me.drawAvatars({ avatars: [], wearing: null, claimed: /^cb2\./.test(me.state.pass) }); me.petsState.textContent = 'Forgotten. The street keeps nothing under this handle now.'; me.forgetBtn.focus(); return; }
+      if (r.status === 200 && r.body.forgotten) { me.drawPets([]); me.drawShow({ claimed: /^cb2\./.test(me.state.pass), shown: false }); me.drawAvatars({ avatars: [], wearing: null, claimed: /^cb2\./.test(me.state.pass) }); me.drawJobs({ keeping: false, jobs: [], claimed: /^cb2\./.test(me.state.pass) }, GUILD); me.petsState.textContent = 'Forgotten. The street keeps nothing under this handle now.'; me.forgetBtn.focus(); return; }
       me.petsState.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing was forgotten.';
     }, function () {
       me.forgetSure.hidden = true; me.forgetBtn.hidden = false;

@@ -3771,5 +3771,194 @@
    }
   }
  ],
- "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none."
+ "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none.",
+ "_badges": "A BADGE IS A SET OF JOBS THAT GO TOGETHER, AND NOTHING ELSE. Ryan's call, 2026-10-14, after people asked for badges like Scouting America's merit badges, Open Badges and video game achievements; he did not want to gamify or credentialise too much, and this reverses the part of _no_score that refused a badge on this board. So a badge is WORKED OUT from the jobs somebody has handed in, every time, and kept nowhere of its own. It is never counted, never ranked, never rare and never secret; it certifies nothing, because every code is printed in its room and every question gives its answer away; and it cannot be lost except by forgetting the jobs. `needs` is `all` (every job listed) or `any` (any one of them, and with no jobs listed, any job on the board). A BADGE'S LIST NEVER GROWS ONCE IT IS POSTED, because a badge somebody already has would stop being theirs, which is a badge expiring: make-guild.py compares the list against the committed file and refuses a job added to a posted badge, so a new room in an area goes into a new badge or into none. A `for` names its rooms rather than saying every one of something, for the same reason. NO BADGE SENDS ANYBODY TO A ROOM FOR RESTING IN, because rest on this street is owed rather than earned and a badge is earned; make-guild.py names those rooms. Every badge has its own drawing in make-guild.py, made of paths only, so the radio's Profile can draw it from guild-jobs.json without any markup.",
+ "badges": [
+  {
+   "id": "one-is-plenty",
+   "name": "One Is Plenty",
+   "needs": "any",
+   "jobs": [],
+   "for": "Handing in any job at all. The house rules say one is a perfectly good number of jobs to do, and this badge is them saying it again."
+  },
+  {
+   "id": "down-the-lift",
+   "name": "Down the Lift",
+   "needs": "all",
+   "jobs": [
+    "caverns-rail",
+    "bigsteep-carboy",
+    "mycelium-block",
+    "glow-star"
+   ],
+   "for": "Arlesglad Caverns, by the lift or the stair beside it: the passage under the street, the cellar, the mushroom farm and the shop where everything glows."
+  },
+  {
+   "id": "past-the-treeline",
+   "name": "Past the Treeline",
+   "needs": "all",
+   "jobs": [
+    "camp-peg",
+    "yurt-tallow",
+    "meadow-firefly",
+    "hermitage-sunflower",
+    "bns-spoon"
+   ],
+   "for": "Out to the campgrounds: the field, and the yurt, the meadow, the hermitage and the tea room pitched on it."
+  },
+  {
+   "id": "the-far-end",
+   "name": "The Far End",
+   "needs": "all",
+   "jobs": [
+    "outskirts-reflector",
+    "lagoon-speaker",
+    "sithen-thorn",
+    "looming-flood",
+    "dance-punks-glowstick",
+    "small-hours-crayon",
+    "repeater-qsl",
+    "nothing-for-sale-torch",
+    "rave-earplug"
+   ],
+   "for": "Down the road past the last streetlight: the board at the far end, the drive-in, the fort, the amphitheatre, the dance on the airstrip, the diner, the repeater, the free tables and the hangar."
+  },
+  {
+   "id": "over-the-stile",
+   "name": "Over the Stile",
+   "needs": "all",
+   "jobs": [
+    "ncx-stile",
+    "anm-feather",
+    "bds-chiltepin",
+    "ghc-leaf",
+    "atn-egg",
+    "dry-churn",
+    "wsc-seed",
+    "hbx-coin"
+   ],
+   "for": "Past the campgrounds’ wood to the land: the stile, the sanctuary, the solar farm, the cannabis farm, the mixed farm, the dairy and the wildflowers, and back to the honesty box on the street where some of it is sold."
+  },
+  {
+   "id": "open-hall",
+   "name": "Open Hall",
+   "needs": "all",
+   "jobs": [
+    "th-gavel",
+    "fb-flake",
+    "dr-key",
+    "bd-lamp",
+    "md-fuse",
+    "es-note"
+   ],
+   "for": "Through the Town Hall: the open middle, the Fishbowl, and the rooms our directors, board and moderators meet in, which anybody may walk into."
+  },
+  {
+   "id": "shut-not-locked",
+   "name": "Shut, Not Locked",
+   "needs": "all",
+   "jobs": [
+    "cavendish-marker",
+    "wr-mantle",
+    "op-tag",
+    "ed-loupe",
+    "wh-feather",
+    "cf-marshmallow",
+    "cv-icicle"
+   ],
+   "for": "Cavendish Coworking’s house and the rooms behind its doors: the events room, operations and editorial, and the cave, the campfire and the watering hole upstairs. Every door in that house is shut and none of them is locked."
+  },
+  {
+   "id": "borrowers-ticket",
+   "name": "Borrower’s Ticket",
+   "needs": "all",
+   "jobs": [
+    "lib-slip",
+    "lsp-string",
+    "ook-peel",
+    "mopery-card"
+   ],
+   "for": "The street’s libraries: the public reading room, L-space behind it, Oook at the far end of the string, and the Mopery after dark."
+  },
+  {
+   "id": "shelter-rounds",
+   "name": "Shelter Rounds",
+   "needs": "all",
+   "jobs": [
+    "cats-torch",
+    "dogs-lead",
+    "smalls-hay",
+    "pkp-mouse",
+    "run-ball"
+   ],
+   "for": "The shelters for cats, dogs and small animals, the café where the cats wait for a home, and the run where the dogs do."
+  },
+  {
+   "id": "through-the-gates",
+   "name": "Through the Gates",
+   "needs": "all",
+   "jobs": [
+    "run-ball",
+    "tks-boat",
+    "grn-leaf",
+    "pil-tape"
+   ],
+   "for": "Where the buildings stop: through the gates in the fence to the run, the truck stop, the green and the pile."
+  },
+  {
+   "id": "paper-trail",
+   "name": "Paper Trail",
+   "needs": "all",
+   "jobs": [
+    "zine-staple",
+    "zine2-clip",
+    "doom-foxing",
+    "zibaldone-nib",
+    "broadside-sheet",
+    "foundry-sort",
+    "now-playing-brush",
+    "onb-washi"
+   ],
+   "for": "The rooms made of paper and type: the zine and its second issue, the scroll, the commonplace book, the broadsides, the foundry, the poster column and the open notebook."
+  },
+  {
+   "id": "needle-drop",
+   "name": "Needle Drop",
+   "needs": "all",
+   "jobs": [
+    "pony-sequin",
+    "chappell-rhinestone",
+    "club-pin",
+    "den-spindle",
+    "live-room-tape"
+   ],
+   "for": "The rooms on the street with records in them: the dancefloor and the chapel behind it, the punk club, the den off the Jungle Room, and the studio."
+  },
+  {
+   "id": "pull-up-a-chair",
+   "name": "Pull Up a Chair",
+   "needs": "all",
+   "jobs": [
+    "samefood-divider",
+    "vital-sprig",
+    "hgc-ladle",
+    "aqp-mat",
+    "pkp-mouse"
+   ],
+   "for": "The tables on the street: the café where nothing touches, the plant kitchen, the community kitchen, the pub and the cat café."
+  },
+  {
+   "id": "free-play",
+   "name": "Free Play",
+   "needs": "all",
+   "jobs": [
+    "play-block",
+    "arcade-token",
+    "quill-feather",
+    "otter-clam",
+    "pebbling-stone"
+   ],
+   "for": "The toys: the Playhouse, and the Arcade and the cabinets in it."
+  }
+ ]
 }

@@ -1361,6 +1361,101 @@ export function shapeAvatarSticker(st) {
   return { look, name: name || '', about: about || '' };
 }
 
+/* ── Your jobs at the Adventurer's Guild ───────────────────────────────────
+
+   Ryan's brief, 2026-10-14: completed jobs in a person's Profile, with a
+   switch to show them on the CB, like pets and avatars.
+
+   THEY ARE THE THIRD THING THE STREET KEEPS UNDER A PERSON, after pets and
+   avatars, and only once somebody presses Keep my jobs in my Profile on the
+   Guild's board. Until then the board keeps its stamps in the browser and
+   sends nothing. The record is filed under the same scrambled form of the
+   folded handle (`petKey`), so a handle is not an account here either.
+
+   IT HOLDS WHICH JOBS, SORTED, AND NOTHING ABOUT WHEN. A list of times would
+   be a record of how somebody spends their days, and the order they were
+   handed in would be most of one. Every id is checked against QUEST_IDS,
+   which tools/make-guild.py writes out of data/quests.json, so the record can
+   only ever hold a job that is on the board. A badge is never kept: it is
+   worked out from the jobs wherever it is shown.
+
+   The record existing is what "keeping" means: switching it off, Forget me and
+   deleting the username delete it, and the switch that shows it with it.
+   SHOWING THEM needs a claimed username, the pets' rule and for their reason. */
+/* quest:ids:begin */
+export const QUEST_IDS = ["street-chalk", "map-pin", "pony-sequin", "chappell-rhinestone", "club-pin", "zine-staple", "zine2-clip", "quantum-fringe", "enid-sticker", "polaroids-pin", "play-block", "arcade-token", "quill-feather", "otter-clam", "pebbling-stone", "burrow-door", "jungle-leaf", "den-spindle", "mopery-card", "oracle-lozenge", "doom-foxing", "feed-splitflap", "your-room-keys", "board-clip", "camp-peg", "yurt-tallow", "meadow-firefly", "hermitage-sunflower", "bns-spoon", "ncx-stile", "anm-feather", "bds-chiltepin", "ghc-leaf", "atn-egg", "dry-churn", "hbx-coin", "wsc-seed", "liner-colophon", "garden-label", "zibaldone-nib", "hole-cuts", "checkpoint-pillow", "foundry-sort", "danny-drain", "outskirts-reflector", "lagoon-speaker", "sithen-thorn", "covenstead-kettle", "dead-tired-doorstop", "laughingstock-setlist", "picture-house-earmuffs", "samefood-divider", "collection-tag", "vital-sprig", "looming-flood", "dance-punks-glowstick", "small-hours-crayon", "repeater-qsl", "nothing-for-sale-torch", "caverns-rail", "glow-star", "rave-earplug", "cool-cap", "bigsteep-carboy", "mycelium-block", "frosty-thermometer", "breezy-ribbon", "community-letter", "th-gavel", "fb-flake", "dr-key", "bd-lamp", "md-fuse", "es-note", "dressup-feather", "booth-strip", "now-playing-brush", "mural-lid", "lib-slip", "lsp-string", "ook-peel", "cavendish-marker", "live-room-tape", "broadside-sheet", "doom-scoop-scoop", "mud-welly", "pando-leaf", "fridge-magnet", "stair-lift", "cats-torch", "dogs-lead", "smalls-hay", "onb-washi", "ll-dibber", "hgc-ladle", "pkp-mouse", "aqp-mat", "brass-tack", "wr-mantle", "op-tag", "ed-loupe", "wh-feather", "cf-marshmallow", "cv-icicle", "nh-honey", "wbb-carrot", "sb-fork", "run-ball", "tks-boat", "grn-leaf", "pil-tape"];
+/* quest:ids:end */
+const jobsBlob = (k) => `jobs/${k}`;
+const jobsShownBlob = (k) => `jobshown/${k}`;
+
+/* A list of job ids, each one on the board, or null if anything in it is not. */
+export function questIds(list) {
+  if (!Array.isArray(list) || list.length > QUEST_IDS.length) return null;
+  const out = [];
+  for (const v of list) {
+    if (typeof v !== 'string' || !QUEST_IDS.includes(v)) return null;
+    if (!out.includes(v)) out.push(v);
+  }
+  return out;
+}
+
+/* The jobs kept under `pk`, or null when nothing is being kept. */
+export async function readJobs(pk, s = store()) {
+  const d = await s.get(jobsBlob(pk), { type: 'json' });
+  if (!d || !Array.isArray(d.jobs)) return null;
+  return d.jobs.filter((id) => QUEST_IDS.includes(id)).sort();
+}
+
+/* Keep these jobs as well as any already kept, starting the record if there is
+   none. With `start` false, nothing is kept unless the record already exists:
+   a job handed in on a board whose page thought keeping was on, after it was
+   switched off somewhere else, is not kept. Returns the jobs, or null. */
+export async function keepJobs(pk, ids, start, s = store()) {
+  const key = jobsBlob(pk);
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, key);
+    if (!cur.exists && !start) return null;
+    const had = (cur.exists && cur.data && Array.isArray(cur.data.jobs)) ? cur.data.jobs : [];
+    const next = [...new Set([...had, ...ids])].filter((id) => QUEST_IDS.includes(id)).sort();
+    if (cur.exists && next.length === had.length && next.every((id, i) => id === had[i])) return next;
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(key, { jobs: next }, opts);
+    if (res.modified) return next;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* Stop keeping: the switch that shows them first, then the record. */
+export async function forgetJobs(pk, s = store()) {
+  await s.delete(jobsShownBlob(pk));
+  await s.delete(jobsBlob(pk));
+  return true;
+}
+
+export async function setJobsShown(handle, on, s = store(), now = Date.now()) {
+  const k = jobsShownBlob(petKey(handle));
+  if (!on) { await s.delete(k); return false; }
+  const cur = await versioned(s, k);
+  if (!cur.exists) await s.setJSON(k, { since: now }, { onlyIfNew: true });
+  return true;
+}
+
+export async function jobsShown(handle, s = store()) {
+  if (!(await readAccount(handle, s))) return false;
+  const d = await s.get(jobsShownBlob(petKey(handle)), { type: 'json' });
+  return !!(d && typeof d.since === 'number');
+}
+
+/* Somebody's jobs, as a person on the CB is shown them: { handle, jobs } when
+   they are shown, and null otherwise, whatever the reason -- unclaimed, not
+   shown, not kept or nobody at all. */
+export async function shownJobs(handle, s = store()) {
+  if (!(await jobsShown(handle, s))) return null;
+  const acct = await readAccount(handle, s);
+  return { handle: acct.handle, jobs: (await readJobs(petKey(handle), s)) || [] };
+}
+
 /* ── The Slake ───────────────────────────────────────────────────────────── */
 
 /* Every place on the Slake, named HERE and nowhere else on the server side.
@@ -2460,12 +2555,13 @@ export async function resetAccount(handle, s = store(), now = Date.now()) {
   return next ? { code, until: now + ACCT_RESET_FOR } : { error: 'That username has not been claimed.' };
 }
 
-/* Delete an account, its pets and its avatars. The username is free again. */
+/* Delete an account, its pets, its avatars and its jobs. The username is free again. */
 export async function deleteAccount(handle, s = store()) {
   const acct = await readAccount(handle, s);
   if (!acct) return { error: 'That username has not been claimed.' };
   await forgetPets(petKey(handle), s);
   await forgetAvatars(petKey(handle), s);
+  await forgetJobs(petKey(handle), s);
   await s.delete(acctBlob(handle));
   return { deleted: true };
 }

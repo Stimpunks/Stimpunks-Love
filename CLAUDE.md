@@ -1300,6 +1300,33 @@ doing it. **The first thing that check ever refused was a false positive** — "
 is the verb — and the pattern was narrowed rather than excepted, which is check-counts.py's own
 first-run lesson happening twice.
 
+**BADGES ARE JOBS THAT GO TOGETHER, WORKED OUT EVERY TIME AND KEPT NOWHERE.** Ryan's call, 2026-10-14,
+after requests for something like merit badges, Open Badges and achievements, "I don't want to gamify or
+credentialize too much", and **it reverses the board's refusal of the word**: `make-guild.py` still refuses
+badge and achievement in a JOB's own words, and sweeps a badge's for ranking, rarity, unlocking, counting and
+credentials instead. A badge is `badges` in `data/quests.json` (`all` or `any` of its jobs), worked out from the
+stamps by `quest.js` and from a Profile by `cb.js`, so there is nothing to count, rank or lose but the jobs.
+**The friendly edits are a count of badges, a bar filling toward one, a rare or secret one, a badge for every
+job, a badge beside a name on Who's online, and an Open Badges export**; each is the score this board refuses,
+or the credential Ryan did not want. A badge stamps its done jobs the way the board does and never says how many
+are left. **A posted badge never asks for more** (`asks_more()`, checked against `git show HEAD`), because
+somebody who had it would lose it, so a new room goes into a new badge or none, and a `for` names its rooms
+rather than saying every one of something. **No badge sends anybody to a room for resting in** (`REST` in
+`make-guild.py`): rest is owed and a badge is earned. Each badge has its own drawing, paths only, so the radio
+draws it from `guild-jobs.json` with `createElementNS`, never from markup. **The job markers never mention
+badges**: they stand in every room, including the ones whose own tools refuse the word.
+
+**THE JOBS ARE THE THIRD THING KEPT UNDER A PERSON, AND ONLY ONCE SOMEBODY SWITCHES IT ON.** Keep my jobs in my
+Profile, on the board, ships hidden, shows only on a page with a pass in `love-cb`, and starts off; `quest.js`
+reads `love-cb` and never writes it, and sends to `/cb/jobs` and nowhere else, which `make-guild.py` reads the
+file for. The record is `jobs/<pet key>`: **which jobs, sorted, and nothing about when**, because a list of times
+is a record of somebody's days; `keepJobs` writing anything else is refused, and every id is checked against
+`QUEST_IDS`, which `make-guild.py` writes between `quest:ids` markers in `lib.mjs` (never hand-edit them).
+Switching it off, Forget me and deleting the username delete it; **Show my jobs on the CB** is claimed only,
+the pets' rule. The board asks `/cb/jobs` once on arrival when signed on, to know whether keeping is on, and
+`DECISIONS.md` leaves open whether that should wait for a press. The filter (Every job, Not done, Done) hides
+rows and never says how many.
+
 **THE FANFARE FOLLOWS THE DIAL AND THE WORDS NEVER DO.** Gentle says its piece and adds nothing,
 Regular chimes, MAX chimes properly and throws sparks that rise once and fade. The sentences are
 identical at all three, because a fanfare is decoration and **Gentle takes away the wobble, never
