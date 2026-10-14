@@ -5807,7 +5807,7 @@ html[data-intensity="max"] .glint { animation: yurt-twinkle 3.4s ease-in-out inf
 html[data-intensity="max"] .lights span:nth-child(odd) { animation-delay: .6s; }
 html[data-intensity="max"] .lights span:nth-child(3n)  { animation-delay: 1.4s; }
 html[data-intensity="max"] .lights span:nth-child(4n)  { animation-delay: 2.1s; }
-html[data-intensity="max"] .vinyl { animation: yurt-spin 6s linear infinite; }
+html[data-intensity="max"] .yurt-phono__disc { animation: yurt-spin 6s linear infinite; }
 
 @keyframes yurt-twinkle { 0%, 100% { opacity: .38; transform: scale(.85); } 50% { opacity: 1; transform: scale(1.05); } }
 @keyframes yurt-spin { to { transform: rotate(360deg); } }
@@ -5864,24 +5864,34 @@ html[data-intensity="max"] .vinyl { animation: yurt-spin 6s linear infinite; }
 .welcome p:last-child { margin-bottom: 0; }
 
 /* The record. Until 2026-09-26 Helen's soundtrack was "coming soon" and the
-   room said so out loud instead of hiding an empty shelf; now it is her own
-   playlist, on the deck below, and the record turns at MAX as it always did. */
-.record { display: flex; align-items: center; gap: 22px; background: var(--canvas); border: 1px solid rgba(233,200,116,.18); border-radius: 6px; padding: 22px; }
-.vinyl {
-  flex: 0 0 auto; width: 74px; height: 74px; border-radius: 50%;
-  background-image:
-    radial-gradient(circle at center, var(--candle) 0 6px, #0C0908 6px 9px, transparent 9px),
-    repeating-radial-gradient(circle at center, #17110F 0 3px, var(--canvas) 3px 6px);
-  box-shadow: 0 8px 18px -8px rgba(0,0,0,.55);
-}
+   room said so out loud instead of hiding an empty shelf; then it was her own
+   playlist, on the deck below. On 2026-10-13, at her ask, the little record
+   became a phonograph after a photograph she sent, drawn by
+   tools/make-yurt-yarn.py in colours the room already had, and its record
+   turns at MAX as the little one always did. The record is a circle in a group
+   squashed to the turntable's angle, and it turns about that group's own
+   origin, which is the spindle: view-box and 0 0 are what put the pivot there,
+   measured at four angles before it went in. The shine on it does not turn. */
+.record { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; background: var(--canvas); border: 1px solid rgba(233,200,116,.18); border-radius: 6px; padding: 22px; }
+.record > div:last-child { flex: 1 1 240px; }
+.yurt-phono { flex: 0 0 auto; width: 210px; margin: -6px 0 -10px; }
+.yurt-phono svg { display: block; width: 100%; height: auto; }
+.yurt-phono__disc { transform-box: view-box; transform-origin: 0 0; }
 .record p:last-child { margin: 0; color: var(--tallow-2); }
+@media (max-width: 560px) { .yurt-phono { margin-inline: auto; } }
 
 /* THE DECK, 2026-09-26, when Helen's playlist arrived and the record stopped
    being a promise. The press-to-play button in her own clothes: tent ground,
    tallow words, candle on the play mark. Styled from the container as well as
    the button, because love-embed.js swaps the button for a bare div on the
-   press and anything worn by the button goes with it. The tracklist is her
-   playlist as it stood when it was read, set like the back of a sleeve. */
+   press and anything worn by the button goes with it.
+
+   THE RACK, 2026-10-13, Helen's ask: the tracklist that was set like the back
+   of a sleeve is a rack now, rack.js's pattern, and the deck is its screen,
+   which the cards call the phonograph. Every card is one of the room's soft
+   cards (the nook's: canvas, a hairline of candlelight), and the two buttons
+   on it and the way back are the deck's button in miniature, so nothing here
+   brings a colour the room did not have. */
 .room-yurt .yurt-deck { margin: 18px 0 0; }
 .room-yurt .yurt-deck .facade {
   background: var(--tent); color: var(--tallow); border: 1px solid rgba(233,200,116,.28); border-radius: 6px;
@@ -5890,11 +5900,43 @@ html[data-intensity="max"] .vinyl { animation: yurt-spin 6s linear infinite; }
 .room-yurt .yurt-deck button.facade:hover { background: var(--canvas); border-color: var(--candle); }
 .room-yurt .yurt-deck .facade__play { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 16px; letter-spacing: .12em; color: var(--candle); inset: auto auto 18px 22px; }
 .room-yurt .yurt-deck__credit { margin: 14px 0 0; font-size: 16px; color: var(--tallow-2); }
-.room-yurt .yurt-tracks { margin: 10px 0 0; padding-left: 1.6em; color: var(--tallow-2); font-size: 16px; }
-.room-yurt .yurt-tracks li { padding: 3px 0; border-bottom: 1px dotted rgba(194,172,145,.22); }
-.room-yurt .yurt-tracks li::marker { color: var(--tallow-3); }
-.room-yurt .yurt-tracks__who { color: var(--tallow); }
-.room-yurt .yurt-tracks__len { float: right; margin-left: 12px; font-variant-numeric: tabular-nums; color: var(--tallow-3); }
+.room-yurt .yurt-deck__now { margin: 12px 0 0; font-size: 16px; font-style: italic; color: var(--tallow-2); }
+.room-yurt .yurt-deck__back { margin: 10px 0 0; }
+.room-yurt .yurt-back,
+.room-yurt .yurt-track__up {
+  display: block; width: 100%; cursor: pointer; text-align: left;
+  background: var(--tent); color: var(--tallow); border: 1px solid rgba(233,200,116,.28); border-radius: 6px;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 17px; line-height: 1.3; padding: 10px 14px;
+}
+.room-yurt .yurt-back:hover,
+.room-yurt .yurt-track__up:hover { border-color: var(--candle); color: var(--candle); }
+.room-yurt .yurt-rack__intro { margin: 22px 0 14px; }
+.room-yurt .yurt-rack__sum {
+  cursor: pointer; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic;
+  font-size: 21px; color: var(--tallow); padding: 4px 0;
+}
+.room-yurt .yurt-rack__sum::marker { color: var(--tallow-3); }
+.room-yurt .yurt-rack__cards {
+  list-style: none; margin: 12px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px;
+}
+.room-yurt .yurt-track {
+  display: flex; flex-direction: column; gap: 8px;
+  background: var(--canvas); border: 1px solid rgba(233,200,116,.18); border-radius: 6px; padding: 14px;
+}
+.room-yurt .yurt-track p { margin: 0; }
+.room-yurt .yurt-track__title { font-size: 21px; font-style: italic; line-height: 1.2; margin: 0; }
+.room-yurt .yurt-track__who { color: var(--tallow); font-size: 16px; }
+.room-yurt .yurt-track__what { color: var(--tallow-2); font-size: 15px; }
+.room-yurt .yurt-track__note { color: var(--tallow-2); font-size: 15px; font-style: italic; }
+.room-yurt .yurt-track .facade {
+  background: var(--tent); color: var(--tallow); border: 1px solid rgba(233,200,116,.28); border-radius: 6px;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 17px; line-height: 1.3; padding: 12px 14px;
+}
+.room-yurt .yurt-track button.facade:hover { border-color: var(--candle); }
+.room-yurt .yurt-track .facade__play { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 14px; letter-spacing: .12em; color: var(--candle); inset: auto auto 12px 14px; }
+.room-yurt .yurt-track__credit { margin-top: auto; color: var(--tallow-3); font-size: 14px; font-variant-numeric: tabular-nums; }
+.room-yurt .yurt-rack__from { margin: 14px 0 0; font-size: 15px; font-style: italic; color: var(--tallow-3); }
 
 /* The bookshelf. Spines stood on a timber plank, scrollable sideways, because a
    shelf you cannot overfill is not a shelf. The six spine colours are grounds

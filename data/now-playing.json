@@ -118,11 +118,13 @@
   },
   {
    "page": "faery-yurt.html",
-   "what": "Helen’s candlelit yurt at the edge of the woods, where the record on the shelf is her own playlist, Faery Yurt’s Yarn, put on whole.",
+   "what": "Helen’s candlelit yurt at the edge of the woods, where the phonograph plays her own playlist, Faery Yurt’s Yarn, put on whole or a song at a time.",
    "holds": [
     "Faery Yurt&rsquo;s Yarn",
-    "runs until you stop it"
-   ]
+    "runs until you stop it",
+    "Every song on the yarn"
+   ],
+   "then": "<details class=\"yurt-rack\""
   },
   {
    "page": "swaying-sweetgrass.html",

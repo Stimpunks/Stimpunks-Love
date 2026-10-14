@@ -1,0 +1,108 @@
+{
+  "_source": "Helen Edgar's own playlist, Faery Yurt’s Yarn, on her AutisticRealms channel. Read with yt-dlp --flat-playlist -J on 2026-10-13, in the playlist's own order: twelve entries, and YouTube said one more is hidden as unavailable, which plays for nobody and is not here. Every id below was then opened on its own watch page that day and answered OK and playableInEmbed true, family-safe and not live; each runtime is that page's lengthSeconds (the one under the title, which is the one the pullers read). Helen asked on 2026-10-13, through Ryan, for the yarn to get the rack and for a phonograph in the room.",
+  "_checked": "2026-10-13",
+  "playlist": {
+    "list": "PLcqUkWhAK86w",
+    "title": "Faery Yurt’s Yarn"
+  },
+  "tracks": [
+    {
+      "id": "k9ynZnEBtvw",
+      "artist": "Pink Floyd",
+      "title": "The Dark Side of the Moon",
+      "what": "the 50th anniversary remaster, the whole album",
+      "runtime": "42:56",
+      "channel": "Pink Floyd"
+    },
+    {
+      "id": "5TLG3gU--qw",
+      "artist": "AURORA",
+      "title": "Echo of My Shadow",
+      "runtime": "4:05",
+      "channel": "AURORA",
+      "channel_verbatim": "iamAURORAVEVO",
+      "replaced": {
+        "was": "kkPYHeSU_y4",
+        "on": "2026-10-13",
+        "why": "The playlist's copy, uploaded by AURORA - Topic, answered UNPLAYABLE, Video unavailable, on its watch page on 2026-10-13, and Ryan found it saying so when it played. This is the visualiser on AURORA's own channel, the same song at the same 4:05, OK and playableInEmbed true that day. The playlist itself is Helen's and still has the old copy until she swaps it.",
+        "says": "The copy on the yarn itself no longer plays, and the whole yarn says so when it gets there. This one is AURORA’s own."
+      }
+    },
+    {
+      "id": "GxWgRnnWfcc",
+      "artist": "Portishead",
+      "title": "Mysterons",
+      "runtime": "5:04",
+      "channel": "Harry"
+    },
+    {
+      "id": "D1Fw6CbGAX4",
+      "artist": "Kate Bush",
+      "title": "Running Up That Hill (A Deal with God)",
+      "runtime": "4:59",
+      "channel": "Kate Bush",
+      "channel_verbatim": "Kate Bush - Topic"
+    },
+    {
+      "id": "WsQUpeeKJGM",
+      "artist": "Guillemots",
+      "title": "Through the Windowpane",
+      "runtime": "3:39",
+      "channel": "Guillemots",
+      "channel_verbatim": "Guillemots - Topic"
+    },
+    {
+      "id": "Q2wneBVssPc",
+      "artist": "Tracy Chapman",
+      "title": "Talkin’ ’bout a Revolution",
+      "runtime": "2:40",
+      "channel": "MrsMusic04"
+    },
+    {
+      "id": "tNIiXeSPPWU",
+      "artist": "Ezra Furman",
+      "title": "Goodbye Small Head",
+      "what": "the whole album",
+      "runtime": "42:27",
+      "channel": "Radiorock TheOriginal"
+    },
+    {
+      "id": "3i_Y9F4X1fs",
+      "artist": "Khruangbin & Leon Bridges",
+      "title": "Texas Moon",
+      "what": "the whole EP",
+      "runtime": "22:40",
+      "channel": "Natural Selection"
+    },
+    {
+      "id": "rWMHS5IwuZQ",
+      "artist": "Andrew Sa",
+      "title": "Under You",
+      "what": "live at WFUV",
+      "runtime": "3:29",
+      "channel": "WFUV Public Radio"
+    },
+    {
+      "id": "MsRUnInJ4CQ",
+      "artist": "Noah Reid",
+      "title": "Simply the Best",
+      "what": "from *Schitt’s Creek*",
+      "runtime": "2:44",
+      "channel": "Elizabeth Mitchell"
+    },
+    {
+      "id": "WJfF4GQ6X5g",
+      "artist": "Chaparelle",
+      "title": "Dance With Somebody",
+      "runtime": "3:33",
+      "channel": "Chaparelle"
+    },
+    {
+      "id": "2Ng9Pf_p7Fw",
+      "artist": "The Orb",
+      "title": "Little Fluffy Clouds",
+      "runtime": "4:01",
+      "channel": "Not and Now Available on Youtube!"
+    }
+  ]
+}

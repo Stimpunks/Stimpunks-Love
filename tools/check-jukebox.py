@@ -305,6 +305,10 @@ LISTS = [
     # of (tools/unlisted.py). Unlisted is not unwatched: its records rot like
     # anybody's, and a whole album is checked song by song, because an album
     # played as a list fails if the song at the top of it has died.
+    # The Faery Yurt's yarn, on a rack since 2026-10-13. Helen's playlist is put on
+    # whole and is not here (a playlist is not one video); every song on its rack
+    # is, including the one that plays another upload than the playlist's.
+    ("the faery yurt", "data/yurt-yarn.json", "faery-yurt.html"),
     ("the cabin", "data/secret-cabin.json", "lydtyss.html"),
 ]
 
