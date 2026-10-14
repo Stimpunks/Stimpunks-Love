@@ -44,7 +44,7 @@ STEPS=(
   make-sweetgrass make-oracle make-doomscroll make-pebble-board make-guild
   make-arrivals make-garden make-zibaldone make-rabbit-hole make-checkpoint
   make-dead-tired make-laughingstock make-picture-house make-samefood
-  make-collection make-vital make-open-notebook make-learning-large make-hey-good-cookin make-pekoe make-a-quiet-pint make-brew-and-stew make-natures-contribution make-all-needs-met make-brighter-days make-gentle-help make-all-together-now make-the-dairy make-the-honesty-box make-wide-spread-chaos make-the-run make-truckin-food-court make-the-green make-the-pile make-sandbox make-community make-dressup make-mural make-pando make-fridge make-stair make-rescue make-accounts make-brass
+  make-collection make-vital make-open-notebook make-learning-large make-hey-good-cookin make-pekoe make-a-quiet-pint make-brew-and-stew make-natures-contribution make-all-needs-met make-brighter-days make-gentle-help make-all-together-now make-the-dairy make-the-honesty-box make-wide-spread-chaos make-the-run make-truckin-food-court make-the-green make-the-pile make-sandbox make-community make-dressup make-bodymind make-mural make-pando make-fridge make-stair make-rescue make-accounts make-brass
   make-coworking make-town-hall make-live-room make-broadside make-doom-scoop make-library make-dance-punks
   make-small-hours make-repeater make-nothing-for-sale make-covenstead
   make-lagoon make-looming make-sithen make-stay-frosty make-stay-breezy make-mycelium make-big-steep make-glow make-rave make-cooldown make-mud make-secret-cabin make-foundry
@@ -74,6 +74,16 @@ if ! node --test tools/fractal.test.mjs; then
   exit 1
 fi
 
+# Every avatar choice drawn in every pose, and the page's checker and the
+# server's agreeing about what a look may hold. Node and nothing else. See
+# tools/avatar.test.mjs. It reads the lists make-bodymind.py writes, so it runs
+# again after the generators, below, as well as here.
+printf '\n\033[1m== every avatar choice is drawn\033[0m\n'
+if ! node --test tools/avatar.test.mjs; then
+  printf '\n\033[1mSTOPPED at the avatar test.\033[0m A choice, a garment or a look cannot be drawn, or the page and the CB disagree about one.\n'
+  exit 1
+fi
+
 for s in "${STEPS[@]}"; do
   printf '\n\033[1m== %s\033[0m\n' "$s"
   if ! python3 "tools/$s.py"; then
@@ -82,6 +92,12 @@ for s in "${STEPS[@]}"; do
     exit 1
   fi
 done
+
+printf '\n\033[1m== every avatar choice is drawn, against the lists just written\033[0m\n'
+if ! node --test tools/avatar.test.mjs; then
+  printf '\n\033[1mSTOPPED at the avatar test.\033[0m make-bodymind.py wrote a list avatar.js cannot draw.\n'
+  exit 1
+fi
 
 printf '\n\033[1mEverything ran and nothing refused.\033[0m\n'
 if [ -n "$(git status --porcelain)" ]; then

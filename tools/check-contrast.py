@@ -740,6 +740,8 @@ VPL_INK, VPL_INK2, VPL_BEET, VPL_LEAF = "#2A1030", "#5B2F52", "#7E1449", "#1A522
 # wall or on a pale panel -- the rails, the looks -- and the buttons invert.
 DD_WALL, DD_PANEL, DD_INK = "#D2C6EC", "#F7F3FD", "#1E1030"
 DD_INK2, DD_LINK = "#47306A", "#7C0F50"
+BMB_CURTAIN, BMB_PLEAT, BMB_CHROME, BMB_LAMP = "#E98A45", "#CF6E2E", "#F5F2EC", "#FFF4D6"
+BMB_INK, BMB_INK2, BMB_LINK, BMB_LINK_ON = "#22160E", "#5B4032", "#8A2A00", "#3D1500"
 
 # Now Playing (love.css §53). One sheet screenprinted in two inks and pasted
 # round a column on the pavement. Every word on the sheet is --np-both, which is
@@ -3262,6 +3264,32 @@ PAIRS = [
     (DD_PANEL, DD_INK,   False, "dress-up den: every button's words -- copy, surprise me, put this on the stand"),
     (DD_PANEL, DD_INK2,  False, "dress-up den: a button under the pointer"),
     (DD_INK,   DD_PANEL, False, "dress-up den: the words on the quiet button, take it all off"),
+    (DD_INK,   DD_PANEL, False, "dress-up den: who is wearing it, the boxes for an avatar's name and "
+                                "words, and the bodyminds you kept to choose from"),
+
+    # ── The Bodymind Booth (§113) ──────────────────────────────────────────
+    # Every word stands on the curtain, in its deepest fold, or on a plate, and
+    # is held on all three: the folds are a soft gradient the page's ::before
+    # paints, so the fold is the worse case for anything set straight on the
+    # curtain, and it is measured as well as the curtain.
+    (BMB_INK,     BMB_CURTAIN, False, "bodymind booth: the tagline, the lede, the trail, every heading on "
+                                      "the curtain, the readout on a phone, and the focus ring on the curtain"),
+    (BMB_INK,     BMB_PLEAT,   False, "bodymind booth: the same words where they cross the deepest fold"),
+    (BMB_LINK_ON, BMB_CURTAIN, False, "bodymind booth: every link on the curtain, the backlink, the house "
+                                      "rules' links"),
+    (BMB_LINK_ON, BMB_PLEAT,   False, "bodymind booth: a link on the curtain where it crosses the deepest fold"),
+    (BMB_INK,     BMB_LAMP,    False, "bodymind booth: the name in the lamp box, the line over it, the boxes "
+                                      "you type in, and a picked choice's words"),
+    (BMB_INK2,    BMB_LAMP,    False, "bodymind booth: the line over the name in the lamp box"),
+    (BMB_INK,     BMB_CHROME,  False, "bodymind booth: every choice's words, every plate's name, the readout, "
+                                      "the strip's names, the quote, the quiet buttons, the name on the street "
+                                      "door, and the focus ring on a plate"),
+    (BMB_INK2,    BMB_CHROME,  False, "bodymind booth: every group's name, the notes beside a choice, the fine "
+                                      "print, whose the quote is, and the blurb on the street door"),
+    (BMB_LINK,    BMB_CHROME,  False, "bodymind booth: a link on a plate, the knock on the street door, and "
+                                      "the job marker's strip, outlined in the ink"),
+    (BMB_CHROME,  BMB_INK,     False, "bodymind booth: every dark button's words"),
+    (BMB_CHROME,  BMB_INK2,    False, "bodymind booth: a dark button under the pointer"),
 
     # ── The Community Center (§51) ───────────────────────────────────────────
     (CTR_INK,   CTR_SHADE,  False, "community: the lede, every paragraph, the house norms and the "
@@ -4090,6 +4118,13 @@ ORNAMENT = {
     "#1e3a31": "now playing: the column's painted iron where it turns away from the windows, "
                "1.48 on the night. It shows only as the bands either side of the sheet and "
                "the cap on top, and carries nothing.",
+    "#b5591f": "bodymind booth: the floor under the booth in its drawing, 1.85 on the curtain. "
+               "It carries no word and is the only thing in the drawing with no ink outline, "
+               "because it is a shadow.",
+    "#8d959c": "bodymind booth: the booth's steel, its stool and its slots, 1.18 on the curtain "
+               "and 2.72 on the enamel, every piece carried by its --bmb-ink outline at 6.88; and "
+               "the edge of a choice's pill, 2.72 on its plate, beside words in --bmb-ink at "
+               "15.81. It carries no word.",
     "#7a4b2e": "dress-up den: the wooden valet stand, 4.53 on the wall and carried by its "
                "--dd-ink outline at 11.12. It carries no word.",
     "#eef6ff": "dress-up den: the crystal hanging in the window, 1.48 on the wall and carried "

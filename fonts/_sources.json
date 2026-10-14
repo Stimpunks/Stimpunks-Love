@@ -2931,5 +2931,33 @@
    "src": "https://fonts.gstatic.com/s/rubikdirt/v2/DtVmJxC7WLEj1uIXEWAdilss6yLUrwA.woff2",
    "note": "The Sandbox: the sign on the suggestion box and nothing else, because a speckled face is only legible large. By NaN and Luke Prowse."
   }
+ ],
+ "oleo-script": [
+  {
+   "file": "oleo-script-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 12456,
+   "src": "https://fonts.gstatic.com/s/oleoscript/v15/rax5HieDvtMOe0iICsUccChdu0_y8zac.woff2",
+   "note": "The Bodymind Booth (§113), the lamp box on top of the booth and the door's name, and nothing else, because a script is a sign and never a sentence. By soytutype fonts."
+  }
+ ],
+ "host-grotesk": [
+  {
+   "file": "host-grotesk-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 20196,
+   "src": "https://fonts.gstatic.com/s/hostgrotesk/v5/co3BmWBnlCJ3U42vbbfdwMjZpFjmw07Arg.woff2",
+   "note": "The Bodymind Booth (§113), every word that is read. One variable file serves both weights."
+  },
+  {
+   "file": "host-grotesk-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 20196,
+   "src": "https://fonts.gstatic.com/s/hostgrotesk/v5/co3BmWBnlCJ3U42vbbfdwMjZpFjmw07Arg.woff2",
+   "note": "The bold of the 400 above, out of the same variable file."
+  }
  ]
 }

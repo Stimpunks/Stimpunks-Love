@@ -372,6 +372,13 @@
         48
       ]
     },
+    "host-grotesk": {
+      "where": "The Bodymind Booth",
+      "page": "bodymind-booth.html",
+      "sections": [
+        113
+      ]
+    },
     "ibm-plex-sans": {
       "where": "The Repeater",
       "page": "repeater.html",
@@ -511,6 +518,13 @@
       "page": "latibulum.html",
       "sections": [
         16
+      ]
+    },
+    "oleo-script": {
+      "where": "The Bodymind Booth",
+      "page": "bodymind-booth.html",
+      "sections": [
+        113
       ]
     },
     "outfit": {

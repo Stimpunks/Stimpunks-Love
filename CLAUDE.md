@@ -3823,7 +3823,9 @@ to everybody who walks in), so the clothes hang on a knob, two bars and a base, 
 you. `make-dressup.py` holds every cut and every print tile itself and refuses a garment it cannot draw,
 a cut whose markup names a body part, and a look with somebody's name on it and not their words. **Do not
 add a figure, a mannequin, a skin tone or a size.** Laughingstock's rule, in the room whose whole shape
-invites breaking it.
+invites breaking it. **Since 2026-10-14 a bodymind somebody drew at the Bodymind Booth next door can be walked in and
+dressed** (Ryan's call); the Den still draws no body of its own, and the booth's paragraph below says why
+that is the same rule rather than its reversal.
 
 **THE LIGHT IS SUN TAKEN APART BY A CRYSTAL, and white light is why.** Most of it comes in white so every
 cloth looks like itself: a room for choosing colours cannot have a coloured lamp, which is the Collection's
@@ -3859,6 +3861,53 @@ the tile's children inherit them, so `dressup.js` never writes a colour and love
 ground colour and they vanish. **On a phone the stand is sticky at the top of the rails** (the wrapper is
 `display: contents` so the drawing can stick for the whole fitting): the rails are longer than a phone is
 tall, and a pick that changes a drawing three screens away is the Playhouse's unseen answer again.
+
+**THE BODYMIND BOOTH (§113) IS WHERE BODIES ARE DRAWN, AND NOBODY IS HANDED ONE.** Ryan, 2026-10-14, from a
+proposal written after somebody in our community hoped for characters to dress one day (the booth credits
+"our community" and names nobody). The Den refused a paper doll because the house would be handing everybody
+one body; the booth answers that objection rather than overruling it: **it opens on somebody drawn at random,
+the page ships with nothing checked, and `make-bodymind.py` refuses the vocabulary of a starting body**
+(normal, default, average, standard). **The friendly edit is a sensible default body** "so the booth does not
+look random"; it is the doll again. The bodymind walks next door in the address, after the #; `try-on.js`
+puts the Den's rails on it, and the Den still draws no body of its own.
+
+  · **`avatar.js` IS THE ONLY THING THAT DRAWS AN AVATAR**, animals.js's rule for people: the booth, the Den,
+    Profile, Who's online and stickers all call it. **Every garment is worked out from the body it is on**,
+    shoulders, middle, hips, height and pose, so **a garment added to the Den's rails now needs a body drawing
+    in `BODY_WEAR` in avatar.js, on its feet and sitting down**, or `tools/avatar.test.mjs` refuses it (it
+    puts every garment on a body in every pose, varies every choice, and fails a NaN). The stand's cuts are
+    read out of make-dressup.py itself, so the stand an avatar wears is the Den's stand.
+  · **THREE FILES AGREE ABOUT EVERY CHOICE AND THE TOOL WRITES TWO OF THEM.** `data/bodymind.json` says what
+    can be chosen; `make-bodymind.py` writes the lists between the `avatar:data` markers in avatar.js and the
+    `avatar:keys` markers in `netlify/cb/lib.mjs`. **Never hand-edit between them.** `clean()` in avatar.js and
+    `cleanLook()` in lib.mjs hold the same rules, and the test races them over thousands of random looks,
+    good and bad, including `__proto__` and `constructor` keys, which an own-property check is what stops.
+  · **WHAT YOU ALWAYS HAVE WITH YOU IS PART OF YOU, NOT CLOTHES.** Chairs, canes, hearing aids, masks, AAC
+    devices and prosthetics are chosen in the booth, the tool refuses an aid that shares a key with a garment,
+    and nothing put on next door takes one off. A cane, crutches and a walker are refused in a chair (both
+    checkers) rather than drawn leaning on nothing.
+  · **AN AVATAR IS A LIST OF CHOICES, NEVER A PICTURE.** No camera, no upload, no canvas: the tool refuses
+    `getUserMedia`, a file input and `getContext` in booth.js and try-on.js. **The friendly edit is "upload a
+    photo for your avatar"**, which brings the polaroid wall's consent rules, EXIF and withdrawal into the CB.
+  · **NOTHING DESCRIBES A BODY FOR SOMEBODY ELSE.** Every drawing is aria-hidden; the booth reads your own
+    choices back to you while you build (`words()`), and everywhere else an avatar is heard only as what its
+    owner wrote. **The friendly edit is an alt text generated from the choices**; it is the polaroid wall's
+    "we will not describe you in our words", broken by a machine.
+  · **AVATARS ARE THE SECOND THING KEPT UNDER A PERSON**, under `petKey`, deleted by Forget me and by deleting
+    the username. **Wearing one needs a claimed username**, and what is worn is copied into one blob,
+    `avatars-worn`, so Who's online reads one blob rather than one per person; `withAvatars()` shows it beside
+    a claimed name only, with the mark from the pass, and taking it off, deleting it, Forget me and deleting the
+    username take it out of that blob *first*. `lib.test.mjs` races fifteen keeps and was broken on purpose.
+  · **EVERY AVATAR CARRIES ITS OWN GROUND**: a bodymind the booth's curtain (`--bmb-curtain`), the stand the
+    Den's wall (`--dd-wall`), the way an animal is drawn on the ground it was found on. In the Den the bodymind
+    is framed in the Den's ink, a picture hung on the wall rather than the wall changing colour.
+  · **`dressup.js` STILL KEEPS AND SENDS NOTHING.** It exposes `window.loveDressUp` (what is on the rails, and a
+    way to put a look back) and dispatches `love-dressed`; `try-on.js` is the file that keeps, and says so. Do
+    not move the keeping into dressup.js to save a file: make-dressup.py's refusal of `fetch` there is the
+    Den's promise.
+  · **THE LIGHT IS TWO STRIP LIGHTS A HAND'S WIDTH AWAY, AND NO FLASH**, because a booth's flash is the strobe.
+    Every plate has its rims lit both sides; the collisions are in §113, and **All Together Now Farms** (the
+    other two-light room, two colours on two sides of a field) and **the Den next door** are the ones to watch.
 
 **PLURAL MURAL'S WALL TURNS OVER BY ITSELF AT MAX GLITTER AND NOWHERE ELSE, AND THE BRIEF ASKED FOR
 MORE.** §54 is an end wall on the street that repaints itself because the street is Danny's (Ryan's
@@ -4064,18 +4113,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §114 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §115 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§114 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§115 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §114 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §115 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

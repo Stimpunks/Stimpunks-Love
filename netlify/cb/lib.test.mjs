@@ -34,6 +34,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
+  cleanLook, readAvatars, keepAvatar, editAvatar, removeAvatar, wearAvatar, forgetAvatars, withAvatars, avatarSticker, shapeAvatarSticker, AVATAR, AVATAR_KEEP,
   cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
@@ -1654,4 +1655,90 @@ test('a beacon carries the video by its id, and nothing that is not one', async 
   assert.equal(shapeBeacons(t.beacons)[0].video, null);
   assert.equal(cleanVideo('dQw4w9WgXcQ'), 'dQw4w9WgXcQ');
   assert.equal(cleanVideo('too-short'), null);
+});
+
+/* ── Avatars ───────────────────────────────────────────────────────────────
+   A look is a list of choices and nothing else; keeping, changing, deleting
+   and wearing one lose nothing under the race every other write here runs; the
+   one worn on the CB is shown beside a claimed name only, and Forget Me and
+   deleting the username take it off first. */
+const bodyOf = () => Object.fromEntries(Object.entries(AVATAR.body).map(([k, v]) => [k, AVATAR.multi.includes(k) ? [] : v[0]]));
+const lookOf = (wear = {}) => ({ base: 'bodymind', body: bodyOf(), wear });
+
+test('a look holds only what the lists hold', () => {
+  assert.ok(cleanLook(lookOf({ head: ['beanie', 'solid', 'black'] })));
+  assert.ok(cleanLook({ base: 'stand', wear: { top: ['tee', 'stripes', 'rainbow'] } }));
+  assert.equal(cleanLook({ base: 'doll', wear: {} }), null);
+  assert.equal(cleanLook({ ...lookOf(), body: { ...bodyOf(), skin: 'peach' } }), null);
+  assert.equal(cleanLook(lookOf({ head: ['haori', 'solid', 'black'] })), null, 'a jacket on a head');
+  assert.equal(cleanLook(lookOf({ cape: ['cape', 'solid', 'black'] })), null, 'a slot the stand has not got');
+  assert.equal(cleanLook({ base: 'stand', wear: JSON.parse('{"__proto__":["a","b","c"]}') }), null);
+  assert.equal(cleanLook({ base: 'stand', wear: { top: ['tee', 'constructor', 'black'] } }), null);
+  assert.equal(cleanLook({ ...lookOf(), body: { ...bodyOf(), pose: 'wheelchair', hands: 'cane' } }), null, 'a cane leaning on nothing');
+  const extra = cleanLook({ ...lookOf(), picture: 'data:image/png;base64,AAAA', body: { ...bodyOf(), photo: 'x' } });
+  assert.equal(extra.picture, undefined, 'a picture rode along on a look');
+  assert.equal(extra.body.photo, undefined);
+});
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`avatars kept fifteen at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => keepAvatar('pkA', { look: lookOf(), name: `n${i}` }, s, i)));
+    const worked = told.filter((r) => r.status === 'fulfilled' && r.value.kept).map((r) => r.value.kept.id);
+    const kept = new Set((await readAvatars('pkA', s)).avatars.map((a) => a.id));
+    assert.deepEqual(worked.filter((id) => !kept.has(id)), [], 'an avatar that was told it was kept is not there');
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(worked.length, 15);
+  });
+}
+
+test('keeping stops at the limit, and changing, wearing and deleting one move what Who\'s online shows', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  for (let i = 0; i < AVATAR_KEEP; i++) await keepAvatar('pkB', { look: lookOf() }, s, i);
+  assert.equal((await keepAvatar('pkB', { look: lookOf() }, s)).error, 'full');
+  assert.equal((await keepAvatar('pkC', { look: { base: 'doll' } }, s)).error, 'look');
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  const pk = petKey('Ada');
+  const a = (await keepAvatar(pk, { look: lookOf({ top: ['tee', 'solid', 'black'] }), name: 'Saloon', about: 'in a hat' }, s)).kept;
+  const b = (await keepAvatar(pk, { look: { base: 'stand', wear: {} } }, s)).kept;
+  const people = [{ handle: 'Ada', claimed: true, rooms: [] }, { handle: 'Bex', claimed: false, rooms: [] }];
+  assert.equal((await withAvatars(people, s))[0].avatar, undefined, 'shown before it was worn');
+  await wearAvatar(pk, a.id, s);
+  let shown = await withAvatars(people, s);
+  assert.deepEqual(shown[0].avatar, { look: a.look, about: 'in a hat' });
+  assert.equal(shown[1].avatar, undefined);
+  // The same handle unclaimed is never shown, whatever the blob holds.
+  assert.equal((await withAvatars([{ handle: 'Ada', claimed: false, rooms: [] }], s))[0].avatar, undefined, 'an unclaimed name wore an avatar');
+  await editAvatar(pk, a.id, { look: lookOf({ top: ['gown', 'sequins', 'violet-gold'] }), about: 'in a gown' }, s);
+  shown = await withAvatars(people, s);
+  assert.equal(shown[0].avatar.look.wear.top[0], 'gown', 'a change to the worn one did not reach Who\'s online');
+  assert.equal(shown[0].avatar.about, 'in a gown');
+  await wearAvatar(pk, b.id, s);
+  assert.equal((await withAvatars(people, s))[0].avatar.look.base, 'stand');
+  await removeAvatar(pk, b.id, s);
+  assert.equal((await withAvatars(people, s))[0].avatar, undefined, 'a deleted avatar is still worn');
+  assert.equal((await readAvatars(pk, s)).wearing, null);
+  await wearAvatar(pk, a.id, s);
+  await wearAvatar(pk, null, s);
+  assert.equal((await withAvatars(people, s))[0].avatar, undefined, 'taken off and still shown');
+  await wearAvatar(pk, a.id, s);
+  await forgetAvatars(pk, s);
+  assert.equal((await withAvatars(people, s))[0].avatar, undefined, 'forgotten and still shown');
+  assert.deepEqual((await readAvatars(pk, s)).avatars, []);
+  const c = (await keepAvatar(pk, { look: lookOf() }, s)).kept;
+  await wearAvatar(pk, c.id, s);
+  await deleteAccount('Ada', s);
+  assert.equal((await withAvatars(people, s))[0].avatar, undefined, 'a deleted username still wears its avatar');
+  assert.deepEqual((await readAvatars(pk, s)).avatars, [], 'a deleted username kept its avatars');
+}));
+
+test('an avatar sticker is only ever your own avatar, and carries nothing but the look and its words', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const a = (await keepAvatar(petKey('Ada'), { look: lookOf(), name: 'Me', about: 'as I am' }, s)).kept;
+  assert.equal(await avatarSticker('Bex', a.id, s), null, 'a sticker of somebody else\'s avatar');
+  const st = await avatarSticker('Ada', a.id, s);
+  assert.deepEqual(Object.keys(st).sort(), ['about', 'look', 'name']);
+  assert.ok(shapeAvatarSticker(st));
+  assert.equal(shapeAvatarSticker({ look: { base: 'doll' }, name: 'x' }), null);
 });

@@ -1813,6 +1813,23 @@
         "--sb-screen",
         "--sb-ink"
       ]
+    },
+    "bodymind-booth.html": {
+      "kind": "julia",
+      "power": 2,
+      "c": [
+        0.355,
+        0.355
+      ],
+      "orbit": 0.02,
+      "spin": 0.2,
+      "ground": "--bmb-ink",
+      "inks": [
+        "--bmb-curtain",
+        "--bmb-lamp",
+        "--bmb-chrome",
+        "--bmb-pleat"
+      ]
     }
   }
 }

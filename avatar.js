@@ -1,0 +1,1273 @@
+/* =============================================================================
+   The avatars, drawn: every bodymind made at the Bodymind Booth, everything put
+   on it at the Dopamine Dress-Up Den, and the Den's valet stand for an avatar
+   with no body in it. One file, so an avatar cannot be drawn one way in the
+   booth, another in the Den, and a third in somebody's Profile, on Who's
+   online or on a sticker -- animals.js's rule, for people.
+
+   AN AVATAR IS A LIST OF CHOICES, NEVER A PICTURE. What is kept, sent and
+   shown is the look (base, body, wear), every value a key out of the lists
+   below, and this file draws it fresh wherever it goes. clean() takes nothing
+   it does not know, so no word anybody typed ever reaches the drawing; names
+   and descriptions travel beside it and are never put inside it.
+
+   THE DRAWING IS SILENT. Every <svg> this makes is aria-hidden. Whoever shows
+   one says what it is in words: the booth reads the owner's own choices back to
+   them while they build (words()), and everywhere else an avatar says only what
+   its owner wrote about it, because nothing here describes a body for somebody
+   else.
+
+   THE LISTS ARE GENERATED. Everything between the avatar:data markers is
+   written by tools/make-bodymind.py out of data/bodymind.json and
+   data/dressup.json, and the same keys go into netlify/cb/lib.mjs, which checks
+   every avatar kept against them. Add a choice to the data file and run the
+   tool; a choice that has no drawing here is refused by tools/avatar.test.mjs,
+   which draws every one of them in every pose.
+
+   EVERY GARMENT IS DRAWN FROM THE BODY IT IS ON. Nothing below is a picture of
+   a garment on one body: each is worked out from the shoulders, middle, hips,
+   height and pose it is put on, so a cardigan fits whoever is wearing it, on
+   their feet or sitting down. A garment the Dress-Up Den hangs on its rails and
+   this file cannot put on a body in both poses is a refusal, not a gap.
+
+   NOTHING MOVES, AND NOTHING HERE STORES OR SENDS ANYTHING. It draws.
+   ============================================================================= */
+(function (root) {
+  'use strict';
+
+/* avatar:data:begin */
+  var DATA = {"ink":"#1E1030","ground":{"stand":"#D2C6EC","bodymind":"#E98A45"},"slots":["head","outer","top","bottom","feet","boa","scarf"],"garments":{"head":["slouchy-beanie","beanie","wide-brim","headscarf","wig"],"outer":["haori","cardigan","hoodie","cape","sequin-jacket"],"top":["button-down","tee","corset","flowing-dress","gown"],"bottom":["fisherman","skirt","wide-leg","leggings"],"feet":["platforms","slip-ons","crocs","hi-tops","socks"],"boa":["boa"],"scarf":["scarf"]},"names":{"slouchy-beanie":"a slouchy beanie","beanie":"a beanie","wide-brim":"a wide-brimmed hat","headscarf":"a headscarf","wig":"a big wig","haori":"a haori","cardigan":"a cardigan","hoodie":"a zip hoodie","cape":"a velvet cape","sequin-jacket":"a sequin jacket","button-down":"a button-down shirt","tee":"a T-shirt","corset":"a corset top","flowing-dress":"a flowing dress","gown":"a sequin gown","fisherman":"Thai fisherman pants","skirt":"a flowing skirt","wide-leg":"wide-leg trousers","leggings":"leggings","platforms":"platform boots","slip-ons":"canvas slip-ons","crocs":"Crocs","hi-tops":"hi-top trainers","socks":"just socks","boa":"a feather boa","scarf":"a long scarf"},"prints":{"solid":[20,20,"<rect x=\"0\" y=\"0\" width=\"20\" height=\"20\" fill=\"var(--g)\"/>"],"stripes":[36,36,"<rect x=\"0\" y=\"0\" width=\"36\" height=\"6\" fill=\"var(--c1)\"/><rect x=\"0\" y=\"6\" width=\"36\" height=\"6\" fill=\"var(--c2)\"/><rect x=\"0\" y=\"12\" width=\"36\" height=\"6\" fill=\"var(--c3)\"/><rect x=\"0\" y=\"18\" width=\"36\" height=\"6\" fill=\"var(--c4)\"/><rect x=\"0\" y=\"24\" width=\"36\" height=\"6\" fill=\"var(--c5)\"/><rect x=\"0\" y=\"30\" width=\"36\" height=\"6\" fill=\"var(--c6)\"/>"],"dots":[42,42,"<rect x=\"0\" y=\"0\" width=\"42\" height=\"42\" fill=\"var(--g)\"/><circle cx=\"7\" cy=\"7\" r=\"4.4\" fill=\"var(--f1)\"/><circle cx=\"28\" cy=\"7\" r=\"4.4\" fill=\"var(--f2)\"/><circle cx=\"17.5\" cy=\"21\" r=\"4.4\" fill=\"var(--f3)\"/><circle cx=\"38.5\" cy=\"21\" r=\"4.4\" fill=\"var(--f4)\"/><circle cx=\"7\" cy=\"35\" r=\"4.4\" fill=\"var(--f5)\"/><circle cx=\"28\" cy=\"35\" r=\"4.4\" fill=\"var(--f1)\"/>"],"gingham":[24,24,"<rect x=\"0\" y=\"0\" width=\"24\" height=\"24\" fill=\"var(--g)\"/><rect x=\"0\" y=\"0\" width=\"12\" height=\"24\" fill=\"var(--f1)\" opacity=\".55\"/><rect x=\"0\" y=\"0\" width=\"24\" height=\"12\" fill=\"var(--f1)\" opacity=\".55\"/>"],"floral":[60,60,"<rect x=\"0\" y=\"0\" width=\"60\" height=\"60\" fill=\"var(--g)\"/><ellipse cx=\"31\" cy=\"24\" rx=\"6\" ry=\"2.8\" fill=\"var(--f2)\"/><ellipse cx=\"28\" cy=\"46\" rx=\"6\" ry=\"2.8\" fill=\"var(--f4)\"/><circle cx=\"15.0\" cy=\"9.0\" r=\"5.6\" fill=\"var(--f1)\"/><circle cx=\"21.7\" cy=\"13.8\" r=\"5.6\" fill=\"var(--f1)\"/><circle cx=\"19.1\" cy=\"21.7\" r=\"5.6\" fill=\"var(--f1)\"/><circle cx=\"10.9\" cy=\"21.7\" r=\"5.6\" fill=\"var(--f1)\"/><circle cx=\"8.3\" cy=\"13.8\" r=\"5.6\" fill=\"var(--f1)\"/><circle cx=\"15\" cy=\"16\" r=\"3.8\" fill=\"var(--f2)\"/><circle cx=\"45.0\" cy=\"35.0\" r=\"5.6\" fill=\"var(--f3)\"/><circle cx=\"51.7\" cy=\"39.8\" r=\"5.6\" fill=\"var(--f3)\"/><circle cx=\"49.1\" cy=\"47.7\" r=\"5.6\" fill=\"var(--f3)\"/><circle cx=\"40.9\" cy=\"47.7\" r=\"5.6\" fill=\"var(--f3)\"/><circle cx=\"38.3\" cy=\"39.8\" r=\"5.6\" fill=\"var(--f3)\"/><circle cx=\"45\" cy=\"42\" r=\"3.8\" fill=\"var(--f4)\"/><circle cx=\"47\" cy=\"11\" r=\"2.2\" fill=\"var(--f5)\"/>"],"blocks":[120,80,"<rect x=\"0\" y=\"0\" width=\"40\" height=\"40\" fill=\"var(--c1)\"/><rect x=\"40\" y=\"0\" width=\"40\" height=\"40\" fill=\"var(--c2)\"/><rect x=\"80\" y=\"0\" width=\"40\" height=\"40\" fill=\"var(--c3)\"/><rect x=\"0\" y=\"40\" width=\"40\" height=\"40\" fill=\"var(--c4)\"/><rect x=\"40\" y=\"40\" width=\"40\" height=\"40\" fill=\"var(--c5)\"/><rect x=\"80\" y=\"40\" width=\"40\" height=\"40\" fill=\"var(--c6)\"/>"],"patchwork":[72,72,"<rect x=\"0\" y=\"0\" width=\"24\" height=\"24\" fill=\"var(--c1)\"/><rect x=\"24\" y=\"0\" width=\"24\" height=\"24\" fill=\"var(--c2)\"/><rect x=\"48\" y=\"0\" width=\"24\" height=\"24\" fill=\"var(--c3)\"/><rect x=\"0\" y=\"24\" width=\"24\" height=\"24\" fill=\"var(--c4)\"/><rect x=\"24\" y=\"24\" width=\"24\" height=\"24\" fill=\"var(--c5)\"/><rect x=\"48\" y=\"24\" width=\"24\" height=\"24\" fill=\"var(--c6)\"/><rect x=\"0\" y=\"48\" width=\"24\" height=\"24\" fill=\"var(--c3)\"/><rect x=\"24\" y=\"48\" width=\"24\" height=\"24\" fill=\"var(--c1)\"/><rect x=\"48\" y=\"48\" width=\"24\" height=\"24\" fill=\"var(--c2)\"/><circle cx=\"8\" cy=\"8\" r=\"2.2\" fill=\"var(--f1)\"/><circle cx=\"16\" cy=\"16\" r=\"2.2\" fill=\"var(--f1)\"/><path d=\"M24 0 V72 M48 0 V72 M0 24 H72 M0 48 H72\" fill=\"none\" stroke=\"var(--dd-ink, #1E1030)\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\".7\"/>"],"moons":[48,48,"<rect x=\"0\" y=\"0\" width=\"48\" height=\"48\" fill=\"var(--g)\"/><path d=\"M16 8 A9 9 0 1 0 24 24 A7 7 0 1 1 16 8 Z\" fill=\"var(--f1)\"/><path d=\"M36 26 L38 32 L44 34 L38 36 L36 42 L34 36 L28 34 L34 32 Z\" fill=\"var(--f2)\"/><circle cx=\"40\" cy=\"10\" r=\"1.6\" fill=\"var(--f2)\"/><circle cx=\"10\" cy=\"40\" r=\"1.6\" fill=\"var(--f1)\"/>"],"sequins":[12,10,"<rect x=\"0\" y=\"0\" width=\"12\" height=\"10\" fill=\"var(--g)\"/><circle cx=\"3\" cy=\"3\" r=\"3.2\" fill=\"var(--f1)\" stroke=\"var(--g)\" stroke-width=\".6\"/><circle cx=\"9\" cy=\"8\" r=\"3.2\" fill=\"var(--f2)\" stroke=\"var(--g)\" stroke-width=\".6\"/>"]},"printA":{"solid":"plain","floral":"in bold florals","blocks":"in big blocks of colour","patchwork":"in patchwork","stripes":"in stripes","dots":"in polka dots","gingham":"in gingham","moons":"in moons and stars","sequins":"in sequins"},"colourways":{"rainbow":{"name":"all the colours there are","inks":["tomato","marigold","lime","turquoise","indigo","violet"]},"marigold-teal":{"name":"marigold and teal","inks":["marigold","teal","cream"]},"pink-lime":{"name":"hot pink and lime","inks":["hotpink","lime","cream"]},"tomato-turquoise":{"name":"tomato and turquoise","inks":["tomato","turquoise","gold"]},"indigo-cream":{"name":"indigo and cream","inks":["indigo","cream","sky"]},"violet-gold":{"name":"violet and gold","inks":["violet","gold","plum"]},"mint-coral":{"name":"mint and coral","inks":["mint","coral","cream"]},"moss-rust":{"name":"moss and rust","inks":["moss","rust","marigold"]},"denim-sky":{"name":"denim and sky","inks":["denim","sky","cream"]},"midnight-gold":{"name":"midnight and gold","inks":["indigo","gold","cream"]},"plum-black":{"name":"plum and black","inks":["plum","black","violet"]},"black-silver":{"name":"black and silver","inks":["black","silver","coal"]},"black":{"name":"all black","inks":["black","coal"]}},"inks":{"tomato":"#E5432F","marigold":"#F2A900","lime":"#9BD93A","turquoise":"#2BC4C0","indigo":"#28307A","violet":"#7B3FC4","teal":"#0F7C7A","cream":"#F6EBD2","hotpink":"#FF3D8B","gold":"#E8B923","sky":"#7EC8F2","plum":"#6B1F5C","mint":"#9FE2BF","coral":"#FF7F66","moss":"#5E7A2E","rust":"#A8481F","denim":"#3E5F8A","black":"#141414","silver":"#C9CCD3","coal":"#34343B"},"inkNames":{"tomato":"tomato","marigold":"marigold","lime":"lime","turquoise":"turquoise","indigo":"indigo","violet":"violet","teal":"teal","cream":"cream","hotpink":"hot pink","gold":"gold","sky":"sky blue","plum":"plum","mint":"mint","coral":"coral","moss":"moss","rust":"rust","denim":"denim","black":"black","silver":"silver","coal":"charcoal"},"stand":{"wood":"<rect fill=\"#7A4B2E\" stroke=\"#1E1030\" stroke-width=\"2\" x=\"195\" y=\"96\" width=\"10\" height=\"484\" rx=\"3\"/><circle fill=\"#7A4B2E\" stroke=\"#1E1030\" stroke-width=\"2\" cx=\"200\" cy=\"86\" r=\"14\"/><path fill=\"#7A4B2E\" stroke=\"#1E1030\" stroke-width=\"2\" d=\"M84 176 Q200 128 316 176 L316 186 Q200 140 84 186 Z\"/><rect fill=\"#7A4B2E\" stroke=\"#1E1030\" stroke-width=\"2\" x=\"118\" y=\"318\" width=\"164\" height=\"9\" rx=\"4\"/><rect fill=\"#7A4B2E\" stroke=\"#1E1030\" stroke-width=\"2\" x=\"110\" y=\"578\" width=\"180\" height=\"14\" rx=\"7\"/>","cuts":{"slouchy-beanie":"<path fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M166 104 Q160 58 196 46 Q238 36 258 66 Q272 94 250 120 Q240 106 234 100 Z\"/><path fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M164 92 Q200 104 236 94 L236 110 Q200 120 164 108 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M176 97 V112 M188 100 V115 M200 101 V116 M212 100 V115 M224 98 V112\"/>","beanie":"<path fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M170 96 Q170 52 200 50 Q230 52 230 96 Z\"/><path fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M164 90 H236 V110 H164 Z\"/><circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"200\" cy=\"44\" r=\"11\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M176 92 V108 M188 92 V108 M200 92 V108 M212 92 V108 M224 92 V108\"/>","wide-brim":"<path fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M172 100 Q174 70 190 46 Q198 30 206 40 Q210 64 228 100 Q200 106 172 100 Z\"/><path fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M122 104 Q200 84 278 104 Q200 124 122 104 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M175 94 Q200 100 226 94\"/>","headscarf":"<path fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M226 100 Q248 108 252 138 L240 142 Q236 118 222 106 Z\"/><path fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M228 100 Q256 100 266 122 L256 128 Q246 110 226 106 Z\"/><path fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M166 104 Q162 58 200 54 Q238 58 234 104 Q200 114 166 104 Z\"/><circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"228\" cy=\"102\" r=\"7\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M172 82 Q200 72 228 82\"/>","wig":"<circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"200\" cy=\"98\" r=\"50\"/><circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"160\" cy=\"138\" r=\"17\"/><circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"240\" cy=\"138\" r=\"17\"/><circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"150\" cy=\"112\" r=\"19\"/><circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"250\" cy=\"112\" r=\"19\"/><circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"152\" cy=\"84\" r=\"20\"/><circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"248\" cy=\"84\" r=\"20\"/><circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"172\" cy=\"60\" r=\"20\"/><circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"228\" cy=\"60\" r=\"20\"/><circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"200\" cy=\"50\" r=\"21\"/><circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"182\" cy=\"74\" r=\"18\"/><circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"218\" cy=\"74\" r=\"18\"/><circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"200\" cy=\"84\" r=\"18\"/><circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"178\" cy=\"104\" r=\"16\"/><circle fill=\"url(#@P@-head)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"222\" cy=\"104\" r=\"16\"/>","haori":"<path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M104 168 L50 178 L46 304 Q70 318 100 304 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 296 168 L 350 178 L 354 304 Q 330 318 300 304 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M168 150 L104 168 L98 366 H172 Q170 260 184 170 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 232 150 L 296 168 L 302 366 H 228 Q 230 260 216 170 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M166 150 L176 150 Q192 200 182 366 L172 366 Q180 200 166 150 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 234 150 L 224 150 Q 208 200 218 366 L 228 366 Q 220 200 234 150 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M182 240 Q200 250 218 240\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"200\" cy=\"247\" r=\"4\"/>","cardigan":"<path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M104 168 L84 176 L64 336 L94 342 L112 230 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 296 168 L 316 176 L 336 336 L 306 342 L 288 230 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M64 336 L94 342 L92 356 L62 350 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 336 336 L 306 342 L 308 356 L 338 350 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M172 150 L104 168 L100 404 H184 L188 176 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 228 150 L 296 168 L 300 404 H 216 L 212 176 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M112 392 V404 M124 392 V404 M136 392 V404 M148 392 V404 M160 392 V404 M172 392 V404 M228 392 V404 M240 392 V404 M252 392 V404 M264 392 V404 M276 392 V404 M288 392 V404\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M118 318 H164 V356 H118 Z M236 318 H282 V356 H236 Z\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"179\" cy=\"212\" r=\"3.4\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"179\" cy=\"252\" r=\"3.4\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"179\" cy=\"292\" r=\"3.4\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"179\" cy=\"332\" r=\"3.4\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"179\" cy=\"372\" r=\"3.4\"/>","hoodie":"<path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M146 158 Q150 112 200 108 Q250 112 254 158 Q228 146 200 148 Q172 146 146 158 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M106 170 L84 178 L64 338 L94 344 L112 232 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 294 170 L 316 178 L 336 338 L 306 344 L 288 232 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M64 338 L94 344 L92 358 L62 352 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 336 338 L 306 344 L 308 358 L 338 352 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M146 156 L106 170 L108 354 Q200 362 292 354 L294 170 L254 156 Q230 168 200 170 Q170 168 146 156 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M200 170 V360 M152 296 L192 290 V338 H152 Z M248 296 L208 290 V338 H248 Z M108 340 Q200 348 292 340 M188 170 V206 M212 170 V206\"/><rect fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" x=\"196\" y=\"184\" width=\"8\" height=\"13\" rx=\"2\"/>","cape":"<path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M168 144 L98 178 Q58 332 50 474 Q110 488 170 480 Q178 320 190 158 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 232 144 L 302 178 Q 342 332 350 474 Q 290 488 230 480 Q 222 320 210 158 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M168 144 Q200 128 232 144 L226 160 Q200 150 174 160 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M112 260 Q96 380 88 476 M288 260 Q304 380 312 476\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"200\" cy=\"158\" r=\"6\"/>","sequin-jacket":"<path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M106 168 L86 176 L70 318 L98 322 L112 226 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 294 168 L 314 176 L 330 318 L 302 322 L 288 226 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M170 150 L106 168 L106 300 H194 L192 180 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 230 150 L 294 168 L 294 300 H 206 L 208 180 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M170 150 L192 180 L178 216 L160 170 Z\"/><path fill=\"url(#@P@-outer)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 230 150 L 208 180 L 222 216 L 240 170 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M112 290 H192 M208 290 H288\"/>","button-down":"<path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M100 172 L80 180 L66 322 L94 326 L108 222 Z\"/><path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 300 172 L 320 180 L 334 322 L 306 326 L 292 222 Z\"/><path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M66 322 L94 326 L92 340 L64 336 Z\"/><path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 334 322 L 306 326 L 308 340 L 336 336 Z\"/><path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M134 156 L100 172 L104 338 Q200 348 296 338 L300 172 L266 156 L234 150 L200 182 L166 150 Z\"/><path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M166 150 L200 182 L186 194 L156 164 Z\"/><path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 234 150 L 200 182 L 214 194 L 244 164 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M200 182 V344 M222 214 H254 V240 H222 Z\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"200\" cy=\"206\" r=\"3.2\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"200\" cy=\"236\" r=\"3.2\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"200\" cy=\"266\" r=\"3.2\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"200\" cy=\"296\" r=\"3.2\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"200\" cy=\"326\" r=\"3.2\"/>","tee":"<path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M104 170 L76 214 L100 232 L108 214 Z\"/><path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 296 170 L 324 214 L 300 232 L 292 214 Z\"/><path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M132 156 L104 170 L106 336 Q200 346 294 336 L296 170 L268 156 Q240 152 230 156 Q200 182 170 156 Q160 152 132 156 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M170 156 Q200 188 230 156\"/>","corset":"<path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M150 162 L158 152 L166 156 L164 200 L156 200 Z\"/><path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 250 162 L 242 152 L 234 156 L 236 200 L 244 200 Z\"/><path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M146 196 Q170 180 200 188 Q230 180 254 196 Q240 262 258 336 Q200 348 142 336 Q160 262 146 196 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M170 190 Q164 262 170 340 M230 190 Q236 262 230 340 M192 202 L208 216 L192 230 L208 244 L192 258 L208 272 L192 286 L208 300 L192 314 L208 328\"/>","flowing-dress":"<path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M110 172 L82 206 Q94 222 114 214 Z\"/><path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 290 172 L 318 206 Q 306 222 286 214 Z\"/><path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M134 156 L110 172 Q120 250 106 306 Q76 420 58 482 Q200 504 342 482 Q324 420 294 306 Q280 250 290 172 L266 156 Q238 152 228 158 Q200 184 172 158 Q162 152 134 156 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M114 262 Q200 274 286 262 M150 320 Q136 400 120 488 M200 280 V500 M250 320 Q264 400 280 488\"/>","gown":"<path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M150 162 L156 148 L164 150 L162 170 Z\"/><path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M 250 162 L 244 148 L 236 150 L 238 170 Z\"/><path fill=\"url(#@P@-top)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M150 162 Q162 200 146 246 Q160 300 146 340 Q106 440 74 548 Q200 568 326 548 Q294 440 254 340 Q240 300 254 246 Q238 200 250 162 Q226 176 200 176 Q174 176 150 162 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M120 470 Q110 510 104 552 M280 470 Q290 510 296 552 M200 360 V560\"/>","fisherman":"<path fill=\"url(#@P@-bottom)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M104 330 H296 L304 376 L302 566 H214 L204 414 H196 L186 566 H98 L96 376 Z\"/><path fill=\"url(#@P@-bottom)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M100 310 H300 L304 348 H96 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M194 350 Q186 366 190 382 M206 350 Q214 366 210 382 M100 552 H186 M214 552 H300\"/><circle fill=\"url(#@P@-bottom)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"200\" cy=\"350\" r=\"6\"/>","skirt":"<path fill=\"url(#@P@-bottom)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M128 312 H272 Q298 430 324 560 Q200 576 76 560 Q102 430 128 312 Z\"/><path fill=\"url(#@P@-bottom)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M126 310 H274 V330 H126 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M160 330 Q146 440 130 566 M200 330 V572 M240 330 Q254 440 270 566\"/>","wide-leg":"<path fill=\"url(#@P@-bottom)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M120 324 H280 L298 566 H212 L202 406 H198 L188 566 H102 Z\"/><path fill=\"url(#@P@-bottom)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M118 310 H282 V330 H118 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M190 330 Q186 350 180 364 M210 330 Q214 350 220 364 M146 344 L140 560 M254 344 L260 560\"/>","leggings":"<path fill=\"url(#@P@-bottom)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M140 324 H260 L252 566 H214 L204 392 H196 L186 566 H148 Z\"/><path fill=\"url(#@P@-bottom)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M138 310 H262 V328 H138 Z\"/>","platforms":"<path fill=\"url(#@P@-feet)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M138 486 H170 L172 540 Q194 542 198 554 V560 H134 L136 540 Z\"/><path fill=\"url(#@P@-feet)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M130 560 H202 V578 H130 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M166 494 V548\"/><g transform=\"translate(84 0)\"><path fill=\"url(#@P@-feet)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M138 486 H170 L172 540 Q194 542 198 554 V560 H134 L136 540 Z\"/><path fill=\"url(#@P@-feet)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M130 560 H202 V578 H130 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M166 494 V548\"/></g>","slip-ons":"<path fill=\"url(#@P@-feet)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M128 562 Q132 548 152 546 Q184 546 196 562 L198 570 H126 Z\"/><path fill=\"url(#@P@-feet)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M124 570 H200 V578 H124 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M150 552 Q164 546 176 552\"/><g transform=\"translate(84 0)\"><path fill=\"url(#@P@-feet)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M128 562 Q132 548 152 546 Q184 546 196 562 L198 570 H126 Z\"/><path fill=\"url(#@P@-feet)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M124 570 H200 V578 H124 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M150 552 Q164 546 176 552\"/></g>","crocs":"<path fill=\"url(#@P@-feet)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M126 552 Q128 530 156 528 Q190 528 200 550 L202 566 Q202 576 190 576 H136 Q124 576 124 566 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M126 566 H200 M146 546 Q136 560 150 572\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"160\" cy=\"538\" r=\"2.3\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"172\" cy=\"538\" r=\"2.3\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"184\" cy=\"542\" r=\"2.3\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"166\" cy=\"548\" r=\"2.3\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"178\" cy=\"550\" r=\"2.3\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"190\" cy=\"554\" r=\"2.3\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"146\" cy=\"548\" r=\"3\"/><g transform=\"translate(84 0)\"><path fill=\"url(#@P@-feet)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M126 552 Q128 530 156 528 Q190 528 200 550 L202 566 Q202 576 190 576 H136 Q124 576 124 566 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M126 566 H200 M146 546 Q136 560 150 572\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"160\" cy=\"538\" r=\"2.3\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"172\" cy=\"538\" r=\"2.3\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"184\" cy=\"542\" r=\"2.3\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"166\" cy=\"548\" r=\"2.3\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"178\" cy=\"550\" r=\"2.3\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"190\" cy=\"554\" r=\"2.3\"/><circle fill=\"#F7F3FD\" stroke=\"#1E1030\" stroke-width=\"1.4\" cx=\"146\" cy=\"548\" r=\"3\"/></g>","hi-tops":"<path fill=\"url(#@P@-feet)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M136 520 H168 L172 546 Q194 548 198 560 V566 H132 V546 Z\"/><path fill=\"url(#@P@-feet)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M128 566 H202 V578 H128 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M142 528 H164 M142 538 H166 M144 548 H168\"/><g transform=\"translate(84 0)\"><path fill=\"url(#@P@-feet)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M136 520 H168 L172 546 Q194 548 198 560 V566 H132 V546 Z\"/><path fill=\"url(#@P@-feet)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M128 566 H202 V578 H128 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M142 528 H164 M142 538 H166 M144 548 H168\"/></g>","socks":"<path fill=\"url(#@P@-feet)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M140 504 H166 L166 548 Q190 548 194 564 Q194 578 180 578 H140 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M140 516 H166\"/><g transform=\"translate(84 0)\"><path fill=\"url(#@P@-feet)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M140 504 H166 L166 548 Q190 548 194 564 Q194 578 180 578 H140 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M140 516 H166\"/></g>","boa":"<circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"188\" cy=\"146\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"200\" cy=\"143\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"212\" cy=\"146\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"178.0\" cy=\"152.0\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"222.0\" cy=\"152.0\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"180.6\" cy=\"173.1\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"219.4\" cy=\"173.1\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"179.5\" cy=\"194.2\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"220.5\" cy=\"194.2\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"173.6\" cy=\"215.3\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"226.4\" cy=\"215.3\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"165.1\" cy=\"236.4\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"234.9\" cy=\"236.4\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"158.0\" cy=\"257.5\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"242.0\" cy=\"257.5\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"155.3\" cy=\"278.5\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"244.7\" cy=\"278.5\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"156.9\" cy=\"299.6\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"243.1\" cy=\"299.6\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"160.0\" cy=\"320.7\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"240.0\" cy=\"320.7\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"160.4\" cy=\"341.8\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"239.6\" cy=\"341.8\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"156.0\" cy=\"362.9\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"244.0\" cy=\"362.9\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"148.0\" cy=\"384.0\" r=\"11\"/><circle fill=\"url(#@P@-boa)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" cx=\"252.0\" cy=\"384.0\" r=\"11\"/>","scarf":"<path fill=\"url(#@P@-scarf)\" stroke=\"#1E1030\" stroke-width=\"2\" stroke-linejoin=\"round\" d=\"M176 148 Q200 172 224 148 L234 154 L240 392 H216 L212 180 Q200 188 188 180 L184 392 H160 L166 154 Z\"/><path fill=\"none\" stroke=\"#1E1030\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M164 392 v10 M170 392 v10 M176 392 v10 M182 392 v10 M218 392 v10 M224 392 v10 M230 392 v10 M236 392 v10\"/>"},"paint":["feet","bottom","top","outer","boa","scarf","head"]},"body":{"groups":[{"key":"pose","name":"How you get about","multi":false,"options":[["standing","On your feet"],["wheelchair","In a wheelchair"],["powerchair","In a power chair"]]},{"key":"height","name":"How tall","multi":false,"options":[["shorter","Shorter"],["middling","In between"],["taller","Taller"]]},{"key":"shoulders","name":"Shoulders","multi":false,"options":[["narrow","Narrow"],["middling","In between"],["broad","Broad"]]},{"key":"middle","name":"Your middle","multi":false,"options":[["flat","Flat"],["soft","Soft"],["round","Round"],["big","Big"]]},{"key":"hips","name":"Hips","multi":false,"options":[["narrow","Narrow"],["middling","In between"],["wide","Wide"]]},{"key":"skin","name":"Skin","multi":false,"options":[["t1","Tone 1, the lightest"],["t2","Tone 2"],["t3","Tone 3"],["t4","Tone 4"],["t5","Tone 5"],["t6","Tone 6"],["t7","Tone 7"],["t8","Tone 8"],["t9","Tone 9"],["t10","Tone 10, the deepest"],["lavender","Lavender"],["sage","Sage"],["sky","Sky"],["stone","Stone"]]},{"key":"marks","name":"On your skin","multi":true,"options":[["freckles","Freckles"],["vitiligo","Vitiligo"],["birthmark","A birthmark on one cheek"],["scar","A scar"]]},{"key":"face","name":"The shape of your face","multi":false,"options":[["oval","Oval"],["round","Round"],["square","Square"],["long","Long"]]},{"key":"eyes","name":"Eyes","multi":false,"options":[["open","Open"],["soft","Half closed"],["aside","Looking away"],["closed","Closed"],["wide","Wide"]]},{"key":"brows","name":"Brows","multi":false,"options":[["soft","Soft"],["straight","Straight"],["arched","Arched"],["bushy","Bushy"]]},{"key":"nose","name":"Nose","multi":false,"options":[["small","Small"],["round","Round"],["long","Long"],["broad","Broad"]]},{"key":"mouth","name":"Mouth","multi":false,"options":[["rest","At rest"],["smile","Smiling"],["grin","Grinning"],["open","Open"]]},{"key":"beard","name":"Facial hair","multi":false,"options":[["none","None"],["stubble","Stubble"],["moustache","A moustache"],["beard","A beard"],["long","A long beard"]]},{"key":"hair","name":"Hair","multi":false,"options":[["bald","No hair"],["shaved","Shaved close"],["short","Short"],["curly","Short curls"],["afro","An afro"],["locs","Locs"],["braids","Braids"],["long","Long and straight"],["wavy","Long and wavy"],["bob","A bob"],["bun","A bun"],["ponytail","A ponytail"],["mohawk","A mohawk"],["undercut","An undercut"]]},{"key":"hairColour","name":"Hair colour","multi":false,"options":[["black","Black"],["darkbrown","Dark brown"],["brown","Brown"],["auburn","Auburn"],["ginger","Ginger"],["blonde","Blonde"],["grey","Grey"],["white","White"],["pink","Pink"],["blue","Blue"],["green","Green"],["purple","Purple"],["teal","Teal"]]},{"key":"eyewear","name":"Over your eyes","multi":false,"options":[["none","Nothing"],["glasses","Glasses"],["dark","Dark glasses, for the light"]]},{"key":"ears","name":"On your ears","multi":false,"options":[["none","Nothing"],["aids","Hearing aids"],["cochlear","A cochlear implant"],["defenders","Ear defenders"],["headphones","Headphones"]]},{"key":"faceAid","name":"Over your nose and mouth","multi":false,"options":[["none","Nothing"],["mask","A mask"],["cannula","An oxygen cannula"]]},{"key":"hands","name":"In your hands","multi":false,"options":[["none","Nothing"],["cane","A cane"],["white","A white cane"],["crutches","Crutches"],["walker","A walker"],["aac","An AAC device"],["fidget","A fidget"]]},{"key":"neck","name":"Round your neck","multi":false,"options":[["none","Nothing"],["chew","A chew necklace"]]},{"key":"limbs","name":"Your arms and legs","multi":false,"options":[["as-drawn","As the booth draws them"],["leg","A prosthetic leg"],["arm-short","One arm ends below the elbow"],["arm","A prosthetic arm"]]},{"key":"layer","name":"Underneath, in plain","multi":false,"options":[["coal","Charcoal"],["black","Black"],["denim","Denim"],["cream","Cream"],["moss","Moss"],["plum","Plum"],["rust","Rust"],["sky","Sky blue"]]}],"colours":{"skin":{"t1":"#F7E4D6","t2":"#F0CFB6","t3":"#E6BA98","t4":"#D9A47E","t5":"#C68C63","t6":"#AF744E","t7":"#955D3C","t8":"#7B482D","t9":"#5F3621","t10":"#452618","lavender":"#C7B4EA","sage":"#A8C7A0","sky":"#9CC8E8","stone":"#B9B5AE"},"hair":{"black":"#1B1714","darkbrown":"#3B2518","brown":"#6B4428","auburn":"#8C3A1E","ginger":"#C9622A","blonde":"#E2C27A","grey":"#9A9A9C","white":"#EDEBE6","pink":"#F06BA8","blue":"#3C6BE0","green":"#3FA35A","purple":"#8A4FD0","teal":"#1E9A94"},"aid":"#7F8A94","aid_dark":"#2E3338","white_cane":"#F4F4F2","cane_tip":"#D3352B","chair":"#3A4148","chair_light":"#B8C0C7","screen":"#DCEBF7","chew":"#2BC4C0","mask":"#F2F5F7","vitiligo":"#FBF1EC","birthmark":"#B04E62","white":"#FFFFFF"},"standingOnly":{"hands":["cane","white","crutches","walker"]},"random":["height","shoulders","middle","hips","skin","face","eyes","brows","nose","mouth","hair","hairColour","layer"]}};
+/* avatar:data:end */
+
+  var INK = DATA.ink || '#1E1030';
+  var COL = DATA.body ? DATA.body.colours : {};
+  var seq = 0;
+
+  /* ── Small pieces ────────────────────────────────────────────────────── */
+  var CX = 100;
+  function f(n) { return String(Math.round(n * 10) / 10); }
+  function pt(x, y) { return f(CX + x) + ' ' + f(y); }
+  function poly(points) {
+    return 'M' + points.map(function (q) { return pt(q[0], q[1]); }).join(' L') + ' Z';
+  }
+  function open(points) {
+    return 'M' + points.map(function (q) { return pt(q[0], q[1]); }).join(' L');
+  }
+  function flip(points) { return points.map(function (q) { return [-q[0], q[1]]; }); }
+  function dist(a, b) { var dx = b[0] - a[0], dy = b[1] - a[1]; return Math.sqrt(dx * dx + dy * dy); }
+  function lerp(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]; }
+
+  function shape(d, fill, w) {
+    return '<path d="' + d + '" fill="' + fill + '" stroke="' + INK + '" stroke-width="' + (w || 1.3) +
+      '" stroke-linejoin="round"/>';
+  }
+  function plain(d, fill) { return '<path d="' + d + '" fill="' + fill + '"/>'; }
+  function line(d, w, colour) {
+    return '<path d="' + d + '" fill="none" stroke="' + (colour || INK) + '" stroke-width="' + (w || 1) +
+      '" stroke-linecap="round" stroke-linejoin="round"/>';
+  }
+  function dot(x, y, r, fill, w) {
+    return '<circle cx="' + f(CX + x) + '" cy="' + f(y) + '" r="' + f(r) + '" fill="' + fill + '"' +
+      (w ? ' stroke="' + INK + '" stroke-width="' + w + '"' : '') + '/>';
+  }
+  function oval(x, y, rx, ry, fill, w) {
+    return '<ellipse cx="' + f(CX + x) + '" cy="' + f(y) + '" rx="' + f(rx) + '" ry="' + f(ry) + '" fill="' + fill + '"' +
+      (w ? ' stroke="' + INK + '" stroke-width="' + w + '"' : '') + '/>';
+  }
+  /* A tube: a dark line with a lighter one inside it, for canes, frames and
+     cables, so a pale aid stays visible on a pale ground. */
+  function tube(d, w, colour) { return line(d, w + 2, INK) + line(d, w, colour); }
+
+  /* A limb or a sleeve: a strip of the given half-widths along a polyline. */
+  function strip(points, widths) {
+    var L = [], R = [], n = points.length;
+    for (var i = 0; i < n; i++) {
+      var a = points[Math.max(0, i - 1)], b = points[Math.min(n - 1, i + 1)];
+      var dx = b[0] - a[0], dy = b[1] - a[1], len = Math.sqrt(dx * dx + dy * dy) || 1;
+      var nx = -dy / len, ny = dx / len;
+      L.push([points[i][0] + nx * widths[i], points[i][1] + ny * widths[i]]);
+      R.push([points[i][0] - nx * widths[i], points[i][1] - ny * widths[i]]);
+    }
+    return L.concat(R.reverse());
+  }
+  /* The first fraction t of a polyline, with its widths. */
+  function upTo(points, widths, t) {
+    var total = 0, i;
+    for (i = 1; i < points.length; i++) total += dist(points[i - 1], points[i]);
+    var want = total * Math.max(.05, Math.min(1, t)), acc = 0, P = [points[0]], W = [widths[0]];
+    for (i = 1; i < points.length; i++) {
+      var l = dist(points[i - 1], points[i]);
+      if (acc + l >= want - .01) {
+        var k = (want - acc) / (l || 1);
+        if (k > .02) { P.push(lerp(points[i - 1], points[i], k)); W.push(widths[i - 1] + (widths[i] - widths[i - 1]) * k); }
+        return { p: P, w: W };
+      }
+      acc += l; P.push(points[i]); W.push(widths[i]);
+    }
+    return { p: P, w: W };
+  }
+
+  /* ── The body, worked out from the choices ───────────────────────────── */
+  var HEIGHT = { shorter: [.74, .8], middling: [1, 1], taller: [1.1, 1.06] };
+  var SHOULDERS = { narrow: 27, middling: 32, broad: 38 };
+  var MIDDLE = { flat: [22, 6], soft: [27, 6.6], round: [34, 7.6], big: [42, 8.6] };
+  var HIPS = { narrow: 25, middling: 30, wide: 36 };
+  var FACE = { oval: [19.5, 24.5], round: [22, 23], square: [21, 24], long: [18.5, 26.5] };
+  /* A head a little larger than life, drawn in its own coordinates and scaled
+     about its middle, so a face reads at the size of a picture beside a name. */
+  var HEAD = 1.22;
+  var STANDING_ONLY = {};
+
+  function geometry(b) {
+    var seated = b.pose !== 'standing';
+    var hf = HEIGHT[b.height], legF = hf[0], armF = hf[1];
+    var S = SHOULDERS[b.shoulders], m = MIDDLE[b.middle];
+    var W = m[0], a = m[1];
+    var H = Math.max(HIPS[b.hips], W - 3);
+    var C = Math.max(S - 4, Math.min(W, S + 1));
+    var fc = FACE[b.face];
+    // On your feet the soles stand on the floor at 286; sitting, the feet are
+    // on the footplate and the soles at 280. Everything above is measured
+    // down from the middle of the head, y0.
+    var y0 = seated ? 132 - 58 * legF : 286 - 134 - 102 * legF;
+    var g = { seated: seated, pose: b.pose, S: S, W: W, H: H, C: C, a: a, rx: fc[0], ry: fc[1], y0: y0, legF: legF, armF: armF };
+    g.chin = y0 + fc[1] * HEAD;
+    g.sh = y0 + 40;
+    g.pit = g.sh + 16;
+    g.waist = g.sh + 50;
+    g.belly = g.sh + 56;
+    g.hip = g.sh + 82;
+    g.crotch = g.hip + 12;
+    g.keys = [[g.sh + 4, S], [g.pit, C], [g.belly, W], [g.hip, H], [g.hip + 60, H]];
+    if (!seated) {
+      g.knee = g.crotch + 48 * legF;
+      g.ankle = g.crotch + 92 * legF;
+      g.sole = g.crotch + 102 * legF;
+      g.kx = Math.max(9, H * .42); g.kw = 6.5 + (W - 22) * .08;
+      g.ax = Math.max(8, H * .33); g.aw = 4.5;
+      g.fx = g.ax + 1.5;
+    } else {
+      g.knee = g.hip + 18;
+      g.ankle = g.knee + 58 * legF;
+      g.sole = g.ankle + 8;
+      g.kx = Math.max(10, H * .55); g.kw = 7.5 + (W - 22) * .1;
+      g.ax = g.kx; g.aw = 4.5;
+      g.fx = g.kx;
+    }
+    arms(g, b);
+    return g;
+  }
+
+  /* Where the arms hang, which is also where every sleeve goes. What is in
+     your hands moves them: an AAC device is held up in front, a walker's grips
+     and crutches' handles are at the hip, a cane is held out at one side. */
+  function arms(g, b) {
+    var S = g.S, W = g.W, H = g.H, sh = g.sh, armF = g.armF;
+    var J = [S - 5, sh + 3], E, R;
+    if (!g.seated) {
+      E = [Math.max(S + 2, W + 6, g.C + 5), sh + 44 * armF];
+      R = [Math.max(S + 3, H + 6, W + 4), sh + 86 * armF];
+    } else {
+      E = [Math.max(S + 3, W + 7), sh + 40 * armF];
+      R = [Math.max(14, H * .62), g.hip + 8];
+    }
+    var left = { J: J, E: E, R: R }, right = { J: J, E: E, R: R };
+    var h = b.hands;
+    if (h === 'aac') {
+      var held = [17, g.seated ? g.hip - 6 : g.belly - 2];
+      left = { J: J, E: E, R: held }; right = { J: J, E: E, R: held };
+    } else if (h === 'walker' || h === 'crutches') {
+      var grip = [Math.max(S + 6, H + 10, W + 8), g.hip + 4];
+      left = { J: J, E: E, R: grip }; right = { J: J, E: E, R: grip };
+    } else if (h === 'cane') {
+      right = { J: J, E: E, R: [Math.max(S + 6, H + 10, W + 8), g.hip + 8] };
+    } else if (h === 'white') {
+      right = { J: J, E: E, R: [Math.max(S + 4, H + 6, W + 6), g.hip] };
+    } else if (h === 'fidget') {
+      left = { J: J, E: E, R: [Math.max(S + 1, W + 3), g.seated ? g.hip : g.belly + 8] };
+    }
+    g.arm = { '-1': left, '1': right };
+  }
+
+  function armLine(g, s) {
+    var A = g.arm[String(s)];
+    return [[s * A.J[0], A.J[1]], [s * A.E[0], A.E[1]], [s * A.R[0], A.R[1]]];
+  }
+  function armWidths(g) { return [g.a + 1, g.a * .86, g.a * .7]; }
+
+  /* How wide the body is at height y, between keys, eased. */
+  function halfAt(g, y) {
+    var k = g.keys;
+    if (y <= k[0][0]) return k[0][1];
+    for (var i = 1; i < k.length; i++) {
+      if (y <= k[i][0]) {
+        var t = (y - k[i - 1][0]) / (k[i][0] - k[i - 1][0]);
+        t = t * t * (3 - 2 * t);
+        return k[i - 1][1] + (k[i][1] - k[i - 1][1]) * t;
+      }
+    }
+    return k[k.length - 1][1];
+  }
+  function sideDown(g, e, y1, y2) {
+    var out = [];
+    for (var y = y1; y < y2; y += 4) out.push([halfAt(g, y) + e, y]);
+    out.push([halfAt(g, y2) + e, y2]);
+    return out;
+  }
+
+  /* A garment's body: from the neck (or straight across the chest) down to a
+     hem, a little looser than the body by e. neck: 'crew', 'v', 'scoop',
+     'collar', or a number, which is a straight top at that height. */
+  function bodice(g, e, hem, neck) {
+    var right = [];
+    var straight = typeof neck === 'number';
+    var top = straight ? neck : g.sh + 4;
+    if (!straight) { right.push([8.5, g.sh - 3]); right.push([g.S + e - 1, g.sh + 1.5]); }
+    right = right.concat(sideDown(g, e, top, hem));
+    var d = 'M' + right.map(function (q) { return pt(q[0], q[1]); }).join(' L');
+    var left = flip(right).reverse();
+    d += ' L' + left.map(function (q) { return pt(q[0], q[1]); }).join(' L');
+    if (straight) {
+      d += ' Q' + pt(0, top + 7) + ' ' + pt(right[0][0], right[0][1]) + ' Z';
+    } else {
+      var depth = neck === 'v' ? 20 : neck === 'scoop' ? 15 : neck === 'collar' ? 9 : 7;
+      d += ' Q' + pt(0, g.sh + depth) + ' ' + pt(8.5, g.sh - 3) + ' Z';
+    }
+    return d;
+  }
+
+  /* One side of an open-fronted garment: from the neck and shoulder down the
+     side to the hem, and back up the front edge, which stands `gap` off the
+     middle. s is -1 for the left side and 1 for the right. */
+  function panel(g, e, hem, gap, s, flare) {
+    flare = flare || 0;
+    var right = [[gap + 3, g.sh - 2], [g.S + e - 1, g.sh + 1.5]];
+    var side = sideDown(g, e, g.sh + 4, hem);
+    side[side.length - 1][0] += flare;
+    right = right.concat(side);
+    right.push([gap, hem]);
+    right.push([gap, g.sh + 12]);
+    return poly(s < 0 ? flip(right) : right);
+  }
+
+  /* A sleeve on the arm s, a fraction t of the way to the wrist, e looser than
+     the arm, and opening out by `flare` at the cuff. A short arm's sleeve
+     stops where the arm does. */
+  function sleeve(g, s, t, e, flare) {
+    var w = armWidths(g).map(function (x) { return x + e; });
+    if (g.short && s === -1) t = Math.min(t, .78);
+    var u = upTo(armLine(g, s), w, t);
+    u.w[u.w.length - 1] += flare || 0;
+    return limbPath(g, s, u.p, u.w);
+  }
+
+  /* An arm or a sleeve with a rounded shoulder: down the outside from the top
+     of the shoulder, across the end, and back up the inside. Worked out on the
+     right and mirrored for the left, so the curve over the shoulder is the
+     same both sides. */
+  function limbPath(g, s, points, widths) {
+    var P = points.map(function (q) { return [q[0] * s, q[1]]; });
+    var edge = strip(P, widths), n = P.length;
+    var inner = edge.slice(0, n), outer = edge.slice(n).reverse();
+    var top = [P[0][0] + 1, P[0][1] - widths[0] * .55];
+    var down = lerp(outer[0], outer[1], Math.min(.6, 7 / (dist(outer[0], outer[1]) || 1)));
+    var d = [];
+    function q(x) { return [x[0] * s, x[1]]; }
+    d.push('M' + pt(q(inner[0])[0], q(inner[0])[1]));
+    d.push('Q' + pt(q([outer[0][0] + 1, top[1]])[0], top[1]) + ' ' + pt(q(down)[0], down[1]));
+    outer.slice(1).forEach(function (x) { d.push('L' + pt(q(x)[0], x[1])); });
+    inner.slice().reverse().forEach(function (x) { d.push('L' + pt(q(x)[0], x[1])); });
+    return d.join(' ') + ' Z';
+  }
+
+  /* The legs, on your feet or sitting down, for skin and for trousers alike. */
+  function legOutline(g, s, e, hem, flare, inner) {
+    var pts;
+    flare = flare || 0;
+    if (!g.seated) {
+      var ht = Math.min(hem, g.ankle) === hem ? hem : g.ankle;
+      var k = (ht - g.knee) / (g.ankle - g.knee);
+      var bx = g.kx + (g.ax - g.kx) * Math.max(0, k), bw = g.kw + (g.aw - g.kw) * Math.max(0, k);
+      if (ht < g.knee) { var k2 = (ht - g.crotch) / (g.knee - g.crotch); bx = g.H * .5 + (g.kx - g.H * .5) * k2; bw = g.H * .5 + (g.kw - g.H * .5) * k2; }
+      pts = [[g.H + e, g.hip]];
+      if (ht > g.knee) pts.push([g.kx + g.kw + e, g.knee]);
+      pts.push([bx + bw + e + flare, hem]);
+      pts.push([Math.max(inner || 1, bx - bw - e - flare), hem]);
+      if (ht > g.knee) pts.push([Math.max(inner || 1, g.kx - g.kw - e), g.knee]);
+      pts.push([inner || 0, g.crotch + (e > 2 ? 4 : 1)]);
+    } else {
+      var sw = 5.5 + e;
+      pts = [[g.H + e, g.hip - 2], [g.kx + g.kw + e, g.knee], [g.kx + sw + .5, g.knee + 8]];
+      pts.push([g.kx + sw - 1 + flare, hem]);
+      pts.push([g.kx - sw + 1 - flare, hem]);
+      pts.push([g.kx - sw - .5, g.knee + 8]);
+      pts.push([Math.max(inner || 1, g.kx - g.kw - e), g.knee]);
+      pts.push([inner || 0, g.hip + 6]);
+    }
+    return s < 0 ? flip(pts) : pts;
+  }
+
+  /* A pair of trousers, waist to hem: the band across the waist and both legs
+     in one outline. */
+  function trousers(g, e, hem, flare, inner) {
+    var R = legOutline(g, 1, e, hem, flare, inner);
+    var L = legOutline(g, -1, e, hem, flare, inner);
+    var top = sideDown(g, e, g.waist, g.hip);
+    var right = top.concat(R.slice(1));
+    var left = flip(top).concat(L.slice(1));
+    return 'M' + pt(-halfAt(g, g.waist) - e, g.waist) + ' L' + right.map(function (q) { return pt(q[0], q[1]); }).join(' L') +
+      ' L' + left.reverse().map(function (q) { return pt(q[0], q[1]); }).join(' L') + ' Z';
+  }
+
+  /* A skirt from the waist, or a dress's skirt from wherever its bodice stops:
+     standing, it flares straight to the hem; sitting, it goes over the lap to
+     the knees and falls from there. */
+  function skirt(g, e, from, hem, flare) {
+    var right = sideDown(g, e, from, g.hip);
+    if (!g.seated) {
+      right.push([halfAt(g, g.hip) + e + flare * .35, g.hip + (hem - g.hip) * .4]);
+      right.push([halfAt(g, g.hip) + e + flare, hem]);
+    } else {
+      right.push([g.kx + g.kw + e + flare * .4, g.knee]);
+      right.push([g.kx + g.kw + e + flare * .55, g.knee + 6]);
+      right.push([g.kx + g.kw + e + flare * .6, hem]);
+    }
+    var left = flip(right).reverse();
+    return poly(right.concat(left));
+  }
+
+  /* The hem that a long garment reaches: 'hip', 'thigh', 'knee', 'calf' or
+     'floor', on your feet or sitting down. */
+  function hemAt(g, where) {
+    if (!g.seated) {
+      return { hip: g.hip + 6, thigh: g.hip + 26, knee: g.knee + 2, calf: g.knee + (g.ankle - g.knee) * .55, floor: g.sole - 3 }[where];
+    }
+    return { hip: g.hip + 4, thigh: g.hip + 10, knee: g.knee + 14, calf: g.knee + (g.ankle - g.knee) * .6, floor: g.sole - 4 }[where];
+  }
+
+  /* ── The garments, on a body ─────────────────────────────────────────── */
+  /* Each returns its parts: `back` is drawn behind the body (a hood, the
+     inside of a cape), `body` over the body, `sleeves` over the arms, and `top`
+     over everything below the head. c.f(slot) is the slot's fabric. */
+  function crewSeam(g) { return line('M' + pt(-8.5, g.sh - 3) + ' Q' + pt(0, g.sh + 7) + ' ' + pt(8.5, g.sh - 3), 1); }
+
+  var BODY_WEAR = {
+    // ── On your head ──
+    'slouchy-beanie': function (g, c) {
+      var y = g.y0, rx = g.rx, ry = g.ry;
+      return { top:
+        shape('M' + pt(-rx - 2, y - ry * .3) + ' Q' + pt(-rx - 3, y - ry - 12) + ' ' + pt(2, y - ry - 11) +
+          ' Q' + pt(rx + 16, y - ry - 8) + ' ' + pt(rx + 12, y - 2) + ' Q' + pt(rx + 6, y - ry * .55) + ' ' + pt(rx + 1, y - ry * .32) + ' Z', c.f('head')) +
+        shape('M' + pt(-rx - 2.5, y - ry * .42) + ' Q' + pt(0, y - ry * .2) + ' ' + pt(rx + 2.5, y - ry * .42) +
+          ' L' + pt(rx + 2.5, y - ry * .18) + ' Q' + pt(0, y + 1) + ' ' + pt(-rx - 2.5, y - ry * .18) + ' Z', c.f('head')) +
+        line('M' + pt(-rx * .6, y - ry * .3) + ' v5 M' + pt(-rx * .2, y - ry * .26) + ' v5 M' + pt(rx * .2, y - ry * .26) + ' v5 M' + pt(rx * .6, y - ry * .3) + ' v5', .8) };
+    },
+    'beanie': function (g, c) {
+      var y = g.y0, rx = g.rx, ry = g.ry;
+      return { top:
+        shape('M' + pt(-rx - 1.5, y - ry * .35) + ' Q' + pt(-rx - 1, y - ry - 8) + ' ' + pt(0, y - ry - 8) +
+          ' Q' + pt(rx + 1, y - ry - 8) + ' ' + pt(rx + 1.5, y - ry * .35) + ' Z', c.f('head')) +
+        dot(0, y - ry - 11, 6, 'url(#' + c.p + '-head)', 1.3) +
+        shape('M' + pt(-rx - 3, y - ry * .5) + ' L' + pt(rx + 3, y - ry * .5) + ' L' + pt(rx + 3, y - ry * .16) + ' L' + pt(-rx - 3, y - ry * .16) + ' Z', c.f('head')) +
+        line('M' + pt(-rx * .66, y - ry * .48) + ' v7 M' + pt(-rx * .33, y - ry * .48) + ' v7 M' + pt(0, y - ry * .48) + ' v7 M' + pt(rx * .33, y - ry * .48) + ' v7 M' + pt(rx * .66, y - ry * .48) + ' v7', .8) };
+    },
+    'wide-brim': function (g, c) {
+      var y = g.y0, rx = g.rx, ry = g.ry;
+      return { top:
+        shape('M' + pt(-rx * .95, y - ry * .5) + ' Q' + pt(-rx * .7, y - ry - 14) + ' ' + pt(-2, y - ry - 18) +
+          ' Q' + pt(4, y - ry - 12) + ' ' + pt(rx * .95, y - ry * .5) + ' Z', c.f('head')) +
+        shape('M' + pt(-rx - 26, y - ry * .42) + ' Q' + pt(0, y - ry * .95) + ' ' + pt(rx + 26, y - ry * .42) +
+          ' Q' + pt(0, y - ry * .05) + ' ' + pt(-rx - 26, y - ry * .42) + ' Z', c.f('head')) +
+        line('M' + pt(-rx * .9, y - ry * .62) + ' Q' + pt(0, y - ry * .48) + ' ' + pt(rx * .9, y - ry * .62), 1) };
+    },
+    'headscarf': function (g, c) {
+      var y = g.y0, rx = g.rx, ry = g.ry;
+      return {
+        back: shape('M' + pt(rx - 2, y - 6) + ' Q' + pt(rx + 14, y + 2) + ' ' + pt(rx + 12, y + 22) + ' L' + pt(rx + 5, y + 22) + ' Q' + pt(rx + 6, y + 6) + ' ' + pt(rx - 6, y - 2) + ' Z', c.f('head')),
+        top:
+          shape('M' + pt(-rx - 2, y - 2) + ' Q' + pt(-rx - 3, y - ry - 8) + ' ' + pt(0, y - ry - 7) +
+            ' Q' + pt(rx + 3, y - ry - 8) + ' ' + pt(rx + 2, y - 2) + ' Q' + pt(0, y - ry * .55) + ' ' + pt(-rx - 2, y - 2) + ' Z', c.f('head')) +
+          dot(rx + 1, y - 4, 4.5, 'url(#' + c.p + '-head)', 1.2) +
+          line('M' + pt(-rx * .7, y - ry * .7) + ' Q' + pt(0, y - ry - 2) + ' ' + pt(rx * .7, y - ry * .7), .8)
+      };
+    },
+    'wig': function (g, c) {
+      var y = g.y0, rx = g.rx, ry = g.ry, out = '';
+      var curls = [[-rx - 8, y + 6, 9], [rx + 8, y + 6, 9], [-rx - 10, y - 8, 10], [rx + 10, y - 8, 10],
+        [-rx - 6, y - ry + 2, 11], [rx + 6, y - ry + 2, 11], [-rx * .45, y - ry - 8, 11], [rx * .45, y - ry - 8, 11],
+        [0, y - ry - 11, 11], [-rx - 4, y + 18, 8], [rx + 4, y + 18, 8]];
+      var back = oval(0, y - 4, rx + 15, ry + 12, 'url(#' + c.p + '-head)', 1.3);
+      curls.forEach(function (q) { out += dot(q[0], q[1], q[2], 'url(#' + c.p + '-head)', 1.3); });
+      var fringe = [[-rx * .7, y - ry + 6, 7], [-rx * .2, y - ry + 3, 7.5], [rx * .3, y - ry + 3, 7.5], [rx * .75, y - ry + 6, 7]];
+      var front = '';
+      fringe.forEach(function (q) { front += dot(q[0], q[1], q[2], 'url(#' + c.p + '-head)', 1.3); });
+      return { back: back + out, top: front };
+    },
+
+    // ── Over the top ──
+    'haori': function (g, c) {
+      var hem = hemAt(g, 'thigh');
+      var sl = '';
+      [-1, 1].forEach(function (s) {
+        var A = armLine(g, s), E = A[1];
+        var cuffY = E[1] + 16;
+        var outer = s * (Math.abs(E[0]) + g.a + 9);
+        sl += shape(poly([[s * (g.S - 6), g.sh + 1], [s * (g.S + 4), g.sh + 3], [outer, cuffY - 6], [outer, cuffY + 6],
+          [s * (Math.abs(E[0]) - g.a - 2), cuffY + 4], [s * (g.S - 2), g.pit + 6]]), c.f('outer'));
+      });
+      return {
+        body: shape(panel(g, 4, hem, 5, -1, 2), c.f('outer')) + shape(panel(g, 4, hem, 5, 1, 2), c.f('outer')) +
+          line(open([[-5.5, g.sh + 8], [-12, g.belly + 4]]), 1.6) + line(open([[5.5, g.sh + 8], [12, g.belly + 4]]), 1.6),
+        sleeves: sl + line('M' + pt(-7, g.pit + 14) + ' Q' + pt(0, g.pit + 18) + ' ' + pt(7, g.pit + 14), 1.2) + dot(0, g.pit + 17, 2.4, INK)
+      };
+    },
+    'cardigan': function (g, c) {
+      var hem = hemAt(g, g.seated ? 'thigh' : 'thigh') + (g.seated ? 0 : 6);
+      var rib = '';
+      for (var x = 10; x < g.H + 4; x += 5) rib += ' M' + pt(x, hem - 5) + ' v5 M' + pt(-x, hem - 5) + ' v5';
+      var pockets = g.seated ? '' :
+        line(poly([[-g.H + 2, g.hip - 4], [-10, g.hip - 4], [-10, g.hip + 10], [-g.H + 3, g.hip + 10]]), 1) +
+        line(poly([[g.H - 2, g.hip - 4], [10, g.hip - 4], [10, g.hip + 10], [g.H - 3, g.hip + 10]]), 1);
+      var buttons = '';
+      for (var y = g.pit; y < hem - 8; y += 14) buttons += dot(7.5, y, 1.8, INK);
+      return {
+        body: shape(panel(g, 3.5, hem, 4, -1, 1), c.f('outer')) + shape(panel(g, 3.5, hem, 4, 1, 1), c.f('outer')) +
+          line(rib.slice(1), .8) + pockets + buttons,
+        sleeves: shape(sleeve(g, -1, 1, 2.5, 0), c.f('outer')) + shape(sleeve(g, 1, 1, 2.5, 0), c.f('outer'))
+      };
+    },
+    'hoodie': function (g, c) {
+      var hem = hemAt(g, 'hip') + 4, y = g.y0;
+      return {
+        back: shape('M' + pt(-g.S + 6, g.sh + 6) + ' Q' + pt(-g.S + 2, g.sh - 12) + ' ' + pt(0, g.sh - 13) + ' Q' + pt(g.S - 2, g.sh - 12) + ' ' + pt(g.S - 6, g.sh + 6) + ' Z', c.f('outer')),
+        body: shape(bodice(g, 4, hem, 'crew'), c.f('outer')) +
+          line(open([[0, g.sh + 6], [0, hem]]), 1.2) +
+          line(poly([[-g.W + 2, g.belly + 4], [-4, g.belly + 2], [-4, g.hip - 2], [-g.W + 6, g.hip]]), 1) +
+          line(poly([[g.W - 2, g.belly + 4], [4, g.belly + 2], [4, g.hip - 2], [g.W - 6, g.hip]]), 1) +
+          line(open([[-4, g.sh + 4], [-5, g.sh + 22]]), 1) + line(open([[4, g.sh + 4], [5, g.sh + 22]]), 1) +
+          line(open([[-g.H - 4, hem - 5], [g.H + 4, hem - 5]]), .8),
+        sleeves: shape(sleeve(g, -1, 1, 3, 0), c.f('outer')) + shape(sleeve(g, 1, 1, 3, 0), c.f('outer'))
+      };
+    },
+    'cape': function (g, c) {
+      var hem = g.seated ? g.hip + 34 : hemAt(g, 'knee') + 24;
+      var wide = Math.max(Math.abs(g.arm['1'].R[0]), Math.abs(g.arm['-1'].R[0])) + g.a + 10;
+      function side(s) {
+        return poly((s < 0 ? flip : function (p) { return p; })([[8, g.sh - 2], [g.S + 4, g.sh + 1], [wide, g.hip - 8], [wide + 6, hem], [10, hem], [9, g.pit]]));
+      }
+      return {
+        back: shape(poly([[-wide - 4, hem - 4], [-g.S - 2, g.sh + 6], [g.S + 2, g.sh + 6], [wide + 4, hem - 4]]), c.f('outer')),
+        top: shape(side(-1), c.f('outer')) + shape(side(1), c.f('outer')) +
+          line(open([[-(g.S * .7), g.pit + 6], [-(wide * .7), hem - 4]]), .8) + line(open([[g.S * .7, g.pit + 6], [wide * .7, hem - 4]]), .8) +
+          dot(0, g.sh + 2, 3.5, 'url(#' + c.p + '-outer)', 1.3)
+      };
+    },
+    'sequin-jacket': function (g, c) {
+      var hem = g.waist + 10;
+      return {
+        body: shape(panel(g, 3.5, hem, 6, -1, 0), c.f('outer')) + shape(panel(g, 3.5, hem, 6, 1, 0), c.f('outer')) +
+          shape(poly([[-9, g.sh - 2], [-6, g.pit + 10], [-15, g.pit - 2]]), c.f('outer'), 1.1) +
+          shape(poly([[9, g.sh - 2], [6, g.pit + 10], [15, g.pit - 2]]), c.f('outer'), 1.1),
+        sleeves: shape(sleeve(g, -1, 1, 2.5, 0), c.f('outer')) + shape(sleeve(g, 1, 1, 2.5, 0), c.f('outer'))
+      };
+    },
+
+    // ── Underneath ──
+    'button-down': function (g, c) {
+      var hem = hemAt(g, 'hip') + 2, buttons = '';
+      for (var y = g.sh + 12; y < hem - 4; y += 12) buttons += dot(0, y, 1.5, INK);
+      return {
+        body: shape(bodice(g, 2.5, hem, 'collar'), c.f('top')) +
+          shape(poly([[-8.5, g.sh - 3], [0, g.sh + 9], [-4, g.sh + 13], [-12, g.sh + 2]]), c.f('top'), 1.1) +
+          shape(poly([[8.5, g.sh - 3], [0, g.sh + 9], [4, g.sh + 13], [12, g.sh + 2]]), c.f('top'), 1.1) +
+          line(open([[0, g.sh + 9], [0, hem]]), 1) + buttons +
+          line(poly([[g.C * .35, g.pit + 2], [g.C * .8, g.pit + 2], [g.C * .8, g.pit + 12], [g.C * .35, g.pit + 12]]), .9),
+        sleeves: shape(sleeve(g, -1, 1, 1.8, 0), c.f('top')) + shape(sleeve(g, 1, 1, 1.8, 0), c.f('top'))
+      };
+    },
+    'tee': function (g, c) {
+      var hem = hemAt(g, 'hip');
+      return {
+        body: shape(bodice(g, 2.5, hem, 'crew'), c.f('top')) + crewSeam(g),
+        sleeves: shape(sleeve(g, -1, .32, 2.5, 1.5), c.f('top')) + shape(sleeve(g, 1, .32, 2.5, 1.5), c.f('top'))
+      };
+    },
+    'corset': function (g, c) {
+      var top = g.pit + 2, hem = g.hip + 2, lace = '', s = 1;
+      for (var y = top + 6; y < hem - 2; y += 7) { lace += (lace ? ' L' : 'M') + pt(s * 3.5, y); s = -s; }
+      return {
+        body: shape(bodice(g, 1, hem, top), c.f('top')) +
+          line(open([[-g.C * .55, top + 3], [-g.S * .55, g.sh + 1]]), 2) + line(open([[g.C * .55, top + 3], [g.S * .55, g.sh + 1]]), 2) +
+          line(lace, .9) + line(open([[-g.W * .45, top + 6], [-g.H * .5, hem - 2]]), .8) + line(open([[g.W * .45, top + 6], [g.H * .5, hem - 2]]), .8)
+      };
+    },
+    'flowing-dress': function (g, c) {
+      var hem = hemAt(g, 'calf');
+      return {
+        body: shape(skirt(g, 3, g.waist, hem, 18), c.f('top')) + shape(bodice(g, 2.5, g.waist + 2, 'scoop'), c.f('top')) +
+          line(open([[-halfAt(g, g.waist) - 2, g.waist + 1], [halfAt(g, g.waist) + 2, g.waist + 1]]), .9) +
+          line(open([[-g.H * .4, g.hip + 4], [-g.H * .7, hem - 4]]), .8) + line(open([[g.H * .4, g.hip + 4], [g.H * .7, hem - 4]]), .8),
+        sleeves: shape(sleeve(g, -1, .26, 3, 4), c.f('top')) + shape(sleeve(g, 1, .26, 3, 4), c.f('top'))
+      };
+    },
+    'gown': function (g, c) {
+      var hem = hemAt(g, 'floor'), top = g.pit + 1;
+      return {
+        body: shape(skirt(g, 1.5, g.hip - 6, hem, 22), c.f('top')) + shape(bodice(g, 1, g.hip - 4, top), c.f('top')) +
+          line(open([[-g.C * .5, top + 3], [-g.S * .5, g.sh + 1]]), 1.2) + line(open([[g.C * .5, top + 3], [g.S * .5, g.sh + 1]]), 1.2) +
+          line(open([[0, g.hip + 6], [0, hem - 2]]), .8)
+      };
+    },
+
+    // ── The bottom half ──
+    'fisherman': function (g, c) {
+      var hem = g.ankle;
+      var cuffs = '';
+      [-1, 1].forEach(function (s) {
+        var x = s * g.ax;
+        cuffs += shape(poly([[x - 7, hem - 6], [x + 7, hem - 6], [x + 6, hem + 1], [x - 6, hem + 1]]), c.f('bottom'), 1.1);
+      });
+      return {
+        body: shape(trousers(g, 6, hem - 4, 3, 0), c.f('bottom')) + cuffs +
+          shape(poly([[-halfAt(g, g.waist) - 6, g.waist - 6], [halfAt(g, g.waist) + 6, g.waist - 6], [halfAt(g, g.waist) + 6, g.waist + 5], [-halfAt(g, g.waist) - 6, g.waist + 5]]), c.f('bottom'), 1.1) +
+          dot(0, g.waist + 7, 3, 'url(#' + c.p + '-bottom)', 1.2) +
+          line('M' + pt(-2, g.waist + 9) + ' Q' + pt(-5, g.waist + 16) + ' ' + pt(-3, g.waist + 22) + ' M' + pt(2, g.waist + 9) + ' Q' + pt(5, g.waist + 16) + ' ' + pt(3, g.waist + 22), .9)
+      };
+    },
+    'skirt': function (g, c) {
+      var hem = g.seated ? g.ankle - 6 : g.ankle - 2;
+      return {
+        body: shape(skirt(g, 2, g.waist, hem, 16), c.f('bottom')) +
+          shape(poly([[-halfAt(g, g.waist) - 2.5, g.waist - 3], [halfAt(g, g.waist) + 2.5, g.waist - 3], [halfAt(g, g.waist + 5) + 2.5, g.waist + 5], [-halfAt(g, g.waist + 5) - 2.5, g.waist + 5]]), c.f('bottom'), 1.1) +
+          line(open([[-g.H * .45, g.waist + 6], [-g.H * .8, hem - 3]]), .8) + line(open([[0, g.waist + 6], [0, hem - 2]]), .8) + line(open([[g.H * .45, g.waist + 6], [g.H * .8, hem - 3]]), .8)
+      };
+    },
+    'wide-leg': function (g, c) {
+      var hem = g.seated ? g.ankle + 2 : g.sole - 4;
+      return {
+        body: shape(trousers(g, 3.5, hem, 7, 0), c.f('bottom')) +
+          shape(poly([[-halfAt(g, g.waist) - 3.5, g.waist - 3], [halfAt(g, g.waist) + 3.5, g.waist - 3], [halfAt(g, g.waist + 5) + 3.5, g.waist + 5], [-halfAt(g, g.waist + 5) - 3.5, g.waist + 5]]), c.f('bottom'), 1.1) +
+          line('M' + pt(-1.5, g.waist + 5) + ' Q' + pt(-3, g.waist + 12) + ' ' + pt(-6, g.waist + 16) + ' M' + pt(1.5, g.waist + 5) + ' Q' + pt(3, g.waist + 12) + ' ' + pt(6, g.waist + 16), .9)
+      };
+    },
+    'leggings': function (g, c) {
+      return {
+        body: shape(trousers(g, .6, g.ankle - 1, 0, 0), c.f('bottom')) +
+          shape(poly([[-halfAt(g, g.waist) - 1, g.waist - 2], [halfAt(g, g.waist) + 1, g.waist - 2], [halfAt(g, g.waist + 5) + 1, g.waist + 5], [-halfAt(g, g.waist + 5) - 1, g.waist + 5]]), c.f('bottom'), 1.1)
+      };
+    },
+
+    // ── On your feet ── (a pair, each drawn where that foot is)
+    'platforms': function (g, c) { return { feet: pair(g, function (x, s) {
+      var y = g.sole;
+      return shape(poly([[x - 6, g.ankle - 16], [x + 6, g.ankle - 16], [x + 6.5, y - 7], [x + 10, y - 5], [x + 10, y - 2], [x - 9, y - 2], [x - 6.5, y - 7]]), c.f('feet')) +
+        shape(poly([[x - 10, y - 2], [x + 11, y - 2], [x + 11, y + 5], [x - 10, y + 5]]), c.f('feet')) +
+        line(open([[x + s * 2.5, g.ankle - 14], [x + s * 2.5, y - 6]]), .8);
+    }) }; },
+    'slip-ons': function (g, c) { return { feet: pair(g, function (x) {
+      var y = g.sole;
+      return shape('M' + pt(x - 9, y) + ' Q' + pt(x - 9, y - 8) + ' ' + pt(x, y - 8) + ' Q' + pt(x + 10, y - 8) + ' ' + pt(x + 10, y) + ' Z', c.f('feet')) +
+        line(open([[x - 10, y + 1], [x + 11, y + 1]]), 1.6) + line('M' + pt(x - 4, y - 5) + ' Q' + pt(x, y - 7) + ' ' + pt(x + 4, y - 5), .8);
+    }) }; },
+    'crocs': function (g, c) { return { feet: pair(g, function (x) {
+      var y = g.sole;
+      return shape('M' + pt(x - 10, y + 1) + ' Q' + pt(x - 11, y - 10) + ' ' + pt(x, y - 10) + ' Q' + pt(x + 11, y - 10) + ' ' + pt(x + 11, y + 1) + ' Z', c.f('feet')) +
+        dot(x - 4, y - 6, 1.1, INK) + dot(x, y - 7, 1.1, INK) + dot(x + 4, y - 6, 1.1, INK) + dot(x - 2, y - 3, 1.1, INK) + dot(x + 2, y - 3, 1.1, INK) +
+        line('M' + pt(x - 9, y - 4) + ' Q' + pt(x - 12, y - 10) + ' ' + pt(x - 7, y - 12), 1);
+    }) }; },
+    'hi-tops': function (g, c) { return { feet: pair(g, function (x) {
+      var y = g.sole;
+      return shape(poly([[x - 6.5, g.ankle - 8], [x + 6.5, g.ankle - 8], [x + 7, y - 6], [x + 10, y - 4], [x + 10, y], [x - 9, y], [x - 7, y - 6]]), c.f('feet')) +
+        line(open([[x - 10, y + 1], [x + 11, y + 1]]), 2) +
+        line('M' + pt(x - 3.5, g.ankle - 5) + ' h7 M' + pt(x - 3.5, g.ankle - 1) + ' h7 M' + pt(x - 3.5, g.ankle + 3) + ' h7', .8);
+    }) }; },
+    'socks': function (g, c) { return { feet: pair(g, function (x) {
+      var y = g.sole;
+      return shape('M' + pt(x - 5, g.ankle - 12) + ' L' + pt(x + 5, g.ankle - 12) + ' L' + pt(x + 5.5, y - 6) + ' Q' + pt(x + 11, y - 6) + ' ' + pt(x + 10, y) +
+        ' L' + pt(x - 8, y) + ' Q' + pt(x - 9, y - 5) + ' ' + pt(x - 5.5, y - 6) + ' Z', c.f('feet')) +
+        line(open([[x - 5, g.ankle - 8], [x + 5, g.ankle - 8]]), .8);
+    }) }; },
+
+    // ── And the rest ──
+    'boa': function (g, c) {
+      var out = '', y;
+      for (var i = 0; i < 9; i++) out += dot(-14 + i * 3.5, g.sh - 2 + Math.abs(i - 4) * 1.2, 4.6, 'url(#' + c.p + '-boa)', 1.1);
+      for (y = g.sh + 4; y < g.hip + 10; y += 7) {
+        var k = (y - g.sh) / (g.hip - g.sh);
+        out += dot(-(g.S * .62 + k * 4), y, 4.6, 'url(#' + c.p + '-boa)', 1.1) + dot(g.S * .62 + k * 4, y, 4.6, 'url(#' + c.p + '-boa)', 1.1);
+      }
+      return { top: out };
+    },
+    'scarf': function (g, c) {
+      var end = g.seated ? g.hip - 2 : g.hip + 14, fr = '';
+      for (var x = -1; x < 2; x++) fr += ' M' + pt(-11 + x * 3, end) + ' v4 M' + pt(5 + x * 3, end + 4) + ' v4';
+      return { top:
+        shape(poly([[-6, g.sh + 4], [-16, end - 10], [-14, end], [-6, end], [-2, g.sh + 10]]), c.f('scarf')) +
+        shape(poly([[4, g.sh + 6], [2, end - 4], [3, end + 4], [11, end + 4], [11, g.sh + 6]]), c.f('scarf')) +
+        shape('M' + pt(-13, g.sh - 4) + ' Q' + pt(0, g.sh + 4) + ' ' + pt(13, g.sh - 4) + ' L' + pt(14, g.sh + 6) + ' Q' + pt(0, g.sh + 15) + ' ' + pt(-14, g.sh + 6) + ' Z', c.f('scarf')) +
+        line(fr.slice(1), .8) };
+    }
+  };
+
+  function pair(g, one) { return one(-g.fx, -1) + one(g.fx, 1); }
+
+  /* ── What you have on underneath ─────────────────────────────────────── */
+  function underneath(g, c, wear) {
+    var out = { body: '', sleeves: '', feet: '', bottom: '' };
+    var fabric = inkColour(c.layer);
+    var dress = wear.top && (wear.top[0] === 'flowing-dress' || wear.top[0] === 'gown');
+    // Cropped above the ankle, so the shoes show, and a prosthetic leg is seen.
+    if (!wear.bottom && !dress) out.bottom = shape(trousers(g, 2.5, g.knee + (g.ankle - g.knee) * (g.seated ? .62 : .7), 1, 0), fabric);
+    if (!wear.top) {
+      out.body = shape(bodice(g, 2, hemAt(g, 'hip'), 'crew'), fabric) + crewSeam(g);
+      out.sleeves = shape(sleeve(g, -1, .3, 2, 1), fabric) + shape(sleeve(g, 1, .3, 2, 1), fabric);
+    }
+    if (!wear.feet) {
+      out.feet = pair(g, function (x) {
+        var y = g.sole;
+        return shape('M' + pt(x - 9, y) + ' Q' + pt(x - 9.5, y - 9) + ' ' + pt(x, y - 9) + ' Q' + pt(x + 10, y - 9) + ' ' + pt(x + 10, y) + ' Z', inkColour('cream')) +
+          line(open([[x - 10, y + .5], [x + 11, y + .5]]), 1.8);
+      });
+    }
+    return out;
+  }
+
+  function inkColour(k) { return 'var(--dd-f-' + k + ', ' + ((DATA.inks || {})[k] || '#888888') + ')'; }
+
+  /* ── Skin, face and hair ─────────────────────────────────────────────── */
+  function facePath(g, face) {
+    var y = g.y0, rx = g.rx, ry = g.ry;
+    var jaw = face === 'round' ? .78 : face === 'square' ? .9 : face === 'long' ? .62 : .66;
+    var low = face === 'square' ? .82 : face === 'round' ? .72 : .68;
+    return 'M' + pt(-rx, y) + ' C' + pt(-rx, y - ry * 1.32) + ' ' + pt(rx, y - ry * 1.32) + ' ' + pt(rx, y) +
+      ' C' + pt(rx, y + ry * low) + ' ' + pt(rx * jaw, y + ry) + ' ' + pt(0, y + ry) +
+      ' C' + pt(-rx * jaw, y + ry) + ' ' + pt(-rx, y + ry * low) + ' ' + pt(-rx, y) + ' Z';
+  }
+
+  var HAIR = {
+    bald: function () { return {}; },
+    shaved: function (g, h) {
+      var y = g.y0, rx = g.rx, ry = g.ry;
+      return { front: '<path d="M' + pt(-rx + .5, y - 3) + ' C' + pt(-rx, y - ry * 1.32) + ' ' + pt(rx, y - ry * 1.32) + ' ' + pt(rx - .5, y - 3) +
+        ' Q' + pt(rx * .8, y - ry * .55) + ' ' + pt(0, y - ry * .62) + ' Q' + pt(-rx * .8, y - ry * .55) + ' ' + pt(-rx + .5, y - 3) + ' Z" fill="' + h + '" opacity=".5"/>' };
+    },
+    short: function (g, h) {
+      var y = g.y0, rx = g.rx, ry = g.ry;
+      return { front: shape('M' + pt(-rx - 1.2, y + 1) + ' C' + pt(-rx - 2, y - ry * 1.45) + ' ' + pt(rx + 2, y - ry * 1.45) + ' ' + pt(rx + 1.2, y + 1) +
+        ' L' + pt(rx - 2, y - 6) + ' Q' + pt(rx * .4, y - ry * .62) + ' ' + pt(-rx * .2, y - ry * .5) + ' Q' + pt(-rx * .7, y - ry * .55) + ' ' + pt(-rx + 2, y - 6) + ' Z', h) };
+    },
+    curly: function (g, h) {
+      var y = g.y0, rx = g.rx, ry = g.ry, out = '';
+      out += shape('M' + pt(-rx - 1, y - 2) + ' C' + pt(-rx - 2, y - ry * 1.4) + ' ' + pt(rx + 2, y - ry * 1.4) + ' ' + pt(rx + 1, y - 2) + ' Q' + pt(0, y - ry * .5) + ' ' + pt(-rx - 1, y - 2) + ' Z', h);
+      for (var i = 0; i <= 8; i++) {
+        var a = Math.PI + i * Math.PI / 8;
+        out += dot(Math.cos(a) * (rx + 1), y - 6 + Math.sin(a) * (ry + 2), 5, h, 1.1);
+      }
+      return { front: out };
+    },
+    afro: function (g, h) {
+      var y = g.y0, rx = g.rx, ry = g.ry, back = '';
+      for (var i = 0; i < 16; i++) {
+        var a = i * Math.PI * 2 / 16;
+        back += dot(Math.cos(a) * (rx + 13), y - 7 + Math.sin(a) * (ry + 10), 8, h, 1.2);
+      }
+      back += oval(0, y - 7, rx + 13, ry + 10, h);
+      return { back: back, front: plain('M' + pt(-rx + .5, y - 4) + ' C' + pt(-rx, y - ry * 1.3) + ' ' + pt(rx, y - ry * 1.3) + ' ' + pt(rx - .5, y - 4) +
+        ' Q' + pt(0, y - ry * .55) + ' ' + pt(-rx + .5, y - 4) + ' Z', h) };
+    },
+    locs: function (g, h) {
+      var y = g.y0, rx = g.rx, ry = g.ry, back = '', front = '';
+      [-1, 1].forEach(function (s) {
+        for (var i = 0; i < 4; i++) {
+          var x = s * (rx - 3 + i * 3.5);
+          back += shape('M' + pt(x - 2.6, y - 6) + ' L' + pt(x + s * 3 - 2.6, y + 50) + ' Q' + pt(x + s * 3, y + 54) + ' ' + pt(x + s * 3 + 2.6, y + 50) + ' L' + pt(x + 2.6, y - 6) + ' Z', h, 1);
+        }
+      });
+      front = shape('M' + pt(-rx - 1.5, y + 2) + ' C' + pt(-rx - 2, y - ry * 1.42) + ' ' + pt(rx + 2, y - ry * 1.42) + ' ' + pt(rx + 1.5, y + 2) +
+        ' L' + pt(rx - 1, y - 5) + ' Q' + pt(0, y - ry * .55) + ' ' + pt(-rx + 1, y - 5) + ' Z', h);
+      [-1, 1].forEach(function (s) {
+        front += shape('M' + pt(s * (rx - 4), y - 8) + ' L' + pt(s * (rx - 1), y + 14) + ' Q' + pt(s * (rx + 1), y + 17) + ' ' + pt(s * (rx + 3), y + 14) + ' L' + pt(s * (rx + 1), y - 8) + ' Z', h, 1);
+      });
+      return { back: back, front: front };
+    },
+    braids: function (g, h) {
+      var y = g.y0, rx = g.rx, ry = g.ry, back = '';
+      [-1, 1].forEach(function (s) {
+        for (var yy = y + 2; yy < y + 56; yy += 6) back += oval(s * (rx + 2), yy, 4, 3.6, h, 1);
+        back += line(open([[s * (rx + 2), y + 56], [s * (rx + 2), y + 61]]), 2.2, h);
+      });
+      return { back: back, front: shape('M' + pt(-rx - 1, y + 1) + ' C' + pt(-rx - 2, y - ry * 1.4) + ' ' + pt(rx + 2, y - ry * 1.4) + ' ' + pt(rx + 1, y + 1) +
+        ' L' + pt(rx - 2, y - 5) + ' Q' + pt(rx * .5, y - ry * .62) + ' ' + pt(1, y - ry * .9) + ' Q' + pt(-rx * .5, y - ry * .62) + ' ' + pt(-rx + 2, y - 5) + ' Z', h) +
+        line(open([[0, y - ry - 2], [1, y - ry * .9]]), .8) };
+    },
+    long: function (g, h) { return longHair(g, h, false); },
+    wavy: function (g, h) { return longHair(g, h, true); },
+    bob: function (g, h) {
+      var y = g.y0, rx = g.rx, ry = g.ry;
+      return {
+        back: shape('M' + pt(-rx - 5, y - 4) + ' C' + pt(-rx - 6, y - ry * 1.5) + ' ' + pt(rx + 6, y - ry * 1.5) + ' ' + pt(rx + 5, y - 4) + ' L' + pt(rx + 6, y + ry + 2) + ' L' + pt(-rx - 6, y + ry + 2) + ' Z', h),
+        front: shape('M' + pt(-rx - 2, y + 6) + ' C' + pt(-rx - 3, y - ry * 1.45) + ' ' + pt(rx + 3, y - ry * 1.45) + ' ' + pt(rx + 2, y + 6) +
+          ' L' + pt(rx - 2, y + 4) + ' L' + pt(rx - 3, y - ry * .42) + ' L' + pt(-rx + 3, y - ry * .42) + ' L' + pt(-rx + 2, y + 4) + ' Z', h)
+      };
+    },
+    bun: function (g, h) {
+      var y = g.y0, rx = g.rx, ry = g.ry;
+      return {
+        back: dot(0, y - ry - 8, 9.5, h, 1.2),
+        front: shape('M' + pt(-rx - 1, y - 1) + ' C' + pt(-rx - 1.5, y - ry * 1.4) + ' ' + pt(rx + 1.5, y - ry * 1.4) + ' ' + pt(rx + 1, y - 1) +
+          ' Q' + pt(rx * .6, y - ry * .7) + ' ' + pt(0, y - ry * .78) + ' Q' + pt(-rx * .6, y - ry * .7) + ' ' + pt(-rx - 1, y - 1) + ' Z', h) +
+          line('M' + pt(-rx * .5, y - ry * .85) + ' Q' + pt(0, y - ry * 1.05) + ' ' + pt(rx * .5, y - ry * .85), .7)
+      };
+    },
+    ponytail: function (g, h) {
+      var y = g.y0, rx = g.rx, ry = g.ry;
+      return {
+        back: shape('M' + pt(rx - 4, y - ry * .6) + ' Q' + pt(rx + 14, y - 4) + ' ' + pt(rx + 8, y + 44) + ' Q' + pt(rx + 4, y + 48) + ' ' + pt(rx + 2, y + 40) + ' Q' + pt(rx + 6, y + 2) + ' ' + pt(rx - 6, y - ry * .3) + ' Z', h),
+        front: shape('M' + pt(-rx - 1, y) + ' C' + pt(-rx - 1.5, y - ry * 1.42) + ' ' + pt(rx + 1.5, y - ry * 1.42) + ' ' + pt(rx + 1, y) +
+          ' Q' + pt(rx * .5, y - ry * .62) + ' ' + pt(-rx * .3, y - ry * .7) + ' Q' + pt(-rx * .8, y - ry * .5) + ' ' + pt(-rx - 1, y) + ' Z', h)
+      };
+    },
+    mohawk: function (g, h) {
+      var y = g.y0, rx = g.rx, ry = g.ry, spikes = [];
+      for (var i = 0; i <= 6; i++) {
+        var t = i / 6, yy = y - ry * 1.05 + Math.abs(t - .5) * 10, x = -10 + t * 20;
+        spikes.push([x * .45, yy + 3]); if (i < 6) spikes.push([x * .45 + 1.5, yy - 12]);
+      }
+      return { front: '<path d="M' + pt(-rx + .5, y - 3) + ' C' + pt(-rx, y - ry * 1.3) + ' ' + pt(rx, y - ry * 1.3) + ' ' + pt(rx - .5, y - 3) +
+        ' Q' + pt(0, y - ry * .55) + ' ' + pt(-rx + .5, y - 3) + ' Z" fill="' + h + '" opacity=".35"/>' + shape(poly(spikes), h, 1.1) };
+    },
+    undercut: function (g, h) {
+      var y = g.y0, rx = g.rx, ry = g.ry;
+      return { front: '<path d="M' + pt(-rx + .5, y - 2) + ' C' + pt(-rx, y - ry * 1.3) + ' ' + pt(rx, y - ry * 1.3) + ' ' + pt(rx - .5, y - 2) +
+        ' Q' + pt(0, y - ry * .5) + ' ' + pt(-rx + .5, y - 2) + ' Z" fill="' + h + '" opacity=".35"/>' +
+        shape('M' + pt(-rx * .8, y - ry * .55) + ' Q' + pt(-rx * .6, y - ry * 1.35) + ' ' + pt(rx * .3, y - ry * 1.25) + ' Q' + pt(rx + 8, y - ry * 1.05) + ' ' + pt(rx + 3, y - ry * .35) +
+          ' Q' + pt(rx * .2, y - ry * .9) + ' ' + pt(-rx * .8, y - ry * .55) + ' Z', h) };
+    }
+  };
+
+  function longHair(g, h, wavy) {
+    var y = g.y0, rx = g.rx, ry = g.ry, end = y + 52;
+    var edge = function (s) {
+      var p = [];
+      for (var yy = y; yy <= end; yy += 6) p.push([s * (rx + 4 + (wavy ? Math.sin((yy - y) / 6) * 2.5 : 0) + (yy - y) * .06), yy]);
+      return p;
+    };
+    var R = edge(1), L = edge(-1);
+    var back = 'M' + pt(-rx - 4, y) + ' C' + pt(-rx - 6, y - ry * 1.5) + ' ' + pt(rx + 6, y - ry * 1.5) + ' ' + pt(rx + 4, y) +
+      ' L' + R.map(function (q) { return pt(q[0], q[1]); }).join(' L') +
+      ' Q' + pt(0, end + 6) + ' ' + pt(L[L.length - 1][0], L[L.length - 1][1]) +
+      ' L' + L.reverse().map(function (q) { return pt(q[0], q[1]); }).join(' L') + ' Z';
+    var front = 'M' + pt(-rx - 2, y + 8) + ' C' + pt(-rx - 3, y - ry * 1.45) + ' ' + pt(rx + 3, y - ry * 1.45) + ' ' + pt(rx + 2, y + 8) +
+      ' L' + pt(rx - 1, y + 10) + ' Q' + pt(rx - 1, y - ry * .5) + ' ' + pt(1, y - ry * .92) + ' Q' + pt(-rx + 1, y - ry * .5) + ' ' + pt(-rx + 1, y + 10) + ' Z';
+    return { back: shape(back, h), front: shape(front, h) + line(open([[0, y - ry - 2], [1, y - ry * .9]]), .8) };
+  }
+
+  function features(g, b, skin) {
+    var y = g.y0, rx = g.rx, out = '', ex = rx * .42, ey = y + 1;
+    // Eyes.
+    [-1, 1].forEach(function (s) {
+      var x = s * ex;
+      if (b.eyes === 'closed') out += line('M' + pt(x - 3.4, ey) + ' Q' + pt(x, ey + 2.6) + ' ' + pt(x + 3.4, ey), 1.2);
+      else {
+        var r = b.eyes === 'wide' ? 3.8 : 3;
+        out += oval(x, ey, r + .6, r * .82, COL.white, .9);
+        var look = b.eyes === 'aside' ? 1.6 : 0;
+        out += dot(x + look, ey + (b.eyes === 'aside' ? .5 : 0), r * .55, INK);
+        if (b.eyes === 'soft') out += plain('M' + pt(x - r - 1, ey) + ' Q' + pt(x, ey - r * 1.5) + ' ' + pt(x + r + 1, ey) + ' Z', skin) + line(open([[x - r - .8, ey], [x + r + .8, ey]]), 1);
+      }
+    });
+    // Brows.
+    var by = y - 6;
+    [-1, 1].forEach(function (s) {
+      var x = s * ex;
+      if (b.brows === 'straight') out += line(open([[x - 4, by], [x + 4, by]]), 1.4);
+      else if (b.brows === 'arched') out += line('M' + pt(x - 4, by + 1) + ' Q' + pt(x, by - 3) + ' ' + pt(x + 4, by + 1), 1.3);
+      else if (b.brows === 'bushy') out += line(open([[x - 4.5, by + .5], [x + 4.5, by - .5]]), 2.6);
+      else out += line('M' + pt(x - 4, by + .5) + ' Q' + pt(x, by - 1.2) + ' ' + pt(x + 4, by + .5), 1.1);
+    });
+    // Nose.
+    var ny = y + 8;
+    if (b.nose === 'small') out += line('M' + pt(-1.5, ny + 1) + ' Q' + pt(0, ny + 2) + ' ' + pt(1.5, ny + 1), 1);
+    else if (b.nose === 'round') out += line('M' + pt(-2.5, ny) + ' Q' + pt(-3, ny + 3) + ' ' + pt(0, ny + 3) + ' Q' + pt(3, ny + 3) + ' ' + pt(2.5, ny), 1);
+    else if (b.nose === 'long') out += line('M' + pt(.5, ny - 7) + ' L' + pt(1.5, ny + 1) + ' Q' + pt(0, ny + 3) + ' ' + pt(-1.8, ny + 1.5), 1);
+    else out += line('M' + pt(-4, ny + .5) + ' Q' + pt(-4, ny + 3) + ' ' + pt(0, ny + 3) + ' Q' + pt(4, ny + 3) + ' ' + pt(4, ny + .5), 1.1);
+    return out;
+  }
+
+  function mouth(g, b) {
+    var my = g.y0 + 15;
+    if (b.mouth === 'smile') return line('M' + pt(-5, my - 1) + ' Q' + pt(0, my + 4) + ' ' + pt(5, my - 1), 1.3);
+    if (b.mouth === 'grin') return shape('M' + pt(-6, my - 1.5) + ' Q' + pt(0, my + 6) + ' ' + pt(6, my - 1.5) + ' Z', COL.white, 1.2);
+    if (b.mouth === 'open') return oval(0, my + .5, 3, 3.6, INK);
+    return line(open([[-4, my], [4, my]]), 1.3);
+  }
+
+  function beard(g, b, h) {
+    var y = g.y0, rx = g.rx, ry = g.ry, my = y + 15;
+    if (b.beard === 'stubble') return '<path d="M' + pt(-rx + 1, y + 4) + ' Q' + pt(-rx + 2, y + ry) + ' ' + pt(0, y + ry + .5) + ' Q' + pt(rx - 2, y + ry) + ' ' + pt(rx - 1, y + 4) +
+      ' Q' + pt(rx * .6, my - 3) + ' ' + pt(0, my - 4) + ' Q' + pt(-rx * .6, my - 3) + ' ' + pt(-rx + 1, y + 4) + ' Z" fill="' + h + '" opacity=".38"/>';
+    if (b.beard === 'moustache') return shape('M' + pt(-7, my - 1) + ' Q' + pt(-4, my - 5.5) + ' ' + pt(0, my - 3.5) + ' Q' + pt(4, my - 5.5) + ' ' + pt(7, my - 1) + ' Q' + pt(0, my - 2) + ' ' + pt(-7, my - 1) + ' Z', h, 1);
+    if (b.beard === 'beard' || b.beard === 'long') {
+      var low = b.beard === 'long' ? y + ry + 18 : y + ry + 4;
+      return shape('M' + pt(-rx + .5, y + 2) + ' Q' + pt(-rx, low - 6) + ' ' + pt(0, low) + ' Q' + pt(rx, low - 6) + ' ' + pt(rx - .5, y + 2) +
+        ' L' + pt(rx - 4, y + 6) + ' Q' + pt(rx - 5, my + 4) + ' ' + pt(0, my + 4.5) + ' Q' + pt(-rx + 5, my + 4) + ' ' + pt(-rx + 4, y + 6) + ' Z', h, 1.1) +
+        shape('M' + pt(-7, my - 1) + ' Q' + pt(-4, my - 5) + ' ' + pt(0, my - 3.5) + ' Q' + pt(4, my - 5) + ' ' + pt(7, my - 1) + ' Q' + pt(0, my - 2) + ' ' + pt(-7, my - 1) + ' Z', h, 1);
+    }
+    return '';
+  }
+
+  function marks(g, b) {
+    var y = g.y0, rx = g.rx, out = '';
+    var has = function (k) { return b.marks.indexOf(k) !== -1; };
+    if (has('vitiligo')) {
+      out += '<path d="M' + pt(-rx * .2, y - 14) + ' q5 -3 9 1 q2 5 -3 6 q-6 1 -6 -7 Z" fill="' + COL.vitiligo + '" opacity=".9"/>';
+      out += '<path d="M' + pt(rx * .25, y + 17) + ' q4 1 5 5 q-3 3 -7 1 q-2 -4 2 -6 Z" fill="' + COL.vitiligo + '" opacity=".9"/>';
+    }
+    if (has('freckles')) {
+      [-1, 1].forEach(function (s) {
+        [[9, 6], [12, 8], [8, 9.5], [11.5, 11], [14, 6.5]].forEach(function (q) { out += dot(s * q[0], y + q[1], .7, INK); });
+      });
+    }
+    if (has('birthmark')) out += '<path d="M' + pt(-rx * .78, y + 6) + ' q4 -4 8 0 q2 5 -3 7 q-6 0 -5 -7 Z" fill="' + COL.birthmark + '" opacity=".55"/>';
+    if (has('scar')) out += line(open([[rx * .25, y - 10], [rx * .62, y + 2]]), 1.4, COL.vitiligo) + line('M' + pt(rx * .3, y - 7) + ' l3 -1 M' + pt(rx * .42, y - 3) + ' l3 -1', .6, COL.vitiligo);
+    return out;
+  }
+
+  /* ── What you always have with you ───────────────────────────────────── */
+  function headAids(g, b) {
+    var y = g.y0, rx = g.rx, ry = g.ry, out = '', ex = rx * .42;
+    if (b.eyewear !== 'none') {
+      var lens = b.eyewear === 'dark' ? COL.aid_dark : 'none';
+      [-1, 1].forEach(function (s) {
+        out += '<rect x="' + f(CX + s * ex - 5.5) + '" y="' + f(y - 3.5) + '" width="11" height="8.5" rx="3" fill="' + lens + '" stroke="' + INK + '" stroke-width="1.3"/>';
+        out += line(open([[s * (ex + 5.5), y - 1], [s * rx, y]]), 1.1);
+      });
+      out += line('M' + pt(-ex + 5.5, y) + ' Q' + pt(0, y - 2.5) + ' ' + pt(ex - 5.5, y), 1.1);
+    }
+    if (b.faceAid === 'mask') {
+      out += line(open([[-rx + 2, y + 6], [-rx, y + 1]]), .9) + line(open([[rx - 2, y + 6], [rx, y + 1]]), .9);
+      out += shape('M' + pt(-rx + 3, y + 5) + ' Q' + pt(0, y + 2) + ' ' + pt(rx - 3, y + 5) + ' L' + pt(rx - 5, y + 17) + ' Q' + pt(0, y + ry + 1) + ' ' + pt(-rx + 5, y + 17) + ' Z', COL.mask, 1.2);
+      out += line('M' + pt(-rx + 5, y + 10) + ' Q' + pt(0, y + 8) + ' ' + pt(rx - 5, y + 10) + ' M' + pt(-rx + 6, y + 14) + ' Q' + pt(0, y + 12.5) + ' ' + pt(rx - 6, y + 14), .7);
+    } else if (b.faceAid === 'cannula') {
+      out += tube('M' + pt(-rx, y + 3) + ' Q' + pt(-rx * .55, y + 11) + ' ' + pt(-2, y + 11) + ' L' + pt(2, y + 11) + ' Q' + pt(rx * .55, y + 11) + ' ' + pt(rx, y + 3), 1.2, COL.mask);
+      out += tube('M' + pt(-rx - 1, y + 5) + ' Q' + pt(-rx + 1, y + ry + 2) + ' ' + pt(0, y + ry + 9) + ' M' + pt(rx + 1, y + 5) + ' Q' + pt(rx - 1, y + ry + 2) + ' ' + pt(0, y + ry + 9), 1.2, COL.mask);
+    }
+    return out;
+  }
+
+  function earAids(g, b) {
+    var y = g.y0, rx = g.rx, ry = g.ry, out = '';
+    if (b.ears === 'aids') {
+      [-1, 1].forEach(function (s) {
+        out += shape('M' + pt(s * (rx + .5), y - 9) + ' q' + f(s * 6) + ' 0 ' + f(s * 5.5) + ' 9 q' + f(-s * 1) + ' 3.5 ' + f(-s * 4.5) + ' 1.5 Z', COL.aid, 1.1);
+        out += line('M' + pt(s * (rx + 1), y - 8) + ' q' + f(-s * 3) + ' 3 ' + f(-s * 2) + ' 9', 1);
+      });
+    } else if (b.ears === 'cochlear') {
+      out += dot(rx - 2, y - 12, 4.6, COL.aid, 1.2) + dot(rx - 2, y - 12, 1.6, INK);
+      out += shape('M' + pt(rx + 1, y - 5) + ' q4 1 3 9 q-1 2 -3 0 Z', COL.aid, 1);
+      out += line('M' + pt(rx + .5, y - 9) + ' Q' + pt(rx + 3, y - 7) + ' ' + pt(rx + 2.5, y - 5), 1);
+    } else if (b.ears === 'defenders' || b.ears === 'headphones') {
+      var d = b.ears === 'defenders';
+      var top = y - ry - (d ? 9 : 6);
+      out += tube('M' + pt(-rx - (d ? 4 : 2.5), y - 2) + ' C' + pt(-rx - 6, top) + ' ' + pt(rx + 6, top) + ' ' + pt(rx + (d ? 4 : 2.5), y - 2), d ? 4 : 2.6, d ? COL.aid_dark : COL.aid);
+      [-1, 1].forEach(function (s) {
+        out += oval(s * (rx + (d ? 3.5 : 2)), y + 2, d ? 6.5 : 4.5, d ? 9.5 : 7, d ? COL.aid_dark : COL.aid, 1.3);
+      });
+    }
+    return out;
+  }
+
+  function neckAid(g, b) {
+    if (b.neck !== 'chew') return '';
+    return line('M' + pt(-7, g.sh - 2) + ' Q' + pt(-6, g.sh + 12) + ' ' + pt(0, g.sh + 17) + ' Q' + pt(6, g.sh + 12) + ' ' + pt(7, g.sh - 2), 1.1) +
+      shape('M' + pt(-4, g.sh + 17) + ' a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 Z M' + pt(-1.6, g.sh + 17) + ' a1.6 1.6 0 1 1 3.2 0 a1.6 1.6 0 1 1 -3.2 0 Z', COL.chew, 1.1);
+  }
+
+  /* The things held, drawn in front of the body and behind the hands, so a
+     hand closes on its handle. */
+  function handAids(g, b) {
+    var out = '', h = b.hands;
+    var L = g.arm['-1'].R, R = g.arm['1'].R;
+    if (h === 'cane') {
+      out += tube('M' + pt(R[0] - 5, R[1] - 3) + ' Q' + pt(R[0] - 4, R[1] - 9) + ' ' + pt(R[0] + 2, R[1] - 7) + ' L' + pt(R[0] + 3, g.sole), 2.6, COL.aid_dark);
+    } else if (h === 'white') {
+      var tip = [R[0] + 24, g.sole];
+      var red = lerp([R[0] + 1, R[1]], tip, .82);
+      out += tube(open([[R[0] + 1, R[1]], red]), 2.2, COL.white_cane) + tube(open([red, tip]), 2.2, COL.cane_tip);
+    } else if (h === 'crutches') {
+      [-1, 1].forEach(function (s) {
+        var A = armLine(g, s), cuff = lerp(A[1], A[2], .42), hand = A[2];
+        out += tube(open([[cuff[0] + s * 2, cuff[1]], [hand[0] + s * 3, hand[1] - 2], [hand[0] + s * 6, g.sole]]), 2.4, COL.aid);
+        out += line('M' + pt(cuff[0] - s * 1, cuff[1] - 4) + ' q' + f(s * 6) + ' 1 ' + f(s * 6) + ' 6', 2, INK);
+      });
+    } else if (h === 'walker') {
+      var x = R[0] + 3, low = g.sole;
+      out += tube(open([[-x, R[1] - 2], [-x, low - 4]]) + ' ' + open([[x, R[1] - 2], [x, low - 4]]), 2.6, COL.aid);
+      out += tube(open([[-x, R[1] + 26], [x, R[1] + 26]]), 2.4, COL.aid);
+      out += dot(-x, low - 2, 3.4, COL.aid_dark, 1) + dot(x, low - 2, 3.4, COL.aid_dark, 1);
+    } else if (h === 'aac') {
+      var cx = 0, cy = L[1] - 3;
+      out += '<rect x="' + f(CX - 17) + '" y="' + f(cy - 11) + '" width="34" height="24" rx="3" fill="' + COL.aid_dark + '" stroke="' + INK + '" stroke-width="1.3"/>';
+      out += '<rect x="' + f(CX - 14.5) + '" y="' + f(cy - 8.5) + '" width="29" height="19" rx="1.5" fill="' + COL.screen + '"/>';
+      for (var i = 0; i < 6; i++) {
+        out += '<rect x="' + f(CX - 13 + (i % 3) * 9.5) + '" y="' + f(cy - 7 + Math.floor(i / 3) * 8.5) + '" width="7" height="6.5" rx="1.2" fill="' + ['#E5432F', '#F2A900', '#2BC4C0', '#7B3FC4', '#9BD93A', '#FF7F66'][i] + '"/>';
+      }
+    }
+    return out;
+  }
+
+  function fidget(g, b) {
+    if (b.hands !== 'fidget') return '';
+    var R = g.arm['-1'].R, x = -R[0], y = R[1] + 4, out = '';
+    [0, 1, 2].forEach(function (i) {
+      var a = -Math.PI / 2 + i * Math.PI * 2 / 3;
+      out += dot(x + Math.cos(a) * 4.2, y + Math.sin(a) * 4.2, 2.8, '#2BC4C0', 1);
+    });
+    return out + dot(x, y, 2, COL.aid_dark, .8);
+  }
+
+  /* ── The chair ───────────────────────────────────────────────────────── */
+  function chairBack(g) {
+    if (!g.seated) return '';
+    var out = '', w = g.S + 3;
+    if (g.pose === 'wheelchair') {
+      out += tube(open([[-w + 1, g.hip], [-w + 1, g.sh - 8], [-w - 4, g.sh - 10]]) + ' ' + open([[w - 1, g.hip], [w - 1, g.sh - 8], [w + 4, g.sh - 10]]), 2.6, COL.chair);
+      out += shape(poly([[-w, g.pit - 6], [w, g.pit - 6], [w, g.hip], [-w, g.hip]]), COL.chair, 1.2);
+    } else {
+      var bx = g.H + 10, y = g.sole + 2;
+      out += shape('M' + pt(-w - 2, g.sh - 2) + ' Q' + pt(0, g.sh - 10) + ' ' + pt(w + 2, g.sh - 2) + ' L' + pt(w + 2, g.hip + 4) + ' L' + pt(-w - 2, g.hip + 4) + ' Z', COL.chair, 1.2);
+      out += shape(poly([[-bx, g.hip + 10], [bx, g.hip + 10], [bx + 2, y - 10], [-bx - 2, y - 10]]), COL.chair, 1.3);
+      [-1, 1].forEach(function (s) {
+        out += oval(s * (bx + 2), y - 16, 7, 18, COL.aid_dark, 1.3) + oval(s * (bx + 2), y - 16, 3.5, 12, COL.chair_light, .8);
+      });
+    }
+    return out;
+  }
+
+  function chairFront(g) {
+    if (!g.seated) return '';
+    var out = '', y = g.sole + 2;
+    if (g.pose === 'wheelchair') {
+      var wx = g.H + 15, cy = g.hip + 18;
+      [-1, 1].forEach(function (s) {
+        out += oval(s * wx, cy, 10, 47, COL.chair, 1.3) + oval(s * wx, cy, 6, 42, COL.chair_light, 1) + oval(s * (wx + 6.5), cy, 2.4, 38, 'none', 1.6);
+        out += tube(open([[s * (g.H + 4), g.hip + 4], [s * (g.kx + 6), y - 4]]), 1.8, COL.chair);
+        out += dot(s * (g.kx + 8), y + 2, 3.6, COL.chair, 1.1);
+      });
+      out += shape(poly([[-g.kx - 11, y - 3], [g.kx + 11, y - 3], [g.kx + 11, y + 1], [-g.kx - 11, y + 1]]), COL.chair_light, 1.1);
+    } else {
+      var bx = g.H + 10;
+      [-1, 1].forEach(function (s) {
+        out += shape(poly([[s * (g.H + 2), g.hip - 6], [s * (g.H + 14), g.hip - 6], [s * (g.H + 14), g.hip], [s * (g.H + 2), g.hip]]), COL.chair, 1.1);
+      });
+      out += '<rect x="' + f(CX + g.H + 6) + '" y="' + f(g.hip - 14) + '" width="9" height="7" rx="1.5" fill="' + COL.aid_dark + '" stroke="' + INK + '" stroke-width="1"/>';
+      out += line(open([[g.H + 10.5, g.hip - 14], [g.H + 10.5, g.hip - 19]]), 1.6) + dot(g.H + 10.5, g.hip - 20, 1.8, INK);
+      out += shape(poly([[-g.kx - 11, y - 3], [g.kx + 11, y - 3], [g.kx + 11, y + 1], [-g.kx - 11, y + 1]]), COL.chair_light, 1.1);
+    }
+    return out;
+  }
+
+  /* ── The legs and arms, in skin ──────────────────────────────────────── */
+  function legs(g, b, skin) {
+    var out = '';
+    [-1, 1].forEach(function (s) {
+      if (b.limbs === 'leg' && s === -1) {
+        // The thigh in skin, then the socket, the pylon and the foot.
+        var thigh = legOutline(g, s, 0, g.knee + (g.seated ? 4 : 2), 0, 1);
+        out += shape(poly(thigh), skin);
+        var x = s * (g.seated ? g.kx : (g.kx + g.ax) / 2);
+        out += shape(poly([[x - 6, g.knee - 2], [x + 6, g.knee - 2], [x + 4.5, g.knee + 12], [x - 4.5, g.knee + 12]]), COL.aid_dark, 1.2);
+        out += tube(open([[x, g.knee + 12], [s * g.ax, g.ankle]]), 2.6, COL.aid);
+      } else {
+        out += shape(poly(legOutline(g, s, 0, g.ankle, 0, 1)), skin);
+      }
+      out += oval(s * g.fx, g.sole - 3.5, 8, 4.5, b.limbs === 'leg' && s === -1 ? COL.aid : skin, 1.2);
+    });
+    return out;
+  }
+
+  function armsSkin(g, b, skin) {
+    var out = '';
+    [-1, 1].forEach(function (s) {
+      var A = armLine(g, s), w = armWidths(g);
+      if (s === -1 && b.limbs === 'arm-short') {
+        var u = upTo(A, w, .78), end = u.p[u.p.length - 1];
+        out += shape(limbPath(g, s, u.p, u.w), skin) + dot(end[0], end[1], u.w[u.w.length - 1], skin, 1.2);
+        return;
+      }
+      if (s === -1 && b.limbs === 'arm') {
+        var half = upTo(A, w, .62);
+        out += shape(limbPath(g, s, half.p, half.w), skin);
+        var rest = [half.p[half.p.length - 1], A[2]];
+        out += shape(poly(strip(rest, [half.w[half.w.length - 1] - .5, w[2]])), COL.aid);
+        return;
+      }
+      out += shape(limbPath(g, s, A, w), skin);
+    });
+    return out;
+  }
+
+  function hands(g, b, skin) {
+    var out = '';
+    [-1, 1].forEach(function (s) {
+      if (s === -1 && b.limbs === 'arm-short') return;
+      var A = armLine(g, s), R = A[2], E = A[1];
+      var d = dist(E, R) || 1, k = 4 / d;
+      var c = [R[0] + (R[0] - E[0]) * k, R[1] + (R[1] - E[1]) * k];
+      var colour = s === -1 && b.limbs === 'arm' ? COL.aid : skin;
+      out += dot(c[0], c[1], g.a * .82, colour, 1.2);
+      if (s === -1 && b.limbs === 'arm') out += line(open([[c[0] - 2, c[1] + 1], [c[0] + 2, c[1] + 1]]), .8);
+      if (b.marks.indexOf('vitiligo') !== -1 && colour === skin) out += dot(c[0] + s * 1.5, c[1] - 1.5, g.a * .34, COL.vitiligo);
+    });
+    return out;
+  }
+
+  /* ── Patterns ────────────────────────────────────────────────────────── */
+  function pattern(id, piece, scale) {
+    var tile = (DATA.prints || {})[piece[1]], cw = (DATA.colourways || {})[piece[2]];
+    if (!tile || !cw) return '';
+    var inks = cw.inks, n = inks.length, rest = n > 1 ? inks.slice(1) : inks, v = [], i;
+    v.push('--g:' + inkColour(inks[0]));
+    for (i = 0; i < 6; i++) v.push('--c' + (i + 1) + ':' + inkColour(inks[i % n]));
+    for (i = 0; i < 5; i++) v.push('--f' + (i + 1) + ':' + inkColour(rest[i % rest.length]));
+    return '<pattern id="' + id + '" patternUnits="userSpaceOnUse" width="' + tile[0] + '" height="' + tile[1] + '"' +
+      (scale !== 1 ? ' patternTransform="scale(' + scale + ')"' : '') + ' style="' + v.join(';') + '">' + tile[2] + '</pattern>';
+  }
+
+  /* ── Putting it together ─────────────────────────────────────────────── */
+  function drawBodymind(look, p) {
+    var b = look.body, wear = look.wear || {};
+    var g = geometry(b);
+    g.short = b.limbs === 'arm-short';
+    var skin = COL.skin[b.skin], hair = COL.hair[b.hairColour];
+    var c = { p: p, layer: b.layer, f: function (slot) { return 'url(#' + p + '-' + slot + ')'; } };
+    var worn = {};
+    DATA.slots.forEach(function (slot) {
+      var piece = wear[slot];
+      worn[slot] = piece ? (BODY_WEAR[piece[0]] ? BODY_WEAR[piece[0]](g, c) : {}) : {};
+    });
+    var under = underneath(g, c, wear);
+    var wig = wear.head && wear.head[0] === 'wig';
+    var hairParts = wig ? {} : (HAIR[b.hair] ? HAIR[b.hair](g, hair) : {});
+    var L = [];
+    // Behind everything: the chair's back, long hair, a hood, the inside of a cape.
+    var big = function (x) { return x ? '<g transform="translate(' + f(CX) + ' ' + f(g.y0) + ') scale(' + HEAD + ') translate(' + f(-CX) + ' ' + f(-g.y0) + ')">' + x + '</g>' : ''; };
+    L.push(chairBack(g));
+    L.push(big((hairParts.back || '') + (worn.outer.hood || '') + (worn.head.back || '')));
+    L.push(worn.outer.back || '');
+    // The body.
+    L.push(legs(g, b, skin));
+    L.push(under.feet, worn.feet.feet || '');
+    L.push(under.bottom, worn.bottom.body || '');
+    L.push(shape(bodice(g, 0, g.seated ? g.hip + 4 : g.hip + 8, 'crew'), skin));
+    L.push('<rect x="' + f(CX - 6.5) + '" y="' + f(g.chin - 6) + '" width="13" height="' + f(g.sh - g.chin + 8) + '" fill="' + skin + '" stroke="' + INK + '" stroke-width="1.2"/>');
+    L.push(chairFront(g));
+    L.push(under.body, worn.top.body || '', worn.outer.body || '');
+    L.push(neckAid(g, b));
+    L.push(armsSkin(g, b, skin));
+    L.push(under.sleeves, worn.top.sleeves || '', worn.outer.sleeves || '');
+    L.push(worn.outer.top || '', worn.boa.top || '', worn.scarf.top || '');
+    // The head.
+    var head = '';
+    [-1, 1].forEach(function (s) { head += oval(s * g.rx, g.y0 + 2, 3.6, 5.6, skin, 1.2); });
+    head += shape(facePath(g, b.face), skin) + marks(g, b) + features(g, b, skin) + beard(g, b, hair) + mouth(g, b) +
+      headAids(g, b) + (hairParts.front || '') + earAids(g, b) + (worn.head.top || '');
+    L.push(big(head));
+    // In front: what is held, and the hands holding it.
+    L.push(handAids(g, b));
+    L.push(hands(g, b, skin));
+    L.push(fidget(g, b));
+    var defs = '';
+    DATA.slots.forEach(function (slot) { if (wear[slot]) defs += pattern(p + '-' + slot, wear[slot], .5); });
+    return { defs: defs, art: L.join(''), g: g };
+  }
+
+  function drawStand(look, p) {
+    var wear = look.wear || {}, art = DATA.stand.wood, defs = '';
+    DATA.stand.paint.forEach(function (slot) {
+      var piece = wear[slot];
+      if (!piece) return;
+      var cut = DATA.stand.cuts[piece[0]];
+      if (cut) art += cut.split('@P@').join(p);
+      defs += pattern(p + '-' + slot, piece, 1);
+    });
+    return { defs: defs, art: art };
+  }
+
+  /* The whole picture as a string. crop 'bust' frames the head and shoulders,
+     for a small round picture beside a name; anything else is the whole of it. */
+  function svg(look, opts) {
+    opts = opts || {};
+    var lk = clean(look);
+    if (!lk) return '';
+    var p = 'lav' + (++seq), d, vb;
+    if (lk.base === 'stand') {
+      d = drawStand(lk, p);
+      vb = opts.crop === 'bust' ? '100 20 200 200' : '20 20 360 580';
+    } else {
+      d = drawBodymind(lk, p);
+      var y0 = d.g.y0;
+      vb = opts.crop === 'bust' ? '38 ' + f(y0 - 52) + ' 124 124' : '0 0 200 300';
+    }
+    // ITS OWN GROUND, when asked for: the curtain of the booth a bodymind was
+    // drawn in, or the wall of the Den the stand stands in, the way an animal
+    // is drawn on the ground it was found on. Both are those rooms' own :root
+    // colours, which reach every page and the radio's shadow root.
+    var ground = '';
+    if (opts.ground) {
+      var v = vb.split(' ').map(Number);
+      ground = '<rect x="' + v[0] + '" y="' + v[1] + '" width="' + v[2] + '" height="' + v[3] + '" fill="' +
+        (lk.base === 'stand' ? 'var(--dd-wall, ' + DATA.ground.stand + ')' : 'var(--bmb-curtain, ' + DATA.ground.bodymind + ')') + '"/>';
+    }
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + vb + '"' + (opts.cls ? ' class="' + opts.cls + '"' : '') +
+      ' aria-hidden="true" focusable="false"><defs>' + d.defs + '</defs>' + ground + d.art + '</svg>';
+  }
+
+  /* The picture as an element, for a page. */
+  function draw(look, opts) {
+    var s = svg(look, opts);
+    if (!s || typeof DOMParser === 'undefined') return null;
+    var doc = new DOMParser().parseFromString(s, 'image/svg+xml');
+    var node = doc.documentElement;
+    if (!node || node.nodeName !== 'svg') return null;
+    return document.importNode(node, true);
+  }
+
+  /* ── Checking a look ─────────────────────────────────────────────────── */
+  function own(o, k) { return typeof k === 'string' && Object.prototype.hasOwnProperty.call(o, k); }
+  /* A look with nothing in it that is not on the lists, or null. The server's
+     cleanLook() in netlify/cb/lib.mjs holds the same rules against the same
+     generated keys, and tools/avatar.test.mjs checks the two agree. */
+  function clean(look) {
+    if (!look || typeof look !== 'object') return null;
+    var out = { base: look.base };
+    if (look.base !== 'stand' && look.base !== 'bodymind') return null;
+    if (look.base === 'bodymind') {
+      var b = look.body;
+      if (!b || typeof b !== 'object') return null;
+      out.body = {};
+      for (var i = 0; i < DATA.body.groups.length; i++) {
+        var grp = DATA.body.groups[i], keys = grp.options.map(function (o) { return o[0]; });
+        var v = b[grp.key];
+        if (grp.multi) {
+          if (!Array.isArray(v)) return null;
+          for (var j = 0; j < v.length; j++) if (keys.indexOf(v[j]) === -1) return null;
+          out.body[grp.key] = keys.filter(function (k) { return v.indexOf(k) !== -1; });
+        } else {
+          if (keys.indexOf(v) === -1) return null;
+          out.body[grp.key] = v;
+        }
+      }
+      if (out.body.pose !== 'standing') {
+        for (var k in STANDING_ONLY) if (STANDING_ONLY[k].indexOf(out.body[k]) !== -1) return null;
+      }
+    }
+    var wear = look.wear || {};
+    if (typeof wear !== 'object' || Array.isArray(wear)) return null;
+    out.wear = {};
+    for (var slot in wear) {
+      if (!Object.prototype.hasOwnProperty.call(wear, slot)) continue;
+      var piece = wear[slot];
+      if (piece == null) continue;
+      if (!own(DATA.garments, slot) || !Array.isArray(piece) || piece.length !== 3) return null;
+      if (DATA.garments[slot].indexOf(piece[0]) === -1 || !own(DATA.prints, piece[1]) || !own(DATA.colourways, piece[2])) return null;
+      out.wear[slot] = [piece[0], piece[1], piece[2]];
+    }
+    return out;
+  }
+
+  /* ── Words, for the owner ────────────────────────────────────────────── */
+  function label(key, value) {
+    var grp = DATA.body.groups.filter(function (x) { return x.key === key; })[0];
+    var o = grp && grp.options.filter(function (x) { return x[0] === value; })[0];
+    return o ? o[1] : '';
+  }
+  function lower(s) { return s ? s.charAt(0).toLowerCase() + s.slice(1) : s; }
+  function and(list) {
+    if (list.length < 2) return list.join('');
+    return list.slice(0, -1).join(', ') + ' and ' + list[list.length - 1];
+  }
+  function a(s) { return (/^[aeiou]/i.test(s) ? 'an ' : 'a ') + s; }
+  function between(s) { return s === 'In between' ? 'in-between' : lower(s); }
+
+  /* The pieces put on, in the Dress-Up Den's own words. */
+  function wearWords(look) {
+    var lk = clean(look);
+    if (!lk) return '';
+    var parts = [];
+    DATA.slots.forEach(function (slot) {
+      var p = lk.wear[slot];
+      if (!p) return;
+      var named = DATA.names[p[0]], cw = DATA.colourways[p[2]];
+      parts.push(p[1] === 'solid' ? named + ' in plain ' + DATA.inkNames[cw.inks[0]] : named + ' ' + DATA.printA[p[1]] + ', ' + cw.name);
+    });
+    if (parts.length > 1) parts[parts.length - 1] = 'and ' + parts[parts.length - 1];
+    return parts.join('; ');
+  }
+
+  /* A bodymind in words, read back to the person choosing it, in the booth,
+     and nowhere else. Nothing here is said about anybody but to them. */
+  function words(look) {
+    var lk = clean(look);
+    if (!lk) return '';
+    var on = wearWords(lk);
+    if (lk.base === 'stand') return on ? 'On the stand: ' + on + '.' : 'The stand is bare.';
+    var b = lk.body, out = [];
+    out.push(label('pose', b.pose) + '.');
+    out.push((b.height === 'middling' ? 'In between in height' : label('height', b.height)) + ', with ' + between(label('shoulders', b.shoulders)) +
+      ' shoulders, ' + a(lower(label('middle', b.middle))) + ' middle and ' + between(label('hips', b.hips)) + ' hips.');
+    var skin = /^t\d/.test(b.skin) ? 'Skin ' + lower(label('skin', b.skin)) : label('skin', b.skin) + ' skin';
+    out.push(skin + (b.marks.length ? ', with ' + and(b.marks.map(function (m) { return lower(label('marks', m)); })) : '') + '.');
+    var face = a(lower(label('face', b.face))) + ' face, eyes ' + lower(label('eyes', b.eyes)) + ', ' + lower(label('brows', b.brows)) +
+      ' brows, ' + a(lower(label('nose', b.nose))) + ' nose, mouth ' + lower(label('mouth', b.mouth));
+    out.push(face.charAt(0).toUpperCase() + face.slice(1) + (b.beard !== 'none' ? ', and ' + lower(label('beard', b.beard)) : '') + '.');
+    out.push(b.hair === 'bald' ? 'No hair.' : 'Hair: ' + lower(label('hair', b.hair)) + ', ' + lower(label('hairColour', b.hairColour)) + '.');
+    var aids = ['eyewear', 'ears', 'faceAid', 'hands', 'neck', 'limbs'].filter(function (k) { return b[k] !== 'none' && b[k] !== 'as-drawn'; })
+      .map(function (k) { var s = label(k, b[k]); return /^AAC|^An AAC/.test(s) ? s.replace(/^An/, 'an') : lower(s); });
+    if (aids.length) out.push('Always with you: ' + and(aids) + '.');
+    out.push(on ? 'Wearing ' + on + '.' : 'Underneath, plain ' + DATA.inkNames[b.layer] + '.');
+    return out.join(' ');
+  }
+
+  /* ── A look in an address, for walking it next door ──────────────────── */
+  /* The booth hands a bodymind to the Dress-Up Den in the address's fragment,
+     which never reaches any server. */
+  function b64url(s) {
+    var bin = unescape(encodeURIComponent(s));
+    var out = typeof btoa === 'function' ? btoa(bin) : Buffer.from(bin, 'binary').toString('base64');
+    return out.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function unb64url(s) {
+    var t = s.replace(/-/g, '+').replace(/_/g, '/');
+    var bin = typeof atob === 'function' ? atob(t) : Buffer.from(t, 'base64').toString('binary');
+    return decodeURIComponent(escape(bin));
+  }
+  function code(look) { var lk = clean(look); return lk ? b64url(JSON.stringify(lk)) : ''; }
+  function uncode(s) {
+    if (typeof s !== 'string' || !/^[A-Za-z0-9_-]{8,4000}$/.test(s)) return null;
+    try { return clean(JSON.parse(unb64url(s))); } catch (e) { return null; }
+  }
+
+  /* A bodymind at random, for the booth to open on, so that no body is the one
+     it starts from. Only the shape, skin, face and hair are drawn at random;
+     nothing you always have with you is ever handed to you. */
+  function random(rnd) {
+    rnd = rnd || Math.random;
+    var b = {};
+    DATA.body.groups.forEach(function (grp) {
+      var keys = grp.options.map(function (o) { return o[0]; });
+      if (grp.multi) { b[grp.key] = []; return; }
+      b[grp.key] = DATA.body.random.indexOf(grp.key) !== -1 ? keys[Math.floor(rnd() * keys.length)] : keys[0];
+    });
+    return { base: 'bodymind', body: b, wear: {} };
+  }
+
+  if (DATA.body) STANDING_ONLY = DATA.body.standingOnly || {};
+
+  root.loveAvatar = {
+    svg: svg, draw: draw, clean: clean, words: words, wearWords: wearWords,
+    code: code, uncode: uncode, random: random, data: DATA,
+    // For tools/avatar.test.mjs: which garments this file can put on a body.
+    _bodyWear: Object.keys(BODY_WEAR), _hair: Object.keys(HAIR)
+  };
+})(typeof window !== 'undefined' ? window : globalThis);

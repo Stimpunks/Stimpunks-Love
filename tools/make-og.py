@@ -1013,6 +1013,22 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--dressup .og-stand {{ flex: 0 0 396px; align-self: flex-end; margin: 0 !important; line-height: 0; }}
 .og--dressup .og-stand svg {{ display: block; width: 396px; height: auto; max-height: none; }}
 
+/* the bodymind booth — THE LAMP BOX, AND THE EMPTY BOOTH. The page's own sign
+   and its own drawing of the booth, lifted rather than redrawn: the curtain
+   half drawn, the stool empty, and a strip of four frames out of the slot with
+   nobody in them. No body on the card, because a card is a picture of the room
+   and a body here is only ever somebody's own; the words stand on the curtain
+   under the lamp box, and the lede is the page's og:description. */
+.og--booth {{ width: 100%; flex-direction: row; align-items: center; padding: 30px 46px 26px 58px; gap: 30px; }}
+.og--booth .og-words {{ flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; margin: 0 !important; }}
+.og--booth .bmb-sign {{ margin: 0 !important; }}
+.og--booth .bmb-over {{ font-size: 16px; }}
+.og--booth h1 {{ font-size: 78px; line-height: 1.02; margin: 4px 0 0 !important; }}
+.og--booth .bmb-tag {{ font-size: 27px; margin: 18px 0 0 !important; }}
+.og--booth .og-lede {{ font-family: 'Host Grotesk', sans-serif; color: var(--bmb-ink); font-size: 22px; line-height: 1.42; margin: 16px 0 0 !important; max-width: 700px; }}
+.og--booth .og-booth {{ flex: 0 0 360px; margin: 0 !important; line-height: 0; }}
+.og--booth .og-booth svg {{ display: block; width: 360px; height: auto; max-width: none; }}
+
 /* the community center — THE LETTERBOARD AND THE RADIO ON THE BLUE WALL.
    The wall and its bars of sun come from the room's own body rule, so the card
    is lit through the same blind as the hall. The letterboard is the page's own
@@ -3841,6 +3857,34 @@ def card_dressup(p):
     )
 
 
+def card_booth(p):
+    # THE SIGN'S LINES AND THE DRAWING OF THE BOOTH ARE LIFTED FROM THE PAGE,
+    # and the lede is its og:description, so the card cannot say what the room
+    # does not.
+    over = re.search(r'<p class="bmb-over">(.*?)</p>', p["src"], re.S)
+    tag = re.search(r'<p class="bmb-tag">(.*?)</p>', p["src"], re.S)
+    if not over or not tag:
+        raise SystemExit(
+            "REFUSING: bodymind-booth.html has lost the line over its name or its\n"
+            "tagline, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--booth" data-fit="card">'
+        f'<div class="og-words"><header class="bmb-sign"><div class="bmb-lamp"><p class="bmb-over">{over.group(1).strip()}</p>'
+        f'{p["h1"]}</div><p class="bmb-tag">{tag.group(1).strip()}</p></header>'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-booth">{p["booth"]}</div>'
+        f'</div>',
+        f"A tangerine card in soft vertical folds, like a curtain, lit brighter at both edges. A cream "
+        f"lamp box outlined in near-black holds small capitals reading {plain(over.group(1))}, and "
+        f"\u201c{p['h1text']}\u201d in a dark, rounded script. Under it: {plain(tag.group(1))} Then: "
+        f"{p['desc_plain']} On the right, a photo booth of cream enamel with a lamp box on top, its "
+        f"tangerine curtain drawn back to show two strip lights and an empty round stool, a coin slot "
+        f"on its side, and a strip of four frames sticking out of its slot with nobody in any of them.",
+    )
+
+
 def card_library(p):
     # THE HEADER AND THE DRAWING ARE LIFTED WHOLE, so the card cannot show a
     # reading room the page has not got, or a lintel with different words on it.
@@ -5096,6 +5140,7 @@ CARDS = {
     "room-lspace":  card_lspace,
     "room-oook":    card_oook,
     "dressup":      card_dressup,
+    "bodymind-booth": card_booth,
     "collections":  card_collection,
     "mapping":      card_map,
     "dead-tired":   card_dead_tired,
@@ -5222,6 +5267,7 @@ def main():
         ("shelf",    "vital-plant-living.html", r'(<svg class="vpl-shelf-art".*?</svg>)'),
         ("radio",    "community-center.html", r'(<svg class="ctr-desk__radio".*?</svg>)'),
         ("stand",    "dopamine-dress-up-den.html", r'(<svg class="dd-stand".*?</svg>)'),
+        ("booth",    "bodymind-booth.html", r'(<svg class="bmb-booth".*?</svg>)'),
         ("gallery",  "collection-collection.html", r'(<svg class="cc-gallery".*?</svg>)'),
         ("stage",    "laughingstock.html", r'(<svg class="ls-stage".*?</svg>)'),
         ("house",    "lightbulb-picture-house.html", r'(<svg class="lph-auditorium".*?</svg>)'),

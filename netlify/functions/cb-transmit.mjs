@@ -1,11 +1,11 @@
 /* The CB: keying up. One message onto the channel the radio is tuned to, the
    World's or a room's; the eleventh pushes the oldest off, and takes its
    picture with it. A message may be words, a picture sent first to
-   /cb/image, or both; or a sticker of one of the sender's own pets, with
-   words or without. */
+   /cb/image, or both; or a sticker of one of the sender's own pets or own
+   avatars, with words or without. */
 import { randomUUID } from 'node:crypto';
 import { readPass, updateTuned, roomTag, roomAllows, cleanMessage, cleanAlt, shape, json, body, sameSite, MESSAGE_MAX,
-  imageId, getImage, dropImages, droppedImages, stickerOf } from '../cb/lib.mjs';
+  imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
@@ -33,14 +33,22 @@ export default async (req) => {
     sticker = await stickerOf(who.handle, b.sticker);
     if (!sticker) return json(400, { error: 'That is not one of your pets.' });
   }
+  // An avatar sticker is one of this handle's own avatars, found the same way.
+  let avatar = null;
+  if (b.avatar != null) {
+    if (img || sticker) return json(400, { error: 'A message is one picture or one sticker, not two.' });
+    avatar = await avatarSticker(who.handle, b.avatar);
+    if (!avatar) return json(400, { error: 'That is not one of your avatars.' });
+  }
   const text = b.text == null || b.text === '' ? '' : cleanMessage(b.text);
-  if (text === null || (!text && !img && !sticker)) return json(400, { error: `A message is between one and ${MESSAGE_MAX} characters, or a picture, or a sticker.` });
+  if (text === null || (!text && !img && !sticker && !avatar)) return json(400, { error: `A message is between one and ${MESSAGE_MAX} characters, or a picture, or a sticker.` });
   // CLAIMED is read off the pass, like BASE, and never off the request: a
   // message says it came from a claimed username only because readPass found
   // that username's own account behind the pass that sent it.
   const msg = { id: randomUUID(), handle: who.handle, text, t: Date.now(), base: who.role === 'base', claimed: !!who.account };
   if (img) { msg.img = img; msg.alt = cleanAlt(b.alt); }
   if (sticker) msg.sticker = sticker;
+  if (avatar) msg.avatar = avatar;
   try {
     let seen = [];
     const messages = await updateTuned(room, (list) => {

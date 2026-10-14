@@ -260,6 +260,12 @@
    "about": "A boutique on the street for dopamine dressing, Helen Edgar's idea. Put an outfit together on a valet stand out of rails of Thai fisherman pants, haori, button-downs, beanies, cardigans, flowing dresses, capes, sequins and a feather boa, in any print and any colours. Nothing has to go with anything, nothing comes in a size, and black is a colour too."
   },
   {
+   "tag": "bodymind-booth",
+   "name": "The Bodymind Booth",
+   "path": "/bodymind-booth.html",
+   "about": "A photo booth on the street with no camera in it, next door to the Dopamine Dress-Up Den. Draw your bodymind: how you get about, your shape, your skin, your face, your hair, and everything you always have with you, chairs, canes, hearing aids and all. Then dress it next door, keep it as an avatar in your Profile on the CB, wear one beside your name on Who's online, and send it as a sticker. No body comes first, and nothing here takes your picture."
+  },
+  {
    "tag": "plural-mural",
    "name": "Plural Mural",
    "path": "/plural-mural.html",
@@ -695,7 +701,7 @@
    "tag": "cb-guide",
    "name": "The CB guide",
    "path": "/cb-guide.html",
-   "about": "The CB, the street’s radio, part by part: the guest bar and signing on, the bar and its sizes, World and room channels, reading and writing messages, reactions, pictures, the teleporter, watching films together, calls, Profile and pets, and what it keeps."
+   "about": "The CB, the street’s radio, part by part: the guest bar and signing on, the bar and its sizes, World and room channels, reading and writing messages, reactions, pictures, the teleporter, watching films together, calls, Profile, avatars and pets, and what it keeps."
   },
   {
    "tag": "changelog",

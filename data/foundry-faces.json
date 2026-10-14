@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-10-13",
+ "_checked": "2026-10-14",
  "faces": {
   "abril-fatface": {
    "family": "Abril Fatface",
@@ -1798,6 +1798,29 @@
     }
    ]
   },
+  "host-grotesk": {
+   "family": "Host Grotesk",
+   "category": "Sans Serif",
+   "designer": "Element Type, Doğukan Karapınar, İbrahim Kaçtıoğlu",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/hostgrotesk",
+   "copyright": "Copyright 2023 The Host Grotesk Project Authors (https://github.com/Element-Type/HostGrotesk)",
+   "repository": "https://github.com/Element-Type/HostGrotesk",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "host-grotesk-400.woff2",
+     "sha": "5662dcd15d8c7dc5"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "host-grotesk-400.woff2",
+     "sha": "5662dcd15d8c7dc5"
+    }
+   ]
+  },
   "ibm-plex-mono": {
    "family": "IBM Plex Mono",
    "category": "Monospace",
@@ -2787,6 +2810,23 @@
      "style": "normal",
      "file": "old-standard-tt-700.woff2",
      "sha": "b57915f2b753b4dc"
+    }
+   ]
+  },
+  "oleo-script": {
+   "family": "Oleo Script",
+   "category": "Display",
+   "designer": "soytutype fonts",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/oleoscript",
+   "copyright": "Copyright (c) 2012, Soytutype (contact@soytutype.com.ar|soytutype@gmail.com), with reserved fontname 'Oleo'",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "oleo-script-400.woff2",
+     "sha": "09d4ac4267afa74c"
     }
    ]
   },

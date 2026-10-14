@@ -930,7 +930,7 @@
     picFile.addEventListener('change', function () { me.pickPicture(picFile.files && picFile.files[0]); });
     var stickBtn = this.stickBtn = el('button', 'cb-btn cb-stick', 'Sticker');
     stickBtn.type = 'button';
-    stickBtn.setAttribute('aria-label', 'Send a sticker of one of your pets');
+    stickBtn.setAttribute('aria-label', 'Send a sticker of one of your avatars or pets');
     stickBtn.setAttribute('aria-expanded', 'false');
     stickBtn.setAttribute('aria-controls', 'cb-stickers');
     stickBtn.addEventListener('click', function () { me.setStickers(me.stickBox.hidden); });
@@ -1080,6 +1080,19 @@
     this.acctSaid.setAttribute('role', 'status');
     pets.appendChild(this.acctSaid);
 
+    /* YOUR AVATARS (Ryan, 2026-10-14): what you made at the Bodymind Booth or
+       put on the stand at the Dress-Up Den, kept here, one of them worn on the
+       CB, beside your name on Who's online. Read when the tray opens, never
+       polled, and drawn by avatar.js, loaded on the first. */
+    pets.appendChild(el('p', 'cb-pets__h', 'Your avatars'));
+    this.avState = el('p', 'cb-quiet', '');
+    pets.appendChild(this.avState);
+    this.avList = el('ul', 'cb-avatars__list');
+    this.avList.hidden = true;
+    pets.appendChild(this.avList);
+    this.avWhere = el('p', 'cb-pets__where');
+    pets.appendChild(this.avWhere);
+
     // Your pets.
     pets.appendChild(el('p', 'cb-pets__h', 'Your pets'));
     this.petsState = el('p', 'cb-quiet', '');
@@ -1097,10 +1110,10 @@
     pets.appendChild(forgetBtn);
     var sure = this.forgetSure = el('div', 'cb-forget-sure');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your pets and whether they are shown. They stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your pets and whether they are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
     var yes = el('button', 'cb-btn cb-forget-yes', 'Yes, forget me');
     yes.type = 'button';
-    var no = el('button', 'cb-btn', 'Keep my pets');
+    var no = el('button', 'cb-btn', 'Keep them');
     no.type = 'button';
     sure.appendChild(yes); sure.appendChild(no);
     pets.appendChild(sure);
@@ -1110,6 +1123,7 @@
     no.addEventListener('click', function () { sure.hidden = true; forgetBtn.hidden = false; forgetBtn.focus(); });
     yes.addEventListener('click', function () { me.forgetMe(); });
     window.addEventListener('love-pets', function () { if (!pets.hidden) me.loadPets(); });
+    window.addEventListener('love-avatars', function () { if (!pets.hidden) me.loadAvatars(); });
 
     var norms = el('p', 'cb-norms');
     var a = el('a', null, 'House norms at the Community Center');
@@ -1578,6 +1592,7 @@
       li.appendChild(md(said, m.text));
       if (m.img) li.appendChild(this.picture_(m));
       if (m.sticker) li.appendChild(sticker(m.sticker));
+      if (m.avatar) li.appendChild(avatarSticker(m.avatar));
       /* REACTIONS: who pressed what, by handle and never how many. Not read out
          as they change: the log is a live region, and a reaction landing is
          not a message, so this line is its own region with politeness off. */
@@ -1942,6 +1957,39 @@
     this.stickBtn.setAttribute('aria-expanded', String(!!open));
     if (!open) { box.textContent = ''; return; }
     box.textContent = '';
+    /* YOUR AVATARS FIRST, then your pets: each a button that sends a sticker
+       of it to the channel you are tuned to, straight away. */
+    var avSaid = el('p', 'cb-quiet', 'Fetching your avatars\u2026');
+    avSaid.setAttribute('role', 'status');
+    box.appendChild(avSaid);
+    withAvatar(function () {
+      call('/cb/avatars', null, me.state.pass).then(function (r) {
+        if (r.status === 401) return me.lost();
+        if (r.status !== 200 || !r.body.avatars) { avSaid.textContent = 'Your avatars could not be fetched just now.'; return; }
+        if (!r.body.avatars.length) {
+          avSaid.textContent = 'No avatars yet. Make one at the ';
+          var bth = el('a', null, 'Bodymind Booth'); bth.href = '/bodymind-booth.html';
+          avSaid.appendChild(bth); avSaid.appendChild(document.createTextNode('.'));
+          return;
+        }
+        avSaid.textContent = 'Press an avatar to send a sticker of it.';
+        var ul = el('ul', 'cb-stickers__list');
+        r.body.avatars.slice().reverse().forEach(function (a) {
+          var li = el('li');
+          var b = el('button', 'cb-stickers__pick');
+          b.type = 'button';
+          var art = window.loveAvatar.draw(a.look, { ground: true, cls: 'cb-stickers__art' });
+          if (art) b.appendChild(art);
+          b.appendChild(el('span', null, 'Send ' + (a.name || 'this avatar')));
+          b.addEventListener('click', function () { me.sendSticker(a.id, 'avatar'); });
+          li.appendChild(b);
+          ul.appendChild(li);
+        });
+        avSaid.after(ul);
+        var first = ul.querySelector('button');
+        if (first) first.focus();
+      }, function () { avSaid.textContent = 'Your avatars could not be fetched just now.'; });
+    });
     var said = el('p', 'cb-quiet', 'Fetching your pets\u2026');
     said.setAttribute('role', 'status');
     box.appendChild(said);
@@ -1969,14 +2017,14 @@
           ul.appendChild(li);
         });
         box.appendChild(ul);
-        var first = ul.querySelector('button');
-        if (first) first.focus();
+        if (!box.querySelector('.cb-stickers__pick')) { var first = ul.querySelector('button'); if (first) first.focus(); }
       }, function () { said.textContent = 'Your pets could not be fetched just now.'; });
     });
   };
 
-  Radio.prototype.sendSticker = function (id) {
-    var me = this, room = this.tunedRoom(), b = { sticker: id };
+  Radio.prototype.sendSticker = function (id, kind) {
+    var me = this, room = this.tunedRoom(), b = {};
+    b[kind === 'avatar' ? 'avatar' : 'sticker'] = id;
     if (room) b.room = room;
     this.tell('Sending the sticker\u2026');
     call('/cb/transmit', { body: b }, this.state.pass).then(function (r) {
@@ -2129,10 +2177,177 @@
     document.head.appendChild(s);
   }
 
+  /* avatar.js, loaded on the first avatar the radio has to draw. */
+  function withAvatar(then) {
+    if (window.loveAvatar) { then(); return; }
+    var s = document.querySelector('script[data-cb-avatar]');
+    if (!s) {
+      s = document.createElement('script');
+      s.src = '/avatar.js';
+      s.setAttribute('data-cb-avatar', '');
+      document.head.appendChild(s);
+    }
+    s.addEventListener('load', function () { if (window.loveAvatar) then(); });
+  }
+
+  /* An avatar on its own ground. What its owner wrote about it is what a
+     screen reader hears, and nothing else is ever said about it: the drawing
+     is silent when they wrote nothing. */
+  function avatarArt(look, about, cls, crop, whose) {
+    var wrap = el('span', cls);
+    var art = window.loveAvatar && window.loveAvatar.draw(look, { crop: crop, ground: true });
+    if (art) wrap.appendChild(art);
+    if (about) { wrap.setAttribute('role', 'img'); wrap.setAttribute('aria-label', (whose ? whose + ': ' : '') + about); }
+    else wrap.setAttribute('aria-hidden', 'true');
+    return wrap;
+  }
+
+  /* An AVATAR STICKER on a message: the drawing and, under it for everybody,
+     its name and what its owner wrote about it. */
+  function avatarSticker(st) {
+    var fig = el('figure', 'cb-sticker cb-sticker--avatar');
+    fig.appendChild(el('figcaption', null, (st.name || 'An avatar') + (st.about ? ': ' + st.about : '')));
+    withAvatar(function () {
+      var art = window.loveAvatar.draw(st.look, { ground: true, cls: 'cb-sticker__art' });
+      if (art) fig.insertBefore(art, fig.firstChild);
+    });
+    return fig;
+  }
+
+  Radio.prototype.loadAvatars = function () {
+    var me = this;
+    me.avState.hidden = false;
+    me.avState.textContent = 'Looking for your avatars\u2026';
+    withAvatar(function () {
+      call('/cb/avatars', null, me.state.pass).then(function (r) {
+        if (r.status === 200 && r.body.avatars) { me.drawAvatars(r.body); return; }
+        me.avState.textContent = r.status === 401
+          ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+          : 'Your avatars could not be fetched just now.';
+      }, function () { me.avState.textContent = 'Your avatars could not be fetched just now.'; });
+    });
+  };
+
+  Radio.prototype.avatarSend = function (body, said, done) {
+    var me = this;
+    return call('/cb/avatars', { body: body }, me.state.pass).then(function (r) {
+      if (r.status === 200 && r.body.avatars) { me.drawAvatars(r.body, done); return true; }
+      if (r.status === 401) { said.textContent = 'The password has changed since you signed on. Sign on again at the Community Center.'; return false; }
+      said.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.';
+      return false;
+    }, function () { said.textContent = 'The street could not be reached just now. Nothing changed.'; return false; });
+  };
+
+  /* YOUR AVATARS: each one drawn, named, with what you wrote about it; worn
+     on the CB or not (a claimed username only); named and described; taken
+     next door to be dressed, or back to the booth; and deleted, which asks
+     once more. The answer to a press goes on that avatar's own card. */
+  Radio.prototype.drawAvatars = function (b, told) {
+    var me = this, ul = this.avList, claimed = !!b.claimed;
+    ul.textContent = '';
+    var w = this.avWhere;
+    w.textContent = '';
+    w.appendChild(document.createTextNode('Make one at the '));
+    var booth = el('a', null, 'Bodymind Booth'); booth.href = '/bodymind-booth.html';
+    w.appendChild(booth);
+    w.appendChild(document.createTextNode(', or put an outfit on the stand at the '));
+    var den = el('a', null, 'Dopamine Dress-Up Den'); den.href = '/dopamine-dress-up-den.html';
+    w.appendChild(den);
+    w.appendChild(document.createTextNode(claimed
+      ? ', and keep it here. They are kept under your username, scrambled, and only your password reaches them. The one you wear is shown beside your name on Who\u2019s online, to anybody signed on to the CB.'
+      : ', and keep it here. They are kept under the handle ' + this.state.handle + ', scrambled. A handle is not an account: anybody who signs on with it sees them too. Claim your username above to wear one on the CB, beside your name on Who\u2019s online.'));
+    if (!b.avatars.length) {
+      ul.hidden = true;
+      this.avState.hidden = false;
+      this.avState.textContent = 'No avatars yet.';
+      return;
+    }
+    this.avState.hidden = true;
+    ul.hidden = false;
+    b.avatars.slice().reverse().forEach(function (a) {
+      var li = el('li', 'cb-avatar');
+      li.appendChild(avatarArt(a.look, a.about, 'cb-avatar__art', 'full'));
+      var words = el('div', 'cb-avatar__words');
+      words.appendChild(el('p', 'cb-pet__name', a.name || 'Not named'));
+      words.appendChild(el('p', 'cb-pet__about', a.about || 'Nothing written about it yet, so a screen reader hears nothing for it.'));
+      var worn = b.wearing === a.id;
+      if (worn) words.appendChild(el('p', 'cb-avatar__worn', 'Worn on the CB'));
+      var said = el('p', 'cb-quiet', ''); said.setAttribute('role', 'status');
+      var row = el('div', 'cb-acct__row');
+      if (claimed) {
+        var wear = el('button', 'cb-btn', worn ? 'Take it off the CB' : 'Wear it on the CB');
+        wear.type = 'button';
+        wear.setAttribute('aria-pressed', String(worn));
+        wear.addEventListener('click', function () {
+          wear.disabled = true;
+          me.avatarSend({ wear: worn ? null : a.id }, said, { id: a.id, said: worn ? 'Taken off: Who\u2019s online shows no avatar beside your name now.' : 'Worn: Who\u2019s online shows it beside your name now.' })
+            .then(function () { wear.disabled = false; });
+        });
+        row.appendChild(wear);
+      }
+      var name = el('button', 'cb-btn', 'Name it and say what it shows');
+      name.type = 'button';
+      row.appendChild(name);
+      var code = window.loveAvatar.code(a.look);
+      var dress = el('a', 'cb-btn', 'Dress it at the Den');
+      dress.href = '/dopamine-dress-up-den.html#avatar=' + encodeURIComponent(a.id) + '&look=' + code;
+      row.appendChild(dress);
+      if (a.look.base === 'bodymind') {
+        var change = el('a', 'cb-btn', 'Change it in the booth');
+        change.href = '/bodymind-booth.html#avatar=' + encodeURIComponent(a.id) + '&look=' + code;
+        row.appendChild(change);
+      }
+      var del = el('button', 'cb-btn', 'Delete it');
+      del.type = 'button';
+      row.appendChild(del);
+      words.appendChild(row);
+      var form = el('div', 'cb-acct__form'); form.hidden = true;
+      words.appendChild(form);
+      name.addEventListener('click', function () {
+        form.textContent = ''; form.hidden = false; name.hidden = true;
+        var n = field('Its name, for you', 'cb-av-name-' + a.id, 'text');
+        n.input.maxLength = 24; n.input.autocomplete = 'off'; n.input.value = a.name || '';
+        var t = field('What it shows, in your own words. This is all a screen reader hears for it, on Who\u2019s online and on a sticker.', 'cb-av-about-' + a.id, 'text');
+        t.input.maxLength = 280; t.input.autocomplete = 'off'; t.input.value = a.about || '';
+        form.appendChild(n.wrap); form.appendChild(t.wrap);
+        var go = el('button', 'cb-btn', 'Save'); go.type = 'button';
+        var keep = el('button', 'cb-btn', 'Leave it as it is'); keep.type = 'button';
+        form.appendChild(go); form.appendChild(keep);
+        n.input.focus();
+        keep.addEventListener('click', function () { form.hidden = true; name.hidden = false; name.focus(); });
+        go.addEventListener('click', function () {
+          go.disabled = true;
+          me.avatarSend({ edit: a.id, name: n.input.value, about: t.input.value }, said, { id: a.id, said: 'Saved.' })
+            .then(function () { go.disabled = false; });
+        });
+      });
+      var sure = el('div', 'cb-forget-sure'); sure.hidden = true;
+      sure.appendChild(el('p', null, worn ? 'This deletes it and takes it off the CB. It cannot be undone.' : 'This deletes it. It cannot be undone.'));
+      var yes = el('button', 'cb-btn', 'Yes, delete it'); yes.type = 'button';
+      var no = el('button', 'cb-btn', 'Keep it'); no.type = 'button';
+      sure.appendChild(yes); sure.appendChild(no);
+      words.appendChild(sure);
+      del.addEventListener('click', function () { sure.hidden = false; del.hidden = true; no.focus(); });
+      no.addEventListener('click', function () { sure.hidden = true; del.hidden = false; del.focus(); });
+      yes.addEventListener('click', function () {
+        yes.disabled = true;
+        me.avatarSend({ remove: a.id }, said, { said: 'Deleted.' }).then(function () { yes.disabled = false; });
+      });
+      words.appendChild(said);
+      if (told && told.id === a.id) { said.textContent = told.said; told.focus = (claimed && wear) || name; }
+      li.appendChild(words);
+      ul.appendChild(li);
+    });
+    if (told) {
+      if (told.focus) told.focus.focus();
+      else if (told.said) { this.avState.hidden = false; this.avState.textContent = told.said; }
+    }
+  };
+
   Radio.prototype.setPets = function (open) {
     this.petsPanel.hidden = !open;
     this.petsBtn.setAttribute('aria-expanded', String(!!open));
-    if (open) { this.loadAccount(); this.loadPets(); }
+    if (open) { this.loadAccount(); this.loadAvatars(); this.loadPets(); }
     else { this.forgetSure.hidden = true; this.forgetBtn.hidden = false; }
   };
 
@@ -2414,7 +2629,7 @@
     me.petsState.textContent = 'Forgetting\u2026';
     call('/cb/pets', { body: { forget: true } }, me.state.pass).then(function (r) {
       me.forgetSure.hidden = true; me.forgetBtn.hidden = false;
-      if (r.status === 200 && r.body.forgotten) { me.drawPets([]); me.drawShow({ claimed: /^cb2\./.test(me.state.pass), shown: false }); me.petsState.textContent = 'Forgotten. The street keeps nothing under this handle now.'; me.forgetBtn.focus(); return; }
+      if (r.status === 200 && r.body.forgotten) { me.drawPets([]); me.drawShow({ claimed: /^cb2\./.test(me.state.pass), shown: false }); me.drawAvatars({ avatars: [], wearing: null, claimed: /^cb2\./.test(me.state.pass) }); me.petsState.textContent = 'Forgotten. The street keeps nothing under this handle now.'; me.forgetBtn.focus(); return; }
       me.petsState.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing was forgotten.';
     }, function () {
       me.forgetSure.hidden = true; me.forgetBtn.hidden = false;
@@ -2502,6 +2717,11 @@
         me.people = r.body.people; me.peopleAt = Date.now(); me.peopleFailed = false;
         me.callsNow = Array.isArray(r.body.calls) ? r.body.calls : [];
         me.callsHeard = r.body.callHeard === true;
+        // Somebody wears an avatar, and avatar.js is not here yet: fetch it
+        // once, and draw the list again when it comes.
+        if (!window.loveAvatar && me.people.some(function (p) { return p.avatar; })) {
+          withAvatar(function () { me.onlineKey = null; if (!me.online.hidden) me.onlineShown(); });
+        }
       }
       else me.peopleFailed = true;
     }, function () { me.peopleFailed = true; })
@@ -2564,6 +2784,10 @@
       who.dataset.at = p.handle + '|';
       who.addEventListener('click', function () { me.peek(p.handle, who, p); });
       back(who);
+      /* THE AVATAR THEY WEAR, beside a claimed name only (the server sends
+         none for anybody else), heard as what they wrote about it or not at
+         all. */
+      if (p.avatar && window.loveAvatar) li.appendChild(avatarArt(p.avatar.look, p.avatar.about, 'cb-online-face', 'bust', p.handle + '\u2019s avatar'));
       personLine(li, p, p.handle === me.state.handle, who);
       li.appendChild(document.createTextNode(' in '));
       roomsOf(p).forEach(function (r, i) {

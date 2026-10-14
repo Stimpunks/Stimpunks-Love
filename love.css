@@ -1276,6 +1276,15 @@
    carry everything else. Read off its own record; see fonts/_sources.json. */
 @font-face { font-family: 'Rubik Dirt'; src: url('fonts/rubik-dirt-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 
+/* The Bodymind Booth. A PHOTO BOOTH'S SIGN, AND A PLAIN VOICE FOR THE REST.
+   Oleo Script, by soytutype fonts, sets the lamp box and nothing else, because
+   a script is a sign and never a sentence; Host Grotesk, by Element Type, Doğukan
+   Karapınar and İbrahim Kaçtıoğlu, carries every word that is read, one variable
+   file for both weights. Read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Oleo Script'; src: url('fonts/oleo-script-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Host Grotesk'; src: url('fonts/host-grotesk-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Host Grotesk'; src: url('fonts/host-grotesk-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -2342,6 +2351,21 @@
   --dd-f-mint:     #9FE2BF;  --dd-f-coral:    #FF7F66;  --dd-f-moss:     #5E7A2E;
   --dd-f-rust:     #A8481F;  --dd-f-denim:    #3E5F8A;  --dd-f-black:    #141414;
   --dd-f-silver:   #C9CCD3;  --dd-f-coal:     #34343B;
+
+  /* The Bodymind Booth (§113). A PHOTO BOOTH WITH THE CURTAIN DRAWN, LIT BY TWO
+     STRIP LIGHTS A HAND'S WIDTH FROM YOUR FACE. --bmb-curtain is the curtain
+     behind the stool and the page's ground, and every avatar's own ground on
+     the street (avatar.js reads it); --bmb-pleat is the shade in its folds,
+     soft and wide, and a word stands on either. --bmb-chrome is the enamel of
+     every plate, --bmb-lamp the light itself and the lamp box the sign is set
+     in, --bmb-ink every word, --bmb-ink-2 the fine print on a plate,
+     --bmb-link a link on a plate and --bmb-link-on a link on the curtain.
+     --bmb-steel is the booth's frame and --bmb-shade the floor under it, and
+     they carry no word, measured in ORNAMENT. */
+  --bmb-curtain: #E98A45;  --bmb-pleat:  #CF6E2E;  --bmb-shade:   #B5591F;
+  --bmb-chrome:  #F5F2EC;  --bmb-lamp:   #FFF4D6;  --bmb-steel:   #8D959C;
+  --bmb-ink:     #22160E;  --bmb-ink-2:  #5B4032;  --bmb-link:    #8A2A00;
+  --bmb-link-on: #3D1500;
 
   /* Now Playing (§53). ONE SHEET SCREENPRINTED IN TWO INKS, PASTED ROUND A
      COLUMN ON THE PAVEMENT. --np-stock is the paper and --np-night the street
@@ -4177,6 +4201,14 @@ div.facade--square { border: 0; background: none; }
 .door--dressup .door__name  { font-family: 'DynaPuff', var(--sans); font-weight: 600; color: var(--dd-ink); font-size: 28px; line-height: 1.08; }
 .door--dressup .door__blurb { font-family: 'Plus Jakarta Sans', var(--sans); color: var(--dd-ink-2); }
 .door--dressup .door__knock { font-family: 'Plus Jakarta Sans', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--dd-link); }
+/* The Bodymind Booth: the booth's cream enamel for a door, and for an awning
+   its lamp strip with a row of tangerine frames in it, the four frames out of
+   the slot with nobody in them. The name in the booth's script, lit. */
+.door--booth { background: var(--bmb-chrome); border-color: var(--bmb-ink); }
+.door--booth .door__awning { background-color: var(--bmb-lamp); background-image: repeating-linear-gradient(90deg, transparent 0 12px, var(--bmb-curtain) 12px 30px, transparent 30px 36px); background-size: 100% 20px; background-position: 0 8px; background-repeat: no-repeat; border-bottom-color: var(--bmb-ink); }
+.door--booth .door__name  { font-family: 'Oleo Script', cursive; font-weight: 400; color: var(--bmb-ink); font-size: 30px; line-height: 1.05; }
+.door--booth .door__blurb { font-family: 'Host Grotesk', var(--sans); color: var(--bmb-ink-2); }
+.door--booth .door__knock { font-family: 'Host Grotesk', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--bmb-link); }
 
 /* Community Library (§55). THE ONE FRONT IN THE ROW WITH THE SKY IN ITS
    WINDOWS: the awning is a run of tall panes of sky between stone mullions under
@@ -14755,7 +14787,10 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
    shoulders, a bar for the waist, a base for the shoes -- because a paper doll
    is one size, one shape, one skin and one gender handed to everybody. The
    cuts are cloth and nothing else, and make-dressup.py refuses one that names
-   a body part.
+   a body part. Since 2026-10-14 a bodymind somebody drew at the Bodymind
+   Booth (§113) can be walked in and dressed, drawn by avatar.js on the booth's
+   curtain and framed here like a picture; the room still draws no body of its
+   own, which is the same rule.
 
    EVERY PIECE OF CLOTH IS CARRIED BY ITS OUTLINE. The fabric inks mostly
    measure under 3:1 against the wall, which is fine for cloth and would be a
@@ -14860,6 +14895,26 @@ html[data-intensity="max"] .dd-fleck:nth-child(3n) { animation-duration: 11s; an
 .dd-do :focus-visible { outline-offset: 3px; }
 .dressup .dd-said { flex: 1 1 100%; margin: 4px 0 0; min-height: 1.6em; font-size: 15px; font-weight: 700; }
 .dd-fallback { flex: 1 1 100%; font-size: 14px; }
+/* WHO IS WEARING IT. The stand, or a bodymind somebody drew next door and
+   brought in; the bodymind is drawn by avatar.js on the booth's curtain, its
+   own ground, framed in this room's ink so it is a picture hung on the wall
+   rather than the wall changing colour. The controls are the room's own pills
+   and patches, in its own inks. */
+.dd-body { max-width: 300px; margin: 0 auto; line-height: 0; border: 3px solid var(--dd-ink); border-radius: 8px; overflow: hidden; }
+.dd-bodymind { display: block; width: 100%; height: auto; max-height: calc(100vh - 230px); }
+.dd-who { margin: 18px 0 0; padding: 14px 16px; background: var(--dd-panel); border: 2px solid var(--dd-ink); border-radius: 10px;
+  outline: 2px dashed var(--dd-ink-2); outline-offset: -8px; }
+.dressup .dd-who__h { margin: 0 0 8px; font-family: 'DynaPuff', system-ui, sans-serif; font-weight: 600; font-size: 19px; }
+.dd-who__row, .dd-do__row { display: flex; flex-wrap: wrap; gap: 8px; }
+.dd-who [aria-pressed="true"] { background: var(--dd-ink); color: var(--dd-panel); }
+.dressup .dd-who__note { margin: 10px 0 0; font-size: 15px; line-height: 1.5; }
+.dd-who__list { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.dressup .dd-field { margin: 12px 0 0; font-size: 14px; font-weight: 700; line-height: 1.4; }
+.dd-field label { display: block; margin: 0 0 4px; }
+.dd-in { width: 100%; padding: 8px 10px; font: inherit; font-weight: 400; font-size: 16px; color: var(--dd-ink); background: var(--dd-panel); border: 2px solid var(--dd-ink); border-radius: 6px; }
+.dd-who .dd-do__row { margin: 12px 0 0; }
+.dressup .dd-keep-fine { margin: 8px 0 0; font-size: 13.5px; line-height: 1.45; color: var(--dd-ink-2); }
+.dd-who .dd-said { margin: 6px 0 0; }
 textarea.dd-fallback {
   width: 100%; padding: 10px; font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   background: var(--dd-panel); color: var(--dd-ink); border: 2px solid var(--dd-ink); border-radius: 6px;
@@ -15849,7 +15904,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §114
+   class on it is `bb-`, its sizes are in points and millimetres, and §115
    prints it and nothing else. */
 
 .room-broadside {
@@ -15910,7 +15965,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §114 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §115 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -22971,7 +23026,205 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .room-sandbox .sbs-fine { font-size: .95rem; margin-top: 2rem; }
 /* street:sandbox:board:end */
 
-/* §113 ── Small screens ───────────────────────────────────────────────────────
+/* §113 ── ROOM: The Bodymind Booth (a shopfront on the street, next door to the Dress-Up Den)
+   A PHOTO BOOTH WITH NO CAMERA IN IT. You have pulled the curtain and sat on
+   the stool: the page is the curtain behind you, tangerine corduroy in soft
+   wide folds, and every plate on it is the booth's cream enamel. The bodymind
+   you draw stands in a frame on that curtain, which is the ground every avatar
+   carries everywhere on the street, the way an animal is drawn on the ground it
+   was found on.
+
+   THE LIGHT IS TWO STRIP LIGHTS, ONE EITHER SIDE, A HAND'S WIDTH AWAY, behind
+   frosted panels, and no flash, because a photo booth's flash is the strobe
+   Club Chronic refuses. Two identical lights that close put a bright edge on
+   BOTH sides of everything and leave the middle a shade darker: every plate
+   has its rims lit left and right, and the page is brightest at its two edges.
+   That is what holds it off the others:
+     · LAUGHINGSTOCK and PLURAL MURAL are lit from behind you, one source, far
+       off, throwing one pool or one shadow. This is two sources, inches away,
+       and nothing here throws a shadow you can see.
+     · ALL TOGETHER NOW FARMS is the other room with two lights, and they are a
+       setting sun and a rising moon, two colours on two sides of a field. These
+       are the same white twice, in a box.
+     · THE GUILD is lit from nowhere and is filed and square. This is soft,
+       rounded and pleated, and if a plate here ever loses its lit rims it has
+       become the Guild in a curtain.
+     · THE DOPAMINE DRESS-UP DEN is next door and the obvious collapse: both
+       are about putting yourself together. That room is a cool lavender wall
+       with rainbows on it and the clothes hung on a stand; this is a warm
+       curtain in a box, and the bodies are here. Neither borrows the other's
+       face, ground or light, and the only thing that crosses the wall between
+       them is a bodymind, carried in the address.
+     · ENID'S ROOM has the polaroids, which are photographs of real people with
+       their consent. This booth takes no photograph of anybody, and says so on
+       its sign.
+
+   NOTHING MOVES AT ANY SETTING. A bodymind changes when you change a choice,
+   at once: a body that slid into place would be motion nobody asked for. The
+   pleats are the body's ::before, not its background, because a word on a
+   background image is a word check-contrast-live.py cannot measure; and every
+   word stands on the curtain, the fold or a plate, and is measured on all
+   three. */
+
+.bodymind-booth { position: relative; background-color: var(--bmb-curtain); color: var(--bmb-ink); font-family: 'Host Grotesk', var(--sans), sans-serif; font-synthesis: none; }
+.bodymind-booth::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background-image:
+    linear-gradient(90deg, var(--bmb-lamp) 0, transparent 80px, transparent calc(100% - 80px), var(--bmb-lamp) 100%),
+    repeating-linear-gradient(90deg, var(--bmb-curtain) 0, color-mix(in srgb, var(--bmb-pleat) 45%, var(--bmb-curtain)) 34px, var(--bmb-curtain) 68px);
+}
+.bodymind-booth :where(i, em, cite) { font-style: normal; }
+.bodymind-booth em { font-weight: 700; }
+.bodymind-booth a { color: var(--bmb-link-on); text-underline-offset: 3px; text-decoration-thickness: 2px; }
+.bodymind-booth a:hover { color: var(--bmb-ink); }
+/* THE RING IS THE BOOTH'S OWN INK, 6.88 on the curtain and 15.81 on a plate.
+   §2's yellow would vanish on tangerine -- the Guild's lesson, decided here. */
+.bodymind-booth :focus-visible { outline-color: var(--bmb-ink); }
+.bodymind-booth :where(p, li, dd) { font-size: 17px; line-height: 1.6; }
+.bodymind-booth strong, .bodymind-booth b { font-weight: 700; }
+.bodymind-booth .backlink { font-family: 'Host Grotesk', var(--sans), sans-serif; font-size: 15px; letter-spacing: 0; color: var(--bmb-link-on); }
+
+.bmb-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.bodymind-booth .bmb-trail { margin: 0; font-size: 14px; color: var(--bmb-ink); }
+
+/* THE SIGN: a lamp box on top of the booth, lit from inside, its rims lit by
+   the two strips. The script sets the name and nothing else. */
+.bmb-sign { margin: 28px 0 0; }
+.bmb-lamp {
+  display: inline-block; max-width: 100%; padding: 14px 26px 18px;
+  background: var(--bmb-lamp); border: 3px solid var(--bmb-ink); border-radius: 14px;
+  box-shadow: inset 7px 0 10px -5px var(--bmb-chrome), inset -7px 0 10px -5px var(--bmb-chrome), 0 0 0 5px var(--bmb-steel);
+}
+.bodymind-booth .bmb-over { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--bmb-ink-2); }
+.bodymind-booth h1 {
+  margin: 2px 0 0; font-family: 'Oleo Script', cursive; font-weight: 400;
+  font-size: clamp(42px, 8vw, 78px); line-height: 1.05; letter-spacing: 0; color: var(--bmb-ink);
+}
+.bodymind-booth .bmb-tag { margin: 18px 0 0; font-size: 21px; line-height: 1.35; }
+
+.bmb-front { display: grid; grid-template-columns: minmax(180px, 3fr) 7fr; gap: 26px; align-items: center; margin: 24px 0 0; }
+.bmb-booth { display: block; width: 100%; max-width: 300px; height: auto; margin: 0 auto; }
+.bmb-front__words > * { max-width: 760px; }
+.bodymind-booth .bmb-lede { margin: 0; font-size: 18px; }
+.bmb-quote { margin: 16px 0; padding: 14px 18px; background: var(--bmb-chrome); border: 2px solid var(--bmb-ink); border-radius: 10px;
+  box-shadow: inset 6px 0 8px -5px var(--bmb-lamp), inset -6px 0 8px -5px var(--bmb-lamp); }
+.bmb-quote p { margin: 0; }
+.bodymind-booth .bmb-quote p:first-child { font-size: 21px; line-height: 1.4; font-weight: 700; }
+.bodymind-booth .bmb-quote__who { margin: 6px 0 0; font-size: 14px; color: var(--bmb-ink-2); }
+.bmb-quote a { color: var(--bmb-link); }
+
+/* The drawing of the booth. Enamel, steel, the lamp, the curtain, and a strip
+   of four frames with nobody in them. */
+.bmb-art-floor { fill: var(--bmb-shade); }
+.bmb-art-cab { fill: var(--bmb-chrome); stroke: var(--bmb-ink); stroke-width: 2.5; }
+.bmb-art-lamp { fill: var(--bmb-lamp); stroke: var(--bmb-ink); stroke-width: 2.5; }
+.bmb-art-line { stroke: var(--bmb-ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.bmb-art-inside { fill: var(--bmb-steel); stroke: var(--bmb-ink); stroke-width: 2; }
+.bmb-art-back { fill: var(--bmb-curtain); }
+.bmb-art-light { fill: var(--bmb-lamp); stroke: var(--bmb-ink); stroke-width: 1.5; }
+.bmb-art-steel { fill: var(--bmb-steel); stroke: var(--bmb-ink); stroke-width: 1.8; }
+.bmb-art-cur { fill: var(--bmb-curtain); stroke: var(--bmb-ink); stroke-width: 2; stroke-linejoin: round; }
+.bmb-art-pleat { stroke: var(--bmb-pleat); stroke-width: 2.4; stroke-linecap: round; }
+.bmb-art-plate { fill: var(--bmb-steel); stroke: var(--bmb-ink); stroke-width: 1.8; }
+.bmb-art-strip { fill: var(--bmb-lamp); stroke: var(--bmb-ink); stroke-width: 1.5; }
+
+.bodymind-booth h2 { margin: 0 0 12px; font-family: 'Host Grotesk', var(--sans), sans-serif; font-weight: 700; font-size: 30px; line-height: 1.15; color: var(--bmb-ink); }
+.bodymind-booth h3 { margin: 0 0 8px; font-family: 'Host Grotesk', var(--sans), sans-serif; font-weight: 700; font-size: 21px; line-height: 1.2; color: var(--bmb-ink); }
+.bmb-part { margin: 48px 0 0; }
+.bmb-part > p { max-width: 800px; }
+
+/* SITTING IN THE BOOTH: the frame on the left, the choices on the right, and
+   on a wide screen the frame stays put while you go down the choices, so what
+   you pick is in view the moment you pick it -- the Playhouse's lesson, and the
+   Den's. Sticky is layout, not motion. */
+.bmb-sitting { display: grid; grid-template-columns: minmax(260px, 5fr) 7fr; gap: 28px; align-items: start; }
+.bmb-window {
+  position: sticky; top: 14px; padding: 16px; background: var(--bmb-chrome); border: 2px solid var(--bmb-ink); border-radius: 12px;
+  box-shadow: inset 8px 0 10px -6px var(--bmb-lamp), inset -8px 0 10px -6px var(--bmb-lamp);
+}
+.bmb-frame { display: block; max-width: 320px; margin: 0 auto; line-height: 0; border: 3px solid var(--bmb-ink); border-radius: 6px; overflow: hidden; background: var(--bmb-curtain); }
+.bmb-frame:empty { display: none; }
+.bmb-photo { display: block; width: 100%; height: auto; max-height: calc(100vh - 330px); }
+.bodymind-booth .bmb-readout { margin: 12px 0 0; font-size: 15px; line-height: 1.5; font-weight: 700; }
+.bmb-do { margin: 12px 0 0; }
+.bmb-do__row { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 10px; }
+.bmb-go {
+  display: inline-block; font-family: 'Host Grotesk', var(--sans), sans-serif; font-weight: 700; font-size: 15px; line-height: 1.3;
+  padding: 10px 16px; border-radius: 999px; cursor: pointer; text-decoration: none;
+  background: var(--bmb-ink); color: var(--bmb-chrome); border: 2px solid var(--bmb-ink);
+}
+.bodymind-booth a.bmb-go { color: var(--bmb-chrome); }
+.bmb-go:hover { background: var(--bmb-ink-2); border-color: var(--bmb-ink-2); }
+.bmb-go--quiet, .bodymind-booth a.bmb-go--quiet { background: var(--bmb-chrome); color: var(--bmb-ink); }
+.bmb-go--quiet:hover, .bodymind-booth a.bmb-go--quiet:hover { background: var(--bmb-lamp); color: var(--bmb-ink); border-color: var(--bmb-ink); }
+.bmb-go:focus-visible { outline-offset: 3px; }
+.bmb-keep { margin: 14px 0 0; padding: 12px 0 0; border-top: 2px dashed var(--bmb-steel); }
+.bodymind-booth .bmb-field { margin: 0 0 10px; font-size: 14px; line-height: 1.4; font-weight: 700; }
+.bmb-field label { display: block; margin: 0 0 4px; }
+.bmb-in {
+  width: 100%; padding: 8px 10px; font: inherit; font-weight: 400; font-size: 16px;
+  color: var(--bmb-ink); background: var(--bmb-lamp); border: 2px solid var(--bmb-ink); border-radius: 6px;
+}
+.bodymind-booth .bmb-fine { margin: 6px 0 0; font-size: 13.5px; line-height: 1.45; color: var(--bmb-ink-2); }
+.bodymind-booth .bmb-said { margin: 8px 0 0; min-height: 1.5em; font-size: 15px; line-height: 1.45; font-weight: 700; }
+
+/* THE CHOICES, a plate for each part, a pill for each choice. */
+.bmb-choices { display: grid; gap: 18px; }
+.bodymind-booth .bmb-choices__h { margin: 0; font-size: 24px; }
+.bmb-plate {
+  margin: 0; padding: 14px 18px 16px; min-width: 0; background: var(--bmb-chrome); border: 2px solid var(--bmb-ink); border-radius: 12px;
+  box-shadow: inset 8px 0 10px -6px var(--bmb-lamp), inset -8px 0 10px -6px var(--bmb-lamp);
+}
+.bmb-plate__name { padding: 2px 10px; font-weight: 700; font-size: 19px; color: var(--bmb-ink); background: var(--bmb-chrome); border: 2px solid var(--bmb-ink); border-radius: 999px; }
+.bmb-group { margin: 10px 0 0; padding: 0; border: 0; min-width: 0; }
+.bmb-group__name { padding: 0; font-weight: 700; font-size: 15px; color: var(--bmb-ink-2); }
+.bmb-opts { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.bmb-opts li { margin: 0; }
+.bmb-opt { display: inline-flex; gap: 7px; align-items: center; padding: 6px 11px 6px 8px; border: 2px solid var(--bmb-steel); border-radius: 999px; cursor: pointer; background: var(--bmb-chrome); }
+.bmb-opt:hover { border-color: var(--bmb-ink); }
+.bmb-opt:has(input:checked) { border-color: var(--bmb-ink); background: var(--bmb-lamp); }
+.bmb-opt input { flex: 0 0 auto; width: 17px; height: 17px; margin: 0; accent-color: var(--bmb-ink); }
+/* THE RING IS ON THE BOX, not the pill: check-focus.py measures the outline
+   of the element that has focus -- Vital Plant Living's lesson. */
+.bmb-opt input:focus-visible { outline: 3px solid var(--bmb-ink); outline-offset: 2px; }
+.bodymind-booth .bmb-opt__name { font-size: 15px; line-height: 1.3; }
+.bmb-swatch { flex: 0 0 auto; width: 18px; height: 18px; border-radius: 50%; background: var(--sw); border: 2px solid var(--bmb-ink); }
+/* A walking aid in a chair: switched off, said why beside it, and NEVER
+   dimmed -- a word you cannot read is not a quieter word (the Outskirts' rule). */
+.bmb-opt--off { border-style: dashed; cursor: not-allowed; }
+.bodymind-booth .bmb-note { margin: 6px 0 0; font-size: 13.5px; line-height: 1.45; color: var(--bmb-ink-2); }
+
+/* YOUR STRIP: the avatars you kept, a frame each, in a row out of the slot. */
+.bmb-strip { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.bmb-frame-kept { margin: 0; padding: 10px; background: var(--bmb-chrome); border: 2px solid var(--bmb-ink); border-radius: 10px; display: grid; gap: 8px; justify-items: start; }
+.bmb-frame-kept__art { display: block; width: 100%; line-height: 0; border: 2px solid var(--bmb-ink); border-radius: 4px; overflow: hidden; }
+.bmb-frame-kept__art svg { display: block; width: 100%; height: auto; }
+.bodymind-booth .bmb-frame-kept__name { margin: 0; font-size: 15px; font-weight: 700; overflow-wrap: anywhere; }
+.bmb-strip-do { margin: 10px 0 0; }
+
+.bmb-rules { max-width: 800px; padding-left: 1.4em; }
+.bmb-rules li { margin: 0 0 10px; }
+.bmb-rules a, .bmb-part > p a { color: var(--bmb-link-on); }
+.bodymind-booth .bmb-further { font-size: 15px; }
+.bodymind-booth code { font-size: .9em; }
+
+@media (max-width: 760px) {
+  .bmb-front { grid-template-columns: 1fr; }
+  .bmb-booth { max-width: 220px; }
+  .bmb-sitting { grid-template-columns: 1fr; }
+  /* On a phone the picture sits at the top while you go down the choices, so
+     a pick that changes it is a pick you can see -- the Den's rule, and its
+     way: the window becomes its children, so the frame can stick for the
+     whole booth, and nothing under it is hidden to make room. */
+  .bmb-window { display: contents; }
+  .bmb-frame { position: sticky; top: 0; z-index: 2; max-width: none; display: flex; justify-content: center; }
+  /* A height to size from: a flexed <svg> with an automatic width has none,
+     and drew as a dot. */
+  .bmb-photo { height: min(34vh, 300px); width: auto; max-height: none; }
+  .bmb-readout, .bmb-do { padding: 0 2px; }
+}
+
+/* §114 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -23075,7 +23328,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §113 says every
+   shipped with no rule here at all — which on a street whose §114 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -23199,7 +23452,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §114 ── Print ───────────────────────────────────────────────────────────────
+/* §115 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

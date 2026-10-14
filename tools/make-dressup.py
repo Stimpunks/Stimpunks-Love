@@ -16,7 +16,12 @@ gender, drawn once and handed to everybody who walks in. So the clothes hang on
 a stand -- a knob for a hat, a bar for the shoulders, a bar for the waist, a
 base for the shoes -- and whoever is wearing them is you. Laughingstock's rule,
 that we do not draw anybody's body for them, arriving in the room where the
-temptation is the whole shape of the thing.
+temptation is the whole shape of the thing. Since 2026-10-14 a bodymind
+somebody drew at the Bodymind Booth next door can be walked in and dressed:
+try-on.js puts these rails on it and avatar.js draws it, from the cuts and
+prints make-bodymind.py reads out of this file. This room still draws no body
+of its own, and every garment here needs a body drawing in avatar.js, on its
+feet and sitting down, or tools/avatar.test.mjs refuses it.
 
 IT REFUSES, RATHER THAN TRUSTS:
 

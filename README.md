@@ -311,6 +311,8 @@ python3 tools/pull-nature-month.py sanctuary|farm # (network) the area's two mon
 python3 tools/make-brew-and-stew.py # Brew and Stew's cabin, table, board, arrangements and looking-glass; refuses anything not vegan, a tea with caffeine, a remedy, anything foraged, a flame, a price, and a held video with no reason
 python3 tools/make-community.py    # The Community Center's service board; refuses a slot whose room has stopped saying what it repeats
 python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, and the credits; refuses a size, a gendered rail, or no all-black colourway
+python3 tools/make-bodymind.py     # the Bodymind Booth, and the avatar lists in avatar.js and lib.mjs; refuses a starting body, an aid sold as clothing, or a camera
+node --test tools/avatar.test.mjs  # every avatar choice and garment drawn in every pose, and the page and the CB agreeing about a look
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
 python3 tools/make-accounts.py     # The CB's accounts: refuses a console call in netlify/, a list of accounts, an email field, a desk that does more than find, reset and delete, and a Profile without Delete my account
 python3 tools/make-brass.py        # The Brass Tacks Board: refuses innerHTML in brass.js, a post by anybody but a moderator, an edit by anybody but the author, a picture with no description or yes, and a board with no feed
@@ -651,6 +653,15 @@ on a valet stand. It sweeps the room's own copy, with the negation window, for t
 and sizes, gendered rails, fashion rules, brain chemistry, othering and rating, and refuses the bare name
 *The Den*, which is Graceland's room behind the Jungle Room. `dressup.js` reads every cut, print and
 colourway off the page; the tool refuses it if it ever stores, sends or reads the dial.
+
+`make-bodymind.py` builds the Bodymind Booth out of `data/bodymind.json`, next door to the Den, where a
+bodymind is drawn and kept as an avatar on the CB, and **writes the same choices into `avatar.js`, which draws
+every avatar on the street, and into `netlify/cb/lib.mjs`, which refuses an avatar kept with anything else in
+it**. It refuses a choice with no words, a skin tone named by a word, an aid that shares a key with a garment
+on the Den's rails, a page that ships a choice checked, and a `booth.js` or `try-on.js` that asks for a camera,
+takes a file, draws onto a canvas, stores anything or sends anywhere but `/cb/avatars`. `tools/avatar.test.mjs`
+puts every garment on a body in every pose, varies every choice, and races the page's checker against the
+server's; `tools/check-all.sh` runs it before the generators and again after them.
 
 `make-vital.py` builds Vital Plant Living out of `data/vital.json`, **where the pantry is Ryan's own**,
 the list he cooks from at home, written down as he gave it. It **refuses a combo that brings in

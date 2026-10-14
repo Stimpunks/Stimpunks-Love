@@ -2500,6 +2500,54 @@
    }
   },
   {
+   "id": "booth-strip",
+   "page": "bodymind-booth.html",
+   "room": "The Bodymind Booth",
+   "title": "Only you describe you",
+   "posted": "There is a photo booth on the street with no camera in it, next door to the Dopamine Dress-Up Den. Go and find out the only thing a screen reader hears for an avatar on the CB.",
+   "rank": 1,
+   "takes": "about as long as it takes to sit down and pull the curtain",
+   "target": "a strip of four frames out of the slot, with nobody in them, on the floor",
+   "code": "CURTAIN",
+   "learned": "An avatar on this street is a drawing that says nothing about anybody. The only words that go with it on the CB are the ones its owner wrote, and nothing in the booth describes a body for somebody else.",
+   "hints": [
+    "On the street itself, in the row of shopfronts, next door to the Dopamine Dress-Up Den: the cream one with a strip of lit frames for an awning.",
+    "It is in the house rules, and in the words beside the box for what an avatar shows.",
+    "Right at the foot of the booth, under whose this is, where a strip of frames fell out of the slot."
+   ],
+   "ask": {
+    "question": "On the CB, what is the only thing a screen reader hears for somebody's avatar?",
+    "accept": [
+     "what you write",
+     "what you wrote",
+     "what they write",
+     "what they wrote",
+     "what its owner wrote",
+     "what its owner writes",
+     "what the owner wrote",
+     "your own words",
+     "their own words",
+     "own words",
+     "words",
+     "the words",
+     "description",
+     "the description",
+     "their description",
+     "what it shows",
+     "what you write about it",
+     "what they write about it",
+     "what its owner wrote about it"
+    ],
+    "answer": "What its owner wrote about it",
+    "why": "On the CB a drawing is silent to a screen reader unless its owner writes what it shows, in their own words. The booth reads your own choices back to you while you build, because a choice you cannot hear is not a choice, and nowhere else says them: nothing here describes a body for somebody else.",
+    "hints": [
+     "It is in the sixth of the house rules.",
+     "The box beside Keep says it too.",
+     "Their own words."
+    ]
+   }
+  },
+  {
    "id": "now-playing-brush",
    "page": "now-playing.html",
    "room": "Now Playing",

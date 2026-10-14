@@ -1,0 +1,330 @@
+{
+  "_what": "The Bodymind Booth's choices: every way a bodymind can be drawn, in the order the booth asks, and the words each choice is said in. tools/make-bodymind.py builds the booth's controls out of this file, writes the keys into avatar.js (which draws them) and into netlify/cb/lib.mjs (which checks every avatar kept against them), and refuses rather than guesses; see its docstring. The drawings are in avatar.js, keyed by the names here.",
+  "_brief": "Ryan, 2026-10-14, from a proposal written after somebody in our community said they hoped for characters to dress one day: a bodymind builder of its own, dressed at the Dopamine Dress-Up Den and any shop that styles a character later, avatars kept in your Profile, one worn on the CB at a time and swapped at will, shown beside your name on Who's online, and sent as stickers. Ryan's calls the same day: the Dress-Up Den stays body-free and the bodies are drawn here, in a room of their own; avatars are the second thing the street keeps under a person; and only a claimed username wears one on the CB.",
+  "_no_first_body": "NO BODY COMES FIRST. The booth opens on a bodymind drawn at random from the shape, skin, face and hair choices, and Start again draws another, so there is no body the booth starts from and nothing is called normal, average, default or standard. The page ships with nothing checked, which is what a page with scripts off shows: the choices, as a list.",
+  "_aids": "WHAT YOU ALWAYS HAVE WITH YOU IS PART OF YOU HERE, NOT CLOTHES. Mobility aids, hearing aids, glasses and the rest are chosen in the booth and never sold in a shop, and nothing put on at the Dress-Up Den takes one off. A cane, crutches and a walker are for a bodymind on its feet; a chair has its own way of getting about, and the booth says so rather than drawing a cane leaning on nothing.",
+  "_skin": "Ten tones of skin by how light or deep they are, named by number rather than by a word, because every word for a skin tone has been used against somebody; and four colours nobody is born in, on purpose, for anybody whose bodymind is not that kind of thing.",
+  "_words": "Nothing here describes a body for somebody else. The booth reads your own choices back to you while you build, because a choice you cannot hear is not a choice; nowhere else says them. On the CB a drawing is silent to a screen reader unless its owner writes what it shows, in their own words.",
+  "groups": [
+    {
+      "key": "pose",
+      "part": "about",
+      "name": "How you get about",
+      "options": [
+        ["standing", "On your feet"],
+        ["wheelchair", "In a wheelchair"],
+        ["powerchair", "In a power chair"]
+      ]
+    },
+    {
+      "key": "height",
+      "part": "shape",
+      "name": "How tall",
+      "options": [
+        ["shorter", "Shorter"],
+        ["middling", "In between"],
+        ["taller", "Taller"]
+      ]
+    },
+    {
+      "key": "shoulders",
+      "part": "shape",
+      "name": "Shoulders",
+      "options": [
+        ["narrow", "Narrow"],
+        ["middling", "In between"],
+        ["broad", "Broad"]
+      ]
+    },
+    {
+      "key": "middle",
+      "part": "shape",
+      "name": "Your middle",
+      "options": [
+        ["flat", "Flat"],
+        ["soft", "Soft"],
+        ["round", "Round"],
+        ["big", "Big"]
+      ]
+    },
+    {
+      "key": "hips",
+      "part": "shape",
+      "name": "Hips",
+      "options": [
+        ["narrow", "Narrow"],
+        ["middling", "In between"],
+        ["wide", "Wide"]
+      ]
+    },
+    {
+      "key": "skin",
+      "part": "skin",
+      "name": "Skin",
+      "options": [
+        ["t1", "Tone 1, the lightest"],
+        ["t2", "Tone 2"],
+        ["t3", "Tone 3"],
+        ["t4", "Tone 4"],
+        ["t5", "Tone 5"],
+        ["t6", "Tone 6"],
+        ["t7", "Tone 7"],
+        ["t8", "Tone 8"],
+        ["t9", "Tone 9"],
+        ["t10", "Tone 10, the deepest"],
+        ["lavender", "Lavender"],
+        ["sage", "Sage"],
+        ["sky", "Sky"],
+        ["stone", "Stone"]
+      ]
+    },
+    {
+      "key": "marks",
+      "part": "skin",
+      "name": "On your skin",
+      "multi": true,
+      "options": [
+        ["freckles", "Freckles"],
+        ["vitiligo", "Vitiligo"],
+        ["birthmark", "A birthmark on one cheek"],
+        ["scar", "A scar"]
+      ]
+    },
+    {
+      "key": "face",
+      "part": "face",
+      "name": "The shape of your face",
+      "options": [
+        ["oval", "Oval"],
+        ["round", "Round"],
+        ["square", "Square"],
+        ["long", "Long"]
+      ]
+    },
+    {
+      "key": "eyes",
+      "part": "face",
+      "name": "Eyes",
+      "options": [
+        ["open", "Open"],
+        ["soft", "Half closed"],
+        ["aside", "Looking away"],
+        ["closed", "Closed"],
+        ["wide", "Wide"]
+      ]
+    },
+    {
+      "key": "brows",
+      "part": "face",
+      "name": "Brows",
+      "options": [
+        ["soft", "Soft"],
+        ["straight", "Straight"],
+        ["arched", "Arched"],
+        ["bushy", "Bushy"]
+      ]
+    },
+    {
+      "key": "nose",
+      "part": "face",
+      "name": "Nose",
+      "options": [
+        ["small", "Small"],
+        ["round", "Round"],
+        ["long", "Long"],
+        ["broad", "Broad"]
+      ]
+    },
+    {
+      "key": "mouth",
+      "part": "face",
+      "name": "Mouth",
+      "options": [
+        ["rest", "At rest"],
+        ["smile", "Smiling"],
+        ["grin", "Grinning"],
+        ["open", "Open"]
+      ]
+    },
+    {
+      "key": "beard",
+      "part": "face",
+      "name": "Facial hair",
+      "options": [
+        ["none", "None"],
+        ["stubble", "Stubble"],
+        ["moustache", "A moustache"],
+        ["beard", "A beard"],
+        ["long", "A long beard"]
+      ]
+    },
+    {
+      "key": "hair",
+      "part": "hair",
+      "name": "Hair",
+      "options": [
+        ["bald", "No hair"],
+        ["shaved", "Shaved close"],
+        ["short", "Short"],
+        ["curly", "Short curls"],
+        ["afro", "An afro"],
+        ["locs", "Locs"],
+        ["braids", "Braids"],
+        ["long", "Long and straight"],
+        ["wavy", "Long and wavy"],
+        ["bob", "A bob"],
+        ["bun", "A bun"],
+        ["ponytail", "A ponytail"],
+        ["mohawk", "A mohawk"],
+        ["undercut", "An undercut"]
+      ]
+    },
+    {
+      "key": "hairColour",
+      "part": "hair",
+      "name": "Hair colour",
+      "options": [
+        ["black", "Black"],
+        ["darkbrown", "Dark brown"],
+        ["brown", "Brown"],
+        ["auburn", "Auburn"],
+        ["ginger", "Ginger"],
+        ["blonde", "Blonde"],
+        ["grey", "Grey"],
+        ["white", "White"],
+        ["pink", "Pink"],
+        ["blue", "Blue"],
+        ["green", "Green"],
+        ["purple", "Purple"],
+        ["teal", "Teal"]
+      ]
+    },
+    {
+      "key": "eyewear",
+      "part": "always",
+      "name": "Over your eyes",
+      "options": [
+        ["none", "Nothing"],
+        ["glasses", "Glasses"],
+        ["dark", "Dark glasses, for the light"]
+      ]
+    },
+    {
+      "key": "ears",
+      "part": "always",
+      "name": "On your ears",
+      "options": [
+        ["none", "Nothing"],
+        ["aids", "Hearing aids"],
+        ["cochlear", "A cochlear implant"],
+        ["defenders", "Ear defenders"],
+        ["headphones", "Headphones"]
+      ]
+    },
+    {
+      "key": "faceAid",
+      "part": "always",
+      "name": "Over your nose and mouth",
+      "options": [
+        ["none", "Nothing"],
+        ["mask", "A mask"],
+        ["cannula", "An oxygen cannula"]
+      ]
+    },
+    {
+      "key": "hands",
+      "part": "always",
+      "name": "In your hands",
+      "options": [
+        ["none", "Nothing"],
+        ["cane", "A cane"],
+        ["white", "A white cane"],
+        ["crutches", "Crutches"],
+        ["walker", "A walker"],
+        ["aac", "An AAC device"],
+        ["fidget", "A fidget"]
+      ]
+    },
+    {
+      "key": "neck",
+      "part": "always",
+      "name": "Round your neck",
+      "options": [
+        ["none", "Nothing"],
+        ["chew", "A chew necklace"]
+      ]
+    },
+    {
+      "key": "limbs",
+      "part": "always",
+      "name": "Your arms and legs",
+      "options": [
+        ["as-drawn", "As the booth draws them"],
+        ["leg", "A prosthetic leg"],
+        ["arm-short", "One arm ends below the elbow"],
+        ["arm", "A prosthetic arm"]
+      ]
+    },
+    {
+      "key": "layer",
+      "part": "underneath",
+      "name": "Underneath, in plain",
+      "options": [
+        ["coal", "Charcoal"],
+        ["black", "Black"],
+        ["denim", "Denim"],
+        ["cream", "Cream"],
+        ["moss", "Moss"],
+        ["plum", "Plum"],
+        ["rust", "Rust"],
+        ["sky", "Sky blue"]
+      ]
+    }
+  ],
+  "parts": [
+    ["about", "How you get about"],
+    ["shape", "Your shape"],
+    ["skin", "Your skin"],
+    ["face", "Your face"],
+    ["hair", "Your hair"],
+    ["always", "What you always have with you"],
+    ["underneath", "What you have on underneath"]
+  ],
+  "standing_only": {
+    "_why": "A cane, crutches and a walker need a bodymind on its feet. In a chair, these are left off, and the booth says why beside them.",
+    "hands": ["cane", "white", "crutches", "walker"]
+  },
+  "random": ["height", "shoulders", "middle", "hips", "skin", "face", "eyes", "brows", "nose", "mouth", "hair", "hairColour", "layer"],
+  "colours": {
+    "_why": "A person's colours, not a room's: they carry no word, every one is outlined in the drawing's own ink, and they are written into avatar.js as they are here rather than declared in love.css, because an avatar is drawn on every page and in the radio. The fabric of anything put on at the Dress-Up Den is that room's --dd-f- inks.",
+    "skin": {
+      "t1": "#F7E4D6", "t2": "#F0CFB6", "t3": "#E6BA98", "t4": "#D9A47E", "t5": "#C68C63",
+      "t6": "#AF744E", "t7": "#955D3C", "t8": "#7B482D", "t9": "#5F3621", "t10": "#452618",
+      "lavender": "#C7B4EA", "sage": "#A8C7A0", "sky": "#9CC8E8", "stone": "#B9B5AE"
+    },
+    "hair": {
+      "black": "#1B1714", "darkbrown": "#3B2518", "brown": "#6B4428", "auburn": "#8C3A1E",
+      "ginger": "#C9622A", "blonde": "#E2C27A", "grey": "#9A9A9C", "white": "#EDEBE6",
+      "pink": "#F06BA8", "blue": "#3C6BE0", "green": "#3FA35A", "purple": "#8A4FD0", "teal": "#1E9A94"
+    },
+    "aid": "#7F8A94",
+    "aid_dark": "#2E3338",
+    "white_cane": "#F4F4F2",
+    "cane_tip": "#D3352B",
+    "chair": "#3A4148",
+    "chair_light": "#B8C0C7",
+    "screen": "#DCEBF7",
+    "chew": "#2BC4C0",
+    "mask": "#F2F5F7",
+    "vitiligo": "#FBF1EC",
+    "birthmark": "#B04E62",
+    "white": "#FFFFFF"
+  },
+  "quote": {
+    "words": "We’re not minds riding around in bodies, we’re bodyminds.",
+    "who": "Nick Walker",
+    "from": "Toward a Neuroqueer Future: An Interview with Nick Walker, Autism in Adulthood",
+    "read_on": "https://stimpunks.org/glossary/bodymind/",
+    "mirror": "glossary/bodymind.md"
+  }
+}

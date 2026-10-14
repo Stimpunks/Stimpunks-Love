@@ -301,6 +301,11 @@ DRAW = {
     # on the lavender wall and over the body threshold a marker is held to; the
     # pink of the boa itself is 2.07 there and would be a feather nobody could
     # find. The floor line is --dd-ink and carries nothing. It lies still.
+    # The Bodymind Booth: a strip of four frames out of the slot, with nobody in
+    # any of them, lying on the curtain-coloured floor. The strip is the booth's
+    # --bmb-lamp outlined in --bmb-ink, 6.88 on the curtain, and its frames are
+    # the curtain itself. It lies still.
+    "booth-strip": """<path d="M3 29.5 H29" stroke="var(--bmb-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M4 23.5 L27 17.5 L28.6 23.5 L5.6 29.5 Z" fill="var(--bmb-lamp)" stroke="var(--bmb-ink)" stroke-width="1.4" stroke-linejoin="round"/><path d="M7 23.9 L10.6 23 L11.4 26.1 L7.8 27 Z M12.6 22.5 L16.2 21.6 L17 24.7 L13.4 25.6 Z M18.2 21.1 L21.8 20.2 L22.6 23.3 L19 24.2 Z M23.8 19.7 L27 18.9 L27.8 22 L24.6 22.8 Z" fill="var(--bmb-curtain)" stroke="var(--bmb-ink)" stroke-width=".8" stroke-linejoin="round"/>""",
     "dressup-feather": """<path d="M3 29 H29" stroke="var(--dd-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M7 26 Q12 12 27 6 Q26 16 17 22 Q12 25 7 26 Z" fill="var(--dd-link)" stroke="var(--dd-ink)" stroke-width="1.4" stroke-linejoin="round"/><path d="M5 28 Q15 17 26 7" fill="none" stroke="var(--dd-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M13 20 L10 16 M17 17 L15 12 M21 13 L20 9" stroke="var(--dd-ink)" stroke-width="1.1" stroke-linecap="round"/>""",
     # A sprig of cilantro fallen off the shelf over the counter, lying on the
     # kitchen floor: a stem and three lobed leaflets in --vpl-leaf, 4.86 on the

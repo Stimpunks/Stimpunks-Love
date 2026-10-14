@@ -13,9 +13,11 @@
    reads the dial either: no garment is behind an intensity, and the sequins are
    on the rail at Gentle. make-dressup.py reads this file and refuses all three.
 
-   NOBODY'S BODY IS DRAWN. The stand is a knob, two bars and a base, and the
-   cuts are cloth and nothing else. A slot left as "your own" draws nothing,
-   because what you have on is not ours to draw.
+   NOBODY'S BODY IS DRAWN HERE. The stand is a knob, two bars and a base, and
+   the cuts are cloth and nothing else. A slot left as "your own" draws nothing,
+   because what you have on is not ours to draw. A bodymind somebody drew at
+   the Bodymind Booth and brought in is drawn by avatar.js, from try-on.js,
+   never by this file.
 
    A PRINT IS ONE <pattern> PER SLOT, and the colourway rides on it as custom
    properties that its tile's children inherit: --c1 to --c6 the inks cycled,
@@ -141,6 +143,8 @@
     var pieces = worn();
     pieces.forEach(draw);
     readout.textContent = words(pieces);
+    // Whatever else on the page shows the outfit hears that it changed.
+    try { document.dispatchEvent(new CustomEvent('love-dressed')); } catch (e) {}
     return pieces;
   }
 
@@ -247,6 +251,22 @@
       document.getElementById('the-stand').scrollIntoView({ block: 'start' });
     });
   });
+
+  /* WHAT IS ON THE RAILS, for try-on.js: as slot, garment, print and colours,
+     and a way to put a look back on them. This file still keeps and sends
+     nothing; whatever does is somebody else's file, and says so. */
+  window.loveDressUp = {
+    wear: function () {
+      var out = {};
+      worn().forEach(function (p) { if (p.garment) out[p.slot] = [p.garment, p.print, p.colours]; });
+      return out;
+    },
+    put: function (wear) {
+      bare();
+      Object.keys(wear || {}).forEach(function (slot) { var w = wear[slot]; set(slot, w[0], w[1], w[2]); });
+      return update();
+    }
+  };
 
   /* Shipped hidden, so a page with scripts off shows no dead control. */
   Array.prototype.forEach.call(document.querySelectorAll('.dd-cloth, .dd-look__go'), function (el) {
